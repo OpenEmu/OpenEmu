@@ -40,6 +40,19 @@
 
 #import "OEInputLimitFormatter.h"
 
+static const CGFloat _OEHUDAlertBoxSideMargin           =  18.0;
+static const CGFloat _OEHUDAlertBoxTopMargin            =  51.0;
+static const CGFloat _OEHUDAlertBoxBottomMargin         =  39.0;
+static const CGFloat _OEHUDAlertBoxTextSideMargin       =  48.0;
+static const CGFloat _OEHUDAlertBoxTextTopMargin        =  28.0;
+static const CGFloat _OEHUDAlertBoxTextBottomMargin     =  28.0;
+static const CGFloat _OEHUDAlertBoxTextHeight           =  14.0;
+static const CGFloat _OEHUDAlertDefaultBoxWidth         = 387.0;
+static const CGFloat _OEHUDAlertSuppressionButtonLength = 150.0;
+static const CGFloat _OEHUDAlertSuppressionButtonHeight =  18.0;
+static const CGFloat _OEHUDAlertButtonLength            = 103.0;
+static const CGFloat _OEHUDAlertButtonHeight            =  23.0;
+
 @interface OEAlertWindow : NSWindow <OECustomWindow>
 @end
 
@@ -54,6 +67,8 @@
 - (void)OE_performCallback;
 - (void)OE_layoutButtons;
 - (void)OE_setupWindow;
+- (void)OE_autosizeWindow;
+- (NSUInteger)OE_countLinesOfTextView:(NSTextView *)textView;
 
 @end
 
@@ -156,6 +171,8 @@
         [self OE_performCallback];
         return result;
     }
+
+    [self OE_autosizeWindow];
     
     NSModalSession session = [NSApp beginModalSessionForWindow:_window];
     if([self window])
@@ -311,19 +328,19 @@
     BOOL showsAlternateButton = [[self alternateButtonTitle] length] != 0;
     BOOL showsOtherButton = [[self otherButtonTitle] length] != 0;
     
-    NSRect defaultButtonRect = NSMakeRect(304, 14, 103, 23);
+    NSRect defaultButtonRect = NSMakeRect(304, 14, _OEHUDAlertButtonLength, _OEHUDAlertButtonHeight);
     
     if(showsDefaultButton) [[self defaultButton] setFrame:defaultButtonRect];
     
     if(showsAlternateButton)
     {
-        NSRect alternateButtonRect = showsDefaultButton ? NSMakeRect(190, 14, 103, 23) : defaultButtonRect;
+        NSRect alternateButtonRect = showsDefaultButton ? NSMakeRect(190, 14, _OEHUDAlertButtonLength, _OEHUDAlertButtonHeight) : defaultButtonRect;
         [[self alternateButton] setFrame:alternateButtonRect];
     }
     
     if(showsOtherButton)
     {
-        NSRect otherButtonRect = NSMakeRect(190, 14, 103, 23);
+        NSRect otherButtonRect = NSMakeRect(190, 14, _OEHUDAlertButtonLength, _OEHUDAlertButtonHeight);
         [[self otherButton] setFrame:otherButtonRect];
     }
     
@@ -550,7 +567,7 @@
 - (void)OE_setupWindow
 {    
     NSRect frame = [_window frame];
-    frame.size = (NSSize){ 423, 200 };
+    frame.size = (NSSize){ _OEHUDAlertBoxSideMargin + _OEHUDAlertDefaultBoxWidth + _OEHUDAlertBoxSideMargin, 1 };
     [_window setFrame:frame display:NO];
 
     NSFont *defaultFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
@@ -584,29 +601,28 @@
     [[_window contentView] addSubview:[self otherButton]];
 
     // Setup Box
-    [[self boxView] setFrame:(NSRect){{18, 51},{387, 110}}];
+    [[self boxView] setFrame:(NSRect){{_OEHUDAlertBoxSideMargin, _OEHUDAlertBoxTopMargin},{_OEHUDAlertDefaultBoxWidth, 1}}];
     [[self boxView] setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
     [[_window contentView] addSubview:[self boxView]];
 
     // Setup Headline Text View
     [[self headlineTextView] setEditable:NO];
     [[self headlineTextView] setSelectable:NO];
-    [[self headlineTextView] setAutoresizingMask:NSViewMinYMargin | NSViewWidthSizable];
     [[self headlineTextView] setFont:boldFont];
     [[self headlineTextView] setTextColor:defaultColor];
     [[self headlineTextView] setDrawsBackground:NO];
-    [[self headlineTextView] setFrame:NSMakeRect(48, 28, 291, 14)];
+    [[self headlineTextView] setFrame:NSMakeRect(_OEHUDAlertBoxTextSideMargin, _OEHUDAlertBoxTextTopMargin, 1, _OEHUDAlertBoxTextHeight)];
     [[self headlineTextView] setHidden:YES];
     [[self boxView] addSubview:[self headlineTextView]];
 
     // Setup Message Text View    
     [[self messageTextView] setEditable:NO];
     [[self messageTextView] setSelectable:NO];
-    [[self messageTextView] setAutoresizingMask:NSViewMinYMargin | NSViewWidthSizable];
     [[self messageTextView] setFont:defaultFont];
     [[self messageTextView] setTextColor:defaultColor];
     [[self messageTextView] setDrawsBackground:NO];
-    [[self messageTextView] setFrame:NSMakeRect(48, 56, 291, 28)];
+    [[self messageTextView] setFrame:NSMakeRect(_OEHUDAlertBoxTextSideMargin, _OEHUDAlertBoxTextTopMargin + (2 * _OEHUDAlertBoxTextHeight),
+                                                _OEHUDAlertDefaultBoxWidth - (2 * _OEHUDAlertBoxTextSideMargin), 1)];
     [[self messageTextView] setHidden:YES];
     [[self boxView] addSubview:[self messageTextView]];
 
@@ -664,10 +680,87 @@
     // Setup Suppression Button
     [[self suppressionButton] setTitle:NSLocalizedString(@"Do not ask me again", @"")];
     [[self suppressionButton] setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
-    [[self suppressionButton] setFrame:NSMakeRect(18, 17, 150, 18)];
+    [[self suppressionButton] setFrame:NSMakeRect(_OEHUDAlertBoxSideMargin, _OEHUDAlertBoxSideMargin - 1,
+                                                  _OEHUDAlertSuppressionButtonLength, _OEHUDAlertSuppressionButtonHeight)];
     [[self suppressionButton] setHidden:YES];
     [[self suppressionButton] setTarget:self andAction:@selector(suppressionButtonAction:)];
     [[_window contentView] addSubview:[self suppressionButton]];
+}
+
+- (void)OE_autosizeWindow
+{
+    NSRect frame = [_window frame];
+    
+    if([[self boxView] isHidden])
+    {
+        if([self showsOtherInputField])
+            frame.size.height = 150;
+        else
+            frame.size.height = 112;
+
+        [_window setFrame:frame display:NO];
+    }
+    else
+    {
+        NSRect boxFrame = [[self boxView] frame];
+        NSRect headlineTextFrame =[[self headlineTextView] frame];
+        NSRect messageTextFrame = [[self messageTextView] frame];
+        BOOL isMessageTextVisible = ![[self messageTextView] isHidden];
+        BOOL isHeadlineTextVisible = ![[self headlineTextView] isHidden];
+
+        // To show the whole headline text, need to add about 10, otherwise the last glyph gets clipped
+        NSSize headlineTextSize = [[self headlineText] sizeWithAttributes:@{  NSFontAttributeName : [_headlineTextView font] }];
+        headlineTextSize.width += 10;
+
+        if(isMessageTextVisible && isHeadlineTextVisible)
+        {
+            headlineTextFrame.size.width = headlineTextSize.width;
+            messageTextFrame.size.width = headlineTextFrame.size.width;
+            [[self headlineTextView] setFrame:headlineTextFrame];
+            [[self messageTextView] setFrame:messageTextFrame];
+
+            NSUInteger linesInMessageTextView = [self OE_countLinesOfTextView:[self messageTextView]];
+
+            // Add together the margins and the lines in the messageTextView + headline and empty line
+            boxFrame.size.height = _OEHUDAlertBoxTextTopMargin + _OEHUDAlertBoxTextHeight * (linesInMessageTextView + 2) + _OEHUDAlertBoxTextBottomMargin;
+            boxFrame.size.width = (2 * _OEHUDAlertBoxTextSideMargin) + headlineTextFrame.size.width;
+        }
+        else if(isHeadlineTextVisible)
+        {
+            headlineTextFrame.size.width = headlineTextSize.width;
+            [[self headlineTextView] setFrame:headlineTextFrame];
+            
+            boxFrame.size.height = _OEHUDAlertBoxTextTopMargin + _OEHUDAlertBoxTextHeight + _OEHUDAlertBoxTextBottomMargin;
+            boxFrame.size.width = (2 * _OEHUDAlertBoxTextSideMargin) + headlineTextFrame.size.width;
+        }
+        else if(isMessageTextVisible)
+        {
+            messageTextFrame.origin = headlineTextFrame.origin;
+            [[self messageTextView] setFrame:messageTextFrame];
+
+            NSUInteger linesInMessageTextView = [self OE_countLinesOfTextView:[self messageTextView]];
+            boxFrame.size.height = _OEHUDAlertBoxTextTopMargin + (_OEHUDAlertBoxTextHeight * linesInMessageTextView) + _OEHUDAlertBoxTextBottomMargin;
+        }
+
+        frame.size.height = _OEHUDAlertBoxTopMargin + boxFrame.size.height + _OEHUDAlertBoxBottomMargin;
+        frame.size.width = (2 * _OEHUDAlertBoxSideMargin) + boxFrame.size.width;
+        [_window setFrame:frame display:NO];
+        [[self boxView] setFrame:boxFrame];
+    }
+}
+
+- (NSUInteger)OE_countLinesOfTextView:(NSTextView *)textView
+{
+    NSLayoutManager *layoutManager = [textView layoutManager];
+    NSUInteger numberOfLines, index, numberOfGlyphs = [layoutManager numberOfGlyphs];
+    NSRange lineRange;
+    for(numberOfLines = 0, index = 0; index < numberOfGlyphs; numberOfLines++)
+    {
+        (void) [layoutManager lineFragmentRectForGlyphAtIndex:index effectiveRange:&lineRange];
+        index = NSMaxRange(lineRange);
+    }
+
+    return numberOfLines;
 }
 
 @end

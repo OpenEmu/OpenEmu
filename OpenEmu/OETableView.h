@@ -36,4 +36,6 @@
 
 @interface OETableView : NSTableView
 - (void)setHeaderClickable:(BOOL)flag;
+- (NSDictionary *)defaultHeaderState;
+@property(nonatomic, retain) NSDictionary *headerState;
 @end

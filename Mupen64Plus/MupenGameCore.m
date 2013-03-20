@@ -335,7 +335,7 @@ static void MupenSetAudioSpeed(int percent)
     // freeze save
     //FIXME how to fit into emu event loop?
     //CoreDoCommand(M64CMD_STATE_SAVE, 1, (void*)[fileName UTF8String]);
-    return YES;
+    return NO;
 }
 
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName
@@ -343,7 +343,7 @@ static void MupenSetAudioSpeed(int percent)
     // freeze load
     //FIXME how to fit into emu event loop?
     //CoreDoCommand(M64CMD_STATE_LOAD, 1, (void*)[fileName UTF8String]);
-    return YES;
+    return NO;
 }
 
 - (OEIntSize)bufferSize

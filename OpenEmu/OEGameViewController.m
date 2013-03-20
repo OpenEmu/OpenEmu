@@ -684,7 +684,6 @@ typedef enum : NSUInteger
     [alert setDefaultButtonTitle:NSLocalizedString(@"Add Cheat", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     
-    [alert setHeight:150.0];
     [alert setInputLimit:1000];
     
     [alert runModal];

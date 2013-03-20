@@ -25,7 +25,67 @@
  */
 
 #import "OETableHeaderView.h"
+#import "OETableView.h"
+#import "OEMenu.h"
+#import "OEGridView.h"
 
+@interface OETableHeaderView()
+- (void)OE_updateHeaderState:(id)sender;
+@end
 
 @implementation OETableHeaderView
+
+- (NSMenu *)menuForEvent:(NSEvent *)event
+{
+    [[self window] makeFirstResponder:self];
+    OETableView *tableView = (OETableView *) [self tableView];
+
+    NSMenu *menu = [[NSMenu alloc] init];
+    NSMenuItem *menuItem;
+    NSDictionary *headerState = [tableView headerState];
+    if(headerState == nil)
+        headerState = [tableView defaultHeaderState];
+
+    for(NSTableColumn *column in [[self tableView] tableColumns])
+    {
+        NSCell *headerCell = [column headerCell];
+        if(![[headerCell stringValue] isEqualToString:@""])
+        {
+            menuItem = [[NSMenuItem alloc] initWithTitle:[headerCell stringValue] action:@selector(OE_updateHeaderState:) keyEquivalent:@""];
+            [menuItem setRepresentedObject:column];
+        
+            if([[headerState valueForKey:[column identifier]] boolValue])
+                [menuItem setState:NSOffState];
+            else
+                [menuItem setState:NSOnState];
+        
+            [menu addItem:menuItem];
+        }
+    }
+
+    OEMenuStyle style = OEMenuStyleDark;
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OELightStyleGridViewMenu]) style = OEMenuStyleLight;
+
+    NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:style] forKey:OEMenuOptionsStyleKey];
+    [OEMenu openMenu:menu withEvent:event forView:self options:options];
+    
+    return nil;
+}
+
+- (void)OE_updateHeaderState:(id)sender
+{
+    OETableView *tableView = (OETableView *) [self tableView];
+    NSTableColumn *column = [sender representedObject];
+    NSDictionary *oldHeaderState = [tableView headerState];
+    if(oldHeaderState == nil)
+        oldHeaderState = [tableView defaultHeaderState];
+    
+    NSMutableDictionary *newHeaderState = [[NSMutableDictionary alloc] initWithDictionary:oldHeaderState];
+    BOOL newState = ![[newHeaderState valueForKey:[column identifier]] boolValue];
+
+    [newHeaderState setValue:[NSNumber numberWithBool:newState] forKey:[column identifier]];
+
+    [tableView setHeaderState:newHeaderState];
+}
+
 @end

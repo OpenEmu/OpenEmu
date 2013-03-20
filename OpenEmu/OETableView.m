@@ -95,7 +95,7 @@ static NSGradient *highlightGradient, *normalGradient;
 			[newHeader setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11]];
 			[aColumn setHeaderCell: newHeader];
 		}
-        
+
         [self setHeaderClickable:YES];
         [self setCornerView:[[OETableCornerView alloc] init]];
 	}
@@ -225,11 +225,37 @@ static NSGradient *highlightGradient, *normalGradient;
 }
 
 - (void)setHeaderClickable:(BOOL)flag{
-    for (NSTableColumn *aColumn in [self tableColumns]) 
+    for(NSTableColumn *aColumn in [self tableColumns])
     {
         OETableHeaderCell *cell = [aColumn headerCell];
         [cell setClickable:flag];
     }
+}
+
+- (void)setHeaderState:(NSDictionary *)newHeaderState
+{
+    if(newHeaderState)
+    {
+        _headerState = newHeaderState;
+
+        for(NSTableColumn *column in [self tableColumns])
+        {
+            BOOL state = [[newHeaderState valueForKey:[column identifier]] boolValue];
+            [column setHidden:state];
+        }
+    }
+}
+
+- (NSDictionary *)defaultHeaderState
+{
+    NSMutableDictionary *defaultHeaderState = [[NSMutableDictionary alloc] init];
+
+    for(NSTableColumn *column in [self tableColumns])
+    {
+        [defaultHeaderState setValue:[NSNumber numberWithBool:NO] forKey:[column identifier]];
+    }
+
+    return defaultHeaderState;
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent

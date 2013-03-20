@@ -73,7 +73,7 @@
 									<object class="NSTableView" id="887282208">
 										<reference key="NSNextResponder" ref="311889962"/>
 										<int key="NSvFlags">4370</int>
-										<string key="NSFrameSize">{922, 319}</string>
+										<string key="NSFrameSize">{922, 304}</string>
 										<reference key="NSSuperview" ref="311889962"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="1040507511"/>
@@ -86,13 +86,16 @@
 											<string key="NSFrameSize">{922, 17}</string>
 											<reference key="NSSuperview" ref="247794307"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="311889962"/>
+											<reference key="NSNextKeyView" ref="179007040"/>
 											<reference key="NSTableView" ref="887282208"/>
 										</object>
-										<object class="_NSCornerView" key="NSCornerView">
-											<nil key="NSNextResponder"/>
+										<object class="_NSCornerView" key="NSCornerView" id="179007040">
+											<reference key="NSNextResponder" ref="664306359"/>
 											<int key="NSvFlags">-2147483392</int>
 											<string key="NSFrame">{{720, 0}, {16, 17}}</string>
+											<reference key="NSSuperview" ref="664306359"/>
+											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView" ref="311889962"/>
 										</object>
 										<array class="NSMutableArray" key="NSTableColumns">
 											<object class="NSTableColumn" id="166201363">
@@ -390,7 +393,7 @@
 											<bytes key="NSRGB">MC4yNTQ5MDE5NzU0IDAuMjUwOTgwNDA3IDAuMjU0OTAxOTc1NAA</bytes>
 										</object>
 										<double key="NSRowHeight">17</double>
-										<int key="NSTvFlags">-90177536</int>
+										<int key="NSTvFlags">-85983232</int>
 										<reference key="NSDelegate"/>
 										<reference key="NSDataSource"/>
 										<string key="NSAutosaveName">listView</string>
@@ -403,7 +406,7 @@
 										<int key="NSTableViewGroupRowStyle">1</int>
 									</object>
 								</array>
-								<string key="NSFrame">{{0, 17}, {735, 319}}</string>
+								<string key="NSFrame">{{0, 17}, {735, 304}}</string>
 								<reference key="NSSuperview" ref="664306359"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="887282208"/>
@@ -430,7 +433,7 @@
 							<object class="NSScroller" id="364856155">
 								<reference key="NSNextResponder" ref="664306359"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{0, 320}, {735, 16}}</string>
+								<string key="NSFrame">{{0, 321}, {735, 15}}</string>
 								<reference key="NSSuperview" ref="664306359"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
@@ -455,6 +458,7 @@
 								<reference key="NSBGColor" ref="455417535"/>
 								<int key="NScvFlags">4</int>
 							</object>
+							<reference ref="179007040"/>
 						</array>
 						<string key="NSFrame">{{0, 333}, {735, 336}}</string>
 						<reference key="NSSuperview" ref="6079965"/>
@@ -465,6 +469,7 @@
 						<reference key="NSHScroller" ref="364856155"/>
 						<reference key="NSContentView" ref="311889962"/>
 						<reference key="NSHeaderClipView" ref="247794307"/>
+						<reference key="NSCornerView" ref="179007040"/>
 						<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
 						<double key="NSMinMagnification">0.25</double>
 						<double key="NSMaxMagnification">4</double>
@@ -544,12 +549,9 @@
 				<double key="NSMagnification">1</double>
 			</object>
 			<object class="NSCustomView" id="101446984">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<string key="NSFrameSize">{480, 272}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSClassName">OEBlankSlateView</string>
 			</object>
 		</array>
@@ -854,6 +856,7 @@
 				<string key="109.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="11.CustomClassName">OEScrollView</string>
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="12.CustomClassName">OETableHeaderView</string>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="13.CustomClassName">OETableView</string>
 				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1246,6 +1249,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OESidebarController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OETableHeaderView</string>
+					<string key="superclassName">NSTableHeaderView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OETableHeaderView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
