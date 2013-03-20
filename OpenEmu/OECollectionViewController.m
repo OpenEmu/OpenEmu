@@ -92,7 +92,7 @@ static NSArray *OE_defaultSortDescriptors;
     
     IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
     IBOutlet IKImageFlowView *coverFlowView;
-    IBOutlet NSTableView *listView;
+    IBOutlet OETableView *listView;
     IBOutlet OEBlankSlateView *blankSlateView;
     
     NSDate *_listViewSelectionChangeDate;
@@ -271,6 +271,7 @@ static NSArray *OE_defaultSortDescriptors;
     [coder encodeInt:_selectedViewTag forKey:@"selectedView"];
     [coder encodeFloat:[sizeSlider floatValue] forKey:@"sliderValue"];
     [coder encodeObject:[self selectedIndexes] forKey:@"selectionIndexes"];
+    if([listView headerState]) [coder encodeObject:[listView headerState] forKey:@"listViewHeaderState"];
     if([listView sortDescriptors]) [coder encodeObject:[listView sortDescriptors] forKey:@"listViewSortDescriptors"];
     if(_selectedViewTag == OEGridViewTag) [coder encodeRect:[[gridView enclosingScrollView] documentVisibleRect] forKey:@"gridViewVisibleRect"];
     
@@ -283,14 +284,15 @@ static NSArray *OE_defaultSortDescriptors;
 {
     if([self libraryController] == nil) return;
     
-    int selectedViewTag;
-    float sliderValue;
-    NSIndexSet *selectionIndexes;
-    NSArray    *listViewSortDescriptors = nil;
-    NSRect      gridViewVisibleRect;
+    int           selectedViewTag;
+    float         sliderValue;
+    NSIndexSet   *selectionIndexes;
+    NSDictionary *listViewHeaderState = nil;
+    NSArray      *listViewSortDescriptors = nil;
+    NSRect        gridViewVisibleRect;
     
-    NSSlider    *sizeSlider     = [[self libraryController] toolbarSlider];
-    NSTextField *searchField    = [[self libraryController] toolbarSearchField];
+    NSSlider     *sizeSlider     = [[self libraryController] toolbarSlider];
+    NSTextField  *searchField    = [[self libraryController] toolbarSearchField];
 
     NSKeyedUnarchiver *coder = state ? [[NSKeyedUnarchiver alloc] initForReadingWithData:state] : nil;
     if(coder)
@@ -298,6 +300,7 @@ static NSArray *OE_defaultSortDescriptors;
         selectedViewTag         = [coder decodeIntForKey:@"selectedView"];
         sliderValue             = [coder decodeFloatForKey:@"sliderValue"];
         selectionIndexes        = [coder decodeObjectForKey:@"selectionIndexes"];
+        listViewHeaderState     = [coder decodeObjectForKey:@"listViewHeaderState"];
         listViewSortDescriptors = [coder decodeObjectForKey:@"listViewSortDescriptors"];
         gridViewVisibleRect     = [coder decodeRectForKey:@"gridViewVisibleRect"];
         
@@ -322,6 +325,7 @@ static NSArray *OE_defaultSortDescriptors;
 
     [gamesController setSelectionIndexes:selectionIndexes];
     [listView setSortDescriptors:listViewSortDescriptors];
+    [listView setHeaderState:listViewHeaderState];
     [self OE_switchToView:selectedViewTag];
     [sizeSlider setFloatValue:sliderValue];
     [self changeGridSize:sizeSlider];
