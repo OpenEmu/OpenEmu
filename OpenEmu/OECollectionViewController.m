@@ -1038,7 +1038,6 @@ static NSArray *OE_defaultSortDescriptors;
     [alert setDefaultButtonTitle:@"OK"];
     [alert setStringValue:@""];
     [alert setAlternateButtonTitle:@"Cancel"];
-    [alert setHeight:112.0];
     
     NSArray *selectedGames = [self selectedGames];
     if([selectedGames count] == 1)

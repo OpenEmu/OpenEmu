@@ -103,7 +103,6 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
         name = [name substringToIndex:maxiumumSaveGameLength];
     }
     [alert setStringValue:name];
-    [alert setHeight:112.0];    
     [alert setInputLimit:40];
     
     [alert showSuppressionButtonForUDKey:OESaveGameAlertSuppressionKey];
