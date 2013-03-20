@@ -323,6 +323,9 @@ static NSArray *OE_defaultSortDescriptors;
         selectionIndexes = [NSIndexSet indexSet];
     }
 
+    if(listViewSortDescriptors == nil)
+        listViewSortDescriptors = OE_defaultSortDescriptors;
+
     [gamesController setSelectionIndexes:selectionIndexes];
     [listView setSortDescriptors:listViewSortDescriptors];
     [listView setHeaderState:listViewHeaderState];
