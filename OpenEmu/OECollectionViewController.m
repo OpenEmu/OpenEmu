@@ -735,6 +735,8 @@ static NSArray *OE_defaultSortDescriptors;
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
 //        [menu addItem:[NSMenuItem separatorItem]];
         [menu addItemWithTitle:@"Add Cover Art From File…" action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
+        [menu addItemWithTitle:@"Consolidate Files…" action:@selector(consolidateFiles:) keyEquivalent:@""];
+
 //        [menu addItemWithTitle:@"Add Save File To Game…" action:@selector(addSaveStateFromFile:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
         // Create Add to collection menu
@@ -757,7 +759,6 @@ static NSArray *OE_defaultSortDescriptors;
         [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
         [menu addItem:menuItem];    
         [menu addItemWithTitle:@"Show In Finder" action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
-        
         [menu addItem:[NSMenuItem separatorItem]];
 
         // Temporarily disable Get Game Info from Archive.vg per issue #322. This should be eventually enabled in a later version.
@@ -779,6 +780,7 @@ static NSArray *OE_defaultSortDescriptors;
 
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Add Cover Art From File…" action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
+        [menu addItemWithTitle:@"Consolidate Files…" action:@selector(consolidateFiles:) keyEquivalent:@""];
 
         [menu addItem:[NSMenuItem separatorItem]];
         // Create Add to collection menu
@@ -1108,6 +1110,77 @@ static NSArray *OE_defaultSortDescriptors;
 - (void)addSaveStateFromFile:(id)sender
 {
     NSLog(@"addCoverArtFromFile: Not implemented yet.");
+}
+
+- (void)consolidateFiles:(id)sender
+{
+    NSArray *games = [self selectedGames];
+    if([games count] == 0) return;
+
+    OEHUDAlert  *alert = [[OEHUDAlert alloc] init];
+    [alert setHeadlineText:@""];
+    [alert setMessageText:@"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone."];
+    [alert setDefaultButtonTitle:@"Consolidate"];
+    [alert setAlternateButtonTitle:@"Cancel"];
+    if([alert runModal] != NSAlertDefaultReturn) return;
+    
+    alert = [[OEHUDAlert alloc] init];
+    [alert setShowsProgressbar:YES];
+    [alert setProgress:0.0];
+    [alert setHeadlineText:NSLocalizedString(@"Copying Game Files…", @"")];
+    [alert setTitle:NSLocalizedString(@"", @"")];
+    [alert setShowsProgressbar:YES];
+    [alert setDefaultButtonTitle:nil];
+    [alert setMessageText:nil];
+    
+    __block NSInteger alertResult = -1;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_after(popTime, queue, ^(void){
+        for (NSUInteger i=0; i<[games count]; i++) {
+            if(alertResult != -1) break;
+            
+            OEDBGame *aGame = [games objectAtIndex:i];
+            NSSet *roms = [aGame roms];
+            for(OEDBRom *rom in roms)
+            {
+                if(alertResult != -1) break;
+                
+                NSURL *url = [rom URL];
+                if([url checkResourceIsReachableAndReturnError:nil] && ![url isSubpathOfURL:[[rom libraryDatabase] romsFolderURL]])
+                {
+                    BOOL romFileLocked = NO;
+                    if([[[[NSFileManager defaultManager] attributesOfItemAtPath:[url path] error:nil] objectForKey:NSFileImmutable] boolValue])
+                    {
+                        romFileLocked = YES;
+                        [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(FALSE) } ofItemAtPath:[url path] error:nil];
+                    }
+
+                    NSString *fullName  = [url lastPathComponent];
+                    NSString *extension = [fullName pathExtension];
+                    NSString *baseName  = [fullName stringByDeletingPathExtension];
+                    
+                    NSURL *unsortedFolder = [[rom libraryDatabase] romsFolderURLForSystem:[aGame system]];
+                    NSURL *romURL         = [unsortedFolder URLByAppendingPathComponent:fullName];
+                    romURL = [romURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+                        NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", baseName, triesCount, extension];
+                        return [unsortedFolder URLByAppendingPathComponent:newName];
+                    }];
+                    
+                    if([[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:nil] && (alertResult == -1))
+                        [rom setURL:romURL];
+                    
+                    if(romFileLocked)
+                        [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(YES) } ofItemAtPath:[url path] error:nil];
+                }
+            }
+            [[aGame libraryDatabase] save:nil];
+            [alert setProgress:(float)(i+1)/[games count]];
+        }
+        [alert closeWithResult:NSAlertDefaultReturn];
+    });
+    [alert setDefaultButtonTitle:@"Stop"];
+    alertResult = [alert runModal];
 }
 #pragma mark -
 #pragma mark NSTableView DataSource
