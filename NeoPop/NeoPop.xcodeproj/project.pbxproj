@@ -474,8 +474,9 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				PRODUCT_NAME = NeoPop;
+				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Debug;
@@ -488,8 +489,9 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				PRODUCT_NAME = NeoPop;
+				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Release;
@@ -547,7 +549,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				PRODUCT_NAME = "Build & Install";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -555,7 +559,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				PRODUCT_NAME = "Build & Install";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};

@@ -759,7 +759,7 @@
 					"\"$(SRCROOT)/genplusgx_source/ntsc\"/**",
 				);
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				OTHER_CFLAGS = (
 					"-fPIC",
 					"-DLSB_FIRST",
@@ -769,6 +769,7 @@
 					"-D__LIBRETRO__",
 				);
 				PRODUCT_NAME = GenesisPlus;
+				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)\"";
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
@@ -794,7 +795,7 @@
 					"\"$(SRCROOT)/genplusgx_source/ntsc\"/**",
 				);
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				OTHER_CFLAGS = (
 					"-fPIC",
 					"-DLSB_FIRST",
@@ -804,6 +805,7 @@
 					"-D__LIBRETRO__",
 				);
 				PRODUCT_NAME = GenesisPlus;
+				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)\"";
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
@@ -849,21 +851,27 @@
 		822C1940101EA4B00034119F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				PRODUCT_NAME = "Build & Install";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
 		822C1941101EA4B00034119F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				PRODUCT_NAME = "Build & Install";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
 		8230C7D210AFCB0600412F24 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				PRODUCT_NAME = Distribution;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -871,7 +879,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				PRODUCT_NAME = Distribution;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};

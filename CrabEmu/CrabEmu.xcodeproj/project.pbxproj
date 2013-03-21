@@ -508,12 +508,13 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				OTHER_CFLAGS = (
 					"-DCRABZ80_NO_READMAP_FALLBACK",
 					"-DIN_CRABEMU",
 				);
 				PRODUCT_NAME = CrabEmu;
+				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Debug;
@@ -524,12 +525,13 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				OTHER_CFLAGS = (
 					"-DCRABZ80_NO_READMAP_FALLBACK",
 					"-DIN_CRABEMU",
 				);
 				PRODUCT_NAME = CrabEmu;
+				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Release;
@@ -600,7 +602,9 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				PRODUCT_NAME = Distribution;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -609,7 +613,9 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				PRODUCT_NAME = Distribution;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -617,7 +623,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				PRODUCT_NAME = "Build & Install";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -625,7 +633,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				PRODUCT_NAME = "Build & Install";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};

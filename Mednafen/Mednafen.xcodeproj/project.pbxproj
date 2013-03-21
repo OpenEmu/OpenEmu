@@ -4949,7 +4949,7 @@
 					"\"$(PROJECT_DIR)\"",
 				);
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -4960,6 +4960,7 @@
 					"-DIN_LIBINTL",
 				);
 				PRODUCT_NAME = Mednafen;
+				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include/** $(PROJECT_DIR)/src $(PROJECT_DIR) $(PROJECT_DIR)/mednafen/**";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oecoreplugin;
@@ -4979,7 +4980,7 @@
 					"\"$(PROJECT_DIR)\"",
 				);
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -4990,6 +4991,7 @@
 					"-DIN_LIBINTL",
 				);
 				PRODUCT_NAME = Mednafen;
+				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include/** $(PROJECT_DIR)/src $(PROJECT_DIR) $(PROJECT_DIR)/mednafen/**";
 				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oecoreplugin;
@@ -5045,7 +5047,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				PRODUCT_NAME = "Build & Install";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -5053,7 +5057,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				PRODUCT_NAME = "Build & Install";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
