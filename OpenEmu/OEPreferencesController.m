@@ -63,12 +63,15 @@ NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
 - (void)OE_showView:(NSView *)view atSize:(NSSize)size animate:(BOOL)animateFlag;
 - (void)OE_reloadPreferencePanes;
 - (void)OE_rebuildToolbar;
-- (void)OE_openPreferencePane:(NSNotification*)notification;
+- (void)OE_openPreferencePane:(NSNotification *)notification;
+
+@property OEAppStoreWindow *window;
 @end
 
 @implementation OEPreferencesController
 @synthesize preferencePanes;
 @synthesize visiblePaneIndex = _visiblePaneIndex;
+@dynamic window;
 
 - (id)initWithWindow:(NSWindow *)window
 {
@@ -252,19 +255,19 @@ NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
     
     [nextPane viewWillAppear];
     [currentPane viewWillDisappear];
-    
+
     NSSize viewSize = [nextPane viewSize];
     NSView *view = [nextPane view];
     
-    [(OEAppStoreWindow*)[self window] setBaselineSeparatorColor:[NSColor blackColor]];
+    [[self window] setBaselineSeparatorColor:[NSColor blackColor]];
     
     [self OE_showView:view atSize:viewSize animate:animateFlag];
     [nextPane viewDidAppear];
     [currentPane viewDidDisappear];
     
     BOOL viewHasCustomColor = [nextPane respondsToSelector:@selector(toolbarSeparationColor)];
-    if(viewHasCustomColor) [(OEAppStoreWindow*)[self window] setBaselineSeparatorColor:[nextPane toolbarSeparationColor]];
-    else [(OEAppStoreWindow*)[self window] setBaselineSeparatorColor:[NSColor blackColor]];
+    if(viewHasCustomColor) [[self window] setBaselineSeparatorColor:[nextPane toolbarSeparationColor]];
+    else [[self window] setBaselineSeparatorColor:[NSColor blackColor]];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     [standardDefaults setInteger:selectedTab forKey:OESelectedPreferencesTabKey];

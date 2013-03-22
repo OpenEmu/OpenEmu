@@ -26,6 +26,7 @@
 
 @class OEDeviceManager;
 @class OEMainWindowController;
+
 @interface OEApplicationDelegate : NSDocumentController <NSApplicationDelegate, NSMenuDelegate>
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showPreferencesWindow:(id)sender;
@@ -51,6 +52,6 @@
 - (IBAction)OEDebug_logResponderChain:(id)sender;
 
 #pragma mark - Feedback
-- (IBAction) reportFeedback:(id)sender;
+- (IBAction)reportFeedback:(id)sender;
 
 @end
