@@ -2764,7 +2764,7 @@
 				<key>Usage</key>
 				<string>X</string>
 				<key>Cookie</key>
-				<integer>0</integer>
+				<integer>4096</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerNintendoWiiUProControllerLeftAnalogLeft</key>
@@ -2792,7 +2792,7 @@
 				<key>Usage</key>
 				<string>Y</string>
 				<key>Cookie</key>
-				<integer>0</integer>
+				<integer>8192</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerNintendoWiiUProControllerLeftAnalogUp</key>
@@ -2820,7 +2820,7 @@
 				<key>Usage</key>
 				<string>Rx</string>
 				<key>Cookie</key>
-				<integer>0</integer>
+				<integer>16384</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerNintendoWiiUProControllerRightAnalogLeft</key>
@@ -2848,7 +2848,7 @@
 				<key>Usage</key>
 				<string>Ry</string>
 				<key>Cookie</key>
-				<integer>0</integer>
+				<integer>32768</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerNintendoWiiUProControllerRightAnalogUp</key>

@@ -911,18 +911,8 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 
 - (NSUInteger)OE_addDeviceBindings:(OEDevicePlayerBindings *)controller;
 {
-    __block NSUInteger ret = NSNotFound;
-
     // Devices that are disconnected while a game is running are replaced by NSNull
-    [_devicePlayerBindings enumerateObjectsUsingBlock:
-     ^(id obj, NSUInteger idx, BOOL *stop)
-     {
-         if(obj == [NSNull null])
-         {
-             ret = idx;
-             *stop = NO;
-         }
-     }];
+    NSUInteger ret = [_devicePlayerBindings indexOfObject:[NSNull null]];
 
     if(ret == NSNotFound)
     {
@@ -977,7 +967,7 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
      {
          NSUInteger player = playerNumber;
          // playerNumber for system-wide keys should always be 0
-         if(_systemKeyBindingsDescriptions != nil                &&
+         if(_systemKeyBindingsDescriptions != nil               &&
             [key isKindOfClass:[OEKeyBindingDescription class]] &&
             [key isSystemWide])
              player = 0;

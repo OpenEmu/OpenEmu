@@ -75,8 +75,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 - (void)OE_setupHIDSupport;
 - (void)OE_createDatabaseAtURL:(NSURL *)aURL;
 
-@property (strong) NSArray *cachedLastPlayedInfo;
+@property(strong) NSArray *cachedLastPlayedInfo;
 @end
+
 @implementation OEApplicationDelegate
 @synthesize mainWindowController;
 @synthesize aboutWindow, aboutCreditsPath, cachedLastPlayedInfo;
@@ -168,9 +169,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     
     BOOL startInFullscreen = [[NSUserDefaults standardUserDefaults] boolForKey:OEMainWindowFullscreenKey];
     if(startInFullscreen != [[mainWindowController window] isFullScreen])
-    {
         [[mainWindowController window] toggleFullScreen:self];
-    }
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
@@ -206,9 +205,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         NSApplicationDelegateReply reply = NSApplicationDelegateReplyFailure;
         OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
         if([importer importItemsAtPaths:filenames])
-        {
             reply = NSApplicationDelegateReplySuccess;
-        }
+
         [NSApp replyToOpenOrPrint:reply];
     }
 }
@@ -601,7 +599,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 #pragma mark - Feedback Reporting & Delegate
 
-- (IBAction) reportFeedback:(id)sender
+- (IBAction)reportFeedback:(id)sender
 {
     [[FRFeedbackReporter sharedReporter] reportFeedback];
 }

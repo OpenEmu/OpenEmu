@@ -46,8 +46,23 @@ NSString *const OEHIDManagerDidAddDeviceHandlerNotification    = @"OEHIDManagerD
 NSString *const OEHIDManagerDidRemoveDeviceHandlerNotification = @"OEHIDManagerDidRemoveDeviceHandlerNotification";
 NSString *const OEHIDManagerDeviceHandlerUserInfoKey           = @"OEHIDManagerDeviceHandlerUserInfoKey";
 
-static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, void* inSender, IOHIDDeviceRef inIOHIDDeviceRef);
-static BOOL OE_nameIsFromWiimote(NSString *name);
+
+static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, void *inSender, IOHIDDeviceRef inIOHIDDeviceRef);
+
+static BOOL OE_isWiimoteControllerName(NSString *name)
+{
+    return [name hasPrefix:@"Nintendo RVL-CNT-01"];
+}
+
+static BOOL OE_isPS3ControllerName(NSString *name)
+{
+    return [name hasPrefix:@"PLAYSTATION(R)3 Controller"];
+}
+
+static BOOL OE_isXboxControllerName(NSString *name)
+{
+    return [name isEqualToString:@"Controller"];
+}
 
 static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePairSyncStyleKey;
 
@@ -72,7 +87,6 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 @interface OEDeviceManager () <IOBluetoothDeviceInquiryDelegate>
 {
     NSMutableArray           *deviceHandlers;
-    NSMutableDictionary      *deviceToHandlers;
 
     IOHIDManagerRef           hidManager;
 
@@ -85,12 +99,12 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 
 - (void)OE_addKeyboardEventMonitor;
 
-- (void)OE_addDeviceHandlerForDevice:(IOHIDDeviceRef)inDevice;
+- (OEDeviceHandler *)OE_addDeviceHandlerForDevice:(IOHIDDeviceRef)inDevice;
 
 - (void)OE_addDeviceHandler:(OEDeviceHandler *)handler;
 - (void)OE_removeDeviceHandler:(OEDeviceHandler *)handler;
 
-- (void)OE_addWiimoteWithDevice:(IOHIDDeviceRef)device;
+- (OEDeviceHandler *)OE_addWiimoteWithDevice:(IOHIDDeviceRef)device;
 
 - (void)OE_wiimoteDeviceDidDisconnect:(NSNotification *)notification;
 - (void)OE_applicationWillTerminate:(NSNotification *)notification;
@@ -121,7 +135,6 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 	{
 		deviceHandlers   = [[NSMutableArray alloc] init];
 		hidManager       = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
-        deviceToHandlers = [[NSMutableDictionary alloc] init];
 
 		IOHIDManagerRegisterDeviceMatchingCallback(hidManager,
 												   OEHandle_DeviceMatchingCallback,
@@ -231,17 +244,35 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 
 #pragma mark - IOHIDDevice management
 
-- (void)OE_addWiimoteWithDevice:(IOHIDDeviceRef)aDevice;
+- (void)OE_addDeviceHandlerForDeviceRef:(IOHIDDeviceRef)device
 {
-    if(deviceToHandlers[@((NSUInteger)aDevice)] != nil) return;
+    NSString *deviceName = (__bridge id)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
 
+    OEDeviceHandler *(^addDevice)(void) = ^{
+        if(OE_isWiimoteControllerName(deviceName))
+            return [self OE_addWiimoteWithDevice:device];
+        else if(OE_isPS3ControllerName(deviceName))
+            return [self OE_addPS3DeviceHandlerForDevice:device];
+        else if(OE_isXboxControllerName(deviceName))
+            return [self OE_addXboxDeviceHandlerForDevice:device];
+        else
+            return [self OE_addDeviceHandlerForDevice:device];
+    };
+
+    addDevice();
+
+}
+
+- (OEDeviceHandler *)OE_addWiimoteWithDevice:(IOHIDDeviceRef)aDevice;
+{
     NSAssert(aDevice != NULL, @"Passing NULL device.");
     OEWiimoteHIDDeviceHandler *handler = [OEWiimoteHIDDeviceHandler deviceHandlerWithIOHIDDevice:aDevice];
-    NSUInteger existingWiimotes = 0;
-    for (id obj in deviceToHandlers)
-        existingWiimotes += [[deviceToHandlers objectForKey:obj] isKindOfClass:[OEWiimoteHIDDeviceHandler class]];
-
-    deviceToHandlers[@((NSUInteger)aDevice)] = handler;
+    NSUInteger existingWiimotes =
+    [[deviceHandlers indexesOfObjectsPassingTest:
+      ^ BOOL (id obj, NSUInteger idx, BOOL *stop)
+      {
+          return [obj isKindOfClass:[OEWiimoteHIDDeviceHandler class]];
+      }] count];
 
     [handler setRumbleActivated:YES];
     [handler setExpansionPortEnabled:YES];
@@ -261,40 +292,39 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
             [handler setRumbleActivated:NO];
         });
     }
+
+    return handler;
 }
 
-- (void)OE_addPS3DeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
+- (OEDeviceHandler *)OE_addPS3DeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
 {
-    if(deviceToHandlers[@((NSUInteger)aDevice)] != nil) return;
-    
     NSAssert(aDevice != NULL, @"Passing NULL device.");
     OEHIDDeviceHandler *handler = [OEPS3HIDDeviceHandler deviceHandlerWithIOHIDDevice:aDevice];
-    deviceToHandlers[@((NSUInteger)aDevice)] = handler;
-    
+
     if([handler connect]) [self OE_addDeviceHandler:handler];
+
+    return handler;
 }
 
-- (void)OE_addXboxDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
+- (OEDeviceHandler *)OE_addXboxDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
 {
-    if(deviceToHandlers[@((NSUInteger)aDevice)] != nil) return;
-    
     NSAssert(aDevice != NULL, @"Passing NULL device.");
     OEHIDDeviceHandler *handler = [OEXBox360HIDDeviceHander deviceHandlerWithIOHIDDevice:aDevice];
-    deviceToHandlers[@((NSUInteger)aDevice)] = handler;
     
     if([handler connect]) [self OE_addDeviceHandler:handler];
+
+    return handler;
 }
 
 
-- (void)OE_addDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
+- (OEDeviceHandler *)OE_addDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
 {
-    if(deviceToHandlers[@((NSUInteger)aDevice)] != nil) return;
-
     NSAssert(aDevice != NULL, @"Passing NULL device.");
     OEHIDDeviceHandler *handler = [OEHIDDeviceHandler deviceHandlerWithIOHIDDevice:aDevice];
-    deviceToHandlers[@((NSUInteger)aDevice)] = handler;
 
     if([handler connect]) [self OE_addDeviceHandler:handler];
+
+    return handler;
 }
 
 - (void)OE_addDeviceHandler:(OEDeviceHandler *)handler
@@ -326,8 +356,6 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
     [self didChangeValueForKey:@"deviceHandlers"];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:OEHIDManagerDidRemoveDeviceHandlerNotification object:self userInfo:@{ OEHIDManagerDeviceHandlerUserInfoKey : handler }];
-
-    [deviceToHandlers removeObjectsForKeys:[deviceToHandlers allKeysForObject:handler]];
 
     [handler disconnect];
 }
@@ -388,10 +416,10 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
          // Check to make sure BT device name has Wiimote prefix. Note that there are multiple
          // possible device names ("Nintendo RVL-CNT-01" and "Nintendo RVL-CNT-01-TR" at the
          // time of writing), so we don't do an exact string match.
-         if (OE_nameIsFromWiimote([obj name]))
+         if(OE_isWiimoteControllerName([obj name]))
          {
              [obj openConnection];
-             if (![obj isPaired])
+             if(![obj isPaired])
              {
                  IOBluetoothDevicePair *pair = [IOBluetoothDevicePair pairWithDevice:obj];
                  [pair setDelegate:self];
@@ -413,7 +441,7 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
     BluetoothPINCode code;
     NSScanner *scanner = [NSScanner scannerWithString:[sender attemptedHostToDevice]?localAddress:remoteAddress];
     int byte = 5;
-    while (![scanner isAtEnd])
+    while(![scanner isAtEnd])
     {
         unsigned int data;
         [scanner scanHexInt:&data];
@@ -424,11 +452,11 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
     [sender replyPINCode:6 PINCode:&code];
 }
 
-- (void) devicePairingFinished:(IOBluetoothDevicePair*)sender error:(IOReturn)error
+- (void)devicePairingFinished:(IOBluetoothDevicePair*)sender error:(IOReturn)error
 {
-    if (error != kIOReturnSuccess)
+    if(error != kIOReturnSuccess)
     {
-        if (![sender attemptedHostToDevice])
+        if(![sender attemptedHostToDevice])
         {
             NSLog(@"Pairing failed, attempting inverse");
             IOBluetoothDevicePair *pair = [IOBluetoothDevicePair pairWithDevice:[sender device]];
@@ -437,10 +465,7 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
             [pair setDelegate:self];
             [pair start];
         }
-        else
-        {
-            NSLog(@"Couldn't pair, what gives?");
-        }
+        else NSLog(@"Couldn't pair, what gives?");
     }
     
     NSLog(@"Pairing finished %@: %x", sender, error);
@@ -448,30 +473,12 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 
 @end
 
-static BOOL OE_nameIsFromWiimote(NSString *name)
-{
-    return ([name rangeOfString:@"Nintendo RVL-CNT-01"].location == 0);
-}
-
-static BOOL OE_nameIsFromPS3(NSString *name)
-{
-    return ([name rangeOfString:@"PLAYSTATION(R)3 Controller"].location == 0);
-}
-
-static BOOL OE_nameIsFromXbox(NSString *name)
-{
-    return [name isEqualToString:@"Controller"];
-}
-
 #pragma mark - HIDManager Callbacks
 
 static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, void *inSender, IOHIDDeviceRef inIOHIDDeviceRef)
 {
     NSLog(@"Found device: %s( context: %p, result: %#x, sender: %p, device: %p ).\n", __PRETTY_FUNCTION__, inContext, inResult, inSender, inIOHIDDeviceRef);
-    
-    
-    NSString *deviceName = (__bridge id)IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey));
-    
+
     if(IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
     {
         NSLog(@"%s: failed to open device at %p", __PRETTY_FUNCTION__, inIOHIDDeviceRef);
@@ -481,14 +488,5 @@ static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, 
     NSLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
 
 	//add a OEHIDDeviceHandler for our HID device
-    
-    if (OE_nameIsFromWiimote(deviceName))
-        [(__bridge OEDeviceManager*)inContext OE_addWiimoteWithDevice:inIOHIDDeviceRef];
-    else if (OE_nameIsFromPS3(deviceName))
-        [(__bridge OEDeviceManager*)inContext OE_addPS3DeviceHandlerForDevice:inIOHIDDeviceRef];
-    else if (OE_nameIsFromXbox(deviceName))
-        [(__bridge OEDeviceManager*)inContext OE_addXboxDeviceHandlerForDevice:inIOHIDDeviceRef];
-    else
-        [(__bridge OEDeviceManager*)inContext OE_addDeviceHandlerForDevice:inIOHIDDeviceRef];
-    
+    [(__bridge OEDeviceManager *)inContext OE_addDeviceHandlerForDeviceRef:inIOHIDDeviceRef];
 }
