@@ -814,11 +814,11 @@
 			<key>Family</key>
 			<string>Lucida Grande</string>
 			<key>Size</key>
-			<integer>10</integer>
+			<integer>11</integer>
 			<key>Traits</key>
 			<string>Bold</string>
 			<key>Weight</key>
-			<integer>8</integer>
+			<integer>11</integer>
 			<key>Color</key>
 			<string>white</string>
 			<key>States</key>
@@ -850,11 +850,11 @@
 			<key>Family</key>
 			<string>Lucida Grande</string>
 			<key>Size</key>
-			<integer>10</integer>
+			<integer>11</integer>
 			<key>Traits</key>
 			<string>Bold</string>
 			<key>Weight</key>
-			<integer>8</integer>
+			<integer>11</integer>
 			<key>Color</key>
 			<string>black</string>
 			<key>States</key>

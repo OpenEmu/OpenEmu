@@ -246,7 +246,7 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
     
     // TODO: Adjust origin based on the button's and menu item's shadows
     frame.origin.x   -= edgeInsets.left + OEMenuItemTickMarkWidth + (doesContainImages ? OEMenuItemImageWidth : 0.0);
-    frame.origin.y   -= NSMinY(selectedItemRectOnScreen)-NSMinY(actualScreenFrame) + 2.0 + (doesContainImages ? 1.0 : 0.0);
+    frame.origin.y   -= NSMinY(selectedItemRectOnScreen)-NSMinY(actualScreenFrame) + 2.0 + (doesContainImages ? 1.0 : - 1.0);
     frame.size.width  = buttonFrame.size.width  + edgeInsets.left + edgeInsets.right + OEMenuContentEdgeInsets.left + OEMenuContentEdgeInsets.right + OEMenuItemInsets.left + OEMenuItemInsets.right;
 
     // Adjust the frame's dimensions not to be bigger than the screen
