@@ -252,7 +252,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     id        previousSelectedItem = [self selectedSidebarItem];
     NSInteger previousSelectedRow  = [[self view] selectedRow];
-    DLog(@"previous row is %ld, item is %@", previousSelectedRow, previousSelectedItem);
     
     [self reloadData];
 
@@ -260,8 +259,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     NSInteger rowToSelect = NSNotFound;
     NSInteger reloadedRowForPreviousSelectedItem = [[self view] rowForItem:previousSelectedItem];
-
-    DLog(@"reloaded row is %ld", (long)reloadedRowForPreviousSelectedItem);
 
     // The previously selected item may have been disabled/removed, so we should select another item...
     if(reloadedRowForPreviousSelectedItem == -1)
@@ -286,7 +283,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     else if(reloadedRowForPreviousSelectedItem != previousSelectedRow)
         rowToSelect = reloadedRowForPreviousSelectedItem;
 
-    if(rowToSelect != previousSelectedRow)
+    if(rowToSelect != previousSelectedRow && rowToSelect != NSNotFound)
     {
         [[self view] selectRowIndexes:[NSIndexSet indexSetWithIndex:rowToSelect] byExtendingSelection:NO];
         [self outlineViewSelectionDidChange:nil];
