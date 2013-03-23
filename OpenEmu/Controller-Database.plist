@@ -2615,7 +2615,7 @@
 				<key>Usage</key>
 				<string>X</string>
 				<key>Cookie</key>
-				<integer>0</integer>
+				<integer>18</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerRetrolinkSNESDPadLeft</key>
@@ -2643,7 +2643,7 @@
 				<key>Usage</key>
 				<string>Y</string>
 				<key>Cookie</key>
-				<integer>0</integer>
+				<integer>19</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerRetrolinkSNESDPadUp</key>
