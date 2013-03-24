@@ -36,13 +36,13 @@
 		<string>{0, 0}</string>
 		<key>OEN64ButtonZ</key>
 		<string>{0, 0}</string>
-		<key>OEN64ButtonAnalogLeft</key>
+		<key>OEN64AnalogLeft</key>
 		<string>{0, 0}</string>
-		<key>OEN64ButtonAnalogRight</key>
+		<key>OEN64AnalogRight</key>
 		<string>{0, 0}</string>
-		<key>OEN64ButtonAnalogUp</key>
+		<key>OEN64AnalogUp</key>
 		<string>{0, 0}</string>
-		<key>OEN64ButtonAnalogDown</key>
+		<key>OEN64AnalogDown</key>
 		<string>{0, 0}</string>
 	</dict>
 </dict>
