@@ -60,9 +60,6 @@
 
 @property(nonatomic, copy) NSString   *selectedKey;
 @property(nonatomic)       NSUInteger  selectedPlayer;
-@property(nonatomic)       NSInteger   selectedBindingType;
-
-- (NSInteger)selectedBindingType;
 
 - (BOOL)isKeyboardEventSelected;
 - (void)registerEvent:(OEHIDEvent *)anEvent;

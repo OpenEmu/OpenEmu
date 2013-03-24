@@ -32,8 +32,8 @@
 	<string>openemu.system.nes</string>
 	<key>OENumberOfPlayersKey</key>
 	<integer>4</integer>
-    <key>OEResponderClassKey</key>
-    <string>OENESSystemResponder</string>
+	<key>OEResponderClassKey</key>
+	<string>OENESSystemResponder</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>32</integer>

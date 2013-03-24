@@ -37,6 +37,8 @@
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
 #import "OESystemController.h"
+#import "OEDeviceHandler.h"
+#import "OEDeviceDescription.h"
 
 #import "OEControllerImageView.h"
 #import "OEControlsButtonSetupView.h"
@@ -56,6 +58,9 @@
 NSString *const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
 NSString *const OELastControlsPlayerKey           = @"lastControlsPlayer";
 NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
+NSString *const OEKeyboardBindingsIsSelectedKey   = @"OEKeyboardBindingsIsSelectedKey";
+
+static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bindings.Keyboard";
 
 @interface OEPrefControlsController ()
 {
@@ -66,7 +71,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
 - (void)OE_setCurrentBindingsForEvent:(OEHIDEvent *)anEvent;
 - (void)OE_rebuildSystemsMenu;
-- (void)OE_setupControllerImageViewWithTransition:(NSString *)transition;
+- (void)OE_setUpControllerImageViewWithTransition:(NSString *)transition;
 - (void)OE_preparePaneWithNotification:(NSNotification *)notification;
 
 // Only one event can be managed at a time, all events should be ignored until the currently read event went back to its null state
@@ -80,22 +85,9 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
 @implementation OEPrefControlsController
 
-#pragma mark Properties
-@synthesize controllerView, controllerContainerView;
-@synthesize consolesPopupButton, playerPopupButton, inputPopupButton;
-
-@synthesize gradientOverlay;
-@synthesize controlsContainer;
-@synthesize controlsSetupView;
-@synthesize selectedPlayer;
-@synthesize selectedBindingType;
-@synthesize selectedKey;
-
-@synthesize currentSystemBindings;
-
 + (NSSet *)keyPathsForValuesAffectingCurrentPlayerBindings
 {
-    return [NSSet setWithObjects:@"currentSystemBindings", @"currentSystemBindings.devicePlayerBindings", @"selectedPlayer", @"selectedBindingType", nil];
+    return [NSSet setWithObjects:@"currentSystemBindings", @"currentSystemBindings.devicePlayerBindings", @"selectedPlayer", nil];
 }
 
 - (void)dealloc
@@ -127,14 +119,11 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     NSImage *controlsBackgroundImage = [NSImage imageNamed:@"controls_background"];
     [(OEBackgroundImageView *)[self view] setImage:controlsBackgroundImage];
 
-    /** ** ** ** ** ** ** ** **/
     // Setup controls popup console list
     [self OE_rebuildSystemsMenu];
-    [self OE_setupInputMenu];
+    [self OE_setUpInputMenu];
 
-    // restore previous state
-    NSInteger binding = [sud integerForKey:OELastControlsDeviceTypeKey];
-    [[self inputPopupButton] selectItemWithTag:binding];
+    // Restore previous state.
     [self changeInputDevice:self];
 
     NSString *pluginName = [sud stringForKey:OELastControlsPluginIdentifierKey];
@@ -157,9 +146,13 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
     [[self controllerView] setWantsLayer:YES];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsDidChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_preparePaneWithNotification:) name:OEPreferencesOpenPaneNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_preparePaneWithNotification:) name:OEPreferencesSetupPaneNotificationName object:nil];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsDidChangeNotification object:nil];
+    [center addObserver:self selector:@selector(OE_preparePaneWithNotification:) name:OEPreferencesOpenPaneNotificationName object:nil];
+    [center addObserver:self selector:@selector(OE_preparePaneWithNotification:) name:OEPreferencesSetupPaneNotificationName object:nil];
+
+    [center addObserver:self selector:@selector(OE_devicesDidUpdateNotification:) name:OEHIDManagerDidAddDeviceHandlerNotification object:[OEDeviceManager sharedDeviceManager]];
+    [center addObserver:self selector:@selector(OE_devicesDidUpdateNotification:) name:OEHIDManagerDidRemoveDeviceHandlerNotification object:[OEDeviceManager sharedDeviceManager]];
 }
 
 - (void)viewWillDisappear
@@ -176,10 +169,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
 {
-    if(flag)
-    {
-        [[[self controllerView] layer] setValue:[NSNumber numberWithInt:10.0] forKeyPath:@"filters.pixellate.inputScale"];
-    }
+    if(flag) [[[self controllerView] layer] setValue:[NSNumber numberWithInt:10.0] forKeyPath:@"filters.pixellate.inputScale"];
 }
 
 - (NSString *)nibName
@@ -228,7 +218,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 #pragma mark -
 #pragma mark UI Methods
 
-- (void)OE_setupPlayerMenuForNumberOfPlayers:(NSUInteger)numberOfPlayers;
+- (void)OE_setUpPlayerMenuForNumberOfPlayers:(NSUInteger)numberOfPlayers;
 {
     NSMenu *playerMenu = [[NSMenu alloc] init];
     for(NSUInteger player = 0; player < numberOfPlayers; player++)
@@ -260,26 +250,64 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     return playerMenu;
 }
 
-- (void)OE_setupInputMenu;
+- (void)OE_devicesDidUpdateNotification:(NSNotification *)notification
+{
+    [self OE_setUpInputMenu];
+}
+
+- (void)OE_setUpInputMenu;
 {
     NSMenu *inputMenu = [[NSMenu alloc] init];
-    NSMenuItem *inputItem = [[NSMenuItem alloc] initWithTitle:@"Keyboard" action:@selector(changeInputDevice:) keyEquivalent:@""];
-    [inputItem setTag:0];
-    [inputItem setState:NSOnState];
-    [inputMenu addItem:inputItem];
+    NSMenuItem *inputItem = [inputMenu addItemWithTitle:NSLocalizedString(@"Keyboard", @"Keyboard bindings menu item.") action:NULL keyEquivalent:@""];
+    [inputItem setRepresentedObject:_OEKeyboardMenuItemRepresentedObject];
 
-    // TODO: remove generic Gamepad item, loop through attached HID devices and add to menu, else show nothing
-    NSMenuItem *inputItemDevice = [[NSMenuItem alloc] initWithTitle:@"Gamepad" action:@selector(changeInputDevice:) keyEquivalent:@""];
-    [inputItemDevice setTag:1];
-    [inputMenu addItem:inputItemDevice];
+    [self OE_addControllersToInputMenu:inputMenu];
 
     [inputMenu addItem:[NSMenuItem separatorItem]];
 
-    NSMenuItem *inputItemWiimote = [[NSMenuItem alloc] initWithTitle:@"Add a Wiimote…" action:@selector(searchForWiimote:) keyEquivalent:@""];
-    [inputMenu addItem:inputItemWiimote];
+    [inputMenu addItemWithTitle:NSLocalizedString(@"Add a Wiimote…", @"Wiimote bindings menu item.") action:@selector(searchForWiimote:) keyEquivalent:@""];
 
     [[self inputPopupButton] setMenu:inputMenu];
-    [[self inputPopupButton] selectItemWithTag:[[NSUserDefaults standardUserDefaults] integerForKey:OELastControlsDeviceTypeKey]];
+    [self OE_updateInputPopupButtonSelection];
+}
+
+- (void)OE_updateInputPopupButtonSelection
+{
+    NSPopUpButton *inputButton = [self inputPopupButton];
+    BOOL keyboardIsSelected = [[NSUserDefaults standardUserDefaults] boolForKey:OEKeyboardBindingsIsSelectedKey];
+
+    OEDeviceHandler *currentDeviceHandler = [[[self currentSystemBindings] devicePlayerBindingsForPlayer:[self selectedPlayer]] deviceHandler];
+    id representedObject = (keyboardIsSelected || currentDeviceHandler == nil ? _OEKeyboardMenuItemRepresentedObject : currentDeviceHandler);
+
+    if(!keyboardIsSelected && currentDeviceHandler == nil)
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OEKeyboardBindingsIsSelectedKey];
+
+    for(NSMenuItem *item in [inputButton itemArray])
+    {
+        if([item state] == NSOnState) continue;
+        [item setState:[item representedObject] == currentDeviceHandler ? NSMixedState : NSOffState];
+    }
+
+    [inputButton selectItemAtIndex:MAX(0, [inputButton indexOfItemWithRepresentedObject:representedObject])];
+}
+
+- (void)OE_addControllersToInputMenu:(NSMenu *)inputMenu
+{
+    NSArray *controllers = [[OEDeviceManager sharedDeviceManager] controllerDeviceHandlers];
+    if([controllers count] == 0)
+    {
+        [[inputMenu addItemWithTitle:NSLocalizedString(@"No available controllers", @"Menu item indicating that no controllers is plugged in") action:NULL keyEquivalent:@""] setEnabled:NO];
+        return;
+    }
+
+    [inputMenu addItem:[NSMenuItem separatorItem]];
+
+    for(OEDeviceHandler *handler in controllers)
+    {
+        NSString *deviceName = [[handler deviceDescription] name];
+        NSMenuItem *item = [inputMenu addItemWithTitle:deviceName action:NULL keyEquivalent:@""];
+        [item setRepresentedObject:handler];
+    }
 }
 
 - (IBAction)changeSystem:(id)sender
@@ -309,7 +337,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     //[self setKeyBindings:[[systemController controllerKeyPositions] allKeys]];
 
     // Rebuild player menu
-    [self OE_setupPlayerMenuForNumberOfPlayers:[systemController numberOfPlayers]];
+    [self OE_setUpPlayerMenuForNumberOfPlayers:[systemController numberOfPlayers]];
 
     OEControlsButtonSetupView *preferenceView = [self controlsSetupView];
     [preferenceView setBindingsProvider:[self currentPlayerBindings]];
@@ -336,10 +364,10 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     [self changeInputDevice:[self inputPopupButton]];
 
     NSComparisonResult order = [oldPluginName compare:[selectedPlugin systemName]];
-    [self OE_setupControllerImageViewWithTransition:(order == NSOrderedDescending ? kCATransitionFromLeft : kCATransitionFromRight)];
+    [self OE_setUpControllerImageViewWithTransition:(order == NSOrderedDescending ? kCATransitionFromLeft : kCATransitionFromRight)];
 }
 
-- (void)OE_setupControllerImageViewWithTransition:(NSString *)transition;
+- (void)OE_setUpControllerImageViewWithTransition:(NSString *)transition;
 {
     OESystemController *systemController = [self currentSystemController];
 
@@ -360,8 +388,8 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
     [[self controllerContainerView] setAnimations:[NSDictionary dictionaryWithObject:controllerTransition forKey:@"subviews"]];
 
-    if(controllerView != nil)
-        [[[self controllerContainerView] animator] replaceSubview:controllerView with:newControllerView];
+    if(_controllerView != nil)
+        [[[self controllerContainerView] animator] replaceSubview:_controllerView with:newControllerView];
     else
         [[[self controllerContainerView] animator] addSubview:newControllerView];
 
@@ -383,13 +411,26 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
 - (IBAction)changeInputDevice:(id)sender
 {
-    NSInteger bindingType = 0;
-    if(sender && [sender respondsToSelector:@selector(selectedTag)])
-        bindingType = [sender selectedTag];
-    else if(sender && [sender respondsToSelector:@selector(tag)])
-        bindingType = [sender tag];
+    id representedObject = [[[self inputPopupButton] selectedItem] representedObject];
+    if(representedObject == nil) return;
 
-    [self setSelectedBindingType:bindingType];
+    [self willChangeValueForKey:@"currentPlayerBindings"];
+
+    BOOL isSelectingKeyboard = [representedObject isEqual:_OEKeyboardMenuItemRepresentedObject];
+    [[NSUserDefaults standardUserDefaults] setBool:isSelectingKeyboard forKey:OEKeyboardBindingsIsSelectedKey];
+
+    if(!isSelectingKeyboard)
+    {
+        NSAssert([representedObject isKindOfClass:[OEDeviceHandler class]], @"Expecting instance of class OEDeviceHandler got: %@", representedObject);
+
+        OEDeviceHandler *currentPlayerHandler = [[[self currentSystemBindings] devicePlayerBindingsForPlayer:[self selectedPlayer]] deviceHandler];
+        if(![representedObject isEqual:currentPlayerHandler])
+            [[self currentSystemBindings] setDeviceHandler:representedObject forPlayer:[self selectedPlayer]];
+    }
+
+    [self OE_updateInputPopupButtonSelection];
+
+    [self didChangeValueForKey:@"currentPlayerBindings"];
 }
 
 - (IBAction)changeInputControl:(id)sender
@@ -400,7 +441,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
 - (IBAction)searchForWiimote:(id)sender
 {
-    [self OE_setupInputMenu];
+    [self OE_setUpInputMenu];
 
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
 
@@ -417,48 +458,36 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
 - (void)setSelectedKey:(NSString *)value
 {
-    if(selectedKey == value) value = nil;
+    if(_selectedKey == value) value = nil;
 
-    selectedKey = [value copy];
+    _selectedKey = [value copy];
     [CATransaction begin];
-    [[self controlsSetupView] setSelectedKey:selectedKey];
-    [[self controllerView]    setSelectedKey:selectedKey animated:YES];
+    [[self controlsSetupView] setSelectedKey:_selectedKey];
+    [[self controllerView]    setSelectedKey:_selectedKey animated:YES];
     [CATransaction commit];
 
-    if(selectedKey != nil) [[[self view] window] makeFirstResponder:[self view]];
-}
-
-- (void)setSelectedBindingType:(NSInteger)value
-{
-    if(selectedBindingType != value)
-    {
-        selectedBindingType = value;
-        [[self inputPopupButton] selectItemWithTag:selectedBindingType];
-        [[NSUserDefaults standardUserDefaults] setInteger:selectedBindingType forKey:OELastControlsDeviceTypeKey];
-    }
+    if(_selectedKey != nil) [[[self view] window] makeFirstResponder:[self view]];
 }
 
 - (void)setSelectedPlayer:(NSUInteger)value
 {
-    if(selectedPlayer != value)
+    if(_selectedPlayer != value)
     {
-        selectedPlayer = value;
+        _selectedPlayer = value;
+        [[NSUserDefaults standardUserDefaults] setInteger:_selectedPlayer forKey:OELastControlsPlayerKey];
         [[self playerPopupButton] selectItemWithTag:value];
-        [[NSUserDefaults standardUserDefaults] setInteger:selectedPlayer forKey:OELastControlsPlayerKey];
+        [self OE_updateInputPopupButtonSelection];
     }
 }
 
 - (void)OE_setCurrentBindingsForEvent:(OEHIDEvent *)anEvent;
 {
-    if([anEvent type] == OEHIDEventTypeKeyboard)
-        [self setSelectedBindingType:0];
-    else
-    {
-        NSUInteger playerNumber = [[self currentSystemBindings] playerNumberForEvent:anEvent];
+    BOOL isKeyboardEvent = [anEvent type] != OEHIDEventTypeKeyboard;
+    [[NSUserDefaults standardUserDefaults] setBool:isKeyboardEvent forKey:_OEKeyboardMenuItemRepresentedObject];
 
-        [self setSelectedBindingType:1];
-        [self setSelectedPlayer:playerNumber];
-    }
+    if(!isKeyboardEvent) [self setSelectedPlayer:[[self currentSystemBindings] playerNumberForEvent:anEvent]];
+
+    [self OE_updateInputPopupButtonSelection];
 }
 
 #pragma mark -
@@ -466,7 +495,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 
 - (BOOL)isKeyboardEventSelected
 {
-    return selectedBindingType == 0;
+    return [[[[self inputPopupButton] selectedItem] representedObject] isEqual:_OEKeyboardMenuItemRepresentedObject];
 }
 
 - (void)registerEvent:(OEHIDEvent *)anEvent;
@@ -547,19 +576,13 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 - (void)axisMoved:(OEHIDEvent *)anEvent
 {
     if([self OE_shouldRegisterEvent:anEvent])
-    {
-        [self setSelectedBindingType:1];
         [self registerEvent:anEvent];
-    }
 }
 
 - (void)triggerPull:(OEHIDEvent *)anEvent;
 {
     if([self OE_shouldRegisterEvent:anEvent])
-    {
-        [self setSelectedBindingType:1];
         [self registerEvent:anEvent];
-    }
 }
 
 - (void)triggerRelease:(OEHIDEvent *)anEvent;
@@ -570,10 +593,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 - (void)buttonDown:(OEHIDEvent *)anEvent
 {
     if([self OE_shouldRegisterEvent:anEvent])
-    {
-        [self setSelectedBindingType:1];
         [self registerEvent:anEvent];
-    }
 }
 
 - (void)buttonUp:(OEHIDEvent *)anEvent
@@ -584,19 +604,13 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 - (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
 {
     if([self OE_shouldRegisterEvent:anEvent])
-    {
-        [self setSelectedBindingType:1];
         [self registerEvent:anEvent];
-    }
 }
 
 - (void)HIDKeyDown:(OEHIDEvent *)anEvent
 {
     if([self OE_shouldRegisterEvent:anEvent])
-    {
-        [self setSelectedBindingType:0];
         [self registerEvent:anEvent];
-    }
 }
 
 - (void)HIDKeyUp:(OEHIDEvent *)anEvent;
