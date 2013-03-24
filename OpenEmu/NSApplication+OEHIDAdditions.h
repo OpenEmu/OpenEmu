@@ -31,6 +31,7 @@
 @interface NSApplication (OEHIDAdditions)
 - (void)postHIDEvent:(OEHIDEvent *)anEvent;
 @property(nonatomic) BOOL logHIDEvents;
+@property(nonatomic) BOOL logHIDEventsNoKeyboard;
 @end
 
 @interface NSResponder (OEHIDAdditions)

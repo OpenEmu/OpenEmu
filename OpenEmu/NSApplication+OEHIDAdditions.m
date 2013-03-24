@@ -31,24 +31,39 @@
 @implementation NSApplication (OEHIDAdditions)
 
 static BOOL _logHIDEvents = NO;
+static BOOL _logHIDEventsNoKeyboard = NO;
 
 - (void)postHIDEvent:(OEHIDEvent *)anEvent
 {
     if(anEvent == nil) return;
     
-    if(_logHIDEvents) NSLog(@"%@", anEvent);
+    if(_logHIDEvents) {
+        if (!_logHIDEventsNoKeyboard || anEvent.type != OEHIDEventTypeKeyboard) {
+            NSLog(@"%@", anEvent);
+        }
+    }
 
     [[[self keyWindow] firstResponder] handleHIDEvent:anEvent];
 }
 
-- (BOOL)logHIDEvents;
+- (BOOL)logHIDEvents
 {
     return _logHIDEvents;
 }
 
-- (void)setLogHIDEvents:(BOOL)value;
+- (void)setLogHIDEvents:(BOOL)value
 {
     _logHIDEvents = value;
+}
+
+- (BOOL)logHIDEventsNoKeyboard
+{
+    return _logHIDEventsNoKeyboard;
+}
+
+- (void)setLogHIDEventsNoKeyboard:(BOOL)value
+{
+    _logHIDEventsNoKeyboard = value;
 }
 
 @end
