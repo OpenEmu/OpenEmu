@@ -136,10 +136,10 @@ static OSStatus _OEAOPropertyListenerProc(AudioObjectID inObjectID, UInt32 inNum
     if (err != noErr)
         return;
 
-	numberOfDevices = dataSize / (UInt32)sizeof(AudioDeviceID);
+    numberOfDevices = dataSize / (UInt32)sizeof(AudioDeviceID);
     if(numberOfDevices == 0)
     {
-		DLog(@"No audio devices were found");
+        DLog(@"No audio devices were found");
 
         NSUInteger previousNumberOfDevices;
         @synchronized(_devices)
@@ -252,7 +252,7 @@ OSStatus _OEAOPropertyListenerProc(AudioObjectID inObjectID, UInt32 inNumberAddr
         [nc postNotificationName:notificationName object:mgr];
     }
     
-	return noErr;
+    return noErr;
 }
 
 @end
@@ -284,8 +284,8 @@ OSStatus _OEAOPropertyListenerProc(AudioObjectID inObjectID, UInt32 inNumberAddr
 - (void)OE_retrieveDeviceName
 {
     CFStringRef                tempString = NULL;
-    OSStatus	               err        = noErr;
-    UInt32 		               ioSize     = 0;
+    OSStatus                   err        = noErr;
+    UInt32                     ioSize     = 0;
     AudioObjectPropertyAddress propAddr   =
     {
         kAudioObjectPropertyName,
@@ -304,10 +304,10 @@ OSStatus _OEAOPropertyListenerProc(AudioObjectID inObjectID, UInt32 inNumberAddr
 
 - (NSUInteger)OE_numberOfChannelsInScope:(AudioObjectPropertyScope)propScope
 {
-    OSStatus	                err        = noErr;
-    UInt32 		                ioSize     = 0;
-	UInt32                      number     = 0;
-	AudioBufferList            *bufferList = NULL;
+    OSStatus                    err        = noErr;
+    UInt32                      ioSize     = 0;
+    UInt32                      number     = 0;
+    AudioBufferList            *bufferList = NULL;
     AudioObjectPropertyAddress  propAddr   = {kAudioDevicePropertyStreamConfiguration, propScope, 0};
 
     err = AudioObjectGetPropertyDataSize(_deviceID, &propAddr, 0, NULL, &ioSize);
