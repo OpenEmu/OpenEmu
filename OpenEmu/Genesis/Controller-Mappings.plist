@@ -213,6 +213,27 @@
 		<key>OEGenesisButtonMode</key>
 		<string>OEControllerRetrolinkSNESButtonSelect</string>
 	</dict>
+	<key>OEControllerRetrolinkN64</key>
+	<dict>
+		<key>OEGenesisButtonUp</key>
+		<string>OEControllerRetrolinkN64DPadUp</string>
+		<key>OEGenesisButtonA</key>
+		<string>OEControllerRetrolinkN64ButtonA</string>
+		<key>OEGenesisButtonB</key>
+		<string>OEControllerRetrolinkN64CPadDown</string>
+		<key>OEGenesisButtonC</key>
+		<string>OEControllerRetrolinkN64CPadRight</string>
+		<key>OEGenesisButtonX</key>
+		<string>OEControllerRetrolinkN64ButtonB</string>
+		<key>OEGenesisButtonY</key>
+		<string>OEControllerRetrolinkN64CPadLeft</string>
+		<key>OEGenesisButtonZ</key>
+		<string>OEControllerRetrolinkN64CPadUp</string>
+		<key>OEGenesisButtonStart</key>
+		<string>OEControllerRetrolinkN64ButtonStart</string>
+		<key>OEGenesisButtonMode</key>
+		<string>OEControllerRetrolinkN64ButtonZ</string>
+	</dict>
 	<key>OEControllerWiimote</key>
 	<dict>
 		<key>OEGenesisButtonUp</key>

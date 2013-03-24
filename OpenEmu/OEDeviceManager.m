@@ -248,19 +248,14 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 {
     NSString *deviceName = (__bridge id)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
 
-    OEDeviceHandler *(^addDevice)(void) = ^{
-        if(OE_isWiimoteControllerName(deviceName))
-            return [self OE_addWiimoteWithDevice:device];
-        else if(OE_isPS3ControllerName(deviceName))
-            return [self OE_addPS3DeviceHandlerForDevice:device];
-        else if(OE_isXboxControllerName(deviceName))
-            return [self OE_addXboxDeviceHandlerForDevice:device];
-        else
-            return [self OE_addDeviceHandlerForDevice:device];
-    };
-
-    addDevice();
-
+    if(OE_isWiimoteControllerName(deviceName))
+        [self OE_addWiimoteWithDevice:device];
+    else if(OE_isPS3ControllerName(deviceName))
+        [self OE_addPS3DeviceHandlerForDevice:device];
+    else if(OE_isXboxControllerName(deviceName))
+        [self OE_addXboxDeviceHandlerForDevice:device];
+    else
+        [self OE_addDeviceHandlerForDevice:device];
 }
 
 - (OEDeviceHandler *)OE_addWiimoteWithDevice:(IOHIDDeviceRef)aDevice;
@@ -316,7 +311,6 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
     return handler;
 }
 
-
 - (OEDeviceHandler *)OE_addDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
 {
     NSAssert(aDevice != NULL, @"Passing NULL device.");
@@ -341,6 +335,19 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
     [self didChangeValueForKey:@"deviceHandlers"];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:OEHIDManagerDidAddDeviceHandlerNotification object:self userInfo:@{ OEHIDManagerDeviceHandlerUserInfoKey : handler }];
+}
+
+- (BOOL)OE_hasDeviceHandlerForDeviceRef:(IOHIDDeviceRef)deviceRef
+{
+    for (OEDeviceHandler *handler in deviceHandlers) {
+        if ([handler isKindOfClass:[OEHIDDeviceHandler class]]) {
+            OEHIDDeviceHandler *hidHandler = (OEHIDDeviceHandler *)handler;
+            if (hidHandler.device == deviceRef) {
+                return YES;
+            }
+        }
+    }
+    return NO;
 }
 
 - (void)OE_removeDeviceHandler:(OEDeviceHandler *)handler
@@ -478,6 +485,12 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, void *inSender, IOHIDDeviceRef inIOHIDDeviceRef)
 {
     NSLog(@"Found device: %s( context: %p, result: %#x, sender: %p, device: %p ).\n", __PRETTY_FUNCTION__, inContext, inResult, inSender, inIOHIDDeviceRef);
+
+    if ([(__bridge OEDeviceManager *)inContext OE_hasDeviceHandlerForDeviceRef:inIOHIDDeviceRef])
+    {
+        NSLog(@"Device is already being handled");
+        return;
+    }
 
     if(IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
     {

@@ -12,9 +12,9 @@
 		<string>OEControllerMicrosoftXbox360DPadLeft</string>
 		<key>OEN64ButtonDPadRight</key>
 		<string>OEControllerMicrosoftXbox360DPadRight</string>
-		<key>OEN64ButtonAnalogUp</key>
+		<key>OEN64AnalogUp</key>
 		<string>OEControllerMicrosoftXbox360LeftAnalogUp</string>
-		<key>OEN64ButtonAnalogLeft</key>
+		<key>OEN64AnalogLeft</key>
 		<string>OEControllerMicrosoftXbox360LeftAnalogLeft</string>
 		<key>OEN64ButtonCUp</key>
 		<string>OEControllerMicrosoftXbox360RightAnalogUp</string>
@@ -43,9 +43,9 @@
 		<string>OEControllerSonyPS3SixaxisDPadLeft</string>
 		<key>OEN64ButtonDPadRight</key>
 		<string>OEControllerSonyPS3SixaxisDPadRight</string>
-		<key>OEN64ButtonAnalogUp</key>
+		<key>OEN64AnalogUp</key>
 		<string>OEControllerSonyPS3SixaxisLeftAnalogUp</string>
-		<key>OEN64ButtonAnalogLeft</key>
+		<key>OEN64AnalogLeft</key>
 		<string>OEControllerSonyPS3SixaxisLeftAnalogLeft</string>
 		<key>OEN64ButtonCUp</key>
 		<string>OEControllerSonyPS3SixaxisRightAnalogUp</string>
@@ -68,9 +68,9 @@
 	<dict>
 		<key>OEN64ButtonDPadUp</key>
 		<string>OEControllerLogitechDualActionDPadUp</string>
-		<key>OEN64ButtonAnalogUp</key>
+		<key>OEN64AnalogUp</key>
 		<string>OEControllerLogitechDualActionLeftAnalogUp</string>
-		<key>OEN64ButtonAnalogLeft</key>
+		<key>OEN64AnalogLeft</key>
 		<string>OEControllerLogitechDualActionLeftAnalogLeft</string>
 		<key>OEN64ButtonCUp</key>
 		<string>OEControllerLogitechDualActionRightAnalogUp</string>
@@ -91,9 +91,9 @@
 	</dict>
 	<key>OEControllerSegaSaturn</key>
 	<dict>
-		<key>OEN64ButtonAnalogUp</key>
+		<key>OEN64AnalogUp</key>
 		<string>OEControllerSegaSaturnDPadUp</string>
-		<key>OEN64ButtonAnalogLeft</key>
+		<key>OEN64AnalogLeft</key>
 		<string>OEControllerSegaSaturnDPadLeft</string>
 		<key>OEN64ButtonCUp</key>
 		<string>OEControllerSegaSaturnButtonY</string>
@@ -116,9 +116,9 @@
 	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
-		<key>OEN64ButtonAnalogUp</key>
+		<key>OEN64AnalogUp</key>
 		<string>OEControllerGravisGamePadProDPadUp</string>
-		<key>OEN64ButtonAnalogLeft</key>
+		<key>OEN64AnalogLeft</key>
 		<string>OEControllerGravisGamePadProDPadLeft</string>
 		<key>OEN64ButtonA</key>
 		<string>OEControllerGravisGamePadProButton2</string>
@@ -133,9 +133,9 @@
 	</dict>
 	<key>OEControllerRetroUSBSNES</key>
 	<dict>
-		<key>OEN64ButtonAnalogUp</key>
+		<key>OEN64AnalogUp</key>
 		<string>OEControllerRetroUSBSNESDPadUp</string>
-		<key>OEN64ButtonAnalogLeft</key>
+		<key>OEN64AnalogLeft</key>
 		<string>OEControllerRetroUSBSNESDPadLeft</string>
 		<key>OEN64ButtonA</key>
 		<string>OEControllerRetroUSBSNESButtonB</string>
@@ -150,7 +150,7 @@
 	</dict>
 	<key>OEControllerPS3NeoGeoPad</key>
 	<dict>
-		<key>OEN64ButtonAnalogUp</key>
+		<key>OEN64AnalogUp</key>
 		<string>OEControllerPS3NeoGeoPadDPadUp</string>
 		<key>OEN64ButtonCUp</key>
 		<string>OEControllerPS3NeoGeoPadButtonL1</string>
@@ -173,9 +173,9 @@
 	</dict>
 	<key>OEControllerRetrode</key>
 	<dict>
-		<key>OEN64ButtonAnalogUp</key>
+		<key>OEN64AnalogUp</key>
 		<string>OEControllerRetrodeDPadUp</string>
-		<key>OEN64ButtonAnalogLeft</key>
+		<key>OEN64AnalogLeft</key>
 		<string>OEControllerRetrodeDPadLeft</string>
 		<key>OEN64ButtonA</key>
 		<string>OEControllerRetrodeButtonB</string>
@@ -190,9 +190,9 @@
 	</dict>
 	<key>OEControllerRetrolinkSNES</key>
 	<dict>
-		<key>OEN64ButtonAnalogUp</key>
+		<key>OEN64AnalogUp</key>
 		<string>OEControllerRetrolinkSNESDPadUp</string>
-		<key>OEN64ButtonAnalogLeft</key>
+		<key>OEN64AnalogLeft</key>
 		<string>OEControllerRetrolinkSNESDPadLeft</string>
 		<key>OEN64ButtonA</key>
 		<string>OEControllerRetrolinkSNESButtonB</string>
@@ -204,6 +204,35 @@
 		<string>OEControllerRetrolinkSNESButtonLeftShoulder</string>
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerRetrolinkSNESButtonStart</string>
+	</dict>
+	<key>OEControllerRetrolinkN64</key>
+	<dict>
+		<key>OEN64AnalogUp</key>
+		<string>OEControllerRetrolinkN64AnalogUp</string>
+		<key>OEN64AnalogLeft</key>
+		<string>OEControllerRetrolinkN64AnalogLeft</string>
+		<key>OEN64ButtonDPadUp</key>
+		<string>OEControllerRetrolinkN64DPadUp</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEControllerRetrolinkN64CPadUp</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEControllerRetrolinkN64CPadLeft</string>
+		<key>OEN64ButtonCDown</key>
+		<string>OEControllerRetrolinkN64CPadDown</string>
+		<key>OEN64ButtonCRight</key>
+		<string>OEControllerRetrolinkN64CPadRight</string>
+		<key>OEN64ButtonA</key>
+		<string>OEControllerRetrolinkN64ButtonA</string>
+		<key>OEN64ButtonB</key>
+		<string>OEControllerRetrolinkN64ButtonB</string>
+		<key>OEN64ButtonL</key>
+		<string>OEControllerRetrolinkN64ButtonLeftShoulder</string>
+		<key>OEN64ButtonR</key>
+		<string>OEControllerRetrolinkN64ButtonRightShoulder</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEControllerRetrolinkN64ButtonZ</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEControllerRetrolinkN64ButtonStart</string>
 	</dict>
 </dict>
 </plist>

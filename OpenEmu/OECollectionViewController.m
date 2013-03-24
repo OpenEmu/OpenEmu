@@ -1076,19 +1076,16 @@ static NSArray *OE_defaultSortDescriptors;
 - (IBAction)showGamesAtArchive:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
-    for (OEDBGame *game in selectedGames) {
+    for(OEDBGame *game in selectedGames)
+    {
         NSURL *url = [ArchiveVG browserURLForArchiveID:[game archiveID]];
-        if(url)
-            [[NSWorkspace sharedWorkspace] openURL:url];
+        if(url != nil) [[NSWorkspace sharedWorkspace] openURL:url];
     }
 }
 
 - (void)getCoverFromArchive:(id)sender
 {
-    NSArray *selectedGames = [self selectedGames];
-    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-        [obj setNeedsArchiveSync];
-    }];
+    [[self selectedGames] makeObjectsPerformSelector:@selector(setNeedsArchiveSync)];
 }
 
 - (void)addCoverArtFromFile:(id)sender
@@ -1097,19 +1094,14 @@ static NSArray *OE_defaultSortDescriptors;
     [openPanel setAllowsMultipleSelection:NO];
     [openPanel setCanChooseDirectories:NO];
     [openPanel setCanChooseFiles:YES];
+
     NSArray *imageTypes = [NSImage imageFileTypes];
     [openPanel setAllowedFileTypes:imageTypes];
     
     if([openPanel runModal] != NSFileHandlingPanelOKButton)
         return;
-    
-    NSURL   *imageURL       = [openPanel URL];
-    NSArray *selectedGames  = [self selectedGames];
-    
-    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-        [obj setBoxImageByURL:imageURL];
-    }];
-    
+
+    [[self selectedGames] makeObjectsPerformSelector:@selector(setBoxImageByURL:) withObject:[openPanel URL]];
     [self reloadDataIndexes:[self selectedIndexes]];
 }
 
@@ -1142,7 +1134,7 @@ static NSArray *OE_defaultSortDescriptors;
     __block NSInteger alertResult = -1;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_after(popTime, queue, ^(void){
+    dispatch_after(popTime, queue, ^{
         for (NSUInteger i=0; i<[games count]; i++) {
             if(alertResult != -1) break;
             
@@ -1193,13 +1185,12 @@ static NSArray *OE_defaultSortDescriptors;
 }
 #pragma mark -
 #pragma mark NSTableView DataSource
+
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-    if( aTableView == listView )
-    {
+    if(aTableView == listView)
         return [[gamesController arrangedObjects] count];
-    }
-    
+
     return 0;
 }
 

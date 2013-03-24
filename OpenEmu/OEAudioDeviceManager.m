@@ -1,0 +1,373 @@
+/*
+ Copyright (c) 2013, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#import "OEAudioDeviceManager.h"
+
+#import <CoreAudio/CoreAudio.h>
+
+
+#pragma mark - Private functions
+
+static OSStatus _OEAOPropertyListenerProc(AudioObjectID inObjectID, UInt32 inNumberAddresses, const AudioObjectPropertyAddress inAddresses[], void *inClientData);
+
+#pragma mark -
+
+@implementation OEAudioDeviceManager
+{
+    NSMutableArray *_devices;
+}
+
+#pragma mark - Lifecycle
+
++ (instancetype)sharedAudioDeviceManager
+{
+    static OEAudioDeviceManager *sharedAudioDeviceManager;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedAudioDeviceManager = [[self alloc] init];
+
+        const AudioObjectPropertySelector propSelectors[] =
+        {
+            kAudioHardwarePropertyDevices,
+            kAudioHardwarePropertyDefaultInputDevice,
+            kAudioHardwarePropertyDefaultOutputDevice,
+            kAudioHardwarePropertyDefaultSystemOutputDevice,
+        };
+
+        const int numSelectors = sizeof(propSelectors) / sizeof(propSelectors[0]);
+        AudioObjectPropertyAddress propAddr = {0, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMaster};
+        for(int i = 0; i < numSelectors; i++)
+        {
+            propAddr.mSelector = propSelectors[i];
+            AudioObjectAddPropertyListener(kAudioObjectSystemObject, &propAddr, _OEAOPropertyListenerProc, NULL);
+        }
+    });
+
+    return sharedAudioDeviceManager;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if(self)
+    {
+        _devices = [NSMutableArray new];
+        [self OE_updateDeviceList];
+    }
+    return self;
+}
+
+#pragma mark - Properties
+
+- (NSArray *)audioDevices
+{
+    NSArray *result;
+    @synchronized(_devices)
+    {
+        result = [_devices copy];
+    }
+    return result;
+}
+
+- (OEAudioDevice *)OE_audioDeviceWithPropertySelector:(AudioObjectPropertySelector)propertySelector
+{
+    AudioDeviceID              deviceID;
+    OSStatus                   err      = 0;
+    UInt32                     dataSize = sizeof(AudioDeviceID);
+    AudioObjectPropertyAddress propAddr = {propertySelector, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMaster};
+
+    err = AudioObjectGetPropertyData(kAudioObjectSystemObject, &propAddr, 0, NULL, &dataSize, &deviceID);
+    if(err != noErr)
+        return nil;
+
+    return [OEAudioDevice newAudioDeviceWithID:deviceID];
+
+}
+
+- (OEAudioDevice *)defaultInputDevice
+{
+    return [self OE_audioDeviceWithPropertySelector:kAudioHardwarePropertyDefaultInputDevice];
+}
+
+- (OEAudioDevice *)defaultOutputDevice
+{
+    return [self OE_audioDeviceWithPropertySelector:kAudioHardwarePropertyDefaultOutputDevice];
+}
+
+- (OEAudioDevice *)defaultSystemOutputDevice
+{
+    return [self OE_audioDeviceWithPropertySelector:kAudioHardwarePropertyDefaultSystemOutputDevice];
+}
+
+#pragma mark - Core Audio
+
+- (void)OE_updateDeviceList
+{
+    AudioDeviceID              *deviceIDs       = NULL;
+    NSUInteger                  numberOfDevices = 0;
+    OSStatus                    err             = noErr;
+    UInt32                      dataSize        = 0;
+    AudioObjectPropertyAddress  propAddr        = {kAudioHardwarePropertyDevices, kAudioObjectPropertyScopeGlobal, kAudioObjectPropertyElementMaster};
+
+    err = AudioObjectGetPropertyDataSize(kAudioObjectSystemObject, &propAddr, 0, NULL, &dataSize);
+    if (err != noErr)
+        return;
+
+    numberOfDevices = dataSize / (UInt32)sizeof(AudioDeviceID);
+    if(numberOfDevices == 0)
+    {
+        DLog(@"No audio devices were found");
+
+        NSUInteger previousNumberOfDevices;
+        @synchronized(_devices)
+        {
+            previousNumberOfDevices = [_devices count];
+            [_devices removeAllObjects];
+        }
+        if(previousNumberOfDevices > 0)
+            [[NSNotificationCenter defaultCenter] postNotificationName:OEAudioDeviceManagerDidChangeDeviceListNotification object:self];
+
+        return;
+    }
+
+    deviceIDs = malloc(dataSize);
+    memset(deviceIDs, 0, dataSize);
+    err = AudioObjectGetPropertyData(kAudioObjectSystemObject, &propAddr, 0, NULL, &dataSize, (void *)deviceIDs);
+    if(err != noErr)
+    {
+        DLog(@"Error retrieving the list of audio devices");
+        free(deviceIDs);
+        return;
+    }
+
+    NSMutableArray *devicesToAdd    = [NSMutableArray new];
+    NSMutableArray *devicesToRemove = [NSMutableArray new];
+
+    @synchronized(_devices)
+    {
+        for(NSUInteger i = 0; i < numberOfDevices; i++)
+        {
+            AudioDeviceID deviceID = deviceIDs[i];
+            NSUInteger deviceIndex = [_devices indexOfObjectPassingTest:^BOOL(OEAudioDevice *device, NSUInteger idx, BOOL *stop) {
+                if([device deviceID] == deviceID)
+                {
+                    *stop = YES;
+                    return YES;
+                }
+                return NO;
+            }];
+            if(deviceIndex == NSNotFound)
+                [devicesToAdd addObject:[OEAudioDevice newAudioDeviceWithID:deviceID]];
+        }
+
+        for(NSInteger i = [_devices count] - 1; i >= 0; i--)
+        {
+            OEAudioDevice *device = [_devices objectAtIndex:i];
+            AudioDeviceID deviceID = [device deviceID];
+            bool foundDevice = false;
+            for(NSUInteger j = 0; j < numberOfDevices && !foundDevice; j++)
+                if(deviceIDs[j] == deviceID)
+                    foundDevice = true;
+            if(!foundDevice)
+                [devicesToRemove addObject:device];
+        }
+
+        [_devices removeObjectsInArray:devicesToRemove];
+        [_devices addObjectsFromArray:devicesToAdd];
+
+        // Maybe post individual notifications for each device that was removed/added. Maybe
+    }
+
+    DLog(@"OEAudioDeviceManager added audio devices %@", devicesToAdd);
+    DLog(@"OEAudioDeviceManager removed audio devices %@", devicesToRemove);
+
+    free(deviceIDs);
+}
+
+OSStatus _OEAOPropertyListenerProc(AudioObjectID inObjectID, UInt32 inNumberAddresses, const AudioObjectPropertyAddress inAddresses[], void *inClientData)
+{
+    NSMutableSet *notificationNames = [NSMutableSet setWithCapacity:4];
+
+    for(UInt32 i = 0; i < inNumberAddresses; i++)
+    {
+        switch(inAddresses[i].mSelector)
+        {
+            case kAudioHardwarePropertyDefaultInputDevice:
+                DLog(@"OEAudioDeviceManager new default input device is %@", [[OEAudioDeviceManager sharedAudioDeviceManager] defaultInputDevice]);
+                [notificationNames addObject:OEAudioDeviceManagerDidChangeDefaultInputDeviceNotification];
+                break;
+                
+            case kAudioHardwarePropertyDefaultOutputDevice:
+                DLog(@"OEAudioDeviceManager new default output device is %@", [[OEAudioDeviceManager sharedAudioDeviceManager] defaultOutputDevice]);
+                [notificationNames addObject:OEAudioDeviceManagerDidChangeDefaultOutputDeviceNotification];
+                break;
+                
+            case kAudioHardwarePropertyDefaultSystemOutputDevice:
+                DLog(@"OEAudioDeviceManager new default system output device is %@", [[OEAudioDeviceManager sharedAudioDeviceManager] defaultSystemOutputDevice]);
+                [notificationNames addObject:OEAudioDeviceManagerDidChangeDefaultSystemOutputDeviceNotification];
+                break;
+
+            case kAudioHardwarePropertyDevices:
+                [notificationNames addObject:OEAudioDeviceManagerDidChangeDeviceListNotification];
+                break;
+
+            default:
+                DLog(@"OEAOPropertyListener: unknown message");
+                break;
+        }
+    }
+
+    NSNotificationCenter *nc  = [NSNotificationCenter defaultCenter];
+    OEAudioDeviceManager *mgr = [OEAudioDeviceManager sharedAudioDeviceManager];
+
+    for(NSString *notificationName in notificationNames)
+    {
+        if(notificationName == OEAudioDeviceManagerDidChangeDeviceListNotification)
+            [[OEAudioDeviceManager sharedAudioDeviceManager] OE_updateDeviceList];
+
+        DLog(@"OEAudioDeviceManager is posting notification %@", notificationName);
+        [nc postNotificationName:notificationName object:mgr];
+    }
+    
+    return noErr;
+}
+
+@end
+
+#pragma mark -
+
+@implementation OEAudioDevice
+
++ (instancetype)newAudioDeviceWithID:(NSUInteger)deviceID
+{
+    return [[self alloc] initWithID:deviceID];
+}
+
+- (instancetype)initWithID:(NSUInteger)deviceID
+{
+    self = [super init];
+    if(!self)
+        return nil;
+
+    _deviceID = deviceID;
+
+    [self OE_retrieveDeviceName];
+    [self OE_retrieveNumberOfInputChannels];
+    [self OE_retrieveNumberOfOutputChannels];
+
+    return self;
+}
+
+- (void)OE_retrieveDeviceName
+{
+    CFStringRef                tempString = NULL;
+    OSStatus                   err        = noErr;
+    UInt32                     ioSize     = 0;
+    AudioObjectPropertyAddress propAddr   =
+    {
+        kAudioObjectPropertyName,
+        kAudioObjectPropertyScopeGlobal,
+        kAudioObjectPropertyElementMaster
+    };
+
+    ioSize = sizeof(CFStringRef);
+    err = AudioObjectGetPropertyData(_deviceID, &propAddr, 0, NULL, &ioSize, &tempString);
+    if(tempString && noErr == err)
+    {
+        _deviceName = [(__bridge NSString *)tempString copy];
+        CFRelease(tempString);
+    }
+}
+
+- (NSUInteger)OE_numberOfChannelsInScope:(AudioObjectPropertyScope)propScope
+{
+    OSStatus                    err        = noErr;
+    UInt32                      ioSize     = 0;
+    UInt32                      number     = 0;
+    AudioBufferList            *bufferList = NULL;
+    AudioObjectPropertyAddress  propAddr   = {kAudioDevicePropertyStreamConfiguration, propScope, 0};
+
+    err = AudioObjectGetPropertyDataSize(_deviceID, &propAddr, 0, NULL, &ioSize);
+    if((err == noErr) && (ioSize != 0))
+    {
+        bufferList = (AudioBufferList*)malloc(ioSize);
+        if(bufferList != NULL)
+        {
+            // Get stream configuration
+            err = AudioObjectGetPropertyData(_deviceID, &propAddr, 0, NULL, &ioSize, bufferList);
+            if(err == noErr)
+            {
+                // Count the total number of channels in the stream
+                for(UInt32 i = 0; i < bufferList->mNumberBuffers; i++)
+                    number += bufferList->mBuffers[i].mNumberChannels;
+            }
+            free(bufferList);
+            return number;
+        }
+    }
+
+    return 0;
+}
+
+- (void)OE_retrieveNumberOfInputChannels
+{
+    _numberOfInputChannels = [self OE_numberOfChannelsInScope:kAudioObjectPropertyScopeInput];
+}
+
+- (void)OE_retrieveNumberOfOutputChannels
+{
+    _numberOfOutputChannels = [self OE_numberOfChannelsInScope:kAudioObjectPropertyScopeOutput];
+}
+
+- (BOOL)isEqual:(id)object
+{
+    OEAudioDevice *otherDevice = object;
+    return [otherDevice isKindOfClass:[OEAudioDevice class]] && _deviceID == otherDevice->_deviceID;
+}
+
+- (NSUInteger)hash
+{
+    return _deviceID;
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"Audio device %lu, name %@, %lu input channels, %lu output channels",
+            (unsigned long)_deviceID,
+            _deviceName,
+            (unsigned long)_numberOfInputChannels,
+            (unsigned long)_numberOfOutputChannels];
+}
+
+@end
+
+
+#pragma mark -
+
+NSString *const OEAudioDeviceManagerDidChangeDeviceListNotification                = @"OEAudioDeviceManagerDidChangeDeviceListNotification";
+NSString *const OEAudioDeviceManagerDidChangeDefaultInputDeviceNotification        = @"OEAudioDeviceManagerDidChangeDefaultInputDeviceNotification";
+NSString *const OEAudioDeviceManagerDidChangeDefaultOutputDeviceNotification       = @"OEAudioDeviceManagerDidChangeDefaultOutputDeviceNotification";
+NSString *const OEAudioDeviceManagerDidChangeDefaultSystemOutputDeviceNotification = @"OEAudioDeviceManagerDidChangeDefaultSystemOutputDeviceNotification";

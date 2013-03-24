@@ -1,28 +1,29 @@
 /*
  Copyright (c) 2011, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright
- notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
- notice, this list of conditions and the following disclaimer in the
- documentation and/or other materials provided with the distribution.
- * Neither the name of the OpenEmu Team nor the
- names of its contributors may be used to endorse or promote products
- derived from this software without specific prior written permission.
- 
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #import <Quartz/Quartz.h>
 
 #import "NSViewController+OEAdditions.h"
@@ -55,25 +56,25 @@
 NSString *const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
 NSString *const OELastControlsPlayerKey           = @"lastControlsPlayer";
 NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
-    
-    @interface OEPrefControlsController ()
-        {
-        OESystemPlugin *selectedPlugin;
-        OEHIDEvent     *readingEvent;
-        NSMutableSet   *ignoredEvents;
+
+@interface OEPrefControlsController ()
+{
+    OESystemPlugin *selectedPlugin;
+    OEHIDEvent     *readingEvent;
+    NSMutableSet   *ignoredEvents;
 }
 
 - (void)OE_setCurrentBindingsForEvent:(OEHIDEvent *)anEvent;
 - (void)OE_rebuildSystemsMenu;
 - (void)OE_setupControllerImageViewWithTransition:(NSString *)transition;
 - (void)OE_preparePaneWithNotification:(NSNotification *)notification;
-    
-    // Only one event can be managed at a time, all events should be ignored until the currently read event went back to its null state
-    // All ignored events are stored until they go back to the null state
+
+// Only one event can be managed at a time, all events should be ignored until the currently read event went back to its null state
+// All ignored events are stored until they go back to the null state
 - (BOOL)OE_shouldRegisterEvent:(OEHIDEvent *)anEvent;
-    
-    @property(nonatomic, readwrite) OESystemBindings *currentSystemBindings;
-    @property(nonatomic, readwrite) OEPlayerBindings *currentPlayerBindings;
+
+@property(nonatomic, readwrite) OESystemBindings *currentSystemBindings;
+@property(nonatomic, readwrite) OEPlayerBindings *currentPlayerBindings;
 
 @end
 
@@ -108,34 +109,34 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    
+
     // We're using CFSet here because NSSet is confused by the changing state of OEHIDEvents
     CFSetCallBacks callbacks = kCFTypeSetCallBacks;
     callbacks.equal = NULL;
     callbacks.hash  = NULL;
-    
+
     ignoredEvents = (__bridge_transfer NSMutableSet *)CFSetCreateMutable(NULL, 0, &callbacks);
-    
+
     [[self controlsSetupView] setTarget:self];
     [[self controlsSetupView] setAction:@selector(changeInputControl:)];
-    
+
     [[self controlsSetupView] bind:@"bindingsProvider" toObject:self withKeyPath:@"currentPlayerBindings" options:nil];
-    
+
     NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
-    
+
     NSImage *controlsBackgroundImage = [NSImage imageNamed:@"controls_background"];
     [(OEBackgroundImageView *)[self view] setImage:controlsBackgroundImage];
-    
+
     /** ** ** ** ** ** ** ** **/
     // Setup controls popup console list
     [self OE_rebuildSystemsMenu];
     [self OE_setupInputMenu];
-    
+
     // restore previous state
     NSInteger binding = [sud integerForKey:OELastControlsDeviceTypeKey];
     [[self inputPopupButton] selectItemWithTag:binding];
     [self changeInputDevice:self];
-    
+
     NSString *pluginName = [sud stringForKey:OELastControlsPluginIdentifierKey];
     [[self consolesPopupButton] selectItemAtIndex:0];
     for(NSMenuItem *anItem in [[self consolesPopupButton] itemArray])
@@ -146,16 +147,16 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
             break;
         }
     }
-    
+
     [CATransaction setDisableActions:YES];
     [self changeSystem:[self consolesPopupButton]];
     [CATransaction commit];
-    
+
     [self gradientOverlay].topColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.3];
     [self gradientOverlay].bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
-    
+
     [[self controllerView] setWantsLayer:YES];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_preparePaneWithNotification:) name:OEPreferencesOpenPaneNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_preparePaneWithNotification:) name:OEPreferencesSetupPaneNotificationName object:nil];
@@ -164,7 +165,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 - (void)viewWillDisappear
 {
     [super viewWillDisappear];
-    
+
     [[OEBindingsController defaultBindingsController] synchronize];
 }
 
@@ -190,9 +191,9 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 {
     NSMenuItem *menuItem = [[self consolesPopupButton] selectedItem];
     NSString *selectedSystemIdentifier = [menuItem representedObject];
-    
+
     [self OE_rebuildSystemsMenu];
-    
+
     [[self consolesPopupButton] selectItemAtIndex:0];
     for(NSMenuItem *anItem in [[self consolesPopupButton] itemArray])
     {
@@ -202,7 +203,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
             break;
         }
     }
-    
+
     [CATransaction setDisableActions:YES];
     [self changeSystem:[self consolesPopupButton]];
     [CATransaction commit];
@@ -218,9 +219,9 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     OEPlayerBindings *ret = ([self isKeyboardEventSelected]
                              ? [[self currentSystemBindings] keyboardPlayerBindingsForPlayer:[self selectedPlayer]]
                              : [[self currentSystemBindings] devicePlayerBindingsForPlayer:[self selectedPlayer]]);
-    
+
     NSAssert(ret == nil || [ret isKindOfClass:[OEPlayerBindings class]], @"Expecting OEPlayerBindingsController instance, got: %@", ret);
-    
+
     return ret;
 }
 
@@ -237,9 +238,9 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
         [playerItem setTag:player + 1];
         [playerMenu addItem:playerItem];
     }
-    
+
     [[self playerPopupButton] setMenu:playerMenu];
-    
+
     // Hide player PopupButton if there is only one player
     [[self playerPopupButton] setHidden:(numberOfPlayers == 1)];
     [[self playerPopupButton] selectItemWithTag:[[NSUserDefaults standardUserDefaults] integerForKey:OELastControlsPlayerKey]];
@@ -255,7 +256,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
         [playerItem setTag:player + 1];
         [playerMenu addItem:playerItem];
     }
-    
+
     return playerMenu;
 }
 
@@ -266,17 +267,17 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     [inputItem setTag:0];
     [inputItem setState:NSOnState];
     [inputMenu addItem:inputItem];
-    
+
     // TODO: remove generic Gamepad item, loop through attached HID devices and add to menu, else show nothing
     NSMenuItem *inputItemDevice = [[NSMenuItem alloc] initWithTitle:@"Gamepad" action:@selector(changeInputDevice:) keyEquivalent:@""];
     [inputItemDevice setTag:1];
     [inputMenu addItem:inputItemDevice];
-    
+
     [inputMenu addItem:[NSMenuItem separatorItem]];
-    
+
     NSMenuItem *inputItemWiimote = [[NSMenuItem alloc] initWithTitle:@"Add a Wiimote…" action:@selector(searchForWiimote:) keyEquivalent:@""];
     [inputMenu addItem:inputItemWiimote];
-    
+
     [[self inputPopupButton] setMenu:inputMenu];
     [[self inputPopupButton] selectItemWithTag:[[NSUserDefaults standardUserDefaults] integerForKey:OELastControlsDeviceTypeKey]];
 }
@@ -284,43 +285,43 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 - (IBAction)changeSystem:(id)sender
 {
     NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
-    
+
     NSMenuItem *menuItem = [[self consolesPopupButton] selectedItem];
     NSString *systemIdentifier = [menuItem representedObject] ? : [sud objectForKey:OELastControlsPluginIdentifierKey];
-    
+
     NSString *oldPluginName = [selectedPlugin systemName];
-    
+
     OESystemPlugin *newPlugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
     if(newPlugin == nil)
     {
         NSArray *allPlugins = [OESystemPlugin allPlugins];
         if([allPlugins count] > 0) newPlugin = [allPlugins objectAtIndex:0];
     }
-    
+
     if(selectedPlugin != nil && newPlugin == selectedPlugin) return;
     selectedPlugin = newPlugin;
-    
+
     OESystemController *systemController = [self currentSystemController];
-    
+
     NSAssert(systemController != nil, @"The systemController of the plugin %@ with system identifier %@ is nil for some reason.", selectedPlugin, [selectedPlugin systemIdentifier]);
     [self setCurrentSystemBindings:[[OEBindingsController defaultBindingsController] systemBindingsForSystemController:systemController]];
-    
+
     //[self setKeyBindings:[[systemController controllerKeyPositions] allKeys]];
-    
+
     // Rebuild player menu
     [self OE_setupPlayerMenuForNumberOfPlayers:[systemController numberOfPlayers]];
-    
+
     OEControlsButtonSetupView *preferenceView = [self controlsSetupView];
     [preferenceView setBindingsProvider:[self currentPlayerBindings]];
     [preferenceView setupWithControlList:[systemController controlPageList]];
     [preferenceView setAutoresizingMask:NSViewMaxXMargin | NSViewMaxYMargin];
-    
+
     NSRect rect = (NSRect){ .size = { [self controlsSetupView].bounds.size.width, preferenceView.frame.size.height }};
     [preferenceView setFrame:rect];
-    
+
     NSScrollView *scrollView = [[self controlsSetupView] enclosingScrollView];
     [[self controlsSetupView] setFrameOrigin:(NSPoint){ 0, scrollView.frame.size.height - rect.size.height}];
-    
+
     if([[self controlsSetupView] frame].size.height <= scrollView.frame.size.height)
         [scrollView setVerticalScrollElasticity:NSScrollElasticityNone];
     else
@@ -328,12 +329,12 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
         [scrollView setVerticalScrollElasticity:NSScrollElasticityAutomatic];
         [scrollView flashScrollers];
     }
-    
+
     [sud setObject:systemIdentifier forKey:OELastControlsPluginIdentifierKey];
-    
+
     [self changePlayer:[self playerPopupButton]];
     [self changeInputDevice:[self inputPopupButton]];
-    
+
     NSComparisonResult order = [oldPluginName compare:[selectedPlugin systemName]];
     [self OE_setupControllerImageViewWithTransition:(order == NSOrderedDescending ? kCATransitionFromLeft : kCATransitionFromRight)];
 }
@@ -341,14 +342,14 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 - (void)OE_setupControllerImageViewWithTransition:(NSString *)transition;
 {
     OESystemController *systemController = [self currentSystemController];
-    
+
     OEControllerImageView *newControllerView = [[OEControllerImageView alloc] initWithFrame:[[self controllerContainerView] bounds]];
     [newControllerView setImage:[systemController controllerImage]];
     [newControllerView setImageMask:[systemController controllerImageMask]];
     [newControllerView setKeyPositions:[systemController controllerKeyPositions]];
     [newControllerView setTarget:self];
     [newControllerView setAction:@selector(changeInputControl:)];
-    
+
     // Animation for controller image swapping
     CATransition *controllerTransition = [CATransition animation];
     [controllerTransition setType:kCATransitionPush];
@@ -356,16 +357,16 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     [controllerTransition setDuration:1.0];
     [controllerTransition setSubtype:transition];
     [controllerTransition setRemovedOnCompletion:YES];
-    
+
     [[self controllerContainerView] setAnimations:[NSDictionary dictionaryWithObject:controllerTransition forKey:@"subviews"]];
-    
+
     if(controllerView != nil)
         [[[self controllerContainerView] animator] replaceSubview:controllerView with:newControllerView];
     else
         [[[self controllerContainerView] animator] addSubview:newControllerView];
-    
+
     [[self controllerContainerView] setAnimations:[NSDictionary dictionary]];
-    
+
     [self setControllerView:newControllerView];
 }
 
@@ -376,7 +377,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
         player = [sender selectedTag];
     else if(sender && [sender respondsToSelector:@selector(tag)])
         player = [sender tag];
-    
+
     [self setSelectedPlayer:player];
 }
 
@@ -387,7 +388,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
         bindingType = [sender selectedTag];
     else if(sender && [sender respondsToSelector:@selector(tag)])
         bindingType = [sender tag];
-    
+
     [self setSelectedBindingType:bindingType];
 }
 
@@ -400,13 +401,13 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 - (IBAction)searchForWiimote:(id)sender
 {
     [self OE_setupInputMenu];
-    
+
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
 
     [alert setMessageText:NSLocalizedString(@"If there is a red button on the back battery cover, press it. If not, hold down buttons ①+②", @"")];
     [alert setDefaultButtonTitle:NSLocalizedString(@"Start Scanning", @"")];
     [alert setHeadlineText:NSLocalizedString(@"Make your Wiimote discoverable", @"")];
-    
+
     [alert runModal];
 
     // Start WiiRemote support
@@ -417,13 +418,13 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 - (void)setSelectedKey:(NSString *)value
 {
     if(selectedKey == value) value = nil;
-    
+
     selectedKey = [value copy];
     [CATransaction begin];
     [[self controlsSetupView] setSelectedKey:selectedKey];
     [[self controllerView]    setSelectedKey:selectedKey animated:YES];
     [CATransaction commit];
-    
+
     if(selectedKey != nil) [[[self view] window] makeFirstResponder:[self view]];
 }
 
@@ -454,7 +455,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     else
     {
         NSUInteger playerNumber = [[self currentSystemBindings] playerNumberForEvent:anEvent];
-        
+
         [self setSelectedBindingType:1];
         [self setSelectedPlayer:playerNumber];
     }
@@ -472,18 +473,18 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 {
     // Ignore any off state events
     if([anEvent hasOffState]) return;
-    
+
     if([self selectedKey] != nil)
     {
         [self OE_setCurrentBindingsForEvent:anEvent];
-        
+
         id assignedKey = [[self currentPlayerBindings] assignEvent:anEvent toKeyWithName:[self selectedKey]];
-        
+
         if([assignedKey isKindOfClass:[OEKeyBindingGroupDescription class]])
             [[self controlsSetupView] selectNextKeyAfterKeys:[assignedKey keyNames]];
         else
             [[self controlsSetupView] selectNextKeyButton];
-        
+
         [self changeInputControl:[self controlsSetupView]];
     }
 }
@@ -499,34 +500,34 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 - (BOOL)OE_shouldRegisterEvent:(OEHIDEvent *)anEvent;
 {
     if([readingEvent hasOffState] || ([readingEvent cookie] != [anEvent cookie])) readingEvent = nil;
-    
-    if([self selectedKey] == nil && [self view] == [[[self view] window] firstResponder])
-        [[[self view] window] makeFirstResponder:nil];
-    
+
+    if([self selectedKey] == nil && [self view] != [[[self view] window] firstResponder])
+        [[[self view] window] makeFirstResponder:[self view]];
+
     // Check if the event is ignored
     if([ignoredEvents containsObject:anEvent])
     {
         // Ignored events going back to off-state are removed from the ignored events
         if([anEvent hasOffState]) [ignoredEvents removeObject:anEvent];
-        
+
         return NO;
     }
-    
+
     // Ignore keyboard events if the user hasn’t explicitly chosen to configure
     // keyboard bindings. See https://github.com/OpenEmu/OpenEmu/issues/403
     if([anEvent type] == OEHIDEventTypeKeyboard && ![self isKeyboardEventSelected])
         return NO;
-    
+
     // No event currently read, if it's not off state, store it and read it
     if(readingEvent == nil)
     {
         // The event is not ignored but it's off, ignore it anyway
         if([anEvent hasOffState]) return NO;
-        
+
         readingEvent = anEvent;
         return YES;
     }
-    
+
     // The event is the currently read event,
     // if it's off state, nil the reading event,
     // in either case, this event shouldn't be registered
@@ -534,12 +535,12 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     {
         if([anEvent hasOffState])
             readingEvent = nil;
-        
+
         return NO;
     }
-    
+
     if(![anEvent hasOffState]) [ignoredEvents addObject:anEvent];
-    
+
     return NO;
 }
 
@@ -641,9 +642,9 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 {
     NSDictionary *userInfo = [notification userInfo];
     NSString     *paneName = [userInfo valueForKey:OEPreferencesUserInfoPanelNameKey];
-    
+
     if([paneName isNotEqualTo:[self title]]) return;
-    
+
     NSString *systemIdentifier = [userInfo valueForKey:OEPreferencesUserInfoSystemIdentifierKey];
     NSUInteger itemIndex = -1;
     for(NSUInteger i = 0; i < [[[self consolesPopupButton] itemArray] count]; i++)
@@ -655,7 +656,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
             break;
         }
     }
-    
+
     if(itemIndex != -1)
     {
         [[self consolesPopupButton] selectItemAtIndex:itemIndex];
@@ -667,7 +668,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
 {
     NSMenu *consolesMenu    = [[NSMenu alloc] init];
     NSArray *enabledSystems = [OEDBSystem enabledSystems];
-    
+
     for(OEDBSystem *system in enabledSystems)
     {
         OESystemPlugin *plugin = [system plugin];

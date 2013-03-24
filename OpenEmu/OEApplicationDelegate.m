@@ -170,6 +170,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     BOOL startInFullscreen = [[NSUserDefaults standardUserDefaults] boolForKey:OEMainWindowFullscreenKey];
     if(startInFullscreen != [[mainWindowController window] isFullScreen])
         [[mainWindowController window] toggleFullScreen:self];
+
+    [NSApp bind:@"logHIDEvents" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEvents" options:nil];
+    [NSApp bind:@"logHIDEventsNoKeyboard" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEventsNoKeyboard" options:nil];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
