@@ -338,6 +338,19 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
     [[NSNotificationCenter defaultCenter] postNotificationName:OEHIDManagerDidAddDeviceHandlerNotification object:self userInfo:@{ OEHIDManagerDeviceHandlerUserInfoKey : handler }];
 }
 
+- (BOOL)OE_hasDeviceHandlerForDeviceRef:(IOHIDDeviceRef)deviceRef
+{
+    for (OEDeviceHandler *handler in deviceHandlers) {
+        if ([handler isKindOfClass:[OEHIDDeviceHandler class]]) {
+            OEHIDDeviceHandler *hidHandler = (OEHIDDeviceHandler *)handler;
+            if (hidHandler.device == deviceRef) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
 - (void)OE_removeDeviceHandler:(OEDeviceHandler *)handler
 {
     NSUInteger idx = [deviceHandlers indexOfObject:handler];
@@ -473,6 +486,12 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, void *inSender, IOHIDDeviceRef inIOHIDDeviceRef)
 {
     NSLog(@"Found device: %s( context: %p, result: %#x, sender: %p, device: %p ).\n", __PRETTY_FUNCTION__, inContext, inResult, inSender, inIOHIDDeviceRef);
+
+    if ([(__bridge OEDeviceManager *)inContext OE_hasDeviceHandlerForDeviceRef:inIOHIDDeviceRef])
+    {
+        NSLog(@"Device is already being handled");
+        return;
+    }
 
     if(IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
     {
