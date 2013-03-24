@@ -5,396 +5,255 @@
 	<key>OEControllerMicrosoftXbox360</key>
 	<dict>
 		<key>OESegaCDButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>12</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360DPadUp</string>
 		<key>OESegaCDButtonDown</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>13</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360DPadDown</string>
 		<key>OESegaCDButtonLeft</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>14</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360DPadLeft</string>
 		<key>OESegaCDButtonRight</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>15</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360DPadRight</string>
 		<key>OESegaCDButtonA</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>3</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonX</string>
 		<key>OESegaCDButtonB</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>4</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonY</string>
 		<key>OESegaCDButtonC</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>2</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonB</string>
 		<key>OESegaCDButtonX</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonA</string>
 		<key>OESegaCDButtonY</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>5</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonLeftShoulder</string>
 		<key>OESegaCDButtonZ</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>6</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonRightShoulder</string>
 		<key>OESegaCDButtonStart</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonStart</string>
 		<key>OESegaCDButtonMode</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>10</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonBack</string>
 	</dict>
 	<key>OEControllerSonyPS3Sixaxis</key>
 	<dict>
 		<key>OESegaCDButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>5</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisDPadUp</string>
 		<key>OESegaCDButtonDown</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>7</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisDPadDown</string>
 		<key>OESegaCDButtonLeft</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>8</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisDPadLeft</string>
 		<key>OESegaCDButtonRight</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>6</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisDPadRight</string>
 		<key>OESegaCDButtonA</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>16</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonSquare</string>
 		<key>OESegaCDButtonB</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>13</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonTriangle</string>
 		<key>OESegaCDButtonC</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>14</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonCircle</string>
 		<key>OESegaCDButtonX</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>15</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonCross</string>
 		<key>OESegaCDButtonY</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>11</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonL1</string>
 		<key>OESegaCDButtonZ</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>12</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonR1</string>
 		<key>OESegaCDButtonStart</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>4</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonStart</string>
 		<key>OESegaCDButtonMode</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonSelect</string>
 	</dict>
 	<key>OEControllerLogitechDualAction</key>
 	<dict>
 		<key>OESegaCDButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>HatSwitch</string>
-			<key>Direction</key>
-			<string>N</string>
-		</dict>
+		<string>OEControllerLogitechDualActionDPadUp</string>
 		<key>OESegaCDButtonA</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButton1</string>
 		<key>OESegaCDButtonB</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>4</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButton4</string>
 		<key>OESegaCDButtonC</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>3</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButton3</string>
 		<key>OESegaCDButtonX</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>2</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButton2</string>
 		<key>OESegaCDButtonY</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>5</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonLeftShoulder</string>
 		<key>OESegaCDButtonZ</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>6</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonRightShoulder</string>
 		<key>OESegaCDButtonStart</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>10</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonStart</string>
 		<key>OESegaCDButtonMode</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonSelect</string>
 	</dict>
 	<key>OEControllerSegaSaturn</key>
 	<dict>
 		<key>OESegaCDButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>Axis</string>
-			<key>Axis</key>
-			<string>Y</string>
-			<key>Direction</key>
-			<string>-1</string>
-		</dict>
+		<string>OEControllerSegaSaturnDPadUp</string>
 		<key>OESegaCDButtonLeft</key>
-		<dict>
-			<key>Type</key>
-			<string>Axis</string>
-			<key>Axis</key>
-			<string>X</string>
-			<key>Direction</key>
-			<string>-1</string>
-		</dict>
+		<string>OEControllerSegaSaturnDPadLeft</string>
 		<key>OESegaCDButtonA</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonA</string>
 		<key>OESegaCDButtonB</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>2</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonB</string>
 		<key>OESegaCDButtonC</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>3</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonC</string>
 		<key>OESegaCDButtonX</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>4</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonX</string>
 		<key>OESegaCDButtonY</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>5</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonY</string>
 		<key>OESegaCDButtonZ</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>6</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonZ</string>
 		<key>OESegaCDButtonStart</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonStart</string>
 		<key>OESegaCDButtonMode</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>8</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonRightShoulder</string>
 	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OESegaCDButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>Axis</string>
-			<key>Axis</key>
-			<string>Y</string>
-			<key>Direction</key>
-			<string>-1</string>
-		</dict>
+		<string>OEControllerGravisGamePadProDPadUp</string>
 		<key>OESegaCDButtonLeft</key>
-		<dict>
-			<key>Type</key>
-			<string>Axis</string>
-			<key>Axis</key>
-			<string>X</string>
-			<key>Direction</key>
-			<string>-1</string>
-		</dict>
+		<string>OEControllerGravisGamePadProDPadLeft</string>
 		<key>OESegaCDButtonA</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButton1</string>
 		<key>OESegaCDButtonB</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>4</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButton4</string>
 		<key>OESegaCDButtonC</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>3</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButton3</string>
 		<key>OESegaCDButtonX</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>2</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButton2</string>
 		<key>OESegaCDButtonY</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>5</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButtonLeftShoulder</string>
 		<key>OESegaCDButtonZ</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>6</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButtonRightShoulder</string>
 		<key>OESegaCDButtonStart</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>10</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButtonStart</string>
 		<key>OESegaCDButtonMode</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButtonSelect</string>
+	</dict>
+	<key>OEControllerRetroUSBSNES</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerRetroUSBSNESDPadUp</string>
+		<key>OESegaCDButtonLeft</key>
+		<string>OEControllerRetroUSBSNESDPadLeft</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerRetroUSBSNESButtonY</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerRetroUSBSNESButtonX</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerRetroUSBSNESButtonA</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerRetroUSBSNESButtonB</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerRetroUSBSNESButtonLeftShoulder</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerRetroUSBSNESButtonRightShoulder</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerRetroUSBSNESButtonStart</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerRetroUSBSNESButtonSelect</string>
+	</dict>
+	<key>OEControllerPS3NeoGeoPad</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerPS3NeoGeoPadDPadUp</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerPS3NeoGeoPadButtonCross</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerPS3NeoGeoPadButtonCircle</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerPS3NeoGeoPadButtonR1</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerPS3NeoGeoPadButtonSquare</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerPS3NeoGeoPadButtonTriangle</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerPS3NeoGeoPadButtonL1</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerPS3NeoGeoPadButtonStart</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerPS3NeoGeoPadButtonR2</string>
+	</dict>
+	<key>OEControllerRetrode</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerRetrodeDPadUp</string>
+		<key>OESegaCDButtonLeft</key>
+		<string>OEControllerRetrodeDPadLeft</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerRetrodeButtonY</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerRetrodeButtonX</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerRetrodeButtonA</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerRetrodeButtonB</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerRetrodeButtonLeftShoulder</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerRetrodeButtonRightShoulder</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerRetrodeButtonStart</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerRetrodeButtonSelect</string>
+	</dict>
+	<key>OEControllerRetrolinkSNES</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerRetrolinkSNESDPadUp</string>
+		<key>OESegaCDButtonLeft</key>
+		<string>OEControllerRetrolinkSNESDPadLeft</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerRetrolinkSNESButtonY</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerRetrolinkSNESButtonX</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerRetrolinkSNESButtonA</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerRetrolinkSNESButtonB</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerRetrolinkSNESButtonLeftShoulder</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerRetrolinkSNESButtonRightShoulder</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerRetrolinkSNESButtonStart</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerRetrolinkSNESButtonSelect</string>
+	</dict>
+	<key>OEControllerRetrolinkN64</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerRetrolinkN64DPadUp</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerRetrolinkN64ButtonA</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerRetrolinkN64CPadDown</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerRetrolinkN64CPadRight</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerRetrolinkN64ButtonB</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerRetrolinkN64CPadLeft</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerRetrolinkN64CPadUp</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerRetrolinkN64ButtonStart</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerRetrolinkN64ButtonZ</string>
+	</dict>
+	<key>OEControllerWiimote</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerWiimoteDPadRight</string>
+		<key>OESegaCDButtonDown</key>
+		<string>OEControllerWiimoteDPadLeft</string>
+		<key>OESegaCDButtonLeft</key>
+		<string>OEControllerWiimoteDPadUp</string>
+		<key>OESegaCDButtonRight</key>
+		<string>OEControllerWiimoteDPadDown</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerWiimoteButtonA</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerWiimoteButton1</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerWiimoteButton2</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerWiimoteButtonPlus</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
 </dict>
 </plist>
