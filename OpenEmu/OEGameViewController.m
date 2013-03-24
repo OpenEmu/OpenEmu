@@ -48,6 +48,7 @@
 
 #import "OEGameCore.h"
 #import "OEGameDocument.h"
+#import "OEAudioDeviceManager.h"
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 
@@ -618,6 +619,24 @@ typedef enum : NSUInteger
 
     [gameView setFilterName:filterName];
     [[NSUserDefaults standardUserDefaults] setObject:filterName forKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, [self systemIdentifier]]];
+}
+
+- (void)changeAudioOutputDevice:(id)sender
+{
+    OEAudioDevice *device = nil;
+
+    if([sender isKindOfClass:[OEAudioDevice class]])
+        device = sender;
+    else if ([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] isKindOfClass:[OEAudioDevice class]])
+        device = [sender representedObject];
+
+    if(!device)
+    {
+        DLog(@"Invalid argument: %@", sender);
+        return;
+    }
+
+    [rootProxy setAudioOutputDeviceID:[device deviceID]];
 }
 
 #pragma mark - Volume

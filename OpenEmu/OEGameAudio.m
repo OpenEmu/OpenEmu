@@ -107,6 +107,7 @@ OSStatus RenderCallback(void                       *in,
 @interface OEGameAudio ()
 {
     OEGameAudioContext *_contexts;
+    NSNumber           *_outputDeviceID; // nil if no output device has been set (use default)
 }
 @end
 
@@ -258,7 +259,11 @@ OSStatus RenderCallback(void                       *in,
     
     //AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, [[[GameDocumentController sharedDocumentController] preferenceController] volume] ,0);
     AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, 1.0 ,0);
-    
+
+    AudioDeviceID outputDeviceID = [_outputDeviceID unsignedIntValue];
+    if(outputDeviceID != 0)
+        AudioUnitSetProperty(mOutputUnit, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global, 0, &outputDeviceID, sizeof(outputDeviceID));
+
     err = AUGraphInitialize(mGraph);
     if(err) NSLog(@"couldn't initialize graph");
     
@@ -267,6 +272,23 @@ OSStatus RenderCallback(void                       *in,
 	
         //    CFShow(mGraph);
     [self setVolume:[self volume]];
+}
+
+- (AudioDeviceID)outputDeviceID
+{
+    return [_outputDeviceID unsignedIntValue];
+}
+
+- (void)setOutputDeviceID:(AudioDeviceID)outputDeviceID
+{
+    AudioDeviceID currentID = [self outputDeviceID];
+    if(outputDeviceID != currentID)
+    {
+        _outputDeviceID = (outputDeviceID == 0 ? nil : @(outputDeviceID));
+
+        if(mOutputUnit)
+            AudioUnitSetProperty(mOutputUnit, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global, 0, &outputDeviceID, sizeof(outputDeviceID));
+    }
 }
 
 - (float)volume

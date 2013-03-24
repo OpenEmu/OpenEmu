@@ -42,6 +42,7 @@
 }
 
 @property float volume;
+@property AudioDeviceID outputDeviceID;
 
 - (id)initWithCore:(OEGameCore *)core;
 
