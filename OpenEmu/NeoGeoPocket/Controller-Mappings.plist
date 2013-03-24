@@ -120,6 +120,8 @@
 		<string>OEControllerRetrolinkSNESButtonY</string>
 		<key>OENGPButtonB</key>
 		<string>OEControllerRetrolinkSNESButtonB</string>
+		<key>OENGPButtonOption</key>
+		<string>OEControllerRetrolinkSNESButtonStart</string>
 	</dict>
 	<key>OEControllerRetrolinkN64</key>
 	<dict>
