@@ -311,7 +311,6 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
     return handler;
 }
 
-
 - (OEDeviceHandler *)OE_addDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
 {
     NSAssert(aDevice != NULL, @"Passing NULL device.");
