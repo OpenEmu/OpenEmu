@@ -30,21 +30,25 @@
 
 @implementation NSApplication (OEHIDAdditions)
 
+static BOOL _logHIDEvents = NO;
+
 - (void)postHIDEvent:(OEHIDEvent *)anEvent
 {
     if(anEvent == nil) return;
     
-    static dispatch_once_t onceToken;
-    static BOOL logHID = NO;
-    dispatch_once(&onceToken, ^{
-        logHID = [[NSUserDefaults standardUserDefaults] boolForKey:@"logsHIDEvents"];
-    });
-    
-    if(logHID)
-    {
-        NSLog(@"%@", anEvent);
-    }
+    if(_logHIDEvents) NSLog(@"%@", anEvent);
+
     [[[self keyWindow] firstResponder] handleHIDEvent:anEvent];
+}
+
+- (BOOL)logHIDEvents;
+{
+    return _logHIDEvents;
+}
+
+- (void)setLogHIDEvents:(BOOL)value;
+{
+    _logHIDEvents = value;
 }
 
 @end

@@ -30,6 +30,7 @@
 
 @interface NSApplication (OEHIDAdditions)
 - (void)postHIDEvent:(OEHIDEvent *)anEvent;
+@property(nonatomic) BOOL logHIDEvents;
 @end
 
 @interface NSResponder (OEHIDAdditions)
