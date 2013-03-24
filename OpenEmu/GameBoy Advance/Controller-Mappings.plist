@@ -177,6 +177,23 @@
 		<key>OEGBAButtonSelect</key>
 		<string>OEControllerRetrolinkSNESButtonSelect</string>
 	</dict>
+	<key>OEControllerRetrolinkN64</key>
+	<dict>
+		<key>OEGBAButtonUp</key>
+		<string>OEControllerRetrolinkN64DPadUp</string>
+		<key>OEGBAButtonA</key>
+		<string>OEControllerRetrolinkN64ButtonA</string>
+		<key>OEGBAButtonB</key>
+		<string>OEControllerRetrolinkN64ButtonB</string>
+		<key>OEGBAButtonL</key>
+		<string>OEControllerRetrolinkN64ButtonLeftShoulder</string>
+		<key>OEGBAButtonR</key>
+		<string>OEControllerRetrolinkN64ButtonRightShoulder</string>
+		<key>OEGBAButtonStart</key>
+		<string>OEControllerRetrolinkN64ButtonStart</string>
+		<key>OEGBAButtonSelect</key>
+		<string>OEControllerRetrolinkN64ButtonZ</string>
+	</dict>
 	<key>OEControllerWiimote</key>
 	<dict>
 		<key>OEGBAButtonUp</key>

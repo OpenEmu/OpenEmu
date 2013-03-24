@@ -123,6 +123,17 @@
 		<key>OEGGButtonStart</key>
 		<string>OEControllerRetrolinkSNESButtonStart</string>
 	</dict>
+	<key>OEControllerRetrolinkN64</key>
+	<dict>
+		<key>OEGGButtonUp</key>
+		<string>OEControllerRetrolinkN64DPadUp</string>
+		<key>OEGGButtonA</key>
+		<string>OEControllerRetrolinkN64CPadDown</string>
+		<key>OEGGButtonB</key>
+		<string>OEControllerRetrolinkN64CPadRight</string>
+		<key>OEGGButtonStart</key>
+		<string>OEControllerRetrolinkN64ButtonStart</string>
+	</dict>
 	<key>OEControllerWiimote</key>
 	<dict>
 		<key>OEGGButtonUp</key>

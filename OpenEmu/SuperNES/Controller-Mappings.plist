@@ -213,5 +213,26 @@
 		<key>OESNESButtonSelect</key>
 		<string>OEControllerRetrolinkSNESButtonSelect</string>
 	</dict>
+	<key>OEControllerRetrolinkN64</key>
+	<dict>
+		<key>OESNESButtonUp</key>
+		<string>OEControllerRetrolinkN64DPadUp</string>
+		<key>OESNESButtonA</key>
+		<string>OEControllerRetrolinkN64CPadRight</string>
+		<key>OESNESButtonB</key>
+		<string>OEControllerRetrolinkN64CPadDown</string>
+		<key>OESNESButtonX</key>
+		<string>OEControllerRetrolinkN64CPadUp</string>
+		<key>OESNESButtonY</key>
+		<string>OEControllerRetrolinkN64CPadLeft</string>
+		<key>OESNESButtonTriggerLeft</key>
+		<string>OEControllerRetrolinkN64ButtonLeftShoulder</string>
+		<key>OESNESButtonTriggerRight</key>
+		<string>OEControllerRetrolinkN64ButtonRightShoulder</string>
+		<key>OESNESButtonStart</key>
+		<string>OEControllerRetrolinkN64ButtonStart</string>
+		<key>OESNESButtonSelect</key>
+		<string>OEControllerRetrolinkN64ButtonZ</string>
+	</dict>
 </dict>
 </plist>

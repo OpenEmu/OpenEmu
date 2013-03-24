@@ -213,5 +213,26 @@
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerRetrolinkSNESButtonSelect</string>
 	</dict>
+	<key>OEControllerRetrolinkN64</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerRetrolinkN64DPadUp</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerRetrolinkN64CPadUp</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerRetrolinkN64ButtonLeftShoulder</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerRetrolinkN64ButtonRightShoulder</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerRetrolinkN64CPadLeft</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerRetrolinkN64CPadDown</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerRetrolinkN64CPadRight</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerRetrolinkN64ButtonStart</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerRetrolinkN64ButtonZ</string>
+	</dict>
 </dict>
 </plist>

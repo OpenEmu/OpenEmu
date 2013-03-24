@@ -2753,6 +2753,197 @@
 				<integer>6</integer>
 			</dict>
 		</array>
+		<key>OEControllerMappings</key>
+		<dict>
+			<key>OEControllerRetrolinkN64DPad</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad X</string>
+				<key>Type</key>
+				<string>HatSwitch</string>
+				<key>Usage</key>
+				<string>HatSwitch</string>
+				<key>Cookie</key>
+				<integer>22</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerRetrolinkN64DPadLeft</key>
+					<dict>
+						<key>Direction</key>
+						<string>W</string>
+						<key>Name</key>
+						<string>D-Pad Left</string>
+					</dict>
+					<key>OEControllerRetrolinkN64DPadUp</key>
+					<dict>
+						<key>Direction</key>
+						<string>N</string>
+						<key>Name</key>
+						<string>D-Pad Up</string>
+					</dict>
+					<key>OEControllerRetrolinkN64DPadRight</key>
+					<dict>
+						<key>Direction</key>
+						<string>E</string>
+						<key>Name</key>
+						<string>D-Pad Right</string>
+					</dict>
+					<key>OEControllerRetrolinkN64DPadDown</key>
+					<dict>
+						<key>Direction</key>
+						<string>S</string>
+						<key>Name</key>
+						<string>D-Pad Down</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerRetrolinkN64AnalogX</key>
+			<dict>
+				<key>Name</key>
+				<string>Joystick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>X</string>
+				<key>Cookie</key>
+				<integer>17</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerRetrolinkN64AnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Analog Left</string>
+					</dict>
+					<key>OEControllerRetrolinkN64AnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<string>1</string>
+						<key>Name</key>
+						<string>Analog Right</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerRetrolinkN64AnalogY</key>
+			<dict>
+				<key>Name</key>
+				<string>Joystick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Y</string>
+				<key>Cookie</key>
+				<integer>18</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerRetrolinkN64AnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Analog Up</string>
+					</dict>
+					<key>OEControllerRetrolinkN64AnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<string>1</string>
+						<key>Name</key>
+						<string>Analog Down</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerRetrolinkN64ButtonA</key>
+			<dict>
+				<key>Name</key>
+				<string>A</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>7</integer>
+			</dict>
+			<key>OEControllerRetrolinkN64ButtonB</key>
+			<dict>
+				<key>Name</key>
+				<string>B</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>9</integer>
+			</dict>
+			<key>OEControllerRetrolinkN64CPadUp</key>
+			<dict>
+				<key>Name</key>
+				<string>C-Pad Up</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>1</integer>
+			</dict>
+			<key>OEControllerRetrolinkN64CPadDown</key>
+			<dict>
+				<key>Name</key>
+				<string>C-Pad Down</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>3</integer>
+			</dict>
+			<key>OEControllerRetrolinkN64CPadLeft</key>
+			<dict>
+				<key>Name</key>
+				<string>C-Pad Left</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>4</integer>
+			</dict>
+			<key>OEControllerRetrolinkN64CPadRight</key>
+			<dict>
+				<key>Name</key>
+				<string>C-Pad Right</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>2</integer>
+			</dict>
+			<key>OEControllerRetrolinkN64ButtonZ</key>
+			<dict>
+				<key>Name</key>
+				<string>Z</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>8</integer>
+			</dict>
+			<key>OEControllerRetrolinkN64ButtonLeftShoulder</key>
+			<dict>
+				<key>Name</key>
+				<string>L</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>5</integer>
+			</dict>
+			<key>OEControllerRetrolinkN64ButtonRightShoulder</key>
+			<dict>
+				<key>Name</key>
+				<string>R</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>6</integer>
+			</dict>
+			<key>OEControllerRetrolinkN64ButtonStart</key>
+			<dict>
+				<key>Name</key>
+				<string>Start</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>10</integer>
+			</dict>
+		</dict>
 	</dict>
 	<key>OEControllerNintendoWiiUProController</key>
 	<dict>

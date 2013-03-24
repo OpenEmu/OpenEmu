@@ -205,5 +205,34 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerRetrolinkSNESButtonStart</string>
 	</dict>
+	<key>OEControllerRetrolinkN64</key>
+	<dict>
+		<key>OEN64ButtonAnalogUp</key>
+		<string>OEControllerRetrolinkN64AnalogUp</string>
+		<key>OEN64ButtonAnalogLeft</key>
+		<string>OEControllerRetrolinkN64AnalogLeft</string>
+		<key>OEN64ButtonDPadUp</key>
+		<string>OEControllerRetrolinkN64DPadUp</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEControllerRetrolinkN64CPadUp</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEControllerRetrolinkN64CPadLeft</string>
+		<key>OEN64ButtonCDown</key>
+		<string>OEControllerRetrolinkN64CPadDown</string>
+		<key>OEN64ButtonCRight</key>
+		<string>OEControllerRetrolinkN64CPadRight</string>
+		<key>OEN64ButtonA</key>
+		<string>OEControllerRetrolinkN64ButtonA</string>
+		<key>OEN64ButtonB</key>
+		<string>OEControllerRetrolinkN64ButtonB</string>
+		<key>OEN64ButtonL</key>
+		<string>OEControllerRetrolinkN64ButtonLeftShoulder</string>
+		<key>OEN64ButtonR</key>
+		<string>OEControllerRetrolinkN64ButtonRightShoulder</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEControllerRetrolinkN64ButtonZ</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEControllerRetrolinkN64ButtonStart</string>
+	</dict>
 </dict>
 </plist>

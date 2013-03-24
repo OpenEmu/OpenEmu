@@ -120,8 +120,19 @@
 		<string>OEControllerRetrolinkSNESButtonY</string>
 		<key>OENGPButtonB</key>
 		<string>OEControllerRetrolinkSNESButtonB</string>
+	</dict>
+	<key>OEControllerRetrolinkN64</key>
+	<dict>
+		<key>OENGPButtonUp</key>
+		<string>OEControllerRetrolinkN64AnalogUp</string>
+		<key>OENGPButtonLeft</key>
+		<string>OEControllerRetrolinkN64AnalogLeft</string>
+		<key>OENGPButtonA</key>
+		<string>OEControllerRetrolinkN64CPadDown</string>
+		<key>OENGPButtonB</key>
+		<string>OEControllerRetrolinkN64CPadRight</string>
 		<key>OENGPButtonOption</key>
-		<string>OEControllerRetrolinkSNESButtonStart</string>
+		<string>OEControllerRetrolinkN64ButtonStart</string>
 	</dict>
 	<key>OEControllerWiimote</key>
 	<dict>
