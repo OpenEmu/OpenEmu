@@ -27,6 +27,7 @@
 
 
 #import <Cocoa/Cocoa.h>
+#import <CoreAudio/CoreAudio.h>
 #import "OEGameCore.h"
 
 @class OEGameCoreController;
@@ -46,6 +47,7 @@
 - (oneway void)volumeUp;
 - (oneway void)volumeDown;
 - (oneway void)setPauseEmulation:(BOOL)flag;
+- (oneway void)setAudioOutputDeviceID:(AudioDeviceID)deviceID;
 
 // gamecore attributes
 @property(readonly) OEIntSize   screenSize; 

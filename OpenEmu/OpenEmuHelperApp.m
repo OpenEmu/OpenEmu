@@ -877,6 +877,14 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, tempFBO);
 }
 
+#pragma mark - Audio
+
+- (oneway void)setAudioOutputDeviceID:(AudioDeviceID)deviceID
+{
+    NSLog(@"---------- will set output device id to %lu", (unsigned long)deviceID);
+    [gameAudio setOutputDeviceID:deviceID];
+}
+
 #pragma mark - OEAudioDelegate
 
 - (void)audioSampleRateDidChange
