@@ -501,7 +501,7 @@ NSString *const OELastControlsDeviceTypeKey       = @"lastControlsDevice";
     if([readingEvent hasOffState] || ([readingEvent cookie] != [anEvent cookie])) readingEvent = nil;
     
     if([self selectedKey] == nil && [self view] == [[[self view] window] firstResponder])
-        [[[self view] window] makeFirstResponder:nil];
+        [[[self view] window] makeFirstResponder:[self view]];
     
     // Check if the event is ignored
     if([ignoredEvents containsObject:anEvent])
