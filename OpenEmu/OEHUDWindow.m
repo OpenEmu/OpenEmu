@@ -437,9 +437,16 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
     }
 }
 
+- (NSView *)hitTest:(NSPoint)aPoint
+{
+    // This makes sure the parent window becomes key window, even when clicking the close button
+    [[[self window] parentWindow] makeKeyWindow];
+
+    return [super hitTest:aPoint];
+}
+
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    [[[self window] parentWindow] makeKeyWindow];
     NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 
     [self setDragging:NO];
