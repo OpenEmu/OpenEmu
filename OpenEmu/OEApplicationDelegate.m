@@ -65,6 +65,7 @@
 
 #import <FeedbackReporter/FRFeedbackReporter.h>
 #import "OEToolTipManager.h"
+
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -145,11 +146,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // Remove the Open Recent menu item
     NSInteger openDocumentMenuItemIndex = [self.fileMenu indexOfItemWithTarget:nil andAction:@selector(openDocument:)];
 
-    if (openDocumentMenuItemIndex>=0 &&
-        [[self.fileMenu itemAtIndex:openDocumentMenuItemIndex+1] hasSubmenu])
-    {
-        [self.fileMenu removeItemAtIndex:openDocumentMenuItemIndex+1];
-    }
+    if(openDocumentMenuItemIndex >= 0 && [[self.fileMenu itemAtIndex:openDocumentMenuItemIndex + 1] hasSubmenu])
+        [self.fileMenu removeItemAtIndex:openDocumentMenuItemIndex + 1];
 
     // Run Migration Manager
     [[OEVersionMigrationController defaultMigrationController] runMigrationIfNeeded];
@@ -165,7 +163,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
     [mainWindowController showWindow:self];
 
-    [[OECoreUpdater sharedUpdater] checkForNewCores:@( NO )];
+    [[OECoreUpdater sharedUpdater] checkForNewCores:@NO];
     
     BOOL startInFullscreen = [[NSUserDefaults standardUserDefaults] boolForKey:OEMainWindowFullscreenKey];
     if(startInFullscreen != [[mainWindowController window] isFullScreen])
@@ -198,10 +196,12 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     if([filenames count] == 1)
     {
         NSURL *url = [NSURL fileURLWithPath:[filenames lastObject]];
-        [self openDocumentWithContentsOfURL:url display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
-            NSApplicationDelegateReply reply = (document != nil) ? NSApplicationDelegateReplySuccess : NSApplicationDelegateReplyFailure;
-            [NSApp replyToOpenOrPrint:reply];
-        }];
+        [self openDocumentWithContentsOfURL:url display:YES completionHandler:
+         ^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
+         {
+             NSApplicationDelegateReply reply = (document != nil) ? NSApplicationDelegateReplySuccess : NSApplicationDelegateReplyFailure;
+             [NSApp replyToOpenOrPrint:reply];
+         }];
     }
     else
     {
@@ -222,7 +222,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
          if([document isKindOfClass:[OEGameDocument class]])
              [mainWindowController openGameDocument:(OEGameDocument *)document];
 
-         if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code]==OEImportRequiredError)
+         if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEImportRequiredError)
          {
              completionHandler(nil, NO, nil);
              return;
@@ -255,13 +255,14 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         // we ask the user to either select/create one, or quit open emu
         [self OE_performDatabaseSelection];
     }
+
     else if(![OELibraryDatabase loadFromURL:databaseURL error:&error]) // if the database could not be loaded
     {
         DLog(@"%@", error);
         DLog(@"%@", [error domain]);
         DLog(@"%ld", [error code]);
 
-        if([error domain]==NSCocoaErrorDomain && [error code]==NSPersistentStoreIncompatibleVersionHashError)
+        if([error domain] == NSCocoaErrorDomain && [error code] == NSPersistentStoreIncompatibleVersionHashError)
         {
             // we try to migrate the databse to the new version
             [[OEVersionMigrationController defaultMigrationController] runDatabaseMigration];
@@ -269,10 +270,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             if([OELibraryDatabase loadFromURL:databaseURL error:&error])
                 return;
         }
-        else
-        {
-            [NSApp presentError:error];
-        }
+        else [NSApp presentError:error];
 
         // user must select a library
         [self OE_performDatabaseSelection];
@@ -413,7 +411,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     [[self aboutWindow] center];
     [[self aboutWindow] makeKeyAndOrderFront:self];
-
 }
 
 - (NSString *)aboutCreditsPath
@@ -453,6 +450,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 #pragma mark -
 #pragma mark App Info
+
 - (void)updateInfoPlist
 {
     // TODO: Think of a way to register for document types without manipulating the plist
@@ -480,7 +478,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     NSString *error = nil;
     NSPropertyListFormat format;
 
-    NSString *infoPlistPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/Contents/Info.plist"];
+    NSString *infoPlistPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Info.plist"];
     NSData   *infoPlistXml  = [[NSFileManager defaultManager] contentsAtPath:infoPlistPath];
     NSMutableDictionary *infoPlist = [NSPropertyListSerialization propertyListFromData:infoPlistXml
                                                                       mutabilityOption:NSPropertyListMutableContainers
@@ -527,7 +525,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     NSDictionary *lastPlayedInfo = [database lastPlayedRomsBySystem];
     __block NSUInteger count = [[lastPlayedInfo allKeys] count];
 
-    if(!lastPlayedInfo || !count)
+    if(lastPlayedInfo == nil || count == 0)
     {
         [self setCachedLastPlayedInfo:nil];
         return 1;
@@ -584,6 +582,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 
 #pragma mark - KVO
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if(context == _OEApplicationDelegateAllPluginsContext)
@@ -606,7 +605,5 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     [[FRFeedbackReporter sharedReporter] reportFeedback];
 }
-
-
 
 @end
