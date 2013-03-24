@@ -35,7 +35,9 @@
 
 + (OEDeviceManager *)sharedDeviceManager;
 
-@property(copy) NSArray *deviceHandlers;
+@property(readonly) NSArray *deviceHandlers;
+@property(readonly) NSArray *controllerDeviceHandlers;
+@property(readonly) NSArray *keyboardDeviceHandlers;
 
 - (void)startWiimoteSearch;
 - (void)stopWiimoteSearch;

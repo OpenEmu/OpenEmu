@@ -463,6 +463,55 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
     return [_keyboardPlayerBindings objectAtIndex:playerNumber - 1];
 }
 
+- (NSUInteger)playerForDeviceHandler:(OEDeviceHandler *)deviceHandler;
+{
+    return [[self devicePlayerBindingsForDeviceHandler:deviceHandler] playerNumber];
+}
+
+- (OEDeviceHandler *)deviceHandlerForPlayer:(NSUInteger)playerNumber;
+{
+    if(playerNumber - 1 >= [_devicePlayerBindings count]) return nil;
+
+    OEDevicePlayerBindings *bindings = _devicePlayerBindings[playerNumber - 1];
+
+    if(bindings == (id)[NSNull null]) return nil;
+
+    NSAssert([bindings playerNumber] == playerNumber, @"Player bindings at index %ld expected player number: %ld, got: %ld.", playerNumber - 1, playerNumber, [bindings playerNumber]);
+
+    return [bindings deviceHandler];
+}
+
+- (OEDevicePlayerBindings *)devicePlayerBindingsForDeviceHandler:(OEDeviceHandler *)deviceHandler;
+{
+    return _deviceHandlersToBindings[deviceHandler];
+}
+
+- (void)setDeviceHandler:(OEDeviceHandler *)deviceHandler forPlayer:(NSUInteger)playerNumber;
+{
+    // Find the two bindings to switch.
+    OEDevicePlayerBindings *newBindings = [self devicePlayerBindingsForDeviceHandler:deviceHandler];
+    NSAssert(newBindings != nil, @"A device handler without device player bindings?!");
+    if([newBindings playerNumber] == playerNumber) return;
+
+    OEDevicePlayerBindings *oldBindings = [self devicePlayerBindingsForPlayer:playerNumber];
+
+    // Notify observers to remove all bindings to the old player number of each devices.
+    if(oldBindings != nil) [self OE_notifyObserversForRemovedDeviceBindings:oldBindings];
+    [self OE_notifyObserversForRemovedDeviceBindings:newBindings];
+
+    // Change the player numbers.
+    if(oldBindings != nil) [oldBindings OE_setPlayerNumber:[newBindings playerNumber]];
+    [newBindings OE_setPlayerNumber:playerNumber];
+
+    // Move the bindings in the array.
+    if(oldBindings != nil) _devicePlayerBindings[[oldBindings playerNumber] - 1] = oldBindings;
+    _devicePlayerBindings[playerNumber - 1] = newBindings;
+
+    // Notify observers to add all bindings for the new player layout.
+    if(oldBindings != nil) [self OE_notifyObserversForAddedDeviceBindings:oldBindings];
+    [self OE_notifyObserversForAddedDeviceBindings:newBindings];
+}
+
 #pragma mark -
 #pragma mark Preference Panel Representation Helper Methods
 

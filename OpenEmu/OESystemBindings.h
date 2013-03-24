@@ -28,12 +28,13 @@
 #import <Foundation/Foundation.h>
 
 @protocol OESystemBindingsObserver;
-@class OEPlayerBindings;
-@class OEDevicePlayerBindings;
 @class OEBindingsController;
-@class OESystemController;
-@class OEKeyboardPlayerBindings;
+@class OEDeviceHandler;
+@class OEDevicePlayerBindings;
 @class OEHIDEvent;
+@class OEKeyboardPlayerBindings;
+@class OEPlayerBindings;
+@class OESystemController;
 
 /// Manages the bindings for a specific system, useful for system responders
 /// Instances of this class are allocated by OEGameBindingsController
@@ -47,8 +48,13 @@
 @property(readonly) NSArray *keyboardPlayerBindings;
 @property(readonly) NSArray *devicePlayerBindings;
 
-- (OEKeyboardPlayerBindings *)keyboardPlayerBindingsForPlayer:(NSUInteger)playerNumber;
 - (OEDevicePlayerBindings *)devicePlayerBindingsForPlayer:(NSUInteger)playerNumber;
+- (OEKeyboardPlayerBindings *)keyboardPlayerBindingsForPlayer:(NSUInteger)playerNumber;
+
+- (NSUInteger)playerForDeviceHandler:(OEDeviceHandler *)deviceHandler;
+- (OEDeviceHandler *)deviceHandlerForPlayer:(NSUInteger)playerNumber;
+- (OEDevicePlayerBindings *)devicePlayerBindingsForDeviceHandler:(OEDeviceHandler *)deviceHandler;
+- (void)setDeviceHandler:(OEDeviceHandler *)deviceHandler forPlayer:(NSUInteger)playerNumber;
 
 // Returns player number based on the device number of the event
 // Returns 0 for any keyboard events
