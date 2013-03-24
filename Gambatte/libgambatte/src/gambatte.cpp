@@ -184,16 +184,16 @@ size_t GB::stateSize() const {
 
 //int GB::currentState() const { return p_->stateNo; }
 //
-//std::string const GB::romTitle() const {
-//	if (p_->cpu.loaded()) {
-//		char title[0x11];
-//		std::memcpy(title, p_->cpu.romTitle(), 0x10);
-//		title[(title[0xF] & 0x80) ? 0xF : 0x10] = '\0';
-//		return std::string(title);
-//	}
-//	
-//	return std::string();
-//}
+std::string const GB::romTitle() const {
+	//if (p_->cpu.loaded()) {
+		char title[0x11];
+		std::memcpy(title, p_->cpu.romTitle(), 0x10);
+		title[(title[0xF] & 0x80) ? 0xF : 0x10] = '\0';
+		return std::string(title);
+	//}
+	
+	//return std::string();
+}
 
 PakInfo const GB::pakInfo() const { return p_->cpu.pakInfo(p_->loadflags & MULTICART_COMPAT); }
 

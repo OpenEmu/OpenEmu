@@ -1181,7 +1181,10 @@ static NSArray *OE_defaultSortDescriptors;
                 }
             }
             [[aGame libraryDatabase] save:nil];
-            [alert setProgress:(float)(i+1)/[games count]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [alert setProgress:(float)(i+1)/[games count]];
+            });
         }
         [alert closeWithResult:NSAlertDefaultReturn];
     });

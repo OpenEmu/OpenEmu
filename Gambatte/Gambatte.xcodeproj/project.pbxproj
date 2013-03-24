@@ -249,6 +249,7 @@
 		94ABD7B91653428B00035061 /* video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = video.h; sourceTree = "<group>"; };
 		94ABD7DB16534C8300035061 /* libretro.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libretro.cpp; sourceTree = "<group>"; };
 		94ABD7DC16534C8300035061 /* libretro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libretro.h; sourceTree = "<group>"; };
+		94F0DAA916FE2FD5001ECA15 /* gbcpalettes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gbcpalettes.h; sourceTree = "<group>"; };
 		94F2867616C3832E0075A73E /* kaiser50sinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kaiser50sinc.cpp; sourceTree = "<group>"; };
 		94F2867716C3832E0075A73E /* kaiser70sinc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kaiser70sinc.cpp; sourceTree = "<group>"; };
 		94F2867A16C3836B0075A73E /* loadres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loadres.h; sourceTree = "<group>"; };
@@ -451,6 +452,7 @@
 		94ABD7681653428B00035061 /* libgambatte */ = {
 			isa = PBXGroup;
 			children = (
+				94F0DAA916FE2FD5001ECA15 /* gbcpalettes.h */,
 				94ABD7DB16534C8300035061 /* libretro.cpp */,
 				94ABD7DC16534C8300035061 /* libretro.h */,
 				94ABD7691653428B00035061 /* include */,

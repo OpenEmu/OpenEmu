@@ -1902,6 +1902,62 @@
 				<key>Usage</key>
 				<string>13</string>
 			</dict>
+			<key>OEControllerWiimoteNunchuckAnalogX</key>
+			<dict>
+				<key>Name</key>
+				<string>Nunchuck Joystick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>X</string>
+				<key>Cookie</key>
+				<integer>256</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerWiimoteNunchuckAnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Nunchuck Analog Left</string>
+					</dict>
+					<key>OEControllerWiimoteNunchuckAnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Nunchuck Analog Right</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerWiimoteNunchuckAnalogY</key>
+			<dict>
+				<key>Name</key>
+				<string>Nunchuck Joystick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Y</string>
+				<key>Cookie</key>
+				<integer>512</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerWiimoteNunchuckAnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Nunchuck Analog Up</string>
+					</dict>
+					<key>OEControllerWiimoteNunchuckAnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Nunchuck Analog Down</string>
+					</dict>
+				</dict>
+			</dict>
 			<key>OEControllerWiimoteClassicDPadUp</key>
 			<dict>
 				<key>Name</key>
@@ -2559,7 +2615,7 @@
 				<key>Usage</key>
 				<string>X</string>
 				<key>Cookie</key>
-				<integer>0</integer>
+				<integer>18</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerRetrolinkSNESDPadLeft</key>
@@ -2587,7 +2643,7 @@
 				<key>Usage</key>
 				<string>Y</string>
 				<key>Cookie</key>
-				<integer>0</integer>
+				<integer>19</integer>
 				<key>Values</key>
 				<dict>
 					<key>OEControllerRetrolinkSNESDPadUp</key>
