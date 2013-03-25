@@ -34,13 +34,12 @@
  * @abstract Keeps an up-to-date list of all audio devices connected to the machine.
  */
 @interface OEAudioDeviceManager : NSObject
-
 + (instancetype)sharedAudioDeviceManager;
 
-@property(readonly) NSArray       *audioDevices;
-@property(readonly) OEAudioDevice *defaultInputDevice;
-@property(readonly) OEAudioDevice *defaultOutputDevice;
-@property(readonly) OEAudioDevice *defaultSystemOutputDevice;
+@property(readonly, copy) NSArray       *audioDevices;
+@property(readonly, copy) OEAudioDevice *defaultInputDevice;
+@property(readonly, copy) OEAudioDevice *defaultOutputDevice;
+@property(readonly, copy) OEAudioDevice *defaultSystemOutputDevice;
 @end
 
 
@@ -49,15 +48,13 @@
  * @abstract Contains information about an audio device.
  */
 @interface OEAudioDevice : NSObject
+@property(readonly, assign) AudioDeviceID  deviceID;
+@property(readonly, copy)   NSString      *deviceName;
+@property(readonly, assign) NSUInteger     numberOfInputChannels;
+@property(readonly, assign) NSUInteger     numberOfOutputChannels;
 
-+ (instancetype)audioDeviceWithID:(NSUInteger)deviceID;
-- (id)initWithID:(NSUInteger)deviceID;
-
-@property(readonly) AudioDeviceID  deviceID;
-@property(readonly) NSString      *deviceName;
-@property(readonly) NSUInteger     numberOfInputChannels;
-@property(readonly) NSUInteger     numberOfOutputChannels;
-
++ (instancetype)newAudioDeviceWithID:(NSUInteger)deviceID;
+- (instancetype)initWithID:(NSUInteger)deviceID;
 @end
 
 
