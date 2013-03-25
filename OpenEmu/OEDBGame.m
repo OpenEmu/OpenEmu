@@ -607,6 +607,14 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
         return [self name];
 }
 
+- (void)setDisplayName:(NSString *)displayName
+{
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEDisplayGameTitle])
+        [self setGameTitle:displayName];
+    else
+        [self setName:displayName];
+}
+
 #pragma mark - Debug
 
 - (void)dump

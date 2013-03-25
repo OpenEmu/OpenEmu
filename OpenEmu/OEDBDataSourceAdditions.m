@@ -47,7 +47,7 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 
 - (void)setGridTitle:(NSString *)str
 {
-    [self setName:str];
+    [self setDisplayName:str];
 }
 
 - (int)gridStatus
@@ -195,7 +195,7 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 
 - (void)setListViewTitle:(NSString*)title
 {
-    [self setName:title];
+    [self setDisplayName:title];
 }
 
 - (NSString *)listViewTitle
