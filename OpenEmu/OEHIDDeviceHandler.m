@@ -33,7 +33,6 @@
 #import "OEDeviceManager.h"
 
 @interface OEHIDEvent ()
-- (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
 + (instancetype)OE_eventWithElement:(IOHIDElementRef)element value:(NSInteger)value;
 @end
 
@@ -43,7 +42,7 @@
 
 @interface OEHIDDeviceHandler ()
 {
-    NSMutableDictionary *_reusableEventMap;
+    NSMutableDictionary *_latestEvents;
 
 	//force feedback support
 	FFDeviceObjectReference _ffDevice;
@@ -72,7 +71,7 @@
 
     if((self = [super init]))
     {
-        _reusableEventMap = [[NSMutableDictionary alloc] initWithCapacity:10];
+        _latestEvents = [[NSMutableDictionary alloc] initWithCapacity:10];
         _device = (void *)CFRetain(aDevice);
         _deadZone = 0.2;
 
@@ -183,26 +182,22 @@
 
 - (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue
 {
-    IOHIDElementRef  elem   = IOHIDValueGetElement(aValue);
-    uint32_t         cookie = (uint32_t)IOHIDElementGetCookie(elem);
-    OEHIDEvent      *event  = [_reusableEventMap objectForKey:@(cookie)];
+    OEHIDEvent *event = [OEHIDEvent eventWithDeviceHandler:self value:aValue];
+    if(event == nil) return nil;
 
-    if(event == nil)
-    {
-        event = [OEHIDEvent eventWithDeviceHandler:self value:aValue];
-        if(event == nil) return nil;
+    NSNumber   *cookieKey     = @([event cookie]);
+    OEHIDEvent *existingEvent = _latestEvents[cookieKey];
 
-        [_reusableEventMap setObject:event forKey:@(cookie)];
-    }
-    else NSAssert([event OE_setupEventWithDeviceHandler:self value:aValue], @"The event setup went wrong for event: %@", event);
+    if([event isEqualToEvent:existingEvent])
+        return nil;
 
-    return event;
+    return _latestEvents[cookieKey] = event;
 }
 
 - (void)dispatchEventWithHIDValue:(IOHIDValueRef)aValue
 {
     OEHIDEvent *event = [self eventWithHIDValue:aValue];
-    if([event hasChanges]) [NSApp postHIDEvent:event];
+    if(event != nil) [NSApp postHIDEvent:event];
 }
 
 - (io_service_t)serviceRef

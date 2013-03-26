@@ -482,12 +482,14 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
 
 - (void)OE_setCurrentBindingsForEvent:(OEHIDEvent *)anEvent;
 {
-    BOOL isKeyboardEvent = [anEvent type] != OEHIDEventTypeKeyboard;
-    [[NSUserDefaults standardUserDefaults] setBool:isKeyboardEvent forKey:_OEKeyboardMenuItemRepresentedObject];
+    [self willChangeValueForKey:@"currentPlayerBindings"];
+    BOOL isKeyboardEvent = [anEvent type] == OEHIDEventTypeKeyboard;
+    [[NSUserDefaults standardUserDefaults] setBool:isKeyboardEvent forKey:OEKeyboardBindingsIsSelectedKey];
 
     if(!isKeyboardEvent) [self setSelectedPlayer:[[self currentSystemBindings] playerNumberForEvent:anEvent]];
 
     [self OE_updateInputPopupButtonSelection];
+    [self didChangeValueForKey:@"currentPlayerBindings"];
 }
 
 #pragma mark -

@@ -34,11 +34,6 @@ NSString *const OEWiimoteDeviceHandlerDidDisconnectNotification = @"OEWiimoteDev
 
 @interface OEHIDEvent ()
 - (OEHIDEvent *)OE_eventWithWiimoteDeviceHandler:(OEWiimoteHIDDeviceHandler *)aDeviceHandler;
-
-- (BOOL)OE_updateButtonEventWithState:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp;
-- (BOOL)OE_updateAxisEventWithValue:(NSInteger)value maximum:(NSInteger)maximum minimum:(NSInteger)minimum timestamp:(NSTimeInterval)timestamp;
-- (BOOL)OE_updateTriggerEventWithValue:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp;
-- (BOOL)OE_updateHatSwitchEventWithDirection:(OEHIDEventHatDirection)direction timestamp:(NSTimeInterval)timestamp;
 @end
 
 enum {
@@ -260,9 +255,10 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 
 @interface OEWiimoteHIDDeviceHandler ()
 {
-    NSMutableDictionary     *_reusableEvents;
+    NSMutableDictionary *_latestEvents;
 
-    OEWiimoteExpansionType _expansionType;
+    uint8_t                       _reportBuffer[128];
+    OEWiimoteExpansionType        _expansionType;
     OEExpansionInitializationStep _expansionInitilization;
     struct {
         uint16_t wiimote;
@@ -273,10 +269,8 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
     } _latestButtonReports;
 
     NSUInteger _rumbleAndLEDStatus;
-
-    BOOL _statusReportRequested;
-    BOOL _isConnected;
-    uint8_t _reportBuffer[128];
+    BOOL       _statusReportRequested;
+    BOOL       _isConnected;
 }
 
 @property(readwrite) CGFloat batteryLevel;
@@ -337,7 +331,7 @@ static void OE_wiimoteIOHIDReportCallback(void            *context,
         _expansionPortAttached = NO;
         _expansionType = OEWiimoteExpansionTypeNotConnected;
 
-        _reusableEvents = [[NSMutableDictionary alloc] init];
+        _latestEvents = [[NSMutableDictionary alloc] init];
     }
 
     return self;
@@ -853,47 +847,28 @@ enum {
 
 - (void)OE_dispatchButtonEventWithUsage:(NSUInteger)usage state:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
-    OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
-
-    if(existingEvent == nil)
-    {
-        existingEvent = [OEHIDEvent buttonEventWithPadNumber:[self deviceNumber] timestamp:timestamp buttonNumber:usage state:state cookie:cookie];
-        [_reusableEvents setObject:existingEvent forKey:@(cookie)];
-    }
-    else if(![existingEvent OE_updateButtonEventWithState:state timestamp:timestamp])
-        return;
-
-    [NSApp postHIDEvent:existingEvent];
+    [self OE_dispatchEvent:[OEHIDEvent buttonEventWithPadNumber:[self deviceNumber] timestamp:timestamp buttonNumber:usage state:state cookie:cookie] withCookie:cookie];
 }
 
 - (void)OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)axis minimum:(NSInteger)minimum value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
-    OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
-
-    if(existingEvent == nil)
-    {
-        existingEvent = [OEHIDEvent axisEventWithPadNumber:[self deviceNumber] timestamp:timestamp axis:axis minimum:minimum value:value maximum:maximum cookie:cookie];
-        [_reusableEvents setObject:existingEvent forKey:@(cookie)];
-    }
-    else if(![existingEvent OE_updateAxisEventWithValue:value maximum:maximum minimum:minimum timestamp:timestamp])
-        return;
-
-    [NSApp postHIDEvent:existingEvent];
+    [self OE_dispatchEvent:[OEHIDEvent axisEventWithPadNumber:[self deviceNumber] timestamp:timestamp axis:axis minimum:minimum value:value maximum:maximum cookie:cookie] withCookie:cookie];
 }
 
 - (void)OE_dispatchTriggerEventWithAxis:(OEHIDEventAxis)axis value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
-    OEHIDEvent *existingEvent = [_reusableEvents objectForKey:@(cookie)];
+    [self OE_dispatchEvent:[OEHIDEvent triggerEventWithPadNumber:[self deviceNumber] timestamp:timestamp axis:axis value:value maximum:maximum cookie:cookie] withCookie:cookie];
+}
 
-    if(existingEvent == nil)
-    {
-        existingEvent = [OEHIDEvent triggerEventWithPadNumber:[self deviceNumber] timestamp:timestamp axis:axis value:value maximum:maximum cookie:cookie];
-        [_reusableEvents setObject:existingEvent forKey:@(cookie)];
-    }
-    else if(![existingEvent OE_updateTriggerEventWithValue:value maximum:maximum timestamp:timestamp])
-        return;
+- (void)OE_dispatchEvent:(OEHIDEvent *)anEvent withCookie:(NSUInteger)cookie;
+{
+    NSNumber   *cookieKey     = @(cookie);
+    OEHIDEvent *existingEvent = _latestEvents[cookieKey];
 
-    [NSApp postHIDEvent:existingEvent];
+    if([anEvent isEqualToEvent:existingEvent]) return;
+
+    _latestEvents[cookieKey] = anEvent;
+    [NSApp postHIDEvent:anEvent];
 }
 
 - (void)readReportData:(void *)dataPointer length:(size_t)dataLength

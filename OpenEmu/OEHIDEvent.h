@@ -112,23 +112,17 @@ extern NSString *NSStringFromIOHIDElement(IOHIDElementRef elem);
 
 @property(readonly) NSUInteger              padNumber;
 @property(readonly) NSTimeInterval          timestamp;
-@property(readonly) NSTimeInterval          previousTimestamp;
-@property(readonly) NSTimeInterval          elapsedTime;
 @property(readonly) OEHIDEventType          type;
 @property(readonly) NSUInteger              cookie;
 @property(readonly) NSUInteger              usagePage;
 @property(readonly) NSUInteger              usage;
-@property(readonly) BOOL                    hasPreviousState;
 @property(readonly) BOOL                    hasOffState;
-@property(readonly) BOOL                    hasChanges;
 
 // Axis event or Trigger event
 @property(readonly) OEHIDEventAxis          axis;              // Axis and Trigger
-@property(readonly) OEHIDEventAxisDirection previousDirection; // Axis and Trigger (only Null and Positive for Trigger)
 @property(readonly) OEHIDEventAxisDirection direction;         // Axis and Trigger (only Null and Positive for Trigger)
 @property(readonly) OEHIDEventAxisDirection oppositeDirection; // Axis only
 @property(readonly) NSInteger               minimum;           // Axis only
-@property(readonly) NSInteger               previousValue;     // Axis and Trigger
 @property(readonly) NSInteger               value;             // Axis and Trigger
 @property(readonly) NSInteger               maximum;           // Axis and Trigger
 
@@ -139,12 +133,10 @@ extern NSString *NSStringFromIOHIDElement(IOHIDElementRef elem);
 @property(readonly) NSUInteger              keycode;
 
 // Button or Key event state
-@property(readonly) OEHIDEventState         previousState;
 @property(readonly) OEHIDEventState         state;
 
 // HatSwitch event
 @property(readonly) OEHIDEventHatSwitchType hatSwitchType;
-@property(readonly) OEHIDEventHatDirection  previousHatDirection;
 @property(readonly) OEHIDEventHatDirection  hatDirection;
 
 - (BOOL)isEqualToEvent:(OEHIDEvent *)anObject;
@@ -172,10 +164,6 @@ extern NSString *NSStringFromIOHIDElement(IOHIDElementRef elem);
 - (NSUInteger)bindingHash;
 - (BOOL)isBindingEqualToEvent:(OEHIDEvent *)anEvent;
 
-@end
-
-@interface OEHIDEvent (OECustomEventAccess)
-- (void)setState:(OEHIDEventState)newState;
 @end
 
 @interface NSEvent (OEEventConversion)
