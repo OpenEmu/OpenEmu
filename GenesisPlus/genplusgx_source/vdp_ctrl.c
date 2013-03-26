@@ -5,7 +5,7 @@
  *  Support for SG-1000, Master System (315-5124 & 315-5246), Game Gear & Mega Drive VDP
  *
  *  Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003  Charles Mac Donald (original code)
- *  Copyright (C) 2007-2012  Eke-Eke (Genesis Plus GX)
+ *  Copyright (C) 2007-2013  Eke-Eke (Genesis Plus GX)
  *
  *  Redistribution and use of this code or any derivative works are permitted
  *  provided that the following conditions are met:
@@ -381,7 +381,7 @@ void vdp_reset(void)
   }
 
   /* Mega Drive specific */
-  else if ((system_hw == SYSTEM_MD) && (config.bios & 1) && !(system_bios & SYSTEM_MD))
+  else if (((system_hw == SYSTEM_MD) || (system_hw == SYSTEM_MCD)) && (config.bios & 1) && !(system_bios & SYSTEM_MD))
   {
     /* force registers initialization (only if TMSS model is emulated and BOOT ROM is not loaded) */
     vdp_reg_w(0 , 0x04, 0);
@@ -479,8 +479,8 @@ int vdp_context_load(uint8 *state)
   load_param(&cached_write, sizeof(cached_write));
 
   /* restore FIFO timings */
-  fifo_latency = 214 - (reg[12] & 1) * 24;
-  fifo_latency <<= ((code & 0x0F) == 0x01);
+  fifo_latency = (reg[12] & 1) ? 190 : 214;
+  fifo_latency <<= ((code & 0x0F) < 0x03);
 
   /* restore current NTSC/PAL mode */
   if (system_hw & SYSTEM_MD)
@@ -567,8 +567,9 @@ void vdp_dma_update(unsigned int cycles)
   if (status & 8)
   {
     /* Process DMA until the end of VBLANK */
-    /* NOTE: This is not 100% accurate since rate should be recalculated if */
-    /* display width is changed during VBLANK but no games actually do this */
+    /* NOTE: DMA timings can not change during VBLANK because active display width cannot be modified. */
+    /* Indeed, writing VDP registers during DMA is either impossible (when doing DMA from 68k bus, CPU */
+    /* is locked) or will abort DMA operation (in case of DMA Fill or Copy). */
     dma_cycles = (lines_per_frame * MCYCLES_PER_LINE) - cycles;
   }
   else
@@ -777,9 +778,11 @@ void vdp_68k_ctrl_w(unsigned int data)
 
       Each VRAM access is byte wide, so one VRAM write (word) need twice cycles.
 
+      Note: Invalid code 0x02 (register write) apparently behaves the same as VRAM
+      access, although no data is written in this case (fixes Clue menu)
   */
-  fifo_latency = 214 - (reg[12] & 1) * 24;
-  fifo_latency <<= ((code & 0x0F) == 0x01);
+  fifo_latency = (reg[12] & 1) ? 190 : 214;
+  fifo_latency <<= ((code & 0x0F) < 0x03);
 }
 
 /* Mega Drive VDP control port specific (MS compatibility mode) */
@@ -1998,7 +2001,7 @@ static void vdp_reg_w(unsigned int r, unsigned int d, unsigned int cycles)
         }
 
         /* Adjust FIFO timings for VRAM writes */
-        fifo_latency <<= ((code & 0x0F) == 0x01);
+        fifo_latency <<= ((code & 0x0F) < 0x03);
 
         /* Active display width modified during HBLANK (Bugs Bunny Double Trouble) */
         if ((v_counter < bitmap.viewport.h) && (cycles <= (mcycles_vdp + 860)))

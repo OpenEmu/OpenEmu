@@ -2,7 +2,7 @@
  *  Genesis Plus
  *  Backup RAM support
  *
- *  Copyright (C) 2007-2011  Eke-Eke (Genesis Plus GX)
+ *  Copyright (C) 2007-2013  Eke-Eke (Genesis Plus GX)
  *
  *  Redistribution and use of this code or any derivative works are permitted
  *  provided that the following conditions are met:
@@ -122,15 +122,25 @@ void sram_init()
     {
       /* Xin Qigai Wangzi (use uncommon area) */
       sram.on = 1;
-      sram.start = 0x400000;
+      sram.start = 0x400001;
       sram.end = 0x40ffff;
     }
     else if ((strstr(rominfo.ROMType,"SF") != NULL) && (strstr(rominfo.product,"001") != NULL))
     {
-      /* SF-001 (use bankswitching) */
+      /* SF-001 */
       sram.on = 1;
-      sram.start = 0x3c0001;
-      sram.end = 0x3cffff;
+      if (rominfo.checksum == 0x3e08)
+      {
+        /* last revision (use bankswitching) */
+        sram.start = 0x3c0001;
+        sram.end = 0x3cffff;
+      }
+      else
+      {
+        /* older revisions (use uncommon area) */
+        sram.start = 0x400001;
+        sram.end = 0x40ffff;
+      }
     }
     else if ((strstr(rominfo.ROMType,"SF") != NULL) && (strstr(rominfo.product,"004") != NULL))
     {
@@ -147,7 +157,7 @@ void sram_init()
         /* Sonic 3 & Knuckles combined ROM */
         /* it shows S&K header but should obviously use FRAM from Sonic 3 */
         sram.on = 1;
-        sram.start = 0x200000;
+        sram.start = 0x200001;
         sram.end = 0x203fff;
       }
     }

@@ -2,7 +2,7 @@
  *  Genesis Plus
  *  Mega Drive cartridge hardware support
  *
- *  Copyright (C) 2007-2011  Eke-Eke (Genesis Plus GX)
+ *  Copyright (C) 2007-2013  Eke-Eke (Genesis Plus GX)
  *
  *  Most cartridge protections were initially documented by Haze
  *  (http://haze.mameworld.info/)
@@ -904,8 +904,8 @@ static void mapper_sf001_w(uint32 address, uint32 data)
           zbank_memory_map[i].read    = NULL;
         }
 
-        /* 256K ROM banks #2 to #15 mapped to $040000-$3BFFFF  */
-        for (i=0x04; i<0x3c; i++)
+        /* 256K ROM banks #2 to #15 mapped to $040000-$3BFFFF (last revision) or $040000-$3FFFFF (older revisions) */
+        for (i=0x04; i<(sram.start >> 16); i++)
         {
           m68k.memory_map[i].base     = cart.rom + (i << 16);
           m68k.memory_map[i].read8    = NULL;
@@ -913,8 +913,8 @@ static void mapper_sf001_w(uint32 address, uint32 data)
           zbank_memory_map[i].read    = NULL;
         }
 
-        /* 32K static RAM mirrored into $3C0000-$3FFFFF (odd bytes only) */
-        for (i=0x3c; i<0x40; i++)
+        /* 32K static RAM mirrored into $3C0000-$3FFFFF (odd bytes only) (last revision only) */
+        while (i<0x40)
         {
           m68k.memory_map[i].base     = sram.sram;
           m68k.memory_map[i].read8    = NULL;
@@ -923,11 +923,12 @@ static void mapper_sf001_w(uint32 address, uint32 data)
           m68k.memory_map[i].write16  = NULL;
           zbank_memory_map[i].read    = NULL;
           zbank_memory_map[i].write   = NULL;
+          i++;
         }
       }
       else
       {
-        /* 256K ROM banks #1 to #16 mapped to $000000-$3FFFFF  */
+        /* 256K ROM banks #1 to #16 mapped to $000000-$3FFFFF (default) */
         for (i=0x00; i<0x40; i++)
         {
           m68k.memory_map[i].base     = cart.rom + (i << 16);
