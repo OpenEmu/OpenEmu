@@ -234,5 +234,32 @@
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerRetrolinkN64ButtonZ</string>
 	</dict>
+	<key>OEControllerAdaptoidN64</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerAdaptoidN64DPadUp</string>
+		<key>OEArcadeButtonDown</key>
+		<string>OEControllerAdaptoidN64DPadDown</string>
+		<key>OEArcadeButtonLeft</key>
+		<string>OEControllerAdaptoidN64DPadLeft</string>
+		<key>OEArcadeButtonRight</key>
+		<string>OEControllerAdaptoidN64DPadRight</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerAdaptoidN64CPadUp</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerAdaptoidN64ButtonLeftShoulder</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerAdaptoidN64ButtonRightShoulder</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerAdaptoidN64CPadLeft</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerAdaptoidN64CPadDown</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerAdaptoidN64CPadRight</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerAdaptoidN64ButtonStart</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerAdaptoidN64ButtonZ</string>
+	</dict>
 </dict>
 </plist>

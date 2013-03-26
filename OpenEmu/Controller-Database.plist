@@ -2229,12 +2229,12 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>OEControllerAdaptoid</key>
+	<key>OEControllerAdaptoidN64</key>
 	<dict>
 		<key>OEControllerName</key>
 		<string>N64 Adaptoid</string>
 		<key>OEGenericControllerName</key>
-		<string>OEControllerAdaptoid</string>
+		<string>OEControllerAdaptoidN64</string>
 		<key>OEControllerDevices</key>
 		<array>
 			<dict>
@@ -2246,6 +2246,191 @@
 				<integer>1</integer>
 			</dict>
 		</array>
+		<key>OEControllerMappings</key>
+		<dict>
+			<key>OEControllerAdaptoidN64DPadUp</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Up</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>11</string>
+			</dict>
+			<key>OEControllerAdaptoidN64DPadDown</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Down</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>12</string>
+			</dict>
+			<key>OEControllerAdaptoidN64DPadLeft</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Left</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>13</string>
+			</dict>
+			<key>OEControllerAdaptoidN64DPadRight</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Right</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>14</string>
+			</dict>
+			<key>OEControllerAdaptoidN64AnalogX</key>
+			<dict>
+				<key>Name</key>
+				<string>Joystick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>X</string>
+				<key>Cookie</key>
+				<integer>17</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerAdaptoidN64AnalogLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Analog Left</string>
+					</dict>
+					<key>OEControllerAdaptoidN64AnalogRight</key>
+					<dict>
+						<key>Direction</key>
+						<string>1</string>
+						<key>Name</key>
+						<string>Analog Right</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerAdaptoidN64AnalogY</key>
+			<dict>
+				<key>Name</key>
+				<string>Joystick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Y</string>
+				<key>Cookie</key>
+				<integer>18</integer>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerAdaptoidN64AnalogUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Analog Up</string>
+					</dict>
+					<key>OEControllerAdaptoidN64AnalogDown</key>
+					<dict>
+						<key>Direction</key>
+						<string>1</string>
+						<key>Name</key>
+						<string>Analog Down</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerAdaptoidN64ButtonA</key>
+			<dict>
+				<key>Name</key>
+				<string>A</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>1</integer>
+			</dict>
+			<key>OEControllerAdaptoidN64ButtonB</key>
+			<dict>
+				<key>Name</key>
+				<string>B</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>4</integer>
+			</dict>
+			<key>OEControllerAdaptoidN64CPadUp</key>
+			<dict>
+				<key>Name</key>
+				<string>C-Pad Up</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>6</integer>
+			</dict>
+			<key>OEControllerAdaptoidN64CPadDown</key>
+			<dict>
+				<key>Name</key>
+				<string>C-Pad Down</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>2</integer>
+			</dict>
+			<key>OEControllerAdaptoidN64CPadLeft</key>
+			<dict>
+				<key>Name</key>
+				<string>C-Pad Left</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>5</integer>
+			</dict>
+			<key>OEControllerAdaptoidN64CPadRight</key>
+			<dict>
+				<key>Name</key>
+				<string>C-Pad Right</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>3</integer>
+			</dict>
+			<key>OEControllerAdaptoidN64ButtonZ</key>
+			<dict>
+				<key>Name</key>
+				<string>Z</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>10</integer>
+			</dict>
+			<key>OEControllerAdaptoidN64ButtonLeftShoulder</key>
+			<dict>
+				<key>Name</key>
+				<string>L</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>7</integer>
+			</dict>
+			<key>OEControllerAdaptoidN64ButtonRightShoulder</key>
+			<dict>
+				<key>Name</key>
+				<string>R</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>8</integer>
+			</dict>
+			<key>OEControllerAdaptoidN64ButtonStart</key>
+			<dict>
+				<key>Name</key>
+				<string>Start</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<integer>9</integer>
+			</dict>
+		</dict>
 	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>

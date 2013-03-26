@@ -234,5 +234,32 @@
 		<key>OENDSButtonSelect</key>
 		<string>OEControllerRetrolinkN64ButtonZ</string>
 	</dict>
+	<key>OEControllerAdaptoidN64</key>
+	<dict>
+		<key>OENDSButtonUp</key>
+		<string>OEControllerAdaptoidN64DPadUp</string>
+		<key>OENDSButtonDown</key>
+		<string>OEControllerAdaptoidN64DPadDown</string>
+		<key>OENDSButtonLeft</key>
+		<string>OEControllerAdaptoidN64DPadLeft</string>
+		<key>OENDSButtonRight</key>
+		<string>OEControllerAdaptoidN64DPadRight</string>
+		<key>OENDSButtonA</key>
+		<string>OEControllerAdaptoidN64CPadRight</string>
+		<key>OENDSButtonB</key>
+		<string>OEControllerAdaptoidN64CPadDown</string>
+		<key>OENDSButtonX</key>
+		<string>OEControllerAdaptoidN64CPadUp</string>
+		<key>OENDSButtonY</key>
+		<string>OEControllerAdaptoidN64CPadLeft</string>
+		<key>OENDSButtonL</key>
+		<string>OEControllerAdaptoidN64ButtonLeftShoulder</string>
+		<key>OENDSButtonR</key>
+		<string>OEControllerAdaptoidN64ButtonRightShoulder</string>
+		<key>OENDSButtonStart</key>
+		<string>OEControllerAdaptoidN64ButtonStart</string>
+		<key>OENDSButtonSelect</key>
+		<string>OEControllerAdaptoidN64ButtonZ</string>
+	</dict>
 </dict>
 </plist>
