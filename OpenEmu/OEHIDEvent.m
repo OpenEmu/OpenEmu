@@ -227,18 +227,16 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 
 @interface OEHIDEvent ()
 {
-    OEHIDEventType             _type;
-    NSUInteger                 _padNumber;
-    NSTimeInterval             _timestamp;
-    NSTimeInterval             _previousTimestamp;
-    NSUInteger                 _cookie;
+    OEHIDEventType _type;
+    NSUInteger     _padNumber;
+    NSTimeInterval _timestamp;
+    NSUInteger     _cookie;
+
     union {
         struct {
             OEHIDEventAxis          axis;
-            OEHIDEventAxisDirection previousDirection;
             OEHIDEventAxisDirection direction;
             NSInteger               minimum;
-            NSInteger               previousValue;
             NSInteger               value;
             NSInteger               maximum;
         } axis;
@@ -246,27 +244,22 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
             OEHIDEventAxis          axis;
             OEHIDEventAxisDirection previousDirection;
             OEHIDEventAxisDirection direction;
-            NSInteger               previousValue;
             NSInteger               value;
             NSInteger               maximum;
         } trigger;
         struct {
             NSUInteger              buttonNumber;
-            OEHIDEventState         previousState;
             OEHIDEventState         state;
         } button;
         struct {
             OEHIDEventHatSwitchType hatSwitchType;
-            OEHIDEventHatDirection  previousHatDirection;
             OEHIDEventHatDirection  hatDirection;
         } hatSwitch;
         struct {
             NSUInteger              keycode;
-            OEHIDEventState         previousState;
             OEHIDEventState         state;
         } key;
-    }                          _data;
-    BOOL                       _hasPreviousState;
+    } _data;
 }
 
 - (id)initWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
@@ -277,17 +270,12 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 - (OEHIDEvent *)OE_eventWithHIDDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler;
 - (OEHIDEvent *)OE_eventWithWiimoteDeviceHandler:(OEWiimoteHIDDeviceHandler *)aDeviceHandler;
 
-- (BOOL)OE_updateButtonEventWithState:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp;
-- (BOOL)OE_updateAxisEventWithValue:(NSInteger)value maximum:(NSInteger)maximum minimum:(NSInteger)minimum timestamp:(NSTimeInterval)timestamp;
-- (BOOL)OE_updateTriggerEventWithValue:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp;
-- (BOOL)OE_updateHatSwitchEventWithDirection:(OEHIDEventHatDirection)direction timestamp:(NSTimeInterval)timestamp;
-
 + (instancetype)OE_eventWithElement:(IOHIDElementRef)element value:(NSInteger)value;
 
 @end
 
 @implementation OEHIDEvent
-@synthesize padNumber = _padNumber, type = _type, cookie = _cookie, hasPreviousState = _hasPreviousState, timestamp = _timestamp, previousTimestamp = _previousTimestamp;
+@synthesize padNumber = _padNumber, type = _type, cookie = _cookie, timestamp = _timestamp;
 
 + (NSUInteger)keyCodeForVirtualKey:(CGCharCode)charCode
 {
@@ -381,8 +369,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 
 - (id)initWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
-    self = [super init];
-    if(self != nil)
+    if((self = [super init]))
     {
         _padNumber = padNumber;
         _timestamp = timestamp;
@@ -544,7 +531,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 
 - (id)initWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue
 {
-    self = [self initWithPadNumber:[aDeviceHandler deviceNumber] timestamp:IOHIDValueGetTimeStamp(aValue) / 1e9 cookie:NSNotFound];
+    self = [self initWithPadNumber:[aDeviceHandler deviceNumber] timestamp:IOHIDValueGetTimeStamp(aValue) / 1e9 cookie:OEUndefinedCookie];
     if(self != nil)
     {
         if(![self OE_setupEventWithDeviceHandler:aDeviceHandler value:aValue])
@@ -558,25 +545,18 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 {
     OEHIDEvent *ret = [[OEHIDEvent alloc] initWithPadNumber:[self padNumber] timestamp:[self timestamp] cookie:_cookie];
 
-    ret->_type              = _type;
-    ret->_previousTimestamp = _previousTimestamp;
-    ret->_data              = _data;
-    ret->_hasPreviousState  = NO;
+    ret->_type = _type;
+    ret->_data = _data;
 
     return ret;
 }
 
 - (BOOL)OE_setupEventWithElement:(IOHIDElementRef)anElement;
 {
-    const uint64_t page   = IOHIDElementGetUsagePage(anElement);
-    const uint64_t usage  = IOHIDElementGetUsage(anElement);
+    const uint64_t page  = IOHIDElementGetUsagePage(anElement);
+    const uint64_t usage = IOHIDElementGetUsage(anElement);
 
-    NSUInteger     cookie = (uint32_t)IOHIDElementGetCookie(anElement);
-
-    _hasPreviousState = _type != 0;
-
-    if(!_hasPreviousState) _cookie = cookie;
-    else if(_cookie != cookie) return NO;
+    _cookie = (uint32_t)IOHIDElementGetCookie(anElement);
 
     switch(page)
     {
@@ -648,22 +628,15 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
        IOHIDValueGetLength(aValue) >  8)
         return NO;
 
-    _previousTimestamp = _timestamp;
-    _timestamp         = IOHIDValueGetTimeStamp(aValue) / 1e9;
+    _timestamp    = IOHIDValueGetTimeStamp(aValue) / 1e9;
 
-    CFIndex value      = IOHIDValueGetIntegerValue(aValue);
+    CFIndex value = IOHIDValueGetIntegerValue(aValue);
 
     switch(_type)
     {
         case OEHIDEventTypeAxis :
         {
-            if(_hasPreviousState)
-            {
-                _data.axis.previousValue     = _data.axis.value;
-                _data.axis.previousDirection = _data.axis.direction;
-            }
-
-            _data.axis.value   = value;
+            _data.axis.value = value;
 
             if(_data.axis.minimum >= 0)
             {
@@ -689,13 +662,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
             break;
         case OEHIDEventTypeTrigger :
         {
-            if(_hasPreviousState)
-            {
-                _data.trigger.previousValue     = _data.trigger.value;
-                _data.trigger.previousDirection = _data.trigger.direction;
-            }
-
-            _data.trigger.value   = value;
+            _data.trigger.value = value;
 
             NSInteger deadZone = (NSInteger)ceil(_data.trigger.maximum * [aDeviceHandler deadZone]);
 
@@ -708,8 +675,6 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
         {
             NSInteger min = IOHIDElementGetLogicalMin(elem);
             NSInteger max = IOHIDElementGetLogicalMax(elem);
-
-            if(_hasPreviousState) _data.hatSwitch.previousHatDirection = _data.hatSwitch.hatDirection;
 
             // value is outside of the logical range, it's therefore NULL
             if(value < min || max < value) _data.hatSwitch.hatDirection = OEHIDEventHatDirectionNull;
@@ -738,11 +703,9 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
         }
             break;
         case OEHIDEventTypeButton :
-            if(_hasPreviousState) _data.button.previousState = _data.button.state;
             _data.button.state = !!value;
             break;
         case OEHIDEventTypeKeyboard :
-            if(_hasPreviousState) _data.key.previousState = _data.key.state;
             _data.key.state = !!value;
             break;
     }
@@ -767,8 +730,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     IOHIDElementRef element = [aDeviceHandler elementForEvent:self];
     if(element != NULL) ret->_cookie = IOHIDElementGetCookie(element);
 
-    ret->_padNumber        = [aDeviceHandler deviceNumber];
-    ret->_hasPreviousState = NO;
+    ret->_padNumber = [aDeviceHandler deviceNumber];
 
     return ret;
 }
@@ -777,108 +739,20 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 {
     OEHIDEvent *ret = [self copy];
 
-    ret->_padNumber        = [aDeviceHandler deviceNumber];
-    ret->_hasPreviousState = NO;
+    ret->_padNumber = [aDeviceHandler deviceNumber];
 
     return ret;
-}
-
-- (BOOL)OE_updateButtonEventWithState:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp;
-{
-    NSAssert(_type == OEHIDEventTypeButton, @"Attempting to button state of a non-button event");
-
-    state = state != OEHIDEventStateOff ? OEHIDEventStateOn : OEHIDEventStateOff;
-
-    if(_data.button.state == state) return NO;
-
-    _hasPreviousState  = YES;
-    _previousTimestamp = _timestamp;
-    _timestamp         = timestamp;
-
-    _data.button.previousState = _data.button.state;
-    _data.button.state = state;
-
-    return YES;
-}
-
-- (BOOL)OE_updateAxisEventWithValue:(NSInteger)value maximum:(NSInteger)maximum minimum:(NSInteger)minimum timestamp:(NSTimeInterval)timestamp;
-{
-    NSAssert(_type == OEHIDEventTypeAxis, @"Attempting to axis state of a non-axis event");
-
-    NSAssert(_data.axis.minimum == minimum, @"Minimum value changed, expected: %ld, got: %ld", _data.axis.minimum, minimum);
-    NSAssert(_data.axis.maximum == maximum, @"Maximum value changed, expected: %ld, got: %ld", _data.axis.maximum, maximum);
-
-    if(value == _data.axis.value) return NO;
-
-    _hasPreviousState  = YES;
-    _previousTimestamp = _timestamp;
-    _timestamp         = timestamp;
-
-    _data.axis.previousValue     = _data.axis.value;
-    _data.axis.previousDirection = _data.axis.direction;
-
-    _data.axis.value = value;
-
-    if(_data.axis.value > 0)      _data.axis.direction = OEHIDEventAxisDirectionPositive;
-    else if(_data.axis.value < 0) _data.axis.direction = OEHIDEventAxisDirectionNegative;
-    else                          _data.axis.direction = OEHIDEventAxisDirectionNull;
-
-    return YES;
-}
-
-- (BOOL)OE_updateTriggerEventWithValue:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp;
-{
-    NSAssert(_type == OEHIDEventTypeTrigger, @"Attempting to trigger state of a non-trigger event");
-
-    NSAssert(_data.trigger.maximum == maximum, @"Maximum value changed, expected: %ld, got: %ld", _data.trigger.maximum, maximum);
-
-    if(_data.trigger.value == value) return NO;
-
-    _hasPreviousState  = YES;
-    _previousTimestamp = _timestamp;
-    _timestamp         = timestamp;
-
-    _data.trigger.previousValue     = _data.trigger.value;
-    _data.trigger.previousDirection = _data.trigger.direction;
-
-    _data.trigger.value             = value;
-
-    return YES;
-}
-
-- (BOOL)OE_updateHatSwitchEventWithDirection:(OEHIDEventHatDirection)direction timestamp:(NSTimeInterval)timestamp;
-{
-    NSAssert(_type == OEHIDEventTypeHatSwitch, @"Attempting to hat switch state of a non-hat switch event");
-
-    if(_data.hatSwitch.hatDirection == direction) return NO;
-
-    _hasPreviousState  = YES;
-    _previousTimestamp = _timestamp;
-    _timestamp         = timestamp;
-
-    _data.hatSwitch.previousHatDirection = _data.hatSwitch.hatDirection;
-    _data.hatSwitch.hatDirection         = direction;
-
-    return YES;
-}
-
-- (NSTimeInterval)elapsedTime;
-{
-    return [self timestamp] - [self previousTimestamp];
 }
 
 - (NSUInteger)usagePage
 {
     switch([self type])
     {
-        case OEHIDEventTypeAxis :
+        case OEHIDEventTypeAxis      :
         case OEHIDEventTypeHatSwitch :
-        case OEHIDEventTypeTrigger :
-            return kHIDPage_GenericDesktop;
-        case OEHIDEventTypeButton :
-            return kHIDPage_Button;
-        case OEHIDEventTypeKeyboard :
-            return kHIDPage_KeyboardOrKeypad;
+        case OEHIDEventTypeTrigger   : return kHIDPage_GenericDesktop;
+        case OEHIDEventTypeButton    : return kHIDPage_Button;
+        case OEHIDEventTypeKeyboard  : return kHIDPage_KeyboardOrKeypad;
     }
 
     return 0;
@@ -888,15 +762,11 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 {
     switch([self type])
     {
-        case OEHIDEventTypeAxis :
-        case OEHIDEventTypeTrigger :
-            return [self axis];
-        case OEHIDEventTypeHatSwitch :
-            return kHIDUsage_GD_Hatswitch;
-        case OEHIDEventTypeButton :
-            return [self buttonNumber];
-        case OEHIDEventTypeKeyboard :
-            return [self keycode];
+        case OEHIDEventTypeAxis      :
+        case OEHIDEventTypeTrigger   : return [self axis];
+        case OEHIDEventTypeHatSwitch : return kHIDUsage_GD_Hatswitch;
+        case OEHIDEventTypeButton    : return [self buttonNumber];
+        case OEHIDEventTypeKeyboard  : return [self keycode];
     }
 
     return 0;
@@ -918,45 +788,11 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     return ret;
 }
 
-- (BOOL)hasChanges
-{
-    BOOL hasChanges = YES;
-
-    if(_hasPreviousState)
-    {
-        switch([self type])
-        {
-            case OEHIDEventTypeAxis :
-            case OEHIDEventTypeTrigger :
-                hasChanges = [self direction] != [self previousDirection] || [self value] != [self previousValue];
-                break;
-            case OEHIDEventTypeHatSwitch :
-                hasChanges = [self hatDirection] != [self previousHatDirection];
-                break;
-            case OEHIDEventTypeButton :
-            case OEHIDEventTypeKeyboard :
-                hasChanges = [self state] != [self previousState];
-                break;
-            default :
-                break;
-        }
-    }
-
-    return hasChanges;
-}
-
 - (OEHIDEventAxis)axis
 {
     OEHIDEventType type = [self type];
     NSAssert1(type == OEHIDEventTypeAxis || type == OEHIDEventTypeTrigger, @"Invalid message sent to event \"%@\"", self);
     return type == OEHIDEventTypeAxis ? _data.axis.axis : _data.trigger.axis;
-}
-
-- (OEHIDEventAxisDirection)previousDirection
-{
-    OEHIDEventType type = [self type];
-    NSAssert1(type == OEHIDEventTypeAxis || type == OEHIDEventTypeTrigger, @"Invalid message sent to event \"%@\"", self);
-    return type == OEHIDEventTypeAxis ? _data.axis.previousDirection : _data.trigger.previousDirection;
 }
 
 - (OEHIDEventAxisDirection)direction
@@ -988,13 +824,6 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     return _data.axis.minimum;
 }
 
-- (NSInteger)previousValue
-{
-    OEHIDEventType type = [self type];
-    NSAssert1(type == OEHIDEventTypeAxis || type == OEHIDEventTypeTrigger, @"Invalid message sent to event \"%@\"", self);
-    return type == OEHIDEventTypeAxis ? _data.axis.previousValue : _data.trigger.previousValue;
-}
-
 - (NSInteger)value
 {
     OEHIDEventType type = [self type];
@@ -1016,12 +845,6 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
     return _data.button.buttonNumber;
 }
 
-- (OEHIDEventState)previousState
-{
-    NSAssert1([self type] == OEHIDEventTypeButton || [self type] == OEHIDEventTypeKeyboard, @"Invalid message sent to event \"%@\"", self);
-    return ([self type] == OEHIDEventTypeButton ? _data.button.previousState : _data.key.previousState);
-}
-
 - (OEHIDEventState)state
 {
     NSAssert1([self type] == OEHIDEventTypeButton || [self type] == OEHIDEventTypeKeyboard, @"Invalid message sent to event \"%@\"", self);
@@ -1032,12 +855,6 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 {
     NSAssert1([self type] == OEHIDEventTypeHatSwitch, @"Invalid message sent to event \"%@\"", self);
     return _data.hatSwitch.hatSwitchType;
-}
-
-- (OEHIDEventHatDirection)previousHatDirection;
-{
-    NSAssert1([self type] == OEHIDEventTypeHatSwitch, @"Invalid message sent to event \"%@\"", self);
-    return _data.hatSwitch.previousHatDirection;
 }
 
 - (OEHIDEventHatDirection)hatDirection;
@@ -1074,7 +891,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
             case OEHIDEventAxisRx : ax = "Rx";   break;
             case OEHIDEventAxisRy : ax = "Ry";   break;
             case OEHIDEventAxisRz : ax = "Rz";   break;
-            default          : ax = "none"; break;
+            default               : ax = "none"; break;
         }
 
         const char * (^dirStr)(OEHIDEventAxisDirection dir) =
@@ -1083,14 +900,13 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
             return (dir == OEHIDEventAxisDirectionNegative ? "Neg" : (dir == OEHIDEventAxisDirectionPositive ? "Pos" : "Nul"));
         };
 
-        subs = [NSString stringWithFormat:@"type=Axis axis=%s direction=%s previousDirection=%s min=%lld max=%lld value=%lld previousValue=%lld",
-                ax, dirStr(_data.axis.direction), dirStr(_data.axis.previousDirection),
-                (int64_t)_data.axis.minimum, (int64_t)_data.axis.maximum,
-                (int64_t)_data.axis.value, (int64_t)_data.axis.previousValue];
+        subs = [NSString stringWithFormat:@"type=Axis axis=%s direction=%s min=%lld value=%lld max=%lld",
+                ax, dirStr(_data.axis.direction),
+                (int64_t)_data.axis.minimum, (int64_t)_data.axis.value, (int64_t)_data.axis.maximum];
     }
     else if(_type == OEHIDEventTypeButton)
-        subs = [NSString stringWithFormat:@"type=Button number=%lld state=%s previousState=%s",
-                (int64_t)_data.button.buttonNumber, STATE_STR(_data.button.state), STATE_STR(_data.button.previousState)];
+        subs = [NSString stringWithFormat:@"type=Button number=%lld state=%s",
+                (int64_t)_data.button.buttonNumber, STATE_STR(_data.button.state)];
     else if(_type == OEHIDEventTypeHatSwitch)
     {
         NSString *subtype = @"Unknown";
@@ -1102,13 +918,12 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
             default : break;
         }
 
-        subs = [NSString stringWithFormat:@"type=HatSwitch type=%@ position=%@ previousPosition=%@", subtype,
-                NSLocalizedStringFromOEHIDHatDirection(_data.hatSwitch.hatDirection),
-                NSLocalizedStringFromOEHIDHatDirection(_data.hatSwitch.previousHatDirection)];
+        subs = [NSString stringWithFormat:@"type=HatSwitch type=%@ position=%@", subtype,
+                NSLocalizedStringFromOEHIDHatDirection(_data.hatSwitch.hatDirection)];
     }
     else if(_type == OEHIDEventTypeKeyboard)
-        subs = [NSString stringWithFormat:@"type=Key number=%lld state=%s previousState=%s",
-                (int64_t)_data.key.keycode, STATE_STR(_data.key.state), STATE_STR(_data.key.previousState)];
+        subs = [NSString stringWithFormat:@"type=Key number=%lld state=%s",
+                (int64_t)_data.key.keycode, STATE_STR(_data.key.state)];
 
 #undef STATE_STR
 
@@ -1163,9 +978,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 
 - (BOOL)isEqualToEvent:(OEHIDEvent *)anObject;
 {
-    if(_type != anObject->_type) return NO;
-
-    if(_cookie != NSNotFound && anObject->_cookie != NSNotFound && _cookie != anObject->_cookie)
+    if(anObject == nil || _type != anObject->_type || _cookie != anObject->_cookie)
         return NO;
 
     switch(_type)
@@ -1176,7 +989,8 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
         case OEHIDEventTypeAxis :
             return (_padNumber           == anObject->_padNumber           &&
                     _data.axis.direction == anObject->_data.axis.direction &&
-                    _data.axis.axis      == anObject->_data.axis.axis);
+                    _data.axis.axis      == anObject->_data.axis.axis      &&
+                    _data.axis.value     == anObject->_data.axis.value);
         case OEHIDEventTypeTrigger :
             return (_padNumber              == anObject->_padNumber              &&
                     _data.trigger.direction == anObject->_data.trigger.direction &&
@@ -1233,9 +1047,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 
 - (BOOL)isUsageEqualToEvent:(OEHIDEvent *)anObject;
 {
-    if(_type != anObject->_type) return NO;
-
-    if(_cookie != NSNotFound && anObject->_cookie != NSNotFound && _cookie != anObject->_cookie)
+    if(_type != anObject->_type || _cookie != anObject->_cookie)
         return NO;
 
     switch(_type)
@@ -1335,15 +1147,6 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
     }
 }
 
-- (void)setState:(OEHIDEventState)newState
-{
-    self->_data.button.previousState = self->_data.button.state;
-    self->_previousTimestamp = self->_timestamp;
-
-    self->_timestamp = [NSDate timeIntervalSinceReferenceDate];
-    self->_data.button.state = newState;
-}
-
 @end
 
 @implementation OEHIDEvent (OEHIDEventCopy)
@@ -1427,9 +1230,7 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
 
 - (BOOL)isBindingEqualToEvent:(OEHIDEvent *)anObject;
 {
-    if(_type != anObject->_type) return NO;
-
-    if(_cookie != NSNotFound && anObject->_cookie != NSNotFound && _cookie != anObject->_cookie)
+    if(_type != anObject->_type || _cookie != anObject->_cookie)
         return NO;
 
     switch(_type)
