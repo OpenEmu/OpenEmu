@@ -154,6 +154,25 @@
 		<key>OENESButtonSelect</key>
 		<string>OEControllerRetrolinkN64ButtonZ</string>
 	</dict>
+	<key>OEControllerAdaptoidN64</key>
+	<dict>
+		<key>OENESButtonUp</key>
+		<string>OEControllerAdaptoidN64DPadUp</string>
+		<key>OENESButtonDown</key>
+		<string>OEControllerAdaptoidN64DPadDown</string>
+		<key>OENESButtonLeft</key>
+		<string>OEControllerAdaptoidN64DPadLeft</string>
+		<key>OENESButtonRight</key>
+		<string>OEControllerAdaptoidN64DPadRight</string>
+		<key>OENESButtonA</key>
+		<string>OEControllerAdaptoidN64ButtonA</string>
+		<key>OENESButtonB</key>
+		<string>OEControllerAdaptoidN64ButtonB</string>
+		<key>OENESButtonStart</key>
+		<string>OEControllerAdaptoidN64ButtonStart</string>
+		<key>OENESButtonSelect</key>
+		<string>OEControllerAdaptoidN64ButtonZ</string>
+	</dict>
 	<key>OEControllerWiimote</key>
 	<dict>
 		<key>OENESButtonUp</key>

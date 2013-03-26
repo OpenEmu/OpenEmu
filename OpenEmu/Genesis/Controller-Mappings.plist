@@ -234,6 +234,33 @@
 		<key>OEGenesisButtonMode</key>
 		<string>OEControllerRetrolinkN64ButtonZ</string>
 	</dict>
+	<key>OEControllerAdaptoidN64</key>
+	<dict>
+		<key>OEGenesisButtonUp</key>
+		<string>OEControllerAdaptoidN64DPadUp</string>
+		<key>OEGenesisButtonDown</key>
+		<string>OEControllerAdaptoidN64DPadDown</string>
+		<key>OEGenesisButtonLeft</key>
+		<string>OEControllerAdaptoidN64DPadLeft</string>
+		<key>OEGenesisButtonRight</key>
+		<string>OEControllerAdaptoidN64DPadRight</string>
+		<key>OEGenesisButtonA</key>
+		<string>OEControllerAdaptoidN64ButtonA</string>
+		<key>OEGenesisButtonB</key>
+		<string>OEControllerAdaptoidN64CPadDown</string>
+		<key>OEGenesisButtonC</key>
+		<string>OEControllerAdaptoidN64CPadRight</string>
+		<key>OEGenesisButtonX</key>
+		<string>OEControllerAdaptoidN64ButtonB</string>
+		<key>OEGenesisButtonY</key>
+		<string>OEControllerAdaptoidN64CPadLeft</string>
+		<key>OEGenesisButtonZ</key>
+		<string>OEControllerAdaptoidN64CPadUp</string>
+		<key>OEGenesisButtonStart</key>
+		<string>OEControllerAdaptoidN64ButtonStart</string>
+		<key>OEGenesisButtonMode</key>
+		<string>OEControllerAdaptoidN64ButtonZ</string>
+	</dict>
 	<key>OEControllerWiimote</key>
 	<dict>
 		<key>OEGenesisButtonUp</key>

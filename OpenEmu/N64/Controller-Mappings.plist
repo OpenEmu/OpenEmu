@@ -234,5 +234,40 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerRetrolinkN64ButtonStart</string>
 	</dict>
+	<key>OEControllerAdaptoidN64</key>
+	<dict>
+		<key>OEN64AnalogUp</key>
+		<string>OEControllerAdaptoidN64AnalogUp</string>
+		<key>OEN64AnalogLeft</key>
+		<string>OEControllerAdaptoidN64AnalogLeft</string>
+		<key>OEN64ButtonDPadUp</key>
+		<string>OEControllerAdaptoidN64DPadUp</string>
+		<key>OEN64ButtonDPadDown</key>
+		<string>OEControllerAdaptoidN64DPadDown</string>
+		<key>OEN64ButtonDPadLeft</key>
+		<string>OEControllerAdaptoidN64DPadLeft</string>
+		<key>OEN64ButtonDPadRight</key>
+		<string>OEControllerAdaptoidN64DPadRight</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEControllerAdaptoidN64CPadUp</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEControllerAdaptoidN64CPadLeft</string>
+		<key>OEN64ButtonCDown</key>
+		<string>OEControllerAdaptoidN64CPadDown</string>
+		<key>OEN64ButtonCRight</key>
+		<string>OEControllerAdaptoidN64CPadRight</string>
+		<key>OEN64ButtonA</key>
+		<string>OEControllerAdaptoidN64ButtonA</string>
+		<key>OEN64ButtonB</key>
+		<string>OEControllerAdaptoidN64ButtonB</string>
+		<key>OEN64ButtonL</key>
+		<string>OEControllerAdaptoidN64ButtonLeftShoulder</string>
+		<key>OEN64ButtonR</key>
+		<string>OEControllerAdaptoidN64ButtonRightShoulder</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEControllerAdaptoidN64ButtonZ</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEControllerAdaptoidN64ButtonStart</string>
+	</dict>
 </dict>
 </plist>

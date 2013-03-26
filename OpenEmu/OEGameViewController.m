@@ -705,15 +705,17 @@ typedef enum : NSUInteger
     
     [alert setInputLimit:1000];
     
-    [alert runModal];
-    // TODO: decide how to handle setting a cheat type from the modal and save added cheats to file
-    NSMutableDictionary *cheatsDictionary = [[NSMutableDictionary alloc] init];
-    [cheatsDictionary setObject:[alert stringValue] forKey:@"code"];
-    [cheatsDictionary setObject:@"Unknown" forKey:@"type"];
-    [cheatsDictionary setObject:[alert otherStringValue] forKey:@"description"];
-    [cheatsDictionary setObject:[NSNumber numberWithBool:NO] forKey:@"enabled"];
+    if([alert runModal])
+    {
+        // TODO: decide how to handle setting a cheat type from the modal and save added cheats to file
+        NSMutableDictionary *cheatsDictionary = [[NSMutableDictionary alloc] init];
+        [cheatsDictionary setObject:[alert stringValue] forKey:@"code"];
+        [cheatsDictionary setObject:@"Unknown" forKey:@"type"];
+        [cheatsDictionary setObject:[alert otherStringValue] forKey:@"description"];
+        [cheatsDictionary setObject:[NSNumber numberWithBool:NO] forKey:@"enabled"];
     
-    [[sender representedObject] addObject:cheatsDictionary];
+        [[sender representedObject] addObject:cheatsDictionary];
+    }
 }
 
 - (IBAction)setCheat:(id)sender

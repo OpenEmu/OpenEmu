@@ -134,6 +134,23 @@
 		<key>OEGGButtonStart</key>
 		<string>OEControllerRetrolinkN64ButtonStart</string>
 	</dict>
+	<key>OEControllerAdaptoidN64</key>
+	<dict>
+		<key>OEGGButtonUp</key>
+		<string>OEControllerAdaptoidN64DPadUp</string>
+		<key>OEGGButtonDown</key>
+		<string>OEControllerAdaptoidN64DPadDown</string>
+		<key>OEGGButtonLeft</key>
+		<string>OEControllerAdaptoidN64DPadLeft</string>
+		<key>OEGGButtonRight</key>
+		<string>OEControllerAdaptoidN64DPadRight</string>
+		<key>OEGGButtonA</key>
+		<string>OEControllerAdaptoidN64CPadDown</string>
+		<key>OEGGButtonB</key>
+		<string>OEControllerAdaptoidN64CPadRight</string>
+		<key>OEGGButtonStart</key>
+		<string>OEControllerAdaptoidN64ButtonStart</string>
+	</dict>
 	<key>OEControllerWiimote</key>
 	<dict>
 		<key>OEGGButtonUp</key>

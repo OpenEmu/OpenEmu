@@ -2,7 +2,7 @@
  *  Genesis Plus
  *  Mega Drive cartridge hardware support
  *
- *  Copyright (C) 2007-2011  Eke-Eke (Genesis Plus GX)
+ *  Copyright (C) 2007-2013  Eke-Eke (Genesis Plus GX)
  *
  *  Most cartridge protections were initially documented by Haze
  *  (http://haze.mameworld.info/)

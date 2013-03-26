@@ -5,7 +5,7 @@
  *  Support for SG-1000, Mark-III, Master System, Game Gear, Mega Drive & Mega CD hardware
  *
  *  Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003  Charles Mac Donald (original code)
- *  Copyright (C) 2007-2012  Eke-Eke (Genesis Plus GX)
+ *  Copyright (C) 2007-2013  Eke-Eke (Genesis Plus GX)
  *
  *  Redistribution and use of this code or any derivative works are permitted
  *  provided that the following conditions are met:
