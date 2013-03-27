@@ -733,6 +733,8 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 
     if(axisGroup == nil && hatGroup == nil) return;
 
+    OEDeviceHandler *handler = [sender deviceHandler];
+
     switch([anEvent type])
     {
         case OEHIDEventTypeButton :
@@ -753,7 +755,7 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
                   }];
 
                  [sender OE_setBindingEvent:nil forKey:keyDesc];
-                 [self OE_notifyObserversDidUnsetEvent:[valueDesc event] forBindingKey:keyDesc playerNumber:[sender playerNumber]];
+                 [self OE_notifyObserversDidUnsetEvent:[[valueDesc event] OE_eventWithDeviceHandler:handler] forBindingKey:keyDesc playerNumber:[sender playerNumber]];
              }];
         }
             break;
@@ -766,7 +768,7 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
                 {
                     [sender OE_setBindingDescription:nil forKey:[keyDesc name]];
                     [sender OE_setBindingEvent:nil forKey:keyDesc];
-                    [self OE_notifyObserversDidUnsetEvent:[valueDesc event] forBindingKey:keyDesc playerNumber:[sender playerNumber]];
+                    [self OE_notifyObserversDidUnsetEvent:[[valueDesc event] OE_eventWithDeviceHandler:handler] forBindingKey:keyDesc playerNumber:[sender playerNumber]];
                 }
             }
 
@@ -785,7 +787,7 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
                   }];
 
                  [sender OE_setBindingEvent:nil forKey:keyDesc];
-                 [self OE_notifyObserversDidUnsetEvent:[valueDesc event] forBindingKey:keyDesc playerNumber:[sender playerNumber]];
+                 [self OE_notifyObserversDidUnsetEvent:[[valueDesc event] OE_eventWithDeviceHandler:handler] forBindingKey:keyDesc playerNumber:[sender playerNumber]];
              }];
         }
             break;
@@ -799,7 +801,7 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
                 {
                     [sender OE_setBindingDescription:nil forKey:[keyDesc name]];
                     [sender OE_setBindingEvent:nil forKey:keyDesc];
-                    [self OE_notifyObserversDidUnsetEvent:[valueDesc event] forBindingKey:keyDesc playerNumber:[sender playerNumber]];
+                    [self OE_notifyObserversDidUnsetEvent:[[valueDesc event] OE_eventWithDeviceHandler:handler] forBindingKey:keyDesc playerNumber:[sender playerNumber]];
                 }
 
                 OEKeyBindingGroupDescription *temp = [keyDesc OE_axisGroup];
@@ -818,7 +820,7 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
                   }];
 
                  [sender OE_setBindingEvent:nil forKey:keyDesc];
-                 [self OE_notifyObserversDidUnsetEvent:[valueDesc event] forBindingKey:keyDesc playerNumber:[sender playerNumber]];
+                 [self OE_notifyObserversDidUnsetEvent:[[valueDesc event] OE_eventWithDeviceHandler:handler] forBindingKey:keyDesc playerNumber:[sender playerNumber]];
              }];
         }
             break;
