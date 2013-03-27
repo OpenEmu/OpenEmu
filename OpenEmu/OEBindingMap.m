@@ -30,8 +30,8 @@
 
 @interface OEBindingMap ()
 {
-    NSMutableDictionary *keyMap;
-    dispatch_queue_t     queue;
+    NSMutableDictionary *_keyMap;
+    dispatch_queue_t     _queue;
 }
 
 @end
@@ -89,8 +89,8 @@ static CFHashCode _OEBindingMapKeyHashCallBack(OEHIDEvent *value)
             .hash            = (CFDictionaryHashCallBack)           _OEBindingMapKeyHashCallBack
         };
 
-        keyMap = (__bridge_transfer NSMutableDictionary *)CFDictionaryCreateMutable(NULL, totalNumberOfKeys, &keyCallbacks, &kCFTypeDictionaryValueCallBacks);
-        queue  = dispatch_queue_create("org.openemu.OEBindingMap.queue", DISPATCH_QUEUE_CONCURRENT);
+        _keyMap = (__bridge_transfer NSMutableDictionary *)CFDictionaryCreateMutable(NULL, totalNumberOfKeys, &keyCallbacks, &kCFTypeDictionaryValueCallBacks);
+        _queue  = dispatch_queue_create("org.openemu.OEBindingMap.queue", DISPATCH_QUEUE_CONCURRENT);
     }
 
     return self;
@@ -99,8 +99,8 @@ static CFHashCode _OEBindingMapKeyHashCallBack(OEHIDEvent *value)
 - (OESystemKey *)systemKeyForEvent:(OEHIDEvent *)anEvent;
 {
     __block OESystemKey *ret = nil;
-    dispatch_sync(queue, ^{
-        ret = [keyMap objectForKey:anEvent];
+    dispatch_sync(_queue, ^{
+        ret = [_keyMap objectForKey:anEvent];
     });
 
     return ret;
@@ -108,26 +108,31 @@ static CFHashCode _OEBindingMapKeyHashCallBack(OEHIDEvent *value)
 
 - (void)setSystemKey:(OESystemKey *)aKey forEvent:(OEHIDEvent *)anEvent;
 {
-    dispatch_barrier_async(queue, ^{
-        [keyMap setObject:aKey forKey:anEvent];
+    dispatch_barrier_async(_queue, ^{
+        [_keyMap setObject:aKey forKey:anEvent];
     });
 }
 
 - (void)removeSystemKeyForEvent:(OEHIDEvent *)anEvent
 {
-    dispatch_barrier_async(queue, ^{
-        [keyMap removeObjectForKey:anEvent];
+    dispatch_barrier_async(_queue, ^{
+        [_keyMap removeObjectForKey:anEvent];
     });
 }
 
 - (void)dealloc
 {
-    dispatch_release(queue);
+    dispatch_release(_queue);
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@ %p events: %@>", [self class], self, keyMap];
+    __block NSString *keyMapDescription = [_keyMap description];
+    dispatch_sync(_queue, ^{
+        keyMapDescription = [_keyMap description];
+    });
+
+    return [NSString stringWithFormat:@"<%@ %p events: %@>", [self class], self, keyMapDescription];
 }
 
 @end
