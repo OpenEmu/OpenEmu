@@ -168,5 +168,22 @@
 		<key>OESMSButtonStart</key>
 		<string>OEControllerWiimoteButtonPlus</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OESMSButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OESMSButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OESMSButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OESMSButtonA</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OESMSButtonB</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OESMSButtonStart</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+	</dict>
 </dict>
 </plist>

@@ -249,6 +249,9 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
     frame.origin.y   -= NSMinY(selectedItemRectOnScreen)-NSMinY(actualScreenFrame) + 2.0 + (doesContainImages ? 1.0 : - 1.0);
     frame.size.width  = buttonFrame.size.width  + edgeInsets.left + edgeInsets.right + OEMenuContentEdgeInsets.left + OEMenuContentEdgeInsets.right + OEMenuItemInsets.left + OEMenuItemInsets.right;
 
+    // Make sure menu is big enough to display all items
+    frame.size.width = MAX(NSWidth(frame), self.size.width);
+
     // Adjust the frame's dimensions not to be bigger than the screen
     frame.size.height = MIN(NSHeight(frame), NSHeight(visibleScreenFrame));
     frame.size.width  = MIN(NSWidth(frame), NSWidth(visibleScreenFrame));
@@ -626,7 +629,7 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
     // Make sure that the size is not larger than the max size
     results.width  = MIN(results.width, maxSize.width);
     results.height = MIN(results.height, maxSize.height);
-
+    
     return results;
 }
 

@@ -269,5 +269,36 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerAdaptoidN64ButtonStart</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OEN64ButtonDPadUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OEN64ButtonDPadDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OEN64ButtonDPadLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OEN64ButtonDPadRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OEN64AnalogUp</key>
+		<string>OEControllerNintendoWiiUProControllerLeftAnalogUp</string>
+		<key>OEN64AnalogLeft</key>
+		<string>OEControllerNintendoWiiUProControllerLeftAnalogLeft</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEControllerNintendoWiiUProControllerRightAnalogUp</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEControllerNintendoWiiUProControllerRightAnalogLeft</string>
+		<key>OEN64ButtonA</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OEN64ButtonB</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OEN64ButtonL</key>
+		<string>OEControllerNintendoWiiUProControllerButtonL</string>
+		<key>OEN64ButtonR</key>
+		<string>OEControllerNintendoWiiUProControllerButtonR</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEControllerNintendoWiiUProControllerButtonZL</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+	</dict>
 </dict>
 </plist>

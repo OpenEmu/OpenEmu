@@ -261,5 +261,32 @@
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerAdaptoidN64ButtonZ</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OEArcadeButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OEArcadeButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OEArcadeButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerNintendoWiiUProControllerButtonX</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerNintendoWiiUProControllerButtonL</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerNintendoWiiUProControllerButtonR</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerNintendoWiiUProControllerButtonA</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

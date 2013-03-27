@@ -37,7 +37,7 @@
 {
     uint16_t *videoBuffer;
     int videoWidth, videoHeight;
-    int16_t pad[2][8];
+    int16_t pad[2][12];
     NSString *romName;
     double sampleRate;
 }
@@ -80,15 +80,15 @@ static void input_poll_callback(void)
 	//NSLog(@"poll callback");
 }
 
-static int16_t input_state_callback(unsigned port, unsigned device, unsigned index, unsigned id)
+static int16_t input_state_callback(unsigned port, unsigned device, unsigned index, unsigned _id)
 {
     //NSLog(@"polled input: port: %d device: %d id: %d", port, device, id);
     
     if (port == 0 & device == RETRO_DEVICE_JOYPAD) {
-        return current->pad[0][id];
+        return current->pad[0][_id];
     }
     else if(port == 1 & device == RETRO_DEVICE_JOYPAD) {
-        //return current->pad[1][id];
+        return current->pad[1][_id];
     }
     
     return 0;

@@ -192,5 +192,24 @@
 		<key>OENESButtonSelect</key>
 		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OENESButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OENESButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OENESButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OENESButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OENESButtonA</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OENESButtonB</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OENESButtonStart</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OENESButtonSelect</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>
