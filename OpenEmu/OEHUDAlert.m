@@ -52,6 +52,7 @@ static const CGFloat _OEHUDAlertSuppressionButtonLength = 150.0;
 static const CGFloat _OEHUDAlertSuppressionButtonHeight =  18.0;
 static const CGFloat _OEHUDAlertButtonLength            = 103.0;
 static const CGFloat _OEHUDAlertButtonHeight            =  23.0;
+static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 255.0;
 
 @interface OEAlertWindow : NSWindow <OECustomWindow>
 @end
@@ -711,6 +712,7 @@ static const CGFloat _OEHUDAlertButtonHeight            =  23.0;
         // To show the whole headline text, need to add about 10, otherwise the last glyph gets clipped
         NSSize headlineTextSize = [[self headlineText] sizeWithAttributes:@{  NSFontAttributeName : [_headlineTextView font] }];
         headlineTextSize.width += 10;
+        headlineTextSize.width  = MAX(headlineTextSize.width, _OEHUDAlertMinimumHeadlineLength);
 
         if(isMessageTextVisible && isHeadlineTextVisible)
         {
