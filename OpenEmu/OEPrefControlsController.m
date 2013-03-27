@@ -450,7 +450,7 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
 
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
 
-    [alert setMessageText:NSLocalizedString(@"If there is a red button on the back battery cover, press it. If not, hold down buttons ①+②", @"")];
+    [alert setMessageText:NSLocalizedString(@"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②.", @"")];
     [alert setDefaultButtonTitle:NSLocalizedString(@"Start Scanning", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     [alert setHeadlineText:NSLocalizedString(@"Make your Wiimote discoverable", @"")];
