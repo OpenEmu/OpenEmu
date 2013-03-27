@@ -192,5 +192,24 @@
 		<key>OEGBButtonSelect</key>
 		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OEGBButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OEGBButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OEGBButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OEGBButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OEGBButtonA</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OEGBButtonB</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OEGBButtonStart</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OEGBButtonSelect</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

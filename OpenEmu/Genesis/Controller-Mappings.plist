@@ -282,5 +282,32 @@
 		<key>OEGenesisButtonMode</key>
 		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OEGenesisButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OEGenesisButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OEGenesisButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OEGenesisButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OEGenesisButtonA</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OEGenesisButtonB</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OEGenesisButtonC</key>
+		<string>OEControllerNintendoWiiUProControllerButtonA</string>
+		<key>OEGenesisButtonX</key>
+		<string>OEControllerNintendoWiiUProControllerButtonX</string>
+		<key>OEGenesisButtonY</key>
+		<string>OEControllerNintendoWiiUProControllerButtonL</string>
+		<key>OEGenesisButtonZ</key>
+		<string>OEControllerNintendoWiiUProControllerButtonR</string>
+		<key>OEGenesisButtonStart</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OEGenesisButtonMode</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

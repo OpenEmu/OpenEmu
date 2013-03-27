@@ -261,5 +261,32 @@
 		<key>OESNESButtonSelect</key>
 		<string>OEControllerAdaptoidN64ButtonZ</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OESNESButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OESNESButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OESNESButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OESNESButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OESNESButtonA</key>
+		<string>OEControllerNintendoWiiUProControllerButtonA</string>
+		<key>OESNESButtonB</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OESNESButtonX</key>
+		<string>OEControllerNintendoWiiUProControllerButtonX</string>
+		<key>OESNESButtonY</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OESNESButtonTriggerLeft</key>
+		<string>OEControllerNintendoWiiUProControllerButtonL</string>
+		<key>OESNESButtonTriggerRight</key>
+		<string>OEControllerNintendoWiiUProControllerButtonR</string>
+		<key>OESNESButtonStart</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OESNESButtonSelect</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

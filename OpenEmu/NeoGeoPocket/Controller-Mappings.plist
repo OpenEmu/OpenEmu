@@ -170,5 +170,22 @@
 		<key>OENGPButtonOption</key>
 		<string>OEControllerWiimoteButtonPlus</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OENGPButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OENGPButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OENGPButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OENGPButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OENGPButtonA</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OENGPButtonB</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OENGPButtonOption</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+	</dict>
 </dict>
 </plist>
