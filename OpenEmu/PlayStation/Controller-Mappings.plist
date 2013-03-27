@@ -5,494 +5,293 @@
 	<key>OEControllerMicrosoftXbox360</key>
 	<dict>
 		<key>OEPSXButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>12</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360DPadUp</string>
 		<key>OEPSXButtonDown</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>13</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360DPadDown</string>
 		<key>OEPSXButtonLeft</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>14</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360DPadLeft</string>
 		<key>OEPSXButtonRight</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>15</integer>
-		</dict>
-		<key>OEPSXButtonTriangle</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>4</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360DPadRight</string>
 		<key>OEPSXButtonCircle</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>2</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonB</string>
 		<key>OEPSXButtonCross</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonA</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerMicrosoftXbox360ButtonY</string>
 		<key>OEPSXButtonSquare</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>3</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonX</string>
 		<key>OEPSXButtonL1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>5</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonLeftShoulder</string>
 		<key>OEPSXButtonL2</key>
-		<dict>
-			<key>Type</key>
-			<string>Trigger</string>
-			<key>Axis</key>
-			<string>Z</string>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonLeftTrigger</string>
 		<key>OEPSXButtonL3</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>7</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonLeftAnalog</string>
 		<key>OEPSXButtonR1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>6</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonRightShoulder</string>
 		<key>OEPSXButtonR2</key>
-		<dict>
-			<key>Type</key>
-			<string>Trigger</string>
-			<key>Axis</key>
-			<string>Rz</string>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonRightTrigger</string>
 		<key>OEPSXButtonR3</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>8</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonRightAnalog</string>
 		<key>OEPSXButtonStart</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonStart</string>
 		<key>OEPSXButtonSelect</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>10</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonBack</string>
 	</dict>
 	<key>OEControllerSonyPS3Sixaxis</key>
 	<dict>
 		<key>OEPSXButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>5</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisDPadUp</string>
 		<key>OEPSXButtonDown</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>7</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisDPadDown</string>
 		<key>OEPSXButtonLeft</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>8</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisDPadLeft</string>
 		<key>OEPSXButtonRight</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>6</integer>
-		</dict>
-		<key>OEPSXButtonTriangle</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>13</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisDPadRight</string>
 		<key>OEPSXButtonCircle</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>14</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonCircle</string>
 		<key>OEPSXButtonCross</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>15</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonCross</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerSonyPS3SixaxisButtonTriangle</string>
 		<key>OEPSXButtonSquare</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>16</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonSquare</string>
 		<key>OEPSXButtonL1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>11</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonL1</string>
 		<key>OEPSXButtonL2</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonL2</string>
 		<key>OEPSXButtonL3</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>2</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonL3</string>
 		<key>OEPSXButtonR1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>12</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonR1</string>
 		<key>OEPSXButtonR2</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>10</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonR2</string>
 		<key>OEPSXButtonR3</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>3</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonR3</string>
 		<key>OEPSXButtonStart</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>4</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonStart</string>
 		<key>OEPSXButtonSelect</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonSelect</string>
 	</dict>
 	<key>OEControllerLogitechDualAction</key>
 	<dict>
 		<key>OEPSXButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>HatSwitch</string>
-			<key>Direction</key>
-			<string>N</string>
-		</dict>
-		<key>OEPSXButtonTriangle</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>4</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionDPadUp</string>
 		<key>OEPSXButtonCircle</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>3</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButton3</string>
 		<key>OEPSXButtonCross</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>2</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButton2</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerLogitechDualActionButton4</string>
 		<key>OEPSXButtonSquare</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButton1</string>
 		<key>OEPSXButtonL1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>5</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonLeftShoulder</string>
 		<key>OEPSXButtonL2</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>7</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonLeftTrigger</string>
 		<key>OEPSXButtonL3</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>11</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonLeftAnalog</string>
 		<key>OEPSXButtonR1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>6</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonRightShoulder</string>
 		<key>OEPSXButtonR2</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>8</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonRightTrigger</string>
 		<key>OEPSXButtonR3</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>12</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonRightAnalog</string>
 		<key>OEPSXButtonStart</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>10</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonStart</string>
 		<key>OEPSXButtonSelect</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonSelect</string>
 	</dict>
 	<key>OEControllerSegaSaturn</key>
 	<dict>
 		<key>OEPSXButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>Axis</string>
-			<key>Axis</key>
-			<string>Y</string>
-			<key>Direction</key>
-			<string>-1</string>
-		</dict>
+		<string>OEControllerSegaSaturnDPadUp</string>
 		<key>OEPSXButtonLeft</key>
-		<dict>
-			<key>Type</key>
-			<string>Axis</string>
-			<key>Axis</key>
-			<string>X</string>
-			<key>Direction</key>
-			<string>-1</string>
-		</dict>
-		<key>OEPSXButtonTriangle</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>6</integer>
-		</dict>
+		<string>OEControllerSegaSaturnDPadLeft</string>
 		<key>OEPSXButtonCircle</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>3</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonC</string>
 		<key>OEPSXButtonCross</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>2</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonB</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerSegaSaturnButtonZ</string>
 		<key>OEPSXButtonSquare</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>5</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonY</string>
 		<key>OEPSXButtonL1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>7</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonLeftShoulder</string>
 		<key>OEPSXButtonR1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>8</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonRightShoulder</string>
 		<key>OEPSXButtonStart</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonStart</string>
 		<key>OEPSXButtonSelect</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>4</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonX</string>
 	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OEPSXButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>Axis</string>
-			<key>Axis</key>
-			<string>Y</string>
-			<key>Direction</key>
-			<string>-1</string>
-		</dict>
+		<string>OEControllerGravisGamePadProDPadUp</string>
 		<key>OEPSXButtonLeft</key>
-		<dict>
-			<key>Type</key>
-			<string>Axis</string>
-			<key>Axis</key>
-			<string>X</string>
-			<key>Direction</key>
-			<string>-1</string>
-		</dict>
-		<key>OEPSXButtonTriangle</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>4</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProDPadLeft</string>
 		<key>OEPSXButtonCircle</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>3</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButton3</string>
 		<key>OEPSXButtonCross</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>2</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButton2</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerGravisGamePadProButton4</string>
 		<key>OEPSXButtonSquare</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButton1</string>
 		<key>OEPSXButtonL1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>5</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButtonLeftShoulder</string>
 		<key>OEPSXButtonL2</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>7</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButtonLeftTrigger</string>
 		<key>OEPSXButtonR1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>6</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButtonRightShoulder</string>
 		<key>OEPSXButtonR2</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>8</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButtonRightTrigger</string>
 		<key>OEPSXButtonStart</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>10</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButtonStart</string>
 		<key>OEPSXButtonSelect</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButtonSelect</string>
+	</dict>
+	<key>OEControllerRetroUSBSNES</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerRetroUSBSNESDPadUp</string>
+		<key>OEPSXButtonLeft</key>
+		<string>OEControllerRetroUSBSNESDPadLeft</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerRetroUSBSNESButtonA</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerRetroUSBSNESButtonB</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerRetroUSBSNESButtonX</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerRetroUSBSNESButtonY</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerRetroUSBSNESButtonLeftShoulder</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerRetroUSBSNESButtonRightShoulder</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerRetroUSBSNESButtonStart</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEControllerRetroUSBSNESButtonSelect</string>
+	</dict>
+	<key>OEControllerPS3NeoGeoPad</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerPS3NeoGeoPadDPadUp</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerPS3NeoGeoPadButtonCircle</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerPS3NeoGeoPadButtonCross</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerPS3NeoGeoPadButtonTriangle</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerPS3NeoGeoPadButtonSquare</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerPS3NeoGeoPadButtonL1</string>
+		<key>OEPSXButtonL2</key>
+		<string>OEControllerPS3NeoGeoPadButtonL2</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerPS3NeoGeoPadButtonR1</string>
+		<key>OEPSXButtonR2</key>
+		<string>OEControllerPS3NeoGeoPadButtonR2</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerPS3NeoGeoPadButtonStart</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEControllerPS3NeoGeoPadButtonSelect</string>
+	</dict>
+	<key>OEControllerRetrode</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerRetrodeDPadUp</string>
+		<key>OEPSXButtonLeft</key>
+		<string>OEControllerRetrodeDPadLeft</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerRetrodeButtonA</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerRetrodeButtonB</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerRetrodeButtonX</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerRetrodeButtonY</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerRetrodeButtonLeftShoulder</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerRetrodeButtonRightShoulder</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerRetrodeButtonStart</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEControllerRetrodeButtonSelect</string>
+	</dict>
+	<key>OEControllerRetrolinkSNES</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerRetrolinkSNESDPadUp</string>
+		<key>OEPSXButtonLeft</key>
+		<string>OEControllerRetrolinkSNESDPadLeft</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerRetrolinkSNESButtonA</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerRetrolinkSNESButtonB</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerRetrolinkSNESButtonX</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerRetrolinkSNESButtonY</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerRetrolinkSNESButtonLeftShoulder</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerRetrolinkSNESButtonRightShoulder</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerRetrolinkSNESButtonStart</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEControllerRetrolinkSNESButtonSelect</string>
+	</dict>
+	<key>OEControllerRetrolinkN64</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerRetrolinkN64DPadUp</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerRetrolinkN64CPadRight</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerRetrolinkN64CPadDown</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerRetrolinkN64CPadUp</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerRetrolinkN64CPadLeft</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerRetrolinkN64ButtonLeftShoulder</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerRetrolinkN64ButtonRightShoulder</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerRetrolinkN64ButtonStart</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEControllerRetrolinkN64ButtonZ</string>
+	</dict>
+	<key>OEControllerAdaptoidN64</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerAdaptoidN64DPadUp</string>
+		<key>OEPSXButtonDown</key>
+		<string>OEControllerAdaptoidN64DPadDown</string>
+		<key>OEPSXButtonLeft</key>
+		<string>OEControllerAdaptoidN64DPadLeft</string>
+		<key>OEPSXButtonRight</key>
+		<string>OEControllerAdaptoidN64DPadRight</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerAdaptoidN64CPadRight</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerAdaptoidN64CPadDown</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerAdaptoidN64CPadUp</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerAdaptoidN64CPadLeft</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerAdaptoidN64ButtonLeftShoulder</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerAdaptoidN64ButtonRightShoulder</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerAdaptoidN64ButtonStart</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEControllerAdaptoidN64ButtonZ</string>
 	</dict>
 </dict>
 </plist>
