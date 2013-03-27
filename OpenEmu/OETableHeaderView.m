@@ -27,7 +27,6 @@
 #import "OETableHeaderView.h"
 #import "OETableView.h"
 #import "OEMenu.h"
-#import "OEGridView.h"
 
 @interface OETableHeaderView()
 - (void)OE_updateHeaderState:(id)sender;
@@ -64,7 +63,7 @@
     }
 
     OEMenuStyle style = OEMenuStyleDark;
-    if([[NSUserDefaults standardUserDefaults] boolForKey:OELightStyleGridViewMenu]) style = OEMenuStyleLight;
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEMenuOptionsStyleKey]) style = OEMenuStyleLight;
 
     NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:style] forKey:OEMenuOptionsStyleKey];
     [OEMenu openMenu:menu withEvent:event forView:self options:options];
