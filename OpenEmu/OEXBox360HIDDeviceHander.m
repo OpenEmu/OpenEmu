@@ -16,6 +16,7 @@
 
 - (void)setDeviceNumber:(NSUInteger)deviceNumber
 {
+    // see: http://tattiebogle.net/index.php/ProjectRoot/Xbox360Controller/UsbInfo#toc3
     [super setDeviceNumber:deviceNumber];
 
     NSUInteger pattern = deviceNumber + 0x6;
