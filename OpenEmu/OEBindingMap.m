@@ -36,22 +36,6 @@
 
 @end
 
-static const void *_OEBindingMapKeyRetainCallBack(CFAllocatorRef allocator, OEHIDEvent *value)
-{
-    return (__bridge_retained void *)value;
-}
-
-static void _OEBindingMapKeyReleaseCallBack(CFAllocatorRef allocator, const void *value)
-{
-    (void)(__bridge_transfer OEHIDEvent *)value;
-}
-
-CF_RETURNS_RETAINED
-static CFStringRef _OEBindingMapKeyDescriptionCallBack(OEHIDEvent *value)
-{
-    return (__bridge_retained CFStringRef)[value description];
-}
-
 static Boolean _OEBindingMapKeyEqualCallBack(OEHIDEvent *value1, OEHIDEvent *value2)
 {
     return [value1 isBindingEqualToEvent:value2];
@@ -82,11 +66,11 @@ static CFHashCode _OEBindingMapKeyHashCallBack(OEHIDEvent *value)
     if((self = [super init]))
     {
         CFDictionaryKeyCallBacks keyCallbacks = {
-            .retain          = (CFDictionaryRetainCallBack)         _OEBindingMapKeyRetainCallBack,
-            .release         = (CFDictionaryReleaseCallBack)        _OEBindingMapKeyReleaseCallBack,
-            .copyDescription = (CFDictionaryCopyDescriptionCallBack)_OEBindingMapKeyDescriptionCallBack,
-            .equal           = (CFDictionaryEqualCallBack)          _OEBindingMapKeyEqualCallBack,
-            .hash            = (CFDictionaryHashCallBack)           _OEBindingMapKeyHashCallBack
+            .retain          = kCFTypeDictionaryKeyCallBacks.retain,
+            .release         = kCFTypeDictionaryKeyCallBacks.release,
+            .copyDescription = kCFTypeDictionaryKeyCallBacks.copyDescription,
+            .equal           = (CFDictionaryEqualCallBack)_OEBindingMapKeyEqualCallBack,
+            .hash            = (CFDictionaryHashCallBack) _OEBindingMapKeyHashCallBack
         };
 
         _keyMap = (__bridge_transfer NSMutableDictionary *)CFDictionaryCreateMutable(NULL, totalNumberOfKeys, &keyCallbacks, &kCFTypeDictionaryValueCallBacks);
