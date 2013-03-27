@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1090</int>
+		<int key="IBDocument.SystemTarget">1080</int>
 		<string key="IBDocument.SystemVersion">12D78</string>
-		<string key="IBDocument.InterfaceBuilderVersion">4373</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1187.37</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">4373</string>
+			<string key="NS.object.0">3084</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSButton</string>
@@ -1279,15 +1279,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.lightStyleGridViewMenu</string>
+						<string key="label">value: values.OEMenuOptionsStyle</string>
 						<reference key="source" ref="826847187"/>
 						<reference key="destination" ref="1049953714"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="826847187"/>
 							<reference key="NSDestination" ref="1049953714"/>
-							<string key="NSLabel">value: values.lightStyleGridViewMenu</string>
+							<string key="NSLabel">value: values.OEMenuOptionsStyle</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.lightStyleGridViewMenu</string>
+							<string key="NSKeyPath">values.OEMenuOptionsStyle</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSValueTransformerName</string>
 								<string key="NS.object.0">NSNegateBoolean</string>
@@ -1295,7 +1295,7 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">246</int>
+					<int key="connectionID">330</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2755,7 +2755,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">329</int>
+			<int key="maxID">330</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

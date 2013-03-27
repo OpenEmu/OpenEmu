@@ -35,7 +35,6 @@
 const NSTimeInterval OEInitialPeriodicDelay = 0.4;      // Initial delay of a periodic events
 const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval of periodic events
 
-NSString * const OELightStyleGridViewMenu = @"lightStyleGridViewMenu";
 NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
 @interface OEGridView ()
@@ -1183,7 +1182,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
         NSMenu *contextMenu = [[self dataSource] gridView:self menuForItemsAtIndexes:[self selectionIndexes]];
         if(contextMenu)
         {
-            OEMenuStyle     style      = ([[NSUserDefaults standardUserDefaults] boolForKey:OELightStyleGridViewMenu] ? OEMenuStyleLight : OEMenuStyleDark);
+            OEMenuStyle     style      = ([[NSUserDefaults standardUserDefaults] boolForKey:OEMenuOptionsStyleKey] ? OEMenuStyleLight : OEMenuStyleDark);
             OEGridViewCell *itemCell   = [self cellForItemAtIndex:index makeIfNecessary:YES];
 
             NSRect          hitRect             = NSInsetRect([itemCell hitRect], 5, 5);
