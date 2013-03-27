@@ -213,7 +213,7 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
          OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0
                                                           keyCode:[obj unsignedIntValue]
                                                             state:NSOnState
-                                                           cookie:NSNotFound];
+                                                           cookie:OEUndefinedCookie];
 
          [bindings assignEvent:theEvent toKeyWithName:key];
      }];

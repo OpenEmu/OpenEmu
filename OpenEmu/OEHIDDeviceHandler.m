@@ -168,7 +168,7 @@
     }
 
     NSUInteger cookie = [anEvent cookie];
-    if(cookie != NSNotFound) dict[@kIOHIDElementCookieKey] = @(cookie);
+    if(cookie != OEUndefinedCookie) dict[@kIOHIDElementCookieKey] = @(cookie);
 
     NSArray *elements = (__bridge_transfer NSArray *)IOHIDDeviceCopyMatchingElements(_device, (__bridge CFDictionaryRef)dict, 0);
 
