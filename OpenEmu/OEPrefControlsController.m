@@ -452,13 +452,15 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
 
     [alert setMessageText:NSLocalizedString(@"If there is a red button on the back battery cover, press it. If not, hold down buttons ①+②", @"")];
     [alert setDefaultButtonTitle:NSLocalizedString(@"Start Scanning", @"")];
+    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     [alert setHeadlineText:NSLocalizedString(@"Make your Wiimote discoverable", @"")];
 
-    [alert runModal];
-
-    // Start WiiRemote support
-    if([[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportEnabled])
-        [[OEDeviceManager sharedDeviceManager] startWiimoteSearch];
+    if([alert runModal])
+    {
+        // Start WiiRemote support
+        if([[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportEnabled])
+            [[OEDeviceManager sharedDeviceManager] startWiimoteSearch];
+    }
 }
 
 - (void)setSelectedKey:(NSString *)value
