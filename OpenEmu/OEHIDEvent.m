@@ -481,6 +481,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
 {
     OEHIDEvent *ret = [[self alloc] initWithPadNumber:0 timestamp:timestamp cookie:cookie];
     ret->_type = OEHIDEventTypeKeyboard;
+    ret->_cookie = OEUndefinedCookie;
     ret->_data.key.keycode = keyCode;
     ret->_data.key.state = state;
 
@@ -607,6 +608,7 @@ NSString *NSStringFromIOHIDElement(IOHIDElementRef elem)
                 return NO;
 
             _type = OEHIDEventTypeKeyboard;
+            _cookie = OEUndefinedCookie;
             _data.key.keycode = usage;
             break;
         default :
@@ -1108,6 +1110,7 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
                 _data.hatSwitch.hatDirection  = [decoder decodeIntegerForKey:OEHIDEventHatSwitchDirectionKey];
                 break;
             case OEHIDEventTypeKeyboard :
+                _cookie                       = OEUndefinedCookie;
                 _data.key.keycode             = [decoder decodeIntegerForKey:OEHIDEventKeycodeKey];
                 _data.key.state               = [decoder decodeIntegerForKey:OEHIDEventStateKey];
                 break;
@@ -1141,6 +1144,7 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
             [encoder encodeInteger:[self hatDirection]  forKey:OEHIDEventHatSwitchDirectionKey];
             break;
         case OEHIDEventTypeKeyboard :
+            [encoder encodeInteger:OEUndefinedCookie    forKey:OEHIDEventCookieKey];
             [encoder encodeInteger:[self keycode]       forKey:OEHIDEventKeycodeKey];
             [encoder encodeInteger:[self state]         forKey:OEHIDEventStateKey];
             break;
