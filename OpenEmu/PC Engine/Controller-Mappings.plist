@@ -5,315 +5,192 @@
 	<key>OEControllerMicrosoftXbox360</key>
 	<dict>
 		<key>OEPCEButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>12</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360DPadUp</string>
 		<key>OEPCEButtonDown</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>13</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360DPadDown</string>
 		<key>OEPCEButtonLeft</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>14</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360DPadLeft</string>
 		<key>OEPCEButtonRight</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>15</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360DPadRight</string>
 		<key>OEPCEButton1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonA</string>
 		<key>OEPCEButton2</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>3</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonX</string>
 		<key>OEPCEButtonRun</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonStart</string>
 		<key>OEPCEButtonSelect</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>10</integer>
-		</dict>
+		<string>OEControllerMicrosoftXbox360ButtonBack</string>
 	</dict>
 	<key>OEControllerSonyPS3Sixaxis</key>
 	<dict>
 		<key>OEPCEButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>5</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisDPadUp</string>
 		<key>OEPCEButtonDown</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>7</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisDPadDown</string>
 		<key>OEPCEButtonLeft</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>8</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisDPadLeft</string>
 		<key>OEPCEButtonRight</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>6</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisDPadRight</string>
 		<key>OEPCEButton1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>15</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonCross</string>
 		<key>OEPCEButton2</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>16</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonSquare</string>
 		<key>OEPCEButtonRun</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>4</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonStart</string>
 		<key>OEPCEButtonSelect</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerSonyPS3SixaxisButtonSelect</string>
 	</dict>
 	<key>OEControllerLogitechDualAction</key>
 	<dict>
 		<key>OEPCEButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>HatSwitch</string>
-			<key>Direction</key>
-			<string>N</string>
-		</dict>
+		<string>OEControllerLogitechDualActionDPadUp</string>
 		<key>OEPCEButton1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>2</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButton2</string>
 		<key>OEPCEButton2</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButton1</string>
 		<key>OEPCEButtonRun</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>10</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonStart</string>
 		<key>OEPCEButtonSelect</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerLogitechDualActionButtonSelect</string>
 	</dict>
 	<key>OEControllerSegaSaturn</key>
 	<dict>
 		<key>OEPCEButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>Axis</string>
-			<key>Axis</key>
-			<string>Y</string>
-			<key>Direction</key>
-			<string>-1</string>
-		</dict>
+		<string>OEControllerSegaSaturnDPadUp</string>
 		<key>OEPCEButtonLeft</key>
-		<dict>
-			<key>Type</key>
-			<string>Axis</string>
-			<key>Axis</key>
-			<string>X</string>
-			<key>Direction</key>
-			<string>-1</string>
-		</dict>
+		<string>OEControllerSegaSaturnDPadLeft</string>
 		<key>OEPCEButton1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>3</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonC</string>
 		<key>OEPCEButton2</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>6</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonZ</string>
 		<key>OEPCEButtonRun</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonStart</string>
 		<key>OEPCEButtonSelect</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>4</integer>
-		</dict>
+		<string>OEControllerSegaSaturnButtonX</string>
 	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OEPCEButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>Axis</string>
-			<key>Axis</key>
-			<string>Y</string>
-			<key>Direction</key>
-			<string>-1</string>
-		</dict>
+		<string>OEControllerGravisGamePadProDPadUp</string>
 		<key>OEPCEButtonLeft</key>
-		<dict>
-			<key>Type</key>
-			<string>Axis</string>
-			<key>Axis</key>
-			<string>X</string>
-			<key>Direction</key>
-			<string>-1</string>
-		</dict>
+		<string>OEControllerGravisGamePadProDPadLeft</string>
 		<key>OEPCEButton1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>2</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButton2</string>
 		<key>OEPCEButton2</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>1</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButton1</string>
 		<key>OEPCEButtonRun</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>10</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButtonStart</string>
 		<key>OEPCEButtonSelect</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerGravisGamePadProButtonSelect</string>
+	</dict>
+	<key>OEControllerRetroUSBSNES</key>
+	<dict>
+		<key>OEPCEButtonUp</key>
+		<string>OEControllerRetroUSBSNESDPadUp</string>
+		<key>OEPCEButtonLeft</key>
+		<string>OEControllerRetroUSBSNESDPadLeft</string>
+		<key>OEPCEButton1</key>
+		<string>OEControllerRetroUSBSNESButtonB</string>
+		<key>OEPCEButton2</key>
+		<string>OEControllerRetroUSBSNESButtonY</string>
+		<key>OEPCEButtonRun</key>
+		<string>OEControllerRetroUSBSNESButtonStart</string>
+		<key>OEPCEButtonSelect</key>
+		<string>OEControllerRetroUSBSNESButtonSelect</string>
+	</dict>
+	<key>OEControllerPS3NeoGeoPad</key>
+	<dict>
+		<key>OEPCEButtonUp</key>
+		<string>OEControllerPS3NeoGeoPadDPadUp</string>
+		<key>OEPCEButton1</key>
+		<string>OEControllerPS3NeoGeoPadButtonCross</string>
+		<key>OEPCEButton2</key>
+		<string>OEControllerPS3NeoGeoPadButtonSquare</string>
+		<key>OEPCEButtonRun</key>
+		<string>OEControllerPS3NeoGeoPadButtonStart</string>
+		<key>OEPCEButtonSelect</key>
+		<string>OEControllerPS3NeoGeoPadButtonSelect</string>
+	</dict>
+	<key>OEControllerRetrode</key>
+	<dict>
+		<key>OEPCEButtonUp</key>
+		<string>OEControllerRetrodeDPadUp</string>
+		<key>OEPCEButtonLeft</key>
+		<string>OEControllerRetrodeDPadLeft</string>
+		<key>OEPCEButton1</key>
+		<string>OEControllerRetrodeButtonB</string>
+		<key>OEPCEButton2</key>
+		<string>OEControllerRetrodeButtonY</string>
+		<key>OEPCEButtonRun</key>
+		<string>OEControllerRetrodeButtonStart</string>
+		<key>OEPCEButtonSelect</key>
+		<string>OEControllerRetrodeButtonSelect</string>
+	</dict>
+	<key>OEControllerRetrolinkSNES</key>
+	<dict>
+		<key>OEPCEButtonUp</key>
+		<string>OEControllerRetrolinkSNESDPadUp</string>
+		<key>OEPCEButtonLeft</key>
+		<string>OEControllerRetrolinkSNESDPadLeft</string>
+		<key>OEPCEButton1</key>
+		<string>OEControllerRetrolinkSNESButtonB</string>
+		<key>OEPCEButton2</key>
+		<string>OEControllerRetrolinkSNESButtonY</string>
+		<key>OEPCEButtonRun</key>
+		<string>OEControllerRetrolinkSNESButtonStart</string>
+		<key>OEPCEButtonSelect</key>
+		<string>OEControllerRetrolinkSNESButtonSelect</string>
+	</dict>
+	<key>OEControllerRetrolinkN64</key>
+	<dict>
+		<key>OEPCEButtonUp</key>
+		<string>OEControllerRetrolinkN64DPadUp</string>
+		<key>OEPCEButton1</key>
+		<string>OEControllerRetrolinkN64ButtonA</string>
+		<key>OEPCEButton2</key>
+		<string>OEControllerRetrolinkN64ButtonB</string>
+		<key>OEPCEButtonRun</key>
+		<string>OEControllerRetrolinkN64ButtonStart</string>
+		<key>OEPCEButtonSelect</key>
+		<string>OEControllerRetrolinkN64ButtonZ</string>
+	</dict>
+	<key>OEControllerAdaptoidN64</key>
+	<dict>
+		<key>OEPCEButtonUp</key>
+		<string>OEControllerAdaptoidN64DPadUp</string>
+		<key>OEPCEButtonDown</key>
+		<string>OEControllerAdaptoidN64DPadDown</string>
+		<key>OEPCEButtonLeft</key>
+		<string>OEControllerAdaptoidN64DPadLeft</string>
+		<key>OEPCEButtonRight</key>
+		<string>OEControllerAdaptoidN64DPadRight</string>
+		<key>OEPCEButton1</key>
+		<string>OEControllerAdaptoidN64ButtonA</string>
+		<key>OEPCEButton2</key>
+		<string>OEControllerAdaptoidN64ButtonB</string>
+		<key>OEPCEButtonRun</key>
+		<string>OEControllerAdaptoidN64ButtonStart</string>
+		<key>OEPCEButtonSelect</key>
+		<string>OEControllerAdaptoidN64ButtonZ</string>
 	</dict>
 	<key>OEControllerWiimote</key>
 	<dict>
 		<key>OEPCEButtonUp</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>10</integer>
-		</dict>
+		<string>OEControllerWiimoteDPadRight</string>
 		<key>OEPCEButtonDown</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>9</integer>
-		</dict>
+		<string>OEControllerWiimoteDPadLeft</string>
 		<key>OEPCEButtonLeft</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>7</integer>
-		</dict>
+		<string>OEControllerWiimoteDPadUp</string>
 		<key>OEPCEButtonRight</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>8</integer>
-		</dict>
+		<string>OEControllerWiimoteDPadDown</string>
 		<key>OEPCEButton1</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>3</integer>
-		</dict>
+		<string>OEControllerWiimoteButton2</string>
 		<key>OEPCEButton2</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>2</integer>
-		</dict>
+		<string>OEControllerWiimoteButton1</string>
 		<key>OEPCEButtonRun</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>6</integer>
-		</dict>
+		<string>OEControllerWiimoteButtonPlus</string>
 		<key>OEPCEButtonSelect</key>
-		<dict>
-			<key>Type</key>
-			<string>Button</string>
-			<key>Number</key>
-			<integer>4</integer>
-		</dict>
+		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
 </dict>
 </plist>
