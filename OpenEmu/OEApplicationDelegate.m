@@ -164,7 +164,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [mainWindowController showWindow:self];
 
     [[OECoreUpdater sharedUpdater] checkForNewCores:@NO];
-    
+
     BOOL startInFullscreen = [[NSUserDefaults standardUserDefaults] boolForKey:OEMainWindowFullscreenKey];
     if(startInFullscreen != [[mainWindowController window] isFullScreen])
         [[mainWindowController window] toggleFullScreen:self];
