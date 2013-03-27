@@ -261,6 +261,8 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
     NSMenuItem *inputItem = [inputMenu addItemWithTitle:NSLocalizedString(@"Keyboard", @"Keyboard bindings menu item.") action:NULL keyEquivalent:@""];
     [inputItem setRepresentedObject:_OEKeyboardMenuItemRepresentedObject];
 
+    [inputMenu addItem:[NSMenuItem separatorItem]];
+
     [self OE_addControllersToInputMenu:inputMenu];
 
     [inputMenu addItem:[NSMenuItem separatorItem]];
@@ -285,7 +287,8 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
     for(NSMenuItem *item in [inputButton itemArray])
     {
         if([item state] == NSOnState) continue;
-        [item setState:[item representedObject] == currentDeviceHandler ? NSMixedState : NSOffState];
+        if([item representedObject])
+            [item setState:[item representedObject] == currentDeviceHandler ? NSMixedState : NSOffState];
     }
 
     [inputButton selectItemAtIndex:MAX(0, [inputButton indexOfItemWithRepresentedObject:representedObject])];
@@ -299,8 +302,6 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
         [[inputMenu addItemWithTitle:NSLocalizedString(@"No available controllers", @"Menu item indicating that no controllers is plugged in") action:NULL keyEquivalent:@""] setEnabled:NO];
         return;
     }
-
-    [inputMenu addItem:[NSMenuItem separatorItem]];
 
     for(OEDeviceHandler *handler in controllers)
     {
@@ -412,7 +413,11 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
 - (IBAction)changeInputDevice:(id)sender
 {
     id representedObject = [[[self inputPopupButton] selectedItem] representedObject];
-    if(representedObject == nil) return;
+    if(representedObject == nil)
+    {
+        [[self inputPopupButton] selectItemAtIndex:0];
+        return;
+    }
 
     [self willChangeValueForKey:@"currentPlayerBindings"];
 
