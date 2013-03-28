@@ -283,23 +283,9 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 {
     NSAssert(aDevice != NULL, @"Passing NULL device.");
     OEWiimoteHIDDeviceHandler *handler = [OEWiimoteHIDDeviceHandler deviceHandlerWithIOHIDDevice:aDevice];
-    NSUInteger existingWiimotes =
-    [[_deviceHandlers indexesOfObjectsPassingTest:
-      ^ BOOL (id obj, NSUInteger idx, BOOL *stop)
-      {
-          return [obj isKindOfClass:[OEWiimoteHIDDeviceHandler class]];
-      }] count];
 
     [handler setRumbleActivated:YES];
     [handler setExpansionPortEnabled:YES];
-
-    NSUInteger useLED = (existingWiimotes % 4) + 1;
-
-    [handler setIlluminatedLEDs:
-     (useLED == 1) ? OEWiimoteDeviceHandlerLED1 : 0 |
-     (useLED == 2) ? OEWiimoteDeviceHandlerLED2 : 0 |
-     (useLED == 3) ? OEWiimoteDeviceHandlerLED3 : 0 |
-     (useLED == 4) ? OEWiimoteDeviceHandlerLED4 : 0];
 
     if([handler connect])
     {
@@ -345,8 +331,8 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 - (void)OE_addDeviceHandler:(OEDeviceHandler *)handler
 {
     NSUInteger idx = [_deviceHandlers indexOfObject:[NSNull null]];
-    //NSUInteger padNumber = (idx == NSNotFound ? [_deviceHandlers count] : idx) + 1;
-    //[handler setDeviceNumber:padNumber];
+    NSUInteger padNumber = (idx == NSNotFound ? [_deviceHandlers count] : idx) + 1;
+    [handler setDeviceNumber:padNumber];
 
     [self willChangeValueForKey:@"deviceHandlers"];
 

@@ -268,12 +268,14 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
         uint32_t proController;
     } _latestButtonReports;
 
-    NSUInteger _rumbleAndLEDStatus;
     BOOL       _statusReportRequested;
     BOOL       _isConnected;
+    uint8_t    _batteryLevel;   // value from 0-4
+    BOOL       _charging;
+    BOOL       _pluggedIn;
 }
 
-@property(readwrite) CGFloat batteryLevel;
+@property(readwrite) BOOL lowBatteryWarning;
 
 - (void)OE_writeData:(const uint8_t *)data length:(NSUInteger)length atAddress:(uint32_t)address;
 - (void)OE_readDataOfLength:(NSUInteger)length atAddress:(uint32_t)address;
@@ -290,6 +292,7 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 - (void)OE_readExpansionPortType;
 - (void)OE_configureReportType;
 - (void)OE_synchronizeRumbleAndLEDStatus;
+- (void)OE_checkBatteryLevel;
 
 - (void)OE_parseWiimoteButtonData:(uint16_t)data;
 
@@ -325,8 +328,6 @@ static void OE_wiimoteIOHIDReportCallback(void            *context,
 {
     if((self = [super initWithIOHIDDevice:aDevice]))
     {
-        _rumbleAndLEDStatus = OEWiimoteDeviceHandlerLEDAll;
-
         _expansionPortEnabled = YES;
         _expansionPortAttached = NO;
         _expansionType = OEWiimoteExpansionTypeNotConnected;
@@ -365,34 +366,12 @@ enum {
     OEWiimoteRumbleAndLEDMask = OEWiimoteDeviceHandlerLEDAll | OEWiimoteRumbleMask,
 };
 
-- (OEWiimoteDeviceHandlerLED)illuminatedLEDs
-{
-    return _rumbleAndLEDStatus & OEWiimoteDeviceHandlerLEDAll;
-}
-
-- (void)setIlluminatedLEDs:(OEWiimoteDeviceHandlerLED)value
-{
-    if(((_rumbleAndLEDStatus ^ value) & OEWiimoteDeviceHandlerLEDAll) != 0)
-    {
-        _rumbleAndLEDStatus = (value & OEWiimoteDeviceHandlerLEDAll) | (_rumbleAndLEDStatus & ~OEWiimoteDeviceHandlerLEDAll);
-
-        [self OE_synchronizeRumbleAndLEDStatus];
-    }
-}
-
-- (BOOL)isRumbleActivated
-{
-    return _rumbleAndLEDStatus & OEWiimoteRumbleMask;
-}
-
 - (void)setRumbleActivated:(BOOL)value
 {
     value = !!value;
-    if((_rumbleAndLEDStatus & OEWiimoteRumbleMask) != value)
+    if(_rumbleActivated != value)
     {
-        if(value) _rumbleAndLEDStatus |=  OEWiimoteRumbleMask;
-        else      _rumbleAndLEDStatus &= ~OEWiimoteRumbleMask;
-
+        _rumbleActivated = value;
         [self OE_synchronizeRumbleAndLEDStatus];
     }
 }
@@ -415,7 +394,7 @@ enum {
     };
 
     // Vibration flag
-    if([self isRumbleActivated]) command[1] |= 0x01;
+    if(_rumbleActivated) command[1] |= 0x01;
 
     memcpy(command + 6, data, length);
 
@@ -435,7 +414,7 @@ enum {
         (length  >>  0) & 0xFF,
     };
 
-    if([self isRumbleActivated]) command[1] |= 0x01;
+    if(_rumbleActivated) command[1] |= 0x01;
 
     [self OE_sendCommandWithData:command length:7];
 }
@@ -475,8 +454,14 @@ enum {
     if(!_statusReportRequested) [self OE_configureReportType];
     else _statusReportRequested = NO;
 
-    // 0xC0 means fully charged
-    [self setBatteryLevel:response[7] / (CGFloat)0xC0];
+    // battery level is last three bits in upper nibble, values from 0b0000 to 0b0100
+    _batteryLevel = (response[7] & 0x70) >> 4;
+
+    if(_expansionType == OEWiimoteExpansionTypeWiiUProController)
+    {
+        _charging = (response[7] & 0x4) == 0;
+        _pluggedIn = (response[7] & 0x8) == 0;
+    }
 
     if(response[4] & 0x2 && !_expansionPortAttached)
     {
@@ -486,6 +471,8 @@ enum {
     }
     else if(((response[4] & 0x2) == 0) && _expansionPortAttached)
         _expansionPortAttached = NO;
+
+    [self OE_checkBatteryLevel];
 }
 
 - (void)OE_handleDataReportData:(const uint8_t *)response length:(NSUInteger)length;
@@ -497,6 +484,7 @@ enum {
 
     switch(response[1])
     {
+        // Right now, we should only get type 0x34; set in OE_configureReportType
         case 0x32 :
         case 0x34 : [self OE_handleExpansionReportData:response +  4 length:length -  4]; break;
         case 0x35 : [self OE_handleExpansionReportData:response +  7 length:length -  7]; break;
@@ -528,18 +516,23 @@ enum {
         default:
             break;
     }
+	
+    if(length > 10)
+    {
+        _batteryLevel = (data[10] & 0x70) >> 4;
+        if(_expansionType == OEWiimoteExpansionTypeWiiUProController)
+        {
+            _charging = (data[10] & 0x4) == 0;
+            _pluggedIn = (data[10] & 0x8) == 0;
+        }
+    }
+
+    [self OE_checkBatteryLevel];
 }
 
 - (void)OE_handleWriteResponseData:(const uint8_t *)response length:(NSUInteger)length;
 {
     if(length <= 5) return;
-
-    switch(response[5])
-    {
-        case 0x00 : NSLog(@"Write %0x - Success", response[4]); break;
-        case 0x03 : NSLog(@"Write %0x - Error",   response[4]); break;
-        default   : NSLog(@"Write %0x - Unknown", response[4]); break;
-    }
 
     //If we wrote to a register, assume its from expansion init
     if(response[4] == 0x16)
@@ -606,7 +599,31 @@ enum {
 
 - (void)OE_synchronizeRumbleAndLEDStatus
 {
-    [self OE_sendCommandWithData:(uint8_t[]){ 0x11, _rumbleAndLEDStatus & OEWiimoteRumbleAndLEDMask } length:2];
+    NSUInteger devNumber = [self deviceNumber];
+    BOOL led1 = (devNumber == 1) || (devNumber == 5);
+    BOOL led2 = (devNumber == 2) || (devNumber == 6) || (devNumber == 8);
+    BOOL led3 = (devNumber == 3) || (devNumber == 7) || (devNumber == 8);
+    BOOL led4 = (devNumber == 4) || (devNumber == 6) || (devNumber == 7) || (devNumber == 8);
+    uint8_t wiimoteLEDStatus = led1 ? OEWiimoteDeviceHandlerLED1 : 0 |
+                               led2 ? OEWiimoteDeviceHandlerLED2 : 0 |
+                               led3 ? OEWiimoteDeviceHandlerLED3 : 0 |
+                               led4 ? OEWiimoteDeviceHandlerLED4 : 0;
+
+    uint8_t rumbleAndLEDStatus = wiimoteLEDStatus | _rumbleActivated;
+    [self OE_sendCommandWithData:(uint8_t[]){ 0x11, rumbleAndLEDStatus & OEWiimoteRumbleAndLEDMask } length:2];
+}
+
+- (void)OE_checkBatteryLevel
+{
+    if(_batteryLevel < 1 && !_charging)
+    {
+        if(!_lowBatteryWarning)
+        {
+            _lowBatteryWarning = YES;
+            [[NSNotificationCenter defaultCenter] postNotificationName:OEInputDeviceLowBatteryNotification object:self];
+        }
+    }
+    else if(_charging) _lowBatteryWarning = NO;
 }
 
 - (void)OE_readExpansionPortType
