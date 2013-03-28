@@ -416,14 +416,14 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 
 - (NSUInteger)playerNumberForEvent:(OEHIDEvent *)anEvent;
 {
-    if([anEvent type] == OEHIDEventTypeKeyboard) return 0;
+    if([anEvent type] == OEHIDEventTypeKeyboard || [anEvent deviceHandler] == nil) return 0;
 
-    NSUInteger deviceNumber = [anEvent padNumber];
+    OEDeviceHandler *handler = [anEvent deviceHandler];
 
     return [_devicePlayerBindings indexOfObjectPassingTest:
             ^ BOOL (OEDevicePlayerBindings *obj, NSUInteger idx, BOOL *stop)
             {
-                return obj != (id)[NSNull null] && [[obj deviceHandler] deviceNumber] == deviceNumber;
+                return obj != (id)[NSNull null] && [obj deviceHandler] == handler;
             }] + 1;
 }
 

@@ -82,12 +82,13 @@
 {
     const uint8_t *bytes = [data bytes];
     uint8_t        b     = bytes[0];
-    
-    OEHIDEvent *ret = [OEHIDEvent buttonEventWithPadNumber:4
-                                                 timestamp:[NSDate timeIntervalSinceReferenceDate]
-                                              buttonNumber:b & 0x7F
-                                                     state:b & 0x80 ? NSOnState : NSOffState
-                                                    cookie:0];
+
+    FIXME("Create virtual interfaces for this.");
+    OEHIDEvent *ret = [OEHIDEvent buttonEventWithDeviceHandler:nil
+                                                     timestamp:[NSDate timeIntervalSinceReferenceDate]
+                                                  buttonNumber:b & 0x7F
+                                                         state:b & 0x80 ? NSOnState : NSOffState
+                                                        cookie:0];
     
     [[NSApplication sharedApplication] postHIDEvent:ret];
     [asyncSocket receiveWithTimeout:-1 tag:1];
