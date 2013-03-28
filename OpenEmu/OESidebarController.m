@@ -572,6 +572,13 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     }
 }
 
+- (void)renameItemAtIndex:(NSUInteger)index
+{
+    id item = [[self view] itemAtRow:index];
+    [self selectItem:item];
+    [self startEditingItem:item];
+}
+
 - (void)removeSelectedItemsOfOutlineView:(NSOutlineView *)outlineView
 {
     NSIndexSet *indexes = [outlineView selectedRowIndexes];
@@ -583,6 +590,11 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 - (void)removeItemForMenuItem:(NSMenuItem *)menuItem
 {
     [self removeItemAtIndex:[menuItem tag]];
+}
+
+- (void)renameItemForMenuItem:(NSMenuItem *)menuItem
+{
+    [self renameItemAtIndex:[menuItem tag]];
 }
 
 #pragma mark -

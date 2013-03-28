@@ -45,6 +45,7 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
     NSUInteger _highlightedRow;
 }
 - (void)OE_selectRowForMenuItem:(NSMenuItem *)menuItem;
+- (void)OE_renameRowForMenuItem:(NSMenuItem *)menuItem;
 - (void)OE_removeRowForMenuItem:(NSMenuItem *)menuItem;
 - (void)OE_hideRowForMenuItem:(NSMenuItem *)menuItem;
 @end
@@ -137,6 +138,10 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
 
         if([item isEditableInSidebar])
         {
+            menuItem = [[NSMenuItem alloc] initWithTitle:[@"Rename " stringByAppendingString:[item sidebarName]] action:@selector(OE_renameRowForMenuItem:) keyEquivalent:@""];
+            [menuItem setTag:index];
+            [menu addItem:menuItem];
+            
             menuItem = [[NSMenuItem alloc] initWithTitle:[@"Delete " stringByAppendingString:[item sidebarName]] action:@selector(OE_removeRowForMenuItem:) keyEquivalent:@""];
             [menuItem setTag:index];
             [menu addItem:menuItem];
@@ -158,6 +163,11 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
 - (void)OE_selectRowForMenuItem:(NSMenuItem *)menuItem
 {
     [self selectRowIndexes:[NSIndexSet indexSetWithIndex:[menuItem tag]] byExtendingSelection:NO];
+}
+
+- (void)OE_renameRowForMenuItem:(NSMenuItem *)menuItem
+{
+    [NSApp sendAction:@selector(renameItemForMenuItem:) to:[self dataSource] from:menuItem];
 }
 
 - (void)OE_removeRowForMenuItem:(NSMenuItem *)menuItem
