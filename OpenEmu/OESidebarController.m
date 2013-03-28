@@ -192,6 +192,19 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     return item;
 }
 
+- (id)duplicateCollection:(id)originalCollection
+{
+    id duplicateCollection = [[self database] addNewCollection:[originalCollection valueForKey:@"name"]];
+    
+    [[duplicateCollection mutableGames] setSet:[originalCollection games]];
+    [[duplicateCollection managedObjectContext] save:nil];
+
+    [self reloadData];
+    [self expandCollections:self];
+
+    return duplicateCollection;
+}
+
 - (void)reloadData
 {
     if(![self database]) return;

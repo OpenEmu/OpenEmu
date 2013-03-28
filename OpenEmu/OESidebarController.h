@@ -46,6 +46,7 @@ extern NSString *const OEMainViewMinWidth;
 
 - (void)reloadData;
 - (id)addCollection:(BOOL)isSmart;
+- (id)duplicateCollection:(id)originalCollection;
 
 - (void)selectItem:(id)item;
 - (void)startEditingItem:(id)item;

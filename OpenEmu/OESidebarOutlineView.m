@@ -48,6 +48,7 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
 - (void)OE_renameRowForMenuItem:(NSMenuItem *)menuItem;
 - (void)OE_removeRowForMenuItem:(NSMenuItem *)menuItem;
 - (void)OE_hideRowForMenuItem:(NSMenuItem *)menuItem;
+- (void)OE_duplicateCollectionForMenuItem:(NSMenuItem *)menuItem;
 @end
 
 @interface NSOutlineView (ApplePrivateOverrides)
@@ -100,6 +101,9 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
         [self _drawDropHighlightOnRow:_highlightedRow];
 }
 
+#pragma mark -
+#pragma mark Menu
+
 - (NSMenu *)menuForEvent:(NSEvent *)event
 {
     [[self window] makeFirstResponder:self];
@@ -145,6 +149,10 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
             menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"Rename \"%@\"", [item sidebarName]] action:@selector(OE_renameRowForMenuItem:) keyEquivalent:@""];
             [menuItem setTag:index];
             [menu addItem:menuItem];
+
+            menuItem = [[NSMenuItem alloc] initWithTitle:@"Duplicate Collection" action:@selector(OE_duplicateCollectionForMenuItem:) keyEquivalent:@""];
+            [menuItem setRepresentedObject:item];
+            [menu addItem:menuItem];
             
             menuItem = [[NSMenuItem alloc] initWithTitle:@"Delete Collection" action:@selector(OE_removeRowForMenuItem:) keyEquivalent:@""];
             [menuItem setTag:index];
@@ -182,6 +190,11 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
 - (void)OE_hideRowForMenuItem:(NSMenuItem *)menuItem
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:OESideBarHidesSystemNotification object:[menuItem representedObject]];
+}
+
+- (void)OE_duplicateCollectionForMenuItem:(NSMenuItem *)menuItem
+{
+    [NSApp sendAction:@selector(duplicateCollection:) to:[self dataSource] from:[menuItem representedObject]];
 }
 
 #pragma mark - Calculating rects
