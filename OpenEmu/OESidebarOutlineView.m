@@ -36,7 +36,8 @@
 
 #import "OEDBSystem.h"
 
-NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollapsible";
+NSString *const OESidebarConsolesNotCollapsibleKey = @"OESidebarConsolesNotCollapsible";
+NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotification";
 
 @interface OESidebarOutlineView ()
 {
@@ -45,6 +46,7 @@ NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollaps
 }
 - (void)OE_selectRowForMenuItem:(NSMenuItem *)menuItem;
 - (void)OE_removeRowForMenuItem:(NSMenuItem *)menuItem;
+- (void)OE_hideRowForMenuItem:(NSMenuItem *)menuItem;
 @end
 
 @interface NSOutlineView (ApplePrivateOverrides)
@@ -122,6 +124,10 @@ NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollaps
         menuItem = [[NSMenuItem alloc] initWithTitle:[@"Open " stringByAppendingString:[item name]] action:@selector(OE_selectRowForMenuItem:) keyEquivalent:@""];
         [menuItem setTag:index];
         [menu addItem:menuItem];
+
+        menuItem = [[NSMenuItem alloc] initWithTitle:[@"Hide " stringByAppendingString:[item name]] action:@selector(OE_hideRowForMenuItem:) keyEquivalent:@""];
+        [menuItem setRepresentedObject:item];
+        [menu addItem:menuItem];
     }
     else
     {
@@ -157,6 +163,11 @@ NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollaps
 - (void)OE_removeRowForMenuItem:(NSMenuItem *)menuItem
 {
     [NSApp sendAction:@selector(removeItemForMenuItem:) to:[self dataSource] from:menuItem];
+}
+
+- (void)OE_hideRowForMenuItem:(NSMenuItem *)menuItem
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:OESideBarHidesSystemNotification object:[menuItem representedObject]];
 }
 
 #pragma mark - Calculating rects
