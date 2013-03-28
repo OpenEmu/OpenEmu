@@ -335,7 +335,7 @@ static void OE_wiimoteIOHIDReportCallback(void            *context,
         _latestEvents = [[NSMutableDictionary alloc] init];
         
         _analogSettled = NO;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_current_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             _analogSettled = YES;
         });
     }
@@ -874,7 +874,7 @@ enum {
     if([anEvent isEqualToEvent:existingEvent]) return;
 
     _latestEvents[cookieKey] = anEvent;
-    if(_analogSettled)[NSApp postHIDEvent:anEvent];
+    if(_analogSettled) [NSApp postHIDEvent:anEvent];
 }
 
 - (void)readReportData:(void *)dataPointer length:(size_t)dataLength
