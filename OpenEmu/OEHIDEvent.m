@@ -240,8 +240,8 @@ static inline CGFloat _OEScaledValueForAxis(NSInteger minimum, NSInteger value, 
         maximum -= zero;
     }
 
-    if(value < zero) return value / (CGFloat)minimum;
-    else if(value > zero) return value / (CGFloat)maximum;
+    if(value < zero)      return -value / (CGFloat)minimum;
+    else if(value > zero) return  value / (CGFloat)maximum;
 
     return 0.0;
 }
