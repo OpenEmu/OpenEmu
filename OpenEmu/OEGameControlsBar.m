@@ -365,7 +365,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     }
     else
         [item setEnabled:NO];
-
+#if 0
     // Setup audio output
     NSMenu *audioOutputMenu = [NSMenu new];
     [audioOutputMenu setTitle:NSLocalizedString(@"Select Audio Output Device", @"")];
@@ -387,7 +387,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
             [deviceItem setRepresentedObject:device];
             [audioOutputMenu addItem:deviceItem];
         }
-
+#endif
     // Create OEMenu and display it
     [menu setDelegate:self];
 
