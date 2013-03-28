@@ -847,17 +847,17 @@ enum {
 
 - (void)OE_dispatchButtonEventWithUsage:(NSUInteger)usage state:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
-    [self OE_dispatchEvent:[OEHIDEvent buttonEventWithPadNumber:[self deviceNumber] timestamp:timestamp buttonNumber:usage state:state cookie:cookie] withCookie:cookie];
+    [self OE_dispatchEvent:[OEHIDEvent buttonEventWithDeviceHandler:self timestamp:timestamp buttonNumber:usage state:state cookie:cookie] withCookie:cookie];
 }
 
 - (void)OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)axis minimum:(NSInteger)minimum value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
-    [self OE_dispatchEvent:[OEHIDEvent axisEventWithPadNumber:[self deviceNumber] timestamp:timestamp axis:axis minimum:minimum value:value maximum:maximum cookie:cookie] withCookie:cookie];
+    [self OE_dispatchEvent:[OEHIDEvent axisEventWithDeviceHandler:self timestamp:timestamp axis:axis minimum:minimum value:value maximum:maximum cookie:cookie] withCookie:cookie];
 }
 
 - (void)OE_dispatchTriggerEventWithAxis:(OEHIDEventAxis)axis value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
-    [self OE_dispatchEvent:[OEHIDEvent triggerEventWithPadNumber:[self deviceNumber] timestamp:timestamp axis:axis value:value maximum:maximum cookie:cookie] withCookie:cookie];
+    [self OE_dispatchEvent:[OEHIDEvent triggerEventWithDeviceHandler:self timestamp:timestamp axis:axis value:value maximum:maximum cookie:cookie] withCookie:cookie];
 }
 
 - (void)OE_dispatchEvent:(OEHIDEvent *)anEvent withCookie:(NSUInteger)cookie;
@@ -907,10 +907,10 @@ enum {
          switch(type)
          {
              case OEHIDEventTypeAxis :
-                 event = [OEHIDEvent axisEventWithPadNumber:0 timestamp:0 axis:usage direction:OEHIDEventAxisDirectionNull cookie:cookie];
+                 event = [OEHIDEvent axisEventWithDeviceHandler:nil timestamp:0 axis:usage direction:OEHIDEventAxisDirectionNull cookie:cookie];
                  break;
              case OEHIDEventTypeButton :
-                 event = [OEHIDEvent buttonEventWithPadNumber:0 timestamp:0 buttonNumber:usage state:OEHIDEventStateOn cookie:cookie];
+                 event = [OEHIDEvent buttonEventWithDeviceHandler:nil timestamp:0 buttonNumber:usage state:OEHIDEventStateOn cookie:cookie];
                  break;
              case OEHIDEventTypeHatSwitch :
                  NSAssert(NO, @"A hat switch on Wiimote?!");
@@ -919,7 +919,7 @@ enum {
                  NSAssert(NO, @"A keyboard on Wiimote?!");
                  break;
              case OEHIDEventTypeTrigger :
-                 event = [OEHIDEvent triggerEventWithPadNumber:0 timestamp:0 axis:usage direction:OEHIDEventAxisDirectionPositive cookie:cookie];
+                 event = [OEHIDEvent triggerEventWithDeviceHandler:nil timestamp:0 axis:usage direction:OEHIDEventAxisDirectionPositive cookie:cookie];
                  break;
          }
 

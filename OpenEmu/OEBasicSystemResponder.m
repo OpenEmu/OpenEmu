@@ -26,6 +26,7 @@
 
 #import "OEBasicSystemResponder.h"
 #import "OEAbstractAdditions.h"
+#import "OEDeviceHandler.h"
 #import "OEHIDEvent.h"
 #import "OESystemController.h"
 #import "OEEvent.h"
@@ -92,7 +93,7 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
 
 static void *_OEJoystickStateKeyForEvent(OEHIDEvent *anEvent)
 {
-    NSUInteger ret = [anEvent padNumber];
+    NSUInteger ret = [[anEvent deviceHandler] deviceNumber];
 
     switch([anEvent type])
     {
