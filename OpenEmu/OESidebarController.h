@@ -50,7 +50,9 @@ extern NSString *const OEMainViewMinWidth;
 - (void)selectItem:(id)item;
 - (void)startEditingItem:(id)item;
 - (void)expandCollections:(id)sender;
-- (void)removeSelectedItemsOfOutlineView:(NSOutlineView*)outlineView;
+- (void)removeItemAtIndex:(NSUInteger)index;
+- (void)removeSelectedItemsOfOutlineView:(NSOutlineView *)outlineView;
+- (void)removeItemForMenuItem:(NSMenuItem *)menuItem;
 
 - (id<OESidebarItem>)selectedSidebarItem;
 

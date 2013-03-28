@@ -32,8 +32,20 @@
 #import <objc/runtime.h>
 #import "OESidebarOutlineButtonCell.h"
 #import "OESideBarGroupItem.h"
+#import "OEMenu.h"
+
+#import "OEDBSystem.h"
 
 NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollapsible";
+
+@interface OESidebarOutlineView ()
+{
+    // This should only be used for drawing the highlight
+    NSUInteger _highlightedRow;
+}
+- (void)OE_selectRowForMenuItem:(NSMenuItem *)menuItem;
+- (void)OE_removeRowForMenuItem:(NSMenuItem *)menuItem;
+@end
 
 @interface NSOutlineView (ApplePrivateOverrides)
 - (id)_highlightColorForCell:(NSCell *)cell;
@@ -75,6 +87,76 @@ NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollaps
     [self setDropBackgroundColor:[NSColor colorWithDeviceRed:0.03 green:0.24 blue:0.34 alpha:1.0]];
     [self setDropBorderWidth:2.0];
     [self setDropCornerRadius:8.0];
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+    [super drawRect:[self bounds]];
+
+    if(_highlightedRow)
+        [self _drawDropHighlightOnRow:_highlightedRow];
+}
+
+- (NSMenu *)menuForEvent:(NSEvent *)event
+{
+    [[self window] makeFirstResponder:self];
+
+    NSPoint mouseLocationInWindow = [event locationInWindow];
+    NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
+    NSInteger index = [self rowAtPoint:mouseLocationInView];
+
+    if(index == -1) return nil;
+    
+    id item = [self itemAtRow:index];
+    if([item isGroupHeaderInSidebar]) return nil;
+
+    _highlightedRow = index;
+    [self setNeedsDisplayInRect:[self rectOfRow:index]];
+
+    NSMenu *menu = [[NSMenu alloc] init];
+    NSMenuItem *menuItem;
+
+    // The tag is used to connect the menu item to the item row
+    if([item isKindOfClass:[OEDBSystem class]])
+    {
+        menuItem = [[NSMenuItem alloc] initWithTitle:[@"Open " stringByAppendingString:[item name]] action:@selector(OE_selectRowForMenuItem:) keyEquivalent:@""];
+        [menuItem setTag:index];
+        [menu addItem:menuItem];
+    }
+    else
+    {
+        menuItem = [[NSMenuItem alloc] initWithTitle:[@"Open " stringByAppendingString:[item sidebarName]] action:@selector(OE_selectRowForMenuItem:) keyEquivalent:@""];
+        [menuItem setTag:index];
+        [menu addItem:menuItem];
+
+        if([item isEditableInSidebar])
+        {
+            menuItem = [[NSMenuItem alloc] initWithTitle:[@"Delete " stringByAppendingString:[item sidebarName]] action:@selector(OE_removeRowForMenuItem:) keyEquivalent:@""];
+            [menuItem setTag:index];
+            [menu addItem:menuItem];
+        }
+    }
+
+    OEMenuStyle style = OEMenuStyleDark;
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEMenuOptionsStyleKey]) style = OEMenuStyleLight;
+
+    NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:style] forKey:OEMenuOptionsStyleKey];
+    [OEMenu openMenu:menu withEvent:event forView:self options:options];
+
+    _highlightedRow = 0;
+    [self setNeedsDisplayInRect:[self rectOfRow:index]];
+
+    return nil;
+}
+
+- (void)OE_selectRowForMenuItem:(NSMenuItem *)menuItem
+{
+    [self selectRowIndexes:[NSIndexSet indexSetWithIndex:[menuItem tag]] byExtendingSelection:NO];
+}
+
+- (void)OE_removeRowForMenuItem:(NSMenuItem *)menuItem
+{
+    [NSApp sendAction:@selector(removeItemForMenuItem:) to:[self dataSource] from:menuItem];
 }
 
 #pragma mark - Calculating rects

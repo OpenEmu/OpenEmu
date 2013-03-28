@@ -542,16 +542,13 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     editingItem = newEdItem;
 }
 
-- (void)removeSelectedItemsOfOutlineView:(NSOutlineView*)outlineView
+- (void)removeItemAtIndex:(NSUInteger)index
 {
-    NSIndexSet *indexes = [outlineView selectedRowIndexes];
-    NSUInteger index = [indexes firstIndex];
-    
-    id item = [outlineView itemAtRow:index];
+    id item = [[self view] itemAtRow:index];
     BOOL removeItem = NO;
-    
+
     if([item isEditableInSidebar])
-    {   
+    {
         NSString *msg = NSLocalizedString(@"Do you really want to remove this collection", @"");
         NSString *confirm = NSLocalizedString(@"Remove", @"");
         NSString *cancel = NSLocalizedString(@"Cancel", @"");
@@ -560,19 +557,32 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         [alert showSuppressionButtonForUDKey:OESuppressRemoveCollectionConfirmationKey];
         removeItem = [alert runModal];
     }
-    
+
     if(removeItem)
     {
         [[self database] removeCollection:item];
-        
+
         // keep selection on last object if the one we removed was last
-        if(index == [outlineView numberOfRows]-1)
+        if(index == [[self view] numberOfRows]-1)
             index --;
-        
+
         NSIndexSet *selIn = [[NSIndexSet alloc] initWithIndex:index];
-        [outlineView selectRowIndexes:selIn byExtendingSelection:NO];
+        [[self view] selectRowIndexes:selIn byExtendingSelection:NO];
         [self reloadData];
     }
+}
+
+- (void)removeSelectedItemsOfOutlineView:(NSOutlineView *)outlineView
+{
+    NSIndexSet *indexes = [outlineView selectedRowIndexes];
+    NSUInteger index = [indexes firstIndex];
+
+    [self removeItemAtIndex:index];
+}
+
+- (void)removeItemForMenuItem:(NSMenuItem *)menuItem
+{
+    [self removeItemAtIndex:[menuItem tag]];
 }
 
 #pragma mark -
