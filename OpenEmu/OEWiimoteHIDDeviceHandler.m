@@ -271,6 +271,7 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
     NSUInteger _rumbleAndLEDStatus;
     BOOL       _statusReportRequested;
     BOOL       _isConnected;
+    BOOL       _analogSettled;  // Allows short delay before events are issued; fixes Issue 544
 }
 
 @property(readwrite) CGFloat batteryLevel;
@@ -332,6 +333,11 @@ static void OE_wiimoteIOHIDReportCallback(void            *context,
         _expansionType = OEWiimoteExpansionTypeNotConnected;
 
         _latestEvents = [[NSMutableDictionary alloc] init];
+        
+        _analogSettled = NO;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_current_queue(), ^{
+            _analogSettled = YES;
+        });
     }
 
     return self;
@@ -868,7 +874,7 @@ enum {
     if([anEvent isEqualToEvent:existingEvent]) return;
 
     _latestEvents[cookieKey] = anEvent;
-    [NSApp postHIDEvent:anEvent];
+    if(_analogSettled)[NSApp postHIDEvent:anEvent];
 }
 
 - (void)readReportData:(void *)dataPointer length:(size_t)dataLength
