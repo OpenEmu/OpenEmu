@@ -1144,7 +1144,6 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
             [encoder encodeInteger:[self hatDirection]  forKey:OEHIDEventHatSwitchDirectionKey];
             break;
         case OEHIDEventTypeKeyboard :
-            [encoder encodeInteger:OEUndefinedCookie    forKey:OEHIDEventCookieKey];
             [encoder encodeInteger:[self keycode]       forKey:OEHIDEventKeycodeKey];
             [encoder encodeInteger:[self state]         forKey:OEHIDEventStateKey];
             break;
