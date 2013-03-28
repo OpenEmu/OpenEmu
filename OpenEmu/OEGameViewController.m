@@ -244,7 +244,8 @@ typedef enum : NSUInteger
 {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self name:NSViewFrameDidChangeNotification object:gameView];
-    
+    [nc removeObserver:self name:OEInputDeviceLowBatteryNotification object:nil];
+
     [controlsWindow close];
     controlsWindow = nil;
     gameView = nil;
@@ -400,7 +401,9 @@ typedef enum : NSUInteger
 
 - (void)OE_terminateEmulationWithoutNotification
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewFrameDidChangeNotification object:gameView];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self name:NSViewFrameDidChangeNotification object:gameView];
+    [nc removeObserver:self name:OEInputDeviceLowBatteryNotification object:nil];
 
     _emulationStatus = OEGameViewControllerEmulationStatusNotStarted;
 
@@ -468,6 +471,7 @@ typedef enum : NSUInteger
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:gameView];
+    [nc addObserver:self selector:@selector(OE_lowDeviceBattery:) name:OEInputDeviceLowBatteryNotification object:nil];
 
     NSWindow *window = [self OE_rootWindow];
     [window makeFirstResponder:gameView];
@@ -1092,6 +1096,16 @@ typedef enum : NSUInteger
 - (void)windowDidChangeScreen:(NSNotification *)notification
 {
     [self OE_repositionControlsWindow];
+}
+
+- (void)OE_lowDeviceBattery:(NSNotification *)notification
+{
+    OEDeviceHandler *deviceHandler = [notification object];
+    NSUInteger deviceNumber = [deviceHandler deviceNumber];
+    NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"The battery in device number %lu is low. Please charge or replace the battery.", @"Low battery alert detail message; %lu is placeholder for controller number."), deviceNumber];
+    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:lowBatteryString defaultButton:NSLocalizedString(@"Resume", @"Continue emulation.") alternateButton:nil];
+    [alert setHeadlineText:[NSString stringWithFormat:NSLocalizedString(@"Low Controller Battery", @"Device battery level is low.")]];
+    [alert runModal];
 }
 
 #pragma mark - Plugin discovery
