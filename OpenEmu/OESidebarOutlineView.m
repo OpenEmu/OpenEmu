@@ -122,27 +122,31 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
     // The tag is used to connect the menu item to the item row
     if([item isKindOfClass:[OEDBSystem class]])
     {
-        menuItem = [[NSMenuItem alloc] initWithTitle:[@"Open " stringByAppendingString:[item name]] action:@selector(OE_selectRowForMenuItem:) keyEquivalent:@""];
+        menuItem = [[NSMenuItem alloc] initWithTitle:@"Open Library" action:@selector(OE_selectRowForMenuItem:) keyEquivalent:@""];
         [menuItem setTag:index];
         [menu addItem:menuItem];
 
-        menuItem = [[NSMenuItem alloc] initWithTitle:[@"Hide " stringByAppendingString:[item name]] action:@selector(OE_hideRowForMenuItem:) keyEquivalent:@""];
+        [menu addItem:[NSMenuItem separatorItem]];
+
+        menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"Hide \"%@\"", [item name]] action:@selector(OE_hideRowForMenuItem:) keyEquivalent:@""];
         [menuItem setRepresentedObject:item];
         [menu addItem:menuItem];
     }
     else
     {
-        menuItem = [[NSMenuItem alloc] initWithTitle:[@"Open " stringByAppendingString:[item sidebarName]] action:@selector(OE_selectRowForMenuItem:) keyEquivalent:@""];
+        menuItem = [[NSMenuItem alloc] initWithTitle:@"Open Collection" action:@selector(OE_selectRowForMenuItem:) keyEquivalent:@""];
         [menuItem setTag:index];
         [menu addItem:menuItem];
 
         if([item isEditableInSidebar])
         {
-            menuItem = [[NSMenuItem alloc] initWithTitle:[@"Rename " stringByAppendingString:[item sidebarName]] action:@selector(OE_renameRowForMenuItem:) keyEquivalent:@""];
+            [menu addItem:[NSMenuItem separatorItem]];
+
+            menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"Rename \"%@\"", [item sidebarName]] action:@selector(OE_renameRowForMenuItem:) keyEquivalent:@""];
             [menuItem setTag:index];
             [menu addItem:menuItem];
             
-            menuItem = [[NSMenuItem alloc] initWithTitle:[@"Delete " stringByAppendingString:[item sidebarName]] action:@selector(OE_removeRowForMenuItem:) keyEquivalent:@""];
+            menuItem = [[NSMenuItem alloc] initWithTitle:@"Delete Collection" action:@selector(OE_removeRowForMenuItem:) keyEquivalent:@""];
             [menuItem setTag:index];
             [menu addItem:menuItem];
         }
