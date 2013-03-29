@@ -988,34 +988,88 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
     return NO;
 }
 
-- (NSUInteger)genericIdentifier
+- (NSUInteger)controlIdentifier
 {
-    NSUInteger hash = _cookie << 32;
+    return [[self class] controlIdentifierForType:_type cookie:_cookie usage:[self usage]];
+}
 
-    switch([self type])
+- (NSUInteger)controlValueIdentifier
+{
+    NSInteger value = OEHIDEventStateOn;
+
+    switch(_type)
+    {
+        case OEHIDEventTypeAxis :
+        case OEHIDEventTypeTrigger :
+            value = _data.axis.direction;
+            break;
+        case OEHIDEventTypeHatSwitch :
+            value = _data.hatSwitch.hatDirection;
+            break;
+        default:
+            break;
+    }
+
+    return [[self class] controlValueIdentifierForType:_type cookie:_cookie usage:[self usage] value:value];
+}
+
++ (NSUInteger)controlIdentifierForType:(OEHIDEventType)type cookie:(NSUInteger)cookie usage:(NSUInteger)usage;
+{
+    NSUInteger hash = cookie << 32;
+
+    switch(type)
+    {
+        case OEHIDEventTypeKeyboard :
+            hash  = 0x10000000u; // Keyboard events do not care about the cookie.
+            hash |= usage;
+            break;
+        case OEHIDEventTypeAxis :
+        case OEHIDEventTypeTrigger :
+            hash |= 0x20000000u;
+            hash |= _OEClamp((NSUInteger)OEHIDEventAxisX, usage, (NSUInteger)OEHIDEventAxisRz);
+            break;
+        case OEHIDEventTypeButton :
+            hash |= 0x0000000040000000u;
+            hash |= usage;
+            break;
+        case OEHIDEventTypeHatSwitch :
+            hash |= 0x80000000u;
+            break;
+        default :
+            break;
+    }
+
+    return hash;
+}
+
++ (NSUInteger)controlValueIdentifierForType:(OEHIDEventType)type cookie:(NSUInteger)cookie usage:(NSUInteger)usage value:(NSInteger)value;
+{
+    NSUInteger hash = cookie << 32;
+
+    switch(type)
     {
         case OEHIDEventTypeKeyboard :
             hash  = 0x1000000000000000u; // keyboard events do not care about padNumber
-            hash |= [self state] << 16;
-            hash |= [self keycode];
+            hash |= OEHIDEventStateOn << 16;
+            hash |= usage;
             break;
         case OEHIDEventTypeAxis :
         case OEHIDEventTypeTrigger :
             hash |= 0x2000000000000000u;
-            hash |= [self axis] << 8;
+            hash |= _OEClamp((NSUInteger)OEHIDEventAxisX, usage, (NSUInteger)OEHIDEventAxisRz) << 8;
 
-            OEHIDEventAxisDirection dir = [self direction];
+            OEHIDEventAxisDirection dir = _OEClamp((NSInteger)OEHIDEventAxisDirectionNegative, value, (NSInteger)OEHIDEventAxisDirectionPositive);
             if(dir != OEHIDEventAxisDirectionNull)
                 hash |= (1 << ((dir) > OEHIDEventAxisDirectionNull));
             break;
         case OEHIDEventTypeButton :
             hash |= 0x4000000000000000u;
-            hash |= [self state] << 16;
-            hash |= [self buttonNumber];
+            hash |= OEHIDEventStateOn << 16;
+            hash |= MIN(usage, 0xFFFF);
             break;
         case OEHIDEventTypeHatSwitch :
             hash |= 0x8000000000000000u;
-            hash |= [self hatDirection];
+            hash |= value & 0xF;
             break;
         default :
             break;

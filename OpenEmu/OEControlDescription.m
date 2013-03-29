@@ -67,13 +67,6 @@ static NSString *OEControlGenericIdentifierFromEvent(OEHIDEvent *event)
 @property(readwrite, weak) OEControlDescription *controlDescription;
 @end
 
-@interface OEControlDescription ()
-{
-    OEHIDEvent *_genericEvent;
-}
-
-@end
-
 @implementation OEControlDescription
 
 - (id)OE_initWithIdentifier:(NSString *)identifier name:(NSString *)name genericEvent:(OEHIDEvent *)genericEvent
@@ -190,6 +183,11 @@ static NSString *OEControlGenericIdentifierFromEvent(OEHIDEvent *event)
     return desc;
 }
 
+- (NSUInteger)controlIdentifier
+{
+    return [_genericEvent controlIdentifier];
+}
+
 - (OEHIDEventType)type
 {
     return [_genericEvent type];
@@ -211,7 +209,7 @@ static NSString *OEControlGenericIdentifierFromEvent(OEHIDEvent *event)
         _identifier      = [identifier copy] ? : OEControlGenericIdentifierFromEvent(event);
         _name            = [name copy]       ? : [event displayDescription];
         _event           = [event copy];
-        _valueIdentifier = @([event genericIdentifier]);
+        _valueIdentifier = @([event controlValueIdentifier]);
     }
 
     return self;

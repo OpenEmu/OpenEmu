@@ -35,10 +35,13 @@
 @property(readonly) OEControllerDescription *controllerDescription;
 
 @property(readonly) OEHIDEventType  type;
+@property(readonly) NSUInteger      controlIdentifier;
 @property(readonly) NSString       *name;
 @property(readonly) NSString       *identifier;
 @property(readonly) NSArray        *controlValues;
 @property(readonly) BOOL            isGenericControl;
+
+@property(readonly) OEHIDEvent     *genericEvent;
 
 - (OEControlValueDescription *)addControlValueWithIdentifier:(NSString *)identifier name:(NSString *)name event:(OEHIDEvent *)event;
 - (void)setUpControlValuesUsingRepresentations:(NSDictionary *)representations;
