@@ -141,7 +141,14 @@ extern NSString *NSStringFromIOHIDElement(IOHIDElementRef elem);
 - (BOOL)isEqualToEvent:(OEHIDEvent *)anObject;
 - (BOOL)isUsageEqualToEvent:(OEHIDEvent *)anObject; // Checks all properties but state
 
-- (NSUInteger)genericIdentifier;
+- (NSUInteger)controlIdentifier;
+- (NSUInteger)controlValueIdentifier;
+
++ (NSUInteger)controlIdentifierForType:(OEHIDEventType)type cookie:(NSUInteger)cookie usage:(NSUInteger)usage;
+
+// The value parameter can be an OEHIDEventAxisDirection for Axis and Trigger,
+// or OEHIDEventHatDirection for HatSwitch, 1 is assumed for Button and Keyboard types.
++ (NSUInteger)controlValueIdentifierForType:(OEHIDEventType)type cookie:(NSUInteger)cookie usage:(NSUInteger)usage value:(NSInteger)value;
 
 @end
 

@@ -47,6 +47,7 @@ static NSNumber *_OEDeviceIdentifierKey(id obj)
     NSArray             *_devices;
 
     NSMutableDictionary *_controls;
+    NSMutableDictionary *_controlIdentifierToControl;
     NSMutableDictionary *_identifierToControlValue;
     NSMutableDictionary *_valueIdentifierToControlValue;
 }
@@ -186,6 +187,7 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
     if(_controls != nil) return;
 
     _controls = [NSMutableDictionary dictionary];
+    _controlIdentifierToControl = [NSMutableDictionary dictionary];
     _identifierToControlValue = [NSMutableDictionary dictionary];
     _valueIdentifierToControlValue = [NSMutableDictionary dictionary];
     [handler setUpControllerDescription:self usingRepresentation:representation];
@@ -201,6 +203,11 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
     return _controls[controlIdentifier];
 }
 
+- (OEControlDescription *)controlDescriptionForControlIdentifier:(NSUInteger)controlIdentifier;
+{
+    return _controlIdentifierToControl[@(controlIdentifier)];
+}
+
 - (OEControlDescription *)controlDescriptionForIOHIDElement:(IOHIDElementRef)element
 {
     return [[self controlValueDescriptionForEvent:[OEHIDEvent OE_eventWithElement:element value:0]] controlDescription];
@@ -208,7 +215,7 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
 
 - (OEControlValueDescription *)controlValueDescriptionForEvent:(OEHIDEvent *)event;
 {
-    return _valueIdentifierToControlValue[@([event genericIdentifier])];
+    return _valueIdentifierToControlValue[@([event controlValueIdentifier])];
 }
 
 - (OEControlValueDescription *)controlValueDescriptionForIdentifier:(NSString *)controlIdentifier;
@@ -233,6 +240,7 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
 
     [desc setControllerDescription:self];
     _controls[[desc identifier]] = desc;
+    _controlIdentifierToControl[@([desc controlIdentifier])] = desc;
 
     return desc;
 }

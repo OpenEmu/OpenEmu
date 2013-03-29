@@ -29,6 +29,7 @@
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
 #import "OECorePlugin.h"
+#import "OESidebarOutlineView.h"
 
 #import "OEButton.h"
 #import "OEHUDAlert.h"
@@ -52,6 +53,7 @@
     {
         [self OE_calculateHeight];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_rebuildAvailableLibraries) name:OEDBSystemsDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleSystem:) name:OESideBarHidesSystemNotification object:nil];
         
         [[OEPlugin class] addObserver:self forKeyPath:@"allPlugins" options:0 context:nil];
     }
@@ -138,8 +140,7 @@
              if(databasePath != nil && ![databasePath isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:OEDatabasePathKey]])
              {
                  [[NSUserDefaults standardUserDefaults] setValue:databasePath forKey:OEDatabasePathKey];
-                 FIXME("ewwwwwwwwww that's ugly, don't get the app delegate like that, EVER.");
-                 [(OEApplicationDelegate *) [NSApplication sharedApplication].delegate loadDatabase];
+                 [[NSApp delegate] loadDatabase];
                  [[self pathField] setStringValue:[databasePath stringByAbbreviatingWithTildeInPath]];
              }
          }
@@ -148,11 +149,26 @@
 
 - (IBAction)toggleSystem:(id)sender
 {
-    NSString *systemIdentifier = [[sender cell] representedObject];
+    NSString *systemIdentifier;
+    BOOL disabled;
+    BOOL isCheckboxSender;
+
+    // This method is either invoked by a checkbox in the prefs or a notification
+    if([sender isKindOfClass:[OEButton class]])
+    {
+        systemIdentifier = [[sender cell] representedObject];
+        disabled = ![sender state];
+        isCheckboxSender = YES;
+    }
+    else
+    {
+        systemIdentifier = [[sender object] systemIdentifier];
+        disabled = YES;
+        isCheckboxSender = NO;
+    }
     
     OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inDatabase:[OELibraryDatabase defaultDatabase]];
     
-    BOOL disabled = ![sender state];
     // Make sure that at least one system is enabled.
     // Otherwise the mainwindow sidebar would be messed up
     if(disabled && [[OEDBSystem enabledSystems] count] == 1)
@@ -161,8 +177,9 @@
         NSString *button = NSLocalizedString(@"OK", @"");
         OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message defaultButton:button alternateButton:nil];
         [alert runModal];
-        
-        [sender setState:NSOnState];
+
+        if(isCheckboxSender)
+            [sender setState:NSOnState];
         
         return;
     }
@@ -175,8 +192,10 @@
         NSString *button = NSLocalizedString(@"OK", @"");
         OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message defaultButton:button alternateButton:nil];
         [alert runModal];
+
+        if(isCheckboxSender)
+            [sender setState:NSOffState];
         
-        [sender setState:NSOffState];
         return;
     }
     

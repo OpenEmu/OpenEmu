@@ -331,8 +331,8 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 - (void)OE_addDeviceHandler:(OEDeviceHandler *)handler
 {
     NSUInteger idx = [_deviceHandlers indexOfObject:[NSNull null]];
-    NSUInteger padNumber = (idx == NSNotFound ? [_deviceHandlers count] : idx) + 1;
-    [handler setDeviceNumber:padNumber];
+    //NSUInteger padNumber = (idx == NSNotFound ? [_deviceHandlers count] : idx) + 1;
+    //[handler setDeviceNumber:padNumber];
 
     [self willChangeValueForKey:@"deviceHandlers"];
 

@@ -49,6 +49,7 @@
 
 - (OEControlDescription *)controlDescriptionForIOHIDElement:(IOHIDElementRef)element;
 - (OEControlDescription *)controlDescriptionForIdentifier:(NSString *)controlIdentifier;
+- (OEControlDescription *)controlDescriptionForControlIdentifier:(NSUInteger)controlIdentifier;
 
 - (OEControlValueDescription *)controlValueDescriptionForEvent:(OEHIDEvent *)event;
 - (OEControlValueDescription *)controlValueDescriptionForIdentifier:(NSString *)controlIdentifier;

@@ -251,6 +251,11 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
     return _OEClamp(0, value, maximum) / (CGFloat)maximum;
 }
 
+static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
+{
+    return fabs(v1 - v2) < DBL_EPSILON;
+}
+
 @interface OEHIDEvent ()
 {
     __weak OEDeviceHandler *_deviceHandler;
@@ -416,9 +421,9 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
 
     value = _OEClamp(-1.0, value, 1.0);
 
-    if(value < 0.0)      ret->_data.axis.direction = OEHIDEventAxisDirectionNegative;
-    else if(value > 0.0) ret->_data.axis.direction = OEHIDEventAxisDirectionPositive;
-    else                 ret->_data.axis.direction = OEHIDEventAxisDirectionNull;
+    if(_OEFloatEqual(value, 0)) ret->_data.axis.direction = OEHIDEventAxisDirectionNull;
+    else if(signbit(value))     ret->_data.axis.direction = OEHIDEventAxisDirectionNegative;
+    else                        ret->_data.axis.direction = OEHIDEventAxisDirectionPositive;
 
     ret->_data.axis.value = value;
 
@@ -432,9 +437,9 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
     ret->_data.axis.axis = axis;
     ret->_data.axis.value = _OEScaledValueForAxis(minimum, value, maximum);
 
-    if(ret->_data.axis.value < 0)      ret->_data.axis.direction = OEHIDEventAxisDirectionNegative;
-    else if(ret->_data.axis.value > 0) ret->_data.axis.direction = OEHIDEventAxisDirectionPositive;
-    else                               ret->_data.axis.direction = OEHIDEventAxisDirectionNull;
+    if(_OEFloatEqual(ret->_data.axis.value, 0)) ret->_data.axis.direction = OEHIDEventAxisDirectionNull;
+    else if(signbit(ret->_data.axis.value))     ret->_data.axis.direction = OEHIDEventAxisDirectionNegative;
+    else                                        ret->_data.axis.direction = OEHIDEventAxisDirectionPositive;
 
     return ret;
 }
@@ -458,7 +463,7 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
     ret->_data.axis.axis = axis;
     ret->_data.axis.value = _OEScaledValueForTrigger(value, maximum);
 
-    ret->_data.axis.direction = ret->_data.axis.value == 0 ? OEHIDEventAxisDirectionNull : OEHIDEventAxisDirectionPositive;
+    ret->_data.axis.direction = _OEFloatEqual(ret->_data.axis.value, 0.0) ? OEHIDEventAxisDirectionNull : OEHIDEventAxisDirectionPositive;
 
     return ret;
 }
@@ -470,7 +475,7 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
     ret->_data.axis.axis = axis;
 
     value = _OEClamp(0.0, value, 1.0);
-    ret->_data.axis.direction = value == 0 ? OEHIDEventAxisDirectionNull : OEHIDEventAxisDirectionPositive;
+    ret->_data.axis.direction = _OEFloatEqual(ret->_data.axis.value, 0.0) ? OEHIDEventAxisDirectionNull : OEHIDEventAxisDirectionPositive;
     ret->_data.axis.value     = value;
 
     return ret;
@@ -655,9 +660,9 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
                 scaledValue = 0.0;
 
             _data.axis.value = scaledValue;
-            if(scaledValue > 0)      _data.axis.direction = OEHIDEventAxisDirectionPositive;
-            else if(scaledValue < 0) _data.axis.direction = OEHIDEventAxisDirectionNegative;
-            else                     _data.axis.direction = OEHIDEventAxisDirectionNull;
+            if(_OEFloatEqual(scaledValue, 0.0)) _data.axis.direction = OEHIDEventAxisDirectionNull;
+            else if(signbit(scaledValue))       _data.axis.direction = OEHIDEventAxisDirectionNegative;
+            else                                _data.axis.direction = OEHIDEventAxisDirectionPositive;
         }
             break;
         case OEHIDEventTypeTrigger :
@@ -668,7 +673,7 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
             if(scaledValue <= deadZone) scaledValue = 0.0;
 
             _data.axis.value     = scaledValue;
-            _data.axis.direction = (scaledValue > 0 ? OEHIDEventAxisDirectionPositive : OEHIDEventAxisDirectionNull);
+            _data.axis.direction = (_OEFloatEqual(scaledValue, 0.0) ? OEHIDEventAxisDirectionNull : OEHIDEventAxisDirectionPositive);
         }
             break;
         case OEHIDEventTypeHatSwitch :
@@ -907,7 +912,7 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
 #undef STATE_STR
 #undef DIT_STR
 
-    return [NSString stringWithFormat:@"<%@ %p pad=%@ %@ '%@' cookie=%lu>", [self class], self, _deviceHandler, subs, [self displayDescription], _cookie];
+    return [NSString stringWithFormat:@"<%@ %p pad=%p %@ '%@' cookie=%lu>", [self class], self, _deviceHandler, subs, [self displayDescription], _cookie];
 }
 
 - (NSUInteger)hash
@@ -970,7 +975,7 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
         case OEHIDEventTypeTrigger :
             return (_data.axis.direction == anObject->_data.axis.direction &&
                     _data.axis.axis      == anObject->_data.axis.axis      &&
-                    _data.axis.value     == anObject->_data.axis.value);
+                    _OEFloatEqual(_data.axis.value, anObject->_data.axis.value));
         case OEHIDEventTypeButton :
             return (_data.button.buttonNumber == anObject->_data.button.buttonNumber &&
                     _data.button.state        == anObject->_data.button.state);
@@ -983,34 +988,88 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
     return NO;
 }
 
-- (NSUInteger)genericIdentifier
+- (NSUInteger)controlIdentifier
 {
-    NSUInteger hash = _cookie << 32;
+    return [[self class] controlIdentifierForType:_type cookie:_cookie usage:[self usage]];
+}
 
-    switch([self type])
+- (NSUInteger)controlValueIdentifier
+{
+    NSInteger value = OEHIDEventStateOn;
+
+    switch(_type)
+    {
+        case OEHIDEventTypeAxis :
+        case OEHIDEventTypeTrigger :
+            value = _data.axis.direction;
+            break;
+        case OEHIDEventTypeHatSwitch :
+            value = _data.hatSwitch.hatDirection;
+            break;
+        default:
+            break;
+    }
+
+    return [[self class] controlValueIdentifierForType:_type cookie:_cookie usage:[self usage] value:value];
+}
+
++ (NSUInteger)controlIdentifierForType:(OEHIDEventType)type cookie:(NSUInteger)cookie usage:(NSUInteger)usage;
+{
+    NSUInteger hash = cookie << 32;
+
+    switch(type)
+    {
+        case OEHIDEventTypeKeyboard :
+            hash  = 0x10000000u; // Keyboard events do not care about the cookie.
+            hash |= usage;
+            break;
+        case OEHIDEventTypeAxis :
+        case OEHIDEventTypeTrigger :
+            hash |= 0x20000000u;
+            hash |= _OEClamp((NSUInteger)OEHIDEventAxisX, usage, (NSUInteger)OEHIDEventAxisRz);
+            break;
+        case OEHIDEventTypeButton :
+            hash |= 0x0000000040000000u;
+            hash |= usage;
+            break;
+        case OEHIDEventTypeHatSwitch :
+            hash |= 0x80000000u;
+            break;
+        default :
+            break;
+    }
+
+    return hash;
+}
+
++ (NSUInteger)controlValueIdentifierForType:(OEHIDEventType)type cookie:(NSUInteger)cookie usage:(NSUInteger)usage value:(NSInteger)value;
+{
+    NSUInteger hash = cookie << 32;
+
+    switch(type)
     {
         case OEHIDEventTypeKeyboard :
             hash  = 0x1000000000000000u; // keyboard events do not care about padNumber
-            hash |= [self state] << 16;
-            hash |= [self keycode];
+            hash |= OEHIDEventStateOn << 16;
+            hash |= usage;
             break;
         case OEHIDEventTypeAxis :
         case OEHIDEventTypeTrigger :
             hash |= 0x2000000000000000u;
-            hash |= [self axis] << 8;
+            hash |= _OEClamp((NSUInteger)OEHIDEventAxisX, usage, (NSUInteger)OEHIDEventAxisRz) << 8;
 
-            OEHIDEventAxisDirection dir = [self direction];
+            OEHIDEventAxisDirection dir = _OEClamp((NSInteger)OEHIDEventAxisDirectionNegative, value, (NSInteger)OEHIDEventAxisDirectionPositive);
             if(dir != OEHIDEventAxisDirectionNull)
                 hash |= (1 << ((dir) > OEHIDEventAxisDirectionNull));
             break;
         case OEHIDEventTypeButton :
             hash |= 0x4000000000000000u;
-            hash |= [self state] << 16;
-            hash |= [self buttonNumber];
+            hash |= OEHIDEventStateOn << 16;
+            hash |= MIN(usage, 0xFFFF);
             break;
         case OEHIDEventTypeHatSwitch :
             hash |= 0x8000000000000000u;
-            hash |= [self hatDirection];
+            hash |= value & 0xF;
             break;
         default :
             break;
@@ -1021,7 +1080,7 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
 
 - (BOOL)isUsageEqualToEvent:(OEHIDEvent *)anObject;
 {
-    if(_type != anObject->_type || _cookie != anObject->_cookie || _deviceHandler != anObject->_deviceHandler)
+    if(anObject == nil || _type != anObject->_type || _cookie != anObject->_cookie || _deviceHandler != anObject->_deviceHandler)
         return NO;
 
     switch(_type)
@@ -1203,9 +1262,10 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
         case OEHIDEventTypeKeyboard :
             return _data.key.keycode == anObject->_data.key.keycode;
         case OEHIDEventTypeAxis :
-        case OEHIDEventTypeTrigger :
             return (_data.axis.direction == anObject->_data.axis.direction &&
                     _data.axis.axis      == anObject->_data.axis.axis);
+        case OEHIDEventTypeTrigger :
+            return _data.axis.axis == anObject->_data.axis.axis;
         case OEHIDEventTypeButton :
             return _data.button.buttonNumber == anObject->_data.button.buttonNumber;
         case OEHIDEventTypeHatSwitch :

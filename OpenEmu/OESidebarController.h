@@ -46,11 +46,16 @@ extern NSString *const OEMainViewMinWidth;
 
 - (void)reloadData;
 - (id)addCollection:(BOOL)isSmart;
+- (id)duplicateCollection:(id)originalCollection;
 
 - (void)selectItem:(id)item;
 - (void)startEditingItem:(id)item;
 - (void)expandCollections:(id)sender;
-- (void)removeSelectedItemsOfOutlineView:(NSOutlineView*)outlineView;
+- (void)removeItemAtIndex:(NSUInteger)index;
+- (void)renameItemAtIndex:(NSUInteger)index;
+- (void)removeSelectedItemsOfOutlineView:(NSOutlineView *)outlineView;
+- (void)removeItemForMenuItem:(NSMenuItem *)menuItem;
+- (void)renameItemForMenuItem:(NSMenuItem *)menuItem;
 
 - (id<OESidebarItem>)selectedSidebarItem;
 

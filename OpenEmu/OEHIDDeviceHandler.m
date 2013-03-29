@@ -86,7 +86,11 @@
             for(id e in genericDesktopElements)
             {
                 IOHIDElementRef elem = (__bridge IOHIDElementRef)e;
-                OEHIDEvent *event = [[controller controlValueDescriptionForEvent:[OEHIDEvent OE_eventWithElement:elem value:0]] event];
+
+                // Note that if the element represents an axis, the event created with OE_eventWithElement:value: is necessarily
+                // going to be a Axis event though even though it may represent a trigger. The controlIdentifier of Axis and Trigger
+                // types are the same, which is how we find the right controlDescription and can setup the element properly.
+                OEHIDEvent *event = [[controller controlDescriptionForControlIdentifier:[[OEHIDEvent OE_eventWithElement:elem value:0] controlIdentifier]] genericEvent];
                 switch([event type])
                 {
                     case OEHIDEventTypeHatSwitch :

@@ -32,8 +32,24 @@
 #import <objc/runtime.h>
 #import "OESidebarOutlineButtonCell.h"
 #import "OESideBarGroupItem.h"
+#import "OEMenu.h"
 
-NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollapsible";
+#import "OEDBSystem.h"
+
+NSString *const OESidebarConsolesNotCollapsibleKey = @"OESidebarConsolesNotCollapsible";
+NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotification";
+
+@interface OESidebarOutlineView ()
+{
+    // This should only be used for drawing the highlight
+    NSUInteger _highlightedRow;
+}
+- (void)OE_selectRowForMenuItem:(NSMenuItem *)menuItem;
+- (void)OE_renameRowForMenuItem:(NSMenuItem *)menuItem;
+- (void)OE_removeRowForMenuItem:(NSMenuItem *)menuItem;
+- (void)OE_hideRowForMenuItem:(NSMenuItem *)menuItem;
+- (void)OE_duplicateCollectionForMenuItem:(NSMenuItem *)menuItem;
+@end
 
 @interface NSOutlineView (ApplePrivateOverrides)
 - (id)_highlightColorForCell:(NSCell *)cell;
@@ -75,6 +91,110 @@ NSString *const OESidebarConsolesNotCollapsibleKey = @"sidebarConsolesNotCollaps
     [self setDropBackgroundColor:[NSColor colorWithDeviceRed:0.03 green:0.24 blue:0.34 alpha:1.0]];
     [self setDropBorderWidth:2.0];
     [self setDropCornerRadius:8.0];
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+    [super drawRect:[self bounds]];
+
+    if(_highlightedRow)
+        [self _drawDropHighlightOnRow:_highlightedRow];
+}
+
+#pragma mark -
+#pragma mark Menu
+
+- (NSMenu *)menuForEvent:(NSEvent *)event
+{
+    [[self window] makeFirstResponder:self];
+
+    NSPoint mouseLocationInWindow = [event locationInWindow];
+    NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
+    NSInteger index = [self rowAtPoint:mouseLocationInView];
+
+    if(index == -1) return nil;
+    
+    id item = [self itemAtRow:index];
+    if([item isGroupHeaderInSidebar]) return nil;
+
+    _highlightedRow = index;
+    [self setNeedsDisplayInRect:[self rectOfRow:index]];
+
+    NSMenu *menu = [[NSMenu alloc] init];
+    NSMenuItem *menuItem;
+
+    // The tag is used to connect the menu item to the item row
+    if([item isKindOfClass:[OEDBSystem class]])
+    {
+        menuItem = [[NSMenuItem alloc] initWithTitle:@"Open Library" action:@selector(OE_selectRowForMenuItem:) keyEquivalent:@""];
+        [menuItem setTag:index];
+        [menu addItem:menuItem];
+
+        [menu addItem:[NSMenuItem separatorItem]];
+
+        menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"Hide \"%@\"", [item name]] action:@selector(OE_hideRowForMenuItem:) keyEquivalent:@""];
+        [menuItem setRepresentedObject:item];
+        [menu addItem:menuItem];
+    }
+    else
+    {
+        menuItem = [[NSMenuItem alloc] initWithTitle:@"Open Collection" action:@selector(OE_selectRowForMenuItem:) keyEquivalent:@""];
+        [menuItem setTag:index];
+        [menu addItem:menuItem];
+
+        if([item isEditableInSidebar])
+        {
+            [menu addItem:[NSMenuItem separatorItem]];
+
+            menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"Rename \"%@\"", [item sidebarName]] action:@selector(OE_renameRowForMenuItem:) keyEquivalent:@""];
+            [menuItem setTag:index];
+            [menu addItem:menuItem];
+
+            menuItem = [[NSMenuItem alloc] initWithTitle:@"Duplicate Collection" action:@selector(OE_duplicateCollectionForMenuItem:) keyEquivalent:@""];
+            [menuItem setRepresentedObject:item];
+            [menu addItem:menuItem];
+            
+            menuItem = [[NSMenuItem alloc] initWithTitle:@"Delete Collection" action:@selector(OE_removeRowForMenuItem:) keyEquivalent:@""];
+            [menuItem setTag:index];
+            [menu addItem:menuItem];
+        }
+    }
+
+    OEMenuStyle style = OEMenuStyleDark;
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEMenuOptionsStyleKey]) style = OEMenuStyleLight;
+
+    NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:style] forKey:OEMenuOptionsStyleKey];
+    [OEMenu openMenu:menu withEvent:event forView:self options:options];
+
+    _highlightedRow = 0;
+    [self setNeedsDisplayInRect:[self rectOfRow:index]];
+
+    return nil;
+}
+
+- (void)OE_selectRowForMenuItem:(NSMenuItem *)menuItem
+{
+    [self selectRowIndexes:[NSIndexSet indexSetWithIndex:[menuItem tag]] byExtendingSelection:NO];
+}
+
+- (void)OE_renameRowForMenuItem:(NSMenuItem *)menuItem
+{
+    [NSApp sendAction:@selector(renameItemForMenuItem:) to:[self dataSource] from:menuItem];
+}
+
+- (void)OE_removeRowForMenuItem:(NSMenuItem *)menuItem
+{
+    [NSApp sendAction:@selector(removeItemForMenuItem:) to:[self dataSource] from:menuItem];
+}
+
+- (void)OE_hideRowForMenuItem:(NSMenuItem *)menuItem
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:OESideBarHidesSystemNotification object:[menuItem representedObject]];
+}
+
+- (void)OE_duplicateCollectionForMenuItem:(NSMenuItem *)menuItem
+{
+    [NSApp sendAction:@selector(duplicateCollection:) to:[self dataSource] from:[menuItem representedObject]];
 }
 
 #pragma mark - Calculating rects
