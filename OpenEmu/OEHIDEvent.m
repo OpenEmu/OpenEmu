@@ -1080,7 +1080,7 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
 
 - (BOOL)isUsageEqualToEvent:(OEHIDEvent *)anObject;
 {
-    if(_type != anObject->_type || _cookie != anObject->_cookie || _deviceHandler != anObject->_deviceHandler)
+    if(anObject == nil || _type != anObject->_type || _cookie != anObject->_cookie || _deviceHandler != anObject->_deviceHandler)
         return NO;
 
     switch(_type)
