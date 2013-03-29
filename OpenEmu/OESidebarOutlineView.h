@@ -26,7 +26,7 @@
 #import <Foundation/Foundation.h>
 
 extern NSString *const OESidebarConsolesNotCollapsibleKey;
-extern NSString *const OESideBarHidesSystemNotification;
+extern NSString *const OESidebarTogglesSystemNotification;
 
 @interface OESidebarOutlineView : NSOutlineView <NSDraggingDestination>
 @property BOOL isDrawingAboveDropHighlight;

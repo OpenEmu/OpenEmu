@@ -45,9 +45,6 @@
 
 @property(readonly) NSUInteger numberOfPlayers;
 
-@property(readonly) NSArray *keyboardPlayerBindings;
-@property(readonly) NSArray *devicePlayerBindings;
-
 - (OEDevicePlayerBindings *)devicePlayerBindingsForPlayer:(NSUInteger)playerNumber;
 - (OEKeyboardPlayerBindings *)keyboardPlayerBindingsForPlayer:(NSUInteger)playerNumber;
 

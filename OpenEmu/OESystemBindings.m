@@ -50,7 +50,7 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
     NSDictionary           *_keyBindingsDescriptions;
     NSArray                *_keyGroupBindingsDescriptions;
 
-    NSMutableArray         *_keyboardPlayerBindings;
+    NSMutableDictionary    *_keyboardPlayerBindings;
 
     // Map devices identifiers to an array of saved bindings
     // Each object in the array represent settings in the order they were added to the app
@@ -60,7 +60,7 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
     NSMutableDictionary    *_unparsedManufactuerBindings;
     NSMutableDictionary    *_deviceHandlersToBindings;
 
-    NSMutableArray         *_devicePlayerBindings;
+    NSMutableDictionary    *_devicePlayerBindings;
 
     NSMutableDictionary    *_defaultDeviceBindings;
 
@@ -97,16 +97,16 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
     if((self = [super init]))
     {
         _parsedManufacturerBindings = [NSMutableDictionary dictionary];
-        _defaultDeviceBindings    = [NSMutableDictionary dictionary];
-        _deviceHandlersToBindings = [NSMutableDictionary dictionary];
+        _defaultDeviceBindings      = [NSMutableDictionary dictionary];
+        _deviceHandlersToBindings   = [NSMutableDictionary dictionary];
 
-        _keyboardPlayerBindings   = [NSMutableArray      array];
-        _devicePlayerBindings     = [NSMutableArray      array];
+        _keyboardPlayerBindings     = [NSMutableDictionary dictionary];
+        _devicePlayerBindings       = [NSMutableDictionary dictionary];
 
-        _bindingsObservers        = [NSMutableSet        set];
+        _bindingsObservers          = [NSMutableSet        set];
 
-        _bindingsController       = parentController;
-        _systemController         = aController;
+        _bindingsController         = parentController;
+        _systemController           = aController;
 
         [self OE_setUpKeyBindingDescriptionsWithSystemController:aController];
 
@@ -128,16 +128,6 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 - (NSUInteger)numberOfPlayers
 {
     return [_systemController numberOfPlayers];
-}
-
-- (NSArray *)keyboardPlayerBindings;
-{
-    return _keyboardPlayerBindings;
-}
-
-- (NSArray *)devicePlayerBindings;
-{
-    return _devicePlayerBindings;
 }
 
 - (void)OE_setUpKeyBindingDescriptionsWithSystemController:(OESystemController *)aController;
@@ -224,7 +214,7 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
     if(representations == nil) return;
 
     // Convert keyboard bindings
-    _keyboardPlayerBindings = [[NSMutableArray alloc] initWithCapacity:[representations count]];
+    _keyboardPlayerBindings = [[NSMutableDictionary alloc] initWithCapacity:[representations count]];
 
     [representations enumerateObjectsUsingBlock:
      ^(NSDictionary *encoded, NSUInteger idx, BOOL *stop)
@@ -244,7 +234,7 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
          [controller OE_setBindingEvents:decodedBindings];
          [controller OE_setBindingDescriptions:[self OE_stringValuesForBindings:decodedBindings possibleKeys:_keyBindingsDescriptions]];
 
-         [_keyboardPlayerBindings addObject:controller];
+         _keyboardPlayerBindings[@([controller playerNumber])] = controller;
      }];
 }
 
@@ -395,9 +385,12 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 - (NSMutableArray *)OE_arrayRepresentationForKeyboardBindings
 {
     NSMutableArray *ret = [NSMutableArray arrayWithCapacity:[_keyboardPlayerBindings count]];
-    for(OEKeyboardPlayerBindings *playerBindings in _keyboardPlayerBindings)
+    NSUInteger numberOfPlayers = [self numberOfPlayers];
+    NSUInteger lastValidPlayerNumber = 1;
+
+    for(NSUInteger i = 1; i <= numberOfPlayers; i++)
     {
-        NSDictionary *rawBindings = [playerBindings bindingEvents];
+        NSDictionary *rawBindings = [_keyboardPlayerBindings[@(i)] bindingEvents];
         NSMutableDictionary *bindingRepresentations = [NSMutableDictionary dictionaryWithCapacity:[rawBindings count]];
         [rawBindings enumerateKeysAndObjectsUsingBlock:
          ^(OEKeyBindingDescription *key, OEHIDEvent *event, BOOL *stop)
@@ -406,7 +399,12 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
          }];
 
         ret[[ret count]] = bindingRepresentations;
+
+        if(rawBindings != nil) lastValidPlayerNumber = i;
     }
+
+    if(lastValidPlayerNumber < numberOfPlayers)
+        [ret removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(lastValidPlayerNumber, numberOfPlayers - lastValidPlayerNumber)]];
 
     return ret;
 }
@@ -420,47 +418,48 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 
     OEDeviceHandler *handler = [anEvent deviceHandler];
 
-    return [_devicePlayerBindings indexOfObjectPassingTest:
-            ^ BOOL (OEDevicePlayerBindings *obj, NSUInteger idx, BOOL *stop)
-            {
-                return obj != (id)[NSNull null] && [obj deviceHandler] == handler;
-            }] + 1;
+    return [[[_devicePlayerBindings keysOfEntriesPassingTest:
+              ^ BOOL (id key, OEDevicePlayerBindings *obj, BOOL *stop)
+              {
+                  if([obj deviceHandler] == handler)
+                  {
+                      *stop = YES;
+                      return YES;
+                  }
+
+                  return NO;
+              }] anyObject] integerValue];
 }
 
 - (OEDevicePlayerBindings *)devicePlayerBindingsForPlayer:(NSUInteger)playerNumber;
 {
-    if(playerNumber == 0 || playerNumber > [self numberOfPlayers] || playerNumber > [_devicePlayerBindings count]) return nil;
+    if(playerNumber == 0 || playerNumber > [self numberOfPlayers]) return nil;
 
-    id ret = [_devicePlayerBindings objectAtIndex:playerNumber - 1];
-    return ret != [NSNull null] ? ret : nil;
+    return _devicePlayerBindings[@(playerNumber)];
 }
 
 - (OEKeyboardPlayerBindings *)keyboardPlayerBindingsForPlayer:(NSUInteger)playerNumber;
 {
     if(playerNumber == 0 || playerNumber > [self numberOfPlayers]) return nil;
 
-    NSUInteger count = [_keyboardPlayerBindings count];
+    OEKeyboardPlayerBindings *ret = _keyboardPlayerBindings[@(playerNumber)];
 
-    if(count < playerNumber)
+    if(ret == nil)
     {
-        NSIndexSet *added = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(count, playerNumber - count)];
-        [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:added forKey:@"keyboardPlayerBindings"];
+        FIXME("This is a temporary solution until to notify the preferences.");
+        [self willChangeValueForKey:@"keyboardPlayerBindings"];
+        ret = [[OEKeyboardPlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:playerNumber];
 
-        while([_keyboardPlayerBindings count] < playerNumber)
-        {
-            OEPlayerBindings *controller = [[OEKeyboardPlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:[_keyboardPlayerBindings count] + 1];
+        // At this point, if a keyboard bindings doesn't exist, it means none were saved for this player
+        [ret OE_setBindingDescriptions:[self OE_stringValuesForBindings:nil possibleKeys:_keyBindingsDescriptions]];
+        [ret OE_setBindingEvents:@{ }];
 
-            // At this point, if a keyboard bindings doesn't exist, it means none were saved for this player
-            [controller OE_setBindingDescriptions:[self OE_stringValuesForBindings:nil possibleKeys:_keyBindingsDescriptions]];
-            [controller OE_setBindingEvents:@{ }];
+        _keyboardPlayerBindings[@(playerNumber)] = ret;
 
-            [_keyboardPlayerBindings addObject:controller];
-        }
-
-        [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:added forKey:@"keyboardPlayerBindings"];
+        [self didChangeValueForKey:@"keyboardPlayerBindings"];
     }
 
-    return [_keyboardPlayerBindings objectAtIndex:playerNumber - 1];
+    return ret;
 }
 
 - (NSUInteger)playerForDeviceHandler:(OEDeviceHandler *)deviceHandler;
@@ -470,13 +469,11 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 
 - (OEDeviceHandler *)deviceHandlerForPlayer:(NSUInteger)playerNumber;
 {
-    if(playerNumber - 1 >= [_devicePlayerBindings count]) return nil;
+    if(playerNumber == 0 || playerNumber > [self numberOfPlayers]) return nil;
 
-    OEDevicePlayerBindings *bindings = _devicePlayerBindings[playerNumber - 1];
+    OEDevicePlayerBindings *bindings = _devicePlayerBindings[@(playerNumber)];
 
-    if(bindings == (id)[NSNull null]) return nil;
-
-    NSAssert([bindings playerNumber] == playerNumber, @"Player bindings at index %ld expected player number: %ld, got: %ld.", playerNumber - 1, playerNumber, [bindings playerNumber]);
+    NSAssert([bindings playerNumber] == playerNumber, @"Expected player number for bindings: %ld, got: %ld.", playerNumber, [bindings playerNumber]);
 
     return [bindings deviceHandler];
 }
@@ -499,13 +496,17 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
     if(oldBindings != nil) [self OE_notifyObserversForRemovedDeviceBindings:oldBindings];
     [self OE_notifyObserversForRemovedDeviceBindings:newBindings];
 
+    // Clean up the keys for each player keys so there's no confusion.
+    if(oldBindings != nil) [_devicePlayerBindings removeObjectForKey:@([oldBindings playerNumber])];
+    [_devicePlayerBindings removeObjectForKey:@([newBindings playerNumber])];
+
     // Change the player numbers.
     if(oldBindings != nil) [oldBindings OE_setPlayerNumber:[newBindings playerNumber]];
     [newBindings OE_setPlayerNumber:playerNumber];
 
     // Move the bindings in the array.
-    if(oldBindings != nil) _devicePlayerBindings[[oldBindings playerNumber] - 1] = oldBindings;
-    _devicePlayerBindings[playerNumber - 1] = newBindings;
+    if(oldBindings != nil) _devicePlayerBindings[@([oldBindings playerNumber])] = oldBindings;
+    _devicePlayerBindings[@(playerNumber)] = newBindings;
 
     // Notify observers to add all bindings for the new player layout.
     if(oldBindings != nil) [self OE_notifyObserversForAddedDeviceBindings:oldBindings];
@@ -619,20 +620,21 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
     // Trying to set the same event to the same key, ignore it
     if([[[sender bindingEvents] objectForKey:keyDesc] isEqual:anEvent]) return keyDesc;
 
-    for(OEPlayerBindings *playerBindings in _keyboardPlayerBindings)
-    {
-        NSArray *keys = [[playerBindings bindingEvents] allKeysForObject:anEvent];
-        NSAssert([keys count] <= 1, @"More than one key is attached to the same event: %@ -> %@", anEvent, keys);
+    [_keyboardPlayerBindings enumerateKeysAndObjectsUsingBlock:
+     ^(NSNumber *key, OEKeyboardPlayerBindings *playerBindings, BOOL *stop)
+     {
+         NSArray *keys = [[playerBindings bindingEvents] allKeysForObject:anEvent];
+         NSAssert([keys count] <= 1, @"More than one key is attached to the same event: %@ -> %@", anEvent, keys);
 
-        OEKeyBindingDescription *desc = [keys lastObject];
-        if(desc != nil)
-        {
-            [playerBindings OE_setBindingDescription:nil forKey:[desc name]];
-            [playerBindings OE_setBindingEvent:nil forKey:desc];
+         OEKeyBindingDescription *desc = [keys lastObject];
+         if(desc != nil)
+         {
+             [playerBindings OE_setBindingDescription:nil forKey:[desc name]];
+             [playerBindings OE_setBindingEvent:nil forKey:desc];
 
-            [self OE_notifyObserversDidUnsetEvent:anEvent forBindingKey:desc playerNumber:[desc isSystemWide] ? 0 : [playerBindings playerNumber]];
-        }
-    }
+             [self OE_notifyObserversDidUnsetEvent:anEvent forBindingKey:desc playerNumber:[desc isSystemWide] ? 0 : [playerBindings playerNumber]];
+         }
+     }];
 
     NSString *eventString = [self OE_descriptionForEvent:anEvent];
 
@@ -855,21 +857,10 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 
     NSUInteger playerNumber = [controller playerNumber];
 
-    // Don't bother replacing with NSNull if it's at the end of the array
-    if(playerNumber == [_devicePlayerBindings count])
-    {
-        NSIndexSet *removed = [NSIndexSet indexSetWithIndex:playerNumber - 1];
-        [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:removed forKey:@"devicePlayerBindings"];
-        [_devicePlayerBindings removeLastObject];
-        [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:removed forKey:@"devicePlayerBindings"];
-    }
-    else
-    {
-        NSIndexSet *removed = [NSIndexSet indexSetWithIndex:playerNumber - 1];
-        [self willChange:NSKeyValueChangeReplacement valuesAtIndexes:removed forKey:@"devicePlayerBindings"];
-        [_devicePlayerBindings replaceObjectAtIndex:playerNumber - 1 withObject:[NSNull null]];
-        [self didChange:NSKeyValueChangeReplacement valuesAtIndexes:removed forKey:@"devicePlayerBindings"];
-    }
+    FIXME("This is a temporary solution until to notify the preferences.");
+    [self willChangeValueForKey:@"devicePlayerBindings"];
+    [_devicePlayerBindings removeObjectForKey:@(playerNumber)];
+    [self didChangeValueForKey:@"devicePlayerBindings"];
 
     [self OE_notifyObserversForRemovedDeviceBindings:controller];
 
@@ -962,30 +953,19 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 
 - (NSUInteger)OE_addDeviceBindings:(OEDevicePlayerBindings *)controller;
 {
-    // Devices that are disconnected while a game is running are replaced by NSNull
-    NSUInteger ret = [_devicePlayerBindings indexOfObject:[NSNull null]];
+    // Find the first free slot.
+    NSUInteger playerNumber = 1;
+    while(_devicePlayerBindings[@(playerNumber)] != nil)
+        playerNumber++;
 
-    if(ret == NSNotFound)
-    {
-        // Append the new device at the end of the list
-        ret = [_devicePlayerBindings count];
+    FIXME("This is a temporary solution until to notify the preferences.");
+    [self willChangeValueForKey:@"devicePlayerBindings"];
+    _devicePlayerBindings[@(playerNumber)] = controller;
+    [self didChangeValueForKey:@"devicePlayerBindings"];
 
-        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:ret];
-        [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"devicePlayerBindings"];
-        [_devicePlayerBindings addObject:controller];
-        [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexSet forKey:@"devicePlayerBindings"];
-    }
-    else
-    {
-        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:ret];
-        [self willChange:NSKeyValueChangeReplacement valuesAtIndexes:indexSet forKey:@"devicePlayerBindings"];
-        [_devicePlayerBindings replaceObjectAtIndex:ret withObject:controller];
-        [self didChange:NSKeyValueChangeReplacement valuesAtIndexes:indexSet forKey:@"devicePlayerBindings"];
-    }
+    [controller OE_setPlayerNumber:playerNumber];
 
-    [controller OE_setPlayerNumber:ret + 1];
-
-    return ret;
+    return playerNumber;
 }
 
 #pragma mark -
@@ -1031,16 +1011,15 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 - (void)OE_notifyExistingBindingsInArray:(NSArray *)bindingsArray toObserver:(id<OESystemBindingsObserver>)observer
 {
     for(OEPlayerBindings *ctrl in bindingsArray)
-        if(ctrl != (id)[NSNull null])
-            [self OE_notifyExistingBindings:ctrl toObserver:observer];
+        [self OE_notifyExistingBindings:ctrl toObserver:observer];
 }
 
 - (void)addBindingsObserver:(id<OESystemBindingsObserver>)observer
 {
     if([_bindingsObservers containsObject:observer]) return;
 
-    [self OE_notifyExistingBindingsInArray:_keyboardPlayerBindings toObserver:observer];
-    [self OE_notifyExistingBindingsInArray:_devicePlayerBindings   toObserver:observer];
+    [self OE_notifyExistingBindingsInArray:[_keyboardPlayerBindings allValues] toObserver:observer];
+    [self OE_notifyExistingBindingsInArray:[_devicePlayerBindings allValues]   toObserver:observer];
 
     [_bindingsObservers addObject:observer];
 }

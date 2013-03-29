@@ -36,19 +36,20 @@
 
 #import "OEDBSystem.h"
 
-NSString *const OESidebarConsolesNotCollapsibleKey = @"OESidebarConsolesNotCollapsible";
-NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotification";
+NSString *const OESidebarConsolesNotCollapsibleKey   = @"OESidebarConsolesNotCollapsible";
+NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemNotification";
 
 @interface OESidebarOutlineView ()
 {
     // This should only be used for drawing the highlight
-    NSUInteger _highlightedRow;
+    NSInteger _highlightedRow;
 }
 - (void)OE_selectRowForMenuItem:(NSMenuItem *)menuItem;
 - (void)OE_renameRowForMenuItem:(NSMenuItem *)menuItem;
 - (void)OE_removeRowForMenuItem:(NSMenuItem *)menuItem;
-- (void)OE_hideRowForMenuItem:(NSMenuItem *)menuItem;
+- (void)OE_toggleSystemForMenuItem:(NSMenuItem *)menuItem;
 - (void)OE_duplicateCollectionForMenuItem:(NSMenuItem *)menuItem;
+- (void)OE_toggleGroupForMenuItem:(NSMenuItem *)menuItem;
 @end
 
 @interface NSOutlineView (ApplePrivateOverrides)
@@ -69,6 +70,7 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
     {
         [self setupOutlineCell];
         [self OE_setupDefaultColors];
+        _highlightedRow = -1;
     }
     return self;
 }
@@ -80,8 +82,9 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
     {
         [self setupOutlineCell];
         [self OE_setupDefaultColors];
+        _highlightedRow = -1;
     }
-    
+
     return self;
 }
 
@@ -97,7 +100,7 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
 {
     [super drawRect:[self bounds]];
 
-    if(_highlightedRow)
+    if(_highlightedRow != -1)
         [self _drawDropHighlightOnRow:_highlightedRow];
 }
 
@@ -113,18 +116,36 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
     NSInteger index = [self rowAtPoint:mouseLocationInView];
 
     if(index == -1) return nil;
-    
     id item = [self itemAtRow:index];
-    if([item isGroupHeaderInSidebar]) return nil;
 
     _highlightedRow = index;
-    [self setNeedsDisplayInRect:[self rectOfRow:index]];
+    [self setNeedsDisplay];
 
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem;
 
-    // The tag is used to connect the menu item to the item row
-    if([item isKindOfClass:[OEDBSystem class]])
+    if([item isGroupHeaderInSidebar])
+    {
+        NSString *title = [self isItemExpanded:item] ? @"Collapse" : @"Expand";
+
+        menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(OE_toggleGroupForMenuItem:) keyEquivalent:@""];
+        [menuItem setRepresentedObject:item];
+        [menu addItem:menuItem];
+
+        if(index == 0)
+        {
+            [menu addItem:[NSMenuItem separatorItem]];
+
+            for(OEDBSystem *system in [OEDBSystem allSystems])
+            {
+                menuItem = [[NSMenuItem alloc] initWithTitle:[system name] action:@selector(OE_toggleSystemForMenuItem:) keyEquivalent:@""];
+                [menuItem setRepresentedObject:system];
+                [menuItem setState:[[system enabled] boolValue] ? NSOnState : NSOffState];
+                [menu addItem:menuItem];
+            }
+        }
+    }
+    else if([item isKindOfClass:[OEDBSystem class]])
     {
         menuItem = [[NSMenuItem alloc] initWithTitle:@"Open Library" action:@selector(OE_selectRowForMenuItem:) keyEquivalent:@""];
         [menuItem setTag:index];
@@ -132,7 +153,7 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
 
         [menu addItem:[NSMenuItem separatorItem]];
 
-        menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"Hide \"%@\"", [item name]] action:@selector(OE_hideRowForMenuItem:) keyEquivalent:@""];
+        menuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"Hide \"%@\"", [item name]] action:@selector(OE_toggleSystemForMenuItem:) keyEquivalent:@""];
         [menuItem setRepresentedObject:item];
         [menu addItem:menuItem];
     }
@@ -166,8 +187,8 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
     NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:style] forKey:OEMenuOptionsStyleKey];
     [OEMenu openMenu:menu withEvent:event forView:self options:options];
 
-    _highlightedRow = 0;
-    [self setNeedsDisplayInRect:[self rectOfRow:index]];
+    _highlightedRow = -1;
+    [self setNeedsDisplay];
 
     return nil;
 }
@@ -187,14 +208,24 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
     [NSApp sendAction:@selector(removeItemForMenuItem:) to:[self dataSource] from:menuItem];
 }
 
-- (void)OE_hideRowForMenuItem:(NSMenuItem *)menuItem
+- (void)OE_toggleSystemForMenuItem:(NSMenuItem *)menuItem
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:OESideBarHidesSystemNotification object:[menuItem representedObject]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarTogglesSystemNotification object:[menuItem representedObject]];
 }
 
 - (void)OE_duplicateCollectionForMenuItem:(NSMenuItem *)menuItem
 {
     [NSApp sendAction:@selector(duplicateCollection:) to:[self dataSource] from:[menuItem representedObject]];
+}
+
+- (void)OE_toggleGroupForMenuItem:(NSMenuItem *)menuItem
+{
+    id item = [menuItem representedObject];
+
+    if([self isItemExpanded:item])
+        [self collapseItem:item];
+    else
+        [self expandItem:item];
 }
 
 #pragma mark - Calculating rects
@@ -225,6 +256,9 @@ NSString *const OESideBarHidesSystemNotification   = @"OESidebarHidesSystemNotif
         bounds.size.height -= 2.0;
         return bounds;
     }
+
+    if(![self isItemExpanded:item])
+        return [self rectOfRow:[self rowForItem:item]];
     
     // TODO: this will break when we add collection folders that can have children on their own
     NSUInteger children = [[self dataSource] outlineView:self numberOfChildrenOfItem:item];
