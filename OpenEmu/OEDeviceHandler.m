@@ -38,6 +38,7 @@
 #endif
 
 NSString *const OEInputDeviceLowBatteryNotification = @"OEInputDeviceLowBatteryNotification";
+NSString *const OEInputDeviceDisconnectNotification = @"OEInputDeviceDisconnectNotification";
 
 @interface OEHIDEvent ()
 - (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;

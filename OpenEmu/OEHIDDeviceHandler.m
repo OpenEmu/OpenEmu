@@ -255,6 +255,7 @@
 
 	IOHIDDeviceUnscheduleFromRunLoop(_device, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
 
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEInputDeviceDisconnectNotification object:self];
     [[OEDeviceManager sharedDeviceManager] OE_removeDeviceHandler:self];
 }
 
