@@ -1262,9 +1262,10 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
         case OEHIDEventTypeKeyboard :
             return _data.key.keycode == anObject->_data.key.keycode;
         case OEHIDEventTypeAxis :
-        case OEHIDEventTypeTrigger :
             return (_data.axis.direction == anObject->_data.axis.direction &&
                     _data.axis.axis      == anObject->_data.axis.axis);
+        case OEHIDEventTypeTrigger :
+            return _data.axis.axis == anObject->_data.axis.axis;
         case OEHIDEventTypeButton :
             return _data.button.buttonNumber == anObject->_data.button.buttonNumber;
         case OEHIDEventTypeHatSwitch :
