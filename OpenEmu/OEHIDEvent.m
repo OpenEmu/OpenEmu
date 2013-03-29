@@ -912,7 +912,7 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
 #undef STATE_STR
 #undef DIT_STR
 
-    return [NSString stringWithFormat:@"<%@ %p pad=%@ %@ '%@' cookie=%lu>", [self class], self, _deviceHandler, subs, [self displayDescription], _cookie];
+    return [NSString stringWithFormat:@"<%@ %p pad=%p %@ '%@' cookie=%lu>", [self class], self, _deviceHandler, subs, [self displayDescription], _cookie];
 }
 
 - (NSUInteger)hash
