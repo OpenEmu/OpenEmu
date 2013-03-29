@@ -83,6 +83,16 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
 
 @end
 
+static Boolean _OEHIDEventIsEqualSetCallback(OEHIDEvent *value1, OEHIDEvent *value2)
+{
+    return [value1 isUsageEqualToEvent:value2];
+}
+
+static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
+{
+    return [value controlIdentifier];
+}
+
 @implementation OEPrefControlsController
 
 + (NSSet *)keyPathsForValuesAffectingCurrentPlayerBindings
@@ -104,8 +114,8 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
 
     // We're using CFSet here because NSSet is confused by the changing state of OEHIDEvents
     CFSetCallBacks callbacks = kCFTypeSetCallBacks;
-    callbacks.equal = NULL;
-    callbacks.hash  = NULL;
+    callbacks.equal = (CFSetEqualCallBack)_OEHIDEventIsEqualSetCallback;
+    callbacks.hash  = (CFSetHashCallBack)_OEHIDEventHashSetCallback;
 
     ignoredEvents = (__bridge_transfer NSMutableSet *)CFSetCreateMutable(NULL, 0, &callbacks);
 
@@ -537,7 +547,16 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
 
 - (BOOL)OE_shouldRegisterEvent:(OEHIDEvent *)anEvent;
 {
-    if([readingEvent hasOffState] || ([readingEvent cookie] != [anEvent cookie])) readingEvent = nil;
+    // The event is the currently read event,
+    // if its state is off, nil the reading event,
+    // in either case, this event shouldn't be registered.
+    if([readingEvent isUsageEqualToEvent:anEvent])
+    {
+        if([anEvent hasOffState])
+            readingEvent = nil;
+
+        return NO;
+    }
 
     if([self selectedKey] == nil && [self view] != [[[self view] window] firstResponder])
         [[[self view] window] makeFirstResponder:[self view]];
@@ -564,17 +583,6 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
 
         readingEvent = anEvent;
         return YES;
-    }
-
-    // The event is the currently read event,
-    // if it's off state, nil the reading event,
-    // in either case, this event shouldn't be registered
-    if(readingEvent == anEvent)
-    {
-        if([anEvent hasOffState])
-            readingEvent = nil;
-
-        return NO;
     }
 
     if(![anEvent hasOffState]) [ignoredEvents addObject:anEvent];
