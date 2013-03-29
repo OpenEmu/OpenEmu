@@ -62,6 +62,7 @@
 
 - (BOOL)isKeyboardDevice;
 
-extern NSString *const OEInputDeviceLowBatteryNotification;
-
 @end
+
+extern NSString *const OEDeviceHandlerDidReceiveLowBatteryWarningNotification;
+extern NSString *const OEDeviceManagerDidRemoveDeviceHandlerNotification;

@@ -620,7 +620,7 @@ enum {
         if(!_lowBatteryWarning)
         {
             _lowBatteryWarning = YES;
-            [[NSNotificationCenter defaultCenter] postNotificationName:OEInputDeviceLowBatteryNotification object:self];
+            [[NSNotificationCenter defaultCenter] postNotificationName:OEDeviceHandlerDidReceiveLowBatteryWarningNotification object:self];
         }
     }
     else if(_charging) _lowBatteryWarning = NO;
