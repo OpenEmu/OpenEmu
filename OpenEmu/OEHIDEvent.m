@@ -251,6 +251,11 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
     return _OEClamp(0, value, maximum) / (CGFloat)maximum;
 }
 
+static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
+{
+    return fabs(v1 - v2) < DBL_EPSILON;
+}
+
 @interface OEHIDEvent ()
 {
     __weak OEDeviceHandler *_deviceHandler;
@@ -416,9 +421,9 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
 
     value = _OEClamp(-1.0, value, 1.0);
 
-    if(value < 0.0)      ret->_data.axis.direction = OEHIDEventAxisDirectionNegative;
-    else if(value > 0.0) ret->_data.axis.direction = OEHIDEventAxisDirectionPositive;
-    else                 ret->_data.axis.direction = OEHIDEventAxisDirectionNull;
+    if(_OEFloatEqual(value, 0)) ret->_data.axis.direction = OEHIDEventAxisDirectionNull;
+    else if(signbit(value))     ret->_data.axis.direction = OEHIDEventAxisDirectionNegative;
+    else                        ret->_data.axis.direction = OEHIDEventAxisDirectionPositive;
 
     ret->_data.axis.value = value;
 
@@ -432,9 +437,9 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
     ret->_data.axis.axis = axis;
     ret->_data.axis.value = _OEScaledValueForAxis(minimum, value, maximum);
 
-    if(ret->_data.axis.value < 0)      ret->_data.axis.direction = OEHIDEventAxisDirectionNegative;
-    else if(ret->_data.axis.value > 0) ret->_data.axis.direction = OEHIDEventAxisDirectionPositive;
-    else                               ret->_data.axis.direction = OEHIDEventAxisDirectionNull;
+    if(_OEFloatEqual(ret->_data.axis.value, 0)) ret->_data.axis.direction = OEHIDEventAxisDirectionNull;
+    else if(signbit(ret->_data.axis.value))     ret->_data.axis.direction = OEHIDEventAxisDirectionNegative;
+    else                                        ret->_data.axis.direction = OEHIDEventAxisDirectionPositive;
 
     return ret;
 }
@@ -458,7 +463,7 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
     ret->_data.axis.axis = axis;
     ret->_data.axis.value = _OEScaledValueForTrigger(value, maximum);
 
-    ret->_data.axis.direction = ret->_data.axis.value == 0 ? OEHIDEventAxisDirectionNull : OEHIDEventAxisDirectionPositive;
+    ret->_data.axis.direction = _OEFloatEqual(ret->_data.axis.value, 0.0) ? OEHIDEventAxisDirectionNull : OEHIDEventAxisDirectionPositive;
 
     return ret;
 }
@@ -470,7 +475,7 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
     ret->_data.axis.axis = axis;
 
     value = _OEClamp(0.0, value, 1.0);
-    ret->_data.axis.direction = value == 0 ? OEHIDEventAxisDirectionNull : OEHIDEventAxisDirectionPositive;
+    ret->_data.axis.direction = _OEFloatEqual(ret->_data.axis.value, 0.0) ? OEHIDEventAxisDirectionNull : OEHIDEventAxisDirectionPositive;
     ret->_data.axis.value     = value;
 
     return ret;
@@ -655,9 +660,9 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
                 scaledValue = 0.0;
 
             _data.axis.value = scaledValue;
-            if(scaledValue > 0)      _data.axis.direction = OEHIDEventAxisDirectionPositive;
-            else if(scaledValue < 0) _data.axis.direction = OEHIDEventAxisDirectionNegative;
-            else                     _data.axis.direction = OEHIDEventAxisDirectionNull;
+            if(_OEFloatEqual(scaledValue, 0.0)) _data.axis.direction = OEHIDEventAxisDirectionNull;
+            else if(signbit(scaledValue))       _data.axis.direction = OEHIDEventAxisDirectionNegative;
+            else                                _data.axis.direction = OEHIDEventAxisDirectionPositive;
         }
             break;
         case OEHIDEventTypeTrigger :
@@ -668,7 +673,7 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
             if(scaledValue <= deadZone) scaledValue = 0.0;
 
             _data.axis.value     = scaledValue;
-            _data.axis.direction = (scaledValue > 0 ? OEHIDEventAxisDirectionPositive : OEHIDEventAxisDirectionNull);
+            _data.axis.direction = (_OEFloatEqual(scaledValue, 0.0) ? OEHIDEventAxisDirectionNull : OEHIDEventAxisDirectionPositive);
         }
             break;
         case OEHIDEventTypeHatSwitch :
@@ -970,7 +975,7 @@ static inline CGFloat _OEScaledValueForTrigger(NSInteger value, NSInteger maximu
         case OEHIDEventTypeTrigger :
             return (_data.axis.direction == anObject->_data.axis.direction &&
                     _data.axis.axis      == anObject->_data.axis.axis      &&
-                    _data.axis.value     == anObject->_data.axis.value);
+                    _OEFloatEqual(_data.axis.value, anObject->_data.axis.value));
         case OEHIDEventTypeButton :
             return (_data.button.buttonNumber == anObject->_data.button.buttonNumber &&
                     _data.button.state        == anObject->_data.button.state);
