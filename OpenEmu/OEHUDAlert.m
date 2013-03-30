@@ -52,7 +52,7 @@ static const CGFloat _OEHUDAlertSuppressionButtonLength = 150.0;
 static const CGFloat _OEHUDAlertSuppressionButtonHeight =  18.0;
 static const CGFloat _OEHUDAlertButtonLength            = 103.0;
 static const CGFloat _OEHUDAlertButtonHeight            =  23.0;
-static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 255.0;
+static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 @interface OEAlertWindow : NSWindow <OECustomWindow>
 @end
