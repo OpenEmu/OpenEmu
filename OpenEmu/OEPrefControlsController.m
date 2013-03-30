@@ -161,8 +161,8 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [center addObserver:self selector:@selector(OE_preparePaneWithNotification:) name:OEPreferencesOpenPaneNotificationName object:nil];
     [center addObserver:self selector:@selector(OE_preparePaneWithNotification:) name:OEPreferencesSetupPaneNotificationName object:nil];
 
-    [center addObserver:self selector:@selector(OE_devicesDidUpdateNotification:) name:OEHIDManagerDidAddDeviceHandlerNotification object:[OEDeviceManager sharedDeviceManager]];
-    [center addObserver:self selector:@selector(OE_devicesDidUpdateNotification:) name:OEHIDManagerDidRemoveDeviceHandlerNotification object:[OEDeviceManager sharedDeviceManager]];
+    [center addObserver:self selector:@selector(OE_devicesDidUpdateNotification:) name:OEDeviceManagerDidAddDeviceHandlerNotification object:[OEDeviceManager sharedDeviceManager]];
+    [center addObserver:self selector:@selector(OE_devicesDidUpdateNotification:) name:OEDeviceManagerDidRemoveDeviceHandlerNotification object:[OEDeviceManager sharedDeviceManager]];
 }
 
 - (void)viewWillDisappear

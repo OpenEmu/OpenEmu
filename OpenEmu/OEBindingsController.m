@@ -154,8 +154,8 @@ static NSString            *configurationsFolderPath = nil;
     [nc addObserver:self selector:@selector(OE_applicationDidChangeState:) name:NSApplicationWillResignActiveNotification object:NSApp];
     [nc addObserver:self selector:@selector(OE_applicationDidChangeState:) name:NSApplicationWillTerminateNotification object:NSApp];
     
-    [nc addObserver:self selector:@selector(OE_HIDManagerDidAddDeviceNotification:) name:OEHIDManagerDidAddDeviceHandlerNotification object:nil];
-    [nc addObserver:self selector:@selector(OE_HIDManagerDidRemoveDeviceNotification:) name:OEHIDManagerDidRemoveDeviceHandlerNotification object:nil];
+    [nc addObserver:self selector:@selector(OE_HIDManagerDidAddDeviceNotification:) name:OEDeviceManagerDidAddDeviceHandlerNotification object:nil];
+    [nc addObserver:self selector:@selector(OE_HIDManagerDidRemoveDeviceNotification:) name:OEDeviceManagerDidRemoveDeviceHandlerNotification object:nil];
 }
 
 - (void)dealloc
@@ -170,7 +170,7 @@ static NSString            *configurationsFolderPath = nil;
 
 - (void)OE_HIDManagerDidAddDeviceNotification:(NSNotification *)notif;
 {
-    OEDeviceHandler *handler = [[notif userInfo] objectForKey:OEHIDManagerDeviceHandlerUserInfoKey];
+    OEDeviceHandler *handler = [[notif userInfo] objectForKey:OEDeviceManagerDeviceHandlerUserInfoKey];
     if([handler isKeyboardDevice]) return;
     
     [systems enumerateKeysAndObjectsUsingBlock:
@@ -182,7 +182,7 @@ static NSString            *configurationsFolderPath = nil;
 
 - (void)OE_HIDManagerDidRemoveDeviceNotification:(NSNotification *)notif;
 {
-    OEDeviceHandler *handler = [[notif userInfo] objectForKey:OEHIDManagerDeviceHandlerUserInfoKey];
+    OEDeviceHandler *handler = [[notif userInfo] objectForKey:OEDeviceManagerDeviceHandlerUserInfoKey];
     if([handler isKeyboardDevice]) return;
     
     [systems enumerateKeysAndObjectsUsingBlock:

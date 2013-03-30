@@ -42,9 +42,9 @@
 
 NSString *const OEWiimoteSupportEnabled = @"OEWiimoteSupportEnabled";
 
-NSString *const OEHIDManagerDidAddDeviceHandlerNotification    = @"OEHIDManagerDidAddDeviceHandlerNotification";
-NSString *const OEHIDManagerDidRemoveDeviceHandlerNotification = @"OEHIDManagerDidRemoveDeviceHandlerNotification";
-NSString *const OEHIDManagerDeviceHandlerUserInfoKey           = @"OEHIDManagerDeviceHandlerUserInfoKey";
+NSString *const OEDeviceManagerDidAddDeviceHandlerNotification    = @"OEDeviceManagerDidAddDeviceHandlerNotification";
+NSString *const OEDeviceManagerDidRemoveDeviceHandlerNotification = @"OEDeviceManagerDidRemoveDeviceHandlerNotification";
+NSString *const OEDeviceManagerDeviceHandlerUserInfoKey           = @"OEDeviceManagerDeviceHandlerUserInfoKey";
 
 
 static void OEHandle_DeviceMatchingCallback(void *inContext, IOReturn inResult, void *inSender, IOHIDDeviceRef inIOHIDDeviceRef);
@@ -341,7 +341,7 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 
     [self didChangeValueForKey:@"deviceHandlers"];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEHIDManagerDidAddDeviceHandlerNotification object:self userInfo:@{ OEHIDManagerDeviceHandlerUserInfoKey : handler }];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEDeviceManagerDidAddDeviceHandlerNotification object:self userInfo:@{ OEDeviceManagerDeviceHandlerUserInfoKey : handler }];
 }
 
 - (BOOL)OE_hasDeviceHandlerForDeviceRef:(IOHIDDeviceRef)deviceRef
@@ -365,7 +365,7 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 
     [self didChangeValueForKey:@"deviceHandlers"];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEHIDManagerDidRemoveDeviceHandlerNotification object:self userInfo:@{ OEHIDManagerDeviceHandlerUserInfoKey : handler }];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEDeviceManagerDidRemoveDeviceHandlerNotification object:self userInfo:@{ OEDeviceManagerDeviceHandlerUserInfoKey : handler }];
 
     [handler disconnect];
 }
