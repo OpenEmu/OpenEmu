@@ -25,7 +25,6 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "OEDeviceHandler.h"
 
 extern NSString *const OEGameVolumeKey;
 extern NSString *const OEGameDefaultVideoFilterKey;
