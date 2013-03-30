@@ -93,7 +93,7 @@ enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
 
 static void *_OEJoystickStateKeyForEvent(OEHIDEvent *anEvent)
 {
-    NSUInteger ret = [[anEvent deviceHandler] deviceNumber];
+    NSUInteger ret = [[anEvent deviceHandler] deviceIdentifier];
 
     switch([anEvent type])
     {

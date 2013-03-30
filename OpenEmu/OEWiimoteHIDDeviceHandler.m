@@ -273,6 +273,7 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
     uint8_t    _batteryLevel;   // value from 0-4
     BOOL       _charging;
     BOOL       _pluggedIn;
+    BOOL       _analogSettled;  // Allows short delay before events are issued; fixes Issue 544
 }
 
 @property(readwrite) BOOL lowBatteryWarning;
@@ -333,6 +334,11 @@ static void OE_wiimoteIOHIDReportCallback(void            *context,
         _expansionType = OEWiimoteExpansionTypeNotConnected;
 
         _latestEvents = [[NSMutableDictionary alloc] init];
+        
+        _analogSettled = NO;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            _analogSettled = YES;
+        });
     }
 
     return self;
@@ -620,7 +626,7 @@ enum {
         if(!_lowBatteryWarning)
         {
             _lowBatteryWarning = YES;
-            [[NSNotificationCenter defaultCenter] postNotificationName:OEInputDeviceLowBatteryNotification object:self];
+            [[NSNotificationCenter defaultCenter] postNotificationName:OEDeviceHandlerDidReceiveLowBatteryWarningNotification object:self];
         }
     }
     else if(_charging) _lowBatteryWarning = NO;
@@ -885,7 +891,7 @@ enum {
     if([anEvent isEqualToEvent:existingEvent]) return;
 
     _latestEvents[cookieKey] = anEvent;
-    [NSApp postHIDEvent:anEvent];
+    if(_analogSettled) [NSApp postHIDEvent:anEvent];
 }
 
 - (void)readReportData:(void *)dataPointer length:(size_t)dataLength

@@ -37,7 +37,7 @@
 #define NO __objc_no
 #endif
 
-NSString *const OEInputDeviceLowBatteryNotification = @"OEInputDeviceLowBatteryNotification";
+NSString *const OEDeviceHandlerDidReceiveLowBatteryWarningNotification = @"OEDeviceHandlerDidReceiveLowBatteryWarningNotification";
 
 @interface OEHIDEvent ()
 - (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
@@ -49,6 +49,7 @@ NSString *const OEInputDeviceLowBatteryNotification = @"OEInputDeviceLowBatteryN
 }
 
 @property(readwrite) NSUInteger deviceNumber;
+@property(readwrite) NSUInteger deviceIdentifier;
 @end
 
 @implementation OEDeviceHandler
@@ -88,7 +89,7 @@ NSString *const OEInputDeviceLowBatteryNotification = @"OEInputDeviceLowBatteryN
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@ %p deviceDescription: '%@' manufacturer: %@ product: %@ serialNumber: %@ deviceNumber: %lu isKeyboard: %@>", [self class], self, [self deviceDescription], [self manufacturer], [self product], [self serialNumber], [self deviceNumber], [self isKeyboardDevice] ? @"YES" : @"NO"];
+    return [NSString stringWithFormat:@"<%@ %p deviceDescription: '%@' manufacturer: %@ product: %@ serialNumber: %@ deviceIdentifier: %lu deviceNumber: %lu isKeyboard: %@>", [self class], self, [self deviceDescription], [self manufacturer], [self product], [self serialNumber], [self deviceIdentifier], [self deviceNumber], [self isKeyboardDevice] ? @"YES" : @"NO"];
 }
 
 - (NSString *)serialNumber;

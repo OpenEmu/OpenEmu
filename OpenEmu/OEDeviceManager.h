@@ -46,7 +46,7 @@
 
 extern NSString *const OEWiimoteSupportEnabled;
 
-extern NSString *const OEHIDManagerDidAddDeviceHandlerNotification;
-extern NSString *const OEHIDManagerDidRemoveDeviceHandlerNotification;
+extern NSString *const OEDeviceManagerDidAddDeviceHandlerNotification;
+extern NSString *const OEDeviceManagerDidRemoveDeviceHandlerNotification;
 
-extern NSString *const OEHIDManagerDeviceHandlerUserInfoKey;
+extern NSString *const OEDeviceManagerDeviceHandlerUserInfoKey;
