@@ -560,7 +560,9 @@ typedef enum : NSUInteger
     
     if([[plugin bundleIdentifier] isEqualTo:[self coreIdentifier]]) return;
     
-    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"If you change the core you current progress will be lost and save states will not work anymore." defaultButton:@"Change Core" alternateButton:@"Cancel"];
+    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"If you change the core you current progress will be lost and save states will not work anymore.", @"")
+                                           defaultButton:NSLocalizedString(@"Change Core", @"")
+                                         alternateButton:NSLocalizedString(@"Cancel", @"")];
     [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
     
     [alert setCallbackHandler:
@@ -703,11 +705,11 @@ typedef enum : NSUInteger
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     
-    [alert setOtherInputLabelText:@"Title:"];
+    [alert setOtherInputLabelText:NSLocalizedString(@"Title:", @"")];
     [alert setShowsOtherInputField:YES];
-    [alert setOtherStringValue:@"Cheat Description"];
+    [alert setOtherStringValue:NSLocalizedString(@"Cheat Description", @"")];
     
-    [alert setInputLabelText:@"Code:"];
+    [alert setInputLabelText:NSLocalizedString(@"Code:", @"")];
     [alert setShowsInputField:YES];
     [alert setStringValue:@"000-000+000-000;01HHHHHH"];
     
@@ -886,7 +888,9 @@ typedef enum : NSUInteger
     
     if([[self coreIdentifier] isNotEqualTo:[state coreIdentifier]])
     {
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"This save state was created with a different core. Do you want to switch to that core now?" defaultButton:@"OK" alternateButton:@"Cancel"];
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"This save state was created with a different core. Do you want to switch to that core now?", @"")
+                                               defaultButton:NSLocalizedString(@"OK", @"")
+                                             alternateButton:NSLocalizedString(@"Cancel", @"")];
         [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
         if([alert runModal])
         {

@@ -341,13 +341,15 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
             }
             else if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code]==OEFileDoesNotExistError)
             {
-                NSString *messageText = [NSString stringWithFormat:@"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", [aGame name]];
-                if([[OEHUDAlert alertWithMessageText:messageText defaultButton:@"Locate" alternateButton:@"Cancel"] runModal] == NSAlertDefaultReturn)
+                NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", @""), [aGame name]];
+                if([[OEHUDAlert alertWithMessageText:messageText
+                                       defaultButton:NSLocalizedString(@"Locate", @"")
+                                     alternateButton:NSLocalizedString(@"Cancel", @"")] runModal] == NSAlertDefaultReturn)
                 {
                     OEDBRom  *missingRom = [[aGame roms] anyObject];
                     NSURL   *originalURL = [missingRom URL];
                     NSString  *extension = [originalURL pathExtension];
-                    
+
 					NSString *panelTitle = [NSString stringWithFormat:NSLocalizedString(@"Locate '%@'", @"Locate panel title"), [[originalURL pathComponents] lastObject]];
                     NSOpenPanel  *panel = [NSOpenPanel openPanel];
 					[panel setTitle:panelTitle];

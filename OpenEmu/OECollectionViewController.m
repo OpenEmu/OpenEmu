@@ -713,66 +713,69 @@ static NSArray *OE_defaultSortDescriptors;
     if([indexes count] == 1)
     {
         NSInteger index = [indexes lastIndex];
-        [menu addItemWithTitle:@"Play Game" action:@selector(startGame:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Play Game", @"") action:@selector(startGame:) keyEquivalent:@""];
         OEDBGame  *game = [[gamesController arrangedObjects] objectAtIndex:index];
         
         // Create Save Game Menu
-        menuItem = [[NSMenuItem alloc] initWithTitle:@"Play Save Games" action:NULL keyEquivalent:@""];
+        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Play Save Games", @"") action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_saveStateMenuForGame:game]];
         [menu addItem:menuItem];
         
         [menu addItem:[NSMenuItem separatorItem]];
         
         // Create Rating Item
-        menuItem = [[NSMenuItem alloc] initWithTitle:@"Rating" action:NULL keyEquivalent:@""];
+        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Rating", @"") action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
         [menu addItem:menuItem];    
-        [menu addItemWithTitle:@"Show In Finder" action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
 
         // Temporarily disable Get Game Info from Archive.vg per issue #322. This should be eventually enabled in a later version.
         // See the corresponding menu item a few lines below.
 
-        menuItem = [[NSMenuItem alloc] initWithTitle:@"Show Game At Archive.vg" action:@selector(showGamesAtArchive:) keyEquivalent:@""];
+        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Show Game At Archive.vg", @"")
+                                              action:@selector(showGamesAtArchive:)
+                                       keyEquivalent:@""];
         if([[game archiveID] integerValue] == 0)
             [menuItem setEnabled:NO];
         [menu addItem:menuItem];
         
-        [menu addItemWithTitle:@"Match To Archive.vg URL…" action:@selector(matchToArchive:) keyEquivalent:@""];
-        [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
-//        [menu addItem:[NSMenuItem separatorItem]];
-        [menu addItemWithTitle:@"Add Cover Art From File…" action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
-        [menu addItemWithTitle:@"Consolidate Files…" action:@selector(consolidateFiles:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Match To Archive.vg URL…", @"") action:@selector(matchToArchive:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Get Cover Art From Archive.vg", @"") action:@selector(getCoverFromArchive:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Add Cover Art From File…", @"") action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Consolidate Files…", @"") action:@selector(consolidateFiles:) keyEquivalent:@""];
 
-//        [menu addItemWithTitle:@"Add Save File To Game…" action:@selector(addSaveStateFromFile:) keyEquivalent:@""];
+        //[menu addItemWithTitle:@"Add Save File To Game…" action:@selector(addSaveStateFromFile:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
         // Create Add to collection menu
-        NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
+        NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Add To Collection", @"") action:NULL keyEquivalent:@""];
         [collectionMenuItem setSubmenu:[self OE_collectionsMenuForGames:games]];
         [menu addItem:collectionMenuItem];
         [menu addItem:[NSMenuItem separatorItem]];
-        [menu addItemWithTitle:@"Rename Game" action:@selector(renameSelectedGame:) keyEquivalent:@""];
-        [menu addItemWithTitle:@"Delete Game" action:@selector(deleteSelectedGames:) keyEquivalent:@""];        
+        [menu addItemWithTitle:NSLocalizedString(@"Rename Game", @"") action:@selector(renameSelectedGame:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Delete Game", @"") action:@selector(deleteSelectedGames:) keyEquivalent:@""];
     }
     else
     {
         if([[NSUserDefaults standardUserDefaults] boolForKey:OEForcePopoutGameWindowKey])
         {
-            [menu addItemWithTitle:@"Play Games (Caution)" action:@selector(startGame:) keyEquivalent:@""];
+            [menu addItemWithTitle:NSLocalizedString(@"Play Games (Caution)", @"") action:@selector(startGame:) keyEquivalent:@""];
         }
         
         // Create Rating Item
-        menuItem = [[NSMenuItem alloc] initWithTitle:@"Rating" action:NULL keyEquivalent:@""];
+        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Rating", @"") action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
         [menu addItem:menuItem];    
-        [menu addItemWithTitle:@"Show In Finder" action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
 
         // Temporarily disable Get Game Info from Archive.vg per issue #322. This should be eventually enabled in a later version.
         // See the corresponding menu item a few lines above.
 
         // Check if any selected games have an archiveID attached to them, if so enable menu item
-        menuItem = [[NSMenuItem alloc] initWithTitle:@"Show Game At Archive.vg" action:@selector(showGamesAtArchive:) keyEquivalent:@""];
+        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Show Games At Archive.vg", @"")
+                                              action:@selector(showGamesAtArchive:)
+                                       keyEquivalent:@""];
         [menuItem setEnabled:NO];
         for(OEDBGame *game in games)
         {
@@ -785,18 +788,18 @@ static NSArray *OE_defaultSortDescriptors;
         [menu addItem:menuItem];
 
 
-        [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
-        [menu addItemWithTitle:@"Add Cover Art From File…" action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
-        [menu addItemWithTitle:@"Consolidate Files…" action:@selector(consolidateFiles:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Get Cover Art From Archive.vg", @"") action:@selector(getCoverFromArchive:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Add Cover Art From File…", @"") action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Consolidate Files…", @"") action:@selector(consolidateFiles:) keyEquivalent:@""];
 
         [menu addItem:[NSMenuItem separatorItem]];
         // Create Add to collection menu
-        NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
+        NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Add To Collection", @"") action:NULL keyEquivalent:@""];
         [collectionMenuItem setSubmenu:[self OE_collectionsMenuForGames:games]];
         [menu addItem:collectionMenuItem];
         
         [menu addItem:[NSMenuItem separatorItem]];
-        [menu addItemWithTitle:@"Delete Games" action:@selector(deleteSelectedGames:) keyEquivalent:@""];        
+        [menu addItemWithTitle:NSLocalizedString(@"Delete Games", @"") action:@selector(deleteSelectedGames:) keyEquivalent:@""];
     }
     
     [menu setAutoenablesItems:YES];
@@ -836,7 +839,7 @@ static NSArray *OE_defaultSortDescriptors;
     
     if([[saveGamesMenu itemArray] count] == 0)
     {
-        [saveGamesMenu addItemWithTitle:@"No Save States available" action:NULL keyEquivalent:@""];
+        [saveGamesMenu addItemWithTitle:NSLocalizedString(@"No Save States available", @"") action:NULL keyEquivalent:@""];
         [(NSMenuItem*)[[saveGamesMenu itemArray] lastObject] setEnabled:NO];
     }
     
@@ -887,7 +890,9 @@ static NSArray *OE_defaultSortDescriptors;
     NSMenu  *collectionMenu = [[NSMenu alloc] init];
     NSArray *collections = [[[self libraryController] database] collections];
     
-    [collectionMenu addItemWithTitle:@"New Collection from Selection" action:@selector(makeNewCollectionWithSelectedGames:) keyEquivalent:@""];
+    [collectionMenu addItemWithTitle:NSLocalizedString(@"New Collection from Selection", @"")
+                              action:@selector(makeNewCollectionWithSelectedGames:)
+                       keyEquivalent:@""];
     
     for(id collection in collections)
     {
@@ -1040,11 +1045,11 @@ static NSArray *OE_defaultSortDescriptors;
 - (void)matchToArchive:(id)sender
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
-    [alert setInputLabelText:@"URL:"];
+    [alert setInputLabelText:NSLocalizedString(@"URL:", @"")];
     [alert setShowsInputField:YES];
-    [alert setDefaultButtonTitle:@"OK"];
+    [alert setDefaultButtonTitle:NSLocalizedString(@"OK", @"")];
     [alert setStringValue:@""];
-    [alert setAlternateButtonTitle:@"Cancel"];
+    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     
     NSArray *selectedGames = [self selectedGames];
     if([selectedGames count] == 1)
@@ -1117,9 +1122,9 @@ static NSArray *OE_defaultSortDescriptors;
 
     OEHUDAlert  *alert = [[OEHUDAlert alloc] init];
     [alert setHeadlineText:@""];
-    [alert setMessageText:@"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone."];
-    [alert setDefaultButtonTitle:@"Consolidate"];
-    [alert setAlternateButtonTitle:@"Cancel"];
+    [alert setMessageText:NSLocalizedString(@"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.", @"")];
+    [alert setDefaultButtonTitle:NSLocalizedString(@"Consolidate", @"")];
+    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     if([alert runModal] != NSAlertDefaultReturn) return;
     
     alert = [[OEHUDAlert alloc] init];

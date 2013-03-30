@@ -62,10 +62,10 @@
     NSMenuItem *item = nil;
     NSMenu     *menu = [[NSMenu alloc] init];
     
-    item = [[NSMenuItem alloc] initWithTitle:@"Select All" action:@selector(selectAll:) keyEquivalent:@""];
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Select All", @"") action:@selector(selectAll:) keyEquivalent:@""];
     [item setTarget:self];
     [menu addItem:item];
-    item = [[NSMenuItem alloc] initWithTitle:@"Deselect All" action:@selector(deselectAll:) keyEquivalent:@""];
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Deselect All", @"") action:@selector(deselectAll:) keyEquivalent:@""];
     [item setTarget:self];
     [menu addItem:item];
     
@@ -110,7 +110,7 @@
     {
         [[self progressIndicator] setIndeterminate:NO];
         [[self progressIndicator] startAnimation:self];
-        status = [NSString stringWithFormat:@"Game %ld of %ld", [[self importer] numberOfProcessedItems], maxItems];
+        status = [NSString stringWithFormat:NSLocalizedString(@"Game %ld of %ld", @""), [[self importer] numberOfProcessedItems], maxItems];
         
         if([self isScanningDirectory])
             status = NSLocalizedString(@"Scanning Directory", "");
@@ -131,7 +131,7 @@
     BOOL hideButton = YES;
     if([[self itemsRequiringAttention] count] != 0)
     {
-        [[self fixButton] setTitle:[NSString stringWithFormat:@"Resolve %ld Issues", [[self itemsRequiringAttention] count]]];
+        [[self fixButton] setTitle:[NSString stringWithFormat:NSLocalizedString(@"Resolve %ld Issues", @""), [[self itemsRequiringAttention] count]]];
         [[self fixButton] sizeToFit];
         hideButton = NO;
         
@@ -153,7 +153,7 @@
     }
     
     NSMenu       *menu = [[NSMenu alloc] init];
-    [menu addItemWithTitle:@"Don't Import Selected" action:NULL keyEquivalent:@""];
+    [menu addItemWithTitle:NSLocalizedString(@"Don't Import Selected", @"") action:NULL keyEquivalent:@""];
     
     NSArray *systemIDs = [systemIDSet allObjects];
     for(NSString *systemID in systemIDs)
@@ -178,7 +178,7 @@
     [fixIssuesButton setThemeKey:@"game_scanner_fix_issues"];
     [fixIssuesButton setTarget:self];
     [fixIssuesButton setAction:@selector(showIssuesView:)];
-    [fixIssuesButton setTitle:@"Resolve Issues"];
+    [fixIssuesButton setTitle:NSLocalizedString(@"Resolve Issues", @"")];
     [fixIssuesButton sizeToFit];
     
     [fixIssuesButton setHidden:YES];
@@ -242,11 +242,11 @@
 }
 - (NSString*)sidebarName
 {
-    return @"Game Scaner";
+    return NSLocalizedString(@"Game Scanner", @"");
 }
 - (NSString*)sidebarID
 {
-    return @"Game Scaner";
+    return NSLocalizedString(@"Game Scanner", @"");
 }
 
 - (NSString*)viewControllerClassName
@@ -442,7 +442,11 @@
     if([NSEvent modifierFlags] & NSAlternateKeyMask)
     {
         //TODO: Show a proper (dark, rephrased) dialog here
-        NSAlert *cancelAlert = [NSAlert alertWithMessageText:@"Do you really want to cancel the import process?" defaultButton:@"Yes" alternateButton:@"No" otherButton:@"" informativeTextWithFormat:@"Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library."];
+        NSAlert *cancelAlert = [NSAlert alertWithMessageText:NSLocalizedString(@"Do you really want to cancel the import process?", @"")
+                                               defaultButton:NSLocalizedString(@"Yes", @"")
+                                             alternateButton:NSLocalizedString(@"No", @"")
+                                                 otherButton:@""
+                                   informativeTextWithFormat:NSLocalizedString(@"Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.", @"")];
         [sender setState:[sender state]==NSOnState?NSOffState:NSOnState];
         if([cancelAlert runModal] == NSAlertDefaultReturn)
         {

@@ -92,7 +92,7 @@ NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDi
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{OEMaxSaveGameNameLengthKey:@40}];
     
-    [alert setInputLabelText:@"Save As:"];
+    [alert setInputLabelText:NSLocalizedString(@"Save As:", @"")];
     [alert setDefaultButtonTitle:NSLocalizedString(@"Save Game", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     [alert setShowsInputField:YES];
