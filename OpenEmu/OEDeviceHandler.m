@@ -37,7 +37,7 @@
 #define NO __objc_no
 #endif
 
-NSString *const OEInputDeviceLowBatteryNotification = @"OEInputDeviceLowBatteryNotification";
+NSString *const OEDeviceHandlerDidReceiveLowBatteryWarningNotification = @"OEDeviceHandlerDidReceiveLowBatteryWarningNotification";
 
 @interface OEHIDEvent ()
 - (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
