@@ -101,12 +101,8 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 
 - (void)OE_addKeyboardEventMonitor;
 
-- (OEDeviceHandler *)OE_addDeviceHandlerForDevice:(IOHIDDeviceRef)inDevice;
-
 - (void)OE_addDeviceHandler:(OEDeviceHandler *)handler;
 - (void)OE_removeDeviceHandler:(OEDeviceHandler *)handler;
-
-- (OEDeviceHandler *)OE_addWiimoteWithDevice:(IOHIDDeviceRef)device;
 
 - (void)OE_wiimoteDeviceDidDisconnect:(NSNotification *)notification;
 - (void)OE_applicationWillTerminate:(NSNotification *)notification;
@@ -271,65 +267,22 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 
 - (void)OE_addDeviceHandlerForDeviceRef:(IOHIDDeviceRef)device
 {
+    NSAssert(device != NULL, @"Passing NULL device.");
+
     NSString *deviceName = (__bridge id)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
 
+    OEHIDDeviceHandler *handler = nil;
+
     if(OE_isWiimoteControllerName(deviceName))
-        [self OE_addWiimoteWithDevice:device];
+        handler = [OEWiimoteHIDDeviceHandler deviceHandlerWithIOHIDDevice:device];
     else if(OE_isPS3ControllerName(deviceName))
-        [self OE_addPS3DeviceHandlerForDevice:device];
+        handler = [OEPS3HIDDeviceHandler deviceHandlerWithIOHIDDevice:device];
     else if(OE_isXboxControllerName(deviceName))
-        [self OE_addXboxDeviceHandlerForDevice:device];
+        handler = [OEXBox360HIDDeviceHander deviceHandlerWithIOHIDDevice:device];
     else
-        [self OE_addDeviceHandlerForDevice:device];
-}
-
-- (OEDeviceHandler *)OE_addWiimoteWithDevice:(IOHIDDeviceRef)aDevice;
-{
-    NSAssert(aDevice != NULL, @"Passing NULL device.");
-    OEWiimoteHIDDeviceHandler *handler = [OEWiimoteHIDDeviceHandler deviceHandlerWithIOHIDDevice:aDevice];
-
-    [handler setRumbleActivated:YES];
-    [handler setExpansionPortEnabled:YES];
-
-    if([handler connect])
-    {
-        [self OE_addDeviceHandler:handler];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-            [handler setRumbleActivated:NO];
-        });
-    }
-
-    return handler;
-}
-
-- (OEDeviceHandler *)OE_addPS3DeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
-{
-    NSAssert(aDevice != NULL, @"Passing NULL device.");
-    OEHIDDeviceHandler *handler = [OEPS3HIDDeviceHandler deviceHandlerWithIOHIDDevice:aDevice];
+        handler = [OEHIDDeviceHandler deviceHandlerWithIOHIDDevice:device];
 
     if([handler connect]) [self OE_addDeviceHandler:handler];
-
-    return handler;
-}
-
-- (OEDeviceHandler *)OE_addXboxDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
-{
-    NSAssert(aDevice != NULL, @"Passing NULL device.");
-    OEHIDDeviceHandler *handler = [OEXBox360HIDDeviceHander deviceHandlerWithIOHIDDevice:aDevice];
-
-    if([handler connect]) [self OE_addDeviceHandler:handler];
-
-    return handler;
-}
-
-- (OEDeviceHandler *)OE_addDeviceHandlerForDevice:(IOHIDDeviceRef)aDevice
-{
-    NSAssert(aDevice != NULL, @"Passing NULL device.");
-    OEHIDDeviceHandler *handler = [OEHIDDeviceHandler deviceHandlerWithIOHIDDevice:aDevice];
-
-    if([handler connect]) [self OE_addDeviceHandler:handler];
-
-    return handler;
 }
 
 - (void)OE_addDeviceHandler:(OEDeviceHandler *)handler

@@ -346,12 +346,20 @@ static void OE_wiimoteIOHIDReportCallback(void            *context,
 
 - (BOOL)connect
 {
+    [self setRumbleActivated:YES];
+    [self setExpansionPortEnabled:YES];
+
     _isConnected = YES;
 
     IOHIDDeviceRegisterInputReportCallback([self device], _reportBuffer, 128, OE_wiimoteIOHIDReportCallback, (__bridge void *)self);
     [self OE_requestStatus];
     [self OE_configureReportType];
     [self OE_synchronizeRumbleAndLEDStatus];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.35 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self setRumbleActivated:NO];
+    });
+
     return YES;
 }
 
