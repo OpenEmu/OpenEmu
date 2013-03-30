@@ -43,6 +43,10 @@
 
 - (void)setUpControllerDescription:(OEControllerDescription *)description usingRepresentation:(NSDictionary *)controlRepresentations;
 
+// Uniquely identifies a controller.
+// WARNING: This is used by OEHIDEvents, do NOT toy with it.
+@property(readonly) NSUInteger deviceIdentifier;
+
 @property(readonly) NSUInteger deviceNumber;
 
 @property(readonly) OEControllerDescription *controllerDescription;

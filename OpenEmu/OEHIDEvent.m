@@ -917,7 +917,7 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
 
 - (NSUInteger)hash
 {
-    NSUInteger hash = [_deviceHandler deviceNumber] << 24 | _cookie << 32;
+    NSUInteger hash = [_deviceHandler deviceIdentifier] << 24 | _cookie << 32;
 
     switch([self type])
     {
@@ -1217,7 +1217,7 @@ static NSString *OEHIDEventKeycodeKey            = @"OEHIDEventKeycodeKey";
 
 - (NSUInteger)bindingHash;
 {
-    NSUInteger hash = [_deviceHandler deviceNumber] << 24;
+    NSUInteger hash = [_deviceHandler deviceIdentifier] << 24;
 
     switch([self type])
     {
