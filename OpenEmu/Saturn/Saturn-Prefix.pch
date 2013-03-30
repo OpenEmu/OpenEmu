@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'Saturn' target in the 'Saturn' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif
