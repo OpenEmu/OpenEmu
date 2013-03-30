@@ -1107,32 +1107,36 @@ typedef enum : NSUInteger
 
 - (void)OE_lowDeviceBattery:(NSNotification *)notification
 {
-    if(_emulationStatus == OEGameViewControllerEmulationStatusPlaying) {
-        [self setPauseEmulation:YES];
-        OEDeviceHandler *devHandler = [notification object];
-        NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"The battery in device number %lu, %@, is low. Please charge or replace the battery.", @"Low battery alert detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:lowBatteryString
-                                               defaultButton:NSLocalizedString(@"Resume", nil)
-                                             alternateButton:nil];
-        [alert setHeadlineText:[NSString stringWithFormat:NSLocalizedString(@"Low Controller Battery", @"Device battery level is low.")]];
-        [alert runModal];
-        [self setPauseEmulation:NO];
-    }
+    BOOL isRunning = [self isEmulationRunning];
+    [self pauseGame:self];
+    
+    OEDeviceHandler *devHandler = [notification object];
+    NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"The battery in device number %lu, %@, is low. Please charge or replace the battery.", @"Low battery alert detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
+    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:lowBatteryString
+                                           defaultButton:NSLocalizedString(@"Resume", nil)
+                                         alternateButton:nil];
+    [alert setHeadlineText:[NSString stringWithFormat:NSLocalizedString(@"Low Controller Battery", @"Device battery level is low.")]];
+    [alert runModal];
+    
+    if(isRunning)
+        [self playGame:self];
 }
 
 - (void)OE_deviceDidDisconnect:(NSNotification *)notification
 {
-    if(_emulationStatus == OEGameViewControllerEmulationStatusPlaying) {
-        [self setPauseEmulation:YES];
-        OEDeviceHandler *devHandler = [[notification userInfo] objectForKey:OEDeviceManagerDeviceHandlerUserInfoKey];
-        NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"Device number %lu, %@, has disconnected.", @"Device disconnection detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:lowBatteryString
-                                               defaultButton:NSLocalizedString(@"Resume", nil)
-                                             alternateButton:nil];
-        [alert setHeadlineText:[NSString stringWithFormat:NSLocalizedString(@"Device Disconnected", @"A controller device has disconnected.")]];
-        [alert runModal];
-        [self setPauseEmulation:NO];
-    }
+    BOOL isRunning = [self isEmulationRunning];
+    [self pauseGame:self];
+    
+    OEDeviceHandler *devHandler = [[notification userInfo] objectForKey:OEDeviceManagerDeviceHandlerUserInfoKey];
+    NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"Device number %lu, %@, has disconnected.", @"Device disconnection detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
+    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:lowBatteryString
+                                           defaultButton:NSLocalizedString(@"Resume", nil)
+                                         alternateButton:nil];
+    [alert setHeadlineText:[NSString stringWithFormat:NSLocalizedString(@"Device Disconnected", @"A controller device has disconnected.")]];
+    [alert runModal];
+
+    if(isRunning)
+        [self playGame:self];
 }
 
 #pragma mark - Plugin discovery
