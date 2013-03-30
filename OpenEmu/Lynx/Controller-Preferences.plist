@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_lynx.png</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_lynx_mask.png</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OELynxButtonUp</key>
+		<string>{50, 250}</string>
+		<key>OELynxButtonDown</key>
+		<string>{50, 220}</string>
+		<key>OELynxButtonLeft</key>
+		<string>{50, 190}</string>
+		<key>OELynxButtonRight</key>
+		<string>{50, 160}</string>
+		<key>OELynxButtonA</key>
+		<string>{150, 250}</string>
+		<key>OELynxButtonB</key>
+		<string>{150, 220}</string>
+		<key>OELynxButtonOption1</key>
+		<string>{150, 190}</string>
+		<key>OELynxButtonOption2</key>
+		<string>{150, 160}</string>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OESaturnButtonUp</key>
+	<integer>82</integer>
+	<key>OESaturnButtonDown</key>
+	<integer>81</integer>
+	<key>OESaturnButtonLeft</key>
+	<integer>80</integer>
+	<key>OESaturnButtonRight</key>
+	<integer>79</integer>
+	<key>OESaturnButtonA</key>
+	<integer>20</integer>
+	<key>OESaturnButtonB</key>
+	<integer>26</integer>
+	<key>OESaturnButtonC</key>
+	<integer>8</integer>
+	<key>OESaturnButtonX</key>
+	<integer>4</integer>
+	<key>OESaturnButtonY</key>
+	<integer>22</integer>
+	<key>OESaturnButtonZ</key>
+	<integer>7</integer>
+	<key>OESaturnButtonL</key>
+	<integer>23</integer>
+	<key>OESaturnButtonR</key>
+	<integer>6</integer>
+	<key>OESaturnButtonStart</key>
+	<integer>44</integer>
+</dict>
+</plist>

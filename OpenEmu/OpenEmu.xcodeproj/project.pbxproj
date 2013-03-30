@@ -534,6 +534,143 @@
 		94962908164F7D9E00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94962907164F7D9E00952A86 /* Controller-Mappings.plist */; };
 		9496290A164F7F7E00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94962909164F7F7E00952A86 /* Controller-Mappings.plist */; };
 		9496290C164F834D00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9496290B164F834D00952A86 /* Controller-Mappings.plist */; };
+		94A224341707537F00098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94A2243A1707537F00098DA0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A224381707537F00098DA0 /* InfoPlist.strings */; };
+		94A224441707539D00098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94A2244A1707539D00098DA0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A224481707539D00098DA0 /* InfoPlist.strings */; };
+		94A22454170753C800098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94A2245A170753C800098DA0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A22458170753C800098DA0 /* InfoPlist.strings */; };
+		94A22464170753D500098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94A2246A170753D500098DA0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A22468170753D500098DA0 /* InfoPlist.strings */; };
+		94A22474170753E100098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94A2247A170753E100098DA0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A22478170753E100098DA0 /* InfoPlist.strings */; };
+		94A224841707541E00098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94A2248A1707541F00098DA0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A224881707541F00098DA0 /* InfoPlist.strings */; };
+		94A224941707542A00098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94A2249A1707542A00098DA0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A224981707542A00098DA0 /* InfoPlist.strings */; };
+		94A224A41707543600098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94A224AA1707543600098DA0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A224A81707543600098DA0 /* InfoPlist.strings */; };
+		94A224B41707544100098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94A224BA1707544100098DA0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A224B81707544100098DA0 /* InfoPlist.strings */; };
+		94A224C41707544B00098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94A224CA1707544C00098DA0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A224C81707544C00098DA0 /* InfoPlist.strings */; };
+		94A224D41707556D00098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94A224DA1707556D00098DA0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A224D81707556D00098DA0 /* InfoPlist.strings */; };
+		94A224E41707559100098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94A224EA1707559100098DA0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A224E81707559100098DA0 /* InfoPlist.strings */; };
+		94A224F71707596200098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94A224FD1707596200098DA0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A224FB1707596200098DA0 /* InfoPlist.strings */; };
+		94A2250717075AA400098DA0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94A2250A17075AF200098DA0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94A2250D17075AFE00098DA0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94A2251017075B1F00098DA0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94A2251317075B2B00098DA0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94A2251617075B3800098DA0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94A2251917075B4700098DA0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94A2251C17075B5900098DA0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94A2251F17075B7600098DA0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94A2252217075B8200098DA0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94A2252517075B8B00098DA0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94A2252817075B9700098DA0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94A2252B17075BA000098DA0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94A2253117075C6C00098DA0 /* OEPSXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A2252D17075C6C00098DA0 /* OEPSXSystemController.m */; };
+		94A2253217075C6C00098DA0 /* OEPSXSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A2252F17075C6C00098DA0 /* OEPSXSystemResponder.m */; };
+		94A2253917075C8800098DA0 /* controller_psx_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2253317075C8800098DA0 /* controller_psx_mask.png */; };
+		94A2253A17075C8800098DA0 /* controller_psx.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2253417075C8800098DA0 /* controller_psx.png */; };
+		94A2253B17075C8800098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2253517075C8800098DA0 /* Controller-Mappings.plist */; };
+		94A2253C17075C8800098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2253617075C8800098DA0 /* Controller-Preferences.plist */; };
+		94A2253D17075C8800098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2253717075C8800098DA0 /* Keyboard-Mappings.plist */; };
+		94A2253E17075C8800098DA0 /* psx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2253817075C8800098DA0 /* psx_library.png */; };
+		94A2254417075CF200098DA0 /* OEPCESystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A2254017075CF200098DA0 /* OEPCESystemController.m */; };
+		94A2254517075CF200098DA0 /* OEPCESystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A2254217075CF200098DA0 /* OEPCESystemResponder.m */; };
+		94A2254D17075D0E00098DA0 /* controller_pce_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2254617075D0E00098DA0 /* controller_pce_mask.png */; };
+		94A2254E17075D0E00098DA0 /* controller_pce.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2254717075D0E00098DA0 /* controller_pce.png */; };
+		94A2254F17075D0E00098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2254817075D0E00098DA0 /* Controller-Mappings.plist */; };
+		94A2255017075D0E00098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2254917075D0E00098DA0 /* Controller-Preferences.plist */; };
+		94A2255117075D0E00098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2254A17075D0E00098DA0 /* Keyboard-Mappings.plist */; };
+		94A2255217075D0E00098DA0 /* pcengine_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2254B17075D0E00098DA0 /* pcengine_library.png */; };
+		94A2255317075D0E00098DA0 /* tg16_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2254C17075D0E00098DA0 /* tg16_library.png */; };
+		94A2255717075DDC00098DA0 /* OEWSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A2255517075DDC00098DA0 /* OEWSSystemResponder.m */; };
+		94A2255E17075DF600098DA0 /* controller_ws_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2255817075DF600098DA0 /* controller_ws_mask.png */; };
+		94A2255F17075DF600098DA0 /* controller_ws.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2255917075DF600098DA0 /* controller_ws.png */; };
+		94A2256017075DF600098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2255A17075DF600098DA0 /* Controller-Mappings.plist */; };
+		94A2256117075DF600098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2255B17075DF600098DA0 /* Controller-Preferences.plist */; };
+		94A2256217075DF600098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2255C17075DF600098DA0 /* Keyboard-Mappings.plist */; };
+		94A2256317075DF600098DA0 /* wonderswan_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2255D17075DF600098DA0 /* wonderswan_library.png */; };
+		94A2256717075E7E00098DA0 /* OELynxSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A2256517075E7E00098DA0 /* OELynxSystemResponder.m */; };
+		94A2256E17075E9000098DA0 /* controller_lynx_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2256817075E9000098DA0 /* controller_lynx_mask.png */; };
+		94A2256F17075E9000098DA0 /* controller_lynx.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2256917075E9000098DA0 /* controller_lynx.png */; };
+		94A2257017075E9000098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2256A17075E9000098DA0 /* Controller-Mappings.plist */; };
+		94A2257117075E9000098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2256B17075E9000098DA0 /* Controller-Preferences.plist */; };
+		94A2257217075E9000098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2256C17075E9000098DA0 /* Keyboard-Mappings.plist */; };
+		94A2257317075E9000098DA0 /* lynx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2256D17075E9000098DA0 /* lynx_library.png */; };
+		94A2257917075EF500098DA0 /* OEPCFXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A2257517075EF500098DA0 /* OEPCFXSystemController.m */; };
+		94A2257A17075EF500098DA0 /* OEPCFXSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A2257717075EF500098DA0 /* OEPCFXSystemResponder.m */; };
+		94A2258117075F0C00098DA0 /* controller_pcfx_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2257B17075F0C00098DA0 /* controller_pcfx_mask.png */; };
+		94A2258217075F0C00098DA0 /* controller_pcfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2257C17075F0C00098DA0 /* controller_pcfx.png */; };
+		94A2258317075F0C00098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2257D17075F0C00098DA0 /* Controller-Mappings.plist */; };
+		94A2258417075F0C00098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2257E17075F0C00098DA0 /* Controller-Preferences.plist */; };
+		94A2258517075F0C00098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2257F17075F0C00098DA0 /* Keyboard-Mappings.plist */; };
+		94A2258617075F0C00098DA0 /* pcfx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2258017075F0C00098DA0 /* pcfx_library.png */; };
+		94A2258A17075F3D00098DA0 /* OESG1000SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A2258817075F3D00098DA0 /* OESG1000SystemResponder.m */; };
+		94A2259117075F4D00098DA0 /* controller_sg1000_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2258B17075F4D00098DA0 /* controller_sg1000_mask.png */; };
+		94A2259217075F4D00098DA0 /* controller_sg1000.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2258C17075F4D00098DA0 /* controller_sg1000.png */; };
+		94A2259317075F4D00098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2258D17075F4D00098DA0 /* Controller-Mappings.plist */; };
+		94A2259417075F4D00098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2258E17075F4D00098DA0 /* Controller-Preferences.plist */; };
+		94A2259517075F4D00098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2258F17075F4D00098DA0 /* Keyboard-Mappings.plist */; };
+		94A2259617075F4D00098DA0 /* sg1000_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2259017075F4D00098DA0 /* sg1000_library.png */; };
+		94A2259A17075F7200098DA0 /* OEVBSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A2259817075F7200098DA0 /* OEVBSystemResponder.m */; };
+		94A225A117075FD600098DA0 /* controller_vb_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2259B17075FD600098DA0 /* controller_vb_mask.png */; };
+		94A225A217075FD600098DA0 /* controller_vb.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A2259C17075FD600098DA0 /* controller_vb.png */; };
+		94A225A317075FD600098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2259D17075FD600098DA0 /* Controller-Mappings.plist */; };
+		94A225A417075FD600098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2259E17075FD600098DA0 /* Controller-Preferences.plist */; };
+		94A225A517075FD600098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A2259F17075FD600098DA0 /* Keyboard-Mappings.plist */; };
+		94A225A617075FD600098DA0 /* vb_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225A017075FD600098DA0 /* vb_library.png */; };
+		94A225AC1707602500098DA0 /* OESegaCDSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A225A81707602500098DA0 /* OESegaCDSystemController.m */; };
+		94A225AD1707602500098DA0 /* OESegaCDSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A225AA1707602500098DA0 /* OESegaCDSystemResponder.m */; };
+		94A225B41707603400098DA0 /* controller_genesis_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225AE1707603400098DA0 /* controller_genesis_mask.png */; };
+		94A225B51707603400098DA0 /* controller_genesis.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225AF1707603400098DA0 /* controller_genesis.png */; };
+		94A225B61707603400098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225B01707603400098DA0 /* Controller-Mappings.plist */; };
+		94A225B71707603400098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225B11707603400098DA0 /* Controller-Preferences.plist */; };
+		94A225B81707603400098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225B21707603400098DA0 /* Keyboard-Mappings.plist */; };
+		94A225B91707603400098DA0 /* segacd_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225B31707603400098DA0 /* segacd_library.png */; };
+		94A225BD1707608B00098DA0 /* OE2600SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A225BB1707608B00098DA0 /* OE2600SystemResponder.m */; };
+		94A225C41707609E00098DA0 /* atari2600_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225BE1707609E00098DA0 /* atari2600_library.png */; };
+		94A225C51707609E00098DA0 /* controller_2600_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225BF1707609E00098DA0 /* controller_2600_mask.png */; };
+		94A225C61707609E00098DA0 /* controller_2600.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225C01707609E00098DA0 /* controller_2600.png */; };
+		94A225C71707609E00098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225C11707609E00098DA0 /* Controller-Mappings.plist */; };
+		94A225C81707609E00098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225C21707609E00098DA0 /* Controller-Preferences.plist */; };
+		94A225C91707609E00098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225C31707609E00098DA0 /* Keyboard-Mappings.plist */; };
+		94A225CD170760C900098DA0 /* OE5200SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A225CB170760C900098DA0 /* OE5200SystemResponder.m */; };
+		94A225D4170760D900098DA0 /* atari5200_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225CE170760D900098DA0 /* atari5200_library.png */; };
+		94A225D5170760D900098DA0 /* controller_5200_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225CF170760D900098DA0 /* controller_5200_mask.png */; };
+		94A225D6170760D900098DA0 /* controller_5200.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225D0170760D900098DA0 /* controller_5200.png */; };
+		94A225D7170760D900098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225D1170760D900098DA0 /* Controller-Mappings.plist */; };
+		94A225D8170760D900098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225D2170760D900098DA0 /* Controller-Preferences.plist */; };
+		94A225D9170760D900098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225D3170760D900098DA0 /* Keyboard-Mappings.plist */; };
+		94A225DD170760FB00098DA0 /* OEFDSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A225DB170760FB00098DA0 /* OEFDSSystemResponder.m */; };
+		94A225E41707610A00098DA0 /* controller_fc_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225DE1707610A00098DA0 /* controller_fc_mask.png */; };
+		94A225E51707610A00098DA0 /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225DF1707610A00098DA0 /* controller_fc.png */; };
+		94A225E61707610A00098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225E01707610A00098DA0 /* Controller-Mappings.plist */; };
+		94A225E71707610A00098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225E11707610A00098DA0 /* Controller-Preferences.plist */; };
+		94A225E81707610A00098DA0 /* famicom_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225E21707610A00098DA0 /* famicom_library.png */; };
+		94A225E91707610A00098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225E31707610A00098DA0 /* Keyboard-Mappings.plist */; };
+		94A225EF1707613400098DA0 /* OESaturnSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A225EB1707613400098DA0 /* OESaturnSystemController.m */; };
+		94A225F01707613400098DA0 /* OESaturnSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A225ED1707613400098DA0 /* OESaturnSystemResponder.m */; };
+		94A225F81707614500098DA0 /* controller_saturn_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F11707614500098DA0 /* controller_saturn_mask.png */; };
+		94A225F91707614500098DA0 /* controller_saturn.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F21707614500098DA0 /* controller_saturn.png */; };
+		94A225FA1707614500098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F31707614500098DA0 /* Controller-Mappings.plist */; };
+		94A225FB1707614500098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F41707614500098DA0 /* Controller-Preferences.plist */; };
+		94A225FC1707614500098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F51707614500098DA0 /* Keyboard-Mappings.plist */; };
+		94A225FD1707614500098DA0 /* saturn_jap_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F61707614500098DA0 /* saturn_jap_library.png */; };
+		94A225FE1707614500098DA0 /* saturn_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F71707614500098DA0 /* saturn_library.png */; };
+		94A226021707616F00098DA0 /* OEComputerSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A226001707616F00098DA0 /* OEComputerSystemResponder.m */; };
+		94A22609170761D200098DA0 /* computer_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A22603170761D200098DA0 /* computer_library.png */; };
+		94A2260A170761D200098DA0 /* controller_arcade_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A22604170761D200098DA0 /* controller_arcade_mask.png */; };
+		94A2260B170761D200098DA0 /* controller_arcade.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A22605170761D200098DA0 /* controller_arcade.png */; };
+		94A2260C170761D200098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22606170761D200098DA0 /* Controller-Mappings.plist */; };
+		94A2260D170761D200098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22607170761D200098DA0 /* Controller-Preferences.plist */; };
+		94A2260E170761D200098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22608170761D200098DA0 /* Keyboard-Mappings.plist */; };
 		94D7E8CA15073BA000FBDD85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94D7E8D015073BA000FBDD85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */; };
 		94D7E8DA15073DB000FBDD85 /* controller_nds_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D615073DB000FBDD85 /* controller_nds_mask.png */; };
@@ -873,6 +1010,97 @@
 			proxyType = 1;
 			remoteGlobalIDString = 9479664E15EDE645004316AB;
 			remoteInfo = "Update Build Version";
+		};
+		94A2250517075A9C00098DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94A2250817075AEE00098DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94A2250B17075AF800098DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94A2250E17075B1A00098DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94A2251117075B2500098DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94A2251417075B3400098DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94A2251717075B4300098DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94A2251A17075B5400098DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94A2251D17075B6F00098DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94A2252017075B7E00098DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94A2252317075B8800098DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94A2252617075B9300098DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94A2252917075B9C00098DA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
 		};
 		94D7E8E51507413400FBDD85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1713,6 +1941,174 @@
 		94962907164F7D9E00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94962909164F7F7E00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		9496290B164F834D00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A224331707537F00098DA0 /* PC Engine.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PC Engine.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224371707537F00098DA0 /* PC Engine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PC Engine-Info.plist"; sourceTree = "<group>"; };
+		94A224391707537F00098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94A224431707539D00098DA0 /* WonderSwan.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WonderSwan.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224471707539D00098DA0 /* WonderSwan-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WonderSwan-Info.plist"; sourceTree = "<group>"; };
+		94A224491707539D00098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94A22453170753C800098DA0 /* Lynx.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Lynx.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A22457170753C800098DA0 /* Lynx-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Lynx-Info.plist"; sourceTree = "<group>"; };
+		94A22459170753C800098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94A22463170753D500098DA0 /* PC-FX.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PC-FX.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A22467170753D500098DA0 /* PC-FX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PC-FX-Info.plist"; sourceTree = "<group>"; };
+		94A22469170753D500098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94A22473170753E100098DA0 /* SG-1000.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SG-1000.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A22477170753E100098DA0 /* SG-1000-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SG-1000-Info.plist"; sourceTree = "<group>"; };
+		94A22479170753E100098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94A224831707541E00098DA0 /* Virtual Boy.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Virtual Boy.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224871707541F00098DA0 /* Virtual Boy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Virtual Boy-Info.plist"; sourceTree = "<group>"; };
+		94A224891707541F00098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94A224931707542A00098DA0 /* Sega CD.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sega CD.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224971707542A00098DA0 /* Sega CD-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sega CD-Info.plist"; sourceTree = "<group>"; };
+		94A224991707542A00098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94A224A31707543600098DA0 /* Atari 2600.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 2600.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224A71707543600098DA0 /* Atari 2600-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari 2600-Info.plist"; sourceTree = "<group>"; };
+		94A224A91707543600098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94A224B31707544100098DA0 /* Atari 5200.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 5200.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224B71707544100098DA0 /* Atari 5200-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari 5200-Info.plist"; sourceTree = "<group>"; };
+		94A224B91707544100098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94A224C31707544B00098DA0 /* Nintendo FDS.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Nintendo FDS.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224C71707544C00098DA0 /* Nintendo FDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Nintendo FDS-Info.plist"; sourceTree = "<group>"; };
+		94A224C91707544C00098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94A224D31707556D00098DA0 /* Saturn.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Saturn.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224D71707556D00098DA0 /* Saturn-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Saturn-Info.plist"; sourceTree = "<group>"; };
+		94A224D91707556D00098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94A224E31707559100098DA0 /* Computer.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Computer.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224E71707559100098DA0 /* Computer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Computer-Info.plist"; sourceTree = "<group>"; };
+		94A224E91707559100098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94A224F61707596100098DA0 /* PlayStation.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayStation.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224FA1707596200098DA0 /* PlayStation-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PlayStation-Info.plist"; sourceTree = "<group>"; };
+		94A224FC1707596200098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94A2252C17075C6C00098DA0 /* OEPSXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSXSystemController.h; sourceTree = "<group>"; };
+		94A2252D17075C6C00098DA0 /* OEPSXSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPSXSystemController.m; sourceTree = "<group>"; };
+		94A2252E17075C6C00098DA0 /* OEPSXSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSXSystemResponder.h; sourceTree = "<group>"; };
+		94A2252F17075C6C00098DA0 /* OEPSXSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPSXSystemResponder.m; sourceTree = "<group>"; };
+		94A2253017075C6C00098DA0 /* OEPSXSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSXSystemResponderClient.h; sourceTree = "<group>"; };
+		94A2253317075C8800098DA0 /* controller_psx_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_psx_mask.png; sourceTree = "<group>"; };
+		94A2253417075C8800098DA0 /* controller_psx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_psx.png; sourceTree = "<group>"; };
+		94A2253517075C8800098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A2253617075C8800098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94A2253717075C8800098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A2253817075C8800098DA0 /* psx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = psx_library.png; sourceTree = "<group>"; };
+		94A2253F17075CF200098DA0 /* OEPCESystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCESystemController.h; sourceTree = "<group>"; };
+		94A2254017075CF200098DA0 /* OEPCESystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCESystemController.m; sourceTree = "<group>"; };
+		94A2254117075CF200098DA0 /* OEPCESystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCESystemResponder.h; sourceTree = "<group>"; };
+		94A2254217075CF200098DA0 /* OEPCESystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCESystemResponder.m; sourceTree = "<group>"; };
+		94A2254317075CF200098DA0 /* OEPCESystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCESystemResponderClient.h; sourceTree = "<group>"; };
+		94A2254617075D0E00098DA0 /* controller_pce_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pce_mask.png; sourceTree = "<group>"; };
+		94A2254717075D0E00098DA0 /* controller_pce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pce.png; sourceTree = "<group>"; };
+		94A2254817075D0E00098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A2254917075D0E00098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94A2254A17075D0E00098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A2254B17075D0E00098DA0 /* pcengine_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcengine_library.png; sourceTree = "<group>"; };
+		94A2254C17075D0E00098DA0 /* tg16_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tg16_library.png; sourceTree = "<group>"; };
+		94A2255417075DDC00098DA0 /* OEWSSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEWSSystemResponder.h; sourceTree = "<group>"; };
+		94A2255517075DDC00098DA0 /* OEWSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEWSSystemResponder.m; sourceTree = "<group>"; };
+		94A2255617075DDC00098DA0 /* OEWSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEWSSystemResponderClient.h; sourceTree = "<group>"; };
+		94A2255817075DF600098DA0 /* controller_ws_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_ws_mask.png; sourceTree = "<group>"; };
+		94A2255917075DF600098DA0 /* controller_ws.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_ws.png; sourceTree = "<group>"; };
+		94A2255A17075DF600098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A2255B17075DF600098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94A2255C17075DF600098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A2255D17075DF600098DA0 /* wonderswan_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wonderswan_library.png; sourceTree = "<group>"; };
+		94A2256417075E7E00098DA0 /* OELynxSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELynxSystemResponder.h; sourceTree = "<group>"; };
+		94A2256517075E7E00098DA0 /* OELynxSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELynxSystemResponder.m; sourceTree = "<group>"; };
+		94A2256617075E7E00098DA0 /* OELynxSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELynxSystemResponderClient.h; sourceTree = "<group>"; };
+		94A2256817075E9000098DA0 /* controller_lynx_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_lynx_mask.png; sourceTree = "<group>"; };
+		94A2256917075E9000098DA0 /* controller_lynx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_lynx.png; sourceTree = "<group>"; };
+		94A2256A17075E9000098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A2256B17075E9000098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94A2256C17075E9000098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A2256D17075E9000098DA0 /* lynx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lynx_library.png; sourceTree = "<group>"; };
+		94A2257417075EF500098DA0 /* OEPCFXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCFXSystemController.h; sourceTree = "<group>"; };
+		94A2257517075EF500098DA0 /* OEPCFXSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCFXSystemController.m; sourceTree = "<group>"; };
+		94A2257617075EF500098DA0 /* OEPCFXSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCFXSystemResponder.h; sourceTree = "<group>"; };
+		94A2257717075EF500098DA0 /* OEPCFXSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCFXSystemResponder.m; sourceTree = "<group>"; };
+		94A2257817075EF500098DA0 /* OEPCFXSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCFXSystemResponderClient.h; sourceTree = "<group>"; };
+		94A2257B17075F0C00098DA0 /* controller_pcfx_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pcfx_mask.png; sourceTree = "<group>"; };
+		94A2257C17075F0C00098DA0 /* controller_pcfx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pcfx.png; sourceTree = "<group>"; };
+		94A2257D17075F0C00098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A2257E17075F0C00098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94A2257F17075F0C00098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A2258017075F0C00098DA0 /* pcfx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcfx_library.png; sourceTree = "<group>"; };
+		94A2258717075F3D00098DA0 /* OESG1000SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESG1000SystemResponder.h; sourceTree = "<group>"; };
+		94A2258817075F3D00098DA0 /* OESG1000SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESG1000SystemResponder.m; sourceTree = "<group>"; };
+		94A2258917075F3D00098DA0 /* OESG1000SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESG1000SystemResponderClient.h; sourceTree = "<group>"; };
+		94A2258B17075F4D00098DA0 /* controller_sg1000_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sg1000_mask.png; sourceTree = "<group>"; };
+		94A2258C17075F4D00098DA0 /* controller_sg1000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sg1000.png; sourceTree = "<group>"; };
+		94A2258D17075F4D00098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A2258E17075F4D00098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94A2258F17075F4D00098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A2259017075F4D00098DA0 /* sg1000_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sg1000_library.png; sourceTree = "<group>"; };
+		94A2259717075F7200098DA0 /* OEVBSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVBSystemResponder.h; sourceTree = "<group>"; };
+		94A2259817075F7200098DA0 /* OEVBSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVBSystemResponder.m; sourceTree = "<group>"; };
+		94A2259917075F7200098DA0 /* OEVBSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVBSystemResponderClient.h; sourceTree = "<group>"; };
+		94A2259B17075FD600098DA0 /* controller_vb_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_vb_mask.png; sourceTree = "<group>"; };
+		94A2259C17075FD600098DA0 /* controller_vb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_vb.png; sourceTree = "<group>"; };
+		94A2259D17075FD600098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A2259E17075FD600098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94A2259F17075FD600098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A225A017075FD600098DA0 /* vb_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vb_library.png; sourceTree = "<group>"; };
+		94A225A71707602500098DA0 /* OESegaCDSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESegaCDSystemController.h; sourceTree = "<group>"; };
+		94A225A81707602500098DA0 /* OESegaCDSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESegaCDSystemController.m; sourceTree = "<group>"; };
+		94A225A91707602500098DA0 /* OESegaCDSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESegaCDSystemResponder.h; sourceTree = "<group>"; };
+		94A225AA1707602500098DA0 /* OESegaCDSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESegaCDSystemResponder.m; sourceTree = "<group>"; };
+		94A225AB1707602500098DA0 /* OESegaCDSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESegaCDSystemResponderClient.h; sourceTree = "<group>"; };
+		94A225AE1707603400098DA0 /* controller_genesis_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis_mask.png; sourceTree = "<group>"; };
+		94A225AF1707603400098DA0 /* controller_genesis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis.png; sourceTree = "<group>"; };
+		94A225B01707603400098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A225B11707603400098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94A225B21707603400098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A225B31707603400098DA0 /* segacd_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = segacd_library.png; sourceTree = "<group>"; };
+		94A225BA1707608B00098DA0 /* OE2600SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE2600SystemResponder.h; sourceTree = "<group>"; };
+		94A225BB1707608B00098DA0 /* OE2600SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE2600SystemResponder.m; sourceTree = "<group>"; };
+		94A225BC1707608B00098DA0 /* OE2600SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE2600SystemResponderClient.h; sourceTree = "<group>"; };
+		94A225BE1707609E00098DA0 /* atari2600_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atari2600_library.png; sourceTree = "<group>"; };
+		94A225BF1707609E00098DA0 /* controller_2600_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_2600_mask.png; sourceTree = "<group>"; };
+		94A225C01707609E00098DA0 /* controller_2600.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_2600.png; sourceTree = "<group>"; };
+		94A225C11707609E00098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A225C21707609E00098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94A225C31707609E00098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A225CA170760C900098DA0 /* OE5200SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE5200SystemResponder.h; sourceTree = "<group>"; };
+		94A225CB170760C900098DA0 /* OE5200SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE5200SystemResponder.m; sourceTree = "<group>"; };
+		94A225CC170760C900098DA0 /* OE5200SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE5200SystemResponderClient.h; sourceTree = "<group>"; };
+		94A225CE170760D900098DA0 /* atari5200_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atari5200_library.png; sourceTree = "<group>"; };
+		94A225CF170760D900098DA0 /* controller_5200_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_5200_mask.png; sourceTree = "<group>"; };
+		94A225D0170760D900098DA0 /* controller_5200.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_5200.png; sourceTree = "<group>"; };
+		94A225D1170760D900098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A225D2170760D900098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94A225D3170760D900098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A225DA170760FB00098DA0 /* OEFDSSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFDSSystemResponder.h; sourceTree = "<group>"; };
+		94A225DB170760FB00098DA0 /* OEFDSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFDSSystemResponder.m; sourceTree = "<group>"; };
+		94A225DC170760FB00098DA0 /* OEFDSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFDSSystemResponderClient.h; sourceTree = "<group>"; };
+		94A225DE1707610A00098DA0 /* controller_fc_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc_mask.png; sourceTree = "<group>"; };
+		94A225DF1707610A00098DA0 /* controller_fc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc.png; sourceTree = "<group>"; };
+		94A225E01707610A00098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A225E11707610A00098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94A225E21707610A00098DA0 /* famicom_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = famicom_library.png; sourceTree = "<group>"; };
+		94A225E31707610A00098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A225EA1707613400098DA0 /* OESaturnSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESaturnSystemController.h; sourceTree = "<group>"; };
+		94A225EB1707613400098DA0 /* OESaturnSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESaturnSystemController.m; sourceTree = "<group>"; };
+		94A225EC1707613400098DA0 /* OESaturnSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESaturnSystemResponder.h; sourceTree = "<group>"; };
+		94A225ED1707613400098DA0 /* OESaturnSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESaturnSystemResponder.m; sourceTree = "<group>"; };
+		94A225EE1707613400098DA0 /* OESaturnSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESaturnSystemResponderClient.h; sourceTree = "<group>"; };
+		94A225F11707614500098DA0 /* controller_saturn_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_saturn_mask.png; sourceTree = "<group>"; };
+		94A225F21707614500098DA0 /* controller_saturn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_saturn.png; sourceTree = "<group>"; };
+		94A225F31707614500098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A225F41707614500098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94A225F51707614500098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A225F61707614500098DA0 /* saturn_jap_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saturn_jap_library.png; sourceTree = "<group>"; };
+		94A225F71707614500098DA0 /* saturn_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saturn_library.png; sourceTree = "<group>"; };
+		94A225FF1707616F00098DA0 /* OEComputerSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEComputerSystemResponder.h; sourceTree = "<group>"; };
+		94A226001707616F00098DA0 /* OEComputerSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEComputerSystemResponder.m; sourceTree = "<group>"; };
+		94A226011707616F00098DA0 /* OEComputerSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEComputerSystemResponderClient.h; sourceTree = "<group>"; };
+		94A22603170761D200098DA0 /* computer_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = computer_library.png; sourceTree = "<group>"; };
+		94A22604170761D200098DA0 /* controller_arcade_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade_mask.png; sourceTree = "<group>"; };
+		94A22605170761D200098DA0 /* controller_arcade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade.png; sourceTree = "<group>"; };
+		94A22606170761D200098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94A22607170761D200098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94A22608170761D200098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NDS.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D7E8CD15073BA000FBDD85 /* NDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NDS-Info.plist"; sourceTree = "<group>"; };
 		94D7E8CF15073BA000FBDD85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2007,6 +2403,123 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94A224301707537F00098DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2250A17075AF200098DA0 /* OpenEmuSystem.framework in Frameworks */,
+				94A224341707537F00098DA0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224401707539D00098DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2250D17075AFE00098DA0 /* OpenEmuSystem.framework in Frameworks */,
+				94A224441707539D00098DA0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A22450170753C800098DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2251017075B1F00098DA0 /* OpenEmuSystem.framework in Frameworks */,
+				94A22454170753C800098DA0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A22460170753D500098DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2251317075B2B00098DA0 /* OpenEmuSystem.framework in Frameworks */,
+				94A22464170753D500098DA0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A22470170753E100098DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2251617075B3800098DA0 /* OpenEmuSystem.framework in Frameworks */,
+				94A22474170753E100098DA0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224801707541E00098DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2251917075B4700098DA0 /* OpenEmuSystem.framework in Frameworks */,
+				94A224841707541E00098DA0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224901707542A00098DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2251C17075B5900098DA0 /* OpenEmuSystem.framework in Frameworks */,
+				94A224941707542A00098DA0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224A01707543600098DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2251F17075B7600098DA0 /* OpenEmuSystem.framework in Frameworks */,
+				94A224A41707543600098DA0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224B01707544100098DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2252217075B8200098DA0 /* OpenEmuSystem.framework in Frameworks */,
+				94A224B41707544100098DA0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224C01707544B00098DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2252517075B8B00098DA0 /* OpenEmuSystem.framework in Frameworks */,
+				94A224C41707544B00098DA0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224D01707556D00098DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2252817075B9700098DA0 /* OpenEmuSystem.framework in Frameworks */,
+				94A224D41707556D00098DA0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224E01707559100098DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2252B17075BA000098DA0 /* OpenEmuSystem.framework in Frameworks */,
+				94A224E41707559100098DA0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224F31707596100098DA0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2250717075AA400098DA0 /* OpenEmuSystem.framework in Frameworks */,
+				94A224F71707596200098DA0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94D7E8C615073BA000FBDD85 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2190,6 +2703,19 @@
 				8227754F148946DF00B19E27 /* GameGear.oesystemplugin */,
 				94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */,
 				945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */,
+				94A224331707537F00098DA0 /* PC Engine.bundle */,
+				94A224431707539D00098DA0 /* WonderSwan.bundle */,
+				94A22453170753C800098DA0 /* Lynx.bundle */,
+				94A22463170753D500098DA0 /* PC-FX.bundle */,
+				94A22473170753E100098DA0 /* SG-1000.bundle */,
+				94A224831707541E00098DA0 /* Virtual Boy.bundle */,
+				94A224931707542A00098DA0 /* Sega CD.bundle */,
+				94A224A31707543600098DA0 /* Atari 2600.bundle */,
+				94A224B31707544100098DA0 /* Atari 5200.bundle */,
+				94A224C31707544B00098DA0 /* Nintendo FDS.bundle */,
+				94A224D31707556D00098DA0 /* Saturn.bundle */,
+				94A224E31707559100098DA0 /* Computer.bundle */,
+				94A224F61707596100098DA0 /* PlayStation.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3595,6 +4121,356 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		94A224351707537F00098DA0 /* PC Engine */ = {
+			isa = PBXGroup;
+			children = (
+				94A2253F17075CF200098DA0 /* OEPCESystemController.h */,
+				94A2254017075CF200098DA0 /* OEPCESystemController.m */,
+				94A2254117075CF200098DA0 /* OEPCESystemResponder.h */,
+				94A2254217075CF200098DA0 /* OEPCESystemResponder.m */,
+				94A2254317075CF200098DA0 /* OEPCESystemResponderClient.h */,
+				94A224361707537F00098DA0 /* Supporting Files */,
+			);
+			path = "PC Engine";
+			sourceTree = "<group>";
+		};
+		94A224361707537F00098DA0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94A2254B17075D0E00098DA0 /* pcengine_library.png */,
+				94A2254C17075D0E00098DA0 /* tg16_library.png */,
+				94A2254617075D0E00098DA0 /* controller_pce_mask.png */,
+				94A2254717075D0E00098DA0 /* controller_pce.png */,
+				94A224371707537F00098DA0 /* PC Engine-Info.plist */,
+				94A2254A17075D0E00098DA0 /* Keyboard-Mappings.plist */,
+				94A2254817075D0E00098DA0 /* Controller-Mappings.plist */,
+				94A2254917075D0E00098DA0 /* Controller-Preferences.plist */,
+				94A224381707537F00098DA0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94A224451707539D00098DA0 /* WonderSwan */ = {
+			isa = PBXGroup;
+			children = (
+				94A2255417075DDC00098DA0 /* OEWSSystemResponder.h */,
+				94A2255517075DDC00098DA0 /* OEWSSystemResponder.m */,
+				94A2255617075DDC00098DA0 /* OEWSSystemResponderClient.h */,
+				94A224461707539D00098DA0 /* Supporting Files */,
+			);
+			path = WonderSwan;
+			sourceTree = "<group>";
+		};
+		94A224461707539D00098DA0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94A2255D17075DF600098DA0 /* wonderswan_library.png */,
+				94A2255817075DF600098DA0 /* controller_ws_mask.png */,
+				94A2255917075DF600098DA0 /* controller_ws.png */,
+				94A224471707539D00098DA0 /* WonderSwan-Info.plist */,
+				94A2255C17075DF600098DA0 /* Keyboard-Mappings.plist */,
+				94A2255A17075DF600098DA0 /* Controller-Mappings.plist */,
+				94A2255B17075DF600098DA0 /* Controller-Preferences.plist */,
+				94A224481707539D00098DA0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94A22455170753C800098DA0 /* Lynx */ = {
+			isa = PBXGroup;
+			children = (
+				94A2256417075E7E00098DA0 /* OELynxSystemResponder.h */,
+				94A2256517075E7E00098DA0 /* OELynxSystemResponder.m */,
+				94A2256617075E7E00098DA0 /* OELynxSystemResponderClient.h */,
+				94A22456170753C800098DA0 /* Supporting Files */,
+			);
+			path = Lynx;
+			sourceTree = "<group>";
+		};
+		94A22456170753C800098DA0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94A2256D17075E9000098DA0 /* lynx_library.png */,
+				94A2256817075E9000098DA0 /* controller_lynx_mask.png */,
+				94A2256917075E9000098DA0 /* controller_lynx.png */,
+				94A22457170753C800098DA0 /* Lynx-Info.plist */,
+				94A2256C17075E9000098DA0 /* Keyboard-Mappings.plist */,
+				94A2256A17075E9000098DA0 /* Controller-Mappings.plist */,
+				94A2256B17075E9000098DA0 /* Controller-Preferences.plist */,
+				94A22458170753C800098DA0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94A22465170753D500098DA0 /* PC-FX */ = {
+			isa = PBXGroup;
+			children = (
+				94A2257417075EF500098DA0 /* OEPCFXSystemController.h */,
+				94A2257517075EF500098DA0 /* OEPCFXSystemController.m */,
+				94A2257617075EF500098DA0 /* OEPCFXSystemResponder.h */,
+				94A2257717075EF500098DA0 /* OEPCFXSystemResponder.m */,
+				94A2257817075EF500098DA0 /* OEPCFXSystemResponderClient.h */,
+				94A22466170753D500098DA0 /* Supporting Files */,
+			);
+			path = "PC-FX";
+			sourceTree = "<group>";
+		};
+		94A22466170753D500098DA0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94A2258017075F0C00098DA0 /* pcfx_library.png */,
+				94A2257B17075F0C00098DA0 /* controller_pcfx_mask.png */,
+				94A2257C17075F0C00098DA0 /* controller_pcfx.png */,
+				94A22467170753D500098DA0 /* PC-FX-Info.plist */,
+				94A2257F17075F0C00098DA0 /* Keyboard-Mappings.plist */,
+				94A2257D17075F0C00098DA0 /* Controller-Mappings.plist */,
+				94A2257E17075F0C00098DA0 /* Controller-Preferences.plist */,
+				94A22468170753D500098DA0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94A22475170753E100098DA0 /* SG-1000 */ = {
+			isa = PBXGroup;
+			children = (
+				94A2258717075F3D00098DA0 /* OESG1000SystemResponder.h */,
+				94A2258817075F3D00098DA0 /* OESG1000SystemResponder.m */,
+				94A2258917075F3D00098DA0 /* OESG1000SystemResponderClient.h */,
+				94A22476170753E100098DA0 /* Supporting Files */,
+			);
+			path = "SG-1000";
+			sourceTree = "<group>";
+		};
+		94A22476170753E100098DA0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94A2259017075F4D00098DA0 /* sg1000_library.png */,
+				94A2258B17075F4D00098DA0 /* controller_sg1000_mask.png */,
+				94A2258C17075F4D00098DA0 /* controller_sg1000.png */,
+				94A22477170753E100098DA0 /* SG-1000-Info.plist */,
+				94A2258F17075F4D00098DA0 /* Keyboard-Mappings.plist */,
+				94A2258D17075F4D00098DA0 /* Controller-Mappings.plist */,
+				94A2258E17075F4D00098DA0 /* Controller-Preferences.plist */,
+				94A22478170753E100098DA0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94A224851707541E00098DA0 /* Virtual Boy */ = {
+			isa = PBXGroup;
+			children = (
+				94A2259717075F7200098DA0 /* OEVBSystemResponder.h */,
+				94A2259817075F7200098DA0 /* OEVBSystemResponder.m */,
+				94A2259917075F7200098DA0 /* OEVBSystemResponderClient.h */,
+				94A224861707541E00098DA0 /* Supporting Files */,
+			);
+			path = "Virtual Boy";
+			sourceTree = "<group>";
+		};
+		94A224861707541E00098DA0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94A225A017075FD600098DA0 /* vb_library.png */,
+				94A2259B17075FD600098DA0 /* controller_vb_mask.png */,
+				94A2259C17075FD600098DA0 /* controller_vb.png */,
+				94A224871707541F00098DA0 /* Virtual Boy-Info.plist */,
+				94A2259F17075FD600098DA0 /* Keyboard-Mappings.plist */,
+				94A2259D17075FD600098DA0 /* Controller-Mappings.plist */,
+				94A2259E17075FD600098DA0 /* Controller-Preferences.plist */,
+				94A224881707541F00098DA0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94A224951707542A00098DA0 /* Sega CD */ = {
+			isa = PBXGroup;
+			children = (
+				94A225A71707602500098DA0 /* OESegaCDSystemController.h */,
+				94A225A81707602500098DA0 /* OESegaCDSystemController.m */,
+				94A225A91707602500098DA0 /* OESegaCDSystemResponder.h */,
+				94A225AA1707602500098DA0 /* OESegaCDSystemResponder.m */,
+				94A225AB1707602500098DA0 /* OESegaCDSystemResponderClient.h */,
+				94A224961707542A00098DA0 /* Supporting Files */,
+			);
+			path = "Sega CD";
+			sourceTree = "<group>";
+		};
+		94A224961707542A00098DA0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94A225B31707603400098DA0 /* segacd_library.png */,
+				94A225AE1707603400098DA0 /* controller_genesis_mask.png */,
+				94A225AF1707603400098DA0 /* controller_genesis.png */,
+				94A224971707542A00098DA0 /* Sega CD-Info.plist */,
+				94A225B21707603400098DA0 /* Keyboard-Mappings.plist */,
+				94A225B01707603400098DA0 /* Controller-Mappings.plist */,
+				94A225B11707603400098DA0 /* Controller-Preferences.plist */,
+				94A224981707542A00098DA0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94A224A51707543600098DA0 /* Atari 2600 */ = {
+			isa = PBXGroup;
+			children = (
+				94A225BA1707608B00098DA0 /* OE2600SystemResponder.h */,
+				94A225BB1707608B00098DA0 /* OE2600SystemResponder.m */,
+				94A225BC1707608B00098DA0 /* OE2600SystemResponderClient.h */,
+				94A224A61707543600098DA0 /* Supporting Files */,
+			);
+			path = "Atari 2600";
+			sourceTree = "<group>";
+		};
+		94A224A61707543600098DA0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94A225BE1707609E00098DA0 /* atari2600_library.png */,
+				94A225BF1707609E00098DA0 /* controller_2600_mask.png */,
+				94A225C01707609E00098DA0 /* controller_2600.png */,
+				94A224A71707543600098DA0 /* Atari 2600-Info.plist */,
+				94A225C31707609E00098DA0 /* Keyboard-Mappings.plist */,
+				94A225C11707609E00098DA0 /* Controller-Mappings.plist */,
+				94A225C21707609E00098DA0 /* Controller-Preferences.plist */,
+				94A224A81707543600098DA0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94A224B51707544100098DA0 /* Atari 5200 */ = {
+			isa = PBXGroup;
+			children = (
+				94A225CA170760C900098DA0 /* OE5200SystemResponder.h */,
+				94A225CB170760C900098DA0 /* OE5200SystemResponder.m */,
+				94A225CC170760C900098DA0 /* OE5200SystemResponderClient.h */,
+				94A224B61707544100098DA0 /* Supporting Files */,
+			);
+			path = "Atari 5200";
+			sourceTree = "<group>";
+		};
+		94A224B61707544100098DA0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94A225CE170760D900098DA0 /* atari5200_library.png */,
+				94A225CF170760D900098DA0 /* controller_5200_mask.png */,
+				94A225D0170760D900098DA0 /* controller_5200.png */,
+				94A224B71707544100098DA0 /* Atari 5200-Info.plist */,
+				94A225D3170760D900098DA0 /* Keyboard-Mappings.plist */,
+				94A225D1170760D900098DA0 /* Controller-Mappings.plist */,
+				94A225D2170760D900098DA0 /* Controller-Preferences.plist */,
+				94A224B81707544100098DA0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94A224C51707544B00098DA0 /* Nintendo FDS */ = {
+			isa = PBXGroup;
+			children = (
+				94A225DA170760FB00098DA0 /* OEFDSSystemResponder.h */,
+				94A225DB170760FB00098DA0 /* OEFDSSystemResponder.m */,
+				94A225DC170760FB00098DA0 /* OEFDSSystemResponderClient.h */,
+				94A224C61707544C00098DA0 /* Supporting Files */,
+			);
+			path = "Nintendo FDS";
+			sourceTree = "<group>";
+		};
+		94A224C61707544C00098DA0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94A225E21707610A00098DA0 /* famicom_library.png */,
+				94A225DE1707610A00098DA0 /* controller_fc_mask.png */,
+				94A225DF1707610A00098DA0 /* controller_fc.png */,
+				94A224C71707544C00098DA0 /* Nintendo FDS-Info.plist */,
+				94A225E31707610A00098DA0 /* Keyboard-Mappings.plist */,
+				94A225E01707610A00098DA0 /* Controller-Mappings.plist */,
+				94A225E11707610A00098DA0 /* Controller-Preferences.plist */,
+				94A224C81707544C00098DA0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94A224D51707556D00098DA0 /* Saturn */ = {
+			isa = PBXGroup;
+			children = (
+				94A225EA1707613400098DA0 /* OESaturnSystemController.h */,
+				94A225EB1707613400098DA0 /* OESaturnSystemController.m */,
+				94A225EC1707613400098DA0 /* OESaturnSystemResponder.h */,
+				94A225ED1707613400098DA0 /* OESaturnSystemResponder.m */,
+				94A225EE1707613400098DA0 /* OESaturnSystemResponderClient.h */,
+				94A224D61707556D00098DA0 /* Supporting Files */,
+			);
+			path = Saturn;
+			sourceTree = "<group>";
+		};
+		94A224D61707556D00098DA0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94A225F71707614500098DA0 /* saturn_library.png */,
+				94A225F61707614500098DA0 /* saturn_jap_library.png */,
+				94A225F11707614500098DA0 /* controller_saturn_mask.png */,
+				94A225F21707614500098DA0 /* controller_saturn.png */,
+				94A224D71707556D00098DA0 /* Saturn-Info.plist */,
+				94A225F51707614500098DA0 /* Keyboard-Mappings.plist */,
+				94A225F31707614500098DA0 /* Controller-Mappings.plist */,
+				94A225F41707614500098DA0 /* Controller-Preferences.plist */,
+				94A224D81707556D00098DA0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94A224E51707559100098DA0 /* Computer */ = {
+			isa = PBXGroup;
+			children = (
+				94A225FF1707616F00098DA0 /* OEComputerSystemResponder.h */,
+				94A226001707616F00098DA0 /* OEComputerSystemResponder.m */,
+				94A226011707616F00098DA0 /* OEComputerSystemResponderClient.h */,
+				94A224E61707559100098DA0 /* Supporting Files */,
+			);
+			path = Computer;
+			sourceTree = "<group>";
+		};
+		94A224E61707559100098DA0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94A22603170761D200098DA0 /* computer_library.png */,
+				94A22604170761D200098DA0 /* controller_arcade_mask.png */,
+				94A22605170761D200098DA0 /* controller_arcade.png */,
+				94A224E71707559100098DA0 /* Computer-Info.plist */,
+				94A22608170761D200098DA0 /* Keyboard-Mappings.plist */,
+				94A22606170761D200098DA0 /* Controller-Mappings.plist */,
+				94A22607170761D200098DA0 /* Controller-Preferences.plist */,
+				94A224E81707559100098DA0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94A224F81707596200098DA0 /* PlayStation */ = {
+			isa = PBXGroup;
+			children = (
+				94A2252C17075C6C00098DA0 /* OEPSXSystemController.h */,
+				94A2252D17075C6C00098DA0 /* OEPSXSystemController.m */,
+				94A2252E17075C6C00098DA0 /* OEPSXSystemResponder.h */,
+				94A2252F17075C6C00098DA0 /* OEPSXSystemResponder.m */,
+				94A2253017075C6C00098DA0 /* OEPSXSystemResponderClient.h */,
+				94A224F91707596200098DA0 /* Supporting Files */,
+			);
+			path = PlayStation;
+			sourceTree = "<group>";
+		};
+		94A224F91707596200098DA0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94A2253817075C8800098DA0 /* psx_library.png */,
+				94A2253317075C8800098DA0 /* controller_psx_mask.png */,
+				94A2253417075C8800098DA0 /* controller_psx.png */,
+				94A224FA1707596200098DA0 /* PlayStation-Info.plist */,
+				94A2253717075C8800098DA0 /* Keyboard-Mappings.plist */,
+				94A2253517075C8800098DA0 /* Controller-Mappings.plist */,
+				94A2253617075C8800098DA0 /* Controller-Preferences.plist */,
+				94A224FB1707596200098DA0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		94D7E8CB15073BA000FBDD85 /* NDS */ = {
 			isa = PBXGroup;
 			children = (
@@ -3857,6 +4733,19 @@
 				C6B947B11364ECA700A425F0 /* GameBoy */,
 				C6B947E81365080B00A425F0 /* Genesis */,
 				C646574A13771F12002A4F70 /* GameBoy Advance */,
+				94A224F81707596200098DA0 /* PlayStation */,
+				94A224351707537F00098DA0 /* PC Engine */,
+				94A224451707539D00098DA0 /* WonderSwan */,
+				94A22455170753C800098DA0 /* Lynx */,
+				94A22465170753D500098DA0 /* PC-FX */,
+				94A22475170753E100098DA0 /* SG-1000 */,
+				94A224851707541E00098DA0 /* Virtual Boy */,
+				94A224951707542A00098DA0 /* Sega CD */,
+				94A224A51707543600098DA0 /* Atari 2600 */,
+				94A224B51707544100098DA0 /* Atari 5200 */,
+				94A224C51707544B00098DA0 /* Nintendo FDS */,
+				94A224D51707556D00098DA0 /* Saturn */,
+				94A224E51707559100098DA0 /* Computer */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -4202,6 +5091,240 @@
 			productReference = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		94A224321707537F00098DA0 /* PC Engine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94A2243C1707537F00098DA0 /* Build configuration list for PBXNativeTarget "PC Engine" */;
+			buildPhases = (
+				94A2242F1707537F00098DA0 /* Sources */,
+				94A224301707537F00098DA0 /* Frameworks */,
+				94A224311707537F00098DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94A2250917075AEE00098DA0 /* PBXTargetDependency */,
+			);
+			name = "PC Engine";
+			productName = "PC Engine";
+			productReference = 94A224331707537F00098DA0 /* PC Engine.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		94A224421707539D00098DA0 /* WonderSwan */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94A2244C1707539D00098DA0 /* Build configuration list for PBXNativeTarget "WonderSwan" */;
+			buildPhases = (
+				94A2243F1707539D00098DA0 /* Sources */,
+				94A224401707539D00098DA0 /* Frameworks */,
+				94A224411707539D00098DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94A2250C17075AF800098DA0 /* PBXTargetDependency */,
+			);
+			name = WonderSwan;
+			productName = WonderSwan;
+			productReference = 94A224431707539D00098DA0 /* WonderSwan.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		94A22452170753C800098DA0 /* Lynx */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94A2245C170753C800098DA0 /* Build configuration list for PBXNativeTarget "Lynx" */;
+			buildPhases = (
+				94A2244F170753C800098DA0 /* Sources */,
+				94A22450170753C800098DA0 /* Frameworks */,
+				94A22451170753C800098DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94A2250F17075B1A00098DA0 /* PBXTargetDependency */,
+			);
+			name = Lynx;
+			productName = Lynx;
+			productReference = 94A22453170753C800098DA0 /* Lynx.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		94A22462170753D500098DA0 /* PC-FX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94A2246C170753D500098DA0 /* Build configuration list for PBXNativeTarget "PC-FX" */;
+			buildPhases = (
+				94A2245F170753D500098DA0 /* Sources */,
+				94A22460170753D500098DA0 /* Frameworks */,
+				94A22461170753D500098DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94A2251217075B2500098DA0 /* PBXTargetDependency */,
+			);
+			name = "PC-FX";
+			productName = "PC-FX";
+			productReference = 94A22463170753D500098DA0 /* PC-FX.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		94A22472170753E100098DA0 /* SG-1000 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94A2247C170753E100098DA0 /* Build configuration list for PBXNativeTarget "SG-1000" */;
+			buildPhases = (
+				94A2246F170753E100098DA0 /* Sources */,
+				94A22470170753E100098DA0 /* Frameworks */,
+				94A22471170753E100098DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94A2251517075B3400098DA0 /* PBXTargetDependency */,
+			);
+			name = "SG-1000";
+			productName = "SG-1000";
+			productReference = 94A22473170753E100098DA0 /* SG-1000.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		94A224821707541E00098DA0 /* Virtual Boy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94A2248C1707541F00098DA0 /* Build configuration list for PBXNativeTarget "Virtual Boy" */;
+			buildPhases = (
+				94A2247F1707541E00098DA0 /* Sources */,
+				94A224801707541E00098DA0 /* Frameworks */,
+				94A224811707541E00098DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94A2251817075B4300098DA0 /* PBXTargetDependency */,
+			);
+			name = "Virtual Boy";
+			productName = "Virtual Boy";
+			productReference = 94A224831707541E00098DA0 /* Virtual Boy.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		94A224921707542A00098DA0 /* Sega CD */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94A2249C1707542B00098DA0 /* Build configuration list for PBXNativeTarget "Sega CD" */;
+			buildPhases = (
+				94A2248F1707542A00098DA0 /* Sources */,
+				94A224901707542A00098DA0 /* Frameworks */,
+				94A224911707542A00098DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94A2251B17075B5400098DA0 /* PBXTargetDependency */,
+			);
+			name = "Sega CD";
+			productName = "Sega CD";
+			productReference = 94A224931707542A00098DA0 /* Sega CD.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		94A224A21707543600098DA0 /* Atari 2600 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94A224AC1707543600098DA0 /* Build configuration list for PBXNativeTarget "Atari 2600" */;
+			buildPhases = (
+				94A2249F1707543600098DA0 /* Sources */,
+				94A224A01707543600098DA0 /* Frameworks */,
+				94A224A11707543600098DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94A2251E17075B6F00098DA0 /* PBXTargetDependency */,
+			);
+			name = "Atari 2600";
+			productName = "Atari 2600";
+			productReference = 94A224A31707543600098DA0 /* Atari 2600.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		94A224B21707544100098DA0 /* Atari 5200 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94A224BC1707544100098DA0 /* Build configuration list for PBXNativeTarget "Atari 5200" */;
+			buildPhases = (
+				94A224AF1707544100098DA0 /* Sources */,
+				94A224B01707544100098DA0 /* Frameworks */,
+				94A224B11707544100098DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94A2252117075B7E00098DA0 /* PBXTargetDependency */,
+			);
+			name = "Atari 5200";
+			productName = "Atari 5200";
+			productReference = 94A224B31707544100098DA0 /* Atari 5200.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		94A224C21707544B00098DA0 /* Nintendo FDS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94A224CC1707544C00098DA0 /* Build configuration list for PBXNativeTarget "Nintendo FDS" */;
+			buildPhases = (
+				94A224BF1707544B00098DA0 /* Sources */,
+				94A224C01707544B00098DA0 /* Frameworks */,
+				94A224C11707544B00098DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94A2252417075B8800098DA0 /* PBXTargetDependency */,
+			);
+			name = "Nintendo FDS";
+			productName = "Nintendo FDS";
+			productReference = 94A224C31707544B00098DA0 /* Nintendo FDS.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		94A224D21707556D00098DA0 /* Saturn */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94A224DC1707556D00098DA0 /* Build configuration list for PBXNativeTarget "Saturn" */;
+			buildPhases = (
+				94A224CF1707556D00098DA0 /* Sources */,
+				94A224D01707556D00098DA0 /* Frameworks */,
+				94A224D11707556D00098DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94A2252717075B9300098DA0 /* PBXTargetDependency */,
+			);
+			name = Saturn;
+			productName = Saturn;
+			productReference = 94A224D31707556D00098DA0 /* Saturn.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		94A224E21707559100098DA0 /* Computer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94A224EC1707559100098DA0 /* Build configuration list for PBXNativeTarget "Computer" */;
+			buildPhases = (
+				94A224DF1707559100098DA0 /* Sources */,
+				94A224E01707559100098DA0 /* Frameworks */,
+				94A224E11707559100098DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94A2252A17075B9C00098DA0 /* PBXTargetDependency */,
+			);
+			name = Computer;
+			productName = Computer;
+			productReference = 94A224E31707559100098DA0 /* Computer.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		94A224F51707596100098DA0 /* PlayStation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94A224FF1707596200098DA0 /* Build configuration list for PBXNativeTarget "PlayStation" */;
+			buildPhases = (
+				94A224F21707596100098DA0 /* Sources */,
+				94A224F31707596100098DA0 /* Frameworks */,
+				94A224F41707596100098DA0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94A2250617075A9C00098DA0 /* PBXTargetDependency */,
+			);
+			name = PlayStation;
+			productName = PlayStation;
+			productReference = 94A224F61707596100098DA0 /* PlayStation.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
 		94D7E8C815073BA000FBDD85 /* NDS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 94D7E8D415073BA000FBDD85 /* Build configuration list for PBXNativeTarget "NDS" */;
@@ -4392,6 +5515,19 @@
 				8227753E148946DF00B19E27 /* GameGear */,
 				94D7E8C815073BA000FBDD85 /* NDS */,
 				945E42FA1517F2B500057D08 /* Arcade */,
+				94A224F51707596100098DA0 /* PlayStation */,
+				94A224321707537F00098DA0 /* PC Engine */,
+				94A224421707539D00098DA0 /* WonderSwan */,
+				94A22452170753C800098DA0 /* Lynx */,
+				94A22462170753D500098DA0 /* PC-FX */,
+				94A22472170753E100098DA0 /* SG-1000 */,
+				94A224821707541E00098DA0 /* Virtual Boy */,
+				94A224921707542A00098DA0 /* Sega CD */,
+				94A224A21707543600098DA0 /* Atari 2600 */,
+				94A224B21707544100098DA0 /* Atari 5200 */,
+				94A224C21707544B00098DA0 /* Nintendo FDS */,
+				94A224D21707556D00098DA0 /* Saturn */,
+				94A224E21707559100098DA0 /* Computer */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -4654,6 +5790,190 @@
 				945E43181517F5BC00057D08 /* Controller-Preferences.plist in Resources */,
 				C6527BC1164E22AA0030FB25 /* Keyboard-Mappings.plist in Resources */,
 				943819C41658DAE800D55731 /* Controller-Mappings.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224311707537F00098DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2243A1707537F00098DA0 /* InfoPlist.strings in Resources */,
+				94A2254D17075D0E00098DA0 /* controller_pce_mask.png in Resources */,
+				94A2254E17075D0E00098DA0 /* controller_pce.png in Resources */,
+				94A2254F17075D0E00098DA0 /* Controller-Mappings.plist in Resources */,
+				94A2255017075D0E00098DA0 /* Controller-Preferences.plist in Resources */,
+				94A2255117075D0E00098DA0 /* Keyboard-Mappings.plist in Resources */,
+				94A2255217075D0E00098DA0 /* pcengine_library.png in Resources */,
+				94A2255317075D0E00098DA0 /* tg16_library.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224411707539D00098DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2244A1707539D00098DA0 /* InfoPlist.strings in Resources */,
+				94A2255E17075DF600098DA0 /* controller_ws_mask.png in Resources */,
+				94A2255F17075DF600098DA0 /* controller_ws.png in Resources */,
+				94A2256017075DF600098DA0 /* Controller-Mappings.plist in Resources */,
+				94A2256117075DF600098DA0 /* Controller-Preferences.plist in Resources */,
+				94A2256217075DF600098DA0 /* Keyboard-Mappings.plist in Resources */,
+				94A2256317075DF600098DA0 /* wonderswan_library.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A22451170753C800098DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2245A170753C800098DA0 /* InfoPlist.strings in Resources */,
+				94A2256E17075E9000098DA0 /* controller_lynx_mask.png in Resources */,
+				94A2256F17075E9000098DA0 /* controller_lynx.png in Resources */,
+				94A2257017075E9000098DA0 /* Controller-Mappings.plist in Resources */,
+				94A2257117075E9000098DA0 /* Controller-Preferences.plist in Resources */,
+				94A2257217075E9000098DA0 /* Keyboard-Mappings.plist in Resources */,
+				94A2257317075E9000098DA0 /* lynx_library.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A22461170753D500098DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2246A170753D500098DA0 /* InfoPlist.strings in Resources */,
+				94A2258117075F0C00098DA0 /* controller_pcfx_mask.png in Resources */,
+				94A2258217075F0C00098DA0 /* controller_pcfx.png in Resources */,
+				94A2258317075F0C00098DA0 /* Controller-Mappings.plist in Resources */,
+				94A2258417075F0C00098DA0 /* Controller-Preferences.plist in Resources */,
+				94A2258517075F0C00098DA0 /* Keyboard-Mappings.plist in Resources */,
+				94A2258617075F0C00098DA0 /* pcfx_library.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A22471170753E100098DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2247A170753E100098DA0 /* InfoPlist.strings in Resources */,
+				94A2259117075F4D00098DA0 /* controller_sg1000_mask.png in Resources */,
+				94A2259217075F4D00098DA0 /* controller_sg1000.png in Resources */,
+				94A2259317075F4D00098DA0 /* Controller-Mappings.plist in Resources */,
+				94A2259417075F4D00098DA0 /* Controller-Preferences.plist in Resources */,
+				94A2259517075F4D00098DA0 /* Keyboard-Mappings.plist in Resources */,
+				94A2259617075F4D00098DA0 /* sg1000_library.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224811707541E00098DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2248A1707541F00098DA0 /* InfoPlist.strings in Resources */,
+				94A225A117075FD600098DA0 /* controller_vb_mask.png in Resources */,
+				94A225A217075FD600098DA0 /* controller_vb.png in Resources */,
+				94A225A317075FD600098DA0 /* Controller-Mappings.plist in Resources */,
+				94A225A417075FD600098DA0 /* Controller-Preferences.plist in Resources */,
+				94A225A517075FD600098DA0 /* Keyboard-Mappings.plist in Resources */,
+				94A225A617075FD600098DA0 /* vb_library.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224911707542A00098DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2249A1707542A00098DA0 /* InfoPlist.strings in Resources */,
+				94A225B41707603400098DA0 /* controller_genesis_mask.png in Resources */,
+				94A225B51707603400098DA0 /* controller_genesis.png in Resources */,
+				94A225B61707603400098DA0 /* Controller-Mappings.plist in Resources */,
+				94A225B71707603400098DA0 /* Controller-Preferences.plist in Resources */,
+				94A225B81707603400098DA0 /* Keyboard-Mappings.plist in Resources */,
+				94A225B91707603400098DA0 /* segacd_library.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224A11707543600098DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A224AA1707543600098DA0 /* InfoPlist.strings in Resources */,
+				94A225C41707609E00098DA0 /* atari2600_library.png in Resources */,
+				94A225C51707609E00098DA0 /* controller_2600_mask.png in Resources */,
+				94A225C61707609E00098DA0 /* controller_2600.png in Resources */,
+				94A225C71707609E00098DA0 /* Controller-Mappings.plist in Resources */,
+				94A225C81707609E00098DA0 /* Controller-Preferences.plist in Resources */,
+				94A225C91707609E00098DA0 /* Keyboard-Mappings.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224B11707544100098DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A224BA1707544100098DA0 /* InfoPlist.strings in Resources */,
+				94A225D4170760D900098DA0 /* atari5200_library.png in Resources */,
+				94A225D5170760D900098DA0 /* controller_5200_mask.png in Resources */,
+				94A225D6170760D900098DA0 /* controller_5200.png in Resources */,
+				94A225D7170760D900098DA0 /* Controller-Mappings.plist in Resources */,
+				94A225D8170760D900098DA0 /* Controller-Preferences.plist in Resources */,
+				94A225D9170760D900098DA0 /* Keyboard-Mappings.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224C11707544B00098DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A224CA1707544C00098DA0 /* InfoPlist.strings in Resources */,
+				94A225E41707610A00098DA0 /* controller_fc_mask.png in Resources */,
+				94A225E51707610A00098DA0 /* controller_fc.png in Resources */,
+				94A225E61707610A00098DA0 /* Controller-Mappings.plist in Resources */,
+				94A225E71707610A00098DA0 /* Controller-Preferences.plist in Resources */,
+				94A225E81707610A00098DA0 /* famicom_library.png in Resources */,
+				94A225E91707610A00098DA0 /* Keyboard-Mappings.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224D11707556D00098DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A224DA1707556D00098DA0 /* InfoPlist.strings in Resources */,
+				94A225F81707614500098DA0 /* controller_saturn_mask.png in Resources */,
+				94A225F91707614500098DA0 /* controller_saturn.png in Resources */,
+				94A225FA1707614500098DA0 /* Controller-Mappings.plist in Resources */,
+				94A225FB1707614500098DA0 /* Controller-Preferences.plist in Resources */,
+				94A225FC1707614500098DA0 /* Keyboard-Mappings.plist in Resources */,
+				94A225FD1707614500098DA0 /* saturn_jap_library.png in Resources */,
+				94A225FE1707614500098DA0 /* saturn_library.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224E11707559100098DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A224EA1707559100098DA0 /* InfoPlist.strings in Resources */,
+				94A22609170761D200098DA0 /* computer_library.png in Resources */,
+				94A2260A170761D200098DA0 /* controller_arcade_mask.png in Resources */,
+				94A2260B170761D200098DA0 /* controller_arcade.png in Resources */,
+				94A2260C170761D200098DA0 /* Controller-Mappings.plist in Resources */,
+				94A2260D170761D200098DA0 /* Controller-Preferences.plist in Resources */,
+				94A2260E170761D200098DA0 /* Keyboard-Mappings.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224F41707596100098DA0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A224FD1707596200098DA0 /* InfoPlist.strings in Resources */,
+				94A2253917075C8800098DA0 /* controller_psx_mask.png in Resources */,
+				94A2253A17075C8800098DA0 /* controller_psx.png in Resources */,
+				94A2253B17075C8800098DA0 /* Controller-Mappings.plist in Resources */,
+				94A2253C17075C8800098DA0 /* Controller-Preferences.plist in Resources */,
+				94A2253D17075C8800098DA0 /* Keyboard-Mappings.plist in Resources */,
+				94A2253E17075C8800098DA0 /* psx_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5069,6 +6389,115 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94A2242F1707537F00098DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2254417075CF200098DA0 /* OEPCESystemController.m in Sources */,
+				94A2254517075CF200098DA0 /* OEPCESystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A2243F1707539D00098DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2255717075DDC00098DA0 /* OEWSSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A2244F170753C800098DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2256717075E7E00098DA0 /* OELynxSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A2245F170753D500098DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2257917075EF500098DA0 /* OEPCFXSystemController.m in Sources */,
+				94A2257A17075EF500098DA0 /* OEPCFXSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A2246F170753E100098DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2258A17075F3D00098DA0 /* OESG1000SystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A2247F1707541E00098DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2259A17075F7200098DA0 /* OEVBSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A2248F1707542A00098DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A225AC1707602500098DA0 /* OESegaCDSystemController.m in Sources */,
+				94A225AD1707602500098DA0 /* OESegaCDSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A2249F1707543600098DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A225BD1707608B00098DA0 /* OE2600SystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224AF1707544100098DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A225CD170760C900098DA0 /* OE5200SystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224BF1707544B00098DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A225DD170760FB00098DA0 /* OEFDSSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224CF1707556D00098DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A225EF1707613400098DA0 /* OESaturnSystemController.m in Sources */,
+				94A225F01707613400098DA0 /* OESaturnSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224DF1707559100098DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A226021707616F00098DA0 /* OEComputerSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94A224F21707596100098DA0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94A2253117075C6C00098DA0 /* OEPSXSystemController.m in Sources */,
+				94A2253217075C6C00098DA0 /* OEPSXSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94D7E8C515073BA000FBDD85 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5273,6 +6702,71 @@
 			target = 9479664E15EDE645004316AB /* Update Build Version */;
 			targetProxy = 9479665415EDE6B3004316AB /* PBXContainerItemProxy */;
 		};
+		94A2250617075A9C00098DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94A2250517075A9C00098DA0 /* PBXContainerItemProxy */;
+		};
+		94A2250917075AEE00098DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94A2250817075AEE00098DA0 /* PBXContainerItemProxy */;
+		};
+		94A2250C17075AF800098DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94A2250B17075AF800098DA0 /* PBXContainerItemProxy */;
+		};
+		94A2250F17075B1A00098DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94A2250E17075B1A00098DA0 /* PBXContainerItemProxy */;
+		};
+		94A2251217075B2500098DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94A2251117075B2500098DA0 /* PBXContainerItemProxy */;
+		};
+		94A2251517075B3400098DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94A2251417075B3400098DA0 /* PBXContainerItemProxy */;
+		};
+		94A2251817075B4300098DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94A2251717075B4300098DA0 /* PBXContainerItemProxy */;
+		};
+		94A2251B17075B5400098DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94A2251A17075B5400098DA0 /* PBXContainerItemProxy */;
+		};
+		94A2251E17075B6F00098DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94A2251D17075B6F00098DA0 /* PBXContainerItemProxy */;
+		};
+		94A2252117075B7E00098DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94A2252017075B7E00098DA0 /* PBXContainerItemProxy */;
+		};
+		94A2252417075B8800098DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94A2252317075B8800098DA0 /* PBXContainerItemProxy */;
+		};
+		94A2252717075B9300098DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94A2252617075B9300098DA0 /* PBXContainerItemProxy */;
+		};
+		94A2252A17075B9C00098DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94A2252917075B9C00098DA0 /* PBXContainerItemProxy */;
+		};
 		94D7E8E61507413400FBDD85 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C67117ED136367240034379A /* OpenEmuSystem */;
@@ -5370,6 +6864,110 @@
 			isa = PBXVariantGroup;
 			children = (
 				945E43011517F2B500057D08 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94A224381707537F00098DA0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A224391707537F00098DA0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94A224481707539D00098DA0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A224491707539D00098DA0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94A22458170753C800098DA0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A22459170753C800098DA0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94A22468170753D500098DA0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A22469170753D500098DA0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94A22478170753E100098DA0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A22479170753E100098DA0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94A224881707541F00098DA0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A224891707541F00098DA0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94A224981707542A00098DA0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A224991707542A00098DA0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94A224A81707543600098DA0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A224A91707543600098DA0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94A224B81707544100098DA0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A224B91707544100098DA0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94A224C81707544C00098DA0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A224C91707544C00098DA0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94A224D81707556D00098DA0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A224D91707556D00098DA0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94A224E81707559100098DA0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A224E91707559100098DA0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94A224FB1707596200098DA0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94A224FC1707596200098DA0 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -5793,6 +7391,578 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		94A2243D1707537F00098DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "PC Engine/PC Engine-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		94A2243E1707537F00098DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "PC Engine/PC Engine-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		94A2244D1707539D00098DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "WonderSwan/WonderSwan-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		94A2244E1707539D00098DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "WonderSwan/WonderSwan-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		94A2245D170753C800098DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Lynx/Lynx-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		94A2245E170753C800098DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Lynx/Lynx-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		94A2246D170753D500098DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "PC-FX/PC-FX-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		94A2246E170753D500098DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "PC-FX/PC-FX-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		94A2247D170753E100098DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "SG-1000/SG-1000-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		94A2247E170753E100098DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "SG-1000/SG-1000-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		94A2248D1707541F00098DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Virtual Boy/Virtual Boy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		94A2248E1707541F00098DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Virtual Boy/Virtual Boy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		94A2249D1707542B00098DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Sega CD/Sega CD-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		94A2249E1707542B00098DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Sega CD/Sega CD-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		94A224AD1707543600098DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Atari 2600/Atari 2600-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		94A224AE1707543600098DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Atari 2600/Atari 2600-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		94A224BD1707544100098DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Atari 5200/Atari 5200-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		94A224BE1707544100098DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Atari 5200/Atari 5200-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		94A224CD1707544C00098DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Nintendo FDS/Nintendo FDS-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		94A224CE1707544C00098DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Nintendo FDS/Nintendo FDS-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		94A224DD1707556D00098DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Saturn/Saturn-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		94A224DE1707556D00098DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Saturn/Saturn-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		94A224ED1707559100098DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Computer/Computer-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		94A224EE1707559100098DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Computer/Computer-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		94A225001707596200098DA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "PlayStation/PlayStation-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		94A225011707596200098DA0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "PlayStation/PlayStation-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
 		};
@@ -6352,6 +8522,123 @@
 			buildConfigurations = (
 				9479664F15EDE645004316AB /* Debug */,
 				9479665015EDE645004316AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94A2243C1707537F00098DA0 /* Build configuration list for PBXNativeTarget "PC Engine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94A2243D1707537F00098DA0 /* Debug */,
+				94A2243E1707537F00098DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94A2244C1707539D00098DA0 /* Build configuration list for PBXNativeTarget "WonderSwan" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94A2244D1707539D00098DA0 /* Debug */,
+				94A2244E1707539D00098DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94A2245C170753C800098DA0 /* Build configuration list for PBXNativeTarget "Lynx" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94A2245D170753C800098DA0 /* Debug */,
+				94A2245E170753C800098DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94A2246C170753D500098DA0 /* Build configuration list for PBXNativeTarget "PC-FX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94A2246D170753D500098DA0 /* Debug */,
+				94A2246E170753D500098DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94A2247C170753E100098DA0 /* Build configuration list for PBXNativeTarget "SG-1000" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94A2247D170753E100098DA0 /* Debug */,
+				94A2247E170753E100098DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94A2248C1707541F00098DA0 /* Build configuration list for PBXNativeTarget "Virtual Boy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94A2248D1707541F00098DA0 /* Debug */,
+				94A2248E1707541F00098DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94A2249C1707542B00098DA0 /* Build configuration list for PBXNativeTarget "Sega CD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94A2249D1707542B00098DA0 /* Debug */,
+				94A2249E1707542B00098DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94A224AC1707543600098DA0 /* Build configuration list for PBXNativeTarget "Atari 2600" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94A224AD1707543600098DA0 /* Debug */,
+				94A224AE1707543600098DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94A224BC1707544100098DA0 /* Build configuration list for PBXNativeTarget "Atari 5200" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94A224BD1707544100098DA0 /* Debug */,
+				94A224BE1707544100098DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94A224CC1707544C00098DA0 /* Build configuration list for PBXNativeTarget "Nintendo FDS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94A224CD1707544C00098DA0 /* Debug */,
+				94A224CE1707544C00098DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94A224DC1707556D00098DA0 /* Build configuration list for PBXNativeTarget "Saturn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94A224DD1707556D00098DA0 /* Debug */,
+				94A224DE1707556D00098DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94A224EC1707559100098DA0 /* Build configuration list for PBXNativeTarget "Computer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94A224ED1707559100098DA0 /* Debug */,
+				94A224EE1707559100098DA0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94A224FF1707596200098DA0 /* Build configuration list for PBXNativeTarget "PlayStation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94A225001707596200098DA0 /* Debug */,
+				94A225011707596200098DA0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

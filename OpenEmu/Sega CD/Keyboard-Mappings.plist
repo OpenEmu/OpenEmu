@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OESegaCDButtonUp</key>
+	<integer>82</integer>
+	<key>OESegaCDButtonDown</key>
+	<integer>81</integer>
+	<key>OESegaCDButtonLeft</key>
+	<integer>80</integer>
+	<key>OESegaCDButtonRight</key>
+	<integer>79</integer>
+	<key>OESegaCDButtonA</key>
+	<integer>4</integer>
+	<key>OESegaCDButtonB</key>
+	<integer>22</integer>
+	<key>OESegaCDButtonC</key>
+	<integer>7</integer>
+	<key>OESegaCDButtonX</key>
+	<integer>20</integer>
+	<key>OESegaCDButtonY</key>
+	<integer>26</integer>
+	<key>OESegaCDButtonZ</key>
+	<integer>8</integer>
+	<key>OESegaCDButtonStart</key>
+	<integer>44</integer>
+	<key>OESegaCDButtonMode</key>
+	<integer>41</integer>
+</dict>
+</plist>
