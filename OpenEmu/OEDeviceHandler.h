@@ -65,4 +65,3 @@
 @end
 
 extern NSString *const OEDeviceHandlerDidReceiveLowBatteryWarningNotification;
-extern NSString *const OEDeviceManagerDidRemoveDeviceHandlerNotification;
