@@ -34,9 +34,6 @@
 
 @interface OEControllerDescription : NSObject <NSCopying>
 
-+ (instancetype)controllerDescriptionForControllerIdentifier:(NSString *)controllerIdentifier;
-+ (instancetype)controllerDescriptionForDeviceHandler:(OEDeviceHandler *)deviceHandler;
-
 // Return YES if the controller is not known to the application database.
 @property(readonly) BOOL isGeneric;
 
@@ -45,11 +42,8 @@
 
 @property(readonly) NSArray *devices;
 
+@property(readonly) NSUInteger numberOfControls;
 @property(readonly) NSArray *controls;
-
-- (OEControlDescription *)controlDescriptionForIOHIDElement:(IOHIDElementRef)element;
-- (OEControlDescription *)controlDescriptionForIdentifier:(NSString *)controlIdentifier;
-- (OEControlDescription *)controlDescriptionForControlIdentifier:(NSUInteger)controlIdentifier;
 
 - (OEControlValueDescription *)controlValueDescriptionForEvent:(OEHIDEvent *)event;
 - (OEControlValueDescription *)controlValueDescriptionForIdentifier:(NSString *)controlIdentifier;

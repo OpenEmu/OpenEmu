@@ -29,9 +29,9 @@
 
 @implementation OEDeviceDescription
 
-+ (instancetype)deviceDescriptionForDeviceHandler:(OEDeviceHandler *)deviceHandler;
++ (instancetype)deviceDescriptionForVendorID:(NSUInteger)vendorID productID:(NSUInteger)productID name:(NSString *)name
 {
-    return [OEControllerDescription OE_deviceDescriptionForDeviceHandler:deviceHandler];
+    return [OEControllerDescription OE_deviceDescriptionForVendorID:vendorID productID:productID name:name];
 }
 
 - (id)OE_initWithRepresentation:(NSDictionary *)representation;

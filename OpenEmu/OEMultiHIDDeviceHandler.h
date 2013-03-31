@@ -24,24 +24,22 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEControllerDescription.h"
-#import "OEControlDescription.h"
-#import "OEDeviceDescription.h"
+#import "OEHIDDeviceHandler.h"
 
-@interface OEControllerDescription ()
-+ (OEDeviceDescription *)OE_deviceDescriptionForVendorID:(NSUInteger)vendorID productID:(NSUInteger)productID name:(NSString *)deviceName;
+@interface OEMultiHIDDeviceHandler : OEHIDDeviceHandler
 
-+ (NSDictionary *)OE_dequeueRepresentationForDeviceDescription:(OEDeviceDescription *)deviceDescription;
+- (id)initWithIOHIDDevice:(IOHIDDeviceRef)aDevice deviceDescription:(OEDeviceDescription *)deviceDescription subdeviceDescriptions:(NSDictionary *)descriptions;
 
-- (void)OE_controlDescription:(OEControlDescription *)control didAddControlValue:(OEControlValueDescription *)valueDesc;
+@property(readonly) NSArray *subdeviceHandlers;
+@property(readonly) NSDictionary *subdeviceDescriptions;
+
 @end
 
-@interface OEDeviceDescription ()
-- (id)OE_initWithRepresentation:(NSDictionary *)representation __attribute__((objc_method_family(init)));
-@property(readwrite) OEControllerDescription *controllerDescription;
-@end
+@interface OEHIDSubdeviceHandler : OEDeviceHandler
 
-@interface OEControlDescription ()
-- (id)OE_initWithIdentifier:(NSString *)identifier name:(NSString *)name genericEvent:(OEHIDEvent *)genericEvent __attribute__((objc_method_family(init)));
-@property(readwrite) OEControllerDescription *controllerDescription;
+- (id)initWithParentDeviceHandler:(OEMultiHIDDeviceHandler *)parentHandler deviceDescription:(OEDeviceDescription *)deviceDescription subdeviceIdentifier:(id)identifier;
+
+@property(readonly) OEMultiHIDDeviceHandler *parentDeviceHandler;
+@property(readonly) id subdeviceIdentifier;
+
 @end

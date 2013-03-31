@@ -32,14 +32,18 @@
 
 @class OEHIDEvent;
 
-#define kOEHIDElementIsTriggerKey     "OEHIDElementIsTrigger"
-#define kOEHIDElementHatSwitchTypeKey "OEHIDElementHatSwitchType"
+#define kOEHIDElementIsTriggerKey        "OEHIDElementIsTrigger"
+#define kOEHIDElementHatSwitchTypeKey    "OEHIDElementHatSwitchType"
+#define kOEHIDElementDeviceIdentifierKey "OEHIDElementDeviceIdentifier"
 
 @class IOBluetoothDevice;
 @class OEControllerDescription;
 @class OEDeviceDescription;
+@class OEControlDescription;
 
 @interface OEDeviceHandler : NSObject <NSCopying>
+
+- (id)initWithDeviceDescription:(OEDeviceDescription *)deviceDescription;
 
 - (void)setUpControllerDescription:(OEControllerDescription *)description usingRepresentation:(NSDictionary *)controlRepresentations;
 
@@ -62,9 +66,13 @@
 - (BOOL)connect;
 - (void)disconnect;
 
-+ (instancetype)deviceHandlerWithIOHIDDevice:(IOHIDDeviceRef)aDevice;
-
 - (BOOL)isKeyboardDevice;
+
+@property(nonatomic) CGFloat defaultDeadZone;
+
+- (CGFloat)deadZoneForControlCookie:(NSUInteger)controlCookie;
+- (CGFloat)deadZoneForControlDescription:(OEControlDescription *)controlDesc;
+- (void)setDeadZone:(CGFloat)deadZone forControlDescription:(OEControlDescription *)controlDesc;
 
 @end
 

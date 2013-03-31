@@ -27,13 +27,17 @@
 #import <Cocoa/Cocoa.h>
 #import "OEDeviceHandler.h"
 
+@protocol OEHIDDeviceParser;
+
 @interface OEHIDDeviceHandler : OEDeviceHandler
 
-@property(readonly) IOHIDDeviceRef device;
-@property           CGFloat        deadZone;
++ (id<OEHIDDeviceParser>)deviceParser;
 
-+ (instancetype)deviceHandlerWithIOHIDDevice:(IOHIDDeviceRef)aDevice;
-- (id)initWithIOHIDDevice:(IOHIDDeviceRef)aDevice;
+- (id)initWithIOHIDDevice:(IOHIDDeviceRef)aDevice deviceDescription:(OEDeviceDescription *)deviceDescription;
+
+@property(readonly) IOHIDDeviceRef device;
+
+- (void)dispatchEvent:(OEHIDEvent *)event;
 
 - (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue;
 - (void)dispatchEventWithHIDValue:(IOHIDValueRef)aValue;
@@ -45,4 +49,8 @@
 - (void)enableForceFeedback;
 - (void)disableForceFeedback;
 
+@end
+
+@protocol OEHIDDeviceParser <NSObject>
+- (OEHIDDeviceHandler *)deviceHandlerForIOHIDDevice:(IOHIDDeviceRef)aDevice;
 @end

@@ -288,7 +288,7 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
 - (id)initWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
 - (id)initWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 
-- (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
+- (BOOL)OE_setupEventWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
 - (OEHIDEvent *)OE_eventWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler;
 - (OEHIDEvent *)OE_eventWithHIDDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler;
 - (OEHIDEvent *)OE_eventWithWiimoteDeviceHandler:(OEWiimoteHIDDeviceHandler *)aDeviceHandler;
@@ -512,7 +512,7 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
     return ret;
 }
 
-+ (id)eventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue
++ (id)eventWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue
 {
     return [[self alloc] initWithDeviceHandler:aDeviceHandler value:aValue];
 }
@@ -554,7 +554,7 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
     return self;
 }
 
-- (id)initWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue
+- (id)initWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue
 {
     self = [self initWithDeviceHandler:aDeviceHandler timestamp:IOHIDValueGetTimeStamp(aValue) / 1e9 cookie:OEUndefinedCookie];
     if(self != nil)
@@ -631,7 +631,7 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
     return YES;
 }
 
-- (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
+- (BOOL)OE_setupEventWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
 {
     NSAssert(_deviceHandler == aDeviceHandler, @"Trying to setup an event with a different device handler, expected: %@, got: %@", _deviceHandler, aDeviceHandler);
 
@@ -651,7 +651,7 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
     {
         case OEHIDEventTypeAxis :
         {
-            CGFloat deadZone = [aDeviceHandler deadZone];
+            CGFloat deadZone = [aDeviceHandler deadZoneForControlCookie:_cookie];
             CGFloat scaledValue = _OEScaledValueForAxis(IOHIDElementGetLogicalMin(elem),
                                                         value,
                                                         IOHIDElementGetLogicalMax(elem));
@@ -667,7 +667,7 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
             break;
         case OEHIDEventTypeTrigger :
         {
-            CGFloat deadZone = [aDeviceHandler deadZone];
+            CGFloat deadZone = [aDeviceHandler deadZoneForControlCookie:_cookie];
             CGFloat scaledValue = _OEScaledValueForTrigger(value, IOHIDElementGetLogicalMax(elem));
 
             if(scaledValue <= deadZone) scaledValue = 0.0;
@@ -1029,7 +1029,7 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
             hash |= _OEClamp((NSUInteger)OEHIDEventAxisX, usage, (NSUInteger)OEHIDEventAxisRz);
             break;
         case OEHIDEventTypeButton :
-            hash |= 0x0000000040000000u;
+            hash |= 0x40000000u;
             hash |= usage;
             break;
         case OEHIDEventTypeHatSwitch :

@@ -27,7 +27,9 @@
 #import "OEDeviceManager.h"
 
 #import "OEDeviceHandler.h"
+#import "OEControllerDescription.h"
 #import "OEHIDDeviceHandler.h"
+#import "OEMultiHIDDeviceHandler.h"
 #import "OEWiimoteHIDDeviceHandler.h"
 #import "OEPS3HIDDeviceHandler.h"
 #import "OEXBox360HIDDeviceHander.h"
@@ -88,6 +90,7 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 {
     NSMutableSet             *_keyboardHandlers;
     NSMutableSet             *_deviceHandlers;
+    NSMutableSet             *_multiDeviceHandlers;
     IOHIDManagerRef           _hidManager;
 
     id                        _keyEventMonitor;
@@ -96,6 +99,7 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
     IOBluetoothDeviceInquiry *_inquiry;
 
     NSUInteger _lastAttributedDeviceIdentifier;
+    NSUInteger _lastAttributedMultiDeviceIdentifier;
     NSUInteger _lastAttributedKeyboardIdentifier;
 }
 
@@ -131,9 +135,10 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 {
 	if((self = [super init]))
 	{
-        _keyboardHandlers = [[NSMutableSet alloc] init];
-        _deviceHandlers   = [[NSMutableSet alloc] init];
-		_hidManager       = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
+        _keyboardHandlers    = [[NSMutableSet alloc] init];
+        _deviceHandlers      = [[NSMutableSet alloc] init];
+        _multiDeviceHandlers = [[NSMutableSet alloc] init];
+		_hidManager          = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
 
 		IOHIDManagerRegisterDeviceMatchingCallback(_hidManager, OEHandle_DeviceMatchingCallback, (__bridge void *)self);
 
@@ -269,25 +274,27 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 {
     NSAssert(device != NULL, @"Passing NULL device.");
 
-    NSString *deviceName = (__bridge id)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
-
     OEHIDDeviceHandler *handler = nil;
-
-    if(OE_isWiimoteControllerName(deviceName))
-        handler = [OEWiimoteHIDDeviceHandler deviceHandlerWithIOHIDDevice:device];
-    else if(OE_isPS3ControllerName(deviceName))
-        handler = [OEPS3HIDDeviceHandler deviceHandlerWithIOHIDDevice:device];
-    else if(OE_isXboxControllerName(deviceName))
-        handler = [OEXBox360HIDDeviceHander deviceHandlerWithIOHIDDevice:device];
+    if(IOHIDDeviceConformsTo(device, kHIDPage_GenericDesktop, kHIDUsage_GD_Keyboard))
+        handler = [[OEHIDDeviceHandler alloc] initWithIOHIDDevice:device deviceDescription:nil];
     else
-        handler = [OEHIDDeviceHandler deviceHandlerWithIOHIDDevice:device];
+        handler = [[OEHIDDeviceHandler deviceParser] deviceHandlerForIOHIDDevice:device];
 
     if([handler connect]) [self OE_addDeviceHandler:handler];
 }
 
 - (void)OE_addDeviceHandler:(OEDeviceHandler *)handler
 {
-    if([handler isKeyboardDevice])
+    if([handler isKindOfClass:[OEMultiHIDDeviceHandler class]])
+    {
+        [handler setDeviceIdentifier:++_lastAttributedMultiDeviceIdentifier];
+        [_multiDeviceHandlers addObject:handler];
+
+        for(OEDeviceHandler *subhandler in [(OEMultiHIDDeviceHandler *)handler subdeviceHandlers])
+            [self OE_addDeviceHandler:subhandler];
+        return;
+    }
+    else if([handler isKeyboardDevice])
     {
         [handler setDeviceIdentifier:++_lastAttributedKeyboardIdentifier];
         [self willChangeValueForKey:@"keyboardDeviceHandlers"];
@@ -296,6 +303,7 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
     }
     else
     {
+        NSAssert([[handler controllerDescription] numberOfControls] > 0, @"Handler %@ does not have any controls.", handler);
         [handler setDeviceIdentifier:++_lastAttributedDeviceIdentifier];
         [self willChangeValueForKey:@"controllerDeviceHandlers"];
         [_deviceHandlers addObject:handler];
@@ -316,18 +324,29 @@ static const void * kOEBluetoothDevicePairSyncStyleKey = &kOEBluetoothDevicePair
 
 - (void)OE_removeDeviceHandler:(OEDeviceHandler *)handler
 {
-    if(([handler isKeyboardDevice] && ![_keyboardHandlers containsObject:handler]) ||
-       (![handler isKeyboardDevice] && [_keyboardHandlers containsObject:handler]))
-        return;
-
-    if([handler isKeyboardDevice])
+    if([handler isKindOfClass:[OEMultiHIDDeviceHandler class]])
     {
+        if(![_multiDeviceHandlers containsObject:handler]) return;
+
+        for(OEDeviceHandler *subhandler in [(OEMultiHIDDeviceHandler *)handler subdeviceHandlers])
+            [self OE_addDeviceHandler:subhandler];
+        [_multiDeviceHandlers removeObject:handler];
+
+        [handler disconnect];
+        return;
+    }
+    else if([handler isKeyboardDevice])
+    {
+        if(![_keyboardHandlers containsObject:handler]) return;
+
         [self willChangeValueForKey:@"keyboardDeviceHandlers"];
         [_keyboardHandlers removeObject:handler];
         [self didChangeValueForKey:@"keyboardDeviceHandlers"];
     }
     else
     {
+        if(![_deviceHandlers containsObject:handler]) return;
+
         [self willChangeValueForKey:@"controllerDeviceHandlers"];
         [_deviceHandlers removeObject:handler];
         [self didChangeValueForKey:@"controllerDeviceHandlers"];

@@ -28,7 +28,7 @@
 #import <IOBluetooth/IOBluetooth.h>
 #import "NSApplication+OEHIDAdditions.h"
 #import "OEHIDEvent.h"
-#import "OEControllerDescription.h"
+#import "OEControllerDescription_Internal.h"
 
 NSString *const OEWiimoteDeviceHandlerDidDisconnectNotification = @"OEWiimoteDeviceHandlerDidDisconnectNotification";
 
@@ -255,8 +255,6 @@ static void _OEWiimoteIdentifierEnumerateUsingBlock(NSRange range, void(^block)(
 
 @interface OEWiimoteHIDDeviceHandler ()
 {
-    NSMutableDictionary *_latestEvents;
-
     uint8_t                       _reportBuffer[128];
     OEWiimoteExpansionType        _expansionType;
     OEExpansionInitializationStep _expansionInitilization;
@@ -325,16 +323,14 @@ static void OE_wiimoteIOHIDReportCallback(void            *context,
 
 @implementation OEWiimoteHIDDeviceHandler
 
-- (id)initWithIOHIDDevice:(IOHIDDeviceRef)aDevice
+- (id)initWithIOHIDDevice:(IOHIDDeviceRef)aDevice deviceDescription:(OEDeviceDescription *)deviceDescription
 {
-    if((self = [super initWithIOHIDDevice:aDevice]))
+    if((self = [super initWithIOHIDDevice:aDevice deviceDescription:deviceDescription]))
     {
         _expansionPortEnabled = YES;
         _expansionPortAttached = NO;
         _expansionType = OEWiimoteExpansionTypeNotConnected;
 
-        _latestEvents = [[NSMutableDictionary alloc] init];
-        
         _analogSettled = NO;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             _analogSettled = YES;
@@ -878,28 +874,17 @@ enum {
 
 - (void)OE_dispatchButtonEventWithUsage:(NSUInteger)usage state:(OEHIDEventState)state timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
-    [self OE_dispatchEvent:[OEHIDEvent buttonEventWithDeviceHandler:self timestamp:timestamp buttonNumber:usage state:state cookie:cookie] withCookie:cookie];
+    [self dispatchEvent:[OEHIDEvent buttonEventWithDeviceHandler:self timestamp:timestamp buttonNumber:usage state:state cookie:cookie]];
 }
 
 - (void)OE_dispatchAxisEventWithAxis:(OEHIDEventAxis)axis minimum:(NSInteger)minimum value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
-    [self OE_dispatchEvent:[OEHIDEvent axisEventWithDeviceHandler:self timestamp:timestamp axis:axis minimum:minimum value:value maximum:maximum cookie:cookie] withCookie:cookie];
+    [self dispatchEvent:[OEHIDEvent axisEventWithDeviceHandler:self timestamp:timestamp axis:axis minimum:minimum value:value maximum:maximum cookie:cookie]];
 }
 
 - (void)OE_dispatchTriggerEventWithAxis:(OEHIDEventAxis)axis value:(NSInteger)value maximum:(NSInteger)maximum timestamp:(NSTimeInterval)timestamp cookie:(NSUInteger)cookie;
 {
-    [self OE_dispatchEvent:[OEHIDEvent triggerEventWithDeviceHandler:self timestamp:timestamp axis:axis value:value maximum:maximum cookie:cookie] withCookie:cookie];
-}
-
-- (void)OE_dispatchEvent:(OEHIDEvent *)anEvent withCookie:(NSUInteger)cookie;
-{
-    NSNumber   *cookieKey     = @(cookie);
-    OEHIDEvent *existingEvent = _latestEvents[cookieKey];
-
-    if([anEvent isEqualToEvent:existingEvent]) return;
-
-    _latestEvents[cookieKey] = anEvent;
-    if(_analogSettled) [NSApp postHIDEvent:anEvent];
+    [self dispatchEvent:[OEHIDEvent triggerEventWithDeviceHandler:self timestamp:timestamp axis:axis value:value maximum:maximum cookie:cookie]];
 }
 
 - (void)readReportData:(void *)dataPointer length:(size_t)dataLength
@@ -925,37 +910,54 @@ enum {
         [self OE_handleDataReportData:data length:dataLength];
 }
 
-- (void)setUpControllerDescription:(OEControllerDescription *)description usingRepresentation:(NSDictionary *)controlRepresentations;
+@end
+
+@interface OEWiimoteHIDDeviceParser : NSObject <OEHIDDeviceParser>
+@end
+
+@implementation OEWiimoteHIDDeviceParser
+
+- (OEWiimoteHIDDeviceHandler *)deviceHandlerForIOHIDDevice:(IOHIDDeviceRef)device
 {
-    [controlRepresentations enumerateKeysAndObjectsUsingBlock:
-     ^(NSString *identifier, NSDictionary *representation, BOOL *stop)
-     {
-         OEHIDEventType type = OEHIDEventTypeFromNSString(representation[@"Type"]);
-         NSUInteger usage = OEUsageFromUsageStringWithType(representation[@"Usage"], type);
-         NSUInteger cookie = [representation[@"Cookie"] integerValue] ? : usage;
-
-         OEHIDEvent *event = nil;
-         switch(type)
+    OEDeviceDescription *deviceDesc = [OEDeviceDescription deviceDescriptionForVendorID:[(__bridge NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDVendorIDKey)) integerValue]
+                                                                              productID:[(__bridge NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)) integerValue]
+                                                                                   name:(__bridge NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey))];
+    OEControllerDescription *controllerDesc = [deviceDesc controllerDescription];
+    if([controllerDesc numberOfControls] == 0)
+    {
+        NSDictionary *representations = [OEControllerDescription OE_dequeueRepresentationForDeviceDescription:deviceDesc];
+        [representations enumerateKeysAndObjectsUsingBlock:
+         ^(NSString *identifier, NSDictionary *representation, BOOL *stop)
          {
-             case OEHIDEventTypeAxis :
-                 event = [OEHIDEvent axisEventWithDeviceHandler:nil timestamp:0 axis:usage direction:OEHIDEventAxisDirectionNull cookie:cookie];
-                 break;
-             case OEHIDEventTypeButton :
-                 event = [OEHIDEvent buttonEventWithDeviceHandler:nil timestamp:0 buttonNumber:usage state:OEHIDEventStateOn cookie:cookie];
-                 break;
-             case OEHIDEventTypeHatSwitch :
-                 NSAssert(NO, @"A hat switch on Wiimote?!");
-                 break;
-             case OEHIDEventTypeKeyboard :
-                 NSAssert(NO, @"A keyboard on Wiimote?!");
-                 break;
-             case OEHIDEventTypeTrigger :
-                 event = [OEHIDEvent triggerEventWithDeviceHandler:nil timestamp:0 axis:usage direction:OEHIDEventAxisDirectionPositive cookie:cookie];
-                 break;
-         }
+             OEHIDEventType type = OEHIDEventTypeFromNSString(representation[@"Type"]);
+             NSUInteger usage = OEUsageFromUsageStringWithType(representation[@"Usage"], type);
+             NSUInteger cookie = [representation[@"Cookie"] integerValue] ? : usage;
 
-         [description addControlWithIdentifier:identifier name:representation[@"Name"] event:event valueRepresentations:representation[@"Values"]];
-     }];
+             OEHIDEvent *event = nil;
+             switch(type)
+             {
+                 case OEHIDEventTypeAxis :
+                     event = [OEHIDEvent axisEventWithDeviceHandler:nil timestamp:0 axis:usage direction:OEHIDEventAxisDirectionNull cookie:cookie];
+                     break;
+                 case OEHIDEventTypeButton :
+                     event = [OEHIDEvent buttonEventWithDeviceHandler:nil timestamp:0 buttonNumber:usage state:OEHIDEventStateOn cookie:cookie];
+                     break;
+                 case OEHIDEventTypeHatSwitch :
+                     NSAssert(NO, @"A hat switch on Wiimote?!");
+                     break;
+                 case OEHIDEventTypeKeyboard :
+                     NSAssert(NO, @"A keyboard on Wiimote?!");
+                     break;
+                 case OEHIDEventTypeTrigger :
+                     event = [OEHIDEvent triggerEventWithDeviceHandler:nil timestamp:0 axis:usage direction:OEHIDEventAxisDirectionPositive cookie:cookie];
+                     break;
+             }
+
+             [controllerDesc addControlWithIdentifier:identifier name:representation[@"Name"] event:event valueRepresentations:representation[@"Values"]];
+         }];
+    }
+
+    return [[OEWiimoteHIDDeviceHandler alloc] initWithIOHIDDevice:device deviceDescription:deviceDesc];
 }
 
 @end

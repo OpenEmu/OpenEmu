@@ -706,6 +706,10 @@
 		94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F6CB7B16DD727600CD48A4 /* OECheats.m */; };
 		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
 		94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53871688FF60003C6AFE /* controller_gamegear.png */; };
+		C60426471707503000E3B6D4 /* OEHIDDeviceParser.h in Headers */ = {isa = PBXBuildFile; fileRef = C60426451707503000E3B6D4 /* OEHIDDeviceParser.h */; };
+		C60426481707503000E3B6D4 /* OEHIDDeviceParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C60426461707503000E3B6D4 /* OEHIDDeviceParser.m */; };
+		C6042658170781FD00E3B6D4 /* OEMultiHIDDeviceHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = C604264F170780FD00E3B6D4 /* OEMultiHIDDeviceHandler.h */; };
+		C60426591707820600E3B6D4 /* OEMultiHIDDeviceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C6042650170780FD00E3B6D4 /* OEMultiHIDDeviceHandler.m */; };
 		C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */ = {isa = PBXBuildFile; fileRef = C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6252DA814E71D0500350A13 /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = C6252DA914E71D0500350A13 /* controller_fc.png */; };
 		C6252DAC14E752E300350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DAA14E752E300350A13 /* Controller-Preferences.plist */; };
@@ -2185,6 +2189,10 @@
 		94F6CB7B16DD727600CD48A4 /* OECheats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECheats.m; sourceTree = "<group>"; };
 		94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear_mask.png; sourceTree = "<group>"; };
 		94FC53871688FF60003C6AFE /* controller_gamegear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear.png; sourceTree = "<group>"; };
+		C60426451707503000E3B6D4 /* OEHIDDeviceParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHIDDeviceParser.h; sourceTree = "<group>"; };
+		C60426461707503000E3B6D4 /* OEHIDDeviceParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHIDDeviceParser.m; sourceTree = "<group>"; };
+		C604264F170780FD00E3B6D4 /* OEMultiHIDDeviceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMultiHIDDeviceHandler.h; sourceTree = "<group>"; };
+		C6042650170780FD00E3B6D4 /* OEMultiHIDDeviceHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMultiHIDDeviceHandler.m; sourceTree = "<group>"; };
 		C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCoreController.h; sourceTree = "<group>"; };
 		C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCoreController.m; sourceTree = "<group>"; };
 		C60CDDD611780DF100EB472F /* OpenGL Format Table.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "OpenGL Format Table.txt"; sourceTree = "<group>"; };
@@ -4160,8 +4168,12 @@
 				C6C989C60F557D9200116EA2 /* OEDeviceHandler.m */,
 				C625BD761669EAE300921F56 /* OEHIDDeviceHandler.h */,
 				C625BD771669EAE300921F56 /* OEHIDDeviceHandler.m */,
+				C604264F170780FD00E3B6D4 /* OEMultiHIDDeviceHandler.h */,
+				C6042650170780FD00E3B6D4 /* OEMultiHIDDeviceHandler.m */,
 				82FAE73316892CA900455D02 /* OEWiimoteHIDDeviceHandler.h */,
 				82FAE73416892CA900455D02 /* OEWiimoteHIDDeviceHandler.m */,
+				C60426451707503000E3B6D4 /* OEHIDDeviceParser.h */,
+				C60426461707503000E3B6D4 /* OEHIDDeviceParser.m */,
 				C671B7AC1699EBBD00077C49 /* Controller Description */,
 				C6C98B830F55B7A800116EA2 /* OEHIDEvent.h */,
 				C6C98B840F55B7A800116EA2 /* OEHIDEvent.m */,
@@ -5058,6 +5070,7 @@
 				C6DC91DB15F3B8E60082184C /* OEKeyBindingGroupDescription.h in Headers */,
 				C69259FC15045B03003E6FD3 /* OEEvent.h in Headers */,
 				C6DC91DD15F3B9090082184C /* OEBindingsController_Internal.h in Headers */,
+				C6042658170781FD00E3B6D4 /* OEMultiHIDDeviceHandler.h in Headers */,
 				94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */,
 				C625BD781669EAE300921F56 /* OEHIDDeviceHandler.h in Headers */,
 				827B3229168A69D4000CD127 /* OEAnalogSystemResponder.h in Headers */,
@@ -5067,6 +5080,7 @@
 				C699C4511687F1FF0050EA0C /* OEControllerDescription.h in Headers */,
 				C671B7A61699EB2600077C49 /* OEControlDescription.h in Headers */,
 				C671B7AA1699EB7C00077C49 /* OEDeviceDescription.h in Headers */,
+				C60426471707503000E3B6D4 /* OEHIDDeviceParser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6756,6 +6770,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C60426591707820600E3B6D4 /* OEMultiHIDDeviceHandler.m in Sources */,
 				C67117EF136367240034379A /* OEDeviceHandler.m in Sources */,
 				C67117F0136367240034379A /* OEDeviceManager.m in Sources */,
 				C67117F1136367240034379A /* OEHIDEvent.m in Sources */,
@@ -6781,6 +6796,7 @@
 				C699C4521687F1FF0050EA0C /* OEControllerDescription.m in Sources */,
 				C671B7A71699EB2600077C49 /* OEControlDescription.m in Sources */,
 				C671B7AB1699EB7C00077C49 /* OEDeviceDescription.m in Sources */,
+				C60426481707503000E3B6D4 /* OEHIDDeviceParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

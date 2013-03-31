@@ -29,6 +29,7 @@
 #import "OEDeviceDescription.h"
 #import "OEHIDEvent.h"
 #import "OEHIDDeviceHandler.h"
+#import "OEControlDescription.h"
 
 #if __has_feature(objc_bool)
 #undef YES
@@ -39,13 +40,10 @@
 
 NSString *const OEDeviceHandlerDidReceiveLowBatteryWarningNotification = @"OEDeviceHandlerDidReceiveLowBatteryWarningNotification";
 
-@interface OEHIDEvent ()
-- (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
-@end
-
 @interface OEDeviceHandler ()
 {
     OEDeviceDescription *_deviceDescription;
+    NSMutableDictionary *_deadZones;
 }
 
 @property(readwrite) NSUInteger deviceNumber;
@@ -54,22 +52,27 @@ NSString *const OEDeviceHandlerDidReceiveLowBatteryWarningNotification = @"OEDev
 
 @implementation OEDeviceHandler
 
-+ (instancetype)deviceHandlerWithIOHIDDevice:(IOHIDDeviceRef)aDevice;
+- (id)init
 {
-    return [OEHIDDeviceHandler deviceHandlerWithIOHIDDevice:aDevice];
+    return nil;
+}
+
+- (id)initWithDeviceDescription:(OEDeviceDescription *)deviceDescription
+{
+    if((self = [super init]))
+    {
+        _deviceDescription = deviceDescription;
+        FIXME("Save default dead zones in user defaults based on device description.");
+        _defaultDeadZone = 0.2;
+        _deadZones = [[NSMutableDictionary alloc] init];
+    }
+
+    return self;
 }
 
 - (OEControllerDescription *)controllerDescription
 {
     return [[self deviceDescription] controllerDescription];
-}
-
-- (OEDeviceDescription *)deviceDescription
-{
-    if(_deviceDescription == nil)
-        _deviceDescription = [OEDeviceDescription deviceDescriptionForDeviceHandler:self];
-
-    return _deviceDescription;
 }
 
 - (void)setUpControllerDescription:(OEControllerDescription *)description usingRepresentation:(NSDictionary *)controlRepresentations
@@ -109,12 +112,12 @@ NSString *const OEDeviceHandlerDidReceiveLowBatteryWarningNotification = @"OEDev
 
 - (NSUInteger)vendorID;
 {
-    return 0;
+    return [_deviceDescription vendorID];
 }
 
 - (NSUInteger)productID;
 {
-    return 0;
+    return [_deviceDescription productID];
 }
 
 - (NSNumber *)locationID;
@@ -130,6 +133,26 @@ NSString *const OEDeviceHandlerDidReceiveLowBatteryWarningNotification = @"OEDev
 - (void)disconnect;
 {
 
+}
+
+- (CGFloat)deadZoneForControlCookie:(NSUInteger)controlCookie;
+{
+    NSNumber *deadZone = _deadZones[@(controlCookie)];
+
+    return deadZone != nil ? [deadZone doubleValue] : _defaultDeadZone;
+}
+
+- (CGFloat)deadZoneForControlDescription:(OEControlDescription *)controlDesc;
+{
+    return [self deadZoneForControlCookie:[[controlDesc genericEvent] cookie]];
+}
+
+- (void)setDeadZone:(CGFloat)deadZone forControlDescription:(OEControlDescription *)controlDesc;
+{
+    FIXME("Save dead zones in user defaults based on the serial number.");
+    NSAssert(controlDesc != nil, @"Cannot set the dead zone of nil!");
+    NSAssert([controlDesc type] == OEHIDEventTypeAxis || [controlDesc type] == OEHIDEventTypeTrigger, @"Only analogic controls have dead zones.");
+    _deadZones[@([[controlDesc genericEvent] cookie])] = @(deadZone);
 }
 
 @end
