@@ -9199,6 +9199,7 @@
 				943C801D1708A62F00D8D93E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		943C803E1708F23900D8D93E /* Build configuration list for PBXNativeTarget "VMU" */ = {
 			isa = XCConfigurationList;
@@ -9207,6 +9208,7 @@
 				943C80401708F23900D8D93E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		943F99981707D51100270E89 /* Build configuration list for PBXNativeTarget "Vectrex" */ = {
 			isa = XCConfigurationList;
