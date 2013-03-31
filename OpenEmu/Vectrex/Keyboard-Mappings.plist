@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEVectrexAnalogUp</key>
+	<integer>82</integer>
+	<key>OEVectrexAnalogDown</key>
+	<integer>81</integer>
+	<key>OEVectrexAnalogLeft</key>
+	<integer>80</integer>
+	<key>OEVectrexAnalogRight</key>
+	<integer>79</integer>
+	<key>OEVectrexButton1</key>
+	<integer>30</integer>
+	<key>OEVectrexButton2</key>
+	<integer>31</integer>
+	<key>OEVectrexButton3</key>
+	<integer>32</integer>
+	<key>OEVectrexButton4</key>
+	<integer>33</integer>
+</dict>
+</plist>
