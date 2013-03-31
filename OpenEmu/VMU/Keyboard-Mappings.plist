@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEVMUButtonUp</key>
+	<integer>82</integer>
+	<key>OEVMUButtonDown</key>
+	<integer>81</integer>
+	<key>OEVMUButtonLeft</key>
+	<integer>80</integer>
+	<key>OEVMUButtonRight</key>
+	<integer>79</integer>
+	<key>OEVMUButtonA</key>
+	<integer>20</integer>
+	<key>OEVMUButtonB</key>
+	<integer>26</integer>
+	<key>OEVMUButtonSleep</key>
+	<integer>44</integer>
+	<key>OEVMUButtonMode</key>
+	<integer>41</integer>
+</dict>
+</plist>

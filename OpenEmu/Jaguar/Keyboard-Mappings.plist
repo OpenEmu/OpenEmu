@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEJaguarButtonUp</key>
+	<integer>82</integer>
+	<key>OEJaguarButtonDown</key>
+	<integer>81</integer>
+	<key>OEJaguarButtonLeft</key>
+	<integer>80</integer>
+	<key>OEJaguarButtonRight</key>
+	<integer>79</integer>
+	<key>OEJaguarButtonA</key>
+	<integer>8</integer>
+	<key>OEJaguarButtonB</key>
+	<integer>26</integer>
+	<key>OEJaguarButtonC</key>
+	<integer>20</integer>
+	<key>OEJaguarButtonPause</key>
+	<integer>44</integer>
+	<key>OEJaguarButtonOption</key>
+	<integer>41</integer>
+	<key>OEJaguarButton1</key>
+	<integer>30</integer>
+	<key>OEJaguarButton2</key>
+	<integer>31</integer>
+	<key>OEJaguarButton3</key>
+	<integer>32</integer>
+	<key>OEJaguarButton4</key>
+	<integer>33</integer>
+	<key>OEJaguarButton5</key>
+	<integer>34</integer>
+	<key>OEJaguarButton6</key>
+	<integer>35</integer>
+	<key>OEJaguarButton7</key>
+	<integer>36</integer>
+	<key>OEJaguarButton8</key>
+	<integer>37</integer>
+	<key>OEJaguarButton9</key>
+	<integer>38</integer>
+	<key>OEJaguarButton0</key>
+	<integer>39</integer>
+	<key>OEJaguarButtonAsterisk</key>
+	<integer>45</integer>
+	<key>OEJaguarButtonPound</key>
+	<integer>46</integer>
+</dict>
+</plist>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_jaguar.png</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_jaguar_mask.png</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OEJaguarButtonUp</key>
+		<string>{120, 160}</string>
+		<key>OEJaguarButtonDown</key>
+		<string>{120, 110}</string>
+		<key>OEJaguarButtonLeft</key>
+		<string>{96, 140}</string>
+		<key>OEJaguarButtonRight</key>
+		<string>{146, 140}</string>
+		<key>OEJaguarButtonA</key>
+		<string>{297, 100}</string>
+		<key>OEJaguarButtonB</key>
+		<string>{334, 126}</string>
+		<key>OEJaguarButtonC</key>
+		<string>{380, 142}</string>
+		<key>OEJaguarButtonPause</key>
+		<string>{229, 100}</string>
+		<key>OEJaguarButtonOption</key>
+		<string>{108, 236}</string>
+		<key>OEJaguarButton1</key>
+		<string>{108, 236}</string>
+		<key>OEJaguarButton2</key>
+		<string>{108, 236}</string>
+		<key>OEJaguarButton3</key>
+		<string>{108, 236}</string>
+		<key>OEJaguarButton4</key>
+		<string>{108, 236}</string>
+		<key>OEJaguarButton5</key>
+		<string>{108, 236}</string>
+		<key>OEJaguarButton6</key>
+		<string>{108, 236}</string>
+		<key>OEJaguarButton7</key>
+		<string>{108, 236}</string>
+		<key>OEJaguarButton8</key>
+		<string>{108, 236}</string>
+		<key>OEJaguarButton9</key>
+		<string>{108, 236}</string>
+		<key>OEJaguarButton0</key>
+		<string>{108, 236}</string>
+		<key>OEJaguarButtonAsterisk</key>
+		<string>{108, 236}</string>
+		<key>OEJaguarButtonPound</key>
+		<string>{108, 236}</string>
+	</dict>
+</dict>
+</plist>

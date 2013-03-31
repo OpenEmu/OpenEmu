@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_vmu.png</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_vmu_mask.png</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OEVMUButtonUp</key>
+		<string>{120, 160}</string>
+		<key>OEVMUButtonDown</key>
+		<string>{120, 110}</string>
+		<key>OEVMUButtonLeft</key>
+		<string>{96, 140}</string>
+		<key>OEVMUButtonRight</key>
+		<string>{146, 140}</string>
+		<key>OEVMUButtonA</key>
+		<string>{297, 100}</string>
+		<key>OEVMUButtonB</key>
+		<string>{334, 126}</string>
+		<key>OEVMUButtonSleep</key>
+		<string>{229, 100}</string>
+		<key>OEVMUButtonMode</key>
+		<string>{108, 236}</string>
+	</dict>
+</dict>
+</plist>

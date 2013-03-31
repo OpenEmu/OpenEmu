@@ -508,6 +508,27 @@
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		943815B8165771EB00D55731 /* OEGenesisSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943815B7165771EB00D55731 /* OEGenesisSystemController.m */; };
 		943819C41658DAE800D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943819C31658DAE800D55731 /* Controller-Mappings.plist */; };
+		943C80131708A62F00D8D93E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		943C80191708A62F00D8D93E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 943C80171708A62F00D8D93E /* InfoPlist.strings */; };
+		943C80211708A7E400D8D93E /* OEJaguarSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 943C801F1708A7E400D8D93E /* OEJaguarSystemResponder.m */; };
+		943C80281708BF8B00D8D93E /* controller_jaguar_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 943C80221708BF8B00D8D93E /* controller_jaguar_mask.png */; };
+		943C80291708BF8B00D8D93E /* controller_jaguar.png in Resources */ = {isa = PBXBuildFile; fileRef = 943C80231708BF8B00D8D93E /* controller_jaguar.png */; };
+		943C802A1708BF8B00D8D93E /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80241708BF8B00D8D93E /* Controller-Mappings.plist */; };
+		943C802B1708BF8B00D8D93E /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80251708BF8B00D8D93E /* Controller-Preferences.plist */; };
+		943C802C1708BF8B00D8D93E /* jaguar_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 943C80261708BF8B00D8D93E /* jaguar_library.png */; };
+		943C802D1708BF8B00D8D93E /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80271708BF8B00D8D93E /* Keyboard-Mappings.plist */; };
+		943C80301708BFBA00D8D93E /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		943C80361708F23900D8D93E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		943C803C1708F23900D8D93E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 943C803A1708F23900D8D93E /* InfoPlist.strings */; };
+		943C80441708F52B00D8D93E /* OEVMUSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 943C80421708F52B00D8D93E /* OEVMUSystemResponder.m */; };
+		943C804B1708F7FC00D8D93E /* controller_vmu_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 943C80451708F7FC00D8D93E /* controller_vmu_mask.png */; };
+		943C804C1708F7FC00D8D93E /* controller_vmu.png in Resources */ = {isa = PBXBuildFile; fileRef = 943C80461708F7FC00D8D93E /* controller_vmu.png */; };
+		943C804D1708F7FC00D8D93E /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80471708F7FC00D8D93E /* Controller-Mappings.plist */; };
+		943C804E1708F7FC00D8D93E /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80481708F7FC00D8D93E /* Controller-Preferences.plist */; };
+		943C804F1708F7FC00D8D93E /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943C80491708F7FC00D8D93E /* Keyboard-Mappings.plist */; };
+		943C80501708F7FC00D8D93E /* vmu_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 943C804A1708F7FC00D8D93E /* vmu_library.png */; };
+		943C80531708F81800D8D93E /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		943C80561708FB5F00D8D93E /* OEVMUSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943C80551708FB5F00D8D93E /* OEVMUSystemController.m */; };
 		943F998C1707D51100270E89 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		943F99921707D51100270E89 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 943F99901707D51100270E89 /* InfoPlist.strings */; };
 		943F999F1707D97600270E89 /* OEVectrexSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 943F999D1707D97600270E89 /* OEVectrexSystemResponder.m */; };
@@ -1014,6 +1035,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = C646574713771F12002A4F70;
 			remoteInfo = "GameBoy Advance";
+		};
+		943C802E1708BFB600D8D93E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		943C80511708F81400D8D93E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
 		};
 		943F99AC1707DEE400270E89 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1959,6 +1994,32 @@
 		943815B6165771EB00D55731 /* OEGenesisSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemController.h; sourceTree = "<group>"; };
 		943815B7165771EB00D55731 /* OEGenesisSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGenesisSystemController.m; sourceTree = "<group>"; };
 		943819C31658DAE800D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		943C80121708A62E00D8D93E /* Jaguar.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Jaguar.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		943C80161708A62F00D8D93E /* Jaguar-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Jaguar-Info.plist"; sourceTree = "<group>"; };
+		943C80181708A62F00D8D93E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		943C801E1708A7E400D8D93E /* OEJaguarSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEJaguarSystemResponder.h; sourceTree = "<group>"; };
+		943C801F1708A7E400D8D93E /* OEJaguarSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEJaguarSystemResponder.m; sourceTree = "<group>"; };
+		943C80201708A7E400D8D93E /* OEJaguarSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEJaguarSystemResponderClient.h; sourceTree = "<group>"; };
+		943C80221708BF8B00D8D93E /* controller_jaguar_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_jaguar_mask.png; sourceTree = "<group>"; };
+		943C80231708BF8B00D8D93E /* controller_jaguar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_jaguar.png; sourceTree = "<group>"; };
+		943C80241708BF8B00D8D93E /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		943C80251708BF8B00D8D93E /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		943C80261708BF8B00D8D93E /* jaguar_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaguar_library.png; sourceTree = "<group>"; };
+		943C80271708BF8B00D8D93E /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		943C80351708F23900D8D93E /* VMU.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VMU.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		943C80391708F23900D8D93E /* VMU-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VMU-Info.plist"; sourceTree = "<group>"; };
+		943C803B1708F23900D8D93E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		943C80411708F52B00D8D93E /* OEVMUSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVMUSystemResponder.h; sourceTree = "<group>"; };
+		943C80421708F52B00D8D93E /* OEVMUSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVMUSystemResponder.m; sourceTree = "<group>"; };
+		943C80431708F52B00D8D93E /* OEVMUSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVMUSystemResponderClient.h; sourceTree = "<group>"; };
+		943C80451708F7FC00D8D93E /* controller_vmu_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_vmu_mask.png; sourceTree = "<group>"; };
+		943C80461708F7FC00D8D93E /* controller_vmu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_vmu.png; sourceTree = "<group>"; };
+		943C80471708F7FC00D8D93E /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		943C80481708F7FC00D8D93E /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		943C80491708F7FC00D8D93E /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		943C804A1708F7FC00D8D93E /* vmu_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vmu_library.png; sourceTree = "<group>"; };
+		943C80541708FB5F00D8D93E /* OEVMUSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVMUSystemController.h; sourceTree = "<group>"; };
+		943C80551708FB5F00D8D93E /* OEVMUSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVMUSystemController.m; sourceTree = "<group>"; };
 		943F998B1707D51100270E89 /* Vectrex.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Vectrex.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		943F998F1707D51100270E89 /* Vectrex-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Vectrex-Info.plist"; sourceTree = "<group>"; };
 		943F99911707D51100270E89 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2463,6 +2524,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		943C800F1708A62E00D8D93E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				943C80301708BFBA00D8D93E /* OpenEmuSystem.framework in Frameworks */,
+				943C80131708A62F00D8D93E /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		943C80321708F23900D8D93E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				943C80531708F81800D8D93E /* OpenEmuSystem.framework in Frameworks */,
+				943C80361708F23900D8D93E /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		943F99881707D51100270E89 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2805,6 +2884,8 @@
 				94A224F61707596100098DA0 /* PlayStation.bundle */,
 				943F998B1707D51100270E89 /* Vectrex.bundle */,
 				943F99B31707DF3700270E89 /* 3DO.bundle */,
+				943C80121708A62E00D8D93E /* Jaguar.bundle */,
+				943C80351708F23900D8D93E /* VMU.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4188,6 +4269,60 @@
 			name = HID;
 			sourceTree = "<group>";
 		};
+		943C80141708A62F00D8D93E /* Jaguar */ = {
+			isa = PBXGroup;
+			children = (
+				943C801E1708A7E400D8D93E /* OEJaguarSystemResponder.h */,
+				943C801F1708A7E400D8D93E /* OEJaguarSystemResponder.m */,
+				943C80201708A7E400D8D93E /* OEJaguarSystemResponderClient.h */,
+				943C80151708A62F00D8D93E /* Supporting Files */,
+			);
+			path = Jaguar;
+			sourceTree = "<group>";
+		};
+		943C80151708A62F00D8D93E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				943C80261708BF8B00D8D93E /* jaguar_library.png */,
+				943C80221708BF8B00D8D93E /* controller_jaguar_mask.png */,
+				943C80231708BF8B00D8D93E /* controller_jaguar.png */,
+				943C80161708A62F00D8D93E /* Jaguar-Info.plist */,
+				943C80271708BF8B00D8D93E /* Keyboard-Mappings.plist */,
+				943C80241708BF8B00D8D93E /* Controller-Mappings.plist */,
+				943C80251708BF8B00D8D93E /* Controller-Preferences.plist */,
+				943C80171708A62F00D8D93E /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		943C80371708F23900D8D93E /* VMU */ = {
+			isa = PBXGroup;
+			children = (
+				943C80541708FB5F00D8D93E /* OEVMUSystemController.h */,
+				943C80551708FB5F00D8D93E /* OEVMUSystemController.m */,
+				943C80411708F52B00D8D93E /* OEVMUSystemResponder.h */,
+				943C80421708F52B00D8D93E /* OEVMUSystemResponder.m */,
+				943C80431708F52B00D8D93E /* OEVMUSystemResponderClient.h */,
+				943C80381708F23900D8D93E /* Supporting Files */,
+			);
+			path = VMU;
+			sourceTree = "<group>";
+		};
+		943C80381708F23900D8D93E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				943C804A1708F7FC00D8D93E /* vmu_library.png */,
+				943C80451708F7FC00D8D93E /* controller_vmu_mask.png */,
+				943C80461708F7FC00D8D93E /* controller_vmu.png */,
+				943C80391708F23900D8D93E /* VMU-Info.plist */,
+				943C80491708F7FC00D8D93E /* Keyboard-Mappings.plist */,
+				943C80471708F7FC00D8D93E /* Controller-Mappings.plist */,
+				943C80481708F7FC00D8D93E /* Controller-Preferences.plist */,
+				943C803A1708F23900D8D93E /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		943F998D1707D51100270E89 /* Vectrex */ = {
 			isa = PBXGroup;
 			children = (
@@ -4895,6 +5030,8 @@
 				94A224E51707559100098DA0 /* Computer */,
 				943F998D1707D51100270E89 /* Vectrex */,
 				943F99B51707DF3700270E89 /* 3DO */,
+				943C80141708A62F00D8D93E /* Jaguar */,
+				943C80371708F23900D8D93E /* VMU */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -5223,6 +5360,42 @@
 			productName = OpenEmu;
 			productReference = 8D15AC370486D014006FF6A4 /* OpenEmu.app */;
 			productType = "com.apple.product-type.application";
+		};
+		943C80111708A62E00D8D93E /* Jaguar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 943C801B1708A62F00D8D93E /* Build configuration list for PBXNativeTarget "Jaguar" */;
+			buildPhases = (
+				943C800E1708A62E00D8D93E /* Sources */,
+				943C800F1708A62E00D8D93E /* Frameworks */,
+				943C80101708A62E00D8D93E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				943C802F1708BFB600D8D93E /* PBXTargetDependency */,
+			);
+			name = Jaguar;
+			productName = Jaguar;
+			productReference = 943C80121708A62E00D8D93E /* Jaguar.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		943C80341708F23900D8D93E /* VMU */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 943C803E1708F23900D8D93E /* Build configuration list for PBXNativeTarget "VMU" */;
+			buildPhases = (
+				943C80311708F23900D8D93E /* Sources */,
+				943C80321708F23900D8D93E /* Frameworks */,
+				943C80331708F23900D8D93E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				943C80521708F81400D8D93E /* PBXTargetDependency */,
+			);
+			name = VMU;
+			productName = VMU;
+			productReference = 943C80351708F23900D8D93E /* VMU.bundle */;
+			productType = "com.apple.product-type.bundle";
 		};
 		943F998A1707D51100270E89 /* Vectrex */ = {
 			isa = PBXNativeTarget;
@@ -5717,6 +5890,8 @@
 				94A224E21707559100098DA0 /* Computer */,
 				943F998A1707D51100270E89 /* Vectrex */,
 				943F99B21707DF3700270E89 /* 3DO */,
+				943C80111708A62E00D8D93E /* Jaguar */,
+				943C80341708F23900D8D93E /* VMU */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -5965,6 +6140,34 @@
 				1B96BA56166BDD52005064C8 /* FRFeedbackReporter.sh in Resources */,
 				8CF0EB56169B1DF900E3670D /* Scanline.cg in Resources */,
 				837DF19B16D2B0F400024BE1 /* OECollectionDebugWindowController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		943C80101708A62E00D8D93E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				943C80191708A62F00D8D93E /* InfoPlist.strings in Resources */,
+				943C80281708BF8B00D8D93E /* controller_jaguar_mask.png in Resources */,
+				943C80291708BF8B00D8D93E /* controller_jaguar.png in Resources */,
+				943C802A1708BF8B00D8D93E /* Controller-Mappings.plist in Resources */,
+				943C802B1708BF8B00D8D93E /* Controller-Preferences.plist in Resources */,
+				943C802C1708BF8B00D8D93E /* jaguar_library.png in Resources */,
+				943C802D1708BF8B00D8D93E /* Keyboard-Mappings.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		943C80331708F23900D8D93E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				943C803C1708F23900D8D93E /* InfoPlist.strings in Resources */,
+				943C804B1708F7FC00D8D93E /* controller_vmu_mask.png in Resources */,
+				943C804C1708F7FC00D8D93E /* controller_vmu.png in Resources */,
+				943C804D1708F7FC00D8D93E /* Controller-Mappings.plist in Resources */,
+				943C804E1708F7FC00D8D93E /* Controller-Preferences.plist in Resources */,
+				943C804F1708F7FC00D8D93E /* Keyboard-Mappings.plist in Resources */,
+				943C80501708F7FC00D8D93E /* vmu_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6598,6 +6801,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		943C800E1708A62E00D8D93E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				943C80211708A7E400D8D93E /* OEJaguarSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		943C80311708F23900D8D93E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				943C80441708F52B00D8D93E /* OEVMUSystemResponder.m in Sources */,
+				943C80561708FB5F00D8D93E /* OEVMUSystemController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		943F99871707D51100270E89 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -6923,6 +7143,16 @@
 			target = C646574713771F12002A4F70 /* GameBoy Advance */;
 			targetProxy = 83F37150140BB17C005A7353 /* PBXContainerItemProxy */;
 		};
+		943C802F1708BFB600D8D93E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 943C802E1708BFB600D8D93E /* PBXContainerItemProxy */;
+		};
+		943C80521708F81400D8D93E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 943C80511708F81400D8D93E /* PBXContainerItemProxy */;
+		};
 		943F99AD1707DEE400270E89 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C67117ED136367240034379A /* OpenEmuSystem */;
@@ -7102,6 +7332,22 @@
 			isa = PBXVariantGroup;
 			children = (
 				822775561489471A00B19E27 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		943C80171708A62F00D8D93E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				943C80181708A62F00D8D93E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		943C803A1708F23900D8D93E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				943C803B1708F23900D8D93E /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -7595,6 +7841,94 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		943C801C1708A62F00D8D93E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Jaguar/Jaguar-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		943C801D1708A62F00D8D93E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Jaguar/Jaguar-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		943C803F1708F23900D8D93E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "VMU/VMU-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		943C80401708F23900D8D93E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "VMU/VMU-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
 		};
@@ -8857,6 +9191,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		943C801B1708A62F00D8D93E /* Build configuration list for PBXNativeTarget "Jaguar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				943C801C1708A62F00D8D93E /* Debug */,
+				943C801D1708A62F00D8D93E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		943C803E1708F23900D8D93E /* Build configuration list for PBXNativeTarget "VMU" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				943C803F1708F23900D8D93E /* Debug */,
+				943C80401708F23900D8D93E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		943F99981707D51100270E89 /* Build configuration list for PBXNativeTarget "Vectrex" */ = {
 			isa = XCConfigurationList;
