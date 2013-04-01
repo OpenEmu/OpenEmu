@@ -321,7 +321,21 @@ static void OE_wiimoteIOHIDReportCallback(void            *context,
     [(__bridge OEWiimoteHIDDeviceHandler *)context readReportData:report length:reportLength];
 }
 
+@interface OEWiimoteHIDDeviceParser : NSObject <OEHIDDeviceParser>
+@end
+
 @implementation OEWiimoteHIDDeviceHandler
+
++ (id<OEHIDDeviceParser>)deviceParser;
+{
+    static OEWiimoteHIDDeviceParser *parser = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        parser = [[OEWiimoteHIDDeviceParser alloc] init];
+    });
+
+    return parser;
+}
 
 - (id)initWithIOHIDDevice:(IOHIDDeviceRef)aDevice deviceDescription:(OEDeviceDescription *)deviceDescription
 {
@@ -910,9 +924,6 @@ enum {
         [self OE_handleDataReportData:data length:dataLength];
 }
 
-@end
-
-@interface OEWiimoteHIDDeviceParser : NSObject <OEHIDDeviceParser>
 @end
 
 @implementation OEWiimoteHIDDeviceParser
