@@ -58,8 +58,6 @@
 - (IBAction)showGamesAtArchive:(id)sender;
 
 #pragma mark -
-- (void)setNeedsReload;
-
 - (id <OECollectionViewItemProtocol>)representedObject;
 #pragma mark -
 @property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
