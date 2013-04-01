@@ -34,10 +34,6 @@
 	<integer>1</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEPCESystemResponder</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>64</integer>
-	</array>
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>pce</string>

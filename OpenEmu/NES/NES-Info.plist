@@ -34,11 +34,6 @@
 	<integer>4</integer>
 	<key>OEResponderClassKey</key>
 	<string>OENESSystemResponder</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>32</integer>
-		<integer>36</integer>
-	</array>
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>nes</string>

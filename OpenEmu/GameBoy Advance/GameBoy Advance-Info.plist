@@ -32,12 +32,8 @@
 	<string>Game Boy Advance</string>
 	<key>OENumberOfPlayersKey</key>
 	<integer>4</integer>
-    <key>OEResponderClassKey</key>
-    <string>OEGBASystemResponder</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>85</integer>
-	</array>
+	<key>OEResponderClassKey</key>
+	<string>OEGBASystemResponder</string>
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>gba</string>

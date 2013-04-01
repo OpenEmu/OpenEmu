@@ -34,10 +34,6 @@
 	<integer>2</integer>
 	<key>OEResponderClassKey</key>
 	<string>OE2600SystemResponder</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>5</integer>
-	</array>
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>a26</string>

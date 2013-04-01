@@ -32,12 +32,8 @@
 	<string>openemu.system.gg</string>
 	<key>OENumberOfPlayersKey</key>
 	<integer>1</integer>
-    <key>OEResponderClassKey</key>
-    <string>OEGGSystemResponder</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>55</integer>
-	</array>
+	<key>OEResponderClassKey</key>
+	<string>OEGGSystemResponder</string>
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>gg</string>

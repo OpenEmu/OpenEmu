@@ -26,10 +26,6 @@
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OESaturnSystemController</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>68</integer>
-	</array>
 	<key>OEControlListKey</key>
 	<array>
 		<array>

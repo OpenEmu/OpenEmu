@@ -29,8 +29,6 @@
 
 @class OESystemController;
 
-extern NSString *const OEArchiveIDs;
-
 @interface OESystemPlugin : OEPlugin
 
 @property(weak, readonly) OESystemController<OEPluginController> *controller;

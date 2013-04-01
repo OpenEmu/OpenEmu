@@ -76,7 +76,6 @@ NSString *const OEKeyboardMappingsFileName   = @"Keyboard-Mappings";
 NSString *const OEControllerMappingsFileName = @"Controller-Mappings";
 
 NSString *const OESystemIconName             = @"OESystemIcon";
-NSString *const OEArchiveIDs                 = @"OEArchiveIDs";
 NSString *const OEFileTypes                  = @"OEFileSuffixes";
 
 NSString *const OESystemControlNamesKey      = @"OESystemControlNamesKey";
@@ -96,7 +95,7 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 
 @implementation OESystemController
 @synthesize controllerKeyPositions, controllerImageMaskName, controllerImageName, controllerImage, controllerImageMask;
-@synthesize fileTypes, archiveIDs;
+@synthesize fileTypes;
 @synthesize axisControls, hatSwitchControls, genericSettingNames, genericControlNames, systemControlNames;
 
 - (BOOL)OE_isBundleValid:(NSBundle *)aBundle forClass:(Class)aClass
@@ -166,7 +165,6 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 
 - (void)OE_initROMHandling
 {
-    archiveIDs = [[_bundle infoDictionary] objectForKey:OEArchiveIDs];
     fileTypes  = [[_bundle infoDictionary] objectForKey:OEFileTypes];
 }
 

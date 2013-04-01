@@ -40,7 +40,6 @@ extern NSString *const OESystemName;
 extern NSString *const OESystemIdentifier;
 extern NSString *const OESystemIconName;
 extern NSString *const OEProjectURLKey;
-extern NSString *const OEArchiveIDs;
 extern NSString *const OEFileTypes;
 extern NSString *const OENumberOfPlayersKey;
 extern NSString *const OEResponderClassKey;
@@ -160,7 +159,6 @@ typedef enum
 #pragma mark -
 #pragma mark ROM Handling
 @property(readonly, copy) NSArray *fileTypes;
-@property(readonly, copy) NSArray *archiveIDs;
 
 /* Whether the system plugin can verifiably handle a file. This should be a more thorough check than just
    testing file extensions, which is what -canHandleFileExtension: does. When importing a file, systems that

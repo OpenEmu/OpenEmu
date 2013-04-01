@@ -32,13 +32,8 @@
 	<string>openemu.system.gb</string>
 	<key>OENumberOfPlayersKey</key>
 	<integer>1</integer>
-    <key>OEResponderClassKey</key>
-    <string>OEGBSystemResponder</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>49</integer>
-		<integer>67</integer>
-	</array>
+	<key>OEResponderClassKey</key>
+	<string>OEGBSystemResponder</string>
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>gb</string>

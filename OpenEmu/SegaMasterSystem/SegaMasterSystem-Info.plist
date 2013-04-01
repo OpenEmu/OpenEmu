@@ -32,12 +32,8 @@
 	<string>openemu.system.sms</string>
 	<key>OENumberOfPlayersKey</key>
 	<integer>2</integer>
-    <key>OEResponderClassKey</key>
-    <string>OESMSSystemResponder</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>34</integer>
-	</array>
+	<key>OEResponderClassKey</key>
+	<string>OESMSSystemResponder</string>
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>sms</string>

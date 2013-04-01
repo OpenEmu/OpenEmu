@@ -34,10 +34,6 @@
 	<integer>2</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEGenesisSystemResponder</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>48</integer>
-	</array>
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>smd</string>

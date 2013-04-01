@@ -34,11 +34,6 @@
 	<integer>1</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEWSSystemResponder</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>83</integer>
-		<integer>96</integer>
-	</array>
 	<key>OEControlListKey</key>
 	<array>
 		<array>

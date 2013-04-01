@@ -32,13 +32,8 @@
 	<string>Nintendo DS</string>
 	<key>OENumberOfPlayersKey</key>
 	<integer>4</integer>
-    <key>OEResponderClassKey</key>
-    <string>OENDSSystemResponder</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>103</integer>
-		<integer>123</integer>
-	</array>
+	<key>OEResponderClassKey</key>
+	<string>OENDSSystemResponder</string>
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>nds</string>

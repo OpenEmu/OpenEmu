@@ -34,10 +34,6 @@
 	<integer>1</integer>
 	<key>OEResponderClassKey</key>
 	<string>OELynxSystemResponder</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>57</integer>
-	</array>
 	<key>OEControlListKey</key>
 	<array>
 		<array>

@@ -26,10 +26,6 @@
 	<string>Copyright © 2013 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OEVMUSystemController</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>300</integer>
-	</array>
 	<key>OEControlListKey</key>
 	<array>
 		<array>

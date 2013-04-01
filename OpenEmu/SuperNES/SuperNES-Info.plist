@@ -34,10 +34,6 @@
 	<integer>8</integer>
 	<key>OEResponderClassKey</key>
 	<string>OESNESSystemResponder</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>47</integer>
-	</array>
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>smc</string>

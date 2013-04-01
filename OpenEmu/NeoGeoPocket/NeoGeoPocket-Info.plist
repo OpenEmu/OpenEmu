@@ -32,12 +32,8 @@
 	<string>openemu.system.ngp</string>
 	<key>OENumberOfPlayersKey</key>
 	<integer>1</integer>
-    <key>OEResponderClassKey</key>
-    <string>OENGPSystemResponder</string>
-	<key>OEArchiveIDs</key>
-	<array>
-		<integer>94</integer>
-	</array>
+	<key>OEResponderClassKey</key>
+	<string>OENGPSystemResponder</string>
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>ngp</string>
