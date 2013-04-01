@@ -111,15 +111,16 @@ extern NSString *const OEDisplayGameTitle;
 
 #pragma mark -
 #pragma mark Data Model Properties
-@property(nonatomic, retain) NSString  *name;
-@property(nonatomic, retain) NSString  *gameTitle;
-@property(nonatomic, retain) NSNumber  *rating;
-@property(nonatomic, retain) NSString  *gameDescription;
-@property(nonatomic, retain) NSDate    *importDate;
-@property(nonatomic, retain) NSDate    *lastArchiveSync;
-@property(nonatomic, retain) NSNumber  *archiveID;
-@property(nonatomic, retain) NSNumber  *status;
-@property(nonatomic, retain) NSString  *displayName;
+@property(nonatomic, retain)   NSString  *name;
+@property(nonatomic, retain)   NSString  *gameTitle;
+@property(nonatomic, retain)   NSNumber  *rating;
+@property(nonatomic, retain)   NSString  *gameDescription;
+@property(nonatomic, retain)   NSDate    *importDate;
+@property(nonatomic, retain)   NSDate    *lastArchiveSync;
+@property(nonatomic, retain)   NSNumber  *archiveID;
+@property(nonatomic, retain)   NSNumber  *status;
+@property(nonatomic, retain)   NSString  *displayName;
+@property(nonatomic, readonly) NSString  *cleanDisplayName;
 
 #pragma mark -
 #pragma mark Data Model Relationships

@@ -605,6 +605,18 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
         [self setName:displayName];
 }
 
+- (NSString *)cleanDisplayName
+{
+    NSString *displayName = [self displayName];
+    
+    if([displayName hasPrefix:@"The "])
+        return [displayName substringFromIndex:4];
+    else if([displayName hasPrefix:@"A "])
+        return [displayName substringFromIndex:2];
+
+    return  displayName;
+}
+
 #pragma mark - Debug
 
 - (void)dump
