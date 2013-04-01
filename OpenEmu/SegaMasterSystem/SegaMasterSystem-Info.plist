@@ -41,53 +41,51 @@
 	<key>OEControlListKey</key>
 	<array>
 		<array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Up</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonUp</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Down</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonDown</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Left</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonLeft</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Right</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonRight</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 1/Start</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonA</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 2</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonB</string>
-				</dict>
-				<string>-</string>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Console Pause</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonStart</string>
-				</dict>
-			</array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Up</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESMSButtonUp</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Down</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESMSButtonDown</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Left</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESMSButtonLeft</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Right</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESMSButtonRight</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Button 1/Start</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESMSButtonA</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Button 2</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESMSButtonB</string>
+			</dict>
+			<string>-</string>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Console Pause</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESMSButtonStart</string>
+			</dict>
 		</array>
 	</array>
 	<key>OESystemIcon</key>

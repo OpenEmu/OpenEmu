@@ -242,7 +242,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [[self playerPopupButton] setMenu:playerMenu];
 
     // Hide player PopupButton if there is only one player
-    [[self playerPopupButton] setHidden:(numberOfPlayers == 1)];
+    //[[self playerPopupButton] setHidden:(numberOfPlayers == 1)];
     [[self playerPopupButton] selectItemWithTag:[[NSUserDefaults standardUserDefaults] integerForKey:OELastControlsPlayerKey]];
 }
 
@@ -375,7 +375,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [self changeInputDevice:[self inputPopupButton]];
 
     NSComparisonResult order = [oldPluginName compare:[selectedPlugin systemName]];
-    [self OE_setUpControllerImageViewWithTransition:(order == NSOrderedDescending ? kCATransitionFromLeft : kCATransitionFromRight)];
+    [self OE_setUpControllerImageViewWithTransition:(order == NSOrderedDescending ? kCATransitionFromTop : kCATransitionFromBottom)];
 }
 
 - (void)OE_setUpControllerImageViewWithTransition:(NSString *)transition;
@@ -660,7 +660,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 - (NSSize)viewSize
 {
-    return NSMakeSize(561, 543);
+    return NSMakeSize(740, 450);
 }
 
 - (NSColor *)toolbarSeparationColor

@@ -43,11 +43,6 @@
     [attributes setObject:font forKey:NSFontAttributeName];
     [attributes setObject:shadow forKey:NSShadowAttributeName];
     
-    
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    [style setAlignment:NSRightTextAlignment];
-    [attributes setObject:style forKey:NSParagraphStyleAttributeName];
-    
     self.textAttributes = attributes;
     
     [super setupAttributes];

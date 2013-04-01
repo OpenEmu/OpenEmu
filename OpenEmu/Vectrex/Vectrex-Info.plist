@@ -29,59 +29,57 @@
 	<key>OEControlListKey</key>
 	<array>
 		<array>
-			<array>
-				<string>Analog</string>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Up</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEVectrexAnalogUp</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Down</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEVectrexAnalogDown</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Left</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEVectrexAnalogLeft</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Right</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEVectrexAnalogRight</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 1</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEVectrexButton1</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 2</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEVectrexButton2</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 3</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEVectrexButton3</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 4</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEVectrexButton4</string>
-				</dict>
-			</array>
+			<string>Analog</string>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Up</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEVectrexAnalogUp</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Down</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEVectrexAnalogDown</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Left</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEVectrexAnalogLeft</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Right</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEVectrexAnalogRight</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Button 1</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEVectrexButton1</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Button 2</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEVectrexButton2</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Button 3</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEVectrexButton3</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Button 4</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEVectrexButton4</string>
+			</dict>
 		</array>
 	</array>
 	<key>OEControlTypesKey</key>

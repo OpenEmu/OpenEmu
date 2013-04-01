@@ -87,7 +87,6 @@ NSString *const OEAxisControlsKey            = @"OEAxisControlsKey";
 NSString *const OEControlListKey             = @"OEControlListKey";
 NSString *const OEControlListKeyNameKey      = @"OEControlListKeyNameKey";
 NSString *const OEControlListKeyLabelKey     = @"OEControlListKeyLabelKey";
-NSString *const OEControlListKeyPositionKey  = @"OEControlListKeyPositionKey";
 
 NSString *const OEControllerImageKey         = @"OEControllerImageKey";
 NSString *const OEControllerImageMaskKey     = @"OEControllerImageMaskKey";

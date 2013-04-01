@@ -41,78 +41,76 @@
 	<key>OEControlListKey</key>
 	<array>
 		<array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Up</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OE2600ButtonUp</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Down</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OE2600ButtonDown</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Left</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OE2600ButtonLeft</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Right</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OE2600ButtonRight</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Fire 1</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OE2600ButtonFire1</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Reset</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OE2600ButtonReset</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Select</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OE2600ButtonSelect</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>L Diff A</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OE2600ButtonLeftDiffA</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>L Diff B</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OE2600ButtonLeftDiffB</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>R Diff A</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OE2600ButtonRightDiffA</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>R Diff B</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OE2600ButtonRightDiffB</string>
-				</dict>
-			</array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Up</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE2600ButtonUp</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Down</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE2600ButtonDown</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Left</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE2600ButtonLeft</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Right</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE2600ButtonRight</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Fire 1</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE2600ButtonFire1</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Reset</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE2600ButtonReset</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Select</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE2600ButtonSelect</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>L Diff A</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE2600ButtonLeftDiffA</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>L Diff B</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE2600ButtonLeftDiffB</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>R Diff A</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE2600ButtonRightDiffA</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>R Diff B</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE2600ButtonRightDiffB</string>
+			</dict>
 		</array>
 	</array>
 	<key>OESystemIcon</key>
