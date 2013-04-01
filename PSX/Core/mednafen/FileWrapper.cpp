@@ -187,7 +187,7 @@ uint64 FileWrapper::read(void *data, uint64 count, bool error_on_eof)
    throw(MDFN_Error(ene.Errno(), _("Error reading from opened file \"%s\": %s"), path_save.c_str(), ene.StrError()));
 
   if(error_on_eof)
-   throw(MDFN_Error(ene.Errno(), _("Error reading from opened file \"%s\": %s"), path_save.c_str(), "EOF"));
+   throw(MDFN_Error(0, _("Error reading from opened file \"%s\": %s"), path_save.c_str(), _("Unexpected EOF")));
  }
 
  return(read_count);

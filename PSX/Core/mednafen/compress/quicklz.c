@@ -39,12 +39,12 @@ int qlz_get_setting(int setting)
 	return -1;
 }
 
-__inline unsigned int hash_func(unsigned int i)
+static __inline unsigned int hash_func(unsigned int i)
 {
 	return ((i >> 12) ^ i) & 0x0fff;
 }
 
-__inline unsigned int fast_read(void const *src, unsigned int bytes)
+static __inline unsigned int fast_read(void const *src, unsigned int bytes)
 {
 #ifndef X86X64
 	unsigned char *p = (unsigned char*)src;
@@ -68,7 +68,7 @@ __inline unsigned int fast_read(void const *src, unsigned int bytes)
 #endif
 }
 
-__inline void fast_write(unsigned int f, void *dst, unsigned int bytes)
+static __inline void fast_write(unsigned int f, void *dst, unsigned int bytes)
 {
 #ifndef X86X64
 	unsigned char *p = (unsigned char*)dst;
@@ -118,7 +118,7 @@ __inline void fast_write(unsigned int f, void *dst, unsigned int bytes)
 #endif
 }
 
-__inline void memcpy_up(unsigned char *dst, const unsigned char *src, unsigned int n)
+static __inline void memcpy_up(unsigned char *dst, const unsigned char *src, unsigned int n)
 {
 	// cannot be replaced by overlap handling of memmove() due to LZSS algorithm
 #ifndef X86X64
@@ -151,7 +151,7 @@ __inline void memcpy_up(unsigned char *dst, const unsigned char *src, unsigned i
 #endif
 }
 
-__inline unsigned int fast_read_safe(void const *src, unsigned int bytes, const unsigned char *invalid)
+static __inline unsigned int fast_read_safe(void const *src, unsigned int bytes, const unsigned char *invalid)
 {
 #ifdef memory_safe 
 	if ((const unsigned char *)src + 4 > (const unsigned char *)invalid)

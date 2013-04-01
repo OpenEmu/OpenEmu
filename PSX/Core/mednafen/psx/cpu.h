@@ -6,6 +6,8 @@
 namespace MDFN_IEN_PSX
 {
 
+#define PS_CPU_EMULATE_ICACHE 1
+
 class PS_CPU
 {
  public:
@@ -34,6 +36,10 @@ class PS_CPU
 
  void SetHalt(bool status);
 
+ // TODO eventually: factor BIU address decoding directly in the CPU core somehow without hurting speed.
+ void SetBIU(uint32 val);
+ uint32 GetBIU(void);
+
  int StateAction(StateMem *sm, int load, int data_only);
 
  private:
@@ -60,6 +66,16 @@ class PS_CPU
 
  pscpu_timestamp_t next_event_ts;
  pscpu_timestamp_t gte_ts_done;
+
+ uint32 BIU;
+
+#if PS_CPU_EMULATE_ICACHE
+ struct __ICache
+ {
+  uint32 TV;
+  uint32 Data;
+ } ICache[1024];
+#endif
 
  uint8 *FastMap[1 << (32 - FAST_MAP_SHIFT)];
  uint8 DummyPage[FAST_MAP_PSIZE];
@@ -156,6 +172,7 @@ class PS_CPU
 
  uint32 GetRegister(unsigned int which, char *special, const uint32 special_len);
  void SetRegister(unsigned int which, uint32 value);
+ bool PeekCheckICache(uint32 PC, uint32 *iw);
 
  private:
  void (*CPUHook)(uint32 pc);

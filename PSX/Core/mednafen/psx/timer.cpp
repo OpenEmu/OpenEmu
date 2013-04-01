@@ -22,9 +22,9 @@
  Notes(some of it may be incomplete or wrong in subtle ways)
 
  Control bits:
-	Lower 3 bits of mode, for timer1:
-		0x1 = don't count during vblank
-		0x3 = vblank going inactive triggers timer reset
+	Lower 3 bits of mode, for timer1(when mode is | 0x100):
+		0x1 = don't count while in vblank(except that the first count while in vblank does go through)
+		0x3 = vblank going inactive triggers timer reset, then some interesting behavior where counting again is delayed...
 		0x5 = vblank going inactive triggers timer reset, and only count within vblank.
 		0x7 = Wait until vblank goes active then inactive, then start counting?
 	For timer2:

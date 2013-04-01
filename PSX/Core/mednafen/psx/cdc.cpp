@@ -332,11 +332,13 @@ void PS_CDC::RecalcIRQ(void)
 {
  IRQ_Assert(IRQ_CD, (bool)(IRQBuffer & (IRQOutTestMask & 0x1F)));
 }
-
+//static int32 doom_ts;
 void PS_CDC::WriteIRQ(uint8 V)
 {
  assert(CDCReadyReceiveCounter <= 0);
  assert(!IRQBuffer);
+
+ //PSX_WARNING("[CDC] ***IRQTHINGY: 0x%02x -- %u", V, doom_ts);
 
  CDCReadyReceiveCounter = 1024;
 
@@ -658,6 +660,8 @@ pscpu_timestamp_t PS_CDC::Update(const pscpu_timestamp_t timestamp)
 {
  int32 clocks = timestamp - lastts;
 
+ //doom_ts = timestamp;
+
  while(clocks > 0)
  {
   int32 chunk_clocks = clocks;
@@ -830,8 +834,10 @@ pscpu_timestamp_t PS_CDC::Update(const pscpu_timestamp_t timestamp)
      if(CurSector >= (int32)toc.tracks[100].lba)
      {
       HeaderBufValid = false;
-      DriveStatus = DS_STOPPED;
-      SetAIP(CDCIRQ_DISC_ERROR, MakeStatus() | 0x04, 0x04);	// TODO: Verify
+
+      // Status in this end-of-disc context here should be generated after we're in the pause state.
+      DriveStatus = DS_PAUSED;
+      SetAIP(CDCIRQ_DATA_END, MakeStatus());
      }
      else
      {
@@ -1029,7 +1035,7 @@ void PS_CDC::Write(const pscpu_timestamp_t timestamp, uint32 A, uint8 V)
   const unsigned reg_index = ((RegSelector & 0x3) * 3) + (A - 1);
 
   Update(timestamp);
-  //PSX_WARNING("[CDC] Write to register 0x%02x: 0x%02x @ %d --- 0x%02x\n", reg_index, V, timestamp, DMABuffer.CanRead());
+  //PSX_WARNING("[CDC] Write to register 0x%02x: 0x%02x @ %d --- 0x%02x 0x%02x\n", reg_index, V, timestamp, DMABuffer.CanRead(), IRQBuffer);
 
   switch(reg_index)
   {
@@ -1046,7 +1052,7 @@ void PS_CDC::Write(const pscpu_timestamp_t timestamp, uint32 A, uint8 V)
 
 		if(IRQBuffer)
 		{
-		 PSX_WARNING("[CDC] Attempting to start command(0x%02x) while IRQBuffer is not clear.", V);
+		 PSX_WARNING("[CDC] Attempting to start command(0x%02x) while IRQBuffer(0x%02x) is not clear.", V, IRQBuffer);
 		}
 
 		if(ResultsIn > 0)
@@ -1054,7 +1060,8 @@ void PS_CDC::Write(const pscpu_timestamp_t timestamp, uint32 A, uint8 V)
 		 PSX_WARNING("[CDC] Attempting to start command(0x%02x) while command results(count=%d) still in buffer.", V, ResultsIn);
 		}
 
-         	PendingCommandCounter = 8192; //1024; //128; //256; //16; //1024;
+		// Real times are more like 20000+, test and FIXME when we add more complete pipeline stall emulation to the CPU core.
+         	PendingCommandCounter = 8192 + PSX_GetRandU32(0, 4000);	
 	 	PendingCommand = V;
          	PendingCommandPhase = 0;
 		break;
@@ -1117,6 +1124,14 @@ void PS_CDC::Write(const pscpu_timestamp_t timestamp, uint32 A, uint8 V)
 		break;
 
 	 case 0x05:
+		if((IRQBuffer &~ V) != IRQBuffer && ResultsIn)
+		{
+		 // To debug icky race-condition related problems in "Psychic Detective", and to see if any games suffer from the same potential issue
+		 // (to know what to test when we emulate CPU more accurately in regards to pipeline stalls and timing, which could throw off our kludge
+		 //  for this issue)
+		 PSX_WARNING("[CDC] Acknowledged IRQ(wrote 0x%02x, before_IRQBuffer=0x%02x) while %u bytes in results buffer.", V, IRQBuffer, ResultsIn);
+		}
+
 	 	IRQBuffer &= ~V;
 	 	RecalcIRQ();
 
@@ -1323,9 +1338,11 @@ int32 PS_CDC::CalcSeekTime(int32 initial, int32 target, bool motor_on, bool paus
   //else
   {
    // Take twice as long for 1x mode.
-   ret += 1247952 * ((Mode & MODE_SPEED) ? 1 : 2);
+   ret += 1237952 * ((Mode & MODE_SPEED) ? 1 : 2);
   }
  }
+
+ ret += PSX_GetRandU32(0, 20000);
 
  printf("%d\n", ret);
 
@@ -1344,10 +1361,11 @@ void PS_CDC::BeginSeek(uint32 target, int after_seek)
 
 // Remove this function when we have better seek emulation; it's here because the Rockman complete works games(at least 2 and 4) apparently have finicky fubared CD
 // access code.
-void PS_CDC::PreSeekHack(uint32 target)
+void PS_CDC::PreSeekHack(bool logical, uint32 target)
 {
  uint8 buf[2352 + 96];
  int max_try = 32;
+ bool NeedHBuf = logical;
 
  CurSector = target;
 
@@ -1356,6 +1374,14 @@ void PS_CDC::PreSeekHack(uint32 target)
   do
   {
    Cur_CDIF->ReadRawSector(buf, target++);
+
+   // GetLocL related kludge, for Gran Turismo 1 music, perhaps others?
+   if(NeedHBuf)
+   {
+    NeedHBuf = false;
+    memcpy(HeaderBuf, buf + 12, 12);
+    HeaderBufValid = true;
+   }
   } while(!DecodeSubQ(buf + 2352) && --max_try > 0 && target < toc.tracks[100].lba);
  }
 }
@@ -1395,7 +1421,7 @@ int32 PS_CDC::Command_Play(const int arg_count, const uint8 *args)
   SeekTarget = toc.tracks[track].lba;
   PSRCounter = CalcSeekTime(CurSector, SeekTarget, DriveStatus != DS_STOPPED, DriveStatus == DS_PAUSED);
   HeaderBufValid = false;
-  PreSeekHack(SeekTarget);
+  PreSeekHack(false, SeekTarget);
 
   DriveStatus = DS_SEEKING;
   StatusAfterSeek = DS_PLAYING;
@@ -1410,7 +1436,7 @@ int32 PS_CDC::Command_Play(const int arg_count, const uint8 *args)
 
    PSRCounter = CalcSeekTime(CurSector, SeekTarget, DriveStatus != DS_STOPPED, DriveStatus == DS_PAUSED);
    HeaderBufValid = false;
-   PreSeekHack(SeekTarget);
+   PreSeekHack(false, SeekTarget);
 
    DriveStatus = DS_SEEKING;
    StatusAfterSeek = DS_PLAYING;
@@ -1423,7 +1449,7 @@ int32 PS_CDC::Command_Play(const int arg_count, const uint8 *args)
 
    PSRCounter = CalcSeekTime(CurSector, SeekTarget, DriveStatus != DS_STOPPED, DriveStatus == DS_PAUSED);
    HeaderBufValid = false;
-   PreSeekHack(SeekTarget);
+   PreSeekHack(false, SeekTarget);
 
    DriveStatus = DS_SEEKING;
    StatusAfterSeek = DS_PLAYING;
@@ -1493,7 +1519,7 @@ void PS_CDC::ReadBase(void)
 
   PSRCounter = CalcSeekTime(CurSector, SeekTarget, DriveStatus != DS_STOPPED, DriveStatus == DS_PAUSED);
   HeaderBufValid = false;
-  PreSeekHack(SeekTarget);
+  PreSeekHack(true, SeekTarget);
 
   DriveStatus = DS_SEEKING_LOGICAL;
   StatusAfterSeek = DS_READING;
@@ -1804,7 +1830,7 @@ int32 PS_CDC::Command_SeekL(const int arg_count, const uint8 *args)
 
  PSRCounter = CalcSeekTime(CurSector, SeekTarget, DriveStatus != DS_STOPPED, DriveStatus == DS_PAUSED);
  HeaderBufValid = false;
- PreSeekHack(SeekTarget);
+ PreSeekHack(true, SeekTarget);
  DriveStatus = DS_SEEKING_LOGICAL;
  StatusAfterSeek = DS_STANDBY;
  ClearAIP();
@@ -1824,7 +1850,7 @@ int32 PS_CDC::Command_SeekP(const int arg_count, const uint8 *args)
 
  PSRCounter = CalcSeekTime(CurSector, SeekTarget, DriveStatus != DS_STOPPED, DriveStatus == DS_PAUSED);
  HeaderBufValid = false;
- PreSeekHack(SeekTarget);
+ PreSeekHack(false, SeekTarget);
  DriveStatus = DS_SEEKING;
  StatusAfterSeek = DS_STANDBY;
  ClearAIP();
@@ -1983,11 +2009,6 @@ int32 PS_CDC::Command_ID(const int arg_count, const uint8 *args)
  WriteResult(MakeStatus());
  WriteIRQ(CDCIRQ_ACKNOWLEDGE);
 
- HeaderBufValid = false;
- PSRCounter = 0;
- DriveStatus = DS_PAUSED;	// or DS_STANDBY?
- ClearAIP();
-
  return(33868);
 }
 
@@ -2023,7 +2044,10 @@ int32 PS_CDC::Command_ID_Part2(void)
   WriteResult(0);
  }
 
- WriteIRQ(CDCIRQ_COMPLETE);
+ if(IsPSXDisc)
+  WriteIRQ(CDCIRQ_COMPLETE);
+ else
+  WriteIRQ(CDCIRQ_DISC_ERROR);
 
  return(0);
 }

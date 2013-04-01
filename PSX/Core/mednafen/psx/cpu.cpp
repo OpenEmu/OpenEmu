@@ -25,6 +25,13 @@
 	un-restartable sequences of instructions.
 */
 
+#define BIU_ENABLE_ICACHE_S1	0x00000800	// Enable I-cache, set 1
+#define BIU_ENABLE_DCACHE	0x00000080	// Enable D-cache
+#define BIU_TAG_TEST_MODE	0x00000004	// Enable TAG test mode(IsC must be set to 1 as well presumably?)
+#define BIU_INVALIDATE_MODE	0x00000002	// Enable Invalidate mode(IsC must be set to 1 as well presumably?)
+#define BIU_LOCK		0x00000001	// Enable Lock mode(IsC must be set to 1 as well presumably?)
+						// Does lock mode prevent the actual data payload from being modified, while allowing tags to be modified/updated???
+
 namespace MDFN_IEN_PSX
 {
 
@@ -96,9 +103,21 @@ void PS_CPU::Power(void)
  CP0.SR |= (1 << 22);	// BEV
  CP0.SR |= (1 << 21);	// TS
 
- CP0.PRID = 0x300;	// PRId: FIXME(test on real thing)
+ CP0.PRID = 0x2;
 
  RecalcIPCache();
+
+
+ BIU = 0;
+
+#if PS_CPU_EMULATE_ICACHE
+ // Not quite sure about these poweron/reset values:
+ for(unsigned i = 0; i < 1024; i++)
+ {
+  ICache[i].TV = 0x2 | ((BIU & 0x800) ? 0x0 : 0x1);
+  ICache[i].Data = 0;
+ }
+#endif
 
  GTE_Power();
 }
@@ -151,6 +170,35 @@ void PS_CPU::AssertIRQ(int which, bool asserted)
  RecalcIPCache();
 }
 
+void PS_CPU::SetBIU(uint32 val)
+{
+ const uint32 old_BIU = BIU;
+
+ BIU = val & ~(0x440);
+
+#if PS_CPU_EMULATE_ICACHE
+ if((BIU ^ old_BIU) & 0x800)
+ {
+  if(BIU & 0x800)	// ICache enabled
+  {
+   for(unsigned i = 0; i < 1024; i++)
+    ICache[i].TV &= ~0x1;
+  }
+  else			// ICache disabled
+  {
+   for(unsigned i = 0; i < 1024; i++)
+    ICache[i].TV |= 0x1;
+  }
+ }
+#endif
+ PSX_WARNING("[CPU] Set BIU=0x%08x", BIU);
+}
+
+uint32 PS_CPU::GetBIU(void)
+{
+ return BIU;
+}
+
 template<typename T>
 INLINE T PS_CPU::ReadMemory(pscpu_timestamp_t &timestamp, uint32 address, bool DS24)
 {
@@ -178,7 +226,7 @@ INLINE T PS_CPU::ReadMemory(pscpu_timestamp_t &timestamp, uint32 address, bool D
 template<typename T>
 INLINE void PS_CPU::WriteMemory(pscpu_timestamp_t &timestamp, uint32 address, uint32 value, bool DS24)
 {
- if(!(CP0.SR & 0x10000))
+ if(MDFN_LIKELY(!(CP0.SR & 0x10000)))
  {
   if(sizeof(T) == 1)
    PSX_MemWrite8(timestamp, address, value);
@@ -192,8 +240,35 @@ INLINE void PS_CPU::WriteMemory(pscpu_timestamp_t &timestamp, uint32 address, ui
     PSX_MemWrite32(timestamp, address, value);
   }
  }
- //else
- // printf("ISC WRITE%d %08x %08x\n", (int)sizeof(T), address, value);
+ else
+ {
+#if PS_CPU_EMULATE_ICACHE
+  if(BIU & 0x800)	// Instruction cache is enabled/active
+  {
+   if(BIU & 0x4)	// TAG test mode.
+   {
+    // TODO: Respect written value.
+    __ICache *ICI = &ICache[((address & 0xFF0) >> 2)];
+    const uint8 valid_bits = 0x00;
+
+    ICI[0].TV = ((valid_bits & 0x01) ? 0x00 : 0x02) | ((BIU & 0x800) ? 0x0 : 0x1);
+    ICI[1].TV = ((valid_bits & 0x02) ? 0x00 : 0x02) | ((BIU & 0x800) ? 0x0 : 0x1);
+    ICI[2].TV = ((valid_bits & 0x04) ? 0x00 : 0x02) | ((BIU & 0x800) ? 0x0 : 0x1);
+    ICI[3].TV = ((valid_bits & 0x08) ? 0x00 : 0x02) | ((BIU & 0x800) ? 0x0 : 0x1);
+   }
+   else if(!(BIU & 0x1))
+   {
+    ICache[(address & 0xFFC) >> 2].Data = value << ((address & 0x3) * 8);
+   }
+  }
+
+  if((BIU & 0x081) == 0x080)	// Writes to the scratchpad(TODO)
+  {
+
+  }
+#endif
+  //printf("IsC WRITE%d 0x%08x 0x%08x -- CP0.SR=0x%08x\n", (int)sizeof(T), address, value, CP0.SR);
+ }
 }
 
 uint32 PS_CPU::Exception(uint32 code, uint32 PC, const uint32 NPM)
@@ -250,7 +325,6 @@ uint32 PS_CPU::Exception(uint32 code, uint32 PC, const uint32 NPM)
 	BACKED_LDWhich = LDWhich;		\
 	BACKED_LDValue = LDValue;
 
-
 template<bool DebugMode, bool ILHMode>
 pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
 {
@@ -267,7 +341,7 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
  do
  {
   //printf("Running: %d %d\n", timestamp, next_event_ts);
-  while(timestamp < next_event_ts)
+  while(MDFN_LIKELY(timestamp < next_event_ts))
   {
    uint32 instr;
    uint32 opf;
@@ -309,7 +383,56 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
     PSX_WARNING("[BIOS] 0xB0 t1=0x%02x", GPR[9]);
    }
 */
+#if PS_CPU_EMULATE_ICACHE
+   instr = ICache[(PC & 0xFFC) >> 2].Data;
+
+   if(ICache[(PC & 0xFFC) >> 2].TV != PC)
+   {
+    // FIXME: Handle executing out of scratchpad.
+    if(PC >= 0xA0000000 || !(BIU & 0x800))
+    {
+     instr = LoadU32_LE((uint32 *)&FastMap[PC >> FAST_MAP_SHIFT][PC]);
+     timestamp += 4;	// Approximate best-case cache-disabled time, per PS1 tests(executing out of 0xA0000000+); it can be 5 in *some* sequences of code(like a lot of sequential "nop"s, probably other simple instructions too).
+    }
+    else
+    {
+     __ICache *ICI = &ICache[((PC & 0xFF0) >> 2)];
+     const uint32 *FMP = (uint32 *)&FastMap[(PC &~ 0xF) >> FAST_MAP_SHIFT][PC &~ 0xF];
+
+     // | 0x2 to simulate (in)validity bits.
+     ICI[0x00].TV = (PC &~ 0xF) | 0x00 | 0x2;
+     ICI[0x01].TV = (PC &~ 0xF) | 0x04 | 0x2;
+     ICI[0x02].TV = (PC &~ 0xF) | 0x08 | 0x2;
+     ICI[0x03].TV = (PC &~ 0xF) | 0x0C | 0x2;
+
+     timestamp += 3;
+
+     switch(PC & 0xC)
+     {
+      case 0x0:
+	timestamp++;
+        ICI[0x00].TV &= ~0x2;
+	ICI[0x00].Data = LoadU32_LE(&FMP[0]);
+      case 0x4:
+	timestamp++;
+        ICI[0x01].TV &= ~0x2;
+	ICI[0x01].Data = LoadU32_LE(&FMP[1]);
+      case 0x8:
+	timestamp++;
+        ICI[0x02].TV &= ~0x2;
+	ICI[0x02].Data = LoadU32_LE(&FMP[2]);
+      case 0xC:
+	timestamp++;
+        ICI[0x03].TV &= ~0x2;
+	ICI[0x03].Data = LoadU32_LE(&FMP[3]);
+	break;
+     }
+     instr = ICache[(PC & 0xFFC) >> 2].Data;
+    }
+   }
+#else
    instr = LoadU32_LE((uint32 *)&FastMap[PC >> FAST_MAP_SHIFT][PC]);
+#endif
 
    //printf("PC=%08x, SP=%08x - op=0x%02x - funct=0x%02x - instr=0x%08x\n", PC, GPR[29], instr >> 26, instr & 0x3F, instr);
    //for(int i = 0; i < 32; i++)
@@ -359,10 +482,10 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
 	 goto SkipNPCStuff;				\
 	}
 
-   #define ITYPE uint32 rs __attribute__((unused)) = (instr >> 21) & 0x1F; uint32 rt __attribute__((unused)) = (instr >> 16) & 0x1F; int32 immediate = (int16)(instr & 0xFFFF); /*printf(" rs=%02x(%08x), rt=%02x(%08x), immediate=(%08x) ", rs, GPR[rs], rt, GPR[rt], immediate);*/
-   #define ITYPE_ZE uint32 rs __attribute__((unused)) = (instr >> 21) & 0x1F; uint32 rt __attribute__((unused)) = (instr >> 16) & 0x1F; uint32 immediate = instr & 0xFFFF; /*printf(" rs=%02x(%08x), rt=%02x(%08x), immediate=(%08x) ", rs, GPR[rs], rt, GPR[rt], immediate);*/
+   #define ITYPE uint32 rs MDFN_NOWARN_UNUSED = (instr >> 21) & 0x1F; uint32 rt MDFN_NOWARN_UNUSED = (instr >> 16) & 0x1F; int32 immediate = (int16)(instr & 0xFFFF); /*printf(" rs=%02x(%08x), rt=%02x(%08x), immediate=(%08x) ", rs, GPR[rs], rt, GPR[rt], immediate);*/
+   #define ITYPE_ZE uint32 rs MDFN_NOWARN_UNUSED = (instr >> 21) & 0x1F; uint32 rt MDFN_NOWARN_UNUSED = (instr >> 16) & 0x1F; uint32 immediate = instr & 0xFFFF; /*printf(" rs=%02x(%08x), rt=%02x(%08x), immediate=(%08x) ", rs, GPR[rs], rt, GPR[rt], immediate);*/
    #define JTYPE uint32 target = instr & ((1 << 26) - 1); /*printf(" target=(%08x) ", target);*/
-   #define RTYPE uint32 rs __attribute__((unused)) = (instr >> 21) & 0x1F; uint32 rt __attribute__((unused)) = (instr >> 16) & 0x1F; uint32 rd __attribute__((unused)) = (instr >> 11) & 0x1F; uint32 shamt __attribute__((unused)) = (instr >> 6) & 0x1F; /*printf(" rs=%02x(%08x), rt=%02x(%08x), rd=%02x(%08x) ", rs, GPR[rs], rt, GPR[rt], rd, GPR[rd]);*/
+   #define RTYPE uint32 rs MDFN_NOWARN_UNUSED = (instr >> 21) & 0x1F; uint32 rt MDFN_NOWARN_UNUSED = (instr >> 16) & 0x1F; uint32 rd MDFN_NOWARN_UNUSED = (instr >> 11) & 0x1F; uint32 shamt MDFN_NOWARN_UNUSED = (instr >> 6) & 0x1F; /*printf(" rs=%02x(%08x), rt=%02x(%08x), rd=%02x(%08x) ", rs, GPR[rs], rt, GPR[rt], rd, GPR[rd]);*/
 
    static const void *const op_goto_table[256] =
    {
@@ -425,7 +548,7 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
 
 	DO_LDS();
 
-	if(ep)
+	if(MDFN_UNLIKELY(ep))
 	{
 	 new_PC = Exception(EXCEPTION_OV, PC, new_PC_mask);
          new_PC_mask = 0;
@@ -445,7 +568,7 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
 
 	DO_LDS();
 
-        if(ep)
+        if(MDFN_UNLIKELY(ep))
 	{
 	 new_PC = Exception(EXCEPTION_OV, PC, new_PC_mask);
          new_PC_mask = 0;
@@ -638,7 +761,7 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
 		 uint32 rd = (instr >> 11) & 0x1F;
 		 uint32 val = GPR[rt];
 
-		 if(rd != CP0REG_CAUSE && rd != CP0REG_SR && val)
+		 if(rd != CP0REG_PRID && rd != CP0REG_CAUSE && rd != CP0REG_SR && val)
 		 {
 	 	  PSX_WARNING("[CPU] Unimplemented MTC0: rt=%d(%08x) -> rd=%d", rt, GPR[rt], rd);
 		 }
@@ -676,11 +799,11 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
 			break;
 
 		  case CP0REG_SR:
+			if((CP0.SR ^ val) & 0x10000)
+			 PSX_WARNING("[CPU] IsC %u->%u", (bool)(CP0.SR & (1U << 16)), (bool)(val & (1U << 16)));
+
 			CP0.SR = val & ~( (0x3 << 26) | (0x3 << 23) | (0x3 << 6));
 			RecalcIPCache();
-
-			if(CP0.SR & 0x10000)
-			 PSX_WARNING("[CPU] IsC set");
 			break;
 		 }
 		}
@@ -823,7 +946,7 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
         ITYPE;
         uint32 address = GPR[rs] + immediate;
 
-        if(address & 3)
+        if(MDFN_UNLIKELY(address & 3))
 	{
          new_PC = Exception(EXCEPTION_ADEL, PC, new_PC_mask);
          new_PC_mask = 0;
@@ -874,17 +997,17 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
         ITYPE;
         uint32 address = GPR[rs] + immediate;
 
-	if(address & 0x3)
+	if(MDFN_UNLIKELY(address & 0x3))
 	{
 	 new_PC = Exception(EXCEPTION_ADES, PC, new_PC_mask);
          new_PC_mask = 0;
 	}
-	else if(!(CP0.SR & 0x10000))
+	else
 	{
          if(timestamp < gte_ts_done)
           timestamp = gte_ts_done;
 
-	 PSX_MemWrite32(timestamp, address, GTE_ReadDR(rt));
+	 WriteMemory<uint32>(timestamp, address, GTE_ReadDR(rt));
 	}
 	DO_LDS();
     END_OPF;
@@ -1291,7 +1414,7 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
 
 	DO_LDS();
 
-	if(ep)
+	if(MDFN_UNLIKELY(ep))
 	{
 	 new_PC = Exception(EXCEPTION_OV, PC, new_PC_mask);
          new_PC_mask = 0;
@@ -1391,7 +1514,7 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
 
 	DO_LDS();
 
-	if(address & 1)
+	if(MDFN_UNLIKELY(address & 1))
 	{
 	 new_PC = Exception(EXCEPTION_ADEL, PC, new_PC_mask);
          new_PC_mask = 0;
@@ -1412,7 +1535,7 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
 
 	DO_LDS();
 
-        if(address & 1)
+        if(MDFN_UNLIKELY(address & 1))
 	{
          new_PC = Exception(EXCEPTION_ADEL, PC, new_PC_mask);
          new_PC_mask = 0;
@@ -1434,7 +1557,7 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
 
 	DO_LDS();
 
-        if(address & 3)
+        if(MDFN_UNLIKELY(address & 3))
 	{
          new_PC = Exception(EXCEPTION_ADEL, PC, new_PC_mask);
          new_PC_mask = 0;
@@ -1465,7 +1588,7 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
         ITYPE;
         uint32 address = GPR[rs] + immediate;
 
-	if(address & 0x1)
+	if(MDFN_UNLIKELY(address & 0x1))
 	{
 	 new_PC = Exception(EXCEPTION_ADES, PC, new_PC_mask);
          new_PC_mask = 0;
@@ -1483,7 +1606,7 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
         ITYPE;
         uint32 address = GPR[rs] + immediate;
 
-	if(address & 0x3)
+	if(MDFN_UNLIKELY(address & 0x3))
 	{
 	 new_PC = Exception(EXCEPTION_ADES, PC, new_PC_mask);
          new_PC_mask = 0;
@@ -1643,7 +1766,7 @@ pscpu_timestamp_t PS_CPU::RunReal(pscpu_timestamp_t timestamp_in)
 
    //printf("\n");
   }
- } while(PSX_EventHandler(timestamp));
+ } while(MDFN_LIKELY(PSX_EventHandler(timestamp)));
 
  if(gte_ts_done > 0)
   gte_ts_done -= timestamp;
@@ -1753,6 +1876,18 @@ void PS_CPU::SetRegister(unsigned int which, uint32 value)
 
  }
 }
+
+bool PS_CPU::PeekCheckICache(uint32 PC, uint32 *iw)
+{
+ if(ICache[(PC & 0xFFC) >> 2].TV == PC)
+ {
+  *iw = ICache[(PC & 0xFFC) >> 2].Data;
+  return(true);
+ }
+
+ return(false);
+}
+
 
 #undef BEGIN_OPF
 #undef END_OPF

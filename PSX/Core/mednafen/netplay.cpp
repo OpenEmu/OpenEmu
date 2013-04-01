@@ -61,6 +61,20 @@ static void NetError(const char *format, ...)
  free(temp);
 }
 
+static void NetPrintText(const char *format, ...)
+{
+ char *temp = NULL;
+ va_list ap;
+
+ va_start(ap, format);
+ temp = trio_vaprintf(format, ap);
+ va_end(ap);
+
+ MDFND_NetplayText((UTF8 *)temp, FALSE);
+ free(temp);
+}
+
+
 void MDFNI_NetplayStop(void)
 {
 	if(MDFNnetplay)
@@ -78,11 +92,15 @@ void MDFNI_NetplayStop(void)
 	else puts("Check your code!");
 }
 
-int NetplayStart(const char *PortDeviceCache[16], const uint32 PortDataLenCache[16], uint32 local_players, const std::string &nickname, const std::string &game_key, const std::string &connect_password)
+int NetplayStart(const char *PortDeviceCache[16], const uint32 PortDataLenCache[16])
 {
  uint8 *sendbuf;
  uint32 sblen;
  const char *emu_id = PACKAGE " " MEDNAFEN_VERSION;
+ const uint32 local_players = MDFN_GetSettingUI("netplay.localplayers");
+ const std::string nickname = MDFN_GetSettingS("netplay.nick");
+ const std::string game_key = MDFN_GetSettingS("netplay.gamekey");
+ const std::string connect_password = MDFN_GetSettingS("netplay.password");
 
  try
  {
@@ -585,7 +603,7 @@ try
 			 now_time = MDFND_GetTime();
 
                          char *textbuf = NULL;
-			 trio_asprintf(&textbuf, "*** Round-trip time: %llu ms", now_time - then_time);
+			 trio_asprintf(&textbuf, _("*** Round-trip time: %llu ms"), now_time - then_time);
                          MDFND_NetplayText((UTF8*)textbuf, FALSE);
                          free(textbuf);
 			}
@@ -843,4 +861,345 @@ catch(std::exception &e)
 //
 //
 
+}
+
+
+//
+//
+//
+//
+
+typedef struct
+{
+ const char *name;
+ bool (*func)(const UTF8 *arg);
+ const char *help_args;
+ const char *help_desc;
+} CommandEntry;
+
+static bool CC_server(const UTF8 *arg);
+static bool CC_quit(const UTF8 *arg);
+static bool CC_help(const UTF8 *arg);
+static bool CC_nick(const UTF8 *arg);
+static bool CC_ping(const UTF8 *arg);
+static bool CC_integrity(const UTF8 *arg);
+static bool CC_gamekey(const UTF8 *arg);
+static bool CC_swap(const UTF8 *arg);
+static bool CC_dupe(const UTF8 *arg);
+static bool CC_drop(const UTF8 *arg);
+static bool CC_take(const UTF8 *arg);
+static bool CC_list(const UTF8 *arg);
+
+static CommandEntry ConsoleCommands[]   =
+{
+ { "/server", CC_server,	gettext_noop("[REMOTE_HOST] [PORT]"), "Connects to REMOTE_HOST(IP address or FQDN), on PORT." },
+
+ { "/connect", CC_server,	NULL, NULL },
+
+ //{ "/gamekey", CC_gamekey,	gettext_noop("GAMEKEY"), gettext_noop("Changes the game key to the specified GAMEKEY.") },
+
+ { "/quit", CC_quit,		gettext_noop("[MESSAGE]"), gettext_noop("Disconnects from the netplay server.") },
+
+ { "/help", CC_help,		"", gettext_noop("Help, I'm drowning in a sea of cliche metaphors!") },
+
+ { "/nick", CC_nick,		gettext_noop("NICKNAME"), gettext_noop("Changes your nickname to the specified NICKNAME.") },
+
+ { "/swap", CC_swap,		gettext_noop("A B"), gettext_noop("Swap/Exchange all instances of controllers A and B(numbered from 1).") },
+
+ { "/dupe", CC_dupe,            gettext_noop("[A] [...]"), gettext_noop("Duplicate and take instances of specified controller(s).") },
+ { "/drop", CC_drop,            gettext_noop("[A] [...]"), gettext_noop("Drop all instances of specified controller(s).") },
+ { "/take", CC_take,            gettext_noop("[A] [...]"), gettext_noop("Take all instances of specified controller(s).") },
+
+ //{ "/list", CC_list,		"", "List players in game." },
+
+ { "/ping", CC_ping,		"", "Pings the server." },
+
+ //{ "/integrity", CC_integrity,	"", "Starts netplay integrity check sequence." },
+
+ { NULL, NULL },
+};
+
+
+static bool CC_server(const UTF8 *arg)
+{
+ char server[300];
+ unsigned int port = 0;
+
+ server[0] = 0;
+
+ switch(trio_sscanf((char*)arg, "%.299s %u", server, port))
+ {
+  default:
+  case 0:
+	break;
+
+  case 1:
+	MDFNI_SetSetting("netplay.host", (char*)server);
+	break;
+
+  case 2:
+	MDFNI_SetSetting("netplay.host", (char*)server);
+	MDFNI_SetSettingUI("netplay.port", port);
+	break;
+ }
+
+ MDFND_NetworkConnect();
+
+ return(false);
+}
+
+static bool CC_gamekey(const UTF8 *arg)
+{
+// SendCEvent(CEVT_NP_SETGAMEKEY, strdup(arg), NULL);
+ return(true);
+}
+
+static bool CC_quit(const UTF8 *arg)
+{
+ if(MDFNnetplay)
+ {
+  MDFNI_NetplayQuit((const char *)arg);
+  MDFND_NetworkClose();
+ }
+ else
+ {
+  NetPrintText(_("*** Not connected!"));
+  return(true);
+ }
+
+ return(false);
+}
+
+static bool CC_list(const UTF8 *arg)
+{
+ if(MDFNnetplay)
+  MDFNI_NetplayList();
+ else
+ {
+  NetPrintText(_("*** Not connected!"));
+  return(true);
+ }
+
+ return(true);
+}
+
+static bool CC_swap(const UTF8 *arg)
+{
+ int a = 0, b = 0;
+
+ if(sscanf((const char *)arg, "%u %u", &a, &b) == 2 && a && b)
+ {
+  uint32 sc = ((a - 1) & 0xFF) | (((b - 1) & 0xFF) << 8);
+
+  if(MDFNnetplay)
+   MDFNI_NetplaySwap((sc >> 0) & 0xFF, (sc >> 8) & 0xFF);
+  else
+  {
+   NetPrintText(_("*** Not connected!"));
+   return(true);
+  }
+ }
+ else
+ {
+  NetPrintText(_("*** %s command requires at least %u non-zero integer argument(s)."), "SWAP", 2);
+  return(true);
+ }
+
+ return(false);
+}
+
+static bool CC_dupe(const UTF8 *arg)
+{
+ int tmp[32];
+ int count;
+
+
+ memset(tmp, 0, sizeof(tmp));
+ count = sscanf((const char *)arg, "%u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u",
+			&tmp[0x00], &tmp[0x01], &tmp[0x02], &tmp[0x03], &tmp[0x04], &tmp[0x05], &tmp[0x06], &tmp[0x07],
+			&tmp[0x08], &tmp[0x09], &tmp[0x0A], &tmp[0x0B], &tmp[0x0C], &tmp[0x0D], &tmp[0x0E], &tmp[0x0F],
+                        &tmp[0x00], &tmp[0x01], &tmp[0x02], &tmp[0x03], &tmp[0x04], &tmp[0x05], &tmp[0x06], &tmp[0x07],
+                        &tmp[0x08], &tmp[0x09], &tmp[0x0A], &tmp[0x0B], &tmp[0x0C], &tmp[0x0D], &tmp[0x0E], &tmp[0x0F]);
+
+ if(count > 0)
+ {
+  uint32 mask = 0;
+
+  for(int i = 0; i < 32; i++)
+  {
+   if(tmp[i] > 0)
+    mask |= 1U << (unsigned)(tmp[i] - 1);
+  }
+
+  if(MDFNnetplay)
+   MDFNI_NetplayDupe(mask);
+  else
+  {
+   NetPrintText(_("*** Not connected!"));
+   return(true);
+  }
+ }
+ else
+ {
+  NetPrintText(_("*** %s command requires at least %u non-zero integer argument(s)."), "DUPE", 1);
+  return(true);
+ }
+
+ return(false);
+}
+
+static bool CC_drop(const UTF8 *arg)
+{
+ int tmp[32];
+ int count;
+
+
+ memset(tmp, 0, sizeof(tmp));
+ count = sscanf((const char *)arg, "%u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u",
+                        &tmp[0x00], &tmp[0x01], &tmp[0x02], &tmp[0x03], &tmp[0x04], &tmp[0x05], &tmp[0x06], &tmp[0x07],
+                        &tmp[0x08], &tmp[0x09], &tmp[0x0A], &tmp[0x0B], &tmp[0x0C], &tmp[0x0D], &tmp[0x0E], &tmp[0x0F],
+                        &tmp[0x00], &tmp[0x01], &tmp[0x02], &tmp[0x03], &tmp[0x04], &tmp[0x05], &tmp[0x06], &tmp[0x07],
+                        &tmp[0x08], &tmp[0x09], &tmp[0x0A], &tmp[0x0B], &tmp[0x0C], &tmp[0x0D], &tmp[0x0E], &tmp[0x0F]);
+
+ if(count > 0)
+ {
+  uint32 mask = 0;
+
+  for(int i = 0; i < 32; i++)
+  {
+   if(tmp[i] > 0)
+    mask |= 1U << (unsigned)(tmp[i] - 1);
+  }
+
+  if(MDFNnetplay)
+   MDFNI_NetplayDrop(mask);
+  else
+  {
+   NetPrintText(_("*** Not connected!"));
+   return(true);
+  }
+ }
+ else
+ {
+  NetPrintText(_("*** %s command requires at least %u non-zero integer argument(s)."), "DROP", 1);
+  return(true);
+ }
+
+ return(false);
+}
+
+static bool CC_take(const UTF8 *arg)
+{
+ int tmp[32];
+ int count;
+
+
+ memset(tmp, 0, sizeof(tmp));
+ count = sscanf((const char *)arg, "%u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u %u",
+                        &tmp[0x00], &tmp[0x01], &tmp[0x02], &tmp[0x03], &tmp[0x04], &tmp[0x05], &tmp[0x06], &tmp[0x07],
+                        &tmp[0x08], &tmp[0x09], &tmp[0x0A], &tmp[0x0B], &tmp[0x0C], &tmp[0x0D], &tmp[0x0E], &tmp[0x0F],
+                        &tmp[0x00], &tmp[0x01], &tmp[0x02], &tmp[0x03], &tmp[0x04], &tmp[0x05], &tmp[0x06], &tmp[0x07],
+                        &tmp[0x08], &tmp[0x09], &tmp[0x0A], &tmp[0x0B], &tmp[0x0C], &tmp[0x0D], &tmp[0x0E], &tmp[0x0F]);
+
+ if(count > 0)
+ {
+  uint32 mask = 0;
+
+  for(int i = 0; i < 32; i++)
+  {
+   if(tmp[i] > 0)
+    mask |= 1U << (unsigned)(tmp[i] - 1);
+  }
+
+  if(MDFNnetplay)
+   MDFNI_NetplayTake(mask);
+  else
+  {
+   NetPrintText(_("*** Not connected!"));
+   return(true);
+  }
+ }
+ else
+ {
+  NetPrintText(_("*** %s command requires at least %u non-zero integer argument(s)."), "TAKE", 1);
+  return(true);
+ }
+
+ return(false);
+}
+
+static bool CC_ping(const UTF8 *arg)
+{
+ if(MDFNnetplay)
+  MDFNI_NetplayPing();
+ else
+ {
+  NetPrintText(_("*** Not connected!"));
+  return(true);
+ }
+
+ return(false);
+}
+
+static bool CC_integrity(const UTF8 *arg)
+{
+ if(MDFNnetplay)
+  MDFNI_NetplayIntegrity();
+ else
+ {
+  NetPrintText(_("*** Not connected!"));
+  return(true);
+ }
+
+ return(FALSE);
+}
+
+static bool CC_help(const UTF8 *arg)
+{
+ for(unsigned int x = 0; ConsoleCommands[x].name; x++)
+ {
+  if(ConsoleCommands[x].help_desc)
+  {
+   char help_buf[512];
+   trio_snprintf(help_buf, 512, "%s %s  -  %s", ConsoleCommands[x].name, _(ConsoleCommands[x].help_args), _(ConsoleCommands[x].help_desc));
+   MDFND_NetplayText((UTF8*)help_buf, false);
+  }
+ }
+ return(true);
+}
+
+static bool CC_nick(const UTF8 *arg)
+{
+ MDFNI_SetSetting("netplay.nick", (char*)arg);
+
+ if(MDFNnetplay)
+  MDFNI_NetplayChangeNick((UTF8*)arg);
+
+ return(true);
+}
+
+void MDFNI_NetplayLine(const char *text, bool &inputable, bool &viewable)
+{
+	 inputable = viewable = false;
+
+         for(unsigned int x = 0; ConsoleCommands[x].name; x++)
+	 {
+          if(!strncasecmp(ConsoleCommands[x].name, (char*)text, strlen(ConsoleCommands[x].name)) && text[strlen(ConsoleCommands[x].name)] <= 0x20)
+          {
+	   char *trim_text = strdup((char*)&text[strlen(ConsoleCommands[x].name)]);
+
+	   MDFN_trim(trim_text);
+
+           inputable = viewable = ConsoleCommands[x].func((UTF8*)trim_text);
+
+           free(trim_text);
+           return;
+          }
+	 }
+
+         if(text[0] != 0)	// Is non-empty line?
+	 {
+	  MDFNI_NetplayText((UTF8*)text);
+	  viewable = true;
+         }
 }

@@ -163,7 +163,7 @@ pscpu_timestamp_t InputDevice_GunCon::GPULineHook(const pscpu_timestamp_t line_t
 
  if(pixels && pix_clock)
  {
-  const int avs = 22; // Not 22 for PAL, fixme.
+  const int avs = 16; // Not 16 for PAL, fixme.
   int32 gx;
   int32 gy;
 

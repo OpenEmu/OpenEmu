@@ -32,6 +32,68 @@ extern MDFNGI EmulatedPSX;
 namespace MDFN_IEN_PSX
 {
 
+
+struct MDFN_PseudoRNG	// Based off(but not the same as) public-domain "JKISS" PRNG.
+{
+ MDFN_PseudoRNG()
+ {
+  ResetState();
+ }
+
+ uint32 RandU32(void)
+ {
+  uint64 t;
+
+  x = 314527869 * x + 1234567;
+  y ^= y << 5; y ^= y >> 7; y ^= y << 22;
+  t = 4294584393ULL * z + c; c = t >> 32; z = t;
+  lcgo = (19073486328125ULL * lcgo) + 1;
+
+  return (x + y + z) ^ (lcgo >> 16);
+ }
+
+ uint32 RandU32(uint32 mina, uint32 maxa)
+ {
+  const uint32 range_m1 = maxa - mina;
+  uint32 range_mask;
+  uint32 tmp;
+
+  range_mask = range_m1;
+  range_mask |= range_mask >> 1;
+  range_mask |= range_mask >> 2;
+  range_mask |= range_mask >> 4;
+  range_mask |= range_mask >> 8;
+  range_mask |= range_mask >> 16;
+
+  do
+  {
+   tmp = RandU32() & range_mask;
+  } while(tmp > range_m1);
+ 
+  return(mina + tmp);
+ }
+
+ void ResetState(void)	// Must always reset to the same state.
+ {
+  x = 123456789;
+  y = 987654321;
+  z = 43219876;
+  c = 6543217;
+  lcgo = 0xDEADBEEFCAFEBABEULL;
+ }
+
+ uint32 x,y,z,c;
+ uint64 lcgo;
+};
+
+static MDFN_PseudoRNG PSX_PRNG;
+
+uint32 PSX_GetRandU32(uint32 mina, uint32 maxa)
+{
+ return PSX_PRNG.RandU32(mina, maxa);
+}
+
+
 class PSF1Loader : public PSFLoader
 {
  public:
@@ -617,6 +679,16 @@ template<typename T, bool IsWrite, bool Access24, bool Peek> static INLINE void 
   return;
  }
 
+ if(A == 0xFFFE0130) // Per tests on PS1, ignores the access(sort of, on reads the value is forced to 0 if not aligned) if not aligned to 4-bytes.
+ {
+  if(!IsWrite)
+   V = CPU->GetBIU();
+  else
+   CPU->SetBIU(V);
+
+  return;
+ }
+
  if(!Peek)
  {
   if(IsWrite)
@@ -723,6 +795,29 @@ uint32 PSX_MemPeek32(uint32 A)
 // FIXME: Add PSX_Reset() and FrontIO::Reset() so that emulated input devices don't get power-reset on reset-button reset.
 static void PSX_Power(void)
 {
+ PSX_PRNG.ResetState();	// Should occur first!
+
+#if 0
+ const uint32 counterer = 262144;
+ uint64 averageizer = 0;
+ uint32 maximizer = 0;
+ uint32 minimizer = ~0U;
+ for(int i = 0; i < counterer; i++)
+ {
+  uint32 tmp = PSX_GetRandU32(0, 20000);
+  if(tmp < minimizer)
+   minimizer = tmp;
+
+  if(tmp > maximizer)
+   maximizer = tmp;
+
+  averageizer += tmp;
+  printf("%8u\n", tmp);
+ }
+ printf("Average: %f\nMinimum: %u\nMaximum: %u\n", (double)averageizer / counterer, minimizer, maximizer);
+ exit(1);
+#endif
+
  memset(MainRAM.data32, 0, 2048 * 1024);
  memset(ScratchRAM.data32, 0, 1024);
 
@@ -1176,7 +1271,10 @@ static bool InitCommon(std::vector<CDIF *> *CDInterfaces, const bool EmulateMemc
 
  if(region == REGION_EU)
  {
-  EmulatedPSX.nominal_width = 367;	// Dunno. :(
+  EmulatedPSX.lcm_width = 2800;
+  EmulatedPSX.lcm_height = 576;
+
+  EmulatedPSX.nominal_width = 377;	// Dunno. :(
   EmulatedPSX.nominal_height = 288;
 
   EmulatedPSX.fb_width = 768;
@@ -1184,10 +1282,10 @@ static bool InitCommon(std::vector<CDIF *> *CDInterfaces, const bool EmulateMemc
  }
  else
  {
-  EmulatedPSX.lcm_width = 2720;
+  EmulatedPSX.lcm_width = 2800;
   EmulatedPSX.lcm_height = 480;
 
-  EmulatedPSX.nominal_width = 310;
+  EmulatedPSX.nominal_width = 320;
   EmulatedPSX.nominal_height = 240;
 
   EmulatedPSX.fb_width = 768;
@@ -1356,6 +1454,23 @@ static void LoadEXE(const uint8 *data, const uint32 size, bool ignore_pcsp = fal
  po += 4;
 
  po = &PIOMem->data8[0x1000];
+
+ // Load cacheable-region target PC into r2
+ MDFN_en32lsb(po, (0xF << 26) | (0 << 21) | (1 << 16) | (0x9F001010 >> 16));      // LUI
+ po += 4;
+ MDFN_en32lsb(po, (0xD << 26) | (1 << 21) | (2 << 16) | (0x9F001010 & 0xFFFF));   // ORI
+ po += 4;
+
+ // Jump to r2
+ MDFN_en32lsb(po, (0x0 << 26) | (2 << 21) | (0x8 << 0));	// JR
+ po += 4;
+ MDFN_en32lsb(po, 0);	// NOP(kinda)
+ po += 4;
+
+ //
+ // 0x9F001010:
+ //
+
  // Load source address into r8
  uint32 sa = 0x9F000000 + 65536;
  MDFN_en32lsb(po, (0xF << 26) | (0 << 21) | (1 << 16) | (sa >> 16));	// LUI
@@ -1381,24 +1496,20 @@ static void LoadEXE(const uint8 *data, const uint32 size, bool ignore_pcsp = fal
  
  MDFN_en32lsb(po, (0x24 << 26) | (8 << 21) | (1 << 16));	// LBU to r1
  po += 4;
- MDFN_en32lsb(po, 0); po += 4;			      	        // NOP
-
- MDFN_en32lsb(po, (0x28 << 26) | (9 << 21) | (1 << 16));	// SB from r1
- po += 4;
- MDFN_en32lsb(po, 0); po += 4;			      	        // NOP
 
  MDFN_en32lsb(po, (0x08 << 26) | (10 << 21) | (10 << 16) | 0xFFFF);	// Decrement size
+ po += 4;
+
+ MDFN_en32lsb(po, (0x28 << 26) | (9 << 21) | (1 << 16));	// SB from r1
  po += 4;
 
  MDFN_en32lsb(po, (0x08 << 26) | (8 << 21) | (8 << 16) | 0x0001);	// Increment source addr
  po += 4;
 
+ MDFN_en32lsb(po, (0x05 << 26) | (0 << 21) | (10 << 16) | (-5 & 0xFFFF));
+ po += 4;
  MDFN_en32lsb(po, (0x08 << 26) | (9 << 21) | (9 << 16) | 0x0001);	// Increment dest addr
  po += 4;
-
- MDFN_en32lsb(po, (0x05 << 26) | (0 << 21) | (10 << 16) | (-8 & 0xFFFF));
- po += 4;
- MDFN_en32lsb(po, 0); po += 4;			      	        // NOP
 
  //
  // Loop end
@@ -1424,12 +1535,20 @@ static void LoadEXE(const uint8 *data, const uint32 size, bool ignore_pcsp = fal
   po += 4;
  }
 
+ // Half-assed instruction cache flush. ;)
+ for(unsigned i = 0; i < 1024; i++)
+ {
+  MDFN_en32lsb(po, 0);
+  po += 4;
+ }
+
+
+
  // Jump to r2
  MDFN_en32lsb(po, (0x0 << 26) | (2 << 21) | (0x8 << 0));	// JR
  po += 4;
  MDFN_en32lsb(po, 0);	// NOP(kinda)
  po += 4;
-
 }
 
 PSF1Loader::PSF1Loader(MDFNFILE *fp)
@@ -1465,7 +1584,7 @@ static int Load(const char *name, MDFNFILE *fp)
 
  static std::vector<CDIF *> CDInterfaces;
 
- CDInterfaces.push_back(new CDIF_MT("/extra/games/PSX/Jumping Flash! (USA)/Jumping Flash! (USA).cue"));
+ CDInterfaces.push_back(CDIF_Open("/extra/games/PSX/Jumping Flash! (USA)/Jumping Flash! (USA).cue", false));
  //CDInterfaces.push_back(new CDIF("/extra/games/PSX/Tony Hawk's Pro Skater 2 (USA)/Tony Hawk's Pro Skater 2 (USA).cue"));
 
  if(!InitCommon(&CDInterfaces, !IsPSF))
@@ -1819,7 +1938,7 @@ MDFNGI EmulatedPSX =
  0,	// lcm_height
  NULL,  // Dummy
 
- 310,   // Nominal width
+ 320,   // Nominal width
  240,   // Nominal height
 
  0,   // Framebuffer width

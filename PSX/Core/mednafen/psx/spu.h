@@ -244,7 +244,7 @@ class PS_SPU
  uint32 last_quality;
  SpeexResamplerState *resampler;
 
- // Buffers 44.1KHz samples, should have enough for one video frame(~735 frames NTSC, ~882 PAL) plus jitter plus enough for the resampler leftovers.
+ // Buffers 44.1KHz samples, should have enough for two(worst-case scenario) video frames(2* ~735 frames NTSC, 2* ~882 PAL) plus jitter plus enough for the resampler leftovers.
  // We'll just go with 4096 because powers of 2 are AWESOME and such.
  uint32 IntermediateBufferPos;
  int16 IntermediateBuffer[4096][2];

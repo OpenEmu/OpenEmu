@@ -131,6 +131,7 @@ void MDFND_SendData(const void*, uint32) {}
 void MDFND_RecvData(void *, uint32) {}
 void MDFND_NetplayText(const uint8*, bool) {}
 void MDFND_NetworkClose() {}
+int MDFND_NetworkConnect() { return 0; }
 
 uint32 MDFND_GetTime()
 {

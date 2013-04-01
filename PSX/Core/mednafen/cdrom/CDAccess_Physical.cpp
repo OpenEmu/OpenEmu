@@ -315,7 +315,7 @@ CDAccess_Physical::~CDAccess_Physical()
  cdio_destroy((CdIo *)p_cdio);
 }
 
-bool CDAccess_Physical::Is_Physical(void)
+bool CDAccess_Physical::Is_Physical(void) throw()
 {
  return(true);
 }

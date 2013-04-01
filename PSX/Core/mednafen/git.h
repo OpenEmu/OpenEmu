@@ -55,7 +55,6 @@ typedef enum
 {
  IDIT_BUTTON,		// 1-bit
  IDIT_BUTTON_CAN_RAPID, // 1-bit
- IDIT_BUTTON_BYTE, // 8-bits, Button as a byte instead of a bit.
  IDIT_X_AXIS,	   // (mouse) 32-bits, signed, fixed-point: 1.15.16 - in-screen/window range: [0.0, nominal_width)
  IDIT_Y_AXIS,	   // (mouse) 32-bits, signed, fixed-point: 1.15.16 - in-screen/window range: [0.0, nominal_height)
  IDIT_X_AXIS_REL,  // (mouse) 32-bits, signed
@@ -67,13 +66,10 @@ typedef enum
 		// It's also rather a special case of game module->driver code communication.
 } InputDeviceInputType;
 
-#include "git-virtb.h"
-
 typedef struct
 {
 	const char *SettingName;	// No spaces, shouldbe all a-z0-9 and _. Definitely no ~!
 	const char *Name;
-	/*const InputDeviceInputVB VirtButton;*/
         const int ConfigOrder;          // Configuration order during in-game config process, -1 for no config.
 	const InputDeviceInputType Type;
 	const char *ExcludeName;	// SettingName of a button that can't be pressed at the same time as this button
@@ -328,10 +324,15 @@ typedef struct
  const MDFNSetting *Settings;
 
  // Time base for EmulateSpecStruct::MasterCycles
+ // MasterClock must be >= MDFN_MASTERCLOCK_FIXED(1.0)
+ // All or part of the fractional component may be ignored in some timekeeping operations in the emulator to prevent integer overflow,
+ // so it is unwise to have a fractional component when the integral component is very small(less than say, 10000).
  #define MDFN_MASTERCLOCK_FIXED(n)	((int64)((double)(n) * (1LL << 32)))
  int64 MasterClock;
 
- uint32 fps; // frames per second * 65536 * 256, truncated
+ // Nominal frames per second * 65536 * 256, truncated.
+ // May be deprecated in the future due to many systems having slight frame rate programmability.
+ uint32 fps;
 
  // multires is a hint that, if set, indicates that the system has fairly programmable video modes(particularly, the ability
  // to display multiple horizontal resolutions, such as the PCE, PC-FX, or Genesis).  In practice, it will cause the driver

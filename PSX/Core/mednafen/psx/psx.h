@@ -58,6 +58,8 @@ namespace MDFN_IEN_PSX
  void PSX_SetEventNT(const int type, const pscpu_timestamp_t next_timestamp);
 
  void PSX_GPULineHook(const pscpu_timestamp_t timestamp, const pscpu_timestamp_t line_timestamp, bool vsync, uint32 *pixels, const MDFN_PixelFormat* const format, const unsigned width, const unsigned pix_clock_offset, const unsigned pix_clock);
+
+ uint32 PSX_GetRandU32(uint32 mina, uint32 maxa);
 };
 
 

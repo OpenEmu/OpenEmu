@@ -15,8 +15,8 @@ static retro_input_state_t input_state_cb;
 
 static MDFN_Surface *surf;
 
-static uint16_t conv_buf[680 * 576] __attribute__((aligned(16)));
-static uint32_t mednafen_buf[680 * 576];
+static uint16_t conv_buf[700 * 480] __attribute__((aligned(16)));
+static uint32_t mednafen_buf[700 * 480];
 static bool failed_init;
 
 //std::string retro_base_directory;
@@ -25,7 +25,7 @@ static bool failed_init;
 void retro_init()
 {
    MDFN_PixelFormat pix_fmt(MDFN_COLORSPACE_RGB, 16, 8, 0, 24);
-   surf = new MDFN_Surface(mednafen_buf, 680, 576, 680, pix_fmt);
+   surf = new MDFN_Surface(mednafen_buf, 700, 480, 700, pix_fmt);
 
    std::vector<MDFNGI*> ext;
    MDFNI_InitializeModules(ext);
@@ -250,7 +250,7 @@ void retro_run()
    update_input();
 
    static int16_t sound_buf[0x10000];
-   static MDFN_Rect rects[576];
+   static MDFN_Rect rects[480];
    rects[0].w = ~0;
 
    EmulateSpecStruct spec = {0}; 
@@ -266,37 +266,10 @@ void retro_run()
 
    unsigned width = rects[0].w;
    unsigned height = spec.DisplayRect.h;
-   unsigned int ptrDiff = 0;
 
-    bool isPal = false;
-    if (height == 576)
-    {
-        ptrDiff += width * 47;
-        height = 480;
-        isPal = true;
-    }
-    else if (height == 288)
-    {
-        // TODO: This seems to be OK as is, but I might be wrong.
-        isPal = true;
-    }
-    
-    if (isPal && width == 680)
-        ptrDiff += 7;
-    
-    // The core handles vertical overscan for NTSC pretty well, but it ignores
-    // horizontal overscan. This is a tough estimation of what the horizontal
-    // overscan should be, tested with all major NTSC resolutions. Mayeb make it
-    // configurable?
-    float hoverscan = 0.941176471;
-    
-    width = width * hoverscan;
-    ptrDiff += ((rects[0].w - width) / 2);
-    
-    const uint32_t *ptr = surf->pixels;
-    ptr += ptrDiff;
-    
-    video_cb(ptr, width, height, 680 << 2);
+
+   const uint32_t *pix = surf->pixels;
+   video_cb(pix, width, height, 700 << 2);
     
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
 }
@@ -305,7 +278,7 @@ void retro_get_system_info(struct retro_system_info *info)
 {
    memset(info, 0, sizeof(*info));
    info->library_name     = "Mednafen PSX";
-   info->library_version  = "0.9.24";
+   info->library_version  = "0.9.28";
    info->need_fullpath    = true;
    info->valid_extensions = "cue|CUE";
 }

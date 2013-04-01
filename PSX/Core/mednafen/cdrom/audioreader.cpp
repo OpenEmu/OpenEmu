@@ -473,11 +473,14 @@ static sf_count_t isf_seek(sf_count_t offset, int whence, void *user_data)
 
  try
  {
+  //printf("Seek: offset=%lld, whence=%lld\n", (long long)offset, (long long)whence);
+
   fw->seek(offset, whence);
   return fw->tell();
  }
  catch(...)
  {
+  //printf("  SEEK FAILED\n");
   return(-1);
  }
 }
@@ -488,10 +491,15 @@ static sf_count_t isf_read(void *ptr, sf_count_t count, void *user_data)
 
  try
  {
-  return fw->read(ptr, count);
+  sf_count_t ret = fw->read(ptr, count, false);
+
+  //printf("Read: count=%lld, ret=%lld\n", (long long)count, (long long)ret);
+
+  return ret;
  }
  catch(...)
  {
+  //printf("  READ FAILED\n");
   return(0);
  }
 }

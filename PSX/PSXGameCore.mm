@@ -77,7 +77,7 @@ static void video_callback(const void *data, unsigned width, unsigned height, si
     
     dispatch_apply(height, the_queue, ^(size_t y){
         const uint32_t *src = (uint32_t*)data + y * (pitch >> 2); //pitch is in bytes not pixels
-        uint32_t *dst = current->videoBuffer + y * 640;
+        uint32_t *dst = current->videoBuffer + y * 700;
         
         memcpy(dst, src, sizeof(uint32_t)*width);
     });
@@ -297,7 +297,7 @@ static void writeSaveFile(const char* path, int type)
     {
         if(videoBuffer) 
             free(videoBuffer);
-        videoBuffer = (uint32_t*)malloc(640 * 480 * 4);
+        videoBuffer = (uint32_t*)malloc(700 * 480 * 4);
     }
 	
 	current = self;
@@ -397,7 +397,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(640, 480);
+    return OESizeMake(700, 480);
     //return OESizeMake(current->videoWidth, current->videoHeight);
 }
 /*

@@ -21,6 +21,7 @@ class PNGWrite
  private:
 
  void WriteIt(FileWrapper &pngfile, const MDFN_Surface *src, const MDFN_Rect &rect, const MDFN_Rect *LineWidths);
+ void EncodeImage(const MDFN_Surface *src, const MDFN_PixelFormat &format, const MDFN_Rect &rect, const MDFN_Rect *LineWidths, const int png_width);
 
  FileWrapper ownfile;
  std::vector<uint8> compmem;

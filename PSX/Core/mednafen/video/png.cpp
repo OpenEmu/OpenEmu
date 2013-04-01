@@ -19,7 +19,7 @@
 
 #include <zlib.h>
 #include "png.h"
-#include "../mednafen-endian.h"
+#include "../endian.h"
 
 void PNGWrite::WriteChunk(FileWrapper &pngfile, uint32 size, const char *type, const uint8 *data)
 {
@@ -62,13 +62,76 @@ PNGWrite::PNGWrite(FileWrapper &pngfile, const MDFN_Surface *src, const MDFN_Rec
 }
 #endif
 
-void PNGWrite::WriteIt(FileWrapper &pngfile, const MDFN_Surface *src, const MDFN_Rect &rect, const MDFN_Rect *LineWidths)
+INLINE void PNGWrite::EncodeImage(const MDFN_Surface *src, const MDFN_PixelFormat &format, const MDFN_Rect &rect, const MDFN_Rect *LineWidths, const int png_width)
+{
+ const int32 pitchinpix = src->pitchinpix;
+ uint8 *tmp_inc;
+
+ tmp_buffer.resize((png_width * ((format.bpp == 8) ? 1 : 3) + 1) * rect.h);
+
+ tmp_inc = &tmp_buffer[0];
+
+ for(int y = 0; y < rect.h; y++)
+ {
+  *tmp_inc = 0;
+  tmp_inc++;
+  int line_width = rect.w;
+  int x_base = rect.x;
+
+  if(LineWidths && LineWidths[0].w != ~0)
+  {
+   line_width = LineWidths[y + rect.y].w;
+   x_base = LineWidths[y + rect.y].x;
+  }
+
+  for(int x = 0; MDFN_LIKELY(x < line_width); x++)
+  {
+   int r, g, b;
+
+   if(format.bpp == 8)
+   {
+    tmp_inc[0] = src->pixels8[(y + rect.y) * pitchinpix + (x + x_base)];
+    tmp_inc++;
+   }
+   else
+   {
+    if(format.bpp == 16)
+     format.DecodeColor(src->pixels16[(y + rect.y) * pitchinpix + (x + x_base)], r, g, b);
+    else
+     format.DecodeColor(src->pixels[(y + rect.y) * pitchinpix + (x + x_base)], r, g, b);
+
+    tmp_inc[0] = r;
+    tmp_inc[1] = g;
+    tmp_inc[2] = b;
+    tmp_inc += 3;
+   }
+  }
+
+  for(int x = line_width; x < png_width; x++)
+  {
+   if(format.bpp == 8)
+   {
+    tmp_inc[0] = 0;
+    tmp_inc++;
+   }
+   else
+   {
+    tmp_inc[0] = tmp_inc[1] = tmp_inc[2] = 0;
+    tmp_inc += 3;
+   }
+  }
+ }
+}
+
+void PNGWrite::WriteIt(FileWrapper &pngfile, const MDFN_Surface *src, const MDFN_Rect &rect_in, const MDFN_Rect *LineWidths)
 
 {
  uLongf compmemsize;
  int png_width;
+ const MDFN_PixelFormat format = src->format;
+ const MDFN_Rect rect = rect_in;
 
- if(LineWidths[0].w != ~0)
+ if(LineWidths && LineWidths[0].w != ~0)
  {
   png_width = 0;
 
@@ -103,13 +166,32 @@ void PNGWrite::WriteIt(FileWrapper &pngfile, const MDFN_Surface *src, const MDFN
 
   MDFN_en32msb(&chunko[4], rect.h);	// Height
 
-  chunko[8]=8;				// 8 bits per sample(24 bits per pixel)
-  chunko[9]=2;				// Color type; RGB triplet
+  chunko[8]=8;				// Bit depth
+
+  if(format.bpp == 8)
+   chunko[9]=3;				// Color type; palette index
+  else 
+   chunko[9]=2;				// Color type; RGB triplet
+
   chunko[10]=0;				// compression: deflate
-  chunko[11]=0;				// Basic adapative filter set(though none are used).
+  chunko[11]=0;				// Basic adaptive filter set(though none are used).
   chunko[12]=0;				// No interlace.
 
   WriteChunk(pngfile, 13, "IHDR", chunko);
+ }
+
+ if(format.bpp == 8)
+ {
+  uint8 chunko[256 * 3];
+
+  for(int i = 0; i < 256; i++)
+  {
+   chunko[(i * 3) + 0] = src->palette[i].r;
+   chunko[(i * 3) + 1] = src->palette[i].g;
+   chunko[(i * 3) + 2] = src->palette[i].b;
+  }
+
+  WriteChunk(pngfile, 256 * 3, "PLTE", chunko);
  }
 
  // pHYs chunk
@@ -135,55 +217,28 @@ void PNGWrite::WriteIt(FileWrapper &pngfile, const MDFN_Surface *src, const MDFN
  }
  #endif
 
+
+ // IDAT chunk
  {
-  uint8 *tmp_inc;
+  //uint32 st = MDFND_GetTime();
 
-  tmp_buffer.resize((png_width * 3 + 1) * rect.h);
+  if(MDFN_LIKELY(format.colorspace == MDFN_COLORSPACE_RGB && format.bpp == 32))
+   EncodeImage(src, format, rect, LineWidths, png_width);
+  else
+   EncodeImage(src, format, rect, LineWidths, png_width);
 
-  tmp_inc = &tmp_buffer[0];
+  //printf("%u\n", MDFND_GetTime() - st);
 
-  for(int y = 0; y < rect.h; y++)
-  {
-   *tmp_inc = 0;
-   tmp_inc++;
-   int line_width = rect.w;
-   int x_base = rect.x;
-
-   if(LineWidths[0].w != ~0)
-   {
-    line_width = LineWidths[y + rect.y].w;
-    x_base = LineWidths[y + rect.y].x;
-   }
-
-   for(int x = 0; x < line_width; x++)
-   {
-    int r, g, b;
-
-    if(src->format.bpp == 16)
-     src->DecodeColor(src->pixels16[(y + rect.y) * src->pitchinpix + (x + x_base)], r, g, b);
-    else
-     src->DecodeColor(src->pixels[(y + rect.y) * src->pitchinpix + (x + x_base)], r, g, b);
-
-    tmp_inc[0] = r;
-    tmp_inc[1] = g;
-    tmp_inc[2] = b;
-    tmp_inc += 3;
-   }
-
-   for(int x = line_width; x < png_width; x++)
-   {
-    tmp_inc[0] = tmp_inc[1] = tmp_inc[2] = 0;
-    tmp_inc += 3;
-   }
-  }
-
-  if(compress(&compmem[0], &compmemsize, &tmp_buffer[0], rect.h * (png_width * 3 + 1)) != Z_OK)
+  if(compress(&compmem[0], &compmemsize, &tmp_buffer[0], rect.h * (png_width * ((format.bpp == 8) ? 1 : 3) + 1)) != Z_OK)
   {
    throw(MDFN_Error(0, "zlib error"));	// TODO: verbosify
   }
 
   WriteChunk(pngfile, compmemsize, "IDAT", &compmem[0]);
  }
+ //
+ //
+ //
 
  WriteChunk(pngfile, 0, "IEND", 0);
 }

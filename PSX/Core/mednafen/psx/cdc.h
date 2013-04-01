@@ -256,7 +256,7 @@ class PS_CDC
  };
 
  void BeginSeek(uint32 target);
- void PreSeekHack(uint32 target);
+ void PreSeekHack(bool logical, uint32 target);
  void ReadBase(void);
 
  static CDC_CTEntry Commands[0x20];

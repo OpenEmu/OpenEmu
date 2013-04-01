@@ -43,6 +43,7 @@
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		9425977215146D680074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9425977115146D680074E3A3 /* OpenEmuBase.framework */; };
 		942D755415DC3DB100809AA5 /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 942D755315DC3DB100809AA5 /* thread.cpp */; };
+		943C806A170977D300D8D93E /* quicklz.c in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E2AC157D637B0083A7DC /* quicklz.c */; };
 		94A31CAA1660A9A600D123FC /* dualshock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A31CA21660A9A600D123FC /* dualshock.cpp */; };
 		94A31CAB1660A9A600D123FC /* guncon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A31CA41660A9A600D123FC /* guncon.cpp */; };
 		94A31CAC1660A9A600D123FC /* justifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A31CA61660A9A600D123FC /* justifier.cpp */; };
@@ -68,7 +69,6 @@
 		94A9E3D9157D637C0083A7DC /* blz.c in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E2A3157D637B0083A7DC /* blz.c */; };
 		94A9E3DA157D637C0083A7DC /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E2A5157D637B0083A7DC /* ioapi.c */; };
 		94A9E3DC157D637C0083A7DC /* minilzo.c in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E2AA157D637B0083A7DC /* minilzo.c */; };
-		94A9E3DD157D637C0083A7DC /* quicklz.c in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E2AC157D637B0083A7DC /* quicklz.c */; };
 		94A9E3DE157D637C0083A7DC /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E2AE157D637B0083A7DC /* unzip.c */; };
 		94A9E3E5157D637C0083A7DC /* endian.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E2BA157D637B0083A7DC /* endian.cpp */; };
 		94A9E3E6157D637C0083A7DC /* error.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94A9E2BB157D637B0083A7DC /* error.cpp */; };
@@ -1196,7 +1196,7 @@
 				94A9E3D9157D637C0083A7DC /* blz.c in Sources */,
 				94A9E3DA157D637C0083A7DC /* ioapi.c in Sources */,
 				94A9E3DC157D637C0083A7DC /* minilzo.c in Sources */,
-				94A9E3DD157D637C0083A7DC /* quicklz.c in Sources */,
+				943C806A170977D300D8D93E /* quicklz.c in Sources */,
 				94A9E3DE157D637C0083A7DC /* unzip.c in Sources */,
 				94A9E3E5157D637C0083A7DC /* endian.cpp in Sources */,
 				94A9E3E6157D637C0083A7DC /* error.cpp in Sources */,
@@ -1353,15 +1353,16 @@
 					"-DLSB_FIRST",
 					"-DHAVE_MKDIR",
 					"-DSIZEOF_DOUBLE=8",
-					"-DMEDNAFEN_VERSION=\\\"0.9.25\\\"",
+					"-DMEDNAFEN_VERSION=\\\"0.9.28-WIP\\\"",
 					"-DPACKAGE=\\\"mednafen\\\"",
-					"-DMEDNAFEN_VERSION_NUMERIC=925",
+					"-DMEDNAFEN_VERSION_NUMERIC=0x000928",
 					"-DPSS_STYLE=1",
 					"-DMPC_FIXED_POINT",
 					"-DARCH_X86",
 					"-DWANT_PSX_EMU",
 					"-DSTDC_HEADERS",
 					"-D__STDC_LIMIT_MACROS",
+					"-DHAVE_MKDIR",
 				);
 				PRODUCT_NAME = "Mednafen PSX";
 				VALID_ARCHS = x86_64;
@@ -1403,15 +1404,16 @@
 					"-DLSB_FIRST",
 					"-DHAVE_MKDIR",
 					"-DSIZEOF_DOUBLE=8",
-					"-DMEDNAFEN_VERSION=\\\"0.9.25\\\"",
+					"-DMEDNAFEN_VERSION=\\\"0.9.28-WIP\\\"",
 					"-DPACKAGE=\\\"mednafen\\\"",
-					"-DMEDNAFEN_VERSION_NUMERIC=925",
+					"-DMEDNAFEN_VERSION_NUMERIC=0x000928",
 					"-DPSS_STYLE=1",
 					"-DMPC_FIXED_POINT",
 					"-DARCH_X86",
 					"-DWANT_PSX_EMU",
 					"-DSTDC_HEADERS",
 					"-D__STDC_LIMIT_MACROS",
+					"-DHAVE_MKDIR",
 				);
 				PRODUCT_NAME = "Mednafen PSX";
 				VALID_ARCHS = x86_64;

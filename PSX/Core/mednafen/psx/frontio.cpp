@@ -819,7 +819,7 @@ static InputDeviceInfoStruct InputDeviceInfoPSXPort[] =
  {
   "dualshock",
   "DualShock",
-  "DualShock gamepad; SCPH-1200.  Emulation in Mednafen includes the analog mode toggle button.",
+  "DualShock gamepad; SCPH-1200.  Emulation in Mednafen includes the analog mode toggle button.  Rumble is emulated, but currently only supported on Linux, and MS Windows via the XInput API and XInput-compatible gamepads/joysticks.  If you're having trouble getting rumble to work on Linux, see if Mednafen is printing out error messages during startup regarding /dev/input/event*, and resolve the issue(s) as necessary.",
   NULL,
   sizeof(Device_DualShock_IDII) / sizeof(InputDeviceInputInfoStruct),
   Device_DualShock_IDII,

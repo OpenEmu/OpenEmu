@@ -103,6 +103,11 @@ bool MDFN_IsFIROPSafe(const std::string &path)
  if(path.find('/') != string::npos)
   return(false);
 
+#if defined(DOS) || defined(WIN32)
+ // TODO: Reserved device names.
+
+#endif
+
  return(true);
 }
 

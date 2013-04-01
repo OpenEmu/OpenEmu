@@ -438,6 +438,15 @@ uint32 MDEC_DMARead(void)
  return(V);
 }
 
+// Test case related to this: GameShark Version 4.0 intro movie(coupled with (clever) abuse of DMA channel 0).
+bool MDEC_DMACanWrite(void)
+{
+ if((Command & 0xF5FF0000) == 0x30000000)
+  return(InCounter > 0);
+
+ return(true);	// TODO: Refine/correct.
+}
+
 bool MDEC_DMACanRead(void)
 {
  return(OutBuffer.CanRead() >= 2); //(OutBuffer.CanRead() >= 2) || ((Command & 0xF5FF0000) != 0x30000000);

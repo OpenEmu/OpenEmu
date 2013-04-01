@@ -532,7 +532,7 @@ void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
 
      if(format_lookup == _DI_FORMAT_COUNT)
      {
-      throw(MDFN_Error(0, _("Invalid track format: %s\n"), args[0]));
+      throw(MDFN_Error(0, _("Invalid track format: %s\n"), args[1]));
      }
 
      if(active_track < 0 || active_track > 99)
@@ -544,8 +544,12 @@ void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
     {
      if(active_track >= 0)
      {
-      int m,s,f;
-      trio_sscanf(args[1], "%d:%d:%d", &m, &s, &f);
+      unsigned int m,s,f;
+
+      if(trio_sscanf(args[1], "%u:%u:%u", &m, &s, &f) != 3)
+      {
+       throw MDFN_Error(0, _("Malformed m:s:f time in \"%s\" directive: %s"), cmdbuf, args[0]);
+      }
 
       if(!strcasecmp(args[0], "01") || !strcasecmp(args[0], "1"))
        TmpTrack.index[1] = (m * 60 + s) * 75 + f;
@@ -557,8 +561,13 @@ void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
     {
      if(active_track >= 0)
      {
-      int m,s,f;
-      trio_sscanf(args[0], "%d:%d:%d", &m, &s, &f);
+      unsigned int m,s,f;
+
+      if(trio_sscanf(args[0], "%u:%u:%u", &m, &s, &f) != 3)
+      {
+       throw MDFN_Error(0, _("Malformed m:s:f time in \"%s\" directive: %s"), cmdbuf, args[0]);
+      }
+
       TmpTrack.pregap = (m * 60 + s) * 75 + f;
      }
     }
@@ -566,8 +575,13 @@ void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
     {
      if(active_track >= 0)
      {
-      int m,s,f;
-      trio_sscanf(args[0], "%d:%d:%d", &m, &s, &f);
+      unsigned int m,s,f;
+
+      if(trio_sscanf(args[0], "%u:%u:%u", &m, &s, &f) != 3)
+      {
+       throw MDFN_Error(0, _("Malformed m:s:f time in \"%s\" directive: %s"), cmdbuf, args[0]);
+      }      
+
       TmpTrack.postgap = (m * 60 + s) * 75 + f;
      }
     }
@@ -969,7 +983,7 @@ void CDAccess_Image::Read_TOC(TOC *toc)
   toc->tracks[toc->last_track + 1] = toc->tracks[100];
 }
 
-bool CDAccess_Image::Is_Physical(void)
+bool CDAccess_Image::Is_Physical(void) throw()
 {
  return(false);
 }

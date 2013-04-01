@@ -7,7 +7,7 @@ namespace MDFN_IEN_PSX
 
 enum
 {
- IRQ_VSYNC = 	0,
+ IRQ_VBLANK = 	0,
  IRQ_GPU =	        1,
  IRQ_CD =		2,
  IRQ_DMA =		3,	// Probably

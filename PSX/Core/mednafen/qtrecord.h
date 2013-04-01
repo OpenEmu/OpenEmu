@@ -29,6 +29,8 @@ class QTRecord
   double AspectXAdjust;
   double AspectYAdjust;
 
+  int64 MasterClock;	// Fixed-point, 32.32, should be used when SoundRate == 0
+
   int VideoCodec;
  };
 
@@ -37,7 +39,7 @@ class QTRecord
  ~QTRecord();
 
  void WriteFrame(const MDFN_Surface *surface, const MDFN_Rect &DisplayRect, const MDFN_Rect *LineWidths,
-                          const int16 *SoundBuf, const int32 SoundBufSize);
+                          const int16 *SoundBuf, const int32 SoundBufSize, const int64 MasterCycles);
  private:
 
  void w8(uint8 val);
@@ -94,6 +96,8 @@ class QTRecord
 
   int64 audio_foffset;
   int64 audio_byte_size;
+
+  uint32 time_length;
  };
 
  int VideoCodec;
@@ -109,6 +113,11 @@ class QTRecord
 
  std::vector<QTChunk> QTChunks;
  uint64 SoundFramesWritten;
+
+ uint32 TimeScale;
+ uint64 TimeIndex;
+ uint64 MCAccum;
+ uint64 MC;
 
  bool Finished;
 };

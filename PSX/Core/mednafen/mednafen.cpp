@@ -85,10 +85,17 @@ static const char *fname_extra = gettext_noop("See fname_format.txt for more inf
 
 static MDFNSetting MednafenSettings[] =
 {
+  { "netplay.password", MDFNSF_NOFLAGS, gettext_noop("Server password."), gettext_noop("Password to connect to the netplay server."), MDFNST_STRING, "" },
+  { "netplay.localplayers", MDFNSF_NOFLAGS, gettext_noop("Local player count."), gettext_noop("Number of local players for network play.  This number is advisory to the server, and the server may assign fewer players if the number of players requested is higher than the number of controllers currently available."), MDFNST_UINT, "1", "0", "16" },
+  { "netplay.nick", MDFNSF_NOFLAGS, gettext_noop("Nickname."), gettext_noop("Nickname to use for network play chat."), MDFNST_STRING, "" },
+  { "netplay.gamekey", MDFNSF_NOFLAGS, gettext_noop("Key to hash with the MD5 hash of the game."), NULL, MDFNST_STRING, "" },
+
   { "srwcompressor", MDFNSF_NOFLAGS, gettext_noop("Compressor to use with state rewinding"), NULL, MDFNST_ENUM, "quicklz", NULL, NULL, NULL, NULL, CompressorList },
 
   { "srwframes", MDFNSF_NOFLAGS, gettext_noop("Number of frames to keep states for when state rewinding is enabled."), 
 	gettext_noop("WARNING: Setting this to a large value may cause excessive RAM usage in some circumstances, such as with games that stream large volumes of data off of CDs."), MDFNST_UINT, "600", "10", "99999" },
+
+  { "cd.image_memcache", MDFNSF_NOFLAGS, gettext_noop("Cache entire CD images in memory."), gettext_noop("Reads the entire CD image(s) into memory at startup(which will cause a small delay).  Can help obviate emulation hiccups due to emulated CD access.  May cause more harm than good on low memory systems, systems with swap enabled, and/or when the disc images in question are on a fast SSD."), MDFNST_BOOL, "0" },
 
   { "filesys.untrusted_fip_check", MDFNSF_NOFLAGS, gettext_noop("Enable untrusted file-inclusion path security check."),
 	gettext_noop("When this setting is set to \"1\", the default, paths to files referenced from files like CUE sheets and PSF rips are checked for certain characters that can be used in directory traversal, and if found, loading is aborted.  Set it to \"0\" if you want to allow constructs like absolute paths in CUE sheets, but only if you understand the security implications of doing so(see \"Security Issues\" section in the documentation)."), MDFNST_BOOL, "1" },
@@ -201,6 +208,7 @@ bool MDFNI_StartAVRecord(const char *path, double SoundRate)
   spec.VideoWidth = MDFNGameInfo->lcm_width;
   spec.VideoHeight = MDFNGameInfo->lcm_height;
   spec.VideoCodec = MDFN_GetSettingI("qtrecord.vcodec");
+  spec.MasterClock = MDFNGameInfo->MasterClock;
 
   if(spec.VideoWidth < MDFN_GetSettingUI("qtrecord.w_double_threshold"))
    spec.VideoWidth *= 2;
@@ -218,8 +226,15 @@ bool MDFNI_StartAVRecord(const char *path, double SoundRate)
   MDFN_printf(_("Video width: %u\n"), spec.VideoWidth);
   MDFN_printf(_("Video height: %u\n"), spec.VideoHeight);
   MDFN_printf(_("Video codec: %s\n"), MDFN_GetSettingS("qtrecord.vcodec").c_str());
-  MDFN_printf(_("Sound rate: %u\n"), spec.SoundRate);
-  MDFN_printf(_("Sound channels: %u\n"), spec.SoundChan);
+
+  if(spec.SoundRate && spec.SoundChan)
+  {
+   MDFN_printf(_("Sound rate: %u\n"), spec.SoundRate);
+   MDFN_printf(_("Sound channels: %u\n"), spec.SoundChan);
+  }
+  else
+   MDFN_printf(_("Sound: Disabled\n"));
+
   MDFN_indent(-1);
   MDFN_printf("\n");
 
@@ -298,9 +313,9 @@ void MDFNI_CloseGame(void)
  memset(PortDeviceCache, 0, sizeof(PortDeviceCache));
 }
 
-int MDFNI_NetplayStart(uint32 local_players, const std::string &nickname, const std::string &game_key, const std::string &connect_password)
+int MDFNI_NetplayStart(void)
 {
- return(NetplayStart((const char**)PortDeviceCache, PortDataLenCache, local_players, nickname, game_key, connect_password));
+ return(NetplayStart((const char**)PortDeviceCache, PortDataLenCache));
 }
 
 
@@ -330,6 +345,10 @@ extern MDFNGI EmulatedMD;
 
 #ifdef WANT_NGP_EMU
 extern MDFNGI EmulatedNGP;
+#endif
+
+#ifdef WANT_PC_EMU
+extern MDFNGI EmulatedPC;
 #endif
 
 #ifdef WANT_PCE_EMU
@@ -453,22 +472,15 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
 
    for(unsigned i = 0; i < file_list.size(); i++)
    {
-#if 1
-    CDInterfaces.push_back(new CDIF_MT(file_list[i].c_str()));
-#else
-    CDInterfaces.push_back(new CDIF_ST(file_list[i].c_str()));
-#endif
+    CDInterfaces.push_back(CDIF_Open(file_list[i].c_str(), MDFN_GetSettingB("cd.image_memcache")));
    }
 
    GetFileBase(devicename);
   }
   else
   {
-#if 1
-   CDInterfaces.push_back(new CDIF_MT(devicename));
-#else
-   CDInterfaces.push_back(new CDIF_ST(devicename));
-#endif
+   CDInterfaces.push_back(CDIF_Open(devicename, MDFN_GetSettingB("cd.image_memcache")));
+
    if(CDInterfaces[0]->IsPhysical())
    {
     GetFileBase("cdrom");
@@ -988,6 +1000,10 @@ bool MDFNI_InitializeModules(const std::vector<MDFNGI *> &ExternalSystems)
   &EmulatedGBA,
   #endif
 
+  #ifdef WANT_PC_EMU
+  &EmulatedPC,
+  #endif
+
   #ifdef WANT_PCE_EMU
   &EmulatedPCE,
   #endif
@@ -1032,6 +1048,8 @@ bool MDFNI_InitializeModules(const std::vector<MDFNGI *> &ExternalSystems)
   &EmulatedCDPlay
  };
  std::string i_modules_string, e_modules_string;
+
+ assert(MEDNAFEN_VERSION_NUMERIC >= 0x0927);
 
  for(unsigned int i = 0; i < sizeof(InternalSystems) / sizeof(MDFNGI *); i++)
  {
@@ -1454,7 +1472,7 @@ void MDFNI_Emulate(EmulateSpecStruct *espec)
 
   try
   {
-   qtrecorder->WriteFrame(espec->surface, espec->DisplayRect, espec->LineWidths, espec->SoundBuf, espec->SoundBufSize);
+   qtrecorder->WriteFrame(espec->surface, espec->DisplayRect, espec->LineWidths, espec->SoundBuf, espec->SoundBufSize, espec->MasterCycles);
   }
   catch(std::exception &e)
   {

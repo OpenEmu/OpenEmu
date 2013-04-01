@@ -14,6 +14,7 @@ uint32 MDEC_Read(const pscpu_timestamp_t timestamp, uint32 A);
 
 void MDEC_Power(void);
 
+bool MDEC_DMACanWrite(void);
 bool MDEC_DMACanRead(void);
 void MDEC_Run(int32 clocks);
 

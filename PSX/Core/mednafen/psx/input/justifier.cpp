@@ -163,7 +163,7 @@ pscpu_timestamp_t InputDevice_Justifier::GPULineHook(const pscpu_timestamp_t tim
 
  if(pixels && pix_clock)
  {
-  const int avs = 22; // Not 22 for PAL, fixme.
+  const int avs = 16; // Not 16 for PAL, fixme.
   int32 gx;
   int32 gy;
   int32 gxa;
@@ -182,7 +182,7 @@ pscpu_timestamp_t InputDevice_Justifier::GPULineHook(const pscpu_timestamp_t tim
 
    if((r + g + b) >= 0x40)	// Wrong, but not COMPLETELY ABSOLUTELY wrong, at least. ;)
    {
-    ret = timestamp + (int64)(gxa + pix_clock_offset) * (44100 * 768) / pix_clock - 181;
+    ret = timestamp + (int64)(gxa + pix_clock_offset) * (44100 * 768) / pix_clock - 177;
    }
   }
 

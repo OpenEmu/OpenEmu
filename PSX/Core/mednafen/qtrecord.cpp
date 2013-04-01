@@ -209,6 +209,18 @@ QTRecord::QTRecord(const char *path, const VideoSpec &spec) : qtfile(path, FileW
  SoundRate = spec.SoundRate;
  SoundChan = spec.SoundChan;
 
+ TimeIndex = 0;
+ if(SoundRate && SoundChan)
+ {
+  TimeScale = SoundRate;
+ }
+ else
+ {
+  TimeScale = 10000;
+  MC = spec.MasterClock;
+  MCAccum = 0;
+ }
+
  QTVideoWidth = spec.VideoWidth;
  QTVideoHeight = spec.VideoHeight;
 
@@ -248,7 +260,7 @@ QTRecord::QTRecord(const char *path, const VideoSpec &spec) : qtfile(path, FileW
 
 
 void QTRecord::WriteFrame(const MDFN_Surface *surface, const MDFN_Rect &DisplayRect, const MDFN_Rect *LineWidths,
-			  const int16 *SoundBuf, const int32 SoundBufSize)
+			  const int16 *SoundBuf, const int32 SoundBufSize, const int64 MasterCycles)
 {
  QTChunk qts;
 
@@ -440,10 +452,28 @@ void QTRecord::WriteFrame(const MDFN_Surface *surface, const MDFN_Rect &DisplayR
 
  qts.audio_byte_size = qtfile.tell() - qts.audio_foffset;
 
+ SoundFramesWritten += SoundBufSize;
+
+ if(SoundRate && SoundChan)
+ {
+  qts.time_length = qts.audio_byte_size / SoundChan / sizeof(int16);
+  TimeIndex += SoundBufSize;
+ }
+ else
+ {
+  uint64 tnt;
+ 
+  MCAccum += (uint64)MasterCycles * TimeScale;
+  tnt = MCAccum / (MC >> 32);
+  MCAccum %= (MC >> 32);
+
+  //printf("%u\n", tnt);
+
+  qts.time_length = tnt;
+  TimeIndex += tnt;
+ }
 
  QTChunks.push_back(qts);
-
- SoundFramesWritten += SoundBufSize;
 }
 
 void QTRecord::Write_ftyp(void) // Leaf
@@ -471,9 +501,9 @@ void QTRecord::Write_mvhd(void)	// Leaf
  w32(0);		// Version/flags
  w32(CreationTS);	// Created Mac date
  w32(ModificationTS);	// Modified Mac date
- w32(SoundRate);	// Time scale
+ w32(TimeScale);	// Time scale
 
- w32(SoundFramesWritten); // Duration
+ w32(TimeIndex); 	// Duration
  w32(65536 * 1);	// Preferred rate
  w16(256 * 1);		// Preferred volume
 
@@ -496,11 +526,15 @@ void QTRecord::Write_mvhd(void)	// Leaf
  w32(0);	// Poster time
 
  w32(0);	// Selection time.
- w32(SoundFramesWritten);	// Selection duration.
+ w32(TimeIndex);	// Selection duration.
 
  w32(0);	// Current time
 
- w32(3);	// Next track id
+ // Next track id
+ if(SoundRate && SoundChan)
+  w32(3);
+ else
+  w32(2);
 
  atom_end();
 }
@@ -521,7 +555,7 @@ void QTRecord::Write_tkhd(void)	// Leaf
 
  w32(0);	// Reserved
 
- w32(SoundFramesWritten);	// Duration 
+ w32(TimeIndex); // Duration 
 
  w64(0);	// Reserved
 
@@ -652,7 +686,7 @@ void QTRecord::Write_stts(void)	// Leaf
   for(uint32 i = 0; i < QTChunks.size(); i++)
   {
    w32(1);
-   w32(QTChunks[i].audio_byte_size / SoundChan / sizeof(int16));
+   w32(QTChunks[i].time_length);
   }
  }
 
@@ -791,8 +825,8 @@ void QTRecord::Write_mdhd(void)	// Leaf
  w32(0);		  // Version/flags
  w32(CreationTS);	  // Creation date
  w32(ModificationTS);	  // Modification date
- w32(SoundRate);	  // Time scale
- w32(SoundFramesWritten); // Duration
+ w32(TimeScale);	  // Time scale
+ w32(TimeIndex);	  // Duration
 
  w16(0);		// Language
  w16(0);		// Quality
@@ -906,7 +940,7 @@ void QTRecord::Write_edts(void)
   atom_begin("elst");
    w32(0); // version/flags
    w32(1); // Number of edits
-   w32(SoundFramesWritten);	// Duration
+   w32(TimeIndex);	// Duration
    w32(0);			// start time
    w32(65536 * 1);		// Rate
   atom_end();
@@ -955,8 +989,11 @@ void QTRecord::Write_moov(void)
  OnAudioTrack = false;
  Write_trak();
 
- OnAudioTrack = true;
- Write_trak();
+ if(SoundRate && SoundChan)
+ {
+  OnAudioTrack = true;
+  Write_trak();
+ }
 
  Write_udta();
 

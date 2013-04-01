@@ -1,22 +1,36 @@
-Soul Reaver - Legacy of Kain has CD load time pauses where it probably shouldn't.
+Battle Arena Toshinden and Zero Divide runs too fast(related to CPU or GPU emulation speed?).
 
-Battle Arena Toshinden, Final Fantasy 7 have some kind of GPU timing issues.
+Tiny Toon Adventures - Plucky's Big Adventure is failing and BREAK'ing for some reason during startup, probably because the emulated CPU
+is running too fast.
 
-Zero Divide runs too fast(related to CPU emulation speed?).
+Resident Evil 2 - Lockup on second disc in a certain place; probably related to seek timing.
 
-Chrono Cross has several-second freezes during some large special attack/magic sequences.
+Tomb Raider(PAL) - (reported, not personally investigated yet) "was fighting Tomb Raider PAL this night, when you get out of pool in Lara's home the game bugs out: issues GetlocP, waits for it to complete and expects seek to be NOT complete (i.e. older location)"
 -----------------------------------------------------------------------------------------------
-
-
-Tiny Toon Adventures - Plucky's Big Adventure is failing and BREAK'ing for some reason, maybe memcard related.
 
 Shadow Master might have broken startup images.
 
 Crusaders of Might and Magic - The CD-XA buffering increase for ToD II is apparently exacerbating the early voice cutoff problem in this game.
 
 Crash Team Racing - Noticed a game lockup once in the arcade mode stage select screen, having trouble reproducing it.
+
+WipeOut 3 - Music stops playing after a long while(maybe it's supposed to do that?).
+
+Nightmare Creatures - BIOS reverb sound excessively contaminates beginning of game; emulating CD "Reset" command timing more
+accurately might fix it.
+
+Eldergate - Screen garbage after "world creation", disappears if town is entered; might be caused by CD reading or
+seeking being too fast?
+
 -----------------------------------------------------------------------------------------------
 
+Investigate CD-XA FIR filter on a PS1, for 4-bit and 8-bit modes, and both playback rates.  Might be difficult without a modchip,
+though...
+
+Respect device(GPU, SPU, etc.) DMA mode/memory access mode bits(more for homebrew's sake than commercial games'). 
+
+Test if Dual Analog vibration compatibility mode can be restored with DualShock after using DualShock extended features if the "Analog"
+mode button on the gamepad is pressed after the extended features are used.
 
 Test time delta between GPU LL DMA end and GPU non-busy status for various primitive types in sequence on a PS1.
 

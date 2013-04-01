@@ -20,7 +20,7 @@ class MDFN_PixelFormat
  MDFN_PixelFormat();
  MDFN_PixelFormat(const unsigned int p_colorspace, const uint8 p_rs, const uint8 p_gs, const uint8 p_bs, const uint8 p_as);
 
- unsigned int bpp;	// 32 only for now(16 wip)
+ unsigned int bpp;	// 32 only for now(16 and 8 wip)
  unsigned int colorspace;
 
  union
@@ -141,6 +141,12 @@ class MDFN_PixelFormat
   }
  }
 
+ INLINE void DecodeColor(uint32 value, int &r, int &g, int &b) const
+ {
+  int dummy_a;
+
+  DecodeColor(value, r, g, b, dummy_a);
+ }
 }; // MDFN_PixelFormat;
 
 struct MDFN_PaletteEntry
@@ -148,11 +154,9 @@ struct MDFN_PaletteEntry
  uint8 r, g, b;
 };
 
-#include <vector>
-typedef std::vector<MDFN_PaletteEntry> MDFN_Palette;
-
 // Supports 32-bit RGBA
 //  16-bit is WIP
+//   8-bit is even WIPier.
 class MDFN_Surface //typedef struct
 {
  public:
@@ -162,8 +166,11 @@ class MDFN_Surface //typedef struct
 
  ~MDFN_Surface();
 
+ uint8 *pixels8;
  uint16 *pixels16;
  uint32 *pixels;
+
+ MDFN_PaletteEntry *palette;
 
  bool pixels_is_external;
 

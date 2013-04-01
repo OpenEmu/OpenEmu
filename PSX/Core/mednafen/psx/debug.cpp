@@ -312,8 +312,9 @@ static void Disassemble(uint32 &A, uint32 SpecialA, char *TextBuf)
 {
  assert(!(A & 0x3));
 
- const uint32 instr = PSX_MemPeek32(A);
+ uint32 instr = PSX_MemPeek32(A);
 
+ CPU->PeekCheckICache(A, &instr);
 
  strncpy(TextBuf, DisassembleMIPS(A, instr).c_str(), 256);
  TextBuf[255] = 0;
