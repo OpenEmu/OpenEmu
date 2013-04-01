@@ -202,72 +202,6 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     return [result lastObject];
 }
 
-+ (id)systemForArchiveID:(NSNumber *)archiveID
-{
-    return [self systemForArchiveID:archiveID inDatabase:[OELibraryDatabase defaultDatabase]];
-}
-
-+ (id)systemForArchiveID:(NSNumber *)archiveID inDatabase:(OELibraryDatabase *)database
-{
-    return [self systemForArchiveID:archiveID inDatabase:database error:nil];
-}
-
-+ (id)systemForArchiveID:(NSNumber *)archiveID inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing *)outError
-{
-    NSError *error    = outError != NULL ? *outError : nil;
-    
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"archiveID == %@", archiveID];
-    NSArray *result   = [self OE_queryDatabase:database predicate:pred sortDescriptors:nil limit:1 error:&error];
-    if(result == nil)
-        DLog(@"Error: %@", error);
-    
-    return [result lastObject];
-}
-
-+ (id)systemForArchiveName:(NSString *)name
-{
-    return [self systemForArchiveName:name inDatabase:[OELibraryDatabase defaultDatabase]];
-}
-
-+ (id)systemForArchiveName:(NSString *)name inDatabase:(OELibraryDatabase *)database
-{
-    return [self systemForArchiveShortName:name inDatabase:database error:nil];
-}
-
-+ (id)systemForArchiveName:(NSString *)name inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing *)outError
-{
-    NSError *error    = outError != NULL ? *outError : nil;
-    
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"archiveName = %@", name];
-    NSArray *result   = [self OE_queryDatabase:database predicate:pred sortDescriptors:nil limit:1 error:&error];
-    if(result == nil)
-        DLog(@"Error: %@", error);
-    
-    return [result lastObject];
-}
-
-+ (id)systemForArchiveShortName:(NSString *)shortName
-{
-    return [self systemForArchiveShortName:shortName inDatabase:[OELibraryDatabase defaultDatabase]];
-}
-
-+ (id)systemForArchiveShortName:(NSString *)shortName inDatabase:(OELibraryDatabase *)database
-{
-    return [self systemForArchiveShortName:shortName inDatabase:database error:nil];
-}
-
-+ (id)systemForArchiveShortName:(NSString *)shortName inDatabase:(OELibraryDatabase *)database error:(NSError**)outError
-{
-    NSError *error    = outError != NULL ? *outError : nil;
-
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"archiveShortname = %@", shortName];
-    NSArray *result   = [self OE_queryDatabase:database predicate:pred sortDescriptors:nil limit:1 error:&error];
-    if(result == nil)
-        DLog(@"Error: %@", error);
-    
-    return [result lastObject];
-}
-
 + (id)OE_queryDatabase:(OELibraryDatabase *)database predicate:(NSPredicate*)pred sortDescriptors:(NSArray*)sort limit:(NSInteger)limit error:(NSError**)error
 {
     NSManagedObjectContext *context  = [database managedObjectContext];
@@ -297,7 +231,7 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 
 #pragma mark -
 #pragma mark Data Model Properties
-@dynamic lastLocalizedName, shortname, systemIdentifier, archiveID, archiveName, archiveShortname, enabled;
+@dynamic lastLocalizedName, shortname, systemIdentifier, enabled;
 
 #pragma mark -
 #pragma mark Data Model Relationships
@@ -342,9 +276,6 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     NSLog(@"%@ System last localized name is %@", prefix, [self lastLocalizedName]);
     NSLog(@"%@ short name is %@", prefix, [self shortname]);
     NSLog(@"%@ system identifier is %@", prefix, [self systemIdentifier]);
-    NSLog(@"%@ archiveID is %@", prefix, [self archiveID]);
-    NSLog(@"%@ archive name is %@", prefix, [self archiveName]);
-    NSLog(@"%@ archive short name is %@", prefix, [self archiveShortname]);
     NSLog(@"%@ enabled? %s", prefix, BOOL_STR([self enabled]));
 
     NSLog(@"%@ Number of games in this system is %lu", prefix, (unsigned long)[[self games] count]);

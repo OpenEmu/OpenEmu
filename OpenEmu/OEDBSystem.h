@@ -53,18 +53,6 @@ extern NSString * const OEDBSystemsDidChangeNotification;
 + (id)systemForPlugin:(OESystemPlugin *)plugin inDatabase:(OELibraryDatabase *)database;
 + (id)systemForPluginIdentifier:(NSString *)identifier inDatabase:(OELibraryDatabase *)database;
 
-+ (id)systemForArchiveID:(NSNumber *)archiveID;
-+ (id)systemForArchiveID:(NSNumber *)archiveID inDatabase:(OELibraryDatabase *)database;
-+ (id)systemForArchiveID:(NSNumber *)archiveID inDatabase:(OELibraryDatabase *)database error:(NSError**)error;
-
-+ (id)systemForArchiveName:(NSString *)name;
-+ (id)systemForArchiveName:(NSString *)name inDatabase:(OELibraryDatabase *)database;
-+ (id)systemForArchiveName:(NSString *)name inDatabase:(OELibraryDatabase *)database error:(NSError**)error;
-
-+ (id)systemForArchiveShortName:(NSString *)shortName;
-+ (id)systemForArchiveShortName:(NSString *)shortName inDatabase:(OELibraryDatabase *)database;
-+ (id)systemForArchiveShortName:(NSString *)shortName inDatabase:(OELibraryDatabase *)database error:(NSError**)error;
-
 #pragma mark -
 #pragma mark Core Data utilities
 + (NSString *)entityName;
@@ -75,9 +63,6 @@ extern NSString * const OEDBSystemsDidChangeNotification;
 @property(nonatomic, retain) NSString *lastLocalizedName;
 @property(nonatomic, retain) NSString *shortname;
 @property(nonatomic, retain) NSString *systemIdentifier;
-@property(nonatomic, retain) NSNumber *archiveID;
-@property(nonatomic, retain) NSString *archiveName;
-@property(nonatomic, retain) NSString *archiveShortname;
 @property(nonatomic, retain) NSNumber *enabled;
 
 #pragma mark -

@@ -217,16 +217,6 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     {
         // TODO: Handle credits
     }
-    
-    // Get + Set system if none is set
-    // it is very unlikely that this ever happens
-    if([game system] == nil)
-    {
-        id systemRepresentation = [gameInfoDictionary valueForKey:AVGGameSystemNameKey];
-        OEDBSystem *system = [OEDBSystem systemForArchiveName:systemRepresentation];
-        DLog(@"Game has no System, try using archive.vg system: %@", system);
-        [game setSystem:system];
-    }
 	
     // Get + Set game description
     stringValue = [gameInfoDictionary valueForKey:AVGGameDescriptionKey];
