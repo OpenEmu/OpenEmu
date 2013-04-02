@@ -194,7 +194,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (id)duplicateCollection:(id)originalCollection
 {
-    id duplicateCollection = [[self database] addNewCollection:[originalCollection valueForKey:@"name"]];
+    id duplicateCollection = [[self database] addNewCollection:[[originalCollection valueForKey:@"name"] stringByAppendingString:@" copy"]];
     
     [[duplicateCollection mutableGames] setSet:[originalCollection games]];
     [[duplicateCollection managedObjectContext] save:nil];
