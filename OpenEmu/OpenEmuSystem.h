@@ -34,6 +34,7 @@
 #import <OpenEmuSystem/OEBindingMap.h>
 #import <OpenEmuSystem/OESystemController.h>
 #import <OpenEmuSystem/OESystemResponder.h>
+#import <OpenEmuSystem/OERawSystemResponder.h>
 #import <OpenEmuSystem/OEBasicSystemResponder.h>
 #import <OpenemuSystem/OEAnalogSystemResponder.h>
 #import <OpenEmuSystem/OESystemResponderClient.h>
