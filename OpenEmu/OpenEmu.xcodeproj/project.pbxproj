@@ -1997,7 +1997,7 @@
 		943815B6165771EB00D55731 /* OEGenesisSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemController.h; sourceTree = "<group>"; };
 		943815B7165771EB00D55731 /* OEGenesisSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGenesisSystemController.m; sourceTree = "<group>"; };
 		943819C31658DAE800D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
-		943C80121708A62E00D8D93E /* Jaguar.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Jaguar.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		943C80121708A62E00D8D93E /* Jaguar.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Jaguar.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		943C80161708A62F00D8D93E /* Jaguar-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Jaguar-Info.plist"; sourceTree = "<group>"; };
 		943C80181708A62F00D8D93E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		943C801E1708A7E400D8D93E /* OEJaguarSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEJaguarSystemResponder.h; sourceTree = "<group>"; };
@@ -2009,7 +2009,7 @@
 		943C80251708BF8B00D8D93E /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		943C80261708BF8B00D8D93E /* jaguar_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaguar_library.png; sourceTree = "<group>"; };
 		943C80271708BF8B00D8D93E /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
-		943C80351708F23900D8D93E /* VMU.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VMU.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		943C80351708F23900D8D93E /* VMU.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VMU.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		943C80391708F23900D8D93E /* VMU-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VMU-Info.plist"; sourceTree = "<group>"; };
 		943C803B1708F23900D8D93E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		943C80411708F52B00D8D93E /* OEVMUSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVMUSystemResponder.h; sourceTree = "<group>"; };
@@ -2023,7 +2023,7 @@
 		943C804A1708F7FC00D8D93E /* vmu_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vmu_library.png; sourceTree = "<group>"; };
 		943C80541708FB5F00D8D93E /* OEVMUSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVMUSystemController.h; sourceTree = "<group>"; };
 		943C80551708FB5F00D8D93E /* OEVMUSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVMUSystemController.m; sourceTree = "<group>"; };
-		943F998B1707D51100270E89 /* Vectrex.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Vectrex.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		943F998B1707D51100270E89 /* Vectrex.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Vectrex.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		943F998F1707D51100270E89 /* Vectrex-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Vectrex-Info.plist"; sourceTree = "<group>"; };
 		943F99911707D51100270E89 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		943F999C1707D97600270E89 /* OEVectrexSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVectrexSystemResponder.h; sourceTree = "<group>"; };
@@ -2035,7 +2035,7 @@
 		943F99A31707D9D500270E89 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		943F99A41707D9D500270E89 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		943F99A51707D9D500270E89 /* vectrex_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vectrex_library.png; sourceTree = "<group>"; };
-		943F99B31707DF3700270E89 /* 3DO.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 3DO.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		943F99B31707DF3700270E89 /* 3DO.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 3DO.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		943F99B71707DF3700270E89 /* 3DO-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "3DO-Info.plist"; sourceTree = "<group>"; };
 		943F99B91707DF3700270E89 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		943F99BF1707E03200270E89 /* OE3DOSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE3DOSystemResponder.h; sourceTree = "<group>"; };
@@ -2072,43 +2072,43 @@
 		94962907164F7D9E00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94962909164F7F7E00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		9496290B164F834D00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
-		94A224331707537F00098DA0 /* PC Engine.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PC Engine.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224331707537F00098DA0 /* PC Engine.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PC Engine.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A224371707537F00098DA0 /* PC Engine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PC Engine-Info.plist"; sourceTree = "<group>"; };
 		94A224391707537F00098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94A224431707539D00098DA0 /* WonderSwan.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WonderSwan.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224431707539D00098DA0 /* WonderSwan.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WonderSwan.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A224471707539D00098DA0 /* WonderSwan-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WonderSwan-Info.plist"; sourceTree = "<group>"; };
 		94A224491707539D00098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94A22453170753C800098DA0 /* Lynx.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Lynx.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A22453170753C800098DA0 /* Lynx.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Lynx.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A22457170753C800098DA0 /* Lynx-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Lynx-Info.plist"; sourceTree = "<group>"; };
 		94A22459170753C800098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94A22463170753D500098DA0 /* PC-FX.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PC-FX.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A22463170753D500098DA0 /* PC-FX.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PC-FX.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A22467170753D500098DA0 /* PC-FX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PC-FX-Info.plist"; sourceTree = "<group>"; };
 		94A22469170753D500098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94A22473170753E100098DA0 /* SG-1000.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SG-1000.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A22473170753E100098DA0 /* SG-1000.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SG-1000.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A22477170753E100098DA0 /* SG-1000-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SG-1000-Info.plist"; sourceTree = "<group>"; };
 		94A22479170753E100098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94A224831707541E00098DA0 /* Virtual Boy.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Virtual Boy.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224831707541E00098DA0 /* Virtual Boy.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Virtual Boy.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A224871707541F00098DA0 /* Virtual Boy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Virtual Boy-Info.plist"; sourceTree = "<group>"; };
 		94A224891707541F00098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94A224931707542A00098DA0 /* Sega CD.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sega CD.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224931707542A00098DA0 /* Sega CD.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sega CD.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A224971707542A00098DA0 /* Sega CD-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sega CD-Info.plist"; sourceTree = "<group>"; };
 		94A224991707542A00098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94A224A31707543600098DA0 /* Atari 2600.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 2600.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224A31707543600098DA0 /* Atari 2600.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 2600.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A224A71707543600098DA0 /* Atari 2600-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari 2600-Info.plist"; sourceTree = "<group>"; };
 		94A224A91707543600098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94A224B31707544100098DA0 /* Atari 5200.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 5200.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224B31707544100098DA0 /* Atari 5200.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 5200.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A224B71707544100098DA0 /* Atari 5200-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari 5200-Info.plist"; sourceTree = "<group>"; };
 		94A224B91707544100098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94A224C31707544B00098DA0 /* Nintendo FDS.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Nintendo FDS.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224C31707544B00098DA0 /* Nintendo FDS.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Nintendo FDS.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A224C71707544C00098DA0 /* Nintendo FDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Nintendo FDS-Info.plist"; sourceTree = "<group>"; };
 		94A224C91707544C00098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94A224D31707556D00098DA0 /* Saturn.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Saturn.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224D31707556D00098DA0 /* Saturn.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Saturn.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A224D71707556D00098DA0 /* Saturn-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Saturn-Info.plist"; sourceTree = "<group>"; };
 		94A224D91707556D00098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94A224E31707559100098DA0 /* Computer.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Computer.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224E31707559100098DA0 /* Computer.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Computer.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A224E71707559100098DA0 /* Computer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Computer-Info.plist"; sourceTree = "<group>"; };
 		94A224E91707559100098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94A224F61707596100098DA0 /* PlayStation.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayStation.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		94A224F61707596100098DA0 /* PlayStation.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayStation.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A224FA1707596200098DA0 /* PlayStation-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PlayStation-Info.plist"; sourceTree = "<group>"; };
 		94A224FC1707596200098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		94A2252C17075C6C00098DA0 /* OEPSXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSXSystemController.h; sourceTree = "<group>"; };
@@ -2874,23 +2874,23 @@
 				8227754F148946DF00B19E27 /* GameGear.oesystemplugin */,
 				94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */,
 				945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */,
-				94A224331707537F00098DA0 /* PC Engine.bundle */,
-				94A224431707539D00098DA0 /* WonderSwan.bundle */,
-				94A22453170753C800098DA0 /* Lynx.bundle */,
-				94A22463170753D500098DA0 /* PC-FX.bundle */,
-				94A22473170753E100098DA0 /* SG-1000.bundle */,
-				94A224831707541E00098DA0 /* Virtual Boy.bundle */,
-				94A224931707542A00098DA0 /* Sega CD.bundle */,
-				94A224A31707543600098DA0 /* Atari 2600.bundle */,
-				94A224B31707544100098DA0 /* Atari 5200.bundle */,
-				94A224C31707544B00098DA0 /* Nintendo FDS.bundle */,
-				94A224D31707556D00098DA0 /* Saturn.bundle */,
-				94A224E31707559100098DA0 /* Computer.bundle */,
-				94A224F61707596100098DA0 /* PlayStation.bundle */,
-				943F998B1707D51100270E89 /* Vectrex.bundle */,
-				943F99B31707DF3700270E89 /* 3DO.bundle */,
-				943C80121708A62E00D8D93E /* Jaguar.bundle */,
-				943C80351708F23900D8D93E /* VMU.bundle */,
+				94A224331707537F00098DA0 /* PC Engine.oesystemplugin */,
+				94A224431707539D00098DA0 /* WonderSwan.oesystemplugin */,
+				94A22453170753C800098DA0 /* Lynx.oesystemplugin */,
+				94A22463170753D500098DA0 /* PC-FX.oesystemplugin */,
+				94A22473170753E100098DA0 /* SG-1000.oesystemplugin */,
+				94A224831707541E00098DA0 /* Virtual Boy.oesystemplugin */,
+				94A224931707542A00098DA0 /* Sega CD.oesystemplugin */,
+				94A224A31707543600098DA0 /* Atari 2600.oesystemplugin */,
+				94A224B31707544100098DA0 /* Atari 5200.oesystemplugin */,
+				94A224C31707544B00098DA0 /* Nintendo FDS.oesystemplugin */,
+				94A224D31707556D00098DA0 /* Saturn.oesystemplugin */,
+				94A224E31707559100098DA0 /* Computer.oesystemplugin */,
+				94A224F61707596100098DA0 /* PlayStation.oesystemplugin */,
+				943F998B1707D51100270E89 /* Vectrex.oesystemplugin */,
+				943F99B31707DF3700270E89 /* 3DO.oesystemplugin */,
+				943C80121708A62E00D8D93E /* Jaguar.oesystemplugin */,
+				943C80351708F23900D8D93E /* VMU.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5384,7 +5384,7 @@
 			);
 			name = Jaguar;
 			productName = Jaguar;
-			productReference = 943C80121708A62E00D8D93E /* Jaguar.bundle */;
+			productReference = 943C80121708A62E00D8D93E /* Jaguar.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		943C80341708F23900D8D93E /* VMU */ = {
@@ -5402,7 +5402,7 @@
 			);
 			name = VMU;
 			productName = VMU;
-			productReference = 943C80351708F23900D8D93E /* VMU.bundle */;
+			productReference = 943C80351708F23900D8D93E /* VMU.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		943F998A1707D51100270E89 /* Vectrex */ = {
@@ -5420,7 +5420,7 @@
 			);
 			name = Vectrex;
 			productName = Vectrex;
-			productReference = 943F998B1707D51100270E89 /* Vectrex.bundle */;
+			productReference = 943F998B1707D51100270E89 /* Vectrex.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		943F99B21707DF3700270E89 /* 3DO */ = {
@@ -5438,7 +5438,7 @@
 			);
 			name = 3DO;
 			productName = 3DO;
-			productReference = 943F99B31707DF3700270E89 /* 3DO.bundle */;
+			productReference = 943F99B31707DF3700270E89 /* 3DO.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		945E42FA1517F2B500057D08 /* Arcade */ = {
@@ -5474,7 +5474,7 @@
 			);
 			name = "PC Engine";
 			productName = "PC Engine";
-			productReference = 94A224331707537F00098DA0 /* PC Engine.bundle */;
+			productReference = 94A224331707537F00098DA0 /* PC Engine.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		94A224421707539D00098DA0 /* WonderSwan */ = {
@@ -5492,7 +5492,7 @@
 			);
 			name = WonderSwan;
 			productName = WonderSwan;
-			productReference = 94A224431707539D00098DA0 /* WonderSwan.bundle */;
+			productReference = 94A224431707539D00098DA0 /* WonderSwan.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		94A22452170753C800098DA0 /* Lynx */ = {
@@ -5510,7 +5510,7 @@
 			);
 			name = Lynx;
 			productName = Lynx;
-			productReference = 94A22453170753C800098DA0 /* Lynx.bundle */;
+			productReference = 94A22453170753C800098DA0 /* Lynx.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		94A22462170753D500098DA0 /* PC-FX */ = {
@@ -5528,7 +5528,7 @@
 			);
 			name = "PC-FX";
 			productName = "PC-FX";
-			productReference = 94A22463170753D500098DA0 /* PC-FX.bundle */;
+			productReference = 94A22463170753D500098DA0 /* PC-FX.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		94A22472170753E100098DA0 /* SG-1000 */ = {
@@ -5546,7 +5546,7 @@
 			);
 			name = "SG-1000";
 			productName = "SG-1000";
-			productReference = 94A22473170753E100098DA0 /* SG-1000.bundle */;
+			productReference = 94A22473170753E100098DA0 /* SG-1000.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		94A224821707541E00098DA0 /* Virtual Boy */ = {
@@ -5564,7 +5564,7 @@
 			);
 			name = "Virtual Boy";
 			productName = "Virtual Boy";
-			productReference = 94A224831707541E00098DA0 /* Virtual Boy.bundle */;
+			productReference = 94A224831707541E00098DA0 /* Virtual Boy.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		94A224921707542A00098DA0 /* Sega CD */ = {
@@ -5582,7 +5582,7 @@
 			);
 			name = "Sega CD";
 			productName = "Sega CD";
-			productReference = 94A224931707542A00098DA0 /* Sega CD.bundle */;
+			productReference = 94A224931707542A00098DA0 /* Sega CD.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		94A224A21707543600098DA0 /* Atari 2600 */ = {
@@ -5600,7 +5600,7 @@
 			);
 			name = "Atari 2600";
 			productName = "Atari 2600";
-			productReference = 94A224A31707543600098DA0 /* Atari 2600.bundle */;
+			productReference = 94A224A31707543600098DA0 /* Atari 2600.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		94A224B21707544100098DA0 /* Atari 5200 */ = {
@@ -5618,7 +5618,7 @@
 			);
 			name = "Atari 5200";
 			productName = "Atari 5200";
-			productReference = 94A224B31707544100098DA0 /* Atari 5200.bundle */;
+			productReference = 94A224B31707544100098DA0 /* Atari 5200.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		94A224C21707544B00098DA0 /* Nintendo FDS */ = {
@@ -5636,7 +5636,7 @@
 			);
 			name = "Nintendo FDS";
 			productName = "Nintendo FDS";
-			productReference = 94A224C31707544B00098DA0 /* Nintendo FDS.bundle */;
+			productReference = 94A224C31707544B00098DA0 /* Nintendo FDS.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		94A224D21707556D00098DA0 /* Saturn */ = {
@@ -5654,7 +5654,7 @@
 			);
 			name = Saturn;
 			productName = Saturn;
-			productReference = 94A224D31707556D00098DA0 /* Saturn.bundle */;
+			productReference = 94A224D31707556D00098DA0 /* Saturn.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		94A224E21707559100098DA0 /* Computer */ = {
@@ -5672,7 +5672,7 @@
 			);
 			name = Computer;
 			productName = Computer;
-			productReference = 94A224E31707559100098DA0 /* Computer.bundle */;
+			productReference = 94A224E31707559100098DA0 /* Computer.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		94A224F51707596100098DA0 /* PlayStation */ = {
@@ -5690,7 +5690,7 @@
 			);
 			name = PlayStation;
 			productName = PlayStation;
-			productReference = 94A224F61707596100098DA0 /* PlayStation.bundle */;
+			productReference = 94A224F61707596100098DA0 /* PlayStation.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		94D7E8C815073BA000FBDD85 /* NDS */ = {
@@ -7874,7 +7874,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -7893,7 +7893,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -7918,7 +7918,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -7937,7 +7937,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -7962,7 +7962,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -7981,7 +7981,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -8006,7 +8006,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -8025,7 +8025,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -8108,7 +8108,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -8127,7 +8127,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -8152,7 +8152,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -8171,7 +8171,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -8196,7 +8196,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -8215,7 +8215,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -8240,7 +8240,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -8259,7 +8259,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -8284,7 +8284,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -8303,7 +8303,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -8328,7 +8328,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -8347,7 +8347,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -8372,7 +8372,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -8391,7 +8391,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -8416,7 +8416,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -8435,7 +8435,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -8460,7 +8460,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -8479,7 +8479,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -8504,7 +8504,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -8523,7 +8523,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -8548,7 +8548,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -8567,7 +8567,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -8592,7 +8592,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -8611,7 +8611,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -8636,7 +8636,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Debug;
 		};
@@ -8655,7 +8655,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
