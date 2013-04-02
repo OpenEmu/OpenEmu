@@ -88,7 +88,7 @@
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>⬜</string>
+					<string>▢</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEPSXButtonSquare</string>
 				</dict>
