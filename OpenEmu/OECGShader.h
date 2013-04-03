@@ -85,7 +85,8 @@ static const NSUInteger OEMultipasses = 10;
 
 @property BOOL        linearFiltering;
 @property BOOL        floatFramebuffer;
-@property OEScaleType scaleType;
+@property OEScaleType xScaleType;
+@property OEScaleType yScaleType;
 @property CGSize      scaler;
 @property NSUInteger  frameCountMod;
 
