@@ -481,53 +481,53 @@ static void writeSaveFile(const char* path, int type)
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {   
-    int serial_size = retro_serialize_size();
-    uint8_t *serial_data = (uint8_t *) malloc(serial_size);
-    
-    retro_serialize(serial_data, serial_size);
-    
-    FILE *state_file = fopen([fileName UTF8String], "wb");
-    long bytes_written = fwrite(serial_data, sizeof(uint8_t), serial_size, state_file);
-    
-    free(serial_data);
-    
-    if( bytes_written != serial_size )
-    {
-        NSLog(@"Couldn't write state");
+//    int serial_size = retro_serialize_size();
+//    uint8_t *serial_data = (uint8_t *) malloc(serial_size);
+//    
+//    retro_serialize(serial_data, serial_size);
+//    
+//    FILE *state_file = fopen([fileName UTF8String], "wb");
+//    long bytes_written = fwrite(serial_data, sizeof(uint8_t), serial_size, state_file);
+//    
+//    free(serial_data);
+//    
+//    if( bytes_written != serial_size )
+//    {
+//        NSLog(@"Couldn't write state");
         return NO;
-    }
-    fclose( state_file );
-    return YES;
+//    }
+//    fclose( state_file );
+//    return YES;
 }
 
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName
 {
-    FILE *state_file = fopen([fileName UTF8String], "rb");
-    if( !state_file )
-    {
-        NSLog(@"Could not open state file");
+//    FILE *state_file = fopen([fileName UTF8String], "rb");
+//    if( !state_file )
+//    {
+//        NSLog(@"Could not open state file");
+//        return NO;
+//    }
+//    
+//    int serial_size = retro_serialize_size();
+//    uint8_t *serial_data = (uint8_t *) malloc(serial_size);
+//    
+//    if(!fread(serial_data, sizeof(uint8_t), serial_size, state_file))
+//    {
+//        NSLog(@"Couldn't read file");
+//        return NO;
+//    }
+//    fclose(state_file);
+//    
+//    if(!retro_unserialize(serial_data, serial_size))
+//    {
+//        NSLog(@"Couldn't unpack state");
         return NO;
-    }
-    
-    int serial_size = retro_serialize_size();
-    uint8_t *serial_data = (uint8_t *) malloc(serial_size);
-    
-    if(!fread(serial_data, sizeof(uint8_t), serial_size, state_file))
-    {
-        NSLog(@"Couldn't read file");
-        return NO;
-    }
-    fclose(state_file);
-    
-    if(!retro_unserialize(serial_data, serial_size))
-    {
-        NSLog(@"Couldn't unpack state");
-        return NO;
-    }
-    
-    free(serial_data);
-    
-    return YES;
+//    }
+//    
+//    free(serial_data);
+//    
+//    return YES;
 }
 
 @end
