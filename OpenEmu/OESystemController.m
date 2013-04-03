@@ -1,28 +1,27 @@
 /*
  Copyright (c) 2011, OpenEmu Team
- 
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright
- notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
- notice, this list of conditions and the following disclaimer in the
- documentation and/or other materials provided with the distribution.
- * Neither the name of the OpenEmu Team nor the
- names of its contributors may be used to endorse or promote products
- derived from this software without specific prior written permission.
- 
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OESystemController.h"
@@ -40,7 +39,7 @@
     NSBundle            *_bundle;
     NSMutableArray      *_gameSystemResponders;
     NSMutableDictionary *_preferenceViewControllers;
-    
+
     NSString            *_systemName;
     NSImage             *_systemIcon;
 }
@@ -110,7 +109,7 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 {
     if(![self OE_isBundleValid:aBundle forClass:[self class]])
         return nil;
-    
+
     if((self = [super init]))
     {
         _bundle                    = aBundle;
@@ -118,43 +117,43 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
         _preferenceViewControllers = [[NSMutableDictionary alloc] init];
         _systemIdentifier          = (    [[_bundle infoDictionary] objectForKey:OESystemIdentifier]
                                       ? : [_bundle bundleIdentifier]);
-        
+
         _systemName = [[[_bundle infoDictionary] objectForKey:OESystemName] copy];
-        
+
         NSString *iconFileName = [[_bundle infoDictionary] objectForKey:OESystemIconName];
         NSString *iconFilePath = [_bundle pathForImageResource:iconFileName];
         _systemIcon = [[NSImage alloc] initWithContentsOfFile:iconFilePath];
-        
+
         _numberOfPlayers = [[[_bundle infoDictionary] objectForKey:OENumberOfPlayersKey] integerValue];
-        
+
         Class cls = NSClassFromString([[_bundle infoDictionary] objectForKey:OEResponderClassKey]);
         if(cls != [OESystemResponder class] && [cls isSubclassOfClass:[OESystemResponder class]])
             _responderClass = cls;
-        
+
         _defaultKeyboardControls = [self OE_propertyListWithFileName:OEKeyboardMappingsFileName];
-        
+
         _defaultDeviceControls = [self OE_propertyListWithFileName:OEControllerMappingsFileName];
-        
+
         // TODO: Do the same thing for generic settings
         [self setGenericControlNames:[[_bundle infoDictionary] objectForKey:OEGenericControlNamesKey]];
         [self setSystemControlNames: [[_bundle infoDictionary] objectForKey:OESystemControlNamesKey]];
-        
+
         [self OE_setupControlTypes];
         [self OE_setupControllerPreferencesKeys];
         [self OE_initROMHandling];
     }
-    
+
     return self;
 }
 
 - (id)OE_propertyListWithFileName:(NSString *)fileName
 {
     NSString *path = [_bundle pathForResource:fileName ofType:@"plist"];
-    
+
     id ret = nil;
     if(path != nil)
         ret = [NSPropertyListSerialization propertyListWithData:[NSData dataWithContentsOfFile:path options:NSDataReadingMappedIfSafe error:NULL] options:0 format:NULL error:NULL];
-    
+
     return ret;
 }
 
@@ -179,7 +178,7 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 - (void)OE_setupControlTypes;
 {
     NSDictionary *dict = [[_bundle infoDictionary] objectForKey:OEControlTypesKey];
-    
+
     [self setHatSwitchControls:[dict objectForKey:OEHatSwitchControlsKey]];
     [self setAxisControls:     [dict objectForKey:OEAxisControlsKey]];
 }
@@ -192,7 +191,7 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 - (NSDictionary *)OE_localizedControllerPreferences;
 {
     NSString *fileName = nil;
-    
+
     switch([[OELocalizationHelper sharedHelper] region])
     {
         case OERegionEU  : fileName = @"Controller-Preferences-EU";  break;
@@ -200,9 +199,9 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
         case OERegionJAP : fileName = @"Controller-Preferences-JAP"; break;
         default : break;
     }
-    
+
     if(fileName != nil) fileName = [_bundle pathForResource:fileName ofType:@"plist"];
-    
+
     return (fileName == nil ? nil : [NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:fileName] mutabilityOption:NSPropertyListImmutable format:NULL errorDescription:NULL]);
 }
 
@@ -211,22 +210,22 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
     // TODO: Support local setup with different plists
     NSDictionary *plist          = [self OE_defaultControllerPreferences];
     NSDictionary *localizedPlist = [self OE_localizedControllerPreferences];
-    
+
     controllerImageName     = [localizedPlist objectForKey:OEControllerImageKey]     ? : [plist objectForKey:OEControllerImageKey];
     controllerImageMaskName = [localizedPlist objectForKey:OEControllerImageMaskKey] ? : [plist objectForKey:OEControllerImageMaskKey];
-    
+
     NSDictionary *positions = [plist objectForKey:OEControllerKeyPositionKey];
     NSDictionary *localPos  = [localizedPlist objectForKey:OEControllerKeyPositionKey];
-    
+
     NSMutableDictionary *converted = [[NSMutableDictionary alloc] initWithCapacity:[positions count]];
-    
+
     for(NSString *key in positions)
     {
         NSString *value = [localPos objectForKey:key] ? : [positions objectForKey:key];
-        
+
         [converted setObject:[NSValue valueWithPoint:value != nil ? NSPointFromString(value) : NSZeroPoint] forKey:key];
     }
-    
+
     controllerKeyPositions = [converted copy];
 }
 
@@ -234,7 +233,7 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 {
     OESystemResponder *responder = [[[self responderClass] alloc] initWithController:self];
     [self registerGameSystemResponder:responder];
-    
+
     return responder;
 }
 
@@ -251,13 +250,13 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 - (id)preferenceViewControllerForKey:(NSString *)aKey;
 {
     id ctrl = [_preferenceViewControllers objectForKey:aKey];
-    
+
     if(ctrl == nil)
     {
         ctrl = [self newPreferenceViewControllerForKey:aKey];
         [_preferenceViewControllers setObject:ctrl forKey:aKey];
     }
-    
+
     return ctrl;
 }
 
@@ -265,18 +264,18 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 {
     id ret = nil;
     Class controllerClass = [[self preferenceViewControllerClasses] objectForKey:aKey];
-    
+
     if(controllerClass != nil)
     {
-        NSString *nibName = [aKey substringWithRange:NSMakeRange(2, [aKey length] - 5)]; 
+        NSString *nibName = [aKey substringWithRange:NSMakeRange(2, [aKey length] - 5)];
         ret = [[controllerClass alloc] initWithNibName:nibName bundle:_bundle];
     }
     else
         ret = [[NSViewController alloc] initWithNibName:@"UnimplementedPreference" bundle:[NSBundle mainBundle]];
-    
+
     if([ret respondsToSelector:@selector(setDelegate:)])
         [ret setDelegate:self];
-    
+
     return ret;
 }
 
@@ -299,15 +298,15 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 {
     if(controllerImage == nil)
         controllerImage = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForImageResource:[self controllerImageName]]];
-    
-	return controllerImage;
+
+    return controllerImage;
 }
 
 - (NSImage *)controllerImageMask;
 {
     if(controllerImageMask == nil)
         controllerImageMask = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForImageResource:[self controllerImageMaskName]]];
-    
+
     return controllerImageMask;
 }
 

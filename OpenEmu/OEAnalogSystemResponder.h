@@ -25,6 +25,7 @@
  */
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
+#import <OpenEmuSystem/OEBasicSystemResponder.h>
 
 @interface OEAnalogSystemResponder : OEBasicSystemResponder
 - (void)changeAnalogEmulatorKey:(OESystemKey *)aKey value:(CGFloat)value;

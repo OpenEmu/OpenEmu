@@ -805,6 +805,8 @@
 		C699C4521687F1FF0050EA0C /* OEControllerDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = C699C4501687F1FF0050EA0C /* OEControllerDescription.m */; };
 		C69DCCED0FE99415009AE5A6 /* OEFilterPluginIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */; };
 		C69DCD010FE994A5009AE5A6 /* OEPluginDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C69DCD000FE994A5009AE5A6 /* OEPluginDocument.m */; };
+		C6A1CFEE170BFCCF0052D9DB /* OEComputerSystemResponder.h in Headers */ = {isa = PBXBuildFile; fileRef = 94A225FF1707616F00098DA0 /* OEComputerSystemResponder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C6A1CFEF170BFCCF0052D9DB /* OEComputerSystemResponderClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 94A226011707616F00098DA0 /* OEComputerSystemResponderClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6AC9D391190C6490083DDFD /* OpenEmuHelperAppMain.m in Sources */ = {isa = PBXBuildFile; fileRef = C6AC9D371190C5E60083DDFD /* OpenEmuHelperAppMain.m */; };
 		C6AC9D4D1190C9AE0083DDFD /* OEGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6AC9D4C1190C9AE0083DDFD /* OEGameCoreManager.m */; };
 		C6AC9DEF1190E2C90083DDFD /* OpenEmuHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A7411682A330090F72B /* OpenEmuHelperApp.m */; };
@@ -5200,6 +5202,8 @@
 				EF2FDBFA14D00C22002A64F2 /* OELocalizationHelper.h in Headers */,
 				C6DC91DB15F3B8E60082184C /* OEKeyBindingGroupDescription.h in Headers */,
 				C69259FC15045B03003E6FD3 /* OEEvent.h in Headers */,
+				C6A1CFEE170BFCCF0052D9DB /* OEComputerSystemResponder.h in Headers */,
+				C6A1CFEF170BFCCF0052D9DB /* OEComputerSystemResponderClient.h in Headers */,
 				C6DC91DD15F3B9090082184C /* OEBindingsController_Internal.h in Headers */,
 				C6042658170781FD00E3B6D4 /* OEMultiHIDDeviceHandler.h in Headers */,
 				94E6B6D7166C1B2900082F27 /* OECUESheet.h in Headers */,
