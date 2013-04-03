@@ -559,8 +559,6 @@
 		945E43181517F5BC00057D08 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 945E43131517F5BC00057D08 /* Controller-Preferences.plist */; };
 		945E431B1517F64800057D08 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		94791E9516AE8A18007DB8BE /* OEShaderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 94791E9416AE8A18007DB8BE /* OEShaderPlugin.m */; };
-		947BBCD8170B565A004A509A /* OERawSystemResponder.h in Headers */ = {isa = PBXBuildFile; fileRef = 947BBCD6170B565A004A509A /* OERawSystemResponder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		947BBCD9170B565A004A509A /* OERawSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 947BBCD7170B565A004A509A /* OERawSystemResponder.m */; };
 		948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
 		948E540F1571D78D002D26E0 /* NES.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
 		948E54101571D78D002D26E0 /* SuperNES.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */; };
@@ -2059,8 +2057,6 @@
 		945E43131517F5BC00057D08 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94791E9316AE8A18007DB8BE /* OEShaderPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEShaderPlugin.h; sourceTree = "<group>"; };
 		94791E9416AE8A18007DB8BE /* OEShaderPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEShaderPlugin.m; sourceTree = "<group>"; };
-		947BBCD6170B565A004A509A /* OERawSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERawSystemResponder.h; sourceTree = "<group>"; };
-		947BBCD7170B565A004A509A /* OERawSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERawSystemResponder.m; sourceTree = "<group>"; };
 		949623E6164E0CD600952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		949628CB164F677400952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		949628CD164F6A3C00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
@@ -4826,6 +4822,8 @@
 				C6289C35135B27C100EEE97C /* OESystemController.m */,
 				C6D1596A135B34FD009D661C /* OESystemResponder.h */,
 				C6D1596B135B34FD009D661C /* OESystemResponder.m */,
+				827B3226168A69C0000CD127 /* OEAnalogSystemResponder.h */,
+				827B3227168A69C1000CD127 /* OEAnalogSystemResponder.m */,
 				C6E542C01363D2D90075BA8C /* OEBasicSystemResponder.h */,
 				C6E542C11363D2D90075BA8C /* OEBasicSystemResponder.m */,
 				C627D9961658DEA7001A62C2 /* OEBindingMap.h */,
@@ -4836,10 +4834,6 @@
 				C69259FB15045B03003E6FD3 /* OEEvent.m */,
 				C6DC91CB15F3B5530082184C /* Bindings Controller */,
 				93B479F512BAB52F008618A7 /* HID */,
-				827B3226168A69C0000CD127 /* OEAnalogSystemResponder.h */,
-				827B3227168A69C1000CD127 /* OEAnalogSystemResponder.m */,
-				947BBCD6170B565A004A509A /* OERawSystemResponder.h */,
-				947BBCD7170B565A004A509A /* OERawSystemResponder.m */,
 			);
 			name = "System Input Core";
 			sourceTree = "<group>";
@@ -5187,7 +5181,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				947BBCD8170B565A004A509A /* OERawSystemResponder.h in Headers */,
 				C671182C13636A300034379A /* OpenEmuSystem.h in Headers */,
 				C67117FB136367240034379A /* OEDeviceHandler.h in Headers */,
 				C67117FC136367240034379A /* OEDeviceManager.h in Headers */,
@@ -7017,7 +7010,6 @@
 				C671B7A71699EB2600077C49 /* OEControlDescription.m in Sources */,
 				C671B7AB1699EB7C00077C49 /* OEDeviceDescription.m in Sources */,
 				C60426481707503000E3B6D4 /* OEHIDDeviceParser.m in Sources */,
-				947BBCD9170B565A004A509A /* OERawSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
