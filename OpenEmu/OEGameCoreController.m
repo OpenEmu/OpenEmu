@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2009, OpenEmu Team
 
-
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -30,13 +29,8 @@
 #import "NSApplication+OEHIDAdditions.h"
 #import "OEGameCore.h"
 #import "OEHIDEvent.h"
-#import "NSString+OEAdditions.h"
 #import "NSUserDefaultsController+OEEventAdditions.h"
 #import <objc/runtime.h>
-
-@interface NSObject ()
-- (NSString *)applicationSupportFolder;
-@end
 
 NSString *const OEAdvancedPreferenceKey  = @"OEAdvancedPreferenceKey";
 NSString *const OEGameCoreClassKey       = @"OEGameCoreClass";

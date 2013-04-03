@@ -13,7 +13,7 @@
 #define reportResult(result,operation) (_reportResult((result),(operation),strrchr(__FILE__, '/')+1,__LINE__))
 static inline bool _reportResult(kern_return_t result, const char *operation, const char* file, int line) {
     if ( result != ERR_SUCCESS ) {
-        printf("%s:%d: %s: %s\n", file, line, operation, mach_error_string(result)); 
+        printf("%s:%d: %s: %s\n", file, line, operation, mach_error_string(result));
         return false;
     }
     return true;
@@ -42,7 +42,7 @@ bool TPCircularBufferInit(TPCircularBuffer *buffer, int length) {
             // Try again if we fail
             continue;
         }
-        
+
         // Now replace the second half of the allocation with a virtual copy of the first half. Deallocate the second half...
         result = vm_deallocate(mach_task_self(),
                                bufferAddress + buffer->length,
@@ -56,7 +56,7 @@ bool TPCircularBufferInit(TPCircularBuffer *buffer, int length) {
             vm_deallocate(mach_task_self(), bufferAddress, buffer->length);
             continue;
         }
-        
+
         // Re-map the buffer to the address space immediately after the buffer
         vm_address_t virtualAddress = bufferAddress + buffer->length;
         vm_prot_t cur_prot, max_prot;
@@ -80,7 +80,7 @@ bool TPCircularBufferInit(TPCircularBuffer *buffer, int length) {
             vm_deallocate(mach_task_self(), bufferAddress, buffer->length);
             continue;
         }
-        
+
         if ( virtualAddress != bufferAddress+buffer->length ) {
             // If the memory is not contiguous, clean up both allocated buffers and try again
             if ( retries-- == 0 ) {
@@ -92,11 +92,11 @@ bool TPCircularBufferInit(TPCircularBuffer *buffer, int length) {
             vm_deallocate(mach_task_self(), bufferAddress, buffer->length);
             continue;
         }
-        
+
         buffer->buffer = (void*)bufferAddress;
         buffer->fillCount = 0;
         buffer->head = buffer->tail = 0;
-        
+
         return true;
     }
     return false;

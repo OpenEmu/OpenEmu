@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2009, OpenEmu Team
- 
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -31,11 +30,6 @@
 extern NSString *const OEAdvancedPreferenceKey;
 extern NSString *const OEGameCoreClassKey;
 extern NSString *const OEGameCorePlayerCountKey;
-
-extern NSString *const OEControlsPreferenceKey DEPRECATED_ATTRIBUTE;
-extern NSString *const OESettingValueKey DEPRECATED_ATTRIBUTE;
-extern NSString *const OEHIDEventValueKey DEPRECATED_ATTRIBUTE;
-extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 
 @protocol OESettingObserver;
 @class OEGameCore, OEGameDocument, OEHIDEvent, OESystemResponder;
@@ -56,7 +50,7 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
  * with the Nib name provided by the controller +preferenceNibName class method.
  * If +preferenceNibName is not overridden by the controller class, the receiver uses the default
  * nib name provided by the key.
- * 
+ *
  * For example: if the passed-in key is @"OEControlsPreferenceKey" the default nib name will be
  * @"ControlsPreference" (the two-letter prefix "OE" and three-letter suffix "Key" are removed from
  * the name).

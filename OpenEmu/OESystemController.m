@@ -28,7 +28,6 @@
 #import "OESystemController.h"
 #import "OESystemResponder.h"
 #import "OEHIDEvent.h"
-#import "NSString+OEAdditions.h"
 #import "NSUserDefaultsController+OEEventAdditions.h"
 #import "OELocalizationHelper.h"
 #import "OEBindingsController.h"

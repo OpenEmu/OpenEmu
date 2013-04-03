@@ -841,8 +841,6 @@
 		C6C372FA16BE42FA003E57AE /* Scanline.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8CF0EB55169B1DF900E3670D /* Scanline.cg */; };
 		C6C3734216BE7065003E57AE /* OEBuiltInShader.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C3734116BE7065003E57AE /* OEBuiltInShader.m */; };
 		C6C3734316BE7BAF003E57AE /* OE Startup.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 1B32151114DDD06500C5B50A /* OE Startup.qtz */; };
-		C6D268D6135BCE4900154550 /* NSString+OEAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C6D268D4135BCE4900154550 /* NSString+OEAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C6D268D7135BCE4900154550 /* NSString+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D268D5135BCE4900154550 /* NSString+OEAdditions.m */; };
 		C6D6FA7E14E2264C0083C75D /* NSViewController+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D6FA7D14E2264C0083C75D /* NSViewController+OEAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C6DC91CE15F3B5730082184C /* OEKeyBindingDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = C6DC91CC15F3B5730082184C /* OEKeyBindingDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6DC91CF15F3B5730082184C /* OEKeyBindingDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = C6DC91CD15F3B5730082184C /* OEKeyBindingDescription.m */; };
@@ -2388,8 +2386,6 @@
 		C6C98B840F55B7A800116EA2 /* OEHIDEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHIDEvent.m; sourceTree = "<group>"; };
 		C6D1596A135B34FD009D661C /* OESystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESystemResponder.h; sourceTree = "<group>"; };
 		C6D1596B135B34FD009D661C /* OESystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESystemResponder.m; sourceTree = "<group>"; };
-		C6D268D4135BCE4900154550 /* NSString+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEAdditions.h"; sourceTree = "<group>"; };
-		C6D268D5135BCE4900154550 /* NSString+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEAdditions.m"; sourceTree = "<group>"; };
 		C6D268D8135BD95A00154550 /* NSUserDefaultsController+OEEventAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaultsController+OEEventAdditions.h"; sourceTree = "<group>"; };
 		C6D268D9135BD95A00154550 /* NSUserDefaultsController+OEEventAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaultsController+OEEventAdditions.m"; sourceTree = "<group>"; };
 		C6D6FA7C14E2264C0083C75D /* NSViewController+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSViewController+OEAdditions.h"; sourceTree = "<group>"; };
@@ -4967,8 +4963,6 @@
 				C6FC4C900FD2C5C3007CCD32 /* OEGameCore.m */,
 				C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */,
 				C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */,
-				C6D268D4135BCE4900154550 /* NSString+OEAdditions.h */,
-				C6D268D5135BCE4900154550 /* NSString+OEAdditions.m */,
 				C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */,
 				C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */,
 				C67DCEF00FC5FB5A0038A56E /* OEPreferenceViewController.h */,
@@ -5178,7 +5172,6 @@
 				82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */,
 				82AFA6690FDDC03500531EE3 /* OERingBuffer.h in Headers */,
 				1BEF2A67116826BC0090F72B /* NSString+UUID.h in Headers */,
-				C6D268D6135BCE4900154550 /* NSString+OEAdditions.h in Headers */,
 				82EE73E11443C1F700080CCB /* OEGameCore.h in Headers */,
 				EF2FDBEE14D0025D002A64F2 /* OEPreferenceViewController.h in Headers */,
 				3DD90BA71500A6BF00FE5DFD /* OETimingUtils.h in Headers */,
@@ -6609,7 +6602,6 @@
 				C6FC4C920FD2C5C3007CCD32 /* OEGameCore.m in Sources */,
 				82AFA66A0FDDC03500531EE3 /* OERingBuffer.m in Sources */,
 				1BEF2A68116826BC0090F72B /* NSString+UUID.m in Sources */,
-				C6D268D7135BCE4900154550 /* NSString+OEAdditions.m in Sources */,
 				EF2FDBEA14CFFD39002A64F2 /* OEGameCoreController.m in Sources */,
 				EF2FDBEF14D00261002A64F2 /* OEPreferenceViewController.m in Sources */,
 				8245FD0814F763E600C64574 /* TPCircularBuffer.c in Sources */,
