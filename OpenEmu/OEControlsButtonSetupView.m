@@ -132,8 +132,16 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
         [previous setState:NSOffState];
         [button   setState:NSOnState];
 
-        NSClipView *clipView = [[self enclosingScrollView] contentView];
-        [clipView scrollToPoint:[button frame].origin animated:YES];
+        if(value)
+        {
+            // Scroll field into view
+            NSClipView *clipView             = [[self enclosingScrollView] contentView];
+            NSRect      convertedButtonFrame = [self convertRect:[button frame] toView:clipView];
+
+            convertedButtonFrame.origin.x  = 0;
+            convertedButtonFrame.origin.y -= [clipView frame].size.height / 2;
+            [[clipView animator] setBoundsOrigin:convertedButtonFrame.origin];
+        }
     }
 }
 
