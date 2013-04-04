@@ -41,6 +41,7 @@
 	<key>OEControlListKey</key>
 	<array>
 		<array>
+			<string>D Pad</string>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
 				<string>Up</string>
@@ -72,24 +73,32 @@
 				<string>△</string>
 				<key>OEControlListKeyNameKey</key>
 				<string>OEPSXButtonTriangle</string>
+				<key>OEControlListKeyFontFamilyKey</key>
+				<string>Apple LiGothic</string>
 			</dict>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>◯</string>
+				<string>○</string>
 				<key>OEControlListKeyNameKey</key>
 				<string>OEPSXButtonCircle</string>
+				<key>OEControlListKeyFontFamilyKey</key>
+				<string>Apple LiGothic</string>
 			</dict>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>✕</string>
+				<string>X</string>
 				<key>OEControlListKeyNameKey</key>
 				<string>OEPSXButtonCross</string>
+				<key>OEControlListKeyFontFamilyKey</key>
+				<string>Apple LiGothic</string>
 			</dict>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>▢</string>
+				<string>□</string>
 				<key>OEControlListKeyNameKey</key>
 				<string>OEPSXButtonSquare</string>
+				<key>OEControlListKeyFontFamilyKey</key>
+				<string>Apple LiGothic</string>
 			</dict>
 		</array>
 		<array>
