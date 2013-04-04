@@ -59,36 +59,37 @@
 
 @end
 
-NSString *const OESettingValueKey            = @"OESettingValueKey";
-NSString *const OEHIDEventValueKey           = @"OEHIDEventValueKey";
-NSString *const OEHIDEventExtraValueKey      = @"OEHIDEventExtraValueKey";
-NSString *const OEKeyboardEventValueKey      = @"OEKeyboardEventValueKey";
-NSString *const OEControlsPreferenceKey      = @"OEControlsPreferenceKey";
-NSString *const OESystemIdentifier           = @"OESystemIdentifier";
-NSString *const OEProjectURLKey              = @"OEProjectURL";
-NSString *const OESystemName                 = @"OESystemName";
-NSString *const OENumberOfPlayersKey         = @"OENumberOfPlayersKey";
-NSString *const OEResponderClassKey          = @"OEResponderClassKey";
+NSString *const OESettingValueKey             = @"OESettingValueKey";
+NSString *const OEHIDEventValueKey            = @"OEHIDEventValueKey";
+NSString *const OEHIDEventExtraValueKey       = @"OEHIDEventExtraValueKey";
+NSString *const OEKeyboardEventValueKey       = @"OEKeyboardEventValueKey";
+NSString *const OEControlsPreferenceKey       = @"OEControlsPreferenceKey";
+NSString *const OESystemIdentifier            = @"OESystemIdentifier";
+NSString *const OEProjectURLKey               = @"OEProjectURL";
+NSString *const OESystemName                  = @"OESystemName";
+NSString *const OENumberOfPlayersKey          = @"OENumberOfPlayersKey";
+NSString *const OEResponderClassKey           = @"OEResponderClassKey";
 
-NSString *const OEKeyboardMappingsFileName   = @"Keyboard-Mappings";
-NSString *const OEControllerMappingsFileName = @"Controller-Mappings";
+NSString *const OEKeyboardMappingsFileName    = @"Keyboard-Mappings";
+NSString *const OEControllerMappingsFileName  = @"Controller-Mappings";
 
-NSString *const OESystemIconName             = @"OESystemIcon";
-NSString *const OEFileTypes                  = @"OEFileSuffixes";
+NSString *const OESystemIconName              = @"OESystemIcon";
+NSString *const OEFileTypes                   = @"OEFileSuffixes";
 
-NSString *const OESystemControlNamesKey      = @"OESystemControlNamesKey";
-NSString *const OEGenericControlNamesKey     = @"OEGenericControlNamesKey";
-NSString *const OEControlTypesKey            = @"OEControlTypesKey";
-NSString *const OEHatSwitchControlsKey       = @"OEHatSwitchControlsKey";
-NSString *const OEAxisControlsKey            = @"OEAxisControlsKey";
+NSString *const OESystemControlNamesKey       = @"OESystemControlNamesKey";
+NSString *const OEGenericControlNamesKey      = @"OEGenericControlNamesKey";
+NSString *const OEControlTypesKey             = @"OEControlTypesKey";
+NSString *const OEHatSwitchControlsKey        = @"OEHatSwitchControlsKey";
+NSString *const OEAxisControlsKey             = @"OEAxisControlsKey";
 
-NSString *const OEControlListKey             = @"OEControlListKey";
-NSString *const OEControlListKeyNameKey      = @"OEControlListKeyNameKey";
-NSString *const OEControlListKeyLabelKey     = @"OEControlListKeyLabelKey";
+NSString *const OEControlListKey              = @"OEControlListKey";
+NSString *const OEControlListKeyNameKey       = @"OEControlListKeyNameKey";
+NSString *const OEControlListKeyLabelKey      = @"OEControlListKeyLabelKey";
+NSString *const OEControlListKeyFontFamilyKey = @"OEControlListKeyFontFamilyKey";
 
-NSString *const OEControllerImageKey         = @"OEControllerImageKey";
-NSString *const OEControllerImageMaskKey     = @"OEControllerImageMaskKey";
-NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
+NSString *const OEControllerImageKey          = @"OEControllerImageKey";
+NSString *const OEControllerImageMaskKey      = @"OEControllerImageMaskKey";
+NSString *const OEControllerKeyPositionKey    = @"OEControllerKeyPositionKey";
 
 @implementation OESystemController
 @synthesize controllerKeyPositions, controllerImageMaskName, controllerImageName, controllerImage, controllerImageMask;

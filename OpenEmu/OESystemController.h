@@ -83,6 +83,7 @@ extern NSString *const OEAxisControlsKey;
 extern NSString *const OEControlListKey;
 extern NSString *const OEControlListKeyNameKey;
 extern NSString *const OEControlListKeyLabelKey;
+extern NSString *const OEControlListKeyFontFamilyKey;
 
 extern NSString *const OEControllerImageKey;       // NSString - file name of the controller image
 extern NSString *const OEControllerImageMaskKey;   // NSString - file name of the controller image mask
