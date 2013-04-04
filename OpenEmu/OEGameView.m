@@ -603,7 +603,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     cgGLSetParameter2f([shader vertexVideoSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader vertexTextureSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader vertexOutputSize], outputSize.width, outputSize.height);
-    cgGLSetParameter1f([shader vertexFrameCount], _frameCount);
+    cgGLSetParameter1f([shader vertexFrameCount], [shader frameCountMod] ? _frameCount % [shader frameCountMod] : _frameCount);
     cgGLSetStateMatrixParameter([shader modelViewProj], CG_GL_MODELVIEW_PROJECTION_MATRIX, CG_GL_MATRIX_IDENTITY);
 
     // bind ORIG parameters
@@ -637,7 +637,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     cgGLSetParameter2f([shader fragmentVideoSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader fragmentTextureSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader fragmentOutputSize], outputSize.width, outputSize.height);
-    cgGLSetParameter1f([shader fragmentFrameCount], _frameCount);
+    cgGLSetParameter1f([shader fragmentFrameCount], [shader frameCountMod] ? _frameCount % [shader frameCountMod] : _frameCount);
 
     // bind ORIG parameters
     cgGLSetTextureParameter([shader fragmentOriginalTexture], _rttGameTextures[_frameCount % OEFramesSaved]);
@@ -699,25 +699,24 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 
     for(NSUInteger i = 0; i < numberOfPasses; ++i)
     {
-        OEScaleType scaleType = [shaders[i] scaleType];
-        CGSize scaler         = [shaders[i] scaler];
+        OEScaleType xScaleType = [shaders[i] xScaleType];
+        OEScaleType yScaleType = [shaders[i] yScaleType];
+        CGSize      scaler     = [shaders[i] scaler];
 
-        if(scaleType == OEScaleTypeViewPort)
-        {
+        if(xScaleType == OEScaleTypeViewPort)
             width = self.frame.size.width * scaler.width;
-            height = self.frame.size.height * scaler.height;
-        }
-        else if(scaleType == OEScaleTypeAbsolute)
-        {
+        else if(xScaleType == OEScaleTypeAbsolute)
             width = scaler.width;
-            height = scaler.height;
-        }
         else
-        {
             width = width * scaler.width;
+
+        if(yScaleType == OEScaleTypeViewPort)
+            height = self.frame.size.height * scaler.height;
+        else if(yScaleType == OEScaleTypeAbsolute)
+            height = scaler.height;
+        else
             height = height * scaler.height;
-        }
-        
+
         _multipassSizes[i + 1] = OESizeMake(width, height);
     }
 }
@@ -755,11 +754,14 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     // render all passes to FBOs
     for(NSUInteger i = 0; i < numberOfPasses; ++i)
     {        
-        BOOL linearFiltering  = [shaders[i] linearFiltering];
+        BOOL   linearFiltering  = [shaders[i] linearFiltering];
+        BOOL   floatFramebuffer = [shaders[i] floatFramebuffer];
+        GLuint internalFormat   = floatFramebuffer ? GL_RGBA32F_ARB : GL_RGBA8;
+        GLuint dataType         = floatFramebuffer ? GL_FLOAT : GL_UNSIGNED_BYTE;
 
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _multipassFBOs[i]);
         glBindTexture(GL_TEXTURE_2D, _multipassTextures[i]);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  _multipassSizes[i + 1].width, _multipassSizes[i + 1].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat,  _multipassSizes[i + 1].width, _multipassSizes[i + 1].height, 0, GL_RGBA, dataType, NULL);
 
         glViewport(0, 0, _multipassSizes[i + 1].width, _multipassSizes[i + 1].height);
 
