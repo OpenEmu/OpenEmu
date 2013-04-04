@@ -366,9 +366,17 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
                 else
                     [self OE_addGroupLabel:row];
             }
-            else if([row isKindOfClass:[NSDictionary class]])
+            else if([row isKindOfClass:[NSDictionary class]]) {
+                NSString *fontFamily = nil;
+
+                if([row objectForKey:OEControlListKeyFontFamilyKey] != nil) {
+                    fontFamily = [row objectForKey:OEControlListKeyFontFamilyKey];
+                }
+
                 [self OE_addButtonWithName:[row objectForKey:OEControlListKeyNameKey]
-                                     label:[[row objectForKey:OEControlListKeyLabelKey] stringByAppendingString:@":"]];
+                                     label:[[row objectForKey:OEControlListKeyLabelKey] stringByAppendingString:@":"]
+                                fontFamily:fontFamily];
+            }
         }
     }
 
@@ -398,6 +406,11 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
 
 - (void)OE_addButtonWithName:(NSString *)aName label:(NSString *)aLabel;
 {
+    [self OE_addButtonWithName:aName label:aLabel fontFamily:nil];
+}
+
+- (void)OE_addButtonWithName:(NSString *)aName label:(NSString *)aLabel fontFamily:(NSString *)aFontFamily;
+{
     OEControlsKeyButton *button = [[OEControlsKeyButton alloc] initWithFrame:NSZeroRect];
     
     [button setTarget:target];
@@ -408,8 +421,13 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
     
     [currentGroup addObject:button];
     
-    NSTextField     *labelField     = [[NSTextField alloc] initWithFrame:NSZeroRect];
-    NSTextFieldCell *labelFieldCell = [[OEControlsKeyLabelCell alloc] init];
+    NSTextField            *labelField     = [[NSTextField alloc] initWithFrame:NSZeroRect];
+    OEControlsKeyLabelCell *labelFieldCell = [[OEControlsKeyLabelCell alloc] init];
+    
+    if(aFontFamily != nil)
+    {
+        [labelFieldCell setFontFamily:aFontFamily];
+    }
     
     [labelField setCell:labelFieldCell];
     [labelField setStringValue:aLabel];
