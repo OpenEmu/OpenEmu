@@ -28,4 +28,6 @@
 
 @interface OEControlsKeyLabelCell : OEAttributedTextFieldCell
 
+-(void)setFontFamily:(NSString *)aFontFamily;
+
 @end

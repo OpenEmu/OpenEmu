@@ -32,7 +32,7 @@
 {
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     
-    NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSFontBoldTrait weight:9.0 size:11.0];
+    [self setFontFamily:@"Lucida Grande"];
     
     NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowBlurRadius:1.0];
@@ -40,9 +40,7 @@
     [shadow setShadowOffset:NSMakeSize(0, -1)];
     
     [attributes setObject:[NSColor colorWithDeviceWhite:0.0 alpha:1.0] forKey:NSForegroundColorAttributeName];
-    [attributes setObject:font forKey:NSFontAttributeName];
     [attributes setObject:shadow forKey:NSShadowAttributeName];
-    
     
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     [style setAlignment:NSRightTextAlignment];
@@ -51,6 +49,15 @@
     self.textAttributes = attributes;
     
     [super setupAttributes];
+}
+
+-(void)setFontFamily:(NSString *)aFontFamily
+{
+    if(aFontFamily != nil)
+    {
+        NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:aFontFamily traits:NSFontBoldTrait weight:9.0 size:11.0];
+        [self setFont:font];
+    }
 }
 
 @end
