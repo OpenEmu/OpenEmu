@@ -201,7 +201,7 @@ static const CGFloat OEMenuScrollAutoStep    = 8.0;
     if(_trackingArea) [self removeTrackingArea:_trackingArea];
 
     const NSRect bounds = OENSInsetRectWithEdgeInsets([self bounds], _backgroundEdgeInsets);
-    _trackingArea = [[NSTrackingArea alloc] initWithRect:bounds options:NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited | NSTrackingActiveInActiveApp owner:self userInfo:nil];
+    _trackingArea = [[NSTrackingArea alloc] initWithRect:bounds options:NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited | NSTrackingActiveAlways owner:self userInfo:nil];
     [self addTrackingArea:_trackingArea];
 }
 
