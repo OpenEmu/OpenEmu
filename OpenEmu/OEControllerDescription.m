@@ -216,6 +216,8 @@ static NSMutableDictionary *_deviceIDToDeviceDescriptions;
     [desc setControllerDescription:self];
     _controls[[desc identifier]] = desc;
 
+    if(_isGeneric) [desc setUpControlValuesUsingRepresentations:nil];
+
     return desc;
 }
 

@@ -720,28 +720,6 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
 
 - (OEHIDEvent *)OE_eventWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler;
 {
-    if([aDeviceHandler isKindOfClass:[OEHIDDeviceHandler class]])
-        return [self OE_eventWithHIDDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler];
-    else if([aDeviceHandler isKindOfClass:[OEWiimoteHIDDeviceHandler class]])
-        return [self OE_eventWithWiimoteDeviceHandler:(OEWiimoteHIDDeviceHandler *)aDeviceHandler];
-
-    return self;
-}
-
-- (OEHIDEvent *)OE_eventWithHIDDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler;
-{
-    OEHIDEvent *ret = [self copy];
-
-    IOHIDElementRef element = [aDeviceHandler elementForEvent:self];
-    if(element != NULL) ret->_cookie = IOHIDElementGetCookie(element);
-
-    ret->_deviceHandler = aDeviceHandler;
-
-    return ret;
-}
-
-- (OEHIDEvent *)OE_eventWithWiimoteDeviceHandler:(OEWiimoteHIDDeviceHandler *)aDeviceHandler;
-{
     OEHIDEvent *ret = [self copy];
 
     ret->_deviceHandler = aDeviceHandler;

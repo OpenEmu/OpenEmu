@@ -481,14 +481,12 @@ static BOOL OE_isXboxControllerName(NSString *name)
     {
         _deviceHandlerClass = handlerClass;
         _elementAttributes = [[NSMutableDictionary alloc] init];
-        NSLog(@"Creating: %@", _elementAttributes);
     }
     return self;
 }
 
 - (void)applyAttributesToElement:(IOHIDElementRef)element;
 {
-    NSLog(@"%@, _elementAttributes : %@", @(IOHIDElementGetCookie(element)), _elementAttributes);
     NSDictionary *attributes = _elementAttributes[@(IOHIDElementGetCookie(element))];
     [attributes enumerateKeysAndObjectsUsingBlock:
      ^(NSString *key, id attribute, BOOL *stop)
@@ -500,7 +498,6 @@ static BOOL OE_isXboxControllerName(NSString *name)
 - (void)setAttributes:(NSDictionary *)attributes forElementCookie:(NSUInteger)cookie;
 {
     _elementAttributes[@(cookie)] = [attributes copy];
-    NSLog(@"%@, _elementAttributes : %@", attributes, _elementAttributes);
 }
 
 @end
