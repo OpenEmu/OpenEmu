@@ -287,14 +287,7 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
          if(controlIdentifier == nil)
              return;
 
-         // Make sure everything is converted to the new system.
-         FIXME("This message should not appear in the console anymore, make sure all defaults are converted.");
-         if([controlIdentifier isKindOfClass:[NSDictionary class]])
-         {
-             NSLog(@"ERROR: Default for key %@ in System %@ was not converted to the new system.", keyName, [_systemController systemName]);
-             return;
-         }
-
+         NSAssert(![controlIdentifier isKindOfClass:[NSDictionary class]], @"Default for key %@ in System %@ was not converted to the new system.", keyName, [_systemController systemName]);
          OEControlValueDescription *controlValue = (useValueIdentifier
                                                     ? [controllerDescription controlValueDescriptionForValueIdentifier:controlIdentifier]
                                                     : [controllerDescription controlValueDescriptionForIdentifier:controlIdentifier]);
@@ -446,7 +439,6 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 
     if(ret == nil)
     {
-        FIXME("This is a temporary solution until to notify the preferences.");
         [self willChangeValueForKey:@"keyboardPlayerBindings"];
         ret = [[OEKeyboardPlayerBindings alloc] OE_initWithSystemBindings:self playerNumber:playerNumber];
 
@@ -857,7 +849,6 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
 
     NSUInteger playerNumber = [controller playerNumber];
 
-    FIXME("This is a temporary solution until to notify the preferences.");
     [self willChangeValueForKey:@"devicePlayerBindings"];
     [_devicePlayerBindings removeObjectForKey:@(playerNumber)];
     [self didChangeValueForKey:@"devicePlayerBindings"];
@@ -945,7 +936,6 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
     _deviceHandlersToBindings[aHandler] = controller;
 
     // Add it to the player list
-    FIXME("What should we do if all player slots of the system are full?");
     [self OE_addDeviceBindings:controller];
 
     return controller;
@@ -958,7 +948,6 @@ static NSString *const _OEControllerBindingRepresentationsKey = @"controllerBind
     while(_devicePlayerBindings[@(playerNumber)] != nil)
         playerNumber++;
 
-    FIXME("This is a temporary solution until to notify the preferences.");
     [self willChangeValueForKey:@"devicePlayerBindings"];
     _devicePlayerBindings[@(playerNumber)] = controller;
     [self didChangeValueForKey:@"devicePlayerBindings"];

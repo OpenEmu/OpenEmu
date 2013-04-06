@@ -290,8 +290,6 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
 
 - (BOOL)OE_setupEventWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
 - (OEHIDEvent *)OE_eventWithDeviceHandler:(OEDeviceHandler *)aDeviceHandler;
-- (OEHIDEvent *)OE_eventWithHIDDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler;
-- (OEHIDEvent *)OE_eventWithWiimoteDeviceHandler:(OEWiimoteHIDDeviceHandler *)aDeviceHandler;
 
 + (instancetype)OE_eventWithElement:(IOHIDElementRef)element value:(NSInteger)value;
 
