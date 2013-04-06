@@ -29,6 +29,7 @@
 #import <OpenGL/OpenGL.h>
 
 #import <Syphon/Syphon.h>
+#import <OpenEmuBase/OpenEmuBase.h>
 
 #import "OEGameCoreHelper.h"
 

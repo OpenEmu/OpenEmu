@@ -32,10 +32,8 @@
 #import "NSString+UUID.h"
 
 // Open Emu
-#import "OEGameCore.h"
 #import "OEGameAudio.h"
 #import "OECorePlugin.h"
-#import "NSApplication+OEHIDAdditions.h"
 
 // Compression support
 #import <XADMaster/XADArchive.h>

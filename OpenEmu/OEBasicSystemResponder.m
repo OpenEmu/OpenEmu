@@ -25,13 +25,14 @@
  */
 
 #import "OEBasicSystemResponder.h"
-#import "OEAbstractAdditions.h"
 #import "OEDeviceHandler.h"
 #import "OEHIDEvent.h"
 #import "OESystemController.h"
 #import "OEEvent.h"
 #import "OEKeyBindingDescription.h"
 #import "OEKeyBindingGroupDescription.h"
+
+#import <OpenEmuBase/OpenEmuBase.h>
 
 enum { NORTH, EAST, SOUTH, WEST, HAT_COUNT };
 

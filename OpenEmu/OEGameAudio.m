@@ -26,9 +26,7 @@
  */
 
 #import "OEGameAudio.h"
-#import "OEGameCore.h"
-#import "TPCircularBuffer.h"
-#import "OERingBuffer.h"
+#import <OpenEmuBase/OpenEmuBase.h>
 
 typedef struct
 {

@@ -34,12 +34,10 @@
 
 // DO  object
 #import "OEGameCoreHelper.h"
-#import "OEGameCore.h"
+#import <OpenEmuBase/OpenEmuBase.h>
 
 // we are going to be cheap and just use gameCore for now.
 
-@class OEGameCore, OECorePlugin;
-@class OEGameCoreController;
 @class OEGameAudio;
 @class OEGameCoreProxy;
 

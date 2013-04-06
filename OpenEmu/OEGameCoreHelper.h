@@ -28,7 +28,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CoreAudio/CoreAudio.h>
-#import "OEGameCore.h"
+#import <OpenEmuBase/OpenEmuBase.h>
 
 @class OEGameCoreController;
 

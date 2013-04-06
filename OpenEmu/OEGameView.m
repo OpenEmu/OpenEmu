@@ -25,9 +25,7 @@
  */
 
 #import "OEGameView.h"
-#import "OEGameCore.h"
 
-#import "OEGameCore.h"
 #import "OEGameDocument.h"
 #import "OECompositionPlugin.h"
 #import "OEShaderPlugin.h"

@@ -25,6 +25,7 @@
  */
 
 #import "NSApplication+OEHIDAdditions.h"
+#import <OpenEmuSystem/NSResponder+OEHIDAdditions.h>
 #import "OEHIDEvent.h"
 
 @implementation NSApplication (OEHIDAdditions)
@@ -35,7 +36,7 @@ static BOOL _logHIDEventsNoKeyboard = NO;
 - (void)postHIDEvent:(OEHIDEvent *)anEvent
 {
     if(anEvent == nil) return;
-    
+
     if(_logHIDEvents && (!_logHIDEventsNoKeyboard || [anEvent type] != OEHIDEventTypeKeyboard))
         NSLog(@"%@", anEvent);
 
@@ -60,97 +61,6 @@ static BOOL _logHIDEventsNoKeyboard = NO;
 - (void)setLogHIDEventsNoKeyboard:(BOOL)value
 {
     _logHIDEventsNoKeyboard = value;
-}
-
-@end
-
-static dispatch_queue_t oehid_queue;
-
-@implementation NSResponder (OEHIDAdditions)
-
-- (void)handleHIDEvent:(OEHIDEvent *)anEvent
-{
-    if(oehid_queue == NULL) oehid_queue = dispatch_queue_create("OEHIDAdditions HID forwarding", DISPATCH_QUEUE_SERIAL);
-
-    dispatch_async(oehid_queue, ^{
-        switch([anEvent type])
-        {
-            case OEHIDEventTypeAxis :
-                [self axisMoved:anEvent];
-                break;
-            case OEHIDEventTypeTrigger :
-                if([anEvent hasOffState])
-                    [self triggerRelease:anEvent];
-                else
-                    [self triggerPull:anEvent];
-                break;
-            case OEHIDEventTypeButton :
-                if([anEvent hasOffState])
-                    [self buttonUp:anEvent];
-                else
-                    [self buttonDown:anEvent];
-                break;
-            case OEHIDEventTypeHatSwitch :
-                [self hatSwitchChanged:anEvent];
-                break;
-            case OEHIDEventTypeKeyboard :
-                if([anEvent hasOffState])
-                    [self HIDKeyUp:anEvent];
-                else
-                    [self HIDKeyDown:anEvent];
-                break;
-            default:
-                break;
-        }
-    });
-}
-
-- (void)axisMoved:(OEHIDEvent *)anEvent
-{
-    if(_nextResponder != nil)
-        [_nextResponder axisMoved:anEvent];
-}
-
-- (void)triggerPull:(OEHIDEvent *)anEvent;
-{
-    if(_nextResponder != nil)
-        [_nextResponder triggerPull:anEvent];
-}
-
-- (void)triggerRelease:(OEHIDEvent *)anEvent;
-{
-    if(_nextResponder != nil)
-        [_nextResponder triggerRelease:anEvent];
-}
-
-- (void)buttonDown:(OEHIDEvent *)anEvent
-{
-    if(_nextResponder != nil)
-        [_nextResponder buttonDown:anEvent];
-}
-
-- (void)buttonUp:(OEHIDEvent *)anEvent
-{
-    if(_nextResponder != nil)
-        [_nextResponder buttonUp:anEvent];
-}
-
-- (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
-{
-    if(_nextResponder != nil)
-        [_nextResponder hatSwitchChanged:anEvent];
-}
-
-- (void)HIDKeyDown:(OEHIDEvent *)anEvent
-{
-    if(_nextResponder != nil)
-        [_nextResponder HIDKeyDown:anEvent];
-}
-
-- (void)HIDKeyUp:(OEHIDEvent *)anEvent
-{
-    if(_nextResponder != nil)
-        [_nextResponder HIDKeyUp:anEvent];
 }
 
 @end

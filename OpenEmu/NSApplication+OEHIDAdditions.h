@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2009, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -25,6 +25,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+
 @class OEHIDEvent;
 
 @interface NSApplication (OEHIDAdditions)
@@ -32,23 +33,3 @@
 @property(nonatomic) BOOL logHIDEvents;
 @property(nonatomic) BOOL logHIDEventsNoKeyboard;
 @end
-
-@interface NSResponder (OEHIDAdditions)
-
-// Parses anEvent and sends the appropriate event handler messages
-- (void)handleHIDEvent:(OEHIDEvent *)anEvent;
-
-- (void)axisMoved:(OEHIDEvent *)anEvent;
-
-- (void)triggerPull:(OEHIDEvent *)anEvent;
-- (void)triggerRelease:(OEHIDEvent *)anEvent;
-
-- (void)buttonDown:(OEHIDEvent *)anEvent;
-- (void)buttonUp:(OEHIDEvent *)anEvent;
-
-- (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
-
-- (void)HIDKeyDown:(OEHIDEvent *)anEvent;
-- (void)HIDKeyUp:(OEHIDEvent *)anEvent;
-@end
-

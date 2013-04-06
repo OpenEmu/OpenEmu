@@ -27,7 +27,8 @@
 
 #import "OESystemResponder.h"
 #import "OESystemController.h"
-#import "OESystemResponderClient.h"
+
+#import <OpenEmuBase/OpenEmuBase.h>
 #import <objc/runtime.h>
 
 @implementation OESystemResponder

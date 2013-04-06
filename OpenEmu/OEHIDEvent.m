@@ -300,9 +300,9 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
 
 + (NSUInteger)keyCodeForVirtualKey:(CGCharCode)charCode
 {
-    for(int i = 0; i < sizeof(hidvk_codes) / sizeof(*hidvk_codes); ++i)
-        if(hidvk_codes[i].vkCode == charCode)
-            return hidvk_codes[i].hidCode;
+    for(int i = 0; i < sizeof(_OEHIDVirtualKeyCodesTable) / sizeof(*_OEHIDVirtualKeyCodesTable); ++i)
+        if(_OEHIDVirtualKeyCodesTable[i].vkCode == charCode)
+            return _OEHIDVirtualKeyCodesTable[i].hidCode;
 
     return 0;
 }
@@ -310,16 +310,14 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
 + (NSString *)stringForHIDKeyCode:(NSUInteger)hidCode
 {
     CGKeyCode keyCode = 0xFFFF;
-    for(int i = 0; i < sizeof(hidvk_codes) / sizeof(*hidvk_codes); ++i)
-        if(hidvk_codes[i].hidCode == hidCode)
+    for(int i = 0; i < sizeof(_OEHIDVirtualKeyCodesTable) / sizeof(*_OEHIDVirtualKeyCodesTable); ++i)
+        if(_OEHIDVirtualKeyCodesTable[i].hidCode == hidCode)
         {
-            keyCode = hidvk_codes[i].vkCode;
+            keyCode = _OEHIDVirtualKeyCodesTable[i].vkCode;
+            if(_OEHIDVirtualKeyCodesTable[i].string != nil)
+                return _OEHIDVirtualKeyCodesTable[i].string;
             break;
         }
-
-    for(int i = 0; i < sizeof(hidlabels) / sizeof(*hidlabels); ++i)
-        if(hidlabels[i].hidCode == hidCode)
-            return hidlabels[i].string;
 
     TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
     CFDataRef uchr = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
@@ -333,7 +331,7 @@ static inline BOOL _OEFloatEqual(CGFloat v1, CGFloat v2)
         if(currentKeyboard != nil) CFRelease(currentKeyboard);
     }
 
-    const UCKeyboardLayout *keyboardLayout = (const UCKeyboardLayout*)CFDataGetBytePtr(uchr);
+    const UCKeyboardLayout *keyboardLayout = (const UCKeyboardLayout *)CFDataGetBytePtr(uchr);
 
     if(keyboardLayout)
     {

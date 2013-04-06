@@ -25,8 +25,7 @@
  */
 
 #import "OECorePlugin.h"
-#import "OEGameCoreController.h"
-#import "OEGameCore.h"
+#import <OpenEmuBase/OpenEmuBase.h>
 
 @class OEGameDocument;
 
