@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2011, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -37,7 +37,8 @@ typedef enum _OERegion
 extern NSString *const OERegionKey;
 
 @interface OELocalizationHelper : NSObject
-+ (OELocalizationHelper*)sharedHelper;
+
++ (OELocalizationHelper *)sharedHelper;
 
 @property OERegion region;
 
@@ -45,5 +46,6 @@ extern NSString *const OERegionKey;
 - (BOOL)isRegionEU;
 - (BOOL)isRegionJAP;
 
-- (NSString*)regionName;
+- (NSString *)regionName;
+
 @end

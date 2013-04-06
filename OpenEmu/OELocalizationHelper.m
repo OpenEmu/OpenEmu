@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2011, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -40,12 +40,12 @@ NSString *const OERegionKey = @"region";
 static OELocalizationHelper *sharedHelper;
 
 + (OELocalizationHelper*)sharedHelper
-{    
+{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedHelper = [self new];
+        sharedHelper = [[self alloc] init];
     });
-    
+
 	return sharedHelper;
 }
 
@@ -71,11 +71,12 @@ static OELocalizationHelper *sharedHelper;
 }
 
 #pragma mark -
+
 - (BOOL)isRegionNA  { return region == OERegionNA;  }
 - (BOOL)isRegionEU  { return region == OERegionEU;  }
 - (BOOL)isRegionJAP { return region == OERegionJAP; }
 
-- (NSString*)regionName
+- (NSString *)regionName
 {
     switch ([self region])
     {
@@ -88,42 +89,52 @@ static OELocalizationHelper *sharedHelper;
         case OERegionJAP:
             return NSLocalizedString(@"Japan", "");
             break;
-            
         default:
             break;
     }
+
     return NSLocalizedString(@"Other Region", "");
 }
+
 #pragma mark -
-#define OERegionCodesAfrica [NSArray arrayWithObjects:@"AO",@"BF",@"BI",@"BJ",@"BW",@"CD",@"CF",@"CG",@"CI",@"CM",@"CV",@"DJ",@"DZ",@"EG",@"EH",@"ER",@"ET",@"GA",@"GH",@"GM",@"GN",@"GQ",@"GW",@"KE",@"KM",@"LR",@"LS",@"LY",@"MA",@"MG",@"ML",@"MR",@"MU",@"MW",@"MZ",@"NA",@"NE",@"NG",@"RE",@"RW",@"SC",@"SD",@"SH",@"SL",@"SN",@"SO",@"SS",@"ST",@"SZ",@"TD",@"TG",@"TN",@"TZ",@"UG",@"YT",@"ZA",@"ZM",@"ZW",nil]
-#define OERegionCodesAntarctica [NSArray arrayWithObjects:@"AQ",@"BV",@"GS",@"HM",@"TF",nil]
-#define OERegionCodesAsia [NSArray arrayWithObject:@"AE",@"AF",@"AM",@"AZ",@"BD",@"BH",@"BN",@"BT",@"CC",@"CN",@"CX",@"CY",@"GE",@"HK",@"ID",@"IL",@"IN",@"IO",@"IQ",@"IR",@"JO",@"JP",@"KG",@"KH",@"KP",@"KR",@"KW",@"KZ",@"LA",@"LB",@"LK",@"MM",@"MN",@"MO",@"MV",@"MY",@"NP",@"OM",@"PH",@"PK",@"PS",@"QA",@"SA",@"SG",@"SY",@"TH",@"TJ",@"TL",@"TM",@"TR",@"TW",@"UZ",@"VN",@"YE",nil]
-#define OERegionCodesEurope [NSArray arrayWithObjects:@"AD",@"AL",@"AT",@"AX",@"BA",@"BE",@"BG",@"BY",@"CH",@"CZ",@"DE",@"DK",@"EE",@"ES",@"FI",@"FO",@"FR",@"GB",@"GG",@"GI",@"GR",@"HR",@"HU",@"IE",@"IM",@"IS",@"IT",@"JE",@"LI",@"LT",@"LU",@"LV",@"MC",@"MD",@"ME",@"MK",@"MT",@"NL",@"NO",@"PL",@"PT",@"RO",@"RS",@"RU",@"SE",@"SI",@"SJ",@"SK",@"SM",@"UA",@"VA",nil]
-#define OERegionCodesNorthAmerica [NSArray arrayWithObjects:@"AG",@"AI",@"AW",@"BB",@"BL",@"BM",@"BQ",@"BS",@"BZ",@"CA",@"CR",@"CU",@"CW",@"DM",@"DO",@"GD",@"GL",@"GP",@"GT",@"HN",@"HT",@"JM",@"KN",@"KY",@"LC",@"MF",@"MQ",@"MS",@"MX",@"NI",@"PA",@"PM",@"PR",@"SV",@"SX",@"TC",@"TT",@"US",@"VC",@"VG",@"VI",nil]
-#define OERegionCodesSouthAmerica [NSArray arrayWithObjects:@"AR",@"BO",@"BR",@"CL",@"CO",@"EC",@"FK",@"GF",@"GY",@"PE",@"PY",@"SR",@"UY",@"VE",nil]
-#define OERegionCodesOceania [NSArray arrayWithObjects:@"AS",@"AU",@"CK",@"FJ",@"FM",@"GU",@"KI",@"MH",@"MP",@"NC",@"NF",@"NR",@"NU",@"NZ",@"PF",@"PG",@"PN",@"PW",@"SB",@"TK",@"TO",@"TV",@"UM",@"VU",@"WF",@"WS",nil]
+
+#define OERegionCodesAfrica @[ @"AO", @"BF", @"BI", @"BJ", @"BW", @"CD", @"CF", @"CG", @"CI", @"CM", @"CV", @"DJ", @"DZ", @"EG", @"EH", @"ER", @"ET", @"GA", @"GH", @"GM", @"GN", @"GQ", @"GW", @"KE", @"KM", @"LR", @"LS", @"LY", @"MA", @"MG", @"ML", @"MR", @"MU", @"MW", @"MZ", @"NA", @"NE", @"NG", @"RE", @"RW", @"SC", @"SD", @"SH", @"SL", @"SN", @"SO", @"SS", @"ST", @"SZ", @"TD", @"TG", @"TN", @"TZ", @"UG", @"YT", @"ZA", @"ZM", @"ZW" ]
+
+#define OERegionCodesAntarctica @[ @"AQ", @"BV", @"GS", @"HM", @"TF" ]
+
+#define OERegionCodesAsia @[ @"AE", @"AF", @"AM", @"AZ", @"BD", @"BH", @"BN", @"BT", @"CC", @"CN", @"CX", @"CY", @"GE", @"HK", @"ID", @"IL", @"IN", @"IO", @"IQ", @"IR", @"JO", @"JP", @"KG", @"KH", @"KP", @"KR", @"KW", @"KZ", @"LA", @"LB", @"LK", @"MM", @"MN", @"MO", @"MV", @"MY", @"NP", @"OM", @"PH", @"PK", @"PS", @"QA", @"SA", @"SG", @"SY", @"TH", @"TJ", @"TL", @"TM", @"TR", @"TW", @"UZ", @"VN", @"YE" ]
+
+#define OERegionCodesEurope @[ @"AD", @"AL", @"AT", @"AX", @"BA", @"BE", @"BG", @"BY", @"CH", @"CZ", @"DE", @"DK", @"EE", @"ES", @"FI", @"FO", @"FR", @"GB", @"GG", @"GI", @"GR", @"HR", @"HU", @"IE", @"IM", @"IS", @"IT", @"JE", @"LI", @"LT", @"LU", @"LV", @"MC", @"MD", @"ME", @"MK", @"MT", @"NL", @"NO", @"PL", @"PT", @"RO", @"RS", @"RU", @"SE", @"SI", @"SJ", @"SK", @"SM", @"UA", @"VA" ]
+
+#define OERegionCodesNorthAmerica @[ @"AG", @"AI", @"AW", @"BB", @"BL", @"BM", @"BQ", @"BS", @"BZ", @"CA", @"CR", @"CU", @"CW", @"DM", @"DO", @"GD", @"GL", @"GP", @"GT", @"HN", @"HT", @"JM", @"KN", @"KY", @"LC", @"MF", @"MQ", @"MS", @"MX", @"NI", @"PA", @"PM", @"PR", @"SV", @"SX", @"TC", @"TT", @"US", @"VC", @"VG", @"VI" ]
+
+#define OERegionCodesSouthAmerica @[ @"AR", @"BO", @"BR", @"CL", @"CO", @"EC", @"FK", @"GF", @"GY", @"PE", @"PY", @"SR", @"UY", @"VE" ]
+
+#define OERegionCodesOceania @[ @"AS", @"AU", @"CK", @"FJ", @"FM", @"GU", @"KI", @"MH", @"MP", @"NC", @"NF", @"NR", @"NU", @"NZ", @"PF", @"PG", @"PN", @"PW", @"SB", @"TK", @"TO", @"TV", @"UM", @"VU", @"WF", @"WS" ]
+
 #pragma mark -
 #pragma mark Private Methods
 
 - (void)OE_updateRegion
 {
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+
 	if([standardUserDefaults valueForKey:OERegionKey])
 		region = [[standardUserDefaults valueForKey:OERegionKey] intValue];
 	else
     {
 		NSLocale *locale = [NSLocale currentLocale];
-		
 		NSString *countryCode = [locale objectForKey:NSLocaleCountryCode];
-        
+
 		if([OERegionCodesEurope containsObject:countryCode])
 			region = OERegionEU;
 		else if([OERegionCodesNorthAmerica containsObject:countryCode])
-			region = OERegionNA;	
-		else if([[NSArray arrayWithObjects:@"JP", @"HK", @"TW", nil] containsObject:countryCode])
+			region = OERegionNA;
+		else if([@[ @"JP", @"HK", @"TW" ] containsObject:countryCode])
 			region = OERegionJAP;
 		else
 			region = OERegionOther;
 	}
 }
+
 @end
