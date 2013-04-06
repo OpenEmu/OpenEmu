@@ -522,7 +522,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 - (void)signalUpdatedScreenSize
 {
-    DLog(@"Sending did change size to %d %d", correctedSize.width, correctedSize.height);
+    DLog(@"Sending did change size to %@", NSStringFromOEIntSize(correctedSize));
     [delegate gameCoreDidChangeScreenSizeTo:correctedSize];
 }
 
@@ -532,7 +532,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
     if (memcmp(&aspectSize, &previousAspectSize, sizeof(aspectSize))) {
         previousAspectSize = aspectSize;
-        DLog(@"Sending did change aspect to %d %d", aspectSize.width, aspectSize.height);
+        DLog(@"Sending did change aspect to %@", NSStringFromOEIntSize(aspectSize));
         [delegate gameCoreDidChangeAspectSizeTo:aspectSize];
     }
 }

@@ -25,12 +25,9 @@
  */
 
 #import "OEGameCore.h"
-#import "OEGameDocument.h"
 #import "OEGameCoreController.h"
 #import "OEAbstractAdditions.h"
-#import "OEHIDEvent.h"
 #import "OERingBuffer.h"
-#import "PSYBlockTimer.h"
 #import "OETimingUtils.h"
 
 #ifndef BOOL_STR

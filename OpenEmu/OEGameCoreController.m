@@ -26,10 +26,7 @@
 
 #import "OEGameCoreController.h"
 #import "OEAbstractAdditions.h"
-#import "NSApplication+OEHIDAdditions.h"
 #import "OEGameCore.h"
-#import "OEHIDEvent.h"
-#import "NSUserDefaultsController+OEEventAdditions.h"
 #import <objc/runtime.h>
 
 NSString *const OEAdvancedPreferenceKey  = @"OEAdvancedPreferenceKey";
