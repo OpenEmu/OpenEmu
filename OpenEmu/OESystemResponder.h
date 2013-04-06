@@ -43,9 +43,5 @@
 
 // Methods that subclasses must override
 @interface OESystemResponder (OEGameSystemResponderSubclass)
-
 + (Protocol *)gameSystemResponderClientProtocol;
-
-- (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
-
 @end

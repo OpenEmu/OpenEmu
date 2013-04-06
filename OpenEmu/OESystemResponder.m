@@ -68,11 +68,6 @@
     }
 }
 
-- (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
-{
-    
-}
-
 - (void)systemBindings:(OESystemBindings *)sender didSetEvent:(id)event forBinding:(id)bindingDescription playerNumber:(NSUInteger)playerNumber
 {
     

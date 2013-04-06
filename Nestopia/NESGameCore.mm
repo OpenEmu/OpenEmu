@@ -537,32 +537,6 @@ static int Heights[2] =
     nesVideo->pitch = width * 4;
 }
 
-- (void)settingWasSet:(id)aValue forKey:(NSString *)keyName
-{
-    Nes::Api::Video video(*emu);
-    NSInteger value = [aValue integerValue];
-    if([NESNTSC isEqualToString:keyName])
-        [self setupVideo:emu withFilter:!!value];
-    else if([NESBrightness isEqualToString:keyName])
-        video.SetBrightness(value);
-    else if([NESSaturation isEqualToString:keyName])
-        video.SetSaturation(value);
-    else if([NESContrast isEqualToString:keyName])
-        video.SetContrast(value);
-    else if([NESSharpness isEqualToString:keyName])
-        video.SetSharpness(value);
-    else if([NESColorRes isEqualToString:keyName])
-        video.SetColorResolution(value);
-    else if([NESColorBleed isEqualToString:keyName])
-        video.SetColorBleed(value);
-    else if([NESColorArtifacts isEqualToString:keyName])
-        video.SetColorArtifacts(value);
-    else if([NESColorFringing isEqualToString:keyName])
-        video.SetColorFringing(value);
-    else if([NESHue isEqualToString:keyName])
-        video.SetHue(value);
-}
-
 - (void)setupEmulation
 {
     //soundLock = [[NSLock alloc] init];

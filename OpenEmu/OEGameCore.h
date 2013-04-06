@@ -162,10 +162,6 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 - (void)stopEmulation;
 - (void)startEmulation;
 
-#pragma mark -
-#pragma mark Tracking preference changes
-- (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
-
 // ============================================================================
 // Abstract methods: Those methods should be overridden by subclasses
 // ============================================================================

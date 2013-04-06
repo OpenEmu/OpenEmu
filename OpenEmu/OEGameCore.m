@@ -394,12 +394,6 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     return 0;
 }
 
-- (void)settingWasSet:(id)aValue forKey:(NSString *)keyName
-{
-    DLog(@"keyName = %@", keyName);
-    [self doesNotImplementSelector:_cmd];
-}
-
 #pragma mark -
 #pragma Save state
 
