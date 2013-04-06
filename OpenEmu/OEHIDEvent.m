@@ -231,13 +231,13 @@ static inline CGFloat _OEScaledValueForAxis(NSInteger minimum, NSInteger value, 
 {
     value = _OEClamp(minimum, value, maximum);
 
-    NSInteger zero = (maximum + minimum) / 2 + 1;
+    NSInteger middleValue = (maximum + minimum) / 2 + 1;
 
     if(minimum >= 0)
     {
-        minimum -= zero;
-        value   -= zero;
-        maximum -= zero;
+        minimum -= middleValue;
+        value   -= middleValue;
+        maximum -= middleValue;
     }
 
     if(value < 0)      return -value / (CGFloat)minimum;
