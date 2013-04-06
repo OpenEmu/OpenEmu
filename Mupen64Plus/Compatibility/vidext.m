@@ -30,6 +30,8 @@
 
 #include <dlfcn.h>
 
+@implementation MupenGameCore (VidExtFunctions)
+
 static int sActive;
 
 EXPORT m64p_error CALL VidExt_Init(void)
@@ -108,3 +110,6 @@ int VidExt_VideoRunning(void)
 {
     return sActive;
 }
+
+@end
+
