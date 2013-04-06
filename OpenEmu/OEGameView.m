@@ -539,15 +539,6 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 
                 [_filterRenderer setValue:[self gameCIImage] forInputKey:@"OEImageInput"];
                 [_filterRenderer renderAtTime:_filterTime arguments:arguments];
-
-                //if( )
-                //{
-                //    NSPoint mousePoint;
-                //    mousePoint.x = [[_filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
-                //    mousePoint.y = [[_filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
-                //
-                //    [_rootProxy setMousePosition:mousePoint];
-                //}
             }
         }
 

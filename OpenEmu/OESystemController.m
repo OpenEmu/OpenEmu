@@ -25,36 +25,30 @@
  */
 
 #import "OESystemController.h"
-#import "OESystemResponder.h"
-#import "OEHIDEvent.h"
-#import "NSUserDefaultsController+OEEventAdditions.h"
-#import "OELocalizationHelper.h"
+
 #import "OEBindingsController.h"
+#import "OELocalizationHelper.h"
+#import "OESystemResponder.h"
 
 #define OEHIDAxisTypeString      @"OEHIDAxisType"
 #define OEHIDHatSwitchTypeString @"OEHIDEventHatSwitchType"
 
 @interface OESystemController ()
 {
-    NSBundle            *_bundle;
-    NSMutableArray      *_gameSystemResponders;
-    NSMutableDictionary *_preferenceViewControllers;
+    NSBundle       *_bundle;
+    NSMutableArray *_gameSystemResponders;
 
-    NSString            *_systemName;
-    NSImage             *_systemIcon;
+    NSString       *_systemName;
+    NSImage        *_systemIcon;
 }
 
-@property(readwrite, copy) NSArray *genericSettingNames;
 @property(readwrite, copy) NSArray *systemControlNames;
 @property(readwrite, copy) NSArray *genericControlNames;
 
 @property(readwrite, copy) NSArray *axisControls;
 @property(readwrite, copy) NSArray *hatSwitchControls;
 
-- (void)OE_setupControlTypes;
-
-- (void)OE_initROMHandling;
-
+- (void)OE_setUpControlTypes;
 - (id)OE_propertyListWithFileName:(NSString *)fileName;
 
 @end
@@ -91,9 +85,7 @@ NSString *const OEControllerImageMaskKey     = @"OEControllerImageMaskKey";
 NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 
 @implementation OESystemController
-@synthesize controllerKeyPositions, controllerImageMaskName, controllerImageName, controllerImage, controllerImageMask;
-@synthesize fileTypes;
-@synthesize axisControls, hatSwitchControls, genericSettingNames, genericControlNames, systemControlNames;
+@synthesize controllerImage = _controllerImage, controllerImageMask = _controllerImageMask;
 
 - (BOOL)OE_isBundleValid:(NSBundle *)aBundle forClass:(Class)aClass
 {
@@ -112,11 +104,10 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 
     if((self = [super init]))
     {
-        _bundle                    = aBundle;
-        _gameSystemResponders      = [[NSMutableArray alloc] init];
-        _preferenceViewControllers = [[NSMutableDictionary alloc] init];
-        _systemIdentifier          = (    [[_bundle infoDictionary] objectForKey:OESystemIdentifier]
-                                      ? : [_bundle bundleIdentifier]);
+        _bundle               = aBundle;
+        _gameSystemResponders = [[NSMutableArray alloc] init];
+        _systemIdentifier     = ([[_bundle infoDictionary] objectForKey:OESystemIdentifier]
+                                 ? : [_bundle bundleIdentifier]);
 
         _systemName = [[[_bundle infoDictionary] objectForKey:OESystemName] copy];
 
@@ -134,13 +125,13 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 
         _defaultDeviceControls = [self OE_propertyListWithFileName:OEControllerMappingsFileName];
 
-        // TODO: Do the same thing for generic settings
         [self setGenericControlNames:[[_bundle infoDictionary] objectForKey:OEGenericControlNamesKey]];
         [self setSystemControlNames: [[_bundle infoDictionary] objectForKey:OESystemControlNamesKey]];
 
-        [self OE_setupControlTypes];
-        [self OE_setupControllerPreferencesKeys];
-        [self OE_initROMHandling];
+        [self OE_setUpControlTypes];
+        [self OE_setUpControllerPreferencesKeys];
+
+        _fileTypes = [[_bundle infoDictionary] objectForKey:OEFileTypes];
     }
 
     return self;
@@ -160,11 +151,6 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 #pragma mark -
 #pragma mark Rom Handling
 
-- (void)OE_initROMHandling
-{
-    fileTypes  = [[_bundle infoDictionary] objectForKey:OEFileTypes];
-}
-
 - (OECanHandleState)canHandleFile:(NSString *)path
 {
     return OECanHandleUncertain;
@@ -172,10 +158,10 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 
 - (BOOL)canHandleFileExtension:(NSString *)fileExtension
 {
-    return [fileTypes containsObject:[fileExtension lowercaseString]];
+    return [_fileTypes containsObject:[fileExtension lowercaseString]];
 }
 
-- (void)OE_setupControlTypes;
+- (void)OE_setUpControlTypes;
 {
     NSDictionary *dict = [[_bundle infoDictionary] objectForKey:OEControlTypesKey];
 
@@ -205,14 +191,14 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
     return (fileName == nil ? nil : [NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:fileName] mutabilityOption:NSPropertyListImmutable format:NULL errorDescription:NULL]);
 }
 
-- (void)OE_setupControllerPreferencesKeys;
+- (void)OE_setUpControllerPreferencesKeys;
 {
     // TODO: Support local setup with different plists
     NSDictionary *plist          = [self OE_defaultControllerPreferences];
     NSDictionary *localizedPlist = [self OE_localizedControllerPreferences];
 
-    controllerImageName     = [localizedPlist objectForKey:OEControllerImageKey]     ? : [plist objectForKey:OEControllerImageKey];
-    controllerImageMaskName = [localizedPlist objectForKey:OEControllerImageMaskKey] ? : [plist objectForKey:OEControllerImageMaskKey];
+    _controllerImageName     = [localizedPlist objectForKey:OEControllerImageKey]     ? : [plist objectForKey:OEControllerImageKey];
+    _controllerImageMaskName = [localizedPlist objectForKey:OEControllerImageMaskKey] ? : [plist objectForKey:OEControllerImageMaskKey];
 
     NSDictionary *positions = [plist objectForKey:OEControllerKeyPositionKey];
     NSDictionary *localPos  = [localizedPlist objectForKey:OEControllerKeyPositionKey];
@@ -226,7 +212,7 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
         [converted setObject:[NSValue valueWithPoint:value != nil ? NSPointFromString(value) : NSZeroPoint] forKey:key];
     }
 
-    controllerKeyPositions = [converted copy];
+    _controllerKeyPositions = [converted copy];
 }
 
 - (id)newGameSystemResponder;
@@ -235,48 +221,6 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
     [self registerGameSystemResponder:responder];
 
     return responder;
-}
-
-- (NSDictionary *)preferenceViewControllerClasses;
-{
-    return [NSDictionary dictionary];
-}
-
-- (NSArray *)availablePreferenceViewControllerKeys;
-{
-    return [[self preferenceViewControllerClasses] allKeys];
-}
-
-- (id)preferenceViewControllerForKey:(NSString *)aKey;
-{
-    id ctrl = [_preferenceViewControllers objectForKey:aKey];
-
-    if(ctrl == nil)
-    {
-        ctrl = [self newPreferenceViewControllerForKey:aKey];
-        [_preferenceViewControllers setObject:ctrl forKey:aKey];
-    }
-
-    return ctrl;
-}
-
-- (id)newPreferenceViewControllerForKey:(NSString *)aKey
-{
-    id ret = nil;
-    Class controllerClass = [[self preferenceViewControllerClasses] objectForKey:aKey];
-
-    if(controllerClass != nil)
-    {
-        NSString *nibName = [aKey substringWithRange:NSMakeRange(2, [aKey length] - 5)];
-        ret = [[controllerClass alloc] initWithNibName:nibName bundle:_bundle];
-    }
-    else
-        ret = [[NSViewController alloc] initWithNibName:@"UnimplementedPreference" bundle:[NSBundle mainBundle]];
-
-    if([ret respondsToSelector:@selector(setDelegate:)])
-        [ret setDelegate:self];
-
-    return ret;
 }
 
 - (NSString *)systemName
@@ -296,18 +240,18 @@ NSString *const OEControllerKeyPositionKey   = @"OEControllerKeyPositionKey";
 
 - (NSImage *)controllerImage;
 {
-    if(controllerImage == nil)
-        controllerImage = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForImageResource:[self controllerImageName]]];
+    if(_controllerImage == nil)
+        _controllerImage = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForImageResource:[self controllerImageName]]];
 
-    return controllerImage;
+    return _controllerImage;
 }
 
 - (NSImage *)controllerImageMask;
 {
-    if(controllerImageMask == nil)
-        controllerImageMask = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForImageResource:[self controllerImageMaskName]]];
+    if(_controllerImageMask == nil)
+        _controllerImageMask = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForImageResource:[self controllerImageMaskName]]];
 
-    return controllerImageMask;
+    return _controllerImageMask;
 }
 
 #pragma mark -

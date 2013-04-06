@@ -25,7 +25,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <OpenEmuBase/OEPluginController.h>
 
 @class OEHIDEvent;
 @class OESystemResponder;
@@ -95,24 +94,9 @@ typedef enum
     OECanHandleUncertain,
 } OECanHandleState;
 
-@interface OESystemController : NSObject <OEPluginController>
+@interface OESystemController : NSObject
 
 - (id)initWithBundle:(NSBundle *)aBundle;
-
-/*
-  *The method search for a class associated with aKey and instantiate the controller
-  *with the default Nib name provided by the key.
-  *
-  *For example: if the passed-in key is @"OEControlsPreferenceKey" the default nib name will be
-  *@"ControlsPreference" (the two-letter prefix "OE" and three-letter suffix "Key" are removed from
-  *the name).
- */
-- (id)newPreferenceViewControllerForKey:(NSString *)aKey;
-
-// A dictionary of keys and UIViewController classes, keys are different panels available in the preferences
-// Must be overridden by subclasses to provide the appropriate classes
-- (NSDictionary *)preferenceViewControllerClasses;
-
 
 @property(readonly, copy) NSString     *systemIdentifier;
 @property(readonly)       NSString     *systemName;
@@ -120,7 +104,6 @@ typedef enum
 
 @property(readonly)       NSUInteger    numberOfPlayers;
 @property(readonly)       Class         responderClass;
-@property(readonly, copy) NSArray      *genericSettingNames;
 @property(readonly, copy) NSArray      *systemControlNames;
 @property(readonly, copy) NSArray      *genericControlNames;
 @property(readonly, copy) NSArray      *axisControls;

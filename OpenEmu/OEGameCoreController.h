@@ -25,41 +25,19 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "OEPluginController.h"
 
 extern NSString *const OEAdvancedPreferenceKey;
 extern NSString *const OEGameCoreClassKey;
 extern NSString *const OEGameCorePlayerCountKey;
 
-@protocol OESettingObserver;
 @class OEGameCore, OEGameDocument, OEHIDEvent, OESystemResponder;
 
-@interface OEGameCoreController : NSResponder <OEPluginController>
+@interface OEGameCoreController : NSResponder
 
 - (id)initWithBundle:(NSBundle *)aBundle;
 
-@property(readonly) NSBundle *bundle;
-@property(readonly) Class     gameCoreClass;
-
-@property(weak, readonly) id currentPreferenceViewController;
-
-+ (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses;
-
-/*
- * The method search for a class associated with aKey and instantiate the controller
- * with the Nib name provided by the controller +preferenceNibName class method.
- * If +preferenceNibName is not overridden by the controller class, the receiver uses the default
- * nib name provided by the key.
- *
- * For example: if the passed-in key is @"OEControlsPreferenceKey" the default nib name will be
- * @"ControlsPreference" (the two-letter prefix "OE" and three-letter suffix "Key" are removed from
- * the name).
- */
-- (id)newPreferenceViewControllerForKey:(NSString *)aKey;
-
-// A dictionary of keys and UIViewController classes, keys are different panels available in the preferences
-// Must be overridden by subclasses to provide the appropriate classes
-- (NSDictionary *)preferenceViewControllerClasses;
+@property(readonly) NSBundle   *bundle;
+@property(readonly) Class       gameCoreClass;
 
 @property(readonly) NSString   *pluginName;
 @property(readonly) NSArray    *systemIdentifiers;
@@ -70,19 +48,4 @@ extern NSString *const OEGameCorePlayerCountKey;
 
 - (bycopy OEGameCore *)newGameCore;
 
-- (id)settingForKey:(NSString *)keyName;
-- (void)setSetting:(id)value forKey:(NSString *)keyName;
-- (void)addSettingObserver:(id<OESettingObserver>)anObject;
-- (void)removeSettingObserver:(id<OESettingObserver>)anObject;
-- (NSString *)keyPathForSettingKey:(NSString *)keyName;
-
 @end
-
-@interface NSViewController (OEGameCoreControllerAddition)
-+ (NSString *)preferenceNibName;
-@end
-
-@protocol OESettingObserver <NSObject>
-- (void)settingWasSet:(bycopy id)aValue forKey:(bycopy NSString *)keyName;
-@end
-

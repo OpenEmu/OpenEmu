@@ -26,8 +26,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "OEPluginController.h"
-
 @interface NSObject (OEPlugin)
 + (BOOL)isPluginClass;
 @end
@@ -39,18 +37,18 @@
 + (void)registerPluginClass:(Class)pluginClass;
 
 // Subclass hook to perform checks or setups of the controller.
-- (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass;
+- (id)newPluginControllerWithClass:(Class)bundleClass;
 
-@property(readonly) NSString               *path;
-@property(readonly) NSString               *name;
+@property(readonly) NSString     *path;
+@property(readonly) NSString     *name;
 
 // Properties only available when dealing with bundle-based plugins.
-@property(readonly) id<OEPluginController>  controller; // Main Class of the bundle, can be nil.
-@property(readonly) NSString               *displayName;
-@property(readonly) NSBundle               *bundle;
-@property(readonly) NSDictionary           *infoDictionary;
-@property(readonly) NSString               *details;
-@property(readonly) NSString               *version;
+@property(readonly) id            controller; // Main Class of the bundle, can be nil.
+@property(readonly) NSString     *displayName;
+@property(readonly) NSBundle     *bundle;
+@property(readonly) NSDictionary *infoDictionary;
+@property(readonly) NSString     *details;
+@property(readonly) NSString     *version;
 
 // All plugins should be retrieved with this method
 // Ensuring a plugin is loaded only once

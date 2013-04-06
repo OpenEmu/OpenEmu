@@ -331,7 +331,6 @@
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		942597D3151470A40074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597D2151470A40074E3A3 /* OpenEmuBase.framework */; };
 		C6296AA20FCECA2C004F84C4 /* NESGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6296AA10FCECA2C004F84C4 /* NESGameController.m */; };
-		C6296C600FCEEDF8004F84C4 /* NESAdvancedPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = C6296C5F0FCEEDF8004F84C4 /* NESAdvancedPreference.m */; };
 		C6296C620FCEEE45004F84C4 /* AdvancedPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6296C610FCEEE45004F84C4 /* AdvancedPreference.xib */; };
 /* End PBXBuildFile section */
 
@@ -995,8 +994,6 @@
 		942597D2151470A40074E3A3 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
 		C6296AA00FCECA2C004F84C4 /* NESGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NESGameController.h; sourceTree = "<group>"; };
 		C6296AA10FCECA2C004F84C4 /* NESGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NESGameController.m; sourceTree = "<group>"; };
-		C6296C5E0FCEEDF8004F84C4 /* NESAdvancedPreference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NESAdvancedPreference.h; sourceTree = "<group>"; };
-		C6296C5F0FCEEDF8004F84C4 /* NESAdvancedPreference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NESAdvancedPreference.m; sourceTree = "<group>"; };
 		C6296C610FCEEE45004F84C4 /* AdvancedPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdvancedPreference.xib; sourceTree = "<group>"; };
 		C6B3E692136525EB00D34947 /* OENESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OENESSystemResponderClient.h; path = ../OpenEmu/NES/OENESSystemResponderClient.h; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -1061,8 +1058,6 @@
 				82F3642E0F51FB4A001495F6 /* NESGameCore+NESFeatures.mm */,
 				C6296AA00FCECA2C004F84C4 /* NESGameController.h */,
 				C6296AA10FCECA2C004F84C4 /* NESGameController.m */,
-				C6296C5E0FCEEDF8004F84C4 /* NESAdvancedPreference.h */,
-				C6296C5F0FCEEDF8004F84C4 /* NESAdvancedPreference.m */,
 				C6B3E692136525EB00D34947 /* OENESSystemResponderClient.h */,
 			);
 			name = Classes;
@@ -2162,7 +2157,6 @@
 				82C5EDE70F0C4CE70019E2DC /* NstApiRam.cpp in Sources */,
 				82F3642F0F51FB4A001495F6 /* NESGameCore+NESFeatures.mm in Sources */,
 				C6296AA20FCECA2C004F84C4 /* NESGameController.m in Sources */,
-				C6296C600FCEEDF8004F84C4 /* NESAdvancedPreference.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

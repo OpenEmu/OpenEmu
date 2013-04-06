@@ -67,13 +67,13 @@
 #pragma mark -
 
 typedef struct OEIntPoint {
-    int x;
-    int y;
+    NSInteger x;
+    NSInteger y;
 } OEIntPoint;
 
 typedef struct OEIntSize {
-    int width;
-    int height;
+    NSInteger width;
+    NSInteger height;
 } OEIntSize;
 
 typedef struct OEIntRect {
@@ -81,14 +81,14 @@ typedef struct OEIntRect {
     OEIntSize size;
 } OEIntRect;
 
-static inline OEIntSize OESizeMake(int width, int height)
+static inline OEIntSize OESizeMake(NSInteger width, NSInteger height)
 {
-    return (OEIntSize){width, height};
+    return (OEIntSize){ width, height };
 }
 
-static inline OEIntRect OERectMake(int x, int y, int width, int height)
+static inline OEIntRect OERectMake(NSInteger x, NSInteger y, NSInteger width, NSInteger height)
 {
-    return (OEIntRect){(OEIntPoint){x,y}, (OEIntSize){width, height}};
+    return (OEIntRect){ (OEIntPoint){ x, y }, (OEIntSize){ width, height } };
 }
 
 static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
@@ -98,12 +98,12 @@ static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
 
 static inline NSString *NSStringFromOEIntPoint(OEIntPoint p)
 {
-    return [NSString stringWithFormat:@"{ %d, %d }", p.x, p.y];
+    return [NSString stringWithFormat:@"{ %ld, %ld }", p.x, p.y];
 }
 
 static inline NSString *NSStringFromOEIntSize(OEIntSize s)
 {
-    return [NSString stringWithFormat:@"{ %d, %d }", s.width, s.height];
+    return [NSString stringWithFormat:@"{ %ld, %ld }", s.width, s.height];
 }
 
 static inline NSString *NSStringFromOEIntRect(OEIntRect r)
@@ -115,7 +115,7 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 
 #pragma mark -
 
-@interface OEGameCore : NSResponder <OESystemResponderClient, OESettingObserver>
+@interface OEGameCore : NSResponder <OESystemResponderClient>
 {
     NSThread               *emulationThread;
     NSTimeInterval          frameInterval;
@@ -126,9 +126,6 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
     NSUInteger              tenFrameCounter;
     NSUInteger              autoFrameSkipLastTime;
     NSUInteger              frameskipadjust;
-
-    // for lightgun/pointer support.
-    NSPoint                 mousePosition;
 
     BOOL                    frameFinished;
     BOOL                    willSkipFrame;
@@ -209,21 +206,6 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 - (NSUInteger)channelCountForBuffer:(NSUInteger)buffer;
 - (NSUInteger)audioBufferSizeForBuffer:(NSUInteger)buffer;
 - (double)audioSampleRateForBuffer:(NSUInteger)buffer;
-
-#pragma mark -
-#pragma mark Lightgun/Pointer Support
-@property(readwrite) NSPoint mousePosition DEPRECATED_ATTRIBUTE;
-
-/*
-#pragma mark Input Settings & Parsing
-- (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer;
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer;
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey;
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey;
- */
-#pragma mark Input
-//- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton;
-//- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton;
 
 #pragma mark -
 #pragma mark Save state - Optional

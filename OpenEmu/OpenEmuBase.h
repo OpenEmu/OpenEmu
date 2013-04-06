@@ -29,7 +29,5 @@
 #import <OpenEmuBase/OEAbstractAdditions.h>
 #import <OpenEmuBase/OEGameCore.h>
 #import <OpenEmuBase/OEGameCoreController.h>
-#import <OpenEmuBase/OEPluginController.h>
-#import <OpenEmuBase/OEPreferenceViewController.h>
 #import <OpenEmuBase/OERingBuffer.h>
 #import <OpenEmuBase/OESystemResponderClient.h>

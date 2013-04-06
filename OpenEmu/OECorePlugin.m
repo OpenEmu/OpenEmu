@@ -75,7 +75,7 @@
     return self;
 }
 
-- (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
+- (id)newPluginControllerWithClass:(Class)bundleClass
 {
     if([bundleClass isSubclassOfClass:[OEGameCoreController class]])
         return [[bundleClass alloc] initWithBundle:[self bundle]];
