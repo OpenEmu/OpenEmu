@@ -795,6 +795,7 @@
 		C671B7A71699EB2600077C49 /* OEControlDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = C671B7A51699EB2600077C49 /* OEControlDescription.m */; };
 		C671B7AA1699EB7C00077C49 /* OEDeviceDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = C671B7A81699EB7C00077C49 /* OEDeviceDescription.h */; };
 		C671B7AB1699EB7C00077C49 /* OEDeviceDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = C671B7A91699EB7C00077C49 /* OEDeviceDescription.m */; };
+		C6772A7F1710C0C900ED580A /* snes_ntsc.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C8AD73516B5DBE20004D97C /* snes_ntsc.c */; };
 		C67A36AA0FE7F1F500A665E2 /* OECorePluginIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C67A36A90FE7F1F500A665E2 /* OECorePluginIcon.icns */; };
 		C67D54BD138AC014004FCA0B /* OpenEmuSystem.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		C68A54E61516AD3C001053F2 /* OEDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C68A54E41516AD3C001053F2 /* OEDatabase.xcdatamodeld */; };
@@ -6783,6 +6784,7 @@
 				838DB01916DBE14E00B8DDC8 /* OETextField.m in Sources */,
 				838DB01C16DBE15900B8DDC8 /* OETextFieldCell.m in Sources */,
 				14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */,
+				C6772A7F1710C0C900ED580A /* snes_ntsc.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
