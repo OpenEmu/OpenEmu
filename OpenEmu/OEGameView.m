@@ -684,7 +684,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     }
 
     // multipassSize[0] contains the initial texture size
-    _multipassSizes[0] = OESizeMake(width, height);
+    _multipassSizes[0] = OEIntSizeMake(width, height);
 
     for(NSUInteger i = 0; i < numberOfPasses; ++i)
     {
@@ -706,7 +706,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
         else
             height = height * scaler.height;
 
-        _multipassSizes[i + 1] = OESizeMake(width, height);
+        _multipassSizes[i + 1] = OEIntSizeMake(width, height);
     }
 }
 
@@ -885,7 +885,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
             // renders to texture because we need TEXTURE_2D not TEXTURE_RECTANGLE
             [self OE_renderToTexture:_rttGameTextures[_frameCount % OEFramesSaved] usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
 
-            [self OE_applyCgShader:(OECGShader *)shader usingVertices:verts withTextureSize:_gameScreenSize withOutputSize:OESizeMake(self.frame.size.width, self.frame.size.height) inPassNumber:0 inCGLContext:cgl_ctx];
+            [self OE_applyCgShader:(OECGShader *)shader usingVertices:verts withTextureSize:_gameScreenSize withOutputSize:OEIntSizeMake(self.frame.size.width, self.frame.size.height) inPassNumber:0 inCGLContext:cgl_ctx];
             
             ++_frameCount;
         }

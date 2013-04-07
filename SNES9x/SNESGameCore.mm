@@ -207,7 +207,7 @@ bool8 S9xOpenSoundDevice(void)
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(MAX_SNES_WIDTH, MAX_SNES_HEIGHT);
+    return OEIntSizeMake(MAX_SNES_WIDTH, MAX_SNES_HEIGHT);
 }
 
 - (void)setupEmulation

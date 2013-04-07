@@ -67,13 +67,13 @@
 #pragma mark -
 
 typedef struct OEIntPoint {
-    NSInteger x;
-    NSInteger y;
+    int x;
+    int y;
 } OEIntPoint;
 
 typedef struct OEIntSize {
-    NSInteger width;
-    NSInteger height;
+    int width;
+    int height;
 } OEIntSize;
 
 typedef struct OEIntRect {
@@ -81,14 +81,24 @@ typedef struct OEIntRect {
     OEIntSize size;
 } OEIntRect;
 
-static inline OEIntSize OESizeMake(NSInteger width, NSInteger height)
+static inline OEIntPoint OEIntPointMake(int x, int y)
+{
+    return (OEIntPoint){ x, y };
+}
+
+static inline OEIntSize OEIntSizeMake(int width, int height)
 {
     return (OEIntSize){ width, height };
 }
 
-static inline OEIntRect OERectMake(NSInteger x, NSInteger y, NSInteger width, NSInteger height)
+static inline OEIntRect OERectMake(int x, int y, int width, int height)
 {
     return (OEIntRect){ (OEIntPoint){ x, y }, (OEIntSize){ width, height } };
+}
+
+static inline BOOL OEIntSizeEqualToSize(OEIntSize size1, OEIntSize size2)
+{
+    return size1.width == size2.width && size1.height == size2.height;
 }
 
 static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
@@ -98,12 +108,12 @@ static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
 
 static inline NSString *NSStringFromOEIntPoint(OEIntPoint p)
 {
-    return [NSString stringWithFormat:@"{ %ld, %ld }", p.x, p.y];
+    return [NSString stringWithFormat:@"{ %d, %d }", p.x, p.y];
 }
 
 static inline NSString *NSStringFromOEIntSize(OEIntSize s)
 {
-    return [NSString stringWithFormat:@"{ %ld, %ld }", s.width, s.height];
+    return [NSString stringWithFormat:@"{ %d, %d }", s.width, s.height];
 }
 
 static inline NSString *NSStringFromOEIntRect(OEIntRect r)

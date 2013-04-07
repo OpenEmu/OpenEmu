@@ -270,12 +270,12 @@ static void writeSaveFile(const char* path, int type)
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(240, 160);
+    return OEIntSizeMake(240, 160);
 }
 
 - (OEIntSize)aspectSize
 {
-    return OESizeMake(3, 2);
+    return OEIntSizeMake(3, 2);
 }
 
 - (void)setupEmulation

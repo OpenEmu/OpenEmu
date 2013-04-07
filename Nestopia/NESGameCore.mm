@@ -718,8 +718,8 @@ static int Heights[2] =
 
 - (OEIntSize)bufferSize
 {
-    return [self isNTSCEnabled] ? OESizeMake(Widths[1], Heights[1] * 2)
-                                : OESizeMake(Widths[0], Heights[0]);
+    return [self isNTSCEnabled] ? OEIntSizeMake(Widths[1], Heights[1] * 2)
+                                : OEIntSizeMake(Widths[0], Heights[0]);
 }
 
 - (BOOL)canCheat

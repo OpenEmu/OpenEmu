@@ -122,12 +122,12 @@ static OERingBuffer *ringBuffer;
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(sms_console == CONSOLE_GG ? 160 : 256, sms_console == CONSOLE_GG ? 144 : smsvdp.lines);
+    return OEIntSizeMake(sms_console == CONSOLE_GG ? 160 : 256, sms_console == CONSOLE_GG ? 144 : smsvdp.lines);
 }
 
 - (OEIntSize)aspectSize
 {
-    return OESizeMake(sms_console == CONSOLE_GG ? 160 : 256, sms_console == CONSOLE_GG ? 144 : smsvdp.lines);
+    return OEIntSizeMake(sms_console == CONSOLE_GG ? 160 : 256, sms_console == CONSOLE_GG ? 144 : smsvdp.lines);
 }
 
 - (const void *)videoBuffer

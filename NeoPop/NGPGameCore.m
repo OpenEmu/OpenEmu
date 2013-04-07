@@ -214,7 +214,7 @@ static OERingBuffer *dacBuffer;
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
+    return OEIntSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 - (const void*)videoBuffer
@@ -225,7 +225,7 @@ static OERingBuffer *dacBuffer;
 
 - (OEIntSize)aspectSize
 {
-    return OESizeMake(20, 19);
+    return OEIntSizeMake(20, 19);
 }
 
 - (GLenum)pixelFormat

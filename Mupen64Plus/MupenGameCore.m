@@ -348,7 +348,7 @@ static void MupenSetAudioSpeed(int percent)
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(videoWidth, videoHeight);
+    return OEIntSizeMake(videoWidth, videoHeight);
 }
 
 - (BOOL)rendersToOpenGL

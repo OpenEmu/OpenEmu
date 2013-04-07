@@ -284,8 +284,8 @@ static void writeSaveFile(const char* path, int type)
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(720, 576);
-    //return OESizeMake(current->videoWidth, current->videoHeight);
+    return OEIntSizeMake(720, 576);
+    //return OEIntSizeMake(current->videoWidth, current->videoHeight);
 }
 
 - (void)setupEmulation

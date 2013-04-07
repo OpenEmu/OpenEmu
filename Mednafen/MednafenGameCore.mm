@@ -244,7 +244,7 @@ NSString *MednafenControlNames[] = {
 
 - (OEIntSize)bufferSize
 {
-    return (OEIntSize){ 0, 0 };//OESizeMake(gameInfo->pitch / 4, gameInfo->height);
+    return (OEIntSize){ 0, 0 };//OEIntSizeMake(gameInfo->pitch / 4, gameInfo->height);
 }
 
 - (const void *)videoBuffer

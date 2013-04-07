@@ -353,7 +353,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     CGLContextObj cgl_ctx = glContext;
     CGLSetCurrentContext(cgl_ctx);
 
-    if(memcmp(&screenRect.size, &previousScreenSize, sizeof(screenRect.size)))
+    if(!OEIntSizeEqualToSize(screenRect.size, previousScreenSize))
     {
         DLog(@"Need a resize!");
         // recreate our surface so its the same size as our screen

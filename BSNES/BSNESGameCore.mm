@@ -291,7 +291,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(512, 480);
+    return OEIntSizeMake(512, 480);
 }
 
 - (void)setupEmulation
