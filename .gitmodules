@@ -1,0 +1,3 @@
+[submodule "OpenEmu-SDK"]
+	path = OpenEmu-SDK
+	url = git@github.com:OpenEmu/OpenEmu-SDK.git
