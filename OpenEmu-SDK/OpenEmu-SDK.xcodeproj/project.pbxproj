@@ -21,7 +21,7 @@
 		C6772A771710BD6200ED580A /* OERingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = C6772A691710BD6200ED580A /* OERingBuffer.m */; };
 		C6772A781710BD6200ED580A /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = C6772A6A1710BD6200ED580A /* TPCircularBuffer.c */; };
 		C6772A791710BD6200ED580A /* TPCircularBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = C6772A6B1710BD6200ED580A /* TPCircularBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C6772A7A1710BD6200ED580A /* OETimingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C6772A6C1710BD6200ED580A /* OETimingUtils.h */; };
+		C6772A7A1710BD6200ED580A /* OETimingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C6772A6C1710BD6200ED580A /* OETimingUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6772A7B1710BD6200ED580A /* OETimingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C6772A6D1710BD6200ED580A /* OETimingUtils.m */; };
 		C6772A821710C6D100ED580A /* NSString+UUID.h in Headers */ = {isa = PBXBuildFile; fileRef = C6772A801710C6D100ED580A /* NSString+UUID.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6772A831710C6D100ED580A /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = C6772A811710C6D100ED580A /* NSString+UUID.m */; };
