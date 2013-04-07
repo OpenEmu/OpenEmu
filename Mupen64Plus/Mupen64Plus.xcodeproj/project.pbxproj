@@ -186,6 +186,9 @@
 		94D58CA516BE33EC0093CD72 /* textures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D58C7816BE33EC0093CD72 /* textures.cpp */; };
 		94D58CAB16BE5C690093CD72 /* mupen64plus-video-glide64mk2.so in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94D58BE416BE327A0093CD72 /* mupen64plus-video-glide64mk2.so */; };
 		94D58CAC16BE5DAD0093CD72 /* Glide64mk2.ini in Resources */ = {isa = PBXBuildFile; fileRef = 94D58BE716BE33EC0093CD72 /* Glide64mk2.ini */; };
+		C62301A7171227AE00576081 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120F61711312600E868A8 /* OpenEmuBase.framework */; };
+		C62301A8171227B300576081 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120F61711312600E868A8 /* OpenEmuBase.framework */; };
+		C62301A9171227B900576081 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120F61711312600E868A8 /* OpenEmuBase.framework */; };
 		C6D120F71711312600E868A8 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120F61711312600E868A8 /* OpenEmuBase.framework */; };
 /* End PBXBuildFile section */
 
@@ -794,6 +797,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C62301A9171227B900576081 /* OpenEmuBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -804,6 +808,7 @@
 				3DC21460166C6F170014251E /* libz.dylib in Frameworks */,
 				3DC21456166C6BA70014251E /* OpenGL.framework in Frameworks */,
 				3DC2145F166C6D7F0014251E /* libpng.a in Frameworks */,
+				C62301A8171227B300576081 /* OpenEmuBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -825,6 +830,7 @@
 				94D58BDE16BE327A0093CD72 /* libz.dylib in Frameworks */,
 				94D58BDF16BE327A0093CD72 /* OpenGL.framework in Frameworks */,
 				94D58BE016BE327A0093CD72 /* libpng.a in Frameworks */,
+				C62301A7171227AE00576081 /* OpenEmuBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
