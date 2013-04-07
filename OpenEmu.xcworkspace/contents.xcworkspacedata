@@ -5,6 +5,9 @@
       location = "container:OpenEmu/OpenEmu.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:OpenEmu-SDK/OpenEmu-SDK.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:iPhoneRemote/iPhoneRemote.xcodeproj">
    </FileRef>
    <FileRef
