@@ -37,8 +37,6 @@
 #import "OECorePickerController.h"
 
 #import "OESystemPlugin.h"
-#import "OESystemResponder.h"
-#import "OESystemController.h"
 #import "OECorePlugin.h"
 
 #import "OEDBSaveState.h"
@@ -49,16 +47,13 @@
 #import "OEGameDocument.h"
 #import "OEAudioDeviceManager.h"
 
-#import "OEDeviceHandler.h"
-#import "OEDeviceDescription.h"
-#import "OEDeviceManager.h"
-
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 
-#import "NSString+UUID.h"
 #import "NSURL+OELibraryAdditions.h"
 
 #import "OEPreferencesController.h"
+
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 NSString *const OEGameVolumeKey = @"volume";
 NSString *const OEGameDefaultVideoFilterKey = @"videoFilter";

@@ -25,7 +25,6 @@
  */
 
 #import "OEDeviceHandler.h"
-#import "NSApplication+OEHIDAdditions.h"
 #import "OEDeviceDescription.h"
 #import "OEHIDEvent.h"
 #import "OEHIDDeviceHandler.h"

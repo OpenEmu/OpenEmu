@@ -26,7 +26,7 @@
  */
 
 #import "GenPlusGameCore.h"
-#import <OERingBuffer.h>
+#import <OpenEmuBase/OERingBuffer.h>
 #import "OEGenesisSystemResponderClient.h"
 #import <OpenGL/gl.h>
 
@@ -279,7 +279,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (OEIntRect)screenRect
 {
-    return OERectMake(0, 0, current->videoWidth, current->videoHeight);
+    return OEIntRectMake(0, 0, current->videoWidth, current->videoHeight);
 }
 
 - (OEIntSize)bufferSize

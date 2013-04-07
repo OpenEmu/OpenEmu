@@ -38,10 +38,8 @@
 #import "OEBuiltInShader.h"
 
 #import "OEGameCoreHelper.h"
-#import "OESystemResponder.h"
-#import "OESystemController.h"
-#import "OEEvent.h"
 
+#import <OpenEmuSystem/OpenEmuSystem.h>
 #import <OpenGL/CGLMacro.h>
 #import <IOSurface/IOSurface.h>
 #import <OpenGL/CGLIOSurface.h>

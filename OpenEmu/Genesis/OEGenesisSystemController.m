@@ -28,7 +28,8 @@
 #import "OEGenesisSystemController.h"
 #import "OEGenesisSystemResponder.h"
 #import "OEGenesisSystemResponderClient.h"
-#import "OELocalizationHelper.h"
+
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OEGenesisSystemController
 

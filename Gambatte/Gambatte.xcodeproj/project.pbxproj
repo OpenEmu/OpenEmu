@@ -42,7 +42,6 @@
 		82CAFCD00FEDD38D00CCDC7E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82CAFCCF0FEDD38D00CCDC7E /* dsa_pub.pem */; };
 		82CAFCEC0FEDD43700CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFCD10FEDD39600CCDC7E /* config.yaml */; };
 		82F45FC50E88979600B7B023 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82F45FC40E88979600B7B023 /* Preferences.xib */; };
-		942597C8151470210074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597C7151470210074E3A3 /* OpenEmuBase.framework */; };
 		94ABD6E9165340E500035061 /* chainresampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94ABD6BC165340E500035061 /* chainresampler.cpp */; };
 		94ABD6EA165340E500035061 /* i0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94ABD6C3165340E500035061 /* i0.cpp */; };
 		94ABD6EB165340E500035061 /* makesinckernel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94ABD6C8165340E500035061 /* makesinckernel.cpp */; };
@@ -82,6 +81,7 @@
 		94F2867916C3832E0075A73E /* kaiser70sinc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94F2867716C3832E0075A73E /* kaiser70sinc.cpp */; };
 		94F2867D16C383E20075A73E /* loadres.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94F2867C16C383E20075A73E /* loadres.cpp */; };
 		94F2868016C3840F0075A73E /* pakinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94F2867F16C3840F0075A73E /* pakinfo.cpp */; };
+		C6D120EE1711308C00E868A8 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120ED1711308C00E868A8 /* OpenEmuBase.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -264,6 +264,7 @@
 		B5F6D8A80E66914F001CA5D3 /* gameboy.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = gameboy.icns; sourceTree = "<group>"; };
 		B5F6D8AD0E66921B001CA5D3 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		C6B947DE1364FD0C00A425F0 /* OEGBSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEGBSystemResponderClient.h; path = ../OpenEmu/GameBoy/OEGBSystemResponderClient.h; sourceTree = "<group>"; };
+		C6D120ED1711308C00E868A8 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEmuBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -271,7 +272,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				942597C8151470210074E3A3 /* OpenEmuBase.framework in Frameworks */,
+				C6D120EE1711308C00E868A8 /* OpenEmuBase.framework in Frameworks */,
 				828387E20E6CDB6E00A96E2C /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,6 +354,7 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C6D120ED1711308C00E868A8 /* OpenEmuBase.framework */,
 				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);

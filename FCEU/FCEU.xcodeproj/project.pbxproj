@@ -41,7 +41,6 @@
 		82EC40A30FD9EC5A0017FC19 /* FCEUGameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5008DAE0E8BFB3E005AECAF /* FCEUGameCore.mm */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		942597DC151471070074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597DB151471070074E3A3 /* OpenEmuBase.framework */; };
 		942D9B4414E8AFDF00772772 /* libsnes.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9A0B14E8AFDE00772772 /* libsnes.c */; };
 		942D9B4514E8AFDF00772772 /* memstream.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9A0D14E8AFDE00772772 /* memstream.c */; };
 		942D9B4614E8AFDF00772772 /* 01-222.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9A1114E8AFDF00772772 /* 01-222.c */; };
@@ -579,6 +578,7 @@
 		B5008DAD0E8BFB3E005AECAF /* FCEUGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCEUGameCore.h; sourceTree = "<group>"; };
 		B5008DAE0E8BFB3E005AECAF /* FCEUGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FCEUGameCore.mm; sourceTree = "<group>"; };
 		C63E6C640FCDA565009C8555 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
+		C6D120EF171130A200E868A8 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEmuBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -587,7 +587,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				942597DC151471070074E3A3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				82EC409F0FD9EC420017FC19 /* libz.dylib in Frameworks */,
 			);
@@ -611,6 +610,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C6D120EF171130A200E868A8 /* OpenEmuBase.framework */,
 				82EC409E0FD9EC420017FC19 /* libz.dylib */,
 				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
 				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,

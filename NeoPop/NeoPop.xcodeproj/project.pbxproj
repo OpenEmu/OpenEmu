@@ -24,7 +24,6 @@
 /* Begin PBXBuildFile section */
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		942597BF15146FA20074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597BE15146FA20074E3A3 /* OpenEmuBase.framework */; };
 		B5DCE1180F2B5AE200517996 /* NGPGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1170F2B5AE200517996 /* NGPGameCore.m */; };
 		B5DCE1650F2B5BB300517996 /* bios.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE11C0F2B5BB300517996 /* bios.c */; };
 		B5DCE1660F2B5BB300517996 /* biosHLE.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE11E0F2B5BB300517996 /* biosHLE.c */; };
@@ -54,6 +53,7 @@
 		B5DCE1810F2B5BB300517996 /* dasm.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE15F0F2B5BB300517996 /* dasm.c */; };
 		B5DCE1820F2B5BB300517996 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1610F2B5BB300517996 /* Z80.c */; };
 		B5DCE1830F2B5BB300517996 /* Z80_interface.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1630F2B5BB300517996 /* Z80_interface.c */; };
+		C6D120FF1711317000E868A8 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120FE1711317000E868A8 /* OpenEmuBase.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +144,7 @@
 		B5DCE1620F2B5BB300517996 /* Z80.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Z80.h; sourceTree = "<group>"; };
 		B5DCE1630F2B5BB300517996 /* Z80_interface.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Z80_interface.c; sourceTree = "<group>"; };
 		B5DCE1640F2B5BB300517996 /* Z80_interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Z80_interface.h; sourceTree = "<group>"; };
+		C6D120FE1711317000E868A8 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEmuBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -152,8 +153,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				942597BF15146FA20074E3A3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				C6D120FF1711317000E868A8 /* OpenEmuBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +176,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C6D120FE1711317000E868A8 /* OpenEmuBase.framework */,
 				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
 				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
 			);

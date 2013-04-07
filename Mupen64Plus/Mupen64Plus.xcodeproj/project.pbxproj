@@ -104,7 +104,6 @@
 		3DC2145A166C6C6E0014251E /* SDLStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D00F0801183E52F002995A1 /* SDLStubs.m */; };
 		3DC2145F166C6D7F0014251E /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC2145C166C6D7F0014251E /* libpng.a */; };
 		3DC21460166C6F170014251E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D208E9D1182551500BEAA42 /* libz.dylib */; };
-		3DC21462166C6F920014251E /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC21461166C6F920014251E /* OpenEmuBase.framework */; };
 		3DCABDBA166C4B89002F2066 /* idct.c in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B874166C2A0A00082F27 /* idct.c */; };
 		3DCABDBB166C4B89002F2066 /* jpeg.c in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B875166C2A0A00082F27 /* jpeg.c */; };
 		3DCABDBC166C4B89002F2066 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B876166C2A0A00082F27 /* main.c */; };
@@ -160,11 +159,9 @@
 		3DCABE80166C6AB6002F2066 /* Video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94E6B8FA166C2A0A00082F27 /* Video.cpp */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		942597D1151470840074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597D0151470840074E3A3 /* OpenEmuBase.framework */; };
 		9449518B14D8F9B400FC80E7 /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9449518A14D8F9B400FC80E7 /* config.yaml */; };
 		944951E414D912BE00FC80E7 /* n64_cic_nus_6105.c in Sources */ = {isa = PBXBuildFile; fileRef = 944951E214D912BE00FC80E7 /* n64_cic_nus_6105.c */; };
 		94D58BDB16BE327A0093CD72 /* SDLStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D00F0801183E52F002995A1 /* SDLStubs.m */; };
-		94D58BDD16BE327A0093CD72 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC21461166C6F920014251E /* OpenEmuBase.framework */; };
 		94D58BDE16BE327A0093CD72 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D208E9D1182551500BEAA42 /* libz.dylib */; };
 		94D58BDF16BE327A0093CD72 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D208E971182550400BEAA42 /* OpenGL.framework */; };
 		94D58BE016BE327A0093CD72 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DC2145C166C6D7F0014251E /* libpng.a */; };
@@ -189,6 +186,7 @@
 		94D58CA516BE33EC0093CD72 /* textures.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D58C7816BE33EC0093CD72 /* textures.cpp */; };
 		94D58CAB16BE5C690093CD72 /* mupen64plus-video-glide64mk2.so in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94D58BE416BE327A0093CD72 /* mupen64plus-video-glide64mk2.so */; };
 		94D58CAC16BE5DAD0093CD72 /* Glide64mk2.ini in Resources */ = {isa = PBXBuildFile; fileRef = 94D58BE716BE33EC0093CD72 /* Glide64mk2.ini */; };
+		C6D120F71711312600E868A8 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120F61711312600E868A8 /* OpenEmuBase.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -483,7 +481,6 @@
 		3DC2145C166C6D7F0014251E /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpng.a; sourceTree = "<group>"; };
 		3DC2145D166C6D7F0014251E /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = png.h; sourceTree = "<group>"; };
 		3DC2145E166C6D7F0014251E /* pngconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngconf.h; sourceTree = "<group>"; };
-		3DC21461166C6F920014251E /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../DerivedData/OpenEmu/Build/Products/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
 		3DCABDB3166C4ACB002F2066 /* mupen64plus-rsp-hle.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "mupen64plus-rsp-hle.so"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DCABDC7166C524C002F2066 /* SDL_opengl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_opengl.h; sourceTree = "<group>"; };
 		3DCABE0E166C6A20002F2066 /* mupen64plus-video-rice.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "mupen64plus-video-rice.so"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -788,6 +785,7 @@
 		94E6B8FB166C2A0A00082F27 /* Video.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Video.h; sourceTree = "<group>"; };
 		94E6B8FC166C2A0A00082F27 /* video_api_export.ver */ = {isa = PBXFileReference; lastKnownFileType = text; path = video_api_export.ver; sourceTree = "<group>"; };
 		94F2868616C6CFDB0075A73E /* Gfx_1.3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gfx_1.3.h; sourceTree = "<group>"; };
+		C6D120F61711312600E868A8 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEmuBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -803,7 +801,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3DC21462166C6F920014251E /* OpenEmuBase.framework in Frameworks */,
 				3DC21460166C6F170014251E /* libz.dylib in Frameworks */,
 				3DC21456166C6BA70014251E /* OpenGL.framework in Frameworks */,
 				3DC2145F166C6D7F0014251E /* libpng.a in Frameworks */,
@@ -814,9 +811,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				942597D1151470840074E3A3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				3D208E981182550400BEAA42 /* OpenGL.framework in Frameworks */,
+				C6D120F71711312600E868A8 /* OpenEmuBase.framework in Frameworks */,
 				3D208E9E1182551500BEAA42 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -825,7 +822,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94D58BDD16BE327A0093CD72 /* OpenEmuBase.framework in Frameworks */,
 				94D58BDE16BE327A0093CD72 /* libz.dylib in Frameworks */,
 				94D58BDF16BE327A0093CD72 /* OpenGL.framework in Frameworks */,
 				94D58BE016BE327A0093CD72 /* libpng.a in Frameworks */,
@@ -838,7 +834,6 @@
 		089C166AFE841209C02AAC07 /* Mupen64Plus */ = {
 			isa = PBXGroup;
 			children = (
-				3DC21461166C6F920014251E /* OpenEmuBase.framework */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -852,6 +847,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C6D120F61711312600E868A8 /* OpenEmuBase.framework */,
 				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
 				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
 			);

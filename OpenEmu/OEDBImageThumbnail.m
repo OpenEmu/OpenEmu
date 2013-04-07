@@ -27,7 +27,8 @@
 #import "OEDBImageThumbnail.h"
 #import "OEDBImage.h"
 #import "OELibraryDatabase.h"
-#import "NSString+UUID.h"
+
+#import <OpenEmuBase/OpenEmuBase.h>
 
 @implementation OEDBImageThumbnail
 

@@ -329,9 +329,9 @@
 		82F3642F0F51FB4A001495F6 /* NESGameCore+NESFeatures.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82F3642E0F51FB4A001495F6 /* NESGameCore+NESFeatures.mm */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		942597D3151470A40074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597D2151470A40074E3A3 /* OpenEmuBase.framework */; };
 		C6296AA20FCECA2C004F84C4 /* NESGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6296AA10FCECA2C004F84C4 /* NESGameController.m */; };
 		C6296C620FCEEE45004F84C4 /* AdvancedPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6296C610FCEEE45004F84C4 /* AdvancedPreference.xib */; };
+		C6D120F91711313900E868A8 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120F81711313900E868A8 /* OpenEmuBase.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -996,6 +996,7 @@
 		C6296AA10FCECA2C004F84C4 /* NESGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NESGameController.m; sourceTree = "<group>"; };
 		C6296C610FCEEE45004F84C4 /* AdvancedPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdvancedPreference.xib; sourceTree = "<group>"; };
 		C6B3E692136525EB00D34947 /* OENESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OENESSystemResponderClient.h; path = ../OpenEmu/NES/OENESSystemResponderClient.h; sourceTree = "<group>"; };
+		C6D120F81711313900E868A8 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEmuBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -1004,9 +1005,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				942597D3151470A40074E3A3 /* OpenEmuBase.framework in Frameworks */,
 				3D60316214DF7D0B00E9AF58 /* libz.dylib in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				C6D120F91711313900E868A8 /* OpenEmuBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1029,6 +1030,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C6D120F81711313900E868A8 /* OpenEmuBase.framework */,
 				3D6030E914DF715100E9AF58 /* libz.dylib */,
 				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
 				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,

@@ -36,24 +36,14 @@
 #import "OEPlugin.h"
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
-#import "OESystemController.h"
-#import "OEDeviceHandler.h"
-#import "OEDeviceDescription.h"
 
 #import "OEControllerImageView.h"
 #import "OEControlsButtonSetupView.h"
 
-#import "OEHIDEvent.h"
-
-#import "OEBindingsController.h"
-#import "OESystemBindings.h"
-#import "OEPlayerBindings.h"
-#import "OEKeyBindingGroupDescription.h"
-
-#import "OEDeviceManager.h"
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 
 #import "OEPreferencesController.h"
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 NSString *const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
 NSString *const OELastControlsPlayerKey           = @"lastControlsPlayer";

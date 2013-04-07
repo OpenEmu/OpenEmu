@@ -25,8 +25,7 @@
  */
 
 #import "OENetServer.h"
-#import "OEHIDEvent.h"
-#import "NSApplication+OEHIDAdditions.h"
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OENetServer
 @synthesize delegate;

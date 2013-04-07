@@ -26,7 +26,8 @@
 
 #import "OENDSSystemResponder.h"
 #import "OENDSSystemResponderClient.h"
-#import "OEEvent.h"
+
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OENDSSystemResponder
 @dynamic client;

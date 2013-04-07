@@ -239,7 +239,7 @@ NSString *MednafenControlNames[] = {
 
 - (OEIntRect)screenRect
 {
-    return (OEIntRect){ 0, 0 };//OERectMake(gameInfo->DisplayRect.x, gameInfo->DisplayRect.y, gameInfo->DisplayRect.w, gameInfo->DisplayRect.h);
+    return (OEIntRect){ 0, 0 };//OEIntRectMake(gameInfo->DisplayRect.x, gameInfo->DisplayRect.y, gameInfo->DisplayRect.w, gameInfo->DisplayRect.h);
 }
 
 - (OEIntSize)bufferSize

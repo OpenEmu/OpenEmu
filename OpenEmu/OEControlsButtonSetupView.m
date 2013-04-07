@@ -32,11 +32,11 @@
 #import "OEControlsKeyHeadlineCell.h"
 #import "OEControlsKeySeparatorView.h"
 
-#import "OESystemController.h"
-
 #import "NSClipView+OEAnimatedScrolling.h"
 
 #import "OEUIDrawingUtils.h"
+
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 #ifndef UDControlsButtonHighlightRollsOver
 #define UDControlsButtonHighlightRollsOver @"ButtonHighlightRollsOver"

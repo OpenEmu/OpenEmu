@@ -30,8 +30,9 @@
 #import <Sparkle/Sparkle.h>
 #import <XADMaster/XADArchive.h>
 
-#import "NSString+UUID.h"
 #import "OESystemPlugin.h"
+
+#import <OpenEmuBase/OpenEmuBase.h>
 
 @interface OECoreDownload () <NSURLDownloadDelegate>
 {

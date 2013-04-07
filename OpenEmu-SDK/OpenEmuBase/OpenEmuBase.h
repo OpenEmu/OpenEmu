@@ -24,28 +24,12 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
-typedef enum _OERegion
-{
-	OERegionNA,
-	OERegionJAP,
-	OERegionEU,
-	OERegionOther
-} OERegion;
-
-extern NSString *const OERegionKey;
-
-@interface OELocalizationHelper : NSObject
-
-+ (OELocalizationHelper *)sharedHelper;
-
-@property OERegion region;
-
-- (BOOL)isRegionNA;
-- (BOOL)isRegionEU;
-- (BOOL)isRegionJAP;
-
-- (NSString *)regionName;
-
-@end
+#import <OpenEmuBase/NSString+UUID.h>
+#import <OpenEmuBase/OEAbstractAdditions.h>
+#import <OpenEmuBase/OEGameCore.h>
+#import <OpenEmuBase/OEGameCoreController.h>
+#import <OpenEmuBase/OERingBuffer.h>
+#import <OpenEmuBase/OESystemResponderClient.h>
+#import <OpenEmuBase/TPCircularBuffer.h>

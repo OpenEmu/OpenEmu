@@ -28,7 +28,8 @@
 #import "OENESSystemController.h"
 #import "OENESSystemResponder.h"
 #import "OENESSystemResponderClient.h"
-#import "OELocalizationHelper.h"
+
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OENESSystemController
 

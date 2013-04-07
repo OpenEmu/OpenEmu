@@ -28,7 +28,8 @@
 
 #import "OEDBSystem.h"
 #import "OELibraryDatabase.h"
-#import "OESystemController.h"
+
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OESystemPlugin
 @dynamic controller;

@@ -14,6 +14,48 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "C6772A251710A4BA00ED580A"
+               BuildableName = "OpenEmuBase.framework"
+               BlueprintName = "OpenEmuBase"
+               ReferencedContainer = "container:../OpenEmu-SDK/OpenEmu-SDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "C6772A8B1710CD7E00ED580A"
+               BuildableName = "OpenEmuSystem.framework"
+               BlueprintName = "OpenEmuSystem"
+               ReferencedContainer = "container:../OpenEmu-SDK/OpenEmu-SDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1BEF2A9311682A530090F72B"
+               BuildableName = "OpenEmuHelperApp"
+               BlueprintName = "OpenEmuHelperApp"
+               ReferencedContainer = "container:OpenEmu.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D15AC270486D014006FF6A4"
                BuildableName = "OpenEmu.app"
                BlueprintName = "OpenEmu"

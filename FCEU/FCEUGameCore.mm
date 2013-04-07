@@ -272,7 +272,7 @@ static void writeSaveFile(const char *path, int type)
 
 - (OEIntRect)screenRect
 {
-    return OERectMake(0, 0, videoWidth, videoHeight);
+    return OEIntRectMake(0, 0, videoWidth, videoHeight);
 }
 
 - (OEIntSize)bufferSize

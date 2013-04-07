@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2010, OpenEmu Team
- 
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -33,10 +32,10 @@
 @class OEGameCoreController;
 
 @protocol OEGameCoreHelperDelegate <NSObject>
-- (void) gameCoreDidChangeScreenSizeTo:(OEIntSize)screenSize;
-- (void) gameCoreDidChangeAspectSizeTo:(OEIntSize)aspectSize;
-- (void) toggleVSync:(GLint)swapInt;
-- (void) setPauseEmulation:(BOOL)paused;
+- (void)gameCoreDidChangeScreenSizeTo:(OEIntSize)screenSize;
+- (void)gameCoreDidChangeAspectSizeTo:(OEIntSize)aspectSize;
+- (void)toggleVSync:(GLint)swapInt;
+- (void)setPauseEmulation:(BOOL)paused;
 @end
 
 // our helper app needs to handle these functions
@@ -50,9 +49,8 @@
 - (oneway void)setAudioOutputDeviceID:(AudioDeviceID)deviceID;
 
 // gamecore attributes
-@property(readonly) OEIntSize   screenSize; 
-                                            
-@property(readonly) OEIntSize   aspectSize;
+@property(readonly) OEIntSize screenSize;
+@property(readonly) OEIntSize aspectSize;
 @property(readonly) BOOL isEmulationPaused;
 
 @property(readwrite) BOOL drawSquarePixels;

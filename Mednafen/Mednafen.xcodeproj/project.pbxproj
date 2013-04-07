@@ -31,7 +31,6 @@
 		82CFBC520FFEF432002B6C7C /* Mednafen.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82CFBC510FFEF432002B6C7C /* Mednafen.icns */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		942597CE151470620074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597CD151470620074E3A3 /* OpenEmuBase.framework */; };
 		C62954BF1369241300F94899 /* desa68.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294EB11369241200F94899 /* desa68.c */; };
 		C62954C31369241300F94899 /* cdplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EC81369241200F94899 /* cdplay.cpp */; };
 		C62954C41369241300F94899 /* audioreader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294ECA1369241200F94899 /* audioreader.cpp */; };
@@ -556,6 +555,7 @@
 		C62957FF1369241500F94899 /* sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954B31369241300F94899 /* sound.cpp */; };
 		C62958001369241500F94899 /* tcache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954B61369241300F94899 /* tcache.cpp */; };
 		C62958011369241500F94899 /* v30mz.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954BA1369241300F94899 /* v30mz.cpp */; };
+		C6D120F51711311300E868A8 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120F3171130FB00E868A8 /* OpenEmuBase.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1846,6 +1846,7 @@
 		C62954BB1369241300F94899 /* v30mz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v30mz.h; sourceTree = "<group>"; };
 		C62954BC1369241300F94899 /* wstech24.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wstech24.txt; sourceTree = "<group>"; };
 		C62954BD1369241300F94899 /* wswan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wswan.h; sourceTree = "<group>"; };
+		C6D120F3171130FB00E868A8 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEmuBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -1854,13 +1855,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				942597CE151470620074E3A3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				8240861B0FFDD64600F0FE7D /* libz.dylib in Frameworks */,
 				8296617D1042474500F30B74 /* libcdio.a in Frameworks */,
 				829661C410424C2000F30B74 /* libsndfile.a in Frameworks */,
 				3DE8D22A104256CF0007C7E7 /* DiskArbitration.framework in Frameworks */,
 				3DE8D235104256E30007C7E7 /* IOKit.framework in Frameworks */,
+				C6D120F51711311300E868A8 /* OpenEmuBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1882,6 +1883,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C6D120F3171130FB00E868A8 /* OpenEmuBase.framework */,
 				8240861A0FFDD64600F0FE7D /* libz.dylib */,
 				8296617C1042474500F30B74 /* libcdio.a */,
 				8240877B0FFDDA4A00F0FE7D /* libintl.a */,

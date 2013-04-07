@@ -42,7 +42,6 @@
 		82CAFD540FEDD6C700CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFD350FEDD64800CCDC7E /* config.yaml */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		942597D6151470C00074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597D5151470C00074E3A3 /* OpenEmuBase.framework */; };
 		94790D7A14C0C46900B30798 /* apu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790CDC14C0C46900B30798 /* apu.cpp */; };
 		94790D7B14C0C46900B30798 /* license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 94790CE314C0C46900B30798 /* license.txt */; };
 		94790D7C14C0C46900B30798 /* SNES_SPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790CE714C0C46900B30798 /* SNES_SPC.cpp */; };
@@ -96,6 +95,7 @@
 		94790DBA14C0C46900B30798 /* srtc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D6614C0C46900B30798 /* srtc.cpp */; };
 		94790DBC14C0C46900B30798 /* tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D6A14C0C46900B30798 /* tile.cpp */; };
 		C67F02030FC200A6009C6CD6 /* SNESOESupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82AD85B50F41646E00DF0AE1 /* SNESOESupport.mm */; };
+		C6D120FB1711314D00E868A8 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120FA1711314D00E868A8 /* OpenEmuBase.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -270,6 +270,7 @@
 		94790D6A14C0C46900B30798 /* tile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tile.cpp; path = "snes9x-1.53-src/tile.cpp"; sourceTree = "<group>"; };
 		94790D6B14C0C46900B30798 /* tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tile.h; path = "snes9x-1.53-src/tile.h"; sourceTree = "<group>"; };
 		C6480FFA1364B1CF0094FA33 /* OESNESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OESNESSystemResponderClient.h; path = ../OpenEmu/SuperNES/OESNESSystemResponderClient.h; sourceTree = "<group>"; };
+		C6D120FA1711314D00E868A8 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEmuBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -278,9 +279,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				942597D6151470C00074E3A3 /* OpenEmuBase.framework in Frameworks */,
 				3DA5C31814DCF0180029660B /* libz.dylib in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				C6D120FB1711314D00E868A8 /* OpenEmuBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +303,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C6D120FA1711314D00E868A8 /* OpenEmuBase.framework */,
 				3DA5C31714DCF0180029660B /* libz.dylib */,
 				8233FF2A14C1E1C100FC4547 /* AudioToolbox.framework */,
 				8233FF2814C1E1B100FC4547 /* AudioUnit.framework */,

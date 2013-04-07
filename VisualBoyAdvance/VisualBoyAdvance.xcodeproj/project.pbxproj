@@ -42,7 +42,6 @@
 		82EC40A30FD9EC5A0017FC19 /* GBAGameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5008DAE0E8BFB3E005AECAF /* GBAGameCore.mm */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		942597D9151470EA0074E3A3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 942597D8151470EA0074E3A3 /* OpenEmuBase.framework */; };
 		94343B8514DF1091006671D6 /* gbaconv.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B2614DF1091006671D6 /* gbaconv.c */; };
 		94343B8614DF1091006671D6 /* libsnes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94343B2714DF1091006671D6 /* libsnes.cpp */; };
 		94343B8714DF1091006671D6 /* Sound_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94343B3014DF1091006671D6 /* Sound_Buffer.cpp */; };
@@ -67,6 +66,7 @@
 		94343B9A14DF1091006671D6 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94343B6414DF1091006671D6 /* Util.cpp */; };
 		C63E6CCE0FCDABEF009C8555 /* gba.png in Resources */ = {isa = PBXBuildFile; fileRef = C63E6CCD0FCDABEF009C8555 /* gba.png */; };
 		C6C71E4A0FCDE25F002FAC4D /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C63E6C640FCDA565009C8555 /* ControlsPreference.xib */; };
+		C6D120FD1711315C00E868A8 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120FC1711315C00E868A8 /* OpenEmuBase.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,6 +177,7 @@
 		B5008DAE0E8BFB3E005AECAF /* GBAGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAGameCore.mm; sourceTree = "<group>"; };
 		C63E6C640FCDA565009C8555 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
 		C63E6CCD0FCDABEF009C8555 /* gba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba.png; sourceTree = "<group>"; };
+		C6D120FC1711315C00E868A8 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEmuBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -185,9 +186,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				942597D9151470EA0074E3A3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				82EC409F0FD9EC420017FC19 /* libz.dylib in Frameworks */,
+				C6D120FD1711315C00E868A8 /* OpenEmuBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +210,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C6D120FC1711315C00E868A8 /* OpenEmuBase.framework */,
 				82EC409E0FD9EC420017FC19 /* libz.dylib */,
 				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
 				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,

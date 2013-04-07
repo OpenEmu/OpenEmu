@@ -26,8 +26,9 @@
 
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
-#import "OESystemController.h"
 #import "OELibraryDatabase.h"
+
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotification";
 @implementation OEDBSystem

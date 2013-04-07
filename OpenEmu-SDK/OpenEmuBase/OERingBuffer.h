@@ -25,13 +25,14 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "TPCircularBuffer.h"
+#import <OpenEmuBase/TPCircularBuffer.h>
 
 @interface OERingBuffer : NSObject
 {
 @public
     TPCircularBuffer buffer;
 }
+
 - (id)initWithLength:(NSUInteger)length;
 
 @property           NSUInteger length;

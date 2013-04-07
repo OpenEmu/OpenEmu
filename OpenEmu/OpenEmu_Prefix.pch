@@ -31,6 +31,8 @@
 
 #ifdef __OBJC__
 #import <Cocoa/Cocoa.h>
+#import <OpenEmuBase/OpenEmuBase.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEUtilities.h"
 
 #if __has_feature(objc_bool)

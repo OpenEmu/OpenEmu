@@ -202,7 +202,7 @@ bool8 S9xOpenSoundDevice(void)
 
 - (OEIntRect)screenRect
 {
-    return OERectMake(0, 0, IPPU.RenderedScreenWidth, IPPU.RenderedScreenHeight);
+    return OEIntRectMake(0, 0, IPPU.RenderedScreenWidth, IPPU.RenderedScreenHeight);
 }
 
 - (OEIntSize)bufferSize

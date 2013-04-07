@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2011, OpenEmu Team
  
- 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -25,24 +24,26 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <Carbon/Carbon.h>
-#import <ForceFeedback/ForceFeedback.h>
-#import <IOKit/hid/IOHIDLib.h>
-#import <IOKit/hid/IOHIDUsageTables.h>
+#import <Foundation/Foundation.h>
 
-#import <OpenEmuSystem/NSResponder+OEHIDAdditions.h>
-#import <OpenemuSystem/OEAnalogSystemResponder.h>
-#import <OpenEmuSystem/OEBasicSystemResponder.h>
-#import <OpenEmuSystem/OEBindingMap.h>
-#import <OpenEmuSystem/OEBindingsController.h>
-#import <OpenEmuSystem/OECUESheet.h>
-#import <OpenEmuSystem/OEDeviceManager.h>
-#import <OpenEmuSystem/OEDeviceHandler.h>
-#import <OpenEmuSystem/OEHIDEvent.h>
-#import <OpenEmuSystem/OEKeyBindingDescription.h>
-#import <OpenEmuSystem/OEKeyBindingGroupDescription.h>
-#import <OpenEmuSystem/OEPlayerBindings.h>
-#import <OpenEmuSystem/OESystemBindings.h>
-#import <OpenEmuSystem/OESystemController.h>
-#import <OpenEmuSystem/OESystemResponder.h>
+typedef enum _OERegion
+{
+	OERegionNA,
+	OERegionJAP,
+	OERegionEU,
+	OERegionOther
+} OERegion;
+
+extern NSString *const OERegionKey;
+
+@interface OELocalizationHelper : NSObject
++ (OELocalizationHelper *)sharedHelper;
+
+@property OERegion region;
+
+- (BOOL)isRegionNA;
+- (BOOL)isRegionEU;
+- (BOOL)isRegionJAP;
+
+- (NSString *)regionName;
+@end

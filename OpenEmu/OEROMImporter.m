@@ -33,7 +33,6 @@
 #import "OEDBCollection.h"
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
-#import "OESystemController.h"
 
 #import "NSURL+OELibraryAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
@@ -41,9 +40,8 @@
 
 #import "ArchiveVGThrottling.h"
 
-#import "OECUESheet.h"
-
 #import <CommonCrypto/CommonDigest.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 #import <XADMaster/XADArchive.h>
 #import <objc/runtime.h>
 
