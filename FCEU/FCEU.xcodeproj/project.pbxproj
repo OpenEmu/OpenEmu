@@ -250,6 +250,7 @@
 		942D9C2314E8AFE000772772 /* vsuni.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B2314E8AFDF00772772 /* vsuni.c */; };
 		942D9C2414E8AFE000772772 /* x6502.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B2514E8AFDF00772772 /* x6502.c */; };
 		945942D014E4F2DC0015D2AA /* FCEUX.icns in Resources */ = {isa = PBXBuildFile; fileRef = 945942CF14E4F2DC0015D2AA /* FCEUX.icns */; };
+		C62301A61712264100576081 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120EF171130A200E868A8 /* OpenEmuBase.framework */; };
 		C6C71E4A0FCDE25F002FAC4D /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C63E6C640FCDA565009C8555 /* ControlsPreference.xib */; };
 /* End PBXBuildFile section */
 
@@ -589,6 +590,7 @@
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				82EC409F0FD9EC420017FC19 /* libz.dylib in Frameworks */,
+				C62301A61712264100576081 /* OpenEmuBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
