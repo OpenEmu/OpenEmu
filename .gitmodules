@@ -31,3 +31,6 @@
 [submodule "SNES9x"]
 	path = SNES9x
 	url = https://github.com/OpenEmu/SNES9x-Core.git
+[submodule "VisualBoyAdvance"]
+	path = VisualBoyAdvance
+	url = https://github.com/OpenEmu/VisualBoyAdvance-Core.git
