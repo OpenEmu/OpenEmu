@@ -28,3 +28,6 @@
 [submodule "Nestopia"]
 	path = Nestopia
 	url = https://github.com/OpenEmu/Nestopia-Core.git
+[submodule "SNES9x"]
+	path = SNES9x
+	url = https://github.com/OpenEmu/SNES9x-Core.git

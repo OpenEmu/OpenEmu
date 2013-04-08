@@ -1,9 +1,0 @@
-build_now:              'YES'
-create_core_path:       'YES'
-download_base_url:      http://github.com/downloads/openemu/openemu/
-release_notes_base_url: http://openemu.sourceforge.net/category/releasenotes/visualboyadvance/
-appcast_basefolder:     '/Users/jweinberg/Desktop/Appcast'
-appcast_xml_name:       'snes9x_appcast.xml'
-keychain_privkey_name:  'Sparkle Private Key'
-css_file_name:          'rnotes.css'
-bundle_extension:       'oecoreplugin'
