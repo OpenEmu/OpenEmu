@@ -4,3 +4,6 @@
 [submodule "CrabEmu"]
 	path = CrabEmu
 	url = https://github.com/OpenEmu/CrabEmu-Core.git
+[submodule "BSNES"]
+	path = BSNES
+	url = https://github.com/OpenEmu/BSNES-Core.git
