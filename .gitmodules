@@ -22,3 +22,6 @@
 [submodule "Mupen64Plus"]
 	path = Mupen64Plus
 	url = https://github.com/OpenEmu/Mupen64Plus-Core.git
+[submodule "NeoPop"]
+	path = NeoPop
+	url = https://github.com/OpenEmu/NeoPop-Core.git
