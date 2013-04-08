@@ -25,3 +25,6 @@
 [submodule "NeoPop"]
 	path = NeoPop
 	url = https://github.com/OpenEmu/NeoPop-Core.git
+[submodule "Nestopia"]
+	path = Nestopia
+	url = https://github.com/OpenEmu/Nestopia-Core.git
