@@ -10,3 +10,6 @@
 [submodule "FCEU-Core"]
 	path = FCEU-Core
 	url = https://github.com/OpenEmu/FCEU-Core.git
+[submodule "Gambatte-Core"]
+	path = Gambatte-Core
+	url = https://github.com/OpenEmu/Gambatte-Core.git
