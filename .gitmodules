@@ -7,3 +7,6 @@
 [submodule "BSNES"]
 	path = BSNES
 	url = https://github.com/OpenEmu/BSNES-Core.git
+[submodule "FCEU-Core"]
+	path = FCEU-Core
+	url = https://github.com/OpenEmu/FCEU-Core.git
