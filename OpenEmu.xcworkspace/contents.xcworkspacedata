@@ -14,7 +14,7 @@
       location = "group:NeoPop/NeoPop.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:CrabEmu-Core/CrabEmu.xcodeproj">
+      location = "group:CrabEmu/CrabEmu.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:BSNES/BSNES.xcodeproj">
