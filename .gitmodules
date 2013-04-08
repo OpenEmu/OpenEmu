@@ -16,3 +16,6 @@
 [submodule "GenesisPlus"]
 	path = GenesisPlus
 	url = https://github.com/OpenEmu/GenesisPlus-Core.git
+[submodule "Mednafen"]
+	path = Mednafen
+	url = https://github.com/OpenEmu/Mednafen-Core.git

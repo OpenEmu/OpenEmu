@@ -1,7 +1,0 @@
-On virtual power/reset, don't reset event system(timestamps such as lastts and such; but recalculating events based on new emulated register settings caused by the
-	power/reset is good).
-
-All Reset()/Power() functions should be passed a timestamp(of the reset/power event).
-
-All users of the event system should initialize internal timestamp(lastts) to 0 on initialization, and only reset to 0 when its EndFrame() or ResetTS() or similar
-function is called.

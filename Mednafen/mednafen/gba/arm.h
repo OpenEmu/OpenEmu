@@ -1,2 +1,0 @@
-unsigned int RunARM(void);
-
