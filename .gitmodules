@@ -7,9 +7,12 @@
 [submodule "BSNES"]
 	path = BSNES
 	url = https://github.com/OpenEmu/BSNES-Core.git
-[submodule "FCEU-Core"]
-	path = FCEU-Core
+[submodule "FCEU"]
+	path = FCEU
 	url = https://github.com/OpenEmu/FCEU-Core.git
-[submodule "Gambatte-Core"]
-	path = Gambatte-Core
+[submodule "Gambatte"]
+	path = Gambatte
 	url = https://github.com/OpenEmu/Gambatte-Core.git
+[submodule "GenesisPlus"]
+	path = GenesisPlus
+	url = https://github.com/OpenEmu/GenesisPlus-Core.git
