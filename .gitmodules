@@ -1,3 +1,6 @@
 [submodule "OpenEmu-SDK"]
 	path = OpenEmu-SDK
 	url = https://github.com/OpenEmu/OpenEmu-SDK.git
+[submodule "CrabEmu"]
+	path = CrabEmu
+	url = https://github.com/OpenEmu/CrabEmu-Core.git
