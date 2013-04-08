@@ -36,24 +36,14 @@
 #import "OEPlugin.h"
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
-#import "OESystemController.h"
-#import "OEDeviceHandler.h"
-#import "OEDeviceDescription.h"
 
 #import "OEControllerImageView.h"
 #import "OEControlsButtonSetupView.h"
 
-#import "OEHIDEvent.h"
-
-#import "OEBindingsController.h"
-#import "OESystemBindings.h"
-#import "OEPlayerBindings.h"
-#import "OEKeyBindingGroupDescription.h"
-
-#import "OEDeviceManager.h"
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 
 #import "OEPreferencesController.h"
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 NSString *const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
 NSString *const OELastControlsPlayerKey           = @"lastControlsPlayer";
@@ -242,7 +232,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [[self playerPopupButton] setMenu:playerMenu];
 
     // Hide player PopupButton if there is only one player
-    [[self playerPopupButton] setHidden:(numberOfPlayers == 1)];
+    //[[self playerPopupButton] setHidden:(numberOfPlayers == 1)];
     [[self playerPopupButton] selectItemWithTag:[[NSUserDefaults standardUserDefaults] integerForKey:OELastControlsPlayerKey]];
 }
 
@@ -375,7 +365,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [self changeInputDevice:[self inputPopupButton]];
 
     NSComparisonResult order = [oldPluginName compare:[selectedPlugin systemName]];
-    [self OE_setUpControllerImageViewWithTransition:(order == NSOrderedDescending ? kCATransitionFromLeft : kCATransitionFromRight)];
+    [self OE_setUpControllerImageViewWithTransition:(order == NSOrderedDescending ? kCATransitionFromTop : kCATransitionFromBottom)];
 }
 
 - (void)OE_setUpControllerImageViewWithTransition:(NSString *)transition;
@@ -660,7 +650,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 - (NSSize)viewSize
 {
-    return NSMakeSize(561, 543);
+    return NSMakeSize(740, 450);
 }
 
 - (NSColor *)toolbarSeparationColor

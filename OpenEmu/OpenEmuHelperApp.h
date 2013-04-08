@@ -34,12 +34,10 @@
 
 // DO  object
 #import "OEGameCoreHelper.h"
-#import "OEGameCore.h"
+#import <OpenEmuBase/OpenEmuBase.h>
 
 // we are going to be cheap and just use gameCore for now.
 
-@class OEGameCore, OECorePlugin;
-@class OEGameCoreController;
 @class OEGameAudio;
 @class OEGameCoreProxy;
 
@@ -55,63 +53,57 @@ enum _OEHelperAppErrorCodes
 
 @interface OpenEmuHelperApp : NSResponder <NSApplicationDelegate, OEGameCoreHelper, OERenderDelegate, OEAudioDelegate>
 {
-    NSRunningApplication *parentApplication; // the process id of the parent app (Open Emu or our debug helper)
-    NSThread             *gameCoreThread;
+@private
+    NSRunningApplication *_parentApplication; // the process id of the parent app (Open Emu or our debug helper)
+    NSThread             *_gameCoreThread;
 
     // IOSurface requirements
-    IOSurfaceRef   surfaceRef;
-    IOSurfaceID    surfaceID;
+    IOSurfaceRef          _surfaceRef;
+    IOSurfaceID           _surfaceID;
 
     // GL Requirements
-    CGLContextObj     glContext;
-    GLuint            gameTexture;      // this is the texture that is defined by the gameCores pixelFormat and type
-    GLuint            gameFBO;          // this FBO uses the IOSurfaceTexture as an attachment and renders the gameTexture to 'square pixels'
-    GLuint            ioSurfaceTexture; // square pixel, bufferSize texture sent off to our Parent App for display. Yay.
-    GLuint            depthStencilRB;   // FBO RenderBuffer Attachment for depth and stencil buffer
+    CGLContextObj         _glContext;
+    GLuint                _gameTexture;      // this is the texture that is defined by the gameCores pixelFormat and type
+    GLuint                _gameFBO;          // this FBO uses the IOSurfaceTexture as an attachment and renders the gameTexture to 'square pixels'
+    GLuint                _ioSurfaceTexture; // square pixel, bufferSize texture sent off to our Parent App for display. Yay.
+    GLuint                _depthStencilRB;   // FBO RenderBuffer Attachment for depth and stencil buffer
 
     // poll parent ID, KVO does not seem to be working with NSRunningApplication
-    NSTimer          *pollingTimer;
+    NSTimer              *_pollingTimer;
 
     // Alternate-thread rendering
-    CGLPixelFormatObj glPixelFormat;
-    CGLContextObj     alternateContext;
-    GLuint            tempFBO;
-    GLuint            tempRB[2];
+    CGLPixelFormatObj     _glPixelFormat;
+    CGLContextObj         _alternateContext;
+    GLuint                _tempFBO;
+    GLuint                _tempRB[2];
 
     // we will need a way to do IPC, for now its DO.
-    NSString         *doUUID;
-    NSConnection     *theConnection;
+    NSConnection         *_connection;
 
     // OE stuff
-    NSArray          *plugins;
-    OEGameCoreProxy  *gameCoreProxy;
-    OEGameCoreController *gameController;
-    OEGameCore       *gameCore;
-    OEGameAudio      *gameAudio;
-
-    BOOL              loadedRom;
+    OEGameCoreProxy      *_gameCoreProxy;
+    OEGameCoreController *_gameController;
+    OEGameCore           *_gameCore;
+    OEGameAudio          *_gameAudio;
 
     // screen subrect stuff
-    id<OEGameCoreHelperDelegate> __weak delegate;
-    OEIntSize previousScreenSize, correctedSize;
-    CGFloat   gameAspectRatio;
-    BOOL      drawSquarePixels;
-    BOOL      running;
+    OEIntSize             _previousScreenSize;
+    CGFloat               _gameAspectRatio;
 
-    BOOL      hasStartedAudio;
+    BOOL                  _hasStartedAudio;
 }
 
-@property(strong) NSString *doUUID;
-@property         BOOL      loadedRom;
+@property(copy) NSString *doUUID;
+@property       BOOL      loadedRom;
 @property(readonly, getter=isRunning) BOOL running;
 
 - (BOOL)launchConnectionWithIdentifierSuffix:(NSString *)aSuffix error:(NSError **)anError;
 - (void)setupProcessPollingTimer;
 - (void)quitHelperTool;
 
-#pragma mark -
-#pragma mark IOSurface and GL Render
-- (void)setupOpenGLOnScreen:(NSScreen*)screen;
+#pragma mark - IOSurface and GL Render
+
+- (void)setupOpenGLOnScreen:(NSScreen *)screen;
 - (void)setupIOSurface;
 - (void)setupFBO;
 - (void)setupGameTexture;
@@ -127,16 +119,17 @@ enum _OEHelperAppErrorCodes
 - (void)updateScreenSize;
 - (void)stopEmulation;
 
-#pragma mark -
-#pragma mark OE DO protocol delegate methods
+#pragma mark - OE DO protocol delegate methods
+
 - (void)setVolume:(float)volume;
 - (void)volumeUp;
 - (void)volumeDown;
 - (void)setPauseEmulation:(BOOL)paused;
 
-#pragma mark -
-#pragma mark OE Render Delegate protocol methods
+#pragma mark - OE Render Delegate protocol methods
+
 - (void)willExecute;
 - (void)didExecute;
 - (void)willDisableVSync:(BOOL)disabled;
+
 @end

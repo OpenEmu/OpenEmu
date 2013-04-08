@@ -27,11 +27,11 @@
 #import "OEGameCoreManager.h"
 #import "OECorePlugin.h"
 #import "OEGameCoreHelper.h"
-#import "OEGameCoreController.h"
-#import "NSString+UUID.h"
 #import "OpenEmuHelperApp.h"
 #import "OEGameDocument.h"
 #import "OETaskWrapper.h"
+
+#import <OpenEmuBase/OpenEmuBase.h>
 
 @implementation OEGameCoreManager
 @synthesize romPath, plugin, owner;

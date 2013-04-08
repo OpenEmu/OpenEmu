@@ -29,86 +29,84 @@
 	<key>OEControlListKey</key>
 	<array>
 		<array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Up</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButtonUp</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Down</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButtonDown</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Left</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButtonLeft</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Right</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButtonRight</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Insert Coin</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButtonInsertCoin</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Player 1 Start</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButtonP1Start</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 1</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButton1</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 2</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButton2</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 3</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButton3</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 4</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButton4</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 5</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButton5</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 6</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEArcadeButton6</string>
-				</dict>
-			</array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Up</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeButtonUp</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Down</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeButtonDown</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Left</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeButtonLeft</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Right</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeButtonRight</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Insert Coin</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeButtonInsertCoin</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Player 1 Start</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeButtonP1Start</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Button 1</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeButton1</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Button 2</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeButton2</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Button 3</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeButton3</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Button 4</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeButton4</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Button 5</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeButton5</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Button 6</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeButton6</string>
+			</dict>
 		</array>
 	</array>
 	<key>OEFileSuffixes</key>

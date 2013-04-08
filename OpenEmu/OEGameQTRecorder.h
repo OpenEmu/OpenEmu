@@ -27,7 +27,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QTKit/QTKit.h>
-#import "OEGameCore.h"
+#import <OpenEmuBase/OpenEmuBase.h>
 
 // FIXME: This class is all dead inside
 @interface OEGameQTRecorder : NSObject

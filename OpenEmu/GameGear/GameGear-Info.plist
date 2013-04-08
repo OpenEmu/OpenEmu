@@ -41,53 +41,51 @@
 	<key>OEControlListKey</key>
 	<array>
 		<array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Up</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEGGButtonUp</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Down</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEGGButtonDown</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Left</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEGGButtonLeft</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Right</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEGGButtonRight</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 1</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEGGButtonA</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 2</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEGGButtonB</string>
-				</dict>
-				<string>-</string>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Start</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEGGButtonStart</string>
-				</dict>
-			</array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Up</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEGGButtonUp</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Down</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEGGButtonDown</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Left</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEGGButtonLeft</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Right</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEGGButtonRight</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Button 1</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEGGButtonA</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Button 2</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEGGButtonB</string>
+			</dict>
+			<string>-</string>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Start</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEGGButtonStart</string>
+			</dict>
 		</array>
 	</array>
 	<key>OESystemIcon</key>

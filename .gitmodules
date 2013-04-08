@@ -1,0 +1,36 @@
+[submodule "OpenEmu-SDK"]
+	path = OpenEmu-SDK
+	url = https://github.com/OpenEmu/OpenEmu-SDK.git
+[submodule "CrabEmu"]
+	path = CrabEmu
+	url = https://github.com/OpenEmu/CrabEmu-Core.git
+[submodule "BSNES"]
+	path = BSNES
+	url = https://github.com/OpenEmu/BSNES-Core.git
+[submodule "FCEU"]
+	path = FCEU
+	url = https://github.com/OpenEmu/FCEU-Core.git
+[submodule "Gambatte"]
+	path = Gambatte
+	url = https://github.com/OpenEmu/Gambatte-Core.git
+[submodule "GenesisPlus"]
+	path = GenesisPlus
+	url = https://github.com/OpenEmu/GenesisPlus-Core.git
+[submodule "Mednafen"]
+	path = Mednafen
+	url = https://github.com/OpenEmu/Mednafen-Core.git
+[submodule "Mupen64Plus"]
+	path = Mupen64Plus
+	url = https://github.com/OpenEmu/Mupen64Plus-Core.git
+[submodule "NeoPop"]
+	path = NeoPop
+	url = https://github.com/OpenEmu/NeoPop-Core.git
+[submodule "Nestopia"]
+	path = Nestopia
+	url = https://github.com/OpenEmu/Nestopia-Core.git
+[submodule "SNES9x"]
+	path = SNES9x
+	url = https://github.com/OpenEmu/SNES9x-Core.git
+[submodule "VisualBoyAdvance"]
+	path = VisualBoyAdvance
+	url = https://github.com/OpenEmu/VisualBoyAdvance-Core.git

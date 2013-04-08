@@ -25,6 +25,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <OpenEmuBase/OpenEmuBase.h>
 
 extern NSString *const OEGameVolumeKey;
 extern NSString *const OEGameDefaultVideoFilterKey;

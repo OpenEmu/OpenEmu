@@ -31,7 +31,7 @@
 
 @interface OECorePlugin : OEPlugin
 
-@property(readonly) OEGameCoreController<OEPluginController> *controller;
+@property(readonly) OEGameCoreController *controller;
 
 @property(readonly) Class     gameCoreClass;
 @property(readonly) NSImage  *icon;

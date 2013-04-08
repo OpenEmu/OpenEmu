@@ -121,29 +121,107 @@
         {
             otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             if([otherArguments isEqualToString:@"viewport"])
-                [shader setScaleType:OEScaleTypeViewPort];
+            {
+                [shader setXScaleType:OEScaleTypeViewPort];
+                [shader setYScaleType:OEScaleTypeViewPort];
+            }
             else if([otherArguments isEqualToString:@"absolute"])
-                [shader setScaleType:OEScaleTypeAbsolute];
+            {
+                [shader setXScaleType:OEScaleTypeAbsolute];
+                [shader setYScaleType:OEScaleTypeAbsolute];
+            }
             else
-                [shader setScaleType:OEScaleTypeSource];
+            {
+                [shader setXScaleType:OEScaleTypeSource];
+                [shader setYScaleType:OEScaleTypeSource];
+            }
         }
         else
         {
-            if(i != (_numberOfPasses - 1))
-                [shader setScaleType:OEScaleTypeSource];
+            result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale_type_x%ld=).*", i] inString:strippedInput withError:error];
+            if(result.range.length != 0)
+            {
+                otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+                if([otherArguments isEqualToString:@"viewport"])
+                    [shader setXScaleType:OEScaleTypeViewPort];
+                else if([otherArguments isEqualToString:@"absolute"])
+                    [shader setXScaleType:OEScaleTypeAbsolute];
+                else
+                    [shader setXScaleType:OEScaleTypeSource];
+            }
             else
-                [shader setScaleType:OEScaleTypeViewPort];
+            {
+                if(i != (_numberOfPasses - 1))
+                    [shader setXScaleType:OEScaleTypeSource];
+                else
+                    [shader setXScaleType:OEScaleTypeViewPort];
+            }
+
+            result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale_type_y%ld=).*", i] inString:strippedInput withError:error];
+            if(result.range.length != 0)
+            {
+                otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+                if([otherArguments isEqualToString:@"viewport"])
+                    [shader setYScaleType:OEScaleTypeViewPort];
+                else if([otherArguments isEqualToString:@"absolute"])
+                    [shader setYScaleType:OEScaleTypeAbsolute];
+                else
+                    [shader setYScaleType:OEScaleTypeSource];
+            }
+            else
+            {
+                if(i != (_numberOfPasses - 1))
+                    [shader setYScaleType:OEScaleTypeSource];
+                else
+                    [shader setYScaleType:OEScaleTypeViewPort];
+            }
         }
 
         // Check for the scaling factor
         result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale%ld=).*", i] inString:strippedInput withError:error];
         if(result.range.length != 0)
         {
-            otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+            otherArguments = [strippedInput substringWithRange:result.range];
             [shader setScaler:CGSizeMake([otherArguments floatValue], [otherArguments floatValue])];
         }
         else
-            [shader setScaler:CGSizeMake(1,1)];
+        {
+            CGFloat x = 1;
+            CGFloat y = 1;
+
+            result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale_x%ld=).*", i] inString:strippedInput withError:error];
+            if(result.range.length != 0)
+            {
+                otherArguments = [strippedInput substringWithRange:result.range];
+                x = [otherArguments floatValue];
+            }
+
+            result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale_y%ld=).*", i] inString:strippedInput withError:error];
+            if(result.range.length != 0)
+            {
+                otherArguments = [strippedInput substringWithRange:result.range];
+                y = [otherArguments floatValue];
+            }
+
+            [shader setScaler:CGSizeMake(x,y)];
+        }
+
+        // Check if a floating point framebuffer is to be used
+        result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=float_framebuffer%ld=).*", i] inString:strippedInput withError:error];
+        otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        if([otherArguments isEqualToString:@"true"] || [otherArguments isEqualToString:@"1"])
+        {
+            [shader setFloatFramebuffer:YES];
+        }
+
+        // Check if a modulo should be applied to the frame count
+        result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=frame_count_mod%ld=).*", i] inString:strippedInput withError:error];
+        if(result.range.length != 0)
+        {
+            otherArguments = [strippedInput substringWithRange:result.range];
+            [shader setFrameCountMod:[otherArguments integerValue]];
+        }
+        
 
         // Add the shader to the shaders array
         [_shaders addObject:shader];

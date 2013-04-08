@@ -25,13 +25,13 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "OECorePlugin.h"
+#import "OEPlugin.h"
 
 @class OESystemController;
 
 @interface OESystemPlugin : OEPlugin
 
-@property(weak, readonly) OESystemController<OEPluginController> *controller;
+@property(weak, readonly) OESystemController *controller;
 
 @property(strong, readonly) NSString *systemIdentifier;
 @property(strong, readonly) NSString *systemName;
@@ -40,8 +40,8 @@
 
 @property(strong, readonly) Class     responderClass;
 
-+ (NSArray*)supportedTypeExtensions;
-- (NSArray*)supportedTypeExtensions;
++ (NSArray *)supportedTypeExtensions;
+- (NSArray *)supportedTypeExtensions;
 + (OESystemPlugin *)gameSystemPluginForIdentifier:(NSString *)gameSystemIdentifier;
 + (void)registerGameSystemPlugin:(OESystemPlugin *)plugin forIdentifier:(NSString *)gameSystemIdentifier;
 + (OESystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;

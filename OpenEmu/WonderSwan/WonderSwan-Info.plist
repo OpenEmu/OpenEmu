@@ -37,86 +37,84 @@
 	<key>OEControlListKey</key>
 	<array>
 		<array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>X1 Up</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEWSButtonX1</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>X3 Down</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEWSButtonX3</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>X4 Left</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEWSButtonX4</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>X2 Right</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEWSButtonX2</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Y1 Up</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEWSButtonY1</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Y3 Down</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEWSButtonY3</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Y4 Left</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEWSButtonY4</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Y2 Right</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEWSButtonY2</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>A</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEWSButtonA</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>B</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEWSButtonB</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Start</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEWSButtonStart</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Sound</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEWSButtonSound</string>
-				</dict>
-			</array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>X1 Up</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEWSButtonX1</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>X3 Down</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEWSButtonX3</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>X4 Left</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEWSButtonX4</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>X2 Right</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEWSButtonX2</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Y1 Up</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEWSButtonY1</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Y3 Down</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEWSButtonY3</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Y4 Left</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEWSButtonY4</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Y2 Right</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEWSButtonY2</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>A</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEWSButtonA</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>B</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEWSButtonB</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Start</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEWSButtonStart</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Sound</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEWSButtonSound</string>
+			</dict>
 		</array>
 	</array>
 	<key>OEControlTypesKey</key>

@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2009, OpenEmu Team
- 
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -45,16 +44,16 @@
 @protocol OERenderDelegate
 
 @required
-- (void) willExecute;
-- (void) didExecute;
+- (void)willExecute;
+- (void)didExecute;
 
-- (void) willRenderOnAlternateThread;
-- (void) startRenderingOnAlternateThread;
+- (void)willRenderOnAlternateThread;
+- (void)startRenderingOnAlternateThread;
 
-- (void) willRenderFrameOnAlternateThread;
-- (void) didRenderFrameOnAlternateThread;
+- (void)willRenderFrameOnAlternateThread;
+- (void)didRenderFrameOnAlternateThread;
 
-- (void) willDisableVSync:(BOOL)flag;
+- (void)willDisableVSync:(BOOL)flag;
 @end
 
 #pragma mark -
@@ -82,14 +81,24 @@ typedef struct OEIntRect {
     OEIntSize size;
 } OEIntRect;
 
-static inline OEIntSize OESizeMake(int width, int height)
+static inline OEIntPoint OEIntPointMake(int x, int y)
 {
-    return (OEIntSize){width, height};
+    return (OEIntPoint){ x, y };
+}
+
+static inline OEIntSize OEIntSizeMake(int width, int height)
+{
+    return (OEIntSize){ width, height };
 }
 
 static inline OEIntRect OERectMake(int x, int y, int width, int height)
 {
-    return (OEIntRect){(OEIntPoint){x,y}, (OEIntSize){width, height}};
+    return (OEIntRect){ (OEIntPoint){ x, y }, (OEIntSize){ width, height } };
+}
+
+static inline BOOL OEIntSizeEqualToSize(OEIntSize size1, OEIntSize size2)
+{
+    return size1.width == size2.width && size1.height == size2.height;
 }
 
 static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
@@ -116,8 +125,8 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 
 #pragma mark -
 
-@interface OEGameCore : NSResponder <OESystemResponderClient, OESettingObserver>
-{    
+@interface OEGameCore : NSResponder <OESystemResponderClient>
+{
     NSThread               *emulationThread;
     NSTimeInterval          frameInterval;
     NSTimeInterval          gameInterval;
@@ -127,13 +136,10 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
     NSUInteger              tenFrameCounter;
     NSUInteger              autoFrameSkipLastTime;
     NSUInteger              frameskipadjust;
-    
-    // for lightgun/pointer support.
-    NSPoint                 mousePosition;
-    
+
     BOOL                    frameFinished;
     BOOL                    willSkipFrame;
-    
+
     BOOL                    isRunning;
     BOOL                    shouldStop;
     BOOL                    isFastForwarding;
@@ -166,10 +172,6 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 - (void)stopEmulation;
 - (void)startEmulation;
 
-#pragma mark -
-#pragma mark Tracking preference changes
-- (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
-
 // ============================================================================
 // Abstract methods: Those methods should be overridden by subclasses
 // ============================================================================
@@ -186,7 +188,7 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 @property(readonly) OEIntSize   bufferSize;
 
 // The size of the current portion of the buffer that is needs to be displayed as "active" to the user
-// Note that this rect may not be have the same aspect ratio as what the end user sees. 
+// Note that this rect may not be have the same aspect ratio as what the end user sees.
 @property(readonly) OEIntRect   screenRect;
 
 // The *USER INTERFACE* aspect of the actual final displayed video on screen.
@@ -212,21 +214,6 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 - (double)audioSampleRateForBuffer:(NSUInteger)buffer;
 
 #pragma mark -
-#pragma mark Lightgun/Pointer Support
-@property(readwrite) NSPoint mousePosition DEPRECATED_ATTRIBUTE;
-
-/*
-#pragma mark Input Settings & Parsing
-- (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer;
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer;
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey;
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey;
- */
-#pragma mark Input
-//- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton;
-//- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton;
-
-#pragma mark -
 #pragma mark Save state - Optional
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName;
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
@@ -249,6 +236,6 @@ static inline NSString *NSStringFromOEIntRect(OEIntRect r)
 
 - (NSTrackingAreaOptions)mouseTrackingOptions;
 
-- (NSSize) outputSize;
-- (void) setRandomByte;
+- (NSSize)outputSize;
+- (void)setRandomByte;
 @end

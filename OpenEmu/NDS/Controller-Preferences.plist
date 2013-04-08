@@ -9,31 +9,31 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OENDSButtonUp</key>
-		<string>{146, 166}</string>
+		<string>{96, 159}</string>
 		<key>OENDSButtonDown</key>
-		<string>{146, 130}</string>
+		<string>{96, 123}</string>
 		<key>OENDSButtonA</key>
-		<string>{476, 157}</string>
+		<string>{426, 150}</string>
 		<key>OENDSButtonLeft</key>
-		<string>{128, 148}</string>
+		<string>{78, 141}</string>
 		<key>OENDSButtonRight</key>
-		<string>{164, 148}</string>
+		<string>{114, 141}</string>
 		<key>OENDSButtonStart</key>
-		<string>{424, 84}</string>
+		<string>{374, 77}</string>
 		<key>OENDSButtonSelect</key>
-		<string>{424, 61}</string>
+		<string>{374, 54}</string>
 		<key>OENDSButtonB</key>
-		<string>{453, 134}</string>
+		<string>{403, 127}</string>
 		<key>OENDSButtonL</key>
-		<string>{131, 236}</string>
+		<string>{81, 229}</string>
 		<key>OENDSButtonR</key>
-		<string>{469, 236}</string>
+		<string>{419, 229}</string>
 		<key>OENDSButtonX</key>
-		<string>{453, 180}</string>
+		<string>{403, 173}</string>
 		<key>OENDSButtonY</key>
-		<string>{430, 157}</string>
+		<string>{380, 150}</string>
 		<key>OENDSButtonMicrophone</key>
-		<string>{299, 236}</string>
+		<string>{249, 229}</string>
 		<key>OENDSButtonLid</key>
 		<string>{0, 0}</string>
 		<key>OENDSButtonDebug</key>

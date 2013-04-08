@@ -37,8 +37,6 @@
 #import "OECompositionPlugin.h"
 #import "OEShaderPlugin.h"
 
-#import "OEDeviceManager.h"
-#import "OEControllerDescription.h"
 #import "NSAttributedString+Hyperlink.h"
 #import "NSImage+OEDrawingAdditions.h"
 #import "NSWindow+OEFullScreenAdditions.h"
@@ -53,8 +51,6 @@
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 
-#import "OEBindingsController.h"
-
 #import "OEBuildVersion.h"
 
 #import "OEPreferencesController.h"
@@ -63,6 +59,7 @@
 
 #import "OEFiniteStateMachine.h"
 
+#import <OpenEmuSystem/OpenEmuSystem.h>
 #import <FeedbackReporter/FRFeedbackReporter.h>
 #import "OEToolTipManager.h"
 
@@ -170,7 +167,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [[mainWindowController window] toggleFullScreen:self];
 
     [NSApp bind:@"logHIDEvents" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEvents" options:nil];
-    [NSApp bind:@"logHIDEventsNoKeyboard" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEventsNoKeyboard" options:nil];
+    //[NSApp bind:@"logHIDEventsNoKeyboard" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEventsNoKeyboard" options:nil];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender

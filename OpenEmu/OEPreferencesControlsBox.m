@@ -31,7 +31,33 @@
 
 - (void)drawRect:(NSRect)dirtyRect{
 	NSImage *image = [NSImage imageNamed:@"wood_inset_box"];
-	[image drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:nil leftBorder:16 rightBorder:16 topBorder:16 bottomBorder:16];
+	[image drawInRect:NSInsetRect([self bounds], -1, -1) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:nil leftBorder:16 rightBorder:16 topBorder:16 bottomBorder:16];
+
+    const NSColor *topColor = [NSColor colorWithDeviceRed:85/255.0 green:45/255 blue:0.0 alpha:1.0];
+    const NSColor *bottomColor = [NSColor colorWithDeviceRed:1.0 green:1.0 blue:0.0 alpha:0.2];
+
+    NSRect lineRect = [self bounds];
+    lineRect.size.height = 1;
+
+    // Draw top separator
+    lineRect.origin.y = 315;
+
+    [topColor setFill];
+    NSRectFill(lineRect);
+
+    lineRect.origin.y -= 1;
+    [bottomColor setFill];
+    NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
+
+    // Draw bottom separator
+    lineRect.origin.y = 48;
+
+    [topColor setFill];
+    NSRectFill(lineRect);
+
+    lineRect.origin.y -= 1;
+    [bottomColor setFill];
+    NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
 }
 
 - (BOOL)isFlipped{

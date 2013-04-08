@@ -26,11 +26,12 @@
 
 
 #import "OEPrefDebugController.h"
-#import "OELocalizationHelper.h"
 #import "OELibraryDatabase.h"
 #import "OESidebarController.h"
 
 #import "OEDBGame.h"
+
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OEPrefDebugController
 @synthesize regionSelector, dbActionSelector, contentView;

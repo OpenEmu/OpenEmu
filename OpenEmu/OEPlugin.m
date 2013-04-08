@@ -210,7 +210,7 @@ static NSMutableDictionary *_pluginsForNamesByTypes  = nil;
     [_bundle unload];
 }
 
-- (id<OEPluginController>)controller
+- (id)controller
 {
     if (_controller == nil)
     {
@@ -220,7 +220,7 @@ static NSMutableDictionary *_pluginsForNamesByTypes  = nil;
     return _controller;
 }
 
-- (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
+- (id)newPluginControllerWithClass:(Class)bundleClass
 {
     return [[bundleClass alloc] init];
 }

@@ -83,9 +83,12 @@ static const NSUInteger OEMultipasses = 10;
 @property(readonly) CGparameter *fragmentPreviousTextureSizes;
 @property(readonly) CGparameter *fragmentPreviousTextureVideoSizes;
 
-@property BOOL linearFiltering;
-@property OEScaleType scaleType;
-@property CGSize scaler;
+@property BOOL        linearFiltering;
+@property BOOL        floatFramebuffer;
+@property OEScaleType xScaleType;
+@property OEScaleType yScaleType;
+@property CGSize      scaler;
+@property NSUInteger  frameCountMod;
 
 - (CGparameter)vertexParameterWithName:(const char *)theParameterName;
 - (CGparameter)fragmentParameterWithName:(const char *)theParameterName;

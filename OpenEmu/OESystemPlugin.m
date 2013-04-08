@@ -25,10 +25,11 @@
  */
 
 #import "OESystemPlugin.h"
-#import "OESystemController.h"
 
-#import "OELibraryDatabase.h"
 #import "OEDBSystem.h"
+#import "OELibraryDatabase.h"
+
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OESystemPlugin
 @dynamic controller;
@@ -99,7 +100,7 @@ static NSArray *_cachedSupportedTypeExtensions = nil;
     return self;
 }
 
-- (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
+- (id)newPluginControllerWithClass:(Class)bundleClass
 {
     if(![bundleClass isSubclassOfClass:[OESystemController class]]) return nil;
 
