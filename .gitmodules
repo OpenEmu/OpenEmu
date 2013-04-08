@@ -19,3 +19,6 @@
 [submodule "Mednafen"]
 	path = Mednafen
 	url = https://github.com/OpenEmu/Mednafen-Core.git
+[submodule "Mupen64Plus"]
+	path = Mupen64Plus
+	url = https://github.com/OpenEmu/Mupen64Plus-Core.git
