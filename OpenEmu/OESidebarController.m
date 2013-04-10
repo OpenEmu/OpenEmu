@@ -194,7 +194,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (id)duplicateCollection:(id)originalCollection
 {
-    id duplicateCollection = [[self database] addNewCollection:[NSString stringWithFormat:@"%@ %@",[originalCollection valueForKey:@"name"], NSLocalizedString(@"copy", @"copy")]];
+    id duplicateCollection = [[self database] addNewCollection:[NSString stringWithFormat:NSLocalizedString(@"%@ copy", @"File name format for copies"), [originalCollection valueForKey:@"name"]]];
     
     [[duplicateCollection mutableGames] setSet:[originalCollection games]];
     [[duplicateCollection managedObjectContext] save:nil];
