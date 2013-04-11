@@ -28,7 +28,6 @@
 #import "OESegaCDSystemController.h"
 #import "OESegaCDSystemResponder.h"
 #import "OESegaCDSystemResponderClient.h"
-#import "OELocalizationHelper.h"
 
 @implementation OESegaCDSystemController
 

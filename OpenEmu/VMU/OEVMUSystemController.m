@@ -28,7 +28,6 @@
 #import "OEVMUSystemController.h"
 #import "OEVMUSystemResponder.h"
 #import "OEVMUSystemResponderClient.h"
-#import "OELocalizationHelper.h"
 
 @implementation OEVMUSystemController
 

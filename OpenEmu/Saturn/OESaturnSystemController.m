@@ -27,7 +27,6 @@
 #import "OESaturnSystemController.h"
 #import "OESaturnSystemResponder.h"
 #import "OESaturnSystemResponderClient.h"
-#import "OELocalizationHelper.h"
 
 @implementation OESaturnSystemController
 
