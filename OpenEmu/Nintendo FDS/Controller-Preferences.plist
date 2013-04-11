@@ -9,23 +9,23 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEFDSButtonUp</key>
-		<string>{159, 137}</string>
+		<string>{109, 225}</string>
 		<key>OEFDSButtonDown</key>
-		<string>{159, 90}</string>
+		<string>{109, 178}</string>
 		<key>OEFDSButtonLeft</key>
-		<string>{136, 113}</string>
+		<string>{86, 201}</string>
 		<key>OEFDSButtonRight</key>
-		<string>{183, 113}</string>
+		<string>{133, 201}</string>
 		<key>OEFDSButtonStart</key>
-		<string>{260, 92}</string>
+		<string>{259, 180}</string>
 		<key>OEFDSButtonSelect</key>
-		<string>{309, 92}</string>
+		<string>{210, 180}</string>
 		<key>OEFDSButtonA</key>
-		<string>{449, 95}</string>
+		<string>{399, 183}</string>
 		<key>OEFDSButtonB</key>
-		<string>{391, 95}</string>
+		<string>{341, 183}</string>
 		<key>OEFDSButtonChangeSide</key>
-		<string>{391, 95}</string>
+		<string>{341, 183}</string>
 	</dict>
 </dict>
 </plist>

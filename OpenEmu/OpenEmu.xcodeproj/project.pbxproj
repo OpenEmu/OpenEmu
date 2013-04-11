@@ -8546,6 +8546,7 @@
 				94BE9E5A171683E000AB08E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		94D7E8D415073BA000FBDD85 /* Build configuration list for PBXNativeTarget "NDS" */ = {
 			isa = XCConfigurationList;
