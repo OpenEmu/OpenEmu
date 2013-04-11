@@ -9,29 +9,29 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OESNESButtonUp</key>
-		<string>{169, 154}</string>
+		<string>{127, 242}</string>
 		<key>OESNESButtonDown</key>
-		<string>{169, 110}</string>
+		<string>{127, 198}</string>
 		<key>OESNESButtonLeft</key>
-		<string>{147, 132}</string>
+		<string>{105, 220}</string>
 		<key>OESNESButtonRight</key>
-		<string>{192, 132}</string>
+		<string>{150, 220}</string>
 		<key>OESNESButtonStart</key>
-		<string>{299, 117}</string>
+		<string>{257, 205}</string>
 		<key>OESNESButtonSelect</key>
-		<string>{252, 117}</string>
+		<string>{210, 205}</string>
 		<key>OESNESButtonA</key>
-		<string>{456, 130}</string>
+		<string>{414, 218}</string>
 		<key>OESNESButtonB</key>
-		<string>{413, 95}</string>
+		<string>{371, 183}</string>
 		<key>OESNESButtonX</key>
-		<string>{416, 164}</string>
+		<string>{374, 252}</string>
 		<key>OESNESButtonY</key>
-		<string>{373, 130}</string>
+		<string>{331, 218}</string>
 		<key>OESNESButtonTriggerLeft</key>
-		<string>{166, 220}</string>
+		<string>{124, 308}</string>
 		<key>OESNESButtonTriggerRight</key>
-		<string>{423, 220}</string>
+		<string>{381, 308}</string>
 	</dict>
 </dict>
 </plist>
