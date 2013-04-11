@@ -27,7 +27,6 @@
 
 #import "OEVBSystemResponder.h"
 #import "OEVBSystemResponderClient.h"
-#import "OEEvent.h"
 
 @implementation OEVBSystemResponder
 @dynamic client;

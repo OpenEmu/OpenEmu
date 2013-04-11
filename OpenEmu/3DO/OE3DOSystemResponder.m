@@ -27,7 +27,6 @@
 
 #import "OE3DOSystemResponder.h"
 #import "OE3DOSystemResponderClient.h"
-#import "OEEvent.h"
 
 @implementation OE3DOSystemResponder
 @dynamic client;
