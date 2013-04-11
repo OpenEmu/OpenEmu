@@ -649,6 +649,16 @@
 		94A2260C170761D200098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22606170761D200098DA0 /* Controller-Mappings.plist */; };
 		94A2260D170761D200098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22607170761D200098DA0 /* Controller-Preferences.plist */; };
 		94A2260E170761D200098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22608170761D200098DA0 /* Keyboard-Mappings.plist */; };
+		94BE9E51171683E000AB08E6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94BE9E57171683E000AB08E6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E55171683E000AB08E6 /* InfoPlist.strings */; };
+		94BE9E61171689B400AB08E6 /* OEColecoVisionSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE9E5F171689B400AB08E6 /* OEColecoVisionSystemResponder.m */; };
+		94BE9E68171689C900AB08E6 /* colecovision_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E62171689C900AB08E6 /* colecovision_library.png */; };
+		94BE9E69171689C900AB08E6 /* controller_colecovision_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E63171689C900AB08E6 /* controller_colecovision_mask.png */; };
+		94BE9E6A171689C900AB08E6 /* controller_colecovision.png in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E64171689C900AB08E6 /* controller_colecovision.png */; };
+		94BE9E6B171689C900AB08E6 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E65171689C900AB08E6 /* Controller-Mappings.plist */; };
+		94BE9E6C171689C900AB08E6 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E66171689C900AB08E6 /* Controller-Preferences.plist */; };
+		94BE9E6D171689C900AB08E6 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E67171689C900AB08E6 /* Keyboard-Mappings.plist */; };
+		94BE9E741716922100AB08E6 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		94D7E8CA15073BA000FBDD85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94D7E8D015073BA000FBDD85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */; };
 		94D7E8DA15073DB000FBDD85 /* controller_nds_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D615073DB000FBDD85 /* controller_nds_mask.png */; };
@@ -1890,6 +1900,18 @@
 		94A22606170761D200098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94A22607170761D200098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94A22608170761D200098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94BE9E50171683E000AB08E6 /* ColecoVision.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColecoVision.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		94BE9E54171683E000AB08E6 /* ColecoVision-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ColecoVision-Info.plist"; sourceTree = "<group>"; };
+		94BE9E56171683E000AB08E6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94BE9E5E171689B400AB08E6 /* OEColecoVisionSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEColecoVisionSystemResponder.h; sourceTree = "<group>"; };
+		94BE9E5F171689B400AB08E6 /* OEColecoVisionSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEColecoVisionSystemResponder.m; sourceTree = "<group>"; };
+		94BE9E60171689B400AB08E6 /* OEColecoVisionSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEColecoVisionSystemResponderClient.h; sourceTree = "<group>"; };
+		94BE9E62171689C900AB08E6 /* colecovision_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = colecovision_library.png; sourceTree = "<group>"; };
+		94BE9E63171689C900AB08E6 /* controller_colecovision_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_colecovision_mask.png; sourceTree = "<group>"; };
+		94BE9E64171689C900AB08E6 /* controller_colecovision.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_colecovision.png; sourceTree = "<group>"; };
+		94BE9E65171689C900AB08E6 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94BE9E66171689C900AB08E6 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94BE9E67171689C900AB08E6 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NDS.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D7E8CD15073BA000FBDD85 /* NDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NDS-Info.plist"; sourceTree = "<group>"; };
 		94D7E8CF15073BA000FBDD85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2277,6 +2299,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94BE9E4D171683E000AB08E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94BE9E51171683E000AB08E6 /* Cocoa.framework in Frameworks */,
+				94BE9E741716922100AB08E6 /* OpenEmuSystem.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94D7E8C615073BA000FBDD85 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2463,6 +2494,7 @@
 				943F99B31707DF3700270E89 /* 3DO.oesystemplugin */,
 				943C80121708A62E00D8D93E /* Jaguar.oesystemplugin */,
 				943C80351708F23900D8D93E /* VMU.oesystemplugin */,
+				94BE9E50171683E000AB08E6 /* ColecoVision.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4295,6 +4327,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		94BE9E52171683E000AB08E6 /* ColecoVision */ = {
+			isa = PBXGroup;
+			children = (
+				94BE9E5E171689B400AB08E6 /* OEColecoVisionSystemResponder.h */,
+				94BE9E5F171689B400AB08E6 /* OEColecoVisionSystemResponder.m */,
+				94BE9E60171689B400AB08E6 /* OEColecoVisionSystemResponderClient.h */,
+				94BE9E53171683E000AB08E6 /* Supporting Files */,
+			);
+			path = ColecoVision;
+			sourceTree = "<group>";
+		};
+		94BE9E53171683E000AB08E6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94BE9E62171689C900AB08E6 /* colecovision_library.png */,
+				94BE9E63171689C900AB08E6 /* controller_colecovision_mask.png */,
+				94BE9E64171689C900AB08E6 /* controller_colecovision.png */,
+				94BE9E54171683E000AB08E6 /* ColecoVision-Info.plist */,
+				94BE9E67171689C900AB08E6 /* Keyboard-Mappings.plist */,
+				94BE9E65171689C900AB08E6 /* Controller-Mappings.plist */,
+				94BE9E66171689C900AB08E6 /* Controller-Preferences.plist */,
+				94BE9E55171683E000AB08E6 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		94D7E8CB15073BA000FBDD85 /* NDS */ = {
 			isa = PBXGroup;
 			children = (
@@ -4531,6 +4589,7 @@
 				943F99B51707DF3700270E89 /* 3DO */,
 				943C80141708A62F00D8D93E /* Jaguar */,
 				943C80371708F23900D8D93E /* VMU */,
+				94BE9E52171683E000AB08E6 /* ColecoVision */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -5059,6 +5118,23 @@
 			productReference = 94A224F61707596100098DA0 /* PlayStation.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		94BE9E4F171683E000AB08E6 /* ColecoVision */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94BE9E5D171683E000AB08E6 /* Build configuration list for PBXNativeTarget "ColecoVision" */;
+			buildPhases = (
+				94BE9E4C171683E000AB08E6 /* Sources */,
+				94BE9E4D171683E000AB08E6 /* Frameworks */,
+				94BE9E4E171683E000AB08E6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ColecoVision;
+			productName = ColecoVision;
+			productReference = 94BE9E50171683E000AB08E6 /* ColecoVision.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		94D7E8C815073BA000FBDD85 /* NDS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 94D7E8D415073BA000FBDD85 /* Build configuration list for PBXNativeTarget "NDS" */;
@@ -5239,6 +5315,7 @@
 				943F99B21707DF3700270E89 /* 3DO */,
 				943C80111708A62E00D8D93E /* Jaguar */,
 				943C80341708F23900D8D93E /* VMU */,
+				94BE9E4F171683E000AB08E6 /* ColecoVision */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -5730,6 +5807,20 @@
 				94A2253C17075C8800098DA0 /* Controller-Preferences.plist in Resources */,
 				94A2253D17075C8800098DA0 /* Keyboard-Mappings.plist in Resources */,
 				94A2253E17075C8800098DA0 /* psx_library.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94BE9E4E171683E000AB08E6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94BE9E57171683E000AB08E6 /* InfoPlist.strings in Resources */,
+				94BE9E68171689C900AB08E6 /* colecovision_library.png in Resources */,
+				94BE9E69171689C900AB08E6 /* controller_colecovision_mask.png in Resources */,
+				94BE9E6A171689C900AB08E6 /* controller_colecovision.png in Resources */,
+				94BE9E6B171689C900AB08E6 /* Controller-Mappings.plist in Resources */,
+				94BE9E6C171689C900AB08E6 /* Controller-Preferences.plist in Resources */,
+				94BE9E6D171689C900AB08E6 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6263,6 +6354,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94BE9E4C171683E000AB08E6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94BE9E61171689B400AB08E6 /* OEColecoVisionSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94D7E8C515073BA000FBDD85 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -6593,6 +6692,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				94A224FC1707596200098DA0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94BE9E55171683E000AB08E6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94BE9E56171683E000AB08E6 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -7731,6 +7838,52 @@
 			};
 			name = Release;
 		};
+		94BE9E59171683E000AB08E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "ColecoVision/ColecoVision-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		94BE9E5A171683E000AB08E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "ColecoVision/ColecoVision-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
 		94D7E8D215073BA000FBDD85 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -8385,6 +8538,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		94BE9E5D171683E000AB08E6 /* Build configuration list for PBXNativeTarget "ColecoVision" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94BE9E59171683E000AB08E6 /* Debug */,
+				94BE9E5A171683E000AB08E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		94D7E8D415073BA000FBDD85 /* Build configuration list for PBXNativeTarget "NDS" */ = {
 			isa = XCConfigurationList;
