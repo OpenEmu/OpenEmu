@@ -666,6 +666,7 @@
 		94D7E8DC15073DB000FBDD85 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D815073DB000FBDD85 /* Controller-Preferences.plist */; };
 		94D7E8DD15073DB000FBDD85 /* nds_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D915073DB000FBDD85 /* nds_library.png */; };
 		94D7E8E415073E3900FBDD85 /* OENDSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */; };
+		94DEA000171896AE00073397 /* NDS.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */; };
 		94E6C304166DB15900082F27 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94E6C303166DB15900082F27 /* Controller-Mappings.plist */; };
 		94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F6CB7B16DD727600CD48A4 /* OECheats.m */; };
 		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
@@ -1015,6 +1016,7 @@
 			dstPath = Systems;
 			dstSubfolderSpec = 13;
 			files = (
+				94DEA000171896AE00073397 /* NDS.oesystemplugin in Copy System Plugins to App Plugins */,
 				823CA74E1692BCC0007F2A39 /* N64.oesystemplugin in Copy System Plugins to App Plugins */,
 				948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App Plugins */,
 				948E540F1571D78D002D26E0 /* NES.oesystemplugin in Copy System Plugins to App Plugins */,
