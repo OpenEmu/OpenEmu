@@ -138,5 +138,17 @@
 			</array>
 		</array>
 	</dict>
+	<key>OERequiredFiles</key>
+	<dict>
+		<key>5200.rom</key>
+		<dict>
+			<key>Description</key>
+			<string>Atari 5200 BIOS</string>
+			<key>Size</key>
+			<integer>2048</integer>
+			<key>MD5</key>
+			<string>281f20ea4320404ec820fb7ec0693b38</string>
+		</dict>
+	</dict>
 </dict>
 </plist>
