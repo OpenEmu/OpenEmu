@@ -161,5 +161,17 @@
 			</array>
 		</array>
 	</dict>
+	<key>OERequiredFiles</key>
+	<dict>
+		<key>pcfx.rom</key>
+		<dict>
+			<key>Description</key>
+			<string>PC-FX BIOS</string>
+			<key>Size</key>
+			<integer>1048576</integer>
+			<key>MD5</key>
+			<string>08e36edbea28a017f79f8d4f7ff9b6d7</string>
+		</dict>
+	</dict>
 </dict>
 </plist>
