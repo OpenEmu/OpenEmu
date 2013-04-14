@@ -2,36 +2,36 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>OEControllerImageKey</key>
-    <string>controller_genesis.png</string>
-    <key>OEControllerImageMaskKey</key>
-    <string>controller_genesis_mask.png</string>
-    <key>OEControllerKeyPositionKey</key>
-    <dict>
-        <key>OESegaCDButtonUp</key>
-        <string>{190, 180}</string>
-        <key>OESegaCDButtonDown</key>
-        <string>{190, 130}</string>
-        <key>OESegaCDButtonLeft</key>
-        <string>{161, 154}</string>
-        <key>OESegaCDButtonRight</key>
-        <string>{218, 154}</string>
-        <key>OESegaCDButtonStart</key>
-        <string>{291, 155}</string>
-        <key>OESegaCDButtonMode</key>
-        <string>{0, 0}</string>
-        <key>OESegaCDButtonA</key>
-        <string>{368, 115}</string>
-        <key>OESegaCDButtonB</key>
-        <string>{412, 134}</string>
-        <key>OESegaCDButtonC</key>
-        <string>{455, 147}</string>
-        <key>OESegaCDButtonX</key>
-        <string>{354, 158}</string>
-        <key>OESegaCDButtonY</key>
-        <string>{390, 175}</string>
-        <key>OESegaCDButtonZ</key>
-        <string>{427, 187}</string>
-    </dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_genesis.png</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_genesis_mask.png</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>{140, 255}</string>
+		<key>OESegaCDButtonDown</key>
+		<string>{140, 205}</string>
+		<key>OESegaCDButtonLeft</key>
+		<string>{111, 229}</string>
+		<key>OESegaCDButtonRight</key>
+		<string>{168, 229}</string>
+		<key>OESegaCDButtonStart</key>
+		<string>{241, 230}</string>
+		<key>OESegaCDButtonMode</key>
+		<string>{0, 0}</string>
+		<key>OESegaCDButtonA</key>
+		<string>{318, 190}</string>
+		<key>OESegaCDButtonB</key>
+		<string>{362, 209}</string>
+		<key>OESegaCDButtonC</key>
+		<string>{405, 222}</string>
+		<key>OESegaCDButtonX</key>
+		<string>{304, 233}</string>
+		<key>OESegaCDButtonY</key>
+		<string>{340, 250}</string>
+		<key>OESegaCDButtonZ</key>
+		<string>{377, 262}</string>
+	</dict>
 </dict>
 </plist>

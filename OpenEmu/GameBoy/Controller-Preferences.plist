@@ -9,21 +9,21 @@
     <key>OEControllerKeyPositionKey</key>
     <dict>
         <key>OEGBButtonUp</key>
-        <string>{228, 172}</string>
+        <string>{178, 172}</string>
         <key>OEGBButtonDown</key>
-        <string>{228, 134}</string>
+        <string>{178, 134}</string>
         <key>OEGBButtonLeft</key>
-        <string>{206, 153}</string>
+        <string>{156, 153}</string>
         <key>OEGBButtonRight</key>
-        <string>{247, 154}</string>
+        <string>{197, 154}</string>
         <key>OEGBButtonStart</key>
-        <string>{308, 94}</string>
+        <string>{258, 94}</string>
         <key>OEGBButtonSelect</key>
-        <string>{267, 94}</string>
+        <string>{217, 94}</string>
         <key>OEGBButtonA</key>
-        <string>{390, 166}</string>
+        <string>{340, 166}</string>
         <key>OEGBButtonB</key>
-        <string>{350, 149}</string>
+        <string>{300, 149}</string>
     </dict>
 </dict>
 </plist>
