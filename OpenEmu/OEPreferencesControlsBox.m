@@ -31,18 +31,18 @@
 
 - (void)drawRect:(NSRect)dirtyRect{
 	NSImage *image = [NSImage imageNamed:@"wood_inset_box"];
-	[image drawInRect:NSInsetRect([self bounds], -1, -1) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:nil leftBorder:16 rightBorder:16 topBorder:16 bottomBorder:16];
+	[image drawInRect:NSInsetRect([self bounds], 0, 0) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:nil leftBorder:16 rightBorder:16 topBorder:16 bottomBorder:16];
 
     const NSColor *lineColor = [NSColor colorWithDeviceRed:0.45 green:0.24 blue:0.0 alpha:1.0];
     NSColor *highlightColor = [NSColor colorWithDeviceRed:1.0 green:0.92 blue:0.0 alpha:0.14];
 
     NSRect lineRect = [self bounds];
     lineRect.size.height = 1;
-    lineRect.size.width -= 2;
-    lineRect.origin.x   += 1;
+    lineRect.size.width -= 4;
+    lineRect.origin.x   += 2;
 
     // Draw top separator
-    lineRect.origin.y = 309;
+    lineRect.origin.y = 311;
 
     [highlightColor setFill];
     NSRectFill(lineRect);
@@ -54,7 +54,7 @@
     // Draw bottom separator
     highlightColor = [NSColor colorWithDeviceRed:1.0 green:0.92 blue:0.0 alpha:0.3];
 
-    lineRect.origin.y = 48;
+    lineRect.origin.y = 49;
 
     [lineColor setFill];
     NSRectFill(lineRect);
