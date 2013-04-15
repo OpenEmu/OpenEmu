@@ -9,29 +9,29 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEArcadeButtonUp</key>
-		<string>{169, 154}</string>
+		<string>{0, 0}</string>
 		<key>OEArcadeButtonDown</key>
-		<string>{169, 110}</string>
+		<string>{0, 0}</string>
 		<key>OEArcadeButtonLeft</key>
-		<string>{147, 132}</string>
+		<string>{0, 0}</string>
 		<key>OEArcadeButtonRight</key>
-		<string>{192, 132}</string>
+		<string>{0, 0}</string>
 		<key>OEArcadeButtonP1Start</key>
-		<string>{299, 117}</string>
+		<string>{0, 0}</string>
 		<key>OEArcadeButtonInsertCoin</key>
-		<string>{252, 117}</string>
+		<string>{0, 0}</string>
 		<key>OEArcadeButton5</key>
-		<string>{456, 130}</string>
+		<string>{0, 0}</string>
 		<key>OEArcadeButton4</key>
-		<string>{413, 95}</string>
+		<string>{0, 0}</string>
 		<key>OEArcadeButton2</key>
-		<string>{416, 164}</string>
+		<string>{0, 0}</string>
 		<key>OEArcadeButton1</key>
-		<string>{373, 130}</string>
+		<string>{0, 0}</string>
 		<key>OEArcadeButton3</key>
-		<string>{166, 220}</string>
+		<string>{0, 0}</string>
 		<key>OEArcadeButton6</key>
-		<string>{423, 220}</string>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>

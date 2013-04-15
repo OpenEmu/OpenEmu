@@ -9,41 +9,41 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEColecoVisionButtonUp</key>
-		<string>{120, 160}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButtonDown</key>
-		<string>{120, 110}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButtonLeft</key>
-		<string>{96, 140}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButtonRight</key>
-		<string>{146, 140}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButtonLeftAction</key>
-		<string>{229, 100}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButtonRightAction</key>
-		<string>{108, 236}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButton1</key>
-		<string>{108, 236}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButton2</key>
-		<string>{108, 236}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButton3</key>
-		<string>{108, 236}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButton4</key>
-		<string>{108, 236}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButton5</key>
-		<string>{108, 236}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButton6</key>
-		<string>{108, 236}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButton7</key>
-		<string>{108, 236}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButton8</key>
-		<string>{108, 236}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButton9</key>
-		<string>{108, 236}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButton0</key>
-		<string>{108, 236}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButtonAsterisk</key>
-		<string>{108, 236}</string>
+		<string>{0, 0}</string>
 		<key>OEColecoVisionButtonPound</key>
-		<string>{108, 236}</string>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>

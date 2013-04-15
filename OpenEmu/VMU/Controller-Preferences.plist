@@ -9,21 +9,21 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEVMUButtonUp</key>
-		<string>{120, 160}</string>
+		<string>{0, 0}</string>
 		<key>OEVMUButtonDown</key>
-		<string>{120, 110}</string>
+		<string>{0, 0}</string>
 		<key>OEVMUButtonLeft</key>
-		<string>{96, 140}</string>
+		<string>{0, 0}</string>
 		<key>OEVMUButtonRight</key>
-		<string>{146, 140}</string>
+		<string>{0, 0}</string>
 		<key>OEVMUButtonA</key>
-		<string>{297, 100}</string>
+		<string>{0, 0}</string>
 		<key>OEVMUButtonB</key>
-		<string>{334, 126}</string>
+		<string>{0, 0}</string>
 		<key>OEVMUButtonSleep</key>
-		<string>{229, 100}</string>
+		<string>{0, 0}</string>
 		<key>OEVMUButtonMode</key>
-		<string>{108, 236}</string>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>

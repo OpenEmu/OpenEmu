@@ -644,8 +644,8 @@
 		94A225FE1707614500098DA0 /* saturn_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F71707614500098DA0 /* saturn_library.png */; };
 		94A226021707616F00098DA0 /* OEComputerSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A226001707616F00098DA0 /* OEComputerSystemResponder.m */; };
 		94A22609170761D200098DA0 /* computer_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A22603170761D200098DA0 /* computer_library.png */; };
-		94A2260A170761D200098DA0 /* controller_arcade_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A22604170761D200098DA0 /* controller_arcade_mask.png */; };
-		94A2260B170761D200098DA0 /* controller_arcade.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A22605170761D200098DA0 /* controller_arcade.png */; };
+		94A2260A170761D200098DA0 /* controller_computer_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A22604170761D200098DA0 /* controller_computer_mask.png */; };
+		94A2260B170761D200098DA0 /* controller_computer.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A22605170761D200098DA0 /* controller_computer.png */; };
 		94A2260C170761D200098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22606170761D200098DA0 /* Controller-Mappings.plist */; };
 		94A2260D170761D200098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22607170761D200098DA0 /* Controller-Preferences.plist */; };
 		94A2260E170761D200098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22608170761D200098DA0 /* Keyboard-Mappings.plist */; };
@@ -1897,8 +1897,8 @@
 		94A226001707616F00098DA0 /* OEComputerSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEComputerSystemResponder.m; sourceTree = "<group>"; };
 		94A226011707616F00098DA0 /* OEComputerSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEComputerSystemResponderClient.h; sourceTree = "<group>"; };
 		94A22603170761D200098DA0 /* computer_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = computer_library.png; sourceTree = "<group>"; };
-		94A22604170761D200098DA0 /* controller_arcade_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade_mask.png; sourceTree = "<group>"; };
-		94A22605170761D200098DA0 /* controller_arcade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade.png; sourceTree = "<group>"; };
+		94A22604170761D200098DA0 /* controller_computer_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_computer_mask.png; sourceTree = "<group>"; };
+		94A22605170761D200098DA0 /* controller_computer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_computer.png; sourceTree = "<group>"; };
 		94A22606170761D200098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94A22607170761D200098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94A22608170761D200098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
@@ -4290,8 +4290,8 @@
 			isa = PBXGroup;
 			children = (
 				94A22603170761D200098DA0 /* computer_library.png */,
-				94A22604170761D200098DA0 /* controller_arcade_mask.png */,
-				94A22605170761D200098DA0 /* controller_arcade.png */,
+				94A22604170761D200098DA0 /* controller_computer_mask.png */,
+				94A22605170761D200098DA0 /* controller_computer.png */,
 				94A224E71707559100098DA0 /* Computer-Info.plist */,
 				94A22608170761D200098DA0 /* Keyboard-Mappings.plist */,
 				94A22606170761D200098DA0 /* Controller-Mappings.plist */,
@@ -5790,8 +5790,8 @@
 			files = (
 				94A224EA1707559100098DA0 /* InfoPlist.strings in Resources */,
 				94A22609170761D200098DA0 /* computer_library.png in Resources */,
-				94A2260A170761D200098DA0 /* controller_arcade_mask.png in Resources */,
-				94A2260B170761D200098DA0 /* controller_arcade.png in Resources */,
+				94A2260A170761D200098DA0 /* controller_computer_mask.png in Resources */,
+				94A2260B170761D200098DA0 /* controller_computer.png in Resources */,
 				94A2260C170761D200098DA0 /* Controller-Mappings.plist in Resources */,
 				94A2260D170761D200098DA0 /* Controller-Preferences.plist in Resources */,
 				94A2260E170761D200098DA0 /* Keyboard-Mappings.plist in Resources */,

@@ -9,27 +9,27 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OE2600ButtonUp</key>
-		<string>{50, 250}</string>
+		<string>{0, 0}</string>
 		<key>OE2600ButtonDown</key>
-		<string>{50, 220}</string>
+		<string>{0, 0}</string>
 		<key>OE2600ButtonFire1</key>
-		<string>{50, 130}</string>
+		<string>{0, 0}</string>
 		<key>OE2600ButtonLeft</key>
-		<string>{50, 190}</string>
+		<string>{0, 0}</string>
 		<key>OE2600ButtonRight</key>
-		<string>{50, 160}</string>
+		<string>{0, 0}</string>
 		<key>OE2600ButtonReset</key>
-		<string>{150, 190}</string>
+		<string>{0, 0}</string>
 		<key>OE2600ButtonSelect</key>
-		<string>{150, 160}</string>
+		<string>{0, 0}</string>
 		<key>OE2600ButtonLeftDiffA</key>
-		<string>{50, 100}</string>
+		<string>{0, 0}</string>
 		<key>OE2600ButtonLeftDiffB</key>
-		<string>{50, 70}</string>
+		<string>{0, 0}</string>
 		<key>OE2600ButtonRightDiffA</key>
-		<string>{50, 100}</string>
+		<string>{0, 0}</string>
 		<key>OE2600ButtonRightDiffB</key>
-		<string>{50, 70}</string>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>

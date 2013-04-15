@@ -9,29 +9,29 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEPCFXButtonUp</key>
-		<string>{190, 180}</string>
+		<string>{0, 0}</string>
 		<key>OEPCFXButtonDown</key>
-		<string>{190, 130}</string>
+		<string>{0, 0}</string>
 		<key>OEPCFXButtonLeft</key>
-		<string>{161, 154}</string>
+		<string>{0, 0}</string>
 		<key>OEPCFXButtonRight</key>
-		<string>{218, 154}</string>
+		<string>{0, 0}</string>
 		<key>OEPCFXButtonRun</key>
-		<string>{291, 155}</string>
+		<string>{0, 0}</string>
 		<key>OEPCFXButtonSelect</key>
 		<string>{0, 0}</string>
 		<key>OEPCFXButton1</key>
-		<string>{368, 115}</string>
+		<string>{0, 0}</string>
 		<key>OEPCFXButton2</key>
-		<string>{412, 134}</string>
+		<string>{0, 0}</string>
 		<key>OEPCFXButton3</key>
-		<string>{455, 147}</string>
+		<string>{0, 0}</string>
 		<key>OEPCFXButton4</key>
-		<string>{354, 158}</string>
+		<string>{0, 0}</string>
 		<key>OEPCFXButton5</key>
-		<string>{390, 175}</string>
+		<string>{0, 0}</string>
 		<key>OEPCFXButton6</key>
-		<string>{427, 187}</string>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>

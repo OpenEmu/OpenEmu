@@ -9,37 +9,37 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEPSXButtonUp</key>
-		<string>{50, 250}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonDown</key>
-		<string>{50, 220}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonTriangle</key>
-		<string>{50, 130}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonLeft</key>
-		<string>{50, 190}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonRight</key>
-		<string>{50, 160}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonStart</key>
-		<string>{150, 190}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonSelect</key>
-		<string>{150, 160}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonCircle</key>
-		<string>{50, 100}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonL1</key>
-		<string>{150, 250}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonL2</key>
-		<string>{150, 220}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonL3</key>
-		<string>{150, 220}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonCross</key>
-		<string>{50, 70}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonSquare</key>
-		<string>{50, 40}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonR1</key>
-		<string>{150, 130}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonR2</key>
-		<string>{150, 100}</string>
+		<string>{0, 0}</string>
 		<key>OEPSXButtonR3</key>
-		<string>{150, 100}</string>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>
