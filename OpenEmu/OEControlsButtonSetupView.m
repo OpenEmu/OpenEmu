@@ -59,8 +59,6 @@
     NSUInteger    numberOfRows;
 }
 
-- (void)OE_layoutSubviews;
-
 @end
 
 static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSetupViewFrameSizeContext;
@@ -71,7 +69,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
-    
+
     return self;
 }
 
@@ -103,7 +101,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
           @{ NSNullPlaceholderBindingOption : @"" }];
      }];
 
-    [self OE_layoutSubviews];
+    [self layoutSubviews];
 }
 
 - (IBAction)OE_selectInputControl:(id)sender
@@ -145,7 +143,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
     }
 }
 
-- (void)OE_layoutSubviews;
+- (void)layoutSubviews;
 {
     // remove all subviews if any
     [[[self subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -160,6 +158,8 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
     const CGFloat labelButtonSpacing  =   5.0;
     const CGFloat buttonWidth         = 136.0;
     const CGFloat minimumFrameHeight  = 259.0;
+    
+    const CGFloat rightGap = ([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) ? 14.0 : 0.0;
 
     // determine required height
     CGFloat viewHeight = (numberOfRows - 1) * verticalItemSpacing + numberOfRows * itemHeight + topGap + bottomGap;
@@ -183,7 +183,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
             {
                 j--;
 
-                NSRect headlineFrame = (NSRect){{leftGap, y - itemHeight }, { width - leftGap, itemHeight }};
+                NSRect headlineFrame = (NSRect){{leftGap, y - itemHeight }, { width - leftGap - rightGap, itemHeight }};
                 [item setFrame:NSIntegralRect(headlineFrame)];
                 [self addSubview:item];
 
@@ -197,7 +197,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
             {
                 j--;
 
-                NSRect seperatorLineRect = (NSRect){{ leftGap, y - itemHeight }, { width - leftGap, itemHeight }};
+                NSRect seperatorLineRect = (NSRect){{ leftGap, y - itemHeight }, { width - leftGap - rightGap, itemHeight }};
                 [item setFrame:NSIntegralRect(seperatorLineRect)];
                 [self addSubview:item];
 
@@ -207,7 +207,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
             }
 
             // handle buttons + label
-            NSRect buttonRect = (NSRect){{ width - buttonWidth, y - itemHeight },{ buttonWidth, itemHeight }};
+            NSRect buttonRect = (NSRect){{ width - buttonWidth, y - itemHeight },{ buttonWidth - rightGap, itemHeight }};
             [item setFrame:NSIntegralRect(buttonRect)];
 
             NSTextField *label = [group objectAtIndex:j + 1];

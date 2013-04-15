@@ -44,4 +44,6 @@
 - (void)selectNextKeyButton;
 - (void)selectNextKeyAfterKeys:(NSArray *)keys;
 
+- (void)layoutSubviews;
+
 @end

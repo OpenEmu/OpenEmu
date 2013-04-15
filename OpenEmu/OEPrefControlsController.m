@@ -63,6 +63,7 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
 - (void)OE_rebuildSystemsMenu;
 - (void)OE_setUpControllerImageViewWithTransition:(NSString *)transition;
 - (void)OE_preparePaneWithNotification:(NSNotification *)notification;
+- (void)OE_scrollerStyleDidChange;
 
 // Only one event can be managed at a time, all events should be ignored until the currently read event went back to its null state
 // All ignored events are stored until they go back to the null state
@@ -153,6 +154,13 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
     [center addObserver:self selector:@selector(OE_devicesDidUpdateNotification:) name:OEDeviceManagerDidAddDeviceHandlerNotification object:[OEDeviceManager sharedDeviceManager]];
     [center addObserver:self selector:@selector(OE_devicesDidUpdateNotification:) name:OEDeviceManagerDidRemoveDeviceHandlerNotification object:[OEDeviceManager sharedDeviceManager]];
+    
+    [center addObserver:self selector:@selector(OE_scrollerStyleDidChange) name:NSPreferredScrollerStyleDidChangeNotification object:nil];
+}
+
+- (void)OE_scrollerStyleDidChange
+{
+    [[self controlsSetupView] layoutSubviews];
 }
 
 - (void)viewWillDisappear
