@@ -258,7 +258,7 @@
 		82C2909014840024007C0214 /* OENGPSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820EB7551483F9D3008EC398 /* OENGPSystemController.m */; };
 		82C2909114840024007C0214 /* OENGPSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 820EB7571483F9D3008EC398 /* OENGPSystemResponder.m */; };
 		82C2909214840028007C0214 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 820EB7501483F9D3008EC398 /* InfoPlist.strings */; };
-		82C290931484002F007C0214 /* controller_sms.png in Resources */ = {isa = PBXBuildFile; fileRef = 820EB74E1483F9D3008EC398 /* controller_sms.png */; };
+		82C290931484002F007C0214 /* controller_ngp.png in Resources */ = {isa = PBXBuildFile; fileRef = 820EB74E1483F9D3008EC398 /* controller_ngp.png */; };
 		82C42C8610CAFB480046D1A3 /* download_arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 82C42C8410CAFB480046D1A3 /* download_arrow_down.png */; };
 		82C42C8710CAFB480046D1A3 /* download_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 82C42C8510CAFB480046D1A3 /* download_arrow_up.png */; };
 		82C434130EE393530037C54B /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82C434120EE393530037C54B /* icon.icns */; };
@@ -430,7 +430,7 @@
 		83F4DE1714E005DB00A82E36 /* controller_fc_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */; };
 		83F4DE1A14E0096F00A82E36 /* controller_nes_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1814E0096500A82E36 /* controller_nes_mask.png */; };
 		83F4DE1D14E00C9800A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */; };
-		83F4DE2314E00FF100A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */; };
+		83F4DE2314E00FF100A82E36 /* controller_ngp_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2114E00F8800A82E36 /* controller_ngp_mask.png */; };
 		83F4DE2614E0131800A82E36 /* controller_gb_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */; };
 		83F4DE2914E0169900A82E36 /* controller_genesis_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */; };
 		83F688C013C6433600AA0F83 /* OEGridScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F688BF13C6433600AA0F83 /* OEGridScrollView.m */; };
@@ -667,6 +667,7 @@
 		94D7E8DD15073DB000FBDD85 /* nds_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D915073DB000FBDD85 /* nds_library.png */; };
 		94D7E8E415073E3900FBDD85 /* OENDSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */; };
 		94DEA000171896AE00073397 /* NDS.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */; };
+		94DEA057171BA36000073397 /* controller_n64_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94DEA056171BA36000073397 /* controller_n64_mask.png */; };
 		94E6C304166DB15900082F27 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94E6C303166DB15900082F27 /* Controller-Mappings.plist */; };
 		94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F6CB7B16DD727600CD48A4 /* OECheats.m */; };
 		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
@@ -1328,7 +1329,7 @@
 		53D32E4513B95F0800A6ACE0 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		53D32E4B13B95F5400A6ACE0 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
 		820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NeoGeo Pocket.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
-		820EB74E1483F9D3008EC398 /* controller_sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms.png; sourceTree = "<group>"; };
+		820EB74E1483F9D3008EC398 /* controller_ngp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_ngp.png; sourceTree = "<group>"; };
 		820EB7511483F9D3008EC398 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		820EB7541483F9D3008EC398 /* OENGPSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENGPSystemController.h; sourceTree = "<group>"; };
 		820EB7551483F9D3008EC398 /* OENGPSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENGPSystemController.m; sourceTree = "<group>"; };
@@ -1620,7 +1621,7 @@
 		83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc_mask.png; sourceTree = "<group>"; };
 		83F4DE1814E0096500A82E36 /* controller_nes_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_nes_mask.png; sourceTree = "<group>"; };
 		83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms_mask.png; sourceTree = "<group>"; };
-		83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms_mask.png; sourceTree = "<group>"; };
+		83F4DE2114E00F8800A82E36 /* controller_ngp_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_ngp_mask.png; sourceTree = "<group>"; };
 		83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gb_mask.png; sourceTree = "<group>"; };
 		83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis_mask.png; sourceTree = "<group>"; };
 		83F688BE13C6433600AA0F83 /* OEGridScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridScrollView.h; sourceTree = "<group>"; };
@@ -1924,6 +1925,7 @@
 		94D7E8E015073E3800FBDD85 /* OENDSSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENDSSystemResponder.h; sourceTree = "<group>"; };
 		94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENDSSystemResponder.m; sourceTree = "<group>"; };
 		94D7E8E215073E3800FBDD85 /* OENDSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENDSSystemResponderClient.h; sourceTree = "<group>"; };
+		94DEA056171BA36000073397 /* controller_n64_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_n64_mask.png; sourceTree = "<group>"; };
 		94E6C303166DB15900082F27 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94F6CB7A16DD727600CD48A4 /* OECheats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECheats.h; sourceTree = "<group>"; };
 		94F6CB7B16DD727600CD48A4 /* OECheats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECheats.m; sourceTree = "<group>"; };
@@ -2421,6 +2423,7 @@
 			isa = PBXGroup;
 			children = (
 				83FBA37214F2C699001F1299 /* n64_library.png */,
+				94DEA056171BA36000073397 /* controller_n64_mask.png */,
 				141554281442C12200A01683 /* controller_n64.png */,
 				141554131442B3B300A01683 /* N64-Info.plist */,
 				C6AF284F164E46AC00681A06 /* Keyboard-Mappings.plist */,
@@ -4393,8 +4396,8 @@
 			isa = PBXGroup;
 			children = (
 				83FBA37014F2C672001F1299 /* neogeopocket_library.png */,
-				83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */,
-				820EB74E1483F9D3008EC398 /* controller_sms.png */,
+				83F4DE2114E00F8800A82E36 /* controller_ngp_mask.png */,
+				820EB74E1483F9D3008EC398 /* controller_ngp.png */,
 				820EB7501483F9D3008EC398 /* InfoPlist.strings */,
 				820EB7591483F9D3008EC398 /* NeoGeoPocket-Info.plist */,
 				C6AF284D164E469C00681A06 /* Keyboard-Mappings.plist */,
@@ -5361,6 +5364,7 @@
 				83FBA37314F2C699001F1299 /* n64_library.png in Resources */,
 				C6AF2850164E46AC00681A06 /* Keyboard-Mappings.plist in Resources */,
 				94E6C304166DB15900082F27 /* Controller-Mappings.plist in Resources */,
+				94DEA057171BA36000073397 /* controller_n64_mask.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5376,8 +5380,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				82C2909214840028007C0214 /* InfoPlist.strings in Resources */,
-				82C290931484002F007C0214 /* controller_sms.png in Resources */,
-				83F4DE2314E00FF100A82E36 /* controller_sms_mask.png in Resources */,
+				82C290931484002F007C0214 /* controller_ngp.png in Resources */,
+				83F4DE2314E00FF100A82E36 /* controller_ngp_mask.png in Resources */,
 				C6252DAE14E7556800350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA37114F2C672001F1299 /* neogeopocket_library.png in Resources */,
 				9496290A164F7F7E00952A86 /* Controller-Mappings.plist in Resources */,

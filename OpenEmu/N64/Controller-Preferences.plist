@@ -5,7 +5,7 @@
 	<key>OEControllerImageKey</key>
 	<string>controller_n64.png</string>
 	<key>OEControllerImageMaskKey</key>
-	<string></string>
+	<string>controller_n64_mask.png</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEN64ButtonDPadUp</key>
