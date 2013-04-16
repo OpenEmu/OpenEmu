@@ -136,10 +136,23 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDataAndPreserveSelection) name:OEDBSystemsDidChangeNotification object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDataAndPreserveSelection) name:OEStorageDeviceDidAppearNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDataAndPreserveSelection) name:OEStorageDeviceDidDisappearNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDidAppear:) name:OEStorageDeviceDidAppearNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDidDisappear:) name:OEStorageDeviceDidDisappearNotificationName object:nil];
 }
 
+- (void)deviceDidAppear:(id)notification
+{
+    [self reloadDataAndPreserveSelection];
+    id devicesItem = [self.groups firstObjectMatchingBlock:^BOOL(id obj) {
+        return [[obj autosaveName] isEqualTo:OESidebarGroupDevicesAutosaveName];
+    }];
+    [[self view] expandItem:devicesItem];
+}
+
+- (void)deviceDidDisappear:(id)notification
+{
+    [self reloadDataAndPreserveSelection];
+}
 
 - (void)dealloc
 {
@@ -405,10 +418,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 #pragma mark NSOutlineView Delegate
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:nil];
-
     if(![self database]) return;
-
 
     if(![self outlineView:[self view] shouldSelectItem:[self selectedSidebarItem]])
     {
@@ -422,6 +432,8 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     id<OESidebarItem> selectedItem = [self selectedSidebarItem];
     if([selectedItem conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
         [[NSUserDefaults standardUserDefaults] setValue:[selectedItem sidebarID] forKey:OELastCollectionSelectedKey];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:nil];
 }
 
 - (void)outlineViewSelectionIsChanging:(NSNotification *)notification
