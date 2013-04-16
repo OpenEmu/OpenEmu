@@ -134,7 +134,10 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     else
         [sidebarView setBackgroundColor:[NSColor colorWithDeviceWhite:0.19 alpha:1.0]];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDataAndPreserveSelection) name:OEDBSystemsDidChangeNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDataAndPreserveSelection) name:OEStorageDeviceDidAppearNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDataAndPreserveSelection) name:OEStorageDeviceDidDisappearNotificationName object:nil];
 }
 
 
@@ -265,7 +268,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 #pragma mark -
 #pragma mark Notifications
-- (void)systemsChanged
+- (void)reloadDataAndPreserveSelection
 {
     id        previousSelectedItem = [self selectedSidebarItem];
     NSInteger previousSelectedRow  = [[self view] selectedRow];
@@ -274,7 +277,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     if(!previousSelectedItem) return;
 
-    NSInteger rowToSelect = NSNotFound;
+    NSInteger rowToSelect = previousSelectedRow;
     NSInteger reloadedRowForPreviousSelectedItem = [[self view] rowForItem:previousSelectedItem];
 
     // The previously selected item may have been disabled/removed, so we should select another item...
@@ -467,9 +470,9 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     if(item == nil)
     {
         if(index!=0 && [[[OEStorageDeviceManager sharedStorageDeviceManager] devices] count] == 0)
-            index -= 1;
+            index += 1;
 
-        return [self.groups objectAtIndex:index];
+        return [[self groups] objectAtIndex:index];
     }
 
     NSString *autosaveName = [item isKindOfClass:[OESidebarGroupItem class]]?[item autosaveName]:nil;
