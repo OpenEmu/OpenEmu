@@ -63,6 +63,7 @@
 #import <FeedbackReporter/FRFeedbackReporter.h>
 #import "OEToolTipManager.h"
 
+#import "OERetrodeDeviceManager.h"
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -168,6 +169,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
     [NSApp bind:@"logHIDEvents" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEvents" options:nil];
     //[NSApp bind:@"logHIDEventsNoKeyboard" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEventsNoKeyboard" options:nil];
+
+    // Start retrode support
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OERetrodeSupportEnabledKey])
+        [OERetrodeDeviceManager load];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender

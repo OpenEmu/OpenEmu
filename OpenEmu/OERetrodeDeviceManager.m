@@ -35,6 +35,9 @@
 
 #import "OERetrode.h"
 #import "OERetrode_IOLevel.h"
+
+NSString * const OERetrodeSupportEnabledKey = @"retrodeSupport";
+
 @interface OERetrodeDeviceManager ()
 {
     BOOL _retrodeSupportActive;

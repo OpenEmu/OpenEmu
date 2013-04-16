@@ -26,6 +26,7 @@
 
 #import "OEStorageDeviceManager.h"
 
+extern NSString *const OERetrodeSupportEnabledKey;
 @interface OERetrodeDeviceManager : OEStorageDeviceManager
 + (id)sharedRetrodeDeviceManager;
 @end
