@@ -1461,7 +1461,6 @@ static NSArray *OE_defaultSortDescriptors;
 #define reloadDelay 0.5
 - (void)OE_managedObjectContextDidUpdate:(NSNotification *)notification
 {
-    DLog();
     NSPredicate *predicateForGame = [NSPredicate predicateWithFormat:@"entity = %@", [NSEntityDescription entityForName:@"Game" inManagedObjectContext:[notification object]]];
     NSSet *insertedGames          = [[[notification userInfo] objectForKey:NSInsertedObjectsKey] filteredSetUsingPredicate:predicateForGame];
     NSSet *deletedGames           = [[[notification userInfo] objectForKey:NSDeletedObjectsKey] filteredSetUsingPredicate:predicateForGame];

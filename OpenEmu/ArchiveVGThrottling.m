@@ -42,10 +42,10 @@
 	if(!self) return nil;
 	
 	self.highPriorityQueue		= [NSMutableArray array];
-	self.normalPriorityQueue		= [NSMutableArray array];
+	self.normalPriorityQueue	= [NSMutableArray array];
 	
 	self.maximumCalls	 = 120;
-	self.availableCalls	 = 120;
+	self.availableCalls	 = -1;
 	self.regernerationInterval = 5.0;
 	
 	self.regenerartionThread = [[NSThread alloc] initWithTarget:self selector:@selector(callRegenerationThread) object:nil];
@@ -53,32 +53,6 @@
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cleanUp) name:NSApplicationWillTerminateNotification object:NSApp];
 	
-	NSError			*error = nil;
-	NSDictionary	*result = [[ArchiveVG unthrottled] configWithError:&error];
-	if(!result)
-	{
-		ArchiveDLog(@"Error getting Archive.VG Config!");
-		ArchiveDLog(@"%@", [error localizedDescription]);
-	}
-	
-	NSDictionary	*generalConfig			= [result valueForKey:AVGConfigGeneralKey];
-	NSString		*remoteAPIVersion	= [generalConfig valueForKey:AVGConfigCurrentAPIKey];
-	if([remoteAPIVersion isNotEqualTo:AVGAPIVersion])
-	{
-		if(!remoteAPIVersion || [remoteAPIVersion isEqualToString:@""])
-			remoteAPIVersion = NSLocalizedString(@"none", "");
-		
-		ArchiveDLog(@"Error: OpenEmu Archive.VG API Version differs from remote version");
-		ArchiveDLog(@"OE Version: '%@'  Remote Version: '%@'", APIVersion, remoteAPIVersion);
-		//TODO: Notify User that syncing might me buggy and he is to disable automatic info lookup if problems are encountered.
-	}
-	
-	NSDictionary *throttlingConfig	= [result valueForKey:AVGConfigThrottlingKey];
-	self.maximumCalls					= [[throttlingConfig valueForKey:AVGConfigMaxCallsKey] integerValue];
-	self.availableCalls					= self.maximumCalls;
-	self.regernerationInterval		= [[throttlingConfig valueForKey:AVGConfigRegenerationKey] doubleValue];
-	
-	DLog(@"Archive.VG Config:\n\tAPIVersion: %@\n\tmaximum Calls: %ld\n\tregeneration interval: %f", remoteAPIVersion, self.maximumCalls, self.regernerationInterval);
     return self;
 }
 
@@ -114,7 +88,37 @@
 #pragma mark - Call Regeneration
 - (void)callRegenerationThread
 {
-	while (![[NSThread currentThread] isCancelled]) {
+    if(self.availableCalls==-1)
+    {
+       NSError      *error = nil;
+       NSDictionary	*result = [[ArchiveVG unthrottled] configWithError:&error];
+       if(!result)
+       {
+           ArchiveDLog(@"Error getting Archive.VG Config!");
+           ArchiveDLog(@"%@", [error localizedDescription]);
+       }
+
+       NSDictionary	*generalConfig		= [result valueForKey:AVGConfigGeneralKey];
+       NSString		*remoteAPIVersion	= [generalConfig valueForKey:AVGConfigCurrentAPIKey];
+       if([remoteAPIVersion isNotEqualTo:AVGAPIVersion])
+       {
+           if(!remoteAPIVersion || [remoteAPIVersion isEqualToString:@""])
+               remoteAPIVersion = NSLocalizedString(@"none", "");
+
+           ArchiveDLog(@"Error: OpenEmu Archive.VG API Version differs from remote version");
+           ArchiveDLog(@"OE Version: '%@'  Remote Version: '%@'", APIVersion, remoteAPIVersion);
+           //TODO: Notify User that syncing might me buggy and he is to disable automatic info lookup if problems are encountered.
+       }
+
+       NSDictionary *throttlingConfig	= [result valueForKey:AVGConfigThrottlingKey];
+       self.maximumCalls				= [[throttlingConfig valueForKey:AVGConfigMaxCallsKey] integerValue];
+       self.availableCalls				= self.maximumCalls;
+       self.regernerationInterval		= [[throttlingConfig valueForKey:AVGConfigRegenerationKey] doubleValue];
+       
+       DLog(@"Archive.VG Config:\n\tAPIVersion: %@\n\tmaximum Calls: %ld\n\tregeneration interval: %f", remoteAPIVersion, self.maximumCalls, self.regernerationInterval);
+    }
+
+    while (![[NSThread currentThread] isCancelled]) {
 		self.availableCalls += 1;
 		if([self availableCalls] > [self maximumCalls])
 			[self setAvailableCalls:[self maximumCalls]];
@@ -126,11 +130,12 @@
 {
 	NSMutableArray *selectedQueue = nil;
 	if([[self highPriorityQueue] count])
-		selectedQueue = [self highPriorityQueue];
+        selectedQueue = [self highPriorityQueue];
 	else if([[self normalPriorityQueue] count])
 		selectedQueue = [self normalPriorityQueue];
-	if(!selectedQueue) return;
-	
+	if(!selectedQueue)
+        return;
+
 	void(^block)();
 	block = [selectedQueue objectAtIndex:0];
 	[selectedQueue removeObjectAtIndex:0];
@@ -165,7 +170,7 @@
 - (void)performAsynchronousCallWithOperation:(ArchiveVGOperation)operation callback:(void(^)(id result, NSError *error))block format:(AVGOutputFormat)format andOptions:(NSArray*)options withQueue:(NSMutableArray*)selectedQueue
 {
 	if(![self isOperationThrottled:operation])
-		[self performAsynchronousCallWithOperation:operation callback:block format:format andOptions:options];
+		[[ArchiveVG unthrottled] performAsynchronousCallWithOperation:operation callback:block format:format andOptions:options];
 	else {
 		void(^throttlingBlock)(id result, NSError *error) = ^(id result, NSError *error) {
 			// if we get an error because of throttling
@@ -173,7 +178,6 @@
 			{
 				// notify throttling instance that all calls are used up
 				[self setAvailableCalls:0];
-				
 				// reschedule operation so it can be executed when a new call becomes available
 				[[ArchiveVG throttled] performHighPriorityAsynchronousCallWithOperation:operation callback:block format:format andOptions:options];
 			}
@@ -184,7 +188,7 @@
 			}
 		};
 		
-		if(self.availableCalls)
+		if(self.availableCalls > 0)
 		{
 			self.availableCalls --;
 			[[ArchiveVG unthrottled] performAsynchronousCallWithOperation:operation callback:throttlingBlock format:format andOptions:options];

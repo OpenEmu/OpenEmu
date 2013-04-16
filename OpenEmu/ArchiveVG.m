@@ -474,6 +474,9 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 #pragma mark -
 - (id)performStandardCallWithOperation:(ArchiveVGOperation)operation format:(AVGOutputFormat)format andOptions:(NSArray*)options error:(NSError**)outError
 {
+    if([NSThread isMainThread])
+        DLog(@"Archive Call blocks main thread!");
+
 	NSURL	*url	= [[self class] urlForOperation:operation withOutputFormat:format andOptions:options];
 	NSData *data	= [[self class] synchronousResultForURL:url error:outError];
 	id result		= [[self class] parseArchiveResponse:data forOperation:operation withOutputFormat:format error:outError];
