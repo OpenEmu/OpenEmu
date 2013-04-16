@@ -112,6 +112,9 @@
     // The keyedness of the window has changed, we want to redisplay the button with the new state, this is only fired when NSWindowDidBecomeMainNotification and NSWindowDidResignMainNotification is registered.
     [self setNeedsDisplay];
     [self setStringValue:[self stringValue]];
+
+    if([self currentEditor])
+        [[self cell] endEditing:[self currentEditor]];
 }
 
 - (void)OE_setShouldTrackWindowActivity:(BOOL)shouldTrackWindowActivity

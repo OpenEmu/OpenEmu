@@ -31,6 +31,7 @@
 {
     NSMutableParagraphStyle *_style;  // Cached paragraph style used to render text
 }
+- (void)updatePlaceholder;
 - (NSDictionary*)_textAttributes; // Apple Private Override
 @property (nonatomic)  BOOL isEditing;
 @end
@@ -73,6 +74,15 @@
 
     [self setIsEditing:NO];
 }
+
+- (void)updatePlaceholder
+{
+    NSString     *placeholder = [self placeholderString];
+    NSDictionary *attributes  = [self _textAttributes];
+
+    NSAttributedString *attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder?:@"Search" attributes:attributes];
+    [self setPlaceholderAttributedString:attributedPlaceholder];
+}
 #pragma mark - Drawing
 - (NSRect)searchTextRectForBounds:(NSRect)rect
 {
@@ -102,6 +112,8 @@
         cellFrame.size.height = 21; // our searchfield is only 21px high (NSSearchField is 21px high)
         [[_backgroundThemeImage imageForState:[self OE_currentState]] drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
+
+    [self updatePlaceholder];
     [self drawInteriorWithFrame:cellFrame inView:controlView];
 }
 
@@ -156,6 +168,7 @@
     }
     return textObj;
 }
+
 #pragma mark - Theming
 @synthesize themed = _themed;
 @synthesize hovering = _hovering;

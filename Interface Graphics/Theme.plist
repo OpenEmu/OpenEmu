@@ -1105,9 +1105,9 @@
 				<string>{{0,0},{13,14}}</string>
 				<key>Window Inactive</key>
 				<string>{{0,0},{13,14}}</string>
-				<key>Default</key>
+				<key>Window Active</key>
 				<string>{{13,0},{13,14}}</string>
-				<key>Focused</key>
+				<key>Window Active, Focused</key>
 				<string>{{26,0},{13,14}}</string>
 			</dict>
 		</dict>
