@@ -19,6 +19,99 @@
 	</dict>
 	<key>Fonts</key>
 	<dict>
+		<key>search_field</key>
+		<dict>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<integer>3</integer>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>States</key>
+			<dict>
+				<key>Window Inactive</key>
+				<dict>
+					<key>Color</key>
+					<string>#545454</string>
+				</dict>
+				<key>Disabled</key>
+				<dict>
+					<key>Color</key>
+					<string>#545454</string>
+				</dict>
+				<key>Window Active, Enabled</key>
+				<dict>
+					<key>Color</key>
+					<string>#848484</string>
+				</dict>
+				<key>Window Active, Enabled, Focused</key>
+				<dict>
+					<key>Color</key>
+					<string>#e4e4e4</string>
+				</dict>
+			</dict>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,0.4)</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+		</dict>
+		<key>search_field_selection</key>
+		<dict>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<integer>3</integer>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Background Color</key>
+			<string>#808080</string>
+			<key>States</key>
+			<dict>
+				<key>Window Inactive, Enabled</key>
+				<dict>
+					<key>Color</key>
+					<string>#545454</string>
+				</dict>
+				<key>Window Inactive, Disabled</key>
+				<dict>
+					<key>Color</key>
+					<string>#545454</string>
+				</dict>
+				<key>Window Active, Disabled</key>
+				<dict>
+					<key>Color</key>
+					<string>#545454</string>
+				</dict>
+				<key>Window Active, Enabled</key>
+				<dict>
+					<key>Color</key>
+					<string>#848484</string>
+				</dict>
+				<key>Window Active, Enabled, Focused</key>
+				<dict>
+					<key>Color</key>
+					<string>#e4e4e4</string>
+				</dict>
+			</dict>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>0</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,0.4)</string>
+				<key>Offset</key>
+				<string>{0,-1.5}</string>
+			</dict>
+		</dict>
 		<key>hud_textfield</key>
 		<dict>
 			<key>Traits</key>

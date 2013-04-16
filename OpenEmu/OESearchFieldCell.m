@@ -74,10 +74,32 @@
     [self setIsEditing:NO];
 }
 #pragma mark - Drawing
+- (NSRect)searchTextRectForBounds:(NSRect)rect
+{
+    // Left gap (loupe image)
+    rect.size.width -= 26.0;
+    rect.origin.x   += 26.0;
+
+    // Right gap (cancel image)
+    rect.size.width -= 23.0;
+
+    rect.size.height = 21.0;
+
+    return rect;
+}
+
+- (NSRect)cancelButtonRectForBounds:(NSRect)rect
+{
+    rect = [super cancelButtonRectForBounds:rect];
+    rect.origin.y -= 1.0;
+    return rect;
+}
+
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
     if(_themed && _backgroundThemeImage)
     {
+        cellFrame.size.height = 21; // our searchfield is only 21px high (NSSearchField is 21px high)
         [[_backgroundThemeImage imageForState:[self OE_currentState]] drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
     [self drawInteriorWithFrame:cellFrame inView:controlView];
@@ -219,20 +241,6 @@
     NSRect result = [super imageRectForBounds:theRect];
     if(_themed && _themeImage)
     {
-    }
-    return result;
-}
-
-- (NSRect)titleRectForBounds:(NSRect)theRect
-{
-    NSRect result = [super titleRectForBounds:theRect];
-    if(_themed)
-    {
-        NSSize titleSize = [[self attributedStringValue] size];
-        result.origin.y = roundf(theRect.origin.y + (theRect.size.height - titleSize.height) / 2.0);
-
-        result.origin.x += 2.0;
-        result.size.width -= 4.0;
     }
     return result;
 }
