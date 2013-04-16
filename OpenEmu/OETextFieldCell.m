@@ -38,7 +38,6 @@
 
 @implementation OETextFieldCell
 
-#ifdef OETextFieldCommonInit
 - (id)initImageCell:(NSImage *)image
 {
     self = [super initImageCell:image];
@@ -76,7 +75,6 @@
 
     [self setIsEditing:NO];
 }
-#endif
 #pragma mark -
 - (NSDictionary*)_textAttributes
 {

@@ -432,6 +432,8 @@
 		83DEE4A0162D62B2005D8AD7 /* game_scanner_progress_track.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DEE49C162D62B2005D8AD7 /* game_scanner_progress_track.png */; };
 		83DEE4A4162D62E4005D8AD7 /* OEProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE4A3162D62E4005D8AD7 /* OEProgressIndicator.m */; };
 		83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E25057147BC6BF0074EE14 /* hud_textfield.png */; };
+		83E8C9CD171D94DF007F2376 /* Theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = 838E2A221600A05C00CF7198 /* Theme.plist */; };
+		83E8C9D0171D97C5007F2376 /* Theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = 838E2A221600A05C00CF7198 /* Theme.plist */; };
 		83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */; };
 		83F2988A1458B6DC00ECB4F4 /* OESetupAssistantScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F298891458B6DC00ECB4F4 /* OESetupAssistantScrollView.m */; };
 		83F4700C15750497001931BD /* OEGameScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4700B15750497001931BD /* OEGameScannerViewController.m */; };
@@ -443,6 +445,7 @@
 		83F4DE2614E0131800A82E36 /* controller_gb_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */; };
 		83F4DE2914E0169900A82E36 /* controller_genesis_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */; };
 		83F688C013C6433600AA0F83 /* OEGridScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F688BF13C6433600AA0F83 /* OEGridScrollView.m */; };
+		83F7EADA171D911400D32E26 /* OESearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7EAD9171D911400D32E26 /* OESearchField.m */; };
 		83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711813136368330034379A /* AppKit.framework */; };
 		83FA054E13B9DF940055A520 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
 		83FA055013B9E01B0055A520 /* Sparkle.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
@@ -1652,6 +1655,8 @@
 		83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis_mask.png; sourceTree = "<group>"; };
 		83F688BE13C6433600AA0F83 /* OEGridScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridScrollView.h; sourceTree = "<group>"; };
 		83F688BF13C6433600AA0F83 /* OEGridScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridScrollView.m; sourceTree = "<group>"; };
+		83F7EAD8171D911400D32E26 /* OESearchField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESearchField.h; sourceTree = "<group>"; };
+		83F7EAD9171D911400D32E26 /* OESearchField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESearchField.m; sourceTree = "<group>"; };
 		83FA054D13B9DF940055A520 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = SOURCE_ROOT; };
 		83FBA36E14F2C62F001F1299 /* gamegear_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gamegear_library.png; sourceTree = "<group>"; };
 		83FBA37014F2C672001F1299 /* neogeopocket_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = neogeopocket_library.png; sourceTree = "<group>"; };
@@ -3056,8 +3061,6 @@
 				53439AEA13B92E91005C0CC8 /* OELibrarySplitView.m */,
 				53439AEC13B92E9A005C0CC8 /* OEMainWindow.h */,
 				53439AED13B92E9A005C0CC8 /* OEMainWindow.m */,
-				53439AF213B92EA8005C0CC8 /* OESearchFieldCell.h */,
-				53439AF313B92EA8005C0CC8 /* OESearchFieldCell.m */,
 				53439AF513B92EAD005C0CC8 /* OESlider.h */,
 				53439AF613B92EAD005C0CC8 /* OESlider.m */,
 				53439AF813B92EB3005C0CC8 /* OEImageButton.h */,
@@ -3714,6 +3717,8 @@
 			children = (
 				838DB01716DBE14E00B8DDC8 /* OETextField.h */,
 				838DB01816DBE14E00B8DDC8 /* OETextField.m */,
+				83F7EAD8171D911400D32E26 /* OESearchField.h */,
+				83F7EAD9171D911400D32E26 /* OESearchField.m */,
 				838DB01616DBE13500B8DDC8 /* Cells */,
 			);
 			name = "Text Fields";
@@ -3724,6 +3729,8 @@
 			children = (
 				838DB01A16DBE15900B8DDC8 /* OETextFieldCell.h */,
 				838DB01B16DBE15900B8DDC8 /* OETextFieldCell.m */,
+				53439AF213B92EA8005C0CC8 /* OESearchFieldCell.h */,
+				53439AF313B92EA8005C0CC8 /* OESearchFieldCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -5954,6 +5961,7 @@
 				C6252DC414E7A00000350A13 /* Controller-Preferences-JAP.plist in Resources */,
 				949628CC164F677500952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF2854164E470B00681A06 /* Keyboard-Mappings.plist in Resources */,
+				83E8C9CD171D94DF007F2376 /* Theme.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5968,6 +5976,7 @@
 				83FBA37914F2C795001F1299 /* sms_library.png in Resources */,
 				94962908164F7D9E00952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF2852164E46BD00681A06 /* Keyboard-Mappings.plist in Resources */,
+				83E8C9D0171D97C5007F2376 /* Theme.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6274,6 +6283,7 @@
 				83B867B5171D63070038988C /* OERetrodeDeviceManager.m in Sources */,
 				83B867B6171D63070038988C /* OERetrodeViewController.m in Sources */,
 				83B867BC171D63940038988C /* NSString+OERangeAdditions.m in Sources */,
+				83F7EADA171D911400D32E26 /* OESearchField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

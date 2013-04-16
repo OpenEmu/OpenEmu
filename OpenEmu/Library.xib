@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">12C60</string>
+		<string key="IBDocument.SystemVersion">12D78</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.34</string>
-		<string key="IBDocument.HIToolboxVersion">625.00</string>
+		<string key="IBDocument.AppKitVersion">1187.37</string>
+		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">3084</string>
@@ -169,6 +169,7 @@
 												<string key="NSFrame">{{151, 22}, {25, 25}}</string>
 												<reference key="NSSuperview" ref="987642494"/>
 												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="534951079">
@@ -213,7 +214,7 @@
 														<string key="NSFrameSize">{186, 555}</string>
 														<reference key="NSSuperview" ref="411773151"/>
 														<reference key="NSWindow"/>
-														<reference key="NSNextKeyView" ref="948426263"/>
+														<reference key="NSNextKeyView" ref="993169309"/>
 														<bool key="NSEnabled">YES</bool>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -333,7 +334,7 @@
 										<string key="NSFrameSize">{186, 555}</string>
 										<reference key="NSSuperview" ref="214891354"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="411773151"/>
+										<reference key="NSNextKeyView" ref="948426263"/>
 										<int key="NSsFlags">133648</int>
 										<reference key="NSVScroller" ref="993169309"/>
 										<reference key="NSHScroller" ref="948426263"/>
@@ -644,6 +645,7 @@
 								<string key="NSFrame">{{14, 10}, {28, 23}}</string>
 								<reference key="NSSuperview" ref="1013514702"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="468907838">
 									<int key="NSCellFlags">-2080374784</int>
@@ -1311,6 +1313,20 @@
 				<string key="622.CustomClassName">OESlider</string>
 				<string key="622.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="623.CustomClassName">OESearchField</string>
+				<object class="NSMutableDictionary" key="623.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+					<object class="IBUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
+						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+						<reference key="object" ref="1055467720"/>
+						<array key="userDefinedRuntimeAttributes">
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
+								<string key="keyPath">themeKey</string>
+								<string key="value">search_field</string>
+							</object>
+						</array>
+					</object>
+				</object>
 				<string key="623.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="624.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="625.CustomClassName">OEButton</string>
@@ -1551,6 +1567,7 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeGridSize:">id</string>
 						<string key="search:">id</string>
+						<string key="showGamesAtArchive:">id</string>
 						<string key="showSelectedGamesInFinder:">id</string>
 						<string key="switchToFlowView:">id</string>
 						<string key="switchToGridView:">id</string>
@@ -1563,6 +1580,10 @@
 						</object>
 						<object class="IBActionInfo" key="search:">
 							<string key="name">search:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showGamesAtArchive:">
+							<string key="name">showGamesAtArchive:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="showSelectedGamesInFinder:">
@@ -1589,7 +1610,7 @@
 						<string key="gridView">OEGridView</string>
 						<string key="gridViewContainer">NSView</string>
 						<string key="libraryController">OELibraryController</string>
-						<string key="listView">NSTableView</string>
+						<string key="listView">OETableView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="blankSlateView">
@@ -1618,7 +1639,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="listView">
 							<string key="name">listView</string>
-							<string key="candidateClassName">NSTableView</string>
+							<string key="candidateClassName">OETableView</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -1819,12 +1840,12 @@
 						<string key="mainContentPlaceholderView">NSView</string>
 						<string key="mainSplitView">OELibrarySplitView</string>
 						<string key="sidebarController">OESidebarController</string>
-						<string key="toolbarAddToSidebarButton">NSButton</string>
-						<string key="toolbarFlowViewButton">NSButton</string>
-						<string key="toolbarGridViewButton">NSButton</string>
-						<string key="toolbarListViewButton">NSButton</string>
+						<string key="toolbarAddToSidebarButton">OEButton</string>
+						<string key="toolbarFlowViewButton">OEButton</string>
+						<string key="toolbarGridViewButton">OEButton</string>
+						<string key="toolbarListViewButton">OEButton</string>
 						<string key="toolbarSearchField">NSSearchField</string>
-						<string key="toolbarSidebarButton">NSButton</string>
+						<string key="toolbarSidebarButton">OEButton</string>
 						<string key="toolbarSlider">NSSlider</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -1842,19 +1863,19 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarAddToSidebarButton">
 							<string key="name">toolbarAddToSidebarButton</string>
-							<string key="candidateClassName">NSButton</string>
+							<string key="candidateClassName">OEButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarFlowViewButton">
 							<string key="name">toolbarFlowViewButton</string>
-							<string key="candidateClassName">NSButton</string>
+							<string key="candidateClassName">OEButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarGridViewButton">
 							<string key="name">toolbarGridViewButton</string>
-							<string key="candidateClassName">NSButton</string>
+							<string key="candidateClassName">OEButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarListViewButton">
 							<string key="name">toolbarListViewButton</string>
-							<string key="candidateClassName">NSButton</string>
+							<string key="candidateClassName">OEButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarSearchField">
 							<string key="name">toolbarSearchField</string>
@@ -1862,7 +1883,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarSidebarButton">
 							<string key="name">toolbarSidebarButton</string>
-							<string key="candidateClassName">NSButton</string>
+							<string key="candidateClassName">OEButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="toolbarSlider">
 							<string key="name">toolbarSlider</string>
@@ -1985,6 +2006,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OESliderCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OETableView</string>
+					<string key="superclassName">NSTableView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OETableView.h</string>
 					</object>
 				</object>
 			</array>

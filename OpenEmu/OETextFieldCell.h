@@ -24,9 +24,6 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#define OETextFieldCommonInit
-
-
 #import <Cocoa/Cocoa.h>
 
 #import "OETheme.h"
