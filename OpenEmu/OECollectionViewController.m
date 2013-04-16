@@ -296,10 +296,10 @@ static NSArray *OE_defaultSortDescriptors;
     
     int           selectedViewTag;
     float         sliderValue;
-    NSIndexSet   *selectionIndexes;
+    NSIndexSet   *selectionIndexes = [NSIndexSet indexSet];
     NSDictionary *listViewHeaderState = nil;
     NSArray      *listViewSortDescriptors = nil;
-    NSRect        gridViewVisibleRect;
+    NSRect        gridViewVisibleRect = NSZeroRect;
     
     NSSlider     *sizeSlider     = [[self libraryController] toolbarSlider];
     NSTextField  *searchField    = [[self libraryController] toolbarSearchField];
