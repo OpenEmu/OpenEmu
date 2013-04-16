@@ -542,8 +542,7 @@ static dispatch_queue_t ArchiveVGDispatchQueue;
 #pragma mark - Getting Data from Archive.vg:
 + (NSData*)synchronousResultForURL:(NSURL*)url error:(NSError**)outError
 {
-	//TODO: fix NSDataReadingOptions
-	return [NSData dataWithContentsOfURL:url options:0 error:outError];
+	return [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:outError];
 }
 
 #pragma mark - Parsing the response
