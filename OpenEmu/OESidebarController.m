@@ -351,7 +351,9 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         else
         {
             NSArray *games = [pboard readObjectsForClasses:@[[NSURL class]] options:nil];
-            if([games count] == 1) name = [[[[games lastObject] absoluteString] lastPathComponent] stringByDeletingPathExtension];
+            if([games count] == 1){
+                name = [[[[[games lastObject] absoluteString] lastPathComponent] stringByDeletingPathExtension] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            }
         }
         collection = [[OELibraryDatabase defaultDatabase] addNewCollection:name];
         [[collection managedObjectContext] save:nil];
