@@ -72,12 +72,11 @@ NSString *const OESaveStateFolderURLKey      = @"saveStateFolder";
 - (void)OE_setupStateWatcher;
 - (void)OE_removeStateWatcher;
 
-- (void)OE_resumeArchiveSync;
-
 @property(strong) OEFSWatcher *saveStateWatcher;
 @property(copy)   NSURL       *databaseURL;
 @property(strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
+@property (strong) NSThread *syncThread;
 @end
 
 static OELibraryDatabase *defaultDatabase = nil;
@@ -124,7 +123,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [[defaultDatabase importer] start];
-        [defaultDatabase OE_resumeArchiveSync];
+        [defaultDatabase startArchiveVGSync];
     });
 
     return YES;
@@ -223,17 +222,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     }
 
     NSLog(@"Did save Database");
-}
-- (void)OE_resumeArchiveSync
-{
-    NSManagedObjectContext *moc = [self managedObjectContext];
-    NSFetchRequest *fetchReq = [[NSFetchRequest alloc] initWithEntityName:@"Game"];
-    NSPredicate *fetchPred = [NSPredicate predicateWithFormat:@"status == %d", OEDBGameStatusProcessing];
-    [fetchReq setPredicate:fetchPred];
-    NSArray *games = [moc executeFetchRequest:fetchReq error:NULL];
-    [games enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [obj setNeedsArchiveSync];
-    }];
 }
 
 #pragma mark - Administration
@@ -849,12 +837,41 @@ static OELibraryDatabase *defaultDatabase = nil;
     [[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:nil];
     return url;
 }
+
 - (NSURL *)importQueueURL
 {
     NSURL *baseURL = [self databaseFolderURL];
     return [baseURL URLByAppendingPathComponent:@"Import Queue.db"];
 }
 
+#pragma mark - ArchiveVG Sync
+- (void)startArchiveVGSync
+{
+    if(_syncThread == nil || [_syncThread isFinished])
+    {
+        _syncThread = [[NSThread alloc] initWithTarget:self selector:@selector(archiveVGSyncThread) object:nil];
+        [_syncThread start];
+    }
+}
+
+- (void)archiveVGSyncThread
+{
+    NSArray        *result    = nil;
+    NSError        *error     = nil;
+    NSFetchRequest *request   = [[NSFetchRequest alloc] initWithEntityName:[OEDBGame entityName]];
+    NSPredicate    *predicate = [NSPredicate predicateWithFormat:@"status==%d", OEDBGameStatusProcessing];
+
+    [request setFetchLimit:1];
+    [request setPredicate:predicate];
+
+    while((result=[[self managedObjectContext] executeFetchRequest:request error:&error]) && [result count])
+    {
+        @autoreleasepool {
+            OEDBGame *game = [result lastObject];
+            [game performArchiveSync];
+        }
+    }
+}
 #pragma mark - Debug
 
 - (void)dump

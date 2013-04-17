@@ -86,6 +86,9 @@ extern NSString *const OESaveStateFolderURLKey;
 - (NSURL *)coverFolderURL;
 - (NSURL *)importQueueURL;
 
+#pragma mark - ArchiveVG Sync
+- (void)startArchiveVGSync;
+
 #pragma mark - Debug
 - (void)dump;
 @end

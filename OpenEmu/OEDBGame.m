@@ -39,10 +39,6 @@ NSString *const OEPasteboardTypeGame = @"org.openemu.game";
 NSString *const OEBoxSizesKey = @"BoxSizes";
 NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
-@interface OEDBGame ()
-- (void)OE_performArchiveSync;
-@end
-
 @implementation OEDBGame
 + (void)initialize
 {
@@ -241,47 +237,27 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 {
     [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
     [[self libraryDatabase] save:nil];
-    [self OE_performArchiveSync];
+    [[self libraryDatabase] startArchiveVGSync];
 }
 
-// -OE_performArchiveSync
-- (void)OE_performArchiveSync
+
+- (void)performArchiveSync
 {
-    NSURL		      *objectID				= [[self objectID] URIRepresentation];
-	void(^block)(NSDictionary *gameInfo)	= ^(NSDictionary *gameInfo){
-        OELibraryDatabase *blockDatabase	= [self libraryDatabase];
-        OEDBGame *game = [blockDatabase objectWithURI:objectID];
-        [game setArchiveVGInfo:gameInfo];
-        [game setLastArchiveSync:[NSDate date]];
-        [game setStatus:[NSNumber numberWithInt:OEDBGameStatusOK]];
-        [[game libraryDatabase] save:nil];
-    };
-    
-    NSNumber *archiveID = [self archiveID];
-    if([archiveID integerValue] != 0)
-		[[ArchiveVG throttled] gameInfoByID:[archiveID integerValue] withCallback:^(id result, NSError *error) {
-			block(result);
-		}];
-    else
+    NSError      *error  = nil;
+    NSDictionary *result = nil;
+    NSSet        *roms   = [self roms];
+    for(OEDBRom *aRom in roms)
     {
-        NSSet *roms = [self roms];
-        __block int remainingResults = [roms count];
-        [roms enumerateObjectsUsingBlock:^(OEDBRom *aRom, BOOL *stop)
-         {
-			 [[ArchiveVG throttled] gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash] withCallback:^(id result, NSError *error) {
-                 remainingResults--;
-				 if([result valueForKey:AVGGameIDKey] != nil && [[result valueForKey:AVGGameIDKey] integerValue] != 0)
-				 {
-					 block(result);
-                     remainingResults = 0;
-				 }
-                 else if(remainingResults == 0)
-                 {
-                     block(nil);
-                 }
-			 }];
-		 }];
+        result = [[ArchiveVG throttled] gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash] error:&error];
+        if([result valueForKey:AVGGameIDKey] != nil && [[result valueForKey:AVGGameIDKey] integerValue] != 0)
+        {
+            [self setArchiveVGInfo:result];
+            break;
+        }
     }
+    [self setLastArchiveSync:[NSDate date]];
+    [self setStatus:@(OEDBGameStatusOK)];
+    [[self libraryDatabase] save:nil];
 }
 #pragma mark -
 - (id)mergeInfoFromGame:(OEDBGame *)game
