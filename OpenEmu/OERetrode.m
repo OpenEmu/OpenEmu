@@ -61,6 +61,8 @@ NSString * const kOENoBSDDevice    = @"No BSD device";
 @property (readwrite, strong) NSString *identifier;
 @property id delegate;
 
+- (void)OE_callDelegateMethod:(SEL)sel;
+
 void OEDADiskUnmountCallback(DADiskRef disk, DADissenterRef dissenter, void *self);
 void OEDADiskMountCallback(DADiskRef disk, DADissenterRef dissenter, void *self);
 void OEDADiskAppearedCallback(DADiskRef disk, void *self);
