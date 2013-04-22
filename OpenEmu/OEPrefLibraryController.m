@@ -125,33 +125,35 @@
 
 - (IBAction)changeLibraryFolder:(id)sender
 {
-    NSOpenPanel *openDlg = [NSOpenPanel openPanel];
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 
-    [openDlg setCanChooseFiles:NO];
-    [openDlg setCanChooseDirectories:YES];
-    [openDlg setCanCreateDirectories:YES];
-    [openDlg beginSheetModalForWindow:[[self view] window] completionHandler:
+    [openPanel setCanChooseFiles:NO];
+    [openPanel setCanChooseDirectories:YES];
+    [openPanel setCanCreateDirectories:YES];
+    [openPanel beginSheetModalForWindow:[[self view] window] completionHandler:
      ^(NSInteger result)
      {
          if(result == NSFileHandlingPanelOKButton)
              // give the openpanel some time to fade out
              dispatch_async(dispatch_get_main_queue(), ^{
-                 [self OE_changeROMFolderLocationTo:[openDlg URL]];
+                 [self OE_changeROMFolderLocationTo:[openPanel URL]];
              });
      }];
 }
 
 - (void)OE_changeROMFolderLocationTo:(NSURL*)newLocation
 {
+    OELibraryDatabase *library = [OELibraryDatabase defaultDatabase];
+
     // Save Library just to make sure the changes are on disk
-    [[OELibraryDatabase defaultDatabase] save:nil];
-    
-    NSURL *lastRomFolderURL = [[OELibraryDatabase defaultDatabase] romsFolderURL];
-    [[OELibraryDatabase defaultDatabase] setRomsFolderURL:newLocation];
+    [library save:nil];
+
+    NSURL *lastRomFolderURL = [library romsFolderURL];
+    [library setRomsFolderURL:newLocation];
 
     NSError                *error          = nil;
     NSArray                *fetchResult    = nil;
-    NSManagedObjectContext *moc            = [[OELibraryDatabase defaultDatabase] managedObjectContext];
+    NSManagedObjectContext *moc            = [library managedObjectContext];
     NSFetchRequest         *fetchRequest   = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
     NSPredicate            *fetchPredicate = [NSPredicate predicateWithFormat:@"NONE location BEGINSWITH 'file://'"];
 
@@ -188,16 +190,16 @@
         NSURL *newURL = [obj URL];
         if(moveGameFiles)
         {
-            NSURL *systemFolderURL = [[OELibraryDatabase defaultDatabase] romsFolderURLForSystem:[[obj game] system]];
+            NSURL *systemFolderURL = [library romsFolderURLForSystem:[[obj game] system]];
             newURL = [systemFolderURL URLByAppendingPathComponent:[newURL lastPathComponent]];
             [[NSFileManager defaultManager] moveItemAtURL:[obj URL] toURL:newURL error:nil];
         }
         [obj setURL:newURL];
     }];
     
-    [[OELibraryDatabase defaultDatabase] save:nil];
+    [library save:nil];
 
-    [[self pathField] setStringValue:[[[[OELibraryDatabase defaultDatabase] romsFolderURL] path] stringByAbbreviatingWithTildeInPath]];
+    [[self pathField] setStringValue:[[[library romsFolderURL] path] stringByAbbreviatingWithTildeInPath]];
 }
 
 - (IBAction)toggleSystem:(id)sender
