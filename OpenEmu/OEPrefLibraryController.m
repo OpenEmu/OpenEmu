@@ -23,6 +23,7 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #import "OEPrefLibraryController.h"
 #import "OEApplicationDelegate.h"
 #import "OELibraryDatabase.h"
@@ -41,6 +42,8 @@
 
 - (void)OE_rebuildAvailableLibraries;
 - (void)OE_calculateHeight;
+
+- (void)OE_changeROMFolderLocationTo:(NSURL*)url;
 @end
 
 #define baseViewHeight 479.0
@@ -54,10 +57,10 @@
         [self OE_calculateHeight];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_rebuildAvailableLibraries) name:OEDBSystemsDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleSystem:) name:OESidebarTogglesSystemNotification object:nil];
-        
+
         [[OEPlugin class] addObserver:self forKeyPath:@"allPlugins" options:0 context:nil];
     }
-    
+
     return self;
 }
 
@@ -65,9 +68,8 @@
 {
     height = baseViewHeight - librariesContainerHeight;
     [self OE_rebuildAvailableLibraries];
-    
-	NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:OEDatabasePathKey];
-	[[self pathField] setStringValue:[path stringByAbbreviatingWithTildeInPath]];
+
+	[[self pathField] setStringValue:[[[[OELibraryDatabase defaultDatabase] romsFolderURL] path] stringByAbbreviatingWithTildeInPath]];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -82,14 +84,14 @@
 {
     [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins" context:nil];
 }
-#pragma mark ViewController Overrides
+#pragma mark - ViewController Overrides
 
 - (NSString *)nibName
 {
 	return @"OEPrefLibraryController";
 }
 
-#pragma mark OEPreferencePane Protocol
+#pragma mark - OEPreferencePane Protocol
 
 - (NSImage *)icon
 {
@@ -113,38 +115,89 @@
 
 #pragma mark -
 #pragma mark UI Actions
-
 - (IBAction)resetLibraryFolder:(id)sender
 {
     NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:OEDefaultDatabasePathKey];
-    
-    [[NSUserDefaults standardUserDefaults] setValue:databasePath forKey:OEDatabasePathKey];
-    [[self pathField] setStringValue:[databasePath stringByAbbreviatingWithTildeInPath]];
+    NSURL    *location     = [NSURL fileURLWithPath:databasePath isDirectory:YES];
+
+    [self OE_changeROMFolderLocationTo:location];
 }
 
 - (IBAction)changeLibraryFolder:(id)sender
 {
     NSOpenPanel *openDlg = [NSOpenPanel openPanel];
-    
-    openDlg.canChooseFiles = NO;
-    openDlg.canChooseDirectories = YES;
-    openDlg.canCreateDirectories = YES;
-    
-    [openDlg beginSheetModalForWindow:self.view.window completionHandler:
+
+    [openDlg setCanChooseFiles:NO];
+    [openDlg setCanChooseDirectories:YES];
+    [openDlg setCanCreateDirectories:YES];
+    [openDlg beginSheetModalForWindow:[[self view] window] completionHandler:
      ^(NSInteger result)
      {
-         if(NSFileHandlingPanelOKButton == result)
-         {
-             NSString *databasePath = [[openDlg URL] path];
-             
-             if(databasePath != nil && ![databasePath isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:OEDatabasePathKey]])
-             {
-                 [[NSUserDefaults standardUserDefaults] setValue:databasePath forKey:OEDatabasePathKey];
-                 [[NSApp delegate] loadDatabase];
-                 [[self pathField] setStringValue:[databasePath stringByAbbreviatingWithTildeInPath]];
-             }
-         }
+         if(result == NSFileHandlingPanelOKButton)
+             // give the openpanel some time to fade out
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [self OE_changeROMFolderLocationTo:[openDlg URL]];
+             });
      }];
+}
+
+- (void)OE_changeROMFolderLocationTo:(NSURL*)newLocation
+{
+    // Save Library just to make sure the changes are on disk
+    [[OELibraryDatabase defaultDatabase] save:nil];
+    
+    NSURL *lastRomFolderURL = [[OELibraryDatabase defaultDatabase] romsFolderURL];
+    [[OELibraryDatabase defaultDatabase] setRomsFolderURL:newLocation];
+
+    NSError                *error          = nil;
+    NSArray                *fetchResult    = nil;
+    NSManagedObjectContext *moc            = [[OELibraryDatabase defaultDatabase] managedObjectContext];
+    NSFetchRequest         *fetchRequest   = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
+    NSPredicate            *fetchPredicate = [NSPredicate predicateWithFormat:@"NONE location BEGINSWITH 'file://'"];
+
+    [fetchRequest setPredicate:fetchPredicate];
+
+    // Change relative paths to absolute ones based on last roms folder location
+    fetchResult = [moc executeFetchRequest:fetchRequest error:&error];
+    if(error != nil)
+    {
+        DLog(@"%@", error);
+        return;
+    }
+    DLog(@"Found %ld roms with relative paths", [fetchResult count]);
+    [fetchResult enumerateObjectsUsingBlock:^(OEDBRom *obj, NSUInteger idx, BOOL *stop) {
+        [obj setURL:[NSURL URLWithString:[[obj URL] relativeString] relativeToURL:lastRomFolderURL]];
+    }];
+
+
+    // Make absolute rom paths in new roms folder relative
+    OEHUDAlert *alert  = [OEHUDAlert alertWithMessageText:@"Would you like OpenEmu to move and rename the files in your new ROMs folder to match the “Keep games organized” preference?" defaultButton:@"Yes" alternateButton:@"No"];
+    BOOL moveGameFiles = [alert runModal]==NSAlertDefaultReturn;
+    
+    fetchPredicate = [NSPredicate predicateWithFormat:@"location BEGINSWITH %@", [newLocation absoluteString]];
+    [fetchRequest setPredicate:fetchPredicate];
+    
+    fetchResult = [moc executeFetchRequest:fetchRequest error:&error];
+    if(error != nil)
+    {
+        DLog(@"%@", error);
+        return;
+    }
+    DLog(@"Found %ld roms in new roms folder", [fetchResult count]);
+    [fetchResult enumerateObjectsUsingBlock:^(OEDBRom *obj, NSUInteger idx, BOOL *stop) {
+        NSURL *newURL = [obj URL];
+        if(moveGameFiles)
+        {
+            NSURL *systemFolderURL = [[OELibraryDatabase defaultDatabase] romsFolderURLForSystem:[[obj game] system]];
+            newURL = [systemFolderURL URLByAppendingPathComponent:[newURL lastPathComponent]];
+            [[NSFileManager defaultManager] moveItemAtURL:[obj URL] toURL:newURL error:nil];
+        }
+        [obj setURL:newURL];
+    }];
+    
+    [[OELibraryDatabase defaultDatabase] save:nil];
+
+    [[self pathField] setStringValue:[[[[OELibraryDatabase defaultDatabase] romsFolderURL] path] stringByAbbreviatingWithTildeInPath]];
 }
 
 - (IBAction)toggleSystem:(id)sender
@@ -163,10 +216,10 @@
         systemIdentifier = [[sender object] systemIdentifier];
         isCheckboxSender = NO;
     }
-    
+
     OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inDatabase:[OELibraryDatabase defaultDatabase]];
     BOOL enabled = [[system enabled] boolValue];
-    
+
     // Make sure that at least one system is enabled.
     // Otherwise the mainwindow sidebar would be messed up
     if(enabled && [[OEDBSystem enabledSystems] count] == 1)
@@ -178,10 +231,10 @@
 
         if(isCheckboxSender)
             [sender setState:NSOnState];
-        
+
         return;
     }
-    
+
     // Make sure only systems with a valid plugin are enabled.
     // Is also ensured by disabling ui element (checkbox)
     if(![system plugin])
@@ -193,10 +246,10 @@
 
         if(isCheckboxSender)
             [sender setState:NSOffState];
-        
+
         return;
     }
-    
+
     [system setEnabled:[NSNumber numberWithBool:!enabled]];
     [[system libraryDatabase] save:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsDidChangeNotification object:system userInfo:nil];
@@ -212,27 +265,27 @@
 - (void)OE_rebuildAvailableLibraries
 {
     [[[[self librariesView] subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperviewWithoutNeedingDisplay)];
-    
+
     // get all system plugins, ordered them by name
     NSArray *systems = [OEDBSystem allSystems];
-    
+
     // calculate number of rows (using 2 columns)
     NSInteger rows = ceil([systems count] / 2.0);
 
     // set some spaces and dimensions
     CGFloat hSpace = 16, vSpace = 10;
     CGFloat iWidth = 163, iHeight = 18;
-    
+
     // calculate complete view height
     height = baseViewHeight-librariesContainerHeight + (iHeight * rows + (rows - 1) * vSpace);
-    
+
     if([self librariesView] == nil) return;
-    
+
     [[self librariesView] setFrameSize:(NSSize){ [[self librariesView] frame].size.width, (iHeight * rows + (rows - 1) * vSpace)}];
-    
+
     __block CGFloat x = 0;
     __block CGFloat y = [[self librariesView] frame].size.height - iHeight -1;
-    
+
     // enumerate plugins and add buttons for them
     [systems enumerateObjectsUsingBlock:
      ^(OEDBSystem *system, NSUInteger idx, BOOL *stop)
@@ -244,7 +297,7 @@
              x += iWidth+hSpace;
              y = [[self librariesView] frame].size.height-iHeight -1;
          }
-         
+
          // creating the button
          NSRect rect = (NSRect){ { x, y }, { iWidth, iHeight } };
          NSString *systemIdentifier = [system systemIdentifier];
@@ -256,8 +309,8 @@
          [button setTitle:[system name]];
          [button setState:[[system enabled] intValue]];
          [[button cell] setRepresentedObject:systemIdentifier];
-         
-         
+
+
          // Check if a core is installed that is capable of running this system
          BOOL foundCore = NO;
          NSArray *allPlugins = [OECorePlugin allPlugins];
@@ -269,7 +322,7 @@
                  break;
              }
          }
-         
+
          // TODO: warnings should also give advice on how to solve them
          // e.g. Go to Cores preferences and download Core x
          // or we could add a "Fix This" button that automatically launches the "No core for system ... " - Dialog
@@ -277,33 +330,34 @@
          if([system plugin] == nil)
          {
              [warnings addObject:NSLocalizedString(@"The System plugin could not be found!", @"")];
-             
+
              // disabling ui element here so no system without a plugin can be enabled
              [button setEnabled:NO];
          }
-         
+
          if(!foundCore)
              [warnings addObject:NSLocalizedString(@"This System has no corresponding core installed.", @"")];
-         
+
          if([warnings count] != 0)
          {
              // Show a warning badge next to the checkbox
              // this is currently misusing the beta_icon image
-             
+
              NSPoint badgePosition = [button badgePosition];
              NSImageView *imageView = [[NSImageView alloc] initWithFrame:(NSRect){ badgePosition, { 16, 17 } }];
              [imageView setImage:[NSImage imageNamed:@"beta_icon"]];
-             
+
              // TODO: Use a custom tooltip that fits our style better
              [imageView setToolTip:[warnings componentsJoinedByString:@"\n"]];
              [[self librariesView] addSubview:imageView];
          }
-         
+
          [[self librariesView] addSubview:button];
-         
+
          // decreasing y
          y -= iHeight + vSpace;
      }];
 }
 
 @end
+
