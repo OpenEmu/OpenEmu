@@ -326,8 +326,6 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     NSMenuItem *menuItem = [[self consolesPopupButton] selectedItem];
     NSString *systemIdentifier = [menuItem representedObject] ? : [sud objectForKey:OELastControlsPluginIdentifierKey];
 
-    NSString *oldPluginName = [selectedPlugin systemName];
-
     OESystemPlugin *newPlugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
     if(newPlugin == nil)
     {

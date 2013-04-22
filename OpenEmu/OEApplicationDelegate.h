@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2011, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -28,6 +28,7 @@
 @class OEMainWindowController;
 
 @interface OEApplicationDelegate : NSDocumentController <NSApplicationDelegate, NSMenuDelegate>
+
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showPreferencesWindow:(id)sender;
 
@@ -43,10 +44,10 @@
 @property(unsafe_unretained) IBOutlet NSMenu                 *fileMenu;
 @property(unsafe_unretained) IBOutlet OEMainWindowController *mainWindowController;
 
-@property(strong, readonly) NSString           *aboutCreditsPath;
-@property(strong, readonly) NSString           *appVersion;
-@property(strong, readonly) NSString           *buildVersion;
-@property(strong, readonly) NSAttributedString *projectURL;
+@property(readonly) NSString           *aboutCreditsPath;
+@property(readonly) NSString           *appVersion;
+@property(readonly) NSString           *buildVersion;
+@property(readonly) NSAttributedString *projectURL;
 
 #pragma mark - Debug
 - (IBAction)OEDebug_logResponderChain:(id)sender;

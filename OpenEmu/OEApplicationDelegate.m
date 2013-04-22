@@ -64,6 +64,7 @@
 #import "OEToolTipManager.h"
 
 #import "OERetrodeDeviceManager.h"
+
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -172,13 +173,20 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
     // Start retrode support
     if([[NSUserDefaults standardUserDefaults] boolForKey:OERetrodeSupportEnabledKey])
-        [OERetrodeDeviceManager load];
+        [OERetrodeDeviceManager class];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
-    if([mainWindowController gamesRunning] && !([[OEHUDAlert quitApplicationAlert] runModal] == NSAlertDefaultReturn))
-        return NSTerminateCancel;
+    if([[self documents] count] > 0)
+    {
+       if([[OEHUDAlert quitApplicationAlert] runModal] != NSAlertDefaultReturn)
+           return NSTerminateCancel;
+
+        for(OEGameDocument *document in [self documents])
+            [document close];
+    }
+
     return NSTerminateNow;
 }
 
