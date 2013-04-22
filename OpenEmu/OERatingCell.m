@@ -34,16 +34,16 @@
 {
 	OEUIState state = OEUIStateInactive;
 	if([self isHighlighted]) state = OEUIStateActive;
-	
+
 	NSImage *image = [NSImage imageNamed:@"list_rating"];
-		
+
 	NSRect sourceRect = [self imageRectForRating:[[self objectValue] intValue] state:state];
-	NSRect targetRect = NSMakeRect(cellFrame.origin.x + (cellFrame.size.width - sourceRect.size.width) / 2,
-                                   cellFrame.origin.y + (cellFrame.size.height - sourceRect.size.height) / 2,
+	NSRect targetRect = NSMakeRect(floor(cellFrame.origin.x + (cellFrame.size.width - sourceRect.size.width) / 2),
+                                   floor(cellFrame.origin.y + (cellFrame.size.height - sourceRect.size.height) / 2),
                                    sourceRect.size.width,
                                    sourceRect.size.height);
     
-	[image drawInRect:NSIntegralRect(targetRect) fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:0 rightBorder:0 topBorder:0 bottomBorder:0];
+	[image drawInRect:targetRect fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:0 rightBorder:0 topBorder:0 bottomBorder:0];
 }
 
 - (NSRect)imageRectForRating:(NSInteger)rating state:(OEUIState)state

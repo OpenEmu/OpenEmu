@@ -56,7 +56,7 @@
     BOOL sourceFlipped = [self isFlipped];
     BOOL targetFlipped = [[NSGraphicsContext currentContext] isFlipped];
 
-    NSDictionary *drawingHints = (hints ?: NoInterpol);
+    NSDictionary *drawingHints = (hints ?: nil);
 
     // Bottom Left
     if(sourceFlipped)

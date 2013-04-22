@@ -393,6 +393,10 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
 - (void)didMoveToSuperlayer
 {
+    [self setContentsScale:[[self superlayer] contentsScale]];
+    for(CALayer *layer in [self sublayers])
+        [layer setContentsScale:[self contentsScale]];
+    
     [self OE_updateActiveSelector];
 }
 
@@ -756,6 +760,16 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     return [self title];
 }
 
+- (BOOL)layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window
+{
+    if([layer isKindOfClass:[OECoverGridViewCellRatingLayer class]])
+    {
+        layer.contentsScale = newScale;
+        [layer setNeedsDisplay];
+        return NO;
+    }
+    return YES;
+}
 #pragma mark - NSControlSubclassNotifications
 - (void)controlTextDidBeginEditing:(NSNotification *)aNotification
 {
