@@ -53,6 +53,8 @@ NSString *const OESaveStateLastFSEventIDKey  = @"lastSaveStateEventID";
 NSString *const OELibraryDatabaseUserInfoKey = @"OELibraryDatabase";
 NSString *const OESaveStateFolderURLKey      = @"saveStateFolder";
 
+NSString *const OELibraryRomsFolderURLKey    = @"romsFolderURL";
+
 @interface OELibraryDatabase ()
 {
     @private
@@ -172,6 +174,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         return NO;
     }
 
+    DLog(@"ROMS folder url: %@", [self romsFolderURL]);
     return YES;
 }
 
@@ -768,12 +771,42 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSURL *)romsFolderURL
 {
-    NSString *romsFolderName = NSLocalizedString(@"roms", @"Roms Folder Name");
+    NSPersistentStore *persistentStore = [[[self persistentStoreCoordinator] persistentStores] lastObject];
+    NSDictionary *metadata = [[self persistentStoreCoordinator] metadataForPersistentStore:persistentStore];
+    if([metadata objectForKey:OELibraryRomsFolderURLKey])
+    {
+        return [NSURL URLWithString:[metadata objectForKey:OELibraryRomsFolderURLKey]];
+    }
+    else
+    {
+        NSURL *result = [[self databaseFolderURL] URLByAppendingPathComponent:@"roms" isDirectory:YES];
+        [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+        [self setRomsFolderURL:result];
+        return result;
+    }
+}
 
-    NSURL *result = [[self databaseFolderURL] URLByAppendingPathComponent:romsFolderName isDirectory:YES];
-    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+- (void)setRomsFolderURL:(NSURL *)url
+{
+    if(url != nil)
+    {
+        NSError             *error           = nil;
+        NSPersistentStore   *persistentStore = [[[self persistentStoreCoordinator] persistentStores] lastObject];
+        NSDictionary        *metadata        = [persistentStore metadata];
+        NSMutableDictionary *mutableMetaData = [metadata mutableCopy];
+        
+        [mutableMetaData setObject:[url absoluteString] forKey:OELibraryRomsFolderURLKey];
 
-    return result;
+        // Using the instance method sets the metadata for the current store in memory, while
+        // using the class method writes to disk immediately. Calling both seems redundant
+        // but is the only way i found that works.
+        //
+        // Also see discussion at http://www.cocoabuilder.com/archive/cocoa/295041-setting-not-saving-nspersistentdocument-metadata-changes-file-modification-date.html
+        [[self persistentStoreCoordinator] setMetadata:mutableMetaData forPersistentStore:persistentStore];
+        [NSPersistentStoreCoordinator setMetadata:mutableMetaData forPersistentStoreOfType:[persistentStore type] URL:[persistentStore URL] error:&error];
+
+        [self save:nil];
+    }
 }
 
 - (NSURL *)unsortedRomsFolderURL

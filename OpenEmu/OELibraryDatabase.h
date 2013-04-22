@@ -78,6 +78,7 @@ extern NSString *const OESaveStateFolderURLKey;
 #pragma mark - Database Folders
 - (NSURL *)databaseFolderURL;
 - (NSURL *)romsFolderURL;
+- (void)setRomsFolderURL:(NSURL *)url;
 - (NSURL *)unsortedRomsFolderURL;
 - (NSURL *)romsFolderURLForSystem:(OEDBSystem *)system;
 - (NSURL *)stateFolderURL;
