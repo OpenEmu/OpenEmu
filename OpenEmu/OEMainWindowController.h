@@ -41,7 +41,6 @@ extern NSString *const OEMainWindowFullscreenKey;
 @property(nonatomic) NSViewController  *currentContentController;
 @property(nonatomic) NSViewController  *defaultContentController;
 @property            BOOL               allowWindowResizing;
-@property(readonly)  NSUInteger         gamesRunning;
 @property(readonly)  BOOL               mainWindowRunsGame;
 
 - (void)openGameDocument:(OEGameDocument *)aDocument;

@@ -65,8 +65,6 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-
     _currentContentController = nil;
     [self setDefaultContentController:nil];
     [self setLibraryController:nil];
@@ -82,8 +80,6 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     // receives -windowDidLoad and we are autosaving the window size, we
     // need to set allowWindowResizing to YES before -windowDidLoad
     _allowWindowResizing = YES;
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_gameDidFinishEmulating:) name:OEGameViewControllerEmulationDidFinishNotification object:nil];
     
     return self;
 }
@@ -140,8 +136,6 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     BOOL fullScreen  = [standardDefaults boolForKey:OEFullScreenGameWindowKey];
     
     _shouldExitFullScreenWhenGameFinishes = NO;
-
-    _gamesRunning++;
 
     if(forcePopout)
     {
@@ -288,11 +282,6 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
         [_gameDocument showInSeparateWindow:self fullScreen:NO];
         _gameDocument = nil;
     }
-}
-
-- (void)OE_gameDidFinishEmulating:(NSNotification *)notification
-{
-    _gamesRunning--;
 }
 
 #pragma mark - OELibraryControllerDelegate protocol conformance
