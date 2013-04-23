@@ -27,12 +27,16 @@
 #import "OESearchFieldCell.h"
 #import "OEControl.h"
 
+@interface OESearchFieldFieldEditor : NSTextView
+@end
+
 @interface OESearchFieldCell ()
 {
     NSMutableParagraphStyle *_style;  // Cached paragraph style used to render text
 }
 - (void)updatePlaceholder;
 - (NSDictionary*)_textAttributes; // Apple Private Override
+@property OESearchFieldFieldEditor *fieldEditor;
 @property (nonatomic)  BOOL isEditing;
 @end
 
@@ -73,6 +77,10 @@
     [self setDrawsBackground:NO];
 
     [self setIsEditing:NO];
+
+    OESearchFieldFieldEditor *fieldEditor =[[OESearchFieldFieldEditor alloc] initWithFrame:NSMakeRect(0, 0, 0, 14)];
+    [fieldEditor setFieldEditor:YES];
+    [self setFieldEditor:fieldEditor];
 }
 
 - (void)updatePlaceholder
@@ -147,7 +155,7 @@
 
 - (NSTextView *)fieldEditorForView:(NSView *)aControlView
 {
-    return nil;
+    return [self fieldEditor];
 }
 
 - (NSText*)setUpFieldEditorAttributes:(NSText *)textObj
@@ -345,5 +353,33 @@
 - (NSDictionary*)_textAttributes
 {
     return [[self themeTextAttributes] textAttributesForState:[self OE_currentState]];
+}
+@end
+
+@interface NSTextView (ApplePrivate)
+- (void)_drawInsertionPointInRect:(NSRect)aRect color:(NSColor *)color;
+@end
+
+@implementation OESearchFieldFieldEditor
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+    [[NSGraphicsContext currentContext] saveGraphicsState];
+
+    NSRect clipRect = [self bounds];
+    clipRect.origin.y += 3.0;
+    clipRect.size.height -= 3.0;
+
+    NSRectClip(clipRect);
+    [super drawRect:dirtyRect];
+
+    [[NSGraphicsContext currentContext] restoreGraphicsState];
+}
+
+- (void)_drawInsertionPointInRect:(NSRect)aRect color:(NSColor *)color
+{
+    aRect.size.height = 14;
+    aRect.origin.y    = 3;
+    [super _drawInsertionPointInRect:aRect color:color];
 }
 @end
