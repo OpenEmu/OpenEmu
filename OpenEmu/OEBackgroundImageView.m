@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -25,23 +25,113 @@
  */
 
 #import "OEBackgroundImageView.h"
-#import "NSImage+OEDrawingAdditions.h"
+@interface OEBackgroundImageView ()
+@property(nonatomic, assign, getter = isHovering) BOOL         hovering;
+@property(nonatomic, readonly, getter = isThemed) BOOL         themed;
+@property (nonatomic, readonly)                   OEThemeState stateMask;
+@end
 @implementation OEBackgroundImageView
-@synthesize image, leftBorder,rightBorder, topBorder,bottomBorder;
-
-
-- (BOOL)isOpaque
+- (id)initWithThemeKey:(NSString*)themeKey
 {
-    return NO;
+    self = [super initWithFrame:NSZeroRect];
+    if(self)
+    {
+        [self setThemeKey:themeKey];
+    }
+    return self;
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    if([self image] != nil)
+    NSRect       targetRect   = [self bounds];
+    OEThemeState currentState = [self OE_currentState];
+    
+    [[[self backgroundThemeImage] imageForState:currentState] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+    [[[self themeImage] imageForState:currentState] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+    [[self image] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+}
+#pragma mark - Theme
+- (void)setThemeKey:(NSString *)key
+{
+    NSString *backgroundKey = key;
+    if(![key hasSuffix:@"_background"])
     {
-        NSRect imgRect = [self bounds];
-        [[self image] drawInRect:imgRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:[self isFlipped] hints:nil leftBorder:[self leftBorder] rightBorder:[self rightBorder] topBorder:[self topBorder] bottomBorder:[self bottomBorder]];
+        [self setThemeImageKey:key];
+        backgroundKey = [key stringByAppendingString:@"_background"];
     }
+    [self setBackgroundThemeImageKey:backgroundKey];
+    [self setThemeTextAttributesKey:key];
+}
+
+- (void)setBackgroundThemeImageKey:(NSString *)key
+{
+    [self setBackgroundThemeImage:[[OETheme sharedTheme] themeImageForKey:key]];
+}
+
+- (void)setThemeImageKey:(NSString *)key
+{
+    [self setThemeImage:[[OETheme sharedTheme] themeImageForKey:key]];
+}
+
+- (void)setThemeTextAttributesKey:(NSString *)key
+{
+    [self setThemeTextAttributes:[[OETheme sharedTheme] themeTextAttributesForKey:key]];
+}
+
+- (void)setBackgroundThemeImage:(OEThemeImage *)backgroundThemeImage
+{
+    if(_backgroundThemeImage != backgroundThemeImage)
+    {
+        // TODO: Only invalidate area of the control view
+        _backgroundThemeImage = backgroundThemeImage;
+        [self setNeedsDisplay:YES];
+        [self OE_recomputeStateMask];
+    }
+}
+
+- (void)setThemeImage:(OEThemeImage *)themeImage
+{
+    if(_themeImage != themeImage)
+    {
+        // TODO: Only invalidate area of the control view
+        _themeImage = themeImage;
+        [self setNeedsDisplay:YES];
+        [self OE_recomputeStateMask];
+    }
+}
+
+- (void)setThemeTextAttributes:(OEThemeTextAttributes *)themeTextAttributes
+{
+    if(_themeTextAttributes != themeTextAttributes)
+    {
+        _themeTextAttributes = themeTextAttributes;
+        [self setNeedsDisplay:YES];
+        [self OE_recomputeStateMask];
+    }
+}
+
+- (OEThemeState)OE_currentState
+{
+    // This is a convenience method that retrieves the current state of the button
+    BOOL focused      = NO;
+    BOOL windowActive = NO;
+
+    if(((_stateMask & OEThemeStateAnyFocus) != 0) || ((_stateMask & OEThemeStateAnyWindowActivity) != 0))
+    {
+        // Set the focused, windowActive, and hover properties only if the state mask is tracking the button's focus, mouse hover, and window activity properties
+        NSWindow *window = [self window];
+
+        focused      = [window firstResponder] == self;
+        windowActive = ((_stateMask & OEThemeStateAnyWindowActivity) != 0) && ([window isMainWindow] || ([window parentWindow] && [[window parentWindow] isMainWindow]));
+    }
+
+    return [OEThemeObject themeStateWithWindowActive:windowActive buttonState:NSMixedState selected:NO enabled:NO focused:focused houseHover:[self isHovering] modifierMask:[NSEvent modifierFlags]] & _stateMask;
+}
+
+- (void)OE_recomputeStateMask
+{
+    _themed    = (_backgroundThemeImage != nil || _themeImage != nil || _themeTextAttributes != nil);
+    _stateMask = [_backgroundThemeImage stateMask] | [_themeImage stateMask] | [_themeTextAttributes stateMask];
 }
 
 @end

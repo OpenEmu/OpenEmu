@@ -31,7 +31,6 @@
 #import "OETextFieldCell.h"
 #import "OECenteredTextFieldCell.h"
 
-#import "OEPreferencesPlainBox.h"
 #import "OEHUDProgressbar.h"
 
 #import "NSImage+OEDrawingAdditions.h"
@@ -39,6 +38,7 @@
 #import "NSWindow+OECustomWindow.h"
 
 #import "OEInputLimitFormatter.h"
+#import "OEBackgroundImageView.h"
 
 static const CGFloat _OEHUDAlertBoxSideMargin           =  18.0;
 static const CGFloat _OEHUDAlertBoxTopMargin            =  51.0;
@@ -143,7 +143,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
         _otherInputField = [[OETextField alloc] init];
         _otherInputLabelView = [[NSTextView alloc] init];
         
-        _boxView = [[OEPreferencesPlainBox alloc] init];
+        _boxView = [[OEBackgroundImageView alloc] initWithThemeKey:@"dark_inset_box"];
         
         [self setSuppressOnDefaultReturnOnly:YES];
         [self OE_setupWindow];

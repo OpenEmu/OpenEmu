@@ -977,6 +977,57 @@
 	</dict>
 	<key>Images</key>
 	<dict>
+		<key>dark_inset_box_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>dark_inset_box</string>
+			<key>Parts</key>
+			<array>
+				<string>{{0,0},{16,16}}</string>
+				<string>{{16,0},{1,16}}</string>
+				<string>{{17,0},{16,16}}</string>
+				<string>{{0,16},{16,1}}</string>
+				<string>{{16,16},{1,1}}</string>
+				<string>{{17,16},{16,1}}</string>
+				<string>{{0,17},{16,16}}</string>
+				<string>{{16,17},{1,16}}</string>
+				<string>{{17,17},{16,16}}</string>
+			</array>
+		</dict>
+		<key>installer_dark_inset_box</key>
+		<dict>
+			<key>Resource</key>
+			<string>installer_dark_inset_box</string>
+			<key>Parts</key>
+			<array>
+				<string>{{0,0},{16,16}}</string>
+				<string>{{16,0},{1,16}}</string>
+				<string>{{17,0},{16,16}}</string>
+				<string>{{0,16},{16,1}}</string>
+				<string>{{16,16},{1,1}}</string>
+				<string>{{17,16},{16,1}}</string>
+				<string>{{0,17},{16,16}}</string>
+				<string>{{16,17},{1,16}}</string>
+				<string>{{17,17},{16,16}}</string>
+			</array>
+		</dict>
+		<key>wood_inset_box_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>wood_inset_box</string>
+			<key>Parts</key>
+			<array>
+				<string>{{0,0},{16,16}}</string>
+				<string>{{16,0},{1,16}}</string>
+				<string>{{17,0},{16,16}}</string>
+				<string>{{0,16},{16,1}}</string>
+				<string>{{16,16},{1,1}}</string>
+				<string>{{17,16},{16,1}}</string>
+				<string>{{0,17},{16,16}}</string>
+				<string>{{16,17},{1,16}}</string>
+				<string>{{17,17},{16,16}}</string>
+			</array>
+		</dict>
 		<key>hud_textfield_background</key>
 		<dict>
 			<key>Resource</key>
