@@ -2846,7 +2846,6 @@
 				83BC345C1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.h */,
 				83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */,
 				53439B7B13B933C4005C0CC8 /* Controls */,
-				53439B7F13B933DA005C0CC8 /* Cells */,
 				53439B8013B933E9005C0CC8 /* OEHUDWindow.h */,
 				53439B8113B933E9005C0CC8 /* OEHUDWindow.m */,
 			);
@@ -3188,13 +3187,6 @@
 				83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */,
 			);
 			name = Controls;
-			sourceTree = "<group>";
-		};
-		53439B7F13B933DA005C0CC8 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Cells;
 			sourceTree = "<group>";
 		};
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
