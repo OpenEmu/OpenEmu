@@ -354,6 +354,10 @@ static inline id OENilForNSNull(id x)
 
 - (void)drawInRect:(NSRect)dstSpacePortionRect fromRect:(NSRect)srcSpacePortionRect operation:(NSCompositingOperation)op fraction:(CGFloat)requestedAlpha respectFlipped:(BOOL)respectContextIsFlipped hints:(NSDictionary *)hints
 {
+    if((!_vertical && dstSpacePortionRect.size.height != [self size].height) ||
+       (_vertical && dstSpacePortionRect.size.width  != [self size].width))
+        DLog(@"WARNING: Drawing a 3-part image at wrong size");
+    
     NSImage *startCap   = OENilForNSNull([_parts objectAtIndex:0]);
     NSImage *centerFill = OENilForNSNull([_parts objectAtIndex:1]);
     NSImage *endCap     = OENilForNSNull([_parts objectAtIndex:2]);

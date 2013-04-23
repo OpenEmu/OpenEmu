@@ -814,7 +814,7 @@
 					<object class="NSButton" id="494648955">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{218, 60}, {82, 25}}</string>
+						<string key="NSFrame">{{218, 61}, {82, 23}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="898307533"/>
@@ -837,7 +837,7 @@
 					<object class="NSButton" id="313146737">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{150, 16}, {60, 25}}</string>
+						<string key="NSFrame">{{150, 16}, {60, 23}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="853516866"/>
@@ -860,7 +860,7 @@
 					<object class="NSButton" id="853516866">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{218, 16}, {82, 25}}</string>
+						<string key="NSFrame">{{218, 16}, {82, 23}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -1624,9 +1624,6 @@
 							<reference ref="130992168"/>
 							<reference ref="995436451"/>
 							<reference ref="898307533"/>
-							<reference ref="494648955"/>
-							<reference ref="313146737"/>
-							<reference ref="853516866"/>
 							<reference ref="591680830"/>
 							<reference ref="933292212"/>
 							<reference ref="79645276"/>
@@ -1634,6 +1631,9 @@
 							<reference ref="718930534"/>
 							<reference ref="939501013"/>
 							<reference ref="1045719552"/>
+							<reference ref="494648955"/>
+							<reference ref="313146737"/>
+							<reference ref="853516866"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Debug</string>
