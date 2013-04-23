@@ -476,7 +476,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 - (IBAction)searchForWiimote:(id)sender
 {
-    [self OE_setUpInputMenu];
+    [self OE_updateInputPopupButtonSelection];
 
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
 
