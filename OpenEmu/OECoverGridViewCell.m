@@ -393,9 +393,12 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
 - (void)didMoveToSuperlayer
 {
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
     [self setContentsScale:[[self superlayer] contentsScale]];
     for(CALayer *layer in [self sublayers])
         [layer setContentsScale:[self contentsScale]];
+    [CATransaction commit];
     
     [self OE_updateActiveSelector];
 }
@@ -764,7 +767,12 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 {
     if([layer isKindOfClass:[OECoverGridViewCellRatingLayer class]])
     {
+        [CATransaction begin];
+        [CATransaction setDisableActions:YES];
+
         layer.contentsScale = newScale;
+
+        [CATransaction commit];
         [layer setNeedsDisplay];
         return NO;
     }
