@@ -178,29 +178,59 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     NSImage *glossImage = [self OE_standardImageNamed:@"OECoverGridViewCellGlossImage" forGridView:gridView withSize:size];
     if(glossImage) return glossImage;
 
-    glossImage = [NSImage imageWithSize:size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+    int major, minor;
+    GetSystemVersion(&major, &minor, NULL);
+    if(major == 10 && minor >= 8)
+    {
+        glossImage = [NSImage imageWithSize:size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+            NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
+            // Draw gloss image fit proportionally within the cell
+            NSImage *boxGlossImage = [NSImage imageNamed:@"box_gloss"];
+            CGRect   boxGlossFrame = CGRectMake(0.0, 0.0, size.width, floor(size.width * OECoverGridViewCellGlossWidthToHeightRatio));
+            boxGlossFrame.origin.y = size.height - CGRectGetHeight(boxGlossFrame);
+            [boxGlossImage drawInRect:boxGlossFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+
+            [currentContext saveGraphicsState];
+            [currentContext setShouldAntialias:NO];
+
+            const NSRect bounds = NSMakeRect(0.0, 0.0, size.width-0.5, size.height-0.5);
+            [[NSColor colorWithCalibratedWhite:1.0 alpha:0.4] setStroke];
+            [[NSBezierPath bezierPathWithRect:NSOffsetRect(bounds, 0.0, -1.0)] stroke];
+
+            [[NSColor blackColor] setStroke];
+            NSBezierPath *path = [NSBezierPath bezierPathWithRect:bounds];
+            [path stroke];
+
+            [currentContext restoreGraphicsState];
+
+            return YES;
+        }];
+    }
+    else
+    {
+        glossImage = [[NSImage alloc] initWithSize:size];
+        [glossImage lockFocus];
+
         NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
+        [currentContext saveGraphicsState];
+        [currentContext setShouldAntialias:NO];
+
         // Draw gloss image fit proportionally within the cell
         NSImage *boxGlossImage = [NSImage imageNamed:@"box_gloss"];
         CGRect   boxGlossFrame = CGRectMake(0.0, 0.0, size.width, floor(size.width * OECoverGridViewCellGlossWidthToHeightRatio));
         boxGlossFrame.origin.y = size.height - CGRectGetHeight(boxGlossFrame);
         [boxGlossImage drawInRect:boxGlossFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
 
-        [currentContext saveGraphicsState];
-        [currentContext setShouldAntialias:NO];
-
-        const NSRect bounds = NSMakeRect(0.0, 0.0, size.width-0.5, size.height-0.5);
+        const CGRect bounds = CGRectMake(0.0, 0.0, size.width - 1.0, size.height - 1.0);
         [[NSColor colorWithCalibratedWhite:1.0 alpha:0.4] setStroke];
         [[NSBezierPath bezierPathWithRect:NSOffsetRect(bounds, 0.0, -1.0)] stroke];
 
         [[NSColor blackColor] setStroke];
-        NSBezierPath *path = [NSBezierPath bezierPathWithRect:bounds];
-        [path stroke];
-
-        [currentContext restoreGraphicsState];
+        [[NSBezierPath bezierPathWithRect:bounds] stroke];
         
-        return YES;
-    }];
+        [currentContext restoreGraphicsState];
+        [glossImage unlockFocus];
+    }
     
     [self OE_setStandardImage:glossImage named:@"OECoverGridViewCellGlossImage" forGridView:gridView];
 

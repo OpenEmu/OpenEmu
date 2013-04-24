@@ -245,10 +245,25 @@
 
 - (NSImage *)subImageFromRect:(NSRect)rect
 {
-    return [NSImage imageWithSize:rect.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-        [self drawInRect:dstRect fromRect:rect operation:NSCompositeSourceOver fraction:1.0];
-        return YES;
-    }];
+    int major, minor;
+    NSImage *resultImage = nil;
+    GetSystemVersion(&major, &minor, NULL);
+    if(major == 10 && minor >= 8)
+    {
+        resultImage = [NSImage imageWithSize:rect.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+            [self drawInRect:dstRect fromRect:rect operation:NSCompositeSourceOver fraction:1.0];
+            return YES;
+        }];
+    }
+    else
+    {
+        resultImage = [[NSImage alloc] initWithSize:rect.size];
+        [resultImage lockFocusFlipped:[self isFlipped]];
+        [self drawInRect:NSMakeRect(0, 0, rect.size.width, rect.size.height) fromRect:rect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
+        [resultImage unlockFocus];
+    }
+
+    return resultImage;
 }
 
 - (void)setName:(NSString *)name forSubimageInRect:(NSRect)aRect
