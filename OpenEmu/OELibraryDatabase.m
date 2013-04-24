@@ -43,6 +43,8 @@
 #import "OEFSWatcher.h"
 #import "OEROMImporter.h"
 
+#import "NSURL+OELibraryAdditions.h"
+
 #import <OpenEmuBase/OpenEmuBase.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
@@ -775,7 +777,10 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSDictionary *metadata = [[self persistentStoreCoordinator] metadataForPersistentStore:persistentStore];
     if([metadata objectForKey:OELibraryRomsFolderURLKey])
     {
-        return [NSURL URLWithString:[metadata objectForKey:OELibraryRomsFolderURLKey]];
+        NSString *urlString = [metadata objectForKey:OELibraryRomsFolderURLKey];
+        if([urlString rangeOfString:@"file://"].location==NSNotFound)
+            return [NSURL URLWithString:urlString relativeToURL:[self databaseFolderURL]];
+        return [NSURL URLWithString:urlString];
     }
     else
     {
@@ -790,12 +795,18 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     if(url != nil)
     {
-        NSError             *error           = nil;
-        NSPersistentStore   *persistentStore = [[[self persistentStoreCoordinator] persistentStores] lastObject];
-        NSDictionary        *metadata        = [persistentStore metadata];
-        NSMutableDictionary *mutableMetaData = [metadata mutableCopy];
-        
-        [mutableMetaData setObject:[url absoluteString] forKey:OELibraryRomsFolderURLKey];
+        NSError             *error             = nil;
+        NSPersistentStore   *persistentStore   = [[[self persistentStoreCoordinator] persistentStores] lastObject];
+        NSDictionary        *metadata          = [persistentStore metadata];
+        NSMutableDictionary *mutableMetaData   = [metadata mutableCopy];
+        NSURL               *databaseFolderURL = [self databaseFolderURL];
+
+        if([url isSubpathOfURL:databaseFolderURL])
+        {
+            NSString *urlString = [[url absoluteString] substringFromIndex:[[databaseFolderURL absoluteString] length]];
+            [mutableMetaData setObject:[@"./" stringByAppendingString:urlString] forKey:OELibraryRomsFolderURLKey];
+        }
+        else [mutableMetaData setObject:[url absoluteString] forKey:OELibraryRomsFolderURLKey];
 
         // Using the instance method sets the metadata for the current store in memory, while
         // using the class method writes to disk immediately. Calling both seems redundant
