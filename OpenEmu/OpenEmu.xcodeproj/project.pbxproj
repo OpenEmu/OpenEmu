@@ -455,7 +455,6 @@
 		83FBA38314F2C870001F1299 /* gba_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA38214F2C870001F1299 /* gba_library.png */; };
 		83FBA38414F2C89F001F1299 /* nes_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA37414F2C747001F1299 /* nes_library.png */; };
 		83FBA38514F2C8A8001F1299 /* famicom_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA37614F2C752001F1299 /* famicom_library.png */; };
-		83FFC069145819070077EC27 /* installer_backgroundSample.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FFC068145819070077EC27 /* installer_backgroundSample.png */; };
 		8C415ECD16B0682B00980DB9 /* OEMultipassShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C415ECC16B0682B00980DB9 /* OEMultipassShader.m */; };
 		8C4C808916986697009B8A28 /* OEGLSLShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808816986697009B8A28 /* OEGLSLShader.m */; };
 		8C4C808E16986C87009B8A28 /* OECGShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808D16986C87009B8A28 /* OECGShader.m */; };
@@ -1657,7 +1656,6 @@
 		83FBA38014F2C857001F1299 /* genesis_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = genesis_library.png; sourceTree = "<group>"; };
 		83FBA38214F2C870001F1299 /* gba_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba_library.png; sourceTree = "<group>"; };
 		83FC3CC4156D155B00F0CDB6 /* OEMainWindowContentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEMainWindowContentController.h; sourceTree = "<group>"; };
-		83FFC068145819070077EC27 /* installer_backgroundSample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_backgroundSample.png; sourceTree = "<group>"; };
 		8C415ECB16B0682B00980DB9 /* OEMultipassShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMultipassShader.h; sourceTree = "<group>"; };
 		8C415ECC16B0682B00980DB9 /* OEMultipassShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMultipassShader.m; sourceTree = "<group>"; };
 		8C4C808716986697009B8A28 /* OEGLSLShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGLSLShader.h; sourceTree = "<group>"; };
@@ -3746,7 +3744,6 @@
 			isa = PBXGroup;
 			children = (
 				83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */,
-				83FFC068145819070077EC27 /* installer_backgroundSample.png */,
 				83AAC32B1458172C005ADD16 /* gloss_button.png */,
 				83AAC32C1458172C005ADD16 /* gloss_checkbox.png */,
 				83AAC32D1458172C005ADD16 /* installer_dark_inset_box.png */,
@@ -5545,7 +5542,6 @@
 				83AAC3301458172C005ADD16 /* gloss_checkbox.png in Resources */,
 				83AAC3311458172C005ADD16 /* installer_dark_inset_box.png in Resources */,
 				83AAC3321458172C005ADD16 /* installer_gamepad_graphics.png in Resources */,
-				83FFC069145819070077EC27 /* installer_backgroundSample.png in Resources */,
 				83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */,
 				83025E63146BDD9400A06EF9 /* slim_dark_pill_button.png in Resources */,
 				83025E69146BE71600A06EF9 /* install_progress_bar_track.png in Resources */,
