@@ -30,6 +30,8 @@
 @interface OEBackgroundImageView : NSView <OEControl>
 - (id)initWithThemeKey:(NSString*)themeKey;
 
+@property (getter=isFlipped, setter=setFlipped:) BOOL flipped;
+
 @property(nonatomic, retain) NSImage               *image;
 @property(nonatomic, retain) OEThemeImage          *backgroundThemeImage;
 @property(nonatomic, retain) OEThemeImage          *themeImage;

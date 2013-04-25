@@ -46,9 +46,9 @@
     NSRect       targetRect   = [self bounds];
     OEThemeState currentState = [self OE_currentState];
     
-    [[[self backgroundThemeImage] imageForState:currentState] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-    [[[self themeImage] imageForState:currentState] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-    [[self image] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+    [[[self backgroundThemeImage] imageForState:currentState] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:[self isFlipped] hints:nil];
+    [[[self themeImage] imageForState:currentState] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:[self isFlipped] hints:nil];
+    [[self image] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:[self isFlipped] hints:nil];
 }
 #pragma mark - Theme
 - (void)setThemeKey:(NSString *)key
