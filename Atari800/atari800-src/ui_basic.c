@@ -22,6 +22,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+#define _POSIX_C_SOURCE 200112L /* for snprintf */
+
 #include "config.h"
 #include <stdio.h>
 #include <string.h>
@@ -57,12 +59,6 @@
 #ifdef DIRECTX
 	#include "win32\main.h"
 	#include "ui_basic.h"
-#endif
-
-#ifdef USE_CURSES
-extern void curses_clear_screen(void);
-extern void curses_clear_rectangle(int x1, int y1, int x2, int y2);
-extern void curses_putch(int x, int y, int ascii, UBYTE fg, UBYTE bg);
 #endif
 
 static int initialised = FALSE;
@@ -302,7 +298,7 @@ static void BasicUIMessage(const char *msg, int waitforkey)
 		PLATFORM_DisplayScreen();
 }
 
-#ifdef SDL
+#ifdef GUI_SDL
 int GetRawKey(void)
 {
 	ClearRectangle(0x94, 13, 11, 25, 13);
@@ -311,7 +307,7 @@ int GetRawKey(void)
 	PLATFORM_DisplayScreen();
 	return PLATFORM_GetRawKey();
 }
-#endif
+#endif /* GUI_SDL */
 
 #ifdef DIRECTX
 int GetKeyName(void)
@@ -506,7 +502,7 @@ static int BasicUISelect(const char *title, int flags, int default_item, const U
 
 	nitems = 0;
 	index = 0;
-	for (pmenu = menu; pmenu->item != NULL; pmenu++) {
+	for (pmenu = menu; pmenu->flags != UI_ITEM_END; pmenu++) {
 		if (pmenu->flags != UI_ITEM_HIDDEN) {
 			prefix[nitems] = pmenu->prefix;
 			item[nitems] = pmenu->item;
@@ -531,7 +527,6 @@ static int BasicUISelect(const char *title, int flags, int default_item, const U
 			nitems++;
 		}
 	}
-
 	if (nitems == 0)
 		return -1; /* cancel immediately */
 
@@ -576,7 +571,7 @@ static int BasicUISelect(const char *title, int flags, int default_item, const U
 	                (flags & UI_SELECT_DRAG) ? TRUE : FALSE, NULL, seltype);
 	if (index < 0)
 		return index;
-	for (pmenu = menu; pmenu->item != NULL; pmenu++) {
+	for (pmenu = menu; pmenu->flags != UI_ITEM_END; pmenu++) {
 		if (pmenu->flags != UI_ITEM_HIDDEN) {
 			if (index == 0)
 				return pmenu->retval;
@@ -798,7 +793,7 @@ static int BasicUIReadDir(char *filename, int *isdir)
 	strcpy(filename, entry->d_name);
 	Util_catpath(fullfilename, dir_path, entry->d_name);
 	stat(fullfilename, &st);
-	*isdir = (st.st_mode & S_IFDIR) ? TRUE : FALSE;
+	*isdir = S_ISDIR(st.st_mode);
 	return TRUE;
 }
 
@@ -985,6 +980,21 @@ static void strcatchr(char *s, char c)
 	s[1] = '\0';
 }
 
+/* Fills BUF with the path of the current working directory (or, if it fails,
+   with "." or "/"). */
+static void GetCurrentDir(char buf[FILENAME_MAX])
+{
+#ifdef HAVE_GETCWD
+	if (getcwd(buf, FILENAME_MAX) == NULL) {
+		buf[0] = '/';
+		buf[1] = '\0';
+	}
+#else
+	buf[0] = '.';
+	buf[1] = '\0';
+#endif
+}
+
 /* Select file or directory.
    The result is returned in path and path is where selection begins (i.e. it must be initialized).
    pDirectories are "favourite" directories (there are nDirectories of them). */
@@ -1006,18 +1016,11 @@ static int FileSelector(char *path, int select_dir, char pDirectories[][FILENAME
 		strcpy(current_dir, help_dir);
 	}
 #elif defined(HAVE_GETCWD)
-	if (current_dir[0] == '\0' || (current_dir[0] == '.' && current_dir[1] == '\0')) {
-		if (getcwd(current_dir, FILENAME_MAX) == NULL) {
-			current_dir[0] = '/';
-			current_dir[1] = '\0';
-		}
-	}
+	if (current_dir[0] == '\0' || (current_dir[0] == '.' && current_dir[1] == '\0'))
 #else
-	if (current_dir[0] == '\0') {
-		current_dir[0] = '.';
-		current_dir[1] = '\0';
-	}
+	if (current_dir[0] == '\0')
 #endif
+		GetCurrentDir(current_dir);
 	for (;;) {
 		int index = 0;
 		int i;
@@ -1032,13 +1035,32 @@ static int FileSelector(char *path, int select_dir, char pDirectories[][FILENAME
 		TitleScreen("            Please wait...            ");
 		PLATFORM_DisplayScreen();
 
-		GetDirectory(current_dir);
+		for (;;) {
+			GetDirectory(current_dir);
 
-		if (n_filenames == 0) {
-			/* FIXME: change to a safe directory */
+			if (n_filenames > 0)
+				break;
+
+			/* Can't read directory - maybe it doesn't exist?
+			   Split the last part from the path and try again. */
 			FilenamesFree();
-			BasicUIMessage("No files inside directory", 1);
-			return FALSE;
+			{
+				char temp[FILENAME_MAX];
+				strcpy(temp, current_dir);
+				Util_splitpath(temp, current_dir, NULL);
+			}
+			if (current_dir[0] == '\0') {
+				/* Path couldn't be split further.
+				   Try the working directory as a last resort. */
+				GetCurrentDir(current_dir);
+				GetDirectory(current_dir);
+				if (n_filenames >= 0)
+					break;
+
+				FilenamesFree();
+				BasicUIMessage("No files inside directory", 1);
+				return FALSE;
+			}
 		}
 
 		if (highlighted_file[0] != '\0') {
@@ -1398,14 +1420,13 @@ int UI_BASIC_OnScreenKeyboard(const char *title, int layout)
 #endif
 	modifiers &= AKEY_SHFT;
 	switch (layout) {
-	case MACHINE_OSA:
-	case MACHINE_OSB:
+	case Atari800_MACHINE_800:
 		layout_lines[0] = "     Start Select Option Atari Break";
 		break;
-	case MACHINE_XLXE:
+	case Atari800_MACHINE_XLXE:
 		layout_lines[0] = "  Help Start Select Option Inv Break";
 		break;
-	case MACHINE_5200:
+	case Atari800_MACHINE_5200:
 		layout_lines[0] = NULL;
 		break;
 	default:
@@ -1417,7 +1438,7 @@ int UI_BASIC_OnScreenKeyboard(const char *title, int layout)
 		int y;
 		int code;
 		const char *layout_line;
-		if (layout == MACHINE_5200) {
+		if (layout == Atari800_MACHINE_5200) {
 			layout_lines[1] = "        Start  Pause  Reset         ";
 			layout_lines[2] = "        --1--  --2--  --3--         ";
 			layout_lines[3] = "        --4--  --5--  --6--         ";
@@ -1516,7 +1537,7 @@ int UI_BASIC_OnScreenKeyboard(const char *title, int layout)
 					}
 				}
 			}
-			if (layout == MACHINE_5200) {
+			if (layout == Atari800_MACHINE_5200) {
 				static const UBYTE keycodes_5200[5][3] = {
 					{ AKEY_5200_START, AKEY_5200_PAUSE, AKEY_5200_RESET },
 					{ AKEY_5200_1, AKEY_5200_2, AKEY_5200_3 },
@@ -1539,7 +1560,7 @@ int UI_BASIC_OnScreenKeyboard(const char *title, int layout)
 				};
 				switch (key_y) {
 				case 0:
-					switch (code + (layout != MACHINE_XLXE ? 1 : 0)) {
+					switch (code + (layout != Atari800_MACHINE_XLXE ? 1 : 0)) {
 					case 0:
 						return AKEY_HELP ^ modifiers;
 					case 1:

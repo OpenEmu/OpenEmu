@@ -9,7 +9,7 @@
 
 /* Fundamental declarations ---------------------------------------------- */
 
-#define Atari800_TITLE  "Atari 800 Emulator, Version 2.2.1"
+#define Atari800_TITLE  "Atari 800 Emulator, Version 3.0.0"
 
 #ifndef FALSE
 #define FALSE  0
@@ -37,14 +37,46 @@
 /* Public interface ------------------------------------------------------ */
 
 /* Machine type. */
-#define Atari800_MACHINE_OSA   0
-#define Atari800_MACHINE_OSB   1
-#define Atari800_MACHINE_XLXE  2
-#define Atari800_MACHINE_5200  3
+enum {
+	Atari800_MACHINE_800,
+	Atari800_MACHINE_XLXE,
+	Atari800_MACHINE_5200,
+	/* Number of values in the emumerator */
+	Atari800_MACHINE_SIZE
+};
+/* Don't change this variable directly; use Atari800_SetMachineType() instead. */
 extern int Atari800_machine_type;
+void Atari800_SetMachineType(int type);
 
 /* Always call Atari800_InitialiseMachine() after changing Atari800_machine_type
    or MEMORY_ram_size! */
+
+/* Indicates if machine has BASIC built in. */
+extern int Atari800_builtin_basic;
+
+/* Indicates existence of 1200XL's two keyboard LEDs.
+   Used only for Atari800_MACHINE_XLXE. */
+extern int Atari800_keyboard_leds;
+
+/* Indicates existence of F1-F4 keys.
+   Used only for Atari800_MACHINE_XLXE. */
+extern int Atari800_f_keys;
+
+/* State of the J1 jumper on the 1200XL board.
+   Used only for Atari800_MACHINE_XLXE. Always call
+   Atari800_UpdateJumper() after changing this variable. */
+extern int Atari800_jumper;
+void Atari800_UpdateJumper(void);
+
+/* Indicates existence of XEGS' built-in game.
+   Used only for Atari800_MACHINE_XLXE. */
+extern int Atari800_builtin_game;
+
+/* TRUE if the XEGS keyboard is detached.
+   Used only for Atari800_MACHINE_XLXE. Always call
+   Atari800_UpdateKeyboardDetached() after changing this variable. */
+extern int Atari800_keyboard_detached;
+void Atari800_UpdateKeyboardDetached(void);
 
 /* Video system. */
 #define Atari800_TV_UNSET 0
@@ -61,6 +93,10 @@ extern int Atari800_tv_mode;
 
 /* TRUE to disable Atari BASIC when booting Atari (hold Option in XL/XE). */
 extern int Atari800_disable_basic;
+
+/* OS ROM version currently used by the emulator. Can be -1 for emuos/missing
+   ROM, or a value from the SYSROM enumerator. */
+extern int Atari800_os_version;
 
 /* If Atari800_Frame() sets it to TRUE, then the current contents
    of Screen_atari should be displayed. */
@@ -98,8 +134,13 @@ void Atari800_Warmstart(void);
    You should call Atari800_Coldstart() after it. */
 int Atari800_InitialiseMachine(void);
 
-/* Shuts down Atari800 emulation core. */
+/* Shuts down Atari800 emulation core and saves the config file if needed.
+ * Use it when a user requested exiting/entering a monitor. */
 int Atari800_Exit(int run_monitor);
+
+/* Shuts down Atari800 emulation core. Use it for emergency-exiting
+   such as on failure. */
+void Atari800_ErrExit(void);
 
 
 /* Private interface ----------------------------------------------------- */
@@ -141,7 +182,7 @@ int Atari800_LoadImage(const char *filename, UBYTE *buffer, int nbytes);
 void Atari800_StateSave(void);
 
 /* Read State */
-void Atari800_StateRead(void);
+void Atari800_StateRead(UBYTE version);
 
 /* Change TV mode. */
 void Atari800_SetTVMode(int mode);

@@ -66,7 +66,11 @@
 		02E763C414319545008050EA /* ui_basic.c in Sources */ = {isa = PBXBuildFile; fileRef = 02E763C014319545008050EA /* ui_basic.c */; };
 		02E763C514319545008050EA /* ui.c in Sources */ = {isa = PBXBuildFile; fileRef = 02E763C214319545008050EA /* ui.c */; };
 		02E763C81431958E008050EA /* input.c in Sources */ = {isa = PBXBuildFile; fileRef = 02E763C61431958E008050EA /* input.c */; };
-		94A1EA15158710AF00986376 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94A1EA14158710AF00986376 /* OpenEmuBase.framework */; };
+		94DEA00D1719186F00073397 /* img_tape.c in Sources */ = {isa = PBXBuildFile; fileRef = 94DEA0091719186E00073397 /* img_tape.c */; };
+		94DEA00E1719186F00073397 /* sysrom.c in Sources */ = {isa = PBXBuildFile; fileRef = 94DEA00B1719186E00073397 /* sysrom.c */; };
+		94DEA011171918A300073397 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = 94DEA00F171918A200073397 /* crc32.c */; };
+		94DEA013171918D200073397 /* emuos.c in Sources */ = {isa = PBXBuildFile; fileRef = 94DEA012171918D200073397 /* emuos.c */; };
+		94DEA019171951AD00073397 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94DEA018171951AD00073397 /* OpenEmuBase.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,8 +84,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		020422D81434143D00659DB5 /* ATR800GameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATR800GameController.h; path = Source/ATR800GameController.h; sourceTree = "<group>"; };
-		020422D91434143D00659DB5 /* ATR800GameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ATR800GameController.m; path = Source/ATR800GameController.m; sourceTree = "<group>"; };
 		02252B371437A377001F3BF4 /* emuos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = emuos.h; path = "atari800-src/emuos.h"; sourceTree = SOURCE_ROOT; };
 		02669C741435806A0002A11B /* sound_oss.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sound_oss.c; path = "atari800-src/sound_oss.c"; sourceTree = SOURCE_ROOT; };
 		02669C751435806A0002A11B /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sound.h; path = "atari800-src/sound.h"; sourceTree = SOURCE_ROOT; };
@@ -92,7 +94,6 @@
 		02695369143169EB003A07D4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0269536C143169EB003A07D4 /* Atari800-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari800-Info.plist"; sourceTree = "<group>"; };
 		0269536E143169EB003A07D4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		02695370143169EB003A07D4 /* Atari800-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Atari800-Prefix.pch"; sourceTree = "<group>"; };
 		026953E214317379003A07D4 /* afile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = afile.c; path = "atari800-src/afile.c"; sourceTree = SOURCE_ROOT; };
 		026953E314317379003A07D4 /* afile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = afile.h; path = "atari800-src/afile.h"; sourceTree = SOURCE_ROOT; };
 		026953E414317379003A07D4 /* akey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = akey.h; path = "atari800-src/akey.h"; sourceTree = SOURCE_ROOT; };
@@ -178,7 +179,14 @@
 		02E763C61431958E008050EA /* input.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = input.c; path = "atari800-src/input.c"; sourceTree = SOURCE_ROOT; };
 		02E763C71431958E008050EA /* input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = input.h; path = "atari800-src/input.h"; sourceTree = SOURCE_ROOT; };
 		94619CA315C4D2B10019AC8E /* OE5200SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OE5200SystemResponderClient.h; path = "../../OpenEmu/Atari 5200/OE5200SystemResponderClient.h"; sourceTree = "<group>"; };
-		94A1EA14158710AF00986376 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuBase.framework; path = ../OpenEmu/build/Release/OpenEmuBase.framework; sourceTree = "<group>"; };
+		94DEA0091719186E00073397 /* img_tape.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = img_tape.c; path = "atari800-src/img_tape.c"; sourceTree = SOURCE_ROOT; };
+		94DEA00A1719186E00073397 /* img_tape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = img_tape.h; path = "atari800-src/img_tape.h"; sourceTree = SOURCE_ROOT; };
+		94DEA00B1719186E00073397 /* sysrom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sysrom.c; path = "atari800-src/sysrom.c"; sourceTree = SOURCE_ROOT; };
+		94DEA00C1719186F00073397 /* sysrom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sysrom.h; path = "atari800-src/sysrom.h"; sourceTree = SOURCE_ROOT; };
+		94DEA00F171918A200073397 /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = crc32.c; path = "atari800-src/crc32.c"; sourceTree = SOURCE_ROOT; };
+		94DEA010171918A200073397 /* crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = crc32.h; path = "atari800-src/crc32.h"; sourceTree = SOURCE_ROOT; };
+		94DEA012171918D200073397 /* emuos.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = emuos.c; path = "atari800-src/emuos.c"; sourceTree = SOURCE_ROOT; };
+		94DEA018171951AD00073397 /* OpenEmuBase.framework */ = {isa = PBXFileReference; lastKnownFileType = file; name = OpenEmuBase.framework; path = "../OpenEmu-SDK/build/Release/OpenEmuBase.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,10 +194,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94A1EA15158710AF00986376 /* OpenEmuBase.framework in Frameworks */,
 				0269543B14317AEF003A07D4 /* libreadline.dylib in Frameworks */,
 				026953F314317667003A07D4 /* libz.dylib in Frameworks */,
 				02695365143169EB003A07D4 /* Cocoa.framework in Frameworks */,
+				94DEA019171951AD00073397 /* OpenEmuBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,8 +207,8 @@
 		02695356143169EA003A07D4 = {
 			isa = PBXGroup;
 			children = (
-				94A1EA14158710AF00986376 /* OpenEmuBase.framework */,
-				0269536A143169EB003A07D4 /* Atari800Core */,
+				0269541514317842003A07D4 /* Classes */,
+				0269536B143169EB003A07D4 /* Resources */,
 				02695363143169EB003A07D4 /* Frameworks */,
 				02695362143169EB003A07D4 /* Products */,
 			);
@@ -217,6 +225,7 @@
 		02695363143169EB003A07D4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				94DEA018171951AD00073397 /* OpenEmuBase.framework */,
 				0269543A14317AEF003A07D4 /* libreadline.dylib */,
 				026953F214317667003A07D4 /* libz.dylib */,
 				02695364143169EB003A07D4 /* Cocoa.framework */,
@@ -235,29 +244,34 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		0269536A143169EB003A07D4 /* Atari800Core */ = {
+		0269536A143169EB003A07D4 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				0269541514317842003A07D4 /* CorePlugin */,
 				026953E91431737E003A07D4 /* atari800 */,
-				0269536B143169EB003A07D4 /* Supporting Files */,
 			);
-			path = Atari800Core;
+			name = Core;
 			sourceTree = "<group>";
 		};
-		0269536B143169EB003A07D4 /* Supporting Files */ = {
+		0269536B143169EB003A07D4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				0269536C143169EB003A07D4 /* Atari800-Info.plist */,
 				0269536D143169EB003A07D4 /* InfoPlist.strings */,
-				02695370143169EB003A07D4 /* Atari800-Prefix.pch */,
 			);
-			name = "Supporting Files";
+			name = Resources;
+			path = Atari800Core;
 			sourceTree = "<group>";
 		};
 		026953E91431737E003A07D4 /* atari800 */ = {
 			isa = PBXGroup;
 			children = (
+				94DEA012171918D200073397 /* emuos.c */,
+				94DEA00F171918A200073397 /* crc32.c */,
+				94DEA010171918A200073397 /* crc32.h */,
+				94DEA0091719186E00073397 /* img_tape.c */,
+				94DEA00A1719186E00073397 /* img_tape.h */,
+				94DEA00B1719186E00073397 /* sysrom.c */,
+				94DEA00C1719186F00073397 /* sysrom.h */,
 				026953EA143175F0003A07D4 /* config.h */,
 				0269541814317864003A07D4 /* antic.c */,
 				0269541914317864003A07D4 /* antic.h */,
@@ -344,17 +358,17 @@
 			name = atari800;
 			sourceTree = "<group>";
 		};
-		0269541514317842003A07D4 /* CorePlugin */ = {
+		0269541514317842003A07D4 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				94619CA315C4D2B10019AC8E /* OE5200SystemResponderClient.h */,
+				0269536A143169EB003A07D4 /* Core */,
 				0269544514317B62003A07D4 /* platform.h */,
+				94619CA315C4D2B10019AC8E /* OE5200SystemResponderClient.h */,
 				0269544614317D34003A07D4 /* ATR800GameCore.h */,
 				0269544714317D34003A07D4 /* ATR800GameCore.m */,
-				020422D81434143D00659DB5 /* ATR800GameController.h */,
-				020422D91434143D00659DB5 /* ATR800GameController.m */,
 			);
-			name = CorePlugin;
+			name = Classes;
+			path = Atari800Core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -476,6 +490,10 @@
 				02E763C514319545008050EA /* ui.c in Sources */,
 				02E763C81431958E008050EA /* input.c in Sources */,
 				02669C761435806A0002A11B /* sound_oss.c in Sources */,
+				94DEA00D1719186F00073397 /* img_tape.c in Sources */,
+				94DEA00E1719186F00073397 /* sysrom.c in Sources */,
+				94DEA011171918A300073397 /* crc32.c in Sources */,
+				94DEA013171918D200073397 /* emuos.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,16 +581,16 @@
 		02695374143169EB003A07D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Atari800Core/Atari800-Prefix.pch";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../OpenEmu\"",
 					"\"$(SRCROOT)/atari800-src\"",
 				);
 				INFOPLIST_FILE = "Atari800Core/Atari800-Info.plist";
-				INSTALL_PATH = "\"$(HOME)/Library/Application Support/Cores\"";
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				LD_RUNPATH_SEARCH_PATHS = "\"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" ~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = Atari800;
+				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Debug;
@@ -580,16 +598,16 @@
 		02695375143169EB003A07D4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Atari800Core/Atari800-Prefix.pch";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../OpenEmu\"",
 					"\"$(SRCROOT)/atari800-src\"",
 				);
 				INFOPLIST_FILE = "Atari800Core/Atari800-Info.plist";
-				INSTALL_PATH = "\"$(HOME)/Library/Application Support/Cores\"";
+				INSTALL_PATH = "\"$(USER_LIBRARY_DIR)/Application Support/OpenEmu/Cores\"";
 				LD_RUNPATH_SEARCH_PATHS = "\"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" ~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = Atari800;
+				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Release;

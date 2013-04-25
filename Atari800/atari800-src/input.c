@@ -303,6 +303,10 @@ void INPUT_Exit(void) {
 		gzclose(recordfp);
 		recording = FALSE;
 	}
+	if (playingback) {
+		gzclose(playbackfp);
+		playingback = FALSE;
+	}
 #endif
 }
 
@@ -428,6 +432,12 @@ void INPUT_Frame(void)
 	scanline_counter = 10000;	/* do nothing in INPUT_Scanline() */
 
 	/* handle keyboard */
+
+	if (Atari800_keyboard_detached) {
+		/* Disable keyboard if it's not connedted. */
+		INPUT_key_code = AKEY_NONE;
+		INPUT_key_shift = 0;
+	}
 
 	/* In Atari 5200 joystick there's a second fire button, which acts
 	   like the Shift key in 800/XL/XE (bit 3 in SKSTAT) and generates IRQ
@@ -604,9 +614,14 @@ void INPUT_Frame(void)
 
 	/* handle analog joysticks in Atari 5200 */
 	if (Atari800_machine_type != Atari800_MACHINE_5200) {
-		if(!INPUT_direct_mouse)
-			for (i = 0; i < 8; i++)
+		if(!INPUT_direct_mouse) {
+			for (i = 0; i < 4; i++)
 				POKEY_POT_input[i] = Atari_POT(i);
+			if (Atari800_machine_type != Atari800_MACHINE_XLXE) {
+				for (i = 4; i < 8; ++i)
+					POKEY_POT_input[i] = Atari_POT(i);
+			}
+		}
 	}
 	else {
 		for (i = 0; i < 4; i++) {
@@ -704,7 +719,6 @@ void INPUT_Frame(void)
 			i = -mouse_move_y;
 
 		{
-			UBYTE stick = INPUT_STICK_CENTRE;
 			if (i > 0) {
 				i += (1 << MOUSE_SHIFT) - 1;
 				i >>= MOUSE_SHIFT;
@@ -712,7 +726,7 @@ void INPUT_Frame(void)
 					max_scanline_counter = scanline_counter = 5;
 				else
 					max_scanline_counter = scanline_counter = Atari800_tv_mode / i;
-				stick = mouse_step();
+				mouse_step();
 			}
 			if (INPUT_mouse_mode == INPUT_MOUSE_TRAK) {
 				/* bit 3 toggles - vertical movement, bit 2 = 0 - up */
@@ -838,22 +852,17 @@ void INPUT_Frame(void)
 		PIA_PORT_input[0] = 0xf0 | STICK[joy_multijoy_no];
 		PIA_PORT_input[1] = 0xff;
 		GTIA_TRIG[0] = TRIG_input[joy_multijoy_no];
-		GTIA_TRIG[2] = GTIA_TRIG[1] = 1;
-		GTIA_TRIG[3] = Atari800_machine_type == Atari800_MACHINE_XLXE ? MEMORY_cartA0BF_enabled : 1;
+		GTIA_TRIG[1] = 1;
 	}
 	else {
 		GTIA_TRIG[0] = TRIG_input[0];
 		GTIA_TRIG[1] = TRIG_input[1];
-		if (Atari800_machine_type == Atari800_MACHINE_XLXE) {
-			GTIA_TRIG[2] = 1;
-			GTIA_TRIG[3] = MEMORY_cartA0BF_enabled;
-		}
-		else {
-			GTIA_TRIG[2] = TRIG_input[2];
-			GTIA_TRIG[3] = TRIG_input[3];
-		}
 		PIA_PORT_input[0] = (STICK[1] << 4) | STICK[0];
 		PIA_PORT_input[1] = (STICK[3] << 4) | STICK[2];
+	}
+	if (Atari800_machine_type != Atari800_MACHINE_XLXE) {
+		GTIA_TRIG[2] = TRIG_input[2];
+		GTIA_TRIG[3] = TRIG_input[3];
 	}
 
 #ifdef EVENT_RECORDING
@@ -891,7 +900,7 @@ static void update_adler32_of_screen(void)
 	if (playingback && gzeof(playbackfp)) {
 		playingback = FALSE;
 		gzclose(playbackfp);
-		Atari800_Exit(FALSE);
+		Atari800_ErrExit();
 		exit(adler32_errors > 0 ? 1 : 0); /* return code indicates errors*/
 	}
 }

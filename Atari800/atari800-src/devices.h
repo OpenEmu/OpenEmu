@@ -5,6 +5,7 @@
 #include "atari.h" /* UWORD */
 
 int Devices_Initialise(int *argc, char *argv[]);
+void Devices_Exit(void);
 int Devices_PatchOS(void);
 void Devices_Frame(void);
 void Devices_UpdatePatches(void);
@@ -14,6 +15,7 @@ UWORD Devices_SkipDeviceName(void);
 extern int Devices_enable_h_patch;
 extern int Devices_enable_p_patch;
 extern int Devices_enable_r_patch;
+extern int Devices_enable_b_patch;
 
 extern char Devices_atari_h_dir[4][FILENAME_MAX];
 extern int Devices_h_read_only;
@@ -28,6 +30,15 @@ void Devices_H_CloseAll(void);
 extern char Devices_print_command[256];
 
 int Devices_SetPrintCommand(const char *command);
+
+struct DEV_B
+{
+	char url[512];
+	int  pos;
+	int  ready;
+};
+extern struct DEV_B dev_b_status;
+
 
 #define	Devices_ICHIDZ	0x0020
 #define	Devices_ICDNOZ	0x0021

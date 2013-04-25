@@ -3,7 +3,7 @@
 
 #include "config.h"
 
-void Sound_Initialise(int *argc, char *argv[]);
+int Sound_Initialise(int *argc, char *argv[]);
 void Sound_Exit(void);
 void Sound_Update(void);
 void Sound_Pause(void);

@@ -22,6 +22,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+#define _POSIX_C_SOURCE 200112L /* for vsnprintf */
+
 #include "config.h"
 #include <stdio.h>
 #include <stdarg.h>
@@ -41,16 +43,13 @@
 #endif
 
 #ifdef BUFFERED_LOG
-char Log_buffer[Log_BUFFER_SIZE] = "";
+char Log_buffer[Log_BUFFER_SIZE];
 #endif
 
 void Log_print(char *format, ...)
 {
 	va_list args;
 	char buffer[8192];
-#ifdef BUFFERED_LOG
-	int buflen;
-#endif
 
 	va_start(args, format);
 #ifdef HAVE_VSNPRINTF
@@ -67,8 +66,6 @@ void Log_print(char *format, ...)
 #endif
 
 #ifdef BUFFERED_LOG
-	buflen = strlen(buffer);
-
 	if ((strlen(Log_buffer) + strlen(buffer) + 1) > Log_BUFFER_SIZE)
 		*Log_buffer = 0;
 

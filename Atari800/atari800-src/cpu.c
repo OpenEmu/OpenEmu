@@ -158,7 +158,7 @@ void CPU_PutStatus(void)
 #ifndef PAGED_ATTRIB
 #define RMW_GetByte(x, addr) \
 	if (MEMORY_attrib[addr] == MEMORY_HARDWARE) { \
-		x = MEMORY_HwGetByte(addr); \
+		x = MEMORY_HwGetByte(addr, FALSE); \
 		if ((addr & 0xef00) == 0xc000) { \
 			ANTIC_xpos--; \
 			MEMORY_HwPutByte(addr, x); \

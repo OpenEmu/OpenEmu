@@ -22,6 +22,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+#define _POSIX_C_SOURCE 200112L /* for snprintf */
+
 #include "config.h"
 #include <stdio.h>
 #include <string.h>
@@ -598,6 +600,7 @@ static void safe_gets(char *buffer, size_t size, char const *prompt)
 			strncpy(buffer, got, size);
 			if (*got)
 				add_history(got);
+			free(got); /* Need to free buffer allocated by readline() */
 		}
 	}
 #else
@@ -650,6 +653,8 @@ static int get_dec(int *decval)
 }
 #endif
 
+/* Parses S in search for a hexadecimal number. On success stores the number
+   in HEXVAL and returns TRUE; otherwise returns FALSE. */
 static int parse_hex(const char *s, UWORD *hexval)
 {
 	int x = Util_sscanhex(s);
@@ -671,6 +676,8 @@ static int parse_hex(const char *s, UWORD *hexval)
 	return TRUE;
 }
 
+/* Searches for a hexadecimal number in the command line. On success stores
+   the number in HEXVAL and returns TRUE; otherwise returns FALSE. */
 static int get_hex(UWORD *hexval)
 {
 	const char *t;
@@ -743,24 +750,27 @@ static UWORD show_instruction(FILE *fp, UWORD pc)
 	int value = 0;
 	int nchars = 0;
 
-	insn = MEMORY_dGetByte(pc++);
+	insn = MEMORY_SafeGetByte(pc);
+	pc++;
 	mnemonic = instr6502[insn];
 	for (p = mnemonic + 3; *p != '\0'; p++) {
 		if (*p == '1') {
-			value = MEMORY_dGetByte(pc++);
+			value = MEMORY_SafeGetByte(pc);
+			pc++;
 			nchars = fprintf(fp, "%04X: %02X %02X     " /*"%Xcyc  "*/ "%.*s$%02X%s",
 			                 addr, insn, value, /*cycles[insn],*/ (int) (p - mnemonic), mnemonic, value, p + 1);
 			break;
 		}
 		if (*p == '2') {
-			value = MEMORY_dGetWord(pc);
+			value = MEMORY_SafeGetByte(pc) + (MEMORY_SafeGetByte(pc + 1) << 8);
 			nchars = fprintf(fp, "%04X: %02X %02X %02X  " /*"%Xcyc  "*/ "%.*s$%04X%s",
 			                 addr, insn, value & 0xff, value >> 8, /*cycles[insn],*/ (int) (p - mnemonic), mnemonic, value, p + 1);
 			pc += 2;
 			break;
 		}
 		if (*p == '0') {
-			UBYTE op = MEMORY_dGetByte(pc++);
+			UBYTE op = MEMORY_SafeGetByte(pc);
+			pc++;
 			value = (UWORD) (pc + (SBYTE) op);
 			nchars = fprintf(fp, "%04X: %02X %02X     " /*"3cyc  "*/ "%.4s$%04X", addr, insn, op, mnemonic, value);
 			break;
@@ -797,7 +807,7 @@ void MONITOR_ShowState(FILE *fp, UWORD pc, UBYTE a, UBYTE x, UBYTE y, UBYTE s,
                 char n, char v, char z, char c)
 {
 	fprintf(fp, "%3d %3d A=%02X X=%02X Y=%02X S=%02X P=%c%c*-%c%c%c%c PC=",
-		ANTIC_ypos, ANTIC_xpos, a, x, y, s,
+		ANTIC_ypos, ANTIC_XPOS, a, x, y, s,
 		n, v, (CPU_regP & CPU_D_FLAG) ? 'D' : '-', (CPU_regP & CPU_I_FLAG) ? 'I' : '-', z, c);
 	show_instruction(fp, pc);
 }
@@ -1298,6 +1308,896 @@ static void monitor_breakpoints(void)
 
 #endif /* MONITOR_BREAKPOINTS */
 
+#ifdef MONITOR_BREAK
+/* Enables/disables breakpoints on BRK according to the command line. */
+static void monitor_break_BRK(void)
+{
+	char *t = get_token();
+	if (t == NULL)
+		printf("Break on BRK is %sabled\n", MONITOR_break_brk ? "en" : "dis");
+	else if (Util_stricmp(t, "ON") == 0)
+		MONITOR_break_brk = TRUE;
+	else if (Util_stricmp(t, "OFF") == 0)
+		MONITOR_break_brk = FALSE;
+	else
+		printf("Invalid argument. Usage: BBRK ON or OFF\n");
+}
+
+/* Enables/disables breakpoint in a specific program counter value, fetched
+   from command line. */
+static void monitor_break_PC(void)
+{
+	int addr_valid = get_hex(&MONITOR_break_addr);
+	if (addr_valid)
+	{
+		if (MONITOR_break_addr >= 0xd000 && MONITOR_break_addr <= 0xd7ff)
+			printf("PC breakpoint disabled\n");
+		else
+			printf("Breakpoint set at PC=%04X\n", MONITOR_break_addr);
+	}
+	else
+	{
+		printf("Breakpoint is at PC=%04X\n", MONITOR_break_addr);
+	}
+}
+
+/* Displays last 64 executed instructions. */
+static void show_history(void)
+{
+	int i;
+	for (i = 0; i < CPU_REMEMBER_PC_STEPS; i++) {
+		int j;
+		int k;
+		UWORD saved_cpu = CPU_remember_PC[(CPU_remember_PC_curpos + i) % CPU_REMEMBER_PC_STEPS];
+		UBYTE save_op[3];
+		j = CPU_remember_xpos[(CPU_remember_PC_curpos + i) % CPU_REMEMBER_PC_STEPS];
+		printf("%3d %3d ", j >> 8, j & 0xff);
+		for (k = 0; k < 3; k++) {
+			save_op[k] = MEMORY_SafeGetByte(saved_cpu + k);
+			MEMORY_dPutByte(saved_cpu + k, CPU_remember_op[(CPU_remember_PC_curpos + i) % CPU_REMEMBER_PC_STEPS][k]);
+		}
+		show_instruction(stdout, CPU_remember_PC[(CPU_remember_PC_curpos + i) % CPU_REMEMBER_PC_STEPS]);
+		for (k = 0; k < 3; k++) {
+			MEMORY_dPutByte(saved_cpu + k, save_op[k]);
+		}
+	}
+}
+
+/* Displays last 16 executed JMP/JSR instructions. */
+static void show_last_jumps(void)
+{
+	int i;
+	for (i = 0; i < CPU_REMEMBER_JMP_STEPS; i++)
+		show_instruction(stdout, CPU_remember_JMP[(CPU_remember_jmp_curpos + i) % CPU_REMEMBER_JMP_STEPS]);
+}
+
+/* Stesp over the current instruction. */
+static void step_over(void)
+{
+	UBYTE opcode = MEMORY_SafeGetByte(CPU_regPC);
+	if ((opcode & 0x1f) == 0x10 || opcode == 0x20) {
+		/* branch or JSR: set breakpoint after it */
+		MONITOR_break_addr = CPU_regPC + (MONITOR_optype6502[MEMORY_SafeGetByte(CPU_regPC)] & 0x3);
+		break_over = TRUE;
+	}
+	else
+		MONITOR_break_step = TRUE;
+}
+#endif /* MONITOR_BREAK */
+
+#if defined(MONITOR_BREAK) || !defined(NO_YPOS_BREAK_FLICKER)
+/* Enables/disables breakpoint or blinking of a scanline specified at command
+   line. */
+static void monitor_bline(void)
+{
+	get_dec(&ANTIC_break_ypos);
+	if (ANTIC_break_ypos >= 1008 && ANTIC_break_ypos <= 1247)
+		printf("Blinking scanline %d\n", ANTIC_break_ypos - 1000);
+#ifdef MONITOR_BREAK
+	else if (ANTIC_break_ypos >= 0 && ANTIC_break_ypos <= 311)
+		printf("Breakpoint set at scanline %d\n", ANTIC_break_ypos);
+#endif
+	else
+		printf("BLINE disabled\n");
+}
+#endif
+
+/* Displays ANTIC's Display List. */
+static void show_dlist(void)
+{
+#if 0
+	/* one instruction per line */
+	UWORD tdlist = dlist;
+	int nlines = 0;
+	get_hex(&tdlist);
+	for (;;) {
+		UBYTE IR;
+
+		printf("%04X: ", tdlist);
+		IR = ANTIC_GetDLByte(&tdlist);
+
+		if (IR & 0x80)
+		printf("DLI ");
+
+		if ((IR & 0x0f) == 0)
+		printf("%c BLANK\n", ((IR >> 4) & 0x07) + '1');
+		else if ((IR & 0x0f) == 1) {
+			tdlist = ANTIC_GetDLWord(&tdlist);
+			if (IR & 0x40) {
+				printf("JVB %04X\n", tdlist);
+				break;
+			}
+			printf("JMP %04X\n", tdlist);
+		}
+		else {
+			if (IR & 0x40)
+			printf("LMS %04X ", ANTIC_GetDLWord(&tdlist));
+			if (IR & 0x20)
+			printf("VSCROL ");
+			if (IR & 0x10)
+			printf("HSCROL ");
+			printf("MODE %X\n", IR & 0x0f);
+		}
+
+		if (++nlines == 24) {
+			if (pager())
+			break;
+			nlines = 0;
+		}
+	}
+#else
+	/* group identical instructions */
+	UWORD tdlist = ANTIC_dlist;
+	UWORD new_tdlist;
+	UBYTE IR;
+	int scrnaddr = -1;
+	int nlines = 0;
+	get_hex(&tdlist);
+	new_tdlist = tdlist;
+	IR = ANTIC_GetDLByte(&new_tdlist);
+	for (;;) {
+		printf("%04X: ", tdlist);
+		if ((IR & 0x0f) == 0) {
+			UBYTE new_IR;
+			tdlist = new_tdlist;
+			new_IR = ANTIC_GetDLByte(&new_tdlist);
+			if (new_IR == IR) {
+				int count = 1;
+				do {
+					count++;
+					tdlist = new_tdlist;
+					new_IR = ANTIC_GetDLByte(&new_tdlist);
+				} while (new_IR == IR && count < 240);
+				printf("%dx ", count);
+			}
+			if (IR & 0x80)
+				printf("DLI ");
+			printf("%c BLANK\n", ((IR >> 4) & 0x07) + '1');
+			IR = new_IR;
+		}
+		else if ((IR & 0x0f) == 1) {
+			tdlist = ANTIC_GetDLWord(&new_tdlist);
+			if (IR & 0x80)
+				printf("DLI ");
+			if (IR & 0x40) {
+				printf("JVB %04X\n", tdlist);
+				break;
+			}
+			printf("JMP %04X\n", tdlist);
+			new_tdlist = tdlist;
+			IR = ANTIC_GetDLByte(&new_tdlist);
+		}
+		else {
+			UBYTE new_IR;
+			int new_scrnaddr;
+			int count;
+			if ((IR & 0x40) && scrnaddr < 0)
+				scrnaddr = ANTIC_GetDLWord(&new_tdlist);
+			for (count = 1;; count++) {
+				tdlist = new_tdlist;
+				new_IR = ANTIC_GetDLByte(&new_tdlist);
+				if (new_IR != IR || count >= 240) {
+					new_scrnaddr = -1;
+					break;
+				}
+				if (IR & 0x40) {
+					new_scrnaddr = ANTIC_GetDLWord(&new_tdlist);
+					if (new_scrnaddr != scrnaddr)
+						break;
+				}
+			}
+			if (count > 1)
+				printf("%dx ", count);
+			if (IR & 0x80)
+				printf("DLI ");
+			if (IR & 0x40)
+				printf("LMS %04X ", scrnaddr);
+			if (IR & 0x20)
+				printf("VSCROL ");
+			if (IR & 0x10)
+				printf("HSCROL ");
+			printf("MODE %X\n", IR & 0x0f);
+			scrnaddr = new_scrnaddr;
+			IR = new_IR;
+		}
+
+		if (++nlines == 24) {
+			if (pager())
+				break;
+			nlines = 0;
+		}
+	}
+#endif
+}
+
+/* Sets the N flag to VAL, if it equals to 0 or 1. */
+static void monitor_set_N(int const val)
+{
+	if (val == 0)
+		CPU_ClrN;
+	else if (val == 1)
+		CPU_SetN;
+}
+
+/* Sets the V flag to VAL, if it equals to 0 or 1. */
+static void monitor_set_V(int const val)
+{
+	if (val == 0)
+		CPU_ClrV;
+	else if (val == 1)
+		CPU_SetV;
+}
+
+/* Sets the D flag to VAL, if it equals to 0 or 1. */
+static void monitor_set_D(int const val)
+{
+	if (val == 0)
+		CPU_ClrD;
+	else if (val == 1)
+		CPU_SetD;
+}
+
+/* Sets the I flag to VAL, if it equals to 0 or 1. */
+static void monitor_set_I(int const val)
+{
+	if (val == 0)
+		CPU_ClrI;
+	else if (val == 1)
+		CPU_SetI;
+}
+
+/* Sets the Z flag to VAL, if it equals to 0 or 1. */
+static void monitor_set_Z(int const val)
+{
+	if (val == 0)
+		CPU_ClrZ;
+	else if (val == 1)
+		CPU_SetZ;
+}
+
+/* Sets the C flag to VAL, if it equals to 0 or 1. */
+static void monitor_set_C(int const val)
+{
+	if (val == 0)
+		CPU_ClrC;
+	else if (val == 1)
+		CPU_SetC;
+}
+
+#ifdef MONITOR_TRACE
+/* Opens/closes the 6502 trace file. */
+static void set_trace_file(char const *filename)
+{
+	if (MONITOR_trace_file != NULL) {
+		fclose(MONITOR_trace_file);
+		printf("Trace file closed\n");
+		MONITOR_trace_file = NULL;
+	}
+	if (filename != NULL) {
+		MONITOR_trace_file = fopen(filename, "w");
+		if (MONITOR_trace_file != NULL)
+			printf("Trace file open\n");
+		else
+			perror(filename);
+	}
+}
+#endif /* MONITOR_TRACE */
+
+#ifdef MONITOR_PROFILE
+static void command_PROFILE(void)
+{
+	int i;
+	for (i = 0; i < 24; i++) {
+		int max, instr;
+		int j;
+		max = CPU_instruction_count[0];
+		instr = 0;
+		for (j = 1; j < 256; j++) {
+			if (CPU_instruction_count[j] > max) {
+				max = CPU_instruction_count[j];
+				instr = j;
+			}
+		}
+		if (max <= 0)
+		break;
+		CPU_instruction_count[instr] = 0;
+		printf("Opcode %02X: %-9s has been executed %d times\n",
+				instr, instr6502[instr], max);
+	}
+}
+#endif /* MONITOR_PROFILE */
+
+/* Displays current contents of the processor stack. */
+static void show_stack(void)
+{
+	int ts;
+	for (ts = 0x101 + CPU_regS; ts < 0x200; ) {
+		if (ts < 0x1ff) {
+			UWORD ta = (UWORD) (MEMORY_dGetWord(ts) - 2);
+			if (MEMORY_dGetByte(ta) == 0x20) {
+				printf("%04X: %02X %02X  %04X: JSR %04X\n",
+					ts, MEMORY_dGetByte(ts), MEMORY_dGetByte(ts + 1), ta,
+					MEMORY_dGetWord(ta + 1));
+				ts += 2;
+				continue;
+			}
+		}
+		printf("%04X: %02X\n", ts, MEMORY_dGetByte(ts));
+		ts++;
+	}
+}
+
+/* Sets memory as read-only based on range fetched from command line. */
+static void monitor_set_ROM(void)
+{
+	UWORD addr1;
+	UWORD addr2;
+	if (get_attrib_range(&addr1, &addr2)) {
+		MEMORY_SetROM(addr1, addr2);
+		printf("Changed memory from %04X to %04X into ROM\n",
+			   addr1, addr2);
+	}
+}
+
+/* Sets memory as writable based on range fetched from command line. */
+static void monitor_set_RAM(void)
+{
+	UWORD addr1;
+	UWORD addr2;
+	if (get_attrib_range(&addr1, &addr2)) {
+		MEMORY_SetRAM(addr1, addr2);
+		printf("Changed memory from %04X to %04X into RAM\n",
+			   addr1, addr2);
+	}
+}
+
+#ifndef PAGED_ATTRIB
+/* Sets memory as hardware based on range fetched from command line. */
+static void monitor_set_hardware(void)
+{
+	UWORD addr1;
+	UWORD addr2;
+	if (get_attrib_range(&addr1, &addr2)) {
+		MEMORY_SetHARDWARE(addr1, addr2);
+		printf("Changed memory from %04X to %04X into HARDWARE\n",
+			   addr1, addr2);
+	}
+}
+#endif /* PAGED_ATTRIB */
+
+#ifndef PAGED_MEM
+/* Reads file into memory, under address fetched from command line. */
+static void monitor_read_from_file(UWORD *addr)
+{
+	const char *filename;
+	filename = get_token();
+	if (filename != NULL) {
+		UWORD nbytes;
+		if (get_hex2(addr, &nbytes) && *addr + nbytes <= 0x10000) {
+			FILE *f = fopen(filename, "rb");
+			if (f == NULL)
+				perror(filename);
+			else {
+				if (fread(&MEMORY_mem[*addr], 1, nbytes, f) == 0)
+					perror(filename);
+				fclose(f);
+			}
+		}
+	}
+}
+
+/* Writes memory to file, from address fetched from command line. */
+static void monitor_write_to_file(void)
+{
+	UWORD addr1;
+	UWORD addr2;
+	if (get_hex2(&addr1, &addr2) && addr1 <= addr2) {
+		const char *filename;
+		FILE *f;
+		filename = get_token();
+		if (filename == NULL)
+			filename = "memdump.dat";
+		f = fopen(filename, "wb");
+		if (f == NULL)
+			perror(filename);
+		else {
+			size_t nbytes = addr2 - addr1 + 1;
+			if (fwrite(&MEMORY_mem[addr1], 1, addr2 - addr1 + 1, f) < nbytes)
+				perror(filename);
+			fclose(f);
+		}
+	}
+}
+
+/* Fills memory area witha value. Memory range and the value are fetched from
+   command line. */
+static void monitor_fill_mem(void)
+{
+	UWORD addr1;
+	UWORD addr2;
+	UWORD hexval;
+	if (get_hex3(&addr1, &addr2, &hexval)) {
+		/* use int to avoid endless loop with addr2==0xffff */
+		int a;
+		for (a = addr1; a <= addr2; a++)
+			MEMORY_dPutByte(a, (UBYTE) hexval);
+	}
+}
+
+/* Changes memory contents. Start address and byte values are fetched from
+   command line. */
+static void monitor_change_mem(UWORD *addr)
+{
+	UWORD temp = 0;
+	get_hex(addr);
+	while (get_hex(&temp)) {
+#ifdef PAGED_ATTRIB
+		if (MEMORY_writemap[*addr >> 8] != NULL && MEMORY_writemap[*addr >> 8] != MEMORY_ROM_PutByte)
+			(*MEMORY_writemap[*addr >> 8])(*addr, (UBYTE) temp);
+#else
+		if (MEMORY_attrib[*addr] == MEMORY_HARDWARE)
+			MEMORY_HwPutByte(*addr, (UBYTE) temp);
+#endif
+		else /* RAM, ROM */
+			MEMORY_dPutByte(*addr, (UBYTE) temp);
+		(*addr)++;
+		if (temp > 0xff) {
+#ifdef PAGED_ATTRIB
+			if (MEMORY_writemap[*addr >> 8] != NULL && MEMORY_writemap[*addr >> 8] != MEMORY_ROM_PutByte)
+				(*MEMORY_writemap[*addr >> 8])(*addr, (UBYTE) (temp >> 8));
+#else
+			if (MEMORY_attrib[*addr] == MEMORY_HARDWARE)
+				MEMORY_HwPutByte(*addr, (UBYTE) (temp >> 8));
+#endif
+			else /* RAM, ROM */
+				MEMORY_dPutByte(*addr, (UBYTE) (temp >> 8));
+			(*addr)++;
+		}
+	}
+}
+#endif /* PAGED_MEM */
+
+/* Displays sum of a memory range, fetched from command line. */
+static void monitor_sum_mem(void)
+{
+	UWORD addr1;
+	UWORD addr2;
+	if (get_hex2(&addr1, &addr2)) {
+		int sum = 0;
+		int i;
+		for (i = addr1; i <= addr2; i++)
+			sum += MEMORY_SafeGetByte(i);
+		printf("SUM: %X\n", sum);
+	}
+}
+
+/* Show memory contents, starting from address fetched from command line. */
+static void monitor_show_mem(UWORD *addr)
+{
+	int count = 16;
+	get_hex(addr);
+	do {
+		int i;
+		printf("%04X: ", *addr);
+		for (i = 0; i < 16; i++)
+			printf("%02X ", MEMORY_SafeGetByte((UWORD) (*addr + i)));
+		putchar(' ');
+		for (i = 0; i < 16; i++) {
+			UBYTE c;
+			c = MEMORY_SafeGetByte(*addr);
+			(*addr)++;
+			putchar((c >= ' ' && c <= 'z' && c != '\x60') ? c : '.');
+		}
+		putchar('\n');
+	} while (--count > 0);
+}
+
+/* Starts searching for memory locations that hold a value fetched from command line. */
+static void trainer_start_search(void)
+{
+	UWORD trainer_value = 0;
+	int value_valid = get_hex(&trainer_value);
+
+	/* alloc needed memory at first use */
+	if (trainer_memory == NULL) {
+		trainer_memory = malloc(65536*2);
+		if (trainer_memory != NULL) {
+			trainer_flags = trainer_memory + 65536;
+		} else {
+			printf("Memory allocation failed!\n"
+			"Trainer not available.\n");
+		}
+	}
+	if (trainer_memory != NULL) {
+		/* copy memory into shadow buffer at first use */
+		long int count = 65535;
+		do {
+			*(trainer_memory+count) = MEMORY_SafeGetByte((UWORD) count);
+			*(trainer_flags+count) = 0xff;
+		} while (--count > -1);
+		if (value_valid) {
+			count = 65535;
+			do {
+				if (trainer_value != *(trainer_memory+count)) {
+					*(trainer_flags+count) = 0;
+				}
+			} while (--count > -1);
+		}
+	}
+}
+
+/* Locates memory addresses that haven't changed since TSS. */
+static void trainer_search_unchanged(void)
+{
+	UWORD trainer_value = 0;
+	int value_valid = get_hex(&trainer_value);
+
+	if (trainer_memory != NULL) {
+		long int count = 65535;
+		do {
+			if (value_valid) {
+				if (trainer_value != MEMORY_SafeGetByte((UWORD) count)) {
+					*(trainer_flags+count) = 0;
+				}
+			} else {
+				if (*(trainer_memory+count) != MEMORY_SafeGetByte((UWORD) count)) {
+					*(trainer_flags+count) = 0;
+				}
+			}
+			*(trainer_memory+count) = MEMORY_SafeGetByte((UWORD) count);
+		} while (--count > -1);
+	} else {
+		printf("Use tss first.\n");
+	}
+}
+
+/* Locates memory addresses that have changed since TSS. */
+static void trainer_search_changed(void)
+{
+	UWORD trainer_value = 0;
+	int value_valid = get_hex(&trainer_value);
+
+	if (trainer_memory != NULL) {
+		long int count = 65535;
+		do {
+			if (value_valid) {
+				if (trainer_value != MEMORY_SafeGetByte((UWORD) count)) {
+					*(trainer_flags+count) = 0;
+				}
+			} else {
+				if (*(trainer_memory+count) == MEMORY_SafeGetByte((UWORD) count)) {
+					*(trainer_flags+count) = 0;
+				}
+			};
+			*(trainer_memory+count) = MEMORY_SafeGetByte((UWORD) count);
+		} while (--count > -1);
+	} else {
+		printf("Use tss first.\n");
+	}
+}
+
+/* Displays memory addresses located with TSS/TSN. */
+static void trainer_print_addresses(void)
+{
+	UWORD addr_count_max = 0;
+	int addr_valid = get_hex(&addr_count_max);
+
+	/* default print size is 8*8 adresses */
+	if (!addr_valid) {
+		addr_count_max = 64;
+	}
+
+	if (trainer_memory != NULL) {
+		long int count = 0;
+		ULONG addr_count = 0;
+		int i = 0;
+		do {
+			if (*(trainer_flags+count) != 0) {
+				printf("%04X ", (UWORD) count);
+				addr_count++;
+				if (++i == 8) {
+					printf("\n");
+					i = 0;
+				};
+			};
+		} while ((++count < 65536) && (addr_count < addr_count_max));
+	printf("\n");
+	} else {
+		printf("Use tss first.\n");
+	}
+}
+
+/* Searches in memory for a value. Memory range and value are fetched from
+   command line. */
+static void monitor_search_mem(void)
+{
+	/* static, so "S" without arguments repeats last search */
+	static int n = 0;
+	static UWORD addr1;
+	static UWORD addr2;
+	static UBYTE tab[64];
+	UWORD hexval;
+	if (get_hex3(&addr1, &addr2, &hexval)) {
+		n = 0;
+		do {
+			tab[n++] = (UBYTE) hexval;
+			if (hexval > 0xff && n < 64)
+				tab[n++] = (UBYTE) (hexval >> 8);
+		} while (n < 64 && get_hex(&hexval));
+	}
+	if (n > 0) {
+		int a;
+		for (a = addr1; a <= addr2; a++) {
+			int i = 0;
+			while (MEMORY_SafeGetByte((UWORD) (a + i)) == tab[i]) {
+				i++;
+				if (i >= n) {
+					printf("Found at %04X\n", a);
+					break;
+				}
+			}
+		}
+	}
+}
+
+/* Shows disassembly of a loop that spans over address ADDR. */
+static UWORD disassemble_loop(UWORD addr)
+{
+	int caddr;
+	caddr = addr;
+	for (;;) {
+		UBYTE opcode;
+		if (caddr > (UWORD) (addr + 0x7e)) {
+			printf("Conditional loop containing instruction at %04X not detected\n", addr);
+			break;
+		}
+		opcode = MEMORY_SafeGetByte(caddr);
+		if ((opcode & 0x1f) == 0x10) {
+			/* branch */
+			UWORD target = caddr + 2 + (SBYTE) MEMORY_SafeGetByte(caddr + 1);
+			if (target <= addr) {
+				addr = disassemble(target);
+				break;
+			}
+		}
+		caddr += MONITOR_optype6502[opcode] & 3;
+	}
+	return addr;
+}
+
+#ifdef MONITOR_HINTS
+static void configure_labels(UWORD *addr)
+{
+	char *cmd = get_token();
+	if (cmd == NULL) {
+		printf("Built-in labels are %sabled.\n", symtable_builtin_enable ? "en" : "dis");
+		if (symtable_user_size > 0)
+			printf("Using %d user-defined label%s.\n",
+				symtable_user_size, (symtable_user_size > 1) ? "s" : "");
+		else
+			printf("There are no user-defined labels.\n");
+		printf(
+			"Labels are displayed in disassembly listings.\n"
+			"You may also use them as command arguments"
+#ifdef MONITOR_ASSEMBLER
+				" and in the built-in assembler"
+#endif
+				".\n"
+			"Usage:\n"
+			"LABELS OFF            - no labels\n"
+			"LABELS BUILTIN        - use only built-in labels\n"
+			"LABELS LOAD filename  - use only labels loaded from file\n"
+			"LABELS ADD filename   - use built-in and loaded labels\n"
+			"LABELS SET name value - define a label\n"
+			"LABELS LIST           - list user-defined labels\n"
+		);
+	}
+	else {
+		Util_strupper(cmd);
+		if (strcmp(cmd, "OFF") == 0) {
+			symtable_builtin_enable = FALSE;
+			free_user_labels();
+		}
+		else if (strcmp(cmd, "BUILTIN") == 0) {
+			symtable_builtin_enable = TRUE;
+			free_user_labels();
+		}
+		else if (strcmp(cmd, "LOAD") == 0) {
+			symtable_builtin_enable = FALSE;
+			load_user_labels(get_token());
+		}
+		else if (strcmp(cmd, "ADD") == 0) {
+			symtable_builtin_enable = TRUE;
+			load_user_labels(get_token());
+		}
+		else if (strcmp(cmd, "SET") == 0) {
+			const char *name = get_token();
+			if (name != NULL && get_hex(addr)) {
+				symtable_rec *p = find_user_label(name);
+				if (p != NULL) {
+					if (p->addr != *addr) {
+						printf("%s redefined (previous value: %04X)\n", name, p->addr);
+						p->addr = *addr;
+					}
+				}
+				else
+					add_user_label(name, *addr);
+			}
+			else
+				printf("Missing or bad arguments\n");
+		}
+		else if (strcmp(cmd, "LIST") == 0) {
+			int i;
+			int nlines = 0;
+			for (i = 0; i < symtable_user_size; i++) {
+				if (++nlines == 24) {
+					if (pager())
+						break;
+					nlines = 0;
+				}
+				printf("%04X %s\n", symtable_user[i].addr, symtable_user[i].name);
+			}
+		}
+		else
+			printf("Invalid command, type \"LABELS\" for help\n");
+	}
+}
+#endif /* MONITOR_HINTS */
+
+/* Displays current ANTIC state. */
+static void show_ANTIC(void)
+{
+	printf("DMACTL=%02X    CHACTL=%02X    DLISTL=%02X    "
+		   "DLISTH=%02X    HSCROL=%02X    VSCROL=%02X\n",
+		   ANTIC_DMACTL, ANTIC_CHACTL, ANTIC_dlist & 0xff, ANTIC_dlist >> 8, ANTIC_HSCROL, ANTIC_VSCROL);
+	printf("PMBASE=%02X    CHBASE=%02X    VCOUNT=%02X    "
+		   "NMIEN= %02X    ypos=%4d\n",
+		   ANTIC_PMBASE, ANTIC_CHBASE, ANTIC_GetByte(ANTIC_OFFSET_VCOUNT, TRUE), ANTIC_NMIEN, ANTIC_ypos);
+}
+
+/* Displays current PIA state. */
+static void show_PIA(void)
+{
+	printf("PACTL= %02X    PBCTL= %02X    PORTA= %02X    "
+		   "PORTB= %02X\n", PIA_PACTL, PIA_PBCTL, PIA_PORTA, PIA_PORTB);
+}
+
+/* Displays current GTIA state. */
+static void show_GTIA(void)
+{
+	printf("HPOSP0=%02X    HPOSP1=%02X    HPOSP2=%02X    HPOSP3=%02X\n",
+		   GTIA_HPOSP0, GTIA_HPOSP1, GTIA_HPOSP2, GTIA_HPOSP3);
+	printf("HPOSM0=%02X    HPOSM1=%02X    HPOSM2=%02X    HPOSM3=%02X\n",
+		   GTIA_HPOSM0, GTIA_HPOSM1, GTIA_HPOSM2, GTIA_HPOSM3);
+	printf("SIZEP0=%02X    SIZEP1=%02X    SIZEP2=%02X    SIZEP3=%02X    SIZEM= %02X\n",
+		   GTIA_SIZEP0, GTIA_SIZEP1, GTIA_SIZEP2, GTIA_SIZEP3, GTIA_SIZEM);
+	printf("GRAFP0=%02X    GRAFP1=%02X    GRAFP2=%02X    GRAFP3=%02X    GRAFM= %02X\n",
+		   GTIA_GRAFP0, GTIA_GRAFP1, GTIA_GRAFP2, GTIA_GRAFP3, GTIA_GRAFM);
+	printf("COLPM0=%02X    COLPM1=%02X    COLPM2=%02X    COLPM3=%02X\n",
+		   GTIA_COLPM0, GTIA_COLPM1, GTIA_COLPM2, GTIA_COLPM3);
+	printf("COLPF0=%02X    COLPF1=%02X    COLPF2=%02X    COLPF3=%02X    COLBK= %02X\n",
+		   GTIA_COLPF0, GTIA_COLPF1, GTIA_COLPF2, GTIA_COLPF3, GTIA_COLBK);
+	printf("PRIOR= %02X    VDELAY=%02X    GRACTL=%02X\n",
+		   GTIA_PRIOR, GTIA_VDELAY, GTIA_GRACTL);
+}
+
+/* Displays current POKEY state. */
+static void show_POKEY(void)
+{
+	printf("AUDF1= %02X    AUDF2= %02X    AUDF3= %02X    AUDF4= %02X    AUDCTL=%02X    KBCODE=%02X\n",
+		   POKEY_AUDF[POKEY_CHAN1], POKEY_AUDF[POKEY_CHAN2], POKEY_AUDF[POKEY_CHAN3], POKEY_AUDF[POKEY_CHAN4], POKEY_AUDCTL[0], POKEY_KBCODE);
+	printf("AUDC1= %02X    AUDC2= %02X    AUDC3= %02X    AUDC4= %02X    IRQEN= %02X    IRQST= %02X\n",
+		   POKEY_AUDC[POKEY_CHAN1], POKEY_AUDC[POKEY_CHAN2], POKEY_AUDC[POKEY_CHAN3], POKEY_AUDC[POKEY_CHAN4], POKEY_IRQEN, POKEY_IRQST);
+	printf("SKSTAT=%02X    SKCTL= %02X\n", POKEY_SKSTAT, POKEY_SKCTL);
+#ifdef STEREO_SOUND
+	if (POKEYSND_stereo_enabled) {
+		printf("Second chip:\n");
+		printf("AUDF1= %02X    AUDF2= %02X    AUDF3= %02X    AUDF4= %02X    AUDCTL=%02X\n",
+			   POKEY_AUDF[POKEY_CHAN1 + POKEY_CHIP2], POKEY_AUDF[POKEY_CHAN2 + POKEY_CHIP2], POKEY_AUDF[POKEY_CHAN3 + POKEY_CHIP2], POKEY_AUDF[POKEY_CHAN4 + POKEY_CHIP2], POKEY_AUDCTL[1]);
+		printf("AUDC1= %02X    AUDC2= %02X    AUDC3= %02X    AUDC4= %02X\n",
+			   POKEY_AUDC[POKEY_CHAN1 + POKEY_CHIP2], POKEY_AUDC[POKEY_CHAN2 + POKEY_CHIP2], POKEY_AUDC[POKEY_CHAN3 + POKEY_CHIP2], POKEY_AUDC[POKEY_CHAN4 + POKEY_CHIP2]);
+	}
+#endif
+}
+
+/* Displays monitor help. */
+static void show_help(void)
+{
+	printf(
+		"CONT                           - Continue emulation\n"
+		"SHOW                           - Show registers\n"
+		"STACK                          - Show stack\n"
+		"SET{PC,A,X,Y,S} hexval         - Set register value\n"
+		"SET{N,V,D,I,Z,C} 0 or 1        - Set flag value\n"
+		"C startaddr hexval...          - Change memory\n"
+		"D [startaddr]                  - Disassemble memory\n"
+		"F startaddr endaddr hexval     - Fill memory\n"
+		"M [startaddr]                  - Memory list\n"
+		"S startaddr endaddr hexval...  - Search memory\n");
+	/* split into several printfs to avoid gcc -pedantic warning: "string length 'xxx'
+	   is greater than the length '509' ISO C89 compilers are required to support" */
+	printf(
+		"LOOP [inneraddr]               - Disassemble a loop that contains inneraddr\n"
+		"RAM startaddr endaddr          - Convert memory block into RAM\n"
+		"ROM startaddr endaddr          - Convert memory block into ROM\n"
+		"HARDWARE startaddr endaddr     - Convert memory block into HARDWARE\n"
+		"READ filename startaddr nbytes - Read file into memory\n"
+		"WRITE startaddr endaddr [file] - Write memory block to a file (memdump.dat)\n"
+		"SUM startaddr endaddr          - Print sum of specified memory range\n");
+#ifdef MONITOR_TRACE
+	printf(
+		"TRACE [filename]               - Output 6502 trace on/off\n");
+#endif
+#ifdef MONITOR_BREAK
+	printf(
+		"BPC [addr]                     - Set breakpoint at address\n"
+		"BLINE [ypos] or [1000+ypos]    - Break at scanline or blink scanline\n"
+		"BBRK ON or OFF                 - Breakpoint on BRK on/off\n"
+		"HISTORY or H                   - List last %d executed instructions\n", CPU_REMEMBER_PC_STEPS);
+	printf(
+		"JUMPS                          - List last %d executed JMP/JSR\n", CPU_REMEMBER_JMP_STEPS);
+	{
+		char buf[100];
+		safe_gets(buf, sizeof(buf), "Press return to continue: ");
+	}
+	printf(
+		"G                              - Execute one instruction\n"
+		"O                              - Step over the instruction\n"
+		"R                              - Execute until return\n");
+#elif !defined(NO_YPOS_BREAK_FLICKER)
+	printf(
+		"BLINE [1000+ypos]              - Blink scanline (8<=ypos<=247)\n");
+#endif
+	printf(
+#ifdef MONITOR_BREAKPOINTS
+		"B [argument...]                - Manage breakpoints (\"B ?\" for help)\n"
+#endif
+#ifdef MONITOR_ASSEMBLER
+		"A [startaddr]                  - Start simple assembler\n"
+#endif
+		"ANTIC, GTIA, PIA, POKEY        - Display hardware registers\n"
+		"DLIST [startaddr]              - Show Display List\n");
+	printf(
+#ifdef MONITOR_PROFILE
+		"PROFILE                        - Display profiling statistics\n"
+#endif
+#ifdef MONITOR_HINTS
+		"LABELS [command] [filename]    - Configure labels\n"
+#endif
+		"TSS [value]                    - Start trainer search\n"
+		"TSC [value]                    - Perform when trainer value has changed\n"
+		"TSN [value]                    - Perform when trainer value has NOT changed\n"
+		"                                 Without [value], perform a deep trainer search\n"
+		"TSP [count]                    - Print [count] possible trainer addresses\n");
+	printf(
+		"COLDSTART, WARMSTART           - Perform system coldstart/warmstart\n"
+#ifdef HAVE_SYSTEM
+		"!command                       - Execute shell command\n"
+#endif
+		"QUIT or EXIT                   - Quit emulator\n"
+		"HELP or ?                      - This text\n");
+}
+
 int MONITOR_Run(void)
 {
 	UWORD addr;
@@ -1336,7 +2236,7 @@ int MONITOR_Run(void)
 
 	for (;;) {
 		char s[128];
-		static char old_s[128] = "";
+		static char old_s[128];
 		char *t;
 
 		safe_gets(s, sizeof(s), "> ");
@@ -1372,592 +2272,19 @@ int MONITOR_Run(void)
 		if (strcmp(t, "CONT") == 0) {
 #ifdef MONITOR_PROFILE
 			memset(CPU_instruction_count, 0, sizeof(CPU_instruction_count));
-#endif
+#endif /* MONITOR_PROFILE */
 			PLUS_EXIT_MONITOR;
 			return TRUE;
 		}
 #ifdef MONITOR_BREAK
-		else if (strcmp(t, "BBRK") == 0) {
-			t = get_token();
-			if (t == NULL)
-				printf("Break on BRK is %sabled\n", MONITOR_break_brk ? "en" : "dis");
-			else if (Util_stricmp(t, "ON") == 0)
-				MONITOR_break_brk = TRUE;
-			else if (Util_stricmp(t, "OFF") == 0)
-				MONITOR_break_brk = FALSE;
-			else
-				printf("Invalid argument. Usage: BBRK ON or OFF\n");
-		}
-		else if (strcmp(t, "BPC") == 0) {
-			int addr_valid = get_hex(&MONITOR_break_addr);
-			if (addr_valid)
-			{
-				if (MONITOR_break_addr >= 0xd000 && MONITOR_break_addr <= 0xd7ff)
-					printf("PC breakpoint disabled\n");
-				else
-					printf("Breakpoint set at PC=%04X\n", MONITOR_break_addr);
-			}
-			else
-			{
-				printf("Breakpoint is at PC=%04X\n", MONITOR_break_addr);
-			}
-		}
-		else if (strcmp(t, "HISTORY") == 0 || strcmp(t, "H") == 0) {
-			int i;
-			for (i = 0; i < CPU_REMEMBER_PC_STEPS; i++) {
-				int j;
-				int k;
-				UWORD saved_cpu = CPU_remember_PC[(CPU_remember_PC_curpos + i) % CPU_REMEMBER_PC_STEPS];
-				UBYTE save_op[3];
-				j = CPU_remember_xpos[(CPU_remember_PC_curpos + i) % CPU_REMEMBER_PC_STEPS];
-				printf("%3d %3d ", j >> 8, j & 0xff);
-				for (k = 0; k < 3; k++) {
-					save_op[k] = MEMORY_dGetByte(saved_cpu + k);
-					MEMORY_dPutByte(saved_cpu + k, CPU_remember_op[(CPU_remember_PC_curpos + i) % CPU_REMEMBER_PC_STEPS][k]);
-				}
-				show_instruction(stdout, CPU_remember_PC[(CPU_remember_PC_curpos + i) % CPU_REMEMBER_PC_STEPS]);
-				for (k = 0; k < 3; k++) {
-					MEMORY_dPutByte(saved_cpu + k, save_op[k]);
-				}
-			}
-		}
-		else if (strcmp(t, "JUMPS") == 0) {
-			int i;
-			for (i = 0; i < CPU_REMEMBER_JMP_STEPS; i++)
-				show_instruction(stdout, CPU_remember_JMP[(CPU_remember_jmp_curpos + i) % CPU_REMEMBER_JMP_STEPS]);
-		}
-#endif
-#if defined(MONITOR_BREAK) || !defined(NO_YPOS_BREAK_FLICKER)
-		else if (strcmp(t, "BLINE") == 0) {
-			get_dec(&ANTIC_break_ypos);
-			if (ANTIC_break_ypos >= 1008 && ANTIC_break_ypos <= 1247)
-				printf("Blinking scanline %d\n", ANTIC_break_ypos - 1000);
-#ifdef MONITOR_BREAK
-			else if (ANTIC_break_ypos >= 0 && ANTIC_break_ypos <= 311)
-				printf("Breakpoint set at scanline %d\n", ANTIC_break_ypos);
-#endif
-			else
-				printf("BLINE disabled\n");
-		}
-#endif
-		else if (strcmp(t, "DLIST") == 0) {
-#if 0
-/* one instruction per line */
-			UWORD tdlist = dlist;
-			int nlines = 0;
-			get_hex(&tdlist);
-			for (;;) {
-				UBYTE IR;
-
-				printf("%04X: ", tdlist);
-				IR = ANTIC_GetDLByte(&tdlist);
-
-				if (IR & 0x80)
-					printf("DLI ");
-
-				if ((IR & 0x0f) == 0)
-					printf("%c BLANK\n", ((IR >> 4) & 0x07) + '1');
-				else if ((IR & 0x0f) == 1) {
-					tdlist = ANTIC_GetDLWord(&tdlist);
-					if (IR & 0x40) {
-						printf("JVB %04X\n", tdlist);
-						break;
-					}
-					printf("JMP %04X\n", tdlist);
-				}
-				else {
-					if (IR & 0x40)
-						printf("LMS %04X ", ANTIC_GetDLWord(&tdlist));
-					if (IR & 0x20)
-						printf("VSCROL ");
-					if (IR & 0x10)
-						printf("HSCROL ");
-					printf("MODE %X\n", IR & 0x0f);
-				}
-
-				if (++nlines == 24) {
-					if (pager())
-						break;
-					nlines = 0;
-				}
-			}
-#else
-/* group identical instructions */
-			UWORD tdlist = ANTIC_dlist;
-			UWORD new_tdlist;
-			UBYTE IR;
-			int scrnaddr = -1;
-			int nlines = 0;
-			get_hex(&tdlist);
-			new_tdlist = tdlist;
-			IR = ANTIC_GetDLByte(&new_tdlist);
-			for (;;) {
-				printf("%04X: ", tdlist);
-				if ((IR & 0x0f) == 0) {
-					UBYTE new_IR;
-					tdlist = new_tdlist;
-					new_IR = ANTIC_GetDLByte(&new_tdlist);
-					if (new_IR == IR) {
-						int count = 1;
-						do {
-							count++;
-							tdlist = new_tdlist;
-							new_IR = ANTIC_GetDLByte(&new_tdlist);
-						} while (new_IR == IR && count < 240);
-						printf("%dx ", count);
-					}
-					if (IR & 0x80)
-						printf("DLI ");
-					printf("%c BLANK\n", ((IR >> 4) & 0x07) + '1');
-					IR = new_IR;
-				}
-				else if ((IR & 0x0f) == 1) {
-					tdlist = ANTIC_GetDLWord(&new_tdlist);
-					if (IR & 0x80)
-						printf("DLI ");
-					if (IR & 0x40) {
-						printf("JVB %04X\n", tdlist);
-						break;
-					}
-					printf("JMP %04X\n", tdlist);
-					new_tdlist = tdlist;
-					IR = ANTIC_GetDLByte(&new_tdlist);
-				}
-				else {
-					UBYTE new_IR;
-					int new_scrnaddr;
-					int count;
-					if ((IR & 0x40) && scrnaddr < 0)
-						scrnaddr = ANTIC_GetDLWord(&new_tdlist);
-					for (count = 1; ; count++) {
-						tdlist = new_tdlist;
-						new_IR = ANTIC_GetDLByte(&new_tdlist);
-						if (new_IR != IR || count >= 240) {
-							new_scrnaddr = -1;
-							break;
-						}
-						if (IR & 0x40) {
-							new_scrnaddr = ANTIC_GetDLWord(&new_tdlist);
-							if (new_scrnaddr != scrnaddr)
-								break;
-						}
-					}
-					if (count > 1)
-						printf("%dx ", count);
-					if (IR & 0x80)
-						printf("DLI ");
-					if (IR & 0x40)
-						printf("LMS %04X ", scrnaddr);
-					if (IR & 0x20)
-						printf("VSCROL ");
-					if (IR & 0x10)
-						printf("HSCROL ");
-					printf("MODE %X\n", IR & 0x0f);
-					scrnaddr = new_scrnaddr;
-					IR = new_IR;
-				}
-
-				if (++nlines == 24) {
-					if (pager())
-						break;
-					nlines = 0;
-				}
-			}
-#endif
-		}
-		else if (strcmp(t, "SETPC") == 0)
-			get_uword(&CPU_regPC);
-		else if (strcmp(t, "SETS") == 0)
-			get_ubyte(&CPU_regS);
-		else if (strcmp(t, "SETA") == 0)
-			get_ubyte(&CPU_regA);
-		else if (strcmp(t, "SETX") == 0)
-			get_ubyte(&CPU_regX);
-		else if (strcmp(t, "SETY") == 0)
-			get_ubyte(&CPU_regY);
-		else if (strcmp(t, "SETN") == 0) {
-			int val = get_bool();
-			if (val == 0)
-				CPU_ClrN;
-			else if (val == 1)
-				CPU_SetN;
-		}
-		else if (strcmp(t, "SETV") == 0) {
-			int val = get_bool();
-			if (val == 0)
-				CPU_ClrV;
-			else if (val == 1)
-				CPU_SetV;
-		}
-		else if (strcmp(t, "SETD") == 0) {
-			int val = get_bool();
-			if (val == 0)
-				CPU_ClrD;
-			else if (val == 1)
-				CPU_SetD;
-		}
-		else if (strcmp(t, "SETI") == 0) {
-			int val = get_bool();
-			if (val == 0)
-				CPU_ClrI;
-			else if (val == 1)
-				CPU_SetI;
-		}
-		else if (strcmp(t, "SETZ") == 0) {
-			int val = get_bool();
-			if (val == 0)
-				CPU_ClrZ;
-			else if (val == 1)
-				CPU_SetZ;
-		}
-		else if (strcmp(t, "SETC") == 0) {
-			int val = get_bool();
-			if (val == 0)
-				CPU_ClrC;
-			else if (val == 1)
-				CPU_SetC;
-		}
-#ifdef MONITOR_TRACE
-		else if (strcmp(t, "TRACE") == 0) {
-			const char *filename = get_token();
-			if (MONITOR_trace_file != NULL) {
-				fclose(MONITOR_trace_file);
-				printf("Trace file closed\n");
-				MONITOR_trace_file = NULL;
-			}
-			if (filename != NULL) {
-				MONITOR_trace_file = fopen(filename, "w");
-				if (MONITOR_trace_file != NULL)
-					printf("Trace file open\n");
-				else
-					perror(filename);
-			}
-		}
-#endif /* MONITOR_TRACE */
-#ifdef MONITOR_PROFILE
-		else if (strcmp(t, "PROFILE") == 0) {
-			int i;
-			for (i = 0; i < 24; i++) {
-				int max, instr;
-				int j;
-				max = CPU_instruction_count[0];
-				instr = 0;
-				for (j = 1; j < 256; j++) {
-					if (CPU_instruction_count[j] > max) {
-						max = CPU_instruction_count[j];
-						instr = j;
-					}
-				}
-				if (max <= 0)
-					break;
-				CPU_instruction_count[instr] = 0;
-				printf("Opcode %02X: %-9s has been executed %d times\n",
-					   instr, instr6502[instr], max);
-			}
-		}
-#endif /* MONITOR_PROFILE */
-		else if (strcmp(t, "SHOW") == 0)
-			show_state();
-		else if (strcmp(t, "STACK") == 0) {
-			int ts;
-			for (ts = 0x101 + CPU_regS; ts < 0x200; ) {
-				if (ts < 0x1ff) {
-					UWORD ta = (UWORD) (MEMORY_dGetWord(ts) - 2);
-					if (MEMORY_dGetByte(ta) == 0x20) {
-						printf("%04X: %02X %02X  %04X: JSR %04X\n",
-							ts, MEMORY_dGetByte(ts), MEMORY_dGetByte(ts + 1), ta,
-							MEMORY_dGetWord(ta + 1));
-						ts += 2;
-						continue;
-					}
-				}
-				printf("%04X: %02X\n", ts, MEMORY_dGetByte(ts));
-				ts++;
-			}
-		}
-		else if (strcmp(t, "ROM") == 0) {
-			UWORD addr1;
-			UWORD addr2;
-			if (get_attrib_range(&addr1, &addr2)) {
-				MEMORY_SetROM(addr1, addr2);
-				printf("Changed memory from %04X to %04X into ROM\n",
-					   addr1, addr2);
-			}
-		}
-		else if (strcmp(t, "RAM") == 0) {
-			UWORD addr1;
-			UWORD addr2;
-			if (get_attrib_range(&addr1, &addr2)) {
-				MEMORY_SetRAM(addr1, addr2);
-				printf("Changed memory from %04X to %04X into RAM\n",
-					   addr1, addr2);
-			}
-		}
-#ifndef PAGED_ATTRIB
-		else if (strcmp(t, "HARDWARE") == 0) {
-			UWORD addr1;
-			UWORD addr2;
-			if (get_attrib_range(&addr1, &addr2)) {
-				MEMORY_SetHARDWARE(addr1, addr2);
-				printf("Changed memory from %04X to %04X into HARDWARE\n",
-					   addr1, addr2);
-			}
-		}
-#endif
-		else if (strcmp(t, "COLDSTART") == 0) {
-			Atari800_Coldstart();
-			PLUS_EXIT_MONITOR;
-			return TRUE;	/* perform reboot immediately */
-		}
-		else if (strcmp(t, "WARMSTART") == 0) {
-			Atari800_Warmstart();
-			PLUS_EXIT_MONITOR;
-			return TRUE;	/* perform reboot immediately */
-		}
-#ifndef PAGED_MEM
-		else if (strcmp(t, "READ") == 0) {
-			const char *filename;
-			filename = get_token();
-			if (filename != NULL) {
-				UWORD nbytes;
-				if (get_hex2(&addr, &nbytes) && addr + nbytes <= 0x10000) {
-					FILE *f = fopen(filename, "rb");
-					if (f == NULL)
-						perror(filename);
-					else {
-						if (fread(&MEMORY_mem[addr], 1, nbytes, f) == 0)
-							perror(filename);
-						fclose(f);
-					}
-				}
-			}
-		}
-		else if (strcmp(t, "WRITE") == 0) {
-			UWORD addr1;
-			UWORD addr2;
-			if (get_hex2(&addr1, &addr2) && addr1 <= addr2) {
-				const char *filename;
-				FILE *f;
-				filename = get_token();
-				if (filename == NULL)
-					filename = "memdump.dat";
-				f = fopen(filename, "wb");
-				if (f == NULL)
-					perror(filename);
-				else {
-					size_t nbytes = addr2 - addr1 + 1;
-					if (fwrite(&MEMORY_mem[addr1], 1, addr2 - addr1 + 1, f) < nbytes)
-						perror(filename);
-					fclose(f);
-				}
-			}
-		}
-#endif
-		else if (strcmp(t, "SUM") == 0) {
-			UWORD addr1;
-			UWORD addr2;
-			if (get_hex2(&addr1, &addr2)) {
-				int sum = 0;
-				int i;
-				for (i = addr1; i <= addr2; i++)
-					sum += MEMORY_dGetByte(i);
-				printf("SUM: %X\n", sum);
-			}
-		}
-		else if (strcmp(t, "M") == 0) {
-			int count = 16;
-			get_hex(&addr);
-			do {
-				int i;
-				printf("%04X: ", addr);
-				for (i = 0; i < 16; i++)
-					printf("%02X ", MEMORY_GetByte((UWORD) (addr + i)));
-				putchar(' ');
-				for (i = 0; i < 16; i++) {
-					UBYTE c;
-					c = MEMORY_GetByte(addr);
-					addr++;
-					putchar((c >= ' ' && c <= 'z' && c != '\x60') ? c : '.');
-				}
-				putchar('\n');
-			} while (--count > 0);
-		}
-		else if (strcmp(t, "TSS") == 0) {
-			UWORD trainer_value = 0;
-			int value_valid = get_hex(&trainer_value);
-
-			/* alloc needed memory at first use */
-			if (trainer_memory == NULL) {
-				trainer_memory = malloc(65536*2);
-				if (trainer_memory != NULL) {
-					trainer_flags = trainer_memory + 65536;
-				} else {
-					printf("Memory allocation failed!\n"
-					"Trainer not available.\n");
-				}
-			}
-			if (trainer_memory != NULL) {
-				/* copy memory into shadow buffer at first use */
-				long int count = 65535;
-				do {
-					*(trainer_memory+count) = MEMORY_GetByte((UWORD) count);
-					*(trainer_flags+count) = 0xff;
-				} while (--count > -1);
-				if (value_valid) {
-					count = 65535;
-					do {
-						if (trainer_value != *(trainer_memory+count)) {
-							*(trainer_flags+count) = 0;
-						}
-					} while (--count > -1);
-				}
-			}
-		}
-		else if (strcmp(t, "TSN") == 0) {
-			UWORD trainer_value = 0;
-			int value_valid = get_hex(&trainer_value);
-
-			if (trainer_memory != NULL) {
-				long int count = 65535;
-				do {
-					if (value_valid) {
-						if (trainer_value != MEMORY_GetByte((UWORD) count)) {
-							*(trainer_flags+count) = 0;
-						}
-					} else {
-						if (*(trainer_memory+count) != MEMORY_GetByte((UWORD) count)) {
-							*(trainer_flags+count) = 0;
-						}
-					}
-					*(trainer_memory+count) = MEMORY_GetByte((UWORD) count);
-				} while (--count > -1);
-			} else {
-				printf("Use tss first.\n");
-			}
-		}
-		else if (strcmp(t, "TSC") == 0) {
-			UWORD trainer_value = 0;
-			int value_valid = get_hex(&trainer_value);
-
-			if (trainer_memory != NULL) {
-				long int count = 65535;
-				do {
-					if (value_valid) {
-						if (trainer_value != MEMORY_GetByte((UWORD) count)) {
-							*(trainer_flags+count) = 0;
-						}
-					} else {
-						if (*(trainer_memory+count) == MEMORY_GetByte((UWORD) count)) {
-							*(trainer_flags+count) = 0;
-						}
-					};
-					*(trainer_memory+count) = MEMORY_GetByte((UWORD) count);
-				} while (--count > -1);
-			} else {
-				printf("Use tss first.\n");
-			}
-		}
-		else if (strcmp(t, "TSP") == 0) {
-			UWORD addr_count_max = 0;
-			int addr_valid = get_hex(&addr_count_max);
-
-			/* default print size is 8*8 adresses */
-			if (!addr_valid) {
-				addr_count_max = 64;
-			}
-
-			if (trainer_memory != NULL) {
-				long int count = 0;
-				ULONG addr_count = 0;
-				int i = 0;
-				do {
-					if (*(trainer_flags+count) != 0) {
-						printf("%04X ", (UWORD) count);
-						addr_count++;
-						if (++i == 8) {
-							printf("\n");
-							i = 0;
-						};
-					};
-				} while ((++count < 65536) && (addr_count < addr_count_max));
-			printf("\n");
-			} else {
-				printf("Use tss first.\n");
-			}
-		}
-#ifndef PAGED_MEM
-		else if (strcmp(t, "F") == 0) {
-			UWORD addr1;
-			UWORD addr2;
-			UWORD hexval;
-			if (get_hex3(&addr1, &addr2, &hexval)) {
-				/* use int to avoid endless loop with addr2==0xffff */
-				int a;
-				for (a = addr1; a <= addr2; a++)
-					MEMORY_dPutByte(a, (UBYTE) hexval);
-			}
-		}
-#endif
-		else if (strcmp(t, "S") == 0) {
-			/* static, so "S" without arguments repeats last search */
-			static int n = 0;
-			static UWORD addr1;
-			static UWORD addr2;
-			static UBYTE tab[64];
-			UWORD hexval;
-			if (get_hex3(&addr1, &addr2, &hexval)) {
-				n = 0;
-				do {
-					tab[n++] = (UBYTE) hexval;
-					if (hexval > 0xff && n < 64)
-						tab[n++] = (UBYTE) (hexval >> 8);
-				} while (n < 64 && get_hex(&hexval));
-			}
-			if (n > 0) {
-				int a;
-				for (a = addr1; a <= addr2; a++) {
-					int i = 0;
-					while (MEMORY_GetByte((UWORD) (a + i)) == tab[i]) {
-						i++;
-						if (i >= n) {
-							printf("Found at %04X\n", a);
-							break;
-						}
-					}
-				}
-			}
-		}
-#ifndef PAGED_MEM
-		else if (strcmp(t, "C") == 0) {
-			UWORD temp = 0;
-			get_hex(&addr);
-			while (get_hex(&temp)) {
-#ifdef PAGED_ATTRIB
-				if (MEMORY_writemap[addr >> 8] != NULL && MEMORY_writemap[addr >> 8] != MEMORY_ROM_PutByte)
-					(*MEMORY_writemap[addr >> 8])(addr, (UBYTE) temp);
-#else
-				if (MEMORY_attrib[addr] == MEMORY_HARDWARE)
-					MEMORY_HwPutByte(addr, (UBYTE) temp);
-#endif
-				else /* RAM, ROM */
-					MEMORY_dPutByte(addr, (UBYTE) temp);
-				addr++;
-				if (temp > 0xff) {
-#ifdef PAGED_ATTRIB
-					if (MEMORY_writemap[addr >> 8] != NULL && MEMORY_writemap[addr >> 8] != MEMORY_ROM_PutByte)
-						(*MEMORY_writemap[addr >> 8])(addr, (UBYTE) (temp >> 8));
-#else
-					if (MEMORY_attrib[addr] == MEMORY_HARDWARE)
-						MEMORY_HwPutByte(addr, (UBYTE) (temp >> 8));
-#endif
-					else /* RAM, ROM */
-						MEMORY_dPutByte(addr, (UBYTE) (temp >> 8));
-					addr++;
-				}
-			}
-		}
-#endif
-#ifdef MONITOR_BREAK
+		else if (strcmp(t, "BBRK") == 0)
+			monitor_break_BRK();
+		else if (strcmp(t, "BPC") == 0)
+			monitor_break_PC();
+		else if (strcmp(t, "HISTORY") == 0 || strcmp(t, "H") == 0)
+			show_history();
+		else if (strcmp(t, "JUMPS") == 0)
+			show_last_jumps();
 		else if (strcmp(t, "G") == 0) {
 			MONITOR_break_step = TRUE;
 			PLUS_EXIT_MONITOR;
@@ -1970,18 +2297,95 @@ int MONITOR_Run(void)
 			return TRUE;
 		}
 		else if (strcmp(t, "O") == 0) {
-			UBYTE opcode = MEMORY_dGetByte(CPU_regPC);
-			if ((opcode & 0x1f) == 0x10 || opcode == 0x20) {
-				/* branch or JSR: set breakpoint after it */
-				MONITOR_break_addr = CPU_regPC + (MONITOR_optype6502[MEMORY_dGetByte(CPU_regPC)] & 0x3);
-				break_over = TRUE;
-			}
-			else
-				MONITOR_break_step = TRUE;
+			step_over();
 			PLUS_EXIT_MONITOR;
 			return TRUE;
 		}
 #endif /* MONITOR_BREAK */
+#if defined(MONITOR_BREAK) || !defined(NO_YPOS_BREAK_FLICKER)
+		else if (strcmp(t, "BLINE") == 0)
+			monitor_bline();
+#endif /* defined(MONITOR_BREAK) || !defined(NO_YPOS_BREAK_FLICKER) */
+		else if (strcmp(t, "DLIST") == 0)
+			show_dlist();
+		else if (strcmp(t, "SETPC") == 0)
+			get_uword(&CPU_regPC);
+		else if (strcmp(t, "SETS") == 0)
+			get_ubyte(&CPU_regS);
+		else if (strcmp(t, "SETA") == 0)
+			get_ubyte(&CPU_regA);
+		else if (strcmp(t, "SETX") == 0)
+			get_ubyte(&CPU_regX);
+		else if (strcmp(t, "SETY") == 0)
+			get_ubyte(&CPU_regY);
+		else if (strcmp(t, "SETN") == 0)
+			monitor_set_N(get_bool());
+		else if (strcmp(t, "SETV") == 0)
+			monitor_set_V(get_bool());
+		else if (strcmp(t, "SETD") == 0)
+			monitor_set_D(get_bool());
+		else if (strcmp(t, "SETI") == 0)
+			monitor_set_I(get_bool());
+		else if (strcmp(t, "SETZ") == 0)
+			monitor_set_Z(get_bool());
+		else if (strcmp(t, "SETC") == 0)
+			monitor_set_C(get_bool());
+#ifdef MONITOR_TRACE
+		else if (strcmp(t, "TRACE") == 0) {
+			const char *filename = get_token();
+			set_trace_file(filename);
+		}
+#endif /* MONITOR_TRACE */
+#ifdef MONITOR_PROFILE
+		else if (strcmp(t, "PROFILE") == 0)
+			command_PROFILE();
+#endif /* MONITOR_PROFILE */
+		else if (strcmp(t, "SHOW") == 0)
+			show_state();
+		else if (strcmp(t, "STACK") == 0)
+			show_stack();
+		else if (strcmp(t, "ROM") == 0)
+			monitor_set_ROM();
+		else if (strcmp(t, "RAM") == 0)
+			monitor_set_RAM();
+#ifndef PAGED_ATTRIB
+		else if (strcmp(t, "HARDWARE") == 0)
+			monitor_set_hardware();
+#endif /* PAGED_ATTRIB */
+		else if (strcmp(t, "COLDSTART") == 0) {
+			Atari800_Coldstart();
+			PLUS_EXIT_MONITOR;
+			return TRUE;	/* perform reboot immediately */
+		}
+		else if (strcmp(t, "WARMSTART") == 0) {
+			Atari800_Warmstart();
+			PLUS_EXIT_MONITOR;
+			return TRUE;	/* perform reboot immediately */
+		}
+#ifndef PAGED_MEM
+		else if (strcmp(t, "READ") == 0)
+			monitor_read_from_file(&addr);
+		else if (strcmp(t, "WRITE") == 0)
+			monitor_write_to_file();
+		else if (strcmp(t, "F") == 0)
+			monitor_fill_mem();
+		else if (strcmp(t, "C") == 0)
+			monitor_change_mem(&addr);
+#endif /* PAGED_MEM */
+		else if (strcmp(t, "SUM") == 0)
+			monitor_sum_mem();
+		else if (strcmp(t, "M") == 0)
+			monitor_show_mem(&addr);
+		else if (strcmp(t, "TSS") == 0)
+			trainer_start_search();
+		else if (strcmp(t, "TSN") == 0)
+			trainer_search_unchanged();
+		else if (strcmp(t, "TSC") == 0)
+			trainer_search_changed();
+		else if (strcmp(t, "TSP") == 0)
+			trainer_print_addresses();
+		else if (strcmp(t, "S") == 0)
+			monitor_search_mem();
 #ifdef MONITOR_BREAKPOINTS
 		else if (strcmp(t, "B") == 0)
 			monitor_breakpoints();
@@ -1991,229 +2395,29 @@ int MONITOR_Run(void)
 			addr = disassemble(addr);
 		}
 		else if (strcmp(t, "LOOP") == 0) {
-			int caddr;
 			get_hex(&addr);
-			caddr = addr;
-			for (;;) {
-				UBYTE opcode;
-				if (caddr > (UWORD) (addr + 0x7e)) {
-					printf("Conditional loop containing instruction at %04X not detected\n", addr);
-					break;
-				}
-				opcode = MEMORY_dGetByte(caddr);
-				if ((opcode & 0x1f) == 0x10) {
-					/* branch */
-					UWORD target = caddr + 2 + (SBYTE) MEMORY_dGetByte(caddr + 1);
-					if (target <= addr) {
-						addr = disassemble(target);
-						break;
-					}
-				}
-				caddr += MONITOR_optype6502[opcode] & 3;
-			}
+			addr = disassemble_loop(addr);
 		}
 #ifdef MONITOR_HINTS
-		else if (strcmp(t, "LABELS") == 0) {
-			char *cmd = get_token();
-			if (cmd == NULL) {
-				printf("Built-in labels are %sabled.\n", symtable_builtin_enable ? "en" : "dis");
-				if (symtable_user_size > 0)
-					printf("Using %d user-defined label%s.\n",
-						symtable_user_size, (symtable_user_size > 1) ? "s" : "");
-				else
-					printf("There are no user-defined labels.\n");
-				printf(
-					"Labels are displayed in disassembly listings.\n"
-					"You may also use them as command arguments"
-#ifdef MONITOR_ASSEMBLER
-						" and in the built-in assembler"
+		else if (strcmp(t, "LABELS") == 0)
+			configure_labels(&addr);
 #endif
-						".\n"
-					"Usage:\n"
-					"LABELS OFF            - no labels\n"
-					"LABELS BUILTIN        - use only built-in labels\n"
-					"LABELS LOAD filename  - use only labels loaded from file\n"
-					"LABELS ADD filename   - use built-in and loaded labels\n"
-					"LABELS SET name value - define a label\n"
-					"LABELS LIST           - list user-defined labels\n"
-				);
-			}
-			else {
-				Util_strupper(cmd);
-				if (strcmp(cmd, "OFF") == 0) {
-					symtable_builtin_enable = FALSE;
-					free_user_labels();
-				}
-				else if (strcmp(cmd, "BUILTIN") == 0) {
-					symtable_builtin_enable = TRUE;
-					free_user_labels();
-				}
-				else if (strcmp(cmd, "LOAD") == 0) {
-					symtable_builtin_enable = FALSE;
-					load_user_labels(get_token());
-				}
-				else if (strcmp(cmd, "ADD") == 0) {
-					symtable_builtin_enable = TRUE;
-					load_user_labels(get_token());
-				}
-				else if (strcmp(cmd, "SET") == 0) {
-					const char *name = get_token();
-					if (name != NULL && get_hex(&addr)) {
-						symtable_rec *p = find_user_label(name);
-						if (p != NULL) {
-							if (p->addr != addr) {
-								printf("%s redefined (previous value: %04X)\n", name, p->addr);
-								p->addr = addr;
-							}
-						}
-						else
-							add_user_label(name, addr);
-					}
-					else
-						printf("Missing or bad arguments\n");
-				}
-				else if (strcmp(cmd, "LIST") == 0) {
-					int i;
-					int nlines = 0;
-					for (i = 0; i < symtable_user_size; i++) {
-						if (++nlines == 24) {
-							if (pager())
-								break;
-							nlines = 0;
-						}
-						printf("%04X %s\n", symtable_user[i].addr, symtable_user[i].name);
-					}
-				}
-				else
-					printf("Invalid command, type \"LABELS\" for help\n");
-			}
-		}
-#endif
-		else if (strcmp(t, "ANTIC") == 0) {
-			printf("DMACTL=%02X    CHACTL=%02X    DLISTL=%02X    "
-				   "DLISTH=%02X    HSCROL=%02X    VSCROL=%02X\n",
-				   ANTIC_DMACTL, ANTIC_CHACTL, ANTIC_dlist & 0xff, ANTIC_dlist >> 8, ANTIC_HSCROL, ANTIC_VSCROL);
-			printf("PMBASE=%02X    CHBASE=%02X    VCOUNT=%02X    "
-				   "NMIEN= %02X    ypos=%4d\n",
-				   ANTIC_PMBASE, ANTIC_CHBASE, ANTIC_GetByte(ANTIC_OFFSET_VCOUNT), ANTIC_NMIEN, ANTIC_ypos);
-		}
-		else if (strcmp(t, "PIA") == 0) {
-			printf("PACTL= %02X    PBCTL= %02X    PORTA= %02X    "
-				   "PORTB= %02X\n", PIA_PACTL, PIA_PBCTL, PIA_PORTA, PIA_PORTB);
-		}
-		else if (strcmp(t, "GTIA") == 0) {
-			printf("HPOSP0=%02X    HPOSP1=%02X    HPOSP2=%02X    HPOSP3=%02X\n",
-				   GTIA_HPOSP0, GTIA_HPOSP1, GTIA_HPOSP2, GTIA_HPOSP3);
-			printf("HPOSM0=%02X    HPOSM1=%02X    HPOSM2=%02X    HPOSM3=%02X\n",
-				   GTIA_HPOSM0, GTIA_HPOSM1, GTIA_HPOSM2, GTIA_HPOSM3);
-			printf("SIZEP0=%02X    SIZEP1=%02X    SIZEP2=%02X    SIZEP3=%02X    SIZEM= %02X\n",
-				   GTIA_SIZEP0, GTIA_SIZEP1, GTIA_SIZEP2, GTIA_SIZEP3, GTIA_SIZEM);
-			printf("GRAFP0=%02X    GRAFP1=%02X    GRAFP2=%02X    GRAFP3=%02X    GRAFM= %02X\n",
-				   GTIA_GRAFP0, GTIA_GRAFP1, GTIA_GRAFP2, GTIA_GRAFP3, GTIA_GRAFM);
-			printf("COLPM0=%02X    COLPM1=%02X    COLPM2=%02X    COLPM3=%02X\n",
-				   GTIA_COLPM0, GTIA_COLPM1, GTIA_COLPM2, GTIA_COLPM3);
-			printf("COLPF0=%02X    COLPF1=%02X    COLPF2=%02X    COLPF3=%02X    COLBK= %02X\n",
-				   GTIA_COLPF0, GTIA_COLPF1, GTIA_COLPF2, GTIA_COLPF3, GTIA_COLBK);
-			printf("PRIOR= %02X    VDELAY=%02X    GRACTL=%02X\n",
-				   GTIA_PRIOR, GTIA_VDELAY, GTIA_GRACTL);
-		}
-		else if (strcmp(t, "POKEY") == 0) {
-			printf("AUDF1= %02X    AUDF2= %02X    AUDF3= %02X    AUDF4= %02X    AUDCTL=%02X    KBCODE=%02X\n",
-				   POKEY_AUDF[POKEY_CHAN1], POKEY_AUDF[POKEY_CHAN2], POKEY_AUDF[POKEY_CHAN3], POKEY_AUDF[POKEY_CHAN4], POKEY_AUDCTL[0], POKEY_KBCODE);
-			printf("AUDC1= %02X    AUDC2= %02X    AUDC3= %02X    AUDC4= %02X    IRQEN= %02X    IRQST= %02X\n",
-				   POKEY_AUDC[POKEY_CHAN1], POKEY_AUDC[POKEY_CHAN2], POKEY_AUDC[POKEY_CHAN3], POKEY_AUDC[POKEY_CHAN4], POKEY_IRQEN, POKEY_IRQST);
-			printf("SKSTAT=%02X    SKCTL= %02X\n", POKEY_SKSTAT, POKEY_SKCTL);
-#ifdef STEREO_SOUND
-			if (POKEYSND_stereo_enabled) {
-				printf("Second chip:\n");
-				printf("AUDF1= %02X    AUDF2= %02X    AUDF3= %02X    AUDF4= %02X    AUDCTL=%02X\n",
-					   POKEY_AUDF[POKEY_CHAN1 + POKEY_CHIP2], POKEY_AUDF[POKEY_CHAN2 + POKEY_CHIP2], POKEY_AUDF[POKEY_CHAN3 + POKEY_CHIP2], POKEY_AUDF[POKEY_CHAN4 + POKEY_CHIP2], POKEY_AUDCTL[1]);
-				printf("AUDC1= %02X    AUDC2= %02X    AUDC3= %02X    AUDC4= %02X\n",
-					   POKEY_AUDC[POKEY_CHAN1 + POKEY_CHIP2], POKEY_AUDC[POKEY_CHAN2 + POKEY_CHIP2], POKEY_AUDC[POKEY_CHAN3 + POKEY_CHIP2], POKEY_AUDC[POKEY_CHAN4 + POKEY_CHIP2]);
-			}
-#endif
-		}
+		else if (strcmp(t, "ANTIC") == 0)
+			show_ANTIC();
+		else if (strcmp(t, "PIA") == 0)
+			show_PIA();
+		else if (strcmp(t, "GTIA") == 0)
+			show_GTIA();
+		else if (strcmp(t, "POKEY") == 0)
+			show_POKEY();
 #ifdef MONITOR_ASSEMBLER
 		else if (strcmp(t, "A") == 0) {
 			get_hex(&addr);
 			addr = assembler(addr);
 		}
 #endif
-		else if (strcmp(t, "HELP") == 0 || strcmp(t, "?") == 0) {
-			printf(
-				"CONT                           - Continue emulation\n"
-				"SHOW                           - Show registers\n"
-				"STACK                          - Show stack\n"
-				"SET{PC,A,X,Y,S} hexval         - Set register value\n"
-				"SET{N,V,D,I,Z,C} 0 or 1        - Set flag value\n"
-				"C startaddr hexval...          - Change memory\n"
-				"D [startaddr]                  - Disassemble memory\n"
-				"F startaddr endaddr hexval     - Fill memory\n"
-				"M [startaddr]                  - Memory list\n"
-				"S startaddr endaddr hexval...  - Search memory\n");
-			/* split into several printfs to avoid gcc -pedantic warning: "string length 'xxx'
-			   is greater than the length '509' ISO C89 compilers are required to support" */
-			printf(
-				"LOOP [inneraddr]               - Disassemble a loop that contains inneraddr\n"
-				"RAM startaddr endaddr          - Convert memory block into RAM\n"
-				"ROM startaddr endaddr          - Convert memory block into ROM\n"
-				"HARDWARE startaddr endaddr     - Convert memory block into HARDWARE\n"
-				"READ filename startaddr nbytes - Read file into memory\n"
-				"WRITE startaddr endaddr [file] - Write memory block to a file (memdump.dat)\n"
-				"SUM startaddr endaddr          - Print sum of specified memory range\n");
-#ifdef MONITOR_TRACE
-			printf(
-				"TRACE [filename]               - Output 6502 trace on/off\n");
-#endif
-#ifdef MONITOR_BREAK
-			printf(
-				"BPC [addr]                     - Set breakpoint at address\n"
-				"BLINE [ypos] or [1000+ypos]    - Break at scanline or blink scanline\n"
-				"BBRK ON or OFF                 - Breakpoint on BRK on/off\n"
-				"HISTORY or H                   - List last %d executed instructions\n", CPU_REMEMBER_PC_STEPS);
-			printf(
-				"JUMPS                          - List last %d executed JMP/JSR\n", CPU_REMEMBER_JMP_STEPS);
-			{
-				char buf[100];
-				safe_gets(buf, sizeof(buf), "Press return to continue: ");
-			}
-			printf(
-				"G                              - Execute one instruction\n"
-				"O                              - Step over the instruction\n"
-				"R                              - Execute until return\n");
-#elif !defined(NO_YPOS_BREAK_FLICKER)
-			printf(
-				"BLINE [1000+ypos]              - Blink scanline (8<=ypos<=247)\n");
-#endif
-			printf(
-#ifdef MONITOR_BREAKPOINTS
-				"B [argument...]                - Manage breakpoints (\"B ?\" for help)\n"
-#endif
-#ifdef MONITOR_ASSEMBLER
-				"A [startaddr]                  - Start simple assembler\n"
-#endif
-				"ANTIC, GTIA, PIA, POKEY        - Display hardware registers\n"
-				"DLIST [startaddr]              - Show Display List\n");
-			printf(
-#ifdef MONITOR_PROFILE
-				"PROFILE                        - Display profiling statistics\n"
-#endif
-#ifdef MONITOR_HINTS
-				"LABELS [command] [filename]    - Configure labels\n"
-#endif
-				"TSS [value]                    - Start trainer search\n"
-				"TSC [value]                    - Perform when trainer value has changed\n"
-				"TSN [value]                    - Perform when trainer value has NOT changed\n"
-				"                                 Without [value], perform a deep trainer search\n"
-				"TSP [count]                    - Print [count] possible trainer addresses\n");
-			printf(
-				"COLDSTART, WARMSTART           - Perform system coldstart/warmstart\n"
-#ifdef HAVE_SYSTEM
-				"!command                       - Execute shell command\n"
-#endif
-				"QUIT or EXIT                   - Quit emulator\n"
-				"HELP or ?                      - This text\n");
-		}
+		else if (strcmp(t, "HELP") == 0 || strcmp(t, "?") == 0)
+			show_help();
 		else if (strcmp(t, "QUIT") == 0 || strcmp(t, "EXIT") == 0) {
 			PLUS_EXIT_MONITOR;
 			return FALSE;

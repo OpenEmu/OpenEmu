@@ -55,7 +55,7 @@ static UBYTE *bb_ram;
 static UBYTE bb_rom_bank = 0;
 static int bb_rom_size;
 static int bb_rom_high_bit = 0x00;/*0x10*/
-static char bb_rom_filename[FILENAME_MAX] = "";
+static char bb_rom_filename[FILENAME_MAX];
 static UBYTE bb_PCR = 0; /* VIA Peripheral control register*/
 static int bb_scsi_enabled = FALSE;
 static char bb_scsi_disk_filename[FILENAME_MAX] = Util_FILENAME_NOT_SET;
@@ -70,9 +70,11 @@ static void init_bb(void)
 		Log_print("Invalid black box rom size\n");
 		return;
 	}
+	free(bb_rom);
 	bb_rom = (UBYTE *)Util_malloc(bb_rom_size);
 	if (!Atari800_LoadImage(bb_rom_filename, bb_rom, bb_rom_size)) {
 		free(bb_rom);
+		bb_rom = NULL;
 		return;
 	}
 	D(printf("loaded black box rom image\n"));
@@ -91,6 +93,7 @@ static void init_bb(void)
 	if (!bb_scsi_enabled) {
 		PBI_SCSI_BSY = TRUE; /* makes BB give up easier? */
 	}
+	free(bb_ram);
 	bb_ram = (UBYTE *)Util_malloc(BB_RAM_SIZE);
 	memset(bb_ram,0,BB_RAM_SIZE);
 }
@@ -114,6 +117,17 @@ int PBI_BB_Initialise(int *argc, char *argv[])
 	return TRUE;
 }
 
+void PBI_BB_Exit(void)
+{
+	if (PBI_SCSI_disk != NULL) {
+		fclose(PBI_SCSI_disk);
+		PBI_SCSI_disk = NULL;
+	}
+	free(bb_ram);
+	free(bb_rom);
+	bb_rom = bb_ram = NULL;
+}
+
 int PBI_BB_ReadConfig(char *string, char *ptr) 
 {
 	if (strcmp(string, "BLACK_BOX_ROM") == 0)
@@ -132,7 +146,7 @@ void PBI_BB_WriteConfig(FILE *fp)
 	}
 }
 
-UBYTE PBI_BB_D1GetByte(UWORD addr)
+UBYTE PBI_BB_D1GetByte(UWORD addr, int no_side_effects)
 {
 	UBYTE result = 0x00;/*ff;*/
 	if (addr == 0xd1be) result = 0xff;
@@ -143,7 +157,7 @@ UBYTE PBI_BB_D1GetByte(UWORD addr)
 	else if (addr == 0xd171) {
 		if (bb_scsi_enabled) {
 			result = PBI_SCSI_GetByte();
-			if (((bb_PCR & 0x0e)>>1) == 0x04) {
+			if (!no_side_effects && ((bb_PCR & 0x0e)>>1) == 0x04) {
 				/* handshake output */
 				PBI_SCSI_PutACK(1);
 				PBI_SCSI_PutACK(0);
@@ -235,7 +249,7 @@ void PBI_BB_D1PutByte(UWORD addr, UBYTE byte)
 /* Black Box RAM page at D600-D6ff*/
 /* Possible to put code in this ram, so we can't avoid using MEMORY_mem[]
  * because opcode fetch doesn't call this function*/
-UBYTE PBI_BB_D6GetByte(UWORD addr)
+UBYTE PBI_BB_D6GetByte(UWORD addr, int no_side_effects)
 {
 	return MEMORY_mem[addr];
 }

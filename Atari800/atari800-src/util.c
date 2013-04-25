@@ -255,7 +255,7 @@ void *Util_malloc(size_t size)
 {
 	void *ptr = malloc(size);
 	if (ptr == NULL) {
-		Atari800_Exit(FALSE);
+		Atari800_ErrExit();
 		printf("Fatal error: out of memory\n");
 		exit(1);
 	}
@@ -266,7 +266,7 @@ void *Util_realloc(void *ptr, size_t size)
 {
 	ptr = realloc(ptr, size);
 	if (ptr == NULL) {
-		Atari800_Exit(FALSE);
+		Atari800_ErrExit();
 		printf("Fatal error: out of memory\n");
 		exit(1);
 	}

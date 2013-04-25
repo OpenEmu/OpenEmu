@@ -35,7 +35,7 @@
 #define PROTO80_MASK (1 << PROTO80_PBI_NUM)
 
 static UBYTE *proto80rom;
-static char proto80_rom_filename[FILENAME_MAX] = "";
+static char proto80_rom_filename[FILENAME_MAX];
 
 int PBI_PROTO80_enabled = FALSE;
 
@@ -79,6 +79,14 @@ int PBI_PROTO80_Initialise(int *argc, char *argv[])
 	return TRUE;
 }
 
+void PBI_PROTO80_Exit(void)
+{
+	if (PBI_PROTO80_enabled) {
+		free(proto80rom);
+		PBI_PROTO80_enabled = FALSE;
+	}
+}
+
 int PBI_PROTO80_ReadConfig(char *string, char *ptr)
 {
 	if (strcmp(string, "PROTO80_ROM") == 0)
@@ -92,7 +100,7 @@ void PBI_PROTO80_WriteConfig(FILE *fp)
 	fprintf(fp, "PROTO80_ROM=%s\n", proto80_rom_filename);
 }
 
-int PBI_PROTO80_D1GetByte(UWORD addr)
+int PBI_PROTO80_D1GetByte(UWORD addr, int no_side_effects)
 {
 	int result = PBI_NOT_HANDLED;
 	if (PBI_PROTO80_enabled) {

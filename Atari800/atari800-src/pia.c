@@ -69,7 +69,7 @@ void PIA_Reset(void)
 	PIA_PORTB = 0xff;
 }
 
-UBYTE PIA_GetByte(UWORD addr)
+UBYTE PIA_GetByte(UWORD addr, int no_side_effects)
 {
 	switch (addr & 0x03) {
 	case PIA_OFFSET_PACTL:
@@ -97,7 +97,7 @@ UBYTE PIA_GetByte(UWORD addr)
 		}
 		else {
 			/* port state */
-			if (Atari800_machine_type == Atari800_MACHINE_XLXE) {
+			if (!Atari800_machine_type != Atari800_MACHINE_XLXE) {
 				return PIA_PORTB | PIA_PORTB_mask;
 			}
 			else {
@@ -176,44 +176,43 @@ void PIA_PutByte(UWORD addr, UBYTE byte)
 
 void PIA_StateSave(void)
 {
-	int Ram256 = 0;
-	if (MEMORY_ram_size == MEMORY_RAM_320_RAMBO)
-		Ram256 = 1;
-	else if (MEMORY_ram_size == MEMORY_RAM_320_COMPY_SHOP)
-		Ram256 = 2;
-
 	StateSav_SaveUBYTE( &PIA_PACTL, 1 );
 	StateSav_SaveUBYTE( &PIA_PBCTL, 1 );
 	StateSav_SaveUBYTE( &PIA_PORTA, 1 );
 	StateSav_SaveUBYTE( &PIA_PORTB, 1 );
 
-	StateSav_SaveINT( &MEMORY_xe_bank, 1 );
-	StateSav_SaveINT( &MEMORY_selftest_enabled, 1 );
-	StateSav_SaveINT( &Ram256, 1 );
-
-	StateSav_SaveINT( &MEMORY_cartA0BF_enabled, 1 );
-
 	StateSav_SaveUBYTE( &PIA_PORTA_mask, 1 );
 	StateSav_SaveUBYTE( &PIA_PORTB_mask, 1 );
 }
 
-void PIA_StateRead(void)
+void PIA_StateRead(UBYTE version)
 {
-	int Ram256 = 0;
+	UBYTE byte;
 
 	StateSav_ReadUBYTE( &PIA_PACTL, 1 );
-	StateSav_ReadUBYTE( &PIA_PBCTL, 1 );
+	SIO_TapeMotor(PIA_PACTL & 0x08 ? 0 : 1);
+	StateSav_ReadUBYTE( &byte, 1 );
+	if ((PIA_PBCTL ^ byte) & 0x08) {
+		/* The command line status has changed. */
+		SIO_SwitchCommandFrame(byte & 0x08 ? 0 : 1);
+	}
+	PIA_PBCTL = byte;
 	StateSav_ReadUBYTE( &PIA_PORTA, 1 );
 	StateSav_ReadUBYTE( &PIA_PORTB, 1 );
 
-	StateSav_ReadINT( &MEMORY_xe_bank, 1 );
-	StateSav_ReadINT( &MEMORY_selftest_enabled, 1 );
-	StateSav_ReadINT( &Ram256, 1 );
+	/* In version 7 and later these variables are read in memory.c. */
+	if (version <= 6) {
+		int Ram256;
+		StateSav_ReadINT( &MEMORY_xe_bank, 1 );
+		StateSav_ReadINT( &MEMORY_selftest_enabled, 1 );
+		StateSav_ReadINT( &Ram256, 1 );
 
-	if (Ram256 == 1 && Atari800_machine_type == Atari800_MACHINE_XLXE && MEMORY_ram_size == MEMORY_RAM_320_COMPY_SHOP)
-		MEMORY_ram_size = MEMORY_RAM_320_RAMBO;
-
-	StateSav_ReadINT( &MEMORY_cartA0BF_enabled, 1 );
+		if (Atari800_machine_type == Atari800_MACHINE_XLXE) {
+			if (Ram256 == 1 && MEMORY_ram_size == MEMORY_RAM_320_COMPY_SHOP)
+				MEMORY_ram_size = MEMORY_RAM_320_RAMBO;
+		}
+		StateSav_ReadINT( &MEMORY_cartA0BF_enabled, 1 );
+	}
 
 	StateSav_ReadUBYTE( &PIA_PORTA_mask, 1 );
 	StateSav_ReadUBYTE( &PIA_PORTB_mask, 1 );

@@ -24,6 +24,7 @@
 
 #include "config.h"
 #include <stdlib.h>	/* for NULL */
+#include <stdio.h>
 #include <string.h>	/* for strcmp() */
 #ifdef HAVE_TIME_H
 #include <time.h>
@@ -35,6 +36,7 @@
 #include "atari.h"
 #include "log.h"
 #include "rtime.h"
+#include "util.h"
 
 int RTIME_enabled = 1;
 
@@ -46,6 +48,23 @@ static int rtime_tmp = 0;
 static int rtime_tmp2 = 0;
 
 static UBYTE regset[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+int RTIME_ReadConfig(char *string, char *ptr)
+{
+	if (strcmp(string, "RTIME") == 0) {
+		int value = Util_sscanbool(ptr);
+		if (value < 0)
+			return FALSE;
+		RTIME_enabled = value;
+	}
+	else return FALSE;
+	return TRUE;
+}
+
+void RTIME_WriteConfig(FILE *fp)
+{
+	fprintf(fp, "RTIME=%d\n", RTIME_enabled);
+}
 
 int RTIME_Initialise(int *argc, char *argv[])
 {

@@ -63,7 +63,16 @@ enum ESC_t {
 	ESC_HHWRIT = 0xc3,
 	ESC_HHSTAT = 0xc4,
 	ESC_HHSPEC = 0xc5,
-	ESC_HHINIT = 0xc6
+	ESC_HHINIT = 0xc6,
+
+	/* B: device. */
+	ESC_BOPEN = 0xe0,
+	ESC_BCLOS = 0xe1,
+	ESC_BREAD = 0xe2,
+	ESC_BWRIT = 0xe3,
+	ESC_BSTAT = 0xe4,
+	ESC_BSPEC = 0xe5,
+	ESC_BINIT = 0xe6
 };
 
 /* A function called to handle an escape sequence. */

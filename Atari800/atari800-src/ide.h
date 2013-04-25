@@ -18,7 +18,8 @@
 extern int IDE_enabled;
 
 int     IDE_Initialise(int *argc, char *argv[]);
-uint8_t IDE_GetByte(uint16_t addr);
+void IDE_Exit(void);
+uint8_t IDE_GetByte(uint16_t addr, int no_side_effects);
 void    IDE_PutByte(uint16_t addr, uint8_t byte);
 
 #endif

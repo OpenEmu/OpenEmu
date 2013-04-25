@@ -30,13 +30,13 @@
 #include "cpu.h"
 #include <stdlib.h>
 
-static UBYTE *af80_rom;
-static char af80_rom_filename[FILENAME_MAX] = "";
-static UBYTE *af80_charset;
-static char af80_charset_filename[FILENAME_MAX] = "";
+static UBYTE *af80_rom = NULL;
+static char af80_rom_filename[FILENAME_MAX];
+static UBYTE *af80_charset = NULL;
+static char af80_charset_filename[FILENAME_MAX];
 
-static UBYTE *af80_screen;
-static UBYTE *af80_attrib;
+static UBYTE *af80_screen = NULL;
+static UBYTE *af80_attrib = NULL;
 
 int AF80_enabled = FALSE;
 
@@ -118,13 +118,14 @@ static void update_8000_9fff(void)
 int AF80_Initialise(int *argc, char *argv[])
 {
 	int i, j;
+	int help_only = FALSE;
 	for (i = j = 1; i < *argc; i++) {
 		if (strcmp(argv[i], "-af80") == 0) {
-			Log_print("Austin Franklin 80 enabled");
 			AF80_enabled = TRUE;
 		}
 		else {
 		 	if (strcmp(argv[i], "-help") == 0) {
+		 		help_only = TRUE;
 				Log_print("\t-af80            Emulate the Austin Franklin 80 column board");
 			}
 			argv[j++] = argv[i];
@@ -132,10 +133,15 @@ int AF80_Initialise(int *argc, char *argv[])
 	}
 	*argc = j;
 
+	if (help_only)
+		return TRUE;
+
 	if (AF80_enabled) {
+		Log_print("Austin Franklin 80 enabled");
 		af80_rom = (UBYTE *)Util_malloc(0x1000);
 		if (!Atari800_LoadImage(af80_rom_filename, af80_rom, 0x1000)) {
 			free(af80_rom);
+			af80_rom = NULL;
 			AF80_enabled = FALSE;
 			Log_print("Couldn't load Austin Franklin ROM image");
 			return FALSE;
@@ -146,6 +152,8 @@ int AF80_Initialise(int *argc, char *argv[])
 		af80_charset = (UBYTE *)Util_malloc(0x1000);
 		if (!Atari800_LoadImage(af80_charset_filename, af80_charset, 0x1000)) {
 			free(af80_charset);
+			free(af80_rom);
+			af80_charset = af80_rom = NULL;
 			AF80_enabled = FALSE;
 			Log_print("Couldn't load Austin Franklin charset image");
 			return FALSE;
@@ -166,6 +174,15 @@ int AF80_Initialise(int *argc, char *argv[])
 	}
 
 	return TRUE;
+}
+
+void AF80_Exit(void)
+{
+	free(af80_screen);
+	free(af80_attrib);
+	free(af80_charset);
+	free(af80_rom);
+	af80_screen = af80_attrib = af80_charset = af80_rom = NULL;
 }
 
 void AF80_InsertRightCartridge(void)
@@ -191,7 +208,7 @@ void AF80_WriteConfig(FILE *fp)
 	fprintf(fp, "AF80_CHARSET=%s\n", af80_charset_filename);
 }
 
-int AF80_D6GetByte(UWORD addr)
+int AF80_D6GetByte(UWORD addr, int no_side_effects)
 {
 	int result = 0xff;
 	if (!not_enable_2k_character_ram) {
@@ -240,7 +257,7 @@ void AF80_D6PutByte(UWORD addr, UBYTE byte)
 	}
 }
 
-int AF80_D5GetByte(UWORD addr)
+int AF80_D5GetByte(UWORD addr, int no_side_effects)
 {
 	int result = MEMORY_dGetByte(addr);
 	return result;

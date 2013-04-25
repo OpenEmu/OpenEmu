@@ -49,7 +49,7 @@ extern char UI_saved_files_dir[UI_MAX_DIRECTORIES][FILENAME_MAX];
 extern int UI_n_atari_files_dir;
 extern int UI_n_saved_files_dir;
 
-#ifdef SDL
+#ifdef GUI_SDL
 void PLATFORM_SetJoystickKey(int joystick, int direction, int value);
 void PLATFORM_GetJoystickKeyName(int joystick, int direction, char *buffer, int bufsize);
 int GetRawKey(void);
@@ -110,6 +110,7 @@ typedef struct
 #define UI_ITEM_CHECK   0x02  /* Item represents a boolean value */
 #define UI_ITEM_FILESEL 0x03  /* Item invokes file/directory selection */
 #define UI_ITEM_SUBMENU 0x04  /* Item opens a submenu */
+#define UI_ITEM_END     0x05  /* Indicates end of menu */
 /* UI_ITEM_CHECK means that the value of UI_ITEM_CHECKED is shown.
    UI_ITEM_FILESEL and UI_ITEM_SUBMENU are just for optional decorations,
    so the user knows what happens when he/she selects this item. */
@@ -141,7 +142,7 @@ typedef struct
 #define UI_MENU_SUBMENU(retval, item)                          { UI_ITEM_SUBMENU, retval, NULL, item, NULL }
 #define UI_MENU_SUBMENU_SUFFIX(retval, item, suffix)           { UI_ITEM_SUBMENU, retval, NULL, item, suffix }
 #define UI_MENU_SUBMENU_ACCEL(retval, item, keystroke)         { UI_ITEM_SUBMENU, retval, NULL, item, UI_MENU_ACCEL(keystroke) }
-#define UI_MENU_END                                            { UI_ITEM_HIDDEN, 0, NULL, NULL, NULL }
+#define UI_MENU_END                                            { UI_ITEM_END, 0, NULL, NULL, NULL }
 
 /* UI driver entry prototypes */
 

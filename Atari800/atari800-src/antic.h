@@ -49,7 +49,7 @@ extern int ANTIC_xpos_limit;
 extern unsigned int ANTIC_screenline_cpu_clock;
 
 /* Current main clock value. */
-#define ANTIC_CPU_CLOCK (ANTIC_screenline_cpu_clock + ANTIC_xpos)
+#define ANTIC_CPU_CLOCK (ANTIC_screenline_cpu_clock + ANTIC_XPOS)
 
 #define ANTIC_NMIST_C	6
 #define ANTIC_NMI_C	12
@@ -74,7 +74,7 @@ extern UBYTE ANTIC_PENV_input;
 int ANTIC_Initialise(int *argc, char *argv[]);
 void ANTIC_Reset(void);
 void ANTIC_Frame(int draw_display);
-UBYTE ANTIC_GetByte(UWORD addr);
+UBYTE ANTIC_GetByte(UWORD addr, int no_side_effects);
 void ANTIC_PutByte(UWORD addr, UBYTE byte);
 
 UBYTE ANTIC_GetDLByte(UWORD *paddr);

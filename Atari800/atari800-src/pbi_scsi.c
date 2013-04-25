@@ -113,7 +113,7 @@ static void scsi_process_command(void)
 {
 	int i;
 	int lba;
-	int lun;
+/*	int lun;*/
 	D(printf("SCSI command:"));
 	for (i = 0; i < 6; i++) {
 		D(printf(" %02x",scsi_buffer[i]));
@@ -135,7 +135,7 @@ static void scsi_process_command(void)
 			break;
 		case 0x08:
 			/* read */
-			lun = ((scsi_buffer[1]&0xe0)>>5);
+/*			lun = ((scsi_buffer[1]&0xe0)>>5);*/
 			lba = (((scsi_buffer[1]&0x1f)<<16)|(scsi_buffer[2]<<8)|(scsi_buffer[3]));
 			D(printf("SCSI: read lun:%d lba:%d\n",lun,lba));
 			fseek(PBI_SCSI_disk, lba*256, SEEK_SET);
@@ -145,7 +145,7 @@ static void scsi_process_command(void)
 			break;
 		case 0x0a:
 			/* write */
-			lun = ((scsi_buffer[1]&0xe0)>>5);
+/*			lun = ((scsi_buffer[1]&0xe0)>>5);*/
 			lba = (((scsi_buffer[1]&0x1f)<<16)|(scsi_buffer[2]<<8)|(scsi_buffer[3]));
 			D(printf("SCSI: write lun:%d lba:%d\n",lun,lba));
 			fseek(PBI_SCSI_disk, lba*256, SEEK_SET);

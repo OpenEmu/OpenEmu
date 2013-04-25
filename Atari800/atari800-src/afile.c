@@ -27,10 +27,14 @@
 #include "cartridge.h"
 #include "cassette.h"
 #include "gtia.h"
+#include "img_tape.h"
 #include "log.h"
 #include "sio.h"
 #include "statesav.h"
 #include "util.h"
+#ifndef BASIC
+#include "ui.h"
+#endif /* BASIC */
 #ifdef HAVE_LIBZ
 #include <zlib.h>
 #endif
@@ -114,12 +118,6 @@ int AFILE_DetectFileType(const char *filename)
 			return AFILE_CART;
 		}
 		break;
-	case 'F':
-		if (header[1] == 'U' && header[2] == 'J' && header[3] == 'I') {
-			fclose(fp);
-			return AFILE_CAS;
-		}
-		break;
 	case 0x96:
 		if (header[1] == 0x02) {
 			fclose(fp);
@@ -160,6 +158,8 @@ int AFILE_DetectFileType(const char *filename)
 		return AFILE_BOOT_TAPE;
 	if ((file_length & 0x7f) == 0)
 		return AFILE_XFD;
+	if (IMG_TAPE_FileSupported(header))
+		return AFILE_CAS;
 	return AFILE_ERROR;
 }
 
@@ -187,11 +187,35 @@ int AFILE_OpenFile(const char *filename, int reboot, int diskno, int readonly)
 		break;
 	case AFILE_CART:
 	case AFILE_ROM:
-		/* TODO: select format for ROMs; switch 5200 ? */
-		if (CARTRIDGE_Insert(filename) != 0)
-			return AFILE_ERROR;
-		if (reboot)
-			Atari800_Coldstart();
+		{
+			int r;
+			if (reboot)
+				r = CARTRIDGE_InsertAutoReboot(filename);
+			else
+				r = CARTRIDGE_Insert(filename);
+			switch (r) {
+			case CARTRIDGE_CANT_OPEN:
+			case CARTRIDGE_BAD_FORMAT:
+				return AFILE_ERROR;
+			case CARTRIDGE_BAD_CHECKSUM:
+			case 0:
+				/* ok */
+				break;
+			default:
+#ifdef BASIC
+				Log_print("Raw cartridge images are not supported in BASIC version.");
+				return AFILE_ERROR;
+#else /* BASIC */
+				/* r > 0 */
+#ifndef ANDROID
+				CARTRIDGE_SetTypeAutoReboot(&CARTRIDGE_main, UI_SelectCartType(r));
+#else
+				return (r << 8) | AFILE_ROM;
+#endif /* ANDROID */
+				break;
+#endif /* BASIC */
+			}
+		}
 		break;
 	case AFILE_CAS:
 	case AFILE_BOOT_TAPE:

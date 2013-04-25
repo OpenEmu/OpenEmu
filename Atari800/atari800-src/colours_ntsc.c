@@ -34,12 +34,12 @@
 #include "util.h"
 
 Colours_setup_t COLOURS_NTSC_setup;
-COLOURS_NTSC_setup_t COLOURS_NTSC_specific_setup;
 
-/* Default setup - used by COLOURS_NTSC_RestoreDefaults(). */
-static const COLOURS_NTSC_setup_t default_setup = {
-	0.0, /* hue */
-	21.0, /* color delay, chosen to match color names given in GTIA.PDF */
+/* NTSC-specific default setup. */
+static struct {
+	double color_delay;
+} const default_setup = {
+	26.8, /* color delay, chosen to match color names given in GTIA.PDF */
 };
 
 COLOURS_EXTERNAL_t COLOURS_NTSC_external = { "", FALSE, FALSE };
@@ -111,13 +111,8 @@ static void UpdateYIQTableFromExternal(double yiq_table[768], double start_angle
    according to its internal setup (burst_phase etc.) */
 static void UpdateYIQTableFromGenerated(double yiq_table[768], const double start_angle, const double start_saturation)
 {
-	/* NTSC coloburst frequency is (315.0/88.0)MHz
-	 * (see http://en.wikipedia.org/wiki/Colorburst). By dividing 1000 by
-	 * this fraction, we get NTSC color cycle duration in nanoseconds. */
-	static const double color_cycle_length = 1000.0 * 88.0 / 315.0;
-	/* This computes difference between two consecutive chrominances, in
-	 * radians. */
-	double color_diff = COLOURS_NTSC_specific_setup.color_delay / color_cycle_length * 2 * M_PI;
+	/* Difference between two consecutive chrominances, in radians. */
+	double color_diff = COLOURS_NTSC_setup.color_delay * M_PI / 180.0;
 
 	int cr, lm;
 
@@ -198,32 +193,20 @@ static void YIQ2RGB(int colourtable[256], const double yiq_table[768])
 void COLOURS_NTSC_Update(int colourtable[256])
 {
 	double yiq_table[768];
-	UpdateYIQTable(yiq_table, - colorburst_angle + COLOURS_NTSC_specific_setup.hue * M_PI, COLOURS_NTSC_setup.saturation);
+	UpdateYIQTable(yiq_table, - colorburst_angle + COLOURS_NTSC_setup.hue * M_PI, COLOURS_NTSC_setup.saturation);
 	YIQ2RGB(colourtable, yiq_table);
 }
 
 void COLOURS_NTSC_RestoreDefaults(void)
 {
-	COLOURS_NTSC_specific_setup = default_setup;
-}
-
-void COLOURS_NTSC_SetPreset(Colours_preset_t preset)
-{	
-	if (preset == COLOURS_PRESET_STANDARD)
-		COLOURS_NTSC_specific_setup = default_setup;
+	COLOURS_NTSC_setup.color_delay = default_setup.color_delay;
 }
 
 Colours_preset_t COLOURS_NTSC_GetPreset()
 {
-	if (Util_almostequal(COLOURS_NTSC_specific_setup.hue, default_setup.hue, 0.001) &&
-	    Util_almostequal(COLOURS_NTSC_specific_setup.color_delay, default_setup.color_delay, 0.001))
+	if (Util_almostequal(COLOURS_NTSC_setup.color_delay, default_setup.color_delay, 0.001))
 		return COLOURS_PRESET_STANDARD;
 	return COLOURS_PRESET_CUSTOM;
-}
-
-void COLOURS_NTSC_PreInitialise(void)
-{
-	COLOURS_NTSC_specific_setup = default_setup;
 }
 
 int COLOURS_NTSC_ReadConfig(char *option, char *ptr)
@@ -237,9 +220,9 @@ int COLOURS_NTSC_ReadConfig(char *option, char *ptr)
 	else if (strcmp(option, "COLOURS_NTSC_GAMMA") == 0)
 		return Util_sscandouble(ptr, &COLOURS_NTSC_setup.gamma);
 	else if (strcmp(option, "COLOURS_NTSC_HUE") == 0)
-		return Util_sscandouble(ptr, &COLOURS_NTSC_specific_setup.hue);
-	else if (strcmp(option, "COLOURS_NTSC_DELAY") == 0)
-		return Util_sscandouble(ptr, &COLOURS_NTSC_specific_setup.color_delay);
+		return Util_sscandouble(ptr, &COLOURS_NTSC_setup.hue);
+	else if (strcmp(option, "COLOURS_NTSC_GTIA_DELAY") == 0)
+		return Util_sscandouble(ptr, &COLOURS_NTSC_setup.color_delay);
 	else if (strcmp(option, "COLOURS_NTSC_EXTERNAL_PALETTE") == 0)
 		Util_strlcpy(COLOURS_NTSC_external.filename, ptr, sizeof(COLOURS_NTSC_external.filename));
 	else if (strcmp(option, "COLOURS_NTSC_EXTERNAL_PALETTE_LOADED") == 0)
@@ -258,8 +241,8 @@ void COLOURS_NTSC_WriteConfig(FILE *fp)
 	fprintf(fp, "COLOURS_NTSC_CONTRAST=%g\n", COLOURS_NTSC_setup.contrast);
 	fprintf(fp, "COLOURS_NTSC_BRIGHTNESS=%g\n", COLOURS_NTSC_setup.brightness);
 	fprintf(fp, "COLOURS_NTSC_GAMMA=%g\n", COLOURS_NTSC_setup.gamma);
-	fprintf(fp, "COLOURS_NTSC_HUE=%g\n", COLOURS_NTSC_specific_setup.hue);
-	fprintf(fp, "COLOURS_NTSC_DELAY=%g\n", COLOURS_NTSC_specific_setup.color_delay);
+	fprintf(fp, "COLOURS_NTSC_HUE=%g\n", COLOURS_NTSC_setup.hue);
+	fprintf(fp, "COLOURS_NTSC_GTIA_DELAY=%g\n", COLOURS_NTSC_setup.color_delay);
 	fprintf(fp, "COLOURS_NTSC_EXTERNAL_PALETTE=%s\n", COLOURS_NTSC_external.filename);
 	fprintf(fp, "COLOURS_NTSC_EXTERNAL_PALETTE_LOADED=%d\n", COLOURS_NTSC_external.loaded);
 	fprintf(fp, "COLOURS_NTSC_ADJUST_EXTERNAL_PALETTE=%d\n", COLOURS_NTSC_external.adjust);
@@ -294,14 +277,14 @@ int COLOURS_NTSC_Initialise(int *argc, char *argv[])
 				COLOURS_NTSC_setup.gamma = atof(argv[++i]);
 			else a_m = TRUE;
 		}
-		else if (strcmp(argv[i], "-hue") == 0) {
+		else if (strcmp(argv[i], "-ntsc-tint") == 0) {
 			if (i_a)
-				COLOURS_NTSC_specific_setup.hue = atof(argv[++i]);
+				COLOURS_NTSC_setup.hue = atof(argv[++i]);
 			else a_m = TRUE;
 		}
-		else if (strcmp(argv[i], "-colordelay") == 0) {
+		else if (strcmp(argv[i], "-ntsc-colordelay") == 0) {
 			if (i_a)
-				COLOURS_NTSC_specific_setup.color_delay = atof(argv[++i]);
+				COLOURS_NTSC_setup.color_delay = atof(argv[++i]);
 			else a_m = TRUE;
 		}
 		else if (strcmp(argv[i], "-paletten") == 0) {
@@ -319,8 +302,8 @@ int COLOURS_NTSC_Initialise(int *argc, char *argv[])
 				Log_print("\t-ntsc-contrast <num>    Set NTSC contrast");
 				Log_print("\t-ntsc-brightness <num>  Set NTSC brightness");
 				Log_print("\t-ntsc-gamma <num>       Set NTSC color gamma factor");
-				Log_print("\t-hue <num>              Set NTSC hue of colors");
-				Log_print("\t-colordelay <num>       Set NTSC GTIA color delay");
+				Log_print("\t-ntsc-tint <num>        Set NTSC tint");
+				Log_print("\t-ntsc-colordelay <num>  Set NTSC GTIA color delay");
 				Log_print("\t-paletten <filename>    Load NTSC external palette");
 				Log_print("\t-paletten-adjust        Apply adjustments to NTSC external palette");
 			}

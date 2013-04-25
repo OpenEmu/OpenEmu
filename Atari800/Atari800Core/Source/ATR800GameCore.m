@@ -31,9 +31,6 @@
 #import "OE5200SystemResponderClient.h"
 #import <OpenGL/gl.h>
 
-//#import <IOKit/hid/IOHIDLib.h>
-//#import "OEAtari5200SystemResponderClient.h"
-
 //#define _UINT32
 
 #include "platform.h"
@@ -62,13 +59,37 @@
 #include "cartridge.h"
 #include "ui.h"
 #include "akey.h"
+#include "sysrom.h"
+
+typedef struct {
+	int up;
+	int down;
+	int left;
+	int right;
+	int fire;
+	int fire2;
+	int start;
+	int pause;
+	int reset;
+} ATR5200ControllerState;
+
+@interface ATR800GameCore () <OE5200SystemResponderClient>
+{
+	unsigned char *screenBuffer;
+    double sampleRate;
+	ATR5200ControllerState controllerStates[4];
+}
+- (void)renderToBuffer;
+- (ATR5200ControllerState)controllerStateForPlayer:(NSUInteger)playerNum;
+int Atari_POT(int);
+int16_t convertSample(uint8_t);
+@end
+
+static ATR800GameCore *currentCore;
 
 void ATR800WriteSoundBuffer(uint8_t *buffer, unsigned int len);
 
 static int num_cont = 4;
-
-static ATR800GameCore *currentCore;
-static OERingBuffer *ringBuffer;
 
 #pragma mark - atari800 platform calls
 
@@ -108,26 +129,26 @@ int PLATFORM_PORT(int num)
 			return INPUT_STICK_UR;
 		}
 		else if(state.up == 1) {
-			NSLog(@"UP");
+			//NSLog(@"UP");
 			return INPUT_STICK_FORWARD;
 		}
 		else if(state.down == 1 && state.left == 1) {
 			return INPUT_STICK_LL;
 		}
 		else if(state.down == 1 && state.right == 1) {
-			NSLog(@"Left-right");
+			//NSLog(@"Left-right");
 			return INPUT_STICK_LR;
 		}
 		else if(state.down == 1) {
-			NSLog(@"DOWN");
+			//NSLog(@"DOWN");
 			return INPUT_STICK_BACK;
 		}
 		else if(state.left == 1) {
-			NSLog(@"Left");
+			//NSLog(@"Left");
 			return INPUT_STICK_LEFT;
 		}
 		else if(state.right == 1) {
-			NSLog(@"Right");
+			//NSLog(@"Right");
 			return INPUT_STICK_RIGHT;
 		}
 		return INPUT_STICK_CENTRE;
@@ -140,7 +161,7 @@ int PLATFORM_TRIG(int num)
 	if(num < 4 && num >= 0) {
 		ATR5200ControllerState state = [currentCore controllerStateForPlayer:num];
 		if(state.fire == 1) {
-			NSLog(@"Pew pew");
+			//NSLog(@"Pew pew");
 		}
 		return state.fire == 1 ? 0 : 1;
 	}
@@ -207,7 +228,7 @@ int Atari_POT(int num)
 //		val = (num & 1) ? cond->joyy : cond->joyx;
 		
 		/* normalize into 5200 range */
-		NSLog(@"joystick value: %i", val);
+		//NSLog(@"joystick value: %i", val);
 		if (val == 127) return(INPUT_joy_5200_center);
 		if (val < 127) {
 			/*val -= INPUT_joy_5200_min;*/
@@ -240,27 +261,20 @@ void ATR800WriteSoundBuffer(uint8_t *buffer, unsigned int len) {
 		dest++;
 		source++;
 	}
-	[ringBuffer write:newBuffer maxLength:newLength];
+    [[currentCore ringBufferAtIndex:0] write:newBuffer maxLength:newLength];
 	free(newBuffer);
 }
 
-#pragma mark -
-
-@interface ATR800GameCore () <OE5200SystemResponderClient>
-- (void)renderToBuffer;
-@end
-
-ATR800GameCore *current;
 @implementation ATR800GameCore
 
 - (id)init
 {
-	NSLog(@"Atari 800 core init");
-    self = [super init];
-    if (self) {
+    if((self = [super init]))
+    {
         screenBuffer = malloc(Screen_WIDTH * Screen_HEIGHT * 4);
-		currentCore = self; // ugh
     }
+    
+    currentCore = self;
     
     return self;
 }
@@ -284,7 +298,6 @@ ATR800GameCore *current;
 {
 //	if (!Atari800_Initialise(0, NULL))
 //		NSLog(@"Failed to initialize Atari800 emulation");
-	ringBuffer = [self ringBufferAtIndex:0];
 }
 
 - (ATR5200ControllerState)controllerStateForPlayer:(NSUInteger)playerNum
@@ -305,23 +318,23 @@ ATR800GameCore *current;
     DLog(@"Loadeding File: ", path);
     
     char biosFileName[2048];
-    NSString *appSupportPath = [[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
-                                  stringByAppendingPathComponent:@"Application Support"]
-                                 stringByAppendingPathComponent:@"OpenEmu"]
-                                stringByAppendingPathComponent:@"BIOS"];
+    NSString *appSupportPath = [NSString pathWithComponents:@[
+                                [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
+                                @"OpenEmu", @"BIOS"]];
     
     strcpy(biosFileName, [[appSupportPath stringByAppendingPathComponent:@"5200.rom"] UTF8String]);
 	
-    //Atari800_tv_mode = Atari800_TV_NTSC;
+    Atari800_tv_mode = Atari800_TV_NTSC;
     
 	Colours_PreInitialise();
-	// find rom images
-//	CFG_FindROMImages("", TRUE);
-    strcpy(CFG_5200_filename, biosFileName);
-	NSLog(@"Should load ROM: %s", CFG_5200_filename);
-	// setup what machine
+	
+    // set 5200.rom BIOS path
+    SYSROM_SetPath(biosFileName, 3, SYSROM_5200);
+	
+    // setup what machine
 	Atari800_machine_type = Atari800_MACHINE_5200;
 	MEMORY_ram_size = 16;
+
 	int test = 0;
 	int *argc = &test;
 	char *argv[] = {};
@@ -392,7 +405,6 @@ ATR800GameCore *current;
 #else /* BASIC */
 			
 #ifndef __PLUS
-			NSLog(@"Selecting cart type");
 //			UI_is_active = TRUE;
 //			CARTRIDGE_type = UI_SelectCartType(r);
 //			UI_is_active = FALSE;
@@ -402,44 +414,46 @@ ATR800GameCore *current;
             //Tell Atari800 which 5200 cart type to load based on size
             switch (size >> 10) {
                 case 40:
-                    CARTRIDGE_type = CARTRIDGE_5200_40; //bounty bob strikes back
+                    //CARTRIDGE_SetType
+                    CARTRIDGE_main.type = CARTRIDGE_5200_40; //bounty bob strikes back
                     break;
                 case 32:
-                    CARTRIDGE_type = CARTRIDGE_5200_32;
+                    CARTRIDGE_main.type = CARTRIDGE_5200_32;
                     break;
                 //case 16:
                 //    CARTRIDGE_type = CARTRIDGE_5200_EE_16; //two chip: congo bongo, etc
                 case 16:
-                    CARTRIDGE_type = CARTRIDGE_5200_NS_16; //one chip: chop lifter, miner 2049er, etc
+                    CARTRIDGE_main.type = CARTRIDGE_5200_NS_16; //one chip: chop lifter, miner 2049er, etc
                     break;
                 case 8:
-                    CARTRIDGE_type = CARTRIDGE_5200_8;
+                    CARTRIDGE_main.type = CARTRIDGE_5200_8;
                     break;
                 case 4:
-                    CARTRIDGE_type = CARTRIDGE_5200_4;
+                    CARTRIDGE_main.type = CARTRIDGE_5200_4;
                     break;
             }
             
 #else /* __PLUS */
-			CARTRIDGE_type = (CARTRIDGE_NONE == nCartType ? UI_SelectCartType(r) : nCartType);
+			CARTRIDGE_main.type = (CARTRIDGE_NONE == nCartType ? UI_SelectCartType(r) : nCartType);
 #endif /* __PLUS */
-			CARTRIDGE_Start();
+			CARTRIDGE_ColdStart();
 			
 #endif /* BASIC */
 		}
 #ifndef __PLUS
-		if (CARTRIDGE_type != CARTRIDGE_NONE) {
-			int for5200 = CARTRIDGE_IsFor5200(CARTRIDGE_type);
-			if (for5200 && Atari800_machine_type != Atari800_MACHINE_5200) {
+		if (CARTRIDGE_main.type != CARTRIDGE_NONE) {
+			//int for5200 = CARTRIDGE_IsFor5200(CARTRIDGE_main.type);
+			//if (for5200 && Atari800_machine_type != Atari800_MACHINE_5200) {
+            if (Atari800_machine_type != Atari800_MACHINE_5200) {
 				Atari800_machine_type = Atari800_MACHINE_5200;
 				MEMORY_ram_size = 16;
 				Atari800_InitialiseMachine();
 			}
-			else if (!for5200 && Atari800_machine_type == Atari800_MACHINE_5200) {
-				Atari800_machine_type = Atari800_MACHINE_XLXE;
-				MEMORY_ram_size = 64;
-				Atari800_InitialiseMachine();
-			}
+			//else if (!for5200 && Atari800_machine_type == Atari800_MACHINE_5200) {
+			//	Atari800_machine_type = Atari800_MACHINE_XLXE;
+			//	MEMORY_ram_size = 64;
+			//	Atari800_InitialiseMachine();
+			//}
 		}
 #endif /* __PLUS */
 	}
@@ -449,40 +463,23 @@ ATR800GameCore *current;
 - (void)resetEmulation
 {
 	Atari800_Coldstart();
-//    sms_soft_reset();
 }
 
 - (void)stopEmulation
 {
 //	Atari800_Exit(false);
-//    sms_write_cartram_to_file();
     [super stopEmulation];
-}
-
-- (IBAction)pauseEmulation:(id)sender
-{
-//    [bufLock lock];
-//    sms_z80_nmi();
-//    [bufLock unlock];
 }
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(Screen_WIDTH, Screen_HEIGHT);
+    return OEIntSizeMake(Screen_WIDTH, Screen_HEIGHT);
 }
 
 - (const void *)videoBuffer
 {
-//    if (sms_console != CONSOLE_GG)
-//        return smsvdp.framebuffer;
-//    else
-//        for (int i = 0; i < 144; i++)
-//            //jump 24 lines, skip 48 pixels and capture for each line of the buffer 160 pixels
-//            // sizeof(unsigned char) is always equal to 1 by definition
-//            memcpy(tempBuffer + i * 160 * 4, smsvdp.framebuffer  + 24 * 256 * 1 + 48 * 1 + i * 256 * 1, 160 * 4);
     return screenBuffer;
 }
-
 
 - (GLenum)pixelFormat
 {
@@ -501,14 +498,12 @@ ATR800GameCore *current;
 
 - (double)audioSampleRate
 {
-    return sampleRate ? sampleRate : 22050;
+    return 22050;
 }
 
 - (NSTimeInterval)frameInterval
 {
-    //	if(Atari800_tv_mode == Atari800_TV_NTSC)
-    //		return 60;
-    return frameInterval ? frameInterval : 60;
+    return Atari800_tv_mode == Atari800_TV_NTSC ? Atari800_FPS_NTSC : Atari800_FPS_PAL;
 }
 
 - (NSUInteger)channelCount
@@ -519,12 +514,12 @@ ATR800GameCore *current;
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {
-    return NO; //sms_save_state([fileName UTF8String]) == 0;
+    return NO;
 }
 
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName
 {
-    return NO; //sms_load_state([fileName UTF8String]) == 0;
+    return NO;
 }
 
 #pragma mark -
@@ -559,7 +554,7 @@ ATR800GameCore *current;
 - (oneway void)didPush5200Button:(OE5200Button)button forPlayer:(NSUInteger)player
 {
 	player--;
-	NSLog(@"Pressed: %i", button);
+	//NSLog(@"Pressed: %i", button);
 	switch (button) {
 		case OE5200ButtonFire1:
 			controllerStates[player].fire = 1;
@@ -599,7 +594,7 @@ ATR800GameCore *current;
 - (oneway void)didRelease5200Button:(OE5200Button)button forPlayer:(NSUInteger)player
 {
     player--;
-    NSLog(@"Released: %i", button);
+    //NSLog(@"Released: %i", button);
     switch (button) {
         case OE5200ButtonFire1:
             controllerStates[player].fire = 0;

@@ -31,6 +31,7 @@
 #include "gtia.h"
 #include "log.h"
 #include "memory.h"
+#include "platform.h"
 #include "pokey.h"
 #include "util.h"
 #if !defined(BASIC) && !defined(CURSES_BASIC)
@@ -2851,8 +2852,6 @@ int ANTIC_cur_screen_pos = ANTIC_NOT_DRAWING;
 #endif
 
 #ifdef USE_CURSES
-void curses_display_line(int anticmode, const UBYTE *screendata);
-
 static int scanlines_to_curses_display = 0;
 #endif
 
@@ -3598,7 +3597,7 @@ void draw_partial_scanline(int l, int r)
 
 /* ANTIC registers --------------------------------------------------------- */
 
-UBYTE ANTIC_GetByte(UWORD addr)
+UBYTE ANTIC_GetByte(UWORD addr, int no_side_effects)
 {
 	switch (addr & 0xf) {
 	case ANTIC_OFFSET_VCOUNT:

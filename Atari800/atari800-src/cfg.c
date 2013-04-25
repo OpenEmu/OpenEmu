@@ -24,12 +24,19 @@
 #include "config.h"
 #include "atari.h"
 #include <stdlib.h>
+#include "cartridge.h"
+#include "cassette.h"
 #include "cfg.h"
 #include "devices.h"
 #include "esc.h"
 #include "log.h"
 #include "memory.h"
 #include "pbi.h"
+#include "rtime.h"
+#include "sysrom.h"
+#ifdef XEP80_EMULATION
+#include "xep80.h"
+#endif
 #ifdef AF80
 #include "af80.h"
 #endif
@@ -48,55 +55,7 @@
 #include "videomode.h"
 #endif
 
-char CFG_osa_filename[FILENAME_MAX] = Util_FILENAME_NOT_SET;
-char CFG_osb_filename[FILENAME_MAX] = Util_FILENAME_NOT_SET;
-char CFG_xlxe_filename[FILENAME_MAX] = Util_FILENAME_NOT_SET;
-char CFG_5200_filename[FILENAME_MAX] = Util_FILENAME_NOT_SET;
-char CFG_basic_filename[FILENAME_MAX] = Util_FILENAME_NOT_SET;
-
-
-void CFG_FindROMImages(const char *directory, int only_if_not_set)
-{
-	static char * const rom_filenames[5] = {
-		CFG_osa_filename,
-		CFG_osb_filename,
-		CFG_xlxe_filename,
-		CFG_5200_filename,
-		CFG_basic_filename
-	};
-	static const char * const common_filenames[] = {
-		"atariosa.rom", "atari_osa.rom", "atari_os_a.rom",
-		"ATARIOSA.ROM", "ATARI_OSA.ROM", "ATARI_OS_A.ROM",
-		NULL,
-		"atariosb.rom", "atari_osb.rom", "atari_os_b.rom",
-		"ATARIOSB.ROM", "ATARI_OSB.ROM", "ATARI_OS_B.ROM",
-		NULL,
-		"atarixlxe.rom", "atarixl.rom", "atari_xlxe.rom", "atari_xl_xe.rom",
-		"ATARIXLXE.ROM", "ATARIXL.ROM", "ATARI_XLXE.ROM", "ATARI_XL_XE.ROM",
-		NULL,
-		"atari5200.rom", "atar5200.rom", "5200.rom", "5200.bin", "atari_5200.rom",
-		"ATARI5200.ROM", "ATAR5200.ROM", "5200.ROM", "5200.BIN", "ATARI_5200.ROM",
-		NULL,
-		"ataribasic.rom", "ataribas.rom", "basic.rom", "atari_basic.rom",
-		"ATARIBASIC.ROM", "ATARIBAS.ROM", "BASIC.ROM", "ATARI_BASIC.ROM",
-		NULL
-	};
-	const char * const *common_filename = common_filenames;
-	int i;
-	for (i = 0; i < 5; i++) {
-		if (!only_if_not_set || Util_filenamenotset(rom_filenames[i])) {
-			do {
-				char full_filename[FILENAME_MAX];
-				Util_catpath(full_filename, directory, *common_filename);
-				if (Util_fileexists(full_filename)) {
-					strcpy(rom_filenames[i], full_filename);
-					break;
-				}
-			} while (*++common_filename != NULL);
-		}
-		while (*common_filename++ != NULL);
-	}
-}
+int CFG_save_on_exit = FALSE;
 
 /* If another default path config path is defined use it
    otherwise use the default one */
@@ -165,16 +124,8 @@ int CFG_LoadConfig(const char *alternate_config_filename)
 			Util_trim(string);
 			Util_trim(ptr);
 
-			if (strcmp(string, "OS/A_ROM") == 0)
-				Util_strlcpy(CFG_osa_filename, ptr, sizeof(CFG_osa_filename));
-			else if (strcmp(string, "OS/B_ROM") == 0)
-				Util_strlcpy(CFG_osb_filename, ptr, sizeof(CFG_osb_filename));
-			else if (strcmp(string, "XL/XE_ROM") == 0)
-				Util_strlcpy(CFG_xlxe_filename, ptr, sizeof(CFG_xlxe_filename));
-			else if (strcmp(string, "BASIC_ROM") == 0)
-				Util_strlcpy(CFG_basic_filename, ptr, sizeof(CFG_basic_filename));
-			else if (strcmp(string, "5200_ROM") == 0)
-				Util_strlcpy(CFG_5200_filename, ptr, sizeof(CFG_5200_filename));
+			if (SYSROM_ReadConfig(string, ptr)) {
+			}
 #ifdef BASIC
 			else if (strcmp(string, "ATARI_FILES_DIR") == 0
 				  || strcmp(string, "SAVED_FILES_DIR") == 0
@@ -258,10 +209,11 @@ int CFG_LoadConfig(const char *alternate_config_filename)
 #endif
 			}
 			else if (strcmp(string, "MACHINE_TYPE") == 0) {
-				if (strcmp(ptr, "Atari OS/A") == 0)
-					Atari800_machine_type = Atari800_MACHINE_OSA;
-				else if (strcmp(ptr, "Atari OS/B") == 0)
-					Atari800_machine_type = Atari800_MACHINE_OSB;
+				if (strcmp(ptr, "Atari 400/800") == 0 ||
+				    /* Also recognise legacy values of this parameter */
+				    strcmp(ptr, "Atari OS/A") == 0 ||
+				    strcmp(ptr, "Atari OS/B") == 0)
+					Atari800_machine_type = Atari800_MACHINE_800;
 				else if (strcmp(ptr, "Atari XL/XE") == 0)
 					Atari800_machine_type = Atari800_MACHINE_XLXE;
 				else if (strcmp(ptr, "Atari 5200") == 0)
@@ -270,28 +222,17 @@ int CFG_LoadConfig(const char *alternate_config_filename)
 					Log_print("Invalid machine type: %s", ptr);
 			}
 			else if (strcmp(string, "RAM_SIZE") == 0) {
-				if (strcmp(ptr, "16") == 0)
-					MEMORY_ram_size = 16;
-				else if (strcmp(ptr, "48") == 0)
-					MEMORY_ram_size = 48;
-				else if (strcmp(ptr, "52") == 0)
-					MEMORY_ram_size = 52;
-				else if (strcmp(ptr, "64") == 0)
-					MEMORY_ram_size = 64;
-				else if (strcmp(ptr, "128") == 0)
-					MEMORY_ram_size = 128;
-				else if (strcmp(ptr, "192") == 0)
-					MEMORY_ram_size = 192;
-				else if (strcmp(ptr, "320 (RAMBO)") == 0)
+				if (strcmp(ptr, "320 (RAMBO)") == 0)
 					MEMORY_ram_size = MEMORY_RAM_320_RAMBO;
 				else if (strcmp(ptr, "320 (COMPY SHOP)") == 0)
 					MEMORY_ram_size = MEMORY_RAM_320_COMPY_SHOP;
-				else if (strcmp(ptr, "576") == 0)
-					MEMORY_ram_size = 576;
-				else if (strcmp(ptr, "1088") == 0)
-					MEMORY_ram_size = 1088;
-				else
-					Log_print("Invalid RAM size: %s", ptr);
+				else {
+					int size = Util_sscandec(ptr);
+					if (MEMORY_SizeValid(size))
+						MEMORY_ram_size = size;
+					else
+						Log_print("Invalid RAM size: %s", ptr);
+				}
 			}
 			else if (strcmp(string, "DEFAULT_TV_MODE") == 0) {
 				if (strcmp(ptr, "PAL") == 0)
@@ -301,9 +242,50 @@ int CFG_LoadConfig(const char *alternate_config_filename)
 				else
 					Log_print("Invalid TV Mode: %s", ptr);
 			}
+			else if (strcmp(string, "MOSAIC_RAM_NUM_BANKS") == 0) {
+				int num = Util_sscandec(ptr);
+				if (num >= 0 && num <= 64)
+					MEMORY_mosaic_num_banks = num;
+				else
+					Log_print("Invalid Mosaic RAM number of banks: %s", ptr);
+			}
+			else if (strcmp(string, "AXLON_RAM_NUM_BANKS") == 0) {
+				int num = Util_sscandec(ptr);
+				if (num == 0 || num == 8 || num == 16 || num == 32 || num == 64 || num == 128 || num == 256)
+					MEMORY_axlon_num_banks = num;
+				else
+					Log_print("Invalid Mosaic RAM number of banks: %s", ptr);
+			}
+			else if (strcmp(string, "ENABLE_MAPRAM") == 0)
+				MEMORY_enable_mapram = Util_sscanbool(ptr);
+			else if (strcmp(string, "BUILTIN_BASIC") == 0)
+				Atari800_builtin_basic = Util_sscanbool(ptr);
+			else if (strcmp(string, "KEYBOARD_LEDS") == 0)
+				Atari800_keyboard_leds = Util_sscanbool(ptr);
+			else if (strcmp(string, "F_KEYS") == 0)
+				Atari800_f_keys = Util_sscanbool(ptr);
+			else if (strcmp(string, "BUILTIN_GAME") == 0)
+				Atari800_builtin_game = Util_sscanbool(ptr);
+			else if (strcmp(string, "KEYBOARD_DETACHED") == 0)
+				Atari800_keyboard_detached = Util_sscanbool(ptr);
+			else if (strcmp(string, "1200XL_JUMPER") == 0)
+				Atari800_jumper = Util_sscanbool(ptr);
+			else if (strcmp(string, "CFG_SAVE_ON_EXIT") == 0) {
+				CFG_save_on_exit = Util_sscanbool(ptr);
+			}
 			/* Add module-specific configurations here */
 			else if (PBI_ReadConfig(string,ptr)) {
 			}
+			else if (CARTRIDGE_ReadConfig(string, ptr)) {
+			}
+			else if (CASSETTE_ReadConfig(string, ptr)) {
+			}
+			else if (RTIME_ReadConfig(string, ptr)) {
+			}
+#ifdef XEP80_EMULATION
+			else if (XEP80_ReadConfig(string, ptr)) {
+			}
+#endif
 #ifdef AF80
 			else if (AF80_ReadConfig(string,ptr)) {
 			}
@@ -353,8 +335,8 @@ int CFG_WriteConfig(void)
 {
 	FILE *fp;
 	int i;
-	static const char * const machine_type_string[4] = {
-		"OS/A", "OS/B", "XL/XE", "5200"
+	static const char * const machine_type_string[Atari800_MACHINE_SIZE] = {
+		"400/800", "XL/XE", "5200"
 	};
 
 	fp = fopen(rtconfig_filename, "w");
@@ -366,11 +348,7 @@ int CFG_WriteConfig(void)
 	Log_print("Writing config file: %s", rtconfig_filename);
 
 	fprintf(fp, "%s\n", Atari800_TITLE);
-	fprintf(fp, "OS/A_ROM=%s\n", CFG_osa_filename);
-	fprintf(fp, "OS/B_ROM=%s\n", CFG_osb_filename);
-	fprintf(fp, "XL/XE_ROM=%s\n", CFG_xlxe_filename);
-	fprintf(fp, "BASIC_ROM=%s\n", CFG_basic_filename);
-	fprintf(fp, "5200_ROM=%s\n", CFG_5200_filename);
+	SYSROM_WriteConfig(fp);
 #ifndef BASIC
 	for (i = 0; i < UI_n_atari_files_dir; i++)
 		fprintf(fp, "ATARI_FILES_DIR=%s\n", UI_atari_files_dir[i]);
@@ -405,6 +383,9 @@ int CFG_WriteConfig(void)
 	}
 
 	fprintf(fp, (Atari800_tv_mode == Atari800_TV_PAL) ? "DEFAULT_TV_MODE=PAL\n" : "DEFAULT_TV_MODE=NTSC\n");
+	fprintf(fp, "MOSAIC_RAM_NUM_BANKS=%d\n", MEMORY_mosaic_num_banks);
+	fprintf(fp, "AXLON_RAM_NUM_BANKS=%d\n", MEMORY_axlon_num_banks);
+	fprintf(fp, "ENABLE_MAPRAM=%d\n", MEMORY_enable_mapram);
 
 	fprintf(fp, "DISABLE_BASIC=%d\n", Atari800_disable_basic);
 	fprintf(fp, "ENABLE_SIO_PATCH=%d\n", ESC_enable_sio_patch);
@@ -428,8 +409,21 @@ int CFG_WriteConfig(void)
 	fprintf(fp, "SERIO_SOUND=%d\n", POKEYSND_serio_sound_enabled);
 #endif
 #endif /* SOUND */
+	fprintf(fp, "BUILTIN_BASIC=%d\n", Atari800_builtin_basic);
+	fprintf(fp, "KEYBOARD_LEDS=%d\n", Atari800_keyboard_leds);
+	fprintf(fp, "F_KEYS=%d\n", Atari800_f_keys);
+	fprintf(fp, "BUILTIN_GAME=%d\n", Atari800_builtin_game);
+	fprintf(fp, "KEYBOARD_DETACHED=%d\n", Atari800_keyboard_detached);
+	fprintf(fp, "1200XL_JUMPER=%d\n", Atari800_jumper);
+	fprintf(fp, "CFG_SAVE_ON_EXIT=%d\n", CFG_save_on_exit);
 	/* Add module-specific configurations here */
 	PBI_WriteConfig(fp);
+	CARTRIDGE_WriteConfig(fp);
+	CASSETTE_WriteConfig(fp);
+	RTIME_WriteConfig(fp);
+#ifdef XEP80_EMULATION
+	XEP80_WriteConfig(fp);
+#endif
 #ifdef AF80
 	AF80_WriteConfig(fp);
 #endif

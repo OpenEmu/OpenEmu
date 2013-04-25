@@ -22,6 +22,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+#define _POSIX_C_SOURCE 200112L /* for snprintf */
+
 #include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,8 +35,10 @@
 
 #include "antic.h"
 #include "atari.h"
+#include "cassette.h"
 #include "colours.h"
 #include "log.h"
+#include "pia.h"
 #include "screen.h"
 #include "sio.h"
 #include "util.h"
@@ -67,6 +71,7 @@ int Screen_visible_y2 = Screen_HEIGHT;	/* 0 .. Screen_HEIGHT */
 int Screen_show_atari_speed = FALSE;
 int Screen_show_disk_led = TRUE;
 int Screen_show_sector_counter = FALSE;
+int Screen_show_1200_leds = TRUE;
 
 #ifdef HAVE_LIBPNG
 #define DEFAULT_SCREENSHOT_FILENAME_FORMAT "atari%03d.png"
@@ -130,7 +135,7 @@ int Screen_Initialise(int *argc, char *argv[])
 				Screen_SetScreenshotFilenamePattern(argv[++i]);
 			else a_m = TRUE;
 		}
-		if (strcmp(argv[i], "-showspeed") == 0) {
+		else if (strcmp(argv[i], "-showspeed") == 0) {
 			Screen_show_atari_speed = TRUE;
 		}
 		else {
@@ -180,6 +185,8 @@ int Screen_ReadConfig(char *string, char *ptr)
 		return (Screen_show_disk_led = Util_sscanbool(ptr)) != -1;
 	else if (strcmp(string, "SCREEN_SHOW_IO_COUNTER") == 0)
 		return (Screen_show_sector_counter = Util_sscanbool(ptr)) != -1;
+	else if (strcmp(string, "SCREEN_SHOW_1200XL_LEDS") == 0)
+		return (Screen_show_1200_leds = Util_sscanbool(ptr)) != -1;
 	else return FALSE;
 	return TRUE;
 }
@@ -189,11 +196,16 @@ void Screen_WriteConfig(FILE *fp)
 	fprintf(fp, "SCREEN_SHOW_SPEED=%d\n", Screen_show_atari_speed);
 	fprintf(fp, "SCREEN_SHOW_IO_ACTIVITY=%d\n", Screen_show_disk_led);
 	fprintf(fp, "SCREEN_SHOW_IO_COUNTER=%d\n", Screen_show_sector_counter);
+	fprintf(fp, "SCREEN_SHOW_1200XL_LEDS=%d\n", Screen_show_1200_leds);
 }
 
 #define SMALLFONT_WIDTH    5
 #define SMALLFONT_HEIGHT   7
 #define SMALLFONT_PERCENT  10
+#define SMALLFONT_C        11
+#define SMALLFONT_D        12
+#define SMALLFONT_L        13
+#define SMALLFONT_SLASH    14
 #define SMALLFONT_____ 0x00
 #define SMALLFONT___X_ 0x02
 #define SMALLFONT__X__ 0x04
@@ -205,7 +217,7 @@ void Screen_WriteConfig(FILE *fp)
 
 static void SmallFont_DrawChar(UBYTE *screen, int ch, UBYTE color1, UBYTE color2)
 {
-	static const UBYTE font[12][SMALLFONT_HEIGHT] = {
+	static const UBYTE font[15][SMALLFONT_HEIGHT] = {
 		{
 			SMALLFONT_____,
 			SMALLFONT__X__,
@@ -312,6 +324,33 @@ static void SmallFont_DrawChar(UBYTE *screen, int ch, UBYTE color1, UBYTE color2
 			SMALLFONT_X___,
 			SMALLFONT_X_X_,
 			SMALLFONT__X__,
+			SMALLFONT_____
+		},
+		{
+			SMALLFONT_____,
+			SMALLFONT_XX__,
+			SMALLFONT_X_X_,
+			SMALLFONT_X_X_,
+			SMALLFONT_X_X_,
+			SMALLFONT_XX__,
+			SMALLFONT_____
+		},
+		{
+			SMALLFONT_____,
+			SMALLFONT_X___,
+			SMALLFONT_X___,
+			SMALLFONT_X___,
+			SMALLFONT_X___,
+			SMALLFONT_XXX_,
+			SMALLFONT_____
+		},
+		{
+			SMALLFONT_____,
+			SMALLFONT___X_,
+			SMALLFONT___X_,
+			SMALLFONT__X__,
+			SMALLFONT__X__,
+			SMALLFONT_X___,
 			SMALLFONT_____
 		}
 	};
@@ -328,13 +367,16 @@ static void SmallFont_DrawChar(UBYTE *screen, int ch, UBYTE color1, UBYTE color2
 	}
 }
 
-static void SmallFont_DrawInt(UBYTE *screen, int n, UBYTE color1, UBYTE color2)
+/* Returns screen address for placing the next character on the left of the
+   drawn number. */
+static UBYTE *SmallFont_DrawInt(UBYTE *screen, int n, UBYTE color1, UBYTE color2)
 {
 	do {
 		SmallFont_DrawChar(screen, n % 10, color1, color2);
 		screen -= SMALLFONT_WIDTH;
 		n /= 10;
 	} while (n > 0);
+	return screen;
 }
 
 void Screen_DrawAtariSpeed(double cur_time)
@@ -368,15 +410,47 @@ void Screen_DrawDiskLED(void)
 		screen = (UBYTE *) Screen_atari + Screen_visible_x2 - SMALLFONT_WIDTH
 			+ (Screen_visible_y2 - SMALLFONT_HEIGHT) * Screen_WIDTH;
 		if (SIO_last_drive == 0x60 || SIO_last_drive == 0x61) {
-			if (Screen_show_disk_led)
-				SmallFont_DrawChar(screen, 11, 0x00, (UBYTE) (SIO_last_op == SIO_LAST_READ ? 0xac : 0x2b));
+			if (CASSETTE_status != CASSETTE_STATUS_NONE) {
+				if (Screen_show_disk_led)
+					SmallFont_DrawChar(screen, SMALLFONT_C, 0x00, (UBYTE) (CASSETTE_record ? 0x2b : 0xac));
+
+				if (Screen_show_sector_counter) {
+					/* Displaying tape length during saving is pointless since it would equal the number
+					of the currently-written block, which is already displayed. */
+					if (!CASSETTE_record) {
+						screen = SmallFont_DrawInt(screen - SMALLFONT_WIDTH, CASSETTE_GetSize(), 0x00, 0x88);
+						SmallFont_DrawChar(screen, SMALLFONT_SLASH, 0x00, 0x88);
+					}
+					SmallFont_DrawInt(screen - SMALLFONT_WIDTH, CASSETTE_GetPosition(), 0x00, 0x88);
+				}
+			}
 		}
 		else {
-			if (Screen_show_disk_led)
+			if (Screen_show_disk_led) {
 				SmallFont_DrawChar(screen, SIO_last_drive, 0x00, (UBYTE) (SIO_last_op == SIO_LAST_READ ? 0xac : 0x2b));
-		
+				SmallFont_DrawChar(screen -= SMALLFONT_WIDTH, SMALLFONT_D, 0x00, (UBYTE) (SIO_last_op == SIO_LAST_READ ? 0xac : 0x2b));
+			}
+
 			if (Screen_show_sector_counter)
 				SmallFont_DrawInt(screen - SMALLFONT_WIDTH, SIO_last_sector, 0x00, 0x88);
+		}
+	}
+}
+
+void Screen_Draw1200LED(void)
+{
+	if (Screen_show_1200_leds && Atari800_keyboard_leds) {
+		UBYTE *screen = (UBYTE *) Screen_atari + Screen_visible_x1 + SMALLFONT_WIDTH * 10
+			+ (Screen_visible_y2 - SMALLFONT_HEIGHT) * Screen_WIDTH;
+		UBYTE portb = PIA_PORTB | PIA_PORTB_mask;
+		if ((portb & 0x04) == 0) {
+			SmallFont_DrawChar(screen, SMALLFONT_L, 0x00, 0x36);
+			SmallFont_DrawChar(screen + SMALLFONT_WIDTH, 1, 0x00, 0x36);
+		}
+		screen += SMALLFONT_WIDTH * 3;
+		if ((portb & 0x08) == 0) {
+			SmallFont_DrawChar(screen, SMALLFONT_L, 0x00, 0x36);
+			SmallFont_DrawChar(screen + SMALLFONT_WIDTH, 2, 0x00, 0x36);
 		}
 	}
 }

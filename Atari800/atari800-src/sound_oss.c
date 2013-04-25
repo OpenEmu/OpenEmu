@@ -26,7 +26,6 @@
 
 #ifdef SOUND
 
-#include "sound.h"
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -38,6 +37,7 @@
 #include "atari.h"
 #include "log.h"
 #include "pokeysnd.h"
+#include "sound.h"
 #include "util.h"
 
 void ATR800WriteSoundBuffer(void *buffer, unsigned int len);
@@ -50,18 +50,24 @@ static int sound_enabled = TRUE;
 static int output_channels;
 static int pokey_chips;
 
-void Sound_Initialise(int *argc, char *argv[])
+int Sound_Initialise(int *argc, char *argv[])
 {
 //	int i, j;
 //	int help_only = FALSE;
-
+//
 //	for (i = j = 1; i < *argc; i++) {
+//		int i_a = (i + 1 < *argc);		/* is argument available? */
+//		int a_m = FALSE;			/* error, argument missing! */
+//
 //		if (strcmp(argv[i], "-sound") == 0)
 //			sound_enabled = TRUE;
 //		else if (strcmp(argv[i], "-nosound") == 0)
 //			sound_enabled = FALSE;
-//		else if (strcmp(argv[i], "-dsprate") == 0)
-//			dsprate = Util_sscandec(argv[++i]);
+//		else if (strcmp(argv[i], "-dsprate") == 0) {
+//			if (i_a)
+//				dsprate = Util_sscandec(argv[++i]);
+//			else a_m = TRUE;
+//		}
 //		else {
 //			if (strcmp(argv[i], "-help") == 0) {
 //				help_only = TRUE;
@@ -72,24 +78,32 @@ void Sound_Initialise(int *argc, char *argv[])
 //			}
 //			argv[j++] = argv[i];
 //		}
+//
+//		if (a_m) {
+//			Log_print("Missing argument for '%s'", argv[i]);
+//			sound_enabled = FALSE;
+//			return FALSE;
+//		}
 //	}
 //	*argc = j;
 //
-//	if (help_only || !sound_enabled)
-//		return;
+//	if (help_only || !sound_enabled) {
+//		sound_enabled = FALSE;
+//		return TRUE;
+//	}
 //
 //	dsp_fd = open(dspname, O_WRONLY);
 //	if (dsp_fd == -1) {
 //		perror(dspname);
 //		sound_enabled = FALSE;
-//		return;
+//		return TRUE;
 //	}
 //	i = AFMT_U8;
 //	if (ioctl(dsp_fd, SNDCTL_DSP_SETFMT, &i)) {
 //		Log_print("%s: cannot set 8-bit unsigned samples", dspname);
 //		close(dsp_fd);
 //		sound_enabled = FALSE;
-//		return;
+//		return TRUE;
 //	}
 
 	/* try to set the OSS device into appropriate number of channels (1 for
@@ -106,20 +120,20 @@ void Sound_Initialise(int *argc, char *argv[])
 //		Log_print("%s: SNDCTL_DSP_CHANNELS(%1) failed", dspname, output_channels);
 //		close(dsp_fd);
 //		sound_enabled = FALSE;
-//		return;
+//		return TRUE;
 //	}
 //
 //	if (ioctl(dsp_fd, SNDCTL_DSP_SPEED, &dsprate)) {
 //		Log_print("%s: cannot set %d sample rate", dspname, dsprate);
 //		close(dsp_fd);
 //		sound_enabled = FALSE;
-//		return;
+//		return TRUE;
 //	}
 //	if (dsprate < 1000 || dsprate > 65535) {
 //		Log_print("%s: %d sample rate is not supported", dspname, dsprate);
 //		close(dsp_fd);
 //		sound_enabled = FALSE;
-//		return;
+//		return TRUE;
 //	}
 
 #ifdef STEREO_SOUND
@@ -128,6 +142,8 @@ void Sound_Initialise(int *argc, char *argv[])
 	pokey_chips = 1;
 #endif
 	POKEYSND_Init(POKEYSND_FREQ_17_EXACT, dsprate, pokey_chips, 0);
+
+	return TRUE;
 }
 
 void Sound_Pause(void)
@@ -221,12 +237,14 @@ void Sound_Update(void)
 		}
 	}
 
-	// TODO: write to ring buffer
-	ATR800WriteSoundBuffer(buffer, len);
-//	int wlen = write(dsp_fd, buffer, len);
-//	if (wlen < len) {
-//		/* handle problem */
-//	}
+	{
+        // TODO: write to ring buffer
+        ATR800WriteSoundBuffer(buffer, len);
+//		int wlen = write(dsp_fd, buffer, len);
+//		if (wlen < len) {
+//			/* handle problem */
+//		}
+	}
 }
 
 #endif	/* SOUND */

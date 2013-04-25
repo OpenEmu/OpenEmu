@@ -234,6 +234,7 @@ static int ide_init_drive(struct ide_device *s, char *filename) {
         s->cylinders = 16383;
     else if (s->cylinders < 2) {
         Log_print("%s: image file too small\n", filename);
+        fclose(s->file);
         return FALSE;
     }
 
@@ -856,7 +857,7 @@ void IDE_PutByte(uint16_t addr, uint8_t val) {
     mmio_ide_write(s, addr, val);
 }
 
-uint8_t IDE_GetByte(uint16_t addr) {
+uint8_t IDE_GetByte(uint16_t addr, int no_side_effects) {
     struct ide_device *s = &device;
     return mmio_ide_read(s, addr);
 }
@@ -898,4 +899,12 @@ int IDE_Initialise(int *argc, char *argv[]) {
     }
 
     return ret;
+}
+
+void IDE_Exit(void)
+{
+	if (IDE_enabled) {
+		fclose(device.file);
+		IDE_enabled = FALSE;
+	}
 }

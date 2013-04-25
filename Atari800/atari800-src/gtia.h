@@ -128,10 +128,10 @@ extern int GTIA_speaker;
 int GTIA_Initialise(int *argc, char *argv[]);
 void GTIA_Frame(void);
 void GTIA_NewPmScanline(void);
-UBYTE GTIA_GetByte(UWORD addr);
+UBYTE GTIA_GetByte(UWORD addr, int no_side_effects);
 void GTIA_PutByte(UWORD addr, UBYTE byte);
 void GTIA_StateSave(void);
-void GTIA_StateRead(void);
+void GTIA_StateRead(UBYTE version);
 
 #ifdef NEW_CYCLE_EXACT
 void GTIA_UpdatePmplColls(void);

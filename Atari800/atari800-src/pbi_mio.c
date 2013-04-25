@@ -49,7 +49,7 @@ static UBYTE *mio_ram;
 static int mio_ram_size = 0x100000;
 static UBYTE mio_rom_bank = 0;
 static int mio_ram_enabled = FALSE;
-static char mio_rom_filename[FILENAME_MAX] = "";
+static char mio_rom_filename[FILENAME_MAX];
 static char mio_scsi_disk_filename[FILENAME_MAX] = Util_FILENAME_NOT_SET;
 static int mio_scsi_enabled = FALSE;
 
@@ -59,6 +59,7 @@ static void init_mio(void)
 	mio_rom = (UBYTE *)Util_malloc(mio_rom_size);
 	if (!Atari800_LoadImage(mio_rom_filename, mio_rom, mio_rom_size)) {
 		free(mio_rom);
+		mio_rom = NULL;
 		return;
 	}
 	D(printf("Loaded mio rom image\n"));
@@ -82,7 +83,6 @@ static void init_mio(void)
 	memset(mio_ram, 0, mio_ram_size);
 }
 
-
 int PBI_MIO_Initialise(int *argc, char *argv[])
 {
 	int i, j;
@@ -100,6 +100,17 @@ int PBI_MIO_Initialise(int *argc, char *argv[])
 	*argc = j;
 
 	return TRUE;
+}
+
+void PBI_MIO_Exit(void)
+{
+	if (PBI_SCSI_disk != NULL) {
+		fclose(PBI_SCSI_disk);
+		PBI_SCSI_disk = NULL;
+	}
+	free(mio_ram);
+	free(mio_rom);
+	mio_rom = mio_ram = NULL;
 }
 
 int PBI_MIO_ReadConfig(char *string, char *ptr) 
@@ -121,7 +132,7 @@ void PBI_MIO_WriteConfig(FILE *fp)
 }
 
 /* $D1xx */
-UBYTE PBI_MIO_D1GetByte(UWORD addr)
+UBYTE PBI_MIO_D1GetByte(UWORD addr, int no_side_effects)
 {
 	UBYTE result = 0x00;/*ff*/;
 	addr &= 0xffe3; /* 7 mirrors */
@@ -132,8 +143,10 @@ UBYTE PBI_MIO_D1GetByte(UWORD addr)
 	else if (addr == 0xd1e1) {
 		if (mio_scsi_enabled) {
 			result = PBI_SCSI_GetByte()^0xff;
-			PBI_SCSI_PutACK(1);
-			PBI_SCSI_PutACK(0);
+			if (!no_side_effects) {
+				PBI_SCSI_PutACK(1);
+				PBI_SCSI_PutACK(0);
+			}
 		}
 	}
 	return result;
@@ -206,7 +219,7 @@ void PBI_MIO_D1PutByte(UWORD addr, UBYTE byte)
 /* MIO RAM page at D600-D6ff */
 /* Possible to put code in this ram, so we can't avoid using MEMORY_mem[] */
 /* because opcode fetch doesn't call this function */
-UBYTE PBI_MIO_D6GetByte(UWORD addr)
+UBYTE PBI_MIO_D6GetByte(UWORD addr, int no_side_effects)
 {
 	if (!mio_ram_enabled) return 0xff;
 	return MEMORY_mem[addr];

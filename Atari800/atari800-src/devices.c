@@ -22,6 +22,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+/* Bibliography:
+   [OSMAN] - Atari Home Computer System Technical Reference Notes - Operating System
+             User's Manual - CA016555 Rev. A - 1982 Atari, Inc.
+ */
 #include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -66,6 +70,7 @@
 #include "log.h"
 #include "memory.h"
 #include "sio.h"
+#include "sysrom.h"
 #include "util.h"
 #ifdef R_IO_DEVICE
 #include "rdevice.h"
@@ -277,7 +282,7 @@ static int Devices_ReadDir(char *fullpath, char *filename, int *isdir,
 #ifdef HAVE_STAT
 	if (stat(temppath, &status) == 0) {
 		if (isdir != NULL)
-			*isdir = (status.st_mode & S_IFDIR) ? TRUE : FALSE;
+			*isdir = S_ISDIR(status.st_mode);
 		if (readonly != NULL)
 			*readonly = (status.st_mode & S_IWRITE) ? FALSE : TRUE;
 		if (size != NULL)
@@ -478,7 +483,7 @@ static UBYTE Devices_RemoveDirectory(const char *filename)
 static int devbug = FALSE;
 
 /* host path for each H: unit */
-char Devices_atari_h_dir[4][FILENAME_MAX] = { "", "", "", "" };
+char Devices_atari_h_dir[4][FILENAME_MAX];
 
 /* read only mode for H: device */
 int Devices_h_read_only = TRUE;
@@ -498,12 +503,16 @@ static FILE *h_fp[8] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 /* H: text mode per IOCB */
 static int h_textmode[8];
 
+/* H: last read character per IOCB */
+static int h_lastbyte[8];
+
 /* last read character was CR, per IOCB */
 static int h_wascr[8];
 
-/* last operation: 'o': open, 'r': read, 'w': write, per IOCB */
-/* (this is needed to apply fseek(fp, 0, SEEK_CUR) between reads and writes
-   in update (12) mode) */
+/* last operation: 'o': open, 'r': read, 'w': write, 'p': point, 'b': binary
+   load, per IOCB. This is needed to apply fseek(fp, 0, SEEK_CUR) between reads
+   and writes in update (12) mode, and to support the read-ahead of 1 byte
+   in Devices_h_read. */
 static char h_lastop[8];
 
 Util_tmpbufdef(static, h_tmpbuf[8])
@@ -621,6 +630,11 @@ int Devices_Initialise(int *argc, char *argv[])
 	Devices_H_Init();
 
 	return TRUE;
+}
+
+void Devices_Exit(void)
+{
+	Devices_H_CloseAll();
 }
 
 #define IS_DIR_SEP(c) ((c) == '/' || (c) == '\\' || (c) == ':' || (c) == '>')
@@ -977,10 +991,13 @@ static void Devices_H_Read(void)
 		return;
 	if (h_fp[h_iocb] != NULL) {
 		int ch;
-		if (h_lastop[h_iocb] == 'w')
-			fseek(h_fp[h_iocb], 0, SEEK_CUR);
-		h_lastop[h_iocb] = 'r';
-		ch = fgetc(h_fp[h_iocb]);
+		if (h_lastop[h_iocb] != 'r') {
+			if (h_lastop[h_iocb] == 'w')
+				fseek(h_fp[h_iocb], 0, SEEK_CUR);
+			h_lastbyte[h_iocb] = fgetc(h_fp[h_iocb]);
+			h_lastop[h_iocb] = 'r';
+		}
+		ch = h_lastbyte[h_iocb];
 		if (ch != EOF) {
 			if (h_textmode[h_iocb]) {
 				switch (ch) {
@@ -1015,7 +1032,10 @@ static void Devices_H_Read(void)
 				}
 			}
 			CPU_regA = (UBYTE) ch;
-			CPU_regY = 1;
+			/* [OSMAN] p. 79: Status should be 3 if next read would yield EOF.
+			   But to set the stream's EOF flag, we need to read the next byte. */
+			h_lastbyte[h_iocb] = fgetc(h_fp[h_iocb]);
+			CPU_regY = feof(h_fp[h_iocb]) ? 3 : 1;
 			CPU_ClrN;
 		}
 		else {
@@ -1317,6 +1337,9 @@ static void Devices_H_Note(void)
 		long pos = ftell(h_fp[h_iocb]);
 		if (pos >= 0) {
 			int iocb = Devices_IOCB0 + h_iocb * 16;
+			/* In Devices_H_Read one byte is read ahead. Take it into account. */
+			if (h_lastop[h_iocb] == 'r' && h_lastbyte[h_iocb] != EOF)
+				--pos;
 			MEMORY_dPutByte(iocb + Devices_ICAX5, (UBYTE) pos);
 			MEMORY_dPutByte(iocb + Devices_ICAX3, (UBYTE) (pos >> 8));
 			MEMORY_dPutByte(iocb + Devices_ICAX4, (UBYTE) (pos >> 16));
@@ -1352,6 +1375,7 @@ static void Devices_H_Point(void)
 			CPU_regY = 166; /* invalid POINT request */
 			CPU_SetN;
 		}
+		h_lastop[h_iocb] = 'p';
 	}
 	else {
 		CPU_regY = 130; /* specified device does not exist; XXX: correct? */
@@ -1568,9 +1592,15 @@ static void Devices_H_FileLength(void)
 	/* if we are running MyDOS then assume it is a MyDOS Load File command */
 	else if (MEMORY_dGetByte(0x700) == 'M') {
 		/* XXX: if (binf != NULL) fclose(binf); ? */
+
+		/* In Devices_H_Read one byte is read ahead. Take it into account. */
+		if (h_lastop[h_iocb] == 'r' && h_lastbyte[h_iocb] != EOF)
+			fseek(h_fp[h_iocb], -1, SEEK_CUR);
+
 		binf = h_fp[h_iocb];
 		Devices_H_LoadProceed(TRUE);
 		/* XXX: don't close binf when complete? */
+		h_lastop[h_iocb] = 'b';
 	}
 	/* otherwise assume it is a file length command */
 	else {
@@ -1845,7 +1875,8 @@ static void Devices_P_Close(void)
 			char command[256 + FILENAME_MAX]; /* 256 for Devices_print_command + FILENAME_MAX for spool_file */
 			int retval;
 			sprintf(command, Devices_print_command, spool_file);
-			retval = system(command);
+			if ((retval = system(command)) == -1)
+				Log_print("Print command \"%s\' failed", command);
 #if defined(HAVE_UTIL_UNLINK) && !defined(VMS) && !defined(MACOSX)
 			if (Util_unlink(spool_file) != 0) {
 				perror(spool_file);
@@ -2001,6 +2032,97 @@ static void Devices_K_Read(void)
 
 #endif /* BASIC */
 
+/* B: device emulation --------------------------------------------------- */
+
+/* The B: device is intended as a handler for interoperating with a web browser.
+ * The device is OPENed, a url is WRITE-n, then it is CLOSEd.
+ * Upon closing, the ready flag in the structure is set to TRUE.
+ * This can tested by the host port, reset to FALSE then if the string contained
+ * in the url member looks like a url, a browser to can be spawned to that url.
+ * The user can also be notified via a popup that an Atari program is requesting
+ * browser access.
+ */
+
+struct DEV_B dev_b_status;
+
+static void Devices_B_Open(void)
+{
+	if (devbug)
+		Log_print("B: OPEN");
+
+	if (MEMORY_dGetByte(Devices_ICAX1Z) != 8) {
+		CPU_regY = 163; /* read-only device */
+		CPU_SetN;
+		return;
+	}
+
+	memset(dev_b_status.url, 0, sizeof(dev_b_status.url));
+	dev_b_status.pos = 0;
+	dev_b_status.ready = FALSE;
+
+	CPU_regY = 1;	/* open OK */
+	CPU_ClrN;
+}
+
+static void Devices_B_Close(void)
+{
+	if (devbug)
+		Log_print("B: CLOSE (%s)", dev_b_status.url);
+
+	if (dev_b_status.pos > 0)
+		dev_b_status.ready = TRUE;
+
+	CPU_regY = 1;
+	CPU_ClrN;
+}
+
+static void Devices_B_Write(void)
+{
+	UBYTE byte;
+
+	byte = CPU_regA;
+
+	if (devbug)
+		Log_print("B: WRITE ([%d] %02X, '%c')", dev_b_status.pos, byte, byte);
+
+	if (byte == 0x9b)
+		byte = '\0';
+
+	if (dev_b_status.pos >= sizeof(dev_b_status.url) - 1) {
+		CPU_regY = 135; /* attempted to write to a read-only device */
+		CPU_SetN;
+		return;
+	}
+	dev_b_status.url[dev_b_status.pos++] = byte;
+
+	CPU_regY = 1;
+	CPU_ClrN;
+}
+
+static void Devices_B_Null(void)
+{
+	if (devbug)
+		Log_print("B: NULL");
+}
+
+static void Devices_B_Read(void)
+{
+	if (devbug)
+		Log_print("B: READ");
+
+	CPU_regY = 136; /* end of file */
+	CPU_SetN;
+}
+
+static void Devices_B_Init(void)
+{
+	if (devbug)
+		Log_print("B: INIT");
+
+	CPU_regY = 1;
+	CPU_ClrN;
+}
+
 
 /* Atari BASIC loader ---------------------------------------------------- */
 
@@ -2019,10 +2141,10 @@ static void Devices_RestoreHandler(UWORD address, UBYTE esc_code)
 {
 	ESC_Remove(esc_code);
 	/* restore original OS code */
-	MEMORY_dCopyToMem(Atari800_machine_type == Atari800_MACHINE_XLXE
-	            ? MEMORY_os + address - 0xc000
-	            : MEMORY_os + address - 0xd800,
-	           address, 3);
+	MEMORY_dCopyToMem(MEMORY_os - (Atari800_machine_type == Atari800_MACHINE_800
+	                               ? 0xd800
+	                               : 0xc000) + address,
+	                  address, 3);
 }
 
 static void Devices_RestoreEHOPEN(void)
@@ -2257,6 +2379,7 @@ static void Devices_CloseBasicFile(void)
 int Devices_enable_h_patch = TRUE;
 int Devices_enable_p_patch = TRUE;
 int Devices_enable_r_patch = FALSE;
+int Devices_enable_b_patch = FALSE;
 
 /* Devices_PatchOS is called by ESC_PatchOS to modify standard device
    handlers in Atari OS. It puts escape codes at beginnings of OS routines,
@@ -2272,13 +2395,38 @@ int Devices_PatchOS(void)
 	int i;
 	int patched = FALSE;
 
-	switch (Atari800_machine_type) {
-	case Atari800_MACHINE_OSA:
-	case Atari800_MACHINE_OSB:
+	switch (Atari800_os_version) {
+	case SYSROM_A_NTSC:
+	case SYSROM_A_PAL:
+	case SYSROM_B_NTSC:
+	case SYSROM_800_CUSTOM:
 		addr = 0xf0e3;
 		break;
-	case Atari800_MACHINE_XLXE:
+	case SYSROM_AA00R10:
+		addr = 0xc4fa;
+		break;
+	case SYSROM_AA01R11:
+		addr = 0xc479;
+		break;
+	case SYSROM_BB00R1:
+		addr = 0xc43c;
+		break;
+	case SYSROM_BB01R2:
+	case SYSROM_BB01R3:
+	case SYSROM_BB01R4_OS:
+	case SYSROM_BB01R59:
+	case SYSROM_BB01R59A:
+	case SYSROM_XL_CUSTOM:
 		addr = 0xc42e;
+		break;
+	case SYSROM_BB02R3:
+		addr = 0xc42c;
+		break;
+	case SYSROM_BB02R3V4:
+		addr = 0xc43b;
+		break;
+	case SYSROM_CC01R4:
+		addr = 0xc3eb;
 		break;
 	default:
 		return FALSE;
@@ -2400,6 +2548,7 @@ static UWORD h_entry_address = 0;
 #ifdef R_IO_DEVICE
 static UWORD r_entry_address = 0;
 #endif
+static UWORD b_entry_address = 0;
 
 #define H_DEVICE_BEGIN  0xd140
 #define H_TABLE_ADDRESS 0xd140
@@ -2424,6 +2573,17 @@ static UWORD r_entry_address = 0;
 #define R_DEVICE_END    0xd1b5
 #endif
 
+#define B_DEVICE_BEGIN  0xd1c0
+#define B_TABLE_ADDRESS 0xd1c0
+#define B_PATCH_OPEN    0xd1d0
+#define B_PATCH_CLOS    0xd1d3
+#define B_PATCH_READ    0xd1d6
+#define B_PATCH_WRIT    0xd1d9
+#define B_PATCH_STAT    0xd1dc
+#define B_PATCH_SPEC    0xd1df
+#define B_PATCH_INIT    0xd1e3
+#define B_DEVICE_END    0xd1e5
+
 void Devices_Frame(void)
 {
 	if (Devices_enable_h_patch)
@@ -2433,6 +2593,9 @@ void Devices_Frame(void)
 	if (Devices_enable_r_patch)
 		r_entry_address = Devices_UpdateHATABSEntry('R', r_entry_address, R_TABLE_ADDRESS);
 #endif
+
+	if (Devices_enable_b_patch)
+		b_entry_address = Devices_UpdateHATABSEntry('B', b_entry_address, B_TABLE_ADDRESS);
 }
 
 /* this is called when Devices_enable_h_patch is toggled */
@@ -2509,6 +2672,40 @@ void Devices_UpdatePatches(void)
 		MEMORY_dFillMem(R_DEVICE_BEGIN, 0xff, R_DEVICE_END - R_DEVICE_BEGIN + 1);
 	}
 #endif /* defined(R_IO_DEVICE) */
+
+	if (Devices_enable_b_patch) {
+		/* add B: device to HATABS */
+		MEMORY_SetROM(B_DEVICE_BEGIN, B_DEVICE_END);
+		/* set handler table */
+		MEMORY_dPutWord(B_TABLE_ADDRESS + Devices_TABLE_OPEN, B_PATCH_OPEN - 1);
+		MEMORY_dPutWord(B_TABLE_ADDRESS + Devices_TABLE_CLOS, B_PATCH_CLOS - 1);
+		MEMORY_dPutWord(B_TABLE_ADDRESS + Devices_TABLE_READ, B_PATCH_READ - 1);
+		MEMORY_dPutWord(B_TABLE_ADDRESS + Devices_TABLE_WRIT, B_PATCH_WRIT - 1);
+		MEMORY_dPutWord(B_TABLE_ADDRESS + Devices_TABLE_STAT, B_PATCH_STAT - 1);
+		MEMORY_dPutWord(B_TABLE_ADDRESS + Devices_TABLE_SPEC, B_PATCH_SPEC - 1);
+		MEMORY_dPutWord(B_TABLE_ADDRESS + Devices_TABLE_INIT, B_PATCH_INIT - 1);
+		/* set patches */
+		ESC_AddEscRts(B_PATCH_OPEN, ESC_BOPEN, Devices_B_Open);
+		ESC_AddEscRts(B_PATCH_CLOS, ESC_BCLOS, Devices_B_Close);
+		ESC_AddEscRts(B_PATCH_READ, ESC_BREAD, Devices_B_Read);
+		ESC_AddEscRts(B_PATCH_WRIT, ESC_BWRIT, Devices_B_Write);
+		ESC_AddEscRts(B_PATCH_STAT, ESC_BSTAT, Devices_B_Null);
+		ESC_AddEscRts(B_PATCH_SPEC, ESC_BSPEC, Devices_B_Null);
+		ESC_AddEscRts(B_PATCH_INIT, ESC_BINIT, Devices_B_Init);
+	}
+	else {
+		/* remove B: entry from HATABS */
+		Devices_RemoveHATABSEntry('B', b_entry_address, B_TABLE_ADDRESS);
+		/* remove patches */
+		ESC_Remove(ESC_BOPEN);
+		ESC_Remove(ESC_BCLOS);
+		ESC_Remove(ESC_BREAD);
+		ESC_Remove(ESC_BWRIT);
+		ESC_Remove(ESC_BSTAT);
+		ESC_Remove(ESC_BSPEC);
+		/* fill memory area used for table and patches with 0xff */
+		MEMORY_dFillMem(B_DEVICE_BEGIN, 0xff, B_DEVICE_END - B_DEVICE_BEGIN + 1);
+	}
 }
 
 /*

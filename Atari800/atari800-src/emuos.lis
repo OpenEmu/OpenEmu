@@ -1,0 +1,569 @@
+        .OPT NO LIST
+;  emuos.lis - OS bootstrapping code
+;
+;  Copyright (C) 1995-1998 David Firth
+;  Copyright (C) 2001-2009 Atari800 development team (see DOC/CREDITS)
+;
+;  This file is part of the Atari800 emulator project which emulates
+;  the Atari 400, 800, 800XL, 130XE, and 5200 8-bit computers.
+;
+;  Atari800 is free software; you can redistribute it and/or modify
+;  it under the terms of the GNU General Public License as published by
+;  the Free Software Foundation; either version 2 of the License, or
+;  (at your option) any later version.
+;
+;  Atari800 is distributed in the hope that it will be useful,
+;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;  GNU General Public License for more details.
+;
+;  You should have received a copy of the GNU General Public License
+;  along with Atari800; if not, write to the Free Software
+;  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+;
+;
+; UPDATE EMUOS.LIS
+; Start Emulator
+; Insert MAC/65 Cartridge
+; ENTER #H5:EMUOS.LIS,A
+; ASM,,#H0:EMUOS.OBJ
+; Exit Emulator
+; mkimg -input emuos.obj -image emuos.img -header emuos.h e000 ffff
+;
+BOOT =  $09
+RTCLOK = $12
+VVBLKI = $0222
+VVBLKD = $0224
+;
+; ============================
+; OS Hardware Shadow Registers
+; ============================
+;
+CHART = $02F3
+CHBAS = $02F4
+CH  =   $02FC
+COLOR4 = $02C8
+COLOR0 = $02C4
+COLOR1 = $02C5
+COLOR2 = $02C6
+COLOR3 = $02C7
+PCOLR0 = $02C0
+PCOLR1 = $02C1
+PCOLR2 = $02C2
+PCOLR3 = $02C3
+SDLSTH = $0231
+SDLSTL = $0230
+SDMCTL = $022F
+STICK0 = $0278
+STICK1 = $0279
+STICK2 = $027A
+STICK3 = $027B
+GPRIOR = $026F
+SSKCTL = $0232
+STRIG0 = $0284
+STRIG1 = $0285
+STRIG2 = $0286
+STRIG3 = $0287
+;
+DDEVIC = $0300
+DUNIT = $0301
+DCOMND = $0302
+DSTATS = $0303
+DBUFLO = $0304
+DBUFHI = $0305
+DTIMLO = $0306
+DTIMHI = $0307
+DBYTLO = $0308
+DBYTHI = $0309
+DAUX1 = $030A
+DAUX2 = $030B
+;
+; ==================
+; Hardware Registers
+; ==================
+;
+CHACTL = $D401
+CHBASE = $D409
+COLBK = $D01A
+COLPF0 = $D016
+COLPF1 = $D017
+COLPF2 = $D018
+COLPF3 = $D019
+COLPM0 = $D012
+COLPM1 = $D013
+COLPM2 = $D014
+COLPM3 = $D015
+CONSOL = $D01F
+DLISTH = $D403
+DLISTL = $D402
+DMACTL = $D400
+KBCODE = $D209
+IRQEN = $D20E
+IRQST = $D20E
+NMIRES = $D40F
+NMIST = $D40F
+PACTL = $D302
+PORTA = $D300
+PORTB = $D301
+PRIOR = $D01B
+SKCTL = $D20F
+TRIG0 = $D010
+TRIG1 = $D011
+TRIG2 = $D012
+TRIG3 = $D013
+VCOUNT = $D40B
+;
+    *=  $E000
+    .BYTE $00,$00,$00,$00,$00,$00,$00,$00
+    .BYTE $00,$18,$18,$18,$18,$00,$18,$00
+    .BYTE $00,$66,$66,$66,$00,$00,$00,$00
+    .BYTE $00,$66,$FF,$66,$66,$FF,$66,$00
+    .BYTE $18,$3E,$60,$3C,$06,$7C,$18,$00
+    .BYTE $00,$66,$6C,$18,$30,$66,$46,$00
+    .BYTE $1C,$36,$1C,$38,$6F,$66,$3B,$00
+    .BYTE $00,$18,$18,$18,$00,$00,$00,$00
+    .BYTE $00,$0E,$1C,$18,$18,$1C,$0E,$00
+    .BYTE $00,$70,$38,$18,$18,$38,$70,$00
+    .BYTE $00,$66,$3C,$FF,$3C,$66,$00,$00
+    .BYTE $00,$18,$18,$7E,$18,$18,$00,$00
+    .BYTE $00,$00,$00,$00,$00,$18,$18,$30
+    .BYTE $00,$00,$00,$7E,$00,$00,$00,$00
+    .BYTE $00,$00,$00,$00,$00,$18,$18,$00
+    .BYTE $00,$06,$0C,$18,$30,$60,$40,$00
+    .BYTE $00,$3C,$66,$6E,$76,$66,$3C,$00
+    .BYTE $00,$18,$38,$18,$18,$18,$7E,$00
+    .BYTE $00,$3C,$66,$0C,$18,$30,$7E,$00
+    .BYTE $00,$7E,$0C,$18,$0C,$66,$3C,$00
+    .BYTE $00,$0C,$1C,$3C,$6C,$7E,$0C,$00
+    .BYTE $00,$7E,$60,$7C,$06,$66,$3C,$00
+    .BYTE $00,$3C,$60,$7C,$66,$66,$3C,$00
+    .BYTE $00,$7E,$06,$0C,$18,$30,$30,$00
+    .BYTE $00,$3C,$66,$3C,$66,$66,$3C,$00
+    .BYTE $00,$3C,$66,$3E,$06,$0C,$38,$00
+    .BYTE $00,$00,$18,$18,$00,$18,$18,$00
+    .BYTE $00,$00,$18,$18,$00,$18,$18,$30
+    .BYTE $06,$0C,$18,$30,$18,$0C,$06,$00
+    .BYTE $00,$00,$7E,$00,$00,$7E,$00,$00
+    .BYTE $60,$30,$18,$0C,$18,$30,$60,$00
+    .BYTE $00,$3C,$66,$0C,$18,$00,$18,$00
+    .BYTE $00,$3C,$66,$6E,$6E,$60,$3E,$00
+    .BYTE $00,$18,$3C,$66,$66,$7E,$66,$00
+    .BYTE $00,$7C,$66,$7C,$66,$66,$7C,$00
+    .BYTE $00,$3C,$66,$60,$60,$66,$3C,$00
+    .BYTE $00,$78,$6C,$66,$66,$6C,$78,$00
+    .BYTE $00,$7E,$60,$7C,$60,$60,$7E,$00
+    .BYTE $00,$7E,$60,$7C,$60,$60,$60,$00
+    .BYTE $00,$3E,$60,$60,$6E,$66,$3E,$00
+    .BYTE $00,$66,$66,$7E,$66,$66,$66,$00
+    .BYTE $00,$7E,$18,$18,$18,$18,$7E,$00
+    .BYTE $00,$06,$06,$06,$06,$66,$3C,$00
+    .BYTE $00,$66,$6C,$78,$78,$6C,$66,$00
+    .BYTE $00,$60,$60,$60,$60,$60,$7E,$00
+    .BYTE $00,$63,$77,$7F,$6B,$63,$63,$00
+    .BYTE $00,$66,$76,$7E,$7E,$6E,$66,$00
+    .BYTE $00,$3C,$66,$66,$66,$66,$3C,$00
+    .BYTE $00,$7C,$66,$66,$7C,$60,$60,$00
+    .BYTE $00,$3C,$66,$66,$66,$6C,$36,$00
+    .BYTE $00,$7C,$66,$66,$7C,$6C,$66,$00
+    .BYTE $00,$3C,$60,$3C,$06,$06,$3C,$00
+    .BYTE $00,$7E,$18,$18,$18,$18,$18,$00
+    .BYTE $00,$66,$66,$66,$66,$66,$7E,$00
+    .BYTE $00,$66,$66,$66,$66,$3C,$18,$00
+    .BYTE $00,$63,$63,$6B,$7F,$77,$63,$00
+    .BYTE $00,$66,$66,$3C,$3C,$66,$66,$00
+    .BYTE $00,$66,$66,$3C,$18,$18,$18,$00
+    .BYTE $00,$7E,$0C,$18,$30,$60,$7E,$00
+    .BYTE $00,$1E,$18,$18,$18,$18,$1E,$00
+    .BYTE $00,$40,$60,$30,$18,$0C,$06,$00
+    .BYTE $00,$78,$18,$18,$18,$18,$78,$00
+    .BYTE $00,$08,$1C,$36,$63,$00,$00,$00
+    .BYTE $00,$00,$00,$00,$00,$00,$FF,$00
+    .BYTE $00,$36,$7F,$7F,$3E,$1C,$08,$00
+    .BYTE $18,$18,$18,$1F,$1F,$18,$18,$18
+    .BYTE $03,$03,$03,$03,$03,$03,$03,$03
+    .BYTE $18,$18,$18,$F8,$F8,$00,$00,$00
+    .BYTE $18,$18,$18,$F8,$F8,$18,$18,$18
+    .BYTE $00,$00,$00,$F8,$F8,$18,$18,$18
+    .BYTE $03,$07,$0E,$1C,$38,$70,$E0,$C0
+    .BYTE $C0,$E0,$70,$38,$1C,$0E,$07,$03
+    .BYTE $01,$03,$07,$0F,$1F,$3F,$7F,$FF
+    .BYTE $00,$00,$00,$00,$0F,$0F,$0F,$0F
+    .BYTE $80,$C0,$E0,$F0,$F8,$FC,$FE,$FF
+    .BYTE $0F,$0F,$0F,$0F,$00,$00,$00,$00
+    .BYTE $F0,$F0,$F0,$F0,$00,$00,$00,$00
+    .BYTE $FF,$FF,$00,$00,$00,$00,$00,$00
+    .BYTE $00,$00,$00,$00,$00,$00,$FF,$FF
+    .BYTE $00,$00,$00,$00,$F0,$F0,$F0,$F0
+    .BYTE $00,$1C,$1C,$77,$77,$08,$1C,$00
+    .BYTE $00,$00,$00,$1F,$1F,$18,$18,$18
+    .BYTE $00,$00,$00,$FF,$FF,$00,$00,$00
+    .BYTE $18,$18,$18,$FF,$FF,$18,$18,$18
+    .BYTE $00,$00,$3C,$7E,$7E,$7E,$3C,$00
+    .BYTE $00,$00,$00,$00,$FF,$FF,$FF,$FF
+    .BYTE $C0,$C0,$C0,$C0,$C0,$C0,$C0,$C0
+    .BYTE $00,$00,$00,$FF,$FF,$18,$18,$18
+    .BYTE $18,$18,$18,$FF,$FF,$00,$00,$00
+    .BYTE $F0,$F0,$F0,$F0,$F0,$F0,$F0,$F0
+    .BYTE $18,$18,$18,$1F,$1F,$00,$00,$00
+    .BYTE $78,$60,$78,$60,$7E,$18,$1E,$00
+    .BYTE $00,$18,$3C,$7E,$18,$18,$18,$00
+    .BYTE $00,$18,$18,$18,$7E,$3C,$18,$00
+    .BYTE $00,$18,$30,$7E,$30,$18,$00,$00
+    .BYTE $00,$18,$0C,$7E,$0C,$18,$00,$00
+    .BYTE $00,$18,$3C,$7E,$7E,$3C,$18,$00
+    .BYTE $00,$00,$3C,$06,$3E,$66,$3E,$00
+    .BYTE $00,$60,$60,$7C,$66,$66,$7C,$00
+    .BYTE $00,$00,$3C,$60,$60,$60,$3C,$00
+    .BYTE $00,$06,$06,$3E,$66,$66,$3E,$00
+    .BYTE $00,$00,$3C,$66,$7E,$60,$3C,$00
+    .BYTE $00,$0E,$18,$3E,$18,$18,$18,$00
+    .BYTE $00,$00,$3E,$66,$66,$3E,$06,$7C
+    .BYTE $00,$60,$60,$7C,$66,$66,$66,$00
+    .BYTE $00,$18,$00,$38,$18,$18,$3C,$00
+    .BYTE $00,$06,$00,$06,$06,$06,$06,$3C
+    .BYTE $00,$60,$60,$6C,$78,$6C,$66,$00
+    .BYTE $00,$38,$18,$18,$18,$18,$3C,$00
+    .BYTE $00,$00,$66,$7F,$7F,$6B,$63,$00
+    .BYTE $00,$00,$7C,$66,$66,$66,$66,$00
+    .BYTE $00,$00,$3C,$66,$66,$66,$3C,$00
+    .BYTE $00,$00,$7C,$66,$66,$7C,$60,$60
+    .BYTE $00,$00,$3E,$66,$66,$3E,$06,$06
+    .BYTE $00,$00,$7C,$66,$60,$60,$60,$00
+    .BYTE $00,$00,$3E,$60,$3C,$06,$7C,$00
+    .BYTE $00,$18,$7E,$18,$18,$18,$0E,$00
+    .BYTE $00,$00,$66,$66,$66,$66,$3E,$00
+    .BYTE $00,$00,$66,$66,$66,$3C,$18,$00
+    .BYTE $00,$00,$63,$6B,$7F,$3E,$36,$00
+    .BYTE $00,$00,$66,$3C,$18,$3C,$66,$00
+    .BYTE $00,$00,$66,$66,$66,$3E,$0C,$78
+    .BYTE $00,$00,$7E,$0C,$18,$30,$7E,$00
+    .BYTE $00,$18,$3C,$7E,$7E,$18,$3C,$00
+    .BYTE $18,$18,$18,$18,$18,$18,$18,$18
+    .BYTE $00,$7E,$78,$7C,$6E,$66,$06,$00
+    .BYTE $08,$18,$38,$78,$38,$18,$08,$00
+    .BYTE $10,$18,$1C,$1E,$1C,$18,$10,$00
+;
+DISKIV = $E450
+DSKINV = $E453
+CIOV =  $E456
+SIOV =  $E459
+SETVBV = $E45C
+SYSVBV = $E45F
+XITVBV = $E462
+SIOINV = $E465
+SENDEV = $E468
+INTINV = $E46B
+CIOINV = $E46E
+BLKBDV = $E471
+WARMSV = $E474
+COLDSV = $E477
+RBLOKV = $E47A
+CSOPIV = $E47D
+;
+    *=  DISKIV
+    JMP HALT
+    *=  DSKINV
+    JMP HALT
+    *=  CIOV
+    JMP HALT
+    *=  SIOV
+    JMP HALT
+    *=  SETVBV
+    JMP HALT
+    *=  SYSVBV
+    JMP HALT
+    *=  XITVBV
+    JMP XITVBL
+    *=  SIOINV
+    JMP HALT
+    *=  SENDEV
+    JMP HALT
+    *=  INTINV
+    JMP HALT
+    *=  CIOINV
+    JMP HALT
+    *=  BLKBDV
+    JMP HALT
+    *=  WARMSV
+    JMP COLDSTART
+    *=  COLDSV
+    JMP COLDSTART
+    *=  RBLOKV
+    JMP HALT
+    *=  CSOPIV
+    JMP HALT
+;
+    *=  $F800
+COLDSTART
+    LDX #$FF
+    TXS 
+    LDA # <SYSVBL
+    STA VVBLKI
+    LDA # >SYSVBL
+    STA VVBLKI+1
+    LDA # <XITVBL
+    STA VVBLKD
+    LDA # >XITVBL
+    STA VVBLKD+1
+    LDA # <IRQ
+    STA $0216
+    LDA # >IRQ
+    STA $0217
+    LDA $0000
+    BNE RPIIMG	; Run pre-installed image
+    LDA $0001
+    BNE RPIIMG	; Run pre-installed image
+    LDA $BFFC
+    INC $BFFC
+    CMP $BFFC
+    BNE BOOTDISK
+;    BNE MONTY
+    JSR CART.INIT
+    JMP ($BFFA)
+CART.INIT
+    JMP ($BFFE)
+;MONTY
+;    STA $BFFC   ; Restore original value to $BFFC
+;    JMP $0115   ; Run Montezummas Revenge
+RPIIMG
+    JMP ($0000)	; Run pre-installed image
+;
+BOOTDISK
+    LDA #$31
+    STA DDEVIC
+    LDA #$01
+    STA DUNIT
+    LDA #$52
+    STA DCOMND
+    LDA #0
+    STA DBUFLO
+    LDA #4
+    STA DBUFHI
+    LDA #$80
+    STA DBYTLO
+    LDA #$00
+    STA DBYTHI
+    LDA #1
+    STA DAUX1
+    LDA #0
+    STA DAUX2
+    JSR SIOV
+    BMI HALT
+    LDA $0400
+    CMP #$FF
+    BNE BOOTDISK.1
+    LDA $0401
+    CMP #$FF
+    BEQ BINARY.FILE
+BOOTDISK.1
+    STA 0
+    CLC 
+    LDA $0402
+    STA DBUFLO
+    ADC #6
+    STA 1
+    LDA $0403
+    STA DBUFHI
+    ADC #0
+    STA 2
+    LDA $0404
+    STA 3
+    LDA $0405
+    STA 4
+?L1
+    JSR SIOV
+    BMI HALT
+    CLC 
+    LDA DBUFLO
+    ADC #$80
+    STA DBUFLO
+    LDA DBUFHI
+    ADC #0
+    STA DBUFHI
+    INC DAUX1
+    BNE ?L2
+    INC DAUX2
+?L2
+    DEC 0
+    BNE ?L1
+    DEC 5
+    BPL ?L1
+    JSR ?L3     ; Run initialisation code
+    LDA #1
+    STA BOOT
+    JSR ?L4     ; Run main program
+    RTS 
+?L3
+    JMP ($01)
+?L4
+    JMP ($03)
+;
+BINARY.FILE
+;
+HALT
+    LDA # <DLIST
+    STA SDLSTL
+    STA DLISTL
+    LDA # >DLIST
+    STA SDLSTH
+    STA DLISTH
+    LDA #$E0
+    STA CHBASE
+    STA CHBAS
+    LDA #$22
+    STA DMACTL
+    STA SDMCTL
+    LDA #$02
+    STA CHACTL
+    STA CHART
+    LDA #$CA
+    STA COLBK
+    STA COLOR4
+    LDA #$94
+    STA COLPF2
+    STA COLOR2
+    LDA #$0A
+    STA COLPF1
+    STA COLOR1
+;
+HALT2
+    JMP HALT2
+DLIST
+    .BYTE $70,$70,$70
+    .BYTE $42, <HALTMSG, >HALTMSG
+    .BYTE $02,$02,$02,$02,$02
+    .BYTE $02,$02,$02,$02,$02
+    .BYTE $02,$02,$02,$02,$02
+    .BYTE $02,$02,$02,$02,$02
+    .BYTE $02,$02,$02
+    .BYTE $41, <DLIST, >DLIST
+;
+HALTMSG
+    .SBYTE "      Atari800/OS Emulation Halted      "
+    .SBYTE "   Copyright (c) 1997 David J. Firth    "
+    .SBYTE "(c) 1998-2013 Atari800 Development Team "
+    .SBYTE "                                        "
+    .SBYTE "       http://atari800.atari.org/       "
+    .SBYTE "                                        "
+    .SBYTE "Sorry this program needs a real Atari/OS"
+    .SBYTE "  Visit the Web pages to find out more  "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+    .SBYTE "                                        "
+;
+NMI
+    BIT NMIST
+    BPL VBI
+    JMP ($0200)
+VBI
+    PHA 
+    TXA 
+    PHA 
+    TYA 
+    PHA 
+    STA NMIRES
+    JMP (VVBLKI)
+SYSVBL
+    INC RTCLOK+2
+    BNE SYSVBL.1
+    INC RTCLOK+1
+    BNE SYSVBL.1
+    INC RTCLOK
+SYSVBL.1
+    LDA SDMCTL
+    STA DMACTL
+    LDA SDLSTL
+    STA DLISTL
+    LDA SDLSTH
+    STA DLISTH
+    LDA COLOR4
+    STA COLBK
+    LDA COLOR0
+    STA COLPF0
+    LDA COLOR1
+    STA COLPF1
+    LDA COLOR2
+    STA COLPF2
+    LDA COLOR3
+    STA COLPF3
+    LDA PCOLR0
+    STA COLPM0
+    LDA PCOLR1
+    STA COLPM1
+    LDA PCOLR2
+    STA COLPM2
+    LDA PCOLR3
+    STA COLPM3
+    LDA CHART
+    STA CHACTL
+    LDA CHBAS
+    STA CHBASE
+    LDA PORTA
+    AND #$0F
+    STA STICK0
+    LDA PORTA
+    ASL A
+    ASL A
+    ASL A
+    ASL A
+    STA STICK1
+    LDA PORTB
+    AND #$0F
+    STA STICK2
+    LDA PORTB
+    ASL A
+    ASL A
+    ASL A
+    ASL A
+    STA STICK3
+    LDA GPRIOR
+    STA PRIOR
+    LDA SSKCTL
+    STA SKCTL
+    LDA TRIG0
+    STA STRIG0
+    LDA TRIG1
+    STA STRIG1
+    LDA TRIG2
+    STA STRIG2
+    LDA TRIG3
+    STA STRIG3
+    JMP (VVBLKD)
+XITVBL
+    PLA 
+    TAY 
+    PLA 
+    TAX 
+    PLA 
+IRQ.VECTOR
+    JMP ($0216)
+IRQ
+    PHA 
+    LDA IRQST   ; Get Interrupt Status
+    AND #$40
+    BNE IRQ.EXIT
+    LDA KBCODE
+    STA CH
+IRQ.EXIT
+    PLA 
+    RTI 
+;
+    *=  $FFFA
+    .WORD NMI
+    *=  $FFFC
+    .WORD COLDSTART
+    *=  $FFFE
+    .WORD IRQ.VECTOR

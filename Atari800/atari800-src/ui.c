@@ -22,6 +22,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#define _POSIX_C_SOURCE 200112L /* for snprintf */
+
 #include "config.h"
 #include <stdio.h>
 #include <string.h>
@@ -57,6 +59,7 @@
 #include "screen.h"
 #include "sio.h"
 #include "statesav.h"
+#include "sysrom.h"
 #include "ui.h"
 #include "ui_basic.h"
 #ifdef XEP80_EMULATION
@@ -81,13 +84,13 @@
 #if SUPPORTS_CHANGE_VIDEOMODE
 #include "videomode.h"
 #endif /* SUPPORTS_CHANGE_VIDEOMODE */
-#if SDL
+#if GUI_SDL
 #include "sdl/video.h"
 #include "sdl/video_sw.h"
 #if HAVE_OPENGL
 #include "sdl/video_gl.h"
 #endif /* HAVE_OPENGL */
-#endif /* SDL */
+#endif /* GUI_SDL */
 
 #ifdef DIRECTX
 /* Display Settings */
@@ -133,19 +136,19 @@ extern int virtual_joystick;
 extern void AboutPocketAtari(void);
 #endif /* _WIN32_WCE */
 
-//#ifdef DREAMCAST
-//extern int db_mode;
-//extern int screen_tv_mode;
-//extern int emulate_paddles;
-//extern int glob_snd_ena;
-//extern void ButtonConfiguration(void);
-//extern void AboutAtariDC(void);
-//extern void update_vidmode(void);
-//extern void update_screen_updater(void);
-//#ifdef HZ_TEST
-//extern void do_hz_test(void);
-//#endif /* HZ_TEST */
-//#endif /* DREAMCAST */
+#ifdef DREAMCAST
+extern int db_mode;
+extern int screen_tv_mode;
+extern int emulate_paddles;
+extern int glob_snd_ena;
+extern void ButtonConfiguration(void);
+extern void AboutAtariDC(void);
+extern void update_vidmode(void);
+extern void update_screen_updater(void);
+#ifdef HZ_TEST
+extern void do_hz_test(void);
+#endif /* HZ_TEST */
+#endif /* DREAMCAST */
 
 UI_tDriver *UI_driver = &UI_BASIC_driver;
 
@@ -192,78 +195,520 @@ static const char * const created = "Created \"%s\"";
 #define CantSave(filename) FilenameMessage(cant_save, filename)
 #define Created(filename) FilenameMessage(created, filename)
 
-static void SelectSystem(void)
+/* Callback function that writes a text label to *LABEL, for use by
+   the Select Mosaic RAM slider. */
+static void MosaicSliderLabel(char *label, int value, void *user_data)
 {
-	typedef struct {
-		int type;
-		int ram;
-	} tSysConfig;
+	sprintf(label, "%i KB", value * 4); /* WARNING: No more that 10 chars! */
+}
 
-	static UI_tMenuItem menu_array[] = {
-		UI_MENU_ACTION(0, "Atari OS/A (16 KB)"),
-		UI_MENU_ACTION(1, "Atari OS/A (48 KB)"),
-		UI_MENU_ACTION(2, "Atari OS/A (52 KB)"),
-		UI_MENU_ACTION(3, "Atari OS/B (16 KB)"),
-		UI_MENU_ACTION(4, "Atari OS/B (48 KB)"),
-		UI_MENU_ACTION(5, "Atari OS/B (52 KB)"),
-		UI_MENU_ACTION(6, "Atari 600XL (16 KB)"),
-		UI_MENU_ACTION(7, "Atari 800XL (64 KB)"),
-		UI_MENU_ACTION(8, "Atari 130XE (128 KB)"),
-		UI_MENU_ACTION(9, "Atari XL/XE (192 KB)"),
-		UI_MENU_ACTION(10, "Atari XL/XE (320 KB RAMBO)"),
-		UI_MENU_ACTION(11, "Atari XL/XE (320 KB COMPY SHOP)"),
-		UI_MENU_ACTION(12, "Atari XL/XE (576 KB)"),
-		UI_MENU_ACTION(13, "Atari XL/XE (1088 KB)"),
-		UI_MENU_ACTION(14, "Atari 5200 (16 KB)"),
-		UI_MENU_ACTION(15, "Video system:"),
+static void SystemSettings(void)
+{
+	static UI_tMenuItem ram800_menu_array[] = {
+		UI_MENU_ACTION(8, "8 KB"),
+		UI_MENU_ACTION(16, "16 KB"),
+		UI_MENU_ACTION(24, "24 KB"),
+		UI_MENU_ACTION(32, "32 KB"),
+		UI_MENU_ACTION(40, "40 KB"),
+		UI_MENU_ACTION(48, "48 KB"),
+		UI_MENU_ACTION(52, "52 KB"),
 		UI_MENU_END
 	};
 
-	static const tSysConfig machine[] = {
-		{ Atari800_MACHINE_OSA, 16 },
-		{ Atari800_MACHINE_OSA, 48 },
-		{ Atari800_MACHINE_OSA, 52 },
-		{ Atari800_MACHINE_OSB, 16 },
-		{ Atari800_MACHINE_OSB, 48 },
-		{ Atari800_MACHINE_OSB, 52 },
-		{ Atari800_MACHINE_XLXE, 16 },
-		{ Atari800_MACHINE_XLXE, 64 },
-		{ Atari800_MACHINE_XLXE, 128 },
-		{ Atari800_MACHINE_XLXE, 192 },
-		{ Atari800_MACHINE_XLXE, MEMORY_RAM_320_RAMBO },
-		{ Atari800_MACHINE_XLXE, MEMORY_RAM_320_COMPY_SHOP },
-		{ Atari800_MACHINE_XLXE, 576 },
-		{ Atari800_MACHINE_XLXE, 1088 },
-		{ Atari800_MACHINE_5200, 16 }
+	enum { MOSAIC_OTHER = 65 }; /* must be a value that's illegal for MEMORY_mosaic_num_banks */
+	static UI_tMenuItem mosaic_ram_menu_array[] = {
+		UI_MENU_ACTION(0, "Disabled"),
+		UI_MENU_ACTION(4, "1 64K RAM Select board (16 KB)"),
+		UI_MENU_ACTION(20, "2 64K RAM Select boards (80 KB)"),
+		UI_MENU_ACTION(36, "3 64K RAM Select boards (144 KB)"),
+		UI_MENU_ACTION(MOSAIC_OTHER, "Other"),
+		UI_MENU_END
+	};
+	static UI_tMenuItem axlon_ram_menu_array[] = {
+		UI_MENU_ACTION(0, "Disabled"),
+		UI_MENU_ACTION(8, "128 KB"),
+		UI_MENU_ACTION(16, "256 KB"),
+		UI_MENU_ACTION(32, "512 KB"),
+		UI_MENU_ACTION(64, "1 MB"),
+		UI_MENU_ACTION(128, "2 MB"),
+		UI_MENU_ACTION(256, "4 MB"),
+		UI_MENU_END
+	};
+	static UI_tMenuItem ramxl_menu_array[] = {
+		UI_MENU_ACTION(16, "16 KB"),
+		UI_MENU_ACTION(32, "32 KB"),
+		UI_MENU_ACTION(48, "48 KB"),
+		UI_MENU_ACTION(64, "64 KB"),
+		UI_MENU_ACTION(128, "128 KB"),
+		UI_MENU_ACTION(192, "192 KB"),
+		UI_MENU_ACTION(MEMORY_RAM_320_RAMBO, "320 KB (Rambo)"),
+		UI_MENU_ACTION(MEMORY_RAM_320_COMPY_SHOP, "320 KB (Compy-Shop)"),
+		UI_MENU_ACTION(576, "576 KB"),
+		UI_MENU_ACTION(1088, "1088 KB"),
+		UI_MENU_END
+	};
+	static UI_tMenuItem os800_menu_array[] = {
+		UI_MENU_ACTION(SYSROM_AUTO, "Choose automatically"),
+		UI_MENU_ACTION(SYSROM_A_NTSC, "Rev. A NTSC"),
+		UI_MENU_ACTION(SYSROM_A_PAL, "Rev. A PAL"),
+		UI_MENU_ACTION(SYSROM_B_NTSC, "Rev. B NTSC"),
+		UI_MENU_ACTION(SYSROM_800_CUSTOM, "Custom"),
+		UI_MENU_END
+	};
+	static UI_tMenuItem osxl_menu_array[] = {
+		UI_MENU_ACTION(SYSROM_AUTO, "Choose automatically"),
+		UI_MENU_ACTION(SYSROM_AA00R10, "AA00 Rev. 10"),
+		UI_MENU_ACTION(SYSROM_AA01R11, "AA01 Rev. 11"),
+		UI_MENU_ACTION(SYSROM_BB00R1, "BB00 Rev. 1"),
+		UI_MENU_ACTION(SYSROM_BB01R2, "BB01 Rev. 2"),
+		UI_MENU_ACTION(SYSROM_BB02R3, "BB02 Rev. 3"),
+		UI_MENU_ACTION(SYSROM_BB02R3V4, "BB02 Rev. 3 Ver. 4"),
+		UI_MENU_ACTION(SYSROM_CC01R4, "CC01 Rev. 4"),
+		UI_MENU_ACTION(SYSROM_BB01R3, "BB01 Rev. 3"),
+		UI_MENU_ACTION(SYSROM_BB01R4_OS, "BB01 Rev. 4"),
+		UI_MENU_ACTION(SYSROM_BB01R59, "BB01 Rev. 59"),
+		UI_MENU_ACTION(SYSROM_BB01R59A, "BB01 Rev. 59 alt."),
+		UI_MENU_ACTION(SYSROM_XL_CUSTOM, "Custom"),
+		UI_MENU_END
+	};
+	static UI_tMenuItem os5200_menu_array[] = {
+		UI_MENU_ACTION(SYSROM_AUTO, "Choose automatically"),
+		UI_MENU_ACTION(SYSROM_5200, "Original"),
+		UI_MENU_ACTION(SYSROM_5200A, "Rev. A"),
+		UI_MENU_ACTION(SYSROM_5200_CUSTOM, "Custom"),
+		UI_MENU_END
+	};
+	static UI_tMenuItem * const os_menu_arrays[Atari800_MACHINE_SIZE] = {
+		os800_menu_array,
+		osxl_menu_array,
+		os5200_menu_array
+	};
+	static UI_tMenuItem basic_menu_array[] = {
+		UI_MENU_ACTION(SYSROM_AUTO, "Choose automatically"),
+		UI_MENU_ACTION(SYSROM_BASIC_A, "Rev. A"),
+		UI_MENU_ACTION(SYSROM_BASIC_B, "Rev. B"),
+		UI_MENU_ACTION(SYSROM_BASIC_C, "Rev. C"),
+		UI_MENU_ACTION(SYSROM_BASIC_CUSTOM, "Custom"),
+		UI_MENU_END
+	};
+	static UI_tMenuItem xegame_menu_array[] = {
+		UI_MENU_ACTION(0, "None"),
+		UI_MENU_ACTION(SYSROM_AUTO, "Choose automatically"),
+		UI_MENU_ACTION(SYSROM_XEGAME, "Missile Command"),
+		UI_MENU_ACTION(SYSROM_XEGAME_CUSTOM, "Custom"),
+		UI_MENU_END
+	};
+	static struct {
+		int type;
+		int ram;
+		int basic;
+		int leds;
+		int f_keys;
+		int jumper;
+		int game;
+		int keyboard;
+	} const machine[] = {
+		{ Atari800_MACHINE_800, 16, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE },
+		{ Atari800_MACHINE_800, 48, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE },
+		{ Atari800_MACHINE_XLXE, 64, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE },
+		{ Atari800_MACHINE_XLXE, 16, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE },
+		{ Atari800_MACHINE_XLXE, 64, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE },
+		{ Atari800_MACHINE_XLXE, 128, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE },
+		{ Atari800_MACHINE_XLXE, 64, TRUE, FALSE, FALSE, FALSE, TRUE, TRUE },
+		{ Atari800_MACHINE_5200, 16, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE }
+	};
+	static UI_tMenuItem machine_menu_array[] = {
+		UI_MENU_ACTION(0, "Atari 400 (16 KB)"),
+		UI_MENU_ACTION(1, "Atari 800 (48 KB)"),
+		UI_MENU_ACTION(2, "Atari 1200XL (64 KB)"),
+		UI_MENU_ACTION(3, "Atari 600XL (16 KB)"),
+		UI_MENU_ACTION(4, "Atari 800XL (64 KB)"),
+		UI_MENU_ACTION(5, "Atari 130XE (128 KB)"),
+		UI_MENU_ACTION(6, "Atari XEGS (64 KB)"),
+		UI_MENU_ACTION(7, "Atari 5200 (16 KB)"),
+		UI_MENU_END
+	};
+	enum { N_MACHINES = (int) (sizeof(machine) / sizeof(machine[0])) };
+
+	static UI_tMenuItem menu_array[] = {
+		UI_MENU_SUBMENU_SUFFIX(0, "Machine:", NULL),
+		UI_MENU_SUBMENU_SUFFIX(1, "OS version:", NULL),
+		UI_MENU_ACTION(2, "BASIC:"),
+		UI_MENU_SUBMENU_SUFFIX(3, "BASIC version:", NULL),
+		UI_MENU_SUBMENU_SUFFIX(4, "XEGS game:", NULL),
+		UI_MENU_SUBMENU_SUFFIX(5, "RAM size:", NULL),
+		UI_MENU_ACTION(6, "Video system:"),
+		UI_MENU_SUBMENU_SUFFIX(7, "Mosaic RAM:", NULL),
+		UI_MENU_SUBMENU_SUFFIX(8, "Axlon RAMDisk:", NULL),
+		UI_MENU_ACTION(9, "Axlon RAMDisk page $0F shadow:"),
+		UI_MENU_SUBMENU(10, "1200XL keyboard LEDs:"),
+		UI_MENU_ACTION(11, "1200XL F1-F4 keys:"),
+		UI_MENU_ACTION(12, "1200XL option jumper J1:"),
+		UI_MENU_ACTION(13, "Keyboard:"),
+		UI_MENU_ACTION(14, "MapRAM:"),
+		UI_MENU_END
 	};
 
-#define N_MACHINES  ((int) (sizeof(machine) / sizeof(machine[0])))
+	/* Size must be long enough to store "<longest OS label> (auto)". */
+	char default_os_label[26];
+	/* Size must be long enough to store "<longest BASIC label> (auto)". */
+	char default_basic_label[14];
+	/* Size must be long enough to store "<longest XEGAME label> (auto)". */
+	char default_xegame_label[23];
+	char mosaic_label[7]; /* Fits "256 KB" */
 
 	int option = 0;
+	int option2 = 0;
 	int new_tv_mode = Atari800_tv_mode;
+	int need_initialise = FALSE;
 
-	int i;
-	for (i = 0; i < N_MACHINES; i++)
-		if (Atari800_machine_type == machine[i].type && MEMORY_ram_size == machine[i].ram) {
-			option = i;
+	for (;;) {
+		int sys_id;
+		/* Set label for the "Machine" action. */
+		for (sys_id = 0; sys_id < N_MACHINES; ++sys_id) {
+			if (Atari800_machine_type == machine[sys_id].type
+			    && MEMORY_ram_size == machine[sys_id].ram
+			    && Atari800_builtin_basic == machine[sys_id].basic
+			    && Atari800_keyboard_leds == machine[sys_id].leds
+			    && Atari800_f_keys == machine[sys_id].f_keys
+			    && (machine[sys_id].jumper || !Atari800_jumper)
+			    && Atari800_builtin_game == machine[sys_id].game
+			    && (machine[sys_id].keyboard || !Atari800_keyboard_detached)) {
+				menu_array[0].suffix = machine_menu_array[sys_id].item;
+				break;
+			}
+		}
+		if (sys_id >= N_MACHINES) { /* Loop ended without break */
+			if (Atari800_machine_type == Atari800_MACHINE_XLXE)
+				menu_array[0].suffix = "Custom XL/XE";
+			else
+				menu_array[0].suffix = "Custom 400/800";
+		}
+
+		/* Set label for the "OS version" action. */
+		if (SYSROM_os_versions[Atari800_machine_type] == SYSROM_AUTO) {
+			int auto_os = SYSROM_AutoChooseOS(Atari800_machine_type, MEMORY_ram_size, new_tv_mode);
+			if (auto_os == -1)
+				menu_array[1].suffix = "ROM missing";
+			else {
+				sprintf(default_os_label, "%s (auto)", FindMenuItem(os_menu_arrays[Atari800_machine_type], auto_os)->item);
+				menu_array[1].suffix = default_os_label;
+			}
+		}
+		else if (SYSROM_roms[SYSROM_os_versions[Atari800_machine_type]].filename[0] == '\0')
+			menu_array[1].suffix = "ROM missing";
+		else
+			menu_array[1].suffix = FindMenuItem(os_menu_arrays[Atari800_machine_type], SYSROM_os_versions[Atari800_machine_type])->item;
+
+		/* Set label for the "BASIC" action. */
+		menu_array[2].suffix = Atari800_machine_type == Atari800_MACHINE_5200
+		                       ? "N/A"
+		                       : Atari800_builtin_basic ? "built in" : "external";
+
+		/* Set label for the "BASIC version" action. */
+		if (Atari800_machine_type == Atari800_MACHINE_5200)
+			menu_array[3].suffix = "N/A";
+		else {
+			if (SYSROM_basic_version == SYSROM_AUTO) {
+				int auto_basic = SYSROM_AutoChooseBASIC();
+				if (auto_basic == -1)
+					menu_array[3].suffix = "ROM missing";
+				else {
+					sprintf(default_basic_label, "%s (auto)", FindMenuItem(basic_menu_array, auto_basic)->item);
+					menu_array[3].suffix = default_basic_label;
+				}
+			}
+			else if (SYSROM_roms[SYSROM_basic_version].filename[0] == '\0')
+				menu_array[3].suffix = "ROM missing";
+			else {
+				menu_array[3].suffix = FindMenuItem(basic_menu_array, SYSROM_basic_version)->item;
+			}
+		}
+
+		/* Set label for the "Builtin XEGS game" action. */
+		if (Atari800_machine_type != Atari800_MACHINE_XLXE)
+			menu_array[4].suffix = "N/A";
+		else if (Atari800_builtin_game) {
+			if (SYSROM_xegame_version == SYSROM_AUTO) {
+				int auto_xegame = SYSROM_AutoChooseXEGame();
+				if (auto_xegame == -1)
+					menu_array[4].suffix = "ROM missing";
+				else {
+					sprintf(default_xegame_label, "%s (auto)", FindMenuItem(basic_menu_array, auto_xegame)->item);
+					menu_array[4].suffix = default_xegame_label;
+				}
+			}
+			else if (SYSROM_roms[SYSROM_xegame_version].filename[0] == '\0')
+				menu_array[4].suffix = "ROM missing";
+			else
+				menu_array[4].suffix = FindMenuItem(xegame_menu_array, SYSROM_xegame_version)->item;
+		}
+		else
+			menu_array[4].suffix = xegame_menu_array[0].item;
+
+		/* Set label for the "RAM size" action. */
+		switch (Atari800_machine_type) {
+		case Atari800_MACHINE_800:
+			menu_array[5].suffix = FindMenuItem(ram800_menu_array, MEMORY_ram_size)->item;
+			break;
+		case Atari800_MACHINE_XLXE:
+			menu_array[5].suffix = FindMenuItem(ramxl_menu_array, MEMORY_ram_size)->item;
+			break;
+		case Atari800_MACHINE_5200:
+			menu_array[5].suffix = "16 KB";
 			break;
 		}
 
-	for (;;) {
-		menu_array[N_MACHINES].suffix = (new_tv_mode == Atari800_TV_PAL) ? "PAL" : "NTSC";
-		option = UI_driver->fSelect("Select System", 0, option, menu_array, NULL);
-		if (option < N_MACHINES)
+		menu_array[6].suffix = (new_tv_mode == Atari800_TV_PAL) ? "PAL" : "NTSC";
+
+		/* Set label for the "Mosaic" action. */
+		if (Atari800_machine_type == Atari800_MACHINE_800) {
+			if (MEMORY_mosaic_num_banks == 0)
+				menu_array[7].suffix = mosaic_ram_menu_array[0].item;
+			else {
+				sprintf(mosaic_label, "%i KB", MEMORY_mosaic_num_banks * 4);
+				menu_array[7].suffix = mosaic_label;
+			}
+		}
+		else
+			menu_array[7].suffix = "N/A";
+
+		/* Set label for the "Axlon RAM" action. */
+		menu_array[8].suffix = Atari800_machine_type != Atari800_MACHINE_800
+		                       ? "N/A"
+		                       : FindMenuItem(axlon_ram_menu_array, MEMORY_axlon_num_banks)->item;
+
+		/* Set label for the "Axlon $0F shadow" action. */
+		menu_array[9].suffix = Atari800_machine_type != Atari800_MACHINE_800
+		                       ? "N/A"
+		                       : MEMORY_axlon_0f_mirror ? "on" : "off";
+
+		/* Set label for the "keyboard LEDs" action. */
+		menu_array[10].suffix = Atari800_machine_type != Atari800_MACHINE_XLXE
+		                        ? "N/A"
+		                        : Atari800_keyboard_leds ? "Yes" : "No";
+
+		/* Set label for the "F keys" action. */
+		menu_array[11].suffix = Atari800_machine_type != Atari800_MACHINE_XLXE
+		                        ? "N/A"
+		                        : Atari800_f_keys ? "Yes" : "No";
+
+		/* Set label for the "1200XL option jumper" action. */
+		menu_array[12].suffix = Atari800_machine_type != Atari800_MACHINE_XLXE ? "N/A" :
+		                        Atari800_jumper ? "installed" : "none";
+
+		/* Set label for the "XEGS keyboard" action. */
+		menu_array[13].suffix = Atari800_machine_type != Atari800_MACHINE_XLXE ? "N/A" :
+		                        Atari800_keyboard_detached ? "detached (XEGS)" : "integrated/attached";
+
+		/* Set label for the "XL/XE MapRAM" action. */
+		menu_array[14].suffix = (Atari800_machine_type != Atari800_MACHINE_XLXE || MEMORY_ram_size < 20)
+		                        ? "N/A"
+		                        : MEMORY_enable_mapram ? "Yes" : "No";
+
+		option = UI_driver->fSelect("System Settings", 0, option, menu_array, NULL);
+		switch (option) {
+		case 0:
+			option2 = UI_driver->fSelect(NULL, UI_SELECT_POPUP, sys_id, machine_menu_array, NULL);
+			if (option2 >= 0) {
+				Atari800_machine_type = machine[option2].type;
+				MEMORY_ram_size = machine[option2].ram;
+				Atari800_builtin_basic = machine[option2].basic;
+				Atari800_keyboard_leds = machine[option2].leds;
+				Atari800_f_keys = machine[option2].f_keys;
+				if (!machine[option2].jumper)
+					Atari800_jumper = FALSE;
+				Atari800_builtin_game = machine[option2].game;
+				if (!machine[option2].keyboard)
+					Atari800_keyboard_detached = FALSE;
+				need_initialise = TRUE;
+			}
 			break;
-		new_tv_mode = (new_tv_mode == Atari800_TV_PAL) ? Atari800_TV_NTSC : Atari800_TV_PAL;
-	}
-	if (option >= 0) {
-		Atari800_machine_type = machine[option].type;
-		MEMORY_ram_size = machine[option].ram;
-		Atari800_InitialiseMachine();
-	}
-	else if (new_tv_mode != Atari800_tv_mode) {
-		Atari800_SetTVMode(new_tv_mode);
-		Atari800_InitialiseMachine(); /* XXX: Atari800_Coldstart() is probably enough */
+		case 1:
+			{
+				int rom_available = FALSE;
+				/* Start from index 1, to skip the "Choose automatically" option,
+				   as it can never be hidden. */
+				UI_tMenuItem *menu_ptr = os_menu_arrays[Atari800_machine_type] + 1;
+				do {
+					if (SYSROM_roms[menu_ptr->retval].filename[0] != '\0') {
+						menu_ptr->flags = UI_ITEM_ACTION;
+						rom_available = TRUE;
+					}
+					else
+						menu_ptr->flags = UI_ITEM_HIDDEN;
+				} while ((++menu_ptr)->flags != UI_ITEM_END);
+				if (!rom_available)
+					UI_driver->fMessage("No OS version available, ROMs missing", 1);
+				else {
+					option2 = UI_driver->fSelect(NULL, UI_SELECT_POPUP, SYSROM_os_versions[Atari800_machine_type], os_menu_arrays[Atari800_machine_type], NULL);
+					if (option2 >= 0) {
+						SYSROM_os_versions[Atari800_machine_type] = option2;
+						need_initialise = TRUE;
+					}
+				}
+			}
+			break;
+		case 2:
+			if (Atari800_machine_type == Atari800_MACHINE_XLXE) {
+				Atari800_builtin_basic = !Atari800_builtin_basic;
+				need_initialise = TRUE;
+			}
+			break;
+		case 3:
+			if (Atari800_machine_type != Atari800_MACHINE_5200) {
+				int rom_available = FALSE;
+				/* Start from index 1, to skip the "Choose automatically" option,
+				   as it can never be hidden. */
+				UI_tMenuItem *menu_ptr = basic_menu_array + 1;
+				do {
+					if (SYSROM_roms[menu_ptr->retval].filename[0] != '\0') {
+						menu_ptr->flags = UI_ITEM_ACTION;
+						rom_available = TRUE;
+					}
+					else
+						menu_ptr->flags = UI_ITEM_HIDDEN;
+				} while ((++menu_ptr)->flags != UI_ITEM_END);
+
+				if (!rom_available)
+					UI_driver->fMessage("No BASIC available, ROMs missing", 1);
+				else {
+					option2 = UI_driver->fSelect(NULL, UI_SELECT_POPUP, SYSROM_basic_version, basic_menu_array, NULL);
+					if (option2 >= 0) {
+						SYSROM_basic_version = option2;
+						need_initialise = TRUE;
+					}
+				}
+			}
+			break;
+		case 4:
+			if (Atari800_machine_type == Atari800_MACHINE_XLXE) {
+				/* Start from index 2, to skip the "None" and "Choose automatically" options,
+				   as they can never be hidden. */
+				UI_tMenuItem *menu_ptr = xegame_menu_array + 2;
+				do {
+					if (SYSROM_roms[menu_ptr->retval].filename[0] != '\0') {
+						menu_ptr->flags = UI_ITEM_ACTION;
+					}
+					else
+						menu_ptr->flags = UI_ITEM_HIDDEN;
+				} while ((++menu_ptr)->flags != UI_ITEM_END);
+
+				option2 = UI_driver->fSelect(NULL, UI_SELECT_POPUP, Atari800_builtin_game ? SYSROM_xegame_version : 0, xegame_menu_array, NULL);
+				if (option2 >= 0) {
+					if (option2 > 0) {
+						Atari800_builtin_game = TRUE;
+						SYSROM_xegame_version = option2;
+					}
+					else
+						Atari800_builtin_game = FALSE;
+					need_initialise = TRUE;
+				}
+			}
+			break;
+		case 5:
+			{
+				UI_tMenuItem *menu_ptr;
+				switch (Atari800_machine_type) {
+				case Atari800_MACHINE_5200:
+					goto leave;
+				case Atari800_MACHINE_800:
+					menu_ptr = ram800_menu_array;
+					break;
+				default: /* Atari800_MACHINE_XLXE */
+					menu_ptr = ramxl_menu_array;
+					break;
+				}
+				option2 = UI_driver->fSelect(NULL, UI_SELECT_POPUP, MEMORY_ram_size, menu_ptr, NULL);
+				if (option2 >= 0) {
+					MEMORY_ram_size = option2;
+					need_initialise = TRUE;
+				}
+			}
+			leave:
+			break;
+		case 6:
+			new_tv_mode = (new_tv_mode == Atari800_TV_PAL) ? Atari800_TV_NTSC : Atari800_TV_PAL;
+			break;
+		case 7:
+			if (Atari800_machine_type == Atari800_MACHINE_800) {
+				if (MEMORY_mosaic_num_banks == 0 || MEMORY_mosaic_num_banks == 4 || MEMORY_mosaic_num_banks == 20 || MEMORY_mosaic_num_banks == 36)
+					option2 = MEMORY_mosaic_num_banks;
+				else
+					option2 = MOSAIC_OTHER;
+				option2 = UI_driver->fSelect(NULL, UI_SELECT_POPUP, option2, mosaic_ram_menu_array, NULL);
+				if (option2 >= 0) {
+					if (option2 == MOSAIC_OTHER) {
+						int offset = 0;
+						int value = UI_driver->fSelectSlider("Select amount of Mosaic RAM",
+						                      MEMORY_mosaic_num_banks,
+						                      64, &MosaicSliderLabel, &offset);
+						if (value != -1) {
+							MEMORY_mosaic_num_banks = value;
+						}
+					}
+					else
+						MEMORY_mosaic_num_banks = option2;
+					if (option2 > 0)
+						/* Can't have both Mosaic and Axlon active together. */
+						MEMORY_axlon_num_banks = 0;
+					need_initialise = TRUE;
+				}
+			}
+			break;
+		case 8:
+			if (Atari800_machine_type == Atari800_MACHINE_800) {
+				option2 = UI_driver->fSelect(NULL, UI_SELECT_POPUP, MEMORY_axlon_num_banks, axlon_ram_menu_array, NULL);
+				if (option2 >= 0) {
+					MEMORY_axlon_num_banks = option2;
+					if (option2 > 0)
+						/* Can't have both Mosaic and Axlon active together. */
+						MEMORY_mosaic_num_banks = 0;
+					need_initialise = TRUE;
+				}
+			}
+			break;
+		case 9:
+			if (Atari800_machine_type == Atari800_MACHINE_800) {
+				MEMORY_axlon_0f_mirror = !MEMORY_axlon_0f_mirror;
+				need_initialise = TRUE;
+			}
+			break;
+		case 10:
+			if (Atari800_machine_type == Atari800_MACHINE_XLXE)
+				Atari800_keyboard_leds = !Atari800_keyboard_leds;
+			break;
+		case 11:
+			if (Atari800_machine_type == Atari800_MACHINE_XLXE)
+				Atari800_f_keys = !Atari800_f_keys;
+			break;
+		case 12:
+			if (Atari800_machine_type == Atari800_MACHINE_XLXE) {
+				Atari800_jumper = !Atari800_jumper;
+				Atari800_UpdateJumper();
+			}
+			break;
+		case 13:
+			if (Atari800_machine_type == Atari800_MACHINE_XLXE) {
+				Atari800_keyboard_detached = !Atari800_keyboard_detached;
+				Atari800_UpdateKeyboardDetached();
+			}
+			break;
+		case 14:
+			if (Atari800_machine_type == Atari800_MACHINE_XLXE && MEMORY_ram_size > 20) {
+				MEMORY_enable_mapram = !MEMORY_enable_mapram;
+				need_initialise = TRUE;
+			}
+			break;
+		default:
+			if (new_tv_mode != Atari800_tv_mode) {
+				Atari800_SetTVMode(new_tv_mode);
+				need_initialise = TRUE;
+			}
+			if (need_initialise)
+				Atari800_InitialiseMachine();
+			return;
+		}
 	}
 }
 
@@ -319,8 +764,8 @@ static void DiskManagement(void)
 	int dsknum = 0;
 
 	for (;;) {
-		static char disk_filename[FILENAME_MAX] = "";
-		static char set_filename[FILENAME_MAX] = "";
+		static char disk_filename[FILENAME_MAX];
+		static char set_filename[FILENAME_MAX];
 		int i;
 		int seltype;
 
@@ -521,50 +966,66 @@ static void DiskManagement(void)
 
 int UI_SelectCartType(int k)
 {
-	static UI_tMenuItem menu_array[] = {
-		UI_MENU_ACTION(1, "Standard 8 KB cartridge"),
-		UI_MENU_ACTION(2, "Standard 16 KB cartridge"),
-		UI_MENU_ACTION(3, "OSS '034M' 16 KB cartridge"),
-		UI_MENU_ACTION(4, "Standard 32 KB 5200 cartridge"),
-		UI_MENU_ACTION(5, "DB 32 KB cartridge"),
-		UI_MENU_ACTION(6, "Two chip 16 KB 5200 cartridge"),
-		UI_MENU_ACTION(7, "Bounty Bob 40 KB 5200 cartridge"),
-		UI_MENU_ACTION(8, "64 KB Williams cartridge"),
-		UI_MENU_ACTION(9, "Express 64 KB cartridge"),
-		UI_MENU_ACTION(10, "Diamond 64 KB cartridge"),
-		UI_MENU_ACTION(11, "SpartaDOS X 64 KB cartridge"),
-		UI_MENU_ACTION(12, "XEGS 32 KB cartridge"),
-		UI_MENU_ACTION(13, "XEGS 64 KB cartridge"),
-		UI_MENU_ACTION(14, "XEGS 128 KB cartridge"),
-		UI_MENU_ACTION(15, "OSS 'M091' 16 KB cartridge"),
-		UI_MENU_ACTION(16, "One chip 16 KB 5200 cartridge"),
-		UI_MENU_ACTION(17, "Atrax 128 KB cartridge"),
-		UI_MENU_ACTION(18, "Bounty Bob 40 KB cartridge"),
-		UI_MENU_ACTION(19, "Standard 8 KB 5200 cartridge"),
-		UI_MENU_ACTION(20, "Standard 4 KB 5200 cartridge"),
-		UI_MENU_ACTION(21, "Right slot 8 KB cartridge"),
-		UI_MENU_ACTION(22, "32 KB Williams cartridge"),
-		UI_MENU_ACTION(23, "XEGS 256 KB cartridge"),
-		UI_MENU_ACTION(24, "XEGS 512 KB cartridge"),
-		UI_MENU_ACTION(25, "XEGS 1 MB cartridge"),
-		UI_MENU_ACTION(26, "MegaCart 16 KB cartridge"),
-		UI_MENU_ACTION(27, "MegaCart 32 KB cartridge"),
-		UI_MENU_ACTION(28, "MegaCart 64 KB cartridge"),
-		UI_MENU_ACTION(29, "MegaCart 128 KB cartridge"),
-		UI_MENU_ACTION(30, "MegaCart 256 KB cartridge"),
-		UI_MENU_ACTION(31, "MegaCart 512 KB cartridge"),
-		UI_MENU_ACTION(32, "MegaCart 1 MB cartridge"),
-		UI_MENU_ACTION(33, "Switchable XEGS 32 KB cartridge"),
-		UI_MENU_ACTION(34, "Switchable XEGS 64 KB cartridge"),
-		UI_MENU_ACTION(35, "Switchable XEGS 128 KB cartridge"),
-		UI_MENU_ACTION(36, "Switchable XEGS 256 KB cartridge"),
-		UI_MENU_ACTION(37, "Switchable XEGS 512 KB cartridge"),
-		UI_MENU_ACTION(38, "Switchable XEGS 1 MB cartridge"),
-		UI_MENU_ACTION(39, "Phoenix 8 KB cartridge"),
-		UI_MENU_ACTION(40, "Blizzard 16 KB cartridge"),
-		UI_MENU_ACTION(41, "Atarimax 128 KB Flash cartridge"),
-		UI_MENU_ACTION(42, "Atarimax 1 MB Flash cartridge"),
-		UI_MENU_ACTION(43, "SpartaDOS X 128 KB cartridge"),
+	UI_tMenuItem menu_array[] = {
+		UI_MENU_ACTION(CARTRIDGE_STD_8, CARTRIDGE_TextDesc[CARTRIDGE_STD_8]),
+		UI_MENU_ACTION(CARTRIDGE_STD_16, CARTRIDGE_TextDesc[CARTRIDGE_STD_16]),
+		UI_MENU_ACTION(CARTRIDGE_OSS_034M_16, CARTRIDGE_TextDesc[CARTRIDGE_OSS_034M_16]),
+		UI_MENU_ACTION(CARTRIDGE_5200_32, CARTRIDGE_TextDesc[CARTRIDGE_5200_32]),
+		UI_MENU_ACTION(CARTRIDGE_DB_32, CARTRIDGE_TextDesc[CARTRIDGE_DB_32]),
+		UI_MENU_ACTION(CARTRIDGE_5200_EE_16, CARTRIDGE_TextDesc[CARTRIDGE_5200_EE_16]),
+		UI_MENU_ACTION(CARTRIDGE_5200_40, CARTRIDGE_TextDesc[CARTRIDGE_5200_40]),
+		UI_MENU_ACTION(CARTRIDGE_WILL_64, CARTRIDGE_TextDesc[CARTRIDGE_WILL_64]),
+		UI_MENU_ACTION(CARTRIDGE_EXP_64, CARTRIDGE_TextDesc[CARTRIDGE_EXP_64]),
+		UI_MENU_ACTION(CARTRIDGE_DIAMOND_64, CARTRIDGE_TextDesc[CARTRIDGE_DIAMOND_64]),
+		UI_MENU_ACTION(CARTRIDGE_SDX_64, CARTRIDGE_TextDesc[CARTRIDGE_SDX_64]),
+		UI_MENU_ACTION(CARTRIDGE_XEGS_32, CARTRIDGE_TextDesc[CARTRIDGE_XEGS_32]),
+		UI_MENU_ACTION(CARTRIDGE_XEGS_64, CARTRIDGE_TextDesc[CARTRIDGE_XEGS_64]),
+		UI_MENU_ACTION(CARTRIDGE_XEGS_128, CARTRIDGE_TextDesc[CARTRIDGE_XEGS_128]),
+		UI_MENU_ACTION(CARTRIDGE_OSS_M091_16, CARTRIDGE_TextDesc[CARTRIDGE_OSS_M091_16]),
+		UI_MENU_ACTION(CARTRIDGE_5200_NS_16, CARTRIDGE_TextDesc[CARTRIDGE_5200_NS_16]),
+		UI_MENU_ACTION(CARTRIDGE_ATRAX_128, CARTRIDGE_TextDesc[CARTRIDGE_ATRAX_128]),
+		UI_MENU_ACTION(CARTRIDGE_BBSB_40, CARTRIDGE_TextDesc[CARTRIDGE_BBSB_40]),
+		UI_MENU_ACTION(CARTRIDGE_5200_8, CARTRIDGE_TextDesc[CARTRIDGE_5200_8]),
+		UI_MENU_ACTION(CARTRIDGE_5200_4, CARTRIDGE_TextDesc[CARTRIDGE_5200_4]),
+		UI_MENU_ACTION(CARTRIDGE_RIGHT_8, CARTRIDGE_TextDesc[CARTRIDGE_RIGHT_8]),
+		UI_MENU_ACTION(CARTRIDGE_WILL_32, CARTRIDGE_TextDesc[CARTRIDGE_WILL_32]),
+		UI_MENU_ACTION(CARTRIDGE_XEGS_256, CARTRIDGE_TextDesc[CARTRIDGE_XEGS_256]),
+		UI_MENU_ACTION(CARTRIDGE_XEGS_512, CARTRIDGE_TextDesc[CARTRIDGE_XEGS_512]),
+		UI_MENU_ACTION(CARTRIDGE_XEGS_1024, CARTRIDGE_TextDesc[CARTRIDGE_XEGS_1024]),
+		UI_MENU_ACTION(CARTRIDGE_MEGA_16, CARTRIDGE_TextDesc[CARTRIDGE_MEGA_16]),
+		UI_MENU_ACTION(CARTRIDGE_MEGA_32, CARTRIDGE_TextDesc[CARTRIDGE_MEGA_32]),
+		UI_MENU_ACTION(CARTRIDGE_MEGA_64, CARTRIDGE_TextDesc[CARTRIDGE_MEGA_64]),
+		UI_MENU_ACTION(CARTRIDGE_MEGA_128, CARTRIDGE_TextDesc[CARTRIDGE_MEGA_128]),
+		UI_MENU_ACTION(CARTRIDGE_MEGA_256, CARTRIDGE_TextDesc[CARTRIDGE_MEGA_256]),
+		UI_MENU_ACTION(CARTRIDGE_MEGA_512, CARTRIDGE_TextDesc[CARTRIDGE_MEGA_512]),
+		UI_MENU_ACTION(CARTRIDGE_MEGA_1024, CARTRIDGE_TextDesc[CARTRIDGE_MEGA_1024]),
+		UI_MENU_ACTION(CARTRIDGE_SWXEGS_32, CARTRIDGE_TextDesc[CARTRIDGE_SWXEGS_32]),
+		UI_MENU_ACTION(CARTRIDGE_SWXEGS_64, CARTRIDGE_TextDesc[CARTRIDGE_SWXEGS_64]),
+		UI_MENU_ACTION(CARTRIDGE_SWXEGS_128, CARTRIDGE_TextDesc[CARTRIDGE_SWXEGS_128]),
+		UI_MENU_ACTION(CARTRIDGE_SWXEGS_256, CARTRIDGE_TextDesc[CARTRIDGE_SWXEGS_256]),
+		UI_MENU_ACTION(CARTRIDGE_SWXEGS_512, CARTRIDGE_TextDesc[CARTRIDGE_SWXEGS_512]),
+		UI_MENU_ACTION(CARTRIDGE_SWXEGS_1024, CARTRIDGE_TextDesc[CARTRIDGE_SWXEGS_1024]),
+		UI_MENU_ACTION(CARTRIDGE_PHOENIX_8, CARTRIDGE_TextDesc[CARTRIDGE_PHOENIX_8]),
+		UI_MENU_ACTION(CARTRIDGE_BLIZZARD_16, CARTRIDGE_TextDesc[CARTRIDGE_BLIZZARD_16]),
+		UI_MENU_ACTION(CARTRIDGE_ATMAX_128, CARTRIDGE_TextDesc[CARTRIDGE_ATMAX_128]),
+		UI_MENU_ACTION(CARTRIDGE_ATMAX_1024, CARTRIDGE_TextDesc[CARTRIDGE_ATMAX_1024]),
+		UI_MENU_ACTION(CARTRIDGE_SDX_128, CARTRIDGE_TextDesc[CARTRIDGE_SDX_128]),
+		UI_MENU_ACTION(CARTRIDGE_OSS_8, CARTRIDGE_TextDesc[CARTRIDGE_OSS_8]),
+		UI_MENU_ACTION(CARTRIDGE_OSS_043M_16, CARTRIDGE_TextDesc[CARTRIDGE_OSS_043M_16]),
+		UI_MENU_ACTION(CARTRIDGE_BLIZZARD_4, CARTRIDGE_TextDesc[CARTRIDGE_BLIZZARD_4]),
+		UI_MENU_ACTION(CARTRIDGE_AST_32, CARTRIDGE_TextDesc[CARTRIDGE_AST_32]),
+		UI_MENU_ACTION(CARTRIDGE_ATRAX_SDX_64, CARTRIDGE_TextDesc[CARTRIDGE_ATRAX_SDX_64]),
+		UI_MENU_ACTION(CARTRIDGE_ATRAX_SDX_128, CARTRIDGE_TextDesc[CARTRIDGE_ATRAX_SDX_128]),
+		UI_MENU_ACTION(CARTRIDGE_TURBOSOFT_64, CARTRIDGE_TextDesc[CARTRIDGE_TURBOSOFT_64]),
+		UI_MENU_ACTION(CARTRIDGE_TURBOSOFT_128, CARTRIDGE_TextDesc[CARTRIDGE_TURBOSOFT_128]),
+		UI_MENU_ACTION(CARTRIDGE_ULTRACART_32, CARTRIDGE_TextDesc[CARTRIDGE_ULTRACART_32]),
+		UI_MENU_ACTION(CARTRIDGE_LOW_BANK_8, CARTRIDGE_TextDesc[CARTRIDGE_LOW_BANK_8]),
+		UI_MENU_ACTION(CARTRIDGE_SIC_128, CARTRIDGE_TextDesc[CARTRIDGE_SIC_128]),
+		UI_MENU_ACTION(CARTRIDGE_SIC_256, CARTRIDGE_TextDesc[CARTRIDGE_SIC_256]),
+		UI_MENU_ACTION(CARTRIDGE_SIC_512, CARTRIDGE_TextDesc[CARTRIDGE_SIC_512]),
+		UI_MENU_ACTION(CARTRIDGE_STD_2, CARTRIDGE_TextDesc[CARTRIDGE_STD_2]),
+		UI_MENU_ACTION(CARTRIDGE_STD_4, CARTRIDGE_TextDesc[CARTRIDGE_STD_4]),
+		UI_MENU_ACTION(CARTRIDGE_RIGHT_4, CARTRIDGE_TextDesc[CARTRIDGE_RIGHT_4]),
 		UI_MENU_END
 	};
 
@@ -594,21 +1055,12 @@ int UI_SelectCartType(int k)
 
 static void CartManagement(void)
 {
-	static UI_tMenuItem menu_array_sdx[] = {
-		UI_MENU_FILESEL(0, "Create Cartridge from ROM image"),
-		UI_MENU_FILESEL(1, "Extract ROM image from Cartridge"),
-		UI_MENU_FILESEL(2, "Insert Cartridge"),
-		UI_MENU_ACTION(3, "Remove Cartridge"),
-		UI_MENU_FILESEL(4, "Insert SDX Piggyback Cartridge"),
-		UI_MENU_ACTION(5, "Remove SDX Piggyback Cartridge"),
-		UI_MENU_END
-	};
-	
 	static UI_tMenuItem menu_array[] = {
 		UI_MENU_FILESEL(0, "Create Cartridge from ROM image"),
 		UI_MENU_FILESEL(1, "Extract ROM image from Cartridge"),
-		UI_MENU_FILESEL(2, "Insert Cartridge"),
-		UI_MENU_ACTION(3, "Remove Cartridge"),
+		UI_MENU_FILESEL_PREFIX_TIP(2, "Cartridge:", NULL, NULL),
+		UI_MENU_FILESEL_PREFIX_TIP(3, "Piggyback:", NULL, NULL),
+		UI_MENU_CHECK(4, "Reboot after cartridge change:"),
 		UI_MENU_END
 	};
 	
@@ -620,17 +1072,37 @@ static void CartManagement(void)
 	} Header;
 	
 	int option = 2;
+	int seltype;
 
 	for (;;) {
-		static char cart_filename[FILENAME_MAX] = "";
+		static char cart_filename[FILENAME_MAX];
 		
-		if (CARTRIDGE_type != CARTRIDGE_SDX_64 && CARTRIDGE_type != CARTRIDGE_SDX_128) {
-			option = UI_driver->fSelect("Cartridge Management", 0, option, menu_array, NULL);
+		if (CARTRIDGE_main.type == CARTRIDGE_NONE) {
+			menu_array[2].item = "None";
+			menu_array[2].suffix = "Return:insert";
 		}
-		else
-		{
-			option = UI_driver->fSelect("Cartridge Management", 0, option, menu_array_sdx, NULL);
+		else {
+			menu_array[2].item = CARTRIDGE_main.filename;
+			menu_array[2].suffix = "Return:insert Backspace:remove";
 		}
+
+		if (CARTRIDGE_main.type == CARTRIDGE_SDX_64 || CARTRIDGE_main.type == CARTRIDGE_SDX_128) {
+			menu_array[3].flags = UI_ITEM_FILESEL | UI_ITEM_TIP;
+			if (CARTRIDGE_piggyback.type == CARTRIDGE_NONE) {
+				menu_array[3].item = "None";
+				menu_array[3].suffix = "Return:insert";
+			}
+			else {
+				menu_array[3].item = CARTRIDGE_piggyback.filename;
+				menu_array[3].suffix = "Return:insert Backspace:remove";
+			}
+		} else {
+			menu_array[3].flags = UI_ITEM_HIDDEN;
+		}
+
+		SetItemChecked(menu_array, 4, CARTRIDGE_autoreboot);
+
+		option = UI_driver->fSelect("Cartridge Management", 0, option, menu_array, &seltype);
 
 		switch (option) {
 		case 0:
@@ -743,75 +1215,70 @@ static void CartManagement(void)
 			}
 			break;
 		case 2:
-			if (UI_driver->fGetLoadFilename(cart_filename, UI_atari_files_dir, UI_n_atari_files_dir)) {
-				int r = CARTRIDGE_Insert(cart_filename);
-				switch (r) {
-				case CARTRIDGE_CANT_OPEN:
-					CantLoad(cart_filename);
-					break;
-				case CARTRIDGE_BAD_FORMAT:
-					UI_driver->fMessage("Unknown cartridge format", 1);
-					break;
-				case CARTRIDGE_BAD_CHECKSUM:
-					UI_driver->fMessage("Warning: bad CART checksum", 1);
-					break;
-				case 0:
-					/* ok */
-					break;
-				default:
-					/* r > 0 */
-					CARTRIDGE_type = UI_SelectCartType(r);
-					break;
-				}
-				if (CARTRIDGE_type != CARTRIDGE_NONE) {
-					int for5200 = CARTRIDGE_IsFor5200(CARTRIDGE_type);
-					if (for5200 && Atari800_machine_type != Atari800_MACHINE_5200) {
-						Atari800_machine_type = Atari800_MACHINE_5200;
-						MEMORY_ram_size = 16;
-						Atari800_InitialiseMachine();
-					}
-					else if (!for5200 && Atari800_machine_type == Atari800_MACHINE_5200) {
-						Atari800_machine_type = Atari800_MACHINE_XLXE;
-						MEMORY_ram_size = 64;
-						Atari800_InitialiseMachine();
+			switch (seltype) {
+			case UI_USER_SELECT: /* Enter */
+				if (UI_driver->fGetLoadFilename(CARTRIDGE_main.filename, UI_atari_files_dir, UI_n_atari_files_dir)) {
+					int r = CARTRIDGE_InsertAutoReboot(CARTRIDGE_main.filename);
+					switch (r) {
+					case CARTRIDGE_CANT_OPEN:
+						CantLoad(CARTRIDGE_main.filename);
+						break;
+					case CARTRIDGE_BAD_FORMAT:
+						UI_driver->fMessage("Unknown cartridge format", 1);
+						break;
+					case CARTRIDGE_BAD_CHECKSUM:
+						UI_driver->fMessage("Warning: bad CART checksum", 1);
+						break;
+					case 0:
+						/* ok */
+						break;
+					default:
+						/* r > 0 */
+						CARTRIDGE_SetTypeAutoReboot(&CARTRIDGE_main, UI_SelectCartType(r));
+						break;
 					}
 				}
-				Atari800_Coldstart();
-				return;
+				break;
+			case UI_USER_DELETE: /* Backspace */
+				CARTRIDGE_RemoveAutoReboot();
+				break;
 			}
 			break;
 		case 3:
-			CARTRIDGE_Remove();
-			Atari800_Coldstart();
-			return;
-		case 4:
-			if (UI_driver->fGetLoadFilename(cart_filename, UI_atari_files_dir, UI_n_atari_files_dir)) {
-				int r = CARTRIDGE_Insert_Second(cart_filename);
-				switch (r) {
-				case CARTRIDGE_CANT_OPEN:
-					CantLoad(cart_filename);
-					break;
-				case CARTRIDGE_BAD_FORMAT:
-					UI_driver->fMessage("Unknown cartridge format", 1);
-					break;
-				case CARTRIDGE_BAD_CHECKSUM:
-					UI_driver->fMessage("Warning: bad CART checksum", 1);
-					break;
-				case 0:
-					/* ok */
-					break;
-				default:
-					/* r > 0 */
-					CARTRIDGE_second_type = UI_SelectCartType(r);
-					break;
+			switch (seltype) {
+			case UI_USER_SELECT: /* Enter */
+				if (UI_driver->fGetLoadFilename(CARTRIDGE_piggyback.filename, UI_atari_files_dir, UI_n_atari_files_dir)) {
+					int r = CARTRIDGE_Insert_Second(CARTRIDGE_piggyback.filename);
+					switch (r) {
+					case CARTRIDGE_CANT_OPEN:
+						CantLoad(CARTRIDGE_piggyback.filename);
+						break;
+					case CARTRIDGE_BAD_FORMAT:
+						UI_driver->fMessage("Unknown cartridge format", 1);
+						break;
+					case CARTRIDGE_BAD_CHECKSUM:
+						UI_driver->fMessage("Warning: bad CART checksum", 1);
+						break;
+					case 0:
+						/* ok */
+						break;
+					default:
+						/* r > 0 */
+						CARTRIDGE_SetType(&CARTRIDGE_piggyback, UI_SelectCartType(r));
+						break;
+					}
 				}
-				return;
-		case 5:
-			CARTRIDGE_Remove_Second();
-			return;
+				break;
+			case UI_USER_DELETE: /* Backspace */
+				CARTRIDGE_Remove_Second();
+				break;
+			}
+			break;
+		case 4:
+			CARTRIDGE_autoreboot = !CARTRIDGE_autoreboot;
+			break;
 		default:
 			return;
-			}
 		}
 	}
 }
@@ -843,7 +1310,7 @@ static void SoundRecording(void)
 
 static int AutostartFile(void)
 {
-	static char filename[FILENAME_MAX] = "";
+	static char filename[FILENAME_MAX];
 	if (UI_driver->fGetLoadFilename(filename, UI_atari_files_dir, UI_n_atari_files_dir)) {
 		if (AFILE_OpenFile(filename, TRUE, 1, FALSE))
 			return TRUE;
@@ -852,13 +1319,144 @@ static int AutostartFile(void)
 	return FALSE;
 }
 
-static void LoadTape(void)
+static void MakeBlankTapeMenu(void)
 {
-	static char filename[FILENAME_MAX] = "";
-	if (UI_driver->fGetLoadFilename(filename, UI_atari_files_dir, UI_n_atari_files_dir)) {
-		if (!CASSETTE_Insert(filename))
-			CantLoad(filename);
+	char filenm[FILENAME_MAX];
+	char description[CASSETTE_DESCRIPTION_MAX];
+	description[0] = '\0';
+	strncpy(filenm, CASSETTE_filename, FILENAME_MAX);
+	if (!UI_driver->fGetSaveFilename(filenm, UI_atari_files_dir, UI_n_atari_files_dir))
+		return;
+	if (!UI_driver->fEditString("Enter tape's description", description, sizeof(description)))
+		return;
+	if (!CASSETTE_CreateCAS(filenm, description))
+		CantSave(filenm);
+}
+
+/* Callback function that writes a text label to *LABEL, for use by
+   any slider that adjusts tape position. */
+static void TapeSliderLabel(char *label, int value, void *user_data)
+{
+	if (value >= CASSETTE_GetSize())
+		sprintf(label, "End");
+	else
+		snprintf(label, 10, "%i", value + 1);
+}
+
+static void TapeManagement(void)
+{
+	static char position_string[17];
+	static char cas_symbol[] = " C:";
+
+	static UI_tMenuItem menu_array[] = {
+		UI_MENU_FILESEL_PREFIX_TIP(0, cas_symbol, NULL, NULL),
+		UI_MENU_LABEL("Description:"),
+		UI_MENU_LABEL(CASSETTE_description),
+		UI_MENU_ACTION_PREFIX_TIP(1, "Position: ", position_string, NULL),
+		UI_MENU_CHECK(2, "Record:"),
+		UI_MENU_SUBMENU(3, "Make blank tape"),
+		UI_MENU_END
+	};
+
+	int option = 0;
+	int seltype;
+
+	for (;;) {
+
+		int position = CASSETTE_GetPosition();
+		int size = CASSETTE_GetSize();
+
+		/* Set the cassette file description and set the Select Tape tip */
+		switch (CASSETTE_status) {
+		case CASSETTE_STATUS_NONE:
+			menu_array[0].item = "None";
+			menu_array[0].suffix = "Return:insert";
+			menu_array[3].suffix = "Tape not loaded";
+			cas_symbol[0] = ' ';
+			break;
+		case CASSETTE_STATUS_READ_ONLY:
+			menu_array[0].item = CASSETTE_filename;
+			menu_array[0].suffix = "Return:insert Backspace:eject";
+			menu_array[3].suffix = "Return:change Backspace:rewind";
+			cas_symbol[0] = '*';
+			break;
+		default: /* CASSETTE_STATUS_READ_WRITE */
+			menu_array[0].item = CASSETTE_filename;
+			menu_array[0].suffix = "Ret:insert Bksp:eject Space:read-only";
+			menu_array[3].suffix = "Return:change Backspace:rewind";
+			cas_symbol[0] = CASSETTE_write_protect ? '*' : ' ';
+			break;
+		}
+
+		SetItemChecked(menu_array, 2, CASSETTE_record);
+
+		if (CASSETTE_status == CASSETTE_STATUS_NONE)
+			memcpy(position_string, "N/A", 4);
+		else {
+			if (position > size)
+				snprintf(position_string, sizeof(position_string) - 1, "End/%u blocks", size);
+			else
+				snprintf(position_string, sizeof(position_string) - 1, "%u/%u blocks", position, size);
+		}
+
+		option = UI_driver->fSelect("Tape Management", 0, option, menu_array, &seltype);
+
+		switch (option) {
+		case 0:
+			switch (seltype) {
+			case UI_USER_SELECT: /* Enter */
+				if (UI_driver->fGetLoadFilename(CASSETTE_filename, UI_atari_files_dir, UI_n_atari_files_dir)) {
+					UI_driver->fMessage("Please wait while inserting...", 0);
+					if (!CASSETTE_Insert(CASSETTE_filename)) {
+						CantLoad(CASSETTE_filename);
+						break;
+					}
+				}
+				break;
+			case UI_USER_DELETE: /* Backspace */
+				if (CASSETTE_status != CASSETTE_STATUS_NONE)
+					CASSETTE_Remove();
+				break;
+			case UI_USER_TOGGLE: /* Space */
+				/* Toggle only if the cassette is mounted. */
+				if (CASSETTE_status != CASSETTE_STATUS_NONE && !CASSETTE_ToggleWriteProtect())
+					/* The file is read-only. */
+					UI_driver->fMessage("Cannot switch to read/write", 1);
+				break;
+			}
+			break;
+		case 1:
+			/* The Current Block control is inactive if no cassette file present */
+			if (CASSETTE_status == CASSETTE_STATUS_NONE)
+				break;
+
+			switch (seltype) {
+			case UI_USER_SELECT: { /* Enter */
+					int value = UI_driver->fSelectSlider("Position tape",
+					                                     position - 1,
+					                                     size, &TapeSliderLabel, NULL);
+					if (value != -1)
+						CASSETTE_Seek(value + 1);
+				}
+				break;
+			case UI_USER_DELETE: /* Backspace */
+				CASSETTE_Seek(1);
+				break;
+			}
+			break;
+		case 2:
+			/* Toggle only if the cassette is mounted. */
+			if (CASSETTE_status != CASSETTE_STATUS_NONE && !CASSETTE_ToggleRecord())
+				UI_driver->fMessage("Tape is read-only, recording will fail", 1);
+			break;
+		case 3:
+			MakeBlankTapeMenu();
+			break;
+		default:
+			return;
+		}
 	}
+
 }
 
 static void AdvancedHOptions(void)
@@ -1073,14 +1671,203 @@ static void ConfigureDirectories(void)
 	}
 }
 
+static void ROMLocations(char const *title, UI_tMenuItem *menu_array)
+{
+	int option = 0;
+
+	for (;;) {
+		int seltype;
+
+		UI_tMenuItem *item;
+		for (item = menu_array; item->flags != UI_ITEM_END; ++item) {
+			int i = item->retval;
+			if (SYSROM_roms[i].filename[0] == '\0')
+				item->item = "None";
+			else
+				item->item = SYSROM_roms[i].filename;
+		}
+
+		option = UI_driver->fSelect(title, 0, option, menu_array, &seltype);
+		if (option < 0)
+			return;
+		if (seltype == UI_USER_DELETE)
+			SYSROM_roms[option].filename[0] = '\0';
+		else {
+			char filename[FILENAME_MAX] = "";
+			if (SYSROM_roms[option].filename[0] != '\0')
+				strcpy(filename, SYSROM_roms[option].filename);
+			else {
+				/* Use first non-empty ROM path as a starting filename for the dialog. */
+				int i;
+				for (i = 0; i < SYSROM_SIZE; ++i) {
+					if (SYSROM_roms[i].filename[0] != '\0') {
+						strcpy(filename, SYSROM_roms[i].filename);
+						break;
+					}
+				}
+			}
+			for (;;) {
+				if (!UI_driver->fGetLoadFilename(filename, NULL, 0))
+					break;
+				switch(SYSROM_SetPath(filename, 1, option)) {
+				case SYSROM_ERROR:
+					CantLoad(filename);
+					continue;
+				case SYSROM_BADSIZE:
+					UI_driver->fMessage("Can't load, incorrect file size", 1);
+					continue;
+				case SYSROM_BADCRC:
+					UI_driver->fMessage("Can't load, incorrect checksum", 1);
+					continue;
+				}
+				break;
+			}
+		}
+	}
+
+}
+
+static void ROMLocations800(void)
+{
+	static UI_tMenuItem menu_array[] = {
+		UI_MENU_FILESEL_PREFIX(SYSROM_A_NTSC, " Rev. A NTSC:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_A_PAL, " Rev. A PAL:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_B_NTSC, " Rev. B NTSC:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_800_CUSTOM, " Custom:", NULL),
+		UI_MENU_END
+	};
+	ROMLocations("400/800 OS ROM Locations", menu_array);
+}
+
+static void ROMLocationsXL(void)
+{
+	static UI_tMenuItem menu_array[] = {
+		UI_MENU_FILESEL_PREFIX(SYSROM_AA00R10, " AA00 Rev. 10:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_AA01R11, " AA01 Rev. 11:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_BB00R1, " BB00 Rev. 1:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_BB01R2, " BB01 Rev. 2:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_BB02R3, " BB02 Rev. 3:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_BB02R3V4, " BB02 Rev. 3 Ver. 4:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_CC01R4, " CC01 Rev. 4:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_BB01R3, " BB01 Rev. 3:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_BB01R4_OS, " BB01 Rev. 4:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_BB01R59, " BB01 Rev. 59:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_BB01R59A, " BB01 Rev. 59 alt.:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_XL_CUSTOM, " Custom:", NULL),
+		UI_MENU_END
+	};
+	ROMLocations("XL/XE OS ROM Locations", menu_array);
+}
+
+static void ROMLocations5200(void)
+{
+	static UI_tMenuItem menu_array[] = {
+		UI_MENU_FILESEL_PREFIX(SYSROM_5200, " Original:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_5200A, " Rev. A:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_5200_CUSTOM, " Custom:", NULL),
+		UI_MENU_END
+	};
+	ROMLocations("5200 BIOS ROM Locations", menu_array);
+}
+
+static void ROMLocationsBASIC(void)
+{
+	static UI_tMenuItem menu_array[] = {
+		UI_MENU_FILESEL_PREFIX(SYSROM_BASIC_A, " Rev. A:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_BASIC_B, " Rev. B:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_BASIC_C, " Rev. C:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_BASIC_CUSTOM, " Custom:", NULL),
+		UI_MENU_END
+	};
+	ROMLocations("BASIC ROM Locations", menu_array);
+}
+
+static void ROMLocationsXEGame(void)
+{
+	static UI_tMenuItem menu_array[] = {
+		UI_MENU_FILESEL_PREFIX(SYSROM_XEGAME, " Original:", NULL),
+		UI_MENU_FILESEL_PREFIX(SYSROM_XEGAME_CUSTOM, " Custom:", NULL),
+		UI_MENU_END
+	};
+	ROMLocations("XEGS Builtin Game ROM Locations", menu_array);
+}
+
+static void SystemROMSettings(void)
+{
+	static UI_tMenuItem menu_array[] = {
+		UI_MENU_FILESEL(0, "Find ROM images in a directory"),
+		UI_MENU_SUBMENU(1, "400/800 OS ROM locations"),
+		UI_MENU_SUBMENU(2, "XL/XE OS ROM locations"),
+		UI_MENU_SUBMENU(3, "5200 BIOS ROM locations"),
+		UI_MENU_SUBMENU(4, "BASIC ROM locations"),
+		UI_MENU_SUBMENU(5, "XEGS builtin game ROM locations"),
+		UI_MENU_END
+	};
+
+	int option = 0;
+
+	for (;;) {
+		int seltype;
+
+		option = UI_driver->fSelect("System ROM Settings", 0, option, menu_array, &seltype);
+
+		switch (option) {
+		case 0:
+			{
+				char rom_dir[FILENAME_MAX] = "";
+				int i;
+				/* Use first non-empty ROM path as a starting filename for the dialog. */
+				for (i = 0; i < SYSROM_SIZE; ++i) {
+					if (SYSROM_roms[i].filename[0] != '\0') {
+						Util_splitpath(SYSROM_roms[i].filename, rom_dir, NULL);
+						break;
+					}
+				}
+				if (UI_driver->fGetDirectoryPath(rom_dir))
+					SYSROM_FindInDir(rom_dir, FALSE);
+			}
+			break;
+		case 1:
+			ROMLocations800();
+			break;
+		case 2:
+			ROMLocationsXL();
+			break;
+		case 3:
+			ROMLocations5200();
+			break;
+		case 4:
+			ROMLocationsBASIC();
+			break;
+		case 5:
+			ROMLocationsXEGame();
+			break;
+		default:
+			return;
+		}
+	}
+}
+
 static void AtariSettings(void)
 {
+#ifdef XEP80_EMULATION
+	static const UI_tMenuItem xep80_menu_array[] = {
+		UI_MENU_ACTION(0, "off"),
+		UI_MENU_ACTION(1, "port 1"),
+		UI_MENU_ACTION(2, "port 2"),
+		UI_MENU_END
+	};
+#endif /* XEP80_EMULATION */
+
 	static UI_tMenuItem menu_array[] = {
 		UI_MENU_CHECK(0, "Disable BASIC when booting Atari:"),
 		UI_MENU_CHECK(1, "Boot from tape (hold Start):"),
 		UI_MENU_CHECK(2, "Enable R-Time 8:"),
+#ifdef XEP80_EMULATION
+		UI_MENU_SUBMENU_SUFFIX(18, "Enable XEP80:", NULL),
+#endif /* XEP80_EMULATION */
 		UI_MENU_CHECK(3, "SIO patch (fast disk access):"),
-		UI_MENU_CHECK(21, "Turbo (F12):"),
+		UI_MENU_CHECK(17, "Turbo (F12):"),
 		UI_MENU_ACTION(4, "H: device (hard disk):"),
 		UI_MENU_CHECK(5, "P: device (printer):"),
 #ifdef R_IO_DEVICE
@@ -1090,20 +1877,15 @@ static void AtariSettings(void)
 		UI_MENU_FILESEL_PREFIX(8, "H2: ", Devices_atari_h_dir[1]),
 		UI_MENU_FILESEL_PREFIX(9, "H3: ", Devices_atari_h_dir[2]),
 		UI_MENU_FILESEL_PREFIX(10, "H4: ", Devices_atari_h_dir[3]),
-		UI_MENU_SUBMENU(20, "Advanced H: options"),
-		UI_MENU_ACTION_PREFIX(11, "Print command: ", Devices_print_command),
-		UI_MENU_FILESEL_PREFIX(12, " OS/A ROM: ", CFG_osa_filename),
-		UI_MENU_FILESEL_PREFIX(13, " OS/B ROM: ", CFG_osb_filename),
-		UI_MENU_FILESEL_PREFIX(14, "XL/XE ROM: ", CFG_xlxe_filename),
-		UI_MENU_FILESEL_PREFIX(15, " 5200 ROM: ", CFG_5200_filename),
-		UI_MENU_FILESEL_PREFIX(16, "BASIC ROM: ", CFG_basic_filename),
-		UI_MENU_FILESEL(17, "Find ROM images in a directory"),
-		UI_MENU_SUBMENU(18, "Configure directories"),
-		UI_MENU_ACTION(19, "Save configuration file"),
+		UI_MENU_SUBMENU(11, "Advanced H: options"),
+		UI_MENU_ACTION_PREFIX(12, "Print command: ", Devices_print_command),
+		UI_MENU_SUBMENU(13, "System ROM settings"),
+		UI_MENU_SUBMENU(14, "Configure directories"),
+		UI_MENU_ACTION(15, "Save configuration file"),
+		UI_MENU_CHECK(16, "Save configuration on exit:"),
 		UI_MENU_END
 	};
 	char tmp_command[256];
-	char rom_dir[FILENAME_MAX];
 
 	int option = 0;
 
@@ -1113,12 +1895,16 @@ static void AtariSettings(void)
 		SetItemChecked(menu_array, 1, CASSETTE_hold_start_on_reboot);
 		SetItemChecked(menu_array, 2, RTIME_enabled);
 		SetItemChecked(menu_array, 3, ESC_enable_sio_patch);
-		SetItemChecked(menu_array, 21, Atari800_turbo);
-		menu_array[5].suffix = Devices_enable_h_patch ? (Devices_h_read_only ? "Read-only" : "Read/write") : "No ";
+#ifdef XEP80_EMULATION
+		FindMenuItem(menu_array, 18)->suffix = xep80_menu_array[XEP80_enabled ? XEP80_port + 1 : 0].item;
+#endif /* XEP80_EMULATION */
+		SetItemChecked(menu_array, 17, Atari800_turbo);
+		FindMenuItem(menu_array, 4)->suffix = Devices_enable_h_patch ? (Devices_h_read_only ? "Read-only" : "Read/write") : "No ";
 		SetItemChecked(menu_array, 5, Devices_enable_p_patch);
 #ifdef R_IO_DEVICE
 		SetItemChecked(menu_array, 6, Devices_enable_r_patch);
 #endif
+		SetItemChecked(menu_array, 16, CFG_save_on_exit);
 
 		option = UI_driver->fSelect("Emulator Settings", 0, option, menu_array, &seltype);
 
@@ -1165,39 +1951,45 @@ static void AtariSettings(void)
 			else
 				UI_driver->fGetDirectoryPath(FindMenuItem(menu_array, option)->item);
 			break;
-		case 20:
+		case 11:
 			AdvancedHOptions();
 			break;
-		case 11:
+		case 12:
 			strcpy(tmp_command, Devices_print_command);
 			if (UI_driver->fEditString("Print command", tmp_command, sizeof(tmp_command)))
 				if (!Devices_SetPrintCommand(tmp_command))
 					UI_driver->fMessage("Specified command is not allowed", 1);
 			break;
-		case 12:
 		case 13:
+			SystemROMSettings();
+			break;
 		case 14:
-		case 15:
-		case 16:
-			if (seltype == UI_USER_DELETE)
-				FindMenuItem(menu_array, option)->item[0] = '\0';
-			else
-				UI_driver->fGetLoadFilename(FindMenuItem(menu_array, option)->item, NULL, 0);
-			break;
-		case 17:
-			Util_splitpath(CFG_xlxe_filename, rom_dir, NULL);
-			if (UI_driver->fGetDirectoryPath(rom_dir))
-				CFG_FindROMImages(rom_dir, FALSE);
-			break;
-		case 18:
 			ConfigureDirectories();
 			break;
-		case 19:
+		case 15:
 			UI_driver->fMessage(CFG_WriteConfig() ? "Configuration file updated" : "Error writing configuration file", 1);
 			break;
-		case 21:
+		case 16:
+			CFG_save_on_exit = !CFG_save_on_exit;
+			break;
+		case 17:
 			Atari800_turbo = !Atari800_turbo;
 			break;
+#ifdef XEP80_EMULATION
+		case 18:
+			{
+				int option2 = UI_driver->fSelect(NULL, UI_SELECT_POPUP, XEP80_enabled ? XEP80_port + 1 : 0, xep80_menu_array, NULL);
+				if (option2 == 0)
+					XEP80_SetEnabled(FALSE);
+				else if (option2 > 0) {
+					if (XEP80_SetEnabled(TRUE))
+						XEP80_port = option2 - 1;
+					else
+						UI_driver->fMessage("Error: Missing XEP80 charset ROM.", 1);
+				}
+			}
+			break;
+#endif /* XEP80_EMULATION */
 		default:
 			ESC_UpdatePatches();
 			return;
@@ -1205,7 +1997,7 @@ static void AtariSettings(void)
 	}
 }
 
-static char state_filename[FILENAME_MAX] = "";
+static char state_filename[FILENAME_MAX];
 
 static void SaveState(void)
 {
@@ -1255,7 +2047,7 @@ static int ChooseVideoResolution(int current_res)
 		menu_array[i].item = res_strings[i];
 		menu_array[i].suffix = NULL;
 	}
-	menu_array[num_res].flags = UI_ITEM_HIDDEN;
+	menu_array[num_res].flags = UI_ITEM_END;
 	menu_array[num_res].retval = 0;
 	menu_array[i].prefix = NULL;
 	menu_array[i].item = NULL;
@@ -1293,6 +2085,7 @@ static void VertOffsetSliderLabel(char *label, int value, void *user_data)
 	VIDEOMODE_SetVerticalOffset(value);
 }
 
+#if GUI_SDL
 /* Callback function that writes a text label to *LABEL, for use by
    the Scanlines Visibility slider. */
 static void ScanlinesSliderLabel(char *label, int value, void *user_data)
@@ -1300,6 +2093,7 @@ static void ScanlinesSliderLabel(char *label, int value, void *user_data)
 	sprintf(label, "%i", value);
 	SDL_VIDEO_SetScanlinesPercentage(value);
 }
+#endif /* GUI_SDL */
 
 static void VideoModeSettings(void)
 {
@@ -1353,7 +2147,7 @@ static void VideoModeSettings(void)
 	static char ratio_string[10];
 	static char horiz_offset_string[4];
 	static char vert_offset_string[4];
-#if SDL
+#if GUI_SDL
 	static const UI_tMenuItem bpp_menu_array[] = {
 		UI_MENU_ACTION(0, "autodetect"),
 		UI_MENU_ACTION(1, "8"),
@@ -1372,27 +2166,27 @@ static void VideoModeSettings(void)
 	};
 #endif /* HAVE_OPENGL */
 	static char scanlines_string[4];
-#endif /* SDL */
+#endif /* GUI_SDL */
 
 	static UI_tMenuItem menu_array[] = {
 		UI_MENU_SUBMENU_SUFFIX(0, "Host display aspect ratio:", ratio_string),
-#if SDL && HAVE_OPENGL
+#if GUI_SDL && HAVE_OPENGL
 		UI_MENU_CHECK(1, "Hardware acceleration:"),
 		UI_MENU_CHECK(2, " Bilinear filtering:"),
 		UI_MENU_CHECK(3, " Use pixel buffer objects:"),
-#endif /* SDL && HAVE_OPENGL */
+#endif /* GUI_SDL && HAVE_OPENGL */
 		UI_MENU_CHECK(4, "Fullscreen:"),
 		UI_MENU_SUBMENU_SUFFIX(5, " Fullscreen resolution:", res_string),
 #if SUPPORTS_ROTATE_VIDEOMODE
 		UI_MENU_CHECK(6, "Rotate sideways:"),
 #endif /* SUPPORTS_ROTATE_VIDEOMODE */
-#if SDL
+#if GUI_SDL
 		UI_MENU_SUBMENU_SUFFIX(7, "Bits per pixel:", bpp_string),
 #if HAVE_OPENGL
 		UI_MENU_SUBMENU_SUFFIX(8, "Pixel format:", NULL),
 #endif /* HAVE_OPENGL */
 		UI_MENU_CHECK(9, "Vertical synchronization:"),
-#endif /* SDL */
+#endif /* GUI_SDL */
 		UI_MENU_SUBMENU_SUFFIX(10, "Image aspect ratio:", NULL),
 		UI_MENU_SUBMENU_SUFFIX(11, "Stretch image:", NULL),
 		UI_MENU_SUBMENU_SUFFIX(12, "Fit screen method:", NULL),
@@ -1400,10 +2194,10 @@ static void VideoModeSettings(void)
 		UI_MENU_SUBMENU_SUFFIX(14, "Vertical view area:", NULL),
 		UI_MENU_SUBMENU_SUFFIX(15, "Horizontal shift:", horiz_offset_string),
 		UI_MENU_SUBMENU_SUFFIX(16, "Vertical shift:", vert_offset_string),
-#if SDL
+#if GUI_SDL
 		UI_MENU_SUBMENU_SUFFIX(17, "Scanlines visibility:", scanlines_string),
 		UI_MENU_CHECK(18, " Interpolate scanlines:"),
-#endif /* SDL */
+#endif /* GUI_SDL */
 		UI_MENU_END
 	};
 	int option = 0;
@@ -1412,7 +2206,7 @@ static void VideoModeSettings(void)
 
 	for (;;) {
 		VIDEOMODE_CopyHostAspect(ratio_string, 10);
-#if SDL
+#if GUI_SDL
 		snprintf(bpp_string, sizeof(bpp_string), "%d", SDL_VIDEO_SW_bpp);
 #if HAVE_OPENGL
 		SetItemChecked(menu_array, 1, SDL_VIDEO_opengl);
@@ -1436,7 +2230,7 @@ static void VideoModeSettings(void)
 		}
 		snprintf(scanlines_string, sizeof(scanlines_string), "%d", SDL_VIDEO_scanlines_percentage);
 		SetItemChecked(menu_array, 18, SDL_VIDEO_interpolate_scanlines);
-#endif /* SDL */
+#endif /* GUI_SDL */
 		SetItemChecked(menu_array, 4, !VIDEOMODE_windowed);
 		VIDEOMODE_CopyResolutionName(VIDEOMODE_GetFullscreenResolution(), res_string, 10);
 #if SUPPORTS_ROTATE_VIDEOMODE
@@ -1488,7 +2282,7 @@ static void VideoModeSettings(void)
 					VIDEOMODE_AutodetectHostAspect();
 			}
 			break;
-#if SDL && HAVE_OPENGL
+#if GUI_SDL && HAVE_OPENGL
 		case 1:
 			SDL_VIDEO_ToggleOpengl();
 			if (!SDL_VIDEO_opengl_available)
@@ -1506,7 +2300,7 @@ static void VideoModeSettings(void)
 			if (!SDL_VIDEO_GL_TogglePbo())
 				UI_driver->fMessage("Pixel buffer objects not available.", 1);
 			break;
-#endif /* SDL && HAVE_OPENGL */
+#endif /* GUI_SDL && HAVE_OPENGL */
 		case 4:
 			VIDEOMODE_ToggleWindowed();
 			break;
@@ -1520,7 +2314,7 @@ static void VideoModeSettings(void)
 			VIDEOMODE_ToggleRotate90();
 			break;
 #endif
-#if SDL
+#if GUI_SDL
 		case 7:
 			{
 				int current;
@@ -1564,7 +2358,7 @@ static void VideoModeSettings(void)
 			if (!SDL_VIDEO_ToggleVsync())
 				UI_driver->fMessage("Not available in this video mode.", 1);
 			break;
-#endif /* SDL */
+#endif /* GUI_SDL */
 		case 10:
 			option2 = UI_driver->fSelect(NULL, UI_SELECT_POPUP, VIDEOMODE_keep_aspect, aspect_menu_array, NULL);
 			if (option2 >= 0)
@@ -1594,10 +2388,11 @@ static void VideoModeSettings(void)
 				if (option2 < VIDEOMODE_HORIZONTAL_CUSTOM)
 					VIDEOMODE_SetHorizontalArea(option2);
 				else {
-					int offset = 160;
+					int offset = VIDEOMODE_MIN_HORIZONTAL_AREA;
 					int value = UI_driver->fSelectSlider("Adjust horizontal area",
 					                                     VIDEOMODE_custom_horizontal_area - offset,
-					                                     384 - 160, &IntSliderLabel, &offset);
+					                                     VIDEOMODE_MAX_HORIZONTAL_AREA - VIDEOMODE_MIN_HORIZONTAL_AREA,
+					                                     &IntSliderLabel, &offset);
 					if (value != -1)
 						VIDEOMODE_SetCustomHorizontalArea(value + offset);
 				}
@@ -1609,10 +2404,11 @@ static void VideoModeSettings(void)
 				if (option2 < VIDEOMODE_VERTICAL_CUSTOM)
 					VIDEOMODE_SetVerticalArea(option2);
 				else {
-					int offset = 120;
+					int offset = VIDEOMODE_MIN_VERTICAL_AREA;
 					int value = UI_driver->fSelectSlider("Adjust vertical area",
 					                                     VIDEOMODE_custom_vertical_area - offset,
-					                                     275 - 120, &IntSliderLabel, &offset);
+					                                     VIDEOMODE_MAX_VERTICAL_AREA - VIDEOMODE_MIN_VERTICAL_AREA,
+					                                     &IntSliderLabel, &offset);
 					if (value != -1)
 						VIDEOMODE_SetCustomVerticalArea(value + offset);
 				}
@@ -1622,7 +2418,7 @@ static void VideoModeSettings(void)
 			switch (seltype) {
 			case UI_USER_SELECT:
 				{
-					int range = 384 - VIDEOMODE_custom_horizontal_area;
+					int range = VIDEOMODE_MAX_HORIZONTAL_AREA - VIDEOMODE_custom_horizontal_area;
 					int offset = - range / 2;
 					int value = UI_driver->fSelectSlider("Adjust horizontal shift",
 					                                     VIDEOMODE_horizontal_offset - offset,
@@ -1640,7 +2436,7 @@ static void VideoModeSettings(void)
 			switch (seltype) {
 			case UI_USER_SELECT:
 				{
-					int range = 275 - VIDEOMODE_custom_vertical_area;
+					int range = VIDEOMODE_MAX_VERTICAL_AREA - VIDEOMODE_custom_vertical_area;
 					int offset = - range / 2;
 					int value = UI_driver->fSelectSlider("Adjust vertical shift",
 					                                     VIDEOMODE_vertical_offset - offset,
@@ -1654,7 +2450,7 @@ static void VideoModeSettings(void)
 				break;
 			}
 			break;
-#if SDL
+#if GUI_SDL
 		case 17:
 			{
 				int value = UI_driver->fSelectSlider("Adjust scanlines visibility",
@@ -1667,7 +2463,7 @@ static void VideoModeSettings(void)
 		case 18:
 			SDL_VIDEO_ToggleInterpolateScanlines();
 			break;
-#endif /* SDL */
+#endif /* GUI_SDL */
 		default:
 			return;
 		}
@@ -1687,9 +2483,9 @@ static struct {
 	{ COLOURS_BRIGHTNESS_MIN, COLOURS_BRIGHTNESS_MAX },
 	{ COLOURS_CONTRAST_MIN, COLOURS_CONTRAST_MAX },
 	{ COLOURS_SATURATION_MIN, COLOURS_SATURATION_MAX },
-	{ COLOURS_NTSC_HUE_MIN, COLOURS_NTSC_HUE_MAX },
+	{ COLOURS_HUE_MIN, COLOURS_HUE_MAX },
 	{ COLOURS_GAMMA_MIN, COLOURS_GAMMA_MAX },
-	{ COLOURS_NTSC_DELAY_MIN, COLOURS_NTSC_DELAY_MAX }
+	{ COLOURS_DELAY_MIN, COLOURS_DELAY_MAX }
 #if NTSC_FILTER
 	,
 	{ FILTER_NTSC_SHARPNESS_MIN, FILTER_NTSC_SHARPNESS_MAX },
@@ -1710,27 +2506,18 @@ static void UpdateColourControl(const int idx)
 		 *(colour_controls[idx].setting));
 }
 
-/* Sets pointers to colour controls properly, and hides/shows the Hue and
-   Color delay controls, which are applicable only for NTSC. */
+/* Sets pointers to colour controls properly. */
 static void UpdateColourControls(UI_tMenuItem menu_array[])
 {
 	int i;
 	colour_controls[0].setting = &Colours_setup->brightness;
 	colour_controls[1].setting = &Colours_setup->contrast;
 	colour_controls[2].setting = &Colours_setup->saturation;
-	colour_controls[3].setting = &COLOURS_NTSC_specific_setup.hue;
+	colour_controls[3].setting = &Colours_setup->hue;
 	colour_controls[4].setting = &Colours_setup->gamma;
-	colour_controls[5].setting = &COLOURS_NTSC_specific_setup.color_delay;
+	colour_controls[5].setting = &Colours_setup->color_delay;
 	for (i = 0; i < 6; i ++)
 		UpdateColourControl(i);
-	/* Hide/show Hue and Color delay. */
-	if (Atari800_tv_mode == Atari800_TV_NTSC) {
-		FindMenuItem(menu_array, 16)->flags = UI_ITEM_ACTION;
-		FindMenuItem(menu_array, 18)->flags = UI_ITEM_ACTION;
-	} else {
-		FindMenuItem(menu_array, 16)->flags = UI_ITEM_HIDDEN;
-		FindMenuItem(menu_array, 18)->flags = UI_ITEM_HIDDEN;
-	}
 }
 
 /* Converts value of a colour setting to range usable by slider (0..100). */
@@ -1851,7 +2638,7 @@ static void NTSCFilterSettings(void)
    by user. */
 static void SavePalette(void)
 {
-	static char filename[FILENAME_MAX] = "";
+	static char filename[FILENAME_MAX];
 	if (UI_driver->fGetSaveFilename(filename, UI_saved_files_dir, UI_n_saved_files_dir)) {
 		UI_driver->fMessage("Please wait while saving...", 0);
 		if (!Colours_Save(filename))
@@ -1902,8 +2689,9 @@ static void DisplaySettings(void)
 		UI_MENU_SUBMENU_SUFFIX(1, "Current refresh rate:", refresh_status),
 		UI_MENU_CHECK(2, "Accurate skipped frames:"),
 		UI_MENU_CHECK(3, "Show percents of Atari speed:"),
-		UI_MENU_CHECK(4, "Show disk drive activity:"),
-		UI_MENU_CHECK(5, "Show sector counter:"),
+		UI_MENU_CHECK(4, "Show disk/tape activity:"),
+		UI_MENU_CHECK(5, "Show sector/block counter:"),
+		UI_MENU_CHECK(26, "Show 1200XL LEDs:"),
 #ifdef _WIN32_WCE
 		UI_MENU_CHECK(6, "Enable linear filtering:"),
 #endif
@@ -1920,7 +2708,7 @@ static void DisplaySettings(void)
 		UI_MENU_ACTION_PREFIX(13, " Brightness: ", colour_controls[0].string),
 		UI_MENU_ACTION_PREFIX(14, " Contrast: ", colour_controls[1].string),
 		UI_MENU_ACTION_PREFIX(15, " Saturation: ", colour_controls[2].string),
-		UI_MENU_ACTION_PREFIX(16, " Hue: ", colour_controls[3].string),
+		UI_MENU_ACTION_PREFIX(16, " Tint: ", colour_controls[3].string),
 		UI_MENU_ACTION_PREFIX(17, " Gamma: ", colour_controls[4].string),
 		UI_MENU_ACTION_PREFIX(18, " GTIA delay: ", colour_controls[5].string),
 #if NTSC_FILTER
@@ -1998,14 +2786,15 @@ static void DisplaySettings(void)
 		SetItemChecked(menu_array, 3, Screen_show_atari_speed);
 		SetItemChecked(menu_array, 4, Screen_show_disk_led);
 		SetItemChecked(menu_array, 5, Screen_show_sector_counter);
+		SetItemChecked(menu_array, 26, Screen_show_1200_leds);
 #ifdef _WIN32_WCE
 		FindMenuItem(menu_array, 6)->flags = filter_available ? (smooth_filter ? (UI_ITEM_CHECK | UI_ITEM_CHECKED) : UI_ITEM_CHECK) : UI_ITEM_HIDDEN;
 #endif
-//#ifdef DREAMCAST
-//		SetItemChecked(menu_array, 7, db_mode);
-//		FindMenuItem(menu_array, 8)->suffix = Atari800_tv_mode == Atari800_TV_NTSC ? "NTSC" : "PAL";
-//		FindMenuItem(menu_array, 9)->suffix = screen_tv_mode == Atari800_TV_NTSC ? "NTSC" : "PAL";
-//#endif
+#ifdef DREAMCAST
+		SetItemChecked(menu_array, 7, db_mode);
+		FindMenuItem(menu_array, 8)->suffix = Atari800_tv_mode == Atari800_TV_NTSC ? "NTSC" : "PAL";
+		FindMenuItem(menu_array, 9)->suffix = screen_tv_mode == Atari800_TV_NTSC ? "NTSC" : "PAL";
+#endif
 		option = UI_driver->fSelect("Display Settings", 0, option, menu_array, &seltype);
 		switch (option) {
 #if SUPPORTS_CHANGE_VIDEOMODE
@@ -2085,41 +2874,44 @@ static void DisplaySettings(void)
 		case 5:
 			Screen_show_sector_counter = !Screen_show_sector_counter;
 			break;
+		case 26:
+			Screen_show_1200_leds = !Screen_show_1200_leds;
+			break;
 #ifdef _WIN32_WCE
 		case 6:
 			smooth_filter = !smooth_filter;
 			break;
 #endif
-//#ifdef DREAMCAST
-//		case 7:
-//			if (db_mode)
-//				db_mode = FALSE;
-//			else if (Atari800_tv_mode == screen_tv_mode)
-//				db_mode = TRUE;
-//			update_screen_updater();
-//			Screen_EntireDirty();
-//			break;
-//		case 8:
-//			Atari800_tv_mode = (Atari800_tv_mode == Atari800_TV_PAL) ? Atari800_TV_NTSC : Atari800_TV_PAL;
-//			if (Atari800_tv_mode != screen_tv_mode) {
-//				db_mode = FALSE;
-//				update_screen_updater();
-//			}
-//			update_vidmode();
-//			Screen_EntireDirty();
-//			break;
-//		case 9:
-//			Atari800_tv_mode = screen_tv_mode = (screen_tv_mode == Atari800_TV_PAL) ? Atari800_TV_NTSC : Atari800_TV_PAL;
-//			update_vidmode();
-//			Screen_EntireDirty();
-//			break;
-//#ifdef HZ_TEST
-//		case 10:
-//			do_hz_test();
-//			Screen_EntireDirty();
-//			break;
-//#endif
-//#endif /* DREAMCAST */
+#ifdef DREAMCAST
+		case 7:
+			if (db_mode)
+				db_mode = FALSE;
+			else if (Atari800_tv_mode == screen_tv_mode)
+				db_mode = TRUE;
+			update_screen_updater();
+			Screen_EntireDirty();
+			break;
+		case 8:
+			Atari800_tv_mode = (Atari800_tv_mode == Atari800_TV_PAL) ? Atari800_TV_NTSC : Atari800_TV_PAL;
+			if (Atari800_tv_mode != screen_tv_mode) {
+				db_mode = FALSE;
+				update_screen_updater();
+			}
+			update_vidmode();
+			Screen_EntireDirty();
+			break;
+		case 9:
+			Atari800_tv_mode = screen_tv_mode = (screen_tv_mode == Atari800_TV_PAL) ? Atari800_TV_NTSC : Atari800_TV_PAL;
+			update_vidmode();
+			Screen_EntireDirty();
+			break;
+#ifdef HZ_TEST
+		case 10:
+			do_hz_test();
+			Screen_EntireDirty();
+			break;
+#endif
+#endif /* DREAMCAST */
 #if SUPPORTS_PLATFORM_PALETTEUPDATE
 		case 12:
 			option2 = UI_driver->fSelect(NULL, UI_SELECT_POPUP, colours_preset, colours_preset_menu_array, NULL);
@@ -2547,7 +3339,7 @@ static void WindowsOptions(void)
 
 #ifndef USE_CURSES
 
-#ifdef SDL
+#ifdef GUI_SDL
 static char joys[2][5][16];
 static const UI_tMenuItem joy0_menu_array[] = {
 	UI_MENU_LABEL("Select joy direction"),
@@ -2687,7 +3479,7 @@ static void ControllerConfiguration(void)
 		UI_MENU_SUBMENU_SUFFIX(3, "Mouse port:", mouse_port_status),
 		UI_MENU_SUBMENU_SUFFIX(4, "Mouse speed:", mouse_speed_status),
 #endif
-#ifdef SDL
+#ifdef GUI_SDL
 		UI_MENU_CHECK(5, "Enable keyboard joystick 1:"),
 		UI_MENU_SUBMENU(6, "Define layout of keyboard joystick 1"),
 		UI_MENU_CHECK(7, "Enable keyboard joystick 2:"),
@@ -2719,14 +3511,14 @@ static void ControllerConfiguration(void)
 #if defined(_WIN32_WCE)
 		/* XXX: not on smartphones? */
 		SetItemChecked(menu_array, 5, virtual_joystick);
-//#elif defined(DREAMCAST)
-//		SetItemChecked(menu_array, 9, emulate_paddles);
-//#else
-//		menu_array[2].suffix = mouse_mode_menu_array[INPUT_mouse_mode].item;
-//		mouse_port_status[0] = (char) ('1' + INPUT_mouse_port);
-//		mouse_speed_status[0] = (char) ('0' + INPUT_mouse_speed);
+#elif defined(DREAMCAST)
+		SetItemChecked(menu_array, 9, emulate_paddles);
+#else
+		menu_array[2].suffix = mouse_mode_menu_array[INPUT_mouse_mode].item;
+		mouse_port_status[0] = (char) ('1' + INPUT_mouse_port);
+		mouse_speed_status[0] = (char) ('0' + INPUT_mouse_speed);
 #endif
-#ifdef SDL
+#ifdef GUI_SDL
 		SetItemChecked(menu_array, 5, PLATFORM_kbd_joy_0_enabled);
 		SetItemChecked(menu_array, 7, PLATFORM_kbd_joy_1_enabled);
 #endif
@@ -2758,19 +3550,19 @@ static void ControllerConfiguration(void)
 		case 5:
 			virtual_joystick = !virtual_joystick;
 			break;
-//#elif defined(DREAMCAST)
-//		case 9:
-//			emulate_paddles = !emulate_paddles;
-//			break;
-//		case 10:
-//			ButtonConfiguration();
-//			break;
+#elif defined(DREAMCAST)
+		case 9:
+			emulate_paddles = !emulate_paddles;
+			break;
+		case 10:
+			ButtonConfiguration();
+			break;
 #else
-//		case 2:
-//			option2 = UI_driver->fSelect(NULL, UI_SELECT_POPUP, INPUT_mouse_mode, mouse_mode_menu_array, NULL);
-//			if (option2 >= 0)
-//				INPUT_mouse_mode = option2;
-//			break;
+		case 2:
+			option2 = UI_driver->fSelect(NULL, UI_SELECT_POPUP, INPUT_mouse_mode, mouse_mode_menu_array, NULL);
+			if (option2 >= 0)
+				INPUT_mouse_mode = option2;
+			break;
 		case 3:
 			INPUT_mouse_port = UI_driver->fSelectInt(INPUT_mouse_port + 1, 1, 4) - 1;
 			break;
@@ -2778,7 +3570,7 @@ static void ControllerConfiguration(void)
 			INPUT_mouse_speed = UI_driver->fSelectInt(INPUT_mouse_speed, 1, 9);
 			break;
 #endif
-#ifdef SDL
+#ifdef GUI_SDL
 		case 5:
 			PLATFORM_kbd_joy_0_enabled = !PLATFORM_kbd_joy_0_enabled;
 			break;
@@ -2928,13 +3720,9 @@ static int SoundSettings(void)
 
 #if !defined(CURSES_BASIC) && !defined(DREAMCAST)
 
-#ifdef USE_CURSES
-extern void curses_clear_screen(void);
-#endif
-
 static void Screenshot(int interlaced)
 {
-	static char filename[FILENAME_MAX] = "";
+	static char filename[FILENAME_MAX];
 	if (UI_driver->fGetSaveFilename(filename, UI_saved_files_dir, UI_n_saved_files_dir)) {
 #ifdef USE_CURSES
 		/* must clear, otherwise in case of a failure we'll see parts
@@ -3001,15 +3789,15 @@ static void HotKeyHelp(void)
 		"Hot Key Assignments \0"
 		"------------------- \0"
 		"\0"
-		"Alt+Enter - Toggle Fullscreen/Window\0"
-		"Alt+PgUp  - Increase window size    \0"
-		"Alt+PgDn  - Decrease window size    \0"
-		"Alt+I     - Next scanline mode      \0"
-		"Alt+M     - Hide/Show main menu     \0"
-		"Alt+T     - 3D Tilt                 \0"
-		"            (Direct3D modes only)   \0"
-		"Alt+Z     - 3D Screensaver          \0"
-		"            (Direct3D modes only)   \0"
+		"Alt+Enter   - Toggle Fullscreen/Window\0"
+		"Alt+PgUp    - Increase window size    \0"
+		"Alt+PgDn    - Decrease window size    \0"
+		"Alt+I       - Next scanline mode      \0"
+		"Alt+M       - Hide/Show main menu     \0"
+		"Alt+Shift+Z - 3D Tilt                 \0"
+		"              (Direct3D modes only)   \0"
+		"Alt+Z       - 3D Screensaver          \0"
+		"              (Direct3D modes only)   \0"
 		"\n");
 }
 #endif
@@ -3020,8 +3808,8 @@ void UI_Run(void)
 		UI_MENU_FILESEL_ACCEL(UI_MENU_RUN, "Run Atari Program", "Alt+R"),
 		UI_MENU_SUBMENU_ACCEL(UI_MENU_DISK, "Disk Management", "Alt+D"),
 		UI_MENU_SUBMENU_ACCEL(UI_MENU_CARTRIDGE, "Cartridge Management", "Alt+C"),
-		UI_MENU_FILESEL(UI_MENU_CASSETTE, "Select Tape Image"),
-		UI_MENU_SUBMENU_ACCEL(UI_MENU_SYSTEM, "Select System", "Alt+Y"),
+		UI_MENU_SUBMENU_ACCEL(UI_MENU_CASSETTE, "Tape Management", "Alt+T"),
+		UI_MENU_SUBMENU_ACCEL(UI_MENU_SYSTEM, "System Settings", "Alt+Y"),
 #ifdef SOUND
 		UI_MENU_SUBMENU_ACCEL(UI_MENU_SOUND, "Sound Settings", "Alt+O"),
 #ifndef DREAMCAST
@@ -3130,10 +3918,10 @@ void UI_Run(void)
 				done = TRUE;	/* reboot immediately */
 			break;
 		case UI_MENU_CASSETTE:
-			LoadTape();
+			TapeManagement();
 			break;
 		case UI_MENU_SYSTEM:
-			SelectSystem();
+			SystemSettings();
 			break;
 		case UI_MENU_SETTINGS:
 			AtariSettings();
@@ -3211,9 +3999,9 @@ void UI_Run(void)
 #if defined(_WIN32_WCE)
 			AboutPocketAtari();
 			break;
-//#elif defined(DREAMCAST)
-//			AboutAtariDC();
-//			break;
+#elif defined(DREAMCAST)
+			AboutAtariDC();
+			break;
 #else
 #if defined(DIRECTX)
 			if (!useconsole) {
