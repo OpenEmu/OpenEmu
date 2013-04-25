@@ -375,6 +375,9 @@
 		83977F681408FE6700175858 /* controller_gb.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F671408FE6700175858 /* controller_gb.png */; };
 		83977F6C1408FE8E00175858 /* controller_nes.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F6A1408FE8E00175858 /* controller_nes.png */; };
 		83977F6E1408FEA800175858 /* controller_sms.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F6D1408FEA800175858 /* controller_sms.png */; };
+		83A18C761729E3C3007EAEC7 /* toolbar_add_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83A18C731729E3C3007EAEC7 /* toolbar_add_button@2x.png */; };
+		83A18C771729E3C3007EAEC7 /* toolbar_sidebar_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83A18C741729E3C3007EAEC7 /* toolbar_sidebar_button@2x.png */; };
+		83A18C781729E3C3007EAEC7 /* toolbar_view_buttons@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83A18C751729E3C3007EAEC7 /* toolbar_view_buttons@2x.png */; };
 		83A9E152144723E20051AF1D /* hud_power_glyph.png in Resources */ = {isa = PBXBuildFile; fileRef = 83A9E151144723E20051AF1D /* hud_power_glyph.png */; };
 		83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AAC32814581699005ADD16 /* OESetupAssistantBackgroundView.m */; };
 		83AAC32F1458172C005ADD16 /* gloss_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AAC32B1458172C005ADD16 /* gloss_button.png */; };
@@ -1537,6 +1540,9 @@
 		83977F671408FE6700175858 /* controller_gb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gb.png; sourceTree = "<group>"; };
 		83977F6A1408FE8E00175858 /* controller_nes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_nes.png; sourceTree = "<group>"; };
 		83977F6D1408FEA800175858 /* controller_sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms.png; sourceTree = "<group>"; };
+		83A18C731729E3C3007EAEC7 /* toolbar_add_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar_add_button@2x.png"; sourceTree = "<group>"; };
+		83A18C741729E3C3007EAEC7 /* toolbar_sidebar_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar_sidebar_button@2x.png"; sourceTree = "<group>"; };
+		83A18C751729E3C3007EAEC7 /* toolbar_view_buttons@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar_view_buttons@2x.png"; sourceTree = "<group>"; };
 		83A8CD8D1709E1EE00F5D145 /* OEDatabase 0.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.5.xcdatamodel"; sourceTree = "<group>"; };
 		83A9E151144723E20051AF1D /* hud_power_glyph.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_power_glyph.png; sourceTree = "<group>"; };
 		83AAC32714581699005ADD16 /* OESetupAssistantBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantBackgroundView.h; sourceTree = "<group>"; };
@@ -3184,6 +3190,9 @@
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				83A18C731729E3C3007EAEC7 /* toolbar_add_button@2x.png */,
+				83A18C741729E3C3007EAEC7 /* toolbar_sidebar_button@2x.png */,
+				83A18C751729E3C3007EAEC7 /* toolbar_view_buttons@2x.png */,
 				83B867B8171D63510038988C /* retrode.png */,
 				83DEE499162D62B2005D8AD7 /* game_scanner_buttons.png */,
 				83DEE49A162D62B2005D8AD7 /* game_scanner_progress_bar.png */,
@@ -5589,6 +5598,9 @@
 				837DF19B16D2B0F400024BE1 /* OECollectionDebugWindowController.xib in Resources */,
 				83B867B7171D63070038988C /* OERetrodeViewController.xib in Resources */,
 				83B867B9171D63510038988C /* retrode.png in Resources */,
+				83A18C761729E3C3007EAEC7 /* toolbar_add_button@2x.png in Resources */,
+				83A18C771729E3C3007EAEC7 /* toolbar_sidebar_button@2x.png in Resources */,
+				83A18C781729E3C3007EAEC7 /* toolbar_view_buttons@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7975,7 +7987,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
-				COMBINE_HIDPI_IMAGES = YES;
+				COMBINE_HIDPI_IMAGES = NO;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -8000,7 +8012,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
-				COMBINE_HIDPI_IMAGES = YES;
+				COMBINE_HIDPI_IMAGES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
