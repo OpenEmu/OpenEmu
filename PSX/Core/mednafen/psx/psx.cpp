@@ -1250,7 +1250,9 @@ static bool InitCommon(std::vector<CDIF *> *CDInterfaces, const bool EmulateMemc
 
  cdifs = CDInterfaces;
  region = CalcDiscSCEx();
-
+ if (region == REGION_EU)
+     EmulatedPSX.isPalPSX = true;
+    
  if(!MDFN_GetSettingB("psx.region_autodetect"))
   region = MDFN_GetSettingI("psx.region_default");
 

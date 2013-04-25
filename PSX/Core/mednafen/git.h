@@ -383,5 +383,6 @@ typedef struct
  std::vector<const char *>DesiredInput; // Desired input device for the input ports, NULL for don't care
 
  double mouse_sensitivity;
+ bool isPalPSX;
 } MDFNGI;
 #endif

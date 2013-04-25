@@ -33,6 +33,13 @@
 #include "libretro.h"
 
 @interface PSXGameCore () <OEPSXSystemResponderClient>
+{
+    uint32_t *videoBuffer;
+    int videoWidth, videoHeight;
+    int16_t pad[2][16];
+    NSString *romName;
+    double sampleRate;
+}
 @end
 
 NSUInteger PSXEmulatorValues[] = { RETRO_DEVICE_ID_JOYPAD_UP, RETRO_DEVICE_ID_JOYPAD_DOWN, RETRO_DEVICE_ID_JOYPAD_LEFT, RETRO_DEVICE_ID_JOYPAD_RIGHT, RETRO_DEVICE_ID_JOYPAD_X, RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_Y, RETRO_DEVICE_ID_JOYPAD_L, RETRO_DEVICE_ID_JOYPAD_L2, RETRO_DEVICE_ID_JOYPAD_L3, RETRO_DEVICE_ID_JOYPAD_R, RETRO_DEVICE_ID_JOYPAD_R2, RETRO_DEVICE_ID_JOYPAD_R3, RETRO_DEVICE_ID_JOYPAD_START, RETRO_DEVICE_ID_JOYPAD_SELECT };
@@ -96,7 +103,7 @@ static int16_t input_state_callback(unsigned port, unsigned device, unsigned ind
         return current->pad[0][id];
     }
     else if(port == 1 & device == RETRO_DEVICE_JOYPAD) {
-    //return current->pad[1][id];
+        return current->pad[1][id];
     }
     
     return 0;
@@ -106,103 +113,12 @@ static bool environment_callback(unsigned cmd, void *data)
 {
     switch (cmd)
     {
-        /*case RETRO_ENVIRONMENT_GET_OVERSCAN:
-            *(bool*)data = !g_settings.video.crop_overscan;
-            NSLog(@"Environ GET_OVERSCAN: %u\n", (unsigned)!g_settings.video.crop_overscan);
-            break;
-            
-        case RETRO_ENVIRONMENT_GET_CAN_DUPE:
-#ifdef HAVE_FFMPEG
-            *(bool*)data = true;
-            NSLog(@"Environ GET_CAN_DUPE: true\n");
-#else
-            *(bool*)data = false;
-            NSLog(@"Environ GET_CAN_DUPE: false\n");
-#endif
-            break;*/
-            
-        case RETRO_ENVIRONMENT_GET_VARIABLE:
-        {
-            struct retro_variable *var = (struct retro_variable*)data;
-            if (var->key)
-            {
-                // Split string has '\0' delimiters so we have to find the position in original string,
-                // then pass the corresponding offset into the split string.
-                const char *key = strstr(current->systemEnvironment, var->key);
-                size_t key_len = strlen(var->key);
-                if (key && key[key_len] == '=')
-                {
-                    ptrdiff_t offset = key - current->systemEnvironment;
-                    var->value = current->systemEnvironmentSplit[offset + key_len + 1];
-                }
-                else
-                    var->value = NULL;
-            }
-            else
-                var->value = current->systemEnvironment;
-            
-            NSLog(@"Environ GET_VARIABLE: %s=%s\n",
-                      var->key ? var->key : "null",
-                      var->value ? var->value : "null");
-            
-            break;
-        }
-            
-        case RETRO_ENVIRONMENT_SET_VARIABLES:
-        {
-            NSLog(@"Environ SET_VARIABLES:\n");
-            NSLog(@"=======================\n");
-            const struct retro_variable *vars = (const struct retro_variable*)data;
-            while (vars->key)
-            {
-                NSLog(@"\t%s :: %s\n",
-                          vars->key,
-                          vars->value ? vars->value : "N/A");
-                
-                vars++;
-            }
-            NSLog(@"=======================\n");
-            break;
-        }
-            
-        /*case RETRO_ENVIRONMENT_SET_MESSAGE:
-        {
-            const struct retro_message *msg = (const struct retro_message*)data;
-            NSLog(@"Environ SET_MESSAGE: %s\n", msg->msg);
-            if (g_extern.msg_queue)
-                msg_queue_push(g_extern.msg_queue, msg->msg, 1, msg->frames);
-            break;
-        }
-            
-        case RETRO_ENVIRONMENT_SET_ROTATION:
-        {
-            unsigned rotation = *(const unsigned*)data;
-            NSLog(@"Environ SET_ROTATION: %u\n", rotation);
-            if (!g_settings.video.allow_rotate)
-                break;
-            
-            g_extern.system.rotation = rotation;
-            
-            if (driver.video && driver.video->set_rotation)
-            {
-                if (driver.video_data)
-                    video_set_rotation_func(rotation);
-            }
-            else
-                return false;
-            break;
-        }*/
-            
-        case RETRO_ENVIRONMENT_SHUTDOWN:
-            //g_extern.system.shutdown = true;
-            break;
-            
         case RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY:
         {
-            NSString *appSupportPath = [[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
-                                          stringByAppendingPathComponent:@"Application Support"]
-                                         stringByAppendingPathComponent:@"OpenEmu"]
-                                        stringByAppendingPathComponent:@"BIOS"];
+            // FIXME: Build a path in a more appropriate place
+            NSString *appSupportPath = [NSString pathWithComponents:@[
+                                        [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
+                                        @"OpenEmu", @"BIOS"]];
             
             *(const char **)data = [appSupportPath cStringUsingEncoding:NSUTF8StringEncoding] ? [appSupportPath cStringUsingEncoding:NSUTF8StringEncoding] : NULL;
             NSLog(@"Environ SYSTEM_DIRECTORY: \"%@\".\n", appSupportPath);
@@ -218,7 +134,7 @@ static bool environment_callback(unsigned cmd, void *data)
             break;
         }
         default:
-            NSLog(@"Environ UNSUPPORTED (#%u).\n", cmd);
+            //NSLog(@"Environ UNSUPPORTED (#%u).\n", cmd);
             return false;
         }
     
@@ -297,7 +213,7 @@ static void writeSaveFile(const char* path, int type)
     {
         if(videoBuffer) 
             free(videoBuffer);
-        videoBuffer = (uint32_t*)malloc(700 * 480 * 4);
+        videoBuffer = (uint32_t*)malloc(700 * 576 * 4); // 480 or 576
     }
 	
 	current = self;
@@ -392,13 +308,13 @@ static void writeSaveFile(const char* path, int type)
 
 - (OEIntRect)screenRect
 {
-    return OERectMake(0, 0, current->videoWidth, current->videoHeight);
+    return OEIntRectMake(0, 0, current->videoWidth, current->videoHeight);
 }
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(700, 480);
-    //return OESizeMake(current->videoWidth, current->videoHeight);
+    return OEIntSizeMake(700, 576); // 480 or 576
+    //return OEIntSizeMake(current->videoWidth, current->videoHeight);
 }
 /*
 - (void)setupEmulation
@@ -437,7 +353,7 @@ static void writeSaveFile(const char* path, int type)
         writeSaveFile([filePath UTF8String], RETRO_MEMORY_SAVE_RAM);
     }
     
-    NSLog(@"snes term");
+    NSLog(@"psx term");
     retro_unload_game();
     retro_deinit();
     [super stopEmulation];

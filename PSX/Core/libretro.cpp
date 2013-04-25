@@ -14,9 +14,10 @@ static retro_input_poll_t input_poll_cb;
 static retro_input_state_t input_state_cb;
 
 static MDFN_Surface *surf;
+static MDFN_PixelFormat last_pixel_format;
 
 static uint16_t conv_buf[700 * 480] __attribute__((aligned(16)));
-static uint32_t mednafen_buf[700 * 480];
+static uint32_t mednafen_buf[700 * 576];
 static bool failed_init;
 
 //std::string retro_base_directory;
@@ -25,7 +26,8 @@ static bool failed_init;
 void retro_init()
 {
    MDFN_PixelFormat pix_fmt(MDFN_COLORSPACE_RGB, 16, 8, 0, 24);
-   surf = new MDFN_Surface(mednafen_buf, 700, 480, 700, pix_fmt);
+   memset(&last_pixel_format, 0, sizeof(MDFN_PixelFormat));
+   surf = new MDFN_Surface(mednafen_buf, 700, 576, 700, pix_fmt);
 
    std::vector<MDFNGI*> ext;
    MDFNI_InitializeModules(ext);
@@ -52,7 +54,7 @@ void retro_init()
         jp_path += "/scph5500.bin";
         
         std::string na_path = dir;
-        na_path += "/SCPH7003.BIN"; //scph5501.bin
+        na_path += "/scph5501.bin"; // or 7003
         
         std::string save_path = saves;
         
@@ -250,7 +252,7 @@ void retro_run()
    update_input();
 
    static int16_t sound_buf[0x10000];
-   static MDFN_Rect rects[480];
+   static MDFN_Rect rects[576];
    rects[0].w = ~0;
 
    EmulateSpecStruct spec = {0}; 
@@ -261,7 +263,15 @@ void retro_run()
    spec.SoundBufMaxSize = sizeof(sound_buf) / 2;
    spec.SoundVolume = 1.0;
    spec.soundmultiplier = 1.0;
-
+//   spec.VideoFormatChanged = false;
+//
+//   if (memcmp(&last_pixel_format, &spec.surface->format, sizeof(MDFN_PixelFormat)))
+//   {
+//      spec.VideoFormatChanged = TRUE;
+//
+//      last_pixel_format = spec.surface->format;
+//   }
+    
    MDFNI_Emulate(&spec);
 
    unsigned width = rects[0].w;
@@ -269,6 +279,45 @@ void retro_run()
 
 
    const uint32_t *pix = surf->pixels;
+    
+    //if (height == 576)
+    //{
+    //    height = 300;
+    //}
+    
+    switch (width)
+      {
+         // The shifts are not simply (padded_width - real_width) / 2.
+         case 350:
+            pix += 14;
+            width = 320;
+            break;
+
+         case 700:
+            pix += 33;
+            width = 640;
+            break;
+
+         case 400:
+            pix += 15;
+            width = 364;
+            break;
+
+         case 280:
+            pix += 10;
+            width = 256;
+            break;
+
+         case 560:
+            pix += 26;
+            width = 512;
+            break;
+
+         default:
+            // This shouldn't happen.
+            break;
+      }
+    
    video_cb(pix, width, height, 700 << 2);
     
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
@@ -287,12 +336,12 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 {
    memset(info, 0, sizeof(*info));
    // Just assume NTSC for now. TODO: Verify FPS.
-   info->timing.fps            = 59.94;
+   info->timing.fps            = game->isPalPSX? 50.00 : 59.94;
    info->timing.sample_rate    = 44100;
    info->geometry.base_width   = 320;
    info->geometry.base_height  = 240;
-   info->geometry.max_width    = 680;
-   info->geometry.max_height   = 480;
+   info->geometry.max_width    = 700;
+   info->geometry.max_height   = 576;
    info->geometry.aspect_ratio = 4.0 / 3.0;
 }
 
