@@ -34,6 +34,8 @@
 #import "OETheme.h"
 #import "OEThemeImage.h"
 
+NSString * const OECoverGridViewGlossDisabledKey = @"OECoverGridViewGlossDisabledKey";
+
 static const CGFloat OECoverGridViewCellTitleHeight                      = 16.0;        // Height of the title view
 static const CGFloat OECoverGridViewCellImageTitleSpacing                = 17.0;        // Space between the image and the title
 static const CGFloat OECoverGridViewCellSubtitleHeight                   = 11.0;        // Subtitle height
@@ -163,6 +165,8 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
 - (NSImage *)OE_glossImage
 {
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewGlossDisabledKey]) return nil;
+    
     const NSSize  size     = [_glossyOverlayLayer frame].size;
     OEGridView   *gridView = [self gridView];
 
