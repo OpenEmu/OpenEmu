@@ -123,14 +123,14 @@ static NSArray *OE_defaultSortDescriptors;
     NSImage *image = [NSImage imageNamed:@"list_indicators"];
     
     // unselected states
-    [image setName:@"list_indicators_playing" forSubimageInRect:NSMakeRect(0, 24, 12, 12)];
-    [image setName:@"list_indicators_missing" forSubimageInRect:NSMakeRect(0, 12, 12, 12)];
-    [image setName:@"list_indicators_unplayed" forSubimageInRect:NSMakeRect(0, 0, 12, 12)];
+    [image setName:@"list_indicators_playing" forSubimageInRect:NSMakeRect(0, 32, 12, 12)];
+    [image setName:@"list_indicators_missing" forSubimageInRect:NSMakeRect(0, 24, 12, 12)];
+    [image setName:@"list_indicators_unplayed" forSubimageInRect:NSMakeRect(0, 12, 12, 12)];
     
     // selected states
-    [image setName:@"list_indicators_playing_selected" forSubimageInRect:NSMakeRect(12, 24, 12, 12)];
-    [image setName:@"list_indicators_missing_selected" forSubimageInRect:NSMakeRect(12, 12, 12, 12)];
-    [image setName:@"list_indicators_unplayed_selected" forSubimageInRect:NSMakeRect(12, 0, 12, 12)];
+    [image setName:@"list_indicators_playing_selected" forSubimageInRect:NSMakeRect(12, 32, 12, 12)];
+    [image setName:@"list_indicators_missing_selected" forSubimageInRect:NSMakeRect(12, 24, 12, 12)];
+    [image setName:@"list_indicators_unplayed_selected" forSubimageInRect:NSMakeRect(12, 12, 12, 12)];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OELastGridSizeKey : @1.0f }];
 }
