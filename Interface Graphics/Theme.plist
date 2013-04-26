@@ -977,6 +977,38 @@
 	</dict>
 	<key>Images</key>
 	<dict>
+		<key>selector_ring</key>
+		<dict>
+			<key>Resource</key>
+			<string>selector_ring</string>
+			<key>States</key>
+			<dict>
+				<key>Focused</key>
+				<array>
+					<string>{{0,0},{14,14}}</string>
+					<string>{{14,0},{1,14}}</string>
+					<string>{{15,0},{14,14}}</string>
+					<string>{{0,14},{14,1}}</string>
+					<string>{{14,14},{1,1}}</string>
+					<string>{{15,14},{14,1}}</string>
+					<string>{{0,15},{14,14}}</string>
+					<string>{{14,15},{1,14}}</string>
+					<string>{{15,15},{14,14}}</string>
+				</array>
+				<key>Unfocused</key>
+				<array>
+					<string>{{29,0},{14,14}}</string>
+					<string>{{43,0},{1,14}}</string>
+					<string>{{44,0},{14,14}}</string>
+					<string>{{29,14},{14,1}}</string>
+					<string>{{43,14},{1,1}}</string>
+					<string>{{44,14},{14,1}}</string>
+					<string>{{29,15},{14,14}}</string>
+					<string>{{43,15},{1,14}}</string>
+					<string>{{44,15},{14,14}}</string>
+				</array>
+			</dict>
+		</dict>
 		<key>dark_inset_box_background</key>
 		<dict>
 			<key>Resource</key>
