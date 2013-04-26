@@ -26,11 +26,13 @@
 
 #import "OEBackgroundNoisePattern.h"
 
-// The following code inspired by: http://stackoverflow.com/questions/2520978/how-to-tile-the-contents-of-a-calayer
-// callback for CreateImagePattern.
+// The following code is inspired by: http://stackoverflow.com/questions/2520978/how-to-tile-the-contents-of-a-calayer
 
 CGImageRef OEBackgroundNoiseImageRef = NULL;
 CGColorRef OEBackgroundNoiseColorRef = NULL;
+
+CGImageRef OEBackgroundHighResolutionNoiseImageRef = NULL;
+CGColorRef OEBackgroundHighResolutionNoiseColorRef = NULL;
 
 void OEBackgroundNoisePatternCreate(void)
 {
@@ -39,13 +41,13 @@ void OEBackgroundNoisePatternCreate(void)
         // Create a pattern from the noise image and apply as the background color
         static const CGPatternCallbacks callbacks = {0, &OEBackgroundNoisePatternDrawInContext, &OEBackgroundNoisePatternRelease};
         
-        NSURL            *noiseImageURL = [[NSBundle mainBundle] URLForImageResource:@"noise"];
+        NSURL            *noiseImageURL = [[NSBundle mainBundle] URLForImageResource:@"noise.png"];
         CGImageSourceRef  source        = CGImageSourceCreateWithURL((__bridge CFURLRef)noiseImageURL, NULL);
         OEBackgroundNoiseImageRef       = CGImageSourceCreateImageAtIndex(source, 0, NULL);
         
         CGFloat width  = CGImageGetWidth(OEBackgroundNoiseImageRef);
         CGFloat height = CGImageGetHeight(OEBackgroundNoiseImageRef);
-        
+
         CGPatternRef    pattern       = CGPatternCreate(OEBackgroundNoiseImageRef, CGRectMake(0.0, 0.0, width, height), CGAffineTransformMake(1.0, 0.0, 0.0, 1.0, 0.0, 0.0), width, height, kCGPatternTilingConstantSpacing, YES, &callbacks);
         CGColorSpaceRef space         = CGColorSpaceCreatePattern(NULL);
         CGFloat         components[1] = {1.0};
@@ -64,9 +66,34 @@ void OEBackgroundNoisePatternDrawInContext(void *info, CGContextRef ctx)
     CGContextDrawImage(ctx, CGRectMake(0.0, 0.0, CGImageGetWidth(image), CGImageGetHeight(image)), image);
 }
 
-// callback for CreateImagePattern.
 void OEBackgroundNoisePatternRelease(void *info)
 {
     CGImageRef image = (CGImageRef)info;
     CGImageRelease(image);
+}
+
+#pragma mark -
+void OEBackgroundHighResolutionNoisePatternCreate(void)
+{
+    static dispatch_once_t OE_createHighResolutionPatternOnceToken;
+    dispatch_once(&OE_createHighResolutionPatternOnceToken, ^{
+        // Create a pattern from the noise image and apply as the background color
+        static const CGPatternCallbacks callbacks = {0, &OEBackgroundNoisePatternDrawInContext, &OEBackgroundNoisePatternRelease};
+        NSURL            *noiseImageURL = [[NSBundle mainBundle] URLForImageResource:@"noise@2x.png"];
+        CGImageSourceRef  source        = CGImageSourceCreateWithURL((__bridge CFURLRef)noiseImageURL, NULL);
+        OEBackgroundHighResolutionNoiseImageRef = CGImageSourceCreateImageAtIndex(source, 0, NULL);
+
+        CGFloat width  = CGImageGetWidth(OEBackgroundHighResolutionNoiseImageRef);
+        CGFloat height = CGImageGetHeight(OEBackgroundHighResolutionNoiseImageRef);
+        
+        CGPatternRef    pattern       = CGPatternCreate(OEBackgroundHighResolutionNoiseImageRef, CGRectMake(0.0, 0.0, width, height), CGAffineTransformMake(1.0, 0.0, 0.0, 1.0, 0.0, 0.0), width, height, kCGPatternTilingConstantSpacing, YES, &callbacks);
+        CGColorSpaceRef space         = CGColorSpaceCreatePattern(NULL);
+        CGFloat         components[1] = {1.0};
+
+        OEBackgroundHighResolutionNoiseColorRef = CGColorCreateWithPattern(space, pattern, components);
+
+        CGColorSpaceRelease(space);
+        CGPatternRelease(pattern);
+        CFRelease(source);
+    });
 }

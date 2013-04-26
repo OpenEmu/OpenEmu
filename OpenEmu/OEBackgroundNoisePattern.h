@@ -27,7 +27,10 @@
 #import <Cocoa/Cocoa.h>
 
 extern void OEBackgroundNoisePatternCreate(void);
+extern void OEBackgroundHighResolutionNoisePatternCreate(void);
+
 extern void OEBackgroundNoisePatternDrawInContext(void *info, CGContextRef ctx);
 extern void OEBackgroundNoisePatternRelease(void *info);
 
 extern CGColorRef OEBackgroundNoiseColorRef;
+extern CGColorRef OEBackgroundHighResolutionNoiseColorRef;

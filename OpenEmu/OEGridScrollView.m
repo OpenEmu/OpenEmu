@@ -28,6 +28,7 @@
 #import "NSColor+OEAdditions.h"
 
 #import "OEBackgroundNoisePattern.h"
+#import "NSArray+OEAdditions.h"
 
 @implementation OEGridScrollView
 
@@ -43,6 +44,7 @@
     [layer setContentsGravity:kCAGravityResize];
     [layer setContents:[NSImage imageNamed:@"background_lighting"]];
     [layer setFrame:[self bounds]];
+    [layer setDelegate:self];
 
     CALayer *noiseLayer = [CALayer layer];
     [noiseLayer setFrame:[self bounds]];
@@ -70,4 +72,30 @@
     return self;
 }
 
+- (BOOL)layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window
+{
+    CGColorRef      bgColor = OEBackgroundNoiseColorRef;
+    NSRect          frame   = [self bounds];
+    CATransform3D transform = CATransform3DIdentity;
+    
+    if(newScale != 1.0)
+    {
+        OEBackgroundHighResolutionNoisePatternCreate();
+        bgColor = OEBackgroundHighResolutionNoiseColorRef;
+        frame.size.width *= 2.0;
+        frame.size.height *= 2.0;
+
+        transform = CATransform3DMakeScale(0.5, 0.5, 1.0);
+    }
+
+    CALayer *noiseLayer = [[layer sublayers] firstObjectMatchingBlock:^BOOL(CALayer *obj) {
+        return [obj backgroundColor] != NULL;
+    }];
+    [noiseLayer setBackgroundColor:bgColor];
+    [noiseLayer setTransform:transform];
+    [noiseLayer setFrame:frame];
+
+
+    return YES;
+}
 @end
