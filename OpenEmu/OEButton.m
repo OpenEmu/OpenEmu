@@ -277,4 +277,14 @@
     return NSMakePoint(x, y);
 }
 
+- (BOOL)sendAction:(SEL)theAction to:(id)theTarget
+{
+    if(theTarget == nil && [NSApp keyWindow] == nil)
+    {
+        [self setState:![self state]];
+        return YES;
+    }
+    
+    return [super sendAction:theAction to:theTarget];
+}
 @end
