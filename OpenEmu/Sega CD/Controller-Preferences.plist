@@ -9,29 +9,29 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OESegaCDButtonUp</key>
-		<string>{140, 255}</string>
+		<string>{140, 265}</string>
 		<key>OESegaCDButtonDown</key>
-		<string>{140, 205}</string>
+		<string>{140, 215}</string>
 		<key>OESegaCDButtonLeft</key>
-		<string>{111, 229}</string>
+		<string>{111, 239}</string>
 		<key>OESegaCDButtonRight</key>
-		<string>{168, 229}</string>
+		<string>{168, 239}</string>
 		<key>OESegaCDButtonStart</key>
-		<string>{241, 230}</string>
+		<string>{241, 240}</string>
 		<key>OESegaCDButtonMode</key>
 		<string>{0, 0}</string>
 		<key>OESegaCDButtonA</key>
-		<string>{318, 190}</string>
+		<string>{318, 200}</string>
 		<key>OESegaCDButtonB</key>
-		<string>{362, 209}</string>
+		<string>{362, 219}</string>
 		<key>OESegaCDButtonC</key>
-		<string>{405, 222}</string>
+		<string>{405, 232}</string>
 		<key>OESegaCDButtonX</key>
-		<string>{304, 233}</string>
+		<string>{304, 243}</string>
 		<key>OESegaCDButtonY</key>
-		<string>{340, 250}</string>
+		<string>{340, 260}</string>
 		<key>OESegaCDButtonZ</key>
-		<string>{377, 262}</string>
+		<string>{377, 272}</string>
 	</dict>
 </dict>
 </plist>

@@ -9,29 +9,29 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEGenesisButtonUp</key>
-		<string>{140, 255}</string>
+		<string>{140, 265}</string>
 		<key>OEGenesisButtonDown</key>
-		<string>{140, 205}</string>
+		<string>{140, 215}</string>
 		<key>OEGenesisButtonLeft</key>
-		<string>{111, 229}</string>
+		<string>{111, 239}</string>
 		<key>OEGenesisButtonRight</key>
-		<string>{168, 229}</string>
+		<string>{168, 239}</string>
 		<key>OEGenesisButtonStart</key>
-		<string>{241, 230}</string>
+		<string>{241, 240}</string>
 		<key>OEGenesisButtonMode</key>
 		<string>{0, 0}</string>
 		<key>OEGenesisButtonA</key>
-		<string>{318, 190}</string>
+		<string>{318, 200}</string>
 		<key>OEGenesisButtonB</key>
-		<string>{362, 209}</string>
+		<string>{362, 219}</string>
 		<key>OEGenesisButtonC</key>
-		<string>{405, 222}</string>
+		<string>{405, 232}</string>
 		<key>OEGenesisButtonX</key>
-		<string>{304, 233}</string>
+		<string>{304, 243}</string>
 		<key>OEGenesisButtonY</key>
-		<string>{340, 250}</string>
+		<string>{340, 260}</string>
 		<key>OEGenesisButtonZ</key>
-		<string>{377, 262}</string>
+		<string>{377, 272}</string>
 	</dict>
 </dict>
 </plist>
