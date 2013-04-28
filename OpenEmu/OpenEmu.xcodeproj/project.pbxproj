@@ -481,6 +481,10 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		94052EFE172DC1DD00B90DE6 /* controller_nds_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052EFC172DC1DD00B90DE6 /* controller_nds_mask@2x.png */; };
+		94052EFF172DC1DD00B90DE6 /* controller_nds@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052EFD172DC1DD00B90DE6 /* controller_nds@2x.png */; };
+		94052F04172DC21700B90DE6 /* controller_psx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052F02172DC21700B90DE6 /* controller_psx_mask@2x.png */; };
+		94052F05172DC21700B90DE6 /* controller_psx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052F03172DC21700B90DE6 /* controller_psx@2x.png */; };
 		943815B8165771EB00D55731 /* OEGenesisSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943815B7165771EB00D55731 /* OEGenesisSystemController.m */; };
 		943819C41658DAE800D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943819C31658DAE800D55731 /* Controller-Mappings.plist */; };
 		943C80131708A62F00D8D93E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -1705,6 +1709,10 @@
 		8CCBC0C8169B323100141631 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Cg.framework; sourceTree = "<group>"; };
 		8CF0EB55169B1DF900E3670D /* Scanline.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scanline.cg; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		94052EFC172DC1DD00B90DE6 /* controller_nds_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_nds_mask@2x.png"; sourceTree = "<group>"; };
+		94052EFD172DC1DD00B90DE6 /* controller_nds@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_nds@2x.png"; sourceTree = "<group>"; };
+		94052F02172DC21700B90DE6 /* controller_psx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psx_mask@2x.png"; sourceTree = "<group>"; };
+		94052F03172DC21700B90DE6 /* controller_psx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psx@2x.png"; sourceTree = "<group>"; };
 		943815B6165771EB00D55731 /* OEGenesisSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemController.h; sourceTree = "<group>"; };
 		943815B7165771EB00D55731 /* OEGenesisSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGenesisSystemController.m; sourceTree = "<group>"; };
 		943819C31658DAE800D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
@@ -4403,6 +4411,8 @@
 				94A2253817075C8800098DA0 /* psx_library.png */,
 				94A2253317075C8800098DA0 /* controller_psx_mask.png */,
 				94A2253417075C8800098DA0 /* controller_psx.png */,
+				94052F02172DC21700B90DE6 /* controller_psx_mask@2x.png */,
+				94052F03172DC21700B90DE6 /* controller_psx@2x.png */,
 				94A224FA1707596200098DA0 /* PlayStation-Info.plist */,
 				94A2253717075C8800098DA0 /* Keyboard-Mappings.plist */,
 				94A2253517075C8800098DA0 /* Controller-Mappings.plist */,
@@ -4455,6 +4465,8 @@
 				94D7E8D915073DB000FBDD85 /* nds_library.png */,
 				94D7E8D615073DB000FBDD85 /* controller_nds_mask.png */,
 				94D7E8D715073DB000FBDD85 /* controller_nds.png */,
+				94052EFC172DC1DD00B90DE6 /* controller_nds_mask@2x.png */,
+				94052EFD172DC1DD00B90DE6 /* controller_nds@2x.png */,
 				94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */,
 				94D7E8CD15073BA000FBDD85 /* NDS-Info.plist */,
 				C6AF2849164E424600681A06 /* Keyboard-Mappings.plist */,
@@ -5907,6 +5919,8 @@
 				94A2253C17075C8800098DA0 /* Controller-Preferences.plist in Resources */,
 				94A2253D17075C8800098DA0 /* Keyboard-Mappings.plist in Resources */,
 				94A2253E17075C8800098DA0 /* psx_library.png in Resources */,
+				94052F04172DC21700B90DE6 /* controller_psx_mask@2x.png in Resources */,
+				94052F05172DC21700B90DE6 /* controller_psx@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5935,6 +5949,8 @@
 				94D7E8DD15073DB000FBDD85 /* nds_library.png in Resources */,
 				949628D2164F73D200952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF284A164E424600681A06 /* Keyboard-Mappings.plist in Resources */,
+				94052EFE172DC1DD00B90DE6 /* controller_nds_mask@2x.png in Resources */,
+				94052EFF172DC1DD00B90DE6 /* controller_nds@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
