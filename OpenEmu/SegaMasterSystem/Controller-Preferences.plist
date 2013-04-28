@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_sms.png</string>
+	<string>controller_sms</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_sms_mask.png</string>
+	<string>controller_sms_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OESMSButtonUp</key>

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_nes.png</string>
+	<string>controller_nes</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_nes_mask.png</string>
+	<string>controller_nes_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OENESButtonUp</key>

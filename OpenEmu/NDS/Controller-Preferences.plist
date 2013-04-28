@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_nds.png</string>
+	<string>controller_nds</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_nds_mask.png</string>
+	<string>controller_nds_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OENDSButtonUp</key>

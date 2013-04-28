@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_pce.png</string>
+	<string>controller_pce</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_pce_mask.png</string>
+	<string>controller_pce_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEPCEButtonUp</key>

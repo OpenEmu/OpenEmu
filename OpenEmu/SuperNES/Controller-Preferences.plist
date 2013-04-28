@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_snes_eu.png</string>
+	<string>controller_snes_eu</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_snes_mask.png</string>
+	<string>controller_snes_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OESNESButtonUp</key>
