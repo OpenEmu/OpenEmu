@@ -97,6 +97,20 @@
     }
 }
 
+- (NSRect)titleRectForBounds:(NSRect)cellFrame
+{
+    NSRect rect = [super titleRectForBounds:cellFrame];
+    rect.origin.y += 1;
+    return rect;
+}
+
+- (NSRect)imageRectForBounds:(NSRect)theRect
+{
+    NSRect rect = [super imageRectForBounds:theRect];
+    rect.origin.y += 1;
+    return rect;
+}
+
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
     if(_themed)
