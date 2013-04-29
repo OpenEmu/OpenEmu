@@ -443,8 +443,6 @@
 		83DEE4A0162D62B2005D8AD7 /* game_scanner_progress_track.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DEE49C162D62B2005D8AD7 /* game_scanner_progress_track.png */; };
 		83DEE4A4162D62E4005D8AD7 /* OEProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE4A3162D62E4005D8AD7 /* OEProgressIndicator.m */; };
 		83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E25057147BC6BF0074EE14 /* hud_textfield.png */; };
-		83E8C9CD171D94DF007F2376 /* Theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = 838E2A221600A05C00CF7198 /* Theme.plist */; };
-		83E8C9D0171D97C5007F2376 /* Theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = 838E2A221600A05C00CF7198 /* Theme.plist */; };
 		83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */; };
 		83F2988A1458B6DC00ECB4F4 /* OESetupAssistantScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F298891458B6DC00ECB4F4 /* OESetupAssistantScrollView.m */; };
 		83F4700C15750497001931BD /* OEGameScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4700B15750497001931BD /* OEGameScannerViewController.m */; };
@@ -6002,7 +6000,6 @@
 				C6252DC414E7A00000350A13 /* Controller-Preferences-JAP.plist in Resources */,
 				949628CC164F677500952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF2854164E470B00681A06 /* Keyboard-Mappings.plist in Resources */,
-				83E8C9CD171D94DF007F2376 /* Theme.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6017,7 +6014,6 @@
 				83FBA37914F2C795001F1299 /* sms_library.png in Resources */,
 				94962908164F7D9E00952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF2852164E46BD00681A06 /* Keyboard-Mappings.plist in Resources */,
-				83E8C9D0171D97C5007F2376 /* Theme.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

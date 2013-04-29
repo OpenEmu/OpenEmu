@@ -40,6 +40,18 @@
 @synthesize menuStyle = _menuStyle;
 @synthesize toolTipStyle = _toolTipStyle;
 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if(self)
+    {
+        NSRect frame = [self frame];
+        frame.size.height = 23.0;
+        [self setFrame:frame];
+    }
+    return self;
+}
+
 - (void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
     [super viewWillMoveToWindow:newWindow];
