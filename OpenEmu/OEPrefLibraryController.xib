@@ -130,7 +130,7 @@
 					<object class="NSTextField" id="564645779">
 						<reference key="NSNextResponder" ref="260910718"/>
 						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{63, 396}, {297, 17}}</string>
+						<string key="NSFrame">{{63, 397}, {297, 17}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="54998610"/>
@@ -345,7 +345,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{42, 25}, {344, 110}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:498</string>
 						<string key="NSClassName">NSView</string>
 					</object>
@@ -893,6 +892,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeLibraryFolder:">id</string>
 						<string key="resetLibraryFolder:">id</string>
+						<string key="toggleSystem:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="changeLibraryFolder:">
@@ -901,6 +901,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						</object>
 						<object class="IBActionInfo" key="resetLibraryFolder:">
 							<string key="name">resetLibraryFolder:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleSystem:">
+							<string key="name">toggleSystem:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
