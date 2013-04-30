@@ -59,7 +59,7 @@
     lineRect.origin.x   += 2;
 
     // Draw top separator
-    lineRect.origin.y = 311;
+    lineRect.origin.y = 317;
 
     [highlightColor setFill];
     NSRectFill(lineRect);
@@ -71,7 +71,7 @@
     // Draw bottom separator
     highlightColor = [NSColor colorWithDeviceRed:1.0 green:0.92 blue:0.0 alpha:0.3];
 
-    lineRect.origin.y = 49;
+    lineRect.origin.y = 46;
 
     [lineColor setFill];
     NSRectFill(lineRect);

@@ -62,9 +62,10 @@
 							<object class="NSPopUpButton" id="214329737">
 								<reference key="NSNextResponder" ref="26693448"/>
 								<int key="NSvFlags">265</int>
-								<string key="NSFrame">{{56, 14}, {161, 26}}</string>
+								<string key="NSFrame">{{56, 12}, {161, 26}}</string>
 								<reference key="NSSuperview" ref="26693448"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSPopUpButtonCell" key="NSCell" id="665852651">
 									<int key="NSCellFlags">-2076180416</int>
@@ -128,7 +129,7 @@
 							<object class="NSTextField" id="967997443">
 								<reference key="NSNextResponder" ref="26693448"/>
 								<int key="NSvFlags">265</int>
-								<string key="NSFrame">{{14, 16}, {42, 17}}</string>
+								<string key="NSFrame">{{14, 14}, {42, 17}}</string>
 								<reference key="NSSuperview" ref="26693448"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="214329737"/>
@@ -172,14 +173,14 @@
 												<reference key="NSNextResponder" ref="607083126"/>
 												<int key="NSvFlags">278</int>
 												<array class="NSMutableArray" key="NSSubviews"/>
-												<string key="NSFrame">{{-15, 0}, {245, 261}}</string>
+												<string key="NSFrame">{{-15, 0}, {245, 270}}</string>
 												<reference key="NSSuperview" ref="607083126"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="153730345"/>
+												<reference key="NSNextKeyView" ref="714866421"/>
 												<string key="NSReuseIdentifierKey">_NS:404</string>
 											</object>
 										</array>
-										<string key="NSFrameSize">{230, 260}</string>
+										<string key="NSFrameSize">{215, 269}</string>
 										<reference key="NSSuperview" ref="138075039"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="837216714"/>
@@ -190,7 +191,7 @@
 									<object class="NSScroller" id="714866421">
 										<reference key="NSNextResponder" ref="138075039"/>
 										<int key="NSvFlags">256</int>
-										<string key="NSFrame">{{214, 0}, {16, 260}}</string>
+										<string key="NSFrame">{{215, 0}, {15, 269}}</string>
 										<reference key="NSSuperview" ref="138075039"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="967997443"/>
@@ -200,7 +201,7 @@
 										<reference key="NSTarget" ref="138075039"/>
 										<string key="NSAction">_doScroller:</string>
 										<double key="NSCurValue">1</double>
-										<double key="NSPercent">0.99616858237547889</double>
+										<double key="NSPercent">0.99629629629629635</double>
 									</object>
 									<object class="NSScroller" id="153730345">
 										<reference key="NSNextResponder" ref="138075039"/>
@@ -218,10 +219,10 @@
 										<double key="NSPercent">0.50602412223815918</double>
 									</object>
 								</array>
-								<string key="NSFrame">{{1, 50}, {230, 260}}</string>
+								<string key="NSFrame">{{1, 47}, {230, 269}}</string>
 								<reference key="NSSuperview" ref="26693448"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="607083126"/>
+								<reference key="NSNextKeyView" ref="153730345"/>
 								<string key="NSReuseIdentifierKey">_NS:400</string>
 								<int key="NSsFlags">150224</int>
 								<reference key="NSVScroller" ref="714866421"/>
@@ -234,7 +235,7 @@
 							<object class="NSPopUpButton" id="687338305">
 								<reference key="NSNextResponder" ref="26693448"/>
 								<int key="NSvFlags">271</int>
-								<string key="NSFrame">{{17, 323}, {200, 26}}</string>
+								<string key="NSFrame">{{17, 327}, {200, 26}}</string>
 								<reference key="NSSuperview" ref="26693448"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="138075039"/>
@@ -311,7 +312,7 @@
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 							</object>
 						</array>
-						<string key="NSFrame">{{498, 25}, {232, 360}}</string>
+						<string key="NSFrame">{{498, 25}, {232, 363}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="687338305"/>
@@ -321,7 +322,7 @@
 					<object class="NSPopUpButton" id="433849363">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{499, 400}, {232, 26}}</string>
+						<string key="NSFrame">{{499, 401}, {232, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="26693448"/>
