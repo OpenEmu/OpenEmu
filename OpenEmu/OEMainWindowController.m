@@ -506,18 +506,9 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 
 - (IBAction)launchLastPlayedROM:(id)sender
 {
-    OEDBRom *rom = [sender representedObject];
-    if(!rom) return;
-    
-    NSError        *error = nil;
-    OEGameDocument *gameDocument = [[OEGameDocument alloc] initWithRom:rom core:nil error:&error];
-    
-    if(gameDocument != nil)
-    {
-        [[NSDocumentController sharedDocumentController] addDocument:gameDocument];
-        [self openGameDocument:gameDocument];
-    }
-    else if(error != nil) [NSApp presentError:error];
+    OEDBGame *game = [[sender representedObject] game];
+
+    [self libraryController:nil didSelectGame:game];
 }
 
 @end
