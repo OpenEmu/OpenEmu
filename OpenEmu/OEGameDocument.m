@@ -42,6 +42,7 @@
 #import "NSView+FadeImage.h"
 
 #import "OEHUDWindow.h"
+#import "OEHUDAlert.h"
 #import "OEPopoutGameWindowController.h"
 
 NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
@@ -251,9 +252,15 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
         OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
         OEImportItemCompletionBlock completion =
         ^{
+            OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+
             NSString *fileName    = [[absoluteURL lastPathComponent] stringByDeletingPathExtension];
             NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"The game '%@' was imported.", ""), fileName];
-            NSAlert *alert = [NSAlert alertWithMessageText:messageText defaultButton:@"Yes" alternateButton:@"No" otherButton:nil informativeTextWithFormat:@"Your game finished importing, do you want to play it now?"];
+            
+            alert.headlineText = NSLocalizedString(@"Your game finished importing, do you want to play it now?", @"");
+            alert.messageText = messageText;
+            alert.defaultButtonTitle = NSLocalizedString(@"Yes", @"");
+            alert.alternateButtonTitle = NSLocalizedString(@"No", @"");
 
             if([alert runModal] == NSAlertDefaultReturn)
                 [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:absoluteURL display:YES completionHandler:nil];

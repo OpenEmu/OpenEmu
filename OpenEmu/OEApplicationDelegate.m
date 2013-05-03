@@ -296,15 +296,14 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // please do not change this method, i'm tired of fixing stuff over and over again!!!!!
 
     // setup alert, with options "Quit", "Select", "Create"
-    NSString *title = @"Choose OpenEmu Library";
-    NSString *const msg = @"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one";
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
 
-    NSString *chooseButton = @"Choose Library…";
-    NSString *createButton = @"Create Library…";
-    NSString *quitButton   = @"Quit";
+    alert.headlineText = NSLocalizedString(@"Choose OpenEmu Library", @"");
+    alert.messageText  = NSLocalizedString(@"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one", @"");
 
-    NSAlert *alert = [NSAlert alertWithMessageText:title defaultButton:chooseButton alternateButton:quitButton otherButton:createButton informativeTextWithFormat:msg];
-    [alert setIcon:[NSApp applicationIconImage]];
+    alert.defaultButtonTitle   = NSLocalizedString(@"Choose Library…", @"");
+    alert.otherButtonTitle     = NSLocalizedString(@"Create Library…", @"");
+    alert.alternateButtonTitle = NSLocalizedString(@"Quit", @"");
 
     NSInteger result;
     switch([alert runModal])
