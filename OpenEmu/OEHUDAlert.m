@@ -343,7 +343,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     
     if(showsOtherButton)
     {
-        NSRect otherButtonRect = NSMakeRect(190, 14, _OEHUDAlertButtonLength, _OEHUDAlertButtonHeight);
+        NSRect otherButtonRect = NSMakeRect(16, 14, _OEHUDAlertButtonLength, _OEHUDAlertButtonHeight);
         [[self otherButton] setFrame:otherButtonRect];
     }
     

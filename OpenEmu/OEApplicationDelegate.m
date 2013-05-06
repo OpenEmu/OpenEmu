@@ -302,13 +302,13 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     alert.messageText  = NSLocalizedString(@"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one", @"");
 
     alert.defaultButtonTitle   = NSLocalizedString(@"Choose Library…", @"");
-    alert.otherButtonTitle     = NSLocalizedString(@"Create Library…", @"");
-    alert.alternateButtonTitle = NSLocalizedString(@"Quit", @"");
+    alert.alternateButtonTitle = NSLocalizedString(@"Create Library…", @"");
+    alert.otherButtonTitle     = NSLocalizedString(@"Quit", @"");
 
     NSInteger result;
     switch([alert runModal])
     {
-        case NSAlertAlternateReturn : return;
+        case NSAlertOtherReturn : return;
         case NSAlertDefaultReturn :
         {
             NSOpenPanel *openPanel = [NSOpenPanel openPanel];
@@ -331,7 +331,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             else [self OE_performDatabaseSelection];
         }
             break;
-        case NSAlertOtherReturn:
+        case NSAlertAlternateReturn :
         {
             NSSavePanel *savePanel = [NSSavePanel savePanel];
             [savePanel setNameFieldStringValue:@"OpenEmu Library"];
