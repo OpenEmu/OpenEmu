@@ -24,6 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <Quartz/Quartz.h>
+
 #import "OEControlsButtonSetupView.h"
 
 #import "OEControlsKeyButton.h"
@@ -264,8 +266,10 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
             newKey = [orderedKeys objectAtIndex:0];
     }
     else newKey = [orderedKeys objectAtIndex:i + 1];
-    
+
+    [CATransaction begin];
     [self setSelectedKey:newKey];
+    [CATransaction commit];
 }
 
 - (void)selectNextKeyAfterKeys:(NSArray *)keys;
@@ -285,8 +289,10 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
             newKey = [orderedKeys objectAtIndex:0];
     }
     else newKey = [orderedKeys objectAtIndex:i + 1];
-    
+
+    [CATransaction begin];
     [self setSelectedKey:newKey];
+    [CATransaction commit];
 }
 
 #pragma mark -
