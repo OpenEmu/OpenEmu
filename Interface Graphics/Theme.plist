@@ -1576,7 +1576,7 @@
 			<key>States</key>
 			<dict>
 				<key>Default</key>
-				<string>{{13,0},{15, 14}}</string>
+				<string>{{13,0},{16, 18}}</string>
 			</dict>
 		</dict>
 		<key>hud_button_volume_down</key>
@@ -1586,7 +1586,7 @@
 			<key>States</key>
 			<dict>
 				<key>Default</key>
-				<string>{{0,0},{13, 14}}</string>
+				<string>{{0,0},{13, 18}}</string>
 			</dict>
 		</dict>
 		<key>dark_button_background</key>

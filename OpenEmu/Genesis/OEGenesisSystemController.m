@@ -39,6 +39,24 @@
             : @"Sega Mega Drive");
 }
 
+- (NSImage *)systemIcon
+{
+    NSString *imageName = (  [[OELocalizationHelper sharedHelper] isRegionNA]
+                           ? @"genesis_library"
+                           : @"megadrive_library");
+    
+    NSImage *image = [NSImage imageNamed:imageName];
+    if(image == nil)
+    {
+        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+        NSString *path = [bundle pathForImageResource:imageName];
+        image = [[NSImage alloc] initWithContentsOfFile:path];
+        [image setName:imageName];
+    }
+    
+    return image;
+}
+
 - (OECanHandleState)canHandleFile:(NSString *)path
 {
     if (![[path pathExtension] isEqualToString:@"bin"])

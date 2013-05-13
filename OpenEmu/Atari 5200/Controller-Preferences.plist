@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_5200</string>
+	<string>controller_5200.png</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_5200_mask</string>
+	<string>controller_5200_mask.png</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OE5200ButtonUp</key>
