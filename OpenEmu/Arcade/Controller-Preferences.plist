@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_arcade.png</string>
+	<string>controller_arcade</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_arcade_mask.png</string>
+	<string>controller_arcade_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEArcadeButtonUp</key>

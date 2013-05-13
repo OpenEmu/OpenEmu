@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_colecovision.png</string>
+	<string>controller_colecovision</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_colecovision_mask.png</string>
+	<string>controller_colecovision_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEColecoVisionButtonUp</key>

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_saturn.png</string>
+	<string>controller_saturn</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_saturn_mask.png</string>
+	<string>controller_saturn_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OESaturnButtonUp</key>
