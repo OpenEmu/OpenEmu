@@ -76,10 +76,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
 
 - (void)setFrame:(NSRect)frameRect
 {
-    NSScrollView* enclosingScrollView = [self enclosingScrollView];
-    if(enclosingScrollView && [enclosingScrollView hasVerticalScroller] && [enclosingScrollView scrollerStyle] == NSScrollerStyleLegacy)
-        frameRect.size.width = MIN(frameRect.size.width, [self visibleRect].size.width);
-    
+    frameRect.size.width = MIN(frameRect.size.width, [self visibleRect].size.width);
     [super setFrame:frameRect];
 }
 
