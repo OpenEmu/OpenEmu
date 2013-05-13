@@ -98,6 +98,7 @@
     CALayer *noiseLayer = [CALayer layer];
     [noiseLayer setGeometryFlipped:YES];
     [noiseLayer setBackgroundColor:OEBackgroundNoiseColorRef];
+    [noiseLayer setDelegate:self];
     [layer addSublayer:noiseLayer];
     
     // Setup foreground
@@ -407,6 +408,33 @@
 {
     return (id < CAAction >)[NSNull null];
 }
+
+- (BOOL)layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window
+{
+    if([layer backgroundColor] == NULL) return YES;
+
+    CGColorRef      bgColor = OEBackgroundNoiseColorRef;
+    NSRect          frame   = [self bounds];
+    CATransform3D transform = CATransform3DIdentity;
+
+    if(newScale != 1.0)
+    {
+        OEBackgroundHighResolutionNoisePatternCreate();
+        bgColor = OEBackgroundHighResolutionNoiseColorRef;
+        frame.size.width *= 2.0;
+        frame.size.height *= 2.0;
+
+        transform = CATransform3DMakeScale(0.5, 0.5, 1.0);
+    }
+
+    [layer setBackgroundColor:bgColor];
+    [layer setTransform:transform];
+    [layer setFrame:frame];
+
+
+    return YES;
+}
+
 #pragma mark - Properties
 @synthesize delegate=_delegate;
 @synthesize lastDragOperation=_lastDragOperation;
