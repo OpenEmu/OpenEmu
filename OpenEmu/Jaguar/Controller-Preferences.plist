@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_jaguar</string>
+	<string>controller_jaguar.png</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_jaguar_mask</string>
+	<string>controller_jaguar_mask.png</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEJaguarButtonUp</key>
