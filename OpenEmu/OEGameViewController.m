@@ -436,12 +436,12 @@ typedef enum : NSUInteger
 {
     if(_emulationStatus != OEGameViewControllerEmulationStatusNotStarted) return;
 
-
+    NSString *systemIdentifier = [[[[self rom] game] system] systemIdentifier];
     NSError *error;
     Class managerClass = ([[NSUserDefaults standardUserDefaults] boolForKey:OEGameCoresInBackgroundKey]
                           ? [OEGameCoreThreadManager  class]
                           : [OEGameCoreProcessManager class]);
-    gameCoreManager = [[managerClass alloc] initWithROMAtPath:[[[self rom] URL] path] corePlugin:_corePlugin error:&error];
+    gameCoreManager = [[managerClass alloc] initWithROMAtPath:[[[self rom] URL] path] corePlugin:_corePlugin systemIdentifier:systemIdentifier error:&error];
 
     if(!gameCoreManager)
     {

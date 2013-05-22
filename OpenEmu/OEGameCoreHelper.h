@@ -59,7 +59,7 @@
 
 - (byref OEGameCore *)gameCore;
 
-- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath;
+- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath withSystemIdentifier:(bycopy NSString *)systemIdentifier;
 - (void)setupEmulation;
 - (void)stopEmulation;
 

@@ -561,7 +561,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 #pragma mark -
 #pragma mark Game Core methods
 
-- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath
+- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath withSystemIdentifier:(bycopy NSString *)systemIdentifier
 {
     aPath = [aPath stringByStandardizingPath];
     BOOL isDir;
@@ -589,6 +589,8 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
         [_gameCore setOwner:_gameController];
         [_gameCore setRenderDelegate:self];
         [_gameCore setAudioDelegate:self];
+
+        [_gameCore setSystemIdentifier:systemIdentifier];
 
         DLog(@"Loaded bundle. About to load rom...");
 

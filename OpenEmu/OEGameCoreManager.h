@@ -44,9 +44,9 @@
 @property(readonly, weak) OECorePlugin         *plugin;
 @property(readonly, weak) OEGameCoreController *owner;
 
-- (id)initWithROMAtPath:(NSString *)theRomPath corePlugin:(OECorePlugin *)thePlugin error:(NSError **)outError;
+- (id)initWithROMAtPath:(NSString *)theRomPath corePlugin:(OECorePlugin *)thePlugin systemIdentifier:(NSString *)identifier error:(NSError **)outError;
 
-- (BOOL)loadROMError:(NSError **)outError;
+- (BOOL)loadROMWithSystemIdentifier:(NSString *)identifier error:(NSError **)outError;
 
 - (void)stop;
 
