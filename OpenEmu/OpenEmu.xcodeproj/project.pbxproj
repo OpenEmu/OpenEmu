@@ -679,6 +679,36 @@
 		94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F6CB7B16DD727600CD48A4 /* OECheats.m */; };
 		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
 		94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53871688FF60003C6AFE /* controller_gamegear.png */; };
+		C344D615174C463E0011579E /* Scanline - Horizontal.cg in Resources */ = {isa = PBXBuildFile; fileRef = C344D605174C463E0011579E /* Scanline - Horizontal.cg */; };
+		C344D616174C463E0011579E /* Scanline - Vertical.cg in Resources */ = {isa = PBXBuildFile; fileRef = C344D606174C463E0011579E /* Scanline - Vertical.cg */; };
+		C344D617174C463E0011579E /* Scanline.cg in Resources */ = {isa = PBXBuildFile; fileRef = C344D607174C463E0011579E /* Scanline.cg */; };
+		C344D618174C463E0011579E /* Scale2xBR.frag in Sources */ = {isa = PBXBuildFile; fileRef = C344D609174C463E0011579E /* Scale2xBR.frag */; };
+		C344D619174C463E0011579E /* Scale2xBR.vert in Sources */ = {isa = PBXBuildFile; fileRef = C344D60A174C463E0011579E /* Scale2xBR.vert */; };
+		C344D61A174C463E0011579E /* Scale2xHQ.frag in Sources */ = {isa = PBXBuildFile; fileRef = C344D60B174C463E0011579E /* Scale2xHQ.frag */; };
+		C344D61B174C463E0011579E /* Scale2xHQ.vert in Sources */ = {isa = PBXBuildFile; fileRef = C344D60C174C463E0011579E /* Scale2xHQ.vert */; };
+		C344D61C174C463E0011579E /* Scale2xPlus.frag in Sources */ = {isa = PBXBuildFile; fileRef = C344D60D174C463E0011579E /* Scale2xPlus.frag */; };
+		C344D61D174C463E0011579E /* Scale2xPlus.vert in Sources */ = {isa = PBXBuildFile; fileRef = C344D60E174C463E0011579E /* Scale2xPlus.vert */; };
+		C344D61E174C463E0011579E /* Scale4x.frag in Sources */ = {isa = PBXBuildFile; fileRef = C344D60F174C463E0011579E /* Scale4x.frag */; };
+		C344D61F174C463E0011579E /* Scale4x.vert in Sources */ = {isa = PBXBuildFile; fileRef = C344D610174C463E0011579E /* Scale4x.vert */; };
+		C344D620174C463E0011579E /* Scale4xBR.frag in Sources */ = {isa = PBXBuildFile; fileRef = C344D611174C463E0011579E /* Scale4xBR.frag */; };
+		C344D621174C463E0011579E /* Scale4xBR.vert in Sources */ = {isa = PBXBuildFile; fileRef = C344D612174C463E0011579E /* Scale4xBR.vert */; };
+		C344D622174C463E0011579E /* Scale4xHQ.frag in Sources */ = {isa = PBXBuildFile; fileRef = C344D613174C463E0011579E /* Scale4xHQ.frag */; };
+		C344D623174C463E0011579E /* Scale4xHQ.vert in Sources */ = {isa = PBXBuildFile; fileRef = C344D614174C463E0011579E /* Scale4xHQ.vert */; };
+		C344D624174C47670011579E /* Scanline - Horizontal.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D605174C463E0011579E /* Scanline - Horizontal.cg */; };
+		C344D625174C47670011579E /* Scanline - Vertical.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D606174C463E0011579E /* Scanline - Vertical.cg */; };
+		C344D626174C47670011579E /* Scanline.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D607174C463E0011579E /* Scanline.cg */; };
+		C344D627174C47670011579E /* Scale2xBR.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D609174C463E0011579E /* Scale2xBR.frag */; };
+		C344D628174C47670011579E /* Scale2xBR.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D60A174C463E0011579E /* Scale2xBR.vert */; };
+		C344D629174C47670011579E /* Scale2xHQ.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D60B174C463E0011579E /* Scale2xHQ.frag */; };
+		C344D62A174C47670011579E /* Scale2xHQ.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D60C174C463E0011579E /* Scale2xHQ.vert */; };
+		C344D62B174C47670011579E /* Scale2xPlus.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D60D174C463E0011579E /* Scale2xPlus.frag */; };
+		C344D62C174C47670011579E /* Scale2xPlus.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D60E174C463E0011579E /* Scale2xPlus.vert */; };
+		C344D62D174C47670011579E /* Scale4x.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D60F174C463E0011579E /* Scale4x.frag */; };
+		C344D62E174C47670011579E /* Scale4x.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D610174C463E0011579E /* Scale4x.vert */; };
+		C344D62F174C47670011579E /* Scale4xBR.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D611174C463E0011579E /* Scale4xBR.frag */; };
+		C344D630174C47670011579E /* Scale4xBR.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D612174C463E0011579E /* Scale4xBR.vert */; };
+		C344D631174C47670011579E /* Scale4xHQ.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D613174C463E0011579E /* Scale4xHQ.frag */; };
+		C344D632174C47670011579E /* Scale4xHQ.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D614174C463E0011579E /* Scale4xHQ.vert */; };
 		C6252DA814E71D0500350A13 /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = C6252DA914E71D0500350A13 /* controller_fc.png */; };
 		C6252DAC14E752E300350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DAA14E752E300350A13 /* Controller-Preferences.plist */; };
 		C6252DAE14E7556800350A13 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DAD14E7556800350A13 /* Controller-Preferences.plist */; };
@@ -739,17 +769,6 @@
 		C6B947ED1365080B00A425F0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6B947EB1365080B00A425F0 /* InfoPlist.strings */; };
 		C6B948101365096800A425F0 /* OEGenesisSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B9480B1365096800A425F0 /* OEGenesisSystemResponder.m */; };
 		C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6BFB29E0F7CC8E700040FFA /* Localizable.strings */; };
-		C6C372E716BE42C6003E57AE /* Scale4x.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC10F08A13500770B6D /* Scale4x.vert */; };
-		C6C372E816BE42C6003E57AE /* Scale4xHQ.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885E910F089F8A00770B6D /* Scale4xHQ.vert */; };
-		C6C372EA16BE42C6003E57AE /* Scale2xHQ.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3B0F089A4400770B6D /* Scale2xHQ.vert */; };
-		C6C372EB16BE42C6003E57AE /* Scale2xPlus.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885E090F085EA500770B6D /* Scale2xPlus.vert */; };
-		C6C372EC16BE42C6003E57AE /* Scale4xBR.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B2B6D7514DB6375000D0BF7 /* Scale4xBR.vert */; };
-		C6C372F316BE42CE003E57AE /* Scale4x.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC00F08A13500770B6D /* Scale4x.frag */; };
-		C6C372F416BE42CE003E57AE /* Scale4xHQ.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885E920F089F8A00770B6D /* Scale4xHQ.frag */; };
-		C6C372F616BE42CE003E57AE /* Scale2xHQ.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3A0F089A4400770B6D /* Scale2xHQ.frag */; };
-		C6C372F716BE42CE003E57AE /* Scale2xPlus.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B885E080F085EA500770B6D /* Scale2xPlus.frag */; };
-		C6C372F816BE42CE003E57AE /* Scale4xBR.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B2B6D7314DB6363000D0BF7 /* Scale4xBR.frag */; };
-		C6C372FA16BE42FA003E57AE /* Scanline.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8CF0EB55169B1DF900E3670D /* Scanline.cg */; };
 		C6C3734216BE7065003E57AE /* OEBuiltInShader.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C3734116BE7065003E57AE /* OEBuiltInShader.m */; };
 		C6C3734316BE7BAF003E57AE /* OE Startup.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 1B32151114DDD06500C5B50A /* OE Startup.qtz */; };
 		C6D120C517112E1300E868A8 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C317112E1300E868A8 /* OpenEmuBase.framework */; };
@@ -1078,17 +1097,21 @@
 			dstPath = Filters;
 			dstSubfolderSpec = 13;
 			files = (
-				C6C372FA16BE42FA003E57AE /* Scanline.cg in Copy Filters Folder To App Resources */,
-				C6C372F316BE42CE003E57AE /* Scale4x.frag in Copy Filters Folder To App Resources */,
-				C6C372F416BE42CE003E57AE /* Scale4xHQ.frag in Copy Filters Folder To App Resources */,
-				C6C372F616BE42CE003E57AE /* Scale2xHQ.frag in Copy Filters Folder To App Resources */,
-				C6C372F716BE42CE003E57AE /* Scale2xPlus.frag in Copy Filters Folder To App Resources */,
-				C6C372F816BE42CE003E57AE /* Scale4xBR.frag in Copy Filters Folder To App Resources */,
-				C6C372E716BE42C6003E57AE /* Scale4x.vert in Copy Filters Folder To App Resources */,
-				C6C372E816BE42C6003E57AE /* Scale4xHQ.vert in Copy Filters Folder To App Resources */,
-				C6C372EA16BE42C6003E57AE /* Scale2xHQ.vert in Copy Filters Folder To App Resources */,
-				C6C372EB16BE42C6003E57AE /* Scale2xPlus.vert in Copy Filters Folder To App Resources */,
-				C6C372EC16BE42C6003E57AE /* Scale4xBR.vert in Copy Filters Folder To App Resources */,
+				C344D624174C47670011579E /* Scanline - Horizontal.cg in Copy Filters Folder To App Resources */,
+				C344D625174C47670011579E /* Scanline - Vertical.cg in Copy Filters Folder To App Resources */,
+				C344D626174C47670011579E /* Scanline.cg in Copy Filters Folder To App Resources */,
+				C344D627174C47670011579E /* Scale2xBR.frag in Copy Filters Folder To App Resources */,
+				C344D628174C47670011579E /* Scale2xBR.vert in Copy Filters Folder To App Resources */,
+				C344D629174C47670011579E /* Scale2xHQ.frag in Copy Filters Folder To App Resources */,
+				C344D62A174C47670011579E /* Scale2xHQ.vert in Copy Filters Folder To App Resources */,
+				C344D62B174C47670011579E /* Scale2xPlus.frag in Copy Filters Folder To App Resources */,
+				C344D62C174C47670011579E /* Scale2xPlus.vert in Copy Filters Folder To App Resources */,
+				C344D62D174C47670011579E /* Scale4x.frag in Copy Filters Folder To App Resources */,
+				C344D62E174C47670011579E /* Scale4x.vert in Copy Filters Folder To App Resources */,
+				C344D62F174C47670011579E /* Scale4xBR.frag in Copy Filters Folder To App Resources */,
+				C344D630174C47670011579E /* Scale4xBR.vert in Copy Filters Folder To App Resources */,
+				C344D631174C47670011579E /* Scale4xHQ.frag in Copy Filters Folder To App Resources */,
+				C344D632174C47670011579E /* Scale4xHQ.vert in Copy Filters Folder To App Resources */,
 			);
 			name = "Copy Filters Folder To App Resources";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2076,6 +2099,21 @@
 		94F6CB7B16DD727600CD48A4 /* OECheats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECheats.m; sourceTree = "<group>"; };
 		94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear_mask.png; sourceTree = "<group>"; };
 		94FC53871688FF60003C6AFE /* controller_gamegear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear.png; sourceTree = "<group>"; };
+		C344D605174C463E0011579E /* Scanline - Horizontal.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Scanline - Horizontal.cg"; sourceTree = "<group>"; };
+		C344D606174C463E0011579E /* Scanline - Vertical.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Scanline - Vertical.cg"; sourceTree = "<group>"; };
+		C344D607174C463E0011579E /* Scanline.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scanline.cg; sourceTree = "<group>"; };
+		C344D609174C463E0011579E /* Scale2xBR.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale2xBR.frag; sourceTree = "<group>"; };
+		C344D60A174C463E0011579E /* Scale2xBR.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale2xBR.vert; sourceTree = "<group>"; };
+		C344D60B174C463E0011579E /* Scale2xHQ.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale2xHQ.frag; sourceTree = "<group>"; };
+		C344D60C174C463E0011579E /* Scale2xHQ.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale2xHQ.vert; sourceTree = "<group>"; };
+		C344D60D174C463E0011579E /* Scale2xPlus.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale2xPlus.frag; sourceTree = "<group>"; };
+		C344D60E174C463E0011579E /* Scale2xPlus.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale2xPlus.vert; sourceTree = "<group>"; };
+		C344D60F174C463E0011579E /* Scale4x.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale4x.frag; sourceTree = "<group>"; };
+		C344D610174C463E0011579E /* Scale4x.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale4x.vert; sourceTree = "<group>"; };
+		C344D611174C463E0011579E /* Scale4xBR.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale4xBR.frag; sourceTree = "<group>"; };
+		C344D612174C463E0011579E /* Scale4xBR.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale4xBR.vert; sourceTree = "<group>"; };
+		C344D613174C463E0011579E /* Scale4xHQ.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale4xHQ.frag; sourceTree = "<group>"; };
+		C344D614174C463E0011579E /* Scale4xHQ.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale4xHQ.vert; sourceTree = "<group>"; };
 		C60CDDD611780DF100EB472F /* OpenGL Format Table.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "OpenGL Format Table.txt"; sourceTree = "<group>"; };
 		C6252DA914E71D0500350A13 /* controller_fc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc.png; sourceTree = "<group>"; };
 		C6252DAA14E752E300350A13 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
@@ -3055,6 +3093,7 @@
 				53439B9D13B93920005C0CC8 /* Interface Graphics */,
 				1BEF34721168F8210090F72B /* XIBs */,
 				1B22426B100D171700F42067 /* CRT Masks */,
+				C344D5F6174C45050011579E /* Shaders */,
 				8C4C808F16987B2A009B8A28 /* Cg Shaders */,
 				1B885E070F085EA500770B6D /* GLSL Shaders */,
 				1B224004100BD61D00F42067 /* Filter Quartz Compositions */,
@@ -4772,6 +4811,44 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		C344D5F6174C45050011579E /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				C344D604174C463E0011579E /* GC */,
+				C344D608174C463E0011579E /* GLSL */,
+			);
+			path = Shaders;
+			sourceTree = "<group>";
+		};
+		C344D604174C463E0011579E /* GC */ = {
+			isa = PBXGroup;
+			children = (
+				C344D605174C463E0011579E /* Scanline - Horizontal.cg */,
+				C344D606174C463E0011579E /* Scanline - Vertical.cg */,
+				C344D607174C463E0011579E /* Scanline.cg */,
+			);
+			path = GC;
+			sourceTree = "<group>";
+		};
+		C344D608174C463E0011579E /* GLSL */ = {
+			isa = PBXGroup;
+			children = (
+				C344D609174C463E0011579E /* Scale2xBR.frag */,
+				C344D60A174C463E0011579E /* Scale2xBR.vert */,
+				C344D60B174C463E0011579E /* Scale2xHQ.frag */,
+				C344D60C174C463E0011579E /* Scale2xHQ.vert */,
+				C344D60D174C463E0011579E /* Scale2xPlus.frag */,
+				C344D60E174C463E0011579E /* Scale2xPlus.vert */,
+				C344D60F174C463E0011579E /* Scale4x.frag */,
+				C344D610174C463E0011579E /* Scale4x.vert */,
+				C344D611174C463E0011579E /* Scale4xBR.frag */,
+				C344D612174C463E0011579E /* Scale4xBR.vert */,
+				C344D613174C463E0011579E /* Scale4xHQ.frag */,
+				C344D614174C463E0011579E /* Scale4xHQ.vert */,
+			);
+			path = GLSL;
+			sourceTree = "<group>";
+		};
 		C60CDDD511780DD100EB472F /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -6071,6 +6148,9 @@
 				EC35100617401B58005DA3B2 /* wood_track_vertical@2x.png in Resources */,
 				EC13823317401D4A00F951F4 /* dark_popup_button@2x.png in Resources */,
 				EC1382351740210400F951F4 /* controls_background@2x.jpg in Resources */,
+				C344D615174C463E0011579E /* Scanline - Horizontal.cg in Resources */,
+				C344D616174C463E0011579E /* Scanline - Vertical.cg in Resources */,
+				C344D617174C463E0011579E /* Scanline.cg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6754,6 +6834,18 @@
 				83B867BC171D63940038988C /* NSString+OERangeAdditions.m in Sources */,
 				83F7EADA171D911400D32E26 /* OESearchField.m in Sources */,
 				8337F38E1726B3600068DD90 /* OEBackgroundImageView.m in Sources */,
+				C344D618174C463E0011579E /* Scale2xBR.frag in Sources */,
+				C344D619174C463E0011579E /* Scale2xBR.vert in Sources */,
+				C344D61A174C463E0011579E /* Scale2xHQ.frag in Sources */,
+				C344D61B174C463E0011579E /* Scale2xHQ.vert in Sources */,
+				C344D61C174C463E0011579E /* Scale2xPlus.frag in Sources */,
+				C344D61D174C463E0011579E /* Scale2xPlus.vert in Sources */,
+				C344D61E174C463E0011579E /* Scale4x.frag in Sources */,
+				C344D61F174C463E0011579E /* Scale4x.vert in Sources */,
+				C344D620174C463E0011579E /* Scale4xBR.frag in Sources */,
+				C344D621174C463E0011579E /* Scale4xBR.vert in Sources */,
+				C344D622174C463E0011579E /* Scale4xHQ.frag in Sources */,
+				C344D623174C463E0011579E /* Scale4xHQ.vert in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

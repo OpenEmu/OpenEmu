@@ -1,0 +1,63 @@
+/* COMPATIBILITY 
+   - HLSL compilers
+   - Cg   compilers
+*/
+
+/*
+   Author: Themaister
+   License: Public domain
+*/
+
+struct sine_coord
+{
+   float2 omega;
+};
+
+struct input
+{
+   float2 video_size;
+   float2 texture_size;
+   float2 output_size;
+   float  frame_count;
+   float  frame_direction;
+   float frame_rotation;
+};
+
+void main_vertex
+(
+   float4 position : POSITION,
+   out float4 oPosition : POSITION,
+   uniform float4x4 modelViewProj,
+
+   float4 color : COLOR,
+   out float4 oColor : COLOR,
+
+   float2 tex : TEXCOORD,
+   out float2 oTex : TEXCOORD,
+
+   uniform input IN,
+   out sine_coord coords : TEXCOORD2
+)
+{
+   oPosition = mul(modelViewProj, position);
+   oColor = color;
+   oTex = tex;
+
+   float2 texsize = IN.texture_size;
+   float2 delta = 0.5 / texsize;
+   float dx = delta.x;
+   float dy = delta.y;
+
+   coords.omega = float2(3.1415 * IN.output_size.x * IN.texture_size.x / IN.video_size.x, 2.0 * 3.1415 * IN.texture_size.y);
+}
+
+const float base_brightness = 0.95;
+const float2 sine_comp = float2(0.05, 0.15);
+
+float4 main_fragment (in sine_coord co : TEXCOORD2, float2 tex : TEXCOORD, uniform sampler2D s0 : TEXUNIT0) : COLOR
+{
+   float3 res = tex2D(s0, tex).xyz;
+   float3 scanline = res * (base_brightness + dot(sine_comp * sin(tex * co.omega), float2(1.0, 1.0)));
+   return float4(scanline.x, scanline.y, scanline.z, 1.0);
+}
+
