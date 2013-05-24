@@ -137,7 +137,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     
     _shouldExitFullScreenWhenGameFinishes = NO;
 
-    if(forcePopout)
+    if(forcePopout || _mainWindowRunsGame)
     {
         [[aDocument gameViewController] playGame:self];
         [aDocument showInSeparateWindow:self fullScreen:fullScreen];
