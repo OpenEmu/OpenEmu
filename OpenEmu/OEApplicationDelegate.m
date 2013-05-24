@@ -230,7 +230,36 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
      ^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
      {
          if([document isKindOfClass:[OEGameDocument class]])
-             [mainWindowController openGameDocument:(OEGameDocument *)document];
+         {
+             if(![url isFileURL])
+             {
+                 // TODO: Handle URLS, by downloading to temp folder
+                 DLog(@"URLs that are not file urls are currently not supported!");
+                 return;
+             }
+             
+             OEDBGame *game = [OEDBGame gameWithURL:url inDatabase:[OELibraryDatabase defaultDatabase] error:nil];
+             if (game == nil)
+             {
+                 OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
+                 if (![importer importItemAtURL:url])
+                 {
+                     NSLog(@"Cannot launch game. ROM failed to import.");
+                 }
+                 
+                 return;
+             }
+             
+             if ([self.mainWindowController conformsToProtocol:@protocol(OELibraryControllerDelegate)])
+             {
+                 [(OELibraryController<OELibraryControllerDelegate>*)[self mainWindowController] libraryController:nil didSelectGame:game];
+             } else {
+                 NSLog(@"Cannot launch game. OEMainWindowController does not conform to OELibraryControllerDelegate.");
+             }
+             
+             // [mainWindowController openGameDocument:(OEGameDocument *)document];
+             return;
+         }
 
          if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEImportRequiredError)
          {
