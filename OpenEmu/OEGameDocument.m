@@ -42,7 +42,7 @@
 #import "NSView+FadeImage.h"
 
 #import "OEHUDWindow.h"
-#import "OEHUDAlert.h"
+#import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "OEPopoutGameWindowController.h"
 
 NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
@@ -179,6 +179,21 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     return YES;
 }
 
+- (BOOL)OE_loadSaveState:(OEDBSaveState *)state withError:(NSError **)outError
+{
+    _gameViewController = [[OEGameViewController alloc] initWithSaveState:state error:outError];
+    if(_gameViewController == nil)
+    {
+        DLog(@"no game view controller");
+        return NO;
+    }
+
+    [[self gameViewController] setDocument:self];
+    [[self distantViewController] setRealViewController:_gameViewController];
+
+    return YES;
+}
+
 #pragma mark -
 
 - (OEDistantViewController *)distantViewController
@@ -276,7 +291,11 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     }
 
     // TODO: Load rom that was just imported instead of the default one
-    return [self OE_loadRom:[game defaultROM] core:nil withError:outError];
+    OEDBSaveState   *state = [game autosaveForLastPlayedRom];
+    if(state && [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertDefaultReturn)
+        return [self OE_loadSaveState:state withError:outError];
+    else
+        return [self OE_loadRom:[game defaultROM] core:nil withError:outError];
 }
 
 @end
