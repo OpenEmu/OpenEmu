@@ -241,7 +241,12 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
              OEDBGame *game = [OEDBGame gameWithURL:url inDatabase:[OELibraryDatabase defaultDatabase] error:nil];
              if (game == nil)
              {
-                 NSLog(@"Cannot launch game. The game is not in the database.");
+                 OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
+                 if (![importer importItemAtURL:url])
+                 {
+                     NSLog(@"Cannot launch game. ROM failed to import.");
+                 }
+                 
                  return;
              }
              
