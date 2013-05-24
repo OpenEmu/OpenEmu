@@ -681,18 +681,6 @@
 		C344D615174C463E0011579E /* Scanline - Horizontal.cg in Resources */ = {isa = PBXBuildFile; fileRef = C344D605174C463E0011579E /* Scanline - Horizontal.cg */; };
 		C344D616174C463E0011579E /* Scanline - Vertical.cg in Resources */ = {isa = PBXBuildFile; fileRef = C344D606174C463E0011579E /* Scanline - Vertical.cg */; };
 		C344D617174C463E0011579E /* Scanline.cg in Resources */ = {isa = PBXBuildFile; fileRef = C344D607174C463E0011579E /* Scanline.cg */; };
-		C344D618174C463E0011579E /* Scale2xBR.frag in Sources */ = {isa = PBXBuildFile; fileRef = C344D609174C463E0011579E /* Scale2xBR.frag */; };
-		C344D619174C463E0011579E /* Scale2xBR.vert in Sources */ = {isa = PBXBuildFile; fileRef = C344D60A174C463E0011579E /* Scale2xBR.vert */; };
-		C344D61A174C463E0011579E /* Scale2xHQ.frag in Sources */ = {isa = PBXBuildFile; fileRef = C344D60B174C463E0011579E /* Scale2xHQ.frag */; };
-		C344D61B174C463E0011579E /* Scale2xHQ.vert in Sources */ = {isa = PBXBuildFile; fileRef = C344D60C174C463E0011579E /* Scale2xHQ.vert */; };
-		C344D61C174C463E0011579E /* Scale2xPlus.frag in Sources */ = {isa = PBXBuildFile; fileRef = C344D60D174C463E0011579E /* Scale2xPlus.frag */; };
-		C344D61D174C463E0011579E /* Scale2xPlus.vert in Sources */ = {isa = PBXBuildFile; fileRef = C344D60E174C463E0011579E /* Scale2xPlus.vert */; };
-		C344D61E174C463E0011579E /* Scale4x.frag in Sources */ = {isa = PBXBuildFile; fileRef = C344D60F174C463E0011579E /* Scale4x.frag */; };
-		C344D61F174C463E0011579E /* Scale4x.vert in Sources */ = {isa = PBXBuildFile; fileRef = C344D610174C463E0011579E /* Scale4x.vert */; };
-		C344D620174C463E0011579E /* Scale4xBR.frag in Sources */ = {isa = PBXBuildFile; fileRef = C344D611174C463E0011579E /* Scale4xBR.frag */; };
-		C344D621174C463E0011579E /* Scale4xBR.vert in Sources */ = {isa = PBXBuildFile; fileRef = C344D612174C463E0011579E /* Scale4xBR.vert */; };
-		C344D622174C463E0011579E /* Scale4xHQ.frag in Sources */ = {isa = PBXBuildFile; fileRef = C344D613174C463E0011579E /* Scale4xHQ.frag */; };
-		C344D623174C463E0011579E /* Scale4xHQ.vert in Sources */ = {isa = PBXBuildFile; fileRef = C344D614174C463E0011579E /* Scale4xHQ.vert */; };
 		C344D624174C47670011579E /* Scanline - Horizontal.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D605174C463E0011579E /* Scanline - Horizontal.cg */; };
 		C344D625174C47670011579E /* Scanline - Vertical.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D606174C463E0011579E /* Scanline - Vertical.cg */; };
 		C344D626174C47670011579E /* Scanline.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D607174C463E0011579E /* Scanline.cg */; };
@@ -6787,18 +6775,6 @@
 				83B867BC171D63940038988C /* NSString+OERangeAdditions.m in Sources */,
 				83F7EADA171D911400D32E26 /* OESearchField.m in Sources */,
 				8337F38E1726B3600068DD90 /* OEBackgroundImageView.m in Sources */,
-				C344D618174C463E0011579E /* Scale2xBR.frag in Sources */,
-				C344D619174C463E0011579E /* Scale2xBR.vert in Sources */,
-				C344D61A174C463E0011579E /* Scale2xHQ.frag in Sources */,
-				C344D61B174C463E0011579E /* Scale2xHQ.vert in Sources */,
-				C344D61C174C463E0011579E /* Scale2xPlus.frag in Sources */,
-				C344D61D174C463E0011579E /* Scale2xPlus.vert in Sources */,
-				C344D61E174C463E0011579E /* Scale4x.frag in Sources */,
-				C344D61F174C463E0011579E /* Scale4x.vert in Sources */,
-				C344D620174C463E0011579E /* Scale4xBR.frag in Sources */,
-				C344D621174C463E0011579E /* Scale4xBR.vert in Sources */,
-				C344D622174C463E0011579E /* Scale4xHQ.frag in Sources */,
-				C344D623174C463E0011579E /* Scale4xHQ.vert in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
