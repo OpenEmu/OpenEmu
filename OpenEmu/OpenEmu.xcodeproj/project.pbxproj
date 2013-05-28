@@ -109,6 +109,8 @@
 		3D15428114E20E22009C3DEE /* OENonARCHacks.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D15428014E20E22009C3DEE /* OENonARCHacks.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3D1D8D821650C22900DBC37D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1D8D811650C22900DBC37D /* Accelerate.framework */; };
 		3DFAB00D144644D4005EF0C3 /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
+		4920F6E4175540E800F9AC80 /* About_alt.png in Resources */ = {isa = PBXBuildFile; fileRef = 4920F6E3175540E800F9AC80 /* About_alt.png */; };
+		4920F6E8175540F700F9AC80 /* joystick.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4920F6E7175540F700F9AC80 /* joystick.icns */; };
 		53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */; };
 		53439A9013B92C68005C0CC8 /* OEDBDataSourceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8F13B92C68005C0CC8 /* OEDBDataSourceAdditions.m */; };
 		53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9313B92C97005C0CC8 /* OEDBAllGamesCollection.m */; };
@@ -1269,6 +1271,8 @@
 		3D1D8D811650C22900DBC37D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		3D711838150064F50056E3BF /* PSYBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSYBlockTimer.h; sourceTree = "<group>"; };
 		3D711839150064F50056E3BF /* PSYBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSYBlockTimer.m; sourceTree = "<group>"; };
+		4920F6E3175540E800F9AC80 /* About_alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = About_alt.png; sourceTree = "<group>"; };
+		4920F6E7175540F700F9AC80 /* joystick.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = joystick.icns; sourceTree = "<group>"; };
 		53439A8A13B92C4A005C0CC8 /* OELibraryDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibraryDatabase.h; sourceTree = "<group>"; };
 		53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryDatabase.m; sourceTree = "<group>"; };
 		53439A8E13B92C68005C0CC8 /* OEDBDataSourceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBDataSourceAdditions.h; sourceTree = "<group>"; };
@@ -2891,12 +2895,14 @@
 				826844C31022A0630019C7B0 /* smaller.tif */,
 				826844C41022A0630019C7B0 /* larger.tif */,
 				1B7505100FEEB4F600B0D0AF /* About.png */,
+				4920F6E3175540E800F9AC80 /* About_alt.png */,
 				82C42C8410CAFB480046D1A3 /* download_arrow_down.png */,
 				82C42C8510CAFB480046D1A3 /* download_arrow_up.png */,
 				C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */,
 				C67A36A90FE7F1F500A665E2 /* OECorePluginIcon.icns */,
 				3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */,
 				82C434120EE393530037C54B /* icon.icns */,
+				4920F6E7175540F700F9AC80 /* joystick.icns */,
 			);
 			name = "Icons and Graphics";
 			sourceTree = "<group>";
@@ -6092,6 +6098,8 @@
 				C344D615174C463E0011579E /* Scanline - Horizontal.cg in Resources */,
 				C344D616174C463E0011579E /* Scanline - Vertical.cg in Resources */,
 				C344D617174C463E0011579E /* Scanline.cg in Resources */,
+				4920F6E4175540E800F9AC80 /* About_alt.png in Resources */,
+				4920F6E8175540F700F9AC80 /* joystick.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
