@@ -87,7 +87,6 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 @property GLuint            *rttFBOs;
 @property GLuint            *rttGameTextures;
 @property NSUInteger         frameCount;
-@property NSTimeInterval     gameFrameInterval;
 @property NSUInteger         gameFrameCount;
 @property GLuint            *multipassTextures;
 @property GLuint            *multipassFBOs;
@@ -250,7 +249,6 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 
     _gameScreenSize = _rootProxy.screenSize;
     _gameSurfaceID = _rootProxy.surfaceID;
-    _gameFrameInterval = [[_rootProxy gameCore] frameInterval];
 
     // rendering
     [self setupDisplayLink];
