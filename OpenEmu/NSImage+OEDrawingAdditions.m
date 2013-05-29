@@ -56,7 +56,9 @@
     BOOL sourceFlipped = [self isFlipped];
     BOOL targetFlipped = [[NSGraphicsContext currentContext] isFlipped];
 
-    NSDictionary *drawingHints = (hints ?: nil);
+    NSDictionary *drawingHints = @{NSImageHintInterpolation:@(NSImageInterpolationNone)};
+    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationNone];
+    [self setMatchesOnlyOnBestFittingAxis:YES];
 
     // Bottom Left
     if(sourceFlipped)
@@ -320,6 +322,32 @@
         case 1:
         default: return [imageParts lastObject];
     }
+}
+
+- (NSImage *)ninePartImageWithStretchedRect:(NSRect)rect
+{
+    NSSize size = [self size];
+
+    NSRect top    = (NSRect){{0, NSMaxY(rect)}, {size.width, size.height-NSMaxY(rect)}};
+    NSRect middle = (NSRect){{0, NSMinY(rect)}, {size.width, NSHeight(rect)}};
+    NSRect bottom = (NSRect){{0, 0}, {size.width, NSMinY(rect)}};
+    
+    NSRect left   = (NSRect){{0, 0}, {NSMinX(rect), size.height}};
+    NSRect center = (NSRect){{NSMinX(rect), 0}, {NSWidth(rect), size.height}};
+    NSRect right  = (NSRect){{NSMaxX(rect), 0}, {size.width-NSMaxX(rect), size.height}};
+
+    NSArray *parts = @[
+                       [NSValue valueWithRect:NSIntersectionRect(bottom, left)],
+                       [NSValue valueWithRect:NSIntersectionRect(bottom, center)],
+                       [NSValue valueWithRect:NSIntersectionRect(bottom, right)],
+                       [NSValue valueWithRect:NSIntersectionRect(middle, left)],
+                       [NSValue valueWithRect:NSIntersectionRect(middle, center)],
+                       [NSValue valueWithRect:NSIntersectionRect(middle, right)],
+                       [NSValue valueWithRect:NSIntersectionRect(top, left)],
+                       [NSValue valueWithRect:NSIntersectionRect(top, center)],
+                       [NSValue valueWithRect:NSIntersectionRect(top, right)],
+                       ];
+    return [self imageFromParts:parts  vertical:NO];
 }
 
 @end
