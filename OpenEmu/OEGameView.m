@@ -87,6 +87,8 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 @property GLuint            *rttFBOs;
 @property GLuint            *rttGameTextures;
 @property NSUInteger         frameCount;
+@property NSTimeInterval     gameFrameInterval;
+@property NSUInteger         gameFrameCount;
 @property GLuint            *multipassTextures;
 @property GLuint            *multipassFBOs;
 @property OEIntSize         *multipassSizes;
@@ -248,6 +250,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 
     _gameScreenSize = _rootProxy.screenSize;
     _gameSurfaceID = _rootProxy.surfaceID;
+    _gameFrameInterval = [[_rootProxy gameCore] frameInterval];
 
     // rendering
     [self setupDisplayLink];
@@ -484,6 +487,8 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     }
     else _filterTime -= _filterStartTime;
 
+    _gameFrameCount = _filterTime * _gameFrameInterval;
+
     if(_gameSurfaceRef == NULL) [self rebindIOSurface];
 
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
@@ -590,7 +595,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     cgGLSetParameter2f([shader vertexVideoSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader vertexTextureSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader vertexOutputSize], outputSize.width, outputSize.height);
-    cgGLSetParameter1f([shader vertexFrameCount], [shader frameCountMod] ? _frameCount % [shader frameCountMod] : _frameCount);
+    cgGLSetParameter1f([shader vertexFrameCount], [shader frameCountMod] ? _gameFrameCount % [shader frameCountMod] : _gameFrameCount);
     cgGLSetStateMatrixParameter([shader modelViewProj], CG_GL_MODELVIEW_PROJECTION_MATRIX, CG_GL_MATRIX_IDENTITY);
 
     // bind ORIG parameters
@@ -624,7 +629,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     cgGLSetParameter2f([shader fragmentVideoSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader fragmentTextureSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader fragmentOutputSize], outputSize.width, outputSize.height);
-    cgGLSetParameter1f([shader fragmentFrameCount], [shader frameCountMod] ? _frameCount % [shader frameCountMod] : _frameCount);
+    cgGLSetParameter1f([shader fragmentFrameCount], [shader frameCountMod] ? _gameFrameCount % [shader frameCountMod] : _gameFrameCount);
 
     // bind ORIG parameters
     cgGLSetTextureParameter([shader fragmentOriginalTexture], _rttGameTextures[_frameCount % OEFramesSaved]);
