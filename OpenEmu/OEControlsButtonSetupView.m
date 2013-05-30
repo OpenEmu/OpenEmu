@@ -136,6 +136,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
 
             convertedButtonFrame.origin.x  = 0;
             convertedButtonFrame.origin.y -= [clipView frame].size.height / 2;
+            convertedButtonFrame = [self backingAlignedRect:convertedButtonFrame options:NSAlignAllEdgesNearest];
             [[clipView animator] setBoundsOrigin:convertedButtonFrame.origin];
         }
     }
