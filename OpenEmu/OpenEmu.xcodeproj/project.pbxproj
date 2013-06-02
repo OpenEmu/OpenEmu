@@ -67,6 +67,8 @@
 /* Begin PBXBuildFile section */
 		0A9F272216635A1B008B1FB8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9F272116635A1B008B1FB8 /* libz.dylib */; };
 		0A9F272316635A55008B1FB8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9F272116635A1B008B1FB8 /* libz.dylib */; };
+		11E0C9C9175ADD0700CDAB86 /* controller_vb_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11E0C9C7175ADD0700CDAB86 /* controller_vb_mask@2x.png */; };
+		11E0C9CA175ADD0700CDAB86 /* controller_vb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11E0C9C8175ADD0700CDAB86 /* controller_vb@2x.png */; };
 		141554101442B3B300A01683 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		141554161442B3B300A01683 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 141554141442B3B300A01683 /* InfoPlist.strings */; };
 		141554211442B7B100A01683 /* OEN64SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 141554201442B7B100A01683 /* OEN64SystemResponder.m */; };
@@ -1178,6 +1180,8 @@
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0A9F272116635A1B008B1FB8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		11E0C9C7175ADD0700CDAB86 /* controller_vb_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_vb_mask@2x.png"; sourceTree = "<group>"; };
+		11E0C9C8175ADD0700CDAB86 /* controller_vb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_vb@2x.png"; sourceTree = "<group>"; };
 		1415540F1442B3B300A01683 /* N64.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = N64.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		141554131442B3B300A01683 /* N64-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "N64-Info.plist"; sourceTree = "<group>"; };
 		141554151442B3B300A01683 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -4497,6 +4501,8 @@
 				94A225A017075FD600098DA0 /* vb_library.png */,
 				94A2259B17075FD600098DA0 /* controller_vb_mask.png */,
 				94A2259C17075FD600098DA0 /* controller_vb.png */,
+				11E0C9C7175ADD0700CDAB86 /* controller_vb_mask@2x.png */,
+				11E0C9C8175ADD0700CDAB86 /* controller_vb@2x.png */,
 				94A224871707541F00098DA0 /* Virtual Boy-Info.plist */,
 				94A2259F17075FD600098DA0 /* Keyboard-Mappings.plist */,
 				94A2259D17075FD600098DA0 /* Controller-Mappings.plist */,
@@ -6247,6 +6253,8 @@
 				94A225A417075FD600098DA0 /* Controller-Preferences.plist in Resources */,
 				94A225A517075FD600098DA0 /* Keyboard-Mappings.plist in Resources */,
 				94A225A617075FD600098DA0 /* vb_library.png in Resources */,
+				11E0C9C9175ADD0700CDAB86 /* controller_vb_mask@2x.png in Resources */,
+				11E0C9CA175ADD0700CDAB86 /* controller_vb@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
