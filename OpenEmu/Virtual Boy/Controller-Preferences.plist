@@ -9,33 +9,33 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEVBButtonLeftUp</key>
-		<string>{0, 0}</string>
+		<string>{115, 362}</string>
 		<key>OEVBButtonLeftDown</key>
-		<string>{0, 0}</string>
+		<string>{115, 320}</string>
 		<key>OEVBButtonLeftLeft</key>
-		<string>{0, 0}</string>
+		<string>{94, 341}</string>
 		<key>OEVBButtonLeftRight</key>
-		<string>{0, 0}</string>
+		<string>{136, 341}</string>
 		<key>OEVBButtonRightUp</key>
-		<string>{0, 0}</string>
+		<string>{385, 362}</string>
 		<key>OEVBButtonRightDown</key>
-		<string>{0, 0}</string>
+		<string>{385, 320}</string>
 		<key>OEVBButtonRightLeft</key>
-		<string>{0, 0}</string>
+		<string>{364, 341}</string>
 		<key>OEVBButtonRightRight</key>
-		<string>{0, 0}</string>
+		<string>{406, 341}</string>
 		<key>OEVBButtonL</key>
-		<string>{0, 0}</string>
+		<string>{115, 391}</string>
 		<key>OEVBButtonR</key>
-		<string>{0, 0}</string>
+		<string>{385, 391}</string>
 		<key>OEVBButtonA</key>
-		<string>{0, 0}</string>
+		<string>{333, 317}</string>
 		<key>OEVBButtonB</key>
-		<string>{0, 0}</string>
+		<string>{301, 303}</string>
 		<key>OEVBButtonStart</key>
-		<string>{0, 0}</string>
+		<string>{198, 303}</string>
 		<key>OEVBButtonSelect</key>
-		<string>{0, 0}</string>
+		<string>{166, 317}</string>
 	</dict>
 </dict>
 </plist>
