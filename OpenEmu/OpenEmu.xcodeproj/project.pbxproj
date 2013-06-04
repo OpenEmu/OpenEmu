@@ -680,6 +680,8 @@
 		94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F6CB7B16DD727600CD48A4 /* OECheats.m */; };
 		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
 		94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53871688FF60003C6AFE /* controller_gamegear.png */; };
+		AB68DC2B175E44E7001DBF44 /* controller_n64_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB68DC29175E44E7001DBF44 /* controller_n64_mask@2x.png */; };
+		AB68DC2C175E44E7001DBF44 /* controller_n64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB68DC2A175E44E7001DBF44 /* controller_n64@2x.png */; };
 		C344D615174C463E0011579E /* Scanline - Horizontal.cg in Resources */ = {isa = PBXBuildFile; fileRef = C344D605174C463E0011579E /* Scanline - Horizontal.cg */; };
 		C344D616174C463E0011579E /* Scanline - Vertical.cg in Resources */ = {isa = PBXBuildFile; fileRef = C344D606174C463E0011579E /* Scanline - Vertical.cg */; };
 		C344D617174C463E0011579E /* Scanline.cg in Resources */ = {isa = PBXBuildFile; fileRef = C344D607174C463E0011579E /* Scanline.cg */; };
@@ -2075,6 +2077,8 @@
 		94F6CB7B16DD727600CD48A4 /* OECheats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECheats.m; sourceTree = "<group>"; };
 		94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear_mask.png; sourceTree = "<group>"; };
 		94FC53871688FF60003C6AFE /* controller_gamegear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear.png; sourceTree = "<group>"; };
+		AB68DC29175E44E7001DBF44 /* controller_n64_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_n64_mask@2x.png"; sourceTree = "<group>"; };
+		AB68DC2A175E44E7001DBF44 /* controller_n64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_n64@2x.png"; sourceTree = "<group>"; };
 		C344D605174C463E0011579E /* Scanline - Horizontal.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Scanline - Horizontal.cg"; sourceTree = "<group>"; };
 		C344D606174C463E0011579E /* Scanline - Vertical.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Scanline - Vertical.cg"; sourceTree = "<group>"; };
 		C344D607174C463E0011579E /* Scanline.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scanline.cg; sourceTree = "<group>"; };
@@ -2708,6 +2712,8 @@
 		141554121442B3B300A01683 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AB68DC29175E44E7001DBF44 /* controller_n64_mask@2x.png */,
+				AB68DC2A175E44E7001DBF44 /* controller_n64@2x.png */,
 				83FBA37214F2C699001F1299 /* n64_library.png */,
 				94DEA056171BA36000073397 /* controller_n64_mask.png */,
 				141554281442C12200A01683 /* controller_n64.png */,
@@ -5808,6 +5814,8 @@
 				94E6C304166DB15900082F27 /* Controller-Mappings.plist in Resources */,
 				94DEA057171BA36000073397 /* controller_n64_mask.png in Resources */,
 				EC350F46174019A2005DA3B2 /* n64_library@2x.png in Resources */,
+				AB68DC2B175E44E7001DBF44 /* controller_n64_mask@2x.png in Resources */,
+				AB68DC2C175E44E7001DBF44 /* controller_n64@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
