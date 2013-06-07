@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEColecoVisionButtonUp</key>
+	<integer>82</integer>
+	<key>OEColecoVisionButtonDown</key>
+	<integer>81</integer>
+	<key>OEColecoVisionButtonLeft</key>
+	<integer>80</integer>
+	<key>OEColecoVisionButtonRight</key>
+	<integer>79</integer>
+	<key>OEColecoVisionButtonLeftAction</key>
+	<integer>20</integer>
+	<key>OEColecoVisionButtonRightAction</key>
+	<integer>26</integer>
+	<key>OEColecoVisionButton1</key>
+	<integer>30</integer>
+	<key>OEColecoVisionButton2</key>
+	<integer>31</integer>
+	<key>OEColecoVisionButton3</key>
+	<integer>32</integer>
+	<key>OEColecoVisionButton4</key>
+	<integer>33</integer>
+	<key>OEColecoVisionButton5</key>
+	<integer>34</integer>
+	<key>OEColecoVisionButton6</key>
+	<integer>35</integer>
+	<key>OEColecoVisionButton7</key>
+	<integer>36</integer>
+	<key>OEColecoVisionButton8</key>
+	<integer>37</integer>
+	<key>OEColecoVisionButton9</key>
+	<integer>38</integer>
+	<key>OEColecoVisionButton0</key>
+	<integer>39</integer>
+	<key>OEColecoVisionButtonAsterisk</key>
+	<integer>45</integer>
+	<key>OEColecoVisionButtonPound</key>
+	<integer>46</integer>
+</dict>
+</plist>

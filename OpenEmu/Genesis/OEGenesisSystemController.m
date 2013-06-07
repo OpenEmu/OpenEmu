@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2012, OpenEmu Team
  
- 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -38,6 +37,24 @@
     return ( [[OELocalizationHelper sharedHelper] isRegionNA]
             ? @"Sega Genesis"
             : @"Sega Mega Drive");
+}
+
+- (NSImage *)systemIcon
+{
+    NSString *imageName = (  [[OELocalizationHelper sharedHelper] isRegionNA]
+                           ? @"genesis_library"
+                           : @"megadrive_library");
+    
+    NSImage *image = [NSImage imageNamed:imageName];
+    if(image == nil)
+    {
+        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+        NSString *path = [bundle pathForImageResource:imageName];
+        image = [[NSImage alloc] initWithContentsOfFile:path];
+        [image setName:imageName];
+    }
+    
+    return image;
 }
 
 - (OECanHandleState)canHandleFile:(NSString *)path

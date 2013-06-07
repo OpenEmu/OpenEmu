@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2012, OpenEmu Team
  
- 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -28,7 +27,6 @@
 #import "OESegaCDSystemController.h"
 #import "OESegaCDSystemResponder.h"
 #import "OESegaCDSystemResponderClient.h"
-#import "OELocalizationHelper.h"
 
 @implementation OESegaCDSystemController
 
@@ -53,30 +51,36 @@
     NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
     NSLog(@"SCD data track path: %@", dataTrackPath);
 
-    BOOL valid = [super canHandleFileExtension:[path pathExtension]];
-    if (valid)
+    BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
+    OECanHandleState canHandleFile = OECanHandleNo;
+    
+    if (handleFileExtension)
     {
         NSFileHandle *dataTrackFile;
-        NSData *dataTrackBuffer;
+        NSData *dataTrackBuffer, *otherDataTrackBuffer;
         
         dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
-        [dataTrackFile seekToFileOffset: 0x010];
+        [dataTrackFile seekToFileOffset: 0x0];
         dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
+        [dataTrackFile seekToFileOffset: 0x010];
+        otherDataTrackBuffer = [dataTrackFile readDataOfLength: 16];
         
         NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
+        NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
         NSLog(@"'%@'", dataTrackString);
+        NSLog(@"'%@'", otherDataTrackString);
         NSArray *dataTrackList = @[ @"SEGADISCSYSTEM  ", @"SEGABOOTDISC    ", @"SEGADISC        ", @"SEGADATADISC    " ];
 
         for (NSString *d in dataTrackList) {
-            if (![dataTrackString isEqualToString:d])
-                valid = NO;
+            if ([dataTrackString isEqualToString:d] || [otherDataTrackString isEqualToString:d])
+                canHandleFile = OECanHandleYes;
                 break;
         }
         
         [dataTrackFile closeFile];
     }
     //return valid;
-    return valid?OECanHandleYes:OECanHandleNo;
+    return canHandleFile;
 }
 
 @end

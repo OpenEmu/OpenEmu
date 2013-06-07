@@ -3,27 +3,27 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_nes.png</string>
+	<string>controller_nes</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_nes_mask.png</string>
+	<string>controller_nes_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OENESButtonUp</key>
-		<string>{159, 147}</string>
+		<string>{109, 235}</string>
 		<key>OENESButtonDown</key>
-		<string>{159, 100}</string>
+		<string>{109, 188}</string>
 		<key>OENESButtonLeft</key>
-		<string>{136, 123}</string>
+		<string>{86, 211}</string>
 		<key>OENESButtonRight</key>
-		<string>{183, 123}</string>
+		<string>{133, 211}</string>
 		<key>OENESButtonStart</key>
-		<string>{306, 101}</string>
+		<string>{256, 189}</string>
 		<key>OENESButtonSelect</key>
-		<string>{256, 101}</string>
+		<string>{206, 189}</string>
 		<key>OENESButtonA</key>
-		<string>{441, 100}</string>
+		<string>{391, 188}</string>
 		<key>OENESButtonB</key>
-		<string>{384, 100}</string>
+		<string>{334, 188}</string>
 	</dict>
 </dict>
 </plist>

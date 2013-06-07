@@ -34,3 +34,6 @@
 [submodule "VisualBoyAdvance"]
 	path = VisualBoyAdvance
 	url = https://github.com/OpenEmu/VisualBoyAdvance-Core.git
+[submodule "TwoMbit"]
+	path = TwoMbit
+	url = https://github.com/OpenEmu/TwoMbit-Core.git

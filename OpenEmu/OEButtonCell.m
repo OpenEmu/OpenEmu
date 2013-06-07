@@ -46,10 +46,9 @@
         // Set the focused, windowActive, and hover properties only if the state mask is tracking the button's focus, mouse hover, and window activity properties
         NSWindow *window = [[self controlView] window];
 
-        focused      = [window firstResponder] == [self controlView];
+        focused      = [window firstResponder] == [self controlView] || ([window firstResponder] && [[self controlView] respondsToSelector:@selector(currentEditor)] && [window firstResponder]==[(NSControl*)[self controlView] currentEditor]);
         windowActive = ((_stateMask & OEThemeStateAnyWindowActivity) != 0) && ([window isMainWindow] || ([window parentWindow] && [[window parentWindow] isMainWindow]));
     }
-
     return [OEThemeObject themeStateWithWindowActive:windowActive buttonState:[self state] selected:[self isHighlighted] enabled:[self isEnabled] focused:focused houseHover:[self isHovering] modifierMask:[NSEvent modifierFlags]] & _stateMask;
 }
 

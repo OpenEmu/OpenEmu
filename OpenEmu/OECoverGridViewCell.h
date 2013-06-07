@@ -28,6 +28,8 @@
 #import "OECoverGridViewCellRatingLayer.h"
 #import "OECoverGridViewCellIndicationLayer.h"
 
+extern NSString * const OECoverGridViewGlossDisabledKey;
+
 @interface OECoverGridViewCell : OEGridViewCell
 {
 @private

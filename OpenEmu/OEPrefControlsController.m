@@ -61,8 +61,9 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
 
 - (void)OE_setCurrentBindingsForEvent:(OEHIDEvent *)anEvent;
 - (void)OE_rebuildSystemsMenu;
-- (void)OE_setUpControllerImageViewWithTransition:(NSString *)transition;
+- (void)OE_setUpControllerImageView;
 - (void)OE_preparePaneWithNotification:(NSNotification *)notification;
+- (void)OE_scrollerStyleDidChange;
 
 // Only one event can be managed at a time, all events should be ignored until the currently read event went back to its null state
 // All ignored events are stored until they go back to the null state
@@ -153,6 +154,13 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
     [center addObserver:self selector:@selector(OE_devicesDidUpdateNotification:) name:OEDeviceManagerDidAddDeviceHandlerNotification object:[OEDeviceManager sharedDeviceManager]];
     [center addObserver:self selector:@selector(OE_devicesDidUpdateNotification:) name:OEDeviceManagerDidRemoveDeviceHandlerNotification object:[OEDeviceManager sharedDeviceManager]];
+    
+    [center addObserver:self selector:@selector(OE_scrollerStyleDidChange) name:NSPreferredScrollerStyleDidChangeNotification object:nil];
+}
+
+- (void)OE_scrollerStyleDidChange
+{
+    [[self controlsSetupView] layoutSubviews];
 }
 
 - (void)viewWillDisappear
@@ -318,8 +326,6 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     NSMenuItem *menuItem = [[self consolesPopupButton] selectedItem];
     NSString *systemIdentifier = [menuItem representedObject] ? : [sud objectForKey:OELastControlsPluginIdentifierKey];
 
-    NSString *oldPluginName = [selectedPlugin systemName];
-
     OESystemPlugin *newPlugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
     if(newPlugin == nil)
     {
@@ -364,13 +370,13 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [self changePlayer:[self playerPopupButton]];
     [self changeInputDevice:[self inputPopupButton]];
 
-    NSComparisonResult order = [oldPluginName compare:[selectedPlugin systemName]];
-    [self OE_setUpControllerImageViewWithTransition:(order == NSOrderedDescending ? kCATransitionFromTop : kCATransitionFromBottom)];
+    [self OE_setUpControllerImageView];
 }
 
-- (void)OE_setUpControllerImageViewWithTransition:(NSString *)transition;
+- (void)OE_setUpControllerImageView
 {
     OESystemController *systemController = [self currentSystemController];
+    CALayer            *imageViewLayer   = [[self controllerContainerView] layer];
 
     OEControllerImageView *newControllerView = [[OEControllerImageView alloc] initWithFrame:[[self controllerContainerView] bounds]];
     [newControllerView setImage:[systemController controllerImage]];
@@ -379,24 +385,48 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [newControllerView setTarget:self];
     [newControllerView setAction:@selector(changeInputControl:)];
 
-    // Animation for controller image swapping
-    CATransition *controllerTransition = [CATransition animation];
-    [controllerTransition setType:kCATransitionPush];
-    [controllerTransition setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
-    [controllerTransition setDuration:1.0];
-    [controllerTransition setSubtype:transition];
-    [controllerTransition setRemovedOnCompletion:YES];
+    // Setup animation that transitions the old controller image out
+    CGMutablePathRef pathTransitionOut = CGPathCreateMutable();
+    CGPathMoveToPoint(pathTransitionOut, NULL, 0.0f, 0.0f);
+    CGPathAddLineToPoint(pathTransitionOut, NULL, 0.0f, -50.0f);
+    CGPathAddLineToPoint(pathTransitionOut, NULL, 0.0f, 450.0f);
 
-    [[self controllerContainerView] setAnimations:[NSDictionary dictionaryWithObject:controllerTransition forKey:@"subviews"]];
+    CAKeyframeAnimation *outTransition = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    outTransition.path = pathTransitionOut;
+    outTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    outTransition.duration = 0.5;
 
-    if(_controllerView != nil)
-        [[[self controllerContainerView] animator] replaceSubview:_controllerView with:newControllerView];
-    else
-        [[[self controllerContainerView] animator] addSubview:newControllerView];
+    CFRelease(pathTransitionOut);
 
-    [[self controllerContainerView] setAnimations:[NSDictionary dictionary]];
+    // Setup animation that transitions the new controller image in
+    CGMutablePathRef pathTransitionIn = CGPathCreateMutable();
+    CGPathMoveToPoint(pathTransitionIn, NULL, 0.0f, 450.0f);
+    CGPathAddLineToPoint(pathTransitionIn, NULL, 0.0f, -50.0f);
+    CGPathAddLineToPoint(pathTransitionIn, NULL, 0.0f, 0.0f);
 
-    [self setControllerView:newControllerView];
+    CAKeyframeAnimation *inTransition = [CAKeyframeAnimation animationWithKeyPath:@"position"];
+    inTransition.path = pathTransitionIn;
+    inTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    inTransition.duration = 0.5;
+
+    CFRelease(pathTransitionIn);
+
+    [CATransaction begin];
+    [CATransaction setCompletionBlock:^{
+        if(_controllerView != nil)
+            [[self controllerContainerView] replaceSubview:_controllerView with:newControllerView];
+        else
+            [[self controllerContainerView] addSubview:newControllerView];
+        [self setControllerView:newControllerView];
+
+        [[self controllerContainerView] setFrameOrigin:NSZeroPoint];
+        [imageViewLayer addAnimation:inTransition forKey:@"animatePosition"];
+    }];
+
+    [[self controllerContainerView] setFrameOrigin:NSMakePoint(0, 450)];
+    [imageViewLayer addAnimation:outTransition forKey:@"animatePosition"];
+
+    [CATransaction commit];
 }
 
 - (IBAction)changePlayer:(id)sender
@@ -446,7 +476,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 - (IBAction)searchForWiimote:(id)sender
 {
-    [self OE_setUpInputMenu];
+    [self OE_updateInputPopupButtonSelection];
 
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
 
@@ -650,7 +680,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 - (NSSize)viewSize
 {
-    return NSMakeSize(740, 450);
+    return NSMakeSize(755, 450);
 }
 
 - (NSColor *)toolbarSeparationColor

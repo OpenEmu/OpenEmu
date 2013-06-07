@@ -25,7 +25,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <OpenEmuSystem/OESystemResponderClient.h>
+
+@protocol OESystemResponderClient;
 
 @protocol OEComputerSystemResponderClient <OESystemResponderClient, NSObject>
 - (void)mouseMoved:(OEIntPoint)location;

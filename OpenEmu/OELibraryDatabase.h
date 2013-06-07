@@ -78,6 +78,7 @@ extern NSString *const OESaveStateFolderURLKey;
 #pragma mark - Database Folders
 - (NSURL *)databaseFolderURL;
 - (NSURL *)romsFolderURL;
+- (void)setRomsFolderURL:(NSURL *)url;
 - (NSURL *)unsortedRomsFolderURL;
 - (NSURL *)romsFolderURLForSystem:(OEDBSystem *)system;
 - (NSURL *)stateFolderURL;
@@ -85,6 +86,9 @@ extern NSString *const OESaveStateFolderURLKey;
 - (NSURL *)stateFolderURLForROM:(OEDBRom *)rom;
 - (NSURL *)coverFolderURL;
 - (NSURL *)importQueueURL;
+
+#pragma mark - ArchiveVG Sync
+- (void)startArchiveVGSync;
 
 #pragma mark - Debug
 - (void)dump;

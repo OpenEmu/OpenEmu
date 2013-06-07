@@ -124,7 +124,8 @@
         NSAttributedString *title = [[NSAttributedString alloc] initWithString:anItem.title attributes:textAttributes];
         NSRect titleRect = NSMakeRect(x, 6, title.size.width, title.size.height);
         NSRect imageRect = NSMakeRect(x+(title.size.width-imageSideLength)/2, titleRect.origin.y+titleRect.size.height+imageTitleSpacing-3, imageSideLength, imageSideLength);
-        
+        imageRect.origin.x = roundf(imageRect.origin.x);
+
         if(NSEqualRects(anItem.itemRect, NSZeroRect)){
             anItem.itemRect = NSMakeRect(x-titlePadding, 1, title.size.width+2*titlePadding, 54);
         }

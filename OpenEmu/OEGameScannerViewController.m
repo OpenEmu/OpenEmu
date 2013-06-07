@@ -37,6 +37,8 @@
 #import "OEMenu.h"
 #import "OEDBSystem.h"
 
+#import "OEHUDAlert.h"
+
 #define OEGameScannerUpdateDelay 0.2
 @interface OEGameScannerViewController ()
 @property NSMutableArray *itemsRequiringAttention;
@@ -441,12 +443,13 @@
 {
     if([NSEvent modifierFlags] & NSAlternateKeyMask)
     {
-        //TODO: Show a proper (dark, rephrased) dialog here
-        NSAlert *cancelAlert = [NSAlert alertWithMessageText:NSLocalizedString(@"Do you really want to cancel the import process?", @"")
-                                               defaultButton:NSLocalizedString(@"Yes", @"")
-                                             alternateButton:NSLocalizedString(@"No", @"")
-                                                 otherButton:@""
-                                   informativeTextWithFormat:NSLocalizedString(@"Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.", @"")];
+        OEHUDAlert *cancelAlert = [[OEHUDAlert alloc] init];
+
+        cancelAlert.headlineText = NSLocalizedString(@"Do you really want to cancel the import process?", @"");
+        cancelAlert.messageText  = NSLocalizedString(@"Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.", @"");
+        cancelAlert.defaultButtonTitle   = NSLocalizedString(@"Yes", @"");
+        cancelAlert.alternateButtonTitle = NSLocalizedString(@"No", @"");
+        
         [sender setState:[sender state]==NSOnState?NSOffState:NSOnState];
         if([cancelAlert runModal] == NSAlertDefaultReturn)
         {

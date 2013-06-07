@@ -3,33 +3,33 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_3do.png</string>
+	<string>controller_3do</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_3do_mask.png</string>
+	<string>controller_3do_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OE3DOButtonUp</key>
-		<string>{120, 160}</string>
+		<string>{0, 0}</string>
 		<key>OE3DOButtonDown</key>
-		<string>{120, 110}</string>
+		<string>{0, 0}</string>
 		<key>OE3DOButtonLeft</key>
-		<string>{96, 140}</string>
+		<string>{0, 0}</string>
 		<key>OE3DOButtonRight</key>
-		<string>{146, 140}</string>
+		<string>{0, 0}</string>
 		<key>OE3DOButtonA</key>
-		<string>{297, 100}</string>
+		<string>{0, 0}</string>
 		<key>OE3DOButtonB</key>
-		<string>{334, 126}</string>
+		<string>{0, 0}</string>
 		<key>OE3DOButtonC</key>
-		<string>{380, 142}</string>
+		<string>{0, 0}</string>
 		<key>OE3DOButtonL</key>
-		<string>{285, 150}</string>
+		<string>{0, 0}</string>
 		<key>OE3DOButtonR</key>
-		<string>{316, 165}</string>
+		<string>{0, 0}</string>
 		<key>OE3DOButtonP</key>
-		<string>{352, 180}</string>
+		<string>{0, 0}</string>
 		<key>OE3DOButtonX</key>
-		<string>{229, 100}</string>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>

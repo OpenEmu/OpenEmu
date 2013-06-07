@@ -131,5 +131,17 @@
 	</array>
 	<key>OESystemIcon</key>
 	<string>lynx_library</string>
+	<key>OERequiredFiles</key>
+	<dict>
+		<key>lynxboot.img</key>
+		<dict>
+			<key>Description</key>
+			<string>Lynx boot ROM</string>
+			<key>Size</key>
+			<integer>512</integer>
+			<key>MD5</key>
+			<string>fcd403db69f54290b51035d82f835e7b</string>
+		</dict>
+	</dict>
 </dict>
 </plist>

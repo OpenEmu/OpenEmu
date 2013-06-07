@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2009, OpenEmu Team
  
- 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -24,6 +23,8 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+#import <Quartz/Quartz.h>
 
 #import "OEControlsButtonSetupView.h"
 
@@ -59,8 +60,6 @@
     NSUInteger    numberOfRows;
 }
 
-- (void)OE_layoutSubviews;
-
 @end
 
 static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSetupViewFrameSizeContext;
@@ -71,16 +70,13 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
-    
+
     return self;
 }
 
 - (void)setFrame:(NSRect)frameRect
 {
-    NSScrollView* enclosingScrollView = [self enclosingScrollView];
-    if(enclosingScrollView && [enclosingScrollView hasVerticalScroller] && [enclosingScrollView scrollerStyle] == NSScrollerStyleLegacy)
-        frameRect.size.width = MIN(frameRect.size.width, [self visibleRect].size.width);
-    
+    frameRect.size.width = MIN(frameRect.size.width, [self visibleRect].size.width);
     [super setFrame:frameRect];
 }
 
@@ -103,7 +99,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
           @{ NSNullPlaceholderBindingOption : @"" }];
      }];
 
-    [self OE_layoutSubviews];
+    [self layoutSubviews];
 }
 
 - (IBAction)OE_selectInputControl:(id)sender
@@ -140,35 +136,40 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
 
             convertedButtonFrame.origin.x  = 0;
             convertedButtonFrame.origin.y -= [clipView frame].size.height / 2;
+            convertedButtonFrame = [self backingAlignedRect:convertedButtonFrame options:NSAlignAllEdgesNearest];
             [[clipView animator] setBoundsOrigin:convertedButtonFrame.origin];
         }
     }
 }
 
-- (void)OE_layoutSubviews;
+- (void)layoutSubviews;
 {
     // remove all subviews if any
     [[[self subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     // set up some sizes
     const CGFloat width               = 213.0;
+    const CGFloat topGap              =  16.0;
+    const CGFloat bottomGap           =  16.0;
     const CGFloat leftGap             =  16.0;
-    const CGFloat rightGap            =  16.0;
     const CGFloat itemHeight          =  24.0;
     const CGFloat verticalItemSpacing =   9.0; // item bottom to top
-    const CGFloat labelButtonSpacing  =   8.0;
-    const CGFloat buttonWidth         = 118.0;
+    const CGFloat labelButtonSpacing  =   5.0;
+    const CGFloat buttonWidth         = 136.0;
+    const CGFloat minimumFrameHeight  = 259.0;
+    
+    const CGFloat rightGap = ([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) ? 14.0 : 0.0;
 
     // determine required height
-    CGFloat viewHeight = (numberOfRows + 1) * verticalItemSpacing + numberOfRows * itemHeight;
+    CGFloat viewHeight = (numberOfRows - 1) * verticalItemSpacing + numberOfRows * itemHeight + topGap + bottomGap;
     if([self frame].size.height != viewHeight)
     {
         NSRect frame = [self frame];
-        frame.size.height = viewHeight;
+        frame.size.height = viewHeight > minimumFrameHeight ? viewHeight : minimumFrameHeight;
         [self setFrame:frame];
     }
 
-    CGFloat y = self.frame.size.height - verticalItemSpacing;
+    CGFloat y = self.frame.size.height - topGap;
 
     for(NSArray *group in elementGroups)
     {
@@ -205,14 +206,14 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
             }
 
             // handle buttons + label
-            NSRect buttonRect = (NSRect){{ width - rightGap - buttonWidth, y - itemHeight },{ buttonWidth, itemHeight }};
+            NSRect buttonRect = (NSRect){{ width - buttonWidth, y - itemHeight },{ buttonWidth - rightGap, itemHeight }};
             [item setFrame:NSIntegralRect(buttonRect)];
 
             NSTextField *label = [group objectAtIndex:j + 1];
-            NSRect labelRect = NSIntegralRect(NSMakeRect(leftGap, buttonRect.origin.y - 4, width - leftGap - labelButtonSpacing - buttonWidth - rightGap, itemHeight));
+            NSRect labelRect = NSIntegralRect(NSMakeRect(leftGap, buttonRect.origin.y - 4, width - leftGap - labelButtonSpacing - buttonWidth, itemHeight));
 
             
-            BOOL multiline = [label attributedStringValue].size.width >= labelRect.size.width;
+            BOOL multiline = [label attributedStringValue].size.width + 5 >= labelRect.size.width;
             if(multiline)
             {
                 labelRect.size.height += 10;
@@ -263,8 +264,10 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
             newKey = [orderedKeys objectAtIndex:0];
     }
     else newKey = [orderedKeys objectAtIndex:i + 1];
-    
+
+    [CATransaction begin];
     [self setSelectedKey:newKey];
+    [CATransaction commit];
 }
 
 - (void)selectNextKeyAfterKeys:(NSArray *)keys;
@@ -284,8 +287,10 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
             newKey = [orderedKeys objectAtIndex:0];
     }
     else newKey = [orderedKeys objectAtIndex:i + 1];
-    
+
+    [CATransaction begin];
     [self setSelectedKey:newKey];
+    [CATransaction commit];
 }
 
 #pragma mark -

@@ -56,7 +56,9 @@
     BOOL sourceFlipped = [self isFlipped];
     BOOL targetFlipped = [[NSGraphicsContext currentContext] isFlipped];
 
-    NSDictionary *drawingHints = (hints ?: NoInterpol);
+    NSDictionary *drawingHints = @{NSImageHintInterpolation:@(NSImageInterpolationNone)};
+    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationNone];
+    [self setMatchesOnlyOnBestFittingAxis:YES];
 
     // Bottom Left
     if(sourceFlipped)
@@ -245,13 +247,25 @@
 
 - (NSImage *)subImageFromRect:(NSRect)rect
 {
-    NSImage *newImage = [[NSImage alloc] initWithSize:rect.size];
+    int major, minor;
+    NSImage *resultImage = nil;
+    GetSystemVersion(&major, &minor, NULL);
+    if(major == 10 && minor >= 8)
+    {
+        resultImage = [NSImage imageWithSize:rect.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+            [self drawInRect:dstRect fromRect:rect operation:NSCompositeSourceOver fraction:1.0];
+            return YES;
+        }];
+    }
+    else
+    {
+        resultImage = [[NSImage alloc] initWithSize:rect.size];
+        [resultImage lockFocusFlipped:[self isFlipped]];
+        [self drawInRect:NSMakeRect(0, 0, rect.size.width, rect.size.height) fromRect:rect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
+        [resultImage unlockFocus];
+    }
 
-    [newImage lockFocusFlipped:[self isFlipped]];
-    [self drawInRect:NSMakeRect(0, 0, rect.size.width, rect.size.height) fromRect:rect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
-    [newImage unlockFocus];
-
-    return newImage;
+    return resultImage;
 }
 
 - (void)setName:(NSString *)name forSubimageInRect:(NSRect)aRect
@@ -310,6 +324,32 @@
     }
 }
 
+- (NSImage *)ninePartImageWithStretchedRect:(NSRect)rect
+{
+    NSSize size = [self size];
+
+    NSRect top    = (NSRect){{0, NSMaxY(rect)}, {size.width, size.height-NSMaxY(rect)}};
+    NSRect middle = (NSRect){{0, NSMinY(rect)}, {size.width, NSHeight(rect)}};
+    NSRect bottom = (NSRect){{0, 0}, {size.width, NSMinY(rect)}};
+    
+    NSRect left   = (NSRect){{0, 0}, {NSMinX(rect), size.height}};
+    NSRect center = (NSRect){{NSMinX(rect), 0}, {NSWidth(rect), size.height}};
+    NSRect right  = (NSRect){{NSMaxX(rect), 0}, {size.width-NSMaxX(rect), size.height}};
+
+    NSArray *parts = @[
+                       [NSValue valueWithRect:NSIntersectionRect(bottom, left)],
+                       [NSValue valueWithRect:NSIntersectionRect(bottom, center)],
+                       [NSValue valueWithRect:NSIntersectionRect(bottom, right)],
+                       [NSValue valueWithRect:NSIntersectionRect(middle, left)],
+                       [NSValue valueWithRect:NSIntersectionRect(middle, center)],
+                       [NSValue valueWithRect:NSIntersectionRect(middle, right)],
+                       [NSValue valueWithRect:NSIntersectionRect(top, left)],
+                       [NSValue valueWithRect:NSIntersectionRect(top, center)],
+                       [NSValue valueWithRect:NSIntersectionRect(top, right)],
+                       ];
+    return [self imageFromParts:parts  vertical:NO];
+}
+
 @end
 
 static inline id OENilForNSNull(id x)
@@ -357,6 +397,10 @@ static inline id OENilForNSNull(id x)
 
 - (void)drawInRect:(NSRect)dstSpacePortionRect fromRect:(NSRect)srcSpacePortionRect operation:(NSCompositingOperation)op fraction:(CGFloat)requestedAlpha respectFlipped:(BOOL)respectContextIsFlipped hints:(NSDictionary *)hints
 {
+    if((!_vertical && dstSpacePortionRect.size.height != [self size].height) ||
+       (_vertical && dstSpacePortionRect.size.width  != [self size].width))
+        DLog(@"WARNING: Drawing a 3-part image at wrong size");
+    
     NSImage *startCap   = OENilForNSNull([_parts objectAtIndex:0]);
     NSImage *centerFill = OENilForNSNull([_parts objectAtIndex:1]);
     NSImage *endCap     = OENilForNSNull([_parts objectAtIndex:2]);

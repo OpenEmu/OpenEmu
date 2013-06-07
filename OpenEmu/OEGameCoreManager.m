@@ -36,7 +36,7 @@
 @implementation OEGameCoreManager
 @synthesize romPath, plugin, owner;
 
-- (id)initWithROMAtPath:(NSString *)theRomPath corePlugin:(OECorePlugin *)thePlugin error:(NSError **)outError
+- (id)initWithROMAtPath:(NSString *)theRomPath corePlugin:(OECorePlugin *)thePlugin systemIdentifier:(NSString *)identifier error:(NSError **)outError
 {
     self = [super init];
     
@@ -48,7 +48,7 @@
         if(![self startHelperProcessError:outError])
             return nil;
         
-        if(![self loadROMError:outError])
+        if(![self loadROMWithSystemIdentifier:identifier error:outError])
         {
             [self endHelperProcess];
             return nil;
@@ -84,14 +84,14 @@
     return nil;
 }
 
-- (BOOL)loadROMError:(NSError **)outError
+- (BOOL)loadROMWithSystemIdentifier:(NSString *)identifier error:(NSError **)outError
 {
     BOOL ret = NO;
     
     @try
     {
         DLog(@"[self rootProxy]: %@", [self rootProxy]);
-        ret = [[self rootProxy] loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath]];
+        ret = [[self rootProxy] loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] withSystemIdentifier:identifier];
     }
     @catch(NSException *exception)
     {

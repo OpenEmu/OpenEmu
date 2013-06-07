@@ -19,6 +19,99 @@
 	</dict>
 	<key>Fonts</key>
 	<dict>
+		<key>search_field</key>
+		<dict>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<integer>3</integer>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>States</key>
+			<dict>
+				<key>Window Inactive</key>
+				<dict>
+					<key>Color</key>
+					<string>#545454</string>
+				</dict>
+				<key>Disabled</key>
+				<dict>
+					<key>Color</key>
+					<string>#545454</string>
+				</dict>
+				<key>Window Active, Enabled</key>
+				<dict>
+					<key>Color</key>
+					<string>#848484</string>
+				</dict>
+				<key>Window Active, Enabled, Focused</key>
+				<dict>
+					<key>Color</key>
+					<string>#e4e4e4</string>
+				</dict>
+			</dict>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,0.4)</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+		</dict>
+		<key>search_field_selection</key>
+		<dict>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<integer>3</integer>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Background Color</key>
+			<string>#808080</string>
+			<key>States</key>
+			<dict>
+				<key>Window Inactive, Enabled</key>
+				<dict>
+					<key>Color</key>
+					<string>#545454</string>
+				</dict>
+				<key>Window Inactive, Disabled</key>
+				<dict>
+					<key>Color</key>
+					<string>#545454</string>
+				</dict>
+				<key>Window Active, Disabled</key>
+				<dict>
+					<key>Color</key>
+					<string>#545454</string>
+				</dict>
+				<key>Window Active, Enabled</key>
+				<dict>
+					<key>Color</key>
+					<string>#848484</string>
+				</dict>
+				<key>Window Active, Enabled, Focused</key>
+				<dict>
+					<key>Color</key>
+					<string>#e4e4e4</string>
+				</dict>
+			</dict>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>0</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,0.4)</string>
+				<key>Offset</key>
+				<string>{0,-1.5}</string>
+			</dict>
+		</dict>
 		<key>hud_textfield</key>
 		<dict>
 			<key>Traits</key>
@@ -884,6 +977,89 @@
 	</dict>
 	<key>Images</key>
 	<dict>
+		<key>selector_ring</key>
+		<dict>
+			<key>Resource</key>
+			<string>selector_ring</string>
+			<key>States</key>
+			<dict>
+				<key>Focused</key>
+				<array>
+					<string>{{0,0},{14,14}}</string>
+					<string>{{14,0},{1,14}}</string>
+					<string>{{15,0},{14,14}}</string>
+					<string>{{0,14},{14,1}}</string>
+					<string>{{14,14},{1,1}}</string>
+					<string>{{15,14},{14,1}}</string>
+					<string>{{0,15},{14,14}}</string>
+					<string>{{14,15},{1,14}}</string>
+					<string>{{15,15},{14,14}}</string>
+				</array>
+				<key>Unfocused</key>
+				<array>
+					<string>{{29,0},{14,14}}</string>
+					<string>{{43,0},{1,14}}</string>
+					<string>{{44,0},{14,14}}</string>
+					<string>{{29,14},{14,1}}</string>
+					<string>{{43,14},{1,1}}</string>
+					<string>{{44,14},{14,1}}</string>
+					<string>{{29,15},{14,14}}</string>
+					<string>{{43,15},{1,14}}</string>
+					<string>{{44,15},{14,14}}</string>
+				</array>
+			</dict>
+		</dict>
+		<key>dark_inset_box_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>dark_inset_box</string>
+			<key>Parts</key>
+			<array>
+				<string>{{0,0},{16,16}}</string>
+				<string>{{16,0},{1,16}}</string>
+				<string>{{17,0},{16,16}}</string>
+				<string>{{0,16},{16,1}}</string>
+				<string>{{16,16},{1,1}}</string>
+				<string>{{17,16},{16,1}}</string>
+				<string>{{0,17},{16,16}}</string>
+				<string>{{16,17},{1,16}}</string>
+				<string>{{17,17},{16,16}}</string>
+			</array>
+		</dict>
+		<key>installer_dark_inset_box</key>
+		<dict>
+			<key>Resource</key>
+			<string>installer_dark_inset_box</string>
+			<key>Parts</key>
+			<array>
+				<string>{{0,0},{16,16}}</string>
+				<string>{{16,0},{1,16}}</string>
+				<string>{{17,0},{16,16}}</string>
+				<string>{{0,16},{16,1}}</string>
+				<string>{{16,16},{1,1}}</string>
+				<string>{{17,16},{16,1}}</string>
+				<string>{{0,17},{16,16}}</string>
+				<string>{{16,17},{1,16}}</string>
+				<string>{{17,17},{16,16}}</string>
+			</array>
+		</dict>
+		<key>wood_inset_box_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>wood_inset_box</string>
+			<key>Parts</key>
+			<array>
+				<string>{{0,0},{16,16}}</string>
+				<string>{{16,0},{1,16}}</string>
+				<string>{{17,0},{16,16}}</string>
+				<string>{{0,16},{16,1}}</string>
+				<string>{{16,16},{1,1}}</string>
+				<string>{{17,16},{16,1}}</string>
+				<string>{{0,17},{16,16}}</string>
+				<string>{{16,17},{1,16}}</string>
+				<string>{{17,17},{16,16}}</string>
+			</array>
+		</dict>
 		<key>hud_textfield_background</key>
 		<dict>
 			<key>Resource</key>
@@ -935,6 +1111,87 @@
 						<string>{{3,46},{2,23}}</string>
 					</array>
 				</dict>
+			</dict>
+		</dict>
+		<key>search_field_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>search_field</string>
+			<key>States</key>
+			<dict>
+				<key>Window Inactive, Enabled</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,0}, {12, 21}}</string>
+						<string>{{12,0}, {2, 21}}</string>
+						<string>{{14,0}, {12, 21}}</string>
+					</array>
+				</dict>
+				<key>Window Inactive, Disabled</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,0}, {12, 21}}</string>
+						<string>{{12,0}, {2, 21}}</string>
+						<string>{{14,0}, {12, 21}}</string>
+					</array>
+				</dict>
+				<key>Window Active, Disabled</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,0}, {12, 21}}</string>
+						<string>{{12,0}, {2, 21}}</string>
+						<string>{{14,0}, {12, 21}}</string>
+					</array>
+				</dict>
+				<key>Window Active, Enabled</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,21}, {12, 21}}</string>
+						<string>{{12,21}, {2, 21}}</string>
+						<string>{{14,21}, {12, 21}}</string>
+					</array>
+				</dict>
+				<key>Window Active, Enabled, Focused</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,42}, {12, 21}}</string>
+						<string>{{12,42}, {2, 21}}</string>
+						<string>{{14,42}, {12, 21}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>search_field_cancel</key>
+		<dict>
+			<key>Resource</key>
+			<string>search_cancel</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0,0},{20,20}}</string>
+				<key>Pressed</key>
+				<string>{{20,0},{20,20}}</string>
+			</dict>
+		</dict>
+		<key>search_field_search</key>
+		<dict>
+			<key>Resource</key>
+			<string>search_loupe</string>
+			<key>States</key>
+			<dict>
+				<key>Disabled</key>
+				<string>{{0,0},{13,14}}</string>
+				<key>Window Inactive</key>
+				<string>{{0,0},{13,14}}</string>
+				<key>Window Active</key>
+				<string>{{13,0},{13,14}}</string>
+				<key>Window Active, Focused</key>
+				<string>{{26,0},{13,14}}</string>
 			</dict>
 		</dict>
 		<key>hud_close_button</key>
@@ -1319,7 +1576,7 @@
 			<key>States</key>
 			<dict>
 				<key>Default</key>
-				<string>{{13,0},{15, 14}}</string>
+				<string>{{13,0},{16, 18}}</string>
 			</dict>
 		</dict>
 		<key>hud_button_volume_down</key>
@@ -1329,7 +1586,7 @@
 			<key>States</key>
 			<dict>
 				<key>Default</key>
-				<string>{{0,0},{13, 14}}</string>
+				<string>{{0,0},{13, 18}}</string>
 			</dict>
 		</dict>
 		<key>dark_button_background</key>

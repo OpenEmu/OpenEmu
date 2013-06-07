@@ -28,35 +28,56 @@
 #import "NSImage+OEDrawingAdditions.h"
 
 @implementation OEPreferencesControlsBox
+- (id)initWithFrame:(NSRect)frameRect
+{
+    if(self=[super initWithFrame:frameRect])
+    {
+        [self OE_commonInit];
+    }
+    return self;
+}
 
-- (void)drawRect:(NSRect)dirtyRect{
-	NSImage *image = [NSImage imageNamed:@"wood_inset_box"];
-	[image drawInRect:NSInsetRect([self bounds], -1, -1) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:nil leftBorder:16 rightBorder:16 topBorder:16 bottomBorder:16];
+- (void)awakeFromNib
+{
+    [self OE_commonInit];
+}
 
-    const NSColor *topColor = [NSColor colorWithDeviceRed:85/255.0 green:45/255 blue:0.0 alpha:1.0];
-    const NSColor *bottomColor = [NSColor colorWithDeviceRed:1.0 green:1.0 blue:0.0 alpha:0.2];
+- (void)OE_commonInit
+{
+    [self setThemeKey:@"wood_inset_box"];
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+    [super drawRect:dirtyRect];
+
+    const NSColor *lineColor = [NSColor colorWithDeviceRed:0.45 green:0.24 blue:0.0 alpha:1.0];
+    NSColor *highlightColor = [NSColor colorWithDeviceRed:1.0 green:0.92 blue:0.0 alpha:0.14];
 
     NSRect lineRect = [self bounds];
     lineRect.size.height = 1;
+    lineRect.size.width -= 4;
+    lineRect.origin.x   += 2;
 
     // Draw top separator
-    lineRect.origin.y = 315;
+    lineRect.origin.y = 317;
 
-    [topColor setFill];
+    [highlightColor setFill];
     NSRectFill(lineRect);
 
     lineRect.origin.y -= 1;
-    [bottomColor setFill];
+    [lineColor setFill];
     NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
 
     // Draw bottom separator
-    lineRect.origin.y = 48;
+    highlightColor = [NSColor colorWithDeviceRed:1.0 green:0.92 blue:0.0 alpha:0.3];
 
-    [topColor setFill];
+    lineRect.origin.y = 46;
+
+    [lineColor setFill];
     NSRectFill(lineRect);
 
     lineRect.origin.y -= 1;
-    [bottomColor setFill];
+    [highlightColor setFill];
     NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
 }
 

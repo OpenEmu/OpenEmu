@@ -31,7 +31,6 @@
 #import "OETextFieldCell.h"
 #import "OECenteredTextFieldCell.h"
 
-#import "OEPreferencesPlainBox.h"
 #import "OEHUDProgressbar.h"
 
 #import "NSImage+OEDrawingAdditions.h"
@@ -39,6 +38,7 @@
 #import "NSWindow+OECustomWindow.h"
 
 #import "OEInputLimitFormatter.h"
+#import "OEBackgroundImageView.h"
 
 static const CGFloat _OEHUDAlertBoxSideMargin           =  18.0;
 static const CGFloat _OEHUDAlertBoxTopMargin            =  51.0;
@@ -142,8 +142,10 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
         _inputLabelView = [[NSTextView alloc] init];
         _otherInputField = [[OETextField alloc] init];
         _otherInputLabelView = [[NSTextView alloc] init];
-        
-        _boxView = [[OEPreferencesPlainBox alloc] init];
+
+        OEBackgroundImageView *box = [[OEBackgroundImageView alloc] initWithThemeKey:@"dark_inset_box"];
+        [box setFlipped:YES];
+        _boxView = box;
         
         [self setSuppressOnDefaultReturnOnly:YES];
         [self OE_setupWindow];
@@ -341,7 +343,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     
     if(showsOtherButton)
     {
-        NSRect otherButtonRect = NSMakeRect(190, 14, _OEHUDAlertButtonLength, _OEHUDAlertButtonHeight);
+        NSRect otherButtonRect = NSMakeRect(16, 14, _OEHUDAlertButtonLength, _OEHUDAlertButtonHeight);
         [[self otherButton] setFrame:otherButtonRect];
     }
     

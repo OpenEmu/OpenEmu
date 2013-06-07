@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -25,11 +25,18 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "OEControl.h"
 
+@interface OEBackgroundImageView : NSView <OEControl>
+- (id)initWithThemeKey:(NSString*)themeKey;
 
-@interface OEBackgroundImageView : NSView
+@property (getter=isFlipped, setter=setFlipped:) BOOL flipped;
 
-@property(strong, readwrite) NSImage *image;
-@property float leftBorder, rightBorder, topBorder, bottomBorder;
+@property(nonatomic, retain) NSImage               *image;
+@property(nonatomic, retain) OEThemeImage          *backgroundThemeImage;
+@property(nonatomic, retain) OEThemeImage          *themeImage;
+@property(nonatomic, retain) OEThemeTextAttributes *themeTextAttributes;
 
+@property(nonatomic, readonly, getter = isTrackingWindowActivity)    BOOL trackWindowActivity;
+@property(nonatomic, readonly, getter = isTrackingMouseActivity)     BOOL trackMouseActivity;
 @end

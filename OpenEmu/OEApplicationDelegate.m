@@ -63,6 +63,8 @@
 #import <FeedbackReporter/FRFeedbackReporter.h>
 #import "OEToolTipManager.h"
 
+#import "OERetrodeDeviceManager.h"
+
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -168,12 +170,23 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
     [NSApp bind:@"logHIDEvents" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEvents" options:nil];
     //[NSApp bind:@"logHIDEventsNoKeyboard" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEventsNoKeyboard" options:nil];
+
+    // Start retrode support
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OERetrodeSupportEnabledKey])
+        [OERetrodeDeviceManager class];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
-    if([mainWindowController gamesRunning] && !([[OEHUDAlert quitApplicationAlert] runModal] == NSAlertDefaultReturn))
-        return NSTerminateCancel;
+    if([[self documents] count] > 0)
+    {
+       if([[OEHUDAlert quitApplicationAlert] runModal] != NSAlertDefaultReturn)
+           return NSTerminateCancel;
+
+        for(OEGameDocument *document in [self documents])
+            [document close];
+    }
+
     return NSTerminateNow;
 }
 
@@ -283,20 +296,19 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // please do not change this method, i'm tired of fixing stuff over and over again!!!!!
 
     // setup alert, with options "Quit", "Select", "Create"
-    NSString *title = @"Choose OpenEmu Library";
-    NSString *const msg = @"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one";
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
 
-    NSString *chooseButton = @"Choose Library…";
-    NSString *createButton = @"Create Library…";
-    NSString *quitButton   = @"Quit";
+    alert.headlineText = NSLocalizedString(@"Choose OpenEmu Library", @"");
+    alert.messageText  = NSLocalizedString(@"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one", @"");
 
-    NSAlert *alert = [NSAlert alertWithMessageText:title defaultButton:chooseButton alternateButton:quitButton otherButton:createButton informativeTextWithFormat:msg];
-    [alert setIcon:[NSApp applicationIconImage]];
+    alert.defaultButtonTitle   = NSLocalizedString(@"Choose Library…", @"");
+    alert.alternateButtonTitle = NSLocalizedString(@"Create Library…", @"");
+    alert.otherButtonTitle     = NSLocalizedString(@"Quit", @"");
 
     NSInteger result;
     switch([alert runModal])
     {
-        case NSAlertAlternateReturn : return;
+        case NSAlertOtherReturn : return;
         case NSAlertDefaultReturn :
         {
             NSOpenPanel *openPanel = [NSOpenPanel openPanel];
@@ -319,7 +331,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             else [self OE_performDatabaseSelection];
         }
             break;
-        case NSAlertOtherReturn:
+        case NSAlertAlternateReturn :
         {
             NSSavePanel *savePanel = [NSSavePanel savePanel];
             [savePanel setNameFieldStringValue:@"OpenEmu Library"];

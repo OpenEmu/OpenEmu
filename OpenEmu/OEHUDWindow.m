@@ -358,7 +358,16 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
     NSPoint baseOrigin;
 }
 
+static NSImage *frameImage, *frameImageInactive;
 #pragma mark -
++ (void)initialize
+{
+    if(self != [OEHUDWindowThemeView class]) return;
+
+    NSRect centerRect = (NSRect){{14, 26}, {1, 1}};
+    frameImage = [[NSImage imageNamed:@"hud_window_active"] ninePartImageWithStretchedRect:centerRect];
+    frameImageInactive = [[NSImage imageNamed:@"hud_window_inactive"] ninePartImageWithStretchedRect:centerRect];
+}
 
 - (BOOL)isOpaque
 {
@@ -393,16 +402,14 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
     
     return titleBarRect;
 }
-
 - (void)drawRect:(NSRect)dirtyRect
 {
     [[NSColor clearColor] setFill];
     NSRectFill([self bounds]);
 
     BOOL isFocused = [[[self window] parentWindow] isKeyWindow] && [NSApp isActive];
-    
-    NSImage *borderImage = isFocused ? [NSImage imageNamed:@"hud_window_active"] : [NSImage imageNamed:@"hud_window_inactive"];
-    [borderImage drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver/*NSCompositeSourceOver*/ fraction:1.0 respectFlipped:YES hints:nil leftBorder:14 rightBorder:14 topBorder:23 bottomBorder:23];
+    NSImage *image = isFocused ? frameImage : frameImageInactive;
+    [image drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 
     // If the border window has been ordered out (e.g., when going full screen), [[self window] parentWindow] returns nil.
     // In this case, don’t bother drawing the window title

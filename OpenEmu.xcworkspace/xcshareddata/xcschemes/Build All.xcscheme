@@ -154,6 +154,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "82D8155D0F1D878700EF8CF5"
+               BuildableName = "Build &amp; Install TwoMbit"
+               BlueprintName = "Build &amp; Install TwoMbit"
+               ReferencedContainer = "container:TwoMbit/TwoMbit.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D15AC270486D014006FF6A4"
                BuildableName = "OpenEmu.app"
                BlueprintName = "OpenEmu"

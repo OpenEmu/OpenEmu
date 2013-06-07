@@ -31,6 +31,10 @@
 #import "NSColor+OEAdditions.h"
 #import <QuickLook/QuickLook.h>
 #import <objc/runtime.h>
+#import "OETheme.h"
+#import "OEThemeImage.h"
+
+NSString * const OECoverGridViewGlossDisabledKey = @"OECoverGridViewGlossDisabledKey";
 
 static const CGFloat OECoverGridViewCellTitleHeight                      = 16.0;        // Height of the title view
 static const CGFloat OECoverGridViewCellImageTitleSpacing                = 17.0;        // Space between the image and the title
@@ -44,7 +48,7 @@ static const CGFloat OECoverGridViewCellImageContainerTop    = 7.0;
 static const CGFloat OECoverGridViewCellImageContainerRight  = 13.0;
 static const CGFloat OECoverGridViewCellImageContainerBottom = OECoverGridViewCellTitleHeight + OECoverGridViewCellImageTitleSpacing + OECoverGridViewCellSubtitleHeight;
 
-__strong static NSImage *selectorRings[2] = {nil, nil};                                 // Cached selector ring images, loaded by +initialize
+__strong static OEThemeImage *selectorRingImage = nil;
 
 @interface OECoverGridViewCell ()
 
@@ -70,24 +74,15 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 @synthesize imageSize = _imageSize;
 @synthesize titleLayer = _titleLayer;
 
-+ (void)initialize
-{
-    // Initialize should only be ran once, subclasses should be rejected
-    if(self != [OECoverGridViewCell class]) return;
-
-    // The 'selector_ring' image contains 2 selectors (focused and unfocused).  The following code loads the selector_ring, creates 2 new images
-    // (or sub images) of the selector_ring, then caches a stretchable (9 part) image for rendering the selector rings.  The active selector is
-    // stored in element 0 and the inactive image is stored in element 1.
-    NSImage *selectorRing = [NSImage imageNamed:@"selector_ring"];
-
-    selectorRings[0] = [selectorRing subImageFromRect:CGRectMake(0.0, 0.0, 29.0, 29.0)];
-    selectorRings[1] = [selectorRing subImageFromRect:CGRectMake(29.0, 0.0, 29.0, 29.0)];
-}
-
 - (id)init
 {
     if((self = [super init]))
     {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            selectorRingImage = [[OETheme sharedTheme] themeImageForKey:@"selector_ring"];
+        });
+
         // Setup image
         _imageLayer = [[OEGridLayer alloc] init];
         [_imageLayer setDelegate:self];
@@ -170,6 +165,8 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
 - (NSImage *)OE_glossImage
 {
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewGlossDisabledKey]) return nil;
+    
     const NSSize  size     = [_glossyOverlayLayer frame].size;
     OEGridView   *gridView = [self gridView];
 
@@ -178,30 +175,49 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     NSImage *glossImage = [self OE_standardImageNamed:@"OECoverGridViewCellGlossImage" forGridView:gridView withSize:size];
     if(glossImage) return glossImage;
 
-    glossImage = [[NSImage alloc] initWithSize:size];
-    [glossImage lockFocus];
+    BOOL(^drawingBlock)(NSRect) = ^BOOL(NSRect dstRect)
+    {
+        NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
 
-    NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
-    [currentContext saveGraphicsState];
-    [currentContext setShouldAntialias:NO];
+        // Draw gloss image fit proportionally within the cell
+        NSImage *boxGlossImage = [NSImage imageNamed:@"box_gloss"];
+        CGRect   boxGlossFrame = CGRectMake(0.0, 0.0, size.width, floor(size.width * OECoverGridViewCellGlossWidthToHeightRatio));
+        boxGlossFrame.origin.y = size.height - CGRectGetHeight(boxGlossFrame);
+        [boxGlossImage drawInRect:boxGlossFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
 
-    // Draw gloss image fit proportionally within the cell
-    NSImage *boxGlossImage = [NSImage imageNamed:@"box_gloss"];
-    CGRect   boxGlossFrame = CGRectMake(0.0, 0.0, size.width, floor(size.width * OECoverGridViewCellGlossWidthToHeightRatio));
-    boxGlossFrame.origin.y = size.height - CGRectGetHeight(boxGlossFrame);
-    [boxGlossImage drawInRect:boxGlossFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+        [currentContext saveGraphicsState];
+        [currentContext setShouldAntialias:NO];
 
-    const CGRect bounds = CGRectMake(0.0, 0.0, size.width - 1.0, size.height - 1.0);
-    [[NSColor colorWithCalibratedWhite:1.0 alpha:0.4] setStroke];
-    [[NSBezierPath bezierPathWithRect:NSOffsetRect(bounds, 0.0, -1.0)] stroke];
+        const NSRect bounds = NSMakeRect(0.0, 0.0, size.width-0.5, size.height-0.5);
+        [[NSColor colorWithCalibratedWhite:1.0 alpha:0.4] setStroke];
+        [[NSBezierPath bezierPathWithRect:NSOffsetRect(bounds, 0.0, -1.0)] stroke];
 
-    [[NSColor blackColor] setStroke];
-    [[NSBezierPath bezierPathWithRect:bounds] stroke];
+        [[NSColor blackColor] setStroke];
+        NSBezierPath *path = [NSBezierPath bezierPathWithRect:bounds];
+        [path stroke];
 
-    [currentContext restoreGraphicsState];
-    [glossImage unlockFocus];
+        [currentContext restoreGraphicsState];
 
-    // Cache the image for later use
+        return YES;
+    };
+
+    int major, minor;
+    GetSystemVersion(&major, &minor, NULL);
+    if(major == 10 && minor >= 8)
+    {
+        glossImage = [NSImage imageWithSize:size flipped:NO drawingHandler:drawingBlock];
+    }
+    else
+    {
+        NSRect dstRect = (NSRect){{0,0}, size};
+        glossImage = [[NSImage alloc] initWithSize:size];
+        [glossImage lockFocus];
+
+        drawingBlock(dstRect);
+
+        [glossImage unlockFocus];
+    }
+    
     [self OE_setStandardImage:glossImage named:@"OECoverGridViewCellGlossImage" forGridView:gridView];
 
     return glossImage;
@@ -255,49 +271,69 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     NSImage  *selectionImage = [self OE_standardImageNamed:imageKey forGridView:gridView withSize:size];
     if(selectionImage) return selectionImage;
 
-    selectionImage = [[NSImage alloc] initWithSize:size];
-    [selectionImage lockFocus];
-
-    NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
-    [currentContext saveGraphicsState];
-    [currentContext setShouldAntialias:NO];
-
-    // Draw gradient
-    const CGRect bounds = CGRectMake(0.0, 0.0, size.width, size.height);
-    NSBezierPath *gradientPath = [NSBezierPath bezierPathWithRoundedRect:CGRectInset(bounds, 2.0, 3.0) xRadius:8.0 yRadius:8.0];
-    [gradientPath appendBezierPath:[NSBezierPath bezierPathWithRoundedRect:CGRectInset(bounds, 8.0, 8.0) xRadius:1.0 yRadius:1.0]];
-    [gradientPath setWindingRule:NSEvenOddWindingRule];
-
-    NSColor *topColor;
-    NSColor *bottomColor;
-
-    if(_activeSelector)
+    BOOL(^drawingBlock)(NSRect) = ^BOOL(NSRect dstRect)
     {
-        topColor = [NSColor colorWithCalibratedRed:0.243 green:0.502 blue:0.871 alpha:1.0];
-        bottomColor = [NSColor colorWithCalibratedRed:0.078 green:0.322 blue:0.667 alpha:1.0];
+        NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
+        [currentContext saveGraphicsState];
+        [currentContext setShouldAntialias:NO];
+
+        // Draw gradient
+        const CGRect bounds = CGRectMake(0.0, 0.0, size.width, size.height);
+        NSBezierPath *gradientPath = [NSBezierPath bezierPathWithRoundedRect:CGRectInset(bounds, 2.0, 3.0) xRadius:8.0 yRadius:8.0];
+        [gradientPath appendBezierPath:[NSBezierPath bezierPathWithRoundedRect:CGRectInset(bounds, 8.0, 8.0) xRadius:1.0 yRadius:1.0]];
+        [gradientPath setWindingRule:NSEvenOddWindingRule];
+
+        NSColor *topColor;
+        NSColor *bottomColor;
+
+        if(_activeSelector)
+        {
+            topColor = [NSColor colorWithCalibratedRed:0.243 green:0.502 blue:0.871 alpha:1.0];
+            bottomColor = [NSColor colorWithCalibratedRed:0.078 green:0.322 blue:0.667 alpha:1.0];
+        }
+        else
+        {
+            topColor = [NSColor colorWithCalibratedWhite:0.651 alpha:1.0];
+            bottomColor = [NSColor colorWithCalibratedWhite:0.439 alpha:1.0];
+        }
+
+        NSGradient *graident = [[NSGradient alloc] initWithStartingColor:topColor endingColor:bottomColor];
+        [graident drawInBezierPath:gradientPath angle:270.0];
+
+        [currentContext restoreGraphicsState];
+        [currentContext saveGraphicsState];
+
+        // Draw selection border
+        OEThemeState currentState = [OEThemeObject themeStateWithWindowActive:YES buttonState:NSMixedState selected:NO enabled:YES focused:_activeSelector houseHover:YES modifierMask:YES];
+        NSImage *image  = [selectorRingImage imageForState:currentState];
+                dstRect = NSMakeRect(0.0, 0.0, size.width, size.height);
+        [image drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+
+        [currentContext restoreGraphicsState];
+
+        return YES;
+    };
+
+    int major, minor;
+    GetSystemVersion(&major, &minor, NULL);
+    if(major == 10 && minor >= 8)
+    {
+        selectionImage = [NSImage imageWithSize:size flipped:NO drawingHandler:drawingBlock];
     }
     else
     {
-        topColor = [NSColor colorWithCalibratedWhite:0.651 alpha:1.0];
-        bottomColor = [NSColor colorWithCalibratedWhite:0.439 alpha:1.0];
+        selectionImage = [[NSImage alloc] initWithSize:size];
+        [selectionImage lockFocus];
+
+        NSRect destinationRect = (NSRect){{0,0}, size};
+        drawingBlock(destinationRect);
+
+        [selectionImage unlockFocus];
     }
-
-    NSGradient *graident = [[NSGradient alloc] initWithStartingColor:topColor endingColor:bottomColor];
-    [graident drawInBezierPath:gradientPath angle:270.0];
-
-    [currentContext restoreGraphicsState];
-    [currentContext saveGraphicsState];
-
-    // Draw selection border
-    NSImage *image = selectorRings[(_activeSelector ? 0 : 1)];
-    [image drawInRect:NSMakeRect(0.0, 0.0, size.width, size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:14.0 rightBorder:14.0 topBorder:14.0 bottomBorder:14.0];
-
-    [currentContext restoreGraphicsState];
-    [selectionImage unlockFocus];
 
     // Cache the image for later use
     [self OE_setStandardImage:selectionImage named:imageKey forGridView:gridView];
-
+    
     return selectionImage;
 }
 
@@ -393,6 +429,13 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
 - (void)didMoveToSuperlayer
 {
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    [self setContentsScale:[[self superlayer] contentsScale]];
+    for(CALayer *layer in [self sublayers])
+        [layer setContentsScale:[self contentsScale]];
+    [CATransaction commit];
+    
     [self OE_updateActiveSelector];
 }
 
@@ -756,6 +799,21 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     return [self title];
 }
 
+- (BOOL)layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window
+{
+    if([layer isKindOfClass:[OECoverGridViewCellRatingLayer class]])
+    {
+        [CATransaction begin];
+        [CATransaction setDisableActions:YES];
+
+        layer.contentsScale = newScale;
+
+        [CATransaction commit];
+        [layer setNeedsDisplay];
+        return NO;
+    }
+    return YES;
+}
 #pragma mark - NSControlSubclassNotifications
 - (void)controlTextDidBeginEditing:(NSNotification *)aNotification
 {

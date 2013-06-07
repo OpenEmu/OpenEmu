@@ -26,7 +26,6 @@
 
 #import "OEWSSystemResponder.h"
 #import "OEWSSystemResponderClient.h"
-#import "OEEvent.h"
 
 @implementation OEWSSystemResponder
 @dynamic client;

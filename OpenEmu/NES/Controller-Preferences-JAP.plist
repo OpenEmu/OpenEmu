@@ -3,27 +3,27 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_fc.png</string>
+	<string>controller_fc</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_fc_mask.png</string>
+	<string>controller_fc_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OENESButtonUp</key>
-		<string>{159, 137}</string>
+		<string>{109, 225}</string>
 		<key>OENESButtonDown</key>
-		<string>{159, 90}</string>
+		<string>{109, 178}</string>
 		<key>OENESButtonLeft</key>
-		<string>{136, 113}</string>
+		<string>{86, 201}</string>
 		<key>OENESButtonRight</key>
-		<string>{183, 113}</string>
+		<string>{133, 201}</string>
 		<key>OENESButtonStart</key>
-		<string>{260, 92}</string>
+		<string>{259, 180}</string>
 		<key>OENESButtonSelect</key>
-		<string>{309, 92}</string>
+		<string>{210, 180}</string>
 		<key>OENESButtonA</key>
-		<string>{449, 95}</string>
+		<string>{399, 183}</string>
 		<key>OENESButtonB</key>
-		<string>{391, 95}</string>
+		<string>{341, 183}</string>
 	</dict>
 </dict>
 </plist>

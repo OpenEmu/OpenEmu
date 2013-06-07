@@ -2189,14 +2189,14 @@
 				<integer>1536</integer>
 				<key>Values</key>
 				<dict>
-					<key>OEControllerNintendoWiiUProControllerRightAnalogUp</key>
+					<key>OEControllerWiimoteClassicRightAnalogUp</key>
 					<dict>
 						<key>Direction</key>
 						<integer>-1</integer>
 						<key>Name</key>
 						<string>Right Analog Up</string>
 					</dict>
-					<key>OEControllerNintendoWiiUProControllerRightAnalogDown</key>
+					<key>OEControllerWiimoteClassicRightAnalogDown</key>
 					<dict>
 						<key>Direction</key>
 						<integer>1</integer>

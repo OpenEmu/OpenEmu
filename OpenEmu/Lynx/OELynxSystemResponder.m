@@ -26,7 +26,6 @@
 
 #import "OELynxSystemResponder.h"
 #import "OELynxSystemResponderClient.h"
-#import "OEEvent.h"
 
 @implementation OELynxSystemResponder
 @dynamic client;

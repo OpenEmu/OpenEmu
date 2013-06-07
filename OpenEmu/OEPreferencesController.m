@@ -272,6 +272,8 @@ NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     [standardDefaults setInteger:selectedTab forKey:OESelectedPreferencesTabKey];
     [self setVisiblePaneIndex:selectedTab];
+
+    [[self window] makeFirstResponder:[nextPane view]];
 }
 
 - (void)OE_showView:(NSView *)view atSize:(NSSize)size animate:(BOOL)animateFlag

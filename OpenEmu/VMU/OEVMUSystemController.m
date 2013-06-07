@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2011, OpenEmu Team
  
- 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -28,7 +27,6 @@
 #import "OEVMUSystemController.h"
 #import "OEVMUSystemResponder.h"
 #import "OEVMUSystemResponderClient.h"
-#import "OELocalizationHelper.h"
 
 @implementation OEVMUSystemController
 

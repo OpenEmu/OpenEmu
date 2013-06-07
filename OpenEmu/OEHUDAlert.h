@@ -99,7 +99,3 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 @property (copy) NSString *suppressionUDKey;
 @property (copy) NSString *suppressionLabelText; // default is "Do not ask me again", can be changed (e.g. if alert is too small)
 @end
-
-
-
-

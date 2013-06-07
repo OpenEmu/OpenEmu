@@ -123,14 +123,14 @@ static NSArray *OE_defaultSortDescriptors;
     NSImage *image = [NSImage imageNamed:@"list_indicators"];
     
     // unselected states
-    [image setName:@"list_indicators_playing" forSubimageInRect:NSMakeRect(0, 24, 12, 12)];
-    [image setName:@"list_indicators_missing" forSubimageInRect:NSMakeRect(0, 12, 12, 12)];
-    [image setName:@"list_indicators_unplayed" forSubimageInRect:NSMakeRect(0, 0, 12, 12)];
+    [image setName:@"list_indicators_playing" forSubimageInRect:NSMakeRect(0, 32, 12, 12)];
+    [image setName:@"list_indicators_missing" forSubimageInRect:NSMakeRect(0, 24, 12, 12)];
+    [image setName:@"list_indicators_unplayed" forSubimageInRect:NSMakeRect(0, 12, 12, 12)];
     
     // selected states
-    [image setName:@"list_indicators_playing_selected" forSubimageInRect:NSMakeRect(12, 24, 12, 12)];
-    [image setName:@"list_indicators_missing_selected" forSubimageInRect:NSMakeRect(12, 12, 12, 12)];
-    [image setName:@"list_indicators_unplayed_selected" forSubimageInRect:NSMakeRect(12, 0, 12, 12)];
+    [image setName:@"list_indicators_playing_selected" forSubimageInRect:NSMakeRect(12, 32, 12, 12)];
+    [image setName:@"list_indicators_missing_selected" forSubimageInRect:NSMakeRect(12, 24, 12, 12)];
+    [image setName:@"list_indicators_unplayed_selected" forSubimageInRect:NSMakeRect(12, 12, 12, 12)];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OELastGridSizeKey : @1.0f }];
 }
@@ -296,10 +296,10 @@ static NSArray *OE_defaultSortDescriptors;
     
     int           selectedViewTag;
     float         sliderValue;
-    NSIndexSet   *selectionIndexes;
+    NSIndexSet   *selectionIndexes = [NSIndexSet indexSet];
     NSDictionary *listViewHeaderState = nil;
     NSArray      *listViewSortDescriptors = nil;
-    NSRect        gridViewVisibleRect;
+    NSRect        gridViewVisibleRect = NSZeroRect;
     
     NSSlider     *sizeSlider     = [[self libraryController] toolbarSlider];
     NSTextField  *searchField    = [[self libraryController] toolbarSearchField];
@@ -1461,7 +1461,6 @@ static NSArray *OE_defaultSortDescriptors;
 #define reloadDelay 0.5
 - (void)OE_managedObjectContextDidUpdate:(NSNotification *)notification
 {
-    DLog();
     NSPredicate *predicateForGame = [NSPredicate predicateWithFormat:@"entity = %@", [NSEntityDescription entityForName:@"Game" inManagedObjectContext:[notification object]]];
     NSSet *insertedGames          = [[[notification userInfo] objectForKey:NSInsertedObjectsKey] filteredSetUsingPredicate:predicateForGame];
     NSSet *deletedGames           = [[[notification userInfo] objectForKey:NSDeletedObjectsKey] filteredSetUsingPredicate:predicateForGame];

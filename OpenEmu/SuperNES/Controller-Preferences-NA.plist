@@ -3,6 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_snes_usa.png</string>
+	<string>controller_snes_usa</string>
 </dict>
 </plist>

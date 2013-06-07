@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_n64.png</string>
+	<string>controller_n64</string>
 	<key>OEControllerImageMaskKey</key>
-	<string></string>
+	<string>controller_n64_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEN64ButtonDPadUp</key>

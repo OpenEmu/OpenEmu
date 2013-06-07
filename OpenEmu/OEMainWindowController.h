@@ -34,16 +34,16 @@ extern NSString *const OEMainWindowFullscreenKey;
 @class OELibraryController;
 
 @interface OEMainWindowController : NSWindowController <NSWindowDelegate>
-@property(strong) IBOutlet OELibraryController *libraryController;
 
-@property(nonatomic, strong) NSViewController  *currentContentController;
-@property(nonatomic, strong) NSViewController  *defaultContentController;
-@property                    BOOL               allowWindowResizing;
-@property(readonly)          NSUInteger         gamesRunning;
-@property(readonly)          BOOL               mainWindowRunsGame;
+@property IBOutlet OELibraryController *libraryController;
+@property(weak) IBOutlet NSView *placeholderView;
+
+@property(nonatomic) NSViewController  *currentContentController;
+@property(nonatomic) NSViewController  *defaultContentController;
+@property            BOOL               allowWindowResizing;
+@property(readonly)  BOOL               mainWindowRunsGame;
 
 - (void)openGameDocument:(OEGameDocument *)aDocument;
 - (IBAction)undockGameWindow:(id)sender;
-@property(weak) IBOutlet NSView *placeholderView;
 
 @end

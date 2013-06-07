@@ -43,6 +43,8 @@
 #import "OEFSWatcher.h"
 #import "OEROMImporter.h"
 
+#import "NSURL+OELibraryAdditions.h"
+
 #import <OpenEmuBase/OpenEmuBase.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
@@ -52,6 +54,8 @@ NSString *const OESaveStateLastFSEventIDKey  = @"lastSaveStateEventID";
 
 NSString *const OELibraryDatabaseUserInfoKey = @"OELibraryDatabase";
 NSString *const OESaveStateFolderURLKey      = @"saveStateFolder";
+
+NSString *const OELibraryRomsFolderURLKey    = @"romsFolderURL";
 
 @interface OELibraryDatabase ()
 {
@@ -72,12 +76,11 @@ NSString *const OESaveStateFolderURLKey      = @"saveStateFolder";
 - (void)OE_setupStateWatcher;
 - (void)OE_removeStateWatcher;
 
-- (void)OE_resumeArchiveSync;
-
 @property(strong) OEFSWatcher *saveStateWatcher;
 @property(copy)   NSURL       *databaseURL;
 @property(strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
+@property (strong) NSThread *syncThread;
 @end
 
 static OELibraryDatabase *defaultDatabase = nil;
@@ -124,7 +127,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [[defaultDatabase importer] start];
-        [defaultDatabase OE_resumeArchiveSync];
+        [defaultDatabase startArchiveVGSync];
     });
 
     return YES;
@@ -173,6 +176,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         return NO;
     }
 
+    DLog(@"ROMS folder url: %@", [self romsFolderURL]);
     return YES;
 }
 
@@ -223,17 +227,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     }
 
     NSLog(@"Did save Database");
-}
-- (void)OE_resumeArchiveSync
-{
-    NSManagedObjectContext *moc = [self managedObjectContext];
-    NSFetchRequest *fetchReq = [[NSFetchRequest alloc] initWithEntityName:@"Game"];
-    NSPredicate *fetchPred = [NSPredicate predicateWithFormat:@"status == %d", OEDBGameStatusProcessing];
-    [fetchReq setPredicate:fetchPred];
-    NSArray *games = [moc executeFetchRequest:fetchReq error:NULL];
-    [games enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [obj setNeedsArchiveSync];
-    }];
 }
 
 #pragma mark - Administration
@@ -780,12 +773,51 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSURL *)romsFolderURL
 {
-    NSString *romsFolderName = NSLocalizedString(@"roms", @"Roms Folder Name");
+    NSPersistentStore *persistentStore = [[[self persistentStoreCoordinator] persistentStores] lastObject];
+    NSDictionary *metadata = [[self persistentStoreCoordinator] metadataForPersistentStore:persistentStore];
+    if([metadata objectForKey:OELibraryRomsFolderURLKey])
+    {
+        NSString *urlString = [metadata objectForKey:OELibraryRomsFolderURLKey];
+        if([urlString rangeOfString:@"file://"].location==NSNotFound)
+            return [NSURL URLWithString:urlString relativeToURL:[self databaseFolderURL]];
+        return [NSURL URLWithString:urlString];
+    }
+    else
+    {
+        NSURL *result = [[self databaseFolderURL] URLByAppendingPathComponent:@"roms" isDirectory:YES];
+        [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+        [self setRomsFolderURL:result];
+        return result;
+    }
+}
 
-    NSURL *result = [[self databaseFolderURL] URLByAppendingPathComponent:romsFolderName isDirectory:YES];
-    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+- (void)setRomsFolderURL:(NSURL *)url
+{
+    if(url != nil)
+    {
+        NSError             *error             = nil;
+        NSPersistentStore   *persistentStore   = [[[self persistentStoreCoordinator] persistentStores] lastObject];
+        NSDictionary        *metadata          = [persistentStore metadata];
+        NSMutableDictionary *mutableMetaData   = [metadata mutableCopy];
+        NSURL               *databaseFolderURL = [self databaseFolderURL];
 
-    return result;
+        if([url isSubpathOfURL:databaseFolderURL])
+        {
+            NSString *urlString = [[url absoluteString] substringFromIndex:[[databaseFolderURL absoluteString] length]];
+            [mutableMetaData setObject:[@"./" stringByAppendingString:urlString] forKey:OELibraryRomsFolderURLKey];
+        }
+        else [mutableMetaData setObject:[url absoluteString] forKey:OELibraryRomsFolderURLKey];
+
+        // Using the instance method sets the metadata for the current store in memory, while
+        // using the class method writes to disk immediately. Calling both seems redundant
+        // but is the only way i found that works.
+        //
+        // Also see discussion at http://www.cocoabuilder.com/archive/cocoa/295041-setting-not-saving-nspersistentdocument-metadata-changes-file-modification-date.html
+        [[self persistentStoreCoordinator] setMetadata:mutableMetaData forPersistentStore:persistentStore];
+        [NSPersistentStoreCoordinator setMetadata:mutableMetaData forPersistentStoreOfType:[persistentStore type] URL:[persistentStore URL] error:&error];
+
+        [self save:nil];
+    }
 }
 
 - (NSURL *)unsortedRomsFolderURL
@@ -849,12 +881,41 @@ static OELibraryDatabase *defaultDatabase = nil;
     [[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:nil];
     return url;
 }
+
 - (NSURL *)importQueueURL
 {
     NSURL *baseURL = [self databaseFolderURL];
     return [baseURL URLByAppendingPathComponent:@"Import Queue.db"];
 }
 
+#pragma mark - ArchiveVG Sync
+- (void)startArchiveVGSync
+{
+    if(_syncThread == nil || [_syncThread isFinished])
+    {
+        _syncThread = [[NSThread alloc] initWithTarget:self selector:@selector(archiveVGSyncThread) object:nil];
+        [_syncThread start];
+    }
+}
+
+- (void)archiveVGSyncThread
+{
+    NSArray        *result    = nil;
+    NSError        *error     = nil;
+    NSFetchRequest *request   = [[NSFetchRequest alloc] initWithEntityName:[OEDBGame entityName]];
+    NSPredicate    *predicate = [NSPredicate predicateWithFormat:@"status==%d", OEDBGameStatusProcessing];
+
+    [request setFetchLimit:1];
+    [request setPredicate:predicate];
+
+    while((result=[[self managedObjectContext] executeFetchRequest:request error:&error]) && [result count])
+    {
+        @autoreleasepool {
+            OEDBGame *game = [result lastObject];
+            [game performArchiveSync];
+        }
+    }
+}
 #pragma mark - Debug
 
 - (void)dump

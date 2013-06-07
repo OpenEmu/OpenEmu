@@ -108,9 +108,6 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 {
     [_gameAudio setVolume:1.0];
 
-    // init resources
-    [self setupOpenGLOnScreen:[NSScreen mainScreen]];
-
     if(![_gameCore rendersToOpenGL])
         [self setupGameTexture];
 
@@ -184,6 +181,9 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
     CGLContextObj cgl_ctx = _glContext;
 
+    // Ensure our context is set for clients not able to use CGL Macros.
+    CGLSetCurrentContext(cgl_ctx);
+    
     const GLubyte *vendor = glGetString(GL_VENDOR);
     const GLubyte *renderer = glGetString(GL_RENDERER);
     _hasSlowClientStorage = strstr((const char*)vendor, "Intel") || strstr((const char*)renderer, "NVIDIA GeForce 9600M GT OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce 8600M GT OpenGL Engine") != NULL;
@@ -561,7 +561,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 #pragma mark -
 #pragma mark Game Core methods
 
-- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath
+- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath withSystemIdentifier:(bycopy NSString *)systemIdentifier
 {
     aPath = [aPath stringByStandardizingPath];
     BOOL isDir;
@@ -589,6 +589,8 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
         [_gameCore setOwner:_gameController];
         [_gameCore setRenderDelegate:self];
         [_gameCore setAudioDelegate:self];
+
+        [_gameCore setSystemIdentifier:systemIdentifier];
 
         DLog(@"Loaded bundle. About to load rom...");
 
@@ -696,6 +698,13 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 {
     NSLog(@"Setting up emulation");
 
+    // Move our OpenGL setup before we init our core
+    // So that any GameCores that require OpenGL, can have it prepped.
+    // Cores can get the current CGLContext via CGLGetCurrentContext
+    
+    // init resources
+    [self setupOpenGLOnScreen:[NSScreen mainScreen]];
+    
     [_gameCore setupEmulation];
 
     // audio!

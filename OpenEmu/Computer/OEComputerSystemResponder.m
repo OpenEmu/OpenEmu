@@ -26,7 +26,6 @@
 
 #import "OEComputerSystemResponder.h"
 #import "OEComputerSystemResponderClient.h"
-#import "OEEvent.h"
 
 @implementation OEComputerSystemResponder
 @dynamic client;

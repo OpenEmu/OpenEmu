@@ -24,29 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import <Foundation/Foundation.h>
-#import "OEUIDrawingUtils.h"
 
-@interface OESearchFieldCell : NSSearchFieldCell 
-{
-@private
-    NSDictionary *active;
-    NSDictionary *disabled;
-    
-    NSDictionary *placeholder;
-    
-    NSDictionary *current;
-}
-#pragma mark -
-- (NSRect)imageRectForState:(OEUIState)state;
-- (void)setStylesForState:(OEUIState)state;
-- (NSImage*)searchButtonImageForState:(OEUIState)state;
-- (NSImage*)alternateSearchButtonImageForState:(OEUIState)state;
-
-@property BOOL isInBackground;
-@end
-
-@interface OESearchField : NSSearchField 
-{
-@private
-}
+#import "OETheme.h"
+#import "OECell.h"
+@interface OESearchFieldCell : NSSearchFieldCell <OECell>
+- (void)setSelectedThemeTextAttributesKey:(NSString*)key;
+@property OEThemeTextAttributes *selectedThemeTextAttributes;
 @end

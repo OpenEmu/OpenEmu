@@ -3,25 +3,25 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_gamegear.png</string>
+	<string>controller_gamegear</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_gamegear_mask.png</string>
+	<string>controller_gamegear_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEGGButtonUp</key>
-		<string>{123, 180}</string>
+		<string>{73, 268}</string>
 		<key>OEGGButtonDown</key>
-		<string>{123, 140}</string>
+		<string>{73, 228}</string>
 		<key>OEGGButtonLeft</key>
-		<string>{105, 160}</string>
+		<string>{55, 248}</string>
 		<key>OEGGButtonRight</key>
-		<string>{145, 160}</string>
+		<string>{95, 248}</string>
 		<key>OEGGButtonA</key>
-		<string>{454, 132}</string>
+		<string>{404, 220}</string>
 		<key>OEGGButtonB</key>
-		<string>{487, 160}</string>
+		<string>{437, 248}</string>
 		<key>OEGGButtonStart</key>
-		<string>{450, 200}</string>
+		<string>{400, 288}</string>
 	</dict>
 </dict>
 </plist>

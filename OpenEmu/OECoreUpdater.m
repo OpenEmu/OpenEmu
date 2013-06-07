@@ -130,52 +130,56 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 - (void)checkForNewCores:(NSNumber *)fromModal
 {
     NSURL         *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
-    NSXMLDocument *coreListDoc = [[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:NULL];
-    NSArray       *coreNodes   = nil;
-
-    if(coreListDoc != nil) coreNodes = [coreListDoc nodesForXPath:@"/cores/core" error:NULL];
-
-    if(coreNodes != nil)
-    {
-        for(NSXMLElement *coreNode in coreNodes)
-        {
-            NSString *coreId = [self lowerCaseID:[[coreNode attributeForName:@"id"] stringValue]];
-            if([_coresDict objectForKey:coreId] != nil) continue;
-
-            OECoreDownload *download = [[OECoreDownload alloc] init];
-            [download setName:[[coreNode attributeForName:@"name"] stringValue]];
-
-            NSArray *nodes = [coreNode nodesForXPath:@"./systems/system" error:NULL];
-            NSMutableArray *systemNames = [NSMutableArray arrayWithCapacity:[nodes count]];
-            NSMutableArray *systemIdentifiers = [NSMutableArray arrayWithCapacity:[nodes count]];
-            [nodes enumerateObjectsUsingBlock:
-             ^(NSXMLElement *systemNode, NSUInteger idx, BOOL *stop)
-             {
-                 NSString *systemName = [systemNode objectValue];
-                 NSString *systemIdentifier = [[systemNode attributeForName:@"id"] objectValue];
-
-                 [systemNames addObject:systemName];
-                 [systemIdentifiers addObject:systemIdentifier];
-             }];
-
-            [download setSystemNames:systemNames];
-            [download setSystemIdentifiers:systemIdentifiers];
-            [download setCanBeInstalled:YES];
-
-            NSURL *appcastURL = [NSURL URLWithString:[[coreNode attributeForName:@"appcastURL"] stringValue]];
-            download.appcast = [[SUAppcast alloc] init];
-            [download.appcast setDelegate:self];
-
-            if([fromModal boolValue])
-                [[download appcast] performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO modes:[NSArray arrayWithObject:NSModalPanelRunLoopMode]];
-            else
-                [[download appcast] performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO];
-
-            [_coresDict setObject:download forKey:coreId];
-        }
-    }
-
-    [self OE_updateCoreList];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSXMLDocument *coreListDoc = [[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:NULL];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSArray       *coreNodes   = nil;
+            
+            if(coreListDoc != nil) coreNodes = [coreListDoc nodesForXPath:@"/cores/core" error:NULL];
+            
+            if(coreNodes != nil)
+            {
+                for(NSXMLElement *coreNode in coreNodes)
+                {
+                    NSString *coreId = [self lowerCaseID:[[coreNode attributeForName:@"id"] stringValue]];
+                    if([_coresDict objectForKey:coreId] != nil) continue;
+                    
+                    OECoreDownload *download = [[OECoreDownload alloc] init];
+                    [download setName:[[coreNode attributeForName:@"name"] stringValue]];
+                    
+                    NSArray *nodes = [coreNode nodesForXPath:@"./systems/system" error:NULL];
+                    NSMutableArray *systemNames = [NSMutableArray arrayWithCapacity:[nodes count]];
+                    NSMutableArray *systemIdentifiers = [NSMutableArray arrayWithCapacity:[nodes count]];
+                    [nodes enumerateObjectsUsingBlock:
+                     ^(NSXMLElement *systemNode, NSUInteger idx, BOOL *stop)
+                     {
+                         NSString *systemName = [systemNode objectValue];
+                         NSString *systemIdentifier = [[systemNode attributeForName:@"id"] objectValue];
+                         
+                         [systemNames addObject:systemName];
+                         [systemIdentifiers addObject:systemIdentifier];
+                     }];
+                    
+                    [download setSystemNames:systemNames];
+                    [download setSystemIdentifiers:systemIdentifiers];
+                    [download setCanBeInstalled:YES];
+                    
+                    NSURL *appcastURL = [NSURL URLWithString:[[coreNode attributeForName:@"appcastURL"] stringValue]];
+                    download.appcast = [[SUAppcast alloc] init];
+                    [download.appcast setDelegate:self];
+                    
+                    if([fromModal boolValue])
+                        [[download appcast] performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO modes:[NSArray arrayWithObject:NSModalPanelRunLoopMode]];
+                    else
+                        [[download appcast] performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO];
+                    
+                    [_coresDict setObject:download forKey:coreId];
+                }
+            }
+            
+            [self OE_updateCoreList];
+        });
+    });
 }
 
 #pragma mark -

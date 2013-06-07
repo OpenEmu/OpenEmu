@@ -276,5 +276,4 @@
     const CGFloat x = floor(NSMinX(frame) + [[[self cell] attributedTitle] size].width + 27);
     return NSMakePoint(x, y);
 }
-
 @end

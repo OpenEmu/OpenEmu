@@ -404,10 +404,11 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     
     OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inDatabase:[self database] error:&error];
     if(rom == nil) rom = [OEDBRom romWithCRC32HashString:crc inDatabase:[self database] error:&error];
-    
+
     if(rom != nil)
     {
         NSURL *romURL = [rom URL];
+        [[item importInfo] setValue:[[rom objectID] URIRepresentation] forKey:OEImportInfoROMObjectID];
         if(![romURL checkResourceIsReachableAndReturnError:&error])
         {
             DLog(@"rom file not available");
@@ -415,12 +416,12 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             // TODO: depending on error finish here with 'already present' success
             // if the error says something like volume could not be found we might want to skip import because the file is probably on an external HD that is currently not connected
             // but if it just says the file was deleted we should replace the rom's url with the new one and continue importing
-            [[item importInfo] setValue:[[rom objectID] URIRepresentation] forKey:OEImportInfoROMObjectID];
         }
         else
         {
             // TODO: set user info for error
             NSError *error = [NSError errorWithDomain:OEImportErrorDomainSuccess code:OEImportErrorCodeAlreadyInDatabase userInfo:nil];
+
             [self stopImportForItem:item withError:error];
         }
     }
@@ -742,16 +743,17 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 - (void)cleanupImportForItem:(OEImportItem *)item
 {
     NSError *error = [item error];
+
     if(error && [[error domain] isEqualTo:OEImportErrorDomainResolvable])
         return;
-    
+
     if([item importState] == OEImportItemStatusFinished)
     {
         OEDBRom *rom = nil;
         NSURL *romID = [[item importInfo] objectForKey:OEImportInfoROMObjectID];
         if(romID)
             rom = [[self database] objectWithURI:romID];
-        
+
         if(rom && [[item importInfo] objectForKey:OEImportInfoCollectionID])
         {
             id collection = [[rom libraryDatabase] objectWithURI:[[item importInfo] objectForKey:OEImportInfoCollectionID]];
@@ -762,8 +764,8 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         }
         
         [[self database] save:nil];
-        
-        if (rom && [[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey]) {
+
+        if (!([error code]==OEImportErrorCodeAlreadyInDatabase && [[error domain] isEqualTo:OEImportErrorDomainSuccess]) && rom && [[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey]) {
             [[rom game] setNeedsArchiveSync];
         }
     }

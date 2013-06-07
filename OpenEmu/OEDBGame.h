@@ -84,6 +84,7 @@ extern NSString *const OEDisplayGameTitle;
 #pragma mark Archive.VG Sync
 - (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary;
 - (void)setNeedsArchiveSync;
+- (void)performArchiveSync; // will blocks until results arrive
 
 - (id)mergeInfoFromGame:(OEDBGame *)game;
 

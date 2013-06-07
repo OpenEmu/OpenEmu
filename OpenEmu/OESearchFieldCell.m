@@ -25,341 +25,361 @@
  */
 
 #import "OESearchFieldCell.h"
-#import "NSImage+OEDrawingAdditions.h"
+#import "OEControl.h"
+
+@interface OESearchFieldFieldEditor : NSTextView
+@end
+
+@interface OESearchFieldCell ()
+{
+    NSMutableParagraphStyle *_style;  // Cached paragraph style used to render text
+}
+- (void)updatePlaceholder;
+- (NSDictionary*)_textAttributes; // Apple Private Override
+@property OESearchFieldFieldEditor *fieldEditor;
+@property (nonatomic)  BOOL isEditing;
+@end
 
 @implementation OESearchFieldCell
-@synthesize isInBackground;
-
-- (id)initWithCoder:(NSCoder *)coder
+- (id)initImageCell:(NSImage *)image
 {
-    self = [super initWithCoder:coder];
-    if(self) 
+    self = [super initImageCell:image];
+    if(self)
     {
-        NSColor *activeColor = [NSColor colorWithDeviceWhite:0.89 alpha:1.0];
-        NSColor *disabledColor = [NSColor colorWithDeviceWhite:0.33 alpha:1.0];
-        NSColor *placeholderColor = [NSColor colorWithDeviceWhite:0.52 alpha:1.0];
-        
-        [self setAllowsEditingTextAttributes:NO];
-        
-        NSShadow *shadow = [NSShadow new];
-        NSParagraphStyle *paraStyle = [NSParagraphStyle new];
-        
-        [shadow setShadowBlurRadius:1];
-        [shadow setShadowOffset:NSMakeSize(0, -1)];
-        [shadow setShadowColor:[NSColor colorWithDeviceWhite:0 alpha:0.5]];
-
-        
-        NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0];
-        placeholder  = [NSDictionary dictionaryWithObjectsAndKeys:
-                        placeholderColor ,NSForegroundColorAttributeName,
-                        font, NSFontAttributeName,
-                        shadow, NSShadowAttributeName,
-                        paraStyle, NSParagraphStyleAttributeName,
-                        nil];
-        active       = [NSDictionary dictionaryWithObjectsAndKeys:
-                        activeColor ,NSForegroundColorAttributeName,
-                        font, NSFontAttributeName,
-                        shadow, NSShadowAttributeName,
-                        paraStyle, NSParagraphStyleAttributeName,
-                        nil];
-        disabled     = [NSDictionary dictionaryWithObjectsAndKeys:
-                        disabledColor ,NSForegroundColorAttributeName,
-                        font, NSFontAttributeName,
-                        shadow, NSShadowAttributeName,
-                        paraStyle, NSParagraphStyleAttributeName,
-                        nil];
-
-        current = [self isEnabled]?active:disabled;
-        
-        [self setFont:font];
-        
-        if(![NSImage imageNamed:@"search_cancel_active"])
-        {
-            // Load and split cnacel button
-            NSImage *image = [NSImage imageNamed:@"search_cancel"];
-            [image setName:@"search_cancel_active" forSubimageInRect:NSMakeRect(0, 0, 20, 20)];
-            [image setName:@"search_cancel_pressed" forSubimageInRect:NSMakeRect(20, 0, 20, 20)];
-            
-            // load and split loupe button
-            image = [NSImage imageNamed:@"search_loupe"];
-            [image setName:@"search_loupe_disabled" forSubimageInRect:NSMakeRect(0, 0, 13, 14)];
-            [image setName:@"search_loupe_inactive" forSubimageInRect:NSMakeRect(13, 0, 13, 14)];
-            [image setName:@"search_loupe_active" forSubimageInRect:NSMakeRect(26, 0, 13, 14)];
-        }
-        
-        [[self searchButtonCell] setImageDimsWhenDisabled:NO];
-        [[self searchButtonCell] setImageScaling:NSScaleNone];
-        
-        [[self cancelButtonCell] setImage:[NSImage imageNamed:@"search_cancel_active"]];
-        [[self cancelButtonCell] setAlternateImage:[NSImage imageNamed:@"search_cancel_pressed"]];
+        [self OE_commonInit];
     }
     return self;
 }
 
-
-- (NSDictionary *)_textAttributes
+- (id)initTextCell:(NSString *)aString
 {
-    return current;
-}
-
-- (void)setEnabled:(BOOL)flag
-{
-    current = flag?active:disabled;
-    
-    [super setEnabled:flag];
-}
-
-- (BOOL)isEnabled
-{
-    return [super isEnabled] && ![self isInBackground];
-}
-
-- (NSText *)setUpFieldEditorAttributes:(NSText *)textObj 
-{
-    textObj = [super setUpFieldEditorAttributes:textObj];
-    if([textObj isKindOfClass:[NSTextView class]]) 
+    self = [super initTextCell:aString];
+    if(self)
     {
-        NSShadow *shadow = [NSShadow new];
-        NSParagraphStyle *paraStyle = [NSParagraphStyle new];
-        
-        [shadow setShadowBlurRadius:1];
-        [shadow setShadowOffset:NSMakeSize(1, 1)];
-        [shadow setShadowColor:[NSColor colorWithDeviceWhite:0 alpha:0.4]];
-        
-        NSDictionary *selectionDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                       [NSColor blackColor], NSForegroundColorAttributeName,
-                                       [NSColor colorWithDeviceWhite:0.54 alpha:1.0], NSBackgroundColorAttributeName,
-                                       
-                                       [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0], NSFontAttributeName,
-                                       shadow, NSShadowAttributeName,
-                                       paraStyle, NSParagraphStyleAttributeName,
-                                       
-                                       nil];
-        
-        
-        [(NSTextView *)textObj setSelectedTextAttributes:selectionDict];
-        [(NSTextView *)textObj setTypingAttributes:current];
-        
-        NSColor *color = [NSColor colorWithDeviceWhite:0.72 alpha:1.0];
-        [(NSTextView *)textObj setInsertionPointColor:color];
+        [self OE_commonInit];
     }
-    return textObj;
+    return self;
 }
-#pragma mark -
 
-- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView 
-{    
-    OEUIState state = OEUIStateInactive;
-    if([self isEnabled] && [super showsFirstResponder]) 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if(self)
     {
-        BOOL pressed = NO;
-        if(pressed)
-            state = OEUIStatePressed;
-        else 
-            state = OEUIStateActive;
+        [self OE_commonInit];
     }
-    else if([self isEnabled])
-        state = OEUIStateEnabled;
-    else 
-        state = OEUIStateInactive;
-    
-    NSRect imageRect = [self imageRectForState:state];
-    NSRect targetRect = cellFrame;
-    targetRect.size.height = 21;
-    
-    NSImage *image = [NSImage imageNamed:@"search_field"];
-    [image drawInRect:targetRect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:12 rightBorder:12 topBorder:0 bottomBorder:0];
-    
-    [self setStylesForState:state];
-    
-    cellFrame.size.height -= 3;
-    
-    [self drawInteriorWithFrame:cellFrame inView:controlView];
-
+    return self;
 }
-#pragma mark -
 
-- (NSRect)searchTextRectForBounds:(NSRect)aRect
+- (void)OE_commonInit
 {
-    aRect.origin.x += 24;
-    aRect.size.width = aRect.size.width - 24 - 21;
-    aRect.size.height = 14;
-    aRect.origin.y += (22 - aRect.size.height) / 2 - 1;
-    
-    return aRect;
+    [self setFocusRingType:NSFocusRingTypeNone];
+    [self setDrawsBackground:NO];
+
+    [self setIsEditing:NO];
+
+    OESearchFieldFieldEditor *fieldEditor =[[OESearchFieldFieldEditor alloc] initWithFrame:NSMakeRect(0, 0, 0, 14)];
+    [fieldEditor setFieldEditor:YES];
+    [self setFieldEditor:fieldEditor];
 }
-- (NSRect)searchButtonRectForBounds:(NSRect) aRect
+
+- (void)updatePlaceholder
 {
-    return NSMakeRect(6, 4, 13, 14);
+    NSString     *placeholder = [self placeholderString];
+    NSDictionary *attributes  = [self _textAttributes];
+
+    NSAttributedString *attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder?:@"Search" attributes:attributes];
+    [self setPlaceholderAttributedString:attributedPlaceholder];
+}
+#pragma mark - Drawing
+- (NSRect)searchTextRectForBounds:(NSRect)rect
+{
+    // Left gap (loupe image)
+    rect.size.width -= 26.0;
+    rect.origin.x   += 26.0;
+
+    // Right gap (cancel image)
+    rect.size.width -= 23.0;
+
+    rect.size.height = 21.0;
+
+    return rect;
 }
 
 - (NSRect)cancelButtonRectForBounds:(NSRect)rect
 {
-    return NSMakeRect(rect.size.width - 21, 0, 20, 20);
+    rect = [super cancelButtonRectForBounds:rect];
+    rect.origin.y -= 1.0;
+    return rect;
+}
+
+- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+{
+    if(_themed && _backgroundThemeImage)
+    {
+        cellFrame.size.height = 21; // our searchfield is only 21px high (NSSearchField is 21px high)
+        [[_backgroundThemeImage imageForState:[self OE_currentState]] drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+    }
+
+    [self updatePlaceholder];
+    [self drawInteriorWithFrame:cellFrame inView:controlView];
 }
 
 #pragma mark -
-
-- (NSRect)imageRectForState:(OEUIState)state
+- (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent
 {
-    NSRect imageRect = NSMakeRect(0, 0, 26, 21);
-    switch (state) 
-    {
-        case OEUIStateInactive:
-            imageRect.origin.y = 63;
-            break;
-        case OEUIStateEnabled:
-            imageRect.origin.y = 42;
-            break;
-        case OEUIStateActive:
-            imageRect.origin.y = 21;
-            break;
-        case OEUIStatePressed:
-            imageRect.origin.y = 0;
-            break;
-        default: return NSZeroRect;
-    }
-    
-    [[self searchButtonCell] setImage:[self searchButtonImageForState:state]];
-    [[self searchButtonCell] setAlternateImage:[self alternateSearchButtonImageForState:state]];
-    
-    return imageRect;
+    [super editWithFrame:aRect inView:controlView editor:textObj delegate:anObject event:theEvent];
+    self.isEditing = YES;
 }
 
-- (void)setStylesForState:(OEUIState)state
+- (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength
 {
-    switch(state) 
+    [super selectWithFrame:aRect inView:controlView editor:textObj delegate:anObject start:selStart length:selLength];
+    self.isEditing = YES;
+}
+
+- (void)endEditing:(NSText *)textObj
+{
+    [super endEditing:textObj];
+    self.isEditing = NO;
+}
+
+- (void)setIsEditing:(BOOL)flag
+{
+    if(flag != _isEditing)
     {
-        case OEUIStateInactive:
-            current = disabled;
-            [self setPlaceholderAttributedString:[[NSAttributedString alloc] initWithString:@"Search" attributes:disabled]];
-            [self setTextColor:[disabled objectForKey:NSForegroundColorAttributeName]];
-            break;
-        case OEUIStateEnabled:
-            current = active;
-            [self setPlaceholderAttributedString:[[NSAttributedString alloc] initWithString:@"Search" attributes:placeholder]];
-            [self setTextColor:[active objectForKey:NSForegroundColorAttributeName]];
-            break;
-        case OEUIStateActive:
-            current = active;
-            [self setTextColor:[active objectForKey:NSForegroundColorAttributeName]];
-            break;
-        case OEUIStatePressed:
-            current = active;
-            break;
-        default: ;
+        _isEditing = flag;
+        [[self controlView] setNeedsDisplay:YES];
     }
 }
 
-- (NSImage *)searchButtonImageForState:(OEUIState)state
+- (NSTextView *)fieldEditorForView:(NSView *)aControlView
 {
-    switch(state)
-    {
-        case OEUIStateInactive:
-            return [NSImage imageNamed:@"search_loupe_disabled"];
-        case OEUIStateEnabled:
-            return [NSImage imageNamed:@"search_loupe_inactive"];
-        case OEUIStateActive:
-            return [NSImage imageNamed:@"search_loupe_active"];
-        case OEUIStatePressed:
-            return [NSImage imageNamed:@"search_loupe_active"];
-        default: break;
-    }
-    return nil;
+    return [self fieldEditor];
 }
 
-- (NSImage *)alternateSearchButtonImageForState:(OEUIState)state
+- (NSText*)setUpFieldEditorAttributes:(NSText *)textObj
 {
-    switch(state) 
+    if(_themed)
     {
-        case OEUIStateInactive:
-            return [NSImage imageNamed:@"search_loupe_disabled"];
-        case OEUIStateEnabled:
-            return [NSImage imageNamed:@"search_loupe_inactive"];
-        case OEUIStateActive:
-            return [NSImage imageNamed:@"search_loupe_active"];
-        case OEUIStatePressed:
-            return [NSImage imageNamed:@"search_loupe_active"];
-        default: break;
-            
+        NSTextView *fieldEditor = (NSTextView*)textObj;
+
+        [fieldEditor setDrawsBackground:NO];
+
+        OEThemeState currentState = [self OE_currentState] | OEThemeInputStateFocused;
+        NSDictionary *typingAttribtues = [[self themeTextAttributes] textAttributesForState:currentState];
+        [fieldEditor setTypingAttributes:typingAttribtues];
+
+        NSDictionary *selectionAttributes = [[self selectedThemeTextAttributes] textAttributesForState:currentState];
+        [fieldEditor setSelectedTextAttributes:selectionAttributes];
+        [fieldEditor setInsertionPointColor:[typingAttribtues objectForKey:@"NSColor"]];
     }
-    return nil;
+    return textObj;
 }
 
+#pragma mark - Theming
+@synthesize themed = _themed;
+@synthesize hovering = _hovering;
+@synthesize stateMask = _stateMask;
+@synthesize backgroundThemeImage = _backgroundThemeImage;
+@synthesize themeImage = _themeImage;
+@synthesize themeTextAttributes = _themeTextAttributes, selectedThemeTextAttributes = _selectedThemeTextAttributes;
+
+- (OEThemeState)OE_currentState
+{
+    // This is a convenience method that retrieves the current state of the text field
+    BOOL focused      = NO;
+    BOOL windowActive = NO;
+
+    if(((_stateMask & OEThemeStateAnyFocus) != 0) || ((_stateMask & OEThemeStateAnyWindowActivity) != 0))
+    {
+        // Set the focused, windowActive, and hover properties only if the state mask is tracking the button's focus, mouse hover, and window activity properties
+        NSWindow *window = [[self controlView] window];
+
+        focused      = self.isEditing || [window firstResponder] == [self controlView];
+        windowActive = ((_stateMask & OEThemeStateAnyWindowActivity) != 0) && ([window isMainWindow] || ([window parentWindow] && [[window parentWindow] isMainWindow]));
+    }
+
+    return [OEThemeObject themeStateWithWindowActive:windowActive buttonState:[self state] selected:NO enabled:[self isEnabled] focused:focused houseHover:[self isHovering] modifierMask:[NSEvent modifierFlags]] & _stateMask;
+}
+
+- (BOOL)startTrackingAt:(NSPoint)startPoint inView:(NSView *)controlView
+{
+    id<OEControl> control = (id<OEControl>)controlView;
+    if(![control conformsToProtocol:@protocol(OEControl)] || ![control respondsToSelector:@selector(updateHoverFlagWithMousePoint:)]) return NO;
+
+    [control updateHoverFlagWithMousePoint:startPoint];
+    return YES;
+}
+
+- (BOOL)continueTracking:(NSPoint)lastPoint at:(NSPoint)currentPoint inView:(NSView *)controlView
+{
+    id<OEControl> control = (id<OEControl>)controlView;
+    if(![control conformsToProtocol:@protocol(OEControl)] || ![control respondsToSelector:@selector(updateHoverFlagWithMousePoint:)]) return NO;
+
+    [control updateHoverFlagWithMousePoint:currentPoint];
+    return YES;
+}
+
+- (void)stopTracking:(NSPoint)lastPoint at:(NSPoint)stopPoint inView:(NSView *)controlView mouseIsUp:(BOOL)flag
+{
+    id<OEControl> control = (id<OEControl>)controlView;
+    if(![control conformsToProtocol:@protocol(OEControl)] || ![control respondsToSelector:@selector(updateHoverFlagWithMousePoint:)]) return;
+
+    [control updateHoverFlagWithMousePoint:stopPoint];
+}
+
+- (NSDictionary *)OE_attributesForState:(OEThemeState)state
+{
+    // This is a convenience method for creating the attributes for an NSAttributedString
+    if(!_themeTextAttributes) return nil;
+    if(!_style) _style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+
+    NSDictionary *attributes = [_themeTextAttributes textAttributesForState:state];
+    if(![attributes objectForKey:NSParagraphStyleAttributeName])
+    {
+        [_style setLineBreakMode:([self wraps] ? NSLineBreakByWordWrapping : NSLineBreakByClipping)];
+        [_style setAlignment:[self alignment]];
+
+        NSMutableDictionary *newAttributes = [attributes mutableCopy];
+        [newAttributes setValue:_style forKey:NSParagraphStyleAttributeName];
+        attributes = [newAttributes copy];
+    }
+
+    return attributes;
+}
+
+- (NSSize)cellSize
+{
+    NSSize size = [super cellSize];
+    if(_themed && _themeImage)
+        size.width += [self image].size.width;
+    return size;
+}
+
+- (NSRect)imageRectForBounds:(NSRect)theRect
+{
+    NSRect result = [super imageRectForBounds:theRect];
+    if(_themed && _themeImage)
+    {
+    }
+    return result;
+}
+
+- (NSImage *)image
+{
+    return (!_themed || _themeImage == nil ? [super image] : [_themeImage imageForState:[self OE_currentState]]);
+}
+
+
+- (void)OE_recomputeStateMask
+{
+    _themed    = (_backgroundThemeImage != nil || _themeImage != nil || _themeTextAttributes != nil);
+    _stateMask = [_backgroundThemeImage stateMask] | [_themeImage stateMask] | [_themeTextAttributes stateMask];
+}
+
+- (void)setThemeKey:(NSString *)key
+{
+    NSString *backgroundKey = key;
+    if(![key hasSuffix:@"_background"])
+    {
+        [self setThemeImageKey:key];
+        backgroundKey = [key stringByAppendingString:@"_background"];
+    }
+    [self setBackgroundThemeImageKey:backgroundKey];
+
+    NSString *selectionKey = key;
+    if(![key hasSuffix:@"_selection"])
+    {
+        [self setThemeTextAttributesKey:key];
+        selectionKey = [key stringByAppendingString:@"_selection"];
+    }
+    [self setSelectedThemeTextAttributesKey:selectionKey];
+}
+
+- (void)setBackgroundThemeImageKey:(NSString *)key
+{
+    [self setBackgroundThemeImage:[[OETheme sharedTheme] themeImageForKey:key]];
+}
+
+- (void)setThemeImageKey:(NSString *)key
+{
+    [self setThemeImage:[[OETheme sharedTheme] themeImageForKey:key]];
+}
+
+- (void)setThemeTextAttributesKey:(NSString *)key
+{
+    [self setThemeTextAttributes:[[OETheme sharedTheme] themeTextAttributesForKey:key]];
+}
+
+- (void)setSelectedThemeTextAttributesKey:(NSString*)key
+{
+    [self setSelectedThemeTextAttributes:[[OETheme sharedTheme] themeTextAttributesForKey:key]];
+}
+
+- (void)setBackgroundThemeImage:(OEThemeImage *)backgroundThemeImage
+{
+    if(_backgroundThemeImage != backgroundThemeImage)
+    {
+        // TODO: Only invalidate area of the control view
+        _backgroundThemeImage = backgroundThemeImage;
+        [[self controlView] setNeedsDisplay:YES];
+        [self OE_recomputeStateMask];
+    }
+}
+
+- (void)setThemeImage:(OEThemeImage *)themeImage
+{
+    if(_themeImage != themeImage)
+    {
+        // TODO: Only invalidate area of the control view
+        _themeImage = themeImage;
+        [[self controlView] setNeedsDisplay:YES];
+        [self OE_recomputeStateMask];
+    }
+}
+
+- (void)setThemeTextAttributes:(OEThemeTextAttributes *)themeTextAttributes
+{
+    if(_themeTextAttributes != themeTextAttributes)
+    {
+        // TODO: Only invalidate area of the control view
+        _themeTextAttributes = themeTextAttributes;
+        [[self controlView] setNeedsDisplay:YES];
+        [self OE_recomputeStateMask];
+    }
+}
+
+- (NSDictionary*)_textAttributes
+{
+    return [[self themeTextAttributes] textAttributesForState:[self OE_currentState]];
+}
 @end
 
-#pragma mark -
-
-@interface OESearchField ()
-- (void)OE_commonSearchFieldInit;
+@interface NSTextView (ApplePrivate)
+- (void)_drawInsertionPointInRect:(NSRect)aRect color:(NSColor *)color;
 @end
 
-#pragma mark -
+@implementation OESearchFieldFieldEditor
 
-@implementation OESearchField
-
-- (id)initWithCoder:(NSCoder *)coder 
+- (void)drawRect:(NSRect)dirtyRect
 {
-    self = [super initWithCoder:coder];
-    if(self) {
-        [self OE_commonSearchFieldInit];
-    }
-    return self;
+    [[NSGraphicsContext currentContext] saveGraphicsState];
+
+    NSRect clipRect = [self bounds];
+    clipRect.origin.y += 3.0;
+    clipRect.size.height -= 3.0;
+
+    NSRectClip(clipRect);
+    [super drawRect:dirtyRect];
+
+    [[NSGraphicsContext currentContext] restoreGraphicsState];
 }
 
-- (void)awakeFromNib
+- (void)_drawInsertionPointInRect:(NSRect)aRect color:(NSColor *)color
 {
-    [self OE_commonSearchFieldInit];
+    aRect.size.height = 14;
+    aRect.origin.y    = 3;
+    [super _drawInsertionPointInRect:aRect color:color];
 }
-
-- (void)OE_commonSearchFieldInit
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowChanged:) name:NSWindowDidBecomeMainNotification object:[self window]];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowChanged:) name:NSWindowDidResignMainNotification object:[self window]];
-    
-    [[self cell] setIsInBackground:NO];
-}
-
-#pragma mark -
-
-- (void)windowChanged:(id)sender
-{
-    if([[self window] isMainWindow])
-    {
-        // restore enabled property
-        [[self cell] setIsInBackground:NO];
-    }
-    else
-    {
-        // disabled self when closing the window to keep the user from jumping directly into typing mode and type with "inactive" syles
-        // actually, jumping directly to typing still works, but this fixes the style issue
-        [[self cell] setIsInBackground:YES];
-    }
-    [self setNeedsDisplay:YES];
-}
-
-- (void)dealloc 
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidBecomeMainNotification object:[self window]];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignMainNotification object:[self window]];
-}
-
-
-- (NSRect)frame
-{
-    NSRect frame = [super frame];
-    
-    frame.size.height = 21;
-    
-    return frame;
-}
-
-- (NSRect)bounds
-{
-    NSRect bounds = [super bounds];
-    
-    bounds.size.height = 21;
-    return bounds;
-}
-
 @end

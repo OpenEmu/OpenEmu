@@ -255,7 +255,7 @@ typedef enum : NSUInteger
 - (void)viewDidAppear
 {
     [super viewDidAppear];
-    
+
     if([controlsWindow parentWindow] != nil) [[controlsWindow parentWindow] removeChildWindow:controlsWindow];
     
     NSWindow *window = [self OE_rootWindow];
@@ -436,12 +436,12 @@ typedef enum : NSUInteger
 {
     if(_emulationStatus != OEGameViewControllerEmulationStatusNotStarted) return;
 
-
+    NSString *systemIdentifier = [[[[self rom] game] system] systemIdentifier];
     NSError *error;
     Class managerClass = ([[NSUserDefaults standardUserDefaults] boolForKey:OEGameCoresInBackgroundKey]
                           ? [OEGameCoreThreadManager  class]
                           : [OEGameCoreProcessManager class]);
-    gameCoreManager = [[managerClass alloc] initWithROMAtPath:[[[self rom] URL] path] corePlugin:_corePlugin error:&error];
+    gameCoreManager = [[managerClass alloc] initWithROMAtPath:[[[self rom] URL] path] corePlugin:_corePlugin systemIdentifier:systemIdentifier error:&error];
 
     if(!gameCoreManager)
     {
@@ -460,11 +460,15 @@ typedef enum : NSUInteger
     gameSystemResponder  = [gameSystemController newGameSystemResponder];
     [gameSystemResponder setClient:gameCore];
 
-    gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
+    if(gameView == nil)
+    {
+        gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
+        [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [[self view] addSubview:gameView];
+    }
+    [gameView setGameFrameInterval:[gameCore frameInterval]];
     [gameView setRootProxy:rootProxy];
     [gameView setGameResponder:gameSystemResponder];
-    [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-    [[self view] addSubview:gameView];
     
     [rootProxy setupEmulation];
     _emulationStatus = OEGameViewControllerEmulationStatusPlaying;
@@ -583,7 +587,10 @@ typedef enum : NSUInteger
         return;
     }
 
-    [self OE_terminateEmulationWithoutNotification];
+    _emulationStatus = OEGameViewControllerEmulationStatusNotStarted;
+
+    // kill our background friend
+    [gameCoreManager stop];
 
     NSURL   *url   = [[self rom] URL];
     NSError *error = nil;
