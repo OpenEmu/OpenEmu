@@ -56,6 +56,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D0AADE271763813100759E26"
+               BuildableName = "Build &amp; Install MAME"
+               BlueprintName = "Build &amp; Install MAME"
+               ReferencedContainer = "container:MAME/MAME.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D814E50F1D81BE00EF8CF5"
                BuildableName = "Build &amp; Install Nestopia"
                BlueprintName = "Build &amp; Install Nestopia"
