@@ -798,6 +798,7 @@
 		C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6F696BF1648F64B00B243DB /* Controller-Database.plist */; };
 		C6F697D6164E0EFD00B243DB /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6F697D5164E0EFD00B243DB /* Keyboard-Mappings.plist */; };
 		C6F738FC1617FF2B00BB2519 /* OEUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F738FB1617FF2B00BB2519 /* OEUtilities.m */; };
+		D05051A5177FFDAE00439D49 /* Arcade.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */; };
 		EC13823317401D4A00F951F4 /* dark_popup_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC13823217401D4A00F951F4 /* dark_popup_button@2x.png */; };
 		EC1382351740210400F951F4 /* controls_background@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC1382341740210400F951F4 /* controls_background@2x.jpg */; };
 		EC350F0E174018AD005DA3B2 /* psx_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC350F0D174018AD005DA3B2 /* psx_library@2x.png */; };
@@ -1161,6 +1162,7 @@
 			dstPath = Systems;
 			dstSubfolderSpec = 13;
 			files = (
+				D05051A5177FFDAE00439D49 /* Arcade.oesystemplugin in Copy System Plugins to App Plugins */,
 				94DEA000171896AE00073397 /* NDS.oesystemplugin in Copy System Plugins to App Plugins */,
 				823CA74E1692BCC0007F2A39 /* N64.oesystemplugin in Copy System Plugins to App Plugins */,
 				948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App Plugins */,

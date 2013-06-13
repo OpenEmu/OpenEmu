@@ -32,6 +32,9 @@
       location = "group:Mednafen/Mednafen.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:UME/MAME.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Mupen64Plus/Mupen64Plus.xcodeproj">
    </FileRef>
    <FileRef
