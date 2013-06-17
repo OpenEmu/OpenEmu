@@ -190,6 +190,13 @@
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
+		<key>OEAnalogControlsKey</key>
+		<array>
+            <string>OEN64AnalogUp</string>
+            <string>OEN64AnalogDown</string>
+            <string>OEN64AnalogLeft</string>
+            <string>OEN64AnalogRight</string>
+        </array>
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
