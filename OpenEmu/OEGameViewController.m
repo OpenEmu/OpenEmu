@@ -348,7 +348,7 @@ typedef enum : NSUInteger
 
 #pragma mark - Controlling Emulation
 
-- (void)resetGame
+- (void)resetEmulation:(id)sender
 {
     if([[OEHUDAlert resetSystemAlert] runModal] == NSAlertDefaultReturn)
     {
@@ -509,7 +509,7 @@ typedef enum : NSUInteger
     else if(_emulationStatus == OEGameViewControllerEmulationStatusPaused) [self setPauseEmulation:NO];
 }
 
-- (void)toggleEmulationPaused
+- (void)toggleEmulationPause:(id)sender
 {
     [self setPauseEmulation:(_emulationStatus == OEGameViewControllerEmulationStatusPlaying)];
 }

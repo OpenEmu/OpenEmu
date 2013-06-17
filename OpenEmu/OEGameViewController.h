@@ -113,14 +113,14 @@ extern NSString *const OEGameViewControllerROMKey;
 - (void)unmute:(id)sender;
 
 #pragma mark - Controlling Emulation
-- (void)resetGame;
+- (void)resetEmulation:(id)sender;
 - (BOOL)shouldTerminateEmulation;
 - (void)terminateEmulation;
 - (IBAction)performClose:(id)sender;
 
 - (IBAction)pauseGame:(id)sender;
 - (IBAction)playGame:(id)sender;
-- (void)toggleEmulationPaused;
+- (void)toggleEmulationPause:(id)sender;
 - (void)setPauseEmulation:(BOOL)pauseEmulation;
 - (BOOL)isEmulationRunning;
 
