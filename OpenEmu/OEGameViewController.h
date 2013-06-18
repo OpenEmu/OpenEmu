@@ -144,6 +144,9 @@ extern NSString *const OEGameViewControllerROMKey;
 // deleteSaveState: expects sender or [sender representedObject] to be an OEDBSaveState object and prompts the user for confirmation
 - (void)deleteSaveState:(id)sender;
 
+#pragma mark - Taking Screenshots
+- (IBAction)takeScreenshot:(id)sender;
+
 #pragma mark - Info
 - (NSSize)defaultScreenSize;
 - (NSString*)coreIdentifier;

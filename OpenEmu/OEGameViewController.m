@@ -52,6 +52,7 @@
 #import "NSURL+OELibraryAdditions.h"
 
 #import "OEPreferencesController.h"
+#import "OELibraryDatabase.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
@@ -960,6 +961,24 @@ typedef enum : NSUInteger
     OEHUDAlert *alert = [OEHUDAlert deleteStateAlertWithStateName:stateName];
     
     if([alert runModal]) [state remove];
+}
+
+#pragma mark - Taking Screenshots
+- (void)takeScreenshot:(id)sender
+{
+    NSImage *screenshotImage = [gameView screenshot];
+    NSData *TIFFData = [screenshotImage TIFFRepresentation];
+    NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
+    NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
+
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd kk.mm.ss"];
+    NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
+    
+    NSURL *screenshotFolderURL = [[OELibraryDatabase defaultDatabase] screenshotFolderURL];
+    NSURL *screenshotURL = [screenshotFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %@.png", [[[self rom] game] displayName], timeStamp]];
+    
+    [PNGData writeToURL:screenshotURL atomically: YES];
 }
 
 #pragma mark - Menu Items

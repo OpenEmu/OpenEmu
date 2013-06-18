@@ -42,6 +42,7 @@ extern NSString *const OEDefaultDatabasePathKey;
 extern NSString *const OESaveStateLastFSEventIDKey;
 extern NSString *const OELibraryDatabaseUserInfoKey;
 extern NSString *const OESaveStateFolderURLKey;
+extern NSString *const OEScreenshotFolderURLKey;
 
 @interface OELibraryDatabase : NSObject
 + (OELibraryDatabase*)defaultDatabase;
@@ -84,6 +85,7 @@ extern NSString *const OESaveStateFolderURLKey;
 - (NSURL *)stateFolderURL;
 - (NSURL *)stateFolderURLForSystem:(OEDBSystem *)system;
 - (NSURL *)stateFolderURLForROM:(OEDBRom *)rom;
+- (NSURL *)screenshotFolderURL;
 - (NSURL *)coverFolderURL;
 - (NSURL *)importQueueURL;
 

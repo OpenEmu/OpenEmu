@@ -54,6 +54,7 @@ NSString *const OESaveStateLastFSEventIDKey  = @"lastSaveStateEventID";
 
 NSString *const OELibraryDatabaseUserInfoKey = @"OELibraryDatabase";
 NSString *const OESaveStateFolderURLKey      = @"saveStateFolder";
+NSString *const OEScreenshotFolderURLKey     = @"screenshotFolder";
 
 NSString *const OELibraryRomsFolderURLKey    = @"romsFolderURL";
 
@@ -868,6 +869,21 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSURL *result = [[self stateFolderURLForSystem:[[rom game] system]] URLByAppendingPathComponent:[[[rom URL] lastPathComponent] stringByDeletingPathExtension]];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+    return result;
+}
+
+- (NSURL *)screenshotFolderURL
+{
+    if([[NSUserDefaults standardUserDefaults] objectForKey:OEScreenshotFolderURLKey])
+        return [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:OEScreenshotFolderURLKey]];
+
+    NSString *screenshotFolderName = NSLocalizedString(@"Screenshots", @"Screenshot Folder Name");
+    NSURL    *result = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];
+    result = [result URLByAppendingPathComponent:screenshotFolderName isDirectory:YES];
+
+    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+
     return result;
 }
 
