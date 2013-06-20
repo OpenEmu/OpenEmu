@@ -71,7 +71,7 @@ static const CGFloat _OEToolbarHeight = 44;
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObject:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark -
