@@ -252,7 +252,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     }
     else
     {
-        result = [NSIndexSet indexSet];
+        result = [NSMutableIndexSet indexSet];
     }
 
     // Return an immutable copy

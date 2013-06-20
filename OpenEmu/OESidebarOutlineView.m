@@ -345,17 +345,17 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
 }
 
 #pragma mark - Drop Highlight
-- (struct CGRect)_dropHighlightBackgroundRectForRow:(long long)arg1
+- (struct CGRect)_dropHighlightBackgroundRectForRow:(NSInteger)arg1
 {
     return NSZeroRect;
 }
 
-- (void)_setNeedsDisplayForDropCandidateRow:(long long)arg1 operation:(unsigned long long)arg2 mask:(unsigned long long)arg3
+- (void)_setNeedsDisplayForDropCandidateRow:(NSInteger)arg1 operation:(NSUInteger)arg2 mask:(NSUInteger)arg3
 {
     [self setNeedsDisplayInRect:[self bounds]];
 }
 
-- (void)_drawDropHighlightOnRow:(long long)arg1
+- (void)_drawDropHighlightOnRow:(NSInteger)arg1
 {
     NSRect rect = [self rectOfGroup:[self itemAtRow:arg1]];
     if([[self itemAtRow:arg1] isGroupHeaderInSidebar] || arg1 == -1)

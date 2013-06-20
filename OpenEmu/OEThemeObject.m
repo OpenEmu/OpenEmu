@@ -98,7 +98,7 @@ static inline id OEKeyForState(OEThemeState state)
             // Create a root definition that can be inherited by the states
             NSMutableDictionary *rootDefinition = [definition mutableCopy];
             [rootDefinition removeObjectForKey:OEThemeObjectStatesAttributeName];
-            [self OE_setValue:[isa parseWithDefinition:rootDefinition] forState:OEThemeStateDefault];
+            [self OE_setValue:[[self class] parseWithDefinition:rootDefinition] forState:OEThemeStateDefault];
 
             // Iterate through each of the state descriptions and create a state table
             NSDictionary *states = [definition valueForKey:OEThemeObjectStatesAttributeName];
@@ -117,7 +117,7 @@ static inline id OEKeyForState(OEThemeState state)
                      if(state == 0) NSLog(@"Error parsing state: %@", trimmedKey);
                      else
                      {
-                         [self OE_setValue:[isa parseWithDefinition:newDefinition] forState:state];
+                         [self OE_setValue:[[self class] parseWithDefinition:newDefinition] forState:state];
 
                          // Append the state to the state mask
                          if(state != OEThemeStateDefault) _stateMask |= state;
@@ -173,7 +173,7 @@ static inline id OEKeyForState(OEThemeState state)
         else
         {
             NSDictionary *newDefinition = [NSDictionary dictionaryWithObject:definition forKey:OEThemeObjectValueAttributeName];
-            [self OE_setValue:[isa parseWithDefinition:newDefinition] forState:OEThemeStateDefault];
+            [self OE_setValue:[[self class] parseWithDefinition:newDefinition] forState:OEThemeStateDefault];
         }
     }
     return self;
