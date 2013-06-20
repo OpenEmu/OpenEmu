@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1080</int>
-		<string key="IBDocument.SystemVersion">12D78</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.37</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -456,22 +456,32 @@
 							<string key="NSKeyEquivalent"/>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
-							<object class="NSMenuItem" key="NSMenuItem" id="700928862">
+							<object class="NSMenuItem" key="NSMenuItem" id="907992894">
 								<reference key="NSMenu" ref="291515891"/>
-								<string key="NSTitle">Log matched game paths</string>
+								<string key="NSTitle">Remove unused thumbnails</string>
 								<string key="NSKeyEquiv"/>
 								<int key="NSMnemonicLoc">2147483647</int>
 								<int key="NSState">1</int>
 								<reference key="NSOnImage" ref="413728970"/>
 								<reference key="NSMixedImage" ref="585502003"/>
 								<string key="NSAction">_popUpItemAction:</string>
+								<int key="NSTag">6</int>
 								<reference key="NSTarget" ref="631485686"/>
 							</object>
 							<bool key="NSMenuItemRespectAlignment">YES</bool>
 							<object class="NSMenu" key="NSMenu" id="291515891">
 								<string key="NSTitle"/>
 								<array class="NSMutableArray" key="NSMenuItems">
-									<reference ref="700928862"/>
+									<object class="NSMenuItem" id="700928862">
+										<reference key="NSMenu" ref="291515891"/>
+										<string key="NSTitle">Log matched game paths</string>
+										<string key="NSKeyEquiv"/>
+										<int key="NSMnemonicLoc">2147483647</int>
+										<reference key="NSOnImage" ref="413728970"/>
+										<reference key="NSMixedImage" ref="585502003"/>
+										<string key="NSAction">_popUpItemAction:</string>
+										<reference key="NSTarget" ref="631485686"/>
+									</object>
 									<object class="NSMenuItem" id="831593324">
 										<reference key="NSMenu" ref="291515891"/>
 										<string key="NSTitle">Log unmatched game paths</string>
@@ -527,9 +537,11 @@
 										<int key="NSTag">5</int>
 										<reference key="NSTarget" ref="631485686"/>
 									</object>
+									<reference ref="907992894"/>
 								</array>
 								<reference key="NSMenuFont" ref="126669081"/>
 							</object>
+							<int key="NSSelectedIndex">6</int>
 							<int key="NSPreferredEdge">1</int>
 							<bool key="NSUsesItemFromMenu">YES</bool>
 							<bool key="NSAltersState">YES</bool>
@@ -863,6 +875,7 @@
 						<string key="NSFrame">{{218, 16}, {82, 23}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="414806367">
 							<int key="NSCellFlags">67108864</int>
@@ -1970,6 +1983,7 @@
 							<reference ref="942462033"/>
 							<reference ref="237928407"/>
 							<reference ref="319674580"/>
+							<reference ref="907992894"/>
 						</array>
 						<reference key="parent" ref="631485686"/>
 					</object>
@@ -2253,6 +2267,11 @@
 						<int key="objectID">340</int>
 						<reference key="object" ref="417172493"/>
 						<reference key="parent" ref="525490225"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">343</int>
+						<reference key="object" ref="907992894"/>
+						<reference key="parent" ref="291515891"/>
 					</object>
 				</array>
 			</object>
@@ -2979,12 +2998,13 @@
 				<string key="339.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="340.CustomClassName">OEButtonCell</string>
 				<string key="340.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="343.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">342</int>
+			<int key="maxID">343</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

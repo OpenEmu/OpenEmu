@@ -30,6 +30,11 @@
 #import "OESidebarController.h"
 
 #import "OEDBGame.h"
+#import "OEDBImage.h"
+#import "OEDBImageThumbnail.h"
+
+#import "NSURL+OELibraryAdditions.h"
+
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
@@ -145,6 +150,89 @@
                  [obj setStatus:@(OEDBGameStatusOK)];
              }];
             printf("\nDone\n");
+            break;
+        case 6:
+            printf("\nRemoving unused image thumbnails\n\n");
+            NSManagedObjectContext* context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
+            NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"ImageThumbnail"];
+            NSArray *result = [context executeFetchRequest:request error:&error];
+            if(!result)
+            {
+                printf("\nError: %s\n", [[error localizedDescription] cStringUsingEncoding:NSUTF8StringEncoding]);
+                return;
+            }
+
+            __block NSInteger noImageCount = 0;
+            __block NSInteger noGameCount  = 0;
+            [result enumerateObjectsUsingBlock:^(OEDBImageThumbnail *thumbnail, NSUInteger idx, BOOL *stop) {
+                OEDBImage *image = [thumbnail image];
+                if(!image) noImageCount ++;
+                else if(![image valueForKey:@"Box"]) noGameCount ++;
+            }];
+
+            printf("Thumbnails without image: %ld\n", noImageCount);
+            printf("Images without game: %ld\n", noGameCount);
+
+            printf("\nchecking files\n");
+
+            dispatch_queue_t dispatchQueue = dispatch_queue_create("org.openemu.debugqueue", DISPATCH_QUEUE_SERIAL);
+            dispatch_queue_t priority = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+            dispatch_set_target_queue(dispatchQueue, priority);
+
+
+            __block NSMutableArray *files = [NSMutableArray array];
+            __block NSInteger noDBObjectCount = 0;
+
+            __block void(^recursion)(NSEnumerator*);
+            void(^enumerateDirectory)(NSEnumerator*) = ^(NSEnumerator *e){
+                NSURL *url = nil;
+                while(url = [e nextObject])
+                {
+                    if([url isDirectory])
+                    {
+                        NSEnumerator *enu = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:@[NSURLIsDirectoryKey] options:0 errorHandler:^BOOL(NSURL *url, NSError *error) {
+                            return YES;
+                        }];
+                        recursion(enu);
+                    }
+                    else
+                    {
+                        NSString *filename = [url lastPathComponent];
+                        if([filename isEqualTo:@".DS_Store"]) continue;
+
+                        dispatch_async(dispatchQueue, ^{
+                            NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"ImageThumbnail"];
+                            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"relativePath ENDSWITH %@", filename];
+                            [request setFetchLimit:1];
+                            [request setPredicate:predicate];
+
+                            NSManagedObjectContext* context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
+                            NSError *error;
+                            NSArray *result = [context executeFetchRequest:request error:&error];
+                            if(!result)
+                                printf("\nError: %s\n", [[error localizedDescription] cStringUsingEncoding:NSUTF8StringEncoding]);
+                            else if([result count]==0)
+                            {
+                                [files addObject:filename];
+                                noDBObjectCount++;
+                            }
+                        });
+                    }
+                }
+            };
+            recursion = enumerateDirectory;
+
+
+            NSURL *imageFolderURL = [[OELibraryDatabase defaultDatabase] coverFolderURL];
+            NSEnumerator *enu = [[NSFileManager defaultManager] enumeratorAtURL:imageFolderURL includingPropertiesForKeys:@[NSURLIsDirectoryKey] options:0 errorHandler:^BOOL(NSURL *url, NSError *error) {
+                return YES;
+            }];
+            enumerateDirectory(enu);
+            dispatch_sync(dispatchQueue, ^{
+                printf("\nFound %ld files without a corresponding database object\n", noDBObjectCount);
+                printf("\n\n%s\n\n", [[files description] cStringUsingEncoding:NSUTF8StringEncoding]);
+                printf("\nDone\n");
+            });
             break;
     }
 }
