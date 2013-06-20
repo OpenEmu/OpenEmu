@@ -371,7 +371,7 @@ enum : OEFSMEventLabel
 
 - (void)OE_dissolveToView:(NSView *)view
 {
-    [self OE_switchToView:view transitionType:kCATransitionFade transitionSubtype:@""];
+    [self OE_switchToView:view transitionType:kCATransitionFade transitionSubtype:nil];
 }
 
 - (void)OE_switchToView:(NSView *)view transitionType:(NSString *)transitionType transitionSubtype:(NSString *)transitionSubtype
