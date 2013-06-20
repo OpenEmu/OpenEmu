@@ -35,6 +35,11 @@
 #import "OEButton.h"
 #import "OEHUDAlert.h"
 
+// Required for warning dialog keys:
+#import "OEGameViewController.h"
+#import "OESidebarController.h"
+#import "OEHUDAlert+DefaultAlertsAdditions.h"
+
 @interface OEPrefLibraryController ()
 {
     CGFloat height;
@@ -46,7 +51,7 @@
 - (void)OE_changeROMFolderLocationTo:(NSURL*)url;
 @end
 
-#define baseViewHeight 479.0
+#define baseViewHeight 548.0
 #define librariesContainerHeight 110.0
 @implementation OEPrefLibraryController
 
@@ -255,6 +260,26 @@
     [system setEnabled:[NSNumber numberWithBool:!enabled]];
     [[system libraryDatabase] save:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsDidChangeNotification object:system userInfo:nil];
+}
+- (IBAction)resetWarningDialogs:(id)sender
+{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+
+    NSArray *keysToRemove = @[OESuppressRemoveCollectionConfirmationKey,
+                              OEAutoSwitchCoreAlertSuppressionKey,
+                              OERemoveGameFromCollectionAlertSuppressionKey,
+                              OELoadAutoSaveAlertSuppressionKey,
+                              OESaveGameWhenQuitAlertSuppressionKey,
+                              OEDeleteGameAlertSuppressionKey,
+                              OESaveGameAlertSuppressionKey,
+                              OEChangeCoreAlertSuppressionKey,
+                              OEResetSystemAlertSuppressionKey,
+                              OEStopEmulationAlertSuppressionKey,
+                              OERemoveGameFilesFromLibraryAlertSuppressionKey];
+    
+    [keysToRemove enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
+        [standardUserDefaults removeObjectForKey:key];
+    }];
 }
 
 #pragma mark -

@@ -42,5 +42,6 @@
 
 - (IBAction)resetLibraryFolder:(id)sender;
 - (IBAction)changeLibraryFolder:(id)sender;
+- (IBAction)resetWarningDialogs:(id)sender;
 
 @end

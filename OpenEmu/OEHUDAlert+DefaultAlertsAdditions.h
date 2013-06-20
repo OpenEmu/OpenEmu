@@ -29,6 +29,16 @@
 
 extern NSString *const OEMaxSaveGameNameLengthKey;
 
+extern NSString *const OERemoveGameFromCollectionAlertSuppressionKey;
+extern NSString *const OELoadAutoSaveAlertSuppressionKey;
+extern NSString *const OESaveGameWhenQuitAlertSuppressionKey;
+extern NSString *const OEDeleteGameAlertSuppressionKey;
+extern NSString *const OESaveGameAlertSuppressionKey;
+extern NSString *const OEChangeCoreAlertSuppressionKey;
+extern NSString *const OEResetSystemAlertSuppressionKey;
+extern NSString *const OEStopEmulationAlertSuppressionKey;
+extern NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey;
+
 @interface OEHUDAlert (DefaultAlertsAdditions)
 
 + (id)quitApplicationAlert;
