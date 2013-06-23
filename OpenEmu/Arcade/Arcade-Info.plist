@@ -112,6 +112,8 @@
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>zip</string>
+		<string>7z</string>
+		<string>chd</string>
 	</array>
 	<key>OESystemIcon</key>
 	<string>arcade_library</string>
