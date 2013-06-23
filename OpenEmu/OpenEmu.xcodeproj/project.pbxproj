@@ -657,6 +657,7 @@
 		94A2260C170761D200098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22606170761D200098DA0 /* Controller-Mappings.plist */; };
 		94A2260D170761D200098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22607170761D200098DA0 /* Controller-Preferences.plist */; };
 		94A2260E170761D200098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22608170761D200098DA0 /* Keyboard-Mappings.plist */; };
+		94BB7A1A1776AF54002B68CF /* Arcade.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */; };
 		94BE9E51171683E000AB08E6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94BE9E57171683E000AB08E6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E55171683E000AB08E6 /* InfoPlist.strings */; };
 		94BE9E61171689B400AB08E6 /* OEColecoVisionSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE9E5F171689B400AB08E6 /* OEColecoVisionSystemResponder.m */; };
@@ -1161,6 +1162,7 @@
 			dstPath = Systems;
 			dstSubfolderSpec = 13;
 			files = (
+				94BB7A1A1776AF54002B68CF /* Arcade.oesystemplugin in Copy System Plugins to App Plugins */,
 				94DEA000171896AE00073397 /* NDS.oesystemplugin in Copy System Plugins to App Plugins */,
 				823CA74E1692BCC0007F2A39 /* N64.oesystemplugin in Copy System Plugins to App Plugins */,
 				948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App Plugins */,
