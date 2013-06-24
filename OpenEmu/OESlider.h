@@ -24,16 +24,19 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import <Foundation/Foundation.h>
-#import "OEUIDrawingUtils.h"
-@interface OESlider : NSSlider 
+
+#import "OEToolTip.h"
+#import "OEControl.h"
+#import "OESliderCell.h"
+@interface OESlider : NSSlider <OEControl, OEToolTip>
 {
     BOOL hintImagesShowActive;
 }
+
+- (void)setLevelThemeImageKey:(NSString*)levelImageKey;
+- (void)setLevelThemeImage:(OEThemeImage*)levelImage;
+- (OEThemeImage*)levelThemeImage;
+
 @property (weak) IBOutlet NSImageView *minHint;
 @property (weak) IBOutlet NSImageView *maxHint;
-@end
-
-@interface OESliderCell : NSSliderCell
-- (NSRect)trackImageRectForState:(OEUIState)state;
-- (NSRect)knobImageRectForState:(OEUIState)state;
 @end

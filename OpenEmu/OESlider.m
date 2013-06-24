@@ -26,8 +26,266 @@
 
 #import "OESlider.h"
 #import "NSImage+OEDrawingAdditions.h"
-@implementation OESlider
 
+@interface OESlider ()
+{
+    NSTrackingArea *_trackingArea;
+}
+- (void)OE_windowKeyChanged:(NSNotification *)notification;
+- (void)OE_updateNotifications;
+@end
+
+@implementation OESlider
+@synthesize trackWindowActivity = _trackWindowActivity;
+@synthesize trackMouseActivity = _trackMouseActivity;
+@synthesize trackModifierActivity = _trackModifierActivity;
+@synthesize modifierEventMonitor = _modifierEventMonitor;
+@synthesize toolTipStyle = _toolTipStyle;
+
++ (Class)cellClass
+{
+    return [OESliderCell class];
+}
+
+- (void)setCell:(NSCell *)aCell
+{
+    [super setCell:aCell];
+    [self updateTrackingAreas];
+}
+
+#pragma mark - Window activity
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow
+{
+    [super viewWillMoveToWindow:newWindow];
+
+    if([self window])
+    {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidBecomeMainNotification object:[self window]];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignMainNotification object:[self window]];
+    }
+
+    if(newWindow && _trackWindowActivity)
+    {
+        // Register with the default notification center for changes in the window's keyedness only if one of the themed elements (the state mask) is influenced by the window's activity
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_windowKeyChanged:) name:NSWindowDidBecomeMainNotification object:newWindow];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_windowKeyChanged:) name:NSWindowDidResignMainNotification object:newWindow];
+    }
+}
+
+- (void)viewDidMoveToWindow
+{
+    [super viewDidMoveToWindow];
+    [self updateTrackingAreas];
+}
+
+- (void)OE_windowKeyChanged:(NSNotification *)notification
+{
+    // The keyedness of the window has changed, we want to redisplay the button with the new state, this is only fired when NSWindowDidBecomeMainNotification and NSWindowDidResignMainNotification is registered.
+    [self setNeedsDisplay];
+}
+
+- (void)OE_setShouldTrackWindowActivity:(BOOL)shouldTrackWindowActivity
+{
+    if(_trackWindowActivity != shouldTrackWindowActivity)
+    {
+        _trackWindowActivity = shouldTrackWindowActivity;
+        [self viewWillMoveToWindow:[self window]];
+        [self setNeedsDisplay:YES];
+    }
+}
+
+#pragma mark - Mouse Activity
+- (void)updateTrackingAreas
+{
+    if(_trackingArea) [self removeTrackingArea:_trackingArea];
+    if(_trackMouseActivity)
+    {
+        // Track mouse enter and exit (hover and off) events only if the one of the themed elements (the state mask) is influenced by the mouse
+        _trackingArea = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingActiveInActiveApp | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved owner:self userInfo:nil];
+        [self addTrackingArea:_trackingArea];
+    }
+}
+
+- (void)updateHoverFlagWithMousePoint:(NSPoint)point
+{
+    id<OECell> cell = [self cell];
+    if(![cell conformsToProtocol:@protocol(OECell)]) return;
+
+    const NSRect  bounds   = [self bounds];
+    const BOOL    hovering = NSPointInRect(point, bounds);
+
+    if([cell isHovering] != hovering)
+    {
+        [cell setHovering:hovering];
+        [self setNeedsDisplayInRect:bounds];
+    }
+}
+
+- (void)OE_updateHoverFlag:(NSEvent *)theEvent
+{
+    const NSPoint locationInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    [self updateHoverFlagWithMousePoint:locationInView];
+}
+
+- (void)mouseEntered:(NSEvent *)theEvent
+{
+    [self OE_updateHoverFlag:theEvent];
+    [super mouseEntered:theEvent];
+}
+
+- (void)mouseExited:(NSEvent *)theEvent
+{
+    [self OE_updateHoverFlag:theEvent];
+    [super mouseExited:theEvent];
+}
+
+- (void)mouseMoved:(NSEvent *)theEvent
+{
+    [self OE_updateHoverFlag:theEvent];
+    [super mouseMoved:theEvent];
+}
+
+- (void)flagsChanged:(NSEvent *)theEvent
+{
+    if ([self isTrackingModifierActivity])
+    {
+        const NSRect bounds = [self bounds];
+        [self setNeedsDisplayInRect:bounds];
+    }
+    [super flagsChanged:theEvent];
+}
+
+- (void)OE_setShouldTrackMouseActivity:(BOOL)shouldTrackMouseActivity
+{
+    if(_trackMouseActivity != shouldTrackMouseActivity)
+    {
+        _trackMouseActivity = shouldTrackMouseActivity;
+        [self updateTrackingAreas];
+        [self setNeedsDisplay];
+
+    }
+}
+
+- (void)OE_setShouldTrackModifierActivity:(BOOL)shouldTrackModifierActivity
+{
+    if(_trackModifierActivity != shouldTrackModifierActivity)
+    {
+        _trackModifierActivity = shouldTrackModifierActivity;
+        if(shouldTrackModifierActivity == FALSE)
+        {
+            [NSEvent removeMonitor:_modifierEventMonitor];
+        }
+        else
+        {
+            __block id blockself = self;
+            _modifierEventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskFromType(NSFlagsChanged) handler:^NSEvent*(NSEvent* e) {
+                [blockself setNeedsDisplayInRect:[self bounds]];
+                return e;
+            }];
+        }
+        [self setNeedsDisplayInRect:[self bounds]];
+    }
+}
+
+#pragma mark - Theming
+- (void)OE_updateNotifications
+{
+    // This method determines if we need to register ourselves with the notification center and/or we need to add mouse tracking
+    OESliderCell *cell = [self cell];
+    if([cell isKindOfClass:[OESliderCell class]])
+    {
+        [self OE_setShouldTrackWindowActivity:([cell stateMask] & OEThemeStateAnyWindowActivity) != 0];
+        [self OE_setShouldTrackMouseActivity:([cell stateMask] & OEThemeStateAnyMouse) != 0];
+        [self OE_setShouldTrackModifierActivity:([cell stateMask] & OEThemeStateAnyModifier) != 0];
+    }
+}
+
+- (void)setThemeKey:(NSString *)key
+{
+    NSString *backgroundKey = [key stringByAppendingString:@"_background"];
+    NSString *levelKey      = [key stringByAppendingString:@"_level"];
+    [self setThemeImageKey:key];
+    [self setBackgroundThemeImageKey:backgroundKey];
+    [self setLevelThemeImageKey:levelKey];
+}
+
+- (void)setBackgroundThemeImageKey:(NSString *)key
+{
+    [self setBackgroundThemeImage:[[OETheme sharedTheme] themeImageForKey:key]];
+}
+
+- (void)setBackgroundThemeImage:(OEThemeImage *)backgroundThemeImage
+{
+    OESliderCell *cell = [self cell];
+    if([cell isKindOfClass:[OESliderCell class]])
+    {
+        [cell setBackgroundThemeImage:backgroundThemeImage];
+        [self OE_updateNotifications];
+        [self setNeedsDisplay];
+    }
+}
+
+- (OEThemeImage *)backgroundThemeImage
+{
+    OESliderCell *cell = [self cell];
+    return ([cell isKindOfClass:[OESliderCell class]] ? [cell backgroundThemeImage] : nil);
+}
+
+- (void)setThemeImage:(OEThemeImage *)themeImage
+{
+    OESliderCell *cell = [self cell];
+    if([cell isKindOfClass:[OESliderCell class]])
+    {
+        [cell setThemeImage:themeImage];
+        [self OE_updateNotifications];
+        [self setNeedsDisplay];
+    }
+}
+
+- (OEThemeImage *)themeImage
+{
+    OESliderCell *cell = [self cell];
+    return ([cell isKindOfClass:[OESliderCell class]] ? [cell themeImage] : nil);
+}
+
+- (void)setLevelThemeImageKey:(NSString*)levelImageKey
+{
+    [self setLevelThemeImage:[[OETheme sharedTheme] themeImageForKey:levelImageKey]];
+}
+
+- (void)setLevelThemeImage:(OEThemeImage*)levelImage
+{
+    OESliderCell *cell = [self cell];
+    if([cell isKindOfClass:[OESliderCell class]])
+    {
+        [cell setLevelThemeImage:levelImage];
+        [self OE_updateNotifications];
+        [self setNeedsDisplay];
+    }
+
+}
+
+- (OEThemeImage*)levelThemeImage
+{
+    OESliderCell *cell = [self cell];
+    return ([cell isKindOfClass:[OESliderCell class]] ? [cell levelThemeImage] : nil);
+}
+#pragma mark - Unused Theming
+- (void)setThemeTextAttributes:(OEThemeTextAttributes *)themeTextAttributes
+{}
+
+- (OEThemeTextAttributes *)themeTextAttributes
+{
+    return nil;
+}
+
+- (void)setThemeImageKey:(NSString *)key
+{}
+- (void)setThemeTextAttributesKey:(NSString *)key
+{}
+
+
+#pragma mark - Old Stuff
 + (void)initialize
 {
     // Make sure not to reinitialize for subclassed objects
@@ -64,26 +322,6 @@
     hintImagesShowActive = (enabled && active);
 }
 
-- (id)initWithCoder:(NSCoder *)coder
-{
-    self = [super initWithCoder:coder];
-    if (self) 
-    {
-        [self setContinuous:YES];
-    }
-    return self;
-}
-
-- (id)init 
-{
-    self = [super init];
-    if (self) 
-    {
-        
-    }
-    return self;
-}
-
 - (void)awakeFromNib
 {
     if([self maxHint])[[self maxHint] setImage:[NSImage imageNamed:@"grid_slider_large_disabled"]];
@@ -98,109 +336,6 @@
 {
     [super drawRect:dirtyRect];
     [self performSelectorInBackground:@selector(setHintImages) withObject:nil];
-}
-
-@end
-
-@implementation OESliderCell
-
-- (id)initWithCoder:(NSCoder *)coder 
-{
-    self = [super initWithCoder:coder];
-    if (self) {
-        [self setContinuous:YES];
-    }
-    return self;
-}
-
-- (id)init
-{
-    self = [super init];
-    if (self) 
-    {
-        [self setContinuous:YES];
-    }
-    return self;
-}
-
-// Apple private method that we override
-- (BOOL)_usesCustomTrackImage
-{
-    return YES;
-}
-
-#pragma mark -
-
-- (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped 
-{
-    BOOL windowActive = [[[self controlView] window] isMainWindow];
-    
-    if([self sliderType] == NSLinearSlider && ![self isVertical])
-    {
-        NSImage *track = [NSImage imageNamed:@"grid_slider_track"];
-        
-        OEUIState state = ([self isEnabled] && windowActive)?OEUIStateActive:OEUIStateInactive;
-        NSRect sourceRect = [self trackImageRectForState:state];
-        NSRect targetRect = NSMakeRect(aRect.origin.x,aRect.origin.y+4, aRect.size.width, 6);
-        [track drawInRect:targetRect fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:4 rightBorder:3 topBorder:0 bottomBorder:0];
-    }
-    else 
-    {
-        // Not supported
-        NSLog(@"Track: Slider style is not supported");
-        [[NSColor greenColor] setFill];
-        NSRectFill(aRect);
-    }
-}
-
-- (CGFloat)knobThickness
-{
-    return 14.0;
-}
-
-- (void)drawKnob:(NSRect)knobRect
-{
-    BOOL windowActive = [[[self controlView] window] isMainWindow];
-    
-    NSBezierPath *clipPath = [NSBezierPath new];
-    [clipPath appendBezierPathWithRect:knobRect];
-    [clipPath addClip];
-    
-    if([self sliderType] == NSLinearSlider && ![self isVertical]) 
-    {
-        NSImage *track = [NSImage imageNamed:@"grid_slider_thumb"];
-        
-        OEUIState state = ([self isEnabled] && windowActive)?OEUIStateActive:OEUIStateInactive;
-        NSRect sourceRect = [self knobImageRectForState:state];
-        NSRect targetRect = NSMakeRect(knobRect.origin.x+1, 0, 13, 14);
-        
-        [track drawInRect:targetRect fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:0 rightBorder:0 topBorder:0 bottomBorder:0];
-    }
-    else
-    {
-        // Not supported
-        NSLog(@"Knob: Slider style is not supported");
-        [[NSColor redColor] setFill];
-        NSRectFill(knobRect);
-    }
-}
-
-#pragma mark -
-
-- (NSRect)trackImageRectForState:(OEUIState)state
-{
-    NSRect rect = NSMakeRect(0, 0, 8, 6);
-    if(state == OEUIStateActive) rect.origin.y += 6;
-    
-    return rect;
-}
-
-- (NSRect)knobImageRectForState:(OEUIState)state
-{
-    NSRect rect = NSMakeRect(0, 0, 13, 14);
-    if(state == OEUIStateInactive) rect.origin.x += 13;
-    
-    return rect;
 }
 
 @end

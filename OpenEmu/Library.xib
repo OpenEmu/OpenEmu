@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">12D78</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.37</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -169,6 +169,7 @@
 												<string key="NSFrame">{{151, 22}, {25, 25}}</string>
 												<reference key="NSSuperview" ref="987642494"/>
 												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="534951079">
@@ -213,7 +214,7 @@
 														<string key="NSFrameSize">{186, 555}</string>
 														<reference key="NSSuperview" ref="411773151"/>
 														<reference key="NSWindow"/>
-														<reference key="NSNextKeyView" ref="948426263"/>
+														<reference key="NSNextKeyView" ref="993169309"/>
 														<bool key="NSEnabled">YES</bool>
 														<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 														<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -333,7 +334,7 @@
 										<string key="NSFrameSize">{186, 555}</string>
 										<reference key="NSSuperview" ref="214891354"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="411773151"/>
+										<reference key="NSNextKeyView" ref="948426263"/>
 										<int key="NSsFlags">133648</int>
 										<reference key="NSVScroller" ref="993169309"/>
 										<reference key="NSHScroller" ref="948426263"/>
@@ -644,6 +645,7 @@
 								<string key="NSFrame">{{14, 10}, {28, 23}}</string>
 								<reference key="NSSuperview" ref="1013514702"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="468907838">
 									<int key="NSCellFlags">-2080374784</int>
@@ -1309,6 +1311,20 @@
 				<string key="620.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="621.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="622.CustomClassName">OESlider</string>
+				<object class="NSMutableDictionary" key="622.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+					<object class="IBUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
+						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+						<reference key="object" ref="164785778"/>
+						<array key="userDefinedRuntimeAttributes">
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
+								<string key="keyPath">themeKey</string>
+								<string key="value">grid_slider</string>
+							</object>
+						</array>
+					</object>
+				</object>
 				<string key="622.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="623.CustomClassName">OESearchField</string>
 				<object class="NSMutableDictionary" key="623.IBAttributePlaceholdersKey">

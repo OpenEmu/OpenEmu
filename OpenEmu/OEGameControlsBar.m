@@ -29,7 +29,7 @@
 #import "NSWindow+OEFullScreenAdditions.h"
 
 #import "OEButton.h"
-#import "OEHUDSlider.h"
+#import "OESlider.h"
 
 #import "OEMenu.h"
 #import "OEDBRom.h"
@@ -56,10 +56,9 @@ NSString *const OEGameControlsBarShowsQuickSaveStateKey = @"HUDBarShowQuicksaveS
 NSString *const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions";
 NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
-@class OEHUDSlider;
 @interface OEHUDControlsBarView : NSView
 
-@property (strong, readonly) OEHUDSlider     *slider;
+@property (strong, readonly) OESlider        *slider;
 @property (strong, readonly) OEButton        *fullScreenButton;
 @property (strong, readonly) OEButton        *pauseButton;
 
@@ -526,7 +525,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 - (void)reflectVolume:(float)volume
 {
     OEHUDControlsBarView    *view   = [[[self contentView] subviews] lastObject];
-    OEHUDSlider             *slider = [view slider];
+    OESlider                *slider = [view slider];
     
     if(volume == [slider floatValue]) return;
     [[slider animator] setFloatValue:volume];
@@ -535,7 +534,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 - (float)reflectVolumeUp
 {
     OEHUDControlsBarView    *view   = [[[self contentView] subviews] lastObject];
-    OEHUDSlider             *slider = [view slider];
+    OESlider                *slider = [view slider];
 
     float volume = [slider floatValue] + 0.1;
     if(volume>1.0) volume = 1.0;
@@ -547,7 +546,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 - (float)reflectVolumeDown
 {
     OEHUDControlsBarView    *view   = [[[self contentView] subviews] lastObject];
-    OEHUDSlider             *slider = [view slider];
+    OESlider                *slider = [view slider];
 
     float volume = [slider floatValue] - 0.1;
     if(volume<0.0) volume = 0.0;
@@ -700,20 +699,20 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [volumeUpButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:volumeUpButton];
     
-    slider = [[OEHUDSlider alloc] initWithFrame:NSMakeRect(240 + (hideOptions ? 0 : 50), 13, 80, 23)];
+    slider = [[OESlider alloc] initWithFrame:NSMakeRect(240 + (hideOptions ? 0 : 50), 13, 80, 23)];
     
-    OEHUDSliderCell *sliderCell = [[OEHUDSliderCell alloc] init];
+    OESliderCell *sliderCell = [[OESliderCell alloc] init];
     [slider setCell:sliderCell];
     [slider setContinuous:YES];
-    [sliderCell setContinuous:YES];
     [slider setMaxValue:1.0];
     [slider setMinValue:0.0];
+    [slider setThemeKey:@"hud_slider"];
     [slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey]];
     [slider setToolTip:NSLocalizedString(@"Change Volume", @"Tooltip")];
     [slider setToolTipStyle:OEToolTipStyleHUD];
     [slider setAction:@selector(changeVolume:)];
     
-    CABasicAnimation *animation     = [CABasicAnimation animation];
+    CABasicAnimation *animation = [CABasicAnimation animation];
     animation.timingFunction    = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     animation.delegate          = self;
 

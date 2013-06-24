@@ -155,7 +155,6 @@
 		53439B7413B932FA005C0CC8 /* OEPrefControlsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7313B932FA005C0CC8 /* OEPrefControlsController.m */; };
 		53439B7713B93303005C0CC8 /* OEPrefCoresController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7613B93303005C0CC8 /* OEPrefCoresController.m */; };
 		53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */; };
-		53439B7E13B933D0005C0CC8 /* OEHUDSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7D13B933D0005C0CC8 /* OEHUDSlider.m */; };
 		53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B8113B933E9005C0CC8 /* OEHUDWindow.m */; };
 		53439B8713B934DB005C0CC8 /* ImageKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53439B8613B934DB005C0CC8 /* ImageKit.framework */; };
 		53439B8913B936DA005C0CC8 /* CollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53439B8813B936DA005C0CC8 /* CollectionView.xib */; };
@@ -367,6 +366,7 @@
 		83920CDD147E675C00D219EA /* hud_alert_window.png in Resources */ = {isa = PBXBuildFile; fileRef = 83920CDC147E675C00D219EA /* hud_alert_window.png */; };
 		839213F4164338D60006CEE0 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5380E82313B9596500E76DEF /* IOKit.framework */; };
 		839310BC147802380020058E /* OECoreDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 839310BB147802380020058E /* OECoreDownload.m */; };
+		8394074D1778AE4F00669B0B /* OESliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8394074C1778AE4F00669B0B /* OESliderCell.m */; };
 		83955CB5165D939100572B34 /* OEBlankSlateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83955CB4165D939100572B34 /* OEBlankSlateView.m */; };
 		83955CB8165DA9BC00572B34 /* OEBackgroundNoisePattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 83955CB7165DA9BC00572B34 /* OEBackgroundNoisePattern.m */; };
 		8396CC52140687EE0096F791 /* wood_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 8396CC51140687EE0096F791 /* wood_textfield.png */; };
@@ -1370,8 +1370,6 @@
 		53439B7613B93303005C0CC8 /* OEPrefCoresController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefCoresController.m; sourceTree = "<group>"; };
 		53439B7813B933B8005C0CC8 /* OEGameControlsBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameControlsBar.h; sourceTree = "<group>"; };
 		53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameControlsBar.m; sourceTree = "<group>"; };
-		53439B7C13B933D0005C0CC8 /* OEHUDSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDSlider.h; sourceTree = "<group>"; };
-		53439B7D13B933D0005C0CC8 /* OEHUDSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDSlider.m; sourceTree = "<group>"; };
 		53439B8013B933E9005C0CC8 /* OEHUDWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDWindow.h; sourceTree = "<group>"; };
 		53439B8113B933E9005C0CC8 /* OEHUDWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDWindow.m; sourceTree = "<group>"; };
 		53439B8613B934DB005C0CC8 /* ImageKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageKit.framework; path = /System/Library/Frameworks/Quartz.framework/Versions/A/Frameworks/ImageKit.framework; sourceTree = "<absolute>"; };
@@ -1649,6 +1647,8 @@
 		83920CDC147E675C00D219EA /* hud_alert_window.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_alert_window.png; sourceTree = "<group>"; };
 		839310BA147802380020058E /* OECoreDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreDownload.h; sourceTree = "<group>"; };
 		839310BB147802380020058E /* OECoreDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreDownload.m; sourceTree = "<group>"; };
+		8394074B1778AE4F00669B0B /* OESliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESliderCell.h; sourceTree = "<group>"; };
+		8394074C1778AE4F00669B0B /* OESliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESliderCell.m; sourceTree = "<group>"; };
 		83955CB3165D939100572B34 /* OEBlankSlateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBlankSlateView.h; sourceTree = "<group>"; };
 		83955CB4165D939100572B34 /* OEBlankSlateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateView.m; sourceTree = "<group>"; };
 		83955CB6165DA9B100572B34 /* OEBackgroundNoisePattern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEBackgroundNoisePattern.h; sourceTree = "<group>"; };
@@ -3295,8 +3295,6 @@
 				53439AEA13B92E91005C0CC8 /* OELibrarySplitView.m */,
 				53439AEC13B92E9A005C0CC8 /* OEMainWindow.h */,
 				53439AED13B92E9A005C0CC8 /* OEMainWindow.m */,
-				53439AF513B92EAD005C0CC8 /* OESlider.h */,
-				53439AF613B92EAD005C0CC8 /* OESlider.m */,
 				53439AF813B92EB3005C0CC8 /* OEImageButton.h */,
 				53439AF913B92EB3005C0CC8 /* OEImageButton.m */,
 				53439AFB13B92EB9005C0CC8 /* OEScroller.h */,
@@ -3425,8 +3423,6 @@
 			children = (
 				837777B7147A8E730091A896 /* OEHUDProgressbar.h */,
 				837777B8147A8E730091A896 /* OEHUDProgressbar.m */,
-				53439B7C13B933D0005C0CC8 /* OEHUDSlider.h */,
-				53439B7D13B933D0005C0CC8 /* OEHUDSlider.m */,
 				83F4DE1114DFF9C200A82E36 /* OEInputLimitFormatter.h */,
 				83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */,
 			);
@@ -4043,6 +4039,15 @@
 			name = Cells;
 			sourceTree = "<group>";
 		};
+		8394074A1778AE3A00669B0B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				8394074B1778AE4F00669B0B /* OESliderCell.h */,
+				8394074C1778AE4F00669B0B /* OESliderCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		83955CB9165DAE7900572B34 /* Blank Slate View */ = {
 			isa = PBXGroup;
 			children = (
@@ -4165,6 +4170,9 @@
 		83DEE4A1162D62C2005D8AD7 /* Other Controls */ = {
 			isa = PBXGroup;
 			children = (
+				53439AF513B92EAD005C0CC8 /* OESlider.h */,
+				53439AF613B92EAD005C0CC8 /* OESlider.m */,
+				8394074A1778AE3A00669B0B /* Cells */,
 				83DEE4A2162D62E4005D8AD7 /* OEProgressIndicator.h */,
 				83DEE4A3162D62E4005D8AD7 /* OEProgressIndicator.m */,
 			);
@@ -6662,7 +6670,6 @@
 				53439B7413B932FA005C0CC8 /* OEPrefControlsController.m in Sources */,
 				53439B7713B93303005C0CC8 /* OEPrefCoresController.m in Sources */,
 				53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */,
-				53439B7E13B933D0005C0CC8 /* OEHUDSlider.m in Sources */,
 				53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */,
 				53439B9013B937DB005C0CC8 /* NSImage+OEHighlight.m in Sources */,
 				53439B9313B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m in Sources */,
@@ -6785,6 +6792,7 @@
 				83B867BC171D63940038988C /* NSString+OERangeAdditions.m in Sources */,
 				83F7EADA171D911400D32E26 /* OESearchField.m in Sources */,
 				8337F38E1726B3600068DD90 /* OEBackgroundImageView.m in Sources */,
+				8394074D1778AE4F00669B0B /* OESliderCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
