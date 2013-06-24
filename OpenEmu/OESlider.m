@@ -209,6 +209,11 @@
     [self setLevelThemeImageKey:levelKey];
 }
 
+- (void)setThemeImageKey:(NSString *)key
+{
+    [self setThemeImage:[[OETheme sharedTheme] themeImageForKey:key]];
+}
+
 - (void)setBackgroundThemeImageKey:(NSString *)key
 {
     [self setBackgroundThemeImage:[[OETheme sharedTheme] themeImageForKey:key]];
@@ -278,9 +283,6 @@
 {
     return nil;
 }
-
-- (void)setThemeImageKey:(NSString *)key
-{}
 - (void)setThemeTextAttributesKey:(NSString *)key
 {}
 

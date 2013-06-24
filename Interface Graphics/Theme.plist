@@ -977,6 +977,92 @@
 	</dict>
 	<key>Images</key>
 	<dict>
+		<key>grid_slider</key>
+		<dict>
+			<key>Resource</key>
+			<string>grid_slider_thumb</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0,0}, {13, 14}}</string>
+				<key>Window Active, Enabled</key>
+				<string>{{0,0}, {13, 14}}</string>
+				<key>Window Active, Disabled</key>
+				<string>{{13,0}, {13, 14}}</string>
+				<key>Window Inactive</key>
+				<string>{{13,0}, {13, 14}}</string>
+			</dict>
+		</dict>
+		<key>hud_slider</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_slider_thumb</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0,0}, {16, 16}}</string>
+			</dict>
+		</dict>
+		<key>grid_slider_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>grid_slider_track</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<array>
+					<string>{{0,0}, {4, 6}}</string>
+					<string>{{4,0}, {1, 6}}</string>
+					<string>{{5,0}, {4, 6}}</string>
+				</array>
+				<key>Window Active, Enabled</key>
+				<array>
+					<string>{{0,0}, {4, 6}}</string>
+					<string>{{4,0}, {1, 6}}</string>
+					<string>{{5,0}, {4, 6}}</string>
+				</array>
+				<key>Window Active, Disabled</key>
+				<array>
+					<string>{{0,6}, {4, 6}}</string>
+					<string>{{4,6}, {1, 6}}</string>
+					<string>{{5,6}, {4, 6}}</string>
+				</array>
+				<key>Window Inactive</key>
+				<array>
+					<string>{{0,6}, {4, 6}}</string>
+					<string>{{4,6}, {1, 6}}</string>
+					<string>{{5,6}, {4, 6}}</string>
+				</array>
+			</dict>
+		</dict>
+		<key>hud_slider_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_slider_track</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<array>
+					<string>{{0,0}, {4, 6}}</string>
+					<string>{{4,0}, {1, 6}}</string>
+					<string>{{5,0}, {4, 6}}</string>
+				</array>
+			</dict>
+		</dict>
+		<key>hud_slider_level</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_slider_level</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<array>
+					<string>{{0,0}, {4, 6}}</string>
+					<string>{{4,0}, {1, 6}}</string>
+					<string>{{5,0}, {2, 6}}</string>
+				</array>
+			</dict>
+		</dict>
 		<key>selector_ring</key>
 		<dict>
 			<key>Resource</key>

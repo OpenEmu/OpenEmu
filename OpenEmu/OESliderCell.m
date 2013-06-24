@@ -27,16 +27,11 @@
 #import "OEControl.h"
 #import "NSImage+OEDrawingAdditions.h"
 
-@interface NSSliderCell ()
-// Apple private method that we override
-- (BOOL)_usesCustomTrackImage;
-@end
-
 @implementation OESliderCell
 
 - (CGFloat)trackThickness
 {
-    NSImage *trackImage = [[self backgroundThemeImage] imageForState:OEThemeInputStateEnabled];
+    NSImage *trackImage = [[self backgroundThemeImage] imageForState:OEThemeStateDefault];
     return [trackImage size].height;
 }
 
@@ -58,7 +53,6 @@
         levelRect = [[self controlView] backingAlignedRect:levelRect options:NSAlignAllEdgesNearest];
         [levelImage drawInRect:levelRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:@{NSImageHintInterpolation:@(NSImageInterpolationNone)}];
     }
-
 }
 
 - (void)drawKnob:(NSRect)knobRect
@@ -115,7 +109,8 @@
 
     [control updateHoverFlagWithMousePoint:currentPoint];
     BOOL ret = [super continueTracking:lastPoint at:currentPoint inView:controlView];
-    [[self controlView] setNeedsDisplayInRect:[[self controlView] bounds]];
+    if([self levelThemeImage] != nil)
+        [[self controlView] setNeedsDisplayInRect:[[self controlView] bounds]];
     return ret;
 }
 
@@ -152,8 +147,10 @@
 
 - (void)setThemeImageKey:(NSString *)key
 {
-    [self setThemeImage:[[OETheme sharedTheme] themeImageForKey:key]];
-    [(NSSlider*)[self controlView] setKnobThickness:13];
+    OEThemeImage *image = [[OETheme sharedTheme] themeImageForKey:key];
+    NSImage *realImage = [image imageForState:OEThemeStateDefault];
+    [self setThemeImage:image];
+    [self setKnobThickness:[realImage size].width];
 }
 
 - (void)setBackgroundThemeImage:(OEThemeImage *)backgroundThemeImage
@@ -171,6 +168,7 @@
     if(_themeImage != themeImage)
     {
         _themeImage = themeImage;
+
         [[self controlView] setNeedsDisplay:YES];
         [self OE_recomputeStateMask];
     }
