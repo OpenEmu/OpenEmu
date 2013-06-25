@@ -51,6 +51,8 @@
 
     const CGRect bounds = [self bounds];
 
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
     if(_type == OECoverGridViewCellIndicationTypeFileMissing)
     {
         const CGFloat width  = CGRectGetWidth(bounds) * 0.45;
@@ -73,6 +75,7 @@
     {
         [sublayer setFrame:bounds];
     }
+    [CATransaction flush];
 }
 
 #pragma mark -
