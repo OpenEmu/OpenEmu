@@ -26,5 +26,7 @@
 	<integer>44</integer>
 	<key>OEArcadeButtonInsertCoin</key>
 	<integer>41</integer>
+	<key>OEArcadeButtonService</key>
+	<integer>59</integer>
 </dict>
 </plist>

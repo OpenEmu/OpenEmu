@@ -20,6 +20,8 @@
 		<string>{0, 0}</string>
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>{0, 0}</string>
+		<key>OEArcadeButtonService</key>
+		<string>{0, 0}</string>
 		<key>OEArcadeButton5</key>
 		<string>{0, 0}</string>
 		<key>OEArcadeButton4</key>

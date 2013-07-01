@@ -67,6 +67,12 @@
 				<key>OEControlListKeyNameKey</key>
 				<string>OEArcadeButtonP1Start</string>
 			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Service</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEArcadeButtonService</string>
+			</dict>
 		</array>
 		<array>
 			<dict>
@@ -139,6 +145,7 @@
 		<string>OEArcadeButton6</string>
 		<string>OEArcadeButtonP1Start</string>
 		<string>OEArcadeButtonInsertCoin</string>
+		<string>OEArcadeButtonService</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
