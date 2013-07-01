@@ -1032,12 +1032,12 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
                                                                                pixelsWide:textureIntSize.width
                                                                                pixelsHigh:textureIntSize.height
                                                                             bitsPerSample:8
-                                                                          samplesPerPixel:4
-                                                                                 hasAlpha:YES
+                                                                          samplesPerPixel:3
+                                                                                 hasAlpha:NO
                                                                                  isPlanar:NO
                                                                            colorSpaceName:NSDeviceRGBColorSpace
-                                                                              bytesPerRow:textureIntSize.width * 4
-                                                                             bitsPerPixel:32];
+                                                                              bytesPerRow:textureIntSize.width * 3
+                                                                             bitsPerPixel:24];
 
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     [[self openGLContext] makeCurrentContext];
@@ -1045,7 +1045,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     {
         glReadPixels((frameSize.width - textureNSSize.width) / 2, (frameSize.height - textureNSSize.height) / 2,
                      textureIntSize.width, textureIntSize.height,
-                     GL_RGBA, GL_UNSIGNED_BYTE, [imageRep bitmapData]);
+                     GL_RGB, GL_UNSIGNED_BYTE, [imageRep bitmapData]);
     }
     CGLUnlockContext(cgl_ctx);
 
@@ -1073,12 +1073,12 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
                                                            pixelsWide:_gameScreenSize.width
                                                            pixelsHigh:_gameScreenSize.height
                                                         bitsPerSample:8
-                                                      samplesPerPixel:4
-                                                             hasAlpha:YES
+                                                      samplesPerPixel:3
+                                                             hasAlpha:NO
                                                              isPlanar:NO
                                                        colorSpaceName:NSDeviceRGBColorSpace
-                                                          bytesPerRow:_gameScreenSize.width * 4
-                                                         bitsPerPixel:32];
+                                                          bytesPerRow:_gameScreenSize.width * 3
+                                                         bitsPerPixel:24];
 
         vImage_Buffer src =
         {
@@ -1092,12 +1092,11 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
             .data     = [imageRep bitmapData],
             .width    = _gameScreenSize.width,
             .height   = _gameScreenSize.height,
-            .rowBytes = _gameScreenSize.width * 4
+            .rowBytes = _gameScreenSize.width * 3
         };
 
         // Convert IOSurface pixel format to NSBitmapImageRep
-        const uint8_t permuteMap[] = {2,1,0,3};
-        vImagePermuteChannels_ARGB8888(&src, &dest, permuteMap, 0);
+        vImageConvert_BGRA8888toRGB888(&src, &dest, 0);
     }
     IOSurfaceUnlock(_gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
 
