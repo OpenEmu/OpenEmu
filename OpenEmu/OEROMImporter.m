@@ -456,8 +456,17 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     }
     else if([validSystems count] == 0)
     {
-        DLog(@"No valid system found for item at url %@", url);
-        error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
+        // Try again with the zip itself
+        if([[item importInfo] valueForKey:OEImportInfoArchivedFileURL])
+        {
+            [[item importInfo] removeObjectForKey:OEImportInfoArchivedFileURL];
+            [self performImportStepDetermineSystem:item];
+        }
+        else
+        {
+            DLog(@"No valid system found for item at url %@", url);
+            error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
+        }
     }
     else if([validSystems count] == 1)
     {

@@ -594,7 +594,9 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
         DLog(@"Loaded bundle. About to load rom...");
 
-        aPath = [self decompressedPathForRomAtPath:aPath];
+        // Never extract arcade roms
+        if(![systemIdentifier isEqualToString:@"openemu.system.arcade"])
+            aPath = [self decompressedPathForRomAtPath:aPath];
 
         if([_gameCore loadFileAtPath:aPath])
         {
