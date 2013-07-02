@@ -515,6 +515,16 @@
 		945E43161517F5BC00057D08 /* controller_arcade_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E43111517F5BC00057D08 /* controller_arcade_mask.png */; };
 		945E43171517F5BC00057D08 /* controller_arcade.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E43121517F5BC00057D08 /* controller_arcade.png */; };
 		945E43181517F5BC00057D08 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 945E43131517F5BC00057D08 /* Controller-Preferences.plist */; };
+		946B9463178289BB00A212AC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		946B9469178289BB00A212AC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 946B9467178289BB00A212AC /* InfoPlist.strings */; };
+		946B947317828A1E00A212AC /* OESega32XSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 946B947117828A1E00A212AC /* OESega32XSystemResponder.m */; };
+		946B947A17828A4000A212AC /* 32x_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 946B947417828A4000A212AC /* 32x_library.png */; };
+		946B947B17828A4000A212AC /* controller_genesis_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 946B947517828A4000A212AC /* controller_genesis_mask.png */; };
+		946B947C17828A4000A212AC /* controller_genesis.png in Resources */ = {isa = PBXBuildFile; fileRef = 946B947617828A4000A212AC /* controller_genesis.png */; };
+		946B947D17828A4000A212AC /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 946B947717828A4000A212AC /* Controller-Mappings.plist */; };
+		946B947E17828A4000A212AC /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 946B947817828A4000A212AC /* Controller-Preferences.plist */; };
+		946B947F17828A4000A212AC /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 946B947917828A4000A212AC /* Keyboard-Mappings.plist */; };
+		946B948417828B3D00A212AC /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		94791E9516AE8A18007DB8BE /* OEShaderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 94791E9416AE8A18007DB8BE /* OEShaderPlugin.m */; };
 		948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
 		948E540F1571D78D002D26E0 /* NES.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
@@ -1870,6 +1880,18 @@
 		945E43111517F5BC00057D08 /* controller_arcade_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade_mask.png; sourceTree = "<group>"; };
 		945E43121517F5BC00057D08 /* controller_arcade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_arcade.png; sourceTree = "<group>"; };
 		945E43131517F5BC00057D08 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		946B9462178289BA00A212AC /* Sega 32X.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sega 32X.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		946B9466178289BB00A212AC /* Sega 32X-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sega 32X-Info.plist"; sourceTree = "<group>"; };
+		946B9468178289BB00A212AC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		946B947017828A1E00A212AC /* OESega32XSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESega32XSystemResponder.h; sourceTree = "<group>"; };
+		946B947117828A1E00A212AC /* OESega32XSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESega32XSystemResponder.m; sourceTree = "<group>"; };
+		946B947217828A1E00A212AC /* OESega32XSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESega32XSystemResponderClient.h; sourceTree = "<group>"; };
+		946B947417828A4000A212AC /* 32x_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 32x_library.png; sourceTree = "<group>"; };
+		946B947517828A4000A212AC /* controller_genesis_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis_mask.png; sourceTree = "<group>"; };
+		946B947617828A4000A212AC /* controller_genesis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis.png; sourceTree = "<group>"; };
+		946B947717828A4000A212AC /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		946B947817828A4000A212AC /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		946B947917828A4000A212AC /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		94791E9316AE8A18007DB8BE /* OEShaderPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEShaderPlugin.h; sourceTree = "<group>"; };
 		94791E9416AE8A18007DB8BE /* OEShaderPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEShaderPlugin.m; sourceTree = "<group>"; };
 		949623E6164E0CD600952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
@@ -2473,6 +2495,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		946B945F178289BA00A212AC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				946B9463178289BB00A212AC /* Cocoa.framework in Frameworks */,
+				946B948417828B3D00A212AC /* OpenEmuSystem.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94A224301707537F00098DA0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2789,6 +2820,7 @@
 				943C80121708A62E00D8D93E /* Jaguar.oesystemplugin */,
 				943C80351708F23900D8D93E /* VMU.oesystemplugin */,
 				94BE9E50171683E000AB08E6 /* ColecoVision.oesystemplugin */,
+				946B9462178289BA00A212AC /* Sega 32X.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4359,6 +4391,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		946B9464178289BB00A212AC /* Sega 32X */ = {
+			isa = PBXGroup;
+			children = (
+				946B947017828A1E00A212AC /* OESega32XSystemResponder.h */,
+				946B947117828A1E00A212AC /* OESega32XSystemResponder.m */,
+				946B947217828A1E00A212AC /* OESega32XSystemResponderClient.h */,
+				946B9465178289BB00A212AC /* Supporting Files */,
+			);
+			path = "Sega 32X";
+			sourceTree = "<group>";
+		};
+		946B9465178289BB00A212AC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				946B947417828A4000A212AC /* 32x_library.png */,
+				946B947517828A4000A212AC /* controller_genesis_mask.png */,
+				946B947617828A4000A212AC /* controller_genesis.png */,
+				946B947917828A4000A212AC /* Keyboard-Mappings.plist */,
+				946B947717828A4000A212AC /* Controller-Mappings.plist */,
+				946B947817828A4000A212AC /* Controller-Preferences.plist */,
+				946B9466178289BB00A212AC /* Sega 32X-Info.plist */,
+				946B9467178289BB00A212AC /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		94A224351707537F00098DA0 /* PC Engine */ = {
 			isa = PBXGroup;
 			children = (
@@ -5039,6 +5097,7 @@
 				943C80141708A62F00D8D93E /* Jaguar */,
 				943C80371708F23900D8D93E /* VMU */,
 				94BE9E52171683E000AB08E6 /* ColecoVision */,
+				946B9464178289BB00A212AC /* Sega 32X */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -5352,6 +5411,23 @@
 			name = Arcade;
 			productName = Arcade;
 			productReference = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+		946B9461178289BA00A212AC /* Sega 32X */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 946B946F178289BB00A212AC /* Build configuration list for PBXNativeTarget "Sega 32X" */;
+			buildPhases = (
+				946B945E178289BA00A212AC /* Sources */,
+				946B945F178289BA00A212AC /* Frameworks */,
+				946B9460178289BA00A212AC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Sega 32X";
+			productName = "Sega 32X";
+			productReference = 946B9462178289BA00A212AC /* Sega 32X.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		94A224321707537F00098DA0 /* PC Engine */ = {
@@ -5773,6 +5849,7 @@
 				943C80111708A62E00D8D93E /* Jaguar */,
 				943C80341708F23900D8D93E /* VMU */,
 				94BE9E4F171683E000AB08E6 /* ColecoVision */,
+				946B9461178289BA00A212AC /* Sega 32X */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -6178,6 +6255,20 @@
 				945E43181517F5BC00057D08 /* Controller-Preferences.plist in Resources */,
 				C6527BC1164E22AA0030FB25 /* Keyboard-Mappings.plist in Resources */,
 				943819C41658DAE800D55731 /* Controller-Mappings.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		946B9460178289BA00A212AC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				946B9469178289BB00A212AC /* InfoPlist.strings in Resources */,
+				946B947A17828A4000A212AC /* 32x_library.png in Resources */,
+				946B947B17828A4000A212AC /* controller_genesis_mask.png in Resources */,
+				946B947C17828A4000A212AC /* controller_genesis.png in Resources */,
+				946B947D17828A4000A212AC /* Controller-Mappings.plist in Resources */,
+				946B947E17828A4000A212AC /* Controller-Preferences.plist in Resources */,
+				946B947F17828A4000A212AC /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6838,6 +6929,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		946B945E178289BA00A212AC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				946B947317828A1E00A212AC /* OESega32XSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94A2242F1707537F00098DA0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -7181,6 +7280,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				945E43011517F2B500057D08 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		946B9467178289BB00A212AC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				946B9468178289BB00A212AC /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -7836,6 +7943,50 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "Arcade/Arcade-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
+		946B946B178289BB00A212AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Sega 32X/Sega 32X-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		946B946C178289BB00A212AC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Sega 32X/Sega 32X-Info.plist";
 				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -9005,6 +9156,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		946B946F178289BB00A212AC /* Build configuration list for PBXNativeTarget "Sega 32X" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				946B946B178289BB00A212AC /* Debug */,
+				946B946C178289BB00A212AC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		9479665115EDE646004316AB /* Build configuration list for PBXAggregateTarget "Update Build Version" */ = {
 			isa = XCConfigurationList;

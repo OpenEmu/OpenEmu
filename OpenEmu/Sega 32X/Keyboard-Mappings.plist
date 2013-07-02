@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OESega32XButtonUp</key>
+	<integer>82</integer>
+	<key>OESega32XButtonDown</key>
+	<integer>81</integer>
+	<key>OESega32XButtonLeft</key>
+	<integer>80</integer>
+	<key>OESega32XButtonRight</key>
+	<integer>79</integer>
+	<key>OESega32XButtonA</key>
+	<integer>4</integer>
+	<key>OESega32XButtonB</key>
+	<integer>22</integer>
+	<key>OESega32XButtonC</key>
+	<integer>7</integer>
+	<key>OESega32XButtonX</key>
+	<integer>20</integer>
+	<key>OESega32XButtonY</key>
+	<integer>26</integer>
+	<key>OESega32XButtonZ</key>
+	<integer>8</integer>
+	<key>OESega32XButtonStart</key>
+	<integer>44</integer>
+	<key>OESega32XButtonMode</key>
+	<integer>41</integer>
+</dict>
+</plist>
