@@ -37,3 +37,6 @@
 [submodule "TwoMbit"]
 	path = TwoMbit
 	url = https://github.com/OpenEmu/TwoMbit-Core.git
+[submodule "UME"]
+	path = UME
+	url = https://github.com/OpenEmu/UME-Core.git
