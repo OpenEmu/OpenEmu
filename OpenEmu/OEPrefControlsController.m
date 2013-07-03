@@ -346,6 +346,9 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     // Rebuild player menu
     [self OE_setUpPlayerMenuForNumberOfPlayers:[systemController numberOfPlayers]];
 
+    // Make sure no key is selected before switching the system
+    [self setSelectedKey:nil];
+
     OEControlsButtonSetupView *preferenceView = [self controlsSetupView];
     [preferenceView setBindingsProvider:[self currentPlayerBindings]];
     [preferenceView setupWithControlList:[systemController controlPageList]];
