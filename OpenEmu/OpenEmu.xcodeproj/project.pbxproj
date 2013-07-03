@@ -9164,6 +9164,7 @@
 				946B946C178289BB00A212AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9479665115EDE646004316AB /* Build configuration list for PBXAggregateTarget "Update Build Version" */ = {
 			isa = XCConfigurationList;
