@@ -31,8 +31,29 @@
 @implementation OEPSPSystemController
 
 // read header to detect PSP ISO
-//- (OECanHandleState)canHandleFile:(NSString *)path
-//{
-//}
+- (OECanHandleState)canHandleFile:(NSString *)path
+{
+    BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
+    OECanHandleState canHandleFile = OECanHandleNo;
+
+    if(handleFileExtension)
+    {
+        NSFileHandle *dataFile;
+        NSData *dataBuffer;
+
+        dataFile = [NSFileHandle fileHandleForReadingAtPath:path];
+        [dataFile seekToFileOffset: 0x8001];
+        dataBuffer = [dataFile readDataOfLength:5];
+
+        NSString *dataString = [[NSString alloc] initWithData:dataBuffer encoding:NSUTF8StringEncoding];
+        NSLog(@"'%@'", dataString);
+        if([dataString isEqualToString:@"CD001"])
+            canHandleFile = OECanHandleYes;
+
+        [dataFile closeFile];
+    }
+
+    return canHandleFile;
+}
 
 @end

@@ -9312,6 +9312,7 @@
 				94454EBE17860E1E006C057B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		945E43061517F2B500057D08 /* Build configuration list for PBXNativeTarget "Arcade" */ = {
 			isa = XCConfigurationList;
