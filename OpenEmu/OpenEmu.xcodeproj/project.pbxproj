@@ -508,6 +508,17 @@
 		943F99CD1707E0AE00270E89 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943F99C71707E0AE00270E89 /* Controller-Preferences.plist */; };
 		943F99CE1707E0AE00270E89 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943F99C81707E0AE00270E89 /* Keyboard-Mappings.plist */; };
 		943F99D41707F48400270E89 /* OE3DOSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943F99D31707F48400270E89 /* OE3DOSystemController.m */; };
+		94454EB517860E1E006C057B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94454EBB17860E1E006C057B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94454EB917860E1E006C057B /* InfoPlist.strings */; };
+		94454EC717860F4B006C057B /* OEPSPSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94454EC317860F4B006C057B /* OEPSPSystemController.m */; };
+		94454EC817860F4B006C057B /* OEPSPSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94454EC517860F4B006C057B /* OEPSPSystemResponder.m */; };
+		94454ECF17861098006C057B /* controller_psp_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94454EC917861098006C057B /* controller_psp_mask.png */; };
+		94454ED017861098006C057B /* controller_psp.png in Resources */ = {isa = PBXBuildFile; fileRef = 94454ECA17861098006C057B /* controller_psp.png */; };
+		94454ED117861098006C057B /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94454ECB17861098006C057B /* Controller-Mappings.plist */; };
+		94454ED217861098006C057B /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94454ECC17861098006C057B /* Controller-Preferences.plist */; };
+		94454ED317861098006C057B /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94454ECD17861098006C057B /* Keyboard-Mappings.plist */; };
+		94454ED417861098006C057B /* psp_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94454ECE17861098006C057B /* psp_library.png */; };
+		94454ED517861123006C057B /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		945E42FC1517F2B500057D08 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		945E43021517F2B500057D08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945E43001517F2B500057D08 /* InfoPlist.strings */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
@@ -1870,6 +1881,20 @@
 		943F99C81707E0AE00270E89 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		943F99D21707F48300270E89 /* OE3DOSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE3DOSystemController.h; sourceTree = "<group>"; };
 		943F99D31707F48400270E89 /* OE3DOSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE3DOSystemController.m; sourceTree = "<group>"; };
+		94454EB417860E1D006C057B /* PSP.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PSP.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		94454EB817860E1E006C057B /* PSP-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PSP-Info.plist"; sourceTree = "<group>"; };
+		94454EBA17860E1E006C057B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94454EC217860F4B006C057B /* OEPSPSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSPSystemController.h; sourceTree = "<group>"; };
+		94454EC317860F4B006C057B /* OEPSPSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPSPSystemController.m; sourceTree = "<group>"; };
+		94454EC417860F4B006C057B /* OEPSPSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSPSystemResponder.h; sourceTree = "<group>"; };
+		94454EC517860F4B006C057B /* OEPSPSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPSPSystemResponder.m; sourceTree = "<group>"; };
+		94454EC617860F4B006C057B /* OEPSPSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPSPSystemResponderClient.h; sourceTree = "<group>"; };
+		94454EC917861098006C057B /* controller_psp_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_psp_mask.png; sourceTree = "<group>"; };
+		94454ECA17861098006C057B /* controller_psp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_psp.png; sourceTree = "<group>"; };
+		94454ECB17861098006C057B /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		94454ECC17861098006C057B /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		94454ECD17861098006C057B /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94454ECE17861098006C057B /* psp_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = psp_library.png; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E43011517F2B500057D08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2486,6 +2511,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94454EB117860E1D006C057B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94454EB517860E1E006C057B /* Cocoa.framework in Frameworks */,
+				94454ED517861123006C057B /* OpenEmuSystem.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		945E42F81517F2B500057D08 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2821,6 +2855,7 @@
 				943C80351708F23900D8D93E /* VMU.oesystemplugin */,
 				94BE9E50171683E000AB08E6 /* ColecoVision.oesystemplugin */,
 				946B9462178289BA00A212AC /* Sega 32X.oesystemplugin */,
+				94454EB417860E1D006C057B /* PSP.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4365,6 +4400,34 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		94454EB617860E1E006C057B /* PSP */ = {
+			isa = PBXGroup;
+			children = (
+				94454EC217860F4B006C057B /* OEPSPSystemController.h */,
+				94454EC317860F4B006C057B /* OEPSPSystemController.m */,
+				94454EC417860F4B006C057B /* OEPSPSystemResponder.h */,
+				94454EC517860F4B006C057B /* OEPSPSystemResponder.m */,
+				94454EC617860F4B006C057B /* OEPSPSystemResponderClient.h */,
+				94454EB717860E1E006C057B /* Supporting Files */,
+			);
+			path = PSP;
+			sourceTree = "<group>";
+		};
+		94454EB717860E1E006C057B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94454ECE17861098006C057B /* psp_library.png */,
+				94454EC917861098006C057B /* controller_psp_mask.png */,
+				94454ECA17861098006C057B /* controller_psp.png */,
+				94454ECD17861098006C057B /* Keyboard-Mappings.plist */,
+				94454ECB17861098006C057B /* Controller-Mappings.plist */,
+				94454ECC17861098006C057B /* Controller-Preferences.plist */,
+				94454EB817860E1E006C057B /* PSP-Info.plist */,
+				94454EB917860E1E006C057B /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		945E42FD1517F2B500057D08 /* Arcade */ = {
 			isa = PBXGroup;
 			children = (
@@ -5098,6 +5161,7 @@
 				943C80371708F23900D8D93E /* VMU */,
 				94BE9E52171683E000AB08E6 /* ColecoVision */,
 				946B9464178289BB00A212AC /* Sega 32X */,
+				94454EB617860E1E006C057B /* PSP */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -5394,6 +5458,23 @@
 			name = 3DO;
 			productName = 3DO;
 			productReference = 943F99B31707DF3700270E89 /* 3DO.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+		94454EB317860E1D006C057B /* PSP */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94454EC117860E1E006C057B /* Build configuration list for PBXNativeTarget "PSP" */;
+			buildPhases = (
+				94454EB017860E1D006C057B /* Sources */,
+				94454EB117860E1D006C057B /* Frameworks */,
+				94454EB217860E1D006C057B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PSP;
+			productName = PSP;
+			productReference = 94454EB417860E1D006C057B /* PSP.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		945E42FA1517F2B500057D08 /* Arcade */ = {
@@ -5850,6 +5931,7 @@
 				943C80341708F23900D8D93E /* VMU */,
 				94BE9E4F171683E000AB08E6 /* ColecoVision */,
 				946B9461178289BA00A212AC /* Sega 32X */,
+				94454EB317860E1D006C057B /* PSP */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -6241,6 +6323,20 @@
 				943F99CC1707E0AE00270E89 /* Controller-Mappings.plist in Resources */,
 				943F99CD1707E0AE00270E89 /* Controller-Preferences.plist in Resources */,
 				943F99CE1707E0AE00270E89 /* Keyboard-Mappings.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94454EB217860E1D006C057B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94454EBB17860E1E006C057B /* InfoPlist.strings in Resources */,
+				94454ECF17861098006C057B /* controller_psp_mask.png in Resources */,
+				94454ED017861098006C057B /* controller_psp.png in Resources */,
+				94454ED117861098006C057B /* Controller-Mappings.plist in Resources */,
+				94454ED217861098006C057B /* Controller-Preferences.plist in Resources */,
+				94454ED317861098006C057B /* Keyboard-Mappings.plist in Resources */,
+				94454ED417861098006C057B /* psp_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6921,6 +7017,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94454EB017860E1D006C057B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94454EC717860F4B006C057B /* OEPSPSystemController.m in Sources */,
+				94454EC817860F4B006C057B /* OEPSPSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		945E42F71517F2B500057D08 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -7272,6 +7377,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				943F99B91707DF3700270E89 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		94454EB917860E1E006C057B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94454EBA17860E1E006C057B /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -7901,6 +8014,50 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INFOPLIST_FILE = "3DO/3DO-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
+		94454EBD17860E1E006C057B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "PSP/PSP-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		94454EBE17860E1E006C057B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "PSP/PSP-Info.plist";
 				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -9147,6 +9304,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		94454EC117860E1E006C057B /* Build configuration list for PBXNativeTarget "PSP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94454EBD17860E1E006C057B /* Debug */,
+				94454EBE17860E1E006C057B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		945E43061517F2B500057D08 /* Build configuration list for PBXNativeTarget "Arcade" */ = {
 			isa = XCConfigurationList;
