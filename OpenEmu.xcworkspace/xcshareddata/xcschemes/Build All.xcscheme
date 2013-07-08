@@ -168,6 +168,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "82408A730FFDEB3F00F0FE7D"
+               BuildableName = "Build &amp; Install Mednafen"
+               BlueprintName = "Build &amp; Install Mednafen"
+               ReferencedContainer = "container:Mednafen/Mednafen.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D15AC270486D014006FF6A4"
                BuildableName = "OpenEmu.app"
                BlueprintName = "OpenEmu"
