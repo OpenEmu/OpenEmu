@@ -36,8 +36,13 @@ typedef enum _OEPCEButton
 	OEPCEButtonRight,
 	OEPCEButton1,
 	OEPCEButton2,
-    OEPCEButtonRun,
+	OEPCEButton3,
+	OEPCEButton4,
+	OEPCEButton5,
+	OEPCEButton6,
+	OEPCEButtonRun,
 	OEPCEButtonSelect,
+	OEPCEButtonMode,
 	OEPCEButtonCount
 } OEPCEButton;
 

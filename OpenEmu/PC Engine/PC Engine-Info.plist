@@ -31,7 +31,7 @@
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.pce</string>
 	<key>OENumberOfPlayersKey</key>
-	<integer>1</integer>
+	<integer>2</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEPCESystemResponder</string>
 	<key>OEFileSuffixes</key>
@@ -94,6 +94,36 @@
 				<key>OEControlListKeyNameKey</key>
 				<string>OEPCEButton2</string>
 			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>3</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEPCEButton3</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>4</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEPCEButton4</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>5</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEPCEButton5</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>6</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEPCEButton6</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>2/6 Mode</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEPCEButtonMode</string>
+			</dict>
 		</array>
 	</array>
 	<key>OEGenericControlNamesKey</key>
@@ -104,8 +134,13 @@
 		<string>OEPCEButtonRight</string>
 		<string>OEPCEButton1</string>
 		<string>OEPCEButton2</string>
+		<string>OEPCEButton3</string>
+		<string>OEPCEButton4</string>
+		<string>OEPCEButton5</string>
+		<string>OEPCEButton6</string>
 		<string>OEPCEButtonRun</string>
 		<string>OEPCEButtonSelect</string>
+		<string>OEPCEButtonMode</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>

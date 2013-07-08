@@ -14,9 +14,19 @@
 	<integer>4</integer>
 	<key>OEPCEButton2</key>
 	<integer>22</integer>
+	<key>OEPCEButton3</key>
+	<integer>7</integer>
+	<key>OEPCEButton4</key>
+	<integer>20</integer>
+	<key>OEPCEButton5</key>
+	<integer>26</integer>
+	<key>OEPCEButton6</key>
+	<integer>8</integer>
 	<key>OEPCEButtonRun</key>
 	<integer>44</integer>
 	<key>OEPCEButtonSelect</key>
 	<integer>41</integer>
+	<key>OEPCEButtonMode</key>
+	<integer>23</integer>
 </dict>
 </plist>

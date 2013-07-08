@@ -24,6 +24,16 @@
 		<string>{390, 180}</string>
 		<key>OEPCEButton2</key>
 		<string>{345, 180}</string>
+		<key>OEPCEButton3</key>
+		<string>{0, 0}</string>
+		<key>OEPCEButton4</key>
+		<string>{0, 0}</string>
+		<key>OEPCEButton5</key>
+		<string>{0, 0}</string>
+		<key>OEPCEButton6</key>
+		<string>{0, 0}</string>
+		<key>OEPCEButtonMode</key>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>
