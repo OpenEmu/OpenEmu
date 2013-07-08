@@ -37,6 +37,7 @@
 	<key>OEControlListKey</key>
 	<array>
 		<array>
+			<string>Left D-Pad</string>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
 				<string>Up</string>
@@ -63,6 +64,7 @@
 			</dict>
 		</array>
 		<array>
+			<string>Right D-Pad</string>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
 				<string>Up</string>
