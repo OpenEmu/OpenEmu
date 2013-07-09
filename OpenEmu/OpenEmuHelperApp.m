@@ -594,8 +594,8 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
         DLog(@"Loaded bundle. About to load rom...");
 
-        // Never extract arcade roms
-        if(![systemIdentifier isEqualToString:@"openemu.system.arcade"])
+        // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
+        if(![systemIdentifier isEqualToString:@"openemu.system.arcade"] && ![[aPath pathExtension] isEqualToString:@"md"])
             aPath = [self decompressedPathForRomAtPath:aPath];
 
         if([_gameCore loadFileAtPath:aPath])
