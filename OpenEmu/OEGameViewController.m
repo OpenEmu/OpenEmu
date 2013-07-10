@@ -787,7 +787,7 @@ typedef enum : NSUInteger
 - (IBAction)quickSave:(id)sender;
 {
     int slot = 0;
-    if([[sender representedObject] isKindOfClass:[NSNumber class]])
+    if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] respondsToSelector:@selector(intValue)])
         slot = [[sender representedObject] intValue];
     else if([sender respondsToSelector:@selector(tag)])
         slot = [sender tag];
@@ -926,14 +926,13 @@ typedef enum : NSUInteger
 - (IBAction)quickLoad:(id)sender;
 {
     int slot = 0;
-    if([[sender representedObject] isKindOfClass:[NSNumber class]])
+    if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] respondsToSelector:@selector(intValue)])
         slot = [[sender representedObject] intValue];
     else if([sender respondsToSelector:@selector(tag)])
         slot = [sender tag];
 
     OEDBSaveState *quicksaveState = [[self rom] quickSaveStateInSlot:slot];
-    if(quicksaveState)
-        [self loadState:quicksaveState];
+    if(quicksaveState!= nil) [self loadState:quicksaveState];
 }
 
 - (BOOL)OE_loadStateFromFile:(NSString*)fileName
