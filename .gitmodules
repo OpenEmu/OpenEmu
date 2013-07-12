@@ -40,3 +40,6 @@
 [submodule "UME"]
 	path = UME
 	url = https://github.com/OpenEmu/UME-Core.git
+[submodule "PPSSPP"]
+	path = PPSSPP
+	url = https://github.com/OpenEmu/PPSSPP-Core.git
