@@ -30,29 +30,42 @@
 
 @implementation OEPSPSystemController
 
-// read header to detect PSP ISO
+// read header to detect PSP ISO & CSO
 - (OECanHandleState)canHandleFile:(NSString *)path
 {
     BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
     OECanHandleState canHandleFile = OECanHandleNo;
-
+    
     if(handleFileExtension)
     {
         NSFileHandle *dataFile;
         NSData *dataBuffer;
-
+        
         dataFile = [NSFileHandle fileHandleForReadingAtPath:path];
-        [dataFile seekToFileOffset: 0x8001];
-        dataBuffer = [dataFile readDataOfLength:5];
-
+        
+        // Handle CSO
+        dataBuffer = [dataFile readDataOfLength:4];
+        
         NSString *dataString = [[NSString alloc] initWithData:dataBuffer encoding:NSUTF8StringEncoding];
         NSLog(@"'%@'", dataString);
-        if([dataString isEqualToString:@"CD001"])
+        if([dataString isEqualToString:@"CISO"])
             canHandleFile = OECanHandleYes;
-
+        
+        // Handle ISO
+        if(!canHandleFile)
+        {
+            [dataFile seekToFileOffset: 0x8001];
+            dataBuffer = [dataFile readDataOfLength:5];
+            
+            NSString *dataString = [[NSString alloc] initWithData:dataBuffer encoding:NSUTF8StringEncoding];
+            NSLog(@"'%@'", dataString);
+            if([dataString isEqualToString:@"CD001"])
+                canHandleFile = OECanHandleYes;
+        }
+        
         [dataFile closeFile];
     }
-
+    
     return canHandleFile;
 }
 
