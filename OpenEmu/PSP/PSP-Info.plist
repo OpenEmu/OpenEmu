@@ -139,11 +139,11 @@
 	<dict>
 		<key>OEAnalogControlsKey</key>
 		<array>
-            <string>OEPSPAnalogUp</string>
-            <string>OEPSPAnalogDown</string>
-            <string>OEPSPAnalogLeft</string>
-            <string>OEPSPAnalogRight</string>
-        </array>
+			<string>OEPSPAnalogUp</string>
+			<string>OEPSPAnalogDown</string>
+			<string>OEPSPAnalogLeft</string>
+			<string>OEPSPAnalogRight</string>
+		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
@@ -176,6 +176,7 @@
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>iso</string>
+		<string>cso</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
