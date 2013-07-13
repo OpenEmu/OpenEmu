@@ -30,7 +30,7 @@
 
 @implementation OEPSPSystemController
 
-// read header to detect PSP ISO
+// read header to detect PSP ISO & CSO
 - (OECanHandleState)canHandleFile:(NSString *)path
 {
     BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
@@ -38,6 +38,10 @@
 
     if(handleFileExtension)
     {
+        // Handle cso file and return early
+        if ( [[[path pathExtension] lowercaseString] isEqualToString:@"cso"])
+            return OECanHandleYes;
+        
         NSFileHandle *dataFile;
         NSData *dataBuffer;
 
