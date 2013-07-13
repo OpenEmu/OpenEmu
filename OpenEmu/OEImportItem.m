@@ -60,8 +60,8 @@
         return nil;
     }
     
-    // Ignore text files that are not .cue
-    if(![[[url pathExtension] lowercaseString] isEqualToString:@"cue"] &&
+    // Ignore text files that are .md
+    if([[[url pathExtension] lowercaseString] isEqualToString:@"md"] &&
        [[[GEMagicKit magicForFileAtURL:url] uniformTypeHierarchy] containsObject:(id)kUTTypeText])
     {
         // DLog(@"%@ is a text file, skipping", [url path]);
