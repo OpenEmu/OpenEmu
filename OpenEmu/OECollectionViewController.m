@@ -1228,7 +1228,6 @@ static NSArray *OE_defaultSortDescriptors;
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-    
     if( aTableView == listView)
     {
         id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
@@ -1316,7 +1315,6 @@ static NSArray *OE_defaultSortDescriptors;
 
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
 {
-    
     if( aTableView == listView )
     {
         [rowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) 
@@ -1327,7 +1325,7 @@ static NSArray *OE_defaultSortDescriptors;
         
         return YES;
     }
-    
+
     return NO;
 }
 
@@ -1339,7 +1337,6 @@ static NSArray *OE_defaultSortDescriptors;
     {
         if(![aCell isKindOfClass:[OERatingCell class]]) [aCell setHighlighted:NO];
     }
-    
 }
 
 - (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
@@ -1349,7 +1346,6 @@ static NSArray *OE_defaultSortDescriptors;
 
 - (BOOL)selectionShouldChangeInTableView:(NSTableView *)aTableView
 {
-    
     if( aTableView == listView )
     {
         return YES;
