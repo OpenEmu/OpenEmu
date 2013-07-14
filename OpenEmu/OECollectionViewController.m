@@ -551,7 +551,6 @@ static NSArray *OE_defaultSortDescriptors;
     [listView reloadData];
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     [gridView reloadData];
-
 }
 
 - (IBAction)changeGridSize:(id)sender
@@ -693,6 +692,9 @@ static NSArray *OE_defaultSortDescriptors;
     {
         [[(NSManagedObject*)object managedObjectContext] save:nil];
     }
+
+    // Search results may no longer be valid, reload
+    [self OE_reloadData];
 }
 #pragma mark - GridView Type Select
 - (BOOL)gridView:(OEGridView *)gridView shouldTypeSelectForEvent:(NSEvent *)event withCurrentSearchString:(NSString *)searchString
@@ -1240,6 +1242,9 @@ static NSArray *OE_defaultSortDescriptors;
                 anObject = [anObject string];
             
             [obj setListViewTitle:anObject];
+
+            // Search results may no longer be valid, reload
+            [self OE_reloadData];
         }
         else return;
         
