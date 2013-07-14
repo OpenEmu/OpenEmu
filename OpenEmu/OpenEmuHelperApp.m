@@ -710,7 +710,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     [[self gameCore] saveStateToFileAtPath:fileName completionHandler:
      ^(BOOL success)
      {
-         [delegate gameCoreHelperDidSaveState:YES];
+         [delegate gameCoreHelperDidSaveState:success];
      }];
 }
 
@@ -719,7 +719,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     [[self gameCore] loadStateFromFileAtPath:fileName completionHandler:
      ^(BOOL success)
      {
-         [delegate gameCoreHelperDidLoadState:YES];
+         [delegate gameCoreHelperDidLoadState:success];
      }];
 }
 
