@@ -38,6 +38,11 @@
 - (void)setPauseEmulation:(BOOL)paused;
 @end
 
+@protocol OEGameCoreHelperSaveStateDelegate <NSObject>
+- (void)gameCoreHelperDidSaveState:(BOOL)success;
+- (void)gameCoreHelperDidLoadState:(BOOL)success;
+@end
+
 // our helper app needs to handle these functions
 @protocol OEGameCoreHelper <NSObject>
 
@@ -63,8 +68,8 @@
 - (void)setupEmulation;
 - (void)stopEmulation;
 
-- (BOOL)saveStateToFileAtPath:(NSString *)fileName;
-- (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
+- (void)saveStateToFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
+- (void)loadStateFromFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
 
 - (void)setCheat:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled;
 

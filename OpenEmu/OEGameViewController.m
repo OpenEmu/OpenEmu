@@ -78,9 +78,14 @@ typedef enum : NSUInteger
     OEGameViewControllerEmulationStatusTerminating = 3,
 } OEGameViewControllerEmulationStatus;
 
+@interface OEGameViewControllerSaveStateCallback : NSObject <OEGameCoreHelperSaveStateDelegate>
++ (instancetype)saveStateCallbackWithBlock:(void (^)(BOOL))block;
+@property(copy) void (^callback)(BOOL success);
+@end
 
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
+
 @interface OEGameViewController ()
 {
     NSTimer                             *_systemSleepTimer;
@@ -90,17 +95,6 @@ typedef enum : NSUInteger
     NSDate                              *_lastPlayStartDate;
     BOOL                                 _pausedByGoingToBackground;
 }
-
-+ (OEDBRom *)OE_chooseRomFromGame:(OEDBGame *)game;
-
-- (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin *)core error:(NSError **)outError;
-- (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError;
-- (BOOL)OE_loadStateFromFile:(NSString *)fileName;
-
-- (void)OE_restartUsingCore:(OECorePlugin *)core;
-
-- (void)OE_repositionControlsWindow;
-- (void)OE_terminateEmulationWithoutNotification;
 
 @end
 
@@ -117,9 +111,7 @@ typedef enum : NSUInteger
 // window doesn’t show them.
 + (void)load
 {
-    [[NSUserDefaults standardUserDefaults] registerDefaults:(@{
-                                                             OEBackgroundPauseKey : @YES,
-                                                             })];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OEBackgroundPauseKey : @YES }];
 }
 
 - (id)initWithRom:(OEDBRom *)rom
@@ -812,7 +804,6 @@ typedef enum : NSUInteger
             return;
         }
 
-        BOOL      success                = NO;
         NSString *temporaryDirectoryPath = NSTemporaryDirectory();
         NSURL    *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
         NSURL    *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
@@ -824,42 +815,46 @@ typedef enum : NSUInteger
                                      return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
                                  }];
 
-        success = [rootProxy saveStateToFileAtPath:[temporaryStateFileURL path]];
-        if(!success)
-        {
-            NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
-            return;
-        }
+        [rootProxy saveStateToFileAtPath:[temporaryStateFileURL path] delegate:
+         [OEGameViewControllerSaveStateCallback saveStateCallbackWithBlock:
+          ^(BOOL success)
+          {
+              if(!success)
+              {
+                  NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
+                  return;
+              }
 
-        BOOL isSpecialSaveState = [stateName hasPrefix:OESaveStateSpecialNamePrefix];
-        OEDBSaveState *state;
-        if(isSpecialSaveState)
-        {
-            state = [[self rom] saveStateWithName:stateName];
-            [state setCoreIdentifier:[core bundleIdentifier]];
-            [state setCoreVersion:[core version]];
-        }
+              BOOL isSpecialSaveState = [stateName hasPrefix:OESaveStateSpecialNamePrefix];
+              OEDBSaveState *state;
+              if(isSpecialSaveState)
+              {
+                  state = [[self rom] saveStateWithName:stateName];
+                  [state setCoreIdentifier:[core bundleIdentifier]];
+                  [state setCoreVersion:[core version]];
+              }
 
-        if(state == nil)
-            state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:core withFile:temporaryStateFileURL];
-        else
-        {
-            [state replaceStateFileWithFile:temporaryStateFileURL];
-            [state setTimestamp:[NSDate date]];
-            [state writeInfoPlist];
-        }
+              if(state == nil)
+                  state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:core withFile:temporaryStateFileURL];
+              else
+              {
+                  [state replaceStateFileWithFile:temporaryStateFileURL];
+                  [state setTimestamp:[NSDate date]];
+                  [state writeInfoPlist];
+              }
 
-        NSImage *screenshotImage = [gameView nativeScreenshot];
-        NSData *TIFFData = [screenshotImage TIFFRepresentation];
-        NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
-        NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
-        success = [PNGData writeToURL:[state screenshotURL] atomically: YES];
-
-        if(!success) NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
+              NSImage *screenshotImage = [gameView nativeScreenshot];
+              NSData *TIFFData = [screenshotImage TIFFRepresentation];
+              NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
+              NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
+              success = [PNGData writeToURL:[state screenshotURL] atomically: YES];
+              
+              if(!success) NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
+              if(wasPreviouslyPlaying) [self playGame:self];
+          }]];
     }
     @finally
     {
-        if(wasPreviouslyPlaying) [self playGame:self];
     }
 }
 
@@ -894,6 +889,7 @@ typedef enum : NSUInteger
                                                defaultButton:NSLocalizedString(@"OK", @"")
                                              alternateButton:NSLocalizedString(@"Cancel", @"")];
         [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
+
         if([alert runModal])
         {
             OECorePlugin *core = [OECorePlugin corePluginWithBundleIdentifier:[state coreIdentifier]];
@@ -901,25 +897,28 @@ typedef enum : NSUInteger
                 [self OE_restartUsingCore:core];
             else
             {
-                [[OECoreUpdater sharedUpdater] installCoreForSaveState:state withCompletionHandler:^(NSError *error) {
+                [[OECoreUpdater sharedUpdater] installCoreForSaveState:state withCompletionHandler:
+                 ^(NSError *error)
+                 {
                     if(error == nil)
                     {
                         OECorePlugin *core = [OECorePlugin corePluginWithBundleIdentifier:[state coreIdentifier]];
                         [self OE_restartUsingCore:core];
-                        [self OE_loadStateFromFile:[[state stateFileURL] path]];
+                        [rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] delegate:nil];
                         [self playGame:self];
                     }
-                }];
+                 }];
                 return;
             }
         }
         else
         {
-            [self playGame:self];
+            [self playGame:self]; 
             return;
         }
     }
-    [self OE_loadStateFromFile:[[state stateFileURL] path]];
+
+    [rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] delegate:nil];
     [self playGame:self];
 }
 
@@ -933,11 +932,6 @@ typedef enum : NSUInteger
 
     OEDBSaveState *quicksaveState = [[self rom] quickSaveStateInSlot:slot];
     if(quicksaveState!= nil) [self loadState:quicksaveState];
-}
-
-- (BOOL)OE_loadStateFromFile:(NSString*)fileName
-{
-    return [rootProxy loadStateFromFileAtPath:fileName];
 }
 
 #pragma mark
@@ -963,6 +957,7 @@ typedef enum : NSUInteger
 }
 
 #pragma mark - Taking Screenshots
+
 - (void)takeScreenshot:(id)sender
 {
     NSImage *screenshotImage = [gameView screenshot];
@@ -981,6 +976,7 @@ typedef enum : NSUInteger
 }
 
 #pragma mark - Menu Items
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
     SEL action = [menuItem action];
@@ -1223,6 +1219,27 @@ typedef enum : NSUInteger
 
 - (void)processFinished:(OETaskWrapper *)aTask withStatus:(NSInteger)statusCode
 {
+}
+
+@end
+
+@implementation OEGameViewControllerSaveStateCallback
+
++ (instancetype)saveStateCallbackWithBlock:(void (^)(BOOL))block;
+{
+    OEGameViewControllerSaveStateCallback *newInstance = [[OEGameViewControllerSaveStateCallback alloc] init];
+    [newInstance setCallback:block];
+    return newInstance;
+}
+
+- (void)gameCoreHelperDidSaveState:(BOOL)success
+{
+    [self callback](success);
+}
+
+- (void)gameCoreHelperDidLoadState:(BOOL)success
+{
+    [self callback](success);
 }
 
 @end
