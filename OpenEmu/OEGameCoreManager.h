@@ -32,13 +32,6 @@
 @class OECorePlugin, OEGameCoreController, OpenEmuHelperApp;
 
 @interface OEGameCoreManager : NSObject
-{
-    NSString             *romPath;
-    //OECorePlugin         *plugin;
-    //OEGameCoreController *__weak owner;
-    
-    id<OEGameCoreHelper>  rootProxy;
-}
 
 @property(readonly, copy) NSString             *romPath;
 @property(readonly, weak) OECorePlugin         *plugin;
@@ -52,19 +45,13 @@
 
 #pragma mark -
 #pragma mark Abstract methods, must be overrode in subclasses
-@property(readonly) id<OEGameCoreHelper>  rootProxy;
+@property(readonly) id<OEGameCoreHelper> rootProxy;
 - (BOOL)startHelperProcessError:(NSError **)outError;
 - (void)endHelperProcess;
 
 @end
 
 @interface OEGameCoreProcessManager : OEGameCoreManager <OETaskWrapperController>
-{
-    // IPC from our OEHelper
-    OETaskWrapper        *helper;
-    NSString             *taskUUIDForDOServer;
-    NSConnection         *taskConnection;    
-}
 
 @property(readonly) OETaskWrapper *helper;
 
@@ -72,15 +59,6 @@
 
 
 @interface OEGameCoreThreadManager : OEGameCoreManager
-{
-    // IPC from our OEHelper
-    NSThread             *helper;
-    NSString             *taskUUIDForDOServer;
-    NSConnection         *taskConnection;
-    NSError              *error;
-        
-    OpenEmuHelperApp     *helperObject;
-}
 
 - (void)executionThread:(id)object;
 

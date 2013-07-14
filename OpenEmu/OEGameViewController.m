@@ -411,7 +411,7 @@ typedef enum : NSUInteger
                           : [OEGameCoreProcessManager class]);
     _gameCoreManager = [[managerClass alloc] initWithROMAtPath:[[[self rom] URL] path] corePlugin:_corePlugin systemIdentifier:systemIdentifier error:&error];
 
-    if(!_gameCoreManager)
+    if(_gameCoreManager == nil)
     {
         [[self document] presentError:error];
 
@@ -621,7 +621,7 @@ typedef enum : NSUInteger
     else if ([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] isKindOfClass:[OEAudioDevice class]])
         device = [sender representedObject];
 
-    if(!device)
+    if(device == nil)
     {
         DLog(@"Invalid argument: %@", sender);
         return;
@@ -1034,8 +1034,9 @@ typedef enum : NSUInteger
         return NO;
     }
 
-    if(!core) core = [self OE_coreForSystem:[[[[self rom] game] system] plugin] error:outError];
-    if(!core)
+    if(core == nil) core = [self OE_coreForSystem:[[[[self rom] game] system] plugin] error:outError];
+
+    if(core == nil)
     {
         if(outError != NULL)
             *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain

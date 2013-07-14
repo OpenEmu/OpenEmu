@@ -32,15 +32,15 @@
 @class OEGameCoreController;
 
 @protocol OEGameCoreHelperDelegate <NSObject>
-- (void)gameCoreDidChangeScreenSizeTo:(OEIntSize)screenSize;
-- (void)gameCoreDidChangeAspectSizeTo:(OEIntSize)aspectSize;
-- (void)toggleVSync:(GLint)swapInt;
-- (void)setPauseEmulation:(BOOL)paused;
+- (oneway void)gameCoreDidChangeScreenSizeTo:(OEIntSize)screenSize;
+- (oneway void)gameCoreDidChangeAspectSizeTo:(OEIntSize)aspectSize;
+- (oneway void)toggleVSync:(GLint)swapInt;
+- (oneway void)setPauseEmulation:(BOOL)paused;
 @end
 
 @protocol OEGameCoreHelperSaveStateDelegate <NSObject>
-- (void)gameCoreHelperDidSaveState:(BOOL)success;
-- (void)gameCoreHelperDidLoadState:(BOOL)success;
+- (oneway void)gameCoreHelperDidSaveState:(BOOL)success;
+- (oneway void)gameCoreHelperDidLoadState:(BOOL)success;
 @end
 
 // our helper app needs to handle these functions
@@ -60,7 +60,7 @@
 
 @property(readwrite) BOOL drawSquarePixels;
 @property(readonly) IOSurfaceID surfaceID;
-@property(weak) id <OEGameCoreHelperDelegate> delegate;
+@property(weak) id<OEGameCoreHelperDelegate> delegate;
 
 - (byref OEGameCore *)gameCore;
 
@@ -68,8 +68,8 @@
 - (void)setupEmulation;
 - (void)stopEmulation;
 
-- (void)saveStateToFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
-- (void)loadStateFromFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
+- (oneway void)saveStateToFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
+- (oneway void)loadStateFromFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
 
 - (void)setCheat:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled;
 

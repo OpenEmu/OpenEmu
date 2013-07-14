@@ -686,7 +686,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     return [[self gameCore] setCheat:code setType:type setEnabled:enabled];
 }
 
-- (void)saveStateToFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
+- (oneway void)saveStateToFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
 {
     [[self gameCore] saveStateToFileAtPath:fileName completionHandler:
      ^(BOOL success)
@@ -695,7 +695,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
      }];
 }
 
-- (void)loadStateFromFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
+- (oneway void)loadStateFromFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
 {
     [[self gameCore] loadStateFromFileAtPath:fileName completionHandler:
      ^(BOOL success)
