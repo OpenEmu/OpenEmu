@@ -695,7 +695,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
         [[self gameCore] saveStateToFileAtPath:fileName completionHandler:
          ^(BOOL success)
          {
-             result = YES;
+             result = success;
              dispatch_group_leave(group);
          }];
     });
