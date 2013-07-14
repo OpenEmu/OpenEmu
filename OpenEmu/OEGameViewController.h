@@ -58,36 +58,14 @@ extern NSString *const OEGameViewControllerROMKey;
 @protocol OEGameIntegralScalingDelegate;
 
 @interface OEGameViewController : NSViewController
-{
-    // IPC from our OEHelper
-    id<OEGameCoreHelper>  rootProxy;
-    OEGameCoreManager    *gameCoreManager;
-    
-    // Standard game document stuff
-    NSTimer              *frameTimer;
-    // OEGameQTRecorder     *recorder;
-    //NSString             *emulatorName;
-    OEGameView           *gameView;
-    OESystemController   *gameSystemController;
-    
-    OESystemResponder    *gameSystemResponder;
-    BOOL                  keyedOnce;
-    
-    NSTimer* gameViewTransitionTimer;
-}
 
-- (id)initWithRom:(OEDBRom *)rom;
-- (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin *)core;
-- (id)initWithRom:(OEDBRom *)rom error:(NSError **)outError;
 - (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin *)core error:(NSError **)outError;
-- (id)initWithGame:(OEDBGame *)game;
-- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core;
-- (id)initWithGame:(OEDBGame *)game error:(NSError **)outError;
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core error:(NSError **)outError;
 
-- (id)initWithSaveState:(OEDBSaveState *)state;
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
+
 #pragma mark -
+
 @property(strong) OEGameControlsBar *controlsWindow;
 @property(readonly) OEGameView *gameView;
 
@@ -96,7 +74,6 @@ extern NSString *const OEGameViewControllerROMKey;
 
 @property(strong) OEDBRom        *rom;
 @property(weak)   OEGameDocument *document;
-
 
 #pragma mark - HUD Bar Actions
 // switchCore:: expects sender or [sender representedObject] to be an OECorePlugin object and prompts the user for confirmation
@@ -133,7 +110,6 @@ extern NSString *const OEGameViewControllerROMKey;
 #pragma mark - Saving States
 - (IBAction)saveState:(id)sender;
 - (IBAction)quickSave:(id)sender;
-- (void)saveStateWithName:(NSString *)stateName;
 
 #pragma mark - Loading States
 // loadState: expects sender or [sender representedObject] to be an OEDBSaveState object
@@ -149,8 +125,8 @@ extern NSString *const OEGameViewControllerROMKey;
 
 #pragma mark - Info
 - (NSSize)defaultScreenSize;
-- (NSString*)coreIdentifier;
-- (NSString*)systemIdentifier;
+- (NSString *)coreIdentifier;
+- (NSString *)systemIdentifier;
 
 #pragma mark -
 #pragma mark Menu Items

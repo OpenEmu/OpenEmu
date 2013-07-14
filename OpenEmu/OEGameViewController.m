@@ -88,6 +88,16 @@ typedef enum : NSUInteger
 
 @interface OEGameViewController ()
 {
+    // IPC from our OEHelper
+    id<OEGameCoreHelper>                 _rootProxy;
+    OEGameCoreManager                   *_gameCoreManager;
+
+    // Standard game document stuff
+    OEGameView                          *_gameView;
+    OESystemController                  *_gameSystemController;
+
+    OESystemResponder                   *_gameSystemResponder;
+
     NSTimer                             *_systemSleepTimer;
     OECorePlugin                        *_corePlugin;
     OEGameViewControllerEmulationStatus  _emulationStatus;
@@ -99,10 +109,6 @@ typedef enum : NSUInteger
 @end
 
 @implementation OEGameViewController
-@synthesize delegate;
-@synthesize rom = _rom, document;
-@synthesize controlsWindow;
-@synthesize gameView;
 
 // We cannot use +initialize since it is only sent when the class is first used
 // by the runtime. If the user opens the Preferences window before running any games,
@@ -114,25 +120,12 @@ typedef enum : NSUInteger
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OEBackgroundPauseKey : @YES }];
 }
 
-- (id)initWithRom:(OEDBRom *)rom
-{
-    return [self initWithRom:rom core:nil error:nil];
-}
-- (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin *)core
-{
-    return [self initWithRom:rom core:core error:nil];
-}
-- (id)initWithRom:(OEDBRom *)rom error:(NSError **)outError
-{
-    return [self initWithRom:rom core:nil error:outError];
-}
-
 - (id)initWithRom:(OEDBRom *)aRom core:(OECorePlugin *)core error:(NSError **)outError
 {
     if((self = [super init]))
     {
-        controlsWindow = [[OEGameControlsBar alloc] initWithGameViewController:self];
-        [controlsWindow setReleasedWhenClosed:YES];
+        _controlsWindow = [[OEGameControlsBar alloc] initWithGameViewController:self];
+        [_controlsWindow setReleasedWhenClosed:YES];
         
         [self setRom:aRom];
         NSURL *url = [[self rom] URL];
@@ -167,29 +160,9 @@ typedef enum : NSUInteger
     return self;
 }
 
-- (id)initWithGame:(OEDBGame *)game
-{
-    return [self initWithGame:game core:nil error:nil];
-}
-
-- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core
-{
-    return [self initWithGame:game core:core error:nil];
-}
-
-- (id)initWithGame:(OEDBGame *)game error:(NSError **)outError
-{
-    return [self initWithGame:game core:nil error:outError];
-}
-
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core error:(NSError **)outError
 {
     return [self initWithRom:[OEGameViewController OE_chooseRomFromGame:game] core:core error:outError];
-}
-
-- (id)initWithSaveState:(OEDBSaveState *)state
-{
-    return [self initWithSaveState:state error:nil];
 }
 
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError
@@ -234,13 +207,14 @@ typedef enum : NSUInteger
 - (void)dealloc
 {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self name:NSViewFrameDidChangeNotification object:gameView];
+    [nc removeObserver:self name:NSViewFrameDidChangeNotification object:_gameView];
     [nc removeObserver:self name:OEDeviceHandlerDidReceiveLowBatteryWarningNotification object:nil];
     [nc removeObserver:self name:OEDeviceManagerDidRemoveDeviceHandlerNotification object:nil];
 
-    [controlsWindow close];
-    controlsWindow = nil;
-    gameView = nil;
+    [_controlsWindow
+     close];
+    _controlsWindow = nil;
+    _gameView = nil;
 }
 
 #pragma mark -
@@ -249,7 +223,7 @@ typedef enum : NSUInteger
 {
     [super viewDidAppear];
 
-    if([controlsWindow parentWindow] != nil) [[controlsWindow parentWindow] removeChildWindow:controlsWindow];
+    if([_controlsWindow parentWindow] != nil) [[_controlsWindow parentWindow] removeChildWindow:_controlsWindow];
     
     NSWindow *window = [self OE_rootWindow];
     if(window == nil) return;
@@ -260,16 +234,16 @@ typedef enum : NSUInteger
     [nc addObserver:self selector:@selector(windowDidMove:)         name:NSWindowDidMoveNotification         object:window];
     [nc addObserver:self selector:@selector(windowDidChangeScreen:) name:NSWindowDidChangeScreenNotification object:window];
 
-    [window addChildWindow:controlsWindow ordered:NSWindowAbove];
+    [window addChildWindow:_controlsWindow ordered:NSWindowAbove];
     [self OE_repositionControlsWindow];
-    [controlsWindow orderFront:self];
+    [_controlsWindow orderFront:self];
 
-    [window makeFirstResponder:gameView];
+    [window makeFirstResponder:_gameView];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OEDontShowGameTitleInWindowKey])
     {
         [window setTitle:[[[self rom] game] displayName]];
-        gameView.gameTitle = [[[self rom] game] displayName];
+        _gameView.gameTitle = [[[self rom] game] displayName];
     }
 #if DEBUG_PRINT
     [window setTitle:[[window title] stringByAppendingString:@" (DEBUG BUILD)"]];
@@ -345,7 +319,7 @@ typedef enum : NSUInteger
 {
     if([[OEHUDAlert resetSystemAlert] runModal] == NSAlertDefaultReturn)
     {
-        [[rootProxy gameCore] resetEmulation];
+        [[_rootProxy gameCore] resetEmulation];
         [self playGame:self];
     }
 }
@@ -374,7 +348,8 @@ typedef enum : NSUInteger
        _emulationStatus == OEGameViewControllerEmulationStatusTerminating)
         return;
 
-    [self saveStateWithName:OESaveStateAutosaveName];
+    [self OE_pauseEmulationIfNeeded];
+    [self saveStateWithName:OESaveStateAutosaveName resumeGame:NO];
 
     _emulationStatus = OEGameViewControllerEmulationStatusTerminating;
 
@@ -394,25 +369,25 @@ typedef enum : NSUInteger
 - (void)OE_terminateEmulationWithoutNotification
 {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self name:NSViewFrameDidChangeNotification object:gameView];
+    [nc removeObserver:self name:NSViewFrameDidChangeNotification object:_gameView];
     [nc removeObserver:self name:OEDeviceHandlerDidReceiveLowBatteryWarningNotification object:nil];
     [nc removeObserver:self name:OEDeviceManagerDidRemoveDeviceHandlerNotification object:nil];
 
     _emulationStatus = OEGameViewControllerEmulationStatusNotStarted;
 
-    [gameView setRootProxy:nil];
-    [gameView setGameResponder:nil];
+    [_gameView setRootProxy:nil];
+    [_gameView setGameResponder:nil];
 
-    gameView = nil;
+    _gameView = nil;
     
-    gameSystemController = nil;
-    gameSystemResponder  = nil;
+    _gameSystemController = nil;
+    _gameSystemResponder  = nil;
     
     // kill our background friend
-    [gameCoreManager stop];
+    [_gameCoreManager stop];
     
-    gameCoreManager = nil;
-    rootProxy = nil;
+    _gameCoreManager = nil;
+    _rootProxy = nil;
 
     [[self rom] addTimeIntervalToPlayTime:ABS([_lastPlayStartDate timeIntervalSinceNow])];
     _lastPlayStartDate = nil;
@@ -434,9 +409,9 @@ typedef enum : NSUInteger
     Class managerClass = ([[NSUserDefaults standardUserDefaults] boolForKey:OEGameCoresInBackgroundKey]
                           ? [OEGameCoreThreadManager  class]
                           : [OEGameCoreProcessManager class]);
-    gameCoreManager = [[managerClass alloc] initWithROMAtPath:[[[self rom] URL] path] corePlugin:_corePlugin systemIdentifier:systemIdentifier error:&error];
+    _gameCoreManager = [[managerClass alloc] initWithROMAtPath:[[[self rom] URL] path] corePlugin:_corePlugin systemIdentifier:systemIdentifier error:&error];
 
-    if(!gameCoreManager)
+    if(!_gameCoreManager)
     {
         [[self document] presentError:error];
 
@@ -446,33 +421,33 @@ typedef enum : NSUInteger
         [[self document] close];
     }
 
-    rootProxy = [gameCoreManager rootProxy];
+    _rootProxy = [_gameCoreManager rootProxy];
     
-    OEGameCore *gameCore = [rootProxy gameCore];
-    gameSystemController = [[[[[self rom] game] system] plugin] controller];
-    gameSystemResponder  = [gameSystemController newGameSystemResponder];
-    [gameSystemResponder setClient:gameCore];
+    OEGameCore *gameCore = [_rootProxy gameCore];
+    _gameSystemController = [[[[[self rom] game] system] plugin] controller];
+    _gameSystemResponder  = [_gameSystemController newGameSystemResponder];
+    [_gameSystemResponder setClient:gameCore];
 
-    if(gameView == nil)
+    if(_gameView == nil)
     {
-        gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
-        [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [[self view] addSubview:gameView];
+        _gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
+        [_gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [[self view] addSubview:_gameView];
     }
-    [gameView setGameFrameInterval:[gameCore frameInterval]];
-    [gameView setRootProxy:rootProxy];
-    [gameView setGameResponder:gameSystemResponder];
+    [_gameView setGameFrameInterval:[gameCore frameInterval]];
+    [_gameView setRootProxy:_rootProxy];
+    [_gameView setGameResponder:_gameSystemResponder];
     
-    [rootProxy setupEmulation];
+    [_rootProxy setupEmulation];
     _emulationStatus = OEGameViewControllerEmulationStatusPlaying;
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:gameView];
+    [nc addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:_gameView];
     [nc addObserver:self selector:@selector(OE_lowDeviceBattery:) name:OEDeviceHandlerDidReceiveLowBatteryWarningNotification object:nil];
     [nc addObserver:self selector:@selector(OE_deviceDidDisconnect:) name:OEDeviceManagerDidRemoveDeviceHandlerNotification object:nil];
 
     NSWindow *window = [self OE_rootWindow];
-    [window makeFirstResponder:gameView];
+    [window makeFirstResponder:_gameView];
 
     [self disableOSSleep];
     [[self rom] incrementPlayCount];
@@ -491,9 +466,18 @@ typedef enum : NSUInteger
     [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey] asDefault:NO];
 }
 
+- (BOOL)OE_pauseEmulationIfNeeded
+{
+    BOOL pauseNeeded = _emulationStatus == OEGameViewControllerEmulationStatusPlaying;
+
+    if(pauseNeeded) [self setPauseEmulation:YES];
+
+    return pauseNeeded;
+}
+
 - (IBAction)pauseGame:(id)sender
 {
-    if(_emulationStatus == OEGameViewControllerEmulationStatusPlaying) [self setPauseEmulation:YES];
+    [self OE_pauseEmulationIfNeeded];
 }
 
 - (IBAction)playGame:(id)sender
@@ -524,7 +508,7 @@ typedef enum : NSUInteger
         _emulationStatus = OEGameViewControllerEmulationStatusPlaying;
     }
 
-    [rootProxy setPauseEmulation:pauseEmulation];
+    [_rootProxy setPauseEmulation:pauseEmulation];
     [[self controlsWindow] reflectEmulationRunning:!pauseEmulation];
 }
 
@@ -574,16 +558,16 @@ typedef enum : NSUInteger
 
 - (void)OE_restartUsingCore:(OECorePlugin *)core
 {
-    if(core == [gameCoreManager plugin])
+    if(core == [_gameCoreManager plugin])
     {
-        [[rootProxy gameCore] resetEmulation];
+        [[_rootProxy gameCore] resetEmulation];
         return;
     }
 
     _emulationStatus = OEGameViewControllerEmulationStatusNotStarted;
 
     // kill our background friend
-    [gameCoreManager stop];
+    [_gameCoreManager stop];
 
     NSURL   *url   = [[self rom] URL];
     NSError *error = nil;
@@ -624,7 +608,7 @@ typedef enum : NSUInteger
     else
         DLog(@"Invalid argument passed: %@", sender);
 
-    [gameView setFilterName:filterName];
+    [_gameView setFilterName:filterName];
     [[NSUserDefaults standardUserDefaults] setObject:filterName forKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, [self systemIdentifier]]];
 }
 
@@ -643,14 +627,14 @@ typedef enum : NSUInteger
         return;
     }
 
-    [rootProxy setAudioOutputDeviceID:[device deviceID]];
+    [_rootProxy setAudioOutputDeviceID:[device deviceID]];
 }
 
 #pragma mark - Volume
 
 - (void)setVolume:(float)volume asDefault:(BOOL)defaultFlag
 {
-    [rootProxy setVolume:volume];
+    [_rootProxy setVolume:volume];
     [[self controlsWindow] reflectVolume:volume];
     
     if(defaultFlag)
@@ -669,7 +653,7 @@ typedef enum : NSUInteger
 
 - (IBAction)volumeUp:(id)sender
 {
-    [rootProxy volumeUp];
+    [_rootProxy volumeUp];
     float volume = [[self controlsWindow] reflectVolumeUp];
 
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:OEGameVolumeKey];
@@ -677,7 +661,7 @@ typedef enum : NSUInteger
 
 - (IBAction)volumeDown:(id)sender
 {
-    [rootProxy volumeDown];
+    [_rootProxy volumeDown];
     float volume = [[self controlsWindow] reflectVolumeDown];
 
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:OEGameVolumeKey];
@@ -747,20 +731,22 @@ typedef enum : NSUInteger
 
 - (BOOL)cheatSupport
 {
-    OEGameCore *gameCore = [rootProxy gameCore];
+    OEGameCore *gameCore = [_rootProxy gameCore];
     return [gameCore canCheat];
 }
 
 - (void)setCheatWithCodeAndType:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled
 {
-    [rootProxy setCheat:code setType:type setEnabled:enabled];
+    [_rootProxy setCheat:code setType:type setEnabled:enabled];
 }
 
 #pragma mark - Saving States
 
 - (IBAction)saveState:(id)sender
 {
-    NSInteger   saveGameNo    = [[self rom] saveStateCount]+1;
+    BOOL didPauseEmulation = [self OE_pauseEmulationIfNeeded];
+
+    NSInteger   saveGameNo    = [[self rom] saveStateCount] + 1;
     // TODO: properly format date
     NSString    *proposedName = [NSString stringWithFormat:@"%@%ld %@", NSLocalizedString(@"Save-Game-", @""), saveGameNo, [NSDate date]];
     OEHUDAlert  *alert        = [OEHUDAlert saveGameAlertWithProposedName:proposedName];
@@ -770,7 +756,7 @@ typedef enum : NSUInteger
      ^(OEHUDAlert *alert, NSUInteger result)
      {
          if(result == NSAlertDefaultReturn)
-             [self saveStateWithName:[alert stringValue]];
+             [self saveStateWithName:[alert stringValue] resumeGame:didPauseEmulation];
      }];
     
     [alert runModal];
@@ -785,16 +771,12 @@ typedef enum : NSUInteger
         slot = [sender tag];
     
     NSString *name = [OEDBSaveState nameOfQuickSaveInSlot:slot];
-    [self saveStateWithName:name];
+    [self saveStateWithName:name resumeGame:[self OE_pauseEmulationIfNeeded]];
 }
 
-- (void)saveStateWithName:(NSString *)stateName
+- (void)saveStateWithName:(NSString *)stateName resumeGame:(BOOL)resumeGame
 {
     NSAssert(_emulationStatus != OEGameViewControllerEmulationStatusNotStarted, @"Cannot save state if emulation has not been set up");
-
-    // calling pauseGame here because it might need some time to execute
-    BOOL wasPreviouslyPlaying = (_emulationStatus == OEGameViewControllerEmulationStatusPlaying);
-    if(wasPreviouslyPlaying) [self pauseGame:self];
 
     @try
     {
@@ -807,7 +789,7 @@ typedef enum : NSUInteger
         NSString *temporaryDirectoryPath = NSTemporaryDirectory();
         NSURL    *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
         NSURL    *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
-        OECorePlugin *core = [gameCoreManager plugin];
+        OECorePlugin *core = [_gameCoreManager plugin];
 
         temporaryStateFileURL = [temporaryStateFileURL uniqueURLUsingBlock:
                                  ^ NSURL *(NSInteger triesCount)
@@ -815,7 +797,7 @@ typedef enum : NSUInteger
                                      return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
                                  }];
 
-        [rootProxy saveStateToFileAtPath:[temporaryStateFileURL path] delegate:
+        [_rootProxy saveStateToFileAtPath:[temporaryStateFileURL path] delegate:
          [OEGameViewControllerSaveStateCallback saveStateCallbackWithBlock:
           ^(BOOL success)
           {
@@ -843,14 +825,14 @@ typedef enum : NSUInteger
                   [state writeInfoPlist];
               }
 
-              NSImage *screenshotImage = [gameView nativeScreenshot];
+              NSImage *screenshotImage = [_gameView nativeScreenshot];
               NSData *TIFFData = [screenshotImage TIFFRepresentation];
               NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
               NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
               success = [PNGData writeToURL:[state screenshotURL] atomically: YES];
               
               if(!success) NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
-              if(wasPreviouslyPlaying) [self playGame:self];
+              if(resumeGame) [self playGame:self];
           }]];
     }
     @finally
@@ -864,7 +846,6 @@ typedef enum : NSUInteger
 {
     // calling pauseGame here because it might need some time to execute
     [self pauseGame:self];
-    
     
     OEDBSaveState *state;
     if([sender isKindOfClass:[OEDBSaveState class]])
@@ -904,7 +885,7 @@ typedef enum : NSUInteger
                     {
                         OECorePlugin *core = [OECorePlugin corePluginWithBundleIdentifier:[state coreIdentifier]];
                         [self OE_restartUsingCore:core];
-                        [rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] delegate:nil];
+                        [_rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] delegate:nil];
                         [self playGame:self];
                     }
                  }];
@@ -918,7 +899,7 @@ typedef enum : NSUInteger
         }
     }
 
-    [rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] delegate:nil];
+    [_rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] delegate:nil];
     [self playGame:self];
 }
 
@@ -960,7 +941,7 @@ typedef enum : NSUInteger
 
 - (void)takeScreenshot:(id)sender
 {
-    NSImage *screenshotImage = [gameView screenshot];
+    NSImage *screenshotImage = [_gameView screenshot];
     NSData *TIFFData = [screenshotImage TIFFRepresentation];
     NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
     NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
@@ -998,13 +979,13 @@ typedef enum : NSUInteger
 
 - (NSSize)defaultScreenSize
 {
-    NSAssert(rootProxy, @"Default screen size requires a running rootProxy");
+    NSAssert(_rootProxy, @"Default screen size requires a running _rootProxy");
 
-    OEGameCore *gameCore = [rootProxy gameCore];
+    OEGameCore *gameCore = [_rootProxy gameCore];
     OEIntRect screenRect = [gameCore screenRect];
     
-    float wr = (float) rootProxy.aspectSize.width / screenRect.size.width;
-    float hr = (float) rootProxy.aspectSize.height / screenRect.size.height;
+    float wr = (float) _rootProxy.aspectSize.width / screenRect.size.width;
+    float hr = (float) _rootProxy.aspectSize.height / screenRect.size.height;
     float ratio = MAX(hr, wr);
     NSSize scaled = NSMakeSize((wr / ratio), (hr / ratio));
     
@@ -1016,12 +997,12 @@ typedef enum : NSUInteger
 
 - (NSString *)systemIdentifier
 {
-    return [gameSystemController systemIdentifier];
+    return [_gameSystemController systemIdentifier];
 }
 
 - (NSString *)coreIdentifier
 {
-    return [[gameCoreManager plugin] bundleIdentifier];
+    return [[_gameCoreManager plugin] bundleIdentifier];
 }
 
 #pragma mark - Private Methods
@@ -1075,28 +1056,28 @@ typedef enum : NSUInteger
     NSWindow *gameWindow = [self OE_rootWindow];
     if(gameWindow == nil) return;
 
-    const NSRect         gameViewFrameInWindow = [gameView convertRect:[gameView frame] toView:nil];
+    const NSRect         gameViewFrameInWindow = [_gameView convertRect:[_gameView frame] toView:nil];
     NSPoint              origin                = [gameWindow convertRectToScreen:gameViewFrameInWindow].origin;
     static const CGFloat _OEControlsMargin     = 19;
 
-    origin.x += ([gameView frame].size.width - [controlsWindow frame].size.width) / 2;
+    origin.x += ([_gameView frame].size.width - [_controlsWindow frame].size.width) / 2;
 
     // If the controls bar fits, it sits over the window
-    if([gameView frame].size.width >= [controlsWindow frame].size.width)
+    if([_gameView frame].size.width >= [_controlsWindow frame].size.width)
     {
         origin.y += _OEControlsMargin;
     }
     // Otherwise, it sits below the window
     else
     {
-        origin.y -= ([controlsWindow frame].size.height + _OEControlsMargin);
+        origin.y -= ([_controlsWindow frame].size.height + _OEControlsMargin);
 
         // Unless below the window means it being off-screen, in which case it sits above the window
         if(origin.y < NSMinY([[gameWindow screen] visibleFrame]))
             origin.y = NSMaxY([gameWindow frame]) + _OEControlsMargin;
     }
 
-    [controlsWindow setFrameOrigin:origin];
+    [_controlsWindow setFrameOrigin:origin];
 }
 
 - (NSWindow *)OE_rootWindow
