@@ -349,7 +349,7 @@ typedef enum : NSUInteger
         return;
 
     [self OE_pauseEmulationIfNeeded];
-    [self saveStateWithName:OESaveStateAutosaveName resumeGame:NO];
+    [self saveStateWithName:OESaveStateAutosaveName synchronously:YES resumeGame:NO];
 
     _emulationStatus = OEGameViewControllerEmulationStatusTerminating;
 
@@ -756,7 +756,7 @@ typedef enum : NSUInteger
      ^(OEHUDAlert *alert, NSUInteger result)
      {
          if(result == NSAlertDefaultReturn)
-             [self saveStateWithName:[alert stringValue] resumeGame:didPauseEmulation];
+             [self saveStateWithName:[alert stringValue] synchronously:NO resumeGame:didPauseEmulation];
      }];
     
     [alert runModal];
@@ -771,10 +771,10 @@ typedef enum : NSUInteger
         slot = [sender tag];
     
     NSString *name = [OEDBSaveState nameOfQuickSaveInSlot:slot];
-    [self saveStateWithName:name resumeGame:[self OE_pauseEmulationIfNeeded]];
+    [self saveStateWithName:name synchronously:NO resumeGame:[self OE_pauseEmulationIfNeeded]];
 }
 
-- (void)saveStateWithName:(NSString *)stateName resumeGame:(BOOL)resumeGame
+- (void)saveStateWithName:(NSString *)stateName synchronously:(BOOL)synchronously resumeGame:(BOOL)resumeGame
 {
     NSAssert(_emulationStatus != OEGameViewControllerEmulationStatusNotStarted, @"Cannot save state if emulation has not been set up");
 
@@ -797,47 +797,56 @@ typedef enum : NSUInteger
                                      return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
                                  }];
 
-        [_rootProxy saveStateToFileAtPath:[temporaryStateFileURL path] delegate:
-         [OEGameViewControllerSaveStateCallback saveStateCallbackWithBlock:
-          ^(BOOL success)
-          {
-              if(!success)
-              {
-                  NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
-                  return;
-              }
+        void (^completionBlock)(BOOL success) =
+        ^(BOOL success)
+        {
+            if(!success)
+            {
+                NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
+                return;
+            }
 
-              BOOL isSpecialSaveState = [stateName hasPrefix:OESaveStateSpecialNamePrefix];
-              OEDBSaveState *state;
-              if(isSpecialSaveState)
-              {
-                  state = [[self rom] saveStateWithName:stateName];
-                  [state setCoreIdentifier:[core bundleIdentifier]];
-                  [state setCoreVersion:[core version]];
-              }
+            BOOL isSpecialSaveState = [stateName hasPrefix:OESaveStateSpecialNamePrefix];
+            OEDBSaveState *state;
+            if(isSpecialSaveState)
+            {
+                state = [[self rom] saveStateWithName:stateName];
+                [state setCoreIdentifier:[core bundleIdentifier]];
+                [state setCoreVersion:[core version]];
+            }
 
-              if(state == nil)
-                  state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:core withFile:temporaryStateFileURL];
-              else
-              {
-                  [state replaceStateFileWithFile:temporaryStateFileURL];
-                  [state setTimestamp:[NSDate date]];
-                  [state writeInfoPlist];
-              }
+            if(state == nil)
+                state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:core withFile:temporaryStateFileURL];
+            else
+            {
+                [state replaceStateFileWithFile:temporaryStateFileURL];
+                [state setTimestamp:[NSDate date]];
+                [state writeInfoPlist];
+            }
 
-              NSImage *screenshotImage = [_gameView nativeScreenshot];
-              NSData *TIFFData = [screenshotImage TIFFRepresentation];
-              NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
-              NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
-              success = [PNGData writeToURL:[state screenshotURL] atomically: YES];
-              
-              if(!success) NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
-              if(resumeGame) [self playGame:self];
-          }]];
+            NSImage *screenshotImage = [_gameView nativeScreenshot];
+            NSData *TIFFData = [screenshotImage TIFFRepresentation];
+            NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
+            NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
+            success = [PNGData writeToURL:[state screenshotURL] atomically: YES];
+
+            if(!success) NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
+            if(resumeGame) [self playGame:self];
+        };
+
+        if(synchronously)
+            completionBlock([_rootProxy saveStateToFileAtPath:[temporaryStateFileURL path]]);
+        else
+            [_rootProxy saveStateToFileAtPath:[temporaryStateFileURL path] delegate:[OEGameViewControllerSaveStateCallback saveStateCallbackWithBlock:completionBlock]];
     }
     @finally
     {
     }
+}
+
+- (void)OE_saveStateDidCompleteForFileAtURL:(NSURL *)fileURL withSuccess:(BOOL)successful resumeGame:(BOOL)resume
+{
+    
 }
 
 #pragma mark - Loading States

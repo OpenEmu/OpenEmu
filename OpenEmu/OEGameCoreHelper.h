@@ -68,6 +68,7 @@
 - (void)setupEmulation;
 - (void)stopEmulation;
 
+- (BOOL)saveStateToFileAtPath:(NSString *)fileName;
 - (oneway void)saveStateToFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
 - (oneway void)loadStateFromFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
 
