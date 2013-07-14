@@ -803,6 +803,8 @@ typedef enum : NSUInteger
             if(!success)
             {
                 NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
+                
+                if(resumeGame) [self playGame:self];
                 return;
             }
 
