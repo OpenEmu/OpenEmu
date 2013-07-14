@@ -28,23 +28,24 @@
 	<string>OESystemController</string>
 	<key>OEControlListKey</key>
 	<array/>
+	<key>OEControlTypesKey</key>
+	<dict/>
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>zip</string>
+		<string>prg</string>
 	</array>
+	<key>OEGenericControlNamesKey</key>
+	<array/>
+	<key>OENumberOfPlayersKey</key>
+	<integer>1</integer>
+	<key>OEResponderClassKey</key>
+	<string>OEComputerSystemResponder</string>
 	<key>OESystemIcon</key>
 	<string>computer_library</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.computer</string>
 	<key>OESystemName</key>
 	<string>Computer</string>
-	<key>OENumberOfPlayersKey</key>
-	<integer>1</integer>
-	<key>OEResponderClassKey</key>
-	<string>OEComputerSystemResponder</string>
-	<key>OEGenericControlNamesKey</key>
-	<array/>
-	<key>OEControlTypesKey</key>
-	<dict/>
 </dict>
 </plist>
