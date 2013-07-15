@@ -90,9 +90,15 @@
     [layer setFrame:[self bounds]];
     [self setLayer:layer];
     
-    // Set background lighting
+    // Setup layer
     [layer setContentsGravity:kCAGravityResize];
-    [layer setContents:[NSImage imageNamed:@"background_lighting"]];
+
+    // Setup background lighting
+    CALayer *lightingLayer = [CALayer layer];
+    [lightingLayer setFrame:[self bounds]];
+    [lightingLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+    [lightingLayer setContents:[NSImage imageNamed:@"background_lighting"]];
+    [layer addSublayer:lightingLayer];
     
     // Setup noise
     CALayer *noiseLayer = [CALayer layer];

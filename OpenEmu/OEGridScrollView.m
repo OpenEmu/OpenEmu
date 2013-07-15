@@ -40,11 +40,17 @@
     CALayer *layer = [CALayer layer];
     [self setLayer:layer];
 
-    // Set background lighting
+    // Setup layer
     [layer setContentsGravity:kCAGravityResize];
-    [layer setContents:[NSImage imageNamed:@"background_lighting"]];
     [layer setFrame:[self bounds]];
     [layer setDelegate:self];
+	
+    // Setup background lighting
+    CALayer *lightingLayer = [CALayer layer];
+    [lightingLayer setFrame:[self bounds]];
+    [lightingLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+    [lightingLayer setContents:[NSImage imageNamed:@"background_lighting"]];
+    [layer addSublayer:lightingLayer];
 
     CALayer *noiseLayer = [CALayer layer];
     [noiseLayer setFrame:[self bounds]];
