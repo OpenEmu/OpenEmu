@@ -26,14 +26,6 @@
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OESystemController</string>
-	<key>OESystemName</key>
-	<string>Atari Lynx</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.lynx</string>
-	<key>OENumberOfPlayersKey</key>
-	<integer>1</integer>
-	<key>OEResponderClassKey</key>
-	<string>OELynxSystemResponder</string>
 	<key>OEControlListKey</key>
 	<array>
 		<array>
@@ -129,19 +121,28 @@
 		<string>OELynxButtonOption1</string>
 		<string>OELynxButtonOption2</string>
 	</array>
-	<key>OESystemIcon</key>
-	<string>lynx_library</string>
+	<key>OENumberOfPlayersKey</key>
+	<integer>1</integer>
 	<key>OERequiredFiles</key>
-	<dict>
-		<key>lynxboot.img</key>
+	<array>
 		<dict>
 			<key>Description</key>
 			<string>Lynx boot ROM</string>
-			<key>Size</key>
-			<integer>512</integer>
 			<key>MD5</key>
 			<string>fcd403db69f54290b51035d82f835e7b</string>
+			<key>Name</key>
+			<string>lynxboot.img</string>
+			<key>Size</key>
+			<integer>512</integer>
 		</dict>
-	</dict>
+	</array>
+	<key>OEResponderClassKey</key>
+	<string>OELynxSystemResponder</string>
+	<key>OESystemIcon</key>
+	<string>lynx_library</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.lynx</string>
+	<key>OESystemName</key>
+	<string>Atari Lynx</string>
 </dict>
 </plist>

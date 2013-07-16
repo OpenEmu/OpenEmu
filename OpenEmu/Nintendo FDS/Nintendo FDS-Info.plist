@@ -26,18 +26,6 @@
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OESystemController</string>
-	<key>OESystemName</key>
-	<string>Famicom Disk System</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.fds</string>
-	<key>OENumberOfPlayersKey</key>
-	<integer>4</integer>
-	<key>OEResponderClassKey</key>
-	<string>OEFDSSystemResponder</string>
-	<key>OEFileSuffixes</key>
-	<array>
-		<string>fds</string>
-	</array>
 	<key>OEControlListKey</key>
 	<array>
 		<array>
@@ -101,8 +89,33 @@
 			</dict>
 		</array>
 	</array>
-	<key>OESystemIcon</key>
-	<string>famicom_library</string>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OEFDSButtonUp</string>
+				<string>OEFDSButtonDown</string>
+			</array>
+			<array>
+				<string>OEFDSButtonLeft</string>
+				<string>OEFDSButtonRight</string>
+			</array>
+		</array>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OEFDSButtonUp</string>
+				<string>OEFDSButtonRight</string>
+				<string>OEFDSButtonDown</string>
+				<string>OEFDSButtonLeft</string>
+			</array>
+		</array>
+	</dict>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>fds</string>
+	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
 		<string>OEFDSButtonUp</string>
@@ -115,40 +128,28 @@
 		<string>OEFDSButtonSelect</string>
 		<string>OEFDSButtonChangeSide</string>
 	</array>
-	<key>OEControlTypesKey</key>
-	<dict>
-		<key>OEHatSwitchControlsKey</key>
-		<array>
-			<array>
-				<string>OEFDSButtonUp</string>
-				<string>OEFDSButtonRight</string>
-				<string>OEFDSButtonDown</string>
-				<string>OEFDSButtonLeft</string>
-			</array>
-		</array>
-		<key>OEAxisControlsKey</key>
-		<array>
-			<array>
-				<string>OEFDSButtonUp</string>
-				<string>OEFDSButtonDown</string>
-			</array>
-			<array>
-				<string>OEFDSButtonLeft</string>
-				<string>OEFDSButtonRight</string>
-			</array>
-		</array>
-	</dict>
+	<key>OENumberOfPlayersKey</key>
+	<integer>4</integer>
 	<key>OERequiredFiles</key>
-	<dict>
-		<key>disksys.rom</key>
+	<array>
 		<dict>
 			<key>Description</key>
 			<string>Disk System BIOS</string>
-			<key>Size</key>
-			<integer>8192</integer>
 			<key>MD5</key>
 			<string>CA30B50F880EB660A320674ED365EF7A</string>
+			<key>Name</key>
+			<string>disksys.rom</string>
+			<key>Size</key>
+			<integer>8192</integer>
 		</dict>
-	</dict>
+	</array>
+	<key>OEResponderClassKey</key>
+	<string>OEFDSSystemResponder</string>
+	<key>OESystemIcon</key>
+	<string>famicom_library</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.fds</string>
+	<key>OESystemName</key>
+	<string>Famicom Disk System</string>
 </dict>
 </plist>

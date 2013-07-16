@@ -26,18 +26,6 @@
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OEPCFXSystemController</string>
-	<key>OESystemName</key>
-	<string>PC-FX</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.pcfx</string>
-	<key>OENumberOfPlayersKey</key>
-	<integer>2</integer>
-	<key>OEResponderClassKey</key>
-	<string>OEPCFXSystemResponder</string>
-	<key>OEFileSuffixes</key>
-	<array>
-		<string>cue</string>
-	</array>
 	<key>OEControlListKey</key>
 	<array>
 		<array>
@@ -121,8 +109,33 @@
 			</dict>
 		</array>
 	</array>
-	<key>OESystemIcon</key>
-	<string>pcfx_library</string>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OEPCFXButtonUp</string>
+				<string>OEPCFXButtonDown</string>
+			</array>
+			<array>
+				<string>OEPCFXButtonLeft</string>
+				<string>OEPCFXButtonRight</string>
+			</array>
+		</array>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OEPCFXButtonUp</string>
+				<string>OEPCFXButtonRight</string>
+				<string>OEPCFXButtonDown</string>
+				<string>OEPCFXButtonLeft</string>
+			</array>
+		</array>
+	</dict>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>cue</string>
+	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
 		<string>OEPCFXButtonUp</string>
@@ -138,40 +151,28 @@
 		<string>OEPCFXButtonRun</string>
 		<string>OEPCFXButtonSelect</string>
 	</array>
-	<key>OEControlTypesKey</key>
-	<dict>
-		<key>OEHatSwitchControlsKey</key>
-		<array>
-			<array>
-				<string>OEPCFXButtonUp</string>
-				<string>OEPCFXButtonRight</string>
-				<string>OEPCFXButtonDown</string>
-				<string>OEPCFXButtonLeft</string>
-			</array>
-		</array>
-		<key>OEAxisControlsKey</key>
-		<array>
-			<array>
-				<string>OEPCFXButtonUp</string>
-				<string>OEPCFXButtonDown</string>
-			</array>
-			<array>
-				<string>OEPCFXButtonLeft</string>
-				<string>OEPCFXButtonRight</string>
-			</array>
-		</array>
-	</dict>
+	<key>OENumberOfPlayersKey</key>
+	<integer>2</integer>
 	<key>OERequiredFiles</key>
-	<dict>
-		<key>pcfx.rom</key>
+	<array>
 		<dict>
 			<key>Description</key>
 			<string>PC-FX BIOS</string>
-			<key>Size</key>
-			<integer>1048576</integer>
 			<key>MD5</key>
 			<string>08e36edbea28a017f79f8d4f7ff9b6d7</string>
+			<key>Name</key>
+			<string>pcfx.rom</string>
+			<key>Size</key>
+			<integer>1048576</integer>
 		</dict>
-	</dict>
+	</array>
+	<key>OEResponderClassKey</key>
+	<string>OEPCFXSystemResponder</string>
+	<key>OESystemIcon</key>
+	<string>pcfx_library</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.pcfx</string>
+	<key>OESystemName</key>
+	<string>PC-FX</string>
 </dict>
 </plist>

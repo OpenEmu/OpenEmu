@@ -26,18 +26,6 @@
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OEPSXSystemController</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.psx</string>
-	<key>OESystemName</key>
-	<string>Sony PlayStation</string>
-	<key>OENumberOfPlayersKey</key>
-	<integer>4</integer>
-	<key>OEResponderClassKey</key>
-	<string>OEPSXSystemResponder</string>
-	<key>OEFileSuffixes</key>
-	<array>
-		<string>cue</string>
-	</array>
 	<key>OEControlListKey</key>
 	<array>
 		<array>
@@ -145,8 +133,33 @@
 			</dict>
 		</array>
 	</array>
-	<key>OESystemIcon</key>
-	<string>psx_library</string>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OEPSXButtonUp</string>
+				<string>OEPSXButtonDown</string>
+			</array>
+			<array>
+				<string>OEPSXButtonLeft</string>
+				<string>OEPSXButtonRight</string>
+			</array>
+		</array>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OEPSXButtonUp</string>
+				<string>OEPSXButtonRight</string>
+				<string>OEPSXButtonDown</string>
+				<string>OEPSXButtonLeft</string>
+			</array>
+		</array>
+	</dict>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>cue</string>
+	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
 		<string>OEPSXButtonUp</string>
@@ -166,58 +179,48 @@
 		<string>OEPSXButtonStart</string>
 		<string>OEPSXButtonSelect</string>
 	</array>
-	<key>OEControlTypesKey</key>
-	<dict>
-		<key>OEHatSwitchControlsKey</key>
-		<array>
-			<array>
-				<string>OEPSXButtonUp</string>
-				<string>OEPSXButtonRight</string>
-				<string>OEPSXButtonDown</string>
-				<string>OEPSXButtonLeft</string>
-			</array>
-		</array>
-		<key>OEAxisControlsKey</key>
-		<array>
-			<array>
-				<string>OEPSXButtonUp</string>
-				<string>OEPSXButtonDown</string>
-			</array>
-			<array>
-				<string>OEPSXButtonLeft</string>
-				<string>OEPSXButtonRight</string>
-			</array>
-		</array>
-	</dict>
+	<key>OENumberOfPlayersKey</key>
+	<integer>4</integer>
 	<key>OERequiredFiles</key>
-	<dict>
-		<key>scph5500.bin</key>
+	<array>
 		<dict>
 			<key>Description</key>
 			<string>PlayStation (JP) SCPH-5500 BIOS</string>
 			<key>MD5</key>
 			<string>8dd7d5296a650fac7319bce665a6a53c</string>
+			<key>Name</key>
+			<string>scph5500.bin</string>
 			<key>Size</key>
 			<integer>524288</integer>
 		</dict>
-		<key>scph5501.bin</key>
 		<dict>
 			<key>Description</key>
 			<string>PlayStation (NA) SCPH-5501 BIOS</string>
 			<key>MD5</key>
 			<string>490f666e1afb15b7362b406ed1cea246</string>
+			<key>Name</key>
+			<string>scph5501.bin</string>
 			<key>Size</key>
 			<integer>524288</integer>
 		</dict>
-		<key>scph5502.bin</key>
 		<dict>
 			<key>Description</key>
 			<string>PlayStation (EU) SCPH-5502 BIOS</string>
 			<key>MD5</key>
 			<string>32736f17079d0b2b7024407c39bd3050</string>
+			<key>Name</key>
+			<string>scph5502.bin</string>
 			<key>Size</key>
 			<integer>524288</integer>
 		</dict>
-	</dict>
+	</array>
+	<key>OEResponderClassKey</key>
+	<string>OEPSXSystemResponder</string>
+	<key>OESystemIcon</key>
+	<string>psx_library</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.psx</string>
+	<key>OESystemName</key>
+	<string>Sony PlayStation</string>
 </dict>
 </plist>

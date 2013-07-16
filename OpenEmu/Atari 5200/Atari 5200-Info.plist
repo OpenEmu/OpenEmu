@@ -26,18 +26,6 @@
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OESystemController</string>
-	<key>OESystemName</key>
-	<string>Atari 5200</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.5200</string>
-	<key>OENumberOfPlayersKey</key>
-	<integer>2</integer>
-	<key>OEResponderClassKey</key>
-	<string>OE5200SystemResponder</string>
-	<key>OEFileSuffixes</key>
-	<array>
-		<string>a52</string>
-	</array>
 	<key>OEControlListKey</key>
 	<array>
 		<array>
@@ -101,8 +89,33 @@
 			</dict>
 		</array>
 	</array>
-	<key>OESystemIcon</key>
-	<string>atari5200_library</string>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OE5200ButtonUp</string>
+				<string>OE5200ButtonDown</string>
+			</array>
+			<array>
+				<string>OE5200ButtonLeft</string>
+				<string>OE5200ButtonRight</string>
+			</array>
+		</array>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OE5200ButtonUp</string>
+				<string>OE5200ButtonRight</string>
+				<string>OE5200ButtonDown</string>
+				<string>OE5200ButtonLeft</string>
+			</array>
+		</array>
+	</dict>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>a52</string>
+	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
 		<string>OE5200ButtonUp</string>
@@ -115,40 +128,28 @@
 		<string>OE5200ButtonPause</string>
 		<string>OE5200ButtonReset</string>
 	</array>
-	<key>OEControlTypesKey</key>
-	<dict>
-		<key>OEHatSwitchControlsKey</key>
-		<array>
-			<array>
-				<string>OE5200ButtonUp</string>
-				<string>OE5200ButtonRight</string>
-				<string>OE5200ButtonDown</string>
-				<string>OE5200ButtonLeft</string>
-			</array>
-		</array>
-		<key>OEAxisControlsKey</key>
-		<array>
-			<array>
-				<string>OE5200ButtonUp</string>
-				<string>OE5200ButtonDown</string>
-			</array>
-			<array>
-				<string>OE5200ButtonLeft</string>
-				<string>OE5200ButtonRight</string>
-			</array>
-		</array>
-	</dict>
+	<key>OENumberOfPlayersKey</key>
+	<integer>2</integer>
 	<key>OERequiredFiles</key>
-	<dict>
-		<key>5200.rom</key>
+	<array>
 		<dict>
 			<key>Description</key>
 			<string>Atari 5200 BIOS</string>
-			<key>Size</key>
-			<integer>2048</integer>
 			<key>MD5</key>
 			<string>281f20ea4320404ec820fb7ec0693b38</string>
+			<key>Name</key>
+			<string>5200.rom</string>
+			<key>Size</key>
+			<integer>2048</integer>
 		</dict>
-	</dict>
+	</array>
+	<key>OEResponderClassKey</key>
+	<string>OE5200SystemResponder</string>
+	<key>OESystemIcon</key>
+	<string>atari5200_library</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.5200</string>
+	<key>OESystemName</key>
+	<string>Atari 5200</string>
 </dict>
 </plist>
