@@ -68,6 +68,28 @@
         return nil;
     }
 
+    // Copy known BIOS / System Files to BIOS folder
+    NSArray *validFiles = [OESystemPlugin requiredFiles];
+    
+    for(NSDictionary *validFile in validFiles)
+    {
+        NSString *path   = [url path];
+        NSString *biosFilename = [path lastPathComponent];
+        NSString *biosPath = [NSString pathWithComponents:@[
+                                 [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
+                                 @"OpenEmu", @"BIOS"]];
+        NSString *destFilePath = [biosPath stringByAppendingPathComponent:biosFilename];
+        
+        NSString *biosSystemFileName = [validFile objectForKey:@"Name"];
+        
+        if([biosSystemFileName caseInsensitiveCompare:biosFilename] == NSOrderedSame)
+        {
+            [[NSFileManager defaultManager] createDirectoryAtPath:biosPath withIntermediateDirectories:YES attributes:nil error:nil];
+            [[NSFileManager defaultManager] copyItemAtPath:path toPath:destFilePath error:nil];
+            break;
+        }
+    }
+
     // Ignore unsupported file extensions
     NSMutableSet *validExtensions = [NSMutableSet setWithArray:[OESystemPlugin supportedTypeExtensions]];
 
