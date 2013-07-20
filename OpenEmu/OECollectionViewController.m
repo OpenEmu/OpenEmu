@@ -296,7 +296,7 @@ static NSArray *OE_defaultSortDescriptors;
     
     int           selectedViewTag;
     float         sliderValue;
-    NSIndexSet   *selectionIndexes = [NSIndexSet indexSet];
+    NSIndexSet   *selectionIndexes;
     NSDictionary *listViewHeaderState = nil;
     NSArray      *listViewSortDescriptors = nil;
     NSRect        gridViewVisibleRect = NSZeroRect;

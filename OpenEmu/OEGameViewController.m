@@ -1225,12 +1225,12 @@ typedef enum : NSUInteger
     return newInstance;
 }
 
-- (void)gameCoreHelperDidSaveState:(BOOL)success
+- (oneway void)gameCoreHelperDidSaveState:(BOOL)success
 {
     [self callback](success);
 }
 
-- (void)gameCoreHelperDidLoadState:(BOOL)success
+- (oneway void)gameCoreHelperDidLoadState:(BOOL)success
 {
     [self callback](success);
 }

@@ -386,7 +386,6 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     NSUInteger numberOfVisibleColumns = _cachedNumberOfVisibleColumns;  // Number of visible columns
     NSUInteger numberOfVisibleRows    = _cachedNumberOfVisibleRows;     // Number of visible rows
     NSUInteger numberOfItems          = _cachedNumberOfItems;           // Number of items in the data source
-    NSUInteger numberOfRows           = _cachedNumberOfRows;
     NSSize     itemSize               = NSMakeSize(_itemSize.width + _minimumColumnSpacing, _itemSize.height + _rowSpacing);
                                                                         // Item Size (within minimumColumnSpacing and rowSpacing)
     NSSize contentSize                = cachedContentSize;              // The scroll view's content size
@@ -394,7 +393,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
     // Query the data source for the number of items it has, this is only done if the caller explicitly sets shouldQueryForDataChanges.
     if(shouldQueryForDataChanges && _dataSource) numberOfItems = [_dataSource numberOfItemsInGridView:self];
-    numberOfRows = ceil((CGFloat)numberOfItems / MAX((CGFloat)numberOfVisibleColumns, 1));
+    NSUInteger numberOfRows = ceil((CGFloat)numberOfItems / MAX((CGFloat)numberOfVisibleColumns, 1));
 
     // Check to see if the frame's width has changed to update the number of visible columns and the cached cell size
     if(itemSize.width == 0)
@@ -612,7 +611,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
                      [_visibleCellByIndex setObject:newCell forKey:[NSNumber numberWithUnsignedInteger:idx]];
                      [_rootLayer addSublayer:newCell];
                  }
-                 oldCell = newCell;
+
                  [self OE_setNeedsLayoutGridView];
              }
          }

@@ -255,12 +255,12 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     [self rebindIOSurface];
 }
 
-- (void)toggleVSync:(GLint)swapInt
+- (oneway void)toggleVSync:(GLint)swapInt
 {
     [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
 }
 
-- (void)setPauseEmulation:(BOOL)paused
+- (oneway void)setPauseEmulation:(BOOL)paused
 {
     if(paused)
         CVDisplayLinkStop(_gameDisplayLinkRef);
@@ -1127,7 +1127,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     }
 }
 
-- (void)gameCoreDidChangeScreenSizeTo:(OEIntSize)size
+- (oneway void)gameCoreDidChangeScreenSizeTo:(OEIntSize)size
 {
     // Recache the new resized surfaceID, so we can get our surfaceRef from it, to draw.
     _gameSurfaceID = _rootProxy.surfaceID;
@@ -1165,7 +1165,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     CGLUnlockContext(cgl_ctx);
 }
 
-- (void)gameCoreDidChangeAspectSizeTo:(OEIntSize)size
+- (oneway void)gameCoreDidChangeAspectSizeTo:(OEIntSize)size
 {
     self.gameAspectSize = size;
 }
