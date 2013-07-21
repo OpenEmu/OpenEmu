@@ -385,7 +385,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _gameTexture);
-    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(_gameSurfaceRef), IOSurfaceGetHeight(_gameSurfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, _gameSurfaceRef, 0);
+    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGB8, IOSurfaceGetWidth(_gameSurfaceRef), IOSurfaceGetHeight(_gameSurfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, _gameSurfaceRef, 0);
 }
 
 - (void)tearDownDisplayLink
@@ -1032,12 +1032,12 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
                                                                                pixelsWide:textureIntSize.width
                                                                                pixelsHigh:textureIntSize.height
                                                                             bitsPerSample:8
-                                                                          samplesPerPixel:3
-                                                                                 hasAlpha:NO
+                                                                          samplesPerPixel:4
+                                                                                 hasAlpha:YES
                                                                                  isPlanar:NO
                                                                            colorSpaceName:NSDeviceRGBColorSpace
-                                                                              bytesPerRow:textureIntSize.width * 3
-                                                                             bitsPerPixel:24];
+                                                                              bytesPerRow:textureIntSize.width * 4
+                                                                             bitsPerPixel:32];
 
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     [[self openGLContext] makeCurrentContext];
@@ -1045,7 +1045,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     {
         glReadPixels((frameSize.width - textureNSSize.width) / 2, (frameSize.height - textureNSSize.height) / 2,
                      textureIntSize.width, textureIntSize.height,
-                     GL_RGB, GL_UNSIGNED_BYTE, [imageRep bitmapData]);
+                     GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, [imageRep bitmapData]);
     }
     CGLUnlockContext(cgl_ctx);
 
