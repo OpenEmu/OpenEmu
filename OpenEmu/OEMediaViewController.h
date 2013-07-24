@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
- 
+ Copyright (c) 2013, OpenEmu Team
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -24,44 +24,11 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
+#import "OELibrarySubviewController.h"
+#import "OEBlankSlateView.h"
 
-#import "OESidebarOutlineView.h"
-
-extern NSString *const OESuppressRemoveCollectionConfirmationKey;
-
-extern NSString *const OESidebarMinWidth;
-extern NSString *const OESidebarMaxWidth;
-extern NSString *const OEMainViewMinWidth;
-
-@class OELibraryDatabase, OESidebarOutlineView;
-@protocol OECollectionViewItemProtocol;
-@protocol OESidebarItem;
-
-@interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource>
-
-- (IBAction)addCollectionAction:(id)sender;
-
-- (void)setEnabled:(BOOL)enabled;
-
-- (void)reloadData;
-- (id)addCollection:(BOOL)isSmart;
-- (id)duplicateCollection:(id)originalCollection;
-
-- (void)selectItem:(id)item;
-- (void)startEditingItem:(id)item;
-- (void)expandCollections:(id)sender;
-- (void)removeItemAtIndex:(NSUInteger)index;
-- (void)renameItemAtIndex:(NSUInteger)index;
-- (void)removeSelectedItemsOfOutlineView:(NSOutlineView *)outlineView;
-- (void)removeItemForMenuItem:(NSMenuItem *)menuItem;
-- (void)renameItemForMenuItem:(NSMenuItem *)menuItem;
-
-- (id<OESidebarItem>)selectedSidebarItem;
-
-@property (retain, nonatomic) OESidebarOutlineView *view;
-@property (strong, nonatomic) OELibraryDatabase *database;
-@property (retain, readwrite) NSArray *groups;
-@property (retain, readwrite) NSArray *systems, *collections, *media;
-@property (nonatomic, strong, readwrite) id editingItem;
+#import "OEGridView.h"
+@interface OEMediaViewController : NSViewController <OELibrarySubviewController, OEGridViewDelegate, OEGridViewDataSource, OEBlankSlateViewDelegate>
+@property (strong) IBOutlet OEGridView *gridView;
 @end

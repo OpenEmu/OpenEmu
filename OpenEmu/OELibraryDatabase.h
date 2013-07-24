@@ -64,6 +64,7 @@ extern NSString *const OEScreenshotFolderURLKey;
 
 - (NSUInteger)collectionsCount;
 - (NSArray*)collections;
+- (NSArray*)media;
 
 - (NSArray*)romsForPredicate:(NSPredicate*)predicate;
 - (NSArray*)romsInCollection:(id)collection;

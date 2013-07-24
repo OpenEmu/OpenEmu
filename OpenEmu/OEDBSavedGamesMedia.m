@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,44 +24,63 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "OEDBSavedGamesMedia.h"
 
-#import "OESidebarOutlineView.h"
+@implementation OEDBSavedGamesMedia
 
-extern NSString *const OESuppressRemoveCollectionConfirmationKey;
++ (instancetype)sharedDBSavedGamesMedia
+{
+    static OEDBSavedGamesMedia *sharedInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [OEDBSavedGamesMedia new];
+    });
+    return sharedInstance;
+}
 
-extern NSString *const OESidebarMinWidth;
-extern NSString *const OESidebarMaxWidth;
-extern NSString *const OEMainViewMinWidth;
+- (NSImage *)sidebarIcon
+{
+    return [NSImage imageNamed:@"media_saved_games"];
+}
 
-@class OELibraryDatabase, OESidebarOutlineView;
-@protocol OECollectionViewItemProtocol;
-@protocol OESidebarItem;
+- (NSString *)sidebarName
+{
+    return NSLocalizedString(@"Saved Games", @"");
+}
 
-@interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource>
+- (void)setSidebarName:(NSString *)newName
+{
+    NSLog(@"OEDBSavedGamesMedia: can not change name!");
+}
 
-- (IBAction)addCollectionAction:(id)sender;
+- (NSString*)viewControllerClassName
+{
+    return @"OEMediaViewController";
+}
 
-- (void)setEnabled:(BOOL)enabled;
+- (NSString*)sidebarID
+{
+    return @"OEDBSavedGamesMedia";
+}
 
-- (void)reloadData;
-- (id)addCollection:(BOOL)isSmart;
-- (id)duplicateCollection:(id)originalCollection;
+- (BOOL)isSelectableInSidebar
+{
+    return YES;
+}
 
-- (void)selectItem:(id)item;
-- (void)startEditingItem:(id)item;
-- (void)expandCollections:(id)sender;
-- (void)removeItemAtIndex:(NSUInteger)index;
-- (void)renameItemAtIndex:(NSUInteger)index;
-- (void)removeSelectedItemsOfOutlineView:(NSOutlineView *)outlineView;
-- (void)removeItemForMenuItem:(NSMenuItem *)menuItem;
-- (void)renameItemForMenuItem:(NSMenuItem *)menuItem;
+- (BOOL)isEditableInSidebar
+{
+    return NO;
+}
 
-- (id<OESidebarItem>)selectedSidebarItem;
+- (BOOL)isGroupHeaderInSidebar
+{
+    return NO;
+}
 
-@property (retain, nonatomic) OESidebarOutlineView *view;
-@property (strong, nonatomic) OELibraryDatabase *database;
-@property (retain, readwrite) NSArray *groups;
-@property (retain, readwrite) NSArray *systems, *collections, *media;
-@property (nonatomic, strong, readwrite) id editingItem;
+- (BOOL)hasSubCollections
+{
+    return NO;
+}
+
 @end

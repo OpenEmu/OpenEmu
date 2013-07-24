@@ -680,6 +680,11 @@
 		94A2260C170761D200098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22606170761D200098DA0 /* Controller-Mappings.plist */; };
 		94A2260D170761D200098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22607170761D200098DA0 /* Controller-Preferences.plist */; };
 		94A2260E170761D200098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22608170761D200098DA0 /* Keyboard-Mappings.plist */; };
+		94A4E98D179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E98C179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m */; };
+		94A4E992179F9D0400AD8C7D /* OEDBScreenshotsMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E98F179F9D0400AD8C7D /* OEDBScreenshotsMedia.m */; };
+		94A4E993179F9D0400AD8C7D /* OEDBVideoMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E991179F9D0400AD8C7D /* OEDBVideoMedia.m */; };
+		94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */; };
+		94A4E998179FB98100AD8C7D /* media.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A4E997179FB98100AD8C7D /* media.png */; };
 		94BB7A1A1776AF54002B68CF /* Arcade.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */; };
 		94BE9E51171683E000AB08E6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94BE9E57171683E000AB08E6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E55171683E000AB08E6 /* InfoPlist.strings */; };
@@ -2106,6 +2111,15 @@
 		94A22606170761D200098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94A22607170761D200098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94A22608170761D200098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94A4E98B179F9A4D00AD8C7D /* OEDBSavedGamesMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSavedGamesMedia.h; sourceTree = "<group>"; };
+		94A4E98C179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSavedGamesMedia.m; sourceTree = "<group>"; };
+		94A4E98E179F9D0400AD8C7D /* OEDBScreenshotsMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBScreenshotsMedia.h; sourceTree = "<group>"; };
+		94A4E98F179F9D0400AD8C7D /* OEDBScreenshotsMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBScreenshotsMedia.m; sourceTree = "<group>"; };
+		94A4E990179F9D0400AD8C7D /* OEDBVideoMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBVideoMedia.h; sourceTree = "<group>"; };
+		94A4E991179F9D0400AD8C7D /* OEDBVideoMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBVideoMedia.m; sourceTree = "<group>"; };
+		94A4E994179FAB9E00AD8C7D /* OEMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMediaViewController.h; sourceTree = "<group>"; };
+		94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMediaViewController.m; sourceTree = "<group>"; };
+		94A4E997179FB98100AD8C7D /* media.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = media.png; sourceTree = "<group>"; };
 		94BE9E50171683E000AB08E6 /* ColecoVision.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColecoVision.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94BE9E54171683E000AB08E6 /* ColecoVision-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ColecoVision-Info.plist"; sourceTree = "<group>"; };
 		94BE9E56171683E000AB08E6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3233,6 +3247,7 @@
 				53439A8E13B92C68005C0CC8 /* OEDBDataSourceAdditions.h */,
 				53439A8F13B92C68005C0CC8 /* OEDBDataSourceAdditions.m */,
 				53439A9113B92C6B005C0CC8 /* Collections */,
+				94A4E988179F9A3F00AD8C7D /* Media */,
 				8314A98A155410EF00DF13B5 /* OEDBItem.h */,
 				8314A98B155410EF00DF13B5 /* OEDBItem.m */,
 				53439A9E13B92C9D005C0CC8 /* OEDBGame.h */,
@@ -3575,6 +3590,7 @@
 				53439BB913B93920005C0CC8 /* knob_horizontal.png */,
 				53439BBB13B93920005C0CC8 /* list_indicators.png */,
 				53439BBC13B93920005C0CC8 /* list_rating.png */,
+				94A4E997179FB98100AD8C7D /* media.png */,
 				53439BBD13B93920005C0CC8 /* missing_artwork.pdf */,
 				53439BBA13B93920005C0CC8 /* knob_vertical.png */,
 				53439BBE13B93920005C0CC8 /* missing_rom.pdf */,
@@ -4843,6 +4859,21 @@
 				94A224FB1707596200098DA0 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		94A4E988179F9A3F00AD8C7D /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				94A4E98B179F9A4D00AD8C7D /* OEDBSavedGamesMedia.h */,
+				94A4E98C179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m */,
+				94A4E98E179F9D0400AD8C7D /* OEDBScreenshotsMedia.h */,
+				94A4E98F179F9D0400AD8C7D /* OEDBScreenshotsMedia.m */,
+				94A4E990179F9D0400AD8C7D /* OEDBVideoMedia.h */,
+				94A4E991179F9D0400AD8C7D /* OEDBVideoMedia.m */,
+				94A4E994179FAB9E00AD8C7D /* OEMediaViewController.h */,
+				94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */,
+			);
+			name = Media;
 			sourceTree = "<group>";
 		};
 		94BE9E52171683E000AB08E6 /* ColecoVision */ = {
@@ -6277,6 +6308,7 @@
 				C344D615174C463E0011579E /* Scanline - Horizontal.cg in Resources */,
 				C344D616174C463E0011579E /* Scanline - Vertical.cg in Resources */,
 				C344D617174C463E0011579E /* Scanline.cg in Resources */,
+				94A4E998179FB98100AD8C7D /* media.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6990,6 +7022,10 @@
 				83F7EADA171D911400D32E26 /* OESearchField.m in Sources */,
 				8337F38E1726B3600068DD90 /* OEBackgroundImageView.m in Sources */,
 				8394074D1778AE4F00669B0B /* OESliderCell.m in Sources */,
+				94A4E98D179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m in Sources */,
+				94A4E992179F9D0400AD8C7D /* OEDBScreenshotsMedia.m in Sources */,
+				94A4E993179F9D0400AD8C7D /* OEDBVideoMedia.m in Sources */,
+				94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

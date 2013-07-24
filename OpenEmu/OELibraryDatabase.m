@@ -36,6 +36,10 @@
 #import "OEDBRom.h"
 #import "OEDBSaveState.h"
 
+#import "OEDBSavedGamesMedia.h"
+#import "OEDBScreenshotsMedia.h"
+#import "OEDBVideoMedia.h"
+
 #import "OESystemPicker.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
@@ -540,6 +544,24 @@ static OELibraryDatabase *defaultDatabase = nil;
     [collectionsArray addObjectsFromArray:result];
 
     return collectionsArray;
+}
+
+- (NSArray *)media
+{
+    NSMutableArray *mediaArray = [NSMutableArray array];
+    // Saved Games
+    OEDBSavedGamesMedia *savedGamesMedia = [OEDBSavedGamesMedia sharedDBSavedGamesMedia];
+    [mediaArray addObject:savedGamesMedia];
+    
+    // Screenshots
+    OEDBScreenshotsMedia *sreenshotsMedia = [OEDBScreenshotsMedia sharedDBScreenshotsMedia];
+    [mediaArray addObject:sreenshotsMedia];
+    
+    // Video
+    OEDBVideoMedia *videoMedia = [OEDBVideoMedia sharedDBVideoMedia];
+    [mediaArray addObject:videoMedia];
+    
+    return mediaArray;
 }
 
 #pragma mark - Collection Editing
