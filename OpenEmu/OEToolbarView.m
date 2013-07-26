@@ -60,7 +60,6 @@
 - (void)addItem:(OEToolbarItem *)item
 {
     [self.items addObject:item];
-    
     [self setNeedsDisplay:YES];
 }
 

@@ -262,7 +262,7 @@
 
 - (NSString *)title
 {
-    return @"Debug";
+    return @"Secrets";
 }
 
 - (NSString *)localizedTitle

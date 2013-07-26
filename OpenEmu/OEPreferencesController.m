@@ -66,9 +66,14 @@ NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
 - (void)OE_openPreferencePane:(NSNotification *)notification;
 
 @property OEAppStoreWindow *window;
+@property id konamiCodeMonitor;
+@property unsigned short konamiCodeIndex;
 @end
 
 @implementation OEPreferencesController
+static const unsigned short konamiCode[] = {0x7e,0x7e,0x7d,0x7d,0x7b,0x7c,0x7b,0x7c,0x0b,0x00};
+static const unsigned short konamiCodeSize = 10;
+
 @synthesize preferencePanes;
 @synthesize visiblePaneIndex = _visiblePaneIndex;
 @dynamic window;
@@ -142,9 +147,7 @@ NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
     [[[self window] contentView] setAnimations:[NSDictionary dictionaryWithObject:paneTransition  forKey:@"subviews"]];
 }
 
-#pragma mark -
-#pragma mark NSWindow Delegate
-
+#pragma mark - NSWindowDelegate
 - (NSRect)window:(NSWindow *)window willPositionSheet:(NSWindow *)sheet usingRect:(NSRect)rect
 {
     if([window isKindOfClass:[OEAppStoreWindow class]])
@@ -158,7 +161,34 @@ NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
     [[self selectedPreferencePane] viewWillDisappear];
 }
 
-#pragma mark -
+- (void)windowDidBecomeKey:(NSNotification *)notification
+{
+    _konamiCodeIndex = 0;
+    _konamiCodeMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:^NSEvent *(NSEvent *e) {
+        if([e keyCode] == konamiCode[_konamiCodeIndex])
+        {
+            _konamiCodeIndex ++;
+            if(_konamiCodeIndex == konamiCodeSize)
+            {
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setBool:![defaults boolForKey:OEDebugModeKey] forKey:OEDebugModeKey];
+                [[NSSound soundNamed:@"secret"] play];
+                [self OE_rebuildToolbar];
+                _konamiCodeIndex = 0;
+                return nil;
+            }
+        }
+        return _konamiCodeIndex ? nil : e;
+    }];
+}
+
+- (void)windowDidResignKey:(NSNotification *)notification
+{
+    [NSEvent removeMonitor:_konamiCodeMonitor];
+    _konamiCodeIndex   = 0;
+    _konamiCodeMonitor = nil;
+}
+#pragma mark - Toolbar
 
 - (NSViewController<OEPreferencePane> *)selectedPreferencePane
 {
@@ -183,12 +213,9 @@ NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
     
     controller = [[OEPrefCoresController alloc] init];
     [array addObject:controller];
-    
-    if([[NSUserDefaults standardUserDefaults] boolForKey:OEDebugModeKey])
-    {
-        controller = [[OEPrefDebugController alloc] init];
-        [array addObject:controller];
-    }
+
+    controller = [[OEPrefDebugController alloc] init];
+    [array addObject:controller];
     
     [self setPreferencePanes:array];    
     [self OE_rebuildToolbar];
@@ -196,8 +223,10 @@ NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
 
 - (void)OE_rebuildToolbar
 {
+    NSUInteger lastSelection = 0;
     if(toolbar)
     {
+        lastSelection = [toolbar selectedItemIndex];
         [toolbar removeFromSuperview];
         toolbar = nil;
     }
@@ -207,6 +236,9 @@ NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
     
     for(id <OEPreferencePane> aPreferencePane in self.preferencePanes)
     {
+        if([aPreferencePane isKindOfClass:[OEPrefDebugController class]] && ![[NSUserDefaults standardUserDefaults] boolForKey:OEDebugModeKey])
+            continue;
+        
         OEToolbarItem *toolbarItem = [[OEToolbarItem alloc] init];
         [toolbarItem setTitle:[aPreferencePane localizedTitle]];
         [toolbarItem setIcon:[aPreferencePane icon]];
@@ -214,6 +246,11 @@ NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
         [toolbarItem setAction:@selector(switchView:)];
         [toolbar addItem:toolbarItem];
     }
+    if(lastSelection >= [[toolbar items] count]) lastSelection = 0;
+    [self switchView:[[toolbar items] objectAtIndex:lastSelection] animate:YES];
+    [self setVisiblePaneIndex:lastSelection];
+
+    [win setTitleBarView:toolbar];
 }
 
 - (void)OE_openPreferencePane:(NSNotification*)notification
