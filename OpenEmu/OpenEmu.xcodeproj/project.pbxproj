@@ -470,6 +470,18 @@
 		94052EFF172DC1DD00B90DE6 /* controller_nds@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052EFD172DC1DD00B90DE6 /* controller_nds@2x.png */; };
 		94052F04172DC21700B90DE6 /* controller_psx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052F02172DC21700B90DE6 /* controller_psx_mask@2x.png */; };
 		94052F05172DC21700B90DE6 /* controller_psx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052F03172DC21700B90DE6 /* controller_psx@2x.png */; };
+		9405538517A34C6B009B505D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		9405538B17A34C6B009B505D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9405538917A34C6B009B505D /* InfoPlist.strings */; };
+		9405539717A34D7D009B505D /* OEPCECDSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9405539317A34D7D009B505D /* OEPCECDSystemController.m */; };
+		9405539817A34D7D009B505D /* OEPCECDSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9405539517A34D7D009B505D /* OEPCECDSystemResponder.m */; };
+		9405539C17A34DAB009B505D /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9405539917A34DAA009B505D /* Controller-Mappings.plist */; };
+		9405539D17A34DAB009B505D /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9405539A17A34DAB009B505D /* Controller-Preferences.plist */; };
+		9405539E17A34DAB009B505D /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9405539B17A34DAB009B505D /* Keyboard-Mappings.plist */; };
+		940553A117A34DCC009B505D /* pcenginecd_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 9405539F17A34DCC009B505D /* pcenginecd_library.png */; };
+		940553A217A34DCC009B505D /* tgcd_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 940553A017A34DCC009B505D /* tgcd_library.png */; };
+		940553A517A34EE9009B505D /* controller_pcecd_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 940553A317A34EE9009B505D /* controller_pcecd_mask.png */; };
+		940553A617A34EE9009B505D /* controller_pcecd.png in Resources */ = {isa = PBXBuildFile; fileRef = 940553A417A34EE9009B505D /* controller_pcecd.png */; };
+		940553A717A350AF009B505D /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		943815B8165771EB00D55731 /* OEGenesisSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943815B7165771EB00D55731 /* OEGenesisSystemController.m */; };
 		943819C41658DAE800D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943819C31658DAE800D55731 /* Controller-Mappings.plist */; };
 		943C80131708A62F00D8D93E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -1843,6 +1855,21 @@
 		94052EFD172DC1DD00B90DE6 /* controller_nds@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_nds@2x.png"; sourceTree = "<group>"; };
 		94052F02172DC21700B90DE6 /* controller_psx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psx_mask@2x.png"; sourceTree = "<group>"; };
 		94052F03172DC21700B90DE6 /* controller_psx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psx@2x.png"; sourceTree = "<group>"; };
+		9405538417A34C6B009B505D /* PC Engine CD.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PC Engine CD.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9405538817A34C6B009B505D /* PC Engine CD-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PC Engine CD-Info.plist"; sourceTree = "<group>"; };
+		9405538A17A34C6B009B505D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9405539217A34D7D009B505D /* OEPCECDSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCECDSystemController.h; sourceTree = "<group>"; };
+		9405539317A34D7D009B505D /* OEPCECDSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCECDSystemController.m; sourceTree = "<group>"; };
+		9405539417A34D7D009B505D /* OEPCECDSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCECDSystemResponder.h; sourceTree = "<group>"; };
+		9405539517A34D7D009B505D /* OEPCECDSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCECDSystemResponder.m; sourceTree = "<group>"; };
+		9405539617A34D7D009B505D /* OEPCECDSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCECDSystemResponderClient.h; sourceTree = "<group>"; };
+		9405539917A34DAA009B505D /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		9405539A17A34DAB009B505D /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		9405539B17A34DAB009B505D /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		9405539F17A34DCC009B505D /* pcenginecd_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcenginecd_library.png; sourceTree = "<group>"; };
+		940553A017A34DCC009B505D /* tgcd_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tgcd_library.png; sourceTree = "<group>"; };
+		940553A317A34EE9009B505D /* controller_pcecd_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pcecd_mask.png; sourceTree = "<group>"; };
+		940553A417A34EE9009B505D /* controller_pcecd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pcecd.png; sourceTree = "<group>"; };
 		943815B6165771EB00D55731 /* OEGenesisSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemController.h; sourceTree = "<group>"; };
 		943815B7165771EB00D55731 /* OEGenesisSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGenesisSystemController.m; sourceTree = "<group>"; };
 		943819C31658DAE800D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
@@ -2501,6 +2528,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9405538117A34C6B009B505D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9405538517A34C6B009B505D /* Cocoa.framework in Frameworks */,
+				940553A717A350AF009B505D /* OpenEmuSystem.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		943C800F1708A62E00D8D93E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2882,6 +2918,7 @@
 				94BE9E50171683E000AB08E6 /* ColecoVision.oesystemplugin */,
 				946B9462178289BA00A212AC /* Sega 32X.oesystemplugin */,
 				94454EB417860E1D006C057B /* PSP.oesystemplugin */,
+				9405538417A34C6B009B505D /* PC Engine CD.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4321,6 +4358,35 @@
 			name = "Blargg's NTSC filter";
 			sourceTree = "<group>";
 		};
+		9405538617A34C6B009B505D /* PC Engine CD */ = {
+			isa = PBXGroup;
+			children = (
+				9405539217A34D7D009B505D /* OEPCECDSystemController.h */,
+				9405539317A34D7D009B505D /* OEPCECDSystemController.m */,
+				9405539417A34D7D009B505D /* OEPCECDSystemResponder.h */,
+				9405539517A34D7D009B505D /* OEPCECDSystemResponder.m */,
+				9405539617A34D7D009B505D /* OEPCECDSystemResponderClient.h */,
+				9405538717A34C6B009B505D /* Supporting Files */,
+			);
+			path = "PC Engine CD";
+			sourceTree = "<group>";
+		};
+		9405538717A34C6B009B505D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9405539F17A34DCC009B505D /* pcenginecd_library.png */,
+				940553A017A34DCC009B505D /* tgcd_library.png */,
+				940553A317A34EE9009B505D /* controller_pcecd_mask.png */,
+				940553A417A34EE9009B505D /* controller_pcecd.png */,
+				9405538817A34C6B009B505D /* PC Engine CD-Info.plist */,
+				9405539B17A34DAB009B505D /* Keyboard-Mappings.plist */,
+				9405539917A34DAA009B505D /* Controller-Mappings.plist */,
+				9405539A17A34DAB009B505D /* Controller-Preferences.plist */,
+				9405538917A34C6B009B505D /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		943C80141708A62F00D8D93E /* Jaguar */ = {
 			isa = PBXGroup;
 			children = (
@@ -5206,6 +5272,7 @@
 				94BE9E52171683E000AB08E6 /* ColecoVision */,
 				946B9464178289BB00A212AC /* Sega 32X */,
 				94454EB617860E1E006C057B /* PSP */,
+				9405538617A34C6B009B505D /* PC Engine CD */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -5435,6 +5502,23 @@
 			productName = OpenEmu;
 			productReference = 8D15AC370486D014006FF6A4 /* OpenEmu.app */;
 			productType = "com.apple.product-type.application";
+		};
+		9405538317A34C6B009B505D /* PC Engine CD */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9405539117A34C6B009B505D /* Build configuration list for PBXNativeTarget "PC Engine CD" */;
+			buildPhases = (
+				9405538017A34C6B009B505D /* Sources */,
+				9405538117A34C6B009B505D /* Frameworks */,
+				9405538217A34C6B009B505D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "PC Engine CD";
+			productName = "PC Engine CD";
+			productReference = 9405538417A34C6B009B505D /* PC Engine CD.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
 		};
 		943C80111708A62E00D8D93E /* Jaguar */ = {
 			isa = PBXNativeTarget;
@@ -5976,6 +6060,7 @@
 				94BE9E4F171683E000AB08E6 /* ColecoVision */,
 				946B9461178289BA00A212AC /* Sega 32X */,
 				94454EB317860E1D006C057B /* PSP */,
+				9405538317A34C6B009B505D /* PC Engine CD */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -6313,6 +6398,21 @@
 				C344D617174C463E0011579E /* Scanline.cg in Resources */,
 				94A4E998179FB98100AD8C7D /* media.png in Resources */,
 				83338C2217A281C7007E32E9 /* secret.mp3 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9405538217A34C6B009B505D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9405538B17A34C6B009B505D /* InfoPlist.strings in Resources */,
+				9405539C17A34DAB009B505D /* Controller-Mappings.plist in Resources */,
+				9405539D17A34DAB009B505D /* Controller-Preferences.plist in Resources */,
+				9405539E17A34DAB009B505D /* Keyboard-Mappings.plist in Resources */,
+				940553A117A34DCC009B505D /* pcenginecd_library.png in Resources */,
+				940553A217A34DCC009B505D /* tgcd_library.png in Resources */,
+				940553A517A34EE9009B505D /* controller_pcecd_mask.png in Resources */,
+				940553A617A34EE9009B505D /* controller_pcecd.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7033,6 +7133,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9405538017A34C6B009B505D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9405539717A34D7D009B505D /* OEPCECDSystemController.m in Sources */,
+				9405539817A34D7D009B505D /* OEPCECDSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		943C800E1708A62E00D8D93E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -7400,6 +7509,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				822775561489471A00B19E27 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9405538917A34C6B009B505D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9405538A17A34C6B009B505D /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -7897,6 +8014,50 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		9405538D17A34C6B009B505D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "PC Engine CD/PC Engine CD-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		9405538E17A34C6B009B505D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "PC Engine CD/PC Engine CD-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -9320,6 +9481,15 @@
 			buildConfigurations = (
 				83F37142140BB166005A7353 /* Debug */,
 				83F37143140BB166005A7353 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9405539117A34C6B009B505D /* Build configuration list for PBXNativeTarget "PC Engine CD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9405538D17A34C6B009B505D /* Debug */,
+				9405538E17A34C6B009B505D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
