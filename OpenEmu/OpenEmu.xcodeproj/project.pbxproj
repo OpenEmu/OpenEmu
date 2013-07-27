@@ -36,6 +36,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				940553B217A35DE0009B505D /* PBXTargetDependency */,
 				94454F2E178B49E4006C057B /* PBXTargetDependency */,
 				945E431F1517F75B00057D08 /* PBXTargetDependency */,
 				94D7E8E9150741B500FBDD85 /* PBXTargetDependency */,
@@ -482,6 +483,7 @@
 		940553A517A34EE9009B505D /* controller_pcecd_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 940553A317A34EE9009B505D /* controller_pcecd_mask.png */; };
 		940553A617A34EE9009B505D /* controller_pcecd.png in Resources */ = {isa = PBXBuildFile; fileRef = 940553A417A34EE9009B505D /* controller_pcecd.png */; };
 		940553A717A350AF009B505D /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
+		940553B917A35FB4009B505D /* PC Engine.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224331707537F00098DA0 /* PC Engine.oesystemplugin */; };
 		943815B8165771EB00D55731 /* OEGenesisSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943815B7165771EB00D55731 /* OEGenesisSystemController.m */; };
 		943819C41658DAE800D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943819C31658DAE800D55731 /* Controller-Mappings.plist */; };
 		943C80131708A62F00D8D93E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -1098,6 +1100,13 @@
 			remoteGlobalIDString = C646574713771F12002A4F70;
 			remoteInfo = "GameBoy Advance";
 		};
+		940553B117A35DE0009B505D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94A224321707537F00098DA0;
+			remoteInfo = "PC Engine";
+		};
 		94454F2D178B49E4006C057B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1210,6 +1219,7 @@
 			dstPath = Systems;
 			dstSubfolderSpec = 13;
 			files = (
+				940553B917A35FB4009B505D /* PC Engine.oesystemplugin in Copy System Plugins to App Plugins */,
 				94454F31178B4ABA006C057B /* Virtual Boy.oesystemplugin in Copy System Plugins to App Plugins */,
 				94BB7A1A1776AF54002B68CF /* Arcade.oesystemplugin in Copy System Plugins to App Plugins */,
 				94DEA000171896AE00073397 /* NDS.oesystemplugin in Copy System Plugins to App Plugins */,
@@ -7449,6 +7459,11 @@
 			isa = PBXTargetDependency;
 			target = C646574713771F12002A4F70 /* GameBoy Advance */;
 			targetProxy = 83F37150140BB17C005A7353 /* PBXContainerItemProxy */;
+		};
+		940553B217A35DE0009B505D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94A224321707537F00098DA0 /* PC Engine */;
+			targetProxy = 940553B117A35DE0009B505D /* PBXContainerItemProxy */;
 		};
 		94454F2E178B49E4006C057B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
