@@ -110,7 +110,7 @@ typedef enum
 
     [super setDocument:document];
 
-    if(document)
+    if(document != nil)
     {
         OEGameViewController *gameViewController = [[self OE_gameDocument] gameViewController];
         NSString *systemIdentifier               = [[[[gameViewController rom] game] system] systemIdentifier];

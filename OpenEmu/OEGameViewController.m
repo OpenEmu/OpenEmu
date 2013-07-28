@@ -1027,8 +1027,6 @@ typedef enum : NSUInteger
 
 - (NSSize)defaultScreenSize
 {
-    NSAssert(_rootProxy, @"Default screen size requires a running _rootProxy");
-
     float wr = (float) _aspectSize.width / _screenRect.size.width;
     float hr = (float) _aspectSize.height / _screenRect.size.height;
     float ratio = MAX(hr, wr);

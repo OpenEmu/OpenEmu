@@ -135,7 +135,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 - (void)showInSeparateWindow:(id)sender fullScreen:(BOOL)fullScreen;
 {
-    OEHUDWindow *window                            = [[OEHUDWindow alloc] initWithContentRect:NSZeroRect];
+    OEHUDWindow *window = [[OEHUDWindow alloc] initWithContentRect:NSZeroRect];
     OEPopoutGameWindowController *windowController = [[OEPopoutGameWindowController alloc] initWithWindow:window];
 
     [windowController setWindowFullScreen:fullScreen];
