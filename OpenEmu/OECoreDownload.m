@@ -87,7 +87,7 @@
     [[plugin systemIdentifiers] enumerateObjectsUsingBlock:
      ^(NSString *systemIdentifier, NSUInteger idx, BOOL *stop)
      {
-         OESystemPlugin *plugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
+         OESystemPlugin *plugin = [OESystemPlugin systemPluginForIdentifier:systemIdentifier];
          NSString *systemName = [plugin systemName];
 
          if(systemName != nil) [mutableSystemNames addObject:systemName];

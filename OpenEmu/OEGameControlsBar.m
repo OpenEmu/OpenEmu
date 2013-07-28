@@ -508,8 +508,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [OEMenu openMenu:menu withEvent:nil forView:sender options:options];
 }
 
-#pragma mark -
-#pragma mark OEMenuDelegate Implementation
+#pragma mark - OEMenuDelegate Implementation
+
 - (void)menuWillOpen:(NSMenu *)menu
 {
     openMenus++;
@@ -520,39 +520,20 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     openMenus--;
 }
 
+- (void)setVolume:(CGFloat)value
+{
+    _volume = value;
+    [self reflectVolume:value];
+}
+
 #pragma mark - Updating UI States
 
-- (void)reflectVolume:(float)volume
+- (void)reflectVolume:(CGFloat)volume
 {
-    OEHUDControlsBarView    *view   = [[[self contentView] subviews] lastObject];
-    OESlider                *slider = [view slider];
-    
-    if(volume == [slider floatValue]) return;
-    [[slider animator] setFloatValue:volume];
-}
+    OEHUDControlsBarView *view   = [[[self contentView] subviews] lastObject];
+    OESlider             *slider = [view slider];
 
-- (float)reflectVolumeUp
-{
-    OEHUDControlsBarView    *view   = [[[self contentView] subviews] lastObject];
-    OESlider                *slider = [view slider];
-
-    float volume = [slider floatValue] + 0.1;
-    if(volume>1.0) volume = 1.0;
-    [self reflectVolume:volume];
-
-    return volume;
-}
-
-- (float)reflectVolumeDown
-{
-    OEHUDControlsBarView    *view   = [[[self contentView] subviews] lastObject];
-    OESlider                *slider = [view slider];
-
-    float volume = [slider floatValue] - 0.1;
-    if(volume<0.0) volume = 0.0;
-    [self reflectVolume:volume];
-
-    return volume;
+    [[slider animator] setDoubleValue:volume];
 }
 
 - (void)reflectEmulationRunning:(BOOL)isEmulationRunning

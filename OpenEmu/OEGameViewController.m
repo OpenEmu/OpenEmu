@@ -183,13 +183,10 @@ typedef enum : NSUInteger
     {
         NSError *error = [NSError errorWithDomain:OEGameDocumentErrorDomain
                                              code:OENoCoreForSaveStateError
-                                         userInfo:
-                          [NSDictionary dictionaryWithObjectsAndKeys:
-                           NSLocalizedString(@"No suitable core found.", @"Core not installed error reason."),
-                           NSLocalizedFailureReasonErrorKey,
-                           NSLocalizedString(@"Install a core for this save state.", @"Core not installed error recovery suggestion."),
-                           NSLocalizedRecoverySuggestionErrorKey,
-                           nil]];
+                                         userInfo:@{
+                              NSLocalizedFailureReasonErrorKey : NSLocalizedString(@"No suitable core found.", @"Core not installed error reason."),
+                              NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString(@"Install a core for this save state.", @"Core not installed error recovery suggestion.")
+                          }];
 
         if(outError != NULL)
             *outError = error;
@@ -488,7 +485,7 @@ typedef enum : NSUInteger
 
 - (void)toggleEmulationPause:(id)sender
 {
-    [self setPauseEmulation:(_emulationStatus == OEGameViewControllerEmulationStatusPlaying)];
+    [self setPauseEmulation:_emulationStatus == OEGameViewControllerEmulationStatusPlaying];
 }
 
 - (void)setPauseEmulation:(BOOL)pauseEmulation
@@ -635,7 +632,7 @@ typedef enum : NSUInteger
 - (void)setVolume:(float)volume asDefault:(BOOL)defaultFlag
 {
     [_rootProxy setVolume:volume];
-    [[self controlsWindow] reflectVolume:volume];
+    [[self controlsWindow] setVolume:volume];
     
     if(defaultFlag)
         [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:OEGameVolumeKey];
@@ -653,18 +650,18 @@ typedef enum : NSUInteger
 
 - (IBAction)volumeUp:(id)sender
 {
-    [_rootProxy volumeUp];
-    float volume = [[self controlsWindow] reflectVolumeUp];
-
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:OEGameVolumeKey];
+    CGFloat volume = [[self controlsWindow] volume];
+    volume += 0.1;
+    if(volume > 1.0) volume = 1.0;
+    [self setVolume:volume asDefault:YES];
 }
 
 - (IBAction)volumeDown:(id)sender
 {
-    [_rootProxy volumeDown];
-    float volume = [[self controlsWindow] reflectVolumeDown];
-
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:OEGameVolumeKey];
+    CGFloat volume = [[self controlsWindow] volume];
+    volume -= 0.1;
+    if(volume < 0.0) volume = 0.0;
+    [self setVolume:volume asDefault:YES];
 }
 
 - (void)mute:(id)sender
@@ -726,18 +723,17 @@ typedef enum : NSUInteger
         enabled = YES;
     }
     
-    [self setCheatWithCodeAndType:code setType:type setEnabled:enabled];
+    [self setCheat:code withType:type enabled:enabled];
 }
 
 - (BOOL)cheatSupport
 {
-    OEGameCore *gameCore = [_rootProxy gameCore];
-    return [gameCore canCheat];
+    return [[_corePlugin controller] supportsCheatCode];
 }
 
-- (void)setCheatWithCodeAndType:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled
+- (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 {
-    [_rootProxy setCheat:code setType:type setEnabled:enabled];
+    [_rootProxy setCheat:cheatCode withType:type enabled:enabled];
 }
 
 #pragma mark - Saving States
@@ -958,7 +954,7 @@ typedef enum : NSUInteger
     NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd kk.mm.ss"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH.mm.ss"];
     NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
     
     NSURL *screenshotFolderURL = [[OELibraryDatabase defaultDatabase] screenshotFolderURL];

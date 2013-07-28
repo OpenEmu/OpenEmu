@@ -26,8 +26,10 @@
 
 #import "OESystemPlugin.h"
 
+#if SUPPORTS_LIBRARY_REGISTRATION
 #import "OEDBSystem.h"
 #import "OELibraryDatabase.h"
+#endif
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
@@ -47,7 +49,7 @@ static NSArray *_cachedRequiredFiles = nil;
     }
 }
 
-+ (OESystemPlugin *)gameSystemPluginForIdentifier:(NSString *)gameSystemIdentifier;
++ (OESystemPlugin *)systemPluginForIdentifier:(NSString *)gameSystemIdentifier;
 {
     return [_pluginsBySystemIdentifiers objectForKey:gameSystemIdentifier];
 }
@@ -56,10 +58,12 @@ static NSArray *_cachedRequiredFiles = nil;
 {
     [_pluginsBySystemIdentifiers setObject:plugin forKey:gameSystemIdentifier];
 
+#if SUPPORTS_LIBRARY_REGISTRATION
     OELibraryDatabase *db = [OELibraryDatabase defaultDatabase];
 
     if(db == nil) NSLog(@"system plugins not registered in database, because the db does not exist yet!");
     else          [OEDBSystem systemForPlugin:plugin inDatabase:db];
+#endif
 
     // Invalidate supported type extenesions cache
     _cachedSupportedTypeExtensions = nil;

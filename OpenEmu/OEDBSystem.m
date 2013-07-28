@@ -247,7 +247,7 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 - (OESystemPlugin *)plugin
 {
     NSString *systemIdentifier = [self systemIdentifier];
-    OESystemPlugin *plugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
+    OESystemPlugin *plugin = [OESystemPlugin systemPluginForIdentifier:systemIdentifier];
     
     return plugin;
 }

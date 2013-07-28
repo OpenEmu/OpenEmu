@@ -113,10 +113,8 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
     // ensure we set _screenSize corectly from the get go
     [self updateScreenSize];
-
     [self setupIOSurface];
     [self setupFBO];
-
     [self updateAspectSize];
     [self signalUpdatedScreenSize];
 }
@@ -148,8 +146,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     return (id)_gameCoreProxy;
 }
 
-#pragma mark -
-#pragma mark IOSurface and GL Render
+#pragma mark - IOSurface and GL Render
 
 - (void)setupOpenGLOnScreen:(NSScreen *)screen
 {
@@ -355,9 +352,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
         [self destroySurface];
 
         [self updateScreenSize];
-
         [self setupIOSurface];
-
         [self setupFBO];
 
         glFlush();
@@ -416,7 +411,6 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
         //glDeleteTextures(1, &gameTexture);
         //gameTexture = 0;
     }
-
 }
 
 - (void)endDrawToIOSurface
@@ -439,8 +433,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     glPopClientAttrib();
 
     // flush to make sure IOSurface updates are seen in parent app.
-    if(!rendersToOpenGL)
-        glFlushRenderAPPLE();
+    if(!rendersToOpenGL) glFlushRenderAPPLE();
 }
 
 - (void)drawGameTexture
@@ -486,7 +479,6 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
     glDisableClientState(GL_VERTEX_ARRAY);
-
 }
 
 - (void)updateScreenSize
@@ -542,7 +534,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     _ioSurfaceTexture = 0;
 }
 
-- (void) destroyGLResources
+- (void)destroyGLResources
 {
     CGLContextObj cgl_ctx = _glContext;
 
@@ -558,8 +550,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     glFlush();
 }
 
-#pragma mark -
-#pragma mark Game Core methods
+#pragma mark - Game Core methods
 
 - (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath withSystemIdentifier:(bycopy NSString *)systemIdentifier
 {
@@ -621,7 +612,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     // If we detect one, we decompress it and store it in /tmp at a known location
 
     XADArchive *archive = [XADArchive archiveForFile:aPath];
-    if(!archive || [archive numberOfEntries] > 1)
+    if(archive == nil || [archive numberOfEntries] > 1)
         return aPath;
 
     if(![archive entryHasSize:0] || ![archive uncompressedSizeOfEntry:0] || [archive entryIsEncrypted:0] || [archive entryIsDirectory:0] || [archive entryIsArchive:0])

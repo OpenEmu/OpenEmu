@@ -43,17 +43,13 @@ extern NSString *const OEGameViewControllerROMKey;
 @class OEDBSaveState;
 
 @class OEGameView;
-@protocol OEGameCoreHelper;
-@class OEGameCoreController;
-@class OEGameCoreManager;
-@class OESystemController;
-@class OESystemResponder;
 
 @class OEGameControlsBar;
 @class OEGameDocument;
 @class OEDBSaveState;
 
 @class OECorePlugin;
+
 @protocol OEGameViewControllerDelegate;
 @protocol OEGameIntegralScalingDelegate;
 
@@ -105,7 +101,7 @@ extern NSString *const OEGameViewControllerROMKey;
 - (IBAction)addCheat:(id)sender;
 - (IBAction)setCheat:(id)sender;
 - (BOOL)cheatSupport;
-- (void)setCheatWithCodeAndType:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled;
+- (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 
 #pragma mark - Saving States
 - (IBAction)saveState:(id)sender;

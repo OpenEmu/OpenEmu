@@ -7826,6 +7826,10 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SUPPORTS_LIBRARY_REGISTRATION=0",
+				);
 				GENERATE_PKGINFO_FILE = NO;
 				INFOPLIST_FILE = "OpenEmuHelperApp-Info.plist";
 				INFOPLIST_PREPROCESS = NO;
@@ -7852,6 +7856,10 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SUPPORTS_LIBRARY_REGISTRATION=0",
+				);
 				GENERATE_PKGINFO_FILE = NO;
 				INFOPLIST_FILE = "OpenEmuHelperApp-Info.plist";
 				INFOPLIST_PREPROCESS = NO;
@@ -9073,6 +9081,10 @@
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"",
 				);
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SUPPORTS_LIBRARY_REGISTRATION=1",
+				);
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				HEADER_SEARCH_PATHS = "";
@@ -9097,6 +9109,10 @@
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"",
 				);
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SUPPORTS_LIBRARY_REGISTRATION=1",
+				);
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				HEADER_SEARCH_PATHS = "";
@@ -9128,7 +9144,6 @@
 					DEBUG_PRINT,
 					NS_BUILD_32_LIKE_64,
 				);
-				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;

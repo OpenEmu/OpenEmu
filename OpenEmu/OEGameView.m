@@ -836,7 +836,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 
     // calculate aspect ratio
     NSSize scaled;
-    OEIntSize aspectSize = self.gameAspectSize;
+    OEIntSize aspectSize = [self gameAspectSize];
     float wr = aspectSize.width / self.frame.size.width;
     float hr = aspectSize.height / self.frame.size.height;
     float ratio;
