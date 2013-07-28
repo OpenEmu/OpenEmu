@@ -26,6 +26,37 @@
 
 #import "OEThreadProxy.h"
 
+@interface NSMethodSignature (OEMethodSignatureAdditions)
+- (NSString *)OE_methodArgumentTypes;
+- (NSUInteger)OE_numberOfBlockArguments;
+@end
+
+@implementation NSMethodSignature (OEMethodSignatureAdditions)
+
+- (NSString *)OE_methodArgumentTypes
+{
+    NSMutableString *result = [NSMutableString stringWithUTF8String:[self methodReturnType]];
+    for(NSUInteger i = 0, count = [self numberOfArguments]; i < count; i++)
+        [result appendFormat:@"%s", [self getArgumentTypeAtIndex:i]];
+
+    return result;
+}
+
+- (NSUInteger)OE_numberOfBlockArguments
+{
+    NSUInteger argumentCount = 0;
+    for(NSUInteger i = 0, count = [self numberOfArguments]; i < count; i++)
+    {
+        const char *argumentType = [self getArgumentTypeAtIndex:i];
+        if(argumentType[0] == '@' && argumentType[1] == '?')
+            argumentCount++;
+    }
+
+    return argumentCount;
+}
+
+@end
+
 @implementation OEThreadProxy
 {
     CFMutableDictionaryRef _cachedMethodSignatures;
@@ -80,7 +111,7 @@
         signature = [super methodSignatureForSelector:sel];
 
     if(signature != nil)
-        CFDictionaryGetValue(_cachedMethodSignatures, (__bridge void *)signature);
+        CFDictionaryAddValue(_cachedMethodSignatures, sel, (__bridge void *)signature);
 
     return signature;
 }
@@ -94,10 +125,22 @@
         [invocation invokeWithTarget:_target];
     else
     {
-        [invocation retainArguments];
-
+        // We send the message to the background thread, which means
+        // we will execute the method asynchronously. This requires
+        // copying all stack block arguments to the heap or else
+        // they will be deallocated before the background thread
+        // can execute them.
         NSMethodSignature *signature = [invocation methodSignature];
-        for(NSUInteger argIndex = 2, argCount = [signature numberOfArguments]; argIndex < argCount; argIndex++)
+        NSUInteger argCount = [signature numberOfArguments];
+
+        // Keep track of the blocks we copied, after we told the
+        // NSInvocation to retain the arguments we will have to
+        // send release to the argument to balance our own copy.
+#define BLOCK_ARGUMENTS_MAX_COUNT 8
+        void *argumentsToRelease[BLOCK_ARGUMENTS_MAX_COUNT] = { NULL };
+        NSUInteger argumentsToReleaseCount = 0;
+
+        for(NSUInteger argIndex = 2; argIndex < argCount; argIndex++)
         {
             const char *type = [signature getArgumentTypeAtIndex:argIndex];
             if(type[0] == '@' && type[1] == '?')
@@ -106,11 +149,25 @@
                 [invocation getArgument:&argument atIndex:argIndex];
                 if(argument == NULL) continue;
 
-                argument = Block_copy(argument);
+                extern const char *_Block_dump(const void *block);
+
+                // Copy the block argument to the heap.
+                argument = _Block_copy(argument);
                 [invocation setArgument:&argument atIndex:argIndex];
-                Block_release(argument);
+
+                // Keep the argument pointer to be released later.
+                NSAssert(argumentsToReleaseCount < BLOCK_ARGUMENTS_MAX_COUNT, @"There are more block arguments %ld for selector %@ signature %@ than the handled limit %d", [signature OE_numberOfBlockArguments], NSStringFromSelector([invocation selector]), [signature OE_methodArgumentTypes], BLOCK_ARGUMENTS_MAX_COUNT);
+                argumentsToRelease[argumentsToReleaseCount++] = argument;
             }
         }
+
+        // Retain the arguments, the invocation has to be executed on another thread.
+        [invocation retainArguments];
+
+        // Balance the _Block_copy done in the loop.
+        for(NSUInteger i = 0; i < argumentsToReleaseCount; i++)
+            _Block_release(argumentsToRelease[i]);
+
         [invocation performSelector:@selector(invokeWithTarget:) onThread:_thread withObject:_target waitUntilDone:NO];
     }
 }
