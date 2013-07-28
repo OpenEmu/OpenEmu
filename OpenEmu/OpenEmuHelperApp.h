@@ -63,7 +63,6 @@ enum _OEHelperAppErrorCodes
 
     // IOSurface requirements
     IOSurfaceRef          _surfaceRef;
-    IOSurfaceID           _surfaceID;
 
     // GL Requirements
     CGLContextObj         _glContext;
@@ -102,7 +101,7 @@ enum _OEHelperAppErrorCodes
 
 @property(nonatomic) BOOL drawSquarePixels;
 @property(readonly) IOSurfaceID surfaceID;
-@property id<OEGameCoreDisplayHelper> delegate;
+@property id<OEGameCoreDisplayHelper> displayHelper;
 
 @property(readonly) OEGameCore *gameCoreProxy;
 @property(readonly) OEGameCore *gameCore;

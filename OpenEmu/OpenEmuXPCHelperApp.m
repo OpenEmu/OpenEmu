@@ -15,7 +15,6 @@
 {
     NSXPCListener *_mainListener;
     NSXPCConnection *_gameCoreConnection;
-    id<OEGameCoreDisplayHelper> _displayHelper;
 
     NSXPCListener *_systemListener;
     NSXPCConnection *_systemConnection;
@@ -58,12 +57,12 @@
         [_gameCoreConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEGameCoreDisplayHelper)]];
         [_gameCoreConnection resume];
 
-        _displayHelper = [_gameCoreConnection remoteObjectProxyWithErrorHandler:
-                          ^(NSError *error)
-                          {
-                              [self stopEmulationWithCompletionHandler:^{}];
-                          }];
-        [self setDelegate:_displayHelper];
+        [self setDisplayHelper:
+         [_gameCoreConnection remoteObjectProxyWithErrorHandler:
+          ^(NSError *error)
+          {
+              [self stopEmulationWithCompletionHandler:^{}];
+          }]];
         return YES;
     }
     else if(listener == _systemListener)
@@ -108,31 +107,6 @@
 
          [[NSApplication sharedApplication] terminate:self];
      }];
-}
-
-- (void)updateEnableVSync:(BOOL)enable;
-{
-    [_displayHelper setEnableVSync:enable];
-}
-
-- (void)updateScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-{
-    [_displayHelper setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
-}
-
-- (void)updateAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-{
-    [_displayHelper setAspectSize:newAspectSize withIOSurfaceID:newSurfaceID];
-}
-
-- (void)updateScreenRect:(OEIntRect)newScreenRect;
-{
-    [_displayHelper setScreenRect:newScreenRect];
-}
-
-- (void)updateFrameInterval:(NSTimeInterval)newFrameInterval;
-{
-    [_displayHelper setFrameInterval:newFrameInterval];
 }
 
 @end

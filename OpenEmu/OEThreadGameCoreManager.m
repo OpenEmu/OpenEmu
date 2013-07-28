@@ -51,7 +51,7 @@
 {
     @autoreleasepool
     {
-        [_helper setDelegate:(id<OEGameCoreDisplayHelper>)_displayHelperProxy];
+        [_helper setDisplayHelper:(id<OEGameCoreDisplayHelper>)_displayHelperProxy];
         if(![_helper loadROMAtPath:[self ROMPath] withCorePluginAtPath:[[self plugin] path] systemIdentifier:[[self systemController] systemIdentifier]]) {
             _errorHandler(nil);
             return;

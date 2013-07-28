@@ -13,8 +13,6 @@ NSString *const OEHelperServerNamePrefix = @"org.openemu.OpenEmuHelper-";
 
 @implementation OpenEmuDOHelperApp
 {
-    id<OEDOGameCoreDisplayHelper> _displayHelper;
-
     NSConnection *_connection;
     NSString     *_serviceUUID;
 }
@@ -85,35 +83,10 @@ NSString *const OEHelperServerNamePrefix = @"org.openemu.OpenEmuHelper-";
 - (oneway void)loadROMAtPath:(bycopy NSString *)romPath usingCorePluginAtPath:(bycopy NSString *)corePluginPath systemPluginAtPath:(bycopy NSString *)systemPluginPath withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate displayHelper:(byref id<OEDOGameCoreDisplayHelper>)displayHelper;
 {
     [(NSDistantObject *)delegate setProtocolForProxy:@protocol(OEDOGameCoreDisplayHelper)];
-    _displayHelper = displayHelper;
+    [self setDisplayHelper:(id<OEGameCoreDisplayHelper>)displayHelper];
 
     if([self loadROMAtPath:romPath withCorePluginAtPath:corePluginPath systemIdentifier:[[OESystemPlugin systemPluginWithBundleAtPath:systemPluginPath] systemIdentifier]])
         [delegate setSystemResponderClient:[self gameCore]];
-}
-
-- (void)updateEnableVSync:(BOOL)enable;
-{
-    [_displayHelper setEnableVSync:enable];
-}
-
-- (void)updateScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-{
-    [_displayHelper setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
-}
-
-- (void)updateAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-{
-    [_displayHelper setAspectSize:newAspectSize withIOSurfaceID:newSurfaceID];
-}
-
-- (void)updateScreenRect:(OEIntRect)newScreenRect;
-{
-    [_displayHelper setScreenRect:newScreenRect];
-}
-
-- (void)updateFrameInterval:(NSTimeInterval)newFrameInterval;
-{
-    [_displayHelper setFrameInterval:newFrameInterval];
 }
 
 @end

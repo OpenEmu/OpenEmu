@@ -52,11 +52,6 @@
     BOOL _hasSlowClientStorage;
 }
 
-@synthesize delegate = _delegate;
-@synthesize surfaceID = _surfaceID;
-@synthesize screenSize = _screenSize;
-@synthesize drawSquarePixels = _drawSquarePixels;
-
 #pragma mark -
 
 - (void)launchApplication
@@ -762,27 +757,27 @@
 
 - (void)updateEnableVSync:(BOOL)enable;
 {
-
+    [[self displayHelper] setEnableVSync:enable];
 }
 
 - (void)updateScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 {
-
+    [[self displayHelper] setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
 }
 
 - (void)updateAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 {
-
+    [[self displayHelper] setAspectSize:newAspectSize withIOSurfaceID:newSurfaceID];
 }
 
 - (void)updateScreenRect:(OEIntRect)newScreenRect;
 {
-
+    [[self displayHelper] setScreenRect:newScreenRect];
 }
 
 - (void)updateFrameInterval:(NSTimeInterval)newFrameInterval;
 {
-    
+    [[self displayHelper] setFrameInterval:newFrameInterval];
 }
 
 #pragma mark - OERenderDelegate protocol methods
