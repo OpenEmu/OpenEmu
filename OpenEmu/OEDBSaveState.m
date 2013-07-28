@@ -141,12 +141,12 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     return newSaveState;
 }
 
-+ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL
++ (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL
 {
     return [self createSaveStateNamed:name forRom:rom core:core withFile:stateFileURL inDatabase:[OELibraryDatabase defaultDatabase]];
 }
 
-+ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL inDatabase:(OELibraryDatabase *)database
++ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inDatabase:(OELibraryDatabase *)database
 {
     OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database managedObjectContext]];
     [newSaveState setName:name];

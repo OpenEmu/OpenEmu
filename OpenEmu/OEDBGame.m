@@ -40,15 +40,20 @@ NSString *const OEBoxSizesKey = @"BoxSizes";
 NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 @implementation OEDBGame
+@dynamic name, gameTitle, rating, gameDescription, importDate, lastArchiveSync, archiveID, status, displayName;
+@dynamic boxImage, system, roms, genres, collections, credits;
+
 + (void)initialize
 {
-     if (self == [OEDBGame class]) {
+     if (self == [OEDBGame class])
+     {
          [[NSUserDefaults standardUserDefaults] registerDefaults:@{OEBoxSizesKey:@[@"{75,75}", @"{150,150}", @"{300,300}", @"{450,450}"]}];
      }
 }
-#pragma mark -
-#pragma mark Creating and Obtaining OEDBGames
-+ (id)createGameWithName:(NSString*)name andSystem:(OEDBSystem*)system inDatabase:(OELibraryDatabase *)database
+
+#pragma mark - Creating and Obtaining OEDBGames
+
++ (id)createGameWithName:(NSString *)name andSystem:(OEDBSystem *)system inDatabase:(OELibraryDatabase *)database
 {
     NSManagedObjectContext *context = [database managedObjectContext];
     NSEntityDescription *description = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
@@ -77,7 +82,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     return [self gameWithURIURL:objIDUrl inDatabase:[OELibraryDatabase defaultDatabase]];
 }
 
-+ (id)gameWithURIURL:(NSURL*)objIDUrl inDatabase:(OELibraryDatabase *)database
++ (id)gameWithURIURL:(NSURL *)objIDUrl inDatabase:(OELibraryDatabase *)database
 {
     NSManagedObjectID *objID = [database managedObjectIDForURIRepresentation:objIDUrl];
     return [self gameWithID:objID inDatabase:database];
@@ -162,26 +167,30 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     return game;
 }
 
-+ (NSArray*)allGames
++ (NSArray *)allGames
 {
     return [self allGamesWithError:nil];
 }
-+ (NSArray*)allGamesWithError:(NSError*__autoreleasing*)error
+
++ (NSArray *)allGamesWithError:(NSError *__autoreleasing *)error
 {
     return [self allGamesInDatabase:[OELibraryDatabase defaultDatabase] error:error];
 }
-+ (NSArray*)allGamesInDatabase:(OELibraryDatabase*)database
+
++ (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database
 {
     return [self allGamesInDatabase:database error:nil];
 }
-+ (NSArray*)allGamesInDatabase:(OELibraryDatabase*)database error:(NSError*__autoreleasing*)error;
+
++ (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing *)error;
 {
     NSManagedObjectContext *context = [database managedObjectContext];    
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
     return [context executeFetchRequest:request error:error];
 }
-#pragma mark -
-#pragma mark Archive.VG Sync
+
+#pragma mark - Archive.VG Sync
+
 - (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary
 {
     OEDBGame *game = self;
@@ -230,7 +239,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     //// DLog(@"AVGGameCreditsKey: %@", [gameInfoDictionary valueForKey:AVGGameCreditsKey]);
     
     // Save changes
-//    [[game libraryDatabase] save:nil];
+    //[[game libraryDatabase] save:nil];
 }
 
 - (void)setNeedsArchiveSync
@@ -259,7 +268,9 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     [self setStatus:@(OEDBGameStatusOK)];
     [[self libraryDatabase] save:nil];
 }
+
 #pragma mark -
+
 - (id)mergeInfoFromGame:(OEDBGame *)game
 {
     // TODO: (low priority): improve merging
@@ -307,8 +318,8 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     return self;
 }
 
-#pragma mark -
-#pragma mark Accessors
+#pragma mark - Accessors
+
 - (NSDate *)lastPlayed
 {
     NSArray *roms = [[self roms] allObjects];
@@ -384,8 +395,9 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     
     return result;
 }
-#pragma mark -
-#pragma mark Core Data utilities
+
+#pragma mark - Core Data utilities
+
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
 {
     NSMutableSet *mutableRoms = [self mutableRoms];
@@ -409,7 +421,8 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 }
 
 #pragma mark -
-- (void)setBoxImageByImage:(NSImage*)img
+
+- (void)setBoxImageByImage:(NSImage *)img
 {
     @autoreleasepool 
     {
@@ -435,7 +448,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     }
 }
 
-- (void)setBoxImageByURL:(NSURL*)url
+- (void)setBoxImageByURL:(NSURL *)url
 {
     @autoreleasepool 
     {
@@ -460,9 +473,9 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 }
 
 #pragma mark -
+
 - (void)mergeWithGameInfo:(NSDictionary *)archiveGameDict
 {  
-    
     if([[archiveGameDict valueForKey:AVGGameIDKey] intValue] == 0) return;
     
     [self setArchiveID:[archiveGameDict valueForKey:AVGGameIDKey]];
@@ -480,8 +493,8 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
         [self setGameDescription:gameDescription];
 }
 
-#pragma mark -
-#pragma mark NSPasteboardWriting#
+#pragma mark - NSPasteboardWriting#
+
 // TODO: fix pasteboard writing
 - (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard
 {
@@ -518,8 +531,8 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     return nil;
 }
 
-#pragma mark -
-#pragma mark NSPasteboardReading
+#pragma mark - NSPasteboardReading
+
 - (id)initWithPasteboardPropertyList:(id)propertyList ofType:(NSString *)type
 {
     if(type == OEPasteboardTypeGame)
@@ -541,26 +554,23 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 {
     return NSPasteboardReadingAsString;
 }
-#pragma mark -
-#pragma mark Data Model Properties
-@dynamic name, gameTitle, rating, gameDescription, importDate, lastArchiveSync, archiveID, status, displayName;
-#pragma mark -
-#pragma mark Data Model Relationships
-@dynamic boxImage, system, roms, genres, collections, credits;
-- (NSMutableSet*)mutableRoms
+
+#pragma mark - Data Model Relationships
+
+- (NSMutableSet *)mutableRoms
 {
     return [self mutableSetValueForKey:@"roms"];
 }
 
-- (NSMutableSet*)mutableGenres
+- (NSMutableSet *)mutableGenres
 {
     return [self mutableSetValueForKey:@"genres"];
 }
-- (NSMutableSet*)mutableCollections
+- (NSMutableSet *)mutableCollections
 {
     return [self mutableSetValueForKeyPath:@"collections"];
 }
-- (NSMutableSet*)mutableCredits
+- (NSMutableSet *)mutableCredits
 {
     return [self mutableSetValueForKeyPath:@"credits"];
 }
@@ -625,4 +635,5 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
     NSLog(@"%@ End of game dump\n\n", prefix);
 }
+
 @end
