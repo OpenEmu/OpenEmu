@@ -136,6 +136,8 @@ typedef enum
         OEHUDWindow *window     = (OEHUDWindow *)[self window];
         const NSRect windowRect = {NSZeroPoint, windowSize};
 
+        [window setContentBackgroundColor:[NSColor colorWithCalibratedRed:0.129 green:0.129 blue:0.129 alpha:0.93]];
+
         [gameViewController setIntegralScalingDelegate:self];
 
         [window setFrame:windowRect display:NO animate:NO];

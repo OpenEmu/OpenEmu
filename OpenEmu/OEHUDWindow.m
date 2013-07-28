@@ -89,6 +89,7 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 {
     OEHUDBorderWindow        *_borderWindow;
     OEHUDWindowDelegateProxy *_delegateProxy;
+    NSBox                    *_backgroundView;
 }
 
 #pragma mark - Lifecycle
@@ -197,7 +198,7 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
     [self setOpaque:NO];
     [self setBackgroundColor:[NSColor clearColor]];
     
-    [self setContentView:[[NSView alloc] initWithFrame:NSZeroRect]];
+    [self OE_setupBackgroundView];
     [self setMainContentView:[[NSView alloc] initWithFrame:NSZeroRect]];
     
     // Register for notifications
@@ -208,6 +209,22 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
     
     _borderWindow = [[OEHUDBorderWindow alloc] initWithContentRect:[self frame] styleMask:0 backing:0 defer:0];
     [self addChildWindow:_borderWindow ordered:NSWindowAbove];
+}
+
+- (void)OE_setupBackgroundView
+{
+    NSRect contentRect = [self frame];
+    contentRect.origin = NSZeroPoint;
+
+    contentRect.origin.x    += _OEHUDWindowLeftBorder;
+    contentRect.origin.y    += _OEHUDWindowBottomBorder;
+    contentRect.size.width  -= (_OEHUDWindowLeftBorder + _OEHUDWindowRightBorder);
+    contentRect.size.height -= (_OEHUDWindowTopBorder  + _OEHUDWindowBottomBorder);
+    _backgroundView = [[NSBox alloc] initWithFrame:contentRect];
+    [_backgroundView setBoxType:NSBoxCustom];
+    [_backgroundView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+
+    [[super contentView] addSubview:_backgroundView positioned:NSWindowBelow relativeTo:nil];
 }
 
 - (void)OE_layout
@@ -236,28 +253,29 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 
 #pragma mark - Public
 
-- (OEHUDBorderWindow *)borderWindow
+- (NSColor *)contentBackgroundColor
 {
-    return _borderWindow;
+    return [_backgroundView fillColor];
 }
 
-- (NSView *)mainContentView
+- (void)setContentBackgroundColor:(NSColor *)value
 {
-    return [[[self contentView] subviews] lastObject];
+    [_backgroundView setFillColor:value];
 }
 
-- (void)setMainContentView:(NSView *)mainContentView
+- (void)setMainContentView:(NSView *)value
 {
-    if(mainContentView == [self mainContentView])
+    if(_mainContentView == value)
         return;
 
-    [[self mainContentView] removeFromSuperview];
+    [_mainContentView removeFromSuperview];
+    _mainContentView = value;
 
-    [[super contentView] addSubview:mainContentView];
+    [[super contentView] addSubview:_mainContentView];
 
     const NSRect contentRect = [self convertRectFromScreen:[OEHUDWindow mainContentRectForFrameRect:[self frame]]];
-    [mainContentView setFrame:contentRect];
-    [mainContentView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [_mainContentView setFrame:contentRect];
+    [_mainContentView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 }
 
 + (NSRect)mainContentRectForFrameRect:(NSRect)windowFrame
@@ -359,7 +377,9 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 }
 
 static NSImage *frameImage, *frameImageInactive;
+
 #pragma mark -
+
 + (void)initialize
 {
     if(self != [OEHUDWindowThemeView class]) return;
@@ -376,8 +396,8 @@ static NSImage *frameImage, *frameImageInactive;
 
 - (id)initWithFrame:(NSRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self) {
+    if((self = [super initWithFrame:frame]))
+    {
         NSRect closeButtonRect    = [self titleBarRect];
         closeButtonRect.origin.x += _OEHUDWindowCloseButtonLeftBorder;
         closeButtonRect.size      = _OEHUDWindowCloseButtonSize;
@@ -402,6 +422,7 @@ static NSImage *frameImage, *frameImageInactive;
     
     return titleBarRect;
 }
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     [[NSColor clearColor] setFill];
