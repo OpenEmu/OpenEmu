@@ -1027,6 +1027,9 @@ typedef enum : NSUInteger
 
 - (NSSize)defaultScreenSize
 {
+    if(OEIntRectIsEmpty(_screenRect) || OEIntSizeIsEmpty(_aspectSize))
+        return NSMakeSize(400, 300);
+
     float wr = (float) _aspectSize.width / _screenRect.size.width;
     float hr = (float) _aspectSize.height / _screenRect.size.height;
     float ratio = MAX(hr, wr);
