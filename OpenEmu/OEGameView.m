@@ -37,7 +37,7 @@
 
 #import "OEBuiltInShader.h"
 
-#import "OEGameCoreHelper.h"
+#import "OEDOGameCoreHelper.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import <OpenGL/CGLMacro.h>
@@ -112,6 +112,10 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 @property NSTimeInterval     filterTime;
 @property NSTimeInterval     filterStartTime;
 @property BOOL               filterHasOutputMousePositionKeys;
+
+@property(nonatomic) IOSurfaceID surfaceID;
+@property(nonatomic) OEIntSize screenSize;
+@property(nonatomic) OEIntRect screenRect;
 
 - (void)OE_renderToTexture:(GLuint)renderTarget usingTextureCoords:(const GLint *)texCoords inCGLContext:(CGLContextObj)cgl_ctx;
 - (void)OE_applyCgShader:(OECGShader *)shader usingVertices:(const GLfloat *)vertices withTextureSize:(const OEIntSize)textureSize withOutputSize:(const OEIntSize)outputSize inPassNumber:(const NSUInteger)passNumber inCGLContext:(CGLContextObj)cgl_ctx;
@@ -247,17 +251,18 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     // our texture is in NTSC colorspace from the cores
     _rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
 
-    _gameScreenSize = _rootProxy.screenSize;
-    _gameSurfaceID = _rootProxy.surfaceID;
+    _gameScreenSize = [self screenSize];
+    _gameSurfaceID = [self surfaceID];
 
     // rendering
     [self setupDisplayLink];
     [self rebindIOSurface];
 }
 
-- (oneway void)toggleVSync:(GLint)swapInt
+- (void)setEnableVSync:(BOOL)enable
 {
-    [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+    GLint vSync = enable;
+    [[self openGLContext] setValues:&vSync forParameter:NSOpenGLCPSwapInterval];
 }
 
 - (oneway void)setPauseEmulation:(BOOL)paused
@@ -485,7 +490,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     }
     else _filterTime -= _filterStartTime;
 
-    _gameFrameCount = _filterTime * _gameFrameInterval;
+    _gameFrameCount = _filterTime * _frameInterval;
 
     if(_gameSurfaceRef == NULL) [self rebindIOSurface];
 
@@ -942,7 +947,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
         _filterName = [value copy];
 
         [self OE_refreshFilterRenderer];
-        if(_rootProxy != nil) _rootProxy.drawSquarePixels = [self composition] != nil;
+        if(_rootProxy != nil) [_rootProxy setDrawSquarePixels:[self composition] != nil];
     }
 }
 
@@ -1122,19 +1127,18 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     if(value != _rootProxy)
     {
         _rootProxy = value;
-        [_rootProxy setDelegate:self];
-        _rootProxy.drawSquarePixels = [self composition] != nil;
+        [_rootProxy setDrawSquarePixels:[self composition] != nil];
     }
 }
 
-- (oneway void)gameCoreDidChangeScreenSizeTo:(OEIntSize)size
+- (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 {
     // Recache the new resized surfaceID, so we can get our surfaceRef from it, to draw.
-    _gameSurfaceID = _rootProxy.surfaceID;
+    _gameSurfaceID = newSurfaceID;
 
     [self rebindIOSurface];
 
-    self.gameScreenSize = size;
+    self.gameScreenSize = newScreenSize;
 
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     [[self openGLContext] makeCurrentContext];
@@ -1145,29 +1149,29 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
             for(NSUInteger i = 0; i < OEFramesSaved; ++i)
             {
                 glBindTexture(GL_TEXTURE_2D, _rttGameTextures[i]);
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  size.width, size.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  newScreenSize.width, newScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
                 glBindTexture(GL_TEXTURE_2D, 0);
             }
         }
         free(_ntscSource);
-        _ntscSource      = (uint16_t *) malloc(sizeof(uint16_t) * size.width * size.height);
-        if(size.width <= 256)
+        _ntscSource      = (uint16_t *) malloc(sizeof(uint16_t) * newScreenSize.width * newScreenSize.height);
+        if(newScreenSize.width <= 256)
         {
             free(_ntscDestination);
-            _ntscDestination = (uint16_t *) malloc(sizeof(uint16_t) * SNES_NTSC_OUT_WIDTH(size.width) * size.height);
+            _ntscDestination = (uint16_t *) malloc(sizeof(uint16_t) * SNES_NTSC_OUT_WIDTH(newScreenSize.width) * newScreenSize.height);
         }
-        else if(size.width <= 512)
+        else if(newScreenSize.width <= 512)
         {
             free(_ntscDestination);
-            _ntscDestination = (uint16_t *) malloc(sizeof(uint16_t) * SNES_NTSC_OUT_WIDTH_HIRES(size.width) * size.height);
+            _ntscDestination = (uint16_t *) malloc(sizeof(uint16_t) * SNES_NTSC_OUT_WIDTH_HIRES(newScreenSize.width) * newScreenSize.height);
         }
     }
     CGLUnlockContext(cgl_ctx);
 }
 
-- (oneway void)gameCoreDidChangeAspectSizeTo:(OEIntSize)size
+- (void)setAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
 {
-    self.gameAspectSize = size;
+    [self setGameAspectSize:newAspectSize];
 }
 
 #pragma mark -
@@ -1240,7 +1244,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     CGPoint location = [anEvent locationInWindow];
     location = [self convertPoint:location fromView:nil];
     location.y = frame.size.height - location.y;
-    OEIntRect rect = [[[self rootProxy] gameCore] screenRect];
+    OEIntRect rect = [self screenRect];
 
     CGRect screenRect = { .size = { rect.size.width, rect.size.height } };
 

@@ -283,37 +283,16 @@ OSStatus RenderCallback(void                       *in,
     {
         _outputDeviceID = (outputDeviceID == 0 ? nil : @(outputDeviceID));
 
-        if(mOutputUnit)
+        if(mOutputUnit != NULL)
             AudioUnitSetProperty(mOutputUnit, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global, 0, &outputDeviceID, sizeof(outputDeviceID));
     }
 }
 
-- (float)volume
+- (void)setVolume:(CGFloat)aVolume
 {
-    return volume;
-}
-
-- (void)setVolume:(float)aVolume
-{
-    volume = aVolume;
-    if (mOutputUnit)
-        AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, volume, 0);
-}
-
-- (void)volumeUp
-{
-    float newVolume = volume + 0.1;
-    if(newVolume>1.0) newVolume = 1.0;
-
-    [self setVolume:newVolume];
-}
-
-- (void)volumeDown
-{
-    float newVolume = volume - 0.1;
-    if(newVolume<0.0) newVolume = 0.0;
-
-    [self setVolume:newVolume];
+    _volume = aVolume;
+    if(mOutputUnit != NULL)
+        AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, _volume, 0);
 }
 
 @end

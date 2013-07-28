@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2009, OpenEmu Team
- 
+ Copyright (c) 2013, OpenEmu Team
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,28 +24,23 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <AudioToolbox/AudioToolbox.h>
-#import <AudioUnit/AudioUnit.h>
+#import <Foundation/Foundation.h>
 
-@class OEGameCore;
+@interface OEXPCCAgent : NSObject
 
-@interface OEGameAudio : NSObject
-{
-    OEGameCore *gameCore;
-    AUGraph     mGraph;
-    AUNode      mConverterNode, mMixerNode, mOutputNode;
-    AudioUnit   mConverterUnit, mMixerUnit, mOutputUnit;
-}
++ (BOOL)canParseProcessArgumentsForDefaultAgent;
 
-@property(nonatomic) CGFloat volume;
-@property AudioDeviceID outputDeviceID;
+// Get the agent based on the process arguments or the +[OEXPCCAgentConfiguration sharedConfiguration] if set up.
++ (OEXPCCAgent *)defaultAgent;
 
-- (id)initWithCore:(OEGameCore *)core;
+// Extract the process identifier from the arguments, returns nil if it can't be found.
++ (NSString *)defaultProcessIdentifier;
 
-- (void)createGraph;
-- (void)startAudio;
-- (void)stopAudio;
-- (void)pauseAudio;
+- (id)initWithServiceName:(NSString *)serviceName;
+
+@property(readonly) NSString *serviceName;
+
+- (void)registerListenerEndpoint:(NSXPCListenerEndpoint *)endpoint forIdentifier:(NSString *)identifier completionHandler:(void(^)(BOOL success))handler;
+- (void)retrieveListenerEndpointForIdentifier:(NSString *)identifier completionHandler:(void(^)(NSXPCListenerEndpoint *endpoint))handler;
 
 @end

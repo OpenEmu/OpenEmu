@@ -32,8 +32,11 @@
 #import "OEDBGame.h"
 
 #import "OEGameView.h"
-#import "OEGameCoreHelper.h"
+#import "OEDOGameCoreHelper.h"
 #import "OEGameCoreManager.h"
+#import "OEDOGameCoreManager.h"
+#import "OEThreadGameCoreManager.h"
+#import "OEXPCGameCoreManager.h"
 #import "OECorePickerController.h"
 
 #import "OESystemPlugin.h"
@@ -78,7 +81,7 @@ typedef enum : NSUInteger
     OEGameViewControllerEmulationStatusTerminating = 3,
 } OEGameViewControllerEmulationStatus;
 
-@interface OEGameViewControllerSaveStateCallback : NSObject <OEGameCoreHelperSaveStateDelegate>
+@interface OEGameViewControllerSaveStateCallback : NSObject
 + (instancetype)saveStateCallbackWithBlock:(void (^)(BOOL))block;
 @property(copy) void (^callback)(BOOL success);
 @end
@@ -86,7 +89,7 @@ typedef enum : NSUInteger
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
 
-@interface OEGameViewController ()
+@interface OEGameViewController () <OEGameCoreDisplayHelper>
 {
     // IPC from our OEHelper
     id<OEGameCoreHelper>                 _rootProxy;
@@ -103,6 +106,8 @@ typedef enum : NSUInteger
     OEGameViewControllerEmulationStatus  _emulationStatus;
     OEDBSaveState                       *_saveStateForGameStart;
     NSDate                              *_lastPlayStartDate;
+    OEIntRect                            _screenRect;
+    OEIntSize                            _aspectSize;
     BOOL                                 _pausedByGoingToBackground;
 }
 
@@ -316,8 +321,10 @@ typedef enum : NSUInteger
 {
     if([[OEHUDAlert resetSystemAlert] runModal] == NSAlertDefaultReturn)
     {
-        [[_rootProxy gameCore] resetEmulation];
-        [self playGame:self];
+        [_rootProxy resetEmulationWithCompletionHandler:
+         ^{
+             [self playGame:self];
+         }];
     }
 }
 
@@ -401,12 +408,23 @@ typedef enum : NSUInteger
 {
     if(_emulationStatus != OEGameViewControllerEmulationStatusNotStarted) return;
 
-    NSString *systemIdentifier = [[[[self rom] game] system] systemIdentifier];
+    if(_gameView == nil)
+    {
+        _gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
+        [_gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [[self view] addSubview:_gameView];
+    }
+
+    _gameSystemController = [[[[[self rom] game] system] plugin] controller];
+
     NSError *error;
     Class managerClass = ([[NSUserDefaults standardUserDefaults] boolForKey:OEGameCoresInBackgroundKey]
-                          ? [OEGameCoreThreadManager  class]
-                          : [OEGameCoreProcessManager class]);
-    _gameCoreManager = [[managerClass alloc] initWithROMAtPath:[[[self rom] URL] path] corePlugin:_corePlugin systemIdentifier:systemIdentifier error:&error];
+                          ? [OEThreadGameCoreManager  class]
+                          : ([OEXPCGameCoreManager canUseXPCGameCoreManager]
+                             ? [OEXPCGameCoreManager class]
+                             : [OEDOGameCoreManager class]));
+
+    _gameCoreManager = [[managerClass alloc] initWithROMPath:[[[self rom] URL] path] corePlugin:_corePlugin systemController:_gameSystemController displayHelper:_gameView];
 
     if(_gameCoreManager == nil)
     {
@@ -418,49 +436,50 @@ typedef enum : NSUInteger
         [[self document] close];
     }
 
-    _rootProxy = [_gameCoreManager rootProxy];
-    
-    OEGameCore *gameCore = [_rootProxy gameCore];
-    _gameSystemController = [[[[[self rom] game] system] plugin] controller];
-    _gameSystemResponder  = [_gameSystemController newGameSystemResponder];
-    [_gameSystemResponder setClient:gameCore];
+    [_gameCoreManager loadROMWithCompletionHandler:
+     ^(id<OEGameCoreHelper> helper, id systemClient)
+     {
+         _rootProxy = helper;
+         _gameSystemResponder = [_gameSystemController newGameSystemResponder];
+         [_gameSystemResponder setClient:systemClient];
 
-    if(_gameView == nil)
-    {
-        _gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
-        [_gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [[self view] addSubview:_gameView];
-    }
-    [_gameView setGameFrameInterval:[gameCore frameInterval]];
-    [_gameView setRootProxy:_rootProxy];
-    [_gameView setGameResponder:_gameSystemResponder];
-    
-    [_rootProxy setupEmulation];
-    _emulationStatus = OEGameViewControllerEmulationStatusPlaying;
+         [_gameView setRootProxy:_rootProxy];
+         [_gameView setGameResponder:_gameSystemResponder];
 
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:_gameView];
-    [nc addObserver:self selector:@selector(OE_lowDeviceBattery:) name:OEDeviceHandlerDidReceiveLowBatteryWarningNotification object:nil];
-    [nc addObserver:self selector:@selector(OE_deviceDidDisconnect:) name:OEDeviceManagerDidRemoveDeviceHandlerNotification object:nil];
+         [_rootProxy setupEmulationWithCompletionHandler:
+          ^{
+              _emulationStatus = OEGameViewControllerEmulationStatusPlaying;
 
-    NSWindow *window = [self OE_rootWindow];
-    [window makeFirstResponder:_gameView];
+              NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+              [nc addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:_gameView];
+              [nc addObserver:self selector:@selector(OE_lowDeviceBattery:) name:OEDeviceHandlerDidReceiveLowBatteryWarningNotification object:nil];
+              [nc addObserver:self selector:@selector(OE_deviceDidDisconnect:) name:OEDeviceManagerDidRemoveDeviceHandlerNotification object:nil];
 
-    [self disableOSSleep];
-    [[self rom] incrementPlayCount];
-    [[self rom] markAsPlayedNow];
-    _lastPlayStartDate = [NSDate date];
+              NSWindow *window = [self OE_rootWindow];
+              [window makeFirstResponder:_gameView];
 
-    [[self controlsWindow] reflectEmulationRunning:YES];
+              [self disableOSSleep];
+              [[self rom] incrementPlayCount];
+              [[self rom] markAsPlayedNow];
+              _lastPlayStartDate = [NSDate date];
 
-    if(_saveStateForGameStart)
-    {
-        [self loadState:_saveStateForGameStart];
-        _saveStateForGameStart = nil;
-    }
-    
-    // set initial volume
-    [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey] asDefault:NO];
+              [[self controlsWindow] reflectEmulationRunning:YES];
+
+              if(_saveStateForGameStart)
+              {
+                  [self loadState:_saveStateForGameStart];
+                  _saveStateForGameStart = nil;
+              }
+
+              // set initial volume
+              [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey] asDefault:NO];
+          }];
+     }
+                                      errorHandler:
+     ^(NSError *error)
+     {
+         [[self document] presentError:error];
+     }];
 }
 
 - (BOOL)OE_pauseEmulationIfNeeded
@@ -557,7 +576,7 @@ typedef enum : NSUInteger
 {
     if(core == [_gameCoreManager plugin])
     {
-        [[_rootProxy gameCore] resetEmulation];
+        [_rootProxy resetEmulationWithCompletionHandler:^{ }];
         return;
     }
 
@@ -793,49 +812,42 @@ typedef enum : NSUInteger
                                      return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
                                  }];
 
-        void (^completionBlock)(BOOL success) =
-        ^(BOOL success)
-        {
-            if(!success)
-            {
-                NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
-                
-                if(resumeGame) [self playGame:self];
-                return;
-            }
+        [_rootProxy saveStateToFileAtPath:[temporaryStateFileURL path] completionHandler:
+         ^(BOOL success, NSError *error)
+         {
+             if(!success)
+             {
+                 NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
 
-            BOOL isSpecialSaveState = [stateName hasPrefix:OESaveStateSpecialNamePrefix];
-            OEDBSaveState *state;
-            if(isSpecialSaveState)
-            {
-                state = [[self rom] saveStateWithName:stateName];
-                [state setCoreIdentifier:[core bundleIdentifier]];
-                [state setCoreVersion:[core version]];
-            }
+                 if(resumeGame) [self playGame:self];
+                 return;
+             }
 
-            if(state == nil)
-                state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:core withFile:temporaryStateFileURL];
-            else
-            {
-                [state replaceStateFileWithFile:temporaryStateFileURL];
-                [state setTimestamp:[NSDate date]];
-                [state writeInfoPlist];
-            }
+             OEDBSaveState *state;
+             if([stateName hasPrefix:OESaveStateSpecialNamePrefix])
+             {
+                 state = [[self rom] saveStateWithName:stateName];
+                 [state setCoreIdentifier:[core bundleIdentifier]];
+                 [state setCoreVersion:[core version]];
+             }
 
-            NSImage *screenshotImage = [_gameView nativeScreenshot];
-            NSData *TIFFData = [screenshotImage TIFFRepresentation];
-            NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
-            NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
-            success = [PNGData writeToURL:[state screenshotURL] atomically: YES];
+             if(state == nil)
+                 state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:core withFile:temporaryStateFileURL];
+             else
+             {
+                 [state replaceStateFileWithFile:temporaryStateFileURL];
+                 [state setTimestamp:[NSDate date]];
+                 [state writeInfoPlist];
+             }
 
-            if(!success) NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
-            if(resumeGame) [self playGame:self];
-        };
+             NSData *TIFFData = [[_gameView nativeScreenshot] TIFFRepresentation];
+             NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
+             NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
+             success = [PNGData writeToURL:[state screenshotURL] atomically: YES];
 
-        if(synchronously)
-            completionBlock([_rootProxy saveStateToFileAtPath:[temporaryStateFileURL path]]);
-        else
-            [_rootProxy saveStateToFileAtPath:[temporaryStateFileURL path] delegate:[OEGameViewControllerSaveStateCallback saveStateCallbackWithBlock:completionBlock]];
+             if(!success) NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
+             if(resumeGame) [self playGame:self];
+         }];
     }
     @finally
     {
@@ -892,7 +904,7 @@ typedef enum : NSUInteger
                     {
                         OECorePlugin *core = [OECorePlugin corePluginWithBundleIdentifier:[state coreIdentifier]];
                         [self OE_restartUsingCore:core];
-                        [_rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] delegate:nil];
+                        [_rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] completionHandler:^(BOOL success, NSError *error) { }];
                         [self playGame:self];
                     }
                  }];
@@ -906,7 +918,7 @@ typedef enum : NSUInteger
         }
     }
 
-    [_rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] delegate:nil];
+    [_rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] completionHandler:^(BOOL success, NSError *error) { }];
     [self playGame:self];
 }
 
@@ -982,24 +994,50 @@ typedef enum : NSUInteger
     return YES;
 }
 
+#pragma mark - OEGameCoreDisplayHelper methods
+
+- (void)setEnableVSync:(BOOL)enable;
+{
+    [_gameView setEnableVSync:enable];
+}
+
+- (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+{
+    [_gameView setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
+}
+
+- (void)setAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+{
+    _aspectSize = newAspectSize;
+    [_gameView setAspectSize:newAspectSize withIOSurfaceID:newSurfaceID];
+}
+
+- (void)setScreenRect:(OEIntRect)newScreenRect;
+{
+    _screenRect = newScreenRect;
+    [_gameView setScreenRect:newScreenRect];
+}
+
+- (void)setFrameInterval:(NSTimeInterval)newFrameInterval;
+{
+    [_gameView setFrameInterval:newFrameInterval];
+}
+
 #pragma mark - Info
 
 - (NSSize)defaultScreenSize
 {
     NSAssert(_rootProxy, @"Default screen size requires a running _rootProxy");
 
-    OEGameCore *gameCore = [_rootProxy gameCore];
-    OEIntRect screenRect = [gameCore screenRect];
-    
-    float wr = (float) _rootProxy.aspectSize.width / screenRect.size.width;
-    float hr = (float) _rootProxy.aspectSize.height / screenRect.size.height;
+    float wr = (float) _aspectSize.width / _screenRect.size.width;
+    float hr = (float) _aspectSize.height / _screenRect.size.height;
     float ratio = MAX(hr, wr);
     NSSize scaled = NSMakeSize((wr / ratio), (hr / ratio));
     
     float halfw = scaled.width;
     float halfh = scaled.height;
     
-    return NSMakeSize(screenRect.size.width / halfh, screenRect.size.height / halfw);
+    return NSMakeSize(_screenRect.size.width / halfh, _screenRect.size.height / halfw);
 }
 
 - (NSString *)systemIdentifier

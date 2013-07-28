@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2009, OpenEmu Team
- 
+ Copyright (c) 2013, OpenEmu Team
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,28 +24,23 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <AudioToolbox/AudioToolbox.h>
-#import <AudioUnit/AudioUnit.h>
+#import <Foundation/Foundation.h>
 
-@class OEGameCore;
+// Only use this class from the main application.
+// The class sets up the agent that will allow you to communicate with background processes.
+@interface OEXPCCAgentConfiguration : NSObject
 
-@interface OEGameAudio : NSObject
-{
-    OEGameCore *gameCore;
-    AUGraph     mGraph;
-    AUNode      mConverterNode, mMixerNode, mOutputNode;
-    AudioUnit   mConverterUnit, mMixerUnit, mOutputUnit;
-}
++ (OEXPCCAgentConfiguration *)defaultConfiguration;
+- (void)tearDownAgent;
 
-@property(nonatomic) CGFloat volume;
-@property AudioDeviceID outputDeviceID;
+@property(readonly) NSString *serviceName;
 
-- (id)initWithCore:(OEGameCore *)core;
-
-- (void)createGraph;
-- (void)startAudio;
-- (void)stopAudio;
-- (void)pauseAudio;
+// You need to pass two arguments to processes you want to connect to from the process
+// initiating the connection: the service name argument and the process identifier
+// argument. You obtain the former using -agentServiceNameProcessArgument and use
+// -processIdentifierArgumentForIdentifier: to generate the latter. The identifier
+// must be unique so it's preferrable to use NSUUID to generate it.
+- (NSString *)agentServiceNameProcessArgument;
+- (NSString *)processIdentifierArgumentForIdentifier:(NSString *)identifier;
 
 @end

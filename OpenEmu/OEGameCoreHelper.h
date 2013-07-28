@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2010, OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,54 +24,34 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import <Cocoa/Cocoa.h>
 #import <CoreAudio/CoreAudio.h>
 #import <OpenEmuBase/OpenEmuBase.h>
 
-@class OEGameCoreController;
-
-@protocol OEGameCoreHelperDelegate <NSObject>
-- (oneway void)gameCoreDidChangeScreenSizeTo:(OEIntSize)screenSize;
-- (oneway void)gameCoreDidChangeAspectSizeTo:(OEIntSize)aspectSize;
-- (oneway void)toggleVSync:(GLint)swapInt;
-- (oneway void)setPauseEmulation:(BOOL)paused;
-@end
-
-@protocol OEGameCoreHelperSaveStateDelegate <NSObject>
-- (oneway void)gameCoreHelperDidSaveState:(BOOL)success;
-- (oneway void)gameCoreHelperDidLoadState:(BOOL)success;
-@end
-
-// our helper app needs to handle these functions
 @protocol OEGameCoreHelper <NSObject>
 
-// control gamecore
-- (oneway void)setVolume:(float)value;
-- (oneway void)volumeUp;
-- (oneway void)volumeDown;
-- (oneway void)setPauseEmulation:(BOOL)flag;
-- (oneway void)setAudioOutputDeviceID:(AudioDeviceID)deviceID;
+- (void)setVolume:(CGFloat)value;
+- (void)setPauseEmulation:(BOOL)pauseEmulation;
+- (void)setAudioOutputDeviceID:(AudioDeviceID)deviceID;
+- (void)setDrawSquarePixels:(BOOL)drawSquarePixels;
 
-// gamecore attributes
-@property(readonly) OEIntSize screenSize;
-@property(readonly) OEIntSize aspectSize;
-@property(readonly) BOOL isEmulationPaused;
+- (void)setupEmulationWithCompletionHandler:(void(^)(void))handler;
+- (void)resetEmulationWithCompletionHandler:(void(^)(void))handler;
+- (void)stopEmulationWithCompletionHandler:(void(^)(void))handler;
 
-@property(readwrite) BOOL drawSquarePixels;
-@property(readonly) IOSurfaceID surfaceID;
-@property(weak) id<OEGameCoreHelperDelegate> delegate;
+- (void)saveStateToFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL success, NSError *error))block;
+- (void)loadStateFromFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL success, NSError *error))block;
 
-- (byref OEGameCore *)gameCore;
+- (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 
-- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath withSystemIdentifier:(bycopy NSString *)systemIdentifier;
-- (void)setupEmulation;
-- (void)stopEmulation;
+@end
 
-- (BOOL)saveStateToFileAtPath:(NSString *)fileName;
-- (oneway void)saveStateToFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
-- (oneway void)loadStateFromFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
+@protocol OEGameCoreDisplayHelper <NSObject>
 
-- (void)setCheat:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled;
+- (void)setEnableVSync:(BOOL)enable;
+- (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+- (void)setAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+- (void)setScreenRect:(OEIntRect)newScreenRect;
+- (void)setFrameInterval:(NSTimeInterval)newFrameInterval;
 
 @end

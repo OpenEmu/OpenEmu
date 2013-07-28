@@ -32,9 +32,15 @@
 #import <OpenGL/OpenGL.h>
 #import <OpenGL/CGLIOSurface.h>
 
-// DO  object
+// XPC
 #import "OEGameCoreHelper.h"
+#import "OEXPCGameCoreHelper.h"
+
+// DO  object
+#import "OEDOGameCoreHelper.h"
 #import <OpenEmuBase/OpenEmuBase.h>
+
+#import "OEThreadProxy.h"
 
 // we are going to be cheap and just use gameCore for now.
 
@@ -42,7 +48,6 @@
 @class OEGameCoreProxy;
 
 extern NSString *const OEHelperServerNamePrefix;
-extern NSString *const OEHelperProcessErrorDomain;
 
 enum _OEHelperAppErrorCodes
 {
@@ -55,7 +60,6 @@ enum _OEHelperAppErrorCodes
 {
 @private
     NSRunningApplication *_parentApplication; // the process id of the parent app (Open Emu or our debug helper)
-    NSThread             *_gameCoreThread;
 
     // IOSurface requirements
     IOSurfaceRef          _surfaceRef;
@@ -77,13 +81,9 @@ enum _OEHelperAppErrorCodes
     GLuint                _tempFBO;
     GLuint                _tempRB[2];
 
-    // we will need a way to do IPC, for now its DO.
-    NSConnection         *_connection;
-
     // OE stuff
-    OEGameCoreProxy      *_gameCoreProxy;
+    OEThreadProxy        *_gameCoreProxy;
     OEGameCoreController *_gameController;
-    OEGameCore           *_gameCore;
     OEGameAudio          *_gameAudio;
 
     // screen subrect stuff
@@ -93,11 +93,24 @@ enum _OEHelperAppErrorCodes
     BOOL                  _hasStartedAudio;
 }
 
-@property(copy) NSString *doUUID;
-@property       BOOL      loadedRom;
+@property BOOL loadedRom;
 @property(readonly, getter=isRunning) BOOL running;
 
-- (BOOL)launchConnectionWithIdentifierSuffix:(NSString *)aSuffix error:(NSError **)anError;
+@property(readonly) OEIntSize screenSize;
+@property(readonly) OEIntSize aspectSize;
+@property(readonly) BOOL isEmulationPaused;
+
+@property(nonatomic) BOOL drawSquarePixels;
+@property(readonly) IOSurfaceID surfaceID;
+@property id<OEGameCoreDisplayHelper> delegate;
+
+@property(readonly) OEGameCore *gameCoreProxy;
+@property(readonly) OEGameCore *gameCore;
+@property(readonly) Protocol *gameSystemResponderClientProtocol;
+
+- (void)launchApplication;
+
+- (BOOL)loadROMAtPath:(NSString *)aPath withCorePluginAtPath:(NSString *)pluginPath systemIdentifier:(NSString *)systemIdentifier;
 - (void)setupProcessPollingTimer;
 - (void)quitHelperTool;
 
@@ -119,17 +132,15 @@ enum _OEHelperAppErrorCodes
 - (void)updateScreenSize;
 - (void)stopEmulation;
 
-#pragma mark - OE DO protocol delegate methods
-
-- (void)setVolume:(float)volume;
-- (void)volumeUp;
-- (void)volumeDown;
-- (void)setPauseEmulation:(BOOL)paused;
+- (void)updateEnableVSync:(BOOL)enable;
+- (void)updateScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+- (void)updateAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+- (void)updateScreenRect:(OEIntRect)newScreenRect;
+- (void)updateFrameInterval:(NSTimeInterval)newFrameInterval;
 
 #pragma mark - OE Render Delegate protocol methods
 
 - (void)willExecute;
 - (void)didExecute;
-- (void)willDisableVSync:(BOOL)disabled;
 
 @end

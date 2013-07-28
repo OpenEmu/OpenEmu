@@ -42,14 +42,6 @@
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
 
-NSString *const OEHelperServerNamePrefix   = @"org.openemu.OpenEmuHelper-";
-NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
-
-@interface OEGameCoreProxy : NSProxy
-- (id)initWithGameCore:(OEGameCore *)aGameCore;
-@property(weak) NSThread *gameThread;
-@end
-
 @interface OpenEmuHelperApp ()
 @property(readwrite, getter=isRunning) BOOL running;
 @end
@@ -67,6 +59,11 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 #pragma mark -
 
+- (void)launchApplication
+{
+    
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // just be sane for now.
@@ -74,34 +71,14 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     _gameTexture = 0;
 
     _parentApplication = [NSRunningApplication runningApplicationWithProcessIdentifier:getppid()];
-    NSLog(@"parent application is: %@", [_parentApplication localizedName]);
-
-    if([self launchConnectionWithIdentifierSuffix:_doUUID error:NULL])
-        NSLog(@"NSConnection Open");
-    else
-        NSLog(@"Error opening NSConnection - exiting");
-
-    [self setupProcessPollingTimer];
+    if(_parentApplication != nil)
+    {
+        NSLog(@"parent application is: %@", [_parentApplication localizedName]);
+        [self setupProcessPollingTimer];
+    }
 
     // Check to see if we crashed.
-    [[FRFeedbackReporter sharedReporter] reportIfCrash];
-}
-
-- (BOOL)launchConnectionWithIdentifierSuffix:(NSString *)aSuffix error:(NSError **)anError
-{
-    // unique server name per plugin instance
-    _connection = [[NSConnection alloc] init];
-    [_connection setRootObject:self];
-
-    BOOL ret = [_connection registerName:[OEHelperServerNamePrefix stringByAppendingString:aSuffix]];
-
-    if(ret) [self setRunning:YES];
-    else if(anError != NULL)
-        *anError = [NSError errorWithDomain:OEHelperProcessErrorDomain
-                                       code:OEHelperCouldNotStartConnectionError
-                                   userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The connection could not be opened.", @"NSConnection registerName: message fail error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
-
-    return ret;
+    //[[FRFeedbackReporter sharedReporter] reportIfCrash];
 }
 
 - (void)setupGameCore
@@ -116,7 +93,8 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     [self setupIOSurface];
     [self setupFBO];
     [self updateAspectSize];
-    [self signalUpdatedScreenSize];
+
+    [self updateScreenSize:_screenSize withIOSurfaceID:_surfaceID];
 }
 
 - (void)setupProcessPollingTimer
@@ -141,9 +119,9 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     [[NSApplication sharedApplication] terminate:nil];
 }
 
-- (byref OEGameCore *)gameCore
+- (OEGameCore *)gameCoreProxy
 {
-    return (id)_gameCoreProxy;
+    return (OEGameCore *)_gameCoreProxy;
 }
 
 #pragma mark - IOSurface and GL Render
@@ -357,7 +335,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
         glFlush();
 
-        [self signalUpdatedScreenSize];
+        [self updateScreenSize:_screenSize withIOSurfaceID:_surfaceID];
     }
 
     [self updateAspectSize];
@@ -501,14 +479,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
         else
             _screenSize.width  = _screenSize.height * _gameAspectRatio;
     }
-    else
-        _screenSize = screenRect.size;
-}
-
-- (void)signalUpdatedScreenSize
-{
-    DLog(@"Sending did change size to %@", NSStringFromOEIntSize(_screenSize));
-    [_delegate gameCoreDidChangeScreenSizeTo:_screenSize];
+    else _screenSize = screenRect.size;
 }
 
 - (void)updateAspectSize
@@ -519,7 +490,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     {
         _previousAspectSize = aspectSize;
         DLog(@"Sending did change aspect to %@", NSStringFromOEIntSize(aspectSize));
-        [_delegate gameCoreDidChangeAspectSizeTo:aspectSize];
+        [self updateAspectSize:aspectSize withIOSurfaceID:_surfaceID];
     }
 }
 
@@ -552,7 +523,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 #pragma mark - Game Core methods
 
-- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath withSystemIdentifier:(bycopy NSString *)systemIdentifier
+- (BOOL)loadROMAtPath:(NSString *)aPath withCorePluginAtPath:(NSString *)pluginPath systemIdentifier:(NSString *)systemIdentifier
 {
     aPath = [aPath stringByStandardizingPath];
     BOOL isDir;
@@ -575,13 +546,16 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
         _gameController = [[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller];
         _gameCore = [_gameController newGameCore];
 
-        _gameCoreProxy = [[OEGameCoreProxy alloc] initWithGameCore:_gameCore];
+        NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(OE_gameCoreThread:) object:nil];
+        _gameCoreProxy = [[OEThreadProxy alloc] initWithTarget:_gameCore thread:thread];
 
         [_gameCore setOwner:_gameController];
         [_gameCore setRenderDelegate:self];
         [_gameCore setAudioDelegate:self];
 
         [_gameCore setSystemIdentifier:systemIdentifier];
+
+        [self updateFrameInterval:[_gameCore frameInterval]];
 
         DLog(@"Loaded bundle. About to load rom...");
 
@@ -672,48 +646,6 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     NSLog(@"Finishing separate thread");
 }
 
-- (void)setCheat:(NSString *)code setType:(NSString *)type setEnabled:(BOOL)enabled
-{
-    return [[self gameCore] setCheat:code setType:type setEnabled:enabled];
-}
-
-- (BOOL)saveStateToFileAtPath:(NSString *)fileName
-{
-    __block BOOL result = NO;
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_enter(group);
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        [[self gameCore] saveStateToFileAtPath:fileName completionHandler:
-         ^(BOOL success)
-         {
-             result = success;
-             dispatch_group_leave(group);
-         }];
-    });
-
-    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
-
-    return result;
-}
-
-- (oneway void)saveStateToFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
-{
-    [[self gameCore] saveStateToFileAtPath:fileName completionHandler:
-     ^(BOOL success)
-     {
-         [delegate gameCoreHelperDidSaveState:success];
-     }];
-}
-
-- (oneway void)loadStateFromFileAtPath:(NSString *)fileName delegate:(byref id<OEGameCoreHelperSaveStateDelegate>)delegate;
-{
-    [[self gameCore] loadStateFromFileAtPath:fileName completionHandler:
-     ^(BOOL success)
-     {
-         [delegate gameCoreHelperDidLoadState:success];
-     }];
-}
-
 - (void)setupEmulation
 {
     NSLog(@"Setting up emulation");
@@ -732,9 +664,9 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
     [self setupGameCore];
 
-    _gameCoreThread = [[NSThread alloc] initWithTarget:self selector:@selector(OE_gameCoreThread:) object:nil];
-    [_gameCoreProxy setGameThread:_gameCoreThread];
-    [_gameCoreThread start];
+    [[_gameCoreProxy thread] start];
+
+    [self setRunning:YES];
 
     DLog(@"finished starting rom");
 }
@@ -743,27 +675,18 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 {
     [_pollingTimer invalidate], _pollingTimer = nil;
 
+    [self performSelector:@selector(OE_stopGameCoreThreadRunLoop:) onThread:[_gameCoreProxy thread] withObject:nil waitUntilDone:YES];
+
     [[self gameCore] stopEmulation];
     [_gameAudio stopAudio];
     [_gameCore setRenderDelegate:nil];
     [_gameCore setAudioDelegate:nil];
-    [_gameCoreProxy setGameThread:nil];
     _gameCoreProxy = nil;
     _gameCore      = nil;
     _gameAudio     = nil;
 
-    if(_gameCoreThread != nil)
-    {
-        [self performSelector:@selector(OE_stopGameCoreThreadRunLoop:) onThread:_gameCoreThread withObject:nil waitUntilDone:YES];
-
-        _gameCoreThread = nil;
-    }
-
     [self setRunning:NO];
 }
-
-#pragma mark -
-#pragma mark OE DO Delegate methods
 
 - (OEIntSize)aspectSize
 {
@@ -775,30 +698,17 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     return [_gameCore isEmulationPaused];
 }
 
-- (void)setPauseEmulation:(BOOL)paused
-{
-    [_gameCore setPauseEmulation:paused];
+#pragma mark - OEGameCoreHelper methods
 
-    [_delegate setPauseEmulation:paused];
-}
-
-// methods
-- (void)setVolume:(float)volume
+- (void)setVolume:(CGFloat)volume
 {
     DLog(@"%@", _gameAudio);
     [_gameAudio setVolume:volume];
 }
 
-- (void)volumeUp
+- (void)setPauseEmulation:(BOOL)paused
 {
-    DLog(@"%@", _gameAudio);
-    [_gameAudio volumeUp];
-}
-
-- (void)volumeDown
-{
-    DLog(@"%@", _gameAudio);
-    [_gameAudio volumeDown];
+    [_gameCore setPauseEmulation:paused];
 }
 
 - (void)setDrawSquarePixels:(BOOL)value
@@ -809,15 +719,77 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     [self updateScreenSize];
 }
 
-#pragma mark -
-#pragma mark OERenderDelegate protocol methods
-
-- (void)willDisableVSync:(BOOL)disabled
+- (void)setAudioOutputDeviceID:(AudioDeviceID)deviceID
 {
-    if(disabled)
-        [_delegate toggleVSync:0];
-    else
-        [_delegate toggleVSync:1];
+    NSLog(@"---------- will set output device id to %lu", (unsigned long)deviceID);
+    [_gameAudio setOutputDeviceID:deviceID];
+}
+
+- (void)setupEmulationWithCompletionHandler:(void(^)(void))handler;
+{
+    [self setupEmulation];
+    if(handler) handler();
+}
+
+- (void)resetEmulationWithCompletionHandler:(void(^)(void))handler;
+{
+    [[self gameCore] resetEmulation];
+    if(handler) handler();
+}
+
+- (void)stopEmulationWithCompletionHandler:(void(^)(void))handler;
+{
+    [self stopEmulation];
+    if(handler) handler();
+}
+
+- (void)saveStateToFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL, NSError *))block
+{
+    [[self gameCore] saveStateToFileAtPath:fileName completionHandler:block];
+}
+
+- (void)loadStateFromFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL, NSError *))block
+{
+    [[self gameCore] loadStateFromFileAtPath:fileName completionHandler:block];
+}
+
+- (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
+{
+    [[self gameCore] setCheat:cheatCode setType:type setEnabled:enabled];
+}
+
+#pragma mark - OEGameCoreDisplayHelper subclass handles
+
+- (void)updateEnableVSync:(BOOL)enable;
+{
+
+}
+
+- (void)updateScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+{
+
+}
+
+- (void)updateAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+{
+
+}
+
+- (void)updateScreenRect:(OEIntRect)newScreenRect;
+{
+
+}
+
+- (void)updateFrameInterval:(NSTimeInterval)newFrameInterval;
+{
+    
+}
+
+#pragma mark - OERenderDelegate protocol methods
+
+- (void)setEnableVSync:(BOOL)flag
+{
+    [self updateEnableVSync:flag];
 }
 
 - (void)willExecute
@@ -905,62 +877,12 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _tempFBO);
 }
 
-#pragma mark - Audio
-
-- (oneway void)setAudioOutputDeviceID:(AudioDeviceID)deviceID
-{
-    NSLog(@"---------- will set output device id to %lu", (unsigned long)deviceID);
-    [_gameAudio setOutputDeviceID:deviceID];
-}
-
 #pragma mark - OEAudioDelegate
 
 - (void)audioSampleRateDidChange
 {
     [_gameAudio stopAudio];
     [_gameAudio startAudio];
-}
-
-@end
-
-#pragma mark -
-
-@implementation OEGameCoreProxy
-{
-    __weak OEGameCore *_gameCore;
-}
-
-- (id)init
-{
-    return nil;
-}
-
-- (id)initWithGameCore:(OEGameCore *)aGameCore;
-{
-    if(aGameCore == nil) return nil;
-    _gameCore = aGameCore;
-    return self;
-}
-
-- (id)forwardingTargetForSelector:(SEL)aSelector
-{
-    if(!_gameThread)
-        return _gameCore;
-
-    return ([NSThread currentThread] == _gameThread) ? _gameCore : nil;
-}
-
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel
-{
-    return [_gameCore methodSignatureForSelector:sel];
-}
-
-- (void)forwardInvocation:(NSInvocation *)invocation
-{
-    if(_gameCore == nil) return;
-
-    NSThread *thread = [self gameThread];
-    [invocation performSelector:@selector(invokeWithTarget:) onThread:thread withObject:_gameCore waitUntilDone:YES];
 }
 
 @end

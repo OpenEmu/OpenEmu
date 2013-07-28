@@ -31,12 +31,12 @@
 #import <Syphon/Syphon.h>
 #import <OpenEmuBase/OpenEmuBase.h>
 
-#import "OEGameCoreHelper.h"
+#import "OEDOGameCoreHelper.h"
 
-@protocol OEGameCoreHelper;
+@protocol OEDOGameCoreHelper;
 @class OESystemResponder;
 
-@interface OEGameView : NSOpenGLView <OEGameCoreHelperDelegate>
+@interface OEGameView : NSOpenGLView <OEGameCoreDisplayHelper>
 
 @property(nonatomic) id<OEGameCoreHelper> rootProxy;
 @property(nonatomic) OESystemResponder *gameResponder;
@@ -46,7 +46,7 @@
 @property(nonatomic, copy) NSString *filterName;
 @property(nonatomic, copy) NSString *gameTitle;
 
-@property NSTimeInterval gameFrameInterval;
+@property NSTimeInterval frameInterval;
 
 // Screenshots
 /* Returns a screenshot containing the game viewport with its current size in the window and filters */
