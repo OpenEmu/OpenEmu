@@ -752,7 +752,7 @@ typedef enum : NSUInteger
 
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 {
-    [_rootProxy setCheat:cheatCode setType:type setEnabled:enabled];
+    [_rootProxy setCheat:cheatCode withType:type enabled:enabled];
 }
 
 #pragma mark - Saving States
