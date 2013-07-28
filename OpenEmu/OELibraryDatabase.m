@@ -64,11 +64,12 @@ NSString *const OELibraryRomsFolderURLKey    = @"romsFolderURL";
 
 @interface OELibraryDatabase ()
 {
-    NSArrayController *romsController;
+    NSArrayController *_romsController;
 
-    NSManagedObjectModel *__managedObjectModel;
-    NSManagedObjectContext *__managedObjectContext;
-    NSMutableDictionary *managedObjectContexts;
+    NSManagedObjectModel *_managedObjectModel;
+    NSManagedObjectContext *_managedObjectContext;
+
+    NSThread *_syncThread;
 }
 
 - (BOOL)loadPersistantStoreWithError:(NSError **)outError;
@@ -83,8 +84,6 @@ NSString *const OELibraryRomsFolderURLKey    = @"romsFolderURL";
 @property(strong) OEFSWatcher *saveStateWatcher;
 @property(copy)   NSURL       *databaseURL;
 @property(strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
-@property (strong) NSThread *syncThread;
 @end
 
 static OELibraryDatabase *defaultDatabase = nil;
@@ -140,16 +139,16 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (BOOL)loadManagedObjectContextWithError:(NSError **)outError
 {
-    __managedObjectContext = [[NSManagedObjectContext alloc] init];
+    _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
 
     NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
-    [__managedObjectContext setMergePolicy:policy];
+    [_managedObjectContext setMergePolicy:policy];
 
-    if(__managedObjectContext == nil) return NO;
+    if(_managedObjectContext == nil) return NO;
 
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    [__managedObjectContext setPersistentStoreCoordinator:coordinator];
-    [[__managedObjectContext userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
+    [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+    [[_managedObjectContext userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
 
     // remeber last loc as database path
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -196,8 +195,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     if((self = [super init]))
     {
-        romsController = [[NSArrayController alloc] init];
-        managedObjectContexts = [[NSMutableDictionary alloc] init];
+        _romsController = [[NSArrayController alloc] init];
 
         OEROMImporter *romImporter = [[OEROMImporter alloc] initWithDatabase:self];
         [romImporter loadQueue];
@@ -318,56 +316,23 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSManagedObjectModel *)managedObjectModel
 {
-    if(__managedObjectModel != nil) return __managedObjectModel;
+    if(_managedObjectModel != nil) return _managedObjectModel;
 
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"OEDatabase" withExtension:@"momd"];
-    __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
 
-    return __managedObjectModel;
+    return _managedObjectModel;
 }
 
-- (NSManagedObjectContext *) managedObjectContext
+- (NSManagedObjectContext *)managedObjectContext
 {
-    if([NSThread isMainThread] && __managedObjectContext != nil)
-    {
-        return __managedObjectContext;
-    }
-
-    // DLog(@"Using CoreData on background thread!");
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-
-    NSThread *thread = [NSThread currentThread];
-    if(![thread name] || ![managedObjectContexts valueForKey:[thread name]])
-    {
-        NSManagedObjectContext *context = [[NSManagedObjectContext alloc] init];
-        if(!context) return nil;
-
-        if([[thread name] isEqualToString:@""])
-        {
-            NSString *name = [NSString stringWithUUID];
-            [thread setName:name];
-        }
-
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(threadWillExit:) name:NSThreadWillExitNotification object:thread];
-
-        // Watch all the thread's managed object contexts for changes...if a change occurs we should merge it with the main thread's version
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:context];
-
-        [context setPersistentStoreCoordinator:coordinator];
-        [managedObjectContexts setValue:context forKey:[thread name]];
-
-        NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
-        [context setMergePolicy:policy];
-        [[context userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
-    }
-
-    return [managedObjectContexts valueForKey:[thread name]];
+    return _managedObjectContext;
 }
 
 - (void)managedObjectContextDidSave:(NSNotification *)notification
 {
     // This error checking is a bit redundant, but we want to make sure that we only merge in other thread's managed object contexts
-    if([notification object] != __managedObjectContext)
+    if([notification object] != _managedObjectContext)
     {
         //Transient properties don't merge
         [[notification userInfo][NSUpdatedObjectsKey] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -375,25 +340,12 @@ static OELibraryDatabase *defaultDatabase = nil;
                 return;
 
             OEDBGame *incomingGame = obj;
-            OEDBGame *mainGame = (OEDBGame*)[__managedObjectContext objectWithID:[incomingGame objectID]];
+            OEDBGame *mainGame = (OEDBGame *)[_managedObjectContext objectWithID:[incomingGame objectID]];
             [mainGame setStatus:[incomingGame status]];
         }];
 
-        [__managedObjectContext performSelectorOnMainThread:@selector(mergeChangesFromContextDidSaveNotification:) withObject:notification waitUntilDone:YES];
+        [_managedObjectContext performSelectorOnMainThread:@selector(mergeChangesFromContextDidSaveNotification:) withObject:notification waitUntilDone:YES];
     }
-}
-
-- (void)threadWillExit:(NSNotification*)notification
-{
-    NSThread *thread = [notification object];
-    NSString *threadName = [thread name];
-    NSManagedObjectContext *ctx = [managedObjectContexts valueForKey:threadName];
-
-    if([ctx hasChanges]) [ctx save:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:ctx];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
-
-    [managedObjectContexts removeObjectForKey:threadName];
 }
 
 - (id)objectWithURI:(NSURL *)uri
@@ -731,11 +683,11 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [result lastObject];
 }
 
-- (NSArray *)romsForPredicate:(NSPredicate*)predicate
+- (NSArray *)romsForPredicate:(NSPredicate *)predicate
 {
-    [romsController setFilterPredicate:predicate];
+    [_romsController setFilterPredicate:predicate];
 
-    return [romsController arrangedObjects];
+    return [_romsController arrangedObjects];
 }
 
 - (NSArray *)romsInCollection:(id)collection
