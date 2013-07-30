@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_7800</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_7800_mask</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OE7800ButtonUp</key>
+		<string>{0, 0}</string>
+		<key>OE7800ButtonDown</key>
+		<string>{0, 0}</string>
+		<key>OE7800ButtonFire1</key>
+		<string>{0, 0}</string>
+		<key>OE7800ButtonFire2</key>
+		<string>{0, 0}</string>
+		<key>OE7800ButtonLeft</key>
+		<string>{0, 0}</string>
+		<key>OE7800ButtonRight</key>
+		<string>{0, 0}</string>
+		<key>OE7800ButtonSelect</key>
+		<string>{0, 0}</string>
+		<key>OE7800ButtonPause</key>
+		<string>{0, 0}</string>
+		<key>OE7800ButtonReset</key>
+		<string>{0, 0}</string>
+		<key>OE7800ButtonLeftDiff</key>
+		<string>{0, 0}</string>
+		<key>OE7800ButtonRightDiff</key>
+		<string>{0, 0}</string>
+	</dict>
+</dict>
+</plist>

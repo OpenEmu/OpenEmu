@@ -484,6 +484,16 @@
 		940553A617A34EE9009B505D /* controller_pcecd.png in Resources */ = {isa = PBXBuildFile; fileRef = 940553A417A34EE9009B505D /* controller_pcecd.png */; };
 		940553A717A350AF009B505D /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		940553B917A35FB4009B505D /* PC Engine.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224331707537F00098DA0 /* PC Engine.oesystemplugin */; };
+		941F5A0217A785AE0005D7EA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		941F5A0817A785AE0005D7EA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 941F5A0617A785AE0005D7EA /* InfoPlist.strings */; };
+		941F5A1217A786710005D7EA /* OE7800SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F5A1017A786710005D7EA /* OE7800SystemResponder.m */; };
+		941F5A1917A786870005D7EA /* atari7800_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 941F5A1317A786870005D7EA /* atari7800_library.png */; };
+		941F5A1A17A786870005D7EA /* controller_7800_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 941F5A1417A786870005D7EA /* controller_7800_mask.png */; };
+		941F5A1B17A786870005D7EA /* controller_7800.png in Resources */ = {isa = PBXBuildFile; fileRef = 941F5A1517A786870005D7EA /* controller_7800.png */; };
+		941F5A1C17A786870005D7EA /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941F5A1617A786870005D7EA /* Controller-Mappings.plist */; };
+		941F5A1D17A786870005D7EA /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941F5A1717A786870005D7EA /* Controller-Preferences.plist */; };
+		941F5A1E17A786870005D7EA /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941F5A1817A786870005D7EA /* Keyboard-Mappings.plist */; };
+		941F5A1F17A786C00005D7EA /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		943815B8165771EB00D55731 /* OEGenesisSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943815B7165771EB00D55731 /* OEGenesisSystemController.m */; };
 		943819C41658DAE800D55731 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943819C31658DAE800D55731 /* Controller-Mappings.plist */; };
 		943C80131708A62F00D8D93E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -1880,6 +1890,18 @@
 		940553A017A34DCC009B505D /* tgcd_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tgcd_library.png; sourceTree = "<group>"; };
 		940553A317A34EE9009B505D /* controller_pcecd_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pcecd_mask.png; sourceTree = "<group>"; };
 		940553A417A34EE9009B505D /* controller_pcecd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pcecd.png; sourceTree = "<group>"; };
+		941F5A0117A785AD0005D7EA /* Atari 7800.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 7800.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		941F5A0517A785AE0005D7EA /* Atari 7800-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari 7800-Info.plist"; sourceTree = "<group>"; };
+		941F5A0717A785AE0005D7EA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		941F5A0F17A786710005D7EA /* OE7800SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE7800SystemResponder.h; sourceTree = "<group>"; };
+		941F5A1017A786710005D7EA /* OE7800SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE7800SystemResponder.m; sourceTree = "<group>"; };
+		941F5A1117A786710005D7EA /* OE7800SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE7800SystemResponderClient.h; sourceTree = "<group>"; };
+		941F5A1317A786870005D7EA /* atari7800_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atari7800_library.png; sourceTree = "<group>"; };
+		941F5A1417A786870005D7EA /* controller_7800_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_7800_mask.png; sourceTree = "<group>"; };
+		941F5A1517A786870005D7EA /* controller_7800.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_7800.png; sourceTree = "<group>"; };
+		941F5A1617A786870005D7EA /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		941F5A1717A786870005D7EA /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		941F5A1817A786870005D7EA /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		943815B6165771EB00D55731 /* OEGenesisSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemController.h; sourceTree = "<group>"; };
 		943815B7165771EB00D55731 /* OEGenesisSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGenesisSystemController.m; sourceTree = "<group>"; };
 		943819C31658DAE800D55731 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
@@ -2547,6 +2569,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		941F59FE17A785AD0005D7EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				941F5A1F17A786C00005D7EA /* OpenEmuSystem.framework in Frameworks */,
+				941F5A0217A785AE0005D7EA /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		943C800F1708A62E00D8D93E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2929,6 +2960,7 @@
 				946B9462178289BA00A212AC /* Sega 32X.oesystemplugin */,
 				94454EB417860E1D006C057B /* PSP.oesystemplugin */,
 				9405538417A34C6B009B505D /* PC Engine CD.oesystemplugin */,
+				941F5A0117A785AD0005D7EA /* Atari 7800.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4397,6 +4429,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		941F5A0317A785AE0005D7EA /* Atari 7800 */ = {
+			isa = PBXGroup;
+			children = (
+				941F5A0F17A786710005D7EA /* OE7800SystemResponder.h */,
+				941F5A1017A786710005D7EA /* OE7800SystemResponder.m */,
+				941F5A1117A786710005D7EA /* OE7800SystemResponderClient.h */,
+				941F5A0417A785AE0005D7EA /* Supporting Files */,
+			);
+			path = "Atari 7800";
+			sourceTree = "<group>";
+		};
+		941F5A0417A785AE0005D7EA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				941F5A1317A786870005D7EA /* atari7800_library.png */,
+				941F5A1417A786870005D7EA /* controller_7800_mask.png */,
+				941F5A1517A786870005D7EA /* controller_7800.png */,
+				941F5A0517A785AE0005D7EA /* Atari 7800-Info.plist */,
+				941F5A1817A786870005D7EA /* Keyboard-Mappings.plist */,
+				941F5A1617A786870005D7EA /* Controller-Mappings.plist */,
+				941F5A1717A786870005D7EA /* Controller-Preferences.plist */,
+				941F5A0617A785AE0005D7EA /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		943C80141708A62F00D8D93E /* Jaguar */ = {
 			isa = PBXGroup;
 			children = (
@@ -5283,6 +5341,7 @@
 				946B9464178289BB00A212AC /* Sega 32X */,
 				94454EB617860E1E006C057B /* PSP */,
 				9405538617A34C6B009B505D /* PC Engine CD */,
+				941F5A0317A785AE0005D7EA /* Atari 7800 */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -5528,6 +5587,23 @@
 			name = "PC Engine CD";
 			productName = "PC Engine CD";
 			productReference = 9405538417A34C6B009B505D /* PC Engine CD.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+		941F5A0017A785AD0005D7EA /* Atari 7800 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 941F5A0E17A785AE0005D7EA /* Build configuration list for PBXNativeTarget "Atari 7800" */;
+			buildPhases = (
+				941F59FD17A785AD0005D7EA /* Sources */,
+				941F59FE17A785AD0005D7EA /* Frameworks */,
+				941F59FF17A785AD0005D7EA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Atari 7800";
+			productName = "Atari 7800";
+			productReference = 941F5A0117A785AD0005D7EA /* Atari 7800.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		943C80111708A62E00D8D93E /* Jaguar */ = {
@@ -6071,6 +6147,7 @@
 				946B9461178289BA00A212AC /* Sega 32X */,
 				94454EB317860E1D006C057B /* PSP */,
 				9405538317A34C6B009B505D /* PC Engine CD */,
+				941F5A0017A785AD0005D7EA /* Atari 7800 */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -6423,6 +6500,20 @@
 				940553A217A34DCC009B505D /* tgcd_library.png in Resources */,
 				940553A517A34EE9009B505D /* controller_pcecd_mask.png in Resources */,
 				940553A617A34EE9009B505D /* controller_pcecd.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		941F59FF17A785AD0005D7EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				941F5A0817A785AE0005D7EA /* InfoPlist.strings in Resources */,
+				941F5A1917A786870005D7EA /* atari7800_library.png in Resources */,
+				941F5A1A17A786870005D7EA /* controller_7800_mask.png in Resources */,
+				941F5A1B17A786870005D7EA /* controller_7800.png in Resources */,
+				941F5A1C17A786870005D7EA /* Controller-Mappings.plist in Resources */,
+				941F5A1D17A786870005D7EA /* Controller-Preferences.plist in Resources */,
+				941F5A1E17A786870005D7EA /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7152,6 +7243,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		941F59FD17A785AD0005D7EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				941F5A1217A786710005D7EA /* OE7800SystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		943C800E1708A62E00D8D93E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -7532,6 +7631,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				9405538A17A34C6B009B505D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		941F5A0617A785AE0005D7EA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				941F5A0717A785AE0005D7EA /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -8077,6 +8184,50 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INFOPLIST_FILE = "PC Engine CD/PC Engine CD-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
+		941F5A0A17A785AE0005D7EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Atari 7800/Atari 7800-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		941F5A0B17A785AE0005D7EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Atari 7800/Atari 7800-Info.plist";
 				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -9520,6 +9671,15 @@
 			buildConfigurations = (
 				9405538D17A34C6B009B505D /* Debug */,
 				9405538E17A34C6B009B505D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		941F5A0E17A785AE0005D7EA /* Build configuration list for PBXNativeTarget "Atari 7800" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				941F5A0A17A785AE0005D7EA /* Debug */,
+				941F5A0B17A785AE0005D7EA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
