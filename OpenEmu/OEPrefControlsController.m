@@ -160,7 +160,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 - (void)OE_scrollerStyleDidChange
 {
-    [[self controlsSetupView] layoutSubviews];
+    [[self controlsSetupView] layoutSubviews:NO];
 }
 
 - (void)viewWillDisappear

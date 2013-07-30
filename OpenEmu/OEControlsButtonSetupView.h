@@ -26,6 +26,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+extern NSString * const OEControlsButtonHighlightRollsOver;
 @interface OEControlsButtonSetupView : NSView
 
 @property(unsafe_unretained) id  target;
@@ -43,6 +44,6 @@
 - (void)selectNextKeyButton;
 - (void)selectNextKeyAfterKeys:(NSArray *)keys;
 
-- (void)layoutSubviews;
+- (void)layoutSubviews:(BOOL)animated;
 
 @end
