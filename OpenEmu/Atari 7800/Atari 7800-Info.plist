@@ -139,6 +139,8 @@
 		<string>OE7800ButtonSelect</string>
 		<string>OE7800ButtonPause</string>
 		<string>OE7800ButtonReset</string>
+		<string>OE7800ButtonLeftDiff</string>
+		<string>OE7800ButtonRightDiff</string>
 	</array>
 	<key>OENumberOfPlayersKey</key>
 	<integer>2</integer>

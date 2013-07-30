@@ -39,8 +39,8 @@ typedef enum _OE7800Button
     OE7800ButtonSelect,
 	OE7800ButtonPause,
     OE7800ButtonReset,
-    OE2600ButtonLeftDiff,
-    OE2600ButtonRightDiff,
+    OE7800ButtonLeftDiff,
+    OE7800ButtonRightDiff,
 	OE7800ButtonCount
 } OE7800Button;
 
