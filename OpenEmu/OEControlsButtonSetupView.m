@@ -186,6 +186,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
                 // handle headline cell
                 if([item isKindOfClass:[NSTextField class]] && [[item cell] isKindOfClass:[OEControlsKeyHeadlineCell class]])
                 {
+                    j--;
                     continue;
                 }
 
