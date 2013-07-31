@@ -25,7 +25,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2013 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OESystemController</string>
+	<string>OESega32XSystemController</string>
 	<key>OEControlListKey</key>
 	<array>
 		<array>
@@ -135,6 +135,7 @@
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>32x</string>
+		<string>bin</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
