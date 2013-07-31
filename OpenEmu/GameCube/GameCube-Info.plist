@@ -204,6 +204,7 @@
 	<array>
 		<string>iso</string>
 		<string>gcm</string>
+		<string>ciso</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
