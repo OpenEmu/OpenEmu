@@ -106,10 +106,15 @@
 {
     [_gameCoreHelper stopEmulationWithCompletionHandler:
      ^{
+         _gameCoreHelper     = nil;
+         _systemClient       = nil;
+
          [_helperConnection invalidate];
          [_gameCoreConnection invalidate];
          _gameCoreConnection = nil;
-         _helperConnection = nil;
+         _helperConnection   = nil;
+
+         [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:_backgroundProcessTask];
 
          [_backgroundProcessTask terminate];
      }];
@@ -118,8 +123,6 @@
 - (void)_taskDidTerminate:(NSNotification *)notification
 {
     _backgroundProcessTask = nil;
-    _gameCoreHelper        = nil;
-    _systemClient          = nil;
     _processIdentifier     = nil;
     _standardOutputPipe    = nil;
 }
