@@ -1298,6 +1298,20 @@
 				<string>{{42,0},{21,21}}</string>
 			</dict>
 		</dict>
+		<key>controls_triangle</key>
+		<dict>
+			<key>Resource</key>
+			<string>controls_triangle</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0,0},{10,10}}</string>
+				<key>Toggle Off</key>
+				<string>{{0,0},{10,10}}</string>
+				<key>Toggle On</key>
+				<string>{{0,10},{10,10}}</string>
+			</dict>
+		</dict>
 		<key>game_scanner_toggle_pause_cancel</key>
 		<dict>
 			<key>Resource</key>

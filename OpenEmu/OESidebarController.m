@@ -351,7 +351,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     {
         collection = item;
     }
-    else
+    else if(![item isKindOfClass:[OESidebarGroupItem class]])
     {
         NSString *name = nil;
         if([[pboard types] containsObject:OEPasteboardTypeGame])

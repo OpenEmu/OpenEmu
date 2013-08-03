@@ -86,7 +86,7 @@
         {
             [[NSFileManager defaultManager] createDirectoryAtPath:biosPath withIntermediateDirectories:YES attributes:nil error:nil];
             [[NSFileManager defaultManager] copyItemAtPath:path toPath:destFilePath error:nil];
-            break;
+            return nil;
         }
     }
 

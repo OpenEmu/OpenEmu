@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -25,25 +25,8 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
-extern NSString * const OEControlsButtonHighlightRollsOver;
-@interface OEControlsButtonSetupView : NSView
-
-@property(unsafe_unretained) id  target;
-@property                    SEL action;
-
-@property(nonatomic, copy) NSString *selectedKey;
-
-// An object which support KVC/KVO for all OEGenericControlNamesKey of the current system
-@property id bindingsProvider;
-
-// Content of the system's Info.plist's OEControlListKey object
-- (void)setupWithControlList:(NSArray *)controlList;
-
-// Does not trigger the action message
-- (void)selectNextKeyButton;
-- (void)selectNextKeyAfterKeys:(NSArray *)keys;
-
-- (void)layoutSubviews:(BOOL)animated;
+@interface OEGCSystemController : OESystemController
 
 @end

@@ -41,6 +41,9 @@
       location = "group:Nestopia/Nestopia.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:picodrive/Picodrive.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:PPSSPP/PPSSPP.xcodeproj">
    </FileRef>
    <FileRef

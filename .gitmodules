@@ -46,3 +46,6 @@
 [submodule "VirtualC64"]
 	path = VirtualC64
 	url = https://github.com/OpenEmu/VirtualC64-Core.git
+[submodule "picodrive"]
+	path = picodrive
+	url = https://github.com/OpenEmu/picodrive.git

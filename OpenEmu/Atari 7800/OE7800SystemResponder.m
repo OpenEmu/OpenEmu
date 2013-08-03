@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,26 +24,25 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+#import "OE7800SystemResponder.h"
+#import "OE7800SystemResponderClient.h"
 
-extern NSString * const OEControlsButtonHighlightRollsOver;
-@interface OEControlsButtonSetupView : NSView
+@implementation OE7800SystemResponder
+@dynamic client;
 
-@property(unsafe_unretained) id  target;
-@property                    SEL action;
++ (Protocol *)gameSystemResponderClientProtocol;
+{
+    return @protocol(OE7800SystemResponderClient);
+}
 
-@property(nonatomic, copy) NSString *selectedKey;
+- (void)pressEmulatorKey:(OESystemKey *)aKey
+{
+    [[self client] didPush7800Button:(OE7800Button)[aKey key] forPlayer:[aKey player]];
+}
 
-// An object which support KVC/KVO for all OEGenericControlNamesKey of the current system
-@property id bindingsProvider;
-
-// Content of the system's Info.plist's OEControlListKey object
-- (void)setupWithControlList:(NSArray *)controlList;
-
-// Does not trigger the action message
-- (void)selectNextKeyButton;
-- (void)selectNextKeyAfterKeys:(NSArray *)keys;
-
-- (void)layoutSubviews:(BOOL)animated;
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
+{
+    [[self client] didRelease7800Button:(OE7800Button)[aKey key] forPlayer:[aKey player]];
+}
 
 @end

@@ -177,7 +177,7 @@ static const unsigned short konamiCodeSize = 10;
                 _konamiCodeIndex = 0;
                 return nil;
             }
-        }
+        } else _konamiCodeIndex = 0;
         return _konamiCodeIndex ? nil : e;
     }];
 }

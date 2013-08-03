@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,26 +24,33 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+#import "OESega32XSystemController.h"
+#import "OESega32XSystemResponder.h"
+#import "OESega32XSystemResponderClient.h"
 
-extern NSString * const OEControlsButtonHighlightRollsOver;
-@interface OEControlsButtonSetupView : NSView
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
-@property(unsafe_unretained) id  target;
-@property                    SEL action;
+@implementation OESega32XSystemController
 
-@property(nonatomic, copy) NSString *selectedKey;
+- (OECanHandleState)canHandleFile:(NSString *)path
+{
+    if (![[path pathExtension] isEqualToString:@"bin"])
+    {
+        return OECanHandleUncertain;
+    }
+    
+    BOOL valid = NO;
 
-// An object which support KVC/KVO for all OEGenericControlNamesKey of the current system
-@property id bindingsProvider;
-
-// Content of the system's Info.plist's OEControlListKey object
-- (void)setupWithControlList:(NSArray *)controlList;
-
-// Does not trigger the action message
-- (void)selectNextKeyButton;
-- (void)selectNextKeyAfterKeys:(NSArray *)keys;
-
-- (void)layoutSubviews:(BOOL)animated;
+    const char *cPath = [path UTF8String];
+    FILE *rom = fopen(cPath, "r");
+    char systemName[8];
+    fseek(rom, 0x100, SEEK_SET);
+    size_t readBytes = fread(systemName, sizeof(char), 8, rom);
+    fclose(rom);
+    if (readBytes == 8 && (memcmp(systemName, "SEGA 32X", 8) == 0))
+        valid = YES;
+    
+    return valid?OECanHandleYes:OECanHandleNo;
+}
 
 @end

@@ -25,7 +25,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2013 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OESega32XSystemController</string>
+	<string>OESystemController</string>
 	<key>OEControlListKey</key>
 	<array>
 		<array>
@@ -33,79 +33,71 @@
 				<key>OEControlListKeyLabelKey</key>
 				<string>Up</string>
 				<key>OEControlListKeyNameKey</key>
-				<string>OESega32XButtonUp</string>
+				<string>OE7800ButtonUp</string>
 			</dict>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
 				<string>Down</string>
 				<key>OEControlListKeyNameKey</key>
-				<string>OESega32XButtonDown</string>
+				<string>OE7800ButtonDown</string>
 			</dict>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
 				<string>Left</string>
 				<key>OEControlListKeyNameKey</key>
-				<string>OESega32XButtonLeft</string>
+				<string>OE7800ButtonLeft</string>
 			</dict>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
 				<string>Right</string>
 				<key>OEControlListKeyNameKey</key>
-				<string>OESega32XButtonRight</string>
+				<string>OE7800ButtonRight</string>
 			</dict>
 		</array>
 		<array>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>Start</string>
+				<string>Fire 1</string>
 				<key>OEControlListKeyNameKey</key>
-				<string>OESega32XButtonStart</string>
+				<string>OE7800ButtonFire1</string>
 			</dict>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>Mode</string>
+				<string>Fire 2</string>
 				<key>OEControlListKeyNameKey</key>
-				<string>OESega32XButtonMode</string>
-			</dict>
-		</array>
-		<array>
-			<dict>
-				<key>OEControlListKeyLabelKey</key>
-				<string>A</string>
-				<key>OEControlListKeyNameKey</key>
-				<string>OESega32XButtonA</string>
+				<string>OE7800ButtonFire2</string>
 			</dict>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>B</string>
+				<string>Select</string>
 				<key>OEControlListKeyNameKey</key>
-				<string>OESega32XButtonB</string>
+				<string>OE7800ButtonSelect</string>
 			</dict>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>C</string>
+				<string>Pause</string>
 				<key>OEControlListKeyNameKey</key>
-				<string>OESega32XButtonC</string>
+				<string>OE7800ButtonPause</string>
 			</dict>
 		</array>
 		<array>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>X</string>
+				<string>Reset</string>
 				<key>OEControlListKeyNameKey</key>
-				<string>OESega32XButtonX</string>
+				<string>OE7800ButtonReset</string>
 			</dict>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>Y</string>
+				<string>L Diff</string>
 				<key>OEControlListKeyNameKey</key>
-				<string>OESega32XButtonY</string>
+				<string>OE7800ButtonLeftDiff</string>
 			</dict>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>Z</string>
+				<string>R Diff</string>
 				<key>OEControlListKeyNameKey</key>
-				<string>OESega32XButtonZ</string>
+				<string>OE7800ButtonRightDiff</string>
 			</dict>
 		</array>
 	</array>
@@ -114,53 +106,51 @@
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
-				<string>OESega32XButtonUp</string>
-				<string>OESega32XButtonDown</string>
+				<string>OE7800ButtonUp</string>
+				<string>OE7800ButtonDown</string>
 			</array>
 			<array>
-				<string>OESega32XButtonLeft</string>
-				<string>OESega32XButtonRight</string>
+				<string>OE7800ButtonLeft</string>
+				<string>OE7800ButtonRight</string>
 			</array>
 		</array>
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
-				<string>OESega32XButtonUp</string>
-				<string>OESega32XButtonRight</string>
-				<string>OESega32XButtonDown</string>
-				<string>OESega32XButtonLeft</string>
+				<string>OE7800ButtonUp</string>
+				<string>OE7800ButtonRight</string>
+				<string>OE7800ButtonDown</string>
+				<string>OE7800ButtonLeft</string>
 			</array>
 		</array>
 	</dict>
 	<key>OEFileSuffixes</key>
 	<array>
-		<string>32x</string>
-		<string>bin</string>
+		<string>a78</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
-		<string>OESega32XButtonUp</string>
-		<string>OESega32XButtonDown</string>
-		<string>OESega32XButtonLeft</string>
-		<string>OESega32XButtonRight</string>
-		<string>OESega32XButtonA</string>
-		<string>OESega32XButtonB</string>
-		<string>OESega32XButtonC</string>
-		<string>OESega32XButtonX</string>
-		<string>OESega32XButtonY</string>
-		<string>OESega32XButtonZ</string>
-		<string>OESega32XButtonStart</string>
-		<string>OESega32XButtonMode</string>
+		<string>OE7800ButtonUp</string>
+		<string>OE7800ButtonDown</string>
+		<string>OE7800ButtonLeft</string>
+		<string>OE7800ButtonRight</string>
+		<string>OE7800ButtonFire1</string>
+		<string>OE7800ButtonFire2</string>
+		<string>OE7800ButtonSelect</string>
+		<string>OE7800ButtonPause</string>
+		<string>OE7800ButtonReset</string>
+		<string>OE7800ButtonLeftDiff</string>
+		<string>OE7800ButtonRightDiff</string>
 	</array>
 	<key>OENumberOfPlayersKey</key>
 	<integer>2</integer>
 	<key>OEResponderClassKey</key>
-	<string>OESega32XSystemResponder</string>
+	<string>OE7800SystemResponder</string>
 	<key>OESystemIcon</key>
-	<string>32x_library</string>
+	<string>atari7800_library</string>
 	<key>OESystemIdentifier</key>
-	<string>openemu.system.32x</string>
+	<string>openemu.system.7800</string>
 	<key>OESystemName</key>
-	<string>Sega 32X</string>
+	<string>Atari 7800</string>
 </dict>
 </plist>

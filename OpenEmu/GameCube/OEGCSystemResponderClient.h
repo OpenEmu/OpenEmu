@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,24 +26,37 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern NSString * const OEControlsButtonHighlightRollsOver;
-@interface OEControlsButtonSetupView : NSView
+@protocol OESystemResponderClient;
 
-@property(unsafe_unretained) id  target;
-@property                    SEL action;
+typedef enum _OEGCButton
+{
+    OEGCButtonUp,
+    OEGCButtonDown,
+    OEGCButtonLeft,
+    OEGCButtonRight,
+    OEGCAnalogUp,
+    OEGCAnalogDown,
+    OEGCAnalogLeft,
+    OEGCAnalogRight,
+    OEGCAnalogCUp,
+    OEGCAnalogCDown,
+    OEGCAnalogCLeft,
+    OEGCAnalogCRight,
+    OEGCButtonA,
+    OEGCButtonB,
+    OEGCButtonX,
+    OEGCButtonY,
+    OEGCButtonL,
+    OEGCButtonR,
+    OEGCButtonZ,
+    OEGCButtonStart,
+    OEGCButtonCount
+} OEGCButton;
 
-@property(nonatomic, copy) NSString *selectedKey;
+@protocol OEGCSystemResponderClient <OESystemResponderClient, NSObject>
 
-// An object which support KVC/KVO for all OEGenericControlNamesKey of the current system
-@property id bindingsProvider;
-
-// Content of the system's Info.plist's OEControlListKey object
-- (void)setupWithControlList:(NSArray *)controlList;
-
-// Does not trigger the action message
-- (void)selectNextKeyButton;
-- (void)selectNextKeyAfterKeys:(NSArray *)keys;
-
-- (void)layoutSubviews:(BOOL)animated;
+- (oneway void)didMoveGCJoystickDirection:(OEGCButton)button withValue:(CGFloat)value forPlayer:(NSUInteger)player;
+- (oneway void)didPushGCButton:(OEGCButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseGCButton:(OEGCButton)button forPlayer:(NSUInteger)player;
 
 @end

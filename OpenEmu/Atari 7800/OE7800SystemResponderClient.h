@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2013, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,24 +26,27 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern NSString * const OEControlsButtonHighlightRollsOver;
-@interface OEControlsButtonSetupView : NSView
+@protocol OESystemResponderClient;
 
-@property(unsafe_unretained) id  target;
-@property                    SEL action;
+typedef enum _OE7800Button
+{
+	OE7800ButtonUp,
+	OE7800ButtonDown,
+	OE7800ButtonLeft,
+	OE7800ButtonRight,
+	OE7800ButtonFire1,
+    OE7800ButtonFire2,
+    OE7800ButtonSelect,
+	OE7800ButtonPause,
+    OE7800ButtonReset,
+    OE7800ButtonLeftDiff,
+    OE7800ButtonRightDiff,
+	OE7800ButtonCount
+} OE7800Button;
 
-@property(nonatomic, copy) NSString *selectedKey;
+@protocol OE7800SystemResponderClient <OESystemResponderClient, NSObject>
 
-// An object which support KVC/KVO for all OEGenericControlNamesKey of the current system
-@property id bindingsProvider;
-
-// Content of the system's Info.plist's OEControlListKey object
-- (void)setupWithControlList:(NSArray *)controlList;
-
-// Does not trigger the action message
-- (void)selectNextKeyButton;
-- (void)selectNextKeyAfterKeys:(NSArray *)keys;
-
-- (void)layoutSubviews:(BOOL)animated;
+- (oneway void)didPush7800Button:(OE7800Button)button forPlayer:(NSUInteger)player;
+- (oneway void)didRelease7800Button:(OE7800Button)button forPlayer:(NSUInteger)player;
 
 @end

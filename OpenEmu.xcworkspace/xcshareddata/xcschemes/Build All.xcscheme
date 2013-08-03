@@ -196,10 +196,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82D815AB0F1D882B00EF8CF5"
-               BuildableName = "Build &amp; Install VirtualC64"
-               BlueprintName = "Build &amp; Install VirtualC64"
-               ReferencedContainer = "container:VirtualC64/VirtualC64.xcodeproj">
+               BlueprintIdentifier = "822C193F101EA4AF0034119F"
+               BuildableName = "Build &amp; Install Picodrive"
+               BlueprintName = "Build &amp; Install Picodrive"
+               ReferencedContainer = "container:picodrive/Picodrive.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -220,7 +220,7 @@
    </BuildAction>
    <TestAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.GDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
