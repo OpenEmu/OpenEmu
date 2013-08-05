@@ -175,7 +175,6 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
         [heading setTarget:self];
         [self addSubview:heading];
 
-        
         NSArray *groups = [section objectForKey:@"groups"];
         for(NSArray *group in groups)
             for(NSUInteger j = 0; j < [group count]; j += 2)
@@ -326,7 +325,29 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     return height;
 }
 
-- (void)viewWillDraw
+- (void)viewWillMoveToSuperview:(NSView *)newSuperview
+{
+    NSClipView *oldClipView  = [[self enclosingScrollView] contentView];
+    
+    if(oldClipView != nil)
+    {
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc removeObserver:self name:NSViewBoundsDidChangeNotification object:oldClipView];
+    }
+}
+
+- (void)viewDidMoveToSuperview
+{
+    NSClipView *clipView  = [[self enclosingScrollView] contentView];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+
+    [clipView setPostsBoundsChangedNotifications:YES];
+    [nc addObserver:self selector:@selector(layoutSectionHeadings:) name:NSViewBoundsDidChangeNotification object:clipView];
+
+    [self layoutSectionHeadings:nil];
+}
+
+- (void)layoutSectionHeadings:(id)sender
 {
     NSInteger i;
     CGFloat minY = 0;
@@ -341,7 +362,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
         NSRect sectionRect = (NSRect){{0, sectionStart-sectionHeight}, {width-0, sectionHeight}};
         NSRect visibleRect = [self visibleRect];
         NSRect visibleSectionRect = NSIntersectionRect(visibleRect, sectionRect);
-        
+
         if(!NSEqualRects(visibleSectionRect, NSZeroRect))
         {
             [sectionHeader setFrameOrigin:(NSPoint){0,MAX(minY, NSMaxY(visibleSectionRect)-sectionTitleHeight)}];
@@ -355,8 +376,9 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
         else
             [sectionHeader setPinned:NO];
     }
-    [super viewWillDraw];
+    ;
 }
+
 - (CGFloat)OE_headerPositionOfSectionAtIndex:(NSInteger)i
 {
     CGFloat y=[self bounds].size.height;
