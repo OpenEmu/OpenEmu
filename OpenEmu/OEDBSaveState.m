@@ -135,7 +135,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
         [newSaveState remove];
         newSaveState = nil;
         
-        NSLog(@"State verification failed: %@", error);
+        DLog(@"State verification failed: %@ : %@", error, url);
     }
 
     return newSaveState;
