@@ -35,15 +35,19 @@ const static CGFloat buttonTitleGap = 5.0;
 
 - (BOOL)isOpaque
 {
-    return YES;
+    return NO;
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+    [[NSColor clearColor] setFill];
+    NSRectFill([self bounds]);
+
     // hacky solution to get section headers to clip underlying views:
     // we let the wood background view draw to an image and then draw the portion we need here
     [[NSGraphicsContext currentContext] saveGraphicsState];
     NSView *woodBackground = [[[[[self superview] superview] superview] superview] superview];
+
     NSRect bounds          = NSInsetRect([self bounds], 5.0, 0);
     NSRect portion         = [self convertRect:bounds toView:woodBackground];
     NSRectClip(bounds);
