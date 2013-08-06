@@ -67,7 +67,7 @@ const static CGFloat buttonTitleGap = 5.0;
     [[NSGraphicsContext currentContext] saveGraphicsState];
     NSView *woodBackground = [[[[[self superview] superview] superview] superview] superview];
 
-    NSRect bounds          = NSInsetRect([self bounds], 5.0, 0);
+    NSRect bounds          = NSInsetRect([self bounds], 5.0, 0);    
     NSRect portion         = [self convertRect:bounds toView:woodBackground];
     NSRectClip(bounds);
 

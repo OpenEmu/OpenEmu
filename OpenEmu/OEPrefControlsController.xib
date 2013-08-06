@@ -1,1116 +1,152 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
-	<data>
-		<int key="IBDocument.SystemTarget">1080</int>
-		<string key="IBDocument.SystemVersion">12D78</string>
-		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.37</string>
-		<string key="IBDocument.HIToolboxVersion">626.00</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">3084</string>
-		</object>
-		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSCustomObject</string>
-			<string>NSCustomView</string>
-			<string>NSMenu</string>
-			<string>NSMenuItem</string>
-			<string>NSPopUpButton</string>
-			<string>NSPopUpButtonCell</string>
-			<string>NSScrollView</string>
-			<string>NSScroller</string>
-			<string>NSTextField</string>
-			<string>NSTextFieldCell</string>
-			<string>NSView</string>
-		</array>
-		<array key="IBDocument.PluginDependencies">
-			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-		</array>
-		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
-			<integer value="1" key="NS.object.0"/>
-		</object>
-		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
-			<object class="NSCustomObject" id="1001">
-				<string key="NSClassName">OEPrefControlsController</string>
-			</object>
-			<object class="NSCustomObject" id="1003">
-				<string key="NSClassName">FirstResponder</string>
-			</object>
-			<object class="NSCustomObject" id="1004">
-				<string key="NSClassName">NSApplication</string>
-			</object>
-			<object class="NSView" id="268028433">
-				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">256</int>
-				<array class="NSMutableArray" key="NSSubviews">
-					<object class="NSCustomView" id="243981024">
-						<reference key="NSNextResponder" ref="268028433"/>
-						<int key="NSvFlags">282</int>
-						<array class="NSMutableArray" key="NSSubviews"/>
-						<string key="NSFrameSize">{500, 500}</string>
-						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="347657162"/>
-						<string key="NSReuseIdentifierKey">_NS:499</string>
-						<string key="NSClassName">NSView</string>
-					</object>
-					<object class="NSCustomView" id="26693448">
-						<reference key="NSNextResponder" ref="268028433"/>
-						<int key="NSvFlags">290</int>
-						<array class="NSMutableArray" key="NSSubviews">
-							<object class="NSPopUpButton" id="214329737">
-								<reference key="NSNextResponder" ref="26693448"/>
-								<int key="NSvFlags">265</int>
-								<string key="NSFrame">{{56, 12}, {161, 26}}</string>
-								<reference key="NSSuperview" ref="26693448"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
-								<bool key="NSEnabled">YES</bool>
-								<object class="NSPopUpButtonCell" key="NSCell" id="665852651">
-									<int key="NSCellFlags">-2076180416</int>
-									<int key="NSCellFlags2">2048</int>
-									<object class="NSFont" key="NSSupport" id="126669081">
-										<string key="NSName">LucidaGrande</string>
-										<double key="NSSize">13</double>
-										<int key="NSfFlags">1044</int>
-									</object>
-									<reference key="NSControlView" ref="214329737"/>
-									<int key="NSButtonFlags">109199360</int>
-									<int key="NSButtonFlags2">129</int>
-									<string key="NSAlternateContents"/>
-									<string key="NSKeyEquivalent"/>
-									<int key="NSPeriodicDelay">400</int>
-									<int key="NSPeriodicInterval">75</int>
-									<object class="NSMenuItem" key="NSMenuItem" id="801206784">
-										<reference key="NSMenu" ref="317446002"/>
-										<string key="NSTitle">Keyboard</string>
-										<string key="NSKeyEquiv"/>
-										<int key="NSMnemonicLoc">2147483647</int>
-										<int key="NSState">1</int>
-										<object class="NSCustomResource" key="NSOnImage" id="335084640">
-											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">NSMenuCheckmark</string>
-										</object>
-										<object class="NSCustomResource" key="NSMixedImage" id="926651115">
-											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">NSMenuMixedState</string>
-										</object>
-										<string key="NSAction">_popUpItemAction:</string>
-										<reference key="NSTarget" ref="665852651"/>
-									</object>
-									<bool key="NSMenuItemRespectAlignment">YES</bool>
-									<object class="NSMenu" key="NSMenu" id="317446002">
-										<string key="NSTitle">OtherViews</string>
-										<array class="NSMutableArray" key="NSMenuItems">
-											<reference ref="801206784"/>
-											<object class="NSMenuItem" id="112507982">
-												<reference key="NSMenu" ref="317446002"/>
-												<string key="NSTitle">Gamepad</string>
-												<string key="NSKeyEquiv"/>
-												<int key="NSMnemonicLoc">2147483647</int>
-												<reference key="NSOnImage" ref="335084640"/>
-												<reference key="NSMixedImage" ref="926651115"/>
-												<string key="NSAction">_popUpItemAction:</string>
-												<int key="NSTag">1</int>
-												<reference key="NSTarget" ref="665852651"/>
-											</object>
-										</array>
-										<reference key="NSMenuFont" ref="126669081"/>
-									</object>
-									<int key="NSSelectedIndex">-1</int>
-									<int key="NSPreferredEdge">1</int>
-									<bool key="NSUsesItemFromMenu">YES</bool>
-									<bool key="NSAltersState">YES</bool>
-									<int key="NSArrowPosition">2</int>
-								</object>
-								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-							</object>
-							<object class="NSTextField" id="967997443">
-								<reference key="NSNextResponder" ref="26693448"/>
-								<int key="NSvFlags">265</int>
-								<string key="NSFrame">{{14, 14}, {42, 17}}</string>
-								<reference key="NSSuperview" ref="26693448"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="214329737"/>
-								<bool key="NSEnabled">YES</bool>
-								<object class="NSTextFieldCell" key="NSCell" id="750678677">
-									<int key="NSCellFlags">68157504</int>
-									<int key="NSCellFlags2">272630784</int>
-									<string key="NSContents">Input:</string>
-									<reference key="NSSupport" ref="126669081"/>
-									<reference key="NSControlView" ref="967997443"/>
-									<object class="NSColor" key="NSBackgroundColor" id="410623488">
-										<int key="NSColorSpace">6</int>
-										<string key="NSCatalogName">System</string>
-										<string key="NSColorName">controlColor</string>
-										<object class="NSColor" key="NSColor">
-											<int key="NSColorSpace">3</int>
-											<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
-										</object>
-									</object>
-									<object class="NSColor" key="NSTextColor">
-										<int key="NSColorSpace">6</int>
-										<string key="NSCatalogName">System</string>
-										<string key="NSColorName">controlTextColor</string>
-										<object class="NSColor" key="NSColor">
-											<int key="NSColorSpace">3</int>
-											<bytes key="NSWhite">MAA</bytes>
-										</object>
-									</object>
-								</object>
-								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-							</object>
-							<object class="NSScrollView" id="138075039">
-								<reference key="NSNextResponder" ref="26693448"/>
-								<int key="NSvFlags">274</int>
-								<array class="NSMutableArray" key="NSSubviews">
-									<object class="NSClipView" id="607083126">
-										<reference key="NSNextResponder" ref="138075039"/>
-										<int key="NSvFlags">2304</int>
-										<array class="NSMutableArray" key="NSSubviews">
-											<object class="NSView" id="837216714">
-												<reference key="NSNextResponder" ref="607083126"/>
-												<int key="NSvFlags">278</int>
-												<array class="NSMutableArray" key="NSSubviews"/>
-												<string key="NSFrame">{{-15, 0}, {245, 270}}</string>
-												<reference key="NSSuperview" ref="607083126"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="714866421"/>
-												<string key="NSReuseIdentifierKey">_NS:404</string>
-											</object>
-										</array>
-										<string key="NSFrameSize">{215, 269}</string>
-										<reference key="NSSuperview" ref="138075039"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="837216714"/>
-										<string key="NSReuseIdentifierKey">_NS:402</string>
-										<reference key="NSDocView" ref="837216714"/>
-										<reference key="NSBGColor" ref="410623488"/>
-									</object>
-									<object class="NSScroller" id="714866421">
-										<reference key="NSNextResponder" ref="138075039"/>
-										<int key="NSvFlags">256</int>
-										<string key="NSFrame">{{215, 0}, {15, 269}}</string>
-										<reference key="NSSuperview" ref="138075039"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="967997443"/>
-										<string key="NSReuseIdentifierKey">_NS:408</string>
-										<bool key="NSEnabled">YES</bool>
-										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<reference key="NSTarget" ref="138075039"/>
-										<string key="NSAction">_doScroller:</string>
-										<double key="NSCurValue">1</double>
-										<double key="NSPercent">0.99629629629629635</double>
-									</object>
-									<object class="NSScroller" id="153730345">
-										<reference key="NSNextResponder" ref="138075039"/>
-										<int key="NSvFlags">-2147483392</int>
-										<string key="NSFrame">{{-100, -100}, {506, 15}}</string>
-										<reference key="NSSuperview" ref="138075039"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="607083126"/>
-										<string key="NSReuseIdentifierKey">_NS:412</string>
-										<bool key="NSEnabled">YES</bool>
-										<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										<int key="NSsFlags">1</int>
-										<reference key="NSTarget" ref="138075039"/>
-										<string key="NSAction">_doScroller:</string>
-										<double key="NSPercent">0.50602412223815918</double>
-									</object>
-								</array>
-								<string key="NSFrame">{{1, 47}, {230, 269}}</string>
-								<reference key="NSSuperview" ref="26693448"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="153730345"/>
-								<string key="NSReuseIdentifierKey">_NS:400</string>
-								<int key="NSsFlags">150224</int>
-								<reference key="NSVScroller" ref="714866421"/>
-								<reference key="NSHScroller" ref="153730345"/>
-								<reference key="NSContentView" ref="607083126"/>
-								<double key="NSMinMagnification">0.25</double>
-								<double key="NSMaxMagnification">4</double>
-								<double key="NSMagnification">1</double>
-							</object>
-							<object class="NSPopUpButton" id="687338305">
-								<reference key="NSNextResponder" ref="26693448"/>
-								<int key="NSvFlags">271</int>
-								<string key="NSFrame">{{17, 327}, {200, 26}}</string>
-								<reference key="NSSuperview" ref="26693448"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="138075039"/>
-								<bool key="NSEnabled">YES</bool>
-								<object class="NSPopUpButtonCell" key="NSCell" id="989294453">
-									<int key="NSCellFlags">-2076180416</int>
-									<int key="NSCellFlags2">2048</int>
-									<reference key="NSSupport" ref="126669081"/>
-									<reference key="NSControlView" ref="687338305"/>
-									<int key="NSButtonFlags">109199360</int>
-									<int key="NSButtonFlags2">129</int>
-									<string key="NSAlternateContents"/>
-									<string key="NSKeyEquivalent"/>
-									<int key="NSPeriodicDelay">400</int>
-									<int key="NSPeriodicInterval">75</int>
-									<object class="NSMenuItem" key="NSMenuItem" id="549748360">
-										<reference key="NSMenu" ref="690346615"/>
-										<string key="NSTitle">Player 1</string>
-										<string key="NSKeyEquiv"/>
-										<int key="NSKeyEquivModMask">1048576</int>
-										<int key="NSMnemonicLoc">2147483647</int>
-										<int key="NSState">1</int>
-										<reference key="NSOnImage" ref="335084640"/>
-										<reference key="NSMixedImage" ref="926651115"/>
-										<string key="NSAction">_popUpItemAction:</string>
-										<reference key="NSTarget" ref="989294453"/>
-									</object>
-									<bool key="NSMenuItemRespectAlignment">YES</bool>
-									<object class="NSMenu" key="NSMenu" id="690346615">
-										<string key="NSTitle">OtherViews</string>
-										<array class="NSMutableArray" key="NSMenuItems">
-											<reference ref="549748360"/>
-											<object class="NSMenuItem" id="1070969208">
-												<reference key="NSMenu" ref="690346615"/>
-												<string key="NSTitle">Player 2</string>
-												<string key="NSKeyEquiv"/>
-												<int key="NSKeyEquivModMask">1048576</int>
-												<int key="NSMnemonicLoc">2147483647</int>
-												<reference key="NSOnImage" ref="335084640"/>
-												<reference key="NSMixedImage" ref="926651115"/>
-												<string key="NSAction">_popUpItemAction:</string>
-												<reference key="NSTarget" ref="989294453"/>
-											</object>
-											<object class="NSMenuItem" id="660347460">
-												<reference key="NSMenu" ref="690346615"/>
-												<string key="NSTitle">Player 3</string>
-												<string key="NSKeyEquiv"/>
-												<int key="NSKeyEquivModMask">1048576</int>
-												<int key="NSMnemonicLoc">2147483647</int>
-												<reference key="NSOnImage" ref="335084640"/>
-												<reference key="NSMixedImage" ref="926651115"/>
-												<string key="NSAction">_popUpItemAction:</string>
-												<reference key="NSTarget" ref="989294453"/>
-											</object>
-											<object class="NSMenuItem" id="1018962904">
-												<reference key="NSMenu" ref="690346615"/>
-												<string key="NSTitle">Player 4</string>
-												<string key="NSKeyEquiv"/>
-												<int key="NSKeyEquivModMask">1048576</int>
-												<int key="NSMnemonicLoc">2147483647</int>
-												<reference key="NSOnImage" ref="335084640"/>
-												<reference key="NSMixedImage" ref="926651115"/>
-												<string key="NSAction">_popUpItemAction:</string>
-												<reference key="NSTarget" ref="989294453"/>
-											</object>
-										</array>
-										<reference key="NSMenuFont" ref="126669081"/>
-									</object>
-									<int key="NSPreferredEdge">1</int>
-									<bool key="NSUsesItemFromMenu">YES</bool>
-									<bool key="NSAltersState">YES</bool>
-									<int key="NSArrowPosition">2</int>
-								</object>
-								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-							</object>
-						</array>
-						<string key="NSFrame">{{498, 25}, {232, 363}}</string>
-						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="687338305"/>
-						<string key="NSReuseIdentifierKey">_NS:1192</string>
-						<string key="NSClassName">OEPreferencesControlsBox</string>
-					</object>
-					<object class="NSPopUpButton" id="433849363">
-						<reference key="NSNextResponder" ref="268028433"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{499, 401}, {232, 26}}</string>
-						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="26693448"/>
-						<bool key="NSEnabled">YES</bool>
-						<object class="NSPopUpButtonCell" key="NSCell" id="122850583">
-							<int key="NSCellFlags">-2076180416</int>
-							<int key="NSCellFlags2">2048</int>
-							<reference key="NSSupport" ref="126669081"/>
-							<reference key="NSControlView" ref="433849363"/>
-							<int key="NSButtonFlags">109199360</int>
-							<int key="NSButtonFlags2">129</int>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
-							<int key="NSPeriodicDelay">400</int>
-							<int key="NSPeriodicInterval">75</int>
-							<object class="NSMenuItem" key="NSMenuItem" id="60073722">
-								<reference key="NSMenu" ref="233882984"/>
-								<string key="NSTitle">Super Nintendo (SNES)</string>
-								<string key="NSKeyEquiv"/>
-								<int key="NSKeyEquivModMask">1048576</int>
-								<int key="NSMnemonicLoc">2147483647</int>
-								<int key="NSState">1</int>
-								<reference key="NSOnImage" ref="335084640"/>
-								<reference key="NSMixedImage" ref="926651115"/>
-								<string key="NSAction">_popUpItemAction:</string>
-								<reference key="NSTarget" ref="122850583"/>
-							</object>
-							<bool key="NSMenuItemRespectAlignment">YES</bool>
-							<object class="NSMenu" key="NSMenu" id="233882984">
-								<string key="NSTitle">OtherViews</string>
-								<array class="NSMutableArray" key="NSMenuItems">
-									<object class="NSMenuItem" id="732670666">
-										<reference key="NSMenu" ref="233882984"/>
-										<string key="NSTitle">Nintendo (NES)</string>
-										<string key="NSKeyEquiv"/>
-										<int key="NSKeyEquivModMask">1048576</int>
-										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="335084640"/>
-										<reference key="NSMixedImage" ref="926651115"/>
-										<string key="NSAction">_popUpItemAction:</string>
-										<reference key="NSTarget" ref="122850583"/>
-									</object>
-									<reference ref="60073722"/>
-									<object class="NSMenuItem" id="13299176">
-										<reference key="NSMenu" ref="233882984"/>
-										<string key="NSTitle">GameBoy</string>
-										<string key="NSKeyEquiv"/>
-										<int key="NSKeyEquivModMask">1048576</int>
-										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="335084640"/>
-										<reference key="NSMixedImage" ref="926651115"/>
-										<string key="NSAction">_popUpItemAction:</string>
-										<reference key="NSTarget" ref="122850583"/>
-									</object>
-									<object class="NSMenuItem" id="179934150">
-										<reference key="NSMenu" ref="233882984"/>
-										<string key="NSTitle">GameBoy Advance</string>
-										<string key="NSKeyEquiv"/>
-										<int key="NSKeyEquivModMask">1048576</int>
-										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="335084640"/>
-										<reference key="NSMixedImage" ref="926651115"/>
-										<string key="NSAction">_popUpItemAction:</string>
-										<reference key="NSTarget" ref="122850583"/>
-									</object>
-									<object class="NSMenuItem" id="399702695">
-										<reference key="NSMenu" ref="233882984"/>
-										<string key="NSTitle">Sega SG-1000</string>
-										<string key="NSKeyEquiv"/>
-										<int key="NSKeyEquivModMask">1048576</int>
-										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="335084640"/>
-										<reference key="NSMixedImage" ref="926651115"/>
-										<string key="NSAction">_popUpItemAction:</string>
-										<reference key="NSTarget" ref="122850583"/>
-									</object>
-									<object class="NSMenuItem" id="672597944">
-										<reference key="NSMenu" ref="233882984"/>
-										<string key="NSTitle">Sega Master System</string>
-										<string key="NSKeyEquiv"/>
-										<int key="NSKeyEquivModMask">1048576</int>
-										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="335084640"/>
-										<reference key="NSMixedImage" ref="926651115"/>
-										<string key="NSAction">_popUpItemAction:</string>
-										<reference key="NSTarget" ref="122850583"/>
-									</object>
-									<object class="NSMenuItem" id="231110367">
-										<reference key="NSMenu" ref="233882984"/>
-										<string key="NSTitle">Sega Genesis</string>
-										<string key="NSKeyEquiv"/>
-										<int key="NSKeyEquivModMask">1048576</int>
-										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="335084640"/>
-										<reference key="NSMixedImage" ref="926651115"/>
-										<string key="NSAction">_popUpItemAction:</string>
-										<reference key="NSTarget" ref="122850583"/>
-									</object>
-									<object class="NSMenuItem" id="20453000">
-										<reference key="NSMenu" ref="233882984"/>
-										<string key="NSTitle">Game Gear</string>
-										<string key="NSKeyEquiv"/>
-										<int key="NSKeyEquivModMask">1048576</int>
-										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="335084640"/>
-										<reference key="NSMixedImage" ref="926651115"/>
-										<string key="NSAction">_popUpItemAction:</string>
-										<reference key="NSTarget" ref="122850583"/>
-									</object>
-								</array>
-								<reference key="NSMenuFont" ref="126669081"/>
-							</object>
-							<int key="NSSelectedIndex">1</int>
-							<int key="NSPreferredEdge">1</int>
-							<bool key="NSUsesItemFromMenu">YES</bool>
-							<bool key="NSAltersState">YES</bool>
-							<int key="NSArrowPosition">2</int>
-						</object>
-						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-					</object>
-					<object class="NSCustomView" id="347657162">
-						<reference key="NSNextResponder" ref="268028433"/>
-						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{0, 409}, {755, 41}}</string>
-						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="433849363"/>
-						<bool key="NSViewIsLayerTreeHost">YES</bool>
-						<string key="NSClassName">OEBackgroundGradientView</string>
-					</object>
-				</array>
-				<string key="NSFrameSize">{755, 450}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="243981024"/>
-			</object>
-		</array>
-		<object class="IBObjectContainer" key="IBDocument.Objects">
-			<array class="NSMutableArray" key="connectionRecords">
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">view</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="268028433"/>
-					</object>
-					<int key="connectionID">41</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">gradientOverlay</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="347657162"/>
-					</object>
-					<int key="connectionID">43</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">consolesPopupButton</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="433849363"/>
-					</object>
-					<int key="connectionID">42</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changeSystem:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="433849363"/>
-					</object>
-					<int key="connectionID">48</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">controllerContainerView</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="243981024"/>
-					</object>
-					<int key="connectionID">119</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">controlsContainer</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="837216714"/>
-					</object>
-					<int key="connectionID">115</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">controlsSetupView</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="837216714"/>
-					</object>
-					<int key="connectionID">117</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changePlayer:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="687338305"/>
-					</object>
-					<int key="connectionID">47</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">playerPopupButton</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="687338305"/>
-					</object>
-					<int key="connectionID">45</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changeInputDevice:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="214329737"/>
-					</object>
-					<int key="connectionID">46</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">inputPopupButton</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="214329737"/>
-					</object>
-					<int key="connectionID">44</int>
-				</object>
-			</array>
-			<object class="IBMutableOrderedSet" key="objectRecords">
-				<array key="orderedObjects">
-					<object class="IBObjectRecord">
-						<int key="objectID">0</int>
-						<array key="object" id="0"/>
-						<reference key="children" ref="1000"/>
-						<nil key="parent"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-2</int>
-						<reference key="object" ref="1001"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">File's Owner</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-1</int>
-						<reference key="object" ref="1003"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">First Responder</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-3</int>
-						<reference key="object" ref="1004"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Application</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">3</int>
-						<reference key="object" ref="268028433"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="347657162"/>
-							<reference ref="243981024"/>
-							<reference ref="433849363"/>
-							<reference ref="26693448"/>
-						</array>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Controls</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">4</int>
-						<reference key="object" ref="347657162"/>
-						<reference key="parent" ref="268028433"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">103</int>
-						<reference key="object" ref="243981024"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="268028433"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">7</int>
-						<reference key="object" ref="433849363"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="122850583"/>
-						</array>
-						<reference key="parent" ref="268028433"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">30</int>
-						<reference key="object" ref="122850583"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="233882984"/>
-						</array>
-						<reference key="parent" ref="433849363"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">31</int>
-						<reference key="object" ref="233882984"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="20453000"/>
-							<reference ref="231110367"/>
-							<reference ref="672597944"/>
-							<reference ref="399702695"/>
-							<reference ref="179934150"/>
-							<reference ref="732670666"/>
-							<reference ref="60073722"/>
-							<reference ref="13299176"/>
-						</array>
-						<reference key="parent" ref="122850583"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">39</int>
-						<reference key="object" ref="13299176"/>
-						<reference key="parent" ref="233882984"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">38</int>
-						<reference key="object" ref="60073722"/>
-						<reference key="parent" ref="233882984"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">37</int>
-						<reference key="object" ref="732670666"/>
-						<reference key="parent" ref="233882984"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">36</int>
-						<reference key="object" ref="179934150"/>
-						<reference key="parent" ref="233882984"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">35</int>
-						<reference key="object" ref="399702695"/>
-						<reference key="parent" ref="233882984"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">34</int>
-						<reference key="object" ref="672597944"/>
-						<reference key="parent" ref="233882984"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">33</int>
-						<reference key="object" ref="231110367"/>
-						<reference key="parent" ref="233882984"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">32</int>
-						<reference key="object" ref="20453000"/>
-						<reference key="parent" ref="233882984"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">116</int>
-						<reference key="object" ref="26693448"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="138075039"/>
-							<reference ref="687338305"/>
-							<reference ref="214329737"/>
-							<reference ref="967997443"/>
-						</array>
-						<reference key="parent" ref="268028433"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">111</int>
-						<reference key="object" ref="138075039"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="714866421"/>
-							<reference ref="153730345"/>
-							<reference ref="837216714"/>
-						</array>
-						<reference key="parent" ref="26693448"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">112</int>
-						<reference key="object" ref="837216714"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="138075039"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">113</int>
-						<reference key="object" ref="153730345"/>
-						<reference key="parent" ref="138075039"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">114</int>
-						<reference key="object" ref="714866421"/>
-						<reference key="parent" ref="138075039"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">8</int>
-						<reference key="object" ref="687338305"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="989294453"/>
-						</array>
-						<reference key="parent" ref="26693448"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">24</int>
-						<reference key="object" ref="989294453"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="690346615"/>
-						</array>
-						<reference key="parent" ref="687338305"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">25</int>
-						<reference key="object" ref="690346615"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="1018962904"/>
-							<reference ref="660347460"/>
-							<reference ref="1070969208"/>
-							<reference ref="549748360"/>
-						</array>
-						<reference key="parent" ref="989294453"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">26</int>
-						<reference key="object" ref="1018962904"/>
-						<reference key="parent" ref="690346615"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">27</int>
-						<reference key="object" ref="660347460"/>
-						<reference key="parent" ref="690346615"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">28</int>
-						<reference key="object" ref="1070969208"/>
-						<reference key="parent" ref="690346615"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">29</int>
-						<reference key="object" ref="549748360"/>
-						<reference key="parent" ref="690346615"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">9</int>
-						<reference key="object" ref="214329737"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="665852651"/>
-						</array>
-						<reference key="parent" ref="26693448"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">12</int>
-						<reference key="object" ref="665852651"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="317446002"/>
-						</array>
-						<reference key="parent" ref="214329737"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">13</int>
-						<reference key="object" ref="317446002"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="801206784"/>
-							<reference ref="112507982"/>
-						</array>
-						<reference key="parent" ref="665852651"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">16</int>
-						<reference key="object" ref="801206784"/>
-						<reference key="parent" ref="317446002"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">15</int>
-						<reference key="object" ref="112507982"/>
-						<reference key="parent" ref="317446002"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">10</int>
-						<reference key="object" ref="967997443"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="750678677"/>
-						</array>
-						<reference key="parent" ref="26693448"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">11</int>
-						<reference key="object" ref="750678677"/>
-						<reference key="parent" ref="967997443"/>
-					</object>
-				</array>
-			</object>
-			<dictionary class="NSMutableDictionary" key="flattenedProperties">
-				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="10.CustomClassName">OELabel</string>
-				<object class="NSMutableDictionary" key="10.IBAttributePlaceholdersKey">
-					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
-					<object class="IBUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
-						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
-						<reference key="object" ref="967997443"/>
-						<array key="userDefinedRuntimeAttributes">
-							<object class="IBUserDefinedRuntimeAttribute">
-								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
-								<string key="keyPath">themeKey</string>
-								<string key="value">preferences_wood_text</string>
-							</object>
-						</array>
-					</object>
-				</object>
-				<string key="10.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="103.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="11.CustomClassName">OELabelCell</string>
-				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="111.CustomClassName">OEControlsScrollView</string>
-				<string key="111.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="112.CustomClassName">OEControlsButtonSetupView</string>
-				<string key="112.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="113.CustomClassName">OEControlsScroller</string>
-				<string key="113.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="114.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="116.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="12.CustomClassName">OEPopUpButtonCell</string>
-				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="15.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="16.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="24.CustomClassName">OEPopUpButtonCell</string>
-				<string key="24.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="25.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="26.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="27.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="28.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="29.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="3.CustomClassName">OEBackgroundImageView</string>
-				<string key="3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="30.CustomClassName">OEPopUpButtonCell</string>
-				<string key="30.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="31.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="32.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="33.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="34.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="35.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="36.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="37.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="38.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="39.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="7.CustomClassName">OEPopUpButton</string>
-				<object class="NSMutableDictionary" key="7.IBAttributePlaceholdersKey">
-					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
-					<object class="IBUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
-						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
-						<reference key="object" ref="433849363"/>
-						<array key="userDefinedRuntimeAttributes">
-							<object class="IBUserDefinedRuntimeAttribute">
-								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
-								<string key="keyPath">themeKey</string>
-								<string key="value">wood_popup_button</string>
-							</object>
-							<object class="IBUserDefinedRuntimeAttribute">
-								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.number</string>
-								<string key="keyPath">menuStyle</string>
-								<real value="0.0" key="value"/>
-							</object>
-						</array>
-					</object>
-				</object>
-				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="8.CustomClassName">OEPopUpButton</string>
-				<object class="NSMutableDictionary" key="8.IBAttributePlaceholdersKey">
-					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
-					<object class="IBUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
-						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
-						<reference key="object" ref="687338305"/>
-						<array key="userDefinedRuntimeAttributes">
-							<object class="IBUserDefinedRuntimeAttribute">
-								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
-								<string key="keyPath">themeKey</string>
-								<string key="value">wood_popup_button</string>
-							</object>
-							<object class="IBUserDefinedRuntimeAttribute">
-								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.number</string>
-								<string key="keyPath">menuStyle</string>
-								<real value="0.0" key="value"/>
-							</object>
-						</array>
-					</object>
-				</object>
-				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="9.CustomClassName">OEPopUpButton</string>
-				<object class="NSMutableDictionary" key="9.IBAttributePlaceholdersKey">
-					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
-					<object class="IBUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
-						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
-						<reference key="object" ref="214329737"/>
-						<array key="userDefinedRuntimeAttributes">
-							<object class="IBUserDefinedRuntimeAttribute">
-								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
-								<string key="keyPath">themeKey</string>
-								<string key="value">wood_popup_button</string>
-							</object>
-							<object class="IBUserDefinedRuntimeAttribute">
-								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.number</string>
-								<string key="keyPath">menuStyle</string>
-								<real value="0.0" key="value"/>
-							</object>
-						</array>
-					</object>
-				</object>
-				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			</dictionary>
-			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
-			<nil key="activeLocalization"/>
-			<dictionary class="NSMutableDictionary" key="localizations"/>
-			<nil key="sourceID"/>
-			<int key="maxID">127</int>
-		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">OEBackgroundGradientView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEBackgroundGradientView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OEBackgroundImageView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEBackgroundImageView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OEControlsButtonSetupView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEControlsButtonSetupView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OEControlsScrollView</string>
-					<string key="superclassName">NSScrollView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEControlsScrollView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OEControlsScroller</string>
-					<string key="superclassName">OEScroller</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEControlsScroller.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OELabel</string>
-					<string key="superclassName">NSTextField</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OELabel.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OELabelCell</string>
-					<string key="superclassName">NSTextFieldCell</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OELabelCell.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OEPopUpButton</string>
-					<string key="superclassName">NSPopUpButton</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEPopUpButton.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OEPopUpButtonCell</string>
-					<string key="superclassName">NSPopUpButtonCell</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEPopUpButtonCell.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OEPrefControlsController</string>
-					<string key="superclassName">NSViewController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="changeInputControl:">id</string>
-						<string key="changeInputDevice:">id</string>
-						<string key="changePlayer:">id</string>
-						<string key="changeSystem:">id</string>
-						<string key="searchForWiimote:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="changeInputControl:">
-							<string key="name">changeInputControl:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="changeInputDevice:">
-							<string key="name">changeInputDevice:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="changePlayer:">
-							<string key="name">changePlayer:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="changeSystem:">
-							<string key="name">changeSystem:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="searchForWiimote:">
-							<string key="name">searchForWiimote:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="consolesPopupButton">NSPopUpButton</string>
-						<string key="controllerContainerView">NSView</string>
-						<string key="controlsContainer">NSView</string>
-						<string key="controlsSetupView">OEControlsButtonSetupView</string>
-						<string key="gradientOverlay">OEBackgroundGradientView</string>
-						<string key="inputPopupButton">NSPopUpButton</string>
-						<string key="playerPopupButton">NSPopUpButton</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="consolesPopupButton">
-							<string key="name">consolesPopupButton</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="controllerContainerView">
-							<string key="name">controllerContainerView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="controlsContainer">
-							<string key="name">controlsContainer</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="controlsSetupView">
-							<string key="name">controlsSetupView</string>
-							<string key="candidateClassName">OEControlsButtonSetupView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="gradientOverlay">
-							<string key="name">gradientOverlay</string>
-							<string key="candidateClassName">OEBackgroundGradientView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="inputPopupButton">
-							<string key="name">inputPopupButton</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="playerPopupButton">
-							<string key="name">playerPopupButton</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEPrefControlsController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OEPreferencesControlsBox</string>
-					<string key="superclassName">OEBackgroundImageView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEPreferencesControlsBox.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OEScroller</string>
-					<string key="superclassName">NSScroller</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEScroller.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
-		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
-			<real value="4200" key="NS.object.0"/>
-		</object>
-		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NSMenuCheckmark">{11, 11}</string>
-			<string key="NSMenuMixedState">{10, 3}</string>
-		</dictionary>
-	</data>
-</archive>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4457.6" systemVersion="13A524d" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment defaultVersion="1070" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4457.6"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="OEPrefControlsController">
+            <connections>
+                <action selector="changeInputDevice:" destination="9" id="46"/>
+                <action selector="changePlayer:" destination="8" id="47"/>
+                <action selector="changeSystem:" destination="7" id="48"/>
+                <outlet property="consolesPopupButton" destination="7" id="42"/>
+                <outlet property="controllerContainerView" destination="103" id="119"/>
+                <outlet property="controlsContainer" destination="112" id="115"/>
+                <outlet property="controlsSetupView" destination="112" id="117"/>
+                <outlet property="gradientOverlay" destination="4" id="43"/>
+                <outlet property="inputPopupButton" destination="9" id="44"/>
+                <outlet property="playerPopupButton" destination="8" id="45"/>
+                <outlet property="view" destination="3" id="41"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <view id="3" userLabel="Controls" customClass="OEBackgroundImageView">
+            <rect key="frame" x="0.0" y="0.0" width="755" height="450"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <customView id="103">
+                    <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                </customView>
+                <customView id="116" customClass="OEPreferencesControlsBox">
+                    <rect key="frame" x="498" y="25" width="232" height="363"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <popUpButton verticalHuggingPriority="750" id="8" customClass="OEPopUpButton">
+                            <rect key="frame" x="17" y="327" width="200" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <popUpButtonCell key="cell" type="push" title="Player 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="29" id="24" customClass="OEPopUpButtonCell">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                                <menu key="menu" title="OtherViews" id="25">
+                                    <items>
+                                        <menuItem title="Player 1" state="on" id="29"/>
+                                        <menuItem title="Player 2" id="28"/>
+                                        <menuItem title="Player 3" id="27"/>
+                                        <menuItem title="Player 4" id="26"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood_popup_button"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="menuStyle">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </popUpButton>
+                        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" id="111" customClass="OEControlsScrollView">
+                            <rect key="frame" x="1" y="47" width="230" height="269"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <clipView key="contentView" drawsBackground="NO" id="Rbi-tr-8Ja">
+                                <rect key="frame" x="0.0" y="0.0" width="215" height="269"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <view id="112" customClass="OEControlsButtonSetupView">
+                                        <rect key="frame" x="-15" y="0.0" width="245" height="270"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                                    </view>
+                                </subviews>
+                            </clipView>
+                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" id="113" customClass="OEControlsScroller">
+                                <rect key="frame" x="-100" y="-100" width="506" height="15"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </scroller>
+                            <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" id="114">
+                                <rect key="frame" x="215" y="0.0" width="15" height="269"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </scroller>
+                        </scrollView>
+                        <textField verticalHuggingPriority="750" id="10" customClass="OELabel">
+                            <rect key="frame" x="14" y="14" width="42" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Input:" id="11" customClass="OELabelCell">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_wood_text"/>
+                            </userDefinedRuntimeAttributes>
+                        </textField>
+                        <popUpButton verticalHuggingPriority="750" id="9" customClass="OEPopUpButton">
+                            <rect key="frame" x="56" y="12" width="161" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <popUpButtonCell key="cell" type="push" title="Keyboard" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="12" customClass="OEPopUpButtonCell">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                                <menu key="menu" title="OtherViews" id="13">
+                                    <items>
+                                        <menuItem title="Keyboard" state="on" id="16">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="Gamepad" tag="1" id="15">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood_popup_button"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="menuStyle">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </popUpButton>
+                    </subviews>
+                </customView>
+                <popUpButton verticalHuggingPriority="750" id="7" customClass="OEPopUpButton">
+                    <rect key="frame" x="499" y="401" width="232" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <popUpButtonCell key="cell" type="push" title="Super Nintendo (SNES)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="38" id="30" customClass="OEPopUpButtonCell">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <menu key="menu" title="OtherViews" id="31">
+                            <items>
+                                <menuItem title="Nintendo (NES)" id="37"/>
+                                <menuItem title="Super Nintendo (SNES)" state="on" id="38"/>
+                                <menuItem title="GameBoy" id="39"/>
+                                <menuItem title="GameBoy Advance" id="36"/>
+                                <menuItem title="Sega SG-1000" id="35"/>
+                                <menuItem title="Sega Master System" id="34"/>
+                                <menuItem title="Sega Genesis" id="33"/>
+                                <menuItem title="Game Gear" id="32"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood_popup_button"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="menuStyle">
+                            <real key="value" value="0.0"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </popUpButton>
+                <customView wantsLayer="YES" id="4" customClass="OEBackgroundGradientView">
+                    <rect key="frame" x="0.0" y="409" width="755" height="41"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                </customView>
+            </subviews>
+        </view>
+    </objects>
+</document>
