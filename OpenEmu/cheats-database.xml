@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<systems>
+	<system id="openemu.system.gb">
+		<game title="Pokemon - Crystal Version (USA, Europe)">
+			<hashes>
+				<hash md5="9f2922b235a5eeb78d65594e82ef5dde" />
+				<hash md5="301899b8087289a6436b0a241fbbb474" />
+			</hashes>
+			<cheats>
+				<cheat code="010F4ED8+01424FD8+013F50D8" type="GameShark" description="Infinite money" />
+			</cheats>
+		</game>
+		<game title="Super Mario Bros. Deluxe (USA, Europe)">
+			<hashes>
+				<hash md5="ec764e03228d212ca794ac0b9df62857" />
+				<hash md5="1fd75c2b798c04acd4b99ad2f1006280" />
+				<hash md5="b5a71128227f5bc953fd55cb0025807f" />
+			</hashes>
+			<cheats>
+				<cheat code="0101CEC1" type="GameShark" description="Always Have Fire Power" />
+			</cheats>
+		</game>
+	</system>
+	<system id="openemu.system.nes">
+		<game title="Bad Dudes (USA)">
+			<hashes>
+				<hash md5="e5f71b547f6a8c6166c55b1baa7d21c5" />
+			</hashes>
+			<cheats>
+				<cheat code="AVSOYOSZ+ELEAPOZE+AIEAZPAP" type="Game Genie" description="Invincibility" />
+				<cheat code="APEETPEY" type="Game Genie" description="Infinite health" />
+				<cheat code="SZOEAOSE" type="Game Genie" description="Infinite health (alt)" />
+				<cheat code="SZNKASVK" type="Game Genie" description="Infinite lives" />
+				<cheat code="GXOKASVK" type="Game Genie" description="Infinite continues" />
+				<cheat code="SGVYOUVK" type="Game Genie" description="Infinite time" />
+				<cheat code="AAUPIOGI" type="Game Genie" description="Hit anywhere" />
+				<cheat code="AOUSNGEY" type="Game Genie" description="One hit kills" />
+				<cheat code="PENXYZLA" type="Game Genie" description="Start with 1 life and 1 continue" />
+				<cheat code="TENXYZLA" type="Game Genie" description="Start with double lives and continues" />
+				<cheat code="PENXYZLE" type="Game Genie" description="Start with triple lives and continues" />
+				<cheat code="PESAIYIE" type="Game Genie" description="Gain double usual energy from drinks" />
+				<cheat code="02A2:01" type="Action Replay" description="Have the Nunchaku" />
+				<cheat code="02A2:02" type="Action Replay" description="Have the Knife" />
+				<cheat code="032F:00+0344:00" type="Action Replay" description="One hit kills on bosses" />
+			</cheats>
+		</game>
+	</system>
+</systems>
