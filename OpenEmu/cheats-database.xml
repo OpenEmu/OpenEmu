@@ -45,4 +45,21 @@
 			</cheats>
 		</game>
 	</system>
+    <system id="openemu.system.snes">
+		<game title="Super Mario World (USA)">
+			<hashes>
+				<hash md5="cdd3c8c37322978ca8669b34bc89c804" />
+                <hash md5="dbe1f3c8f3a0b2db52b7d59417891117" />
+			</hashes>
+			<cheats>
+                <cheat code="CBB7-6D67+D4B7-6DA7+3CB7-6FD7+69B7-6F07" type="Game Genie" description="Start as Cape Mario" />
+				<cheat code="CBB7-6D67+D7B7-6DA7+3CB7-6FD7+69B7-6F07" type="Game Genie" description="Start as Fire Mario" />
+				<cheat code="14B4-6F07" type="Game Genie" description="Start with 99 lives" />
+				<cheat code="7E1497:FF" type="Action Replay" description="Invincibility" />
+                <cheat code="7E1490:FF" type="Action Replay" description="Invincibility (Starman)" />
+                <cheat code="7E0019:03" type="Action Replay" description="Always Fiery Mario" />
+				<cheat code="7E0DC1:01" type="Action Replay" description="Always have Yoshi" />
+			</cheats>
+		</game>
+	</system>
 </systems>
