@@ -62,4 +62,29 @@
 			</cheats>
 		</game>
 	</system>
+    <system id="openemu.system.sg">
+		<game title="Sonic The Hedgehog 2 (World)">
+			<hashes>
+				<hash md5="8e2c29a1e65111fe2078359e685e7943" />
+			</hashes>
+			<cheats>
+				<cheat code="NN8A-AADN" type="Game Genie" description="Start with 99 lives (player 1)" />
+				<cheat code="ACZT-CACN" type="Game Genie" description="Need 0 chaos emeralds to become Super Sonic (Still need 50 rings)" />
+                <cheat code="FFFE21:0032" type="Action Replay" description="Always have 50 rings" />
+                <cheat code="FFB02B:0002" type="Action Replay" description="Invincibility" />
+			</cheats>
+		</game>
+        <game title="Sonic The Hedgehog 2 (World) (Rev A)">
+			<hashes>
+				<hash md5="9feeb724052c39982d432a7851c98d3e" />
+			</hashes>
+			<cheats>
+                <cheat code="BWZA-CA9Y+ACZT-DZ2E+RGZT-C6TL+ARZT-DP2R+AWZT-CR2Y" type="Game Genie" description="Jump in midair (Sonic)" />
+				<cheat code="NN8A-AAD2" type="Game Genie" description="Start with 99 lives (player 1)" />
+				<cheat code="ACZT-CACA" type="Game Genie" description="Need 0 chaos emeralds to become Super Sonic (Still need 50 rings)" />
+                <cheat code="FFFE21:0032" type="Action Replay" description="Always have 50 rings" />
+                <cheat code="FFB02B:0002" type="Action Replay" description="Invincibility" />
+			</cheats>
+		</game>
+	</system>
 </systems>
