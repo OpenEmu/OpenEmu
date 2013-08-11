@@ -21,6 +21,23 @@
 			</cheats>
 		</game>
 	</system>
+	<system id="openemu.system.gba">
+		<game title="Super Mario Advance (USA, Europe)">
+			<hashes>
+				<hash md5="ff6b0c48065389b888c7a78731d4b58d" />
+			</hashes>
+			<cheats>
+				<cheat code="42D8DCB716E09D2C" type="Action Replay" description="Max Hearts" />
+				<cheat code="ADF2A0EE94504FB2" type="Action Replay" description="Always Big Mario" />
+				<cheat code="CD93194F089CE0B4" type="GameShark" description="Always Invincible" />
+				<cheat code="029326227E30E217" type="GameShark" description="Infinite Float" />
+				<cheat code="46B6AAC300BA6B6C" type="GameShark" description="Invincible/Walk Thru Enemies" />
+				<cheat code="9005744C362C+034BBC9BD418+F5AC01A7E2B9" type="GameShark" description="Master Code (Must Be On)" />
+				<cheat code="A62B1D67EB2D" type="GameShark" description="Infinite Health" />
+				<cheat code="712E29965C2A+DD96A6BE81CB" type="GameShark" description="Moon Jump" />
+			</cheats>
+		</game>
+	</system>
 	<system id="openemu.system.nes">
 		<game title="Bad Dudes (USA)">
 			<hashes>
