@@ -60,6 +60,19 @@
 		<key>OE2600ButtonSelect</key>
 		<string>OEControllerSegaSaturnButtonX</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OE2600ButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OE2600ButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OE2600ButtonFire1</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OE2600ButtonReset</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+		<key>OE2600ButtonSelect</key>
+		<string>OEControllerPlaySegaButtonX</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OE2600ButtonUp</key>

@@ -52,6 +52,17 @@
 		<key>OEColecoVisionButtonRightAction</key>
 		<string>OEControllerSegaSaturnButtonB</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OEColecoVisionButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OEColecoVisionButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OEColecoVisionButtonLeftAction</key>
+		<string>OEControllerPlaySegaButtonA</string>
+		<key>OEColecoVisionButtonRightAction</key>
+		<string>OEControllerPlaySegaButtonB</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OEColecoVisionButtonUp</key>

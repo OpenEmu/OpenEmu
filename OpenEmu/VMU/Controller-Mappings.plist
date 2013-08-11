@@ -68,6 +68,21 @@
 		<key>OEVMUButtonMode</key>
 		<string>OEControllerSegaSaturnButtonX</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OEVMUButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OEVMUButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OEVMUButtonB</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OEVMUButtonA</key>
+		<string>OEControllerPlaySegaButtonZ</string>
+		<key>OEVMUButtonSleep</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+		<key>OEVMUButtonMode</key>
+		<string>OEControllerPlaySegaButtonX</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OEVMUButtonUp</key>

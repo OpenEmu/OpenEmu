@@ -100,6 +100,29 @@
 		<key>OENDSButtonSelect</key>
 		<string>OEControllerSegaSaturnButtonX</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OENDSButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OENDSButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OENDSButtonA</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OENDSButtonB</key>
+		<string>OEControllerPlaySegaButtonB</string>
+		<key>OENDSButtonX</key>
+		<string>OEControllerPlaySegaButtonZ</string>
+		<key>OENDSButtonY</key>
+		<string>OEControllerPlaySegaButtonY</string>
+		<key>OENDSButtonL</key>
+		<string>OEControllerPlaySegaButtonLeftShoulder</string>
+		<key>OENDSButtonR</key>
+		<string>OEControllerPlaySegaButtonRightShoulder</string>
+		<key>OENDSButtonStart</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+		<key>OENDSButtonSelect</key>
+		<string>OEControllerPlaySegaButtonX</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OENDSButtonUp</key>

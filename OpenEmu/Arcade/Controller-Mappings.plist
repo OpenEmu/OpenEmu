@@ -100,6 +100,29 @@
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerSegaSaturnButtonRightShoulder</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OEArcadeButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerPlaySegaButtonX</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerPlaySegaButtonY</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerPlaySegaButtonZ</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerPlaySegaButtonA</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerPlaySegaButtonB</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerPlaySegaRightShoulder</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OEArcadeButtonUp</key>

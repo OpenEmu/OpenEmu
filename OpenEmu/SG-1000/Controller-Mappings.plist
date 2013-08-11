@@ -52,6 +52,17 @@
 		<key>OESG1000Button2</key>
 		<string>OEControllerSegaSaturnButtonC</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OESG1000ButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OESG1000ButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OESG1000Button1</key>
+		<string>OEControllerPlaySegaButtonZ</string>
+		<key>OESG1000Button2</key>
+		<string>OEControllerPlaySegaButtonC</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OESG1000ButtonUp</key>

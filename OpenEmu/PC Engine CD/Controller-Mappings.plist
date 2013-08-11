@@ -68,6 +68,21 @@
 		<key>OEPCECDButtonSelect</key>
 		<string>OEControllerSegaSaturnButtonX</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OEPCECDButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OEPCECDButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OEPCECDButton1</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OEPCECDButton2</key>
+		<string>OEControllerPlaySegaButtonZ</string>
+		<key>OEPCECDButtonRun</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+		<key>OEPCECDButtonSelect</key>
+		<string>OEControllerPlaySegaButtonX</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OEPCECDButtonUp</key>

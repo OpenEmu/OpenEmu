@@ -100,6 +100,29 @@
 		<key>OESega32XButtonMode</key>
 		<string>OEControllerSegaSaturnButtonRightShoulder</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OESega32XButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OESega32XButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OESega32XButtonA</key>
+		<string>OEControllerPlaySegaButtonA</string>
+		<key>OESega32XButtonB</key>
+		<string>OEControllerPlaySegaButtonB</string>
+		<key>OESega32XButtonC</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OESega32XButtonX</key>
+		<string>OEControllerPlaySegaButtonX</string>
+		<key>OESega32XButtonY</key>
+		<string>OEControllerPlaySegaButtonY</string>
+		<key>OESega32XButtonZ</key>
+		<string>OEControllerPlaySegaButtonZ</string>
+		<key>OESega32XButtonStart</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+		<key>OESega32XButtonMode</key>
+		<string>OEControllerPlaySegaButtonRightShoulder</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OESega32XButtonUp</key>

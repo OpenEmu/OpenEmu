@@ -76,6 +76,23 @@
 		<key>OEFDSButtonChangeSide</key>
 		<string>OEControllerSegaSaturnButtonRightShoulder</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OEFDSButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OEFDSButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OEFDSButtonA</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OEFDSButtonB</key>
+		<string>OEControllerPlaySegaButtonZ</string>
+		<key>OEFDSButtonStart</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+		<key>OEFDSButtonSelect</key>
+		<string>OEControllerPlaySegaButtonX</string>
+		<key>OEFDSButtonChangeSide</key>
+		<string>OEControllerPlaySegaButtonRightShoulder</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OEFDSButtonUp</key>
