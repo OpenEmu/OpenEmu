@@ -1443,6 +1443,14 @@
 				<key>OEControllerProductID</key>
 				<integer>266</integer>
 			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>PlaySEGA Saturn USB Gamepad</string>
+				<key>OEControllerVendorID</key>
+				<integer>3727</integer>
+				<key>OEControllerProductID</key>
+				<integer>65</integer>
+			</dict>
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
