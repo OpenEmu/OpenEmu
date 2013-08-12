@@ -753,6 +753,8 @@ typedef enum : NSUInteger
      {
          if(result == NSAlertDefaultReturn)
              [self saveStateWithName:[alert stringValue] synchronously:NO resumeGame:didPauseEmulation];
+         else
+             if(didPauseEmulation) [self playGame:self];
      }];
     
     [alert runModal];
