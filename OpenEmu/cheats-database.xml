@@ -38,6 +38,26 @@
 			</cheats>
 		</game>
 	</system>
+	<system id="openemu.system.n64">
+		<game title="Super Mario 64 (USA)">
+			<hashes>
+				<hash md5="165a9558b7539507e73e7afecffb200c" />
+				<hash md5="20b854b239203baf6c961b850a4a51a2" />
+			</hashes>
+			<cheats>
+				<cheat code="A032D58C0001" type="GameShark" description="Level Select" />
+				<cheat code="8033B21D0064" type="GameShark" description="Infinite Lives" />
+				<cheat code="8033B21E0008" type="GameShark" description="Infinite Energy and Breath" />
+				<cheat code="A032D5980001" type="GameShark" description="Debug Mode On" />
+				<cheat code="A032D5980000" type="GameShark" description="Debug Mode Off" />
+				<cheat code="8033B1770001" type="GameShark" description="Mario No Hat" />
+				<cheat code="8033B1770015" type="GameShark" description="Metal Mario" />
+				<cheat code="8033B1770019" type="GameShark" description="Flying Mario" />
+				<cheat code="D134B89E0860+8134B89C8019+D134B89E0860+8134B89E51AC" type="GameShark" description="Play as Mips (Rabbit)" />
+				<cheat code="D134B89E0860+8134B89C8019+D134B89E0860+8134B89E4E28" type="GameShark" description="Play as Yoshi" />
+			</cheats>
+		</game>
+	</system>
 	<system id="openemu.system.nes">
 		<game title="Bad Dudes (USA)">
 			<hashes>
