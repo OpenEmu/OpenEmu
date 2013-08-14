@@ -38,6 +38,19 @@
 			</cheats>
 		</game>
 	</system>
+	<system id="openemu.system.gg">
+		<game title="Sonic The Hedgehog - Triple Trouble (USA, Europe)">
+			<hashes>
+				<hash md5="f0f7e4dfe2908f0030e64fd9ed843422" />
+			</hashes>
+			<cheats>
+				<cheat code="00D1-4009" type="Action Replay" description="Infinite Lives" />
+				<cheat code="00D1-5998" type="Action Replay" description="Infinite Rings" />
+				<cheat code="00D1-5D00" type="Action Replay" description="Infinite Time" />
+				<cheat code="00D3-C280" type="Action Replay" description="Invincible" />
+			</cheats>
+		</game>
+	</system>
 	<system id="openemu.system.n64">
 		<game title="Super Mario 64 (USA)">
 			<hashes>
@@ -136,6 +149,28 @@
 				<cheat code="ACZT-CACA" type="Game Genie" description="Need 0 chaos emeralds to become Super Sonic (Still need 50 rings)" />
                 <cheat code="FFFE21:0032" type="Action Replay" description="Always have 50 rings" />
                 <cheat code="FFB02B:0002" type="Action Replay" description="Invincibility" />
+			</cheats>
+		</game>
+	</system>
+	<system id="openemu.system.sms">
+		<game title="Alex Kidd in Miracle World (USA, Europe)">
+			<hashes>
+				<hash md5="3d9a8d5c2d6d3f8ff63a8f7c77ffa983" />
+				<hash md5="f43e74ffec58ddf62f0b8667d31f22c0" />
+			</hashes>
+			<cheats>
+				<cheat code="00C0-2502" type="Action Replay" description="Infinite Lives" />
+				<cheat code="00C0-30CC" type="Action Replay" description="Infinite Money" />
+				<cheat code="00C0-5407" type="Action Replay" description="Start Level With Motor Bike" />
+				<cheat code="00C0-5101" type="Action Replay" description="Start Level With Speed Boat" />
+				<cheat code="00C0-4D01" type="Action Replay" description="Power Bracelet" />
+				<cheat code="00C0-4901" type="Action Replay" description="Cane of Flight" />
+				<cheat code="00C0-4A01" type="Action Replay" description="Teleport Powder" />
+				<cheat code="00C0-4601" type="Action Replay" description="Magic Capsule A (Attack)" />
+				<cheat code="00C0-4701" type="Action Replay" description="Magic Capsule B (Barrier)" />
+				<cheat code="00C0-4E01" type="Action Replay" description="Hirotta Stone" />
+				<cheat code="00C0-4C01" type="Action Replay" description="Letter To Nibana" />
+				<cheat code="00C0-4B01" type="Action Replay" description="Moonstone Medallion" />
 			</cheats>
 		</game>
 	</system>
