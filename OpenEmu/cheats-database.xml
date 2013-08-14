@@ -58,6 +58,21 @@
 			</cheats>
 		</game>
 	</system>
+	<system id="openemu.system.nds">
+		<game title="New Super Mario Bros. (USA)">
+			<hashes>
+				<hash md5="a2ddba012e5c3c2096d0be57cc273be5" />
+			</hashes>
+			<cheats>
+				<cheat code="1208B3340000027C+2208B32400000003" type="Action Replay" description="Always Giant Mario" />
+				<cheat code="2208B32C00000002" type="Action Replay" description="Always Have Fire Flower Power Up" />
+				<cheat code="22085A5000000001" type="Action Replay" description="Play As Luigi" />
+				<cheat code="2208B36400000063" type="Action Replay" description="Infinite Lives" />
+				<cheat code="1208B3500000027C" type="Action Replay" description="Invincible" />
+				<cheat code="02088C3C00430043+02088C4000430043+02088C4400430043+02088C4800430043" type="Action Replay" description="Open All Worlds" />
+			</cheats>
+		</game>
+	</system>
 	<system id="openemu.system.nes">
 		<game title="Bad Dudes (USA)">
 			<hashes>
