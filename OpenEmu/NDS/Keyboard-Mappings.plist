@@ -30,5 +30,7 @@
 	<integer>53</integer>
 	<key>OENDSButtonLid</key>
 	<integer>42</integer>
+	<key>OENDSButtonDisplayMode</key>
+	<integer>30</integer>
 </dict>
 </plist>

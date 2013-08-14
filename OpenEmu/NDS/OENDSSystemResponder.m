@@ -39,7 +39,15 @@
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
-    [[self client] didPushNDSButton:(OENDSButton)[aKey key] forPlayer:[aKey player]];
+    OENDSButton button = (OENDSButton)[aKey key];
+    
+    switch(button)
+    {
+        case OENDSButtonDisplayMode : [[self client] toggleDisplayMode]; break;
+        default :
+            [[self client] didPushNDSButton:button forPlayer:[aKey player]];
+            break;
+    }
 }
 
 - (void)releaseEmulatorKey:(OESystemKey *)aKey

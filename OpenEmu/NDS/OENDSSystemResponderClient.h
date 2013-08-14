@@ -45,6 +45,7 @@ typedef enum _OENDSButton
     OENDSButtonMicrophone,
 	OENDSButtonLid,
 	OENDSButtonDebug,
+    OENDSButtonDisplayMode,
 	OENDSButtonCount
 } OENDSButton;
 
@@ -54,5 +55,6 @@ typedef enum _OENDSButton
 - (oneway void)didReleaseNDSButton:(OENDSButton)button forPlayer:(NSUInteger)player;
 - (oneway void)didTouchScreenPoint:(OEIntPoint)point;
 - (oneway void)didReleaseTouch;
+- (oneway void)toggleDisplayMode;
 
 @end

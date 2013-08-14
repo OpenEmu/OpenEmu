@@ -38,6 +38,8 @@
 		<string>{0, 0}</string>
 		<key>OENDSButtonDebug</key>
 		<string>{0, 0}</string>
+		<key>OENDSButtonDisplayMode</key>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>
