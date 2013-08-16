@@ -131,12 +131,6 @@
 				<key>OEControlListKeyNameKey</key>
 				<string>OENDSButtonMicrophone</string>
 			</dict>
-			<dict>
-				<key>OEControlListKeyLabelKey</key>
-				<string>Display Mode</string>
-				<key>OEControlListKeyNameKey</key>
-				<string>OENDSButtonDisplayMode</string>
-			</dict>
 		</array>
 	</array>
 	<key>OESystemIcon</key>
@@ -158,7 +152,6 @@
 		<string>OENDSButtonMicrophone</string>
 		<string>OENDSButtonLid</string>
 		<string>OENDSButtonDebug</string>
-		<string>OENDSButtonDisplayMode</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
