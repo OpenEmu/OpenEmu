@@ -81,11 +81,6 @@ typedef enum : NSUInteger
     OEGameViewControllerEmulationStatusTerminating = 3,
 } OEGameViewControllerEmulationStatus;
 
-@interface OEGameViewControllerSaveStateCallback : NSObject
-+ (instancetype)saveStateCallbackWithBlock:(void (^)(BOOL))block;
-@property(copy) void (^callback)(BOOL success);
-@end
-
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
 
@@ -920,12 +915,11 @@ typedef enum : NSUInteger
         }
     }
 
-    [_rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] delegate:
-     [OEGameViewControllerSaveStateCallback saveStateCallbackWithBlock:
-      ^(BOOL success)
-      {
-          [self playGame:self];
-      }]];
+    [_rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] completionHandler:
+     ^(BOOL success, NSError *error)
+     {
+         [self playGame:self];
+     }];
 }
 
 - (IBAction)quickLoad:(id)sender;
@@ -1253,27 +1247,6 @@ typedef enum : NSUInteger
 
 - (void)processFinished:(OETaskWrapper *)aTask withStatus:(NSInteger)statusCode
 {
-}
-
-@end
-
-@implementation OEGameViewControllerSaveStateCallback
-
-+ (instancetype)saveStateCallbackWithBlock:(void (^)(BOOL))block;
-{
-    OEGameViewControllerSaveStateCallback *newInstance = [[OEGameViewControllerSaveStateCallback alloc] init];
-    [newInstance setCallback:block];
-    return newInstance;
-}
-
-- (oneway void)gameCoreHelperDidSaveState:(BOOL)success
-{
-    [self callback](success);
-}
-
-- (oneway void)gameCoreHelperDidLoadState:(BOOL)success
-{
-    [self callback](success);
 }
 
 @end
