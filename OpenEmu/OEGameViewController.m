@@ -908,8 +908,12 @@ typedef enum : NSUInteger
         }
     }
 
-    [_rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] delegate:nil];
-    [self playGame:self];
+    [_rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] delegate:
+     [OEGameViewControllerSaveStateCallback saveStateCallbackWithBlock:
+      ^(BOOL success)
+      {
+          [self playGame:self];
+      }]];
 }
 
 - (IBAction)quickLoad:(id)sender;
