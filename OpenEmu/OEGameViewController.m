@@ -772,6 +772,8 @@ typedef enum : NSUInteger
      {
          if(result == NSAlertDefaultReturn)
              [self saveStateWithName:[alert stringValue] synchronously:NO resumeGame:didPauseEmulation];
+         else
+             if(didPauseEmulation) [self playGame:self];
      }];
     
     [alert runModal];
@@ -918,8 +920,17 @@ typedef enum : NSUInteger
         }
     }
 
+<<<<<<< HEAD
     [_rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] completionHandler:^(BOOL success, NSError *error) { }];
     [self playGame:self];
+=======
+    [_rootProxy loadStateFromFileAtPath:[[state stateFileURL] path] delegate:
+     [OEGameViewControllerSaveStateCallback saveStateCallbackWithBlock:
+      ^(BOOL success)
+      {
+          [self playGame:self];
+      }]];
+>>>>>>> master
 }
 
 - (IBAction)quickLoad:(id)sender;

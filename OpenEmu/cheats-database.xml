@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<systems>
+	<system id="openemu.system.gb">
+		<game title="Pokemon - Crystal Version (USA, Europe)">
+			<hashes>
+				<hash md5="9f2922b235a5eeb78d65594e82ef5dde" />
+				<hash md5="301899b8087289a6436b0a241fbbb474" />
+			</hashes>
+			<cheats>
+				<cheat code="010F4ED8+01424FD8+013F50D8" type="GameShark" description="Infinite money" />
+			</cheats>
+		</game>
+		<game title="Super Mario Bros. Deluxe (USA, Europe)">
+			<hashes>
+				<hash md5="ec764e03228d212ca794ac0b9df62857" />
+				<hash md5="1fd75c2b798c04acd4b99ad2f1006280" />
+				<hash md5="b5a71128227f5bc953fd55cb0025807f" />
+			</hashes>
+			<cheats>
+				<cheat code="0101CEC1" type="GameShark" description="Always Have Fire Power" />
+			</cheats>
+		</game>
+	</system>
+	<system id="openemu.system.gba">
+		<game title="Super Mario Advance (USA, Europe)">
+			<hashes>
+				<hash md5="ff6b0c48065389b888c7a78731d4b58d" />
+			</hashes>
+			<cheats>
+				<cheat code="42D8DCB716E09D2C" type="Action Replay" description="Max Hearts" />
+				<cheat code="ADF2A0EE94504FB2" type="Action Replay" description="Always Big Mario" />
+				<cheat code="CD93194F089CE0B4" type="GameShark" description="Always Invincible" />
+				<cheat code="029326227E30E217" type="GameShark" description="Infinite Float" />
+				<cheat code="46B6AAC300BA6B6C" type="GameShark" description="Invincible/Walk Thru Enemies" />
+				<cheat code="9005744C362C+034BBC9BD418+F5AC01A7E2B9" type="GameShark" description="Master Code (Must Be On)" />
+				<cheat code="A62B1D67EB2D" type="GameShark" description="Infinite Health" />
+				<cheat code="712E29965C2A+DD96A6BE81CB" type="GameShark" description="Moon Jump" />
+			</cheats>
+		</game>
+	</system>
+	<system id="openemu.system.gg">
+		<game title="Sonic The Hedgehog - Triple Trouble (USA, Europe)">
+			<hashes>
+				<hash md5="f0f7e4dfe2908f0030e64fd9ed843422" />
+			</hashes>
+			<cheats>
+				<cheat code="00D1-4009" type="Action Replay" description="Infinite Lives" />
+				<cheat code="00D1-5998" type="Action Replay" description="Infinite Rings" />
+				<cheat code="00D1-5D00" type="Action Replay" description="Infinite Time" />
+				<cheat code="00D3-C280" type="Action Replay" description="Invincible" />
+			</cheats>
+		</game>
+	</system>
+	<system id="openemu.system.n64">
+		<game title="Super Mario 64 (USA)">
+			<hashes>
+				<hash md5="165a9558b7539507e73e7afecffb200c" />
+				<hash md5="20b854b239203baf6c961b850a4a51a2" />
+			</hashes>
+			<cheats>
+				<cheat code="A032D58C0001" type="GameShark" description="Level Select" />
+				<cheat code="8033B21D0064" type="GameShark" description="Infinite Lives" />
+				<cheat code="8033B21E0008" type="GameShark" description="Infinite Energy and Breath" />
+				<cheat code="A032D5980001" type="GameShark" description="Debug Mode On" />
+				<cheat code="A032D5980000" type="GameShark" description="Debug Mode Off" />
+				<cheat code="8033B1770001" type="GameShark" description="Mario No Hat" />
+				<cheat code="8033B1770015" type="GameShark" description="Metal Mario" />
+				<cheat code="8033B1770019" type="GameShark" description="Flying Mario" />
+				<cheat code="D134B89E0860+8134B89C8019+D134B89E0860+8134B89E51AC" type="GameShark" description="Play as Mips (Rabbit)" />
+				<cheat code="D134B89E0860+8134B89C8019+D134B89E0860+8134B89E4E28" type="GameShark" description="Play as Yoshi" />
+			</cheats>
+		</game>
+	</system>
+	<system id="openemu.system.nds">
+		<game title="New Super Mario Bros. (USA)">
+			<hashes>
+				<hash md5="a2ddba012e5c3c2096d0be57cc273be5" />
+			</hashes>
+			<cheats>
+				<cheat code="1208B3340000027C+2208B32400000003" type="Action Replay" description="Always Giant Mario" />
+				<cheat code="2208B32C00000002" type="Action Replay" description="Always Have Fire Flower Power Up" />
+				<cheat code="22085A5000000001" type="Action Replay" description="Play As Luigi" />
+				<cheat code="2208B36400000063" type="Action Replay" description="Infinite Lives" />
+				<cheat code="1208B3500000027C" type="Action Replay" description="Invincible" />
+				<cheat code="02088C3C00430043+02088C4000430043+02088C4400430043+02088C4800430043" type="Action Replay" description="Open All Worlds" />
+			</cheats>
+		</game>
+	</system>
+	<system id="openemu.system.nes">
+		<game title="Bad Dudes (USA)">
+			<hashes>
+				<hash md5="e5f71b547f6a8c6166c55b1baa7d21c5" />
+			</hashes>
+			<cheats>
+				<cheat code="AVSOYOSZ+ELEAPOZE+AIEAZPAP" type="Game Genie" description="Invincibility" />
+				<cheat code="APEETPEY" type="Game Genie" description="Infinite health" />
+				<cheat code="SZOEAOSE" type="Game Genie" description="Infinite health (alt)" />
+				<cheat code="SZNKASVK" type="Game Genie" description="Infinite lives" />
+				<cheat code="GXOKASVK" type="Game Genie" description="Infinite continues" />
+				<cheat code="SGVYOUVK" type="Game Genie" description="Infinite time" />
+				<cheat code="AAUPIOGI" type="Game Genie" description="Hit anywhere" />
+				<cheat code="AOUSNGEY" type="Game Genie" description="One hit kills" />
+				<cheat code="PENXYZLA" type="Game Genie" description="Start with 1 life and 1 continue" />
+				<cheat code="TENXYZLA" type="Game Genie" description="Start with double lives and continues" />
+				<cheat code="PENXYZLE" type="Game Genie" description="Start with triple lives and continues" />
+				<cheat code="PESAIYIE" type="Game Genie" description="Gain double usual energy from drinks" />
+				<cheat code="02A2:01" type="Action Replay" description="Have the Nunchaku" />
+				<cheat code="02A2:02" type="Action Replay" description="Have the Knife" />
+				<cheat code="032F:00+0344:00" type="Action Replay" description="One hit kills on bosses" />
+			</cheats>
+		</game>
+	</system>
+    <system id="openemu.system.snes">
+		<game title="Super Mario World (USA)">
+			<hashes>
+				<hash md5="cdd3c8c37322978ca8669b34bc89c804" />
+                <hash md5="dbe1f3c8f3a0b2db52b7d59417891117" />
+			</hashes>
+			<cheats>
+                <cheat code="CBB7-6D67+D4B7-6DA7+3CB7-6FD7+69B7-6F07" type="Game Genie" description="Start as Cape Mario" />
+				<cheat code="CBB7-6D67+D7B7-6DA7+3CB7-6FD7+69B7-6F07" type="Game Genie" description="Start as Fire Mario" />
+				<cheat code="14B4-6F07" type="Game Genie" description="Start with 99 lives" />
+				<cheat code="7E1497:FF" type="Action Replay" description="Invincibility" />
+                <cheat code="7E1490:FF" type="Action Replay" description="Invincibility (Starman)" />
+                <cheat code="7E0019:03" type="Action Replay" description="Always Fiery Mario" />
+				<cheat code="7E0DC1:01" type="Action Replay" description="Always have Yoshi" />
+			</cheats>
+		</game>
+	</system>
+    <system id="openemu.system.sg">
+		<game title="Sonic The Hedgehog 2 (World)">
+			<hashes>
+				<hash md5="8e2c29a1e65111fe2078359e685e7943" />
+			</hashes>
+			<cheats>
+				<cheat code="NN8A-AADN" type="Game Genie" description="Start with 99 lives (player 1)" />
+				<cheat code="ACZT-CACN" type="Game Genie" description="Need 0 chaos emeralds to become Super Sonic (Still need 50 rings)" />
+                <cheat code="FFFE21:0032" type="Action Replay" description="Always have 50 rings" />
+                <cheat code="FFB02B:0002" type="Action Replay" description="Invincibility" />
+			</cheats>
+		</game>
+        <game title="Sonic The Hedgehog 2 (World) (Rev A)">
+			<hashes>
+				<hash md5="9feeb724052c39982d432a7851c98d3e" />
+			</hashes>
+			<cheats>
+                <cheat code="BWZA-CA9Y+ACZT-DZ2E+RGZT-C6TL+ARZT-DP2R+AWZT-CR2Y" type="Game Genie" description="Jump in midair (Sonic)" />
+				<cheat code="NN8A-AAD2" type="Game Genie" description="Start with 99 lives (player 1)" />
+				<cheat code="ACZT-CACA" type="Game Genie" description="Need 0 chaos emeralds to become Super Sonic (Still need 50 rings)" />
+                <cheat code="FFFE21:0032" type="Action Replay" description="Always have 50 rings" />
+                <cheat code="FFB02B:0002" type="Action Replay" description="Invincibility" />
+			</cheats>
+		</game>
+	</system>
+	<system id="openemu.system.sms">
+		<game title="Alex Kidd in Miracle World (USA, Europe)">
+			<hashes>
+				<hash md5="3d9a8d5c2d6d3f8ff63a8f7c77ffa983" />
+				<hash md5="f43e74ffec58ddf62f0b8667d31f22c0" />
+			</hashes>
+			<cheats>
+				<cheat code="00C0-2502" type="Action Replay" description="Infinite Lives" />
+				<cheat code="00C0-30CC" type="Action Replay" description="Infinite Money" />
+				<cheat code="00C0-5407" type="Action Replay" description="Start Level With Motor Bike" />
+				<cheat code="00C0-5101" type="Action Replay" description="Start Level With Speed Boat" />
+				<cheat code="00C0-4D01" type="Action Replay" description="Power Bracelet" />
+				<cheat code="00C0-4901" type="Action Replay" description="Cane of Flight" />
+				<cheat code="00C0-4A01" type="Action Replay" description="Teleport Powder" />
+				<cheat code="00C0-4601" type="Action Replay" description="Magic Capsule A (Attack)" />
+				<cheat code="00C0-4701" type="Action Replay" description="Magic Capsule B (Barrier)" />
+				<cheat code="00C0-4E01" type="Action Replay" description="Hirotta Stone" />
+				<cheat code="00C0-4C01" type="Action Replay" description="Letter To Nibana" />
+				<cheat code="00C0-4B01" type="Action Replay" description="Moonstone Medallion" />
+			</cheats>
+		</game>
+	</system>
+</systems>

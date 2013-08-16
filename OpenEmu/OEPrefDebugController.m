@@ -243,6 +243,7 @@
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setCanChooseDirectories:YES];
     [openPanel setCanChooseFiles:NO];
+    [openPanel setCanCreateDirectories:YES];
     
     if([openPanel runModal] == NSAlertDefaultReturn)
         [[NSUserDefaults standardUserDefaults] setObject:[[openPanel URL] absoluteString] forKey:OESaveStateFolderURLKey];

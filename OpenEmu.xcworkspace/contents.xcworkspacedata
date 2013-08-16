@@ -53,9 +53,6 @@
       location = "group:TwoMbit/TwoMbit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:VirtualC64/VirtualC64.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:VisualBoyAdvance/VisualBoyAdvance.xcodeproj">
    </FileRef>
 </Workspace>

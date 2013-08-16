@@ -202,6 +202,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         [self setImporter:romImporter];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];
+        [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:OESaveStateFolderURLKey options:0 context:nil];
     }
 
     return self;
@@ -211,6 +212,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSLog(@"destroying LibraryDatabase");
     [self OE_removeStateWatcher];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:OESaveStateFolderURLKey];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -233,6 +235,21 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSLog(@"Did save Database");
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    if(object==defaults && [keyPath isEqualToString:OESaveStateFolderURLKey])
+    {
+        NSString *path = [[self stateFolderURL] path];
+
+        [self OE_removeStateWatcher];
+        [defaults removeObjectForKey:OESaveStateLastFSEventIDKey];
+        
+        [self OE_setupStateWatcher];
+        [[self saveStateWatcher] callbackBlock](path, kFSEventStreamEventFlagItemIsDir);
+    }
+}
 #pragma mark - Administration
 
 - (void)disableSystemsWithoutPlugin

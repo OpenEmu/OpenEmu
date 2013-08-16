@@ -713,6 +713,7 @@
 		94A4E993179F9D0400AD8C7D /* OEDBVideoMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E991179F9D0400AD8C7D /* OEDBVideoMedia.m */; };
 		94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */; };
 		94A4E998179FB98100AD8C7D /* media.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A4E997179FB98100AD8C7D /* media.png */; };
+		94AE2C1017B07D450018DFBB /* cheats-database.xml in Resources */ = {isa = PBXBuildFile; fileRef = 94AE2C0F17B07D450018DFBB /* cheats-database.xml */; };
 		94BB7A1A1776AF54002B68CF /* Arcade.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */; };
 		94BE9E51171683E000AB08E6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94BE9E57171683E000AB08E6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E55171683E000AB08E6 /* InfoPlist.strings */; };
@@ -2211,6 +2212,7 @@
 		94A4E994179FAB9E00AD8C7D /* OEMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMediaViewController.h; sourceTree = "<group>"; };
 		94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMediaViewController.m; sourceTree = "<group>"; };
 		94A4E997179FB98100AD8C7D /* media.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = media.png; sourceTree = "<group>"; };
+		94AE2C0F17B07D450018DFBB /* cheats-database.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "cheats-database.xml"; sourceTree = "<group>"; };
 		94BE9E50171683E000AB08E6 /* ColecoVision.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColecoVision.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94BE9E54171683E000AB08E6 /* ColecoVision-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ColecoVision-Info.plist"; sourceTree = "<group>"; };
 		94BE9E56171683E000AB08E6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3292,6 +3294,7 @@
 				C344D5F6174C45050011579E /* Shaders */,
 				1B885E070F085EA500770B6D /* CRT Shaders */,
 				1B224004100BD61D00F42067 /* Filter Quartz Compositions */,
+				94AE2C0F17B07D450018DFBB /* cheats-database.xml */,
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
 				82C9C96C0F080BD30071460B /* dsa_pub.pem */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
@@ -6623,6 +6626,7 @@
 				94A4E998179FB98100AD8C7D /* media.png in Resources */,
 				83338C2217A281C7007E32E9 /* secret.mp3 in Resources */,
 				830013AE17A7C5A000EB128A /* controls_triangle.png in Resources */,
+				94AE2C1017B07D450018DFBB /* cheats-database.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

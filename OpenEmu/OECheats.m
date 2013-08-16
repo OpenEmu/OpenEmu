@@ -74,12 +74,9 @@
     
     */
     
-    // TODO: decide proper place to read database from
+    // TODO: read cheats-database from server instead of bundling with the app for e-z updating
     NSString *cheatsDatabaseFilename = @"cheats-database.xml";
-    NSString *appSupportPath = [NSString pathWithComponents:@[
-                                [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
-                                @"OpenEmu", @"BIOS"]];
-    NSString *cheatsDatabasePath = [appSupportPath stringByAppendingPathComponent:cheatsDatabaseFilename];
+    NSString *cheatsDatabasePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:cheatsDatabaseFilename];
     
     NSData *xml = [NSData dataWithContentsOfFile:cheatsDatabasePath];
     NSXMLParser *parser = [[NSXMLParser alloc] initWithData:xml];
