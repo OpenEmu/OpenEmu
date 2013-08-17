@@ -27,7 +27,8 @@
 #import <Foundation/Foundation.h>
 
 @protocol OEMainWindowContentController <NSObject>
+
 @optional
-- (void)setCachedSnapshot:(NSBitmapImageRep*)snapshot;
-- (NSBitmapImageRep*)cachedSnapshot;
+@property(strong) NSImage *cachedSnapshot;
+
 @end

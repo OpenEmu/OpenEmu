@@ -28,41 +28,36 @@
 #import "NSView+FadeImage.h"
 
 @implementation NSView (FadeImage)
+
 - (void)willMakeFadeImage
 {
-    for (NSView* aView in [self subviews]) {
+    for(NSView *aView in [self subviews])
         [aView willMakeFadeImage]; 
-    }
 }
 
 - (void)didMakeFadeImage
 {
-    for (NSView* aView in [self subviews]) {
+    for(NSView *aView in [self subviews])
         [aView didMakeFadeImage];
-    }
 }
 
-- (NSBitmapImageRep*)fadeImage
+- (NSImage *)fadeImage
 {
     [self willMakeFadeImage];
     
     NSWindow *window = [self window];
     NSRect boundsOnWindow = [self convertRect:[self bounds] toView:nil];
     NSRect captureRect = [window convertRectToScreen:boundsOnWindow];
-    captureRect = NSIntersectionRect([window screen].frame, captureRect);
-    captureRect.origin.y = [[window screen] frame].size.height - captureRect.origin.y - captureRect.size.height;   
-    
-    // stupid screenshot
-    CGImageRef fuckYouJustFuckingDoWhatITellYou = CGWindowListCreateImage(NSRectToCGRect(captureRect),
-                                                                          kCGWindowListOptionIncludingWindow,
-                                                                          (CGWindowID)[[self window] windowNumber],
-                                                                          kCGWindowImageBoundsIgnoreFraming);
+    captureRect = NSIntersectionRect([[window screen] frame], captureRect);
+    captureRect.origin.y = [[[NSScreen screens] objectAtIndex:0] frame].size.height - captureRect.origin.y - captureRect.size.height;
+
+    CGImageRef screenshot = CGWindowListCreateImage(captureRect, kCGWindowListOptionIncludingWindow, (CGWindowID)[[self window] windowNumber], kCGWindowImageBoundsIgnoreFraming);
     
     [self didMakeFadeImage];
     
-    NSBitmapImageRep *cachedImage = [[NSBitmapImageRep alloc] initWithCGImage:fuckYouJustFuckingDoWhatITellYou];
-    
-    CGImageRelease(fuckYouJustFuckingDoWhatITellYou);
-    return cachedImage;
+    NSImage *image = [[NSImage alloc] initWithCGImage:screenshot size:NSZeroSize];
+    CGImageRelease(screenshot);
+    return image;
 }
+
 @end

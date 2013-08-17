@@ -30,15 +30,14 @@
 #import "OEDistantViewController.h"
 
 @interface OEDistantView ()
-@property (strong) NSBitmapImageRep *distantViewImage;
+@property(strong) NSImage *distantViewImage;
 @end
 
 @implementation OEDistantView
-@synthesize distantViewImage, controller;
 
 - (void)willMakeFadeImage
 {
-    NSBitmapImageRep *rep = [[[[self controller] distantWindow] contentView] fadeImage];
+    NSImage *rep = [[[[self controller] distantWindow] contentView] fadeImage];
     [self setDistantViewImage:rep];
     [self display];
 }
@@ -46,7 +45,7 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
    if([self distantViewImage])
-       [[self distantViewImage] drawInRect:[self bounds]];
+       [[self distantViewImage] drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
     else
         [super drawRect:dirtyRect];
 }

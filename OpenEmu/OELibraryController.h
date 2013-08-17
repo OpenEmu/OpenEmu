@@ -41,7 +41,7 @@
 @interface OELibraryController : NSViewController <OEMainWindowContentController, OELibrarySplitViewDelegate>
 - (void)layoutToolbar;
 
-@property(unsafe_unretained) id <OELibraryControllerDelegate> delegate;
+@property(unsafe_unretained) id<OELibraryControllerDelegate> delegate;
 
 #pragma mark -
 #pragma mark Toolbar Actions
@@ -87,10 +87,8 @@
 @property (strong) IBOutlet NSSearchField *toolbarSearchField;
 @property (strong) IBOutlet NSSlider      *toolbarSlider;
 
-@property (strong) NSBitmapImageRep *cachedSnapshot;
+- (void)showViewController:(NSViewController<OELibrarySubviewController> *)nextViewController;
 
-
-- (void)showViewController:(NSViewController <OELibrarySubviewController>*)nextViewController;
 @end
 
 @class OEDBGame, OEDBRom, OEDBSaveState;

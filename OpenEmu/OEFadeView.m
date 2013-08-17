@@ -24,29 +24,24 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import "OEFadeView.h"
 #import <QuartzCore/QuartzCore.h>
 
 #import "NSColor+OEAdditions.h"
+
 @interface OEFadeView ()
-@property (strong) void(^callback)();
+@property(copy) void(^callback)(void);
 @end
+
 @implementation OEFadeView
-@synthesize callback;
+
 - (id)initWithFrame:(NSRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self) {        
-        [self setWantsLayer:YES];
+    if((self = [super initWithFrame:frame]))
+    {
         [self setLayer:[[CALayer alloc] init]];
-        [[self layer] setFrame:[self bounds]];
-        
-        CATransition *transition = [CATransition animation];
-        [transition setType:kCATransitionFade];
-        [transition setDelegate:self];
-        
-        [[self layer] setActions:[NSDictionary dictionaryWithObject:transition forKey:@"sublayers"]];
+        [self setWantsLayer:YES];
+        [[self layer] setBackgroundColor:[[NSColor blackColor] CGColor]];
     }
     
     return self;
@@ -54,45 +49,34 @@
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
-    if(flag && self.callback){
+    if(flag && self.callback)
+    {
         self.callback();
         self.callback = nil;
-        
-        [[self layer] setActions:[NSDictionary dictionary]];
     }
 }
 
-- (void)fadeFromImage:(NSBitmapImageRep*)start toImage:(NSBitmapImageRep*)end callback:(void(^)(void))block;
+- (void)fadeFromImage:(NSImage *)start toImage:(NSImage *)end callback:(void(^)(void))block;
 {
     self.callback = block;
     
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
-    CALayer *layer = [self layer];
-    CALayer *startLayer = [CALayer layer];
-    [startLayer setFrame:layer.bounds];
-    
-    NSImage *image = [[NSImage alloc] init];
-    [image addRepresentation:start];
-    startLayer.contents = image;
-    
-    [layer addSublayer:startLayer];
+
+    [[self layer] setContents:start];
+    [[self layer] setContentsGravity:kCAGravityResizeAspectFill];
+
     [CATransaction commit];
     
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.001 * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        CALayer *endLayer = [CALayer layer];
-        if(end)
-        {
-            NSImage *image = [[NSImage alloc] init];
-            [image addRepresentation:end];
-            [endLayer setContents:image];
-        }
-        else 
-            [endLayer setBackgroundColor:[[NSColor blackColor] CGColor]];
-        
-        [endLayer setFrame:layer.bounds];
-        [layer replaceSublayer:startLayer with:endLayer];
+    dispatch_after(popTime, dispatch_get_main_queue(), ^{
+        CATransition *transition = [CATransition animation];
+        [transition setType:kCATransitionFade];
+        [transition setRemovedOnCompletion:YES];
+        [transition setDelegate:self];
+
+        [[self layer] addAnimation:transition forKey:@"contents"];
+        [[self layer] setContents:end];
     });
 }
 
