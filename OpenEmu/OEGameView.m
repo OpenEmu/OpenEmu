@@ -110,7 +110,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 @property QCRenderer        *filterRenderer;
 @property CGColorSpaceRef    rgbColorSpace;
 @property NSTimeInterval     filterTime;
-@property NSTimeInterval     filterStartTime;
+@property NSDate            *filterStartTime;
 @property BOOL               filterHasOutputMousePositionKeys;
 
 - (void)OE_renderToTexture:(GLuint)renderTarget usingTextureCoords:(const GLint *)texCoords inCGLContext:(CGLContextObj)cgl_ctx;
@@ -476,14 +476,12 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 {
     // FIXME: Why not using the timestamps passed by parameters ?
     // rendering time for QC filters..
-    _filterTime = [NSDate timeIntervalSinceReferenceDate];
-
     if(_filterStartTime == 0)
     {
-        _filterStartTime = _filterTime;
-        _filterTime = 0;
+        _filterStartTime = [NSDate date];
     }
-    else _filterTime -= _filterStartTime;
+
+    _filterTime = [[NSDate date] timeIntervalSinceDate:_filterStartTime];
 
     _gameFrameCount = _filterTime * _gameFrameInterval;
 
@@ -590,7 +588,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 {
     // enable vertex program, bind parameters
     cgGLBindProgram([shader vertexProgram]);
-    cgGLSetParameter2f([shader vertexVideoSize], textureSize.width, textureSize.height);
+    cgGLSetParameter2f([shader vertexVideoSize], _gameScreenSize.width, _gameScreenSize.height);
     cgGLSetParameter2f([shader vertexTextureSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader vertexOutputSize], outputSize.width, outputSize.height);
     cgGLSetParameter1f([shader vertexFrameCount], [shader frameCountMod] ? _gameFrameCount % [shader frameCountMod] : _gameFrameCount);
@@ -624,7 +622,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 
     // enable fragment program, bind parameters
     cgGLBindProgram([shader fragmentProgram]);
-    cgGLSetParameter2f([shader fragmentVideoSize], textureSize.width, textureSize.height);
+    cgGLSetParameter2f([shader fragmentVideoSize], _gameScreenSize.width, _gameScreenSize.height);
     cgGLSetParameter2f([shader fragmentTextureSize], textureSize.width, textureSize.height);
     cgGLSetParameter2f([shader fragmentOutputSize], outputSize.width, outputSize.height);
     cgGLSetParameter1f([shader fragmentFrameCount], [shader frameCountMod] ? _gameFrameCount % [shader frameCountMod] : _gameFrameCount);
