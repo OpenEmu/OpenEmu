@@ -215,7 +215,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     ^(NSView *viewToReplace)
     {
         [[controller view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [[controller view] setFrame:[placeHolderView frame]];
+        [[controller view] setFrame:[placeHolderView bounds]];
 
         if (viewToReplace)
             [placeHolderView replaceSubview:viewToReplace with:[controller view]];
@@ -233,7 +233,8 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 
     if(shouldAnimate)
     {
-        NSBitmapImageRep *currentState = [[self placeholderView] fadeImage], *newState = nil;
+        NSImage *currentState = [[self placeholderView] fadeImage];
+        NSImage *newState = nil;
         if([_currentContentController respondsToSelector:@selector(setCachedSnapshot:)])
             [(id <OEMainWindowContentController>)_currentContentController setCachedSnapshot:currentState];
 
@@ -249,8 +250,9 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
         if([controller respondsToSelector:@selector(cachedSnapshot)])
             newState = [(id <OEMainWindowContentController>)controller cachedSnapshot];
 
-        [fadeView fadeFromImage:currentState toImage:newState callback:^{
-            replaceController(fadeView);
+        [fadeView fadeFromImage:currentState toImage:newState callback:
+         ^{
+             replaceController(fadeView);
          }];
     }
     else

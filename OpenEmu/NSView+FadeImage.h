@@ -28,6 +28,6 @@
 
 @interface NSView (FadeImage)
 - (void)willMakeFadeImage;
-- (NSBitmapImageRep*)fadeImage;
+- (NSImage *)fadeImage;
 - (void)didMakeFadeImage;
 @end

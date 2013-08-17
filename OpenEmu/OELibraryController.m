@@ -56,26 +56,18 @@ static const CGFloat _OEToolbarHeight = 44;
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
 @property NSMutableDictionary *subviewControllers;
-- (NSViewController <OELibrarySubviewController>*)viewControllerWithClassName:(NSString*)className;
+- (NSViewController<OELibrarySubviewController> *)viewControllerWithClassName:(NSString *)className;
 @end
 
 @implementation OELibraryController
-@synthesize database;
-@synthesize currentViewController;
-@synthesize sidebarController, mainSplitView, mainContentPlaceholderView;
-@synthesize toolbarFlowViewButton, toolbarGridViewButton, toolbarListViewButton;
-@synthesize toolbarSearchField, toolbarSidebarButton, toolbarAddToSidebarButton, toolbarSlider;
-@synthesize cachedSnapshot;
-@synthesize delegate;
-@synthesize subviewControllers;
+@synthesize cachedSnapshot = _cachedSnapshot;
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark -
-#pragma mark NSViewController stuff
+#pragma mark - NSViewController stuff
 - (NSString *)nibName
 {
     return @"Library";
@@ -94,7 +86,9 @@ static const CGFloat _OEToolbarHeight = 44;
     // setup sidebar controller
     OESidebarController *sidebarCtrl = [self sidebarController];    
     [sidebarCtrl setDatabase:[self database]];
-    
+
+    [[self view] setPostsFrameChangedNotifications:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:[self view]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:OESidebarSelectionDidChangeNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:sidebarCtrl];
     
@@ -105,20 +99,25 @@ static const CGFloat _OEToolbarHeight = 44;
     [splitView setDelegate:self];
 
     // setup hotkeys
-    [toolbarSidebarButton setToolTip:NSLocalizedString(@"Toggle Sidebar", @"Tooltip")];
-    [toolbarSidebarButton setToolTipStyle:OEToolTipStyleDefault];
+    [_toolbarSidebarButton setToolTip:NSLocalizedString(@"Toggle Sidebar", @"Tooltip")];
+    [_toolbarSidebarButton setToolTipStyle:OEToolTipStyleDefault];
 
-    [toolbarGridViewButton setToolTip:NSLocalizedString(@"Switch To Grid View", @"Tooltip")];
-    [toolbarGridViewButton setToolTipStyle:OEToolTipStyleDefault];
+    [_toolbarGridViewButton setToolTip:NSLocalizedString(@"Switch To Grid View", @"Tooltip")];
+    [_toolbarGridViewButton setToolTipStyle:OEToolTipStyleDefault];
 
-    [toolbarFlowViewButton setToolTip:NSLocalizedString(@"Switch To Flow View", @"Tooltip")];
-    [toolbarFlowViewButton setToolTipStyle:OEToolTipStyleDefault];
+    [_toolbarFlowViewButton setToolTip:NSLocalizedString(@"Switch To Flow View", @"Tooltip")];
+    [_toolbarFlowViewButton setToolTipStyle:OEToolTipStyleDefault];
 
-    [toolbarListViewButton setToolTip:NSLocalizedString(@"Switch To List View", @"Tooltip")];
-    [toolbarListViewButton setToolTipStyle:OEToolTipStyleDefault];
+    [_toolbarListViewButton setToolTip:NSLocalizedString(@"Switch To List View", @"Tooltip")];
+    [_toolbarListViewButton setToolTipStyle:OEToolTipStyleDefault];
 
-    [toolbarAddToSidebarButton setToolTip:NSLocalizedString(@"New Collection", @"Tooltip")];
-    [toolbarAddToSidebarButton setToolTipStyle:OEToolTipStyleDefault];
+    [_toolbarAddToSidebarButton setToolTip:NSLocalizedString(@"New Collection", @"Tooltip")];
+    [_toolbarAddToSidebarButton setToolTipStyle:OEToolTipStyleDefault];
+}
+
+- (void)viewFrameDidChange:(NSNotification *)notification
+{
+    NSLog(@"frame did change: %@", NSStringFromRect([[self view] frame]));
 }
 
 - (void)viewDidAppear
@@ -144,8 +143,8 @@ static const CGFloat _OEToolbarHeight = 44;
     [toolbarItemContainer setAutoresizingMask:NSViewWidthSizable];
 }
 
-#pragma mark -
-#pragma mark Toolbar
+#pragma mark - Toolbar
+
 - (IBAction)toggleSidebar:(id)sender
 {
     [[self mainSplitView] toggleSidebar];
@@ -192,7 +191,8 @@ static const CGFloat _OEToolbarHeight = 44;
     [[self sidebarController] addCollectionAction:sender];
 }
 
-#pragma mark FileMenu Actions
+#pragma mark - FileMenu Actions
+
 - (IBAction)newCollection:(id)sender
 {
     [[self database] addNewCollection:nil];
@@ -218,13 +218,16 @@ static const CGFloat _OEToolbarHeight = 44;
 {
     NSLog(@"Edit smart collection: ");
 }
-#pragma mark Edit Menu
+
+#pragma mark - Edit Menu
+
 - (IBAction)find:(id)sender
 {
-	[[[self view] window] makeFirstResponder:toolbarSearchField];
+	[[[self view] window] makeFirstResponder:_toolbarSearchField];
 }
-#pragma mark -
-#pragma mark Menu Items
+
+#pragma mark - Menu Items
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
     if([menuItem action] == @selector(newCollectionFolder:)) return NO;
@@ -250,11 +253,11 @@ static const CGFloat _OEToolbarHeight = 44;
     else return YES;
     
     [menuItem setState:[button state]];
-     return [button isEnabled];
+    return [button isEnabled];
 }
 
-#pragma mark -
-#pragma mark Import
+#pragma mark - Import
+
 - (IBAction)addToLibrary:(id)sender
 {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
@@ -279,6 +282,7 @@ static const CGFloat _OEToolbarHeight = 44;
 }
 
 #pragma mark -
+
 - (IBAction)startGame:(id)sender
 {
     NSMutableArray *gamesToStart = [NSMutableArray new];
@@ -309,9 +313,9 @@ static const CGFloat _OEToolbarHeight = 44;
         [[self delegate] libraryController:self didSelectSaveState:saveState];
 }
 
-#pragma mark -
-#pragma mark Sidebar Helpers
-- (void)showViewController:(NSViewController <OELibrarySubviewController>*)nextViewController
+#pragma mark - Sidebar Helpers
+
+- (void)showViewController:(NSViewController<OELibrarySubviewController> *)nextViewController
 {
     NSViewController <OELibrarySubviewController> *oldViewController = [self currentViewController];
     if(nextViewController == oldViewController) return;
@@ -378,7 +382,7 @@ static const CGFloat _OEToolbarHeight = 44;
     [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesSetupPaneNotificationName object:nil userInfo:userInfo];
 }
 
-- (void)OE_storeState:(id)state forSidebarItemWithID:(NSString*)itemID
+- (void)OE_storeState:(id)state forSidebarItemWithID:(NSString *)itemID
 {
     if(!itemID || !state) return;
     
@@ -391,7 +395,7 @@ static const CGFloat _OEToolbarHeight = 44;
     [standardUserDefaults synchronize];
 }
 
-- (id)OE_storedStateForSidebarItemWithID:(NSString*)itemID
+- (id)OE_storedStateForSidebarItemWithID:(NSString *)itemID
 {
     if(!itemID) return nil;
     
@@ -400,7 +404,6 @@ static const CGFloat _OEToolbarHeight = 44;
    
     return [libraryStates objectForKey:itemID];
 }
-
 
 #pragma mark - OELibrarySplitViewDelegate
 
@@ -414,27 +417,29 @@ static const CGFloat _OEToolbarHeight = 44;
     [self layoutToolbar];
 }
 
-#pragma mark -
-#pragma mark Private
+#pragma mark - Private
+
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag
 {
     [NSApp setPresentationOptions:(fsFlag ? NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideToolbar : NSApplicationPresentationDefault)];
 }
 
-- (NSViewController <OELibrarySubviewController>*)viewControllerWithClassName:(NSString*)className
+- (NSViewController<OELibrarySubviewController> *)viewControllerWithClassName:(NSString *)className
 {
-    if(![subviewControllers valueForKey:className])
+    if(![_subviewControllers valueForKey:className])
     {
         Class viewControllerClass = NSClassFromString(className);
         if(viewControllerClass)
         {
             NSViewController <OELibrarySubviewController>*viewController = [[viewControllerClass alloc] init];
-            [subviewControllers setObject:viewController forKey:className];
+            [_subviewControllers setObject:viewController forKey:className];
         }
     }
-    return [subviewControllers valueForKey:className];
+    return [_subviewControllers valueForKey:className];
 }
+
 #pragma mark -
+
 - (void)layoutToolbar
 {
     CGFloat splitterPosition = [[self mainSplitView] splitterPosition];
@@ -450,5 +455,5 @@ static const CGFloat _OEToolbarHeight = 44;
 
     [toolbarItemContainer setFrame:toolbarItemContainerFrame];
 }
-@end
 
+@end

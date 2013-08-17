@@ -24,8 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import <Cocoa/Cocoa.h>
+
 @interface OEFadeView : NSView
-- (void)fadeFromImage:(NSBitmapImageRep*)start toImage:(NSBitmapImageRep*)end callback:(void(^)(void))block;
+- (void)fadeFromImage:(NSImage *)start toImage:(NSImage *)end callback:(void(^)(void))block;
 @end

@@ -28,5 +28,5 @@
 #import "OEBackgroundColorView.h"
 @class OEDistantViewController;
 @interface OEDistantView : OEBackgroundColorView
-@property (assign) OEDistantViewController* controller;
+@property(assign) OEDistantViewController *controller;
 @end
