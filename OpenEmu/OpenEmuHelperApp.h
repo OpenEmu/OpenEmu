@@ -123,7 +123,6 @@ enum _OEHelperAppErrorCodes
 - (void)setupGameCore;
 - (void)updateGameTexture;
 
-//- (void)drawIntoIOSurface;
 - (void)beginDrawToIOSurface;
 - (void)drawGameTexture;
 - (void)endDrawToIOSurface;
