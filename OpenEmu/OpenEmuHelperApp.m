@@ -431,9 +431,6 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
     glPopAttrib();
     glPopClientAttrib();
-
-    // flush to make sure IOSurface updates are seen in parent app.
-    if(!rendersToOpenGL) glFlushRenderAPPLE();
 }
 
 - (void)drawGameTexture
@@ -479,6 +476,9 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
     glDisableClientState(GL_VERTEX_ARRAY);
+
+    // flush to make sure IOSurface updates are seen in parent app.
+    glFlushRenderAPPLE();
 }
 
 - (void)updateScreenSize
