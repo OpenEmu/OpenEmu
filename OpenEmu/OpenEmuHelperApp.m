@@ -822,6 +822,12 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 - (void)willExecute
 {
+    if([_gameCore rendersToOpenGL])
+        [self beginDrawToIOSurface];
+}
+
+- (void)didExecute
+{
     if(![_gameCore rendersToOpenGL])
     {
         [self updateGameTexture];
@@ -830,12 +836,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
         [self drawGameTexture];
     }
-    else
-        [self beginDrawToIOSurface];
-}
-
-- (void)didExecute
-{
+    
     [self endDrawToIOSurface];
 
     if(!_hasStartedAudio)
