@@ -26,6 +26,9 @@
       location = "group:GenesisPlus/GenesisPlus.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Higan/Higan.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:UME/MAME.xcodeproj">
    </FileRef>
    <FileRef
