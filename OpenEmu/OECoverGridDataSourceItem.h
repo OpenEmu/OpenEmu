@@ -36,20 +36,4 @@
 - (NSString *)imageTitle;
 - (NSString *)imageSubtitle;
 
-<<<<<<< HEAD
-- (NSInteger)gridStatus;
-
-- (void)setGridRating:(NSUInteger)newRating;
-- (NSUInteger)gridRating;
-
-- (NSImage *)gridImage;
-- (NSImage *)gridImageWithSize:(NSSize)size;
-- (NSURL *)gridImageURLWithSize:(NSSize)aSize;
-- (BOOL)hasImage;
-- (NSSize)actualGridImageSizeforSize:(NSSize)aSize;
-- (void)setGridImage:(NSImage *)gridImage;
-
-- (OECoverGridViewCellIndicationType)gridIndicationType;
-=======
->>>>>>> Started moving grid view over to IKImageBrowserView
 @end

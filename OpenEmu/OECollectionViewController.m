@@ -189,9 +189,42 @@ static NSArray *OE_defaultSortDescriptors;
     [_imageCache setTotalCostLimit:maxImagesToCache];
     
     // Set up GridView
+    [gridView setCellSize:NSMakeSize(168, 193)];
+    [gridView setIntercellSpacing:NSMakeSize(22, 29)];
+    [gridView setCellsStyleMask:IKCellsStyleTitled | IKCellsStyleOutlined];
+        //[gridView setMinimumColumnSpacing:22.0];
+    //[gridView setRowSpacing:29.0];
     [gridView setDelegate:self];
+    //[gridView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, NSPasteboardTypePNG, NSPasteboardTypeTIFF, nil]];
     [gridView setDataSource:self];
+    //[gridView setConstrainsToOriginalSize:YES];
+    [gridView setValue:[NSColor blackColor] forKey:IKImageBrowserCellsOutlineColorKey];
+    [gridView setAnimates:YES];
+    //[gridView setContentResizingMask:NSViewHeightSizable];
 
+    NSMutableParagraphStyle *paraphStyle = [[NSMutableParagraphStyle alloc] init];
+	[paraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+	[paraphStyle setAlignment:NSCenterTextAlignment];
+
+    NSFont *titleFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:12];
+
+    NSShadow *shadow = [[NSShadow alloc] init];
+    [shadow setShadowColor:[NSColor blackColor]];
+    [shadow setShadowBlurRadius:1.0];
+    [shadow setShadowOffset:NSMakeSize(0.0, -1.0)];
+
+
+	NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+	[attributes setObject:titleFont forKey:NSFontAttributeName];
+	[attributes setObject:paraphStyle forKey:NSParagraphStyleAttributeName];
+	[attributes setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
+    [attributes setObject:shadow forKey:NSShadowAttributeName];
+	[gridView setValue:attributes forKey:IKImageBrowserCellsTitleAttributesKey];
+    [gridView setValue:attributes forKey:IKImageBrowserCellsHighlightedTitleAttributesKey];
+
+    //OECoverGridForegroundLayer *foregroundLayer = [[OECoverGridForegroundLayer alloc] init];
+    //[gridView setForegroundLayer:foregroundLayer];
+    
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
     [sizeSlider setContinuous:YES];
@@ -592,6 +625,17 @@ static NSArray *OE_defaultSortDescriptors;
     }
 }
 
+- (void)selectionChangedInGridView:(OEGridView *)view
+{
+    [gamesController setSelectionIndexes:[aBrowser selectionIndexes]];
+
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEDebugCollectionView] && [[[self gamesController] selectedObjects] count])
+    {
+        [[OECollectionDebugWindowController sharedController] setRepresentedObject:[[[self gamesController] selectedObjects] objectAtIndex:0]];
+        [[[OECollectionDebugWindowController sharedController] window] makeKeyAndOrderFront:self];
+    }
+}
+
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser removeItemsAtIndexes:(NSIndexSet *)indexes
 {
     [self deleteSelectedGames:aBrowser];
@@ -645,6 +689,11 @@ static NSArray *OE_defaultSortDescriptors;
     return [[gamesController arrangedObjects] count];
 }
 
+- (NSUInteger)numberOfItemsInImageBrowser:(IKImageBrowserView *)aBrowser
+{
+    return [[gamesController arrangedObjects] count];
+}
+
 - (id)imageBrowser:(IKImageBrowserView *)aBrowser itemAtIndex:(NSUInteger)index
 {
     return [[gamesController arrangedObjects] objectAtIndex:index];
@@ -686,8 +735,40 @@ static NSArray *OE_defaultSortDescriptors;
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
 
-- (NSMenu *)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasRightClickedAtIndex:(NSUInteger)index withEvent:(NSEvent *)event
+{
+    NSMenu *menu = [self OE_menuForItemsAtIndexes:[aBrowser selectionIndexes]];
+    if(menu)
+    {
+        OEMenuStyle     style      = ([[NSUserDefaults standardUserDefaults] boolForKey:OEMenuOptionsStyleKey] ? OEMenuStyleLight : OEMenuStyleDark);
+        IKImageBrowserCell *itemCell   = [aBrowser cellForItemAtIndex:index];
+
+        NSRect          hitRect             = NSInsetRect([itemCell imageFrame], 5, 5);
+        //NSRect          hitRectOnView       = [itemCell convertRect:hitRect toLayer:aBrowser.layer];
+        int major, minor;
+        GetSystemVersion(&major, &minor, NULL);
+        if (major == 10 && minor < 8) hitRect.origin.y = aBrowser.bounds.size.height - hitRect.origin.y - hitRect.size.height;
+        NSRect          hitRectOnWindow     = [aBrowser convertRect:hitRect toView:nil];
+        NSRect          visibleRectOnWindow = [aBrowser convertRect:[aBrowser visibleRect] toView:nil];
+        NSRect          visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
+
+        // we enhance the calculated rect to get a visible gap between the item and the menu
+        NSRect enhancedVisibleItemRect = NSInsetRect(visibleItemRect, -3, -3);
+
+        const NSRect  targetRect = [[aBrowser window] convertRectToScreen:enhancedVisibleItemRect];
+        NSDictionary *options    = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithUnsignedInteger:style], OEMenuOptionsStyleKey,
+                                    [NSNumber numberWithUnsignedInteger:OEMinXEdge], OEMenuOptionsArrowEdgeKey,
+                                    [NSValue valueWithRect:targetRect], OEMenuOptionsScreenRectKey,
+                                    nil];
+
+        // Display the menu
+        [[aBrowser window] makeFirstResponder:self];
+        [OEMenu openMenu:menu withEvent:event forView:aBrowser options:options];
+    }
+}
+
+- (NSMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     NSMenu *menu = [self OE_menuForItemsAtIndexes:[aBrowser selectionIndexes]];
     if(menu)
@@ -746,6 +827,12 @@ static NSArray *OE_defaultSortDescriptors;
 #pragma mark GridView Interaction
 
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index
+{
+    [[self libraryController] startGame:self];
+}
+
+/*
+- (void)gridView:(OEGridView *)view doubleClickedCellForItemAtIndex:(NSUInteger)index
 {
     [[self libraryController] startGame:self];
 }

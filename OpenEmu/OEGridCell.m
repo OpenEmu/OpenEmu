@@ -13,24 +13,19 @@
 
 //NSString * const OECoverGridViewGlossDisabledKey = @"OECoverGridViewGlossDisabledKey";
 
-static const CGFloat OEGridCellTitleHeight                      = 16.0;        // Height of the title view
-static const CGFloat OEGridCellImageTitleSpacing                = 17.0;        // Space between the image and the title
-static const CGFloat OEGridCellSubtitleHeight                   = 11.0;        // Subtitle height
-static const CGFloat OEGridCellSubtitleWidth                    = 56.0;        // Subtitle's width
-static const CGFloat OEGridCellGlossWidthToHeightRatio          = 0.6442;      // Gloss image's width to height ratio
-static const CGFloat OEGridCellMissingArtworkWidthToHeightRatio = 1.365385;    // Missing artwork's height to width ratio
+static const CGFloat OECoverGridViewCellTitleHeight                      = 16.0;        // Height of the title view
+static const CGFloat OECoverGridViewCellImageTitleSpacing                = 17.0;        // Space between the image and the title
+static const CGFloat OECoverGridViewCellSubtitleHeight                   = 11.0;        // Subtitle height
+static const CGFloat OECoverGridViewCellSubtitleWidth                    = 56.0;        // Subtitle's width
+static const CGFloat OECoverGridViewCellGlossWidthToHeightRatio          = 0.6442;      // Gloss image's width to height ratio
+static const CGFloat OECoverGridViewCellMissingArtworkWidthToHeightRatio = 1.365385;    // Missing artwork's height to width ratio
 
-static const CGFloat OEGridCellImageContainerLeft   = 13.0;
-static const CGFloat OEGridCellImageContainerTop    = 7.0;
-static const CGFloat OEGridCellImageContainerRight  = 13.0;
-static const CGFloat OEGridCellImageContainerBottom = OEGridCellTitleHeight + OEGridCellImageTitleSpacing + OEGridCellSubtitleHeight;
+static const CGFloat OECoverGridViewCellImageContainerLeft   = 13.0;
+static const CGFloat OECoverGridViewCellImageContainerTop    = 7.0;
+static const CGFloat OECoverGridViewCellImageContainerRight  = 13.0;
+static const CGFloat OECoverGridViewCellImageContainerBottom = OECoverGridViewCellTitleHeight + OECoverGridViewCellImageTitleSpacing + OECoverGridViewCellSubtitleHeight;
 
 __strong static OEThemeImage *selectorRingImage = nil;
-
-@interface OEGridCell ()
-@property NSImage *glossImage;
-@property NSImage *selectorImage;
-@end
 
 @implementation OEGridCell
 
@@ -49,104 +44,65 @@ __strong static OEThemeImage *selectorRingImage = nil;
     return self;
 }
 
-- (NSRect)imageContainerFrame
+- (NSRect)imageFrame
 {
-    NSRect frame = [super imageContainerFrame];
+    NSRect frame = [super imageFrame];
+    NSRect container = [self imageContainerFrame];
 
-    frame.origin.x += OEGridCellImageContainerLeft;
-    frame.origin.y = self.frame.origin.y + OEGridCellImageContainerBottom + 20;
-    frame.size.width -= OEGridCellImageContainerLeft + OEGridCellImageContainerRight;
-    frame.size.height -= OEGridCellImageContainerTop + OEGridCellImageContainerBottom;
+    float aspectRatio = frame.size.width / frame.size.height;
+    frame.size.width = container.size.width;
+    frame.size.height = frame.size.width / aspectRatio;
 
     return frame;
 }
 
+- (NSRect)imageContainerFrame
+{
+    NSRect container = [super frame];
+
+    container.origin.x += OECoverGridViewCellImageContainerLeft;
+    container.origin.y += OECoverGridViewCellImageContainerBottom;
+    container.size.width -= OECoverGridViewCellImageContainerLeft + OECoverGridViewCellImageContainerRight;
+    container.size.height -= OECoverGridViewCellImageContainerTop + OECoverGridViewCellImageContainerBottom;
+
+    return container;
+    //return NSIntegralRect(container);
+}
+///*
 - (NSRect)titleFrame
 {
     NSRect frame;
+    NSRect imageContainerFrame = [self imageContainerFrame];
 
-    frame.size.width = self.frame.size.width;
-    frame.size.height = OEGridCellTitleHeight;
     frame.origin.x = self.frame.origin.x;
-    frame.origin.y = self.frame.origin.y + OEGridCellSubtitleHeight + 20;
+    frame.origin.y = imageContainerFrame.origin.y - OECoverGridViewCellImageTitleSpacing;
+    frame.size.width = self.frame.size.width;
+    frame.size.height = OECoverGridViewCellTitleHeight;
 
     return frame;
 }
+//*/
 
 - (NSRect)selectionFrame
 {
     return [self imageFrame];
 }
 
-- (NSImageAlignment)imageAlignment
-{
-    return NSImageAlignBottom;
-}
-
 - (CALayer *)layerForType:(NSString *)type
 {
-
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSLog(@"frame: %@", NSStringFromRect([self frame]));
-        NSLog(@"image frame: %@", NSStringFromRect([self imageFrame]));
-        NSLog(@"image container frame: %@", NSStringFromRect([self imageContainerFrame]));
-        NSLog(@"title frame: %@", NSStringFromRect([self titleFrame]));
-    });
-
-	//retrieve some useful rects
-	NSRect frame = NSIntegralRect([self frame]);
-	NSRect imageFrame = NSIntegralRect([self imageFrame]);
-    NSRect imageContainer = NSIntegralRect([self imageContainerFrame]);
-    NSRect titleFrame = NSIntegralRect([self titleFrame]);
+	//retrieve some usefull rects
+	NSRect frame = [self frame];
+	NSRect imageFrame = [self imageFrame];
 	NSRect relativeImageFrame = NSMakeRect(imageFrame.origin.x - frame.origin.x, imageFrame.origin.y - frame.origin.y, imageFrame.size.width, imageFrame.size.height);
-    NSRect relativeContainerFrame = NSMakeRect(imageContainer.origin.x - frame.origin.x, imageContainer.origin.y - frame.origin.y, imageContainer.size.width, imageContainer.size.height);
-    NSRect relativeTitleFrame = NSMakeRect(titleFrame.origin.x - frame.origin.x, titleFrame.origin.y - frame.origin.y, titleFrame.size.width, titleFrame.size.height);
 
-    /*
-    CALayer *layer = [CALayer layer];
-    [layer setFrame:frame];
-    [layer setBackgroundColor:CGColorCreateGenericRGB(1.0, 0.0, 0.0, 1.0)];
-
-    CALayer *imageContainerLayer = [CALayer layer];
-    [imageContainerLayer setFrame:relativeContainerFrame];
-    [imageContainerLayer setBackgroundColor:CGColorCreateGenericRGB(0.0, 1.0, 0.0, 1.0)];
-
-    CALayer *imageLayer = [CALayer layer];
-    [imageLayer setFrame:relativeImageFrame];
-    [imageLayer setBackgroundColor:CGColorCreateGenericRGB(0.0, 0.0, 1.0, 1.0)];
-
-    CALayer *titleLayer = [CALayer layer];
-    [titleLayer setFrame:relativeTitleFrame];
-    [titleLayer setBackgroundColor:CGColorCreateGenericRGB(0.0, 0.0, 0.0, 1.0)];
-
-    [layer addSublayer:imageContainerLayer];
-    [layer addSublayer:imageLayer];
-    [layer addSublayer:titleLayer];
-
-    return layer;
-     */
-    ///*
-	// place holder layer
+	/* place holder layer */
 	if(type == IKImageBrowserCellPlaceHolderLayer)
     {
-        CALayer *layer = [CALayer layer];
-
-        CALayer *missingArtworkLayer = [CALayer layer];
-        [missingArtworkLayer setFrame:relativeContainerFrame];
-        [missingArtworkLayer setContents:[self OE_missingArtworkImageWithSize:imageContainer.size]];
-        [layer addSublayer:missingArtworkLayer];
-
-        //add a glossy overlay
-		CALayer *glossyLayer = [CALayer layer];
-		glossyLayer.frame = NSInsetRect(relativeImageFrame, 0, 0);
-        [glossyLayer setContents:[self OE_glossImageWithSize:imageContainer.size]];
-		[layer addSublayer:glossyLayer];
-
-        return layer;
+        // TODO: set place holder layer
+		return nil;
 	}
 
-    // foreground layer
+    /* foreground layer */
 	if(type == IKImageBrowserCellForegroundLayer)
     {
 		//no foreground layer on place holders
@@ -159,29 +115,29 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
 		//add a glossy overlay
 		CALayer *glossyLayer = [CALayer layer];
-		glossyLayer.frame = NSInsetRect(relativeImageFrame, 0, 0);
+		glossyLayer.frame = *(CGRect*) &relativeImageFrame;
         [glossyLayer setContents:[self OE_glossImageWithSize:imageFrame.size]];
 		[layer addSublayer:glossyLayer];
 
+        ///*
         if([self isSelected])
         {
             CGRect selectionFrame = CGRectInset(relativeImageFrame, -6.0, -6.0);
             CALayer *selectionLayer = [CALayer layer];
             selectionLayer.frame = *(CGRect*) &selectionFrame;
-            selectionLayer.edgeAntialiasingMask = 0;
             [selectionLayer setContents:[self OE_selectorImageWithSize:selectionFrame.size]];
             [layer addSublayer:selectionLayer];
 
-            // TODO: fix animation
             CATransition *transition = [[CATransition alloc] init];
             [transition setType:kCATransitionFade];
-            [selectionLayer addAnimation:transition forKey:@"dealloc"];
+            [selectionLayer addAnimation:transition forKey:@"hidden"];
             
         }
+         //*/
 
 		return layer;
 	}
-     
+///*
     if(type == IKImageBrowserCellSelectionLayer)
     {
 		//create a selection layer
@@ -189,8 +145,10 @@ __strong static OEThemeImage *selectorRingImage = nil;
         return layer;
 
     }
+//*/
 
-    // background layer
+    /* background layer */
+        ///*
 	if(type == IKImageBrowserCellBackgroundLayer)
     {
         if([self cellState] != IKImageStateReady)
@@ -216,13 +174,13 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
         return layer;
 	}
-    return nil;
     //*/
+    return nil;
 }
 
 - (NSImage *)OE_standardImageNamed:(NSString *)name withSize:(NSSize)size
 {
-    NSImage *image = [[[self imageBrowserView] backgroundLayer] valueForKey:name];
+    NSImage *image = [[[self imageBrowserView] layer] valueForKey:name];
     if(image && NSEqualSizes([image size], size)) return image;
 
     return nil;
@@ -230,7 +188,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
 - (void)OE_setStandardImage:(NSImage *)image named:(NSString *)name
 {
-    [[[self imageBrowserView] backgroundLayer] setValue:image forKey:name];
+    [[[self imageBrowserView] layer] setValue:image forKey:name];
 }
 
 - (NSImage *)OE_glossImageWithSize:(NSSize)size
@@ -239,10 +197,8 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
     if(NSEqualSizes(size, NSZeroSize)) return nil;
 
-    //NSImage *glossImage = [self OE_standardImageNamed:@"OEGridCellGlossImage" withSize:size];
-    if(_glossImage && NSEqualSizes([_glossImage size], size)) return _glossImage;
-
-    NSLog(@"Creating gloss image with size %@", NSStringFromSize(size));
+    NSImage *glossImage = [self OE_standardImageNamed:@"OECoverGridViewCellGlossImage" withSize:size];
+    if(glossImage) return glossImage;
 
     BOOL(^drawingBlock)(NSRect) = ^BOOL(NSRect dstRect)
     {
@@ -250,7 +206,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
         // Draw gloss image fit proportionally within the cell
         NSImage *boxGlossImage = [NSImage imageNamed:@"box_gloss"];
-        CGRect   boxGlossFrame = CGRectMake(0.0, 0.0, size.width, floor(size.width * OEGridCellGlossWidthToHeightRatio));
+        CGRect   boxGlossFrame = CGRectMake(0.0, 0.0, size.width, floor(size.width * OECoverGridViewCellGlossWidthToHeightRatio));
         boxGlossFrame.origin.y = size.height - CGRectGetHeight(boxGlossFrame);
         [boxGlossImage drawInRect:boxGlossFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
 
@@ -261,10 +217,6 @@ __strong static OEThemeImage *selectorRingImage = nil;
         [[NSColor colorWithCalibratedWhite:1.0 alpha:0.4] setStroke];
         [[NSBezierPath bezierPathWithRect:NSOffsetRect(bounds, 0.0, -1.0)] stroke];
 
-        [[NSColor blackColor] setStroke];
-        NSBezierPath *path = [NSBezierPath bezierPathWithRect:bounds];
-        [path stroke];
-
         [currentContext restoreGraphicsState];
 
         return YES;
@@ -274,29 +226,29 @@ __strong static OEThemeImage *selectorRingImage = nil;
     GetSystemVersion(&major, &minor, NULL);
     if(major == 10 && minor >= 8)
     {
-        _glossImage = [NSImage imageWithSize:size flipped:NO drawingHandler:drawingBlock];
+        glossImage = [NSImage imageWithSize:size flipped:NO drawingHandler:drawingBlock];
     }
     else
     {
         NSRect dstRect = (NSRect){{0,0}, size};
-        _glossImage = [[NSImage alloc] initWithSize:size];
-        [_glossImage lockFocus];
+        glossImage = [[NSImage alloc] initWithSize:size];
+        [glossImage lockFocus];
 
         drawingBlock(dstRect);
 
-        [_glossImage unlockFocus];
+        [glossImage unlockFocus];
     }
 
-    //[self OE_setStandardImage:_glossImage named:@"OEGridCellGlossImage"];
+    [self OE_setStandardImage:glossImage named:@"OECoverGridViewCellGlossImage"];
 
-    return _glossImage;
+    return glossImage;
 }
 
 - (NSImage *)OE_missingArtworkImageWithSize:(NSSize)size
 {
     if(NSEqualSizes(size, NSZeroSize)) return nil;
 
-    NSImage *missingArtwork = [self OE_standardImageNamed:@"OEGridCellMissingArtworkImage" withSize:size];
+    NSImage *missingArtwork = [self OE_standardImageNamed:@"OECoverGridViewCellMissingArtworkImage" withSize:size];
     if(missingArtwork) return missingArtwork;
 
     missingArtwork = [[NSImage alloc] initWithSize:size];
@@ -321,7 +273,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
     [missingArtwork unlockFocus];
 
     // Cache the image for later use
-    [self OE_setStandardImage:missingArtwork named:@"OEGridCellMissingArtworkImage"];
+    [self OE_setStandardImage:missingArtwork named:@"OECoverGridViewCellMissingArtworkImage"];
 
     return missingArtwork;
 }
@@ -330,12 +282,10 @@ __strong static OEThemeImage *selectorRingImage = nil;
 {
     if(NSEqualSizes(size, NSZeroSize)) return nil;
 
-    BOOL active = [[[self imageBrowserView] window] isKeyWindow];
-    NSString *imageKey       = [NSString stringWithFormat:@"OEGridCellSelectionImage(%d)", active];
+    BOOL active = [self isSelected];
+    NSString *imageKey       = [NSString stringWithFormat:@"OECoverGridViewCellSelectionImage(%d)", active];
     NSImage  *selectionImage = [self OE_standardImageNamed:imageKey withSize:size];
     if(selectionImage) return selectionImage;
-
-    NSLog(@"Creating selector image with size %@", NSStringFromSize(size));
 
     BOOL(^drawingBlock)(NSRect) = ^BOOL(NSRect dstRect)
     {
