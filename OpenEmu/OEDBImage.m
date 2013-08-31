@@ -149,6 +149,33 @@
     return image;
 }
 
+- (NSURL *)imagePathForSize:(NSSize)size
+{
+    NSSet *thumbnailsSet = [self valueForKey:@"versions"];
+
+    NSSortDescriptor *sortDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
+    NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescr]];
+
+    OEDBImageThumbnail *usableThumbnail = nil;
+    for(OEDBImageThumbnail *obj in thumbnails)
+    {
+        if([[obj valueForKey:@"width"] floatValue] >= size.width ||
+           [[obj valueForKey:@"height"] floatValue] >= size.height)
+        {
+            usableThumbnail = obj;
+            break;
+        }
+    }
+
+    if(usableThumbnail == nil)
+        usableThumbnail = [thumbnails lastObject];
+
+    if(!usableThumbnail) return nil;
+
+    NSURL *url = [[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[usableThumbnail relativePath]];
+    return url;
+}
+
 
 - (NSSize)sizeOfThumbnailForSize:(NSSize)size
 {

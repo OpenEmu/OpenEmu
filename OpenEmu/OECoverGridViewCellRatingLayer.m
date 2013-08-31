@@ -74,9 +74,9 @@ const NSUInteger OECoverGridViewCellRatingViewNumberOfRatings = 6;
 {
     [super setTracking:tracking];
 
-    if(![self superlayer] || ![[self superlayer] isKindOfClass:[OEGridViewCell class]]) return;
+    //if(![self superlayer] || ![[self superlayer] isKindOfClass:[OEGridViewCell class]]) return;
 
-    [(OEGridViewCell *)[self superlayer] setEditing:tracking];
+    //[(OEGridViewCell *)[self superlayer] setEditing:tracking];
 }
 
 - (void)OE_updateStarsWithPoint:(NSPoint)point;
