@@ -30,19 +30,10 @@
 // used for cover grid and cover flow
 @protocol OECoverGridDataSourceItem <NSObject>
 
-- (NSString *)gridTitle;
-- (void)setGridTitle:(NSString *)str;
+- (NSString *)imageUID;
+- (NSString *)imageRepresentationType;
+- (id)imageRepresentation;
+- (NSString *)imageTitle;
+- (NSString *)imageSubtitle;
 
-- (NSInteger)gridStatus;
-
-- (void)setGridRating:(NSUInteger)newRating;
-- (NSUInteger)gridRating;
-
-- (NSImage *)gridImage;
-- (NSImage *)gridImageWithSize:(NSSize)size;
-- (BOOL)hasImage;
-- (NSSize)actualGridImageSizeforSize:(NSSize)aSize;
-- (void)setGridImage:(NSImage *)gridImage;
-
-- (OECoverGridViewCellIndicationType)gridIndicationType;
 @end

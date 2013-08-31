@@ -29,6 +29,6 @@
 #import "OEBlankSlateView.h"
 
 #import "OEGridView.h"
-@interface OEMediaViewController : NSViewController <OELibrarySubviewController, OEGridViewDelegate, OEGridViewDataSource, OEBlankSlateViewDelegate>
+@interface OEMediaViewController : NSViewController <OELibrarySubviewController, OEBlankSlateViewDelegate>
 @property (strong) IBOutlet OEGridView *gridView;
 @end

@@ -465,6 +465,8 @@
 		8C4C808916986697009B8A28 /* OEGLSLShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808816986697009B8A28 /* OEGLSLShader.m */; };
 		8C4C808E16986C87009B8A28 /* OECGShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808D16986C87009B8A28 /* OECGShader.m */; };
 		8CAD37CF16A18C3000AE25F5 /* Cg.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCBC0C8169B323100141631 /* Cg.framework */; };
+		8CBD3A9B17D21BB70022399B /* OEGridBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CBD3A9A17D21BB70022399B /* OEGridBackgroundLayer.m */; };
+		8CBD3AA217D23AA80022399B /* OEGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CBD3AA117D23AA80022399B /* OEGridCell.m */; };
 		8CCBC0C9169B323100141631 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCBC0C8169B323100141631 /* Cg.framework */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
@@ -1897,6 +1899,10 @@
 		8C8AD73516B5DBE20004D97C /* snes_ntsc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snes_ntsc.c; sourceTree = "<group>"; };
 		8C8AD73616B5DBE20004D97C /* snes_ntsc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = snes_ntsc.h; sourceTree = "<group>"; };
 		8C8AD73716B5DBE20004D97C /* snes_ntsc.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = snes_ntsc.txt; sourceTree = "<group>"; };
+		8CBD3A9917D21BB70022399B /* OEGridBackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridBackgroundLayer.h; sourceTree = "<group>"; };
+		8CBD3A9A17D21BB70022399B /* OEGridBackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridBackgroundLayer.m; sourceTree = "<group>"; };
+		8CBD3AA017D23AA80022399B /* OEGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridCell.h; sourceTree = "<group>"; };
+		8CBD3AA117D23AA80022399B /* OEGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridCell.m; sourceTree = "<group>"; };
 		8CCBC0C8169B323100141631 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Cg.framework; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94052EFC172DC1DD00B90DE6 /* controller_nds_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_nds_mask@2x.png"; sourceTree = "<group>"; };
@@ -3481,6 +3487,10 @@
 				53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */,
 				83955CB6165DA9B100572B34 /* OEBackgroundNoisePattern.h */,
 				83955CB7165DA9BC00572B34 /* OEBackgroundNoisePattern.m */,
+				8CBD3A9917D21BB70022399B /* OEGridBackgroundLayer.h */,
+				8CBD3A9A17D21BB70022399B /* OEGridBackgroundLayer.m */,
+				8CBD3AA017D23AA80022399B /* OEGridCell.h */,
+				8CBD3AA117D23AA80022399B /* OEGridCell.m */,
 			);
 			name = "Grid View";
 			sourceTree = "<group>";
@@ -7356,6 +7366,8 @@
 				94A4E993179F9D0400AD8C7D /* OEDBVideoMedia.m in Sources */,
 				94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */,
 				83AB259917A6A432009C80BC /* OEControlsSectionTitleView.m in Sources */,
+				8CBD3A9B17D21BB70022399B /* OEGridBackgroundLayer.m in Sources */,
+				8CBD3AA217D23AA80022399B /* OEGridCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
