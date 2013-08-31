@@ -112,6 +112,7 @@
 #pragma mark - GridView DataSource -
 - (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
 {
+    /*
     OERetrode *retrode = [self representedObject];
     id game = [[retrode games] objectAtIndex:index];
     
@@ -126,6 +127,8 @@
     [item setTitle:[game objectForKey:@"gameTitle"]];
 
     return item;
+     */
+    return nil;
 }
 
 - (NSUInteger)numberOfItemsInGridView:(OEGridView *)gridView

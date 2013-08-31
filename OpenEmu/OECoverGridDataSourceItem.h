@@ -30,9 +30,13 @@
 // used for cover grid and cover flow
 @protocol OECoverGridDataSourceItem <NSObject>
 
-- (NSString *)gridTitle;
-- (void)setGridTitle:(NSString *)str;
+- (NSString *)imageUID;
+- (NSString *)imageRepresentationType;
+- (id)imageRepresentation;
+- (NSString *)imageTitle;
+- (NSString *)imageSubtitle;
 
+<<<<<<< HEAD
 - (NSInteger)gridStatus;
 
 - (void)setGridRating:(NSUInteger)newRating;
@@ -46,4 +50,6 @@
 - (void)setGridImage:(NSImage *)gridImage;
 
 - (OECoverGridViewCellIndicationType)gridIndicationType;
+=======
+>>>>>>> Started moving grid view over to IKImageBrowserView
 @end
