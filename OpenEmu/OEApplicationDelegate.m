@@ -65,6 +65,8 @@
 
 #import "OERetrodeDeviceManager.h"
 
+#import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
+
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -199,6 +201,11 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     }
 
     return NSTerminateNow;
+}
+
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+    [[OEXPCCAgentConfiguration defaultConfiguration] tearDownAgent];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
