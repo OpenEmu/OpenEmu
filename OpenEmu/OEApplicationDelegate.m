@@ -105,6 +105,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                             @"defaultCore.openemu.system.snes" : @"org.openemu.SNES9x",
                                             OEDisplayGameTitle : @YES,
                                           OEBackgroundPauseKey : @YES,
+                                              @"logsHIDEvents" : @NO,
+                                    @"logsHIDEventsNoKeyboard" : @NO,
          }];
 
         [OEControllerDescription class];
