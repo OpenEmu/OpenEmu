@@ -24,6 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "NSDocumentController+OEAdditions.h"
+
 @class OEDeviceManager;
 @class OEMainWindowController;
 

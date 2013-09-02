@@ -9,26 +9,32 @@
 #import "OEXPCGameCoreManager.h"
 #import "OEXPCGameCoreHelper.h"
 #import "OECorePlugin.h"
+#import "OEGameCoreManager_Internal.h"
 #import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
 
-@implementation OEXPCGameCoreManager
+@interface OEXPCGameCoreManager ()
 {
-    NSTask                  *_backgroundProcessTask;
-    NSString                *_processIdentifier;
-    NSPipe                  *_standardOutputPipe;
+    NSTask          *_backgroundProcessTask;
+    NSString        *_processIdentifier;
+    NSPipe          *_standardOutputPipe;
 
-    NSXPCConnection         *_helperConnection;
-    NSXPCConnection         *_gameCoreConnection;
-    id<OEXPCGameCoreHelper>  _gameCoreHelper;
-    id                       _systemClient;
+    NSXPCConnection *_helperConnection;
+    NSXPCConnection *_gameCoreConnection;
+    id               _systemClient;
 }
+
+@property(nonatomic, strong) id<OEXPCGameCoreHelper> gameCoreHelper;
+@end
+
+@implementation OEXPCGameCoreManager
+@dynamic gameCoreHelper;
 
 + (BOOL)canUseXPCGameCoreManager
 {
     return [NSXPCConnection class] != nil;
 }
 
-- (void)loadROMWithCompletionHandler:(void(^)(id<OEGameCoreHelper> helper, id systemClient))completionHandler errorHandler:(void(^)(NSError *error))errorHandler;
+- (void)loadROMWithCompletionHandler:(void(^)(id systemClient, NSError *error))completionHandler;
 {
     _processIdentifier = [NSString stringWithFormat:@"%@-%@", [[[self ROMPath] lastPathComponent] stringByReplacingOccurrencesOfString:@" " withString:@"-"], [[NSUUID UUID] UUIDString]];
     [self _startHelperProcess];
@@ -43,21 +49,24 @@
          [_helperConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEXPCGameCoreHelper)]];
          [_helperConnection resume];
 
-         _gameCoreHelper = [_helperConnection remoteObjectProxyWithErrorHandler:
-                            ^(NSError *error)
-                            {
-                                errorHandler(error);
-                                [self stop];
-                            }];
+         id<OEXPCGameCoreHelper> gameCoreHelper =
+         [_helperConnection remoteObjectProxyWithErrorHandler:
+          ^(NSError *error)
+          {
+              dispatch_async(dispatch_get_main_queue(), ^{
+                  completionHandler(nil, error);
+                  [self stop];
+              });
+          }];
 
-         if(_gameCoreHelper == nil) return;
+         if(gameCoreHelper == nil) return;
 
-         [_gameCoreHelper loadROMAtPath:[self ROMPath] usingCorePluginAtPath:[[self plugin] path] systemPluginPath:[[[self systemController] bundle] bundlePath] completionHandler:
+         [gameCoreHelper loadROMAtPath:[self ROMPath] usingCorePluginAtPath:[[self plugin] path] systemPluginPath:[[[self systemController] bundle] bundlePath] completionHandler:
           ^(NSXPCListenerEndpoint *gameCoreEndpoint, NSError *error)
           {
               if(gameCoreEndpoint == nil)
               {
-                  errorHandler(error);
+                  completionHandler(nil, error);
                   [self stop];
                   return;
               }
@@ -69,15 +78,18 @@
               _systemClient = [_gameCoreConnection remoteObjectProxyWithErrorHandler:
                                ^(NSError *error)
                                {
-                                   errorHandler(error);
-                                   [self stop];
+                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                       completionHandler(nil, error);
+                                       [self stop];
+                                   });
                                }];
 
               NSLog(@"_systemClient: %@", _systemClient);
 
               if(_systemClient == nil) return;
 
-              completionHandler(_gameCoreHelper, _systemClient);
+              [self setGameCoreHelper:gameCoreHelper];
+              completionHandler(_systemClient, nil);
           }];
      }];
 }
@@ -104,9 +116,9 @@
 
 - (void)stop
 {
-    [_gameCoreHelper stopEmulationWithCompletionHandler:
+    [[self gameCoreHelper] stopEmulationWithCompletionHandler:
      ^{
-         _gameCoreHelper     = nil;
+         [self setGameCoreHelper:nil];
          _systemClient       = nil;
 
          [_helperConnection invalidate];
@@ -146,6 +158,69 @@
         // We're finished here
         [self stop];
     }
+}
+
+- (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
+{
+    [[self gameCoreHelper] setupEmulationWithCompletionHandler:
+     ^(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize)
+     {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             handler(surfaceID, screenSize, aspectSize);
+         });
+     }];
+}
+
+- (void)startEmulationWithCompletionHandler:(void(^)(void))handler;
+{
+    [[self gameCoreHelper] startEmulationWithCompletionHandler:
+     ^{
+         dispatch_async(dispatch_get_main_queue(), ^{
+             handler();
+         });
+     }];
+}
+
+- (void)resetEmulationWithCompletionHandler:(void(^)(void))handler;
+{
+    [[self gameCoreHelper] resetEmulationWithCompletionHandler:
+     ^{
+         dispatch_async(dispatch_get_main_queue(), ^{
+             handler();
+         });
+     }];
+}
+
+- (void)stopEmulationWithCompletionHandler:(void(^)(void))handler;
+{
+    [[self gameCoreHelper] stopEmulationWithCompletionHandler:
+     ^{
+         dispatch_async(dispatch_get_main_queue(), ^{
+             handler();
+         });
+     }];
+}
+
+- (void)saveStateToFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL success, NSError *error))block;
+{
+    [[self gameCoreHelper] saveStateToFileAtPath:fileName completionHandler:
+     ^(BOOL success, NSError *error)
+     {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             block(success, error);
+         });
+     }];
+}
+
+- (void)loadStateFromFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL success, NSError *error))block;
+{
+    [[self gameCoreHelper] loadStateFromFileAtPath:fileName completionHandler:
+     ^(BOOL success, NSError *error)
+     {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             block(success, error);
+         });
+     }];
 }
 
 @end

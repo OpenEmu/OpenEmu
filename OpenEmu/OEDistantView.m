@@ -79,4 +79,5 @@
 {
     [self didMakeFadeImage];
 }
+
 @end

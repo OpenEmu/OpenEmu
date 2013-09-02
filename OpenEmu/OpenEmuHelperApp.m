@@ -48,8 +48,10 @@
 
 @implementation OpenEmuHelperApp
 {
+    void (^_startEmulationHandler)(void);
     OEIntSize _previousAspectSize;
     BOOL _hasSlowClientStorage;
+    BOOL _isFirstRun;
 }
 
 #pragma mark -
@@ -83,13 +85,11 @@
     if(![_gameCore rendersToOpenGL])
         [self setupGameTexture];
 
+    _isFirstRun = YES;
     // ensure we set _screenSize corectly from the get go
     [self updateScreenSize];
     [self setupIOSurface];
     [self setupFBO];
-    [self updateAspectSize];
-
-    [self updateScreenSize:_screenSize withIOSurfaceID:_surfaceID];
 }
 
 - (void)setupProcessPollingTimer
@@ -318,8 +318,9 @@
     CGLContextObj cgl_ctx = _glContext;
     CGLSetCurrentContext(cgl_ctx);
 
-    if(!OEIntSizeEqualToSize(screenRect.size, _previousScreenSize))
+    if(_isFirstRun || !OEIntSizeEqualToSize(screenRect.size, _previousScreenSize))
     {
+        _isFirstRun = NO;
         DLog(@"Need a resize!");
         // recreate our surface so its the same size as our screen
         [self destroySurface];
@@ -629,6 +630,15 @@
     // starts the threaded emulator timer
     [_gameCore startEmulation];
 
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(_startEmulationHandler) _startEmulationHandler();
+
+        [self setRunning:YES];
+
+        _startEmulationHandler = nil;
+        DLog(@"finished starting rom");
+    });
+
     CFRunLoopRun();
 
     NSLog(@"Did finish separate thread");
@@ -659,11 +669,12 @@
 
     [self setupGameCore];
 
+    DLog(@"finished setting up rom");
+}
+
+- (void)startEmulation
+{
     [[_gameCoreProxy thread] start];
-
-    [self setRunning:YES];
-
-    DLog(@"finished starting rom");
 }
 
 - (void)stopEmulation
@@ -716,14 +727,20 @@
 
 - (void)setAudioOutputDeviceID:(AudioDeviceID)deviceID
 {
-    NSLog(@"---------- will set output device id to %lu", (unsigned long)deviceID);
+    DLog(@"---------- will set output device id to %lu", (unsigned long)deviceID);
     [_gameAudio setOutputDeviceID:deviceID];
 }
 
-- (void)setupEmulationWithCompletionHandler:(void(^)(void))handler;
+- (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
 {
     [self setupEmulation];
-    if(handler) handler();
+    if(handler) handler(_surfaceID, _screenSize, [self aspectSize]);
+}
+
+- (void)startEmulationWithCompletionHandler:(void(^)(void))handler;
+{
+    _startEmulationHandler = [handler copy];
+    [self startEmulation];
 }
 
 - (void)resetEmulationWithCompletionHandler:(void(^)(void))handler;
@@ -770,11 +787,6 @@
     [[self displayHelper] setAspectSize:newAspectSize withIOSurfaceID:newSurfaceID];
 }
 
-- (void)updateScreenRect:(OEIntRect)newScreenRect;
-{
-    [[self displayHelper] setScreenRect:newScreenRect];
-}
-
 - (void)updateFrameInterval:(NSTimeInterval)newFrameInterval;
 {
     [[self displayHelper] setFrameInterval:newFrameInterval];
@@ -789,16 +801,14 @@
 
 - (void)willExecute
 {
-    if(![_gameCore rendersToOpenGL])
+    if([_gameCore rendersToOpenGL])
+        [self beginDrawToIOSurface];
+    else
     {
         [self updateGameTexture];
-
         [self beginDrawToIOSurface];
-
         [self drawGameTexture];
     }
-    else
-        [self beginDrawToIOSurface];
 }
 
 - (void)didExecute

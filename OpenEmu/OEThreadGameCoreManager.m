@@ -9,28 +9,27 @@
 #import "OEThreadGameCoreManager.h"
 #import "OEThreadProxy.h"
 #import "OpenEmuHelperApp.h"
+#import "OEGameCoreManager_Internal.h"
 #import "OECorePlugin.h"
 
 @implementation OEThreadGameCoreManager
 {
-    NSThread                    *_helperThread;
-    NSTimer                     *_dummyTimer;
+    NSThread         *_helperThread;
+    NSTimer          *_dummyTimer;
 
-    OEThreadProxy               *_helperProxy;
-    OpenEmuHelperApp            *_helper;
+    OEThreadProxy    *_helperProxy;
+    OpenEmuHelperApp *_helper;
 
-    OEThreadProxy               *_displayHelperProxy;
-    OEThreadProxy               *_systemClientProxy;
-    id                           _systemClient;
+    OEThreadProxy    *_displayHelperProxy;
+    OEThreadProxy    *_systemClientProxy;
+    id                _systemClient;
 
-    void(^_completionHandler)(id<OEGameCoreHelper> helper, id systemClient);
-    void(^_errorHandler)(NSError *error);
+    void(^_completionHandler)(id systemClient, NSError *error);
 }
 
-- (void)loadROMWithCompletionHandler:(void(^)(id<OEGameCoreHelper> helper, id systemClient))completionHandler errorHandler:(void(^)(NSError *error))errorHandler;
+- (void)loadROMWithCompletionHandler:(void(^)(id systemClient, NSError *error))completionHandler;
 {
     _completionHandler = [completionHandler copy];
-    _errorHandler = [errorHandler copy];
 
     _helperThread = [[NSThread alloc] initWithTarget:self selector:@selector(_executionThread:) object:nil];
 
@@ -51,9 +50,12 @@
 {
     @autoreleasepool
     {
+        [self setGameCoreHelper:(id<OEGameCoreHelper>)_helperProxy];
         [_helper setDisplayHelper:(id<OEGameCoreDisplayHelper>)_displayHelperProxy];
-        if(![_helper loadROMAtPath:[self ROMPath] withCorePluginAtPath:[[self plugin] path] systemIdentifier:[[self systemController] systemIdentifier]]) {
-            _errorHandler(nil);
+        if(![_helper loadROMAtPath:[self ROMPath] withCorePluginAtPath:[[self plugin] path] systemIdentifier:[[self systemController] systemIdentifier]])
+        {
+            FIXME("Return a proper error object here.");
+            _completionHandler(nil, nil);
             return;
         }
 
@@ -61,7 +63,7 @@
         _systemClientProxy = [OEThreadProxy threadProxyWithTarget:_systemClient thread:_helperThread];
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            _completionHandler((id<OEGameCoreHelper>)_helperProxy, _systemClientProxy);
+            _completionHandler(_systemClientProxy, nil);
         });
 
         _dummyTimer = [NSTimer scheduledTimerWithTimeInterval:1e9 target:self selector:@selector(dummyTimer:) userInfo:nil repeats:YES];

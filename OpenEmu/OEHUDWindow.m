@@ -132,6 +132,12 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)performClose:(id)sender
+{
+    if([[self delegate] respondsToSelector:@selector(windowShouldClose:)] && [[self delegate] windowShouldClose:self])
+        [self close];
+}
+
 #pragma mark - NSWindow overrides
 
 - (void)setDelegate:(id<NSWindowDelegate>)delegate
@@ -541,11 +547,12 @@ static NSImage *frameImage, *frameImageInactive;
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-    if (![self isDragging])
+    if(![self isDragging])
     {
         [[self nextResponder] mouseUp:theEvent];
         return;
     }
+
     [self setDragging:NO];
     [(OEHUDBorderWindow *)[self window] windowDraggingDidEnd];
 }

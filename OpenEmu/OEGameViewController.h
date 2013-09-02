@@ -25,7 +25,9 @@
  */
 
 #import <Cocoa/Cocoa.h>
+
 #import <OpenEmuBase/OpenEmuBase.h>
+#import "OEGameCoreHelper.h"
 
 extern NSString *const OEGameVolumeKey;
 extern NSString *const OEGameDefaultVideoFilterKey;
@@ -37,6 +39,7 @@ extern NSString *const OEForceCorePicker;
 extern NSString *const OEGameViewControllerEmulationWillFinishNotification;
 extern NSString *const OEGameViewControllerEmulationDidFinishNotification;
 extern NSString *const OEGameViewControllerROMKey;
+extern NSString *const OEBackgroundPauseKey;
 
 @class OEDBRom;
 @class OEDBGame;
@@ -53,12 +56,7 @@ extern NSString *const OEGameViewControllerROMKey;
 @protocol OEGameViewControllerDelegate;
 @protocol OEGameIntegralScalingDelegate;
 
-@interface OEGameViewController : NSViewController
-
-- (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin *)core error:(NSError **)outError;
-- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core error:(NSError **)outError;
-
-- (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
+@interface OEGameViewController : NSViewController <OEGameCoreDisplayHelper>
 
 #pragma mark -
 
@@ -68,74 +66,34 @@ extern NSString *const OEGameViewControllerROMKey;
 @property(unsafe_unretained) id<OEGameViewControllerDelegate> delegate;
 @property(unsafe_unretained) id<OEGameIntegralScalingDelegate> integralScalingDelegate;
 
-@property(strong) OEDBRom        *rom;
-@property(weak)   OEGameDocument *document;
+@property(weak) OEGameDocument *document;
+
+- (BOOL)supportsCheats;
+- (NSString *)coreIdentifier;
+- (NSString *)systemIdentifier;
+
+- (NSImage *)takeNativeScreenshot;
+
+- (void)reflectVolume:(float)volume;
+- (void)reflectEmulationPaused:(BOOL)paused;
 
 #pragma mark - HUD Bar Actions
 // switchCore:: expects sender or [sender representedObject] to be an OECorePlugin object and prompts the user for confirmation
-- (void)switchCore:(id)sender;
-- (void)editControls:(id)sender;
 - (void)selectFilter:(id)sender;
-
-#pragma mark - Volume
-- (void)setVolume:(float)volume asDefault:(BOOL)defaultFlag;
-- (void)changeVolume:(id)sender;
-- (IBAction)volumeUp:(id)sender;
-- (IBAction)volumeDown:(id)sender;
-- (void)mute:(id)sender;
-- (void)unmute:(id)sender;
-
-#pragma mark - Controlling Emulation
-- (void)resetEmulation:(id)sender;
-- (BOOL)shouldTerminateEmulation;
-- (void)terminateEmulation;
-- (IBAction)performClose:(id)sender;
-
-- (IBAction)pauseGame:(id)sender;
-- (IBAction)playGame:(id)sender;
-- (void)toggleEmulationPause:(id)sender;
-- (void)setPauseEmulation:(BOOL)pauseEmulation;
-- (BOOL)isEmulationRunning;
-
-#pragma mark - Cheats
-- (IBAction)addCheat:(id)sender;
-- (IBAction)setCheat:(id)sender;
-- (BOOL)cheatSupport;
-- (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
-
-#pragma mark - Saving States
-- (IBAction)saveState:(id)sender;
-- (IBAction)quickSave:(id)sender;
-
-#pragma mark - Loading States
-// loadState: expects sender or [sender representedObject] to be an OEDBSaveState object
-- (IBAction)loadState:(id)sender;
-- (IBAction)quickLoad:(id)sender;
-
-#pragma mark -
-// deleteSaveState: expects sender or [sender representedObject] to be an OEDBSaveState object and prompts the user for confirmation
-- (void)deleteSaveState:(id)sender;
 
 #pragma mark - Taking Screenshots
 - (IBAction)takeScreenshot:(id)sender;
 
 #pragma mark - Info
 - (NSSize)defaultScreenSize;
-- (NSString *)coreIdentifier;
-- (NSString *)systemIdentifier;
-
-#pragma mark -
-#pragma mark Menu Items
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 
 @end
 
 
-#pragma mark -
-#pragma mark Delegate
+#pragma mark - Delegate
+
 @protocol OEGameViewControllerDelegate <NSObject>
 @optional
 - (void)emulationWillFinishForGameViewController:(OEGameViewController *)sender;
 - (void)emulationDidFinishForGameViewController:(OEGameViewController *)sender;
-- (BOOL)gameViewControllerShouldToggleFullScreenMode:(OEGameViewController *)sender;
 @end

@@ -26,10 +26,11 @@
 
 #import "OEGameCoreManager.h"
 #import "OECorePlugin.h"
-#import "OEDOGameCoreHelper.h"
+#import "OEGameCoreHelper.h"
 #import "OpenEmuHelperApp.h"
 #import "OEGameDocument.h"
 #import "OETaskWrapper.h"
+#import "OEGameCoreManager_Internal.h"
 
 #import <OpenEmuBase/OpenEmuBase.h>
 
@@ -58,9 +59,64 @@
     [self stop];
 }
 
-- (void)loadROMWithCompletionHandler:(void(^)(id<OEGameCoreHelper> helper, id systemClient))completionHandler errorHandler:(void(^)(NSError *error))errorHandler
+- (void)loadROMWithCompletionHandler:(void(^)(id systemClient, NSError *error))completionHandler
 {
     [self doesNotImplementSelector:_cmd];
+}
+
+- (void)setVolume:(CGFloat)value;
+{
+    [[self gameCoreHelper] setVolume:value];
+}
+
+- (void)setPauseEmulation:(BOOL)pauseEmulation;
+{
+    [[self gameCoreHelper] setPauseEmulation:pauseEmulation];
+}
+
+- (void)setAudioOutputDeviceID:(AudioDeviceID)deviceID;
+{
+    [[self gameCoreHelper] setAudioOutputDeviceID:deviceID];
+}
+
+- (void)setDrawSquarePixels:(BOOL)drawSquarePixels;
+{
+    [[self gameCoreHelper] setDrawSquarePixels:drawSquarePixels];
+}
+
+- (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
+{
+    [[self gameCoreHelper] setupEmulationWithCompletionHandler:handler];
+}
+
+- (void)startEmulationWithCompletionHandler:(void (^)(void))handler
+{
+    [[self gameCoreHelper] startEmulationWithCompletionHandler:handler];
+}
+
+- (void)resetEmulationWithCompletionHandler:(void(^)(void))handler;
+{
+    [[self gameCoreHelper] resetEmulationWithCompletionHandler:handler];
+}
+
+- (void)stopEmulationWithCompletionHandler:(void(^)(void))handler;
+{
+    [[self gameCoreHelper] stopEmulationWithCompletionHandler:handler];
+}
+
+- (void)saveStateToFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL success, NSError *error))block;
+{
+    [[self gameCoreHelper] saveStateToFileAtPath:fileName completionHandler:block];
+}
+
+- (void)loadStateFromFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL success, NSError *error))block;
+{
+    [[self gameCoreHelper] loadStateFromFileAtPath:fileName completionHandler:block];
+}
+
+- (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
+{
+    [[self gameCoreHelper] setCheat:cheatCode withType:type enabled:enabled];
 }
 
 @end

@@ -31,15 +31,14 @@
 #import <Syphon/Syphon.h>
 #import <OpenEmuBase/OpenEmuBase.h>
 
-#import "OEDOGameCoreHelper.h"
+#import "OEGameCoreHelper.h"
 
-@protocol OEDOGameCoreHelper;
+@protocol OEGameViewDelegate;
 @class OESystemResponder;
 
 @interface OEGameView : NSOpenGLView <OEGameCoreDisplayHelper>
 
-@property(nonatomic) id<OEGameCoreHelper> rootProxy;
-@property(nonatomic) OESystemResponder *gameResponder;
+@property(nonatomic, assign) id<OEGameViewDelegate> delegate;
 
 // QC based filters
 @property(copy) NSDictionary *filters;
@@ -61,4 +60,10 @@
 - (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
 - (void)render;
 
+@end
+
+@protocol OEGameViewDelegate <NSObject>
+- (NSString *)systemIdentifier;
+- (void)gameView:(OEGameView *)gameView setDrawSquarePixels:(BOOL)drawSquarePixels;
+- (void)gameView:(OEGameView *)gameView didReceiveMouseEvent:(OEEvent *)event;
 @end

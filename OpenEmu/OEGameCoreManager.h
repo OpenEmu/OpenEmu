@@ -25,14 +25,15 @@
  */
 
 #import <Cocoa/Cocoa.h>
+
+#import "OEGameCoreHelper.h"
 #import "OETaskWrapper.h"
 #import <OpenEmuBase/OpenEmuBase.h>
 
-@protocol OEGameCoreHelper, OEGameCoreDisplayHelper;
-@protocol OEDOGameCoreHelper;
-@class OECorePlugin, OEGameCoreController, OpenEmuHelperApp;
+@protocol OEGameCoreDisplayHelper;
+@class OECorePlugin, OEGameCoreController;
 
-@interface OEGameCoreManager : NSObject
+@interface OEGameCoreManager : NSObject <OEGameCoreHelper>
 
 - (id)initWithROMPath:(NSString *)romPath corePlugin:(OECorePlugin *)plugin systemController:(OESystemController *)systemController displayHelper:(id<OEGameCoreDisplayHelper>)displayHelper;
 
@@ -43,7 +44,7 @@
 
 #pragma mark - Abstract methods, must be overrode in subclasses
 
-- (void)loadROMWithCompletionHandler:(void(^)(id<OEGameCoreHelper> helper, id systemClient))completionHandler errorHandler:(void(^)(NSError *error))errorHandler;
+- (void)loadROMWithCompletionHandler:(void(^)(id systemClient, NSError *error))completionHandler;
 - (void)stop;
 
 @end

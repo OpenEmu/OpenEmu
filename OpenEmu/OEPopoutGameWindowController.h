@@ -31,7 +31,7 @@
 
 @interface OEPopoutGameWindowController : NSWindowController <NSWindowDelegate, OEGameIntegralScalingDelegate>
 
-@property(getter = isWindowFullScreen) BOOL windowFullScreen;
+@property(getter=isWindowFullScreen) BOOL windowFullScreen;
 
 #pragma mark - Actions
 

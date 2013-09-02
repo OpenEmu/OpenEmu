@@ -68,14 +68,17 @@
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
-
-- (void)OE_performDatabaseSelection;
-
-- (void)OE_loadPlugins;
-- (void)OE_setupHIDSupport;
-- (void)OE_createDatabaseAtURL:(NSURL *)aURL;
+{
+    id _HIDEventsMonitor;
+    id _keyboardEventsMonitor;
+    id _unhandledEventsMonitor;
+}
 
 @property(strong) NSArray *cachedLastPlayedInfo;
+
+@property(nonatomic) BOOL logHIDEvents;
+@property(nonatomic) BOOL logKeyboardEvents;
+
 @end
 
 @implementation OEApplicationDelegate
@@ -98,7 +101,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                                                OEGameVolumeKey : @0.5f,
                        OEGameControlsBarCanDeleteSaveStatesKey : @YES,
                             @"defaultCore.openemu.system.snes" : @"org.openemu.SNES9x",
-                                            OEDisplayGameTitle : @YES
+                                            OEDisplayGameTitle : @YES,
+                                          OEBackgroundPauseKey : @YES,
          }];
 
         [OEControllerDescription class];
@@ -168,8 +172,15 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     if(startInFullscreen != [[mainWindowController window] isFullScreen])
         [[mainWindowController window] toggleFullScreen:self];
 
-    [NSApp bind:@"logHIDEvents" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEvents" options:nil];
-    //[NSApp bind:@"logHIDEventsNoKeyboard" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEventsNoKeyboard" options:nil];
+    [self bind:@"logHIDEvents" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEvents" options:nil];
+    [self bind:@"logKeyboardEvents" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEventsNoKeyboard" options:nil];
+
+    _unhandledEventsMonitor =
+    [[OEDeviceManager sharedDeviceManager] addUnhandledEventMonitorHandler:
+     ^(OEDeviceHandler *handler, OEHIDEvent *event)
+     {
+         [[[self currentGameDocument] gameSystemResponder] handleHIDEvent:event];
+     }];
 
     // Start retrode support
     if([[NSUserDefaults standardUserDefaults] boolForKey:OERetrodeSupportEnabledKey])
@@ -224,13 +235,77 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     }
 }
 
+- (void)setLogHIDEvents:(BOOL)value
+{
+    if(_logHIDEvents == value)
+        return;
+
+    _logHIDEvents = value;
+
+    if(_HIDEventsMonitor != nil)
+    {
+        [[OEDeviceManager sharedDeviceManager] removeMonitor:_HIDEventsMonitor];
+        _HIDEventsMonitor = nil;
+    }
+
+    if(_logHIDEvents)
+    {
+        [[OEDeviceManager sharedDeviceManager] addGlobalEventMonitorHandler:
+         ^ BOOL (OEDeviceHandler *handler, OEHIDEvent *event)
+         {
+             if([event type] != OEHIDEventTypeKeyboard) NSLog(@"%@", event);
+             return YES;
+         }];
+    }
+}
+
+- (void)setLogKeyboardEvents:(BOOL)value
+{
+    if(_logKeyboardEvents == value)
+        return;
+
+    _logKeyboardEvents = value;
+
+    if(_keyboardEventsMonitor != nil)
+    {
+        [[OEDeviceManager sharedDeviceManager] removeMonitor:_keyboardEventsMonitor];
+        _keyboardEventsMonitor = nil;
+    }
+
+    if(_logKeyboardEvents)
+    {
+        [[OEDeviceManager sharedDeviceManager] addGlobalEventMonitorHandler:
+         ^ BOOL (OEDeviceHandler *handler, OEHIDEvent *event)
+         {
+             if([event type] == OEHIDEventTypeKeyboard) NSLog(@"%@", event);
+             return YES;
+         }];
+    }
+}
+
+- (void)OE_setupGameDocument:(OEGameDocument *)document display:(BOOL)displayDocument fullScreen:(BOOL)fullScreen completionHandler:(void (^)(OEGameDocument *document, NSError *error))completionHandler;
+{
+    [self addDocument:document];
+    [document setupGameWithCompletionHandler:
+     ^(BOOL success, NSError *error)
+     {
+         if(success)
+         {
+             if(displayDocument) [document showInSeparateWindowInFullScreen:fullScreen];
+             completionHandler(document, nil);
+         }
+         else completionHandler(nil, error);
+     }];
+}
+
 - (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
 {
     [super openDocumentWithContentsOfURL:url display:NO completionHandler:
      ^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
      {
-         if([document isKindOfClass:[OEGameDocument class]])
-             [mainWindowController openGameDocument:(OEGameDocument *)document];
+         FIXME("Repair this");
+         //if([document isKindOfClass:[OEGameDocument class]])
+         //    [mainWindowController openGameDocument:(OEGameDocument *)document];
 
          if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEImportRequiredError)
          {
@@ -243,8 +318,49 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
      }];
 }
 
-#pragma mark -
-#pragma mark Loading The Database
+- (void)openGameDocumentWithGame:(OEDBGame *)game display:(BOOL)displayDocument fullScreen:(BOOL)fullScreen completionHandler:(void (^)(OEGameDocument *document, NSError *error))completionHandler;
+{
+    NSError *error = nil;
+    OEGameDocument *document = [[OEGameDocument alloc] initWithGame:game core:nil error:&error];
+
+    if(document == nil)
+    {
+        completionHandler(nil, error);
+        return;
+    }
+
+    [self OE_setupGameDocument:document display:displayDocument fullScreen:fullScreen completionHandler:completionHandler];
+}
+
+- (void)openGameDocumentWithRom:(OEDBRom *)rom display:(BOOL)displayDocument fullScreen:(BOOL)fullScreen completionHandler:(void (^)(OEGameDocument *document, NSError *error))completionHandler;
+{
+    NSError *error = nil;
+    OEGameDocument *document = [[OEGameDocument alloc] initWithRom:rom core:nil error:&error];
+
+    if(document == nil)
+    {
+        completionHandler(nil, error);
+        return;
+    }
+
+    [self OE_setupGameDocument:document display:displayDocument fullScreen:fullScreen completionHandler:completionHandler];
+}
+
+- (void)openGameDocumentWithSaveState:(OEDBSaveState *)state display:(BOOL)displayDocument fullScreen:(BOOL)fullScreen completionHandler:(void (^)(OEGameDocument *document, NSError *error))completionHandler;
+{
+    NSError *error = nil;
+    OEGameDocument *document = [[OEGameDocument alloc] initWithSaveState:state error:&error];
+
+    if(document == nil)
+    {
+        completionHandler(nil, error);
+        return;
+    }
+
+    [self OE_setupGameDocument:document display:displayDocument fullScreen:fullScreen completionHandler:completionHandler];
+}
+
+#pragma mark - Loading The Database
 
 - (void)loadDatabase
 {
@@ -406,15 +522,13 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [OEDeviceManager sharedDeviceManager];
 }
 
-#pragma mark -
-#pragma mark Preferences Window
+#pragma mark - Preferences Window
 
 - (IBAction)showPreferencesWindow:(id)sender
 {
 }
 
-#pragma mark -
-#pragma mark About Window
+#pragma mark - About Window
 
 - (void)showAboutWindow:(id)sender
 {
@@ -432,8 +546,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [[self mainWindowController] showWindow:sender];
 }
 
-#pragma mark -
-#pragma mark Updating
+#pragma mark - Updating
 
 - (void)updateBundles:(id)sender
 {
@@ -457,8 +570,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     }
 }
 
-#pragma mark -
-#pragma mark App Info
+#pragma mark - Application Info
 
 - (void)updateInfoPlist
 {
@@ -525,8 +637,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     return [NSAttributedString hyperlinkFromString:@"http://openemu.org" withURL:[NSURL URLWithString:@"http://openemu.org"]];
 }
 
-#pragma mark -
-#pragma mark NSMenu Delegate
+#pragma mark - NSMenu Delegate
 
 - (NSInteger)numberOfItemsInMenu:(NSMenu *)menu
 {

@@ -43,11 +43,11 @@ enum _OEGameDocumentErrorCodes
     OECouldNotLoadROMError         = -10,
 };
 
-@class OEGameViewController;
-@class OEDBRom;
-@class OEDBGame;
-@class OEDBSaveState;
 @class OECorePlugin;
+@class OEDBGame;
+@class OEDBRom;
+@class OEDBSaveState;
+@class OEGameViewController;
 
 @interface OEGameDocument : NSDocument
 
@@ -55,9 +55,58 @@ enum _OEGameDocumentErrorCodes
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core error:(NSError **)outError;
 - (id)initWithSaveState:(OEDBSaveState *)state error:(NSError **)outError;
 
-- (void)showInSeparateWindow:(id)sender fullScreen:(BOOL)fullScreen;
+- (void)setupGameWithCompletionHandler:(void(^)(BOOL success, NSError *error))handler;
+- (void)showInSeparateWindowInFullScreen:(BOOL)fullScreen;
 
+@property(readonly) OEDBRom *rom;
 @property(readonly) NSViewController *viewController;
 @property(readonly) OEGameViewController *gameViewController;
+
+@property(readonly) NSString *coreIdentifier;
+@property(readonly) NSString *systemIdentifier;
+
+@property(strong, nonatomic) NSWindowController *gameWindowController;
+
+@property(readonly) OESystemResponder *gameSystemResponder;
+
+@property(getter=isEmulationPaused) BOOL emulationPaused;
+
+#pragma mark - Actions
+- (IBAction)editControls:(id)sender;
+
+#pragma mark - Volume
+- (IBAction)changeAudioOutputDevice:(id)sender;
+- (IBAction)changeVolume:(id)sender;
+- (IBAction)mute:(id)sender;
+- (IBAction)unmute:(id)sender;
+- (IBAction)volumeUp:(id)sender;
+- (IBAction)volumeDown:(id)sender;
+
+#pragma mark - Controlling Emulation
+- (IBAction)toggleEmulationPaused:(id)sender;
+- (IBAction)resetEmulation:(id)sender;
+- (IBAction)stopEmulation:(id)sender;
+
+#pragma mark - Cheats
+- (IBAction)addCheat:(id)sender;
+- (IBAction)toggleCheat:(id)sender;
+- (BOOL)supportsCheats;
+- (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
+
+#pragma mark - Saving States
+- (IBAction)saveState:(id)sender;
+- (IBAction)quickSave:(id)sender;
+
+#pragma mark - Loading States
+- (IBAction)loadState:(id)sender;
+- (IBAction)quickLoad:(id)sender;
+
+#pragma mark - Deleting States
+- (IBAction)deleteSaveState:(id)sender;
+
+#pragma mark - OEGameViewController Methods
+
+- (void)gameViewController:(OEGameViewController *)sender setDrawSquarePixels:(BOOL)drawSquarePixels;
+- (void)gameViewController:(OEGameViewController *)sender didReceiveMouseEvent:(OEEvent *)event;
 
 @end

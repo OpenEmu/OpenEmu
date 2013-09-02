@@ -88,8 +88,8 @@
                                                   buttonNumber:b & 0x7F
                                                          state:b & 0x80 ? NSOnState : NSOffState
                                                         cookie:0];
-    
-    [[NSApplication sharedApplication] postHIDEvent:ret];
+
+    [[OEDeviceManager sharedDeviceManager] deviceHandler:nil didReceiveEvent:ret];
     [asyncSocket receiveWithTimeout:-1 tag:1];
     
     return YES;

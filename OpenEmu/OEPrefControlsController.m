@@ -57,6 +57,7 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
     OESystemPlugin *selectedPlugin;
     OEHIDEvent     *readingEvent;
     NSMutableSet   *ignoredEvents;
+    id _eventMonitor;
 }
 
 - (void)OE_setCurrentBindingsForEvent:(OEHIDEvent *)anEvent;
@@ -96,8 +97,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark -
-#pragma mark ViewController Overrides
+#pragma mark - ViewController Overrides
 
 - (void)awakeFromNib
 {
@@ -163,11 +163,60 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [[self controlsSetupView] layoutSubviews:NO];
 }
 
+- (void)viewDidAppear
+{
+    [super viewDidAppear];
+
+    if([[[self view] window] isKeyWindow])
+        [self OE_setUpEventMonitor];
+
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(windowDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:[[self view] window]];
+    [nc addObserver:self selector:@selector(windowDidResignKey:) name:NSWindowDidResignKeyNotification object:[[self view] window]];
+}
+
 - (void)viewWillDisappear
 {
     [super viewWillDisappear];
 
     [[OEBindingsController defaultBindingsController] synchronize];
+
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self name:NSWindowDidBecomeKeyNotification object:[[self view] window]];
+    [nc removeObserver:self name:NSWindowDidResignKeyNotification object:[[self view] window]];
+
+    [self OE_tearDownEventMonitor];
+}
+
+- (void)OE_setUpEventMonitor
+{
+    if(_eventMonitor != nil) return;
+
+    _eventMonitor =
+    [[OEDeviceManager sharedDeviceManager] addGlobalEventMonitorHandler:
+     ^ BOOL (OEDeviceHandler *handler, OEHIDEvent *event)
+     {
+         [self OE_registerEventIfNeeded:event];
+         return NO;
+     }];
+}
+
+- (void)windowDidBecomeKey:(NSNotification *)notification
+{
+    [self OE_setUpEventMonitor];
+}
+
+- (void)windowDidResignKey:(NSNotification *)notification
+{
+    [self OE_tearDownEventMonitor];
+}
+
+- (void)OE_tearDownEventMonitor
+{
+    if(_eventMonitor == nil) return;
+
+    [[OEDeviceManager sharedDeviceManager] removeMonitor:_eventMonitor];
+    _eventMonitor = nil;
 }
 
 - (void)animationDidStart:(CAAnimation *)theAnimation
@@ -223,8 +272,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     return ret;
 }
 
-#pragma mark -
-#pragma mark UI Methods
+#pragma mark - UI Methods
 
 - (void)OE_setUpPlayerMenuForNumberOfPlayers:(NSUInteger)numberOfPlayers;
 {
@@ -532,8 +580,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [self didChangeValueForKey:@"currentPlayerBindings"];
 }
 
-#pragma mark -
-#pragma mark Input and bindings management methods
+#pragma mark - Input and bindings management methods
 
 - (BOOL)isKeyboardEventSelected
 {
@@ -566,6 +613,12 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 - (void)keyUp:(NSEvent *)theEvent
 {
+}
+
+- (void)OE_registerEventIfNeeded:(OEHIDEvent *)anEvent;
+{
+    if([self OE_shouldRegisterEvent:anEvent])
+        [self registerEvent:anEvent];
 }
 
 - (BOOL)OE_shouldRegisterEvent:(OEHIDEvent *)anEvent;

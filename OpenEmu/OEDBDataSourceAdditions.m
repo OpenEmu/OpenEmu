@@ -177,7 +177,7 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
     id doc = [[[NSDocumentController sharedDocumentController] documents] firstObjectMatchingBlock:
               ^ BOOL (OEGameDocument *doc)
               {
-                  return [doc isKindOfClass:[OEGameDocument class]] && [[[[doc gameViewController] rom] game] isEqual:self];
+                  return [doc isKindOfClass:[OEGameDocument class]] && [[[[[doc gameViewController] document] rom] game] isEqual:self];
               }];
     
     return doc != nil;

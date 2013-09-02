@@ -42,6 +42,7 @@
 - (oneway void)setDrawSquarePixels:(BOOL)drawSquarePixels;
 
 - (oneway void)setupEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
+- (oneway void)startEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
 - (oneway void)resetEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
 - (oneway void)stopEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
 
@@ -59,7 +60,6 @@
 - (oneway void)setEnableVSync:(BOOL)enable;
 - (oneway void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 - (oneway void)setAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-- (oneway void)setScreenRect:(OEIntRect)newScreenRect;
 - (oneway void)setFrameInterval:(NSTimeInterval)newFrameInterval;
 
 @end
@@ -68,7 +68,8 @@
 
 - (oneway void)setSystemResponderClient:(byref id)responderClient;
 
-- (oneway void)gameCoreHelperDidSetupEmulation;
+- (oneway void)gameCoreHelperDidSetupEmulationWithIOSurfaceID:(IOSurfaceID)surfaceID screenSize:(OEIntSize)screenSize aspectSize:(OEIntSize)aspectSize;
+- (oneway void)gameCoreHelperDidStartEmulation;
 - (oneway void)gameCoreHelperDidResetEmulation;
 - (oneway void)gameCoreHelperDidStopEmulation;
 

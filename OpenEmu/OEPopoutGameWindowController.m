@@ -113,7 +113,7 @@ typedef enum
     if(document != nil)
     {
         OEGameViewController *gameViewController = [[self OE_gameDocument] gameViewController];
-        NSString *systemIdentifier               = [[[[gameViewController rom] game] system] systemIdentifier];
+        NSString *systemIdentifier               = [[[[[gameViewController document] rom] game] system] systemIdentifier];
         NSUserDefaults *defaults                 = [NSUserDefaults standardUserDefaults];
         unsigned int maxScale                    = [self maximumIntegralScale];
         NSDictionary *integralScaleInfo          = [defaults objectForKey:[NSString stringWithFormat:_OESystemIntegralScaleKeyFormat, systemIdentifier]];
@@ -194,10 +194,10 @@ typedef enum
 
 - (unsigned int)maximumIntegralScale
 {
-    NSScreen *screen             = ([[self window] screen] ? : [NSScreen mainScreen]);
-    const NSSize maxContentSize   = [OEHUDWindow mainContentRectForFrameRect:[screen visibleFrame]].size;
-    const NSSize defaultSize     = [[[self OE_gameDocument] gameViewController] defaultScreenSize];
-    const unsigned int maxScale  = MAX(MIN(floor(maxContentSize.height / defaultSize.height), floor(maxContentSize.width / defaultSize.width)), 1);
+    NSScreen *screen            = ([[self window] screen] ? : [NSScreen mainScreen]);
+    const NSSize maxContentSize = [OEHUDWindow mainContentRectForFrameRect:[screen visibleFrame]].size;
+    const NSSize defaultSize    = [[[self OE_gameDocument] gameViewController] defaultScreenSize];
+    const unsigned int maxScale = MAX(MIN(floor(maxContentSize.height / defaultSize.height), floor(maxContentSize.width / defaultSize.width)), 1);
 
     return maxScale;
 }
@@ -372,18 +372,24 @@ typedef enum
     [self OE_constrainIntegralScaleIfNeeded];
 }
 
+- (BOOL)windowShouldClose:(id)sender
+{
+    [[self document] performClose:sender];
+    return NO;
+}
+
 - (void)windowWillClose:(NSNotification *)notification
 {
     OEGameViewController *gameViewController = [[self OE_gameDocument] gameViewController];
 
     const NSSize windowSize         = ([[self window] isFullScreen] ? _frameForNonFullScreenMode.size : [[self window] frame].size);
-    NSString *systemIdentifier      = [[[[gameViewController rom] game] system] systemIdentifier];
+    NSString *systemIdentifier      = [[[[[gameViewController document] rom] game] system] systemIdentifier];
     NSUserDefaults *userDefaults    = [NSUserDefaults standardUserDefaults];
     NSString *systemKey             = [NSString stringWithFormat:_OESystemIntegralScaleKeyFormat, systemIdentifier];
-    NSDictionary *integralScaleInfo = (@{
-                                       _OEIntegralScaleKey  : @(_integralScale),
-                                       _OELastWindowSizeKey : NSStringFromSize(windowSize),
-                                       });
+    NSDictionary *integralScaleInfo = @{
+        _OEIntegralScaleKey  : @(_integralScale),
+        _OELastWindowSizeKey : NSStringFromSize(windowSize),
+    };
     [userDefaults setObject:integralScaleInfo forKey:systemKey];
     [userDefaults synchronize]; // needed whilst AppKit isn’t fixed to synchronise defaults in -_deallocHardCore:
 
@@ -424,8 +430,8 @@ typedef enum
     _fullScreenStatus                       = _OEPopoutGameWindowFullScreenStatusEntering;
     _frameForNonFullScreenMode              = [[self window] frame];
 
-    _resumePlayingAfterFullScreenTransition = [gameViewController isEmulationRunning];
-    [gameViewController pauseGame:self];
+    _resumePlayingAfterFullScreenTransition = [[self document] isEmulationPaused];
+    [[self document] setEmulationPaused:YES];
 
     [NSCursor hide];
     [[gameViewController controlsWindow] setCanShow:NO];
@@ -501,7 +507,7 @@ typedef enum
 
     OEGameViewController *gameViewController = [[self OE_gameDocument] gameViewController];
     if(_resumePlayingAfterFullScreenTransition)
-        [gameViewController playGame:self];
+        [[self document] setEmulationPaused:NO];
 
     [[gameViewController controlsWindow] hide];
     [[gameViewController controlsWindow] setCanShow:YES];
@@ -513,9 +519,9 @@ typedef enum
     OEGameViewController *gameViewController = [[self OE_gameDocument] gameViewController];
 
     _fullScreenStatus                        = _OEPopoutGameWindowFullScreenStatusExiting;
-    _resumePlayingAfterFullScreenTransition  = [gameViewController isEmulationRunning];
+    _resumePlayingAfterFullScreenTransition  = ![[self document] isEmulationPaused];
     
-    [gameViewController pauseGame:self];
+    [[self document] setEmulationPaused:YES];
     
     [NSCursor hide];
     [[gameViewController controlsWindow] setCanShow:NO];
@@ -602,7 +608,7 @@ typedef enum
     [[self window] makeKeyAndOrderFront:self];
 
     if(_resumePlayingAfterFullScreenTransition)
-        [gameViewController playGame:self];
+        [[self document] setEmulationPaused:NO];
 
     [[gameViewController controlsWindow] hide];
     [[gameViewController controlsWindow] setCanShow:YES];
@@ -616,7 +622,7 @@ typedef enum
     _fullScreenStatus = _OEPopoutGameWindowFullScreenStatusNonFullScreen;
 
     if(_resumePlayingAfterFullScreenTransition)
-        [gameViewController playGame:self];
+        [[self document] setEmulationPaused:NO];
 
     [[gameViewController controlsWindow] setCanShow:YES];
     [NSCursor unhide];
@@ -629,7 +635,7 @@ typedef enum
     _fullScreenStatus = _OEPopoutGameWindowFullScreenStatusFullScreen;
 
     if(_resumePlayingAfterFullScreenTransition)
-        [gameViewController playGame:self];
+        [[self document] setEmulationPaused:NO];
 
     [[gameViewController controlsWindow] setCanShow:YES];
     [NSCursor unhide];

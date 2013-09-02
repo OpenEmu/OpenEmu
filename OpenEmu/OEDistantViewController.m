@@ -32,9 +32,9 @@
 
 @interface OEDistantViewController ()
 
-@property (strong) NSWindow* distantWindow;
+@property(strong, readwrite) NSWindow* distantWindow;
 
-- (OEDistantView*)view;
+- (OEDistantView *)view;
 
 @end
 
@@ -42,8 +42,8 @@
 
 - (id)init
 {
-    self = [super init];
-    if (self) {
+    if((self = [super init]))
+    {
         OEDistantView *view = [[OEDistantView alloc] init];
         [view setPostsFrameChangedNotifications:YES];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewBoundsChanged:) name:NSViewFrameDidChangeNotification object:view];
@@ -65,8 +65,10 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewFrameDidChangeNotification object:[self view]];
 }
+
 #pragma mark -
-- (void)viewBoundsChanged:(NSNotification*)notification
+
+- (void)viewBoundsChanged:(NSNotification *)notification
 {
     NSRect newBounds  = [[self view] bounds];
     NSWindow *window = [[self view] window];
@@ -76,12 +78,15 @@
     
     [[self distantWindow] setFrame:newDistantWindowFrame display:YES];
 }
+
 #pragma mark -
+
 - (void)viewWillAppear
 {
     [super viewWillAppear];
     
-    if([[self distantWindow] contentView] != [[self realViewController] view]) [[self distantWindow] setContentView:[[self realViewController] view]];
+    if([[self distantWindow] contentView] != [[self realViewController] view])
+        [[self distantWindow] setContentView:[[self realViewController] view]];
     
     [[self realViewController] viewWillAppear];
 }
@@ -89,7 +94,7 @@
 - (void)viewDidAppear
 {   
     NSWindow *originalWindow = [[self view] window];
-    NSWindow *childWindow     = [self distantWindow];
+    NSWindow *childWindow    = [self distantWindow];
     [originalWindow addChildWindow:childWindow ordered:NSWindowAbove];
     [self viewBoundsChanged:nil];
     [childWindow setAlphaValue:1.0];
@@ -120,20 +125,23 @@
 }
 
 #pragma mark -
-@synthesize realViewController;
-- (void)setRealViewController:(NSViewController *)_realViewController
+
+- (void)setRealViewController:(NSViewController *)value
 {
-    realViewController = _realViewController;
-    NSView *realView = [realViewController view];
+    if (_realViewController == value)
+        return;
+
+    _realViewController = value;
+    NSView *realView = [_realViewController view];
     [realView setFrame:[[[self distantWindow] contentView] bounds]];
     [realView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 
     [[self distantWindow] setContentView:realView];
 }
 
-@synthesize distantWindow;
-- (OEDistantView*)view
+- (OEDistantView *)view
 {
-    return (OEDistantView*)[super view];
+    return (OEDistantView *)[super view];
 }
+
 @end

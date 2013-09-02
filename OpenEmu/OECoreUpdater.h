@@ -43,13 +43,13 @@ enum _OECoreUpdaterErrorCode
 - (void)checkForUpdates;
 - (void)checkForNewCores:(NSNumber *)fromModal;
 
-- (void)installCoreForGame:(OEDBGame*)game withCompletionHandler:(void(^)(NSError *error))handler;
-- (void)installCoreForSaveState:(OEDBSaveState*)state withCompletionHandler:(void(^)(NSError *error))handler;
-- (void)installCoreWithDownload:(OECoreDownload *)download message:(NSString *)message andCompletionHandler:(void(^)(NSError *error))handler;
+- (void)installCoreForGame:(OEDBGame *)game withCompletionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler;
+- (void)installCoreForSaveState:(OEDBSaveState *)state withCompletionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler;
+- (void)installCoreWithDownload:(OECoreDownload *)download message:(NSString *)message completionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler;
 
 @property(readonly) NSArray *coreList;
 
-@property(copy) void(^completionHandler)(NSError*);
+@property(copy) void(^completionHandler)(OECorePlugin *plugin, NSError *);
 @property       NSString *coreIdentifier;
 @property       OEHUDAlert *alert;
 @property       OECoreDownload *coreDownload;

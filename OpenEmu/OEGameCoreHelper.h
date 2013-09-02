@@ -35,7 +35,8 @@
 - (void)setAudioOutputDeviceID:(AudioDeviceID)deviceID;
 - (void)setDrawSquarePixels:(BOOL)drawSquarePixels;
 
-- (void)setupEmulationWithCompletionHandler:(void(^)(void))handler;
+- (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
+- (void)startEmulationWithCompletionHandler:(void(^)(void))handler;
 - (void)resetEmulationWithCompletionHandler:(void(^)(void))handler;
 - (void)stopEmulationWithCompletionHandler:(void(^)(void))handler;
 
@@ -51,7 +52,6 @@
 - (void)setEnableVSync:(BOOL)enable;
 - (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 - (void)setAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-- (void)setScreenRect:(OEIntRect)newScreenRect;
 - (void)setFrameInterval:(NSTimeInterval)newFrameInterval;
 
 @end

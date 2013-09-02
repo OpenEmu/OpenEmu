@@ -37,6 +37,7 @@
 #import "OECompositionPlugin.h"
 #import "OEShaderPlugin.h"
 #import "OECorePlugin.h"
+#import "OEGameDocument.h"
 #import "OEGameViewController.h"
 
 #import "OEHUDAlert.h"
@@ -92,10 +93,10 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         return;
     
     // Time until hud controls bar fades out
-    [[NSUserDefaults standardUserDefaults] registerDefaults :@{
-                          OEGameControlsBarFadeOutDelayKey  : @1.5,
-                    OEGameControlsBarShowsAutoSaveStateKey  : @NO,
-                    OEGameControlsBarShowsQuickSaveStateKey : @YES
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{
+        OEGameControlsBarFadeOutDelayKey : @1.5,
+        OEGameControlsBarShowsAutoSaveStateKey : @NO,
+        OEGameControlsBarShowsQuickSaveStateKey : @YES,
      }];
 }
 
@@ -154,9 +155,9 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     // In order to load cheats, we need the game core to be running and, consequently, the ROM to be set.
     // We use -reflectEmulationRunning:, which we receive from OEGameViewController when the emulation
     // starts or resumes
-    if([[self gameViewController] cheatSupport])
+    if([[self gameViewController] supportsCheats])
     {
-        NSString *md5Hash = [[[self gameViewController] rom] md5Hash];
+        NSString *md5Hash = [[[[self gameViewController] document] rom] md5Hash];
         if(md5Hash)
         {
             OECheats *cheatsXML = [[OECheats alloc] initWithMd5Hash:md5Hash];
@@ -167,6 +168,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 }
 
 #pragma mark -
+
 - (void)show
 {
     if([self canShow])
@@ -257,7 +259,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [menu addItem:item];
     
     // Setup Cheats Menu
-    if([[self gameViewController] cheatSupport])
+    if([[self gameViewController] supportsCheats])
     {
         NSMenu *cheatsMenu = [[NSMenu alloc] init];
         [cheatsMenu setTitle:NSLocalizedString(@"Select Cheat", @"")];
@@ -289,10 +291,10 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     }
     
     // Setup Core selection menu
-    NSMenu* coresMenu = [[NSMenu alloc] init];
+    NSMenu *coresMenu = [[NSMenu alloc] init];
     [coresMenu setTitle:NSLocalizedString(@"Select Core", @"")];
     
-    NSString* systemIdentifier = [[self gameViewController] systemIdentifier];
+    NSString *systemIdentifier = [[self gameViewController] systemIdentifier];
     NSArray *corePlugins = [OECorePlugin corePluginsForSystemIdentifier:systemIdentifier];
     if([corePlugins count] > 1)
     {
@@ -413,7 +415,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [menu setDelegate:self];
     [menu addItem:newSaveItem];
     
-    OEDBRom *rom = [[self gameViewController] rom];
+    OEDBRom *rom = [[[self gameViewController] document] rom];
     [rom removeMissingStates];
     
     if(rom != nil)
@@ -610,7 +612,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     OEButton *stopButton = [[OEButton alloc] init];
     [stopButton setThemeKey:@"hud_button_power"];
     [stopButton setTitle:nil];
-    [stopButton setAction:@selector(performClose:)];
+    [stopButton setAction:@selector(stopEmulation:)];
     [stopButton setFrame:NSMakeRect(10, 13, 51, 23)];
     [stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [stopButton setToolTip:NSLocalizedString(@"Stop Emulation", @"Tooltip")];
@@ -621,7 +623,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [pauseButton setButtonType:NSToggleButton];
     [pauseButton setThemeKey:@"hud_button_toggle_pause"];
     [pauseButton setTitle:nil];
-    [pauseButton setAction:@selector(toggleEmulationPause:)];
+    [pauseButton setAction:@selector(toggleEmulationPaused:)];
     [pauseButton setFrame:NSMakeRect(82, 9, 32, 32)];
     [pauseButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [pauseButton setToolTip:NSLocalizedString(@"Pause Gameplay", @"Tooltip")];

@@ -133,7 +133,6 @@ enum _OEHelperAppErrorCodes
 - (void)updateEnableVSync:(BOOL)enable;
 - (void)updateScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 - (void)updateAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-- (void)updateScreenRect:(OEIntRect)newScreenRect;
 - (void)updateFrameInterval:(NSTimeInterval)newFrameInterval;
 
 #pragma mark - OE Render Delegate protocol methods

@@ -51,8 +51,6 @@
 
 #pragma mark -
 
-#define dfl(a,b) [NSNumber numberWithFloat:a],@b
-
 #if CGFLOAT_IS_DOUBLE
 #define CGFLOAT_EPSILON DBL_EPSILON
 #else
@@ -75,10 +73,12 @@ static const GLfloat cg_coords[] =
     0, 1
 };
 
-static NSString *const _OEDefaultVideoFilterKey      = @"videoFilter";
-static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
+static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
 @interface OEGameView ()
+{
+    BOOL _openGLContextIsSetup;
+}
 
 // rendering
 @property GLuint             gameTexture;
@@ -117,14 +117,6 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 @property(nonatomic) OEIntSize screenSize;
 @property(nonatomic) OEIntRect screenRect;
 
-- (void)OE_renderToTexture:(GLuint)renderTarget usingTextureCoords:(const GLint *)texCoords inCGLContext:(CGLContextObj)cgl_ctx;
-- (void)OE_applyCgShader:(OECGShader *)shader usingVertices:(const GLfloat *)vertices withTextureSize:(const OEIntSize)textureSize withOutputSize:(const OEIntSize)outputSize inPassNumber:(const NSUInteger)passNumber inCGLContext:(CGLContextObj)cgl_ctx;
-- (void)OE_calculateMultipassSizes:(OEMultipassShader *)multipassShader;
-- (void)OE_multipassRender:(OEMultipassShader *)multipassShader usingVertices:(const GLfloat *)vertices inCGLContext:(CGLContextObj)cgl_ctx;
-- (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)glContext usingShader:(OEGameShader *)shader;
-- (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
-- (NSDictionary *)OE_shadersForContext:(CGLContextObj)context;
-- (void)OE_refreshFilterRenderer;
 @end
 
 @implementation OEGameView
@@ -239,13 +231,12 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 
     // filters
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *systemIdentifier = [[_gameResponder controller] systemIdentifier];
+    NSString *systemIdentifier = [[self delegate] systemIdentifier];
     NSString *filter;
-    filter = [defaults objectForKey:[NSString stringWithFormat:_OESystemVideoFilterKeyFormat, systemIdentifier]];
+    filter = [defaults objectForKey:[NSString stringWithFormat:@"videoFilter.%@", systemIdentifier]];
     if(filter == nil)
-    {
         filter = [defaults objectForKey:_OEDefaultVideoFilterKey];
-    }
+
     [self setFilterName:filter];
 
     // our texture is in NTSC colorspace from the cores
@@ -257,6 +248,8 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     // rendering
     [self setupDisplayLink];
     [self rebindIOSurface];
+
+    _openGLContextIsSetup = YES;
 }
 
 - (void)setEnableVSync:(BOOL)enable
@@ -293,6 +286,8 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 
 - (void)clearGLContext
 {
+    if(!_openGLContextIsSetup) return;
+
     DLog(@"clearGLContext");
 
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
@@ -425,15 +420,11 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     [self.gameServer stop];
     self.gameServer = nil;
 
-    self.gameResponder = nil;
-    self.rootProxy = nil;
-
     self.gameCIImage = nil;
 
     // filters
     self.filters = nil;
     self.filterRenderer = nil;
-    self.filterName = nil;
 
     CGColorSpaceRelease(_rgbColorSpace);
     _rgbColorSpace = NULL;
@@ -947,7 +938,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
         _filterName = [value copy];
 
         [self OE_refreshFilterRenderer];
-        if(_rootProxy != nil) [_rootProxy setDrawSquarePixels:[self composition] != nil];
+        [[self delegate] gameView:self setDrawSquarePixels:[self composition] != nil];
     }
 }
 
@@ -1012,9 +1003,6 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
         }
         else
             self.filterHasOutputMousePositionKeys = NO;
-
-        if([[_filterRenderer inputKeys] containsObject:@"OESystemIDInput"])
-            [_filterRenderer setValue:[[_gameResponder controller] systemIdentifier] forInputKey:@"OESystemIDInput"];
 
         CGLUnlockContext(cgl_ctx);
     }
@@ -1122,17 +1110,18 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 #pragma mark -
 #pragma mark Game Core
 
-- (void)setRootProxy:(id<OEGameCoreHelper>)value
+- (void)setDelegate:(id<OEGameViewDelegate>)value
 {
-    if(value != _rootProxy)
+    if(_delegate != value)
     {
-        _rootProxy = value;
-        [_rootProxy setDrawSquarePixels:[self composition] != nil];
+        _delegate = value;
+        [_delegate gameView:self setDrawSquarePixels:[self composition] != nil];
     }
 }
 
 - (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 {
+    DLog(@"Set screensize to: %@", NSStringFromOEIntSize(newScreenSize));
     // Recache the new resized surfaceID, so we can get our surfaceRef from it, to draw.
     _gameSurfaceID = newSurfaceID;
 
@@ -1174,8 +1163,7 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     [self setGameAspectSize:newAspectSize];
 }
 
-#pragma mark -
-#pragma mark Responder
+#pragma mark - Responder
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent
 {
@@ -1194,40 +1182,6 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     return [super acceptsFirstMouse:theEvent];
 }
 
-- (BOOL)acceptsFirstResponder
-{
-    return YES;
-}
-
-- (BOOL)becomeFirstResponder
-{
-    return YES;
-}
-
-- (void)setGameResponder:(OESystemResponder *)value
-{
-    if(_gameResponder != value)
-    {
-        id next = (_gameResponder == nil
-                   ? [super nextResponder]
-                   : [_gameResponder nextResponder]);
-
-        _gameResponder = value;
-
-        [value setNextResponder:next];
-        if(value == nil) value = next;
-        [super setNextResponder:value];
-    }
-}
-
-- (void)setNextResponder:(NSResponder *)aResponder
-{
-    if(_gameResponder != nil)
-        [_gameResponder setNextResponder:aResponder];
-    else
-        [super setNextResponder:aResponder];
-}
-
 - (void)viewDidMoveToWindow
 {
     [super viewDidMoveToWindow];
@@ -1235,18 +1189,27 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     [[NSNotificationCenter defaultCenter] postNotificationName:@"OEGameViewDidMoveToWindow" object:self];
 }
 
-#pragma mark -
-#pragma mark Events
+#pragma mark - Keyboard Events
 
-- (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
+- (void)keyDown:(NSEvent *)theEvent
+{
+}
+
+- (void)keyUp:(NSEvent *)theEvent
+{
+}
+
+#pragma mark - Mouse Events
+
+- (OEEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
 {
     CGRect  frame    = [self frame];
     CGPoint location = [anEvent locationInWindow];
     location = [self convertPoint:location fromView:nil];
     location.y = frame.size.height - location.y;
-    OEIntRect rect = [self screenRect];
+    OEIntSize screenSize = [self screenSize];
 
-    CGRect screenRect = { .size = { rect.size.width, rect.size.height } };
+    CGRect screenRect = { .size.width = screenSize.width, .size.height = screenSize.height };
 
     CGFloat scale = MIN(CGRectGetWidth(frame)  / CGRectGetWidth(screenRect),
                         CGRectGetHeight(frame) / CGRectGetHeight(screenRect));
@@ -1260,8 +1223,8 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     location.y -= screenRect.origin.y;
 
     OEIntPoint point = {
-        .x = MAX(0, MIN(round(location.x * rect.size.width  / CGRectGetWidth(screenRect)), rect.size.width)),
-        .y = MAX(0, MIN(round(location.y * rect.size.height / CGRectGetHeight(screenRect)), rect.size.height))
+        .x = MAX(0, MIN(round(location.x * screenSize.width  / CGRectGetWidth(screenRect)) , screenSize.width )),
+        .y = MAX(0, MIN(round(location.y * screenSize.height / CGRectGetHeight(screenRect)), screenSize.height))
     };
 
     return (id)[OEEvent eventWithMouseEvent:anEvent withLocationInGameView:point];
@@ -1269,67 +1232,67 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
 
 - (void)mouseDown:(NSEvent *)theEvent;
 {
-    [[self gameResponder] mouseDown:[self OE_mouseEventWithEvent:theEvent]];
+    [[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
 }
 
 - (void)rightMouseDown:(NSEvent *)theEvent;
 {
-    [[self gameResponder] rightMouseDown:[self OE_mouseEventWithEvent:theEvent]];
+    [[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
 }
 
 - (void)otherMouseDown:(NSEvent *)theEvent;
 {
-    [[self gameResponder] otherMouseDown:[self OE_mouseEventWithEvent:theEvent]];
+    [[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
 }
 
 - (void)mouseUp:(NSEvent *)theEvent;
 {
-    [[self gameResponder] mouseUp:[self OE_mouseEventWithEvent:theEvent]];
+    [[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
 }
 
 - (void)rightMouseUp:(NSEvent *)theEvent;
 {
-    [[self gameResponder] rightMouseUp:[self OE_mouseEventWithEvent:theEvent]];
+    [[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
 }
 
 - (void)otherMouseUp:(NSEvent *)theEvent;
 {
-    [[self gameResponder] otherMouseUp:[self OE_mouseEventWithEvent:theEvent]];
+    [[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent;
 {
-    [[self gameResponder] mouseMoved:[self OE_mouseEventWithEvent:theEvent]];
+    [[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent;
 {
-    [[self gameResponder] mouseDragged:[self OE_mouseEventWithEvent:theEvent]];
+    [[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
 }
 
 - (void)scrollWheel:(NSEvent *)theEvent;
 {
-    [[self gameResponder] scrollWheel:[self OE_mouseEventWithEvent:theEvent]];
+    [[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
 }
 
 - (void)rightMouseDragged:(NSEvent *)theEvent;
 {
-    [[self gameResponder] rightMouseDragged:[self OE_mouseEventWithEvent:theEvent]];
+    [[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
 }
 
 - (void)otherMouseDragged:(NSEvent *)theEvent;
 {
-    [[self gameResponder] otherMouseDragged:[self OE_mouseEventWithEvent:theEvent]];
+    [[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent;
 {
-    [[self gameResponder] mouseEntered:[self OE_mouseEventWithEvent:theEvent]];
+    [[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent;
 {
-    [[self gameResponder] mouseExited:[self OE_mouseEventWithEvent:theEvent]];
+    [[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
 }
 
 @end

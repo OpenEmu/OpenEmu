@@ -26,7 +26,10 @@
 
 
 #import <Cocoa/Cocoa.h>
+
 @interface OEDistantViewController : NSViewController
-@property (strong, nonatomic) NSViewController* realViewController;
-@property (strong, readonly) NSWindow* distantWindow;
+
+@property(strong, readonly) NSWindow *distantWindow;
+@property(strong, nonatomic) NSViewController *realViewController;
+
 @end

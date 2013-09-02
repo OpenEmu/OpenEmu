@@ -9,12 +9,14 @@
 #import "OEDOGameCoreManager.h"
 #import "OEDOGameCoreHelper.h"
 #import "OEGameCoreHelper.h"
+#import "OEGameCoreManager_Internal.h"
 #import "OEGameDocument.h"
 #import "OETaskWrapper.h"
 #import "OECorePlugin.h"
 #import <OpenEmuBase/OpenEmuBase.h>
 
 @interface OEDOGameCoreHelperDelegateHelper : NSObject <OEDOGameCoreHelperDelegate>
++ (instancetype)delegateHelperWithSetupCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))completionHandler;
 + (instancetype)delegateHelperWithCompletionHandler:(void(^)(void))completionHandler;
 + (instancetype)delegateHelperWithSuccessHandler:(void(^)(BOOL, NSError *))successHandler;
 + (instancetype)delegateHelperWithResponderClientHandler:(void(^)(id))responderClient;
@@ -33,14 +35,16 @@
 
 @implementation OEDOGameCoreManager
 
-- (void)loadROMWithCompletionHandler:(void(^)(id<OEGameCoreHelper> helper, id systemClient))completionHandler errorHandler:(void(^)(NSError *error))errorHandler;
+- (void)loadROMWithCompletionHandler:(void(^)(id systemClient, NSError *error))completionHandler;
 {
     NSError *error;
     if(![self _startHelperProcessWithError:&error])
     {
-        errorHandler(error);
+        completionHandler(nil, error);
         return;
     }
+
+    [self setGameCoreHelper:(id<OEGameCoreHelper>)[NSNull null]];
 
     [_rootProxy loadROMAtPath:[self ROMPath] usingCorePluginAtPath:[[self plugin] path] systemPluginAtPath:[[[self systemController] bundle] bundlePath] withDelegate:
      [OEDOGameCoreHelperDelegateHelper delegateHelperWithResponderClientHandler:
@@ -48,7 +52,7 @@
       {
           [(NSDistantObject *)responderClient setProtocolForProxy:[[[self systemController] responderClass] gameSystemResponderClientProtocol]];
           
-          completionHandler(self, responderClient);
+          completionHandler(responderClient, nil);
       }] displayHelper:(id<OEDOGameCoreDisplayHelper>)[self displayHelper]];
 }
 
@@ -165,9 +169,14 @@
     [_rootProxy setDrawSquarePixels:drawSquarePixels];
 }
 
-- (void)setupEmulationWithCompletionHandler:(void(^)(void))handler;
+- (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID, OEIntSize, OEIntSize))handler;
 {
-    [_rootProxy setupEmulationWithDelegate:[OEDOGameCoreHelperDelegateHelper delegateHelperWithCompletionHandler:handler]];
+    [_rootProxy setupEmulationWithDelegate:[OEDOGameCoreHelperDelegateHelper delegateHelperWithSetupCompletionHandler:handler]];
+}
+
+- (void)startEmulationWithCompletionHandler:(void (^)(void))handler
+{
+    [_rootProxy startEmulationWithDelegate:[OEDOGameCoreHelperDelegateHelper delegateHelperWithCompletionHandler:handler]];
 }
 
 - (void)resetEmulationWithCompletionHandler:(void(^)(void))handler;
@@ -215,6 +224,7 @@
 
 typedef enum : NSUInteger
 {
+    OEDOGameCoreHelperDelegateHelperTypeSetupCompletionHandler,
     OEDOGameCoreHelperDelegateHelperTypeCompletionHandler,
     OEDOGameCoreHelperDelegateHelperTypeSuccessHandler,
     OEDOGameCoreHelperDelegateHelperTypeResponderClientHandler
@@ -259,6 +269,11 @@ typedef enum : NSUInteger
      }];
 }
 
++ (instancetype)delegateHelperWithSetupCompletionHandler:(void (^)(IOSurfaceID, OEIntSize, OEIntSize))completionHandler
+{
+    return [[self alloc] initWithHandler:completionHandler type:OEDOGameCoreHelperDelegateHelperTypeSetupCompletionHandler];
+}
+
 + (instancetype)delegateHelperWithCompletionHandler:(void(^)(void))completionHandler;
 {
     return [[self alloc] initWithHandler:completionHandler type:OEDOGameCoreHelperDelegateHelperTypeCompletionHandler];
@@ -283,6 +298,13 @@ typedef enum : NSUInteger
         [self _addHelper];
     }
     return self;
+}
+
+- (void)callSetupCompletionHandlerWithIOSurfaceID:(IOSurfaceID)surfaceID screenSize:(OEIntSize)screenSize aspectSize:(OEIntSize) aspectSize;
+{
+    NSAssert(_handlerType == OEDOGameCoreHelperDelegateHelperTypeSetupCompletionHandler, @"Requesting wrong type of handler");
+    if(_handler != nil) ((void(^)(IOSurfaceID, OEIntSize, OEIntSize))_handler)(surfaceID, screenSize, aspectSize);
+    [self _removeHelper];
 }
 
 - (void)callCompletionHandler
@@ -311,7 +333,12 @@ typedef enum : NSUInteger
     [self callResponderClientHandlerWithClient:responderClient];
 }
 
-- (oneway void)gameCoreHelperDidSetupEmulation;
+- (oneway void)gameCoreHelperDidSetupEmulationWithIOSurfaceID:(IOSurfaceID)surfaceID screenSize:(OEIntSize)screenSize aspectSize:(OEIntSize)aspectSize;
+{
+    [self callSetupCompletionHandlerWithIOSurfaceID:surfaceID screenSize:screenSize aspectSize:aspectSize];
+}
+
+- (oneway void)gameCoreHelperDidStartEmulation;
 {
     [self callCompletionHandler];
 }
