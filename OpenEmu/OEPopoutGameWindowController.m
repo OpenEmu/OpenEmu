@@ -101,7 +101,7 @@ typedef enum
 - (void)dealloc
 {
     [[self window] setDelegate:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidChangeScreenParametersNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setDocument:(NSDocument *)document
@@ -370,12 +370,6 @@ typedef enum
         return;
 
     [self OE_constrainIntegralScaleIfNeeded];
-}
-
-- (BOOL)windowShouldClose:(id)sender
-{
-    [[self document] performClose:sender];
-    return NO;
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -647,10 +641,6 @@ typedef enum
 }
 
 @end
-
-
-
-
 
 @implementation OEScreenshotWindow
 

@@ -123,7 +123,7 @@
      ^{
          handler();
 
-         [[NSApplication sharedApplication] terminate:self];
+         exit(0);
      }];
 }
 

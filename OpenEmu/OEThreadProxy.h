@@ -26,14 +26,23 @@
 
 #import <Foundation/Foundation.h>
 
-@interface OEThreadProxy : NSProxy
+@interface OEProxy : NSProxy
 
-+ (id)threadProxyWithTarget:(id)target;
-+ (id)threadProxyWithTarget:(id)target thread:(NSThread *)thread;
-
-- (id)initWithTarget:(id)target thread:(NSThread *)thread;
++ (id)proxyWithTarget:(id)target;
+- (id)initWithTarget:(id)target;
 
 @property(readonly) id target;
+
+@end
+
+@interface OELoggingProxy : OEProxy
+@end
+
+@interface OEThreadProxy : OEProxy
+
++ (id)threadProxyWithTarget:(id)target thread:(NSThread *)thread;
+- (id)initWithTarget:(id)target thread:(NSThread *)thread;
+
 @property(readonly) NSThread *thread;
 
 @end

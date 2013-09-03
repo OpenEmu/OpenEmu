@@ -28,6 +28,7 @@
 #import "OEXPCGameCoreHelper.h"
 #import "OECorePlugin.h"
 #import "OEGameCoreManager_Internal.h"
+#import "OEThreadProxy.h"
 #import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
 
 @interface OEXPCGameCoreManager ()
@@ -35,10 +36,12 @@
     NSTask          *_backgroundProcessTask;
     NSString        *_processIdentifier;
     NSPipe          *_standardOutputPipe;
+    NSPipe          *_standardErrorPipe;
 
     NSXPCConnection *_helperConnection;
     NSXPCConnection *_gameCoreConnection;
     id               _systemClient;
+    BOOL             _isStoppingBackgroundProcess;
 }
 
 @property(nonatomic, strong) id<OEXPCGameCoreHelper> gameCoreHelper;
@@ -52,9 +55,42 @@
     return [NSXPCConnection class] != nil;
 }
 
-- (void)loadROMWithCompletionHandler:(void(^)(id systemClient, NSError *error))completionHandler;
+- (void)getTerminatingProcesses:(void(^)(NSMutableSet *processes))block
 {
-    _processIdentifier = [NSString stringWithFormat:@"%@-%@", [[[self ROMPath] lastPathComponent] stringByReplacingOccurrencesOfString:@" " withString:@"-"], [[NSUUID UUID] UUIDString]];
+    static dispatch_queue_t queue;
+    static NSMutableSet *processes;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        queue = dispatch_queue_create("org.openemu.TerminatingXPCProcesses", DISPATCH_QUEUE_SERIAL);
+        processes = [NSMutableSet set];
+    });
+
+    dispatch_async(queue, ^{
+        block(processes);
+    });
+}
+
+- (void)selfRetain
+{
+    [self getTerminatingProcesses:
+     ^(NSMutableSet *processes)
+     {
+         [processes addObject:self];
+     }];
+}
+
+- (void)selfRelease
+{
+    [self getTerminatingProcesses:
+     ^(NSMutableSet *processes)
+     {
+         [processes removeObject:self];
+     }];
+}
+
+- (void)loadROMWithCompletionHandler:(void(^)(id systemClient))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+{
+    _processIdentifier = [NSString stringWithFormat:@"%@ # %@", [[[self ROMPath] lastPathComponent] stringByReplacingOccurrencesOfString:@" " withString:@"-"], [[NSUUID UUID] UUIDString]];
     [self _startHelperProcess];
 
     [[OEXPCCAgent defaultAgent] retrieveListenerEndpointForIdentifier:_processIdentifier completionHandler:
@@ -67,15 +103,19 @@
          [_helperConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEXPCGameCoreHelper)]];
          [_helperConnection resume];
 
+         __block void *gameCoreHelperPointer;
          id<OEXPCGameCoreHelper> gameCoreHelper =
          [_helperConnection remoteObjectProxyWithErrorHandler:
           ^(NSError *error)
           {
+              DLog(@"Receiving error for: gameCoreHelper: %p", gameCoreHelperPointer);
               dispatch_async(dispatch_get_main_queue(), ^{
-                  completionHandler(nil, error);
+                  errorHandler(error);
                   [self stop];
               });
           }];
+
+         gameCoreHelperPointer = (__bridge void *)gameCoreHelper;
 
          if(gameCoreHelper == nil) return;
 
@@ -84,30 +124,37 @@
           {
               if(gameCoreEndpoint == nil)
               {
-                  completionHandler(nil, error);
-                  [self stop];
-                  return;
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      errorHandler(error);
+                      [self stop];
+                  });
               }
 
               _gameCoreConnection = [[NSXPCConnection alloc] initWithListenerEndpoint:gameCoreEndpoint];
               [_gameCoreConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:[[[self systemController] responderClass] gameSystemResponderClientProtocol]]];
               [_gameCoreConnection resume];
 
+              __block void *systemClientError;
               _systemClient = [_gameCoreConnection remoteObjectProxyWithErrorHandler:
                                ^(NSError *error)
                                {
+                                   DLog(@"Receiving error for pointer: %p", systemClientError);
                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                       completionHandler(nil, error);
+                                       errorHandler(error);
                                        [self stop];
                                    });
                                }];
 
-              NSLog(@"_systemClient: %@", _systemClient);
+              systemClientError = (__bridge void *)_systemClient;
+
+              DLog(@"_systemClient: %@", _systemClient);
 
               if(_systemClient == nil) return;
 
               [self setGameCoreHelper:gameCoreHelper];
-              completionHandler(_systemClient, nil);
+              dispatch_async(dispatch_get_main_queue(), ^{
+                  completionHandler(_systemClient);
+              });
           }];
      }];
 }
@@ -128,38 +175,53 @@
     [_backgroundProcessTask setStandardOutput:_standardOutputPipe];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_didReceiveData:) name:NSFileHandleReadCompletionNotification object:[_standardOutputPipe fileHandleForReading]];
+    [[_standardOutputPipe fileHandleForReading] readInBackgroundAndNotify];
+
+    _standardErrorPipe = [NSPipe pipe];
+    [_backgroundProcessTask setStandardError:_standardErrorPipe];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_didReceiveErrorData:) name:NSFileHandleReadCompletionNotification object:[_standardErrorPipe fileHandleForReading]];
+    [[_standardErrorPipe fileHandleForReading] readInBackgroundAndNotify];
 
     [_backgroundProcessTask launch];
 }
 
 - (void)stop
 {
-    [[self gameCoreHelper] stopEmulationWithCompletionHandler:
-     ^{
-         [self setGameCoreHelper:nil];
-         _systemClient       = nil;
+    if(_isStoppingBackgroundProcess) return;
 
-         [_helperConnection invalidate];
-         [_gameCoreConnection invalidate];
-         _gameCoreConnection = nil;
-         _helperConnection   = nil;
+    _isStoppingBackgroundProcess = YES;
 
-         [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:_backgroundProcessTask];
+    [self selfRetain];
 
-         [_backgroundProcessTask terminate];
-     }];
+    [self setGameCoreHelper:nil];
+    _systemClient       = nil;
+
+    [_helperConnection invalidate];
+    [_gameCoreConnection invalidate];
+    _gameCoreConnection = nil;
+    _helperConnection   = nil;
+
+    [_backgroundProcessTask terminate];
 }
 
 - (void)_taskDidTerminate:(NSNotification *)notification
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     _backgroundProcessTask = nil;
     _processIdentifier     = nil;
     _standardOutputPipe    = nil;
+    _standardErrorPipe     = nil;
+
+    DLog(@"Did stop background process.");
+
+    [self selfRelease];
 }
 
-- (void)_didReceiveData:(NSNotification *)notification
+- (void)_didReceiveErrorData:(NSNotification *)notification
 {
-    NSData *data = [[notification userInfo] objectForKey: NSFileHandleNotificationDataItem];
+    NSData *data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
 
     // If the length of the data is zero, then the task is basically over - there is nothing
     // more to get from the handle so we may as well shut down.
@@ -168,7 +230,28 @@
         // Send the data on to the controller; we can't just use +stringWithUTF8String: here
         // because -[data bytes] is not necessarily a properly terminated string.
         // -initWithData:encoding: on the other hand checks -[data length]
-        NSLog(@"%@: %@", _processIdentifier, [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding]);
+        fprintf(stderr, "%s\n", [[NSString stringWithFormat:@"background process error: %@: %@", [_processIdentifier substringToIndex:[_processIdentifier rangeOfString:@" # "].location], [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]] UTF8String]);
+        [[notification object] readInBackgroundAndNotify];
+    }
+    else
+    {
+        // We're finished here
+        [self stop];
+    }
+}
+
+- (void)_didReceiveData:(NSNotification *)notification
+{
+    NSData *data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+
+    // If the length of the data is zero, then the task is basically over - there is nothing
+    // more to get from the handle so we may as well shut down.
+    if([data length] > 0)
+    {
+        // Send the data on to the controller; we can't just use +stringWithUTF8String: here
+        // because -[data bytes] is not necessarily a properly terminated string.
+        // -initWithData:encoding: on the other hand checks -[data length]
+        fprintf(stderr, "%s\n", [[NSString stringWithFormat:@"background process error: %@: %@", [_processIdentifier substringToIndex:[_processIdentifier rangeOfString:@" # "].location], [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]] UTF8String]);
         [[notification object] readInBackgroundAndNotify];
     }
     else
@@ -191,8 +274,10 @@
 
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler;
 {
+    DLog(@"Will start emulation with helper: %@.", [self gameCoreHelper]);
     [[self gameCoreHelper] startEmulationWithCompletionHandler:
      ^{
+         DLog(@"Did start emulation");
          dispatch_async(dispatch_get_main_queue(), ^{
              handler();
          });
@@ -214,7 +299,9 @@
     [[self gameCoreHelper] stopEmulationWithCompletionHandler:
      ^{
          dispatch_async(dispatch_get_main_queue(), ^{
+             DLog(@"Did stop emulation.");
              handler();
+             [self stop];
          });
      }];
 }

@@ -53,12 +53,12 @@
 
 @implementation OEDOGameCoreManager
 
-- (void)loadROMWithCompletionHandler:(void(^)(id systemClient, NSError *error))completionHandler;
+- (void)loadROMWithCompletionHandler:(void(^)(id systemClient))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 {
     NSError *error;
     if(![self _startHelperProcessWithError:&error])
     {
-        completionHandler(nil, error);
+        errorHandler(error);
         return;
     }
 
@@ -70,7 +70,7 @@
       {
           [(NSDistantObject *)responderClient setProtocolForProxy:[[[self systemController] responderClass] gameSystemResponderClientProtocol]];
           
-          completionHandler(responderClient, nil);
+          completionHandler(responderClient);
       }] displayHelper:(id<OEDOGameCoreDisplayHelper>)[self displayHelper]];
 }
 

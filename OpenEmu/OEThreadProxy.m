@@ -26,6 +26,77 @@
 
 #import "OEThreadProxy.h"
 
+@implementation OEProxy
+{
+    CFMutableDictionaryRef _cachedMethodSignatures;
+@protected
+    id _target;
+}
+
++ (id)proxyWithTarget:(id)target;
+{
+    return [[self alloc] initWithTarget:target];
+}
+
+- (id)initWithTarget:(id)target;
+{
+    _cachedMethodSignatures = CFDictionaryCreateMutable(NULL, 0, NULL, &kCFTypeDictionaryValueCallBacks);
+    _target = target;
+    return self;
+}
+
+- (void)dealloc
+{
+    CFRelease(_cachedMethodSignatures);
+}
+
+- (BOOL)respondsToSelector:(SEL)aSelector
+{
+    return [_target respondsToSelector:aSelector] || [super respondsToSelector:aSelector];
+}
+
+- (id)forwardingTargetForSelector:(SEL)aSelector
+{
+    return _target;
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel
+{
+    NSMethodSignature *signature = (__bridge NSMethodSignature *)CFDictionaryGetValue(_cachedMethodSignatures, sel);
+
+    if(signature != nil)
+        return signature;
+
+    if([_target respondsToSelector:sel])
+        signature = [_target methodSignatureForSelector:sel];
+
+    if(signature == nil)
+        signature = [super methodSignatureForSelector:sel];
+
+    if(signature != nil)
+        CFDictionaryAddValue(_cachedMethodSignatures, sel, (__bridge void *)signature);
+
+    return signature;
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation
+{
+    [invocation setTarget:_target];
+    [invocation invoke];
+}
+
+@end
+
+@implementation OELoggingProxy
+
+- (id)forwardingTargetForSelector:(SEL)aSelector
+{
+    DLog(@"Calling %@ on %@", NSStringFromSelector(aSelector), _target);
+    return _target;
+}
+
+@end
+
 @interface NSMethodSignature (OEMethodSignatureAdditions)
 - (NSString *)OE_methodArgumentTypes;
 - (NSUInteger)OE_numberOfBlockArguments;
@@ -58,32 +129,23 @@
 @end
 
 @implementation OEThreadProxy
-{
-    CFMutableDictionaryRef _cachedMethodSignatures;
-}
-
-+ (id)threadProxyWithTarget:(id)target;
-{
-    return [self threadProxyWithTarget:target thread:[[NSThread alloc] init]];
-}
 
 + (id)threadProxyWithTarget:(id)target thread:(NSThread *)thread;
 {
     return [[self alloc] initWithTarget:target thread:thread];
 }
 
-- (id)initWithTarget:(id)target thread:(NSThread *)thread
+- (id)initWithTarget:(id)target
 {
-    _cachedMethodSignatures = CFDictionaryCreateMutable(NULL, 0, NULL, &kCFTypeDictionaryValueCallBacks);
-    _target = target;
-    _thread = thread;
-
-    return self;
+    return [self initWithTarget:target thread:[[NSThread alloc] init]];
 }
 
-- (void)dealloc
+- (id)initWithTarget:(id)target thread:(NSThread *)thread
 {
-    CFRelease(_cachedMethodSignatures);
+    if((self = [super initWithTarget:target]))
+        _thread = thread;
+
+    return self;
 }
 
 - (id)forwardingTargetForSelector:(SEL)aSelector
@@ -95,25 +157,6 @@
     }
 
     return nil;
-}
-
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel
-{
-    NSMethodSignature *signature = (__bridge NSMethodSignature *)CFDictionaryGetValue(_cachedMethodSignatures, sel);
-
-    if(signature != nil)
-        return signature;
-
-    if([_target respondsToSelector:sel])
-        signature = [_target methodSignatureForSelector:sel];
-
-    if(signature == nil)
-        signature = [super methodSignatureForSelector:sel];
-
-    if(signature != nil)
-        CFDictionaryAddValue(_cachedMethodSignatures, sel, (__bridge void *)signature);
-
-    return signature;
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation

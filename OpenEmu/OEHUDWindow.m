@@ -134,8 +134,26 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 
 - (void)performClose:(id)sender
 {
-    if([[self delegate] respondsToSelector:@selector(windowShouldClose:)] && [[self delegate] windowShouldClose:self])
-        [self close];
+    NSWindowController *windowController = [self windowController];
+    NSDocument *document = [windowController document];
+
+    if(document != nil && windowController != nil)
+        [document shouldCloseWindowController:windowController delegate:self shouldCloseSelector:@selector(_document:shouldClose:contextInfo:) contextInfo:NULL];
+    else
+        [self _document:nil shouldClose:YES contextInfo:NULL];
+}
+
+- (void)_document:(NSDocument *)document shouldClose:(BOOL)shouldClose contextInfo:(void  *)contextInfo
+{
+    if(shouldClose)
+    {
+        if([[self delegate] respondsToSelector:@selector(windowShouldClose:)])
+            shouldClose = [[self delegate] windowShouldClose:self];
+        else if([self respondsToSelector:@selector(windowShouldClose:)])
+            shouldClose = [self windowShouldClose:self];
+    }
+
+    if(shouldClose) [self close];
 }
 
 #pragma mark - NSWindow overrides
@@ -411,7 +429,6 @@ static NSImage *frameImage, *frameImageInactive;
         OEButton *closeButton = [[OEButton alloc] initWithFrame:closeButtonRect];
         [closeButton setCell:[[OEButtonCell alloc] initTextCell:@""]];
         [closeButton setThemeKey:@"hud_close_button"];
-        
         [closeButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
         [closeButton setAction:@selector(performClose:)];
         [self addSubview:closeButton];

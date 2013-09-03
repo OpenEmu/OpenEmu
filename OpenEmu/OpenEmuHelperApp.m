@@ -42,13 +42,14 @@
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
 
-@interface OpenEmuHelperApp ()
+@interface OpenEmuHelperApp () <OEGameCoreDelegate>
 @property(readwrite, getter=isRunning) BOOL running;
 @end
 
 @implementation OpenEmuHelperApp
 {
     void (^_startEmulationHandler)(void);
+    void (^_stopEmulationHandler)(void);
     OEIntSize _previousAspectSize;
     BOOL _hasSlowClientStorage;
     BOOL _isFirstRun;
@@ -546,6 +547,7 @@
         _gameCoreProxy = [[OEThreadProxy alloc] initWithTarget:_gameCore thread:thread];
 
         [_gameCore setOwner:_gameController];
+        [_gameCore setDelegate:self];
         [_gameCore setRenderDelegate:self];
         [_gameCore setAudioDelegate:self];
 
@@ -631,7 +633,7 @@
     [_gameCore startEmulation];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(_startEmulationHandler) _startEmulationHandler();
+        if(_startEmulationHandler != nil) _startEmulationHandler();
 
         [self setRunning:YES];
 
@@ -642,13 +644,18 @@
     CFRunLoopRun();
 
     NSLog(@"Did finish separate thread");
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(_stopEmulationHandler != nil) _stopEmulationHandler();
+    });
 }
 
 - (void)OE_stopGameCoreThreadRunLoop:(id)anObject
 {
+    NSLog(@"Will stop in stack trace: %@", [NSThread callStackSymbols]);
     CFRunLoopStop(CFRunLoopGetCurrent());
 
-    NSLog(@"Finishing separate thread");
+    NSLog(@"Finishing separate thread, stopping");
 }
 
 - (void)setupEmulation
@@ -681,17 +688,18 @@
 {
     [_pollingTimer invalidate], _pollingTimer = nil;
 
-    [self performSelector:@selector(OE_stopGameCoreThreadRunLoop:) onThread:[_gameCoreProxy thread] withObject:nil waitUntilDone:YES];
-
-    [[self gameCore] stopEmulation];
-    [_gameAudio stopAudio];
-    [_gameCore setRenderDelegate:nil];
-    [_gameCore setAudioDelegate:nil];
-    _gameCoreProxy = nil;
-    _gameCore      = nil;
-    _gameAudio     = nil;
-
-    [self setRunning:NO];
+    [[self gameCore] stopEmulationWithCompletionHandler:
+     ^{
+         [self setRunning:NO];
+         [_gameAudio stopAudio];
+         [_gameCore setRenderDelegate:nil];
+         [_gameCore setAudioDelegate:nil];
+         _gameCoreProxy = nil;
+         _gameCore      = nil;
+         _gameAudio     = nil;
+         
+         [self performSelector:@selector(OE_stopGameCoreThreadRunLoop:) onThread:[_gameCoreProxy thread] withObject:nil waitUntilDone:NO];
+     }];
 }
 
 - (OEIntSize)aspectSize
@@ -739,6 +747,7 @@
 
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler;
 {
+    DLog(@"Starting Emulation");
     _startEmulationHandler = [handler copy];
     [self startEmulation];
 }
@@ -751,8 +760,8 @@
 
 - (void)stopEmulationWithCompletionHandler:(void(^)(void))handler;
 {
+    _stopEmulationHandler = [handler copy];
     [self stopEmulation];
-    if(handler) handler();
 }
 
 - (void)saveStateToFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL, NSError *))block
@@ -790,6 +799,14 @@
 - (void)updateFrameInterval:(NSTimeInterval)newFrameInterval;
 {
     [[self displayHelper] setFrameInterval:newFrameInterval];
+}
+
+#pragma mark - OEGameCoreDelegate protocol methods
+
+- (void)gameCoreDidFinishFrameRefreshThread:(OEGameCore *)gameCore
+{
+    DLog(@"Finishing separate thread, stopping");
+    CFRunLoopStop(CFRunLoopGetCurrent());
 }
 
 #pragma mark - OERenderDelegate protocol methods

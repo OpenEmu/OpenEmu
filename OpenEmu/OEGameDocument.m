@@ -52,10 +52,16 @@
 #import "NSView+FadeImage.h"
 #import "NSViewController+OEAdditions.h"
 
+#import <objc/message.h>
+
 NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
+
+// Helper to call a method with this signature:
+// - (void)document:(NSDocument *)doc shouldClose:(BOOL)shouldClose  contextInfo:(void  *)contextInfo
+#define CAN_CLOSE_REPLY ((void(*)(id, SEL, NSDocument *, BOOL, void *))objc_msgSend)
 
 typedef enum : NSUInteger
 {
@@ -128,16 +134,6 @@ typedef enum : NSUInteger
         return nil;
 
     return self;
-}
-
-- (void)close
-{
-    if(_isTerminatingEmulation) return;
-
-    _isTerminatingEmulation = YES;
-    [self terminateEmulation];
-    [super close];
-    _isTerminatingEmulation = NO;
 }
 
 - (OEDistantViewController *)distantViewController
@@ -537,14 +533,8 @@ typedef enum : NSUInteger
     if(_emulationStatus != OEEmulationStatusNotSetup) return;
 
     [_gameCoreManager loadROMWithCompletionHandler:
-     ^(id systemClient, NSError *error)
+     ^(id systemClient)
      {
-         if(systemClient == nil)
-         {
-             handler(NO, error);
-             return;
-         }
-
          [_gameCoreManager setupEmulationWithCompletionHandler:
           ^(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize)
           {
@@ -575,6 +565,14 @@ typedef enum : NSUInteger
 
               handler(YES, nil);
           }];
+     } errorHandler:
+     ^(NSError *error)
+     {
+         [_gameCoreManager stop];
+         _gameCoreManager = nil;
+         [self close];
+
+         handler(NO, error);
      }];
 }
 
@@ -789,38 +787,61 @@ typedef enum : NSUInteger
     return YES;
 }
 
-- (void)terminateEmulation
+- (void)shouldCloseWindowController:(NSWindowController *)windowController delegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
 {
-    if(_emulationStatus == OEEmulationStatusNotSetup ||
-       _emulationStatus == OEEmulationStatusTerminating)
-        return;
-
-    [self OE_pauseEmulationIfNeeded];
-    [self saveStateWithName:OESaveStateAutosaveName synchronously:YES resumeGame:NO];
-
-    _emulationStatus = OEEmulationStatusTerminating;
-
-    [self OE_terminateEmulationWithoutNotification];
-
-    [self close];
+    [super shouldCloseWindowController:windowController delegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
 }
 
-- (void)OE_terminateEmulationWithoutNotification
++ (BOOL)autosavesInPlace
 {
-    [self OE_removeDeviceNotificationObservers];
+    return NO;
+}
 
-    _emulationStatus = OEEmulationStatusNotSetup;
+- (BOOL)isDocumentEdited
+{
+    return _emulationStatus == OEEmulationStatusPlaying || _emulationStatus == OEEmulationStatusPaused;
+}
 
-    _gameSystemController = nil;
-    _gameSystemResponder  = nil;
+- (void)canCloseDocumentWithDelegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
+{
+    if(_emulationStatus == OEEmulationStatusNotSetup || _emulationStatus == OEEmulationStatusTerminating)
+    {
+        [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
+        return;
+    }
 
-    // kill our background friend
-    [_gameCoreManager stop];
+    [self OE_pauseEmulationIfNeeded];
 
-    _gameCoreManager = nil;
+    if(![self shouldTerminateEmulation])
+    {
+        CAN_CLOSE_REPLY(delegate, shouldCloseSelector, self, NO, contextInfo);
+        return;
+    }
 
-    [[self rom] addTimeIntervalToPlayTime:ABS([_lastPlayStartDate timeIntervalSinceNow])];
-    _lastPlayStartDate = nil;
+    [self OE_saveStateWithName:OESaveStateAutosaveName completionHandler:
+     ^{
+         _emulationStatus = OEEmulationStatusTerminating;
+         [self OE_removeDeviceNotificationObservers];
+
+         [_gameCoreManager stopEmulationWithCompletionHandler:
+          ^{
+              DLog(@"Emulation stopped");
+              _emulationStatus = OEEmulationStatusNotSetup;
+
+              _gameSystemController = nil;
+              _gameSystemResponder  = nil;
+
+              // kill our background friend
+              [_gameCoreManager stop];
+
+              _gameCoreManager = nil;
+
+              [[self rom] addTimeIntervalToPlayTime:ABS([_lastPlayStartDate timeIntervalSinceNow])];
+              _lastPlayStartDate = nil;
+
+              [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
+          }];
+     }];
 }
 
 #pragma mark - Cheats
@@ -918,9 +939,13 @@ typedef enum : NSUInteger
      ^(OEHUDAlert *alert, NSUInteger result)
      {
          if(result == NSAlertDefaultReturn)
-             [self saveStateWithName:[alert stringValue] synchronously:NO resumeGame:didPauseEmulation];
-         else
-             if(didPauseEmulation) [self setEmulationPaused:NO];
+         {
+             [self OE_saveStateWithName:[alert stringValue] completionHandler:
+              ^{
+                  if(didPauseEmulation) [self setEmulationPaused:NO];
+              }];
+         }
+         else if(didPauseEmulation) [self setEmulationPaused:NO];
      }];
 
     [alert runModal];
@@ -935,74 +960,67 @@ typedef enum : NSUInteger
         slot = [sender tag];
 
     NSString *name = [OEDBSaveState nameOfQuickSaveInSlot:slot];
-    [self saveStateWithName:name synchronously:NO resumeGame:[self OE_pauseEmulationIfNeeded]];
+    BOOL didPauseEmulation = [self OE_pauseEmulationIfNeeded];
+    [self OE_saveStateWithName:name completionHandler:
+     ^{
+         if(didPauseEmulation) [self setEmulationPaused:NO];
+     }];
 }
 
-- (void)saveStateWithName:(NSString *)stateName synchronously:(BOOL)synchronously resumeGame:(BOOL)resumeGame
+- (void)OE_saveStateWithName:(NSString *)stateName completionHandler:(void(^)(void))handler
 {
-    NSAssert(_emulationStatus != OEEmulationStatusNotSetup, @"Cannot save state if emulation has not been set up");
+    NSAssert(_emulationStatus > OEEmulationStatusStarting, @"Cannot save state if emulation has not been set up");
+    NSAssert([self rom] != nil, @"Cannot save states without a rom.");
 
-    @try
-    {
-        if([self rom] == nil)
-        {
-            NSLog(@"Error: Can not save states without rom");
-            return;
-        }
+    NSString *temporaryDirectoryPath = NSTemporaryDirectory();
+    NSURL    *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
+    NSURL    *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+    OECorePlugin *core = [_gameCoreManager plugin];
 
-        NSString *temporaryDirectoryPath = NSTemporaryDirectory();
-        NSURL    *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
-        NSURL    *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
-        OECorePlugin *core = [_gameCoreManager plugin];
+    temporaryStateFileURL =
+    [temporaryStateFileURL uniqueURLUsingBlock:
+     ^ NSURL *(NSInteger triesCount)
+     {
+         return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+     }];
 
-        temporaryStateFileURL =
-        [temporaryStateFileURL uniqueURLUsingBlock:
-         ^ NSURL *(NSInteger triesCount)
+    [_gameCoreManager saveStateToFileAtPath:[temporaryStateFileURL path] completionHandler:
+     ^(BOOL success, NSError *error)
+     {
+         if(!success)
          {
-             return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
-         }];
+             NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
 
-        [_gameCoreManager saveStateToFileAtPath:[temporaryStateFileURL path] completionHandler:
-         ^(BOOL success, NSError *error)
+             if(handler != nil) handler();
+             return;
+         }
+
+         OEDBSaveState *state;
+         if([stateName hasPrefix:OESaveStateSpecialNamePrefix])
          {
-             if(!success)
-             {
-                 NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
+             state = [[self rom] saveStateWithName:stateName];
+             [state setCoreIdentifier:[core bundleIdentifier]];
+             [state setCoreVersion:[core version]];
+         }
 
-                 if(resumeGame) [self setEmulationPaused:NO];
-                 return;
-             }
+         if(state == nil)
+             state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:core withFile:temporaryStateFileURL];
+         else
+         {
+             [state replaceStateFileWithFile:temporaryStateFileURL];
+             [state setTimestamp:[NSDate date]];
+             [state writeInfoPlist];
+         }
 
-             OEDBSaveState *state;
-             if([stateName hasPrefix:OESaveStateSpecialNamePrefix])
-             {
-                 state = [[self rom] saveStateWithName:stateName];
-                 [state setCoreIdentifier:[core bundleIdentifier]];
-                 [state setCoreVersion:[core version]];
-             }
+         NSData *TIFFData = [[[self gameViewController] takeNativeScreenshot] TIFFRepresentation];
+         NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
+         NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
 
-             if(state == nil)
-                 state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:core withFile:temporaryStateFileURL];
-             else
-             {
-                 [state replaceStateFileWithFile:temporaryStateFileURL];
-                 [state setTimestamp:[NSDate date]];
-                 [state writeInfoPlist];
-             }
+         if(![PNGData writeToURL:[state screenshotURL] atomically: YES])
+             NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
 
-             NSData *TIFFData = [[[self gameViewController] takeNativeScreenshot] TIFFRepresentation];
-             NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
-             NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
-
-             if(![PNGData writeToURL:[state screenshotURL] atomically: YES])
-                 NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
-
-             if(resumeGame) [self setEmulationPaused:NO];
-         }];
-    }
-    @finally
-    {
-    }
+         if(handler != nil) handler();
+     }];
 }
 
 #pragma mark - Loading States

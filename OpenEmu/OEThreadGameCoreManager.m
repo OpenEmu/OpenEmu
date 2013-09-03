@@ -42,12 +42,14 @@
     OEThreadProxy    *_systemClientProxy;
     id                _systemClient;
 
-    void(^_completionHandler)(id systemClient, NSError *error);
+    void(^_completionHandler)(id systemClient);
+    void(^_errorHandler)(NSError *error);
 }
 
-- (void)loadROMWithCompletionHandler:(void(^)(id systemClient, NSError *error))completionHandler;
+- (void)loadROMWithCompletionHandler:(void(^)(id systemClient))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 {
     _completionHandler = [completionHandler copy];
+    _errorHandler = [errorHandler copy];
 
     _helperThread = [[NSThread alloc] initWithTarget:self selector:@selector(_executionThread:) object:nil];
 
@@ -73,7 +75,7 @@
         if(![_helper loadROMAtPath:[self ROMPath] withCorePluginAtPath:[[self plugin] path] systemIdentifier:[[self systemController] systemIdentifier]])
         {
             FIXME("Return a proper error object here.");
-            _completionHandler(nil, nil);
+            _errorHandler(nil);
             return;
         }
 
@@ -81,7 +83,7 @@
         _systemClientProxy = [OEThreadProxy threadProxyWithTarget:_systemClient thread:_helperThread];
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            _completionHandler(_systemClientProxy, nil);
+            _completionHandler(_systemClientProxy);
         });
 
         _dummyTimer = [NSTimer scheduledTimerWithTimeInterval:1e9 target:self selector:@selector(dummyTimer:) userInfo:nil repeats:YES];
