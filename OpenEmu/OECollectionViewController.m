@@ -719,7 +719,7 @@ static NSArray *OE_defaultSortDescriptors;
         [OEMenu openMenu:menu withEvent:event forView:aBrowser options:options];
     }
 }
-
+*/
 #pragma mark - Blank Slate Delegate
 - (NSDragOperation)blankSlateView:(OEBlankSlateView *)blankSlateView validateDrop:(id<NSDraggingInfo>)draggingInfo
 {
