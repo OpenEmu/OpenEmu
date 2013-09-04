@@ -35,7 +35,7 @@
 @class OELibraryController;
 @class OEHorizontalSplitView;
 
-@interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController>
+@interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, OEGridViewMenuSource, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController>
 
 #pragma mark -
 - (NSArray *)selectedGames;

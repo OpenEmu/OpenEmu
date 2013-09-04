@@ -31,6 +31,8 @@
 
 #import "OEBackgroundNoisePattern.h"
 
+#import "OEMenu.h"
+
 
 @interface OEGridView ()
 
@@ -129,56 +131,51 @@
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
-    /*
-    if(!_dataSourceHas.menuForItemsAtIndexes) return [self menu];
+    [[self window] makeFirstResponder:self];
 
-    const NSPoint mouseLocationInWindow = [theEvent locationInWindow];
-    const NSPoint mouseLocationInView   = [self convertPoint:mouseLocationInWindow fromView:nil];
-    const NSUInteger index              = [self indexForCellAtPoint:mouseLocationInView];
-    if(index != NSNotFound && _dataSourceHas.menuForItemsAtIndexes)
+    NSPoint mouseLocationInWindow = [theEvent locationInWindow];
+    NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
+
+    NSInteger index = [self indexOfItemAtPoint:mouseLocationInView];
+    if(index != NSNotFound && [[self dataSource] respondsToSelector:@selector(gridView:menuForItemsAtIndexes:)])
     {
-        BOOL            itemIsSelected      = [[self selectionIndexes] containsIndex:index];
+        BOOL            itemIsSelected      = [[self cellForItemAtIndex:index] isSelected];
         NSIndexSet     *indexes             = itemIsSelected ? [self selectionIndexes] : [NSIndexSet indexSetWithIndex:index];
 
-        [self setSelectionIndexes:indexes];
+        if(!itemIsSelected)
+            [self setSelectionIndexes:indexes byExtendingSelection:NO];
 
-        NSMenu *contextMenu = [[self dataSource] gridView:self menuForItemsAtIndexes:[self selectionIndexes]];
-        if(contextMenu)
-        {
-            OEMenuStyle     style      = ([[NSUserDefaults standardUserDefaults] boolForKey:OEMenuOptionsStyleKey] ? OEMenuStyleLight : OEMenuStyleDark);
-            OEGridViewCell *itemCell   = [self cellForItemAtIndex:index makeIfNecessary:YES];
+        NSMenu *contextMenu = [(id <OEGridViewMenuSource>)[self dataSource] gridView:self menuForItemsAtIndexes:indexes];
 
-            NSRect          hitRect             = NSInsetRect([itemCell hitRect], 5, 5);
-            NSRect          hitRectOnView       = [itemCell convertRect:hitRect toLayer:self.layer];
-            int major, minor;
-            GetSystemVersion(&major, &minor, NULL);
-            if (major == 10 && minor < 8) hitRectOnView.origin.y = self.bounds.size.height - hitRectOnView.origin.y - hitRectOnView.size.height;
-            NSRect          hitRectOnWindow     = [self convertRect:hitRectOnView toView:nil];
-            NSRect          visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
-            NSRect          visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
+        OEMenuStyle     style      = ([[NSUserDefaults standardUserDefaults] boolForKey:OEMenuOptionsStyleKey] ? OEMenuStyleLight : OEMenuStyleDark);
+        IKImageBrowserCell *itemCell   = [self cellForItemAtIndex:index];
 
-            // we enhance the calculated rect to get a visible gap between the item and the menu
-            NSRect enhancedVisibleItemRect = NSInsetRect(visibleItemRect, -3, -3);
+        NSRect          hitRect             = NSInsetRect([itemCell imageFrame], 5, 5);
+        //NSRect          hitRectOnView       = [itemCell convertRect:hitRect toLayer:self.layer];
+        int major, minor;
+        GetSystemVersion(&major, &minor, NULL);
+        if (major == 10 && minor < 8) hitRect.origin.y = self.bounds.size.height - hitRect.origin.y - hitRect.size.height;
+        NSRect          hitRectOnWindow     = [self convertRect:hitRect toView:nil];
+        NSRect          visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
+        NSRect          visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
 
-            const NSRect  targetRect = [[self window] convertRectToScreen:enhancedVisibleItemRect];
-            NSDictionary *options    = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithUnsignedInteger:style], OEMenuOptionsStyleKey,
-                                        [NSNumber numberWithUnsignedInteger:OEMinXEdge], OEMenuOptionsArrowEdgeKey,
-                                        [NSValue valueWithRect:targetRect], OEMenuOptionsScreenRectKey,
-                                        nil];
+        // we enhance the calculated rect to get a visible gap between the item and the menu
+        NSRect enhancedVisibleItemRect = NSInsetRect(visibleItemRect, -3, -3);
 
-            // Display the menu
-            [[self window] makeFirstResponder:self];
-            [OEMenu openMenu:contextMenu withEvent:theEvent forView:self options:options];
-        }
+        const NSRect  targetRect = [[self window] convertRectToScreen:enhancedVisibleItemRect];
+        NSDictionary *options    = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithUnsignedInteger:style], OEMenuOptionsStyleKey,
+                                    [NSNumber numberWithUnsignedInteger:OEMinXEdge], OEMenuOptionsArrowEdgeKey,
+                                    [NSValue valueWithRect:targetRect], OEMenuOptionsScreenRectKey,
+                                    nil];
 
+        // Display the menu
+        [[self window] makeFirstResponder:self];
+        [OEMenu openMenu:contextMenu withEvent:theEvent forView:self options:options];
         return nil;
     }
 
-    return [self menu];
-     */
-    NSLog(@"menuForEvent");
-    return nil;
+    return [super menuForEvent:theEvent];
 }
 
 - (void)renameSelectedGame:(id)sender
