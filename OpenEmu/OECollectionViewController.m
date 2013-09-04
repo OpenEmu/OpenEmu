@@ -180,42 +180,9 @@ static NSArray *OE_defaultSortDescriptors;
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 
     // Set up GridView
-    [gridView setCellSize:NSMakeSize(168, 193)];
-    [gridView setIntercellSpacing:NSMakeSize(22, 29)];
-    [gridView setCellsStyleMask:IKCellsStyleTitled | IKCellsStyleOutlined];
-        //[gridView setMinimumColumnSpacing:22.0];
-    //[gridView setRowSpacing:29.0];
     [gridView setDelegate:self];
-    //[gridView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, NSPasteboardTypePNG, NSPasteboardTypeTIFF, nil]];
     [gridView setDataSource:self];
-    //[gridView setConstrainsToOriginalSize:YES];
-    [gridView setValue:[NSColor blackColor] forKey:IKImageBrowserCellsOutlineColorKey];
-    [gridView setAnimates:YES];
-    //[gridView setContentResizingMask:NSViewHeightSizable];
 
-    NSMutableParagraphStyle *paraphStyle = [[NSMutableParagraphStyle alloc] init];
-	[paraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-	[paraphStyle setAlignment:NSCenterTextAlignment];
-
-    NSFont *titleFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:12];
-
-    NSShadow *shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor blackColor]];
-    [shadow setShadowBlurRadius:1.0];
-    [shadow setShadowOffset:NSMakeSize(0.0, -1.0)];
-
-
-	NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-	[attributes setObject:titleFont forKey:NSFontAttributeName];
-	[attributes setObject:paraphStyle forKey:NSParagraphStyleAttributeName];
-	[attributes setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-    [attributes setObject:shadow forKey:NSShadowAttributeName];
-	[gridView setValue:attributes forKey:IKImageBrowserCellsTitleAttributesKey];
-    [gridView setValue:attributes forKey:IKImageBrowserCellsHighlightedTitleAttributesKey];
-
-    //OECoverGridForegroundLayer *foregroundLayer = [[OECoverGridForegroundLayer alloc] init];
-    //[gridView setForegroundLayer:foregroundLayer];
-    
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
     [sizeSlider setContinuous:YES];
@@ -604,15 +571,21 @@ static NSArray *OE_defaultSortDescriptors;
     }
 }
 
-- (void)selectionChangedInGridView:(OEGridView *)view
+- (void)imageBrowser:(IKImageBrowserView *)aBrowser removeItemsAtIndexes:(NSIndexSet *)indexes
 {
-    [gamesController setSelectionIndexes:[view selectionIndexes]];
-    
-    if([[NSUserDefaults standardUserDefaults] boolForKey:OEDebugCollectionView] && [[[self gamesController] selectedObjects] count])
-    {
-        [[OECollectionDebugWindowController sharedController] setRepresentedObject:[[[self gamesController] selectedObjects] objectAtIndex:0]];
-        [[[OECollectionDebugWindowController sharedController] window] makeKeyAndOrderFront:self];
-    }
+    [self deleteSelectedGames:aBrowser];
+}
+
+- (NSUInteger)imageBrowser:(IKImageBrowserView *)aBrowser writeItemsAtIndexes:(NSIndexSet *)itemIndexes toPasteboard:(NSPasteboard *)pasteboard
+{
+    NSLog(@"writeItemsAtIndexes");
+    [itemIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop)
+     {
+         id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:idx];
+         [pasteboard writeObjects:[NSArray arrayWithObject:obj]];
+     }];
+
+    return YES;
 }
 
 - (NSDragOperation)gridView:(OEGridView *)gridView validateDrop:(id<NSDraggingInfo>)draggingInfo
@@ -640,10 +613,6 @@ static NSArray *OE_defaultSortDescriptors;
 
 #pragma mark -
 #pragma mark Grid View DataSource
-- (NSUInteger)numberOfItemsInGridView:(OEGridView *)view
-{
-    return [[gamesController arrangedObjects] count];
-}
 
 - (NSUInteger)numberOfItemsInImageBrowser:(IKImageBrowserView *)aBrowser
 {
@@ -724,11 +693,6 @@ static NSArray *OE_defaultSortDescriptors;
     }
 }
 
-- (NSMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
-{
-    return [self OE_menuForItemsAtIndexes:indexes];
-}
-
 #pragma mark - Blank Slate Delegate
 - (NSDragOperation)blankSlateView:(OEBlankSlateView *)blankSlateView validateDrop:(id<NSDraggingInfo>)draggingInfo
 {
@@ -760,11 +724,6 @@ static NSArray *OE_defaultSortDescriptors;
 }
 
 /*
-- (void)gridView:(OEGridView *)view doubleClickedCellForItemAtIndex:(NSUInteger)index
-{
-    [[self libraryController] startGame:self];
-}
-
 - (void)gridView:(OEGridView *)view didEndEditingCellForItemAtIndex:(NSUInteger)index
 {
     OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
