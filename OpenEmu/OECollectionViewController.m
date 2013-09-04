@@ -686,6 +686,11 @@ static NSArray *OE_defaultSortDescriptors;
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
 
+- (NSMenu *)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet *)indexes
+{
+    return [self OE_menuForItemsAtIndexes:indexes];
+}
+/*
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasRightClickedAtIndex:(NSUInteger)index withEvent:(NSEvent *)event
 {
     NSMenu *menu = [self OE_menuForItemsAtIndexes:[aBrowser selectionIndexes]];
@@ -718,7 +723,7 @@ static NSArray *OE_defaultSortDescriptors;
         [OEMenu openMenu:menu withEvent:event forView:aBrowser options:options];
     }
 }
-
+*/
 #pragma mark - Blank Slate Delegate
 - (NSDragOperation)blankSlateView:(OEBlankSlateView *)blankSlateView validateDrop:(id<NSDraggingInfo>)draggingInfo
 {
