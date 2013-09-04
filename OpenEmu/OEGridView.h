@@ -31,5 +31,8 @@
 {
     NSRect lastVisibleRect;
 }
+@end
 
+@protocol OEGridViewMenuSource <NSObject>
+- (NSMenu *)gridView:(OEGridView*)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes;
 @end
