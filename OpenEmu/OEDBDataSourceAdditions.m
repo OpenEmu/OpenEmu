@@ -105,7 +105,7 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 #pragma mark CoverFlowDataSourceItem
 - (NSString *)imageUID
 {
-    return [[[self boxImage] imagePathForSize:NSMakeSize(20, 20)] absoluteString];
+    return [[[self boxImage] imagePathForSize:NSMakeSize(20, 20)] absoluteString] ?: @"";
 
     // Create a new UUID
     CFUUIDRef  uuidObj    = CFUUIDCreate(nil);
