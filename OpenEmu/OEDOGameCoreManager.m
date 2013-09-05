@@ -156,8 +156,6 @@
 
 - (void)stop
 {
-    [_rootProxy stopEmulationWithDelegate:nil];
-
     // kill our background friend
     [_taskWrapper stopProcess];
     _taskWrapper = nil;
@@ -189,22 +187,48 @@
 
 - (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID, OEIntSize, OEIntSize))handler;
 {
-    [_rootProxy setupEmulationWithDelegate:[OEDOGameCoreHelperDelegateHelper delegateHelperWithSetupCompletionHandler:handler]];
+    [_rootProxy setupEmulationWithDelegate:
+     [OEDOGameCoreHelperDelegateHelper delegateHelperWithSetupCompletionHandler:
+      ^(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize)
+      {
+          dispatch_async(dispatch_get_main_queue(), ^{
+              handler(surfaceID, screenSize, aspectSize);
+          });
+      }]];
 }
 
 - (void)startEmulationWithCompletionHandler:(void (^)(void))handler
 {
-    [_rootProxy startEmulationWithDelegate:[OEDOGameCoreHelperDelegateHelper delegateHelperWithCompletionHandler:handler]];
+    [_rootProxy startEmulationWithDelegate:
+     [OEDOGameCoreHelperDelegateHelper delegateHelperWithCompletionHandler:
+      ^{
+          dispatch_async(dispatch_get_main_queue(), ^{
+              handler();
+          });
+      }]];
 }
 
 - (void)resetEmulationWithCompletionHandler:(void(^)(void))handler;
 {
-    [_rootProxy resetEmulationWithDelegate:[OEDOGameCoreHelperDelegateHelper delegateHelperWithCompletionHandler:handler]];
+    [_rootProxy resetEmulationWithDelegate:
+     [OEDOGameCoreHelperDelegateHelper delegateHelperWithCompletionHandler:
+      ^{
+          dispatch_async(dispatch_get_main_queue(), ^{
+              handler();
+          });
+      }]];
 }
 
 - (void)stopEmulationWithCompletionHandler:(void(^)(void))handler;
 {
-    [_rootProxy stopEmulationWithDelegate:[OEDOGameCoreHelperDelegateHelper delegateHelperWithCompletionHandler:handler]];
+    [_rootProxy stopEmulationWithDelegate:
+     [OEDOGameCoreHelperDelegateHelper delegateHelperWithCompletionHandler:
+      ^{
+          dispatch_async(dispatch_get_main_queue(), ^{
+              handler();
+              [self stop];
+          });
+      }]];
 }
 
 - (void)saveStateToFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL success, NSError *error))block;
