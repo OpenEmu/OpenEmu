@@ -274,10 +274,8 @@
 
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler;
 {
-    DLog(@"Will start emulation with helper: %@.", [self gameCoreHelper]);
     [[self gameCoreHelper] startEmulationWithCompletionHandler:
      ^{
-         DLog(@"Did start emulation");
          dispatch_async(dispatch_get_main_queue(), ^{
              handler();
          });
@@ -299,7 +297,6 @@
     [[self gameCoreHelper] stopEmulationWithCompletionHandler:
      ^{
          dispatch_async(dispatch_get_main_queue(), ^{
-             DLog(@"Did stop emulation.");
              handler();
              [self stop];
          });
