@@ -185,18 +185,26 @@ typedef enum : NSUInteger
     return YES;
 }
 
-- (void)OE_setupGameCoreManagerUsingCorePlugin:(OECorePlugin *)core
+- (void)OE_setupGameCoreManagerUsingCorePlugin:(OECorePlugin *)core completionHandler:(void(^)(void))completionHandler
 {
-    if(core == [_gameCoreManager plugin])
-    {
-        [_gameCoreManager resetEmulationWithCompletionHandler:^{ }];
-        return;
-    }
+    NSAssert(core != [_gameCoreManager plugin], @"Do not attempt to run a new core using the same plug-in as the current one.");
 
     _emulationStatus = OEEmulationStatusNotSetup;
+    [_gameCoreManager stopEmulationWithCompletionHandler:
+     ^{
+         _gameCoreManager = [self _newGameCoreManagerWithCorePlugin:core];
+         [self setupGameWithCompletionHandler:
+          ^(BOOL success, NSError *error)
+          {
+              if(!success)
+              {
+                  [self presentError:error];
+                  return;
+              }
 
-    [_gameCoreManager stop];
-    _gameCoreManager = [self _newGameCoreManagerWithCorePlugin:core];
+              completionHandler();
+          }];
+     }];
 }
 
 - (OEGameCoreManager *)_newGameCoreManagerWithCorePlugin:(OECorePlugin *)corePlugin
@@ -644,18 +652,16 @@ typedef enum : NSUInteger
     [alert setCallbackHandler:
      ^(OEHUDAlert *alert, NSUInteger result)
      {
-         if(result == NSAlertDefaultReturn)
-         {
-             NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-             [standardUserDefaults setValue:[self coreIdentifier] forKey:UDSystemCoreMappingKeyForSystemIdentifier([self systemIdentifier])];
+         if(result != NSAlertDefaultReturn)
+             return;
 
-             [self OE_setupGameCoreManagerUsingCorePlugin:plugin];
-             [_gameCoreManager setupEmulationWithCompletionHandler:
-              ^(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize)
-              {
-                  [self OE_startEmulation];
-              }];
-         }
+         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+         [standardUserDefaults setValue:[self coreIdentifier] forKey:UDSystemCoreMappingKeyForSystemIdentifier([self systemIdentifier])];
+
+         [self OE_setupGameCoreManagerUsingCorePlugin:plugin completionHandler:
+          ^{
+              [self OE_startEmulation];
+          }];
      }];
 
     [alert runModal];
@@ -1094,8 +1100,10 @@ typedef enum : NSUInteger
             return;
         }
 
-        [self OE_setupGameCoreManagerUsingCorePlugin:plugin];
-        loadState();
+        [self OE_setupGameCoreManagerUsingCorePlugin:plugin completionHandler:
+         ^{
+             loadState();
+         }];
     };
 
     OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"This save state was created with a different core. Do you want to switch to that core now?", @"")
