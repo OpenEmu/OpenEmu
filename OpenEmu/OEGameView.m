@@ -1100,7 +1100,15 @@ static NSString *const _OESystemVideoFilterKeyFormat = @"videoFilter.%@";
     }
     IOSurfaceUnlock(_gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
 
-    const NSSize imageSize   = NSSizeFromOEIntSize(_gameScreenSize);
+    // calculate aspect ratio
+    OEIntSize aspectSize = [self gameAspectSize];
+    NSSize    imageSize  = NSSizeFromOEIntSize([self gameScreenSize]);
+    float     wr         = imageSize.width  / aspectSize.width;
+    float     hr         = imageSize.height / aspectSize.height;
+
+    if(wr > hr) imageSize.height = imageSize.width  * aspectSize.height / aspectSize.width;
+    else        imageSize.width  = imageSize.height * aspectSize.width  / aspectSize.height;
+    
     NSImage *screenshotImage = [[NSImage alloc] initWithSize:imageSize];
     [screenshotImage addRepresentation:imageRep];
 
