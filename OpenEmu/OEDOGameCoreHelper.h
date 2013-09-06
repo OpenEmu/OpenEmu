@@ -68,7 +68,7 @@
 
 - (oneway void)setSystemResponderClient:(byref id)responderClient;
 
-- (oneway void)gameCoreHelperDidSetupEmulationWithIOSurfaceID:(IOSurfaceID)surfaceID screenSize:(OEIntSize)screenSize aspectSize:(OEIntSize)aspectSize;
+- (oneway void)gameCoreHelperDidSetupEmulation;
 - (oneway void)gameCoreHelperDidStartEmulation;
 - (oneway void)gameCoreHelperDidResetEmulation;
 - (oneway void)gameCoreHelperDidStopEmulation;

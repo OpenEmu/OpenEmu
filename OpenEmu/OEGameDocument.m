@@ -544,8 +544,7 @@ typedef enum : NSUInteger
      ^(id systemClient)
      {
          [_gameCoreManager setupEmulationWithCompletionHandler:
-          ^(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize)
-          {
+          ^{
               _emulationStatus = OEEmulationStatusSetup;
 
               [self OE_addDeviceNotificationObservers];
@@ -553,10 +552,6 @@ typedef enum : NSUInteger
               _gameSystemResponder = [_gameSystemController newGameSystemResponder];
               [_gameSystemResponder setClient:systemClient];
 
-              /*
-              [_gameViewController setAspectSize:aspectSize withIOSurfaceID:surfaceID];
-              [_gameViewController setScreenSize:screenSize withIOSurfaceID:surfaceID];
-               */
               [self disableOSSleep];
               [[self rom] incrementPlayCount];
               [[self rom] markAsPlayedNow];

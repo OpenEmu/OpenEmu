@@ -57,9 +57,8 @@ NSString *const OEHelperServerNamePrefix = @"org.openemu.OpenEmuHelper-";
 - (oneway void)setupEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
 {
     [self setupEmulationWithCompletionHandler:
-     ^(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize)
-     {
-         [delegate gameCoreHelperDidSetupEmulationWithIOSurfaceID:surfaceID screenSize:screenSize aspectSize:aspectSize];
+     ^{
+         [delegate gameCoreHelperDidSetupEmulation];
      }];
 }
 

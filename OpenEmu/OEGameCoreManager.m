@@ -84,7 +84,7 @@
     [[self gameCoreHelper] setDrawSquarePixels:drawSquarePixels];
 }
 
-- (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
+- (void)setupEmulationWithCompletionHandler:(void(^)(void))handler;
 {
     [[self gameCoreHelper] setupEmulationWithCompletionHandler:handler];
 }
