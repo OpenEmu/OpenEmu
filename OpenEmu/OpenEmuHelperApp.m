@@ -406,9 +406,6 @@
 
     glPopAttrib();
     glPopClientAttrib();
-
-    // flush to make sure IOSurface updates are seen in parent app.
-    if(!rendersToOpenGL) glFlushRenderAPPLE();
 }
 
 - (void)drawGameTexture
@@ -454,6 +451,9 @@
     glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
     glDisableClientState(GL_VERTEX_ARRAY);
+
+    // flush to make sure IOSurface updates are seen in parent app.
+    glFlushRenderAPPLE();
 }
 
 - (void)updateScreenSize
@@ -820,16 +820,17 @@
 {
     if([_gameCore rendersToOpenGL])
         [self beginDrawToIOSurface];
-    else
+}
+
+- (void)didExecute
+{
+    if(![_gameCore rendersToOpenGL])
     {
         [self updateGameTexture];
         [self beginDrawToIOSurface];
         [self drawGameTexture];
     }
-}
 
-- (void)didExecute
-{
     [self endDrawToIOSurface];
 
     if(!_hasStartedAudio)

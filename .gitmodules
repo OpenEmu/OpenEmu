@@ -46,3 +46,6 @@
 [submodule "picodrive"]
 	path = picodrive
 	url = https://github.com/OpenEmu/picodrive.git
+[submodule "Higan"]
+	path = Higan
+	url = https://github.com/OpenEmu/Higan-Core.git

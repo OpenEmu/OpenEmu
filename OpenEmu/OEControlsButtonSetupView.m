@@ -296,6 +296,8 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
         if(sectionCollapsed) y = previousY - sectionTitleHeight;
     }
 
+    [self layoutSectionHeadings:nil];
+
     if(animated) [CATransaction flush];
 #undef hideBehindSectionTitle
 #undef animated
@@ -354,12 +356,12 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     for(i=[sections count]-1; i>=0; i--)
     {
         NSDictionary *section = [sections objectAtIndex:i];
-        id sectionHeader = [[sections objectAtIndex:i] objectForKey:@"header"];
+        id sectionHeader      = [section objectForKey:@"header"];
 
         CGFloat sectionStart  = [self OE_headerPositionOfSectionAtIndex:i];
         CGFloat sectionHeight = [self OE_calculateHeightOfSection:section];
 
-        NSRect sectionRect = (NSRect){{0, sectionStart-sectionHeight}, {width-0, sectionHeight}};
+        NSRect sectionRect = (NSRect){{0, sectionStart-sectionHeight}, {width, sectionHeight}};
         NSRect visibleRect = [self visibleRect];
         NSRect visibleSectionRect = NSIntersectionRect(visibleRect, sectionRect);
 
@@ -368,7 +370,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
             [sectionHeader setFrameOrigin:(NSPoint){0,MAX(minY, NSMaxY(visibleSectionRect)-sectionTitleHeight)}];
             minY = NSMaxY(visibleSectionRect);
 
-            if(minY>=NSMaxY(visibleRect)-sectionTitleHeight-0.5)
+            if(minY>=NSMaxY(visibleRect)-sectionTitleHeight-1.0)
                 [sectionHeader setPinned:YES];
             else
                 [sectionHeader setPinned:NO];

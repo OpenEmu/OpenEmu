@@ -271,6 +271,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
     NSImage  *selectionImage = [self OE_standardImageNamed:imageKey forGridView:gridView withSize:size];
     if(selectionImage) return selectionImage;
 
+    BOOL active = _activeSelector;
     BOOL(^drawingBlock)(NSRect) = ^BOOL(NSRect dstRect)
     {
         NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
@@ -278,7 +279,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
         [currentContext setShouldAntialias:NO];
 
         // Draw gradient
-        const CGRect bounds = CGRectMake(0.0, 0.0, size.width, size.height);
+        const CGRect bounds = CGRectMake(0.0, 0.0, dstRect.size.width, dstRect.size.height);
         NSBezierPath *gradientPath = [NSBezierPath bezierPathWithRoundedRect:CGRectInset(bounds, 2.0, 3.0) xRadius:8.0 yRadius:8.0];
         [gradientPath appendBezierPath:[NSBezierPath bezierPathWithRoundedRect:CGRectInset(bounds, 8.0, 8.0) xRadius:1.0 yRadius:1.0]];
         [gradientPath setWindingRule:NSEvenOddWindingRule];
@@ -286,7 +287,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
         NSColor *topColor;
         NSColor *bottomColor;
 
-        if(_activeSelector)
+        if(active)
         {
             topColor = [NSColor colorWithCalibratedRed:0.243 green:0.502 blue:0.871 alpha:1.0];
             bottomColor = [NSColor colorWithCalibratedRed:0.078 green:0.322 blue:0.667 alpha:1.0];
@@ -297,16 +298,15 @@ __strong static OEThemeImage *selectorRingImage = nil;
             bottomColor = [NSColor colorWithCalibratedWhite:0.439 alpha:1.0];
         }
 
-        NSGradient *graident = [[NSGradient alloc] initWithStartingColor:topColor endingColor:bottomColor];
-        [graident drawInBezierPath:gradientPath angle:270.0];
+        NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:topColor endingColor:bottomColor];
+        [gradient drawInBezierPath:gradientPath angle:270.0];
 
         [currentContext restoreGraphicsState];
         [currentContext saveGraphicsState];
 
         // Draw selection border
-        OEThemeState currentState = [OEThemeObject themeStateWithWindowActive:YES buttonState:NSMixedState selected:NO enabled:YES focused:_activeSelector houseHover:YES modifierMask:YES];
-        NSImage *image  = [selectorRingImage imageForState:currentState];
-                dstRect = NSMakeRect(0.0, 0.0, size.width, size.height);
+        OEThemeState currentState = [OEThemeObject themeStateWithWindowActive:YES buttonState:NSMixedState selected:NO enabled:YES focused:active houseHover:YES modifierMask:YES];
+        NSImage *image = [selectorRingImage imageForState:currentState];
         [image drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 
         [currentContext restoreGraphicsState];

@@ -121,11 +121,11 @@
         _fragmentFrameCount                         = [self fragmentParameterWithName:"IN.frame_count"];
         _fragmentFrameDirection                     = [self fragmentParameterWithName:"IN.frame_direction"];
         _fragmentFrameRotation                      = [self fragmentParameterWithName:"IN.frame_rotation"];
-        
-        _fragmentOriginalTexture                    = [self fragmentParameterWithName:"ORIG.tex_coord"];
+
+        _fragmentOriginalTexture                    = [self fragmentParameterWithName:"ORIG.texture"];
         _fragmentOriginalTextureSize                = [self fragmentParameterWithName:"ORIG.texture_size"];
         _fragmentOriginalTextureVideoSize           = [self fragmentParameterWithName:"ORIG.video_size"];
-        
+
         _fragmentPassTextures                       = (CGparameter *) malloc(sizeof(CGparameter) * (OEMultipasses - 1));
         _fragmentPassTextureSizes                   = (CGparameter *) malloc(sizeof(CGparameter) * (OEMultipasses - 1));
         _fragmentPassTextureVideoSizes              = (CGparameter *) malloc(sizeof(CGparameter) * (OEMultipasses - 1));
@@ -135,7 +135,7 @@
             _fragmentPassTextureSizes[i]            = [self fragmentParameterWithName:[[NSString stringWithFormat:@"PASS%lu.texture_size", i+1] UTF8String]];
             _fragmentPassTextureVideoSizes[i]       = [self fragmentParameterWithName:[[NSString stringWithFormat:@"PASS%lu.video_size", i+1] UTF8String]];
         }
-        
+
         _fragmentPreviousTextures                   = (CGparameter *) malloc(sizeof(CGparameter) * (OEFramesSaved - 1));
         _fragmentPreviousTextureSizes               = (CGparameter *) malloc(sizeof(CGparameter) * (OEFramesSaved - 1));
         _fragmentPreviousTextureVideoSizes          = (CGparameter *) malloc(sizeof(CGparameter) * (OEFramesSaved - 1));
