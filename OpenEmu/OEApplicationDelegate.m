@@ -183,6 +183,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [[OEDeviceManager sharedDeviceManager] addUnhandledEventMonitorHandler:
      ^(OEDeviceHandler *handler, OEHIDEvent *event)
      {
+         if(![NSApp isActive] && [event type] == OEHIDEventTypeKeyboard) return;
+
          [[[self currentGameDocument] gameSystemResponder] handleHIDEvent:event];
      }];
 
