@@ -309,27 +309,6 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     [self OE_openGameDocumentWithGame:nil saveState:saveState];
 }
 
-- (void)stopEmulation:(id)sender
-{
-    // If we are in full screen mode and terminating the emulation will exit full screen,
-    // the controller switching animation interferes with the exiting full screen animation.
-    // We therefore only animate controller switching in case there won't be a concurrent
-    // exit full screen animation. See issue #245.
-    [_gameDocument setGameWindowController:nil];
-    [_gameDocument stopEmulation:self];
-    _gameDocument = nil;
-    _mainWindowRunsGame = NO;
-
-    BOOL exitFullScreen = (_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen]);
-    if(exitFullScreen)
-    {
-        [[self window] toggleFullScreen:self];
-        _shouldExitFullScreenWhenGameFinishes = NO;
-    }
-
-    [self setCurrentContentController:nil animate:exitFullScreen];
-}
-
 #pragma mark - NSWindow delegate
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
