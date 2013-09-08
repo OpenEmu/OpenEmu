@@ -655,28 +655,6 @@
     NSLog(@"Finishing separate thread, stopping");
 }
 
-- (void)setupEmulation
-{
-    NSLog(@"Setting up emulation");
-
-    // Move our OpenGL setup before we init our core
-    // So that any GameCores that require OpenGL, can have it prepped.
-    // Cores can get the current CGLContext via CGLGetCurrentContext
-
-    // init resources
-    [self setupOpenGLOnScreen:[NSScreen mainScreen]];
-
-    [_gameCore setupEmulation];
-
-    [self setupGameCoreAudioAndVideo];
-
-    [self willExecute];
-    [_gameCore executeFrameSkippingFrame:NO];
-    [self didExecute];
-
-    DLog(@"finished setting up rom");
-}
-
 - (OEIntSize)aspectSize
 {
     return [_gameCore aspectSize];
@@ -716,8 +694,24 @@
 
 - (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
 {
-    [self setupEmulation];
-    if(handler) handler(_surfaceID, _screenSize, _previousAspectSize);
+    NSLog(@"Setting up emulation");
+
+    // Move our OpenGL setup before we init our core
+    // So that any GameCores that require OpenGL, can have it prepped.
+    // Cores can get the current CGLContext via CGLGetCurrentContext
+
+    // init resources
+    [self setupOpenGLOnScreen:[NSScreen mainScreen]];
+
+    [_gameCore setupEmulation];
+
+    [self setupGameCoreAudioAndVideo];
+
+    [_gameCore runStartUpFrameWithCompletionHandler:
+     ^{
+         DLog(@"finished setting up rom");
+         if(handler) handler(_surfaceID, _screenSize, _previousAspectSize);
+     }];
 }
 
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler;
