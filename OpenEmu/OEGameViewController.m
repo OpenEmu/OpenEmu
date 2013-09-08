@@ -202,8 +202,10 @@ NSString *const OEDefaultWindowTitle = @"OpenEmu";
     
     NSURL *screenshotFolderURL = [[OELibraryDatabase defaultDatabase] screenshotFolderURL];
     NSURL *screenshotURL = [screenshotFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %@.png", [[[[self document] rom] game] displayName], timeStamp]];
-    
-    [PNGData writeToURL:screenshotURL atomically: YES];
+
+    __autoreleasing NSError *error;
+    if(![PNGData writeToURL:screenshotURL options:NSDataWritingAtomic error:&error])
+        NSLog(@"Could not save screenshot at URL: %@, with error: %@", screenshotURL, error);
 }
 
 #pragma mark - OEGameCoreDisplayHelper methods
