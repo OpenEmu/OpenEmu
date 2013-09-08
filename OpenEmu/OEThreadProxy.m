@@ -52,7 +52,11 @@
 
 - (void)dealloc
 {
+    NSLog(@"Deallocating proxy: %@", self);
+    _target = nil;
+
     CFRelease(_cachedMethodSignatures);
+    _cachedMethodSignatures = NULL;
 }
 
 - (BOOL)respondsToSelector:(SEL)aSelector
@@ -67,6 +71,12 @@
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel
 {
+    if(_cachedMethodSignatures == NULL)
+    {
+        NSLog(@"Attempting to use _cachedMethodSignatures after deallocation with selector: %@", NSStringFromSelector(sel));
+        return nil;
+    }
+
     NSMethodSignature *signature = (__bridge NSMethodSignature *)CFDictionaryGetValue(_cachedMethodSignatures, sel);
 
     if(signature != nil)
@@ -133,6 +143,8 @@
 
 @end
 
+#define IS_CURRENT_THREAD_AND_ALIVE(thread) (thread == nil || [thread isFinished] || [thread isCancelled] || [NSThread currentThread] == thread)
+
 @implementation OEThreadProxy
 
 + (id)threadProxyWithTarget:(id)target thread:(NSThread *)thread;
@@ -153,9 +165,14 @@
     return self;
 }
 
+- (void)dealloc
+{
+    _thread = nil;
+}
+
 - (id)forwardingTargetForSelector:(SEL)aSelector
 {
-    if([NSThread currentThread] == _thread)
+    if(IS_CURRENT_THREAD_AND_ALIVE(_thread))
     {
         NSLog(@"Will fast invoke: %@ with target: %@", _target, NSStringFromSelector(aSelector));
         return _target;
@@ -169,7 +186,7 @@
     if(![_target respondsToSelector:[invocation selector]])
         return;
 
-    if([NSThread currentThread] == _thread)
+    if(IS_CURRENT_THREAD_AND_ALIVE(_thread))
         [invocation invokeWithTarget:_target];
     else
     {
@@ -209,6 +226,8 @@
             }
         }
 
+        [invocation setTarget:_target];
+
         // Retain the arguments, the invocation has to be executed on another thread.
         [invocation retainArguments];
 
@@ -216,7 +235,7 @@
         for(NSUInteger i = 0; i < argumentsToReleaseCount; i++)
             _Block_release(argumentsToRelease[i]);
 
-        [invocation performSelector:@selector(invokeWithTarget:) onThread:_thread withObject:_target waitUntilDone:NO];
+        [invocation performSelector:@selector(invoke) onThread:_thread withObject:nil waitUntilDone:NO];
     }
 }
 
