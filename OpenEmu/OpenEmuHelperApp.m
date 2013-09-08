@@ -830,7 +830,8 @@
 
 - (void)willRenderOnAlternateThread
 {
-    CGLCreateContext(_glPixelFormat, _glContext, &_alternateContext);
+    if(_alternateContext == NULL)
+        CGLCreateContext(_glPixelFormat, _glContext, &_alternateContext);
 }
 
 - (void)startRenderingOnAlternateThread
