@@ -788,11 +788,6 @@ typedef enum : NSUInteger
     return YES;
 }
 
-- (void)shouldCloseWindowController:(NSWindowController *)windowController delegate:(id)delegate shouldCloseSelector:(SEL)shouldCloseSelector contextInfo:(void *)contextInfo
-{
-    [super shouldCloseWindowController:windowController delegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
-}
-
 + (BOOL)autosavesInPlace
 {
     return NO;
