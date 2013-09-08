@@ -1156,7 +1156,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     CGLUnlockContext(cgl_ctx);
 }
 
-- (void)setAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
+- (void)setAspectSize:(OEIntSize)newAspectSize
 {
     [self setGameAspectSize:newAspectSize];
 }

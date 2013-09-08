@@ -51,7 +51,7 @@
 
 - (void)setEnableVSync:(BOOL)enable;
 - (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-- (void)setAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+- (void)setAspectSize:(OEIntSize)newAspectSize;
 - (void)setFrameInterval:(NSTimeInterval)newFrameInterval;
 
 @end

@@ -225,10 +225,10 @@ NSString *const OEDefaultWindowTitle = @"OpenEmu";
     [_gameView setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
 }
 
-- (void)setAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+- (void)setAspectSize:(OEIntSize)newAspectSize;
 {
     _aspectSize = newAspectSize;
-    [_gameView setAspectSize:newAspectSize withIOSurfaceID:newSurfaceID];
+    [_gameView setAspectSize:newAspectSize];
 }
 
 - (void)setFrameInterval:(NSTimeInterval)newFrameInterval;

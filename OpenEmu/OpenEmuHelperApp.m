@@ -487,7 +487,7 @@
     {
         _previousAspectSize = aspectSize;
         DLog(@"Sending did change aspect to %@", NSStringFromOEIntSize(aspectSize));
-        [self updateAspectSize:aspectSize withIOSurfaceID:_surfaceID];
+        [self updateAspectSize:aspectSize];
     }
 }
 
@@ -791,9 +791,9 @@
     [[self displayHelper] setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
 }
 
-- (void)updateAspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+- (void)updateAspectSize:(OEIntSize)newAspectSize;
 {
-    [[self displayHelper] setAspectSize:newAspectSize withIOSurfaceID:newSurfaceID];
+    [[self displayHelper] setAspectSize:newAspectSize];
 }
 
 - (void)updateFrameInterval:(NSTimeInterval)newFrameInterval;
