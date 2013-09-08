@@ -31,12 +31,6 @@
 @class OEGameCore;
 
 @interface OEGameAudio : NSObject
-{
-    OEGameCore *gameCore;
-    AUGraph     mGraph;
-    AUNode      mConverterNode, mMixerNode, mOutputNode;
-    AudioUnit   mConverterUnit, mMixerUnit, mOutputUnit;
-}
 
 @property(nonatomic) CGFloat volume;
 @property AudioDeviceID outputDeviceID;
