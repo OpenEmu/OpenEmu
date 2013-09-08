@@ -208,7 +208,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
         NSImage *currentState = [[self placeholderView] fadeImage];
         NSImage *newState = nil;
         if([_currentContentController respondsToSelector:@selector(setCachedSnapshot:)])
-            [(id <OEMainWindowContentController>)_currentContentController setCachedSnapshot:currentState];
+            [(id<OEMainWindowContentController>)_currentContentController setCachedSnapshot:currentState];
 
         sendViewWillDisappear();
 
@@ -304,8 +304,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
             return;
         }
 
-        if(openInSeparateWindow)
-            return;
+        if(openInSeparateWindow) return;
 
         _shouldExitFullScreenWhenGameFinishes = ![[self window] isFullScreen];
         _gameDocument = document;
@@ -360,29 +359,6 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     }
 
     [self setCurrentContentController:nil animate:exitFullScreen];
-}
-
-#pragma mark - OEGameViewControllerDelegate protocol conformance
-
-- (void)emulationDidFinishForGameViewController:(id)sender
-{
-    if(_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen])
-    {
-        [[self window] toggleFullScreen:self];
-        _shouldExitFullScreenWhenGameFinishes = NO;
-    }
-}
-
-- (void)emulationWillFinishForGameViewController:(OEGameViewController *)sender
-{
-    // If we are in full screen mode and terminating the emulation will exit full screen,
-    // the controller switching animation interferes with the exiting full screen animation.
-    // We therefore only animate controller switching in case there won't be a concurrent
-    // exit full screen animation. See issue #245.
-    _gameDocument = nil;
-    _mainWindowRunsGame = NO;
-    BOOL animate = !(_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen]);
-    [self setCurrentContentController:nil animate:animate];
 }
 
 #pragma mark - NSWindow delegate
