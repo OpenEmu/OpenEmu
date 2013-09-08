@@ -53,7 +53,6 @@ extern NSString *const OEBackgroundPauseKey;
 
 @class OECorePlugin;
 
-@protocol OEGameViewControllerDelegate;
 @protocol OEGameIntegralScalingDelegate;
 
 @interface OEGameViewController : NSViewController <OEGameCoreDisplayHelper>
@@ -63,7 +62,6 @@ extern NSString *const OEBackgroundPauseKey;
 @property(strong) OEGameControlsBar *controlsWindow;
 @property(readonly) OEGameView *gameView;
 
-@property(unsafe_unretained) id<OEGameViewControllerDelegate> delegate;
 @property(unsafe_unretained) id<OEGameIntegralScalingDelegate> integralScalingDelegate;
 
 @property(weak) OEGameDocument *document;
@@ -87,13 +85,4 @@ extern NSString *const OEBackgroundPauseKey;
 #pragma mark - Info
 - (NSSize)defaultScreenSize;
 
-@end
-
-
-#pragma mark - Delegate
-
-@protocol OEGameViewControllerDelegate <NSObject>
-@optional
-- (void)emulationWillFinishForGameViewController:(OEGameViewController *)sender;
-- (void)emulationDidFinishForGameViewController:(OEGameViewController *)sender;
 @end
