@@ -1,51 +1,51 @@
 [submodule "OpenEmu-SDK"]
 	path = OpenEmu-SDK
-	url = https://github.com/OpenEmu/OpenEmu-SDK.git
+	url = git@github.com:OpenEmu/OpenEmu-SDK.git
 [submodule "CrabEmu"]
 	path = CrabEmu
-	url = https://github.com/OpenEmu/CrabEmu-Core.git
+	url = git@github.com:OpenEmu/CrabEmu-Core.git
 [submodule "BSNES"]
 	path = BSNES
-	url = https://github.com/OpenEmu/BSNES-Core.git
+	url = git@github.com:OpenEmu/BSNES-Core.git
 [submodule "FCEU"]
 	path = FCEU
-	url = https://github.com/OpenEmu/FCEU-Core.git
+	url = git@github.com:OpenEmu/FCEU-Core.git
 [submodule "Gambatte"]
 	path = Gambatte
-	url = https://github.com/OpenEmu/Gambatte-Core.git
+	url = git@github.com:OpenEmu/Gambatte-Core.git
 [submodule "GenesisPlus"]
 	path = GenesisPlus
-	url = https://github.com/OpenEmu/GenesisPlus-Core.git
+	url = git@github.com:OpenEmu/GenesisPlus-Core.git
 [submodule "Mednafen"]
 	path = Mednafen
-	url = https://github.com/OpenEmu/Mednafen-Core.git
+	url = git@github.com:OpenEmu/Mednafen-Core.git
 [submodule "Mupen64Plus"]
 	path = Mupen64Plus
-	url = https://github.com/OpenEmu/Mupen64Plus-Core.git
+	url = git@github.com:OpenEmu/Mupen64Plus-Core.git
 [submodule "NeoPop"]
 	path = NeoPop
-	url = https://github.com/OpenEmu/NeoPop-Core.git
+	url = git@github.com:OpenEmu/NeoPop-Core.git
 [submodule "Nestopia"]
 	path = Nestopia
-	url = https://github.com/OpenEmu/Nestopia-Core.git
+	url = git@github.com:OpenEmu/Nestopia-Core.git
 [submodule "SNES9x"]
 	path = SNES9x
-	url = https://github.com/OpenEmu/SNES9x-Core.git
+	url = git@github.com:OpenEmu/SNES9x-Core.git
 [submodule "VisualBoyAdvance"]
 	path = VisualBoyAdvance
-	url = https://github.com/OpenEmu/VisualBoyAdvance-Core.git
+	url = git@github.com:OpenEmu/VisualBoyAdvance-Core.git
 [submodule "TwoMbit"]
 	path = TwoMbit
-	url = https://github.com/OpenEmu/TwoMbit-Core.git
+	url = git@github.com:OpenEmu/TwoMbit-Core.git
 [submodule "UME"]
 	path = UME
-	url = https://github.com/OpenEmu/UME-Core.git
+	url = git@github.com:OpenEmu/UME-Core.git
 [submodule "PPSSPP"]
 	path = PPSSPP
-	url = https://github.com/OpenEmu/PPSSPP-Core.git
+	url = git@github.com:OpenEmu/PPSSPP-Core.git
 [submodule "picodrive"]
 	path = picodrive
-	url = https://github.com/OpenEmu/picodrive.git
+	url = git@github.com:OpenEmu/picodrive.git
 [submodule "Higan"]
 	path = Higan
-	url = https://github.com/OpenEmu/Higan-Core.git
+	url = git@github.com:OpenEmu/Higan-Core.git
