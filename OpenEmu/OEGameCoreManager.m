@@ -86,37 +86,66 @@
 
 - (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
 {
-    [[self gameCoreHelper] setupEmulationWithCompletionHandler:handler];
+    [[self gameCoreHelper] setupEmulationWithCompletionHandler:
+     ^(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize)
+     {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             handler(surfaceID, screenSize, aspectSize);
+         });
+     }];
 }
 
-- (void)startEmulationWithCompletionHandler:(void (^)(void))handler
+- (void)startEmulationWithCompletionHandler:(void(^)(void))handler;
 {
-    [[self gameCoreHelper] startEmulationWithCompletionHandler:handler];
+    [[self gameCoreHelper] startEmulationWithCompletionHandler:
+     ^{
+         dispatch_async(dispatch_get_main_queue(), ^{
+             handler();
+         });
+     }];
 }
 
 - (void)resetEmulationWithCompletionHandler:(void(^)(void))handler;
 {
-    [[self gameCoreHelper] resetEmulationWithCompletionHandler:handler];
+    [[self gameCoreHelper] resetEmulationWithCompletionHandler:
+     ^{
+         dispatch_async(dispatch_get_main_queue(), ^{
+             handler();
+         });
+     }];
 }
 
 - (void)stopEmulationWithCompletionHandler:(void(^)(void))handler;
 {
-    [[self gameCoreHelper] stopEmulationWithCompletionHandler:handler];
+    [[self gameCoreHelper] stopEmulationWithCompletionHandler:
+     ^{
+         dispatch_async(dispatch_get_main_queue(), ^{
+             handler();
+             [self stop];
+         });
+     }];
 }
 
 - (void)saveStateToFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL success, NSError *error))block;
 {
-    [[self gameCoreHelper] saveStateToFileAtPath:fileName completionHandler:block];
+    [[self gameCoreHelper] saveStateToFileAtPath:fileName completionHandler:
+     ^(BOOL success, NSError *error)
+     {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             block(success, error);
+         });
+     }];
 }
 
 - (void)loadStateFromFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL success, NSError *error))block;
 {
-    [[self gameCoreHelper] loadStateFromFileAtPath:fileName completionHandler:block];
-}
-
-- (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
-{
-    [[self gameCoreHelper] setCheat:cheatCode withType:type enabled:enabled];
+    [[self gameCoreHelper] loadStateFromFileAtPath:fileName completionHandler:
+     ^(BOOL success, NSError *error)
+     {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             block(success, error);
+         });
+     }];
 }
 
 @end
