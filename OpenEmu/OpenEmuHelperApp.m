@@ -677,24 +677,6 @@
     DLog(@"finished setting up rom");
 }
 
-- (void)stopEmulation
-{
-    [_pollingTimer invalidate], _pollingTimer = nil;
-
-    [[self gameCore] stopEmulationWithCompletionHandler:
-     ^{
-         [self setRunning:NO];
-         [_gameAudio stopAudio];
-         [_gameCore setRenderDelegate:nil];
-         [_gameCore setAudioDelegate:nil];
-         _gameCoreProxy = nil;
-         _gameCore      = nil;
-         _gameAudio     = nil;
-         
-         [self performSelector:@selector(OE_stopGameCoreThreadRunLoop:) onThread:[_gameCoreProxy thread] withObject:nil waitUntilDone:NO];
-     }];
-}
-
 - (OEIntSize)aspectSize
 {
     return [_gameCore aspectSize];
@@ -754,7 +736,20 @@
 - (void)stopEmulationWithCompletionHandler:(void(^)(void))handler;
 {
     _stopEmulationHandler = [handler copy];
-    [self stopEmulation];
+    [_pollingTimer invalidate], _pollingTimer = nil;
+
+    [[self gameCore] stopEmulationWithCompletionHandler:
+     ^{
+         [self setRunning:NO];
+         [_gameAudio stopAudio];
+         [_gameCore setRenderDelegate:nil];
+         [_gameCore setAudioDelegate:nil];
+         _gameCoreProxy = nil;
+         _gameCore      = nil;
+         _gameAudio     = nil;
+
+         [self performSelector:@selector(OE_stopGameCoreThreadRunLoop:) onThread:[_gameCoreProxy thread] withObject:nil waitUntilDone:NO];
+     }];
 }
 
 - (void)saveStateToFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL, NSError *))block

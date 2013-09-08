@@ -128,7 +128,6 @@ enum _OEHelperAppErrorCodes
 - (void)endDrawToIOSurface;
 - (void)destroySurface;
 - (void)updateScreenSize;
-- (void)stopEmulation;
 
 - (void)updateEnableVSync:(BOOL)enable;
 - (void)updateScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
