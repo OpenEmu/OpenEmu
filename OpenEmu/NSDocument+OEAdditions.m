@@ -35,57 +35,57 @@
 
 - (void)canCloseDocumentWithCompletionHandler:(void(^)(NSDocument *document, BOOL shouldClose))handler;
 {
-    [self canCloseDocumentWithDelegate:[_OENSDocumentDelegate class] shouldCloseSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)handler];
+    [self canCloseDocumentWithDelegate:[_OENSDocumentDelegate class] shouldCloseSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)[handler copy]];
 }
 
 - (void)shouldCloseWindowController:(NSWindowController *)windowController withCompletionHandler:(void(^)(NSDocument *document, BOOL shouldClose))handler;
 {
-    [self shouldCloseWindowController:windowController delegate:[_OENSDocumentDelegate class] shouldCloseSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)handler];
+    [self shouldCloseWindowController:windowController delegate:[_OENSDocumentDelegate class] shouldCloseSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)[handler copy]];
 }
 
 - (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation withCompletionHandler:(void(^)(NSDocument *document, BOOL didSave))handler;
 {
-    [self runModalSavePanelForSaveOperation:saveOperation delegate:[_OENSDocumentDelegate class] didSaveSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)handler];
+    [self runModalSavePanelForSaveOperation:saveOperation delegate:[_OENSDocumentDelegate class] didSaveSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)[handler copy]];
 }
 
 - (void)saveToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation withCompletionHandler:(void(^)(NSDocument *document, BOOL didSaveSuccessfully))handler;
 {
-    [self saveToURL:absoluteURL ofType:typeName forSaveOperation:saveOperation delegate:[_OENSDocumentDelegate class] didSaveSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)handler];
+    [self saveToURL:absoluteURL ofType:typeName forSaveOperation:saveOperation delegate:[_OENSDocumentDelegate class] didSaveSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)[handler copy]];
 }
 
 - (void)autosaveDocumentWithCompletionHandler:(void(^)(NSDocument *document, BOOL didAutosaveSuccessfully))handler;
 {
-    [self autosaveDocumentWithDelegate:[_OENSDocumentDelegate class] didAutosaveSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)handler];
+    [self autosaveDocumentWithDelegate:[_OENSDocumentDelegate class] didAutosaveSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)[handler copy]];
 }
 
 - (void)saveDocumentWithCompletionHandler:(void(^)(NSDocument *document, BOOL didSaveSuccessfully))handler;
 {
-    [self saveDocumentWithDelegate:[_OENSDocumentDelegate class] didSaveSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)handler];
+    [self saveDocumentWithDelegate:[_OENSDocumentDelegate class] didSaveSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)[handler copy]];
 }
 
 - (void)duplicateWithCompletionHandler:(void(^)(NSDocument *document, BOOL didDuplicate))handler;
 {
-    [self duplicateDocumentWithDelegate:[_OENSDocumentDelegate class] didDuplicateSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)handler];
+    [self duplicateDocumentWithDelegate:[_OENSDocumentDelegate class] didDuplicateSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)[handler copy]];
 }
 
 - (void)runModalPageLayoutWithPrintInfo:(NSPrintInfo *)printInfo completionHandler:(void(^)(NSDocument *document, BOOL userAccepted))handler;
 {
-    [self runModalPageLayoutWithPrintInfo:printInfo delegate:[_OENSDocumentDelegate class] didRunSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)handler];
+    [self runModalPageLayoutWithPrintInfo:printInfo delegate:[_OENSDocumentDelegate class] didRunSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)[handler copy]];
 }
 
 - (void)runModalPrintOperation:(NSPrintOperation *)printOperation completionHandler:(void(^)(NSDocument *document, BOOL didPrintSuccessfully))handler;
 {
-    [self runModalPrintOperation:printOperation delegate:[_OENSDocumentDelegate class] didRunSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)handler];
+    [self runModalPrintOperation:printOperation delegate:[_OENSDocumentDelegate class] didRunSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)[handler copy]];
 }
 
 - (void)printDocumentWithSettings:(NSDictionary *)printSettings showPrintPanel:(BOOL)showPrintPanel completionHandler:(void(^)(NSDocument *document, BOOL didPrintSuccessfully))handler;
 {
-    [self printDocumentWithSettings:printSettings showPrintPanel:showPrintPanel delegate:[_OENSDocumentDelegate class] didPrintSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)handler];
+    [self printDocumentWithSettings:printSettings showPrintPanel:showPrintPanel delegate:[_OENSDocumentDelegate class] didPrintSelector:@selector(runHandlerForDocument:withFlag:completionBlock:) contextInfo:(__bridge_retained void *)[handler copy]];
 }
 
 - (void)presentError:(NSError *)error modalForWindow:(NSWindow *)window completionHandler:(void(^)(BOOL didRecover))handler;
 {
-    [self presentError:error modalForWindow:window delegate:[_OENSDocumentDelegate class] didPresentSelector:@selector(didPresentErrorWithRecovery:contextInfo:) contextInfo:(__bridge_retained void *)handler];
+    [self presentError:error modalForWindow:window delegate:[_OENSDocumentDelegate class] didPresentSelector:@selector(didPresentErrorWithRecovery:contextInfo:) contextInfo:(__bridge_retained void *)[handler copy]];
 }
 
 @end
