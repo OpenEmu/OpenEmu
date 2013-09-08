@@ -98,13 +98,13 @@ static OSStatus RenderCallback(void                       *in,
 
 @implementation OEGameAudio
 {
-    OEGameCore *_gameCore;
-    AUGraph     _graph;
-    AUNode      _converterNode, _mixerNode, _outputNode;
-    AudioUnit   _converterUnit, _mixerUnit, _outputUnit;
-
+    __weak OEGameCore  *_gameCore;
     OEGameAudioContext *_contexts;
     NSNumber           *_outputDeviceID; // nil if no output device has been set (use default)
+
+    AUGraph   _graph;
+    AUNode    _converterNode, _mixerNode, _outputNode;
+    AudioUnit _converterUnit, _mixerUnit, _outputUnit;
 }
 
 // No default version for this class
