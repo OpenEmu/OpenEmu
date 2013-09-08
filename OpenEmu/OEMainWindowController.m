@@ -288,8 +288,8 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
         }
         else
         {
-            [self setCurrentContentController:[document viewController]];
             [document setGameWindowController:self];
+            [self setCurrentContentController:[document viewController]];
         }
     };
 
@@ -343,7 +343,24 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
         return YES;
     else
     {
-        [self stopEmulation:self];
+        [_gameDocument canCloseDocumentWithCompletionHandler:
+         ^(NSDocument *document, BOOL shouldClose)
+         {
+             [_gameDocument setGameWindowController:nil];
+             [_gameDocument close];
+             _gameDocument = nil;
+             _mainWindowRunsGame = NO;
+
+             BOOL exitFullScreen = (_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen]);
+             if(exitFullScreen)
+             {
+                 [[self window] toggleFullScreen:self];
+                 _shouldExitFullScreenWhenGameFinishes = NO;
+             }
+
+             [self setCurrentContentController:nil animate:exitFullScreen];
+         }];
+
         return NO;
     }
 }
@@ -396,8 +413,8 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 
     if(_shouldExitFullScreenWhenGameFinishes)
     {
-        [self setCurrentContentController:[_gameDocument viewController]];
         [_gameDocument setGameWindowController:self];
+        [self setCurrentContentController:[_gameDocument viewController]];
     }
     
     if(_resumePlayingAfterFullScreenTransition)
