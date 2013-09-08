@@ -218,7 +218,13 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
 #define SEND_CALLBACK ((void(*)(id, SEL, NSDocumentController *, BOOL, void *))objc_msgSend)
 
-    if([_gameDocuments count] > 0 && [[OEHUDAlert quitApplicationAlert] runModal] != NSAlertDefaultReturn)
+    if([_gameDocuments count] == 0)
+    {
+        [super closeAllDocumentsWithDelegate:delegate didCloseAllSelector:didCloseAllSelector contextInfo:contextInfo];
+        return;
+    }
+
+    if([[OEHUDAlert quitApplicationAlert] runModal] != NSAlertDefaultReturn)
     {
         SEND_CALLBACK(delegate, didCloseAllSelector, self, NO, contextInfo);
         return;
