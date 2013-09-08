@@ -637,12 +637,14 @@
     // starts the threaded emulator timer
     [_gameCore startEmulation];
 
+    void(^startEmulationHandler)(void) = _startEmulationHandler;
+    _startEmulationHandler = nil;
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(_startEmulationHandler != nil) _startEmulationHandler();
+        if(startEmulationHandler != nil) startEmulationHandler();
 
         [self setRunning:YES];
 
-        _startEmulationHandler = nil;
         DLog(@"finished starting rom");
     });
 
@@ -650,8 +652,11 @@
 
     NSLog(@"Did finish separate thread");
 
+    void(^stopEmulationHandler)(void) = _stopEmulationHandler;
+    _stopEmulationHandler = nil;
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        if(_stopEmulationHandler != nil) _stopEmulationHandler();
+        if(stopEmulationHandler != nil) stopEmulationHandler();
     });
 }
 
@@ -745,6 +750,7 @@
          [_gameAudio stopAudio];
          [_gameCore setRenderDelegate:nil];
          [_gameCore setAudioDelegate:nil];
+         _displayHelper = nil;
          _gameCoreProxy = nil;
          _gameCore      = nil;
          _gameAudio     = nil;
