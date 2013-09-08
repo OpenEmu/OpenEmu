@@ -41,10 +41,27 @@
     {
         [self setLayer:[[CALayer alloc] init]];
         [self setWantsLayer:YES];
+        [[self layer] setContentsGravity:kCAGravityResize];
         [[self layer] setBackgroundColor:[[NSColor blackColor] CGColor]];
     }
     
     return self;
+}
+
+- (NSImage *)OE_defaultImage
+{
+    static NSImage *defaultImage;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultImage = [[NSImage alloc] initWithSize:NSMakeSize(1, 1)];
+
+        [defaultImage lockFocus];
+        [[NSColor blackColor] setFill];
+        NSRectFill(NSMakeRect(0, 0, 1, 1));
+        [defaultImage unlockFocus];
+    });
+
+    return defaultImage;
 }
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
@@ -58,6 +75,9 @@
 
 - (void)fadeFromImage:(NSImage *)start toImage:(NSImage *)end callback:(void(^)(void))block;
 {
+    if(start == nil) start = [self OE_defaultImage];
+    if(end == nil) end = [self OE_defaultImage];
+
     self.callback = block;
     
     [CATransaction begin];
