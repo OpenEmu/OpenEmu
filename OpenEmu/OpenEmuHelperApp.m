@@ -80,6 +80,7 @@
 
 - (void)setupGameCoreAudioAndVideo
 {
+    _gameAudio = [[OEGameAudio alloc] initWithCore:_gameCore];
     [_gameAudio setVolume:1.0];
 
     if(![_gameCore rendersToOpenGL])
@@ -667,16 +668,13 @@
     // Move our OpenGL setup before we init our core
     // So that any GameCores that require OpenGL, can have it prepped.
     // Cores can get the current CGLContext via CGLGetCurrentContext
-    
+
     // init resources
     [self setupOpenGLOnScreen:[NSScreen mainScreen]];
-    
-    [self setupGameCoreAudioAndVideo];
 
     [_gameCore setupEmulation];
 
-    // audio!
-    _gameAudio = [[OEGameAudio alloc] initWithCore:_gameCore];
+    [self setupGameCoreAudioAndVideo];
 
     [self willExecute];
     [_gameCore executeFrameSkippingFrame:NO];
