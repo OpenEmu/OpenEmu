@@ -677,11 +677,6 @@
     DLog(@"finished setting up rom");
 }
 
-- (void)startEmulation
-{
-    [[_gameCoreProxy thread] start];
-}
-
 - (void)stopEmulation
 {
     [_pollingTimer invalidate], _pollingTimer = nil;
@@ -747,7 +742,7 @@
 {
     DLog(@"Starting Emulation");
     _startEmulationHandler = [handler copy];
-    [self startEmulation];
+    [[_gameCoreProxy thread] start];
 }
 
 - (void)resetEmulationWithCompletionHandler:(void(^)(void))handler;
