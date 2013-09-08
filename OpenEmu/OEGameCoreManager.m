@@ -59,10 +59,6 @@
     [self doesNotImplementSelector:_cmd];
 }
 
-- (void)dealloc
-{
-}
-
 - (void)loadROMWithCompletionHandler:(void(^)(id systemClient))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 {
     [self doesNotImplementSelector:_cmd];
