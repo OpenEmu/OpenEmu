@@ -76,7 +76,11 @@
         if(![_helper loadROMAtPath:[self ROMPath] withCorePluginAtPath:[[self plugin] path] systemIdentifier:[[self systemController] systemIdentifier]])
         {
             FIXME("Return a proper error object here.");
-            _errorHandler(nil);
+            if(_errorHandler != nil)
+            {
+                _errorHandler(nil);
+                _errorHandler = nil;
+            }
             return;
         }
 
@@ -84,7 +88,11 @@
         _systemClientProxy = [OEThreadProxy threadProxyWithTarget:_systemClient thread:_helperThread];
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            _completionHandler(_systemClientProxy);
+            if(_completionHandler != nil)
+            {
+                _completionHandler(_systemClientProxy);
+                _completionHandler = nil;
+            }
         });
 
         _dummyTimer = [NSTimer scheduledTimerWithTimeInterval:1e9 target:self selector:@selector(dummyTimer:) userInfo:nil repeats:YES];
@@ -93,9 +101,10 @@
 
         if(_stopHandler != nil)
         {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _stopHandler();
-            });
+            void(^stopHandler)(void) = _stopHandler;
+            _stopHandler = nil;
+
+            dispatch_async(dispatch_get_main_queue(), stopHandler);
         }
     }
 }
@@ -107,12 +116,16 @@
 
     CFRunLoopStop(CFRunLoopGetCurrent());
 
+    [self setGameCoreHelper:nil];
+
     _helperThread       = nil;
     _helperProxy        = nil;
     _helper             = nil;
     _displayHelperProxy = nil;
     _systemClientProxy  = nil;
     _systemClient       = nil;
+    _completionHandler  = nil;
+    _errorHandler       = nil;
 }
 
 - (void)stop
