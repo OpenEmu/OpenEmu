@@ -83,6 +83,11 @@
     [[self gameCoreHelper] setDrawSquarePixels:drawSquarePixels];
 }
 
+- (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled
+{
+    [[self gameCoreHelper] setCheat:cheatCode withType:type enabled:enabled];
+}
+
 - (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
 {
     [[self gameCoreHelper] setupEmulationWithCompletionHandler:
