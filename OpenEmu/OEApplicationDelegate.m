@@ -66,11 +66,14 @@
 #import "OERetrodeDeviceManager.h"
 
 #import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
+#import <objc/message.h>
 
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
 {
+    NSMutableArray *_gameDocuments;
+
     id _HIDEventsMonitor;
     id _keyboardEventsMonitor;
     id _unhandledEventsMonitor;
@@ -129,6 +132,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         }
 
 		[self OE_loadPlugins];
+
+        _gameDocuments = [NSMutableArray array];
     }
 
     return self;
@@ -193,18 +198,51 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [OERetrodeDeviceManager class];
 }
 
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+- (void)addDocument:(NSDocument *)document
 {
-    if([[self documents] count] > 0)
-    {
-       if([[OEHUDAlert quitApplicationAlert] runModal] != NSAlertDefaultReturn)
-           return NSTerminateCancel;
+    if([document isKindOfClass:[OEGameDocument class]])
+        [_gameDocuments addObject:document];
 
-        for(OEGameDocument *document in [self documents])
-            [document close];
+    [super addDocument:document];
+}
+
+- (void)removeDocument:(NSDocument *)document
+{
+    if([document isKindOfClass:[OEGameDocument class]])
+        [_gameDocuments removeObject:document];
+
+    [super removeDocument:document];
+}
+
+- (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo
+{
+#define SEND_CALLBACK ((void(*)(id, SEL, NSDocumentController *, BOOL, void *))objc_msgSend)
+
+    if([_gameDocuments count] > 0 && [[OEHUDAlert quitApplicationAlert] runModal] != NSAlertDefaultReturn)
+    {
+        SEND_CALLBACK(delegate, didCloseAllSelector, self, NO, contextInfo);
+        return;
     }
 
-    return NSTerminateNow;
+    NSArray *gameDocuments = [_gameDocuments copy];
+    __block NSInteger remainingDocuments = [gameDocuments count];
+    for(OEGameDocument *document in gameDocuments)
+    {
+        [document canCloseDocumentWithCompletionHandler:
+         ^(NSDocument *document, BOOL shouldClose)
+         {
+             remainingDocuments--;
+             if(shouldClose) [document close];
+
+             if(remainingDocuments > 0) return;
+
+             if([_gameDocuments count] == 0)
+                 SEND_CALLBACK(delegate, didCloseAllSelector, self, NO, contextInfo);
+             else
+                 [super closeAllDocumentsWithDelegate:delegate didCloseAllSelector:didCloseAllSelector contextInfo:contextInfo];
+         }];
+    }
+#undef SEND_CALLBACK
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
