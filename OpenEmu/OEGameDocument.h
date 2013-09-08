@@ -49,6 +49,7 @@ enum _OEGameDocumentErrorCodes
 @class OEDBRom;
 @class OEDBSaveState;
 @class OEGameViewController;
+@class OESystemPlugin;
 
 @interface OEGameDocument : NSDocument
 
@@ -60,6 +61,9 @@ enum _OEGameDocumentErrorCodes
 - (void)showInSeparateWindowInFullScreen:(BOOL)fullScreen;
 
 @property(readonly) OEDBRom *rom;
+@property(readonly) OECorePlugin *corePlugin;
+@property(readonly) OESystemPlugin *systemPlugin;
+
 @property(readonly) NSViewController *viewController;
 @property(readonly) OEGameViewController *gameViewController;
 

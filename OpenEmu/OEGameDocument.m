@@ -136,6 +136,11 @@ typedef enum : NSUInteger
     return self;
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ %p, ROM: '%@', System: '%@', Core: '%@'>", [self class], self, [[[self rom] game] displayName], [_systemPlugin systemIdentifier], [_corePlugin bundleIdentifier]];
+}
+
 - (OEDistantViewController *)distantViewController
 {
     return (OEDistantViewController *)[self viewController];
@@ -164,10 +169,11 @@ typedef enum : NSUInteger
 - (BOOL)OE_setupDocumentWithROM:(OEDBRom *)rom usingCorePlugin:(OECorePlugin *)core error:(NSError **)outError
 {
     _rom = rom;
-    _gameSystemController = [[[[[self rom] game] system] plugin] controller];
+    _systemPlugin = [[[[self rom] game] system] plugin];
+    _gameSystemController = [_systemPlugin controller];
 
     if(core == nil)
-        core = [self OE_coreForSystem:[[[rom game] system] plugin] error:outError];
+        core = [self OE_coreForSystem:_systemPlugin error:outError];
 
     if(core == nil)
     {
@@ -209,13 +215,15 @@ typedef enum : NSUInteger
 
 - (OEGameCoreManager *)_newGameCoreManagerWithCorePlugin:(OECorePlugin *)corePlugin
 {
+    NSAssert(corePlugin != nil, @"Cannot create a game core manager without a plug-in.");
     Class managerClass = ([[NSUserDefaults standardUserDefaults] boolForKey:OEGameCoresInBackgroundKey]
                           ? [OEThreadGameCoreManager  class]
                           : ([OEXPCGameCoreManager canUseXPCGameCoreManager]
                              ? [OEXPCGameCoreManager class]
                              : [OEDOGameCoreManager class]));
 
-    return [[managerClass alloc] initWithROMPath:[[[self rom] URL] path] corePlugin:corePlugin systemController:_gameSystemController displayHelper:_gameViewController];
+    _corePlugin = corePlugin;
+    return [[managerClass alloc] initWithROMPath:[[[self rom] URL] path] corePlugin:_corePlugin systemController:_gameSystemController displayHelper:_gameViewController];
 }
 
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError

@@ -45,6 +45,11 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%s %p, target: %@>", object_getClassName(self), self, _target];
+}
+
 - (void)dealloc
 {
     CFRelease(_cachedMethodSignatures);

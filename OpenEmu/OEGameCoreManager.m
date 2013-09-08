@@ -49,6 +49,11 @@
     return self;
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ %p, ROM: %@, System: %@, Core: %@, Display Helper: %@>", [self class], self, _ROMPath, [_plugin bundleIdentifier], [_systemController systemIdentifier], _displayHelper];
+}
+
 - (void)stop
 {
     [self doesNotImplementSelector:_cmd];
