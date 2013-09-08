@@ -113,10 +113,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 @property NSDate            *filterStartTime;
 @property BOOL               filterHasOutputMousePositionKeys;
 
-@property(nonatomic) IOSurfaceID surfaceID;
-@property(nonatomic) OEIntSize screenSize;
-@property(nonatomic) OEIntRect screenRect;
-
 @end
 
 @implementation OEGameView
@@ -241,9 +237,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
     // our texture is in NTSC colorspace from the cores
     _rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
-
-    _gameScreenSize = [self screenSize];
-    _gameSurfaceID = [self surfaceID];
 
     // rendering
     [self setupDisplayLink];
@@ -1122,10 +1115,9 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     DLog(@"Set screensize to: %@", NSStringFromOEIntSize(newScreenSize));
     // Recache the new resized surfaceID, so we can get our surfaceRef from it, to draw.
     _gameSurfaceID = newSurfaceID;
+    self.gameScreenSize = newScreenSize;
 
     [self rebindIOSurface];
-
-    self.gameScreenSize = newScreenSize;
 
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     [[self openGLContext] makeCurrentContext];
@@ -1205,7 +1197,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     CGPoint location = [anEvent locationInWindow];
     location = [self convertPoint:location fromView:nil];
     location.y = frame.size.height - location.y;
-    OEIntSize screenSize = [self screenSize];
+    OEIntSize screenSize = _gameScreenSize;
 
     CGRect screenRect = { .size.width = screenSize.width, .size.height = screenSize.height };
 
