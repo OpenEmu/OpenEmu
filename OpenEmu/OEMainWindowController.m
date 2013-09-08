@@ -132,36 +132,6 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 
 #pragma mark -
 
-- (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController
-{
-    NSView *contentView = [self placeholderView];
-    
-    // final target
-    [[newController view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-    [[newController view] setFrame:[contentView frame]];
-    
-    [oldController viewWillDisappear];
-    [newController viewWillAppear];
-    
-    if(oldController != nil)
-    {
-        if(newController != nil)
-            [contentView replaceSubview:[oldController view] with:[newController view]];
-        else
-            [[oldController view] removeFromSuperview];
-    }
-    else if(newController != nil)
-        [contentView addSubview:[newController view]];
-    
-    [oldController viewDidDisappear];
-    [newController viewDidAppear];
-    
-    if(newController)
-        [[self window] makeFirstResponder:[newController view]];
-    
-    _currentContentController = newController;
-}
-
 - (void)setCurrentContentController:(NSViewController *)controller animate:(BOOL)shouldAnimate
 {
     if(controller == nil) controller = [self libraryController];
@@ -252,7 +222,6 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     else
     {
         [_gameDocument setGameWindowController:nil];
-        [self OE_replaceCurrentContentController:[self currentContentController] withViewController:nil];
         [self setCurrentContentController:nil];
 
         [_gameDocument showInSeparateWindowInFullScreen:NO];
@@ -314,7 +283,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
         {
             [NSApp activateIgnoringOtherApps:YES];
 
-            [self OE_replaceCurrentContentController:[self currentContentController] withViewController:nil];
+            [self setCurrentContentController:nil];
             [[self window] toggleFullScreen:self];
         }
         else
@@ -452,7 +421,6 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     {
         _shouldUndockGameWindowOnFullScreenExit = NO;
         
-        [self OE_replaceCurrentContentController:[self currentContentController] withViewController:nil];
         [self setCurrentContentController:nil];
 
         [_gameDocument showInSeparateWindowInFullScreen:NO];
