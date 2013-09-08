@@ -525,6 +525,8 @@
 
 - (BOOL)loadROMAtPath:(NSString *)aPath withCorePluginAtPath:(NSString *)pluginPath systemIdentifier:(NSString *)systemIdentifier
 {
+    if([self loadedRom]) return NO;
+
     aPath = [aPath stringByStandardizingPath];
     BOOL isDir;
 
@@ -533,14 +535,6 @@
     if([[NSFileManager defaultManager] fileExistsAtPath:aPath isDirectory:&isDir] && !isDir)
     {
         DLog(@"extension is: %@", [aPath pathExtension]);
-
-        // cleanup
-        if([self loadedRom])
-        {
-            [self stopEmulation];
-
-            DLog(@"released/cleaned up for new ROM");
-        }
         self.loadedRom = NO;
 
         _gameController = [[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller];
