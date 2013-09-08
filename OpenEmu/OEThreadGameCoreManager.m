@@ -44,6 +44,7 @@
 
     void(^_completionHandler)(id systemClient);
     void(^_errorHandler)(NSError *error);
+    void(^_stopHandler)(void);
 }
 
 - (void)loadROMWithCompletionHandler:(void(^)(id systemClient))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
@@ -89,6 +90,13 @@
         _dummyTimer = [NSTimer scheduledTimerWithTimeInterval:1e9 target:self selector:@selector(dummyTimer:) userInfo:nil repeats:YES];
 
         CFRunLoopRun();
+
+        if(_stopHandler != nil)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _stopHandler();
+            });
+        }
     }
 }
 
@@ -117,11 +125,9 @@
 
 - (void)stopEmulationWithCompletionHandler:(void (^)(void))handler
 {
+    _stopHandler = [handler copy];
     [[self gameCoreHelper] stopEmulationWithCompletionHandler:
      ^{
-         dispatch_async(dispatch_get_main_queue(), ^{
-             handler();
-         });
          [self stop];
      }];
 }
