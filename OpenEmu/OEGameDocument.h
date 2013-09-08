@@ -25,6 +25,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "NSDocument+OEAdditions.h"
 
 extern NSString *const OEGameDocumentErrorDomain;
 
