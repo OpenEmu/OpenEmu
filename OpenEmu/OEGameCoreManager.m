@@ -56,7 +56,6 @@
 
 - (void)dealloc
 {
-    [self stop];
 }
 
 - (void)loadROMWithCompletionHandler:(void(^)(id systemClient))completionHandler errorHandler:(void(^)(NSError *))errorHandler;

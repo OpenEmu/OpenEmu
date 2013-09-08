@@ -45,6 +45,5 @@
 #pragma mark - Abstract methods, must be overrode in subclasses
 
 - (void)loadROMWithCompletionHandler:(void(^)(id systemClient))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
-- (void)stop;
 
 @end

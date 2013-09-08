@@ -575,7 +575,6 @@ typedef enum : NSUInteger
      } errorHandler:
      ^(NSError *error)
      {
-         [_gameCoreManager stop];
          _gameCoreManager = nil;
          [self close];
 
@@ -830,11 +829,7 @@ typedef enum : NSUInteger
 
               _gameSystemController = nil;
               _gameSystemResponder  = nil;
-
-              // kill our background friend
-              [_gameCoreManager stop];
-
-              _gameCoreManager = nil;
+              _gameCoreManager      = nil;
 
               [[self rom] addTimeIntervalToPlayTime:ABS([_lastPlayStartDate timeIntervalSinceNow])];
               _lastPlayStartDate = nil;

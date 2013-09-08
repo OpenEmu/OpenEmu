@@ -30,4 +30,5 @@
 
 @interface OEGameCoreManager ()
 @property(nonatomic, strong) id<OEGameCoreHelper> gameCoreHelper;
+- (void)stop;
 @end
