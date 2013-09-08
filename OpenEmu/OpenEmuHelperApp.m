@@ -739,6 +739,8 @@
 
     [[self gameCore] stopEmulationWithCompletionHandler:
      ^{
+         NSThread *threadToKill = [_gameCoreProxy thread];
+
          [self setRunning:NO];
          [_gameAudio stopAudio];
          [_gameCore setRenderDelegate:nil];
@@ -747,7 +749,8 @@
          _gameCore      = nil;
          _gameAudio     = nil;
 
-         [self performSelector:@selector(OE_stopGameCoreThreadRunLoop:) onThread:[_gameCoreProxy thread] withObject:nil waitUntilDone:NO];
+         [self performSelector:@selector(OE_stopGameCoreThreadRunLoop:) onThread:threadToKill withObject:nil waitUntilDone:NO];
+
      }];
 }
 
