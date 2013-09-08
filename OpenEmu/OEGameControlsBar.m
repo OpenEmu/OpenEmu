@@ -307,7 +307,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
             NSMenuItem *coreItem = [[NSMenuItem alloc] initWithTitle:[aPlugin displayName] action:@selector(switchCore:) keyEquivalent:@""];
             [coreItem setRepresentedObject:aPlugin];
             
-            if([[aPlugin bundleIdentifier] isEqualTo:[[self gameViewController] coreIdentifier]]) [coreItem setState:NSOnState];
+            if([[aPlugin bundleIdentifier] isEqual:[[self gameViewController] coreIdentifier]]) [coreItem setState:NSOnState];
             
             [coresMenu addItem:coreItem];
         }
@@ -315,7 +315,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         item = [[NSMenuItem alloc] init];
         item.title = NSLocalizedString(@"Select Core", @"");
         [item setSubmenu:coresMenu];
-        if([[coresMenu itemArray] count]>1)
+        if([[coresMenu itemArray] count] > 1)
             [menu addItem:item];
     }
     
@@ -323,12 +323,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     NSMenu *filterMenu = [[NSMenu alloc] init];
     [filterMenu setTitle:NSLocalizedString(@"Select Filter", @"")];
 
-    NSString *selectedFilter;
-    selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, systemIdentifier]];
-    if(selectedFilter == nil)
-    {
-        selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameDefaultVideoFilterKey];
-    }
+    NSString *selectedFilter = ([[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, systemIdentifier]]
+                                ? : [[NSUserDefaults standardUserDefaults] objectForKey:OEGameDefaultVideoFilterKey]);
     
     for(NSString *aName in filterPlugins)
     {
@@ -346,7 +342,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
     // Setup integral scaling
     id<OEGameIntegralScalingDelegate> integralScalingDelegate = [[self gameViewController] integralScalingDelegate];
-    const BOOL hasSubmenu                                     = [integralScalingDelegate shouldAllowIntegralScaling] && [integralScalingDelegate respondsToSelector:@selector(maximumIntegralScale)];
+    const BOOL hasSubmenu = [integralScalingDelegate shouldAllowIntegralScaling] && [integralScalingDelegate respondsToSelector:@selector(maximumIntegralScale)];
 
     NSMenu *scaleMenu = [NSMenu new];
     [scaleMenu setTitle:NSLocalizedString(@"Select Scale", @"")];
@@ -399,10 +395,12 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     targetRect = NSInsetRect(targetRect, -2.0, 1.0);
     targetRect = [self convertRectToScreen:[sender convertRect:targetRect toView:nil]];
 
-    NSDictionary *options = @{ OEMenuOptionsStyleKey : @(OEMenuStyleLight),
-                           OEMenuOptionsArrowEdgeKey : @(OEMinYEdge),
-                         OEMenuOptionsMaximumSizeKey : [NSValue valueWithSize:NSMakeSize(500, 256)],
-                          OEMenuOptionsScreenRectKey : [NSValue valueWithRect:targetRect] };
+    NSDictionary *options = @{
+        OEMenuOptionsStyleKey : @(OEMenuStyleLight),
+        OEMenuOptionsArrowEdgeKey : @(OEMinYEdge),
+        OEMenuOptionsMaximumSizeKey : [NSValue valueWithSize:NSMakeSize(500, 256)],
+        OEMenuOptionsScreenRectKey : [NSValue valueWithRect:targetRect]
+    };
     
     [OEMenu openMenu:menu withEvent:nil forView:sender options:options];
 }
@@ -431,7 +429,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         if(includeAutoSaveState && [rom autosaveState] != nil)
             saveStates = [@[[rom autosaveState]] arrayByAddingObjectsFromArray:saveStates];
         
-        if([saveStates count]!=0 || (includeQuickSaveState && useQuickSaveSlots))
+        if([saveStates count] != 0 || (includeQuickSaveState && useQuickSaveSlots))
         {
             [menu addItem:[NSMenuItem separatorItem]];
             
@@ -449,7 +447,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
                 NSMenu *loadSubmenu = [[NSMenu alloc] initWithTitle:loadTitle];
                 //NSMenu *saveSubmenu = [[NSMenu alloc] initWithTitle:saveTitle];
 
-                for(int i=1; i <= 9; i++)
+                for(NSInteger i = 1; i <= 9; i++)
                 {
                     OEDBSaveState *state = [rom quickSaveStateInSlot:i];
                     
@@ -501,11 +499,12 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     targetRect = NSInsetRect(targetRect, -2.0, 1.0);
     targetRect = [self convertRectToScreen:[sender convertRect:targetRect toView:nil]];
     
-
-    NSDictionary *options = @{ OEMenuOptionsStyleKey : @(OEMenuStyleLight),
-    OEMenuOptionsArrowEdgeKey : @(OEMinYEdge),
-    OEMenuOptionsMaximumSizeKey : [NSValue valueWithSize:NSMakeSize(500, 256)],
-    OEMenuOptionsScreenRectKey : [NSValue valueWithRect:targetRect] };
+    NSDictionary *options = @{
+        OEMenuOptionsStyleKey : @(OEMenuStyleLight),
+        OEMenuOptionsArrowEdgeKey : @(OEMinYEdge),
+        OEMenuOptionsMaximumSizeKey : [NSValue valueWithSize:NSMakeSize(500, 256)],
+        OEMenuOptionsScreenRectKey : [NSValue valueWithRect:targetRect]
+    };
 
     [OEMenu openMenu:menu withEvent:nil forView:sender options:options];
 }
@@ -540,8 +539,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 - (void)reflectEmulationRunning:(BOOL)isEmulationRunning
 {
-    OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
-    NSButton                *pauseButton = [view pauseButton];
+    OEHUDControlsBarView *view        = [[[self contentView] subviews] lastObject];
+    NSButton             *pauseButton = [view pauseButton];
     [pauseButton setState:!isEmulationRunning];
 
     if(isEmulationRunning && !cheatsLoaded)
@@ -550,13 +549,13 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 - (void)parentWindowDidEnterFullScreen:(NSNotification *)notification;
 {
-    OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
+    OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
     [[view fullScreenButton] setState:NSOnState];
 }
 
 - (void)parentWindowWillExitFullScreen:(NSNotification *)notification;
 {
-    OEHUDControlsBarView    *view        = [[[self contentView] subviews] lastObject];
+    OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
     [[view fullScreenButton] setState:NSOffState];
 }
 
@@ -585,7 +584,6 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 @end
 
 @implementation OEHUDControlsBarView
-@synthesize slider, fullScreenButton, pauseButton;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -619,16 +617,16 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [stopButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:stopButton];
         
-    pauseButton = [[OEButton alloc] init];
-    [pauseButton setButtonType:NSToggleButton];
-    [pauseButton setThemeKey:@"hud_button_toggle_pause"];
-    [pauseButton setTitle:nil];
-    [pauseButton setAction:@selector(toggleEmulationPaused:)];
-    [pauseButton setFrame:NSMakeRect(82, 9, 32, 32)];
-    [pauseButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-    [pauseButton setToolTip:NSLocalizedString(@"Pause Gameplay", @"Tooltip")];
-    [pauseButton setToolTipStyle:OEToolTipStyleHUD];
-    [self addSubview:pauseButton];
+    _pauseButton = [[OEButton alloc] init];
+    [_pauseButton setButtonType:NSToggleButton];
+    [_pauseButton setThemeKey:@"hud_button_toggle_pause"];
+    [_pauseButton setTitle:nil];
+    [_pauseButton setAction:@selector(toggleEmulationPaused:)];
+    [_pauseButton setFrame:NSMakeRect(82, 9, 32, 32)];
+    [_pauseButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
+    [_pauseButton setToolTip:NSLocalizedString(@"Pause Gameplay", @"Tooltip")];
+    [_pauseButton setToolTipStyle:OEToolTipStyleHUD];
+    [self addSubview:_pauseButton];
     
     OEButton *restartButton = [[OEButton alloc] init];
     [restartButton setThemeKey:@"hud_button_restart"];
@@ -682,36 +680,36 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [volumeUpButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:volumeUpButton];
     
-    slider = [[OESlider alloc] initWithFrame:NSMakeRect(240 + (hideOptions ? 0 : 50), 13, 80, 23)];
+    _slider = [[OESlider alloc] initWithFrame:NSMakeRect(240 + (hideOptions ? 0 : 50), 13, 80, 23)];
     
     OESliderCell *sliderCell = [[OESliderCell alloc] init];
-    [slider setCell:sliderCell];
-    [slider setContinuous:YES];
-    [slider setMaxValue:1.0];
-    [slider setMinValue:0.0];
-    [slider setThemeKey:@"hud_slider"];
-    [slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey]];
-    [slider setToolTip:NSLocalizedString(@"Change Volume", @"Tooltip")];
-    [slider setToolTipStyle:OEToolTipStyleHUD];
-    [slider setAction:@selector(changeVolume:)];
+    [_slider setCell:sliderCell];
+    [_slider setContinuous:YES];
+    [_slider setMaxValue:1.0];
+    [_slider setMinValue:0.0];
+    [_slider setThemeKey:@"hud_slider"];
+    [_slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey]];
+    [_slider setToolTip:NSLocalizedString(@"Change Volume", @"Tooltip")];
+    [_slider setToolTipStyle:OEToolTipStyleHUD];
+    [_slider setAction:@selector(changeVolume:)];
     
     CABasicAnimation *animation = [CABasicAnimation animation];
     animation.timingFunction    = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     animation.delegate          = self;
 
-    [slider setAnimations:[NSDictionary dictionaryWithObject:animation forKey:@"floatValue"]];
-    [self addSubview:slider];
+    [_slider setAnimations:[NSDictionary dictionaryWithObject:animation forKey:@"floatValue"]];
+    [self addSubview:_slider];
 
-    fullScreenButton = [[OEButton alloc] init];
-    [fullScreenButton setTitle:nil];
-    [fullScreenButton setThemeKey:@"hud_button_fullscreen"];
-    [fullScreenButton setButtonType:NSPushOnPushOffButton];
-    [fullScreenButton setAction:@selector(toggleFullScreen:)];
-    [fullScreenButton setFrame:NSMakeRect(370 + (hideOptions ? 0 : 50), 13, 51, 23)];
-    [fullScreenButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-    [fullScreenButton setToolTip:NSLocalizedString(@"Toggle Fullscreen", @"Tooltip")];
-    [fullScreenButton setToolTipStyle:OEToolTipStyleHUD];
-    [self addSubview:fullScreenButton];
+    _fullScreenButton = [[OEButton alloc] init];
+    [_fullScreenButton setTitle:nil];
+    [_fullScreenButton setThemeKey:@"hud_button_fullscreen"];
+    [_fullScreenButton setButtonType:NSPushOnPushOffButton];
+    [_fullScreenButton setAction:@selector(toggleFullScreen:)];
+    [_fullScreenButton setFrame:NSMakeRect(370 + (hideOptions ? 0 : 50), 13, 51, 23)];
+    [_fullScreenButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
+    [_fullScreenButton setToolTip:NSLocalizedString(@"Toggle Fullscreen", @"Tooltip")];
+    [_fullScreenButton setToolTipStyle:OEToolTipStyleHUD];
+    [self addSubview:_fullScreenButton];
 }
 
 @end
