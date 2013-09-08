@@ -261,12 +261,12 @@
     }
 }
 
-- (void)setupEmulationWithCompletionHandler:(void(^)(void))handler;
+- (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
 {
     [[self gameCoreHelper] setupEmulationWithCompletionHandler:
-     ^{
+     ^(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize){
          dispatch_async(dispatch_get_main_queue(), ^{
-             handler();
+             handler(surfaceID, screenSize, aspectSize);
          });
      }];
 }

@@ -213,6 +213,13 @@ NSString *const OEDefaultWindowTitle = @"OpenEmu";
     [_gameView setEnableVSync:enable];
 }
 
+- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
+{
+    _screenSize = newScreenSize;
+    _aspectSize = newAspectSize;
+    [_gameView setScreenSize:_screenSize aspectSize:_aspectSize withIOSurfaceID:newSurfaceID];
+}
+
 - (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 {
     _screenSize = newScreenSize;

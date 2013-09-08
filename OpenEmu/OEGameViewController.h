@@ -84,5 +84,6 @@ extern NSString *const OEBackgroundPauseKey;
 
 #pragma mark - Info
 - (NSSize)defaultScreenSize;
+- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 
 @end

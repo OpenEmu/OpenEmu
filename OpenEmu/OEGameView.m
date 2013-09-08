@@ -539,7 +539,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     {
         // note that a null surface is a valid situation: it is possible that a game document has been opened but the underlying game emulation
         // hasn't started yet
-        //NSLog(@"Surface is null");
+        NSLog(@"Surface is null");
     }
 }
 
@@ -1108,6 +1108,12 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
         _delegate = value;
         [_delegate gameView:self setDrawSquarePixels:[self composition] != nil];
     }
+}
+
+- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
+{
+    [self setGameAspectSize:newAspectSize];
+    [self setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
 }
 
 - (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;

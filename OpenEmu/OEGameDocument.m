@@ -544,7 +544,11 @@ typedef enum : NSUInteger
      ^(id systemClient)
      {
          [_gameCoreManager setupEmulationWithCompletionHandler:
-          ^{
+          ^(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize)
+          {
+              NSLog(@"SETUP DONE.");
+              [_gameViewController setScreenSize:screenSize aspectSize:aspectSize withIOSurfaceID:surfaceID];
+
               _emulationStatus = OEEmulationStatusSetup;
 
               [self OE_addDeviceNotificationObservers];

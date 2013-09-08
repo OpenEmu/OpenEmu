@@ -745,10 +745,10 @@
     [_gameAudio setOutputDeviceID:deviceID];
 }
 
-- (void)setupEmulationWithCompletionHandler:(void(^)(void))handler;
+- (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
 {
     [self setupEmulation];
-    if(handler) handler();
+    if(handler) handler(_surfaceID, _screenSize, _previousAspectSize);
 }
 
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler;
