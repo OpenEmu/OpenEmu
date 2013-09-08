@@ -120,7 +120,7 @@ enum _OEHelperAppErrorCodes
 - (void)setupFBO;
 - (void)setupGameTexture;
 - (void)pollParentProcess;
-- (void)setupGameCore;
+- (void)setupGameCoreAudioAndVideo;
 - (void)updateGameTexture;
 
 - (void)beginDrawToIOSurface;

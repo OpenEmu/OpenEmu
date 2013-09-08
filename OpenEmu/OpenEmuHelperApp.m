@@ -52,7 +52,6 @@
     void (^_stopEmulationHandler)(void);
     OEIntSize _previousAspectSize;
     BOOL _hasSlowClientStorage;
-    BOOL _isFirstRun;
 }
 
 #pragma mark -
@@ -79,16 +78,18 @@
     //[[FRFeedbackReporter sharedReporter] reportIfCrash];
 }
 
-- (void)setupGameCore
+- (void)setupGameCoreAudioAndVideo
 {
     [_gameAudio setVolume:1.0];
 
     if(![_gameCore rendersToOpenGL])
         [self setupGameTexture];
 
-    _isFirstRun = YES;
     // ensure we set _screenSize corectly from the get go
     [self updateScreenSize];
+    _previousAspectSize = [_gameCore aspectSize];
+    _previousScreenSize = _screenSize;
+
     [self setupIOSurface];
     [self setupFBO];
 }
@@ -319,9 +320,8 @@
     CGLContextObj cgl_ctx = _glContext;
     CGLSetCurrentContext(cgl_ctx);
 
-    if(_isFirstRun || !OEIntSizeEqualToSize(screenRect.size, _previousScreenSize))
+    if(!OEIntSizeEqualToSize(screenRect.size, _previousScreenSize))
     {
-        _isFirstRun = NO;
         DLog(@"Need a resize!");
         // recreate our surface so its the same size as our screen
         [self destroySurface];
@@ -671,12 +671,16 @@
     // init resources
     [self setupOpenGLOnScreen:[NSScreen mainScreen]];
     
+    [self setupGameCoreAudioAndVideo];
+
     [_gameCore setupEmulation];
 
     // audio!
     _gameAudio = [[OEGameAudio alloc] initWithCore:_gameCore];
 
-    [self setupGameCore];
+    [self willExecute];
+    [_gameCore executeFrameSkippingFrame:NO];
+    [self didExecute];
 
     DLog(@"finished setting up rom");
 }
