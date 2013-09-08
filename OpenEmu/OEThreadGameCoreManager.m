@@ -94,7 +94,6 @@
 
 - (void)_stopHelperThread:(id)object
 {
-    [_helper stopEmulation];
     [_dummyTimer invalidate];
     _dummyTimer = nil;
 
@@ -113,7 +112,18 @@
     if([NSThread currentThread] == _helperThread)
         [self _stopHelperThread:nil];
     else
-        [self performSelector:@selector(_stopHelperThread:) onThread:_helperThread withObject:nil waitUntilDone:YES];
+        [self performSelector:@selector(_stopHelperThread:) onThread:_helperThread withObject:nil waitUntilDone:NO];
+}
+
+- (void)stopEmulationWithCompletionHandler:(void (^)(void))handler
+{
+    [[self gameCoreHelper] stopEmulationWithCompletionHandler:
+     ^{
+         dispatch_async(dispatch_get_main_queue(), ^{
+             handler();
+         });
+         [self stop];
+     }];
 }
 
 @end
