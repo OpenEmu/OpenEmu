@@ -93,6 +93,14 @@
 
     [self setupIOSurface];
     [self setupFBO];
+
+    // Clear the context to avoid any artifacts on start up.
+    CGLContextObj cgl_ctx = _glContext;
+    CGLSetCurrentContext(cgl_ctx);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glFlush();
 }
 
 - (void)setupProcessPollingTimer
@@ -707,11 +715,8 @@
 
     [self setupGameCoreAudioAndVideo];
 
-    [_gameCore runStartUpFrameWithCompletionHandler:
-     ^{
-         DLog(@"finished setting up rom");
-         if(handler) handler(_surfaceID, _screenSize, _previousAspectSize);
-     }];
+    DLog(@"finished setting up rom");
+    if(handler) handler(_surfaceID, _screenSize, _previousAspectSize);
 }
 
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler;
