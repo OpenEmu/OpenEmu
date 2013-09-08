@@ -493,6 +493,8 @@
 
 - (void)destroySurface
 {
+    if(_surfaceRef == nil) return;
+
     CFRelease(_surfaceRef);
     _surfaceRef = nil;
 
