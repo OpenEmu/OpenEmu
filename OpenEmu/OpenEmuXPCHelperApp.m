@@ -73,6 +73,14 @@
         [_gameCoreConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEXPCGameCoreHelper)]];
         [_gameCoreConnection setExportedObject:self];
         [_gameCoreConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEGameCoreDisplayHelper)]];
+        [_gameCoreConnection setInvalidationHandler:
+         ^{
+             [NSApp terminate:nil];
+         }];
+        [_gameCoreConnection setInterruptionHandler:
+         ^{
+             [NSApp terminate:nil];
+         }];
         [_gameCoreConnection resume];
 
         [self setDisplayHelper:
@@ -122,8 +130,6 @@
     [super stopEmulationWithCompletionHandler:
      ^{
          handler();
-
-         exit(0);
      }];
 }
 
