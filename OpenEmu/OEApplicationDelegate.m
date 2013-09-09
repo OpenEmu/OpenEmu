@@ -242,7 +242,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
              if(remainingDocuments > 0) return;
 
-             if([_gameDocuments count] == 0)
+             if([_gameDocuments count] > 0)
                  SEND_CALLBACK(delegate, didCloseAllSelector, self, NO, contextInfo);
              else
                  [super closeAllDocumentsWithDelegate:delegate didCloseAllSelector:didCloseAllSelector contextInfo:contextInfo];
