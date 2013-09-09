@@ -234,11 +234,6 @@ NSString *const OEDefaultWindowTitle = @"OpenEmu";
     [_gameView setAspectSize:newAspectSize];
 }
 
-- (void)setFrameInterval:(NSTimeInterval)newFrameInterval;
-{
-    [_gameView setFrameInterval:newFrameInterval];
-}
-
 #pragma mark - Info
 
 - (NSSize)defaultScreenSize

@@ -558,8 +558,6 @@
 
         [_gameCore setSystemIdentifier:systemIdentifier];
 
-        [self updateFrameInterval:[_gameCore frameInterval]];
-
         DLog(@"Loaded bundle. About to load rom...");
 
         // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
@@ -790,11 +788,6 @@
 - (void)updateAspectSize:(OEIntSize)newAspectSize;
 {
     [[self displayHelper] setAspectSize:newAspectSize];
-}
-
-- (void)updateFrameInterval:(NSTimeInterval)newFrameInterval;
-{
-    [[self displayHelper] setFrameInterval:newFrameInterval];
 }
 
 #pragma mark - OEGameCoreDelegate protocol methods

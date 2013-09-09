@@ -472,7 +472,8 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
     _filterTime = [[NSDate date] timeIntervalSinceDate:_filterStartTime];
 
-    _gameFrameCount = _filterTime * _frameInterval;
+    // Just assume 60 fps, this isn't critical
+    _gameFrameCount = _filterTime * 60;
 
     if(_gameSurfaceRef == NULL) [self rebindIOSurface];
 

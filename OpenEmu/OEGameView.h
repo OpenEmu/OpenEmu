@@ -45,8 +45,6 @@
 @property(nonatomic, copy) NSString *filterName;
 @property(nonatomic, copy) NSString *gameTitle;
 
-@property NSTimeInterval frameInterval;
-
 // Screenshots
 /* Returns a screenshot containing the game viewport with its current size in the window and filters */
 - (NSImage *)screenshot;
