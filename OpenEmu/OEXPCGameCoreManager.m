@@ -108,7 +108,7 @@
          [_helperConnection remoteObjectProxyWithErrorHandler:
           ^(NSError *error)
           {
-              DLog(@"Receiving error for: gameCoreHelper: %p", gameCoreHelperPointer);
+              NSLog(@"Helper Connection (%p) failed with error: %@", gameCoreHelperPointer, error);
               dispatch_async(dispatch_get_main_queue(), ^{
                   errorHandler(error);
                   [self stop];
@@ -135,15 +135,16 @@
               [_gameCoreConnection resume];
 
               __block void *systemClientError;
-              _systemClient = [_gameCoreConnection remoteObjectProxyWithErrorHandler:
-                               ^(NSError *error)
-                               {
-                                   DLog(@"Receiving error for pointer: %p", systemClientError);
-                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                       errorHandler(error);
-                                       [self stop];
-                                   });
-                               }];
+              _systemClient =
+              [_gameCoreConnection remoteObjectProxyWithErrorHandler:
+               ^(NSError *error)
+               {
+                   NSLog(@"Game Core Connection (%p) failed with error: %@", systemClientError, error);
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                       errorHandler(error);
+                       [self stop];
+                   });
+               }];
 
               systemClientError = (__bridge void *)_systemClient;
 
