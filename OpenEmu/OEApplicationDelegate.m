@@ -90,6 +90,17 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 @synthesize mainWindowController;
 @synthesize aboutWindow, aboutCreditsPath, cachedLastPlayedInfo;
 
++ (void)load
+{
+    Class NSXPCConnectionClass = NSClassFromString(@"NSXPCConnection");
+    if(NSXPCConnectionClass != nil)
+    {
+        NSString *OEXPCCFrameworkPath = [[[NSBundle mainBundle] privateFrameworksPath] stringByAppendingPathComponent:@"OpenEmuXPCCommunicator.framework"];
+        NSBundle *frameworkBundle = [NSBundle bundleWithPath:OEXPCCFrameworkPath];
+        [frameworkBundle load];
+    }
+}
+
 + (void)initialize
 {
     if(self == [OEApplicationDelegate class])

@@ -768,7 +768,6 @@
 		C344D630174C47670011579E /* Scale4xBR.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D612174C463E0011579E /* Scale4xBR.vert */; };
 		C344D631174C47670011579E /* Scale4xHQ.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D613174C463E0011579E /* Scale4xHQ.frag */; };
 		C344D632174C47670011579E /* Scale4xHQ.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D614174C463E0011579E /* Scale4xHQ.vert */; };
-		C60238E51794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C60238E41794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework */; };
 		C60238E61794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C60238E41794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework */; };
 		C6096192179B461C00239067 /* OEXPCGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096191179B461C00239067 /* OEXPCGameCoreManager.m */; };
 		C609619A179B6E3F00239067 /* OpenEmuXPCHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096199179B6E3F00239067 /* OpenEmuXPCHelperApp.m */; };
@@ -2627,7 +2626,6 @@
 				1B42C66D1429510A004691D7 /* Syphon.framework in Frameworks */,
 				82DE4B63102655DA007184EB /* UniversalDetector.framework in Frameworks */,
 				82DE4B62102655D5007184EB /* XADMaster.framework in Frameworks */,
-				C60238E51794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9491,6 +9489,10 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks /Library/Frameworks ~/Library/Frameworks";
 				OTHER_CFLAGS = "-DUSE_SCALE_RANDOMWRITE";
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					OpenEmuXPCCommunicator,
+				);
 				PRODUCT_NAME = OpenEmu;
 				VALID_ARCHS = x86_64;
 			};
@@ -9519,6 +9521,10 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks /Library/Frameworks ~/Library/Frameworks";
 				OTHER_CFLAGS = "-DUSE_SCALE_RANDOMWRITE";
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					OpenEmuXPCCommunicator,
+				);
 				PRODUCT_NAME = OpenEmu;
 				VALID_ARCHS = x86_64;
 			};
