@@ -101,6 +101,7 @@ typedef enum
 - (void)dealloc
 {
     [[self window] setDelegate:nil];
+    [self setWindow:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
