@@ -225,19 +225,24 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [super removeDocument:document];
 }
 
-- (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo
-{
 #define SEND_CALLBACK ((void(*)(id, SEL, NSDocumentController *, BOOL, void *))objc_msgSend)
 
+- (void)reviewUnsavedDocumentsWithAlertTitle:(NSString *)title cancellable:(BOOL)cancellable delegate:(id)delegate didReviewAllSelector:(SEL)didReviewAllSelector contextInfo:(void *)contextInfo
+{
     if([_gameDocuments count] == 0)
     {
-        [super closeAllDocumentsWithDelegate:delegate didCloseAllSelector:didCloseAllSelector contextInfo:contextInfo];
+        [super reviewUnsavedDocumentsWithAlertTitle:title cancellable:cancellable delegate:delegate didReviewAllSelector:didReviewAllSelector contextInfo:contextInfo];
         return;
     }
 
-    if([[OEHUDAlert quitApplicationAlert] runModal] != NSAlertDefaultReturn)
+    SEND_CALLBACK(delegate, didReviewAllSelector, self, [[OEHUDAlert quitApplicationAlert] runModal] == NSAlertDefaultReturn, contextInfo);
+}
+
+- (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo
+{
+    if([_gameDocuments count] == 0)
     {
-        SEND_CALLBACK(delegate, didCloseAllSelector, self, NO, contextInfo);
+        [super closeAllDocumentsWithDelegate:delegate didCloseAllSelector:didCloseAllSelector contextInfo:contextInfo];
         return;
     }
 
