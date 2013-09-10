@@ -166,7 +166,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 
         [viewToReplace removeFromSuperview];
 
-        if(controller == [_gameDocument viewController])
+        if(controller == [_gameDocument gameViewController])
         {
             [_gameDocument setGameWindowController:self];
             [_gameDocument setEmulationPaused:NO];
@@ -291,7 +291,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
         else
         {
             [document setGameWindowController:self];
-            [self setCurrentContentController:[document viewController]];
+            [self setCurrentContentController:[document gameViewController]];
         }
     };
 
@@ -395,7 +395,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     if(_shouldExitFullScreenWhenGameFinishes)
     {
         [_gameDocument setGameWindowController:self];
-        [self setCurrentContentController:[_gameDocument viewController]];
+        [self setCurrentContentController:[_gameDocument gameViewController]];
     }
     
     if(_resumePlayingAfterFullScreenTransition)

@@ -422,8 +422,6 @@
 		83DC1FCD147085C800F3D77A /* controller_gba.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DC1FCA1470857900F3D77A /* controller_gba.png */; };
 		83DDEE83156CDEEB009EB43D /* NSView+FadeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */; };
 		83DDEE87156CE2F0009EB43D /* OEFadeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE86156CE2F0009EB43D /* OEFadeView.m */; };
-		83DDEE8A156CFFE1009EB43D /* OEDistantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE89156CFFE1009EB43D /* OEDistantViewController.m */; };
-		83DDEE8D156CFFF2009EB43D /* OEDistantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE8C156CFFF2009EB43D /* OEDistantView.m */; };
 		83DEE48F162D52DC005D8AD7 /* OELabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE48C162D52DC005D8AD7 /* OELabel.m */; };
 		83DEE490162D52DC005D8AD7 /* OELabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE48E162D52DC005D8AD7 /* OELabelCell.m */; };
 		83DEE495162D61C7005D8AD7 /* OEBackgroundColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE494162D61C7005D8AD7 /* OEBackgroundColorView.m */; };
@@ -1833,10 +1831,6 @@
 		83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+FadeImage.m"; sourceTree = "<group>"; };
 		83DDEE85156CE2F0009EB43D /* OEFadeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFadeView.h; sourceTree = "<group>"; };
 		83DDEE86156CE2F0009EB43D /* OEFadeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFadeView.m; sourceTree = "<group>"; };
-		83DDEE88156CFFE1009EB43D /* OEDistantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDistantViewController.h; sourceTree = "<group>"; };
-		83DDEE89156CFFE1009EB43D /* OEDistantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDistantViewController.m; sourceTree = "<group>"; };
-		83DDEE8B156CFFF2009EB43D /* OEDistantView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDistantView.h; sourceTree = "<group>"; };
-		83DDEE8C156CFFF2009EB43D /* OEDistantView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDistantView.m; sourceTree = "<group>"; };
 		83DEE48B162D52DC005D8AD7 /* OELabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELabel.h; sourceTree = "<group>"; };
 		83DEE48C162D52DC005D8AD7 /* OELabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELabel.m; sourceTree = "<group>"; };
 		83DEE48D162D52DC005D8AD7 /* OELabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELabelCell.h; sourceTree = "<group>"; };
@@ -3564,10 +3558,6 @@
 				83D435EE147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.m */,
 				83DDEE85156CE2F0009EB43D /* OEFadeView.h */,
 				83DDEE86156CE2F0009EB43D /* OEFadeView.m */,
-				83DDEE88156CFFE1009EB43D /* OEDistantViewController.h */,
-				83DDEE89156CFFE1009EB43D /* OEDistantViewController.m */,
-				83DDEE8B156CFFF2009EB43D /* OEDistantView.h */,
-				83DDEE8C156CFFF2009EB43D /* OEDistantView.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -7337,8 +7327,6 @@
 				83CC7C2F155DCC7A00E9FFB1 /* ArchiveVGThrottling.m in Sources */,
 				83DDEE83156CDEEB009EB43D /* NSView+FadeImage.m in Sources */,
 				83DDEE87156CE2F0009EB43D /* OEFadeView.m in Sources */,
-				83DDEE8A156CFFE1009EB43D /* OEDistantViewController.m in Sources */,
-				83DDEE8D156CFFF2009EB43D /* OEDistantView.m in Sources */,
 				83F4700C15750497001931BD /* OEGameScannerViewController.m in Sources */,
 				8337393215BFD24A00D83D2F /* OESystemPicker.m in Sources */,
 				8337393815BFD87900D83D2F /* OELibraryToolbarView.m in Sources */,

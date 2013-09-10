@@ -35,7 +35,6 @@
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 #import "OEDBSaveState.h"
-#import "OEDistantViewController.h"
 #import "OEDOGameCoreManager.h"
 #import "OEGameCoreManager.h"
 #import "OEGameView.h"
@@ -99,11 +98,8 @@ typedef enum : NSUInteger
 {
     if((self = [super init]) != nil)
     {
-        _viewController = [[OEDistantViewController alloc] init];
         _gameViewController = [[OEGameViewController alloc] init];
         [[self gameViewController] setDocument:self];
-        
-        [[self distantViewController] setRealViewController:_gameViewController];
     }
 
     return self;
@@ -139,11 +135,6 @@ typedef enum : NSUInteger
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<%@ %p, ROM: '%@', System: '%@', Core: '%@'>", [self class], self, [[[self rom] game] displayName], [_systemPlugin systemIdentifier], [_corePlugin bundleIdentifier]];
-}
-
-- (OEDistantViewController *)distantViewController
-{
-    return (OEDistantViewController *)[self viewController];
 }
 
 - (NSString *)coreIdentifier;

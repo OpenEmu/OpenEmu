@@ -64,7 +64,6 @@ enum _OEGameDocumentErrorCodes
 @property(readonly) OECorePlugin *corePlugin;
 @property(readonly) OESystemPlugin *systemPlugin;
 
-@property(readonly) NSViewController *viewController;
 @property(readonly) OEGameViewController *gameViewController;
 
 @property(readonly) NSString *coreIdentifier;
