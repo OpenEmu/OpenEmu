@@ -221,11 +221,13 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
     }
     else
     {
-        [_gameDocument setGameWindowController:nil];
+        [_gameDocument setEmulationPaused:YES];
         [self setCurrentContentController:nil];
+        [_gameDocument setGameWindowController:nil];
 
         [_gameDocument showInSeparateWindowInFullScreen:NO];
         _gameDocument = nil;
+        _mainWindowRunsGame = NO;
     }
 }
 
@@ -425,6 +427,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
             [_gameDocument setEmulationPaused:NO];
 
         _gameDocument = nil;
+        _mainWindowRunsGame = NO;
     }
     else if(_gameDocument && _resumePlayingAfterFullScreenTransition)
         [_gameDocument setEmulationPaused:NO];
