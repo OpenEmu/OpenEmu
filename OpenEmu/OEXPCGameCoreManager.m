@@ -40,6 +40,7 @@
 
     NSXPCConnection *_helperConnection;
     NSXPCConnection *_gameCoreConnection;
+    OEThreadProxy   *_displayHelperProxy;
     id               _systemClient;
     BOOL             _isStoppingBackgroundProcess;
 }
@@ -96,9 +97,10 @@
     [[OEXPCCAgent defaultAgent] retrieveListenerEndpointForIdentifier:_processIdentifier completionHandler:
      ^(NSXPCListenerEndpoint *endpoint)
      {
+         _displayHelperProxy = [OEThreadProxy threadProxyWithTarget:[self displayHelper] thread:[NSThread mainThread]];
          _helperConnection = [[NSXPCConnection alloc] initWithListenerEndpoint:endpoint];
          [_helperConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEGameCoreDisplayHelper)]];
-         [_helperConnection setExportedObject:[self displayHelper]];
+         [_helperConnection setExportedObject:_displayHelperProxy];
 
          [_helperConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEXPCGameCoreHelper)]];
          [_helperConnection resume];
@@ -196,6 +198,7 @@
     [self selfRetain];
 
     [self setGameCoreHelper:nil];
+    _displayHelperProxy = nil;
     _systemClient       = nil;
 
     [_helperConnection invalidate];
