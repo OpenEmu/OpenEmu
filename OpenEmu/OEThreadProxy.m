@@ -146,6 +146,9 @@
 #define IS_CURRENT_THREAD_AND_ALIVE(thread) (thread == nil || [thread isFinished] || [thread isCancelled] || [NSThread currentThread] == thread)
 
 @implementation OEThreadProxy
+{
+    CFMutableDictionaryRef _cachedBlockIndexes;
+}
 
 + (id)threadProxyWithTarget:(id)target thread:(NSThread *)thread;
 {
@@ -160,7 +163,10 @@
 - (id)initWithTarget:(id)target thread:(NSThread *)thread
 {
     if((self = [super initWithTarget:target]))
+    {
         _thread = thread;
+        _cachedBlockIndexes = CFDictionaryCreateMutable(NULL, 0, NULL, &kCFTypeDictionaryValueCallBacks);
+    }
 
     return self;
 }
@@ -168,6 +174,29 @@
 - (void)dealloc
 {
     _thread = nil;
+    if(_cachedBlockIndexes != NULL) CFRelease(_cachedBlockIndexes);
+}
+
+- (NSIndexSet *)OE_blockArgumentIndexesForInvocation:(NSInvocation *)invocation
+{
+    SEL selector = [invocation selector];
+    NSIndexSet *indexSet = (__bridge NSIndexSet *)CFDictionaryGetValue(_cachedBlockIndexes, selector);
+    if(indexSet != nil) return indexSet;
+
+    NSMutableIndexSet *argumentIndexes = [NSMutableIndexSet indexSet];
+    NSMethodSignature *signature = [invocation methodSignature];
+    NSUInteger argCount = [signature numberOfArguments];
+
+    for(NSUInteger argIndex = 2; argIndex < argCount; argIndex++)
+    {
+        const char *type = [signature getArgumentTypeAtIndex:argIndex];
+        if(type[0] == '@' && type[1] == '?')
+            [argumentIndexes addIndex:argIndex];
+    }
+
+    indexSet = [argumentIndexes copy];
+    CFDictionarySetValue(_cachedBlockIndexes, selector, (__bridge void *)indexSet);
+    return indexSet;
 }
 
 - (id)forwardingTargetForSelector:(SEL)aSelector
@@ -186,8 +215,10 @@
     if(![_target respondsToSelector:[invocation selector]])
         return;
 
+    [invocation setTarget:_target];
+
     if(IS_CURRENT_THREAD_AND_ALIVE(_thread))
-        [invocation invokeWithTarget:_target];
+        [invocation invoke];
     else
     {
         // We send the message to the background thread, which means
@@ -195,38 +226,32 @@
         // copying all stack block arguments to the heap or else
         // they will be deallocated before the background thread
         // can execute them.
-        NSMethodSignature *signature = [invocation methodSignature];
-        NSUInteger argCount = [signature numberOfArguments];
 
         // Keep track of the blocks we copied, after we told the
         // NSInvocation to retain the arguments we will have to
         // send release to the argument to balance our own copy.
 #define BLOCK_ARGUMENTS_MAX_COUNT 8
-        void *argumentsToRelease[BLOCK_ARGUMENTS_MAX_COUNT] = { NULL };
-        NSUInteger argumentsToReleaseCount = 0;
+        void *argumentsToReleaseArray[BLOCK_ARGUMENTS_MAX_COUNT] = { NULL };
+        void **argumentsToRelease = argumentsToReleaseArray;
+        __block NSUInteger argumentsToReleaseCount = 0;
 
-        for(NSUInteger argIndex = 2; argIndex < argCount; argIndex++)
-        {
-            const char *type = [signature getArgumentTypeAtIndex:argIndex];
-            if(type[0] == '@' && type[1] == '?')
-            {
-                void *argument = nil;
-                [invocation getArgument:&argument atIndex:argIndex];
-                if(argument == NULL) continue;
+        [[self OE_blockArgumentIndexesForInvocation:invocation] enumerateIndexesUsingBlock:
+         ^(NSUInteger index, BOOL *stop)
+         {
+             void *argument = nil;
+             [invocation getArgument:&argument atIndex:index];
+             if(argument == NULL) return;
 
-                extern const char *_Block_dump(const void *block);
+             extern const char *_Block_dump(const void *block);
 
-                // Copy the block argument to the heap.
-                argument = _Block_copy(argument);
-                [invocation setArgument:&argument atIndex:argIndex];
+             // Copy the block argument to the heap.
+             argument = _Block_copy(argument);
+             [invocation setArgument:&argument atIndex:index];
 
-                // Keep the argument pointer to be released later.
-                NSAssert(argumentsToReleaseCount < BLOCK_ARGUMENTS_MAX_COUNT, @"There are more block arguments %ld for selector %@ signature %@ than the handled limit %d", [signature OE_numberOfBlockArguments], NSStringFromSelector([invocation selector]), [signature OE_methodArgumentTypes], BLOCK_ARGUMENTS_MAX_COUNT);
-                argumentsToRelease[argumentsToReleaseCount++] = argument;
-            }
-        }
-
-        [invocation setTarget:_target];
+             // Keep the argument pointer to be released later.
+             NSAssert(argumentsToReleaseCount < BLOCK_ARGUMENTS_MAX_COUNT, @"There are more block arguments %ld for selector %@ signature %@ than the handled limit %d", [[invocation methodSignature] OE_numberOfBlockArguments], NSStringFromSelector([invocation selector]), [[invocation methodSignature] OE_methodArgumentTypes], BLOCK_ARGUMENTS_MAX_COUNT);
+             argumentsToRelease[argumentsToReleaseCount++] = argument;
+         }];
 
         // Retain the arguments, the invocation has to be executed on another thread.
         [invocation retainArguments];
