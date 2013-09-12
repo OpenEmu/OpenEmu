@@ -53,7 +53,7 @@
 
 + (BOOL)canUseXPCGameCoreManager
 {
-    return [NSXPCConnection class] != nil;
+    return [NSHashTable respondsToSelector:@selector(weakObjectsHashTable)];
 }
 
 - (void)getTerminatingProcesses:(void(^)(NSMutableSet *processes))block
