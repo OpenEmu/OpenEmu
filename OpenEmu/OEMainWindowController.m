@@ -135,7 +135,6 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 - (void)setCurrentContentController:(NSViewController *)controller animate:(BOOL)shouldAnimate
 {
     if(controller == nil) controller = [self libraryController];
-    
     if(controller == [self currentContentController]) return;
 
     NSView *placeHolderView = [self placeholderView];
@@ -153,7 +152,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
         [[controller view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [[controller view] setFrame:[placeHolderView bounds]];
 
-        if (viewToReplace)
+        if(viewToReplace)
             [placeHolderView replaceSubview:viewToReplace with:[controller view]];
         else
             [placeHolderView addSubview:[controller view]];
@@ -285,7 +284,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
         {
             [NSApp activateIgnoringOtherApps:YES];
 
-            [self setCurrentContentController:nil];
+            [self setCurrentContentController:[document gameViewController] animate:NO];
             [[self window] toggleFullScreen:self];
         }
         else
@@ -339,7 +338,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
                  _shouldExitFullScreenWhenGameFinishes = NO;
              }
 
-             [self setCurrentContentController:nil animate:exitFullScreen];
+             [self setCurrentContentController:nil];
          }];
 
         return NO;
