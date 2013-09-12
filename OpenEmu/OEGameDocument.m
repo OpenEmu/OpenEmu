@@ -72,7 +72,7 @@ typedef enum : NSUInteger
     OEEmulationStatusTerminating,
 } OEEmulationStatus;
 
-@interface OEGameDocument ()
+@interface OEGameDocument () <OEGameCoreDisplayHelper>
 {
     OEGameCoreManager  *_gameCoreManager;
     OESystemController *_gameSystemController;
@@ -214,7 +214,7 @@ typedef enum : NSUInteger
                              : [OEDOGameCoreManager class]));
 
     _corePlugin = corePlugin;
-    return [[managerClass alloc] initWithROMPath:[[[self rom] URL] path] corePlugin:_corePlugin systemController:_gameSystemController displayHelper:_gameViewController];
+    return [[managerClass alloc] initWithROMPath:[[[self rom] URL] path] corePlugin:_corePlugin systemController:_gameSystemController displayHelper:self];
 }
 
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError
@@ -1144,6 +1144,23 @@ typedef enum : NSUInteger
 - (void)gameViewController:(OEGameViewController *)sender setDrawSquarePixels:(BOOL)drawSquarePixels
 {
     [_gameCoreManager setDrawSquarePixels:drawSquarePixels];
+}
+
+#pragma mark OEGameCoreDisplayHelper methods
+
+- (void)setEnableVSync:(BOOL)enable;
+{
+    [[self gameViewController] setEnableVSync:enable];
+}
+
+- (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+{
+    [[self gameViewController] setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
+}
+
+- (void)setAspectSize:(OEIntSize)newAspectSize;
+{
+    [[self gameViewController] setAspectSize:newAspectSize];
 }
 
 @end
