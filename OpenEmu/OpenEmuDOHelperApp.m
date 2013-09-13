@@ -63,6 +63,14 @@ NSString *const OEHelperServerNamePrefix = @"org.openemu.OpenEmuHelper-";
      }];
 }
 
+- (oneway void)startEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate
+{
+    [self startEmulationWithCompletionHandler:
+     ^{
+         [delegate gameCoreHelperDidStartEmulation];
+     }];
+}
+
 - (oneway void)resetEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
 {
     [self resetEmulationWithCompletionHandler:

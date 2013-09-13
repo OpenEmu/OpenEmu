@@ -27,6 +27,6 @@
 #import "OpenEmuHelperApp.h"
 #import "OEDOGameCoreHelper.h"
 
-@interface OpenEmuDOHelperApp : OpenEmuHelperApp
+@interface OpenEmuDOHelperApp : OpenEmuHelperApp <OEDOGameCoreHelper>
 - (void)launchApplication;
 @end
