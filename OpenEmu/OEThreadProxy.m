@@ -143,6 +143,10 @@
 
 @end
 
+@interface NSObject (OEThreadProxyHelper)
++ (void)OE_cleanUpThreadProxyTarget:(id)target;
+@end
+
 #define IS_CURRENT_THREAD_AND_ALIVE(thread) (thread == nil || [thread isFinished] || [thread isCancelled] || [NSThread currentThread] == thread)
 
 @implementation OEThreadProxy
@@ -173,6 +177,7 @@
 
 - (void)dealloc
 {
+    [NSObject performSelector:@selector(OE_cleanUpThreadProxyTarget:) onThread:_thread withObject:_target waitUntilDone:NO];
     _thread = nil;
     if(_cachedBlockIndexes != NULL) CFRelease(_cachedBlockIndexes);
 }
@@ -262,6 +267,15 @@
 
         [invocation performSelector:@selector(invoke) onThread:_thread withObject:nil waitUntilDone:NO];
     }
+}
+
+@end
+
+@implementation NSObject (OEThreadProxyHelper)
+
++ (void)OE_cleanUpThreadProxyTarget:(id)target
+{
+    DLog(@"Clean up target: %@", target);
 }
 
 @end
