@@ -111,7 +111,7 @@ NSString *const OEDefaultWindowTitle = @"OpenEmu";
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewFrameDidChangeNotification object:_gameView];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     [_controlsWindow close];
     _controlsWindow = nil;
