@@ -686,7 +686,7 @@
 
 - (void)setPauseEmulation:(BOOL)paused
 {
-    [_gameCore setPauseEmulation:paused];
+    [[self gameCore] setPauseEmulation:paused];
 }
 
 - (void)setDrawSquarePixels:(BOOL)value
