@@ -285,6 +285,7 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
             [NSApp activateIgnoringOtherApps:YES];
 
             [self setCurrentContentController:[document gameViewController] animate:NO];
+            [document setEmulationPaused:NO];
             [[self window] toggleFullScreen:self];
         }
         else
