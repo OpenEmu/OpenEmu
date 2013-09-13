@@ -230,14 +230,28 @@
       }]];
 }
 
-- (void)saveStateToFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL success, NSError *error))block;
+- (void)saveStateToFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL success, NSError *error))handler;
 {
-    [_rootProxy saveStateToFileAtPath:fileName withDelegate:block];
+    [_rootProxy saveStateToFileAtPath:fileName withDelegate:
+     [OEDOGameCoreHelperDelegateHelper delegateHelperWithSuccessHandler:
+      ^(BOOL success, NSError *error)
+      {
+          dispatch_async(dispatch_get_main_queue(), ^{
+              handler(success, error);
+          });
+      }]];
 }
 
-- (void)loadStateFromFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL success, NSError *error))block;
+- (void)loadStateFromFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL success, NSError *error))handler;
 {
-    [_rootProxy loadStateFromFileAtPath:fileName withDelegate:block];
+    [_rootProxy loadStateFromFileAtPath:fileName withDelegate:
+     [OEDOGameCoreHelperDelegateHelper delegateHelperWithSuccessHandler:
+      ^(BOOL success, NSError *error)
+      {
+          dispatch_async(dispatch_get_main_queue(), ^{
+              handler(success, error);
+          });
+      }]];
 }
 
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
