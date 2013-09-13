@@ -686,7 +686,7 @@
 
 - (void)setPauseEmulation:(BOOL)paused
 {
-    [[self gameCore] setPauseEmulation:paused];
+    [[self gameCoreProxy] setPauseEmulation:paused];
 }
 
 - (void)setDrawSquarePixels:(BOOL)value
@@ -760,17 +760,17 @@
 
 - (void)saveStateToFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL, NSError *))block
 {
-    [[self gameCore] saveStateToFileAtPath:fileName completionHandler:block];
+    [[self gameCoreProxy] saveStateToFileAtPath:fileName completionHandler:block];
 }
 
 - (void)loadStateFromFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL, NSError *))block
 {
-    [[self gameCore] loadStateFromFileAtPath:fileName completionHandler:block];
+    [[self gameCoreProxy] loadStateFromFileAtPath:fileName completionHandler:block];
 }
 
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 {
-    [[self gameCore] setCheat:cheatCode setType:type setEnabled:enabled];
+    [[self gameCoreProxy] setCheat:cheatCode setType:type setEnabled:enabled];
 }
 
 #pragma mark - OEGameCoreDisplayHelper subclass handles
