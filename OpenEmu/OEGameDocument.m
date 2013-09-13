@@ -214,6 +214,8 @@ typedef enum : NSUInteger
                              : [OEDOGameCoreManager class]));
 
     _corePlugin = corePlugin;
+    [[NSUserDefaults standardUserDefaults] setValue:[_corePlugin bundleIdentifier] forKey:UDSystemCoreMappingKeyForSystemIdentifier([self systemIdentifier])];
+
     return [[managerClass alloc] initWithROMPath:[[[self rom] URL] path] corePlugin:_corePlugin systemController:_gameSystemController displayHelper:self];
 }
 
