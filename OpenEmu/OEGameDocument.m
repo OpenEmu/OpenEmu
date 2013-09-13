@@ -53,6 +53,7 @@
 
 #import <objc/message.h>
 
+NSString *const OEGameCoreManagerModePreferenceKey = @"OEGameCoreManagerModePreference";
 NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
@@ -207,11 +208,17 @@ typedef enum : NSUInteger
 - (OEGameCoreManager *)_newGameCoreManagerWithCorePlugin:(OECorePlugin *)corePlugin
 {
     NSAssert(corePlugin != nil, @"Cannot create a game core manager without a plug-in.");
-    Class managerClass = ([[NSUserDefaults standardUserDefaults] boolForKey:OEGameCoresInBackgroundKey]
-                          ? [OEThreadGameCoreManager  class]
-                          : ([OEXPCGameCoreManager canUseXPCGameCoreManager]
-                             ? [OEXPCGameCoreManager class]
-                             : [OEDOGameCoreManager class]));
+
+    NSString *managerClassName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameCoreManagerModePreferenceKey];
+
+    Class managerClass = NSClassFromString(managerClassName);
+    if(managerClass == [OEXPCGameCoreManager class])
+    {
+        if(![OEXPCGameCoreManager canUseXPCGameCoreManager])
+            managerClass = [OEDOGameCoreManager class];
+    }
+    else if(managerClass != [OEThreadGameCoreManager class] && managerClass != [OEDOGameCoreManager class])
+        managerClass = [OEXPCGameCoreManager canUseXPCGameCoreManager] ? [OEXPCGameCoreManager class] : [OEDOGameCoreManager class];
 
     _corePlugin = corePlugin;
     [[NSUserDefaults standardUserDefaults] setValue:[_corePlugin bundleIdentifier] forKey:UDSystemCoreMappingKeyForSystemIdentifier([self systemIdentifier])];

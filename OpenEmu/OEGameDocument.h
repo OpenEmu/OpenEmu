@@ -27,6 +27,7 @@
 #import <Cocoa/Cocoa.h>
 #import "NSDocument+OEAdditions.h"
 
+extern NSString *const OEGameCoreManagerModePreferenceKey;
 extern NSString *const OEGameDocumentErrorDomain;
 
 enum _OEGameDocumentErrorCodes

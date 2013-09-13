@@ -35,6 +35,10 @@
 
 @property IBOutlet NSView *contentView;
 
+@property(readonly) BOOL canUseXPCMode;
+@property IBOutlet NSPopUpButton *gameModePopUpButton;
+- (IBAction)changeGameMode:(id)sender;
+
 #pragma mark -
 #pragma mark UI Methods
 
