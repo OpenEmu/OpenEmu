@@ -105,6 +105,11 @@ typedef enum
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (BOOL)windowShouldClose:(id)sender
+{
+    return [self document] != nil;
+}
+
 - (void)setDocument:(NSDocument *)document
 {
     NSAssert(!document || [document isKindOfClass:[OEGameDocument class]], @"OEPopoutGameWindowController accepts OEGameDocument documents only");
