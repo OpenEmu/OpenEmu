@@ -137,6 +137,13 @@ NSString *const OEDefaultWindowTitle = @"OpenEmu";
     [window makeFirstResponder:_gameView];
 }
 
+- (void)viewWillDisappear
+{
+    [super viewWillDisappear];
+
+    [_controlsWindow hide];
+}
+
 #pragma mark - Controlling Emulation
 
 - (BOOL)supportsCheats;
