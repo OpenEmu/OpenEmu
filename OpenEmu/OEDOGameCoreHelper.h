@@ -41,17 +41,17 @@
 - (oneway void)setAudioOutputDeviceID:(AudioDeviceID)deviceID;
 - (oneway void)setDrawSquarePixels:(BOOL)drawSquarePixels;
 
-- (oneway void)setupEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
-- (oneway void)startEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
-- (oneway void)resetEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
-- (oneway void)stopEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
+- (oneway void)setupEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier;
+- (oneway void)startEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier;
+- (oneway void)resetEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier;
+- (oneway void)stopEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier;
 
-- (oneway void)saveStateToFileAtPath:(NSString *)fileName withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
-- (oneway void)loadStateFromFileAtPath:(NSString *)fileName withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
+- (oneway void)saveStateToFileAtPath:(NSString *)fileName withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier;
+- (oneway void)loadStateFromFileAtPath:(NSString *)fileName withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier;
 
 - (oneway void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 
-- (oneway void)loadROMAtPath:(bycopy NSString *)romPath usingCorePluginAtPath:(bycopy NSString *)corePluginPath systemPluginAtPath:(bycopy NSString *)systemPluginPath withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate displayHelper:(byref id<OEDOGameCoreDisplayHelper>)displayHelper;
+- (oneway void)loadROMAtPath:(bycopy NSString *)romPath usingCorePluginAtPath:(bycopy NSString *)corePluginPath systemPluginAtPath:(bycopy NSString *)systemPluginPath withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate displayHelper:(byref id<OEDOGameCoreDisplayHelper>)displayHelper messageIdentifier:(NSString *)identifier;
 
 @end
 
@@ -66,14 +66,14 @@
 
 @protocol OEDOGameCoreHelperDelegate <NSObject>
 
-- (oneway void)setSystemResponderClient:(byref id)responderClient;
+- (oneway void)gameCoreHelperDidSetSystemResponderClient:(byref id)responderClient withMessageIdentifier:(NSString *)identifier;
 
-- (oneway void)gameCoreHelperDidSetupEmulationWithSurfaceID:(IOSurfaceID)surfaceID screenSize:(OEIntSize)screenSize aspectSize:(OEIntSize)aspectSize;
-- (oneway void)gameCoreHelperDidStartEmulation;
-- (oneway void)gameCoreHelperDidResetEmulation;
-- (oneway void)gameCoreHelperDidStopEmulation;
+- (oneway void)gameCoreHelperDidSetupEmulationWithSurfaceID:(IOSurfaceID)surfaceID screenSize:(OEIntSize)screenSize aspectSize:(OEIntSize)aspectSize messageIdentifier:(NSString *)identifier;;
+- (oneway void)gameCoreHelperDidStartEmulationWithMessageIdentifier:(NSString *)identifier;
+- (oneway void)gameCoreHelperDidResetEmulationWithMessageIdentifier:(NSString *)identifier;
+- (oneway void)gameCoreHelperDidStopEmulationWithMessageIdentifier:(NSString *)identifier;
 
-- (oneway void)gameCoreHelperDidSaveState:(BOOL)success error:(NSError *)error;
-- (oneway void)gameCoreHelperDidLoadState:(BOOL)success error:(NSError *)error;
+- (oneway void)gameCoreHelperDidSaveState:(BOOL)success error:(NSError *)error withMessageIdentifier:(NSString *)identifier;
+- (oneway void)gameCoreHelperDidLoadState:(BOOL)success error:(NSError *)error withMessageIdentifier:(NSString *)identifier;
 
 @end

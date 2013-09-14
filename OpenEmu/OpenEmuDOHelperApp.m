@@ -54,66 +54,66 @@ NSString *const OEHelperServerNamePrefix = @"org.openemu.OpenEmuHelper-";
     [_connection registerName:[OEHelperServerNamePrefix stringByAppendingString:_serviceUUID]];
 }
 
-- (oneway void)setupEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
+- (oneway void)setupEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier;
 {
     [self setupEmulationWithCompletionHandler:
      ^(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize)
      {
-         [delegate gameCoreHelperDidSetupEmulationWithSurfaceID:surfaceID screenSize:screenSize aspectSize:aspectSize];
+         [delegate gameCoreHelperDidSetupEmulationWithSurfaceID:surfaceID screenSize:screenSize aspectSize:aspectSize messageIdentifier:identifier];
      }];
 }
 
-- (oneway void)startEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate
+- (oneway void)startEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier
 {
     [self startEmulationWithCompletionHandler:
      ^{
-         [delegate gameCoreHelperDidStartEmulation];
+         [delegate gameCoreHelperDidStartEmulationWithMessageIdentifier:identifier];
      }];
 }
 
-- (oneway void)resetEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
+- (oneway void)resetEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier;
 {
     [self resetEmulationWithCompletionHandler:
      ^{
-         [delegate gameCoreHelperDidResetEmulation];
+         [delegate gameCoreHelperDidResetEmulationWithMessageIdentifier:identifier];
      }];
 }
 
-- (oneway void)stopEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
+- (oneway void)stopEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier;
 {
     [self stopEmulationWithCompletionHandler:
      ^{
-         [delegate gameCoreHelperDidStopEmulation];
+         [delegate gameCoreHelperDidStopEmulationWithMessageIdentifier:identifier];
 
          [[NSApplication sharedApplication] terminate:self];
      }];
 }
 
-- (oneway void)saveStateToFileAtPath:(NSString *)fileName withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
+- (oneway void)saveStateToFileAtPath:(NSString *)fileName withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier;
 {
     [self saveStateToFileAtPath:fileName completionHandler:
      ^(BOOL success, NSError *error)
      {
-         [delegate gameCoreHelperDidSaveState:success error:error];
+         [delegate gameCoreHelperDidSaveState:success error:error withMessageIdentifier:identifier];
      }];
 }
 
-- (oneway void)loadStateFromFileAtPath:(NSString *)fileName withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate;
+- (oneway void)loadStateFromFileAtPath:(NSString *)fileName withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier;
 {
     [self loadStateFromFileAtPath:fileName completionHandler:
      ^(BOOL success, NSError *error)
      {
-         [delegate gameCoreHelperDidLoadState:success error:error];
+         [delegate gameCoreHelperDidLoadState:success error:error withMessageIdentifier:identifier];
      }];
 }
 
-- (oneway void)loadROMAtPath:(bycopy NSString *)romPath usingCorePluginAtPath:(bycopy NSString *)corePluginPath systemPluginAtPath:(bycopy NSString *)systemPluginPath withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate displayHelper:(byref id<OEDOGameCoreDisplayHelper>)displayHelper;
+- (oneway void)loadROMAtPath:(bycopy NSString *)romPath usingCorePluginAtPath:(bycopy NSString *)corePluginPath systemPluginAtPath:(bycopy NSString *)systemPluginPath withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate displayHelper:(byref id<OEDOGameCoreDisplayHelper>)displayHelper messageIdentifier:(NSString *)identifier;
 {
     [(NSDistantObject *)delegate setProtocolForProxy:@protocol(OEDOGameCoreDisplayHelper)];
     [self setDisplayHelper:(id<OEGameCoreDisplayHelper>)displayHelper];
 
     if([self loadROMAtPath:romPath withCorePluginAtPath:corePluginPath systemIdentifier:[[OESystemPlugin systemPluginWithBundleAtPath:systemPluginPath] systemIdentifier]])
-        [delegate setSystemResponderClient:[self gameCore]];
+        [delegate gameCoreHelperDidSetSystemResponderClient:[self gameCore] withMessageIdentifier:identifier];
 }
 
 @end
