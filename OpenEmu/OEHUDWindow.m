@@ -132,6 +132,14 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)anItem
+{
+    if([super validateUserInterfaceItem:anItem])
+        return YES;
+
+    return [anItem action] == @selector(performClose:);
+}
+
 - (void)performClose:(id)sender
 {
     NSWindowController *windowController = [self windowController];
