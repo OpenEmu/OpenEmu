@@ -121,10 +121,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     {
         [self setCurrentContentController:[self libraryController] animate:NO];
     }
-    
-#if DEBUG_PRINT
-    [window setTitle:[[window title] stringByAppendingString:@" (DEBUG BUILD)"]];
-#endif
 }
 
 - (NSString *)windowNibName
@@ -237,7 +233,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
         [_gameDocument showInSeparateWindowInFullScreen:NO];
         _gameDocument = nil;
-        _mainWindowRunsGame = NO;
     }
 }
 
