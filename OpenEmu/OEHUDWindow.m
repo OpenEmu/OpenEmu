@@ -90,6 +90,7 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
     OEHUDBorderWindow        *_borderWindow;
     OEHUDWindowDelegateProxy *_delegateProxy;
     NSBox                    *_backgroundView;
+    BOOL                      _isDeallocating;
 }
 
 #pragma mark - Lifecycle
@@ -128,7 +129,9 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 
 - (void)dealloc 
 {
+    _isDeallocating = YES;
     _borderWindow = nil;
+    [super setDelegate:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -168,6 +171,8 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 
 - (void)setDelegate:(id<NSWindowDelegate>)delegate
 {
+    if(_isDeallocating) return;
+
     if(!_delegateProxy)
     {
         _delegateProxy = [OEHUDWindowDelegateProxy new];

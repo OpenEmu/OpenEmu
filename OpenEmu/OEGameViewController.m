@@ -113,9 +113,11 @@ NSString *const OEDefaultWindowTitle = @"OpenEmu";
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
+    [_gameView setDelegate:nil];
+    _gameView = nil;
+
     [_controlsWindow close];
     _controlsWindow = nil;
-    _gameView = nil;
 }
 
 #pragma mark -
