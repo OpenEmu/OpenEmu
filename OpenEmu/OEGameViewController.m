@@ -141,6 +141,7 @@ NSString *const OEGameViewControllerROMKey = @"OEROM";
 {
     [super viewWillDisappear];
 
+    [_controlsWindow hide];
     [[self OE_rootWindow] removeChildWindow:_controlsWindow];
 }
 
