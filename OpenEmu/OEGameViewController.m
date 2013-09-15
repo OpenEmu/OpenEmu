@@ -113,6 +113,9 @@ NSString *const OEGameViewControllerROMKey = @"OEROM";
 
     [_gameView setDelegate:nil];
     _gameView = nil;
+
+    [_controlsWindow close];
+    _controlsWindow = nil;
 }
 
 #pragma mark -
@@ -138,8 +141,7 @@ NSString *const OEGameViewControllerROMKey = @"OEROM";
 {
     [super viewWillDisappear];
 
-    [_controlsWindow close];
-    _controlsWindow = nil;
+    [[self OE_rootWindow] removeChildWindow:_controlsWindow];
 }
 
 #pragma mark - Controlling Emulation
