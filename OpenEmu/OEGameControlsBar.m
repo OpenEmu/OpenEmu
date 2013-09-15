@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2011, OpenEmu Team
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -59,24 +59,21 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 @interface OEHUDControlsBarView : NSView
 
-@property (strong, readonly) OESlider        *slider;
-@property (strong, readonly) OEButton        *fullScreenButton;
-@property (strong, readonly) OEButton        *pauseButton;
+@property(strong, readonly) OESlider *slider;
+@property(strong, readonly) OEButton *fullScreenButton;
+@property(strong, readonly) OEButton *pauseButton;
 
 - (void)setupControls;
 @end
 
 @interface OEGameControlsBar ()
 {
-    NSTimer *fadeTimer;
-    id       eventMonitor;
-    NSDate  *lastMouseMovement;
-    NSArray *filterPlugins;
-
-    BOOL            cheatsLoaded;
-    NSMutableArray *cheats;
-    
-    int openMenus;
+    id              _eventMonitor;
+    NSTimer        *_fadeTimer;
+    NSArray        *_filterPlugins;
+    NSUInteger      _openMenus;
+    NSMutableArray *_cheats;
+    BOOL            _cheatsLoaded;
 }
 
 @property(unsafe_unretained) OEGameViewController *gameViewController;
@@ -85,13 +82,12 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 @end
 
 @implementation OEGameControlsBar
-@synthesize lastMouseMovement, gameViewController, controlsView;
 
 + (void)initialize
 {
     if(self != [OEGameControlsBar class])
         return;
-    
+
     // Time until hud controls bar fades out
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
         OEGameControlsBarFadeOutDelayKey : @1.5,
@@ -103,7 +99,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 - (id)initWithGameViewController:(OEGameViewController *)controller
 {
     BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarHidesOptionButtonKey];
-    
+
     self = [super initWithContentRect:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45) styleMask:NSBorderlessWindowMask backing:NSWindowBackingLocationDefault defer:YES];
     if(self != nil)
     {
@@ -113,20 +109,20 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         [self setAlphaValue:0.0];
         [self setCanShow:YES];
         [self setGameViewController:controller];
-        
+
         OEHUDControlsBarView *barView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45)];
         [[self contentView] addSubview:barView];
         [barView setupControls];
-        
-        eventMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:
+
+        _eventMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:
                         ^(NSEvent *incomingEvent)
                         {
                             if([NSApp isActive] && [[self parentWindow] isMainWindow])
                                 [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:incomingEvent waitUntilDone:NO];
                         }];
-        openMenus = 0;
-        controlsView = barView;
-        
+        _openMenus = 0;
+        _controlsView = barView;
+
         [NSCursor setHiddenUntilMouseMoves:YES];
 
         // Setup plugins menu
@@ -134,18 +130,18 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         [filterSet addObjectsFromArray:[OECompositionPlugin allPluginNames]];
         [filterSet addObjectsFromArray:[OEShaderPlugin allPluginNames]];
         [filterSet filterUsingPredicate:[NSPredicate predicateWithFormat:@"NOT SELF beginswith '_'"]];
-        filterPlugins = [[filterSet allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+        _filterPlugins = [[filterSet allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     }
     return self;
 }
 
 - (void)dealloc
-{    
-    [fadeTimer invalidate];
-    fadeTimer = nil;
-    gameViewController = nil;
-    
-    [NSEvent removeMonitor:eventMonitor];
+{
+    [_fadeTimer invalidate];
+    _fadeTimer = nil;
+    _gameViewController = nil;
+
+    [NSEvent removeMonitor:_eventMonitor];
 }
 
 #pragma mark - Cheats
@@ -161,8 +157,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         if(md5Hash)
         {
             OECheats *cheatsXML = [[OECheats alloc] initWithMd5Hash:md5Hash];
-            cheats              = [[cheatsXML allCheats] mutableCopy];
-            cheatsLoaded        = YES;
+            _cheats             = [[cheatsXML allCheats] mutableCopy];
+            _cheatsLoaded       = YES;
         }
     }
 }
@@ -178,9 +174,9 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 - (void)hide
 {
     [[self animator] setAlphaValue:0.0];
-    [fadeTimer invalidate];
-    fadeTimer = nil;
-    
+    [_fadeTimer invalidate];
+    _fadeTimer = nil;
+
     [NSCursor setHiddenUntilMouseMoves:YES];
 }
 
@@ -188,52 +184,52 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 {
     NSWindow *parentWindow = [self parentWindow];
     NSPoint mouseLoc = [NSEvent mouseLocation];
-    
+
     if(!NSPointInRect(mouseLoc, [parentWindow convertRectToScreen:[[[self gameViewController] view] frame]])) return;
-    
+
     if([self alphaValue] == 0.0)
     {
-        lastMouseMovement = [NSDate date];
+        _lastMouseMovement = [NSDate date];
         [self show];
     }
-    
+
     [self setLastMouseMovement:[NSDate date]];
 }
 
 - (void)setLastMouseMovement:(NSDate *)lastMouseMovementDate
 {
-    if(!fadeTimer)
+    if(!_fadeTimer)
     {
         NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:OEGameControlsBarFadeOutDelayKey];
-        fadeTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES];
+        _fadeTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES];
     }
-    
-    lastMouseMovement = lastMouseMovementDate;
+
+    _lastMouseMovement = lastMouseMovementDate;
 }
 
 - (void)timerDidFire:(NSTimer *)timer
 {
     NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:OEGameControlsBarFadeOutDelayKey];
-    NSDate *hideDate = [lastMouseMovement dateByAddingTimeInterval:interval];
-    
+    NSDate *hideDate = [_lastMouseMovement dateByAddingTimeInterval:interval];
+
     if([hideDate timeIntervalSinceNow] <= 0.0)
     {
         if([self canFadeOut])
         {
-            [fadeTimer invalidate];
-            fadeTimer = nil;
-            
+            [_fadeTimer invalidate];
+            _fadeTimer = nil;
+
             [self hide];
         }
         else
         {
             NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:OEGameControlsBarFadeOutDelayKey];
             NSDate *nextTime = [NSDate dateWithTimeIntervalSinceNow:interval];
-            
-            [fadeTimer setFireDate:nextTime];
+
+            [_fadeTimer setFireDate:nextTime];
         }
     }
-    else [fadeTimer setFireDate:hideDate];
+    else [_fadeTimer setFireDate:hideDate];
 }
 
 - (NSRect)bounds
@@ -245,7 +241,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 - (BOOL)canFadeOut
 {
-    return openMenus == 0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
+    return _openMenus == 0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
 }
 
 #pragma mark - Menus
@@ -253,11 +249,11 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 - (void)showOptionsMenu:(id)sender
 {
     NSMenu *menu = [[NSMenu alloc] init];
-    
+
     NSMenuItem *item;
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Game Controls", @"") action:@selector(editControls:) keyEquivalent:@""];
     [menu addItem:item];
-    
+
     // Setup Cheats Menu
     if([[self gameViewController] supportsCheats])
     {
@@ -271,29 +267,29 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         NSMenuItem *addCheatMenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Add Cheat…", @"")
                                                                   action:@selector(addCheat:)
                                                            keyEquivalent:@""];
-        [addCheatMenuItem setRepresentedObject:cheats];
+        [addCheatMenuItem setRepresentedObject:_cheats];
         [cheatsMenu addItem:addCheatMenuItem];
-        
-        if([cheats count] != 0)
+
+        if([_cheats count] != 0)
             [cheatsMenu addItem:[NSMenuItem separatorItem]];
-        
-        for(NSDictionary *cheatObject in cheats)
+
+        for(NSDictionary *cheatObject in _cheats)
         {
             NSString *description = [cheatObject objectForKey:@"description"];
             BOOL enabled          = [[cheatObject objectForKey:@"enabled"] boolValue];
-            
+
             NSMenuItem *cheatsMenuItem = [[NSMenuItem alloc] initWithTitle:description action:@selector(setCheat:) keyEquivalent:@""];
             [cheatsMenuItem setRepresentedObject:cheatObject];
             [cheatsMenuItem setState:enabled ? NSOnState : NSOffState];
-            
+
             [cheatsMenu addItem:cheatsMenuItem];
         }
     }
-    
+
     // Setup Core selection menu
     NSMenu *coresMenu = [[NSMenu alloc] init];
     [coresMenu setTitle:NSLocalizedString(@"Select Core", @"")];
-    
+
     NSString *systemIdentifier = [[self gameViewController] systemIdentifier];
     NSArray *corePlugins = [OECorePlugin corePluginsForSystemIdentifier:systemIdentifier];
     if([corePlugins count] > 1)
@@ -301,40 +297,40 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         corePlugins = [corePlugins sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
             return [[obj1 displayName] compare:[obj2 displayName]];
         }];
-        
+
         for(OECorePlugin *aPlugin in corePlugins)
         {
             NSMenuItem *coreItem = [[NSMenuItem alloc] initWithTitle:[aPlugin displayName] action:@selector(switchCore:) keyEquivalent:@""];
             [coreItem setRepresentedObject:aPlugin];
-            
+
             if([[aPlugin bundleIdentifier] isEqual:[[self gameViewController] coreIdentifier]]) [coreItem setState:NSOnState];
-            
+
             [coresMenu addItem:coreItem];
         }
-        
+
         item = [[NSMenuItem alloc] init];
         item.title = NSLocalizedString(@"Select Core", @"");
         [item setSubmenu:coresMenu];
         if([[coresMenu itemArray] count] > 1)
             [menu addItem:item];
     }
-    
+
     // Setup Video Filter Menu
     NSMenu *filterMenu = [[NSMenu alloc] init];
     [filterMenu setTitle:NSLocalizedString(@"Select Filter", @"")];
 
     NSString *selectedFilter = ([[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, systemIdentifier]]
                                 ? : [[NSUserDefaults standardUserDefaults] objectForKey:OEGameDefaultVideoFilterKey]);
-    
-    for(NSString *aName in filterPlugins)
+
+    for(NSString *aName in _filterPlugins)
     {
         NSMenuItem *filterItem = [[NSMenuItem alloc] initWithTitle:aName action:@selector(selectFilter:) keyEquivalent:@""];
-        
+
         if([aName isEqualToString:selectedFilter]) [filterItem setState:NSOnState];
-        
+
         [filterMenu addItem:filterItem];
     }
-    
+
     item = [[NSMenuItem alloc] init];
     item.title = NSLocalizedString(@"Select Filter", @"");
     [menu addItem:item];
@@ -401,44 +397,44 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         OEMenuOptionsMaximumSizeKey : [NSValue valueWithSize:NSMakeSize(500, 256)],
         OEMenuOptionsScreenRectKey : [NSValue valueWithRect:targetRect]
     };
-    
+
     [OEMenu openMenu:menu withEvent:nil forView:sender options:options];
 }
 
 - (void)showSaveMenu:(id)sender
 {
     NSMenu *menu = [[NSMenu alloc] init];
-    
+
     NSMenuItem *newSaveItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game", @"") action:@selector(saveState:) keyEquivalent:@""];
     [menu setDelegate:self];
     [menu addItem:newSaveItem];
-    
+
     OEDBRom *rom = [[[self gameViewController] document] rom];
     [rom removeMissingStates];
-    
+
     if(rom != nil)
     {
         BOOL includeAutoSaveState = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarShowsAutoSaveStateKey];
         BOOL includeQuickSaveState = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarShowsQuickSaveStateKey];
         BOOL useQuickSaveSlots = [[NSUserDefaults standardUserDefaults] boolForKey:OESaveStateUseQuickSaveSlotsKey];
         NSArray *saveStates = [rom normalSaveStatesByTimestampAscending:YES];
-        
+
         if(includeQuickSaveState && !useQuickSaveSlots && [rom quickSaveStateInSlot:0] != nil)
             saveStates = [@[[rom quickSaveStateInSlot:0]] arrayByAddingObjectsFromArray:saveStates];
 
         if(includeAutoSaveState && [rom autosaveState] != nil)
             saveStates = [@[[rom autosaveState]] arrayByAddingObjectsFromArray:saveStates];
-        
+
         if([saveStates count] != 0 || (includeQuickSaveState && useQuickSaveSlots))
         {
             [menu addItem:[NSMenuItem separatorItem]];
-            
+
             // Build Quck Load item with submenu
             if(includeQuickSaveState && useQuickSaveSlots)
             {
                 NSString *loadTitle   = NSLocalizedString(@"Quick Load", @"Quick load menu title");
                 //NSString *saveTitle   = NSLocalizedString(@"Quick Save", @"Quick save menu title");
-                
+
                 NSMenuItem *loadItem  = [[NSMenuItem alloc] initWithTitle:loadTitle action:NULL keyEquivalent:@""];
                 //NSMenuItem *saveItem  = [[NSMenuItem alloc] initWithTitle:saveTitle action:NULL keyEquivalent:@""];
                 //[saveItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
@@ -450,38 +446,38 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
                 for(NSInteger i = 1; i <= 9; i++)
                 {
                     OEDBSaveState *state = [rom quickSaveStateInSlot:i];
-                    
+
                     loadTitle = [NSString stringWithFormat:NSLocalizedString(@"Slot %d", @"Quick load menu item title"), i];
                     NSMenuItem *loadItem = [[NSMenuItem alloc] initWithTitle:loadTitle action:@selector(quickLoad:) keyEquivalent:@""];
                     [loadItem setEnabled:state != nil];
                     [loadItem setRepresentedObject:@(i)];
                     [loadSubmenu addItem:loadItem];
-                    
+
                     //saveTitle  = [NSString stringWithFormat:NSLocalizedString(@"Save to Slot %d", @"Quick save menu item title"), i];
                     //NSMenuItem *saveItem = [[NSMenuItem alloc] initWithTitle:saveTitle action:@selector(quickSave:) keyEquivalent:@""];
                     //[saveItem setRepresentedObject:@(i)];
                     //[saveSubmenu addItem:saveItem];
                 }
-                
+
                 [loadItem setSubmenu:loadSubmenu];
                 [menu addItem:loadItem];
-                
+
                 //[saveItem setSubmenu:saveSubmenu];
                 //[menu addItem:saveItem];
             }
-            
+
             // Add 'normal' save states
             for(OEDBSaveState *saveState in saveStates)
             {
                 NSString *itemTitle = [saveState displayName];
-                
+
                 if(!itemTitle || [itemTitle isEqualToString:@""])
                     itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
-                
+
                 NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(loadState:) keyEquivalent:@""];
                 [item setRepresentedObject:saveState];
                 [menu addItem:item];
-                
+
                 if([[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarCanDeleteSaveStatesKey])
                 {
                     NSMenuItem *deleteStateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
@@ -498,7 +494,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     targetRect.size.width -= 7.0;
     targetRect = NSInsetRect(targetRect, -2.0, 1.0);
     targetRect = [self convertRectToScreen:[sender convertRect:targetRect toView:nil]];
-    
+
     NSDictionary *options = @{
         OEMenuOptionsStyleKey : @(OEMenuStyleLight),
         OEMenuOptionsArrowEdgeKey : @(OEMinYEdge),
@@ -513,12 +509,12 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 - (void)menuWillOpen:(NSMenu *)menu
 {
-    openMenus++;
+    _openMenus++;
 }
 
 - (void)menuDidClose:(NSMenu *)menu
 {
-    openMenus--;
+    _openMenus--;
 }
 
 - (void)setVolume:(CGFloat)value
@@ -543,7 +539,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     NSButton             *pauseButton = [view pauseButton];
     [pauseButton setState:!isEmulationRunning];
 
-    if(isEmulationRunning && !cheatsLoaded)
+    if(isEmulationRunning && !_cheatsLoaded)
         [self OE_loadCheats];
 }
 
@@ -562,20 +558,20 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 - (void)setParentWindow:(NSWindow *)window
 {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    
+
     if([self parentWindow] != nil)
     {
         [nc removeObserver:self name:NSWindowDidEnterFullScreenNotification object:[self parentWindow]];
         [nc removeObserver:self name:NSWindowWillExitFullScreenNotification object:[self parentWindow]];
     }
-    
+
     [super setParentWindow:window];
-    
+
     if(window != nil)
     {
         [nc addObserver:self selector:@selector(parentWindowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:window];
         [nc addObserver:self selector:@selector(parentWindowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object:window];
-        
+
         OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
         [[view fullScreenButton] setState:[window isFullScreen] ? NSOnState : NSOffState];
     }
@@ -616,7 +612,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [stopButton setToolTip:NSLocalizedString(@"Stop Emulation", @"Tooltip")];
     [stopButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:stopButton];
-        
+
     _pauseButton = [[OEButton alloc] init];
     [_pauseButton setButtonType:NSToggleButton];
     [_pauseButton setThemeKey:@"hud_button_toggle_pause"];
@@ -627,7 +623,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [_pauseButton setToolTip:NSLocalizedString(@"Pause Gameplay", @"Tooltip")];
     [_pauseButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:_pauseButton];
-    
+
     OEButton *restartButton = [[OEButton alloc] init];
     [restartButton setThemeKey:@"hud_button_restart"];
     [restartButton setTitle:nil];
@@ -637,7 +633,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [restartButton setToolTip:NSLocalizedString(@"Restart System", @"Tooltip")];
     [restartButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:restartButton];
-    
+
     OEButton *saveButton = [[OEButton alloc] init];
     [saveButton setThemeKey:@"hud_button_save"];
     [saveButton setTitle:nil];
@@ -648,7 +644,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [saveButton setToolTip:NSLocalizedString(@"Create Save State", @"Tooltip")];
     [saveButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:saveButton];
-    
+
     BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarHidesOptionButtonKey];
     if(!hideOptions)
     {
@@ -663,7 +659,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         [optionsButton setToolTipStyle:OEToolTipStyleHUD];
         [self addSubview:optionsButton];
     }
-    
+
     OEButton *volumeDownButton = [[OEButton alloc] initWithFrame:NSMakeRect(223 + (hideOptions ? 0 : 50), 17, 13, 14)];
     [volumeDownButton setTitle:nil];
     [volumeDownButton setThemeKey:@"hud_button_volume_down"];
@@ -671,7 +667,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [volumeDownButton setToolTip:NSLocalizedString(@"Mute Audio", @"Tooltip")];
     [volumeDownButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:volumeDownButton];
-    
+
     OEButton *volumeUpButton = [[OEButton alloc] initWithFrame:NSMakeRect(320 + (hideOptions? 0 : 50), 17, 15, 14)];
     [volumeUpButton setTitle:nil];
     [volumeUpButton setThemeKey:@"hud_button_volume_up"];
@@ -679,9 +675,9 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [volumeUpButton setToolTip:NSLocalizedString(@"Unmute Audio", @"Tooltip")];
     [volumeUpButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:volumeUpButton];
-    
+
     _slider = [[OESlider alloc] initWithFrame:NSMakeRect(240 + (hideOptions ? 0 : 50), 13, 80, 23)];
-    
+
     OESliderCell *sliderCell = [[OESliderCell alloc] init];
     [_slider setCell:sliderCell];
     [_slider setContinuous:YES];
@@ -692,7 +688,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [_slider setToolTip:NSLocalizedString(@"Change Volume", @"Tooltip")];
     [_slider setToolTipStyle:OEToolTipStyleHUD];
     [_slider setAction:@selector(changeVolume:)];
-    
+
     CABasicAnimation *animation = [CABasicAnimation animation];
     animation.timingFunction    = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     animation.delegate          = self;
