@@ -175,6 +175,7 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
     }
 
     [_delegateProxy setLocalDelegate:delegate];
+    [super setDelegate:nil];
     [super setDelegate:_delegateProxy];
 }
 
