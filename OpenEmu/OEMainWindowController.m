@@ -50,6 +50,8 @@ NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
 NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
 NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 
+NSString *const OEDefaultWindowTitle       = @"OpenEmu";
+
 #define MainMenu_Window_OpenEmuTag 501
 
 @interface OEMainWindowController () <OELibraryControllerDelegate>
@@ -169,6 +171,15 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
         {
             [_gameDocument setGameWindowController:self];
             [_gameDocument setEmulationPaused:NO];
+        }
+        else
+        {
+            NSWindow *window = [self window];
+            
+            [window setTitle:OEDefaultWindowTitle];
+#if DEBUG_PRINT
+            [window setTitle:[[window title] stringByAppendingString:@" (DEBUG BUILD)"]];
+#endif
         }
     };
 
