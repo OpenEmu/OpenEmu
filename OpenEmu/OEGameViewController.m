@@ -71,8 +71,6 @@ NSString *const OEGameViewControllerEmulationWillFinishNotification = @"OEGameVi
 NSString *const OEGameViewControllerEmulationDidFinishNotification = @"OEGameViewControllerEmulationDidFinishNotification";
 NSString *const OEGameViewControllerROMKey = @"OEROM";
 
-NSString *const OEDefaultWindowTitle = @"OpenEmu";
-
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
 
@@ -115,9 +113,6 @@ NSString *const OEDefaultWindowTitle = @"OpenEmu";
 
     [_gameView setDelegate:nil];
     _gameView = nil;
-
-    [_controlsWindow close];
-    _controlsWindow = nil;
 }
 
 #pragma mark -
@@ -143,7 +138,8 @@ NSString *const OEDefaultWindowTitle = @"OpenEmu";
 {
     [super viewWillDisappear];
 
-    [_controlsWindow hide];
+    [_controlsWindow close];
+    _controlsWindow = nil;
 }
 
 #pragma mark - Controlling Emulation
