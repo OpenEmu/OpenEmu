@@ -428,7 +428,7 @@ typedef enum
     _fullScreenStatus                       = _OEPopoutGameWindowFullScreenStatusEntering;
     _frameForNonFullScreenMode              = [[self window] frame];
 
-    _resumePlayingAfterFullScreenTransition = [[self document] isEmulationPaused];
+    _resumePlayingAfterFullScreenTransition = ![[self document] isEmulationPaused];
     [[self document] setEmulationPaused:YES];
 
     [NSCursor hide];
