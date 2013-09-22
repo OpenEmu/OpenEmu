@@ -593,6 +593,11 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     return NO;
 }
 
+- (void)stopEmulation:(id)sender
+{
+    [[[self window] parentWindow] performClose:self];
+}
+
 #pragma mark -
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -606,7 +611,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     OEButton *stopButton = [[OEButton alloc] init];
     [stopButton setThemeKey:@"hud_button_power"];
     [stopButton setTitle:nil];
-    [stopButton setAction:@selector(performClose:)];
+    [stopButton setTarget:self];
+    [stopButton setAction:@selector(stopEmulation:)];
     [stopButton setFrame:NSMakeRect(10, 13, 51, 23)];
     [stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [stopButton setToolTip:NSLocalizedString(@"Stop Emulation", @"Tooltip")];
