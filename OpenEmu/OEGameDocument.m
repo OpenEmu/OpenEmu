@@ -312,7 +312,7 @@ typedef enum : NSUInteger
     [center removeObserver:self name:NSWindowDidResignMainNotification object:window];
 }
 
-- (void)windowDidBecomeMain:(NSNotification *)notification
+- (void)windowDidResignMain:(NSNotification *)notification
 {
     BOOL backgroundPause = [[NSUserDefaults standardUserDefaults] boolForKey:OEBackgroundPauseKey];
     if(backgroundPause && _emulationStatus == OEEmulationStatusPlaying)
@@ -322,7 +322,7 @@ typedef enum : NSUInteger
     }
 }
 
-- (void)windowDidResignMain:(NSNotification *)notification
+- (void)windowDidBecomeMain:(NSNotification *)notification
 {
     if(_pausedByGoingToBackground)
     {
