@@ -14,20 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82B9195310150EA2007BD6DB"
-               BuildableName = "Build &amp; Install BSNES"
-               BlueprintName = "Build &amp; Install BSNES"
-               ReferencedContainer = "container:BSNES/BSNES.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D8155D0F1D878700EF8CF5"
                BuildableName = "Build &amp; Install CrabEmu"
                BlueprintName = "Build &amp; Install CrabEmu"
