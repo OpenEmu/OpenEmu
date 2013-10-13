@@ -72,7 +72,7 @@
 
 @interface OETaskWrapper : NSObject
 {
-    __weak id<OETaskWrapperController> controller;
+    id<OETaskWrapperController> controller;
     NSTask *task;
     NSArray *arguments;
     id userInfo;
