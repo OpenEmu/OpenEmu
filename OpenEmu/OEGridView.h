@@ -27,7 +27,7 @@
 #import <Cocoa/Cocoa.h>
 #import <ImageKit/ImageKit.h>
 
-@interface OEGridView : IKImageBrowserView
+@interface OEGridView : IKImageBrowserView <NSTextFieldDelegate>
 {
     NSRect lastVisibleRect;
 }
