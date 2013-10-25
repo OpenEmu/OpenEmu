@@ -226,39 +226,31 @@
 
 - (void)controlTextDidEndEditing:(NSNotification *)obj
 {
-    NSUInteger selectedIndex = [[self selectionIndexes] firstIndex];
-    OEGridCell *selectedCell = (OEGridCell *)[self cellForItemAtIndex:selectedIndex];
-    
-    OEDBGame *selectedGame = [selectedCell representedItem];
-    
-    [selectedGame setDisplayName:[_fieldEditor string]];
-    
-    if([selectedGame isKindOfClass:[NSManagedObject class]])
+    // The _fieldEditor finished editing, so let's save the game with the new name
+    if([obj isEqualTo:_fieldEditor])
     {
-        [[(NSManagedObject*)selectedGame managedObjectContext] save:nil];
+        NSUInteger selectedIndex = [[self selectionIndexes] firstIndex];
+        OEGridCell *selectedCell = (OEGridCell *)[self cellForItemAtIndex:selectedIndex];
+        OEDBGame   *selectedGame = [selectedCell representedItem];
+        
+        [selectedGame setDisplayName:[_fieldEditor string]];
+        [[selectedGame managedObjectContext] save:nil];
+        
+        [self OE_cancelFieldEditor];
+        [self reloadData];
     }
-    
-    [self OE_cancelFieldEditor];
-    [self reloadData];
 }
 
 - (BOOL)control:(NSControl *)control textView:(NSTextView *)fieldEditor doCommandBySelector:(SEL)commandSelector
 {
-    BOOL retval = NO;
-    
     if ([[control superview] isKindOfClass:[OEGridViewFieldEditor class]])
     {
-        if(commandSelector == @selector(complete:)) {
-            
-            // User pressed the 'Esc' key, cancel the editing
-            retval = YES;
+        // User pressed the 'Esc' key, cancel the editing
+        if(commandSelector == @selector(complete:))
             [self OE_cancelFieldEditor];
-            [[self window] makeFirstResponder:nil];
-        }
     }
     
-    // Debug: NSLog(@"Selector = %@", NSStringFromSelector( commandSelector ) );
-    return retval;
+    return YES;
 }
 
 
