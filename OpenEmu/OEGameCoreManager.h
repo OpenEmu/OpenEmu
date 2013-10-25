@@ -25,42 +25,25 @@
  */
 
 #import <Cocoa/Cocoa.h>
+
+#import "OEGameCoreHelper.h"
 #import "OETaskWrapper.h"
 #import <OpenEmuBase/OpenEmuBase.h>
 
-@protocol OEGameCoreHelper;
-@class OECorePlugin, OEGameCoreController, OpenEmuHelperApp;
+@protocol OEGameCoreDisplayHelper;
+@class OECorePlugin, OEGameCoreController;
 
-@interface OEGameCoreManager : NSObject
+@interface OEGameCoreManager : NSObject <OEGameCoreHelper>
 
-@property(readonly, copy) NSString             *romPath;
-@property(readonly, weak) OECorePlugin         *plugin;
-@property(readonly, weak) OEGameCoreController *owner;
+- (id)initWithROMPath:(NSString *)romPath corePlugin:(OECorePlugin *)plugin systemController:(OESystemController *)systemController displayHelper:(id<OEGameCoreDisplayHelper>)displayHelper;
 
-- (id)initWithROMAtPath:(NSString *)theRomPath corePlugin:(OECorePlugin *)thePlugin systemIdentifier:(NSString *)identifier error:(NSError **)outError;
+@property(readonly, copy) NSString                    *ROMPath;
+@property(readonly, weak) OECorePlugin                *plugin;
+@property(readonly, weak) OESystemController          *systemController;
+@property(readonly, weak) id<OEGameCoreDisplayHelper>  displayHelper;
 
-- (BOOL)loadROMWithSystemIdentifier:(NSString *)identifier error:(NSError **)outError;
+#pragma mark - Abstract methods, must be overrode in subclasses
 
-- (void)stop;
-
-#pragma mark -
-#pragma mark Abstract methods, must be overrode in subclasses
-@property(readonly) id<OEGameCoreHelper> rootProxy;
-- (BOOL)startHelperProcessError:(NSError **)outError;
-- (void)endHelperProcess;
+- (void)loadROMWithCompletionHandler:(void(^)(id systemClient))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 
 @end
-
-@interface OEGameCoreProcessManager : OEGameCoreManager <OETaskWrapperController>
-
-@property(readonly) OETaskWrapper *helper;
-
-@end
-
-
-@interface OEGameCoreThreadManager : OEGameCoreManager
-
-- (void)executionThread:(id)object;
-
-@end
-

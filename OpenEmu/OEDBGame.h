@@ -27,13 +27,12 @@
 #import <Cocoa/Cocoa.h>
 #import "OEDBItem.h"
 
-enum _OEDBGameStatus
+typedef NS_ENUM(NSUInteger, OEDBGameStatus)
 {
     OEDBGameStatusOK,
     OEDBGameStatusProcessing,
     OEDBGameStatusAlert
 };
-typedef NSUInteger OEDBGameStatus;
 
 extern NSString *const OEPasteboardTypeGame;
 extern NSString *const OEBoxSizesKey;
@@ -45,9 +44,9 @@ extern NSString *const OEDisplayGameTitle;
 
 @interface OEDBGame : OEDBItem <NSPasteboardWriting, NSPasteboardReading>
 
-#pragma mark -
-#pragma mark Creating and Obtaining OEDBGames
-+ (id)createGameWithName:(NSString*)name andSystem:(OEDBSystem*)system inDatabase:(OELibraryDatabase *)database;
+#pragma mark - Creating and Obtaining OEDBGames
+
++ (id)createGameWithName:(NSString *)name andSystem:(OEDBSystem *)system inDatabase:(OELibraryDatabase *)database;
 
 // returns the game with objID in the default database
 + (id)gameWithID:(NSManagedObjectID *)objID;
@@ -62,7 +61,7 @@ extern NSString *const OEDisplayGameTitle;
 // returns the game with objID in the default database
 + (id)gameWithURIString:(NSString *)objIDString;
 // returns the game with objID in the specified database
-+ (id)gameWithURIString:(NSString *)objIDString inDatabase:(OELibraryDatabase*)database;
++ (id)gameWithURIString:(NSString *)objIDString inDatabase:(OELibraryDatabase *)database;
 
 // returns the game from the default database that represents the file at url
 + (id)gameWithURL:(NSURL *)url error:(NSError **)outError;
@@ -80,60 +79,64 @@ extern NSString *const OEDisplayGameTitle;
 + (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database;
 + (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database error:(NSError **)error;
 
-#pragma mark -
-#pragma mark Archive.VG Sync
+#pragma mark - Archive.VG Sync
+
 - (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary;
 - (void)setNeedsArchiveSync;
 - (void)performArchiveSync; // will blocks until results arrive
 
 - (id)mergeInfoFromGame:(OEDBGame *)game;
 
-#pragma mark -
-#pragma mark Accessors
-@property(readonly) OEDBRom         *defaultROM;
-@property(readonly) NSDate          *lastPlayed;
-@property(readonly) OEDBSaveState   *autosaveForLastPlayedRom;
-@property(readonly) NSNumber        *saveStateCount;
-@property(readonly) NSNumber        *playCount;
-@property(readonly) NSNumber        *playTime;
+#pragma mark - Accessors
+
+@property(readonly) OEDBRom       *defaultROM;
+@property(readonly) NSDate        *lastPlayed;
+@property(readonly) OEDBSaveState *autosaveForLastPlayedRom;
+@property(readonly) NSNumber      *saveStateCount;
+@property(readonly) NSNumber      *playCount;
+@property(readonly) NSNumber      *playTime;
 
 - (BOOL)filesAvailable;
+
 #pragma mark -
+
 - (void)setBoxImageByImage:(NSImage *)img;
 - (void)setBoxImageByURL:(NSURL *)url;
 
 - (void)mergeWithGameInfo:(NSDictionary *)archiveGameDict;
 
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag;
-#pragma mark -
-#pragma mark Core Data utilities
+
+#pragma mark - Core Data utilities
+
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
-#pragma mark -
-#pragma mark Data Model Properties
-@property(nonatomic, retain)   NSString  *name;
-@property(nonatomic, retain)   NSString  *gameTitle;
-@property(nonatomic, retain)   NSNumber  *rating;
-@property(nonatomic, retain)   NSString  *gameDescription;
-@property(nonatomic, retain)   NSDate    *importDate;
-@property(nonatomic, retain)   NSDate    *lastArchiveSync;
-@property(nonatomic, retain)   NSNumber  *archiveID;
-@property(nonatomic, retain)   NSNumber  *status;
-@property(nonatomic, retain)   NSString  *displayName;
-@property(nonatomic, readonly) NSString  *cleanDisplayName;
+#pragma mark - Data Model Properties
 
-#pragma mark -
-#pragma mark Data Model Relationships
-@property(nonatomic, retain) OEDBImage     *boxImage;
-@property(nonatomic, retain) OEDBSystem    *system;
+@property(nonatomic, retain)   NSString *name;
+@property(nonatomic, retain)   NSString *gameTitle;
+@property(nonatomic, retain)   NSNumber *rating;
+@property(nonatomic, retain)   NSString *gameDescription;
+@property(nonatomic, retain)   NSDate   *importDate;
+@property(nonatomic, retain)   NSDate   *lastArchiveSync;
+@property(nonatomic, retain)   NSNumber *archiveID;
+@property(nonatomic, retain)   NSNumber *status;
+@property(nonatomic, retain)   NSString *displayName;
+@property(nonatomic, readonly) NSString *cleanDisplayName;
 
-@property(nonatomic, retain)   NSSet         *roms;
-@property(nonatomic, readonly) NSMutableSet  *mutableRoms;
-@property(nonatomic, retain)   NSSet         *genres;
-@property(nonatomic, readonly) NSMutableSet  *mutableGenres;
-@property(nonatomic, retain)   NSSet         *collections;
-@property(nonatomic, readonly) NSMutableSet  *mutableCollections;
-@property(nonatomic, retain)   NSSet         *credits;
-@property(nonatomic, readonly) NSMutableSet  *mutableCredits;
+#pragma mark - Data Model Relationships
+
+@property(nonatomic, retain) OEDBImage  *boxImage;
+@property(nonatomic, retain) OEDBSystem *system;
+
+@property(nonatomic, retain)   NSSet        *roms;
+@property(nonatomic, readonly) NSMutableSet *mutableRoms;
+@property(nonatomic, retain)   NSSet        *genres;
+@property(nonatomic, readonly) NSMutableSet *mutableGenres;
+@property(nonatomic, retain)   NSSet        *collections;
+@property(nonatomic, readonly) NSMutableSet *mutableCollections;
+@property(nonatomic, retain)   NSSet        *credits;
+@property(nonatomic, readonly) NSMutableSet *mutableCredits;
+
 @end

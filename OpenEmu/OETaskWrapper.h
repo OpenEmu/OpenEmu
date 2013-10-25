@@ -72,10 +72,10 @@
 
 @interface OETaskWrapper : NSObject
 {
-    NSTask                    *task;
-    id<OETaskWrapperController>  controller;
-    id                         userInfo;
-    NSArray                   *arguments;
+    id<OETaskWrapperController> controller;
+    NSTask *task;
+    NSArray *arguments;
+    id userInfo;
 }
 
 @property(readonly) NSTask *task;

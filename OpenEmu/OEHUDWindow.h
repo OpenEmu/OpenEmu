@@ -26,26 +26,28 @@
 
 #import <Foundation/Foundation.h>
 
-@class OEHUDBorderWindow;
+@class OEHUDBorderWindow, OEHUDWindowThemeView;
 
 @interface OEHUDWindow : NSWindow
-- (id)initWithContentRect:(NSRect)frame;
-- (NSView *)mainContentView;
-- (void)setMainContentView:(NSView *)mainContentView;
-- (OEHUDBorderWindow *)borderWindow;
 
-/* Returns the main content rectangle (in screen coordinates) used by a window with a given rectangle (in screen coordinates)
- */
+- (id)initWithContentRect:(NSRect)frame;
+
+@property(nonatomic, strong) NSView *mainContentView;
+@property(readonly) OEHUDBorderWindow *borderWindow;
+
+@property(nonatomic, strong) NSColor *contentBackgroundColor;
+
+// Returns the main content rectangle (in screen coordinates) used by a window with a given rectangle (in screen coordinates)
 + (NSRect)mainContentRectForFrameRect:(NSRect)windowFrame;
 
-/* Returns the window rectangle (in screen coordinates) needed to contain a given content rectangle (in screen coordinates)
- */
+// Returns the window rectangle (in screen coordinates) needed to contain a given content rectangle (in screen coordinates)
 + (NSRect)frameRectForMainContentRect:(NSRect)contentFrame;
+
 @end
 
 @interface OEHUDBorderWindow : NSWindow
 @end
 
 @interface OEHUDWindowThemeView : NSView
-@property(getter = isDragging) BOOL dragging;
+@property(getter=isDragging) BOOL dragging;
 @end

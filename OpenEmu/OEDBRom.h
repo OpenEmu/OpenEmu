@@ -26,19 +26,22 @@
 
 #import <CoreData/CoreData.h>
 #import "OEDBItem.h"
+
 @class OELibraryDatabase;
 @class OEDBGame;
 @class OEDBSaveState;
+
 @interface OEDBRom : OEDBItem
-#pragma mark -
-#pragma mark Creating and Obtaining OEDBRoms
+
+#pragma mark - Creating and Obtaining OEDBRoms
+
 // returns the game with objID in the default database
 + (id)romWithID:(NSManagedObjectID *)objID;
 // returns the game with objID in the specified database
 + (id)romWithID:(NSManagedObjectID *)objID inDatabase:(OELibraryDatabase *)database;
 
-+ (id)romWithURIURL:(NSURL*)objIDUrl;
-+ (id)romWithURIURL:(NSURL*)objIDUrl inDatabase:(OELibraryDatabase *)database;
++ (id)romWithURIURL:(NSURL *)objIDUrl;
++ (id)romWithURIURL:(NSURL *)objIDUrl inDatabase:(OELibraryDatabase *)database;
 
 // Creating / Acquireing ROMs by filesystem representation
 + (id)createRomWithURL:(NSURL *)url error:(NSError **)outError;
@@ -52,9 +55,10 @@
 + (id)romWithMD5HashString:(NSString *)md5Hash error:(NSError **)outError;
 + (id)romWithMD5HashString:(NSString *)md5Hash inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 
-@property (nonatomic) NSURL     *URL;
-#pragma mark -
-#pragma mark Accessors
+@property(nonatomic) NSURL *URL;
+
+#pragma mark - Accessors
+
 // returns md5 hash for rom. calculates it if necessary so the method can take a long time to return, and might return nil if hash is not in db and can not be calculated
 - (NSString *)md5Hash;
 // returns md5 hash for rom if one was calculated before
@@ -76,7 +80,7 @@
 - (NSArray *)quickSaveStates;
 
 - (OEDBSaveState *)quickSaveStateInSlot:(int)num;
-- (OEDBSaveState *)saveStateWithName:(NSString*)string;
+- (OEDBSaveState *)saveStateWithName:(NSString *)string;
 
 - (void)incrementPlayCount;
 - (void)addTimeIntervalToPlayTime:(NSTimeInterval)timeInterval;
@@ -84,32 +88,33 @@
 - (void)removeMissingStates;
 
 - (BOOL)filesAvailable;
-#pragma mark -
-#pragma mark Mainpulating a rom
+
+#pragma mark - Mainpulating a rom
+
 // sets roms "lastPlayed" to now
 - (void)markAsPlayedNow;
 
-#pragma mark -
-#pragma mark Core Data utilities
+#pragma mark - Core Data utilities
+
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag;
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
-#pragma mark -
-#pragma mark Data Model Properties
-@property(nonatomic, retain)                    NSString  *location;
-@property(nonatomic, retain, getter=isFavorite) NSNumber  *favorite;
-@property(nonatomic, retain)                    NSString  *crc32;
-@property(nonatomic, retain)                    NSString  *md5;
-@property(nonatomic, retain)                    NSDate    *lastPlayed;
-@property(nonatomic, retain)                    NSNumber  *fileSize;
-@property(nonatomic, retain)                    NSNumber  *playCount;
-@property(nonatomic, retain)                    NSNumber  *playTime;
+#pragma mark - Data Model Properties
 
-#pragma mark -
-#pragma mark Data Model Relationships
-@property(nonatomic, retain)   OEDBGame          *game;
-@property(nonatomic, retain)   NSSet             *saveStates;
-@property(nonatomic, readonly) NSMutableSet      *mutableSaveStates;
-@property(nonatomic, retain)   NSManagedObject   *tosec;
+@property(nonatomic, retain)                    NSString *location;
+@property(nonatomic, retain, getter=isFavorite) NSNumber *favorite;
+@property(nonatomic, retain)                    NSString *crc32;
+@property(nonatomic, retain)                    NSString *md5;
+@property(nonatomic, retain)                    NSDate   *lastPlayed;
+@property(nonatomic, retain)                    NSNumber *fileSize;
+@property(nonatomic, retain)                    NSNumber *playCount;
+@property(nonatomic, retain)                    NSNumber *playTime;
+
+#pragma mark - Data Model Relationships
+
+@property(nonatomic, retain)   OEDBGame        *game;
+@property(nonatomic, retain)   NSSet           *saveStates;
+@property(nonatomic, readonly) NSMutableSet    *mutableSaveStates;
+@property(nonatomic, retain)   NSManagedObject *tosec;
 @end

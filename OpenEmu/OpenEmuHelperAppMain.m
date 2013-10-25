@@ -26,20 +26,21 @@
 
 #import <Cocoa/Cocoa.h>
 #import "OpenEmuHelperApp.h"
+#import "OpenEmuDOHelperApp.h"
+#import "OpenEmuXPCHelperApp.h"
+#import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
 
 int main(int argc, const char * argv[])
 {
+    static OpenEmuHelperApp *helperApp;
     @autoreleasepool
     {
-        NSLog(@"Helper tool UUID is: %s", argv[1]);
-        
-        NSApplication *app = [NSApplication sharedApplication];
-        OpenEmuHelperApp *helper = [[OpenEmuHelperApp alloc] init];
-        
-        [app setDelegate:helper];
-        [helper setDoUUID:[NSString stringWithUTF8String:argv[1]]];
-        
-        [app run];
+        if([OEXPCCAgent canParseProcessArgumentsForDefaultAgent])
+            helperApp = [[OpenEmuXPCHelperApp alloc] init];
+        else
+            helperApp = [[OpenEmuDOHelperApp alloc] init];
+
+        [helperApp launchApplication];
     }
     
     return 0;

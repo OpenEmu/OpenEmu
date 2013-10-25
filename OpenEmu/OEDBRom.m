@@ -45,8 +45,8 @@
 // Data Model Relationships
 @dynamic game, saveStates, tosec;
 
-#pragma mark -
-#pragma mark Creating and Obtaining OEDBRoms
+#pragma mark - Creating and Obtaining OEDBRoms
+
 + (id)romWithID:(NSManagedObjectID *)objID
 {
     return [self romWithID:objID inDatabase:[OELibraryDatabase defaultDatabase]];
@@ -62,7 +62,7 @@
     return [self romWithURIURL:objIDUrl inDatabase:[OELibraryDatabase defaultDatabase]];
 }
 
-+ (id)romWithURIURL:(NSURL*)objIDUrl inDatabase:(OELibraryDatabase *)database
++ (id)romWithURIURL:(NSURL *)objIDUrl inDatabase:(OELibraryDatabase *)database
 {
     NSManagedObjectID *objID = [database managedObjectIDForURIRepresentation:objIDUrl];
     return [self romWithID:objID inDatabase:database];
@@ -186,8 +186,7 @@
     return [[context executeFetchRequest:fetchRequest error:outError] lastObject];
 }
 
-#pragma mark -
-#pragma mark Accessors
+#pragma mark - Accessors
 
 - (NSURL *)URL
 {
@@ -374,15 +373,15 @@
     BOOL    result = [[self URL] checkResourceIsReachableAndReturnError:&error];
     return result;
 }
-#pragma mark -
-#pragma mark Mainpulating a rom
+#pragma mark - Mainpulating a rom
+
 - (void)markAsPlayedNow
 {
     [self setLastPlayed:[NSDate date]];
 }
 
-#pragma mark -
-#pragma mark Core Data utilities
+#pragma mark - Core Data utilities
+
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
 {
     NSURL *url = [self URL];

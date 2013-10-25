@@ -33,20 +33,17 @@
 
 #import "OEGameCoreHelper.h"
 
-@protocol OEGameCoreHelper;
+@protocol OEGameViewDelegate;
 @class OESystemResponder;
 
-@interface OEGameView : NSOpenGLView <OEGameCoreHelperDelegate>
+@interface OEGameView : NSOpenGLView <OEGameCoreDisplayHelper>
 
-@property(nonatomic) id<OEGameCoreHelper> rootProxy;
-@property(nonatomic) OESystemResponder *gameResponder;
+@property(nonatomic, assign) id<OEGameViewDelegate> delegate;
 
 // QC based filters
 @property(copy) NSDictionary *filters;
 @property(nonatomic, copy) NSString *filterName;
 @property(nonatomic, copy) NSString *gameTitle;
-
-@property NSTimeInterval gameFrameInterval;
 
 // Screenshots
 /* Returns a screenshot containing the game viewport with its current size in the window and filters */
@@ -61,4 +58,12 @@
 - (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
 - (void)render;
 
+- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+
+@end
+
+@protocol OEGameViewDelegate <NSObject>
+- (NSString *)systemIdentifier;
+- (void)gameView:(OEGameView *)gameView setDrawSquarePixels:(BOOL)drawSquarePixels;
+- (void)gameView:(OEGameView *)gameView didReceiveMouseEvent:(OEEvent *)event;
 @end

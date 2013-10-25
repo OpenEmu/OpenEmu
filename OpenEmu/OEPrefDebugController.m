@@ -35,11 +35,15 @@
 
 #import "NSURL+OELibraryAdditions.h"
 
+#import "OEDOGameCoreManager.h"
+#import "OEThreadGameCoreManager.h"
+#import "OEXPCGameCoreManager.h"
+
+#import "OEGameDocument.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OEPrefDebugController
-@synthesize regionSelector, dbActionSelector, contentView;
 
 #pragma mark -
 
@@ -54,11 +58,50 @@
     NSScrollView *scrollView = (NSScrollView*)[self view];    
     [scrollView setDocumentView:[self contentView]];
     [[self contentView] setFrameOrigin:(NSPoint){ 0 , -[[self contentView] frame].size.height + [scrollView frame].size.height}];
+
+    [[[self gameModePopUpButton] menu] removeAllItems];
+
+    if([OEXPCGameCoreManager canUseXPCGameCoreManager])
+    {
+        NSMenuItem *XPCItem = [[NSMenuItem alloc] initWithTitle:@"XPC" action:NULL keyEquivalent:@""];
+        [XPCItem setRepresentedObject:NSStringFromClass([OEXPCGameCoreManager class])];
+        [[[self gameModePopUpButton] menu] addItem:XPCItem];
+    }
+
+    NSMenuItem *distributedObjectItem = [[NSMenuItem alloc] initWithTitle:@"Distributed Objects" action:NULL keyEquivalent:@""];
+    [distributedObjectItem setRepresentedObject:NSStringFromClass([OEDOGameCoreManager class])];
+    [[[self gameModePopUpButton] menu] addItem:distributedObjectItem];
+
+    NSMenuItem *backgroundThreadItem = [[NSMenuItem alloc] initWithTitle:@"Background Thread" action:NULL keyEquivalent:@""];
+    [backgroundThreadItem setRepresentedObject:NSStringFromClass([OEThreadGameCoreManager class])];
+    [[[self gameModePopUpButton] menu] addItem:backgroundThreadItem];
+
+    NSString *selectedClassName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameCoreManagerModePreferenceKey];
+    NSInteger indexToSelect = [[self gameModePopUpButton] indexOfItemWithRepresentedObject:selectedClassName];
+
+    if(indexToSelect < -1 || [selectedClassName length] == 0)
+    {
+        indexToSelect = 0;
+        [[NSUserDefaults standardUserDefaults] setObject:[[[self gameModePopUpButton] itemAtIndex:indexToSelect] representedObject] forKey:OEGameCoreManagerModePreferenceKey];
+    }
+
+    [[self gameModePopUpButton] selectItem:[[self gameModePopUpButton] itemAtIndex:indexToSelect]];
+}
+
+- (BOOL)canUseXPCMode
+{
+    return [OEXPCGameCoreManager canUseXPCGameCoreManager];
 }
 
 - (NSString *)nibName
 {
     return @"OEPrefDebugController";
+}
+
+- (IBAction)changeGameMode:(id)sender;
+{
+    NSMenuItem *selectedItem = [[self gameModePopUpButton] selectedItem];
+    [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEGameCoreManagerModePreferenceKey];
 }
 
 #pragma mark -

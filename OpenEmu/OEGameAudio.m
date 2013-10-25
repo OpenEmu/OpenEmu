@@ -42,7 +42,8 @@ static void StretchSamples(int16_t *outBuf, const int16_t *inBuf,
     int frame;
     float ratio = outFrames / (float)inFrames;
     
-    for (frame = 0; frame < outFrames; frame++) {
+    for(frame = 0; frame < outFrames; frame++)
+    {
         float iFrame = frame / ratio, iFrameF = floorf(iFrame);
         float lerp = iFrame - iFrameF;
         int iFrameI = iFrameF;
@@ -63,21 +64,14 @@ static void StretchSamples(int16_t *outBuf, const int16_t *inBuf,
     }
 }
 
-OSStatus RenderCallback(void                       *in,
-                        AudioUnitRenderActionFlags *ioActionFlags,
-                        const AudioTimeStamp       *inTimeStamp,
-                        UInt32                      inBusNumber,
-                        UInt32                      inNumberFrames,
-                        AudioBufferList            *ioData);
-
-OSStatus RenderCallback(void                       *in,
-                        AudioUnitRenderActionFlags *ioActionFlags,
-                        const AudioTimeStamp       *inTimeStamp,
-                        UInt32                      inBusNumber,
-                        UInt32                      inNumberFrames,
-                        AudioBufferList            *ioData)
+static OSStatus RenderCallback(void                       *in,
+                               AudioUnitRenderActionFlags *ioActionFlags,
+                               const AudioTimeStamp       *inTimeStamp,
+                               UInt32                      inBusNumber,
+                               UInt32                      inNumberFrames,
+                               AudioBufferList            *ioData)
 {
-    OEGameAudioContext *context = (OEGameAudioContext*)in;
+    OEGameAudioContext *context = (OEGameAudioContext *)in;
     int availableBytes = 0;
     void *head = TPCircularBufferTail(context->buffer, &availableBytes);
     int bytesRequested = inNumberFrames * context->bytesPerSample * context->channelCount;
@@ -85,30 +79,33 @@ OSStatus RenderCallback(void                       *in,
     int leftover = bytesRequested - availableBytes;
     char *outBuffer = ioData->mBuffers[0].mData;
 
-    if (leftover > 0 && context->bytesPerSample==2) {
+    if(leftover > 0 && context->bytesPerSample == 2)
+    {
         // time stretch
         // FIXME this works a lot better with a larger buffer
         int framesRequested = inNumberFrames;
         int framesAvailable = availableBytes / (context->bytesPerSample * context->channelCount);
-        StretchSamples((int16_t*)outBuffer, head, framesRequested, framesAvailable, context->channelCount);
-    } else if (availableBytes) {
-        memcpy(outBuffer, head, availableBytes);
-    } else {
-        memset(outBuffer, 0, bytesRequested);
+        StretchSamples((int16_t *)outBuffer, head, framesRequested, framesAvailable, context->channelCount);
     }
+    else if(availableBytes)
+        memcpy(outBuffer, head, availableBytes);
+    else
+        memset(outBuffer, 0, bytesRequested);
     
     TPCircularBufferConsume(context->buffer, availableBytes);
     return noErr;
 }
 
-@interface OEGameAudio ()
+@implementation OEGameAudio
 {
+    __weak OEGameCore  *_gameCore;
     OEGameAudioContext *_contexts;
     NSNumber           *_outputDeviceID; // nil if no output device has been set (use default)
-}
-@end
 
-@implementation OEGameAudio
+    AUGraph   _graph;
+    AUNode    _converterNode, _mixerNode, _outputNode;
+    AudioUnit _converterUnit, _mixerUnit, _outputUnit;
+}
 
 // No default version for this class
 - (id)init
@@ -122,8 +119,7 @@ OSStatus RenderCallback(void                       *in,
     self = [super init];
     if(self != nil)
     {
-        gameCore = core;
-        [self createGraph];
+        _gameCore = core;
     }
     
     return self;
@@ -131,11 +127,11 @@ OSStatus RenderCallback(void                       *in,
 
 - (void)dealloc
 {
-    if (_contexts)
-        free(_contexts);
-    AUGraphUninitialize(mGraph);
+    free(_contexts);
+
+    AUGraphUninitialize(_graph);
     //FIXME: added this line tonight.  do we need it?  Fuckety fuck fucking shitty Core Audio documentation... :X
-    DisposeAUGraph(mGraph);
+    DisposeAUGraph(_graph);
 }
 
 - (void)pauseAudio
@@ -152,25 +148,25 @@ OSStatus RenderCallback(void                       *in,
 - (void)stopAudio
 {
     ExtAudioFileDispose(recordingFile);
-    AUGraphStop(mGraph);
-    AUGraphClose(mGraph);
-    AUGraphUninitialize(mGraph);
+    AUGraphStop(_graph);
+    AUGraphClose(_graph);
+    AUGraphUninitialize(_graph);
 }
 
 - (void)createGraph
 {
     OSStatus err;
     
-    AUGraphStop(mGraph);
-    AUGraphClose(mGraph);
-    AUGraphUninitialize(mGraph);
+    AUGraphStop(_graph);
+    AUGraphClose(_graph);
+    AUGraphUninitialize(_graph);
     
     //Create the graph
-    err = NewAUGraph(&mGraph);
+    err = NewAUGraph(&_graph);
     if(err) NSLog(@"NewAUGraph failed");
     
     //Open the graph
-    err = AUGraphOpen(mGraph);
+    err = AUGraphOpen(_graph);
     if(err) NSLog(@"couldn't open graph");
     
     ComponentDescription desc;
@@ -182,10 +178,10 @@ OSStatus RenderCallback(void                       *in,
     desc.componentFlags        = 0;
 
     //Create the output node
-    err = AUGraphAddNode(mGraph, (const AudioComponentDescription *)&desc, &mOutputNode);
+    err = AUGraphAddNode(_graph, (const AudioComponentDescription *)&desc, &_outputNode);
     if(err) NSLog(@"couldn't create node for output unit");
     
-    err = AUGraphNodeInfo(mGraph, mOutputNode, NULL, &mOutputUnit);
+    err = AUGraphNodeInfo(_graph, _outputNode, NULL, &_outputUnit);
     if(err) NSLog(@"couldn't get output from node");
     
     
@@ -194,37 +190,36 @@ OSStatus RenderCallback(void                       *in,
     desc.componentManufacturer = kAudioUnitManufacturer_Apple;
 
     //Create the mixer node
-    err = AUGraphAddNode(mGraph, (const AudioComponentDescription *)&desc, &mMixerNode);
+    err = AUGraphAddNode(_graph, (const AudioComponentDescription *)&desc, &_mixerNode);
     if(err) NSLog(@"couldn't create node for file player");
     
-    err = AUGraphNodeInfo(mGraph, mMixerNode, NULL, &mMixerUnit);
+    err = AUGraphNodeInfo(_graph, _mixerNode, NULL, &_mixerUnit);
     if(err) NSLog(@"couldn't get player unit from node");
 
     desc.componentType = kAudioUnitType_FormatConverter;
     desc.componentSubType = kAudioUnitSubType_AUConverter;
     desc.componentManufacturer = kAudioUnitManufacturer_Apple;
     
-    NSUInteger bufferCount = [gameCore audioBufferCount];
-    if (_contexts)
-        free(_contexts);
-    _contexts = malloc(sizeof(OEGameAudioContext) * bufferCount);
-    for (int i = 0; i < bufferCount; ++i)
+    NSUInteger bufferCount = [_gameCore audioBufferCount];
+
+    _contexts = realloc(_contexts, sizeof(OEGameAudioContext) * bufferCount);
+    for(NSInteger i = 0; i < bufferCount; ++i)
     {
-        _contexts[i] = (OEGameAudioContext){&([gameCore ringBufferAtIndex:i]->buffer), [gameCore channelCountForBuffer:i], [gameCore audioBitDepth]/8};
+        _contexts[i] = (OEGameAudioContext){ &([_gameCore ringBufferAtIndex:i]->buffer), [_gameCore channelCountForBuffer:i], [_gameCore audioBitDepth] / 8};
         
         //Create the converter node
-        err = AUGraphAddNode(mGraph, (const AudioComponentDescription *)&desc, &mConverterNode);
+        err = AUGraphAddNode(_graph, (const AudioComponentDescription *)&desc, &_converterNode);
         if(err)  NSLog(@"couldn't create node for converter");
         
-        err = AUGraphNodeInfo(mGraph, mConverterNode, NULL, &mConverterUnit);
+        err = AUGraphNodeInfo(_graph, _converterNode, NULL, &_converterUnit);
         if(err) NSLog(@"couldn't get player unit from converter");
         
         
         AURenderCallbackStruct renderStruct;
         renderStruct.inputProc = RenderCallback;
-        renderStruct.inputProcRefCon = (void*)&_contexts[i];
+        renderStruct.inputProcRefCon = (void *)&_contexts[i];
         
-        err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_SetRenderCallback,
+        err = AudioUnitSetProperty(_converterUnit, kAudioUnitProperty_SetRenderCallback,
                                    kAudioUnitScope_Input, 0, &renderStruct, sizeof(AURenderCallbackStruct));
         if(err) DLog(@"Couldn't set the render callback");
         else DLog(@"Set the render callback");
@@ -233,7 +228,7 @@ OSStatus RenderCallback(void                       *in,
         NSUInteger channelCount = _contexts[i].channelCount;
         NSUInteger bytesPerSample = _contexts[i].bytesPerSample;
         int formatFlag = (bytesPerSample == 4) ? kLinearPCMFormatFlagIsFloat : kLinearPCMFormatFlagIsSignedInteger;
-        mDataFormat.mSampleRate       = [gameCore audioSampleRateForBuffer:i];
+        mDataFormat.mSampleRate       = [_gameCore audioSampleRateForBuffer:i];
         mDataFormat.mFormatID         = kAudioFormatLinearPCM;
         mDataFormat.mFormatFlags      = formatFlag | kAudioFormatFlagsNativeEndian;
         mDataFormat.mBytesPerPacket   = bytesPerSample * channelCount;
@@ -242,32 +237,32 @@ OSStatus RenderCallback(void                       *in,
         mDataFormat.mChannelsPerFrame = channelCount;
         mDataFormat.mBitsPerChannel   = 8 * bytesPerSample;
         
-        err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &mDataFormat, sizeof(AudioStreamBasicDescription));
+        err = AudioUnitSetProperty(_converterUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &mDataFormat, sizeof(AudioStreamBasicDescription));
         if(err) NSLog(@"couldn't set player's input stream format");
         
-        err = AUGraphConnectNodeInput(mGraph, mConverterNode, 0, mMixerNode, i);
+        err = AUGraphConnectNodeInput(_graph, _converterNode, 0, _mixerNode, i);
         if(err) NSLog(@"Couldn't connect the converter to the mixer");
     }
     // connect the player to the output unit (stream format will propagate)
          
-    err = AUGraphConnectNodeInput(mGraph, mMixerNode, 0, mOutputNode, 0);
+    err = AUGraphConnectNodeInput(_graph, _mixerNode, 0, _outputNode, 0);
     if(err) NSLog(@"Could not connect the input of the output");
     
     
-    //AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, [[[GameDocumentController sharedDocumentController] preferenceController] volume] ,0);
-    AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, 1.0 ,0);
+    //AudioUnitSetParameter(_outputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, [[[GameDocumentController sharedDocumentController] preferenceController] volume] ,0);
+    AudioUnitSetParameter(_outputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, 1.0 ,0);
 
     AudioDeviceID outputDeviceID = [_outputDeviceID unsignedIntValue];
     if(outputDeviceID != 0)
-        AudioUnitSetProperty(mOutputUnit, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global, 0, &outputDeviceID, sizeof(outputDeviceID));
+        AudioUnitSetProperty(_outputUnit, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global, 0, &outputDeviceID, sizeof(outputDeviceID));
 
-    err = AUGraphInitialize(mGraph);
+    err = AUGraphInitialize(_graph);
     if(err) NSLog(@"couldn't initialize graph");
     
-    err = AUGraphStart(mGraph);
+    err = AUGraphStart(_graph);
     if(err) NSLog(@"couldn't start graph");
 	
-        //    CFShow(mGraph);
+    //CFShow(_graph);
     [self setVolume:[self volume]];
 }
 
@@ -283,37 +278,16 @@ OSStatus RenderCallback(void                       *in,
     {
         _outputDeviceID = (outputDeviceID == 0 ? nil : @(outputDeviceID));
 
-        if(mOutputUnit)
-            AudioUnitSetProperty(mOutputUnit, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global, 0, &outputDeviceID, sizeof(outputDeviceID));
+        if(_outputUnit != NULL)
+            AudioUnitSetProperty(_outputUnit, kAudioOutputUnitProperty_CurrentDevice, kAudioUnitScope_Global, 0, &outputDeviceID, sizeof(outputDeviceID));
     }
 }
 
-- (float)volume
+- (void)setVolume:(CGFloat)aVolume
 {
-    return volume;
-}
-
-- (void)setVolume:(float)aVolume
-{
-    volume = aVolume;
-    if (mOutputUnit)
-        AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, volume, 0);
-}
-
-- (void)volumeUp
-{
-    float newVolume = volume + 0.1;
-    if(newVolume>1.0) newVolume = 1.0;
-
-    [self setVolume:newVolume];
-}
-
-- (void)volumeDown
-{
-    float newVolume = volume - 0.1;
-    if(newVolume<0.0) newVolume = 0.0;
-
-    [self setVolume:newVolume];
+    _volume = aVolume;
+    if(_outputUnit != NULL)
+        AudioUnitSetParameter(_outputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, _volume, 0);
 }
 
 @end

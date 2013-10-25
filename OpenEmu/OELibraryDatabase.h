@@ -32,6 +32,7 @@
 #import "OEDBSystem.h"
 
 @class OEROMImporter;
+
 #define OELibraryErrorCodeFolderNotFound 11789
 #define OELibraryErrorCodeFileInFolderNotFound 11790
 
@@ -45,39 +46,46 @@ extern NSString *const OESaveStateFolderURLKey;
 extern NSString *const OEScreenshotFolderURLKey;
 
 @interface OELibraryDatabase : NSObject
-+ (OELibraryDatabase*)defaultDatabase;
 
-+ (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError;
-- (BOOL)save:(NSError**)error;
++ (OELibraryDatabase *)defaultDatabase;
 
-- (NSManagedObjectContext*)managedObjectContext;
++ (BOOL)loadFromURL:(NSURL *)url error:(NSError **)outError;
+- (BOOL)save:(NSError **)error;
 
-- (id)objectWithURI:(NSURL*)uri;
+- (NSManagedObjectContext *)managedObjectContext;
+
+- (id)objectWithURI:(NSURL *)uri;
 
 @property (strong) OEROMImporter *importer;
 
 #pragma mark - Administration
+
 - (void)disableSystemsWithoutPlugin;
 
 #pragma mark - Database queries
-- (NSManagedObjectID*)managedObjectIDForURIRepresentation:(NSURL*)uri;
+
+- (NSManagedObjectID *)managedObjectIDForURIRepresentation:(NSURL *)uri;
 
 - (NSUInteger)collectionsCount;
-- (NSArray*)collections;
-- (NSArray*)media;
+- (NSArray *)collections;
+- (NSArray *)media;
 
-- (NSArray*)romsForPredicate:(NSPredicate*)predicate;
-- (NSArray*)romsInCollection:(id)collection;
+- (NSArray *)romsForPredicate:(NSPredicate*)predicate;
+- (NSArray *)romsInCollection:(id)collection;
 
-- (NSArray*)lastPlayedRoms;
-- (NSDictionary*)lastPlayedRomsBySystem;
+- (NSArray *)lastPlayedRoms;
+- (NSDictionary *)lastPlayedRomsBySystem;
+
 #pragma mark - Database Collection editing
-- (void)removeCollection:(NSManagedObject*)collection;
 
-- (id)addNewCollection:(NSString*)name;
-- (id)addNewSmartCollection:(NSString*)name;
-- (id)addNewCollectionFolder:(NSString*)name;
+- (void)removeCollection:(NSManagedObject *)collection;
+
+- (id)addNewCollection:(NSString *)name;
+- (id)addNewSmartCollection:(NSString *)name;
+- (id)addNewCollectionFolder:(NSString *)name;
+
 #pragma mark - Database Folders
+
 - (NSURL *)databaseFolderURL;
 - (NSURL *)romsFolderURL;
 - (void)setRomsFolderURL:(NSURL *)url;
@@ -95,4 +103,5 @@ extern NSString *const OEScreenshotFolderURLKey;
 
 #pragma mark - Debug
 - (void)dump;
+
 @end

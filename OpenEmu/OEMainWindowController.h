@@ -43,7 +43,6 @@ extern NSString *const OEMainWindowFullscreenKey;
 @property            BOOL               allowWindowResizing;
 @property(readonly)  BOOL               mainWindowRunsGame;
 
-- (void)openGameDocument:(OEGameDocument *)aDocument;
 - (IBAction)undockGameWindow:(id)sender;
 
 @end

@@ -14,20 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82B9195310150EA2007BD6DB"
-               BuildableName = "Build &amp; Install BSNES"
-               BlueprintName = "Build &amp; Install BSNES"
-               ReferencedContainer = "container:BSNES/BSNES.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D8155D0F1D878700EF8CF5"
                BuildableName = "Build &amp; Install CrabEmu"
                BlueprintName = "Build &amp; Install CrabEmu"
@@ -200,6 +186,20 @@
                BuildableName = "Build &amp; Install Picodrive"
                BlueprintName = "Build &amp; Install Picodrive"
                ReferencedContainer = "container:picodrive/Picodrive.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8CC8D3BA17A948E000BC796A"
+               BuildableName = "Build &amp; Install Higan"
+               BlueprintName = "Build &amp; Install Higan"
+               ReferencedContainer = "container:Higan/Higan.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

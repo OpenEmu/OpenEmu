@@ -148,6 +148,7 @@ static const unsigned short konamiCodeSize = 10;
 }
 
 #pragma mark - NSWindowDelegate
+
 - (NSRect)window:(NSWindow *)window willPositionSheet:(NSWindow *)sheet usingRect:(NSRect)rect
 {
     if([window isKindOfClass:[OEAppStoreWindow class]])
@@ -188,6 +189,7 @@ static const unsigned short konamiCodeSize = 10;
     _konamiCodeIndex   = 0;
     _konamiCodeMonitor = nil;
 }
+
 #pragma mark - Toolbar
 
 - (NSViewController<OEPreferencePane> *)selectedPreferencePane
@@ -253,7 +255,7 @@ static const unsigned short konamiCodeSize = 10;
     [win setTitleBarView:toolbar];
 }
 
-- (void)OE_openPreferencePane:(NSNotification*)notification
+- (void)OE_openPreferencePane:(NSNotification *)notification
 {
     NSDictionary *userInfo = [notification userInfo];
     NSString     *paneName = [userInfo valueForKey:OEPreferencesUserInfoPanelNameKey];
@@ -269,7 +271,9 @@ static const unsigned short konamiCodeSize = 10;
     [self switchView:[NSNumber numberWithInteger:index] animate:[[self window] isVisible]];
     [[self window] makeKeyAndOrderFront:self];
 }
+
 #pragma mark -
+
 - (void)switchView:(id)sender
 {
     [self switchView:sender animate:YES];
