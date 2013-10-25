@@ -227,7 +227,7 @@
 - (void)controlTextDidEndEditing:(NSNotification *)obj
 {
     // The _fieldEditor finished editing, so let's save the game with the new name
-    if([obj isEqualTo:_fieldEditor])
+    if ([[[obj object] superview] isKindOfClass:[OEGridViewFieldEditor class]])
     {
         NSUInteger selectedIndex = [[self selectionIndexes] firstIndex];
         OEGridCell *selectedCell = (OEGridCell *)[self cellForItemAtIndex:selectedIndex];
@@ -250,7 +250,7 @@
             [self OE_cancelFieldEditor];
     }
     
-    return YES;
+    return NO;
 }
 
 
