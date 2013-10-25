@@ -25,6 +25,7 @@
  */
 
 #import "OEGridView.h"
+#import "OECollectionViewController.h"
 
 #import "OEGridCell.h"
 #import "OEGridViewFieldEditor.h"
@@ -205,7 +206,7 @@
 
     NSString *title = [[cell representedItem] displayName];
     [_fieldEditor setString:title];
-    [_fieldEditor setDelegate:cell];
+    [_fieldEditor setDelegate:self];
     [_fieldEditor setHidden:NO];
     [[self window] makeFirstResponder:[[_fieldEditor subviews] objectAtIndex:0]];
 }
@@ -220,6 +221,38 @@
     [_fieldEditor setHidden:YES];
     [[self window] makeFirstResponder:self];
 }
+
+#pragma mark - NSControlSubclassNotifications
+
+- (void)controlTextDidEndEditing:(NSNotification *)obj
+{
+    // The _fieldEditor finished editing, so let's save the game with the new name
+    if ([[[obj object] superview] isKindOfClass:[OEGridViewFieldEditor class]])
+    {
+        NSUInteger selectedIndex = [[self selectionIndexes] firstIndex];
+        OEGridCell *selectedCell = (OEGridCell *)[self cellForItemAtIndex:selectedIndex];
+        OEDBGame   *selectedGame = [selectedCell representedItem];
+        
+        [selectedGame setDisplayName:[_fieldEditor string]];
+        [[selectedGame managedObjectContext] save:nil];
+        
+        [self OE_cancelFieldEditor];
+        [self reloadData];
+    }
+}
+
+- (BOOL)control:(NSControl *)control textView:(NSTextView *)fieldEditor doCommandBySelector:(SEL)commandSelector
+{
+    if ([[control superview] isKindOfClass:[OEGridViewFieldEditor class]])
+    {
+        // User pressed the 'Esc' key, cancel the editing
+        if(commandSelector == @selector(complete:))
+            [self OE_cancelFieldEditor];
+    }
+    
+    return NO;
+}
+
 
 @end
 
