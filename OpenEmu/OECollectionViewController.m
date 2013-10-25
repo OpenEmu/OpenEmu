@@ -191,6 +191,7 @@ static NSArray *OE_defaultSortDescriptors;
     // Set up GridView
     [gridView setDelegate:self];
     [gridView setDataSource:self];
+    [gridView setDraggingDestinationDelegate:self];
 
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
@@ -724,6 +725,29 @@ static NSArray *OE_defaultSortDescriptors;
     }
 }
 */
+#pragma mark - Grid View Dragging (NSDraggingDestination)
+
+- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
+{
+    if (![[[sender draggingPasteboard] types] containsObject:NSFilenamesPboardType])
+        return  NSDragOperationNone;
+    
+    return NSDragOperationCopy;
+}
+
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
+{
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    if (![[pboard types] containsObject:NSFilenamesPboardType])
+        return NO;
+    
+    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+    OEROMImporter *romImporter = [[[self libraryController] database] importer];
+    OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
+    [romImporter importItemsAtPaths:files intoCollectionWithID:[[collection objectID] URIRepresentation]];
+    return YES;
+}
+
 #pragma mark - Blank Slate Delegate
 - (NSDragOperation)blankSlateView:(OEBlankSlateView *)blankSlateView validateDrop:(id<NSDraggingInfo>)draggingInfo
 {
@@ -1602,6 +1626,7 @@ static NSArray *OE_defaultSortDescriptors;
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadVisibleData) object:nil];
     if(!gamesController) return;
     [gamesController rearrangeObjects];
+    [gridView performSelectorOnMainThread:@selector(reloadData) withObject:Nil waitUntilDone:NO];
     //[gridView reloadCellsAtIndexes:[gridView indexesForVisibleCells]];
     [listView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndexesInRange:[listView rowsInRect:[listView visibleRect]]]
                         columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
