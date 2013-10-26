@@ -157,7 +157,7 @@
 	<key>OEResponderClassKey</key>
 	<string>OESega32XSystemResponder</string>
 	<key>OESystemIcon</key>
-	<string>32x_library</string>
+	<string>32x_na_library</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.32x</string>
 	<key>OESystemName</key>

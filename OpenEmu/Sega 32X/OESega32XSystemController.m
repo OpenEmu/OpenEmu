@@ -32,6 +32,51 @@
 
 @implementation OESega32XSystemController
 
+- (NSString *)systemName
+{
+    if ([[OELocalizationHelper sharedHelper] isRegionJAP])
+    {
+        return @"Super 32X";
+    }
+    else if ([[OELocalizationHelper sharedHelper] isRegionEU])
+    {
+        return @"Sega Mega Drive 32X";
+    }
+    else
+    {
+        return @"Sega 32X";
+    }
+}
+
+- (NSImage *)systemIcon
+{
+    NSString *imageName;
+
+    if ([[OELocalizationHelper sharedHelper] isRegionJAP])
+    {
+        imageName = @"32x_jp_library";
+    }
+    else if ([[OELocalizationHelper sharedHelper] isRegionEU])
+    {
+        imageName = @"32x_eu_library";
+    }
+    else
+    {
+        imageName = @"32x_na_library";
+    }
+    
+    NSImage *image = [NSImage imageNamed:imageName];
+    if(image == nil)
+    {
+        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+        NSString *path = [bundle pathForImageResource:imageName];
+        image = [[NSImage alloc] initWithContentsOfFile:path];
+        [image setName:imageName];
+    }
+    
+    return image;
+}
+
 - (OECanHandleState)canHandleFile:(NSString *)path
 {
     if (![[path pathExtension] isEqualToString:@"bin"])
