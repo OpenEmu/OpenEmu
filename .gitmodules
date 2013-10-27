@@ -40,9 +40,6 @@
 [submodule "UME"]
 	path = UME
 	url = git@github.com:OpenEmu/UME-Core.git
-[submodule "PPSSPP"]
-	path = PPSSPP
-	url = git@github.com:OpenEmu/PPSSPP-Core.git
 [submodule "picodrive"]
 	path = picodrive
 	url = git@github.com:OpenEmu/picodrive.git
