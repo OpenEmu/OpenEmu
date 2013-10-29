@@ -1613,6 +1613,7 @@ static NSArray *OE_defaultSortDescriptors;
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadDataIndexes:) object:nil];
     if(!gamesController) return;
     [gamesController rearrangeObjects];
+    [gridView performSelectorOnMainThread:@selector(reloadData) withObject:Nil waitUntilDone:NO];
     //[gridView reloadCellsAtIndexes:indexSet];
     [listView reloadDataForRowIndexes:indexSet
                         columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
