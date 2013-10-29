@@ -119,12 +119,12 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 
 - (NSString *)imageRepresentationType
 {
-    return IKImageBrowserPathRepresentationType;
+    return IKImageBrowserNSImageRepresentationType;
 }
 
 - (id)imageRepresentation
 {
-    return [[self boxImage] imagePathForSize:NSMakeSize(300, 300)];
+    return [[self boxImage] imageForSize:NSMakeSize(300, 300)];
     return [self gridImage];
     
     NSManagedObject *boxImage = [self boxImage];
