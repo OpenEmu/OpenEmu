@@ -551,7 +551,7 @@ static NSArray *OE_defaultSortDescriptors;
 - (IBAction)changeGridSize:(id)sender
 {
     float zoomValue = [sender floatValue];
-    //[gridView setItemSize:NSMakeSize(roundf(26+142*zoomValue), roundf(44+7+142*zoomValue))];
+    [gridView setCellSize:NSMakeSize(roundf(26+142*zoomValue), roundf(44+7+142*zoomValue))];
 
     [self setNeedsReloadVisible];
     
@@ -1619,6 +1619,7 @@ static NSArray *OE_defaultSortDescriptors;
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadDataIndexes:) object:nil];
     if(!gamesController) return;
     [gamesController rearrangeObjects];
+    [gridView performSelectorOnMainThread:@selector(reloadData) withObject:Nil waitUntilDone:NO];
     //[gridView reloadCellsAtIndexes:indexSet];
     [listView reloadDataForRowIndexes:indexSet
                         columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];

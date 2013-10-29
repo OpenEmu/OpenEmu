@@ -30,6 +30,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
 @interface OEGridCell ()
 @property NSImage *glossImage;
 @property NSImage *selectorImage;
+@property CALayer *selectionLayer;
 @end
 
 @implementation OEGridCell
@@ -162,8 +163,13 @@ __strong static OEThemeImage *selectorRingImage = nil;
 		glossyLayer.frame = NSInsetRect(relativeImageFrame, 0, 0);
         [glossyLayer setContents:[self OE_glossImageWithSize:imageFrame.size]];
 		[layer addSublayer:glossyLayer];
-
-        if([self isSelected])
+        // the selection layer is cached else the CATransition initialization fires the layers to be redrawn which causes the CATransition to be initalized again: loop
+        // TODO: Appropriately cache all layers
+        
+        if(!CGRectEqualToRect(_selectionLayer.frame, CGRectInset(relativeImageFrame, -6.0, -6.0)))
+            _selectionLayer = nil;
+        
+        if([self isSelected] && !_selectionLayer)
         {
             CGRect selectionFrame = CGRectInset(relativeImageFrame, -6.0, -6.0);
             CALayer *selectionLayer = [CALayer layer];
@@ -177,7 +183,10 @@ __strong static OEThemeImage *selectorRingImage = nil;
             [transition setType:kCATransitionFade];
             [selectionLayer addAnimation:transition forKey:@"dealloc"];
             
+            _selectionLayer = selectionLayer;
         }
+        else if([self isSelected] && _selectionLayer)
+            [layer addSublayer:_selectionLayer];
 
 		return layer;
 	}
