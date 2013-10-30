@@ -166,7 +166,9 @@ __strong static OEThemeImage *selectorRingImage = nil;
         // the selection layer is cached else the CATransition initialization fires the layers to be redrawn which causes the CATransition to be initalized again: loop
         // TODO: Appropriately cache all layers
         
-        if(!CGRectEqualToRect(_selectionLayer.frame, CGRectInset(relativeImageFrame, -6.0, -6.0)))
+        BOOL isWindowActive = [[[self imageBrowserView] window] isKeyWindow];
+        
+        if(!CGRectEqualToRect(_selectionLayer.frame, CGRectInset(relativeImageFrame, -6.0, -6.0)) || ![[_selectionLayer valueForKey:@"isWindowActive"] isEqualToNumber:[NSNumber numberWithBool:isWindowActive]])
             _selectionLayer = nil;
         
         if([self isSelected] && !_selectionLayer)
@@ -184,6 +186,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
             [selectionLayer addAnimation:transition forKey:@"dealloc"];
             
             _selectionLayer = selectionLayer;
+            [_selectionLayer setValue:[NSNumber numberWithBool:isWindowActive] forKey:@"isWindowActive"];
         }
         else if([self isSelected] && _selectionLayer)
             [layer addSublayer:_selectionLayer];
