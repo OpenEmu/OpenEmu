@@ -43,6 +43,10 @@
 #import "NSWindow+OEFullScreenAdditions.h"
 
 #import "OEPreferencesController.h"
+
+#import <Quartz/Quartz.h>
+#import "OEBackgroundNoisePattern.h"
+
 #pragma mark - Exported variables
 NSString * const OELastCollectionSelectedKey = @"lastCollectionSelected";
 
@@ -342,6 +346,27 @@ static const CGFloat _OEToolbarHeight = 44;
         NSView *mainContentView = [self mainContentPlaceholderView];
         [newView setFrame:[mainContentView bounds]];
         [mainContentView addSubview:newView];
+        
+        OEBackgroundNoisePatternCreate();
+        
+        NSView  *backgroundView  = [[NSView alloc] initWithFrame:[mainContentView frame]];
+        CALayer *backgroundLayer = [CALayer layer];
+        CALayer *noiseLayer      = [CALayer layer];
+        
+        [backgroundLayer setContentsGravity:kCAGravityResize];
+        [backgroundLayer setContents:[NSImage imageNamed:@"background_lighting"]];
+        [backgroundLayer setBackgroundColor:CGColorCreateGenericRGB(0.220, 0.10, 0.10, 1)];
+        [backgroundView setWantsLayer:YES];
+        [backgroundView setLayer:backgroundLayer];
+        
+        [noiseLayer setFrame:[backgroundView bounds]];
+        [noiseLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+        [noiseLayer setGeometryFlipped:YES];
+        [noiseLayer setBackgroundColor:OEBackgroundNoiseColorRef];
+        
+        [backgroundLayer addSublayer:noiseLayer];
+        [backgroundView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [mainContentView addSubview:backgroundView];
     }
     [self setCurrentViewController:nextViewController];
     
