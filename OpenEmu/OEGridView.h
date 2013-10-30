@@ -27,12 +27,21 @@
 #import <Cocoa/Cocoa.h>
 #import <ImageKit/ImageKit.h>
 
+typedef enum
+{
+    IKImageBrowserDropNone = 2
+} ExtendedIKImageBrowserDropOperation;
+
 @interface OEGridView : IKImageBrowserView <NSTextFieldDelegate>
 {
     NSRect lastVisibleRect;
 }
+@property (assign) IKImageBrowserDropOperation draggingOperation;
+
 @end
 
 @protocol OEGridViewMenuSource <NSObject>
+
 - (NSMenu *)gridView:(OEGridView*)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes;
+
 @end

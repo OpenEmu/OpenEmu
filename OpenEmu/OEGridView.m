@@ -222,6 +222,12 @@
     [[self window] makeFirstResponder:self];
 }
 
+- (void)setDropIndex:(NSInteger)index dropOperation:(IKImageBrowserDropOperation)operation
+{
+    [super setDropIndex:index dropOperation:operation];
+    _draggingOperation = operation;
+}
+
 #pragma mark - NSControlSubclassNotifications
 
 - (void)controlTextDidEndEditing:(NSNotification *)obj
