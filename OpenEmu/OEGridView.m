@@ -45,21 +45,7 @@
 
 - (void)awakeFromNib
 {
-    OEBackgroundNoisePatternCreate();
-    CALayer *layer = [CALayer layer];
-    
-    [layer setContentsGravity:kCAGravityResize];
-    [layer setContents:[NSImage imageNamed:@"background_lighting"]];
-    [layer setFrame:[self bounds]];
-    [layer setDelegate:self];
-    [self setBackgroundLayer:layer];
-
-    CALayer *noiseLayer = [CALayer layer];
-    [noiseLayer setFrame:[self bounds]];
-    [noiseLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
-    [noiseLayer setGeometryFlipped:YES];
-    [noiseLayer setBackgroundColor:OEBackgroundNoiseColorRef];
-    [layer addSublayer:noiseLayer];
+    [self setValue:[NSColor clearColor] forKey:IKImageBrowserBackgroundColorKey];
 
     [self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, NSPasteboardTypePNG, NSPasteboardTypeTIFF, nil]];
     [self setAllowsReordering:NO];
