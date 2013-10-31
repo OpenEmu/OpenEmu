@@ -68,6 +68,7 @@
 #import "OEArrayController.h"
 
 #import "OECollectionDebugWindowController.h"
+#import "OEBackgroundNoisePattern.h"
 #pragma mark - Public variables
 
 NSString * const OELastGridSizeKey       = @"lastGridSize";
@@ -92,6 +93,7 @@ static NSArray *OE_defaultSortDescriptors;
 {    
     IBOutlet NSView *gridViewContainer;// gridview
     IBOutlet OEGridView *gridView;// scrollview for gridview
+    IBOutlet NSView *gridViewBackground;// gridview's nonscrollable background
     
     IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
     IBOutlet IKImageFlowView *coverFlowView;
@@ -192,6 +194,26 @@ static NSArray *OE_defaultSortDescriptors;
     [gridView setDelegate:self];
     [gridView setDataSource:self];
     [gridView setDraggingDestinationDelegate:self];
+    
+    // Create GridView's background layer
+    OEBackgroundNoisePatternCreate();
+    
+    CALayer *backgroundLayer = [CALayer new];
+    CALayer *noiseLayer      = [CALayer new];
+    
+    [backgroundLayer setContentsGravity:kCAGravityResize];
+    [backgroundLayer setContents:[NSImage imageNamed:@"background_lighting"]];
+    [backgroundLayer setBackgroundColor:CGColorCreateGenericRGB(0.220, 0.10, 0.10, 1)];
+    [gridViewBackground setWantsLayer:YES];
+    [gridViewBackground setLayer:backgroundLayer];
+    
+    [noiseLayer setFrame:[gridViewBackground bounds]];
+    [noiseLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+    [noiseLayer setGeometryFlipped:YES];
+    [noiseLayer setBackgroundColor:OEBackgroundNoiseColorRef];
+    
+    [backgroundLayer addSublayer:noiseLayer];
+    [gridViewBackground setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
