@@ -293,5 +293,34 @@
 		<key>OEPSXButtonSelect</key>
 		<string>OEControllerAdaptoidN64ButtonZ</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCircle</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonTriangle</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonL1</string>
+		<key>OEPSXButtonL2</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonL2</string>
+		<key>OEPSXButtonL3</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonL3</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
+		<key>OEPSXButtonR2</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR2</string>
+		<key>OEPSXButtonR3</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR3</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+	</dict>
 </dict>
 </plist>

@@ -319,5 +319,28 @@
 		<key>OESaturnButtonStart</key>
 		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OESaturnButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OESaturnButtonA</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OESaturnButtonB</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OESaturnButtonC</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCircle</string>
+		<key>OESaturnButtonX</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonTriangle</string>
+		<key>OESaturnButtonY</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonL1</string>
+		<key>OESaturnButtonZ</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
+		<key>OESaturnButtonL</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonL2</string>
+		<key>OESaturnButtonR</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR2</string>
+		<key>OESaturnButtonStart</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+	</dict>
 </dict>
 </plist>

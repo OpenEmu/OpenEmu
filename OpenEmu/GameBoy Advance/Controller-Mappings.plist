@@ -263,5 +263,22 @@
 		<key>OEGBAButtonSelect</key>
 		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OEGBAButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEGBAButtonA</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OEGBAButtonB</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEGBAButtonL</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonL1</string>
+		<key>OEGBAButtonR</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
+		<key>OEGBAButtonStart</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OEGBAButtonSelect</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+	</dict>
 </dict>
 </plist>

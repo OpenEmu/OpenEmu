@@ -309,5 +309,26 @@
 		<key>OEGenesisButtonMode</key>
 		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OEGenesisButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEGenesisButtonA</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEGenesisButtonB</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonTriangle</string>
+		<key>OEGenesisButtonC</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCircle</string>
+		<key>OEGenesisButtonX</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OEGenesisButtonY</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonL1</string>
+		<key>OEGenesisButtonZ</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
+		<key>OEGenesisButtonStart</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OEGenesisButtonMode</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+	</dict>
 </dict>
 </plist>

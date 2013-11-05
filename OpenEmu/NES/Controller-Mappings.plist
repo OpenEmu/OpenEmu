@@ -211,5 +211,18 @@
 		<key>OENESButtonSelect</key>
 		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OENESButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OENESButtonA</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OENESButtonB</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OENESButtonStart</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OENESButtonSelect</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+	</dict>
 </dict>
 </plist>

@@ -282,5 +282,26 @@
 		<key>OEPCFXButtonSelect</key>
 		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OEPCFXButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEPCFXButton3</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEPCFXButton2</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonTriangle</string>
+		<key>OEPCFXButton1</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCircle</string>
+		<key>OEPCFXButton4</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OEPCFXButton5</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonL1</string>
+		<key>OEPCFXButton6</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
+		<key>OEPCFXButtonRun</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OEPCFXButtonSelect</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+	</dict>
 </dict>
 </plist>

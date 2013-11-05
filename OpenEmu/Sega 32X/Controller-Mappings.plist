@@ -255,5 +255,26 @@
 		<key>OESega32XButtonMode</key>
 		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OESega32XButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OESega32XButtonA</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OESega32XButtonB</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonTriangle</string>
+		<key>OESega32XButtonC</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCircle</string>
+		<key>OESega32XButtonX</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OESega32XButtonY</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonL1</string>
+		<key>OESega32XButtonZ</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
+		<key>OESega32XButtonStart</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OESega32XButtonMode</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+	</dict>
 </dict>
 </plist>

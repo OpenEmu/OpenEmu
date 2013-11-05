@@ -195,5 +195,20 @@
 		<key>OEFDSButtonChangeSide</key>
 		<string>OEControllerWiimoteButtonHome</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OEFDSButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEFDSButtonA</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OEFDSButtonB</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEFDSButtonStart</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OEFDSButtonSelect</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+		<key>OEFDSButtonChangeSide</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
+	</dict>
 </dict>
 </plist>

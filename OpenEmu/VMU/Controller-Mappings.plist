@@ -211,5 +211,18 @@
 		<key>OEVMUButtonMode</key>
 		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OEVMUButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEVMUButtonB</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OEVMUButtonA</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEVMUButtonSleep</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OEVMUButtonMode</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+	</dict>
 </dict>
 </plist>

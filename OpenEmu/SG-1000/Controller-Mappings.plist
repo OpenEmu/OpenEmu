@@ -144,5 +144,14 @@
 		<key>OESG1000Button2</key>
 		<string>OEControllerWiimoteButton2</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OESG1000ButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OESG1000Button1</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OESG1000Button2</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+	</dict>
 </dict>
 </plist>

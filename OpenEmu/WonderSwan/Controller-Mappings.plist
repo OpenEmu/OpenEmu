@@ -192,5 +192,18 @@
 		<key>OEWSButtonSound</key>
 		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OEWSButtonX1</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEWSButtonB</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OEWSButtonA</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEWSButtonStart</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OEWSButtonSound</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+	</dict>
 </dict>
 </plist>

@@ -192,5 +192,18 @@
 		<key>OEPCEButtonSelect</key>
 		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OEPCEButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEPCEButton1</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OEPCEButton2</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEPCEButtonRun</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OEPCEButtonSelect</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+	</dict>
 </dict>
 </plist>

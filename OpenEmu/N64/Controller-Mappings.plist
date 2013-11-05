@@ -300,5 +300,30 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OEN64ButtonDPadUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEN64AnalogUp</key>
+		<string>OEControllerSonyPS4Dualshock4LeftAnalogUp</string>
+		<key>OEN64AnalogLeft</key>
+		<string>OEControllerSonyPS4Dualshock4LeftAnalogLeft</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEControllerSonyPS4Dualshock4RightAnalogUp</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEControllerSonyPS4Dualshock4RightAnalogLeft</string>
+		<key>OEN64ButtonA</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OEN64ButtonB</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEN64ButtonL</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonL1</string>
+		<key>OEN64ButtonR</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonL2</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+	</dict>
 </dict>
 </plist>

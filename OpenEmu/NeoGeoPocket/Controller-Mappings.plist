@@ -187,5 +187,16 @@
 		<key>OENGPButtonOption</key>
 		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OENGPButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OENGPButtonA</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OENGPButtonB</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OENGPButtonOption</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+	</dict>
 </dict>
 </plist>

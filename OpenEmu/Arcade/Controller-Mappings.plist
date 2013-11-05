@@ -288,5 +288,26 @@
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonTriangle</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonL1</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCircle</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+	</dict>
 </dict>
 </plist>

@@ -185,5 +185,16 @@
 		<key>OESMSButtonStart</key>
 		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OESMSButtonA</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OESMSButtonB</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OESMSButtonStart</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+	</dict>
 </dict>
 </plist>

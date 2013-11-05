@@ -293,5 +293,34 @@
 		<key>OEGCButtonStart</key>
 		<string>OEControllerAdaptoidN64ButtonStart</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OEGCButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEGCAnalogUp</key>
+		<string>OEControllerSonyPS4Dualshock4LeftAnalogUp</string>
+		<key>OEGCAnalogLeft</key>
+		<string>OEControllerSonyPS4Dualshock4LeftAnalogLeft</string>
+		<key>OEGCAnalogCUp</key>
+		<string>OEControllerSonyPS4Dualshock4RightAnalogUp</string>
+		<key>OEGCAnalogCLeft</key>
+		<string>OEControllerSonyPS4Dualshock4RightAnalogLeft</string>
+		<key>OEGCButtonB</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCircle</string>
+		<key>OEGCButtonX</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OEGCButtonA</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonTriangle</string>
+		<key>OEGCButtonY</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEGCButtonL</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonL2</string>
+		<key>OEGCButtonR</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR2</string>
+		<key>OEGCButtonZ</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
+		<key>OEGCButtonStart</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+	</dict>
 </dict>
 </plist>

@@ -237,5 +237,20 @@
 		<key>OEJaguarButtonOption</key>
 		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OEJaguarButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEJaguarButtonC</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEJaguarButtonB</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OEJaguarButtonA</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCircle</string>
+		<key>OEJaguarButtonPause</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OEJaguarButtonOption</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+	</dict>
 </dict>
 </plist>

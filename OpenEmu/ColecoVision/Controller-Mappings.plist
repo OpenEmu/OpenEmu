@@ -159,5 +159,14 @@
 		<key>OEColecoVisionButtonRightAction</key>
 		<string>OEControllerNintendoWiiUProControllerButtonB</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OEColecoVisionButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEColecoVisionButtonLeftAction</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEColecoVisionButtonRightAction</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+	</dict>
 </dict>
 </plist>

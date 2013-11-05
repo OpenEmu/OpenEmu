@@ -240,5 +240,22 @@
 		<key>OEVBButtonSelect</key>
 		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OEVBButtonLeftUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEVBButtonA</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OEVBButtonB</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OEVBButtonL</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonL1</string>
+		<key>OEVBButtonR</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
+		<key>OEVBButtonStart</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OEVBButtonSelect</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+	</dict>
 </dict>
 </plist>

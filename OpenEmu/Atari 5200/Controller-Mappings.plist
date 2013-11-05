@@ -216,5 +216,20 @@
 		<key>OE5200ButtonReset</key>
 		<string>OEControllerWiimoteButtonHome</string>
 	</dict>
+	<key>OEControllerSonyPS4Dualshock4</key>
+	<dict>
+		<key>OE5200ButtonUp</key>
+		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OE5200ButtonFire2</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
+		<key>OE5200ButtonFire1</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
+		<key>OE5200ButtonStart</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OE5200ButtonPause</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+		<key>OE5200ButtonReset</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonHome</string>
+	</dict>
 </dict>
 </plist>
