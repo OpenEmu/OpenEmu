@@ -600,6 +600,8 @@ typedef enum : NSUInteger
      ^{
          _emulationStatus = OEEmulationStatusPlaying;
      }];
+    
+    [[self gameViewController] reflectEmulationPaused:NO];
 }
 
 - (BOOL)isEmulationPaused
