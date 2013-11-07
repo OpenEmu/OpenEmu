@@ -181,9 +181,15 @@ static OSStatus RenderCallback(void                       *in,
     err = AUGraphAddNode(_graph, (const AudioComponentDescription *)&desc, &_outputNode);
     if(err) NSLog(@"couldn't create node for output unit");
     
+    UInt32 maxFPS = 2048;
+    
     err = AUGraphNodeInfo(_graph, _outputNode, NULL, &_outputUnit);
     if(err) NSLog(@"couldn't get output from node");
     
+    err = AudioUnitSetProperty(_outputUnit, kAudioUnitProperty_MaximumFramesPerSlice,
+                               kAudioUnitScope_Global, 0, &maxFPS, sizeof(maxFPS));
+    if(err) DLog(@"Couldn't set maximum frames per slice on output unit");
+    else DLog(@"Set maximum frames per slice on output unit");
     
     desc.componentType = kAudioUnitType_Mixer;
     desc.componentSubType = kAudioUnitSubType_StereoMixer;
@@ -196,6 +202,11 @@ static OSStatus RenderCallback(void                       *in,
     err = AUGraphNodeInfo(_graph, _mixerNode, NULL, &_mixerUnit);
     if(err) NSLog(@"couldn't get player unit from node");
 
+    err = AudioUnitSetProperty(_mixerUnit, kAudioUnitProperty_MaximumFramesPerSlice,
+                               kAudioUnitScope_Global, 0, &maxFPS, sizeof(maxFPS));
+    if(err) DLog(@"Couldn't set maximum frames per slice on mixer unit");
+    else DLog(@"Set maximum frames per slice on mixer unit");
+    
     desc.componentType = kAudioUnitType_FormatConverter;
     desc.componentSubType = kAudioUnitSubType_AUConverter;
     desc.componentManufacturer = kAudioUnitManufacturer_Apple;
@@ -223,6 +234,11 @@ static OSStatus RenderCallback(void                       *in,
                                    kAudioUnitScope_Input, 0, &renderStruct, sizeof(AURenderCallbackStruct));
         if(err) DLog(@"Couldn't set the render callback");
         else DLog(@"Set the render callback");
+        
+        err = AudioUnitSetProperty(_converterUnit, kAudioUnitProperty_MaximumFramesPerSlice,
+                                   kAudioUnitScope_Global, 0, &maxFPS, sizeof(maxFPS));
+        if(err) DLog(@"Couldn't set maximum frames per slice on converter");
+        else DLog(@"Set maximum frames per slice on converter");
         
         AudioStreamBasicDescription mDataFormat;
         NSUInteger channelCount = _contexts[i].channelCount;
