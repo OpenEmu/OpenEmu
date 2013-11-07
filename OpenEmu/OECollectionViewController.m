@@ -67,6 +67,7 @@
 #import "OETableView.h"
 
 #import "OECollectionDebugWindowController.h"
+#import "OEBackgroundNoisePattern.h"
 #pragma mark - Public variables
 
 NSString * const OELastGridSizeKey       = @"lastGridSize";
@@ -90,6 +91,7 @@ static NSArray *OE_defaultSortDescriptors;
 {    
     IBOutlet NSView *gridViewContainer;// gridview
     IBOutlet OEGridView *gridView;// scrollview for gridview
+    IBOutlet NSView *gridViewBackground;// gridview's nonscrollable background
     
     IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
     IBOutlet IKImageFlowView *coverFlowView;
@@ -183,6 +185,26 @@ static NSArray *OE_defaultSortDescriptors;
     [gridView setDelegate:self];
     [gridView setDataSource:self];
     [gridView setDraggingDestinationDelegate:self];
+    
+    // Create GridView's background layer
+    OEBackgroundNoisePatternCreate();
+    
+    CALayer *backgroundLayer = [CALayer new];
+    CALayer *noiseLayer      = [CALayer new];
+    
+    [backgroundLayer setContentsGravity:kCAGravityResize];
+    [backgroundLayer setContents:[NSImage imageNamed:@"background_lighting"]];
+    [backgroundLayer setBackgroundColor:CGColorCreateGenericRGB(0.220, 0.10, 0.10, 1)];
+    [gridViewBackground setWantsLayer:YES];
+    [gridViewBackground setLayer:backgroundLayer];
+    
+    [noiseLayer setFrame:[gridViewBackground bounds]];
+    [noiseLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+    [noiseLayer setGeometryFlipped:YES];
+    [noiseLayer setBackgroundColor:OEBackgroundNoiseColorRef];
+    
+    [backgroundLayer addSublayer:noiseLayer];
+    [gridViewBackground setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
@@ -589,7 +611,15 @@ static NSArray *OE_defaultSortDescriptors;
     return YES;
 }
 
-- (NSDragOperation)gridView:(OEGridView *)gridView validateDrop:(id<NSDraggingInfo>)draggingInfo
+- (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index
+{
+    [[self libraryController] startGame:self];
+}
+
+#pragma mark -
+#pragma mark GridView DraggingDestinationDelegate
+
+- (NSDragOperation)validateDrop:(id<NSDraggingInfo>)draggingInfo
 {
     if (![[[draggingInfo draggingPasteboard] types] containsObject:NSFilenamesPboardType])
         return NSDragOperationNone;
@@ -597,23 +627,49 @@ static NSArray *OE_defaultSortDescriptors;
     return NSDragOperationCopy;
 }
 
-- (BOOL)gridView:(OEGridView*)gridView acceptDrop:(id<NSDraggingInfo>)draggingInfo
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
-    NSPasteboard *pboard = [draggingInfo draggingPasteboard];
-    if (![[pboard types] containsObject:NSFilenamesPboardType])
-        return NO;
+    /*
+     //  draggingOperation is captured in gridview's override for setDropIndex:dropOperation:
+     //
+     //  IKImageBrowserDropOn indicates that a file has been dropped on to an item in gridview
+     //  IKImageBrowserDropBefore indicates that a file has been dropped beside an item in gridview
+     //
+     //  We basically won't settle for an image IKImageBrowserDropBefore it must be IKImageBrowserDropOn
+     //  Any other files that are not images will be processed elsewhere & operation doesn't matter as long as it isn't IKImageBrowserDropNone
+     */
     
-    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-    OEROMImporter *romImporter = [[[self libraryController] database] importer];
+    NSPasteboard *draggingPasteboard = [sender draggingPasteboard];
+    NSImage      *draggingImage      = [[NSImage alloc] initWithPasteboard:draggingPasteboard];
+    NSInteger     draggingOperation  = [gridView draggingOperation];
     
-    OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
-    [romImporter importItemsAtPaths:files intoCollectionWithID:[[collection objectID] URIRepresentation]];
+    if (draggingOperation == IKImageBrowserDropOn && draggingImage)
+    {
+        NSUInteger droppedIndex = [gridView indexAtLocationOfDroppedItem];
+        OEDBGame  *droppedGame  = [[gridView cellForItemAtIndex:droppedIndex] representedItem];
+        
+        [droppedGame setBoxImageByImage:draggingImage];
+        [[droppedGame managedObjectContext] save:nil];
+        [self OE_reloadData];
+    }
+    else if (draggingOperation == IKImageBrowserDropBefore || draggingOperation == IKImageBrowserDropOn)
+    {
+        NSArray *files = [draggingPasteboard propertyListForType:NSFilenamesPboardType];
+        OEROMImporter *romImporter = [[[self libraryController] database] importer];
+        OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
+        [romImporter importItemsAtPaths:files intoCollectionWithID:[[collection objectID] URIRepresentation]];
+    }
+    else if (draggingOperation == IKImageBrowserDropNone)
+    {
+        [NSApp presentError:[NSError errorWithDomain:@"Error in performing drag operation." code:-1 userInfo:nil]];
+    }
     
+    gridView.draggingOperation = IKImageBrowserDropNone;
     return YES;
 }
 
 #pragma mark -
-#pragma mark Grid View DataSource
+#pragma mark GridView DataSource
 
 - (NSUInteger)numberOfItemsInImageBrowser:(IKImageBrowserView *)aBrowser
 {
@@ -625,9 +681,14 @@ static NSArray *OE_defaultSortDescriptors;
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
 
+- (NSMenu *)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet *)indexes
+{
+    return [self OE_menuForItemsAtIndexes:indexes];
+}
+
+/*
 - (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
 {
-    /*
     if (index >= [[gamesController arrangedObjects] count]) return nil;
     
     OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
@@ -652,7 +713,7 @@ static NSArray *OE_defaultSortDescriptors;
     
     [item setIndicationType:[object gridIndicationType]];
     
-    return item;*/
+    return item;
     return nil;
 }
 
@@ -660,12 +721,7 @@ static NSArray *OE_defaultSortDescriptors;
 {
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
-
-- (NSMenu *)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet *)indexes
-{
-    return [self OE_menuForItemsAtIndexes:indexes];
-}
-/*
+ 
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasRightClickedAtIndex:(NSUInteger)index withEvent:(NSEvent *)event
 {
     NSMenu *menu = [self OE_menuForItemsAtIndexes:[aBrowser selectionIndexes]];
@@ -699,60 +755,11 @@ static NSArray *OE_defaultSortDescriptors;
     }
 }
 */
-#pragma mark - Grid View Dragging (NSDraggingDestination)
 
-- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
-{
-    if (![[[sender draggingPasteboard] types] containsObject:NSFilenamesPboardType])
-        return  NSDragOperationNone;
-    
-    return NSDragOperationCopy;
-}
-
-- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
-{
-    NSPasteboard *pboard = [sender draggingPasteboard];
-    if (![[pboard types] containsObject:NSFilenamesPboardType])
-        return NO;
-    
-    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-    OEROMImporter *romImporter = [[[self libraryController] database] importer];
-    OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
-    [romImporter importItemsAtPaths:files intoCollectionWithID:[[collection objectID] URIRepresentation]];
-    return YES;
-}
-
-#pragma mark - Blank Slate Delegate
-- (NSDragOperation)blankSlateView:(OEBlankSlateView *)blankSlateView validateDrop:(id<NSDraggingInfo>)draggingInfo
-{
-    if (![[[draggingInfo draggingPasteboard] types] containsObject:NSFilenamesPboardType])
-        return NSDragOperationNone;
-    
-    return NSDragOperationCopy;
-}
-
-- (BOOL)blankSlateView:(OEBlankSlateView*)blankSlateView acceptDrop:(id<NSDraggingInfo>)draggingInfo
-{
-    NSPasteboard *pboard = [draggingInfo draggingPasteboard];
-    if (![[pboard types] containsObject:NSFilenamesPboardType])
-        return NO;
-    
-    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-    OEROMImporter *romImporter = [[[self libraryController] database] importer];
-    OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
-    [romImporter importItemsAtPaths:files intoCollectionWithID:[[collection objectID] URIRepresentation]];
-
-    return YES;
-}
+/*
 #pragma mark -
 #pragma mark GridView Interaction
 
-- (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index
-{
-    [[self libraryController] startGame:self];
-}
-
-/*
 - (void)gridView:(OEGridView *)view didEndEditingCellForItemAtIndex:(NSUInteger)index
 {
     OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
@@ -776,7 +783,10 @@ static NSArray *OE_defaultSortDescriptors;
     [self OE_reloadData];
 }
 */
-#pragma mark - GridView Type Select
+
+#pragma mark - 
+#pragma mark GridView Type Select
+
 - (BOOL)gridView:(OEGridView *)gridView shouldTypeSelectForEvent:(NSEvent *)event withCurrentSearchString:(NSString *)searchString
 {
     unichar firstCharacter = [[event charactersIgnoringModifiers] characterAtIndex:0];
@@ -787,8 +797,9 @@ static NSArray *OE_defaultSortDescriptors;
 
 - (NSString*)gridView:(OEGridView *)gridView typeSelectStringForItemAtIndex:(NSUInteger)idx;
 {
-    return nil;//[[[[self gamesController] arrangedObjects] objectAtIndex:idx] gridTitle];
+    return [(OEDBGame*)[[[self gamesController] arrangedObjects] objectAtIndex:idx] gameTitle];
 }
+
 #pragma mark -
 #pragma mark Context Menu
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
@@ -1535,6 +1546,30 @@ static NSArray *OE_defaultSortDescriptors;
 {    
     [listView selectRowIndexes:[NSIndexSet indexSetWithIndex:[sender selectedIndex]] byExtendingSelection:NO];
     [listView scrollRowToVisible:index];
+}
+
+#pragma mark -
+#pragma mark Blank Slate Delegate
+- (NSDragOperation)blankSlateView:(OEBlankSlateView *)blankSlateView validateDrop:(id<NSDraggingInfo>)draggingInfo
+{
+    if (![[[draggingInfo draggingPasteboard] types] containsObject:NSFilenamesPboardType])
+        return NSDragOperationNone;
+    
+    return NSDragOperationCopy;
+}
+
+- (BOOL)blankSlateView:(OEBlankSlateView*)blankSlateView acceptDrop:(id<NSDraggingInfo>)draggingInfo
+{
+    NSPasteboard *pboard = [draggingInfo draggingPasteboard];
+    if (![[pboard types] containsObject:NSFilenamesPboardType])
+        return NO;
+    
+    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+    OEROMImporter *romImporter = [[[self libraryController] database] importer];
+    OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
+    [romImporter importItemsAtPaths:files intoCollectionWithID:[[collection objectID] URIRepresentation]];
+    
+    return YES;
 }
 
 #pragma mark -

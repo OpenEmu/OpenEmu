@@ -43,6 +43,9 @@
 #import "NSWindow+OEFullScreenAdditions.h"
 
 #import "OEPreferencesController.h"
+
+#import "OEBackgroundNoisePattern.h"
+
 #pragma mark - Exported variables
 NSString * const OELastCollectionSelectedKey = @"lastCollectionSelected";
 
