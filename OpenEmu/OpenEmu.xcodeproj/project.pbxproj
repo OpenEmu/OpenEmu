@@ -94,7 +94,6 @@
 		1B47F105142F01E700EBC55B /* OESetupAssistant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B47F104142F01E700EBC55B /* OESetupAssistant.m */; };
 		1B48F24B166714AC004E8ABA /* FeedbackReporter.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 1B48F21716671473004E8ABA /* FeedbackReporter.framework */; };
 		1B6DA4A914DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */; };
-		1B7505140FEEB72700B0D0AF /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B7505100FEEB4F600B0D0AF /* About.png */; };
 		1B96BA56166BDD52005064C8 /* FRFeedbackReporter.sh in Resources */ = {isa = PBXBuildFile; fileRef = 1B96BA55166BDD52005064C8 /* FRFeedbackReporter.sh */; };
 		1B98144E142F02FA00114A30 /* OESetupAssistant.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B98144D142F02FA00114A30 /* OESetupAssistant.xib */; };
 		1BEF2A9C11682A5E0090F72B /* OpenEmuHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A7411682A330090F72B /* OpenEmuHelperApp.m */; };
@@ -572,6 +571,7 @@
 		948E54131571D78D002D26E0 /* GameBoy Advance.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */; };
 		948E54141571D78D002D26E0 /* NeoGeo Pocket.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */; };
 		948E54151571D78D002D26E0 /* GameGear.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 8227754F148946DF00B19E27 /* GameGear.oesystemplugin */; };
+		948FCB65182C7A63001B16BE /* about_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 948FCB64182C7A63001B16BE /* about_background.jpg */; };
 		949623E7164E0CD600952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949623E6164E0CD600952A86 /* Controller-Mappings.plist */; };
 		949628CC164F677500952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949628CB164F677400952A86 /* Controller-Mappings.plist */; };
 		949628CE164F6A3C00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949628CD164F6A3C00952A86 /* Controller-Mappings.plist */; };
@@ -2034,6 +2034,7 @@
 		946B947917828A4000A212AC /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		94791E9316AE8A18007DB8BE /* OEShaderPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEShaderPlugin.h; sourceTree = "<group>"; };
 		94791E9416AE8A18007DB8BE /* OEShaderPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEShaderPlugin.m; sourceTree = "<group>"; };
+		948FCB64182C7A63001B16BE /* about_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = about_background.jpg; sourceTree = "<group>"; };
 		949623E6164E0CD600952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		949628CB164F677400952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		949628CD164F6A3C00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
@@ -3703,6 +3704,7 @@
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				948FCB64182C7A63001B16BE /* about_background.jpg */,
 				53439B9E13B93920005C0CC8 /* arrow_down.png */,
 				53439B9F13B93920005C0CC8 /* arrow_left.png */,
 				53439BA013B93920005C0CC8 /* arrow_right.png */,
@@ -6423,7 +6425,6 @@
 				1B32151514DDD49E00C5B50A /* OpenEmu.dae in Resources */,
 				1B32151614DDD49E00C5B50A /* OpenEmuText.dae in Resources */,
 				1BFC26D0116C1CA300B95689 /* OpenEmuHelperApp in Resources */,
-				1B7505140FEEB72700B0D0AF /* About.png in Resources */,
 				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				82C434130EE393530037C54B /* icon.icns in Resources */,
@@ -6578,6 +6579,7 @@
 				EC350F7A17401AC1005DA3B2 /* game_scanner_progress_bar@2x.png in Resources */,
 				EC350F7B17401AC1005DA3B2 /* game_scanner_progress_candy@2x.png in Resources */,
 				EC350F7C17401AC1005DA3B2 /* game_scanner_progress_track@2x.png in Resources */,
+				948FCB65182C7A63001B16BE /* about_background.jpg in Resources */,
 				EC350F7D17401AC1005DA3B2 /* grid_rating@2x.png in Resources */,
 				EC350F7E17401AC1005DA3B2 /* grid_slider_large@2x.png in Resources */,
 				EC350F7F17401AC1005DA3B2 /* grid_slider_small@2x.png in Resources */,
