@@ -480,7 +480,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(_gameSurfaceRef != NULL)
     {
-        NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)_rgbColorSpace forKey:kCIImageColorSpace];
+        //NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)_rgbColorSpace forKey:kCIImageColorSpace];
         CGRect textureRect = CGRectMake(0, 0, _gameScreenSize.width, _gameScreenSize.height);
 
         CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
@@ -491,7 +491,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
         // always set the CIImage, so save states save
         // TODO: Since screenshots do not use gameCIImage anymore, should we remove it as a property?
-        [self setGameCIImage:[[CIImage imageWithIOSurface:_gameSurfaceRef options:options] imageByCroppingToRect:textureRect]];
+        //[self setGameCIImage:[[CIImage imageWithIOSurface:_gameSurfaceRef options:options] imageByCroppingToRect:textureRect]];
 
         OEGameShader *shader = [_filters objectForKey:_filterName];
 
