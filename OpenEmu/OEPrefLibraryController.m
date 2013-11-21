@@ -41,25 +41,16 @@
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 
 @interface OEPrefLibraryController ()
-{
-    CGFloat height;
-}
-
 - (void)OE_rebuildAvailableLibraries;
-- (void)OE_calculateHeight;
-
 - (void)OE_changeROMFolderLocationTo:(NSURL*)url;
 @end
 
-#define baseViewHeight 548.0
-#define librariesContainerHeight 110.0
 @implementation OEPrefLibraryController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
-        [self OE_calculateHeight];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_rebuildAvailableLibraries) name:OEDBSystemsDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleSystem:) name:OESidebarTogglesSystemNotification object:nil];
 
@@ -71,7 +62,6 @@
 
 - (void)awakeFromNib
 {
-    height = baseViewHeight - librariesContainerHeight;
     [self OE_rebuildAvailableLibraries];
 
 	[[self pathField] setStringValue:[[[[OELibraryDatabase defaultDatabase] romsFolderURL] path] stringByAbbreviatingWithTildeInPath]];
@@ -115,7 +105,7 @@
 
 - (NSSize)viewSize
 {
-	return NSMakeSize(423, height);
+	return NSMakeSize(423, 548);
 }
 
 #pragma mark -
@@ -284,11 +274,6 @@
 
 #pragma mark -
 
-- (void)OE_calculateHeight
-{
-    [self OE_rebuildAvailableLibraries];
-}
-
 - (void)OE_rebuildAvailableLibraries
 {
     [[[[self librariesView] subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperviewWithoutNeedingDisplay)];
@@ -303,15 +288,14 @@
     CGFloat hSpace = 16, vSpace = 10;
     CGFloat iWidth = 163, iHeight = 18;
 
-    // calculate complete view height
-    height = baseViewHeight-librariesContainerHeight + (iHeight * rows + (rows - 1) * vSpace);
-
     if([self librariesView] == nil) return;
 
-    [[self librariesView] setFrameSize:(NSSize){ [[self librariesView] frame].size.width, (iHeight * rows + (rows - 1) * vSpace)}];
+    CGFloat width = [[self librariesView] frame].size.width;
+    CGFloat height = (iHeight * rows + (rows - 1) * vSpace);
+    [[self librariesView] setFrameSize:NSMakeSize(width, height)];
 
     __block CGFloat x = 0;
-    __block CGFloat y = [[self librariesView] frame].size.height - iHeight -1;
+    __block CGFloat y = height - iHeight -1;
 
     // enumerate plugins and add buttons for them
     [systems enumerateObjectsUsingBlock:
@@ -321,12 +305,12 @@
          if(x == 0 && idx >= rows)
          {
              // we reset x and y
-             x += iWidth+hSpace;
-             y = [[self librariesView] frame].size.height-iHeight -1;
+             x += iWidth + hSpace;
+             y =  height - iHeight - 1;
          }
 
          // creating the button
-         NSRect rect = (NSRect){ { x, y }, { iWidth, iHeight } };
+         NSRect rect = NSMakeRect(x, y, iWidth, iHeight);
          NSString *systemIdentifier = [system systemIdentifier];
          OEButton *button = [[OEButton alloc] initWithFrame:rect];
          [button setThemeKey:@"dark_checkbox"];
@@ -384,6 +368,9 @@
          // decreasing y
          y -= iHeight + vSpace;
      }];
+
+    // scroll clip view to top
+    [[self librariesView] scrollPoint:NSMakePoint(0, height)];
 }
 
 @end
