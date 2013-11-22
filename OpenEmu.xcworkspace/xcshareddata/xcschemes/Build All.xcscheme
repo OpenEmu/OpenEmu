@@ -126,20 +126,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3D2091111183B8E900BEAA42"
-               BuildableName = "Build &amp; Install Mupen64Plus"
-               BlueprintName = "Build &amp; Install Mupen64Plus"
-               ReferencedContainer = "container:Mupen64Plus/Mupen64Plus.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D8155D0F1D878700EF8CF5"
                BuildableName = "Build &amp; Install TwoMbit"
                BlueprintName = "Build &amp; Install TwoMbit"
@@ -158,20 +144,6 @@
                BuildableName = "Build &amp; Install Mednafen"
                BlueprintName = "Build &amp; Install Mednafen"
                ReferencedContainer = "container:Mednafen/Mednafen.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8CBB42FF178C399D00FA270D"
-               BuildableName = "Build &amp; Install PPSSPP"
-               BlueprintName = "Build &amp; Install PPSSPP"
-               ReferencedContainer = "container:PPSSPP/PPSSPP.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

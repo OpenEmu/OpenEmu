@@ -39,12 +39,10 @@
 				94CEB29917A8D4F0005A2107 /* PBXTargetDependency */,
 				940553B217A35DE0009B505D /* PBXTargetDependency */,
 				94454F2E178B49E4006C057B /* PBXTargetDependency */,
-				945E431F1517F75B00057D08 /* PBXTargetDependency */,
 				94D7E8E9150741B500FBDD85 /* PBXTargetDependency */,
 				8291C4E0148958F500A72540 /* PBXTargetDependency */,
 				8227756F14894A2100B19E27 /* PBXTargetDependency */,
 				820EB7631483FBEF008EC398 /* PBXTargetDependency */,
-				1415542B1442C4B700A01683 /* PBXTargetDependency */,
 				83F3714F140BB17B005A7353 /* PBXTargetDependency */,
 				83F37151140BB17C005A7353 /* PBXTargetDependency */,
 				83F37149140BB177005A7353 /* PBXTargetDependency */,
@@ -64,6 +62,36 @@
 			);
 			name = "Update Build Version";
 			productName = "Update Build Version";
+		};
+		94EBBCD7183F422500743756 /* Build & Copy Experimental SystemPlugins */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 94EBBCF4183F422500743756 /* Build configuration list for PBXAggregateTarget "Build & Copy Experimental SystemPlugins" */;
+			buildPhases = (
+				94EBBCFB183F42CE00743756 /* CopyFiles */,
+			);
+			dependencies = (
+				94EBBD2D183F4CC100743756 /* PBXTargetDependency */,
+				94EBBD2A183F4CA700743756 /* PBXTargetDependency */,
+				94EBBD27183F4C8D00743756 /* PBXTargetDependency */,
+				94EBBD24183F4C0300743756 /* PBXTargetDependency */,
+				94EBBD21183F4BD900743756 /* PBXTargetDependency */,
+				94EBBD14183F4ABE00743756 /* PBXTargetDependency */,
+				94EBBD10183F4A9300743756 /* PBXTargetDependency */,
+				94EBBD0D183F4A7900743756 /* PBXTargetDependency */,
+				94EBBD0A183F498500743756 /* PBXTargetDependency */,
+				94EBBD07183F495300743756 /* PBXTargetDependency */,
+				94EBBD39183F509100743756 /* PBXTargetDependency */,
+				94EBBD04183F491300743756 /* PBXTargetDependency */,
+				94EBBD36183F4DE500743756 /* PBXTargetDependency */,
+				94EBBD00183F48BD00743756 /* PBXTargetDependency */,
+				94EBBD16183F4ACB00743756 /* PBXTargetDependency */,
+				94EBBCFE183F48A700743756 /* PBXTargetDependency */,
+				94EBBCFA183F42A200743756 /* PBXTargetDependency */,
+				94EBBD30183F4DA400743756 /* PBXTargetDependency */,
+				94EBBD33183F4DCF00743756 /* PBXTargetDependency */,
+			);
+			name = "Build & Copy Experimental SystemPlugins";
+			productName = "Build SystemPlugins";
 		};
 /* End PBXAggregateTarget section */
 
@@ -242,7 +270,6 @@
 		82277547148946DF00B19E27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		822775651489471A00B19E27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 822775551489471A00B19E27 /* InfoPlist.strings */; };
 		8227756B1489471A00B19E27 /* OEGGSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755C1489471A00B19E27 /* OEGGSystemResponder.m */; };
-		823CA74E1692BCC0007F2A39 /* N64.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 1415540F1442B3B300A01683 /* N64.oesystemplugin */; };
 		826844C51022A0630019C7B0 /* smaller.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C31022A0630019C7B0 /* smaller.tif */; };
 		826844C61022A0630019C7B0 /* larger.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C41022A0630019C7B0 /* larger.tif */; };
 		828BF57E1669F97B00759F10 /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
@@ -711,7 +738,6 @@
 		94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */; };
 		94A4E998179FB98100AD8C7D /* media.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A4E997179FB98100AD8C7D /* media.png */; };
 		94AE2C1017B07D450018DFBB /* cheats-database.xml in Resources */ = {isa = PBXBuildFile; fileRef = 94AE2C0F17B07D450018DFBB /* cheats-database.xml */; };
-		94BB7A1A1776AF54002B68CF /* Arcade.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */; };
 		94BE9E51171683E000AB08E6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94BE9E57171683E000AB08E6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E55171683E000AB08E6 /* InfoPlist.strings */; };
 		94BE9E61171689B400AB08E6 /* OEColecoVisionSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE9E5F171689B400AB08E6 /* OEColecoVisionSystemResponder.m */; };
@@ -744,6 +770,25 @@
 		94DEA000171896AE00073397 /* NDS.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */; };
 		94DEA057171BA36000073397 /* controller_n64_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94DEA056171BA36000073397 /* controller_n64_mask.png */; };
 		94E6C304166DB15900082F27 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94E6C303166DB15900082F27 /* Controller-Mappings.plist */; };
+		94EBBCFC183F42F800743756 /* Atari 2600.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94A224A31707543600098DA0 /* Atari 2600.oesystemplugin */; };
+		94EBBD01183F48C900743756 /* Atari 5200.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94A224B31707544100098DA0 /* Atari 5200.oesystemplugin */; };
+		94EBBD18183F4AEB00743756 /* Atari 7800.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 941F5A0117A785AD0005D7EA /* Atari 7800.oesystemplugin */; };
+		94EBBD19183F4AFA00743756 /* ColecoVision.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94BE9E50171683E000AB08E6 /* ColecoVision.oesystemplugin */; };
+		94EBBD1A183F4B0800743756 /* Lynx.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94A22453170753C800098DA0 /* Lynx.oesystemplugin */; };
+		94EBBD1B183F4B1400743756 /* Nintendo FDS.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94A224C31707544B00098DA0 /* Nintendo FDS.oesystemplugin */; };
+		94EBBD1C183F4B2100743756 /* PC Engine CD.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9405538417A34C6B009B505D /* PC Engine CD.oesystemplugin */; };
+		94EBBD1D183F4B3400743756 /* PC-FX.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94A22463170753D500098DA0 /* PC-FX.oesystemplugin */; };
+		94EBBD1E183F4B3E00743756 /* PlayStation.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94A224F61707596100098DA0 /* PlayStation.oesystemplugin */; };
+		94EBBD1F183F4B4B00743756 /* PSP.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94454EB417860E1D006C057B /* PSP.oesystemplugin */; };
+		94EBBD22183F4BE300743756 /* Saturn.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94A224D31707556D00098DA0 /* Saturn.oesystemplugin */; };
+		94EBBD25183F4C8000743756 /* Sega CD.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94A224931707542A00098DA0 /* Sega CD.oesystemplugin */; };
+		94EBBD28183F4C9900743756 /* SG-1000.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94A22473170753E100098DA0 /* SG-1000.oesystemplugin */; };
+		94EBBD2B183F4CB200743756 /* Vectrex.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 943F998B1707D51100270E89 /* Vectrex.oesystemplugin */; };
+		94EBBD2E183F4CE400743756 /* WonderSwan.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94A224431707539D00098DA0 /* WonderSwan.oesystemplugin */; };
+		94EBBD31183F4DB000743756 /* Arcade.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */; };
+		94EBBD34183F4DDB00743756 /* 3DO.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 943F99B31707DF3700270E89 /* 3DO.oesystemplugin */; };
+		94EBBD37183F4E0900743756 /* Jaguar.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 943C80121708A62E00D8D93E /* Jaguar.oesystemplugin */; };
+		94EBBD3A183F50A400743756 /* N64.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1415540F1442B3B300A01683 /* N64.oesystemplugin */; };
 		94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F6CB7B16DD727600CD48A4 /* OECheats.m */; };
 		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
 		94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53871688FF60003C6AFE /* controller_gamegear.png */; };
@@ -820,7 +865,6 @@
 		C69CA5EE17D3BED400178CB7 /* NSDocumentController+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C69CA5ED17D3BED400178CB7 /* NSDocumentController+OEAdditions.m */; };
 		C69DCCED0FE99415009AE5A6 /* OEFilterPluginIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */; };
 		C69DCD010FE994A5009AE5A6 /* OEPluginDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C69DCD000FE994A5009AE5A6 /* OEPluginDocument.m */; };
-		C6A6AE2617D3FE13007A73B5 /* OEPopoutGameWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F6A925168180CF0071386D /* OEPopoutGameWindowController.m */; };
 		C6AC9D391190C6490083DDFD /* OpenEmuHelperAppMain.m in Sources */ = {isa = PBXBuildFile; fileRef = C6AC9D371190C5E60083DDFD /* OpenEmuHelperAppMain.m */; };
 		C6AC9D4D1190C9AE0083DDFD /* OEGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6AC9D4C1190C9AE0083DDFD /* OEGameCoreManager.m */; };
 		C6AC9DEF1190E2C90083DDFD /* OpenEmuHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A7411682A330090F72B /* OpenEmuHelperApp.m */; };
@@ -1031,13 +1075,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1415542A1442C4B700A01683 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1415540E1442B3B300A01683;
-			remoteInfo = N64;
-		};
 		143F2994164DE0B300544CCF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 143F298A164DE0B300544CCF /* MagicKit.xcodeproj */;
@@ -1164,13 +1201,6 @@
 			remoteGlobalIDString = 94A224821707541E00098DA0;
 			remoteInfo = "Virtual Boy";
 		};
-		945E431E1517F75B00057D08 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 945E42FA1517F2B500057D08;
-			remoteInfo = Arcade;
-		};
 		9479665415EDE6B3004316AB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1191,6 +1221,139 @@
 			proxyType = 1;
 			remoteGlobalIDString = 94D7E8C815073BA000FBDD85;
 			remoteInfo = NDS;
+		};
+		94EBBCF9183F42A200743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94A224A21707543600098DA0;
+			remoteInfo = "Atari 2600";
+		};
+		94EBBCFD183F48A700743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94A224B21707544100098DA0;
+			remoteInfo = "Atari 5200";
+		};
+		94EBBCFF183F48BD00743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94BE9E4F171683E000AB08E6;
+			remoteInfo = ColecoVision;
+		};
+		94EBBD03183F491300743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94A22452170753C800098DA0;
+			remoteInfo = Lynx;
+		};
+		94EBBD06183F495300743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94A224C21707544B00098DA0;
+			remoteInfo = "Nintendo FDS";
+		};
+		94EBBD09183F498500743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9405538317A34C6B009B505D;
+			remoteInfo = "PC Engine CD";
+		};
+		94EBBD0C183F4A7900743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94A22462170753D500098DA0;
+			remoteInfo = "PC-FX";
+		};
+		94EBBD0F183F4A9300743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94A224F51707596100098DA0;
+			remoteInfo = PlayStation;
+		};
+		94EBBD13183F4ABE00743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94454EB317860E1D006C057B;
+			remoteInfo = PSP;
+		};
+		94EBBD15183F4ACB00743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 941F5A0017A785AD0005D7EA;
+			remoteInfo = "Atari 7800";
+		};
+		94EBBD20183F4BD900743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94A224D21707556D00098DA0;
+			remoteInfo = Saturn;
+		};
+		94EBBD23183F4C0300743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94A224921707542A00098DA0;
+			remoteInfo = "Sega CD";
+		};
+		94EBBD26183F4C8D00743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94A22472170753E100098DA0;
+			remoteInfo = "SG-1000";
+		};
+		94EBBD29183F4CA700743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 943F998A1707D51100270E89;
+			remoteInfo = Vectrex;
+		};
+		94EBBD2C183F4CC100743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94A224421707539D00098DA0;
+			remoteInfo = WonderSwan;
+		};
+		94EBBD2F183F4DA400743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 945E42FA1517F2B500057D08;
+			remoteInfo = Arcade;
+		};
+		94EBBD32183F4DCF00743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 943F99B21707DF3700270E89;
+			remoteInfo = 3DO;
+		};
+		94EBBD35183F4DE500743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 943C80111708A62E00D8D93E;
+			remoteInfo = Jaguar;
+		};
+		94EBBD38183F509100743756 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1415540E1442B3B300A01683;
+			remoteInfo = N64;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1270,9 +1433,7 @@
 				94CEB29C17A8D507005A2107 /* Sega 32X.oesystemplugin in Copy System Plugins to App Plugins */,
 				940553B917A35FB4009B505D /* PC Engine.oesystemplugin in Copy System Plugins to App Plugins */,
 				94454F31178B4ABA006C057B /* Virtual Boy.oesystemplugin in Copy System Plugins to App Plugins */,
-				94BB7A1A1776AF54002B68CF /* Arcade.oesystemplugin in Copy System Plugins to App Plugins */,
 				94DEA000171896AE00073397 /* NDS.oesystemplugin in Copy System Plugins to App Plugins */,
-				823CA74E1692BCC0007F2A39 /* N64.oesystemplugin in Copy System Plugins to App Plugins */,
 				948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App Plugins */,
 				948E540F1571D78D002D26E0 /* NES.oesystemplugin in Copy System Plugins to App Plugins */,
 				948E54101571D78D002D26E0 /* SuperNES.oesystemplugin in Copy System Plugins to App Plugins */,
@@ -1283,6 +1444,34 @@
 				948E54151571D78D002D26E0 /* GameGear.oesystemplugin in Copy System Plugins to App Plugins */,
 			);
 			name = "Copy System Plugins to App Plugins";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94EBBCFB183F42CE00743756 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = OpenEmu.app/Contents/PlugIns/Systems;
+			dstSubfolderSpec = 16;
+			files = (
+				94EBBD3A183F50A400743756 /* N64.oesystemplugin in CopyFiles */,
+				94EBBD37183F4E0900743756 /* Jaguar.oesystemplugin in CopyFiles */,
+				94EBBD34183F4DDB00743756 /* 3DO.oesystemplugin in CopyFiles */,
+				94EBBD31183F4DB000743756 /* Arcade.oesystemplugin in CopyFiles */,
+				94EBBD2E183F4CE400743756 /* WonderSwan.oesystemplugin in CopyFiles */,
+				94EBBD2B183F4CB200743756 /* Vectrex.oesystemplugin in CopyFiles */,
+				94EBBD28183F4C9900743756 /* SG-1000.oesystemplugin in CopyFiles */,
+				94EBBD25183F4C8000743756 /* Sega CD.oesystemplugin in CopyFiles */,
+				94EBBD22183F4BE300743756 /* Saturn.oesystemplugin in CopyFiles */,
+				94EBBD1F183F4B4B00743756 /* PSP.oesystemplugin in CopyFiles */,
+				94EBBD1E183F4B3E00743756 /* PlayStation.oesystemplugin in CopyFiles */,
+				94EBBD1D183F4B3400743756 /* PC-FX.oesystemplugin in CopyFiles */,
+				94EBBD1C183F4B2100743756 /* PC Engine CD.oesystemplugin in CopyFiles */,
+				94EBBD1B183F4B1400743756 /* Nintendo FDS.oesystemplugin in CopyFiles */,
+				94EBBD1A183F4B0800743756 /* Lynx.oesystemplugin in CopyFiles */,
+				94EBBD19183F4AFA00743756 /* ColecoVision.oesystemplugin in CopyFiles */,
+				94EBBD18183F4AEB00743756 /* Atari 7800.oesystemplugin in CopyFiles */,
+				94EBBD01183F48C900743756 /* Atari 5200.oesystemplugin in CopyFiles */,
+				94EBBCFC183F42F800743756 /* Atari 2600.oesystemplugin in CopyFiles */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -6334,6 +6523,7 @@
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
 				9479664E15EDE645004316AB /* Update Build Version */,
+				94EBBCD7183F422500743756 /* Build & Copy Experimental SystemPlugins */,
 			);
 		};
 /* End PBXProject section */
@@ -7562,7 +7752,6 @@
 			files = (
 				94A2257917075EF500098DA0 /* OEPCFXSystemController.m in Sources */,
 				94A2257A17075EF500098DA0 /* OEPCFXSystemResponder.m in Sources */,
-				C6A6AE2617D3FE13007A73B5 /* OEPopoutGameWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7720,11 +7909,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1415542B1442C4B700A01683 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1415540E1442B3B300A01683 /* N64 */;
-			targetProxy = 1415542A1442C4B700A01683 /* PBXContainerItemProxy */;
-		};
 		143F299C164DE0EC00544CCF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = MagicKit;
@@ -7800,11 +7984,6 @@
 			target = 94A224821707541E00098DA0 /* Virtual Boy */;
 			targetProxy = 94454F2D178B49E4006C057B /* PBXContainerItemProxy */;
 		};
-		945E431F1517F75B00057D08 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 945E42FA1517F2B500057D08 /* Arcade */;
-			targetProxy = 945E431E1517F75B00057D08 /* PBXContainerItemProxy */;
-		};
 		9479665515EDE6B3004316AB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9479664E15EDE645004316AB /* Update Build Version */;
@@ -7819,6 +7998,101 @@
 			isa = PBXTargetDependency;
 			target = 94D7E8C815073BA000FBDD85 /* NDS */;
 			targetProxy = 94D7E8E8150741B500FBDD85 /* PBXContainerItemProxy */;
+		};
+		94EBBCFA183F42A200743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94A224A21707543600098DA0 /* Atari 2600 */;
+			targetProxy = 94EBBCF9183F42A200743756 /* PBXContainerItemProxy */;
+		};
+		94EBBCFE183F48A700743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94A224B21707544100098DA0 /* Atari 5200 */;
+			targetProxy = 94EBBCFD183F48A700743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD00183F48BD00743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94BE9E4F171683E000AB08E6 /* ColecoVision */;
+			targetProxy = 94EBBCFF183F48BD00743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD04183F491300743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94A22452170753C800098DA0 /* Lynx */;
+			targetProxy = 94EBBD03183F491300743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD07183F495300743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94A224C21707544B00098DA0 /* Nintendo FDS */;
+			targetProxy = 94EBBD06183F495300743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD0A183F498500743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9405538317A34C6B009B505D /* PC Engine CD */;
+			targetProxy = 94EBBD09183F498500743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD0D183F4A7900743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94A22462170753D500098DA0 /* PC-FX */;
+			targetProxy = 94EBBD0C183F4A7900743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD10183F4A9300743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94A224F51707596100098DA0 /* PlayStation */;
+			targetProxy = 94EBBD0F183F4A9300743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD14183F4ABE00743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94454EB317860E1D006C057B /* PSP */;
+			targetProxy = 94EBBD13183F4ABE00743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD16183F4ACB00743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 941F5A0017A785AD0005D7EA /* Atari 7800 */;
+			targetProxy = 94EBBD15183F4ACB00743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD21183F4BD900743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94A224D21707556D00098DA0 /* Saturn */;
+			targetProxy = 94EBBD20183F4BD900743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD24183F4C0300743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94A224921707542A00098DA0 /* Sega CD */;
+			targetProxy = 94EBBD23183F4C0300743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD27183F4C8D00743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94A22472170753E100098DA0 /* SG-1000 */;
+			targetProxy = 94EBBD26183F4C8D00743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD2A183F4CA700743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 943F998A1707D51100270E89 /* Vectrex */;
+			targetProxy = 94EBBD29183F4CA700743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD2D183F4CC100743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94A224421707539D00098DA0 /* WonderSwan */;
+			targetProxy = 94EBBD2C183F4CC100743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD30183F4DA400743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 945E42FA1517F2B500057D08 /* Arcade */;
+			targetProxy = 94EBBD2F183F4DA400743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD33183F4DCF00743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 943F99B21707DF3700270E89 /* 3DO */;
+			targetProxy = 94EBBD32183F4DCF00743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD36183F4DE500743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 943C80111708A62E00D8D93E /* Jaguar */;
+			targetProxy = 94EBBD35183F4DE500743756 /* PBXContainerItemProxy */;
+		};
+		94EBBD39183F509100743756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1415540E1442B3B300A01683 /* N64 */;
+			targetProxy = 94EBBD38183F509100743756 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -9507,6 +9781,24 @@
 			};
 			name = Release;
 		};
+		94EBBCF5183F422500743756 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				PRODUCT_NAME = "Build & Copy Experimental SystemPlugins";
+			};
+			name = Debug;
+		};
+		94EBBCF6183F422500743756 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				PRODUCT_NAME = "Build & Copy Experimental SystemPlugins";
+			};
+			name = Release;
+		};
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -10192,6 +10484,15 @@
 			buildConfigurations = (
 				94D7E8D215073BA000FBDD85 /* Debug */,
 				94D7E8D315073BA000FBDD85 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94EBBCF4183F422500743756 /* Build configuration list for PBXAggregateTarget "Build & Copy Experimental SystemPlugins" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94EBBCF5183F422500743756 /* Debug */,
+				94EBBCF6183F422500743756 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
