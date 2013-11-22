@@ -11,6 +11,9 @@
       location = "group:iPhoneRemote/iPhoneRemote.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Atari800/Atari800.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:BSNES/BSNES.xcodeproj">
    </FileRef>
    <FileRef
@@ -50,12 +53,24 @@
       location = "group:PPSSPP/PPSSPP.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:ProSystem/ProSystem.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:SNES9x/SNES9x.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Stella/Stella.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:TwoMbit/TwoMbit.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:VecXGL/VecXGL.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:VisualBoyAdvance/VisualBoyAdvance.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:yabause/yabause/Yabause.xcodeproj">
    </FileRef>
 </Workspace>
