@@ -49,3 +49,18 @@
 [submodule "PPSSPP"]
 	path = PPSSPP
 	url = git@github.com:OpenEmu/PPSSPP-Core.git
+[submodule "yabause"]
+	path = yabause
+	url = git@github.com:OpenEmu/yabause.git
+[submodule "VecXGL"]
+	path = VecXGL
+	url = git@github.com:OpenEmu/VecXGL-Core.git
+[submodule "ProSystem"]
+	path = ProSystem
+	url = git@github.com:OpenEmu/ProSystem-Core.git
+[submodule "Stella"]
+	path = Stella
+	url = git@github.com:OpenEmu/Stella-Core.git
+[submodule "Atari800"]
+	path = Atari800
+	url = git@github.com:OpenEmu/Atari800-Core.git
