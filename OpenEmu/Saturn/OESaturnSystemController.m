@@ -49,15 +49,19 @@
     if (handleFileExtension)
     {
         NSFileHandle *dataTrackFile;
-        NSData *dataTrackBuffer;
+        NSData *dataTrackBuffer, *otherDataTrackBuffer;
 		
         dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
-        [dataTrackFile seekToFileOffset: 0x10];
+        [dataTrackFile seekToFileOffset: 0x0];
         dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-		
+        [dataTrackFile seekToFileOffset: 0x010];
+        otherDataTrackBuffer = [dataTrackFile readDataOfLength: 16];
+        
         NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSLog(@"%@", dataTrackString);
-        if ([dataTrackString isEqualToString:@"SEGA SEGASATURN "])
+        NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
+        NSLog(@"'%@'", dataTrackString);
+        NSLog(@"'%@'", otherDataTrackString);
+        if ([dataTrackString isEqualToString:@"SEGA SEGASATURN "] || [otherDataTrackString isEqualToString:@"SEGA SEGASATURN "])
             canHandleFile = OECanHandleYes;
 		
         [dataTrackFile closeFile];
