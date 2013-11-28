@@ -894,11 +894,11 @@ typedef enum : NSUInteger
     enabled = [[[sender representedObject] objectForKey:@"enabled"] boolValue];
 
     if (enabled) {
-        [[sender representedObject] setObject:[NSNumber numberWithBool:NO] forKey:@"enabled"];
+        [[[sender representedObject] mutableCopy] setObject:[NSNumber numberWithBool:NO] forKey:@"enabled"];
         enabled = NO;
     }
     else {
-        [[sender representedObject] setObject:[NSNumber numberWithBool:YES] forKey:@"enabled"];
+        [[[sender representedObject] mutableCopy] setObject:[NSNumber numberWithBool:YES] forKey:@"enabled"];
         enabled = YES;
     }
 
