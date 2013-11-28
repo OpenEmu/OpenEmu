@@ -876,12 +876,12 @@ typedef enum : NSUInteger
     if([alert runModal])
     {
         TODO("decide how to handle setting a cheat type from the modal and save added cheats to file");
-        [[sender representedObject] addObject:@{
+        [[sender representedObject] addObject:[@{
              @"code" : [alert stringValue],
              @"type" : @"Unknown",
              @"description" : [alert otherStringValue],
              @"enabled" : @NO,
-         }];
+         } mutableCopy]];
     }
 }
 
@@ -894,11 +894,11 @@ typedef enum : NSUInteger
     enabled = [[[sender representedObject] objectForKey:@"enabled"] boolValue];
 
     if (enabled) {
-        [[[sender representedObject] mutableCopy] setObject:[NSNumber numberWithBool:NO] forKey:@"enabled"];
+        [[sender representedObject] setObject:@NO forKey:@"enabled"];
         enabled = NO;
     }
     else {
-        [[[sender representedObject] mutableCopy] setObject:[NSNumber numberWithBool:YES] forKey:@"enabled"];
+        [[sender representedObject] setObject:@YES forKey:@"enabled"];
         enabled = YES;
     }
 
