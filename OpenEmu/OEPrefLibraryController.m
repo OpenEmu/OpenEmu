@@ -294,7 +294,7 @@
     CGFloat height = (iHeight * rows + (rows - 1) * vSpace);
     [[self librariesView] setFrameSize:NSMakeSize(width, height)];
 
-    __block CGFloat x = 10;
+    __block CGFloat x = vSpace;
     __block CGFloat y = height;
 
     // enumerate plugins and add buttons for them
