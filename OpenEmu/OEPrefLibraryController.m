@@ -105,7 +105,7 @@
 
 - (NSSize)viewSize
 {
-	return NSMakeSize(423, 548);
+	return NSMakeSize(458, 553);
 }
 
 #pragma mark -
@@ -294,19 +294,19 @@
     CGFloat height = (iHeight * rows + (rows - 1) * vSpace);
     [[self librariesView] setFrameSize:NSMakeSize(width, height)];
 
-    __block CGFloat x = 0;
-    __block CGFloat y = height - iHeight -1;
+    __block CGFloat x = 10;
+    __block CGFloat y = height;
 
     // enumerate plugins and add buttons for them
     [systems enumerateObjectsUsingBlock:
      ^(OEDBSystem *system, NSUInteger idx, BOOL *stop)
      {
          // if we're still in the first column an we should be in the second
-         if(x == 0 && idx >= rows)
+         if(x == 10 && idx >= rows)
          {
              // we reset x and y
              x += iWidth + hSpace;
-             y =  height - iHeight - 1;
+             y =  height;
          }
 
          // creating the button
