@@ -302,7 +302,7 @@
      ^(OEDBSystem *system, NSUInteger idx, BOOL *stop)
      {
          // if we're still in the first column an we should be in the second
-         if(x == 10 && idx >= rows)
+         if(x == vSpace && idx >= rows)
          {
              // we reset x and y
              x += iWidth + hSpace;
