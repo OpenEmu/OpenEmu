@@ -546,6 +546,8 @@ typedef enum : NSUInteger
 
 - (void)setupGameWithCompletionHandler:(void(^)(BOOL success, NSError *error))handler;
 {
+    if([self OE_checkRequiredFiles]) return;
+    
     if(_emulationStatus != OEEmulationStatusNotSetup) return;
 
     [_gameCoreManager loadROMWithCompletionHandler:
@@ -847,6 +849,51 @@ typedef enum : NSUInteger
               [super canCloseDocumentWithDelegate:delegate shouldCloseSelector:shouldCloseSelector contextInfo:contextInfo];
           }];
      }];
+}
+
+- (BOOL)OE_checkRequiredFiles
+{
+    // Check current system plugin for OERequiredFiles and core plugin for OEGameCoreRequiresFiles opt-in
+    if ([_gameSystemController requiredFiles] != nil && [[[_gameCoreManager plugin] controller] requiresFiles]) {
+        BOOL missingFileStatus = NO;
+        NSArray *validRequiredFiles = [_gameSystemController requiredFiles];
+        NSMutableString *missingFilesMessage = [[NSMutableString alloc] init];
+        NSMutableString *missingFilesList = [[NSMutableString alloc] init];
+        
+        for(NSDictionary *validRequiredFile in validRequiredFiles)
+        {
+            NSString *biosFilename = [validRequiredFile objectForKey:@"Name"];
+            NSString *biosPath = [NSString pathWithComponents:@[
+                                                                [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
+                                                                @"OpenEmu", @"BIOS"]];
+            NSString *destFilePath = [biosPath stringByAppendingPathComponent:biosFilename];
+            
+            // Check if the required files exist
+            if (![[NSFileManager defaultManager] fileExistsAtPath:destFilePath])
+            {
+                missingFileStatus = YES;
+                [missingFilesList appendString:biosFilename];
+                [missingFilesList appendString:@"\n"];
+            }
+            
+        }
+        // Alert the user of missing BIOS/system files that are required for the core
+        if (missingFileStatus)
+        {
+            [missingFilesMessage appendString:@"To run this core you need the following:\n\n"];
+            [missingFilesMessage appendString:missingFilesList];
+            [missingFilesMessage appendString:@"\nDrag and drop the required file(s) onto the game library window and try again."];
+            
+            OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(missingFilesMessage, @"")
+                                                   defaultButton:NSLocalizedString(@"OK", @"")
+                                                 alternateButton:nil];
+            [alert setHeadlineText:NSLocalizedString(@"Required files are missing.", @"")];
+            [alert runModal];
+            
+            return YES;
+        }
+    }
+    return NO;
 }
 
 #pragma mark - Cheats
