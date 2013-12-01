@@ -291,7 +291,7 @@
     if([self librariesView] == nil) return;
 
     CGFloat width = [[self librariesView] frame].size.width;
-    CGFloat height = (iHeight * rows + (rows - 1) * vSpace);
+    CGFloat height = (iHeight * rows + (rows - 2) * vSpace);
     [[self librariesView] setFrameSize:NSMakeSize(width, height)];
 
     __block CGFloat x = vSpace;
