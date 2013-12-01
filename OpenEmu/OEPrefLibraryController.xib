@@ -15,32 +15,39 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application"/>
         <view id="3" userLabel="Library">
-            <rect key="frame" x="0.0" y="0.0" width="423" height="548"/>
+            <rect key="frame" x="0.0" y="0.0" width="443" height="548"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <customView id="11" customClass="OEBackgroundImageView">
-                    <rect key="frame" x="42" y="456" width="339" height="40"/>
+                    <rect key="frame" x="42" y="456" width="361" height="40"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_inset_box"/>
+                    </userDefinedRuntimeAttributes>
+                </customView>
+                <customView id="Rjs-zz-JUo" customClass="OEBackgroundImageView">
+                    <rect key="frame" x="42" y="15" width="361" height="122"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_inset_box"/>
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <customView id="4" customClass="OEHorizontalLine">
-                    <rect key="frame" x="0.0" y="182" width="423" height="2"/>
+                    <rect key="frame" x="0.0" y="182" width="443" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <customView id="5" customClass="OEHorizontalLine">
-                    <rect key="frame" x="0.0" y="396" width="423" height="2"/>
+                    <rect key="frame" x="0.0" y="396" width="443" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <customView id="Iz3-4e-tBC" customClass="OEHorizontalLine">
-                    <rect key="frame" x="0.0" y="324" width="423" height="2"/>
+                    <rect key="frame" x="0.0" y="324" width="443" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
@@ -83,7 +90,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <textField verticalHuggingPriority="750" id="12" customClass="OELabel">
-                    <rect key="frame" x="63" y="466" width="297" height="17"/>
+                    <rect key="frame" x="63" y="466" width="325" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="/Users/Mucx/Library/OpenEmu/Games" id="17" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
@@ -95,10 +102,10 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <matrix verticalHuggingPriority="750" mode="highlight" allowsEmptySelection="NO" id="8" customClass="OEMatrix">
-                    <rect key="frame" x="42" y="204" width="377" height="74"/>
+                    <rect key="frame" x="42" y="204" width="401" height="74"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    <size key="cellSize" width="377" height="17"/>
+                    <size key="cellSize" width="401" height="18"/>
                     <size key="intercellSpacing" width="16" height="10"/>
                     <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="22" userLabel="Check Box Cell" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -146,7 +153,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <button id="14" customClass="OEButton">
-                    <rect key="frame" x="214" y="420" width="78" height="23"/>
+                    <rect key="frame" x="236" y="420" width="78" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="square" title="Change…" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -160,7 +167,7 @@
                     </connections>
                 </button>
                 <button id="13" customClass="OEButton">
-                    <rect key="frame" x="303" y="420" width="78" height="23"/>
+                    <rect key="frame" x="324" y="420" width="78" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="square" title="Reset" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="16" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -174,7 +181,7 @@
                     </connections>
                 </button>
                 <button id="Q95-qb-F7X" customClass="OEButton">
-                    <rect key="frame" x="249" y="348" width="132" height="25"/>
+                    <rect key="frame" x="270" y="346" width="132" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="square" title="Reset warnings" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -188,10 +195,10 @@
                     </connections>
                 </button>
                 <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" id="yl9-Jz-OKA">
-                    <rect key="frame" x="42" y="15" width="344" height="122"/>
+                    <rect key="frame" x="52" y="17" width="348" height="118"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="BSr-Ut-1xt">
-                        <rect key="frame" x="0.0" y="0.0" width="344" height="122"/>
+                        <rect key="frame" x="0.0" y="0.0" width="333" height="118"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view autoresizesSubviews="NO" id="VRZ-d2-kfy">
@@ -200,12 +207,12 @@
                             </view>
                         </subviews>
                     </clipView>
-                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="tdT-Hf-vsm">
+                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="tdT-Hf-vsm" customClass="OEScroller">
                         <rect key="frame" x="-100" y="-100" width="342" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
-                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6uK-mj-F0v">
-                        <rect key="frame" x="328" y="0.0" width="16" height="122"/>
+                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6uK-mj-F0v" customClass="OEScroller">
+                        <rect key="frame" x="333" y="0.0" width="15" height="118"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
