@@ -1,0 +1,32 @@
+shaders = 5
+shader0 = _ntsc-pass1-3phase.cg
+shader1 = _ntsc-pass2-3phase.cg
+shader2 = _ntsc-pass3-3phase.cg
+shader3 = _ntsc-gauss-pass.cg
+shader4 = _ntsc-stock.cg
+
+filter_linear0 = false
+filter_linear1 = false
+filter_linear2 = false
+filter_linear3 = false
+filter_linear4 = true 
+
+scale_type0 = source
+scale_x0 = 4.0
+scale_y0 = 1.0
+frame_count_mod0 = 2
+float_framebuffer0 = true
+
+scale_type1 = source
+scale1 = 1.0
+frame_count_mod1 = 2
+float_framebuffer1 = true
+
+scale_type2 = source
+scale_x2 = 0.5
+scale_y2 = 1.0
+
+scale_type_x3 = source
+scale_type_y3 = viewport
+scale3 = 1.0
+

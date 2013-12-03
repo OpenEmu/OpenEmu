@@ -1,0 +1,29 @@
+float one_x = 1.0 / IN.texture_size.x;
+
+#if defined(TWO_PHASE)
+float chroma_phase = PI * (fmod(vertex.pix_no.y, 2.0) + IN.frame_count);
+#elif defined(THREE_PHASE)
+float chroma_phase = 0.6667 * PI * (fmod(vertex.pix_no.y, 3.0) + IN.frame_count);
+#endif
+
+float mod_phase = chroma_phase + vertex.pix_no.x * CHROMA_MOD_FREQ;
+
+float3 signal = float3(0.0);
+for (int i = 0; i < TAPS; i++)
+{
+   float offset = float(i);
+   float3 sums =
+      fetch_offset(offset - float(TAPS), one_x) +
+      fetch_offset(float(TAPS) - offset, one_x);
+
+   signal += sums * filter[i];
+}
+signal += tex2D(s0, vertex.tex).xyz * filter[TAPS];
+signal = mul(mix_mat, signal);
+
+float i_mod = cos(mod_phase);
+float q_mod = sin(mod_phase);
+
+signal.yz *= float2(i_mod, q_mod);
+return float4(signal, 1.0);
+
