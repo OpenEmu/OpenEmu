@@ -60,7 +60,6 @@
 #import "OEFiniteStateMachine.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
-#import <FeedbackReporter/FRFeedbackReporter.h>
 #import "OEToolTipManager.h"
 
 #import "OERetrodeDeviceManager.h"
@@ -167,9 +166,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Check to see if we crashed.
-    [[FRFeedbackReporter sharedReporter] reportIfCrash];
-
     // Remove the Open Recent menu item
     NSInteger openDocumentMenuItemIndex = [self.fileMenu indexOfItemWithTarget:nil andAction:@selector(openDocument:)];
 
@@ -793,13 +789,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     DLog(@"NSApp.KeyWindow: %@", [NSApp keyWindow]);
     LogResponderChain([[NSApp keyWindow] firstResponder]);
-}
-
-#pragma mark - Feedback Reporting & Delegate
-
-- (IBAction)reportFeedback:(id)sender
-{
-    [[FRFeedbackReporter sharedReporter] reportFeedback];
 }
 
 @end

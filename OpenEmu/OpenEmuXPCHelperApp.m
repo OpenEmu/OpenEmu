@@ -26,7 +26,6 @@
 
 #import "OpenEmuXPCHelperApp.h"
 #import "OESystemPlugin.h"
-#import <FeedbackReporter/FRFeedbackReporter.h>
 #import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
 
 @interface OpenEmuXPCHelperApp () <NSXPCListenerDelegate, OEXPCGameCoreHelper>

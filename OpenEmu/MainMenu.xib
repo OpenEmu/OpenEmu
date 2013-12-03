@@ -1119,12 +1119,6 @@ DQ
                                     <action selector="showHelp:" target="-1" id="1204"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="1222"/>
-                            <menuItem title="Provide Feedback" id="1220">
-                                <connections>
-                                    <action selector="reportFeedback:" target="805" id="1223"/>
-                                </connections>
-                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>

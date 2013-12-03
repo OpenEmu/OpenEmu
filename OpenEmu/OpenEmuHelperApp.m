@@ -36,8 +36,6 @@
 // Compression support
 #import <XADMaster/XADArchive.h>
 
-#import <FeedbackReporter/FRFeedbackReporter.h>
-
 #ifndef BOOL_STR
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
@@ -73,9 +71,6 @@
         NSLog(@"parent application is: %@", [_parentApplication localizedName]);
         [self setupProcessPollingTimer];
     }
-
-    // Check to see if we crashed.
-    //[[FRFeedbackReporter sharedReporter] reportIfCrash];
 }
 
 - (void)setupGameCoreAudioAndVideo

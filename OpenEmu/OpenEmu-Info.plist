@@ -121,8 +121,6 @@
 	<string>OpEm</string>
 	<key>CFBundleVersion</key>
 	<string>1.0.0b10</string>
-	<key>FRFeedbackReporter.targetURL</key>
-	<string>http://openemu.org/feedback/submit.php?project=%@</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.games</string>
 	<key>LSMinimumSystemVersion</key>

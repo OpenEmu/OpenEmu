@@ -119,7 +119,6 @@
 		143F299D164DE18100544CCF /* MagicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 143F2995164DE0B300544CCF /* MagicKit.framework */; };
 		144D61491672D6BF0000268B /* OETableTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 144D61481672D6BF0000268B /* OETableTextFieldCell.m */; };
 		14861960166076A400BDB800 /* NSDate+OESortAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1486195F166076A400BDB800 /* NSDate+OESortAdditions.m */; };
-		14A9073C16FAA0EF005E2635 /* FeedbackReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14A9073916FAA0AE005E2635 /* FeedbackReporter.framework */; };
 		14A9073D16FAA106005E2635 /* FeedbackReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14A9073916FAA0AE005E2635 /* FeedbackReporter.framework */; };
 		14AE945116FDEE57009DD56D /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3213B95E2800A6ACE0 /* CoreAudio.framework */; };
 		14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 14CB5DA916FE1F8300342817 /* OEAudioDeviceManager.m */; };
@@ -131,9 +130,7 @@
 		1B42C66D1429510A004691D7 /* Syphon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B42C66C1429510A004691D7 /* Syphon.framework */; };
 		1B42C66F14295130004691D7 /* Syphon.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 1B42C66C1429510A004691D7 /* Syphon.framework */; };
 		1B47F105142F01E700EBC55B /* OESetupAssistant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B47F104142F01E700EBC55B /* OESetupAssistant.m */; };
-		1B48F24B166714AC004E8ABA /* FeedbackReporter.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 1B48F21716671473004E8ABA /* FeedbackReporter.framework */; };
 		1B6DA4A914DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */; };
-		1B96BA56166BDD52005064C8 /* FRFeedbackReporter.sh in Resources */ = {isa = PBXBuildFile; fileRef = 1B96BA55166BDD52005064C8 /* FRFeedbackReporter.sh */; };
 		1B98144E142F02FA00114A30 /* OESetupAssistant.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B98144D142F02FA00114A30 /* OESetupAssistant.xib */; };
 		1BEF2A9C11682A5E0090F72B /* OpenEmuHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A7411682A330090F72B /* OpenEmuHelperApp.m */; };
 		1BEF2AC411682AEB0090F72B /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BEF2AC311682A9D0090F72B /* IOSurface.framework */; };
@@ -1419,7 +1416,6 @@
 			files = (
 				C675066D17A2475500B8494C /* OpenEmuXPCCommunicator.framework in Copy Frameworks to App Frameworks */,
 				83FA055013B9E01B0055A520 /* Sparkle.framework in Copy Frameworks to App Frameworks */,
-				1B48F24B166714AC004E8ABA /* FeedbackReporter.framework in Copy Frameworks to App Frameworks */,
 				82DE4B8010265600007184EB /* UniversalDetector.framework in Copy Frameworks to App Frameworks */,
 				82DE4B7F102655FC007184EB /* XADMaster.framework in Copy Frameworks to App Frameworks */,
 				8CAD37CF16A18C3000AE25F5 /* Cg.framework in Copy Frameworks to App Frameworks */,
@@ -2860,7 +2856,6 @@
 				8CCBC0C9169B323100141631 /* Cg.framework in Frameworks */,
 				53D32E4813B95F2700A6ACE0 /* Cocoa.framework in Frameworks */,
 				14AE945116FDEE57009DD56D /* CoreAudio.framework in Frameworks */,
-				14A9073C16FAA0EF005E2635 /* FeedbackReporter.framework in Frameworks */,
 				53439B8713B934DB005C0CC8 /* ImageKit.framework in Frameworks */,
 				839213F4164338D60006CEE0 /* IOKit.framework in Frameworks */,
 				1BFC26D9116C1CB800B95689 /* IOSurface.framework in Frameworks */,
@@ -6804,7 +6799,6 @@
 				83DEE4A0162D62B2005D8AD7 /* game_scanner_progress_track.png in Resources */,
 				C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */,
 				830639EB16691B51006E4254 /* OEGameScanner.xib in Resources */,
-				1B96BA56166BDD52005064C8 /* FRFeedbackReporter.sh in Resources */,
 				837DF19B16D2B0F400024BE1 /* OECollectionDebugWindowController.xib in Resources */,
 				83B867B7171D63070038988C /* OERetrodeViewController.xib in Resources */,
 				83B867B9171D63510038988C /* retrode.png in Resources */,
