@@ -119,7 +119,6 @@
 		143F299D164DE18100544CCF /* MagicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 143F2995164DE0B300544CCF /* MagicKit.framework */; };
 		144D61491672D6BF0000268B /* OETableTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 144D61481672D6BF0000268B /* OETableTextFieldCell.m */; };
 		14861960166076A400BDB800 /* NSDate+OESortAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1486195F166076A400BDB800 /* NSDate+OESortAdditions.m */; };
-		14A9073D16FAA106005E2635 /* FeedbackReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14A9073916FAA0AE005E2635 /* FeedbackReporter.framework */; };
 		14AE945116FDEE57009DD56D /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3213B95E2800A6ACE0 /* CoreAudio.framework */; };
 		14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 14CB5DA916FE1F8300342817 /* OEAudioDeviceManager.m */; };
 		14E4A7FA1616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14E4A7F91616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m */; };
@@ -2802,7 +2801,6 @@
 				53D32E3013B95E2000A6ACE0 /* Cocoa.framework in Frameworks */,
 				53D32E3613B95E4300A6ACE0 /* CoreAudio.framework in Frameworks */,
 				53D32E3A13B95E6F00A6ACE0 /* CoreVideo.framework in Frameworks */,
-				14A9073D16FAA106005E2635 /* FeedbackReporter.framework in Frameworks */,
 				1BEF2AC411682AEB0090F72B /* IOSurface.framework in Frameworks */,
 				0A9F272216635A1B008B1FB8 /* libz.dylib in Frameworks */,
 				53D32E3713B95E5600A6ACE0 /* OpenGL.framework in Frameworks */,
