@@ -1,0 +1,62 @@
+/* COMPATIBILITY
+   - HLSL compilers (untested)
+   - Cg compilers
+*/
+
+/*
+   Author: Gigaherz
+   License: Public domain
+*/
+
+/* configuration (higher values mean brighter image but reduced effect depth) */
+const int brighten_scanlines = 16;
+const int brighten_lcd = 4;
+
+struct input
+{
+    float2 video_size;
+    float2 texture_size;
+    float2 output_size;
+    float frame_count;
+    float frame_direction;
+    float frame_rotation;
+};
+
+void main_vertex (
+    uniform float4x4 modelViewProj,
+	uniform input IN, 
+
+    float4 position : POSITION, out float4 oPosition : POSITION,
+    float4 color : COLOR, out float4 oColor : COLOR,
+    float2 tex : TEXCOORD, out float2 oTex : TEXCOORD,
+
+    out float2 omega : TEXCOORD2
+    )
+{
+    oPosition = mul(modelViewProj, position);
+    oColor = color;
+    oTex = tex;
+
+    omega = 3.141592654 * 2 * IN.texture_size;
+}
+
+const float3 offsets = 3.141592654 * float3(1.0/2,1.0/2 - 2.0/3,1.0/2-4.0/3);
+
+float4 main_fragment (
+    in float2 omega : TEXCOORD2, 
+    float2 tex : TEXCOORD, 
+    uniform sampler2D s0 : TEXUNIT0
+    ) : COLOR
+{
+    float3 res = tex2D(s0, tex).xyz;
+
+    float2 angle = tex * omega;
+	
+    float yfactor = (brighten_scanlines + sin(angle.y)) / (brighten_scanlines + 1);
+    float3 xfactors = (brighten_lcd + sin(angle.x + offsets)) / (brighten_lcd + 1);
+   
+    float3 color = yfactor * xfactors * res;
+   
+    return float4(color.x, color.y, color.z, 1.0);
+}
+

@@ -1,0 +1,69 @@
+/* COMPATIBILITY 
+   - HLSL compilers
+   - Cg   compilers
+*/
+
+struct input
+{
+   float2 video_size;
+   float2 texture_size;
+   float2 output_size;
+   float  frame_count;
+   float  frame_direction;
+   float frame_rotation;
+};
+
+struct vert_out
+{
+   float2 tex_direct;
+   float2 tex_0;
+   float2 tex_60;
+   float2 tex_120;
+   float2 tex_180;
+   float2 tex_240;
+   float2 tex_300;
+};
+
+void main_vertex
+(
+   float4 position : POSITION,
+   out float4 oPosition : POSITION,
+   uniform float4x4 modelViewProj,
+   float2 tex : TEXCOORD0,
+   uniform input IN,
+   out vert_out verts: TEXCOORD1
+)
+{
+   oPosition = mul(modelViewProj, position);
+   float2 one = 1.0 / IN.texture_size;
+   float angle = IN.frame_count = IN.frame_count / 20.0;
+   float scale = 1.0 + 0.2 * sin(0.5 * angle);
+   float2x2 rotate = scale * float2x2(
+         cos(angle),    sin(angle),
+         -sin(angle),   cos(angle)
+   );
+
+   verts.tex_direct = tex;
+   verts.tex_0 = tex + one * mul(rotate, float2(1.0, 0.0));
+   verts.tex_60 = tex + one * mul(rotate, float2(0.5, 0.7));
+   verts.tex_120 = tex + one * mul(rotate, float2(-0.5, 0.7));
+   verts.tex_180 = tex + one * mul(rotate, float2(-1.0, 0.0));
+   verts.tex_240 = tex + one * mul(rotate, float2(-0.5, -0.7));
+   verts.tex_300 = tex + one * mul(rotate, float2(0.5, -0.7));
+}
+
+float4 main_fragment (in vert_out verts : TEXCOORD1, uniform sampler2D s0 : TEXUNIT0) : COLOR
+{
+   float4 tex_mid = tex2D(s0, verts.tex_direct);
+   float4 tex0 = tex2D(s0, verts.tex_0);
+   float4 tex60 = tex2D(s0, verts.tex_60);
+   float4 tex120 = tex2D(s0, verts.tex_120);
+   float4 tex180 = tex2D(s0, verts.tex_180);
+   float4 tex240 = tex2D(s0, verts.tex_240);
+   float4 tex300 = tex2D(s0, verts.tex_300);
+
+   float4 minimum = min(min(min(tex0, tex60), min(tex120, tex180)), min(tex240, tex300));
+   float4 maximum = max(max(max(tex0, tex60), max(tex120, tex180)), max(tex240, tex300));
+   float4 diff = 1.0 - exp(-(maximum - minimum));
+   return lerp(tex_mid, diff, 0.9);
+}
