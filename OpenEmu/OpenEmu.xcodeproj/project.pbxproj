@@ -2575,7 +2575,6 @@
 		C6711826136369DE0034379A /* OESMSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESMSSystemResponder.m; sourceTree = "<group>"; };
 		C67A36A90FE7F1F500A665E2 /* OECorePluginIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = OECorePluginIcon.icns; sourceTree = "<group>"; };
 		C67B0CB71363370B00F18A5D /* OpenEmuSystem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuSystem-Info.plist"; sourceTree = "<group>"; };
-		C67B0CD01363389A00F18A5D /* ForceFeedback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ForceFeedback.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/ForceFeedback.framework; sourceTree = DEVELOPER_DIR; };
 		C67DBF4117DBE859006AF087 /* NSDocument+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDocument+OEAdditions.h"; sourceTree = "<group>"; };
 		C67DBF4217DBE859006AF087 /* NSDocument+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDocument+OEAdditions.m"; sourceTree = "<group>"; };
 		C68A54E51516AD3C001053F2 /* OEDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OEDatabase.xcdatamodel; sourceTree = "<group>"; };
@@ -3169,7 +3168,6 @@
 				53D32E3213B95E2800A6ACE0 /* CoreAudio.framework */,
 				53D32E3813B95E6500A6ACE0 /* CoreVideo.framework */,
 				82DD2B1D1236CF0200B58A8F /* Carbon.framework */,
-				C67B0CD01363389A00F18A5D /* ForceFeedback.framework */,
 				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
 				53439B8613B934DB005C0CC8 /* ImageKit.framework */,
 				5380E82313B9596500E76DEF /* IOKit.framework */,
