@@ -478,6 +478,8 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [imageViewLayer addAnimation:outTransition forKey:@"animatePosition"];
 
     [CATransaction commit];
+
+    [[self controlsSetupView] layoutSubviews:NO];
 }
 
 - (IBAction)changePlayer:(id)sender
