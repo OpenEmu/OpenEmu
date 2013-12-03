@@ -96,7 +96,7 @@ const static CGFloat buttonTitleGap = 5.0;
     NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
 
     // draw button
-    if([self isCollapisble])
+    if([self isCollapsible])
     {
         NSRect buttonRect = [self buttonRect];
         [[self buttonCell] setBezelStyle:NSDisclosureBezelStyle];
@@ -129,7 +129,7 @@ const static CGFloat buttonTitleGap = 5.0;
 
 - (NSRect)buttonRect
 {
-    if(![self isCollapisble]) return NSZeroRect;
+    if(![self isCollapsible]) return NSZeroRect;
 
     NSRect rect = (NSRect){{leftGap,0}, {buttonWidth,buttonHeight}};
     rect.origin.y = (NSHeight([self bounds])-NSHeight(rect))/2.0;

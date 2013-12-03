@@ -502,7 +502,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
 - (void)OE_addGroupLabel:(NSString*)label;
 - (void)OE_addRowSeperator;
 - (void)OE_addGroup;
-- (id)OE_createSectionHeadingWithName:(NSString*)name collapisble:(BOOL)flag;
+- (id)OE_createSectionHeadingWithName:(NSString*)name collapsible:(BOOL)flag;
 @end
 
 @implementation _OEControlsSetupViewParser
@@ -560,7 +560,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
         [sections addObject:@{
          @"numberOfRows" : @(numberOfRows),
                @"groups" : elementGroups,
-              @"header" : [self OE_createSectionHeadingWithName:sectionTitle collapisble:i!=0]
+              @"header" : [self OE_createSectionHeadingWithName:sectionTitle collapsible:i!=0]
          }];
         
         elementGroups = [[NSMutableArray alloc] init];
@@ -629,7 +629,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     currentGroup = [[NSMutableArray alloc] init];
 }
 
-- (id)OE_createSectionHeadingWithName:(NSString*)name collapisble:(BOOL)flag
+- (id)OE_createSectionHeadingWithName:(NSString*)name collapsible:(BOOL)flag
 {
     OEControlsSectionTitleView *labelField = [[OEControlsSectionTitleView alloc] initWithFrame:NSZeroRect];
     [labelField setStringValue:name];
