@@ -1110,11 +1110,11 @@ DQ
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="Help" id="977">
+                <menuItem title="Help" hidden="YES" enabled="NO" id="977">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Help" systemMenu="help" id="1202">
                         <items>
-                            <menuItem title="OpenEmu Help" keyEquivalent="?" id="1203">
+                            <menuItem title="OpenEmu Help" enabled="NO" keyEquivalent="?" id="1203">
                                 <connections>
                                     <action selector="showHelp:" target="-1" id="1204"/>
                                 </connections>
