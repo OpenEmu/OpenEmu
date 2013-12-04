@@ -67,7 +67,6 @@
 {
     [self setSelectionColor:[[NSColor blueColor] colorWithAlphaComponent:0.8]];
     [self setRowHeight:23.0];
-    
     for(NSTableColumn *column in [self tableColumns])
     {
         [column setEditable:YES];

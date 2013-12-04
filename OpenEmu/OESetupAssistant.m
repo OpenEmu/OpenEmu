@@ -281,6 +281,9 @@ enum : OEFSMEventLabel
     }];
     [_fsm addTransitionFrom:_OEFSMWelcomeState to:_OEFSMCoreSelectionState event:_OEFSMNextEvent action:^{
         [blockSelf OE_goForwardToView:[blockSelf coreSelectionView]];
+        // On Mavericks, if the user has scroll bars set to be alaways visible our scroll views do not update the scrollers correctly
+        // so we have to force them
+        [[blockSelf installCoreTableView] noteNumberOfRowsChanged];
     }];
 
     // Core selection screen
@@ -313,6 +316,9 @@ enum : OEFSMEventLabel
     }];
     [_fsm addTransitionFrom:_OEFSMGameScannerSelectionState to:_OEFSMGameScannerVolumeSelectionState event:_OEFSMNextWithCheckmarkEvent action:^{
         [blockSelf OE_goForwardToView:[blockSelf gameScannerVolumeSelectionView]];
+        // On Mavericks, if the user has scroll bars set to be alaways visible our scroll views do not update the scrollers correctly
+        // so we have to force them
+        [[blockSelf mountedVolumesTableView] noteNumberOfRowsChanged];
     }];
     [_fsm addTransitionFrom:_OEFSMGameScannerSelectionState to:_OEFSMLastScreenState event:_OEFSMNextWithoutCheckmarkEvent action:^{
         [blockSelf OE_goForwardToView:[blockSelf lastStepView]];

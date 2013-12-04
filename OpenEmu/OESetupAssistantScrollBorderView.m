@@ -24,12 +24,24 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+#import "OESetupAssistantScrollBorderView.h"
 #import "NSImage+OEDrawingAdditions.h"
-@class OESetupAssistantScrollBorderView;
-@interface OESetupAssistantScrollView : NSScrollView
 
+@implementation OESetupAssistantScrollBorderView
 
-@end
-@interface OESetupAssistantScrollBorderView : NSView
+- (BOOL)isOpaque
+{
+    return NO;
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+    if(NSMinX(dirtyRect) < 5 || NSMaxX(dirtyRect) > [self bounds].size.width-5
+       || NSMinY(dirtyRect) < 5 || NSMaxY(dirtyRect) > [self bounds].size.height-5)
+    {
+        NSImage *img = [NSImage imageNamed:@"installer_scrollview_box"];
+        [img drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:5 rightBorder:5 topBorder:5 bottomBorder:5];
+    }
+}
+
 @end
