@@ -31,8 +31,8 @@
 	<key>OEPSXButtonR3</key>
 	<integer>10</integer>
 	<key>OEPSXButtonStart</key>
-	<integer>44</integer>
+	<integer>40</integer>
 	<key>OEPSXButtonSelect</key>
-	<integer>41</integer>
+	<integer>229</integer>
 </dict>
 </plist>

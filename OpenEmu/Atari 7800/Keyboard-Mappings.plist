@@ -15,9 +15,9 @@
 	<key>OE7800ButtonFire2</key>
 	<integer>22</integer>
 	<key>OE7800ButtonSelect</key>
-	<integer>44</integer>
+	<integer>40</integer>
 	<key>OE7800ButtonPause</key>
-	<integer>41</integer>
+	<integer>229</integer>
 	<key>OE7800ButtonReset</key>
 	<integer>20</integer>
 	<key>OE7800ButtonLeftDiff</key>

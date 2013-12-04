@@ -13,9 +13,9 @@
 	<key>OE2600ButtonFire1</key>
 	<integer>4</integer>
 	<key>OE2600ButtonReset</key>
-	<integer>44</integer>
+	<integer>40</integer>
 	<key>OE2600ButtonSelect</key>
-	<integer>41</integer>
+	<integer>229</integer>
 	<key>OE2600ButtonLeftDiffA</key>
 	<integer>20</integer>
 	<key>OE2600ButtonLeftDiffB</key>

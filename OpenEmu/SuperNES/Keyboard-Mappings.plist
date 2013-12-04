@@ -23,8 +23,8 @@
 	<key>OESNESButtonTriggerRight</key>
 	<integer>20</integer>
 	<key>OESNESButtonStart</key>
-	<integer>44</integer>
+	<integer>40</integer>
 	<key>OESNESButtonSelect</key>
-	<integer>41</integer>
+	<integer>229</integer>
 </dict>
 </plist>

@@ -15,9 +15,9 @@
 	<key>OEFDSButtonB</key>
 	<integer>22</integer>
 	<key>OEFDSButtonStart</key>
-	<integer>44</integer>
+	<integer>40</integer>
 	<key>OEFDSButtonSelect</key>
-	<integer>41</integer>
+	<integer>229</integer>
 	<key>OEFDSButtonChangeSide</key>
 	<integer>20</integer>
 </dict>

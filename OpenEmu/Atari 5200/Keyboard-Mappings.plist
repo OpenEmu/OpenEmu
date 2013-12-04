@@ -15,9 +15,9 @@
 	<key>OE5200ButtonFire2</key>
 	<integer>22</integer>
 	<key>OE5200ButtonStart</key>
-	<integer>44</integer>
+	<integer>40</integer>
 	<key>OE5200ButtonPause</key>
-	<integer>41</integer>
+	<integer>229</integer>
 	<key>OE5200ButtonReset</key>
 	<integer>20</integer>
 </dict>

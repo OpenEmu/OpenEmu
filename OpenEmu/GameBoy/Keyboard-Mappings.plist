@@ -15,8 +15,8 @@
 	<key>OEGBButtonB</key>
 	<integer>22</integer>
 	<key>OEGBButtonStart</key>
-	<integer>44</integer>
+	<integer>40</integer>
 	<key>OEGBButtonSelect</key>
-	<integer>41</integer>
+	<integer>229</integer>
 </dict>
 </plist>

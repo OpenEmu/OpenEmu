@@ -23,8 +23,8 @@
 	<key>OEPSPButtonR1</key>
 	<integer>7</integer>
 	<key>OEPSPButtonStart</key>
-	<integer>44</integer>
+	<integer>40</integer>
 	<key>OEPSPButtonSelect</key>
-	<integer>41</integer>
+	<integer>229</integer>
 </dict>
 </plist>

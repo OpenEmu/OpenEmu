@@ -15,8 +15,8 @@
 	<key>OESMSButtonB</key>
 	<integer>22</integer>
 	<key>OESMSButtonStart</key>
-	<integer>44</integer>
+	<integer>40</integer>
 	<key>OESMSButtonReset</key>
-	<integer>41</integer>
+	<integer>229</integer>
 </dict>
 </plist>

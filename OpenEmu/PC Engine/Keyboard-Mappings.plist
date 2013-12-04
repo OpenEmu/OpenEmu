@@ -23,9 +23,9 @@
 	<key>OEPCEButton6</key>
 	<integer>8</integer>
 	<key>OEPCEButtonRun</key>
-	<integer>44</integer>
+	<integer>40</integer>
 	<key>OEPCEButtonSelect</key>
-	<integer>41</integer>
+	<integer>229</integer>
 	<key>OEPCEButtonMode</key>
 	<integer>23</integer>
 </dict>

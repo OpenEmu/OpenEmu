@@ -15,8 +15,8 @@
 	<key>OENESButtonB</key>
 	<integer>22</integer>
 	<key>OENESButtonStart</key>
-	<integer>44</integer>
+	<integer>40</integer>
 	<key>OENESButtonSelect</key>
-	<integer>41</integer>
+	<integer>229</integer>
 </dict>
 </plist>

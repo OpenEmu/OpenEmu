@@ -23,8 +23,8 @@
 	<key>OEWSButtonB</key>
 	<integer>27</integer>
 	<key>OEWSButtonStart</key>
-	<integer>44</integer>
+	<integer>40</integer>
 	<key>OEWSButtonSound</key>
-	<integer>41</integer>
+	<integer>229</integer>
 </dict>
 </plist>

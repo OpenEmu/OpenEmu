@@ -17,9 +17,9 @@
 	<key>OEJaguarButtonC</key>
 	<integer>20</integer>
 	<key>OEJaguarButtonPause</key>
-	<integer>44</integer>
+	<integer>40</integer>
 	<key>OEJaguarButtonOption</key>
-	<integer>41</integer>
+	<integer>229</integer>
 	<key>OEJaguarButton1</key>
 	<integer>30</integer>
 	<key>OEJaguarButton2</key>

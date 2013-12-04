@@ -23,8 +23,8 @@
 	<key>OESega32XButtonZ</key>
 	<integer>8</integer>
 	<key>OESega32XButtonStart</key>
-	<integer>44</integer>
+	<integer>40</integer>
 	<key>OESega32XButtonMode</key>
-	<integer>41</integer>
+	<integer>229</integer>
 </dict>
 </plist>
