@@ -618,6 +618,12 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [[self mainWindowController] showWindow:sender];
 }
 
+- (IBAction)openWeblink:(id)sender
+{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", [sender title]]];
+    [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
 #pragma mark - Updating
 
 - (void)updateBundles:(id)sender

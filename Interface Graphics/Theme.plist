@@ -480,6 +480,66 @@
 				</dict>
 			</dict>
 		</dict>
+		<key>about_website_link</key>
+		<dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Size</key>
+			<integer>12</integer>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>#000000</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Color</key>
+					<string>#526ba0</string>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Color</key>
+					<string>#9c2a32</string>
+				</dict>
+			</dict>
+		</dict>
+		<key>about_github_link</key>
+		<dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,0.4)</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Color</key>
+					<string>#526ba0</string>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Color</key>
+					<string>#9c2a32</string>
+				</dict>
+			</dict>
+		</dict>
 		<key>dark_button_small</key>
 		<dict>
 			<key>Family</key>

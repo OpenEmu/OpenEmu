@@ -36,6 +36,7 @@
 
 - (IBAction)showOpenEmuWindow:(id)sender;
 
+- (IBAction)openWeblink:(id)sender;
 - (IBAction)updateBundles:(id)sender;
 
 - (void)updateInfoPlist;
