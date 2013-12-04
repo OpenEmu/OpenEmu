@@ -35,6 +35,11 @@
 @synthesize themeImage = _themeImage;
 @synthesize themeTextAttributes = _themeTextAttributes;
 
+- (void)awakeFromNib
+{
+    [self setBezelStyle:0];
+}
+
 - (OEThemeState)OE_currentState
 {
     // This is a convenience method that retrieves the current state of the button
