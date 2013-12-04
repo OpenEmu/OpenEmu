@@ -81,6 +81,10 @@
 
 #pragma mark -
 #pragma mark Drawing
+- (BOOL)isOpaque
+{
+    return NO;
+}
 
 - (void)highlightSelectionInClipRect:(NSRect)theClipRect
 {
