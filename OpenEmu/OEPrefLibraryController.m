@@ -276,6 +276,8 @@
 
 - (void)OE_rebuildAvailableLibraries
 {
+    NSRect visibleRect  = [[self librariesView] visibleRect];
+    BOOL rebuildingList = [[[self librariesView] subviews] count] != 0;
     [[[[self librariesView] subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperviewWithoutNeedingDisplay)];
 
     // get all system plugins, ordered them by name
@@ -369,8 +371,10 @@
          y -= iHeight + vSpace;
      }];
 
-    // scroll clip view to top
-    [[self librariesView] scrollPoint:NSMakePoint(0, height)];
+    if(!rebuildingList)
+        [[self librariesView] scrollPoint:NSMakePoint(0, height)];
+    else
+        [[self librariesView] scrollRectToVisible:visibleRect];
 }
 
 @end
