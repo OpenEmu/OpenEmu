@@ -156,7 +156,7 @@
 	</array>
 	<key>OENumberOfPlayersKey</key>
 	<integer>8</integer>
-	<key>OERequiredFiles</key>
+	<key>OERequiredFiles_</key>
 	<array>
 		<dict>
 			<key>Description</key>
