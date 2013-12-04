@@ -46,6 +46,7 @@ const static CGFloat buttonTitleGap = 5.0;
         OEButtonCell *buttonCell = [[OEButtonCell alloc] initTextCell:@""];
         [buttonCell setThemeKey:@"controls_triangle"];
         [buttonCell setState:NSOnState];
+        [buttonCell setControlView:self];
         
         [self setButtonCell:buttonCell];
     }
@@ -87,13 +88,16 @@ const static CGFloat buttonTitleGap = 5.0;
     lineRect.size.height = 1;
 
     // draw bottom line
-    [topColor setFill]; 
-    lineRect.origin.y = 0;
-    NSRectFill(lineRect);
-    
-    [bottomColor setFill];
-    lineRect.origin.y = 1;
-    NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
+    if([self frame].origin.y != 0.0)
+    {
+        [topColor setFill];
+        lineRect.origin.y = 0;
+        NSRectFill(lineRect);
+
+        [bottomColor setFill];
+        lineRect.origin.y = 1;
+        NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
+    }
 
     // draw button
     if([self isCollapsible])
@@ -188,6 +192,11 @@ const static CGFloat buttonTitleGap = 5.0;
 
         [NSApp sendAction:[self action] to:[self target] from:self];
     }
+}
+
+- (void)setState:(NSInteger)state
+{
+    [[self buttonCell] setState:state];
 }
 
 - (NSInteger)state

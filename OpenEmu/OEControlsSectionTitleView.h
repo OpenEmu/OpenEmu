@@ -28,7 +28,7 @@
 
 @interface OEControlsSectionTitleView : NSView
 @property (copy) NSString *stringValue;
-@property (nonatomic, readonly) NSInteger state;
+@property (nonatomic) NSInteger state;
 @property (getter=isCollapsible) BOOL collapsible;
 @property (nonatomic, getter=isPinned) BOOL pinned;
 

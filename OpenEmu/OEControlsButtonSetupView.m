@@ -170,7 +170,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
 
     for(NSDictionary *section in sections)
     {
-        id heading      = [section objectForKey:@"header"];
+        OEControlsSectionTitleView *heading = [section objectForKey:@"header"];
         [heading setAction:@selector(toggleSection:)];
         [heading setTarget:self];
         [self addSubview:heading];
@@ -233,7 +233,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
 
         // layout section header
         NSPoint headerOrigin = {0, y - sectionTitleHeight };
-        NSRect  headerFrame  = (NSRect){headerOrigin, { width, sectionTitleHeight }};
+        NSRect  headerFrame  = (NSRect){headerOrigin, { width+2.0, sectionTitleHeight }};
         [heading setFrame:headerFrame];
 
         y -= headerFrame.size.height + topGap;
@@ -634,6 +634,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     OEControlsSectionTitleView *labelField = [[OEControlsSectionTitleView alloc] initWithFrame:NSZeroRect];
     [labelField setStringValue:name];
     [labelField setCollapsible:flag];
+    if(flag) [labelField setState:NSOffState];
 
     return labelField;
 }

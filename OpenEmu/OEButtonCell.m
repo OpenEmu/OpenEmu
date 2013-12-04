@@ -144,7 +144,11 @@
         }
     }
 
-    return [[self controlView] backingAlignedRect:result options:NSAlignAllEdgesNearest];
+
+    if([self controlView])
+        return [[self controlView] backingAlignedRect:result options:NSAlignAllEdgesNearest];
+    else
+        return result;
 }
 
 - (NSRect)titleRectForBounds:(NSRect)theRect
