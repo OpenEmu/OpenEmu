@@ -104,6 +104,7 @@
         size.width += [self image].size.width;
     return size;
 }
+
 - (NSRect)imageRectForBounds:(NSRect)theRect
 {
     NSRect result = [super imageRectForBounds:theRect];
@@ -115,7 +116,7 @@
             case NSSwitchButton:
             {
                 NSSize imageSize = [self image].size;
-                result.origin.y = round(NSMinY(result) + (NSHeight(result) - imageSize.height) / 2.0);
+                result.origin.y = NSMinY(result) + (NSHeight(result) - imageSize.height) / 2.0;
                 result.size = imageSize;
                 break;
             }
@@ -128,12 +129,12 @@
                     switch ([self imagePosition]) {
                         // TODO: Take other imagePositions and imageScaling into account
                         case NSImageRight:
-                            result.origin.x = round(NSMaxX(theRect) - imageSize.width);
-                            result.origin.y = round(NSMinY(theRect) + (NSHeight(theRect)-imageSize.height) / 2.0);
+                            result.origin.x = NSMaxX(theRect) - imageSize.width;
+                            result.origin.y = NSMinY(theRect) + (NSHeight(theRect)-imageSize.height) / 2.0;
                             break;
                         default:
-                            result.origin.x = round(NSMinX(theRect) + (NSWidth(theRect)-imageSize.width) / 2.0);
-                            result.origin.y = round(NSMinY(theRect) + (NSHeight(theRect)-imageSize.height) / 2.0);
+                            result.origin.x = NSMinX(theRect) + (NSWidth(theRect)-imageSize.width) / 2.0;
+                            result.origin.y = NSMinY(theRect) + (NSHeight(theRect)-imageSize.height) / 2.0;
                             break;
                     }
                 }
@@ -142,7 +143,8 @@
                 break;
         }
     }
-    return result;
+
+    return [[self controlView] backingAlignedRect:result options:NSAlignAllEdgesNearest];
 }
 
 - (NSRect)titleRectForBounds:(NSRect)theRect
