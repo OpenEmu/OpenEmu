@@ -531,11 +531,11 @@ typedef enum : NSUInteger
     {
         if(_emulationStatus == OEEmulationStatusPaused)
         {
-            [menuItem setTitle:NSLocalizedString(@"Play Game", @"")];
+            [menuItem setTitle:NSLocalizedString(@"Resume Emulation", @"")];
             return YES;
         }
 
-        [menuItem setTitle:NSLocalizedString(@"Pause Game", @"")];
+        [menuItem setTitle:NSLocalizedString(@"Pause Emulation", @"")];
         return _emulationStatus == OEEmulationStatusPlaying;
     }
 

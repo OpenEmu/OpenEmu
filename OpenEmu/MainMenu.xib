@@ -1060,12 +1060,7 @@ DQ
                             <menuItem isSeparatorItem="YES" id="1051"/>
                             <menuItem title="Pause Emulation" enabled="NO" alternate="YES" keyEquivalent="p" id="1044">
                                 <connections>
-                                    <action selector="pauseGame:" target="-1" id="1175"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Resume Emulation" enabled="NO" alternate="YES" keyEquivalent="r" id="1049">
-                                <connections>
-                                    <action selector="playGame:" target="-1" id="1174"/>
+                                    <action selector="toggleEmulationPaused:" target="-1" id="WvQ-Ap-gYX"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Quit Emulation" enabled="NO" id="1167">
