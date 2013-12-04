@@ -133,9 +133,10 @@
 {
     if(_editing != editing)
     {
+        _editing = editing;
+
         if(editing)  [[self gridView] OE_willBeginEditingCell:self];
         else         [[self gridView] OE_didEndEditingCell:self];
-        _editing = editing;
     }
 }
 
