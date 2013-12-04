@@ -694,7 +694,9 @@ static NSArray *OE_defaultSortDescriptors;
     }
 
     // Search results may no longer be valid, reload
+    NSRect visibleRect = [gridView visibleRect];
     [self OE_reloadData];
+    [gridView scrollRectToVisible:visibleRect];
 }
 #pragma mark - GridView Type Select
 - (BOOL)gridView:(OEGridView *)gridView shouldTypeSelectForEvent:(NSEvent *)event withCurrentSearchString:(NSString *)searchString
