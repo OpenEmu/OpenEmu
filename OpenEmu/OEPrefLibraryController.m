@@ -289,15 +289,16 @@
     // set some spaces and dimensions
     CGFloat hSpace = 16, vSpace = 10;
     CGFloat iWidth = 163, iHeight = 18;
+    CGFloat topGap = 16, bottomGap = 16;
 
     if([self librariesView] == nil) return;
 
     CGFloat width = [[self librariesView] frame].size.width;
-    CGFloat height = (iHeight * rows + (rows - 2) * vSpace);
+    CGFloat height = (iHeight * rows + (rows - 1) * vSpace) + topGap + bottomGap;
     [[self librariesView] setFrameSize:NSMakeSize(width, height)];
 
     __block CGFloat x = vSpace;
-    __block CGFloat y = height;
+    __block CGFloat y = height-topGap;
 
     // enumerate plugins and add buttons for them
     [systems enumerateObjectsUsingBlock:
@@ -308,8 +309,11 @@
          {
              // we reset x and y
              x += iWidth + hSpace;
-             y =  height;
+             y =  height-topGap;
          }
+
+         // decreasing y to go have enough space to actually see the button
+         y -= iHeight;
 
          // creating the button
          NSRect rect = NSMakeRect(x, y, iWidth, iHeight);
@@ -367,8 +371,8 @@
 
          [[self librariesView] addSubview:button];
 
-         // decreasing y
-         y -= iHeight + vSpace;
+         // leave a little gap before we start the next item
+         y -= vSpace;
      }];
 
     if(!rebuildingList)
