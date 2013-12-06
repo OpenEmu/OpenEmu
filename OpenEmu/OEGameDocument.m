@@ -165,6 +165,9 @@ typedef enum : NSUInteger
     _gameSystemController = [_systemPlugin controller];
 
     if(core == nil)
+        core = [self OE_coreForSystem:_systemPlugin error:outError];
+    
+    if(core == nil)
     {
         [[OECoreUpdater sharedUpdater] installCoreForGame:[[self rom] game] withCompletionHandler:
         ^(OECorePlugin *plugin, NSError *error)
