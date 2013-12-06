@@ -165,17 +165,13 @@ typedef enum : NSUInteger
     _gameSystemController = [_systemPlugin controller];
 
     if(core == nil)
-        core = [self OE_coreForSystem:_systemPlugin error:outError];
-
-    if(core == nil)
     {
-        if(outError != NULL)
-            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-                                            code:OENoCoreForSystemError
-                                        userInfo:
-                         @{ NSLocalizedFailureReasonErrorKey : NSLocalizedString(@"No suitable core found.", @"Core not installed error reason."),
-          NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString(@"Install a core for this system.", @"Core not installed error recovery suggestion.") }];
-        return NO;
+        [[OECoreUpdater sharedUpdater] installCoreForGame:[[self rom] game] withCompletionHandler:
+        ^(OECorePlugin *plugin, NSError *error)
+        {
+            [self presentError:error];
+            return;
+        }];
     }
 
     _gameCoreManager = [self _newGameCoreManagerWithCorePlugin:core];

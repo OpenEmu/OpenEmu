@@ -200,7 +200,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     {
         OECoreDownload *download = [validPlugins lastObject];
         NSString *coreName = [download name];
-        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Unfortunately, in order to play %@ you will need to install the '%@' Core", @""), [game name], coreName];
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@", @""), coreName, [game displayName]];
         [self installCoreWithDownload:download message:message completionHandler:handler];
     }
     else
@@ -234,7 +234,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     [aAlert setDefaultButtonTitle:NSLocalizedString(@"Install", @"")];
     [aAlert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
 
-    [aAlert setTitle:NSLocalizedString(@"Missing Core", @"")];
+    [aAlert setHeadlineText:NSLocalizedString(@"Missing Core", @"")];
     [aAlert setMessageText:message];
 
     [aAlert setDefaultButtonAction:@selector(startInstall) andTarget:self];
