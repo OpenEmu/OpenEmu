@@ -161,23 +161,23 @@ typedef enum : NSUInteger
 - (BOOL)OE_setupDocumentWithROM:(OEDBRom *)rom usingCorePlugin:(OECorePlugin *)core error:(NSError **)outError
 {
     _rom = rom;
+    _corePlugin = core;
     _systemPlugin = [[[[self rom] game] system] plugin];
     _gameSystemController = [_systemPlugin controller];
 
-    if(core == nil)
-        core = [self OE_coreForSystem:_systemPlugin error:outError];
+    if(_corePlugin == nil)
+        _corePlugin = [self OE_coreForSystem:_systemPlugin error:outError];
     
-    if(core == nil)
+    if(_corePlugin == nil)
     {
         [[OECoreUpdater sharedUpdater] installCoreForGame:[[self rom] game] withCompletionHandler:
         ^(OECorePlugin *plugin, NSError *error)
         {
-            [self presentError:error];
-            return;
+            [self OE_setupDocumentWithROM:rom usingCorePlugin:nil error:outError];
         }];
     }
 
-    _gameCoreManager = [self _newGameCoreManagerWithCorePlugin:core];
+    _gameCoreManager = [self _newGameCoreManagerWithCorePlugin:_corePlugin];
 
     return YES;
 }
