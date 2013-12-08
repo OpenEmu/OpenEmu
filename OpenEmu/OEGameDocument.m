@@ -855,13 +855,15 @@ typedef enum : NSUInteger
     // Check current system plugin for OERequiredFiles and core plugin for OEGameCoreRequiresFiles opt-in
     if ([_gameSystemController requiredFiles] != nil && [[[_gameCoreManager plugin] controller] requiresFiles]) {
         BOOL missingFileStatus = NO;
-        NSArray *validRequiredFiles = [_gameSystemController requiredFiles];
+        NSSortDescriptor *sortedRequiredFiles = [NSSortDescriptor sortDescriptorWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+        NSArray *validRequiredFiles = [[_gameSystemController requiredFiles] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortedRequiredFiles]];
         NSMutableString *missingFilesMessage = [[NSMutableString alloc] init];
         NSMutableString *missingFilesList = [[NSMutableString alloc] init];
         
         for(NSDictionary *validRequiredFile in validRequiredFiles)
         {
             NSString *biosFilename = [validRequiredFile objectForKey:@"Name"];
+            NSString *biosDescription = [validRequiredFile objectForKey:@"Description"];
             NSString *biosPath = [NSString pathWithComponents:@[
                                                                 [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
                                                                 @"OpenEmu", @"BIOS"]];
@@ -871,17 +873,14 @@ typedef enum : NSUInteger
             if (![[NSFileManager defaultManager] fileExistsAtPath:destFilePath])
             {
                 missingFileStatus = YES;
-                [missingFilesList appendString:biosFilename];
-                [missingFilesList appendString:@"\n"];
+                [missingFilesList appendString:[NSString stringWithFormat:@"%@\n\t\"%@\"\n\n", biosDescription, biosFilename]];
             }
             
         }
         // Alert the user of missing BIOS/system files that are required for the core
         if (missingFileStatus)
         {
-            [missingFilesMessage appendString:@"To run this core you need the following:\n\n"];
-            [missingFilesMessage appendString:missingFilesList];
-            [missingFilesMessage appendString:@"\nDrag and drop the required file(s) onto the game library window and try again."];
+            [missingFilesMessage appendString:[NSString stringWithFormat:@"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again.", missingFilesList]];
             
             OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(missingFilesMessage, @"")
                                                    defaultButton:NSLocalizedString(@"OK", @"")
