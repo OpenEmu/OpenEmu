@@ -10,6 +10,7 @@
 #import "OESQLiteDatabase.h"
 #import "NSURL+OELibraryAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
+#import "OEHUDAlert.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h> // we only need OELocalizationHelper
 
@@ -20,8 +21,8 @@
 + (id)sharedHelper
 {
     static OEGameInfoHelper *sharedHelper = nil;
-    if(!sharedHelper)
-    {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         sharedHelper = [[OEGameInfoHelper alloc] init];
 
         NSError *error = nil;
@@ -30,7 +31,14 @@
         NSURL *alternativeDBUrl = [applicationSupport URLByAppendingPathComponent:@"OpenEmu/db sample.sqlite"];
         if([alternativeDBUrl checkResourceIsReachableAndReturnError:nil])
             url = alternativeDBUrl;
-        
+
+        if(![alternativeDBUrl checkResourceIsReachableAndReturnError:nil])
+        {
+            OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"Unable to find ~/Library/Application Support/OpenEmu/db sample.sqlite" defaultButton:@":(" alternateButton:nil];
+            [alert runModal];
+            return;
+        }
+
         OESQLiteDatabase *database = [[OESQLiteDatabase alloc] initWithURL:url error:&error];
         if(database)
         {
@@ -40,12 +48,14 @@
         {
             [NSApp presentError:error];
         }
-    };
+    });
     return sharedHelper;
 }
 
 - (NSDictionary*)gameInfoForROM:(OEDBRom*)rom error:(NSError *__autoreleasing*)error
 {
+    if(![self database]) return @{};
+
     NSString *key, *value;
     
     int headerSize = [self sizeOfROMHeaderForSystem:[[rom game] system]];
@@ -83,6 +93,8 @@
 
 - (int)sizeOfROMHeaderForSystem:(OEDBSystem*)system
 {
+    if(![self database]) return 0;
+
     NSString *sql = [NSString stringWithFormat:@"select systemheadersizebytes as 'size' from systems where systemoeid = '%@'", [system systemIdentifier]];
     NSArray *result = [[self database] executeQuery:sql error:nil];
     return [[[result lastObject] objectForKey:@"size"] intValue];
