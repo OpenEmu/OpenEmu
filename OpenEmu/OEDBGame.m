@@ -207,11 +207,34 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 - (void)performInfoSync
 {
+    __block NSMutableDictionary *result = nil;
+    __block NSError *error = nil;
+
+    NSString * const boxImageURLKey = @"boxImageURL";
+    
     [[[self libraryDatabase] managedObjectContext] performBlockAndWait:^{
-        NSError *error = nil;
         OEDBRom *rom = [[self roms] anyObject];
-        id result = [[OEGameInfoHelper sharedHelper] gameInfoForROM:rom error:&error];
-        [[rom game] setValuesForKeysWithDictionary:result];
+        result = [[[OEGameInfoHelper sharedHelper] gameInfoForROM:rom error:&error] mutableCopy];
+    }];
+    
+    if(result != nil && [result objectForKey:boxImageURLKey] != nil)
+    {
+        NSString *normalizedURL = [[result objectForKey:boxImageURLKey] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSURL   *url = [NSURL URLWithString:normalizedURL];
+        NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
+
+        if(image)
+        {
+            [result removeObjectForKey:boxImageURLKey];
+            [[[self libraryDatabase] managedObjectContext] performBlockAndWait:^{
+                [self setBoxImageByImage:image];
+            }];
+        }
+    }
+
+    
+     [[[self libraryDatabase] managedObjectContext] performBlockAndWait:^{
+        [self setValuesForKeysWithDictionary:result];
         [self setLastArchiveSync:[NSDate date]];
         if(!result)
             [NSApp presentError:error];
