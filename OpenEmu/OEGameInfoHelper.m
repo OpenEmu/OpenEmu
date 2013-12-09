@@ -106,11 +106,31 @@
             return nil;
     }
 
-    NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT releaseTitleName as 'name', releaseCoverFront as 'boxImageURL', releaseDescription as 'gameDescription'\
+    NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT releaseTitleName as 'name', releaseCoverFront as 'boxImageURL', releaseDescription as 'gameDescription', regionName as 'region'\
                      FROM ROMs rom LEFT JOIN RELEASES release USING (romID) LEFT JOIN REGIONS region on (regionLocalizedID=region.regionID)\
                      WHERE %@ = '%@'", key, [value uppercaseString]];
 
-    NSArray *result = [[self database] executeQuery:sql error:error];
+    __block NSArray *result = [[self database] executeQuery:sql error:error];
+    if([result count] > 1)
+    {
+        NSString *preferredRegion = [[OELocalizationHelper sharedHelper] regionName];
+        [result enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if([[obj valueForKey:@"region"] isEqualToString:preferredRegion])
+            {
+                *stop = YES;
+                result = @[obj];
+            }
+        }];
+
+        if([result count] > 1)
+            result = @[[result lastObject]];
+    }
+
+    [result enumerateObjectsUsingBlock:^(NSMutableDictionary *obj, NSUInteger idx, BOOL *stop) {
+        [obj removeObjectForKey:@"region"];
+    }];
+
+
     return [result lastObject];
 }
 

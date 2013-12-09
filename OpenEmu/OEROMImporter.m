@@ -448,10 +448,13 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     IMPORTDLog(@"URL: %@", [item sourceURL]);
     if([[item importInfo] valueForKey:OEImportInfoROMObjectID]) return;
     
-    NSError  *error            = nil;
+    __block NSError  *error    = nil;
+    __block NSArray  *validSystems;
     NSURL    *url              = [[item importInfo] valueForKey:OEImportInfoArchivedFileURL] ?: [item URL];
-    
-    NSArray *validSystems = [OEDBSystem systemsForFileWithURL:url inDatabase:[self database] error:&error];
+
+    [[[self database] managedObjectContext] performBlockAndWait:^{
+        validSystems = [OEDBSystem systemsForFileWithURL:url inDatabase:[self database] error:&error];
+    }];
     NSArray *validSystemIdentifiers = nil;
     if(validSystems == nil)
     {
