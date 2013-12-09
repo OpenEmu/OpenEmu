@@ -594,12 +594,30 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 - (NSString *)cleanDisplayName
 {
     NSString *displayName = [self displayName];
+    NSDictionary *articlesDictionary = @{
+                                 @"A "   : @"2",
+                                 @"An "  : @"3",
+                                 @"Das " : @"4",
+                                 @"Der " : @"4",
+                                 //@"Die " : @"4", Biased since some English titles start with Die
+                                 @"Gli " : @"4",
+                                 @"L'"   : @"2",
+                                 @"La "  : @"3",
+                                 @"Las " : @"4",
+                                 @"Le "  : @"3",
+                                 @"Los " : @"4",
+                                 @"The " : @"4",
+                                 @"Un "  : @"3",
+                                 };
     
-    if([displayName hasPrefix:@"The "])
-        return [displayName substringFromIndex:4];
-    else if([displayName hasPrefix:@"A "])
-        return [displayName substringFromIndex:2];
-
+    for (id key in articlesDictionary) {
+        if([displayName hasPrefix:key])
+        {
+            return [displayName substringFromIndex:[articlesDictionary[key] integerValue]];
+        }
+        
+    }
+    
     return  displayName;
 }
 
