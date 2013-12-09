@@ -29,6 +29,8 @@
 #import "NSURL+OELibraryAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
 #import "OEHUDAlert.h"
+#import <XADMaster/XADArchive.h>
+
 
 #import <OpenEmuSystem/OpenEmuSystem.h> // we only need OELocalizationHelper
 
@@ -97,7 +99,10 @@
     else
     {
         key = @"romHashMD5";
-        if(![[NSFileManager defaultManager] hashFileAtURL:[rom URL] headerSize:headerSize md5:&value crc32:nil error:error])
+
+        NSURL *url = [self _urlOfExtractedRom:rom];
+        if(url == nil) url = [rom URL];
+        if(![[NSFileManager defaultManager] hashFileAtURL:url headerSize:headerSize md5:&value crc32:nil error:error])
             return nil;
     }
 
@@ -117,4 +122,48 @@
     NSArray *result = [[self database] executeQuery:sql error:nil];
     return [[[result lastObject] objectForKey:@"size"] intValue];
 }
+
+- (NSURL*)_urlOfExtractedRom:(OEDBRom*)rom
+{
+    NSString *path = [[rom URL] path];
+    XADArchive *archive = [XADArchive archiveForFile:path];
+    if (archive && [archive numberOfEntries] == 1)
+    {
+        NSString *formatName = [archive formatName];
+        if ([formatName isEqualToString:@"MacBinary"])
+            return nil;
+
+        if (![archive entryHasSize:0] || [archive entryIsEncrypted:0] || [archive entryIsDirectory:0] || [archive entryIsArchive:0])
+            return nil;
+
+        NSString *folder = temporaryDirectoryForDecompressionOfPath(path);
+        NSString *name = [archive nameOfEntry:0];
+        if ([[name pathExtension] length] == 0 && [[path pathExtension] length] > 0) {
+            // this won't do. Re-add the archive's extension in case it's .smc or the like
+            name = [name stringByAppendingPathExtension:[path pathExtension]];
+        }
+        NSString *tmpPath = [folder stringByAppendingPathComponent:name];
+
+        BOOL isdir;
+        NSURL *tmpURL = [NSURL fileURLWithPath:tmpPath];
+        NSFileManager *fm = [NSFileManager new];
+        if ([fm fileExistsAtPath:tmpPath isDirectory:&isdir] && !isdir) {
+            return tmpURL;
+        }
+
+        BOOL success = YES;
+        @try {
+            success = [archive _extractEntry:0 as:tmpPath];
+        }
+        @catch (NSException *exception) {
+            success = NO;
+        }
+        if (success)
+            return tmpURL;
+        else
+            [fm removeItemAtPath:folder error:nil];
+    }
+    return nil;
+}
+
 @end
