@@ -23,9 +23,14 @@
     if(!sharedHelper)
     {
         sharedHelper = [[OEGameInfoHelper alloc] init];
-    
+
         NSError *error = nil;
-        NSURL   *url   = [NSURL fileURLWithPath:[@"~/Downloads/Database/db sample.sqlite" stringByExpandingTildeInPath]];
+        NSURL   *url   = [[NSBundle mainBundle] URLForResource:@"db sample" withExtension:@"sqlite"];
+        NSURL *applicationSupport = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+        NSURL *alternativeDBUrl = [applicationSupport URLByAppendingPathComponent:@"OpenEmu/db sample.sqlite"];
+        if([alternativeDBUrl checkResourceIsReachableAndReturnError:nil])
+            url = alternativeDBUrl;
+        
         OESQLiteDatabase *database = [[OESQLiteDatabase alloc] initWithURL:url error:&error];
         if(database)
         {
@@ -67,22 +72,12 @@
         if(![[NSFileManager defaultManager] hashFileAtURL:[rom URL] headerSize:headerSize md5:&value crc32:nil error:error])
             return nil;
     }
-    
-    /* SQL to get name, gameDescription, gameID and boxImageURL from local database:
-     *
-     *  SELECT DISTINCT releaseTitleName as 'name', releaseCoverFront as 'boxImageURL', gameDescription as 'gameDescription', gameInfoID as 'archiveID'
-     *  FROM ROMs rom LEFT JOIN RELEASES release USING (romID) LEFT JOIN GAMESINFO info USING (gameInfoID) LEFT JOIN REGIONS region on (regionLocalizedID=region.regionID)
-     *  WHERE key = 'value'
-     */
-    NSString *regionFilter = [NSString stringWithFormat:@" and region.regionName = '%@'", [[OELocalizationHelper sharedHelper] regionName]];
-    NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT releaseTitleName as 'name', releaseCoverFront as 'boxImageURL', gameDescription as 'gameDescription', gameInfoID as 'archiveID'\
-                     FROM ROMs rom LEFT JOIN RELEASES release USING (romID) LEFT JOIN GAMESINFO info USING (gameInfoID) LEFT JOIN REGIONS region on (regionLocalizedID=region.regionID)\
+
+    NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT releaseTitleName as 'name', releaseCoverFront as 'boxImageURL', releaseDescription as 'gameDescription'\
+                     FROM ROMs rom LEFT JOIN RELEASES release USING (romID) LEFT JOIN REGIONS region on (regionLocalizedID=region.regionID)\
                      WHERE %@ = '%@'", key, [value uppercaseString]];
-    NSArray *result = [[self database] executeQuery:[sql stringByAppendingString:regionFilter] error:error];
-    if([result count] == 0)
-    {
-        result = [[self database] executeQuery:sql error:error];
-    }
+
+    NSArray *result = [[self database] executeQuery:sql error:error];
     return [result lastObject];
 }
 
