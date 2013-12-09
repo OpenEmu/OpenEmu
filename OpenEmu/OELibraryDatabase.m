@@ -139,7 +139,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (BOOL)loadManagedObjectContextWithError:(NSError **)outError
 {
-    _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 
     NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
     [_managedObjectContext setMergePolicy:policy];
@@ -932,10 +932,17 @@ static OELibraryDatabase *defaultDatabase = nil;
     [request setFetchLimit:1];
     [request setPredicate:predicate];
 
-    while((result = [[self managedObjectContext] executeFetchRequest:request error:&error]) && [result count])
+    [[self managedObjectContext] performBlockAndWait:^{
+        result = [[self managedObjectContext] executeFetchRequest:request error:&error];
+    }];
+    while([result count])
     {
         OEDBGame *game = [result lastObject];
         [game performInfoSync];
+        
+        [[self managedObjectContext] performBlockAndWait:^{
+            result = [[self managedObjectContext] executeFetchRequest:request error:&error];
+        }];
     }
 }
 

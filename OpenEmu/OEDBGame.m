@@ -197,6 +197,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     [[self libraryDatabase] save:nil];
     [[self libraryDatabase] startArchiveVGSync];
 }
+
 - (void)requestInfoSync
 {
         [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
@@ -206,6 +207,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 - (void)performInfoSync
 {
+    [[[self libraryDatabase] managedObjectContext] performBlockAndWait:^{
         NSError *error = nil;
         OEDBRom *rom = [[self roms] anyObject];
         id result = [[OEGameInfoHelper sharedHelper] gameInfoForROM:rom error:&error];
@@ -217,6 +219,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
         [self setLastArchiveSync:[NSDate date]];
         [self setStatus:@(OEDBGameStatusOK)];
         [[self libraryDatabase] save:nil];
+    }];
 }
 
 #pragma mark -
