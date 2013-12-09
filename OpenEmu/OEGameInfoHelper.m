@@ -83,8 +83,8 @@
 
 - (int)sizeOfROMHeaderForSystem:(OEDBSystem*)system
 {
-    // TODO: Read header size from database
-    if([[system systemIdentifier] isEqualToString:@"openemu.system.nes"]) return 16;
-    else return 0;
+    NSString *sql = [NSString stringWithFormat:@"select systemheadersizebytes as 'size' from systems where systemoeid = '%@'", [system systemIdentifier]];
+    NSArray *result = [[self database] executeQuery:sql error:nil];
+    return [[[result lastObject] objectForKey:@"size"] intValue];
 }
 @end

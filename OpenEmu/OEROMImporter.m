@@ -840,7 +840,6 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         
         [[self database] save:nil];
 
-        NSLog(@"!(%d && %d) && %d && %d", [error code]==OEImportErrorCodeAlreadyInDatabase, [[error domain] isEqualTo:OEImportErrorDomainSuccess], rom!=nil, [[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey]);
         if (!([error code]==OEImportErrorCodeAlreadyInDatabase && [[error domain] isEqualTo:OEImportErrorDomainSuccess]) && rom && [[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey]) {
             [[rom game] requestInfoSync];
         }
