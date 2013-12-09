@@ -80,9 +80,9 @@ extern NSString *const OEDisplayGameTitle;
 + (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database error:(NSError **)error;
 
 #pragma mark - Archive.VG Sync
-- (void)setNeedsArchiveSync;
-- (void)performArchiveSync; // will blocks until results arrive
-
+- (void)requestInfoSync;
+- (void)performInfoSync; // will blocks until results arrive
+- (void)requestCoverDownload;
 - (id)mergeInfoFromGame:(OEDBGame *)game;
 
 #pragma mark - Accessors

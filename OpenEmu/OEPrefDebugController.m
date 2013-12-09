@@ -171,7 +171,7 @@
             [allGames enumerateObjectsUsingBlock:
              ^(id obj, NSUInteger idx, BOOL *stop)
              {
-                 [(OEDBGame*)obj setNeedsArchiveSync];
+                 [(OEDBGame*)obj requestInfoSync];
              }];
             printf("\nDone\n");
             break;
@@ -181,7 +181,7 @@
              ^(id obj, NSUInteger idx, BOOL *stop)
              {
                  if([obj lastArchiveSync] == nil)
-                     [(OEDBGame*)obj setNeedsArchiveSync];
+                     [(OEDBGame*)obj requestInfoSync];
              }];
             printf("\nDone\n");
             break;

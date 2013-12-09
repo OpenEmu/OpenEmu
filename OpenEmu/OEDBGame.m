@@ -190,74 +190,22 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     return [context executeFetchRequest:request error:error];
 }
 
-#pragma mark - Archive.VG Sync
-/*
-- (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary
+#pragma mark - Archive.VG Sync / Info Lookup
+- (void)requestCoverDownload
 {
-    OEDBGame *game = self;
-    
-    // The following values have to be included in a valid archiveVG info dictionary
-    if([[gameInfoDictionary allKeys] count] == 0) return;
-    
-    NSNumber *archiveID = [gameInfoDictionary valueForKey:AVGGameIDKey];
-    if([archiveID integerValue] != 0)
-        [game setArchiveID:archiveID];
-    
-    NSString *stringValue = nil;
-    
-    stringValue = [gameInfoDictionary valueForKey:AVGGameRomNameKey];
-    if(stringValue != nil)
-    {
-        [game setName:stringValue];
-    }
-    
-    stringValue = [gameInfoDictionary valueForKey:AVGGameTitleKey];
-    if(stringValue != nil)
-    {
-        [game setGameTitle:stringValue];
-    }
-    
-    // Get + Set game developer
-    stringValue = [gameInfoDictionary valueForKey:AVGGameDeveloperKey];
-    if(stringValue != nil)
-    {
-        // TODO: Handle credits
-    }
-	
-    // Get + Set game description
-    stringValue = [gameInfoDictionary valueForKey:AVGGameDescriptionKey];
-    if(stringValue != nil)
-    {
-        [game setGameDescription:stringValue];
-    }
-    
-    // TODO: implement the following keys:
-    //// DLog(@"AVGGameGenreKey: %@", [gameInfoDictionary valueForKey:AVGGameGenreKey]);
-    if([gameInfoDictionary valueForKey:AVGGameBoxURLStringKey])
-        [game setBoxImageByURL:[NSURL URLWithString:[gameInfoDictionary valueForKey:AVGGameBoxURLStringKey]]];
-    //// DLog(@"AVGGameBoxURLKey: %@", [gameInfoDictionary valueForKey:AVGGameBoxURLKey]);
-    //// DLog(@"AVGGameESRBRatingKey: %@", [gameInfoDictionary valueForKey:AVGGameESRBRatingKey]);
-    //// DLog(@"AVGGameCreditsKey: %@", [gameInfoDictionary valueForKey:AVGGameCreditsKey]);
-    
-    // Save changes
-    //[[game libraryDatabase] save:nil];
-}
-*/
-- (void)setNeedsArchiveSync
-{
-    DLog(@"is Main Thread: %s", [NSThread isMainThread] ? "YES" : "NO");
-    
     [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
     [[self libraryDatabase] save:nil];
     [[self libraryDatabase] startArchiveVGSync];
 }
-
-- (void)performArchiveSync
+- (void)requestInfoSync
 {
-    DLog(@"is Main Thread: %s", [NSThread isMainThread] ? "YES" : "NO");
-    
-    [[self managedObjectContext] performBlockAndWait:^{
-        
+        [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
+        [[self libraryDatabase] save:nil];
+        [[self libraryDatabase] startArchiveVGSync];
+}
+
+- (void)performInfoSync
+{
         NSError *error = nil;
         OEDBRom *rom = [[self roms] anyObject];
         id result = [[OEGameInfoHelper sharedHelper] gameInfoForROM:rom error:&error];
@@ -269,7 +217,6 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
         [self setLastArchiveSync:[NSDate date]];
         [self setStatus:@(OEDBGameStatusOK)];
         [[self libraryDatabase] save:nil];
-    }];;
 }
 
 #pragma mark -
@@ -506,7 +453,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
         [self setGameDescription:gameDescription];
 }
 */
-#pragma mark - NSPasteboardWriting#
+#pragma mark - NSPasteboardWriting
 
 // TODO: fix pasteboard writing
 - (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard

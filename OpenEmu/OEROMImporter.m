@@ -711,7 +711,6 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 - (void)performImportStepCreateCoreDataObjects:(OEImportItem*)item
 {
     [[[self database] managedObjectContext] performBlockAndWait:^{
-        
         NSMutableDictionary *importInfo = [item importInfo];
         if([importInfo valueForKey:OEImportInfoROMObjectID] != nil)
         {
@@ -757,7 +756,6 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         if(game != nil)
         {
             [rom setGame:game];
-            
             [[self database] save:nil];
             
             NSAssert([[rom objectID] isTemporaryID] == FALSE, @"Temporary Object id...!!!");
@@ -765,7 +763,8 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             [importInfo setObject:objectID forKey:OEImportInfoROMObjectID];
             NSAssert([[game mutableRoms] count] != 0, @"THIS IS BAD!!!");
             [self stopImportForItem:item withError:nil];
-        }
+        } else
+            [[self database] save:nil];
     }];
 }
 
@@ -843,7 +842,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
         NSLog(@"!(%d && %d) && %d && %d", [error code]==OEImportErrorCodeAlreadyInDatabase, [[error domain] isEqualTo:OEImportErrorDomainSuccess], rom!=nil, [[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey]);
         if (!([error code]==OEImportErrorCodeAlreadyInDatabase && [[error domain] isEqualTo:OEImportErrorDomainSuccess]) && rom && [[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey]) {
-            [[rom game] setNeedsArchiveSync];
+            [[rom game] requestInfoSync];
         }
     }
     

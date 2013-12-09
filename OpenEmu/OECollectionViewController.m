@@ -753,7 +753,7 @@ static NSArray *OE_defaultSortDescriptors;
         [menu addItem:menuItem];
         
         [menu addItemWithTitle:NSLocalizedString(@"Match To Archive.vg URL…", @"") action:@selector(matchToArchive:) keyEquivalent:@""];
-        [menu addItemWithTitle:NSLocalizedString(@"Get Cover Art From Archive.vg", @"") action:@selector(getCoverFromArchive:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Download Cover Art", @"") action:@selector(downloadCoverArt:) keyEquivalent:@""];
         [menu addItemWithTitle:NSLocalizedString(@"Add Cover Art From File…", @"") action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
         [menu addItemWithTitle:NSLocalizedString(@"Consolidate Files…", @"") action:@selector(consolidateFiles:) keyEquivalent:@""];
 
@@ -800,7 +800,7 @@ static NSArray *OE_defaultSortDescriptors;
         [menu addItem:menuItem];
 
 
-        [menu addItemWithTitle:NSLocalizedString(@"Get Cover Art From Archive.vg", @"") action:@selector(getCoverFromArchive:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Download Cover Art", @"") action:@selector(downloadCoverArt:) keyEquivalent:@""];
         [menu addItemWithTitle:NSLocalizedString(@"Add Cover Art From File…", @"") action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
         [menu addItemWithTitle:NSLocalizedString(@"Consolidate Files…", @"") action:@selector(consolidateFiles:) keyEquivalent:@""];
 
@@ -1084,7 +1084,7 @@ static NSArray *OE_defaultSortDescriptors;
         {
             [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
                 [obj setArchiveID:archiveID];
-                [obj setNeedsArchiveSync];
+                [obj requestInfoSync];
             }];
         }
     }
@@ -1103,9 +1103,9 @@ static NSArray *OE_defaultSortDescriptors;
      */
 }
 
-- (void)getCoverFromArchive:(id)sender
+- (void)downloadCoverArt:(id)sender
 {
-    [[self selectedGames] makeObjectsPerformSelector:@selector(setNeedsArchiveSync)];
+    [[self selectedGames] makeObjectsPerformSelector:@selector(requestCoverDownload)];
 }
 
 - (void)addCoverArtFromFile:(id)sender

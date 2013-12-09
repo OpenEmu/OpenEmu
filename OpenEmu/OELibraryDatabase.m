@@ -932,15 +932,10 @@ static OELibraryDatabase *defaultDatabase = nil;
     [request setFetchLimit:1];
     [request setPredicate:predicate];
 
-    [[self managedObjectContext] performBlockAndWait:^{ result = [[self managedObjectContext] executeFetchRequest:request error:&error];}];
-    while([result count])
+    while((result = [[self managedObjectContext] executeFetchRequest:request error:&error]) && [result count])
     {
-        @autoreleasepool
-        {
-            OEDBGame *game = [result lastObject];
-            [game performArchiveSync];
-        }
-        [[self managedObjectContext] performBlockAndWait:^{ result = [[self managedObjectContext] executeFetchRequest:request error:&error];}];
+        OEDBGame *game = [result lastObject];
+        [game performInfoSync];
     }
 }
 

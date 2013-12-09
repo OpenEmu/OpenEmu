@@ -29,7 +29,6 @@
 #import "OELibraryDatabase.h"
 
 @implementation OEDBItem
-
 - (OELibraryDatabase *)libraryDatabase
 {
     return [[[self managedObjectContext] userInfo] valueForKey:OELibraryDatabaseUserInfoKey];
