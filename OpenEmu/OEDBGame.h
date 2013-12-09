@@ -80,8 +80,6 @@ extern NSString *const OEDisplayGameTitle;
 + (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database error:(NSError **)error;
 
 #pragma mark - Archive.VG Sync
-
-- (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary;
 - (void)setNeedsArchiveSync;
 - (void)performArchiveSync; // will blocks until results arrive
 
@@ -95,6 +93,7 @@ extern NSString *const OEDisplayGameTitle;
 @property(readonly) NSNumber      *saveStateCount;
 @property(readonly) NSNumber      *playCount;
 @property(readonly) NSNumber      *playTime;
+@property(nonatomic) NSString     *boxImageURL;
 
 - (BOOL)filesAvailable;
 
@@ -102,8 +101,6 @@ extern NSString *const OEDisplayGameTitle;
 
 - (void)setBoxImageByImage:(NSImage *)img;
 - (void)setBoxImageByURL:(NSURL *)url;
-
-- (void)mergeWithGameInfo:(NSDictionary *)archiveGameDict;
 
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag;
 

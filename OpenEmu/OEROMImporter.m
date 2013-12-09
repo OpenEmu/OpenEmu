@@ -38,8 +38,6 @@
 #import "NSFileManager+OEHashingAdditions.h"
 #import "NSArray+OEAdditions.h"
 
-#import "ArchiveVGThrottling.h"
-
 #import <CommonCrypto/CommonDigest.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import <XADMaster/XADArchive.h>
@@ -91,8 +89,11 @@ NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
 - (void)performImportStepDetermineSystem:(OEImportItem *)item;
 - (void)performImportStepOrganize:(OEImportItem *)item;
 - (void)performImportStepOrganizeAdditionalFiles:(OEImportItem *)item;
+
 - (void)performImportStepCreateRom:(OEImportItem *)item;
 - (void)performImportStepCreateGame:(OEImportItem *)item;
+
+- (void)performImportStepCreateCoreDataObjects:(OEImportItem *)item;
 
 - (void)scheduleItemForNextStep:(OEImportItem *)item;
 - (void)stopImportForItem:(OEImportItem *)item withError:(NSError *)error;
@@ -275,8 +276,11 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
                 case OEImportStepDetermineSystem : [importer performImportStepDetermineSystem:item]; break;
                 case OEImportStepOrganize        : [importer performImportStepOrganize:item];        break;
                 case OEImportStepOrganizeAdditionalFiles : [importer performImportStepOrganizeAdditionalFiles:item]; break;
+                    /*
                 case OEImportStepCreateRom       : [importer performImportStepCreateRom:item];       break;
                 case OEImportStepCreateGame      : [importer performImportStepCreateGame:item];      break;
+                     */
+                case OEImportStepCreateCoreDataObjects: [importer performImportStepCreateCoreDataObjects:item]; break;
                 default : return;
             }
             
@@ -641,6 +645,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 - (void)performImportStepCreateRom:(OEImportItem *)item
 {
+    DLogDeprecated();
     NSMutableDictionary *importInfo = [item importInfo];
     if([importInfo valueForKey:OEImportInfoROMObjectID] != nil)
     {
@@ -666,6 +671,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 - (void)performImportStepCreateGame:(OEImportItem *)item
 {
+    DLogDeprecated();
     IMPORTDLog(@"URL: %@", [item sourceURL]);
     NSMutableDictionary *importInfo = [item importInfo];
     
@@ -700,6 +706,67 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         NSAssert([[game mutableRoms] count] != 0, @"THIS IS BAD!!!");
         [self stopImportForItem:item withError:nil];
     }
+}
+
+- (void)performImportStepCreateCoreDataObjects:(OEImportItem*)item
+{
+    [[[self database] managedObjectContext] performBlockAndWait:^{
+        
+        NSMutableDictionary *importInfo = [item importInfo];
+        if([importInfo valueForKey:OEImportInfoROMObjectID] != nil)
+        {
+            OEDBRom *rom = [OEDBRom romWithURIURL:[importInfo valueForKey:OEImportInfoROMObjectID] inDatabase:[self database]];
+            [rom setURL:[item URL]];
+            [self stopImportForItem:item withError:nil];
+            return;
+        }
+        
+        NSError *error = nil;
+        NSString *md5 = [importInfo valueForKey:OEImportInfoMD5];
+        NSString *crc = [importInfo valueForKey:OEImportInfoCRC];
+        OEDBRom *rom = [OEDBRom createRomWithURL:[item URL] md5:md5 crc:crc inDatabase:[self database] error:&error];
+        if(rom == nil)
+        {
+            [self stopImportForItem:item withError:error];
+            return;
+        }
+        
+        OEDBGame *game = nil;
+        if(rom == nil || [rom game] != nil) return;
+        if(game == nil)
+        {
+            NSAssert([[importInfo valueForKey:OEImportInfoSystemID] count] == 1, @"System should have been detected at an earlier import stage");
+            
+            NSString *systemIdentifier = [[importInfo valueForKey:OEImportInfoSystemID] lastObject];
+            OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inDatabase:[self database]];
+            if(system == nil)
+            {
+                NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"No system! Someone must have deleted or disabled it!" forKey:NSLocalizedDescriptionKey];
+                error = [NSError errorWithDomain:OEImportErrorDomainFatal code:51 userInfo:userInfo];
+                [self stopImportForItem:item withError:error];
+            }
+            else
+            {
+                NSURL *url = [rom URL];
+                NSString *gameTitleWithSuffix = [url lastPathComponent];
+                NSString *gameTitleWithoutSuffix = [gameTitleWithSuffix stringByDeletingPathExtension];
+                game = [OEDBGame createGameWithName:gameTitleWithoutSuffix andSystem:system inDatabase:[self database]];
+            }
+        }
+        
+        if(game != nil)
+        {
+            [rom setGame:game];
+            
+            [[self database] save:nil];
+            
+            NSAssert([[rom objectID] isTemporaryID] == FALSE, @"Temporary Object id...!!!");
+            NSURL *objectID = [[rom objectID] URIRepresentation];
+            [importInfo setObject:objectID forKey:OEImportInfoROMObjectID];
+            NSAssert([[game mutableRoms] count] != 0, @"THIS IS BAD!!!");
+            [self stopImportForItem:item withError:nil];
+        }
+    }];
 }
 
 - (void)scheduleItemForNextStep:(OEImportItem *)item
@@ -774,6 +841,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         
         [[self database] save:nil];
 
+        NSLog(@"!(%d && %d) && %d && %d", [error code]==OEImportErrorCodeAlreadyInDatabase, [[error domain] isEqualTo:OEImportErrorDomainSuccess], rom!=nil, [[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey]);
         if (!([error code]==OEImportErrorCodeAlreadyInDatabase && [[error domain] isEqualTo:OEImportErrorDomainSuccess]) && rom && [[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey]) {
             [[rom game] setNeedsArchiveSync];
         }

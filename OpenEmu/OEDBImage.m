@@ -177,24 +177,22 @@
 // generates thumbnail to fill size
 - (void)generateThumbnailForSize:(NSSize)size
 {
-    @autoreleasepool {
-        OELibraryDatabase *library = [self libraryDatabase];
-        NSURL             *coverFolderURL = [library coverFolderURL];
-        
-        // Find Original Thumbnail
-        NSSet               *thumbnailsSet  = [self valueForKey:@"versions"];
-        NSSortDescriptor    *sotDescr       = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
-        NSArray             *thumbnails     = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
-        
-        OEDBImageThumbnail  *originalImageThumb  = [thumbnails lastObject];
-        NSURL               *originalURL         = [coverFolderURL URLByAppendingPathComponent:[originalImageThumb relativePath]];
-        NSImage             *originalImage       = [[NSImage alloc] initWithContentsOfURL:originalURL];
-        
-        if(!originalImage){
-            return;
-        }
-        OEDBImageThumbnail  *newThumbnail        = [[OEDBImageThumbnail alloc] initWithImage:originalImage size:size inLibrary:library];
-        [self addVersion:newThumbnail];
+    OELibraryDatabase *library = [self libraryDatabase];
+    NSURL             *coverFolderURL = [library coverFolderURL];
+    
+    // Find Original Thumbnail
+    NSSet               *thumbnailsSet  = [self valueForKey:@"versions"];
+    NSSortDescriptor    *sotDescr       = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
+    NSArray             *thumbnails     = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
+    
+    OEDBImageThumbnail  *originalImageThumb  = [thumbnails lastObject];
+    NSURL               *originalURL         = [coverFolderURL URLByAppendingPathComponent:[originalImageThumb relativePath]];
+    NSImage             *originalImage       = [[NSImage alloc] initWithContentsOfURL:originalURL];
+    
+    if(!originalImage){
+        return;
     }
+    OEDBImageThumbnail  *newThumbnail        = [[OEDBImageThumbnail alloc] initWithImage:originalImage size:size inLibrary:library];
+    [self addVersion:newThumbnail];
 }
 @end

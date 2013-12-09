@@ -27,11 +27,12 @@
 #import "OEDBGame.h"
 #import "OEDBImage.h"
 
-#import "ArchiveVG.h"
 #import "OELibraryDatabase.h"
 
 #import "OEDBSystem.h"
 #import "OEDBRom.h"
+
+#import "OEGameInfoHelper.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
 
@@ -190,7 +191,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 }
 
 #pragma mark - Archive.VG Sync
-
+/*
 - (void)setArchiveVGInfo:(NSDictionary *)gameInfoDictionary
 {
     OEDBGame *game = self;
@@ -241,32 +242,34 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     // Save changes
     //[[game libraryDatabase] save:nil];
 }
-
+*/
 - (void)setNeedsArchiveSync
 {
+    DLog(@"is Main Thread: %s", [NSThread isMainThread] ? "YES" : "NO");
+    
     [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
     [[self libraryDatabase] save:nil];
     [[self libraryDatabase] startArchiveVGSync];
 }
 
-
 - (void)performArchiveSync
 {
-    NSError      *error  = nil;
-    NSDictionary *result = nil;
-    NSSet        *roms   = [self roms];
-    for(OEDBRom *aRom in roms)
-    {
-        result = [[ArchiveVG throttled] gameInfoByMD5:[aRom md5Hash] andCRC:[aRom crcHash] error:&error];
-        if([result valueForKey:AVGGameIDKey] != nil && [[result valueForKey:AVGGameIDKey] integerValue] != 0)
-        {
-            [self setArchiveVGInfo:result];
-            break;
-        }
-    }
-    [self setLastArchiveSync:[NSDate date]];
-    [self setStatus:@(OEDBGameStatusOK)];
-    [[self libraryDatabase] save:nil];
+    DLog(@"is Main Thread: %s", [NSThread isMainThread] ? "YES" : "NO");
+    
+    [[self managedObjectContext] performBlockAndWait:^{
+        
+        NSError *error = nil;
+        OEDBRom *rom = [[self roms] anyObject];
+        id result = [[OEGameInfoHelper sharedHelper] gameInfoForROM:rom error:&error];
+        [[rom game] setValuesForKeysWithDictionary:result];
+        [self setLastArchiveSync:[NSDate date]];
+        if(!result)
+            [NSApp presentError:error];
+        
+        [self setLastArchiveSync:[NSDate date]];
+        [self setStatus:@(OEDBGameStatusOK)];
+        [[self libraryDatabase] save:nil];
+    }];;
 }
 
 #pragma mark -
@@ -396,6 +399,20 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     return result;
 }
 
+#pragma mark -
+- (NSString*)boxImageURL
+{
+    OEDBImage *image = [self boxImage];
+    return [image sourceURL];
+}
+
+- (void)setBoxImageURL:(NSString *)boxImageURL
+{
+    NSString *e = [boxImageURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [NSURL URLWithString:e];
+    [self setBoxImageByURL:url];
+}
+
 #pragma mark - Core Data utilities
 
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
@@ -450,30 +467,26 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 - (void)setBoxImageByURL:(NSURL *)url
 {
-    @autoreleasepool 
+    OEDBImage *boxImage = [self boxImage];
+    if(boxImage != nil)
+        [[boxImage managedObjectContext] deleteObject:boxImage];
+    
+    boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
+    
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *sizes = [standardDefaults objectForKey:OEBoxSizesKey];
+    // For each thumbnail size...
+    for(NSString *aSizeString in sizes)
     {
-        OEDBImage *boxImage = [self boxImage];
-        if(boxImage != nil)
-            [[boxImage managedObjectContext] deleteObject:boxImage];
-        
-        boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
-        
-        NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-        NSArray *sizes = [standardDefaults objectForKey:OEBoxSizesKey];
-        // For each thumbnail size...
-        for(NSString *aSizeString in sizes)
-        {
-            NSSize size = NSSizeFromString(aSizeString);
-            // ...generate thumbnail ;)
-            [boxImage generateThumbnailForSize:size];
-        }
-        
-        [self setBoxImage:boxImage];
+        NSSize size = NSSizeFromString(aSizeString);
+        // ...generate thumbnail ;)
+        [boxImage generateThumbnailForSize:size];
     }
+    
+    [self setBoxImage:boxImage];
 }
-
 #pragma mark -
-
+/*
 - (void)mergeWithGameInfo:(NSDictionary *)archiveGameDict
 {  
     if([[archiveGameDict valueForKey:AVGGameIDKey] intValue] == 0) return;
@@ -492,7 +505,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     if(gameDescription != nil)
         [self setGameDescription:gameDescription];
 }
-
+*/
 #pragma mark - NSPasteboardWriting#
 
 // TODO: fix pasteboard writing

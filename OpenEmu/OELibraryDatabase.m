@@ -389,7 +389,8 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     if(![[self managedObjectContext] save:error])
     {
-        [[NSApplication sharedApplication] presentError:*error];
+        if(error != NULL)
+            [[NSApplication sharedApplication] presentError:*error];
         return NO;
     }
 
@@ -923,21 +924,23 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (void)archiveVGSyncThread
 {
-    NSArray        *result    = nil;
-    NSError        *error     = nil;
+    __block NSArray *result    = nil;
+   __block  NSError        *error     = nil;
     NSFetchRequest *request   = [[NSFetchRequest alloc] initWithEntityName:[OEDBGame entityName]];
     NSPredicate    *predicate = [NSPredicate predicateWithFormat:@"status == %d", OEDBGameStatusProcessing];
 
     [request setFetchLimit:1];
     [request setPredicate:predicate];
 
-    while((result = [[self managedObjectContext] executeFetchRequest:request error:&error]) && [result count])
+    [[self managedObjectContext] performBlockAndWait:^{ result = [[self managedObjectContext] executeFetchRequest:request error:&error];}];
+    while([result count])
     {
         @autoreleasepool
         {
             OEDBGame *game = [result lastObject];
             [game performArchiveSync];
         }
+        [[self managedObjectContext] performBlockAndWait:^{ result = [[self managedObjectContext] executeFetchRequest:request error:&error];}];
     }
 }
 

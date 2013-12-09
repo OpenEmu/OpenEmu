@@ -36,8 +36,15 @@
 #pragma mark MD5
 - (BOOL)hashFileAtURL:(NSURL*)url md5:(NSString**)outMD5 crc32:(NSString**)outCRC32 error:(NSError**)error
 {
+    return [self hashFileAtURL:url headerSize:0 md5:outMD5 crc32:outCRC32 error:error];
+}
+
+- (BOOL)hashFileAtURL:(NSURL*)url headerSize:(int)headerSize md5:(NSString**)outMD5 crc32:(NSString**)outCRC32 error:(NSError**)error
+{
     NSFileHandle *handle = [NSFileHandle fileHandleForReadingFromURL:url error:error];
     if(handle == nil || (!outMD5 && !outCRC32)) return NO;
+    
+    [handle seekToFileOffset:headerSize];
     
     CC_MD5_CTX md5Context;
     CC_MD5_Init(&md5Context);
@@ -50,7 +57,7 @@
             CC_MD5_Update(&md5Context, [data bytes], (CC_LONG)[data length]);
             
             const unsigned char *bytes = [data bytes];
-            for(unsigned x = 0; x < [data length]; x++) 
+            for(unsigned x = 0; x < [data length]; x++)
                 crcval = ((crcval >> 8) & 0x00ffffff) ^ crc32table[(crcval ^ (*(bytes + x))) & 0xff];
             
             if(data == nil || [data length] < md5ChunkSize) break;
@@ -65,22 +72,22 @@
     
 	if(outMD5 != NULL)
 		*outMD5 = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
-               md5Digest[0], md5Digest[1], 
-               md5Digest[2], md5Digest[3],
-               md5Digest[4], md5Digest[5],
-               md5Digest[6], md5Digest[7],
-               md5Digest[8], md5Digest[9],
-               md5Digest[10], md5Digest[11],
-               md5Digest[12], md5Digest[13],
-               md5Digest[14], md5Digest[15]];
+                   md5Digest[0], md5Digest[1],
+                   md5Digest[2], md5Digest[3],
+                   md5Digest[4], md5Digest[5],
+                   md5Digest[6], md5Digest[7],
+                   md5Digest[8], md5Digest[9],
+                   md5Digest[10], md5Digest[11],
+                   md5Digest[12], md5Digest[13],
+                   md5Digest[14], md5Digest[15]];
     
     // Finalize CRC32
     unsigned crc32 = crcval ^ 0xffffffff;
-    *outCRC32 = [NSString stringWithFormat:@"%08x", crc32];
+    if(outCRC32 != nil)
+        *outCRC32 = [NSString stringWithFormat:@"%08x", crc32];
     
     return YES;
 }
-
 #pragma mark -
 #pragma mark crc32
 static const unsigned int crc32table[] =

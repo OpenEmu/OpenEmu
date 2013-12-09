@@ -43,8 +43,11 @@ typedef enum  {
     OEImportStepCheckHash,
     OEImportStepOrganize,
     OEImportStepOrganizeAdditionalFiles,
+    OEImportStepCreateCoreDataObjects,
+    /*
     OEImportStepCreateRom,
     OEImportStepCreateGame,
+     */
 } OEImportStep;
 
 typedef void (^OEImportItemCompletionBlock)(void);

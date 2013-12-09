@@ -31,7 +31,6 @@
 #import "NSString+OERangeAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
 
-#import "ArchiveVGThrottling.h"
 
 const int64_t kOEDisconnectDelay   = 1.0;
 const int32_t kOERetrodeVendorID  = 0x0403;

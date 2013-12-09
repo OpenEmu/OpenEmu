@@ -51,8 +51,6 @@
 #import "OEDBCollection.h"
 #import "OEDBSaveState.h"
 
-#import "ArchiveVG.h"
-
 #import "OECenteredTextFieldCell.h"
 #import "OELibraryDatabase.h"
 
@@ -1058,6 +1056,7 @@ static NSArray *OE_defaultSortDescriptors;
 
 - (void)matchToArchive:(id)sender
 {
+    /*
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     [alert setInputLabelText:NSLocalizedString(@"URL:", @"")];
     [alert setShowsInputField:YES];
@@ -1089,17 +1088,19 @@ static NSArray *OE_defaultSortDescriptors;
             }];
         }
     }
-    
+    */
 }
 
 - (IBAction)showGamesAtArchive:(id)sender
 {
+    /*
     NSArray *selectedGames = [self selectedGames];
     for(OEDBGame *game in selectedGames)
     {
         NSURL *url = [ArchiveVG browserURLForArchiveID:[game archiveID]];
         if(url != nil) [[NSWorkspace sharedWorkspace] openURL:url];
     }
+     */
 }
 
 - (void)getCoverFromArchive:(id)sender
