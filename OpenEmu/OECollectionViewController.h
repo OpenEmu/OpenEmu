@@ -55,7 +55,6 @@
 #pragma mark -
 #pragma mark Context Menu Actions
 - (IBAction)showSelectedGamesInFinder:(id)sender;
-- (IBAction)showGamesAtArchive:(id)sender;
 
 #pragma mark -
 - (id <OECollectionViewItemProtocol>)representedObject;

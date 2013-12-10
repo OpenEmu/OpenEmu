@@ -190,7 +190,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     return [context executeFetchRequest:request error:error];
 }
 
-#pragma mark - Archive.VG Sync / Info Lookup
+#pragma mark - Cover Art Database Sync / Info Lookup
 - (void)requestCoverDownload
 {
     [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];

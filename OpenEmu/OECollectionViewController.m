@@ -742,17 +742,6 @@ static NSArray *OE_defaultSortDescriptors;
         [menu addItemWithTitle:NSLocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
 
-        // Temporarily disable Get Game Info from Archive.vg per issue #322. This should be eventually enabled in a later version.
-        // See the corresponding menu item a few lines below.
-
-        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Show Game At Archive.vg", @"")
-                                              action:@selector(showGamesAtArchive:)
-                                       keyEquivalent:@""];
-        if([[game archiveID] integerValue] == 0)
-            [menuItem setEnabled:NO];
-        [menu addItem:menuItem];
-        
-        [menu addItemWithTitle:NSLocalizedString(@"Match To Archive.vg URL…", @"") action:@selector(matchToArchive:) keyEquivalent:@""];
         [menu addItemWithTitle:NSLocalizedString(@"Download Cover Art", @"") action:@selector(downloadCoverArt:) keyEquivalent:@""];
         [menu addItemWithTitle:NSLocalizedString(@"Add Cover Art From File…", @"") action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
         [menu addItemWithTitle:NSLocalizedString(@"Consolidate Files…", @"") action:@selector(consolidateFiles:) keyEquivalent:@""];
@@ -780,25 +769,6 @@ static NSArray *OE_defaultSortDescriptors;
         [menu addItem:menuItem];    
         [menu addItemWithTitle:NSLocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
-
-        // Temporarily disable Get Game Info from Archive.vg per issue #322. This should be eventually enabled in a later version.
-        // See the corresponding menu item a few lines above.
-
-        // Check if any selected games have an archiveID attached to them, if so enable menu item
-        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Show Games At Archive.vg", @"")
-                                              action:@selector(showGamesAtArchive:)
-                                       keyEquivalent:@""];
-        [menuItem setEnabled:NO];
-        for(OEDBGame *game in games)
-        {
-            if([[game archiveID] integerValue] != 0)
-            {
-                [menuItem setEnabled:YES];
-                break;
-            }
-        }
-        [menu addItem:menuItem];
-
 
         [menu addItemWithTitle:NSLocalizedString(@"Download Cover Art", @"") action:@selector(downloadCoverArt:) keyEquivalent:@""];
         [menu addItemWithTitle:NSLocalizedString(@"Add Cover Art From File…", @"") action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
@@ -1052,55 +1022,6 @@ static NSArray *OE_defaultSortDescriptors;
     
     NSArray *selectedGames = [self selectedGames];
     [[collection mutableGames] addObjectsFromArray:selectedGames];
-}
-
-- (void)matchToArchive:(id)sender
-{
-    /*
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
-    [alert setInputLabelText:NSLocalizedString(@"URL:", @"")];
-    [alert setShowsInputField:YES];
-    [alert setDefaultButtonTitle:NSLocalizedString(@"OK", @"")];
-    [alert setStringValue:@""];
-    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
-    
-    NSArray *selectedGames = [self selectedGames];
-    if([selectedGames count] == 1)
-    {
-        NSURL *url = [ArchiveVG browserURLForArchiveID:[[selectedGames lastObject] archiveID]];
-        if(url)
-            [alert setStringValue:[url absoluteString]];
-    }
-    
-    if ([alert runModal] == NSOKButton)
-    {
-        NSString *stringURL = [alert stringValue];
-        if (![stringURL length])
-            return;
-        
-        NSURL    *url = [NSURL URLWithString:stringURL];
-        NSNumber *archiveID = [ArchiveVG archiveIDFromBrowserURL:url];
-        if(archiveID != nil && [archiveID intValue]  != 0)
-        {
-            [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-                [obj setArchiveID:archiveID];
-                [obj requestInfoSync];
-            }];
-        }
-    }
-    */
-}
-
-- (IBAction)showGamesAtArchive:(id)sender
-{
-    /*
-    NSArray *selectedGames = [self selectedGames];
-    for(OEDBGame *game in selectedGames)
-    {
-        NSURL *url = [ArchiveVG browserURLForArchiveID:[game archiveID]];
-        if(url != nil) [[NSWorkspace sharedWorkspace] openURL:url];
-    }
-     */
 }
 
 - (void)downloadCoverArt:(id)sender

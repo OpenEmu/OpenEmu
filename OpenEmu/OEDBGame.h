@@ -79,7 +79,7 @@ extern NSString *const OEDisplayGameTitle;
 + (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database;
 + (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database error:(NSError **)error;
 
-#pragma mark - Archive.VG Sync
+#pragma mark - Cover Art Database Sync
 - (void)requestInfoSync;
 - (void)performInfoSync; // will blocks until results arrive
 - (void)requestCoverDownload;
