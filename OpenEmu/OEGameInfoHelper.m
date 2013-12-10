@@ -46,62 +46,50 @@
         sharedHelper = [[OEGameInfoHelper alloc] init];
 
         NSError *error = nil;
-        NSURL   *url   = [[NSBundle mainBundle] URLForResource:@"db sample" withExtension:@"sqlite"];
         NSURL *applicationSupport = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
-        NSURL *alternativeDBUrl = [applicationSupport URLByAppendingPathComponent:@"OpenEmu/db sample.sqlite"];
-        if([alternativeDBUrl checkResourceIsReachableAndReturnError:nil])
-            url = alternativeDBUrl;
-
-        if(![alternativeDBUrl checkResourceIsReachableAndReturnError:nil])
+        NSURL *databaseURL = [applicationSupport URLByAppendingPathComponent:@"OpenEmu/openvgdb.sqlite"];
+        if(![databaseURL checkResourceIsReachableAndReturnError:nil])
         {
-            OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"Unable to find ~/Library/Application Support/OpenEmu/db sample.sqlite" defaultButton:@":(" alternateButton:nil];
+            OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"Unable to find ~/Library/Application Support/OpenEmu/openvgdb.sqlite" defaultButton:@":(" alternateButton:nil];
             [alert runModal];
             return;
         }
 
-        OESQLiteDatabase *database = [[OESQLiteDatabase alloc] initWithURL:url error:&error];
+        OESQLiteDatabase *database = [[OESQLiteDatabase alloc] initWithURL:databaseURL error:&error];
         if(database)
-        {
             [sharedHelper setDatabase:database];
-        }
         else
-        {
             [NSApp presentError:error];
-        }
     });
     return sharedHelper;
 }
 
 - (NSDictionary*)gameInfoForROM:(OEDBRom*)rom error:(NSError *__autoreleasing*)error
 {
+    // TODO: this method could use some cleanup
     if(![self database]) return @{};
+
+    NSString * const DBMD5Key= @"romHashMD5";
+    NSString * const DBCRCKey= @"romHashCRC";
 
     NSString *key, *value;
     
     int headerSize = [self sizeOfROMHeaderForSystem:[[rom game] system]];
-    if(headerSize == 0) // rom has no header, that means we can use the hash we calculated at import
-    {
-        if((value = [rom md5HashIfAvailable]) != nil)
-        {
-            key = @"romHashMD5";
-        }
-        else if((value = [rom crcHashIfAvailable]) != nil)
-        {
-            key = @"romHashCRC";
-        }
-        /*
-         else if((value = [rom sha1HashIfAvailable]) != nil)
-         {
-         key = @"romHashSHA1";
-         }
-         */
-    }
+
+    // if rom has no header we can use the hash we calculated at import
+    if(headerSize == 0 && (value = [rom md5HashIfAvailable]) != nil)
+        key = DBMD5Key;
+    else if(headerSize == 0 && (value = [rom crcHashIfAvailable]) != nil)
+        key = DBCRCKey;
     else
     {
-        key = @"romHashMD5";
+        key = DBMD5Key;
 
+        // try to extract archive, returns nil if rom is no archive
         NSURL *url = [self _urlOfExtractedRom:rom];
-        if(url == nil) url = [rom URL];
+        if(url == nil) // rom is no archive, use original file URL
+            url = [rom URL];
+
         if(![[NSFileManager defaultManager] hashFileAtURL:url headerSize:headerSize md5:&value crc32:nil error:error])
             return nil;
     }
@@ -113,6 +101,8 @@
     __block NSArray *result = [[self database] executeQuery:sql error:error];
     if([result count] > 1)
     {
+        // the database holds multiple regions for this rom (probably WORLD rom)
+        // so we pick the preferred region if it's available or just any if not
         NSString *preferredRegion = [[OELocalizationHelper sharedHelper] regionName];
         [result enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             if([[obj valueForKey:@"region"] isEqualToString:preferredRegion])
@@ -122,14 +112,15 @@
             }
         }];
 
-        if([result count] > 1)
+        // preferred region not found, just pick one
+        if([result count] != 1)
             result = @[[result lastObject]];
     }
 
+    // remove the region key so the result can be directly passed to OEDBGame
     [result enumerateObjectsUsingBlock:^(NSMutableDictionary *obj, NSUInteger idx, BOOL *stop) {
         [obj removeObjectForKey:@"region"];
     }];
-
 
     return [result lastObject];
 }
