@@ -31,13 +31,39 @@
 #import "OEHUDAlert.h"
 #import <XADMaster/XADArchive.h>
 
-
 #import <OpenEmuSystem/OpenEmuSystem.h> // we only need OELocalizationHelper
 
-@interface OEGameInfoHelper ()
+NSString * const OEOpenVGDBVersionDateKey    = @"OpenVGDBVersionInstalled";
+NSString * const OEOpenVGDBUpdateCheckKey     = @"OpenVGDBUpdatesChecked";
+NSString * const OEOpenVGDBUpdateIntervalKey = @"OpenVGDBUpdateInterval";
+
+
+NSString * const OpenVGDBFileName = @"openvgdb";
+NSString * const OpenVGDBDownloadURL = @"https://github.com/OpenVGDB/OpenVGDB/releases/download";
+NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/OpenVGDB/releases?page=1&per_page=1";
+
+@interface OEGameInfoHelper () <NSURLDownloadDelegate>
 @property OESQLiteDatabase *database;
+
+@property BOOL updating;
+@property NSString *downloadPath;
+@property NSInteger expectedLength, downloadedSize;
+@property OEHUDAlert *progressAlert;
 @end
 @implementation OEGameInfoHelper
+
++ (void)initialize
+{
+    if(self == [OEGameInfoHelper class])
+    {
+        NSDictionary *defaults = @{ OEOpenVGDBVersionDateKey:[NSDate dateWithTimeIntervalSince1970:0],
+                                    OEOpenVGDBUpdateCheckKey:[NSDate dateWithTimeIntervalSince1970:0],
+                                 OEOpenVGDBUpdateIntervalKey:@(60*60*24*7) // once a week
+                                  };
+        [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+    }
+}
+
 + (id)sharedHelper
 {
     static OEGameInfoHelper *sharedHelper = nil;
@@ -46,27 +72,197 @@
         sharedHelper = [[OEGameInfoHelper alloc] init];
 
         NSError *error = nil;
-        NSURL *applicationSupport = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
-        NSURL *databaseURL = [applicationSupport URLByAppendingPathComponent:@"OpenEmu/openvgdb.sqlite"];
+        NSURL *databaseURL = [sharedHelper databaseFileURL];
         if(![databaseURL checkResourceIsReachableAndReturnError:nil])
         {
-            OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"Unable to find ~/Library/Application Support/OpenEmu/openvgdb.sqlite" defaultButton:@":(" alternateButton:nil];
-            [alert runModal];
-            return;
+            OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"You need the OpenVGDB database to lookup game info. Do you want to install it now?" defaultButton:@"Install" alternateButton:@"Don't Install"];
+            if([alert runModal] == NSAlertDefaultReturn)
+            {
+                [sharedHelper setUpdating:YES];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSURL *newRelease = [sharedHelper checkForUpdates];
+                    [sharedHelper performSelectorInBackground:@selector(installVersionWithDownloadURL:) withObject:newRelease];
+                });
+            }
         }
-
-        OESQLiteDatabase *database = [[OESQLiteDatabase alloc] initWithURL:databaseURL error:&error];
-        if(database)
-            [sharedHelper setDatabase:database];
         else
-            [NSApp presentError:error];
+        {
+            OESQLiteDatabase *database = [[OESQLiteDatabase alloc] initWithURL:databaseURL error:&error];
+            if(database)
+                [sharedHelper setDatabase:database];
+            else
+                [NSApp presentError:error];
+
+
+            // check for updates
+            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+            dispatch_async(queue, ^{
+                NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+                NSDate *lastUpdateCheck = [standardUserDefaults  objectForKey:OEOpenVGDBUpdateCheckKey];
+                double updateInterval   = [standardUserDefaults  doubleForKey:OEOpenVGDBUpdateIntervalKey];
+
+                if([[NSDate date] timeIntervalSinceDate:lastUpdateCheck] > updateInterval)
+                {
+                    NSLog(@"Check for updates (%f > %f)", [[NSDate date] timeIntervalSinceDate:lastUpdateCheck], updateInterval);
+                    NSURL *newRelease = [sharedHelper checkForUpdates];
+                    if(newRelease != nil)
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [sharedHelper promptForNewVersionWithDownloadURL:newRelease];
+                        });
+                }
+            });
+        }
     });
     return sharedHelper;
 }
+#pragma mark -
+- (NSURL*)databaseFileURL
+{
+    NSURL *applicationSupport = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+    return [applicationSupport URLByAppendingPathComponent:@"OpenEmu/openvgdb.sqlite"];
+}
+#pragma mark -
+- (NSURL*)checkForUpdates
+{
+    NSError *error = nil;
+    NSURL   *url = [NSURL URLWithString:OpenVGDBUpdateURL];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30];
+    [request setValue:@"OpenEmu" forHTTPHeaderField:@"User-Agent"];
 
+    NSData *result = [NSURLConnection sendSynchronousRequest:request returningResponse:NULL error:&error];
+    if(result == nil)
+        [NSApp presentError:error];
+    else
+    {
+        NSArray *releases = [NSJSONSerialization JSONObjectWithData:result options:NSJSONReadingAllowFragments error:&error];
+        if(releases == nil)
+            [NSApp presentError:error];
+        else
+        {
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            NSDate *currentVersionDate = [defaults objectForKey:OEOpenVGDBVersionDateKey];
+            NSDateFormatter* jsonDateFormatter = [[NSDateFormatter alloc] init];
+            [jsonDateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+
+            [defaults setObject:[NSDate date] forKey:OEOpenVGDBUpdateCheckKey];
+
+            for(id aRelease in releases)
+            {
+                if([aRelease isKindOfClass:[NSDictionary class]] && [aRelease objectForKey:@"published_at"])
+                {
+                    NSString *publishDateString = [aRelease objectForKey:@"published_at"];
+                    NSDate   *publishDate = [jsonDateFormatter dateFromString:publishDateString];
+                    if(publishDate && [publishDate compare:currentVersionDate] == NSOrderedDescending)
+                    {
+                        id tagName = [aRelease objectForKey:@"tag_name"];
+                        if([tagName isKindOfClass:[NSString class]])
+                        {
+                            NSString *URLString = [NSString stringWithFormat:@"%@/%@/%@.zip", OpenVGDBDownloadURL, tagName, OpenVGDBFileName];
+                            return [NSURL URLWithString:URLString];
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return nil;
+}
+
+- (void)promptForNewVersionWithDownloadURL:(NSURL *)url
+{
+    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"A new version of OpenVGDB is available, do you want to install it now?" defaultButton:@"Install" alternateButton:@"Dont't Install"];
+    if([alert runModal] == NSAlertDefaultReturn)
+        [self performSelectorInBackground:@selector(installVersionWithDownloadURL:) withObject:url];
+}
+
+- (void)installVersionWithDownloadURL:(NSURL*)url
+{
+    NSAssert([NSThread isMainThread] == NO, @"Cannot run from main thread! Everything would explode!");
+
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    [alert setMessageText:@"Downloading rom info database..."];
+    [alert setShowsProgressbar:YES];
+    [alert setProgress:0.0];
+    [alert setAlternateButtonTitle:@"Cancel"];
+
+    [self setProgressAlert:alert];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"URL: %@", url);
+        NSURLRequest  *request = [NSURLRequest requestWithURL:url];
+        NSURLDownload *fileDownload = [[NSURLDownload alloc] initWithRequest:request delegate:self];
+    });
+
+    [alert runModal];
+}
+
+#pragma mark - NSURLDownload Delegate
+- (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
+{
+    _downloadPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"OpenVGDB.%@", [NSString stringWithUUID]]];
+    [download setDestination:_downloadPath allowOverwrite:NO];
+}
+
+- (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
+{
+    self.updating = NO;
+
+    NSLog(@"%d:: %@", [NSThread isMainThread], error);
+
+    [[self progressAlert] setShowsProgressbar:NO];
+    [[self progressAlert] setTitle:[error localizedDescription]];
+    [[self progressAlert] setDefaultButtonTitle:@"Ok"];
+    [[self progressAlert] setAlternateButtonTitle:nil];
+}
+
+- (void)download:(NSURLDownload *)download didCreateDestination:(NSString *)path
+{
+    DLog(@"%@, %@", @"created dest", path);
+}
+
+- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
+{
+    _downloadedSize += length;
+
+    OEHUDAlert *alert = [self progressAlert];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert setProgress:(double) _downloadedSize /  (double) _expectedLength];
+    });
+}
+
+- (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response
+{
+    _expectedLength = [response expectedContentLength];
+    DLog(@"Got response");
+}
+
+- (void)downloadDidFinish:(NSURLDownload *)download
+{
+    XADArchive *archive = [XADArchive archiveForFile:_downloadPath];
+
+    NSURL *url = [self databaseFileURL];
+    NSURL *databaseFolder = [url URLByDeletingLastPathComponent];
+    [archive extractTo:[databaseFolder path]];
+
+    [[NSFileManager defaultManager] removeItemAtPath:_downloadPath error:nil];
+
+    OESQLiteDatabase *database = [[OESQLiteDatabase alloc] initWithURL:url error:nil];
+    [self setDatabase:database];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self progressAlert] setShowsProgressbar:NO];
+        [[self progressAlert] setTitle:@"Database was installed"];
+        [[self progressAlert] setDefaultButtonTitle:@"Done"];
+        [[self progressAlert] setAlternateButtonTitle:nil];
+    });
+
+    self.updating = NO;
+}
+#pragma mark -
 - (NSDictionary*)gameInfoForROM:(OEDBRom*)rom error:(NSError *__autoreleasing*)error
 {
     // TODO: this method could use some cleanup
+    // TODO: remove extracted rom if necessary
     if(![self database]) return @{};
 
     NSString * const DBMD5Key= @"romHashMD5";
