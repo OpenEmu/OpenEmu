@@ -591,6 +591,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
                                  @"La "  : @"3",
                                  @"Las " : @"4",
                                  @"Le "  : @"3",
+                                 @"Les " : @"4",
                                  @"Los " : @"4",
                                  @"The " : @"4",
                                  @"Un "  : @"3",
