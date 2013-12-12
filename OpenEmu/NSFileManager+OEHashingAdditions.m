@@ -42,7 +42,8 @@
 - (BOOL)hashFileAtURL:(NSURL*)url headerSize:(int)headerSize md5:(NSString**)outMD5 crc32:(NSString**)outCRC32 error:(NSError**)error
 {
     NSFileHandle *handle = [NSFileHandle fileHandleForReadingFromURL:url error:error];
-    if(handle == nil || (!outMD5 && !outCRC32)) return NO;
+    if(handle == nil || (!outMD5 && !outCRC32))
+        return NO;
     
     [handle seekToFileOffset:headerSize];
     

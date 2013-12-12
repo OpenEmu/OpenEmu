@@ -88,7 +88,7 @@ NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/Ope
         else
         {
             OESQLiteDatabase *database = [[OESQLiteDatabase alloc] initWithURL:databaseURL error:&error];
-            if(database)
+            if(database != nil)
                 [sharedHelper setDatabase:database];
             else
                 [NSApp presentError:error];

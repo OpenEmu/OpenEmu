@@ -113,7 +113,7 @@ typedef enum : NSInteger {
 - (void)pause;
 - (void)cancel;
 
-- (void)processNextItemIfNeeded;
+- (void)processNextItem;
 - (void)removeFinished;
 
 - (BOOL)saveQueue;

@@ -193,16 +193,20 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 #pragma mark - Cover Art Database Sync / Info Lookup
 - (void)requestCoverDownload
 {
-    [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
-    [[self libraryDatabase] save:nil];
-    [[self libraryDatabase] startArchiveVGSync];
+    [[self managedObjectContext] performBlockAndWait:^{
+        [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
+        [[self libraryDatabase] save:nil];
+        [[self libraryDatabase] startArchiveVGSync];
+    }];
 }
 
 - (void)requestInfoSync
 {
+    [[self managedObjectContext] performBlockAndWait:^{
         [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
         [[self libraryDatabase] save:nil];
         [[self libraryDatabase] startArchiveVGSync];
+    }];
 }
 
 - (void)performInfoSync
@@ -233,13 +237,12 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     }
 
     
-     [[[self libraryDatabase] managedObjectContext] performBlockAndWait:^{
-        [self setValuesForKeysWithDictionary:result];
-        [self setLastArchiveSync:[NSDate date]];
-        if(!result)
-            [NSApp presentError:error];
-        
-        [self setLastArchiveSync:[NSDate date]];
+    [[[self libraryDatabase] managedObjectContext] performBlockAndWait:^{
+        if(result != nil)
+        {
+            [self setValuesForKeysWithDictionary:result];
+            [self setLastArchiveSync:[NSDate date]];
+        }
         [self setStatus:@(OEDBGameStatusOK)];
         [[self libraryDatabase] save:nil];
     }];

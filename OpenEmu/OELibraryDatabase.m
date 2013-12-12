@@ -383,7 +383,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     if(![[self managedObjectContext] hasChanges])
     {
-        NSLog(@"Database did not change. Skip Saving.");
+        // DLog(@"Database did not change. Skip Saving.");
         return YES;
     }
 

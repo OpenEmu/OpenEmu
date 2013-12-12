@@ -88,7 +88,6 @@ static const CGFloat _OEToolbarHeight = 44;
     [sidebarCtrl setDatabase:[self database]];
 
     [[self view] setPostsFrameChangedNotifications:YES];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:[self view]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:OESidebarSelectionDidChangeNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:sidebarCtrl];
     
@@ -113,11 +112,6 @@ static const CGFloat _OEToolbarHeight = 44;
 
     [_toolbarAddToSidebarButton setToolTip:NSLocalizedString(@"New Collection", @"Tooltip")];
     [_toolbarAddToSidebarButton setToolTipStyle:OEToolTipStyleDefault];
-}
-
-- (void)viewFrameDidChange:(NSNotification *)notification
-{
-    NSLog(@"frame did change: %@", NSStringFromRect([[self view] frame]));
 }
 
 - (void)viewDidAppear

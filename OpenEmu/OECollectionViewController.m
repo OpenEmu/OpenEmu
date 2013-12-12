@@ -1403,12 +1403,12 @@ static NSArray *OE_defaultSortDescriptors;
 
     if(hasGameInsertions || hasGameDeletions)
     {
-        [self performSelector:@selector(noteNumbersChanged) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
+        [self performSelector:@selector(noteNumbersChanged) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
     }
     else if(hasGameUpdates)
     {
         // Nothing was removed or added, just updated so just update the visible items
-        [self performSelector:@selector(setNeedsReloadVisible) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
+        [self performSelector:@selector(setNeedsReloadVisible) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
     }
 }
 
@@ -1433,7 +1433,6 @@ static NSArray *OE_defaultSortDescriptors;
 - (void)updateViews
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateViews) object:nil];
-
     [self OE_fetchGames];
     [gridView noteNumberOfCellsChanged];
     [listView noteNumberOfRowsChanged];
