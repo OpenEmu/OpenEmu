@@ -81,16 +81,34 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationNone];
+
     NSImage *trackImage = [NSImage imageNamed:@"hud_progress_bar_track"];
-    [trackImage drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:7 rightBorder:7 topBorder:2 bottomBorder:2];
-    
+    NSImage *trackStart = [trackImage subImageFromRect:NSMakeRect(0, 0, 7, 14)];
+    [trackStart setMatchesOnlyOnBestFittingAxis:YES];
+    NSImage *trackMid = [trackImage subImageFromRect:NSMakeRect(7, 0, 1, 14)];
+    [trackMid setMatchesOnlyOnBestFittingAxis:YES];
+    NSImage *trackEnd = [trackImage subImageFromRect:NSMakeRect(8, 0, 7, 14)];
+    [trackEnd setMatchesOnlyOnBestFittingAxis:YES];
+
+    NSDrawThreePartImage([self bounds], trackStart, trackMid, trackEnd, NO, NSCompositeSourceOver, 1.0, NO);
+
+
     if([self value] == 0.0) return;
     
     NSRect bounds = [self bounds];
-    bounds.size.width = round(NSWidth(bounds) * ([self value] - [self minValue]) / ([self maxValue] - [self minValue]));
-    
+    bounds.size.width = MAX(NSWidth(bounds) * ([self value] - [self minValue]) / ([self maxValue] - [self minValue]), 15);
+    bounds = [self backingAlignedRect:bounds options:NSAlignAllEdgesInward];
+
     NSImage *barImage = [NSImage imageNamed:@"hud_progress_bar"];
-    [barImage drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:7 rightBorder:7 topBorder:1 bottomBorder:1];
+    NSImage *barStart = [barImage subImageFromRect:NSMakeRect(0, 0, 7, 14)];
+    [barStart setMatchesOnlyOnBestFittingAxis:YES];
+    NSImage *barMid = [barImage subImageFromRect:NSMakeRect(7, 0, 1, 14)];
+    [barMid setMatchesOnlyOnBestFittingAxis:YES];
+    NSImage *barEnd = [barImage subImageFromRect:NSMakeRect(8, 0, 7, 14)];
+    [barEnd setMatchesOnlyOnBestFittingAxis:YES];
+
+    NSDrawThreePartImage(bounds, barStart, barMid, barEnd, NO, NSCompositeSourceOver, 1.0, NO);
 }
 
 @end
