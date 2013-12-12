@@ -184,6 +184,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // Preload Composition plugins so HUDControls Bar and Gameplay Preferneces load faster
     [OECompositionPlugin allPluginNames];
 
+    // Preload Open Panel
+    [NSOpenPanel openPanel];
+
     [mainWindowController showWindow:self];
 
     [[OECoreUpdater sharedUpdater] checkForNewCores:@NO];
