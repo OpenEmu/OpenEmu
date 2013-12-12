@@ -34,7 +34,7 @@
 #import <OpenEmuSystem/OpenEmuSystem.h> // we only need OELocalizationHelper
 
 NSString * const OEOpenVGDBVersionDateKey    = @"OpenVGDBVersionInstalled";
-NSString * const OEOpenVGDBUpdateCheckKey     = @"OpenVGDBUpdatesChecked";
+NSString * const OEOpenVGDBUpdateCheckKey    = @"OpenVGDBUpdatesChecked";
 NSString * const OEOpenVGDBUpdateIntervalKey = @"OpenVGDBUpdateInterval";
 
 
@@ -188,9 +188,10 @@ NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/Ope
     [self setProgressAlert:alert];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSLog(@"URL: %@", url);
+        DLog(@"OpenVGDB Download URL: %@", url);
         NSURLRequest  *request = [NSURLRequest requestWithURL:url];
         NSURLDownload *fileDownload = [[NSURLDownload alloc] initWithRequest:request delegate:self];
+        if(fileDownload); // silence warning
     });
 
     [alert runModal];
@@ -248,6 +249,8 @@ NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/Ope
 
     OESQLiteDatabase *database = [[OESQLiteDatabase alloc] initWithURL:url error:nil];
     [self setDatabase:database];
+
+    if(database) [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:OEOpenVGDBVersionDateKey];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [[self progressAlert] setShowsProgressbar:NO];
