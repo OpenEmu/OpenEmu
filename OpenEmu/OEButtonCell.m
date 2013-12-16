@@ -102,6 +102,7 @@
 
     return attributes;
 }
+
 - (NSSize)cellSize
 {
     NSSize size = [super cellSize];
@@ -159,6 +160,7 @@
 - (NSRect)titleRectForBounds:(NSRect)theRect
 {
     NSRect result = [super titleRectForBounds:theRect];
+
     if(_themed)
     {
         NSButtonType buttonType = [[self valueForKey:@"buttonType"] unsignedIntegerValue];
@@ -167,9 +169,15 @@
             case NSRadioButton:
             case NSSwitchButton:
                 result = NSInsetRect(result, 3.0, 0.0);
-                result.origin.y += 2.0;
+                result.origin.y += 1.0;
                 break;
             default:
+                if([self isHighlighted])
+                {
+                    result.origin.x -= 1.0;
+                    result.origin.y -= 1.0;
+                }
+                
                 if(_themeImage)
                 {
                     NSSize imageSize = [self image].size;

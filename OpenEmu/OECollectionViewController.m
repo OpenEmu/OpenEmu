@@ -1038,7 +1038,7 @@ static NSArray *OE_defaultSortDescriptors;
 
     NSArray *imageTypes = [NSImage imageFileTypes];
     [openPanel setAllowedFileTypes:imageTypes];
-    
+
     if([openPanel runModal] != NSFileHandlingPanelOKButton)
         return;
 
@@ -1403,12 +1403,12 @@ static NSArray *OE_defaultSortDescriptors;
 
     if(hasGameInsertions || hasGameDeletions)
     {
-        [self performSelector:@selector(noteNumbersChanged) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
+        [self performSelector:@selector(noteNumbersChanged) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
     }
     else if(hasGameUpdates)
     {
         // Nothing was removed or added, just updated so just update the visible items
-        [self performSelector:@selector(setNeedsReloadVisible) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
+        [self performSelector:@selector(setNeedsReloadVisible) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
     }
 }
 
