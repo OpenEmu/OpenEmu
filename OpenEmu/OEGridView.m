@@ -659,6 +659,10 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
     if(newClipView)
     {
+        if([newClipView wantsLayer])
+        {
+            newClipView.layer.masksToBounds = NO;
+        }
         // TODO: I think there is some optimization we can do here
         [self setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [notificationCenter addObserver:self selector:@selector(OE_clipViewBoundsChanged:) name:NSViewBoundsDidChangeNotification object:newClipView];
@@ -746,7 +750,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
-    const NSRect decorativeFrame = [[self enclosingScrollView] documentVisibleRect];
+    NSRect decorativeFrame = [[self enclosingScrollView] documentVisibleRect];
     [_backgroundLayer setFrame:decorativeFrame];
     [_foregroundLayer setFrame:decorativeFrame];
     [_dragIndicationLayer setFrame:NSInsetRect(decorativeFrame, 1.0, 1.0)];

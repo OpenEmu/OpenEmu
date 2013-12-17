@@ -107,6 +107,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     if(self == [OEApplicationDelegate class])
     {
         NSString *path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmu/Game Library"] path];
+        path = [path stringByAbbreviatingWithTildeInPath];
 
         [[NSUserDefaults standardUserDefaults] registerDefaults:
          @{
@@ -443,6 +444,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
     NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:OEDatabasePathKey];
     if(databasePath == nil) databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:OEDefaultDatabasePathKey];
+
+    databasePath = [databasePath stringByExpandingTildeInPath];
 
     if(![[NSFileManager defaultManager] fileExistsAtPath:databasePath isDirectory:NULL] &&
        [databasePath isEqual:[[NSUserDefaults standardUserDefaults] objectForKey:OEDefaultDatabasePathKey]])

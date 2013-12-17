@@ -125,7 +125,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         return NO;
     }
 
-    [[NSUserDefaults standardUserDefaults] setObject:[[defaultDatabase databaseURL] path] forKey:OEDatabasePathKey];
+    [[NSUserDefaults standardUserDefaults] setObject:[[[defaultDatabase databaseURL] path] stringByAbbreviatingWithTildeInPath] forKey:OEDatabasePathKey];
     [defaultDatabase OE_setupStateWatcher];
 
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
@@ -152,7 +152,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     // remeber last loc as database path
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    [standardDefaults setObject:[self.databaseURL path] forKey:OEDatabasePathKey];
+    [standardDefaults setObject:[[self.databaseURL path] stringByAbbreviatingWithTildeInPath] forKey:OEDatabasePathKey];
 
     return YES;
 }
@@ -776,7 +776,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSString *libraryFolderPath = [standardDefaults stringForKey:OEDatabasePathKey];
 
-    return [NSURL fileURLWithPath:libraryFolderPath isDirectory:YES];
+    return [NSURL fileURLWithPath:[libraryFolderPath stringByExpandingTildeInPath] isDirectory:YES];
 }
 
 - (NSURL *)romsFolderURL
@@ -897,7 +897,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (NSURL *)coverFolderURL
 {
     NSUserDefaults *standardDefaults  = [NSUserDefaults standardUserDefaults];
-    NSString       *libraryFolderPath = [standardDefaults stringForKey:OEDatabasePathKey];
+    NSString       *libraryFolderPath = [[standardDefaults stringForKey:OEDatabasePathKey] stringByExpandingTildeInPath];
     NSString       *coverFolderPath   = [libraryFolderPath stringByAppendingPathComponent:@"Artwork/"];
 
     NSURL *url = [NSURL fileURLWithPath:coverFolderPath isDirectory:YES];
