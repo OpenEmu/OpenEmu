@@ -172,7 +172,7 @@
                 result.origin.y += 1.0;
                 break;
             default:
-                if([self isHighlighted])
+                if([self isHighlighted] && [self isBordered])
                 {
                     result.origin.x -= 1.0;
                     result.origin.y -= 1.0;

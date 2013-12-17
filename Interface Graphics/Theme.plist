@@ -504,7 +504,12 @@
 					<key>Color</key>
 					<string>#526ba0</string>
 				</dict>
-				<key>Pressed</key>
+				<key>Mouse Over, Pressed</key>
+				<dict>
+					<key>Color</key>
+					<string>#9c2a32</string>
+				</dict>
+				<key>Mouse Over</key>
 				<dict>
 					<key>Color</key>
 					<string>#9c2a32</string>
@@ -533,7 +538,12 @@
 					<key>Color</key>
 					<string>#526ba0</string>
 				</dict>
-				<key>Pressed</key>
+				<key>Mouse Over</key>
+				<dict>
+					<key>Color</key>
+					<string>#9c2a32</string>
+				</dict>
+				<key>Mouse Over, Pressed</key>
 				<dict>
 					<key>Color</key>
 					<string>#9c2a32</string>
