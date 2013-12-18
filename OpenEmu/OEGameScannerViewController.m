@@ -39,6 +39,8 @@
 
 #import "OEHUDAlert.h"
 
+#import "OEGameInfoHelper.h"
+
 #define OEGameScannerUpdateDelay 0.2
 
 @interface OEGameScannerViewController ()
@@ -47,6 +49,18 @@
 @end
 
 @implementation OEGameScannerViewController
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if(self)
+    {
+        OEGameInfoHelper *gameInfoHelper = [OEGameInfoHelper sharedHelper];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameInfoHelperWillUpdate:) name:OEGameInfoHelperWillUpdateNotificationName object:gameInfoHelper];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameInfoHelperDidChangeUpdateProgress:) name:OEGameInfoHelperDidChangeUpdateProgressNotificationName object:gameInfoHelper];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameInfoHelperDidUpdate:) name:OEGameInfoHelperDidUpdateNotificationName object:gameInfoHelper];
+    }
+    return self;
+}
 
 - (NSString *)nibName
 {
@@ -90,8 +104,12 @@
     [self OE_createFixButton];
 
     // Show game scanner if importer is running already
-    if([[self importer] status] == OEImporterStatusRunning)
+    // or game info is downloading
+    if([[self importer] status] == OEImporterStatusRunning || [[OEGameInfoHelper sharedHelper] isUpdating])
+    {
+        [self OE_updateProgress];
         [self OE_showGameScannerView];
+    }
 }
 
 #pragma mark -
@@ -102,53 +120,70 @@
 }
 
 #pragma mark -
-
 - (void)OE_updateProgress
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(OE_updateProgress) object:nil];
-    OEROMImporter *importer = [self importer];
-
-    NSUInteger maxItems = [[self importer] totalNumberOfItems];
-    [[self progressIndicator] setMinValue:0];
-    [[self progressIndicator] setDoubleValue:[[self importer] numberOfProcessedItems]];
-    [[self progressIndicator] setMaxValue:maxItems];
-
-    NSString *status;
-
-    if([importer status] == OEImporterStatusRunning)
+    [CATransaction begin];
+    OEGameInfoHelper *infoHelper = [OEGameInfoHelper sharedHelper];
+    if([infoHelper isUpdating])
     {
+        [[self progressIndicator] setMinValue:0];
+        [[self progressIndicator] setDoubleValue:[infoHelper downloadProgress]];
+        [[self progressIndicator] setMaxValue:1.0];
         [[self progressIndicator] setIndeterminate:NO];
         [[self progressIndicator] startAnimation:self];
-        status = [NSString stringWithFormat:NSLocalizedString(@"Game %ld of %ld", @""), [[self importer] numberOfProcessedItems], maxItems];
 
-        if([self isScanningDirectory])
-            status = NSLocalizedString(@"Scanning Directory", "");
-    }
-    else if([importer status] == OEImporterStatusStopped || [importer status] == OEImporterStatusStopping)
-    {
-        [[self progressIndicator] stopAnimation:self];
-        [[self progressIndicator] setIndeterminate:YES];
-        status = @"Done";
+        [[self fixButton] setHidden:YES];
+        [[self statusLabel] setStringValue:@"Downloading Game DB"];
     }
     else
     {
-        [[self progressIndicator] stopAnimation:self];
-        [[self progressIndicator] setIndeterminate:YES];
-        status = @"Scanner Paused";
+        OEROMImporter *importer = [self importer];
+
+        NSUInteger maxItems = [[self importer] totalNumberOfItems];
+        [[self progressIndicator] setMinValue:0];
+        [[self progressIndicator] setDoubleValue:[[self importer] numberOfProcessedItems]];
+        [[self progressIndicator] setMaxValue:maxItems];
+
+        NSString *status;
+
+        if([importer status] == OEImporterStatusRunning)
+        {
+            [[self progressIndicator] setIndeterminate:NO];
+            [[self progressIndicator] startAnimation:self];
+            status = [NSString stringWithFormat:NSLocalizedString(@"Game %ld of %ld", @""), [[self importer] numberOfProcessedItems], maxItems];
+
+            if([self isScanningDirectory])
+                status = NSLocalizedString(@"Scanning Directory", "");
+        }
+        else if([importer status] == OEImporterStatusStopped || [importer status] == OEImporterStatusStopping)
+        {
+            [[self progressIndicator] stopAnimation:self];
+            [[self progressIndicator] setIndeterminate:YES];
+            status = @"Done";
+        }
+        else
+        {
+            [[self progressIndicator] stopAnimation:self];
+            [[self progressIndicator] setIndeterminate:YES];
+            status = @"Scanner Paused";
+        }
+
+        BOOL hideButton = YES;
+        if([[self itemsRequiringAttention] count] != 0)
+        {
+            [[self fixButton] setTitle:[NSString stringWithFormat:NSLocalizedString(@"Resolve %ld Issues", @""), [[self itemsRequiringAttention] count]]];
+            [[self fixButton] sizeToFit];
+            hideButton = NO;
+            
+            status = @"";
+        }
+        
+        [[self fixButton] setHidden:hideButton];
+        [[self statusLabel] setStringValue:status];
     }
 
-    BOOL hideButton = YES;
-    if([[self itemsRequiringAttention] count] != 0)
-    {
-        [[self fixButton] setTitle:[NSString stringWithFormat:NSLocalizedString(@"Resolve %ld Issues", @""), [[self itemsRequiringAttention] count]]];
-        [[self fixButton] sizeToFit];
-        hideButton = NO;
-
-        status = @"";
-    }
-
-    [[self fixButton] setHidden:hideButton];
-    [[self statusLabel] setStringValue:status];
+    [CATransaction commit];
 }
 
 - (void)OE_setupActionsMenu
@@ -324,7 +359,7 @@
     int64_t delayInSeconds = 0.5;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^{
-        if([[self importer] totalNumberOfItems] == [[self importer] numberOfProcessedItems])
+        if([[self importer] totalNumberOfItems] == [[self importer] numberOfProcessedItems] && ![[OEGameInfoHelper sharedHelper] isUpdating])
             [self OE_hideGameScannerView];
     });
 }
@@ -350,6 +385,26 @@
     [self OE_updateProgress];
 }
 
+#pragma mark - OEGameInfo Helper
+- (void)gameInfoHelperWillUpdate:(NSNotification*)notification
+{
+    [self OE_updateProgress];
+    [self OE_showGameScannerView];
+}
+- (void)gameInfoHelperDidChangeUpdateProgress:(NSNotification*)notification
+{
+    [self OE_updateProgress];
+}
+- (void)gameInfoHelperDidUpdate:(NSNotification*)notification
+{
+    [self OE_updateProgress];
+    int64_t delayInSeconds = 0.5;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^{
+        if([[self importer] totalNumberOfItems] == [[self importer] numberOfProcessedItems])
+            [self OE_hideGameScannerView];
+    });
+}
 #pragma mark - NSTableViewDataSource Implementation
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView

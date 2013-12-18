@@ -42,15 +42,21 @@ NSString * const OpenVGDBFileName = @"openvgdb";
 NSString * const OpenVGDBDownloadURL = @"https://github.com/OpenVGDB/OpenVGDB/releases/download";
 NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/OpenVGDB/releases?page=1&per_page=1";
 
+
+NSString * const OEGameInfoHelperWillUpdateNotificationName = @"OEGameInfoHelperWillUpdateNotificationName";
+NSString * const OEGameInfoHelperDidChangeUpdateProgressNotificationName = @"OEGameInfoHelperDidChangeUpdateProgressNotificationName";
+NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperDidUpdateNotificationName";
+
 @interface OEGameInfoHelper () <NSURLDownloadDelegate>
 @property OESQLiteDatabase *database;
 
-@property BOOL updating;
 @property NSString *downloadPath;
 @property NSInteger expectedLength, downloadedSize;
-@property OEHUDAlert *progressAlert;
+@property (strong) NSURLDownload *fileDownload;
+- (void)installVersionWithDownloadURL:(NSURL*)url;
 @end
 @implementation OEGameInfoHelper
+@synthesize updating=_updating;
 
 + (void)initialize
 {
@@ -58,7 +64,7 @@ NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/Ope
     {
         NSDictionary *defaults = @{ OEOpenVGDBVersionDateKey:[NSDate dateWithTimeIntervalSince1970:0],
                                     OEOpenVGDBUpdateCheckKey:[NSDate dateWithTimeIntervalSince1970:0],
-                                 OEOpenVGDBUpdateIntervalKey:@(60*60*24*7) // once a week
+                                 OEOpenVGDBUpdateIntervalKey:@(60*60*24*1) // once a day
                                   };
         [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     }
@@ -75,15 +81,10 @@ NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/Ope
         NSURL *databaseURL = [sharedHelper databaseFileURL];
         if(![databaseURL checkResourceIsReachableAndReturnError:nil])
         {
-            OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"You need the OpenVGDB database to lookup game info. Do you want to install it now?" defaultButton:@"Install" alternateButton:@"Don't Install"];
-            if([alert runModal] == NSAlertDefaultReturn)
-            {
-                [sharedHelper setUpdating:YES];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSURL *newRelease = [sharedHelper checkForUpdates];
-                    [sharedHelper performSelectorInBackground:@selector(installVersionWithDownloadURL:) withObject:newRelease];
-                });
-            }
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                NSURL *newRelease = [sharedHelper checkForUpdates];
+                [sharedHelper installVersionWithDownloadURL:newRelease];
+            });
         }
         else
         {
@@ -95,7 +96,7 @@ NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/Ope
 
 
             // check for updates
-            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
             dispatch_async(queue, ^{
                 NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
                 NSDate *lastUpdateCheck = [standardUserDefaults  objectForKey:OEOpenVGDBUpdateCheckKey];
@@ -107,7 +108,7 @@ NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/Ope
                     NSURL *newRelease = [sharedHelper checkForUpdates];
                     if(newRelease != nil)
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [sharedHelper promptForNewVersionWithDownloadURL:newRelease];
+                            [sharedHelper installVersionWithDownloadURL:newRelease];
                         });
                 }
             });
@@ -124,20 +125,17 @@ NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/Ope
 #pragma mark -
 - (NSURL*)checkForUpdates
 {
+    DLog();
     NSError *error = nil;
     NSURL   *url = [NSURL URLWithString:OpenVGDBUpdateURL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30];
     [request setValue:@"OpenEmu" forHTTPHeaderField:@"User-Agent"];
 
     NSData *result = [NSURLConnection sendSynchronousRequest:request returningResponse:NULL error:&error];
-    if(result == nil)
-        [NSApp presentError:error];
-    else
+    if(result != nil)
     {
         NSArray *releases = [NSJSONSerialization JSONObjectWithData:result options:NSJSONReadingAllowFragments error:&error];
-        if(releases == nil)
-            [NSApp presentError:error];
-        else
+        if(releases != nil)
         {
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             NSDate *currentVersionDate = [defaults objectForKey:OEOpenVGDBVersionDateKey];
@@ -158,6 +156,7 @@ NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/Ope
                         if([tagName isKindOfClass:[NSString class]])
                         {
                             NSString *URLString = [NSString stringWithFormat:@"%@/%@/%@.zip", OpenVGDBDownloadURL, tagName, OpenVGDBFileName];
+                            DLog(@"%@", URLString);
                             return [NSURL URLWithString:URLString];
                         }
                     }
@@ -168,33 +167,24 @@ NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/Ope
     return nil;
 }
 
-- (void)promptForNewVersionWithDownloadURL:(NSURL *)url
+- (void)cancelUpdate
 {
-    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"A new version of OpenVGDB is available, do you want to install it now?" defaultButton:@"Install" alternateButton:@"Dont't Install"];
-    if([alert runModal] == NSAlertDefaultReturn)
-        [self performSelectorInBackground:@selector(installVersionWithDownloadURL:) withObject:url];
+    [[self fileDownload] cancel];
 }
 
 - (void)installVersionWithDownloadURL:(NSURL*)url
 {
-    NSAssert([NSThread isMainThread] == NO, @"Cannot run from main thread! Everything would explode!");
+    if(url != nil)
+    {
+        _updating = YES;
+        [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperWillUpdateNotificationName object:self];
+        _downloadProgress = 0.0;
 
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
-    [alert setMessageText:@"Downloading rom info database..."];
-    [alert setShowsProgressbar:YES];
-    [alert setProgress:0.0];
-    [alert setAlternateButtonTitle:@"Cancel"];
-
-    [self setProgressAlert:alert];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        DLog(@"OpenVGDB Download URL: %@", url);
-        NSURLRequest  *request = [NSURLRequest requestWithURL:url];
-        NSURLDownload *fileDownload = [[NSURLDownload alloc] initWithRequest:request delegate:self];
-        if(fileDownload); // silence warning
-    });
-
-    [alert runModal];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSURLRequest  *request = [NSURLRequest requestWithURL:url];
+            self.fileDownload = [[NSURLDownload alloc] initWithRequest:request delegate:self];
+        });
+    }
 }
 
 #pragma mark - NSURLDownload Delegate
@@ -204,37 +194,20 @@ NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/Ope
     [download setDestination:_downloadPath allowOverwrite:NO];
 }
 
-- (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
-{
-    self.updating = NO;
-
-    NSLog(@"%d:: %@", [NSThread isMainThread], error);
-
-    [[self progressAlert] setShowsProgressbar:NO];
-    [[self progressAlert] setTitle:[error localizedDescription]];
-    [[self progressAlert] setDefaultButtonTitle:@"Ok"];
-    [[self progressAlert] setAlternateButtonTitle:nil];
-}
-
 - (void)download:(NSURLDownload *)download didCreateDestination:(NSString *)path
-{
-    DLog(@"%@, %@", @"created dest", path);
-}
+{}
 
 - (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
 {
     _downloadedSize += length;
+    _downloadProgress = (CGFloat) _downloadedSize /  (CGFloat) _expectedLength;
 
-    OEHUDAlert *alert = [self progressAlert];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [alert setProgress:(double) _downloadedSize /  (double) _expectedLength];
-    });
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidChangeUpdateProgressNotificationName object:self];
 }
 
 - (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response
 {
     _expectedLength = [response expectedContentLength];
-    DLog(@"Got response");
 }
 
 - (void)downloadDidFinish:(NSURLDownload *)download
@@ -252,14 +225,17 @@ NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/Ope
 
     if(database) [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:OEOpenVGDBVersionDateKey];
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[self progressAlert] setShowsProgressbar:NO];
-        [[self progressAlert] setTitle:@"Database was installed"];
-        [[self progressAlert] setDefaultButtonTitle:@"Done"];
-        [[self progressAlert] setAlternateButtonTitle:nil];
-    });
+    _updating = NO;
+    _downloadProgress = 1.0;
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
+}
 
-    self.updating = NO;
+
+- (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
+{
+    _updating = NO;
+    _downloadProgress = 1.0;
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
 }
 #pragma mark -
 - (NSDictionary*)gameInfoForROM:(OEDBRom*)rom error:(NSError *__autoreleasing*)error

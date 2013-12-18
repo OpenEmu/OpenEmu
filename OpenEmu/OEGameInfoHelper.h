@@ -29,14 +29,18 @@
 #import "OEDBSystem.h"
 #import "OEDBGame.h"
 
+extern NSString * const OEGameInfoHelperWillUpdateNotificationName;
+extern NSString * const OEGameInfoHelperDidChangeUpdateProgressNotificationName;
+extern NSString * const OEGameInfoHelperDidUpdateNotificationName;
+
 @interface OEGameInfoHelper : NSObject
 + (id)sharedHelper;
 - (NSDictionary*)gameInfoForROM:(OEDBRom*)rom error:(NSError *__autoreleasing*)error;
 - (int)sizeOfROMHeaderForSystem:(OEDBSystem*)system;
 
 - (NSURL*)checkForUpdates; // checks for updates, returns url of new release if any newer db is found
-- (void)promptForNewVersionWithDownloadURL:(NSURL*)url; // asks user if they want to download and install a new db
-- (void)installVersionWithDownloadURL:(NSURL*)url; // asks user if they want to download and install a new db
+- (void)cancelUpdate;
 
+@property (readonly) CGFloat downloadProgress;
 @property (readonly, getter=isUpdating) BOOL updating;
 @end
