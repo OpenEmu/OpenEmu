@@ -33,8 +33,8 @@
 
 @class OEROMImporter;
 
-#define OELibraryErrorCodeFolderNotFound 11789
-#define OELibraryErrorCodeFileInFolderNotFound 11790
+extern const int OELibraryErrorCodeFolderNotFound;
+extern const int OELibraryErrorCodeFileInFolderNotFound;
 
 #define OEDatabaseFileName @"Library.storedata"
 

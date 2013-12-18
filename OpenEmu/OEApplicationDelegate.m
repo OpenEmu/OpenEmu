@@ -442,13 +442,15 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     NSError *error = nil;
 
-    NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:OEDatabasePathKey];
-    if(databasePath == nil) databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:OEDefaultDatabasePathKey];
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 
-    databasePath = [databasePath stringByExpandingTildeInPath];
+    NSString *databasePath = [[standardDefaults valueForKey:OEDatabasePathKey] stringByExpandingTildeInPath];
+    NSString *defaultDatabasePath = [[standardDefaults valueForKey:OEDefaultDatabasePathKey] stringByExpandingTildeInPath];
+
+    if(databasePath == nil) databasePath = defaultDatabasePath;
 
     if(![[NSFileManager defaultManager] fileExistsAtPath:databasePath isDirectory:NULL] &&
-       [databasePath isEqual:[[NSUserDefaults standardUserDefaults] objectForKey:OEDefaultDatabasePathKey]])
+       [databasePath isEqual:defaultDatabasePath])
         [[NSFileManager defaultManager] createDirectoryAtPath:databasePath withIntermediateDirectories:YES attributes:nil error:nil];
 
     BOOL userDBSelectionRequest = ([NSEvent modifierFlags] & NSAlternateKeyMask) != 0;

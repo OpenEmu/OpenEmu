@@ -62,6 +62,9 @@ NSString *const OEScreenshotFolderURLKey     = @"screenshotFolder";
 
 NSString *const OELibraryRomsFolderURLKey    = @"romsFolderURL";
 
+const int OELibraryErrorCodeFolderNotFound       = 1;
+const int OELibraryErrorCodeFileInFolderNotFound = 2;
+
 @interface OELibraryDatabase ()
 {
     NSArrayController *_romsController;
