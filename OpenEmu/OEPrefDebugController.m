@@ -41,6 +41,8 @@
 
 #import "OEGameDocument.h"
 
+#import "OEGameInfoHelper.h"
+
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 @implementation OEPrefDebugController
@@ -295,6 +297,23 @@
 - (IBAction)defaultSaveStateFolder:(id)sender
 {
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:OESaveStateFolderURLKey];
+}
+
+
+- (IBAction)gameInfoUpdate:(id)sender
+{
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    [standardDefaults removeObjectForKey:OEOpenVGDBUpdateCheckKey];
+    [standardDefaults removeObjectForKey:OEOpenVGDBVersionDateKey];
+
+    OEGameInfoHelper *helper = [OEGameInfoHelper sharedHelper];
+    NSURL *url = [helper checkForUpdates];
+    [helper installVersionWithDownloadURL:url];
+}
+- (IBAction)gameInfoCancel:(id)sender
+{
+    OEGameInfoHelper *helper = [OEGameInfoHelper sharedHelper];
+    [helper cancelUpdate];
 }
 #pragma mark -
 #pragma mark OEPreferencePane Protocol

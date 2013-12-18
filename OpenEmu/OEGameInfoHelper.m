@@ -53,7 +53,6 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 @property NSString *downloadPath;
 @property NSInteger expectedLength, downloadedSize;
 @property (strong) NSURLDownload *fileDownload;
-- (void)installVersionWithDownloadURL:(NSURL*)url;
 @end
 @implementation OEGameInfoHelper
 @synthesize updating=_updating;
@@ -170,6 +169,11 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 - (void)cancelUpdate
 {
     [[self fileDownload] cancel];
+    [self setFileDownload:nil];
+    _updating = YES;
+    _downloadProgress = 1.0;
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
 }
 
 - (void)installVersionWithDownloadURL:(NSURL*)url
@@ -227,6 +231,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
     _updating = NO;
     _downloadProgress = 1.0;
+    [self setFileDownload:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
 }
 
@@ -235,6 +240,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 {
     _updating = NO;
     _downloadProgress = 1.0;
+    [self setFileDownload:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
 }
 #pragma mark -

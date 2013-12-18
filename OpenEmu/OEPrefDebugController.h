@@ -47,4 +47,7 @@
 
 - (IBAction)chooseSaveStateFolder:(id)sender;
 - (IBAction)defaultSaveStateFolder:(id)sender;
+
+- (IBAction)gameInfoUpdate:(id)sender;
+- (IBAction)gameInfoCancel:(id)sender;
 @end
