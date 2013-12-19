@@ -25,8 +25,8 @@
  */
 
 #import <Cocoa/Cocoa.h>
-
-@interface OEDBCollection : NSManagedObject
+#import "OEDBItem.h"
+@interface OEDBCollection : OEDBItem
 
 // Core Data utilities
 + (NSString *)entityName;

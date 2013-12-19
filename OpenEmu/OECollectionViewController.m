@@ -162,7 +162,7 @@ static NSArray *OE_defaultSortDescriptors;
     [gamesController setAutomaticallyPreparesContent:NO];
     [gamesController setUsesLazyFetching:NO];
     
-    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
+    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] unsafeContext];
     //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
 
     OE_defaultSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"cleanDisplayName" ascending:YES selector:@selector(caseInsensitiveCompare:)]];
@@ -228,7 +228,6 @@ static NSArray *OE_defaultSortDescriptors;
     // Watch the main thread's managed object context for changes
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextObjectsDidChangeNotification object:context];
-
     [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:OEDisplayGameTitle options:0 context:NULL];
 
     // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
@@ -688,7 +687,7 @@ static NSArray *OE_defaultSortDescriptors;
     
     if([object isKindOfClass:[NSManagedObject class]])
     {
-        [[(NSManagedObject*)object managedObjectContext] save:nil];
+        [[(OEDBItem*)object libraryDatabase] save:nil];
     }
 
     // Search results may no longer be valid, reload
@@ -964,7 +963,7 @@ static NSArray *OE_defaultSortDescriptors;
         {
             OEDBCollection* collection = (OEDBCollection*)[self representedObject];
             [[collection mutableGames] minusSet:[NSSet setWithArray:selectedGames]];
-            [[collection managedObjectContext] save:nil];
+            [[collection libraryDatabase] save:nil];
         }
         [self setNeedsReload];
     }
@@ -993,11 +992,10 @@ static NSArray *OE_defaultSortDescriptors;
         }
         
         DLog(@"deleteFiles: %d", deleteFiles);
-        NSManagedObjectContext *moc = [[selectedGames lastObject] managedObjectContext];
         [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
             [game deleteByMovingFile:deleteFiles keepSaveStates:YES];
         }];
-        [moc save:nil];
+        [[[selectedGames lastObject] libraryDatabase] save:nil];
         
         [self setNeedsReload];
     }
@@ -1171,8 +1169,8 @@ static NSArray *OE_defaultSortDescriptors;
         }
         else return;
         
-        if([obj isKindOfClass:[NSManagedObject class]])
-            [[(NSManagedObject*)obj managedObjectContext] save:nil];
+        if([obj isKindOfClass:[OEDBItem class]])
+            [[(OEDBItem*)obj libraryDatabase] save:nil];
     }
 }
 
@@ -1403,12 +1401,12 @@ static NSArray *OE_defaultSortDescriptors;
 
     if(hasGameInsertions || hasGameDeletions)
     {
-        [self performSelector:@selector(noteNumbersChanged) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
+        [self performSelector:@selector(noteNumbersChanged) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
     }
     else if(hasGameUpdates)
     {
         // Nothing was removed or added, just updated so just update the visible items
-        [self performSelector:@selector(setNeedsReloadVisible) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
+        [self performSelector:@selector(setNeedsReloadVisible) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
     }
 }
 
@@ -1420,14 +1418,16 @@ static NSArray *OE_defaultSortDescriptors;
 
 - (void)OE_fetchGames
 {
-    NSError *error = nil;
-    BOOL ok = [gamesController fetchWithRequest:nil merge:NO error:&error];
+    __block BOOL ok = NO;
+    [[gamesController managedObjectContext] performBlockAndWait:^{
+        NSError *error = nil;
+        ok = [gamesController fetchWithRequest:nil merge:NO error:&error];
+    }];
+
     if(!ok)
-    {
-        NSLog(@"Error while fetching: %@", error);
-        return;
-    }
-    [self OE_updateBlankSlate];
+        NSLog(@"Error while fetching");
+    else
+        [self OE_updateBlankSlate];
 }
 
 - (void)updateViews
@@ -1488,15 +1488,18 @@ static NSArray *OE_defaultSortDescriptors;
     
     NSPredicate *pred = [self representedObject]?[[self representedObject] predicate]:[NSPredicate predicateWithValue:NO];
     [gamesController setFetchPredicate:pred];
-    
-    NSError *error = nil;
-    BOOL ok = [gamesController fetchWithRequest:nil merge:NO error:&error];
+
+    __block BOOL ok;
+    [[gamesController managedObjectContext] performBlockAndWait:^{
+        ok = [gamesController fetchWithRequest:nil merge:NO error:nil];
+    }];
+
     if(!ok)
     {
-        NSLog(@"Error while fetching: %@", error);
+        NSLog(@"Error while fetching");
         return;
     }
-    
+
     [gridView reloadData];
     [listView reloadData];
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];

@@ -81,6 +81,10 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
         if(![databaseURL checkResourceIsReachableAndReturnError:nil])
         {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+                [standardUserDefaults removeObjectForKey:OEOpenVGDBUpdateCheckKey];
+                [standardUserDefaults removeObjectForKey:OEOpenVGDBVersionDateKey];
+
                 NSURL *newRelease = [sharedHelper checkForUpdates];
                 [sharedHelper installVersionWithDownloadURL:newRelease];
             });

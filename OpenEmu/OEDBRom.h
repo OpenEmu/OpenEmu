@@ -44,16 +44,16 @@
 + (id)romWithURIURL:(NSURL *)objIDUrl inDatabase:(OELibraryDatabase *)database;
 
 // Creating / Acquireing ROMs by filesystem representation
-+ (id)createRomWithURL:(NSURL *)url error:(NSError **)outError;
-+ (id)createRomWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
-+ (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc error:(NSError **)outError;
-+ (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
-+ (id)romWithURL:(NSURL *)url error:(NSError **)outError;
-+ (id)romWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
-+ (id)romWithCRC32HashString:(NSString *)crcHash error:(NSError **)outError;
-+ (id)romWithCRC32HashString:(NSString *)crcHash inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
-+ (id)romWithMD5HashString:(NSString *)md5Hash error:(NSError **)outError;
-+ (id)romWithMD5HashString:(NSString *)md5Hash inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
++ (id)createRomWithURL:(NSURL *)url error:(NSError *__autoreleasing*)outError;
++ (id)createRomWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError;
++ (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc error:(NSError *__autoreleasing*)outError;
++ (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError;
++ (id)romWithURL:(NSURL *)url error:(NSError *__autoreleasing*)outError;
++ (id)romWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError;
++ (id)romWithCRC32HashString:(NSString *)crcHash error:(NSError *__autoreleasing*)outError;
++ (id)romWithCRC32HashString:(NSString *)crcHash inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError;
++ (id)romWithMD5HashString:(NSString *)md5Hash error:(NSError *__autoreleasing*)outError;
++ (id)romWithMD5HashString:(NSString *)md5Hash inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError;
 
 @property(nonatomic) NSURL *URL;
 

@@ -555,7 +555,8 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
                                          label:[[row objectForKey:OEControlListKeyLabelKey] stringByAppendingString:@":"]];
             }
         }
-        [elementGroups addObject:currentGroup];
+        if(currentGroup != nil)
+            [elementGroups addObject:currentGroup];
 
         [sections addObject:@{
          @"numberOfRows" : @(numberOfRows),

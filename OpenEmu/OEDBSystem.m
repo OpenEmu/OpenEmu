@@ -43,19 +43,22 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 
 + (NSInteger)systemsCountInDatabase:(OELibraryDatabase *)database error:(NSError**)outError
 {
-    NSManagedObjectContext *context  = [database managedObjectContext];
-    NSEntityDescription    *descr    = [self entityDescriptionInContext:context];
-    NSFetchRequest         *req      = [[NSFetchRequest alloc] init];
-    
-    [req setEntity:descr];
-    
-    NSError *error    = outError != NULL ? *outError : nil;
-    NSUInteger result = [context countForFetchRequest:req error:&error];
-    if(result == NSNotFound)
-    {
-        result = 0;
-        DLog(@"Error: %@", error);
-    }
+    __block NSInteger result = 0;
+    NSManagedObjectContext *context = [database unsafeContext];
+    [context performBlockAndWait:^{
+        NSEntityDescription    *descr    = [self entityDescriptionInContext:context];
+        NSFetchRequest         *req      = [[NSFetchRequest alloc] init];
+
+        [req setEntity:descr];
+
+        NSError *error    = outError != NULL ? *outError : nil;
+        result = [database countForFetchRequest:req error:&error];
+        if(result == NSNotFound)
+        {
+            result = 0;
+            DLog(@"Error: %@", error);
+        }
+    }];
     
     return result;
 }
@@ -177,17 +180,19 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 + (id)systemForPlugin:(OESystemPlugin *)plugin inDatabase:(OELibraryDatabase *)database
 {
     NSString *systemIdentifier = [plugin systemIdentifier];
-    OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inDatabase:database];
-    
+    __block OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inDatabase:database];
+
     if(system) return system;
-    
-    NSManagedObjectContext *moc = [database managedObjectContext];
-    
-    system = [[OEDBSystem alloc] initWithEntity:[self entityDescriptionInContext:moc] insertIntoManagedObjectContext:moc];
-    // TODO: get archive id(s) from plugin
-    [system setSystemIdentifier:systemIdentifier];
-    [system setLastLocalizedName:[system name]];
-    
+
+    NSManagedObjectContext *moc = [database unsafeContext];
+    [moc performBlockAndWait:^{
+
+        system = [[OEDBSystem alloc] initWithEntity:[self entityDescriptionInContext:moc] insertIntoManagedObjectContext:moc];
+        // TODO: get archive id(s) from plugin
+        [system setSystemIdentifier:systemIdentifier];
+        [system setLastLocalizedName:[system name]];
+    }];
+
     return system;
 }
 
@@ -205,10 +210,7 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 
 + (id)OE_queryDatabase:(OELibraryDatabase *)database predicate:(NSPredicate*)pred sortDescriptors:(NSArray*)sort limit:(NSInteger)limit error:(NSError**)error
 {
-    NSManagedObjectContext *context  = [database managedObjectContext];
-    NSEntityDescription    *descr    = [self entityDescriptionInContext:context];
-    NSFetchRequest         *req      = [[NSFetchRequest alloc] init];
-    [req setEntity:descr];
+    NSFetchRequest         *req      = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
     if(pred)
         [req setPredicate:pred];
     if(sort)
@@ -216,7 +218,7 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     if(limit != -1)
         [req setFetchLimit:limit];
     
-    return [context executeFetchRequest:req error:error];
+    return [database executeFetchRequest:req error:error];
 }
 #pragma mark - Core Data utilities
 

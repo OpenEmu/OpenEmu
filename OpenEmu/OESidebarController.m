@@ -227,7 +227,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     id duplicateCollection = [[self database] addNewCollection:[NSString stringWithFormat:NSLocalizedString(@"%@ copy", @"File name format for copies"), [originalCollection valueForKey:@"name"]]];
 
     [[duplicateCollection mutableGames] setSet:[originalCollection games]];
-    [[duplicateCollection managedObjectContext] save:nil];
+    [[duplicateCollection libraryDatabase] save:nil];
 
     [self reloadData];
     [self expandCollections:self];
@@ -367,7 +367,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
             }
         }
         collection = [[OELibraryDatabase defaultDatabase] addNewCollection:name];
-        [[collection managedObjectContext] save:nil];
+        [[collection libraryDatabase] save:nil];
         [self reloadData];
         NSInteger index = [outlineView rowForItem:collection];
         if(index != -1)
@@ -382,7 +382,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         // just add to collection
         NSArray *games = [pboard readObjectsForClasses:@[[OEDBGame class]] options:nil];
         [[collection mutableGames] addObjectsFromArray:games];
-        [[collection managedObjectContext] save:nil];
+        [[collection libraryDatabase] save:nil];
     }
     else
     {

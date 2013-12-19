@@ -148,14 +148,13 @@
 
     NSError                *error          = nil;
     NSArray                *fetchResult    = nil;
-    NSManagedObjectContext *moc            = [library managedObjectContext];
     NSFetchRequest         *fetchRequest   = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
     NSPredicate            *fetchPredicate = [NSPredicate predicateWithFormat:@"NONE location BEGINSWITH 'file://'"];
 
     [fetchRequest setPredicate:fetchPredicate];
 
     // Change relative paths to absolute ones based on last roms folder location
-    fetchResult = [moc executeFetchRequest:fetchRequest error:&error];
+    fetchResult = [library executeFetchRequest:fetchRequest error:&error];
     if(error != nil)
     {
         DLog(@"%@", error);
@@ -174,7 +173,7 @@
     fetchPredicate = [NSPredicate predicateWithFormat:@"location BEGINSWITH %@", [newLocation absoluteString]];
     [fetchRequest setPredicate:fetchPredicate];
     
-    fetchResult = [moc executeFetchRequest:fetchRequest error:&error];
+    fetchResult = [library executeFetchRequest:fetchRequest error:&error];
     if(error != nil)
     {
         DLog(@"%@", error);

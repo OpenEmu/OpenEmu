@@ -49,21 +49,23 @@ extern NSString *const OEScreenshotFolderURLKey;
 
 + (OELibraryDatabase *)defaultDatabase;
 
-+ (BOOL)loadFromURL:(NSURL *)url error:(NSError **)outError;
-- (BOOL)save:(NSError **)error;
++ (BOOL)loadFromURL:(NSURL *)url error:(NSError *__autoreleasing*)outError;
+- (BOOL)save:(NSError *__autoreleasing*)error;
 
-- (NSManagedObjectContext *)managedObjectContext;
+// - (NSManagedObjectContext *)managedObjectContext;
 
+#pragma mark - Thread Safe MOC access
 - (id)objectWithURI:(NSURL *)uri;
-
+- (NSManagedObject *)objectWithID:(NSManagedObjectID *)objectID;
+- (NSArray*)executeFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error;
+- (NSUInteger)countForFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error;
+- (NSManagedObjectContext*)unsafeContext;
 @property (strong) OEROMImporter *importer;
 
 #pragma mark - Administration
-
 - (void)disableSystemsWithoutPlugin;
 
 #pragma mark - Database queries
-
 - (NSManagedObjectID *)managedObjectIDForURIRepresentation:(NSURL *)uri;
 
 - (NSUInteger)collectionsCount;
@@ -77,7 +79,6 @@ extern NSString *const OEScreenshotFolderURLKey;
 - (NSDictionary *)lastPlayedRomsBySystem;
 
 #pragma mark - Database Collection editing
-
 - (void)removeCollection:(NSManagedObject *)collection;
 
 - (id)addNewCollection:(NSString *)name;
@@ -85,7 +86,6 @@ extern NSString *const OEScreenshotFolderURLKey;
 - (id)addNewCollectionFolder:(NSString *)name;
 
 #pragma mark - Database Folders
-
 - (NSURL *)databaseFolderURL;
 - (NSURL *)romsFolderURL;
 - (void)setRomsFolderURL:(NSURL *)url;

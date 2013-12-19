@@ -56,14 +56,17 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 + (id)createGameWithName:(NSString *)name andSystem:(OEDBSystem *)system inDatabase:(OELibraryDatabase *)database
 {
-    NSManagedObjectContext *context = [database managedObjectContext];
-    NSEntityDescription *description = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
-    
-    OEDBGame *game = [[OEDBGame alloc] initWithEntity:description insertIntoManagedObjectContext:context];
-    
-    [game setName:name];
-    [game setImportDate:[NSDate date]];
-    [game setSystem:system];
+    NSManagedObjectContext *context = [database unsafeContext];
+
+    __block OEDBGame *game = nil;
+    [context performBlockAndWait:^{
+        NSEntityDescription *description = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
+        game = [[OEDBGame alloc] initWithEntity:description insertIntoManagedObjectContext:context];
+
+        [game setName:name];
+        [game setImportDate:[NSDate date]];
+        [game setSystem:system];
+    }];
     
     return game;
 }
@@ -75,7 +78,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 + (id)gameWithID:(NSManagedObjectID *)objID inDatabase:(OELibraryDatabase *)database
 {
-    return [[database managedObjectContext] objectWithID:objID];
+    return [database objectWithID:objID];
 }
 
 + (id)gameWithURIURL:(NSURL *)objIDUrl
@@ -101,13 +104,13 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 }
 
 // returns the game from the default database that represents the file at url
-+ (id)gameWithURL:(NSURL *)url error:(NSError **)outError
++ (id)gameWithURL:(NSURL *)url error:(NSError *__autoreleasing*)outError
 {
     return [self gameWithURL:url inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
 
 // returns the game from the specified database that represents the file at url
-+ (id)gameWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
++ (id)gameWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
 {
     if(url == nil)
     {
@@ -143,23 +146,22 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     return game;
 }
 
-+ (id)gameWithArchiveID:(id)archiveID error:(NSError **)outError
++ (id)gameWithArchiveID:(id)archiveID error:(NSError *__autoreleasing*)outError
 {
     return [self gameWithArchiveID:archiveID inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
 
-+ (id)gameWithArchiveID:(id)archiveID inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
++ (id)gameWithArchiveID:(id)archiveID inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
 {
     if([archiveID integerValue] == 0) return nil;
     
-    NSManagedObjectContext *context = [database managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"archiveID = %ld", [archiveID integerValue]];
     [fetchRequest setFetchLimit:1];
     [fetchRequest setIncludesPendingChanges:YES];
     [fetchRequest setPredicate:predicate];
     
-    NSArray *result = [context executeFetchRequest:fetchRequest error:outError];
+    NSArray *result = [database executeFetchRequest:fetchRequest error:outError];
     
     if(result == nil) return nil;
     
@@ -185,28 +187,23 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 + (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing *)error;
 {
-    NSManagedObjectContext *context = [database managedObjectContext];    
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
-    return [context executeFetchRequest:request error:error];
+    return [database executeFetchRequest:request error:error];
 }
 
 #pragma mark - Cover Art Database Sync / Info Lookup
 - (void)requestCoverDownload
 {
-    [[self managedObjectContext] performBlockAndWait:^{
-        [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
-        [[self libraryDatabase] save:nil];
-        [[self libraryDatabase] startArchiveVGSync];
-    }];
+    [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
+    [[self libraryDatabase] save:nil];
+    [[self libraryDatabase] startArchiveVGSync];
 }
 
 - (void)requestInfoSync
 {
-    [[self managedObjectContext] performBlockAndWait:^{
-        [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
-        [[self libraryDatabase] save:nil];
-        [[self libraryDatabase] startArchiveVGSync];
-    }];
+    [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
+    [[self libraryDatabase] save:nil];
+    [[self libraryDatabase] startArchiveVGSync];
 }
 
 - (void)performInfoSync
@@ -215,12 +212,10 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     __block NSError *error = nil;
 
     NSString * const boxImageURLKey = @"boxImageURL";
-    
-    [[[self libraryDatabase] managedObjectContext] performBlockAndWait:^{
-        OEDBRom *rom = [[self roms] anyObject];
-        result = [[[OEGameInfoHelper sharedHelper] gameInfoForROM:rom error:&error] mutableCopy];
-    }];
-    
+
+    OEDBRom *rom = [[self roms] anyObject];
+    result = [[[OEGameInfoHelper sharedHelper] gameInfoForROM:rom error:&error] mutableCopy];
+
     if(result != nil && [result objectForKey:boxImageURLKey] != nil)
     {
         NSString *normalizedURL = [[result objectForKey:boxImageURLKey] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -230,22 +225,18 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
         if(image)
         {
             [result removeObjectForKey:boxImageURLKey];
-            [[[self libraryDatabase] managedObjectContext] performBlockAndWait:^{
-                [self setBoxImageByImage:image];
-            }];
+            [self setBoxImageByImage:image];
         }
     }
 
-    
-    [[[self libraryDatabase] managedObjectContext] performBlockAndWait:^{
-        if(result != nil)
-        {
-            [self setValuesForKeysWithDictionary:result];
-            [self setLastArchiveSync:[NSDate date]];
-        }
-        [self setStatus:@(OEDBGameStatusOK)];
-        [[self libraryDatabase] save:nil];
-    }];
+
+    if(result != nil)
+    {
+        [self setValuesForKeysWithDictionary:result];
+        [self setLastArchiveSync:[NSDate date]];
+    }
+    [self setStatus:@(OEDBGameStatusOK)];
+    [[self libraryDatabase] save:nil];
 }
 
 #pragma mark -
@@ -399,8 +390,11 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
         [aRom deleteByMovingFile:moveToTrash keepSaveStates:statesFlag];
         [mutableRoms removeObject:aRom];
     }
-    
-    [[self managedObjectContext] deleteObject:self];
+
+    NSManagedObjectContext *context = [self managedObjectContext];
+    [context performBlockAndWait:^{
+        [context deleteObject:self];
+    }];
 }
 
 + (NSString *)entityName
@@ -421,10 +415,15 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     {
         OEDBImage *boxImage = [self boxImage];
         if(boxImage != nil)
-            [[boxImage managedObjectContext] deleteObject:boxImage];
-        
+        {
+            NSManagedObjectContext *context = [boxImage managedObjectContext];
+            [context performBlockAndWait:^{
+                [context deleteObject:boxImage];
+            }];
+        }
+
         if(img == nil) return;
-        
+
         boxImage = [OEDBImage imageWithImage:img inLibrary:[self libraryDatabase]];
         
         NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -445,8 +444,13 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 {
     OEDBImage *boxImage = [self boxImage];
     if(boxImage != nil)
-        [[boxImage managedObjectContext] deleteObject:boxImage];
-    
+    {
+        NSManagedObjectContext *context = [boxImage managedObjectContext];
+        [context performBlockAndWait:^{
+            [context deleteObject:boxImage];
+        }];
+    }
+
     boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];

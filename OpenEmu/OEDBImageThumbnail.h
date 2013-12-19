@@ -30,7 +30,7 @@
 @class OEDBImage, OELibraryDatabase;
 @interface OEDBImageThumbnail : OEDBItem
 
-- (id)initWithImage:(NSImage*)image size:(NSSize)size inLibrary:(OELibraryDatabase*)library;
++ (id)imageWithImage:(NSImage*)image size:(NSSize)size inLibrary:(OELibraryDatabase*)library;
 
 @property (nonatomic, retain) NSNumber * height;
 @property (nonatomic, retain) NSNumber * width;

@@ -198,9 +198,8 @@
             break;
         case 6:
             printf("\nRemoving unused image thumbnails\n\n");
-            NSManagedObjectContext* context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
             NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"ImageThumbnail"];
-            NSArray *result = [context executeFetchRequest:request error:&error];
+            NSArray *result = [[OELibraryDatabase defaultDatabase] executeFetchRequest:request error:&error];
             if(!result)
             {
                 printf("\nError: %s\n", [[error localizedDescription] cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -251,9 +250,8 @@
                             [request setFetchLimit:1];
                             [request setPredicate:predicate];
 
-                            NSManagedObjectContext* context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
                             NSError *error;
-                            NSArray *result = [context executeFetchRequest:request error:&error];
+                            NSArray *result = [[OELibraryDatabase defaultDatabase] executeFetchRequest:request error:&error];
                             if(!result)
                                 printf("\nError: %s\n", [[error localizedDescription] cStringUsingEncoding:NSUTF8StringEncoding]);
                             else if([result count]==0)

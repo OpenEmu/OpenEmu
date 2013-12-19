@@ -34,7 +34,7 @@
 #import "NSURL+OELibraryAdditions.h"
 
 @interface OEDBRom ()
-+ (id)OE_createRomWithoutChecksWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
++ (id)OE_createRomWithoutChecksWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError;
 - (void)OE_calculateHashes;
 @end
 
@@ -54,7 +54,7 @@
 
 + (id)romWithID:(NSManagedObjectID *)objID inDatabase:(OELibraryDatabase *)database
 {
-    return [[database managedObjectContext] objectWithID:objID];
+    return [database objectWithID:objID];
 }
 
 + (id)romWithURIURL:(NSURL *)objIDUrl
@@ -68,37 +68,35 @@
     return [self romWithID:objID inDatabase:database];
 }
 
-+ (id)createRomWithURL:(NSURL *)url error:(NSError **)outError
++ (id)createRomWithURL:(NSURL *)url error:(NSError *__autoreleasing*)outError
 {
     return [self createRomWithURL:url inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
 
-+ (id)createRomWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
++ (id)createRomWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
 {
     return [self OE_createRomWithoutChecksWithURL:url md5:nil crc:nil inDatabase:database error:outError];
 } 
 
-+ (id)romWithURL:(NSURL *)url error:(NSError **)outError
++ (id)romWithURL:(NSURL *)url error:(NSError *__autoreleasing*)outError
 {
     return [self romWithURL:url inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
 
-+ (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc error:(NSError **)outError
++ (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc error:(NSError *__autoreleasing*)outError
 {
     return [self createRomWithURL:url md5:md5 crc:crc inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
 
-+ (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
++ (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
 {
     return [self OE_createRomWithoutChecksWithURL:url md5:md5 crc:crc inDatabase:database error:outError];
 }
 
-+ (id)romWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
++ (id)romWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
 {
     if(url == nil) return nil;
     
-
-    NSManagedObjectContext *context = [database managedObjectContext];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location == %@", [url absoluteString]];
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     
@@ -106,10 +104,10 @@
     [fetchRequest setIncludesPendingChanges:YES];
     [fetchRequest setPredicate:predicate];
     
-    return [[context executeFetchRequest:fetchRequest error:outError] lastObject];
+    return [[database executeFetchRequest:fetchRequest error:outError] lastObject];
 }
 
-+ (id)OE_createRomWithoutChecksWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
++ (id)OE_createRomWithoutChecksWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
 {
     if(url == nil)
     {
@@ -117,73 +115,74 @@
             *outError = [NSError errorWithDomain:@"OEErrorDomain" code:0 userInfo:[NSDictionary dictionaryWithObject:@"_createRomWithoutChecksWithURL called without url" forKey:NSLocalizedDescriptionKey]];
         return nil;
     }
-    
-    NSManagedObjectContext *context = [database managedObjectContext];
-    NSEntityDescription *description = [self entityDescriptionInContext:context];
-    OEDBRom *rom = [[OEDBRom alloc] initWithEntity:description insertIntoManagedObjectContext:context];
-    [rom setURL:url];
-    
-    if(md5 != nil) [rom setMd5:md5];
-    if(crc != nil) [rom setCrc32:crc];
-    
-    if(md5 == nil && crc == nil)
-    {
-        NSString *crcHash, *md5Hash;
-        if([[NSFileManager defaultManager] hashFileAtURL:url md5:&md5Hash crc32:&crcHash error:outError])
+
+    __block OEDBRom *rom;
+    NSManagedObjectContext *context = [database unsafeContext];
+    [context performBlockAndWait:^{
+        NSEntityDescription *description = [self entityDescriptionInContext:context];
+        rom = [[OEDBRom alloc] initWithEntity:description insertIntoManagedObjectContext:context];
+        [rom setURL:url];
+
+        if(md5 != nil) [rom setMd5:md5];
+        if(crc != nil) [rom setCrc32:crc];
+
+        if(md5 == nil && crc == nil)
         {
-            [rom setMd5:md5Hash];
-            [rom setCrc32:crcHash];
-        }
-        else if(outError != NULL)
-        {
+            NSString *crcHash, *md5Hash;
+            if([[NSFileManager defaultManager] hashFileAtURL:url md5:&md5Hash crc32:&crcHash error:outError])
+            {
+                [rom setMd5:md5Hash];
+                [rom setCrc32:crcHash];
+            }
+            else if(outError != NULL)
+            {
                 *outError = [NSError errorWithDomain:@"OEErrorDomain" code:2 userInfo:[NSDictionary dictionaryWithObject:@"Calculating Hash for ROM-File failed!" forKey:NSLocalizedDescriptionKey]];
                 DLog(@"%@", *outError);
+            }
         }
-    }
-    [rom setFileSize:[url fileSize]];
+        [rom setFileSize:[url fileSize]];
+    }];
 
     return rom;
 }
 
 #pragma mark -
 
-+ (id)romWithCRC32HashString:(NSString *)crcHash error:(NSError **)outError
++ (id)romWithCRC32HashString:(NSString *)crcHash error:(NSError *__autoreleasing*)outError
 {
     return [self romWithCRC32HashString:crcHash inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
 
-+ (id)romWithCRC32HashString:(NSString *)crcHash inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
++ (id)romWithCRC32HashString:(NSString *)crcHash inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
 {
     if(crcHash == nil) return nil;
     
-    NSManagedObjectContext *context = [database managedObjectContext];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"crc32 == %@", crcHash];    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"crc32 == %@", crcHash];
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     
     [fetchRequest setFetchLimit:1];
     [fetchRequest setIncludesPendingChanges:YES];
     [fetchRequest setPredicate:predicate];
     
-    return [[context executeFetchRequest:fetchRequest error:outError] lastObject];
+    return [[database executeFetchRequest:fetchRequest error:outError] lastObject];
 }
 
-+ (id)romWithMD5HashString:(NSString *)md5Hash error:(NSError **)outError
++ (id)romWithMD5HashString:(NSString *)md5Hash error:(NSError *__autoreleasing*)outError
 {
     return [self romWithMD5HashString:md5Hash inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
 
-+ (id)romWithMD5HashString:(NSString *)md5Hash inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
++ (id)romWithMD5HashString:(NSString *)md5Hash inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
 {
     if(md5Hash == nil) return nil;
     
-    NSManagedObjectContext *context = [database managedObjectContext];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"md5 == %@", md5Hash];    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"md5 == %@", md5Hash];
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     [fetchRequest setFetchLimit:1];
     [fetchRequest setIncludesPendingChanges:YES];
     [fetchRequest setPredicate:predicate];
     
-    return [[context executeFetchRequest:fetchRequest error:outError] lastObject];
+    return [[database executeFetchRequest:fetchRequest error:outError] lastObject];
 }
 
 #pragma mark - Accessors
@@ -396,8 +395,11 @@
     {
         // TODO: remove states
     }
-    
-    [[self managedObjectContext] deleteObject:self];
+
+    NSManagedObjectContext *context = [self managedObjectContext];
+    [context performBlockAndWait:^{
+        [context deleteObject:self];
+    }];
 }
 
 + (NSString *)entityName

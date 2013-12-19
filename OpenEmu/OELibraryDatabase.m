@@ -52,6 +52,10 @@
 #import <OpenEmuBase/OpenEmuBase.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
+#import "OEDBCollection.h"
+#import "OEDBSmartCollection.h"
+#import "OEDBCollectionFolder.h"
+
 NSString *const OEDatabasePathKey            = @"databasePath";
 NSString *const OEDefaultDatabasePathKey     = @"defaultDatabasePath";
 NSString *const OESaveStateLastFSEventIDKey  = @"lastSaveStateEventID";
@@ -75,8 +79,8 @@ const int OELibraryErrorCodeFileInFolderNotFound = 2;
     NSThread *_syncThread;
 }
 
-- (BOOL)loadPersistantStoreWithError:(NSError **)outError;
-- (BOOL)loadManagedObjectContextWithError:(NSError **)outError;
+- (BOOL)loadPersistantStoreWithError:(NSError *__autoreleasing*)outError;
+- (BOOL)loadManagedObjectContextWithError:(NSError *__autoreleasing*)outError;
 - (void)managedObjectContextDidSave:(NSNotification *)notification;
 
 - (NSManagedObjectModel *)managedObjectModel;
@@ -96,7 +100,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 #pragma mark -
 
-+ (BOOL)loadFromURL:(NSURL *)url error:(NSError **)outError
++ (BOOL)loadFromURL:(NSURL *)url error:(NSError *__autoreleasing*)outError
 {
     NSLog(@"OELibraryDatabase loadFromURL:%@", url);
 
@@ -140,7 +144,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     return YES;
 }
 
-- (BOOL)loadManagedObjectContextWithError:(NSError **)outError
+- (BOOL)loadManagedObjectContextWithError:(NSError *__autoreleasing*)outError
 {
     _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 
@@ -160,7 +164,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     return YES;
 }
 
-- (BOOL)loadPersistantStoreWithError:(NSError **)outError
+- (BOOL)loadPersistantStoreWithError:(NSError *__autoreleasing*)outError
 {
     NSManagedObjectModel *mom = [self managedObjectModel];
     if(mom == nil)
@@ -301,7 +305,7 @@ static OELibraryDatabase *defaultDatabase = nil;
                 NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"SaveState"];
                 NSPredicate    *predicate    = [NSPredicate predicateWithFormat:@"location BEGINSWITH[cd] %@", [url absoluteString]];
                 [fetchRequest setPredicate:predicate];
-                NSArray *result = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+                NSArray *result = [self executeFetchRequest:fetchRequest error:&error];
                 if(error) DLog(@"executing fetch request failed: %@", error);
                 [result enumerateObjectsUsingBlock:^(OEDBSaveState *state, NSUInteger idx, BOOL *stop) {
                     [state remove];
@@ -344,7 +348,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     return _managedObjectModel;
 }
 
-- (NSManagedObjectContext *)managedObjectContext
+- (NSManagedObjectContext *)unsafeContext
 {
     return _managedObjectContext;
 }
@@ -354,6 +358,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     // This error checking is a bit redundant, but we want to make sure that we only merge in other thread's managed object contexts
     if([notification object] != _managedObjectContext)
     {
+        DLog(@"we have more than one context?");
         //Transient properties don't merge
         [[notification userInfo][NSUpdatedObjectsKey] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             if (![obj isKindOfClass:[OEDBGame class]])
@@ -364,45 +369,60 @@ static OELibraryDatabase *defaultDatabase = nil;
             [mainGame setStatus:[incomingGame status]];
         }];
 
-        [_managedObjectContext performSelectorOnMainThread:@selector(mergeChangesFromContextDidSaveNotification:) withObject:notification waitUntilDone:YES];
+        [_managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
     }
 }
 
 - (id)objectWithURI:(NSURL *)uri
 {
     NSManagedObjectID *objID = [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
-    return [[self managedObjectContext] objectWithID:objID];
+    __block id result = nil;
+    [_managedObjectContext performBlockAndWait:^{
+        result = [_managedObjectContext objectWithID:objID];
+    }];
+    return result;
 }
 
 #pragma mark -
 
-- (BOOL)save:(NSError **)error
+- (BOOL)save:(NSError *__autoreleasing*)error
 {
-    if(![[self managedObjectContext] commitEditing])
-    {
-        NSLog(@"%@:%@ unable to commit editing before saving", [self class], NSStringFromSelector(_cmd));
-        return NO;
-    }
+    __block BOOL result = YES;
+    NSManagedObjectContext *context = [self unsafeContext];
+    [context performBlockAndWait:^{
+        if(![context commitEditing])
+        {
+            NSLog(@"%@:%@ unable to commit editing before saving", [self class], NSStringFromSelector(_cmd));
+            result = NO;
+            return;
+        }
 
-    if(![[self managedObjectContext] hasChanges])
-    {
-        // DLog(@"Database did not change. Skip Saving.");
-        return YES;
-    }
+        if(![context hasChanges])
+        {
+            DLog(@"Database did not change. Skip Saving.");
+            result = YES;
+            return;
+        }
 
-    if(![[self managedObjectContext] save:error])
-    {
-        if(error != NULL)
-            [[NSApplication sharedApplication] presentError:*error];
-        return NO;
-    }
-
-    return YES;
+        if(![context save:nil])
+        {
+            if(error != NULL)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[NSApplication sharedApplication] presentError:*error];
+                });
+            }
+            result = NO;
+            return;
+        }
+    }];
+    
+    return result;
 }
 
 - (NSUndoManager *)undoManager
 {
-    return [[self managedObjectContext] undoManager];
+    return [[self unsafeContext] undoManager];
 }
 
 #pragma mark - Database queries
@@ -450,77 +470,82 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSUInteger)collectionsCount
 {
-    NSUInteger count = 1;
-    NSManagedObjectContext *context = [self managedObjectContext];
+    __block NSUInteger count = 1;
+    NSManagedObjectContext *context = [self unsafeContext];
+    [context performBlockAndWait:^{
 
-    NSEntityDescription *descr = [NSEntityDescription entityForName:@"SmartCollection" inManagedObjectContext:context];
-    NSFetchRequest *req = [[NSFetchRequest alloc] init];
-    [req setEntity:descr];
+        NSEntityDescription *descr = [NSEntityDescription entityForName:@"SmartCollection" inManagedObjectContext:context];
+        NSFetchRequest *req = [[NSFetchRequest alloc] init];
+        [req setEntity:descr];
 
-    NSError *error = nil;
-    NSUInteger ccount = [context countForFetchRequest:req error:&error];
-    if(ccount == NSNotFound)
-    {
-        ccount = 0;
-        NSLog(@"collectionsCount: Smart Collections Error: %@", error);
-    }
-    count += ccount;
+        NSError *error = nil;
+        NSUInteger ccount = [context countForFetchRequest:req error:&error];
+        if(ccount == NSNotFound)
+        {
+            ccount = 0;
+            NSLog(@"collectionsCount: Smart Collections Error: %@", error);
+        }
+        count += ccount;
 
 
-    descr = [NSEntityDescription entityForName:@"Collection" inManagedObjectContext:context];
-    req = [[NSFetchRequest alloc] init];
-    [req setEntity:descr];
+        descr = [NSEntityDescription entityForName:@"Collection" inManagedObjectContext:context];
+        req = [[NSFetchRequest alloc] init];
+        [req setEntity:descr];
 
-    ccount = [context countForFetchRequest:req error:&error];
-    if(ccount == NSNotFound)
-    {
-        ccount = 0;
-        NSLog(@"collectionsCount: Regular Collections Error: %@", error);
-    }
-    count += ccount;
-
+        ccount = [context countForFetchRequest:req error:&error];
+        if(ccount == NSNotFound)
+        {
+            ccount = 0;
+            NSLog(@"collectionsCount: Regular Collections Error: %@", error);
+        }
+        count += ccount;
+    }];
     return count;
 }
 
 - (NSArray *)collections
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
-    NSMutableArray *collectionsArray = [NSMutableArray array];
+    NSManagedObjectContext *context = [self unsafeContext];
+    __block NSMutableArray *collectionsArray = [NSMutableArray array];
 
-    // insert "all games" item here !
-    OEDBAllGamesCollection *allGamesCollections = [OEDBAllGamesCollection sharedDBAllGamesCollection];
-    [collectionsArray addObject:allGamesCollections];
+    [context performBlockAndWait:^{
+        // insert "all games" item here !
+        OEDBAllGamesCollection *allGamesCollections = [OEDBAllGamesCollection sharedDBAllGamesCollection];
+        [collectionsArray addObject:allGamesCollections];
 
-    NSEntityDescription *descr = [NSEntityDescription entityForName:@"SmartCollection" inManagedObjectContext:context];
-    NSFetchRequest *req = [[NSFetchRequest alloc] init];
+        NSEntityDescription *descr = [NSEntityDescription entityForName:@"SmartCollection" inManagedObjectContext:context];
+        NSFetchRequest *req = [[NSFetchRequest alloc] init];
 
-    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(localizedStandardCompare:)];
-    [req setSortDescriptors:[NSArray arrayWithObject:sort]];
+        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(localizedStandardCompare:)];
+        [req setSortDescriptors:[NSArray arrayWithObject:sort]];
 
-    [req setEntity:descr];
+        [req setEntity:descr];
 
-    NSError *error = nil;
+        NSError *error = nil;
 
-    id result = [context executeFetchRequest:req error:&error];
-    if(result == nil)
-    {
-        NSLog(@"collections: Smart Collections Error: %@", error);
-        return [NSArray array];
-    }
+        id result = [context executeFetchRequest:req error:&error];
+        if(result == nil)
+        {
+            NSLog(@"collections: Smart Collections Error: %@", error);
+            collectionsArray = [NSArray array];
+            return;
+        }
 
-    [collectionsArray addObjectsFromArray:result];
+        [collectionsArray addObjectsFromArray:result];
 
-    descr = [NSEntityDescription entityForName:@"Collection" inManagedObjectContext:context];
-    [req setEntity:descr];
+        descr = [NSEntityDescription entityForName:@"Collection" inManagedObjectContext:context];
+        [req setEntity:descr];
 
-    result = [context executeFetchRequest:req error:&error];
-    if(result == nil)
-    {
-        NSLog(@"collections: Regular Collections Error: %@", error);
-        return [NSArray array];
-    }
-
-    [collectionsArray addObjectsFromArray:result];
+        result = [context executeFetchRequest:req error:&error];
+        if(result == nil)
+        {
+            NSLog(@"collections: Regular Collections Error: %@", error);
+            collectionsArray = [NSArray array];
+            return;
+        }
+        
+        [collectionsArray addObjectsFromArray:result];
+    }];
 
     return collectionsArray;
 }
@@ -547,160 +572,176 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (id)addNewCollection:(NSString *)name
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
-
-    if(name == nil)
-    {
-        name = NSLocalizedString(@"New Collection", @"Default collection name");
-
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
-
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:entityDescription];
-        [request setFetchLimit:1];
-
-        NSString *uniqueName = name;
-        NSError *error = nil;
-        int numberSuffix = 0;
-
-        while([context countForFetchRequest:request error:&error] != 0 && error == nil)
+    NSManagedObjectContext *context = [self unsafeContext];
+    __block NSString *blockName = name;
+    __block NSManagedObject *aCollection;
+    [context performBlockAndWait:^{
+        if(blockName == nil)
         {
-            numberSuffix++;
-            uniqueName = [NSString stringWithFormat:@"%@ %d", name, numberSuffix];
-            [request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
+            blockName = NSLocalizedString(@"New Collection", @"Default collection name");
+
+            NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
+
+            NSFetchRequest *request = [[NSFetchRequest alloc] init];
+            [request setEntity:entityDescription];
+            [request setFetchLimit:1];
+
+            NSString *uniqueName = blockName;
+            NSError *error = nil;
+            int numberSuffix = 0;
+
+            while([context countForFetchRequest:request error:&error] != 0 && error == nil)
+            {
+                numberSuffix++;
+                uniqueName = [NSString stringWithFormat:@"%@ %d", blockName, numberSuffix];
+                [request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
+            }
+
+            blockName = uniqueName;
         }
 
-        name = uniqueName;
-    }
-
-    NSManagedObject *aCollection = [NSEntityDescription insertNewObjectForEntityForName:@"Collection" inManagedObjectContext:context];
-    [aCollection setValue:name forKey:@"name"];
+        OEDBCollection *aCollection = (OEDBCollection*)[NSEntityDescription insertNewObjectForEntityForName:@"Collection" inManagedObjectContext:context];
+        [aCollection setName:blockName];
+    }];
 
     return aCollection;
 }
 
 - (id)addNewSmartCollection:(NSString *)name
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
+    __block NSString *blockName = name;
+    __block OEDBSmartCollection *aCollection = nil;
 
-    if(name == nil)
-    {
-        name = NSLocalizedString(@"New Smart Collection", @"");
-
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
-
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:entityDescription];
-        [request setFetchLimit:1];
-
-        NSString *uniqueName = name;
-        NSError *error = nil;
-        int numberSuffix = 0;
-
-        while([context countForFetchRequest:request error:&error] != 0 && error == nil)
+    NSManagedObjectContext *context = [self unsafeContext];
+    [context performBlockAndWait:^{
+        if(blockName == nil)
         {
-            numberSuffix++;
-            uniqueName = [NSString stringWithFormat:@"%@ %d", name, numberSuffix];
-            [request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
+            blockName = NSLocalizedString(@"New Smart Collection", @"");
+
+            NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
+
+            NSFetchRequest *request = [[NSFetchRequest alloc] init];
+            [request setEntity:entityDescription];
+            [request setFetchLimit:1];
+
+            NSString *uniqueName = blockName;
+            NSError *error = nil;
+            int numberSuffix = 0;
+
+            while([context countForFetchRequest:request error:&error] != 0 && error == nil)
+            {
+                numberSuffix++;
+                uniqueName = [NSString stringWithFormat:@"%@ %d", blockName, numberSuffix];
+                [request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
+            }
+
+            blockName = uniqueName;
         }
 
-        name = uniqueName;
-    }
-
-    NSManagedObject *aCollection = [NSEntityDescription insertNewObjectForEntityForName:@"SmartCollection" inManagedObjectContext:context];
-    [aCollection setValue:name forKey:@"name"];
-
+        aCollection = (OEDBSmartCollection*)[NSEntityDescription insertNewObjectForEntityForName:@"SmartCollection" inManagedObjectContext:context];
+        [aCollection setName:blockName];
+    }];
+    
     return aCollection;
 }
 
 - (id)addNewCollectionFolder:(NSString *)name
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
-
-    if(name == nil)
-    {
-        name = NSLocalizedString(@"New Folder", @"");
-
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
-
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:entityDescription];
-        [request setFetchLimit:1];
-
-        NSString *uniqueName = name;
-        NSError *error = nil;
-        int numberSuffix = 0;
-
-        while([context countForFetchRequest:request error:&error] != 0 && error == nil)
+    NSManagedObjectContext *context = [self unsafeContext];
+    __block NSString *blockName = name;
+    __block OEDBCollectionFolder *aCollection;
+    [context performBlockAndWait:^{
+        if(blockName == nil)
         {
-            numberSuffix ++;
-            uniqueName = [NSString stringWithFormat:@"%@ %d", name, numberSuffix];
-            [request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
+            blockName = NSLocalizedString(@"New Folder", @"");
+
+            NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
+
+            NSFetchRequest *request = [[NSFetchRequest alloc] init];
+            [request setEntity:entityDescription];
+            [request setFetchLimit:1];
+
+            NSString *uniqueName = blockName;
+            NSError *error = nil;
+            int numberSuffix = 0;
+
+            while([context countForFetchRequest:request error:&error] != 0 && error == nil)
+            {
+                numberSuffix ++;
+                uniqueName = [NSString stringWithFormat:@"%@ %d", blockName, numberSuffix];
+                [request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
+            }
+            blockName = uniqueName;
         }
-        name = uniqueName;
-    }
 
-    NSManagedObject *aCollection = [NSEntityDescription insertNewObjectForEntityForName:@"CollectionFolder" inManagedObjectContext:context];
-    [aCollection setValue:name forKey:@"name"];
-
+        OEDBCollectionFolder *aCollection = (OEDBCollectionFolder*)[NSEntityDescription insertNewObjectForEntityForName:@"CollectionFolder" inManagedObjectContext:context];
+        [aCollection setName:blockName];
+    }];
     return aCollection;
 }
 
 
-- (void)removeCollection:(NSManagedObject *)collection
+- (void)removeCollection:(OEDBItem *)collection
 {
-    [[collection managedObjectContext] deleteObject:collection];
+    NSManagedObjectContext *context = [collection managedObjectContext];
+    [context performBlockAndWait:^{
+        [context deleteObject:collection];
+    }];
 }
 
 #pragma mark -
 
 - (OEDBRom *)romForMD5Hash:(NSString *)hashString
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
+    __block NSArray *result = nil;
+    NSManagedObjectContext *context = [self unsafeContext];
+    [context performBlockAndWait:^{
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
 
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setEntity:entityDescription];
-    [fetchRequest setFetchLimit:1];
-    [fetchRequest setIncludesPendingChanges:YES];
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        [fetchRequest setEntity:entityDescription];
+        [fetchRequest setFetchLimit:1];
+        [fetchRequest setIncludesPendingChanges:YES];
 
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"md5 == %@", hashString];
-    [fetchRequest setPredicate:predicate];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"md5 == %@", hashString];
+        [fetchRequest setPredicate:predicate];
 
-    NSError *err = nil;
-    NSArray *result = [context executeFetchRequest:fetchRequest error:&err];
-    if(result == nil)
-    {
-        NSLog(@"Error executing fetch request to get rom by md5");
-        NSLog(@"%@", err);
-        return nil;
-    }
-
+        NSError *err = nil;
+        result = [context executeFetchRequest:fetchRequest error:&err];
+        if(result == nil)
+        {
+            NSLog(@"Error executing fetch request to get rom by md5");
+            NSLog(@"%@", err);
+            return;
+        }
+    }];
     return [result lastObject];
 }
 
 - (OEDBRom *)romForCRC32Hash:(NSString *)crc32String
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
+    __block NSArray *result = nil;
+    NSManagedObjectContext *context = [self unsafeContext];
+    [context performBlockAndWait:^{
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        [fetchRequest setEntity:entityDescription];
+        [fetchRequest setFetchLimit:1];
+        [fetchRequest setIncludesPendingChanges:YES];
 
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setEntity:entityDescription];
-    [fetchRequest setFetchLimit:1];
-    [fetchRequest setIncludesPendingChanges:YES];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"crc32 == %@", crc32String];
+        [fetchRequest setPredicate:predicate];
 
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"crc32 == %@", crc32String];
-    [fetchRequest setPredicate:predicate];
-
-    NSError *err = nil;
-    NSArray *result = [context executeFetchRequest:fetchRequest error:&err];
-    if(result == nil)
-    {
-        NSLog(@"Error executing fetch request to get rom by crc");
-        NSLog(@"%@", err);
-        return nil;
-    }
-
+        NSError *err = nil;
+        result = [context executeFetchRequest:fetchRequest error:&err];
+        if(result == nil)
+        {
+            NSLog(@"Error executing fetch request to get rom by crc");
+            NSLog(@"%@", err);
+            return;
+        }
+        
+    }];
     return [result lastObject];
 }
 
@@ -732,7 +773,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     [fetchRequest setPredicate:predicate];
     [fetchRequest setFetchLimit:numberOfRoms];
 
-    return [[self managedObjectContext] executeFetchRequest:fetchRequest error:nil];
+    return [self executeFetchRequest:fetchRequest error:nil];
 }
 
 - (NSDictionary *)lastPlayedRomsBySystem
@@ -747,7 +788,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     [fetchRequest setPredicate:predicate];
     [fetchRequest setFetchLimit:numberOfRoms];
 
-    NSArray *roms = [[self managedObjectContext] executeFetchRequest:fetchRequest error:nil];
+    NSArray *roms = [self executeFetchRequest:fetchRequest error:nil];
     NSMutableSet *systemsSet = [NSMutableSet setWithCapacity:[roms count]];
     [roms enumerateObjectsUsingBlock:
      ^(OEDBRom *aRom, NSUInteger idx, BOOL *stop)
@@ -935,20 +976,43 @@ static OELibraryDatabase *defaultDatabase = nil;
     [request setFetchLimit:1];
     [request setPredicate:predicate];
 
-    [[self managedObjectContext] performBlockAndWait:^{
-        result = [[self managedObjectContext] executeFetchRequest:request error:&error];
-    }];
+    result = [self executeFetchRequest:request error:&error];
+
     while([result count])
     {
         OEDBGame *game = [result lastObject];
         [game performInfoSync];
-        
-        [[self managedObjectContext] performBlockAndWait:^{
-            result = [[self managedObjectContext] executeFetchRequest:request error:&error];
-        }];
+        result = [self executeFetchRequest:request error:&error];
+        //        [NSThread sleepForTimeInterval:1.0];
     }
 }
+#pragma mark - Thread Safe MOC
+- (NSArray*)executeFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error
+{
+    __block NSArray *result = nil;
+    [_managedObjectContext performBlockAndWait:^{
+        result = [_managedObjectContext executeFetchRequest:request error:error];
+    }];
+    return result;
+}
 
+- (NSManagedObject *)objectWithID:(NSManagedObjectID *)objectID
+{
+    __block NSManagedObject *result = nil;
+    [_managedObjectContext performBlockAndWait:^{
+        result = [_managedObjectContext objectWithID:objectID];
+    }];
+    return result;
+}
+
+- (NSUInteger)countForFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error
+{
+    __block NSUInteger count = 0;
+    [_managedObjectContext performBlockAndWait:^{
+        count = [_managedObjectContext countForFetchRequest:request error:error];
+    }];
+    return count;
+}
 #pragma mark - Debug
 
 - (void)dump
@@ -991,11 +1055,8 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSArray *)allROMsForDump
 {
-    NSManagedObjectContext *moc = [self managedObjectContext];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:moc];
-    NSFetchRequest *fetchReq = [NSFetchRequest new];
-    [fetchReq setEntity:entity];
-    return [moc executeFetchRequest:fetchReq error:NULL];
+    NSFetchRequest *fetchReq = [NSFetchRequest fetchRequestWithEntityName:@"ROM"];
+    return [self executeFetchRequest:fetchReq error:NULL];
 }
 
 @end

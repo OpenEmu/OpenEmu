@@ -33,18 +33,22 @@
 @implementation OEDBImage
 + (id)imageWithImage:(NSImage *)image inLibrary:(OELibraryDatabase *)library
 {
-    NSManagedObjectContext  *context        = [library managedObjectContext];
-    NSEntityDescription     *desc           = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
-    OEDBImage               *imageObject    = [[self alloc] initWithEntity:desc insertIntoManagedObjectContext:context];
-    OEDBImageThumbnail      *thumbnailImage = [[OEDBImageThumbnail alloc] initWithImage:image size:NSZeroSize inLibrary:library];
-    
-    if(!thumbnailImage)
-    {
-        [context deleteObject:imageObject];
-        return nil;
-    }
-    
-    [imageObject addVersion:thumbnailImage];
+    __block OEDBImage *imageObject = nil;
+    NSManagedObjectContext *context = [library unsafeContext];
+    [context performBlockAndWait:^{
+        NSEntityDescription *desc = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
+        imageObject = [[OEDBImage alloc] initWithEntity:desc insertIntoManagedObjectContext:context];
+        OEDBImageThumbnail *thumbnailImage = [OEDBImageThumbnail imageWithImage:image size:NSZeroSize inLibrary:library];
+        if(!thumbnailImage)
+        {
+            [context deleteObject:imageObject];
+            imageObject = nil;
+        }
+        else
+        {
+            [imageObject addVersion:thumbnailImage];
+        }
+    }];
     return imageObject;
 }
 
@@ -192,7 +196,7 @@
     if(!originalImage){
         return;
     }
-    OEDBImageThumbnail  *newThumbnail        = [[OEDBImageThumbnail alloc] initWithImage:originalImage size:size inLibrary:library];
+    OEDBImageThumbnail  *newThumbnail = [OEDBImageThumbnail imageWithImage:originalImage size:size inLibrary:library];
     [self addVersion:newThumbnail];
 }
 @end

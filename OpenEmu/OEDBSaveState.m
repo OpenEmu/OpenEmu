@@ -72,9 +72,8 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 + (NSArray*)allStatesInDatabase:(OELibraryDatabase*)database
 {
-    NSManagedObjectContext *context = [database managedObjectContext];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"SaveState"];
-    return [context executeFetchRequest:request error:nil];
+    return [database executeFetchRequest:request error:nil];
 }
 
 
@@ -85,7 +84,6 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 + (OEDBSaveState*)saveStateWithURL:(NSURL*)url inDatabase:(OELibraryDatabase*)database
 {
-    NSManagedObjectContext  *context    = [database managedObjectContext];
     NSFetchRequest          *request    = [NSFetchRequest fetchRequestWithEntityName:@"SaveState"];
     
     NSString *absoluteString = [url absoluteString];
@@ -97,16 +95,20 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     NSPredicate *predicate  = [NSPredicate predicateWithFormat:@"location == %@", absoluteString];
     [request setPredicate:predicate];
     
-    return [[context executeFetchRequest:request error:nil] lastObject];
+    return [[database executeFetchRequest:request error:nil] lastObject];
 }
 
 
-+ (id)OE_newSaveStateInContext:(NSManagedObjectContext*)context{
-	NSEntityDescription *description = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context];
-	OEDBSaveState *result = [[OEDBSaveState alloc] initWithEntity:description insertIntoManagedObjectContext:context];
-	
-	[result setTimestamp:[NSDate date]];
-	
++ (id)OE_newSaveStateInContext:(NSManagedObjectContext*)context
+{
+    __block OEDBSaveState *result = nil;
+    [context performBlockAndWait:^{
+        NSEntityDescription *description = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context];
+        OEDBSaveState *result = [[OEDBSaveState alloc] initWithEntity:description insertIntoManagedObjectContext:context];
+
+        [result setTimestamp:[NSDate date]];
+    }];
+
 	return result;
 }
 
@@ -117,7 +119,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 + (id)createSaveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase*)database
 {
-    OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database managedObjectContext]];
+    OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database unsafeContext]];
     [newSaveState setLocation:[url absoluteString]];
     if(![newSaveState readInfoPlist])
     {
@@ -129,7 +131,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     
     NSError *error = nil;
 //TODO: use validation here instead of save
-    if(![[newSaveState managedObjectContext] save:&error])
+    if(![[newSaveState libraryDatabase] save:&error])
     {
         [newSaveState setLocation:nil];
         [newSaveState remove];
@@ -148,7 +150,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 + (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inDatabase:(OELibraryDatabase *)database
 {
-    OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database managedObjectContext]];
+    OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database unsafeContext]];
     [newSaveState setName:name];
     [newSaveState setRom:rom];
     [newSaveState setCoreIdentifier:[core bundleIdentifier]];
@@ -306,9 +308,11 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 - (void)remove
 {
     [[NSFileManager defaultManager] removeItemAtURL:[self URL] error:nil];
-    NSManagedObjectContext *moc = [self managedObjectContext];
-    [moc deleteObject:self];
-    [moc save:nil];
+    NSManagedObjectContext *context = [self managedObjectContext];
+    [context performBlock:^{
+        [context deleteObject:self];
+        [context save:nil];
+    }];
 }
 
 - (void)removeIfMissing
