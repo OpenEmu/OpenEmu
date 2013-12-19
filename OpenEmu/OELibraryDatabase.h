@@ -98,8 +98,8 @@ extern NSString *const OEScreenshotFolderURLKey;
 - (NSURL *)coverFolderURL;
 - (NSURL *)importQueueURL;
 
-#pragma mark - ArchiveVG Sync
-- (void)startArchiveVGSync;
+#pragma mark - OpenVGDB Sync
+- (void)startOpenVGDBSync;
 
 #pragma mark - Debug
 - (void)dump;

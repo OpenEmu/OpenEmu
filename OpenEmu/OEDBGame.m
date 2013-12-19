@@ -196,14 +196,14 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 {
     [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
     [[self libraryDatabase] save:nil];
-    [[self libraryDatabase] startArchiveVGSync];
+    [[self libraryDatabase] startOpenVGDBSync];
 }
 
 - (void)requestInfoSync
 {
     [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
     [[self libraryDatabase] save:nil];
-    [[self libraryDatabase] startArchiveVGSync];
+    [[self libraryDatabase] startOpenVGDBSync];
 }
 
 - (void)performInfoSync

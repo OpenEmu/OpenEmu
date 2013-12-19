@@ -138,7 +138,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^{
         [[defaultDatabase importer] start];
-        [defaultDatabase startArchiveVGSync];
+        [defaultDatabase startOpenVGDBSync];
     });
 
     return YES;
@@ -955,18 +955,18 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [baseURL URLByAppendingPathComponent:@"Import Queue.db"];
 }
 
-#pragma mark - ArchiveVG Sync
+#pragma mark - GameInfo Sync
 
-- (void)startArchiveVGSync
+- (void)startOpenVGDBSync
 {
     if(_syncThread == nil || [_syncThread isFinished])
     {
-        _syncThread = [[NSThread alloc] initWithTarget:self selector:@selector(archiveVGSyncThread) object:nil];
+        _syncThread = [[NSThread alloc] initWithTarget:self selector:@selector(OpenVGSyncThreadMain) object:nil];
         [_syncThread start];
     }
 }
 
-- (void)archiveVGSyncThread
+- (void)OpenVGSyncThreadMain
 {
     __block NSArray *result    = nil;
    __block  NSError        *error     = nil;
@@ -980,10 +980,13 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     while([result count])
     {
-        OEDBGame *game = [result lastObject];
-        [game performInfoSync];
+        @autoreleasepool {
+            OEDBGame *game = [result lastObject];
+            [game performInfoSync];
+        }
+        [NSThread sleepForTimeInterval:0.5];
         result = [self executeFetchRequest:request error:&error];
-        //        [NSThread sleepForTimeInterval:1.0];
+
     }
 }
 #pragma mark - Thread Safe MOC
