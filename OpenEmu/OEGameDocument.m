@@ -1067,7 +1067,7 @@ typedef enum : NSUInteger
          NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
 
          __autoreleasing NSError *saveError = nil;
-         if(![PNGData writeToURL:[state screenshotURL] options:NSDataWritingAtomic error:&saveError])
+         if([state screenshotURL] == nil || ![PNGData writeToURL:[state screenshotURL] options:NSDataWritingAtomic error:&saveError])
              NSLog(@"Could not create screenshot at url: %@ with error: %@", [state screenshotURL], saveError);
 
          if(handler != nil) handler();

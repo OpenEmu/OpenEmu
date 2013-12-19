@@ -104,8 +104,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     __block OEDBSaveState *result = nil;
     [context performBlockAndWait:^{
         NSEntityDescription *description = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context];
-        OEDBSaveState *result = [[OEDBSaveState alloc] initWithEntity:description insertIntoManagedObjectContext:context];
-
+        result = [[OEDBSaveState alloc] initWithEntity:description insertIntoManagedObjectContext:context];
         [result setTimestamp:[NSDate date]];
     }];
 
