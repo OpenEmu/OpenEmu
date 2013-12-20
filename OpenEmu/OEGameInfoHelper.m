@@ -279,7 +279,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
             return nil;
     }
 
-    NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT releaseTitleName as 'name', releaseCoverFront as 'boxImageURL', releaseDescription as 'gameDescription', regionName as 'region'\
+    NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT releaseTitleName as 'gameTitle', releaseCoverFront as 'boxImageURL', releaseDescription as 'gameDescription', regionName as 'region'\
                      FROM ROMs rom LEFT JOIN RELEASES release USING (romID) LEFT JOIN REGIONS region on (regionLocalizedID=region.regionID)\
                      WHERE %@ = '%@'", key, [value uppercaseString]];
 
