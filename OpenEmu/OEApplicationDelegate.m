@@ -632,30 +632,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
-#pragma mark - Updating
-
-- (void)updateBundles:(id)sender
-{
-    OECoreUpdater *updater = [OECoreUpdater sharedUpdater];
-    [updater checkForUpdates];
-
-    BOOL hasUpdate = NO;
-    for(OECoreDownload *dl in [updater coreList])
-    {
-        if([dl hasUpdate])
-        {
-            hasUpdate = YES;
-            [dl startDownload:self];
-        }
-    }
-
-    if(hasUpdate)
-    {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Cores" forKey:OEPreferencesUserInfoPanelNameKey];
-        [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesOpenPaneNotificationName object:nil userInfo:userInfo];
-    }
-}
-
 #pragma mark - Application Info
 
 - (void)updateInfoPlist
