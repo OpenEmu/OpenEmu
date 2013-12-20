@@ -69,10 +69,6 @@ extern NSString *const OEDisplayGameTitle;
 // returns the game from the specified database that represents the file at url
 + (id)gameWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 
-// returns the game with the archive id archiveID
-+ (id)gameWithArchiveID:(id)archiveID error:(NSError **)outError;
-+ (id)gameWithArchiveID:(id)archiveID inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
-
 // returns all games in specified databse
 + (NSArray *)allGames;
 + (NSArray *)allGamesWithError:(NSError **)error;
@@ -116,8 +112,7 @@ extern NSString *const OEDisplayGameTitle;
 @property(nonatomic, retain)   NSNumber *rating;
 @property(nonatomic, retain)   NSString *gameDescription;
 @property(nonatomic, retain)   NSDate   *importDate;
-@property(nonatomic, retain)   NSDate   *lastArchiveSync;
-@property(nonatomic, retain)   NSNumber *archiveID;
+@property(nonatomic, retain)   NSDate   *lastInfoSync;
 @property(nonatomic, retain)   NSNumber *status;
 @property(nonatomic, retain)   NSString *displayName;
 @property(nonatomic, readonly) NSString *cleanDisplayName;

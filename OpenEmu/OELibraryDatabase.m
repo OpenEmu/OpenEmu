@@ -426,48 +426,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 }
 
 #pragma mark - Database queries
-
-/*
-- (OEDBSystem *)systemWithIdentifier:(NSString *)identifier
-{
-    NSManagedObjectContext *context = [self managedObjectContext];
-    NSEntityDescription *description = [OEDBSystem entityDescriptionInContext:context];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"systemIdentifier == %@", identifier];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setPredicate:predicate];
-    [fetchRequest setFetchLimit:1];
-    [fetchRequest setEntity:description];
-
-    NSError *error = nil;
-
-    NSArray *result = [context executeFetchRequest:fetchRequest error:&error];
-    if(result == nil) NSLog(@"systemWithIdentifier: Error: %@", error);
-
-    return [result lastObject];
-}
-
-- (OEDBSystem *)systemWithArchiveID:(NSNumber *)aID
-{
-    NSManagedObjectContext *context = [self managedObjectContext];
-    NSEntityDescription *description = [OEDBSystem entityDescriptionInContext:context];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"archiveID == %ld", [aID integerValue]];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setPredicate:predicate];
-    [fetchRequest setFetchLimit:1];
-    [fetchRequest setEntity:description];
-
-    NSError *error = nil;
-
-    id result = [context executeFetchRequest:fetchRequest error:&error];
-    if(!result)
-    {
-        NSLog(@"systemWithArchiveID: Error: %@", error);
-        return nil;
-    }
-    return [result lastObject];
-}
- */
-
 - (NSUInteger)collectionsCount
 {
     __block NSUInteger count = 1;

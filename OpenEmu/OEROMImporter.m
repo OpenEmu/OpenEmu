@@ -59,7 +59,8 @@ NSString *const OEImportInfoCRC         = @"crc";
 NSString *const OEImportInfoROMObjectID = @"RomObjectID";
 NSString *const OEImportInfoSystemID    = @"systemID";
 NSString *const OEImportInfoCollectionID= @"collectionID";
-NSString *const OEImportInfoArchivedFileURL = @"archivedFileURL";
+NSString *const OEImportInfoArchivedFileURL   = @"archivedFileURL";
+NSString *const OEImportInfoArchivedFileIndex = @"archivedFileIndex";
 
 @interface OEROMImporter ()
 {
@@ -330,6 +331,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         if ([fm fileExistsAtPath:tmpPath isDirectory:&isdir] && !isdir) {
             DLog(@"Found existing decompressed ROM for path %@", path);
             [[item importInfo] setValue:tmpURL forKey:OEImportInfoArchivedFileURL];
+            [[item importInfo] setValue:@(0) forKey:OEImportInfoArchivedFileIndex];
             return;
         }
         
@@ -341,7 +343,10 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             success = NO;
         }
         if (success)
+        {
             [[item importInfo] setValue:tmpURL forKey:OEImportInfoArchivedFileURL];
+            [[item importInfo] setValue:@(0) forKey:OEImportInfoArchivedFileIndex];
+        }
         else
             [fm removeItemAtPath:folder error:nil];
     }
@@ -620,71 +625,6 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     }
 }
 
-- (void)performImportStepCreateRom:(OEImportItem *)item
-{
-    DLogDeprecated();
-    NSMutableDictionary *importInfo = [item importInfo];
-    if([importInfo valueForKey:OEImportInfoROMObjectID] != nil)
-    {
-        OEDBRom *rom = [OEDBRom romWithURIURL:[importInfo valueForKey:OEImportInfoROMObjectID] inDatabase:[self database]];
-        [rom setURL:[item URL]];
-        [self stopImportForItem:item withError:nil];
-        return;
-    }
-    
-    NSError *error = nil;
-    NSString *md5 = [importInfo valueForKey:OEImportInfoMD5];
-    NSString *crc = [importInfo valueForKey:OEImportInfoCRC];
-    OEDBRom *rom = [OEDBRom createRomWithURL:[item URL] md5:md5 crc:crc inDatabase:[self database] error:&error];
-    if(rom == nil)
-    {
-        [self stopImportForItem:item withError:error];
-        return;
-    }
-    
-    NSURL *objectIDURIRep = [[rom objectID] URIRepresentation];
-    [importInfo setValue:objectIDURIRep forKey:OEImportInfoROMObjectID];
-}
-
-- (void)performImportStepCreateGame:(OEImportItem *)item
-{
-    DLogDeprecated();
-    IMPORTDLog(@"URL: %@", [item sourceURL]);
-    NSMutableDictionary *importInfo = [item importInfo];
-    
-    NSError *error = nil;
-    OEDBGame *game = nil;
-    OEDBRom  *rom  = [OEDBRom romWithURIURL:[importInfo valueForKey:OEImportInfoROMObjectID]];
-    if(rom == nil || [rom game] != nil) return;
-    if(game == nil)
-    {
-        NSAssert([[importInfo valueForKey:OEImportInfoSystemID] count] == 1, @"System should have been detected at an earlier import stage");
-        
-        NSString *systemIdentifier = [[importInfo valueForKey:OEImportInfoSystemID] lastObject];
-        OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inDatabase:[self database]];
-        if(system == nil)
-        {
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"No system! Someone must have deleted or disabled it!" forKey:NSLocalizedDescriptionKey];
-            error = [NSError errorWithDomain:OEImportErrorDomainFatal code:51 userInfo:userInfo];
-            [self stopImportForItem:item withError:error];
-        }
-        else
-        {
-            NSURL *url = [rom URL];
-            NSString *gameTitleWithSuffix = [url lastPathComponent];
-            NSString *gameTitleWithoutSuffix = [gameTitleWithSuffix stringByDeletingPathExtension];
-            game = [OEDBGame createGameWithName:gameTitleWithoutSuffix andSystem:system inDatabase:[self database]];
-        }
-    }
-    
-    if(game != nil)
-    {
-        [rom setGame:game];
-        NSAssert([[game mutableRoms] count] != 0, @"THIS IS BAD!!!");
-        [self stopImportForItem:item withError:nil];
-    }
-}
-
 - (void)performImportStepCreateCoreDataObjects:(OEImportItem*)item
 {
     __block OEDBRom *rom = nil;
@@ -695,6 +635,9 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     {
         rom = [OEDBRom romWithURIURL:[importInfo valueForKey:OEImportInfoROMObjectID] inDatabase:[self database]];
         [rom setURL:[item URL]];
+        if([importInfo objectForKey:OEImportInfoArchivedFileIndex])
+            [rom setArchiveFileIndex:[importInfo objectForKey:OEImportInfoArchivedFileIndex]];
+
         [self stopImportForItem:item withError:nil];
         return;
     }
@@ -702,6 +645,8 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     NSString *md5 = [importInfo valueForKey:OEImportInfoMD5];
     NSString *crc = [importInfo valueForKey:OEImportInfoCRC];
     rom = [OEDBRom createRomWithURL:[item URL] md5:md5 crc:crc inDatabase:[self database] error:&error];
+    if([importInfo objectForKey:OEImportInfoArchivedFileIndex])
+        [rom setArchiveFileIndex:[importInfo objectForKey:OEImportInfoArchivedFileIndex]];
 
     if(rom == nil)
     {

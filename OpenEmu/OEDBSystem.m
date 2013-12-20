@@ -188,7 +188,6 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     [moc performBlockAndWait:^{
 
         system = [[OEDBSystem alloc] initWithEntity:[self entityDescriptionInContext:moc] insertIntoManagedObjectContext:moc];
-        // TODO: get archive id(s) from plugin
         [system setSystemIdentifier:systemIdentifier];
         [system setLastLocalizedName:[system name]];
     }];

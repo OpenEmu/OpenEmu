@@ -41,7 +41,7 @@ NSString *const OEBoxSizesKey = @"BoxSizes";
 NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 @implementation OEDBGame
-@dynamic name, gameTitle, rating, gameDescription, importDate, lastArchiveSync, archiveID, status, displayName;
+@dynamic name, gameTitle, rating, gameDescription, importDate, lastInfoSync, status, displayName;
 @dynamic boxImage, system, roms, genres, collections, credits;
 
 + (void)initialize
@@ -146,30 +146,6 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     return game;
 }
 
-+ (id)gameWithArchiveID:(id)archiveID error:(NSError *__autoreleasing*)outError
-{
-    return [self gameWithArchiveID:archiveID inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
-}
-
-+ (id)gameWithArchiveID:(id)archiveID inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
-{
-    if([archiveID integerValue] == 0) return nil;
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"archiveID = %ld", [archiveID integerValue]];
-    [fetchRequest setFetchLimit:1];
-    [fetchRequest setIncludesPendingChanges:YES];
-    [fetchRequest setPredicate:predicate];
-    
-    NSArray *result = [database executeFetchRequest:fetchRequest error:outError];
-    
-    if(result == nil) return nil;
-    
-    OEDBGame *game = [result lastObject];
-    
-    return game;
-}
-
 + (NSArray *)allGames
 {
     return [self allGamesWithError:nil];
@@ -233,7 +209,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     if(result != nil)
     {
         [self setValuesForKeysWithDictionary:result];
-        [self setLastArchiveSync:[NSDate date]];
+        [self setLastInfoSync:[NSDate date]];
     }
     [self setStatus:@(OEDBGameStatusOK)];
     [[self libraryDatabase] save:nil];
@@ -244,10 +220,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 - (id)mergeInfoFromGame:(OEDBGame *)game
 {
     // TODO: (low priority): improve merging
-    // we could merge with priority based on last archive sync for example
-    if([[self archiveID] intValue] == 0)
-        [self setArchiveID:[game archiveID]];
-    
+    // we could merge with priority based on last info sync for example
     if([self name] == nil)
         [self setName:[game name]];
     
@@ -257,8 +230,8 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     if([self gameDescription] == nil)
         [self setGameDescription:[game gameDescription]];
     
-    if([self lastArchiveSync] == nil)
-        [self setLastArchiveSync:[game lastArchiveSync]];
+    if([self lastInfoSync] == nil)
+        [self setLastInfoSync:[game lastInfoSync]];
 	
     if([self importDate] == nil)
         [self setImportDate:[game importDate]];
@@ -465,27 +438,6 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     
     [self setBoxImage:boxImage];
 }
-#pragma mark -
-/*
-- (void)mergeWithGameInfo:(NSDictionary *)archiveGameDict
-{  
-    if([[archiveGameDict valueForKey:AVGGameIDKey] intValue] == 0) return;
-    
-    [self setArchiveID:[archiveGameDict valueForKey:AVGGameIDKey]];
-    [self setName:[archiveGameDict valueForKey:AVGGameRomNameKey]];
-    [self setGameTitle:[archiveGameDict valueForKey:AVGGameTitleKey]];
-    [self setLastArchiveSync:[NSDate date]];
-    [self setImportDate:[NSDate date]];
-    
-    NSString *boxURLString = [archiveGameDict valueForKey:(NSString *)AVGGameBoxURLStringKey];
-    if(boxURLString != nil)
-        [self setBoxImageByURL:[NSURL URLWithString:boxURLString]];
-    
-    NSString *gameDescription = [archiveGameDict valueForKey:(NSString *)AVGGameDescriptionKey];
-    if(gameDescription != nil)
-        [self setGameDescription:gameDescription];
-}
-*/
 #pragma mark - NSPasteboardWriting
 
 // TODO: fix pasteboard writing
@@ -632,8 +584,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     NSLog(@"%@ rating is %@", prefix, [self rating]);
     NSLog(@"%@ description is %@", prefix, [self gameDescription]);
     NSLog(@"%@ import date is %@", prefix, [self importDate]);
-    NSLog(@"%@ last archive sync is %@", prefix, [self lastArchiveSync]);
-    NSLog(@"%@ archive ID is %@", prefix, [self archiveID]);
+    NSLog(@"%@ last info sync is %@", prefix, [self lastInfoSync]);
     NSLog(@"%@ last played is %@", prefix, [self lastPlayed]);
     NSLog(@"%@ status is %@", prefix, [self status]);
 

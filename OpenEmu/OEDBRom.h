@@ -110,6 +110,7 @@
 @property(nonatomic, retain)                    NSNumber *fileSize;
 @property(nonatomic, retain)                    NSNumber *playCount;
 @property(nonatomic, retain)                    NSNumber *playTime;
+@property(nonatomic, retain)                    NSNumber *archiveFileIndex;
 
 #pragma mark - Data Model Relationships
 

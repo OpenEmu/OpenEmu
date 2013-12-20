@@ -134,22 +134,10 @@
     {
         case 0 :
             printf("\nLogging all games with archive ID\n\n");
-            [allGames enumerateObjectsUsingBlock:
-             ^(OEDBGame *obj, NSUInteger idx, BOOL *stop)
-             {
-                 if([[obj archiveID] integerValue] != 0)
-                     printf("%s\n", [[[[[obj roms] valueForKey:@"path"] allObjects] componentsJoinedByString:@"\n"] UTF8String]);
-             }];
             printf("\nDone\n");
             break;
         case 1 :
             printf("\nLogging all games without archive ID\n\n");
-            [allGames enumerateObjectsUsingBlock:
-             ^(OEDBGame *obj, NSUInteger idx, BOOL *stop)
-             {
-                if([[obj archiveID] integerValue] == 0)
-                    printf("%s\n", [[[[[obj roms] valueForKey:@"path"] allObjects] componentsJoinedByString:@"\n"] UTF8String]);
-             }];
             printf("\nDone\n");
             break;
         case 2 :
@@ -157,9 +145,8 @@
             [allGames enumerateObjectsUsingBlock:
              ^(id obj, NSUInteger idx, BOOL *stop)
              {
-                [obj setArchiveID:nil];
                 [obj setGameDescription:nil];
-                [obj setLastArchiveSync:nil];
+                [obj setLastInfoSync:nil];
                 [obj setRating:[NSNumber numberWithInt:0]];
                 [obj setBoxImage:nil];
                 [obj setCredits:nil];
@@ -182,7 +169,7 @@
             [allGames enumerateObjectsUsingBlock:
              ^(id obj, NSUInteger idx, BOOL *stop)
              {
-                 if([obj lastArchiveSync] == nil)
+                 if([obj lastInfoSync] == nil)
                      [(OEDBGame*)obj requestInfoSync];
              }];
             printf("\nDone\n");
