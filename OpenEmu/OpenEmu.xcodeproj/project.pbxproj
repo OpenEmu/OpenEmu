@@ -350,6 +350,7 @@
 		831E95D814705D8C008487A6 /* OEControlsScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 831E95D714705D8C008487A6 /* OEControlsScrollView.m */; };
 		83200BF9162F5C1C00BCFA9D /* OESidebarBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83200BF8162F5C1C00BCFA9D /* OESidebarBackgroundView.m */; };
 		8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8328D9E413C75CAE0026D2A7 /* OEDBImage.m */; };
+		832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */; };
 		832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D293F1451A68700BDF950 /* OEMainWindowController.m */; };
 		832D29431451ACF200BDF950 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832D29421451ACF200BDF950 /* MainWindow.xib */; };
 		832FA8801455526E00BBBD94 /* NSControl+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */; };
@@ -1921,6 +1922,8 @@
 		8322D746156A973400FC0E81 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = System/Library/Frameworks/IOBluetooth.framework; sourceTree = SDKROOT; };
 		8328D9E313C75CAE0026D2A7 /* OEDBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OEDBImage.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8328D9E413C75CAE0026D2A7 /* OEDBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OEDBImage.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OEDatabase 1.0.xcdatamodel"; sourceTree = "<group>"; };
+		832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.0 Beta 4 to 1.0.xcmappingmodel"; sourceTree = "<group>"; };
 		832D293E1451A68700BDF950 /* OEMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMainWindowController.h; sourceTree = "<group>"; };
 		832D293F1451A68700BDF950 /* OEMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMainWindowController.m; sourceTree = "<group>"; };
 		832D29421451ACF200BDF950 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
@@ -4491,8 +4494,9 @@
 		8353EB2715FF63760026E326 /* Mapping Models */ = {
 			isa = PBXGroup;
 			children = (
-				8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */,
 				8397082E163C405000E04871 /* 0.2 to 0.3.xcmappingmodel */,
+				832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */,
+				8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */,
 			);
 			name = "Mapping Models";
 			sourceTree = "<group>";
@@ -7675,6 +7679,7 @@
 				831C9AB0160095E500038D0D /* OEThemeObject.m in Sources */,
 				831C9AB9160095F800038D0D /* OEThemeColor.m in Sources */,
 				831C9ABA160095F800038D0D /* OEThemeGradient.m in Sources */,
+				832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */,
 				831C9ABB160095F800038D0D /* OEThemeImage.m in Sources */,
 				831C9ABC160095F800038D0D /* OEThemeTextAttributes.m in Sources */,
 				831C9AC51600967E00038D0D /* OEMenuDocumentView.m in Sources */,
@@ -10695,13 +10700,14 @@
 		C68A54E41516AD3C001053F2 /* OEDatabase.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */,
 				83A8CD8D1709E1EE00F5D145 /* OEDatabase 0.5.xcdatamodel */,
 				142689BD16585F0E00AD0B63 /* OEDatabase 0.4.xcdatamodel */,
 				8397082C163C3FD300E04871 /* OEDatabase 0.3.xcdatamodel */,
 				8353EB1A15FF41930026E326 /* OEDatabase 0.2.xcdatamodel */,
 				C68A54E51516AD3C001053F2 /* OEDatabase.xcdatamodel */,
 			);
-			currentVersion = 83A8CD8D1709E1EE00F5D145 /* OEDatabase 0.5.xcdatamodel */;
+			currentVersion = 832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */;
 			path = OEDatabase.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -26,6 +26,10 @@
 
 #import "OEDBRomMigrationPolicy.h"
 #import "NSArray+OEAdditions.h"
+#import <XADMaster/XADArchive.h>
+#import "OELibraryDatabase.h"
+
+extern NSString *const OELibraryRomsFolderURLKey;
 @implementation OEDBRomMigrationPolicy
 
 - (BOOL)createDestinationInstancesForSourceInstance:(NSManagedObject *)oldObject entityMapping:(NSEntityMapping *)mapping manager:(NSMigrationManager *)manager error:(NSError **)error
@@ -50,7 +54,59 @@
             [mapping setValueExpression:[NSExpression expressionForConstantValue:location]];
         }
     }
+    else if([version isEqualTo:@"1.0 Beta 4"]) // Migrate from single rom archives to multi rom archives
+    {
+        NSPersistentStoreCoordinator *coord = [[oldObject managedObjectContext] persistentStoreCoordinator];
+        NSURL *romsFolder = [self romsFolderURLWithPersistentStoreCoordinator:coord];
+
+        NSString *relativePath = [oldObject valueForKey:@"location"];
+        NSURL *romURL = [NSURL URLWithString:relativePath relativeToURL:romsFolder];
+        NSString *fullPath = [romURL path];
+        XADArchive *archive = [XADArchive archiveForFile:fullPath];
+        if(archive && [archive numberOfEntries] == 1)
+        {
+            NSArray *attributeMappings = [mapping attributeMappings];
+            NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
+                                          ^ BOOL (id obj)
+                                          {
+                                              return [[obj name] isEqualToString:@"archiveFileIndex"];
+                                          }];
+            [mapping setValueExpression:[NSExpression expressionForConstantValue:@(0)]];
+        }
+        else
+        {
+            NSArray *attributeMappings = [mapping attributeMappings];
+            NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
+                                          ^ BOOL (id obj)
+                                          {
+                                              return [[obj name] isEqualToString:@"archiveFileIndex"];
+                                          }];
+            [mapping setValueExpression:[NSExpression expressionForConstantValue:nil]];
+
+        }
+    }
+
     return [super createDestinationInstancesForSourceInstance:oldObject entityMapping:mapping manager:manager error:error];
+}
+
+- (NSURL*)romsFolderURLWithPersistentStoreCoordinator:(NSPersistentStoreCoordinator*)coord
+{
+    NSPersistentStore *persistentStore = [[coord persistentStores] lastObject];
+    NSDictionary *metadata = [coord metadataForPersistentStore:persistentStore];
+
+    NSURL *databaseFolderURL = [[persistentStore URL] URLByDeletingLastPathComponent];
+    if([metadata objectForKey:OELibraryRomsFolderURLKey])
+    {
+        NSString *urlString = [metadata objectForKey:OELibraryRomsFolderURLKey];
+        if([urlString rangeOfString:@"file://"].location == NSNotFound)
+            return [NSURL URLWithString:urlString relativeToURL:databaseFolderURL];
+        return [NSURL URLWithString:urlString];
+    }
+    else
+    {
+        NSURL *result = [databaseFolderURL URLByAppendingPathComponent:@"roms" isDirectory:YES];
+        return result;
+    }
 }
 
 @end
