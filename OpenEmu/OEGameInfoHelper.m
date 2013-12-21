@@ -33,15 +33,14 @@
 
 #import <OpenEmuSystem/OpenEmuSystem.h> // we only need OELocalizationHelper
 
-NSString * const OEOpenVGDBVersionDateKey    = @"OpenVGDBVersionInstalled";
+NSString * const OEOpenVGDBVersionKey        = @"OpenVGDBVersion";
 NSString * const OEOpenVGDBUpdateCheckKey    = @"OpenVGDBUpdatesChecked";
 NSString * const OEOpenVGDBUpdateIntervalKey = @"OpenVGDBUpdateInterval";
 
 
 NSString * const OpenVGDBFileName = @"openvgdb";
 NSString * const OpenVGDBDownloadURL = @"https://github.com/OpenVGDB/OpenVGDB/releases/download";
-NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/OpenVGDB/releases?page=1&per_page=1";
-
+NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/OpenVGDB/tags?page=1&per_page=1";
 
 NSString * const OEGameInfoHelperWillUpdateNotificationName = @"OEGameInfoHelperWillUpdateNotificationName";
 NSString * const OEGameInfoHelperDidChangeUpdateProgressNotificationName = @"OEGameInfoHelperDidChangeUpdateProgressNotificationName";
@@ -55,13 +54,13 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 @property (strong) NSURLDownload *fileDownload;
 @end
 @implementation OEGameInfoHelper
-@synthesize updating=_updating;
+@synthesize updating=_updating, downloadVerison=_downloadVerison;
 
 + (void)initialize
 {
     if(self == [OEGameInfoHelper class])
     {
-        NSDictionary *defaults = @{ OEOpenVGDBVersionDateKey:[NSDate dateWithTimeIntervalSince1970:0],
+        NSDictionary *defaults = @{ OEOpenVGDBVersionKey:@"",
                                     OEOpenVGDBUpdateCheckKey:[NSDate dateWithTimeIntervalSince1970:0],
                                  OEOpenVGDBUpdateIntervalKey:@(60*60*24*1) // once a day
                                   };
@@ -83,10 +82,11 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
                 NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
                 [standardUserDefaults removeObjectForKey:OEOpenVGDBUpdateCheckKey];
-                [standardUserDefaults removeObjectForKey:OEOpenVGDBVersionDateKey];
+                [standardUserDefaults removeObjectForKey:OEOpenVGDBVersionKey];
 
-                NSURL *newRelease = [sharedHelper checkForUpdates];
-                [sharedHelper installVersionWithDownloadURL:newRelease];
+                NSString *tag = nil;
+                NSURL *newRelease = [sharedHelper checkForUpdates:&tag];
+                [sharedHelper installVersion:tag withDownloadURL:newRelease];
             });
         }
         else
@@ -108,10 +108,11 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
                 if([[NSDate date] timeIntervalSinceDate:lastUpdateCheck] > updateInterval)
                 {
                     NSLog(@"Check for updates (%f > %f)", [[NSDate date] timeIntervalSinceDate:lastUpdateCheck], updateInterval);
-                    NSURL *newRelease = [sharedHelper checkForUpdates];
+                    NSString *version = nil;
+                    NSURL *newRelease = [sharedHelper checkForUpdates:&version];
                     if(newRelease != nil)
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [sharedHelper installVersionWithDownloadURL:newRelease];
+                            [sharedHelper installVersion:version withDownloadURL:newRelease];
                         });
                 }
             });
@@ -126,7 +127,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     return [applicationSupport URLByAppendingPathComponent:@"OpenEmu/openvgdb.sqlite"];
 }
 #pragma mark -
-- (NSURL*)checkForUpdates
+- (NSURL*)checkForUpdates:(NSString**)outVersion
 {
     DLog();
     NSError *error = nil;
@@ -141,32 +142,34 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
         if(releases != nil)
         {
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            NSDate *currentVersionDate = [defaults objectForKey:OEOpenVGDBVersionDateKey];
-            NSDateFormatter* jsonDateFormatter = [[NSDateFormatter alloc] init];
-            [jsonDateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-
+            NSString *currentVersion = [defaults objectForKey:OEOpenVGDBVersionKey];
+            NSString *nextVersion = [defaults objectForKey:OEOpenVGDBVersionKey];
             [defaults setObject:[NSDate date] forKey:OEOpenVGDBUpdateCheckKey];
 
             for(id aRelease in releases)
             {
-                if([aRelease isKindOfClass:[NSDictionary class]] && [aRelease objectForKey:@"published_at"])
+                if([aRelease isKindOfClass:[NSDictionary class]] && [aRelease objectForKey:@"name"])
                 {
-                    NSString *publishDateString = [aRelease objectForKey:@"published_at"];
-                    NSDate   *publishDate = [jsonDateFormatter dateFromString:publishDateString];
-                    if(publishDate && [publishDate compare:currentVersionDate] == NSOrderedDescending)
-                    {
-                        id tagName = [aRelease objectForKey:@"tag_name"];
-                        if([tagName isKindOfClass:[NSString class]])
-                        {
-                            NSString *URLString = [NSString stringWithFormat:@"%@/%@/%@.zip", OpenVGDBDownloadURL, tagName, OpenVGDBFileName];
-                            DLog(@"%@", URLString);
-                            return [NSURL URLWithString:URLString];
-                        }
-                    }
+                    NSString *tagName = [aRelease objectForKey:@"name"];
+                    if([tagName compare:nextVersion] == NSOrderedDescending)
+                        nextVersion = tagName;
                 }
             }
+            
+            if(![nextVersion isEqualToString:currentVersion])
+            {
+                NSString *URLString = [NSString stringWithFormat:@"%@/%@/%@.zip", OpenVGDBDownloadURL, nextVersion, OpenVGDBFileName];
+                if(outVersion != NULL)
+                    *outVersion = nextVersion;
+                DLog(@"Update from %@ to %@", currentVersion, nextVersion);
+                return [NSURL URLWithString:URLString];
+            } else DLog(@"No Update");
+
         }
     }
+    
+    if(outVersion != NULL)
+        *outVersion = nil;
     return nil;
 }
 
@@ -176,17 +179,19 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     [self setFileDownload:nil];
     _updating = YES;
     _downloadProgress = 1.0;
+    _downloadVerison  = nil;
 
     [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
 }
 
-- (void)installVersionWithDownloadURL:(NSURL*)url
+- (void)installVersion:(NSString*)versionTag withDownloadURL:(NSURL*)url
 {
     if(url != nil)
     {
         _updating = YES;
         [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperWillUpdateNotificationName object:self];
         _downloadProgress = 0.0;
+        _downloadVerison = versionTag;
 
         dispatch_async(dispatch_get_main_queue(), ^{
             NSURLRequest  *request = [NSURLRequest requestWithURL:url];
@@ -231,10 +236,11 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     OESQLiteDatabase *database = [[OESQLiteDatabase alloc] initWithURL:url error:nil];
     [self setDatabase:database];
 
-    if(database) [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:OEOpenVGDBVersionDateKey];
+    if(database) [[NSUserDefaults standardUserDefaults] setObject:_downloadVerison forKey:OEOpenVGDBVersionKey];
 
     _updating = NO;
     _downloadProgress = 1.0;
+    _downloadVerison  = nil;
     [self setFileDownload:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
 }

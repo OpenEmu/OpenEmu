@@ -29,7 +29,7 @@
 #import "OEDBSystem.h"
 #import "OEDBGame.h"
 
-extern NSString * const OEOpenVGDBVersionDateKey;
+extern NSString * const OEOpenVGDBVersionKey;
 extern NSString * const OEOpenVGDBUpdateCheckKey;
 extern NSString * const OEOpenVGDBUpdateIntervalKey;
 
@@ -42,10 +42,11 @@ extern NSString * const OEGameInfoHelperDidUpdateNotificationName;
 - (NSDictionary*)gameInfoForROM:(OEDBRom*)rom error:(NSError *__autoreleasing*)error;
 - (int)sizeOfROMHeaderForSystem:(OEDBSystem*)system;
 
-- (NSURL*)checkForUpdates; // checks for updates, returns url of new release if any newer db is found
-- (void)installVersionWithDownloadURL:(NSURL*)url;
+- (NSURL*)checkForUpdates:(NSString**)outVersion; // checks for updates, returns url of new release if any newer db is found
+- (void)installVersion:(NSString*)versionTag withDownloadURL:(NSURL*)url;
 - (void)cancelUpdate;
 
 @property (readonly) CGFloat downloadProgress;
+@property (copy)     NSString *downloadVerison;
 @property (readonly, getter=isUpdating) BOOL updating;
 @end

@@ -289,11 +289,12 @@
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     [standardDefaults removeObjectForKey:OEOpenVGDBUpdateCheckKey];
-    [standardDefaults removeObjectForKey:OEOpenVGDBVersionDateKey];
+    [standardDefaults removeObjectForKey:OEOpenVGDBVersionKey];
 
     OEGameInfoHelper *helper = [OEGameInfoHelper sharedHelper];
-    NSURL *url = [helper checkForUpdates];
-    [helper installVersionWithDownloadURL:url];
+    NSString *version = nil;
+    NSURL *url = [helper checkForUpdates:&version];
+    [helper installVersion:version withDownloadURL:url];
 }
 - (IBAction)gameInfoCancel:(id)sender
 {
