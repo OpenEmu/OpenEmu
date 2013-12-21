@@ -9,19 +9,19 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OENGPButtonUp</key>
-		<string>{0, 0}</string>
+		<string>{100, 260}</string>
 		<key>OENGPButtonDown</key>
-		<string>{0, 0}</string>
+		<string>{100, 240}</string>
 		<key>OENGPButtonLeft</key>
-		<string>{0, 0}</string>
+		<string>{90, 250}</string>
 		<key>OENGPButtonRight</key>
-		<string>{0, 0}</string>
+		<string>{110, 250}</string>
 		<key>OENGPButtonA</key>
-		<string>{0, 0}</string>
+		<string>{378, 250}</string>
 		<key>OENGPButtonB</key>
-		<string>{0, 0}</string>
+		<string>{418, 284}</string>
 		<key>OENGPButtonOption</key>
-		<string>{0, 0}</string>
+		<string>{418, 335}</string>
 	</dict>
 </dict>
 </plist>
