@@ -1,0 +1,114 @@
+/* COMPATIBILITY 
+   - HLSL compilers
+   - Cg   compilers
+*/
+
+/*
+   Hyllian's 2xBR Shader
+   
+   Copyright (C) 2011 Hyllian/Jararaca - sergiogdb@gmail.com
+
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License
+   as published by the Free Software Foundation; either version 2
+   of the License, or (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+*/
+
+const static float3 dtt = float3(65536,255,1);
+
+float reduce(half3 color)
+{
+	return dot(color, dtt);
+}
+
+struct input
+{
+	float2 video_size;
+	float2 texture_size;
+	float2 output_size;
+        float frame_count;
+        float frame_direction;
+        float frame_rotation;
+};
+
+
+struct out_vertex {
+	float4 position : POSITION;
+	float2 texCoord : TEXCOORD0;
+	float4 t1 : TEXCOORD1;
+};
+
+/*    VERTEX_SHADER    */
+out_vertex main_vertex
+(
+	float4 position	: POSITION,
+	float2 texCoord : TEXCOORD0,
+
+   	uniform float4x4 modelViewProj,
+	uniform input IN
+)
+{
+	out_vertex OUT;
+
+	OUT.position = mul(modelViewProj, position);
+
+	float2 ps = float2(1.0/IN.texture_size.x, 1.0/IN.texture_size.y);
+	float dx = ps.x;
+	float dy = ps.y;
+
+	OUT.texCoord = texCoord;
+	OUT.t1.xy = float2(  0,-dy); // B
+	OUT.t1.zw = float2(-dx,  0); // D
+
+	return OUT;
+}
+
+/*    FRAGMENT SHADER    */
+float4 main_fragment(in out_vertex VAR, uniform sampler2D decal : TEXUNIT0, uniform input IN) : COLOR
+{
+	float3 res;
+
+	float2 fp = frac(VAR.texCoord*IN.texture_size);
+
+	float2 g1 = VAR.t1.xy*(step(0.5,fp.x)+step(0.5, fp.y)-1) + VAR.t1.zw*(step(0.5,fp.x) - step(0.5, fp.y));
+	float2 g2 = VAR.t1.xy*(step(0.5,fp.y) - step(0.5, fp.x)) + VAR.t1.zw*(step(0.5,fp.x)+step(0.5, fp.y)-1);
+
+
+	half3 B = tex2D(decal, VAR.texCoord +g1   ).xyz;
+	half3 C = tex2D(decal, VAR.texCoord +g1-g2).xyz;
+	half3 D = tex2D(decal, VAR.texCoord    +g2).xyz;
+	half3 E = tex2D(decal, VAR.texCoord       ).xyz;
+	half3 F = tex2D(decal, VAR.texCoord    -g2).xyz;
+	half3 G = tex2D(decal, VAR.texCoord -g1+g2).xyz;
+	half3 H = tex2D(decal, VAR.texCoord -g1   ).xyz;
+	half3 I = tex2D(decal, VAR.texCoord -g1-g2).xyz;
+
+	
+	float b = reduce(B);
+	float c = reduce(C);
+	float d = reduce(D);
+	float e = reduce(E);
+	float f = reduce(F);
+	float g = reduce(G);
+	float h = reduce(H);
+	float i = reduce(I);	
+	
+	res = E;	
+
+	if (h==f && h!=e && ( e==g && (h==i || e==d) || e==c && (h==i || e==b) ))
+	{
+		res = lerp(res, F,  0.5);
+	}
+
+	return float4(res, 1.0);
+}

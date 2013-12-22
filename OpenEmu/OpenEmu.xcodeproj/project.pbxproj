@@ -489,6 +489,19 @@
 		83FBA38314F2C870001F1299 /* gba_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA38214F2C870001F1299 /* gba_library.png */; };
 		83FBA38414F2C89F001F1299 /* nes_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA37414F2C747001F1299 /* nes_library.png */; };
 		83FBA38514F2C8A8001F1299 /* famicom_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA37614F2C752001F1299 /* famicom_library.png */; };
+		8C09E4D81867984B0095DB4E /* Beam4.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4BE1867975E0095DB4E /* Beam4.cgp */; };
+		8C09E4D91867984B0095DB4E /* NTSC (Blargg).cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4BF1867975E0095DB4E /* NTSC (Blargg).cgp */; };
+		8C09E4DA1867984B0095DB4E /* _beam4_1.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C01867975E0095DB4E /* _beam4_1.cg */; };
+		8C09E4DB1867984B0095DB4E /* _beam4_2.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C11867975E0095DB4E /* _beam4_2.cg */; };
+		8C09E4DC1867984B0095DB4E /* _beam4_3.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C21867975E0095DB4E /* _beam4_3.cg */; };
+		8C09E4DD1867984B0095DB4E /* _stock.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C31867975E0095DB4E /* _stock.cg */; };
+		8C09E4DE1867984B0095DB4E /* 2xBR.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C41867975E0095DB4E /* 2xBR.cg */; };
+		8C09E4DF1867984B0095DB4E /* 4xBR.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C51867975E0095DB4E /* 4xBR.cg */; };
+		8C09E4E01867984B0095DB4E /* Blinky.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C61867975E0095DB4E /* Blinky.cg */; };
+		8C09E4E11867984B0095DB4E /* CRT.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C71867975E0095DB4E /* CRT.cg */; };
+		8C09E4E21867984B0095DB4E /* LCD3x.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C81867975E0095DB4E /* LCD3x.cg */; };
+		8C09E4E31867984B0095DB4E /* SABR.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C91867975E0095DB4E /* SABR.cg */; };
+		8C09E4E41867984B0095DB4E /* Scanline.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4CA1867975E0095DB4E /* Scanline.cg */; };
 		8C415ECD16B0682B00980DB9 /* OEMultipassShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C415ECC16B0682B00980DB9 /* OEMultipassShader.m */; };
 		8C4C808916986697009B8A28 /* OEGLSLShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808816986697009B8A28 /* OEGLSLShader.m */; };
 		8C4C808E16986C87009B8A28 /* OECGShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808D16986C87009B8A28 /* OECGShader.m */; };
@@ -620,16 +633,6 @@
 		948E54141571D78D002D26E0 /* NeoGeo Pocket.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */; };
 		948E54151571D78D002D26E0 /* GameGear.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 8227754F148946DF00B19E27 /* GameGear.oesystemplugin */; };
 		948FCB65182C7A63001B16BE /* about_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 948FCB64182C7A63001B16BE /* about_background.jpg */; };
-		9494BBC5184D9AFF006D67F9 /* _beam4_1.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9494BBAF184D9A47006D67F9 /* _beam4_1.cg */; };
-		9494BBC6184D9AFF006D67F9 /* _beam4_2.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9494BBB0184D9A47006D67F9 /* _beam4_2.cg */; };
-		9494BBC7184D9AFF006D67F9 /* _beam4_3.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9494BBB1184D9A47006D67F9 /* _beam4_3.cg */; };
-		9494BBC8184D9AFF006D67F9 /* _stock.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9494BBB2184D9A47006D67F9 /* _stock.cg */; };
-		9494BBC9184D9AFF006D67F9 /* Beam4.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9494BBB3184D9A47006D67F9 /* Beam4.cgp */; };
-		9494BBCA184D9AFF006D67F9 /* Blinky.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9494BBB4184D9A47006D67F9 /* Blinky.cg */; };
-		9494BBCB184D9AFF006D67F9 /* CRT-simple.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9494BBB5184D9A47006D67F9 /* CRT-simple.cg */; };
-		9494BBCC184D9AFF006D67F9 /* LCD3x.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9494BBB6184D9A47006D67F9 /* LCD3x.cg */; };
-		9494BBCD184D9AFF006D67F9 /* NTSC (Blargg).cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9494BBB7184D9A47006D67F9 /* NTSC (Blargg).cgp */; };
-		9494BBCE184D9AFF006D67F9 /* SABR.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9494BBB8184D9A47006D67F9 /* SABR.cg */; };
 		949623E7164E0CD600952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949623E6164E0CD600952A86 /* Controller-Mappings.plist */; };
 		949628CC164F677500952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949628CB164F677400952A86 /* Controller-Mappings.plist */; };
 		949628CE164F6A3C00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 949628CD164F6A3C00952A86 /* Controller-Mappings.plist */; };
@@ -823,21 +826,6 @@
 		94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F6CB7B16DD727600CD48A4 /* OECheats.m */; };
 		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
 		94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53871688FF60003C6AFE /* controller_gamegear.png */; };
-		C344D624174C47670011579E /* Scanline - Horizontal.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D605174C463E0011579E /* Scanline - Horizontal.cg */; };
-		C344D625174C47670011579E /* Scanline - Vertical.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D606174C463E0011579E /* Scanline - Vertical.cg */; };
-		C344D626174C47670011579E /* Scanline.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D607174C463E0011579E /* Scanline.cg */; };
-		C344D627174C47670011579E /* Scale2xBR.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D609174C463E0011579E /* Scale2xBR.frag */; };
-		C344D628174C47670011579E /* Scale2xBR.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D60A174C463E0011579E /* Scale2xBR.vert */; };
-		C344D629174C47670011579E /* Scale2xHQ.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D60B174C463E0011579E /* Scale2xHQ.frag */; };
-		C344D62A174C47670011579E /* Scale2xHQ.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D60C174C463E0011579E /* Scale2xHQ.vert */; };
-		C344D62B174C47670011579E /* Scale2xPlus.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D60D174C463E0011579E /* Scale2xPlus.frag */; };
-		C344D62C174C47670011579E /* Scale2xPlus.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D60E174C463E0011579E /* Scale2xPlus.vert */; };
-		C344D62D174C47670011579E /* Scale4x.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D60F174C463E0011579E /* Scale4x.frag */; };
-		C344D62E174C47670011579E /* Scale4x.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D610174C463E0011579E /* Scale4x.vert */; };
-		C344D62F174C47670011579E /* Scale4xBR.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D611174C463E0011579E /* Scale4xBR.frag */; };
-		C344D630174C47670011579E /* Scale4xBR.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D612174C463E0011579E /* Scale4xBR.vert */; };
-		C344D631174C47670011579E /* Scale4xHQ.frag in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D613174C463E0011579E /* Scale4xHQ.frag */; };
-		C344D632174C47670011579E /* Scale4xHQ.vert in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = C344D614174C463E0011579E /* Scale4xHQ.vert */; };
 		C60238E61794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C60238E41794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework */; };
 		C6096192179B461C00239067 /* OEXPCGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096191179B461C00239067 /* OEXPCGameCoreManager.m */; };
 		C609619A179B6E3F00239067 /* OpenEmuXPCHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096199179B6E3F00239067 /* OpenEmuXPCHelperApp.m */; };
@@ -1392,6 +1380,19 @@
 			dstPath = Filters;
 			dstSubfolderSpec = 13;
 			files = (
+				8C09E4D81867984B0095DB4E /* Beam4.cgp in Copy Filters Folder To App Resources */,
+				8C09E4D91867984B0095DB4E /* NTSC (Blargg).cgp in Copy Filters Folder To App Resources */,
+				8C09E4DA1867984B0095DB4E /* _beam4_1.cg in Copy Filters Folder To App Resources */,
+				8C09E4DB1867984B0095DB4E /* _beam4_2.cg in Copy Filters Folder To App Resources */,
+				8C09E4DC1867984B0095DB4E /* _beam4_3.cg in Copy Filters Folder To App Resources */,
+				8C09E4DD1867984B0095DB4E /* _stock.cg in Copy Filters Folder To App Resources */,
+				8C09E4DE1867984B0095DB4E /* 2xBR.cg in Copy Filters Folder To App Resources */,
+				8C09E4DF1867984B0095DB4E /* 4xBR.cg in Copy Filters Folder To App Resources */,
+				8C09E4E01867984B0095DB4E /* Blinky.cg in Copy Filters Folder To App Resources */,
+				8C09E4E11867984B0095DB4E /* CRT.cg in Copy Filters Folder To App Resources */,
+				8C09E4E21867984B0095DB4E /* LCD3x.cg in Copy Filters Folder To App Resources */,
+				8C09E4E31867984B0095DB4E /* SABR.cg in Copy Filters Folder To App Resources */,
+				8C09E4E41867984B0095DB4E /* Scanline.cg in Copy Filters Folder To App Resources */,
 				94380786184E6BB600E2274B /* _ntsc-decode-filter-3phase.inc in Copy Filters Folder To App Resources */,
 				94380787184E6BB600E2274B /* _ntsc-gauss-pass.cg in Copy Filters Folder To App Resources */,
 				94380788184E6BB600E2274B /* _ntsc-param.inc in Copy Filters Folder To App Resources */,
@@ -1408,31 +1409,6 @@
 				94380793184E6BB600E2274B /* _ntsc-rgbyuv.inc in Copy Filters Folder To App Resources */,
 				94380794184E6BB600E2274B /* _ntsc-stock.cg in Copy Filters Folder To App Resources */,
 				94380795184E6BB600E2274B /* NTSC.cgp in Copy Filters Folder To App Resources */,
-				9494BBC5184D9AFF006D67F9 /* _beam4_1.cg in Copy Filters Folder To App Resources */,
-				9494BBC6184D9AFF006D67F9 /* _beam4_2.cg in Copy Filters Folder To App Resources */,
-				9494BBC7184D9AFF006D67F9 /* _beam4_3.cg in Copy Filters Folder To App Resources */,
-				9494BBC8184D9AFF006D67F9 /* _stock.cg in Copy Filters Folder To App Resources */,
-				9494BBC9184D9AFF006D67F9 /* Beam4.cgp in Copy Filters Folder To App Resources */,
-				9494BBCA184D9AFF006D67F9 /* Blinky.cg in Copy Filters Folder To App Resources */,
-				9494BBCB184D9AFF006D67F9 /* CRT-simple.cg in Copy Filters Folder To App Resources */,
-				9494BBCC184D9AFF006D67F9 /* LCD3x.cg in Copy Filters Folder To App Resources */,
-				9494BBCD184D9AFF006D67F9 /* NTSC (Blargg).cgp in Copy Filters Folder To App Resources */,
-				9494BBCE184D9AFF006D67F9 /* SABR.cg in Copy Filters Folder To App Resources */,
-				C344D624174C47670011579E /* Scanline - Horizontal.cg in Copy Filters Folder To App Resources */,
-				C344D625174C47670011579E /* Scanline - Vertical.cg in Copy Filters Folder To App Resources */,
-				C344D626174C47670011579E /* Scanline.cg in Copy Filters Folder To App Resources */,
-				C344D627174C47670011579E /* Scale2xBR.frag in Copy Filters Folder To App Resources */,
-				C344D628174C47670011579E /* Scale2xBR.vert in Copy Filters Folder To App Resources */,
-				C344D629174C47670011579E /* Scale2xHQ.frag in Copy Filters Folder To App Resources */,
-				C344D62A174C47670011579E /* Scale2xHQ.vert in Copy Filters Folder To App Resources */,
-				C344D62B174C47670011579E /* Scale2xPlus.frag in Copy Filters Folder To App Resources */,
-				C344D62C174C47670011579E /* Scale2xPlus.vert in Copy Filters Folder To App Resources */,
-				C344D62D174C47670011579E /* Scale4x.frag in Copy Filters Folder To App Resources */,
-				C344D62E174C47670011579E /* Scale4x.vert in Copy Filters Folder To App Resources */,
-				C344D62F174C47670011579E /* Scale4xBR.frag in Copy Filters Folder To App Resources */,
-				C344D630174C47670011579E /* Scale4xBR.vert in Copy Filters Folder To App Resources */,
-				C344D631174C47670011579E /* Scale4xHQ.frag in Copy Filters Folder To App Resources */,
-				C344D632174C47670011579E /* Scale4xHQ.vert in Copy Filters Folder To App Resources */,
 			);
 			name = "Copy Filters Folder To App Resources";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1558,8 +1534,6 @@
 		14F6A925168180CF0071386D /* OEPopoutGameWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPopoutGameWindowController.m; sourceTree = "<group>"; };
 		14F8750B1649377E002AE3B8 /* OEFiniteStateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFiniteStateMachine.h; sourceTree = "<group>"; };
 		14F8750C1649377E002AE3B8 /* OEFiniteStateMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFiniteStateMachine.m; sourceTree = "<group>"; };
-		1B223EFA100B89BE00F42067 /* CRTDisplace.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTDisplace.vert; sourceTree = "<group>"; };
-		1B223EFB100B89BE00F42067 /* CRTDisplace.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTDisplace.frag; sourceTree = "<group>"; };
 		1B224006100BD61D00F42067 /* Debug.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Debug.qtz; sourceTree = "<group>"; };
 		1B224007100BD61D00F42067 /* Linear.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Linear.qtz; sourceTree = "<group>"; };
 		1B224008100BD61D00F42067 /* Nearest Neighbor.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "Nearest Neighbor.qtz"; sourceTree = "<group>"; };
@@ -1568,10 +1542,6 @@
 		1B224229100CF18E00F42067 /* CRTMaskStraight.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskStraight.tiff; sourceTree = "<group>"; };
 		1B224267100D170F00F42067 /* CRTMaskStraightScanlineOnly.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskStraightScanlineOnly.tiff; sourceTree = "<group>"; };
 		1B224268100D170F00F42067 /* CRTMaskStaggeredScanlineOnly.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskStaggeredScanlineOnly.tiff; sourceTree = "<group>"; };
-		1B22429F100D7B3900F42067 /* CRTDirtyScanlines.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTDirtyScanlines.frag; sourceTree = "<group>"; };
-		1B2242A0100D7B3900F42067 /* CRTDirtyScanlines.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTDirtyScanlines.vert; sourceTree = "<group>"; };
-		1B2242EC100D9C7900F42067 /* CRTScanlines.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTScanlines.frag; sourceTree = "<group>"; };
-		1B2242ED100D9C7900F42067 /* CRTScanlines.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTScanlines.vert; sourceTree = "<group>"; };
 		1B2243AE100E92E700F42067 /* CRTMaskShadow.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskShadow.tiff; sourceTree = "<group>"; };
 		1B32151114DDD06500C5B50A /* OE Startup.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = "OE Startup.qtz"; path = "Setup Assistant Resources/OE Startup.qtz"; sourceTree = "<group>"; };
 		1B32151214DDD06500C5B50A /* OpenEmu.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OpenEmu.dae; path = "Setup Assistant Resources/OpenEmu.dae"; sourceTree = "<group>"; };
@@ -1580,10 +1550,6 @@
 		1B47F103142F01E700EBC55B /* OESetupAssistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistant.h; sourceTree = "<group>"; };
 		1B47F104142F01E700EBC55B /* OESetupAssistant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistant.m; sourceTree = "<group>"; };
 		1B48F21716671473004E8ABA /* FeedbackReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FeedbackReporter.framework; sourceTree = "<group>"; };
-		1B4B324C1009BC7500F36BB1 /* CRTMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTMask.frag; sourceTree = "<group>"; };
-		1B4B324D1009BC7500F36BB1 /* CRTMask.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTMask.vert; sourceTree = "<group>"; };
-		1B4B338E100A792500F36BB1 /* CRTPhosphorBlur.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTPhosphorBlur.frag; sourceTree = "<group>"; };
-		1B4B338F100A792500F36BB1 /* CRTPhosphorBlur.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTPhosphorBlur.vert; sourceTree = "<group>"; };
 		1B5B5FF7100986400043536B /* CRTMaskStaggered.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskStaggered.tiff; sourceTree = "<group>"; };
 		1B6DA4A714DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantQCOpenGLLayer.h; sourceTree = "<group>"; };
 		1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantQCOpenGLLayer.m; sourceTree = "<group>"; };
@@ -2129,6 +2095,19 @@
 		83FBA38014F2C857001F1299 /* genesis_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = genesis_library.png; sourceTree = "<group>"; };
 		83FBA38214F2C870001F1299 /* gba_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba_library.png; sourceTree = "<group>"; };
 		83FC3CC4156D155B00F0CDB6 /* OEMainWindowContentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEMainWindowContentController.h; sourceTree = "<group>"; };
+		8C09E4BE1867975E0095DB4E /* Beam4.cgp */ = {isa = PBXFileReference; lastKnownFileType = text; path = Beam4.cgp; sourceTree = "<group>"; };
+		8C09E4BF1867975E0095DB4E /* NTSC (Blargg).cgp */ = {isa = PBXFileReference; lastKnownFileType = text; path = "NTSC (Blargg).cgp"; sourceTree = "<group>"; };
+		8C09E4C01867975E0095DB4E /* _beam4_1.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = _beam4_1.cg; sourceTree = "<group>"; };
+		8C09E4C11867975E0095DB4E /* _beam4_2.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = _beam4_2.cg; sourceTree = "<group>"; };
+		8C09E4C21867975E0095DB4E /* _beam4_3.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = _beam4_3.cg; sourceTree = "<group>"; };
+		8C09E4C31867975E0095DB4E /* _stock.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = _stock.cg; sourceTree = "<group>"; };
+		8C09E4C41867975E0095DB4E /* 2xBR.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = 2xBR.cg; sourceTree = "<group>"; };
+		8C09E4C51867975E0095DB4E /* 4xBR.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = 4xBR.cg; sourceTree = "<group>"; };
+		8C09E4C61867975E0095DB4E /* Blinky.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = Blinky.cg; sourceTree = "<group>"; };
+		8C09E4C71867975E0095DB4E /* CRT.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = CRT.cg; sourceTree = "<group>"; };
+		8C09E4C81867975E0095DB4E /* LCD3x.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = LCD3x.cg; sourceTree = "<group>"; };
+		8C09E4C91867975E0095DB4E /* SABR.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = SABR.cg; sourceTree = "<group>"; };
+		8C09E4CA1867975E0095DB4E /* Scanline.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = Scanline.cg; sourceTree = "<group>"; };
 		8C415ECB16B0682B00980DB9 /* OEMultipassShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMultipassShader.h; sourceTree = "<group>"; };
 		8C415ECC16B0682B00980DB9 /* OEMultipassShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMultipassShader.m; sourceTree = "<group>"; };
 		8C4C808716986697009B8A28 /* OEGLSLShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGLSLShader.h; sourceTree = "<group>"; };
@@ -2287,16 +2266,6 @@
 		94791E9316AE8A18007DB8BE /* OEShaderPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEShaderPlugin.h; sourceTree = "<group>"; };
 		94791E9416AE8A18007DB8BE /* OEShaderPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEShaderPlugin.m; sourceTree = "<group>"; };
 		948FCB64182C7A63001B16BE /* about_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = about_background.jpg; sourceTree = "<group>"; };
-		9494BBAF184D9A47006D67F9 /* _beam4_1.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _beam4_1.cg; sourceTree = "<group>"; };
-		9494BBB0184D9A47006D67F9 /* _beam4_2.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _beam4_2.cg; sourceTree = "<group>"; };
-		9494BBB1184D9A47006D67F9 /* _beam4_3.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _beam4_3.cg; sourceTree = "<group>"; };
-		9494BBB2184D9A47006D67F9 /* _stock.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _stock.cg; sourceTree = "<group>"; };
-		9494BBB3184D9A47006D67F9 /* Beam4.cgp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Beam4.cgp; sourceTree = "<group>"; };
-		9494BBB4184D9A47006D67F9 /* Blinky.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Blinky.cg; sourceTree = "<group>"; };
-		9494BBB5184D9A47006D67F9 /* CRT-simple.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "CRT-simple.cg"; sourceTree = "<group>"; };
-		9494BBB6184D9A47006D67F9 /* LCD3x.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LCD3x.cg; sourceTree = "<group>"; };
-		9494BBB7184D9A47006D67F9 /* NTSC (Blargg).cgp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "NTSC (Blargg).cgp"; sourceTree = "<group>"; };
-		9494BBB8184D9A47006D67F9 /* SABR.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SABR.cg; sourceTree = "<group>"; };
 		949623E6164E0CD600952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		949628CB164F677400952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		949628CD164F6A3C00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
@@ -2526,21 +2495,6 @@
 		94F6CB7B16DD727600CD48A4 /* OECheats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECheats.m; sourceTree = "<group>"; };
 		94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear_mask.png; sourceTree = "<group>"; };
 		94FC53871688FF60003C6AFE /* controller_gamegear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear.png; sourceTree = "<group>"; };
-		C344D605174C463E0011579E /* Scanline - Horizontal.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Scanline - Horizontal.cg"; sourceTree = "<group>"; };
-		C344D606174C463E0011579E /* Scanline - Vertical.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Scanline - Vertical.cg"; sourceTree = "<group>"; };
-		C344D607174C463E0011579E /* Scanline.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scanline.cg; sourceTree = "<group>"; };
-		C344D609174C463E0011579E /* Scale2xBR.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale2xBR.frag; sourceTree = "<group>"; };
-		C344D60A174C463E0011579E /* Scale2xBR.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale2xBR.vert; sourceTree = "<group>"; };
-		C344D60B174C463E0011579E /* Scale2xHQ.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale2xHQ.frag; sourceTree = "<group>"; };
-		C344D60C174C463E0011579E /* Scale2xHQ.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale2xHQ.vert; sourceTree = "<group>"; };
-		C344D60D174C463E0011579E /* Scale2xPlus.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale2xPlus.frag; sourceTree = "<group>"; };
-		C344D60E174C463E0011579E /* Scale2xPlus.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale2xPlus.vert; sourceTree = "<group>"; };
-		C344D60F174C463E0011579E /* Scale4x.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale4x.frag; sourceTree = "<group>"; };
-		C344D610174C463E0011579E /* Scale4x.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale4x.vert; sourceTree = "<group>"; };
-		C344D611174C463E0011579E /* Scale4xBR.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale4xBR.frag; sourceTree = "<group>"; };
-		C344D612174C463E0011579E /* Scale4xBR.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale4xBR.vert; sourceTree = "<group>"; };
-		C344D613174C463E0011579E /* Scale4xHQ.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale4xHQ.frag; sourceTree = "<group>"; };
-		C344D614174C463E0011579E /* Scale4xHQ.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale4xHQ.vert; sourceTree = "<group>"; };
 		C60238E41794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEmuXPCCommunicator.framework; sourceTree = "<group>"; };
 		C60238E8179510C600F4AF6C /* OEGameCoreHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEGameCoreHelper.h; sourceTree = "<group>"; };
 		C609618F179B278C00239067 /* OEXPCGameCoreHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXPCGameCoreHelper.h; sourceTree = "<group>"; };
@@ -3373,24 +3327,6 @@
 			name = "Helper Classes";
 			sourceTree = "<group>";
 		};
-		1B885E070F085EA500770B6D /* CRT Shaders */ = {
-			isa = PBXGroup;
-			children = (
-				1B2242EC100D9C7900F42067 /* CRTScanlines.frag */,
-				1B2242ED100D9C7900F42067 /* CRTScanlines.vert */,
-				1B22429F100D7B3900F42067 /* CRTDirtyScanlines.frag */,
-				1B2242A0100D7B3900F42067 /* CRTDirtyScanlines.vert */,
-				1B223EFB100B89BE00F42067 /* CRTDisplace.frag */,
-				1B223EFA100B89BE00F42067 /* CRTDisplace.vert */,
-				1B4B324C1009BC7500F36BB1 /* CRTMask.frag */,
-				1B4B324D1009BC7500F36BB1 /* CRTMask.vert */,
-				1B4B338E100A792500F36BB1 /* CRTPhosphorBlur.frag */,
-				1B4B338F100A792500F36BB1 /* CRTPhosphorBlur.vert */,
-			);
-			name = "CRT Shaders";
-			path = "GLSL Shaders";
-			sourceTree = "<group>";
-		};
 		1BEF2A621168265D0090F72B /* Helper App (IOSurface helper) */ = {
 			isa = PBXGroup;
 			children = (
@@ -3582,7 +3518,6 @@
 				1BEF34721168F8210090F72B /* XIBs */,
 				1B22426B100D171700F42067 /* CRT Masks */,
 				C344D5F6174C45050011579E /* Shaders */,
-				1B885E070F085EA500770B6D /* CRT Shaders */,
 				1B224004100BD61D00F42067 /* Filter Quartz Compositions */,
 				94AE2C0F17B07D450018DFBB /* cheats-database.xml */,
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
@@ -5490,50 +5425,22 @@
 		C344D5F6174C45050011579E /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
-				C344D604174C463E0011579E /* Cg */,
-				C344D608174C463E0011579E /* GLSL */,
+				94380773184E6AE100E2274B /* Themaister NTSC */,
+				8C09E4BE1867975E0095DB4E /* Beam4.cgp */,
+				8C09E4BF1867975E0095DB4E /* NTSC (Blargg).cgp */,
+				8C09E4C01867975E0095DB4E /* _beam4_1.cg */,
+				8C09E4C11867975E0095DB4E /* _beam4_2.cg */,
+				8C09E4C21867975E0095DB4E /* _beam4_3.cg */,
+				8C09E4C31867975E0095DB4E /* _stock.cg */,
+				8C09E4C41867975E0095DB4E /* 2xBR.cg */,
+				8C09E4C51867975E0095DB4E /* 4xBR.cg */,
+				8C09E4C61867975E0095DB4E /* Blinky.cg */,
+				8C09E4C71867975E0095DB4E /* CRT.cg */,
+				8C09E4C81867975E0095DB4E /* LCD3x.cg */,
+				8C09E4C91867975E0095DB4E /* SABR.cg */,
+				8C09E4CA1867975E0095DB4E /* Scanline.cg */,
 			);
 			path = Shaders;
-			sourceTree = "<group>";
-		};
-		C344D604174C463E0011579E /* Cg */ = {
-			isa = PBXGroup;
-			children = (
-				94380773184E6AE100E2274B /* Themaister NTSC */,
-				9494BBAF184D9A47006D67F9 /* _beam4_1.cg */,
-				9494BBB0184D9A47006D67F9 /* _beam4_2.cg */,
-				9494BBB1184D9A47006D67F9 /* _beam4_3.cg */,
-				9494BBB2184D9A47006D67F9 /* _stock.cg */,
-				9494BBB3184D9A47006D67F9 /* Beam4.cgp */,
-				9494BBB4184D9A47006D67F9 /* Blinky.cg */,
-				9494BBB5184D9A47006D67F9 /* CRT-simple.cg */,
-				9494BBB6184D9A47006D67F9 /* LCD3x.cg */,
-				9494BBB7184D9A47006D67F9 /* NTSC (Blargg).cgp */,
-				9494BBB8184D9A47006D67F9 /* SABR.cg */,
-				C344D605174C463E0011579E /* Scanline - Horizontal.cg */,
-				C344D606174C463E0011579E /* Scanline - Vertical.cg */,
-				C344D607174C463E0011579E /* Scanline.cg */,
-			);
-			path = Cg;
-			sourceTree = "<group>";
-		};
-		C344D608174C463E0011579E /* GLSL */ = {
-			isa = PBXGroup;
-			children = (
-				C344D609174C463E0011579E /* Scale2xBR.frag */,
-				C344D60A174C463E0011579E /* Scale2xBR.vert */,
-				C344D60B174C463E0011579E /* Scale2xHQ.frag */,
-				C344D60C174C463E0011579E /* Scale2xHQ.vert */,
-				C344D60D174C463E0011579E /* Scale2xPlus.frag */,
-				C344D60E174C463E0011579E /* Scale2xPlus.vert */,
-				C344D60F174C463E0011579E /* Scale4x.frag */,
-				C344D610174C463E0011579E /* Scale4x.vert */,
-				C344D611174C463E0011579E /* Scale4xBR.frag */,
-				C344D612174C463E0011579E /* Scale4xBR.vert */,
-				C344D613174C463E0011579E /* Scale4xHQ.frag */,
-				C344D614174C463E0011579E /* Scale4xHQ.vert */,
-			);
-			path = GLSL;
 			sourceTree = "<group>";
 		};
 		C60238E7179509CC00F4AF6C /* Game Core Helper Protocols */ = {
