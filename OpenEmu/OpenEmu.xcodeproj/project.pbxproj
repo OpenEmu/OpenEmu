@@ -293,7 +293,6 @@
 		82C42C8710CAFB480046D1A3 /* download_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 82C42C8510CAFB480046D1A3 /* download_arrow_up.png */; };
 		82C5EFAE1237E76C001262F7 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C5EFAC1237E76C001262F7 /* AsyncUdpSocket.m */; };
 		82C5EFB31237E7E1001262F7 /* OENetServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C5EFB21237E7E1001262F7 /* OENetServer.m */; };
-		82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82C9C96C0F080BD30071460B /* dsa_pub.pem */; };
 		82CAFBBE0FEDAA4200CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFBB70FEDAA3D00CCDC7E /* config.yaml */; };
 		82DD29DB12369F1100B58A8F /* KeyboardUsages.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82DD29DA12369F1100B58A8F /* KeyboardUsages.plist */; };
 		82DD2B1E1236CF0200B58A8F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DD2B1D1236CF0200B58A8F /* Carbon.framework */; };
@@ -1835,7 +1834,6 @@
 		82C5EFAC1237E76C001262F7 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
 		82C5EFB11237E7E1001262F7 /* OENetServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENetServer.h; sourceTree = "<group>"; };
 		82C5EFB21237E7E1001262F7 /* OENetServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENetServer.m; sourceTree = "<group>"; };
-		82C9C96C0F080BD30071460B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		82CAFBB70FEDAA3D00CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		82DD29DA12369F1100B58A8F /* KeyboardUsages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KeyboardUsages.plist; sourceTree = "<group>"; };
 		82DD2B1D1236CF0200B58A8F /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
@@ -3588,7 +3586,6 @@
 				1B224004100BD61D00F42067 /* Filter Quartz Compositions */,
 				94AE2C0F17B07D450018DFBB /* cheats-database.xml */,
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
-				82C9C96C0F080BD30071460B /* dsa_pub.pem */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
 				1B96BA55166BDD52005064C8 /* FRFeedbackReporter.sh */,
 			);
@@ -6710,7 +6707,6 @@
 				1BFC26D0116C1CA300B95689 /* OpenEmuHelperApp in Resources */,
 				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
-				82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */,
 				C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */,
 				C67A36AA0FE7F1F500A665E2 /* OECorePluginIcon.icns in Resources */,
 				C69DCCED0FE99415009AE5A6 /* OEFilterPluginIcon.icns in Resources */,

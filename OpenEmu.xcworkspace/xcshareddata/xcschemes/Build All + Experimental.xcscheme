@@ -313,7 +313,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "94C51FBC1847077700206E6F"
-               BuildableName = "Set Experimental OECoreListURL"
+               BuildableName = "Set Experimental Appcast URLs"
                BlueprintName = "Set Experimental Appcast URLs"
                ReferencedContainer = "container:OpenEmu/OpenEmu.xcodeproj">
             </BuildableReference>
