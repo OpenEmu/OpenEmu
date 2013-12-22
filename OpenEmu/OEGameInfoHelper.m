@@ -40,7 +40,7 @@ NSString * const OEOpenVGDBUpdateIntervalKey = @"OpenVGDBUpdateInterval";
 
 NSString * const OpenVGDBFileName = @"openvgdb";
 NSString * const OpenVGDBDownloadURL = @"https://github.com/OpenVGDB/OpenVGDB/releases/download";
-NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/OpenVGDB/tags?page=1&per_page=1";
+NSString * const OpenVGDBUpdateURL = @"https://api.github.com/repos/OpenVGDB/OpenVGDB/releases?page=1&per_page=1";
 
 NSString * const OEGameInfoHelperWillUpdateNotificationName = @"OEGameInfoHelperWillUpdateNotificationName";
 NSString * const OEGameInfoHelperDidChangeUpdateProgressNotificationName = @"OEGameInfoHelperDidChangeUpdateProgressNotificationName";
@@ -148,10 +148,11 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
             for(id aRelease in releases)
             {
-                if([aRelease isKindOfClass:[NSDictionary class]] && [aRelease objectForKey:@"name"])
+                if([aRelease isKindOfClass:[NSDictionary class]] && [aRelease objectForKey:@"tag_name"])
                 {
-                    NSString *tagName = [aRelease objectForKey:@"name"];
-                    if([tagName compare:nextVersion] == NSOrderedDescending)
+                    
+                    NSString *tagName = [aRelease objectForKey:@"tag_name"];
+                    if([tagName compare:nextVersion] != NSOrderedSame)
                         nextVersion = tagName;
                 }
             }
