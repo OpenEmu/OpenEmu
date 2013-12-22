@@ -10,7 +10,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "# Reset Sparkle OECoreListURL&#10;/usr/libexec/PlistBuddy -c &quot;Set :OECoreListURL http://openemu.org/updater/oecores.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}">
+               scriptText = "# Reset Sparkle Appcast URLs&#10;/usr/libexec/PlistBuddy -c &quot;Set :OECoreListURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}&#10;&#10;/usr/libexec/PlistBuddy -c &quot;Set :SUFeedURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
@@ -314,7 +314,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "94C51FBC1847077700206E6F"
                BuildableName = "Set Experimental OECoreListURL"
-               BlueprintName = "Set Experimental OECoreListURL"
+               BlueprintName = "Set Experimental Appcast URLs"
                ReferencedContainer = "container:OpenEmu/OpenEmu.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -358,7 +358,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "# Reset Sparkle OECoreListURL&#10;/usr/libexec/PlistBuddy -c &quot;Set :OECoreListURL http://openemu.org/updater/oecores.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}">
+               scriptText = "# Reset Sparkle Appcast URLs&#10;/usr/libexec/PlistBuddy -c &quot;Set :OECoreListURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}&#10;&#10;/usr/libexec/PlistBuddy -c &quot;Set :SUFeedURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
@@ -397,7 +397,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "# Reset Sparkle OECoreListURL&#10;/usr/libexec/PlistBuddy -c &quot;Set :OECoreListURL http://openemu.org/updater/oecores.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}">
+               scriptText = "# Reset Sparkle Appcast URLs&#10;/usr/libexec/PlistBuddy -c &quot;Set :OECoreListURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}&#10;&#10;/usr/libexec/PlistBuddy -c &quot;Set :SUFeedURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
@@ -433,7 +433,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "# Reset Sparkle OECoreListURL&#10;/usr/libexec/PlistBuddy -c &quot;Set :OECoreListURL http://openemu.org/updater/oecores.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}">
+               scriptText = "# Reset Sparkle Appcast URLs&#10;/usr/libexec/PlistBuddy -c &quot;Set :OECoreListURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}&#10;&#10;/usr/libexec/PlistBuddy -c &quot;Set :SUFeedURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
@@ -467,7 +467,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "# Reset Sparkle OECoreListURL&#10;/usr/libexec/PlistBuddy -c &quot;Set :OECoreListURL http://openemu.org/updater/oecores.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}">
+               scriptText = "# Reset Sparkle Appcast URLs&#10;/usr/libexec/PlistBuddy -c &quot;Set :OECoreListURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}&#10;&#10;/usr/libexec/PlistBuddy -c &quot;Set :SUFeedURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast.xml&quot; ${SOURCE_ROOT}/${INFOPLIST_FILE}">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"

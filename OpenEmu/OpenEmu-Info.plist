@@ -134,11 +134,9 @@
 	<key>OEBundlePath</key>
 	<string>~/Library/Application Support/OpenEmu/Cores/</string>
 	<key>OECoreListURL</key>
-	<string>http://openemu.org/updater/oecores.xml</string>
+	<string>https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores.xml</string>
 	<key>SUFeedURL</key>
-	<string>http://openemu.org/updater/appcast.xml</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>dsa_pub.pem</string>
+	<string>https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast.xml</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>

@@ -63,15 +63,15 @@
 			name = "Update Build Version";
 			productName = "Update Build Version";
 		};
-		94C51FBC1847077700206E6F /* Set Experimental OECoreListURL */ = {
+		94C51FBC1847077700206E6F /* Set Experimental Appcast URLs */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 94C51FBE1847077700206E6F /* Build configuration list for PBXAggregateTarget "Set Experimental OECoreListURL" */;
+			buildConfigurationList = 94C51FBE1847077700206E6F /* Build configuration list for PBXAggregateTarget "Set Experimental Appcast URLs" */;
 			buildPhases = (
 				94C51FBD1847077700206E6F /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = "Set Experimental OECoreListURL";
+			name = "Set Experimental Appcast URLs";
 			productName = "Update Build Version";
 		};
 		94EBBCD7183F422500743756 /* Build & Copy Experimental SystemPlugins */ = {
@@ -1922,7 +1922,7 @@
 		8322D746156A973400FC0E81 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = System/Library/Frameworks/IOBluetooth.framework; sourceTree = SDKROOT; };
 		8328D9E313C75CAE0026D2A7 /* OEDBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OEDBImage.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8328D9E413C75CAE0026D2A7 /* OEDBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OEDBImage.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OEDatabase 1.0.xcdatamodel"; sourceTree = "<group>"; };
+		832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.0.xcdatamodel"; sourceTree = "<group>"; };
 		832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.0 Beta 4 to 1.0.xcmappingmodel"; sourceTree = "<group>"; };
 		832D293E1451A68700BDF950 /* OEMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMainWindowController.h; sourceTree = "<group>"; };
 		832D293F1451A68700BDF950 /* OEMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMainWindowController.m; sourceTree = "<group>"; };
@@ -6616,7 +6616,7 @@
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
 				9479664E15EDE645004316AB /* Update Build Version */,
 				94EBBCD7183F422500743756 /* Build & Copy Experimental SystemPlugins */,
-				94C51FBC1847077700206E6F /* Set Experimental OECoreListURL */,
+				94C51FBC1847077700206E6F /* Set Experimental Appcast URLs */,
 			);
 		};
 /* End PBXProject section */
@@ -7482,7 +7482,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# For Build All + Experimental scheme, tell Sparkle where to find experimental cores\n/usr/libexec/PlistBuddy -c \"Set :OECoreListURL http://openemu.org/updater/oecores-experimental.xml\" OpenEmu-Info.plist";
+			shellScript = "# For Build All + Experimental scheme, tell Sparkle where to find experimental app and cores\n/usr/libexec/PlistBuddy -c \"Set :OECoreListURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores-experimental.xml\" OpenEmu-Info.plist\n\n/usr/libexec/PlistBuddy -c \"Set :SUFeedURL https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast-experimental.xml\" OpenEmu-Info.plist";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -9797,7 +9797,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				PRODUCT_NAME = "Set Experimental OECoreListURL";
+				PRODUCT_NAME = "Set Experimental Appcast URLs";
 			};
 			name = Debug;
 		};
@@ -9805,7 +9805,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				PRODUCT_NAME = "Set Experimental OECoreListURL";
+				PRODUCT_NAME = "Set Experimental Appcast URLs";
 			};
 			name = Release;
 		};
@@ -10586,7 +10586,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		94C51FBE1847077700206E6F /* Build configuration list for PBXAggregateTarget "Set Experimental OECoreListURL" */ = {
+		94C51FBE1847077700206E6F /* Build configuration list for PBXAggregateTarget "Set Experimental Appcast URLs" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				94C51FBF1847077700206E6F /* Debug */,
