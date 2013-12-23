@@ -119,6 +119,9 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     defaultDatabase = [[OELibraryDatabase alloc] init];
     [defaultDatabase setDatabaseURL:url];
+    
+    NSURL *dbFileURL = [url URLByAppendingPathComponent:OEDatabaseFileName];
+    BOOL isOldDB = [dbFileURL checkResourceIsReachableAndReturnError:nil];
 
     if(![defaultDatabase loadPersistantStoreWithError:outError])
     {
@@ -132,6 +135,9 @@ static OELibraryDatabase *defaultDatabase = nil;
         return NO;
     }
 
+    if(!isOldDB)
+        [defaultDatabase OE_createInitialItems];
+    
     [[NSUserDefaults standardUserDefaults] setObject:[[[defaultDatabase databaseURL] path] stringByAbbreviatingWithTildeInPath] forKey:OEDatabasePathKey];
     [defaultDatabase OE_setupStateWatcher];
 
@@ -142,6 +148,14 @@ static OELibraryDatabase *defaultDatabase = nil;
     });
 
     return YES;
+}
+
+- (void)OE_createInitialItems
+{
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:[OEDBSmartCollection entityName] inManagedObjectContext:[self unsafeContext]];
+    OEDBSmartCollection *recentlyAdded = [[OEDBSmartCollection alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:[self unsafeContext]];
+    [recentlyAdded setName:@"Recently Added"];
+    [self save:nil];
 }
 
 - (BOOL)loadManagedObjectContextWithError:(NSError *__autoreleasing*)outError
