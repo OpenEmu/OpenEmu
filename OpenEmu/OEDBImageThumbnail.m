@@ -79,6 +79,7 @@
                 // thumbnails only make sense if they are smaller than the original
                 if(thumbnailSize.width >= imageSize.width || thumbnailSize.height >= imageSize.height){
                     [context deleteObject:result];
+                    result = nil;
                     return;
                 }
 
