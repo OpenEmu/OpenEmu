@@ -393,6 +393,10 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
     return [NSImage imageNamed:@"collections_smart"];
 }
 
+- (BOOL)isEditableInSidebar
+{
+    return NO;
+}
 @end
 
 #pragma mark -

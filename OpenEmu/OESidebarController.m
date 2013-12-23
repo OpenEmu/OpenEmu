@@ -608,7 +608,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     id item = [[self view] itemAtRow:index];
     BOOL removeItem = NO;
 
-    if([item isEditableInSidebar])
+    if([item isEditableInSidebar] || [item isKindOfClass:[OEDBSmartCollection class]])
     {
         NSString *msg = NSLocalizedString(@"Do you really want to remove this collection", @"");
         NSString *confirm = NSLocalizedString(@"Remove", @"");
