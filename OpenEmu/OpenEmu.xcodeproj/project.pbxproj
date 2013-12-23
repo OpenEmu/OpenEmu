@@ -109,6 +109,9 @@
 /* Begin PBXBuildFile section */
 		0A9F272216635A1B008B1FB8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9F272116635A1B008B1FB8 /* libz.dylib */; };
 		0A9F272316635A55008B1FB8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9F272116635A1B008B1FB8 /* libz.dylib */; };
+		11DC4D4118681B04006CE75D /* about_background@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 11DC4D4018681B04006CE75D /* about_background@2x.jpg */; };
+		11DC4D4518681E56006CE75D /* core_triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DC4D4418681E56006CE75D /* core_triangle@2x.png */; };
+		11DC4D4718681E64006CE75D /* controls_triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DC4D4618681E64006CE75D /* controls_triangle@2x.png */; };
 		11E0C9C9175ADD0700CDAB86 /* controller_vb_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11E0C9C7175ADD0700CDAB86 /* controller_vb_mask@2x.png */; };
 		11E0C9CA175ADD0700CDAB86 /* controller_vb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11E0C9C8175ADD0700CDAB86 /* controller_vb@2x.png */; };
 		141554101442B3B300A01683 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -1508,6 +1511,9 @@
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0A9F272116635A1B008B1FB8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		11DC4D4018681B04006CE75D /* about_background@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "about_background@2x.jpg"; sourceTree = "<group>"; };
+		11DC4D4418681E56006CE75D /* core_triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "core_triangle@2x.png"; sourceTree = "<group>"; };
+		11DC4D4618681E64006CE75D /* controls_triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controls_triangle@2x.png"; sourceTree = "<group>"; };
 		11E0C9C7175ADD0700CDAB86 /* controller_vb_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_vb_mask@2x.png"; sourceTree = "<group>"; };
 		11E0C9C8175ADD0700CDAB86 /* controller_vb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_vb@2x.png"; sourceTree = "<group>"; };
 		1415540F1442B3B300A01683 /* N64.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = N64.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3897,6 +3903,7 @@
 			isa = PBXGroup;
 			children = (
 				948FCB64182C7A63001B16BE /* about_background.jpg */,
+				11DC4D4018681B04006CE75D /* about_background@2x.jpg */,
 				53439B9E13B93920005C0CC8 /* arrow_down.png */,
 				53439B9F13B93920005C0CC8 /* arrow_left.png */,
 				53439BA013B93920005C0CC8 /* arrow_right.png */,
@@ -4039,7 +4046,9 @@
 				53439BC913B93920005C0CC8 /* controls_tab_icon.png */,
 				EC350FDB17401B58005DA3B2 /* controls_tab_icon@2x.png */,
 				830013AD17A7C5A000EB128A /* controls_triangle.png */,
+				11DC4D4618681E64006CE75D /* controls_triangle@2x.png */,
 				53439BCA13B93920005C0CC8 /* core_triangle.png */,
+				11DC4D4418681E56006CE75D /* core_triangle@2x.png */,
 				53439BCB13B93920005C0CC8 /* cores_tab_icon.png */,
 				EC350FDC17401B58005DA3B2 /* cores_tab_icon@2x.png */,
 				53439BCC13B93920005C0CC8 /* dark_box.png */,
@@ -6650,6 +6659,7 @@
 				53439C0B13B93920005C0CC8 /* grid_slider_track.png in Resources */,
 				53439C0C13B93920005C0CC8 /* knob_horizontal.png in Resources */,
 				53439C0D13B93920005C0CC8 /* knob_vertical.png in Resources */,
+				11DC4D4718681E64006CE75D /* controls_triangle@2x.png in Resources */,
 				53439C0E13B93920005C0CC8 /* list_indicators.png in Resources */,
 				53439C0F13B93920005C0CC8 /* list_rating.png in Resources */,
 				53439C1013B93920005C0CC8 /* missing_artwork.pdf in Resources */,
@@ -6701,6 +6711,8 @@
 				83703B48140E4F9100EC27A7 /* Scale4xHQ.png in Resources */,
 				83802E6A142F6FF900130517 /* controls_highlight.png in Resources */,
 				1B98144E142F02FA00114A30 /* OESetupAssistant.xib in Resources */,
+				11DC4D4518681E56006CE75D /* core_triangle@2x.png in Resources */,
+				11DC4D4118681B04006CE75D /* about_background@2x.jpg in Resources */,
 				83A9E152144723E20051AF1D /* hud_power_glyph.png in Resources */,
 				831C2AE9144F453C009533C0 /* MainMenu.xib in Resources */,
 				832D29431451ACF200BDF950 /* MainWindow.xib in Resources */,
