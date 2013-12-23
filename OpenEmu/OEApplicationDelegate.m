@@ -749,6 +749,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [item setTitle:value];
         [item setEnabled:NO];
         [item setIndentationLevel:0];
+        [item setAction:NULL];
+        [item setRepresentedObject:nil];
     }
     else
     {
