@@ -426,7 +426,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
     return YES;
 }
 
-- (NSPredicate *)predicate
+- (NSPredicate *)fetchPredicate
 {
     return [NSPredicate predicateWithFormat:@"system == %@", self];
 }
@@ -436,6 +436,14 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
     return NO;
 }
 
+- (NSInteger)fetchLimit
+{
+    return 0;
+}
+- (NSArray*)fetchSortDescriptors
+{
+    return @[];
+}
 @end
 
 @implementation OEDBCollection (OECollectionViewItemAdditions)
@@ -455,9 +463,17 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
     return nil;
 }
 
-- (NSPredicate *)predicate
+- (NSPredicate *)fetchPredicate
 {
     return [NSPredicate predicateWithFormat:@"ANY collections == %@", self];
+}
+- (NSInteger)fetchLimit
+{
+    return 0;
+}
+- (NSArray*)fetchSortDescriptors
+{
+    return @[];
 }
 
 - (BOOL)shouldShowSystemColumnInListView
@@ -480,7 +496,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
     return YES;
 }
 
-- (NSPredicate *)predicate
+- (NSPredicate *)fetchPredicate
 {
     return [NSPredicate predicateWithValue:NO];
 }
@@ -504,8 +520,12 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
     return NO;
 }
 
-- (NSPredicate *)predicate
+- (NSPredicate *)fetchPredicate
 {
+    if([[self collectionViewName] isEqualToString:@"Recently Added"])
+    {
+        return [NSPredicate predicateWithValue:YES];
+    }
     return [NSPredicate predicateWithValue:NO];
 }
 
@@ -514,6 +534,17 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
     return YES;
 }
 
+- (NSInteger)fetchLimit
+{
+    return 30;
+}
+
+- (NSArray*)fetchSortDescriptors
+{
+    if([[self collectionViewName] isEqualToString:@"Recently Added"])
+        return @[[NSSortDescriptor sortDescriptorWithKey:@"importDate" ascending:NO]];
+    return @[];
+}
 @end
 
 @implementation OEDBAllGamesCollection (OECollectionViewItemAdditions)
@@ -533,7 +564,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
     return nil;
 }
 
-- (NSPredicate *)predicate
+- (NSPredicate *)fetchPredicate
 {
     return [NSPredicate predicateWithFormat:@"system.enabled = YES"];
 }
@@ -543,4 +574,13 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
     return YES;
 }
 
+- (NSInteger)fetchLimit
+{
+    return 0;
+}
+
+- (NSArray*)fetchSortDescriptors
+{
+    return @[];
+}
 @end

@@ -63,6 +63,8 @@
 #import "OESidebarController.h"
 #import "OETableView.h"
 
+#import "OEArrayController.h"
+
 #import "OECollectionDebugWindowController.h"
 #pragma mark - Public variables
 
@@ -157,7 +159,7 @@ static NSArray *OE_defaultSortDescriptors;
     [super loadView];
         
     // Set up games controller
-    gamesController = [[NSArrayController alloc] init];
+    gamesController = [[OEArrayController alloc] init];
     [gamesController setAutomaticallyRearrangesObjects:YES];
     [gamesController setAutomaticallyPreparesContent:NO];
     [gamesController setUsesLazyFetching:NO];
@@ -255,7 +257,7 @@ static NSArray *OE_defaultSortDescriptors;
 
     if(representedObject == [self representedObject]) return;
     [super setRepresentedObject:representedObject];
-
+    
     [[listView tableColumnWithIdentifier:@"listViewConsoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
 
     [self OE_reloadData];
@@ -1486,9 +1488,10 @@ static NSArray *OE_defaultSortDescriptors;
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(OE_reloadData) object:nil];
     if(!gamesController) return;
     
-    NSPredicate *pred = [self representedObject]?[[self representedObject] predicate]:[NSPredicate predicateWithValue:NO];
+    NSPredicate *pred = [self representedObject]?[[self representedObject] fetchPredicate]:[NSPredicate predicateWithValue:NO];
     [gamesController setFetchPredicate:pred];
-
+    [gamesController setLimit:[[self representedObject] fetchLimit]];
+    [gamesController setFetchSortDescriptors:[[self representedObject] fetchSortDescriptors]];
     __block BOOL ok;
     [[gamesController managedObjectContext] performBlockAndWait:^{
         ok = [gamesController fetchWithRequest:nil merge:NO error:nil];

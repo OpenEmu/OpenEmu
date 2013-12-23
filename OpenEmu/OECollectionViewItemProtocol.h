@@ -30,6 +30,9 @@
 @protocol OECollectionViewItemProtocol <NSObject>
 - (NSString *)collectionViewName;
 - (BOOL)isCollectionEditable;
-- (NSPredicate *)predicate;
 - (BOOL)shouldShowSystemColumnInListView;
+
+- (NSPredicate *)fetchPredicate;
+- (NSInteger)fetchLimit;
+- (NSArray*)fetchSortDescriptors;
 @end

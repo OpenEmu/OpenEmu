@@ -34,7 +34,7 @@
 
 @class OELibraryController;
 @class OEHorizontalSplitView;
-
+@class OEArrayController;
 @interface OECollectionViewController : NSViewController <OEGridViewDelegate, OEGridViewDataSource, OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController>
 
 #pragma mark -
@@ -60,6 +60,6 @@
 - (id <OECollectionViewItemProtocol>)representedObject;
 #pragma mark -
 @property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
-@property(readonly) NSArrayController *gamesController;
+@property(readonly) OEArrayController *gamesController;
 
 @end
