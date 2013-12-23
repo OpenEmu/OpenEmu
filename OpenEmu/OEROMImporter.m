@@ -87,9 +87,6 @@ NSString *const OEImportInfoArchivedFileIndex = @"archivedFileIndex";
 - (void)performImportStepOrganize:(OEImportItem *)item;
 - (void)performImportStepOrganizeAdditionalFiles:(OEImportItem *)item;
 
-- (void)performImportStepCreateRom:(OEImportItem *)item;
-- (void)performImportStepCreateGame:(OEImportItem *)item;
-
 - (void)performImportStepCreateCoreDataObjects:(OEImportItem *)item;
 
 - (void)scheduleItemForNextStep:(OEImportItem *)item;
