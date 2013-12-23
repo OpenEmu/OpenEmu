@@ -748,7 +748,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         if(rom && [[item importInfo] objectForKey:OEImportInfoCollectionID])
         {
             id collection = [[rom libraryDatabase] objectWithURI:[[item importInfo] objectForKey:OEImportInfoCollectionID]];
-            if([collection isKindOfClass:[OEDBCollection class]])
+            if([collection isMemberOfClass:[OEDBCollection class]])
             {
                 [[collection mutableGames] addObject:[rom game]];
             }
