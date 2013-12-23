@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -17,11 +17,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application"/>
         <view id="3" userLabel="Debug">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="963"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="1002"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <button id="335" customClass="OEButton">
-                    <rect key="frame" x="30" y="831" width="272" height="18"/>
+                    <rect key="frame" x="30" y="870" width="272" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Setup Assistant has finished" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="336" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -35,7 +35,7 @@
                     </connections>
                 </button>
                 <button id="188" customClass="OEButton">
-                    <rect key="frame" x="200" y="925" width="102" height="18"/>
+                    <rect key="frame" x="200" y="964" width="102" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="debug mode" bezelStyle="regularSquare" imagePosition="left" alignment="right" state="on" inset="2" id="189" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -49,7 +49,7 @@
                     </connections>
                 </button>
                 <button id="156" customClass="OEButton">
-                    <rect key="frame" x="30" y="548" width="163" height="18"/>
+                    <rect key="frame" x="30" y="587" width="163" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Can delete save states" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="157" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -66,7 +66,7 @@
                     </connections>
                 </button>
                 <button id="162" customClass="OEButton">
-                    <rect key="frame" x="30" y="521" width="153" height="18"/>
+                    <rect key="frame" x="30" y="560" width="153" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show options button" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="163" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -84,7 +84,7 @@
                     </connections>
                 </button>
                 <button id="260" customClass="OEButton">
-                    <rect key="frame" x="30" y="339" width="273" height="18"/>
+                    <rect key="frame" x="30" y="378" width="273" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="WiiRemote support (requires relaunch)" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="261" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -102,7 +102,7 @@
                     </connections>
                 </button>
                 <button id="196" customClass="OEButton">
-                    <rect key="frame" x="30" y="494" width="119" height="18"/>
+                    <rect key="frame" x="30" y="533" width="119" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Use core picker" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="197" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -116,7 +116,7 @@
                     </connections>
                 </button>
                 <button id="300" customClass="OEButton">
-                    <rect key="frame" x="30" y="467" width="177" height="18"/>
+                    <rect key="frame" x="30" y="506" width="177" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show quicksave in menu" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="301" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -130,7 +130,7 @@
                     </connections>
                 </button>
                 <button id="306" customClass="OEButton">
-                    <rect key="frame" x="30" y="440" width="171" height="18"/>
+                    <rect key="frame" x="30" y="479" width="171" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show autosave in menu" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="307" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -144,7 +144,7 @@
                     </connections>
                 </button>
                 <button id="314" customClass="OEButton">
-                    <rect key="frame" x="30" y="413" width="149" height="18"/>
+                    <rect key="frame" x="30" y="452" width="149" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Use quick save slots" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="315" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -158,7 +158,7 @@
                     </connections>
                 </button>
                 <textField verticalHuggingPriority="750" id="125" customClass="OELabel">
-                    <rect key="frame" x="29" y="893" width="52" height="17"/>
+                    <rect key="frame" x="29" y="932" width="52" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Region:" id="129" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
@@ -170,7 +170,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <textField verticalHuggingPriority="750" id="J8o-tR-TgJ" customClass="OELabel">
-                    <rect key="frame" x="29" y="859" width="117" height="17"/>
+                    <rect key="frame" x="29" y="898" width="117" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Run games using:" id="6R0-XD-E4Z" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
@@ -182,14 +182,14 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <popUpButton verticalHuggingPriority="750" id="126" customClass="OEPopUpButton">
-                    <rect key="frame" x="84" y="891" width="219" height="26"/>
+                    <rect key="frame" x="84" y="930" width="219" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="Auto" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="-1" imageScaling="proportionallyDown" inset="2" id="127" customClass="OEPopUpButtonCell">
+                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="127" customClass="OEPopUpButtonCell">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" id="128">
                             <items>
-                                <menuItem title="Auto" state="on" tag="-1" id="130">
+                                <menuItem title="Auto" tag="-1" id="130">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
                                 <menuItem title="North America" id="131">
@@ -218,11 +218,11 @@
                     </connections>
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" id="7U8-ix-I7I" customClass="OEPopUpButton">
-                    <rect key="frame" x="149" y="857" width="154" height="26"/>
+                    <rect key="frame" x="149" y="896" width="154" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="Wtb-mm-waQ" customClass="OEPopUpButtonCell">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" id="99V-Bj-ejw"/>
                     </popUpButtonCell>
                     <userDefinedRuntimeAttributes>
@@ -236,14 +236,14 @@
                     </connections>
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" id="206" customClass="OEPopUpButton">
-                    <rect key="frame" x="18" y="96" width="196" height="26"/>
+                    <rect key="frame" x="18" y="135" width="196" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="Remove unused thumbnails" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="6" imageScaling="proportionallyDown" inset="2" selectedItem="343" id="207" customClass="OEPopUpButtonCell">
+                    <popUpButtonCell key="cell" type="push" title="Add initial collections" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="7" imageScaling="proportionallyDown" inset="2" selectedItem="217" id="207" customClass="OEPopUpButtonCell">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" id="208">
                             <items>
-                                <menuItem title="Log matched game paths" id="217">
+                                <menuItem title="Log matched game paths" id="V6P-BO-JKB">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
                                 <menuItem title="Log unmatched game paths" tag="1" id="213">
@@ -264,6 +264,9 @@
                                 <menuItem title="Remove unused thumbnails" state="on" tag="6" id="343">
                                     <modifierMask key="keyEquivalentModifierMask"/>
                                 </menuItem>
+                                <menuItem title="Add initial collections" state="on" tag="7" id="217">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                </menuItem>
                             </items>
                         </menu>
                     </popUpButtonCell>
@@ -275,14 +278,14 @@
                     </userDefinedRuntimeAttributes>
                 </popUpButton>
                 <customView id="142" customClass="OEHorizontalLine">
-                    <rect key="frame" x="0.0" y="609" width="320" height="2"/>
+                    <rect key="frame" x="0.0" y="648" width="320" height="2"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <textField verticalHuggingPriority="750" id="143" customClass="OELabel">
-                    <rect key="frame" x="17" y="577" width="134" height="17"/>
+                    <rect key="frame" x="17" y="616" width="134" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="HUD Bar / Gameplay" id="144" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
@@ -294,7 +297,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <button id="150" customClass="OEButton">
-                    <rect key="frame" x="30" y="312" width="229" height="18"/>
+                    <rect key="frame" x="30" y="351" width="229" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Clicking on image selects button" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="154" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -312,7 +315,7 @@
                     </connections>
                 </button>
                 <button id="171" customClass="OEButton">
-                    <rect key="frame" x="30" y="285" width="275" height="18"/>
+                    <rect key="frame" x="30" y="324" width="275" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Clicking outside image deselects button" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="172" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -330,7 +333,7 @@
                     </connections>
                 </button>
                 <button id="178" customClass="OEButton">
-                    <rect key="frame" x="30" y="258" width="252" height="18"/>
+                    <rect key="frame" x="30" y="297" width="252" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Select first field after setting the last" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="179" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -344,7 +347,7 @@
                     </connections>
                 </button>
                 <button id="182" customClass="OEButton">
-                    <rect key="frame" x="30" y="231" width="222" height="18"/>
+                    <rect key="frame" x="30" y="270" width="222" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Draw button mask above image" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="183" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -358,7 +361,7 @@
                     </connections>
                 </button>
                 <button id="285" customClass="OEButton">
-                    <rect key="frame" x="30" y="204" width="117" height="18"/>
+                    <rect key="frame" x="30" y="243" width="117" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Log HID Events" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="286" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -372,7 +375,7 @@
                     </connections>
                 </button>
                 <button id="344" customClass="OEButton">
-                    <rect key="frame" x="30" y="177" width="272" height="18"/>
+                    <rect key="frame" x="30" y="216" width="272" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show all global keys" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="345" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -386,7 +389,7 @@
                     </connections>
                 </button>
                 <button id="324" customClass="OEButton">
-                    <rect key="frame" x="156" y="204" width="154" height="18"/>
+                    <rect key="frame" x="156" y="243" width="154" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Log Keyboard Events" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="325" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -401,14 +404,14 @@
                     </connections>
                 </button>
                 <customView id="151" customClass="OEHorizontalLine">
-                    <rect key="frame" x="0.0" y="400" width="320" height="2"/>
+                    <rect key="frame" x="0.0" y="439" width="320" height="2"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <textField verticalHuggingPriority="750" id="152" customClass="OELabel">
-                    <rect key="frame" x="17" y="368" width="135" height="17"/>
+                    <rect key="frame" x="17" y="407" width="135" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Controls Preferences" id="153" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
@@ -420,14 +423,14 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <customView id="201" customClass="OEHorizontalLine">
-                    <rect key="frame" x="0.0" y="164" width="320" height="2"/>
+                    <rect key="frame" x="0.0" y="203" width="320" height="2"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <textField verticalHuggingPriority="750" id="202" customClass="OELabel">
-                    <rect key="frame" x="17" y="132" width="63" height="17"/>
+                    <rect key="frame" x="17" y="171" width="63" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Database" id="203" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
@@ -439,7 +442,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <textField verticalHuggingPriority="750" id="274" customClass="OELabel">
-                    <rect key="frame" x="17" y="23" width="116" height="17"/>
+                    <rect key="frame" x="17" y="62" width="116" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Save State Folder:" id="275" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
@@ -451,7 +454,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <textField verticalHuggingPriority="750" id="145" customClass="OELabel">
-                    <rect key="frame" x="17" y="926" width="53" height="17"/>
+                    <rect key="frame" x="17" y="965" width="53" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="General" id="146" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
@@ -463,7 +466,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <button id="204" customClass="OEButton">
-                    <rect key="frame" x="218" y="96" width="82" height="23"/>
+                    <rect key="frame" x="218" y="135" width="82" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="square" title="Execute" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="205" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -477,7 +480,7 @@
                     </connections>
                 </button>
                 <button id="Tar-73-2dP" customClass="OEButton">
-                    <rect key="frame" x="20" y="59" width="149" height="23"/>
+                    <rect key="frame" x="20" y="98" width="149" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="square" title="Update OpenVGDB" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nfe-Ha-Ulj" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -491,7 +494,7 @@
                     </connections>
                 </button>
                 <button id="arv-4k-Gf7" customClass="OEButton">
-                    <rect key="frame" x="179" y="59" width="121" height="23"/>
+                    <rect key="frame" x="179" y="98" width="121" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="square" title="Cancel Update" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Oiw-Rc-ILD" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -505,7 +508,7 @@
                     </connections>
                 </button>
                 <button id="276" customClass="OEButton">
-                    <rect key="frame" x="148" y="19" width="60" height="23"/>
+                    <rect key="frame" x="148" y="58" width="60" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="square" title="Default" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="277" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -519,7 +522,7 @@
                     </connections>
                 </button>
                 <button id="279" customClass="OEButton">
-                    <rect key="frame" x="218" y="19" width="82" height="23"/>
+                    <rect key="frame" x="218" y="58" width="82" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="square" title="Choose" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="280" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -533,7 +536,7 @@
                     </connections>
                 </button>
                 <button id="237" customClass="OEButton">
-                    <rect key="frame" x="30" y="757" width="204" height="18"/>
+                    <rect key="frame" x="30" y="796" width="204" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Dark GridView context menu" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="241" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -551,7 +554,7 @@
                     </connections>
                 </button>
                 <button id="255" customClass="OEButton">
-                    <rect key="frame" x="30" y="730" width="221" height="18"/>
+                    <rect key="frame" x="30" y="769" width="221" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Use game name as window title" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="256" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -569,14 +572,14 @@
                     </connections>
                 </button>
                 <customView id="238" customClass="OEHorizontalLine">
-                    <rect key="frame" x="0.0" y="818" width="320" height="2"/>
+                    <rect key="frame" x="0.0" y="857" width="320" height="2"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <textField verticalHuggingPriority="750" id="239" customClass="OELabel">
-                    <rect key="frame" x="17" y="786" width="101" height="17"/>
+                    <rect key="frame" x="17" y="825" width="101" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Library Window" id="240" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
@@ -588,7 +591,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <button id="289" customClass="OEButton">
-                    <rect key="frame" x="30" y="703" width="248" height="18"/>
+                    <rect key="frame" x="30" y="742" width="248" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="show collection view debug window" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="290" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -606,7 +609,7 @@
                     </connections>
                 </button>
                 <button id="320" customClass="OEButton">
-                    <rect key="frame" x="30" y="676" width="273" height="18"/>
+                    <rect key="frame" x="30" y="715" width="273" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show game name instead of rom name" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="321" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -624,7 +627,7 @@
                     </connections>
                 </button>
                 <button id="331" customClass="OEButton">
-                    <rect key="frame" x="30" y="649" width="273" height="18"/>
+                    <rect key="frame" x="30" y="688" width="273" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Enable Retrode support" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="332" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -642,7 +645,7 @@
                     </connections>
                 </button>
                 <button id="339" customClass="OEButton">
-                    <rect key="frame" x="30" y="622" width="273" height="18"/>
+                    <rect key="frame" x="30" y="661" width="273" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Disable grid view gloss overlay" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="340" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>

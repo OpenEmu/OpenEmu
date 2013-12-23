@@ -45,6 +45,9 @@
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
+@interface OELibraryDatabase (Private)
+- (void)OE_createInitialItems;
+@end
 @implementation OEPrefDebugController
 
 #pragma mark -
@@ -183,6 +186,9 @@
              }];
             printf("\nDone\n");
             break;
+        case 7:
+            [[OELibraryDatabase defaultDatabase] OE_createInitialItems];
+            break;
         case 6:
             printf("\nRemoving unused image thumbnails\n\n");
             NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"ImageThumbnail"];
@@ -264,7 +270,7 @@
                 printf("\nDone\n");
             });
             break;
-    }
+        }
 }
 
 
