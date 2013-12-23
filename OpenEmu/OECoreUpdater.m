@@ -328,6 +328,7 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
 {
     [download removeObserver:self forKeyPath:@"progress" context:_OECoreDownloadProgressContext];
     if(download == [self coreDownload]) [self finishInstall];
+    [self OE_updateCoreList];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
