@@ -311,6 +311,7 @@ enum : OEFSMEventLabel
     // Game scanner allow checkbox screen
 
     [_fsm addState:_OEFSMGameScannerSelectionState];
+    [[self allowScanForGames] setState:NSOffState];
     [_fsm addTransitionFrom:_OEFSMGameScannerSelectionState to:_OEFSMCoreSelectionState event:_OEFSMBackEvent action:^{
         [blockSelf OE_goBackToView:[blockSelf coreSelectionView]];
     }];
