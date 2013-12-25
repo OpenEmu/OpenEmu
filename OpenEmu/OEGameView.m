@@ -1017,20 +1017,21 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
                                                                                pixelsWide:textureIntSize.width
                                                                                pixelsHigh:textureIntSize.height
                                                                             bitsPerSample:8
-                                                                          samplesPerPixel:4
-                                                                                 hasAlpha:YES
+                                                                          samplesPerPixel:3
+                                                                                 hasAlpha:NO
                                                                                  isPlanar:NO
                                                                            colorSpaceName:NSDeviceRGBColorSpace
-                                                                              bytesPerRow:textureIntSize.width * 4
-                                                                             bitsPerPixel:32];
+                                                                              bytesPerRow:textureIntSize.width * 3
+                                                                             bitsPerPixel:24];
 
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     [[self openGLContext] makeCurrentContext];
     CGLLockContext(cgl_ctx);
     {
-        glReadPixels((frameSize.width - textureNSSize.width) / 2, (frameSize.height - textureNSSize.height) / 2,
+        glReadPixels((frameSize.width - textureNSSize.width) / 2,
+                     (frameSize.height - textureNSSize.height) / 2,
                      textureIntSize.width, textureIntSize.height,
-                     GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, [imageRep bitmapData]);
+                     GL_RGB, GL_UNSIGNED_BYTE, [imageRep bitmapData]);
     }
     CGLUnlockContext(cgl_ctx);
 

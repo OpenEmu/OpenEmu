@@ -70,7 +70,6 @@ NSString *const OEForceCorePicker = @"forceCorePicker";
 NSString *const OEGameViewControllerEmulationWillFinishNotification = @"OEGameViewControllerEmulationWillFinishNotification";
 NSString *const OEGameViewControllerEmulationDidFinishNotification = @"OEGameViewControllerEmulationDidFinishNotification";
 NSString *const OETakeNativeScreenshots = @"takeNativeScreenshots";
-
 NSString *const OEGameViewControllerROMKey = @"OEROM";
 
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
