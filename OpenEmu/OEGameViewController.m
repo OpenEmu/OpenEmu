@@ -69,6 +69,8 @@ NSString *const OEBackgroundPauseKey = @"backgroundPause";
 NSString *const OEForceCorePicker = @"forceCorePicker";
 NSString *const OEGameViewControllerEmulationWillFinishNotification = @"OEGameViewControllerEmulationWillFinishNotification";
 NSString *const OEGameViewControllerEmulationDidFinishNotification = @"OEGameViewControllerEmulationDidFinishNotification";
+NSString *const OETakeNativeScreenshots = @"takeNativeScreenshots";
+
 NSString *const OEGameViewControllerROMKey = @"OEROM";
 
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
@@ -199,7 +201,9 @@ NSString *const OEGameViewControllerROMKey = @"OEROM";
 
 - (void)takeScreenshot:(id)sender
 {
-    NSImage *screenshotImage = [_gameView screenshot];
+    NSImage *screenshotImage;
+    bool takeNativeScreenshots = [[NSUserDefaults standardUserDefaults] boolForKey:OETakeNativeScreenshots];
+    screenshotImage = takeNativeScreenshots ? [_gameView nativeScreenshot] : [_gameView screenshot];
     NSData *TIFFData = [screenshotImage TIFFRepresentation];
     NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
     NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
