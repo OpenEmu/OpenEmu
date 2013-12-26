@@ -307,8 +307,9 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     XADArchive *archive = [XADArchive archiveForFile:path];
     if (archive && [archive numberOfEntries] == 1)
     {
+        // XADMaster identifies some legit Mega Drive as LZMA archives
         NSString *formatName = [archive formatName];
-        if ([formatName isEqualToString:@"MacBinary"])
+        if ([formatName isEqualToString:@"MacBinary"] || [formatName isEqualToString:@"LZMA_Alone"])
             return;
         
         if (![archive entryHasSize:0] || [archive entryIsEncrypted:0] || [archive entryIsDirectory:0] || [archive entryIsArchive:0])

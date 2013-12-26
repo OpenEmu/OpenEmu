@@ -555,8 +555,8 @@
 
         DLog(@"Loaded bundle. About to load rom...");
 
-        // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
-        if(![systemIdentifier isEqualToString:@"openemu.system.arcade"] && ![[aPath pathExtension] isEqualToString:@"md"])
+        // Never extract arcade roms
+        if(![systemIdentifier isEqualToString:@"openemu.system.arcade"])
             aPath = [self decompressedPathForRomAtPath:aPath];
 
         if([_gameCore loadFileAtPath:aPath])
@@ -583,6 +583,11 @@
 
     XADArchive *archive = [XADArchive archiveForFile:aPath];
     if(archive == nil || [archive numberOfEntries] > 1)
+        return aPath;
+    
+    // XADMaster identifies some legit Mega Drive as LZMA archives
+    NSString *formatName = [archive formatName];
+    if ([formatName isEqualToString:@"MacBinary"] || [formatName isEqualToString:@"LZMA_Alone"])
         return aPath;
 
     if(![archive entryHasSize:0] || ![archive uncompressedSizeOfEntry:0] || [archive entryIsEncrypted:0] || [archive entryIsDirectory:0] || [archive entryIsArchive:0])
