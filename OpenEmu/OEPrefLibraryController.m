@@ -113,7 +113,7 @@
 - (IBAction)resetLibraryFolder:(id)sender
 {
     NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:OEDefaultDatabasePathKey];
-    NSURL    *location     = [NSURL fileURLWithPath:databasePath isDirectory:YES];
+    NSURL    *location     = [NSURL fileURLWithPath:[databasePath stringByExpandingTildeInPath] isDirectory:YES];
 
     [self OE_changeROMFolderLocationTo:location];
 }
