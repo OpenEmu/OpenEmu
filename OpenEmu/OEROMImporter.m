@@ -304,6 +304,30 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     IMPORTDLog(@"URL: %@", [item sourceURL]);
     //Short circuit this?
     NSString *path = [[item URL] path];
+    
+    NSMutableSet *validExtensions = [[NSMutableSet alloc] init];
+    
+    // The Archived Game document type lists all supported archive extensions, e.g. zip
+    NSDictionary *bundleInfo      = [[NSBundle mainBundle] infoDictionary];
+    NSArray      *docTypes        = [bundleInfo objectForKey:@"CFBundleDocumentTypes"];
+    for(NSDictionary *docType in docTypes)
+    {
+        if([[docType objectForKey:@"CFBundleTypeName"] isEqualToString:@"Archived Game"])
+        {
+            [validExtensions addObjectsFromArray:[docType objectForKey:@"CFBundleTypeExtensions"]];
+            break;
+        }
+    }
+    
+    NSString *extension = [[path pathExtension] lowercaseString];
+    // Only allow known extensions of archived files to be extracted in order to stop false positives.
+    // XADMaster identifies some Mega Drive as LZMA archives
+    if([extension length] > 0 && ![validExtensions containsObject:extension])
+    {
+        // DLog(@"%@ is not a supported file extension, skipping", extension);
+        return;
+    }
+    
     XADArchive *archive = [XADArchive archiveForFile:path];
     if (archive && [archive numberOfEntries] == 1)
     {
