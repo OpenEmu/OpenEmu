@@ -38,6 +38,7 @@
 	<array>
 		<string>gb</string>
 		<string>gbc</string>
+		<string>sgb</string>
 	</array>
 	<key>OEControlListKey</key>
 	<array>
