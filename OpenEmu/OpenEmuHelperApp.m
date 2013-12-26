@@ -554,15 +554,9 @@
         [_gameCore setSystemIdentifier:systemIdentifier];
 
         DLog(@"Loaded bundle. About to load rom...");
-        
-        // TODO: Instead read the Archived Game CFBundleTypeExtensions from the main app plist
-        NSArray *validExtensions = @[ @"tar.gz", @"tar", @"gz", @"zip", @"7zip", @"rar" ];
-        
-        NSString *extension = [[aPath pathExtension] lowercaseString];
-        
-        // Never extract arcade roms and only allow known extensions of archived files to be extracted in order to stop false positives.
-        // XADMaster identifies some Mega Drive as LZMA archives
-        if(![systemIdentifier isEqualToString:@"openemu.system.arcade"] && [validExtensions containsObject:extension])
+
+        // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
+        if(![systemIdentifier isEqualToString:@"openemu.system.arcade"] && ![[aPath pathExtension] isEqualToString:@"md"])
             aPath = [self decompressedPathForRomAtPath:aPath];
 
         if([_gameCore loadFileAtPath:aPath])
