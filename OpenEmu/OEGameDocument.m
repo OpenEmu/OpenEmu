@@ -560,7 +560,8 @@ typedef enum : NSUInteger
 
               _emulationStatus = OEEmulationStatusSetup;
 
-              [self OE_addDeviceNotificationObservers];
+              // TODO: #567 and #568 need to be fixed first
+              //[self OE_addDeviceNotificationObservers];
 
               _gameSystemResponder = [_gameSystemController newGameSystemResponder];
               [_gameSystemResponder setClient:systemClient];
@@ -831,7 +832,8 @@ typedef enum : NSUInteger
     [self OE_saveStateWithName:OESaveStateAutosaveName completionHandler:
      ^{
          _emulationStatus = OEEmulationStatusTerminating;
-         [self OE_removeDeviceNotificationObservers];
+         // TODO: #567 and #568 need to be fixed first
+         //[self OE_removeDeviceNotificationObservers];
 
          [_gameCoreManager stopEmulationWithCompletionHandler:
           ^{
