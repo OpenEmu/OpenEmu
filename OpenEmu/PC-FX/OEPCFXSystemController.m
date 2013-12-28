@@ -32,48 +32,31 @@
 
 - (OECanHandleState)canHandleFile:(NSString *)path
 {
-    //if (![[path pathExtension] isEqualToString:@".cue"])
-    //{
-    //    return OECanHandleUncertain;
-    //}
-    
-    //BOOL valid = NO;
     OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
     NSString *dataTrack = [cueSheet dataTrackPath];
     
     NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
     NSLog(@"PC-FX data track path: %@", dataTrackPath);
-
-    BOOL valid = [super canHandleFileExtension:[path pathExtension]];
-    if (valid)
+    
+    BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
+    OECanHandleState canHandleFile = OECanHandleNo;
+    
+    if (handleFileExtension)
     {
-        NSFileHandle *dataTrackFile;
-        NSData *dataTrackBuffer;
+        NSError *error = nil;
+        NSData *dataTrackBuffer = [NSData dataWithContentsOfFile:dataTrackPath options:NSDataReadingMappedIfSafe | NSDataReadingUncached error:&error];
         
-        dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
-        //[dataTrackFile seekToEndOfFile];
-        //NSUInteger endOfDataTrackFile = [dataTrackFile offsetInFile];
-
-        valid = NO;
+        NSString* dataTrackString = @"PC-FX:Hu_CD-ROM ";
+        NSData* dataSearch = [dataTrackString dataUsingEncoding:NSUTF8StringEncoding];
+        // this still slows import down but we need to scan the disc as there's no common offset
+        NSRange indexOfData = [dataTrackBuffer rangeOfData: dataSearch options:0 range:NSMakeRange(0, [dataTrackBuffer length])];
         
-        // Need a better, faster way to do this as it will slow import of other CD systems
-        for (NSUInteger i=0x0; i < 16337024; i+=0x10) // this is a bad guess at the range
-        {
-            [dataTrackFile seekToFileOffset: i];
-            dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-            NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-            if ([dataTrackString isEqualToString:@"PC-FX:Hu_CD-ROM "])
-            {
-                NSLog (@"'%@' at offset = 0x%lX", dataTrackString, i);
-                valid = YES;
-                break;
-            }
+        if (indexOfData.length > 0) {
+            NSLog (@"'%@' at offset = 0x%lX", dataTrackString, indexOfData.location);
+            canHandleFile = OECanHandleYes;
         }
-
-        [dataTrackFile closeFile];
     }
-    //return valid;
-    return valid?OECanHandleYes:OECanHandleNo;
+    return canHandleFile;
 }
 
 @end
