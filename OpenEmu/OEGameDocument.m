@@ -913,7 +913,7 @@ typedef enum : NSUInteger
 
     [alert setInputLabelText:NSLocalizedString(@"Code:", @"")];
     [alert setShowsInputField:YES];
-    [alert setStringValue:@"000-000+000-000;01HHHHHH"];
+    [alert setStringValue:@"Join multi-line cheats with '+' e.g. 000-000+111-111"];
 
     [alert setDefaultButtonTitle:NSLocalizedString(@"Add Cheat", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
