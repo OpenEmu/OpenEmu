@@ -105,12 +105,15 @@
         }
     }
 
-    NSString *extension = [[url pathExtension] lowercaseString];
-    
-    if([extension length] > 0 && ![validExtensions containsObject:extension])
+    if (!CFURLHasDirectoryPath((__bridge CFURLRef)url))
     {
-        // DLog(@"%@ is not a supported file extension, skipping", extension);
-        return nil;
+        NSString *extension = [[url pathExtension] lowercaseString];
+    
+        if([extension length] > 0 && ![validExtensions containsObject:extension])
+        {
+            // DLog(@"%@ is not a supported file extension, skipping", extension);
+            return nil;
+        }
     }
 
     item = [[OEImportItem alloc] init];
