@@ -160,10 +160,14 @@ static const unsigned short konamiCodeSize = 10;
 - (void)windowWillClose:(NSNotification *)notification
 {
     [[self selectedPreferencePane] viewWillDisappear];
+    [[self selectedPreferencePane] viewDidDisappear];
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
+    [[self selectedPreferencePane] viewWillAppear];
+    [[self selectedPreferencePane] viewDidAppear];
+
     _konamiCodeIndex = 0;
     _konamiCodeMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:^NSEvent *(NSEvent *e) {
         if([e keyCode] == konamiCode[_konamiCodeIndex])

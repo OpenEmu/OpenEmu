@@ -366,6 +366,12 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     [self setCurrentContentController:nil];
 }
 
+- (void)windowDidBecomeKey:(NSNotification *)notification
+{
+    [[self currentContentController] viewWillAppear];
+    [[self currentContentController] viewDidAppear];
+}
+
 - (void)windowDidBecomeMain:(NSNotification *)notification
 {
     NSMenu *mainMenu = [NSApp mainMenu];
