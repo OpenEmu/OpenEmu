@@ -49,6 +49,7 @@
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBCollection.h"
+#import "OEDBSmartCollection.h"
 #import "OEDBSaveState.h"
 
 #import "OECenteredTextFieldCell.h"
@@ -959,7 +960,9 @@ static NSArray *OE_defaultSortDescriptors;
 {
     NSArray *selectedGames = [self selectedGames];
     BOOL multipleGames = ([selectedGames count]>1);
-    if([[self representedObject] isKindOfClass:[OEDBCollection class]])
+    if([[self representedObject] isKindOfClass:[OEDBSmartCollection class]])
+        return;
+    else if([[self representedObject] isMemberOfClass:[OEDBCollection class]])
     {
         if([[OEHUDAlert removeGamesFromCollectionAlert] runModal])
         {
