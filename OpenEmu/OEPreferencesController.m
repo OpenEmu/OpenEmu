@@ -71,7 +71,7 @@ NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
 @end
 
 @implementation OEPreferencesController
-static const unsigned short konamiCode[] = {0x7e,0x7e,0x7d,0x7d,0x7b,0x7c,0x7b,0x7c,0x0b,0x00};
+static const unichar konamiCode[] = { NSUpArrowFunctionKey, NSUpArrowFunctionKey, NSDownArrowFunctionKey, NSDownArrowFunctionKey, NSLeftArrowFunctionKey, NSRightArrowFunctionKey, NSLeftArrowFunctionKey, NSRightArrowFunctionKey, 'a', 'b' };
 static const unsigned short konamiCodeSize = 10;
 
 @synthesize preferencePanes;
@@ -173,23 +173,23 @@ static const unsigned short konamiCodeSize = 10;
     [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:
      ^ NSEvent * (NSEvent *e)
      {
-        if([e keyCode] == konamiCode[_konamiCodeIndex])
-        {
-            _konamiCodeIndex++;
-            if(_konamiCodeIndex == konamiCodeSize)
-            {
-                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                [defaults setBool:![defaults boolForKey:OEDebugModeKey] forKey:OEDebugModeKey];
-                [[NSSound soundNamed:@"secret"] play];
-                [self OE_rebuildToolbar];
-                _konamiCodeIndex = 0;
-                return nil;
-            }
-        }
-        else
-            _konamiCodeIndex = 0;
+         if([[e characters] characterAtIndex:0] == konamiCode[_konamiCodeIndex])
+         {
+             _konamiCodeIndex++;
+             if(_konamiCodeIndex == konamiCodeSize)
+             {
+                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                 [defaults setBool:![defaults boolForKey:OEDebugModeKey] forKey:OEDebugModeKey];
+                 [[NSSound soundNamed:@"secret"] play];
+                 [self OE_rebuildToolbar];
+                 _konamiCodeIndex = 0;
+             }
 
-        return _konamiCodeIndex ? nil : e;
+             return nil;
+         }
+
+         _konamiCodeIndex = 0;
+         return e;
     }];
 }
 
