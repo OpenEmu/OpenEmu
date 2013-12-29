@@ -169,10 +169,13 @@ static const unsigned short konamiCodeSize = 10;
     [[self selectedPreferencePane] viewDidAppear];
 
     _konamiCodeIndex = 0;
-    _konamiCodeMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:^NSEvent *(NSEvent *e) {
+    _konamiCodeMonitor =
+    [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:
+     ^ NSEvent * (NSEvent *e)
+     {
         if([e keyCode] == konamiCode[_konamiCodeIndex])
         {
-            _konamiCodeIndex ++;
+            _konamiCodeIndex++;
             if(_konamiCodeIndex == konamiCodeSize)
             {
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -182,7 +185,10 @@ static const unsigned short konamiCodeSize = 10;
                 _konamiCodeIndex = 0;
                 return nil;
             }
-        } else _konamiCodeIndex = 0;
+        }
+        else
+            _konamiCodeIndex = 0;
+
         return _konamiCodeIndex ? nil : e;
     }];
 }
