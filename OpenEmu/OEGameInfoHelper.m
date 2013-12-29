@@ -356,7 +356,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
         BOOL success = YES;
         @try {
-            success = [archive _extractEntry:0 as:tmpPath deferDirectories:NO dataFork:NO resourceFork:NO];
+            success = [archive _extractEntry:0 as:tmpPath deferDirectories:NO dataFork:YES resourceFork:NO];
         }
         @catch (NSException *exception) {
             success = NO;
