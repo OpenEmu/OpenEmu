@@ -206,6 +206,11 @@ typedef enum
     return maxScale;
 }
 
+- (unsigned int)currentIntegralScale
+{
+    return [[self window] isFullScreen] ? _OEFitToWindowScale : _integralScale;
+}
+
 - (BOOL)shouldAllowIntegralScaling
 {
     return ![[self window] isFullScreen];
@@ -397,6 +402,7 @@ typedef enum
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
 {
+    _integralScale = _OEFitToWindowScale;
     const NSSize windowSize  = [OEHUDWindow frameRectForMainContentRect:(NSRect){.size = frameSize}].size;
 
     return windowSize;
@@ -637,11 +643,6 @@ typedef enum
 
     [[gameViewController controlsWindow] setCanShow:YES];
     [NSCursor unhide];
-}
-
-- (void)windowWillStartLiveResize:(NSNotification *)notification
-{
-    [self OE_changeGameViewIntegralScale:_OEFitToWindowScale];
 }
 
 @end

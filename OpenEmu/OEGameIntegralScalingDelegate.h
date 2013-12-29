@@ -32,4 +32,5 @@
 
 @optional
 - (unsigned int)maximumIntegralScale;
+- (unsigned int)currentIntegralScale;
 @end

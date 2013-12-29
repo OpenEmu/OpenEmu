@@ -350,11 +350,14 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     if(hasSubmenu)
     {
         unsigned int maxScale = [integralScalingDelegate maximumIntegralScale];
+        unsigned int currentScale = [integralScalingDelegate currentIntegralScale];
+
         for(unsigned int scale = 1; scale <= maxScale; scale++)
         {
             NSString *scaleTitle  = [NSString stringWithFormat:NSLocalizedString(@"%ux", @"Integral scale menu item title"), scale];
             NSMenuItem *scaleItem = [[NSMenuItem alloc] initWithTitle:scaleTitle action:@selector(changeIntegralScale:) keyEquivalent:@""];
             [scaleItem setRepresentedObject:@(scale)];
+            [scaleItem setState:(scale == currentScale ? NSOnState : NSOffState)];
             [scaleMenu addItem:scaleItem];
         }
     }
