@@ -13,6 +13,7 @@
 	CSInputBuffer *input;
 }
 
+// Initializers
 -(id)initWithName:(NSString *)descname;
 -(id)initWithName:(NSString *)descname length:(off_t)length;
 -(id)initWithHandle:(CSHandle *)handle;
@@ -22,6 +23,7 @@
 -(id)initAsCopyOf:(CSStreamHandle *)other;
 -(void)dealloc;
 
+// Implemented by this class
 -(off_t)fileSize;
 -(off_t)offsetInFile;
 -(BOOL)atEndOfFile;
@@ -29,9 +31,14 @@
 -(void)seekToEndOfFile;
 -(int)readAtMost:(int)num toBuffer:(void *)buffer;
 
+// Implemented by subclasses
 -(void)resetStream;
 -(int)streamAtMost:(int)num toBuffer:(void *)buffer;
 
+// Called by subclasses
 -(void)endStream;
+-(BOOL)_prepareStreamSeekTo:(off_t)offs;
+-(void)setStreamLength:(off_t)length;
+-(void)setInputBuffer:(CSInputBuffer *)inputbuffer;
 
 @end

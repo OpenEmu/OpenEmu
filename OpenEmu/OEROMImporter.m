@@ -335,7 +335,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         
         BOOL success = YES;
         @try {
-            success = [archive _extractEntry:0 as:tmpPath];
+            success = [archive _extractEntry:0 as:tmpPath deferDirectories:NO dataFork:NO resourceFork:NO];
         }
         @catch (NSException *exception) {
             success = NO;

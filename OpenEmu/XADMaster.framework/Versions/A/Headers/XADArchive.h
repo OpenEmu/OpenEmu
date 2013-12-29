@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "XADArchiveParser.h"
+#import "XADUnarchiver.h"
 #import "XADException.h"
 
 typedef int XADAction;
@@ -22,16 +23,18 @@ extern NSString *XADFinderFlags;
 @interface XADArchive:NSObject
 {
 	XADArchiveParser *parser;
+	XADUnarchiver *unarchiver;
 
 	id delegate;
 	NSTimeInterval update_interval;
 	XADError lasterror;
 
 	NSMutableArray *dataentries,*resourceentries;
-	NSMutableArray *deferredentries;
 	NSMutableDictionary *namedict;
 
 	off_t extractsize,totalsize;
+	int extractingentry;
+	BOOL extractingresource;
 	NSString *immediatedestination;
 	BOOL immediatesubarchives,immediatefailed;
 	off_t immediatesize;
@@ -40,8 +43,6 @@ extern NSString *XADFinderFlags;
 
 +(XADArchive *)archiveForFile:(NSString *)filename;
 +(XADArchive *)recursiveArchiveForFile:(NSString *)filename;
-
-+(NSArray *)volumesForFile:(NSString *)filename;
 
 
 
@@ -116,27 +117,26 @@ extern NSString *XADFinderFlags;
 -(NSData *)contentsOfEntry:(int)n;
 //-(NSData *)resourceContentsOfEntry:(int)n;
 
--(XADError)_parseException:(id)exception;
-
 -(BOOL)extractTo:(NSString *)destination;
 -(BOOL)extractTo:(NSString *)destination subArchives:(BOOL)sub;
 -(BOOL)extractEntries:(NSIndexSet *)entryset to:(NSString *)destination;
 -(BOOL)extractEntries:(NSIndexSet *)entryset to:(NSString *)destination subArchives:(BOOL)sub;
 -(BOOL)extractEntry:(int)n to:(NSString *)destination;
 -(BOOL)extractEntry:(int)n to:(NSString *)destination deferDirectories:(BOOL)defer;
--(BOOL)extractEntry:(int)n to:(NSString *)destination deferDirectories:(BOOL)defer resourceFork:(BOOL)resfork;
+-(BOOL)extractEntry:(int)n to:(NSString *)destination deferDirectories:(BOOL)defer
+resourceFork:(BOOL)resfork;
+-(BOOL)extractEntry:(int)n to:(NSString *)destination deferDirectories:(BOOL)defer
+dataFork:(BOOL)datafork resourceFork:(BOOL)resfork;
 -(BOOL)extractArchiveEntry:(int)n to:(NSString *)destination;
 
--(BOOL)_extractEntry:(int)n as:(NSString *)destfile;
--(BOOL)_extractFileEntry:(int)n as:(NSString *)destfile;
--(BOOL)_extractDirectoryEntry:(int)n as:(NSString *)destfile;
--(BOOL)_extractLinkEntry:(int)n as:(NSString *)destfile;
--(BOOL)_ensureDirectoryExists:(NSString *)directory;
--(BOOL)_changeAllAttributesForEntry:(int)n atPath:(NSString *)path deferDirectories:(BOOL)defer resourceFork:(BOOL)resfork;
+-(BOOL)_extractEntry:(int)n as:(NSString *)destfile deferDirectories:(BOOL)defer
+dataFork:(BOOL)datafork resourceFork:(BOOL)resfork;
 
 -(void)updateAttributesForDeferredDirectories;
 
 // Deprecated
+
++(NSArray *)volumesForFile:(NSString *)filename;
 
 -(int)sizeOfEntry:(int)n;
 -(void *)xadFileInfoForEntry:(int)n;

@@ -1,5 +1,10 @@
 #import <Foundation/Foundation.h>
+
+#ifdef _WIN32
+#import "regex.h"
+#else
 #import <regex.h>
+#endif
 
 @interface XADRegex:NSObject
 {
@@ -12,6 +17,9 @@
 
 +(XADRegex *)regexWithPattern:(NSString *)pattern options:(int)options;
 +(XADRegex *)regexWithPattern:(NSString *)pattern;
+
++(NSString *)patternForLiteralString:(NSString *)string;
++(NSString *)patternForGlob:(NSString *)glob;
 
 +(NSString *)null;
 
