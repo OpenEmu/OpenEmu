@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">13A603</string>
+		<int key="IBDocument.SystemTarget">1070</int>
+		<string key="IBDocument.SystemVersion">13B42</string>
 		<string key="IBDocument.InterfaceBuilderVersion">4514</string>
 		<string key="IBDocument.AppKitVersion">1265</string>
-		<string key="IBDocument.HIToolboxVersion">695.00</string>
+		<string key="IBDocument.HIToolboxVersion">696.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">4514</string>
@@ -390,10 +390,10 @@
 										<string key="NSFrameSize">{342, 108}</string>
 										<reference key="NSSuperview" ref="461844596"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="1004833419"/>
+										<reference key="NSNextKeyView" ref="669572557"/>
 									</object>
 								</array>
-								<string key="NSFrameSize">{366, 106}</string>
+								<string key="NSFrameSize">{351, 106}</string>
 								<reference key="NSSuperview" ref="187468863"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="329142402"/>
@@ -416,10 +416,9 @@
 							<object class="NSScroller" id="1004833419">
 								<reference key="NSNextResponder" ref="187468863"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{350, 0}, {16, 106}}</string>
+								<string key="NSFrame">{{351, 0}, {15, 106}}</string>
 								<reference key="NSSuperview" ref="187468863"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="NSEnabled">YES</bool>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="187468863"/>
@@ -431,7 +430,7 @@
 						<string key="NSFrame">{{47, 33}, {366, 106}}</string>
 						<reference key="NSSuperview" ref="832558422"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="669572557"/>
+						<reference key="NSNextKeyView" ref="461844596"/>
 						<int key="NSsFlags">149584</int>
 						<reference key="NSVScroller" ref="1004833419"/>
 						<reference key="NSHScroller" ref="669572557"/>
@@ -1222,10 +1221,6 @@
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<bool key="IBDocument.previouslyAttemptedUpgradeToXcode5">YES</bool>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="1060" key="NS.object.0"/>
-		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1070" key="NS.object.0"/>
