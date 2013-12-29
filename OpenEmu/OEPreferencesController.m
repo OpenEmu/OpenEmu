@@ -71,7 +71,7 @@ NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
 @end
 
 @implementation OEPreferencesController
-static const unichar konamiCode[] = { NSUpArrowFunctionKey, NSUpArrowFunctionKey, NSDownArrowFunctionKey, NSDownArrowFunctionKey, NSLeftArrowFunctionKey, NSRightArrowFunctionKey, NSLeftArrowFunctionKey, NSRightArrowFunctionKey, 'a', 'b' };
+static const unichar konamiCode[] = { NSUpArrowFunctionKey, NSUpArrowFunctionKey, NSDownArrowFunctionKey, NSDownArrowFunctionKey, NSLeftArrowFunctionKey, NSRightArrowFunctionKey, NSLeftArrowFunctionKey, NSRightArrowFunctionKey, 'b', 'a' };
 static const unsigned short konamiCodeSize = 10;
 
 @synthesize preferencePanes;
