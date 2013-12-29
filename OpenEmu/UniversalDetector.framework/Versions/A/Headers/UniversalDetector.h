@@ -5,9 +5,11 @@
 	void *detector;
 	NSString *charset;
 	float confidence;
+	const char *lastcstring;
 }
 
 +(UniversalDetector *)detector;
++(NSArray *)possibleMIMECharsets;
 
 -(id)init;
 -(void)dealloc;
@@ -20,6 +22,8 @@
 -(NSString *)MIMECharset;
 -(float)confidence;
 
+#ifdef __APPLE__
 -(NSStringEncoding)encoding;
+#endif
 
 @end
