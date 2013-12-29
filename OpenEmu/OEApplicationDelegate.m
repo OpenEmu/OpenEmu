@@ -69,6 +69,8 @@
 #import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
 #import <objc/message.h>
 
+#import "OEDBSaveState.h"
+
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -181,6 +183,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
     // Setup HID Support
     [self OE_setupHIDSupport];
+
+    // Replace quick save / quick load items with menus if required
+    [self OE_updateControlsMenu];
 
     // Preload Composition plugins so HUDControls Bar and Gameplay Preferneces load faster
     [OECompositionPlugin allPluginNames];
@@ -765,6 +770,84 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     return YES;
 }
 
+- (void)OE_updateControlsMenu
+{
+    const NSUInteger SaveStateSlotCount = 10;
+
+    const NSUInteger LoadItemTag = 2;
+    const NSUInteger SaveItemTag = 1;
+
+    NSMenu *mainMenu = [NSApp mainMenu];
+    NSMenuItem *controlsItem = [mainMenu itemAtIndex:4];
+    NSMenu *controlsMenu = [controlsItem submenu];
+
+    NSMenuItem *currentLoadItem = [controlsMenu itemWithTag:LoadItemTag];
+    NSMenuItem *currentSaveItem = [controlsMenu itemWithTag:SaveItemTag];
+
+    BOOL useSlots = [[NSUserDefaults standardUserDefaults] boolForKey:OESaveStateUseQuickSaveSlotsKey];
+
+    NSMenuItem *newLoadItem, *newSaveItem;
+    if(useSlots)
+    {
+        newLoadItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quick Load", @"Quick Load Menu Item") action:NULL keyEquivalent:@""];
+        newSaveItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quick Save", @"Quick Save Menu Item") action:NULL keyEquivalent:@""];
+
+        NSMenu *loadMenu = [[NSMenu alloc] init];
+        NSMenu *saveMenu = [[NSMenu alloc] init];
+
+        for(NSUInteger i=1; i < SaveStateSlotCount; i++)
+        {
+            NSString *loadTitle = [NSString stringWithFormat:NSLocalizedString(@"Slot %ld", @"Slotted Quick Load Menu Item"), i];
+            NSString *saveTitle = [NSString stringWithFormat:NSLocalizedString(@"Slot %ld", @"Slotted Quick Save Menu Item"), i];
+
+            NSMenuItem *loadItem = [[NSMenuItem alloc] initWithTitle:loadTitle action:@selector(quickLoad:) keyEquivalent:@""];
+            NSMenuItem *saveItem = [[NSMenuItem alloc] initWithTitle:saveTitle action:@selector(quickSave:) keyEquivalent:@""];
+
+            NSString *keyEquivalent = [NSString stringWithFormat:@"%ld", i];
+            [loadItem setKeyEquivalent:keyEquivalent];
+            [loadItem setKeyEquivalentModifierMask:NSShiftKeyMask|NSCommandKeyMask];
+            [saveItem setKeyEquivalent:keyEquivalent];
+            [saveItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+
+            [loadItem setRepresentedObject:keyEquivalent];
+            [saveItem setRepresentedObject:keyEquivalent];
+
+            [loadMenu addItem:loadItem];
+            [saveMenu addItem:saveItem];
+        }
+
+        [newLoadItem setSubmenu:loadMenu];
+        [newSaveItem setSubmenu:saveMenu];
+    }
+    else
+    {
+        newLoadItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quick Load", @"Quick Load Menu Item") action:@selector(quickLoad:) keyEquivalent:@"l"];
+        [newLoadItem setRepresentedObject:@"0"];
+        newSaveItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quick Save", @"Quick Save Menu Item") action:@selector(quickSave:) keyEquivalent:@"s"];
+        [newSaveItem setRepresentedObject:@"0"];
+    }
+
+    [newLoadItem setTag:LoadItemTag];
+    [newSaveItem setTag:SaveItemTag];
+
+    NSUInteger index;
+    NSMutableArray *items = [[controlsMenu itemArray] mutableCopy];
+    [controlsMenu removeAllItems];
+
+    index = [items indexOfObjectIdenticalTo:currentLoadItem];
+    [items replaceObjectAtIndex:index withObject:newLoadItem];
+
+    index = [items indexOfObjectIdenticalTo:currentSaveItem];
+    [items replaceObjectAtIndex:[items indexOfObjectIdenticalTo:currentSaveItem] withObject:newSaveItem];
+
+    [items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [controlsMenu addItem:obj];
+    }];
+
+    [controlsMenu setAutoenablesItems:YES];
+    [controlsMenu update];
+
+}
 #pragma mark - KVO
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
