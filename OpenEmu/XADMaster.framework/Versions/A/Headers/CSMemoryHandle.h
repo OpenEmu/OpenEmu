@@ -13,10 +13,16 @@
 +(CSMemoryHandle *)memoryHandleForReadingMappedFile:(NSString *)filename;
 +(CSMemoryHandle *)memoryHandleForWriting;
 
+// Initializers
 -(id)initWithData:(NSData *)dataobj;
 -(id)initAsCopyOf:(CSMemoryHandle *)other;
 -(void)dealloc;
 
+// Public methods
+-(NSData *)data;
+-(NSMutableData *)mutableData;
+
+// Implemented by this class
 -(off_t)fileSize;
 -(off_t)offsetInFile;
 -(BOOL)atEndOfFile;
@@ -33,8 +39,5 @@
 -(NSData *)readDataOfLengthAtMost:(int)length;
 -(NSData *)copyDataOfLength:(int)length;
 -(NSData *)copyDataOfLengthAtMost:(int)length;
-
--(NSData *)data;
--(NSMutableData *)mutableData;
 
 @end

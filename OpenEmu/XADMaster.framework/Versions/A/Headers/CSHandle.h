@@ -7,6 +7,16 @@
 #define CSHandle XADHandle
 
 
+// Kludge 64-bit support for Mingw. TODO: Should this be used on Linux too?
+#if defined(__MINGW32__) && !defined(__CYGWIN__)
+#include <unistd.h>
+#include <fcntl.h>
+#define off_t off64_t
+#define fseeko fseeko64
+#define lseek lseek64
+#define ftello ftello64
+#endif
+
 
 extern NSString *CSOutOfMemoryException;
 extern NSString *CSEndOfFileException;
@@ -26,6 +36,7 @@ extern NSString *CSNotSupportedException;
 -(id)initWithName:(NSString *)descname;
 -(id)initAsCopyOf:(CSHandle *)other;
 -(void)dealloc;
+-(void)close;
 
 
 // Methods implemented by subclasses
@@ -62,6 +73,13 @@ extern NSString *CSNotSupportedException;
 -(uint32_t)readUInt32LE;
 -(uint64_t)readUInt64LE;
 
+-(int16_t)readInt16InBigEndianOrder:(BOOL)isbigendian;
+-(int32_t)readInt32InBigEndianOrder:(BOOL)isbigendian;
+-(int64_t)readInt64InBigEndianOrder:(BOOL)isbigendian;
+-(uint16_t)readUInt16InBigEndianOrder:(BOOL)isbigendian;
+-(uint32_t)readUInt32InBigEndianOrder:(BOOL)isbigendian;
+-(uint64_t)readUInt64InBigEndianOrder:(BOOL)isbigendian;
+
 -(uint32_t)readID;
 
 -(uint32_t)readBits:(int)bits;
@@ -87,8 +105,10 @@ extern NSString *CSNotSupportedException;
 
 -(CSHandle *)subHandleOfLength:(off_t)length;
 -(CSHandle *)subHandleFrom:(off_t)start length:(off_t)length;
+-(CSHandle *)subHandleToEndOfFileFrom:(off_t)start;
 -(CSHandle *)nonCopiedSubHandleOfLength:(off_t)length;
 -(CSHandle *)nonCopiedSubHandleFrom:(off_t)start length:(off_t)length;
+-(CSHandle *)nonCopiedSubHandleToEndOfFileFrom:(off_t)start;
 
 -(void)writeInt8:(int8_t)val;
 -(void)writeUInt8:(uint8_t)val;

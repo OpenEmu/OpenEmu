@@ -5,11 +5,11 @@ typedef int XADError;
 #define XADNoError               0x0000 /* no error */
 #define XADUnknownError          0x0001 /* unknown error */
 #define XADInputError            0x0002 /* input data buffers border exceeded */
-#define XADOutputError           0x0003 /* output data buffers border exceeded */
+#define XADOutputError           0x0003 /* failed to write to file */
 #define XADBadParametersError    0x0004 /* function called with illegal parameters */
 #define XADOutOfMemoryError      0x0005 /* not enough memory available */
 #define XADIllegalDataError      0x0006 /* data is corrupted */
-#define XADNotSupportedError     0x0007 /* command is not supported */
+#define XADNotSupportedError     0x0007 /* file not fully supported */
 #define XADResourceError         0x0008 /* required resource missing */
 #define XADDecrunchError         0x0009 /* error on decrunching */
 #define XADFiletypeError         0x000A /* unknown file type */
@@ -28,25 +28,41 @@ typedef int XADError;
 #define XADFileDirectoryError    0x0017 /* name of file exists as directory */
 #define XADShortBufferError      0x0018 /* buffer was too short */
 #define XADEncodingError         0x0019 /* text encoding was defective */
+#define XADLinkError             0x001a /* could not create link */
+
+#define XADSubArchiveError 0x10000
+
+#ifndef CLANG_ANALYZER_NORETURN
+	#ifdef __clang__
+		#if __has_feature(attribute_analyzer_noreturn)
+			#define CLANG_ANALYZER_NORETURN __attribute__((analyzer_noreturn))
+		#else
+			#define CLANG_ANALYZER_NORETURN
+		#endif
+	#else
+		#define CLANG_ANALYZER_NORETURN
+	#endif
+#endif
 
 extern NSString *XADExceptionName;
 
 @interface XADException:NSObject
 {
-	XADError error;
 }
 
-+(void)raiseUnknownException;
-+(void)raiseIllegalDataException;
-+(void)raiseNotSupportedException;
-+(void)raiseDecrunchException;
-+(void)raisePasswordException;
-+(void)raiseChecksumException;
-+(void)raiseDataFormatException;
-+(void)raiseExceptionWithXADError:(XADError)errnum;
++(void)raiseUnknownException CLANG_ANALYZER_NORETURN;
++(void)raiseInputException CLANG_ANALYZER_NORETURN;
++(void)raiseOutputException CLANG_ANALYZER_NORETURN;
++(void)raiseIllegalDataException CLANG_ANALYZER_NORETURN;
++(void)raiseNotSupportedException CLANG_ANALYZER_NORETURN;
++(void)raiseDecrunchException CLANG_ANALYZER_NORETURN;
++(void)raisePasswordException CLANG_ANALYZER_NORETURN;
++(void)raiseChecksumException CLANG_ANALYZER_NORETURN;
++(void)raiseDataFormatException CLANG_ANALYZER_NORETURN;
++(void)raiseOutOfMemoryException CLANG_ANALYZER_NORETURN;
++(void)raiseExceptionWithXADError:(XADError)errnum CLANG_ANALYZER_NORETURN;
 
++(XADError)parseException:(id)exception;
 +(NSString *)describeXADError:(XADError)errnum;
-
--(XADError)error;
 
 @end
