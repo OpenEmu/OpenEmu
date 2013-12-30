@@ -164,7 +164,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
     [_managedObjectContext setMergePolicy:policy];
-
+    [_managedObjectContext setRetainsRegisteredObjects:YES];
     if(_managedObjectContext == nil) return NO;
 
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
@@ -418,7 +418,7 @@ static OELibraryDatabase *defaultDatabase = nil;
             return;
         }
 
-        if(![context save:nil])
+        if(![context save:error])
         {
             if(error != NULL)
             {
