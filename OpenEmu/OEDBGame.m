@@ -386,45 +386,29 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 {
     @autoreleasepool 
     {
-        OEDBImage *boxImage = [self boxImage];
-        if(boxImage != nil)
-        {
-            NSManagedObjectContext *context = [boxImage managedObjectContext];
-            [context performBlockAndWait:^{
-                [context deleteObject:boxImage];
-            }];
+        NSMutableArray *codePath = [NSMutableArray array];
+        OEDBImage *boxImage = nil;
+        if(img != nil){
+            boxImage = [OEDBImage imageWithImage:img inLibrary:[self libraryDatabase]];
+            NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+            NSArray *sizes = [standardDefaults objectForKey:OEBoxSizesKey];
+            // For each thumbnail size specified in defaults...
+            for(NSString *aSizeString in sizes)
+            {
+                NSSize size = NSSizeFromString(aSizeString);
+                // ...generate thumbnail
+                [codePath addObject:[NSString stringWithFormat:@"generateThumbnailForSize: %@", NSStringFromSize(size)]];
+                [boxImage generateThumbnailForSize:size];
+            }
         }
-
-        if(img == nil) return;
-
-        boxImage = [OEDBImage imageWithImage:img inLibrary:[self libraryDatabase]];
-        
-        NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-        NSArray *sizes = [standardDefaults objectForKey:OEBoxSizesKey];
-        // For each thumbnail size specified in defaults...
-        for(NSString *aSizeString in sizes)
-        {
-            NSSize size = NSSizeFromString(aSizeString);
-            // ...generate thumbnail
-            [boxImage generateThumbnailForSize:size];
-        }
-        
+        [codePath addObject:[NSString stringWithFormat:@"set boxImage: %@", boxImage]];
         [self setBoxImage:boxImage];
     }
 }
 
 - (void)setBoxImageByURL:(NSURL *)url
 {
-    OEDBImage *boxImage = [self boxImage];
-    if(boxImage != nil)
-    {
-        NSManagedObjectContext *context = [boxImage managedObjectContext];
-        [context performBlockAndWait:^{
-            [context deleteObject:boxImage];
-        }];
-    }
-
-    boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
+    OEDBImage *boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSArray *sizes = [standardDefaults objectForKey:OEBoxSizesKey];
@@ -438,8 +422,8 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     
     [self setBoxImage:boxImage];
 }
-#pragma mark - NSPasteboardWriting
 
+#pragma mark - NSPasteboardWriting
 // TODO: fix pasteboard writing
 - (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard
 {
