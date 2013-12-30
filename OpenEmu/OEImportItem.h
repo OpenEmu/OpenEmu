@@ -63,5 +63,6 @@ typedef void (^OEImportItemCompletionBlock)(void);
 @property       NSError  *error;
 @property(copy) OEImportItemCompletionBlock completionHandler;
 
-+ (id)itemWithURL:(NSURL*)url andCompletionHandler:(OEImportItemCompletionBlock)handler;
++ (OEImportItem *)itemWithURL:(NSURL*)url completionHandler:(OEImportItemCompletionBlock)handler;
+
 @end

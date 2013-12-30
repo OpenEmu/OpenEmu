@@ -32,60 +32,63 @@
 
 @implementation OEImportItem
 
-+ (id)itemWithURL:(NSURL *)url andCompletionHandler:(OEImportItemCompletionBlock)handler
++ (OEImportItem *)itemWithURL:(NSURL *)url completionHandler:(OEImportItemCompletionBlock)handler
 {
-    id item = nil;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *path = [url path];
+
+    BOOL isDirectory = NO;
+    if(![fileManager fileExistsAtPath:path isDirectory:&isDirectory])
+        return nil;
 
     // Ignore hidden or package files
     NSDictionary *resourceValues = [url resourceValuesForKeys:@[ NSURLIsPackageKey, NSURLIsHiddenKey ] error:nil];
     if([[resourceValues objectForKey:NSURLIsHiddenKey] boolValue] || [[resourceValues objectForKey:NSURLIsPackageKey] boolValue])
     {
-        // DLog(@"%@ is a hidden file or a package directory, skipping", [url path]);
+        // DLog(@"%@ is a hidden file or a package directory, skipping", path);
         return nil;
     }
 
+    NSString *pathExtension = [[url pathExtension] lowercaseString];
+
     // Copy .cg to Filters folder
-    if([[[url pathExtension] lowercaseString] isEqualToString:@"cg"])
+    if([pathExtension isEqualToString:@"cg"])
     {
-        NSString *path   = [url path];
         NSString *cgFilename = [path lastPathComponent];
         NSString *filtersPath = [NSString pathWithComponents:@[
                                     [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
                                     @"OpenEmu", @"Filters"]];
         NSString *destFilePath = [filtersPath stringByAppendingPathComponent:cgFilename];
 
-        [[NSFileManager defaultManager] createDirectoryAtPath:filtersPath withIntermediateDirectories:YES attributes:nil error:nil];
-        [[NSFileManager defaultManager] copyItemAtPath:path toPath:destFilePath error:nil];
+        [fileManager createDirectoryAtPath:filtersPath withIntermediateDirectories:YES attributes:nil error:nil];
+        [fileManager copyItemAtPath:path toPath:destFilePath error:nil];
         
         return nil;
     }
     
     // Ignore text files that are .md
-    if([[[url pathExtension] lowercaseString] isEqualToString:@"md"] &&
-       [[[GEMagicKit magicForFileAtURL:url] uniformTypeHierarchy] containsObject:(id)kUTTypeText])
+    if([pathExtension isEqualToString:@"md"] && [[[GEMagicKit magicForFileAtURL:url] uniformTypeHierarchy] containsObject:(id)kUTTypeText])
     {
-        // DLog(@"%@ is a text file, skipping", [url path]);
+        // DLog(@"%@ is a text file, skipping", path);
         return nil;
     }
 
     // Copy known BIOS / System Files to BIOS folder
-    NSArray *validFiles = [OESystemPlugin requiredFiles];
-    
-    for(NSDictionary *validFile in validFiles)
+    for(NSDictionary *validFile in [OESystemPlugin requiredFiles])
     {
-        NSString *path   = [url path];
-        NSString *biosFilename = [path lastPathComponent];
-        NSString *biosPath = [NSString pathWithComponents:@[
-                                 [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
-                                 @"OpenEmu", @"BIOS"]];
-        NSString *destFilePath = [biosPath stringByAppendingPathComponent:biosFilename];
-        
         NSString *biosSystemFileName = [validFile objectForKey:@"Name"];
-        
-        if([biosSystemFileName caseInsensitiveCompare:biosFilename] == NSOrderedSame)
+        NSString *biosFilename = [path lastPathComponent];
+
+        if([biosFilename caseInsensitiveCompare:biosSystemFileName] == NSOrderedSame)
         {
-            [[NSFileManager defaultManager] createDirectoryAtPath:biosPath withIntermediateDirectories:YES attributes:nil error:nil];
-            [[NSFileManager defaultManager] copyItemAtPath:path toPath:destFilePath error:nil];
+            NSString *biosPath = [NSString pathWithComponents:@[
+                [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
+                @"OpenEmu", @"BIOS" ]];
+            [fileManager createDirectoryAtPath:biosPath withIntermediateDirectories:YES attributes:nil error:nil];
+
+            NSString *destFilePath = [biosPath stringByAppendingPathComponent:biosFilename];
+            [fileManager copyItemAtPath:path toPath:destFilePath error:nil];
+
             return nil;
         }
     }
@@ -105,18 +108,16 @@
         }
     }
 
-    if (!CFURLHasDirectoryPath((__bridge CFURLRef)url))
+    if(!isDirectory)
     {
-        NSString *extension = [[url pathExtension] lowercaseString];
-    
-        if([extension length] > 0 && ![validExtensions containsObject:extension])
+        if([pathExtension length] > 0 && ![validExtensions containsObject:pathExtension])
         {
             // DLog(@"%@ is not a supported file extension, skipping", extension);
             return nil;
         }
     }
 
-    item = [[OEImportItem alloc] init];
+    OEImportItem *item = [[OEImportItem alloc] init];
 
     [item setURL:url];
     [item setSourceURL:url];

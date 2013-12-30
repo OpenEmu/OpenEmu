@@ -278,7 +278,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         NSURL *subURL;
         while([self status]==OEImporterStatusRunning && (subURL = [directoryEnumerator nextObject]))
         {
-            OEImportItem *subItem = [OEImportItem itemWithURL:subURL andCompletionHandler:[item completionHandler]];
+            OEImportItem *subItem = [OEImportItem itemWithURL:subURL completionHandler:[item completionHandler]];
             if(subItem)
             {
                 if([[item importInfo] objectForKey:OEImportInfoCollectionID])
@@ -859,7 +859,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     
     if(item == nil)
     {
-        OEImportItem *item = [OEImportItem itemWithURL:url andCompletionHandler:handler];
+        OEImportItem *item = [OEImportItem itemWithURL:url completionHandler:handler];
         if(item)
         {
             if(collectionID) [[item importInfo] setObject:collectionID forKey:OEImportInfoCollectionID];
