@@ -199,15 +199,8 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     {
         NSString *normalizedURL = [[result objectForKey:boxImageURLKey] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSURL   *url = [NSURL URLWithString:normalizedURL];
-        NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
-
-        if(image)
-        {
-            [result removeObjectForKey:boxImageURLKey];
-            [self setBoxImageByImage:image];
-        }
+        [self setBoxImageByURL:url];
     }
-
 
     if(result != nil)
     {
