@@ -31,64 +31,8 @@
 @end
 #pragma mark -
 @implementation OEDBImage
-+ (id)imageWithImage:(NSImage *)image inLibrary:(OELibraryDatabase *)library
-{
-    __block OEDBImage *imageObject = nil;
-    NSManagedObjectContext *context = [library unsafeContext];
-    [context performBlockAndWait:^{
-        NSEntityDescription *desc = [NSEntityDescription entityForName:@"Image" inManagedObjectContext:context];
-        imageObject = [[OEDBImage alloc] initWithEntity:desc insertIntoManagedObjectContext:context];
-        OEDBImageThumbnail *thumbnailImage = [OEDBImageThumbnail imageWithImage:image size:NSZeroSize inLibrary:library];
-        if(!thumbnailImage)
-        {
-            [context deleteObject:imageObject];
-            imageObject = nil;
-        }
-        else
-        {
-            [imageObject addVersion:thumbnailImage];
-        }
-    }];
-    return imageObject;
-}
-
-+ (id)imageWithImage:(NSImage *)image andSourceURL:(NSURL*)url inLibrary:(OELibraryDatabase *)library
-{
-    OEDBImage *imageObject = [OEDBImage imageWithImage:image inLibrary:library];
-    [imageObject setSourceURL:[url absoluteString]];
-    return imageObject;
-}
-
-+ (id)imageWithPath:(NSString *)path inLibrary:(OELibraryDatabase *)library
-{
-    NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
-    if(!image) return nil;
-    
-    OEDBImage *imageObject = [OEDBImage imageWithImage:image inLibrary:library];
-    [imageObject setSourceURL:[[NSURL fileURLWithPath:path] absoluteString]];
-    return imageObject;
-}
-
-+ (id)imageWithURL:(NSURL*)url inLibrary:(OELibraryDatabase *)library
-{
-    NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
-    if(!image) return nil;
-    
-    OEDBImage *imageObject = [OEDBImage imageWithImage:image inLibrary:library];
-    [imageObject setSourceURL:[url absoluteString]];
-    return imageObject;
-}
-
-+ (id)imageWithData:(NSData *)data inLibrary:(OELibraryDatabase *)library
-{
-    NSImage *image = [[NSImage alloc] initWithData:data];
-    if(!image) return nil;
-    
-    OEDBImage *imageObject = [OEDBImage imageWithImage:image inLibrary:library];
-    return imageObject;
-}
-#pragma mark -
-#pragma mark Core Data utilities
+@dynamic sourceURL, versions, Box;
+#pragma mark - Core Data utilities
 + (NSString *)entityName
 {
     return @"Image";
@@ -109,7 +53,6 @@
     if(version)
         [[self mutableSetValueForKey:@"versions"] removeObject:version];
 }
-@dynamic sourceURL;
 #pragma mark -
 // returns image with highest resolution
 - (NSImage *)originalImage
@@ -178,25 +121,4 @@
     return (NSSize){[[usableThumbnail valueForKey:@"width"] floatValue], [[usableThumbnail valueForKey:@"height"] floatValue]};
 }
 
-// generates thumbnail to fill size
-- (void)generateThumbnailForSize:(NSSize)size
-{
-    OELibraryDatabase *library = [self libraryDatabase];
-    NSURL             *coverFolderURL = [library coverFolderURL];
-    
-    // Find Original Thumbnail
-    NSSet               *thumbnailsSet  = [self valueForKey:@"versions"];
-    NSSortDescriptor    *sotDescr       = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
-    NSArray             *thumbnails     = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
-    
-    OEDBImageThumbnail  *originalImageThumb  = [thumbnails lastObject];
-    NSURL               *originalURL         = [coverFolderURL URLByAppendingPathComponent:[originalImageThumb relativePath]];
-    NSImage             *originalImage       = [[NSImage alloc] initWithContentsOfURL:originalURL];
-    
-    if(!originalImage){
-        return;
-    }
-    OEDBImageThumbnail  *newThumbnail = [OEDBImageThumbnail imageWithImage:originalImage size:size inLibrary:library];
-    [self addVersion:newThumbnail];
-}
 @end

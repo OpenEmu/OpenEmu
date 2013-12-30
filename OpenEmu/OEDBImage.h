@@ -26,29 +26,28 @@
 
 #import <Foundation/Foundation.h>
 #import "OEDBItem.h"
-@class OELibraryDatabase, OEDBImageThumbnail;
+@class OELibraryDatabase, OEDBImageThumbnail, OEDBGame;
 @interface OEDBImage : OEDBItem
-
-#pragma mark -
-#pragma mark Core Data utilities
+#pragma mark - Core Data utilities
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
 - (void)addVersion:(OEDBImageThumbnail*)version;
 - (void)removeVersion:(OEDBImageThumbnail*)version;
-@property (nonatomic, retain) NSString *sourceURL;
-#pragma mark -
-+ (id)imageWithImage:(NSImage *)image inLibrary:(OELibraryDatabase *)library;
-+ (id)imageWithImage:(NSImage *)image andSourceURL:(NSURL*)url inLibrary:(OELibraryDatabase *)library;
-+ (id)imageWithPath:(NSString *)path  inLibrary:(OELibraryDatabase *)library;
-+ (id)imageWithURL:(NSURL *)url       inLibrary:(OELibraryDatabase *)library;
-+ (id)imageWithData:(NSData *)data    inLibrary:(OELibraryDatabase *)library;
 
 // returns image with highest resolution
 - (NSImage *)originalImage;
 - (NSImage *)imageForSize:(NSSize)size;
 - (NSSize)sizeOfThumbnailForSize:(NSSize)size;
 
-// generates thumbnail to fill size
-- (void)generateThumbnailForSize:(NSSize)size;
+@property (nonatomic, retain) NSString * sourceURL;
+@property (nonatomic, retain) OEDBGame *Box;
+@property (nonatomic, retain) NSSet *versions;
+@end
+
+@interface OEDBImage (CoreDataGeneratedAccessors)
+- (void)addVersionsObject:(OEDBImageThumbnail *)value;
+- (void)removeVersionsObject:(OEDBImageThumbnail *)value;
+- (void)addVersions:(NSSet *)values;
+- (void)removeVersions:(NSSet *)values;
 @end

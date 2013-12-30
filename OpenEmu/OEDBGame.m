@@ -25,16 +25,19 @@
  */
 
 #import "OEDBGame.h"
-#import "OEDBImage.h"
 
 #import "OELibraryDatabase.h"
 
 #import "OEDBSystem.h"
 #import "OEDBRom.h"
 
+#import "OEDBImage.h"
+#import "OEDBImageThumbnail.h"
+
 #import "OEGameInfoHelper.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
+#import "NSArray+OEAdditions.h"
 
 NSString *const OEPasteboardTypeGame = @"org.openemu.game";
 NSString *const OEBoxSizesKey = @"BoxSizes";
@@ -384,53 +387,138 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 - (void)setBoxImageByImage:(NSImage *)img
 {
-    [[self managedObjectContext] performBlock:^{
-        if([self boxImage])
-        {
-            [[self managedObjectContext] deleteObject:[self boxImage]];
-            [self setBoxImage:nil];
-        }
-
-        OEDBImage *boxImage = nil;
-        if(img != nil){
-            boxImage = [OEDBImage imageWithImage:img inLibrary:[self libraryDatabase]];
-            NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-            NSArray *sizes = [standardDefaults objectForKey:OEBoxSizesKey];
-            // For each thumbnail size specified in defaults...
-            for(NSString *aSizeString in sizes)
-            {
-                NSSize size = NSSizeFromString(aSizeString);
-                // ...generate thumbnail
-                [boxImage generateThumbnailForSize:size];
-            }
-        }
-        [self setBoxImage:boxImage];
-    }];
+    [self OE_setBoxImage:img withSourceURL:nil];
 }
 
 - (void)setBoxImageByURL:(NSURL *)url
 {
-    [[self managedObjectContext] performBlock:^{
-        if([self boxImage])
+    NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
+    [self OE_setBoxImage:image withSourceURL:url];
+}
+
+
+- (void)OE_setBoxImage:(NSImage*)image withSourceURL:(NSURL*)url
+{
+    NSManagedObjectContext *context  = [self managedObjectContext];
+    OEDBImage *boxImage = [self boxImage];
+
+    if(boxImage) // delete previous image if any
+    {
+        [context performBlockAndWait:^{
+            [context deleteObject:boxImage];
+        }];
+        boxImage = nil;
+        [self setBoxImage:nil];
+    }
+
+    if(image != nil) // create new image and thumbnails
+    {
+        NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+        NSArray        *sizes            = [standardDefaults objectForKey:OEBoxSizesKey];
+        NSMutableArray *thumbnailImages  = [NSMutableArray arrayWithCapacity:[sizes count]+1];
+        id original = [self OE_generateThumbnailFromImage:image withSize:NSZeroSize];
+        if(original != nil) [thumbnailImages addObject:original];
+        [sizes enumerateObjectsUsingBlock:^(NSString *aSize, NSUInteger idx, BOOL *stop) {
+            id result = [self OE_generateThumbnailFromImage:image withSize:NSSizeFromString(aSize)];
+            if(result != nil)
+                [thumbnailImages addObject:result];
+        }];
+
+        [context performBlockAndWait:^{
+
+            // create core data objects for thumbnails
+            NSMutableSet *versions = [NSMutableSet setWithCapacity:[thumbnailImages count]+1];
+            [thumbnailImages enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                [versions addObject:[self OE_thumbnailFromDescription:obj inContext:context]];
+            }];
+
+            if([versions count])
+            {
+                // create core data objec for box image
+                NSEntityDescription *imageDescription = [OEDBImage entityDescriptionInContext:context];
+                OEDBImage *boxImage = [[OEDBImage alloc] initWithEntity:imageDescription insertIntoManagedObjectContext:context];
+                [boxImage setVersions:versions];
+                if(url) [boxImage setSourceURL:[url absoluteString]];
+
+                [self setBoxImage:boxImage];
+            }
+        }];
+    }
+}
+
+- (OEDBImageThumbnail*)OE_thumbnailFromDescription:(NSArray*)description inContext:(NSManagedObjectContext*)context
+{
+    NSSize size = [description[0] sizeValue];
+    NSString *relativePath = description[1];
+    NSEntityDescription *thumbDescription = [OEDBImageThumbnail entityDescriptionInContext:context];
+    OEDBImageThumbnail *thumbnail = [[OEDBImageThumbnail alloc] initWithEntity:thumbDescription insertIntoManagedObjectContext:context];
+    [thumbnail setWidth:@(size.width)];
+    [thumbnail setHeight:@(size.height)];
+    [thumbnail setRelativePath:relativePath];
+
+    return thumbnail;
+}
+
+- (id)OE_generateThumbnailFromImage:(NSImage*)image withSize:(NSSize)size
+{
+    BOOL     resize      = !NSEqualSizes(size, NSZeroSize);
+    NSString *version    = !resize ? @"original" : [NSString stringWithFormat:@"%d", (int)size.width];
+    NSString *uuid       = [NSString stringWithUUID];
+
+    NSURL    *coverFolderURL = [[self libraryDatabase] coverFolderURL];
+    coverFolderURL = [coverFolderURL URLByAppendingPathComponent:version isDirectory:YES];
+    NSURL *url          = [coverFolderURL URLByAppendingPathComponent:uuid];
+
+    // find a bitmap representation
+    NSBitmapImageRep *bitmapRep = [[image representations] firstObjectMatchingBlock:^BOOL(id obj) {
+        return [obj isKindOfClass:[NSBitmapImageRep class]];
+    }];
+
+    NSSize imageSize = [image size];
+    if(bitmapRep)
+        imageSize = NSMakeSize([bitmapRep pixelsWide], [bitmapRep pixelsHigh]);
+
+    float  aspectRatio = imageSize.width / imageSize.height;
+    NSSize thumbnailSize;
+    if(resize)
+    {
+        thumbnailSize = aspectRatio<1 ? (NSSize){size.height * aspectRatio, size.height} : (NSSize){size.width, size.width / aspectRatio};
+
+        // thumbnails only make sense if they are smaller than the original
+        if(thumbnailSize.width >= imageSize.width || thumbnailSize.height >= imageSize.height)
         {
-            [[self managedObjectContext] deleteObject:[self boxImage]];
-            [self setBoxImage:nil];
+            return nil;
         }
 
-    OEDBImage *boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
-    
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray *sizes = [standardDefaults objectForKey:OEBoxSizesKey];
-    // For each thumbnail size...
-    for(NSString *aSizeString in sizes)
-    {
-        NSSize size = NSSizeFromString(aSizeString);
-        // ...generate thumbnail ;)
-        [boxImage generateThumbnailForSize:size];
+        NSImage *thumbnailImage = [[NSImage alloc] initWithSize:thumbnailSize];
+        [thumbnailImage lockFocus];
+        [image drawInRect:(NSRect){{0, 0}, {thumbnailSize.width, thumbnailSize.height}} fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+        bitmapRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){{0,0}, thumbnailSize}];
+        [thumbnailImage unlockFocus];
     }
-    
-    [self setBoxImage:boxImage];
-    }];
+    else
+    {
+        thumbnailSize = imageSize;
+
+        if(!bitmapRep) // no bitmap found, create one
+        {
+            [image lockFocus];
+            bitmapRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){{0,0}, thumbnailSize}];
+            [image unlockFocus];
+        }
+    }
+
+    // write image file
+    NSDictionary *properties = [NSDictionary dictionary];
+    NSData       *imageData  = [bitmapRep representationUsingType:NSPNGFileType properties:properties];
+
+    [[NSFileManager defaultManager] createDirectoryAtURL:[url URLByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
+
+    if([imageData writeToURL:url options:0 error:nil])
+    {
+        return @[ [NSValue valueWithSize:thumbnailSize], [NSString stringWithFormat:@"%@/%@", version, uuid] ];
+    }
+    return nil;
 }
 
 #pragma mark - NSPasteboardWriting
