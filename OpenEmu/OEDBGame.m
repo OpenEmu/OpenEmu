@@ -384,9 +384,13 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 - (void)setBoxImageByImage:(NSImage *)img
 {
-    @autoreleasepool 
-    {
-        NSMutableArray *codePath = [NSMutableArray array];
+    [[self managedObjectContext] performBlock:^{
+        if([self boxImage])
+        {
+            [[self managedObjectContext] deleteObject:[self boxImage]];
+            [self setBoxImage:nil];
+        }
+
         OEDBImage *boxImage = nil;
         if(img != nil){
             boxImage = [OEDBImage imageWithImage:img inLibrary:[self libraryDatabase]];
@@ -397,17 +401,22 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
             {
                 NSSize size = NSSizeFromString(aSizeString);
                 // ...generate thumbnail
-                [codePath addObject:[NSString stringWithFormat:@"generateThumbnailForSize: %@", NSStringFromSize(size)]];
                 [boxImage generateThumbnailForSize:size];
             }
         }
-        [codePath addObject:[NSString stringWithFormat:@"set boxImage: %@", boxImage]];
         [self setBoxImage:boxImage];
-    }
+    }];
 }
 
 - (void)setBoxImageByURL:(NSURL *)url
 {
+    [[self managedObjectContext] performBlock:^{
+        if([self boxImage])
+        {
+            [[self managedObjectContext] deleteObject:[self boxImage]];
+            [self setBoxImage:nil];
+        }
+
     OEDBImage *boxImage = [OEDBImage imageWithURL:url inLibrary:[self libraryDatabase]];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -421,6 +430,7 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     }
     
     [self setBoxImage:boxImage];
+    }];
 }
 
 #pragma mark - NSPasteboardWriting
