@@ -427,7 +427,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
 - (void)reshape
 {
-    DLog(@"reshape");
+//    DLog(@"reshape");
 
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLSetCurrentContext(cgl_ctx);
@@ -439,18 +439,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 	glViewport(0, 0, mainRenderViewFrame.size.width, mainRenderViewFrame.size.height);
 
 	CGLUnlockContext(cgl_ctx);
-}
-
-- (void)update
-{
-    DLog(@"update");
-
-    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
-	CGLLockContext(cgl_ctx);
-
-    [super update];
-
-    CGLUnlockContext(cgl_ctx);
 }
 
 - (void)drawRect:(NSRect)dirtyRect
