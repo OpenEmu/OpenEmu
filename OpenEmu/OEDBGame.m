@@ -178,6 +178,12 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     [[self libraryDatabase] startOpenVGDBSync];
 }
 
+- (void)cancelCoverDownload
+{
+    [self setStatus:[NSNumber numberWithInt:OEDBGameStatusOK]];
+    [[self libraryDatabase] save:nil];
+}
+
 - (void)requestInfoSync
 {
     [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];

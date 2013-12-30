@@ -78,6 +78,7 @@ extern NSString *const OEDisplayGameTitle;
 #pragma mark - Cover Art Database Sync
 - (void)requestInfoSync;
 - (void)performInfoSync; // will blocks until results arrive
+- (void)cancelCoverDownload;
 - (void)requestCoverDownload;
 - (id)mergeInfoFromGame:(OEDBGame *)game;
 

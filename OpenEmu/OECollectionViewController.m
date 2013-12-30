@@ -744,7 +744,11 @@ static NSArray *OE_defaultSortDescriptors;
         [menu addItemWithTitle:NSLocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
 
-        [menu addItemWithTitle:NSLocalizedString(@"Download Cover Art", @"") action:@selector(downloadCoverArt:) keyEquivalent:@""];
+        if([[game status] isEqualTo:@(OEDBGameStatusOK)])
+            [menu addItemWithTitle:NSLocalizedString(@"Download Cover Art", @"") action:@selector(downloadCoverArt:) keyEquivalent:@""];
+        if([[game status] isEqualTo:@(OEDBGameStatusProcessing)])
+            [menu addItemWithTitle:NSLocalizedString(@"Cancel Cover Art Download", @"") action:@selector(cancelCoverArtDownload:) keyEquivalent:@""];
+
         [menu addItemWithTitle:NSLocalizedString(@"Add Cover Art From File…", @"") action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
         [menu addItemWithTitle:NSLocalizedString(@"Consolidate Files…", @"") action:@selector(consolidateFiles:) keyEquivalent:@""];
 
@@ -1030,6 +1034,14 @@ static NSArray *OE_defaultSortDescriptors;
 - (void)downloadCoverArt:(id)sender
 {
     [[self selectedGames] makeObjectsPerformSelector:@selector(requestCoverDownload)];
+    [self reloadDataIndexes:[self selectedIndexes]];
+}
+
+
+- (void)cancelCoverArtDownload:(id)sender
+{
+    [[self selectedGames] makeObjectsPerformSelector:@selector(cancelCoverDownload)];
+    [self reloadDataIndexes:[self selectedIndexes]];
 }
 
 - (void)addCoverArtFromFile:(id)sender
