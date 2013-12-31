@@ -331,7 +331,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
     if(_logHIDEvents)
     {
-        [[OEDeviceManager sharedDeviceManager] addGlobalEventMonitorHandler:
+        _HIDEventsMonitor = [[OEDeviceManager sharedDeviceManager] addGlobalEventMonitorHandler:
          ^ BOOL (OEDeviceHandler *handler, OEHIDEvent *event)
          {
              if([event type] != OEHIDEventTypeKeyboard) NSLog(@"%@", event);
@@ -355,7 +355,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
     if(_logKeyboardEvents)
     {
-        [[OEDeviceManager sharedDeviceManager] addGlobalEventMonitorHandler:
+        _keyboardEventsMonitor = [[OEDeviceManager sharedDeviceManager] addGlobalEventMonitorHandler:
          ^ BOOL (OEDeviceHandler *handler, OEHIDEvent *event)
          {
              if([event type] == OEHIDEventTypeKeyboard) NSLog(@"%@", event);
