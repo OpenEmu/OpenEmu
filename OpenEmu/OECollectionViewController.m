@@ -545,7 +545,20 @@ static NSArray *OE_defaultSortDescriptors;
 #pragma mark Toolbar Actions
 - (IBAction)search:(id)sender
 {
-    NSPredicate *pred = [[sender stringValue] isEqualToString:@""] ? nil : [NSPredicate predicateWithFormat:@"displayName contains[cd] %@", [sender stringValue]];
+    NSString *searchTerm = [sender stringValue];
+    NSArray *tokens = [searchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    NSMutableArray *predarray = [NSMutableArray array];
+    for(NSString *token in tokens)
+    {
+        if(token.length > 0)
+        {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"displayName contains[cd] %@", token];
+            [predarray addObject:predicate];
+        }
+    }
+    NSPredicate *pred = [NSCompoundPredicate andPredicateWithSubpredicates:predarray];
+    
     [gamesController setFilterPredicate:pred];
     
     [listView reloadData];
