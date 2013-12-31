@@ -9686,7 +9686,6 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INFOPLIST_FILE = "ColecoVision/ColecoVision-Info.plist";
 				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -9707,7 +9706,6 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				INFOPLIST_FILE = "ColecoVision/ColecoVision-Info.plist";
 				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = oesystemplugin;
