@@ -1744,9 +1744,18 @@ IEdpdEh1Yi4gA</bytes>
 									<reference key="NSMenu" ref="64773122"/>
 									<bool key="NSIsDisabled">YES</bool>
 									<bool key="NSIsAlternate">YES</bool>
-									<string key="NSTitle">Pause Emulation</string>
+									<string key="NSTitle">Pause Gameplay</string>
 									<string key="NSKeyEquiv">p</string>
 									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="364983442"/>
+									<reference key="NSMixedImage" ref="771956725"/>
+								</object>
+								<object class="NSMenuItem" id="176373940">
+									<reference key="NSMenu" ref="64773122"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<string key="NSTitle">Restart System</string>
+									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="364983442"/>
 									<reference key="NSMixedImage" ref="771956725"/>
@@ -2262,6 +2271,14 @@ IEdpdEh1Yi4gA</bytes>
 						<reference key="destination" ref="1054754913"/>
 					</object>
 					<string key="id">fb5-He-ZSf</string>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">resetEmulation:</string>
+						<reference key="source" ref="38857222"/>
+						<reference key="destination" ref="176373940"/>
+					</object>
+					<string key="id">DS8-0w-SBs</string>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -3378,6 +3395,7 @@ IEdpdEh1Yi4gA</bytes>
 							<reference ref="632580829"/>
 							<reference ref="105128930"/>
 							<reference ref="1054754913"/>
+							<reference ref="176373940"/>
 						</array>
 						<reference key="parent" ref="667184474"/>
 					</object>
@@ -3616,6 +3634,11 @@ IEdpdEh1Yi4gA</bytes>
 						<string key="id">1l5-5j-Ds9</string>
 						<reference key="object" ref="1065152195"/>
 						<reference key="parent" ref="12243242"/>
+					</object>
+					<object class="IBObjectRecord">
+						<string key="id">2rj-Sq-LdF</string>
+						<reference key="object" ref="176373940"/>
+						<reference key="parent" ref="64773122"/>
 					</object>
 				</array>
 			</object>
@@ -3876,6 +3899,8 @@ IEdpdEh1Yi4gA</bytes>
 				<reference key="1l5-5j-Ds9.IBUserGuides" ref="0"/>
 				<boolean value="NO" key="1l5-5j-Ds9.showNotes"/>
 				<boolean value="NO" key="1l5-5j-Ds9.usesInspectorBar"/>
+				<string key="2rj-Sq-LdF.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="NO" key="2rj-Sq-LdF.showNotes"/>
 				<string key="371.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="371.showNotes"/>
 				<string key="50H-ys-sAp.CustomClassName">OEButtonCell</string>
