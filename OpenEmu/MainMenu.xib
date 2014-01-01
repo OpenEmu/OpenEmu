@@ -57,7 +57,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="208793915">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSImageView" id="416131386">
@@ -73,7 +73,6 @@
 							</set>
 							<string key="NSFrameSize">{400, 463}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="644123232">
 								<int key="NSCellFlags">0</int>
@@ -103,7 +102,6 @@
 											<int key="NSvFlags">2322</int>
 											<string key="NSFrameSize">{398, 98}</string>
 											<reference key="NSSuperview" ref="1067321567"/>
-											<reference key="NSWindow"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="280552689">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -335,7 +333,6 @@
 									</array>
 									<string key="NSFrame">{{1, 1}, {398, 98}}</string>
 									<reference key="NSSuperview" ref="450696337"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="149732364"/>
 									<reference key="NSDocView" ref="149732364"/>
 									<reference key="NSBGColor" ref="622283368"/>
@@ -350,7 +347,6 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="450696337"/>
-									<reference key="NSWindow"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="450696337"/>
@@ -362,7 +358,6 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{183, 1}, {16, 201}}</string>
 									<reference key="NSSuperview" ref="450696337"/>
-									<reference key="NSWindow"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<reference key="NSTarget" ref="450696337"/>
 									<string key="NSAction">_doScroller:</string>
@@ -370,7 +365,6 @@
 							</array>
 							<string key="NSFrame">{{0, 352}, {400, 100}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="1067321567"/>
 							<int key="NSsFlags">133650</int>
 							<reference key="NSVScroller" ref="298379164"/>
@@ -385,7 +379,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{17, 184}, {366, 18}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSWindow"/>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowVert">1</double>
 								<reference key="NSShadowColor" ref="402204676"/>
@@ -417,7 +410,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{18, 158}, {366, 18}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSWindow"/>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowVert">1</double>
 								<reference key="NSShadowColor" ref="402204676"/>
@@ -452,7 +444,6 @@
 											<int key="NSvFlags">2322</int>
 											<string key="NSFrameSize">{225, 85}</string>
 											<reference key="NSSuperview" ref="983593750"/>
-											<reference key="NSWindow"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="584703138">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -515,7 +506,6 @@ IEdpdEh1Yi4gA</bytes>
 									</array>
 									<string key="NSFrameSize">{225, 85}</string>
 									<reference key="NSSuperview" ref="12243242"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="1065152195"/>
 									<reference key="NSDocView" ref="1065152195"/>
 									<reference key="NSBGColor" ref="622283368"/>
@@ -527,7 +517,6 @@ IEdpdEh1Yi4gA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="12243242"/>
-									<reference key="NSWindow"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="12243242"/>
@@ -539,7 +528,6 @@ IEdpdEh1Yi4gA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {16, 75}}</string>
 									<reference key="NSSuperview" ref="12243242"/>
-									<reference key="NSWindow"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<reference key="NSTarget" ref="12243242"/>
 									<string key="NSAction">_doScroller:</string>
@@ -547,7 +535,6 @@ IEdpdEh1Yi4gA</bytes>
 							</array>
 							<string key="NSFrame">{{88, 47}, {225, 85}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="983593750"/>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowVert">1</double>
@@ -567,7 +554,6 @@ IEdpdEh1Yi4gA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{127, 138}, {147, 21}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="906225131">
 								<int key="NSCellFlags">67108864</int>
@@ -599,7 +585,6 @@ IEdpdEh1Yi4gA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{113, 17}, {176, 32}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSWindow"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="373049417">
 								<int key="NSCellFlags">67108864</int>
@@ -619,11 +604,9 @@ IEdpdEh1Yi4gA</bytes>
 						</object>
 					</array>
 					<string key="NSFrameSize">{400, 463}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<bool key="NSViewIsLayerTreeHost">YES</bool>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">About</string>
 				<bool key="NSWindowIsRestorable">NO</bool>
@@ -1771,7 +1754,7 @@ IEdpdEh1Yi4gA</bytes>
 								<object class="NSMenuItem" id="1054754913">
 									<reference key="NSMenu" ref="64773122"/>
 									<bool key="NSIsDisabled">YES</bool>
-									<string key="NSTitle">Quit Emulation</string>
+									<string key="NSTitle">Stop Emulation</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="364983442"/>
@@ -2226,14 +2209,6 @@ IEdpdEh1Yi4gA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">performClose:</string>
-						<reference key="source" ref="38857222"/>
-						<reference key="destination" ref="1054754913"/>
-					</object>
-					<string key="id">1325</string>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">performMiniaturize:</string>
 						<reference key="source" ref="38857222"/>
 						<reference key="destination" ref="396140251"/>
@@ -2279,6 +2254,14 @@ IEdpdEh1Yi4gA</bytes>
 						<reference key="destination" ref="673369575"/>
 					</object>
 					<string key="id">1219</string>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">stopEmulation:</string>
+						<reference key="source" ref="38857222"/>
+						<reference key="destination" ref="1054754913"/>
+					</object>
+					<string key="id">fb5-He-ZSf</string>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2399,22 +2382,6 @@ IEdpdEh1Yi4gA</bytes>
 						<reference key="destination" ref="798367718"/>
 					</object>
 					<string key="id">1127</string>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: mainWindowRunsGame</string>
-						<reference key="source" ref="1054754913"/>
-						<reference key="destination" ref="1029960025"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="1054754913"/>
-							<reference key="NSDestination" ref="1029960025"/>
-							<string key="NSLabel">enabled: mainWindowRunsGame</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">mainWindowRunsGame</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<string key="id">eza-yg-eaM</string>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -4241,10 +4208,12 @@ IEdpdEh1Yi4gA</bytes>
 						<string key="editControls:">id</string>
 						<string key="loadState:">id</string>
 						<string key="mute:">id</string>
+						<string key="performClose:">id</string>
 						<string key="quickLoad:">id</string>
 						<string key="quickSave:">id</string>
 						<string key="resetEmulation:">id</string>
 						<string key="saveState:">id</string>
+						<string key="setCheat:">id</string>
 						<string key="stopEmulation:">id</string>
 						<string key="toggleCheat:">id</string>
 						<string key="toggleEmulationPaused:">id</string>
@@ -4281,6 +4250,10 @@ IEdpdEh1Yi4gA</bytes>
 							<string key="name">mute:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="performClose:">
+							<string key="name">performClose:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="quickLoad:">
 							<string key="name">quickLoad:</string>
 							<string key="candidateClassName">id</string>
@@ -4295,6 +4268,10 @@ IEdpdEh1Yi4gA</bytes>
 						</object>
 						<object class="IBActionInfo" key="saveState:">
 							<string key="name">saveState:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setCheat:">
+							<string key="name">setCheat:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="stopEmulation:">
@@ -4381,7 +4358,6 @@ IEdpdEh1Yi4gA</bytes>
 						<string key="addToLibrary:">id</string>
 						<string key="changeGridSize:">id</string>
 						<string key="editSmartCollection:">id</string>
-						<string key="find:">id</string>
 						<string key="newCollection:">id</string>
 						<string key="newCollectionFolder:">id</string>
 						<string key="newSmartCollection:">id</string>
@@ -4407,10 +4383,6 @@ IEdpdEh1Yi4gA</bytes>
 						</object>
 						<object class="IBActionInfo" key="editSmartCollection:">
 							<string key="name">editSmartCollection:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="find:">
-							<string key="name">find:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="newCollection:">
@@ -4520,17 +4492,20 @@ IEdpdEh1Yi4gA</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">OEMainWindowController</string>
 					<string key="superclassName">NSWindowController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">undockGameWindow:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">undockGameWindow:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="launchLastPlayedROM:">id</string>
+						<string key="undockGameWindow:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="launchLastPlayedROM:">
+							<string key="name">launchLastPlayedROM:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="undockGameWindow:">
 							<string key="name">undockGameWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="libraryController">OELibraryController</string>
 						<string key="placeholderView">NSView</string>
