@@ -52,11 +52,6 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 
 NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
-NSString *const OEWebSiteURL      = @"http://openemu.org/";
-NSString *const OEUserGuideURL    = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide";
-NSString *const OEReleaseNotesURL = @"https://github.com/OpenEmu/OpenEmu/wiki/Release-notes";
-NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues";
-
 #define MainMenu_Window_OpenEmuTag 501
 
 @interface OEMainWindowController () <OELibraryControllerDelegate>
@@ -83,30 +78,30 @@ NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues"
 {
     if((self = [super initWithWindow:window]) == nil)
         return nil;
-    
+
     // Since restoration from autosave happens before NSWindowController
     // receives -windowDidLoad and we are autosaving the window size, we
     // need to set allowWindowResizing to YES before -windowDidLoad
     _allowWindowResizing = YES;
-    
+
     return self;
 }
 
 - (void)windowDidLoad
 {
     NSWindow *window = [self window];
-    
+
     [super windowDidLoad];
-    
+
     [[self libraryController] setDelegate:self];
-    
+
     [window setWindowController:self];
     [window setDelegate:self];
-    
+
     // Setup Window behavior
     [window setRestorable:NO];
     [window setExcludedFromWindowsMenu:YES];
-    
+
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OESetupAssistantHasFinishedKey])
     {
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
@@ -117,9 +112,9 @@ NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues"
                  [[[OELibraryDatabase defaultDatabase] importer] discoverRoms:volumes];
              [self setCurrentContentController:[self libraryController] animate:NO];
          }];
-        
+
         [window center];
-        
+
         [self setCurrentContentController:setupAssistant];
     }
     else
@@ -159,7 +154,7 @@ NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues"
             [placeHolderView replaceSubview:viewToReplace with:[controller view]];
         else
             [placeHolderView addSubview:[controller view]];
-        
+
         [[self window] makeFirstResponder:[controller view]];
 
         [_currentContentController viewDidDisappear];
@@ -176,7 +171,7 @@ NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues"
         else
         {
             NSWindow *window = [self window];
-            
+
             [window setTitle:OEDefaultWindowTitle];
 #if DEBUG_PRINT
             [window setTitle:[[window title] stringByAppendingString:@" (DEBUG BUILD)"]];
@@ -367,7 +362,7 @@ NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues"
         [[self libraryController] viewWillAppear];
         [[self libraryController] viewDidAppear];
     }
-    
+
     [self setCurrentContentController:nil];
 }
 
@@ -380,7 +375,7 @@ NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues"
 - (void)windowDidBecomeMain:(NSNotification *)notification
 {
     NSMenu *mainMenu = [NSApp mainMenu];
-    
+
     NSMenu *windowMenu = [[mainMenu itemAtIndex:5] submenu];
     NSMenuItem *item = [windowMenu itemWithTag:MainMenu_Window_OpenEmuTag];
     [item setState:NSOnState];
@@ -389,7 +384,7 @@ NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues"
 - (void)windowDidResignMain:(NSNotification *)notification
 {
     NSMenu *mainMenu = [NSApp mainMenu];
-    
+
     NSMenu *windowMenu = [[mainMenu itemAtIndex:5] submenu];
     NSMenuItem *item = [windowMenu itemWithTag:MainMenu_Window_OpenEmuTag];
     [item setState:NSOffState];
@@ -414,7 +409,7 @@ NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues"
         [_gameDocument setGameWindowController:self];
         [self setCurrentContentController:[_gameDocument gameViewController]];
     }
-    
+
     if(_resumePlayingAfterFullScreenTransition)
         [_gameDocument setEmulationPaused:NO];
 }
@@ -435,7 +430,7 @@ NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues"
     if(_shouldUndockGameWindowOnFullScreenExit)
     {
         _shouldUndockGameWindowOnFullScreenExit = NO;
-        
+
         [self setCurrentContentController:nil];
 
         [_gameDocument showInSeparateWindowInFullScreen:NO];
@@ -455,28 +450,8 @@ NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues"
 - (IBAction)launchLastPlayedROM:(id)sender
 {
     OEDBGame *game = [[sender representedObject] game];
-
+    
     [self libraryController:nil didSelectGame:game];
-}
-
-- (IBAction)showOEHelp:(id)sender
-{
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:OEUserGuideURL]];
-}
-
-- (IBAction)showOEReleaseNotes:(id)sender
-{
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:OEReleaseNotesURL]];
-}
-
-- (IBAction)showOEWebSite:(id)sender
-{
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:OEWebSiteURL]];
-}
-
-- (IBAction)showOEIssues:(id)sender
-{
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:OEFeedbackURL]];
 }
 
 @end

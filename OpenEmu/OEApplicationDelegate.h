@@ -50,6 +50,11 @@
 @property(readonly) NSString           *appVersion;
 @property(readonly) NSString           *buildVersion;
 @property(readonly) NSAttributedString *projectURL;
+#pragma mark - Help Menu
+- (IBAction)showOEHelp:(id)sender;
+- (IBAction)showOEReleaseNotes:(id)sender;
+- (IBAction)showOEWebSite:(id)sender;
+- (IBAction)showOEIssues:(id)sender;
 
 #pragma mark - Debug
 - (IBAction)OEDebug_logResponderChain:(id)sender;

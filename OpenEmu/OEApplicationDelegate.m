@@ -71,6 +71,11 @@
 
 #import "OEDBSaveState.h"
 
+NSString *const OEWebSiteURL      = @"http://openemu.org/";
+NSString *const OEUserGuideURL    = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide";
+NSString *const OEReleaseNotesURL = @"https://github.com/OpenEmu/OpenEmu/wiki/Release-notes";
+NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues";
+
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -611,6 +616,27 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (IBAction)showPreferencesWindow:(id)sender
 {
+}
+
+#pragma mark - Help Menu
+- (IBAction)showOEHelp:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:OEUserGuideURL]];
+}
+
+- (IBAction)showOEReleaseNotes:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:OEReleaseNotesURL]];
+}
+
+- (IBAction)showOEWebSite:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:OEWebSiteURL]];
+}
+
+- (IBAction)showOEIssues:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:OEFeedbackURL]];
 }
 
 #pragma mark - About Window
