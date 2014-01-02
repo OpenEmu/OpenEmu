@@ -625,67 +625,72 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 
 - (void)performImportStepCreateCoreDataObjects:(OEImportItem*)item
 {
-    __block OEDBRom *rom = nil;
     __block NSError *error = nil;
-
-    NSMutableDictionary *importInfo = [item importInfo];
-    if([importInfo valueForKey:OEImportInfoROMObjectID] != nil)
-    {
-        rom = [OEDBRom romWithURIURL:[importInfo valueForKey:OEImportInfoROMObjectID] inDatabase:[self database]];
-        [rom setURL:[item URL]];
+    [[[self database] unsafeContext] performBlockAndWait:^{
+        
+        OEDBRom *rom = nil;
+        
+        NSMutableDictionary *importInfo = [item importInfo];
+        if([importInfo valueForKey:OEImportInfoROMObjectID] != nil)
+        {
+            rom = [OEDBRom romWithURIURL:[importInfo valueForKey:OEImportInfoROMObjectID] inDatabase:[self database]];
+            [rom setURL:[item URL]];
+            if([importInfo objectForKey:OEImportInfoArchivedFileIndex])
+                [rom setArchiveFileIndex:[importInfo objectForKey:OEImportInfoArchivedFileIndex]];
+            return;
+        }
+        
+        NSString *md5 = [importInfo valueForKey:OEImportInfoMD5];
+        NSString *crc = [importInfo valueForKey:OEImportInfoCRC];
+        rom = [OEDBRom createRomWithURL:[item URL] md5:md5 crc:crc inDatabase:[self database] error:&error];
         if([importInfo objectForKey:OEImportInfoArchivedFileIndex])
             [rom setArchiveFileIndex:[importInfo objectForKey:OEImportInfoArchivedFileIndex]];
-
-        [self stopImportForItem:item withError:nil];
-        return;
-    }
-
-    NSString *md5 = [importInfo valueForKey:OEImportInfoMD5];
-    NSString *crc = [importInfo valueForKey:OEImportInfoCRC];
-    rom = [OEDBRom createRomWithURL:[item URL] md5:md5 crc:crc inDatabase:[self database] error:&error];
-    if([importInfo objectForKey:OEImportInfoArchivedFileIndex])
-        [rom setArchiveFileIndex:[importInfo objectForKey:OEImportInfoArchivedFileIndex]];
-
-    if(rom == nil)
-    {
-        [self stopImportForItem:item withError:error];
-        return;
-    }
-
-    __block OEDBGame *game = nil;
-    if(rom == nil || [rom game] != nil) return;
-    if(game == nil)
-    {
-        NSAssert([[importInfo valueForKey:OEImportInfoSystemID] count] == 1, @"System should have been detected at an earlier import stage");
-
-        NSString *systemIdentifier = [[importInfo valueForKey:OEImportInfoSystemID] lastObject];
-        __block OEDBSystem *system = nil;
-        system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inDatabase:[self database]];
-
-        if(system == nil)
+        
+        if(rom == nil)
         {
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"No system! Someone must have deleted or disabled it!" forKey:NSLocalizedDescriptionKey];
-            error = [NSError errorWithDomain:OEImportErrorDomainFatal code:51 userInfo:userInfo];
-            [self stopImportForItem:item withError:error];
+            return;
+        }
+        
+        OEDBGame *game = nil;
+        if(rom == nil || [rom game] != nil) return;
+        if(game == nil)
+        {
+            NSAssert([[importInfo valueForKey:OEImportInfoSystemID] count] == 1, @"System should have been detected at an earlier import stage");
+            
+            NSString *systemIdentifier = [[importInfo valueForKey:OEImportInfoSystemID] lastObject];
+            __block OEDBSystem *system = nil;
+            system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inDatabase:[self database]];
+            
+            if(system == nil)
+            {
+                NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"No system! Someone must have deleted or disabled it!" forKey:NSLocalizedDescriptionKey];
+                error = [NSError errorWithDomain:OEImportErrorDomainFatal code:51 userInfo:userInfo];
+                return;
+            }
+            else
+            {
+                NSURL *url = [rom URL];
+                NSString *gameTitleWithSuffix = [url lastPathComponent];
+                NSString *gameTitleWithoutSuffix = [gameTitleWithSuffix stringByDeletingPathExtension];
+                game = [OEDBGame createGameWithName:gameTitleWithoutSuffix andSystem:system inDatabase:[self database]];
+            }
+        }
+        
+        if(game != nil)
+        {
+            [rom setGame:game];
+            [[self database] save:nil];
+            NSURL *objectID = [[rom objectID] URIRepresentation];
+            [importInfo setObject:objectID forKey:OEImportInfoROMObjectID];
         }
         else
         {
-            NSURL *url = [rom URL];
-            NSString *gameTitleWithSuffix = [url lastPathComponent];
-            NSString *gameTitleWithoutSuffix = [gameTitleWithSuffix stringByDeletingPathExtension];
-            game = [OEDBGame createGameWithName:gameTitleWithoutSuffix andSystem:system inDatabase:[self database]];
+            DLog(@"NO GAME!");
+            [[self database] save:nil];
         }
-    }
-
-    if(game != nil)
-    {
-        [rom setGame:game];
-        [[self database] save:nil];
-        NSURL *objectID = [[rom objectID] URIRepresentation];
-        [importInfo setObject:objectID forKey:OEImportInfoROMObjectID];
-        [self stopImportForItem:item withError:nil];
-    } else
-        [[self database] save:nil];
+    }];
+    
+    [self stopImportForItem:item withError:error];
 }
 
 - (void)scheduleItemForNextStep:(OEImportItem *)item

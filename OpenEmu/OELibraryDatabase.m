@@ -413,7 +413,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 
         if(![context hasChanges])
         {
-            DLog(@"Database did not change. Skip Saving.");
             result = YES;
             return;
         }
