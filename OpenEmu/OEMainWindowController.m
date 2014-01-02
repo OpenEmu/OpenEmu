@@ -52,6 +52,11 @@ NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 
 NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
+NSString *const OEWebSiteURL      = @"http://openemu.org/";
+NSString *const OEUserGuideURL    = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide";
+NSString *const OEReleaseNotesURL = @"https://github.com/OpenEmu/OpenEmu/wiki/Release-notes";
+NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues";
+
 #define MainMenu_Window_OpenEmuTag 501
 
 @interface OEMainWindowController () <OELibraryControllerDelegate>
@@ -452,6 +457,26 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     OEDBGame *game = [[sender representedObject] game];
 
     [self libraryController:nil didSelectGame:game];
+}
+
+- (IBAction)showOEHelp:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:OEUserGuideURL]];
+}
+
+- (IBAction)showOEReleaseNotes:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:OEReleaseNotesURL]];
+}
+
+- (IBAction)showOEWebSite:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:OEWebSiteURL]];
+}
+
+- (IBAction)showOEIssues:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:OEFeedbackURL]];
 }
 
 @end
