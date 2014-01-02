@@ -342,7 +342,7 @@
 									<reference key="NSDocView" ref="149732364"/>
 									<reference key="NSBGColor" ref="622283368"/>
 									<object class="NSCursor" key="NSCursor" id="974140837">
-										<string key="NSHotSpot">{5, 5}</string>
+										<string key="NSHotSpot">{1, -1}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">2</int>
@@ -1924,7 +1924,7 @@ IEdpdEh1Yi4gA</bytes>
 							<array class="NSMutableArray" key="NSMenuItems">
 								<object class="NSMenuItem" id="736100216">
 									<reference key="NSMenu" ref="1038424661"/>
-									<string key="NSTitle">GitHub User Guide</string>
+									<string key="NSTitle">User Guide</string>
 									<string key="NSKeyEquiv">?</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
