@@ -56,7 +56,7 @@
 	NSString *selectedFilterName = [sud objectForKey:OEGameDefaultVideoFilterKey];
 
     // Set Nearest Neighbor as default filter if the current one is not available (ie. deleted)
-    if (![filterPlugins containsObject:selectedFilterName])
+    if(![filterPlugins containsObject:selectedFilterName])
     {
         selectedFilterName = @"Nearest Neighbor";
         [sud setObject:@"Nearest Neighbor" forKey:OEGameDefaultVideoFilterKey];

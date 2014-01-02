@@ -323,7 +323,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
                                 ? : [[NSUserDefaults standardUserDefaults] objectForKey:OEGameDefaultVideoFilterKey]);
 
     // Select the Default Filter if the current is not available (ie. deleted)
-    if (![_filterPlugins containsObject:selectedFilter])
+    if(![_filterPlugins containsObject:selectedFilter])
         selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameDefaultVideoFilterKey];
 
     for(NSString *aName in _filterPlugins)
