@@ -947,6 +947,10 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
     OEGameShader *filter = [_filters objectForKey:_filterName];
 
+    // Revert to the Default Filter if the current is not available (ie. deleted)
+    if(![_filters objectForKey:_filterName])
+        _filterName = [[NSUserDefaults standardUserDefaults] objectForKey:_OEDefaultVideoFilterKey];
+
     [filter compileShaders];
     if([filter isKindOfClass:[OEMultipassShader class]])
     {
