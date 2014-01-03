@@ -249,7 +249,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         return;
     }
 
-    SEND_CALLBACK(delegate, didReviewAllSelector, self, [[OEHUDAlert quitApplicationAlert] runModal] == NSAlertDefaultReturn, contextInfo);
+    if([[OEHUDAlert quitApplicationAlert] runModal] == NSAlertDefaultReturn)
+        [self closeAllDocumentsWithDelegate:delegate didCloseAllSelector:didReviewAllSelector contextInfo:contextInfo];
+    else
+        SEND_CALLBACK(delegate, didReviewAllSelector, self, NO, contextInfo);
 }
 
 - (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo
