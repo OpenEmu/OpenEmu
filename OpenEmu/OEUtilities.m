@@ -99,7 +99,7 @@ NSString *temporaryDirectoryForDecompressionOfPath(NSString *aPath)
 // According to http://stackoverflow.com/questions/11072804/mac-os-x-10-8-replacement-for-gestalt-for-testing-os-version-at-runtime
 // and http://cocoadev.com/wiki/DeterminingOSVersion
 // this is the preferred way of getting the system version at runtime
-void GetSystemVersion(int *major, int *minor, int *bugfix)
+bool GetSystemVersion(int *major, int *minor, int *bugfix)
 {
 	static int mMajor = 10;
 	static int mMinor = 8;
@@ -124,4 +124,6 @@ void GetSystemVersion(int *major, int *minor, int *bugfix)
     if(major  != NULL) *major = mMajor;
     if(minor  != NULL) *minor = mMinor;
     if(bugfix != NULL) *bugfix = mBugfix;
+    
+    return YES;
 }

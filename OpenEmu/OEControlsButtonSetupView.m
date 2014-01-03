@@ -41,6 +41,7 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 #import "NSArray+OEAdditions.h"
+#import "OEUtilities.h"
 
 NSString * const OEControlsButtonHighlightRollsOver = @"ButtonHighlightRollsOver";
 
@@ -179,11 +180,11 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
         for(NSArray *group in groups)
             for(NSUInteger j = 0; j < [group count]; j += 2)
             {
-                id item = [group objectAtIndex:j];
+                NSView *item = [group objectAtIndex:j];
                 [self addSubview:item];
                 
                 // handle headline cell
-                if([item isKindOfClass:[NSTextField class]] && [[item cell] isKindOfClass:[OEControlsKeyHeadlineCell class]])
+                if([item isKindOfClass:[NSTextField class]] && [[(NSControl*)item cell] isKindOfClass:[OEControlsKeyHeadlineCell class]])
                 {
                     j--;
                     continue;
@@ -208,6 +209,13 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
 
 - (void)layoutSubviews:(BOOL)animated
 {
+    // Disable animations if running on lion
+    int majorVersion, minorVersion;
+    if(GetSystemVersion(&majorVersion, &minorVersion, NULL) && majorVersion == 10 && minorVersion == 7)
+    {
+        animated = NO;
+    }
+    
 #define animated(_X_) animated?[_X_ animator]:_X_
 #define reflectSectionState(_ITEM_, _RECT_) if(sectionCollapsed){[_ITEM_ setAlphaValue:0.0];_RECT_.origin.y = headerOrigin.y; _RECT_.size.height=sectionTitleHeight; }else{[_ITEM_ setAlphaValue:1.0];}
     if(animated) [CATransaction begin];
