@@ -151,7 +151,7 @@
         {
             [[self progressIndicator] setIndeterminate:NO];
             [[self progressIndicator] startAnimation:self];
-            status = [NSString stringWithFormat:NSLocalizedString(@"Game %ld of %ld", @""), [[self importer] numberOfProcessedItems], maxItems];
+            status = [NSString stringWithFormat:NSLocalizedString(@"Game %ld of %ld", @""), [[self importer] numberOfProcessedItems]+1, maxItems];
 
             if([self isScanningDirectory])
                 status = NSLocalizedString(@"Scanning Directory", "");
