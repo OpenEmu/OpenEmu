@@ -93,13 +93,11 @@
 				94EBBD07183F495300743756 /* PBXTargetDependency */,
 				94EBBD39183F509100743756 /* PBXTargetDependency */,
 				94EBBD04183F491300743756 /* PBXTargetDependency */,
-				94EBBD36183F4DE500743756 /* PBXTargetDependency */,
 				94EBBD00183F48BD00743756 /* PBXTargetDependency */,
 				94EBBD16183F4ACB00743756 /* PBXTargetDependency */,
 				94EBBCFE183F48A700743756 /* PBXTargetDependency */,
 				94EBBCFA183F42A200743756 /* PBXTargetDependency */,
 				94EBBD30183F4DA400743756 /* PBXTargetDependency */,
-				94EBBD33183F4DCF00743756 /* PBXTargetDependency */,
 			);
 			name = "Build & Copy Experimental SystemPlugins";
 			productName = "Build SystemPlugins";
@@ -824,8 +822,6 @@
 		94EBBD2B183F4CB200743756 /* Vectrex.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 943F998B1707D51100270E89 /* Vectrex.oesystemplugin */; };
 		94EBBD2E183F4CE400743756 /* WonderSwan.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94A224431707539D00098DA0 /* WonderSwan.oesystemplugin */; };
 		94EBBD31183F4DB000743756 /* Arcade.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */; };
-		94EBBD34183F4DDB00743756 /* 3DO.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 943F99B31707DF3700270E89 /* 3DO.oesystemplugin */; };
-		94EBBD37183F4E0900743756 /* Jaguar.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 943C80121708A62E00D8D93E /* Jaguar.oesystemplugin */; };
 		94EBBD3A183F50A400743756 /* N64.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1415540F1442B3B300A01683 /* N64.oesystemplugin */; };
 		94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F6CB7B16DD727600CD48A4 /* OECheats.m */; };
 		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
@@ -1354,20 +1350,6 @@
 			remoteGlobalIDString = 945E42FA1517F2B500057D08;
 			remoteInfo = Arcade;
 		};
-		94EBBD32183F4DCF00743756 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 943F99B21707DF3700270E89;
-			remoteInfo = 3DO;
-		};
-		94EBBD35183F4DE500743756 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 943C80111708A62E00D8D93E;
-			remoteInfo = Jaguar;
-		};
 		94EBBD38183F509100743756 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1486,8 +1468,6 @@
 			dstSubfolderSpec = 16;
 			files = (
 				94EBBD3A183F50A400743756 /* N64.oesystemplugin in CopyFiles */,
-				94EBBD37183F4E0900743756 /* Jaguar.oesystemplugin in CopyFiles */,
-				94EBBD34183F4DDB00743756 /* 3DO.oesystemplugin in CopyFiles */,
 				94EBBD31183F4DB000743756 /* Arcade.oesystemplugin in CopyFiles */,
 				94EBBD2E183F4CE400743756 /* WonderSwan.oesystemplugin in CopyFiles */,
 				94EBBD2B183F4CB200743756 /* Vectrex.oesystemplugin in CopyFiles */,
@@ -8099,16 +8079,6 @@
 			isa = PBXTargetDependency;
 			target = 945E42FA1517F2B500057D08 /* Arcade */;
 			targetProxy = 94EBBD2F183F4DA400743756 /* PBXContainerItemProxy */;
-		};
-		94EBBD33183F4DCF00743756 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 943F99B21707DF3700270E89 /* 3DO */;
-			targetProxy = 94EBBD32183F4DCF00743756 /* PBXContainerItemProxy */;
-		};
-		94EBBD36183F4DE500743756 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 943C80111708A62E00D8D93E /* Jaguar */;
-			targetProxy = 94EBBD35183F4DE500743756 /* PBXContainerItemProxy */;
 		};
 		94EBBD39183F509100743756 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
