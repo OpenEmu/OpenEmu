@@ -260,35 +260,50 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     // TODO: this method could use some cleanup
     // TODO: remove extracted rom if necessary
     if(![self database]) return @{};
+    
+    BOOL isSystemWithHashlessROM = [self hashlessROMCheckForSystem:[[[rom game] system] systemIdentifier]];
 
     NSString * const DBMD5Key= @"romHashMD5";
     NSString * const DBCRCKey= @"romHashCRC";
+    NSString * const DBROMFileNameKey= @"romFileName";
 
     NSString *key, *value;
     
-    int headerSize = [self sizeOfROMHeaderForSystem:[[[rom game] system] systemIdentifier]];
-
-    // if rom has no header we can use the hash we calculated at import
-    if(headerSize == 0 && (value = [rom md5HashIfAvailable]) != nil)
-        key = DBMD5Key;
-    else if(headerSize == 0 && (value = [rom crcHashIfAvailable]) != nil)
-        key = DBCRCKey;
+    // check if the system is 'hashless' in the db and instead match by filename (arcade)
+    if (isSystemWithHashlessROM)
+    {
+        key = DBROMFileNameKey;
+        value = [[[rom location] lastPathComponent] lowercaseString];
+        
+    }
     else
     {
-        key = DBMD5Key;
+        int headerSize = [self sizeOfROMHeaderForSystem:[[[rom game] system] systemIdentifier]];
 
-        // try to extract archive, returns nil if rom is no archive
-        NSURL *url = [self _urlOfExtractedRom:rom];
-        if(url == nil) // rom is no archive, use original file URL
-            url = [rom URL];
+        // if rom has no header we can use the hash we calculated at import
+        if(headerSize == 0 && (value = [rom md5HashIfAvailable]) != nil)
+            key = DBMD5Key;
+        else if(headerSize == 0 && (value = [rom crcHashIfAvailable]) != nil)
+            key = DBCRCKey;
+        else
+        {
+            key = DBMD5Key;
 
-        if(![[NSFileManager defaultManager] hashFileAtURL:url headerSize:headerSize md5:&value crc32:nil error:error])
-            return nil;
+            // try to extract archive, returns nil if rom is no archive
+            NSURL *url = [self _urlOfExtractedRom:rom];
+            if(url == nil) // rom is no archive, use original file URL
+                url = [rom URL];
+
+            if(![[NSFileManager defaultManager] hashFileAtURL:url headerSize:headerSize md5:&value crc32:nil error:error])
+                return nil;
+        }
+        
+        value = [value uppercaseString];
     }
 
     NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT releaseTitleName as 'gameTitle', releaseCoverFront as 'boxImageURL', releaseDescription as 'gameDescription', regionName as 'region'\
                      FROM ROMs rom LEFT JOIN RELEASES release USING (romID) LEFT JOIN REGIONS region on (regionLocalizedID=region.regionID)\
-                     WHERE %@ = '%@'", key, [value uppercaseString]];
+                     WHERE %@ = '%@'", key, value];
 
     __block NSArray *result = [[self database] executeQuery:sql error:error];
     if([result count] > 1)
@@ -315,6 +330,15 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     }];
 
     return [result lastObject];
+}
+
+- (BOOL)hashlessROMCheckForSystem:(NSString*)system
+{
+    if(![self database]) return 0;
+    
+    NSString *sql = [NSString stringWithFormat:@"select systemhashless as 'hashless' from systems where systemoeid = '%@'", system];
+    NSArray *result = [[self database] executeQuery:sql error:nil];
+    return [[[result lastObject] objectForKey:@"hashless"] boolValue];
 }
 
 - (int)sizeOfROMHeaderForSystem:(NSString*)system
