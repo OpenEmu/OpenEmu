@@ -266,7 +266,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
     NSString *key, *value;
     
-    int headerSize = [self sizeOfROMHeaderForSystem:[[rom game] system]];
+    int headerSize = [self sizeOfROMHeaderForSystem:[[[rom game] system] systemIdentifier]];
 
     // if rom has no header we can use the hash we calculated at import
     if(headerSize == 0 && (value = [rom md5HashIfAvailable]) != nil)
@@ -317,11 +317,11 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     return [result lastObject];
 }
 
-- (int)sizeOfROMHeaderForSystem:(OEDBSystem*)system
+- (int)sizeOfROMHeaderForSystem:(NSString*)system
 {
     if(![self database]) return 0;
 
-    NSString *sql = [NSString stringWithFormat:@"select systemheadersizebytes as 'size' from systems where systemoeid = '%@'", [system systemIdentifier]];
+    NSString *sql = [NSString stringWithFormat:@"select systemheadersizebytes as 'size' from systems where systemoeid = '%@'", system];
     NSArray *result = [[self database] executeQuery:sql error:nil];
     return [[[result lastObject] objectForKey:@"size"] intValue];
 }
