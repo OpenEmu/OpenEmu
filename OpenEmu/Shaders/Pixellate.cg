@@ -26,7 +26,7 @@ float4 main_fragment(uniform sampler2D tex : TEXUNIT0, float2 coords : TEXCOORD0
 {
    float2 texelSize = 1.0 / IN.texture_size;
 
-   float2 range = float2(abs(dFdx(coords.x)), abs(dFdy(coords.y)));
+   float2 range = float2(abs(IN.video_size.x / (IN.output_size.x * IN.texture_size.x)), abs(IN.video_size.y / (IN.output_size.y * IN.texture_size.y)));
    range = range / 2.0 * 0.999;
 
    float left   = coords.x - range.x;
