@@ -54,7 +54,7 @@
         _vertexProgram = cgCreateProgramFromFile(_cgContext, CG_SOURCE, [[self filePath] UTF8String], _vertexProfile, "main_vertex", 0);
         if(_vertexProgram == NULL)
         {
-            CGError cgError = cgGetError();
+            CGerror cgError = cgGetError();
             NSLog(@"%@, vertex program: %s", [self shaderName], cgGetErrorString(cgError));
         }
 
@@ -108,7 +108,7 @@
         _fragmentProgram = cgCreateProgramFromFile(_cgContext, CG_SOURCE, [[self filePath] UTF8String], _fragmentProfile, "main_fragment", 0);
         if(_fragmentProgram == NULL)
         {
-            CGError cgError = cgGetError();
+            CGerror cgError = cgGetError();
             NSLog(@"%@, fragment program: %s", [self shaderName], cgGetErrorString(cgError));
             if(cgError == CG_COMPILER_ERROR)
             {
