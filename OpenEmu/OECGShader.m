@@ -108,9 +108,15 @@
         _fragmentProgram = cgCreateProgramFromFile(_cgContext, CG_SOURCE, [[self filePath] UTF8String], _fragmentProfile, "main_fragment", 0);
         if(_fragmentProgram == NULL)
         {
-            CGError cgError = cgGetError();
             CGerror cgError = cgGetError();
             NSLog(@"%@, fragment program: %s", [self shaderName], cgGetErrorString(cgError));
+            if(cgError == CG_COMPILER_ERROR)
+            {
+                const char * profileString = cgGetProfileString(_fragmentProfile);
+                NSLog(@"Active Cg Profile: %s", profileString ? profileString : "NULL" );
+                const char * lastListing = cgGetLastListing(_cgContext);
+                if(lastListing) NSLog(@"Cg compiler last listing: %s", lastListing);
+            }
         }
 
         cgGLLoadProgram(_fragmentProgram);
