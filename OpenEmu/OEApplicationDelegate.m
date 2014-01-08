@@ -122,7 +122,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                                       OEDefaultDatabasePathKey : path,
                                              OEDatabasePathKey : path,
                                      OEAutomaticallyGetInfoKey : @YES,
-                                   OEGameDefaultVideoFilterKey : @"Nearest Neighbor",
+                                   OEGameDefaultVideoFilterKey : @"Pixellate",
                                                OEGameVolumeKey : @0.5f,
                        OEGameControlsBarCanDeleteSaveStatesKey : @YES,
                              @"defaultCore.openemu.system.gba" : @"org.openemu.VisualBoyAdvance",
