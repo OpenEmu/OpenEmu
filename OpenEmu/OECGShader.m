@@ -109,6 +109,7 @@
         if(_fragmentProgram == NULL)
         {
             CGError cgError = cgGetError();
+            CGerror cgError = cgGetError();
             NSLog(@"%@, fragment program: %s", [self shaderName], cgGetErrorString(cgError));
         }
 
