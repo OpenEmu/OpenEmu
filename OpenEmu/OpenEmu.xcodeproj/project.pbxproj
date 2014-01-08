@@ -609,6 +609,7 @@
 		94454ED517861123006C057B /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		94454F31178B4ABA006C057B /* Virtual Boy.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224831707541E00098DA0 /* Virtual Boy.oesystemplugin */; };
 		94525EE217A9A778003CB1A2 /* OESega32XSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94525EE117A9A778003CB1A2 /* OESega32XSystemController.m */; };
+		94539B00187D09B100CD1BA9 /* Pixellate.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94539AFD187D096C00CD1BA9 /* Pixellate.cg */; };
 		945E42FC1517F2B500057D08 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		945E43021517F2B500057D08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945E43001517F2B500057D08 /* InfoPlist.strings */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
@@ -1366,6 +1367,7 @@
 			dstPath = Filters;
 			dstSubfolderSpec = 13;
 			files = (
+				94539B00187D09B100CD1BA9 /* Pixellate.cg in Copy Filters Folder To App Resources */,
 				8C09E4D81867984B0095DB4E /* Beam4.cgp in Copy Filters Folder To App Resources */,
 				8C09E4D91867984B0095DB4E /* NTSC (Blargg).cgp in Copy Filters Folder To App Resources */,
 				8C09E4DA1867984B0095DB4E /* _beam4_1.cg in Copy Filters Folder To App Resources */,
@@ -2231,6 +2233,7 @@
 		94454ECE17861098006C057B /* psp_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = psp_library.png; sourceTree = "<group>"; };
 		94525EE017A9A778003CB1A2 /* OESega32XSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESega32XSystemController.h; sourceTree = "<group>"; };
 		94525EE117A9A778003CB1A2 /* OESega32XSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESega32XSystemController.m; sourceTree = "<group>"; };
+		94539AFD187D096C00CD1BA9 /* Pixellate.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = Pixellate.cg; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E43011517F2B500057D08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -5431,6 +5434,7 @@
 				8C09E4C61867975E0095DB4E /* Blinky.cg */,
 				8C09E4C71867975E0095DB4E /* CRT.cg */,
 				8C09E4C81867975E0095DB4E /* LCD3x.cg */,
+				94539AFD187D096C00CD1BA9 /* Pixellate.cg */,
 				8C09E4C91867975E0095DB4E /* SABR.cg */,
 				8C09E4CA1867975E0095DB4E /* Scanline.cg */,
 			);

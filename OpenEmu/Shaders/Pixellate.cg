@@ -1,0 +1,54 @@
+void main_vertex
+(
+   float4 position : POSITION,
+   out float4 oPosition : POSITION,
+   uniform float4x4 modelViewProj,
+
+   float2 tex : TEXCOORD,
+   out float2 oTex : TEXCOORD
+)
+{
+   oPosition = mul(modelViewProj, position);
+   oTex = tex;
+}
+
+struct input
+{
+   float2 video_size;
+   float2 texture_size;
+   float2 output_size;
+   float  frame_count;
+   float  frame_direction;
+   float frame_rotation;
+};
+
+float4 main_fragment(uniform sampler2D tex : TEXUNIT0, float2 coords : TEXCOORD0, uniform input IN) : COLOR
+{
+   float2 texelSize = 1.0 / IN.texture_size;
+
+   float2 range = float2(abs(dFdx(coords.x)), abs(dFdy(coords.y)));
+   range = range / 2.0 * 0.999;
+
+   float left   = coords.x - range.x;
+   float top    = coords.y + range.y;
+   float right  = coords.x + range.x;
+   float bottom = coords.y - range.y;
+
+   float3 topLeftColor     = tex2D(tex, (floor(float2(left, top)     / texelSize) + 0.5) * texelSize).rgb;
+   float3 bottomRightColor = tex2D(tex, (floor(float2(right, bottom) / texelSize) + 0.5) * texelSize).rgb;
+   float3 bottomLeftColor  = tex2D(tex, (floor(float2(left, bottom)  / texelSize) + 0.5) * texelSize).rgb;
+   float3 topRightColor    = tex2D(tex, (floor(float2(right, top)    / texelSize) + 0.5) * texelSize).rgb;
+
+   float2 border = clamp(round(coords / texelSize) * texelSize, float2(left, bottom), float2(right, top));
+
+   float totalArea = 4.0 * range.x * range.y;
+
+   float3 averageColor;
+   averageColor  = ((border.x - left)  * (top - border.y)    / totalArea) * topLeftColor;
+   averageColor += ((right - border.x) * (border.y - bottom) / totalArea) * bottomRightColor;
+   averageColor += ((border.x - left)  * (border.y - bottom) / totalArea) * bottomLeftColor;
+   averageColor += ((right - border.x) * (top - border.y)    / totalArea) * topRightColor;
+
+   return float4(averageColor, 1.0);
+}
+
