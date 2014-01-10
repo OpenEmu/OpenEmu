@@ -64,3 +64,6 @@
 [submodule "Atari800"]
 	path = Atari800
 	url = git@github.com:OpenEmu/Atari800-Core.git
+[submodule "blueMSX"]
+	path = blueMSX
+	url = git@github.com:melllvar/blueMSX-Core.git

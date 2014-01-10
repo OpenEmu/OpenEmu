@@ -194,7 +194,7 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
+            buildForRunning = "NO"
             buildForProfiling = "YES"
             buildForArchiving = "YES"
             buildForAnalyzing = "YES">
@@ -222,7 +222,7 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
+            buildForRunning = "NO"
             buildForProfiling = "YES"
             buildForArchiving = "YES"
             buildForAnalyzing = "YES">
@@ -302,6 +302,20 @@
                BuildableName = "Build &amp; Install Yabause"
                BlueprintName = "Build &amp; Install Yabause"
                ReferencedContainer = "container:yabause/yabause/Yabause.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FED62A59187BE23C00A88500"
+               BuildableName = "Build &amp; Install blueMSX"
+               BlueprintName = "Build &amp; Install blueMSX"
+               ReferencedContainer = "container:blueMSX/blueMSX.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

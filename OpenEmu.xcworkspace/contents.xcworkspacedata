@@ -14,6 +14,9 @@
       location = "group:Atari800/Atari800.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:blueMSX/blueMSX.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:BSNES/BSNES.xcodeproj">
    </FileRef>
    <FileRef

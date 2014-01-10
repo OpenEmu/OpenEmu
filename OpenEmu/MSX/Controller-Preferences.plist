@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_msx</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_msx_mask</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OEMSXButtonUp</key>
+		<string>{100, 260}</string>
+		<key>OEMSXButtonDown</key>
+		<string>{100, 240}</string>
+		<key>OEMSXButtonLeft</key>
+		<string>{90, 250}</string>
+		<key>OEMSXButtonRight</key>
+		<string>{110, 250}</string>
+		<key>OEMSXButtonA</key>
+		<string>{378, 250}</string>
+		<key>OEMSXButtonB</key>
+		<string>{418, 284}</string>
+	</dict>
+</dict>
+</plist>
