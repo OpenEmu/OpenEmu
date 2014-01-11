@@ -1,4 +1,4 @@
-Open Emu is an open source project to bring game emulation to OS X as a first class citizen, leveraging modern OS X technologies such as Cocoa, Core Animation and Quartz, and 3rd party libraries like Sparkle for auto-updating. Open Emu is based on a modular architecture, allowing for game-engine plugins, this means Open Emu can support a host of different emulation engines and back-ends while retaining a familiar OS X native front-end. 
+Open Emu is an open source project to bring game emulation to OS X as an application deserving equal attention as others, leveraging modern OS X technologies such as Cocoa, Core Animation and Quartz, and 3rd party libraries like Sparkle for auto-updating. Open Emu is based on a modular architecture, allowing for game-engine plugins, this means Open Emu can support a host of different emulation engines and back-ends while retaining a familiar OS X native front-end. 
 
 Currently Open Emu can load the following game engines as plugins:
 
