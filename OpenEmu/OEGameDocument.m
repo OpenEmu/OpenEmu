@@ -565,6 +565,7 @@ typedef enum : NSUInteger
 
               _gameSystemResponder = [_gameSystemController newGameSystemResponder];
               [_gameSystemResponder setClient:systemClient];
+              [_gameSystemResponder setGlobalEventsHandler:self];
 
               [self disableOSSleep];
               [[self rom] incrementPlayCount];
@@ -687,6 +688,16 @@ typedef enum : NSUInteger
     [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesOpenPaneNotificationName object:nil userInfo:userInfo];
 }
 
+- (void)toggleFullScreen:(id)sender
+{
+    [[[self gameWindowController] window] toggleFullScreen:sender];
+}
+
+- (void)takeScreenshot:(id)sender
+{
+    [[self gameViewController] takeScreenshot:sender];
+}
+
 #pragma mark - Volume
 
 - (IBAction)changeAudioOutputDevice:(id)sender
@@ -731,17 +742,27 @@ typedef enum : NSUInteger
         DLog(@"Invalid argument passed: %@", sender);
 }
 
+- (void)toggleAudioMute:(id)sender;
+{
+    if(_isMuted)
+        [self unmute:sender];
+    else
+        [self mute:sender];
+}
+
 - (IBAction)mute:(id)sender;
 {
+    _isMuted = YES;
     [self setVolume:0.0 asDefault:NO];
 }
 
 - (IBAction)unmute:(id)sender;
 {
+    _isMuted = NO;
     [self setVolume:[self volume] asDefault:NO];
 }
 
-- (IBAction)volumeUp:(id)sender;
+- (void)volumeUp:(id)sender;
 {
     CGFloat volume = [self volume];
     volume += 0.1;
@@ -749,7 +770,7 @@ typedef enum : NSUInteger
     [self setVolume:volume asDefault:YES];
 }
 
-- (IBAction)volumeDown:(id)sender;
+- (void)volumeDown:(id)sender;
 {
     CGFloat volume = [self volume];
     volume -= 0.1;
@@ -769,12 +790,12 @@ typedef enum : NSUInteger
     [self close];
 }
 
-- (IBAction)toggleEmulationPaused:(id)sender;
+- (void)toggleEmulationPaused:(id)sender;
 {
     [self setEmulationPaused:![self isEmulationPaused]];
 }
 
-- (IBAction)resetEmulation:(id)sender;
+- (void)resetEmulation:(id)sender;
 {
     if([[OEHUDAlert resetSystemAlert] runModal] == NSAlertDefaultReturn)
     {
@@ -977,7 +998,7 @@ typedef enum : NSUInteger
     return pauseNeeded;
 }
 
-- (IBAction)saveState:(id)sender;
+- (void)saveState:(id)sender;
 {
     BOOL didPauseEmulation = [self OE_pauseEmulationIfNeeded];
 
@@ -1003,7 +1024,7 @@ typedef enum : NSUInteger
     [alert runModal];
 }
 
-- (IBAction)quickSave:(id)sender;
+- (void)quickSave:(id)sender;
 {
     int slot = 0;
     if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] respondsToSelector:@selector(intValue)])
@@ -1078,7 +1099,7 @@ typedef enum : NSUInteger
 
 #pragma mark - Loading States
 
-- (IBAction)loadState:(id)sender;
+- (void)loadState:(id)sender;
 {
     // calling pauseGame here because it might need some time to execute
     [self OE_pauseEmulationIfNeeded];
@@ -1097,7 +1118,7 @@ typedef enum : NSUInteger
     [self OE_loadState:state];
 }
 
-- (IBAction)quickLoad:(id)sender;
+- (void)quickLoad:(id)sender;
 {
     int slot = 0;
     if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] respondsToSelector:@selector(intValue)])
