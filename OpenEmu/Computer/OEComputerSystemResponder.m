@@ -60,6 +60,16 @@
     [[self client] rightMouseUp];
 }
 
+- (void)HIDKeyDown:(NSEvent *)theEvent
+{
+    [[self client] keyDown:[theEvent keyCode]];
+}
+
+- (void)HIDKeyUp:(NSEvent *)theEvent
+{
+    [[self client] keyUp:[theEvent keyCode]];
+}
+
 - (void)keyDown:(NSEvent *)theEvent
 {
     [[self client] keyDown:[theEvent keyCode]];
