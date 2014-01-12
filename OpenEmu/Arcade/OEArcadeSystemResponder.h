@@ -24,12 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
+#import "OEArcadeSystemResponderClient.h"
 
-@protocol OEArcadeSystemResponderClient;
-
-@interface OEArcadeSystemResponder : OEBasicSystemResponder
+@interface OEArcadeSystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OEArcadeSystemResponderClient> client;
 

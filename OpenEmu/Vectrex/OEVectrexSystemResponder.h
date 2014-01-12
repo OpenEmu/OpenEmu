@@ -25,10 +25,9 @@
  */
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
+#import "OEVectrexSystemResponderClient.h"
 
-@protocol OEVectrexSystemResponderClient;
-
-@interface OEVectrexSystemResponder : OEBasicSystemResponder
+@interface OEVectrexSystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OEVectrexSystemResponderClient> client;
 

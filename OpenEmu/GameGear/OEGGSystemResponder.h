@@ -24,12 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
+#import "OEGGSystemResponderClient.h"
 
-@protocol OEGGSystemResponderClient;
-
-@interface OEGGSystemResponder : OEBasicSystemResponder
+@interface OEGGSystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OEGGSystemResponderClient> client;
 
