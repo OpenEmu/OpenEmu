@@ -35,17 +35,17 @@
     return @protocol(OEComputerSystemResponderClient);
 }
 
-- (void)mouseMoved:(NSEvent *)theEvent
+- (void)mouseMovedAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] mouseMoved:[theEvent locationInGameView]];
+    [[self client] mouseMoved:aPoint];
 }
 
-- (void)mouseDown:(NSEvent *)theEvent
+- (void)mouseDownAtPoint:(OEIntPoint)aPoint
 {
     [[self client] leftMouseDown];
 }
 
-- (void)mouseUp:(NSEvent *)theEvent
+- (void)mouseUpAtPoint
 {
     [[self client] leftMouseUp];
 }

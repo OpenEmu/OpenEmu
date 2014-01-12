@@ -77,6 +77,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
 @implementation OEGameView
 {
+    NSTrackingArea    *_trackingArea;
     BOOL               _openGLContextIsSetup;
 
     // rendering
@@ -1211,6 +1212,15 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 }
 
 #pragma mark - Mouse Events
+
+- (void)updateTrackingAreas
+{
+    [super updateTrackingAreas];
+
+    [self removeTrackingArea:_trackingArea];
+    _trackingArea = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved | NSTrackingActiveInKeyWindow owner:self userInfo:nil];
+    [self addTrackingArea:_trackingArea];
+}
 
 - (OEEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
 {
