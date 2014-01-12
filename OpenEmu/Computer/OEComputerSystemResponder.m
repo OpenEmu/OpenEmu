@@ -62,12 +62,12 @@
 
 - (void)HIDKeyDown:(OEHIDEvent *)theEvent
 {
-    [[self client] keyDown:[theEvent keyCode]];
+    [[self client] keyDown:[theEvent keycode]];
 }
 
 - (void)HIDKeyUp:(OEHIDEvent *)theEvent
 {
-    [[self client] keyUp:[theEvent keyCode]];
+    [[self client] keyUp:[theEvent keycode]];
 }
 
 - (void)keyDown:(NSEvent *)theEvent
