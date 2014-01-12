@@ -29,7 +29,7 @@
 @protocol OESystemResponderClient;
 
 @protocol OEComputerSystemResponderClient <OESystemResponderClient, NSObject>
-- (void)mouseMoved:(OEIntPoint)location;
+- (void)mouseMovedAtPoint:(OEIntPoint)location;
 - (void)leftMouseDown;
 - (void)leftMouseUp;
 - (void)rightMouseDown;
