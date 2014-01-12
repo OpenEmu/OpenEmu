@@ -81,6 +81,7 @@
 				94EBBCFB183F42CE00743756 /* CopyFiles */,
 			);
 			dependencies = (
+				FE6DEA65187E88DD00EFA21E /* PBXTargetDependency */,
 				94EBBD2D183F4CC100743756 /* PBXTargetDependency */,
 				94EBBD2A183F4CA700743756 /* PBXTargetDependency */,
 				94EBBD27183F4C8D00743756 /* PBXTargetDependency */,
@@ -1089,6 +1090,21 @@
 		EFBD5D8B14EFE29500FBD1E0 /* OECoverGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D8814EFE29500FBD1E0 /* OECoverGridViewCell.m */; };
 		EFBD5D8C14EFE29500FBD1E0 /* OECoverGridViewCellRatingLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D8A14EFE29500FBD1E0 /* OECoverGridViewCellRatingLayer.m */; };
 		EFBD5D8F14F1398400FBD1E0 /* OECoverGridViewCellIndicationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D8E14F1398300FBD1E0 /* OECoverGridViewCellIndicationLayer.m */; };
+		FE6310A1187F099800D8AE07 /* MSX.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = FEB6625B187B791800D14713 /* MSX.oesystemplugin */; };
+		FEB66263187B791800D14713 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FEB66261187B791800D14713 /* InfoPlist.strings */; };
+		FEB66268187B792700D14713 /* OEMSXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB66251187B62CA00D14713 /* OEMSXSystemController.m */; };
+		FEB66269187B792700D14713 /* OEMSXSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB66254187B751700D14713 /* OEMSXSystemResponder.m */; };
+		FEB6626B187B797600D14713 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
+		FEB66271187B7F5D00D14713 /* msx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB6626D187B7F5600D14713 /* msx_library.png */; };
+		FEB66272187B7F6200D14713 /* msx_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB6626E187B7F5600D14713 /* msx_library@2x.png */; };
+		FEB66275187B80BF00D14713 /* controller_msx.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB66273187B80BF00D14713 /* controller_msx.png */; };
+		FEB66276187B80BF00D14713 /* controller_msx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB66274187B80BF00D14713 /* controller_msx@2x.png */; };
+		FEB6627A187B812800D14713 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEB66277187B812800D14713 /* Controller-Mappings.plist */; };
+		FEB6627B187B812800D14713 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEB66278187B812800D14713 /* Controller-Preferences.plist */; };
+		FEB6627C187B812800D14713 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEB66279187B812800D14713 /* Keyboard-Mappings.plist */; };
+		FEB6627F187B81BA00D14713 /* controller_msx_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB6627D187B81BA00D14713 /* controller_msx_mask.png */; };
+		FEB66280187B81BA00D14713 /* controller_msx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB6627E187B81BA00D14713 /* controller_msx_mask@2x.png */; };
+		FEB66282187B876600D14713 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1358,6 +1374,13 @@
 			remoteGlobalIDString = 1415540E1442B3B300A01683;
 			remoteInfo = N64;
 		};
+		FE6DEA64187E88DD00EFA21E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FEB6625A187B791800D14713;
+			remoteInfo = MSX;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1469,6 +1492,7 @@
 			dstPath = OpenEmu.app/Contents/PlugIns/Systems;
 			dstSubfolderSpec = 16;
 			files = (
+				FE6310A1187F099800D8AE07 /* MSX.oesystemplugin in CopyFiles */,
 				94EBBD3A183F50A400743756 /* N64.oesystemplugin in CopyFiles */,
 				94EBBD31183F4DB000743756 /* Arcade.oesystemplugin in CopyFiles */,
 				94EBBD2E183F4CE400743756 /* WonderSwan.oesystemplugin in CopyFiles */,
@@ -2766,6 +2790,23 @@
 		EFBD5D8A14EFE29500FBD1E0 /* OECoverGridViewCellRatingLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoverGridViewCellRatingLayer.m; sourceTree = "<group>"; };
 		EFBD5D8D14F1398300FBD1E0 /* OECoverGridViewCellIndicationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoverGridViewCellIndicationLayer.h; sourceTree = "<group>"; };
 		EFBD5D8E14F1398300FBD1E0 /* OECoverGridViewCellIndicationLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoverGridViewCellIndicationLayer.m; sourceTree = "<group>"; };
+		FEB66250187B62CA00D14713 /* OEMSXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemController.h; sourceTree = "<group>"; };
+		FEB66251187B62CA00D14713 /* OEMSXSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMSXSystemController.m; sourceTree = "<group>"; };
+		FEB66253187B751700D14713 /* OEMSXSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemResponder.h; sourceTree = "<group>"; };
+		FEB66254187B751700D14713 /* OEMSXSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMSXSystemResponder.m; sourceTree = "<group>"; };
+		FEB66256187B76CF00D14713 /* OEMSXSystemResponderClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemResponderClient.h; sourceTree = "<group>"; };
+		FEB6625B187B791800D14713 /* MSX.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MSX.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEB66260187B791800D14713 /* MSX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MSX-Info.plist"; sourceTree = "<group>"; };
+		FEB66262187B791800D14713 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FEB6626D187B7F5600D14713 /* msx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = msx_library.png; sourceTree = "<group>"; };
+		FEB6626E187B7F5600D14713 /* msx_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msx_library@2x.png"; sourceTree = "<group>"; };
+		FEB66273187B80BF00D14713 /* controller_msx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_msx.png; sourceTree = "<group>"; };
+		FEB66274187B80BF00D14713 /* controller_msx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_msx@2x.png"; sourceTree = "<group>"; };
+		FEB66277187B812800D14713 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		FEB66278187B812800D14713 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		FEB66279187B812800D14713 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		FEB6627D187B81BA00D14713 /* controller_msx_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_msx_mask.png; sourceTree = "<group>"; };
+		FEB6627E187B81BA00D14713 /* controller_msx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_msx_mask@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3135,6 +3176,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FEB66258187B791800D14713 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEB66282187B876600D14713 /* Cocoa.framework in Frameworks */,
+				FEB6626B187B797600D14713 /* OpenEmuSystem.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -3270,6 +3320,7 @@
 				9405538417A34C6B009B505D /* PC Engine CD.oesystemplugin */,
 				941F5A0117A785AD0005D7EA /* Atari 7800.oesystemplugin */,
 				94CEB26D17A84809005A2107 /* GameCube.oesystemplugin */,
+				FEB6625B187B791800D14713 /* MSX.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5669,6 +5720,7 @@
 				C6B947E81365080B00A425F0 /* Genesis */,
 				943C80141708A62F00D8D93E /* Jaguar */,
 				94A22455170753C800098DA0 /* Lynx */,
+				FEB6624D187B624E00D14713 /* MSX */,
 				141554111442B3B300A01683 /* N64 */,
 				94D7E8CB15073BA000FBDD85 /* NDS */,
 				820EB74D1483F9D3008EC398 /* NeoGeoPocket */,
@@ -5790,6 +5842,37 @@
 				9496290B164F834D00952A86 /* Controller-Mappings.plist */,
 				C6252DBB14E75A4800350A13 /* Controller-Preferences.plist */,
 				C6B947EB1365080B00A425F0 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FEB6624D187B624E00D14713 /* MSX */ = {
+			isa = PBXGroup;
+			children = (
+				FEB6626C187B7E9F00D14713 /* Supporting Files */,
+				FEB66250187B62CA00D14713 /* OEMSXSystemController.h */,
+				FEB66251187B62CA00D14713 /* OEMSXSystemController.m */,
+				FEB66253187B751700D14713 /* OEMSXSystemResponder.h */,
+				FEB66254187B751700D14713 /* OEMSXSystemResponder.m */,
+				FEB66256187B76CF00D14713 /* OEMSXSystemResponderClient.h */,
+			);
+			path = MSX;
+			sourceTree = "<group>";
+		};
+		FEB6626C187B7E9F00D14713 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FEB66273187B80BF00D14713 /* controller_msx.png */,
+				FEB66274187B80BF00D14713 /* controller_msx@2x.png */,
+				FEB6627D187B81BA00D14713 /* controller_msx_mask.png */,
+				FEB6627E187B81BA00D14713 /* controller_msx_mask@2x.png */,
+				FEB6626D187B7F5600D14713 /* msx_library.png */,
+				FEB6626E187B7F5600D14713 /* msx_library@2x.png */,
+				FEB66261187B791800D14713 /* InfoPlist.strings */,
+				FEB66260187B791800D14713 /* MSX-Info.plist */,
+				FEB66279187B812800D14713 /* Keyboard-Mappings.plist */,
+				FEB66277187B812800D14713 /* Controller-Mappings.plist */,
+				FEB66278187B812800D14713 /* Controller-Preferences.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -6446,6 +6529,23 @@
 			productReference = C6B947E61365080B00A425F0 /* Genesis.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
+		FEB6625A187B791800D14713 /* MSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FEB66265187B791800D14713 /* Build configuration list for PBXNativeTarget "MSX" */;
+			buildPhases = (
+				FEB66257187B791800D14713 /* Sources */,
+				FEB66258187B791800D14713 /* Frameworks */,
+				FEB66259187B791800D14713 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MSX;
+			productName = MSX;
+			productReference = FEB6625B187B791800D14713 /* MSX.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -6500,6 +6600,7 @@
 				94A224921707542A00098DA0 /* Sega CD */,
 				94A224A21707543600098DA0 /* Atari 2600 */,
 				94A224B21707544100098DA0 /* Atari 5200 */,
+				FEB6625A187B791800D14713 /* MSX */,
 				94A224C21707544B00098DA0 /* Nintendo FDS */,
 				94A224D21707556D00098DA0 /* Saturn */,
 				94A224E21707559100098DA0 /* Computer */,
@@ -7346,6 +7447,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FEB66259187B791800D14713 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEB66263187B791800D14713 /* InfoPlist.strings in Resources */,
+				FEB66275187B80BF00D14713 /* controller_msx.png in Resources */,
+				FEB66276187B80BF00D14713 /* controller_msx@2x.png in Resources */,
+				FEB6627F187B81BA00D14713 /* controller_msx_mask.png in Resources */,
+				FEB66280187B81BA00D14713 /* controller_msx_mask@2x.png in Resources */,
+				FEB66271187B7F5D00D14713 /* msx_library.png in Resources */,
+				FEB66272187B7F6200D14713 /* msx_library@2x.png in Resources */,
+				FEB6627B187B812800D14713 /* Controller-Preferences.plist in Resources */,
+				FEB6627C187B812800D14713 /* Keyboard-Mappings.plist in Resources */,
+				FEB6627A187B812800D14713 /* Controller-Mappings.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -7911,6 +8029,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FEB66257187B791800D14713 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEB66269187B792700D14713 /* OEMSXSystemResponder.m in Sources */,
+				FEB66268187B792700D14713 /* OEMSXSystemController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -8088,6 +8215,11 @@
 			isa = PBXTargetDependency;
 			target = 1415540E1442B3B300A01683 /* N64 */;
 			targetProxy = 94EBBD38183F509100743756 /* PBXContainerItemProxy */;
+		};
+		FE6DEA65187E88DD00EFA21E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FEB6625A187B791800D14713 /* MSX */;
+			targetProxy = FE6DEA64187E88DD00EFA21E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -8386,6 +8518,14 @@
 				C6BFB29C0F7CC8A600040FFA /* English */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		FEB66261187B791800D14713 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FEB66262187B791800D14713 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -10188,6 +10328,74 @@
 			};
 			name = Release;
 		};
+		FEB66266187B791800D14713 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "MSX/MSX-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		FEB66267187B791800D14713 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "MSX/MSX-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -10583,6 +10791,15 @@
 			buildConfigurations = (
 				C6B947F01365080B00A425F0 /* Debug */,
 				C6B947F11365080B00A425F0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FEB66265187B791800D14713 /* Build configuration list for PBXNativeTarget "MSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEB66266187B791800D14713 /* Debug */,
+				FEB66267187B791800D14713 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

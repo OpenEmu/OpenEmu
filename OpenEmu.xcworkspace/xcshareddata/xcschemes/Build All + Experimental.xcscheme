@@ -312,6 +312,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FED62A59187BE23C00A88500"
+               BuildableName = "Build &amp; Install blueMSX"
+               BlueprintName = "Build &amp; Install blueMSX"
+               ReferencedContainer = "container:blueMSX/blueMSX.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "94C51FBC1847077700206E6F"
                BuildableName = "Set Experimental Appcast URLs"
                BlueprintName = "Set Experimental Appcast URLs"
