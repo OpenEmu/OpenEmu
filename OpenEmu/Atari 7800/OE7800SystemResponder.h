@@ -25,10 +25,9 @@
  */
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
+#import "OE7800SystemResponderClient.h"
 
-@protocol OE7800SystemResponderClient;
-
-@interface OE7800SystemResponder : OEBasicSystemResponder
+@interface OE7800SystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OE7800SystemResponderClient> client;
 

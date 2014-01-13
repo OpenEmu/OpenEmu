@@ -24,12 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
+#import "OEN64SystemResponderClient.h"
 
-@protocol OEN64SystemResponderClient;
-
-@interface OEN64SystemResponder : OEBasicSystemResponder
+@interface OEN64SystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OEN64SystemResponderClient> client;
 

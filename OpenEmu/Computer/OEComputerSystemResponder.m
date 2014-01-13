@@ -35,17 +35,17 @@
     return @protocol(OEComputerSystemResponderClient);
 }
 
-- (void)mouseMoved:(NSEvent *)theEvent
+- (void)mouseMovedAtPoint:(OEIntPoint)aPoint
 {
-    [[self client] mouseMoved:[theEvent locationInGameView]];
+    [[self client] mouseMovedAtPoint:aPoint];
 }
 
-- (void)mouseDown:(NSEvent *)theEvent
+- (void)mouseDownAtPoint:(OEIntPoint)aPoint
 {
     [[self client] leftMouseDown];
 }
 
-- (void)mouseUp:(NSEvent *)theEvent
+- (void)mouseUpAtPoint
 {
     [[self client] leftMouseUp];
 }
@@ -58,6 +58,16 @@
 - (void)rightMouseUp:(NSEvent *)theEvent
 {
     [[self client] rightMouseUp];
+}
+
+- (void)HIDKeyDown:(OEHIDEvent *)theEvent
+{
+    [[self client] keyDown:[theEvent keycode]];
+}
+
+- (void)HIDKeyUp:(OEHIDEvent *)theEvent
+{
+    [[self client] keyUp:[theEvent keycode]];
 }
 
 - (void)keyDown:(NSEvent *)theEvent

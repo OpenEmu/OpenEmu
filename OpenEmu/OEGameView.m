@@ -75,47 +75,44 @@ static const GLfloat cg_coords[] =
 
 static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
-@interface OEGameView ()
-{
-    BOOL _openGLContextIsSetup;
-}
-
-// rendering
-@property GLuint             gameTexture;
-@property IOSurfaceID        gameSurfaceID;
-@property IOSurfaceRef       gameSurfaceRef;
-@property GLuint            *rttFBOs;
-@property GLuint            *rttGameTextures;
-@property NSUInteger         frameCount;
-@property NSUInteger         gameFrameCount;
-@property GLuint            *multipassTextures;
-@property GLuint            *multipassFBOs;
-@property OEIntSize         *multipassSizes;
-
-@property snes_ntsc_t       *ntscTable;
-@property uint16_t          *ntscSource;
-@property uint16_t          *ntscDestination;
-@property snes_ntsc_setup_t  ntscSetup;
-@property GLuint             ntscTexture;
-@property int                ntscBurstPhase;
-@property int                ntscMergeFields;
-
-@property OEIntSize          gameScreenSize;
-@property OEIntSize          gameAspectSize;
-@property CVDisplayLinkRef   gameDisplayLinkRef;
-@property SyphonServer      *gameServer;
-
-// QC based filters
-@property CIImage           *gameCIImage;
-@property QCRenderer        *filterRenderer;
-@property CGColorSpaceRef    rgbColorSpace;
-@property NSTimeInterval     filterTime;
-@property NSDate            *filterStartTime;
-@property BOOL               filterHasOutputMousePositionKeys;
-
-@end
-
 @implementation OEGameView
+{
+    NSTrackingArea    *_trackingArea;
+    BOOL               _openGLContextIsSetup;
+
+    // rendering
+    GLuint             _gameTexture;
+    IOSurfaceID        _gameSurfaceID;
+    IOSurfaceRef       _gameSurfaceRef;
+    GLuint            *_rttFBOs;
+    GLuint            *_rttGameTextures;
+    NSUInteger         _frameCount;
+    NSUInteger         _gameFrameCount;
+    GLuint            *_multipassTextures;
+    GLuint            *_multipassFBOs;
+    OEIntSize         *_multipassSizes;
+
+    snes_ntsc_t       *_ntscTable;
+    uint16_t          *_ntscSource;
+    uint16_t          *_ntscDestination;
+    snes_ntsc_setup_t  _ntscSetup;
+    GLuint             _ntscTexture;
+    int                _ntscBurstPhase;
+    int                _ntscMergeFields;
+
+    OEIntSize          _gameScreenSize;
+    OEIntSize          _gameAspectSize;
+    CVDisplayLinkRef   _gameDisplayLinkRef;
+    SyphonServer      *_gameServer;
+
+    // QC based filters
+    CIImage           *_gameCIImage;
+    QCRenderer        *_filterRenderer;
+    CGColorSpaceRef    _rgbColorSpace;
+    NSTimeInterval     _filterTime;
+    NSDate            *_filterStartTime;
+    BOOL               _filterHasOutputMousePositionKeys;
+}
 
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context
 {
@@ -221,7 +218,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     _frameCount = 0;
 
     _filters = [self OE_shadersForContext:cgl_ctx];
-    self.gameServer = [[SyphonServer alloc] initWithName:self.gameTitle context:cgl_ctx options:nil];
+    _gameServer = [[SyphonServer alloc] initWithName:self.gameTitle context:cgl_ctx options:nil];
 
     CGLUnlockContext(cgl_ctx);
 
@@ -264,7 +261,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     if(_gameTitle != title)
     {
         _gameTitle = [title copy];
-        [self.gameServer setName:title];
+        [_gameServer setName:title];
     }
 }
 
@@ -409,15 +406,15 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     DLog(@"OEGameView dealloc");
     [self tearDownDisplayLink];
 
-    [self.gameServer setName:@""];
-    [self.gameServer stop];
-    self.gameServer = nil;
+    [_gameServer setName:@""];
+    [_gameServer stop];
+    _gameServer = nil;
 
-    self.gameCIImage = nil;
+    _gameCIImage = nil;
 
     // filters
     self.filters = nil;
-    self.filterRenderer = nil;
+    _filterRenderer = nil;
 
     CGColorSpaceRelease(_rgbColorSpace);
     _rgbColorSpace = NULL;
@@ -524,13 +521,13 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
                              [gameWindow currentEvent], QCRendererEventKey,
                              nil];
 
-                [_filterRenderer setValue:[self gameCIImage] forInputKey:@"OEImageInput"];
+                [_filterRenderer setValue:_gameCIImage forInputKey:@"OEImageInput"];
                 [_filterRenderer renderAtTime:_filterTime arguments:arguments];
             }
         }
 
-        if([self.gameServer hasClients])
-            [self.gameServer publishFrameTexture:_gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
+        if([_gameServer hasClients])
+            [_gameServer publishFrameTexture:_gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
 
         [[self openGLContext] flushBuffer];
 
@@ -824,7 +821,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
     // calculate aspect ratio
     NSSize scaled;
-    OEIntSize aspectSize = [self gameAspectSize];
+    OEIntSize aspectSize = _gameAspectSize;
     float wr = aspectSize.width / self.frame.size.width;
     float hr = aspectSize.height / self.frame.size.height;
     float ratio;
@@ -995,10 +992,10 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
         if([[_filterRenderer outputKeys] containsObject:@"OEMousePositionX"] && [[_filterRenderer outputKeys] containsObject:@"OEMousePositionY"])
         {
             DLog(@"filter has mouse output position keys");
-            self.filterHasOutputMousePositionKeys = YES;
+            _filterHasOutputMousePositionKeys = YES;
         }
         else
-            self.filterHasOutputMousePositionKeys = NO;
+            _filterHasOutputMousePositionKeys = NO;
 
         CGLUnlockContext(cgl_ctx);
     }
@@ -1008,7 +1005,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
 - (NSImage *)screenshot
 {
-    const OEIntSize   aspectSize     = [self gameAspectSize];
+    const OEIntSize   aspectSize     = _gameAspectSize;
     const NSSize      frameSize      = [self frame].size;
     const float       wr             = frameSize.width / aspectSize.width;
     const float       hr             = frameSize.height / aspectSize.height;
@@ -1093,12 +1090,12 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     IOSurfaceUnlock(_gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
 
     BOOL disableAspectRatioCorrection = [[NSUserDefaults standardUserDefaults] boolForKey:@"disableScreenshotAspectRatioCorrection"];
-    NSSize imageSize  = NSSizeFromOEIntSize([self gameScreenSize]);
+    NSSize imageSize  = NSSizeFromOEIntSize(_gameScreenSize);
 
     if(!disableAspectRatioCorrection)
     {
         // calculate aspect ratio
-        OEIntSize aspectSize = [self gameAspectSize];
+        OEIntSize aspectSize = _gameAspectSize;
         float     wr         = imageSize.width  / aspectSize.width;
         float     hr         = imageSize.height / aspectSize.height;
 
@@ -1131,7 +1128,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
 {
-    [self setGameAspectSize:newAspectSize];
+    _gameAspectSize = newAspectSize;
     [self setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
 }
 
@@ -1140,7 +1137,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     DLog(@"Set screensize to: %@", NSStringFromOEIntSize(newScreenSize));
     // Recache the new resized surfaceID, so we can get our surfaceRef from it, to draw.
     _gameSurfaceID = newSurfaceID;
-    self.gameScreenSize = newScreenSize;
+    _gameScreenSize = newScreenSize;
 
     [self rebindIOSurface];
 
@@ -1175,7 +1172,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
 - (void)setAspectSize:(OEIntSize)newAspectSize
 {
-    [self setGameAspectSize:newAspectSize];
+    _gameAspectSize = newAspectSize;
 }
 
 #pragma mark - Responder
@@ -1215,6 +1212,15 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 }
 
 #pragma mark - Mouse Events
+
+- (void)updateTrackingAreas
+{
+    [super updateTrackingAreas];
+
+    [self removeTrackingArea:_trackingArea];
+    _trackingArea = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved | NSTrackingActiveInKeyWindow owner:self userInfo:nil];
+    [self addTrackingArea:_trackingArea];
+}
 
 - (OEEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
 {

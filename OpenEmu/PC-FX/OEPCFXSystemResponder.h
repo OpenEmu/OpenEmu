@@ -24,12 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
+#import "OEPCFXSystemResponderClient.h"
 
-@protocol OEPCFXSystemResponderClient;
-
-@interface OEPCFXSystemResponder : OEBasicSystemResponder
+@interface OEPCFXSystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OEPCFXSystemResponderClient> client;
 

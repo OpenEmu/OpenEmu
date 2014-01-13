@@ -24,12 +24,10 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
+#import "OEMSXSystemResponderClient.h"
 
-@protocol OEMSXSystemResponderClient;
-
-@interface OEMSXSystemResponder : OEBasicSystemResponder
+@interface OEMSXSystemResponder : OESystemResponder
 
 @property (nonatomic, weak) id<OEMSXSystemResponderClient> client;
 

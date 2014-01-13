@@ -52,7 +52,7 @@ enum _OEGameDocumentErrorCodes
 @class OEGameViewController;
 @class OESystemPlugin;
 
-@interface OEGameDocument : NSDocument
+@interface OEGameDocument : NSDocument <OEGlobalEventsHandler>
 
 - (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin *)core error:(NSError **)outError;
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core error:(NSError **)outError;
@@ -70,7 +70,7 @@ enum _OEGameDocumentErrorCodes
 @property(readonly) NSString *coreIdentifier;
 @property(readonly) NSString *systemIdentifier;
 
-@property(strong, nonatomic) NSWindowController *gameWindowController;
+@property(nonatomic) NSWindowController *gameWindowController;
 
 @property(readonly) OESystemResponder *gameSystemResponder;
 
@@ -84,12 +84,8 @@ enum _OEGameDocumentErrorCodes
 - (IBAction)changeVolume:(id)sender;
 - (IBAction)mute:(id)sender;
 - (IBAction)unmute:(id)sender;
-- (IBAction)volumeUp:(id)sender;
-- (IBAction)volumeDown:(id)sender;
 
 #pragma mark - Controlling Emulation
-- (IBAction)toggleEmulationPaused:(id)sender;
-- (IBAction)resetEmulation:(id)sender;
 - (IBAction)stopEmulation:(id)sender;
 
 #pragma mark - Cheats
@@ -97,14 +93,6 @@ enum _OEGameDocumentErrorCodes
 - (IBAction)toggleCheat:(id)sender;
 - (BOOL)supportsCheats;
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
-
-#pragma mark - Saving States
-- (IBAction)saveState:(id)sender;
-- (IBAction)quickSave:(id)sender;
-
-#pragma mark - Loading States
-- (IBAction)loadState:(id)sender;
-- (IBAction)quickLoad:(id)sender;
 
 #pragma mark - Deleting States
 - (IBAction)deleteSaveState:(id)sender;

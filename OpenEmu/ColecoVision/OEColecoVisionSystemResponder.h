@@ -25,10 +25,9 @@
  */
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
+#import "OEColecoVisionSystemResponderClient.h"
 
-@protocol OEColecoVisionSystemResponderClient;
-
-@interface OEColecoVisionSystemResponder : OEBasicSystemResponder
+@interface OEColecoVisionSystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OEColecoVisionSystemResponderClient> client;
 

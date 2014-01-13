@@ -25,10 +25,9 @@
  */
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
+#import "OE3DOSystemResponderClient.h"
 
-@protocol OE3DOSystemResponderClient;
-
-@interface OE3DOSystemResponder : OEBasicSystemResponder
+@interface OE3DOSystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OE3DOSystemResponderClient> client;
 

@@ -24,11 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEComputerSystemResponderClient.h"
-
-@protocol OEComputerSystemResponderClient;
 
 @interface OEComputerSystemResponder : OESystemResponder
 
