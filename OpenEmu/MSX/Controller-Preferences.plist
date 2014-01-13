@@ -9,17 +9,17 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEMSXButtonUp</key>
-		<string>{100, 260}</string>
+		<string>{0, 0}</string>
 		<key>OEMSXButtonDown</key>
-		<string>{100, 240}</string>
+		<string>{0, 0}</string>
 		<key>OEMSXButtonLeft</key>
-		<string>{90, 250}</string>
+		<string>{0, 0}</string>
 		<key>OEMSXButtonRight</key>
-		<string>{110, 250}</string>
+		<string>{0, 0}</string>
 		<key>OEMSXButtonA</key>
-		<string>{378, 250}</string>
+		<string>{0, 0}</string>
 		<key>OEMSXButtonB</key>
-		<string>{418, 284}</string>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>
