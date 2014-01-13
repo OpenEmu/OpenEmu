@@ -1096,14 +1096,11 @@
 		FEB66269187B792700D14713 /* OEMSXSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB66254187B751700D14713 /* OEMSXSystemResponder.m */; };
 		FEB6626B187B797600D14713 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		FEB66271187B7F5D00D14713 /* msx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB6626D187B7F5600D14713 /* msx_library.png */; };
-		FEB66272187B7F6200D14713 /* msx_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB6626E187B7F5600D14713 /* msx_library@2x.png */; };
 		FEB66275187B80BF00D14713 /* controller_msx.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB66273187B80BF00D14713 /* controller_msx.png */; };
-		FEB66276187B80BF00D14713 /* controller_msx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB66274187B80BF00D14713 /* controller_msx@2x.png */; };
 		FEB6627A187B812800D14713 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEB66277187B812800D14713 /* Controller-Mappings.plist */; };
 		FEB6627B187B812800D14713 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEB66278187B812800D14713 /* Controller-Preferences.plist */; };
 		FEB6627C187B812800D14713 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEB66279187B812800D14713 /* Keyboard-Mappings.plist */; };
 		FEB6627F187B81BA00D14713 /* controller_msx_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB6627D187B81BA00D14713 /* controller_msx_mask.png */; };
-		FEB66280187B81BA00D14713 /* controller_msx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEB6627E187B81BA00D14713 /* controller_msx_mask@2x.png */; };
 		FEB66282187B876600D14713 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -2799,14 +2796,11 @@
 		FEB66260187B791800D14713 /* MSX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MSX-Info.plist"; sourceTree = "<group>"; };
 		FEB66262187B791800D14713 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FEB6626D187B7F5600D14713 /* msx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = msx_library.png; sourceTree = "<group>"; };
-		FEB6626E187B7F5600D14713 /* msx_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "msx_library@2x.png"; sourceTree = "<group>"; };
 		FEB66273187B80BF00D14713 /* controller_msx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_msx.png; sourceTree = "<group>"; };
-		FEB66274187B80BF00D14713 /* controller_msx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_msx@2x.png"; sourceTree = "<group>"; };
 		FEB66277187B812800D14713 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		FEB66278187B812800D14713 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		FEB66279187B812800D14713 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		FEB6627D187B81BA00D14713 /* controller_msx_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_msx_mask.png; sourceTree = "<group>"; };
-		FEB6627E187B81BA00D14713 /* controller_msx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_msx_mask@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -5863,11 +5857,8 @@
 			isa = PBXGroup;
 			children = (
 				FEB66273187B80BF00D14713 /* controller_msx.png */,
-				FEB66274187B80BF00D14713 /* controller_msx@2x.png */,
 				FEB6627D187B81BA00D14713 /* controller_msx_mask.png */,
-				FEB6627E187B81BA00D14713 /* controller_msx_mask@2x.png */,
 				FEB6626D187B7F5600D14713 /* msx_library.png */,
-				FEB6626E187B7F5600D14713 /* msx_library@2x.png */,
 				FEB66261187B791800D14713 /* InfoPlist.strings */,
 				FEB66260187B791800D14713 /* MSX-Info.plist */,
 				FEB66279187B812800D14713 /* Keyboard-Mappings.plist */,
@@ -7453,11 +7444,8 @@
 			files = (
 				FEB66263187B791800D14713 /* InfoPlist.strings in Resources */,
 				FEB66275187B80BF00D14713 /* controller_msx.png in Resources */,
-				FEB66276187B80BF00D14713 /* controller_msx@2x.png in Resources */,
 				FEB6627F187B81BA00D14713 /* controller_msx_mask.png in Resources */,
-				FEB66280187B81BA00D14713 /* controller_msx_mask@2x.png in Resources */,
 				FEB66271187B7F5D00D14713 /* msx_library.png in Resources */,
-				FEB66272187B7F6200D14713 /* msx_library@2x.png in Resources */,
 				FEB6627B187B812800D14713 /* Controller-Preferences.plist in Resources */,
 				FEB6627C187B812800D14713 /* Keyboard-Mappings.plist in Resources */,
 				FEB6627A187B812800D14713 /* Controller-Mappings.plist in Resources */,
