@@ -74,9 +74,10 @@
         for(NSString *d in dataTrackList)
         {
             if([dataTrackString isEqualToString:d] || [otherDataTrackString isEqualToString:d])
+            {
                 canHandleFile = OECanHandleYes;
-
-            break;
+                break;
+            }
         }
 
         [dataTrackFile closeFile];
