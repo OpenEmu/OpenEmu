@@ -36,20 +36,20 @@
     //{
     //    return OECanHandleUncertain;
     //}
-    
+
     //BOOL valid = NO;
     OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
     NSString *dataTrack = [cueSheet dataTrackPath];
-    
+
     NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
     NSLog(@"PSX data track path: %@", dataTrackPath);
 
     BOOL valid = [super canHandleFileExtension:[path pathExtension]];
-    if (valid)
+    if(valid)
     {
         NSFileHandle *dataTrackFile;
         NSData *dataTrackBuffer;
-        
+
         dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
         [dataTrackFile seekToFileOffset: 0x24E0];
         dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
@@ -57,17 +57,18 @@
         NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
         NSLog(@"'%@'", dataTrackString);
         NSArray *dataTrackList = @[ @"  Licensed  by  ", @"  Cracked   by  " ];
-        
-        for (NSString *d in dataTrackList) {
-            if (![dataTrackString isEqualToString:d])
+
+        for(NSString *d in dataTrackList)
+        {
+            if(![dataTrackString isEqualToString:d])
                 valid = NO;
-                break;
+
+            break;
         }
 
         [dataTrackFile closeFile];
     }
-    //return valid;
-    return valid?OECanHandleYes:OECanHandleNo;
+    return valid ? OECanHandleYes : OECanHandleNo;
 }
 
 @end

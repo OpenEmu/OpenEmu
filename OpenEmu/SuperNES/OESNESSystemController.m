@@ -34,17 +34,17 @@
 
 - (NSString *)systemName
 {
-    return ( [[OELocalizationHelper sharedHelper] isRegionJAP]
+    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
             ? @"Super Famicom"
             : @"Super Nintendo (SNES)");
 }
 
 - (NSImage *)systemIcon
 {
-    NSString *imageName = (  [[OELocalizationHelper sharedHelper] isRegionNA]
+    NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionNA]
                            ? @"snes_usa_library"
                            : @"snes_eujap_library");
-    
+
     NSImage *image = [NSImage imageNamed:imageName];
     if(image == nil)
     {
@@ -53,7 +53,6 @@
         image = [[NSImage alloc] initWithContentsOfFile:path];
         [image setName:imageName];
     }
-    
     return image;
 }
 

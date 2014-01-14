@@ -34,24 +34,25 @@
 {
     OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
     NSString *dataTrack = [cueSheet dataTrackPath];
-    
+
     NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
     NSLog(@"PC-FX data track path: %@", dataTrackPath);
-    
+
     BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
     OECanHandleState canHandleFile = OECanHandleNo;
-    
-    if (handleFileExtension)
+
+    if(handleFileExtension)
     {
         NSError *error = nil;
         NSData *dataTrackBuffer = [NSData dataWithContentsOfFile:dataTrackPath options:NSDataReadingMappedIfSafe | NSDataReadingUncached error:&error];
-        
+
         NSString* dataTrackString = @"PC-FX:Hu_CD-ROM ";
         NSData* dataSearch = [dataTrackString dataUsingEncoding:NSUTF8StringEncoding];
         // this still slows import down but we need to scan the disc as there's no common offset
         NSRange indexOfData = [dataTrackBuffer rangeOfData: dataSearch options:0 range:NSMakeRange(0, [dataTrackBuffer length])];
-        
-        if (indexOfData.length > 0) {
+
+        if(indexOfData.length > 0)
+        {
             NSLog (@"'%@' at offset = 0x%lX", dataTrackString, indexOfData.location);
             canHandleFile = OECanHandleYes;
         }

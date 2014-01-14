@@ -34,11 +34,11 @@
 
 - (NSString *)systemName
 {
-    if ([[OELocalizationHelper sharedHelper] isRegionJAP])
+    if([[OELocalizationHelper sharedHelper] isRegionJAP])
     {
         return @"Super 32X";
     }
-    else if ([[OELocalizationHelper sharedHelper] isRegionEU])
+    else if([[OELocalizationHelper sharedHelper] isRegionEU])
     {
         return @"Sega Mega Drive 32X";
     }
@@ -52,11 +52,11 @@
 {
     NSString *imageName;
 
-    if ([[OELocalizationHelper sharedHelper] isRegionJAP])
+    if([[OELocalizationHelper sharedHelper] isRegionJAP])
     {
         imageName = @"32x_jp_library";
     }
-    else if ([[OELocalizationHelper sharedHelper] isRegionEU])
+    else if([[OELocalizationHelper sharedHelper] isRegionEU])
     {
         imageName = @"32x_eu_library";
     }
@@ -64,7 +64,7 @@
     {
         imageName = @"32x_na_library";
     }
-    
+
     NSImage *image = [NSImage imageNamed:imageName];
     if(image == nil)
     {
@@ -73,17 +73,16 @@
         image = [[NSImage alloc] initWithContentsOfFile:path];
         [image setName:imageName];
     }
-    
     return image;
 }
 
 - (OECanHandleState)canHandleFile:(NSString *)path
 {
-    if (![[path pathExtension] isEqualToString:@"bin"])
+    if(![[path pathExtension] isEqualToString:@"bin"])
     {
         return OECanHandleUncertain;
     }
-    
+
     BOOL valid = NO;
 
     const char *cPath = [path UTF8String];
@@ -92,10 +91,10 @@
     fseek(rom, 0x100, SEEK_SET);
     size_t readBytes = fread(systemName, sizeof(char), 8, rom);
     fclose(rom);
-    if (readBytes == 8 && (memcmp(systemName, "SEGA 32X", 8) == 0))
+    if(readBytes == 8 && (memcmp(systemName, "SEGA 32X", 8) == 0))
         valid = YES;
-    
-    return valid?OECanHandleYes:OECanHandleNo;
+
+    return valid ? OECanHandleYes : OECanHandleNo;
 }
 
 @end

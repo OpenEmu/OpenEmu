@@ -32,17 +32,17 @@
 
 - (NSString *)systemName
 {
-    return (  [[OELocalizationHelper sharedHelper] isRegionJAP]
+    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
             ? @"PC Engine"
             : @"TurboGrafx-16");
 }
 
 - (NSImage *)systemIcon
 {
-    NSString *imageName = (  [[OELocalizationHelper sharedHelper] isRegionJAP]
+    NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionJAP]
                            ? @"pcengine_library"
                            : @"tg16_library");
-    
+
     NSImage *image = [NSImage imageNamed:imageName];
     if(image == nil)
     {
@@ -51,7 +51,6 @@
         image = [[NSImage alloc] initWithContentsOfFile:path];
         [image setName:imageName];
     }
-    
     return image;
 }
 
