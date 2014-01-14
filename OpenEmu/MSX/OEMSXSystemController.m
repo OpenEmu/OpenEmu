@@ -40,16 +40,4 @@
     return [OEMSXSystemResponder class];
 }
 
-- (NSDictionary *)defaultKeyboardControls
-{
-    return @{
-             @"OEMSXButtonUp"     : @(kHIDUsage_KeyboardUpArrow)   ,
-             @"OEMSXButtonRight"  : @(kHIDUsage_KeyboardRightArrow),
-             @"OEMSXButtonLeft"   : @(kHIDUsage_KeyboardLeftArrow) ,
-             @"OEMSXButtonDown"   : @(kHIDUsage_KeyboardDownArrow) ,
-             @"OEMSXButtonA"      : @(kHIDUsage_KeyboardA)         ,
-             @"OEMSXButtonB"      : @(kHIDUsage_KeyboardS)         ,
-             };
-}
-
 @end
