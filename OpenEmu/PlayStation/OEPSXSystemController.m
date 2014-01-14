@@ -32,12 +32,6 @@
 
 - (OECanHandleState)canHandleFile:(NSString *)path
 {
-    //if (![[path pathExtension] isEqualToString:@".cue"])
-    //{
-    //    return OECanHandleUncertain;
-    //}
-
-    //BOOL valid = NO;
     OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
     NSString *dataTrack = [cueSheet dataTrackPath];
 
@@ -54,16 +48,18 @@
         [dataTrackFile seekToFileOffset: 0x24E0];
         dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
         
-        NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
+        NSString *dataTrackString = [[NSString alloc] initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
         NSLog(@"'%@'", dataTrackString);
         NSArray *dataTrackList = @[ @"  Licensed  by  ", @"  Cracked   by  " ];
 
+        valid = NO;
         for(NSString *d in dataTrackList)
         {
-            if(![dataTrackString isEqualToString:d])
-                valid = NO;
-
-            break;
+            if([dataTrackString isEqualToString:d])
+            {
+                valid = YES;
+                break;
+            }
         }
 
         [dataTrackFile closeFile];
