@@ -39,31 +39,31 @@
 {
     OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
     NSString *dataTrack = [cueSheet dataTrackPath];
-	
+
     NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
     NSLog(@"3DO data track path: %@", dataTrackPath);
-	
+
     BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
     OECanHandleState canHandleFile = OECanHandleNo;
-    
-    if (handleFileExtension)
+
+    if(handleFileExtension)
     {
         NSFileHandle *dataTrackFile;
         NSData *dataTrackBuffer, *otherDataTrackBuffer;
-		
+
         dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
         [dataTrackFile seekToFileOffset: 0x0];
         dataTrackBuffer = [dataTrackFile readDataOfLength: 8];
         [dataTrackFile seekToFileOffset: 0x28];
         otherDataTrackBuffer = [dataTrackFile readDataOfLength: 6];
-		
+
         NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
         NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
         NSLog(@"%@", dataTrackString);
         NSLog(@"%@", otherDataTrackString);
-        if ([dataTrackString isEqualToString:@"\x01\x5a\x5a\x5a\x5a\x5a\x01\x00"] && [otherDataTrackString isEqualToString:@"CD-ROM"])
+        if([dataTrackString isEqualToString:@"\x01\x5a\x5a\x5a\x5a\x5a\x01\x00"] && [otherDataTrackString isEqualToString:@"CD-ROM"])
             canHandleFile = OECanHandleYes;
-		
+
         [dataTrackFile closeFile];
     }
     return canHandleFile;

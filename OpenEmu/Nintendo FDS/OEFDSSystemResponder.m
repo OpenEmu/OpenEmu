@@ -38,7 +38,7 @@
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
     OEFDSButton button = (OEFDSButton)[aKey key];
-    
+
     switch(button)
     {
         case OEFDSButtonChangeSide : [[self client] didPushFDSChangeSideButton]; break;
@@ -51,7 +51,7 @@
 - (void)releaseEmulatorKey:(OESystemKey *)aKey
 {
     OEFDSButton button = (OEFDSButton)[aKey key];
-    
+
     switch(button)
     {
         case OEFDSButtonChangeSide : [[self client] didReleaseFDSChangeSideButton]; break;

@@ -32,17 +32,17 @@
 
 - (NSString *)systemName
 {
-    return (  [[OELocalizationHelper sharedHelper] isRegionJAP]
+    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
             ? @"PC Engine CD"
             : @"TurboGrafx-CD");
 }
 
 - (NSImage *)systemIcon
 {
-    NSString *imageName = (  [[OELocalizationHelper sharedHelper] isRegionJAP]
+    NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionJAP]
                            ? @"pcenginecd_library"
                            : @"tgcd_library");
-    
+
     NSImage *image = [NSImage imageNamed:imageName];
     if(image == nil)
     {
@@ -51,7 +51,6 @@
         image = [[NSImage alloc] initWithContentsOfFile:path];
         [image setName:imageName];
     }
-    
     return image;
 }
 
@@ -59,24 +58,25 @@
 {
     OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
     NSString *dataTrack = [cueSheet dataTrackPath];
-    
+
     NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
     NSLog(@"PCE-CD data track path: %@", dataTrackPath);
-    
+
     BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
     OECanHandleState canHandleFile = OECanHandleNo;
-    
-    if (handleFileExtension)
+
+    if(handleFileExtension)
     {
         NSError *error = nil;
         NSData *dataTrackBuffer = [NSData dataWithContentsOfFile:dataTrackPath options:NSDataReadingMappedIfSafe | NSDataReadingUncached error:&error];
-        
+
         NSString* dataTrackString = @"PC Engine CD-ROM SYSTEM";
         NSData* dataSearch = [dataTrackString dataUsingEncoding:NSUTF8StringEncoding];
         // this still slows import down but we need to scan the disc as there's no common offset
         NSRange indexOfData = [dataTrackBuffer rangeOfData: dataSearch options:0 range:NSMakeRange(0, [dataTrackBuffer length])];
-        
-        if (indexOfData.length > 0) {
+
+        if(indexOfData.length > 0)
+        {
             NSLog (@"'%@' at offset = 0x%lX", dataTrackString, indexOfData.location);
             canHandleFile = OECanHandleYes;
         }

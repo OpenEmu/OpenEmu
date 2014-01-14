@@ -158,18 +158,18 @@ static NSDictionary *virtualPhysicalKeyMap;
 - (void)HIDKeyDown:(OEHIDEvent *)anEvent
 {
     [super HIDKeyDown:anEvent];
-    
+
     NSNumber *virtualCode = [virtualPhysicalKeyMap objectForKey:@([anEvent keycode])];
-    if (virtualCode)
+    if(virtualCode)
         [[self client] didPressKey:[virtualCode intValue]];
 }
 
 - (void)HIDKeyUp:(OEHIDEvent *)anEvent
 {
     [super HIDKeyUp:anEvent];
-    
+
     NSNumber *virtualCode = [virtualPhysicalKeyMap objectForKey:@([anEvent keycode])];
-    if (virtualCode)
+    if(virtualCode)
         [[self client] didReleaseKey:[virtualCode intValue]];
 }
 

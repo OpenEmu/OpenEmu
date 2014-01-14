@@ -34,17 +34,17 @@
 
 - (NSString *)systemName
 {
-    return ( [[OELocalizationHelper sharedHelper] isRegionNA]
+    return ([[OELocalizationHelper sharedHelper] isRegionNA]
             ? @"Sega Genesis"
             : @"Sega Mega Drive");
 }
 
 - (NSImage *)systemIcon
 {
-    NSString *imageName = (  [[OELocalizationHelper sharedHelper] isRegionNA]
+    NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionNA]
                            ? @"genesis_library"
                            : @"megadrive_library");
-    
+
     NSImage *image = [NSImage imageNamed:imageName];
     if(image == nil)
     {
@@ -53,17 +53,14 @@
         image = [[NSImage alloc] initWithContentsOfFile:path];
         [image setName:imageName];
     }
-    
     return image;
 }
 
 - (OECanHandleState)canHandleFile:(NSString *)path
 {
-    if (![[path pathExtension] isEqualToString:@"bin"])
-    {
+    if(![[path pathExtension] isEqualToString:@"bin"])
         return OECanHandleUncertain;
-    }
-    
+
     BOOL valid = NO;
 
     const char *cPath = [path UTF8String];
@@ -72,10 +69,11 @@
     fseek(rom, 0x100, SEEK_SET);
     size_t readBytes = fread(systemName, sizeof(char), 16, rom);
     fclose(rom);
-    if (readBytes == 16 && (memcmp(systemName, "SEGA GENESIS    ", 16) == 0 || memcmp(systemName, "SEGA MEGA DRIVE ", 16) == 0))
-        valid = YES;
     
-    return valid?OECanHandleYes:OECanHandleNo;
+    if(readBytes == 16 && (memcmp(systemName, "SEGA GENESIS    ", 16) == 0 || memcmp(systemName, "SEGA MEGA DRIVE ", 16) == 0))
+        valid = YES;
+
+    return valid ? OECanHandleYes : OECanHandleNo;
 }
 
 @end

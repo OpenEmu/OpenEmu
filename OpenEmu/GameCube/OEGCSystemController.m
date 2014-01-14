@@ -30,39 +30,37 @@
 
 @implementation OEGCSystemController
 
-// read header to detect GameCube ISO, GCM & CISO
+// Read header to detect GameCube ISO, GCM & CISO
 - (OECanHandleState)canHandleFile:(NSString *)path
 {
     BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
     OECanHandleState canHandleFile = OECanHandleNo;
-    
+
     if(handleFileExtension)
     {
         // Handle gcm file and return early
-        if ( [[[path pathExtension] lowercaseString] isEqualToString:@"gcm"])
+        if([[[path pathExtension] lowercaseString] isEqualToString:@"gcm"])
             return OECanHandleYes;
-        
+
         NSFileHandle *dataFile;
         NSData *dataBuffer;
-        
+
         dataFile = [NSFileHandle fileHandleForReadingAtPath:path];
-        
+
         // Handle ciso file and set the offset for the Magicword in compressed iso
-        if ( [[[path pathExtension] lowercaseString] isEqualToString:@"ciso"])
+        if([[[path pathExtension] lowercaseString] isEqualToString:@"ciso"])
             [dataFile seekToFileOffset: 0x801C];
         else
             [dataFile seekToFileOffset: 0x1C];
-        
+
         dataBuffer = [dataFile readDataOfLength:4]; // Gamecube Magicword 0xC2339F3D
-        
         NSString *dataString = [[NSString alloc] initWithData:dataBuffer encoding:NSMacOSRomanStringEncoding];
-        NSLog(@"'%@'", dataString);
+
         if([dataString isEqualToString:@"¬3ü="])
             canHandleFile = OECanHandleYes;
-        
+
         [dataFile closeFile];
     }
-    
     return canHandleFile;
 }
 @end

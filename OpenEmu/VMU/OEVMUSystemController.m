@@ -32,7 +32,7 @@
 
 - (NSString *)systemName
 {
-    return (  [[OELocalizationHelper sharedHelper] isRegionJAP]
+    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
             ? @"VMS"
             : @"VMU");
 }

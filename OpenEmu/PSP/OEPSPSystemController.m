@@ -39,9 +39,9 @@
     if(handleFileExtension)
     {
         // Handle cso file and return early
-        if ( [[[path pathExtension] lowercaseString] isEqualToString:@"cso"])
+        if([[[path pathExtension] lowercaseString] isEqualToString:@"cso"])
             return OECanHandleYes;
-        
+
         NSFileHandle *dataFile;
         NSData *dataBuffer;
 
@@ -50,13 +50,12 @@
         dataBuffer = [dataFile readDataOfLength:5];
 
         NSString *dataString = [[NSString alloc] initWithData:dataBuffer encoding:NSUTF8StringEncoding];
-        NSLog(@"'%@'", dataString);
+
         if([dataString isEqualToString:@"CD001"])
             canHandleFile = OECanHandleYes;
 
         [dataFile closeFile];
     }
-
     return canHandleFile;
 }
 

@@ -39,31 +39,30 @@
 {
     OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
     NSString *dataTrack = [cueSheet dataTrackPath];
-	
+
     NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
     NSLog(@"Saturn data track path: %@", dataTrackPath);
-	
+
     BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
     OECanHandleState canHandleFile = OECanHandleNo;
-    
-    if (handleFileExtension)
+
+    if(handleFileExtension)
     {
         NSFileHandle *dataTrackFile;
         NSData *dataTrackBuffer, *otherDataTrackBuffer;
-		
+
         dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
         [dataTrackFile seekToFileOffset: 0x0];
         dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
         [dataTrackFile seekToFileOffset: 0x010];
         otherDataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-        
+
         NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
         NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSLog(@"'%@'", dataTrackString);
-        NSLog(@"'%@'", otherDataTrackString);
-        if ([dataTrackString isEqualToString:@"SEGA SEGASATURN "] || [otherDataTrackString isEqualToString:@"SEGA SEGASATURN "])
+
+        if([dataTrackString isEqualToString:@"SEGA SEGASATURN "] || [otherDataTrackString isEqualToString:@"SEGA SEGASATURN "])
             canHandleFile = OECanHandleYes;
-		
+
         [dataTrackFile closeFile];
     }
     return canHandleFile;
@@ -71,10 +70,10 @@
 
 - (NSImage*)systemIcon
 {
-    NSString *imageName = (  [[OELocalizationHelper sharedHelper] isRegionJAP]
+    NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionJAP]
                            ? @"saturn_jap_library"
                            : @"saturn_library");
-    
+
     NSImage *image = [NSImage imageNamed:imageName];
     if(image == nil)
     {
@@ -83,7 +82,6 @@
         image = [[NSImage alloc] initWithContentsOfFile:path];
         [image setName:imageName];
     }
-    
     return image;
 }
 

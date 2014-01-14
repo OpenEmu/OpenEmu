@@ -32,7 +32,7 @@
 
 - (NSString *)systemName
 {
-    return ( [[OELocalizationHelper sharedHelper] isRegionNA]
+    return ([[OELocalizationHelper sharedHelper] isRegionNA]
             ? @"Sega CD"
             : @"Sega Mega-CD");
 }
@@ -43,18 +43,18 @@
     //{
     //    return OECanHandleUncertain;
     //}
-    
+
     //BOOL valid = NO;
     OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
     NSString *dataTrack = [cueSheet dataTrackPath];
-    
+
     NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
     NSLog(@"SCD data track path: %@", dataTrackPath);
 
     BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
     OECanHandleState canHandleFile = OECanHandleNo;
-    
-    if (handleFileExtension)
+
+    if(handleFileExtension)
     {
         NSFileHandle *dataTrackFile;
         NSData *dataTrackBuffer, *otherDataTrackBuffer;
@@ -71,15 +71,16 @@
         NSLog(@"'%@'", otherDataTrackString);
         NSArray *dataTrackList = @[ @"SEGADISCSYSTEM  ", @"SEGABOOTDISC    ", @"SEGADISC        ", @"SEGADATADISC    " ];
 
-        for (NSString *d in dataTrackList) {
-            if ([dataTrackString isEqualToString:d] || [otherDataTrackString isEqualToString:d])
+        for(NSString *d in dataTrackList)
+        {
+            if([dataTrackString isEqualToString:d] || [otherDataTrackString isEqualToString:d])
                 canHandleFile = OECanHandleYes;
-                break;
+
+            break;
         }
-        
+
         [dataTrackFile closeFile];
     }
-    //return valid;
     return canHandleFile;
 }
 

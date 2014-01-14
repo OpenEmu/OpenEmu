@@ -34,17 +34,17 @@
 
 - (NSString *)systemName
 {
-    return (  [[OELocalizationHelper sharedHelper] isRegionJAP]
+    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
             ? @"Famicom"
             : @"Nintendo (NES)");
 }
 
 - (NSImage *)systemIcon
 {
-    NSString *imageName = (  [[OELocalizationHelper sharedHelper] isRegionJAP]
+    NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionJAP]
                            ? @"famicom_library"
                            : @"nes_library");
-    
+
     NSImage *image = [NSImage imageNamed:imageName];
     if(image == nil)
     {
@@ -53,7 +53,6 @@
         image = [[NSImage alloc] initWithContentsOfFile:path];
         [image setName:imageName];
     }
-    
     return image;
 }
 
