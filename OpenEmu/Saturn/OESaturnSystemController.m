@@ -59,7 +59,9 @@
 
         NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
         NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
-
+        NSLog(@"'%@'", dataTrackString);
+        NSLog(@"'%@'", otherDataTrackString);
+        
         if([dataTrackString isEqualToString:@"SEGA SEGASATURN "] || [otherDataTrackString isEqualToString:@"SEGA SEGASATURN "])
             canHandleFile = OECanHandleYes;
 

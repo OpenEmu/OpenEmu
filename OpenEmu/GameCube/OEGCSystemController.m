@@ -55,6 +55,7 @@
 
         dataBuffer = [dataFile readDataOfLength:4]; // Gamecube Magicword 0xC2339F3D
         NSString *dataString = [[NSString alloc] initWithData:dataBuffer encoding:NSMacOSRomanStringEncoding];
+        NSLog(@"'%@'", dataString);
 
         if([dataString isEqualToString:@"¬3ü="])
             canHandleFile = OECanHandleYes;

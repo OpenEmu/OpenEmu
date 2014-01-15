@@ -50,7 +50,8 @@
         dataBuffer = [dataFile readDataOfLength:5];
 
         NSString *dataString = [[NSString alloc] initWithData:dataBuffer encoding:NSUTF8StringEncoding];
-
+        NSLog(@"'%@'", dataString);
+        
         if([dataString isEqualToString:@"CD001"])
             canHandleFile = OECanHandleYes;
 
