@@ -179,7 +179,6 @@ typedef struct
         char queueName[256];
         sprintf(queueName, "%s.%p", _OEFSMDefaultProcessingQueuePrefix, self);
         _processingQueue = dispatch_queue_create(queueName, DISPATCH_QUEUE_SERIAL);
-        dispatch_retain(_processingQueue);
     }
 
     _running      = YES;
@@ -267,7 +266,6 @@ typedef struct
         _timersQueue = dispatch_queue_create(queueName, DISPATCH_QUEUE_SERIAL);
         dispatch_set_context(_timersQueue, timersQueueContext);
         dispatch_set_finalizer_f(_timersQueue, OE_timersQueueFinalizer);
-        dispatch_retain(_timersQueue);
     }
     for(OEFSMTimerTransition *timerTransition in timerTransitions)
     {
