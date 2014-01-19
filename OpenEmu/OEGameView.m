@@ -203,11 +203,18 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     _ntscSetup.merge_fields = _ntscMergeFields;
     snes_ntsc_init(_ntscTable, &_ntscSetup);
 
+    free(_ntscSource);
     _ntscSource      = (uint16_t *) malloc(sizeof(uint16_t) * _gameScreenSize.width * _gameScreenSize.height);
     if(_gameScreenSize.width <= 256)
+    {
+        free(_ntscDestination);
         _ntscDestination = (uint16_t *) malloc(sizeof(uint16_t) * SNES_NTSC_OUT_WIDTH(_gameScreenSize.width) * _gameScreenSize.height);
+    }
     else if(_gameScreenSize.width <= 512)
+    {
+        free(_ntscDestination);
         _ntscDestination = (uint16_t *) malloc(sizeof(uint16_t) * SNES_NTSC_OUT_WIDTH_HIRES(_gameScreenSize.width) * _gameScreenSize.height);
+    }
 
     glGenTextures(1, &_ntscTexture);
     glBindTexture(GL_TEXTURE_2D, _ntscTexture);
@@ -310,8 +317,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     glDeleteTextures(1, &_ntscTexture);
     _ntscTexture = 0;
 
-    if(_multipassSizes)
-        free(_multipassSizes);
+    free(_multipassSizes);
     _multipassSizes = 0;
 
     CGLUnlockContext(cgl_ctx);
@@ -939,8 +945,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     [filter compileShaders];
     if([filter isKindOfClass:[OEMultipassShader class]])
     {
-        if(_multipassSizes)
-            free(_multipassSizes);
+        free(_multipassSizes);
         _multipassSizes = (OEIntSize *) malloc(sizeof(OEIntSize) * ([(OEMultipassShader *)filter numberOfPasses] + 1));
 
         if([(OEMultipassShader *)filter NTSCFilter])
