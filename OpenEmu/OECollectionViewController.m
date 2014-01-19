@@ -1019,7 +1019,9 @@ static NSArray *OE_defaultSortDescriptors;
         }];
         [[[selectedGames lastObject] libraryDatabase] save:nil];
         
-        [self setNeedsReload];
+        NSRect visibleRect = [gridView visibleRect];
+        [self OE_reloadData];
+        [gridView scrollRectToVisible:visibleRect];
     }
 }
 

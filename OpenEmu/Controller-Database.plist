@@ -2623,14 +2623,6 @@
 				<key>OEControllerProductID</key>
 				<integer>17</integer>
 			</dict>
-			<dict>
-				<key>OEControllerDeviceName</key>
-				<string>Super Smartjoy 2</string>
-				<key>OEControllerVendorID</key>
-				<integer>6666</integer>
-				<key>OEControllerProductID</key>
-				<integer>667</integer>
-			</dict>
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
