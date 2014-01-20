@@ -235,7 +235,7 @@
     // Is also ensured by disabling ui element (checkbox)
     if(![system plugin])
     {
-        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"%@ could not be enabled because it's plugin was not found.", @""), [system name]];
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"%@ could not be enabled because its plugin was not found.", @""), [system name]];
         NSString *button = NSLocalizedString(@"OK", @"");
         OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message defaultButton:button alternateButton:nil];
         [alert runModal];
