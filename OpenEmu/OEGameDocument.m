@@ -938,17 +938,31 @@ typedef enum : NSUInteger
 
     [alert setDefaultButtonTitle:NSLocalizedString(@"Add Cheat", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
+    
+    [alert setShowsSuppressionButton:YES];
+    [alert setSuppressionLabelText:@"Enable now"];
 
     [alert setInputLimit:1000];
 
     if([alert runModal])
     {
+        NSNumber *enabled;
+        if ([[alert suppressionButton] state] == NSOnState)
+        {
+            enabled = @YES;
+            [self setCheat:[alert stringValue] withType:@"Unknown" enabled:[enabled boolValue]];
+        }
+        else
+        {
+            enabled = @NO;
+        }
+        
         TODO("decide how to handle setting a cheat type from the modal and save added cheats to file");
         [[sender representedObject] addObject:[@{
              @"code" : [alert stringValue],
              @"type" : @"Unknown",
              @"description" : [alert otherStringValue],
-             @"enabled" : @NO,
+             @"enabled" : enabled,
          } mutableCopy]];
     }
 }
