@@ -85,4 +85,54 @@
     return canHandleFile;
 }
 
+- (NSString *)headerLookupForFile:(NSString *)path
+{
+    // Path is a cuesheet so get the first data track from the file for reading
+    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
+    NSString *dataTrack = [cueSheet dataTrackPath];
+    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
+    
+    NSFileHandle *dataTrackFile;
+    NSData *dataTrackBuffer, *otherDataTrackBuffer, *headerDataTrackBuffer;
+    
+    // Read both offsets because of various dumps
+    dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
+    [dataTrackFile seekToFileOffset: 0x0100];
+    dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
+    [dataTrackFile seekToFileOffset: 0x0110];
+    otherDataTrackBuffer = [dataTrackFile readDataOfLength: 16];
+    
+    NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
+    NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
+    
+    unsigned long long offsetFound;
+    NSArray *dataTrackList = @[ @"SEGA GENESIS    ", @"SEGA MEGA DRIVE " ];
+    
+    // Find which offset contains the 256-byte header
+    for(NSString *d in dataTrackList)
+    {
+        if([dataTrackString isEqualToString:d])
+        {
+            offsetFound = 0x0100;
+            break;
+        }
+        else if ([otherDataTrackString isEqualToString:d])
+        {
+            offsetFound = 0x0110;
+            break;
+        }
+    }
+    // Read the full header at the offset found
+    [dataTrackFile seekToFileOffset: offsetFound];
+    headerDataTrackBuffer = [dataTrackFile readDataOfLength: 256];
+    
+    [dataTrackFile closeFile];
+    
+    // Format the hexadecimal representation and return
+    NSString *buffer = [[headerDataTrackBuffer description] uppercaseString];
+    NSString *hex = [[buffer componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]] componentsJoinedByString:@""];
+    
+    return hex;
+}
+
 @end
