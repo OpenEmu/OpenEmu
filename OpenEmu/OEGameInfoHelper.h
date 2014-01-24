@@ -41,6 +41,8 @@ extern NSString * const OEGameInfoHelperDidUpdateNotificationName;
 + (id)sharedHelper;
 - (NSDictionary*)gameInfoForROM:(OEDBRom*)rom error:(NSError *__autoreleasing*)error;
 - (BOOL)hashlessROMCheckForSystem:(NSString*)system;
+- (BOOL)headerROMCheckForSystem:(NSString*)system;
+- (BOOL)serialROMCheckForSystem:(NSString*)system;
 - (int)sizeOfROMHeaderForSystem:(NSString*)system;
 
 - (NSURL*)checkForUpdates:(NSString**)outVersion; // checks for updates, returns url of new release if any newer db is found

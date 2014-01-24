@@ -61,6 +61,8 @@ NSString *const OEImportInfoSystemID    = @"systemID";
 NSString *const OEImportInfoCollectionID= @"collectionID";
 NSString *const OEImportInfoArchivedFileURL   = @"archivedFileURL";
 NSString *const OEImportInfoArchivedFileIndex = @"archivedFileIndex";
+NSString *const OEImportInfoHeader      = @"header";
+NSString *const OEImportInfoSerial      = @"serial";
 
 @interface OEROMImporter ()
 {
@@ -669,6 +671,22 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             }
             else
             {
+                // Check if system plugin for ROM implemented headerLookupForFile: and serialLookupForFile:
+                NSString *headerFound = [OEDBSystem headerForFileWithURL:[rom URL] forSystem:systemIdentifier];
+                NSString *serialFound = [OEDBSystem serialForFileWithURL:[rom URL] forSystem:systemIdentifier];
+                
+                if(headerFound != nil)
+                {
+                    [[item importInfo] setValue:headerFound forKey:OEImportInfoHeader];
+                    [rom setHeader:[importInfo objectForKey:OEImportInfoHeader]];
+                }
+                
+                if(serialFound != nil)
+                {
+                    [[item importInfo] setValue:serialFound forKey:OEImportInfoSerial];
+                    [rom setSerial:[importInfo objectForKey:OEImportInfoSerial]];
+                }
+                
                 NSURL *url = [rom URL];
                 NSString *gameTitleWithSuffix = [url lastPathComponent];
                 NSString *gameTitleWithoutSuffix = [gameTitleWithSuffix stringByDeletingPathExtension];

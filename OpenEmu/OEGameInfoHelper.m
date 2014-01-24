@@ -262,10 +262,14 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     if(![self database]) return @{};
     
     BOOL isSystemWithHashlessROM = [self hashlessROMCheckForSystem:[[[rom game] system] systemIdentifier]];
+    BOOL isSystemWithROMHeader = [self headerROMCheckForSystem:[[[rom game] system] systemIdentifier]];
+    BOOL isSystemWithROMSerial = [self serialROMCheckForSystem:[[[rom game] system] systemIdentifier]];
 
     NSString * const DBMD5Key= @"romHashMD5";
     NSString * const DBCRCKey= @"romHashCRC";
     NSString * const DBROMFileNameKey= @"romFileName";
+    NSString * const DBROMHeaderKey= @"romHeader";
+    NSString * const DBROMSerialKey= @"romSerial";
 
     NSString *key, *value;
     
@@ -274,6 +278,20 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     {
         key = DBROMFileNameKey;
         value = [[[rom location] lastPathComponent] lowercaseString];
+        
+    }
+    // check if the system has headers in the db and instead match by header
+    else if (isSystemWithROMHeader)
+    {
+        key = DBROMHeaderKey;
+        value = [[rom header] uppercaseString];
+        
+    }
+    // check if the system has serials in the db and instead match by serial
+    else if (isSystemWithROMSerial)
+    {
+        key = DBROMSerialKey;
+        value = [[rom serial] uppercaseString];
         
     }
     else
@@ -339,6 +357,24 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     NSString *sql = [NSString stringWithFormat:@"select systemhashless as 'hashless' from systems where systemoeid = '%@'", system];
     NSArray *result = [[self database] executeQuery:sql error:nil];
     return [[[result lastObject] objectForKey:@"hashless"] boolValue];
+}
+
+- (BOOL)headerROMCheckForSystem:(NSString*)system
+{
+    if(![self database]) return 0;
+    
+    NSString *sql = [NSString stringWithFormat:@"select systemheader as 'header' from systems where systemoeid = '%@'", system];
+    NSArray *result = [[self database] executeQuery:sql error:nil];
+    return [[[result lastObject] objectForKey:@"header"] boolValue];
+}
+
+- (BOOL)serialROMCheckForSystem:(NSString*)system
+{
+    if(![self database]) return 0;
+    
+    NSString *sql = [NSString stringWithFormat:@"select systemserial as 'serial' from systems where systemoeid = '%@'", system];
+    NSArray *result = [[self database] executeQuery:sql error:nil];
+    return [[[result lastObject] objectForKey:@"serial"] boolValue];
 }
 
 - (int)sizeOfROMHeaderForSystem:(NSString*)system

@@ -50,6 +50,9 @@ extern NSString * const OEDBSystemsDidChangeNotification;
 + (NSArray*)systemsForFileWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database;
 + (NSArray*)systemsForFileWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError**)error;
 
++ (NSString*)headerForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier;
++ (NSString*)serialForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier;
+
 + (id)systemForPlugin:(OESystemPlugin *)plugin inDatabase:(OELibraryDatabase *)database;
 + (id)systemForPluginIdentifier:(NSString *)identifier inDatabase:(OELibraryDatabase *)database;
 

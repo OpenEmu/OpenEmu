@@ -177,6 +177,22 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     return [NSArray array];
 }
 
++ (NSString*)headerForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier
+{
+    OESystemPlugin *systemPlugin = [OESystemPlugin systemPluginForIdentifier:identifier];
+    NSString *header = [[systemPlugin controller] headerLookupForFile:[url path]];
+    
+    return header;
+}
+
++ (NSString*)serialForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier
+{
+    OESystemPlugin *systemPlugin = [OESystemPlugin systemPluginForIdentifier:identifier];
+    NSString *serial = [[systemPlugin controller] serialLookupForFile:[url path]];
+    
+    return serial;
+}
+
 + (id)systemForPlugin:(OESystemPlugin *)plugin inDatabase:(OELibraryDatabase *)database
 {
     NSString *systemIdentifier = [plugin systemIdentifier];
