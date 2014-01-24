@@ -111,6 +111,8 @@
 @property(nonatomic, retain)                    NSNumber *playCount;
 @property(nonatomic, retain)                    NSNumber *playTime;
 @property(nonatomic, retain)                    NSNumber *archiveFileIndex;
+@property(nonatomic, retain)                    NSString *header;
+@property(nonatomic, retain)                    NSString *serial;
 
 #pragma mark - Data Model Relationships
 

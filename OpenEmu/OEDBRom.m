@@ -41,7 +41,7 @@
 @implementation OEDBRom
 @dynamic URL;
 // Data Model Properties
-@dynamic location, favorite, crc32, md5, lastPlayed, fileSize, playCount, playTime, archiveFileIndex;
+@dynamic location, favorite, crc32, md5, lastPlayed, fileSize, playCount, playTime, archiveFileIndex, header, serial;
 // Data Model Relationships
 @dynamic game, saveStates, tosec;
 

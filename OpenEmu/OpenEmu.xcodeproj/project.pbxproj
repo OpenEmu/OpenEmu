@@ -2167,6 +2167,7 @@
 		941F5A1617A786870005D7EA /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		941F5A1717A786870005D7EA /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		941F5A1817A786870005D7EA /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		942388B218922E2E0030A325 /* OEDatabase 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OEDatabase 1.1.xcdatamodel"; sourceTree = "<group>"; };
 		94380774184E6AE100E2274B /* _ntsc-decode-filter-3phase.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-decode-filter-3phase.inc"; sourceTree = "<group>"; };
 		94380775184E6AE100E2274B /* _ntsc-gauss-pass.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-gauss-pass.cg"; sourceTree = "<group>"; };
 		94380776184E6AE100E2274B /* _ntsc-param.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-param.inc"; sourceTree = "<group>"; };
@@ -10752,6 +10753,7 @@
 		C68A54E41516AD3C001053F2 /* OEDatabase.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				942388B218922E2E0030A325 /* OEDatabase 1.1.xcdatamodel */,
 				832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */,
 				83A8CD8D1709E1EE00F5D145 /* OEDatabase 0.5.xcdatamodel */,
 				142689BD16585F0E00AD0B63 /* OEDatabase 0.4.xcdatamodel */,
@@ -10759,7 +10761,7 @@
 				8353EB1A15FF41930026E326 /* OEDatabase 0.2.xcdatamodel */,
 				C68A54E51516AD3C001053F2 /* OEDatabase.xcdatamodel */,
 			);
-			currentVersion = 832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */;
+			currentVersion = 942388B218922E2E0030A325 /* OEDatabase 1.1.xcdatamodel */;
 			path = OEDatabase.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
