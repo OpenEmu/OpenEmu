@@ -34,5 +34,7 @@
 	<integer>40</integer>
 	<key>OEPSXButtonSelect</key>
 	<integer>229</integer>
+	<key>OEPSXButtonAnalogMode</key>
+	<integer>49</integer>
 </dict>
 </plist>

@@ -35,6 +35,11 @@
     return @protocol(OEPSXSystemResponderClient);
 }
 
+- (void)changeAnalogEmulatorKey:(OESystemKey *)aKey value:(CGFloat)value
+{
+    [[self client] didMovePSXJoystickDirection:(OEPSXButton)[aKey key] withValue:value forPlayer:aKey.player];
+}
+
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
     [[self client] didPushPSXButton:(OEPSXButton)[aKey key] forPlayer:[aKey player]];

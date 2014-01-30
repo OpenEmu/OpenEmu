@@ -40,6 +40,24 @@
 		<string>{377, 329}</string>
 		<key>OEPSXButtonR3</key>
 		<string>{315, 192}</string>
+		<key>OEPSXButtonAnalogMode</key>
+		<string>{250, 215}</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>{184, 188}</string>
+		<key>OEPSXLeftAnalogDown</key>
+		<string>{184, 188}</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>{184, 188}</string>
+		<key>OEPSXLeftAnalogRight</key>
+		<string>{184, 188}</string>
+		<key>OEPSXRightAnalogUp</key>
+		<string>{315, 188}</string>
+		<key>OEPSXRightAnalogDown</key>
+		<string>{315, 188}</string>
+		<key>OEPSXRightAnalogLeft</key>
+		<string>{315, 188}</string>
+		<key>OEPSXRightAnalogRight</key>
+		<string>{315, 188}</string>
 	</dict>
 </dict>
 </plist>

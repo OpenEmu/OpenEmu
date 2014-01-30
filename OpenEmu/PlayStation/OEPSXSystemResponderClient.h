@@ -46,11 +46,21 @@ typedef enum _OEPSXButton
     OEPSXButtonR3,
     OEPSXButtonStart,
 	OEPSXButtonSelect,
-	OEPSXButtonCount
+    OEPSXButtonAnalogMode,
+    OEPSXLeftAnalogUp,
+    OEPSXLeftAnalogDown,
+    OEPSXLeftAnalogLeft,
+    OEPSXLeftAnalogRight,
+    OEPSXRightAnalogUp,
+    OEPSXRightAnalogDown,
+    OEPSXRightAnalogLeft,
+    OEPSXRightAnalogRight,
+    OEPSXButtonCount
 } OEPSXButton;
 
 @protocol OEPSXSystemResponderClient <OESystemResponderClient, NSObject>
 
+- (oneway void)didMovePSXJoystickDirection:(OEPSXButton)button withValue:(CGFloat)value forPlayer:(NSUInteger)player;
 - (oneway void)didPushPSXButton:(OEPSXButton)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleasePSXButton:(OEPSXButton)button forPlayer:(NSUInteger)player;
 

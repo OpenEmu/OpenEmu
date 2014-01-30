@@ -29,6 +29,7 @@
 	<key>OEControlListKey</key>
 	<array>
 		<array>
+			<string>D-Pad</string>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
 				<string>Up</string>
@@ -52,6 +53,68 @@
 				<string>Right</string>
 				<key>OEControlListKeyNameKey</key>
 				<string>OEPSXButtonRight</string>
+			</dict>
+		</array>
+		<array>
+			<string>Left Analog</string>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Up</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEPSXLeftAnalogUp</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Down</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEPSXLeftAnalogDown</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Left</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEPSXLeftAnalogLeft</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Right</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEPSXLeftAnalogRight</string>
+			</dict>
+		</array>
+		<array>
+			<string>Right Analog</string>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Up</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEPSXRightAnalogUp</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Down</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEPSXRightAnalogDown</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Left</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEPSXRightAnalogLeft</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Right</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEPSXRightAnalogRight</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Analog Mode</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OEPSXButtonAnalogMode</string>
 			</dict>
 		</array>
 		<array>
@@ -135,6 +198,13 @@
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
+		<key>OEAnalogControlsKey</key>
+		<array>
+			<string>OEPSXLeftAnalogUp</string>
+			<string>OEPSXLeftAnalogDown</string>
+			<string>OEPSXLeftAnalogLeft</string>
+			<string>OEPSXLeftAnalogRight</string>
+		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
@@ -144,6 +214,14 @@
 			<array>
 				<string>OEPSXButtonLeft</string>
 				<string>OEPSXButtonRight</string>
+			</array>
+			<array>
+				<string>OEPSXLeftAnalogLeft</string>
+				<string>OEPSXLeftAnalogRight</string>
+			</array>
+			<array>
+				<string>OEPSXLeftAnalogUp</string>
+				<string>OEPSXLeftAnalogDown</string>
 			</array>
 		</array>
 		<key>OEHatSwitchControlsKey</key>
@@ -178,6 +256,15 @@
 		<string>OEPSXButtonR3</string>
 		<string>OEPSXButtonStart</string>
 		<string>OEPSXButtonSelect</string>
+		<string>OEPSXButtonAnalogMode</string>
+		<string>OEPSXLeftAnalogUp</string>
+		<string>OEPSXLeftAnalogDown</string>
+		<string>OEPSXLeftAnalogLeft</string>
+		<string>OEPSXLeftAnalogRight</string>
+		<string>OEPSXRightAnalogUp</string>
+		<string>OEPSXRightAnalogDown</string>
+		<string>OEPSXRightAnalogLeft</string>
+		<string>OEPSXRightAnalogRight</string>
 	</array>
 	<key>OENumberOfPlayersKey</key>
 	<integer>4</integer>
