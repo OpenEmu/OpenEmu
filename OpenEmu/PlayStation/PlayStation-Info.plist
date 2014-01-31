@@ -204,6 +204,10 @@
 			<string>OEPSXLeftAnalogDown</string>
 			<string>OEPSXLeftAnalogLeft</string>
 			<string>OEPSXLeftAnalogRight</string>
+			<string>OEPSXRightAnalogUp</string>
+			<string>OEPSXRightAnalogDown</string>
+			<string>OEPSXRightAnalogLeft</string>
+			<string>OEPSXRightAnalogRight</string>
 		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
@@ -216,12 +220,20 @@
 				<string>OEPSXButtonRight</string>
 			</array>
 			<array>
+				<string>OEPSXLeftAnalogUp</string>
+				<string>OEPSXLeftAnalogDown</string>
+			</array>
+			<array>
 				<string>OEPSXLeftAnalogLeft</string>
 				<string>OEPSXLeftAnalogRight</string>
 			</array>
 			<array>
-				<string>OEPSXLeftAnalogUp</string>
-				<string>OEPSXLeftAnalogDown</string>
+				<string>OEPSXRightAnalogUp</string>
+				<string>OEPSXRightAnalogDown</string>
+			</array>
+			<array>
+				<string>OEPSXRightAnalogLeft</string>
+				<string>OEPSXRightAnalogRight</string>
 			</array>
 		</array>
 		<key>OEHatSwitchControlsKey</key>
