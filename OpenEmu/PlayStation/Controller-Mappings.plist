@@ -12,6 +12,14 @@
 		<string>OEControllerMicrosoftXbox360DPadLeft</string>
 		<key>OEPSXButtonRight</key>
 		<string>OEControllerMicrosoftXbox360DPadRight</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEControllerMicrosoftXbox360LeftAnalogUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEControllerMicrosoftXbox360LeftAnalogLeft</string>
+		<key>OEPSXRightAnalogUp</key>
+		<string>OEControllerMicrosoftXbox360RightAnalogUp</string>
+		<key>OEPSXRightAnalogLeft</key>
+		<string>OEControllerMicrosoftXbox360RightAnalogLeft</string>
 		<key>OEPSXButtonCircle</key>
 		<string>OEControllerMicrosoftXbox360ButtonB</string>
 		<key>OEPSXButtonCross</key>
@@ -36,6 +44,8 @@
 		<string>OEControllerMicrosoftXbox360ButtonStart</string>
 		<key>OEPSXButtonSelect</key>
 		<string>OEControllerMicrosoftXbox360ButtonBack</string>
+		<key>OEPSXButtonAnalogMode</key>
+		<string>OEControllerMicrosoftXbox360ButtonHome</string>
 	</dict>
 	<key>OEControllerSonyPS3Sixaxis</key>
 	<dict>
@@ -47,6 +57,14 @@
 		<string>OEControllerSonyPS3SixaxisDPadLeft</string>
 		<key>OEPSXButtonRight</key>
 		<string>OEControllerSonyPS3SixaxisDPadRight</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEControllerSonyPS3SixaxisLeftAnalogUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEControllerSonyPS3SixaxisLeftAnalogLeft</string>
+		<key>OEPSXRightAnalogUp</key>
+		<string>OEControllerSonyPS3SixaxisRightAnalogUp</string>
+		<key>OEPSXRightAnalogLeft</key>
+		<string>OEControllerSonyPS3SixaxisRightAnalogLeft</string>
 		<key>OEPSXButtonCircle</key>
 		<string>OEControllerSonyPS3SixaxisButtonCircle</string>
 		<key>OEPSXButtonCross</key>
@@ -71,11 +89,21 @@
 		<string>OEControllerSonyPS3SixaxisButtonStart</string>
 		<key>OEPSXButtonSelect</key>
 		<string>OEControllerSonyPS3SixaxisButtonSelect</string>
+		<key>OEPSXButtonAnalogMode</key>
+		<string>OEControllerSonyPS3SixaxisButtonHome</string>
 	</dict>
 	<key>OEControllerLogitechDualAction</key>
 	<dict>
 		<key>OEPSXButtonUp</key>
 		<string>OEControllerLogitechDualActionDPadUp</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEControllerLogitechDualActionLeftAnalogUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEControllerLogitechDualActionLeftAnalogLeft</string>
+		<key>OEPSXRightAnalogUp</key>
+		<string>OEControllerLogitechDualActionRightAnalogUp</string>
+		<key>OEPSXRightAnalogLeft</key>
+		<string>OEControllerLogitechDualActionRightAnalogLeft</string>
 		<key>OEPSXButtonCircle</key>
 		<string>OEControllerLogitechDualActionButton3</string>
 		<key>OEPSXButtonCross</key>
@@ -198,6 +226,8 @@
 		<string>OEControllerPS3NeoGeoPadButtonStart</string>
 		<key>OEPSXButtonSelect</key>
 		<string>OEControllerPS3NeoGeoPadButtonSelect</string>
+		<key>OEPSXButtonAnalogMode</key>
+		<string>OEControllerPS3NeoGeoPadButtonHome</string>
 	</dict>
 	<key>OEControllerRetrode</key>
 	<dict>
@@ -249,6 +279,10 @@
 	<dict>
 		<key>OEPSXButtonUp</key>
 		<string>OEControllerRetrolinkN64DPadUp</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEControllerRetrolinkN64AnalogUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEControllerRetrolinkN64AnalogLeft</string>
 		<key>OEPSXButtonCircle</key>
 		<string>OEControllerRetrolinkN64CPadRight</string>
 		<key>OEPSXButtonCross</key>
@@ -272,6 +306,10 @@
 		<string>OEControllerAdaptoidN64DPadUp</string>
 		<key>OEPSXButtonDown</key>
 		<string>OEControllerAdaptoidN64DPadDown</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEControllerAdaptoidN64AnalogUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEControllerAdaptoidN64AnalogLeft</string>
 		<key>OEPSXButtonLeft</key>
 		<string>OEControllerAdaptoidN64DPadLeft</string>
 		<key>OEPSXButtonRight</key>
@@ -293,10 +331,63 @@
 		<key>OEPSXButtonSelect</key>
 		<string>OEControllerAdaptoidN64ButtonZ</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OEPSXButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OEPSXButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OEPSXButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEControllerNintendoWiiUProControllerLeftAnalogUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEControllerNintendoWiiUProControllerLeftAnalogLeft</string>
+		<key>OEPSXRightAnalogUp</key>
+		<string>OEControllerNintendoWiiUProControllerRightAnalogUp</string>
+		<key>OEPSXRightAnalogLeft</key>
+		<string>OEControllerNintendoWiiUProControllerRightAnalogLeft</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerNintendoWiiUProControllerButtonA</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerNintendoWiiUProControllerButtonX</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerNintendoWiiUProControllerButtonL</string>
+		<key>OEPSXButtonL2</key>
+		<string>OEControllerNintendoWiiUProControllerButtonZL</string>
+		<key>OEPSXButtonL3</key>
+		<string>OEControllerNintendoWiiUProControllerButtonLeftAnalog</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerNintendoWiiUProControllerButtonR</string>
+		<key>OEPSXButtonR2</key>
+		<string>OEControllerNintendoWiiUProControllerButtonZR</string>
+		<key>OEPSXButtonR3</key>
+		<string>OEControllerNintendoWiiUProControllerButtonRightAnalog</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
+		<key>OEPSXButtonAnalogMode</key>
+		<string>OEControllerNintendoWiiUProControllerButtonHome</string>
+	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
 		<key>OEPSXButtonUp</key>
 		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEControllerSonyPS4Dualshock4LeftAnalogUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEControllerSonyPS4Dualshock4LeftAnalogLeft</string>
+		<key>OEPSXRightAnalogUp</key>
+		<string>OEControllerSonyPS4Dualshock4RightAnalogUp</string>
+		<key>OEPSXRightAnalogLeft</key>
+		<string>OEControllerSonyPS4Dualshock4RightAnalogLeft</string>
 		<key>OEPSXButtonCircle</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCircle</string>
 		<key>OEPSXButtonCross</key>
@@ -321,6 +412,8 @@
 		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
 		<key>OEPSXButtonSelect</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+		<key>OEPSXButtonAnalogMode</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonHome</string>
 	</dict>
 </dict>
 </plist>
