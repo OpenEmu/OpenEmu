@@ -79,7 +79,7 @@ void OEBackgroundHighResolutionNoisePatternCreate(void)
     dispatch_once(&OE_createHighResolutionPatternOnceToken, ^{
         // Create a pattern from the noise image and apply as the background color
         static const CGPatternCallbacks callbacks = {0, &OEBackgroundNoisePatternDrawInContext, &OEBackgroundNoisePatternRelease};
-        NSURL            *noiseImageURL = [[NSBundle mainBundle] URLForImageResource:@"noise@2x.png"];
+        NSURL            *noiseImageURL = [[NSBundle mainBundle] URLForImageResource:@"noise"];
         CGImageSourceRef  source        = CGImageSourceCreateWithURL((__bridge CFURLRef)noiseImageURL, NULL);
         OEBackgroundHighResolutionNoiseImageRef = CGImageSourceCreateImageAtIndex(source, 0, NULL);
 
