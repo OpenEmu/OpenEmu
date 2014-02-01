@@ -281,6 +281,37 @@
 		<key>OEPSPButtonSelect</key>
 		<string>OEControllerAdaptoidN64ButtonZ</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OEPSPButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OEPSPButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OEPSPButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OEPSPButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OEPSPAnalogUp</key>
+		<string>OEControllerNintendoWiiUProControllerLeftAnalogUp</string>
+		<key>OEPSPAnalogLeft</key>
+		<string>OEControllerNintendoWiiUProControllerLeftAnalogLeft</string>
+		<key>OEPSPButtonCircle</key>
+		<string>OEControllerNintendoWiiUProControllerButtonA</string>
+		<key>OEPSPButtonCross</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OEPSPButtonTriangle</key>
+		<string>OEControllerNintendoWiiUProControllerButtonX</string>
+		<key>OEPSPButtonSquare</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OEPSPButtonL1</key>
+		<string>OEControllerNintendoWiiUProControllerButtonL</string>
+		<key>OEPSPButtonR1</key>
+		<string>OEControllerNintendoWiiUProControllerButtonR</string>
+		<key>OEPSPButtonStart</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OEPSPButtonSelect</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
+	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
 		<key>OEPSPButtonUp</key>
