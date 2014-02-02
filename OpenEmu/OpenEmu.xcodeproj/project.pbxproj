@@ -943,6 +943,7 @@
 		C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6F696BF1648F64B00B243DB /* Controller-Database.plist */; };
 		C6F697D6164E0EFD00B243DB /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6F697D5164E0EFD00B243DB /* Keyboard-Mappings.plist */; };
 		C6F738FC1617FF2B00BB2519 /* OEUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F738FB1617FF2B00BB2519 /* OEUtilities.m */; };
+		EBF76F31189E877300B3AA1A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9F272116635A1B008B1FB8 /* libz.dylib */; };
 		EC0A64E817C6F45500370F86 /* pcengine_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A64E617C6F45500370F86 /* pcengine_library@2x.png */; };
 		EC0A64E917C6F45500370F86 /* tg16_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A64E717C6F45500370F86 /* tg16_library@2x.png */; };
 		EC13823317401D4A00F951F4 /* dark_popup_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC13823217401D4A00F951F4 /* dark_popup_button@2x.png */; };
@@ -2953,6 +2954,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBF76F31189E877300B3AA1A /* libz.dylib in Frameworks */,
 				94454EB517860E1E006C057B /* Cocoa.framework in Frameworks */,
 				94454ED517861123006C057B /* OpenEmuSystem.framework in Frameworks */,
 			);
