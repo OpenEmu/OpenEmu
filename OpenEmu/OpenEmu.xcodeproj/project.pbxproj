@@ -776,6 +776,7 @@
 		94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */; };
 		94A4E998179FB98100AD8C7D /* media.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A4E997179FB98100AD8C7D /* media.png */; };
 		94AE2C1017B07D450018DFBB /* cheats-database.xml in Resources */ = {isa = PBXBuildFile; fileRef = 94AE2C0F17B07D450018DFBB /* cheats-database.xml */; };
+		94B28256189DF5AA00D80F3D /* OENDSSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B28255189DF5AA00D80F3D /* OENDSSystemController.m */; };
 		94BE9E51171683E000AB08E6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94BE9E57171683E000AB08E6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E55171683E000AB08E6 /* InfoPlist.strings */; };
 		94BE9E61171689B400AB08E6 /* OEColecoVisionSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE9E5F171689B400AB08E6 /* OEColecoVisionSystemResponder.m */; };
@@ -2167,7 +2168,7 @@
 		941F5A1617A786870005D7EA /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		941F5A1717A786870005D7EA /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		941F5A1817A786870005D7EA /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
-		942388B218922E2E0030A325 /* OEDatabase 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OEDatabase 1.1.xcdatamodel"; sourceTree = "<group>"; };
+		942388B218922E2E0030A325 /* OEDatabase 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.1.xcdatamodel"; sourceTree = "<group>"; };
 		94380774184E6AE100E2274B /* _ntsc-decode-filter-3phase.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-decode-filter-3phase.inc"; sourceTree = "<group>"; };
 		94380775184E6AE100E2274B /* _ntsc-gauss-pass.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-gauss-pass.cg"; sourceTree = "<group>"; };
 		94380776184E6AE100E2274B /* _ntsc-param.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-param.inc"; sourceTree = "<group>"; };
@@ -2467,6 +2468,8 @@
 		94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMediaViewController.m; sourceTree = "<group>"; };
 		94A4E997179FB98100AD8C7D /* media.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = media.png; sourceTree = "<group>"; };
 		94AE2C0F17B07D450018DFBB /* cheats-database.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "cheats-database.xml"; sourceTree = "<group>"; };
+		94B28254189DF5AA00D80F3D /* OENDSSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENDSSystemController.h; sourceTree = "<group>"; };
+		94B28255189DF5AA00D80F3D /* OENDSSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENDSSystemController.m; sourceTree = "<group>"; };
 		94BE9E50171683E000AB08E6 /* ColecoVision.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColecoVision.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94BE9E54171683E000AB08E6 /* ColecoVision-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ColecoVision-Info.plist"; sourceTree = "<group>"; };
 		94BE9E56171683E000AB08E6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -5439,6 +5442,8 @@
 		94D7E8CB15073BA000FBDD85 /* NDS */ = {
 			isa = PBXGroup;
 			children = (
+				94B28254189DF5AA00D80F3D /* OENDSSystemController.h */,
+				94B28255189DF5AA00D80F3D /* OENDSSystemController.m */,
 				94D7E8E015073E3800FBDD85 /* OENDSSystemResponder.h */,
 				94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */,
 				94D7E8E215073E3800FBDD85 /* OENDSSystemResponderClient.h */,
@@ -7963,6 +7968,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94B28256189DF5AA00D80F3D /* OENDSSystemController.m in Sources */,
 				94D7E8E415073E3900FBDD85 /* OENDSSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
