@@ -672,8 +672,9 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
             else
             {
                 // Check if system plugin for ROM implemented headerLookupForFile: and serialLookupForFile:
-                NSString *headerFound = [OEDBSystem headerForFileWithURL:[rom URL] forSystem:systemIdentifier];
-                NSString *serialFound = [OEDBSystem serialForFileWithURL:[rom URL] forSystem:systemIdentifier];
+                NSURL *lookupURL = [[item importInfo] valueForKey:OEImportInfoArchivedFileURL] ? [[item importInfo] valueForKey:OEImportInfoArchivedFileURL] : [rom URL];
+                NSString *headerFound = [OEDBSystem headerForFileWithURL:lookupURL forSystem:systemIdentifier];
+                NSString *serialFound = [OEDBSystem serialForFileWithURL:lookupURL forSystem:systemIdentifier];
                 
                 if(headerFound != nil)
                 {
