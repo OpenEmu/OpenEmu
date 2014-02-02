@@ -27,8 +27,7 @@
 #import "NSFileManager+OEHashingAdditions.h"
 #import <CommonCrypto/CommonDigest.h>
 
-#define md5ChunkSize (1024 * 10)
-#define crc32ChunkSize 8
+#define HASH_READ_CHUNK_SIZE (1024 * 32)
 
 @implementation NSFileManager (OEHashingAdditions)
 
@@ -54,14 +53,15 @@
     do {
         @autoreleasepool
         {
-            NSData *data = [handle readDataOfLength:md5ChunkSize];
-            CC_MD5_Update(&md5Context, [data bytes], (CC_LONG)[data length]);
-            
+            NSData *data = [handle readDataOfLength:HASH_READ_CHUNK_SIZE];
             const unsigned char *bytes = [data bytes];
-            for(unsigned x = 0; x < [data length]; x++)
+            NSUInteger length = [data length];
+            CC_MD5_Update(&md5Context, bytes, (CC_LONG)length);
+            
+            for(unsigned x = 0; x < length; x++)
                 crcval = ((crcval >> 8) & 0x00ffffff) ^ crc32table[(crcval ^ (*(bytes + x))) & 0xff];
             
-            if(data == nil || [data length] < md5ChunkSize) break;
+            if(data == nil || length < HASH_READ_CHUNK_SIZE) break;
         }
     } while(YES);
     
