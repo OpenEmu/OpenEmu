@@ -46,6 +46,7 @@
 @property(copy) NSArray  *systemIdentifiers;
 @property(copy) NSArray  *systemNames;
 @property(copy) NSString *version;
+@property(copy) NSString *bundleIdentifier;
 
 @property BOOL hasUpdate;
 @property BOOL canBeInstalled;

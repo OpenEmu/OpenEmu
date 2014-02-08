@@ -95,6 +95,7 @@
 
     self.systemNames = [mutableSystemNames copy];
     self.systemIdentifiers = [[plugin systemIdentifiers] copy];
+    self.bundleIdentifier = [[plugin bundleIdentifier] copy];
 }
 
 #pragma mark Core Download

@@ -76,6 +76,7 @@ enum : OEFSMEventLabel
 @property(nonatomic, weak) OECoreDownload                       *core;
 @property(nonatomic, assign, getter = isSelected) BOOL           selected;
 @property(nonatomic, assign, getter = isDownloadRequested) BOOL  downloadRequested;
+@property(nonatomic, assign, getter = isDefaultCore) BOOL        defaultCore;
 + (instancetype)setupCoreInfoWithCore:(OECoreDownload *)core;
 @end
 
@@ -278,6 +279,21 @@ enum : OEFSMEventLabel
         {
             if(![knownCores containsObject:core]) [blockSelf->_coresToDownload addObject:[OESetupCoreInfo setupCoreInfoWithCore:core]];
         }
+        // Check if a core is set as default in OEApplicationDelegate
+        for(OESetupCoreInfo *coreInfo in blockSelf->_coresToDownload)
+        {
+            NSString *coreID = [[coreInfo core] bundleIdentifier];
+            NSArray *systemIDs = [[coreInfo core] systemIdentifiers];
+
+            for(id system in systemIDs)
+            {
+                NSString *sysID = [NSString stringWithFormat:@"defaultCore.%@", system];
+                NSString *userDef = [[NSUserDefaults standardUserDefaults] valueForKey:sysID];
+                
+                if(userDef != nil && [userDef caseInsensitiveCompare:coreID] == NSOrderedSame)
+                    [coreInfo setDefaultCore:YES];
+            }
+        }
     }];
     [_fsm addTransitionFrom:_OEFSMWelcomeState to:_OEFSMCoreSelectionState event:_OEFSMNextEvent action:^{
         [blockSelf OE_goForwardToView:[blockSelf coreSelectionView]];
@@ -475,6 +491,8 @@ enum : OEFSMEventLabel
         OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:row];
         NSButtonCell *buttonCell = (NSButtonCell *)cell;
         [buttonCell setEnabled:(![coreInfo isDownloadRequested])];
+        
+        if([coreInfo isDefaultCore]) [buttonCell setEnabled:NO];
     }
 
     return cell;

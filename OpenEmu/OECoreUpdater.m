@@ -147,6 +147,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
                     
                     OECoreDownload *download = [[OECoreDownload alloc] init];
                     [download setName:[[coreNode attributeForName:@"name"] stringValue]];
+                    [download setBundleIdentifier:coreId];
                     
                     NSArray *nodes = [coreNode nodesForXPath:@"./systems/system" error:NULL];
                     NSMutableArray *systemNames = [NSMutableArray arrayWithCapacity:[nodes count]];
