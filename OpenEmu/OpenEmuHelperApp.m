@@ -526,7 +526,7 @@
 
 #pragma mark - Game Core methods
 
-- (BOOL)loadROMAtPath:(NSString *)aPath withCorePluginAtPath:(NSString *)pluginPath systemIdentifier:(NSString *)systemIdentifier
+- (BOOL)loadROMAtPath:(NSString *)aPath withCorePluginAtPath:(NSString *)pluginPath systemIdentifier:(NSString *)systemIdentifier error:(NSError **)error
 {
     if([self loadedRom]) return NO;
 
@@ -559,7 +559,7 @@
         if(![systemIdentifier isEqualToString:@"openemu.system.arcade"])
             aPath = [self decompressedPathForRomAtPath:aPath];
 
-        if([_gameCore loadFileAtPath:aPath])
+        if([_gameCore loadFileAtPath:aPath error:error])
         {
             DLog(@"Loaded new Rom: %@", aPath);
             return self.loadedRom = YES;

@@ -73,12 +73,14 @@
     {
         [self setGameCoreHelper:(id<OEGameCoreHelper>)_helperProxy];
         [_helper setDisplayHelper:(id<OEGameCoreDisplayHelper>)_displayHelperProxy];
-        if(![_helper loadROMAtPath:[self ROMPath] withCorePluginAtPath:[[self plugin] path] systemIdentifier:[[self systemController] systemIdentifier]])
+
+        NSError *error;
+        if(![_helper loadROMAtPath:[self ROMPath] withCorePluginAtPath:[[self plugin] path] systemIdentifier:[[self systemController] systemIdentifier] error:&error])
         {
             FIXME("Return a proper error object here.");
             if(_errorHandler != nil)
             {
-                _errorHandler(nil);
+                _errorHandler(error);
                 _errorHandler = nil;
             }
             return;

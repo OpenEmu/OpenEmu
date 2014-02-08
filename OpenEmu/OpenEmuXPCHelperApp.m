@@ -108,9 +108,10 @@
 {
     OESystemPlugin *plugin = [OESystemPlugin systemPluginWithBundleAtPath:systemPluginPath];
 
-    if(![self loadROMAtPath:romPath withCorePluginAtPath:pluginPath systemIdentifier:[plugin systemIdentifier]])
+    NSError *error;
+    if(![self loadROMAtPath:romPath withCorePluginAtPath:pluginPath systemIdentifier:[plugin systemIdentifier] error:&error])
     {
-        completionHandler(nil, nil);
+        completionHandler(nil, error);
         return;
     }
 

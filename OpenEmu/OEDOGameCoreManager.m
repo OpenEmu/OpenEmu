@@ -78,8 +78,15 @@
                  withDelegate:_delegateHelper
                 displayHelper:(id<OEDOGameCoreDisplayHelper>)[self displayHelper]
             messageIdentifier:
-     [self messageIdentifierForResponderClientHandler:^(id responderClient)
+     [self messageIdentifierForResponderClientHandler:
+      ^(id responderClient, NSError *error)
       {
+          if(responderClient == nil)
+          {
+              errorHandler(error);
+              return;
+          }
+
           [(NSDistantObject *)responderClient setProtocolForProxy:[[[self systemController] responderClass] gameSystemResponderClientProtocol]];
           
           completionHandler(responderClient);
@@ -301,7 +308,7 @@
     return identifier;
 }
 
-- (NSString *)messageIdentifierForResponderClientHandler:(void(^)(id))responderClient;
+- (NSString *)messageIdentifierForResponderClientHandler:(void(^)(id, NSError *))responderClient;
 {
     NSString *identifier = [NSString stringWithUUID];
     responderClient = [responderClient copy];
@@ -332,11 +339,11 @@
     block(success, error);
 }
 
-- (void)performResponderClientBlockWithIdentifier:(NSString *)identifier systemClient:(id)systemClient;
+- (void)performResponderClientBlockWithIdentifier:(NSString *)identifier systemClient:(id)systemClient error:(NSError *)error;
 {
-    void(^block)(id) = _pendingBlocks[identifier];
+    void(^block)(id, NSError *) = _pendingBlocks[identifier];
     [_pendingBlocks removeObjectForKey:identifier];
-    block(systemClient);
+    block(systemClient, error);
 }
 
 #pragma mark - TaskWrapper delegate methods
@@ -385,14 +392,19 @@
     [_gameCoreManager performSuccessBlockWithIdentifier:identifier success:success error:error];
 }
 
-- (void)callResponderClientBlockForIdentifier:(NSString *)identifier withClient:(id)client
+- (void)callResponderClientBlockForIdentifier:(NSString *)identifier withClient:(id)client error:(NSError *)error
 {
-    [_gameCoreManager performResponderClientBlockWithIdentifier:identifier systemClient:client];
+    [_gameCoreManager performResponderClientBlockWithIdentifier:identifier systemClient:client error:error];
 }
 
 - (oneway void)gameCoreHelperDidSetSystemResponderClient:(byref id)responderClient withMessageIdentifier:(NSString *)identifier
 {
-    [self callResponderClientBlockForIdentifier:identifier withClient:responderClient];
+    [self callResponderClientBlockForIdentifier:identifier withClient:responderClient error:nil];
+}
+
+- (oneway void)gameCoreHelperFailedToLoadROMWithError:(NSError *)error messageIdentifier:(NSString *)identifier
+{
+    [self callResponderClientBlockForIdentifier:identifier withClient:nil error:error];
 }
 
 - (oneway void)gameCoreHelperDidSetupEmulationWithSurfaceID:(IOSurfaceID)surfaceID screenSize:(OEIntSize)screenSize aspectSize:(OEIntSize)aspectSize messageIdentifier:(NSString *)identifier;

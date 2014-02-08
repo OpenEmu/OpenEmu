@@ -112,8 +112,11 @@ NSString *const OEHelperServerNamePrefix = @"org.openemu.OpenEmuHelper-";
     [(NSDistantObject *)delegate setProtocolForProxy:@protocol(OEDOGameCoreDisplayHelper)];
     [self setDisplayHelper:(id<OEGameCoreDisplayHelper>)displayHelper];
 
-    if([self loadROMAtPath:romPath withCorePluginAtPath:corePluginPath systemIdentifier:[[OESystemPlugin systemPluginWithBundleAtPath:systemPluginPath] systemIdentifier]])
+    NSError *error;
+    if([self loadROMAtPath:romPath withCorePluginAtPath:corePluginPath systemIdentifier:[[OESystemPlugin systemPluginWithBundleAtPath:systemPluginPath] systemIdentifier] error:&error])
         [delegate gameCoreHelperDidSetSystemResponderClient:[self gameCore] withMessageIdentifier:identifier];
+    else
+        [delegate gameCoreHelperFailedToLoadROMWithError:error messageIdentifier:identifier];
 }
 
 @end

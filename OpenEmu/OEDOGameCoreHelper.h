@@ -67,6 +67,7 @@
 @protocol OEDOGameCoreHelperDelegate <NSObject>
 
 - (oneway void)gameCoreHelperDidSetSystemResponderClient:(byref id)responderClient withMessageIdentifier:(NSString *)identifier;
+- (oneway void)gameCoreHelperFailedToLoadROMWithError:(NSError *)error messageIdentifier:(NSString *)identifier;
 
 - (oneway void)gameCoreHelperDidSetupEmulationWithSurfaceID:(IOSurfaceID)surfaceID screenSize:(OEIntSize)screenSize aspectSize:(OEIntSize)aspectSize messageIdentifier:(NSString *)identifier;;
 - (oneway void)gameCoreHelperDidStartEmulationWithMessageIdentifier:(NSString *)identifier;
