@@ -544,16 +544,7 @@
 		94380786184E6BB600E2274B /* _ntsc-decode-filter-3phase.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380774184E6AE100E2274B /* _ntsc-decode-filter-3phase.inc */; };
 		94380787184E6BB600E2274B /* _ntsc-gauss-pass.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380775184E6AE100E2274B /* _ntsc-gauss-pass.cg */; };
 		94380788184E6BB600E2274B /* _ntsc-param.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380776184E6AE100E2274B /* _ntsc-param.inc */; };
-		94380789184E6BB600E2274B /* _ntsc-pass1-3phase.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380777184E6AE100E2274B /* _ntsc-pass1-3phase.cg */; };
-		9438078A184E6BB600E2274B /* _ntsc-pass1-encode.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380778184E6AE100E2274B /* _ntsc-pass1-encode.cg */; };
-		9438078B184E6BB600E2274B /* _ntsc-pass1-vertex.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380779184E6AE100E2274B /* _ntsc-pass1-vertex.cg */; };
 		9438078C184E6BB600E2274B /* _ntsc-pass2-3phase.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9438077A184E6AE100E2274B /* _ntsc-pass2-3phase.cg */; };
-		9438078D184E6BB600E2274B /* _ntsc-pass2-demodulate.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9438077B184E6AE100E2274B /* _ntsc-pass2-demodulate.cg */; };
-		9438078E184E6BB600E2274B /* _ntsc-pass2-prefilter.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9438077C184E6AE100E2274B /* _ntsc-pass2-prefilter.inc */; };
-		9438078F184E6BB600E2274B /* _ntsc-pass2-vertex.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9438077D184E6AE100E2274B /* _ntsc-pass2-vertex.cg */; };
-		94380790184E6BB600E2274B /* _ntsc-pass3-3phase.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9438077E184E6AE100E2274B /* _ntsc-pass3-3phase.cg */; };
-		94380791184E6BB600E2274B /* _ntsc-pass3-decode.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 9438077F184E6AE100E2274B /* _ntsc-pass3-decode.inc */; };
-		94380792184E6BB600E2274B /* _ntsc-pass3-vertex.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380780184E6AE100E2274B /* _ntsc-pass3-vertex.cg */; };
 		94380793184E6BB600E2274B /* _ntsc-rgbyuv.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380781184E6AE100E2274B /* _ntsc-rgbyuv.inc */; };
 		94380794184E6BB600E2274B /* _ntsc-stock.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380782184E6AE100E2274B /* _ntsc-stock.cg */; };
 		94380795184E6BB600E2274B /* NTSC.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94380783184E6AE100E2274B /* NTSC.cgp */; };
@@ -829,6 +820,11 @@
 		94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F6CB7B16DD727600CD48A4 /* OECheats.m */; };
 		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
 		94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53871688FF60003C6AFE /* controller_gamegear.png */; };
+		94FEFA5218A80EF30033A762 /* _ntsc-pass1-composite-3phase.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94FEFA4B18A80ECC0033A762 /* _ntsc-pass1-composite-3phase.cg */; };
+		94FEFA5318A80EF30033A762 /* _ntsc-pass1-encode-demodulate.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94FEFA4C18A80ECC0033A762 /* _ntsc-pass1-encode-demodulate.inc */; };
+		94FEFA5418A80EF30033A762 /* _ntsc-pass1-vertex.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94FEFA4D18A80ECC0033A762 /* _ntsc-pass1-vertex.inc */; };
+		94FEFA5518A80EF30033A762 /* _ntsc-pass2-decode.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94FEFA4E18A80ECD0033A762 /* _ntsc-pass2-decode.inc */; };
+		94FEFA5618A80EF30033A762 /* _ntsc-pass2-vertex.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94FEFA4F18A80ECD0033A762 /* _ntsc-pass2-vertex.inc */; };
 		C60238E61794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C60238E41794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework */; };
 		C6096192179B461C00239067 /* OEXPCGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096191179B461C00239067 /* OEXPCGameCoreManager.m */; };
 		C609619A179B6E3F00239067 /* OpenEmuXPCHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096199179B6E3F00239067 /* OpenEmuXPCHelperApp.m */; };
@@ -1389,6 +1385,11 @@
 			dstPath = Filters;
 			dstSubfolderSpec = 13;
 			files = (
+				94FEFA5218A80EF30033A762 /* _ntsc-pass1-composite-3phase.cg in Copy Filters Folder To App Resources */,
+				94FEFA5318A80EF30033A762 /* _ntsc-pass1-encode-demodulate.inc in Copy Filters Folder To App Resources */,
+				94FEFA5418A80EF30033A762 /* _ntsc-pass1-vertex.inc in Copy Filters Folder To App Resources */,
+				94FEFA5518A80EF30033A762 /* _ntsc-pass2-decode.inc in Copy Filters Folder To App Resources */,
+				94FEFA5618A80EF30033A762 /* _ntsc-pass2-vertex.inc in Copy Filters Folder To App Resources */,
 				94539B00187D09B100CD1BA9 /* Pixellate.cg in Copy Filters Folder To App Resources */,
 				8C09E4D81867984B0095DB4E /* Beam4.cgp in Copy Filters Folder To App Resources */,
 				8C09E4D91867984B0095DB4E /* NTSC (Blargg).cgp in Copy Filters Folder To App Resources */,
@@ -1406,16 +1407,7 @@
 				94380786184E6BB600E2274B /* _ntsc-decode-filter-3phase.inc in Copy Filters Folder To App Resources */,
 				94380787184E6BB600E2274B /* _ntsc-gauss-pass.cg in Copy Filters Folder To App Resources */,
 				94380788184E6BB600E2274B /* _ntsc-param.inc in Copy Filters Folder To App Resources */,
-				94380789184E6BB600E2274B /* _ntsc-pass1-3phase.cg in Copy Filters Folder To App Resources */,
-				9438078A184E6BB600E2274B /* _ntsc-pass1-encode.cg in Copy Filters Folder To App Resources */,
-				9438078B184E6BB600E2274B /* _ntsc-pass1-vertex.cg in Copy Filters Folder To App Resources */,
 				9438078C184E6BB600E2274B /* _ntsc-pass2-3phase.cg in Copy Filters Folder To App Resources */,
-				9438078D184E6BB600E2274B /* _ntsc-pass2-demodulate.cg in Copy Filters Folder To App Resources */,
-				9438078E184E6BB600E2274B /* _ntsc-pass2-prefilter.inc in Copy Filters Folder To App Resources */,
-				9438078F184E6BB600E2274B /* _ntsc-pass2-vertex.cg in Copy Filters Folder To App Resources */,
-				94380790184E6BB600E2274B /* _ntsc-pass3-3phase.cg in Copy Filters Folder To App Resources */,
-				94380791184E6BB600E2274B /* _ntsc-pass3-decode.inc in Copy Filters Folder To App Resources */,
-				94380792184E6BB600E2274B /* _ntsc-pass3-vertex.cg in Copy Filters Folder To App Resources */,
 				94380793184E6BB600E2274B /* _ntsc-rgbyuv.inc in Copy Filters Folder To App Resources */,
 				94380794184E6BB600E2274B /* _ntsc-stock.cg in Copy Filters Folder To App Resources */,
 				94380795184E6BB600E2274B /* NTSC.cgp in Copy Filters Folder To App Resources */,
@@ -2173,16 +2165,7 @@
 		94380774184E6AE100E2274B /* _ntsc-decode-filter-3phase.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-decode-filter-3phase.inc"; sourceTree = "<group>"; };
 		94380775184E6AE100E2274B /* _ntsc-gauss-pass.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-gauss-pass.cg"; sourceTree = "<group>"; };
 		94380776184E6AE100E2274B /* _ntsc-param.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-param.inc"; sourceTree = "<group>"; };
-		94380777184E6AE100E2274B /* _ntsc-pass1-3phase.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-pass1-3phase.cg"; sourceTree = "<group>"; };
-		94380778184E6AE100E2274B /* _ntsc-pass1-encode.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-pass1-encode.cg"; sourceTree = "<group>"; };
-		94380779184E6AE100E2274B /* _ntsc-pass1-vertex.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-pass1-vertex.cg"; sourceTree = "<group>"; };
 		9438077A184E6AE100E2274B /* _ntsc-pass2-3phase.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-pass2-3phase.cg"; sourceTree = "<group>"; };
-		9438077B184E6AE100E2274B /* _ntsc-pass2-demodulate.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-pass2-demodulate.cg"; sourceTree = "<group>"; };
-		9438077C184E6AE100E2274B /* _ntsc-pass2-prefilter.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-pass2-prefilter.inc"; sourceTree = "<group>"; };
-		9438077D184E6AE100E2274B /* _ntsc-pass2-vertex.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-pass2-vertex.cg"; sourceTree = "<group>"; };
-		9438077E184E6AE100E2274B /* _ntsc-pass3-3phase.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-pass3-3phase.cg"; sourceTree = "<group>"; };
-		9438077F184E6AE100E2274B /* _ntsc-pass3-decode.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-pass3-decode.inc"; sourceTree = "<group>"; };
-		94380780184E6AE100E2274B /* _ntsc-pass3-vertex.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-pass3-vertex.cg"; sourceTree = "<group>"; };
 		94380781184E6AE100E2274B /* _ntsc-rgbyuv.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-rgbyuv.inc"; sourceTree = "<group>"; };
 		94380782184E6AE100E2274B /* _ntsc-stock.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-stock.cg"; sourceTree = "<group>"; };
 		94380783184E6AE100E2274B /* NTSC.cgp */ = {isa = PBXFileReference; lastKnownFileType = text; path = NTSC.cgp; sourceTree = "<group>"; };
@@ -2513,6 +2496,11 @@
 		94F6CB7B16DD727600CD48A4 /* OECheats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECheats.m; sourceTree = "<group>"; };
 		94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear_mask.png; sourceTree = "<group>"; };
 		94FC53871688FF60003C6AFE /* controller_gamegear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear.png; sourceTree = "<group>"; };
+		94FEFA4B18A80ECC0033A762 /* _ntsc-pass1-composite-3phase.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-pass1-composite-3phase.cg"; sourceTree = "<group>"; };
+		94FEFA4C18A80ECC0033A762 /* _ntsc-pass1-encode-demodulate.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-pass1-encode-demodulate.inc"; sourceTree = "<group>"; };
+		94FEFA4D18A80ECC0033A762 /* _ntsc-pass1-vertex.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-pass1-vertex.inc"; sourceTree = "<group>"; };
+		94FEFA4E18A80ECD0033A762 /* _ntsc-pass2-decode.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-pass2-decode.inc"; sourceTree = "<group>"; };
+		94FEFA4F18A80ECD0033A762 /* _ntsc-pass2-vertex.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-pass2-vertex.inc"; sourceTree = "<group>"; };
 		C60238E41794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEmuXPCCommunicator.framework; sourceTree = "<group>"; };
 		C60238E8179510C600F4AF6C /* OEGameCoreHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEGameCoreHelper.h; sourceTree = "<group>"; };
 		C609618F179B278C00239067 /* OEXPCGameCoreHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXPCGameCoreHelper.h; sourceTree = "<group>"; };
@@ -4800,16 +4788,12 @@
 				94380774184E6AE100E2274B /* _ntsc-decode-filter-3phase.inc */,
 				94380775184E6AE100E2274B /* _ntsc-gauss-pass.cg */,
 				94380776184E6AE100E2274B /* _ntsc-param.inc */,
-				94380777184E6AE100E2274B /* _ntsc-pass1-3phase.cg */,
-				94380778184E6AE100E2274B /* _ntsc-pass1-encode.cg */,
-				94380779184E6AE100E2274B /* _ntsc-pass1-vertex.cg */,
+				94FEFA4B18A80ECC0033A762 /* _ntsc-pass1-composite-3phase.cg */,
+				94FEFA4C18A80ECC0033A762 /* _ntsc-pass1-encode-demodulate.inc */,
+				94FEFA4D18A80ECC0033A762 /* _ntsc-pass1-vertex.inc */,
+				94FEFA4E18A80ECD0033A762 /* _ntsc-pass2-decode.inc */,
+				94FEFA4F18A80ECD0033A762 /* _ntsc-pass2-vertex.inc */,
 				9438077A184E6AE100E2274B /* _ntsc-pass2-3phase.cg */,
-				9438077B184E6AE100E2274B /* _ntsc-pass2-demodulate.cg */,
-				9438077C184E6AE100E2274B /* _ntsc-pass2-prefilter.inc */,
-				9438077D184E6AE100E2274B /* _ntsc-pass2-vertex.cg */,
-				9438077E184E6AE100E2274B /* _ntsc-pass3-3phase.cg */,
-				9438077F184E6AE100E2274B /* _ntsc-pass3-decode.inc */,
-				94380780184E6AE100E2274B /* _ntsc-pass3-vertex.cg */,
 				94380781184E6AE100E2274B /* _ntsc-rgbyuv.inc */,
 				94380782184E6AE100E2274B /* _ntsc-stock.cg */,
 				94380783184E6AE100E2274B /* NTSC.cgp */,

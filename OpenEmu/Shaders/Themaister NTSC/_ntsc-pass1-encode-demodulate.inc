@@ -12,6 +12,8 @@ float mod_phase = chroma_phase + vertex.pix_no.x * CHROMA_MOD_FREQ;
 float i_mod = cos(mod_phase);
 float q_mod = sin(mod_phase);
 
-yiq.yz *= float2(i_mod, q_mod);
+yiq.yz *= float2(i_mod, q_mod); // Modulate.
+yiq = mul(mix_mat, yiq); // Cross-talk.
+yiq.yz *= float2(i_mod, q_mod); // Demodulate.
 return float4(yiq, 1.0);
 
