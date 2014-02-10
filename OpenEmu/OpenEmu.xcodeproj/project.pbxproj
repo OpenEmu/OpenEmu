@@ -588,6 +588,7 @@
 		943F99CD1707E0AE00270E89 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943F99C71707E0AE00270E89 /* Controller-Preferences.plist */; };
 		943F99CE1707E0AE00270E89 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 943F99C81707E0AE00270E89 /* Keyboard-Mappings.plist */; };
 		943F99D41707F48400270E89 /* OE3DOSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943F99D31707F48400270E89 /* OE3DOSystemController.m */; };
+		94412D4618A896C30012071B /* OE2600SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94412D4518A896C30012071B /* OE2600SystemController.m */; };
 		94454EB517860E1E006C057B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94454EBB17860E1E006C057B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94454EB917860E1E006C057B /* InfoPlist.strings */; };
 		94454EC717860F4B006C057B /* OEPSPSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94454EC317860F4B006C057B /* OEPSPSystemController.m */; };
@@ -2224,6 +2225,8 @@
 		943F99C81707E0AE00270E89 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		943F99D21707F48300270E89 /* OE3DOSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE3DOSystemController.h; sourceTree = "<group>"; };
 		943F99D31707F48400270E89 /* OE3DOSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE3DOSystemController.m; sourceTree = "<group>"; };
+		94412D4418A896C30012071B /* OE2600SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE2600SystemController.h; sourceTree = "<group>"; };
+		94412D4518A896C30012071B /* OE2600SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE2600SystemController.m; sourceTree = "<group>"; };
 		94454EB417860E1D006C057B /* PSP.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PSP.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94454EB817860E1E006C057B /* PSP-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PSP-Info.plist"; sourceTree = "<group>"; };
 		94454EBA17860E1E006C057B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -5195,6 +5198,8 @@
 		94A224A51707543600098DA0 /* Atari 2600 */ = {
 			isa = PBXGroup;
 			children = (
+				94412D4418A896C30012071B /* OE2600SystemController.h */,
+				94412D4518A896C30012071B /* OE2600SystemController.m */,
 				94A225BA1707608B00098DA0 /* OE2600SystemResponder.h */,
 				94A225BB1707608B00098DA0 /* OE2600SystemResponder.m */,
 				94A225BC1707608B00098DA0 /* OE2600SystemResponderClient.h */,
@@ -7887,6 +7892,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94412D4618A896C30012071B /* OE2600SystemController.m in Sources */,
 				94A225BD1707608B00098DA0 /* OE2600SystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

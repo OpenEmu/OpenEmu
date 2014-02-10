@@ -25,7 +25,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OESystemController</string>
+	<string>OE2600SystemController</string>
 	<key>OESystemName</key>
 	<string>Atari 2600</string>
 	<key>OESystemIdentifier</key>
