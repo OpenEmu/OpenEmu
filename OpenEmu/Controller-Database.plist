@@ -1790,6 +1790,14 @@
 				<key>OEControllerProductID</key>
 				<integer>816</integer>
 			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>LEGO Wiimote</string>
+				<key>OEControllerVendorID</key>
+				<integer>1356</integer>
+				<key>OEControllerProductID</key>
+				<integer>774</integer>
+			</dict>
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
