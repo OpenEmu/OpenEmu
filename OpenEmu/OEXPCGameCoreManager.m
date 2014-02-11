@@ -97,6 +97,23 @@
     [[OEXPCCAgent defaultAgent] retrieveListenerEndpointForIdentifier:_processIdentifier completionHandler:
      ^(NSXPCListenerEndpoint *endpoint)
      {
+         if(endpoint == nil)
+         {
+             NSLog(@"No listener endpoint for identifier: %@", _processIdentifier);
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 NSError *error = [NSError errorWithDomain:OEGameCoreErrorDomain
+                                                      code:OEGameCoreCouldNotLoadROMError
+                                                  userInfo:nil];
+                 errorHandler(error);
+                 [self stop];
+             });
+             
+             // There's no listener endpoint, so don't bother trying to create an NSXPCConnection.
+             // Returning now since calling initWithListenerEndpoint: and passing it nil results in a memory leak.
+             // Also, there's no point in trying to get the gameCoreHelper if there's no _helperConnection.
+             return;
+         }
+
          _displayHelperProxy = [OEThreadProxy threadProxyWithTarget:[self displayHelper] thread:[NSThread mainThread]];
          _helperConnection = [[NSXPCConnection alloc] initWithListenerEndpoint:endpoint];
          [_helperConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEGameCoreDisplayHelper)]];
@@ -130,6 +147,10 @@
                       errorHandler(error);
                       [self stop];
                   });
+
+                  // There's no listener endpoint, so don't bother trying to create an NSXPCConnection.
+                  // Returning now since calling initWithListenerEndpoint: and passing it nil results in a memory leak.
+                  return;
               }
 
               _gameCoreConnection = [[NSXPCConnection alloc] initWithListenerEndpoint:gameCoreEndpoint];

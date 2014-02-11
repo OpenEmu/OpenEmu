@@ -163,6 +163,19 @@
         cgDestroyContext(_cgContext);
 
         _cgContext = NULL;
+
+        free(_vertexPassTextureCoords);
+        free(_vertexPassTextureSizes);
+        free(_vertexPassTextureVideoSizes);
+        free(_vertexPreviousTextureCoords);
+        free(_vertexPreviousTextureSizes);
+        free(_vertexPreviousTextureVideoSizes);
+        free(_fragmentPassTextures);
+        free(_fragmentPassTextureSizes);
+        free(_fragmentPassTextureVideoSizes);
+        free(_fragmentPreviousTextures);
+        free(_fragmentPreviousTextureSizes);
+        free(_fragmentPreviousTextureVideoSizes);
     }
 }
 
