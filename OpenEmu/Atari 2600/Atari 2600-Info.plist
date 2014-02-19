@@ -69,7 +69,7 @@
 		<array>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>Fire 1</string>
+				<string>Fire</string>
 				<key>OEControlListKeyNameKey</key>
 				<string>OE2600ButtonFire1</string>
 			</dict>
@@ -87,6 +87,7 @@
 			</dict>
 		</array>
 		<array>
+			<string>Switches</string>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
 				<string>L Diff A</string>
@@ -111,6 +112,18 @@
 				<key>OEControlListKeyNameKey</key>
 				<string>OE2600ButtonRightDiffB</string>
 			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>TV Color</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE2600ButtonTVTypeColor</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>TV Black &amp; White</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE2600ButtonTVTypeBlackAndWhite</string>
+			</dict>
 		</array>
 	</array>
 	<key>OESystemIcon</key>
@@ -126,6 +139,8 @@
 		<string>OE2600ButtonLeftDiffB</string>
 		<string>OE2600ButtonRightDiffA</string>
 		<string>OE2600ButtonRightDiffB</string>
+		<string>OE2600ButtonTVTypeColor</string>
+		<string>OE2600ButtonTVTypeBlackAndWhite</string>
 		<string>OE2600ButtonReset</string>
 		<string>OE2600ButtonSelect</string>
 	</array>

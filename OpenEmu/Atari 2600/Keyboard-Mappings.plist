@@ -24,5 +24,9 @@
 	<integer>8</integer>
 	<key>OE2600ButtonRightDiffB</key>
 	<integer>21</integer>
+	<key>OE2600ButtonTVTypeColor</key>
+	<string>23</string>
+	<key>OE2600ButtonTVTypeBlackAndWhite</key>
+	<string>28</string>
 </dict>
 </plist>

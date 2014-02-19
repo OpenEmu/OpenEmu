@@ -30,6 +30,10 @@
 		<string>{0, 0}</string>
 		<key>OE2600ButtonRightDiffB</key>
 		<string>{0, 0}</string>
+		<key>OE2600ButtonTVTypeColor</key>
+		<string>{0, 0}</string>
+		<key>OE2600ButtonTVTypeBlackAndWhite</key>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>
