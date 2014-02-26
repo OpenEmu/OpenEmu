@@ -1086,6 +1086,8 @@ static NSArray *OE_defaultSortDescriptors;
     NSArray *games = [self selectedGames];
     if([games count] == 0) return;
 
+    dispatch_async(dispatch_get_main_queue(), ^{
+       
     OEHUDAlert  *alert = [[OEHUDAlert alloc] init];
     [alert setHeadlineText:@""];
     [alert setMessageText:NSLocalizedString(@"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.", @"")];
@@ -1143,16 +1145,18 @@ static NSArray *OE_defaultSortDescriptors;
                         [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(YES) } ofItemAtPath:[url path] error:nil];
                 }
             }
-            [[aGame libraryDatabase] save:nil];
             
-            dispatch_async(dispatch_get_main_queue(), ^{
+            [alert performBlockInModalSession:^{
+                [[aGame libraryDatabase] save:nil];
                 [alert setProgress:(float)(i+1)/[games count]];
-            });
+            }];
         }
         [alert closeWithResult:NSAlertDefaultReturn];
     });
     [alert setDefaultButtonTitle:@"Stop"];
-    alertResult = [alert runModal];
+        alertResult = [alert runModal];
+        
+    });
 }
 #pragma mark -
 #pragma mark NSTableView DataSource

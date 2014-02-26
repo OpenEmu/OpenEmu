@@ -71,6 +71,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 - (void)OE_autosizeWindow;
 - (NSUInteger)OE_countLinesOfTextView:(NSTextView *)textView;
 
+@property (strong) NSMutableArray *blocks;
 @end
 
 @implementation OEHUDAlert
@@ -175,6 +176,8 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
         return result;
     }
 
+    [self setBlocks:[NSMutableArray array]];
+    
     [self OE_autosizeWindow];
     
     NSModalSession session = [NSApp beginModalSessionForWindow:_window];
@@ -191,17 +194,33 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
         [_window center];
     }
     
-    for (;;) {
-        if ([NSApp runModalSession:session] != NSRunContinuesResponse)
-            break;
-        [[NSRunLoop mainRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    void(^executeBlocks)(void) = ^{
+        while([[self blocks] count])
+        {
+            void(^aBlock)(void) = [[self blocks] objectAtIndex:0];
+            aBlock();
+            [[self blocks] removeObjectAtIndex:0];
+        }
+    };
+    
+    while([NSApp runModalSession:session] == NSRunContinuesResponse)
+    {
+        executeBlocks();
+        [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
+    executeBlocks();
+   
     [NSApp endModalSession:session];
     [_window close];
     
     [[self window] makeKeyAndOrderFront:self];
     
     return result;
+}
+
+- (void)performBlockInModalSession:(void(^)(void))block
+{
+    [[self blocks] addObject:block];
 }
 
 - (void)closeWithResult:(NSInteger)res

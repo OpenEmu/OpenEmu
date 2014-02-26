@@ -40,6 +40,7 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 #pragma mark -
 
 - (NSUInteger)runModal;
+- (void)performBlockInModalSession:(void(^)(void))block;
 - (void)closeWithResult:(NSInteger)res;
 
 @property(readonly) NSUInteger result;
