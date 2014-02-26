@@ -537,6 +537,14 @@ typedef enum : NSUInteger
         [menuItem setTitle:NSLocalizedString(@"Pause Emulation", @"")];
         return _emulationStatus == OEEmulationStatusPlaying;
     }
+    else if(action == @selector(toggleControlsVisibility:))
+    {
+        if([[[self gameViewController] controlsWindow] canShow])
+            [menuItem setState:NSOffState];
+        else
+            [menuItem setState:NSOnState];
+        return YES;
+    }
 
     return YES;
 }

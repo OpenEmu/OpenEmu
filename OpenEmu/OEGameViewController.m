@@ -178,6 +178,12 @@ NSString *const OEGameViewControllerROMKey = @"OEROM";
     [[self controlsWindow] reflectEmulationRunning:!paused];
 }
 
+- (void)toggleControlsVisibility:(NSMenuItem*)sender
+{
+    [sender setState:![sender state]];
+    [[self controlsWindow] setCanShow:[sender state]==NSOffState];
+}
+
 #pragma mark - HUD Bar Actions
 
 - (void)selectFilter:(id)sender

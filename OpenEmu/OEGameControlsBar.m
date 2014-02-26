@@ -113,13 +113,13 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         OEHUDControlsBarView *barView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45)];
         [[self contentView] addSubview:barView];
         [barView setupControls];
-
-        _eventMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:
-                        ^(NSEvent *incomingEvent)
-                        {
-                            if([NSApp isActive] && [[self parentWindow] isMainWindow])
-                                [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:incomingEvent waitUntilDone:NO];
-                        }];
+        
+        _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSMouseMovedMask handler:^NSEvent*(NSEvent* e)
+                         {
+                             if([NSApp isActive] && [[self parentWindow] isMainWindow])
+                                 [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:e waitUntilDone:NO];
+                             return e;
+                         }];
         _openMenus = 0;
         _controlsView = barView;
 

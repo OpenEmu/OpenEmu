@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">13A603</string>
+		<string key="IBDocument.SystemVersion">13B42</string>
 		<string key="IBDocument.InterfaceBuilderVersion">4514</string>
 		<string key="IBDocument.AppKitVersion">1265</string>
-		<string key="IBDocument.HIToolboxVersion">695.00</string>
+		<string key="IBDocument.HIToolboxVersion">696.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">4514</string>
@@ -287,7 +287,7 @@
 												<int key="NSTCFlags">1</int>
 											</object>
 											<object class="NSTextViewSharedData" key="NSSharedData">
-												<int key="NSFlags">264325</int>
+												<int key="NSFlags">67373189</int>
 												<int key="NSTextCheckingTypes">0</int>
 												<nil key="NSMarkedAttributes"/>
 												<object class="NSColor" key="NSBackgroundColor" id="622283368">
@@ -497,7 +497,7 @@ IEdpdEh1Yi4gA</bytes>
 												<int key="NSTCFlags">1</int>
 											</object>
 											<object class="NSTextViewSharedData" key="NSSharedData">
-												<int key="NSFlags">272516</int>
+												<int key="NSFlags">67381380</int>
 												<int key="NSTextCheckingTypes">0</int>
 												<nil key="NSMarkedAttributes"/>
 												<reference key="NSBackgroundColor" ref="622283368"/>
@@ -635,7 +635,7 @@ IEdpdEh1Yi4gA</bytes>
 					<reference key="NSNextKeyView" ref="416131386"/>
 					<bool key="NSViewIsLayerTreeHost">YES</bool>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1366, 746}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">About</string>
 				<bool key="NSWindowIsRestorable">NO</bool>
@@ -1769,6 +1769,26 @@ IEdpdEh1Yi4gA</bytes>
 									<reference key="NSOnImage" ref="364983442"/>
 									<reference key="NSMixedImage" ref="771956725"/>
 								</object>
+								<object class="NSMenuItem" id="459294081">
+									<reference key="NSMenu" ref="64773122"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<string key="NSTitle">Always Hide Controls</string>
+									<string key="NSKeyEquiv">H</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="364983442"/>
+									<reference key="NSMixedImage" ref="771956725"/>
+								</object>
+								<object class="NSMenuItem" id="985083107">
+									<reference key="NSMenu" ref="64773122"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="364983442"/>
+									<reference key="NSMixedImage" ref="771956725"/>
+								</object>
 								<object class="NSMenuItem" id="105128930">
 									<reference key="NSMenu" ref="64773122"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -2362,6 +2382,14 @@ IEdpdEh1Yi4gA</bytes>
 						<reference key="destination" ref="1024794218"/>
 					</object>
 					<string key="id">O8U-HO-a1Q</string>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleControlsVisibility:</string>
+						<reference key="source" ref="38857222"/>
+						<reference key="destination" ref="459294081"/>
+					</object>
+					<string key="id">aEF-Tc-Nhr</string>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -3479,6 +3507,8 @@ IEdpdEh1Yi4gA</bytes>
 							<reference ref="105128930"/>
 							<reference ref="1054754913"/>
 							<reference ref="176373940"/>
+							<reference ref="985083107"/>
+							<reference ref="459294081"/>
 						</array>
 						<reference key="parent" ref="667184474"/>
 					</object>
@@ -3746,6 +3776,16 @@ IEdpdEh1Yi4gA</bytes>
 						<string key="id">1g0-za-3ea</string>
 						<reference key="object" ref="827141299"/>
 						<reference key="parent" ref="1038424661"/>
+					</object>
+					<object class="IBObjectRecord">
+						<string key="id">qCp-x6-z0X</string>
+						<reference key="object" ref="985083107"/>
+						<reference key="parent" ref="64773122"/>
+					</object>
+					<object class="IBObjectRecord">
+						<string key="id">ayc-Ld-Nyd</string>
+						<reference key="object" ref="459294081"/>
+						<reference key="parent" ref="64773122"/>
 					</object>
 				</array>
 			</object>
@@ -4119,6 +4159,8 @@ IEdpdEh1Yi4gA</bytes>
 				<boolean value="NO" key="JS9-VV-Ksy.showNotes"/>
 				<string key="Qhx-nq-JmY.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="ahk-gp-EN3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="ayc-Ld-Nyd.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="NO" key="ayc-Ld-Nyd.showNotes"/>
 				<string key="cm1-gR-GtS.CustomClassName">OEButton</string>
 				<object class="NSMutableDictionary" key="cm1-gR-GtS.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
@@ -4139,6 +4181,8 @@ IEdpdEh1Yi4gA</bytes>
 				<boolean value="NO" key="cm1-gR-GtS.showNotes"/>
 				<string key="ftM-3D-CSh.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="q7W-GV-n3p.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="qCp-x6-z0X.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="NO" key="qCp-x6-z0X.showNotes"/>
 				<string key="xLS-eK-dBr.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<reference key="xLS-eK-dBr.IBUserGuides" ref="0"/>
 				<boolean value="NO" key="xLS-eK-dBr.showNotes"/>
@@ -4168,6 +4212,10 @@ IEdpdEh1Yi4gA</bytes>
 						<string key="OEDebug_logResponderChain:">id</string>
 						<string key="openWeblink:">id</string>
 						<string key="showAboutWindow:">id</string>
+						<string key="showOEHelp:">id</string>
+						<string key="showOEIssues:">id</string>
+						<string key="showOEReleaseNotes:">id</string>
+						<string key="showOEWebSite:">id</string>
 						<string key="showOpenEmuWindow:">id</string>
 						<string key="showPreferencesWindow:">id</string>
 					</dictionary>
@@ -4182,6 +4230,22 @@ IEdpdEh1Yi4gA</bytes>
 						</object>
 						<object class="IBActionInfo" key="showAboutWindow:">
 							<string key="name">showAboutWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showOEHelp:">
+							<string key="name">showOEHelp:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showOEIssues:">
+							<string key="name">showOEIssues:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showOEReleaseNotes:">
+							<string key="name">showOEReleaseNotes:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showOEWebSite:">
+							<string key="name">showOEWebSite:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="showOpenEmuWindow:">
@@ -4339,18 +4403,12 @@ IEdpdEh1Yi4gA</bytes>
 						<string key="changeVolume:">id</string>
 						<string key="deleteSaveState:">id</string>
 						<string key="editControls:">id</string>
-						<string key="loadState:">id</string>
 						<string key="mute:">id</string>
-						<string key="quickLoad:">id</string>
-						<string key="quickSave:">id</string>
-						<string key="resetEmulation:">id</string>
-						<string key="saveState:">id</string>
+						<string key="performClose:">id</string>
+						<string key="setCheat:">id</string>
 						<string key="stopEmulation:">id</string>
 						<string key="toggleCheat:">id</string>
-						<string key="toggleEmulationPaused:">id</string>
 						<string key="unmute:">id</string>
-						<string key="volumeDown:">id</string>
-						<string key="volumeUp:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="addCheat:">
@@ -4373,28 +4431,16 @@ IEdpdEh1Yi4gA</bytes>
 							<string key="name">editControls:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="loadState:">
-							<string key="name">loadState:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="mute:">
 							<string key="name">mute:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="quickLoad:">
-							<string key="name">quickLoad:</string>
+						<object class="IBActionInfo" key="performClose:">
+							<string key="name">performClose:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="quickSave:">
-							<string key="name">quickSave:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="resetEmulation:">
-							<string key="name">resetEmulation:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="saveState:">
-							<string key="name">saveState:</string>
+						<object class="IBActionInfo" key="setCheat:">
+							<string key="name">setCheat:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="stopEmulation:">
@@ -4405,20 +4451,8 @@ IEdpdEh1Yi4gA</bytes>
 							<string key="name">toggleCheat:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="toggleEmulationPaused:">
-							<string key="name">toggleEmulationPaused:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="unmute:">
 							<string key="name">unmute:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="volumeDown:">
-							<string key="name">volumeDown:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="volumeUp:">
-							<string key="name">volumeUp:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
