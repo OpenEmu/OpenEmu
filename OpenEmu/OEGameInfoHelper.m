@@ -271,54 +271,77 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     NSString * const DBROMHeaderKey= @"romHeader";
     NSString * const DBROMSerialKey= @"romSerial";
 
-    NSString *key, *value;
-    
-    // check if the system is 'hashless' in the db and instead match by filename (arcade)
-    if (isSystemWithHashlessROM)
-    {
-        key = DBROMFileNameKey;
-        value = [[[rom location] lastPathComponent] lowercaseString];
+    NSString __block *key = nil, __block *value = nil;
+    void(^determineQueryParams)(void) = ^{
+        if(value != nil) return;
         
-    }
-    // check if the system has headers in the db and instead match by header
-    else if (isSystemWithROMHeader)
-    {
-        key = DBROMHeaderKey;
-        value = [[rom header] uppercaseString];
-        
-    }
-    // check if the system has serials in the db and instead match by serial
-    else if (isSystemWithROMSerial)
-    {
-        key = DBROMSerialKey;
-        value = [[rom serial] uppercaseString];
-        
-    }
-    else
-    {
-        int headerSize = [self sizeOfROMHeaderForSystem:[[[rom game] system] systemIdentifier]];
-
-        // if rom has no header we can use the hash we calculated at import
-        if(headerSize == 0 && (value = [rom md5HashIfAvailable]) != nil)
-            key = DBMD5Key;
-        else if(headerSize == 0 && (value = [rom crcHashIfAvailable]) != nil)
-            key = DBCRCKey;
+        // check if the system is 'hashless' in the db and instead match by filename (arcade)
+        if (isSystemWithHashlessROM)
+        {
+            key = DBROMFileNameKey;
+            value = [[[rom location] lastPathComponent] lowercaseString];
+        }
+        // check if the system has headers in the db and instead match by header
+        else if (isSystemWithROMHeader)
+        {
+            key = DBROMHeaderKey;
+            value = [[rom header] uppercaseString];
+        }
+        // check if the system has serials in the db and instead match by serial
+        else if (isSystemWithROMSerial)
+        {
+            key = DBROMSerialKey;
+            value = [[rom serial] uppercaseString];
+        }
         else
         {
-            key = DBMD5Key;
-
-            // try to extract archive, returns nil if rom is no archive
-            NSURL *url = [self _urlOfExtractedRom:rom];
-            if(url == nil) // rom is no archive, use original file URL
-                url = [rom URL];
-
-            if(![[NSFileManager defaultManager] hashFileAtURL:url headerSize:headerSize md5:&value crc32:nil error:error])
-                return nil;
+            int headerSize = [self sizeOfROMHeaderForSystem:[[[rom game] system] systemIdentifier]];
+            
+            // if rom has no header we can use the hash we calculated at import
+            if(headerSize == 0 && (value = [rom md5HashIfAvailable]) != nil)
+            {
+                key = DBMD5Key;
+            }
+            else if(headerSize == 0 && (value = [rom crcHashIfAvailable]) != nil)
+            {
+                key = DBCRCKey;
+            }
+            value = [value uppercaseString];
         }
+    };
+    
+    determineQueryParams();
+    
+    // try to fetch header, serial or hash from file
+    if(value == nil)
+    {
+        NSURL *romURL = [self _urlOfExtractedRom:rom];
+        if(romURL == nil) // rom is no archive, use original file URL
+            romURL = [rom URL];
         
-        value = [value uppercaseString];
-    }
+        NSString *systemIdentifier = [[[rom game] system] systemIdentifier];
+        NSString *headerFound = [OEDBSystem headerForFileWithURL:romURL forSystem:systemIdentifier];
+        NSString *serialFound = [OEDBSystem serialForFileWithURL:romURL forSystem:systemIdentifier];
 
+        if(headerFound == nil && serialFound == nil)
+        {
+            int headerSize = [self sizeOfROMHeaderForSystem:[[[rom game] system] systemIdentifier]];
+            [[NSFileManager defaultManager] hashFileAtURL:romURL headerSize:headerSize md5:&value crc32:nil error:error];
+            key   = DBMD5Key;
+            value = [value uppercaseString];
+        }
+        else
+        {
+            [rom setHeader:headerFound];
+            [rom setSerial:serialFound];
+        }
+    }
+    
+    determineQueryParams();
+    
+    if(value == nil)
+        return nil;
+    
     NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT releaseTitleName as 'gameTitle', releaseCoverFront as 'boxImageURL', releaseDescription as 'gameDescription', regionName as 'region'\
                      FROM ROMs rom LEFT JOIN RELEASES release USING (romID) LEFT JOIN REGIONS region on (regionLocalizedID=region.regionID)\
                      WHERE %@ = '%@'", key, value];
