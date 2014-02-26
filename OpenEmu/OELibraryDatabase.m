@@ -492,7 +492,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         if(result == nil)
         {
             NSLog(@"collections: Smart Collections Error: %@", error);
-            collectionsArray = [NSArray array];
+            collectionsArray = [NSMutableArray array];
             return;
         }
 
@@ -505,7 +505,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         if(result == nil)
         {
             NSLog(@"collections: Regular Collections Error: %@", error);
-            collectionsArray = [NSArray array];
+            collectionsArray = [NSMutableArray array];
             return;
         }
         
