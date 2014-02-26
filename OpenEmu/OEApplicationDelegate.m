@@ -381,9 +381,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
          if(success)
          {
              if(displayDocument) [document showInSeparateWindowInFullScreen:fullScreen];
-             completionHandler(document, nil);
+             if(completionHandler)  completionHandler(document, nil);
          }
-         else completionHandler(nil, error);
+         else if(completionHandler) completionHandler(nil, error);
      }];
 }
 
@@ -392,16 +392,20 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [super openDocumentWithContentsOfURL:url display:NO completionHandler:
      ^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
      {
-         FIXME("Repair this");
-         //if([document isKindOfClass:[OEGameDocument class]])
-         //    [mainWindowController openGameDocument:(OEGameDocument *)document];
-
+         if([document isKindOfClass:[OEGameDocument class]])
+         {
+             NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+             BOOL fullScreen = [standardDefaults boolForKey:OEFullScreenGameWindowKey];
+             
+             [self OE_setupGameDocument:(OEGameDocument*)document display:YES fullScreen:fullScreen completionHandler:nil];
+         }
+         
          if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEImportRequiredError)
          {
              completionHandler(nil, NO, nil);
              return;
          }
-
+         
          if(completionHandler != nil)
              completionHandler(document, documentWasAlreadyOpen, error);
      }];
