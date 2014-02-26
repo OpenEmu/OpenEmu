@@ -419,12 +419,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 
         if(![context save:error])
         {
-            if(error != NULL)
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[NSApplication sharedApplication] presentError:*error];
-                });
-            }
             result = NO;
             return;
         }
