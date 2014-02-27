@@ -173,13 +173,14 @@ typedef enum : NSUInteger
         [[OECoreUpdater sharedUpdater] installCoreForGame:[[self rom] game] withCompletionHandler:
         ^(OECorePlugin *plugin, NSError *error)
         {
-            [self OE_setupDocumentWithROM:rom usingCorePlugin:nil error:outError];
+            if(error == nil)
+                [self OE_setupDocumentWithROM:rom usingCorePlugin:nil error:outError];
         }];
     }
 
     _gameCoreManager = [self _newGameCoreManagerWithCorePlugin:_corePlugin];
 
-    return YES;
+    return _gameCoreManager != nil;
 }
 
 - (void)OE_setupGameCoreManagerUsingCorePlugin:(OECorePlugin *)core completionHandler:(void(^)(void))completionHandler
@@ -206,8 +207,9 @@ typedef enum : NSUInteger
 
 - (OEGameCoreManager *)_newGameCoreManagerWithCorePlugin:(OECorePlugin *)corePlugin
 {
-    NSAssert(corePlugin != nil, @"Cannot create a game core manager without a plug-in.");
-
+    if(corePlugin == nil)
+        return nil;
+    
     NSString *managerClassName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameCoreManagerModePreferenceKey];
 
     Class managerClass = NSClassFromString(managerClassName);
@@ -439,8 +441,8 @@ typedef enum : NSUInteger
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
     DLog(@"%@", absoluteURL);
-
-    if([typeName isEqualToString:@"OpenEmu Save State"])
+    DLog(@"%@", typeName);
+    if([typeName isEqualToString:@"org.openemu.savestate"])
     {
         OEDBSaveState *state = [OEDBSaveState saveStateWithURL:absoluteURL];
         if([self OE_setupDocumentWithSaveState:state error:outError])
