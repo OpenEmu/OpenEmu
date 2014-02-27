@@ -276,6 +276,11 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                         [self OE_openGameDocumentWithGame:game saveState:[game autosaveForLastPlayedRom]];
                     }
                 }
+                else
+                {
+                    [game setStatus:@(OEDBGameStatusAlert)];
+                    [[game libraryDatabase] save:nil];
+                }
             } else [NSApp presentError:error];
             return;
         }

@@ -160,6 +160,25 @@ typedef enum : NSUInteger
 
 - (BOOL)OE_setupDocumentWithROM:(OEDBRom *)rom usingCorePlugin:(OECorePlugin *)core error:(NSError **)outError
 {
+    NSString *romPath = [[rom URL] path];
+    if(![[NSFileManager defaultManager] fileExistsAtPath:romPath])
+    {
+        if(outError != NULL)
+        {
+            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                                            code:OEFileDoesNotExistError
+                                        userInfo:
+                         [NSDictionary dictionaryWithObjectsAndKeys:
+                          NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
+                          NSLocalizedFailureReasonErrorKey,
+                          NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
+                          NSLocalizedRecoverySuggestionErrorKey,
+                          nil]];
+        }
+        DLog(@"File does not exist");
+        return NO;
+    }
+
     _rom = rom;
     _corePlugin = core;
     _systemPlugin = [[[[self rom] game] system] plugin];
