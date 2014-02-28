@@ -27,31 +27,11 @@
 #import "OEFileManager.h"
 #include <copyfile.h>
 
-typedef struct {
-    off_t current;
-    off_t done;
-    off_t total;
-    __unsafe_unretained OEFileManager *manager;
-} copyfile_ctx;
-
 @interface OEFileManager ()
-@property (strong) NSFileManager *fm;
-@property off_t totalBytes;
-@property off_t bytesCopied;
 @end
 
 @implementation OEFileManager
-@synthesize fm=fm;
 int copyfile_callback(int what, int stage, copyfile_state_t state, const char * src, const char * dst, void * ctx_ptr);
-
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        fm = [NSFileManager defaultManager];
-    }
-    return self;
-}
 
 - (NSUInteger)sizeOfItemAtURL:(NSURL*)url
 {
@@ -64,7 +44,7 @@ int copyfile_callback(int what, int stage, copyfile_state_t state, const char * 
         if([value boolValue])
         {
             NSArray *keys = @[NSURLIsDirectoryKey, NSURLFileSizeKey];
-            NSDirectoryEnumerator *directoryEnumerator = [fm enumeratorAtURL:url includingPropertiesForKeys:keys options:0 errorHandler:nil];
+            NSDirectoryEnumerator *directoryEnumerator = [self enumeratorAtURL:url includingPropertiesForKeys:keys options:0 errorHandler:nil];
             while((url = [directoryEnumerator nextObject]))
             {
                 if([url getResourceValue:&value forKey:NSURLIsDirectoryKey error:nil] && ![value boolValue] && [url getResourceValue:&value forKey:NSURLFileSizeKey error:nil])
@@ -141,5 +121,4 @@ int copyfile_callback(int what, int stage, copyfile_state_t state, const char * 
         *error = [NSError errorWithDomain:@"OEFileManagerDomain" code:errno userInfo:nil];
     return res == 0;
 }
-
 @end
