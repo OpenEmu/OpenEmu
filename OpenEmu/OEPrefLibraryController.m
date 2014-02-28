@@ -156,6 +156,7 @@
     }
     
     // TODO: stop sync thread!
+    // TODO: use migratePersistentStore:toURL:options:withType:error so we don't have to restart the app
     
     NSURL *currentLocation = [library databaseFolderURL];
     NSURL *newLocation     = [newParentLocation URLByAppendingPathComponent:[currentLocation lastPathComponent] isDirectory:YES];
@@ -247,6 +248,8 @@
                     
                     return;
                 }
+                
+                // TODO: migrate store now, remove copy step later
                 
                 // Copy roms directory
                 [alert performBlockInModalSession:^{
@@ -405,65 +408,7 @@
 
         if(error) [NSApp presentError:error];
     }
-}
-
-- (void)OE_changeROMFolderLocationTo:(NSURL*)newLocation
-{
-    OELibraryDatabase *library = [OELibraryDatabase defaultDatabase];
-
-    // Save Library just to make sure the changes are on disk
-    [library save:nil];
-
-    NSURL *lastRomFolderURL = [library romsFolderURL];
-    [library setRomsFolderURL:newLocation];
-
-    NSError                *error          = nil;
-    NSArray                *fetchResult    = nil;
-    NSFetchRequest         *fetchRequest   = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
-    NSPredicate            *fetchPredicate = [NSPredicate predicateWithFormat:@"NONE location BEGINSWITH 'file://'"];
-
-    [fetchRequest setPredicate:fetchPredicate];
-
-    // Change relative paths to absolute ones based on last roms folder location
-    fetchResult = [library executeFetchRequest:fetchRequest error:&error];
-    if(error != nil)
-    {
-        DLog(@"%@", error);
-        return;
-    }
-    DLog(@"Found %ld roms with relative paths", [fetchResult count]);
-    [fetchResult enumerateObjectsUsingBlock:^(OEDBRom *obj, NSUInteger idx, BOOL *stop) {
-        [obj setURL:[NSURL URLWithString:[[obj URL] relativeString] relativeToURL:lastRomFolderURL]];
-    }];
-
-
-    // Make absolute rom paths in new roms folder relative
-    OEHUDAlert *alert  = [OEHUDAlert alertWithMessageText:@"Would you like OpenEmu to move and rename the files in your new ROMs folder to match the “Keep games organized” preference?" defaultButton:@"Yes" alternateButton:@"No"];
-    BOOL moveGameFiles = [alert runModal]==NSAlertDefaultReturn;
     
-    fetchPredicate = [NSPredicate predicateWithFormat:@"location BEGINSWITH %@", [newLocation absoluteString]];
-    [fetchRequest setPredicate:fetchPredicate];
-    
-    fetchResult = [library executeFetchRequest:fetchRequest error:&error];
-    if(error != nil)
-    {
-        DLog(@"%@", error);
-        return;
-    }
-    DLog(@"Found %ld roms in new roms folder", [fetchResult count]);
-    [fetchResult enumerateObjectsUsingBlock:^(OEDBRom *obj, NSUInteger idx, BOOL *stop) {
-        NSURL *newURL = [obj URL];
-        if(moveGameFiles)
-        {
-            NSURL *systemFolderURL = [library romsFolderURLForSystem:[[obj game] system]];
-            newURL = [systemFolderURL URLByAppendingPathComponent:[newURL lastPathComponent]];
-            [[NSFileManager defaultManager] moveItemAtURL:[obj URL] toURL:newURL error:nil];
-        }
-        [obj setURL:newURL];
-    }];
-    
-    [library save:nil];
-
     NSString *databasePath = [[[library databaseFolderURL] path] stringByAbbreviatingWithTildeInPath];
     [[self pathField] setStringValue:databasePath];
 }
