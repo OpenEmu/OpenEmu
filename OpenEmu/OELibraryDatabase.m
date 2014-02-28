@@ -790,22 +790,27 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSURL *)romsFolderURL
 {
+    NSURL             *result   = nil;
     NSPersistentStore *persistentStore = [[[self persistentStoreCoordinator] persistentStores] lastObject];
-    NSDictionary *metadata = [[self persistentStoreCoordinator] metadataForPersistentStore:persistentStore];
+    NSDictionary      *metadata = [[self persistentStoreCoordinator] metadataForPersistentStore:persistentStore];
+
     if([metadata objectForKey:OELibraryRomsFolderURLKey])
     {
         NSString *urlString = [metadata objectForKey:OELibraryRomsFolderURLKey];
+        
         if([urlString rangeOfString:@"file://"].location == NSNotFound)
-            return [NSURL URLWithString:urlString relativeToURL:[self databaseFolderURL]];
-        return [NSURL URLWithString:urlString];
+            result = [NSURL URLWithString:urlString relativeToURL:[self databaseFolderURL]];
+        else
+            result = [NSURL URLWithString:urlString];
     }
     else
     {
-        NSURL *result = [[self databaseFolderURL] URLByAppendingPathComponent:@"roms" isDirectory:YES];
+        result = [[self databaseFolderURL] URLByAppendingPathComponent:@"roms" isDirectory:YES];
         [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
         [self setRomsFolderURL:result];
-        return result;
     }
+    
+    return result;
 }
 
 - (void)setRomsFolderURL:(NSURL *)url
