@@ -1785,6 +1785,8 @@
 			<dict>
 				<key>OEControllerDeviceName</key>
 				<string>Wiimote Plus (Nintendo RVL-CNT-01-TR)</string>
+				<key>OEControllerProductName</key>
+				<string>Nintendo RVL-CNT-01-TR</string>
 				<key>OEControllerVendorID</key>
 				<integer>1406</integer>
 				<key>OEControllerProductID</key>
@@ -2984,7 +2986,7 @@
 			<dict>
 				<key>OEControllerDeviceName</key>
 				<string>Wii U Pro Controller (Nintendo RVL-CNT-01-UC)</string>
-				<key>OEControllerHIDDeviceName</key>
+				<key>OEControllerProductName</key>
 				<string>Nintendo RVL-CNT-01-UC</string>
 				<key>OEControllerVendorID</key>
 				<integer>1406</integer>
