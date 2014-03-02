@@ -28,6 +28,6 @@
 #import <Foundation/Foundation.h>
 
 @interface OEInputLimitFormatter : NSFormatter
-- (id)initWithLimit:(int)aLimit;
-@property int limit;
+- (id)initWithLimit:(NSUInteger)aLimit;
+@property NSUInteger limit;
 @end

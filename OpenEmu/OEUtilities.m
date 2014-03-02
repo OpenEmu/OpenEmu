@@ -69,7 +69,7 @@ NSString *temporaryDirectoryForDecompressionOfPath(NSString *aPath)
 
     // First, check that known location in case we've already dealt with this one
     unsigned char hash[CC_SHA1_DIGEST_LENGTH];
-    CC_SHA1([aPath UTF8String], strlen([aPath UTF8String]), hash);
+    CC_SHA1([aPath UTF8String], (CC_LONG)strlen([aPath UTF8String]), hash);
 
     char hexhash[2*CC_SHA1_DIGEST_LENGTH+1];
     tohex(hash, CC_SHA1_DIGEST_LENGTH, hexhash);
@@ -111,13 +111,13 @@ bool GetSystemVersion(int *major, int *minor, int *bugfix)
 		NSArray* versions = [versionString componentsSeparatedByString:@"."];
 		check( versions.count >= 2 );
 		if ( versions.count >= 1 ) {
-			mMajor = [versions[0] integerValue];
+			mMajor = [versions[0] intValue];
 		}
 		if ( versions.count >= 2 ) {
-			mMinor = [versions[1] integerValue];
+			mMinor = [versions[1] intValue];
 		}
 		if ( versions.count >= 3 ) {
-			mBugfix = [versions[2] integerValue];
+			mBugfix = [versions[2] intValue];
 		}
 	});
     

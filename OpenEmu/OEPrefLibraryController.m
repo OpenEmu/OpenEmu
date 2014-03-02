@@ -43,11 +43,6 @@
 
 #import "OEFileManager.h"
 
-@interface OEPrefLibraryController ()
-- (void)OE_rebuildAvailableLibraries;
-- (void)OE_changeROMFolderLocationTo:(NSURL*)url;
-@end
-
 @implementation OEPrefLibraryController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

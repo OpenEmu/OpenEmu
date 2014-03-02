@@ -55,36 +55,28 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
 NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
-@interface OEDBSaveState ()
-+ (id)OE_newSaveStateInContext:(NSManagedObjectContext*)context;
-- (BOOL)OE_createBundleAtURL:(NSURL*)url withStateFile:(NSURL*)stateFile error:(NSError*__autoreleasing*)error;
-- (void)replaceStateFileWithFile:(NSURL*)stateFile;
-- (NSURL*)infoPlistURL;
-- (NSDictionary*)infoPlist;
-@end
-
 @implementation OEDBSaveState
 
-+ (NSArray*)allStates
++ (NSArray *)allStates
 {
     return [self allStatesInDatabase:[OELibraryDatabase defaultDatabase]];
 }
 
-+ (NSArray*)allStatesInDatabase:(OELibraryDatabase*)database
++ (NSArray *)allStatesInDatabase:(OELibraryDatabase *)database
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"SaveState"];
     return [database executeFetchRequest:request error:nil];
 }
 
 
-+ (OEDBSaveState*)saveStateWithURL:(NSURL*)url
++ (OEDBSaveState *)saveStateWithURL:(NSURL *)url
 {
     return [self saveStateWithURL:url inDatabase:[OELibraryDatabase defaultDatabase]];
 }
 
-+ (OEDBSaveState*)saveStateWithURL:(NSURL*)url inDatabase:(OELibraryDatabase*)database
++ (OEDBSaveState *)saveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database
 {
-    NSFetchRequest          *request    = [NSFetchRequest fetchRequestWithEntityName:@"SaveState"];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"SaveState"];
     
     NSString *absoluteString = [url absoluteString];
     if([absoluteString characterAtIndex:[absoluteString length]-1] != '/')
@@ -99,7 +91,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 }
 
 
-+ (id)OE_newSaveStateInContext:(NSManagedObjectContext*)context
++ (id)OE_newSaveStateInContext:(NSManagedObjectContext *)context
 {
     __block OEDBSaveState *result = nil;
     [context performBlockAndWait:^{
@@ -111,12 +103,12 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 	return result;
 }
 
-+ (id)createSaveStateWithURL:(NSURL*)url
++ (id)createSaveStateWithURL:(NSURL *)url
 {
     return [self createSaveStateWithURL:url inDatabase:[OELibraryDatabase defaultDatabase]];
 }
 
-+ (id)createSaveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase*)database
++ (id)createSaveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database
 {
     OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database unsafeContext]];
     [newSaveState setLocation:[url absoluteString]];
@@ -147,7 +139,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     return [self createSaveStateNamed:name forRom:rom core:core withFile:stateFileURL inDatabase:[OELibraryDatabase defaultDatabase]];
 }
 
-+ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inDatabase:(OELibraryDatabase *)database
++ (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inDatabase:(OELibraryDatabase *)database
 {
     OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database unsafeContext]];
     [newSaveState setName:name];
@@ -182,7 +174,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     return newSaveState;
 }
 
-- (BOOL)OE_createBundleAtURL:(NSURL*)bundleURL withStateFile:(NSURL*)stateFile error:(NSError*__autoreleasing*)error
+- (BOOL)OE_createBundleAtURL:(NSURL *)bundleURL withStateFile:(NSURL *)stateFile error:(NSError **)error
 {
     NSFileManager *fileManager         = [NSFileManager defaultManager];
     NSDictionary  *directoryAttributes = @{};
@@ -211,7 +203,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     return YES;
 }
 
-+ (void)updateOrCreateStateWithPath:(NSString*)path
++ (void)updateOrCreateStateWithPath:(NSString *)path
 {
     NSRange range     = [path rangeOfString:@".oesavestate" options:NSCaseInsensitiveSearch];
     if(range.location == NSNotFound) return;
@@ -238,16 +230,16 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     [saveState moveToDefaultLocation];
 }
 
-+ (NSString*)nameOfQuickSaveInSlot:(int)slot
++ (NSString *)nameOfQuickSaveInSlot:(NSInteger)slot
 {
-    return slot == 0 ? OESaveStateQuicksaveName:[NSString stringWithFormat:@"%@%d", OESaveStateQuicksaveName, slot];
+    return slot == 0 ? OESaveStateQuicksaveName:[NSString stringWithFormat:@"%@%ld", OESaveStateQuicksaveName, slot];
 }
 
 #pragma mark - Management
 - (BOOL)readInfoPlist
 {
-    NSDictionary    *infoPlist  = [self infoPlist];
-    NSString        *version    = [infoPlist valueForKey:OESaveStateInfoVersionKey];
+    NSDictionary *infoPlist = [self infoPlist];
+    NSString     *version   = [infoPlist valueForKey:OESaveStateInfoVersionKey];
     if([version isEqualTo:@"1.0"])
     {
         NSString *infoName              = [infoPlist valueForKey:OESaveStateInfoNameKey];
@@ -326,7 +318,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     }
 }
 
-- (void)replaceStateFileWithFile:(NSURL*)stateFile
+- (void)replaceStateFileWithFile:(NSURL *)stateFile
 {
     [[NSFileManager defaultManager] removeItemAtURL:[self stateFileURL] error:nil];
     [[NSFileManager defaultManager] copyItemAtURL:stateFile toURL:[self stateFileURL] error:nil];
@@ -352,8 +344,10 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     }
     [self setURL:newStateURL];
 }
+
 #pragma mark - Data Accessors
-- (NSString*)displayName
+
+- (NSString *)displayName
 {
     if(![self isSpecialState])
         return [self name];
@@ -374,12 +368,14 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 {
     return [[self name] rangeOfString:OESaveStateSpecialNamePrefix].location == 0;
 }
+
 #pragma mark -
 #pragma mark Data Model Properties
+
 @dynamic name, userDescription, timestamp;
 @dynamic coreIdentifier, location, coreVersion;
 
-- (NSURL*)URL
+- (NSURL *)URL
 {
     return [NSURL URLWithString:[self location]];
 }
@@ -389,22 +385,22 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     [self setLocation:[url absoluteString]];
 }
 
-- (NSURL*)screenshotURL
+- (NSURL *)screenshotURL
 {
     return [[self URL] URLByAppendingPathComponent:OESaveStateScreenshotFile];
 }
 
-- (NSURL*)stateFileURL
+- (NSURL *)stateFileURL
 {
     return [[self URL] URLByAppendingPathComponent:OESaveStateDataFile];
 }
 
-- (NSString*)systemIdentifier
+- (NSString *)systemIdentifier
 {
     return [[[[self rom] game] system] systemIdentifier];
 }
 
-- (NSDictionary*)infoPlist
+- (NSDictionary *)infoPlist
 {
     NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfURL:[self infoPlistURL]];
     
@@ -414,12 +410,14 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     return infoPlist;
 }
 
-- (NSURL*)infoPlistURL
+- (NSURL *)infoPlistURL
 {
     return [[self URL] URLByAppendingPathComponent:@"Info.plist"];
 }
+
 #pragma mark -
 #pragma mark Data Model Relationships
+
 @dynamic rom;
 
 @end

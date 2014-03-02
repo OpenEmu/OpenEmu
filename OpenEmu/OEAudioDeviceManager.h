@@ -50,8 +50,8 @@
  */
 @interface OEAudioDevice : NSObject
 
-+ (instancetype)audioDeviceWithID:(NSUInteger)deviceID;
-- (id)initWithID:(NSUInteger)deviceID;
++ (instancetype)audioDeviceWithID:(AudioDeviceID)deviceID;
+- (instancetype)initWithID:(AudioDeviceID)deviceID;
 
 @property(readonly) AudioDeviceID  deviceID;
 @property(readonly) NSString      *deviceName;

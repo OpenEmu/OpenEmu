@@ -58,9 +58,7 @@ static NSTimeInterval currentTime()
     
     recording = YES;
     // generate a name for our movie file
-    NSString *tempName = [NSString stringWithCString:tmpnam(nil)
-                                            encoding:[NSString defaultCStringEncoding]];
-    
+    NSString *tempName = [NSString stringWithCString:mktemp("/tmp/tempXXXXXXXX") encoding:[NSString defaultCStringEncoding]];
     
     // Create a QTMovie with a writable data reference
     movie = [[QTMovie alloc] initToWritableFile:tempName error:NULL];

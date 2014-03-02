@@ -50,8 +50,7 @@
 
 - (OECorePlugin *)selectedCore
 {
-    int index = [[coreArrayController selectionIndexes] firstIndex];
-    return [coreList objectAtIndex:index];
+    return [coreList objectAtIndex:[[coreArrayController selectionIndexes] firstIndex]];
 }
 
 - (IBAction)selectCore:(id)sender

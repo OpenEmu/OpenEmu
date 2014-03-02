@@ -544,7 +544,7 @@ typedef enum : NSUInteger
     SEL action = [menuItem action];
     if(action == @selector(quickLoad:))
     {
-        int slot = [menuItem representedObject] ? [[menuItem representedObject] intValue] : [menuItem tag];
+        NSInteger slot = [menuItem representedObject] ? [[menuItem representedObject] integerValue] : [menuItem tag];
         return [[self rom] quickSaveStateInSlot:slot]!=nil;
     }
     else if(action == @selector(toggleEmulationPaused:))
@@ -669,7 +669,7 @@ typedef enum : NSUInteger
 }
 
 // switchCore:: expects sender or [sender representedObject] to be an OECorePlugin object and prompts the user for confirmation
-- (void)switchCore:(id)sender
+- (void)switchCore:(id)sender;
 {
     OECorePlugin *plugin;
     if([sender isKindOfClass:[OECorePlugin class]])
@@ -1069,9 +1069,9 @@ typedef enum : NSUInteger
 
 - (void)quickSave:(id)sender;
 {
-    int slot = 0;
+    NSInteger slot = 0;
     if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] respondsToSelector:@selector(intValue)])
-        slot = [[sender representedObject] intValue];
+        slot = [[sender representedObject] integerValue];
     else if([sender respondsToSelector:@selector(tag)])
         slot = [sender tag];
 
@@ -1163,9 +1163,9 @@ typedef enum : NSUInteger
 
 - (void)quickLoad:(id)sender;
 {
-    int slot = 0;
+    NSInteger slot = 0;
     if([sender respondsToSelector:@selector(representedObject)] && [[sender representedObject] respondsToSelector:@selector(intValue)])
-        slot = [[sender representedObject] intValue];
+        slot = [[sender representedObject] integerValue];
     else if([sender respondsToSelector:@selector(tag)])
         slot = [sender tag];
 

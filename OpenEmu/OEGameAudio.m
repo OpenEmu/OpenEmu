@@ -203,9 +203,9 @@ static OSStatus RenderCallback(void                       *in,
     NSUInteger bufferCount = [_gameCore audioBufferCount];
 
     _contexts = realloc(_contexts, sizeof(OEGameAudioContext) * bufferCount);
-    for(NSInteger i = 0; i < bufferCount; ++i)
+    for(UInt32 i = 0; i < bufferCount; ++i)
     {
-        _contexts[i] = (OEGameAudioContext){ &([_gameCore ringBufferAtIndex:i]->buffer), [_gameCore channelCountForBuffer:i], [_gameCore audioBitDepth] / 8};
+        _contexts[i] = (OEGameAudioContext){ &([_gameCore ringBufferAtIndex:i]->buffer), (UInt32)[_gameCore channelCountForBuffer:i], (UInt32)[_gameCore audioBitDepth] / 8};
         
         //Create the converter node
         err = AUGraphAddNode(_graph, (const AudioComponentDescription *)&desc, &_converterNode);
@@ -225,8 +225,8 @@ static OSStatus RenderCallback(void                       *in,
         else DLog(@"Set the render callback");
         
         AudioStreamBasicDescription mDataFormat;
-        NSUInteger channelCount = _contexts[i].channelCount;
-        NSUInteger bytesPerSample = _contexts[i].bytesPerSample;
+        UInt32 channelCount = _contexts[i].channelCount;
+        UInt32 bytesPerSample = _contexts[i].bytesPerSample;
         int formatFlag = (bytesPerSample == 4) ? kLinearPCMFormatFlagIsFloat : kLinearPCMFormatFlagIsSignedInteger;
         mDataFormat.mSampleRate       = [_gameCore audioSampleRateForBuffer:i];
         mDataFormat.mFormatID         = kAudioFormatLinearPCM;

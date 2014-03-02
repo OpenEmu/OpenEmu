@@ -311,7 +311,7 @@
     return [set allObjects];
 }
 
-- (OEDBSaveState *)quickSaveStateInSlot:(int)num
+- (OEDBSaveState *)quickSaveStateInSlot:(NSInteger)num
 {
     NSString *quickSaveName = [OEDBSaveState nameOfQuickSaveInSlot:num];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name beginswith[c] %@", quickSaveName];

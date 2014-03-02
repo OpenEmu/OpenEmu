@@ -180,7 +180,7 @@ typedef enum
 
 #pragma mark - Actions
 
-- (IBAction)changeIntegralScale:(id)sender
+- (IBAction)changeIntegralScale:(id)sender;
 {
     if(![sender respondsToSelector:@selector(representedObject)])
         return;

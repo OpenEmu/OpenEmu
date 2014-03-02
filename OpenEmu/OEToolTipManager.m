@@ -44,6 +44,7 @@ NSString * const OEHUDStyleToolTipThemeKey     = @"hud_tooltip";
 - (id)originalToolTipTextColor;
 - (id)originalToolTipAttributes;
 - (void)originalDisplayToolTip:(NSToolTip*)tooltip;
+- (id)toolTipAttributes;
 @end
 
 @implementation OEToolTipManager
@@ -57,7 +58,7 @@ NSString * const OEHUDStyleToolTipThemeKey     = @"hud_tooltip";
         [self OE_replaceNSTooltipManagerSelector:@selector(toolTipBackgroundColor) offerOriginalAs:@selector(originalToolTipBackgroundColor)];
         [self OE_replaceNSTooltipManagerSelector:@selector(toolTipTextColor) offerOriginalAs:@selector(originalToolTipTextColor)];
         [self OE_replaceNSTooltipManagerSelector:@selector(displayToolTip:) offerOriginalAs:@selector(originalDisplayToolTip:)];
-        [self OE_replaceNSTooltipManagerSelector:@selector(toolTipAttributes:) offerOriginalAs:@selector(originalToolTipAttributes:)];
+        [self OE_replaceNSTooltipManagerSelector:@selector(toolTipAttributes) offerOriginalAs:@selector(originalToolTipAttributes)];
     });
 }
 

@@ -43,6 +43,8 @@
 
 @property(unsafe_unretained) id<OELibraryControllerDelegate> delegate;
 
+- (void)startSelectedGameWithSaveState:(id)stateItem;
+
 #pragma mark -
 #pragma mark Toolbar Actions
 - (IBAction)toggleSidebar:(id)sender;

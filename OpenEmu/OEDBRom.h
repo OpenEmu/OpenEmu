@@ -79,7 +79,7 @@
 - (OEDBSaveState *)autosaveState;
 - (NSArray *)quickSaveStates;
 
-- (OEDBSaveState *)quickSaveStateInSlot:(int)num;
+- (OEDBSaveState *)quickSaveStateInSlot:(NSInteger)num;
 - (OEDBSaveState *)saveStateWithName:(NSString *)string;
 
 - (void)incrementPlayCount;

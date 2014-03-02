@@ -168,7 +168,6 @@ NS_INLINE CGGradientRef INCreateGradientWithColors(NSColor *startingColor, NSCol
 		NSUInteger width = 124, height = width;
 		NSUInteger size = width * height;
 		char *rgba = (char *) malloc(size);
-		srand(120);
 		for (NSUInteger i = 0; i < size; ++i) {rgba[i] = (char) arc4random() % 256;}
 		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
 		CGContextRef bitmapContext =

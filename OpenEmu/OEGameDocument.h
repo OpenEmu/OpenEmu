@@ -86,10 +86,12 @@ enum _OEGameDocumentErrorCodes
 - (IBAction)unmute:(id)sender;
 
 #pragma mark - Controlling Emulation
+- (void)switchCore:(id)sender;
 - (IBAction)stopEmulation:(id)sender;
 
 #pragma mark - Cheats
 - (IBAction)addCheat:(id)sender;
+- (IBAction)setCheat:(id)sender;
 - (IBAction)toggleCheat:(id)sender;
 - (BOOL)supportsCheats;
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;

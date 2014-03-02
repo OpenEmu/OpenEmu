@@ -92,7 +92,7 @@
 
 - (void)updateRatingWithPoint:(NSPoint)aPoint inTableView:(NSTableView *)view;
 {
-	[self setObjectValue:[NSNumber numberWithInt:[self ratingForPoint:aPoint inTableView:view]]];
+	[self setObjectValue:@([self ratingForPoint:aPoint inTableView:view])];
 }
 	   
 @end

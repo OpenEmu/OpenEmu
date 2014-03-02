@@ -45,35 +45,40 @@ extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 @class OEDBRom, OECorePlugin, OELibraryDatabase;
 @interface OEDBSaveState : OEDBItem
 
-+ (NSArray*)allStates;
-+ (NSArray*)allStatesInDatabase:(OELibraryDatabase*)database;
++ (NSArray *)allStates;
++ (NSArray *)allStatesInDatabase:(OELibraryDatabase*)database;
 
-+ (OEDBSaveState*)saveStateWithURL:(NSURL*)url;
-+ (OEDBSaveState*)saveStateWithURL:(NSURL*)url inDatabase:(OELibraryDatabase*)database;
++ (OEDBSaveState *)saveStateWithURL:(NSURL *)url;
++ (OEDBSaveState *)saveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database;
 
-+ (id)createSaveStateWithURL:(NSURL*)url;
-+ (id)createSaveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase*)database;
++ (id)createSaveStateWithURL:(NSURL *)url;
++ (id)createSaveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database;
 
-+ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL;
-+ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL inDatabase:(OELibraryDatabase *)database;
++ (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL;
++ (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inDatabase:(OELibraryDatabase *)database;
 
-+ (void)updateOrCreateStateWithPath:(NSString*)path;
++ (void)updateOrCreateStateWithPath:(NSString *)path;
 
-+ (NSString*)nameOfQuickSaveInSlot:(int)slot;
++ (NSString *)nameOfQuickSaveInSlot:(NSInteger)slot;
+
 #pragma mark - Management
+
 - (BOOL)readInfoPlist;
 - (BOOL)writeInfoPlist;
 
 - (void)remove;
 - (void)removeIfMissing;
 
-- (void)replaceStateFileWithFile:(NSURL*)stateFile;
+- (void)replaceStateFileWithFile:(NSURL *)stateFile;
 - (void)moveToDefaultLocation;
+
 #pragma mark - Data Accessors
-- (NSString*)displayName; // Should be used instead of -name if the string is to be displayed to the user
+
+- (NSString *)displayName; // Should be used instead of -name if the string is to be displayed to the user
 - (BOOL)isSpecialState;
-#pragma mark -
-#pragma mark Data Model Properties
+
+#pragma mark - Data Model Properties
+
 @property (nonatomic, retain)           NSString *name;
 @property (nonatomic, retain)           NSString *userDescription;
 @property (nonatomic, retain)           NSDate   *timestamp;
@@ -86,7 +91,8 @@ extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 @property (nonatomic, retain, readonly) NSURL    *screenshotURL;
 @property (nonatomic, retain, readonly) NSURL    *stateFileURL;
 
-#pragma mark -
-#pragma mark Data Model Relationships
+#pragma mark - Data Model Relationships
+
 @property (nonatomic, retain) OEDBRom *rom;
+
 @end

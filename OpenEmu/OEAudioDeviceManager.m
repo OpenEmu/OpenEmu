@@ -260,12 +260,12 @@ OSStatus _OEAOPropertyListenerProc(AudioObjectID inObjectID, UInt32 inNumberAddr
 
 @implementation OEAudioDevice
 
-+ (instancetype)audioDeviceWithID:(NSUInteger)deviceID
++ (instancetype)audioDeviceWithID:(AudioDeviceID)deviceID
 {
     return [[self alloc] initWithID:deviceID];
 }
 
-- (id)initWithID:(NSUInteger)deviceID
+- (instancetype)initWithID:(AudioDeviceID)deviceID
 {
     if((self = [super init]) == nil) return nil;
 

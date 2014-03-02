@@ -44,5 +44,6 @@ extern NSString *const OEMainWindowFullscreenKey;
 @property(readonly)  BOOL               mainWindowRunsGame;
 
 - (IBAction)undockGameWindow:(id)sender;
+- (IBAction)launchLastPlayedROM:(id)sender;
 
 @end

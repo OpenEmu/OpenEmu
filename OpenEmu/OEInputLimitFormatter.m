@@ -30,7 +30,7 @@
 @implementation OEInputLimitFormatter
 @synthesize limit;
 
-- (id)initWithLimit:(int)aLimit
+- (id)initWithLimit:(NSUInteger)aLimit
 {
     if(self = [super init])
     {

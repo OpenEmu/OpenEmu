@@ -74,12 +74,12 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 #pragma mark - Private variables
 
-typedef enum {
+typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
     OEBlankSlateTag = -1,
-    OEGridViewTag    = 0,
-    OEFlowViewTag    = 1,
-    OEListViewTag    = 2
-} OECollectionViewControllerViewTag;
+    OEGridViewTag   = 0,
+    OEFlowViewTag   = 1,
+    OEListViewTag   = 2
+};
 
 static const float OE_coverFlowHeightPercentage = 0.75;
 static NSArray *OE_defaultSortDescriptors;
@@ -294,8 +294,8 @@ static NSArray *OE_defaultSortDescriptors;
 {
     if([self libraryController] == nil) return;
     
-    int           selectedViewTag;
-    float         sliderValue;
+    NSInteger     selectedViewTag;
+    CGFloat       sliderValue;
     NSIndexSet   *selectionIndexes;
     NSDictionary *listViewHeaderState = nil;
     NSArray      *listViewSortDescriptors = nil;
@@ -653,7 +653,7 @@ static NSArray *OE_defaultSortDescriptors;
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
 
-- (NSMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
+- (NSMenu *)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     return [self OE_menuForItemsAtIndexes:indexes];
 }
@@ -731,7 +731,7 @@ static NSArray *OE_defaultSortDescriptors;
     return [[self libraryController] validateMenuItem:menuItem];
 }
 
-- (NSMenu*)OE_menuForItemsAtIndexes:(NSIndexSet*)indexes
+- (NSMenu *)OE_menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem;
@@ -847,15 +847,15 @@ static NSArray *OE_defaultSortDescriptors;
     return saveGamesMenu;
 }
 
-- (NSMenu*)OE_ratingMenuForGames:(NSArray*)games
+- (NSMenu *)OE_ratingMenuForGames:(NSArray*)games
 {
     NSMenu   *ratingMenu = [[NSMenu alloc] init];
     NSString *ratingLabel = @"★★★★★";
     
     for (NSInteger i=0; i<=5; i++) {
         NSMenuItem *ratingItem = [[NSMenuItem alloc] initWithTitle:[ratingLabel substringToIndex:i] action:@selector(setRatingForSelectedGames:) keyEquivalent:@""];
-        [ratingItem setRepresentedObject:[NSNumber numberWithInt:i]];
-        if(i==0)
+        [ratingItem setRepresentedObject:@(i)];
+        if(i == 0)
             [ratingItem setTitle:NSLocalizedString(@"None", "")];
         [ratingMenu addItem:ratingItem];
     }
@@ -1238,9 +1238,9 @@ static NSArray *OE_defaultSortDescriptors;
     // correct selection.
     if([[gamesController selectionIndexes] count] == 1)
     {
-        const NSInteger selectedRow = [[gamesController selectionIndexes] firstIndex];
+        NSInteger selectedRow = [[gamesController selectionIndexes] firstIndex];
         [coverFlowView reloadData];
-        [coverFlowView setSelectedIndex:selectedRow];
+        [coverFlowView setSelectedIndex:(int)selectedRow];
     }
     else [coverFlowView reloadData];
 
@@ -1329,7 +1329,7 @@ static NSArray *OE_defaultSortDescriptors;
     
     _listViewSelectionChangeDate = [NSDate date];
 
-    if([[listView selectedRowIndexes] count] == 1) [coverFlowView setSelectedIndex:[[listView selectedRowIndexes] firstIndex]];
+    if([[listView selectedRowIndexes] count] == 1) [coverFlowView setSelectedIndex:(int)[[listView selectedRowIndexes] firstIndex]];
     
     if([[NSUserDefaults standardUserDefaults] boolForKey:OEDebugCollectionView] && [[[self gamesController] selectedObjects] count])
     {
@@ -1502,7 +1502,7 @@ static NSArray *OE_defaultSortDescriptors;
     [listView reloadDataForRowIndexes:indexSet
                         columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
     [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-        [coverFlowView reloadCellDataAtIndex:idx];
+        [coverFlowView reloadCellDataAtIndex:(int)idx];
     }];
 }
 

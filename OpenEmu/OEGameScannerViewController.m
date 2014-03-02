@@ -514,7 +514,7 @@
 
 #pragma mark - UI Actions Scanner
 
-- (IBAction)buttonAction:(id)sender
+- (IBAction)buttonAction:(id)sender;
 {
     if([NSEvent modifierFlags] & NSAlternateKeyMask)
     {

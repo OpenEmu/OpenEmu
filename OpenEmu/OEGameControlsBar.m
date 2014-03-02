@@ -39,6 +39,7 @@
 #import "OECorePlugin.h"
 #import "OEGameDocument.h"
 #import "OEGameViewController.h"
+#import "OEPopoutGameWindowController.h"
 
 #import "OEHUDAlert.h"
 
