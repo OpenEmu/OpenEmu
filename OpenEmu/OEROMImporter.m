@@ -319,7 +319,16 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
     IMPORTDLog(@"URL: %@", [item sourceURL]);
     //Short circuit this?
     NSString *path = [[item URL] path];
-    XADArchive *archive = [XADArchive archiveForFile:path];
+    XADArchive *archive = nil;
+    @try
+    {
+        archive = [XADArchive archiveForFile:path];
+    }
+    @catch (NSException *exc)
+    {
+        archive = nil;
+    }
+    
     if (archive && [archive numberOfEntries] == 1)
     {
         // XADMaster identifies some legit Mega Drive as LZMA archives

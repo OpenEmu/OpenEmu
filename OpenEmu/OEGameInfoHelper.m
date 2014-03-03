@@ -226,8 +226,16 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
 - (void)downloadDidFinish:(NSURLDownload *)download
 {
-    XADArchive *archive = [XADArchive archiveForFile:_downloadPath];
-
+    XADArchive *archive = nil;
+    @try
+    {
+        archive = [XADArchive archiveForFile:_downloadPath];
+    }
+    @catch (NSException *exc)
+    {
+        archive = nil;
+    }
+    
     NSURL *url = [self databaseFileURL];
     NSURL *databaseFolder = [url URLByDeletingLastPathComponent];
     [archive extractTo:[databaseFolder path]];
@@ -412,7 +420,15 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 - (NSURL*)_urlOfExtractedRom:(OEDBRom*)rom
 {
     NSString *path = [[rom URL] path];
-    XADArchive *archive = [XADArchive archiveForFile:path];
+    XADArchive *archive;
+    @try {
+        archive = [XADArchive archiveForFile:path];
+    }
+    @catch (NSException *exception)
+    {
+        archive = nil;
+    }
+    
     if (archive && [archive numberOfEntries] == 1)
     {
         NSString *formatName = [archive formatName];

@@ -580,8 +580,15 @@
 {
     // we check for known compression types for the ROM at the path
     // If we detect one, we decompress it and store it in /tmp at a known location
-
-    XADArchive *archive = [XADArchive archiveForFile:aPath];
+    XADArchive *archive = nil;
+    @try {
+        archive = [XADArchive archiveForFile:aPath];
+    }
+    @catch (NSException *exc)
+    {
+        archive = nil;
+    }
+    
     if(archive == nil || [archive numberOfEntries] > 1)
         return aPath;
     

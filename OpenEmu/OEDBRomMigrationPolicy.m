@@ -62,7 +62,16 @@ extern NSString *const OELibraryRomsFolderURLKey;
         NSString *relativePath = [oldObject valueForKey:@"location"];
         NSURL *romURL = [NSURL URLWithString:relativePath relativeToURL:romsFolder];
         NSString *fullPath = [romURL path];
-        XADArchive *archive = [XADArchive archiveForFile:fullPath];
+        XADArchive *archive = nil;
+        @try
+        {
+            archive = [XADArchive archiveForFile:fullPath];
+        }
+        @catch (NSException *exc)
+        {
+            archive = nil;
+        }
+        
         if(archive && [archive numberOfEntries] == 1)
         {
             NSArray *attributeMappings = [mapping attributeMappings];

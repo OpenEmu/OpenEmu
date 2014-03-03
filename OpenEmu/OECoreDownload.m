@@ -153,8 +153,16 @@
 
 - (void)downloadDidFinish:(NSURLDownload *)download
 {
-    XADArchive *archive = [XADArchive archiveForFile:_downloadPath];
-
+    XADArchive *archive = nil;
+    @try
+    {
+        archive = [XADArchive archiveForFile:_downloadPath];
+    }
+    @catch (NSException *exception)
+    {
+        archive = nil;
+    }
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
     NSString *appsupportFolder = [basePath stringByAppendingPathComponent:@"OpenEmu"];
