@@ -84,6 +84,7 @@ static const unsigned short konamiCodeSize = 10;
     if (self) 
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_openPreferencePane:) name:OEPreferencesOpenPaneNotificationName object:nil];
+        [self setWindowFrameAutosaveName:@"Preferences"];
     }
     
     return self;
