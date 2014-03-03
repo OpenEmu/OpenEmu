@@ -42,4 +42,5 @@
 - (void)setName:(NSString *)name forSubimageInRect:(NSRect)aRect;
 - (NSImage *)imageFromParts:(NSArray *)parts vertical:(BOOL)vertical;
 - (NSImage *)ninePartImageWithStretchedRect:(NSRect)stretchedRect;
+- (void)OE_setMatchesOnlyOnBestFittingAxis:(BOOL)flag;
 @end

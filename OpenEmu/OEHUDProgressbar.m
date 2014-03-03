@@ -88,15 +88,9 @@
     NSImage *trackMid = [trackImage subImageFromRect:NSMakeRect(7, 0, 1, 14)];
     NSImage *trackEnd = [trackImage subImageFromRect:NSMakeRect(8, 0, 7, 14)];
 
-    // According to https://developer.apple.com/library/mac/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/APIs/APIs.html#//apple_ref/doc/uid/TP40012302-CH5-SW20
-    // setMatchesOnlyOnBestFittingAxis was introduced in 10.7.4
-    int min, maj, bugfix;
-    if(GetSystemVersion(&maj, &min, &bugfix) && maj>=10 && min >= 7 && bugfix >= 4)
-    {
-        [trackStart setMatchesOnlyOnBestFittingAxis:YES];
-        [trackMid setMatchesOnlyOnBestFittingAxis:YES];
-        [trackEnd setMatchesOnlyOnBestFittingAxis:YES];
-    }
+    [trackStart OE_setMatchesOnlyOnBestFittingAxis:YES];
+    [trackMid OE_setMatchesOnlyOnBestFittingAxis:YES];
+    [trackEnd OE_setMatchesOnlyOnBestFittingAxis:YES];
     
     
     NSDrawThreePartImage([self bounds], trackStart, trackMid, trackEnd, NO, NSCompositeSourceOver, 1.0, NO);
@@ -112,14 +106,10 @@
     NSImage *barStart = [barImage subImageFromRect:NSMakeRect(0, 0, 7, 14)];
     NSImage *barMid = [barImage subImageFromRect:NSMakeRect(7, 0, 1, 14)];
     NSImage *barEnd = [barImage subImageFromRect:NSMakeRect(8, 0, 7, 14)];
-
-    // setMatchesOnlyOnBestFittingAxis was introduced in 10.7.4
-    if(GetSystemVersion(&maj, &min, &bugfix) && maj>=10 && min >= 7 && bugfix >= 4)
-    {
-        [barStart setMatchesOnlyOnBestFittingAxis:YES];
-        [barMid setMatchesOnlyOnBestFittingAxis:YES];
-        [barEnd setMatchesOnlyOnBestFittingAxis:YES];
-    }
+    
+    [barStart OE_setMatchesOnlyOnBestFittingAxis:YES];
+    [barMid OE_setMatchesOnlyOnBestFittingAxis:YES];
+    [barEnd OE_setMatchesOnlyOnBestFittingAxis:YES];
     
     NSDrawThreePartImage(bounds, barStart, barMid, barEnd, NO, NSCompositeSourceOver, 1.0, NO);
 }
