@@ -273,7 +273,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                     if([panel runModal])
                     {
                         [missingRom setURL:[panel URL]];
-                        [self OE_openGameDocumentWithGame:game saveState:[game autosaveForLastPlayedRom]];
+                        [self OE_openGameDocumentWithGame:game saveState:state];
                     }
                 }
                 else
@@ -306,7 +306,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         }
     };
 
-    if(state != nil || [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertDefaultReturn)
+    if(state != nil || ((state=[game autosaveForLastPlayedRom]) && [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertDefaultReturn))
         [[NSDocumentController sharedDocumentController] openGameDocumentWithSaveState:state display:openInSeparateWindow fullScreen:fullScreen completionHandler:openDocument];
     else
         [[NSDocumentController sharedDocumentController] openGameDocumentWithGame:game display:openInSeparateWindow fullScreen:fullScreen completionHandler:openDocument];
@@ -314,7 +314,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 - (void)libraryController:(OELibraryController *)sender didSelectGame:(OEDBGame *)game
 {
-    [self OE_openGameDocumentWithGame:game saveState:[game autosaveForLastPlayedRom]];
+    [self OE_openGameDocumentWithGame:game saveState:nil];
 }
 
 - (void)libraryController:(OELibraryController *)sender didSelectSaveState:(OEDBSaveState *)saveState
