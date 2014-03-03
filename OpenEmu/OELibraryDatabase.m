@@ -539,7 +539,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSManagedObjectContext *context = [self unsafeContext];
     __block NSString *blockName = name;
-    __block NSManagedObject *aCollection;
+    __block OEDBCollection* aCollection = nil;
     [context performBlockAndWait:^{
         if(blockName == nil)
         {
@@ -565,7 +565,7 @@ static OELibraryDatabase *defaultDatabase = nil;
             blockName = uniqueName;
         }
 
-        OEDBCollection *aCollection = (OEDBCollection*)[NSEntityDescription insertNewObjectForEntityForName:@"Collection" inManagedObjectContext:context];
+        aCollection = (OEDBCollection*)[NSEntityDescription insertNewObjectForEntityForName:@"Collection" inManagedObjectContext:context];
         [aCollection setName:blockName];
     }];
 
