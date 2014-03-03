@@ -161,14 +161,27 @@ NSString *const OEImportInfoSerial      = @"serial";
     }
     else
     {
-        dispatch_async(dispatchQueue, ^{
-            [self setQueue:[NSMutableArray array]];
-            [self setNumberOfProcessedItems:0];
-            [self setTotalNumberOfItems:0];
-
-            [self OE_performSelectorOnDelegate:@selector(romImporterDidFinish:) withObject:nil];
-            [self setStatus:OEImporterStatusStopped];
-        });
+        nextItem = [[self queue] firstObjectMatchingBlock:^BOOL (id evaluatedObject)
+                    {
+                        return [evaluatedObject importState] == OEImportItemStatusResolvableError;
+                    }];
+        if(nextItem != nil)
+        {
+            dispatch_async(dispatchQueue, ^{
+                [self pause];
+            });
+        }
+        else
+        {
+            dispatch_async(dispatchQueue, ^{
+                [self setQueue:[NSMutableArray array]];
+                [self setNumberOfProcessedItems:0];
+                [self setTotalNumberOfItems:0];
+                
+                [self OE_performSelectorOnDelegate:@selector(romImporterDidFinish:) withObject:nil];
+                [self setStatus:OEImporterStatusStopped];
+            });
+        }
     }
     [lock unlock];
 }

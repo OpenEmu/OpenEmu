@@ -509,7 +509,10 @@
     [[self importer] processNextItem];
 
     if([[self itemsRequiringAttention] count] == 0)
+    {
+        [[self importer] start];
         [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self];
+    }
 }
 
 #pragma mark - UI Actions Scanner
