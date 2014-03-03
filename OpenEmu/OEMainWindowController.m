@@ -306,7 +306,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         }
     };
 
-    if(state != nil && [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertDefaultReturn)
+    if(state != nil || [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertDefaultReturn)
         [[NSDocumentController sharedDocumentController] openGameDocumentWithSaveState:state display:openInSeparateWindow fullScreen:fullScreen completionHandler:openDocument];
     else
         [[NSDocumentController sharedDocumentController] openGameDocumentWithGame:game display:openInSeparateWindow fullScreen:fullScreen completionHandler:openDocument];
