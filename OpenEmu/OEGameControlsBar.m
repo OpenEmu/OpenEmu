@@ -655,7 +655,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [saveButton setAction:@selector(showSaveMenu:)];
     [saveButton setFrame:NSMakeRect(162, 6, 32, 32)];
     [saveButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-    [saveButton setToolTip:NSLocalizedString(@"Create Save State", @"Tooltip")];
+    [saveButton setToolTip:NSLocalizedString(@"Create or Load Save State", @"Tooltip")];
     [saveButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:saveButton];
 
