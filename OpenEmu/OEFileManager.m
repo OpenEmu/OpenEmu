@@ -91,8 +91,11 @@ int copyfile_callback(int what, int stage, copyfile_state_t state, const char * 
                 done += current;
                 if((what == COPYFILE_RECURSE_DIR_CLEANUP || what == COPYFILE_RECURSE_FILE) && _itemDoneHandler!=nil)
                 {
-                    NSURL *srcURL = [NSURL fileURLWithFileSystemRepresentation:csrc isDirectory:what!=COPYFILE_RECURSE_FILE relativeToURL:nil];
-                    NSURL *dstURL = [NSURL fileURLWithFileSystemRepresentation:cdst isDirectory:what!=COPYFILE_RECURSE_FILE relativeToURL:nil];
+                    
+                    NSString *srcPath = [NSString stringWithCString:csrc encoding:NSUTF8StringEncoding];
+                    NSString *dstPath = [NSString stringWithCString:cdst encoding:NSUTF8StringEncoding];
+                    NSURL *srcURL = [NSURL fileURLWithPath:srcPath isDirectory:what!=COPYFILE_RECURSE_FILE];
+                    NSURL *dstURL = [NSURL fileURLWithPath:dstPath isDirectory:what!=COPYFILE_RECURSE_FILE];
                     return _itemDoneHandler(srcURL, dstURL, nil) ? COPYFILE_CONTINUE : COPYFILE_QUIT;
                 }
                 break;
@@ -100,8 +103,11 @@ int copyfile_callback(int what, int stage, copyfile_state_t state, const char * 
                 if(_errorHandler)
                 {
                     // TODO: figure out what error occured
-                    NSURL *srcURL = [NSURL fileURLWithFileSystemRepresentation:csrc isDirectory:stage!=COPYFILE_RECURSE_FILE relativeToURL:nil];
-                    NSURL *dstURL = [NSURL fileURLWithFileSystemRepresentation:cdst isDirectory:stage!=COPYFILE_RECURSE_FILE relativeToURL:nil];
+                    NSString *srcPath = [NSString stringWithCString:csrc encoding:NSUTF8StringEncoding];
+                    NSString *dstPath = [NSString stringWithCString:cdst encoding:NSUTF8StringEncoding];
+                    NSURL *srcURL = [NSURL fileURLWithPath:srcPath isDirectory:what!=COPYFILE_RECURSE_FILE];
+                    NSURL *dstURL = [NSURL fileURLWithPath:dstPath isDirectory:what!=COPYFILE_RECURSE_FILE];
+
                     NSError *error = [NSError errorWithDomain:@"OEFileManagerDomain" code:errno userInfo:nil];
                     return _errorHandler(srcURL, dstURL, error) ? COPYFILE_CONTINUE : COPYFILE_QUIT;
                 }
