@@ -93,7 +93,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
         OEGameControlsBarFadeOutDelayKey : @1.5,
         OEGameControlsBarShowsAutoSaveStateKey : @NO,
-        OEGameControlsBarShowsQuickSaveStateKey : @YES,
+        OEGameControlsBarShowsQuickSaveStateKey : @NO,
      }];
 }
 
