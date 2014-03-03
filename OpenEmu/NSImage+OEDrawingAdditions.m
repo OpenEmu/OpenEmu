@@ -25,7 +25,7 @@
  */
 
 #import "NSImage+OEDrawingAdditions.h"
-
+#import "OEUtilities.h"
 @interface OENSThreePartImage : NSImage
 
 - (id)initWithImageParts:(NSArray *)imageParts vertical:(BOOL)vertical;
@@ -58,7 +58,12 @@
 
     NSDictionary *drawingHints = @{NSImageHintInterpolation:@(NSImageInterpolationNone)};
     [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationNone];
-    [self setMatchesOnlyOnBestFittingAxis:YES];
+    
+    // According to https://developer.apple.com/library/mac/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/APIs/APIs.html#//apple_ref/doc/uid/TP40012302-CH5-SW20
+    // setMatchesOnlyOnBestFittingAxis was introduced in 10.7.4
+    int min, maj, bugfix;
+    if(GetSystemVersion(&maj, &min, &bugfix) && maj>=10 && min >= 7 && bugfix >= 4)
+       [self setMatchesOnlyOnBestFittingAxis:YES];
 
     // Bottom Left
     if(sourceFlipped)

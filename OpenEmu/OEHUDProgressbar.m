@@ -85,12 +85,20 @@
 
     NSImage *trackImage = [NSImage imageNamed:@"hud_progress_bar_track"];
     NSImage *trackStart = [trackImage subImageFromRect:NSMakeRect(0, 0, 7, 14)];
-    [trackStart setMatchesOnlyOnBestFittingAxis:YES];
     NSImage *trackMid = [trackImage subImageFromRect:NSMakeRect(7, 0, 1, 14)];
-    [trackMid setMatchesOnlyOnBestFittingAxis:YES];
     NSImage *trackEnd = [trackImage subImageFromRect:NSMakeRect(8, 0, 7, 14)];
-    [trackEnd setMatchesOnlyOnBestFittingAxis:YES];
 
+    // According to https://developer.apple.com/library/mac/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/APIs/APIs.html#//apple_ref/doc/uid/TP40012302-CH5-SW20
+    // setMatchesOnlyOnBestFittingAxis was introduced in 10.7.4
+    int min, maj, bugfix;
+    if(GetSystemVersion(&maj, &min, &bugfix) && maj>=10 && min >= 7 && bugfix >= 4)
+    {
+        [trackStart setMatchesOnlyOnBestFittingAxis:YES];
+        [trackMid setMatchesOnlyOnBestFittingAxis:YES];
+        [trackEnd setMatchesOnlyOnBestFittingAxis:YES];
+    }
+    
+    
     NSDrawThreePartImage([self bounds], trackStart, trackMid, trackEnd, NO, NSCompositeSourceOver, 1.0, NO);
 
 
@@ -102,12 +110,17 @@
 
     NSImage *barImage = [NSImage imageNamed:@"hud_progress_bar"];
     NSImage *barStart = [barImage subImageFromRect:NSMakeRect(0, 0, 7, 14)];
-    [barStart setMatchesOnlyOnBestFittingAxis:YES];
     NSImage *barMid = [barImage subImageFromRect:NSMakeRect(7, 0, 1, 14)];
-    [barMid setMatchesOnlyOnBestFittingAxis:YES];
     NSImage *barEnd = [barImage subImageFromRect:NSMakeRect(8, 0, 7, 14)];
-    [barEnd setMatchesOnlyOnBestFittingAxis:YES];
 
+    // setMatchesOnlyOnBestFittingAxis was introduced in 10.7.4
+    if(GetSystemVersion(&maj, &min, &bugfix) && maj>=10 && min >= 7 && bugfix >= 4)
+    {
+        [barStart setMatchesOnlyOnBestFittingAxis:YES];
+        [barMid setMatchesOnlyOnBestFittingAxis:YES];
+        [barEnd setMatchesOnlyOnBestFittingAxis:YES];
+    }
+    
     NSDrawThreePartImage(bounds, barStart, barMid, barEnd, NO, NSCompositeSourceOver, 1.0, NO);
 }
 
