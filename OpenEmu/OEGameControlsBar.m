@@ -436,6 +436,10 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         if([saveStates count] != 0 || (includeQuickSaveState && useQuickSaveSlots))
         {
             [menu addItem:[NSMenuItem separatorItem]];
+            
+            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Load" action:NULL keyEquivalent:@""];
+            [item setEnabled:NO];
+            [menu addItem:item];
 
             // Build Quck Load item with submenu
             if(includeQuickSaveState && useQuickSaveSlots)
@@ -449,8 +453,9 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
                 //[saveItem setAlternate:YES];
 
                 NSMenu *loadSubmenu = [[NSMenu alloc] initWithTitle:loadTitle];
+                [loadItem setIndentationLevel:1];
                 //NSMenu *saveSubmenu = [[NSMenu alloc] initWithTitle:saveTitle];
-
+                
                 for(NSInteger i = 1; i <= 9; i++)
                 {
                     OEDBSaveState *state = [rom quickSaveStateInSlot:i];
@@ -483,6 +488,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
                     itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
 
                 NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(loadState:) keyEquivalent:@""];
+                [item setIndentationLevel:1];
+
                 [item setRepresentedObject:saveState];
                 [menu addItem:item];
 

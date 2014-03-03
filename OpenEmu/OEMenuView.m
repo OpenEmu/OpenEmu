@@ -63,6 +63,7 @@ static const CGFloat OEMenuItemHighlightDelay   = 1.0;   // Delay before changin
 static const CGFloat OEMenuItemShowSubmenuDelay = 0.07;  // Delay before showing an item's submenu
 static const CGFloat OEMenuScrollAutoDelay      = 0.1;
 
+const CGFloat OEMenuItemIndentation = 10.0;
 #pragma mark -
 
 static const CGFloat OEMenuScrollArrowHeight = 19.0;
@@ -696,8 +697,13 @@ static const CGFloat OEMenuScrollAutoStep    = 8.0;
     // Go through each item and calculate the maximum width and the sum of the height
     NSSize intrinsicSize = [_documentView intrinsicSize];
 
+    __block NSInteger maxIndentationLevel = 0;
+    [[[self menu] itemArray] enumerateObjectsUsingBlock:^(NSMenuItem *item, NSUInteger idx, BOOL *stop) {
+        maxIndentationLevel = MAX([item indentationLevel], maxIndentationLevel);
+    }];
+    
     // Return a size with the appropriate padding
-    return NSMakeSize(intrinsicSize.width + _backgroundEdgeInsets.left + _backgroundEdgeInsets.right + OEMenuContentEdgeInsets.left + OEMenuContentEdgeInsets.right, intrinsicSize.height + _backgroundEdgeInsets.top + _backgroundEdgeInsets.bottom + OEMenuContentEdgeInsets.top + OEMenuContentEdgeInsets.bottom);
+    return NSMakeSize(OEMenuItemIndentation*maxIndentationLevel + intrinsicSize.width + _backgroundEdgeInsets.left + _backgroundEdgeInsets.right + OEMenuContentEdgeInsets.left + OEMenuContentEdgeInsets.right, intrinsicSize.height + _backgroundEdgeInsets.top + _backgroundEdgeInsets.bottom + OEMenuContentEdgeInsets.top + OEMenuContentEdgeInsets.bottom);
 }
 
 - (void)OE_setNeedsLayout

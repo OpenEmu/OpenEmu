@@ -109,7 +109,7 @@ static const OEThemeState OEMenuItemStateMask = OEThemeStateDefault & ~OEThemeSt
         NSMenuItem          *item          = [_itemArray objectAtIndex:i];
         OEMenuItemExtraData *extraData     = [item extraData];
         NSRect               menuItemFrame = [extraData frame];
-
+        
         // Skip over any alternate items
         item  = [extraData itemWithModifierMask:_lastKeyModifierMask];
         i    += [[extraData alternateItems] count];
@@ -147,6 +147,7 @@ static const OEThemeState OEMenuItemStateMask = OEThemeStateDefault & ~OEThemeSt
                 // TODO: We should scale the tick mark if it's too wide
                 NSRect tickMarkRect   = { .size = [tickMarkImage size] };
                 tickMarkRect.origin.x = tickMarkFrame.origin.x + ((NSWidth(tickMarkFrame) - NSWidth(tickMarkRect)) / 2.0);
+                tickMarkRect.origin.x += [item indentationLevel]*OEMenuItemIndentation;
                 tickMarkRect.origin.y = menuItemFrame.origin.y + ((NSHeight(tickMarkFrame) - NSHeight(tickMarkRect)) / 2.0);
 
                 [tickMarkImage drawInRect:NSIntegralRect(tickMarkRect) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
@@ -157,6 +158,8 @@ static const OEThemeState OEMenuItemStateMask = OEThemeStateDefault & ~OEThemeSt
                 // TODO: We should scale the item's image if it's too wide
                 NSRect imageRect   = { .size = [menuItemImage size] };
                 imageRect.origin.x = imageFrame.origin.x + 2.0;
+                imageRect.origin.x += [item indentationLevel]*OEMenuItemIndentation;
+
                 imageRect.origin.y = menuItemFrame.origin.y + ((NSHeight(imageFrame) - NSHeight(imageRect)) / 2.0);
 
                 [menuItemImage drawInRect:NSIntegralRect(imageRect) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
@@ -167,6 +170,7 @@ static const OEThemeState OEMenuItemStateMask = OEThemeStateDefault & ~OEThemeSt
                 // TODO: We should scale the submenuArrowImage image if it's too wide
                 NSRect arrowRect   = { .size = [submenuArrowImage size] };
                 arrowRect.origin.x = submenuArrowFrame.origin.x;
+
                 arrowRect.origin.y = menuItemFrame.origin.y + ((NSHeight(submenuArrowFrame) - NSHeight(arrowRect)) / 2.0);
 
                 [submenuArrowImage drawInRect:NSIntegralRect(arrowRect) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
@@ -174,6 +178,7 @@ static const OEThemeState OEMenuItemStateMask = OEThemeStateDefault & ~OEThemeSt
 
             NSRect textRect   = { .size = [title sizeWithAttributes:textAttributes] };
             textRect.origin.x = textFrame.origin.x;
+            textRect.origin.x += [item indentationLevel]*OEMenuItemIndentation;
             textRect.origin.y = menuItemFrame.origin.y + ((NSHeight(textFrame) - NSHeight(textRect)) / 2.0);
             [title drawInRect:textRect withAttributes:textAttributes];
         }

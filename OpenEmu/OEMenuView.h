@@ -26,6 +26,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "OEMenu.h"
+extern const CGFloat OEMenuItemIndentation;
 
 @class OEMenuDocumentView;
 

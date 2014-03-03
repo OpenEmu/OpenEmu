@@ -1031,6 +1031,7 @@ static NSArray *OE_defaultSortDescriptors;
     id collection = [[[self libraryController] sidebarController] addCollection:NO];
     [collection setGames:[NSSet setWithArray:selectedGames]];
     
+    [[[self libraryController] database] save:nil];
     [self setNeedsReload];
 }
 
@@ -1044,6 +1045,9 @@ static NSArray *OE_defaultSortDescriptors;
     
     NSArray *selectedGames = [self selectedGames];
     [[collection mutableGames] addObjectsFromArray:selectedGames];
+    
+    [[[self libraryController] database] save:nil];
+    [self setNeedsReload];
 }
 
 - (void)downloadCoverArt:(id)sender
