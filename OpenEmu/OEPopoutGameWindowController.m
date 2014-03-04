@@ -244,9 +244,12 @@ typedef enum
     if(newScale != _OEFitToWindowScale)
     {
         const NSRect screenFrame = [[[self window] screen] visibleFrame];
-        NSRect newWindowFrame    = [[self window] frame];
-        newWindowFrame.size      = [self OE_windowSizeForGameViewIntegralScale:newScale];
-
+        NSRect currentWindowFrame = [[self window] frame];
+        NSRect newWindowFrame = { .size = [self OE_windowSizeForGameViewIntegralScale:newScale] };
+        
+        newWindowFrame.origin.y = roundf(NSMidY(currentWindowFrame)-newWindowFrame.size.height/2);
+        newWindowFrame.origin.x = roundf(NSMidX(currentWindowFrame)-newWindowFrame.size.width/2);
+        
         // Make sure the entire window is visible, centering it in case it isn’t
         if(NSMinY(newWindowFrame) < NSMinY(screenFrame) || NSMaxY(newWindowFrame) > NSMaxY(screenFrame))
             newWindowFrame.origin.y = NSMinY(screenFrame) + ((screenFrame.size.height - newWindowFrame.size.height) / 2);
