@@ -195,11 +195,13 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     }
     
     void(^executeBlocks)(void) = ^{
-        while([[self blocks] count])
+        NSMutableArray *blocks = [self blocks];
+        while([blocks count] != 0)
         {
-            void(^aBlock)(void) = [[self blocks] objectAtIndex:0];
-            aBlock();
-            [[self blocks] removeObjectAtIndex:0];
+            void(^aBlock)(void) = [blocks objectAtIndex:0];
+            DLog(@"block: %@", aBlock);
+            if(aBlock != nil) aBlock();
+            [blocks removeObjectAtIndex:0];
         }
     };
     

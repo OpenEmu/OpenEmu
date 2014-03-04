@@ -123,7 +123,7 @@ int copyfile_callback(int what, int stage, copyfile_state_t state, const char * 
     int res = copyfile(src, dst, state, COPYFILE_ALL|COPYFILE_RECURSIVE|COPYFILE_EXCL);
     copyfile_state_free(state);
     
-    if(res != NO)
+    if(res != NO && error != NULL)
         *error = [NSError errorWithDomain:@"OEFileManagerDomain" code:errno userInfo:nil];
     return res == 0;
 }
