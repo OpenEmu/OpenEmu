@@ -1128,6 +1128,8 @@ typedef enum : NSUInteger
              [state writeInfoPlist];
          }
 
+         [[state libraryDatabase] save:nil];
+         
          NSData *TIFFData = [[[self gameViewController] takeNativeScreenshot] TIFFRepresentation];
          NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
          NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];

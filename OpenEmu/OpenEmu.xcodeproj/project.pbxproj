@@ -3636,7 +3636,6 @@
 				832D293E1451A68700BDF950 /* OEMainWindowController.h */,
 				832D293F1451A68700BDF950 /* OEMainWindowController.m */,
 				832D29441451B0CA00BDF950 /* MainWindow: Library */,
-				832D29451451B0E700BDF950 /* MainWindow: GameView */,
 				832D29461451B0F200BDF950 /* MainWindow: Setup Assistant */,
 				53439AE813B92E72005C0CC8 /* Controls */,
 			);
@@ -4431,13 +4430,6 @@
 				53439B0B13B92F69005C0CC8 /* Sidebar */,
 			);
 			name = "MainWindow: Library";
-			sourceTree = "<group>";
-		};
-		832D29451451B0E700BDF950 /* MainWindow: GameView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "MainWindow: GameView";
 			sourceTree = "<group>";
 		};
 		832D29461451B0F200BDF950 /* MainWindow: Setup Assistant */ = {
