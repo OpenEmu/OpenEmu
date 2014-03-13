@@ -76,6 +76,8 @@ NSString *const OEUserGuideURL    = @"https://github.com/OpenEmu/OpenEmu/wiki/Us
 NSString *const OEReleaseNotesURL = @"https://github.com/OpenEmu/OpenEmu/wiki/Release-notes";
 NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues";
 
+int gamenumber = 1;
+
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -780,7 +782,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [item setIndentationLevel:0];
         return YES;
     }
-
+    
     id value = [[self cachedLastPlayedInfo] objectAtIndex:index];
     if([value isKindOfClass:[NSString class]])
     {
@@ -798,6 +800,27 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [item setRepresentedObject:value];
         [item setAction:@selector(launchLastPlayedROM:)];
         [item setTarget:[self mainWindowController]];
+        if(gamenumber == 1){
+            [item setKeyEquivalent:@"A"];
+            [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+        }
+        if(gamenumber == 2){
+            [item setKeyEquivalent:@"B"];
+            [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+        }
+        if(gamenumber == 3){
+            [item setKeyEquivalent:@"C"];
+            [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+        }
+        if(gamenumber == 4){
+            [item setKeyEquivalent:@"D"];
+            [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+        }
+        if(gamenumber == 5){
+            [item setKeyEquivalent:@"E"];
+            [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+        }
+        gamenumber = gamenumber + 1;
     }
 
     return YES;
