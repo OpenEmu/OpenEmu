@@ -1015,7 +1015,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
                                                                                  hasAlpha:NO
                                                                                  isPlanar:NO
                                                                            colorSpaceName:NSDeviceRGBColorSpace
-                                                                              bytesPerRow:0
+                                                                              bytesPerRow:(textureIntSize.width*3+3)&~3
                                                                              bitsPerPixel:0];
 
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
