@@ -34,7 +34,6 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 
 @interface OEHUDAlert : NSObject
 
-+ (id)alertWithError:(NSError*)error;
 + (id)alertWithMessageText:(NSString *)msgText defaultButton:(NSString*)defaultButtonLabel alternateButton:(NSString*)alternateButtonLabel;
 
 #pragma mark -

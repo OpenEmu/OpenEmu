@@ -99,11 +99,6 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     [_window center];
 }
 
-+ (id)alertWithError:(NSError *)error
-{
-    return nil;
-}
-
 + (id)alertWithMessageText:(NSString *)msgText defaultButton:(NSString *)defaultButtonLabel alternateButton:(NSString *)alternateButtonLabel
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
@@ -196,12 +191,15 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     
     void(^executeBlocks)(void) = ^{
         NSMutableArray *blocks = [self blocks];
-        while([blocks count] != 0)
+        @synchronized(blocks)
         {
-            void(^aBlock)(void) = [blocks objectAtIndex:0];
-            DLog(@"block: %@", aBlock);
-            if(aBlock != nil) aBlock();
-            [blocks removeObjectAtIndex:0];
+            while([blocks count] != 0)
+            {
+                void(^aBlock)(void) = [blocks objectAtIndex:0];
+                DLog(@"block: %@", aBlock);
+                if(aBlock != nil) aBlock();
+                [blocks removeObjectAtIndex:0];
+            }
         }
     };
     
@@ -222,7 +220,10 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 - (void)performBlockInModalSession:(void(^)(void))block
 {
-    [[self blocks] addObject:block];
+    @synchronized(_blocks)
+    {
+        [_blocks addObject:block];
+    }
 }
 
 - (void)closeWithResult:(NSInteger)res
@@ -230,6 +231,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     result = res;
     [NSApp stopModalWithCode:result];
     [_window close];
+    [self OE_performCallback];
 }
 #pragma mark -
 #pragma mark Window Configuration

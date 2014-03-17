@@ -1091,7 +1091,7 @@ static NSArray *OE_defaultSortDescriptors;
     if([games count] == 0) return;
 
     dispatch_async(dispatch_get_main_queue(), ^{
-       
+
     OEHUDAlert  *alert = [[OEHUDAlert alloc] init];
     [alert setHeadlineText:@""];
     [alert setMessageText:NSLocalizedString(@"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.", @"")];
@@ -1112,6 +1112,7 @@ static NSArray *OE_defaultSortDescriptors;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_after(popTime, queue, ^{
+        NSError *error = nil;
         for (NSUInteger i=0; i<[games count]; i++) {
             if(alertResult != -1) break;
             
@@ -1141,21 +1142,38 @@ static NSArray *OE_defaultSortDescriptors;
                         NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", baseName, triesCount, extension];
                         return [unsortedFolder URLByAppendingPathComponent:newName];
                     }];
-                    
-                    if([[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:nil] && (alertResult == -1))
+
+                    if([[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:&error] && (alertResult == -1))
                         [rom setURL:romURL];
-                    
+                    else if(error != nil) break;
+
                     if(romFileLocked)
                         [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(YES) } ofItemAtPath:[url path] error:nil];
                 }
             }
-            
-            [alert performBlockInModalSession:^{
+
+            if(error != nil) break;
+            else [alert performBlockInModalSession:^{
                 [[aGame libraryDatabase] save:nil];
                 [alert setProgress:(float)(i+1)/[games count]];
             }];
         }
+
+        if(error != nil)
+        {
+            OEAlertCompletionHandler originalCompletionHandler = [alert callbackHandler];
+            [alert setCallbackHandler:^(OEHUDAlert *alert, NSUInteger result){
+                NSString *messageText = [error localizedDescription];
+                OEHUDAlert *errorAlert = [OEHUDAlert alertWithMessageText:messageText defaultButton:@"OK" alternateButton:@""];
+                [errorAlert setTitle:@"Consolidating files failed."];
+                [errorAlert runModal];
+
+                if(originalCompletionHandler) originalCompletionHandler(alert, result);
+            }];
+        }
+
         [alert closeWithResult:NSAlertDefaultReturn];
+
     });
     [alert setDefaultButtonTitle:@"Stop"];
         alertResult = [alert runModal];
