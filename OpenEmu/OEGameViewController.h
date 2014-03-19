@@ -75,10 +75,10 @@ extern NSString *const OEBackgroundPauseKey;
 
 - (void)reflectVolume:(float)volume;
 - (void)reflectEmulationPaused:(BOOL)paused;
-- (void)toggleControlsVisibility:(id)sender;
 #pragma mark - HUD Bar Actions
 // switchCore:: expects sender or [sender representedObject] to be an OECorePlugin object and prompts the user for confirmation
 - (void)selectFilter:(id)sender;
+- (void)toggleControlsVisibility:(id)sender;
 
 #pragma mark - Taking Screenshots
 - (IBAction)takeScreenshot:(id)sender;

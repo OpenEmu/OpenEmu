@@ -185,7 +185,6 @@ NSString *const OEGameViewControllerROMKey = @"OEROM";
 }
 
 #pragma mark - HUD Bar Actions
-
 - (void)selectFilter:(id)sender
 {
     NSString *filterName;
@@ -202,8 +201,20 @@ NSString *const OEGameViewControllerROMKey = @"OEROM";
     [[NSUserDefaults standardUserDefaults] setObject:filterName forKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, [[self document] systemIdentifier]]];
 }
 
-#pragma mark - Taking Screenshots
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+    SEL action = [menuItem action];
+    if(action == @selector(toggleControlsVisibility:))
+    {
+        if([[self controlsWindow] canShow])
+            [menuItem setState:NSOffState];
+        else
+            [menuItem setState:NSOnState];
+    }
+    return YES;
+}
 
+#pragma mark - Taking Screenshots
 - (void)takeScreenshot:(id)sender
 {
     NSImage *screenshotImage;
