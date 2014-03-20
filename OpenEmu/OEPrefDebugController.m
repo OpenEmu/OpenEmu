@@ -32,6 +32,7 @@
 #import "OEDBGame.h"
 #import "OEDBImage.h"
 #import "OEDBImageThumbnail.h"
+#import "OEDBSaveState.h"
 
 #import "NSURL+OELibraryAdditions.h"
 
@@ -306,6 +307,19 @@
 {
     OEGameInfoHelper *helper = [OEGameInfoHelper sharedHelper];
     [helper cancelUpdate];
+}
+
+- (IBAction)findUntrackedSaveStates:(id)sender
+{
+    NSURL *statesFolder = [[OELibraryDatabase defaultDatabase] stateFolderURL];
+    NSFileManager *fm   = [NSFileManager defaultManager];
+
+    NSDirectoryEnumerator *enumerator = [fm enumeratorAtURL:statesFolder includingPropertiesForKeys:nil options:0 errorHandler:nil];
+    for (NSURL *url in enumerator)
+    {
+        if([[url pathExtension] isEqualToString:@"oesavestate"])
+            [OEDBSaveState updateOrCreateStateWithPath:[url path]];
+    }
 }
 #pragma mark -
 #pragma mark OEPreferencePane Protocol

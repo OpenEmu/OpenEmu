@@ -122,7 +122,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     
     NSError *error = nil;
 //TODO: use validation here instead of save
-    if(![[newSaveState libraryDatabase] save:&error])
+    if(newSaveState && ![database save:&error])
     {
         [newSaveState setLocation:nil];
         [newSaveState remove];
@@ -130,6 +130,8 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
         
         DLog(@"State verification failed: %@ : %@", error, url);
     }
+
+    [database save:nil];
 
     return newSaveState;
 }
@@ -224,6 +226,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     }
     else if(!saveState && [defaultManager fileExistsAtPath:saveStatePath])
     {
+        DLog(@"New SaveState at %@", [url path]);
         saveState = [OEDBSaveState createSaveStateWithURL:url];
     }
     
@@ -250,7 +253,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
         NSDate   *infoTimestamp         = [infoPlist valueForKey:OESaveStateInfoTimestampKey];
         
         OEDBRom  *rom                   = [OEDBRom romWithMD5HashString:infoRomMD5 error:nil];
-        if(!infoName || !infoCoreIdentifier || !infoRomMD5 || !rom)
+        if(infoName==nil || infoCoreIdentifier==nil || infoRomMD5==nil || rom==nil)
             return NO;
     
         [self setName:infoName];
