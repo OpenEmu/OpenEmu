@@ -538,9 +538,9 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (id)addNewCollection:(NSString *)name
 {
     NSManagedObjectContext *context = [self unsafeContext];
-    __block NSString *blockName = name;
     __block OEDBCollection* aCollection = nil;
     [context performBlockAndWait:^{
+        NSString *blockName = name;
         if(blockName == nil)
         {
             blockName = NSLocalizedString(@"New Collection", @"Default collection name");
@@ -567,6 +567,8 @@ static OELibraryDatabase *defaultDatabase = nil;
 
         aCollection = (OEDBCollection*)[NSEntityDescription insertNewObjectForEntityForName:@"Collection" inManagedObjectContext:context];
         [aCollection setName:blockName];
+
+        [context save:nil];
     }];
 
     return aCollection;
@@ -574,11 +576,12 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (id)addNewSmartCollection:(NSString *)name
 {
-    __block NSString *blockName = name;
     __block OEDBSmartCollection *aCollection = nil;
 
     NSManagedObjectContext *context = [self unsafeContext];
     [context performBlockAndWait:^{
+        NSString *blockName = name;
+
         if(blockName == nil)
         {
             blockName = NSLocalizedString(@"New Smart Collection", @"");
@@ -601,6 +604,7 @@ static OELibraryDatabase *defaultDatabase = nil;
             }
 
             blockName = uniqueName;
+            [context save:nil];
         }
 
         aCollection = (OEDBSmartCollection*)[NSEntityDescription insertNewObjectForEntityForName:@"SmartCollection" inManagedObjectContext:context];
@@ -613,9 +617,9 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (id)addNewCollectionFolder:(NSString *)name
 {
     NSManagedObjectContext *context = [self unsafeContext];
-    __block NSString *blockName = name;
     __block OEDBCollectionFolder *aCollection;
     [context performBlockAndWait:^{
+        NSString *blockName = name;
         if(blockName == nil)
         {
             blockName = NSLocalizedString(@"New Folder", @"");
@@ -641,6 +645,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
         OEDBCollectionFolder *aCollection = (OEDBCollectionFolder*)[NSEntityDescription insertNewObjectForEntityForName:@"CollectionFolder" inManagedObjectContext:context];
         [aCollection setName:blockName];
+        [context save:nil];
     }];
     return aCollection;
 }
