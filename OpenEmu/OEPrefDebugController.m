@@ -318,7 +318,7 @@
     for (NSURL *url in enumerator)
     {
         if([[url pathExtension] isEqualToString:@"oesavestate"])
-            [OEDBSaveState updateOrCreateStateWithPath:[url path]];
+            [OEDBSaveState updateOrCreateStateWithURL:url];
     }
 }
 #pragma mark -

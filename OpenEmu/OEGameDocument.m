@@ -463,10 +463,9 @@ typedef enum : NSUInteger
     DLog(@"%@", typeName);
     if([typeName isEqualToString:@"org.openemu.savestate"])
     {
-        OEDBSaveState *state = [OEDBSaveState saveStateWithURL:absoluteURL];
-        if([self OE_setupDocumentWithSaveState:state error:outError])
+        OEDBSaveState *state = [OEDBSaveState updateOrCreateStateWithURL:absoluteURL];
+        if(state && [self OE_setupDocumentWithSaveState:state error:outError])
             return YES;
-
         return NO;
     }
 

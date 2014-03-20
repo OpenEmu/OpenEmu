@@ -297,13 +297,13 @@ static OELibraryDatabase *defaultDatabase = nil;
             NSURL   *url   = [NSURL fileURLWithPath:path];
             NSError *error = nil;
 
-            if([fileManager fileExistsAtPath:path])
+            if([url checkResourceIsReachableAndReturnError:nil])
             {
-                if([[path pathExtension] isEqualTo:OESaveStateSuffix])
+                if([[url pathExtension] isEqualTo:OESaveStateSuffix])
                 {
                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.2 * NSEC_PER_SEC);
                     dispatch_after(popTime, dispatch_get_main_queue(), ^{
-                        [OEDBSaveState updateOrCreateStateWithPath:path];
+                        [OEDBSaveState updateOrCreateStateWithURL:url];
                     });
                 }
                 else

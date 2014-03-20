@@ -57,7 +57,7 @@ extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 + (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL;
 + (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inDatabase:(OELibraryDatabase *)database;
 
-+ (void)updateOrCreateStateWithPath:(NSString *)path;
++ (OEDBSaveState*)updateOrCreateStateWithURL:(NSURL *)url;
 
 + (NSString *)nameOfQuickSaveInSlot:(NSInteger)slot;
 

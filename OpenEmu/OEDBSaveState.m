@@ -205,32 +205,58 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     return YES;
 }
 
-+ (void)updateOrCreateStateWithPath:(NSString *)path
++ (OEDBSaveState*)updateOrCreateStateWithURL:(NSURL *)url
 {
+    NSString *path = [url path];
     NSRange range     = [path rangeOfString:@".oesavestate" options:NSCaseInsensitiveSearch];
-    if(range.location == NSNotFound) return;
-    
-    NSFileManager   *defaultManager = [NSFileManager defaultManager];
-    NSString        *saveStatePath  = [path substringToIndex:range.location+range.length];
-    NSURL           *url            = [NSURL fileURLWithPath:saveStatePath];
-    OEDBSaveState   *saveState      = [OEDBSaveState saveStateWithURL:url]; 
+    if(range.location == NSNotFound) return nil;
 
-    BOOL fileExists = [defaultManager fileExistsAtPath:saveStatePath];
-    if(saveState && !fileExists)
+    OELibraryDatabase *database         = [OELibraryDatabase defaultDatabase];
+    NSFileManager     *defaultManager   = [NSFileManager defaultManager];
+    NSString          *saveStatePath    = [path substringToIndex:range.location+range.length];
+    NSURL             *originalStateUrl = [NSURL fileURLWithPath:saveStatePath];
+    NSURL             *stateURL         = originalStateUrl;
+    NSURL             *stateFolderURL   = [database stateFolderURL];
+
+    BOOL stateOutsideStateDir = ![originalStateUrl isSubpathOfURL:stateFolderURL];
+    if(stateOutsideStateDir)
     {
+        NSString *currentFileName = [[stateURL lastPathComponent] stringByDeletingPathExtension];
+        NSString *extension       = [stateURL pathExtension];
+        stateURL = [stateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+            return [stateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %ld.%@", currentFileName, triesCount, extension]];
+        }];
+
+        if(![defaultManager copyItemAtURL:originalStateUrl toURL:stateURL error:nil])
+            return nil;
+    }
+    
+    OEDBSaveState *saveState = [OEDBSaveState saveStateWithURL:stateURL];
+    BOOL fileAvailable = [stateURL checkResourceIsReachableAndReturnError:nil];
+    if(fileAvailable)
+    {
+        if(saveState)
+        {
+            // update state info from plist
+            [saveState readInfoPlist];
+        }
+        else
+        {
+            // create new save state
+            saveState = [OEDBSaveState createSaveStateWithURL:stateURL];
+        }
+    }
+    else
+    {
+        // file missing, delete state from db
         [saveState remove];
         saveState = nil;
-    } else if(saveState && fileExists)
-    {
-        [saveState readInfoPlist];
     }
-    else if(!saveState && [defaultManager fileExistsAtPath:saveStatePath])
-    {
-        DLog(@"New SaveState at %@", [url path]);
-        saveState = [OEDBSaveState createSaveStateWithURL:url];
-    }
-    
+
     [saveState moveToDefaultLocation];
+    [database save:nil];
+
+    return saveState;
 }
 
 + (NSString *)nameOfQuickSaveInSlot:(NSInteger)slot
