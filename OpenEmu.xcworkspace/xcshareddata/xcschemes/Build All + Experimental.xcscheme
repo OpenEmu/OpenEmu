@@ -340,6 +340,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "980BE29617098BCF00511340"
+               BuildableName = "Build &amp; Install VirtualJaguar"
+               BlueprintName = "Build &amp; Install VirtualJaguar"
+               ReferencedContainer = "container:VirtualJaguar/VirtualJaguar.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "94C51FBC1847077700206E6F"
                BuildableName = "Set Experimental Appcast URLs"
                BlueprintName = "Set Experimental Appcast URLs"

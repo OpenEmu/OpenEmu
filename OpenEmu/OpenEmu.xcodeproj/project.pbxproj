@@ -81,6 +81,7 @@
 				94EBBCFB183F42CE00743756 /* CopyFiles */,
 			);
 			dependencies = (
+				94A5321618DF8A2B00AE11B3 /* PBXTargetDependency */,
 				94CE3FB618DE92A20079CC16 /* PBXTargetDependency */,
 				FE6DEA65187E88DD00EFA21E /* PBXTargetDependency */,
 				94EBBD2D183F4CC100743756 /* PBXTargetDependency */,
@@ -769,6 +770,7 @@
 		94A4E993179F9D0400AD8C7D /* OEDBVideoMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E991179F9D0400AD8C7D /* OEDBVideoMedia.m */; };
 		94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */; };
 		94A4E998179FB98100AD8C7D /* media.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A4E997179FB98100AD8C7D /* media.png */; };
+		94A5321918DF8A3700AE11B3 /* Jaguar.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 943C80121708A62E00D8D93E /* Jaguar.oesystemplugin */; };
 		94AE2C1017B07D450018DFBB /* cheats-database.xml in Resources */ = {isa = PBXBuildFile; fileRef = 94AE2C0F17B07D450018DFBB /* cheats-database.xml */; };
 		94B28256189DF5AA00D80F3D /* OENDSSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B28255189DF5AA00D80F3D /* OENDSSystemController.m */; };
 		94BE9E51171683E000AB08E6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -1241,6 +1243,13 @@
 			remoteGlobalIDString = 9479664E15EDE645004316AB;
 			remoteInfo = "Update Build Version";
 		};
+		94A5321518DF8A2B00AE11B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 943C80111708A62E00D8D93E;
+			remoteInfo = Jaguar;
+		};
 		94CE3FB518DE92A20079CC16 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1495,6 +1504,7 @@
 			dstPath = OpenEmu.app/Contents/PlugIns/Systems;
 			dstSubfolderSpec = 16;
 			files = (
+				94A5321918DF8A3700AE11B3 /* Jaguar.oesystemplugin in CopyFiles */,
 				94CE3FB218DE92970079CC16 /* 3DO.oesystemplugin in CopyFiles */,
 				FE6310A1187F099800D8AE07 /* MSX.oesystemplugin in CopyFiles */,
 				94EBBD3A183F50A400743756 /* N64.oesystemplugin in CopyFiles */,
@@ -8121,6 +8131,11 @@
 			isa = PBXTargetDependency;
 			target = 9479664E15EDE645004316AB /* Update Build Version */;
 			targetProxy = 9479665415EDE6B3004316AB /* PBXContainerItemProxy */;
+		};
+		94A5321618DF8A2B00AE11B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 943C80111708A62E00D8D93E /* Jaguar */;
+			targetProxy = 94A5321518DF8A2B00AE11B3 /* PBXContainerItemProxy */;
 		};
 		94CE3FB618DE92A20079CC16 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

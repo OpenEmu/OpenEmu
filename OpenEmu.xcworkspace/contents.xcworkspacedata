@@ -74,6 +74,9 @@
       location = "group:VecXGL/VecXGL.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:VirtualJaguar/VirtualJaguar.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:VisualBoyAdvance/VisualBoyAdvance.xcodeproj">
    </FileRef>
    <FileRef
