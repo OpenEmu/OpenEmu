@@ -11,6 +11,9 @@
       location = "group:iPhoneRemote/iPhoneRemote.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:4DO/4DO.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Atari800/Atari800.xcodeproj">
    </FileRef>
    <FileRef

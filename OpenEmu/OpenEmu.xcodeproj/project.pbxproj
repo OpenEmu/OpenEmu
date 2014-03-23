@@ -81,6 +81,7 @@
 				94EBBCFB183F42CE00743756 /* CopyFiles */,
 			);
 			dependencies = (
+				94CE3FB618DE92A20079CC16 /* PBXTargetDependency */,
 				FE6DEA65187E88DD00EFA21E /* PBXTargetDependency */,
 				94EBBD2D183F4CC100743756 /* PBXTargetDependency */,
 				94EBBD2A183F4CA700743756 /* PBXTargetDependency */,
@@ -780,6 +781,7 @@
 		94BE9E6C171689C900AB08E6 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E66171689C900AB08E6 /* Controller-Preferences.plist */; };
 		94BE9E6D171689C900AB08E6 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E67171689C900AB08E6 /* Keyboard-Mappings.plist */; };
 		94BE9E741716922100AB08E6 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
+		94CE3FB218DE92970079CC16 /* 3DO.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 943F99B31707DF3700270E89 /* 3DO.oesystemplugin */; };
 		94CEB26E17A84809005A2107 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94CEB27417A84809005A2107 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94CEB27217A84809005A2107 /* InfoPlist.strings */; };
 		94CEB28017A84A75005A2107 /* OEGCSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CEB27C17A84A75005A2107 /* OEGCSystemController.m */; };
@@ -1239,6 +1241,13 @@
 			remoteGlobalIDString = 9479664E15EDE645004316AB;
 			remoteInfo = "Update Build Version";
 		};
+		94CE3FB518DE92A20079CC16 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 943F99B21707DF3700270E89;
+			remoteInfo = 3DO;
+		};
 		94CEB29817A8D4F0005A2107 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1486,6 +1495,7 @@
 			dstPath = OpenEmu.app/Contents/PlugIns/Systems;
 			dstSubfolderSpec = 16;
 			files = (
+				94CE3FB218DE92970079CC16 /* 3DO.oesystemplugin in CopyFiles */,
 				FE6310A1187F099800D8AE07 /* MSX.oesystemplugin in CopyFiles */,
 				94EBBD3A183F50A400743756 /* N64.oesystemplugin in CopyFiles */,
 				94EBBD31183F4DB000743756 /* Arcade.oesystemplugin in CopyFiles */,
@@ -8111,6 +8121,11 @@
 			isa = PBXTargetDependency;
 			target = 9479664E15EDE645004316AB /* Update Build Version */;
 			targetProxy = 9479665415EDE6B3004316AB /* PBXContainerItemProxy */;
+		};
+		94CE3FB618DE92A20079CC16 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 943F99B21707DF3700270E89 /* 3DO */;
+			targetProxy = 94CE3FB518DE92A20079CC16 /* PBXContainerItemProxy */;
 		};
 		94CEB29917A8D4F0005A2107 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
