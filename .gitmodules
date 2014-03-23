@@ -70,3 +70,6 @@
 [submodule "4DO"]
 	path = 4DO
 	url = git@github.com:OpenEmu/4DO-Core.git
+[submodule "VirtualJaguar"]
+	path = VirtualJaguar
+	url = git@github.com:OpenEmu/VirtualJaguar-Core.git
