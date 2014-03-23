@@ -67,3 +67,6 @@
 [submodule "blueMSX"]
 	path = blueMSX
 	url = git@github.com:OpenEmu/blueMSX-Core.git
+[submodule "4DO"]
+	path = 4DO
+	url = git@github.com:OpenEmu/4DO-Core.git
