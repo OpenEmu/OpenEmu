@@ -3478,9 +3478,9 @@
 				<key>Name</key>
 				<string>L2</string>
 				<key>Type</key>
-				<string>Button</string>
+				<string>Trigger</string>
 				<key>Usage</key>
-				<string>7</string>
+				<string>Rx</string>
 			</dict>
 			<key>OEControllerSonyPS4Dualshock4ButtonL3</key>
 			<dict>
@@ -3505,9 +3505,9 @@
 				<key>Name</key>
 				<string>R2</string>
 				<key>Type</key>
-				<string>Button</string>
+				<string>Trigger</string>
 				<key>Usage</key>
-				<string>8</string>
+				<string>Ry</string>
 			</dict>
 			<key>OEControllerSonyPS4Dualshock4ButtonR3</key>
 			<dict>
