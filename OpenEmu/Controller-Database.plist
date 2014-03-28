@@ -3075,14 +3075,14 @@
 					<key>OEControllerNintendoWiiUProControllerLeftAnalogUp</key>
 					<dict>
 						<key>Direction</key>
-						<integer>-1</integer>
+						<integer>1</integer>
 						<key>Name</key>
 						<string>Left Analog Up</string>
 					</dict>
 					<key>OEControllerNintendoWiiUProControllerLeftAnalogDown</key>
 					<dict>
 						<key>Direction</key>
-						<integer>1</integer>
+						<integer>-1</integer>
 						<key>Name</key>
 						<string>Left Analog Down</string>
 					</dict>
