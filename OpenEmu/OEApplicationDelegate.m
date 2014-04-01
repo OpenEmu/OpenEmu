@@ -75,6 +75,7 @@ NSString *const OEWebSiteURL      = @"http://openemu.org/";
 NSString *const OEUserGuideURL    = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide";
 NSString *const OEReleaseNotesURL = @"https://github.com/OpenEmu/OpenEmu/wiki/Release-notes";
 NSString *const OEFeedbackURL     = @"https://github.com/OpenEmu/OpenEmu/issues";
+BOOL            OELastPlayed      = false;
 
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
@@ -798,6 +799,11 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [item setRepresentedObject:value];
         [item setAction:@selector(launchLastPlayedROM:)];
         [item setTarget:[self mainWindowController]];
+        if (OELastPlayed == false) {
+            [item setKeyEquivalent:@"r"];
+            [item setKeyEquivalentModifierMask:NSCommandKeyMask];
+            OELastPlayed = true;
+        }
     }
 
     return YES;
