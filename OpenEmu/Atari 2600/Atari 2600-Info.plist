@@ -37,6 +37,7 @@
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>a26</string>
+		<string>bin</string>
 	</array>
 	<key>OEControlListKey</key>
 	<array>
