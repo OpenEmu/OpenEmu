@@ -413,7 +413,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     }
 
     // Allow drop on normal collections
-    if([item isKindOfClass:[OEDBCollection class]])
+    if([item isMemberOfClass:[OEDBCollection class]])
     {
         if(index != NSOutlineViewDropOnItemIndex)
         {
