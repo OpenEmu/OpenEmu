@@ -630,6 +630,9 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         NSIndexSet *selIn = [[NSIndexSet alloc] initWithIndex:index];
         [[self view] selectRowIndexes:selIn byExtendingSelection:NO];
         [self reloadData];
+
+        OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
+        [[NSNotificationCenter defaultCenter] postNotificationName:NSOutlineViewSelectionDidChangeNotification object:sidebarView];
     }
 }
 

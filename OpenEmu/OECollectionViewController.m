@@ -1562,6 +1562,8 @@ static NSArray *OE_defaultSortDescriptors;
     [gridView reloadData];
     [listView reloadData];
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+
+    [self OE_updateBlankSlate];
 }
 
 @end

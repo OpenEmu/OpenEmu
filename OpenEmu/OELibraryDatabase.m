@@ -643,7 +643,7 @@ static OELibraryDatabase *defaultDatabase = nil;
             blockName = uniqueName;
         }
 
-        OEDBCollectionFolder *aCollection = (OEDBCollectionFolder*)[NSEntityDescription insertNewObjectForEntityForName:@"CollectionFolder" inManagedObjectContext:context];
+        aCollection = (OEDBCollectionFolder*)[NSEntityDescription insertNewObjectForEntityForName:@"CollectionFolder" inManagedObjectContext:context];
         [aCollection setName:blockName];
         [context save:nil];
     }];
