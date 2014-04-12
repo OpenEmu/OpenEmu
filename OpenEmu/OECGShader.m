@@ -33,6 +33,16 @@
     CGcontext _cgContext;
 }
 
+- (void)OE_logCgErrorWithProfile:(CGprofile)theProfile;
+{
+    CGerror cgError = cgGetError();
+    NSLog(@"%@ Cg shader error: %s", [self shaderName], cgGetErrorString(cgError));
+    const char * profileString = cgGetProfileString(theProfile);
+    NSLog(@"Active Cg Profile: %s", profileString ? profileString : "NULL" );
+    const char * lastListing = cgGetLastListing(_cgContext);
+    if(lastListing) NSLog(@"Cg compiler last listing: %s", lastListing);
+}
+
 - (void)compileShaders
 {
     if(![self isCompiled])
@@ -54,8 +64,7 @@
         _vertexProgram = cgCreateProgramFromFile(_cgContext, CG_SOURCE, [[self filePath] UTF8String], _vertexProfile, "main_vertex", 0);
         if(_vertexProgram == NULL)
         {
-            CGError cgError = cgGetError();
-            NSLog(@"%@, vertex program: %s", [self shaderName], cgGetErrorString(cgError));
+            [self OE_logCgErrorWithProfile:_vertexProfile];
         }
 
         cgGLLoadProgram(_vertexProgram);
@@ -108,8 +117,7 @@
         _fragmentProgram = cgCreateProgramFromFile(_cgContext, CG_SOURCE, [[self filePath] UTF8String], _fragmentProfile, "main_fragment", 0);
         if(_fragmentProgram == NULL)
         {
-            CGError cgError = cgGetError();
-            NSLog(@"%@, fragment program: %s", [self shaderName], cgGetErrorString(cgError));
+            [self OE_logCgErrorWithProfile:_fragmentProfile];
         }
 
         cgGLLoadProgram(_fragmentProgram);
