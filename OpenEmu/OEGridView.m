@@ -1317,7 +1317,26 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     // check if the pressed key is 'space' or 'return' and send the delegate a gridView:doubleclickedCellForItemAtIndex: message
     else if (([theEvent keyCode] == kVK_Space || [theEvent keyCode] == kVK_Return) && [[NSUserDefaults standardUserDefaults] boolForKey:OEUseSpacebarToLaunchGames] && [[self selectionIndexes] count] == 1 && _delegateHas.doubleClickedCellForItemAtIndex)
             [_delegate gridView:self doubleClickedCellForItemAtIndex:[[self selectionIndexes] firstIndex]];
-    else                                                                             [super keyDown:theEvent];
+    else if ([theEvent keyCode] == kVK_Home)
+        [self scrollToBeginningOfDocument:self];
+    else if ([theEvent keyCode] == kVK_End)
+        [self scrollToEndOfDocument:self];
+    else
+        [super keyDown:theEvent];
+}
+
+- (void)scrollToBeginningOfDocument:(id)sender
+{
+    NSRect visibleRect = [self visibleRect];
+    visibleRect.origin.y = NSHeight([self bounds])-NSHeight(visibleRect);
+    [self scrollRectToVisible:visibleRect];
+}
+
+- (void)scrollToEndOfDocument:(id)sender
+{
+    NSRect visibleRect = [self visibleRect];
+    visibleRect.origin.y = 0;
+    [self scrollRectToVisible:visibleRect];
 }
 #pragma mark - Type Select
 - (BOOL)OE_shouldTypeSelectForEvent:(NSEvent*)event
