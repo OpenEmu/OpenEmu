@@ -1122,10 +1122,14 @@ typedef enum : NSUInteger
          
          NSData *TIFFData = [[[self gameViewController] takeNativeScreenshot] TIFFRepresentation];
          NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
-         NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
+
+         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+         NSBitmapImageFileType type = [standardUserDefaults integerForKey:OEScreenshotFileFormatKey];
+         NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEScreenshotPropertiesKey];
+         NSData *convertedData = [bitmapImageRep representationUsingType:type properties:properties];
 
          __autoreleasing NSError *saveError = nil;
-         if([state screenshotURL] == nil || ![PNGData writeToURL:[state screenshotURL] options:NSDataWritingAtomic error:&saveError])
+         if([state screenshotURL] == nil || ![convertedData writeToURL:[state screenshotURL] options:NSDataWritingAtomic error:&saveError])
              NSLog(@"Could not create screenshot at url: %@ with error: %@", [state screenshotURL], saveError);
 
          if(handler != nil) handler();

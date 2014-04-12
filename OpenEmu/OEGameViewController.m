@@ -72,6 +72,8 @@ NSString *const OEGameViewControllerEmulationDidFinishNotification = @"OEGameVie
 NSString *const OETakeNativeScreenshots = @"takeNativeScreenshots";
 NSString *const OEGameViewControllerROMKey = @"OEROM";
 
+NSString *const OEScreenshotFileFormatKey = @"screenshotFormat";
+NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
 
@@ -87,6 +89,16 @@ NSString *const OEGameViewControllerROMKey = @"OEROM";
 @end
 
 @implementation OEGameViewController
++ (void)initialize
+{
+    if([self class] == [OEGameViewController class])
+    {
+        [[NSUserDefaults standardUserDefaults] registerDefaults:@{
+                                                                  OEScreenshotFileFormatKey : @(NSPNGFileType),
+                                                                  OEScreenshotPropertiesKey : @{},
+                                                                  }];
+    }
+}
 
 - (id)init
 {
@@ -221,8 +233,12 @@ NSString *const OEGameViewControllerROMKey = @"OEROM";
     bool takeNativeScreenshots = [[NSUserDefaults standardUserDefaults] boolForKey:OETakeNativeScreenshots];
     screenshotImage = takeNativeScreenshots ? [_gameView nativeScreenshot] : [_gameView screenshot];
     NSData *TIFFData = [screenshotImage TIFFRepresentation];
+
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSBitmapImageFileType type = [standardUserDefaults integerForKey:OEScreenshotFileFormatKey];
+    NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEScreenshotPropertiesKey];
     NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
-    NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
+    NSData *imageData = [bitmapImageRep representationUsingType:type properties:properties];
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH.mm.ss"];
@@ -232,7 +248,7 @@ NSString *const OEGameViewControllerROMKey = @"OEROM";
     NSURL *screenshotURL = [screenshotFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %@.png", [[[[self document] rom] game] displayName], timeStamp]];
 
     __autoreleasing NSError *error;
-    if(![PNGData writeToURL:screenshotURL options:NSDataWritingAtomic error:&error])
+    if(![imageData writeToURL:screenshotURL options:NSDataWritingAtomic error:&error])
         NSLog(@"Could not save screenshot at URL: %@, with error: %@", screenshotURL, error);
 }
 

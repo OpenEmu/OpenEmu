@@ -42,6 +42,10 @@ extern NSString *const OEGameViewControllerEmulationDidFinishNotification;
 extern NSString *const OEGameViewControllerROMKey;
 extern NSString *const OEBackgroundPauseKey;
 
+extern NSString *const OEScreenshotFileFormatKey;
+extern NSString *const OEScreenshotPropertiesKey;
+
+
 @class OEDBRom;
 @class OEDBGame;
 @class OEDBSaveState;
