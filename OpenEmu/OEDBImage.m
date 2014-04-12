@@ -27,7 +27,9 @@
 #import "OEDBImage.h"
 #import "OEDBImageThumbnail.h"
 #import "OELibraryDatabase.h"
+
 @interface OEDBImage ()
+
 @end
 #pragma mark -
 @implementation OEDBImage
@@ -69,7 +71,13 @@
 }
 
 - (NSImage *)imageForSize:(NSSize)size
-{    
+{
+    NSImage *image = [[NSImage alloc] initWithContentsOfURL:[self urlForSize:size]];
+    return image;
+}
+
+- (NSURL *)urlForSize:(NSSize)size
+{
     NSSet *thumbnailsSet = [self valueForKey:@"versions"];
     
     NSSortDescriptor *sortDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
@@ -92,9 +100,10 @@
     if(!usableThumbnail) return nil;
     
     NSURL *url = [[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[usableThumbnail relativePath]];
-    NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
-    return image;
+    return url;
 }
+
+
 
 
 - (NSSize)sizeOfThumbnailForSize:(NSSize)size

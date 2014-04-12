@@ -75,6 +75,11 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
     return [[self boxImage] imageForSize:aSize];
 }
 
+- (NSURL *)gridImageURLWithSize:(NSSize)aSize
+{
+    return [[self boxImage] urlForSize:aSize];
+}
+
 - (BOOL)hasImage
 {
     return [self boxImage] != nil;

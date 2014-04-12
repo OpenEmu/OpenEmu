@@ -82,6 +82,7 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 };
 
 static const float OE_coverFlowHeightPercentage = 0.75;
+static const int maxImagesToCache = 200;
 static NSArray *OE_defaultSortDescriptors;
 
 #pragma mark -
@@ -112,6 +113,9 @@ static NSArray *OE_defaultSortDescriptors;
 @implementation OECollectionViewController
 {
     int _selectedViewTag;
+    
+    // Used to cache images by URL for grid view
+    NSCache *_imageCache;
 }
 @synthesize libraryController, gamesController;
 
@@ -179,6 +183,10 @@ static NSArray *OE_defaultSortDescriptors;
     // Setup View
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 
+    // Set up image cache
+    _imageCache = [[NSCache alloc] init];
+    [_imageCache setTotalCostLimit:maxImagesToCache];
+    
     // Set up GridView
     [gridView setItemSize:NSMakeSize(168, 193)];
     [gridView setMinimumColumnSpacing:22.0];
@@ -612,6 +620,11 @@ static NSArray *OE_defaultSortDescriptors;
     return YES;
 }
 
+-(void)viewDidStopScrolling:(OEGridView*)gridView
+{
+    [gridView reloadCellsAtIndexes:[gridView indexesForVisibleCells]];
+}
+
 #pragma mark -
 #pragma mark Grid View DataSource
 - (NSUInteger)numberOfItemsInGridView:(OEGridView *)view
@@ -623,29 +636,49 @@ static NSArray *OE_defaultSortDescriptors;
 {
     if (index >= [[gamesController arrangedObjects] count]) return nil;
     
-    OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
+    OECoverGridViewCell *cell = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
     
-    if(item == nil) item = (OECoverGridViewCell *)[view dequeueReusableCell];
-    if(item == nil) item = [[OECoverGridViewCell alloc] init];
+    if(cell == nil) cell = (OECoverGridViewCell *)[view dequeueReusableCell];
+    if(cell == nil) cell = [[OECoverGridViewCell alloc] init];
     
     id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
-    [item setTitle:[object gridTitle]];
-    [item setRating:[object gridRating]];
+    [cell setTitle:[object gridTitle]];
+    [cell setRating:[object gridRating]];
     
     if([object hasImage])
     {
-        [item setImageSize:[object actualGridImageSizeforSize:[view itemSize]]];
-        [item setImage:[object gridImageWithSize:[gridView itemSize]]];
+        [cell setImageSize:[object actualGridImageSizeforSize:[view itemSize]]];
+        NSURL * urlForImage = [object gridImageURLWithSize:[gridView itemSize]];
+        NSImage * gridImage;
+        
+        if((gridImage = [_imageCache objectForKey:[urlForImage description]]))
+        {
+            [cell setImage:gridImage];
+            [cell setIndicationType:OECoverGridViewCellIndicationTypeNone];
+        }
+        else
+        {            
+            dispatch_queue_t lowPriorityQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
+            [cell setIndicationType:OECoverGridViewCellIndicationTypeProcessing];
+            
+            dispatch_async(lowPriorityQueue, ^(void) {
+                
+                NSImage * gridImage = [[NSImage alloc] initWithContentsOfURL:urlForImage];
+                [_imageCache setObject:gridImage forKey:[urlForImage description] cost:1];
+            });
+            
+            return cell;
+        }
     }
     else
     {
-        [item setImageSize:[gridView itemSize]];
-        [item setImage:nil];
+        [cell setImageSize:[gridView itemSize]];
+        [cell setImage:nil];
     }
     
-    [item setIndicationType:[object gridIndicationType]];
+    [cell setIndicationType:[object gridIndicationType]];
     
-    return item;
+    return cell;
 }
 
 - (id<NSPasteboardWriting>)gridView:(OEGridView *)gridView pasteboardWriterForIndex:(NSInteger)index
