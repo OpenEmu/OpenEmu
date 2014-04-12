@@ -196,7 +196,6 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
             while([blocks count] != 0)
             {
                 void(^aBlock)(void) = [blocks objectAtIndex:0];
-                DLog(@"block: %@", aBlock);
                 if(aBlock != nil) aBlock();
                 [blocks removeObjectAtIndex:0];
             }
