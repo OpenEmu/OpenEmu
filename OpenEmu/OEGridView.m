@@ -1621,8 +1621,8 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     bounds = [self bounds];
     visibleRect.origin.y = percentage*NSHeight(bounds)-NSHeight(visibleRect)/2;
 
-    if(atTop || NSMinY(visibleRect) < 0) visibleRect.origin.y = 0;
-    if(atBottom || NSMaxY(visibleRect) > NSHeight(bounds)) visibleRect.origin.y = NSHeight(bounds)-NSHeight(visibleRect);
+    if(atTop || NSMinY(visibleRect) < 0) visibleRect.origin.y = NSHeight(bounds)-NSHeight(visibleRect);
+    else if(atBottom || NSMaxY(visibleRect) > NSHeight(bounds)) visibleRect.origin.y = 0;
 
     [self scrollRectToVisible:visibleRect];
 }
