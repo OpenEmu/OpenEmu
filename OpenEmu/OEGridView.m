@@ -1585,10 +1585,27 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
     if(NSEqualSizes(_itemSize, itemSize)) return;
     
     [self OE_cancelFieldEditor];
-    
+
+    // remember current scroll state, so it can be restored after resizing items
+    NSRect bounds = [self bounds];
+    NSRect visibleRect = [self visibleRect];
+    const CGFloat maxDifference = _itemSize.height / 2.0;
+    const CGFloat percentage = NSMidY(visibleRect)/NSHeight(bounds);
+    const BOOL atBottom = fabsf(NSMinY(visibleRect)-NSMinY(bounds)) < maxDifference;
+    const BOOL atTop    = fabsf(NSMaxY(visibleRect)-NSMaxY(bounds)) < maxDifference;
+
     _itemSize = itemSize;
     [[self enclosingScrollView] flashScrollers];
     [self OE_calculateCachedValuesAndQueryForDataChanges:NO];
+
+    // restore scroll state
+    bounds = [self bounds];
+    visibleRect.origin.y = percentage*NSHeight(bounds)-NSHeight(visibleRect)/2;
+
+    if(atTop || NSMinY(visibleRect) < 0) visibleRect.origin.y = 0;
+    if(atBottom || NSMaxY(visibleRect) > NSHeight(bounds)) visibleRect.origin.y = NSHeight(bounds)-NSHeight(visibleRect);
+
+    [self scrollRectToVisible:visibleRect];
 }
 
 - (void)setDataSource:(id<OEGridViewDataSource>)dataSource
