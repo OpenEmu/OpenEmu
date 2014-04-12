@@ -45,6 +45,7 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 - (void)OE_windowChangedKey:(NSNotification *)notification;
 - (void)OE_clipViewFrameChanged:(NSNotification *)notification;
 - (void)OE_clipViewBoundsChanged:(NSNotification *)notification;
+- (void)OE_updateScrollingStatus;
 
 - (void)OE_moveKeyboardSelectionToIndex:(NSUInteger)index;
 
@@ -73,7 +74,11 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
 @property NSMutableString *typeSelectSearchString;
 @end
 
-@implementation OEGridView
+@implementation OEGridView {
+    NSInteger _lastScrollY; // Previous scroll y in order to find out when we've stopped scrolling
+    NSTimer *_timer;        // Used to check whether the scroll y is still the same
+    long _lastTimerInvalidateTime;
+}
 
 @synthesize foregroundLayer=_foregroundLayer;
 @synthesize backgroundLayer=_backgroundLayer;
@@ -724,6 +729,24 @@ NSString * const OEUseSpacebarToLaunchGames = @"allowSpacebarToLaunchGames";
         _cachedContentOffset = visibleRect.origin;
         [self OE_checkForDataReload];
     }
+    
+    if((!_timer || ![_timer isValid]))
+    {
+        _timer = [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(OE_updateScrollingStatus) userInfo:nil repeats:TRUE];
+    }
+}
+
+- (void)OE_updateScrollingStatus
+{
+    if([[NSDate date] timeIntervalSince1970] - _lastTimerInvalidateTime > 1.25 && abs(_lastScrollY - [[self enclosingScrollView] documentVisibleRect].origin.y) < 65)
+    {
+        [_timer invalidate];
+        _lastTimerInvalidateTime = [[NSDate date] timeIntervalSince1970];
+        
+        [[self delegate] viewDidStopScrolling:self];
+    }
+    
+    _lastScrollY = [[self enclosingScrollView] documentVisibleRect].origin.y;
 }
 
 #pragma mark -

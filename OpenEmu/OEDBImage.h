@@ -38,6 +38,7 @@
 // returns image with highest resolution
 - (NSImage *)originalImage;
 - (NSImage *)imageForSize:(NSSize)size;
+- (NSURL *)urlForSize:(NSSize)size;
 - (NSSize)sizeOfThumbnailForSize:(NSSize)size;
 
 @property (nonatomic, retain) NSString * sourceURL;

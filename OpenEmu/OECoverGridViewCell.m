@@ -446,6 +446,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
     [self setTitle:@""];
     [self setRating:0];
     [self setImage:nil];
+    [self setIndicationType: OECoverGridViewCellIndicationTypeNone];
 
     // Prepare the _imageLayer
     [_imageLayer setHidden:NO];
