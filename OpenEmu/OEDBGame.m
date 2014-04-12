@@ -43,6 +43,9 @@ NSString *const OEPasteboardTypeGame = @"org.openemu.game";
 NSString *const OEBoxSizesKey = @"BoxSizes";
 NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
+NSString *const OEGameArtworkFormatKey = @"artworkFormat";
+NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
+
 @implementation OEDBGame
 @dynamic name, gameTitle, rating, gameDescription, importDate, lastInfoSync, status, displayName;
 @dynamic boxImage, system, roms, genres, collections, credits;
@@ -51,7 +54,10 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 {
      if (self == [OEDBGame class])
      {
-         [[NSUserDefaults standardUserDefaults] registerDefaults:@{OEBoxSizesKey:@[@"{75,75}", @"{150,150}", @"{300,300}", @"{450,450}"]}];
+         [[NSUserDefaults standardUserDefaults] registerDefaults:@{
+                                                                   OEBoxSizesKey:@[@"{75,75}", @"{150,150}", @"{300,300}", @"{450,450}"],
+                                                                   OEGameArtworkFormatKey : @(NSPNGFileType),
+                                                                   OEGameArtworkPropertiesKey : @{}}];
      }
 }
 
@@ -508,8 +514,10 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
     }
 
     // write image file
-    NSDictionary *properties = [NSDictionary dictionary];
-    NSData       *imageData  = [bitmapRep representationUsingType:NSPNGFileType properties:properties];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSBitmapImageFileType fileType = [standardUserDefaults integerForKey:OEGameArtworkFormatKey];
+    NSDictionary   *fileProperties = [standardUserDefaults dictionaryForKey:OEGameArtworkPropertiesKey];
+    NSData       *imageData  = [bitmapRep representationUsingType:fileType properties:fileProperties];
 
     [[NSFileManager defaultManager] createDirectoryAtURL:[url URLByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
 
