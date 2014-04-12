@@ -391,7 +391,6 @@
 		8375696915125A1F00795226 /* dark_menu_scroll_arrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 8375696715125A1F00795226 /* dark_menu_scroll_arrows.png */; };
 		8375696A15125A1F00795226 /* light_menu_scroll_arrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 8375696815125A1F00795226 /* light_menu_scroll_arrows.png */; };
 		8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */; };
-		837777B9147A8E730091A896 /* OEHUDProgressbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 837777B8147A8E730091A896 /* OEHUDProgressbar.m */; };
 		837777BC147A8F6A0091A896 /* hud_progress_bar_track.png in Resources */ = {isa = PBXBuildFile; fileRef = 837777BA147A8F6A0091A896 /* hud_progress_bar_track.png */; };
 		837777BD147A8F6A0091A896 /* hud_progress_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 837777BB147A8F6A0091A896 /* hud_progress_bar.png */; };
 		837DF19A16D2B0F400024BE1 /* OECollectionDebugWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 837DF19816D2B0F400024BE1 /* OECollectionDebugWindowController.m */; };
@@ -1970,8 +1969,6 @@
 		8375696815125A1F00795226 /* light_menu_scroll_arrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_menu_scroll_arrows.png; sourceTree = "<group>"; };
 		8375E14D1477FC0D0018DA1F /* OECoreUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreUpdater.h; sourceTree = "<group>"; };
 		8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreUpdater.m; sourceTree = "<group>"; };
-		837777B7147A8E730091A896 /* OEHUDProgressbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDProgressbar.h; sourceTree = "<group>"; };
-		837777B8147A8E730091A896 /* OEHUDProgressbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDProgressbar.m; sourceTree = "<group>"; };
 		837777BA147A8F6A0091A896 /* hud_progress_bar_track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_progress_bar_track.png; sourceTree = "<group>"; };
 		837777BB147A8F6A0091A896 /* hud_progress_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_progress_bar.png; sourceTree = "<group>"; };
 		837DF19716D2B0F400024BE1 /* OECollectionDebugWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECollectionDebugWindowController.h; sourceTree = "<group>"; };
@@ -3614,13 +3611,14 @@
 		53439A8613B92BEB005C0CC8 /* HUD */ = {
 			isa = PBXGroup;
 			children = (
-				83C68ECF14483579000F720A /* OEHUDAlert.h */,
-				83C68ED014483579000F720A /* OEHUDAlert.m */,
 				83BC345C1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.h */,
 				83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */,
-				53439B7B13B933C4005C0CC8 /* Controls */,
+				83C68ECF14483579000F720A /* OEHUDAlert.h */,
+				83C68ED014483579000F720A /* OEHUDAlert.m */,
 				53439B8013B933E9005C0CC8 /* OEHUDWindow.h */,
 				53439B8113B933E9005C0CC8 /* OEHUDWindow.m */,
+				83F4DE1114DFF9C200A82E36 /* OEInputLimitFormatter.h */,
+				83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */,
 			);
 			name = HUD;
 			sourceTree = "<group>";
@@ -3945,17 +3943,6 @@
 				53439B6013B93281005C0CC8 /* OEToolbarView.m */,
 			);
 			name = Toolbar;
-			sourceTree = "<group>";
-		};
-		53439B7B13B933C4005C0CC8 /* Controls */ = {
-			isa = PBXGroup;
-			children = (
-				837777B7147A8E730091A896 /* OEHUDProgressbar.h */,
-				837777B8147A8E730091A896 /* OEHUDProgressbar.m */,
-				83F4DE1114DFF9C200A82E36 /* OEInputLimitFormatter.h */,
-				83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */,
-			);
-			name = Controls;
 			sourceTree = "<group>";
 		};
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
@@ -7667,7 +7654,6 @@
 				83D435EF147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.m in Sources */,
 				8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */,
 				839310BC147802380020058E /* OECoreDownload.m in Sources */,
-				837777B9147A8E730091A896 /* OEHUDProgressbar.m in Sources */,
 				83CAD4D4147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m in Sources */,
 				83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */,
 				83F7DBAF18C0E2470029199C /* OEFileManager.m in Sources */,

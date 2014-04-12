@@ -116,9 +116,12 @@
 #pragma mark - parts
 - (NSRect)trackRect
 {
-    NSRect result = [self bounds];
-    result.size.height = 13.0;
-    
+    NSRect bounds = [self bounds];
+    NSRect result = bounds;
+
+    OEThemeState currentState = [self currentState];
+    result.size.height = [[trackImage imageForState:currentState] size].height;
+
     return result;
 }
 
@@ -136,12 +139,17 @@
 - (NSRect)progressRect
 {
     NSRect result = [self bounds];
-    result.size.height = 12.0;
-    
+
+    OEThemeState currentState = [self currentState];
+    NSSize barSize = [[barImage imageForState:currentState] size];
+    result.size.height = barSize.height;
+
     double percentValue = (self.doubleValue-self.minValue)/(self.maxValue-self.minValue);
     float width = MAX([self bounds].size.width*percentValue, 5.0);
     result.size.width = roundf(width);
-    
+    if(result.size.width < barSize.width)
+        result.size.width = result.size.width*2<barSize.width ? 0 : barSize.width;
+
     return result;
 }
 
@@ -157,6 +165,7 @@
     trackImage = [[OETheme sharedTheme] themeImageForKey:[key stringByAppendingString:@"_track_background"]];
     barImage = [[OETheme sharedTheme] themeImageForKey:[key stringByAppendingString:@"_bar"]];
     candyImage = [[OETheme sharedTheme] themeImageForKey:[key stringByAppendingString:@"_candy"]];
+    [self setNeedsDisplay:YES];
 }
 
 - (void)setBackgroundThemeImageKey:(NSString *)key{}

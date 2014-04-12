@@ -989,7 +989,7 @@
 					<object class="NSPopUpButton" id="87122889">
 						<reference key="NSNextResponder" ref="587072720"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{18, 119}, {196, 26}}</string>
+						<string key="NSFrame">{{18, 121}, {196, 26}}</string>
 						<reference key="NSSuperview" ref="587072720"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="483471168"/>
@@ -1007,16 +1007,16 @@
 							<string key="NSKeyEquivalent"/>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
-							<object class="NSMenuItem" key="NSMenuItem" id="325527692">
+							<object class="NSMenuItem" key="NSMenuItem" id="930366524">
 								<reference key="NSMenu" ref="512043460"/>
-								<string key="NSTitle">Add initial collections</string>
+								<string key="NSTitle">Compress Artwork (convert to jpg)</string>
 								<string key="NSKeyEquiv"/>
 								<int key="NSMnemonicLoc">2147483647</int>
 								<int key="NSState">1</int>
 								<reference key="NSOnImage" ref="882836568"/>
 								<reference key="NSMixedImage" ref="946582726"/>
 								<string key="NSAction">_popUpItemAction:</string>
-								<int key="NSTag">7</int>
+								<int key="NSTag">8</int>
 								<reference key="NSTarget" ref="442990767"/>
 							</object>
 							<bool key="NSMenuItemRespectAlignment">YES</bool>
@@ -1099,21 +1099,21 @@
 										<int key="NSTag">6</int>
 										<reference key="NSTarget" ref="442990767"/>
 									</object>
-									<reference ref="325527692"/>
-									<object class="NSMenuItem" id="930366524">
+									<object class="NSMenuItem" id="325527692">
 										<reference key="NSMenu" ref="512043460"/>
-										<string key="NSTitle">Compress Artwork (convert to jpg)</string>
+										<string key="NSTitle">Add initial collections</string>
 										<string key="NSKeyEquiv"/>
 										<int key="NSMnemonicLoc">2147483647</int>
 										<reference key="NSOnImage" ref="882836568"/>
 										<reference key="NSMixedImage" ref="946582726"/>
 										<string key="NSAction">_popUpItemAction:</string>
-										<int key="NSTag">8</int>
+										<int key="NSTag">7</int>
 										<reference key="NSTarget" ref="442990767"/>
 									</object>
+									<reference ref="930366524"/>
 								</array>
 							</object>
-							<int key="NSSelectedIndex">7</int>
+							<int key="NSSelectedIndex">8</int>
 							<int key="NSPreferredEdge">1</int>
 							<bool key="NSUsesItemFromMenu">YES</bool>
 							<bool key="NSAltersState">YES</bool>
@@ -1243,6 +1243,7 @@
 						<string key="NSFrame">{{126, 13}, {177, 23}}</string>
 						<reference key="NSSuperview" ref="587072720"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="832247174">
 							<int key="NSCellFlags">67108864</int>

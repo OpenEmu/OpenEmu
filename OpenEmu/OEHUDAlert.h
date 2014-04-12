@@ -26,8 +26,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class OEProgressIndicator;
 @class OEHUDAlert;
-@class OEHUDProgressbar;
 @class OEButton;
 @class OETextField;
 typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
@@ -75,9 +75,9 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 #pragma mark Progress Bar
 
 @property BOOL showsProgressbar;
-@property(strong, readonly) OEHUDProgressbar *progressbar;
+@property(strong, readonly) OEProgressIndicator *progressbar;
 
-@property CGFloat progress;
+@property double progress;
 
 #pragma mark -
 #pragma mark Button Actions

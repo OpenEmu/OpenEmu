@@ -31,7 +31,7 @@
 #import "OETextFieldCell.h"
 #import "OECenteredTextFieldCell.h"
 
-#import "OEHUDProgressbar.h"
+#import "OEProgressIndicator.h"
 
 #import "NSImage+OEDrawingAdditions.h"
 #import "NSControl+OEAdditions.h"
@@ -129,7 +129,10 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
         _alternateButton = [[OEButton alloc] init];
         _otherButton = [[OEButton alloc] init];
         
-        _progressbar = [[OEHUDProgressbar alloc] init];
+        _progressbar = [[OEProgressIndicator alloc] init];
+        [_progressbar setMinValue:0.0];
+        [_progressbar setMaxValue:1.0];
+        [_progressbar setThemeKey:@"hud_progress"];
         
         _messageTextView = [[NSTextView alloc] init];
         _headlineTextView = [[NSTextView alloc] init];
@@ -279,14 +282,14 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     return [[self progressbar] isHidden];
 }
 
-- (CGFloat)progress
+- (double)progress
 {
-    return [[self progressbar] value];
+    return [[self progressbar] doubleValue];
 }
 
-- (void)setProgress:(CGFloat)progress
+- (void)setProgress:(double)progress
 {
-    [[self progressbar] setValue:progress];
+    [[self progressbar] setDoubleValue:progress];
 }
 
 #pragma mark -
@@ -698,7 +701,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     [[_window contentView] addSubview:[self otherInputLabelView]];
     
     // Setup Progressbar
-    [[self progressbar] setFrame:NSMakeRect(64, 47, 258, 16)];
+    [[self progressbar] setFrame:NSMakeRect(64, 47, 258, 14)];
     [[self progressbar] setHidden:YES];
     [[self boxView] addSubview:[self progressbar]];
     
