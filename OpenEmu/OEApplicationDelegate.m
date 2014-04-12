@@ -175,10 +175,11 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Remove the Open Recent menu item
-    NSInteger openDocumentMenuItemIndex = [self.fileMenu indexOfItemWithTarget:nil andAction:@selector(openDocument:)];
+    NSMenu *fileMenu = [self fileMenu];
+    NSInteger openDocumentMenuItemIndex = [fileMenu indexOfItemWithTarget:nil andAction:@selector(openDocument:)];
 
-    if(openDocumentMenuItemIndex >= 0 && [[self.fileMenu itemAtIndex:openDocumentMenuItemIndex + 1] hasSubmenu])
-        [self.fileMenu removeItemAtIndex:openDocumentMenuItemIndex + 1];
+    if(openDocumentMenuItemIndex >= 0 && [[fileMenu itemAtIndex:openDocumentMenuItemIndex + 1] hasSubmenu])
+        [fileMenu removeItemAtIndex:openDocumentMenuItemIndex + 1];
 
     // Run Migration Manager
     [[OEVersionMigrationController defaultMigrationController] runMigrationIfNeeded];

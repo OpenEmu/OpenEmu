@@ -41,9 +41,9 @@
 - (id)init 
 {
     self = [super init];
-    if (self) 
+    if (self)
     {
-        self.widthInset = 9.0;
+        [self setWidthInset:9.0];
     }
     return self;
 }
@@ -52,7 +52,7 @@
     self = [super initImageCell:image];
     if (self)
     {
-        self.widthInset = 9.0;
+        [self setWidthInset:9.0];
     }
     return self;
 }
@@ -62,7 +62,7 @@
     self = [super initTextCell:aString];
     if (self)
     {
-        self.widthInset = 9.0;
+        [self setWidthInset:9.0];
     }
     return self;
 }
@@ -71,7 +71,7 @@
     self = [super initWithCoder:aDecoder];
     if(self)
     {
-        self.widthInset = 9.0;
+        [self setWidthInset:9.0];
     }
     return self;
 }

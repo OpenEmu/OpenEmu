@@ -84,7 +84,7 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
     self = [super init];
     if(self != nil)
     {
-        self.versionComparator = [SUStandardVersionComparator defaultComparator];
+        [self setVersionComparator:[SUStandardVersionComparator defaultComparator]];
         
         // We'll cheat here and rely on Sparkle's key
         isFirstRun  = ![[NSUserDefaults standardUserDefaults] boolForKey:@"SUHasLaunchedBefore"];

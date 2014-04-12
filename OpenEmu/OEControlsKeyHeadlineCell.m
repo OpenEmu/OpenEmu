@@ -43,7 +43,7 @@
     [attributes setObject:font forKey:NSFontAttributeName];
     [attributes setObject:shadow forKey:NSShadowAttributeName];
     
-    self.textAttributes = attributes;
+    [self setTextAttributes:attributes];
     
     [super setupAttributes];
 }

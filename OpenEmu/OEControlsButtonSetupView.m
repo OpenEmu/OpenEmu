@@ -223,15 +223,15 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     CGFloat rightGap = 14 + (([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) ? 14.0 : 0.0);
 
     // determine required height
+    NSRect frame = [self frame];
     CGFloat viewHeight = [self OE_calculateViewHeight];
-    if([self frame].size.height != viewHeight)
+    if(NSHeight(frame) != viewHeight)
     {
-        NSRect frame = [self frame];
         frame.size.height = viewHeight > minimumFrameHeight ? viewHeight : minimumFrameHeight;
         [animated(self) setFrame:frame];
     }
 
-    CGFloat y = self.frame.size.height;
+    CGFloat y = NSHeight(frame);
     for(NSDictionary *section in sections)
     {
         CGFloat previousY = y;
@@ -391,7 +391,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
 
 - (CGFloat)OE_headerPositionOfSectionAtIndex:(NSInteger)i
 {
-    CGFloat y=[self bounds].size.height;
+    CGFloat y= NSHeight([self bounds]);
     for(NSUInteger j=0; j < i; j++)
     {
         y -= [self OE_calculateHeightOfSection:[sections objectAtIndex:j]];

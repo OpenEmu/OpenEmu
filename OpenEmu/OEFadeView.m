@@ -66,10 +66,10 @@
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
-    if(flag && self.callback)
+    if(flag && [self callback])
     {
-        self.callback();
-        self.callback = nil;
+        [self callback]();
+        [self setCallback:nil];
     }
 }
 

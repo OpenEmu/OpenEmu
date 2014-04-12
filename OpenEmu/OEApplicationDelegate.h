@@ -33,7 +33,6 @@
 
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showPreferencesWindow:(id)sender;
-
 - (IBAction)showOpenEmuWindow:(id)sender;
 
 - (IBAction)openWeblink:(id)sender;

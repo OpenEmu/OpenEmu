@@ -34,7 +34,7 @@
     if((self = [super init]))
     {
         [self setDelegate:self];
-        self.resizesLeftView = NO;
+        [self setResizesLeftView:NO];
     }
     
     return self;
@@ -44,7 +44,7 @@
 {
     if ((self = [super initWithCoder:coder]))
     {
-        self.resizesLeftView = NO;
+        [self setResizesLeftView:NO];
         [self setDelegate:self];
     }
     
@@ -56,7 +56,7 @@
     if((self = [super initWithFrame:frame]))
     {
         [self setDelegate:self];
-        self.resizesLeftView = NO;
+        [self setResizesLeftView:NO];
     }
     
     return self;

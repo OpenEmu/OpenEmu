@@ -173,7 +173,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     // remeber last loc as database path
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    [standardDefaults setObject:[[self.databaseURL path] stringByAbbreviatingWithTildeInPath] forKey:OEDatabasePathKey];
+    [standardDefaults setObject:[[[self databaseURL] path] stringByAbbreviatingWithTildeInPath] forKey:OEDatabasePathKey];
 
     return YES;
 }

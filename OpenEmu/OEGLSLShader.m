@@ -141,7 +141,7 @@ static void OE_linkProgram(GLhandleARB programObject,
     CGLContextObj cgl_ctx = self.shaderContext;
 
     GLint       shaderCompiled = 0;
-    GLhandleARB shaderHandle   = OE_loadShader(theShaderType, &theShaderSource, &shaderCompiled, self.shaderContext);
+    GLhandleARB shaderHandle   = OE_loadShader(theShaderType, &theShaderSource, &shaderCompiled, [self shaderContext]);
 
     if(!shaderCompiled && shaderHandle)
     {
@@ -154,7 +154,7 @@ static void OE_linkProgram(GLhandleARB programObject,
 
 - (BOOL)OE_setProgramObjectWithVertexHandle:(GLhandleARB)theVertexShader fragmentHandle:(GLhandleARB)theFragmentShader
 {
-    CGLContextObj cgl_ctx = self.shaderContext;
+    CGLContextObj cgl_ctx = [self shaderContext];
 
     GLint programLinked = 0;
 
@@ -241,7 +241,7 @@ static void OE_linkProgram(GLhandleARB programObject,
 
 - (GLint)uniformLocationWithName:(const GLcharARB *)theUniformName
 {
-    CGLContextObj cgl_ctx = self.shaderContext;
+    CGLContextObj cgl_ctx = [self shaderContext];
 
     GLint uniformLocation = glGetUniformLocationARB(_programObject, theUniformName);
 

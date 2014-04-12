@@ -38,11 +38,9 @@
     }
     if([[self fetchSortDescriptors] count])
         [fetchRequest setSortDescriptors:[self fetchSortDescriptors]];
-    if([self limit] > 0)
-        [fetchRequest setFetchLimit:self.limit];
-    else
-        [fetchRequest setFetchLimit:0];
-    
+
+    [fetchRequest setFetchLimit: _limit>0 ? _limit : 0];
+
     return [super fetchWithRequest:fetchRequest merge:merge error:error];
 }
 

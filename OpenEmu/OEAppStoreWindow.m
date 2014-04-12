@@ -30,7 +30,7 @@
 - (NSRect)contentRectForFrameRect:(NSRect)frameRect{
     NSRect rect = [super contentRectForFrameRect:frameRect];
     
-    float adjustment = self.titleBarHeight - 22;
+    float adjustment = [self titleBarHeight] - 22;
     rect.size.height -= adjustment;
     
     return rect;
@@ -40,7 +40,7 @@
 {
     NSRect rect = [super frameRectForContentRect:contentRect];
     
-    float adjustment = self.titleBarHeight - 22;
+    float adjustment = [self titleBarHeight] - 22;
     rect.size.height += adjustment;
     
     return rect;

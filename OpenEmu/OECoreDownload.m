@@ -73,7 +73,7 @@
 
 - (void)dealloc
 {
-    self.delegate = nil;
+    [self setDelegate:nil];
 }
 
 - (void)OE_setValuesUsingPlugin:(OECorePlugin *)plugin

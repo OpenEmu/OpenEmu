@@ -109,7 +109,7 @@
 
 - (void)netServiceDidPublish:(NSNetService *)sender
 {
-    if([self delegate] != nil && [self.delegate respondsToSelector:@selector(server:didEnableBonjourWithName:)])
+    if([self delegate] != nil && [[self delegate] respondsToSelector:@selector(server:didEnableBonjourWithName:)])
         [[self delegate] server:self didEnableBonjourWithName:[sender name]];
 }
 

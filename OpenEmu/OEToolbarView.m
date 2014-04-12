@@ -117,7 +117,7 @@
     [textAttributes setObject:ps forKey:NSParagraphStyleAttributeName];
     
     float x = itemSpacing;
-    for(OEToolbarItem *anItem in self.items){
+    for(OEToolbarItem *anItem in [self items]){
         x += titlePadding;
         
         NSAttributedString *title = [[NSAttributedString alloc] initWithString:anItem.title attributes:textAttributes];

@@ -31,14 +31,15 @@
 
 - (NSImage *)imageForHighlight
 {
-    NSImage *highlightImage = [[NSImage alloc] initWithSize:self.size];
+    NSSize size = [self size];
+    NSImage *highlightImage = [[NSImage alloc] initWithSize:size];
     
     [highlightImage lockFocus];
     
-    [self drawInRect:NSMakeRect(0, 0, self.size.width, self.size.height) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+    [self drawInRect:NSMakeRect(0, 0, size.width, size.height) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
     
     [[NSColor colorWithDeviceWhite:0.0 alpha:0.4] setFill];
-    NSRectFillUsingOperation(NSMakeRect(0, 0, self.size.width, self.size.height), NSCompositeSourceAtop);
+    NSRectFillUsingOperation(NSMakeRect(0, 0, size.width, size.height), NSCompositeSourceAtop);
     
     [highlightImage unlockFocus];
     

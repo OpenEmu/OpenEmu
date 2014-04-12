@@ -33,7 +33,7 @@
     self = [super init];
     if (self) 
     {
-        self.widthInset = 9.0;
+        [self setWidthInset:9.0];
     }
     return self;
 }
@@ -42,7 +42,7 @@
     self = [super initImageCell:image];
     if (self)
     {
-        self.widthInset = 9.0;
+        [self setWidthInset:9.0];
     }
     return self;
 }
@@ -52,7 +52,7 @@
     self = [super initTextCell:aString];
     if (self)
     {
-        self.widthInset = 9.0;
+        [self setWidthInset:9.0];
     }
     return self;
 }
@@ -61,7 +61,7 @@
     self = [super initWithCoder:aDecoder];
     if(self)
     {
-        self.widthInset = 9.0;
+        [self setWidthInset:9.0];
     }
     return self;
 }
@@ -69,13 +69,13 @@
 - (id)copyWithZone:(NSZone *)zone
 {
     OECoreTableProgressCell *copy = [super copyWithZone:zone];
-    copy.widthInset = self.widthInset;
+    [copy setWidthInset:[self widthInset]];
     return copy;
 }
 @synthesize widthInset;
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-    cellFrame = NSInsetRect(cellFrame, self.widthInset, (cellFrame.size.height-15)/2);
+    cellFrame = NSInsetRect(cellFrame, [self widthInset], (cellFrame.size.height-15)/2);
     
     NSRect trackRect = cellFrame;
     NSImage *image = [NSImage imageNamed:@"install_progress_bar_track"];

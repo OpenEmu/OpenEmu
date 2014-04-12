@@ -28,7 +28,7 @@
 
 @interface OEFSWatcher ()
 - (id)initWithPersistentKey:(NSString*)key;
-@property           FSEventStreamRef            stream;
+@property  FSEventStreamRef stream;
 @property (copy)   NSString *persistentKey;
 
 - (void)OE_setupRestartingProperties;
