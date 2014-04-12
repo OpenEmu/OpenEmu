@@ -43,7 +43,7 @@
 #pragma mark UI Methods
 
 - (IBAction)changeRegion:(id)sender;
-- (IBAction)executeDatbaseAction:(id)sender;
+- (IBAction)executeDatabaseAction:(id)sender;
 
 - (IBAction)chooseSaveStateFolder:(id)sender;
 - (IBAction)defaultSaveStateFolder:(id)sender;
@@ -51,5 +51,4 @@
 
 - (IBAction)gameInfoUpdate:(id)sender;
 - (IBAction)gameInfoCancel:(id)sender;
-
 @end

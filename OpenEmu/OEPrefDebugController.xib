@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
 		<string key="IBDocument.SystemVersion">13C64</string>
-		<string key="IBDocument.InterfaceBuilderVersion">5053</string>
+		<string key="IBDocument.InterfaceBuilderVersion">5056</string>
 		<string key="IBDocument.AppKitVersion">1265.19</string>
 		<string key="IBDocument.HIToolboxVersion">697.40</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">5053</string>
+			<string key="NS.object.0">5056</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSButton</string>
@@ -1023,7 +1023,7 @@
 							<object class="NSMenu" key="NSMenu" id="512043460">
 								<string key="NSTitle"/>
 								<array class="NSMutableArray" key="NSMenuItems">
-									<object class="NSMenuItem" id="930366524">
+									<object class="NSMenuItem" id="912202356">
 										<reference key="NSMenu" ref="512043460"/>
 										<string key="NSTitle">Log matched game paths</string>
 										<string key="NSKeyEquiv"/>
@@ -1100,6 +1100,17 @@
 										<reference key="NSTarget" ref="442990767"/>
 									</object>
 									<reference ref="325527692"/>
+									<object class="NSMenuItem" id="930366524">
+										<reference key="NSMenu" ref="512043460"/>
+										<string key="NSTitle">Compress Artwork (convert to jpg)</string>
+										<string key="NSKeyEquiv"/>
+										<int key="NSMnemonicLoc">2147483647</int>
+										<reference key="NSOnImage" ref="882836568"/>
+										<reference key="NSMixedImage" ref="946582726"/>
+										<string key="NSAction">_popUpItemAction:</string>
+										<int key="NSTag">8</int>
+										<reference key="NSTarget" ref="442990767"/>
+									</object>
 								</array>
 							</object>
 							<int key="NSSelectedIndex">7</int>
@@ -1232,7 +1243,6 @@
 						<string key="NSFrame">{{126, 13}, {177, 23}}</string>
 						<reference key="NSSuperview" ref="587072720"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="832247174">
 							<int key="NSCellFlags">67108864</int>
@@ -1398,14 +1408,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">executeDatbaseAction:</string>
-						<reference key="source" ref="484406367"/>
-						<reference key="destination" ref="483471168"/>
-					</object>
-					<string key="id">216</string>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">gameInfoUpdate:</string>
 						<reference key="source" ref="484406367"/>
 						<reference key="destination" ref="515529364"/>
@@ -1443,6 +1445,14 @@
 						<reference key="destination" ref="52170048"/>
 					</object>
 					<string key="id">Lcg-90-2w5</string>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">executeDatabaseAction:</string>
+						<reference key="source" ref="484406367"/>
+						<reference key="destination" ref="483471168"/>
+					</object>
+					<string key="id">aK4-mk-n7n</string>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2481,7 +2491,6 @@
 						<string key="id">208</string>
 						<reference key="object" ref="512043460"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="930366524"/>
 							<reference ref="1071454859"/>
 							<reference ref="257790016"/>
 							<reference ref="427719376"/>
@@ -2489,6 +2498,8 @@
 							<reference ref="702460082"/>
 							<reference ref="144127061"/>
 							<reference ref="325527692"/>
+							<reference ref="930366524"/>
+							<reference ref="912202356"/>
 						</array>
 						<reference key="parent" ref="442990767"/>
 					</object>
@@ -2652,6 +2663,11 @@
 						<string key="id">Rct-Di-rcb</string>
 						<reference key="object" ref="832247174"/>
 						<reference key="parent" ref="52170048"/>
+					</object>
+					<object class="IBObjectRecord">
+						<string key="id">iDP-Hc-zlU</string>
+						<reference key="object" ref="912202356"/>
+						<reference key="parent" ref="512043460"/>
 					</object>
 				</array>
 			</object>
@@ -3666,6 +3682,8 @@
 				<string key="arv-4k-Gf7.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<reference key="arv-4k-Gf7.IBUserGuides" ref="0"/>
 				<boolean value="NO" key="arv-4k-Gf7.showNotes"/>
+				<string key="iDP-Hc-zlU.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="NO" key="iDP-Hc-zlU.showNotes"/>
 				<string key="nfe-Ha-Ulj.CustomClassName">OEButtonCell</string>
 				<string key="nfe-Ha-Ulj.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="nfe-Ha-Ulj.showNotes"/>
@@ -3744,7 +3762,7 @@
 						<string key="changeRegion:">id</string>
 						<string key="chooseSaveStateFolder:">id</string>
 						<string key="defaultSaveStateFolder:">id</string>
-						<string key="executeDatbaseAction:">id</string>
+						<string key="executeDatabaseAction:">id</string>
 						<string key="findUntrackedSaveStates:">id</string>
 						<string key="gameInfoCancel:">id</string>
 						<string key="gameInfoUpdate:">id</string>
@@ -3766,8 +3784,8 @@
 							<string key="name">defaultSaveStateFolder:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="executeDatbaseAction:">
-							<string key="name">executeDatbaseAction:</string>
+						<object class="IBActionInfo" key="executeDatabaseAction:">
+							<string key="name">executeDatabaseAction:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="findUntrackedSaveStates:">

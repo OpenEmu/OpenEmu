@@ -45,7 +45,8 @@
 #import "OEGameInfoHelper.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
-
+#import "OEDBImageThumbnail.h"
+#import "OEHUDAlert.h"
 @interface OELibraryDatabase (Private)
 - (void)OE_createInitialItems;
 @end
@@ -54,14 +55,14 @@
 #pragma mark -
 
 - (void)awakeFromNib
-{    
+{
     if([[NSUserDefaults standardUserDefaults] valueForKey:OERegionKey])
     {
         OERegion currentRegion = [[OELocalizationHelper sharedHelper] region];
         [[self regionSelector] selectItemWithTag:currentRegion];
     }
-        
-    NSScrollView *scrollView = (NSScrollView*)[self view];    
+
+    NSScrollView *scrollView = (NSScrollView*)[self view];
     [scrollView setDocumentView:[self contentView]];
     [[self contentView] setFrameOrigin:(NSPoint){ 0 , -[[self contentView] frame].size.height + [scrollView frame].size.height}];
 
@@ -116,24 +117,24 @@
 {
     if([sender selectedTag] == -1)
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:OERegionKey];
-    else 
+    else
         [[NSUserDefaults standardUserDefaults] setInteger:[sender selectedTag] forKey:OERegionKey];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsDidChangeNotification object:self];
 }
 
-- (IBAction)executeDatbaseAction:(id)sender
+- (IBAction)executeDatabaseAction:(id)sender
 {
     NSError *error = nil;
     NSArray *allGames = [OEDBGame allGamesInDatabase:[OELibraryDatabase defaultDatabase] error:&error];
-    
+
     if(allGames == nil)
     {
         NSLog(@"Error getting all games");
         NSLog(@"%@", [error localizedDescription]);
         return;
     }
-    
+
     switch([[self dbActionSelector] selectedTag])
     {
         case 0 :
@@ -149,16 +150,16 @@
             [allGames enumerateObjectsUsingBlock:
              ^(id obj, NSUInteger idx, BOOL *stop)
              {
-                [obj setGameDescription:nil];
-                [obj setLastInfoSync:nil];
-                [obj setRating:[NSNumber numberWithInt:0]];
-                [obj setBoxImage:nil];
-                [obj setCredits:nil];
-                [obj setGenres:nil];
-            }];
+                 [obj setGameDescription:nil];
+                 [obj setLastInfoSync:nil];
+                 [obj setRating:[NSNumber numberWithInt:0]];
+                 [obj setBoxImage:nil];
+                 [obj setCredits:nil];
+                 [obj setGenres:nil];
+             }];
             printf("\nDone\n");
             break;
-            
+
         case 3:
             printf("\nRunning archive sync on all games\n\n");
             [allGames enumerateObjectsUsingBlock:
@@ -187,10 +188,8 @@
              }];
             printf("\nDone\n");
             break;
-        case 7:
-            [[OELibraryDatabase defaultDatabase] OE_createInitialItems];
-            break;
         case 6:
+        {
             printf("\nRemoving unused image thumbnails\n\n");
             NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"ImageThumbnail"];
             NSArray *result = [[OELibraryDatabase defaultDatabase] executeFetchRequest:request error:&error];
@@ -272,6 +271,111 @@
             });
             break;
         }
+        case 7:
+            [[OELibraryDatabase defaultDatabase] OE_createInitialItems];
+            break;
+        case 8: // reclaim disk space by converting artwork to jpg
+        {
+            OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"Converting Artwork" defaultButton:@"Cancel" alternateButton:@""];
+            [alert setProgress:0.0];
+            [alert setShowsProgressbar:YES];
+            __block NSInteger result = -1;
+            NSDictionary *imageProperties = @{ NSImageCompressionFactor:@(0.9) };
+            NSBitmapImageFileType type = NSJPEGFileType;
+
+            OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+            NSURL *artworkURL = [database coverFolderURL];
+            NSString *entityName = [OEDBImageThumbnail entityName];
+            NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+            NSArray *allThumbnails = [database executeFetchRequest:request error:nil];
+
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                NSUInteger totalAmount = [allThumbnails count];
+
+                [allThumbnails enumerateObjectsUsingBlock:^(OEDBImageThumbnail *thumbnail, NSUInteger idx, BOOL *stop) {
+                    if(result != -1)
+                    {
+                        *stop = YES;
+                        return ;
+                    }
+                    NSString *relativePath = [thumbnail relativePath];
+                    NSError *error = nil;
+                    NSURL *imageURL = [artworkURL URLByAppendingPathComponent:relativePath];
+                    if(![imageURL checkResourceIsReachableAndReturnError:&error])
+                    {
+                        DLog(@"Image missing! %@", relativePath);
+                        DLog(@"%@", error);
+                    }
+                    else
+                    {
+                        NSBitmapImageRep *rep = [NSBitmapImageRep imageRepWithContentsOfURL:imageURL];
+                        if(!rep)
+                        {
+                            NSImage *image = [[NSImage alloc] initWithContentsOfURL:imageURL];
+                            if(!image)
+                            {
+                                DLog(@"still no image :/");
+                                DLog(@"%@", relativePath);
+                                DLog(@"%@", imageURL);
+                                return;
+                            }
+                            else
+                            {
+                                rep = [[image representations] lastObject];
+                                if(!rep)
+                                {
+                                    DLog(@"no representation, this is getting weird");
+                                    return;
+                                }
+                            }
+                        }
+                        NSData *data = [rep representationUsingType:type properties:imageProperties];
+                        if(!data)
+                        {
+                            DLog(@"Can't convert image.");
+                            DLog(@"%@", relativePath);
+                            return;
+                        }
+                        NSURL *tempURL = [[imageURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@_converted", [imageURL lastPathComponent]]];
+
+                        if(![data writeToURL:tempURL options:0 error:&error])
+                        {
+                            DLog(@"unable to save new thumbnail");
+                            DLog(@"%@", relativePath);
+                            DLog(@"%@", error);
+                        }
+                        else if(![[NSFileManager defaultManager] removeItemAtURL:imageURL error:&error])
+                        {
+                            DLog(@"unable to delete original image");
+                            DLog(@"%@", relativePath);
+                            DLog(@"%@", error);
+
+                        }
+                        else if(![[NSFileManager defaultManager] moveItemAtURL:tempURL toURL:imageURL error:&error])
+                        {
+                            DLog(@"unabel to move temp image to old path");
+                            DLog(@"%@", relativePath);
+                            DLog(@"%@", error);
+                        }
+
+                        float progress = (float)idx / (float)totalAmount;
+                        [alert performBlockInModalSession:^{
+                            [alert setProgress:progress];
+                            DLog(@"%lu/%lu: %f",(unsigned long)idx, (unsigned long)totalAmount, progress*100);
+                        }];
+                    }
+                }];
+            });
+
+            result = [alert runModal];
+            NSError *saveError = nil;
+            if(![database save:&saveError])
+            {
+                DLog(@"%@", saveError);
+            }
+            break;
+        }
+    }
 }
 
 
@@ -281,7 +385,7 @@
     [openPanel setCanChooseDirectories:YES];
     [openPanel setCanChooseFiles:NO];
     [openPanel setCanCreateDirectories:YES];
-    
+
     if([openPanel runModal] == NSAlertDefaultReturn)
         [[NSUserDefaults standardUserDefaults] setObject:[[openPanel URL] absoluteString] forKey:OESaveStateFolderURLKey];
 }
@@ -321,6 +425,7 @@
             [OEDBSaveState updateOrCreateStateWithURL:url];
     }
 }
+
 #pragma mark -
 #pragma mark OEPreferencePane Protocol
 
