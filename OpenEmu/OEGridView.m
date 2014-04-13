@@ -94,11 +94,6 @@
     [self addSubview:_fieldEditor];
 }
 
-- (void)viewBoundsChanged:(NSNotification *)aNotification
-{
-    DLog();
-    [[[self subviews] objectAtIndex:0] setFrame:[self visibleRect]];
-}
 #pragma mark - Cells
 - (void)setCellSize:(NSSize)size
 {
