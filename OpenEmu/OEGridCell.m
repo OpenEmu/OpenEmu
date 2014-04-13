@@ -57,7 +57,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
     NSRect frame = [super imageContainerFrame];
 
     frame.origin.x += OEGridCellImageContainerLeft;
-    frame.origin.y = self.frame.origin.y + OEGridCellImageContainerBottom + 20;
+    frame.origin.y = self.frame.origin.y + OEGridCellImageContainerBottom;
     frame.size.width -= OEGridCellImageContainerLeft + OEGridCellImageContainerRight;
     frame.size.height -= OEGridCellImageContainerTop + OEGridCellImageContainerBottom;
 
@@ -71,7 +71,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
     frame.size.width = self.frame.size.width;
     frame.size.height = OEGridCellTitleHeight;
     frame.origin.x = self.frame.origin.x;
-    frame.origin.y = self.frame.origin.y + OEGridCellSubtitleHeight + 20;
+    frame.origin.y = self.frame.origin.y + OEGridCellSubtitleHeight;
 
     return frame;
 }
@@ -83,7 +83,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
     frame.size.width  = OEGridCellSubtitleWidth;
     frame.size.height = OEGridCellSubtitleHeight;
     frame.origin.x = NSMidX([self frame])-OEGridCellSubtitleWidth/2.0;
-    frame.origin.y = self.frame.origin.y + 10.0;
+    frame.origin.y = self.frame.origin.y;
 
     return frame;
 }
@@ -100,36 +100,11 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
 - (CALayer *)layerForType:(NSString *)type
 {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSLog(@"frame: %@", NSStringFromRect([self frame]));
-        NSLog(@"image frame: %@", NSStringFromRect([self imageFrame]));
-        NSLog(@"image container frame: %@", NSStringFromRect([self imageContainerFrame]));
-        NSLog(@"title frame: %@", NSStringFromRect([self titleFrame]));
-    });
 
-    if(type == IKImageBrowserCellBackgroundLayer)
-    {
-        CALayer *bgLayer = [CALayer layer];
-        bgLayer.borderColor = [[NSColor greenColor] CGColor];
-        bgLayer.borderWidth = 1.0;
-
-        return bgLayer;
-    }
 
     NSRect bounds = {{0,0}, self.frame.size};
 
     const NSRect imageContainer = NSInsetRect(bounds, 0, 0);
-    if(type == IKImageBrowserCellPlaceHolderLayer)
-    {
-        CALayer *placeHolderLayer = [CALayer layer];
-        placeHolderLayer.borderColor = [[NSColor redColor] CGColor];
-        placeHolderLayer.borderWidth = 1.0;
-
-        placeHolderLayer.frame = imageContainer;
-        return placeHolderLayer;
-    }
-
 	//retrieve some useful rects
 	NSRect frame = NSIntegralRect([self frame]);
 	NSRect imageFrame = NSIntegralRect([self imageFrame]);
@@ -142,30 +117,47 @@ __strong static OEThemeImage *selectorRingImage = nil;
     NSRect relativeRatingFrame = NSMakeRect(ratingFrame.origin.x - frame.origin.x, ratingFrame.origin.y - frame.origin.y, ratingFrame.size.width, ratingFrame.size.height);
 
     const CGFloat scaleFactor = [[[[self imageBrowserView] window] screen] backingScaleFactor];
+    const IKImageBrowserCellState state = [self cellState];
 
-    // place holder layer
-	if(type == IKImageBrowserCellPlaceHolderLayer)
-    {
-        CALayer *layer = [CALayer layer];
+    // placeholder layer
+    if(type == IKImageBrowserCellPlaceHolderLayer){
+        CGColorRef color;
 
-        CALayer *missingArtworkLayer = [CALayer layer];
-        [missingArtworkLayer setFrame:relativeContainerFrame];
-        [missingArtworkLayer setContents:[self OE_missingArtworkImageWithSize:imageContainer.size]];
-        [layer addSublayer:missingArtworkLayer];
+		//create a place holder layer
+		CALayer *layer = [CALayer layer];
+		layer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
 
-        //add a glossy overlay
-		CALayer *glossyLayer = [CALayer layer];
-		glossyLayer.frame = NSInsetRect(relativeImageFrame, 0, 0);
-        [glossyLayer setContents:[self OE_glossImageWithSize:imageContainer.size]];
-		[layer addSublayer:glossyLayer];
+		CALayer *placeHolderLayer = [CALayer layer];
+		placeHolderLayer.frame = relativeImageFrame;
 
-        return layer;
+		const CGFloat fillComponents[4]   = {1.0, 1.0, 1.0, 0.1};
+		const CGFloat strokeComponents[4] = {1.0, 1.0, 1.0, 0.2};
+		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+
+		//set a background color
+		color = CGColorCreate(colorSpace, fillComponents);
+		[placeHolderLayer setBackgroundColor:color];
+		CFRelease(color);
+
+		//set a stroke color
+		color = CGColorCreate(colorSpace, strokeComponents);
+		[placeHolderLayer setBorderColor:color];
+		CFRelease(color);
+
+		[placeHolderLayer setBorderWidth:2.0];
+		[placeHolderLayer setCornerRadius:10];
+		CFRelease(colorSpace);
+
+		[layer addSublayer:placeHolderLayer];
+		
+		return layer;
 	}
+    
 
     // foreground layer
 	if(type == IKImageBrowserCellForegroundLayer)
     {
-		// create a foreground layer that will contain several childs layer (gloss, selection, rating)
+		// create a foreground layer that will contain several childs layer (gloss, selection, rating, title)
 		CALayer *layer = [CALayer layer];
 		layer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
 
@@ -176,6 +168,18 @@ __strong static OEThemeImage *selectorRingImage = nil;
             [missingArtworkLayer setContents:[self OE_missingArtworkImageWithSize:imageContainer.size]];
             [layer addSublayer:missingArtworkLayer];
         }
+
+        // Setup title layer
+        CATextLayer *textLayer = [CATextLayer layer];
+        textLayer.frame = relativeTitleFrame;
+        NSDictionary *attributes = [[self imageBrowserView] valueForKey:IKImageBrowserCellsTitleAttributesKey];
+        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:[[self representedItem] imageTitle] attributes:attributes];
+        textLayer.string = attributedString;
+        [textLayer setAlignmentMode:kCAAlignmentCenter];
+        [textLayer setContentsScale:scaleFactor];
+        [textLayer setBorderWidth:1.0];
+        [textLayer setBorderColor:[[NSColor orangeColor] CGColor]];
+        [layer addSublayer:textLayer];
 
         // Setup rating layer
         int rating = [[self representedItem] gridRating];
@@ -189,10 +193,13 @@ __strong static OEThemeImage *selectorRingImage = nil;
         [layer addSublayer:ratingLayer];
 
 		//add a glossy overlay
-		CALayer *glossyLayer = [CALayer layer];
-		glossyLayer.frame = NSInsetRect(relativeImageFrame, 0, 0);
-        [glossyLayer setContents:[self OE_glossImageWithSize:imageFrame.size]];
-		[layer addSublayer:glossyLayer];
+        if(state != IKImageStateNoImage)
+        {
+            CALayer *glossyLayer = [CALayer layer];
+            glossyLayer.frame = NSInsetRect(relativeImageFrame, 0, 0);
+            [glossyLayer setContents:[self OE_glossImageWithSize:imageFrame.size]];
+            [layer addSublayer:glossyLayer];
+        }
         // the selection layer is cached else the CATransition initialization fires the layers to be redrawn which causes the CATransition to be initalized again: loop
         // TODO: Appropriately cache all layers
         
@@ -226,10 +233,9 @@ __strong static OEThemeImage *selectorRingImage = nil;
      
     if(type == IKImageBrowserCellSelectionLayer)
     {
-		//create a selection layer
+		//create a selection layer to prevent defaults
         CALayer *layer = [CALayer layer];
         return layer;
-
     }
 
     // background layer
@@ -237,24 +243,22 @@ __strong static OEThemeImage *selectorRingImage = nil;
     {
         if([self cellState] == IKImageStateNoImage)
 			return nil;
-        
+
+        DLog();
 		CALayer *layer = [CALayer layer];
         layer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+        layer.borderColor = [[NSColor greenColor] CGColor];
+        layer.borderWidth = 1.0;
 
-        CALayer *shadowLayer = [CALayer layer];
-        [shadowLayer setFrame:relativeImageFrame];
-
-        CGPathRef shadowPath = CGPathCreateWithRect([shadowLayer bounds], NULL);
-        [shadowLayer setShadowPath:shadowPath];
+        CGPathRef shadowPath = CGPathCreateWithRect(relativeImageFrame, NULL);
+        [layer setShadowPath:shadowPath];
         CGPathRelease(shadowPath);
 
-        [shadowLayer setShadowColor:[[NSColor blackColor] CGColor]];
-        [shadowLayer setShadowOffset:CGSizeMake(0.0, -3.0)];
-        [shadowLayer setShadowOpacity:1.0];
-        [shadowLayer setShadowRadius:3.0];
-        [shadowLayer setContentsGravity:kCAGravityResize];
-
-        [layer addSublayer:shadowLayer];
+        [layer setShadowColor:[[NSColor blackColor] CGColor]];
+        [layer setShadowOffset:CGSizeMake(0.0, -3.0)];
+        [layer setShadowOpacity:1.0];
+        [layer setShadowRadius:3.0];
+        [layer setContentsGravity:kCAGravityResize];
 
         return layer;
 	}
@@ -264,6 +268,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
 - (NSImage *)OE_standardImageNamed:(NSString *)name withSize:(NSSize)size
 {
+    // TODO: why do we use the background layer?
     NSImage *image = [[[self imageBrowserView] backgroundLayer] valueForKey:name];
     if(image && NSEqualSizes([image size], size)) return image;
 
@@ -272,6 +277,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
 - (void)OE_setStandardImage:(NSImage *)image named:(NSString *)name
 {
+    // TODO: why do we use the background layer?
     [[[self imageBrowserView] backgroundLayer] setValue:image forKey:name];
 }
 
