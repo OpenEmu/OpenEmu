@@ -691,7 +691,7 @@ static NSArray *OE_defaultSortDescriptors;
 
 -(void)viewDidStopScrolling:(OEGridView*)gridView
 {
-    [gridView reloadCellsAtIndexes:[gridView indexesForVisibleCells]];
+//    [gridView reloadCellsAtIndexes:[gridView indexesForVisibleCells]];
 }
 
 #pragma mark -
