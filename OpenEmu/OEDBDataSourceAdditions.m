@@ -121,14 +121,16 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 {
     if([self boxImage])
         return IKImageBrowserNSURLRepresentationType;
-else
-    return nil;
-    return [self boxImage] ? IKImageBrowserNSURLRepresentationType : nil;
+    else
+        return IKImageBrowserNSImageRepresentationType;
 }
 
 - (id)imageRepresentation
 {
-    return [self boxImage] ? [[self boxImage] imagePathForSize:(NSSize){CGFLOAT_MAX, CGFLOAT_MAX}] : nil;
+    if([self boxImage])
+        return [[self boxImage] imagePathForSize:(NSSize){CGFLOAT_MAX, CGFLOAT_MAX}];
+    else
+        return [self OE_missingArtworkImageWithSize:NSMakeSize(100, 100*1.365385)];
 
     return [self gridImage];
     
@@ -143,6 +145,36 @@ else
     
     return nil;
 }
+
+- (NSImage *)OE_missingArtworkImageWithSize:(NSSize)size
+{
+    // TODO: readd chaching
+    if(NSEqualSizes(size, NSZeroSize)) return nil;
+
+    NSImage *missingArtwork = [[NSImage alloc] initWithSize:size];
+    [missingArtwork lockFocus];
+
+    NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
+    [currentContext saveGraphicsState];
+    [currentContext setShouldAntialias:NO];
+
+    // Draw the scan lines from top to bottom
+    NSImage      *scanLineImage     = [NSImage imageNamed:@"missing_artwork"];
+    const NSSize  scanLineImageSize = [scanLineImage size];
+
+    CGRect scanLineRect = CGRectMake(0.0, 0.0, size.width, scanLineImageSize.height);
+    for(CGFloat y = 0.0; y < size.height; y += scanLineImageSize.height)
+    {
+        scanLineRect.origin.y = y;
+        [scanLineImage drawInRect:scanLineRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+    }
+
+    [currentContext restoreGraphicsState];
+    [missingArtwork unlockFocus];
+
+    return missingArtwork;
+}
+
 
 - (NSString *)imageTitle
 {

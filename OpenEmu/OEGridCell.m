@@ -100,8 +100,6 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
 - (CALayer *)layerForType:(NSString *)type
 {
-
-
     NSRect bounds = {{0,0}, self.frame.size};
 
     const NSRect imageContainer = NSInsetRect(bounds, 0, 0);
@@ -466,6 +464,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
 - (NSImage*)OE_newRatingImageForRating:(NSInteger)rating
 {
+    DLog(@"%ld", rating);
     const NSUInteger OECoverGridViewCellRatingViewNumberOfRatings = 6;
     const NSImage *ratingImage    = [NSImage imageNamed:@"grid_rating"];
     const NSSize  ratingImageSize = [ratingImage size];
