@@ -49,11 +49,11 @@
     [NSGraphicsContext saveGraphicsState];
     [NSGraphicsContext setCurrentContext:context];
 
-    const NSRect bounds = [self bounds];
-    
+    const NSRect visibleRect = [self bounds];
+
     NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[[NSColor blackColor] colorWithAlphaComponent:0.4] endingColor:[NSColor clearColor]];
-    [gradient drawInRect:NSMakeRect(0.0, 0.0, NSWidth(bounds), 8.0) angle:90.0];
-    [gradient drawInRect:NSMakeRect(0.0, NSMaxY(bounds) - 8.0, NSWidth(bounds), 8.0) angle:270.0];
+    [gradient drawInRect:NSMakeRect(0.0, NSMinY(visibleRect), NSWidth(visibleRect), 8.0) angle:90.0];
+    [gradient drawInRect:NSMakeRect(0.0, NSMaxY(visibleRect) - 8.0, NSWidth(visibleRect), 8.0) angle:270.0];
 
     [NSGraphicsContext restoreGraphicsState];
 }

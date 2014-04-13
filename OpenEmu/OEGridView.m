@@ -55,7 +55,6 @@
     [self setAllowsReordering:NO];
     [self setAllowsDroppingOnItems:YES];
 
-
     OECoverGridForegroundLayer *foregroundLayer = [OECoverGridForegroundLayer layer];
     [foregroundLayer setActions:@{}];
     [self setForegroundLayer:foregroundLayer];
@@ -66,7 +65,7 @@
     [self setCellSize:NSMakeSize(142 + 26, 142)];
     // TODO: Explain subtraction
     [self setIntercellSpacing:NSMakeSize(22, 29 - 20)];
-    [self setCellsStyleMask:IKCellsStyleTitled];
+    [self setCellsStyleMask:IKCellsStyleNone];
 
     //[self setAnimates:YES];
 
@@ -95,6 +94,12 @@
     [self addSubview:_fieldEditor];
 }
 
+- (void)viewBoundsChanged:(NSNotification *)aNotification
+{
+    DLog();
+    [[[self subviews] objectAtIndex:0] setFrame:[self visibleRect]];
+}
+#pragma mark - Cells
 - (void)setCellSize:(NSSize)size
 {
     [super setCellSize:size];
@@ -360,7 +365,5 @@
     
     return NO;
 }
-
-
 @end
 
