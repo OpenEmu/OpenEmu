@@ -9,5 +9,5 @@
 #import <ImageKit/ImageKit.h>
 
 @interface OEGridCell : IKImageBrowserCell
-
+- (NSRect)ratingFrame;
 @end
