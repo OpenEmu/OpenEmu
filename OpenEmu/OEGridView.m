@@ -210,6 +210,7 @@
 
 - (void)setDropIndex:(NSInteger)index dropOperation:(IKImageBrowserDropOperation)operation
 {
+    if(operation != IKImageBrowserDropOn) index = -1;
     [super setDropIndex:index dropOperation:operation];
     _draggingOperation = operation;
 }
