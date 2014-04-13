@@ -76,6 +76,18 @@ __strong static OEThemeImage *selectorRingImage = nil;
     return frame;
 }
 
+- (NSRect)ratingFrame
+{
+    NSRect frame;
+
+    frame.size.width  = OEGridCellSubtitleWidth;
+    frame.size.height = OEGridCellSubtitleHeight;
+    frame.origin.x = NSMidX([self frame])-OEGridCellSubtitleWidth/2.0;
+    frame.origin.y = self.frame.origin.y + 10.0;
+
+    return frame;
+}
+
 - (NSRect)selectionFrame
 {
     return [self imageFrame];
@@ -122,14 +134,12 @@ __strong static OEThemeImage *selectorRingImage = nil;
 	NSRect frame = NSIntegralRect([self frame]);
 	NSRect imageFrame = NSIntegralRect([self imageFrame]);
     NSRect titleFrame = NSIntegralRect([self titleFrame]);
+    NSRect ratingFrame = [self ratingFrame];
 	NSRect relativeImageFrame = NSMakeRect(imageFrame.origin.x - frame.origin.x, imageFrame.origin.y - frame.origin.y, imageFrame.size.width, imageFrame.size.height);
     NSRect relativeContainerFrame = NSMakeRect(imageContainer.origin.x - frame.origin.x, imageContainer.origin.y - frame.origin.y, imageContainer.size.width, imageContainer.size.height);
     NSRect relativeTitleFrame = NSMakeRect(titleFrame.origin.x - frame.origin.x, titleFrame.origin.y - frame.origin.y, titleFrame.size.width, titleFrame.size.height);
 
-    // TODO: calculate real rating frame
-    NSRect ratingFrame = relativeTitleFrame;
-    ratingFrame.origin.y -= NSHeight(titleFrame);
-    ratingFrame = NSInsetRect(ratingFrame, 50, -1);
+    NSRect relativeRatingFrame = NSMakeRect(ratingFrame.origin.x - frame.origin.x, ratingFrame.origin.y - frame.origin.y, ratingFrame.size.width, ratingFrame.size.height);
 
     const CGFloat scaleFactor = [[[[self imageBrowserView] window] screen] backingScaleFactor];
 
@@ -170,7 +180,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
         // Setup rating layer
         int rating = [[self representedItem] gridRating];
         CALayer *ratingLayer = [CALayer layer];
-        [ratingLayer setFrame:ratingFrame];
+        [ratingLayer setFrame:relativeRatingFrame];
         [ratingLayer setBorderWidth:1.0];
         [ratingLayer setBorderColor:[[NSColor blueColor] CGColor]];
         [ratingLayer setContentsGravity:kCAGravityCenter];

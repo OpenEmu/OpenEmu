@@ -30,13 +30,15 @@
 #import "OEGridCell.h"
 #import "OEGridViewFieldEditor.h"
 
+#import "OECoverGridForegroundLayer.h"
 #import "OEBackgroundNoisePattern.h"
 
 #import "OEMenu.h"
 
-
+// TODO: replace OEDBGame with OECoverGridDataSourceItem
 @interface OEGridView ()
 @property NSInteger editingIndex;
+@property NSInteger ratingTracking;
 @property OEGridViewFieldEditor *fieldEditor;
 @end
 
@@ -45,12 +47,18 @@
 - (void)awakeFromNib
 {
     _editingIndex = NSNotFound;
+    _ratingTracking = NSNotFound;
 
     [self setValue:[NSColor clearColor] forKey:IKImageBrowserBackgroundColorKey];
 
     [self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, NSPasteboardTypePNG, NSPasteboardTypeTIFF, nil]];
     [self setAllowsReordering:NO];
     [self setAllowsDroppingOnItems:YES];
+
+
+    OECoverGridForegroundLayer *foregroundLayer = [OECoverGridForegroundLayer layer];
+    [foregroundLayer setActions:@{}];
+    [self setForegroundLayer:foregroundLayer];
 
     // TODO: Replace magic numbers with constants
     // IKImageBrowserView adds 20 pixels vertically for the title
@@ -101,7 +109,21 @@
 {
 	return [[OEGridCell alloc] init];
 }
-
+#pragma mark -
+- (NSInteger)indexOfItemWithFrameAtPoint:(NSPoint)point
+{
+    __block NSInteger result = NSNotFound;
+    [[self visibleItemIndexes] enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        NSRect frame = [self itemFrameAtIndex:idx];
+        if(NSPointInRect(point, frame))
+        {
+            result = idx;
+            *stop = YES;
+        }
+    }];
+    return result;
+}
+#pragma mark -
 - (BOOL)acceptsFirstResponder
 {
     return YES;
@@ -123,12 +145,13 @@
 
     NSPoint mouseLocationInWindow = [theEvent locationInWindow];
     NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
-    NSInteger index = [self indexOfItemAtPoint:mouseLocationInView];
+    NSInteger index = [self indexOfItemWithFrameAtPoint:mouseLocationInView];
 
     if(index != NSNotFound)
     {
-        IKImageBrowserCell *clickedCell = [self cellForItemAtIndex:index];
-        NSRect titleRect = [clickedCell titleFrame];
+        OEGridCell *clickedCell = (OEGridCell*)[self cellForItemAtIndex:index];
+        NSRect titleRect  = [clickedCell titleFrame];
+        NSRect ratingRect = NSInsetRect([clickedCell ratingFrame], -5, -1);
 
         // see if user double clicked on title layer
         if([theEvent clickCount] >= 2 && NSPointInRect(mouseLocationInView, titleRect))
@@ -136,9 +159,42 @@
             [self renameGameAtIndex:index];
             return;
         }
+        // Check for rating layer interaction
+        else if(NSPointInRect(mouseLocationInView, ratingRect))
+        {
+            _ratingTracking = index;
+            [self OE_updateRatingForItemAtIndex:index withLocation:mouseLocationInView inRect:ratingRect];
+            return;
+        }
     }
 
     [super mouseDown:theEvent];
+}
+
+- (void)mouseDragged:(NSEvent *)theEvent
+{
+    NSPoint mouseLocationInWindow = [theEvent locationInWindow];
+    NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
+
+    if(_ratingTracking != NSNotFound)
+    {
+        OEGridCell *clickedCell = (OEGridCell*)[self cellForItemAtIndex:_ratingTracking];
+        NSRect ratingRect = NSInsetRect([clickedCell ratingFrame], -5, -1);
+
+        if(NSPointInRect(mouseLocationInView, ratingRect))
+        {
+            [self OE_updateRatingForItemAtIndex:_ratingTracking withLocation:mouseLocationInView inRect:ratingRect];
+            return;
+        }
+    }
+
+    [super mouseDragged:theEvent];
+}
+
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    _ratingTracking = NSNotFound;
+    [super mouseUp:theEvent];
 }
 #pragma mark -
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
@@ -189,7 +245,24 @@
 
     return [super menuForEvent:theEvent];
 }
-#pragma mark -
+#pragma mark - Rating items
+- (void)OE_updateRatingForItemAtIndex:(NSInteger)index withLocation:(NSPoint)location inRect:(NSRect)rect
+{
+    CGFloat percent = (location.x - NSMinX(rect))/NSWidth(rect);
+    percent = MAX(MIN(percent, 1.0), 0.0);
+    [self setRating:roundf(5*percent) forGameAtIndex:index];
+}
+
+- (void)setRating:(NSInteger)rating forGameAtIndex:(NSInteger)index
+{
+    OEGridCell *selectedCell = (OEGridCell *)[self cellForItemAtIndex:index];
+    OEDBGame   *selectedGame = [selectedCell representedItem];
+
+    [selectedGame setRating:@(rating)];
+    // TODO: can we only reload one item?
+    [self reloadData];
+}
+#pragma mark - Renaming items
 - (void)renameSelectedGame:(id)sender
 {
     if([[self selectionIndexes] count] != 1)
