@@ -9,6 +9,8 @@
 #import "OEGridCell.h"
 
 #import "OETheme.h"
+#import "NSImage+OEDrawingAdditions.h"
+#import "OECoverGridDataSourceItem.h"
 //#import "OEThemeImage.h"
 
 //NSString * const OECoverGridViewGlossDisabledKey = @"OECoverGridViewGlossDisabledKey";
@@ -86,7 +88,6 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
 - (CALayer *)layerForType:(NSString *)type
 {
-
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSLog(@"frame: %@", NSStringFromRect([self frame]));
@@ -95,40 +96,44 @@ __strong static OEThemeImage *selectorRingImage = nil;
         NSLog(@"title frame: %@", NSStringFromRect([self titleFrame]));
     });
 
+    if(type == IKImageBrowserCellBackgroundLayer)
+    {
+        CALayer *bgLayer = [CALayer layer];
+        bgLayer.borderColor = [[NSColor greenColor] CGColor];
+        bgLayer.borderWidth = 1.0;
+
+        return bgLayer;
+    }
+
+    NSRect bounds = {{0,0}, self.frame.size};
+
+    const NSRect imageContainer = NSInsetRect(bounds, 0, 0);
+    if(type == IKImageBrowserCellPlaceHolderLayer)
+    {
+        CALayer *placeHolderLayer = [CALayer layer];
+        placeHolderLayer.borderColor = [[NSColor redColor] CGColor];
+        placeHolderLayer.borderWidth = 1.0;
+
+        placeHolderLayer.frame = imageContainer;
+        return placeHolderLayer;
+    }
+
 	//retrieve some useful rects
 	NSRect frame = NSIntegralRect([self frame]);
 	NSRect imageFrame = NSIntegralRect([self imageFrame]);
-    NSRect imageContainer = NSIntegralRect([self imageContainerFrame]);
     NSRect titleFrame = NSIntegralRect([self titleFrame]);
 	NSRect relativeImageFrame = NSMakeRect(imageFrame.origin.x - frame.origin.x, imageFrame.origin.y - frame.origin.y, imageFrame.size.width, imageFrame.size.height);
     NSRect relativeContainerFrame = NSMakeRect(imageContainer.origin.x - frame.origin.x, imageContainer.origin.y - frame.origin.y, imageContainer.size.width, imageContainer.size.height);
     NSRect relativeTitleFrame = NSMakeRect(titleFrame.origin.x - frame.origin.x, titleFrame.origin.y - frame.origin.y, titleFrame.size.width, titleFrame.size.height);
 
-    /*
-    CALayer *layer = [CALayer layer];
-    [layer setFrame:frame];
-    [layer setBackgroundColor:CGColorCreateGenericRGB(1.0, 0.0, 0.0, 1.0)];
+    // TODO: calculate real rating frame
+    NSRect ratingFrame = relativeTitleFrame;
+    ratingFrame.origin.y -= NSHeight(titleFrame);
+    ratingFrame = NSInsetRect(ratingFrame, 50, -1);
 
-    CALayer *imageContainerLayer = [CALayer layer];
-    [imageContainerLayer setFrame:relativeContainerFrame];
-    [imageContainerLayer setBackgroundColor:CGColorCreateGenericRGB(0.0, 1.0, 0.0, 1.0)];
+    const CGFloat scaleFactor = [[[[self imageBrowserView] window] screen] backingScaleFactor];
 
-    CALayer *imageLayer = [CALayer layer];
-    [imageLayer setFrame:relativeImageFrame];
-    [imageLayer setBackgroundColor:CGColorCreateGenericRGB(0.0, 0.0, 1.0, 1.0)];
-
-    CALayer *titleLayer = [CALayer layer];
-    [titleLayer setFrame:relativeTitleFrame];
-    [titleLayer setBackgroundColor:CGColorCreateGenericRGB(0.0, 0.0, 0.0, 1.0)];
-
-    [layer addSublayer:imageContainerLayer];
-    [layer addSublayer:imageLayer];
-    [layer addSublayer:titleLayer];
-
-    return layer;
-     */
-    ///*
-	// place holder layer
+    // place holder layer
 	if(type == IKImageBrowserCellPlaceHolderLayer)
     {
         CALayer *layer = [CALayer layer];
@@ -150,13 +155,28 @@ __strong static OEThemeImage *selectorRingImage = nil;
     // foreground layer
 	if(type == IKImageBrowserCellForegroundLayer)
     {
-		//no foreground layer on place holders
-		if([self cellState] != IKImageStateReady)
-			return nil;
-
-		//create a foreground layer that will contain several childs layer
+		// create a foreground layer that will contain several childs layer (gloss, selection, rating)
 		CALayer *layer = [CALayer layer];
 		layer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+
+        if([self cellState] == IKImageStateNoImage)
+        {
+            CALayer *missingArtworkLayer = [CALayer layer];
+            [missingArtworkLayer setFrame:relativeContainerFrame];
+            [missingArtworkLayer setContents:[self OE_missingArtworkImageWithSize:imageContainer.size]];
+            [layer addSublayer:missingArtworkLayer];
+        }
+
+        // Setup rating layer
+        int rating = [[self representedItem] gridRating];
+        CALayer *ratingLayer = [CALayer layer];
+        [ratingLayer setFrame:ratingFrame];
+        [ratingLayer setBorderWidth:1.0];
+        [ratingLayer setBorderColor:[[NSColor blueColor] CGColor]];
+        [ratingLayer setContentsGravity:kCAGravityCenter];
+        [ratingLayer setContents:[self OE_ratingImageForRating:rating]];
+        [ratingLayer setContentsScale:scaleFactor];
+        [layer addSublayer:ratingLayer];
 
 		//add a glossy overlay
 		CALayer *glossyLayer = [CALayer layer];
@@ -205,7 +225,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
     // background layer
 	if(type == IKImageBrowserCellBackgroundLayer)
     {
-        if([self cellState] != IKImageStateReady)
+        if([self cellState] == IKImageStateNoImage)
 			return nil;
         
 		CALayer *layer = [CALayer layer];
@@ -414,4 +434,28 @@ __strong static OEThemeImage *selectorRingImage = nil;
     return selectionImage;
 }
 
+- (NSImage*)OE_ratingImageForRating:(NSInteger)rating
+{
+    const  int MaxRating = 6;
+    NSAssert(rating >= 0 && rating < MaxRating, @"Rating out of bounds!");
+    static NSImage *ratings[MaxRating];
+
+    if(ratings[rating] == nil)
+    {
+        ratings[rating] = [self OE_newRatingImageForRating:rating];
+    }
+
+    return ratings[rating];
+}
+
+- (NSImage*)OE_newRatingImageForRating:(NSInteger)rating
+{
+    const NSUInteger OECoverGridViewCellRatingViewNumberOfRatings = 6;
+    const NSImage *ratingImage    = [NSImage imageNamed:@"grid_rating"];
+    const NSSize  ratingImageSize = [ratingImage size];
+    const CGFloat ratingStarHeight      = ratingImageSize.height / OECoverGridViewCellRatingViewNumberOfRatings;
+    const NSRect  ratingImageSourceRect = NSMakeRect(0.0, ratingImageSize.height - ratingStarHeight * (rating + 1.0), ratingImageSize.width, ratingStarHeight);
+
+    return [ratingImage subImageFromRect:ratingImageSourceRect];
+}
 @end
