@@ -115,7 +115,31 @@
 {
     return YES;
 }
+#pragma mark -
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    [self OE_cancelFieldEditor];
 
+    NSPoint mouseLocationInWindow = [theEvent locationInWindow];
+    NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
+    NSInteger index = [self indexOfItemAtPoint:mouseLocationInView];
+
+    if(index != NSNotFound)
+    {
+        IKImageBrowserCell *clickedCell = [self cellForItemAtIndex:index];
+        NSRect titleRect = [clickedCell titleFrame];
+
+        // see if user double clicked on title layer
+        if([theEvent clickCount] >= 2 && NSPointInRect(mouseLocationInView, titleRect))
+        {
+            [self renameGameAtIndex:index];
+            return;
+        }
+    }
+
+    [super mouseDown:theEvent];
+}
+#pragma mark -
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
     [[self window] makeFirstResponder:self];
@@ -164,7 +188,7 @@
 
     return [super menuForEvent:theEvent];
 }
-
+#pragma mark -
 - (void)renameSelectedGame:(id)sender
 {
     if([[self selectionIndexes] count] != 1)
@@ -174,13 +198,22 @@
     }
 
     NSUInteger selectedIndex = [[self selectionIndexes] firstIndex];
+    [self renameGameAtIndex:selectedIndex];
+}
 
-    OEGridCell *selectedCell = (OEGridCell *)[self cellForItemAtIndex:selectedIndex];
+- (void)renameGameAtIndex:(NSInteger)index
+{
+    if(![[self fieldEditor] isHidden])
+        [self OE_cancelFieldEditor];
+
+    OEGridCell *selectedCell = (OEGridCell *)[self cellForItemAtIndex:index];
     if(!selectedCell) return;
     if(![selectedCell isKindOfClass:[OEGridCell class]]) return;
 
     [self OE_setupFieldEditorForCell:selectedCell];
 }
+
+#pragma mark -
 
 - (void)OE_setupFieldEditorForCell:(OEGridCell *)cell
 {
