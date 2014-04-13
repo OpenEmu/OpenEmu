@@ -33,7 +33,7 @@
 #import "OEButton.h"
 #import "OEPopUpButtonCell.h"
 #import "OEBackgroundNoisePattern.h"
-#import "OECoverGridForegroundLayer.h"
+#import "OEGridForegroundLayer.h"
 
 #import "NSColor+OEAdditions.h"
 
@@ -108,7 +108,7 @@
     [layer addSublayer:noiseLayer];
     
     // Setup foreground
-    OECoverGridForegroundLayer *foregroundLayer = [[OECoverGridForegroundLayer alloc] init];
+    OEGridForegroundLayer *foregroundLayer = [[OEGridForegroundLayer alloc] init];
     [layer addSublayer:foregroundLayer];
 
     // Setup drag indication layer

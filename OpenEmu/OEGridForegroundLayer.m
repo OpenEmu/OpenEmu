@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,11 +24,37 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEGridView.h"
+#import "OEGridForegroundLayer.h"
 
-@interface OEGridView (OEGridViewCell)
+@implementation OEGridForegroundLayer
 
-- (void)OE_willBeginEditingCell:(OEGridViewCell *)cell;
-- (void)OE_didEndEditingCell:(OEGridViewCell *)cell;
+- (id)init
+{
+    if((self = [super init]))
+    {
+        [self setNeedsDisplayOnBoundsChange:YES];
+        [self setMasksToBounds:NO];
+    }
+
+    return self;
+}
+
+- (void)drawInContext:(CGContextRef)ctx
+{
+    NSGraphicsContext *context = [NSGraphicsContext graphicsContextWithGraphicsPort:ctx flipped:NO];
+    [NSGraphicsContext saveGraphicsState];
+    [NSGraphicsContext setCurrentContext:context];
+
+    const NSRect visibleRect = [self bounds];
+
+    [[NSColor redColor] setFill];
+    NSRectFill(NSMakeRect(0, NSMaxY(visibleRect)-1, NSWidth(visibleRect), 10));
+
+    NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[[NSColor blackColor] colorWithAlphaComponent:0.4] endingColor:[NSColor clearColor]];
+    [gradient drawInRect:NSMakeRect(0.0, NSMinY(visibleRect), NSWidth(visibleRect), 8.0) angle:90.0];
+    [gradient drawInRect:NSMakeRect(0.0, NSMaxY(visibleRect) - 8.0, NSWidth(visibleRect), 8.0) angle:270.0];
+
+    [NSGraphicsContext restoreGraphicsState];
+}
 
 @end

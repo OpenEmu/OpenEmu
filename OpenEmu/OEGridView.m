@@ -30,11 +30,15 @@
 #import "OEGridCell.h"
 #import "OEGridViewFieldEditor.h"
 
-#import "OECoverGridForegroundLayer.h"
+#import "OEGridForegroundLayer.h"
 #import "OEBackgroundNoisePattern.h"
 
 #import "OEMenu.h"
 
+@interface IKImageBrowserView (ApplePrivate)
+- (void)drawLayer:(id)arg1 inRect:(struct CGRect)arg2 performUpdateRect:(BOOL)arg3;
+- (void)_drawCALayer:(id)arg1 forceUpdateRect:(BOOL)arg2;
+@end
 // TODO: replace OEDBGame with OECoverGridDataSourceItem
 @interface OEGridView ()
 @property NSInteger editingIndex;
@@ -55,46 +59,30 @@
     [self setAllowsReordering:NO];
     [self setAllowsDroppingOnItems:YES];
 
-    OECoverGridForegroundLayer *foregroundLayer = [OECoverGridForegroundLayer layer];
-    [foregroundLayer setActions:@{}];
-    [self setForegroundLayer:foregroundLayer];
-
     // TODO: Replace magic numbers with constants
     // IKImageBrowserView adds 20 pixels vertically for the title
     // TODO: Explain subtraction
     [self setCellsStyleMask:IKCellsStyleNone];
 
+    [self setForegroundLayer:[[OEGridForegroundLayer alloc] init]];
+
     //[self setAnimates:YES];
-
-    // Set Fonts
-    NSMutableParagraphStyle *paraphStyle = [[NSMutableParagraphStyle alloc] init];
-	[paraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-	[paraphStyle setAlignment:NSCenterTextAlignment];
-
-    NSFont *titleFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:12];
-
-    NSShadow *shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor blackColor]];
-    [shadow setShadowBlurRadius:1.0];
-    [shadow setShadowOffset:NSMakeSize(0.0, -1.0)];
-
-	NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-	[attributes setObject:titleFont forKey:NSFontAttributeName];
-	[attributes setObject:paraphStyle forKey:NSParagraphStyleAttributeName];
-	[attributes setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
-    [attributes setObject:shadow forKey:NSShadowAttributeName];
-    
-	[self setValue:attributes forKey:IKImageBrowserCellsTitleAttributesKey];
-    [self setValue:attributes forKey:IKImageBrowserCellsHighlightedTitleAttributesKey];
 
     _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
     [self addSubview:_fieldEditor];
 }
 
-- (void)viewBoundsChanged:(NSNotification *)aNotification
+- (void)_drawCALayer:(id)arg1 forceUpdateRect:(BOOL)arg2
 {
-    DLog();
-    [[[self subviews] objectAtIndex:0] setFrame:[self visibleRect]];
+    if(arg1 == self.foregroundLayer)
+    {
+        NSRect rect = [[self enclosingScrollView] documentVisibleRect];
+        NSRect frame = rect;
+        if(rect.origin.y > 0)
+            frame.origin.y -= rect.origin.y;
+        [arg1 setFrame:frame];
+        [self drawLayer:arg1 inRect:frame performUpdateRect:arg2];
+    } else [super _drawCALayer:arg1 forceUpdateRect:arg2];
 }
 #pragma mark - Cells
 - (void)setCellSize:(NSSize)size
@@ -125,7 +113,7 @@
     }];
     return result;
 }
-#pragma mark -
+#pragma mark - Managing Responder
 - (BOOL)acceptsFirstResponder
 {
     return YES;
@@ -140,7 +128,7 @@
 {
     return YES;
 }
-#pragma mark -
+#pragma mark - Mouse Interaction
 - (void)mouseDown:(NSEvent *)theEvent
 {
     [self OE_cancelFieldEditor];

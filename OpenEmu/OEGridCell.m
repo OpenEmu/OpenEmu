@@ -56,7 +56,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
     NSRect frame = [super imageContainerFrame];
 
     frame.origin.x += OEGridCellImageContainerLeft;
-    frame.origin.y = self.frame.origin.y + OEGridCellImageContainerBottom;
+    frame.origin.y = [self frame].origin.y + OEGridCellImageContainerBottom;
     frame.size.width -= OEGridCellImageContainerLeft + OEGridCellImageContainerRight;
     frame.size.height -= OEGridCellImageContainerTop + OEGridCellImageContainerBottom;
 
@@ -67,10 +67,10 @@ __strong static OEThemeImage *selectorRingImage = nil;
 {
     NSRect frame;
 
-    frame.size.width = self.frame.size.width;
+    frame.size.width = [self frame].size.width;
     frame.size.height = OEGridCellTitleHeight;
-    frame.origin.x = self.frame.origin.x;
-    frame.origin.y = self.frame.origin.y + OEGridCellSubtitleHeight;
+    frame.origin.x = [self frame].origin.x;
+    frame.origin.y = [self frame].origin.y + OEGridCellSubtitleHeight;
 
     return frame;
 }
@@ -82,7 +82,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
     frame.size.width  = OEGridCellSubtitleWidth;
     frame.size.height = OEGridCellSubtitleHeight;
     frame.origin.x = NSMidX([self frame])-OEGridCellSubtitleWidth/2.0;
-    frame.origin.y = self.frame.origin.y;
+    frame.origin.y = [self frame].origin.y;
 
     return frame;
 }
@@ -103,7 +103,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
     const IKImageBrowserCellState state = [self cellState];
 
 	// retrieve some useful rects
-    const NSRect bounds = {{0,0}, self.frame.size};
+    const NSRect bounds = {{0,0}, [self frame].size};
     const NSRect imageContainer = NSInsetRect(bounds, 0, 0);
 	const NSRect frame = NSIntegralRect([self frame]);
 	const NSRect imageFrame = NSIntegralRect([self imageFrame]);
@@ -121,10 +121,10 @@ __strong static OEThemeImage *selectorRingImage = nil;
         CGColorRef color;
 
 		CALayer *layer = [CALayer layer];
-		layer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+		[layer setFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
 
 		CALayer *placeHolderLayer = [CALayer layer];
-		placeHolderLayer.frame    = relativeImageFrame;
+		[placeHolderLayer setFrame:relativeImageFrame];
 
 		const CGFloat fillComponents[4] = {1.0, 1.0, 1.0, 0.08};
 		const CGFloat strokeComponents[4] = {1.0, 1.0, 1.0, 0.1};
@@ -157,21 +157,28 @@ __strong static OEThemeImage *selectorRingImage = nil;
         [layer setFrame:bounds];
 
         // Setup title layer
+        NSFont *titleFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:12];
         NSString *imageTitle     = [[self representedItem] imageTitle];
-        NSDictionary *attribtues = [[self imageBrowserView] valueForKey:IKImageBrowserCellsTitleAttributesKey];
-        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:imageTitle attributes:attribtues];
         CATextLayer *textLayer = [CATextLayer layer];
 
-        [textLayer setFrame:relativeTitleFrame];
         [textLayer setAlignmentMode:kCAAlignmentCenter];
         [textLayer setTruncationMode:kCATruncationEnd];
-        [textLayer setString:attributedTitle];
+        [textLayer setString:imageTitle];
         [textLayer setContentsScale:scaleFactor];
+        [textLayer setForegroundColor:[[NSColor whiteColor] CGColor]];
+        textLayer.font = (__bridge CTFontRef)titleFont;
+        [textLayer setFontSize:12.0];
 
+        [textLayer setShadowColor:[[NSColor blackColor] CGColor]];
+        [textLayer setShadowOffset:CGSizeMake(0.0, -1.0)];
+        [textLayer setShadowRadius:1.0];
+        [textLayer setShadowOpacity:1.0];
+
+        [textLayer setFrame:relativeTitleFrame];
         [layer addSublayer:textLayer];
 
         // Setup rating layer
-        NSUInteger rating = [(id<OECoverGridDataSourceItem>)[self representedItem] gridRating];
+        NSUInteger    rating = [(id<OECoverGridDataSourceItem>)[self representedItem] gridRating];
         NSImage *ratingImage = [self OE_ratingImageForRating:rating];
         CALayer *ratingLayer = [CALayer layer];
 
@@ -208,7 +215,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
         BOOL isWindowActive = [[[self imageBrowserView] window] isKeyWindow];
 
-        if(! CGRectEqualToRect(_selectionLayer.frame, CGRectInset(relativeImageFrame, -6.0, -6.0)) || [[_selectionLayer valueForKey:@"isWindowActive"] boolValue] != isWindowActive)
+        if(! CGRectEqualToRect([_selectionLayer frame], CGRectInset(relativeImageFrame, -6.0, -6.0)) || [[_selectionLayer valueForKey:@"isWindowActive"] boolValue] != isWindowActive)
             _selectionLayer = nil;
 
         if([self isSelected] && !_selectionLayer)
@@ -216,7 +223,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
             CGRect selectionFrame = CGRectInset(relativeImageFrame, -6.0, -6.0);
             CALayer *selectionLayer = [CALayer layer];
             [selectionLayer setFrame:selectionFrame];
-            [selectionLayer setEdgeAntialiasingMask:0];
+            [selectionLayer setEdgeAntialiasingMask:NSViewWidthSizable|NSViewMaxYMargin];
 
             NSImage *selectorImage = [self OE_selectorImageWithSize:selectionFrame.size];
             [selectionLayer setContents:selectorImage];
@@ -243,10 +250,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
 	if(type == IKImageBrowserCellBackgroundLayer)
     {
 		CALayer *layer = [CALayer layer];
-        layer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-
-        CALayer *shadowLayer = [CALayer layer];
-        [shadowLayer setFrame:relativeImageFrame];
+        [layer setFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
 
         // add shadow if image is loaded
         if(state == IKImageStateReady)

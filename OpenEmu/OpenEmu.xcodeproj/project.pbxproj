@@ -161,7 +161,7 @@
 		53439AA313B92C9D005C0CC8 /* OEDBSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AA113B92C9D005C0CC8 /* OEDBSystem.m */; };
 		53439AA613B92CC7005C0CC8 /* OELibraryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AA513B92CC7005C0CC8 /* OELibraryController.m */; };
 		53439AAB13B92CE6005C0CC8 /* OECollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */; };
-		53439AD713B92E23005C0CC8 /* OECoverGridForegroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AD513B92E23005C0CC8 /* OECoverGridForegroundLayer.m */; };
+		53439AD713B92E23005C0CC8 /* OEGridForegroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AD513B92E23005C0CC8 /* OEGridForegroundLayer.m */; };
 		53439AE313B92E59005C0CC8 /* OERatingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439ADA13B92E59005C0CC8 /* OERatingCell.m */; };
 		53439AE413B92E59005C0CC8 /* OETableCornerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439ADC13B92E59005C0CC8 /* OETableCornerView.m */; };
 		53439AE513B92E59005C0CC8 /* OETableHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439ADE13B92E59005C0CC8 /* OETableHeaderCell.m */; };
@@ -477,7 +477,6 @@
 		83F4DE2314E00FF100A82E36 /* controller_ngp_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2114E00F8800A82E36 /* controller_ngp_mask.png */; };
 		83F4DE2614E0131800A82E36 /* controller_gb_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */; };
 		83F4DE2914E0169900A82E36 /* controller_genesis_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */; };
-		83F688C013C6433600AA0F83 /* OEGridScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F688BF13C6433600AA0F83 /* OEGridScrollView.m */; };
 		83F7DBAF18C0E2470029199C /* OEFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DBAE18C0E2470029199C /* OEFileManager.m */; };
 		83F7EADA171D911400D32E26 /* OESearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7EAD9171D911400D32E26 /* OESearchField.m */; };
 		83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711813136368330034379A /* AppKit.framework */; };
@@ -1636,8 +1635,8 @@
 		53439AAA13B92CE5005C0CC8 /* OECollectionViewItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OECollectionViewItemProtocol.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		53439AAF13B92D1A005C0CC8 /* OECoverFlowDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoverFlowDataSourceItem.h; sourceTree = "<group>"; };
 		53439AB113B92DA3005C0CC8 /* OECoverGridDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoverGridDataSourceItem.h; sourceTree = "<group>"; };
-		53439AD413B92E23005C0CC8 /* OECoverGridForegroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoverGridForegroundLayer.h; sourceTree = "<group>"; };
-		53439AD513B92E23005C0CC8 /* OECoverGridForegroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoverGridForegroundLayer.m; sourceTree = "<group>"; };
+		53439AD413B92E23005C0CC8 /* OEGridForegroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridForegroundLayer.h; sourceTree = "<group>"; };
+		53439AD513B92E23005C0CC8 /* OEGridForegroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridForegroundLayer.m; sourceTree = "<group>"; };
 		53439AD813B92E59005C0CC8 /* OEListViewDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEListViewDataSourceItem.h; sourceTree = "<group>"; };
 		53439AD913B92E59005C0CC8 /* OERatingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERatingCell.h; sourceTree = "<group>"; };
 		53439ADA13B92E59005C0CC8 /* OERatingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERatingCell.m; sourceTree = "<group>"; };
@@ -2101,8 +2100,6 @@
 		83F4DE2114E00F8800A82E36 /* controller_ngp_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_ngp_mask.png; sourceTree = "<group>"; };
 		83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gb_mask.png; sourceTree = "<group>"; };
 		83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis_mask.png; sourceTree = "<group>"; };
-		83F688BE13C6433600AA0F83 /* OEGridScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridScrollView.h; sourceTree = "<group>"; };
-		83F688BF13C6433600AA0F83 /* OEGridScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridScrollView.m; sourceTree = "<group>"; };
 		83F7DBAD18C0E2470029199C /* OEFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFileManager.h; sourceTree = "<group>"; };
 		83F7DBAE18C0E2470029199C /* OEFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFileManager.m; sourceTree = "<group>"; };
 		83F7EAD8171D911400D32E26 /* OESearchField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESearchField.h; sourceTree = "<group>"; };
@@ -2793,7 +2790,6 @@
 		EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+OEAdditions.m"; sourceTree = "<group>"; };
 		EFBD5D7B14EFE26300FBD1E0 /* OEGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridView.h; sourceTree = "<group>"; };
 		EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridView.m; sourceTree = "<group>"; };
-		EFBD5D7D14EFE26300FBD1E0 /* OEGridView+OEGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEGridView+OEGridViewCell.h"; sourceTree = "<group>"; };
 		EFBD5D8414EFE27E00FBD1E0 /* OEGridViewLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridViewLayoutManager.h; sourceTree = "<group>"; };
 		EFBD5D8514EFE27E00FBD1E0 /* OEGridViewLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewLayoutManager.m; sourceTree = "<group>"; };
 		FEB66250187B62CA00D14713 /* OEMSXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemController.h; sourceTree = "<group>"; };
@@ -3754,50 +3750,18 @@
 		53439AAE13B92CFE005C0CC8 /* Grid View */ = {
 			isa = PBXGroup;
 			children = (
+				8369C1E618FB32F400620219 /* Decoration Layers */,
 				53439AB113B92DA3005C0CC8 /* OECoverGridDataSourceItem.h */,
-				EFBD5D7B14EFE26300FBD1E0 /* OEGridView.h */,
-				EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */,
-				EFBD5D7D14EFE26300FBD1E0 /* OEGridView+OEGridViewCell.h */,
-				EFBD5D8414EFE27E00FBD1E0 /* OEGridViewLayoutManager.h */,
-				EFBD5D8514EFE27E00FBD1E0 /* OEGridViewLayoutManager.m */,
-				53439AB413B92DBC005C0CC8 /* Item Layer */,
-				53439ABB13B92DDB005C0CC8 /* Item Sublayers */,
-				53439AD113B92E10005C0CC8 /* Fore- /BackgroundLayers */,
-				83F688BE13C6433600AA0F83 /* OEGridScrollView.h */,
-				83F688BF13C6433600AA0F83 /* OEGridScrollView.m */,
-				53439B0513B92EEC005C0CC8 /* OEGridViewFieldEditor.h */,
-				53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */,
-				83955CB6165DA9B100572B34 /* OEBackgroundNoisePattern.h */,
-				83955CB7165DA9BC00572B34 /* OEBackgroundNoisePattern.m */,
-				8CBD3A9917D21BB70022399B /* OEGridBackgroundLayer.h */,
-				8CBD3A9A17D21BB70022399B /* OEGridBackgroundLayer.m */,
 				8CBD3AA017D23AA80022399B /* OEGridCell.h */,
 				8CBD3AA117D23AA80022399B /* OEGridCell.m */,
+				EFBD5D7B14EFE26300FBD1E0 /* OEGridView.h */,
+				EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */,
+				53439B0513B92EEC005C0CC8 /* OEGridViewFieldEditor.h */,
+				53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */,
+				EFBD5D8414EFE27E00FBD1E0 /* OEGridViewLayoutManager.h */,
+				EFBD5D8514EFE27E00FBD1E0 /* OEGridViewLayoutManager.m */,
 			);
 			name = "Grid View";
-			sourceTree = "<group>";
-		};
-		53439AB413B92DBC005C0CC8 /* Item Layer */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Item Layer";
-			sourceTree = "<group>";
-		};
-		53439ABB13B92DDB005C0CC8 /* Item Sublayers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Item Sublayers";
-			sourceTree = "<group>";
-		};
-		53439AD113B92E10005C0CC8 /* Fore- /BackgroundLayers */ = {
-			isa = PBXGroup;
-			children = (
-				53439AD413B92E23005C0CC8 /* OECoverGridForegroundLayer.h */,
-				53439AD513B92E23005C0CC8 /* OECoverGridForegroundLayer.m */,
-			);
-			name = "Fore- /BackgroundLayers";
 			sourceTree = "<group>";
 		};
 		53439AE813B92E72005C0CC8 /* Controls */ = {
@@ -4472,6 +4436,19 @@
 				835F3F3F1683534700C74B97 /* OEToolTipManager.m */,
 			);
 			name = ToolTip;
+			sourceTree = "<group>";
+		};
+		8369C1E618FB32F400620219 /* Decoration Layers */ = {
+			isa = PBXGroup;
+			children = (
+				83955CB6165DA9B100572B34 /* OEBackgroundNoisePattern.h */,
+				83955CB7165DA9BC00572B34 /* OEBackgroundNoisePattern.m */,
+				8CBD3A9917D21BB70022399B /* OEGridBackgroundLayer.h */,
+				8CBD3A9A17D21BB70022399B /* OEGridBackgroundLayer.m */,
+				53439AD413B92E23005C0CC8 /* OEGridForegroundLayer.h */,
+				53439AD513B92E23005C0CC8 /* OEGridForegroundLayer.m */,
+			);
+			name = "Decoration Layers";
 			sourceTree = "<group>";
 		};
 		836BC9541853811800B6AF26 /* GameInfo */ = {
@@ -7575,7 +7552,7 @@
 				53439AA313B92C9D005C0CC8 /* OEDBSystem.m in Sources */,
 				53439AA613B92CC7005C0CC8 /* OELibraryController.m in Sources */,
 				53439AAB13B92CE6005C0CC8 /* OECollectionViewController.m in Sources */,
-				53439AD713B92E23005C0CC8 /* OECoverGridForegroundLayer.m in Sources */,
+				53439AD713B92E23005C0CC8 /* OEGridForegroundLayer.m in Sources */,
 				53439AE313B92E59005C0CC8 /* OERatingCell.m in Sources */,
 				53439AE413B92E59005C0CC8 /* OETableCornerView.m in Sources */,
 				53439AE513B92E59005C0CC8 /* OETableHeaderCell.m in Sources */,
@@ -7616,7 +7593,6 @@
 				53439B9613B937F5005C0CC8 /* NSURL+OELibraryAdditions.m in Sources */,
 				C6289C32135B215B00EEE97C /* OESystemPlugin.m in Sources */,
 				8310447113BE419000B283B0 /* OEHorizontalSplitView.m in Sources */,
-				83F688C013C6433600AA0F83 /* OEGridScrollView.m in Sources */,
 				83199722142741790068C865 /* OEROMImporter.m in Sources */,
 				83507247142F6029005D9033 /* OEControllerImageView.m in Sources */,
 				1B47F105142F01E700EBC55B /* OESetupAssistant.m in Sources */,

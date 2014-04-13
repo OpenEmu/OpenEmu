@@ -33,15 +33,9 @@ typedef enum
 } ExtendedIKImageBrowserDropOperation;
 
 @interface OEGridView : IKImageBrowserView <NSTextFieldDelegate>
-{
-    NSRect lastVisibleRect;
-}
 @property (assign) IKImageBrowserDropOperation draggingOperation;
-
 @end
 
 @protocol OEGridViewMenuSource <NSObject>
-
 - (NSMenu *)gridView:(OEGridView*)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes;
-
 @end

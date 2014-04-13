@@ -33,7 +33,6 @@
 
 #import "OELibraryController.h"
 #import "OEROMImporter.h"
-#import "OECoverGridForegroundLayer.h"
 
 #import "OETableHeaderCell.h"
 #import "OEListViewDataSourceItem.h"
@@ -217,7 +216,8 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [noiseLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
     [noiseLayer setGeometryFlipped:YES];
     [noiseLayer setBackgroundColor:OEBackgroundNoiseColorRef];
-    
+
+
     [backgroundLayer addSublayer:noiseLayer];
     [gridViewBackground setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 
