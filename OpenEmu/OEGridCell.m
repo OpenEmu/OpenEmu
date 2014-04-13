@@ -100,31 +100,28 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
 - (CALayer *)layerForType:(NSString *)type
 {
-    NSRect bounds = {{0,0}, self.frame.size};
-
-    const NSRect imageContainer = NSInsetRect(bounds, 0, 0);
-	//retrieve some useful rects
-	NSRect frame = NSIntegralRect([self frame]);
-	NSRect imageFrame = NSIntegralRect([self imageFrame]);
-    NSRect titleFrame = NSIntegralRect([self titleFrame]);
-    NSRect ratingFrame = [self ratingFrame];
-	NSRect relativeImageFrame = NSMakeRect(imageFrame.origin.x - frame.origin.x, imageFrame.origin.y - frame.origin.y, imageFrame.size.width, imageFrame.size.height);
-    NSRect relativeContainerFrame = NSMakeRect(imageContainer.origin.x - frame.origin.x, imageContainer.origin.y - frame.origin.y, imageContainer.size.width, imageContainer.size.height);
-    NSRect relativeTitleFrame = NSMakeRect(titleFrame.origin.x - frame.origin.x, titleFrame.origin.y - frame.origin.y, titleFrame.size.width, titleFrame.size.height);
-
-    NSRect relativeRatingFrame = NSMakeRect(ratingFrame.origin.x - frame.origin.x, ratingFrame.origin.y - frame.origin.y, ratingFrame.size.width, ratingFrame.size.height);
-
+    const IKImageBrowserView *view = [self imageBrowserView];
     const CGFloat scaleFactor = [[[[self imageBrowserView] window] screen] backingScaleFactor];
     const IKImageBrowserCellState state = [self cellState];
 
-    if(state == IKImageStateInvalid)
-        DLog(@"whoooohooo");
+	// retrieve some useful rects
+    const NSRect bounds = {{0,0}, self.frame.size};
+    const NSRect imageContainer = NSInsetRect(bounds, 0, 0);
+	const NSRect frame = NSIntegralRect([self frame]);
+	const NSRect imageFrame = NSIntegralRect([self imageFrame]);
+    const NSRect titleFrame = NSIntegralRect([self titleFrame]);
+    const NSRect ratingFrame = NSIntegralRect([self ratingFrame]);
 
-    // place holder layer
+    // calculate relative rects
+	const NSRect relativeImageFrame = NSMakeRect(imageFrame.origin.x - frame.origin.x, imageFrame.origin.y - frame.origin.y, imageFrame.size.width, imageFrame.size.height);
+    const NSRect relativeContainerFrame = NSMakeRect(imageContainer.origin.x - frame.origin.x, imageContainer.origin.y - frame.origin.y, imageContainer.size.width, imageContainer.size.height);
+    const NSRect relativeTitleFrame = NSMakeRect(titleFrame.origin.x - frame.origin.x, titleFrame.origin.y - frame.origin.y, titleFrame.size.width, titleFrame.size.height);
+    const NSRect relativeRatingFrame = NSMakeRect(ratingFrame.origin.x - frame.origin.x, ratingFrame.origin.y - frame.origin.y, ratingFrame.size.width, ratingFrame.size.height);
+
+    // Create a placeholder layer
     if(type == IKImageBrowserCellPlaceHolderLayer){
         CGColorRef color;
 
-		//create a place holder layer
 		CALayer *layer = [CALayer layer];
 		layer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
 
@@ -154,43 +151,50 @@ __strong static OEThemeImage *selectorRingImage = nil;
 		return layer;
 	}
     
-
     // foreground layer
 	if(type == IKImageBrowserCellForegroundLayer)
     {
-		// create a foreground layer that will contain several childs layer (gloss, selection, rating)
+		// create a foreground layer that will contain several childs layer (gloss, selection, rating, title)
 		CALayer *layer = [CALayer layer];
-		layer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+        [layer setFrame:bounds];
 
         // Setup title layer
         NSString *imageTitle     = [[self representedItem] imageTitle];
         NSDictionary *attribtues = [[self imageBrowserView] valueForKey:IKImageBrowserCellsTitleAttributesKey];
         NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:imageTitle attributes:attribtues];
         CATextLayer *textLayer = [CATextLayer layer];
-        textLayer.frame = relativeTitleFrame;
-        textLayer.borderColor = [[NSColor orangeColor] CGColor];
-        textLayer.borderWidth = 1.0;
+
+        [textLayer setFrame:relativeTitleFrame];
         [textLayer setAlignmentMode:kCAAlignmentCenter];
-        textLayer.string = attributedTitle;
+        [textLayer setString:attributedTitle];
         [textLayer setContentsScale:scaleFactor];
+
         [layer addSublayer:textLayer];
 
         // Setup rating layer
         NSUInteger rating = [(id<OECoverGridDataSourceItem>)[self representedItem] gridRating];
+        NSImage *ratingImage = [self OE_ratingImageForRating:rating];
         CALayer *ratingLayer = [CALayer layer];
+
         [ratingLayer setFrame:relativeRatingFrame];
-        [ratingLayer setBorderWidth:1.0];
-        [ratingLayer setBorderColor:[[NSColor blueColor] CGColor]];
         [ratingLayer setContentsGravity:kCAGravityCenter];
-        [ratingLayer setContents:[self OE_ratingImageForRating:rating]];
+        [ratingLayer setContents:ratingImage];
         [ratingLayer setContentsScale:scaleFactor];
+
         [layer addSublayer:ratingLayer];
 
-		// add a glossy overlay
-		CALayer *glossyLayer = [CALayer layer];
-		glossyLayer.frame = NSInsetRect(relativeImageFrame, 0, 0);
-        [glossyLayer setContents:[self OE_glossImageWithSize:imageFrame.size]];
-		[layer addSublayer:glossyLayer];
+		// add a glossy overlay if image is loaded
+        if(state == IKImageStateReady)
+        {
+            NSImage *glossyImage = [self OE_glossImageWithSize:imageFrame.size];
+            CALayer *glossyLayer = [CALayer layer];
+
+            [glossyLayer setFrame:relativeImageFrame];
+            [glossyLayer setContents:glossyImage];
+
+            [layer addSublayer:glossyLayer];
+        }
+
         // the selection layer is cached else the CATransition initialization fires the layers to be redrawn which causes the CATransition to be initalized again: loop
         // TODO: Appropriately cache all layers
         
@@ -203,28 +207,32 @@ __strong static OEThemeImage *selectorRingImage = nil;
         {
             CGRect selectionFrame = CGRectInset(relativeImageFrame, -6.0, -6.0);
             CALayer *selectionLayer = [CALayer layer];
-            selectionLayer.frame = *(CGRect*) &selectionFrame;
-            selectionLayer.edgeAntialiasingMask = 0;
-            [selectionLayer setContents:[self OE_selectorImageWithSize:selectionFrame.size]];
+            [selectionLayer setFrame:selectionFrame];
+            [selectionLayer setEdgeAntialiasingMask:0];
+
+            NSImage *selectorImage = [self OE_selectorImageWithSize:selectionFrame.size];
+            [selectionLayer setContents:selectorImage];
             [layer addSublayer:selectionLayer];
 
             // TODO: fix animation
-            CATransition *transition = [[CATransition alloc] init];
-            [transition setType:kCATransitionFade];
-            [selectionLayer addAnimation:transition forKey:@"dealloc"];
-            
             _selectionLayer = selectionLayer;
-            [_selectionLayer setValue:[NSNumber numberWithBool:isWindowActive] forKey:@"isWindowActive"];
+            [_selectionLayer setValue:@(isWindowActive) forKey:@"isWindowActive"];
         }
         else if([self isSelected] && _selectionLayer)
             [layer addSublayer:_selectionLayer];
 
+        // add some borders for debugging
+        [textLayer setBorderColor:[[NSColor orangeColor] CGColor]];
+        [textLayer setBorderWidth:1.0];
+        [ratingLayer setBorderWidth:1.0];
+        [ratingLayer setBorderColor:[[NSColor blueColor] CGColor]];
+
 		return layer;
 	}
-     
+
+    // create a selection layer to prevent defaults
     if(type == IKImageBrowserCellSelectionLayer)
     {
-		//create a selection layer to prevent defaults
         CALayer *layer = [CALayer layer];
         return layer;
     }
@@ -256,6 +264,8 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
         return layer;
 	}
+
+    DLog(@"Unkown layer type: %@", type);
     return nil;
 }
 

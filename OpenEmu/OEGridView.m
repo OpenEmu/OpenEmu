@@ -183,11 +183,8 @@
         OEGridCell *clickedCell = (OEGridCell*)[self cellForItemAtIndex:_ratingTracking];
         NSRect ratingRect = NSInsetRect([clickedCell ratingFrame], -5, -1);
 
-        if(NSPointInRect(mouseLocationInView, ratingRect))
-        {
-            [self OE_updateRatingForItemAtIndex:_ratingTracking withLocation:mouseLocationInView inRect:ratingRect];
-            return;
-        }
+        [self OE_updateRatingForItemAtIndex:_ratingTracking withLocation:mouseLocationInView inRect:ratingRect];
+        return;
     }
 
     [super mouseDragged:theEvent];

@@ -105,16 +105,7 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 #pragma mark CoverFlowDataSourceItem
 - (NSString *)imageUID
 {
-    return [[[self boxImage] urlForSize:NSMakeSize(20, 20)] absoluteString] ?: @"";
-
-    // Create a new UUID
-    CFUUIDRef  uuidObj    = CFUUIDCreate(nil);
-    
-    // Get the string representation of the UUID
-    NSString  *uuidString = (__bridge_transfer NSString *)CFUUIDCreateString(nil, uuidObj);
-    CFRelease(uuidObj);
-    
-    return uuidString;
+    return [[[self boxImage] urlForSize:NSMakeSize(CGFLOAT_MAX, CGFLOAT_MAX)] absoluteString] ?: @"";
 }
 
 - (NSString *)imageRepresentationType
@@ -130,20 +121,7 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
     if([self boxImage])
         return [[self boxImage] urlForSize:(NSSize){CGFLOAT_MAX, CGFLOAT_MAX}];
     else
-        return [self OE_missingArtworkImageWithSize:NSMakeSize(100, 100*1.365385)];
-
-    return [self gridImage];
-    
-    NSManagedObject *boxImage = [self boxImage];
-    if(boxImage == nil) return nil;
-    
-    NSData *data = [boxImage valueForKey:@"data"];
-    
-    if(data != nil) return [[NSImage alloc] initWithData:data];
-    
-    //if([boxImage valueForKey:@"sourceURL"]) return nil;
-    
-    return nil;
+        return [self OE_missingArtworkImageWithSize:NSMakeSize(300, 300*1.365385)];
 }
 
 - (NSImage *)OE_missingArtworkImageWithSize:(NSSize)size
