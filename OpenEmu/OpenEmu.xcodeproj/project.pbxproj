@@ -1089,13 +1089,8 @@
 		EF2FDBEC14CFFE11002A64F2 /* OEControlsKeyLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8396CC5B140693830096F791 /* OEControlsKeyLabelCell.m */; };
 		EF2FDBED14CFFE1B002A64F2 /* OEControlsKeySeparatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D9991E146F40DA004409DC /* OEControlsKeySeparatorView.m */; };
 		EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		EFBD5D7E14EFE26300FBD1E0 /* OEGridLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D7A14EFE26300FBD1E0 /* OEGridLayer.m */; };
 		EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */; };
-		EFBD5D8314EFE27500FBD1E0 /* OEGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D8114EFE27500FBD1E0 /* OEGridViewCell.m */; };
 		EFBD5D8614EFE27F00FBD1E0 /* OEGridViewLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D8514EFE27E00FBD1E0 /* OEGridViewLayoutManager.m */; };
-		EFBD5D8B14EFE29500FBD1E0 /* OECoverGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D8814EFE29500FBD1E0 /* OECoverGridViewCell.m */; };
-		EFBD5D8C14EFE29500FBD1E0 /* OECoverGridViewCellRatingLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D8A14EFE29500FBD1E0 /* OECoverGridViewCellRatingLayer.m */; };
-		EFBD5D8F14F1398400FBD1E0 /* OECoverGridViewCellIndicationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D8E14F1398300FBD1E0 /* OECoverGridViewCellIndicationLayer.m */; };
 		FE6310A1187F099800D8AE07 /* MSX.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = FEB6625B187B791800D14713 /* MSX.oesystemplugin */; };
 		FEB66263187B791800D14713 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FEB66261187B791800D14713 /* InfoPlist.strings */; };
 		FEB66268187B792700D14713 /* OEMSXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB66251187B62CA00D14713 /* OEMSXSystemController.m */; };
@@ -2796,22 +2791,11 @@
 		EC73206717C66EC900652C23 /* neogeopocket_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "neogeopocket_library@2x.png"; sourceTree = "<group>"; };
 		EFBD5D7614EFE19A00FBD1E0 /* NSColor+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+OEAdditions.h"; sourceTree = "<group>"; };
 		EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+OEAdditions.m"; sourceTree = "<group>"; };
-		EFBD5D7914EFE26300FBD1E0 /* OEGridLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridLayer.h; sourceTree = "<group>"; };
-		EFBD5D7A14EFE26300FBD1E0 /* OEGridLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridLayer.m; sourceTree = "<group>"; };
 		EFBD5D7B14EFE26300FBD1E0 /* OEGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridView.h; sourceTree = "<group>"; };
 		EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridView.m; sourceTree = "<group>"; };
 		EFBD5D7D14EFE26300FBD1E0 /* OEGridView+OEGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEGridView+OEGridViewCell.h"; sourceTree = "<group>"; };
-		EFBD5D8014EFE27500FBD1E0 /* OEGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridViewCell.h; sourceTree = "<group>"; };
-		EFBD5D8114EFE27500FBD1E0 /* OEGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewCell.m; sourceTree = "<group>"; };
-		EFBD5D8214EFE27500FBD1E0 /* OEGridViewCell+OEGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OEGridViewCell+OEGridView.h"; sourceTree = "<group>"; };
 		EFBD5D8414EFE27E00FBD1E0 /* OEGridViewLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridViewLayoutManager.h; sourceTree = "<group>"; };
 		EFBD5D8514EFE27E00FBD1E0 /* OEGridViewLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewLayoutManager.m; sourceTree = "<group>"; };
-		EFBD5D8714EFE29500FBD1E0 /* OECoverGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoverGridViewCell.h; sourceTree = "<group>"; };
-		EFBD5D8814EFE29500FBD1E0 /* OECoverGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoverGridViewCell.m; sourceTree = "<group>"; };
-		EFBD5D8914EFE29500FBD1E0 /* OECoverGridViewCellRatingLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoverGridViewCellRatingLayer.h; sourceTree = "<group>"; };
-		EFBD5D8A14EFE29500FBD1E0 /* OECoverGridViewCellRatingLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoverGridViewCellRatingLayer.m; sourceTree = "<group>"; };
-		EFBD5D8D14F1398300FBD1E0 /* OECoverGridViewCellIndicationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoverGridViewCellIndicationLayer.h; sourceTree = "<group>"; };
-		EFBD5D8E14F1398300FBD1E0 /* OECoverGridViewCellIndicationLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoverGridViewCellIndicationLayer.m; sourceTree = "<group>"; };
 		FEB66250187B62CA00D14713 /* OEMSXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemController.h; sourceTree = "<group>"; };
 		FEB66251187B62CA00D14713 /* OEMSXSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMSXSystemController.m; sourceTree = "<group>"; };
 		FEB66253187B751700D14713 /* OEMSXSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemResponder.h; sourceTree = "<group>"; };
@@ -3771,8 +3755,6 @@
 			isa = PBXGroup;
 			children = (
 				53439AB113B92DA3005C0CC8 /* OECoverGridDataSourceItem.h */,
-				EFBD5D7914EFE26300FBD1E0 /* OEGridLayer.h */,
-				EFBD5D7A14EFE26300FBD1E0 /* OEGridLayer.m */,
 				EFBD5D7B14EFE26300FBD1E0 /* OEGridView.h */,
 				EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */,
 				EFBD5D7D14EFE26300FBD1E0 /* OEGridView+OEGridViewCell.h */,
@@ -3798,9 +3780,6 @@
 		53439AB413B92DBC005C0CC8 /* Item Layer */ = {
 			isa = PBXGroup;
 			children = (
-				EFBD5D8014EFE27500FBD1E0 /* OEGridViewCell.h */,
-				EFBD5D8114EFE27500FBD1E0 /* OEGridViewCell.m */,
-				EFBD5D8214EFE27500FBD1E0 /* OEGridViewCell+OEGridView.h */,
 			);
 			name = "Item Layer";
 			sourceTree = "<group>";
@@ -3808,12 +3787,6 @@
 		53439ABB13B92DDB005C0CC8 /* Item Sublayers */ = {
 			isa = PBXGroup;
 			children = (
-				EFBD5D8714EFE29500FBD1E0 /* OECoverGridViewCell.h */,
-				EFBD5D8814EFE29500FBD1E0 /* OECoverGridViewCell.m */,
-				EFBD5D8914EFE29500FBD1E0 /* OECoverGridViewCellRatingLayer.h */,
-				EFBD5D8A14EFE29500FBD1E0 /* OECoverGridViewCellRatingLayer.m */,
-				EFBD5D8D14F1398300FBD1E0 /* OECoverGridViewCellIndicationLayer.h */,
-				EFBD5D8E14F1398300FBD1E0 /* OECoverGridViewCellIndicationLayer.m */,
 			);
 			name = "Item Sublayers";
 			sourceTree = "<group>";
@@ -7677,13 +7650,8 @@
 				C6D6FA7E14E2264C0083C75D /* NSViewController+OEAdditions.m in Sources */,
 				83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */,
 				EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.m in Sources */,
-				EFBD5D7E14EFE26300FBD1E0 /* OEGridLayer.m in Sources */,
 				EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */,
-				EFBD5D8314EFE27500FBD1E0 /* OEGridViewCell.m in Sources */,
 				EFBD5D8614EFE27F00FBD1E0 /* OEGridViewLayoutManager.m in Sources */,
-				EFBD5D8B14EFE29500FBD1E0 /* OECoverGridViewCell.m in Sources */,
-				EFBD5D8C14EFE29500FBD1E0 /* OECoverGridViewCellRatingLayer.m in Sources */,
-				EFBD5D8F14F1398400FBD1E0 /* OECoverGridViewCellIndicationLayer.m in Sources */,
 				83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */,
 				83B72F5115024B1E0052BCA0 /* OEAppStoreWindow.m in Sources */,
 				836291FE1515F30700192116 /* OEFSWatcher.m in Sources */,

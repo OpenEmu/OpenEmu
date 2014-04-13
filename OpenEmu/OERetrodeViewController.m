@@ -25,13 +25,11 @@
  */
 
 #import "OERetrodeViewController.h"
-#import "OECoverGridViewCell.h"
 #import "OERetrode.h"
 @interface OERetrodeViewController ()
 @end
 
 @implementation OERetrodeViewController
-
 - (void)awakeFromNib
 {
     [[self gridView] setDataSource:self];
@@ -108,11 +106,11 @@
 {
     DLog();
 }
+/*
 
 #pragma mark - GridView DataSource -
 - (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
 {
-    /*
     OERetrode *retrode = [self representedObject];
     id game = [[retrode games] objectAtIndex:index];
     
@@ -127,7 +125,6 @@
     [item setTitle:[game objectForKey:@"gameTitle"]];
 
     return item;
-     */
     return nil;
 }
 
@@ -135,14 +132,13 @@
 {
     return [[[self representedObject] games] count];
 }
-/*
-- (void)gridView:(OEGridView *)gridView willBeginEditingCellForItemAtIndex:(NSUInteger)index;
+
+ - (void)gridView:(OEGridView *)gridView willBeginEditingCellForItemAtIndex:(NSUInteger)index;
 - (void)gridView:(OEGridView *)gridView didEndEditingCellForItemAtIndex:(NSUInteger)index;
 - (id<NSPasteboardWriting>)gridView:(OEGridView *)gridView pasteboardWriterForIndex:(NSInteger)index;
 - (NSMenu *)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet *)indexes;
-*/
+
 #pragma mark - GridView Delegate -
-/*
 - (void)selectionChangedInGridView:(OEGridView *)gridView;
 - (void)gridView:(OEGridView *)gridView doubleClickedCellForItemAtIndex:(NSUInteger)index;
 - (NSDragOperation)gridView:(OEGridView *)gridView validateDrop:(id<NSDraggingInfo>)sender;

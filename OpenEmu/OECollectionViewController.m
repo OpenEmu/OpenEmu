@@ -34,7 +34,6 @@
 #import "OELibraryController.h"
 #import "OEROMImporter.h"
 #import "OECoverGridForegroundLayer.h"
-#import "OECoverGridViewCell.h"
 
 #import "OETableHeaderCell.h"
 #import "OEListViewDataSourceItem.h"
@@ -207,7 +206,10 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     
     [backgroundLayer setContentsGravity:kCAGravityResize];
     [backgroundLayer setContents:[NSImage imageNamed:@"background_lighting"]];
-    [backgroundLayer setBackgroundColor:CGColorCreateGenericRGB(0.220, 0.10, 0.10, 1)];
+    CGColorRef colorRef = CGColorCreateGenericRGB(0.220, 0.10, 0.10, 1);
+    [backgroundLayer setBackgroundColor:colorRef];
+    CGColorRelease(colorRef);
+
     [gridViewBackground setWantsLayer:YES];
     [gridViewBackground setLayer:backgroundLayer];
     

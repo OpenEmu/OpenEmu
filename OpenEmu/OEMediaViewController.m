@@ -25,7 +25,6 @@
  */
 
 #import "OEMediaViewController.h"
-#import "OECoverGridViewCell.h"
 #import "OEBlankSlateView.h"
 
 @interface OEMediaViewController ()
@@ -95,6 +94,7 @@
 }
 
 #pragma mark - GridView DataSource -
+/*
 - (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
 {
     return nil;
@@ -105,5 +105,5 @@
     //return [[[self representedObject] games] count];
     return 0;
 }
-
+*/
 @end
