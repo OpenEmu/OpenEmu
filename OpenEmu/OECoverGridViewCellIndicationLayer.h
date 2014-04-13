@@ -24,17 +24,15 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEGridLayer.h"
-
 typedef enum
 {
     OECoverGridViewCellIndicationTypeNone,
-    OECoverGridViewCellIndicationTypeFileMissing,
     OECoverGridViewCellIndicationTypeProcessing,
+    OECoverGridViewCellIndicationTypeFileMissing,
     OECoverGridViewCellIndicationTypeDropOn,
 } OECoverGridViewCellIndicationType;
 
-@interface OECoverGridViewCellIndicationLayer : OEGridLayer
+@interface OECoverGridViewCellIndicationLayer : CALayer
 
 @property(nonatomic, assign) OECoverGridViewCellIndicationType type;
 

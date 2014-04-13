@@ -37,6 +37,7 @@
 - (NSString *)imageTitle;
 - (NSString *)imageSubtitle;
 
+- (NSInteger)gridStatus;
 - (NSUInteger)gridRating;
 - (void)setGridRating:(NSUInteger)newRating;
 @end

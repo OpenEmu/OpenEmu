@@ -11,6 +11,8 @@
 #import "OETheme.h"
 #import "NSImage+OEDrawingAdditions.h"
 #import "OECoverGridDataSourceItem.h"
+#import "OECoverGridViewCellIndicationLayer.h"
+
 //#import "OEThemeImage.h"
 
 //NSString * const OECoverGridViewGlossDisabledKey = @"OECoverGridViewGlossDisabledKey";
@@ -100,7 +102,6 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
 - (CALayer *)layerForType:(NSString *)type
 {
-    const IKImageBrowserView *view = [self imageBrowserView];
     const CGFloat scaleFactor = [[[[self imageBrowserView] window] screen] backingScaleFactor];
     const IKImageBrowserCellState state = [self cellState];
 
@@ -193,6 +194,13 @@ __strong static OEThemeImage *selectorRingImage = nil;
             [glossyLayer setContents:glossyImage];
 
             [layer addSublayer:glossyLayer];
+
+            NSInteger state = [(id <OECoverGridDataSourceItem>)[self representedItem] gridStatus];
+
+            OECoverGridViewCellIndicationLayer *indicationLayer = [OECoverGridViewCellIndicationLayer layer];
+            [indicationLayer setFrame:relativeImageFrame];
+            [indicationLayer setType:state];
+            [layer insertSublayer:indicationLayer below:glossyLayer];
         }
 
         // the selection layer is cached else the CATransition initialization fires the layers to be redrawn which causes the CATransition to be initalized again: loop

@@ -25,6 +25,7 @@
  */
 
 #import "OECoverGridViewCellIndicationLayer.h"
+#import <QuartzCore/QuartzCore.h>
 #import "NSColor+OEAdditions.h"
 
 #define M_TAU (M_PI * 2.0)
@@ -145,7 +146,8 @@
         NSUInteger      stepCount     = 12;
         NSMutableArray *spinnerValues = [[NSMutableArray alloc] initWithCapacity:stepCount];
 
-        for(NSUInteger step = 0; step < stepCount; step++) [spinnerValues addObject:[NSNumber numberWithDouble:M_TAU * step / 12.0]];
+        for(NSUInteger step = 0; step < stepCount; step++)
+            [spinnerValues addObject:@(M_TAU * step / 12.0)];
 
         animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
         [animation setCalculationMode:kCAAnimationDiscrete];

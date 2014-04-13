@@ -50,11 +50,6 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
     [self setDisplayName:str];
 }
 
-- (int)gridStatus
-{
-    return [[self status] intValue];
-}
-
 - (void)setGridRating:(NSUInteger)newRating
 {
     [self setRating:[NSNumber numberWithUnsignedInteger:newRating]];
@@ -162,6 +157,11 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 - (NSString *)imageSubtitle
 {
     return nil;
+}
+
+- (NSInteger)gridStatus
+{
+    return [[self status] integerValue];
 }
 
 - (NSUInteger)gameRating
