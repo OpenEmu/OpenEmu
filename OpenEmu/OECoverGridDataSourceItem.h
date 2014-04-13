@@ -26,6 +26,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OECoverGridViewCell.h"
+#import <ImageKit/ImageKit.h>
 
 // used for cover grid and cover flow
 @protocol OECoverGridDataSourceItem <NSObject>
@@ -36,4 +37,6 @@
 - (NSString *)imageTitle;
 - (NSString *)imageSubtitle;
 
+- (NSUInteger)gridRating;
+- (void)setGridRating:(NSUInteger)newRating;
 @end

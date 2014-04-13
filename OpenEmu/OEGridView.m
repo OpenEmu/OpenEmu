@@ -36,15 +36,16 @@
 
 
 @interface OEGridView ()
-
+@property NSInteger editingIndex;
 @property OEGridViewFieldEditor *fieldEditor;
-
 @end
 
 @implementation OEGridView
 
 - (void)awakeFromNib
 {
+    _editingIndex = NSNotFound;
+
     [self setValue:[NSColor clearColor] forKey:IKImageBrowserBackgroundColorKey];
 
     [self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, NSPasteboardTypePNG, NSPasteboardTypeTIFF, nil]];
@@ -210,13 +211,16 @@
     if(!selectedCell) return;
     if(![selectedCell isKindOfClass:[OEGridCell class]]) return;
 
-    [self OE_setupFieldEditorForCell:selectedCell];
+    [self OE_setupFieldEditorForCellAtIndex:index];
 }
 
 #pragma mark -
 
-- (void)OE_setupFieldEditorForCell:(OEGridCell *)cell
+- (void)OE_setupFieldEditorForCellAtIndex:(NSInteger)index
 {
+    OEGridCell *cell = (OEGridCell*)[self cellForItemAtIndex:index];
+    _editingIndex = index;
+
     NSRect fieldFrame = [cell titleFrame];
     fieldFrame        = NSOffsetRect(NSInsetRect(fieldFrame, 0.0, -1.0), 0.0, -1.0);
     [_fieldEditor setFrame:fieldFrame];
@@ -232,6 +236,8 @@
 
 - (void)OE_cancelFieldEditor
 {
+    _editingIndex   = NSNotFound;
+
     if([_fieldEditor isHidden]) return;
 
     //OEGridCell *delegate = [_fieldEditor delegate];
@@ -249,16 +255,14 @@
 }
 
 #pragma mark - NSControlSubclassNotifications
-
 - (void)controlTextDidEndEditing:(NSNotification *)obj
 {
     // The _fieldEditor finished editing, so let's save the game with the new name
     if ([[[obj object] superview] isKindOfClass:[OEGridViewFieldEditor class]])
     {
-        if([_fieldEditor isHidden]) return;
+        if(_editingIndex == NSNotFound) return;
 
-        NSUInteger selectedIndex = [[self selectionIndexes] firstIndex];
-        OEGridCell *selectedCell = (OEGridCell *)[self cellForItemAtIndex:selectedIndex];
+        OEGridCell *selectedCell = (OEGridCell *)[self cellForItemAtIndex:_editingIndex];
         OEDBGame   *selectedGame = [selectedCell representedItem];
         
         [selectedGame setDisplayName:[_fieldEditor string]];
