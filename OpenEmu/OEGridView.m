@@ -222,6 +222,8 @@
     // The _fieldEditor finished editing, so let's save the game with the new name
     if ([[[obj object] superview] isKindOfClass:[OEGridViewFieldEditor class]])
     {
+        if([_fieldEditor isHidden]) return;
+
         NSUInteger selectedIndex = [[self selectionIndexes] firstIndex];
         OEGridCell *selectedCell = (OEGridCell *)[self cellForItemAtIndex:selectedIndex];
         OEDBGame   *selectedGame = [selectedCell representedItem];
@@ -239,8 +241,11 @@
     if ([[control superview] isKindOfClass:[OEGridViewFieldEditor class]])
     {
         // User pressed the 'Esc' key, cancel the editing
-        if(commandSelector == @selector(complete:))
+        if(commandSelector == @selector(cancelOperation:))
+        {
             [self OE_cancelFieldEditor];
+            return YES;
+        }
     }
     
     return NO;
