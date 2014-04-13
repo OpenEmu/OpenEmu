@@ -61,10 +61,7 @@
 
     // TODO: Replace magic numbers with constants
     // IKImageBrowserView adds 20 pixels vertically for the title
-    //[self setCellSize:NSMakeSize(13 + 142 + 13, 7 + 142 + 16 + 17 + 11)];
-    [self setCellSize:NSMakeSize(142 + 26, 142)];
     // TODO: Explain subtraction
-    [self setIntercellSpacing:NSMakeSize(22, 29 - 20)];
     [self setCellsStyleMask:IKCellsStyleNone];
 
     //[self setAnimates:YES];
@@ -94,6 +91,11 @@
     [self addSubview:_fieldEditor];
 }
 
+- (void)viewBoundsChanged:(NSNotification *)aNotification
+{
+    DLog();
+    [[[self subviews] objectAtIndex:0] setFrame:[self visibleRect]];
+}
 #pragma mark - Cells
 - (void)setCellSize:(NSSize)size
 {

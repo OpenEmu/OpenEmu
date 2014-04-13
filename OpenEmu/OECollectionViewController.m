@@ -87,6 +87,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 static const int maxImagesToCache = 200;
 static NSArray *OE_defaultSortDescriptors;
 
+static const CGFloat defaultGridWidth = 143;
+static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 #pragma mark -
 
 @interface OECollectionViewController ()
@@ -194,7 +196,9 @@ static NSArray *OE_defaultSortDescriptors;
     [gridView setDelegate:self];
     [gridView setDataSource:self];
     [gridView setDraggingDestinationDelegate:self];
-    
+    [gridView setCellSize:defaultGridSize];
+    [gridView setIntercellSpacing:NSMakeSize(22, 29)];
+
     // Create GridView's background layer
     OEBackgroundNoisePatternCreate();
     
@@ -594,10 +598,8 @@ static NSArray *OE_defaultSortDescriptors;
 - (IBAction)changeGridSize:(id)sender
 {
     float zoomValue = [sender floatValue];
-    [gridView setCellSize:NSMakeSize(roundf(26+142*zoomValue), roundf(44+7+142*zoomValue))];
+    [gridView setCellSize:NSMakeSize(roundf(26+142*zoomValue), roundf(defaultGridWidth*zoomValue))];
 
-    [self setNeedsReloadVisible];
-    
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:zoomValue] forKey:OELastGridSizeKey];
 }
 
