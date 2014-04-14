@@ -32,10 +32,18 @@ __strong static OEThemeImage *selectorRingImage = nil;
 @property NSImage *glossImage;
 @property NSImage *selectorImage;
 @property CALayer *selectionLayer;
+
+@property CALayer     *foregroundLayer;
+@property CATextLayer *textLayer;
+@property CALayer     *ratingLayer;
+@property CALayer     *missingFileLayer;
+@property CALayer     *processingLayer;
+@property CALayer     *glossyLayer;
+@property CALayer     *backgroundLayer;
 @end
 
 @implementation OEGridCell
-
+static NSDictionary *disabledActions = nil;
 - (id)init
 {
     self = [super init];
@@ -46,9 +54,53 @@ __strong static OEThemeImage *selectorRingImage = nil;
         dispatch_once(&onceToken, ^{
             selectorRingImage = [[OETheme sharedTheme] themeImageForKey:@"selector_ring"];
         });
+
+        if(disabledActions == nil)
+            disabledActions = @{@"position":[NSNull null],@"bounds":[NSNull null], @"frame":[NSNull null], @"contents":[NSNull null]};
+
+        [self OE_setupLayers];
     }
 
     return self;
+}
+
+
+- (void)OE_setupLayers
+{
+    _foregroundLayer = [CALayer layer];
+    [_foregroundLayer setActions:disabledActions];
+
+    // setup title layer
+    NSFont *titleFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:12];
+    _textLayer = [CATextLayer layer];
+    [_textLayer setActions:disabledActions];
+
+    [_textLayer setAlignmentMode:kCAAlignmentCenter];
+    [_textLayer setTruncationMode:kCATruncationEnd];
+    [_textLayer setForegroundColor:[[NSColor whiteColor] CGColor]];
+    [_textLayer setFont:(__bridge CTFontRef)titleFont];
+    [_textLayer setFontSize:12.0];
+
+    [_textLayer setShadowColor:[[NSColor blackColor] CGColor]];
+    [_textLayer setShadowOffset:CGSizeMake(0.0, -1.0)];
+    [_textLayer setShadowRadius:1.0];
+    [_textLayer setShadowOpacity:1.0];
+    [_foregroundLayer addSublayer:_textLayer];
+
+    // setup rating layer
+    _ratingLayer = [CALayer layer];
+    [_ratingLayer setActions:disabledActions];
+    [_foregroundLayer addSublayer:_ratingLayer];
+
+    // setup gloss layer
+    _glossyLayer = [CALayer layer];
+    [_glossyLayer setActions:disabledActions];
+    [_foregroundLayer addSublayer:_glossyLayer];
+
+    // setup background layer
+    _backgroundLayer = [CALayer layer];
+    [_backgroundLayer setActions:disabledActions];
+    [_backgroundLayer setContentsGravity:kCAGravityResize];
 }
 
 - (NSRect)imageContainerFrame
@@ -99,6 +151,9 @@ __strong static OEThemeImage *selectorRingImage = nil;
 
 - (CALayer *)layerForType:(NSString *)type
 {
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+
     const CGFloat scaleFactor = [[[[self imageBrowserView] window] screen] backingScaleFactor];
     const IKImageBrowserCellState state = [self cellState];
 
@@ -121,10 +176,13 @@ __strong static OEThemeImage *selectorRingImage = nil;
         CGColorRef color;
 
 		CALayer *layer = [CALayer layer];
+        [layer setActions:disabledActions];
+
 		[layer setFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
 
 		CALayer *placeHolderLayer = [CALayer layer];
 		[placeHolderLayer setFrame:relativeImageFrame];
+        [placeHolderLayer setActions:disabledActions];
 
 		const CGFloat fillComponents[4] = {1.0, 1.0, 1.0, 0.08};
 		const CGFloat strokeComponents[4] = {1.0, 1.0, 1.0, 0.1};
@@ -140,12 +198,13 @@ __strong static OEThemeImage *selectorRingImage = nil;
 		[placeHolderLayer setBorderColor:color];
 		CFRelease(color);
 
-		[placeHolderLayer setBorderWidth:2.0];
+		[placeHolderLayer setBorderWidth:1.0];
 		[placeHolderLayer setCornerRadius:10];
 		CFRelease(colorSpace);
 
 		[layer addSublayer:placeHolderLayer];
 
+        [CATransaction commit];
 		return layer;
 	}
 
@@ -153,61 +212,71 @@ __strong static OEThemeImage *selectorRingImage = nil;
 	if(type == IKImageBrowserCellForegroundLayer)
     {
 		// create a foreground layer that will contain several childs layer (gloss, selection, rating, title)
-		CALayer *layer = [CALayer layer];
-        [layer setFrame:bounds];
+        [_foregroundLayer setFrame:bounds];
 
-        // Setup title layer
-        NSFont *titleFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:12];
-        NSString *imageTitle     = [[self representedItem] imageTitle];
-        CATextLayer *textLayer = [CATextLayer layer];
-
-        [textLayer setAlignmentMode:kCAAlignmentCenter];
-        [textLayer setTruncationMode:kCATruncationEnd];
-        [textLayer setString:imageTitle];
-        [textLayer setContentsScale:scaleFactor];
-        [textLayer setForegroundColor:[[NSColor whiteColor] CGColor]];
-        textLayer.font = (__bridge CTFontRef)titleFont;
-        [textLayer setFontSize:12.0];
-
-        [textLayer setShadowColor:[[NSColor blackColor] CGColor]];
-        [textLayer setShadowOffset:CGSizeMake(0.0, -1.0)];
-        [textLayer setShadowRadius:1.0];
-        [textLayer setShadowOpacity:1.0];
-
-        [textLayer setFrame:relativeTitleFrame];
-        [layer addSublayer:textLayer];
+        NSString *imageTitle = [[self representedItem] imageTitle];
+        [_textLayer setContentsScale:scaleFactor];
+        [_textLayer setFrame:relativeTitleFrame];
+        [_textLayer setString:imageTitle];
 
         // Setup rating layer
         NSUInteger    rating = [(id<OECoverGridDataSourceItem>)[self representedItem] gridRating];
         NSImage *ratingImage = [self OE_ratingImageForRating:rating];
-        CALayer *ratingLayer = [CALayer layer];
 
-        [ratingLayer setFrame:relativeRatingFrame];
-        [ratingLayer setContentsGravity:kCAGravityCenter];
-        [ratingLayer setContents:ratingImage];
-        [ratingLayer setContentsScale:scaleFactor];
-
-        [layer addSublayer:ratingLayer];
+        [_ratingLayer setContentsGravity:kCAGravityCenter];
+        [_ratingLayer setContentsScale:scaleFactor];
+        [_ratingLayer setFrame:relativeRatingFrame];
+        [_ratingLayer setContents:ratingImage];
 
 		// add a glossy overlay if image is loaded
         if(state == IKImageStateReady)
         {
             NSImage *glossyImage = [self OE_glossImageWithSize:imageFrame.size];
-            CALayer *glossyLayer = [CALayer layer];
-
-            [glossyLayer setFrame:relativeImageFrame];
-            [glossyLayer setContents:glossyImage];
-            [glossyLayer setContentsScale:scaleFactor];
-
-            [layer addSublayer:glossyLayer];
+            [_glossyLayer setContentsScale:scaleFactor];
+            [_glossyLayer setFrame:relativeImageFrame];
+            [_glossyLayer setContents:glossyImage];
+            [_glossyLayer setHidden:NO];
 
             NSInteger status = [(id <OECoverGridDataSourceItem>)[self representedItem] gridStatus];
 
-            CALayer *indicationLayer = [self OE_indicationLayerForStatus:status withRect:relativeImageFrame];
-            if(indicationLayer)
+            if(status == 1)
             {
-                [layer insertSublayer:indicationLayer below:glossyLayer];
+                [_missingFileLayer removeFromSuperlayer];
+                _missingFileLayer = nil;
+
+                if(_processingLayer == nil)
+                {
+                    _processingLayer = [self OE_romProcessingLayerWithRect:relativeImageFrame];
+                    [_foregroundLayer insertSublayer:_processingLayer below:_glossyLayer];
+                }
+
+                [self OE_layoutProcessingLayerWithFrame:relativeImageFrame];
             }
+            else if(status == 2)
+            {
+                [_processingLayer removeFromSuperlayer];
+                _processingLayer = nil;
+
+                if(_missingFileLayer == nil)
+                {
+                    _missingFileLayer = [self OE_missingRomLayerWithRect:relativeImageFrame];
+                    [_foregroundLayer insertSublayer:_missingFileLayer below:_glossyLayer];
+                }
+
+                [self OE_layoutMissingRomLayerWithFrame:relativeImageFrame];
+            }
+            else
+            {
+                [_missingFileLayer removeFromSuperlayer];
+                _missingFileLayer = nil;
+
+                [_processingLayer removeFromSuperlayer];
+                _processingLayer = nil;
+            }
+        }
+        else
+        {
+            [_glossyLayer setHidden:YES];
         }
 
         // the selection layer is cached else the CATransition initialization fires the layers to be redrawn which causes the CATransition to be initalized again: loop
@@ -216,131 +285,141 @@ __strong static OEThemeImage *selectorRingImage = nil;
         BOOL isWindowActive = [[[self imageBrowserView] window] isKeyWindow];
 
         if(! CGRectEqualToRect([_selectionLayer frame], CGRectInset(relativeImageFrame, -6.0, -6.0)) || [[_selectionLayer valueForKey:@"isWindowActive"] boolValue] != isWindowActive)
+        {
+            [_selectionLayer removeFromSuperlayer];
             _selectionLayer = nil;
+        }
 
         if([self isSelected] && !_selectionLayer)
         {
             CGRect selectionFrame = CGRectInset(relativeImageFrame, -6.0, -6.0);
             CALayer *selectionLayer = [CALayer layer];
+            [selectionLayer setActions:disabledActions];
             [selectionLayer setFrame:selectionFrame];
             [selectionLayer setEdgeAntialiasingMask:NSViewWidthSizable|NSViewMaxYMargin];
 
             NSImage *selectorImage = [self OE_selectorImageWithSize:selectionFrame.size];
             [selectionLayer setContents:selectorImage];
-            [layer addSublayer:selectionLayer];
+            [_foregroundLayer addSublayer:selectionLayer];
 
-            // TODO: fix animation
             _selectionLayer = selectionLayer;
             [_selectionLayer setValue:@(isWindowActive) forKey:@"isWindowActive"];
         }
-        else if([self isSelected] && _selectionLayer)
-            [layer addSublayer:_selectionLayer];
+        else if(![self isSelected] && _selectionLayer)
+        {
+            [_selectionLayer removeFromSuperlayer];
+            _selectionLayer = nil;
+        }
 
-		return layer;
+		[CATransaction commit];
+		return _foregroundLayer;
 	}
 
     // create a selection layer to prevent defaults
     if(type == IKImageBrowserCellSelectionLayer)
     {
         CALayer *layer = [CALayer layer];
-        return layer;
+        [layer setActions:disabledActions];
+        [CATransaction commit];
+		return layer;
     }
 
     // background layer
 	if(type == IKImageBrowserCellBackgroundLayer)
     {
-		CALayer *layer = [CALayer layer];
-        [layer setFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        [_backgroundLayer setFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
 
         // add shadow if image is loaded
         if(state == IKImageStateReady)
         {
             CGPathRef shadowPath = CGPathCreateWithRect(relativeImageFrame, NULL);
-            [layer setShadowPath:shadowPath];
+            [_backgroundLayer setShadowPath:shadowPath];
             CGPathRelease(shadowPath);
 
-            [layer setShadowColor:[[NSColor blackColor] CGColor]];
-            [layer setShadowOffset:CGSizeMake(0.0, -3.0)];
-            [layer setShadowOpacity:1.0];
-            [layer setShadowRadius:3.0];
-            [layer setContentsGravity:kCAGravityResize];
+            [_backgroundLayer setShadowColor:[[NSColor blackColor] CGColor]];
+            [_backgroundLayer setShadowOffset:CGSizeMake(0.0, -3.0)];
+            [_backgroundLayer setShadowOpacity:1.0];
+            [_backgroundLayer setShadowRadius:3.0];
         }
 
-        return layer;
+        [CATransaction commit];
+		return _backgroundLayer;
 	}
 
     DLog(@"Unkown layer type: %@", type);
+    [CATransaction commit];
     return nil;
 }
 
-- (CALayer *)OE_indicationLayerForStatus:(NSInteger)status withRect:(NSRect)frame;
+- (CALayer *)OE_missingRomLayerWithRect:(NSRect)frame;
 {
     CALayer *indicationLayer = [CALayer layer];
-    const NSRect bounds = {{0,0}, frame.size};
+    [indicationLayer setActions:disabledActions];
 
-    switch (status) {
-        case 1:
-        {
-            CALayer *spinnerLayer = [CALayer layer];
-            [spinnerLayer setActions:[NSDictionary dictionaryWithObject:[NSNull null] forKey:@"position"]];
+    static NSColor *backgroundColor = nil;
+    if(backgroundColor==nil) backgroundColor = [NSColor colorWithDeviceRed:0.992 green:0.0 blue:0.0 alpha:0.4];
 
-            [spinnerLayer setShadowOffset:CGSizeMake(0.0, -1.0)];
-            [spinnerLayer setShadowOpacity:1.0];
-            [spinnerLayer setShadowRadius:1.0];
-            [spinnerLayer setShadowColor:[[NSColor colorWithDeviceRed:0.341 green:0.0 blue:0.012 alpha:0.6] CGColor]];
+    static NSColor *shadowColor = nil;
+    if(shadowColor==nil) shadowColor = [NSColor colorWithDeviceRed:0.341 green:0.0 blue:0.012 alpha:0.6];
 
-            [indicationLayer setBackgroundColor:[[NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.0 alpha:0.7] CGColor]];
+    [indicationLayer setBackgroundColor:[backgroundColor CGColor]];
 
-            [spinnerLayer setContents:[NSImage imageNamed:@"spinner"]];
-            [spinnerLayer setAnchorPoint:CGPointMake(0.5, 0.5)];
-            [spinnerLayer setAnchorPointZ:0.0];
+    CALayer *glyphLayer = [CALayer layer];
+    [glyphLayer setActions:disabledActions];
+    [glyphLayer setShadowOffset:CGSizeMake(0.0, -1.0)];
+    [glyphLayer setShadowOpacity:1.0];
+    [glyphLayer setShadowRadius:1.0];
+    [glyphLayer setShadowColor:[shadowColor CGColor]];
 
-            [indicationLayer addSublayer:spinnerLayer];
+    [glyphLayer setContentsGravity:kCAGravityResizeAspect];
+    [glyphLayer setContents:[NSImage imageNamed:@"missing_rom"]];
 
-            NSImage *spinnerImage = [NSImage imageNamed:@"spinner"];
-            const CGSize spinnerSize = [spinnerImage size];
-            NSRect spinnerFrame = NSMakeRect(NSMidX(bounds)-spinnerSize.width/2.0, NSMidY(bounds)-spinnerSize.height/2.0
-                                             , spinnerSize.width, spinnerSize.height);
-            [spinnerLayer setFrame:spinnerFrame];
-            [indicationLayer setFrame:frame];
+    [indicationLayer addSublayer:glyphLayer];
 
-            break;
-        }
-        case 2:
-        {
-            const CGFloat width  = CGRectGetWidth(bounds) * 0.45;
-            const CGFloat height = width * 0.9;
-
-            static NSColor *backgroundColor = nil;
-            if(backgroundColor==nil) backgroundColor = [NSColor colorWithDeviceRed:0.992 green:0.0 blue:0.0 alpha:0.4];
-
-            static NSColor *shadowColor = nil;
-            if(shadowColor==nil) shadowColor = [NSColor colorWithDeviceRed:0.341 green:0.0 blue:0.012 alpha:0.6];
-
-            [indicationLayer setBackgroundColor:[backgroundColor CGColor]];
-
-            [indicationLayer setActions:[NSDictionary dictionaryWithObject:[NSNull null] forKey:@"position"]];
-
-            CALayer *glyphLayer = [CALayer layer];
-            [glyphLayer setShadowOffset:CGSizeMake(0.0, -1.0)];
-            [glyphLayer setShadowOpacity:1.0];
-            [glyphLayer setShadowRadius:1.0];
-            [glyphLayer setShadowColor:[shadowColor CGColor]];
-
-            [glyphLayer setContentsGravity:kCAGravityResizeAspect];
-            [glyphLayer setContents:[NSImage imageNamed:@"missing_rom"]];
-
-            [glyphLayer setFrame:NSMakeRect(NSMidX(bounds)-width/2.0, NSMidY(bounds)-height/2.0, width, height)];
-            [indicationLayer addSublayer:glyphLayer];
-            [indicationLayer setFrame:frame];
-            break;
-        }
-        default:
-        {
-            break;
-        }
-    }
     return indicationLayer;
+}
+
+- (void)OE_layoutMissingRomLayerWithFrame:(NSRect)frame
+{
+    const NSRect bounds = {{0,0}, frame.size};
+    const CGFloat width  = CGRectGetWidth(bounds) * 0.45;
+    const CGFloat height = width * 0.9;
+
+    [[[_missingFileLayer sublayers] lastObject] setFrame:NSMakeRect(NSMidX(bounds)-width/2.0, NSMidY(bounds)-height/2.0, width, height)];
+    [_missingFileLayer setFrame:frame];
+}
+
+- (CALayer *)OE_romProcessingLayerWithRect:(NSRect)frame
+{
+    CALayer *indicationLayer = [CALayer layer];
+    CALayer *sublayer  = [CALayer layer];
+
+    [sublayer setActions:[NSDictionary dictionaryWithObject:[NSNull null] forKey:@"position"]];
+    [sublayer setShadowOffset:CGSizeMake(0.0, -1.0)];
+    [sublayer setShadowOpacity:1.0];
+    [sublayer setShadowRadius:1.0];
+    [sublayer setShadowColor:[[NSColor colorWithDeviceRed:0.341 green:0.0 blue:0.012 alpha:0.6] CGColor]];
+    [indicationLayer setBackgroundColor:[[NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.0 alpha:0.7] CGColor]];
+
+    [sublayer setContents:[NSImage imageNamed:@"spinner"]];
+    [sublayer setAnchorPoint:CGPointMake(0.5, 0.5)];
+    [sublayer setAnchorPointZ:0.0];
+
+    [sublayer addAnimation:[[self class] OE_rotationAnimation] forKey:nil];
+
+    [indicationLayer addSublayer:sublayer];
+
+    return indicationLayer;
+}
+
+- (void)OE_layoutProcessingLayerWithFrame:(NSRect)frame
+{
+    NSImage *spinnerImage = [NSImage imageNamed:@"spinner"];
+    const NSRect bounds = {{0,0}, frame.size};
+    const CGSize spinnerImageSize = [spinnerImage size];
+
+    [_processingLayer setFrame:frame];
+    [[[_processingLayer sublayers] lastObject] setFrame:NSMakeRect(NSMidX(bounds)-spinnerImageSize.width/2.0, NSMidY(bounds)-spinnerImageSize.height/2.0, spinnerImageSize.width, spinnerImageSize.height)];
 }
 
 - (NSImage *)OE_standardImageNamed:(NSString *)name withSize:(NSSize)size
@@ -562,7 +641,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
         NSMutableArray *spinnerValues = [[NSMutableArray alloc] initWithCapacity:stepCount];
         
         for(NSUInteger step = 0; step < stepCount; step++)
-            [spinnerValues addObject:@(M_TAU * step / 12.0)];
+            [spinnerValues addObject:@(-1*M_TAU * step / 12.0)];
         
         animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
         [animation setCalculationMode:kCAAnimationDiscrete];

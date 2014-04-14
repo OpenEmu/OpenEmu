@@ -31,6 +31,7 @@
 #import "OEGridViewFieldEditor.h"
 
 #import "OEGridForegroundLayer.h"
+
 #import "OEBackgroundNoisePattern.h"
 
 #import "OEMenu.h"
@@ -48,6 +49,8 @@
 
 // -allowsTypeSelect is undocumented as of 10.9, original implementation seems to return [self cellsStyleMask]&IKCellsStyleTitled
 - (BOOL)allowsTypeSelect;
+
+- (void)beginTransaction:(id)arg1;
 @end
 // TODO: replace OEDBGame with OECoverGridDataSourceItem
 @interface OEGridView ()
@@ -68,31 +71,19 @@
     [self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, NSPasteboardTypePNG, NSPasteboardTypeTIFF, nil]];
     [self setAllowsReordering:NO];
     [self setAllowsDroppingOnItems:YES];
+    [self setAnimates:NO];
 
     // TODO: Replace magic numbers with constants
     // IKImageBrowserView adds 20 pixels vertically for the title
     // TODO: Explain subtraction
     [self setCellsStyleMask:IKCellsStyleNone];
 
-
-    [self setForegroundLayer:[[OEGridForegroundLayer alloc] init]];
-
-    //[self setAnimates:YES];
+//    [self setForegroundLayer:[[OEGridForegroundLayer alloc] init]];
 
     _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
     [self addSubview:_fieldEditor];
 }
 #pragma mark - Cells
-- (void)setCellSize:(NSSize)size
-{
-    [super setCellSize:size];
-}
-
-- (NSSize)cellSize
-{
-    return [super cellSize];
-}
-
 - (IKImageBrowserCell *)newCellForRepresentedItem:(id) cell
 {
 	return [[OEGridCell alloc] init];
@@ -358,19 +349,6 @@
 - (BOOL)allowsTypeSelect
 {
     return YES;
-}
-
-- (void)_drawCALayer:(id)arg1 forceUpdateRect:(BOOL)arg2
-{
-    if(arg1 == self.foregroundLayer)
-    {
-        NSRect rect = [[self enclosingScrollView] documentVisibleRect];
-        NSRect frame = rect;
-        if(rect.origin.y > 0)
-            frame.origin.y -= rect.origin.y;
-        [arg1 setFrame:frame];
-        [self drawLayer:arg1 inRect:frame performUpdateRect:arg2];
-    } else [super _drawCALayer:arg1 forceUpdateRect:arg2];
 }
 
 @end
