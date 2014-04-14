@@ -33,9 +33,7 @@
     if((self = [super init]))
     {
         [self setNeedsDisplayOnBoundsChange:YES];
-        [self setMasksToBounds:NO];
     }
-
     return self;
 }
 
@@ -46,10 +44,6 @@
     [NSGraphicsContext setCurrentContext:context];
 
     const NSRect visibleRect = [self bounds];
-
-    [[NSColor redColor] setFill];
-    NSRectFill(NSMakeRect(0, NSMaxY(visibleRect)-1, NSWidth(visibleRect), 10));
-
     NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[[NSColor blackColor] colorWithAlphaComponent:0.4] endingColor:[NSColor clearColor]];
     [gradient drawInRect:NSMakeRect(0.0, NSMinY(visibleRect), NSWidth(visibleRect), 8.0) angle:90.0];
     [gradient drawInRect:NSMakeRect(0.0, NSMaxY(visibleRect) - 8.0, NSWidth(visibleRect), 8.0) angle:270.0];

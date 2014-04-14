@@ -100,6 +100,9 @@ static NSDictionary *disabledActions = nil;
     // setup background layer
     _backgroundLayer = [CALayer layer];
     [_backgroundLayer setActions:disabledActions];
+    [_backgroundLayer setShadowColor:[[NSColor blackColor] CGColor]];
+    [_backgroundLayer setShadowOffset:CGSizeMake(0.0, -3.0)];
+    [_backgroundLayer setShadowRadius:3.0];
     [_backgroundLayer setContentsGravity:kCAGravityResize];
 }
 
@@ -277,6 +280,10 @@ static NSDictionary *disabledActions = nil;
         else
         {
             [_glossyLayer setHidden:YES];
+            [_processingLayer removeFromSuperlayer];
+            _processingLayer = nil;
+            [_missingFileLayer removeFromSuperlayer];
+            _missingFileLayer = nil;
         }
 
         // the selection layer is cached else the CATransition initialization fires the layers to be redrawn which causes the CATransition to be initalized again: loop
@@ -335,11 +342,11 @@ static NSDictionary *disabledActions = nil;
             CGPathRef shadowPath = CGPathCreateWithRect(relativeImageFrame, NULL);
             [_backgroundLayer setShadowPath:shadowPath];
             CGPathRelease(shadowPath);
-
-            [_backgroundLayer setShadowColor:[[NSColor blackColor] CGColor]];
-            [_backgroundLayer setShadowOffset:CGSizeMake(0.0, -3.0)];
             [_backgroundLayer setShadowOpacity:1.0];
-            [_backgroundLayer setShadowRadius:3.0];
+        }
+        else
+        {
+            [_backgroundLayer setShadowOpacity:0.0];
         }
 
         [CATransaction commit];

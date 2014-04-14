@@ -270,8 +270,8 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     if(![self database]) return @{};
     
     BOOL isSystemWithHashlessROM = [self hashlessROMCheckForSystem:[[[rom game] system] systemIdentifier]];
-    BOOL isSystemWithROMHeader = [self headerROMCheckForSystem:[[[rom game] system] systemIdentifier]];
-    BOOL isSystemWithROMSerial = [self serialROMCheckForSystem:[[[rom game] system] systemIdentifier]];
+    BOOL isSystemWithROMHeader   = [self headerROMCheckForSystem:[[[rom game] system] systemIdentifier]];
+    BOOL isSystemWithROMSerial   = [self serialROMCheckForSystem:[[[rom game] system] systemIdentifier]];
 
     NSString * const DBMD5Key= @"romHashMD5";
     NSString * const DBCRCKey= @"romHashCRC";

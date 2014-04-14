@@ -77,8 +77,7 @@
     // IKImageBrowserView adds 20 pixels vertically for the title
     // TODO: Explain subtraction
     [self setCellsStyleMask:IKCellsStyleNone];
-
-//    [self setForegroundLayer:[[OEGridForegroundLayer alloc] init]];
+    [self setForegroundLayer:[[OEGridForegroundLayer alloc] init]];
 
     _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
     [self addSubview:_fieldEditor];
