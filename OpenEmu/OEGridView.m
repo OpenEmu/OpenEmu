@@ -36,8 +36,18 @@
 #import "OEMenu.h"
 
 @interface IKImageBrowserView (ApplePrivate)
-- (void)drawLayer:(id)arg1 inRect:(struct CGRect)arg2 performUpdateRect:(BOOL)arg3;
+
+// -_drawCALayer:forceUpdateRect: overridden to adjust for overscroll
 - (void)_drawCALayer:(id)arg1 forceUpdateRect:(BOOL)arg2;
+
+// -drawLayer:inRect:performUpdateRect: called to manually intitate drawing of foreground layer
+- (void)drawLayer:(id)arg1 inRect:(struct CGRect)arg2 performUpdateRect:(BOOL)arg3;
+
+// -handleKeyInput:character: is called to allow space in type select
+- (BOOL)handleKeyInput:(id)arg1 character:(unsigned short)arg2;
+
+// -allowsTypeSelect is undocumented as of 10.9, original implementation seems to return [self cellsStyleMask]&IKCellsStyleTitled
+- (BOOL)allowsTypeSelect;
 @end
 // TODO: replace OEDBGame with OECoverGridDataSourceItem
 @interface OEGridView ()
@@ -64,25 +74,13 @@
     // TODO: Explain subtraction
     [self setCellsStyleMask:IKCellsStyleNone];
 
+
     [self setForegroundLayer:[[OEGridForegroundLayer alloc] init]];
 
     //[self setAnimates:YES];
 
     _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
     [self addSubview:_fieldEditor];
-}
-
-- (void)_drawCALayer:(id)arg1 forceUpdateRect:(BOOL)arg2
-{
-    if(arg1 == self.foregroundLayer)
-    {
-        NSRect rect = [[self enclosingScrollView] documentVisibleRect];
-        NSRect frame = rect;
-        if(rect.origin.y > 0)
-            frame.origin.y -= rect.origin.y;
-        [arg1 setFrame:frame];
-        [self drawLayer:arg1 inRect:frame performUpdateRect:arg2];
-    } else [super _drawCALayer:arg1 forceUpdateRect:arg2];
 }
 #pragma mark - Cells
 - (void)setCellSize:(NSSize)size
@@ -182,6 +180,15 @@
 {
     _ratingTracking = NSNotFound;
     [super mouseUp:theEvent];
+}
+#pragma mark - Keyboard Interaction
+- (void)keyDown:(NSEvent*)event
+{
+    // original implementation does not pass space key to type-select
+    if([event keyCode]==kVK_Space)
+    {
+        [self handleKeyInput:event character:' '];
+    } else [super keyDown:event];
 }
 #pragma mark -
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
@@ -347,5 +354,24 @@
     
     return NO;
 }
+#pragma mark - IKImageBrowserView Private Overrides
+- (BOOL)allowsTypeSelect
+{
+    return YES;
+}
+
+- (void)_drawCALayer:(id)arg1 forceUpdateRect:(BOOL)arg2
+{
+    if(arg1 == self.foregroundLayer)
+    {
+        NSRect rect = [[self enclosingScrollView] documentVisibleRect];
+        NSRect frame = rect;
+        if(rect.origin.y > 0)
+            frame.origin.y -= rect.origin.y;
+        [arg1 setFrame:frame];
+        [self drawLayer:arg1 inRect:frame performUpdateRect:arg2];
+    } else [super _drawCALayer:arg1 forceUpdateRect:arg2];
+}
+
 @end
 
