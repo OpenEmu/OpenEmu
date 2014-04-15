@@ -48,10 +48,10 @@ static CGColorRef processingItemBackgroundColorRef = nil;
 {
     if([self class] == [OEGridViewCellIndicationLayer class])
     {
-        dropOnBackgroundColorRef = [[NSColor colorWithDeviceRed:0.4 green:0.361 blue:0.871 alpha:0.7] CGColor];
-        indicationShadowColorRef = [[NSColor colorWithDeviceRed:0.341 green:0.0 blue:0.012 alpha:0.6] CGColor];
-        missingFileBackgroundColorRef = [[NSColor colorWithDeviceRed:0.992 green:0.0 blue:0.0 alpha:0.4] CGColor];
-        processingItemBackgroundColorRef = [[NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.0 alpha:0.7] CGColor];
+        dropOnBackgroundColorRef = CGColorCreateGenericRGB(0.4, 0.361, 0.871, 0.7);
+        indicationShadowColorRef = CGColorCreateGenericRGB(0.341, 0.0, 0.012, 0.6);
+        missingFileBackgroundColorRef = CGColorCreateGenericRGB(0.992, 0.0, 0.0, 0.4);
+        processingItemBackgroundColorRef = CGColorCreateGenericRGB(0.0, 0.0, 0.0, 0.7);
     }
 }
 

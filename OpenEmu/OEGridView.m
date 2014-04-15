@@ -74,15 +74,13 @@
     [self setAllowsDroppingOnItems:YES];
     [self setAnimates:NO];
 
-    // TODO: Replace magic numbers with constants
-    // IKImageBrowserView adds 20 pixels vertically for the title
-    // TODO: Explain subtraction
     [self setCellsStyleMask:IKCellsStyleNone];
     [self setForegroundLayer:[[OEGridForegroundLayer alloc] init]];
 
     _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
     [self addSubview:_fieldEditor];
 }
+
 #pragma mark - Cells
 - (IKImageBrowserCell *)newCellForRepresentedItem:(id) cell
 {
@@ -322,7 +320,6 @@
 }
 
 #pragma mark -
-
 - (void)OE_setupFieldEditorForCellAtIndex:(NSInteger)index
 {
     OEGridCell *cell = (OEGridCell*)[self cellForItemAtIndex:index];

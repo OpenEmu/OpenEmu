@@ -13,8 +13,6 @@
 #import "OECoverGridDataSourceItem.h"
 #import "OEGridViewCellIndicationLayer.h"
 
-#define M_TAU (M_PI * 2.0)
-
 static const CGFloat OEGridCellTitleHeight                      = 16.0;        // Height of the title view
 static const CGFloat OEGridCellImageTitleSpacing                = 17.0;        // Space between the image and the title
 static const CGFloat OEGridCellSubtitleHeight                   = 11.0;        // Subtitle height
@@ -47,11 +45,31 @@ __strong static OEThemeImage *selectorRingImage = nil;
 @property OEGridViewCellIndicationLayer *indicationLayer;
 
 @property CALayer *proposedImageLayer;
-@property __block NSUInteger timerID;
+@property BOOL lastWindowActive;
 @end
 
 @implementation OEGridCell
+
+static CGColorRef placeHolderStrokeColoRef = NULL;
+static CGColorRef placeHolderFillColoRef   = NULL;
+
 static NSDictionary *disabledActions = nil;
+
++ (void)initialize
+{
+    if([self class] == [OEGridCell class])
+    {
+		const CGFloat fillComponents[4] = {1.0, 1.0, 1.0, 0.08};
+		const CGFloat strokeComponents[4] = {1.0, 1.0, 1.0, 0.1};
+		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+
+        placeHolderStrokeColoRef = CGColorCreate(colorSpace, strokeComponents);
+        placeHolderFillColoRef   = CGColorCreate(colorSpace, fillComponents);
+
+        CGColorSpaceRelease(colorSpace);
+    }
+}
+
 - (id)init
 {
     self = [super init];
@@ -152,6 +170,14 @@ static NSDictionary *disabledActions = nil;
 {
     return [[self imageBrowserView] proposedImage] != nil;
 }
+
+- (void)drawDragHighlight{}
+- (void)drawSelection{}
+- (void)drawSubtitle{}
+- (void)drawTitleBackground{}
+- (void)drawSelectionOnTitle{}
+- (void)drawImageOutline{}
+- (void)drawShadow{}
 #pragma mark - Layers & Images
 - (void)OE_setupLayers
 {
@@ -203,49 +229,43 @@ static NSDictionary *disabledActions = nil;
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
 
-    const CGFloat scaleFactor = [[[[self imageBrowserView] window] screen] backingScaleFactor];
+    const OEGridView *browser = [self imageBrowserView];
+    const NSWindow   *window  = [browser window];
+    const CGFloat scaleFactor = [[window screen] backingScaleFactor];
+    const BOOL   windowActive = [window isKeyWindow];
+    const BOOL   isSelected   = [self isSelected];
     const IKImageBrowserCellState state = [self cellState];
+    const id<OECoverGridDataSourceItem> representedItem = [self representedItem];
 
-	// retrieve some useful rects
-    const NSRect bounds = {{0,0}, [self frame].size};
-	const NSRect frame = NSIntegralRect([self frame]);
+    // absolute rects
+    const NSRect frame  = [self frame];
+    const NSRect bounds = {{0,0}, frame.size};
 	const NSRect imageFrame = NSIntegralRect([self imageFrame]);
 
-    // calculate relative rects
-	const NSRect relativeImageFrame = [self relativeImageFrame];
-    const NSRect relativeTitleFrame = [self relativeTitleFrame];
+    // relative rects
+	const NSRect relativeImageFrame  = [self relativeImageFrame];
+    const NSRect relativeTitleFrame  = [self relativeTitleFrame];
     const NSRect relativeRatingFrame = [self relativeRatingFrame];
 
     // Create a placeholder layer
     if(type == IKImageBrowserCellPlaceHolderLayer){
-        CGColorRef color;
-
 		CALayer *layer = [CALayer layer];
         [layer setActions:disabledActions];
 
-		[layer setFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+		[layer setFrame:bounds];
 
 		CALayer *placeHolderLayer = [CALayer layer];
 		[placeHolderLayer setFrame:relativeImageFrame];
         [placeHolderLayer setActions:disabledActions];
 
-		const CGFloat fillComponents[4] = {1.0, 1.0, 1.0, 0.08};
-		const CGFloat strokeComponents[4] = {1.0, 1.0, 1.0, 0.1};
-		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-
 		//set a background color
-		color = CGColorCreate(colorSpace, fillComponents);
-		[placeHolderLayer setBackgroundColor:color];
-		CFRelease(color);
+		[placeHolderLayer setBackgroundColor:placeHolderFillColoRef];
 
 		//set a stroke color
-		color = CGColorCreate(colorSpace, strokeComponents);
-		[placeHolderLayer setBorderColor:color];
-		CFRelease(color);
+		[placeHolderLayer setBorderColor:placeHolderStrokeColoRef];
 
 		[placeHolderLayer setBorderWidth:1.0];
 		[placeHolderLayer setCornerRadius:10];
-		CFRelease(colorSpace);
 
 		[layer addSublayer:placeHolderLayer];
 
@@ -256,16 +276,15 @@ static NSDictionary *disabledActions = nil;
     // foreground layer
 	if(type == IKImageBrowserCellForegroundLayer)
     {
-		// create a foreground layer that will contain several childs layer (gloss, selection, rating, title)
         [_foregroundLayer setFrame:bounds];
 
-        NSString *imageTitle = [[self representedItem] imageTitle];
+        NSString *imageTitle = [representedItem imageTitle];
         [_textLayer setContentsScale:scaleFactor];
         [_textLayer setFrame:relativeTitleFrame];
         [_textLayer setString:imageTitle];
 
         // Setup rating layer
-        NSUInteger    rating = [(id<OECoverGridDataSourceItem>)[self representedItem] gridRating];
+        NSUInteger    rating = [representedItem gridRating];
         NSImage *ratingImage = [self OE_ratingImageForRating:rating];
 
         [_ratingLayer setContentsGravity:kCAGravityCenter];
@@ -288,23 +307,23 @@ static NSDictionary *disabledActions = nil;
         }
         else
         {
+            [_glossyLayer setHidden:YES];
             [_proposedImageLayer removeFromSuperlayer];
             [_indicationLayer setType:OEGridViewCellIndicationTypeNone];
         }
 
         // the selection layer is cached else the CATransition initialization fires the layers to be redrawn which causes the CATransition to be initalized again: loop
         // TODO: Appropriately cache all layers
-
-        BOOL isWindowActive = [[[self imageBrowserView] window] isKeyWindow];
-
-        if(! CGRectEqualToRect([_selectionLayer frame], CGRectInset(relativeImageFrame, -6.0, -6.0)) || [[_selectionLayer valueForKey:@"isWindowActive"] boolValue] != isWindowActive)
+        if(! CGRectEqualToRect([_selectionLayer frame], CGRectInset(relativeImageFrame, -6.0, -6.0)) || windowActive != _lastWindowActive)
         {
             [_selectionLayer removeFromSuperlayer];
             _selectionLayer = nil;
         }
 
-        if([self isSelected] && !_selectionLayer)
+        if(isSelected && (!_selectionLayer || windowActive != _lastWindowActive))
         {
+           _lastWindowActive = windowActive;
+
             CGRect selectionFrame = CGRectInset(relativeImageFrame, -6.0, -6.0);
             CALayer *selectionLayer = [CALayer layer];
             [selectionLayer setActions:disabledActions];
@@ -316,9 +335,8 @@ static NSDictionary *disabledActions = nil;
             [_foregroundLayer addSublayer:selectionLayer];
 
             _selectionLayer = selectionLayer;
-            [_selectionLayer setValue:@(isWindowActive) forKey:@"isWindowActive"];
         }
-        else if(![self isSelected] && _selectionLayer)
+        else if(!isSelected)
         {
             [_selectionLayer removeFromSuperlayer];
             _selectionLayer = nil;
@@ -361,14 +379,16 @@ static NSDictionary *disabledActions = nil;
 
     DLog(@"Unkown layer type: %@", type);
     [CATransaction commit];
-    return nil;
+    return [super layerForType:type];
 }
 
-- (void)OE_updateIndicationLayer
+- (OEGridViewCellIndicationType)OE_recalculateType
 {
-    NSInteger status = [(id <OECoverGridDataSourceItem>)[self representedItem] gridStatus];
     OEGridViewCellIndicationType indicationType = OEGridViewCellIndicationTypeNone;
-    switch (status) {
+    NSInteger status = [(id <OECoverGridDataSourceItem>)[self representedItem] gridStatus];
+
+    switch (status)
+    {
         case 1:
             indicationType = OEGridViewCellIndicationTypeProcessing;
             break;
@@ -384,17 +404,21 @@ static NSDictionary *disabledActions = nil;
     {
         indicationType = OEGridViewCellIndicationTypeDropOn;
     }
+    return indicationType;
+}
 
+- (void)OE_updateIndicationLayer
+{
     OEGridViewCellIndicationType previousType = [_indicationLayer type];
-    if([_indicationLayer type] != indicationType)
+    OEGridViewCellIndicationType newType      = [self OE_recalculateType];
+    if([_indicationLayer type] != newType)
     {
         if(previousType == OEGridViewCellIndicationTypeDropOn)
             [self OE_displayOnDropExited];
-        else if(indicationType == OEGridViewCellIndicationTypeDropOn)
+        else if(newType == OEGridViewCellIndicationTypeDropOn)
             [self OE_displayOnDropEntered];
     }
-    [_indicationLayer setType:indicationType];
-
+    [_indicationLayer setType:newType];
 }
 
 - (CALayer *)OE_missingRomLayerWithRect:(NSRect)frame;
@@ -536,8 +560,7 @@ static NSDictionary *disabledActions = nil;
 {
     if(NSEqualSizes(size, NSZeroSize)) return nil;
 
-    BOOL active = [[[self imageBrowserView] window] isKeyWindow];
-    NSString *imageKey       = [NSString stringWithFormat:@"OEGridCellSelectionImage(%d)", active];
+    NSString *imageKey       = [NSString stringWithFormat:@"OEGridCellSelectionImage(%d)", _lastWindowActive];
     NSImage  *selectionImage = [self OE_standardImageNamed:imageKey withSize:size];
     if(selectionImage) return selectionImage;
 
@@ -558,7 +581,7 @@ static NSDictionary *disabledActions = nil;
         NSColor *topColor;
         NSColor *bottomColor;
 
-        if(active)
+        if(_lastWindowActive)
         {
             topColor = [NSColor colorWithCalibratedRed:0.243 green:0.502 blue:0.871 alpha:1.0];
             bottomColor = [NSColor colorWithCalibratedRed:0.078 green:0.322 blue:0.667 alpha:1.0];
@@ -576,7 +599,7 @@ static NSDictionary *disabledActions = nil;
         [currentContext saveGraphicsState];
 
         // Draw selection border
-        OEThemeState currentState = [OEThemeObject themeStateWithWindowActive:YES buttonState:NSMixedState selected:NO enabled:YES focused:active houseHover:YES modifierMask:YES];
+        OEThemeState currentState = [OEThemeObject themeStateWithWindowActive:YES buttonState:NSMixedState selected:NO enabled:YES focused:_lastWindowActive houseHover:YES modifierMask:YES];
         NSImage *image = [selectorRingImage imageForState:currentState];
         [image drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 
@@ -633,33 +656,13 @@ static NSDictionary *disabledActions = nil;
     return [ratingImage subImageFromRect:ratingImageSourceRect];
 }
 
-+ (CAKeyframeAnimation *)OE_rotationAnimation;
-{
-    static CAKeyframeAnimation *animation = nil;
-
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSUInteger      stepCount     = 12;
-        NSMutableArray *spinnerValues = [[NSMutableArray alloc] initWithCapacity:stepCount];
-        
-        for(NSUInteger step = 0; step < stepCount; step++)
-            [spinnerValues addObject:@(-1*M_TAU * step / 12.0)];
-        
-        animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
-        [animation setCalculationMode:kCAAnimationDiscrete];
-        [animation setDuration:1.0];
-        [animation setRepeatCount:CGFLOAT_MAX];
-        [animation setRemovedOnCompletion:NO];
-        [animation setValues:spinnerValues];
-    });
-    
-    return animation;
-}
 #pragma mark - Drop Indication
 - (void)OE_displayOnDropEntered
 {
     const CGRect imageRect = [self relativeImageFrame];
     const OEGridView *browser = [self imageBrowserView];
+
+    [_proposedImageLayer removeFromSuperlayer];
 
     _proposedImageLayer = [CALayer layer];
     [_proposedImageLayer setDelegate:self];
