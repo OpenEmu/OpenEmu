@@ -114,10 +114,10 @@
     OERetrode *retrode = [self representedObject];
     id game = [[retrode games] objectAtIndex:index];
     
-    OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
+    OEGridViewCell *item = (OEGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
     
-    if(item == nil) item = (OECoverGridViewCell *)[view dequeueReusableCell];
-    if(item == nil) item = [[OECoverGridViewCell alloc] init];
+    if(item == nil) item = (OEGridViewCell *)[view dequeueReusableCell];
+    if(item == nil) item = [[OEGridViewCell alloc] init];
     
     [item setImageSize:[view itemSize]];
     [item setImage:nil];

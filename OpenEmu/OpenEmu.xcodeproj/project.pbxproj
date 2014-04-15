@@ -318,6 +318,7 @@
 		8303BC0D14E318C200FCD701 /* light_submenu_body.png in Resources */ = {isa = PBXBuildFile; fileRef = 8303BC0514E318C200FCD701 /* light_submenu_body.png */; };
 		8303BC0E14E318C200FCD701 /* menu_item_tick_mark.png in Resources */ = {isa = PBXBuildFile; fileRef = 8303BC0614E318C200FCD701 /* menu_item_tick_mark.png */; };
 		8305267513FBC999006179C6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8305267413FBC999006179C6 /* Security.framework */; };
+		8305A48018FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */; };
 		830639EB16691B51006E4254 /* OEGameScanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 830639EA16691B51006E4254 /* OEGameScanner.xib */; };
 		8308F0EE1862FFEC0046BD8A /* OpenEmu.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8308F0ED1862FFEB0046BD8A /* OpenEmu.icns */; };
 		83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */; };
@@ -1846,6 +1847,8 @@
 		8303BC0514E318C200FCD701 /* light_submenu_body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_submenu_body.png; sourceTree = "<group>"; };
 		8303BC0614E318C200FCD701 /* menu_item_tick_mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_item_tick_mark.png; sourceTree = "<group>"; };
 		8305267413FBC999006179C6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		8305A47E18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridViewCellIndicationLayer.h; sourceTree = "<group>"; };
+		8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewCellIndicationLayer.m; sourceTree = "<group>"; };
 		830639EA16691B51006E4254 /* OEGameScanner.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEGameScanner.xib; sourceTree = "<group>"; };
 		8308F0ED1862FFEB0046BD8A /* OpenEmu.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = OpenEmu.icns; sourceTree = "<group>"; };
 		83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+OEHashingAdditions.h"; sourceTree = "<group>"; };
@@ -3750,6 +3753,8 @@
 		53439AAE13B92CFE005C0CC8 /* Grid View */ = {
 			isa = PBXGroup;
 			children = (
+				8305A47E18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.h */,
+				8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */,
 				8369C1E618FB32F400620219 /* Decoration Layers */,
 				53439AB113B92DA3005C0CC8 /* OECoverGridDataSourceItem.h */,
 				8CBD3AA017D23AA80022399B /* OEGridCell.h */,
@@ -7681,6 +7686,7 @@
 				835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */,
 				14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */,
 				8C4C808916986697009B8A28 /* OEGLSLShader.m in Sources */,
+				8305A48018FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m in Sources */,
 				8C4C808E16986C87009B8A28 /* OECGShader.m in Sources */,
 				94791E9516AE8A18007DB8BE /* OEShaderPlugin.m in Sources */,
 				8C415ECD16B0682B00980DB9 /* OEMultipassShader.m in Sources */,

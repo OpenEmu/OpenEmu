@@ -11,6 +11,7 @@
 #import "OETheme.h"
 #import "NSImage+OEDrawingAdditions.h"
 #import "OECoverGridDataSourceItem.h"
+#import "OEGridViewCellIndicationLayer.h"
 
 #define M_TAU (M_PI * 2.0)
 
@@ -36,10 +37,10 @@ __strong static OEThemeImage *selectorRingImage = nil;
 @property CALayer     *foregroundLayer;
 @property CATextLayer *textLayer;
 @property CALayer     *ratingLayer;
-@property CALayer     *missingFileLayer;
-@property CALayer     *processingLayer;
 @property CALayer     *glossyLayer;
 @property CALayer     *backgroundLayer;
+
+@property OEGridViewCellIndicationLayer *indicationLayer;
 @end
 
 @implementation OEGridCell
@@ -96,6 +97,10 @@ static NSDictionary *disabledActions = nil;
     _glossyLayer = [CALayer layer];
     [_glossyLayer setActions:disabledActions];
     [_foregroundLayer addSublayer:_glossyLayer];
+
+    _indicationLayer = [[OEGridViewCellIndicationLayer alloc] init];
+    [_indicationLayer setType:OEGridViewCellIndicationTypeNone];
+    [_foregroundLayer addSublayer:_indicationLayer];
 
     // setup background layer
     _backgroundLayer = [CALayer layer];
@@ -241,49 +246,29 @@ static NSDictionary *disabledActions = nil;
             [_glossyLayer setHidden:NO];
 
             NSInteger status = [(id <OECoverGridDataSourceItem>)[self representedItem] gridStatus];
-
-            if(status == 1)
-            {
-                [_missingFileLayer removeFromSuperlayer];
-                _missingFileLayer = nil;
-
-                if(_processingLayer == nil)
-                {
-                    _processingLayer = [self OE_romProcessingLayerWithRect:relativeImageFrame];
-                    [_foregroundLayer insertSublayer:_processingLayer below:_glossyLayer];
-                }
-
-                [self OE_layoutProcessingLayerWithFrame:relativeImageFrame];
+            OEGridViewCellIndicationType indicationType = OEGridViewCellIndicationTypeNone;
+            switch (status) {
+                case 1:
+                    indicationType = OEGridViewCellIndicationTypeProcessing;
+                    break;
+                case 2:
+                    indicationType = OEGridViewCellIndicationTypeFileMissing;
+                    break;
+                default:
+                    break;
             }
-            else if(status == 2)
+
+            IKImageBrowserView *browser = [self imageBrowserView];
+            if([browser indexAtLocationOfDroppedItem] == [self indexOfRepresentedItem] && [browser dropOperation] == IKImageBrowserDropOn)
             {
-                [_processingLayer removeFromSuperlayer];
-                _processingLayer = nil;
-
-                if(_missingFileLayer == nil)
-                {
-                    _missingFileLayer = [self OE_missingRomLayerWithRect:relativeImageFrame];
-                    [_foregroundLayer insertSublayer:_missingFileLayer below:_glossyLayer];
-                }
-
-                [self OE_layoutMissingRomLayerWithFrame:relativeImageFrame];
+                indicationType = OEGridViewCellIndicationTypeDropOn;
             }
-            else
-            {
-                [_missingFileLayer removeFromSuperlayer];
-                _missingFileLayer = nil;
-
-                [_processingLayer removeFromSuperlayer];
-                _processingLayer = nil;
-            }
+            [_indicationLayer setType:indicationType];
+            [_indicationLayer setFrame:relativeImageFrame];
         }
         else
         {
-            [_glossyLayer setHidden:YES];
-            [_processingLayer removeFromSuperlayer];
-            _processingLayer = nil;
-            [_missingFileLayer removeFromSuperlayer];
-            _missingFileLayer = nil;
+            [_indicationLayer setType:OEGridViewCellIndicationTypeNone];
         }
 
         // the selection layer is cached else the CATransition initialization fires the layers to be redrawn which causes the CATransition to be initalized again: loop
@@ -385,50 +370,6 @@ static NSDictionary *disabledActions = nil;
 
     return indicationLayer;
 }
-
-- (void)OE_layoutMissingRomLayerWithFrame:(NSRect)frame
-{
-    const NSRect bounds = {{0,0}, frame.size};
-    const CGFloat width  = CGRectGetWidth(bounds) * 0.45;
-    const CGFloat height = width * 0.9;
-
-    [[[_missingFileLayer sublayers] lastObject] setFrame:NSMakeRect(NSMidX(bounds)-width/2.0, NSMidY(bounds)-height/2.0, width, height)];
-    [_missingFileLayer setFrame:frame];
-}
-
-- (CALayer *)OE_romProcessingLayerWithRect:(NSRect)frame
-{
-    CALayer *indicationLayer = [CALayer layer];
-    CALayer *sublayer  = [CALayer layer];
-
-    [sublayer setActions:[NSDictionary dictionaryWithObject:[NSNull null] forKey:@"position"]];
-    [sublayer setShadowOffset:CGSizeMake(0.0, -1.0)];
-    [sublayer setShadowOpacity:1.0];
-    [sublayer setShadowRadius:1.0];
-    [sublayer setShadowColor:[[NSColor colorWithDeviceRed:0.341 green:0.0 blue:0.012 alpha:0.6] CGColor]];
-    [indicationLayer setBackgroundColor:[[NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.0 alpha:0.7] CGColor]];
-
-    [sublayer setContents:[NSImage imageNamed:@"spinner"]];
-    [sublayer setAnchorPoint:CGPointMake(0.5, 0.5)];
-    [sublayer setAnchorPointZ:0.0];
-
-    [sublayer addAnimation:[[self class] OE_rotationAnimation] forKey:nil];
-
-    [indicationLayer addSublayer:sublayer];
-
-    return indicationLayer;
-}
-
-- (void)OE_layoutProcessingLayerWithFrame:(NSRect)frame
-{
-    NSImage *spinnerImage = [NSImage imageNamed:@"spinner"];
-    const NSRect bounds = {{0,0}, frame.size};
-    const CGSize spinnerImageSize = [spinnerImage size];
-
-    [_processingLayer setFrame:frame];
-    [[[_processingLayer sublayers] lastObject] setFrame:NSMakeRect(NSMidX(bounds)-spinnerImageSize.width/2.0, NSMidY(bounds)-spinnerImageSize.height/2.0, spinnerImageSize.width, spinnerImageSize.height)];
-}
-
 - (NSImage *)OE_standardImageNamed:(NSString *)name withSize:(NSSize)size
 {
     // TODO: why do we use the background layer?
