@@ -37,8 +37,23 @@
 @end
 
 @implementation OEGridViewCellIndicationLayer
-
 @synthesize type = _type;
+
+static CGColorRef dropOnBackgroundColorRef         = nil;
+static CGColorRef indicationShadowColorRef         = nil;
+static CGColorRef missingFileBackgroundColorRef    = nil;
+static CGColorRef processingItemBackgroundColorRef = nil;
+
++ (void)initialize
+{
+    if([self class] == [OEGridViewCellIndicationLayer class])
+    {
+        dropOnBackgroundColorRef = [[NSColor colorWithDeviceRed:0.4 green:0.361 blue:0.871 alpha:0.7] CGColor];
+        indicationShadowColorRef = [[NSColor colorWithDeviceRed:0.341 green:0.0 blue:0.012 alpha:0.6] CGColor];
+        missingFileBackgroundColorRef = [[NSColor colorWithDeviceRed:0.992 green:0.0 blue:0.0 alpha:0.4] CGColor];
+        processingItemBackgroundColorRef = [[NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.0 alpha:0.7] CGColor];
+    }
+}
 
 - (void)layoutSublayers
 {
@@ -76,7 +91,6 @@
 
 #pragma mark -
 #pragma mark Properties
-
 - (void)setType:(OEGridViewCellIndicationType)type
 {
     if(_type != type)
@@ -90,7 +104,8 @@
         }
         else if(type == OEGridViewCellIndicationTypeDropOn)
         {
-            [self setBackgroundColor:[[NSColor colorWithDeviceRed:0.4 green:0.361 blue:0.871 alpha:0.7] CGColor]];
+            [[self sublayers] makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
+            [self setBackgroundColor:dropOnBackgroundColorRef];
         }
         else
         {
@@ -102,7 +117,7 @@
                 [sublayer setShadowOffset:CGSizeMake(0.0, -1.0)];
                 [sublayer setShadowOpacity:1.0];
                 [sublayer setShadowRadius:1.0];
-                [sublayer setShadowColor:[[NSColor colorWithDeviceRed:0.341 green:0.0 blue:0.012 alpha:0.6] CGColor]];
+                [sublayer setShadowColor:indicationShadowColorRef];
 
                 [self addSublayer:sublayer];
             }
@@ -113,12 +128,12 @@
 
             if(_type == OEGridViewCellIndicationTypeFileMissing)
             {
-                [self setBackgroundColor:[[NSColor colorWithDeviceRed:0.992 green:0.0 blue:0.0 alpha:0.4] CGColor]];
+                [self setBackgroundColor:missingFileBackgroundColorRef];
                 [sublayer setContents:[NSImage imageNamed:@"missing_rom"]];
             }
             else if(_type == OEGridViewCellIndicationTypeProcessing)
             {
-                [self setBackgroundColor:[[NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.0 alpha:0.7] CGColor]];
+                [self setBackgroundColor:processingItemBackgroundColorRef];
 
                 [sublayer setContents:[NSImage imageNamed:@"spinner"]];
                 [sublayer setAnchorPoint:CGPointMake(0.5, 0.5)];
@@ -141,7 +156,7 @@
         NSUInteger      stepCount     = 12;
         NSMutableArray *spinnerValues = [[NSMutableArray alloc] initWithCapacity:stepCount];
 
-        for(NSUInteger step = 0; step < stepCount; step++) [spinnerValues addObject:[NSNumber numberWithDouble:M_TAU * step / 12.0]];
+        for(NSUInteger step = 0; step < stepCount; step++) [spinnerValues addObject:[NSNumber numberWithDouble:-1*M_TAU * step / 12.0]];
 
         animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
         [animation setCalculationMode:kCAAnimationDiscrete];

@@ -36,6 +36,7 @@
 
 #import "OEMenu.h"
 
+#import <QuickLook/QuickLook.h>
 @interface IKImageBrowserView (ApplePrivate)
 
 // -_drawCALayer:forceUpdateRect: overridden to adjust for overscroll
@@ -228,6 +229,55 @@
     }
 
     return [super menuForEvent:theEvent];
+}
+#pragma mark - Dragging
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
+{
+    [self OE_generateProposedImageFromPasteboard:[sender draggingPasteboard]];
+    return [super draggingEntered:sender];
+}
+
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
+{
+    [self setProposedImage:nil];
+    return [super performDragOperation:sender];
+}
+
+- (void)draggingExited:(id<NSDraggingInfo>)sender
+{
+    [self setProposedImage:nil];
+    [super draggingExited:sender];
+}
+- (void)draggingEnded:(id<NSDraggingInfo>)sender
+{
+    [self setProposedImage:nil];
+    [super draggingEnded:sender];
+}
+
+- (void)OE_generateProposedImageFromPasteboard:(NSPasteboard*)pboard
+{
+    NSImage *image = nil;
+    if([[pboard pasteboardItems] count] == 1)
+    {
+        image  = [[pboard readObjectsForClasses:@[[NSImage class]] options:@{}] lastObject];
+        if(image == nil)
+        {
+            NSURL *url = [[pboard readObjectsForClasses:@[[NSURL class]] options:@{}] lastObject];
+            QLThumbnailRef thumbnailRef = QLThumbnailCreate(NULL, (__bridge CFURLRef)url, [self cellSize], NULL);
+            if(thumbnailRef)
+            {
+                CGImageRef thumbnailImageRef = QLThumbnailCopyImage(thumbnailRef);
+                if(thumbnailImageRef)
+                {
+                    image = [[NSImage alloc] initWithCGImage:thumbnailImageRef size:NSMakeSize(CGImageGetWidth(thumbnailImageRef), CGImageGetHeight(thumbnailImageRef))];
+                    CGImageRelease(thumbnailImageRef);
+                }
+                CFRelease(thumbnailRef);
+            }
+        }
+    }
+
+    [self setProposedImage:image];
 }
 #pragma mark - Rating items
 - (void)OE_updateRatingForItemAtIndex:(NSInteger)index withLocation:(NSPoint)location inRect:(NSRect)rect

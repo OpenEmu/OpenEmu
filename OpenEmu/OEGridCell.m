@@ -29,6 +29,10 @@ static const CGFloat OEGridCellImageContainerBottom = OEGridCellTitleHeight + OE
 
 __strong static OEThemeImage *selectorRingImage = nil;
 
+@interface IKImageBrowserCell (ApplePrivate)
+- (BOOL)acceptsDrop;
+@end
+
 @interface OEGridCell ()
 @property NSImage *glossImage;
 @property NSImage *selectorImage;
@@ -41,6 +45,9 @@ __strong static OEThemeImage *selectorRingImage = nil;
 @property CALayer     *backgroundLayer;
 
 @property OEGridViewCellIndicationLayer *indicationLayer;
+
+@property CALayer *proposedImageLayer;
+@property __block NSUInteger timerID;
 @end
 
 @implementation OEGridCell
@@ -65,7 +72,87 @@ static NSDictionary *disabledActions = nil;
     return self;
 }
 
+- (NSImageAlignment)imageAlignment
+{
+    return NSImageAlignBottom;
+}
 
+- (OEGridView*)imageBrowserView
+{
+    return (OEGridView*)[super imageBrowserView];
+}
+#pragma mark - Frames
+- (NSRect)imageContainerFrame
+{
+    NSRect frame = [super imageContainerFrame];
+
+    frame.origin.x += OEGridCellImageContainerLeft;
+    frame.origin.y = [self frame].origin.y + OEGridCellImageContainerBottom;
+    frame.size.width -= OEGridCellImageContainerLeft + OEGridCellImageContainerRight;
+    frame.size.height -= OEGridCellImageContainerTop + OEGridCellImageContainerBottom;
+
+    return frame;
+}
+
+- (NSRect)titleFrame
+{
+    NSRect frame;
+
+    frame.size.width = [self frame].size.width;
+    frame.size.height = OEGridCellTitleHeight;
+    frame.origin.x = [self frame].origin.x;
+    frame.origin.y = [self frame].origin.y + OEGridCellSubtitleHeight;
+
+    return frame;
+}
+
+- (NSRect)ratingFrame
+{
+    NSRect frame;
+
+    frame.size.width  = OEGridCellSubtitleWidth;
+    frame.size.height = OEGridCellSubtitleHeight;
+    frame.origin.x = NSMidX([self frame])-OEGridCellSubtitleWidth/2.0;
+    frame.origin.y = [self frame].origin.y;
+
+    return frame;
+}
+
+- (NSRect)selectionFrame
+{
+    return [self imageFrame];
+}
+
+- (NSRect)relativeImageFrame
+{
+	const NSRect frame      = NSIntegralRect([self frame]);
+	const NSRect imageFrame = NSIntegralRect([self imageFrame]);
+
+	return NSMakeRect(imageFrame.origin.x - frame.origin.x, imageFrame.origin.y - frame.origin.y, imageFrame.size.width, imageFrame.size.height);
+}
+
+- (NSRect)relativeTitleFrame
+{
+	const NSRect frame      = NSIntegralRect([self frame]);
+    const NSRect titleFrame = NSIntegralRect([self titleFrame]);
+
+    return NSMakeRect(titleFrame.origin.x - frame.origin.x, titleFrame.origin.y - frame.origin.y, titleFrame.size.width, titleFrame.size.height);
+}
+
+- (NSRect)relativeRatingFrame
+{
+	const NSRect frame       = NSIntegralRect([self frame]);
+    const NSRect ratingFrame = NSIntegralRect([self ratingFrame]);
+
+    return NSMakeRect(ratingFrame.origin.x - frame.origin.x, ratingFrame.origin.y - frame.origin.y, ratingFrame.size.width, ratingFrame.size.height);
+}
+
+#pragma mark - Apple Private Overrides
+- (BOOL)acceptsDrop
+{
+    return [[self imageBrowserView] proposedImage] != nil;
+}
+#pragma mark - Layers & Images
 - (void)OE_setupLayers
 {
     _foregroundLayer = [CALayer layer];
@@ -111,52 +198,6 @@ static NSDictionary *disabledActions = nil;
     [_backgroundLayer setContentsGravity:kCAGravityResize];
 }
 
-- (NSRect)imageContainerFrame
-{
-    NSRect frame = [super imageContainerFrame];
-
-    frame.origin.x += OEGridCellImageContainerLeft;
-    frame.origin.y = [self frame].origin.y + OEGridCellImageContainerBottom;
-    frame.size.width -= OEGridCellImageContainerLeft + OEGridCellImageContainerRight;
-    frame.size.height -= OEGridCellImageContainerTop + OEGridCellImageContainerBottom;
-
-    return frame;
-}
-
-- (NSRect)titleFrame
-{
-    NSRect frame;
-
-    frame.size.width = [self frame].size.width;
-    frame.size.height = OEGridCellTitleHeight;
-    frame.origin.x = [self frame].origin.x;
-    frame.origin.y = [self frame].origin.y + OEGridCellSubtitleHeight;
-
-    return frame;
-}
-
-- (NSRect)ratingFrame
-{
-    NSRect frame;
-
-    frame.size.width  = OEGridCellSubtitleWidth;
-    frame.size.height = OEGridCellSubtitleHeight;
-    frame.origin.x = NSMidX([self frame])-OEGridCellSubtitleWidth/2.0;
-    frame.origin.y = [self frame].origin.y;
-
-    return frame;
-}
-
-- (NSRect)selectionFrame
-{
-    return [self imageFrame];
-}
-
-- (NSImageAlignment)imageAlignment
-{
-    return NSImageAlignBottom;
-}
-
 - (CALayer *)layerForType:(NSString *)type
 {
     [CATransaction begin];
@@ -167,17 +208,13 @@ static NSDictionary *disabledActions = nil;
 
 	// retrieve some useful rects
     const NSRect bounds = {{0,0}, [self frame].size};
-    const NSRect imageContainer = NSInsetRect(bounds, 0, 0);
 	const NSRect frame = NSIntegralRect([self frame]);
 	const NSRect imageFrame = NSIntegralRect([self imageFrame]);
-    const NSRect titleFrame = NSIntegralRect([self titleFrame]);
-    const NSRect ratingFrame = NSIntegralRect([self ratingFrame]);
 
     // calculate relative rects
-	const NSRect relativeImageFrame = NSMakeRect(imageFrame.origin.x - frame.origin.x, imageFrame.origin.y - frame.origin.y, imageFrame.size.width, imageFrame.size.height);
-    const NSRect relativeContainerFrame = NSMakeRect(imageContainer.origin.x - frame.origin.x, imageContainer.origin.y - frame.origin.y, imageContainer.size.width, imageContainer.size.height);
-    const NSRect relativeTitleFrame = NSMakeRect(titleFrame.origin.x - frame.origin.x, titleFrame.origin.y - frame.origin.y, titleFrame.size.width, titleFrame.size.height);
-    const NSRect relativeRatingFrame = NSMakeRect(ratingFrame.origin.x - frame.origin.x, ratingFrame.origin.y - frame.origin.y, ratingFrame.size.width, ratingFrame.size.height);
+	const NSRect relativeImageFrame = [self relativeImageFrame];
+    const NSRect relativeTitleFrame = [self relativeTitleFrame];
+    const NSRect relativeRatingFrame = [self relativeRatingFrame];
 
     // Create a placeholder layer
     if(type == IKImageBrowserCellPlaceHolderLayer){
@@ -245,29 +282,13 @@ static NSDictionary *disabledActions = nil;
             [_glossyLayer setContents:glossyImage];
             [_glossyLayer setHidden:NO];
 
-            NSInteger status = [(id <OECoverGridDataSourceItem>)[self representedItem] gridStatus];
-            OEGridViewCellIndicationType indicationType = OEGridViewCellIndicationTypeNone;
-            switch (status) {
-                case 1:
-                    indicationType = OEGridViewCellIndicationTypeProcessing;
-                    break;
-                case 2:
-                    indicationType = OEGridViewCellIndicationTypeFileMissing;
-                    break;
-                default:
-                    break;
-            }
+            [self OE_updateIndicationLayer];
 
-            IKImageBrowserView *browser = [self imageBrowserView];
-            if([browser indexAtLocationOfDroppedItem] == [self indexOfRepresentedItem] && [browser dropOperation] == IKImageBrowserDropOn)
-            {
-                indicationType = OEGridViewCellIndicationTypeDropOn;
-            }
-            [_indicationLayer setType:indicationType];
             [_indicationLayer setFrame:relativeImageFrame];
         }
         else
         {
+            [_proposedImageLayer removeFromSuperlayer];
             [_indicationLayer setType:OEGridViewCellIndicationTypeNone];
         }
 
@@ -341,6 +362,39 @@ static NSDictionary *disabledActions = nil;
     DLog(@"Unkown layer type: %@", type);
     [CATransaction commit];
     return nil;
+}
+
+- (void)OE_updateIndicationLayer
+{
+    NSInteger status = [(id <OECoverGridDataSourceItem>)[self representedItem] gridStatus];
+    OEGridViewCellIndicationType indicationType = OEGridViewCellIndicationTypeNone;
+    switch (status) {
+        case 1:
+            indicationType = OEGridViewCellIndicationTypeProcessing;
+            break;
+        case 2:
+            indicationType = OEGridViewCellIndicationTypeFileMissing;
+            break;
+        default:
+            break;
+    }
+
+    OEGridView *browser = [self imageBrowserView];
+    if([browser indexAtLocationOfDroppedItem] == [self indexOfRepresentedItem] && [browser dropOperation] == IKImageBrowserDropOn)
+    {
+        indicationType = OEGridViewCellIndicationTypeDropOn;
+    }
+
+    OEGridViewCellIndicationType previousType = [_indicationLayer type];
+    if([_indicationLayer type] != indicationType)
+    {
+        if(previousType == OEGridViewCellIndicationTypeDropOn)
+            [self OE_displayOnDropExited];
+        else if(indicationType == OEGridViewCellIndicationTypeDropOn)
+            [self OE_displayOnDropEntered];
+    }
+    [_indicationLayer setType:indicationType];
+
 }
 
 - (CALayer *)OE_missingRomLayerWithRect:(NSRect)frame;
@@ -601,4 +655,154 @@ static NSDictionary *disabledActions = nil;
     
     return animation;
 }
+#pragma mark - Drop Indication
+- (void)OE_displayOnDropEntered
+{
+    const CGRect imageRect = [self relativeImageFrame];
+    const OEGridView *browser = [self imageBrowserView];
+
+    _proposedImageLayer = [CALayer layer];
+    [_proposedImageLayer setDelegate:self];
+    [_proposedImageLayer setMasksToBounds:YES];
+    [_proposedImageLayer setContentsGravity:kCAGravityResizeAspectFill];
+    [_proposedImageLayer setContents:[browser proposedImage]];
+    [_proposedImageLayer setPosition:CGPointMake(CGRectGetMidX(imageRect), CGRectGetMidY(imageRect))];
+    [_foregroundLayer insertSublayer:_proposedImageLayer below:_indicationLayer];
+
+    const CGFloat durationMultiplier = 1.0;
+    const CGFloat framesPerSecond    = 30.0;
+
+    // Create fade animation for the status indicator
+    CABasicAnimation *indicatorFadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    [indicatorFadeAnimation setDuration:(7.0 * durationMultiplier) / framesPerSecond];
+    [indicatorFadeAnimation setFromValue:[NSNumber numberWithFloat:0.0]];
+    [indicatorFadeAnimation setToValue:[NSNumber numberWithFloat:1.0]];
+
+    // Create fade animation for the image
+    CAKeyframeAnimation *imageFadeAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
+    [imageFadeAnimation setDuration:(13.0 * durationMultiplier) / framesPerSecond];
+    [imageFadeAnimation setKeyTimes:[NSArray arrayWithObjects:
+                                     [NSNumber numberWithFloat:0.0],
+                                     [NSNumber numberWithFloat:(4.0 * durationMultiplier) / ([imageFadeAnimation duration] * framesPerSecond)],
+                                     [NSNumber numberWithFloat:(9.0 * durationMultiplier) / ([imageFadeAnimation duration] * framesPerSecond)],
+                                     [NSNumber numberWithFloat:1.0],
+                                     nil]];
+    [imageFadeAnimation setValues:[NSArray arrayWithObjects:
+                                   [NSNumber numberWithFloat:0.0],
+                                   [NSNumber numberWithFloat:0.0],
+                                   [NSNumber numberWithFloat:0.8],
+                                   [NSNumber numberWithFloat:1.0],
+                                   nil]];
+
+    // Create resize animation for the image
+    const NSRect fromFrame  = CGRectMake(0.0, 0.0, CGRectGetWidth(imageRect) * 0.55, CGRectGetHeight(imageRect) * 0.55);
+    const NSRect largeFrame = CGRectMake(0.0, 0.0, CGRectGetWidth(imageRect) * 1.05, CGRectGetHeight(imageRect) * 1.05);
+    const NSRect toFrame    = CGRectMake(0.0, 0.0, CGRectGetWidth(imageRect), CGRectGetHeight(imageRect));
+
+    CAKeyframeAnimation *imageResizeAnimation = [CAKeyframeAnimation animationWithKeyPath:@"bounds"];
+    [imageResizeAnimation setDuration:[imageFadeAnimation duration]];
+    [imageResizeAnimation setKeyTimes:[imageFadeAnimation keyTimes]];
+    [imageResizeAnimation setValues:[NSArray arrayWithObjects:
+                                     [NSValue valueWithRect:fromFrame],
+                                     [NSValue valueWithRect:fromFrame],
+                                     [NSValue valueWithRect:largeFrame],
+                                     [NSValue valueWithRect:toFrame],
+                                     nil]];
+    [imageResizeAnimation setTimingFunctions:[NSArray arrayWithObjects:
+                                              [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault],
+                                              [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut],
+                                              [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn],
+                                              nil]];
+
+    // Set the layers to what we want them to be
+    [_indicationLayer setOpacity:1.0f];
+    [_proposedImageLayer setOpacity:1.0f];
+    [_proposedImageLayer setBounds:toFrame];
+
+    // Add animations to the layers
+    [CATransaction begin];
+    [_indicationLayer addAnimation:indicatorFadeAnimation forKey:@"opacity"];
+    [_proposedImageLayer addAnimation:imageFadeAnimation forKey:@"opacity"];
+    [_proposedImageLayer addAnimation:imageResizeAnimation forKey:@"bounds"];
+    [CATransaction commit];
+}
+
+- (void)OE_displayOnDropExited
+{
+    if([[self imageBrowserView] proposedImage] == nil)
+    {
+        // nothing to animate
+        [_proposedImageLayer removeFromSuperlayer];
+        _proposedImageLayer = nil;
+        return;
+    }
+
+    const CGFloat durationMultiplier = 1.0;
+    const CGFloat framesPerSecond    = 30.0;
+
+    // Create fade animation for the status indicator
+    CABasicAnimation *indicatorFadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    [indicatorFadeAnimation setDuration:(7.0 * durationMultiplier) / framesPerSecond];
+    [indicatorFadeAnimation setFromValue:[NSNumber numberWithFloat:1.0]];
+    [indicatorFadeAnimation setToValue:[NSNumber numberWithFloat:0.0]];
+
+    // Create fade animation for the image
+    CAKeyframeAnimation *imageFadeAnimation = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
+    [imageFadeAnimation setDuration:(13.0 * durationMultiplier) / framesPerSecond];
+    [imageFadeAnimation setKeyTimes:[NSArray arrayWithObjects:
+                                     [NSNumber numberWithFloat:0.0],
+                                     [NSNumber numberWithFloat:(4.0 * durationMultiplier) / ([imageFadeAnimation duration] * framesPerSecond)],
+                                     [NSNumber numberWithFloat:(9.0 * durationMultiplier) / ([imageFadeAnimation duration] * framesPerSecond)],
+                                     [NSNumber numberWithFloat:1.0],
+                                     nil]];
+    [imageFadeAnimation setValues:[NSArray arrayWithObjects:
+                                   [NSNumber numberWithFloat:1.0],
+                                   [NSNumber numberWithFloat:1.0],
+                                   [NSNumber numberWithFloat:0.8],
+                                   [NSNumber numberWithFloat:0.0],
+                                   nil]];
+
+    // Create resize animation for the image
+    const CGRect imageRect  = [self relativeImageFrame];
+    const NSRect fromFrame  = CGRectMake(0.0, 0.0, CGRectGetWidth(imageRect), CGRectGetHeight(imageRect));
+    const NSRect largeFrame = CGRectMake(0.0, 0.0, CGRectGetWidth(imageRect) * 1.05, CGRectGetHeight(imageRect) * 1.05);
+    const NSRect toFrame    = CGRectMake(0.0, 0.0, CGRectGetWidth(imageRect) * 0.80, CGRectGetHeight(imageRect) * 0.80);
+
+    CAKeyframeAnimation *imageResizeAnimation = [CAKeyframeAnimation animationWithKeyPath:@"bounds"];
+    [imageResizeAnimation setDuration:[imageFadeAnimation duration]];
+    [imageResizeAnimation setKeyTimes:[imageFadeAnimation keyTimes]];
+    [imageResizeAnimation setValues:[NSArray arrayWithObjects:
+                                     [NSValue valueWithRect:fromFrame],
+                                     [NSValue valueWithRect:fromFrame],
+                                     [NSValue valueWithRect:largeFrame],
+                                     [NSValue valueWithRect:toFrame],
+                                     nil]];
+    [imageResizeAnimation setTimingFunctions:[NSArray arrayWithObjects:
+                                              [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault],
+                                              [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut],
+                                              [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn],
+                                              nil]];
+
+    // Set the layers to what we want them to be
+    [_indicationLayer setOpacity:0.0f];
+    [_proposedImageLayer setOpacity:0.0f];
+    [_proposedImageLayer setBounds:toFrame];
+
+    // Add animations to the layers
+    [NSAnimationContext runAnimationGroup:
+     ^ (NSAnimationContext *context)
+     {
+         [_indicationLayer addAnimation:indicatorFadeAnimation forKey:@"opacity"];
+         [_proposedImageLayer addAnimation:imageFadeAnimation forKey:@"opacity"];
+         [_proposedImageLayer addAnimation:imageResizeAnimation forKey:@"bounds"];
+     }
+                        completionHandler:
+     ^{
+         [_indicationLayer setOpacity:1.0];
+         [_proposedImageLayer removeFromSuperlayer];
+         _proposedImageLayer = nil;
+         [self OE_updateIndicationLayer];
+     }];
+}
+
 @end

@@ -7,7 +7,8 @@
 //
 
 #import <ImageKit/ImageKit.h>
-
+#import "OEGridView.h"
 @interface OEGridCell : IKImageBrowserCell
 - (NSRect)ratingFrame;
+- (OEGridView*)imageBrowserView;
 @end
