@@ -306,7 +306,7 @@ static NSDictionary *disabledActions = nil;
             [_glossyLayer setContents:glossyImage];
             [_glossyLayer setHidden:NO];
 
-            if([identifier length]==0 && !NSEqualSizes(imageFrame.size, _lastImageSize))
+            if([identifier characterAtIndex:0]==':' && !NSEqualSizes(imageFrame.size, _lastImageSize))
             {
                 NSImage *missingArtworkImage = [self OE_missingArtworkImageWithSize:imageFrame.size];
                 [_missingArtworkLayer setFrame:relativeImageFrame];
@@ -314,7 +314,7 @@ static NSDictionary *disabledActions = nil;
                 _lastImageSize = imageFrame.size;
             }
 
-            if([identifier length]!=0)
+            if([identifier characterAtIndex:0]!=':')
             {
                 [_missingArtworkLayer setContents:nil];
             }

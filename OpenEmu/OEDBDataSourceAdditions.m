@@ -94,7 +94,7 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 #pragma mark CoverFlowDataSourceItem
 - (NSString *)imageUID
 {
-    return [[[self boxImage] urlForSize:NSMakeSize(CGFLOAT_MAX, CGFLOAT_MAX)] absoluteString] ?: @"";
+    return [[[self boxImage] urlForSize:NSMakeSize(CGFLOAT_MAX, CGFLOAT_MAX)] absoluteString] ?: [NSString stringWithFormat:@":%@", [[self system] systemIdentifier]];
 }
 
 - (NSString *)imageRepresentationType

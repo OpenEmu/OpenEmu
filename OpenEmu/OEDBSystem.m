@@ -239,7 +239,11 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 - (CGFloat)coverAspectRatio
 {
     if([self plugin])
-        return 1.365385; // TODO: pass query on to system plugin if available
+    {
+        CGFloat aspectRatio = [[self plugin] coverAspectRatio];
+        if(aspectRatio != 0)
+            return aspectRatio;
+    }
 
     // in case system plugin has been removed return a default value
     return 1.365385;
@@ -269,7 +273,6 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 }
 
 #pragma mark -
-
 - (OESystemPlugin *)plugin
 {
     NSString *systemIdentifier = [self systemIdentifier];

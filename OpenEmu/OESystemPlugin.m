@@ -146,4 +146,8 @@ static NSArray *_cachedRequiredFiles = nil;
     return [[self controller] requiredFiles];
 }
 
+- (CGFloat)coverAspectRatio
+{
+    return [[self controller] coverAspectRatio];
+}
 @end

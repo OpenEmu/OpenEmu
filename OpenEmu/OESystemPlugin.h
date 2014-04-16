@@ -36,6 +36,7 @@
 @property(strong, readonly) NSString *systemIdentifier;
 @property(strong, readonly) NSString *systemName;
 @property(strong, readonly) NSImage  *systemIcon;
+@property(readonly)         CGFloat  coverAspectRatio;
 @property(strong, readonly) NSImage  *bundleIcon;
 
 @property(strong, readonly) Class     responderClass;
