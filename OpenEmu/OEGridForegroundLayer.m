@@ -37,6 +37,11 @@
     return self;
 }
 
+- (id < CAAction >)actionForKey:(NSString *)key
+{
+    return nil;
+}
+
 - (void)drawInContext:(CGContextRef)ctx
 {
     NSGraphicsContext *context = [NSGraphicsContext graphicsContextWithGraphicsPort:ctx flipped:NO];

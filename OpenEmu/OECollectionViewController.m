@@ -899,7 +899,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 - (void)deleteSaveState:(id)stateItem
 {
     // TODO: localize and rephrase text
-    id state = [stateItem representedObject];
+    OEDBSaveState *state = [stateItem representedObject];
     NSString *stateName = [state name];
     OEHUDAlert *alert = [OEHUDAlert deleteStateAlertWithStateName:stateName];
     

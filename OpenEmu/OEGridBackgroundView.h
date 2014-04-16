@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import <Quartz/Quartz.h>
 @interface OEGridBackgroundView : NSView
 
 @end
