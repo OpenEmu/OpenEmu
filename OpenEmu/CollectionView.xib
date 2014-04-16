@@ -11,7 +11,6 @@
                 <outlet property="coverFlowView" destination="10" id="101"/>
                 <outlet property="flowlistViewContainer" destination="4" id="65"/>
                 <outlet property="gridView" destination="95" id="KDt-aM-Nmy"/>
-                <outlet property="gridViewBackground" destination="Gtr-69-EBx" id="Jod-Re-15k"/>
                 <outlet property="gridViewContainer" destination="0jF-GH-3Dc" id="rH2-Wc-Iu5"/>
                 <outlet property="listView" destination="13" id="68"/>
                 <outlet property="view" destination="1" id="102"/>

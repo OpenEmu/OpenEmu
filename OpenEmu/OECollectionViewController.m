@@ -92,8 +92,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {    
     IBOutlet NSView *gridViewContainer;// gridview
     IBOutlet OEGridView *gridView;// scrollview for gridview
-    IBOutlet NSView *gridViewBackground;// gridview's nonscrollable background
-    
+
     IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
     IBOutlet IKImageFlowView *coverFlowView;
     IBOutlet OETableView *listView;
@@ -188,8 +187,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [gridView setDraggingDestinationDelegate:self];
     [gridView setCellSize:defaultGridSize];
     [gridView setIntercellSpacing:NSMakeSize(22, 29)];
-
-    [gridViewBackground setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
@@ -599,7 +596,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     NSLog(@"writeItemsAtIndexes");
     [itemIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop)
      {
-         id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:idx];
+         id <OECoverGridDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:idx];
          [pasteboard writeObjects:[NSArray arrayWithObject:obj]];
      }];
 
@@ -661,11 +658,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     
     gridView.draggingOperation = IKImageBrowserDropNone;
     return YES;
-}
-
--(void)viewDidStopScrolling:(OEGridView*)gridView
-{
-//    [gridView reloadCellsAtIndexes:[gridView indexesForVisibleCells]];
 }
 
 #pragma mark -
