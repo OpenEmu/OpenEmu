@@ -189,27 +189,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [gridView setCellSize:defaultGridSize];
     [gridView setIntercellSpacing:NSMakeSize(22, 29)];
 
-    // Create GridView's background layer
-    OEBackgroundNoisePatternCreate();
-
-    CALayer *backgroundLayer = [CALayer new];
-    CALayer *noiseLayer      = [CALayer new];
-    
-    [backgroundLayer setContentsGravity:kCAGravityResize];
-    [backgroundLayer setContents:[NSImage imageNamed:@"background_lighting"]];
-    CGColorRef colorRef = CGColorCreateGenericRGB(0.220, 0.10, 0.10, 1);
-    [backgroundLayer setBackgroundColor:colorRef];
-    CGColorRelease(colorRef);
-
-    [gridViewBackground setWantsLayer:YES];
-    [gridViewBackground setLayer:backgroundLayer];
-
-    [noiseLayer setFrame:[gridViewBackground bounds]];
-    [noiseLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
-    [noiseLayer setGeometryFlipped:YES];
-    [noiseLayer setBackgroundColor:OEBackgroundNoiseColorRef];
-
-    [backgroundLayer addSublayer:noiseLayer];
     [gridViewBackground setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 
     //set initial zoom value

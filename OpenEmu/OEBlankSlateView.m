@@ -32,7 +32,6 @@
 
 #import "OEButton.h"
 #import "OEPopUpButtonCell.h"
-#import "OEBackgroundNoisePattern.h"
 #import "OEGridForegroundLayer.h"
 
 #import "NSColor+OEAdditions.h"
@@ -40,7 +39,7 @@
 @interface OEBlankSlateView ()
 @property CALayer *dragIndicationLayer;
 @property NSDragOperation lastDragOperation;
-- (void)OE_commonInit;
+- (void)OE_commonBlankSlateInit;
 - (void)OE_showView:(NSView*)view;
 - (void)OE_setupView:(NSView*)view withCollectionName:(NSString *)representedCollectionName;
 - (void)OE_setupView:(NSView*)view withSystemPlugin:(OESystemPlugin *)systemPlugin;
@@ -73,40 +72,21 @@
 {
     self = [super initWithFrame:frameRect];
     if (self) {
-        [self OE_commonInit];
+        [self OE_commonBlankSlateInit];
     }
     return self;
 }
 
-- (void)OE_commonInit
+- (void)awakeFromNib
 {
-    OEBackgroundNoisePatternCreate();
-        
-    [self setWantsLayer:YES];
-    CALayer *layer = [CALayer layer];
-    [layer setLayoutManager:self];
-    [layer setDelegate:self];
-    [layer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
-    [layer setFrame:[self bounds]];
-    [self setLayer:layer];
-    
-    // Setup layer
-    [layer setContentsGravity:kCAGravityResize];
+    [super awakeFromNib];
+    [self OE_commonBlankSlateInit];
+}
 
-    // Setup background lighting
-    CALayer *lightingLayer = [CALayer layer];
-    [lightingLayer setFrame:[self bounds]];
-    [lightingLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
-    [lightingLayer setContents:[NSImage imageNamed:@"background_lighting"]];
-    [layer addSublayer:lightingLayer];
-    
-    // Setup noise
-    CALayer *noiseLayer = [CALayer layer];
-    [noiseLayer setGeometryFlipped:YES];
-    [noiseLayer setBackgroundColor:OEBackgroundNoiseColorRef];
-    [noiseLayer setDelegate:self];
-    [layer addSublayer:noiseLayer];
-    
+- (void)OE_commonBlankSlateInit
+{
+    CALayer *layer = [self layer];
+
     // Setup foreground
     OEGridForegroundLayer *foregroundLayer = [[OEGridForegroundLayer alloc] init];
     [layer addSublayer:foregroundLayer];
@@ -408,37 +388,6 @@
 {
     [_dragIndicationLayer setHidden:YES];
     return [_delegate respondsToSelector:@selector(blankSlateView:acceptDrop:)] && [_delegate blankSlateView:self acceptDrop:sender];
-}
-#pragma mark - CALayer Delegate
-- (id < CAAction >)actionForLayer:(CALayer *)layer forKey:(NSString *)key
-{
-    return (id < CAAction >)[NSNull null];
-}
-
-- (BOOL)layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window
-{
-    if([layer backgroundColor] == NULL) return YES;
-
-    CGColorRef      bgColor = OEBackgroundNoiseColorRef;
-    NSRect          frame   = [self bounds];
-    CATransform3D transform = CATransform3DIdentity;
-
-    if(newScale != 1.0)
-    {
-        OEBackgroundHighResolutionNoisePatternCreate();
-        bgColor = OEBackgroundHighResolutionNoiseColorRef;
-        frame.size.width *= 2.0;
-        frame.size.height *= 2.0;
-
-        transform = CATransform3DMakeScale(0.5, 0.5, 1.0);
-    }
-
-    [layer setBackgroundColor:bgColor];
-    [layer setTransform:transform];
-    [layer setFrame:frame];
-
-
-    return YES;
 }
 
 #pragma mark - Properties

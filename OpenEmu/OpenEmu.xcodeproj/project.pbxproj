@@ -452,6 +452,7 @@
 		83CAD4D4147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CAD4D3147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m */; };
 		83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */; };
 		83CE3DC314C84EC10036DB28 /* beta_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CE3DC214C84EC10036DB28 /* beta_icon.png */; };
+		83D175B318FF155700E5ED34 /* OEGridBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D175B218FF155700E5ED34 /* OEGridBackgroundView.m */; };
 		83D435EF147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D435EE147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.m */; };
 		83D435F214718891003FE856 /* closed_weblink_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D435F114718890003FE856 /* closed_weblink_arrow.png */; };
 		83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
@@ -2062,6 +2063,8 @@
 		83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveState.h; sourceTree = "<group>"; };
 		83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSaveState.m; sourceTree = "<group>"; };
 		83CE3DC214C84EC10036DB28 /* beta_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beta_icon.png; sourceTree = "<group>"; };
+		83D175B118FF155700E5ED34 /* OEGridBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridBackgroundView.h; sourceTree = "<group>"; };
+		83D175B218FF155700E5ED34 /* OEGridBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridBackgroundView.m; sourceTree = "<group>"; };
 		83D435ED147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECenteredTextFieldWithWeblinkCell.h; sourceTree = "<group>"; };
 		83D435EE147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECenteredTextFieldWithWeblinkCell.m; sourceTree = "<group>"; };
 		83D435F114718890003FE856 /* closed_weblink_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closed_weblink_arrow.png; sourceTree = "<group>"; };
@@ -3753,14 +3756,16 @@
 		53439AAE13B92CFE005C0CC8 /* Grid View */ = {
 			isa = PBXGroup;
 			children = (
-				8305A47E18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.h */,
-				8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */,
 				8369C1E618FB32F400620219 /* Decoration Layers */,
 				53439AB113B92DA3005C0CC8 /* OECoverGridDataSourceItem.h */,
+				83D175B118FF155700E5ED34 /* OEGridBackgroundView.h */,
+				83D175B218FF155700E5ED34 /* OEGridBackgroundView.m */,
 				8CBD3AA017D23AA80022399B /* OEGridCell.h */,
 				8CBD3AA117D23AA80022399B /* OEGridCell.m */,
 				EFBD5D7B14EFE26300FBD1E0 /* OEGridView.h */,
 				EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */,
+				8305A47E18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.h */,
+				8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */,
 				53439B0513B92EEC005C0CC8 /* OEGridViewFieldEditor.h */,
 				53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */,
 				EFBD5D8414EFE27E00FBD1E0 /* OEGridViewLayoutManager.h */,
@@ -7700,6 +7705,7 @@
 				C6772A7F1710C0C900ED580A /* snes_ntsc.c in Sources */,
 				83B867A8171D62DA0038988C /* OEStorageDevice.m in Sources */,
 				83B867A9171D62DA0038988C /* OEStorageDeviceManager.m in Sources */,
+				83D175B318FF155700E5ED34 /* OEGridBackgroundView.m in Sources */,
 				83B867B4171D63070038988C /* OERetrode.m in Sources */,
 				83B867B5171D63070038988C /* OERetrodeDeviceManager.m in Sources */,
 				83B867B6171D63070038988C /* OERetrodeViewController.m in Sources */,
