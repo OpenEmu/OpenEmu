@@ -59,8 +59,8 @@
 - (CGFloat)coverAspectRatio
 {
     return ([[OELocalizationHelper sharedHelper] isRegionJAP]
-            ? 2.392562
-            : 0.569106);
+            ? 1.8
+            : 0.73);
 }
 
 @end
