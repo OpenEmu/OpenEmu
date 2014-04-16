@@ -18,7 +18,6 @@ static const CGFloat OEGridCellImageTitleSpacing                = 17.0;        /
 static const CGFloat OEGridCellSubtitleHeight                   = 11.0;        // Subtitle height
 static const CGFloat OEGridCellSubtitleWidth                    = 56.0;        // Subtitle's width
 static const CGFloat OEGridCellGlossWidthToHeightRatio          = 0.6442;      // Gloss image's width to height ratio
-static const CGFloat OEGridCellMissingArtworkWidthToHeightRatio = 1.365385;    // Missing artwork's height to width ratio
 
 static const CGFloat OEGridCellImageContainerLeft   = 13.0;
 static const CGFloat OEGridCellImageContainerTop    = 7.0;
@@ -32,7 +31,6 @@ __strong static OEThemeImage *selectorRingImage = nil;
 @end
 
 @interface OEGridCell ()
-@property NSImage *glossImage;
 @property NSImage *selectorImage;
 @property CALayer *selectionLayer;
 
@@ -41,11 +39,13 @@ __strong static OEThemeImage *selectorRingImage = nil;
 @property CALayer     *ratingLayer;
 @property CALayer     *glossyLayer;
 @property CALayer     *backgroundLayer;
+@property CALayer     *missingArtworkLayer;
 
 @property OEGridViewCellIndicationLayer *indicationLayer;
 
 @property CALayer *proposedImageLayer;
-@property BOOL lastWindowActive;
+@property BOOL    lastWindowActive;
+@property NSSize  lastImageSize;
 @end
 
 @implementation OEGridCell
@@ -206,6 +206,10 @@ static NSDictionary *disabledActions = nil;
     [_ratingLayer setActions:disabledActions];
     [_foregroundLayer addSublayer:_ratingLayer];
 
+    _missingArtworkLayer = [CALayer layer];
+    [_missingArtworkLayer setActions:disabledActions];
+    [_foregroundLayer addSublayer:_missingArtworkLayer];
+
     // setup gloss layer
     _glossyLayer = [CALayer layer];
     [_glossyLayer setActions:disabledActions];
@@ -236,6 +240,7 @@ static NSDictionary *disabledActions = nil;
     const BOOL   isSelected   = [self isSelected];
     const IKImageBrowserCellState state = [self cellState];
     const id<OECoverGridDataSourceItem> representedItem = [self representedItem];
+    const NSString *identifier = [representedItem imageUID];
 
     // absolute rects
     const NSRect frame  = [self frame];
@@ -300,6 +305,19 @@ static NSDictionary *disabledActions = nil;
             [_glossyLayer setFrame:relativeImageFrame];
             [_glossyLayer setContents:glossyImage];
             [_glossyLayer setHidden:NO];
+
+            if([identifier length]==0 && !NSEqualSizes(imageFrame.size, _lastImageSize))
+            {
+                NSImage *missingArtworkImage = [self OE_missingArtworkImageWithSize:imageFrame.size];
+                [_missingArtworkLayer setFrame:relativeImageFrame];
+                [_missingArtworkLayer setContents:missingArtworkImage];
+                _lastImageSize = imageFrame.size;
+            }
+
+            if([identifier length]!=0)
+            {
+                [_missingArtworkLayer setContents:nil];
+            }
 
             [self OE_updateIndicationLayer];
 
@@ -421,33 +439,6 @@ static NSDictionary *disabledActions = nil;
     [_indicationLayer setType:newType];
 }
 
-- (CALayer *)OE_missingRomLayerWithRect:(NSRect)frame;
-{
-    CALayer *indicationLayer = [CALayer layer];
-    [indicationLayer setActions:disabledActions];
-
-    static NSColor *backgroundColor = nil;
-    if(backgroundColor==nil) backgroundColor = [NSColor colorWithDeviceRed:0.992 green:0.0 blue:0.0 alpha:0.4];
-
-    static NSColor *shadowColor = nil;
-    if(shadowColor==nil) shadowColor = [NSColor colorWithDeviceRed:0.341 green:0.0 blue:0.012 alpha:0.6];
-
-    [indicationLayer setBackgroundColor:[backgroundColor CGColor]];
-
-    CALayer *glyphLayer = [CALayer layer];
-    [glyphLayer setActions:disabledActions];
-    [glyphLayer setShadowOffset:CGSizeMake(0.0, -1.0)];
-    [glyphLayer setShadowOpacity:1.0];
-    [glyphLayer setShadowRadius:1.0];
-    [glyphLayer setShadowColor:[shadowColor CGColor]];
-
-    [glyphLayer setContentsGravity:kCAGravityResizeAspect];
-    [glyphLayer setContents:[NSImage imageNamed:@"missing_rom"]];
-
-    [indicationLayer addSublayer:glyphLayer];
-
-    return indicationLayer;
-}
 - (NSImage *)OE_standardImageNamed:(NSString *)name withSize:(NSSize)size
 {
     // TODO: why do we use the background layer?
@@ -465,14 +456,18 @@ static NSDictionary *disabledActions = nil;
 
 - (NSImage *)OE_glossImageWithSize:(NSSize)size
 {
-    //if([[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewGlossDisabledKey]) return nil;
-
     if(NSEqualSizes(size, NSZeroSize)) return nil;
 
-    //NSImage *glossImage = [self OE_standardImageNamed:@"OEGridCellGlossImage" withSize:size];
-    if(_glossImage && NSEqualSizes([_glossImage size], size)) return _glossImage;
+    static NSCache *cache = nil;
+    if(cache == nil)
+    {
+        cache = [[NSCache alloc] init];
+        [cache setCountLimit:30];
+    }
 
-    NSLog(@"Creating gloss image with size %@", NSStringFromSize(size));
+    NSString *key = NSStringFromSize(size);
+    NSImage *glossImage = [cache objectForKey:key];
+    if(glossImage) return glossImage;
 
     BOOL(^drawingBlock)(NSRect) = ^BOOL(NSRect dstRect)
     {
@@ -485,7 +480,7 @@ static NSDictionary *disabledActions = nil;
         [boxGlossImage drawInRect:boxGlossFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
 
         [currentContext saveGraphicsState];
-        [currentContext setShouldAntialias:NO];
+        [currentContext setShouldAntialias:YES];
 
         const NSRect bounds = NSMakeRect(0.0, 0.0, size.width-0.5, size.height-0.5);
         [[NSColor colorWithCalibratedWhite:1.0 alpha:0.4] setStroke];
@@ -504,29 +499,37 @@ static NSDictionary *disabledActions = nil;
     GetSystemVersion(&major, &minor, NULL);
     if(major == 10 && minor >= 8)
     {
-        _glossImage = [NSImage imageWithSize:size flipped:NO drawingHandler:drawingBlock];
+        glossImage = [NSImage imageWithSize:size flipped:NO drawingHandler:drawingBlock];
     }
     else
     {
         NSRect dstRect = (NSRect){{0,0}, size};
-        _glossImage = [[NSImage alloc] initWithSize:size];
-        [_glossImage lockFocus];
+        glossImage = [[NSImage alloc] initWithSize:size];
+        [glossImage lockFocus];
 
         drawingBlock(dstRect);
 
-        [_glossImage unlockFocus];
+        [glossImage unlockFocus];
     }
 
-    //[self OE_setStandardImage:_glossImage named:@"OEGridCellGlossImage"];
+    [cache setObject:glossImage forKey:key cost:size.height*size.width];
 
-    return _glossImage;
+    return glossImage;
 }
 
 - (NSImage *)OE_missingArtworkImageWithSize:(NSSize)size
 {
     if(NSEqualSizes(size, NSZeroSize)) return nil;
 
-    NSImage *missingArtwork = [self OE_standardImageNamed:@"OEGridCellMissingArtworkImage" withSize:size];
+    static NSCache *cache = nil;
+    if(cache == nil)
+    {
+        cache = [[NSCache alloc] init];
+        [cache setCountLimit:15];
+    }
+
+    NSString *key = NSStringFromSize(size);
+    NSImage *missingArtwork = [cache objectForKey:key];
     if(missingArtwork) return missingArtwork;
 
     missingArtwork = [[NSImage alloc] initWithSize:size];
@@ -536,7 +539,6 @@ static NSDictionary *disabledActions = nil;
     [currentContext saveGraphicsState];
     [currentContext setShouldAntialias:NO];
 
-    // Draw the scan lines from top to bottom
     NSImage      *scanLineImage     = [NSImage imageNamed:@"missing_artwork"];
     const NSSize  scanLineImageSize = [scanLineImage size];
 
@@ -551,7 +553,7 @@ static NSDictionary *disabledActions = nil;
     [missingArtwork unlockFocus];
 
     // Cache the image for later use
-    [self OE_setStandardImage:missingArtwork named:@"OEGridCellMissingArtworkImage"];
+    [cache setObject:missingArtwork forKey:key cost:size.width*size.height];
 
     return missingArtwork;
 }

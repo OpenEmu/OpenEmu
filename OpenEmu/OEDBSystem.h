@@ -61,6 +61,7 @@ extern NSString * const OEDBSystemsDidChangeNotification;
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
+@property (nonatomic, readonly) CGFloat coverAspectRatio;
 #pragma mark -
 #pragma mark Data Model Properties
 @property(nonatomic, retain) NSString *lastLocalizedName;

@@ -235,6 +235,15 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     
     return [database executeFetchRequest:req error:error];
 }
+
+- (CGFloat)coverAspectRatio
+{
+    if([self plugin])
+        return 1.365385; // TODO: pass query on to system plugin if available
+
+    // in case system plugin has been removed return a default value
+    return 1.365385;
+}
 #pragma mark - Core Data utilities
 
 + (NSString *)entityName
