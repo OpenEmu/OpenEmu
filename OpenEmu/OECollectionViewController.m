@@ -82,7 +82,6 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 };
 
 static const float OE_coverFlowHeightPercentage = 0.75;
-static const int maxImagesToCache = 200;
 static NSArray *OE_defaultSortDescriptors;
 
 static const CGFloat defaultGridWidth = 143;
@@ -116,9 +115,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 @implementation OECollectionViewController
 {
     int _selectedViewTag;
-    
-    // Used to cache images by URL for grid view
-    NSCache *_imageCache;
 }
 @synthesize libraryController, gamesController;
 
@@ -186,10 +182,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     // Setup View
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 
-    // Set up image cache
-    _imageCache = [[NSCache alloc] init];
-    [_imageCache setTotalCostLimit:maxImagesToCache];
-    
     // Set up GridView
     [gridView setDelegate:self];
     [gridView setDataSource:self];
@@ -199,7 +191,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
     // Create GridView's background layer
     OEBackgroundNoisePatternCreate();
-    
+
     CALayer *backgroundLayer = [CALayer new];
     CALayer *noiseLayer      = [CALayer new];
     
@@ -211,12 +203,11 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
     [gridViewBackground setWantsLayer:YES];
     [gridViewBackground setLayer:backgroundLayer];
-    
+
     [noiseLayer setFrame:[gridViewBackground bounds]];
     [noiseLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
     [noiseLayer setGeometryFlipped:YES];
     [noiseLayer setBackgroundColor:OEBackgroundNoiseColorRef];
-
 
     [backgroundLayer addSublayer:noiseLayer];
     [gridViewBackground setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];

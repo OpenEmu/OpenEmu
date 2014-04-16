@@ -42,7 +42,7 @@
 // -_drawCALayer:forceUpdateRect: overridden to adjust for overscroll
 - (void)_drawCALayer:(id)arg1 forceUpdateRect:(BOOL)arg2;
 
-// -drawLayer:inRect:performUpdateRect: called to manually intitate drawing of foreground layer
+// -drawLayer:inRect:performUpdateRect: called to manually initiate drawing of foreground layer
 - (void)drawLayer:(id)arg1 inRect:(struct CGRect)arg2 performUpdateRect:(BOOL)arg3;
 
 // -handleKeyInput:character: is called to allow space in type select
@@ -397,5 +397,17 @@
     return YES;
 }
 
+// -_drawCALayer:forceUpdateRect: overridden to adjust for overscroll
+- (void)_drawCALayer:(id)arg1 forceUpdateRect:(BOOL)arg2
+{
+    if(arg1 == self.foregroundLayer)
+    {
+        NSRect rect = [[self enclosingScrollView] documentVisibleRect];
+        NSRect frame = rect;
+        if(rect.origin.y > 0) frame.origin.y -= rect.origin.y;
+        [arg1 setFrame:frame];
+        [self drawLayer:arg1 inRect:frame performUpdateRect:arg2];
+    } else [super _drawCALayer:arg1 forceUpdateRect:arg2];
+}
 @end
 
