@@ -66,44 +66,47 @@ NSString * const OESQLiteErrorDomain = @"OESQLiteErrorDomain";
 
 - (id)executeQuery:(NSString*)sql error:(NSError *__autoreleasing *)error
 {
-    sqlite3_stmt *stmt = NULL;
-    int        sql_err = SQLITE_OK;
-    const char   *csql = [sql cStringUsingEncoding:NSUTF8StringEncoding];
-    
-    sql_err = sqlite3_prepare_v2(connection, csql, -1, &stmt, NULL);
-    if(sql_err != SQLITE_OK)
+    NSMutableArray *result = nil;
+    @synchronized(self)
     {
-        sqlite3_finalize(stmt);
-        if(error != NULL)
+        sqlite3_stmt *stmt = NULL;
+        int        sql_err = SQLITE_OK;
+        const char   *csql = [sql cStringUsingEncoding:NSUTF8StringEncoding];
+
+        sql_err = sqlite3_prepare_v2(connection, csql, -1, &stmt, NULL);
+        if(sql_err != SQLITE_OK)
         {
-            NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"%s", sqlite3_errmsg(connection)]};
-            *error = [NSError errorWithDomain:OESQLiteErrorDomain code:sql_err userInfo:userInfo];
+            sqlite3_finalize(stmt);
+            if(error != NULL)
+            {
+                NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : [NSString stringWithFormat:@"%s", sqlite3_errmsg(connection)]};
+                *error = [NSError errorWithDomain:OESQLiteErrorDomain code:sql_err userInfo:userInfo];
+            }
+            return nil;
         }
-        return nil;
-    }
-    
-    NSMutableArray *result = [NSMutableArray array];
-    
-    while(sqlite3_step(stmt) == SQLITE_ROW)
-    {
-        int columnCount = sqlite3_column_count(stmt);
-        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:columnCount];
-        
-        for (int i=0; i < columnCount; i++)
+
+        result = [NSMutableArray array];
+
+        while(sqlite3_step(stmt) == SQLITE_ROW)
         {
-            const char * cname = sqlite3_column_name(stmt, i);
-            NSString *name = [NSString stringWithCString:cname encoding:NSUTF8StringEncoding];
+            int columnCount = sqlite3_column_count(stmt);
+            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:columnCount];
+
+            for (int i=0; i < columnCount; i++)
+            {
+                const char * cname = sqlite3_column_name(stmt, i);
+                NSString *name = [NSString stringWithCString:cname encoding:NSUTF8StringEncoding];
+
+                id value = [self _valueOfSQLStatement:stmt atColumn:i];
+                if(value)
+                    [dict setObject:value forKey:name];
+            }
             
-            id value = [self _valueOfSQLStatement:stmt atColumn:i];
-            if(value)
-                [dict setObject:value forKey:name];
+            [result addObject:dict];
         }
         
-        [result addObject:dict];
+        sqlite3_finalize(stmt);
     }
-    
-    sqlite3_finalize(stmt);
-    
     return result;
 }
 

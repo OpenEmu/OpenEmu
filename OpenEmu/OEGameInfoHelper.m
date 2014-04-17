@@ -196,73 +196,16 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
         dispatch_async(dispatch_get_main_queue(), ^{
             NSURLRequest  *request = [NSURLRequest requestWithURL:url];
-            self.fileDownload = [[NSURLDownload alloc] initWithRequest:request delegate:self];
+            [self setFileDownload:[[NSURLDownload alloc] initWithRequest:request delegate:self]];
         });
     }
 }
-
-#pragma mark - NSURLDownload Delegate
-- (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
-{
-    _downloadPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"OpenVGDB.%@", [NSString stringWithUUID]]];
-    [download setDestination:_downloadPath allowOverwrite:NO];
-}
-
-- (void)download:(NSURLDownload *)download didCreateDestination:(NSString *)path
-{}
-
-- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
-{
-    _downloadedSize += length;
-    _downloadProgress = (CGFloat) _downloadedSize /  (CGFloat) _expectedLength;
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidChangeUpdateProgressNotificationName object:self];
-}
-
-- (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response
-{
-    _expectedLength = [response expectedContentLength];
-}
-
-- (void)downloadDidFinish:(NSURLDownload *)download
-{
-    XADArchive *archive = nil;
-    @try
-    {
-        archive = [XADArchive archiveForFile:_downloadPath];
-    }
-    @catch (NSException *exc)
-    {
-        archive = nil;
-    }
-    
-    NSURL *url = [self databaseFileURL];
-    NSURL *databaseFolder = [url URLByDeletingLastPathComponent];
-    [archive extractTo:[databaseFolder path]];
-
-    [[NSFileManager defaultManager] removeItemAtPath:_downloadPath error:nil];
-
-    OESQLiteDatabase *database = [[OESQLiteDatabase alloc] initWithURL:url error:nil];
-    [self setDatabase:database];
-
-    if(database) [[NSUserDefaults standardUserDefaults] setObject:_downloadVerison forKey:OEOpenVGDBVersionKey];
-
-    _updating = NO;
-    _downloadProgress = 1.0;
-    _downloadVerison  = nil;
-    [self setFileDownload:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
-}
-
-
-- (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
-{
-    _updating = NO;
-    _downloadProgress = 1.0;
-    [self setFileDownload:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
-}
 #pragma mark -
+- (id)executeQuery:(NSString*)sql error:(NSError *__autoreleasing *)error
+{
+    return [_database executeQuery:sql error:error];
+}
+
 - (NSDictionary*)gameInfoForROM:(OEDBRom*)rom error:(NSError *__autoreleasing*)error
 {
     // TODO: this method could use some cleanup
@@ -354,7 +297,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
                      FROM ROMs rom LEFT JOIN RELEASES release USING (romID) LEFT JOIN REGIONS region on (regionLocalizedID=region.regionID)\
                      WHERE %@ = '%@'", key, value];
 
-    __block NSArray *result = [[self database] executeQuery:sql error:error];
+    __block NSArray *result = [_database executeQuery:sql error:error];
     if([result count] > 1)
     {
         // the database holds multiple regions for this rom (probably WORLD rom)
@@ -383,7 +326,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
 - (BOOL)hashlessROMCheckForSystem:(NSString*)system
 {
-    if(![self database]) return 0;
+    if(![self database]) return NO;
     
     NSString *sql = [NSString stringWithFormat:@"select systemhashless as 'hashless' from systems where systemoeid = '%@'", system];
     NSArray *result = [[self database] executeQuery:sql error:nil];
@@ -392,7 +335,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
 - (BOOL)headerROMCheckForSystem:(NSString*)system
 {
-    if(![self database]) return 0;
+    if(![self database]) return NO;
     
     NSString *sql = [NSString stringWithFormat:@"select systemheader as 'header' from systems where systemoeid = '%@'", system];
     NSArray *result = [[self database] executeQuery:sql error:nil];
@@ -401,7 +344,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
 - (BOOL)serialROMCheckForSystem:(NSString*)system
 {
-    if(![self database]) return 0;
+    if(![self database]) return NO;
     
     NSString *sql = [NSString stringWithFormat:@"select systemserial as 'serial' from systems where systemoeid = '%@'", system];
     NSArray *result = [[self database] executeQuery:sql error:nil];
@@ -410,7 +353,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
 - (int)sizeOfROMHeaderForSystem:(NSString*)system
 {
-    if(![self database]) return 0;
+    if(![self database]) return NO;
 
     NSString *sql = [NSString stringWithFormat:@"select systemheadersizebytes as 'size' from systems where systemoeid = '%@'", system];
     NSArray *result = [[self database] executeQuery:sql error:nil];
@@ -466,6 +409,66 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
             [fm removeItemAtPath:folder error:nil];
     }
     return nil;
+}
+#pragma mark - NSURLDownload Delegate
+- (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
+{
+    _downloadPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"OpenVGDB.%@", [NSString stringWithUUID]]];
+    [download setDestination:_downloadPath allowOverwrite:NO];
+}
+
+- (void)download:(NSURLDownload *)download didCreateDestination:(NSString *)path
+{}
+
+- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
+{
+    _downloadedSize += length;
+    _downloadProgress = (CGFloat) _downloadedSize /  (CGFloat) _expectedLength;
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidChangeUpdateProgressNotificationName object:self];
+}
+
+- (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response
+{
+    _expectedLength = [response expectedContentLength];
+}
+
+- (void)downloadDidFinish:(NSURLDownload *)download
+{
+    XADArchive *archive = nil;
+    @try
+    {
+        archive = [XADArchive archiveForFile:_downloadPath];
+    }
+    @catch (NSException *exc)
+    {
+        archive = nil;
+    }
+
+    NSURL *url = [self databaseFileURL];
+    NSURL *databaseFolder = [url URLByDeletingLastPathComponent];
+    [archive extractTo:[databaseFolder path]];
+
+    [[NSFileManager defaultManager] removeItemAtPath:_downloadPath error:nil];
+
+    OESQLiteDatabase *database = [[OESQLiteDatabase alloc] initWithURL:url error:nil];
+    [self setDatabase:database];
+
+    if(database) [[NSUserDefaults standardUserDefaults] setObject:_downloadVerison forKey:OEOpenVGDBVersionKey];
+
+    _updating = NO;
+    _downloadProgress = 1.0;
+    _downloadVerison  = nil;
+    [self setFileDownload:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
+}
+
+- (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
+{
+    _updating = NO;
+    _downloadProgress = 1.0;
+    [self setFileDownload:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
 }
 
 @end

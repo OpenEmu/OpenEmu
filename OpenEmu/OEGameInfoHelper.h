@@ -49,6 +49,8 @@ extern NSString * const OEGameInfoHelperDidUpdateNotificationName;
 - (void)installVersion:(NSString*)versionTag withDownloadURL:(NSURL*)url;
 - (void)cancelUpdate;
 
+- (id)executeQuery:(NSString*)sql error:(NSError *__autoreleasing *)error;
+
 @property (readonly) CGFloat downloadProgress;
 @property (copy)     NSString *downloadVerison;
 @property (readonly, getter=isUpdating) BOOL updating;
