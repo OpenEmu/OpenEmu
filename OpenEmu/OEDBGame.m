@@ -56,7 +56,10 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
          [[NSUserDefaults standardUserDefaults] registerDefaults:@{
                                                                    OEBoxSizesKey:@[@"{75,75}", @"{150,150}", @"{300,300}", @"{450,450}"],
                                                                    OEGameArtworkFormatKey : @(NSPNGFileType),
-                                                                   OEGameArtworkPropertiesKey : @{}}];
+                                                                   OEGameArtworkPropertiesKey : @{
+                                                                           NSImageCompressionFactor : @(0.9)
+                                                                           }
+                                                                   }];
      }
 }
 
@@ -349,7 +352,8 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 #pragma mark -
 - (void)setBoxImageByImage:(NSImage *)img
 {
-    OEDBImage *image = [OEDBImage createImageWithNSImage:img type:OEBitmapImageFileTypeDefault inLibrary:[self libraryDatabase]];
+    OEBitmapImageFileType type = [[NSUserDefaults standardUserDefaults] integerForKey:OEGameArtworkFormatKey];
+    OEDBImage *image = [OEDBImage createImageWithNSImage:img type:type inLibrary:[self libraryDatabase]];
     NSManagedObjectContext *context = [[self libraryDatabase] unsafeContext];
     [context performBlockAndWait:^{
         OEDBImage *currentImage = [self boxImage];
