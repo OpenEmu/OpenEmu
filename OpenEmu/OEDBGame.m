@@ -214,6 +214,8 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
         NSString *normalizedURL = [[result objectForKey:boxImageURLKey] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSURL   *url = [NSURL URLWithString:normalizedURL];
         [self setBoxImageByURL:url];
+
+        [result removeObjectForKey:boxImageURLKey];
     }
 
     if(result != nil)

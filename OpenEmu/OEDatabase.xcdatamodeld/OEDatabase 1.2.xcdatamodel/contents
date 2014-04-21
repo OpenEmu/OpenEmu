@@ -41,10 +41,10 @@
     </entity>
     <entity name="Image" representedClassName="OEDBImage" syncable="YES">
         <attribute name="format" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="height" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="height" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <attribute name="relativePath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="width" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="width" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
         <relationship name="Box" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="boxImage" inverseEntity="Game" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="ROM" representedClassName="OEDBRom" syncable="YES">
@@ -90,7 +90,7 @@
         <element name="Credit" positionX="0" positionY="0" width="128" height="90"/>
         <element name="Game" positionX="0" positionY="0" width="128" height="238"/>
         <element name="Genre" positionX="0" positionY="0" width="128" height="75"/>
-        <element name="Image" positionX="0" positionY="0" width="128" height="133"/>
+        <element name="Image" positionX="0" positionY="0" width="128" height="135"/>
         <element name="ROM" positionX="0" positionY="0" width="128" height="283"/>
         <element name="SaveState" positionX="0" positionY="0" width="128" height="150"/>
         <element name="SmartCollection" positionX="0" positionY="0" width="128" height="45"/>
