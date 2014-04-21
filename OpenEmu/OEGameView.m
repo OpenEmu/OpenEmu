@@ -172,6 +172,12 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
         glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _rttGameTextures[i], 0);
     }
 
+    if([self backgroundColor])
+    {
+        NSColor *color = [self backgroundColor];
+        glClearColor([color redComponent], [color greenComponent], [color blueComponent], [color alphaComponent]);
+    }
+
     GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
     if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
         NSLog(@"failed to make complete framebuffer object %x", status);

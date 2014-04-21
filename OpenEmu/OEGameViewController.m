@@ -25,7 +25,6 @@
  */
 
 #import "OEGameViewController.h"
-#import "NSViewController+OEAdditions.h"
 
 #import "OEDBRom.h"
 #import "OEDBSystem.h"
@@ -51,8 +50,9 @@
 #import "OEAudioDeviceManager.h"
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
-
 #import "NSURL+OELibraryAdditions.h"
+#import "NSColor+OEAdditions.h"
+#import "NSViewController+OEAdditions.h"
 
 #import "OEPreferencesController.h"
 #import "OELibraryDatabase.h"
@@ -71,6 +71,7 @@ NSString *const OEGameViewControllerEmulationWillFinishNotification = @"OEGameVi
 NSString *const OEGameViewControllerEmulationDidFinishNotification = @"OEGameViewControllerEmulationDidFinishNotification";
 NSString *const OETakeNativeScreenshots = @"takeNativeScreenshots";
 NSString *const OEGameViewControllerROMKey = @"OEROM";
+NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor";
 
 NSString *const OEScreenshotFileFormatKey = @"screenshotFormat";
 NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
@@ -113,6 +114,14 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         _gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
         [_gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [_gameView setDelegate:self];
+
+        NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
+        if(backgroundColorName != nil)
+        {
+            NSColor *color = OENSColorFromString(backgroundColorName);
+            [_gameView setBackgroundColor:color];
+        }
+        
         [[self view] addSubview:_gameView];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:_gameView];

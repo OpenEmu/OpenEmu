@@ -289,3 +289,12 @@ NSColor *OENSColorFromString(NSString *colorString)
     NSColor *result = [namedColors valueForKey:[[colorString lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
     return (result ?: _OENSColorFromString(colorString));
 }
+
+
+NSString *OENSStringFromColor(NSColor *color)
+{
+    NSColor *rgbColor = [color colorUsingColorSpaceName:NSDeviceRGBColorSpace];
+    NSString *result  = [NSString stringWithFormat:@"#%02x%02x%02x", (int)([rgbColor redComponent]*255), (int)([rgbColor greenComponent]*255), (int)([rgbColor blueComponent]*255)];
+
+    return result;
+}

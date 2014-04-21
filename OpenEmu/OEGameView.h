@@ -44,7 +44,7 @@
 @property(copy) NSDictionary *filters;
 @property(nonatomic, copy) NSString *filterName;
 @property(nonatomic, copy) NSString *gameTitle;
-
+@property(nonatomic, copy) NSColor  *backgroundColor;
 // Screenshots
 /* Returns a screenshot containing the game viewport with its current size in the window and filters */
 - (NSImage *)screenshot;
@@ -59,7 +59,6 @@
 - (void)render;
 
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-
 @end
 
 @protocol OEGameViewDelegate <NSObject>
