@@ -34,6 +34,7 @@
 @property IBOutlet NSPopUpButton *dbActionSelector;
 
 @property IBOutlet NSView *contentView;
+@property IBOutlet NSColorWell *gameViewBackgroundColorWell;
 
 @property(readonly) BOOL canUseXPCMode;
 @property IBOutlet NSPopUpButton *gameModePopUpButton;
@@ -41,13 +42,14 @@
 
 #pragma mark -
 #pragma mark UI Methods
-
 - (IBAction)changeRegion:(id)sender;
 - (IBAction)executeDatabaseAction:(id)sender;
 
 - (IBAction)chooseSaveStateFolder:(id)sender;
 - (IBAction)defaultSaveStateFolder:(id)sender;
 - (IBAction)findUntrackedSaveStates:(id)sender;
+
+- (IBAction)changeGameViewBackgroundColor:(id)sender;
 
 - (IBAction)gameInfoUpdate:(id)sender;
 - (IBAction)gameInfoCancel:(id)sender;

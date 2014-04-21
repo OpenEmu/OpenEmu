@@ -34,6 +34,9 @@
 #import "OEDBSaveState.h"
 
 #import "NSURL+OELibraryAdditions.h"
+#import "NSColor+OEAdditions.h"
+
+#import "OEGameViewController.h"
 
 #import "OEDOGameCoreManager.h"
 #import "OEThreadGameCoreManager.h"
@@ -59,6 +62,9 @@
         OERegion currentRegion = [[OELocalizationHelper sharedHelper] region];
         [[self regionSelector] selectItemWithTag:currentRegion];
     }
+
+    NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
+    [[self gameViewBackgroundColorWell] setColor:OENSColorFromString(backgroundColorName)];
 
     NSScrollView *scrollView = (NSScrollView*)[self view];
     [scrollView setDocumentView:[self contentView]];
@@ -320,6 +326,14 @@
         if([[url pathExtension] isEqualToString:@"oesavestate"])
             [OEDBSaveState updateOrCreateStateWithURL:url];
     }
+}
+
+- (IBAction)changeGameViewBackgroundColor:(id)sender
+{
+    NSColor *color = [[self gameViewBackgroundColorWell] color];
+    NSString *colorString = OENSStringFromColor(color);
+
+    [[NSUserDefaults standardUserDefaults] setObject:colorString forKey:OEGameViewBackgroundColorKey];
 }
 
 #pragma mark -
