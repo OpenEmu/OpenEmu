@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="1.0" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C64" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="1.2" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C64" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AbstractCollection" representedClassName="NSManagedObject" isAbstract="YES" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="folder" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="CollectionFolder" inverseName="subcollections" inverseEntity="CollectionFolder" indexed="YES" syncable="YES"/>
@@ -51,6 +51,7 @@
         <attribute name="archiveFileIndex" optional="YES" attributeType="Integer 16" minValueString="0" syncable="YES"/>
         <attribute name="crc32" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="favorite" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="fileName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fileSize" optional="YES" attributeType="Integer 64" syncable="YES"/>
         <attribute name="header" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastPlayed" optional="YES" attributeType="Date" syncable="YES"/>
@@ -90,7 +91,7 @@
         <element name="Game" positionX="0" positionY="0" width="128" height="238"/>
         <element name="Genre" positionX="0" positionY="0" width="128" height="75"/>
         <element name="Image" positionX="0" positionY="0" width="128" height="133"/>
-        <element name="ROM" positionX="0" positionY="0" width="128" height="268"/>
+        <element name="ROM" positionX="0" positionY="0" width="128" height="283"/>
         <element name="SaveState" positionX="0" positionY="0" width="128" height="150"/>
         <element name="SmartCollection" positionX="0" positionY="0" width="128" height="45"/>
         <element name="System" positionX="0" positionY="0" width="128" height="120"/>
