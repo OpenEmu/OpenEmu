@@ -32,7 +32,7 @@ typedef enum : NSBitmapImageFileType
     OEBitmapImageFileTypeDefault  = 8,
 } OEBitmapImageFileType;
 
-@class OELibraryDatabase, OEDBImageThumbnail, OEDBGame;
+@class OELibraryDatabase, OEDBGame;
 @interface OEDBImage : OEDBItem
 
 + (instancetype)createImageWithNSImage:(NSImage*)image;

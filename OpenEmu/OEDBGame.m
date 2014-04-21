@@ -39,7 +39,6 @@
 #import "NSArray+OEAdditions.h"
 
 NSString *const OEPasteboardTypeGame = @"org.openemu.game";
-NSString *const OEBoxSizesKey = @"BoxSizes";
 NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 NSString *const OEGameArtworkFormatKey = @"artworkFormat";
@@ -54,7 +53,6 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
      if (self == [OEDBGame class])
      {
          [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-                                                                   OEBoxSizesKey:@[@"{75,75}", @"{150,150}", @"{300,300}", @"{450,450}"],
                                                                    OEGameArtworkFormatKey : @(NSJPEGFileType),
                                                                    OEGameArtworkPropertiesKey : @{
                                                                            NSImageCompressionFactor : @(0.9)

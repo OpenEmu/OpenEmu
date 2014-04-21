@@ -35,7 +35,6 @@ typedef NS_ENUM(NSUInteger, OEDBGameStatus)
 };
 
 extern NSString *const OEPasteboardTypeGame;
-extern NSString *const OEBoxSizesKey;
 extern NSString *const OEDisplayGameTitle;
 extern NSString *const OEGameArtworkFormatKey;
 extern NSString *const OEGameArtworkPropertiesKey;

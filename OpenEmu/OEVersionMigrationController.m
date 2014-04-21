@@ -138,14 +138,25 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
         NSDictionary     *attributes = [userDefaults dictionaryForKey:OEGameArtworkPropertiesKey];
 
         OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[OEDBImage entityName]];
-        NSPredicate *predicate  = [NSPredicate predicateWithFormat:@"format = -1"];
+        NSFetchRequest    *request  = [NSFetchRequest fetchRequestWithEntityName:[OEDBImage entityName]];
+        NSPredicate     *predicate  = [NSPredicate predicateWithFormat:@"format = -1"];
         [request setPredicate:predicate];
 
         NSArray *images = [database executeFetchRequest:request error:nil];
         if(images != nil && [images count] == 0)
         {
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:OEDBImageMigrateImageFormat];
+            NSURL *coverFolderURL = [database coverFolderURL];
+
+            NSArray *boxSizes = @[@"original", @"75", @"150", @"300", @"450"];
+            [boxSizes enumerateObjectsUsingBlock:^(id boxSize, NSUInteger idx, BOOL *stop) {
+                NSURL *url = [coverFolderURL URLByAppendingPathComponent:boxSize isDirectory:YES];
+
+                NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:url includingPropertiesForKeys:@[] options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+                if([contents count] == 0)
+                    [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
+            }];
+            [userDefaults removeObjectForKey:@"BoxSizes"];
+            [userDefaults removeObjectForKey:OEDBImageMigrateImageFormat];
         }
         else
         {
