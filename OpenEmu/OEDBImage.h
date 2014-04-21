@@ -24,31 +24,40 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
 #import "OEDBItem.h"
+
+typedef enum : NSBitmapImageFileType
+{
+    OEBitmapImageFileTypeOriginal,
+    OEBitmapImageFileTypeDefault,
+} OEBitmapImageFileType;
+
 @class OELibraryDatabase, OEDBImageThumbnail, OEDBGame;
 @interface OEDBImage : OEDBItem
+
++ (instancetype)createImageWithNSImage:(NSImage*)image;
++ (instancetype)createImageWithNSImage:(NSImage*)image type:(OEBitmapImageFileType)type;
++ (instancetype)createImageWithNSImage:(NSImage*)image type:(OEBitmapImageFileType)type inLibrary:(OELibraryDatabase*)library;
+
++ (instancetype)createImageWithURL:(NSURL*)url;
++ (instancetype)createImageWithURL:(NSURL*)url type:(OEBitmapImageFileType)type;
++ (instancetype)createImageWithURL:(NSURL*)url type:(OEBitmapImageFileType)type inLibrary:(OELibraryDatabase*)library;
++ (instancetype)createImageWithData:(NSData*)data;
++ (instancetype)createImageWithData:(NSData*)data type:(OEBitmapImageFileType)type;
++ (instancetype)createImageWithData:(NSData*)data type:(OEBitmapImageFileType)type inLibrary:(OELibraryDatabase*)library;
 #pragma mark - Core Data utilities
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
-- (void)addVersion:(OEDBImageThumbnail*)version;
-- (void)removeVersion:(OEDBImageThumbnail*)version;
+- (NSImage *)image;
+- (NSURL *)imageURL;
+@property (nonatomic) NSURL *sourceURL;
 
-// returns image with highest resolution
-- (NSImage *)originalImage;
-- (NSImage *)imageForSize:(NSSize)size;
-- (NSURL *)urlForSize:(NSSize)size;
-- (NSSize)sizeOfThumbnailForSize:(NSSize)size;
+@property (readonly, nonatomic, getter = isLocalImageAvailable) BOOL localImageAvailable;
 
-@property (nonatomic, retain) NSString * sourceURL;
+@property (nonatomic) float width, height;
+@property (nonatomic) NSInteger format;
+@property (nonatomic, retain) NSString *relativePath;
+@property (nonatomic, retain) NSString * source;
 @property (nonatomic, retain) OEDBGame *Box;
-@property (nonatomic, retain) NSSet *versions;
-@end
-
-@interface OEDBImage (CoreDataGeneratedAccessors)
-- (void)addVersionsObject:(OEDBImageThumbnail *)value;
-- (void)removeVersionsObject:(OEDBImageThumbnail *)value;
-- (void)addVersions:(NSSet *)values;
-- (void)removeVersions:(NSSet *)values;
 @end

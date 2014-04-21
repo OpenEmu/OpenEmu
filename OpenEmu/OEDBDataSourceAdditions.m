@@ -62,39 +62,31 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 
 - (NSImage *)gridImage
 {
-    return [[self boxImage] originalImage];
+    return [[self boxImage] imageURL];
 }
 
-- (NSImage *)gridImageWithSize:(NSSize)aSize
-{
-    return [[self boxImage] imageForSize:aSize];
-}
-
-- (NSURL *)gridImageURLWithSize:(NSSize)aSize
-{
-    return [[self boxImage] urlForSize:aSize];
-}
 
 - (BOOL)hasImage
 {
     return [self boxImage] != nil;
 }
 
-- (NSSize)actualGridImageSizeforSize:(NSSize)aSize
-{
-    return [[self boxImage] sizeOfThumbnailForSize:aSize];
-}
-
-- (void)setGridImage:(NSImage *)gridImage
-{
-    [self setBoxImageByImage:gridImage];
-}
-
 #pragma mark -
 #pragma mark CoverFlowDataSourceItem
 - (NSString *)imageUID
 {
-    return [[[self boxImage] urlForSize:NSMakeSize(CGFLOAT_MAX, CGFLOAT_MAX)] absoluteString] ?: [NSString stringWithFormat:@":%@", [[self system] systemIdentifier]];
+    OEDBImage *image = [self boxImage];
+    NSString *result = nil;
+    if([image isLocalImageAvailable])
+        result = [[image imageURL] absoluteString];
+    else if(image != nil)
+        result = [image source];
+    else
+    {
+        CGFloat aspectRatio = [[self system] coverAspectRatio];
+        result = [NSString stringWithFormat:@":MissingArtwork(%f)", aspectRatio];
+    }
+    return result;
 }
 
 - (NSString *)imageRepresentationType
@@ -107,14 +99,23 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 
 - (id)imageRepresentation
 {
-    if([self boxImage])
-        return [[self boxImage] urlForSize:(NSSize){CGFLOAT_MAX, CGFLOAT_MAX}];
-    else
+    OEDBImage *image = [self boxImage];
+
+    if(image == nil)
     {
         CGFloat aspectRatio = [[self system] coverAspectRatio];
-        NSImage *image = [[NSImage alloc] init];
-        [image setSize:NSMakeSize(300, 300*aspectRatio)];
-        return image;
+        NSImage *noArtworkImage = [[NSImage alloc] init];
+        [noArtworkImage setSize:NSMakeSize(300, 300*aspectRatio)];
+        return noArtworkImage;
+    }
+
+    if([image isLocalImageAvailable])
+    {
+        return [image imageURL];
+    }
+    else
+    {
+        return [image sourceURL];
     }
 }
 

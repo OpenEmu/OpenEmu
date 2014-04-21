@@ -27,12 +27,218 @@
 #import "OEDBImage.h"
 #import "OELibraryDatabase.h"
 
-@interface OEDBImage ()
+#import "OEDBImage.h"
+#import "OELibraryDatabase.h"
 
+@interface OEDBImage ()
 @end
 #pragma mark -
 @implementation OEDBImage
-@dynamic sourceURL, versions, Box;
+@dynamic source, width, height, format, Box, relativePath;
+
++ (instancetype)createImageWithNSImage:(NSImage*)image
+{
+    return [self createImageWithNSImage:image type:OEBitmapImageFileTypeDefault];
+}
+
++ (instancetype)createImageWithNSImage:(NSImage*)image type:(OEBitmapImageFileType)type
+{
+    return [self createImageWithNSImage:image type:type inLibrary:[OELibraryDatabase defaultDatabase]];
+}
+
++ (instancetype)createImageWithNSImage:(NSImage*)nsimage type:(OEBitmapImageFileType)type inLibrary:(OELibraryDatabase*)library
+{
+    OEDBImage *image = [self OE_createInstanceInLibrary:library];
+
+    const NSSize size = [nsimage size];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        NSBitmapImageFileType format;
+        NSURL *fileUrl = [image OE_writeImage:nsimage withType:type usedFormat:&format inLibrary:library];
+        NSManagedObjectContext *context = [library unsafeContext];
+        [context performBlockAndWait:^{
+            if(fileUrl != nil)
+            {
+                [image setWidth:size.width];
+                [image setHeight:size.height];
+                [image setRelativePath:[fileUrl relativeString]];
+                [image setFormat:format];
+            }
+            else
+            {
+                [image setBox:nil];
+                [context deleteObject:image];
+            }
+
+            [context save:nil];
+        }];
+    });
+
+    return image;
+}
+
++ (instancetype)createImageWithURL:(NSURL*)url
+{
+    return [self createImageWithURL:url type:OEBitmapImageFileTypeDefault];
+}
++ (instancetype)createImageWithURL:(NSURL*)url type:(OEBitmapImageFileType)type
+{
+    return [self createImageWithURL:url type:type inLibrary:[OELibraryDatabase defaultDatabase]];
+}
++ (instancetype)createImageWithURL:(NSURL*)url type:(OEBitmapImageFileType)type inLibrary:(OELibraryDatabase*)library
+{
+    OEDBImage *image = [self OE_createInstanceInLibrary:library];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        NSSize size = NSZeroSize;
+        NSBitmapImageFileType format;
+        NSURL *fileUrl = [image OE_writeURL:url withType:type usedFormat:&format outSize:&size inLibrary:library];
+        NSManagedObjectContext *context = [library unsafeContext];
+        [context performBlockAndWait:^{
+            if(fileUrl != nil)
+            {
+                [image setWidth:size.width];
+                [image setHeight:size.height];
+                [image setRelativePath:[fileUrl relativeString]];
+                [image setSourceURL:url];
+                [image setFormat:format];
+            }
+            else
+            {
+                [image setBox:nil];
+                [context deleteObject:image];
+            }
+            [context save:nil];
+        }];
+    });
+    return image;
+}
+
++ (instancetype)createImageWithData:(NSData*)data
+{
+    return [self createImageWithData:data type:OEBitmapImageFileTypeDefault];
+}
++ (instancetype)createImageWithData:(NSData*)data type:(OEBitmapImageFileType)type
+{
+    return [self createImageWithData:data type:type inLibrary:[OELibraryDatabase defaultDatabase]];
+}
++ (instancetype)createImageWithData:(NSData*)data type:(OEBitmapImageFileType)type inLibrary:(OELibraryDatabase*)library
+{
+    OEDBImage *image = [self OE_createInstanceInLibrary:library];
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        NSSize size = NSZeroSize;
+        NSBitmapImageFileType format;
+        NSURL *fileUrl = [image OE_writeData:data withType:type usedFormat:&format outSize:&size inLibrary:library];
+        NSManagedObjectContext *context = [library unsafeContext];
+        [context performBlockAndWait:^{
+            if(fileUrl != nil)
+            {
+                [image setWidth:size.width];
+                [image setHeight:size.height];
+                [image setRelativePath:[fileUrl relativeString]];
+                [image setFormat:format];
+            }
+            else
+            {
+                [image setBox:nil];
+                [context deleteObject:image];
+            }
+            [context save:nil];
+        }];
+    });
+
+    return image;
+}
+
++ (instancetype)OE_createInstanceInLibrary:(OELibraryDatabase*)library
+{
+    __block OEDBImage *image = nil;
+    NSManagedObjectContext *context = [library unsafeContext];
+    [context performBlockAndWait:^{
+        NSEntityDescription *description = [self entityDescriptionInContext:context];
+        image = [[OEDBImage alloc] initWithEntity:description insertIntoManagedObjectContext:context];
+    }];
+    return image;
+}
+
+#pragma mark -
+- (NSURL*)OE_writeImage:(NSImage*)image withType:(OEBitmapImageFileType)type usedFormat:(NSBitmapImageFileType*)usedFormat inLibrary:(OELibraryDatabase*)library
+{
+    if(image == nil)
+    {
+        DLog(@"No image passed in, exiting…");
+        return nil;
+    }
+
+    const NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    const NSSize         imageSize             = [image size];
+    NSString *fileName = [NSString stringWithUUID];
+
+    if(type == OEBitmapImageFileTypeDefault || OEBitmapImageFileTypeOriginal)
+        type = [standardUserDefaults integerForKey:OEGameArtworkFormatKey];
+
+    __block NSBitmapImageRep *imageRep = nil;
+    __block NSInteger maxArea = 0;
+    [[image representations] enumerateObjectsUsingBlock:^(NSImageRep *rep, NSUInteger idx, BOOL *stop)
+     {
+         if([rep isKindOfClass:[NSBitmapImageRep class]])
+         {
+             NSInteger area = [rep pixelsHigh]*[rep pixelsWide];
+             if(area >= maxArea)
+             {
+                 imageRep = (NSBitmapImageRep*)rep;
+                 maxArea = area;
+             }
+         }
+     }];
+
+
+    if(imageRep == nil)
+    {
+        DLog(@"No NSBitmapImageRep found, creating one...");
+        [image lockFocus];
+        imageRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){{0,0}, imageSize}];
+        [image unlockFocus];
+    }
+
+    if(imageRep == nil)
+    {
+        DLog(@"Could not draw NSImage in NSBitmapimage rep, exiting…");
+        return nil;
+    }
+
+    NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEGameArtworkPropertiesKey];
+    NSData *data = [imageRep representationUsingType:type properties:properties];
+
+    NSURL *coverFolderURL = [library coverFolderURL];
+    NSURL *imageURL = [NSURL URLWithString:fileName relativeToURL:coverFolderURL];
+
+    if(![data writeToURL:imageURL atomically:YES])
+    {
+        [[NSFileManager defaultManager] removeItemAtURL:imageURL error:nil];
+        DLog(@"Failed to write image file! Exiting…");
+        return nil;
+    }
+
+    if(usedFormat != NULL)
+        *usedFormat = type;
+
+    return imageURL;
+}
+
+- (NSURL*)OE_writeURL:(NSURL*)url withType:(OEBitmapImageFileType)type usedFormat:(NSBitmapImageFileType*)usedFormat outSize:(NSSize*)size inLibrary:(OELibraryDatabase*)library
+{
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    return [self OE_writeData:data withType:type usedFormat:usedFormat outSize:size inLibrary:library];
+}
+
+- (NSURL*)OE_writeData:(NSData*)data withType:(OEBitmapImageFileType)type usedFormat:(NSBitmapImageFileType*)usedFormat outSize:(NSSize*)size inLibrary:(OELibraryDatabase*)library
+{
+    NSImage *image = [[NSImage alloc] initWithData:data];
+    if(size != NULL)
+        *size = [image size];
+
+    return [self OE_writeImage:image withType:type usedFormat:usedFormat inLibrary:library];
+}
 #pragma mark - Core Data utilities
 + (NSString *)entityName
 {
@@ -44,61 +250,44 @@
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
 
-- (void)addVersion:(OEDBImageThumbnail*)version
+- (void)prepareForDeletion
 {
-    if(version)
-        [[self mutableSetValueForKey:@"versions"] addObject:version];
-}
-- (void)removeVersion:(OEDBImageThumbnail*)version
-{
-    if(version)
-        [[self mutableSetValueForKey:@"versions"] removeObject:version];
-}
-#pragma mark -
-// returns image with highest resolution
-- (NSImage *)originalImage
-{
-    return nil;
+    NSURL *url = [self imageURL];
+    [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
 }
 
-- (NSImage *)imageForSize:(NSSize)size
+#pragma mark -
+- (NSImage *)image
 {
-    NSImage *image = [[NSImage alloc] initWithContentsOfURL:[self urlForSize:size]];
+    NSURL *imageURL = [self imageURL];
+    NSImage  *image = [[NSImage alloc] initWithContentsOfURL:imageURL];
     return image;
 }
 
-- (NSURL *)urlForSize:(NSSize)size
+- (NSURL *)imageURL
 {
-    return nil;
+    const OELibraryDatabase *database = [self libraryDatabase];
+    const NSURL *coverFolderURL = [database coverFolderURL];
+    NSString *relativePath = [self relativePath];
+
+    if(relativePath == nil) return nil;
+    return [coverFolderURL URLByAppendingPathComponent:relativePath];
 }
 
-- (NSURL *)imagePathForSize:(NSSize)size
+- (NSURL *)sourceURL
 {
-    return nil;
+    NSString *source = [self source];
+    if(source == nil) return nil;
+    return [NSURL URLWithString:source];
 }
 
-- (NSSize)sizeOfThumbnailForSize:(NSSize)size
+- (void)setSourceURL:(NSURL *)sourceURL
 {
-    NSSet *thumbnailsSet = [self valueForKey:@"versions"];
-    
-    NSSortDescriptor *sotDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
-    NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
-    
-    NSManagedObject *usableThumbnail = nil;
-    for(NSManagedObject *obj in thumbnails)
-    {
-        if([[obj valueForKey:@"width"] floatValue] >= size.width ||
-           [[obj valueForKey:@"height"] floatValue] >= size.height)
-        {
-            usableThumbnail = obj;
-            break;
-        }
-    }
-    
-    if(usableThumbnail == nil)
-        usableThumbnail = [thumbnails lastObject];
-    
-    return (NSSize){[[usableThumbnail valueForKey:@"width"] floatValue], [[usableThumbnail valueForKey:@"height"] floatValue]};
+    [self setSource:[sourceURL absoluteString]];
 }
 
+- (BOOL)isLocalImageAvailable
+{
+    return [[self imageURL] checkResourceIsReachableAndReturnError:nil];
+}
 @end
