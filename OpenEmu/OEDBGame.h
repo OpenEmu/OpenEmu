@@ -92,12 +92,10 @@ extern NSString *const OEGameArtworkPropertiesKey;
 @property(readonly) NSNumber      *saveStateCount;
 @property(readonly) NSNumber      *playCount;
 @property(readonly) NSNumber      *playTime;
-@property(nonatomic) NSString     *boxImageURL;
 
 - (BOOL)filesAvailable;
 
 #pragma mark -
-
 - (void)setBoxImageByImage:(NSImage *)img;
 - (void)setBoxImageByURL:(NSURL *)url;
 

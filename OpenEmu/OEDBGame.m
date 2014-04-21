@@ -347,21 +347,35 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 }
 
 #pragma mark -
-- (NSString*)boxImageURL
+- (void)setBoxImageByImage:(NSImage *)img
 {
-    OEDBImage *image = [self boxImage];
-    return [image sourceURL];
+    OEDBImage *image = [OEDBImage createImageWithNSImage:img type:OEBitmapImageFileTypeDefault inLibrary:[self libraryDatabase]];
+    NSManagedObjectContext *context = [[self libraryDatabase] unsafeContext];
+    [context performBlockAndWait:^{
+        OEDBImage *currentImage = [self boxImage];
+        if(currentImage != nil)
+            [context deleteObject:currentImage];
+
+        [self setBoxImage:image];
+        [context save:nil];
+    }];
 }
 
-- (void)setBoxImageURL:(NSString *)boxImageURL
+- (void)setBoxImageByURL:(NSURL *)url
 {
-    NSString *e = [boxImageURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL *url = [NSURL URLWithString:e];
-    [self setBoxImageByURL:url];
+    OEDBImage *image = [OEDBImage createImageWithURL:url type:OEBitmapImageFileTypeDefault inLibrary:[self libraryDatabase]];
+    NSManagedObjectContext *context = [[self libraryDatabase] unsafeContext];
+    [context performBlockAndWait:^{
+        OEDBImage *currentImage = [self boxImage];
+        if(currentImage != nil)
+            [context deleteObject:currentImage];
+
+        [self setBoxImage:image];
+        [context save:nil];
+    }];
 }
 
 #pragma mark - Core Data utilities
-
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
 {
     NSMutableSet *mutableRoms = [self mutableRoms];
@@ -385,119 +399,6 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context
 {
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
-}
-
-#pragma mark -
-
-- (void)setBoxImageByImage:(NSImage *)img
-{
-    [self OE_setBoxImage:img withSourceURL:nil];
-}
-
-- (void)setBoxImageByURL:(NSURL *)url
-{
-    NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
-    [self OE_setBoxImage:image withSourceURL:url];
-}
-
-
-- (void)OE_setBoxImage:(NSImage*)image withSourceURL:(NSURL*)url
-{
-    NSManagedObjectContext *context  = [self managedObjectContext];
-    OEDBImage *boxImage = [self boxImage];
-
-    if(boxImage) // delete previous image if any
-    {
-        [context performBlockAndWait:^{
-            [context deleteObject:boxImage];
-        }];
-        boxImage = nil;
-        [self setBoxImage:nil];
-    }
-
-    if(image != nil) // create new image and thumbnails
-    {
-        NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-        NSArray        *sizes            = [standardDefaults objectForKey:OEBoxSizesKey];
-        NSMutableArray *thumbnailImages  = [NSMutableArray arrayWithCapacity:[sizes count]+1];
-        id original = [self OE_generateThumbnailFromImage:image withSize:NSZeroSize];
-        if(original != nil) [thumbnailImages addObject:original];
-        [sizes enumerateObjectsUsingBlock:^(NSString *aSize, NSUInteger idx, BOOL *stop) {
-            id result = [self OE_generateThumbnailFromImage:image withSize:NSSizeFromString(aSize)];
-            if(result != nil)
-                [thumbnailImages addObject:result];
-        }];
-
-        [context performBlockAndWait:^{
-
-
-        }];
-    }
-}
-
-
-- (id)OE_generateThumbnailFromImage:(NSImage*)image withSize:(NSSize)size
-{
-    BOOL     resize      = !NSEqualSizes(size, NSZeroSize);
-    NSString *version    = !resize ? @"original" : [NSString stringWithFormat:@"%d", (int)size.width];
-    NSString *uuid       = [NSString stringWithUUID];
-
-    NSURL    *coverFolderURL = [[self libraryDatabase] coverFolderURL];
-    coverFolderURL = [coverFolderURL URLByAppendingPathComponent:version isDirectory:YES];
-    NSURL *url          = [coverFolderURL URLByAppendingPathComponent:uuid];
-
-    // find a bitmap representation
-    NSBitmapImageRep *bitmapRep = [[image representations] firstObjectMatchingBlock:^BOOL(id obj) {
-        return [obj isKindOfClass:[NSBitmapImageRep class]];
-    }];
-
-    NSSize imageSize = [image size];
-    if(bitmapRep)
-        imageSize = NSMakeSize([bitmapRep pixelsWide], [bitmapRep pixelsHigh]);
-
-    float  aspectRatio = imageSize.width / imageSize.height;
-    NSSize thumbnailSize;
-    if(resize)
-    {
-        thumbnailSize = aspectRatio<1 ? (NSSize){size.height * aspectRatio, size.height} : (NSSize){size.width, size.width / aspectRatio};
-
-        // thumbnails only make sense if they are smaller than the original
-        if(thumbnailSize.width >= imageSize.width || thumbnailSize.height >= imageSize.height)
-        {
-            return nil;
-        }
-
-        NSImage *thumbnailImage = [[NSImage alloc] initWithSize:thumbnailSize];
-        [thumbnailImage lockFocus];
-        [image drawInRect:(NSRect){{0, 0}, {thumbnailSize.width, thumbnailSize.height}} fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-        bitmapRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){{0,0}, thumbnailSize}];
-        [thumbnailImage unlockFocus];
-    }
-    else
-    {
-        thumbnailSize = imageSize;
-
-        if(!bitmapRep) // no bitmap found, create one
-        {
-            [image lockFocus];
-            bitmapRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){{0,0}, thumbnailSize}];
-            [image unlockFocus];
-        }
-    }
-
-    // write image file
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    NSBitmapImageFileType fileType = [standardUserDefaults integerForKey:OEGameArtworkFormatKey];
-    NSDictionary   *fileProperties = [standardUserDefaults dictionaryForKey:OEGameArtworkPropertiesKey];
-    NSData       *imageData  = [bitmapRep representationUsingType:fileType properties:fileProperties];
-
-    [[NSFileManager defaultManager] createDirectoryAtURL:[url URLByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
-
-    if([imageData writeToURL:url options:0 error:nil])
-    {
-        return @[ [NSValue valueWithSize:thumbnailSize], [NSString stringWithFormat:@"%@/%@", version, uuid] ];
-    }
-    return nil;
 }
 
 #pragma mark - NSPasteboardWriting
