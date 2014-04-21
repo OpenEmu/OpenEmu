@@ -44,7 +44,6 @@
 + (id)defaultMigrationController;
 
 - (void)runMigrationIfNeeded;
-- (void)runDatabaseMigration;
 - (NSArray *)allMigrationVersions;
 
 // the selector must return look like this:

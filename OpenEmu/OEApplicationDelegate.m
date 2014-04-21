@@ -488,8 +488,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
         if([error domain] == NSCocoaErrorDomain && [error code] == NSPersistentStoreIncompatibleVersionHashError)
         {
-            // we try to migrate the databse to the new version
-            [[OEVersionMigrationController defaultMigrationController] runDatabaseMigration];
             // try to load db again
             if([OELibraryDatabase loadFromURL:databaseURL error:&error])
                 return;
@@ -575,8 +573,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         // if it could not be loaded because of a wrong model
         if(error != nil /*&& [error code] == OELibraryHasWrongVersionErrorCode*/)
         {
-            // version controller tries to migrate
-            [[OEVersionMigrationController defaultMigrationController] runDatabaseMigration];
             // if the library was loaded after migration, we exit
             if([OELibraryDatabase loadFromURL:databaseURL error:&error])
                 return;
@@ -619,7 +615,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [OEBindingsController class];
     [OEDeviceManager sharedDeviceManager];
 }
-
 #pragma mark - Preferences Window
 
 - (IBAction)showPreferencesWindow:(id)sender

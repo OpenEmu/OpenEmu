@@ -55,7 +55,7 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
      {
          [[NSUserDefaults standardUserDefaults] registerDefaults:@{
                                                                    OEBoxSizesKey:@[@"{75,75}", @"{150,150}", @"{300,300}", @"{450,450}"],
-                                                                   OEGameArtworkFormatKey : @(NSPNGFileType),
+                                                                   OEGameArtworkFormatKey : @(NSJPEGFileType),
                                                                    OEGameArtworkPropertiesKey : @{
                                                                            NSImageCompressionFactor : @(0.9)
                                                                            }

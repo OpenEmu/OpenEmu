@@ -163,6 +163,15 @@
 #pragma mark -
 - (NSURL*)OE_writeImage:(NSImage*)image withType:(OEBitmapImageFileType)type usedFormat:(NSBitmapImageFileType*)usedFormat inLibrary:(OELibraryDatabase*)library
 {
+    const NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEGameArtworkPropertiesKey];
+
+    return [self OE_writeImage:image withType:type usedFormat:usedFormat withProperties:properties inLibrary:library];
+}
+
+- (NSURL*)OE_writeImage:(NSImage*)image withType:(OEBitmapImageFileType)type usedFormat:(NSBitmapImageFileType*)usedFormat withProperties:(NSDictionary*)properties inLibrary:(OELibraryDatabase*)library
+
+{
     if(image == nil)
     {
         DLog(@"No image passed in, exiting…");
@@ -173,7 +182,7 @@
     const NSSize         imageSize             = [image size];
     NSString *fileName = [NSString stringWithUUID];
 
-    if(type == OEBitmapImageFileTypeDefault || OEBitmapImageFileTypeOriginal)
+    if(type == OEBitmapImageFileTypeDefault || type==OEBitmapImageFileTypeOriginal)
         type = [standardUserDefaults integerForKey:OEGameArtworkFormatKey];
 
     __block NSBitmapImageRep *imageRep = nil;
@@ -206,7 +215,6 @@
         return nil;
     }
 
-    NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEGameArtworkPropertiesKey];
     NSData *data = [imageRep representationUsingType:type properties:properties];
 
     NSURL *coverFolderURL = [library coverFolderURL];
@@ -238,6 +246,29 @@
         *size = [image size];
 
     return [self OE_writeImage:image withType:type usedFormat:usedFormat inLibrary:library];
+}
+
+#pragma mark -
+- (void)convertToFormat:(OEBitmapImageFileType)format withProperties:(NSDictionary*)attributes
+{
+    NSURL *newURL = [self OE_writeImage:[self image] withType:format usedFormat:NULL withProperties:attributes inLibrary:[self libraryDatabase]];
+    if(newURL == nil)
+    {
+        DLog(@"converting image failed!");
+    }
+    else
+    {
+        NSURL *url = [self imageURL];
+        if(url != nil) [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
+
+        NSString *relativePath = [newURL relativeString];
+        NSManagedObjectContext *context = [self managedObjectContext];
+        [context performBlock:^{
+            [self setFormat:format];
+            [self setRelativePath:relativePath];
+            [context save:nil];
+        }];
+    }
 }
 #pragma mark - Core Data utilities
 + (NSString *)entityName

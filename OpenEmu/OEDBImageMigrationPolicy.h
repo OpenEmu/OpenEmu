@@ -8,6 +8,7 @@
 
 #import <CoreData/CoreData.h>
 
+extern NSString * const OEDBImageMigrateImageFormat;
 @interface OEDBImageMigrationPolicy : NSEntityMigrationPolicy
 
 @end

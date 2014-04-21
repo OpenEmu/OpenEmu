@@ -32,7 +32,6 @@
 #import "OECorePlugin.h"
 #import "NSURL+OELibraryAdditions.h"
 
-
 #define OESaveStateDataFile         @"State"
 #define OESaveStateScreenshotFile   @"ScreenShot"
 #define OESaveStateLatestVersion    @"1.0"

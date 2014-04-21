@@ -28,8 +28,9 @@
 #import <Sparkle/SUStandardVersionComparator.h>
 #import <objc/message.h>
 
-#pragma mark -
-#pragma mark Storage
+#import "OEDBImageMigrationPolicy.h"
+#import "OELibraryDatabase.h"
+#import "OEDBImage.h"
 
 @interface _OEMigrator : NSObject
 {
@@ -84,6 +85,7 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
     self = [super init];
     if(self != nil)
     {
+        DLog();
         [self setVersionComparator:[SUStandardVersionComparator defaultComparator]];
         
         // We'll cheat here and rely on Sparkle's key
@@ -100,22 +102,24 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
     
 }
 
-- (void)runDatabaseMigration
-{
-    DLog(@"");
-}
-
 - (void)runMigrationIfNeeded
 {
     NSString *currentVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    NSString *mostRecentVersion = lastVersion;
-    
+    NSString  *mostRecentVersion = lastVersion;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+
+    // Start thread to convert old images to new format
+    if([userDefaults boolForKey:OEDBImageMigrateImageFormat])
+    {
+        [self OE_runImageMigration];
+    }
+
     // We have to work around the fact that older versions of OpenEmu didn't stick a version key in the plist.
     // If the Sparkle key for an existing launch doesn't exist, then this is a new installation, not an upgrade.
     // Thus, we log our current version and prevent the migration. Subsequent migrations will then have the new version.
     if(isFirstRun && mostRecentVersion == nil)
     {
-        [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:@"OEMigrationLastVersion"];
+        [userDefaults setObject:currentVersion forKey:@"OEMigrationLastVersion"];
         return;
     }
     
@@ -124,6 +128,38 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
     if(mostRecentVersion == nil || [[self versionComparator] compareVersion:mostRecentVersion toVersion:currentVersion] == NSOrderedAscending)
         [self migrateFromVersion:mostRecentVersion toVersion:currentVersion error:nil];
 }
+
+- (void)OE_runImageMigration
+{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+    void (^block)() = ^{
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        OEBitmapImageFileType format = [userDefaults integerForKey:OEGameArtworkFormatKey];
+        NSDictionary     *attributes = [userDefaults dictionaryForKey:OEGameArtworkPropertiesKey];
+
+        OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[OEDBImage entityName]];
+        NSPredicate *predicate  = [NSPredicate predicateWithFormat:@"format = -1"];
+        [request setPredicate:predicate];
+
+        NSArray *images = [database executeFetchRequest:request error:nil];
+        if(images != nil && [images count] == 0)
+        {
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:OEDBImageMigrateImageFormat];
+        }
+        else
+        {
+            [images enumerateObjectsUsingBlock:^(OEDBImage *image, NSUInteger idx, BOOL *stop) {
+                dispatch_async(queue, ^{
+                    [image convertToFormat:format withProperties:attributes];
+                });
+            }];
+        }
+    };
+    dispatch_async(queue, block);
+}
+
+#pragma mark -
 
 - (BOOL)migrateFromVersion:(NSString *)mostRecentVersion toVersion:(NSString *)currentVersion error:(NSError **)err
 {

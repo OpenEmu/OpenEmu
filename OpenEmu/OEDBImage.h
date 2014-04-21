@@ -28,8 +28,8 @@
 
 typedef enum : NSBitmapImageFileType
 {
-    OEBitmapImageFileTypeOriginal,
-    OEBitmapImageFileTypeDefault,
+    OEBitmapImageFileTypeOriginal = 7,
+    OEBitmapImageFileTypeDefault  = 8,
 } OEBitmapImageFileType;
 
 @class OELibraryDatabase, OEDBImageThumbnail, OEDBGame;
@@ -51,12 +51,13 @@ typedef enum : NSBitmapImageFileType
 
 - (NSImage *)image;
 - (NSURL *)imageURL;
-@property (nonatomic) NSURL *sourceURL;
+- (void)convertToFormat:(OEBitmapImageFileType)format withProperties:(NSDictionary*)attributes;
 
+@property (nonatomic) NSURL *sourceURL;
 @property (readonly, nonatomic, getter = isLocalImageAvailable) BOOL localImageAvailable;
 
 @property (nonatomic) float width, height;
-@property (nonatomic) NSInteger format;
+@property (nonatomic) short format;
 @property (nonatomic, retain) NSString *relativePath;
 @property (nonatomic, retain) NSString * source;
 @property (nonatomic, retain) OEDBGame *Box;

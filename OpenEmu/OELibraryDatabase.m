@@ -28,8 +28,6 @@
 
 #import "OESystemPlugin.h"
 
-#import "NSImage+OEDrawingAdditions.h"
-
 #import "OEDBAllGamesCollection.h"
 #import "OEDBSystem.h"
 #import "OEDBGame.h"
@@ -42,12 +40,13 @@
 
 #import "OESystemPicker.h"
 
-#import "NSFileManager+OEHashingAdditions.h"
 
 #import "OEFSWatcher.h"
 #import "OEROMImporter.h"
 
+#import "NSFileManager+OEHashingAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
+#import "NSImage+OEDrawingAdditions.h"
 
 #import <OpenEmuBase/OpenEmuBase.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>

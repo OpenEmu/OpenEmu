@@ -9,6 +9,9 @@
 #import "OEDBImageMigrationPolicy.h"
 #import "NSArray+OEAdditions.h"
 #import "OELibraryDatabase.h"
+
+NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
+
 @implementation OEDBImageMigrationPolicy
 - (BOOL)createDestinationInstancesForSourceInstance:(NSManagedObject *)oldObject entityMapping:(NSEntityMapping *)mapping manager:(NSMigrationManager *)manager error:(NSError **)error
 {
@@ -19,6 +22,8 @@
     // Version 1.1 and 1.0 both share version identifier 1.0 :/
     if([sourceVersion isEqualTo:@"1.0"] && [entities objectForKey:@"ImageThumbnail"] != nil)
     {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OEDBImageMigrateImageFormat];
+
         NSSet *versions = [oldObject valueForKey:@"versions"];
         __block CGFloat size = 0;
         __block NSManagedObject *originalVersion = nil;
