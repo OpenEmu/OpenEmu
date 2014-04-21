@@ -32,7 +32,6 @@
 #import "OEDBRom.h"
 
 #import "OEDBImage.h"
-#import "OEDBImageThumbnail.h"
 
 #import "OEGameInfoHelper.h"
 
@@ -431,38 +430,11 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 
         [context performBlockAndWait:^{
 
-            // create core data objects for thumbnails
-            NSMutableSet *versions = [NSMutableSet setWithCapacity:[thumbnailImages count]+1];
-            [thumbnailImages enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                [versions addObject:[self OE_thumbnailFromDescription:obj inContext:context]];
-            }];
 
-            if([versions count])
-            {
-                // create core data objec for box image
-                NSEntityDescription *imageDescription = [OEDBImage entityDescriptionInContext:context];
-                OEDBImage *boxImage = [[OEDBImage alloc] initWithEntity:imageDescription insertIntoManagedObjectContext:context];
-                [boxImage setVersions:versions];
-                if(url) [boxImage setSourceURL:[url absoluteString]];
-
-                [self setBoxImage:boxImage];
-            }
         }];
     }
 }
 
-- (OEDBImageThumbnail*)OE_thumbnailFromDescription:(NSArray*)description inContext:(NSManagedObjectContext*)context
-{
-    NSSize size = [description[0] sizeValue];
-    NSString *relativePath = description[1];
-    NSEntityDescription *thumbDescription = [OEDBImageThumbnail entityDescriptionInContext:context];
-    OEDBImageThumbnail *thumbnail = [[OEDBImageThumbnail alloc] initWithEntity:thumbDescription insertIntoManagedObjectContext:context];
-    [thumbnail setWidth:@(size.width)];
-    [thumbnail setHeight:@(size.height)];
-    [thumbnail setRelativePath:relativePath];
-
-    return thumbnail;
-}
 
 - (id)OE_generateThumbnailFromImage:(NSImage*)image withSize:(NSSize)size
 {

@@ -8,6 +8,7 @@
 
 #import "OEDBImageMigrationPolicy.h"
 #import "NSArray+OEAdditions.h"
+#import "OELibraryDatabase.h"
 @implementation OEDBImageMigrationPolicy
 - (BOOL)createDestinationInstancesForSourceInstance:(NSManagedObject *)oldObject entityMapping:(NSEntityMapping *)mapping manager:(NSMigrationManager *)manager error:(NSError **)error
 {
@@ -22,17 +23,18 @@
         __block CGFloat size = 0;
         __block NSManagedObject *originalVersion = nil;
         [versions enumerateObjectsUsingBlock:^(NSManagedObject *aVersion, BOOL *stop) {
-            CGFloat currentSize = [[aVersion valueForKey:@"width"] floatValue] * [[aVersion valueForKey:@"height"] floatValue];
-
+            CGFloat currentSize = [[aVersion valueForKey:@"width"] floatValue];
             if(currentSize > size)
             {
                 originalVersion = aVersion;
-                currentSize = size;
+                size = currentSize;
             }
         }];
 
         if(originalVersion)
         {
+            NSURL *coverFolderURL = [self coverFolderURL];
+
             id width  = [originalVersion valueForKey:@"width"];
             id height = [originalVersion valueForKey:@"height"];
             id path   = [originalVersion valueForKey:@"relativePath"];
@@ -40,6 +42,15 @@
             [self updateMapping:mapping setValue:width  forKey:@"width"];
             [self updateMapping:mapping setValue:height forKey:@"height"];
             [self updateMapping:mapping setValue:path   forKey:@"relativePath"];
+
+            [versions enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+                NSString *aPath = [obj valueForKey:@"relativePath"];
+                if([aPath isNotEqualTo:path])
+                {
+                    NSURL *imageURL = [NSURL URLWithString:aPath relativeToURL:coverFolderURL];
+                    [[NSFileManager defaultManager] removeItemAtURL:imageURL error:nil];
+                }
+            }];
         }
     }
 
@@ -55,5 +66,15 @@
                                       return [[obj name] isEqualToString:key];
                                   }];
     [propertyMapping setValueExpression:[NSExpression expressionForConstantValue:value]];
+}
+
+- (NSURL*)coverFolderURL
+{
+    NSUserDefaults *standardDefaults  = [NSUserDefaults standardUserDefaults];
+    NSString       *libraryFolderPath = [[standardDefaults stringForKey:OEDatabasePathKey] stringByExpandingTildeInPath];
+    NSString       *coverFolderPath   = [libraryFolderPath stringByAppendingPathComponent:@"Artwork/"];
+
+    NSURL *baseURL = [NSURL fileURLWithPath:coverFolderPath isDirectory:YES];
+    return baseURL;
 }
 @end

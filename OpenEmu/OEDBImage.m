@@ -25,7 +25,6 @@
  */
 
 #import "OEDBImage.h"
-#import "OEDBImageThumbnail.h"
 #import "OELibraryDatabase.h"
 
 @interface OEDBImage ()
@@ -59,15 +58,7 @@
 // returns image with highest resolution
 - (NSImage *)originalImage
 {
-    NSSet *thumbnailsSet = [self valueForKey:@"versions"];
-    
-    NSSortDescriptor *sotDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
-    NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sotDescr]];
-    
-    OEDBImageThumbnail *originalImage = [thumbnails lastObject];
-    NSURL *url = [[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[originalImage relativePath]];
-    NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
-    return image;
+    return nil;
 }
 
 - (NSImage *)imageForSize:(NSSize)size
@@ -78,60 +69,13 @@
 
 - (NSURL *)urlForSize:(NSSize)size
 {
-    NSSet *thumbnailsSet = [self valueForKey:@"versions"];
-    
-    NSSortDescriptor *sortDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
-    NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescr]];
-    
-    OEDBImageThumbnail *usableThumbnail = nil;
-    for(OEDBImageThumbnail *obj in thumbnails)
-    {
-        if([[obj valueForKey:@"width"] floatValue] >= size.width ||
-           [[obj valueForKey:@"height"] floatValue] >= size.height)
-        {
-            usableThumbnail = obj;
-            break;
-        }
-    }
-    
-    if(usableThumbnail == nil)
-        usableThumbnail = [thumbnails lastObject];
-    
-    if(!usableThumbnail) return nil;
-    
-    NSURL *url = [[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[usableThumbnail relativePath]];
-    return url;
+    return nil;
 }
 
 - (NSURL *)imagePathForSize:(NSSize)size
 {
-    NSSet *thumbnailsSet = [self valueForKey:@"versions"];
-
-    NSSortDescriptor *sortDescr = [NSSortDescriptor sortDescriptorWithKey:@"width" ascending:YES];
-    NSArray *thumbnails = [thumbnailsSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescr]];
-
-    OEDBImageThumbnail *usableThumbnail = nil;
-    for(OEDBImageThumbnail *obj in thumbnails)
-    {
-        if([[obj valueForKey:@"width"] floatValue] >= size.width ||
-           [[obj valueForKey:@"height"] floatValue] >= size.height)
-        {
-            usableThumbnail = obj;
-            break;
-        }
-    }
-
-    if(usableThumbnail == nil)
-        usableThumbnail = [thumbnails lastObject];
-
-    if(!usableThumbnail) return nil;
-
-    NSURL *url = [[[self libraryDatabase] coverFolderURL] URLByAppendingPathComponent:[usableThumbnail relativePath]];
-    return url;
+    return nil;
 }
-
-
-
 
 - (NSSize)sizeOfThumbnailForSize:(NSSize)size
 {

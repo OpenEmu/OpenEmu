@@ -363,7 +363,6 @@
 		8337393215BFD24A00D83D2F /* OESystemPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E41F28158546E90069B8AF /* OESystemPicker.m */; };
 		8337393815BFD87900D83D2F /* OELibraryToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8337393715BFD87700D83D2F /* OELibraryToolbarView.m */; };
 		8337F38E1726B3600068DD90 /* OEBackgroundImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8337F38D1726B3600068DD90 /* OEBackgroundImageView.m */; };
-		8343CD011553E2C30080A6BE /* OEDBImageThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = 8343CD001553E2C30080A6BE /* OEDBImageThumbnail.m */; };
 		834C07DC166CD36A0000C146 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
 		8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB1F15FF5CB10026E326 /* OEDBRomMigrationPolicy.m */; };
@@ -1929,8 +1928,6 @@
 		8337393715BFD87700D83D2F /* OELibraryToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryToolbarView.m; sourceTree = "<group>"; };
 		8337F38C1726B35F0068DD90 /* OEBackgroundImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBackgroundImageView.h; sourceTree = "<group>"; };
 		8337F38D1726B3600068DD90 /* OEBackgroundImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBackgroundImageView.m; sourceTree = "<group>"; };
-		8343CCFF1553E2C30080A6BE /* OEDBImageThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBImageThumbnail.h; sourceTree = "<group>"; };
-		8343CD001553E2C30080A6BE /* OEDBImageThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImageThumbnail.m; sourceTree = "<group>"; };
 		83507245142F6029005D9033 /* OEControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControllerImageView.h; sourceTree = "<group>"; };
 		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
 		8353EB1A15FF41930026E326 /* OEDatabase 0.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.2.xcdatamodel"; sourceTree = "<group>"; };
@@ -3689,8 +3686,6 @@
 				53439AA113B92C9D005C0CC8 /* OEDBSystem.m */,
 				8328D9E313C75CAE0026D2A7 /* OEDBImage.h */,
 				8328D9E413C75CAE0026D2A7 /* OEDBImage.m */,
-				8343CCFF1553E2C30080A6BE /* OEDBImageThumbnail.h */,
-				8343CD001553E2C30080A6BE /* OEDBImageThumbnail.m */,
 				83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */,
 				83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */,
 				838AC27E14434EED00AC74C3 /* OEDBRom.h */,
@@ -7652,7 +7647,6 @@
 				836291FE1515F30700192116 /* OEFSWatcher.m in Sources */,
 				83BC345E1516456000F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */,
 				C68A54E61516AD3C001053F2 /* OEDatabase.xcdatamodeld in Sources */,
-				8343CD011553E2C30080A6BE /* OEDBImageThumbnail.m in Sources */,
 				8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */,
 				83A9758A184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.m in Sources */,
 				83DDEE83156CDEEB009EB43D /* NSView+FadeImage.m in Sources */,
