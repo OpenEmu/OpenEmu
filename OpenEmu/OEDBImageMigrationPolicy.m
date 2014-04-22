@@ -13,7 +13,6 @@
 NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
 
 @implementation OEDBImageMigrationPolicy
-
 - (BOOL)createDestinationInstancesForSourceInstance:(NSManagedObject *)oldObject entityMapping:(NSEntityMapping *)mapping manager:(NSMigrationManager *)manager error:(NSError **)error
 {
     NSAssert([[[manager sourceModel] versionIdentifiers] count]==1, @"Found a source model with various versionIdentifiers!");
@@ -45,7 +44,7 @@ NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
             id width  = [originalVersion valueForKey:@"width"];
             id height = [originalVersion valueForKey:@"height"];
             id path   = [originalVersion valueForKey:@"relativePath"];
-            id source = [originalVersion valueForKey:@"sourceURL"];
+            id source = [oldObject valueForKey:@"sourceURL"];
 
             [versions enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
                 NSString *aPath = [obj valueForKey:@"relativePath"];
@@ -61,7 +60,7 @@ NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
             [newObject setValue:width  forKey:@"width"];
             [newObject setValue:height forKey:@"height"];
             [newObject setValue:path   forKey:@"relativePath"];
-            [newObject setValue:source   forKey:@"relativePath"];
+            [newObject setValue:source forKey:@"source"];
 
             [manager associateSourceInstance:oldObject withDestinationInstance:newObject forEntityMapping:mapping];
 
@@ -70,17 +69,6 @@ NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
     }
 
     return NO;
-}
-
-- (void)updateMapping:(NSEntityMapping*)mapping setValue:(id)value forKey:(NSString*)key
-{
-    NSArray *attributeMappings = [mapping attributeMappings];
-    NSPropertyMapping *propertyMapping = [attributeMappings firstObjectMatchingBlock:
-                                  ^ BOOL (id obj)
-                                  {
-                                      return [[obj name] isEqualToString:key];
-                                  }];
-    [propertyMapping setValueExpression:[NSExpression expressionForConstantValue:value]];
 }
 
 - (NSURL*)coverFolderURL
