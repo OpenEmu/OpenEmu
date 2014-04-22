@@ -258,12 +258,13 @@
     }
     else
     {
-        NSURL *url = [self imageURL];
-        if(url != nil) [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
-
-        NSString *relativePath = [newURL relativeString];
         NSManagedObjectContext *context = [self managedObjectContext];
-        [context performBlock:^{
+        [context performBlockAndWait:^{
+            NSURL *url = [self imageURL];
+            if(url != nil) [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
+
+            NSString *relativePath = [newURL relativeString];
+
             [self setFormat:format];
             [self setRelativePath:relativePath];
             [context save:nil];
@@ -299,7 +300,7 @@
 {
     const OELibraryDatabase *database = [self libraryDatabase];
     const NSURL *coverFolderURL = [database coverFolderURL];
-    NSString *relativePath = [self relativePath];
+    NSString    *relativePath   = [self relativePath];
 
     if(relativePath == nil) return nil;
     return [coverFolderURL URLByAppendingPathComponent:relativePath];

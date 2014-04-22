@@ -161,9 +161,7 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
         else
         {
             [images enumerateObjectsUsingBlock:^(OEDBImage *image, NSUInteger idx, BOOL *stop) {
-                dispatch_async(queue, ^{
-                    [image convertToFormat:format withProperties:attributes];
-                });
+                [image convertToFormat:format withProperties:attributes];
             }];
         }
     };
