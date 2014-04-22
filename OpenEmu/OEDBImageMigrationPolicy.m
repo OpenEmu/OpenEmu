@@ -45,7 +45,7 @@ NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
             id height = [originalVersion valueForKey:@"height"];
             id path   = [originalVersion valueForKey:@"relativePath"];
             id source = [oldObject valueForKey:@"sourceURL"];
-
+            id format = @(-1);
             [versions enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
                 NSString *aPath = [obj valueForKey:@"relativePath"];
                 if([aPath isNotEqualTo:path])
@@ -61,6 +61,7 @@ NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
             [newObject setValue:height forKey:@"height"];
             [newObject setValue:path   forKey:@"relativePath"];
             [newObject setValue:source forKey:@"source"];
+            [newObject setValue:format forKey:@"format"];
 
             [manager associateSourceInstance:oldObject withDestinationInstance:newObject forEntityMapping:mapping];
 
