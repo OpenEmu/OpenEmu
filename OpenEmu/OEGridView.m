@@ -37,6 +37,12 @@
 #import "OEMenu.h"
 
 #import <QuickLook/QuickLook.h>
+
+@interface IKImageWrapper : NSObject
+- (id)nsImage;
+- (id)nsImage:(BOOL)arg1;
+@end
+
 @interface IKImageBrowserView (ApplePrivate)
 
 // -_drawCALayer:forceUpdateRect: overridden to adjust for overscroll
@@ -52,9 +58,16 @@
 - (BOOL)allowsTypeSelect;
 
 - (void)beginTransaction:(id)arg1;
+
+// Dragging
+- (id)snapshotOfItemAtIndex:(unsigned long long)arg1;
+- (IKImageWrapper*)thumbnailImageAtIndex:(unsigned long long)arg1;
 @end
 // TODO: replace OEDBGame with OECoverGridDataSourceItem
 @interface OEGridView ()
+@property NSDraggingSession *draggingSession;
+@property NSPoint           lastPointInView;
+@property NSInteger draggingIndex;
 @property NSInteger editingIndex;
 @property NSInteger ratingTracking;
 @property OEGridViewFieldEditor *fieldEditor;
@@ -127,14 +140,20 @@
     if(index != NSNotFound)
     {
         OEGridCell *clickedCell = (OEGridCell*)[self cellForItemAtIndex:index];
-        NSRect titleRect  = [clickedCell titleFrame];
-        NSRect ratingRect = NSInsetRect([clickedCell ratingFrame], -5, -1);
+        const NSRect titleRect  = [clickedCell titleFrame];
+        const NSRect imageRect  = [clickedCell imageFrame];
+        const NSRect ratingRect = NSInsetRect([clickedCell ratingFrame], -5, -1);
 
         // see if user double clicked on title layer
         if([theEvent clickCount] >= 2 && NSPointInRect(mouseLocationInView, titleRect))
         {
             [self renameGameAtIndex:index];
             return;
+        }
+        // Check for dragging
+        else if(NSPointInRect(mouseLocationInView, imageRect))
+        {
+            _draggingIndex = index;
         }
         // Check for rating layer interaction
         else if(NSPointInRect(mouseLocationInView, ratingRect))
@@ -145,20 +164,64 @@
         }
     }
 
+    _lastPointInView = mouseLocationInView;
+
     [super mouseDown:theEvent];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-    NSPoint mouseLocationInWindow = [theEvent locationInWindow];
-    NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
+    if(_draggingSession) return;
 
-    if(_ratingTracking != NSNotFound)
+    const NSPoint mouseLocationInWindow = [theEvent locationInWindow];
+    const NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
+    const NSPoint draggedDistance = NSMakePoint(ABS(mouseLocationInView.x - _lastPointInView.x), ABS(mouseLocationInView.y - _lastPointInView.y));
+
+    if(_draggingIndex != NSNotFound && (draggedDistance.x >= 5.0 || draggedDistance.y >= 5.0 || (draggedDistance.x * draggedDistance.x + draggedDistance.y * draggedDistance.y) >= 25))
+    {
+        NSIndexSet *selectionIndexes = [self selectionIndexes];
+        NSMutableArray *draggingItems = [NSMutableArray array];
+
+        [selectionIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+            OEGridCell   *clickedCell = (OEGridCell*)[self cellForItemAtIndex:idx];
+            id           item         = [clickedCell representedItem];
+            const NSRect imageRect    = [clickedCell imageFrame];
+
+            NSDraggingItem *dragItem = [[NSDraggingItem alloc] initWithPasteboardWriter:item];
+            NSImage *dragImage = nil;
+            if([[item imageUID] characterAtIndex:0] == ':')
+            {
+                dragImage = [OEGridCell missingArtworkImageWithSize:imageRect.size];
+            }
+            else
+            {
+                IKImageWrapper *thumbnail = [self thumbnailImageAtIndex:idx];
+                dragImage = [thumbnail nsImage];
+            }
+
+            [dragItem setDraggingFrame:imageRect contents:dragImage];
+            [draggingItems addObject:dragItem];
+        }];
+
+        // If there are items being dragged, start a dragging session
+        if([draggingItems count] > 0)
+        {
+            _draggingSession = [self beginDraggingSessionWithItems:draggingItems event:theEvent source:self];
+            [_draggingSession setDraggingLeaderIndex:_draggingIndex];
+            [_draggingSession setDraggingFormation:NSDraggingFormationStack];
+        }
+
+        _draggingIndex = NSNotFound;
+        _lastPointInView = mouseLocationInView;
+        return;
+    }
+    else if(_ratingTracking != NSNotFound)
     {
         OEGridCell *clickedCell = (OEGridCell*)[self cellForItemAtIndex:_ratingTracking];
         NSRect ratingRect = NSInsetRect([clickedCell ratingFrame], -5, -1);
 
         [self OE_updateRatingForItemAtIndex:_ratingTracking withLocation:mouseLocationInView inRect:ratingRect];
+        _lastPointInView = mouseLocationInView;
         return;
     }
 
@@ -228,7 +291,29 @@
 
     return [super menuForEvent:theEvent];
 }
-#pragma mark - Dragging
+
+#pragma mark - NSDraggingSource
+- (NSDragOperation)draggingSession:(NSDraggingSession *)session sourceOperationMaskForDraggingContext:(NSDraggingContext)context
+{
+    DLog();
+    return context == NSDraggingContextWithinApplication ? NSDragOperationCopy : NSDragOperationNone;
+}
+
+- (void)draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation
+{
+    DLog();
+    _draggingSession = nil;
+}
+
+- (void)draggingSession:(NSDraggingSession *)session willBeginAtPoint:(NSPoint)screenPoint
+{}
+- (void)draggingSession:(NSDraggingSession *)session movedToPoint:(NSPoint)screenPoint
+{}
+- (BOOL)ignoreModifierKeysForDraggingSession:(NSDraggingSession *)session
+{
+    return YES;
+}
+#pragma mark - NSDraggingDestination
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
 {
     [self OE_generateProposedImageFromPasteboard:[sender draggingPasteboard]];
@@ -246,6 +331,7 @@
     [self setProposedImage:nil];
     [super draggingExited:sender];
 }
+
 - (void)draggingEnded:(id<NSDraggingInfo>)sender
 {
     [self setProposedImage:nil];

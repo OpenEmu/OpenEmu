@@ -572,9 +572,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:zoomValue] forKey:OELastGridSizeKey];
 }
 
-#pragma mark -
-#pragma mark GridView Delegate
-
+#pragma mark - GridView Delegate
 - (void)imageBrowserSelectionDidChange:(IKImageBrowserView *)aBrowser
 {
     [gamesController setSelectionIndexes:[aBrowser selectionIndexes]];
@@ -589,18 +587,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser removeItemsAtIndexes:(NSIndexSet *)indexes
 {
     [self deleteSelectedGames:aBrowser];
-}
-
-- (NSUInteger)imageBrowser:(IKImageBrowserView *)aBrowser writeItemsAtIndexes:(NSIndexSet *)itemIndexes toPasteboard:(NSPasteboard *)pasteboard
-{
-    NSLog(@"writeItemsAtIndexes");
-    [itemIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop)
-     {
-         id <OECoverGridDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:idx];
-         [pasteboard writeObjects:[NSArray arrayWithObject:obj]];
-     }];
-
-    return YES;
 }
 
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index

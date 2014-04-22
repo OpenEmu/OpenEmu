@@ -308,7 +308,7 @@ static NSDictionary *disabledActions = nil;
 
             if([identifier characterAtIndex:0]==':' && !NSEqualSizes(imageFrame.size, _lastImageSize))
             {
-                NSImage *missingArtworkImage = [self OE_missingArtworkImageWithSize:imageFrame.size];
+                NSImage *missingArtworkImage = [self missingArtworkImageWithSize:imageFrame.size];
                 [_missingArtworkLayer setFrame:relativeImageFrame];
                 [_missingArtworkLayer setContents:missingArtworkImage];
                 _lastImageSize = imageFrame.size;
@@ -517,7 +517,12 @@ static NSDictionary *disabledActions = nil;
     return glossImage;
 }
 
-- (NSImage *)OE_missingArtworkImageWithSize:(NSSize)size
+- (NSImage *)missingArtworkImageWithSize:(NSSize)size
+{
+    return [[self class] missingArtworkImageWithSize:size];
+}
+
++ (NSImage *)missingArtworkImageWithSize:(NSSize)size
 {
     if(NSEqualSizes(size, NSZeroSize)) return nil;
 
