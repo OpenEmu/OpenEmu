@@ -60,12 +60,6 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
     return [[self rating] unsignedIntegerValue];
 }
 
-- (NSImage *)gridImage
-{
-    return [[self boxImage] imageURL];
-}
-
-
 - (BOOL)hasImage
 {
     return [self boxImage] != nil;
@@ -77,9 +71,9 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 {
     OEDBImage *image = [self boxImage];
     NSString *result = nil;
-    if([image isLocalImageAvailable])
+    if([image isLocalImageAvailable] && [image relativePath] != nil)
         result = [[image imageURL] absoluteString];
-    else if(image != nil)
+    else if(image != nil && [image source] != nil)
         result = [image source];
     else
     {

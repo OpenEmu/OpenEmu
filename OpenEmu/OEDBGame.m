@@ -65,7 +65,7 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 
 + (id)createGameWithName:(NSString *)name andSystem:(OEDBSystem *)system inDatabase:(OELibraryDatabase *)database
 {
-    NSManagedObjectContext *context = [database unsafeContext];
+    NSManagedObjectContext *context = [database safeContext];
 
     __block OEDBGame *game = nil;
     [context performBlockAndWait:^{
@@ -222,7 +222,6 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
         [self setLastInfoSync:[NSDate date]];
     }
     [self setStatus:@(OEDBGameStatusOK)];
-    [[self libraryDatabase] save:nil];
 }
 
 #pragma mark -
@@ -354,7 +353,7 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 {
     OEBitmapImageFileType type = [[NSUserDefaults standardUserDefaults] integerForKey:OEGameArtworkFormatKey];
     OEDBImage *image = [OEDBImage createImageWithNSImage:img type:type inLibrary:[self libraryDatabase]];
-    NSManagedObjectContext *context = [[self libraryDatabase] unsafeContext];
+    NSManagedObjectContext *context = [image managedObjectContext];
     [context performBlockAndWait:^{
         OEDBImage *currentImage = [self boxImage];
         if(currentImage != nil)
@@ -368,7 +367,7 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 - (void)setBoxImageByURL:(NSURL *)url
 {
     OEDBImage *image = [OEDBImage createImageWithURL:url type:OEBitmapImageFileTypeDefault inLibrary:[self libraryDatabase]];
-    NSManagedObjectContext *context = [[self libraryDatabase] unsafeContext];
+    NSManagedObjectContext *context = [image managedObjectContext];
     [context performBlockAndWait:^{
         OEDBImage *currentImage = [self boxImage];
         if(currentImage != nil)

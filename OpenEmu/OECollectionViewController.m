@@ -167,7 +167,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [gamesController setAutomaticallyPreparesContent:NO];
     [gamesController setUsesLazyFetching:NO];
     
-    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] unsafeContext];
+    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] safeContext];
     //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
 
     OE_defaultSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"cleanDisplayName" ascending:YES selector:@selector(caseInsensitiveCompare:)]];

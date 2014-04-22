@@ -117,7 +117,7 @@
     }
 
     __block OEDBRom *rom;
-    NSManagedObjectContext *context = [database unsafeContext];
+    NSManagedObjectContext *context = [database safeContext];
     [context performBlockAndWait:^{
         NSEntityDescription *description = [self entityDescriptionInContext:context];
         rom = [[OEDBRom alloc] initWithEntity:description insertIntoManagedObjectContext:context];
@@ -189,11 +189,17 @@
 
 - (NSURL *)URL
 {
+    NSURL *result = nil;
     NSString *location = [self location];
     if([location isAbsolutePath])
-        return [NSURL URLWithString:location];
+        result = [NSURL URLWithString:location];
     else
-        return [NSURL URLWithString:location relativeToURL:[[self libraryDatabase] romsFolderURL]];
+    {
+        OELibraryDatabase *database = [self libraryDatabase];
+        NSURL *baseURL = [database romsFolderURL];
+        result = [NSURL URLWithString:location relativeToURL:baseURL];
+    }
+    return result;
 }
 
 - (void)setURL:(NSURL *)url

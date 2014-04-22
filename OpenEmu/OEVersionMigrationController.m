@@ -95,7 +95,7 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
     return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
     migrators = nil;
     lastVersion = nil;

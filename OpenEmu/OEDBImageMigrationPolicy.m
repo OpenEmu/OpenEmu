@@ -13,12 +13,14 @@
 NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
 
 @implementation OEDBImageMigrationPolicy
+
 - (BOOL)createDestinationInstancesForSourceInstance:(NSManagedObject *)oldObject entityMapping:(NSEntityMapping *)mapping manager:(NSMigrationManager *)manager error:(NSError **)error
 {
     NSAssert([[[manager sourceModel] versionIdentifiers] count]==1, @"Found a source model with various versionIdentifiers!");
 
     NSString *sourceVersion = [[[manager sourceModel] versionIdentifiers] anyObject];
     NSDictionary  *entities = [[manager sourceModel] entitiesByName];
+
     // Version 1.1 and 1.0 both share version identifier 1.0 :/
     if([sourceVersion isEqualTo:@"1.0"] && [entities objectForKey:@"ImageThumbnail"] != nil)
     {
@@ -44,10 +46,6 @@ NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
             id height = [originalVersion valueForKey:@"height"];
             id path   = [originalVersion valueForKey:@"relativePath"];
 
-            [self updateMapping:mapping setValue:width  forKey:@"width"];
-            [self updateMapping:mapping setValue:height forKey:@"height"];
-            [self updateMapping:mapping setValue:path   forKey:@"relativePath"];
-
             [versions enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
                 NSString *aPath = [obj valueForKey:@"relativePath"];
                 if([aPath isNotEqualTo:path])
@@ -56,10 +54,20 @@ NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
                     [[NSFileManager defaultManager] removeItemAtURL:imageURL error:nil];
                 }
             }];
+
+            NSManagedObject *newObject = [NSEntityDescription insertNewObjectForEntityForName:@"Image" inManagedObjectContext:[manager destinationContext]];
+
+            [newObject setValue:width  forKey:@"width"];
+            [newObject setValue:height forKey:@"height"];
+            [newObject setValue:path   forKey:@"relativePath"];
+
+            [manager associateSourceInstance:oldObject withDestinationInstance:newObject forEntityMapping:mapping];
+
+            return YES;
         }
     }
 
-    return [super createDestinationInstancesForSourceInstance:oldObject entityMapping:mapping manager:manager error:error];
+    return NO;
 }
 
 - (void)updateMapping:(NSEntityMapping*)mapping setValue:(id)value forKey:(NSString*)key

@@ -10,5 +10,4 @@
 
 extern NSString * const OEDBImageMigrateImageFormat;
 @interface OEDBImageMigrationPolicy : NSEntityMigrationPolicy
-
 @end

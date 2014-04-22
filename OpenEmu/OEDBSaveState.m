@@ -109,7 +109,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 + (id)createSaveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database
 {
-    OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database unsafeContext]];
+    OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database safeContext]];
     [newSaveState setLocation:[url absoluteString]];
     if(![newSaveState readInfoPlist])
     {
@@ -142,7 +142,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 + (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inDatabase:(OELibraryDatabase *)database
 {
-    OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database unsafeContext]];
+    OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database safeContext]];
     [newSaveState setName:name];
     [newSaveState setRom:rom];
     [newSaveState setCoreIdentifier:[core bundleIdentifier]];

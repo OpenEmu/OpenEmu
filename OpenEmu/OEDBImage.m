@@ -52,9 +52,9 @@
 
     const NSSize size = [nsimage size];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        NSBitmapImageFileType format;
+        __block NSBitmapImageFileType format;
         NSURL *fileUrl = [image OE_writeImage:nsimage withType:type usedFormat:&format inLibrary:library];
-        NSManagedObjectContext *context = [library unsafeContext];
+        NSManagedObjectContext *context = [library safeContext];
         [context performBlockAndWait:^{
             if(fileUrl != nil)
             {
@@ -89,9 +89,9 @@
     OEDBImage *image = [self OE_createInstanceInLibrary:library];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         NSSize size = NSZeroSize;
-        NSBitmapImageFileType format;
+        __block NSBitmapImageFileType format;
         NSURL *fileUrl = [image OE_writeURL:url withType:type usedFormat:&format outSize:&size inLibrary:library];
-        NSManagedObjectContext *context = [library unsafeContext];
+        NSManagedObjectContext *context = [library safeContext];
         [context performBlockAndWait:^{
             if(fileUrl != nil)
             {
@@ -126,9 +126,9 @@
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         NSSize size = NSZeroSize;
-        NSBitmapImageFileType format;
+        __block NSBitmapImageFileType format;
         NSURL *fileUrl = [image OE_writeData:data withType:type usedFormat:&format outSize:&size inLibrary:library];
-        NSManagedObjectContext *context = [library unsafeContext];
+        NSManagedObjectContext *context = [library safeContext];
         [context performBlockAndWait:^{
             if(fileUrl != nil)
             {
@@ -152,7 +152,7 @@
 + (instancetype)OE_createInstanceInLibrary:(OELibraryDatabase*)library
 {
     __block OEDBImage *image = nil;
-    NSManagedObjectContext *context = [library unsafeContext];
+    NSManagedObjectContext *context = [library safeContext];
     [context performBlockAndWait:^{
         NSEntityDescription *description = [self entityDescriptionInContext:context];
         image = [[OEDBImage alloc] initWithEntity:description insertIntoManagedObjectContext:context];

@@ -59,7 +59,8 @@ extern NSString *const OEScreenshotFolderURLKey;
 - (NSManagedObject *)objectWithID:(NSManagedObjectID *)objectID;
 - (NSArray*)executeFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error;
 - (NSUInteger)countForFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error;
-- (NSManagedObjectContext*)unsafeContext;
+
+- (NSManagedObjectContext*)safeContext;
 @property (strong) OEROMImporter *importer;
 
 #pragma mark - Administration

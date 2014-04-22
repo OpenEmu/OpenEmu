@@ -650,7 +650,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 - (void)performImportStepCreateCoreDataObjects:(OEImportItem*)item
 {
     __block NSError *error = nil;
-    [[[self database] unsafeContext] performBlockAndWait:^{
+    [[[self database] safeContext] performBlockAndWait:^{
         
         OEDBRom *rom = nil;
         
@@ -720,7 +720,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         if(game != nil)
         {
             [rom setGame:game];
-            [[self database] save:nil];
+            [[[self database] safeContext] save:nil];
             NSURL *objectID = [[rom objectID] URIRepresentation];
             [importInfo setObject:objectID forKey:OEImportInfoROMObjectID];
         }

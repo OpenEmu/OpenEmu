@@ -72,7 +72,7 @@ const int OELibraryErrorCodeFileInFolderNotFound = 2;
 {
     NSArrayController *_romsController;
 
-    NSManagedObjectModel *_managedObjectModel;
+    NSManagedObjectModel   *_managedObjectModel;
     NSManagedObjectContext *_managedObjectContext;
 
     NSThread *_syncThread;
@@ -90,6 +90,7 @@ const int OELibraryErrorCodeFileInFolderNotFound = 2;
 @property(strong) OEFSWatcher *saveStateWatcher;
 @property(copy)   NSURL       *databaseURL;
 @property(strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property(strong) NSMutableDictionary *childContexts;
 @end
 
 static OELibraryDatabase *defaultDatabase = nil;
@@ -151,8 +152,8 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (void)OE_createInitialItems
 {
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:[OEDBSmartCollection entityName] inManagedObjectContext:[self unsafeContext]];
-    OEDBSmartCollection *recentlyAdded = [[OEDBSmartCollection alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:[self unsafeContext]];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:[OEDBSmartCollection entityName] inManagedObjectContext:[self safeContext]];
+    OEDBSmartCollection *recentlyAdded = [[OEDBSmartCollection alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:[self safeContext]];
     [recentlyAdded setName:@"Recently Added"];
     [self save:nil];
 }
@@ -191,12 +192,12 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     NSDictionary *options = @{
         NSMigratePersistentStoresAutomaticallyOption : @YES,
-        NSInferMappingModelAutomaticallyOption       : @YES,
+        NSInferMappingModelAutomaticallyOption       : @NO,
     };
     if([[self persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:options error:outError] == nil)
     {
         [self setPersistentStoreCoordinator:nil];
-
+        DLog(@"No Persistent Store Coordinator");
         return NO;
     }
 
@@ -221,8 +222,13 @@ static OELibraryDatabase *defaultDatabase = nil;
         [romImporter loadQueue];
         [self setImporter:romImporter];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];
+        NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+        [defaultCenter addObserver:self selector:@selector(managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
+        [defaultCenter addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];
+
         [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:OESaveStateFolderURLKey options:0 context:nil];
+
+        [self setChildContexts:[NSMutableDictionary dictionary]];
     }
 
     return self;
@@ -366,23 +372,43 @@ static OELibraryDatabase *defaultDatabase = nil;
     return _managedObjectContext;
 }
 
+- (NSManagedObjectContext*)safeContext
+{
+    if([[NSThread currentThread] isMainThread])
+        return [self unsafeContext];
+
+    NSString *threadName = [[NSThread currentThread] name];
+    if([threadName isEqualToString:@""])
+    {
+        threadName = [NSString stringWithUUID];
+        [[NSThread currentThread] setName:threadName];
+    }
+
+    NSManagedObjectContext *childContext = [[self childContexts] objectForKey:threadName];
+    if(childContext != nil)
+        return childContext;
+
+    NSManagedObjectContext *safeContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [safeContext setParentContext:[self unsafeContext]];
+    [[safeContext userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
+
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter addObserver:self selector:@selector(threadDidWillExit:) name:NSThreadWillExitNotification object:[NSThread currentThread]];
+
+    [[self childContexts] setObject:safeContext forKey:threadName];
+
+    return safeContext;
+}
+
 - (void)managedObjectContextDidSave:(NSNotification *)notification
 {
     // This error checking is a bit redundant, but we want to make sure that we only merge in other thread's managed object contexts
-    if([notification object] != _managedObjectContext)
+    NSManagedObjectContext *context = [notification object];
+    if([context parentContext] == _managedObjectContext)
     {
-        DLog(@"we have more than one context?");
-        //Transient properties don't merge
-        [[notification userInfo][NSUpdatedObjectsKey] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            if (![obj isKindOfClass:[OEDBGame class]])
-                return;
-
-            OEDBGame *incomingGame = obj;
-            OEDBGame *mainGame = (OEDBGame *)[_managedObjectContext objectWithID:[incomingGame objectID]];
-            [mainGame setStatus:[incomingGame status]];
-        }];
-
-        [_managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+        // merge should not be necessary with nested contexts, right?
+        // [_managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+        [self save:nil];
     }
 }
 
@@ -390,18 +416,25 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSManagedObjectID *objID = [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
     __block id result = nil;
-    [_managedObjectContext performBlockAndWait:^{
-        result = [_managedObjectContext objectWithID:objID];
+    NSManagedObjectContext *context = [self safeContext];
+    [context performBlockAndWait:^{
+        result = [context objectWithID:objID];
     }];
     return result;
 }
 
-#pragma mark -
+- (void)threadDidWillExit:(NSNotification*)notification
+{
+    NSThread *thread = [notification object];
+    [[self childContexts] removeObjectForKey:[thread name]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
+}
 
+#pragma mark -
 - (BOOL)save:(NSError *__autoreleasing*)error
 {
     __block BOOL result = YES;
-    NSManagedObjectContext *context = [self unsafeContext];
+    NSManagedObjectContext *context = [self safeContext];
     [context performBlockAndWait:^{
         if(![context commitEditing])
         {
@@ -428,14 +461,14 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSUndoManager *)undoManager
 {
-    return [[self unsafeContext] undoManager];
+    return [[self safeContext] undoManager];
 }
 
 #pragma mark - Database queries
 - (NSUInteger)collectionsCount
 {
     __block NSUInteger count = 1;
-    NSManagedObjectContext *context = [self unsafeContext];
+    NSManagedObjectContext *context = [self safeContext];
     [context performBlockAndWait:^{
 
         NSEntityDescription *descr = [NSEntityDescription entityForName:@"SmartCollection" inManagedObjectContext:context];
@@ -469,7 +502,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSArray *)collections
 {
-    NSManagedObjectContext *context = [self unsafeContext];
+    NSManagedObjectContext *context = [self safeContext];
     __block NSMutableArray *collectionsArray = [NSMutableArray array];
 
     [context performBlockAndWait:^{
@@ -536,7 +569,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (id)addNewCollection:(NSString *)name
 {
-    NSManagedObjectContext *context = [self unsafeContext];
+    NSManagedObjectContext *context = [self safeContext];
     __block OEDBCollection* aCollection = nil;
     [context performBlockAndWait:^{
         NSString *blockName = name;
@@ -577,7 +610,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     __block OEDBSmartCollection *aCollection = nil;
 
-    NSManagedObjectContext *context = [self unsafeContext];
+    NSManagedObjectContext *context = [self safeContext];
     [context performBlockAndWait:^{
         NSString *blockName = name;
 
@@ -615,7 +648,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (id)addNewCollectionFolder:(NSString *)name
 {
-    NSManagedObjectContext *context = [self unsafeContext];
+    NSManagedObjectContext *context = [self safeContext];
     __block OEDBCollectionFolder *aCollection;
     [context performBlockAndWait:^{
         NSString *blockName = name;
@@ -663,7 +696,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (OEDBRom *)romForMD5Hash:(NSString *)hashString
 {
     __block NSArray *result = nil;
-    NSManagedObjectContext *context = [self unsafeContext];
+    NSManagedObjectContext *context = [self safeContext];
     [context performBlockAndWait:^{
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
 
@@ -690,7 +723,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (OEDBRom *)romForCRC32Hash:(NSString *)crc32String
 {
     __block NSArray *result = nil;
-    NSManagedObjectContext *context = [self unsafeContext];
+    NSManagedObjectContext *context = [self safeContext];
     [context performBlockAndWait:^{
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -950,25 +983,41 @@ static OELibraryDatabase *defaultDatabase = nil;
     [request setFetchLimit:1];
     [request setPredicate:predicate];
 
-    result = [self executeFetchRequest:request error:&error];
+    NSManagedObjectContext *nestedContext = [self safeContext];
 
-    while([result count])
+    __block BOOL stop = NO;
+    while(!stop)
     {
-        @autoreleasepool {
-            OEDBGame *game = [result lastObject];
-            [game performInfoSync];
-        }
-        [NSThread sleepForTimeInterval:0.5];
-        result = [self executeFetchRequest:request error:&error];
+        [nestedContext performBlockAndWait:^{
+            result = [nestedContext executeFetchRequest:request error:&error];
+            if([result count] != 0)
+            {
+                OEDBGame *game = [result lastObject];
+                [game performInfoSync];
 
+                NSError *error = nil;
+                if(![nestedContext save:&error])
+                {
+                    DLog(@"%@", error);
+                }
+                else if(![self save:&error])
+                {
+                    DLog(@"%@", error);
+                }
+                
+                [NSThread sleepForTimeInterval:0.5];
+            }
+            else stop = YES;
+        }];
     }
 }
 #pragma mark - Thread Safe MOC
 - (NSArray*)executeFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error
 {
     __block NSArray *result = nil;
-    [_managedObjectContext performBlockAndWait:^{
-        result = [_managedObjectContext executeFetchRequest:request error:error];
+    NSManagedObjectContext *context = [self safeContext];
+    [context performBlockAndWait:^{
+        result = [context executeFetchRequest:request error:error];
     }];
     return result;
 }
@@ -976,8 +1025,9 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (NSManagedObject *)objectWithID:(NSManagedObjectID *)objectID
 {
     __block NSManagedObject *result = nil;
-    [_managedObjectContext performBlockAndWait:^{
-        result = [_managedObjectContext objectWithID:objectID];
+    NSManagedObjectContext *context = [self safeContext];
+    [context performBlockAndWait:^{
+        result = [context objectWithID:objectID];
     }];
     return result;
 }
@@ -985,8 +1035,9 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (NSUInteger)countForFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error
 {
     __block NSUInteger count = 0;
-    [_managedObjectContext performBlockAndWait:^{
-        count = [_managedObjectContext countForFetchRequest:request error:error];
+    NSManagedObjectContext *context = [self safeContext];
+    [context performBlockAndWait:^{
+        count = [context countForFetchRequest:request error:error];
     }];
     return count;
 }

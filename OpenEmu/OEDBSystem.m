@@ -44,7 +44,7 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 + (NSInteger)systemsCountInDatabase:(OELibraryDatabase *)database error:(NSError**)outError
 {
     __block NSInteger result = 0;
-    NSManagedObjectContext *context = [database unsafeContext];
+    NSManagedObjectContext *context = [database safeContext];
     [context performBlockAndWait:^{
         NSEntityDescription    *descr    = [self entityDescriptionInContext:context];
         NSFetchRequest         *req      = [[NSFetchRequest alloc] init];
@@ -200,7 +200,7 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 
     if(system) return system;
 
-    NSManagedObjectContext *moc = [database unsafeContext];
+    NSManagedObjectContext *moc = [database safeContext];
     [moc performBlockAndWait:^{
 
         system = [[OEDBSystem alloc] initWithEntity:[self entityDescriptionInContext:moc] insertIntoManagedObjectContext:moc];
