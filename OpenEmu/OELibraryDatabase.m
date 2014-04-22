@@ -248,6 +248,14 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (void)applicationWillTerminate:(id)sender
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+    [[[self childContexts] allValues] enumerateObjectsUsingBlock:^(NSManagedObjectContext *obj, NSUInteger idx, BOOL *stop) {
+        [obj performBlockAndWait:^{
+            [obj save:nil];
+        }];
+    }];
+
     [self OE_removeStateWatcher];
     [[self importer] saveQueue];
 
