@@ -64,7 +64,9 @@
     }
 
     NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
-    [[self gameViewBackgroundColorWell] setColor:OENSColorFromString(backgroundColorName)];
+    NSColorWell *colorWell = [self gameViewBackgroundColorWell];
+    NSColor     *color     = OENSColorFromString(backgroundColorName) ?: [NSColor blackColor];
+    [colorWell setColor:color];
 
     NSScrollView *scrollView = (NSScrollView*)[self view];
     [scrollView setDocumentView:[self contentView]];
