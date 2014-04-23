@@ -55,6 +55,8 @@
 #import "OEDBSmartCollection.h"
 #import "OEDBCollectionFolder.h"
 
+NSString *const OELibraryDidLoadNotificationName = @"OELibraryDidLoadNotificationName";
+
 NSString *const OEDatabasePathKey            = @"databasePath";
 NSString *const OEDefaultDatabasePathKey     = @"defaultDatabasePath";
 NSString *const OESaveStateLastFSEventIDKey  = @"lastSaveStateEventID";
@@ -102,7 +104,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 + (BOOL)loadFromURL:(NSURL *)url error:(NSError *__autoreleasing*)outError
 {
-    NSLog(@"OELibraryDatabase loadFromURL:%@", url);
+    NSLog(@"OELibraryDatabase loadFromURL: '%@'", url);
 
     BOOL isDir = NO;
     if(![[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&isDir] || !isDir)
@@ -191,13 +193,12 @@ static OELibraryDatabase *defaultDatabase = nil;
     [self setPersistentStoreCoordinator:[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom]];
 
     NSDictionary *options = @{
-        NSMigratePersistentStoresAutomaticallyOption : @YES,
+        NSMigratePersistentStoresAutomaticallyOption : @NO,
         NSInferMappingModelAutomaticallyOption       : @NO,
     };
     if([[self persistentStoreCoordinator] addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:options error:outError] == nil)
     {
         [self setPersistentStoreCoordinator:nil];
-        DLog(@"No Persistent Store Coordinator");
         return NO;
     }
 

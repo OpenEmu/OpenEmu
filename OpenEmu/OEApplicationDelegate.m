@@ -70,6 +70,7 @@
 #import <objc/message.h>
 
 #import "OEDBSaveState.h"
+#import "OELibraryMigrator.h"
 
 NSString *const OEWebSiteURL      = @"http://openemu.org/";
 NSString *const OEUserGuideURL    = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide";
@@ -95,7 +96,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 @end
 
 @implementation OEApplicationDelegate
-@synthesize mainWindowController;
+@synthesize mainWindowController, preferencesController;
 @synthesize aboutWindow, aboutCreditsPath, cachedLastPlayedInfo;
 
 + (void)load
@@ -139,41 +140,39 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     }
 }
 
-- (id)init
-{
-    if((self = [super init]))
-    {
-        // Load Database
-        [self loadDatabase];
-
-        // if no database was loaded open emu quits
-        if(![OELibraryDatabase defaultDatabase])
-        {
-            [NSApp terminate:self];
-            return self = nil;
-        }
-
-		[self OE_loadPlugins];
-
-        _gameDocuments = [NSMutableArray array];
-    }
-
-    return self;
-}
-
 - (void)dealloc
 {
     [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins" context:_OEApplicationDelegateAllPluginsContext];
 }
 
-#pragma mark -
 
+#pragma mark -
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(libraryDatabaseDidLoad:) name:OELibraryDidLoadNotificationName object:nil];
+
+    // Preload Open Panel
+    [NSOpenPanel openPanel];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self loadDatabase];
+    });
+}
+
+- (void)libraryDatabaseDidLoad:(NSNotification*)notification
+{
+    [self OE_loadPlugins];
+
+    DLog();
+    mainWindowController  = [[OEMainWindowController alloc] initWithWindowNibName:@"MainWindowControll"];
+    preferencesController = [[OEPreferencesController alloc] initWithWindowNibName:@"preferencesController"];
+
+    _gameDocuments = [NSMutableArray array];
+
     // Remove the Open Recent menu item
     NSMenu *fileMenu = [self fileMenu];
     NSInteger openDocumentMenuItemIndex = [fileMenu indexOfItemWithTarget:nil andAction:@selector(openDocument:)];
@@ -195,9 +194,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
     // Preload Composition plugins so HUDControls Bar and Gameplay Preferneces load faster
     [OECompositionPlugin allPluginNames];
-
-    // Preload Open Panel
-    [NSOpenPanel openPanel];
 
     [mainWindowController showWindow:self];
 
@@ -455,11 +451,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 
 #pragma mark - Loading The Database
-
 - (void)loadDatabase
 {
-    NSError *error = nil;
-
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 
     NSString *databasePath = [[standardDefaults valueForKey:OEDatabasePathKey] stringByExpandingTildeInPath];
@@ -467,46 +460,64 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
     if(databasePath == nil) databasePath = defaultDatabasePath;
 
+    BOOL create = NO;
     if(![[NSFileManager defaultManager] fileExistsAtPath:databasePath isDirectory:NULL] &&
        [databasePath isEqual:defaultDatabasePath])
-        [[NSFileManager defaultManager] createDirectoryAtPath:databasePath withIntermediateDirectories:YES attributes:nil error:nil];
+        create = YES;
 
     BOOL userDBSelectionRequest = ([NSEvent modifierFlags] & NSAlternateKeyMask) != 0;
     NSURL *databaseURL = [NSURL fileURLWithPath:databasePath];
     // if user holds down alt-key
     if(userDBSelectionRequest)
-    {
         // we ask the user to either select/create one, or quit open emu
         [self OE_performDatabaseSelection];
+    else
+        [self OE_loadDatabaseAsynchronouslyFormURL:databaseURL createIfNecessary:create];
+}
+
+- (void)OE_loadDatabaseAsynchronouslyFormURL:(NSURL*)url createIfNecessary:(BOOL)create
+{
+    if(create)
+    {
+        [[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:nil];
     }
 
-    else if(![OELibraryDatabase loadFromURL:databaseURL error:&error]) // if the database could not be loaded
+    NSError *error = nil;
+    if(![OELibraryDatabase loadFromURL:url error:&error]) // if the database could not be loaded
     {
-        DLog(@"%@", error);
-        DLog(@"%@", [error domain]);
-        DLog(@"%ld", [error code]);
-
         if([error domain] == NSCocoaErrorDomain && [error code] == NSPersistentStoreIncompatibleVersionHashError)
         {
-            // try to load db again
-            if([OELibraryDatabase loadFromURL:databaseURL error:&error])
-                return;
+            OELibraryMigrator *migrator = [[OELibraryMigrator alloc] initWithStoreURL:url];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSError *blockError = nil;
+                if(![migrator runMigration:&blockError])
+                {
+                    DLog(@"Your Library can't be opened with this version of OpenEmu");
+                    DLog(@"%@", blockError);
+                    [[NSAlert alertWithError:blockError] runModal];
+                    [[NSApplication sharedApplication] terminate:self];
+                }
+                else
+                {
+                    [self OE_loadDatabaseAsynchronouslyFormURL:url createIfNecessary:create];
+                }
+            });
         }
-        else [NSApp presentError:error];
+        else
+        {
+            [NSApp presentError:error];
+            [self OE_performDatabaseSelection];
+        }
+        return;
 
-        // user must select a library
-        [self OE_performDatabaseSelection];
     }
+
+    NSAssert([OELibraryDatabase defaultDatabase] != nil, @"No database available!");
+    [[NSNotificationCenter defaultCenter] postNotificationName:OELibraryDidLoadNotificationName object:[OELibraryDatabase defaultDatabase]];
 }
 
 - (void)OE_performDatabaseSelection
 {
-    // NOTICE:
-    // this method MUST NOT use completion handlers or any async stuff for open/save panels
-    // because openemu will quit after calling loadDatabase if no database is available
-    // that is because oe can't run without a database
-    // please do not change this method, i'm tired of fixing stuff over and over again!!!!!
-
     // setup alert, with options "Quit", "Select", "Create"
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
 
@@ -520,29 +531,37 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     NSInteger result;
     switch([alert runModal])
     {
-        case NSAlertOtherReturn : return;
+        case NSAlertOtherReturn :
+        {
+            [[NSApplication sharedApplication] terminate:self];
+            return;
+        };
         case NSAlertDefaultReturn :
         {
             NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-            [openPanel setCanChooseFiles:NO];
+            [openPanel setCanChooseFiles:YES];
+            [openPanel setAllowedFileTypes:@[[OEDatabaseFileName pathExtension]]];
             [openPanel setCanChooseDirectories:YES];
             [openPanel setAllowsMultipleSelection:NO];
-            result = [openPanel runModal];
-
-            if(result == NSOKButton)
-            {
-                NSURL *databaseURL = [openPanel URL];
-                if(![[NSFileManager defaultManager] fileExistsAtPath:[[databaseURL URLByAppendingPathComponent:OEDatabaseFileName] path]])
+            [openPanel beginWithCompletionHandler:^(NSInteger result) {
+                if(result == NSOKButton)
                 {
-                    NSError *error = [[NSError alloc] initWithDomain:@"No library exists here" code:120 userInfo:nil];
-                    [[NSAlert alertWithError:error] runModal];
+                    NSURL *databaseURL = [openPanel URL];
+                    NSString *databasePath = [databaseURL path];
+
+                    BOOL isDir = NO;
+                    if([[NSFileManager defaultManager] fileExistsAtPath:databasePath isDirectory:&isDir] && !isDir)
+                        databaseURL = [databaseURL URLByDeletingLastPathComponent];
+
+                    [self OE_loadDatabaseAsynchronouslyFormURL:databaseURL createIfNecessary:NO];
+                }
+                else
+                {
                     [self OE_performDatabaseSelection];
                 }
-                else [self OE_createDatabaseAtURL:databaseURL];
-            }
-            else [self OE_performDatabaseSelection];
-        }
+            }];
             break;
+        }
         case NSAlertAlternateReturn :
         {
             NSSavePanel *savePanel = [NSSavePanel savePanel];
@@ -555,7 +574,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                 [[NSFileManager defaultManager] removeItemAtURL:databaseURL error:nil];
                 [[NSFileManager defaultManager] createDirectoryAtURL:databaseURL withIntermediateDirectories:YES attributes:nil error:nil];
 
-                [self OE_createDatabaseAtURL:databaseURL];
+                [self OE_loadDatabaseAsynchronouslyFormURL:databaseURL createIfNecessary:YES];
             }
             else [self OE_performDatabaseSelection];
 
@@ -564,29 +583,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     }
 }
 
-- (void)OE_createDatabaseAtURL:(NSURL *)databaseURL;
-{
-    NSError *error = nil;
-    // if the user selected (or created) a new database, try to load it
-    if(databaseURL != nil && ![OELibraryDatabase loadFromURL:databaseURL error:&error])
-    {
-        // if it could not be loaded because of a wrong model
-        if(error != nil /*&& [error code] == OELibraryHasWrongVersionErrorCode*/)
-        {
-            // if the library was loaded after migration, we exit
-            if([OELibraryDatabase loadFromURL:databaseURL error:&error])
-                return;
-
-            [NSApp presentError:error];
-        }
-
-        // otherwise performDatabaseSelection starts over
-        [self OE_performDatabaseSelection];
-    }
-}
-
 #pragma mark -
-
 - (void)OE_loadPlugins
 {
     [OEPlugin registerPluginClass:[OECorePlugin class]];

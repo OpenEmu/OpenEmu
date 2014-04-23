@@ -38,6 +38,8 @@ extern const int OELibraryErrorCodeFileInFolderNotFound;
 
 #define OEDatabaseFileName @"Library.storedata"
 
+extern NSString *const OELibraryDidLoadNotificationName;
+
 extern NSString *const OEDatabasePathKey;
 extern NSString *const OEDefaultDatabasePathKey;
 extern NSString *const OESaveStateLastFSEventIDKey;
@@ -50,6 +52,7 @@ extern NSString *const OEScreenshotFolderURLKey;
 + (OELibraryDatabase *)defaultDatabase;
 
 + (BOOL)loadFromURL:(NSURL *)url error:(NSError *__autoreleasing*)outError;
+
 - (BOOL)save:(NSError *__autoreleasing*)error;
 
 // - (NSManagedObjectContext *)managedObjectContext;

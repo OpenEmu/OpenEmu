@@ -393,6 +393,9 @@
 		837777BC147A8F6A0091A896 /* hud_progress_bar_track.png in Resources */ = {isa = PBXBuildFile; fileRef = 837777BA147A8F6A0091A896 /* hud_progress_bar_track.png */; };
 		837777BD147A8F6A0091A896 /* hud_progress_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 837777BB147A8F6A0091A896 /* hud_progress_bar.png */; };
 		837820B61907E8520043593F /* OEBlankSlateForegroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820B51907E8520043593F /* OEBlankSlateForegroundLayer.m */; };
+		837820BD19081A090043593F /* OELibraryMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820BC19081A090043593F /* OELibraryMigrator.m */; };
+		837820C119081B1C0043593F /* OEMigrationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820BF19081B1C0043593F /* OEMigrationWindowController.m */; };
+		837820C219081B1C0043593F /* OEMigrationWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 837820C019081B1C0043593F /* OEMigrationWindowController.xib */; };
 		837DF19A16D2B0F400024BE1 /* OECollectionDebugWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 837DF19816D2B0F400024BE1 /* OECollectionDebugWindowController.m */; };
 		837DF19B16D2B0F400024BE1 /* OECollectionDebugWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 837DF19916D2B0F400024BE1 /* OECollectionDebugWindowController.xib */; };
 		83802E6A142F6FF900130517 /* controls_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 83802E69142F6FF900130517 /* controls_highlight.png */; };
@@ -1971,6 +1974,11 @@
 		837820B71907FADB0043593F /* IKRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKRenderer.h; sourceTree = "<group>"; };
 		837820B81907FB2D0043593F /* IKImageWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKImageWrapper.h; sourceTree = "<group>"; };
 		837820BA1907FB6E0043593F /* IKImageBrowserView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKImageBrowserView.h; sourceTree = "<group>"; };
+		837820BB19081A090043593F /* OELibraryMigrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibraryMigrator.h; sourceTree = "<group>"; };
+		837820BC19081A090043593F /* OELibraryMigrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryMigrator.m; sourceTree = "<group>"; };
+		837820BE19081B1C0043593F /* OEMigrationWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMigrationWindowController.h; sourceTree = "<group>"; };
+		837820BF19081B1C0043593F /* OEMigrationWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMigrationWindowController.m; sourceTree = "<group>"; };
+		837820C019081B1C0043593F /* OEMigrationWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEMigrationWindowController.xib; sourceTree = "<group>"; };
 		837DF19716D2B0F400024BE1 /* OECollectionDebugWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECollectionDebugWindowController.h; sourceTree = "<group>"; };
 		837DF19816D2B0F400024BE1 /* OECollectionDebugWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECollectionDebugWindowController.m; sourceTree = "<group>"; };
 		837DF19916D2B0F400024BE1 /* OECollectionDebugWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OECollectionDebugWindowController.xib; sourceTree = "<group>"; };
@@ -4421,6 +4429,11 @@
 				8353EB2215FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m */,
 				83C6C1DA190536CC00DD7B13 /* OEDBImageMigrationPolicy.h */,
 				83C6C1DB190536CC00DD7B13 /* OEDBImageMigrationPolicy.m */,
+				837820BB19081A090043593F /* OELibraryMigrator.h */,
+				837820BC19081A090043593F /* OELibraryMigrator.m */,
+				837820BE19081B1C0043593F /* OEMigrationWindowController.h */,
+				837820BF19081B1C0043593F /* OEMigrationWindowController.m */,
+				837820C019081B1C0043593F /* OEMigrationWindowController.xib */,
 			);
 			name = Migration;
 			sourceTree = "<group>";
@@ -6892,6 +6905,7 @@
 				EC350FD517401B44005DA3B2 /* hud_slider_track@2x.png in Resources */,
 				EC350FD617401B44005DA3B2 /* hud_textfield@2x.png in Resources */,
 				EC350FD717401B44005DA3B2 /* hud_volume@2x.png in Resources */,
+				837820C219081B1C0043593F /* OEMigrationWindowController.xib in Resources */,
 				EC350FD817401B44005DA3B2 /* hud_window@2x.png in Resources */,
 				EC350FF017401B58005DA3B2 /* beta_icon@2x.png in Resources */,
 				EC350FF117401B58005DA3B2 /* controls_highlight@2x.png in Resources */,
@@ -7642,6 +7656,7 @@
 				836291FE1515F30700192116 /* OEFSWatcher.m in Sources */,
 				83BC345E1516456000F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */,
 				C68A54E61516AD3C001053F2 /* OEDatabase.xcdatamodeld in Sources */,
+				837820C119081B1C0043593F /* OEMigrationWindowController.m in Sources */,
 				8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */,
 				83A9758A184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.m in Sources */,
 				83DDEE83156CDEEB009EB43D /* NSView+FadeImage.m in Sources */,
@@ -7707,6 +7722,7 @@
 				83B867A9171D62DA0038988C /* OEStorageDeviceManager.m in Sources */,
 				83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */,
 				83B867B4171D63070038988C /* OERetrode.m in Sources */,
+				837820BD19081A090043593F /* OELibraryMigrator.m in Sources */,
 				83B867B5171D63070038988C /* OERetrodeDeviceManager.m in Sources */,
 				83B867B6171D63070038988C /* OERetrodeViewController.m in Sources */,
 				83B867BC171D63940038988C /* NSString+OERangeAdditions.m in Sources */,

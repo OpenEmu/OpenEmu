@@ -99,7 +99,6 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
 {
     migrators = nil;
     lastVersion = nil;
-    
 }
 
 - (void)runMigrationIfNeeded
