@@ -381,17 +381,19 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 #pragma mark - Core Data utilities
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
 {
-    NSMutableSet *mutableRoms = [self mutableRoms];
-    while ([mutableRoms count]) {
-        OEDBRom *aRom = [mutableRoms anyObject];
-        [aRom deleteByMovingFile:moveToTrash keepSaveStates:statesFlag];
-        [mutableRoms removeObject:aRom];
-    }
-
     NSManagedObjectContext *context = [self managedObjectContext];
     [context performBlockAndWait:^{
-        [context deleteObject:self];
-    }];
+         NSMutableSet *mutableRoms = [self mutableRoms];
+         while ([mutableRoms count])
+         {
+             OEDBRom *aRom = [mutableRoms anyObject];
+             [aRom deleteByMovingFile:moveToTrash keepSaveStates:statesFlag];
+             [mutableRoms removeObject:aRom];
+         }
+
+         [context deleteObject:self];
+         [context save:nil];
+     }];
 }
 
 + (NSString *)entityName

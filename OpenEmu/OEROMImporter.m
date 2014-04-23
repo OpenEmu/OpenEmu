@@ -790,7 +790,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         OEDBRom *rom = nil;
         NSURL *romID = [[item importInfo] objectForKey:OEImportInfoROMObjectID];
         if(romID)
-            rom = [[self database] objectWithURI:romID];
+            rom = (OEDBRom*)[[self database] objectWithURI:romID];
 
         if(rom && [[item importInfo] objectForKey:OEImportInfoCollectionID])
         {
