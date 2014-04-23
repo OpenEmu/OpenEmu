@@ -25,7 +25,7 @@
  */
 
 #import "OEMigrationWindowController.h"
-
+#import "OELibraryMigrator.h"
 @interface OEMigrationWindowController ()
 @property (strong) NSMigrationManager *manager;
 @end
@@ -38,7 +38,6 @@
     if (self)
     {
         [self setManager:manager];
-        [manager addObserver:self forKeyPath:@"migrationProgress" options:NSKeyValueObservingOptionNew context:NULL];
     }
     return self;
 }
@@ -57,6 +56,19 @@
     [[self indicator] startAnimation:self];
 }
 
+- (void)showWindow:(id)sender
+{
+    [[self manager] addObserver:self forKeyPath:@"migrationProgress" options:NSKeyValueObservingOptionNew context:NULL];
+
+    [super showWindow:sender];
+}
+
+- (void)close
+{
+    [[self manager] removeObserver:self forKeyPath:@"migrationProgress"];
+    [super close];
+}
+
 - (NSString*)windowNibName
 {
     return [self className];
@@ -64,7 +76,8 @@
 #pragma mark -
 - (IBAction)cancelMigration:(id)sender
 {
-
+    NSError *error = [NSError errorWithDomain:OEMigrationErrorDomain code:OEMigrationCanceled userInfo:nil];
+    [[self manager] cancelMigrationWithError:error];
 }
 
 @end

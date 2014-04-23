@@ -27,6 +27,9 @@
 #import "OELibraryMigrator.h"
 #import "OEMigrationWindowController.h"
 #import "OELibraryDatabase.h"
+
+NSString *const OEMigrationErrorDomain = @"OEMigrationErrorDomain";
+
 @interface OELibraryMigrator ()
 @property NSURL *storeURL;
 @end
@@ -86,6 +89,9 @@
     NSString *temporaryFileName = [NSString stringWithFormat:@"Temporary %@.%@", fileName, fileExtension];
     temporaryDestination = [[_storeURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:temporaryFileName];
 
+    NSString *previousStoreFileName = [NSString stringWithFormat:@"Previous %@.%@", fileName, fileExtension];
+    NSURL *previousStoreURL = [[_storeURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:previousStoreFileName];
+
     NSFileManager *fileManager = [NSFileManager defaultManager];
     [fileManager removeItemAtURL:temporaryDestination error:nil];
 
@@ -98,34 +104,36 @@
         [[windowController indicator] startAnimation:self];
     });
 
+    BOOL(^cleanup)(BOOL) = ^(BOOL success){
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [fileManager removeItemAtURL:temporaryDestination error:nil];
+            [windowController close];
+        });
+        return success;
+    };
 
     BOOL success = [manager migrateStoreFromURL:_storeURL type:NSSQLiteStoreType options:@{} withMappingModel:mappingModel toDestinationURL:temporaryDestination destinationType:NSSQLiteStoreType destinationOptions:@{} error:outError];
     if(success == NO)
     {
         DLog(@"Migration failed!");
-        return NO;
+        return cleanup(NO);
     }
 
-    NSString *previousStoreFileName = [NSString stringWithFormat:@"Previous %@.%@", fileName, fileExtension];
-    NSURL *previousStoreURL = [[_storeURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:previousStoreFileName];
     [fileManager removeItemAtURL:previousStoreURL error:nil];
     if(![fileManager moveItemAtURL:_storeURL toURL:previousStoreURL error:outError])
     {
         DLog(@"Moving to previous library location failed");
-        return NO;
+        return cleanup(NO);
     }
     [fileManager removeItemAtURL:_storeURL error:nil];
     if(![fileManager moveItemAtURL:temporaryDestination toURL:_storeURL error:outError])
     {
         DLog(@"Moving to default library location failed");
-        return NO;
+        return cleanup(NO);
     }
 
     DLog(@"Migration Done");
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        [windowController close];
-    });
-    return YES;
+    return cleanup(YES);
 }
 
 @end

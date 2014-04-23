@@ -26,6 +26,11 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const OEMigrationErrorDomain;
+typedef enum : NSUInteger {
+    OEMigrationCanceled = -10,
+} OEMigrationErrorCode;
+
 @interface OELibraryMigrator : NSObject
 - (id)initWithStoreURL:(NSURL*)url;
 - (BOOL)runMigration:(NSError*__autoreleasing*)outError;

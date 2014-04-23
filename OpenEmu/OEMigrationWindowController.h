@@ -31,5 +31,4 @@
 - (IBAction)cancelMigration:(id)sender;
 
 @property (assign) IBOutlet NSProgressIndicator *indicator;
-@property (assign) IBOutlet NSButton            *cancelButton;
 @end

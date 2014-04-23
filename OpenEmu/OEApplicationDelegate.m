@@ -452,7 +452,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [self OE_setupGameDocument:document display:displayDocument fullScreen:fullScreen completionHandler:completionHandler];
 }
 
-#pragma mark - Loading The Database
+#pragma mark - Loading the Library Database
 - (void)loadDatabase
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -494,9 +494,14 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                 NSError *blockError = nil;
                 if(![migrator runMigration:&blockError])
                 {
-                    DLog(@"Your Library can't be opened with this version of OpenEmu");
-                    DLog(@"%@", blockError);
-                    [[NSAlert alertWithError:blockError] runModal];
+                    if([blockError domain] != OEMigrationErrorDomain || [blockError code] != OEMigrationCanceled)
+                    {
+                        DLog(@"Your Library can't be opened with this version of OpenEmu");
+                        DLog(@"%@", blockError);
+                        [[NSAlert alertWithError:blockError] runModal];
+                    }
+                    else DLog(@"Migration canceled");
+
                     [[NSApplication sharedApplication] terminate:self];
                 }
                 else
