@@ -362,6 +362,9 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
 - (NSURL*)_urlOfExtractedRom:(OEDBRom*)rom
 {
+    if([rom archiveFileIndex] == nil)
+        return nil;
+
     NSString *path = [[rom URL] path];
     XADArchive *archive;
     @try {
@@ -371,18 +374,19 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     {
         archive = nil;
     }
-    
-    if (archive && [archive numberOfEntries] == 1)
+
+    int entryIndex = [[rom archiveFileIndex] intValue];
+    if (archive && [archive numberOfEntries] > entryIndex)
     {
         NSString *formatName = [archive formatName];
         if ([formatName isEqualToString:@"MacBinary"])
             return nil;
 
-        if (![archive entryHasSize:0] || [archive entryIsEncrypted:0] || [archive entryIsDirectory:0] || [archive entryIsArchive:0])
+        if (![archive entryHasSize:entryIndex] || [archive entryIsEncrypted:entryIndex] || [archive entryIsDirectory:entryIndex] || [archive entryIsArchive:entryIndex])
             return nil;
 
         NSString *folder = temporaryDirectoryForDecompressionOfPath(path);
-        NSString *name = [archive nameOfEntry:0];
+        NSString *name = [archive nameOfEntry:entryIndex];
         if ([[name pathExtension] length] == 0 && [[path pathExtension] length] > 0) {
             // this won't do. Re-add the archive's extension in case it's .smc or the like
             name = [name stringByAppendingPathExtension:[path pathExtension]];
@@ -398,7 +402,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
         BOOL success = YES;
         @try {
-            success = [archive _extractEntry:0 as:tmpPath deferDirectories:NO dataFork:YES resourceFork:NO];
+            success = [archive _extractEntry:entryIndex as:tmpPath deferDirectories:NO dataFork:YES resourceFork:NO];
         }
         @catch (NSException *exception) {
             success = NO;
