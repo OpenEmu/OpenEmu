@@ -342,7 +342,7 @@
 									<reference key="NSDocView" ref="149732364"/>
 									<reference key="NSBGColor" ref="622283368"/>
 									<object class="NSCursor" key="NSCursor" id="974140837">
-										<string key="NSHotSpot">{5, 5}</string>
+										<string key="NSHotSpot">{1, -1}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">2</int>
@@ -1324,11 +1324,13 @@ IEdpdEh1Yi4gA</bytes>
 								</object>
 								<object class="NSMenuItem" id="457871606">
 									<reference key="NSMenu" ref="773367557"/>
+									<bool key="NSIsHidden">YES</bool>
 									<string key="NSTitle">Show Library</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="364983442"/>
 									<reference key="NSMixedImage" ref="771956725"/>
+									<int key="NSTag">10</int>
 								</object>
 								<object class="NSMenuItem" id="727959617">
 									<reference key="NSMenu" ref="773367557"/>
@@ -1337,6 +1339,7 @@ IEdpdEh1Yi4gA</bytes>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="364983442"/>
 									<reference key="NSMixedImage" ref="771956725"/>
+									<int key="NSTag">11</int>
 								</object>
 								<object class="NSMenuItem" id="652356282">
 									<reference key="NSMenu" ref="773367557"/>

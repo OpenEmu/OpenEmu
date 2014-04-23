@@ -121,6 +121,18 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     {
         [self setCurrentContentController:[self libraryController] animate:NO];
     }
+
+    // setup menu items
+    NSMenu *viewMenu = [[[NSApp mainMenu] itemAtIndex:3] submenu];
+    NSMenuItem *showLibraryNames = [viewMenu itemWithTag:10];
+    NSMenuItem *showRomNames     = [viewMenu itemWithTag:11];
+    NSMenuItem *undockGameWindow = [viewMenu itemWithTag:3];
+
+    NSDictionary *negateOptions = @{NSValueTransformerNameBindingOption:NSNegateBooleanTransformerName};
+    [showLibraryNames bind:@"enabled" toObject:self withKeyPath:@"mainWindowRunsGame" options:negateOptions];
+    [showRomNames     bind:@"enabled" toObject:self withKeyPath:@"mainWindowRunsGame" options:negateOptions];
+    [undockGameWindow bind:@"enabled" toObject:self withKeyPath:@"mainWindowRunsGame" options:@{}];
+
 }
 
 - (NSString *)windowNibName
