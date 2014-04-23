@@ -30,19 +30,53 @@
 #import "OEGridCell.h"
 #import "OEGridViewFieldEditor.h"
 
-#import "OEGridForegroundLayer.h"
-
 #import "OEBackgroundNoisePattern.h"
 
 #import "OEMenu.h"
 
 #import <QuickLook/QuickLook.h>
-
 @interface IKImageWrapper : NSObject
 - (id)nsImage;
 - (id)nsImage:(BOOL)arg1;
 @end
+#pragma - IKRenderers
+@protocol IKRenderer
+- (void)uninstallClipRect;
+- (void)installClipRect:(struct CGRect)arg1;
+- (void)clearViewport:(struct CGRect)arg1;
+- (BOOL)renderBezelGroupWithPoints:(struct CGPoint *)arg1 count:(int)arg2 radius:(float)arg3 strokeColor:(float *)arg4 fillColor:(float *)arg5 lineWidth:(int)arg6;
+- (int)rendererType;
+- (void)setColorRed:(float)arg1 Green:(float)arg2 Blue:(float)arg3 Alpha:(float)arg4;
+- (void)drawRectShadow:(struct CGRect)arg1 withAlpha:(float)arg2;
+- (void)drawText:(id)arg1 inRect:(struct CGRect)arg2 withAttributes:(id)arg3 withAlpha:(float)arg4;
+- (void)drawImage:(id)arg1 inRect:(struct CGRect)arg2 fromRect:(struct CGRect)arg3 alpha:(float)arg4;
+- (void)drawRect:(struct CGRect)arg1 withLineWidth:(float)arg2;
+- (void)drawLineFromPoint:(struct CGPoint)arg1 toPoint:(struct CGPoint)arg2;
+- (void)drawPlaceHolderWithRect:(struct CGRect)arg1 withAlpha:(float)arg2;
+- (BOOL)drawRoundedRect:(struct CGRect)arg1 radius:(float)arg2 strokeColor:(float *)arg3 fillColor:(float *)arg4 lineWidth:(int)arg5;
+- (void)drawRoundedRect:(struct CGRect)arg1 radius:(float)arg2 lineWidth:(float)arg3 cacheIt:(BOOL)arg4;
+- (void)fillRoundedRect:(struct CGRect)arg1 radius:(float)arg2 cacheIt:(BOOL)arg3;
+- (void)fillRect:(struct CGRect)arg1;
+- (void)fillGradientInRect:(struct CGRect)arg1 bottomColor:(id)arg2 topColor:(id)arg3;
+- (void)endDrawing;
+- (void)flushRenderer;
+- (void)flushTextRenderer;
+- (void)beginDrawingInView:(id)arg1;
+@property unsigned long long scaleFactor;
+- (void)setupViewportWithView:(id)arg1;
+- (void)resetOffset;
+- (id)textRenderer;
+@property BOOL enableSubpixelAntialiasing;
+- (void)setAutoInstallBlendMode:(BOOL)arg1;
+- (BOOL)autoInstallBlendMode;
+- (void)setEnableMagFilter:(BOOL)arg1;
+- (BOOL)enableMagFilter;
+- (void)emptyCaches;
+- (void)dealloc;
+- (id)init;
+@end
 
+#pragma mark -
 @interface IKImageBrowserView (ApplePrivate)
 
 // -_drawCALayer:forceUpdateRect: overridden to adjust for overscroll
@@ -64,6 +98,13 @@
 //
 - (void)drawDragBackground;
 - (void)drawDragOverlays;
+- (void)drawGroupsOverlays;
+
+- (id <IKRenderer>)renderer;
+@end
+
+@interface NSView (ApplePrivate)
+- (void)setClipsToBounds:(BOOL)arg1;
 @end
 // TODO: replace OEDBGame with OECoverGridDataSourceItem
 @interface OEGridView ()
@@ -91,20 +132,16 @@
     [self setAllowsDroppingOnItems:YES];
     [self setAnimates:NO];
 
+    [self setClipsToBounds:NO];
+
     [self setCellsStyleMask:IKCellsStyleNone];
 
-    OEGridForegroundLayer *foregroundLayer = [OEGridForegroundLayer layer];
-
-    _dragIndicationLayer = [CALayer layer];
-    [_dragIndicationLayer setActions:@{ @"frame":[NSNull null], @"position":[NSNull null] }];
-    [_dragIndicationLayer setBorderColor:[[NSColor colorWithDeviceRed:0.03 green:0.41 blue:0.85 alpha:1.0] CGColor]];
-    [_dragIndicationLayer setBorderWidth:2.0];
-    [_dragIndicationLayer setCornerRadius:8.0];
-    [_dragIndicationLayer setHidden:YES];
-    [foregroundLayer addSublayer:_dragIndicationLayer];
-
-    [self setForegroundLayer:foregroundLayer];
-
+    NSClipView *clipView = [[self enclosingScrollView] contentView];
+    DLog(@"%@", [clipView className]);
+/*
+    _view = [[OEGridForegroundView alloc] initWithFrame:[[self enclosingScrollView] bounds]];
+    [[self enclosingScrollView] addSubview:_view];
+*/
     _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
     [self addSubview:_fieldEditor];
 }
@@ -336,36 +373,30 @@
 {
     [self OE_generateProposedImageFromPasteboard:[sender draggingPasteboard]];
     NSDragOperation op = [super draggingEntered:sender];
-    if(op != NSDragOperationNone)
-        [_dragIndicationLayer setHidden:NO];
     return op;
 }
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
     [self setProposedImage:nil];
-    [_dragIndicationLayer setHidden:YES];
     return [super performDragOperation:sender];
 }
 
 - (void)draggingExited:(id<NSDraggingInfo>)sender
 {
     [self setProposedImage:nil];
-    [_dragIndicationLayer setHidden:YES];
     [super draggingExited:sender];
 }
 
 - (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender
 {
     NSDragOperation op = [super draggingUpdated:sender];
-    [_dragIndicationLayer setHidden:op == NSDragOperationNone];
     return op;
 }
 
 - (void)draggingEnded:(id<NSDraggingInfo>)sender
 {
     [self setProposedImage:nil];
-    [_dragIndicationLayer setHidden:YES];
     [super draggingEnded:sender];
 }
 
@@ -408,7 +439,7 @@
     OEDBGame   *selectedGame = [selectedCell representedItem];
 
     [selectedGame setRating:@(rating)];
-    // TODO: can we only reload one item?
+    // TODO: can we only reload one item? Just redrawing might be faster
     [self reloadData];
 }
 #pragma mark - Renaming items
@@ -519,7 +550,33 @@
 
 - (void)drawDragOverlays
 {
-    [self.foregroundLayer setNeedsDisplay];
+    id <IKRenderer> renderer = [self renderer];
+
+    NSUInteger scaleFactor = [renderer scaleFactor];
+    [renderer setColorRed:0.03 Green:0.41 Blue:0.85 Alpha:1.0];
+
+    NSRect dragRect = [[self enclosingScrollView] documentVisibleRect];
+    dragRect = NSInsetRect(dragRect, 1.0*scaleFactor, 1.0*scaleFactor);
+    dragRect = NSIntegralRect(dragRect);
+
+    [renderer drawRoundedRect:dragRect radius:8.0*scaleFactor lineWidth:2.0*scaleFactor cacheIt:YES];
+}
+
+- (void)drawGroupsOverlays
+{
+    [super drawGroupsOverlays];
+
+    id <IKRenderer> renderer = [self renderer];
+    NSColor *fullColor  = [[NSColor blackColor] colorWithAlphaComponent:0.4];
+    NSColor *emptyColor = [NSColor clearColor];
+
+    NSRect visibleRect = [[self enclosingScrollView] documentVisibleRect];
+
+    NSRect gradientRectBottom = NSMakeRect(0.0, NSMinY(visibleRect), NSWidth(visibleRect), 8.0);
+    NSRect gradientRectTop = NSMakeRect(0.0, NSMaxY(visibleRect) - 8.0, NSWidth(visibleRect), 8.0);
+
+    [renderer fillGradientInRect:gradientRectBottom bottomColor:fullColor topColor:emptyColor];
+    [renderer fillGradientInRect:gradientRectTop bottomColor:emptyColor   topColor:fullColor];
 }
 
 // -_drawCALayer:forceUpdateRect: overridden to adjust for overscroll
@@ -535,4 +592,3 @@
     } else [super _drawCALayer:arg1 forceUpdateRect:arg2];
 }
 @end
-

@@ -28,11 +28,12 @@
 
 #import "OESystemPlugin.h"
 #import "OECorePlugin.h"
-#import "OECenteredTextFieldCell.h"
+
+#import "OEGridForegroundLayer.h"
 
 #import "OEButton.h"
 #import "OEPopUpButtonCell.h"
-#import "OEGridForegroundLayer.h"
+#import "OECenteredTextFieldCell.h"
 
 #import "NSColor+OEAdditions.h"
 
@@ -48,6 +49,7 @@
 - (void)OE_setupBoxInView:(NSView*)view;
 @end
 
+// TODO: convert defines to constants
 #pragma mark - Sizes
 #define boxHeight 261
 #define arrowTopToViewTop 52
@@ -88,6 +90,7 @@
     CALayer *layer = [self layer];
 
     // Setup foreground
+
     OEGridForegroundLayer *foregroundLayer = [[OEGridForegroundLayer alloc] init];
     [layer addSublayer:foregroundLayer];
 
