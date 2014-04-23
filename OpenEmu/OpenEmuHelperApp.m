@@ -531,53 +531,61 @@
     if([self loadedRom]) return NO;
 
     aPath = [aPath stringByStandardizingPath];
-    BOOL isDir;
 
     DLog(@"New ROM path is: %@", aPath);
 
-    if([[NSFileManager defaultManager] fileExistsAtPath:aPath isDirectory:&isDir] && !isDir)
+    DLog(@"extension is: %@", [aPath pathExtension]);
+    self.loadedRom = NO;
+
+    _gameController = [[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller];
+    _gameCore = [_gameController newGameCore];
+
+    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(OE_gameCoreThread:) object:nil];
+    _gameCoreProxy = [[OEThreadProxy alloc] initWithTarget:_gameCore thread:thread];
+
+    [_gameCore setOwner:_gameController];
+    [_gameCore setDelegate:self];
+    [_gameCore setRenderDelegate:self];
+    [_gameCore setAudioDelegate:self];
+
+    [_gameCore setSystemIdentifier:systemIdentifier];
+
+    DLog(@"Loaded bundle. About to load rom...");
+
+    // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
+    if(![systemIdentifier isEqualToString:@"openemu.system.arcade"] && ![[aPath pathExtension] isEqualToString:@"md"])
+        aPath = [self decompressedPathForRomAtPath:aPath];
+
+    if([_gameCore loadFileAtPath:aPath error:error])
     {
-        DLog(@"extension is: %@", [aPath pathExtension]);
-        self.loadedRom = NO;
-
-        _gameController = [[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller];
-        _gameCore = [_gameController newGameCore];
-
-        NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(OE_gameCoreThread:) object:nil];
-        _gameCoreProxy = [[OEThreadProxy alloc] initWithTarget:_gameCore thread:thread];
-
-        [_gameCore setOwner:_gameController];
-        [_gameCore setDelegate:self];
-        [_gameCore setRenderDelegate:self];
-        [_gameCore setAudioDelegate:self];
-
-        [_gameCore setSystemIdentifier:systemIdentifier];
-
-        DLog(@"Loaded bundle. About to load rom...");
-
-        // Never extract arcade roms
-        if(![systemIdentifier isEqualToString:@"openemu.system.arcade"])
-            aPath = [self decompressedPathForRomAtPath:aPath];
-
-        if([_gameCore loadFileAtPath:aPath error:error])
-        {
-            DLog(@"Loaded new Rom: %@", aPath);
-            return self.loadedRom = YES;
-        }
-        else
-        {
-            NSLog(@"ROM did not load.");
-            _gameCore = nil;
-            _gameCoreProxy = nil;
-        }
+        DLog(@"Loaded new Rom: %@", aPath);
+        return self.loadedRom = YES;
     }
-    else NSLog(@"bad ROM path or filename");
+    else
+    {
+        NSLog(@"ROM did not load.");
+        _gameCore = nil;
+        _gameCoreProxy = nil;
+    }
 
     return NO;
 }
 
 - (NSString *)decompressedPathForRomAtPath:(NSString *)aPath
 {
+    // check path for :entryIndex appendix, extract it and restore original path
+    // paths will look like this /path/to/rom/file.zip:2
+
+    int entryIndex = 0;
+    NSMutableArray *components = [[aPath componentsSeparatedByString:@":"] mutableCopy];
+    NSString *entry = [components lastObject];
+    if([[NSString stringWithFormat:@"%ld", [entry integerValue]] isEqualToString:entry])
+    {
+        entryIndex = [entry intValue];
+        [components removeLastObject];
+        aPath = [components componentsJoinedByString:@":"];
+    }
+
     // we check for known compression types for the ROM at the path
     // If we detect one, we decompress it and store it in /tmp at a known location
     XADArchive *archive = nil;
@@ -589,7 +597,7 @@
         archive = nil;
     }
     
-    if(archive == nil || [archive numberOfEntries] > 1)
+    if(archive == nil || [archive numberOfEntries] <= entryIndex)
         return aPath;
     
     // XADMaster identifies some legit Mega Drive as LZMA archives
@@ -597,12 +605,12 @@
     if ([formatName isEqualToString:@"MacBinary"] || [formatName isEqualToString:@"LZMA_Alone"])
         return aPath;
 
-    if(![archive entryHasSize:0] || ![archive uncompressedSizeOfEntry:0] || [archive entryIsEncrypted:0] || [archive entryIsDirectory:0] || [archive entryIsArchive:0])
+    if(![archive entryHasSize:entryIndex] || [archive uncompressedSizeOfEntry:entryIndex]==0 || [archive entryIsEncrypted:entryIndex] || [archive entryIsDirectory:entryIndex] || [archive entryIsArchive:entryIndex])
         return aPath;
 
     NSFileManager *fm = [NSFileManager new];
     NSString *folder = temporaryDirectoryForDecompressionOfPath(aPath);
-    NSString *tmpPath = [folder stringByAppendingPathComponent:[archive nameOfEntry:0]];
+    NSString *tmpPath = [folder stringByAppendingPathComponent:[archive nameOfEntry:entryIndex]];
     if([[tmpPath pathExtension] length] == 0 && [[aPath pathExtension] length] > 0)
     {
         // we need an extension
@@ -619,7 +627,7 @@
     BOOL success = YES;
     @try
     {
-        success = [archive _extractEntry:0 as:tmpPath deferDirectories:NO dataFork:YES resourceFork:NO];
+        success = [archive _extractEntry:entryIndex as:tmpPath deferDirectories:NO dataFork:YES resourceFork:NO];
     }
     @catch (NSException *exception)
     {

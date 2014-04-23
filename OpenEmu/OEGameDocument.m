@@ -243,7 +243,12 @@ typedef enum : NSUInteger
     _corePlugin = corePlugin;
     [[NSUserDefaults standardUserDefaults] setValue:[_corePlugin bundleIdentifier] forKey:UDSystemCoreMappingKeyForSystemIdentifier([self systemIdentifier])];
 
-    return [[managerClass alloc] initWithROMPath:[[[self rom] URL] path] corePlugin:_corePlugin systemController:_gameSystemController displayHelper:self];
+    NSString *path = [[[self rom] URL] path];
+     // if file is in an archive append :entryIndex to path, so the core manager can figure out which entry to load
+    if([[self rom] archiveFileIndex])
+        path = [path stringByAppendingFormat:@":%d",[[[self rom] archiveFileIndex] intValue]];
+
+    return [[managerClass alloc] initWithROMPath:path corePlugin:_corePlugin systemController:_gameSystemController displayHelper:self];
 }
 
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError
@@ -1229,6 +1234,7 @@ typedef enum : NSUInteger
     else
         [self OE_startEmulation];
 }
+
 
 #pragma mark - Deleting States
 
