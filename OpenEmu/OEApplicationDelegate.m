@@ -93,6 +93,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 @property(nonatomic) BOOL logHIDEvents;
 @property(nonatomic) BOOL logKeyboardEvents;
 
+@property(nonatomic) BOOL libraryLoaded;
+@property(nonatomic) NSMutableArray *startupQueue;
 @end
 
 @implementation OEApplicationDelegate
@@ -140,11 +142,20 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     }
 }
 
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self setStartupQueue:[NSMutableArray array]];
+    }
+    return self;
+}
+
 - (void)dealloc
 {
     [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins" context:_OEApplicationDelegateAllPluginsContext];
 }
-
 
 #pragma mark -
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
@@ -165,6 +176,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (void)libraryDatabaseDidLoad:(NSNotification*)notification
 {
+    _libraryLoaded = YES;
+
     [self OE_loadPlugins];
 
     DLog();
@@ -220,6 +233,13 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // Start retrode support
     if([[NSUserDefaults standardUserDefaults] boolForKey:OERetrodeSupportEnabledKey])
         [OERetrodeDeviceManager class];
+
+
+    [[self startupQueue] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        void(^block)(void) = obj;
+        block();
+    }];
+    [self setStartupQueue:nil];
 }
 
 - (void)addDocument:(NSDocument *)document
@@ -291,7 +311,11 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
 {
-    [mainWindowController showWindow:self];
+    if(_libraryLoaded)
+        [mainWindowController showWindow:self];
+    else
+        [[self startupQueue] addObject:^{[mainWindowController showWindow:self];}];
+
     return NO;
 }
 
@@ -302,25 +326,30 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         return;
     }
 
-    if([filenames count] == 1)
-    {
-        NSURL *url = [NSURL fileURLWithPath:[filenames lastObject]];
-        [self openDocumentWithContentsOfURL:url display:YES completionHandler:
-         ^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
-         {
-             NSApplicationDelegateReply reply = (document != nil) ? NSApplicationDelegateReplySuccess : NSApplicationDelegateReplyFailure;
-             [NSApp replyToOpenOrPrint:reply];
-         }];
-    }
-    else
-    {
-        NSApplicationDelegateReply reply = NSApplicationDelegateReplyFailure;
-        OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
-        if([importer importItemsAtPaths:filenames])
-            reply = NSApplicationDelegateReplySuccess;
-
-        [NSApp replyToOpenOrPrint:reply];
-    }
+    void(^block)(void) = ^{
+        DLog();
+        if([filenames count] == 1)
+        {
+            NSURL *url = [NSURL fileURLWithPath:[filenames lastObject]];
+            [self openDocumentWithContentsOfURL:url display:YES completionHandler:
+             ^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
+             {
+                 NSApplicationDelegateReply reply = (document != nil) ? NSApplicationDelegateReplySuccess : NSApplicationDelegateReplyFailure;
+                 [NSApp replyToOpenOrPrint:reply];
+             }];
+        }
+        else
+        {
+            NSApplicationDelegateReply reply = NSApplicationDelegateReplyFailure;
+            OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
+            if([importer importItemsAtPaths:filenames])
+                reply = NSApplicationDelegateReplySuccess;
+            
+            [NSApp replyToOpenOrPrint:reply];
+        }
+    };
+    if(_libraryLoaded) block();
+    else [[self startupQueue] addObject:block];
 }
 
 - (void)setLogHIDEvents:(BOOL)value
