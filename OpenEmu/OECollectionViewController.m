@@ -596,27 +596,8 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
 #pragma mark -
 #pragma mark GridView DraggingDestinationDelegate
-
-- (NSDragOperation)validateDrop:(id<NSDraggingInfo>)draggingInfo
-{
-    if (![[[draggingInfo draggingPasteboard] types] containsObject:NSFilenamesPboardType])
-        return NSDragOperationNone;
-    
-    return NSDragOperationCopy;
-}
-
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
-    /*
-     //  draggingOperation is captured in gridview's override for setDropIndex:dropOperation:
-     //
-     //  IKImageBrowserDropOn indicates that a file has been dropped on to an item in gridview
-     //  IKImageBrowserDropBefore indicates that a file has been dropped beside an item in gridview
-     //
-     //  We basically won't settle for an image IKImageBrowserDropBefore it must be IKImageBrowserDropOn
-     //  Any other files that are not images will be processed elsewhere & operation doesn't matter as long as it isn't IKImageBrowserDropNone
-     */
-    
     NSPasteboard *draggingPasteboard = [sender draggingPasteboard];
     NSImage      *draggingImage      = [[NSImage alloc] initWithPasteboard:draggingPasteboard];
     NSInteger     draggingOperation  = [gridView draggingOperation];
@@ -648,7 +629,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
 #pragma mark -
 #pragma mark GridView DataSource
-
 - (NSUInteger)numberOfItemsInImageBrowser:(IKImageBrowserView *)aBrowser
 {
     return [[gamesController arrangedObjects] count];

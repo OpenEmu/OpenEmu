@@ -513,7 +513,6 @@
 		8C4C808916986697009B8A28 /* OEGLSLShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808816986697009B8A28 /* OEGLSLShader.m */; };
 		8C4C808E16986C87009B8A28 /* OECGShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808D16986C87009B8A28 /* OECGShader.m */; };
 		8CAD37CF16A18C3000AE25F5 /* Cg.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCBC0C8169B323100141631 /* Cg.framework */; };
-		8CBD3A9B17D21BB70022399B /* OEGridBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CBD3A9A17D21BB70022399B /* OEGridBackgroundLayer.m */; };
 		8CBD3AA217D23AA80022399B /* OEGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CBD3AA117D23AA80022399B /* OEGridCell.m */; };
 		8CCBC0C9169B323100141631 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCBC0C8169B323100141631 /* Cg.framework */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
@@ -1092,7 +1091,6 @@
 		EF2FDBED14CFFE1B002A64F2 /* OEControlsKeySeparatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D9991E146F40DA004409DC /* OEControlsKeySeparatorView.m */; };
 		EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */; };
-		EFBD5D8614EFE27F00FBD1E0 /* OEGridViewLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD5D8514EFE27E00FBD1E0 /* OEGridViewLayoutManager.m */; };
 		FE6310A1187F099800D8AE07 /* MSX.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = FEB6625B187B791800D14713 /* MSX.oesystemplugin */; };
 		FEB66263187B791800D14713 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FEB66261187B791800D14713 /* InfoPlist.strings */; };
 		FEB66268187B792700D14713 /* OEMSXSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEB66251187B62CA00D14713 /* OEMSXSystemController.m */; };
@@ -2153,8 +2151,6 @@
 		8C8AD73516B5DBE20004D97C /* snes_ntsc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snes_ntsc.c; sourceTree = "<group>"; };
 		8C8AD73616B5DBE20004D97C /* snes_ntsc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = snes_ntsc.h; sourceTree = "<group>"; };
 		8C8AD73716B5DBE20004D97C /* snes_ntsc.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = snes_ntsc.txt; sourceTree = "<group>"; };
-		8CBD3A9917D21BB70022399B /* OEGridBackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridBackgroundLayer.h; sourceTree = "<group>"; };
-		8CBD3A9A17D21BB70022399B /* OEGridBackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridBackgroundLayer.m; sourceTree = "<group>"; };
 		8CBD3AA017D23AA80022399B /* OEGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridCell.h; sourceTree = "<group>"; };
 		8CBD3AA117D23AA80022399B /* OEGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridCell.m; sourceTree = "<group>"; };
 		8CCBC0C8169B323100141631 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Cg.framework; sourceTree = "<group>"; };
@@ -2799,8 +2795,6 @@
 		EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+OEAdditions.m"; sourceTree = "<group>"; };
 		EFBD5D7B14EFE26300FBD1E0 /* OEGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridView.h; sourceTree = "<group>"; };
 		EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridView.m; sourceTree = "<group>"; };
-		EFBD5D8414EFE27E00FBD1E0 /* OEGridViewLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridViewLayoutManager.h; sourceTree = "<group>"; };
-		EFBD5D8514EFE27E00FBD1E0 /* OEGridViewLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewLayoutManager.m; sourceTree = "<group>"; };
 		FEB66250187B62CA00D14713 /* OEMSXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemController.h; sourceTree = "<group>"; };
 		FEB66251187B62CA00D14713 /* OEMSXSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMSXSystemController.m; sourceTree = "<group>"; };
 		FEB66253187B751700D14713 /* OEMSXSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemResponder.h; sourceTree = "<group>"; };
@@ -3769,8 +3763,6 @@
 				8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */,
 				53439B0513B92EEC005C0CC8 /* OEGridViewFieldEditor.h */,
 				53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */,
-				EFBD5D8414EFE27E00FBD1E0 /* OEGridViewLayoutManager.h */,
-				EFBD5D8514EFE27E00FBD1E0 /* OEGridViewLayoutManager.m */,
 			);
 			name = "Grid View";
 			sourceTree = "<group>";
@@ -4457,8 +4449,6 @@
 			children = (
 				83955CB6165DA9B100572B34 /* OEBackgroundNoisePattern.h */,
 				83955CB7165DA9BC00572B34 /* OEBackgroundNoisePattern.m */,
-				8CBD3A9917D21BB70022399B /* OEGridBackgroundLayer.h */,
-				8CBD3A9A17D21BB70022399B /* OEGridBackgroundLayer.m */,
 				53439AD413B92E23005C0CC8 /* OEGridForegroundLayer.h */,
 				53439AD513B92E23005C0CC8 /* OEGridForegroundLayer.m */,
 			);
@@ -7641,7 +7631,6 @@
 				83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */,
 				EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.m in Sources */,
 				EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */,
-				EFBD5D8614EFE27F00FBD1E0 /* OEGridViewLayoutManager.m in Sources */,
 				83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */,
 				83B72F5115024B1E0052BCA0 /* OEAppStoreWindow.m in Sources */,
 				836291FE1515F30700192116 /* OEFSWatcher.m in Sources */,
@@ -7730,7 +7719,6 @@
 				C69CA5EE17D3BED400178CB7 /* NSDocumentController+OEAdditions.m in Sources */,
 				C67DBF4317DBE859006AF087 /* NSDocument+OEAdditions.m in Sources */,
 				C61DDF1F17E5CA7E0031D50D /* OEXPCInterface.m in Sources */,
-				8CBD3A9B17D21BB70022399B /* OEGridBackgroundLayer.m in Sources */,
 				8CBD3AA217D23AA80022399B /* OEGridCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

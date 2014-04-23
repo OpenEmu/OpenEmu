@@ -57,11 +57,13 @@
 // -allowsTypeSelect is undocumented as of 10.9, original implementation seems to return [self cellsStyleMask]&IKCellsStyleTitled
 - (BOOL)allowsTypeSelect;
 
-- (void)beginTransaction:(id)arg1;
-
-// Dragging
+// -thumbnailImageAtIndex: is used to generate drag image
 - (id)snapshotOfItemAtIndex:(unsigned long long)arg1;
 - (IKImageWrapper*)thumbnailImageAtIndex:(unsigned long long)arg1;
+
+//
+- (void)drawDragBackground;
+- (void)drawDragOverlays;
 @end
 // TODO: replace OEDBGame with OECoverGridDataSourceItem
 @interface OEGridView ()
@@ -71,6 +73,8 @@
 @property NSInteger editingIndex;
 @property NSInteger ratingTracking;
 @property OEGridViewFieldEditor *fieldEditor;
+
+@property CALayer *dragIndicationLayer;
 @end
 
 @implementation OEGridView
@@ -88,7 +92,18 @@
     [self setAnimates:NO];
 
     [self setCellsStyleMask:IKCellsStyleNone];
-    [self setForegroundLayer:[[OEGridForegroundLayer alloc] init]];
+
+    OEGridForegroundLayer *foregroundLayer = [OEGridForegroundLayer layer];
+
+    _dragIndicationLayer = [CALayer layer];
+    [_dragIndicationLayer setActions:@{ @"frame":[NSNull null], @"position":[NSNull null] }];
+    [_dragIndicationLayer setBorderColor:[[NSColor colorWithDeviceRed:0.03 green:0.41 blue:0.85 alpha:1.0] CGColor]];
+    [_dragIndicationLayer setBorderWidth:2.0];
+    [_dragIndicationLayer setCornerRadius:8.0];
+    [_dragIndicationLayer setHidden:YES];
+    [foregroundLayer addSublayer:_dragIndicationLayer];
+
+    [self setForegroundLayer:foregroundLayer];
 
     _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
     [self addSubview:_fieldEditor];
@@ -231,6 +246,8 @@
 - (void)mouseUp:(NSEvent *)theEvent
 {
     _ratingTracking = NSNotFound;
+    _draggingIndex  = NSNotFound;
+
     [super mouseUp:theEvent];
 }
 #pragma mark - Keyboard Interaction
@@ -303,6 +320,7 @@
 {
     DLog();
     _draggingSession = nil;
+    _draggingIndex  = NSNotFound;
 }
 
 - (void)draggingSession:(NSDraggingSession *)session willBeginAtPoint:(NSPoint)screenPoint
@@ -317,24 +335,37 @@
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
 {
     [self OE_generateProposedImageFromPasteboard:[sender draggingPasteboard]];
-    return [super draggingEntered:sender];
+    NSDragOperation op = [super draggingEntered:sender];
+    if(op != NSDragOperationNone)
+        [_dragIndicationLayer setHidden:NO];
+    return op;
 }
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
     [self setProposedImage:nil];
+    [_dragIndicationLayer setHidden:YES];
     return [super performDragOperation:sender];
 }
 
 - (void)draggingExited:(id<NSDraggingInfo>)sender
 {
     [self setProposedImage:nil];
+    [_dragIndicationLayer setHidden:YES];
     [super draggingExited:sender];
+}
+
+- (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender
+{
+    NSDragOperation op = [super draggingUpdated:sender];
+    [_dragIndicationLayer setHidden:op == NSDragOperationNone];
+    return op;
 }
 
 - (void)draggingEnded:(id<NSDraggingInfo>)sender
 {
     [self setProposedImage:nil];
+    [_dragIndicationLayer setHidden:YES];
     [super draggingEnded:sender];
 }
 
@@ -481,6 +512,14 @@
 - (BOOL)allowsTypeSelect
 {
     return YES;
+}
+
+- (void)drawDragBackground
+{}
+
+- (void)drawDragOverlays
+{
+    [self.foregroundLayer setNeedsDisplay];
 }
 
 // -_drawCALayer:forceUpdateRect: overridden to adjust for overscroll

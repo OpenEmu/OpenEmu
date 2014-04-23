@@ -53,6 +53,20 @@
     [gradient drawInRect:NSMakeRect(0.0, NSMinY(visibleRect), NSWidth(visibleRect), 8.0) angle:90.0];
     [gradient drawInRect:NSMakeRect(0.0, NSMaxY(visibleRect) - 8.0, NSWidth(visibleRect), 8.0) angle:270.0];
 
+    NSRect layerRect = NSInsetRect(visibleRect, 1, 1);
+    layerRect.size.height -= 1;
+
+    [[self sublayers] enumerateObjectsUsingBlock:^(CALayer *layer, NSUInteger idx, BOOL *stop) {
+        if(![layer isHidden])
+        {
+            [CATransaction begin];
+            [CATransaction setDisableActions:YES];
+            [layer setFrame:layerRect];
+            [layer drawInContext:ctx];
+            [CATransaction commit];
+        }
+    }];
+
     [NSGraphicsContext restoreGraphicsState];
 }
 
