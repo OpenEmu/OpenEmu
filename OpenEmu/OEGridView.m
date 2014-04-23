@@ -446,7 +446,10 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 
 - (void)setDropIndex:(NSInteger)index dropOperation:(IKImageBrowserDropOperation)operation
 {
-    if(operation != IKImageBrowserDropOn) index = -1;
+    if(operation != IKImageBrowserDropOn || index == [[self dataSource] numberOfItemsInImageBrowser:self])
+    {
+        operation = IKImageBrowserDropBefore;
+    }
     [super setDropIndex:index dropOperation:operation];
     _draggingOperation = operation;
 }
@@ -499,6 +502,8 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 - (void)drawDragOverlays
 {
     id <IKRenderer> renderer = [self renderer];
+
+    if([self dropOperation] != IKImageBrowserDropBefore) return;
 
     NSUInteger scaleFactor = [renderer scaleFactor];
     [renderer setColorRed:0.03 Green:0.41 Blue:0.85 Alpha:1.0];
