@@ -33,4 +33,6 @@ extern void OEBackgroundNoisePatternDrawInContext(void *info, CGContextRef ctx);
 extern void OEBackgroundNoisePatternRelease(void *info);
 
 extern CGColorRef OEBackgroundNoiseColorRef;
+extern CGImageRef OEBackgroundNoiseImageRef;
 extern CGColorRef OEBackgroundHighResolutionNoiseColorRef;
+extern CGImageRef OEBackgroundHighResolutionNoiseImageRef;

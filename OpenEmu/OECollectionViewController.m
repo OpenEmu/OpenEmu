@@ -138,7 +138,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OELastGridSizeKey : @1.0f }];
 }
 
-
 - (id)init
 {
     self = [super init];

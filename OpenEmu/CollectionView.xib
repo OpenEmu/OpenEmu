@@ -184,10 +184,6 @@
             <rect key="frame" x="0.0" y="0.0" width="643" height="510"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <customView id="Gtr-69-EBx" customClass="OEGridBackgroundView">
-                    <rect key="frame" x="0.0" y="0.0" width="643" height="510"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                </customView>
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" scrollerKnobStyle="light" id="92" userLabel="GridView">
                     <rect key="frame" x="0.0" y="0.0" width="643" height="510"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
