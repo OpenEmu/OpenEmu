@@ -249,12 +249,13 @@
 }
 
 #pragma mark -
-- (void)convertToFormat:(OEBitmapImageFileType)format withProperties:(NSDictionary*)attributes
+- (BOOL)convertToFormat:(OEBitmapImageFileType)format withProperties:(NSDictionary*)attributes
 {
     NSURL *newURL = [self OE_writeImage:[self image] withType:format usedFormat:NULL withProperties:attributes inLibrary:[self libraryDatabase]];
     if(newURL == nil)
     {
         DLog(@"converting image failed!");
+        return NO;
     }
     else
     {
@@ -269,6 +270,7 @@
             [self setRelativePath:relativePath];
             [context save:nil];
         }];
+        return YES;
     }
 }
 #pragma mark - Core Data utilities

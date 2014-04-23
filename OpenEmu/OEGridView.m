@@ -537,14 +537,13 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 {
     [super drawGroupsOverlays];
 
-    id <IKRenderer> renderer = [self renderer];
-    NSColor *fullColor  = [[NSColor blackColor] colorWithAlphaComponent:0.4];
-    NSColor *emptyColor = [NSColor clearColor];
+    const id <IKRenderer> renderer = [self renderer];
+    const NSColor *fullColor  = [[NSColor blackColor] colorWithAlphaComponent:0.4];
+    const NSColor *emptyColor = [NSColor clearColor];
 
-    NSRect visibleRect = [[self enclosingScrollView] documentVisibleRect];
-
-    NSRect gradientRectBottom = NSMakeRect(0.0, NSMinY(visibleRect), NSWidth(visibleRect), 8.0);
-    NSRect gradientRectTop = NSMakeRect(0.0, NSMaxY(visibleRect) - 8.0, NSWidth(visibleRect), 8.0);
+    const NSRect visibleRect = [[self enclosingScrollView] documentVisibleRect];
+    const NSRect gradientRectBottom = NSMakeRect(0.0, NSMinY(visibleRect), NSWidth(visibleRect), 8.0);
+    const NSRect gradientRectTop = NSMakeRect(0.0, NSMaxY(visibleRect) - 8.0, NSWidth(visibleRect), 8.0);
 
     [renderer fillGradientInRect:gradientRectBottom bottomColor:fullColor topColor:emptyColor];
     [renderer fillGradientInRect:gradientRectTop bottomColor:emptyColor   topColor:fullColor];

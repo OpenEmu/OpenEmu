@@ -51,7 +51,7 @@ typedef enum : NSBitmapImageFileType
 
 - (NSImage *)image;
 - (NSURL *)imageURL;
-- (void)convertToFormat:(OEBitmapImageFileType)format withProperties:(NSDictionary*)attributes;
+- (BOOL)convertToFormat:(OEBitmapImageFileType)format withProperties:(NSDictionary*)attributes;
 
 @property (nonatomic) NSURL *sourceURL;
 @property (readonly, nonatomic, getter = isLocalImageAvailable) BOOL localImageAvailable;

@@ -161,7 +161,12 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
         else
         {
             [images enumerateObjectsUsingBlock:^(OEDBImage *image, NSUInteger idx, BOOL *stop) {
-                [image convertToFormat:format withProperties:attributes];
+                if(![image convertToFormat:format withProperties:attributes])
+                {
+                    DLog(@"Failed to migrate image! Delete...");
+                    [[image managedObjectContext] deleteObject:image];
+                    [[image managedObjectContext] save:nil];
+                }
             }];
         }
     };

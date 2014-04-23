@@ -571,8 +571,6 @@ static NSDictionary *disabledActions = nil;
     NSImage  *selectionImage = [self OE_standardImageNamed:imageKey withSize:size];
     if(selectionImage) return selectionImage;
 
-    NSLog(@"Creating selector image with size %@", NSStringFromSize(size));
-
     BOOL(^drawingBlock)(NSRect) = ^BOOL(NSRect dstRect)
     {
         NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
