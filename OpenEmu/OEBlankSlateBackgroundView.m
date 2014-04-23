@@ -6,10 +6,10 @@
 //
 //
 
-#import "OEGridBackgroundView.h"
+#import "OEBlankSlateBackgroundView.h"
 #import "OEBackgroundNoisePattern.h"
 
-@implementation OEGridBackgroundView
+@implementation OEBlankSlateBackgroundView
 
 - (id)initWithFrame:(NSRect)frameRect
 {

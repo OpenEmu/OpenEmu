@@ -24,7 +24,50 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <QuartzCore/QuartzCore.h>
+#import "OEBlankSlateForegroundLayer.h"
 
-@interface OEGridForegroundLayer : CALayer
+@implementation OEBlankSlateForegroundLayer
+
+- (id)init
+{
+    if((self = [super init]))
+    {
+        [self setNeedsDisplayOnBoundsChange:YES];
+    }
+    return self;
+}
+
+- (id < CAAction >)actionForKey:(NSString *)key
+{
+    return nil;
+}
+
+- (void)drawInContext:(CGContextRef)ctx
+{
+    NSGraphicsContext *context = [NSGraphicsContext graphicsContextWithGraphicsPort:ctx flipped:NO];
+    [NSGraphicsContext saveGraphicsState];
+    [NSGraphicsContext setCurrentContext:context];
+
+    const NSRect visibleRect = [self bounds];
+    NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[[NSColor blackColor] colorWithAlphaComponent:0.4] endingColor:[NSColor clearColor]];
+    [gradient drawInRect:NSMakeRect(0.0, NSMinY(visibleRect), NSWidth(visibleRect), 8.0) angle:90.0];
+    [gradient drawInRect:NSMakeRect(0.0, NSMaxY(visibleRect) - 8.0, NSWidth(visibleRect), 8.0) angle:270.0];
+
+    NSRect layerRect = NSInsetRect(visibleRect, 1, 1);
+    layerRect.size.height -= 1;
+
+    [[self sublayers] enumerateObjectsUsingBlock:^(CALayer *layer, NSUInteger idx, BOOL *stop) {
+        if(![layer isHidden])
+        {
+            [CATransaction begin];
+            [CATransaction setDisableActions:YES];
+            [layer setFrame:layerRect];
+            [layer drawInContext:ctx];
+            [CATransaction commit];
+        }
+    }];
+
+    [NSGraphicsContext restoreGraphicsState];
+}
+
 @end

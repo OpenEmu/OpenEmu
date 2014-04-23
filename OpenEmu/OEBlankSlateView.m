@@ -29,7 +29,7 @@
 #import "OESystemPlugin.h"
 #import "OECorePlugin.h"
 
-#import "OEGridForegroundLayer.h"
+#import "OEBlankSlateForegroundLayer.h"
 
 #import "OEButton.h"
 #import "OEPopUpButtonCell.h"
@@ -91,7 +91,7 @@
 
     // Setup foreground
 
-    OEGridForegroundLayer *foregroundLayer = [[OEGridForegroundLayer alloc] init];
+    OEBlankSlateForegroundLayer *foregroundLayer = [[OEBlankSlateForegroundLayer alloc] init];
     [layer addSublayer:foregroundLayer];
 
     // Setup drag indication layer

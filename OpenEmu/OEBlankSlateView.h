@@ -26,7 +26,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "OESystemPlugin.h"
-#import "OEGridBackgroundView.h"
+#import "OEBlankSlateBackgroundView.h"
 @class OEBlankSlateView;
 
 @protocol OEBlankSlateViewDelegate <NSObject>
@@ -36,7 +36,7 @@
 - (BOOL)blankSlateView:(OEBlankSlateView *)gridView acceptDrop:(id<NSDraggingInfo>)sender;
 @end
 
-@interface OEBlankSlateView : OEGridBackgroundView
+@interface OEBlankSlateView : OEBlankSlateBackgroundView
 
 @property (nonatomic) NSString* representedCollectionName;
 @property (nonatomic) OESystemPlugin* representedSystemPlugin;

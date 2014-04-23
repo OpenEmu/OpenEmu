@@ -38,5 +38,7 @@
 
 - (NSInteger)gridStatus;
 - (NSUInteger)gridRating;
+
 - (void)setGridRating:(NSUInteger)newRating;
+- (void)setGridTitle:(NSString*)title;
 @end

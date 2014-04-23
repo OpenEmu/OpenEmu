@@ -25,229 +25,22 @@
  */
 
 #import "OEGridView.h"
-#import "OECollectionViewController.h"
-
-#import "OEGridCell.h"
-#import "OEGridViewFieldEditor.h"
-
-#import "OEBackgroundNoisePattern.h"
-
-#import "OEMenu.h"
 
 #import <QuickLook/QuickLook.h>
 
-#pragma mark - IKImageWrapper
-@interface IKImageWrapper : NSObject
-+ (id)imageWithObject:(id)arg1 scaleFactor:(double)arg2;
-+ (id)imageWithObject:(id)arg1;
-+ (id)imageWithImageProxy:(id)arg1;
-+ (id)imageWithSize:(struct CGSize)arg1;
-+ (id)emptyImage;
-+ (id)imageWithNSBitmapImageRep:(id)arg1;
-+ (id)imageWithPasteboard:(id)arg1;
-+ (id)imageWithData:(id)arg1;
-+ (id)imageWithCGImageSource:(struct CGImageSource *)arg1;
-+ (id)imageWithDraggingItem:(id)arg1;
-+ (id)imageWithIconRef:(struct OpaqueIconRef *)arg1;
-+ (id)imageWithCGImage:(struct CGImage *)arg1;
-+ (id)imageWithNSImage:(id)arg1;
-+ (id)imageWithURL:(id)arg1;
-+ (id)imageWithPath:(id)arg1;
-- (id)imageInPixelSpaceForViewResolution:(id)arg1;
-- (id)imageInPixelSpaceForTargetResolution:(double)arg1;
-- (id)bestImageForTargetScaleFactor:(double)arg1 sourceScaleFactor:(double *)arg2;
-- (BOOL)baselineIsCached;
-- (BOOL)toplineIsCached;
-- (float)topline;
-- (float)baseline;
-- (id)description;
-- (id)_tryToCreateCGImageRepFromNonCGFile:(id)arg1;
-- (void)setInfo:(id)arg1;
-- (id)info;
-- (id)valueForKey:(id)arg1;
-- (void)setValue:(id)arg1 forKey:(id)arg2;
-- (void)setOpenGLTextureIsPremultiplied:(BOOL)arg1;
-- (BOOL)openGLTextureIsPremultiplied;
-- (void)setOpenGLTextureOffset:(struct CGPoint)arg1;
-- (struct CGPoint)openGLTextureOffset;
-- (unsigned int)generateNewGLTextureID;
-- (void)setOpenGLTextureID:(unsigned int)arg1 withGLContext:(struct _CGLContextObject *)arg2;
-- (void)deleteTextureInContext:(struct _CGLContextObject *)arg1;
-- (unsigned int)openGLTextureID;
-- (BOOL)textureIsPacked;
-- (BOOL)bitmapIsUsedAsClientStorage;
-- (void)freeCache;
-- (void)freeVRAMCache;
-- (void)freeRAMCache;
-- (BOOL)hasRAMCache;
-- (BOOL)hasVolatileCache;
-- (BOOL)hasCGCache;
-- (void)bindCGCache;
-- (void)freeCGCache;
-- (BOOL)mappedIntoVRAM;
-- (BOOL)mappedAndDecompressedIntoRAM;
-- (BOOL)mappedIntoRAM;
-- (void)mapIntoVRAM;
-- (struct CGContext *)createCGContext;
-- (struct CGContext *)cgContext;
-- (void)setBitmapRepresentation:(id)arg1;
-- (void)releaseBitmapCache;
-- (id)bitmapRepresentation;
-- (id)__bitmapRepresentation;
-- (BOOL)hasBitmapRepresentation;
-- (BOOL)hasDataRepresentation;
-- (id)writeToFileWithAutomaticFormat:(id)arg1;
-- (void)saveAsJPGAtPath:(id)arg1;
-- (void)saveAsTIFFAtPath:(id)arg1;
-- (void)unlockFocus;
-- (void)lockFocus;
-- (void)drawInRect:(struct CGRect)arg1 fromRect:(struct CGRect)arg2 alpha:(float)arg3;
-- (void)setDataRepresentation:(id)arg1;
-- (void)setPath:(id)arg1;
-- (void)setURL:(id)arg1;
-- (void)setImageProxy:(id)arg1;
-- (id)imageProxy;
-- (id)dataRepresentation;
-- (id)dataRepresentationFromCGRepresentationWithCompressionFactor:(float)arg1;
-- (id)_createBitmapImageRepFromCGRepresentation;
-- (id)_dataRepresentationFromBitmapRepresentation:(id)arg1;
-- (id)imagePath;
-- (id)url;
-- (id)IK_JPEGRepresentationWithCompressionFactor:(float)arg1;
-- (id)TIFFRepresentationUsingCompression:(unsigned long long)arg1 factor:(float)arg2;
-- (id)TIFFRepresentation;
-- (id)GIFRepresentation;
-- (struct CGImage *)imageAtFrameIndex:(int)arg1;
-- (float)nextFrameDelayAtIndex:(int)arg1;
-- (int)loopCount;
-- (int)imageFrameCount;
-- (BOOL)isAnimatedGifs;
-- (id)animatedGifsCache;
-- (BOOL)hasAlpha;
-- (void)_updateHasAlphaFlag:(id)arg1;
-- (BOOL)isEmpty;
-- (BOOL)isValid;
-- (BOOL)isMarkedAsInvalid;
-- (BOOL)isVectorial;
-- (void)setSizeWithoutSavingContent:(struct CGSize)arg1;
-- (void)setSize:(struct CGSize)arg1;
-- (struct CGSize)size;
-- (struct CGSize)_size;
-- (id)_sizeOfNSImage:(id)arg1;
-- (struct CGSize)cachedSize;
-- (id)thumbnailWithSize:(struct CGSize)arg1 antialiased:(BOOL)arg2 qualityRequested:(int)arg3 qualityProduced:(int *)arg4;
-- (id)thumbnailWithSize:(struct CGSize)arg1 antialiased:(BOOL)arg2 quality:(int)arg3;
-- (id)_thumbnailWithSize:(struct CGSize)arg1 antialiased:(BOOL)arg2 quality:(int)arg3;
-- (id)referenceInstance;
-- (void)referenceWillDie;
-- (void)integrateReferenceInstance:(id)arg1;
-- (void)setIsThreadSafe:(BOOL)arg1;
-- (void)setIsReference:(BOOL)arg1;
-- (id)imageWithoutProxy;
-- (id)ramCopy;
-- (id)copy;
-- (struct OpaqueIconRef *)iconRef;
-- (void)setIconRef:(struct OpaqueIconRef *)arg1;
-- (void)setNSImage:(id)arg1;
-- (void)setCGImage:(struct CGImage *)arg1;
-- (void)setCGImageSource:(struct CGImageSource *)arg1;
-- (struct CGImageSource *)cgImageSourceRef:(BOOL)arg1;
-- (id)nsImage;
-- (id)nsImage:(BOOL)arg1;
-- (struct CGImage *)cgImage;
-- (id)_nsImage;
-- (struct CGImage *)_cgImage;
-- (void)_tryCreateBitmapFromVRamRepresentation;
-- (int)quality;
-- (void)setQuality:(int)arg1;
-- (void)setUnderlyingDataAreVolatile:(BOOL)arg1;
-- (BOOL)underlyingDataAreVolatile;
-- (void)setWasGeneratedWithIconServices:(BOOL)arg1;
-- (BOOL)wasGeneratedWithIconServices;
-- (void)setFlags:(unsigned short)arg1;
-- (unsigned short)flags;
-- (void)releaseVolatileImageRep;
-- (void)setVolatileRepresentation:(int)arg1;
-- (int)volatileRepresentation;
-- (id)initWithOpenGLID:(unsigned int)arg1 size:(struct CGSize)arg2 offset:(struct CGPoint)arg3 premultiplied:(BOOL)arg4 deleteWhenDone:(BOOL)arg5;
-- (id)initWithImageProxy:(id)arg1;
-- (id)initWithNSBitmapImageRep:(id)arg1;
-- (id)initWithData:(id)arg1;
-- (id)initWithSize:(struct CGSize)arg1;
-- (id)initWithPasteboard:(id)arg1;
-- (id)initEmptyImage;
-- (id)initWithNSImage:(id)arg1;
-- (id)initWithCGImageSource:(struct CGImageSource *)arg1;
-- (id)initWithIconRef:(struct OpaqueIconRef *)arg1;
-- (id)initWithCGImage:(struct CGImage *)arg1;
-- (id)initWithURL:(id)arg1;
-- (id)initWithPath:(id)arg1;
-- (void)finalize;
-- (void)dealloc;
+#import "OEGridCell.h"
+#import "OEGridViewFieldEditor.h"
+#import "OEBackgroundNoisePattern.h"
+#import "OECoverGridDataSourceItem.h"
 
-@end
-#pragma mark - IKRenderers
-@protocol IKRenderer
-- (void)uninstallClipRect;
-- (void)installClipRect:(struct CGRect)arg1;
-- (void)clearViewport:(struct CGRect)arg1;
-- (BOOL)renderBezelGroupWithPoints:(struct CGPoint *)arg1 count:(int)arg2 radius:(float)arg3 strokeColor:(float *)arg4 fillColor:(float *)arg5 lineWidth:(int)arg6;
-- (int)rendererType;
-- (void)setColorRed:(float)arg1 Green:(float)arg2 Blue:(float)arg3 Alpha:(float)arg4;
-- (void)drawRectShadow:(struct CGRect)arg1 withAlpha:(float)arg2;
-- (void)drawText:(id)arg1 inRect:(struct CGRect)arg2 withAttributes:(id)arg3 withAlpha:(float)arg4;
-- (void)drawImage:(id)arg1 inRect:(struct CGRect)arg2 fromRect:(struct CGRect)arg3 alpha:(float)arg4;
-- (void)drawRect:(struct CGRect)arg1 withLineWidth:(float)arg2;
-- (void)drawLineFromPoint:(struct CGPoint)arg1 toPoint:(struct CGPoint)arg2;
-- (void)drawPlaceHolderWithRect:(struct CGRect)arg1 withAlpha:(float)arg2;
-- (BOOL)drawRoundedRect:(struct CGRect)arg1 radius:(float)arg2 strokeColor:(float *)arg3 fillColor:(float *)arg4 lineWidth:(int)arg5;
-- (void)drawRoundedRect:(struct CGRect)arg1 radius:(float)arg2 lineWidth:(float)arg3 cacheIt:(BOOL)arg4;
-- (void)fillRoundedRect:(struct CGRect)arg1 radius:(float)arg2 cacheIt:(BOOL)arg3;
-- (void)fillRect:(struct CGRect)arg1;
-- (void)fillGradientInRect:(struct CGRect)arg1 bottomColor:(id)arg2 topColor:(id)arg3;
-- (void)endDrawing;
-- (void)flushRenderer;
-- (void)flushTextRenderer;
-- (void)beginDrawingInView:(id)arg1;
-@property unsigned long long scaleFactor;
-- (void)setupViewportWithView:(id)arg1;
-- (void)resetOffset;
-- (id)textRenderer;
-@property BOOL enableSubpixelAntialiasing;
-- (void)setAutoInstallBlendMode:(BOOL)arg1;
-- (BOOL)autoInstallBlendMode;
-- (void)setEnableMagFilter:(BOOL)arg1;
-- (BOOL)enableMagFilter;
-- (void)emptyCaches;
-- (void)dealloc;
-- (id)init;
-@end
+#import "OEMenu.h"
+
+#pragma mark - ImageKit Private Headers
+#import "IKImageBrowserView.h"
+#import "IKImageWrapper.h"
+#import "IKRenderer.h"
 
 #pragma mark -
-@interface IKImageBrowserView (ApplePrivate)
-// -handleKeyInput:character: is called to allow space in type select
-- (BOOL)handleKeyInput:(id)arg1 character:(unsigned short)arg2;
-
-// -allowsTypeSelect is undocumented as of 10.9, original implementation seems to return [self cellsStyleMask]&IKCellsStyleTitled
-- (BOOL)allowsTypeSelect;
-
-// -thumbnailImageAtIndex: is used to generate drag image
-- (id)snapshotOfItemAtIndex:(unsigned long long)arg1;
-- (IKImageWrapper*)thumbnailImageAtIndex:(unsigned long long)arg1;
-
-- (void)drawDragBackground;
-
-// - (void)drawGroupsOverlays overridden to draw custom highlight
-- (void)drawDragOverlays;
-
-// - (void)drawGroupsOverlays overridden to draw grid view gradients
-- (void)drawGroupsOverlays;
-
-// - (void)drawGroupsOverlays overridden to draw noise and lightning
-- (void)drawBackground:(struct CGRect)arg1;
-
-- (id <IKRenderer>)renderer;
-@end
 
 @interface NSView (ApplePrivate)
 - (void)setClipsToBounds:(BOOL)arg1;
@@ -588,9 +381,9 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 - (void)setRating:(NSInteger)rating forGameAtIndex:(NSInteger)index
 {
     OEGridCell *selectedCell = (OEGridCell *)[self cellForItemAtIndex:index];
-    OEDBGame   *selectedGame = [selectedCell representedItem];
+    id <OECoverGridDataSourceItem> selectedGame = [selectedCell representedItem];
+    [selectedGame setGridRating:rating];
 
-    [selectedGame setRating:@(rating)];
     // TODO: can we only reload one item? Just redrawing might be faster
     [self reloadData];
 }
@@ -667,11 +460,14 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
         if(_editingIndex == NSNotFound) return;
 
         OEGridCell *selectedCell = (OEGridCell *)[self cellForItemAtIndex:_editingIndex];
-        OEDBGame   *selectedGame = [selectedCell representedItem];
-        
-        [selectedGame setDisplayName:[_fieldEditor string]];
-        [[selectedGame managedObjectContext] save:nil];
-        
+        id <OECoverGridDataSourceItem> selectedItem = [selectedCell representedItem];
+
+        [selectedItem setGridTitle:[_fieldEditor string]];
+        if([selectedItem isKindOfClass:[NSManagedObject class]])
+        {
+            [[(NSManagedObject*)selectedItem managedObjectContext] save:nil];
+        }
+
         [self OE_cancelFieldEditor];
         [self reloadData];
     }
@@ -729,7 +525,8 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     for(CGFloat y=NSMinY(arg1); y < NSMaxY(arg1); y+=imageSize.height)
         for(CGFloat x=NSMinX(arg1); x < NSMaxX(arg1); x+=imageSize.width)
             [renderer drawImage:image inRect:(CGRect){{x,y},imageSize} fromRect:NSZeroRect alpha:1.0]
-            ;}
+            ;
+}
 
 - (void)drawGroupsOverlays
 {

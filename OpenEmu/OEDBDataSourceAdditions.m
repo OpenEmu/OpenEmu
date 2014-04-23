@@ -39,20 +39,16 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 
 #pragma mark -
 #pragma mark CoverGridDataSourceItem
-
-- (NSString *)gridTitle
-{
-    return [self displayName];
-}
-
 - (void)setGridTitle:(NSString *)str
 {
     [self setDisplayName:str];
+    [[self managedObjectContext] save:nil];
 }
 
 - (void)setGridRating:(NSUInteger)newRating
 {
     [self setRating:[NSNumber numberWithUnsignedInteger:newRating]];
+    [[self managedObjectContext] save:nil];
 }
 
 - (NSUInteger)gridRating
