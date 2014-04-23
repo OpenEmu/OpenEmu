@@ -57,7 +57,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="208793915">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSImageView" id="416131386">
@@ -73,6 +73,7 @@
 							</set>
 							<string key="NSFrameSize">{400, 463}</string>
 							<reference key="NSSuperview" ref="208793915"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="450696337"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="644123232">
@@ -103,7 +104,8 @@
 											<int key="NSvFlags">2322</int>
 											<string key="NSFrameSize">{398, 98}</string>
 											<reference key="NSSuperview" ref="1067321567"/>
-											<reference key="NSNextKeyView" ref="982017526"/>
+											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView" ref="298379164"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="280552689">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -335,6 +337,7 @@
 									</array>
 									<string key="NSFrame">{{1, 1}, {398, 98}}</string>
 									<reference key="NSSuperview" ref="450696337"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="149732364"/>
 									<reference key="NSDocView" ref="149732364"/>
 									<reference key="NSBGColor" ref="622283368"/>
@@ -349,6 +352,7 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="450696337"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="1067321567"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<int key="NSsFlags">1</int>
@@ -361,6 +365,7 @@
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{183, 1}, {16, 201}}</string>
 									<reference key="NSSuperview" ref="450696337"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="763836097"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<reference key="NSTarget" ref="450696337"/>
@@ -369,7 +374,8 @@
 							</array>
 							<string key="NSFrame">{{0, 352}, {400, 100}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSNextKeyView" ref="1067321567"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="982017526"/>
 							<int key="NSsFlags">133650</int>
 							<reference key="NSVScroller" ref="298379164"/>
 							<reference key="NSHScroller" ref="982017526"/>
@@ -383,6 +389,7 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{17, 184}, {366, 18}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="899331155"/>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowVert">1</double>
@@ -415,6 +422,7 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{18, 158}, {366, 18}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="587908840"/>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowVert">1</double>
@@ -450,7 +458,8 @@
 											<int key="NSvFlags">2322</int>
 											<string key="NSFrameSize">{225, 85}</string>
 											<reference key="NSSuperview" ref="983593750"/>
-											<reference key="NSNextKeyView" ref="538893524"/>
+											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView" ref="856984639"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="584703138">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -513,6 +522,7 @@ IEdpdEh1Yi4gA</bytes>
 									</array>
 									<string key="NSFrameSize">{225, 85}</string>
 									<reference key="NSSuperview" ref="12243242"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="1065152195"/>
 									<reference key="NSDocView" ref="1065152195"/>
 									<reference key="NSBGColor" ref="622283368"/>
@@ -524,6 +534,7 @@ IEdpdEh1Yi4gA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="12243242"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="381387013"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<int key="NSsFlags">1</int>
@@ -536,6 +547,7 @@ IEdpdEh1Yi4gA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {16, 75}}</string>
 									<reference key="NSSuperview" ref="12243242"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="983593750"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<reference key="NSTarget" ref="12243242"/>
@@ -544,7 +556,8 @@ IEdpdEh1Yi4gA</bytes>
 							</array>
 							<string key="NSFrame">{{88, 47}, {225, 85}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSNextKeyView" ref="983593750"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="538893524"/>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowVert">1</double>
 								<reference key="NSShadowColor" ref="402204676"/>
@@ -563,6 +576,8 @@ IEdpdEh1Yi4gA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{127, 138}, {147, 21}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="906225131">
 								<int key="NSCellFlags">67108864</int>
@@ -594,6 +609,8 @@ IEdpdEh1Yi4gA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{113, 17}, {176, 32}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="373049417">
 								<int key="NSCellFlags">67108864</int>
@@ -613,10 +630,12 @@ IEdpdEh1Yi4gA</bytes>
 						</object>
 					</array>
 					<string key="NSFrameSize">{400, 463}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="416131386"/>
 					<bool key="NSViewIsLayerTreeHost">YES</bool>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">About</string>
 				<bool key="NSWindowIsRestorable">NO</bool>
@@ -681,6 +700,7 @@ IEdpdEh1Yi4gA</bytes>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="364983442"/>
 									<reference key="NSMixedImage" ref="771956725"/>
+									<int key="NSTag">121</int>
 								</object>
 								<object class="NSMenuItem" id="335075485">
 									<reference key="NSMenu" ref="118181076"/>
@@ -3683,6 +3703,7 @@ IEdpdEh1Yi4gA</bytes>
 						<string key="aboutWindow">NSWindow</string>
 						<string key="fileMenu">NSMenu</string>
 						<string key="mainWindowController">OEMainWindowController</string>
+						<string key="preferencesController">OEPreferencesController</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="aboutWindow">
@@ -3697,10 +3718,22 @@ IEdpdEh1Yi4gA</bytes>
 							<string key="name">mainWindowController</string>
 							<string key="candidateClassName">OEMainWindowController</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="preferencesController">
+							<string key="name">preferencesController</string>
+							<string key="candidateClassName">OEPreferencesController</string>
+						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OEApplicationDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEBackgroundGradientView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEBackgroundGradientView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -4096,6 +4129,25 @@ IEdpdEh1Yi4gA</bytes>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OEMainWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEPreferencesController</string>
+					<string key="superclassName">NSWindowController</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">coreGradientOverlayView</string>
+						<string key="NS.object.0">OEBackgroundGradientView</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">coreGradientOverlayView</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">coreGradientOverlayView</string>
+							<string key="candidateClassName">OEBackgroundGradientView</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEPreferencesController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

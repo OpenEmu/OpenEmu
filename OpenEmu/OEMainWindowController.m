@@ -87,11 +87,11 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     return self;
 }
 
-- (void)windowDidLoad
+- (void)awakeFromNib
 {
     NSWindow *window = [self window];
 
-    [super windowDidLoad];
+    [super awakeFromNib];
 
     [[self libraryController] setDelegate:self];
 

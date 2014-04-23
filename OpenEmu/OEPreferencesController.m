@@ -106,11 +106,13 @@ static const unsigned short konamiCodeSize = 10;
 {
     // Preload window to prevent flickering when it's first shown
     [self window];
-}
 
-- (void)windowDidLoad
-{
-    [super windowDidLoad];
+    NSMenu  *menu  = [NSApp mainMenu];
+    NSMenu *oemenu = [[menu itemAtIndex:0] submenu];
+    NSMenuItem *preferencesItem = [oemenu itemWithTag:121];
+    [preferencesItem setTarget:self];
+    [preferencesItem setAction:@selector(showWindow:)];
+    [preferencesItem setEnabled:YES];
 
     OEAppStoreWindow *win = (OEAppStoreWindow *)[self window];
     [win close]; // Make sure window doesn't show up in window menu until it's actual visible

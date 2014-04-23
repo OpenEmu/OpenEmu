@@ -168,8 +168,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [self OE_loadPlugins];
 
     DLog();
-    mainWindowController  = [[OEMainWindowController alloc] initWithWindowNibName:@"MainWindowControll"];
-    preferencesController = [[OEPreferencesController alloc] initWithWindowNibName:@"preferencesController"];
+    mainWindowController  = [[OEMainWindowController alloc]  initWithWindowNibName:@"MainWindow"];
+    [mainWindowController loadWindow];
+    preferencesController = [[OEPreferencesController alloc] initWithWindowNibName:@"Preferences"];
+    [preferencesController loadWindow];
 
     _gameDocuments = [NSMutableArray array];
 
@@ -509,7 +511,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             [self OE_performDatabaseSelection];
         }
         return;
-
     }
 
     NSAssert([OELibraryDatabase defaultDatabase] != nil, @"No database available!");
