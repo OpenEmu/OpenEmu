@@ -418,20 +418,9 @@ static OELibraryDatabase *defaultDatabase = nil;
     if([context parentContext] == _managedObjectContext)
     {
         // merge should not be necessary with nested contexts, right?
-        // [_managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+        [_managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
         [self save:nil];
     }
-}
-
-- (id)objectWithURI:(NSURL *)uri
-{
-    NSManagedObjectID *objID = [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
-    __block id result = nil;
-    NSManagedObjectContext *context = [self safeContext];
-    [context performBlockAndWait:^{
-        result = [context objectWithID:objID];
-    }];
-    return result;
 }
 
 - (void)threadDidWillExit:(NSNotification*)notification
@@ -1041,6 +1030,30 @@ static OELibraryDatabase *defaultDatabase = nil;
         result = [context objectWithID:objectID];
     }];
     return result;
+}
+
+- (NSManagedObject*)objectWithURI:(NSURL *)uri
+{
+    NSManagedObjectID *objID = [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
+    __block id result = nil;
+    NSManagedObjectContext *context = [self safeContext];
+    [context performBlockAndWait:^{
+        result = [context objectWithID:objID];
+    }];
+    return result;
+}
+
+- (NSManagedObjectID*)permanentIDWithObject:(NSManagedObject*)object
+{
+    NSManagedObjectID *result = [object objectID];
+    if(![[object objectID] isTemporaryID])
+        return result;
+
+    if([[object managedObjectContext] obtainPermanentIDsForObjects:@[object] error:nil])
+    {
+        return [object objectID];
+    }
+    return nil;
 }
 
 - (NSUInteger)countForFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error
