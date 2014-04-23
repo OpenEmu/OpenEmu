@@ -1006,97 +1006,130 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
 - (void)consolidateFiles:(id)sender
 {
-    NSArray *games = [self selectedGames];
-    if([games count] == 0) return;
-
+    // TODO: rewrite to escape threading hell
     dispatch_async(dispatch_get_main_queue(), ^{
+        NSArray *games = [self selectedGames];
+        if([games count] == 0) return;
 
-    OEHUDAlert  *alert = [[OEHUDAlert alloc] init];
-    [alert setHeadlineText:@""];
-    [alert setMessageText:NSLocalizedString(@"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.", @"")];
-    [alert setDefaultButtonTitle:NSLocalizedString(@"Consolidate", @"")];
-    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
-    if([alert runModal] != NSAlertDefaultReturn) return;
-    
-    alert = [[OEHUDAlert alloc] init];
-    [alert setShowsProgressbar:YES];
-    [alert setProgress:0.0];
-    [alert setHeadlineText:NSLocalizedString(@"Copying Game Files…", @"")];
-    [alert setTitle:NSLocalizedString(@"", @"")];
-    [alert setShowsProgressbar:YES];
-    [alert setDefaultButtonTitle:nil];
-    [alert setMessageText:nil];
-    
-    __block NSInteger alertResult = -1;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_after(popTime, queue, ^{
-        NSError *error = nil;
-        for (NSUInteger i=0; i<[games count]; i++) {
-            if(alertResult != -1) break;
-            
-            OEDBGame *aGame = [games objectAtIndex:i];
-            NSSet *roms = [aGame roms];
-            for(OEDBRom *rom in roms)
-            {
+        OEHUDAlert  *alert = [[OEHUDAlert alloc] init];
+        [alert setHeadlineText:@""];
+        [alert setMessageText:NSLocalizedString(@"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.", @"")];
+        [alert setDefaultButtonTitle:NSLocalizedString(@"Consolidate", @"")];
+        [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
+        if([alert runModal] != NSAlertDefaultReturn) return;
+
+        alert = [[OEHUDAlert alloc] init];
+        [alert setShowsProgressbar:YES];
+        [alert setProgress:0.0];
+        [alert setHeadlineText:NSLocalizedString(@"Copying Game Files…", @"")];
+        [alert setTitle:NSLocalizedString(@"", @"")];
+        [alert setShowsProgressbar:YES];
+        [alert setDefaultButtonTitle:nil];
+        [alert setMessageText:nil];
+
+        OELibraryDatabase *database = [[self libraryController] database];
+        NSMutableArray *gameIDs = [NSMutableArray arrayWithCapacity:[games count]];
+        [games enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
+            NSManagedObjectID *object = [database permanentIDWithObject:obj];
+            [gameIDs addObject:object];
+        }];
+
+        __block NSInteger alertResult = -1;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+        // register objects in queue context, oehudalert's modal session will block it from fetching the objects later…
+        __block NSMutableArray *threadSafeGames = [NSMutableArray arrayWithCapacity:[gameIDs count]];
+        dispatch_sync(queue, ^{
+            for (NSUInteger i=0; i<[gameIDs count]; i++) {
+                NSManagedObjectID *objectID = [gameIDs objectAtIndex:i];
+                [threadSafeGames addObject:[database objectWithID:objectID]];
+            }
+        });
+
+        dispatch_after(popTime, queue, ^{
+            __block NSError *error = nil;
+            for (NSUInteger i=0; i<[threadSafeGames count]; i++) {
                 if(alertResult != -1) break;
-                
-                NSURL *url = [rom URL];
-                if([url checkResourceIsReachableAndReturnError:nil] && ![url isSubpathOfURL:[[rom libraryDatabase] romsFolderURL]])
+
+                OEDBGame *aGame = [threadSafeGames objectAtIndex:i];
+                NSSet *roms = [aGame roms];
+                for(OEDBRom *rom in roms)
                 {
-                    BOOL romFileLocked = NO;
-                    if([[[[NSFileManager defaultManager] attributesOfItemAtPath:[url path] error:nil] objectForKey:NSFileImmutable] boolValue])
+                    if(alertResult != -1) break;
+
+                    NSURL *url = [rom URL];
+                    if([url checkResourceIsReachableAndReturnError:nil] && ![url isSubpathOfURL:[[rom libraryDatabase] romsFolderURL]])
                     {
-                        romFileLocked = YES;
-                        [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(FALSE) } ofItemAtPath:[url path] error:nil];
+                        BOOL romFileLocked = NO;
+                        if([[[[NSFileManager defaultManager] attributesOfItemAtPath:[url path] error:nil] objectForKey:NSFileImmutable] boolValue])
+                        {
+                            romFileLocked = YES;
+                            [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(FALSE) } ofItemAtPath:[url path] error:nil];
+                        }
+
+                        NSString *fullName  = [url lastPathComponent];
+                        NSString *extension = [fullName pathExtension];
+                        NSString *baseName  = [fullName stringByDeletingPathExtension];
+
+                        NSURL *unsortedFolder = [[rom libraryDatabase] romsFolderURLForSystem:[aGame system]];
+                        NSURL *romURL         = [unsortedFolder URLByAppendingPathComponent:fullName];
+                        romURL = [romURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+                            NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", baseName, triesCount, extension];
+                            return [unsortedFolder URLByAppendingPathComponent:newName];
+                        }];
+
+                        if([[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:&error] && (alertResult == -1))
+                        {
+                            NSManagedObjectID *objectID = [rom objectID];
+                            [alert performBlockInModalSession:^{
+                                OEDBRom *rom = (OEDBRom*)[database objectWithID:objectID];
+                                NSString *location = [rom location];
+                                NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
+                                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location = %@", location];
+                                [fetchRequest setPredicate:predicate];
+                                NSArray *roms = [[rom libraryDatabase] executeFetchRequest:fetchRequest error:nil];
+                                [roms enumerateObjectsUsingBlock:^(OEDBRom *obj, NSUInteger idx, BOOL *stop) {
+                                    [obj setURL:romURL];
+                                }];
+                                [rom setURL:romURL];
+
+                                [[rom managedObjectContext] save:nil];
+                            }];
+                        }
+                        else if(error != nil) break;
+
+                        if(romFileLocked)
+                            [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(YES) } ofItemAtPath:[url path] error:nil];
                     }
-
-                    NSString *fullName  = [url lastPathComponent];
-                    NSString *extension = [fullName pathExtension];
-                    NSString *baseName  = [fullName stringByDeletingPathExtension];
-                    
-                    NSURL *unsortedFolder = [[rom libraryDatabase] romsFolderURLForSystem:[aGame system]];
-                    NSURL *romURL         = [unsortedFolder URLByAppendingPathComponent:fullName];
-                    romURL = [romURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-                        NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", baseName, triesCount, extension];
-                        return [unsortedFolder URLByAppendingPathComponent:newName];
-                    }];
-
-                    if([[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:&error] && (alertResult == -1))
-                        [rom setURL:romURL];
-                    else if(error != nil) break;
-
-                    if(romFileLocked)
-                        [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(YES) } ofItemAtPath:[url path] error:nil];
                 }
+
+                [alert performBlockInModalSession:^{
+                    [alert setProgress:(float)(i+1)/[games count]];
+                }];
+
+                if(error != nil)
+                    break;
             }
 
-            if(error != nil) break;
-            else [alert performBlockInModalSession:^{
-                [[aGame libraryDatabase] save:nil];
-                [alert setProgress:(float)(i+1)/[games count]];
-            }];
-        }
-
-        if(error != nil)
-        {
-            OEAlertCompletionHandler originalCompletionHandler = [alert callbackHandler];
-            [alert setCallbackHandler:^(OEHUDAlert *alert, NSUInteger result){
-                NSString *messageText = [error localizedDescription];
-                OEHUDAlert *errorAlert = [OEHUDAlert alertWithMessageText:messageText defaultButton:@"OK" alternateButton:@""];
-                [errorAlert setTitle:@"Consolidating files failed."];
-                [errorAlert runModal];
-
-                if(originalCompletionHandler) originalCompletionHandler(alert, result);
-            }];
-        }
-
-        [alert closeWithResult:NSAlertDefaultReturn];
-
-    });
-    [alert setDefaultButtonTitle:@"Stop"];
+            if(error != nil)
+            {
+                OEAlertCompletionHandler originalCompletionHandler = [alert callbackHandler];
+                [alert setCallbackHandler:^(OEHUDAlert *alert, NSUInteger result){
+                    NSString *messageText = [error localizedDescription];
+                    OEHUDAlert *errorAlert = [OEHUDAlert alertWithMessageText:messageText defaultButton:@"OK" alternateButton:@""];
+                    [errorAlert setTitle:@"Consolidating files failed."];
+                    [errorAlert runModal];
+                    
+                    if(originalCompletionHandler) originalCompletionHandler(alert, result);
+                }];
+            }
+            
+            [alert closeWithResult:NSAlertDefaultReturn];
+            
+        });
+        [alert setDefaultButtonTitle:@"Stop"];
         alertResult = [alert runModal];
-        
     });
 }
 #pragma mark -

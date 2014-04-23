@@ -451,7 +451,7 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     {
         OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
         NSURL    *uri  = [NSURL URLWithString:propertyList];
-        OEDBGame *game = [database objectWithURI:uri];
+        OEDBGame *game = (OEDBGame*)[database objectWithURI:uri];
         return game;
     }    
     return nil;
