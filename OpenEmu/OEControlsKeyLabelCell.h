@@ -27,5 +27,5 @@
 #import "OEAttributedTextFieldCell.h"
 
 @interface OEControlsKeyLabelCell : OEAttributedTextFieldCell
-
+@property(copy, nonatomic) NSString *fontFamily;
 @end

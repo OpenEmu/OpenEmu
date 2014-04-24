@@ -558,9 +558,16 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
                     else
                         [self OE_addGroupLabel:row];
                 }
-                else if([row isKindOfClass:[NSDictionary class]])
+                else if([row isKindOfClass:[NSDictionary class]]) {
+                    NSString *fontFamily = nil;
+
+                    if([row objectForKey:OEControlListKeyFontFamilyKey] != nil) {
+                        fontFamily = [row objectForKey:OEControlListKeyFontFamilyKey];
+                    }
+
                     [self OE_addButtonWithName:[row objectForKey:OEControlListKeyNameKey]
-                                         label:[[row objectForKey:OEControlListKeyLabelKey] stringByAppendingString:@":"]];
+                                         label:[[row objectForKey:OEControlListKeyLabelKey] stringByAppendingString:@":"] fontFamily:fontFamily];
+                }
             }
         }
         if(currentGroup != nil)
@@ -595,6 +602,11 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
 
 - (void)OE_addButtonWithName:(NSString *)aName label:(NSString *)aLabel;
 {
+    [self OE_addButtonWithName:aName label:aLabel fontFamily:nil];
+}
+
+- (void)OE_addButtonWithName:(NSString *)aName label:(NSString *)aLabel fontFamily:(NSString*)fontFamily
+{
     OEControlsKeyButton *button = [[OEControlsKeyButton alloc] initWithFrame:NSZeroRect];
     
     [button setTarget:target];
@@ -606,11 +618,16 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     [currentGroup addObject:button];
     
     NSTextField     *labelField     = [[NSTextField alloc] initWithFrame:NSZeroRect];
-    NSTextFieldCell *labelFieldCell = [[OEControlsKeyLabelCell alloc] init];
-    
+    OEControlsKeyLabelCell *labelFieldCell = [[OEControlsKeyLabelCell alloc] init];
+
     [labelField setCell:labelFieldCell];
     [labelField setStringValue:aLabel];
-    
+
+    if(fontFamily != nil)
+    {
+        [labelFieldCell setFontFamily:fontFamily];
+    }
+
     [currentGroup addObject:labelField];
 }
 
