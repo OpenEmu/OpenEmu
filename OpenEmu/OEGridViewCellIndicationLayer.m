@@ -78,9 +78,11 @@ static CGColorRef processingItemBackgroundColorRef = nil;
         NSImage *spinnerImage = [NSImage imageNamed:@"spinner"];
 
         const CGSize spinnerImageSize = [spinnerImage size];
-        [sublayer setFrame:CGRectIntegral(CGRectMake((CGRectGetWidth(bounds)  - spinnerImageSize.width)  / 2.0,
-                                                     (CGRectGetHeight(bounds) - spinnerImageSize.height) / 2.0,
-                                                     spinnerImageSize.width, spinnerImageSize.height))];
+        NSRect frame = CGRectIntegral(CGRectMake((CGRectGetWidth(bounds)  - spinnerImageSize.width)  / 2.0,
+                                                 (CGRectGetHeight(bounds) - spinnerImageSize.height) / 2.0,
+                                                 spinnerImageSize.width, spinnerImageSize.height));
+        frame.size.height = frame.size.width;
+        [sublayer setFrame:frame];
     }
     else
     {
