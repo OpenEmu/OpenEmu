@@ -35,6 +35,7 @@ static NSDateFormatter *_OEListViewDateFormatter;
 static void OE_initOEListViewDateFormatter(void) __attribute__((constructor));
 static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 
+NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDownloadEnabledKey";
 @implementation OEDBGame (DataSourceAdditions)
 
 #pragma mark -
@@ -69,7 +70,7 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
     NSString *result = nil;
     if([image isLocalImageAvailable] && [image relativePath] != nil)
         result = [[image imageURL] absoluteString];
-    else if(image != nil && [image source] != nil)
+    else if(image != nil && [image source] != nil && [[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
         result = [image source];
     else
     {
@@ -103,10 +104,12 @@ static NSString * OE_stringFromElapsedTime(NSTimeInterval);
     {
         return [image imageURL];
     }
-    else
+    else if([[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
     {
         return [image sourceURL];
     }
+
+    return nil;
 }
 
 - (NSString *)imageTitle
