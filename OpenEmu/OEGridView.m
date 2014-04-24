@@ -426,8 +426,8 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     _editingIndex = index;
 
     NSRect fieldFrame = [cell titleFrame];
-    fieldFrame        = NSOffsetRect(NSInsetRect(fieldFrame, 0.0, -1.0), 0.0, -1.0);
-    [_fieldEditor setFrame:fieldFrame];
+    fieldFrame        = NSOffsetRect(NSInsetRect(fieldFrame, 0.0, -1.0), 0.0, 1.0);
+    [_fieldEditor setFrame:[self backingAlignedRect:fieldFrame options:NSAlignAllEdgesNearest]];
 
     //[textLayer setHidden:YES];
 
