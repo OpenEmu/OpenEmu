@@ -712,13 +712,12 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     for(OESystemPlugin *plugin in systemPlugins)
     {
         NSMutableDictionary *systemDocument = [NSMutableDictionary dictionary];
-        for(NSString *type in [plugin supportedTypeExtensions])
-        {
+        [[plugin supportedTypeExtensions] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             [systemDocument setObject:@"OEGameDocument"                 forKey:@"NSDocumentClass"];
             [systemDocument setObject:@"Viewer"                         forKey:@"CFBundleTypeRole"];
             [systemDocument setObject:@"Owner"                          forKey:@"LSHandlerRank"];
             [systemDocument setObject:[NSArray arrayWithObject:@"????"] forKey:@"CFBundleTypeOSTypes"];
-        }
+        }];
 
         [systemDocument setObject:[plugin supportedTypeExtensions] forKey:@"CFBundleTypeExtensions"];
         NSString *typeName = [NSString stringWithFormat:@"%@ Game", [plugin systemName]];

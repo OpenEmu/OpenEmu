@@ -418,7 +418,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     if([context parentContext] == _managedObjectContext)
     {
         // merge should not be necessary with nested contexts, right?
-        [_managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+        // [_managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
         [self save:nil];
     }
 }
@@ -454,6 +454,10 @@ static OELibraryDatabase *defaultDatabase = nil;
             result = NO;
             return;
         }
+    }];
+
+    [_managedObjectContext performBlock:^{
+        [_managedObjectContext save:nil];
     }];
     
     return result;

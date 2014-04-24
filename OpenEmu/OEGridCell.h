@@ -8,6 +8,8 @@
 
 #import <ImageKit/ImageKit.h>
 #import "OEGridView.h"
+
+extern NSString *const OECoverGridViewGlossDisabledKey;
 @interface OEGridCell : IKImageBrowserCell
 + (NSImage *)missingArtworkImageWithSize:(NSSize)size;
 - (NSImage *)missingArtworkImageWithSize:(NSSize)size;

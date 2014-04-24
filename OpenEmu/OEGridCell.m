@@ -13,6 +13,8 @@
 #import "OECoverGridDataSourceItem.h"
 #import "OEGridViewCellIndicationLayer.h"
 
+NSString *const OECoverGridViewGlossDisabledKey = @"OECoverGridViewGlossDisabledKey";
+
 static const CGFloat OEGridCellTitleHeight                      = 16.0;        // Height of the title view
 static const CGFloat OEGridCellImageTitleSpacing                = 17.0;        // Space between the image and the title
 static const CGFloat OEGridCellSubtitleHeight                   = 11.0;        // Subtitle height
@@ -454,6 +456,7 @@ static NSDictionary *disabledActions = nil;
 
 - (NSImage *)OE_glossImageWithSize:(NSSize)size
 {
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewGlossDisabledKey]) return nil;
     if(NSEqualSizes(size, NSZeroSize)) return nil;
 
     static NSCache *cache = nil;
