@@ -54,14 +54,15 @@ typedef void (^OEImportItemCompletionBlock)(void);
 
 @interface OEImportItem : NSObject <NSObject, NSCoding>
 
-@property(copy) NSURL               *URL;
-@property(copy) NSURL               *sourceURL;
+@property (copy, nonatomic) NSURL               *URL;
+@property (copy) NSURL               *sourceURL;
 @property       OEImportItemState    importState;
 @property       OEImportStep         importStep;
 @property       NSMutableDictionary *importInfo;
 
 @property       NSError  *error;
-@property(copy) OEImportItemCompletionBlock completionHandler;
+@property (copy) OEImportItemCompletionBlock completionHandler;
+@property (strong) OEImportItem *archive;
 
 + (OEImportItem *)itemWithURL:(NSURL*)url completionHandler:(OEImportItemCompletionBlock)handler;
 

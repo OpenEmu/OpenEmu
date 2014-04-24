@@ -113,6 +113,7 @@
 @property(nonatomic, retain)                    NSNumber *archiveFileIndex;
 @property(nonatomic, retain)                    NSString *header;
 @property(nonatomic, retain)                    NSString *serial;
+@property(nonatomic, retain)                    NSString *fileName;
 
 #pragma mark - Data Model Relationships
 

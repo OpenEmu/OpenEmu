@@ -31,6 +31,7 @@
 #import <MagicKit/MagicKit.h>
 
 @implementation OEImportItem
+@synthesize URL=_URL;
 
 + (OEImportItem *)itemWithURL:(NSURL *)url completionHandler:(OEImportItemCompletionBlock)handler
 {
@@ -146,5 +147,20 @@
     [encoder encodeObject:[self URL] forKey:@"URL"];
     [encoder encodeObject:[self sourceURL] forKey:@"sourceURL"];
     [encoder encodeObject:[self importInfo] forKey:@"importInfo"];
+}
+
+- (void)setURL:(NSURL *)URL
+{
+    if([self archive])
+        [[self archive] setURL:URL];
+    else
+        _URL = URL;
+}
+
+- (NSURL*)URL
+{
+    if([self archive])
+        return [[self archive] URL];
+    return _URL;
 }
 @end
