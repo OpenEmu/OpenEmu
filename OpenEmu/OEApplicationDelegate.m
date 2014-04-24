@@ -548,7 +548,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     }
 
     NSAssert([OELibraryDatabase defaultDatabase] != nil, @"No database available!");
-    [[NSNotificationCenter defaultCenter] postNotificationName:OELibraryDidLoadNotificationName object:[OELibraryDatabase defaultDatabase]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:OELibraryDidLoadNotificationName object:[OELibraryDatabase defaultDatabase]];
+    });
 }
 
 - (void)OE_performDatabaseSelection
