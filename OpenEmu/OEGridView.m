@@ -527,6 +527,8 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     const id <IKRenderer> renderer = [self renderer];
     const CGFloat scaleFactor = [renderer scaleFactor];
 
+    arg1 = [[self enclosingScrollView] documentVisibleRect];
+
     [renderer clearViewport:arg1];
     [renderer drawImage:lightingImage inRect:arg1 fromRect:NSZeroRect alpha:1.0];
 
