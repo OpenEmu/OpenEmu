@@ -1,11 +1,3 @@
-/*
- *  IKImageFlowView.h
- *  ShopManagerX
- *
- *  Created by David Gohara on 2/22/08.
- *  Copyright 2008 SmackFu-Master. 
- *
- */
 
 #import <Foundation/Foundation.h>
 

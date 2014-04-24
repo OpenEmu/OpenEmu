@@ -2019,6 +2019,7 @@
 		83977F671408FE6700175858 /* controller_gb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gb.png; sourceTree = "<group>"; };
 		83977F6A1408FE8E00175858 /* controller_nes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_nes.png; sourceTree = "<group>"; };
 		83977F6D1408FEA800175858 /* controller_sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms.png; sourceTree = "<group>"; };
+		8397BF41190949BD00A708D1 /* IKImageBrowserLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IKImageBrowserLayoutManager.h; sourceTree = "<group>"; };
 		83A8CD8D1709E1EE00F5D145 /* OEDatabase 0.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.5.xcdatamodel"; sourceTree = "<group>"; };
 		83A97588184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantScrollBorderView.h; sourceTree = "<group>"; };
 		83A97589184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantScrollBorderView.m; sourceTree = "<group>"; };
@@ -4486,6 +4487,7 @@
 		837820B91907FB3A0043593F /* Image Kit Headers (Private) */ = {
 			isa = PBXGroup;
 			children = (
+				8397BF41190949BD00A708D1 /* IKImageBrowserLayoutManager.h */,
 				82DE446510252F2F007184EB /* IKImageFlowView.h */,
 				837820B81907FB2D0043593F /* IKImageWrapper.h */,
 				837820B71907FADB0043593F /* IKRenderer.h */,

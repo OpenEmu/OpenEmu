@@ -185,7 +185,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [gridView setDataSource:self];
     [gridView setDraggingDestinationDelegate:self];
     [gridView setCellSize:defaultGridSize];
-    [gridView setIntercellSpacing:NSMakeSize(22, 29)];
 
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
@@ -567,7 +566,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     float zoomValue = [sender floatValue];
     [gridView setCellSize:NSMakeSize(roundf(26+142*zoomValue), roundf(defaultGridWidth*zoomValue))];
-
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:zoomValue] forKey:OELastGridSizeKey];
 }
 

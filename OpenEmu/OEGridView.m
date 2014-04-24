@@ -39,6 +39,7 @@
 #import "IKImageBrowserView.h"
 #import "IKImageWrapper.h"
 #import "IKRenderer.h"
+#import "IKImageBrowserLayoutManager.h"
 
 #pragma mark -
 
@@ -86,6 +87,12 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     [self setClipsToBounds:NO];
     [self setCellsStyleMask:IKCellsStyleNone];
 
+    IKImageBrowserLayoutManager *layoutManager = [self layoutManager];
+
+    [layoutManager setCellMargin:CGSizeMake(35, 35)];
+    [layoutManager setMargin:CGSizeMake(0, 35)];
+    [layoutManager setAlignLeftForSingleRow:NO];
+    [layoutManager setAutomaticallyMinimizeRowMargin:NO];
 
     _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
     [self addSubview:_fieldEditor];

@@ -1,6 +1,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "IKImageBrowserLayoutManager.h"
 #import "IKImageWrapper.h"
 #import "IKRenderer.h"
 @interface IKImageBrowserView (ApplePrivate)
@@ -26,4 +27,7 @@
 - (void)drawBackground:(struct CGRect)arg1;
 
 - (id <IKRenderer>)renderer;
+
+// -layoutManager is used to customize layout (general margin, alignment of single rows, etc.)
+- (IKImageBrowserLayoutManager*)layoutManager;
 @end
