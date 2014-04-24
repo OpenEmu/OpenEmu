@@ -59,7 +59,7 @@ static NSDictionary *disabledActions = nil;
 {
     if([self class] == [OEGridCell class])
     {
-		const CGFloat fillComponents[4] = {1.0, 1.0, 1.0, 0.08};
+		const CGFloat fillComponents[4]   = {1.0, 1.0, 1.0, 0.08};
 		const CGFloat strokeComponents[4] = {1.0, 1.0, 1.0, 0.1};
 		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
@@ -103,7 +103,6 @@ static NSDictionary *disabledActions = nil;
 - (NSRect)imageContainerFrame
 {
     NSRect frame = [super imageContainerFrame];
-
     frame.origin.x += OEGridCellImageContainerLeft;
     frame.origin.y = [self frame].origin.y + OEGridCellImageContainerBottom;
     frame.size.width -= OEGridCellImageContainerLeft + OEGridCellImageContainerRight;
@@ -141,28 +140,26 @@ static NSDictionary *disabledActions = nil;
     return [self imageFrame];
 }
 
+- (NSRect)OE_relativeFrameFromFrame:(NSRect)rect
+{
+    const NSRect frame = [self frame];
+    const NSRect result  = NSMakeRect(rect.origin.x - frame.origin.x, rect.origin.y - frame.origin.y, rect.size.width, rect.size.height);
+	return NSIntegralRect(result);
+}
+
 - (NSRect)relativeImageFrame
 {
-	const NSRect frame      = NSIntegralRect([self frame]);
-	const NSRect imageFrame = NSIntegralRect([self imageFrame]);
-
-	return NSMakeRect(imageFrame.origin.x - frame.origin.x, imageFrame.origin.y - frame.origin.y, imageFrame.size.width, imageFrame.size.height);
+    return [self OE_relativeFrameFromFrame:[self imageFrame]];
 }
 
 - (NSRect)relativeTitleFrame
 {
-	const NSRect frame      = NSIntegralRect([self frame]);
-    const NSRect titleFrame = NSIntegralRect([self titleFrame]);
-
-    return NSMakeRect(titleFrame.origin.x - frame.origin.x, titleFrame.origin.y - frame.origin.y, titleFrame.size.width, titleFrame.size.height);
+    return [self OE_relativeFrameFromFrame:[self titleFrame]];
 }
 
 - (NSRect)relativeRatingFrame
 {
-	const NSRect frame       = NSIntegralRect([self frame]);
-    const NSRect ratingFrame = NSIntegralRect([self ratingFrame]);
-
-    return NSMakeRect(ratingFrame.origin.x - frame.origin.x, ratingFrame.origin.y - frame.origin.y, ratingFrame.size.width, ratingFrame.size.height);
+    return [self OE_relativeFrameFromFrame:[self ratingFrame]];
 }
 
 #pragma mark - Apple Private Overrides
@@ -242,10 +239,11 @@ static NSDictionary *disabledActions = nil;
     const id<OECoverGridDataSourceItem> representedItem = [self representedItem];
     const NSString *identifier = [representedItem imageUID];
 
+
     // absolute rects
     const NSRect frame  = [self frame];
     const NSRect bounds = {{0,0}, frame.size};
-	const NSRect imageFrame = NSIntegralRect([self imageFrame]);
+	const NSRect imageFrame = [self imageFrame];
 
     // relative rects
 	const NSRect relativeImageFrame  = [self relativeImageFrame];
