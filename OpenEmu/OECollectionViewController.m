@@ -983,18 +983,20 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 - (void)addCoverArtFromFile:(id)sender
 {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+
     [openPanel setAllowsMultipleSelection:NO];
     [openPanel setCanChooseDirectories:NO];
     [openPanel setCanChooseFiles:YES];
-
     NSArray *imageTypes = [NSImage imageFileTypes];
     [openPanel setAllowedFileTypes:imageTypes];
 
-    if([openPanel runModal] != NSFileHandlingPanelOKButton)
-        return;
+    [openPanel beginWithCompletionHandler:^(NSInteger result) {
+        if(result != NSFileHandlingPanelOKButton)
+            return;
 
-    [[self selectedGames] makeObjectsPerformSelector:@selector(setBoxImageByURL:) withObject:[openPanel URL]];
-    [self reloadDataIndexes:[self selectedIndexes]];
+        [[self selectedGames] makeObjectsPerformSelector:@selector(setBoxImageByURL:) withObject:[openPanel URL]];
+        [self reloadDataIndexes:[self selectedIndexes]];
+    }];
 }
 
 - (void)addSaveStateFromFile:(id)sender
