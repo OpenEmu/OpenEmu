@@ -46,28 +46,6 @@
 @dynamic game, saveStates, tosec;
 
 #pragma mark - Creating and Obtaining OEDBRoms
-
-+ (id)romWithID:(NSManagedObjectID *)objID
-{
-    return [self romWithID:objID inDatabase:[OELibraryDatabase defaultDatabase]];
-}
-
-+ (id)romWithID:(NSManagedObjectID *)objID inDatabase:(OELibraryDatabase *)database
-{
-    return [database objectWithID:objID];
-}
-
-+ (id)romWithURIURL:(NSURL *)objIDUrl
-{
-    return [self romWithURIURL:objIDUrl inDatabase:[OELibraryDatabase defaultDatabase]];
-}
-
-+ (id)romWithURIURL:(NSURL *)objIDUrl inDatabase:(OELibraryDatabase *)database
-{
-    NSManagedObjectID *objID = [database managedObjectIDForURIRepresentation:objIDUrl];
-    return [self romWithID:objID inDatabase:database];
-}
-
 + (id)createRomWithURL:(NSURL *)url error:(NSError *__autoreleasing*)outError
 {
     return [self createRomWithURL:url inDatabase:[OELibraryDatabase defaultDatabase] error:outError];

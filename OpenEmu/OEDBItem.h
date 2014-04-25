@@ -29,4 +29,12 @@
 @class OELibraryDatabase;
 @interface OEDBItem : NSManagedObject
 - (OELibraryDatabase*)libraryDatabase;
+
++ (instancetype)objectWithURI:(NSURL *)uri;
++ (instancetype)objectWithURI:(NSURL *)uri inLibrary:(OELibraryDatabase*)library;
++ (instancetype)objectWithID:(NSManagedObjectID *)objectID;
++ (instancetype)objectWithID:(NSManagedObjectID *)objectID inLibrary:(OELibraryDatabase*)library;
+
+- (NSManagedObjectID*)permanentID;
+- (NSURL*)permanentIDURI;
 @end

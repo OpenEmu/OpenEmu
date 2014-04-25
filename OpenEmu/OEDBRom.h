@@ -34,15 +34,6 @@
 @interface OEDBRom : OEDBItem
 
 #pragma mark - Creating and Obtaining OEDBRoms
-
-// returns the game with objID in the default database
-+ (id)romWithID:(NSManagedObjectID *)objID;
-// returns the game with objID in the specified database
-+ (id)romWithID:(NSManagedObjectID *)objID inDatabase:(OELibraryDatabase *)database;
-
-+ (id)romWithURIURL:(NSURL *)objIDUrl;
-+ (id)romWithURIURL:(NSURL *)objIDUrl inDatabase:(OELibraryDatabase *)database;
-
 // Creating / Acquireing ROMs by filesystem representation
 + (id)createRomWithURL:(NSURL *)url error:(NSError *__autoreleasing*)outError;
 + (id)createRomWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError;

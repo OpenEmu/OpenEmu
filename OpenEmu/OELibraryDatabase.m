@@ -362,12 +362,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 }
 
 #pragma mark - CoreData Stuff
-
-- (NSManagedObjectID *)managedObjectIDForURIRepresentation:(NSURL *)uri
-{
-    return [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
-}
-
 - (NSManagedObjectModel *)managedObjectModel
 {
     if(_managedObjectModel != nil) return _managedObjectModel;
@@ -1028,40 +1022,6 @@ static OELibraryDatabase *defaultDatabase = nil;
         result = [context executeFetchRequest:request error:error];
     }];
     return result;
-}
-
-- (NSManagedObject *)objectWithID:(NSManagedObjectID *)objectID
-{
-    __block NSManagedObject *result = nil;
-    NSManagedObjectContext *context = [self safeContext];
-    [context performBlockAndWait:^{
-        result = [context objectWithID:objectID];
-    }];
-    return result;
-}
-
-- (NSManagedObject*)objectWithURI:(NSURL *)uri
-{
-    NSManagedObjectID *objID = [[self persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
-    __block id result = nil;
-    NSManagedObjectContext *context = [self safeContext];
-    [context performBlockAndWait:^{
-        result = [context objectWithID:objID];
-    }];
-    return result;
-}
-
-- (NSManagedObjectID*)permanentIDWithObject:(NSManagedObject*)object
-{
-    NSManagedObjectID *result = [object objectID];
-    if(![[object objectID] isTemporaryID])
-        return result;
-
-    if([[object managedObjectContext] obtainPermanentIDsForObjects:@[object] error:nil])
-    {
-        return [object objectID];
-    }
-    return nil;
 }
 
 - (NSUInteger)countForFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error

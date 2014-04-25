@@ -58,9 +58,6 @@ extern NSString *const OEScreenshotFolderURLKey;
 // - (NSManagedObjectContext *)managedObjectContext;
 
 #pragma mark - Thread Safe MOC access
-- (NSManagedObject*)objectWithURI:(NSURL *)uri;
-- (NSManagedObjectID*)permanentIDWithObject:(NSManagedObject*)object;
-- (NSManagedObject *)objectWithID:(NSManagedObjectID *)objectID;
 - (NSArray*)executeFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error;
 - (NSUInteger)countForFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error;
 

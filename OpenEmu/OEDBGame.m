@@ -80,38 +80,6 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     return game;
 }
 
-+ (id)gameWithID:(NSManagedObjectID *)objID
-{
-    return [self gameWithID:objID inDatabase:[OELibraryDatabase defaultDatabase]];
-}
-
-+ (id)gameWithID:(NSManagedObjectID *)objID inDatabase:(OELibraryDatabase *)database
-{
-    return [database objectWithID:objID];
-}
-
-+ (id)gameWithURIURL:(NSURL *)objIDUrl
-{
-    return [self gameWithURIURL:objIDUrl inDatabase:[OELibraryDatabase defaultDatabase]];
-}
-
-+ (id)gameWithURIURL:(NSURL *)objIDUrl inDatabase:(OELibraryDatabase *)database
-{
-    NSManagedObjectID *objID = [database managedObjectIDForURIRepresentation:objIDUrl];
-    return [self gameWithID:objID inDatabase:database];
-}
-
-+ (id)gameWithURIString:(NSString *)objIDString
-{
-    return [self gameWithURIString:objIDString inDatabase:[OELibraryDatabase defaultDatabase]];
-}
-
-+ (id)gameWithURIString:(NSString *)objIDString inDatabase:(OELibraryDatabase *)database
-{
-    NSURL *url = [NSURL URLWithString:objIDString];
-    return [self gameWithURIURL:url inDatabase:database];
-}
-
 // returns the game from the default database that represents the file at url
 + (id)gameWithURL:(NSURL *)url error:(NSError *__autoreleasing*)outError
 {
@@ -451,7 +419,7 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     {
         OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
         NSURL    *uri  = [NSURL URLWithString:propertyList];
-        OEDBGame *game = (OEDBGame*)[database objectWithURI:uri];
+        OEDBGame *game = [OEDBGame objectWithURI:uri inLibrary:database];
         return game;
     }    
     return nil;

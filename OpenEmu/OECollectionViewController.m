@@ -1027,8 +1027,8 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
         OELibraryDatabase *database = [[self libraryController] database];
         NSMutableArray *gameIDs = [NSMutableArray arrayWithCapacity:[games count]];
-        [games enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
-            NSManagedObjectID *object = [database permanentIDWithObject:obj];
+        [games enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stop) {
+            NSManagedObjectID *object = [game permanentID];
             [gameIDs addObject:object];
         }];
 
@@ -1041,7 +1041,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         dispatch_sync(queue, ^{
             for (NSUInteger i=0; i<[gameIDs count]; i++) {
                 NSManagedObjectID *objectID = [gameIDs objectAtIndex:i];
-                [threadSafeGames addObject:[database objectWithID:objectID]];
+                [threadSafeGames addObject:[OEDBGame objectWithID:objectID]];
             }
         });
 
@@ -1081,7 +1081,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
                         {
                             NSManagedObjectID *objectID = [rom objectID];
                             [alert performBlockInModalSession:^{
-                                OEDBRom *rom = (OEDBRom*)[database objectWithID:objectID];
+                                OEDBRom *rom = [OEDBRom objectWithID:objectID inLibrary:database];
                                 NSString *location = [rom location];
                                 NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
                                 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location = %@", location];

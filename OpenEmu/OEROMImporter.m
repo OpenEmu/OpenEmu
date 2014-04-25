@@ -579,9 +579,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         {
             DLog(@"using rom object");
             NSURL *objectID = [importInfo valueForKey:OEImportInfoROMObjectID];
-            __block OEDBRom *rom = nil;
-
-            [OEDBRom romWithURIURL:objectID inDatabase:[self database]];
+            __block OEDBRom *rom = [OEDBRom objectWithURI:objectID inLibrary:[self database]];
             system = [[rom game] system];
         }
         else
@@ -681,7 +679,7 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         NSMutableDictionary *importInfo = [item importInfo];
         if([importInfo valueForKey:OEImportInfoROMObjectID] != nil)
         {
-            rom = [OEDBRom romWithURIURL:[importInfo valueForKey:OEImportInfoROMObjectID] inDatabase:[self database]];
+            rom = [OEDBRom objectWithURI:[importInfo valueForKey:OEImportInfoROMObjectID] inLibrary:[self database]];
             [rom setURL:[item URL]];
 
             if([[item importInfo] objectForKey:OEImportInfoFileName])
@@ -820,11 +818,11 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
         OEDBRom *rom = nil;
         NSURL *romID = [[item importInfo] objectForKey:OEImportInfoROMObjectID];
         if(romID)
-            rom = (OEDBRom*)[[self database] objectWithURI:romID];
+            rom = [OEDBRom objectWithURI:romID inLibrary:[self database]];
 
         if(rom && [[item importInfo] objectForKey:OEImportInfoCollectionID])
         {
-            id collection = [[rom libraryDatabase] objectWithURI:[[item importInfo] objectForKey:OEImportInfoCollectionID]];
+            id collection = [OEDBCollection objectWithURI:[[item importInfo] objectForKey:OEImportInfoCollectionID] inLibrary:[self database]];
             if([collection isMemberOfClass:[OEDBCollection class]])
             {
                 [[collection mutableGames] addObject:[rom game]];

@@ -50,9 +50,9 @@
 {
     const NSSize size = [nsimage size];
     OEDBImage *image = [self OE_createInstanceInLibrary:library];
-    NSManagedObjectID *objectID = [library permanentIDWithObject:image];
+    NSManagedObjectID *objectID = [image permanentID];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        OEDBImage *image = (OEDBImage *)[library objectWithID:objectID];
+        OEDBImage *image = [OEDBImage objectWithID:objectID inLibrary:library];
         if(!image) return;
         __block NSBitmapImageFileType format;
         NSURL *fileUrl = [image OE_writeImage:nsimage withType:type usedFormat:&format inLibrary:library];
@@ -89,9 +89,9 @@
 + (instancetype)createImageWithURL:(NSURL*)url type:(OEBitmapImageFileType)type inLibrary:(OELibraryDatabase*)library
 {
     OEDBImage *image = [self OE_createInstanceInLibrary:library];
-    NSManagedObjectID *objectID = [library permanentIDWithObject:image];
+    NSManagedObjectID *objectID = [image permanentID];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        OEDBImage *image = (OEDBImage *)[library objectWithID:objectID];
+        OEDBImage *image = [OEDBImage objectWithID:objectID inLibrary:library];
         if(!image) return;
         NSSize size = NSZeroSize;
         __block NSBitmapImageFileType format;
@@ -128,9 +128,9 @@
 + (instancetype)createImageWithData:(NSData*)data type:(OEBitmapImageFileType)type inLibrary:(OELibraryDatabase*)library
 {
     OEDBImage *image = [self OE_createInstanceInLibrary:library];
-    NSManagedObjectID *objectID = [library permanentIDWithObject:image];
+    NSManagedObjectID *objectID = [image objectID];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        OEDBImage *image = (OEDBImage *)[library objectWithID:objectID];
+        OEDBImage *image = [OEDBImage objectWithID:objectID inLibrary:library];
         if(!image) return;
         NSSize size = NSZeroSize;
         __block NSBitmapImageFileType format;

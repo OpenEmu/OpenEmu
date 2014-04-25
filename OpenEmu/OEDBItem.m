@@ -34,4 +34,53 @@
     return [[[self managedObjectContext] userInfo] valueForKey:OELibraryDatabaseUserInfoKey];
 }
 
++ (instancetype)objectWithURI:(NSURL *)uri
+{
+    return [self objectWithURI:uri inLibrary:[OELibraryDatabase defaultDatabase]];
+}
+
++ (instancetype)objectWithURI:(NSURL *)uri inLibrary:(OELibraryDatabase*)library
+{
+    __block NSManagedObjectID *objectID = nil;
+    NSManagedObjectContext *context = [library safeContext];
+    [context performBlockAndWait:^{
+        objectID = [[context persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
+    }];
+    return [self objectWithID:objectID inLibrary:library];
+}
++ (instancetype)objectWithID:(NSManagedObjectID *)objectID
+{
+    return [self objectWithID:objectID inLibrary:[OELibraryDatabase defaultDatabase]];
+}
+
++ (instancetype)objectWithID:(NSManagedObjectID *)objectID inLibrary:(OELibraryDatabase*)library
+{
+    if(objectID == nil) return nil;
+
+    __block id result = nil;
+    NSManagedObjectContext *context = [library safeContext];
+    [context performBlockAndWait:^{
+        result = [context objectWithID:objectID];
+    }];
+    return result;
+}
+
+- (NSManagedObjectID*)permanentID
+{
+    __block NSManagedObjectID *result = nil;
+    NSManagedObjectContext *context = [self managedObjectContext];
+    [context performBlockAndWait:^{
+        if([context obtainPermanentIDsForObjects:@[self] error:nil])
+        {
+            result = [self objectID];
+        }
+    }];
+    return result;
+}
+
+- (NSURL*)permanentIDURI
+{
+    return [[self permanentID] URIRepresentation];
+}
+
 @end

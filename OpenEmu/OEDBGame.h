@@ -49,21 +49,6 @@ extern NSString *const OEGameArtworkPropertiesKey;
 
 + (id)createGameWithName:(NSString *)name andSystem:(OEDBSystem *)system inDatabase:(OELibraryDatabase *)database;
 
-// returns the game with objID in the default database
-+ (id)gameWithID:(NSManagedObjectID *)objID;
-// returns the game with objID in the specified database
-+ (id)gameWithID:(NSManagedObjectID *)objID inDatabase:(OELibraryDatabase *)database;
-
-// returns the game with objID in the default database
-+ (id)gameWithURIURL:(NSURL *)objIDUrl;
-// returns the game with objID in the specified database
-+ (id)gameWithURIURL:(NSURL *)objIDUrl inDatabase:(OELibraryDatabase *)database;
-
-// returns the game with objID in the default database
-+ (id)gameWithURIString:(NSString *)objIDString;
-// returns the game with objID in the specified database
-+ (id)gameWithURIString:(NSString *)objIDString inDatabase:(OELibraryDatabase *)database;
-
 // returns the game from the default database that represents the file at url
 + (id)gameWithURL:(NSURL *)url error:(NSError **)outError;
 
