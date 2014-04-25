@@ -68,8 +68,6 @@ extern NSString *const OEScreenshotFolderURLKey;
 - (void)disableSystemsWithoutPlugin;
 
 #pragma mark - Database queries
-- (NSManagedObjectID *)managedObjectIDForURIRepresentation:(NSURL *)uri;
-
 - (NSUInteger)collectionsCount;
 - (NSArray *)collections;
 - (NSArray *)media;
