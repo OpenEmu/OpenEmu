@@ -61,6 +61,8 @@
     NSManagedObjectContext *context = [library safeContext];
     [context performBlockAndWait:^{
         result = [context objectWithID:objectID];
+        if([result isDeleted])
+            result = nil;
     }];
     return result;
 }
