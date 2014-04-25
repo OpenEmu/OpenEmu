@@ -128,7 +128,7 @@
 + (instancetype)createImageWithData:(NSData*)data type:(OEBitmapImageFileType)type inLibrary:(OELibraryDatabase*)library
 {
     OEDBImage *image = [self OE_createInstanceInLibrary:library];
-    NSManagedObjectID *objectID = [image objectID];
+    NSManagedObjectID *objectID = [image permanentID];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         OEDBImage *image = [OEDBImage objectWithID:objectID inLibrary:library];
         if(!image) return;
