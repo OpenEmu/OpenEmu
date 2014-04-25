@@ -319,7 +319,15 @@ static void importBlock(OEROMImporter *importer, OEImportItem *item)
 {
     IMPORTDLog(@"URL: %@", [item sourceURL]);
     NSString *path = [[item URL] path];
-    XADArchive *archive = [XADArchive archiveForFile:path];
+    XADArchive *archive = nil;
+    @try
+    {
+        archive = [XADArchive archiveForFile:path];
+    }
+    @catch(NSException *e)
+    {
+        archive = Nil;
+    }
     if (archive != nil)
     {
         NSMutableArray *newItems = [NSMutableArray arrayWithCapacity:[archive numberOfEntries]];
