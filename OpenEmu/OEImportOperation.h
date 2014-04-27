@@ -28,42 +28,25 @@
 
 typedef enum  {
     OEImportItemStatusIdle,
-    OEImportItemStatusActive,
     OEImportItemStatusResolvableError,
     OEImportItemStatusFatalError,
     OEImportItemStatusFinished,
-    OEImportItemStatusCancelled,
 } OEImportItemState;
 
-typedef enum  {
-    OEImportStepCheckDirectory,
-    OEImportStepCheckArchiveFile,
-    OEImportStepDetermineSystem,
-    OEImportStepHash,
-    OEImportStepCheckHash,
-    OEImportStepOrganize,
-    OEImportStepOrganizeAdditionalFiles,
-    OEImportStepCreateCoreDataObjects,
-    /*
-    OEImportStepCreateRom,
-    OEImportStepCreateGame,
-     */
-} OEImportStep;
-
 typedef void (^OEImportItemCompletionBlock)(void);
+@class OEROMImporter;
+@interface OEImportOperation : NSOperation <NSObject, NSCoding>
++ (instancetype)operationWithURL:(NSURL*)url inImporter:(OEROMImporter*)importer;
+@property BOOL exploreArchives;
 
-@interface OEImportItem : NSObject <NSObject, NSCoding>
-
-@property (copy, nonatomic) NSURL               *URL;
+@property (copy, nonatomic) NSURL    *URL;
 @property (copy) NSURL               *sourceURL;
+@property (copy) NSManagedObjectID   *collectionID;
+
+@property (copy) NSError             *error;
 @property       OEImportItemState    importState;
-@property       OEImportStep         importStep;
-@property       NSMutableDictionary *importInfo;
 
-@property       NSError  *error;
 @property (copy) OEImportItemCompletionBlock completionHandler;
-@property (strong) OEImportItem *archive;
-
-+ (OEImportItem *)itemWithURL:(NSURL*)url completionHandler:(OEImportItemCompletionBlock)handler;
-
+@property (strong) OEImportOperation *archive;
+@property (strong) OEROMImporter *importer;
 @end

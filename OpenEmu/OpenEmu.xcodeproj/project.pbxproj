@@ -367,7 +367,7 @@
 		8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB1F15FF5CB10026E326 /* OEDBRomMigrationPolicy.m */; };
 		8353EB2315FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB2215FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m */; };
 		8353EB7D15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */; };
-		8356AEF215DA703100AA6B44 /* OEImportItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8356AEF115DA703100AA6B44 /* OEImportItem.m */; };
+		8356AEF215DA703100AA6B44 /* OEImportOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8356AEF115DA703100AA6B44 /* OEImportOperation.m */; };
 		835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 835F3F3F1683534700C74B97 /* OEToolTipManager.m */; };
 		836291FE1515F30700192116 /* OEFSWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 836291FD1515F30700192116 /* OEFSWatcher.m */; };
 		83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */; };
@@ -1935,8 +1935,8 @@
 		8353EB2115FF609F0026E326 /* OEDBSaveStateMigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveStateMigrationPolicy.h; sourceTree = "<group>"; };
 		8353EB2215FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSaveStateMigrationPolicy.m; sourceTree = "<group>"; };
 		8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.0 Beta to 0.2.xcmappingmodel"; sourceTree = "<group>"; };
-		8356AEF015DA703100AA6B44 /* OEImportItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEImportItem.h; sourceTree = "<group>"; };
-		8356AEF115DA703100AA6B44 /* OEImportItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEImportItem.m; sourceTree = "<group>"; };
+		8356AEF015DA703100AA6B44 /* OEImportOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEImportOperation.h; sourceTree = "<group>"; };
+		8356AEF115DA703100AA6B44 /* OEImportOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEImportOperation.m; sourceTree = "<group>"; };
 		835F3F3E1683534700C74B97 /* OEToolTipManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEToolTipManager.h; sourceTree = "<group>"; };
 		835F3F3F1683534700C74B97 /* OEToolTipManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEToolTipManager.m; sourceTree = "<group>"; };
 		835F3F4116835F1A00C74B97 /* OEToolTip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEToolTip.h; sourceTree = "<group>"; };
@@ -3669,8 +3669,8 @@
 				53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */,
 				83199720142741790068C865 /* OEROMImporter.h */,
 				83199721142741790068C865 /* OEROMImporter.m */,
-				8356AEF015DA703100AA6B44 /* OEImportItem.h */,
-				8356AEF115DA703100AA6B44 /* OEImportItem.m */,
+				8356AEF015DA703100AA6B44 /* OEImportOperation.h */,
+				8356AEF115DA703100AA6B44 /* OEImportOperation.m */,
 				53439A8D13B92C56005C0CC8 /* Items */,
 				83C09355166787BC00E52265 /* Utilities */,
 			);
@@ -7666,7 +7666,7 @@
 				83F4700C15750497001931BD /* OEGameScannerViewController.m in Sources */,
 				8337393215BFD24A00D83D2F /* OESystemPicker.m in Sources */,
 				8337393815BFD87900D83D2F /* OELibraryToolbarView.m in Sources */,
-				8356AEF215DA703100AA6B44 /* OEImportItem.m in Sources */,
+				8356AEF215DA703100AA6B44 /* OEImportOperation.m in Sources */,
 				83B65F5715F0DEA100C742D2 /* NSArray+OEAdditions.m in Sources */,
 				8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */,
 				8353EB2315FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m in Sources */,
