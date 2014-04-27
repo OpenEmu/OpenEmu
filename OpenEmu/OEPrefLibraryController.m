@@ -425,12 +425,14 @@
         isCheckboxSender = NO;
     }
 
-    OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inDatabase:[OELibraryDatabase defaultDatabase]];
+    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = [database mainThreadContext];
+    OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inContext:context];
     BOOL enabled = [[system enabled] boolValue];
 
     // Make sure that at least one system is enabled.
     // Otherwise the mainwindow sidebar would be messed up
-    if(enabled && [[OEDBSystem enabledSystems] count] == 1)
+    if(enabled && [[OEDBSystem enabledSystemsinContext:context] count] == 1)
     {
         NSString *message = NSLocalizedString(@"At least one System must be enabled", @"");
         NSString *button = NSLocalizedString(@"OK", @"");
@@ -459,9 +461,10 @@
     }
 
     [system setEnabled:[NSNumber numberWithBool:!enabled]];
-    [[system libraryDatabase] save:nil];
+    [system save];
     [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsDidChangeNotification object:system userInfo:nil];
 }
+
 - (IBAction)resetWarningDialogs:(id)sender
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
@@ -492,7 +495,8 @@
     [[[[self librariesView] subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperviewWithoutNeedingDisplay)];
 
     // get all system plugins, ordered them by name
-    NSArray *systems = [OEDBSystem allSystems];
+    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
+    NSArray *systems = [OEDBSystem allSystemsInContext:context];
 
     // calculate number of rows (using 2 columns)
     NSInteger rows = ceil([systems count] / 2.0);
