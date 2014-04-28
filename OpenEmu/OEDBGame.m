@@ -65,7 +65,7 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 
 + (id)createGameWithName:(NSString *)name andSystem:(OEDBSystem *)system inDatabase:(OELibraryDatabase *)database
 {
-    NSManagedObjectContext *context = [database safeContext];
+    NSManagedObjectContext *context = [database mainThreadContext];
 
     __block OEDBGame *game = nil;
     [context performBlockAndWait:^{
@@ -99,9 +99,10 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     if(outError == NULL) outError = &nilerr;
     
     BOOL urlReachable = [url checkResourceIsReachableAndReturnError:outError];
-    
+
+    // TODO: FIX
     OEDBGame *game = nil;
-    OEDBRom *rom = [OEDBRom romWithURL:url error:outError];
+    OEDBRom *rom = nil; //[OEDBRom romWithURL:url error:outError];
     if(rom != nil)
     {
         game = [rom game];
@@ -112,8 +113,8 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     if(game == nil && urlReachable)
     {
         [defaultFileManager hashFileAtURL:url md5:&md5 crc32:&crc error:outError];
-        OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inDatabase:database error:outError];
-        if(!rom) rom = [OEDBRom romWithCRC32HashString:crc inDatabase:database error:outError];
+        OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inContext:[game managedObjectContext] error:outError];
+        if(!rom) rom = [OEDBRom romWithCRC32HashString:crc inContext:[game managedObjectContext] error:outError];
         if(rom) game = [rom game];
     }
     
@@ -148,20 +149,20 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 - (void)requestCoverDownload
 {
     [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
-    [[self libraryDatabase] save:nil];
+    [self save];
     [[self libraryDatabase] startOpenVGDBSync];
 }
 
 - (void)cancelCoverDownload
 {
     [self setStatus:[NSNumber numberWithInt:OEDBGameStatusOK]];
-    [[self libraryDatabase] save:nil];
+    [self save];
 }
 
 - (void)requestInfoSync
 {
     [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
-    [[self libraryDatabase] save:nil];
+    [self save];
     [[self libraryDatabase] startOpenVGDBSync];
 }
 
@@ -320,30 +321,23 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 - (void)setBoxImageByImage:(NSImage *)img
 {
     OEBitmapImageFileType type = [[NSUserDefaults standardUserDefaults] integerForKey:OEGameArtworkFormatKey];
-    OEDBImage *image = [OEDBImage createImageWithNSImage:img type:type inLibrary:[self libraryDatabase]];
-    NSManagedObjectContext *context = [image managedObjectContext];
-    [context performBlockAndWait:^{
-        OEDBImage *currentImage = [self boxImage];
-        if(currentImage != nil)
-            [context deleteObject:currentImage];
-
-        [self setBoxImage:image];
-        [context save:nil];
-    }];
+    OEDBImage *image = [OEDBImage createImageWithNSImage:img type:type inContext:[self managedObjectContext]];
+    OEDBImage *currentImage = [self boxImage];
+    if(currentImage != nil)
+        [currentImage delete];
+    [self setBoxImage:image];
+    [self save];
 }
 
 - (void)setBoxImageByURL:(NSURL *)url
 {
-    OEDBImage *image = [OEDBImage createImageWithURL:url type:OEBitmapImageFileTypeDefault inLibrary:[self libraryDatabase]];
-    NSManagedObjectContext *context = [image managedObjectContext];
-    [context performBlockAndWait:^{
-        OEDBImage *currentImage = [self boxImage];
-        if(currentImage != nil)
-            [context deleteObject:currentImage];
+    OEDBImage *image = [OEDBImage createImageWithURL:url type:OEBitmapImageFileTypeDefault inContext:[self managedObjectContext]];
+    OEDBImage *currentImage = [self boxImage];
+    if(currentImage != nil)
+        [currentImage delete];
 
-        [self setBoxImage:image];
-        [context save:nil];
-    }];
+    [self setBoxImage:image];
+    [self save];
 }
 
 #pragma mark - Core Data utilities
@@ -419,10 +413,10 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     if(type == OEPasteboardTypeGame)
     {
         OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+        NSManagedObjectContext *context = [database mainThreadContext];
         NSURL    *uri  = [NSURL URLWithString:propertyList];
-        OEDBGame *game = [OEDBGame objectWithURI:uri inLibrary:database];
-        return game;
-    }    
+        return (self = [OEDBGame objectWithURI:uri inContext:context]);
+    } 
     return nil;
 }
 
