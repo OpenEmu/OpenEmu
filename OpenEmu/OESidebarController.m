@@ -237,14 +237,14 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     if(![self database]) return;
 
-    OELibraryDatabase     *database = [OELibraryDatabase defaultDatabase];
+    OELibraryDatabase     *database = [self database];
     NSManagedObjectContext *context = [database mainThreadContext];
 
     NSArray *systems = [OEDBSystem enabledSystemsinContext:context] ? : [NSArray array];
     [self setSystems:systems];
-    NSArray *collections = [OEDBCollection allObjectsInContext:context];
-    [self setCollections:collections];
 
+    NSArray *collections = [database collections];
+    [self setCollections:collections];
     // TODO: add media collections
     //self.media = [[self database] media]    ? : [NSArray array];
 
@@ -371,7 +371,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
                 name = [[[[[games lastObject] absoluteString] lastPathComponent] stringByDeletingPathExtension] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             }
         }
-        collection = [[OELibraryDatabase defaultDatabase] addNewCollection:name];
+        collection = [[self database] addNewCollection:name];
         [self reloadData];
         NSInteger index = [outlineView rowForItem:collection];
         if(index != -1)
@@ -393,7 +393,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         // import and add to collection
         NSArray *files = [pboard readObjectsForClasses:@[[NSURL class]] options:nil];
         NSManagedObjectID *collectionID = [collection permanentID];
-        OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
+        OEROMImporter *importer = [[self database] importer];
         [importer importItemsAtURLs:files intoCollectionWithID:collectionID];
     }
 
@@ -626,7 +626,9 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     if(removeItem)
     {
+        DLog(@"Delete");
         [item delete];
+        DLog(@"Save");
         [item save];
 
         // keep selection on last object if the one we removed was last

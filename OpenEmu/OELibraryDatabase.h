@@ -68,10 +68,7 @@ extern NSString *const OEScreenshotFolderURLKey;
 - (void)disableSystemsWithoutPlugin;
 
 #pragma mark - Database queries
-- (NSUInteger)collectionsCount;
 - (NSArray *)collections;
-- (NSArray *)media;
-
 - (NSArray *)romsForPredicate:(NSPredicate*)predicate;
 - (NSArray *)romsInCollection:(id)collection;
 
@@ -79,8 +76,6 @@ extern NSString *const OEScreenshotFolderURLKey;
 - (NSDictionary *)lastPlayedRomsBySystem;
 
 #pragma mark - Database Collection editing
-- (void)removeCollection:(NSManagedObject *)collection;
-
 - (id)addNewCollection:(NSString *)name;
 - (id)addNewSmartCollection:(NSString *)name;
 - (id)addNewCollectionFolder:(NSString *)name;

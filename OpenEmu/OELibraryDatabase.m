@@ -143,9 +143,12 @@ static OELibraryDatabase *defaultDatabase = nil;
     [[NSUserDefaults standardUserDefaults] setObject:[[[defaultDatabase databaseURL] path] stringByAbbreviatingWithTildeInPath] forKey:OEDatabasePathKey];
     [defaultDatabase OE_setupStateWatcher];
 
+    OEROMImporter *romImporter = [[OEROMImporter alloc] initWithDatabase:defaultDatabase];
+    [romImporter loadQueue];
+    [defaultDatabase setImporter:romImporter];
+
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^{
-        [[defaultDatabase importer] start];
         [defaultDatabase startOpenVGDBSync];
     });
 
@@ -154,24 +157,30 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (void)OE_createInitialItems
 {
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:[OEDBSmartCollection entityName] inManagedObjectContext:[self safeContext]];
-    OEDBSmartCollection *recentlyAdded = [[OEDBSmartCollection alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:[self safeContext]];
+    NSManagedObjectContext *context = [self mainThreadContext];
+
+    OEDBSmartCollection *recentlyAdded = [OEDBSmartCollection createObjectInContext:context];
     [recentlyAdded setName:@"Recently Added"];
     [self save:nil];
 }
 
 - (BOOL)loadManagedObjectContextWithError:(NSError *__autoreleasing*)outError
 {
-    _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    // Setup a private managed object context
+    _privateMOC = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
 
     NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
-    [_managedObjectContext setMergePolicy:policy];
-    [_managedObjectContext setRetainsRegisteredObjects:YES];
-    if(_managedObjectContext == nil) return NO;
+    [_privateMOC setMergePolicy:policy];
+    [_privateMOC setRetainsRegisteredObjects:YES];
+    if(_privateMOC == nil) return NO;
 
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    [_managedObjectContext setPersistentStoreCoordinator:coordinator];
-    [[_managedObjectContext userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
+    [_privateMOC setPersistentStoreCoordinator:coordinator];
+    [[_privateMOC userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
+
+    // Setup a moc for use on main thread
+    _mainThreadMOC = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    _mainThreadMOC.parentContext = _privateMOC;
 
     // remeber last loc as database path
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -218,10 +227,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     if((self = [super init]))
     {
         _romsController = [[NSArrayController alloc] init];
-
-        OEROMImporter *romImporter = [[OEROMImporter alloc] initWithDatabase:self];
-        [romImporter loadQueue];
-        [self setImporter:romImporter];
 
         NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
         [defaultCenter addObserver:self selector:@selector(managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
@@ -286,6 +291,50 @@ static OELibraryDatabase *defaultDatabase = nil;
         [self OE_setupStateWatcher];
         [[self saveStateWatcher] callbackBlock](path, kFSEventStreamEventFlagItemIsDir);
     }
+}
+
+#pragma mark - Accessing / Creating managed object contexts
+- (NSManagedObjectContext*)privateContext
+{
+    return _privateMOC;
+}
+
+- (NSManagedObjectContext*)mainThreadContext
+{
+    OECoreDataMainThreadAssertion();
+    return _mainThreadMOC;
+}
+
+- (NSManagedObjectContext*)makeChildContext
+{
+    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [context setParentContext:_privateMOC];
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification object:context queue:nil usingBlock:^(NSNotification *note) {
+        [_privateMOC save:nil];
+    }];
+
+    return context;
+}
+- (NSManagedObjectContext*)makePersistentContext
+{
+    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [context setPersistentStoreCoordinator:[self persistentStoreCoordinator]];
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification object:context queue:nil usingBlock:^(NSNotification *note) {
+        [_privateMOC performBlock:^{
+            [_privateMOC mergeChangesFromContextDidSaveNotification:note];
+            [_privateMOC save:nil];
+        }];
+    }];
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification object:_privateMOC queue:nil usingBlock:^(NSNotification *note) {
+        [context performBlock:^{
+            [context mergeChangesFromContextDidSaveNotification:note];
+        }];
+    }];
+
+    return context;
 }
 #pragma mark - Administration
 

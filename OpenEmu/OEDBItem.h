@@ -30,11 +30,22 @@
 @interface OEDBItem : NSManagedObject
 - (OELibraryDatabase*)libraryDatabase;
 
-+ (instancetype)objectWithURI:(NSURL *)uri;
-+ (instancetype)objectWithURI:(NSURL *)uri inLibrary:(OELibraryDatabase*)library;
-+ (instancetype)objectWithID:(NSManagedObjectID *)objectID;
-+ (instancetype)objectWithID:(NSManagedObjectID *)objectID inLibrary:(OELibraryDatabase*)library;
++ (instancetype)createObjectInContext:(NSManagedObjectContext*)context;
+
++ (instancetype)objectWithURI:(NSURL *)uri inContext:(NSManagedObjectContext*)library;
++ (instancetype)objectWithID:(NSManagedObjectID *)objectID inContext:(NSManagedObjectContext*)library;
+
++ (NSArray*)allObjectsInContext:(NSManagedObjectContext*)context;
++ (NSArray*)allObjectsInContext:(NSManagedObjectContext*)context error:(NSError**)error;
++ (NSArray*)allObjectsInContext:(NSManagedObjectContext*)context sortBy:(NSArray*)sortDescriptors error:(NSError**)error;
+
 
 - (NSManagedObjectID*)permanentID;
 - (NSURL*)permanentIDURI;
+
++ (NSString*)entityName;
+- (NSString*)entityName;
+
+- (BOOL)save;
+- (void)delete;
 @end

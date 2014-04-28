@@ -28,10 +28,6 @@
 #import "OEDBItem.h"
 @interface OEDBCollection : OEDBItem
 
-// Core Data utilities
-+ (NSString *)entityName;
-+ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
-
 #pragma mark -
 #pragma mark Data Model Properties
 @property (nonatomic, retain) NSString  *name;

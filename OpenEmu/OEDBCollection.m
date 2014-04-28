@@ -26,19 +26,12 @@
 
 #import "OEDBCollection.h"
 
-
 @implementation OEDBCollection
 
-+ (NSString *)entityName
++ (NSString*)entityName
 {
     return @"Collection";
 }
-
-+ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context
-{
-    return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
-}
-
 #pragma mark -
 #pragma mark Data Model Properties
 @dynamic name;

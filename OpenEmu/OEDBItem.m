@@ -34,47 +34,64 @@
     return [[[self managedObjectContext] userInfo] valueForKey:OELibraryDatabaseUserInfoKey];
 }
 
-+ (instancetype)objectWithURI:(NSURL *)uri
++ (instancetype)createObjectInContext:(NSManagedObjectContext*)context
 {
-    return [self objectWithURI:uri inLibrary:[OELibraryDatabase defaultDatabase]];
+    return [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
 }
 
-+ (instancetype)objectWithURI:(NSURL *)uri inLibrary:(OELibraryDatabase*)library
++ (NSArray*)allObjectsInContext:(NSManagedObjectContext*)context
+{
+    return [self allObjectsInContext:context error:nil];
+}
+
++ (NSArray*)allObjectsInContext:(NSManagedObjectContext*)context error:(NSError**)error
+{
+    return [self allObjectsInContext:context sortBy:nil error:error];
+}
+
++ (NSArray*)allObjectsInContext:(NSManagedObjectContext*)context sortBy:(NSArray*)sortDescriptors error:(NSError**)error
+{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
+    [request setSortDescriptors:sortDescriptors];
+    return [context executeFetchRequest:request error:error];
+}
+
++ (instancetype)objectWithURI:(NSURL *)uri inContext:(NSManagedObjectContext*)context
 {
     __block NSManagedObjectID *objectID = nil;
-    NSManagedObjectContext *context = [library safeContext];
     [context performBlockAndWait:^{
         objectID = [[context persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
     }];
-    return [self objectWithID:objectID inLibrary:library];
-}
-+ (instancetype)objectWithID:(NSManagedObjectID *)objectID
-{
-    return [self objectWithID:objectID inLibrary:[OELibraryDatabase defaultDatabase]];
+    return [self objectWithID:objectID inContext:context];
 }
 
-+ (instancetype)objectWithID:(NSManagedObjectID *)objectID inLibrary:(OELibraryDatabase*)library
++ (instancetype)objectWithID:(NSManagedObjectID *)objectID inContext:(NSManagedObjectContext*)context
 {
     if(objectID == nil) return nil;
 
     __block id result = nil;
-    NSManagedObjectContext *context = [library safeContext];
     [context performBlockAndWait:^{
         result = [context objectWithID:objectID];
+
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(self == %@)", result];
+        [request setPredicate:predicate];
+        result = [[context executeFetchRequest:request error:nil] lastObject];
+
     }];
     return result;
 }
 
 - (NSManagedObjectID*)permanentID
 {
-    __block NSManagedObjectID *result = nil;
-    NSManagedObjectContext *context = [self managedObjectContext];
-    [context performBlockAndWait:^{
-        if([context obtainPermanentIDsForObjects:@[self] error:nil])
-        {
-            result = [self objectID];
-        }
-    }];
+    NSManagedObjectID *result = [self objectID];
+
+    if([result isTemporaryID])
+    {
+        [[self managedObjectContext] obtainPermanentIDsForObjects:@[self] error:nil];
+        result = [self objectID];
+    }
+
     return result;
 }
 
@@ -83,4 +100,37 @@
     return [[self permanentID] URIRepresentation];
 }
 
+
++ (NSString*)entityName
+{
+    NSAssert(NO, @"+entityName must be overriden");
+    return nil;
+}
+- (NSString*)entityName
+{
+    return [[self class] entityName];
+}
+
++ (NSEntityDescription*)entityDescriptionInContext:(NSManagedObjectContext *)context
+{
+    return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
+}
+
+- (BOOL)save
+{
+    __block BOOL result = NO;
+    NSManagedObjectContext *context = [self managedObjectContext];
+    [context performBlockAndWait:^{
+        result = [context save:nil];
+    }];
+    return result;
+}
+
+- (void)delete
+{
+    NSManagedObjectContext *context = [self managedObjectContext];
+    [context performBlockAndWait:^{
+        [context deleteObject:self];
+    }];
+}
 @end

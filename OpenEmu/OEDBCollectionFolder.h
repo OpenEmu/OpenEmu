@@ -28,9 +28,4 @@
 #import "OEDBCollection.h"
 
 @interface OEDBCollectionFolder : OEDBCollection
-
-// Core Data utilities
-+ (NSString *)entityName;
-+ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
-
 @end
