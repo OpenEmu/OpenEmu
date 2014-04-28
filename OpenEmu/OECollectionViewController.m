@@ -166,7 +166,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [gamesController setAutomaticallyPreparesContent:NO];
     [gamesController setUsesLazyFetching:NO];
     
-    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] safeContext];
+    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
     //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
 
     OE_defaultSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"cleanDisplayName" ascending:YES selector:@selector(caseInsensitiveCompare:)]];
@@ -227,6 +227,10 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     // Watch the main thread's managed object context for changes
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextObjectsDidChangeNotification object:context];
+
+    NSManagedObjectContext *privateContext = [[libraryController database] privateContext];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:privateContext];
+
     [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:OEDisplayGameTitle options:0 context:NULL];
 
     // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
@@ -613,7 +617,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         NSArray *files = [draggingPasteboard propertyListForType:NSFilenamesPboardType];
         OEROMImporter *romImporter = [[[self libraryController] database] importer];
         OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
-        [romImporter importItemsAtPaths:files intoCollectionWithID:[[collection objectID] URIRepresentation]];
+        [romImporter importItemsAtPaths:files intoCollectionWithID:[collection permanentID]];
     }
     else if (draggingOperation == IKImageBrowserDropNone)
     {
@@ -892,6 +896,8 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
 - (void)deleteSelectedGames:(id)sender
 {
+    OECoreDataMainThreadAssertion();
+
     NSArray *selectedGames = [self selectedGames];
     BOOL multipleGames = ([selectedGames count]>1);
     if([[self representedObject] isKindOfClass:[OEDBSmartCollection class]])
@@ -902,7 +908,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         {
             OEDBCollection* collection = (OEDBCollection*)[self representedObject];
             [[collection mutableGames] minusSet:[NSSet setWithArray:selectedGames]];
-            [[collection libraryDatabase] save:nil];
+            [collection save];
         }
         [self setNeedsReload];
     }
@@ -933,9 +939,9 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         DLog(@"deleteFiles: %d", deleteFiles);
         [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
             [game deleteByMovingFile:deleteFiles keepSaveStates:YES];
+            [game save];
         }];
-        [[[selectedGames lastObject] libraryDatabase] save:nil];
-        
+
         NSRect visibleRect = [gridView visibleRect];
         [self OE_reloadData];
         [gridView scrollRectToVisible:visibleRect];
@@ -944,16 +950,19 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
 - (void)makeNewCollectionWithSelectedGames:(id)sender
 {
+    OECoreDataMainThreadAssertion();
+
     NSArray *selectedGames = [self selectedGames];
     id collection = [[[self libraryController] sidebarController] addCollection:NO];
     [collection setGames:[NSSet setWithArray:selectedGames]];
-    
-    [[[self libraryController] database] save:nil];
+    [collection save];
     [self setNeedsReload];
 }
 
 - (void)addSelectedGamesToCollection:(id)sender
 {
+    OECoreDataMainThreadAssertion();
+
     id collection;
     if(![sender isKindOfClass:[OEDBCollection class]])
     {
@@ -962,8 +971,8 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     
     NSArray *selectedGames = [self selectedGames];
     [[collection mutableGames] addObjectsFromArray:selectedGames];
-    
-    [[[self libraryController] database] save:nil];
+    [collection save];
+
     [self setNeedsReload];
 }
 
@@ -971,6 +980,10 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     [[self selectedGames] makeObjectsPerformSelector:@selector(requestCoverDownload)];
     [self reloadDataIndexes:[self selectedIndexes]];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self downloadCoverArt:sender];
+    });
 }
 
 
@@ -1037,13 +1050,13 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         __block NSInteger alertResult = -1;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-
+        NSManagedObjectContext *c = nil;
         // register objects in queue context, oehudalert's modal session will block it from fetching the objects later…
         __block NSMutableArray *threadSafeGames = [NSMutableArray arrayWithCapacity:[gameIDs count]];
         dispatch_sync(queue, ^{
             for (NSUInteger i=0; i<[gameIDs count]; i++) {
                 NSManagedObjectID *objectID = [gameIDs objectAtIndex:i];
-                [threadSafeGames addObject:[OEDBGame objectWithID:objectID]];
+                [threadSafeGames addObject:[OEDBGame objectWithID:objectID inContext:c]];
             }
         });
 
@@ -1083,6 +1096,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
                         {
                             NSManagedObjectID *objectID = [rom objectID];
                             [alert performBlockInModalSession:^{
+                                /*
                                 OEDBRom *rom = [OEDBRom objectWithID:objectID inLibrary:database];
                                 NSString *location = [rom location];
                                 NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
@@ -1095,6 +1109,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
                                 [rom setURL:romURL];
 
                                 [[rom managedObjectContext] save:nil];
+                                 */
                             }];
                         }
                         else if(error != nil) break;
@@ -1180,7 +1195,9 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         else return;
         
         if([obj isKindOfClass:[OEDBItem class]])
-            [[(OEDBItem*)obj libraryDatabase] save:nil];
+        {
+            TODO("Save HERE");
+        }
     }
 }
 
@@ -1231,7 +1248,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
     OEROMImporter *romImporter = [[[self libraryController] database] importer];
     OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
-    [romImporter importItemsAtPaths:files intoCollectionWithID:[[collection objectID] URIRepresentation]];
+    [romImporter importItemsAtPaths:files intoCollectionWithID:[collection permanentID]];
     
     return YES;
 }
@@ -1408,7 +1425,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
     OEROMImporter *romImporter = [[[self libraryController] database] importer];
     OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
-    [romImporter importItemsAtPaths:files intoCollectionWithID:[[collection objectID] URIRepresentation]];
+    [romImporter importItemsAtPaths:files intoCollectionWithID:[collection permanentID]];
     
     return YES;
 }
