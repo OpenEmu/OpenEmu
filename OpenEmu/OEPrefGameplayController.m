@@ -30,6 +30,7 @@
 #import "OEShaderPlugin.h"
 #import "OEGameViewController.h"
 #import "OEDBSystem.h"
+#import "OELibraryDatabase.h"
 
 @implementation OEPrefGameplayController
 @synthesize filterSelection;
@@ -102,9 +103,11 @@
 
 - (IBAction)changeFilter:(id)sender
 {
-	NSString *filterName = [[[self filterSelection] selectedItem] title];
+    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = [database mainThreadContext];
+    NSString *filterName = [[[self filterSelection] selectedItem] title];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSArray *allSystemIdentifiers = [OEDBSystem allSystemIdentifiers];
+    NSArray *allSystemIdentifiers = [OEDBSystem allSystemIdentifiersInContext:context];
     
     for(OECorePlugin *systemIdentifiers in allSystemIdentifiers)
     {
