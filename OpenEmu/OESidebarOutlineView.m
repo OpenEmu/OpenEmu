@@ -35,6 +35,7 @@
 #import "OEMenu.h"
 
 #import "OEDBSystem.h"
+#import "OELibraryDatabase.h"
 
 NSString *const OESidebarConsolesNotCollapsibleKey   = @"OESidebarConsolesNotCollapsible";
 NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemNotification";
@@ -136,14 +137,14 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
         if(index == 0)
         {
             [menu addItem:[NSMenuItem separatorItem]];
-
-            for(OEDBSystem *system in [OEDBSystem allSystems])
+            // TODO: clean up, menuForEvent should be delegated to the sidebarcontroller
+            for(OEDBSystem *system in [OEDBSystem allSystemsInContext:[[OELibraryDatabase defaultDatabase] mainThreadContext]])
             {
                 menuItem = [[NSMenuItem alloc] initWithTitle:[system name] action:@selector(OE_toggleSystemForMenuItem:) keyEquivalent:@""];
                 [menuItem setRepresentedObject:system];
                 [menuItem setState:[[system enabled] boolValue] ? NSOnState : NSOffState];
                 [menu addItem:menuItem];
-            }
+ }
         }
     }
     else if([item isKindOfClass:[OEDBSystem class]])

@@ -61,18 +61,16 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 @interface OESidebarController ()
 {
-    NSArray *groups;
-    NSArray *systems;
-    NSArray *collections;
-    NSArray *media;
     id editingItem;
 }
-
+@property (strong, readwrite) NSArray *groups;
+@property (strong, readwrite) NSArray *systems;
+@property (strong, readwrite) NSArray *collections;
+@property (strong, readwrite) NSArray *media;
 @end
 
 @implementation OESidebarController
 @synthesize groups, database=_database, editingItem;
-@synthesize systems, collections, media;
 @dynamic view;
 
 + (void)initialize
@@ -224,10 +222,10 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (id)duplicateCollection:(id)originalCollection
 {
-    id duplicateCollection = [[self database] addNewCollection:[NSString stringWithFormat:NSLocalizedString(@"%@ copy", @"File name format for copies"), [originalCollection valueForKey:@"name"]]];
+    id duplicateCollection = [[self database] addNewCollection:[NSString stringWithFormat:NSLocalizedString(@"%@ copy", @"Duplicated collection name"), [originalCollection valueForKey:@"name"]]];
 
-    [[duplicateCollection mutableGames] setSet:[originalCollection games]];
-    [[duplicateCollection libraryDatabase] save:nil];
+    [duplicateCollection setGames:[originalCollection games]];
+    [duplicateCollection save];
 
     [self reloadData];
     [self expandCollections:self];
@@ -239,8 +237,15 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     if(![self database]) return;
 
-    self.systems     = [OEDBSystem enabledSystemsInDatabase:[self database]] ? : [NSArray array];
-    self.collections = [[self database] collections]    ? : [NSArray array];
+    OELibraryDatabase     *database = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = [database mainThreadContext];
+
+    NSArray *systems = [OEDBSystem enabledSystemsinContext:context] ? : [NSArray array];
+    [self setSystems:systems];
+    NSArray *collections = [OEDBCollection allObjectsInContext:context];
+    [self setCollections:collections];
+
+    // TODO: add media collections
     //self.media = [[self database] media]    ? : [NSArray array];
 
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
@@ -285,7 +290,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     id<OESidebarItem> item = [[self view] itemAtRow:[[self view] selectedRow]];
 
-    NSAssert([item conformsToProtocol:@protocol(OESidebarItem)], @"All sidebar items must conform to OESidebarItem");
+    NSAssert(item==nil || [item conformsToProtocol:@protocol(OESidebarItem)], @"All sidebar items must conform to OESidebarItem");
 
     return item;
 }
@@ -367,7 +372,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
             }
         }
         collection = [[OELibraryDatabase defaultDatabase] addNewCollection:name];
-        [[collection libraryDatabase] save:nil];
         [self reloadData];
         NSInteger index = [outlineView rowForItem:collection];
         if(index != -1)
@@ -382,13 +386,13 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         // just add to collection
         NSArray *games = [pboard readObjectsForClasses:@[[OEDBGame class]] options:nil];
         [[collection mutableGames] addObjectsFromArray:games];
-        [[collection libraryDatabase] save:nil];
+        [collection save];
     }
     else
     {
         // import and add to collection
         NSArray *files = [pboard readObjectsForClasses:@[[NSURL class]] options:nil];
-        NSURL *collectionID = [[collection objectID] URIRepresentation];
+        NSManagedObjectID *collectionID = [collection permanentID];
         OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
         [importer importItemsAtURLs:files intoCollectionWithID:collectionID];
     }
@@ -558,6 +562,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     if([[object stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] isNotEqualTo:@""])
     {
         [item setSidebarName:object];
+        [item save];
         [self reloadData];
 
         NSInteger row = [outlineView rowForItem:item];
@@ -621,7 +626,8 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     if(removeItem)
     {
-        [[self database] removeCollection:item];
+        [item delete];
+        [item save];
 
         // keep selection on last object if the one we removed was last
         if(index == [[self view] numberOfRows]-1)

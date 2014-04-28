@@ -61,7 +61,7 @@ extern NSString *const OEMainViewMinWidth;
 
 @property (retain, nonatomic) OESidebarOutlineView *view;
 @property (strong, nonatomic) OELibraryDatabase *database;
-@property (retain, readwrite) NSArray *groups;
-@property (retain, readwrite) NSArray *systems, *collections, *media;
+@property (strong, readonly) NSArray *groups;
+@property (strong, readonly) NSArray *systems, *collections, *media;
 @property (nonatomic, strong, readwrite) id editingItem;
 @end
