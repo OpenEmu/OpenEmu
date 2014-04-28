@@ -35,7 +35,9 @@
 #import "NSURL+OELibraryAdditions.h"
 
 #import "OELibraryDatabase.h"
+#import "OEDBGame.h"
 #import "OEDBRom.h"
+#import "OEDBCollection.h"
 
 @interface OEImportOperation ()
 - (void)OE_performImportStepCheckDirectory;
@@ -410,6 +412,7 @@
                     [subItem setExtractedFileURL:tmpURL];
                     [subItem setArchiveFileIndex:i];
                     [subItem setExploreArchives:NO];
+                    [subItem setCollectionID:[self collectionID]];
 
                     // TODO: insert operation at front of queue
                     [importer addOperation:subItem];
@@ -421,9 +424,11 @@
         if(hasSubItem)
         {
             [duplicateItem setExploreArchives:NO];
+            [duplicateItem setCollectionID:[self collectionID]];
 
             // TODO: insert operation at front of queue (after other subitems)
             [importer addOperation:duplicateItem];
+            [duplicateItem setCollectionID:[self collectionID]];
             [self exitWithStatus:OEImportItemStatusFinished error:nil];
         }
     }
@@ -768,6 +773,22 @@
     if(game != nil)
     {
         [rom setGame:game];
+
+        if([[NSUserDefaults standardUserDefaults] boolForKey:OEAutomaticallyGetInfoKey])
+        {
+            [game setStatus:@(OEDBGameStatusProcessing)];
+        }
+
+        if([self collectionID])
+        {
+            OEDBCollection *collection = [OEDBCollection objectWithID:[self collectionID] inContext:context];
+            if(collection != nil && [collection isDeleted] == NO)
+            {
+                [[game mutableCollections] addObject:collection];
+                DLog(@"add to collection: %@", collection);
+            }
+        }
+
         [rom save];
 
         [self exitWithStatus:OEImportItemStatusFinished error:nil];

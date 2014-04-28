@@ -34,9 +34,4 @@
     return @"SmartCollection";
 }
 
-+ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context
-{
-    return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
-}
-
 @end

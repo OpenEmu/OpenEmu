@@ -331,7 +331,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
 
 - (NSString*)sidebarID
 {
-    return [[[self objectID] URIRepresentation] absoluteString];
+    return [[self permanentIDURI] absoluteString];
 }
 
 - (NSImage *)sidebarIcon
