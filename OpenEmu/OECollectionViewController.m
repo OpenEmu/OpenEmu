@@ -1094,7 +1094,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
                         if([[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:&error] && (alertResult == -1))
                         {
-                            NSManagedObjectID *objectID = [rom objectID];
+                            NSManagedObjectID *objectID = [rom permanentID];
                             [alert performBlockInModalSession:^{
                                 /*
                                 OEDBRom *rom = [OEDBRom objectWithID:objectID inLibrary:database];

@@ -75,7 +75,8 @@ const int OELibraryErrorCodeFileInFolderNotFound = 2;
     NSArrayController *_romsController;
 
     NSManagedObjectModel   *_managedObjectModel;
-    NSManagedObjectContext *_managedObjectContext;
+    NSManagedObjectContext *_privateMOC;
+    NSManagedObjectContext *_mainThreadMOC;
 
     NSThread *_syncThread;
 }
@@ -150,6 +151,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^{
         [defaultDatabase startOpenVGDBSync];
+        [romImporter start];
     });
 
     return YES;
@@ -161,7 +163,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     OEDBSmartCollection *recentlyAdded = [OEDBSmartCollection createObjectInContext:context];
     [recentlyAdded setName:@"Recently Added"];
-    [self save:nil];
+    [recentlyAdded save];
 }
 
 - (BOOL)loadManagedObjectContextWithError:(NSError *__autoreleasing*)outError

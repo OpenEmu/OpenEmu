@@ -404,10 +404,11 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     } 
     else if(type == OEPasteboardTypeGame)
     {
-        return [[[self objectID] URIRepresentation] absoluteString];
+        return [[self permanentIDURI] absoluteString];
     }
     
     // TODO: return appropriate obj
+    DLog(@"Unkown type %@", type);
     return nil;
 }
 
