@@ -70,6 +70,8 @@ NSString *const OELibraryRomsFolderURLKey    = @"romsFolderURL";
 const int OELibraryErrorCodeFolderNotFound       = 1;
 const int OELibraryErrorCodeFileInFolderNotFound = 2;
 
+const CGFloat OpenVGDBSyncMainContextSaveDelay = 5.0;
+
 @interface OELibraryDatabase ()
 {
     NSArrayController *_romsController;
@@ -856,6 +858,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     [[nestedContext userInfo] setObject:@"OpenVGDB" forKey:@"name"];
 
     NSManagedObjectContext *mainContext = [nestedContext parentContext];
+    NSDate *lastMainSave = [NSDate date];
 
     while((result = [nestedContext executeFetchRequest:request error:nil]) && [result count] != 0)
     {
@@ -864,11 +867,22 @@ static OELibraryDatabase *defaultDatabase = nil;
             [game performInfoSync];
             [game save];
         }];
-        [mainContext performBlock:^{
-            [mainContext save:nil];
-        }];
+
+        NSDate *now = [NSDate date];
+        NSTimeInterval timeSinceLastSave = [now timeIntervalSinceDate:lastMainSave];
+        if(timeSinceLastSave > OpenVGDBSyncMainContextSaveDelay)
+        {
+            [mainContext performBlock:^{
+                [mainContext save:nil];
+            }];
+            lastMainSave = now;
+        }
         [NSThread sleepForTimeInterval:0.5];
     }
+
+    [mainContext performBlock:^{
+        [mainContext save:nil];
+    }];
 }
 #pragma mark - Debug
 
