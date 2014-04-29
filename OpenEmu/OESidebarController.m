@@ -377,6 +377,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         if(index != NSNotFound)
         {
             [outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+            [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:nil];
         }
     }
 

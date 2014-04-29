@@ -30,7 +30,7 @@
 
 #import "OEBackgroundColorView.h"
 
-#import "OEImportItem.h"
+#import "OEImportOperation.h"
 #import "OECoreTableButtonCell.h"
 
 #import "OEButton.h"
@@ -156,7 +156,7 @@
             if([self isScanningDirectory])
                 status = NSLocalizedString(@"Scanning Directory", "");
         }
-        else if([importer status] == OEImporterStatusStopped || [importer status] == OEImporterStatusStopping)
+        else if([importer status] == OEImporterStatusStopped)
         {
             [[self progressIndicator] stopAnimation:self];
             [[self progressIndicator] setIndeterminate:YES];
@@ -189,20 +189,20 @@
 - (void)OE_setupActionsMenu
 {
     NSMutableSet *systemIDSet = [NSMutableSet set];
-    for(OEImportItem *item in [self itemsRequiringAttention])
+    for(OEImportOperation *item in [self itemsRequiringAttention])
     {
-        id systemIDs = [[item importInfo] objectForKey:OEImportInfoSystemID];
-        if([systemIDs isKindOfClass:[NSArray class]])
-            [systemIDSet addObjectsFromArray:systemIDs];
+        NSArray *systemIDs = [item systemIdentifiers];
+        [systemIDSet addObjectsFromArray:systemIDs];
     }
 
     NSMenu *menu = [[NSMenu alloc] init];
     [menu addItemWithTitle:NSLocalizedString(@"Don't Import Selected", @"") action:NULL keyEquivalent:@""];
 
     NSArray *systemIDs = [systemIDSet allObjects];
+    NSManagedObjectContext *context = [[[self libraryController] database] mainThreadContext];
     for(NSString *systemID in systemIDs)
     {
-        OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemID inDatabase:[[self importer] database]];
+        OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemID inContext:context];
         NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[system name] action:NULL keyEquivalent:@""];
         [menuItem setImage:[system icon]];
         [menuItem setRepresentedObject:systemID];
@@ -331,6 +331,7 @@
 
 - (void)romImporterDidStart:(OEROMImporter *)importer
 {
+    DLog();
     self.isScanningDirectory = NO;
 
     int64_t delayInSeconds = 1.0;
@@ -346,16 +347,19 @@
 
 - (void)romImporterDidCancel:(OEROMImporter *)importer
 {
+    DLog();
     [self OE_updateProgress];
 }
 
 - (void)romImporterDidPause:(OEROMImporter *)importer
 {
+    DLog();
     [self OE_updateProgress];
 }
 
 - (void)romImporterDidFinish:(OEROMImporter *)importer
 {
+    DLog();
     int64_t delayInSeconds = 0.5;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^{
@@ -369,12 +373,7 @@
     [self performSelector:@selector(OE_updateProgress) withObject:nil afterDelay:OEGameScannerUpdateDelay];
 }
 
-- (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(OEImportItem*)item
-{
-   // [self setIsScanningDirectory:[item importStep] == OEImportStepCheckDirectory];
-}
-
-- (void)romImporter:(OEROMImporter*)importer stoppedProcessingItem:(OEImportItem*)item
+- (void)romImporter:(OEROMImporter*)importer stoppedProcessingItem:(OEImportOperation*)item
 {
     if([[item error] domain] == OEImportErrorDomainResolvable && [[item error] code] == OEImportErrorCodeMultipleSystems)
     {
@@ -415,13 +414,15 @@
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     NSString *columnIdentifier = [tableColumn identifier];
-    OEImportItem *item = [[self itemsRequiringAttention] objectAtIndex:row];
+    OEImportOperation *item = [[self itemsRequiringAttention] objectAtIndex:row];
     if([columnIdentifier isEqualToString:@"path"])
     {
         return [[item URL] lastPathComponent];
     }
 
-    return [[item importInfo] objectForKey:columnIdentifier];
+    // TODO: Fix
+    // return [[item importInfo] objectForKey:columnIdentifier];
+    return @"";
 }
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
@@ -429,8 +430,10 @@
     NSString *columnIdentifier = [tableColumn identifier];
     if([columnIdentifier isEqualToString:@"path"]) return;
 
-    OEImportItem *item = [[self itemsRequiringAttention] objectAtIndex:row];
-    [[item importInfo] setObject:object forKey:columnIdentifier];
+    // OEImportOperation *item = [[self itemsRequiringAttention] objectAtIndex:row];
+    // [[item importInfo] setObject:object forKey:columnIdentifier];
+
+    // TODO: Fix
 }
 
 #pragma mark - NSTableViewDelegate Implementation
@@ -453,7 +456,7 @@
     NSString *columnIdentifier = [tableColumn identifier];
     if([columnIdentifier isEqualToString:@"path"])
     {
-        OEImportItem *item = [[self itemsRequiringAttention] objectAtIndex:row];
+        OEImportOperation *item = [[self itemsRequiringAttention] objectAtIndex:row];
         return [[item sourceURL] path];
     }
 
@@ -480,7 +483,9 @@
     [[self itemsRequiringAttention] indexesOfObjectsPassingTest:
      ^ BOOL (id obj, NSUInteger idx, BOOL *stop)
      {
-         return [[[obj importInfo] objectForKey:@"checked"] boolValue];
+         // TODO: FIX
+         //return [[[obj importInfo] objectForKey:@"checked"] boolValue];
+         return YES;
      }];
 
     [[self issuesView] beginUpdates];
@@ -491,12 +496,13 @@
     if(selectedSystem != nil)
     {
         [[self itemsRequiringAttention] enumerateObjectsAtIndexes:selectedItemIndexes options:0 usingBlock:
-         ^(OEImportItem *item, NSUInteger idx, BOOL *stop)
+         ^(OEImportOperation *item, NSUInteger idx, BOOL *stop)
          {
+             /*
              [[item importInfo] setObject:[NSArray arrayWithObject:selectedSystem] forKey:OEImportInfoSystemID];
+              */
              [item setError:nil];
-             [item setImportState:OEImportItemStatusIdle];
-             item.importStep++;
+             [item setExitStatus:OEImportExitNone];
          }];
     }
 
@@ -506,7 +512,6 @@
     [self OE_updateProgress];
 
     [[self issuesView] reloadData];
-    [[self importer] processNextItem];
 
     if([[self itemsRequiringAttention] count] == 0)
     {
@@ -521,6 +526,7 @@
 {
     if([NSEvent modifierFlags] & NSAlternateKeyMask)
     {
+        [[self importer] pause];
         OEHUDAlert *cancelAlert = [[OEHUDAlert alloc] init];
 
         cancelAlert.headlineText = NSLocalizedString(@"Do you really want to cancel the import process?", @"");
@@ -535,7 +541,8 @@
             [self OE_hideGameScannerView];
 
             [sender setState:NSOffState];
-        }
+        } else
+            [[self importer] start];
     }
     else
     {

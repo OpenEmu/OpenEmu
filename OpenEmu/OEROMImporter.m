@@ -318,7 +318,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
         if([[importer operationQueue] operationCount] == 0)
         {
-            [importer cancel];
+            [self finish];
         }
     };
 }
@@ -463,7 +463,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 #pragma mark - Controlling Import -
 - (void)start
 {
-    IMPORTDLog();
+    IMPORTDLog(@"%s", BOOL_STR([[self operationQueue] operationCount] != 0 && [self status] != OEImporterStatusRunning));
     if([[self operationQueue] operationCount] != 0 && [self status] != OEImporterStatusRunning)
     {
         [self setStatus:OEImporterStatusRunning];
@@ -474,15 +474,19 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
 - (void)pause
 {
+    DLog(@"%s", BOOL_STR([self status] == OEImporterStatusRunning));
     if([self status] == OEImporterStatusRunning)
     {
         [self setStatus:OEImporterStatusPaused];
         [[self operationQueue] setSuspended:YES];
+        [self OE_performSelectorOnDelegate:@selector(romImporterDidPause:) withObject:self];
     }
 }
 
 - (void)togglePause
 {
+    DLog(@"%@", ([self status] == OEImporterStatusPaused ? @"start" : ([self status] == OEImporterStatusRunning ? @"pause" : @"nothing")));
+
     if([self status] == OEImporterStatusPaused)
         [self start];
     else if([self status] == OEImporterStatusRunning)
@@ -491,6 +495,8 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
 - (void)cancel
 {
+    DLog(@"cancel");
+
     [self setStatus:OEImporterStatusStopped];
     [[self operationQueue] cancelAllOperations];
     
@@ -500,20 +506,17 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     [self OE_performSelectorOnDelegate:@selector(romImporterDidCancel:) withObject:self];
 }
 
-- (void)removeFinished
+- (void)finish
 {
-    IMPORTDLog();
-    DLog(@"removeFinished");
-    /*
-    dispatch_async(dispatchQueue, ^{
-        [[self queue] filterUsingPredicate:
-         [NSPredicate predicateWithBlock:
-          ^ BOOL (OEImportItem *evaluatedObject, NSDictionary *bindings)
-          {
-              return [evaluatedObject importState] != OEImportItemStatusFinished && [evaluatedObject importState] != OEImportItemStatusFatalError && [evaluatedObject importState] != OEImportItemStatusCancelled;
-          }]];
-    });
-     */
+    DLog(@"Finish");
+
+    [self setStatus:OEImporterStatusStopped];
+    [[self operationQueue] cancelAllOperations];
+
+    [self setNumberOfProcessedItems:0];
+    [self setTotalNumberOfItems:0];
+
+    [self OE_performSelectorOnDelegate:@selector(romImporterDidFinish:) withObject:self];
 }
 
 #pragma mark - Private Methods -

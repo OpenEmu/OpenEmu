@@ -43,6 +43,8 @@ typedef void (^OEImportItemCompletionBlock)(void);
 @property (copy) NSURL               *sourceURL;
 @property (copy) NSManagedObjectID   *collectionID;
 
+@property (strong, readonly) NSArray *systemIdentifiers;
+
 @property (copy) NSError             *error;
 @property        OEImportExitStatus   exitStatus;
 

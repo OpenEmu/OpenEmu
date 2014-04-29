@@ -53,16 +53,16 @@
 @interface OEImportOperation ()
 @property (readonly, nonatomic) BOOL shouldExit;
 
-@property (strong) NSString  *fileName;
-@property (strong) NSURL     *extractedFileURL;
-@property          NSInteger  archiveFileIndex;
+@property (strong, readwrite) NSString  *fileName;
+@property (strong, readwrite) NSURL     *extractedFileURL;
+@property (readwrite)         NSInteger  archiveFileIndex;
 
-@property (strong) NSString *md5Hash;
-@property (strong) NSString *crcHash;
+@property (strong, readwrite) NSString *md5Hash;
+@property (strong, readwrite) NSString *crcHash;
 
-@property (strong) NSArray *systemIdentifiers;
+@property (strong, readwrite) NSArray *systemIdentifiers;
 
-@property (strong) OEDBRom *rom;
+@property (strong, readwrite) OEDBRom *rom;
 @end
 
 @implementation OEImportOperation
