@@ -140,8 +140,13 @@
     OELibraryDatabase *library = [OELibraryDatabase defaultDatabase];
     
     // Save Library just to make sure the changes are on disk
-    [library save:nil];
-    
+    [[library mainThreadContext] performBlockAndWait:^{
+        [[library mainThreadContext] save:nil];
+        [[library writerContext] performBlockAndWait:^{
+            [[library writerContext] save:nil];
+        }];
+    }];
+
     NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
     if([documents count] != 0 || [[library importer] status] == OEImporterStatusRunning)
     {
@@ -186,7 +191,9 @@
     {
         [[NSUserDefaults standardUserDefaults] setObject:[newLocation path] forKey:OEDatabasePathKey];
         [library setRomsFolderURL:newRomsURL];
-        [library save:nil];
+        [[library writerContext] performBlockAndWait:^{
+            [[library writerContext] save:nil];
+        }];
 
         success = [fm moveItemAtURL:currentLocation toURL:newLocation error:&error];
     }
@@ -403,7 +410,9 @@
         [[NSUserDefaults standardUserDefaults] setObject:[currentLocation path] forKey:OEDatabasePathKey];
         NSURL *url = [currentLocation URLByAppendingPathComponent:[[library romsFolderURL] lastPathComponent] isDirectory:YES];
         [library setRomsFolderURL:url];
-        TODO("Save HERE");
+        [[library writerContext] performBlockAndWait:^{
+            [[library writerContext] save:nil];
+        }];
 
         if(error) [NSApp presentError:error];
     }

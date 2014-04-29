@@ -327,7 +327,10 @@
     for (NSURL *url in enumerator)
     {
         if([[url pathExtension] isEqualToString:@"oesavestate"])
-            [OEDBSaveState updateOrCreateStateWithURL:url];
+        {
+            NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
+            [OEDBSaveState updateOrCreateStateWithURL:url inContext:context];
+        }
     }
 }
 
