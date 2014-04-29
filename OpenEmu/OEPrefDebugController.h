@@ -29,13 +29,8 @@
 #import "OEPreferencePane.h"
 
 @interface OEPrefDebugController : NSViewController <OEPreferencePane>
-
-@property IBOutlet NSPopUpButton *regionSelector;
-@property IBOutlet NSPopUpButton *dbActionSelector;
-
-@property IBOutlet NSView *contentView;
-@property IBOutlet NSColorWell *gameViewBackgroundColorWell;
-
+@property (assign) IBOutlet NSTableView *tableView;
+/*
 @property(readonly) BOOL canUseXPCMode;
 @property IBOutlet NSPopUpButton *gameModePopUpButton;
 - (IBAction)changeGameMode:(id)sender;
@@ -53,4 +48,5 @@
 
 - (IBAction)gameInfoUpdate:(id)sender;
 - (IBAction)gameInfoCancel:(id)sender;
+ */
 @end

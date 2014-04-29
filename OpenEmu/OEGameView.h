@@ -36,6 +36,7 @@
 @protocol OEGameViewDelegate;
 @class OESystemResponder;
 
+extern NSString * const OEScreenshotAspectRationCorrectionDisabled;
 @interface OEGameView : NSOpenGLView <OEGameCoreDisplayHelper>
 
 @property(nonatomic, assign) id<OEGameViewDelegate> delegate;

@@ -119,7 +119,7 @@ static const unsigned short konamiCodeSize = 10;
 
     NSColor *windowBackgroundColor = [NSColor colorWithDeviceRed:0.149 green:0.149 blue:0.149 alpha:1.0];
     [win setBackgroundColor:windowBackgroundColor];
-    
+
     [self OE_reloadPreferencePanes];
     
     [win setTitleBarView:toolbar];

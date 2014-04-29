@@ -60,6 +60,8 @@
 #pragma mark -
 #pragma mark Display Link
 
+NSString * const OEScreenshotAspectRationCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
+
 static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
 {
     return [(__bridge OEGameView *)displayLinkContext displayLinkRenderCallback:inOutputTime];
@@ -1088,7 +1090,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     }
     IOSurfaceUnlock(_gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
 
-    BOOL disableAspectRatioCorrection = [[NSUserDefaults standardUserDefaults] boolForKey:@"disableScreenshotAspectRatioCorrection"];
+    BOOL disableAspectRatioCorrection = [[NSUserDefaults standardUserDefaults] boolForKey:OEScreenshotAspectRationCorrectionDisabled];
     NSSize imageSize  = NSSizeFromOEIntSize(_gameScreenSize);
 
     if(!disableAspectRatioCorrection)

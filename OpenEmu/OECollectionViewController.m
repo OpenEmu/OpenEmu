@@ -54,8 +54,6 @@
 #import "OECenteredTextFieldCell.h"
 #import "OELibraryDatabase.h"
 
-#import "OEMenu.h"
-
 #import "NSViewController+OEAdditions.h"
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "NSURL+OELibraryAdditions.h"

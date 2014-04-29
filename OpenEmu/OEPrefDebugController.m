@@ -48,303 +48,280 @@
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEHUDAlert.h"
+#pragma mark Key sources
+#import "OEPreferencesController.h"
+#import "OESetupAssistant.h"
+#import "OECollectionViewController.h"
+#import "OEGameViewController.h"
+#import "OECollectionDebugWindowController.h"
+#import "OERetrodeDeviceManager.h"
+#import "OEGridCell.h"
+#import "OEGameView.h"
+#import "OEControllerImageView.h"
+#import "OEControlsButtonSetupView.h"
+#import "OEDBDataSourceAdditions.h"
+
 @interface OELibraryDatabase (Private)
 - (void)OE_createInitialItems;
 @end
+
+@interface OEPrefDebugController () <NSTableViewDelegate, NSTableViewDataSource>
+@property NSArray *keyDescriptions;
+@end
+
+NSString * const  CheckboxType  = @"Checkbox";
+NSString * const  ButtonType    = @"Button";
+NSString * const  SeparatorType = @"Separator";
+NSString * const  GroupType     = @"Group";
+NSString * const  ColorType     = @"Color";
+NSString * const  LabelType     = @"Label";
+NSString * const  PopoverType   = @"Popover";
+
+NSString * const TypeKey  = @"type";
+NSString * const LabelKey = @"label";
+NSString * const KeyKey   = @"key";
+NSString * const ActionKey = @"action";
+NSString * const NegatedKey = @"negated";
+NSString * const ValueKey = @"value";
+NSString * const OptionsKey = @"options";
+
+#define Separator() \
+@{ TypeKey:SeparatorType }
+#define FirstGroup(_NAME_) \
+@{ TypeKey:GroupType, LabelKey:_NAME_ }
+#define Group(_NAME_) Separator(), \
+@{ TypeKey:GroupType, LabelKey:_NAME_ }
+#define Checkbox(_KEY_, _LABEL_)  \
+@{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_,@"DebugModeLabel"), TypeKey:CheckboxType }
+#define NCheckbox(_KEY_, _LABEL_) \
+@{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_,@"DebugModeLabel"), TypeKey:CheckboxType, NegatedKey:@YES }
+#define Button(_LABEL_, _ACTION_)  \
+@{ LabelKey:NSLocalizedString(_LABEL_,@"DebugModeLabel"), TypeKey:ButtonType, ActionKey:NSStringFromSelector(_ACTION_) }
+#define Label(_LABEL_)  \
+@{ LabelKey:NSLocalizedString(_LABEL_,@"DebugModeLabel"), TypeKey:LabelType }
+#define Popover(_LABEL_, _ACTION_, ...)  \
+@{ LabelKey:NSLocalizedString(_LABEL_,@"DebugModeLabel"), TypeKey:PopoverType, ActionKey:NSStringFromSelector(_ACTION_), OptionsKey:@[__VA_ARGS__] }
+#define Option(_OLABEL_, _OVAL_) \
+@{ LabelKey:_OLABEL_, ValueKey:_OVAL_ }
+#define ColorWell(_KEY_, _LABEL_) \
+@{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_,@"DebugModeLabel"), TypeKey:ColorType }
+
 @implementation OEPrefDebugController
-
-#pragma mark -
-
 - (void)awakeFromNib
 {
-    if([[NSUserDefaults standardUserDefaults] valueForKey:OERegionKey])
-    {
-        OERegion currentRegion = [[OELocalizationHelper sharedHelper] region];
-        [[self regionSelector] selectItemWithTag:currentRegion];
-    }
+    if([self keyDescriptions] != nil) return;
+    [self OE_setupKeyDescription];
 
-    NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
-    NSColorWell *colorWell = [self gameViewBackgroundColorWell];
-    NSColor     *color     = OENSColorFromString(backgroundColorName) ?: [NSColor blackColor];
-    [colorWell setColor:color];
+	NSTableView *tableView = [self tableView];
+	[tableView setDelegate:self];
+	[tableView setDataSource:self];
 
-    NSScrollView *scrollView = (NSScrollView*)[self view];
-    [scrollView setDocumentView:[self contentView]];
-    [[self contentView] setFrameOrigin:(NSPoint){ 0 , -[[self contentView] frame].size.height + [scrollView frame].size.height}];
-
-    [[[self gameModePopUpButton] menu] removeAllItems];
-
-    if([OEXPCGameCoreManager canUseXPCGameCoreManager])
-    {
-        NSMenuItem *XPCItem = [[NSMenuItem alloc] initWithTitle:@"XPC" action:NULL keyEquivalent:@""];
-        [XPCItem setRepresentedObject:NSStringFromClass([OEXPCGameCoreManager class])];
-        [[[self gameModePopUpButton] menu] addItem:XPCItem];
-    }
-
-    NSMenuItem *distributedObjectItem = [[NSMenuItem alloc] initWithTitle:@"Distributed Objects" action:NULL keyEquivalent:@""];
-    [distributedObjectItem setRepresentedObject:NSStringFromClass([OEDOGameCoreManager class])];
-    [[[self gameModePopUpButton] menu] addItem:distributedObjectItem];
-
-    NSMenuItem *backgroundThreadItem = [[NSMenuItem alloc] initWithTitle:@"Background Thread" action:NULL keyEquivalent:@""];
-    [backgroundThreadItem setRepresentedObject:NSStringFromClass([OEThreadGameCoreManager class])];
-    [[[self gameModePopUpButton] menu] addItem:backgroundThreadItem];
-
-    NSString *selectedClassName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameCoreManagerModePreferenceKey];
-    NSInteger indexToSelect = [[self gameModePopUpButton] indexOfItemWithRepresentedObject:selectedClassName];
-
-    if(indexToSelect < -1 || [selectedClassName length] == 0)
-    {
-        indexToSelect = 0;
-        [[NSUserDefaults standardUserDefaults] setObject:[[[self gameModePopUpButton] itemAtIndex:indexToSelect] representedObject] forKey:OEGameCoreManagerModePreferenceKey];
-    }
-
-    [[self gameModePopUpButton] selectItem:[[self gameModePopUpButton] itemAtIndex:indexToSelect]];
+    [tableView setHeaderView:nil];
+	[tableView setRowHeight:30.0];
+	[tableView setGridStyleMask:0];
+	[tableView setAllowsColumnReordering:NO];
+	[tableView setAllowsColumnResizing:NO];
+	[tableView setAllowsColumnSelection:NO];
+	[tableView setAllowsEmptySelection:YES];
+	[tableView setAllowsMultipleSelection:NO];
+	[tableView setAllowsTypeSelect:NO];
 }
 
-- (BOOL)canUseXPCMode
+- (void)OE_setupKeyDescription
 {
-    return [OEXPCGameCoreManager canUseXPCGameCoreManager];
+    self.keyDescriptions =  @[
+                              FirstGroup(@"General"),
+                              Checkbox(OEDebugModeKey, @"Debug Mode"),
+                              Checkbox(OESetupAssistantHasFinishedKey, @"Setup Assistant has finished"),
+                              Popover(@"Region", @selector(changeRegion:),
+                                      Option(@"Auto", @0),
+                                      Option(@"North America", @1),
+                                      Option(@"Europe", @2),
+                                      Option(@"Japan", @3),
+                                      Option(@"Other", @4),
+                                      ),
+
+                              Group(@"Library Window"),
+                              NCheckbox(OEMenuOptionsStyleKey, @"Dark GridView context menu"),
+                              Checkbox(OEDebugCollectionView, @"Show collection view debug controller"),
+                              Checkbox(OERetrodeSupportEnabledKey, @"Enable Retrode support"),
+                              Checkbox(OECoverGridViewGlossDisabledKey, @"Disable grid view gloss overlay"),
+                              Checkbox(OECoverGridViewAutoDownloadEnabledKey, @"Download missing artwork on the fly"),
+                              Checkbox(OEDisplayGameTitle, @"Show game titles instead of rom names"),
+
+                              Group(@"HUD Bar / Gameplay"),
+                              NCheckbox(OEDontShowGameTitleInWindowKey, @"Use game name as window title"),
+                              Checkbox(OEGameControlsBarCanDeleteSaveStatesKey, @"Can delete save states"),
+                              NCheckbox(OEGameControlsBarHidesOptionButtonKey, @"Show options button"),
+                              Checkbox(OEForceCorePicker, @"Use gamecore picker"),
+                              Checkbox(OESaveStateUseQuickSaveSlotsKey, @"Use quicksave slots"),
+                              Checkbox(OEGameControlsBarShowsQuickSaveStateKey, @"Show quicksave in menu"),
+                              Checkbox(OEGameControlsBarShowsAutoSaveStateKey, @"Show autosave in menu"),
+                              Checkbox(OETakeNativeScreenshots, @"Take screenshotss in native size"),
+                              Checkbox(OEScreenshotAspectRationCorrectionDisabled, @"Disable aspect ratio correction"),
+                              ColorWell(OEGameViewBackgroundColorKey, @"Game View Background color"),
+
+                              Group(@"Controls Setup"),
+                              Checkbox(OEWiimoteSupportEnabled, @"WiiRemote support (requires relaunch)"),
+                              NCheckbox(OEControlsDisableMouseSelection, @"Clicking on image selects button"),
+                              NCheckbox(OEControlsDisableMouseDeactivation, @"Clicking outside image deselects button"),
+                              Checkbox(OEControlsButtonHighlightRollsOver, @"Select first fied after setting the last"),
+                              Checkbox(OEDebugDrawControllerMaskKey, @"Draw button mask above image"),
+                              Checkbox(@"logsHIDEvents", @"Log HID Events"),
+                              Checkbox(@"logsHIDEventsNoKeyboard", @"Log Keyboard Events"),
+                              Checkbox(@"OEShowAllGlobalKeys", @"Show all global keys"),
+
+                              Group(@"Save States"),
+                              Button(@"Set default save states directory", @selector(restoreSaveStatesDirectory:)),
+                              Button(@"Choose save states directory", @selector(chooseSaveStatesDirectory:)),
+                              Button(@"Add untracked save states", @selector(findUntrackedSaveStates:)),
+
+                              Group(@"OpenVGDB"),
+                              Button(@"Update OpenVGDB", @selector(updateOpenVGDB:)),
+                              
+                              Group(@"Database Actions"),
+                              Label(@"Not implemented right now"),
+                              Label(@""),
+                              ];
 }
 
-- (NSString *)nibName
+#pragma mark - Actions
+- (void)changeRegion:(NSPopUpButton*)sender
 {
-    return @"OEPrefDebugController";
-}
-
-- (IBAction)changeGameMode:(id)sender;
-{
-    NSMenuItem *selectedItem = [[self gameModePopUpButton] selectedItem];
-    [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEGameCoreManagerModePreferenceKey];
+    NSMenuItem *item = [sender selectedItem];
+    DLog(@"%@", [item representedObject]);
 }
 
 #pragma mark -
-
-- (IBAction)changeRegion:(id)sender
-{
-    if([sender selectedTag] == -1)
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:OERegionKey];
-    else
-        [[NSUserDefaults standardUserDefaults] setInteger:[sender selectedTag] forKey:OERegionKey];
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsDidChangeNotification object:self];
-}
-
-- (IBAction)executeDatabaseAction:(id)sender
-{
-    /*
-    NSError *error = nil;
-    NSArray *allGames = [OEDBGame allGamesInDatabase:[OELibraryDatabase defaultDatabase] error:&error];
-
-    if(allGames == nil)
-    {
-        NSLog(@"Error getting all games");
-        NSLog(@"%@", [error localizedDescription]);
-        return;
-    }
-
-    switch([[self dbActionSelector] selectedTag])
-    {
-        case 0 :
-            printf("\nLogging all games with archive ID\n\n");
-            printf("\nDone\n");
-            break;
-        case 1 :
-            printf("\nLogging all games without archive ID\n\n");
-            printf("\nDone\n");
-            break;
-        case 2 :
-            printf("\nRemoving All Metadata\n\n");
-            [allGames enumerateObjectsUsingBlock:
-             ^(id obj, NSUInteger idx, BOOL *stop)
-             {
-                 [obj setGameDescription:nil];
-                 [obj setLastInfoSync:nil];
-                 [obj setRating:[NSNumber numberWithInt:0]];
-                 [obj setBoxImage:nil];
-                 [obj setCredits:nil];
-                 [obj setGenres:nil];
-             }];
-            printf("\nDone\n");
-            break;
-
-        case 3:
-            printf("\nRunning archive sync on all games\n\n");
-            [allGames enumerateObjectsUsingBlock:
-             ^(id obj, NSUInteger idx, BOOL *stop)
-             {
-                 [(OEDBGame*)obj requestInfoSync];
-             }];
-            printf("\nDone\n");
-            break;
-        case 4:
-            printf("\nRunning archive sync on all unsynced games\n\n");
-            [allGames enumerateObjectsUsingBlock:
-             ^(id obj, NSUInteger idx, BOOL *stop)
-             {
-                 if([obj lastInfoSync] == nil)
-                     [(OEDBGame*)obj requestInfoSync];
-             }];
-            printf("\nDone\n");
-            break;
-        case 5:
-            printf("\nClearing archive sync queue\n\n");
-            [allGames enumerateObjectsUsingBlock:
-             ^(id obj, NSUInteger idx, BOOL *stop)
-             {
-                 [obj setStatus:@(OEDBGameStatusOK)];
-             }];
-            printf("\nDone\n");
-            break;
-        case 6:
-        {
-            printf("\nRemoving unused image thumbnails\n\n");
-            NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"ImageThumbnail"];
-            NSArray *result = [[OELibraryDatabase defaultDatabase] executeFetchRequest:request error:&error];
-            if(!result)
-            {
-                printf("\nError: %s\n", [[error localizedDescription] cStringUsingEncoding:NSUTF8StringEncoding]);
-                return;
-            }
-
-            __block NSInteger noImageCount = 0;
-            __block NSInteger noGameCount  = 0;
-
-            printf("Thumbnails without image: %ld\n", noImageCount);
-            printf("Images without game: %ld\n", noGameCount);
-
-            printf("\nchecking files\n");
-
-            dispatch_queue_t dispatchQueue = dispatch_queue_create("org.openemu.debugqueue", DISPATCH_QUEUE_SERIAL);
-            dispatch_queue_t priority = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
-            dispatch_set_target_queue(dispatchQueue, priority);
-
-
-            __block NSMutableArray *files = [NSMutableArray array];
-            __block NSInteger noDBObjectCount = 0;
-
-            __block void(^recursion)(NSEnumerator*);
-            void(^enumerateDirectory)(NSEnumerator*) = ^(NSEnumerator *e){
-                NSURL *url = nil;
-                while(url = [e nextObject])
-                {
-                    if([url isDirectory])
-                    {
-                        NSEnumerator *enu = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:@[NSURLIsDirectoryKey] options:0 errorHandler:^BOOL(NSURL *url, NSError *error) {
-                            return YES;
-                        }];
-                        recursion(enu);
-                    }
-                    else
-                    {
-                        NSString *filename = [url lastPathComponent];
-                        if([filename isEqualTo:@".DS_Store"]) continue;
-
-                        dispatch_async(dispatchQueue, ^{
-                            NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"ImageThumbnail"];
-                            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"relativePath ENDSWITH %@", filename];
-                            [request setFetchLimit:1];
-                            [request setPredicate:predicate];
-
-                            NSError *error;
-                            NSArray *result = [[OELibraryDatabase defaultDatabase] executeFetchRequest:request error:&error];
-                            if(!result)
-                                printf("\nError: %s\n", [[error localizedDescription] cStringUsingEncoding:NSUTF8StringEncoding]);
-                            else if([result count]==0)
-                            {
-                                [files addObject:filename];
-                                noDBObjectCount++;
-                            }
-                        });
-                    }
-                }
-            };
-            recursion = enumerateDirectory;
-
-
-            NSURL *imageFolderURL = [[OELibraryDatabase defaultDatabase] coverFolderURL];
-            NSEnumerator *enu = [[NSFileManager defaultManager] enumeratorAtURL:imageFolderURL includingPropertiesForKeys:@[NSURLIsDirectoryKey] options:0 errorHandler:^BOOL(NSURL *url, NSError *error) {
-                return YES;
-            }];
-            enumerateDirectory(enu);
-            dispatch_sync(dispatchQueue, ^{
-                printf("\nFound %ld files without a corresponding database object\n", noDBObjectCount);
-                printf("\n\n%s\n\n", [[files description] cStringUsingEncoding:NSUTF8StringEncoding]);
-                printf("\nDone\n");
-            });
-            break;
-        }
-        case 7:
-            [[OELibraryDatabase defaultDatabase] OE_createInitialItems];
-            break;
-        case 8: // reclaim disk space by converting artwork to jpg
-        {
-            break;
-        }
-    }*/
-}
-
-
-- (IBAction)chooseSaveStateFolder:(id)sender
-{
-    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-    [openPanel setCanChooseDirectories:YES];
-    [openPanel setCanChooseFiles:NO];
-    [openPanel setCanCreateDirectories:YES];
-
-    if([openPanel runModal] == NSAlertDefaultReturn)
-        [[NSUserDefaults standardUserDefaults] setObject:[[openPanel URL] absoluteString] forKey:OESaveStateFolderURLKey];
-}
-
-- (IBAction)defaultSaveStateFolder:(id)sender
-{
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:OESaveStateFolderURLKey];
-}
-
-
-- (IBAction)gameInfoUpdate:(id)sender
-{
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    [standardDefaults removeObjectForKey:OEOpenVGDBUpdateCheckKey];
-    [standardDefaults removeObjectForKey:OEOpenVGDBVersionKey];
-
-    OEGameInfoHelper *helper = [OEGameInfoHelper sharedHelper];
-    NSString *version = nil;
-    NSURL *url = [helper checkForUpdates:&version];
-    [helper installVersion:version withDownloadURL:url];
-}
-- (IBAction)gameInfoCancel:(id)sender
-{
-    OEGameInfoHelper *helper = [OEGameInfoHelper sharedHelper];
-    [helper cancelUpdate];
-}
-
-- (IBAction)findUntrackedSaveStates:(id)sender
-{
-    NSURL *statesFolder = [[OELibraryDatabase defaultDatabase] stateFolderURL];
-    NSFileManager *fm   = [NSFileManager defaultManager];
-
-    NSDirectoryEnumerator *enumerator = [fm enumeratorAtURL:statesFolder includingPropertiesForKeys:nil options:0 errorHandler:nil];
-    for (NSURL *url in enumerator)
-    {
-        if([[url pathExtension] isEqualToString:@"oesavestate"])
-        {
-            NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
-            [OEDBSaveState updateOrCreateStateWithURL:url inContext:context];
-        }
-    }
-}
-
-- (IBAction)changeGameViewBackgroundColor:(id)sender
-{
-    NSColor *color = [[self gameViewBackgroundColorWell] color];
-    NSString *colorString = OENSStringFromColor(color);
-
-    [[NSUserDefaults standardUserDefaults] setObject:colorString forKey:OEGameViewBackgroundColorKey];
-}
-
+- (void)restoreSaveStatesDirectory:(id)sender{}
+- (void)chooseSaveStatesDirectory:(id)sender{}
+- (void)findUntrackedSaveStates:(id)sender{}
 #pragma mark -
-#pragma mark OEPreferencePane Protocol
+- (void)updateOpenVGDB:(id)sender{}
 
+#pragma mark - NSTableView Delegate
+- (BOOL)tableView:(NSTableView *)tableView shouldTrackCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+	return YES;
+}
+
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
+{
+	return NO;
+}
+
+- (NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    NSDictionary *keyDescription = [[self keyDescriptions] objectAtIndex:row];
+	NSString *type   = [keyDescription objectForKey:@"type"];
+    NSView *cellView = [tableView makeViewWithIdentifier:type owner:self];
+
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if(type == CheckboxType)
+    {
+        NSString *label = [keyDescription objectForKey:LabelKey];
+        NSString *udkey = [keyDescription objectForKey:KeyKey];
+        BOOL negated    = [[keyDescription objectForKey:NegatedKey] boolValue];
+
+        NSButton *checkbox = [[cellView subviews] lastObject];
+        [checkbox setTitle:label];
+
+        NSDictionary *options = @{ NSContinuouslyUpdatesValueBindingOption:@YES };
+        if(negated)
+        {
+            options = @{ NSValueTransformerNameBindingOption : NSNegateBooleanTransformerName, NSContinuouslyUpdatesValueBindingOption:@YES };
+        }
+
+        NSString *keypath = [NSString stringWithFormat:@"values.%@", udkey];
+        [checkbox bind:@"value" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:keypath options:options];
+    }
+    else if(type == GroupType)
+    {
+        NSString *label = [keyDescription objectForKey:LabelKey];
+        NSTextField *field = [[cellView subviews] lastObject];
+        [field setStringValue:label];
+    }
+    else if(type == ButtonType)
+    {
+        NSString *label = [keyDescription objectForKey:LabelKey];
+        NSString *action = [keyDescription objectForKey:ActionKey];
+
+        NSButton *button = [[cellView subviews] lastObject];
+        [button setTitle:label];
+        [button setAction:NSSelectorFromString(action)];
+        [button setTarget:self];
+
+        [button sizeToFit];
+        NSRect frame = [button frame];
+        frame.size.height = 23.0;
+        frame.size.width += 30;
+        [button setFrame:frame];
+    }
+    else if(type == ColorType)
+    {
+        NSString *label  = [keyDescription objectForKey:LabelKey];
+        NSString *key    = [keyDescription objectForKey:KeyKey];
+
+        NSTextField *labelField = [[cellView subviews] objectAtIndex:0];
+        [labelField setStringValue:label];
+
+        NSColorWell *colorWell = [[cellView subviews] lastObject];
+        NSColor     *color     = [NSColor blackColor];
+        if([userDefaults stringForKey:key])
+        {
+            color = nil;
+        }
+        [colorWell setColor:color];
+        [colorWell setAction:@selector(changeColor:)];
+        [colorWell setTarget:self];
+    }
+    else if(type == LabelType)
+    {
+        NSString *label  = [keyDescription objectForKey:LabelKey];
+
+        NSTextField *labelField = [[cellView subviews] objectAtIndex:0];
+        [labelField setStringValue:label];
+    }
+    else if(type == PopoverType)
+    {
+        NSString *label  = [keyDescription objectForKey:LabelKey];
+        NSArray *options = [keyDescription objectForKey:OptionsKey];
+        NSString *action = [keyDescription objectForKey:ActionKey];
+        NSTextField *labelField = [[cellView subviews] objectAtIndex:0];
+        [labelField setStringValue:label];
+
+        NSPopUpButton *popup = [[cellView subviews] lastObject];
+        [popup setAction:NSSelectorFromString(action)];
+        [popup setTarget:self];
+
+        [options enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [popup addItemWithTitle:[obj objectForKey:LabelKey]];
+            [[popup itemAtIndex:idx] setRepresentedObject:[obj objectForKey:ValueKey]];
+        }];
+    }
+    return cellView;
+}
+
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
+{
+    NSDictionary *keyDescription = [[self keyDescriptions] objectAtIndex:row];
+	NSString *type   = [keyDescription objectForKey:@"type"];
+    if(type == SeparatorType) return 10.0;
+    if(type == CheckboxType)  return 20.0;
+    return 29.0;
+}
+#pragma mark - NSTableView DataSource
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+{
+	return [[self keyDescriptions] count];
+}
+
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+	return [[self keyDescriptions] objectAtIndex:row];
+}
+
+#pragma mark - OEPreferencePane Protocol
 - (NSImage *)icon
 {
     return [NSImage imageNamed:@"debug_tab_icon"];
@@ -365,4 +342,8 @@
     return NSMakeSize(320, 400);
 }
 
+- (NSString *)nibName
+{
+    return @"OEPrefDebugController";
+}
 @end
