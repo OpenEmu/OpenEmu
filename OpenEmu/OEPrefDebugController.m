@@ -178,7 +178,8 @@ NSString * const OptionsKey = @"options";
 
                               Group(@"OpenVGDB"),
                               Button(@"Update OpenVGDB", @selector(updateOpenVGDB:)),
-                              
+                              Button(@"Cancel OpenVGDB Update", @selector(cancelOpenVGDBUpdate:)),
+
                               Group(@"Database Actions"),
                               Label(@"Not implemented right now"),
                               Label(@""),
@@ -205,12 +206,75 @@ NSString * const OptionsKey = @"options";
 }
 
 #pragma mark -
-- (void)restoreSaveStatesDirectory:(id)sender{}
-- (void)chooseSaveStatesDirectory:(id)sender{}
-- (void)findUntrackedSaveStates:(id)sender{}
-#pragma mark -
-- (void)updateOpenVGDB:(id)sender{}
+- (void)restoreSaveStatesDirectory:(id)sender
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:OESaveStateFolderURLKey];
+}
 
+- (void)chooseSaveStatesDirectory:(id)sender
+{
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    [openPanel setCanChooseDirectories:YES];
+    [openPanel setCanChooseFiles:NO];
+    [openPanel setCanCreateDirectories:YES];
+
+    if([openPanel runModal] == NSAlertDefaultReturn)
+        [[NSUserDefaults standardUserDefaults] setObject:[[openPanel URL] absoluteString] forKey:OESaveStateFolderURLKey];
+}
+
+- (void)findUntrackedSaveStates:(id)sender
+{
+    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+    NSURL *statesFolder = [database stateFolderURL];
+    NSFileManager *fm   = [NSFileManager defaultManager];
+
+    NSDirectoryEnumerator *enumerator = [fm enumeratorAtURL:statesFolder includingPropertiesForKeys:nil options:0 errorHandler:nil];
+    for (NSURL *url in enumerator)
+    {
+        if([[url pathExtension] isEqualToString:@"oesavestate"])
+            [OEDBSaveState updateOrCreateStateWithURL:url inContext:[database mainThreadContext]];
+    }
+}
+#pragma mark -
+- (void)updateOpenVGDB:(id)sender
+{
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    [standardDefaults removeObjectForKey:OEOpenVGDBUpdateCheckKey];
+    [standardDefaults removeObjectForKey:OEOpenVGDBVersionKey];
+
+    OEGameInfoHelper *helper = [OEGameInfoHelper sharedHelper];
+    NSString *version = nil;
+    NSURL *url = [helper checkForUpdates:&version];
+    [helper installVersion:version withDownloadURL:url];
+}
+
+- (void)cancelOpenVGDBUpdate:(id)sender
+{
+    OEGameInfoHelper *helper = [OEGameInfoHelper sharedHelper];
+    [helper cancelUpdate];
+}
+#pragma mark -
+- (void)changeUDColor:(id)sender
+{
+    NSRect    frame = [sender convertRect:[sender bounds] toView:[self tableView]];
+
+    NSInteger index = [[self tableView] rowAtPoint:(NSPoint){NSMidX(frame), NSMidY(frame)}];
+    if(index != -1)
+    {
+        NSDictionary *colorObject = [[self keyDescriptions] objectAtIndex:index];
+        if([colorObject objectForKey:TypeKey] != ColorType)
+        {
+            // Wrong object, should not happen…
+            return;
+        }
+
+        NSString *key  = [colorObject objectForKey:KeyKey];
+        NSColor *color = [sender color];
+        NSString *value = OENSStringFromColor(color);
+
+        [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
+    }
+}
 #pragma mark - NSTableView Delegate
 - (BOOL)tableView:(NSTableView *)tableView shouldTrackCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
@@ -281,10 +345,10 @@ NSString * const OptionsKey = @"options";
         NSColor     *color     = [NSColor blackColor];
         if([userDefaults stringForKey:key])
         {
-            color = nil;
+            color = OENSColorFromString([userDefaults stringForKey:key]);
         }
         [colorWell setColor:color];
-        [colorWell setAction:@selector(changeColor:)];
+        [colorWell setAction:@selector(changeUDColor:)];
         [colorWell setTarget:self];
     }
     else if(type == LabelType)
