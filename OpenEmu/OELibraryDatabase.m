@@ -60,10 +60,12 @@ NSString *const OELibraryDidLoadNotificationName = @"OELibraryDidLoadNotificatio
 NSString *const OEDatabasePathKey            = @"databasePath";
 NSString *const OEDefaultDatabasePathKey     = @"defaultDatabasePath";
 NSString *const OESaveStateLastFSEventIDKey  = @"lastSaveStateEventID";
+NSString *const OELibraryAutoImportEventKey  = @"lastAutoImportEventID";
 
 NSString *const OELibraryDatabaseUserInfoKey = @"OELibraryDatabase";
 NSString *const OESaveStateFolderURLKey      = @"saveStateFolder";
 NSString *const OEScreenshotFolderURLKey     = @"screenshotFolder";
+NSString *const OEAutoImportFolderURLKey     = @"autoImportFolder";
 
 NSString *const OELibraryRomsFolderURLKey    = @"romsFolderURL";
 
@@ -90,8 +92,10 @@ const CGFloat OpenVGDBSyncMainContextSaveDelay = 5.0;
 
 - (void)OE_setupStateWatcher;
 - (void)OE_removeStateWatcher;
+- (void)OE_setupAutoImportWatcher;
+- (void)OE_removeAutoImportWatcher;
 
-@property(strong) OEFSWatcher *saveStateWatcher;
+@property(strong) OEFSWatcher *saveStateWatcher, *autoImportWatcher;
 @property(copy)   NSURL       *databaseURL;
 @property(strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @end
@@ -145,6 +149,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     [[NSUserDefaults standardUserDefaults] setObject:[[[defaultDatabase databaseURL] path] stringByAbbreviatingWithTildeInPath] forKey:OEDatabasePathKey];
     [defaultDatabase OE_setupStateWatcher];
+    [defaultDatabase OE_setupAutoImportWatcher];
 
     OEROMImporter *romImporter = [[OEROMImporter alloc] initWithDatabase:defaultDatabase];
     [romImporter loadQueue];
@@ -262,6 +267,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     [self OE_removeStateWatcher];
+    [self OE_removeAutoImportWatcher];
     [[self importer] saveQueue];
 
 
@@ -338,8 +344,36 @@ static OELibraryDatabase *defaultDatabase = nil;
     }
 }
 
-#pragma mark - Save State Handling
+#pragma mark - Auto Import Handling
+- (void)OE_setupAutoImportWatcher
+{
+    NSString *autoImportFolderPath = [[self autoImportFolderURL] path];
+    OEFSBlock fsBlock = ^(NSString *path, FSEventStreamEventFlags flags) {
+        NSURL   *url   = [NSURL fileURLWithPath:path];
+        if(![url checkResourceIsReachableAndReturnError:nil])
+            return;
 
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[self importer] importItemAtURL:url];
+        });
+    };
+
+    OEFSWatcher *watcher = [OEFSWatcher persistentWatcherWithKey:OELibraryAutoImportEventKey forPath:autoImportFolderPath withBlock:fsBlock];
+    [watcher setDelay:1.0];
+    [watcher setStreamFlags:kFSEventStreamCreateFlagUseCFTypes|kFSEventStreamCreateFlagIgnoreSelf];
+
+    [self setAutoImportWatcher:watcher];
+    [[self autoImportWatcher] startWatching];
+}
+
+- (void)OE_removeAutoImportWatcher
+{
+    [[self autoImportWatcher] stopWatching];
+    [self setAutoImportWatcher:nil];
+}
+
+
+#pragma mark - Save State Handling
 - (void)OE_setupStateWatcher
 {
     NSString *stateFolderPath = [[self stateFolderURL] path];
@@ -829,6 +863,24 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSURL *baseURL = [self databaseFolderURL];
     return [baseURL URLByAppendingPathComponent:@"Import Queue.db"];
+}
+
+- (NSURL *)autoImportFolderURL
+{
+
+    NSURL *result = nil;
+    NSString *urlString = [[NSUserDefaults standardUserDefaults] objectForKey:OESaveStateFolderURLKey];
+    if(urlString)
+        result = [NSURL URLWithString:urlString];
+    else
+    {
+        NSString *autoImportFolderName = NSLocalizedString(@"Automatically Import", @"Automatically Import Name");
+        result = [[self romsFolderURL] URLByAppendingPathComponent:autoImportFolderName isDirectory:YES];
+    }
+
+    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+
+    return result;
 }
 
 #pragma mark - GameInfo Sync

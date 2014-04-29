@@ -87,6 +87,7 @@ extern NSString *const OEScreenshotFolderURLKey;
 - (NSURL *)screenshotFolderURL;
 - (NSURL *)coverFolderURL;
 - (NSURL *)importQueueURL;
+- (NSURL *)autoImportFolderURL;
 
 #pragma mark - OpenVGDB Sync
 - (void)startOpenVGDBSync;
