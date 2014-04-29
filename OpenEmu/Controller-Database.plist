@@ -1963,14 +1963,14 @@
 					<key>OEControllerWiimoteNunchuckAnalogUp</key>
 					<dict>
 						<key>Direction</key>
-						<integer>-1</integer>
+						<integer>1</integer>
 						<key>Name</key>
 						<string>Nunchuck Analog Up</string>
 					</dict>
 					<key>OEControllerWiimoteNunchuckAnalogDown</key>
 					<dict>
 						<key>Direction</key>
-						<integer>1</integer>
+						<integer>-1</integer>
 						<key>Name</key>
 						<string>Nunchuck Analog Down</string>
 					</dict>
@@ -2154,14 +2154,14 @@
 					<key>OEControllerWiimoteClassicLeftAnalogUp</key>
 					<dict>
 						<key>Direction</key>
-						<integer>-1</integer>
+						<integer>1</integer>
 						<key>Name</key>
 						<string>Classic Left Analog Up</string>
 					</dict>
 					<key>OEControllerWiimoteClassicLeftAnalogDown</key>
 					<dict>
 						<key>Direction</key>
-						<integer>1</integer>
+						<integer>-1</integer>
 						<key>Name</key>
 						<string>Classic Left Analog Down</string>
 					</dict>
@@ -2210,14 +2210,14 @@
 					<key>OEControllerWiimoteClassicRightAnalogUp</key>
 					<dict>
 						<key>Direction</key>
-						<integer>-1</integer>
+						<integer>1</integer>
 						<key>Name</key>
 						<string>Right Analog Up</string>
 					</dict>
 					<key>OEControllerWiimoteClassicRightAnalogDown</key>
 					<dict>
 						<key>Direction</key>
-						<integer>1</integer>
+						<integer>-1</integer>
 						<key>Name</key>
 						<string>Right Analog Down</string>
 					</dict>
