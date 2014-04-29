@@ -45,16 +45,11 @@ extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 @class OEDBRom, OECorePlugin, OELibraryDatabase;
 @interface OEDBSaveState : OEDBItem
 
-+ (OEDBSaveState *)saveStateWithURL:(NSURL *)url;
-+ (OEDBSaveState *)saveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database;
++ (OEDBSaveState *)saveStateWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context;
++ (id)createSaveStateWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context;
++ (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inContext:(NSManagedObjectContext *)context;
 
-+ (id)createSaveStateWithURL:(NSURL *)url;
-+ (id)createSaveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database;
-
-+ (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL;
-+ (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inDatabase:(OELibraryDatabase *)database;
-
-+ (OEDBSaveState*)updateOrCreateStateWithURL:(NSURL *)url;
++ (OEDBSaveState*)updateOrCreateStateWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context;
 
 + (NSString *)nameOfQuickSaveInSlot:(NSInteger)slot;
 

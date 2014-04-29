@@ -356,7 +356,7 @@ static OELibraryDatabase *defaultDatabase = nil;
                 {
                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.2 * NSEC_PER_SEC);
                     dispatch_after(popTime, dispatch_get_main_queue(), ^{
-                        [OEDBSaveState updateOrCreateStateWithURL:url];
+                        [OEDBSaveState updateOrCreateStateWithURL:url inContext:context];
                     });
                 }
                 else
@@ -380,6 +380,7 @@ static OELibraryDatabase *defaultDatabase = nil;
             }
         }
         [context save:nil];
+        [[context parentContext] save:nil];
     } copy];
 
     recFsBlock = fsBlock;

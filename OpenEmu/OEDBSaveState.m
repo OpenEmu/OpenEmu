@@ -56,14 +56,8 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 @implementation OEDBSaveState
 
-+ (OEDBSaveState *)saveStateWithURL:(NSURL *)url
++ (OEDBSaveState *)saveStateWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context
 {
-    return [self saveStateWithURL:url inDatabase:[OELibraryDatabase defaultDatabase]];
-}
-
-+ (OEDBSaveState *)saveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database
-{
-    NSManagedObjectContext *context = [database mainThreadContext];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     
     NSString *absoluteString = [url absoluteString];
@@ -79,105 +73,91 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 }
 
 
-+ (id)OE_newSaveStateInContext:(NSManagedObjectContext *)context
++ (instancetype)createObjectInContext:(NSManagedObjectContext *)context
 {
-    __block OEDBSaveState *result = nil;
-    [context performBlockAndWait:^{
-        NSEntityDescription *description = [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
-        result = [[OEDBSaveState alloc] initWithEntity:description insertIntoManagedObjectContext:context];
-        [result setTimestamp:[NSDate date]];
-    }];
-
+    id result = [super createObjectInContext:context];
+    [result setTimestamp:[NSDate date]];
 	return result;
 }
 
-+ (id)createSaveStateWithURL:(NSURL *)url
++ (id)createSaveStateWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context
 {
-    return [self createSaveStateWithURL:url inDatabase:[OELibraryDatabase defaultDatabase]];
-}
+    OEDBSaveState *newSaveState = [self createObjectInContext:context];
+    [newSaveState setLocation:[url absoluteString]];
+    if(![newSaveState readInfoPlist])
+    {
+        // setting path to nil so file won't be deleted in -remove
+        [newSaveState setLocation:nil];
+        [newSaveState remove];
+        newSaveState = nil;
+    }
 
-+ (id)createSaveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database
-{
-    /*
-    OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database safeContext]];
-    NSManagedObjectID *objectID = [newSaveState permanentID];
-    [[newSaveState managedObjectContext] performBlockAndWait:^{
-        OEDBSaveState *newSaveState = [OEDBSaveState objectWithID:objectID inLibrary:database];
+    NSError *error = nil;
 
-        [newSaveState setLocation:[url absoluteString]];
-        if(![newSaveState readInfoPlist])
-        {
-            // setting path to nil so file won't be deleted in -remove
-            [newSaveState setLocation:nil];
-            [newSaveState remove];
-            newSaveState = nil;
-        }
+    //TODO: use validation here instead of save
+    if(newSaveState && ![newSaveState save])
+    {
+        [newSaveState setLocation:nil];
+        [newSaveState remove];
+        newSaveState = nil;
+        DLog(@"State verification failed: %@ : %@", error, url);
+        [context save:nil];
+    }
 
-        NSError *error = nil;
-        //TODO: use validation here instead of save
-        if(newSaveState && ![[newSaveState managedObjectContext] save:&error])
-        {
-            [newSaveState setLocation:nil];
-            [newSaveState remove];
-            newSaveState = nil;
-
-            DLog(@"State verification failed: %@ : %@", error, url);
-        }
-
-        [[newSaveState managedObjectContext] save:nil];
-    }];
+    // state is saved in if statement above!
 
     return newSaveState;
-     */
-    return nil;
 }
 
-+ (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL
+
++ (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inContext:(NSManagedObjectContext *)context
 {
-    return [self createSaveStateNamed:name forRom:rom core:core withFile:stateFileURL inDatabase:[OELibraryDatabase defaultDatabase]];
-}
+    OEDBSaveState *newSaveState = [self createObjectInContext:context];
+    [newSaveState setName:name];
+    [newSaveState setRom:rom];
+    [newSaveState setTimestamp:[NSDate date]];
 
-+ (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inDatabase:(OELibraryDatabase *)database
-{
-    /*
-    __block NSString *blockName = name;
-    __block OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database safeContext]];
-    NSManagedObjectID *objectID = [newSaveState permanentID];
-    [[newSaveState managedObjectContext] performBlockAndWait:^{
-        OEDBSaveState *newSaveState = [OEDBSaveState objectWithID:objectID];
-        [newSaveState setName:blockName];
-        [newSaveState setRom:rom];
-        [newSaveState setCoreIdentifier:[core bundleIdentifier]];
-        [newSaveState setCoreVersion:[core version]];
-        [newSaveState setTimestamp:[NSDate date]];
+    NSString *coreIdentifier = [core bundleIdentifier];
+    NSString *coreVersion = [core version];
+    [newSaveState setCoreIdentifier:coreIdentifier];
+    [newSaveState setCoreVersion:coreVersion];
 
-        if([blockName hasPrefix:OESaveStateSpecialNamePrefix])
-        {
-            blockName = NSLocalizedString(blockName, @"Localized special save state name");
-        }
+    if([name hasPrefix:OESaveStateSpecialNamePrefix])
+    {
+        name = NSLocalizedString(name, @"Localized special save state name");
+    }
 
-        NSError  *error              = nil;
-        NSString *fileName           = [NSURL validFilenameFromString:blockName];
-        NSURL    *saveStateFolderURL = [database stateFolderURLForROM:rom];
-        NSURL    *saveStateURL       = [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@/", fileName, OESaveStateSuffix]];
+    NSError  *error              = nil;
+    NSString *fileName           = [NSURL validFilenameFromString:name];
+    OELibraryDatabase *database = [newSaveState libraryDatabase];
+    NSURL    *saveStateFolderURL = [database stateFolderURLForROM:rom];
+    NSURL    *saveStateURL       = [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@/", fileName, OESaveStateSuffix]];
 
-        saveStateURL = [saveStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-            return [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %ld.%@/", fileName, triesCount, OESaveStateSuffix]];
+    saveStateURL = [saveStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+        return [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %ld.%@/", fileName, triesCount, OESaveStateSuffix]];
+    }];
+
+    if(![newSaveState OE_createBundleAtURL:saveStateURL withStateFile:stateFileURL error:&error])
+    {
+        // TODO: remove temp files
+        NSLog(@"could not create state bundle at url: %@!", saveStateURL);
+        NSLog(@"%@", [error localizedDescription]);
+        [newSaveState delete];
+        [newSaveState save];
+
+        newSaveState = nil;
+    }
+
+    [newSaveState save];
+    if(newSaveState)
+    {
+        NSManagedObjectContext *mainContext = [context parentContext];
+        [mainContext performBlock:^{
+            [mainContext save:nil];
         }];
+    }
 
-        if(![newSaveState OE_createBundleAtURL:saveStateURL withStateFile:stateFileURL error:&error])
-        {
-            // TODO: remove temp files
-            NSLog(@"could not create state bundle at url: %@!", saveStateURL);
-            NSLog(@"%@", [error localizedDescription]);
-            [[newSaveState managedObjectContext] deleteObject:newSaveState];
-
-            newSaveState = nil;
-        }
-    }];
     return newSaveState;
-     */
-    return nil;
 }
 
 - (BOOL)OE_createBundleAtURL:(NSURL *)bundleURL withStateFile:(NSURL *)stateFile error:(NSError **)error
@@ -211,7 +191,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     return YES;
 }
 
-+ (OEDBSaveState*)updateOrCreateStateWithURL:(NSURL *)url
++ (OEDBSaveState*)updateOrCreateStateWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context
 {
     NSString *path = [url path];
     NSRange range     = [path rangeOfString:@".oesavestate" options:NSCaseInsensitiveSearch];
@@ -237,7 +217,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
             return nil;
     }
 
-    OEDBSaveState *saveState = [OEDBSaveState saveStateWithURL:stateURL];
+    OEDBSaveState *saveState = [OEDBSaveState saveStateWithURL:stateURL inContext:context];
     BOOL fileAvailable = [stateURL checkResourceIsReachableAndReturnError:nil];
     if(fileAvailable)
     {
@@ -249,17 +229,19 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
         else
         {
             // create new save state
-            saveState = [OEDBSaveState createSaveStateWithURL:stateURL];
+            saveState = [OEDBSaveState createSaveStateWithURL:stateURL inContext:context];
         }
     }
     else
     {
         // file missing, delete state from db
         [saveState remove];
+        [saveState save];
         saveState = nil;
     }
 
     [saveState moveToDefaultLocation];
+    [context save:nil];
 
     return saveState;
 }
