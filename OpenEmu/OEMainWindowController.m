@@ -265,8 +265,8 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
             if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEFileDoesNotExistError)
             {
                 [game setStatus:@(OEDBGameStatusAlert)];
-                [[game libraryDatabase] save:nil];
-                
+                [game save];
+
                 NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", @""), [game name]];
                 if([[OEHUDAlert alertWithMessageText:messageText
                                        defaultButton:NSLocalizedString(@"Locate", @"")
@@ -288,7 +288,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                     if([panel runModal])
                     {
                         [missingRom setURL:[panel URL]];
-                        [[missingRom libraryDatabase] save:nil];
+                        [missingRom save];
                         [self OE_openGameDocumentWithGame:game saveState:state];
                     }
                 }
@@ -300,7 +300,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         else if ([[game status] intValue] == OEDBGameStatusAlert)
         {
             [game setStatus:@(OEDBGameStatusOK)];
-            [[game libraryDatabase] save:nil];
+            [game save];
         }
         
         if(openInSeparateWindow) return;
