@@ -58,7 +58,9 @@ static NSTimeInterval currentTime()
     
     recording = YES;
     // generate a name for our movie file
-    NSString *tempName = [NSString stringWithCString:mktemp("/tmp/tempXXXXXXXX") encoding:[NSString defaultCStringEncoding]];
+    char path[] = "/tmp/tempXXXXXXXX";
+    mkstemps(path, 0);
+    NSString *tempName = [NSString stringWithCString:path encoding:[NSString defaultCStringEncoding]];
     
     // Create a QTMovie with a writable data reference
     movie = [[QTMovie alloc] initToWritableFile:tempName error:NULL];
@@ -138,8 +140,9 @@ static NSTimeInterval currentTime()
         
         [audioTrackMovie insertSegmentOfTrack: videoTrack fromRange: videoRange scaledToRange: audioRange ];
     }
-    
-    BOOL result = [audioTrackMovie writeToFile:@"/Users/jweinberg/test.mov" withAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
+
+    NSString *testPath = [@"~/test.mov" stringByExpandingTildeInPath];
+    BOOL result = [audioTrackMovie writeToFile:testPath withAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
                                                                                                                        forKey:QTMovieFlatten]];
     if(!result)
     {

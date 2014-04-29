@@ -904,7 +904,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [items replaceObjectAtIndex:index withObject:newLoadItem];
 
     index = [items indexOfObjectIdenticalTo:currentSaveItem];
-    [items replaceObjectAtIndex:[items indexOfObjectIdenticalTo:currentSaveItem] withObject:newSaveItem];
+    [items replaceObjectAtIndex:index withObject:newSaveItem];
 
     [items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [controlsMenu addItem:obj];

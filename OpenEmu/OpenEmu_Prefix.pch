@@ -47,8 +47,10 @@
 #define DLog(format, ...) NSLog(@"%@:%d: %s: " format, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __FUNCTION__, ##__VA_ARGS__)
 #define DLogDeprecated()  NSLog(@"%s is deprecated.", __FUNCTION__)
 #else
+#ifndef DLog
 #define DLog(format, ...) do {} while (0)
 #define DLogDeprecated() do {} while (0)
+#endif
 #endif
 
 #define LogResponderChain(__RESPONDER__) {                                                              \

@@ -491,8 +491,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (id)addNewSmartCollection:(NSString *)name
 {
     NSManagedObjectContext *context  = [self mainThreadContext];
-    OEDBSmartCollection *aCollection = [OEDBSmartCollection createObjectInContext:context];
-
     if(name == nil)
     {
         name = NSLocalizedString(@"New Smart Collection", @"");
@@ -515,7 +513,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         }
     }
 
-    aCollection = [OEDBSmartCollection createObjectInContext:context];
+    OEDBSmartCollection *aCollection = [OEDBSmartCollection createObjectInContext:context];
     [aCollection setName:name];
     [aCollection save];
 

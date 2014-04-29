@@ -1015,6 +1015,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
 - (void)consolidateFiles:(id)sender
 {
+    TODO("rewrite this part");
     // TODO: rewrite to escape threading hell
     dispatch_async(dispatch_get_main_queue(), ^{
         NSArray *games = [self selectedGames];
@@ -1036,7 +1037,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         [alert setDefaultButtonTitle:nil];
         [alert setMessageText:nil];
 
-        OELibraryDatabase *database = [[self libraryController] database];
         NSMutableArray *gameIDs = [NSMutableArray arrayWithCapacity:[games count]];
         [games enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stop) {
             NSManagedObjectID *object = [game permanentID];
@@ -1090,7 +1090,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
                         if([[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:&error] && (alertResult == -1))
                         {
-                            NSManagedObjectID *objectID = [rom permanentID];
+                            TODO("rewrite this part");
                             [alert performBlockInModalSession:^{
                                 /*
                                 OEDBRom *rom = [OEDBRom objectWithID:objectID inLibrary:database];

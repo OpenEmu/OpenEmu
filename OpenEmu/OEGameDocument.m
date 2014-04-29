@@ -504,13 +504,11 @@ typedef enum : NSUInteger
     }
 
     // get rom by path
-    NSString *filePath = nil;
     if(![absoluteURL isFileURL])
     {
         DLog(@"URLs that are not file urls are currently not supported!");
         // TODO: Handle URLS, by downloading to temp folder
     }
-    else filePath = [absoluteURL path];
 
     OEDBGame *game = [OEDBGame gameWithURL:absoluteURL inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
     if(game == nil)
