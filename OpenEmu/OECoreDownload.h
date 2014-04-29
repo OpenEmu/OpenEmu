@@ -33,12 +33,15 @@
 @protocol OECoreDownloadDelegate <NSObject>
 - (void)coreDownloadDidStart:(OECoreDownload *)download;
 - (void)coreDownloadDidFinish:(OECoreDownload *)download;
+@optional
+- (void)coreDownloadDidFail:(OECoreDownload*)download withError:(NSError*)error;
 @end
 
 @interface OECoreDownload : NSObject
 
 - (id)initWithPlugin:(OECorePlugin *)plugin;
 - (void)startDownload:(id)sender;
+- (void)cancelDownload:(id)sender;
 
 @property(weak) id<OECoreDownloadDelegate> delegate;
 

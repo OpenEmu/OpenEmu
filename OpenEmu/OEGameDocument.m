@@ -189,12 +189,20 @@ typedef enum : NSUInteger
     
     if(_corePlugin == nil)
     {
+        __block NSError *blockError = *outError;
         [[OECoreUpdater sharedUpdater] installCoreForGame:[[self rom] game] withCompletionHandler:
         ^(OECorePlugin *plugin, NSError *error)
         {
-            if(error == nil)
-                [self OE_setupDocumentWithROM:rom usingCorePlugin:nil error:outError];
+            if(error == nil && plugin != nil)
+            {
+                _corePlugin = plugin;
+            }
+            else if(error == nil)
+            {
+                blockError = nil;
+            }
         }];
+        *outError = blockError;
     }
 
     _gameCoreManager = [self _newGameCoreManagerWithCorePlugin:_corePlugin];
@@ -258,12 +266,12 @@ typedef enum : NSUInteger
 
     if([validPlugins count] == 0 && outError != nil)
     {
-        *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-                                        code:OEIncorrectFileError
-                                    userInfo: @{
-           NSLocalizedFailureReasonErrorKey : NSLocalizedString(@"The launched file isn't handled by OpenEmu", @"Incorrect file error reason."),
-      NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString(@"Choose a file with a supported file format or download an appropriate OpenEmu plugin.", @"Incorrect file error recovery suggestion."),
-                     }];
+            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                                            code:OENoCoreError
+                                        userInfo: @{
+                                                    NSLocalizedFailureReasonErrorKey : NSLocalizedString(@"OpenEmu could not find a Core to launch the game", @"No Core error reason."),
+                                                    NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString(@"Make sure your internet connection is active and download a suitable core.", @"No Core error recovery suggestion."),
+                                                    }];
         chosenCore = nil;
     }
     else if([validPlugins count] == 1)

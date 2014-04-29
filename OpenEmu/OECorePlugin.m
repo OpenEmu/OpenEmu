@@ -45,7 +45,7 @@
 {
     NSArray *cores = [OECorePlugin pluginsForType:self];
     for(OECorePlugin *plugin in cores)
-        if([[plugin bundleIdentifier] isEqualToString:identifier])
+        if([[plugin bundleIdentifier] caseInsensitiveCompare:identifier] == NSOrderedSame)
             return plugin;
 
     return nil;

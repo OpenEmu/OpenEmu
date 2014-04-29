@@ -41,6 +41,8 @@
 
     unsigned long long  _expectedLength;
     unsigned long long  _downloadedSize;
+
+    NSURLDownload *fileDownload;
 }
 
 @property(readwrite, getter=isDownloading) BOOL downloading;
@@ -108,7 +110,7 @@
 
     NSURLRequest  *request = [NSURLRequest requestWithURL:url];
 
-    NSURLDownload *fileDownload = [[NSURLDownload alloc] initWithRequest:request delegate:self];
+    fileDownload = [[NSURLDownload alloc] initWithRequest:request delegate:self];
     self.downloading = YES;
 
     [[self delegate] coreDownloadDidStart:self];
@@ -124,9 +126,10 @@
 
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
 {
-    // inform the user
-    [[NSApplication sharedApplication] presentError:error];
-
+    if([[self delegate] respondsToSelector:@selector(coreDownloadDidFail:withError:)])
+       [[self delegate] coreDownloadDidFail:self withError:error];
+    else // inform the user
+       [[NSApplication sharedApplication] presentError:error];
     self.downloading = NO;
 }
 
@@ -191,4 +194,8 @@
     [self.delegate coreDownloadDidFinish:self];
 }
 
+- (void)cancelDownload:(id)sender
+{
+    [fileDownload cancel];
+}
 @end

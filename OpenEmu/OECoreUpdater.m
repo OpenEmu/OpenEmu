@@ -247,7 +247,11 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
     [self setAlert:aAlert];
 
-    [[self alert] runModal];
+    NSUInteger result = [[self alert] runModal];
+    if(result == NSAlertAlternateReturn)
+    {
+        handler(nil, nil);
+    }
 
     [self setCompletionHandler:nil];
     [self setCoreDownload:nil];
@@ -260,6 +264,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
 - (void)cancelInstall
 {
+    [[self coreDownload] cancelDownload:self];
     [self setCompletionHandler:nil];
     [self setCoreDownload:nil];
     [[self alert] closeWithResult:NSAlertAlternateReturn];
@@ -306,11 +311,26 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
         [[self coreDownload] startDownload:self];
 }
 
+- (void)failInstallWithError:(NSError*)error
+{
+    [[self alert] closeWithResult:NSAlertDefaultReturn];
+
+    if([self completionHandler] != nil) [self completionHandler]([OECorePlugin corePluginWithBundleIdentifier:[self coreIdentifier]], error);
+
+    [self setAlert:nil];
+    [self setCoreIdentifier:nil];
+    [self setCompletionHandler:nil];
+}
+
 - (void)finishInstall
 {
     [[self alert] closeWithResult:NSAlertDefaultReturn];
 
-    if([self completionHandler] != nil) [self completionHandler]([OECorePlugin corePluginWithBundleIdentifier:[self coreIdentifier]], nil);
+    if([self completionHandler] != nil)
+    {
+        OECorePlugin *plugin = [OECorePlugin corePluginWithBundleIdentifier:[self coreIdentifier]];
+        [self completionHandler](plugin, nil);
+    }
 
     [self setAlert:nil];
     [self setCoreIdentifier:nil];
@@ -329,8 +349,15 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
 - (void)coreDownloadDidFinish:(OECoreDownload *)download
 {
     [download removeObserver:self forKeyPath:@"progress" context:_OECoreDownloadProgressContext];
-    if(download == [self coreDownload]) [self finishInstall];
     [self OE_updateCoreList];
+    if(download == [self coreDownload])
+        [self finishInstall];
+}
+
+- (void)coreDownloadDidFail:(OECoreDownload*)download withError:(NSError*)error
+{
+    if(download == [self coreDownload])
+        [self failInstallWithError:error];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

@@ -34,7 +34,7 @@ enum _OEGameDocumentErrorCodes
 {
     OENoError                      =  0,
     OEFileDoesNotExistError        = -1,
-    OEIncorrectFileError           = -2,
+    OENoCoreError                  = -2,
     OEHelperAppNotRunningError     = -3,
     OEConnectionTimedOutError      = -4,
     OEInvalidHelperConnectionError = -5,
