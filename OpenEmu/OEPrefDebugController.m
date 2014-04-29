@@ -134,11 +134,11 @@ NSString * const OptionsKey = @"options";
                               Checkbox(OEDebugModeKey, @"Debug Mode"),
                               Checkbox(OESetupAssistantHasFinishedKey, @"Setup Assistant has finished"),
                               Popover(@"Region", @selector(changeRegion:),
-                                      Option(@"Auto", @0),
-                                      Option(@"North America", @1),
+                                      Option(@"Auto", @(-1)),
+                                      Option(@"North America", @0),
+                                      Option(@"Japan", @1),
                                       Option(@"Europe", @2),
-                                      Option(@"Japan", @3),
-                                      Option(@"Other", @4),
+                                      Option(@"Other", @3),
                                       ),
 
                               Group(@"Library Window"),
@@ -189,7 +189,19 @@ NSString * const OptionsKey = @"options";
 - (void)changeRegion:(NSPopUpButton*)sender
 {
     NSMenuItem *item = [sender selectedItem];
-    DLog(@"%@", [item representedObject]);
+    NSInteger value = [[item representedObject] integerValue];
+
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    if(value == -1)
+    {
+        [standardUserDefaults removeObjectForKey:OERegionKey];
+    }
+    else
+    {
+        [standardUserDefaults setObject:@(value) forKey:OERegionKey];
+    }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsDidChangeNotification object:self];
 }
 
 #pragma mark -
