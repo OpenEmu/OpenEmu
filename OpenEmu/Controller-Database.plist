@@ -2212,14 +2212,14 @@
 						<key>Direction</key>
 						<integer>1</integer>
 						<key>Name</key>
-						<string>Right Analog Up</string>
+						<string>Classic Right Analog Up</string>
 					</dict>
 					<key>OEControllerWiimoteClassicRightAnalogDown</key>
 					<dict>
 						<key>Direction</key>
 						<integer>-1</integer>
 						<key>Name</key>
-						<string>Right Analog Down</string>
+						<string>Classic Right Analog Down</string>
 					</dict>
 				</dict>
 			</dict>
