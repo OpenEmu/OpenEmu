@@ -55,12 +55,6 @@ extern NSString *const OEGameArtworkPropertiesKey;
 // returns the game from the specified database that represents the file at url
 + (id)gameWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 
-// returns all games in specified databse
-+ (NSArray *)allGames;
-+ (NSArray *)allGamesWithError:(NSError **)error;
-+ (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database;
-+ (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database error:(NSError **)error;
-
 #pragma mark - Cover Art Database Sync
 - (void)requestInfoSync;
 - (void)performInfoSync; // will blocks until results arrive

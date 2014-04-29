@@ -357,7 +357,12 @@ static const CGFloat _OEToolbarHeight = 44;
 
     // Set new item
     id<OESidebarItem> selectedItem = [[self sidebarController] selectedSidebarItem];
-    
+    if(selectedItem == nil)
+    {
+        DLog(@"nothing selected, this should not be possible, try to enable a random system from the library and select it");
+        return;
+    }
+
     NSString *viewControllerClasName = [selectedItem viewControllerClassName];
     NSViewController <OELibrarySubviewController> *viewController = [self viewControllerWithClassName:viewControllerClasName];
 

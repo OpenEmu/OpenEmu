@@ -124,26 +124,6 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     return game;
 }
 
-+ (NSArray *)allGames
-{
-    return [self allGamesWithError:nil];
-}
-
-+ (NSArray *)allGamesWithError:(NSError *__autoreleasing *)error
-{
-    return [self allGamesInDatabase:[OELibraryDatabase defaultDatabase] error:error];
-}
-
-+ (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database
-{
-    return [self allGamesInDatabase:database error:nil];
-}
-
-+ (NSArray *)allGamesInDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing *)error;
-{
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
-    return [database executeFetchRequest:request error:error];
-}
 
 #pragma mark - Cover Art Database Sync / Info Lookup
 - (void)requestCoverDownload

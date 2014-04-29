@@ -131,6 +131,7 @@
 
 - (IBAction)executeDatabaseAction:(id)sender
 {
+    /*
     NSError *error = nil;
     NSArray *allGames = [OEDBGame allGamesInDatabase:[OELibraryDatabase defaultDatabase] error:&error];
 
@@ -279,7 +280,7 @@
         {
             break;
         }
-    }
+    }*/
 }
 
 

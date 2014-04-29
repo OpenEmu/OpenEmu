@@ -121,7 +121,10 @@
     __block BOOL result = NO;
     NSManagedObjectContext *context = [self managedObjectContext];
     [context performBlockAndWait:^{
-        result = [context save:nil];
+        NSError *error = nil;
+        result = [context save:&error];
+        if(!result)
+            DLog(@"%@", error);
     }];
     return result;
 }

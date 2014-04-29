@@ -60,9 +60,8 @@ static NSArray *_cachedRequiredFiles = nil;
 
 #if SUPPORTS_LIBRARY_REGISTRATION
     OELibraryDatabase *db = [OELibraryDatabase defaultDatabase];
-
     if(db == nil) NSLog(@"system plugins not registered in database, because the db does not exist yet!");
-    else          [OEDBSystem systemForPlugin:plugin inDatabase:db];
+    else          [OEDBSystem systemForPlugin:plugin inContext:[db mainThreadContext]];
 #endif
 
     // Invalidate supported type extenesions cache

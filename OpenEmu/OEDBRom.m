@@ -34,7 +34,6 @@
 #import "NSURL+OELibraryAdditions.h"
 
 @interface OEDBRom ()
-+ (id)OE_createRomWithoutChecksWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError;
 - (void)OE_calculateHashes;
 @end
 
@@ -45,33 +44,8 @@
 // Data Model Relationships
 @dynamic game, saveStates, tosec;
 
-#pragma mark - Creating and Obtaining OEDBRoms
-+ (id)createRomWithURL:(NSURL *)url error:(NSError *__autoreleasing*)outError
-{
-    return [self createRomWithURL:url inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
-}
-
-+ (id)createRomWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
-{
-    return [self OE_createRomWithoutChecksWithURL:url md5:nil crc:nil inDatabase:database error:outError];
-} 
-
-+ (id)romWithURL:(NSURL *)url error:(NSError *__autoreleasing*)outError
-{
-    return [self romWithURL:url inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
-}
-
-+ (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc error:(NSError *__autoreleasing*)outError
-{
-    return [self createRomWithURL:url md5:md5 crc:crc inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
-}
-
-+ (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
-{
-    return [self OE_createRomWithoutChecksWithURL:url md5:md5 crc:crc inDatabase:database error:outError];
-}
-
-+ (id)romWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
+#pragma mark -
++ (id)romWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context error:(NSError *__autoreleasing*)outError
 {
     if(url == nil) return nil;
     
@@ -82,56 +56,11 @@
     [fetchRequest setIncludesPendingChanges:YES];
     [fetchRequest setPredicate:predicate];
     
-    return [[database executeFetchRequest:fetchRequest error:outError] lastObject];
-}
-
-+ (id)OE_createRomWithoutChecksWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
-{
-    if(url == nil)
-    {
-        if(outError != NULL)
-            *outError = [NSError errorWithDomain:@"OEErrorDomain" code:0 userInfo:[NSDictionary dictionaryWithObject:@"_createRomWithoutChecksWithURL called without url" forKey:NSLocalizedDescriptionKey]];
-        return nil;
-    }
-
-    __block OEDBRom *rom;
-    NSManagedObjectContext *context = [database safeContext];
-    [context performBlockAndWait:^{
-        NSEntityDescription *description = [self entityDescriptionInContext:context];
-        rom = [[OEDBRom alloc] initWithEntity:description insertIntoManagedObjectContext:context];
-        [rom setURL:url];
-
-        if(md5 != nil) [rom setMd5:md5];
-        if(crc != nil) [rom setCrc32:crc];
-
-        if(md5 == nil && crc == nil)
-        {
-            NSString *crcHash, *md5Hash;
-            if([[NSFileManager defaultManager] hashFileAtURL:url md5:&md5Hash crc32:&crcHash error:outError])
-            {
-                [rom setMd5:md5Hash];
-                [rom setCrc32:crcHash];
-            }
-            else if(outError != NULL)
-            {
-                *outError = [NSError errorWithDomain:@"OEErrorDomain" code:2 userInfo:[NSDictionary dictionaryWithObject:@"Calculating Hash for ROM-File failed!" forKey:NSLocalizedDescriptionKey]];
-                DLog(@"%@", *outError);
-            }
-        }
-        [rom setFileSize:[url fileSize]];
-    }];
-
-    return rom;
+    return [[context executeFetchRequest:fetchRequest error:outError] lastObject];
 }
 
 #pragma mark -
-
-+ (id)romWithCRC32HashString:(NSString *)crcHash error:(NSError *__autoreleasing*)outError
-{
-    return [self romWithCRC32HashString:crcHash inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
-}
-
-+ (id)romWithCRC32HashString:(NSString *)crcHash inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
++ (id)romWithCRC32HashString:(NSString *)crcHash inContext:(NSManagedObjectContext *)context error:(NSError *__autoreleasing*)outError
 {
     if(crcHash == nil) return nil;
     
@@ -142,15 +71,10 @@
     [fetchRequest setIncludesPendingChanges:YES];
     [fetchRequest setPredicate:predicate];
     
-    return [[database executeFetchRequest:fetchRequest error:outError] lastObject];
+    return [[context executeFetchRequest:fetchRequest error:outError] lastObject];
 }
 
-+ (id)romWithMD5HashString:(NSString *)md5Hash error:(NSError *__autoreleasing*)outError
-{
-    return [self romWithMD5HashString:md5Hash inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
-}
-
-+ (id)romWithMD5HashString:(NSString *)md5Hash inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError
++ (id)romWithMD5HashString:(NSString *)md5Hash inContext:(NSManagedObjectContext *)context error:(NSError *__autoreleasing*)outError
 {
     if(md5Hash == nil) return nil;
     
@@ -160,7 +84,7 @@
     [fetchRequest setIncludesPendingChanges:YES];
     [fetchRequest setPredicate:predicate];
     
-    return [[database executeFetchRequest:fetchRequest error:outError] lastObject];
+    return [[context executeFetchRequest:fetchRequest error:outError] lastObject];
 }
 
 #pragma mark - Accessors
@@ -377,7 +301,7 @@
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location == %@", [self location]];
             NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[[self class] entityName]];
             [fetchRequest setPredicate:predicate];
-            count = [[self libraryDatabase] countForFetchRequest:fetchRequest error:nil];
+            count = [[self managedObjectContext] countForFetchRequest:fetchRequest error:nil];
         }
 
         if(count == 1)

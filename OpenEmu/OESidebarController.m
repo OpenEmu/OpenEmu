@@ -374,7 +374,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         collection = [[self database] addNewCollection:name];
         [self reloadData];
         NSInteger index = [outlineView rowForItem:collection];
-        if(index != -1)
+        if(index != NSNotFound)
         {
             [outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
         }
@@ -626,9 +626,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     if(removeItem)
     {
-        DLog(@"Delete");
         [item delete];
-        DLog(@"Save");
         [item save];
 
         // keep selection on last object if the one we removed was last

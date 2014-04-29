@@ -31,36 +31,28 @@ extern NSString * const OEDBSystemsDidChangeNotification;
 
 @class OESystemPlugin, OELibraryDatabase;
 @interface OEDBSystem : OEDBItem
-+ (NSInteger)systemsCount;
-+ (NSInteger)systemsCountInDatabase:(OELibraryDatabase *)database;
-+ (NSInteger)systemsCountInDatabase:(OELibraryDatabase *)database error:(NSError**)error;
++ (NSInteger)systemsCountInContext:(NSManagedObjectContext *)context;
++ (NSInteger)systemsCountInContext:(NSManagedObjectContext *)context error:(NSError**)error;
 
-+ (NSArray*)allSystems;
-+ (NSArray*)allSystemsInDatabase:(OELibraryDatabase *)database;
-+ (NSArray*)allSystemsInDatabase:(OELibraryDatabase *)database error:(NSError**)error;
++ (NSArray*)allSystemsInContext:(NSManagedObjectContext *)context;
++ (NSArray*)allSystemsInContext:(NSManagedObjectContext *)context error:(NSError**)error;
 
-+ (NSArray*)allSystemIdentifiers;
++ (NSArray*)allSystemIdentifiersInContext:(NSManagedObjectContext*)context;
 
-+ (NSArray*)enabledSystems;
-+ (NSArray*)enabledSystemsInDatabase:(OELibraryDatabase *)database;
-+ (NSArray*)enabledSystemsInDatabase:(OELibraryDatabase *)database error:(NSError**)outError;
++ (NSArray*)enabledSystemsinContext:(NSManagedObjectContext *)context;
++ (NSArray*)enabledSystemsinContext:(NSManagedObjectContext *)context error:(NSError**)outError;
 
-+ (NSArray*)systemsForFileWithURL:(NSURL *)url;
-+ (NSArray*)systemsForFileWithURL:(NSURL *)url error:(NSError**)error;
-+ (NSArray*)systemsForFileWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database;
-+ (NSArray*)systemsForFileWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError**)error;
++ (NSArray*)systemsForFileWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context;
++ (NSArray*)systemsForFileWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context error:(NSError**)error;
 
 + (NSString*)headerForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier;
 + (NSString*)serialForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier;
 
-+ (id)systemForPlugin:(OESystemPlugin *)plugin inDatabase:(OELibraryDatabase *)database;
-+ (id)systemForPluginIdentifier:(NSString *)identifier inDatabase:(OELibraryDatabase *)database;
++ (instancetype)systemForPlugin:(OESystemPlugin *)plugin inContext:(NSManagedObjectContext *)context;
++ (instancetype)systemForPluginIdentifier:(NSString *)identifier inContext:(NSManagedObjectContext *)context;
 
 #pragma mark -
 #pragma mark Core Data utilities
-+ (NSString *)entityName;
-+ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
-
 @property (nonatomic, readonly) CGFloat coverAspectRatio;
 #pragma mark -
 #pragma mark Data Model Properties

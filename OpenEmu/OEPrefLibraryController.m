@@ -262,10 +262,12 @@
                        // change db entry for roms
                        if(![dst isDirectory])
                        {
+                           /*
                            [alert performBlockInModalSession:^{
                                [[OEDBRom romWithURL:src inDatabase:library error:nil] setURL:dst];
-                               [library save:nil];
+                               TODO("Save HERE");
                            }];
+                            */
                            
                            // keep track of successfully copied roms
                            copiedCount++;
@@ -292,6 +294,7 @@
                 }
                 
                 [alert performBlockInModalSession:^{
+                    NSManagedObjectContext *context = [library makeChildContext];
                     // make copied paths relative
                     NSArray        *fetchResult    = nil;
                     NSFetchRequest *fetchRequest   = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
@@ -300,7 +303,7 @@
                     [fetchRequest setPredicate:fetchPredicate];
                     
                     // Change absolute paths to relative ones
-                    fetchResult = [library executeFetchRequest:fetchRequest error:nil];
+                    fetchResult = [context executeFetchRequest:fetchRequest error:nil];
                     if(error != nil)
                     {
                         DLog(@"%@", error);
@@ -316,7 +319,7 @@
                     // note new rom folder loation in library
                     [[NSUserDefaults standardUserDefaults] setObject:[currentLocation path] forKey:OEDatabasePathKey];
                     [library setRomsFolderURL:currentRomsURL];
-                    [library save:nil];
+                    [context save:nil];
                 }];
                 
                 // copy core data store over
@@ -327,6 +330,7 @@
                     
                     // show error
                     [alert performBlockInModalSession:^{
+                        NSManagedObjectContext *context = [library makeChildContext];
                         [alert setShowsProgressbar:NO];
                         [alert setMessageText:@"Could not move library data!"];
                         [alert setDefaultButtonTitle:@"OK"];
@@ -342,7 +346,7 @@
                         [fetchRequest setPredicate:fetchPredicate];
                         
                         // Change relative paths to absolute ones based on last roms folder location
-                        fetchResult = [library executeFetchRequest:fetchRequest error:nil];
+                        fetchResult = [context executeFetchRequest:fetchRequest error:nil];
                         if(error != nil)
                         {
                             DLog(@"%@", error);
@@ -354,7 +358,7 @@
                         [fetchResult enumerateObjectsUsingBlock:^(OEDBRom *obj, NSUInteger idx, BOOL *stop) {
                             [obj setLocation:[absolutePrefix stringByAppendingString:[obj location]]];
                         }];
-                        [library save:nil];
+                        [context save:nil];
                     }];
                 }
                 else
@@ -399,7 +403,7 @@
         [[NSUserDefaults standardUserDefaults] setObject:[currentLocation path] forKey:OEDatabasePathKey];
         NSURL *url = [currentLocation URLByAppendingPathComponent:[[library romsFolderURL] lastPathComponent] isDirectory:YES];
         [library setRomsFolderURL:url];
-        [library save:nil];
+        TODO("Save HERE");
 
         if(error) [NSApp presentError:error];
     }

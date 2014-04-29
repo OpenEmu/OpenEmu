@@ -45,9 +45,6 @@ extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 @class OEDBRom, OECorePlugin, OELibraryDatabase;
 @interface OEDBSaveState : OEDBItem
 
-+ (NSArray *)allStates;
-+ (NSArray *)allStatesInDatabase:(OELibraryDatabase*)database;
-
 + (OEDBSaveState *)saveStateWithURL:(NSURL *)url;
 + (OEDBSaveState *)saveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database;
 

@@ -104,12 +104,10 @@
         [image setFormat:format];
         [image save];
 
-        DLog(@"%@", url);
         return image;
     }
     else
     {
-        DLog(@"No file!");
 
         [image setBox:nil];
         [image delete];
@@ -218,7 +216,6 @@
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
 
     NSURL *coverFolderURL = [database coverFolderURL];
-    DLog(@"%@", coverFolderURL);
     NSURL *imageURL = [NSURL URLWithString:fileName relativeToURL:coverFolderURL];
     
     if(![data writeToURL:imageURL atomically:YES])
@@ -288,7 +285,6 @@
 
 - (void)prepareForDeletion
 {
-    DLog(@"");
     NSURL *url = [self imageURL];
     [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
 }

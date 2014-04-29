@@ -52,14 +52,10 @@ extern NSString *const OEScreenshotFolderURLKey;
 + (OELibraryDatabase *)defaultDatabase;
 + (BOOL)loadFromURL:(NSURL *)url error:(NSError *__autoreleasing*)outError;
 
-- (NSManagedObjectContext*)privateContext;
+- (NSManagedObjectContext*)writerContext;
 - (NSManagedObjectContext*)mainThreadContext;
 
 - (NSManagedObjectContext*)makeChildContext;
-- (NSManagedObjectContext*)makePersistentContext;
-#pragma mark - Thread Safe MOC access
-- (NSArray*)executeFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error;
-- (NSUInteger)countForFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error;
 
 @property (strong) OEROMImporter *importer;
 

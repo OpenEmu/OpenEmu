@@ -141,7 +141,8 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
         NSPredicate     *predicate  = [NSPredicate predicateWithFormat:@"format = -1"];
         [request setPredicate:predicate];
 
-        NSArray *images = [database executeFetchRequest:request error:nil];
+        NSManagedObjectContext *context = [database makeChildContext];
+        NSArray *images = [context executeFetchRequest:request error:nil];
         if(images != nil && [images count] == 0)
         {
             NSURL *coverFolderURL = [database coverFolderURL];

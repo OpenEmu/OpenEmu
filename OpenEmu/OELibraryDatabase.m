@@ -75,7 +75,7 @@ const int OELibraryErrorCodeFileInFolderNotFound = 2;
     NSArrayController *_romsController;
 
     NSManagedObjectModel   *_managedObjectModel;
-    NSManagedObjectContext *_privateMOC;
+    NSManagedObjectContext *_writerContext;
     NSManagedObjectContext *_mainThreadMOC;
 
     NSThread *_syncThread;
@@ -83,7 +83,6 @@ const int OELibraryErrorCodeFileInFolderNotFound = 2;
 
 - (BOOL)loadPersistantStoreWithError:(NSError *__autoreleasing*)outError;
 - (BOOL)loadManagedObjectContextWithError:(NSError *__autoreleasing*)outError;
-- (void)managedObjectContextDidSave:(NSNotification *)notification;
 
 - (NSManagedObjectModel *)managedObjectModel;
 
@@ -93,10 +92,11 @@ const int OELibraryErrorCodeFileInFolderNotFound = 2;
 @property(strong) OEFSWatcher *saveStateWatcher;
 @property(copy)   NSURL       *databaseURL;
 @property(strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property(strong) NSMutableDictionary *childContexts;
 @end
 
 static OELibraryDatabase *defaultDatabase = nil;
+
+#define MergeLog(_MOC1_, _MOC2_, SKIP) DLog(@"merge %@ into %@%s", [[_MOC2_ userInfo] objectForKey:@"name"], [[_MOC1_ userInfo] objectForKey:@"name"], SKIP ? " ignored" : "")
 
 @implementation OELibraryDatabase
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator, databaseURL, importer, saveStateWatcher;
@@ -169,21 +169,23 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (BOOL)loadManagedObjectContextWithError:(NSError *__autoreleasing*)outError
 {
     // Setup a private managed object context
-    _privateMOC = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    _writerContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
 
     NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
-    [_privateMOC setMergePolicy:policy];
-    [_privateMOC setRetainsRegisteredObjects:YES];
-    if(_privateMOC == nil) return NO;
+    [_writerContext setMergePolicy:policy];
+    [_writerContext setRetainsRegisteredObjects:YES];
+    if(_writerContext == nil) return NO;
 
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    [_privateMOC setPersistentStoreCoordinator:coordinator];
-    [[_privateMOC userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
+    [_writerContext setPersistentStoreCoordinator:coordinator];
+    [[_writerContext userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
+    [[_writerContext userInfo] setValue:@"main" forKey:@"name"];
 
     // Setup a moc for use on main thread
     _mainThreadMOC = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    _mainThreadMOC.parentContext = _privateMOC;
+    _mainThreadMOC.parentContext = _writerContext;
     [[_mainThreadMOC userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
+    [[_mainThreadMOC userInfo] setValue:@"UI" forKey:@"name"];
 
     // remeber last loc as database path
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -232,12 +234,10 @@ static OELibraryDatabase *defaultDatabase = nil;
         _romsController = [[NSArrayController alloc] init];
 
         NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-        [defaultCenter addObserver:self selector:@selector(managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
         [defaultCenter addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];
+        [defaultCenter addObserver:self selector:@selector(managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
 
         [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:OESaveStateFolderURLKey options:0 context:nil];
-
-        [self setChildContexts:[NSMutableDictionary dictionary]];
     }
 
     return self;
@@ -265,7 +265,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     NSError *error = nil;
 
-    if(![_privateMOC save:&error])
+    if(![_writerContext save:&error])
     {
         NSLog(@"Could not save databse: ");
         NSLog(@"%@", error);
@@ -290,10 +290,22 @@ static OELibraryDatabase *defaultDatabase = nil;
     }
 }
 
-#pragma mark - Accessing / Creating managed object contexts
-- (NSManagedObjectContext*)privateContext
+- (void)managedObjectContextDidSave:(NSNotification*)note
 {
-    return _privateMOC;
+    if([note object] == _mainThreadMOC)
+    {
+        // Write changes to disk (in background)
+        NSManagedObjectContext *writerContext = [self writerContext];
+        [writerContext performBlock:^{
+            [writerContext save:nil];
+        }];
+    }
+}
+
+#pragma mark - Accessing / Creating managed object contexts
+- (NSManagedObjectContext*)writerContext
+{
+    return _writerContext;
 }
 
 - (NSManagedObjectContext*)mainThreadContext
@@ -305,38 +317,13 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (NSManagedObjectContext*)makeChildContext
 {
     NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    [context setParentContext:_privateMOC];
+    [context setParentContext:_mainThreadMOC];
+    [context setMergePolicy:[_mainThreadMOC mergePolicy]];
     [[context userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
-
-    [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification object:context queue:nil usingBlock:^(NSNotification *note) {
-        [_privateMOC save:nil];
-    }];
 
     return context;
 }
-- (NSManagedObjectContext*)makePersistentContext
-{
-    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    [context setPersistentStoreCoordinator:[self persistentStoreCoordinator]];
-    [[context userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
 
-    [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification object:context queue:nil usingBlock:^(NSNotification *note) {
-        [_privateMOC performBlock:^{
-            DLog(@"merge nested into private context");
-            [_privateMOC mergeChangesFromContextDidSaveNotification:note];
-            [_privateMOC save:nil];
-        }];
-    }];
-
-    [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification object:_privateMOC queue:nil usingBlock:^(NSNotification *note) {
-        [context performBlock:^{
-            DLog(@"merge private into nested context");
-            [context mergeChangesFromContextDidSaveNotification:note];
-        }];
-    }];
-
-    return context;
-}
 #pragma mark - Administration
 
 - (void)disableSystemsWithoutPlugin
@@ -355,9 +342,9 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSString *stateFolderPath = [[self stateFolderURL] path];
     __block __unsafe_unretained OEFSBlock recFsBlock;
-    __block OEFSBlock fsBlock = [^(NSString *path, FSEventStreamEventFlags flags)
-    {
-      if(flags & kFSEventStreamEventFlagItemIsDir)
+    __block OEFSBlock fsBlock = [^(NSString *path, FSEventStreamEventFlags flags) {
+        NSManagedObjectContext *context = [self makeChildContext];
+        if(flags & kFSEventStreamEventFlagItemIsDir)
         {
             NSFileManager *fileManager = [NSFileManager defaultManager];
             NSURL   *url   = [NSURL fileURLWithPath:path];
@@ -385,13 +372,14 @@ static OELibraryDatabase *defaultDatabase = nil;
                 NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"SaveState"];
                 NSPredicate    *predicate    = [NSPredicate predicateWithFormat:@"location BEGINSWITH[cd] %@", [url absoluteString]];
                 [fetchRequest setPredicate:predicate];
-                NSArray *result = [self executeFetchRequest:fetchRequest error:&error];
+                NSArray *result = [context executeFetchRequest:fetchRequest error:&error];
                 if(error) DLog(@"executing fetch request failed: %@", error);
                 [result enumerateObjectsUsingBlock:^(OEDBSaveState *state, NSUInteger idx, BOOL *stop) {
                     [state remove];
                 }];
             }
         }
+        [context save:nil];
     } copy];
 
     recFsBlock = fsBlock;
@@ -420,27 +408,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
 
     return _managedObjectModel;
-}
-
-- (void)managedObjectContextDidSave:(NSNotification *)notification
-{
-    NSManagedObjectContext *context = [notification object];
-    if([context parentContext] == _privateMOC)
-    {
-        [_privateMOC performBlockAndWait:^{
-            DLog(@"merge main into private context");
-            [_privateMOC mergeChangesFromContextDidSaveNotification:notification];
-            [_privateMOC save:nil];
-        }];
-    }
-}
-
-- (void)threadDidWillExit:(NSNotification*)notification
-{
-    TODO("re-implement saving");
-    NSThread *thread = [notification object];
-    [[self childContexts] removeObjectForKey:[thread name]];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
 }
 
 - (NSUndoManager *)undoManager
@@ -669,7 +636,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     [fetchRequest setPredicate:predicate];
     [fetchRequest setFetchLimit:numberOfRoms];
 
-    return [self executeFetchRequest:fetchRequest error:nil];
+    NSManagedObjectContext *context = [self mainThreadContext];
+    return [context executeFetchRequest:fetchRequest error:nil];
 }
 
 - (NSDictionary *)lastPlayedRomsBySystem
@@ -684,7 +652,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     [fetchRequest setPredicate:predicate];
     [fetchRequest setFetchLimit:numberOfRoms];
 
-    NSArray *roms = [self executeFetchRequest:fetchRequest error:nil];
+    NSManagedObjectContext *context = [self mainThreadContext];
+    NSArray *roms = [context executeFetchRequest:fetchRequest error:nil];
     NSMutableSet *systemsSet = [NSMutableSet setWithCapacity:[roms count]];
     [roms enumerateObjectsUsingBlock:
      ^(OEDBRom *aRom, NSUInteger idx, BOOL *stop)
@@ -768,9 +737,9 @@ static OELibraryDatabase *defaultDatabase = nil;
         // Also see discussion at http://www.cocoabuilder.com/archive/cocoa/295041-setting-not-saving-nspersistentdocument-metadata-changes-file-modification-date.html
         [[self persistentStoreCoordinator] setMetadata:mutableMetaData forPersistentStore:persistentStore];
         [NSPersistentStoreCoordinator setMetadata:mutableMetaData forPersistentStoreOfType:[persistentStore type] URL:[persistentStore URL] error:&error];
-
-
-        TODO("Save HERE");
+        [_writerContext performBlock:^{
+            [_writerContext save:nil];
+        }];
     }
 }
 
@@ -881,38 +850,23 @@ static OELibraryDatabase *defaultDatabase = nil;
     [request setFetchLimit:1];
     [request setPredicate:predicate];
 
-    NSManagedObjectContext *nestedContext = [self makePersistentContext];
+    NSManagedObjectContext *nestedContext = [self makeChildContext];
+    [[nestedContext userInfo] setObject:@"OpenVGDB" forKey:@"name"];
+
+    NSManagedObjectContext *mainContext = [nestedContext parentContext];
+
     while((result = [nestedContext executeFetchRequest:request error:nil]) && [result count] != 0)
     {
-        OEDBGame *game = [result lastObject];
-        [game performInfoSync];
-        DLog(@"save");
-        [game save];
-
+        [nestedContext performBlockAndWait:^{
+            OEDBGame *game = [result lastObject];
+            [game performInfoSync];
+            [game save];
+        }];
+        [mainContext performBlock:^{
+            [mainContext save:nil];
+        }];
         [NSThread sleepForTimeInterval:0.5];
     }
-    [nestedContext save:nil];
-}
-#pragma mark - Thread Safe MOC
-- (NSArray*)executeFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error
-{
-    return nil;
-    __block NSArray *result = nil;
-    NSManagedObjectContext *context = _mainThreadMOC;
-    [context performBlockAndWait:^{
-        result = [context executeFetchRequest:request error:error];
-    }];
-    return result;
-}
-
-- (NSUInteger)countForFetchRequest:(NSFetchRequest*)request error:(NSError *__autoreleasing*)error
-{
-    __block NSUInteger count = 0;
-    NSManagedObjectContext *context = _mainThreadMOC;
-    [context performBlockAndWait:^{
-        count = [context countForFetchRequest:request error:error];
-    }];
-    return count;
 }
 #pragma mark - Debug
 
@@ -958,7 +912,8 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (NSArray *)allROMsForDump
 {
     NSFetchRequest *fetchReq = [NSFetchRequest fetchRequestWithEntityName:@"ROM"];
-    return [self executeFetchRequest:fetchReq error:NULL];
+    NSManagedObjectContext *context = [self mainThreadContext];
+    return [context executeFetchRequest:fetchReq error:NULL];
 }
 
 @end

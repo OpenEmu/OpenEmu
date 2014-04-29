@@ -34,22 +34,13 @@
 @interface OEDBRom : OEDBItem
 
 #pragma mark - Creating and Obtaining OEDBRoms
-// Creating / Acquireing ROMs by filesystem representation
-+ (id)createRomWithURL:(NSURL *)url error:(NSError *__autoreleasing*)outError;
-+ (id)createRomWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError;
-+ (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc error:(NSError *__autoreleasing*)outError;
-+ (id)createRomWithURL:(NSURL *)url md5:(NSString *)md5 crc:(NSString *)crc inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError;
-+ (id)romWithURL:(NSURL *)url error:(NSError *__autoreleasing*)outError;
-+ (id)romWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError;
-+ (id)romWithCRC32HashString:(NSString *)crcHash error:(NSError *__autoreleasing*)outError;
-+ (id)romWithCRC32HashString:(NSString *)crcHash inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError;
-+ (id)romWithMD5HashString:(NSString *)md5Hash error:(NSError *__autoreleasing*)outError;
-+ (id)romWithMD5HashString:(NSString *)md5Hash inDatabase:(OELibraryDatabase *)database error:(NSError *__autoreleasing*)outError;
++ (id)romWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context error:(NSError *__autoreleasing*)outError;
++ (id)romWithCRC32HashString:(NSString *)crcHash inContext:(NSManagedObjectContext *)context error:(NSError *__autoreleasing*)outError;
++ (id)romWithMD5HashString:(NSString *)md5Hash inContext:(NSManagedObjectContext *)context error:(NSError *__autoreleasing*)outError;
 
 @property(nonatomic) NSURL *URL;
 
 #pragma mark - Accessors
-
 // returns md5 hash for rom. calculates it if necessary so the method can take a long time to return, and might return nil if hash is not in db and can not be calculated
 - (NSString *)md5Hash;
 // returns md5 hash for rom if one was calculated before

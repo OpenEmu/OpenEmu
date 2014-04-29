@@ -27,7 +27,6 @@
 #import <Foundation/Foundation.h>
 #import "OEImportOperation.h"
 
-#define DEBUG_IMPORT 1
 #ifdef DEBUG_IMPORT
 #define IMPORTDLog DLog
 #else

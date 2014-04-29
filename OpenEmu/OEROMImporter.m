@@ -100,7 +100,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
         [self setStatus:OEImporterStatusStopped];
 
         NSOperation *initializeMOCOp = [NSBlockOperation blockOperationWithBlock:^{
-            NSManagedObjectContext *context = [aDatabase makePersistentContext];
+            NSManagedObjectContext *context = [aDatabase makeChildContext];
             [self setContext:context];
         }];
         [queue addOperations:@[initializeMOCOp] waitUntilFinished:YES];
@@ -293,18 +293,18 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     __block OEImportOperation *blockOperation = op;
     __block OEROMImporter     *importer = self;
     return ^{
-        OEImportItemState state = [blockOperation importState];
-        if(state == OEImportItemStatusFinished)
+        OEImportExitStatus state = [blockOperation exitStatus];
+        if(state == OEImportExitSuccess)
         {
             if([op archive])
                 [[op archive] cancel];
             importer.numberOfProcessedItems ++;
         }
-        else if(state == OEImportItemStatusFatalError)
+        else if(state == OEImportExitErrorFatal)
         {
             importer.numberOfProcessedItems ++;
         }
-        else if(state == OEImportItemStatusResolvableError)
+        else if(state == OEImportExitErrorResolvable)
         {
             if([op archive])
                 [[op archive] cancel];

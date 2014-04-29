@@ -56,18 +56,6 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 @implementation OEDBSaveState
 
-+ (NSArray *)allStates
-{
-    return [self allStatesInDatabase:[OELibraryDatabase defaultDatabase]];
-}
-
-+ (NSArray *)allStatesInDatabase:(OELibraryDatabase *)database
-{
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"SaveState"];
-    return [database executeFetchRequest:request error:nil];
-}
-
-
 + (OEDBSaveState *)saveStateWithURL:(NSURL *)url
 {
     return [self saveStateWithURL:url inDatabase:[OELibraryDatabase defaultDatabase]];
@@ -75,7 +63,8 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 + (OEDBSaveState *)saveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database
 {
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"SaveState"];
+    NSManagedObjectContext *context = [database mainThreadContext];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     
     NSString *absoluteString = [url absoluteString];
     if([absoluteString characterAtIndex:[absoluteString length]-1] != '/')
@@ -86,7 +75,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     NSPredicate *predicate  = [NSPredicate predicateWithFormat:@"location == %@", absoluteString];
     [request setPredicate:predicate];
     
-    return [[database executeFetchRequest:request error:nil] lastObject];
+    return [[context executeFetchRequest:request error:nil] lastObject];
 }
 
 
@@ -94,7 +83,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 {
     __block OEDBSaveState *result = nil;
     [context performBlockAndWait:^{
-        NSEntityDescription *description = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context];
+        NSEntityDescription *description = [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
         result = [[OEDBSaveState alloc] initWithEntity:description insertIntoManagedObjectContext:context];
         [result setTimestamp:[NSDate date]];
     }];
@@ -109,6 +98,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 + (id)createSaveStateWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database
 {
+    /*
     OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database safeContext]];
     NSManagedObjectID *objectID = [newSaveState permanentID];
     [[newSaveState managedObjectContext] performBlockAndWait:^{
@@ -138,6 +128,8 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     }];
 
     return newSaveState;
+     */
+    return nil;
 }
 
 + (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL
@@ -147,6 +139,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 + (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inDatabase:(OELibraryDatabase *)database
 {
+    /*
     __block NSString *blockName = name;
     __block OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database safeContext]];
     NSManagedObjectID *objectID = [newSaveState permanentID];
@@ -183,6 +176,8 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
         }
     }];
     return newSaveState;
+     */
+    return nil;
 }
 
 - (BOOL)OE_createBundleAtURL:(NSURL *)bundleURL withStateFile:(NSURL *)stateFile error:(NSError **)error
@@ -273,6 +268,10 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 {
     return slot == 0 ? OESaveStateQuicksaveName:[NSString stringWithFormat:@"%@%ld", OESaveStateQuicksaveName, slot];
 }
++ (NSString*)entityName
+{
+    return @"SaveState";
+}
 
 #pragma mark - Management
 - (BOOL)readInfoPlist
@@ -290,7 +289,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
             NSString *infoRomMD5            = [infoPlist valueForKey:OESaveStateInfoROMMD5Key];
             NSDate   *infoTimestamp         = [infoPlist valueForKey:OESaveStateInfoTimestampKey];
 
-            OEDBRom  *rom                   = [OEDBRom romWithMD5HashString:infoRomMD5 error:nil];
+            OEDBRom  *rom                   = [OEDBRom romWithMD5HashString:infoRomMD5 inContext:[self managedObjectContext] error:nil];
             if(infoName==nil || infoCoreIdentifier==nil || infoRomMD5==nil || rom==nil)
             {
                 result = NO;

@@ -226,10 +226,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     
     // Watch the main thread's managed object context for changes
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextObjectsDidChangeNotification object:context];
-
-    NSManagedObjectContext *privateContext = [[libraryController database] privateContext];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:privateContext];
 
     [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:OEDisplayGameTitle options:0 context:NULL];
 
@@ -256,7 +252,10 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     NSAssert([representedObject conformsToProtocol:@protocol(OECollectionViewItemProtocol)], @"OECollectionViewController accepts OECollectionViewItemProtocol represented objects only");
 
-    if(representedObject == [self representedObject]) return;
+    if(representedObject == [self representedObject])
+    {
+        return;
+    }
     [super setRepresentedObject:representedObject];
     
     [[listView tableColumnWithIdentifier:@"listViewConsoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
@@ -979,17 +978,15 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 - (void)downloadCoverArt:(id)sender
 {
     [[self selectedGames] makeObjectsPerformSelector:@selector(requestCoverDownload)];
+    [[[self selectedGames] lastObject] save];
     [self reloadDataIndexes:[self selectedIndexes]];
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self downloadCoverArt:sender];
-    });
 }
 
 
 - (void)cancelCoverArtDownload:(id)sender
 {
     [[self selectedGames] makeObjectsPerformSelector:@selector(cancelCoverDownload)];
+    [[[self selectedGames] lastObject] save];
     [self reloadDataIndexes:[self selectedIndexes]];
 }
 
@@ -1008,6 +1005,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
             return;
 
         [[self selectedGames] makeObjectsPerformSelector:@selector(setBoxImageByURL:) withObject:[openPanel URL]];
+        [[[self selectedGames] lastObject] save];
         [self reloadDataIndexes:[self selectedIndexes]];
     }];
 }
@@ -1435,30 +1433,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 #define reloadDelay 0.5
 - (void)OE_managedObjectContextDidUpdate:(NSNotification *)notification
 {
-    NSPredicate *predicateForGame = [NSPredicate predicateWithFormat:@"entity = %@", [NSEntityDescription entityForName:@"Game" inManagedObjectContext:[notification object]]];
-    NSSet *insertedGames          = [[[notification userInfo] objectForKey:NSInsertedObjectsKey] filteredSetUsingPredicate:predicateForGame];
-    NSSet *deletedGames           = [[[notification userInfo] objectForKey:NSDeletedObjectsKey] filteredSetUsingPredicate:predicateForGame];
-    NSSet *updatedGames           = [[[notification userInfo] objectForKey:NSUpdatedObjectsKey] filteredSetUsingPredicate:predicateForGame];
-
-    NSPredicate *predicateForROM  = [NSPredicate predicateWithFormat:@"entity = %@", [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:[notification object]]];
-    NSSet *insertedROMs           = [[[notification userInfo] objectForKey:NSInsertedObjectsKey] filteredSetUsingPredicate:predicateForROM];
-    NSSet *deletedROMs            = [[[notification userInfo] objectForKey:NSDeletedObjectsKey] filteredSetUsingPredicate:predicateForROM];
-    NSSet *updatedROMs            = [[[notification userInfo] objectForKey:NSUpdatedObjectsKey] filteredSetUsingPredicate:predicateForROM];
-
-    const BOOL hasGameInsertions = [insertedGames count];
-    const BOOL hasGameDeletions  = [deletedGames count];
-    // Since some game properties are derived from ROM properties, we consider ROM insertions/deletions/updates as game updates
-    const BOOL hasGameUpdates    = [updatedGames count] || [insertedROMs count] || [deletedROMs count] || [updatedROMs count];
-
-    if(hasGameInsertions || hasGameDeletions)
-    {
-        [self performSelector:@selector(noteNumbersChanged) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
-    }
-    else if(hasGameUpdates)
-    {
-        // Nothing was removed or added, just updated so just update the visible items
-        [self performSelector:@selector(setNeedsReloadVisible) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
-    }
+    [self performSelector:@selector(noteNumbersChanged) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
 }
 
 - (void)noteNumbersChanged
@@ -1469,11 +1444,10 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
 - (void)OE_fetchGames
 {
-    __block BOOL ok = NO;
-    [[gamesController managedObjectContext] performBlockAndWait:^{
-        NSError *error = nil;
-        ok = [gamesController fetchWithRequest:nil merge:NO error:&error];
-    }];
+    OECoreDataMainThreadAssertion();
+
+    NSError *error = nil;
+    BOOL ok = [gamesController fetchWithRequest:nil merge:NO error:&error];
 
     if(!ok)
         NSLog(@"Error while fetching");
@@ -1485,7 +1459,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateViews) object:nil];
     [self OE_fetchGames];
-    //[gridView noteNumberOfCellsChanged];
     [listView noteNumberOfRowsChanged];
     [self setNeedsReloadVisible];
 }

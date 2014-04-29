@@ -240,7 +240,7 @@
     {
         [self setURL:[decoder decodeObjectForKey:@"URL"]];
         [self setSourceURL:[decoder decodeObjectForKey:@"sourceURL"]];
-        [self setImportState:OEImportItemStatusIdle];
+        [self setExitStatus:OEImportExitNone];
     }
     return self;
 }
@@ -267,13 +267,34 @@
 }
 @synthesize URL=_url;
 #pragma mark -
-- (void)exitWithStatus:(OEImportItemState)status error:(NSError*)error
+- (void)exitWithStatus:(OEImportExitStatus)status error:(NSError*)error
 {
-    DLog(@"%@ | %@", [[self URL] lastPathComponent], [[self extractedFileURL] lastPathComponent]);
-    DLog(@"Success: %s", BOOL_STR(status == OEImportItemStatusFinished));
+    if(status == OEImportExitSuccess)
+    {
+        NSManagedObjectContext *context = [[self importer] context];
+        if([self rom])
+        {
+            if([[self rom] game] && [self collectionID])
+            {
+                OEDBCollection *collection = [OEDBCollection objectWithID:[self collectionID] inContext:context];
+                if(collection != nil && [collection isDeleted] == NO)
+                {
+                    [[[[self rom] game] mutableCollections] addObject:collection];
+                }
+
+                [[self rom] save];
+            }
+
+            NSManagedObjectContext *parentContext = [context parentContext];
+            [parentContext performBlock:^{
+                [parentContext save:nil];
+            }];
+        }
+    }
+
     _shouldExit = YES;
     [self setError:error];
-    [self setImportState:status];
+    [self setExitStatus:status];
 }
 
 - (BOOL)shouldExit
@@ -284,30 +305,32 @@
 #pragma mark - NSOperation Overrides
 - (void)main
 {
-    if([self shouldExit]) return;
+    [[[self importer] context] performBlockAndWait:^{
+        if([self shouldExit]) return;
 
-    [self OE_performImportStepCheckDirectory];
-    if([self shouldExit]) return;
+        [self OE_performImportStepCheckDirectory];
+        if([self shouldExit]) return;
 
-    [self OE_performImportStepCheckArchiveFile];
-    if([self shouldExit]) return;
+        [self OE_performImportStepCheckArchiveFile];
+        if([self shouldExit]) return;
 
-    [self OE_performImportStepDetermineSystem];
-    if([self shouldExit]) return;
+        [self OE_performImportStepDetermineSystem];
+        if([self shouldExit]) return;
 
-    [self OE_performImportStepHash];
-    if([self shouldExit]) return;
+        [self OE_performImportStepHash];
+        if([self shouldExit]) return;
 
-    [self OE_performImportStepCheckHash];
-    if([self shouldExit]) return;
+        [self OE_performImportStepCheckHash];
+        if([self shouldExit]) return;
 
-    [self OE_performImportStepOrganize];
-    if([self shouldExit]) return;
+        [self OE_performImportStepOrganize];
+        if([self shouldExit]) return;
 
-    [self OE_performImportStepOrganizeAdditionalFiles];
-    if([self shouldExit]) return;
-
-    [self OE_performImportStepCreateCoreDataObjects];
+        [self OE_performImportStepOrganizeAdditionalFiles];
+        if([self shouldExit]) return;
+        
+        [self OE_performImportStepCreateCoreDataObjects];
+    }];
 }
 #pragma mark - Importing
 - (void)OE_performImportStepCheckDirectory
@@ -335,7 +358,7 @@
             }
         }
 
-        [self exitWithStatus:OEImportItemStatusFinished error:nil];
+        [self exitWithStatus:OEImportExitSuccess error:nil];
     }
 }
 - (void)OE_performImportStepCheckArchiveFile
@@ -373,7 +396,7 @@
         {
             if(![archive entryHasSize:i] || [archive entryIsEncrypted:i] || [archive entryIsDirectory:i] || [archive entryIsArchive:i])
             {
-                DLog(@"Entry %d is either empty, or a directory or encrypted or iteself an archive", i);
+                IMPORTDLog(@"Entry %d is either empty, or a directory or encrypted or iteself an archive", i);
                 continue;
             }
 
@@ -398,7 +421,7 @@
                 @catch (NSException *exception) {
                     [fm removeItemAtPath:folder error:nil];
                     tmpURL = nil;
-                    DLog(@"unpack failed");
+                    IMPORTDLog(@"unpack failed");
                 }
             }
 
@@ -429,7 +452,7 @@
             // TODO: insert operation at front of queue (after other subitems)
             [importer addOperation:duplicateItem];
             [duplicateItem setCollectionID:[self collectionID]];
-            [self exitWithStatus:OEImportItemStatusFinished error:nil];
+            [self exitWithStatus:OEImportExitSuccess error:nil];
         }
     }
 }
@@ -444,11 +467,11 @@
 
     if(![fileManager hashFileAtURL:url md5:&md5 crc32:&crc error:&error])
     {
-        DLog(@"unable to hash file, this is probably a fatal error");
-        DLog(@"%@", error);
+        IMPORTDLog(@"unable to hash file, this is probably a fatal error");
+        IMPORTDLog(@"%@", error);
 
         NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoHash userInfo:nil];
-        [self exitWithStatus:OEImportItemStatusFatalError error:error];
+        [self exitWithStatus:OEImportExitErrorFatal error:error];
     }
     else
     {
@@ -479,15 +502,15 @@
         [self setRom:rom];
         if(![romURL checkResourceIsReachableAndReturnError:&error])
         {
-            DLog(@"rom file not available");
-            DLog(@"%@", error);
+            IMPORTDLog(@"rom file not available");
+            IMPORTDLog(@"%@", error);
             // TODO: depending on error finish here with 'already present' success
             // if the error says something like volume could not be found we might want to skip import because the file is probably on an external HD that is currently not connected
             // but if it just says the file was deleted we should replace the rom's url with the new one and continue importing
         }
         else
         {
-            [self exitWithStatus:OEImportItemStatusFinished error:nil];
+            [self exitWithStatus:OEImportExitSuccess error:nil];
         }
     }
 }
@@ -505,20 +528,20 @@
     NSArray *validSystems = [OEDBSystem systemsForFileWithURL:url inContext:context error:&error];
     if(validSystems == nil)
     {
-        DLog(@"Could not get valid systems");
-        DLog(@"%@", error);
+        IMPORTDLog(@"Could not get valid systems");
+        IMPORTDLog(@"%@", error);
 
         error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
-        [self exitWithStatus:OEImportItemStatusFatalError error:error];
+        [self exitWithStatus:OEImportExitErrorFatal error:error];
         return;
     }
     else if([validSystems count] == 0)
     {
         // Try again with the zip itself
-        DLog(@"No valid system found for item at url %@", url);
+        IMPORTDLog(@"No valid system found for item at url %@", url);
 
         error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
-        [self exitWithStatus:OEImportItemStatusFatalError error:error];
+        [self exitWithStatus:OEImportExitErrorFatal error:error];
         return;
     }
     else if([validSystems count] == 1)
@@ -536,7 +559,7 @@
 
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Aaargh, too many systems. You need to choose one!" forKey:NSLocalizedDescriptionKey];
         error = [NSError errorWithDomain:OEImportErrorDomainResolvable code:OEImportErrorCodeMultipleSystems userInfo:userInfo];
-        [self exitWithStatus:OEImportItemStatusResolvableError error:error];
+        [self exitWithStatus:OEImportExitErrorResolvable error:error];
     }
 }
 
@@ -599,7 +622,7 @@
         __block OEDBSystem *system = nil;
         if([self rom] != nil)
         {
-            DLog(@"using rom object");
+            IMPORTDLog(@"using rom object");
             system = [[[self rom] game] system];
         }
         else
@@ -630,7 +653,7 @@
         NSError *error = nil;
         if(![[NSFileManager defaultManager] moveItemAtURL:url toURL:romURL error:&error])
         {
-            [self exitWithStatus:OEImportItemStatusFatalError error:error];
+            [self exitWithStatus:OEImportExitErrorFatal error:error];
         }
         else
         {
@@ -657,7 +680,7 @@
         {
             // TODO: Create user info
             NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeInvalidFile userInfo:nil];
-            [self exitWithStatus:OEImportItemStatusFatalError error:error];
+            [self exitWithStatus:OEImportExitErrorFatal error:error];
             return;
         }
 
@@ -665,7 +688,7 @@
         {
             // TODO: Create user info
             NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeAdditionalFiles userInfo:nil];
-            [self exitWithStatus:OEImportItemStatusFatalError error:error];
+            [self exitWithStatus:OEImportExitErrorFatal error:error];
             return;
         }
 
@@ -673,23 +696,23 @@
         NSString *targetDirectory = [path stringByDeletingLastPathComponent];
         if(copyToLibrary && ![sourceURL isSubpathOfURL:[database romsFolderURL]])
         {
-            DLog(@"copy to '%@'", targetDirectory);
+            IMPORTDLog(@"copy to '%@'", targetDirectory);
             NSError *error = nil;
             if(![cue copyReferencedFilesToPath:targetDirectory withError:&error])
             {
-                DLog(@"%@", error);
-                [self exitWithStatus:OEImportItemStatusFatalError error:error];
+                IMPORTDLog(@"%@", error);
+                [self exitWithStatus:OEImportExitErrorFatal error:error];
                 return;
             }
         }
         else if(organizeLibrary && [sourceURL isSubpathOfURL:[database romsFolderURL]])
         {
-            DLog(@"move to '%@'", targetDirectory);
+            IMPORTDLog(@"move to '%@'", targetDirectory);
             NSError *error = nil;
             if(![cue moveReferencedFilesToPath:targetDirectory withError:&error])
             {
-                DLog(@"%@", error);
-                [self exitWithStatus:OEImportItemStatusFatalError error:error];
+                IMPORTDLog(@"%@", error);
+                [self exitWithStatus:OEImportExitErrorFatal error:error];
                 return;
             }
         }
@@ -713,7 +736,7 @@
     if(rom == nil)
     {
         NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeInvalidFile userInfo:nil];
-        [self exitWithStatus:OEImportItemStatusFatalError error:error];
+        [self exitWithStatus:OEImportExitErrorFatal error:error];
         return;
     }
 
@@ -765,7 +788,7 @@
         {
             NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"No system! Someone must have deleted or disabled it!" forKey:NSLocalizedDescriptionKey];
             error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:userInfo];
-            [self exitWithStatus:OEImportItemStatusFatalError error:error];
+            [self exitWithStatus:OEImportExitErrorFatal error:error];
             return;
         }
     }
@@ -779,19 +802,9 @@
             [game setStatus:@(OEDBGameStatusProcessing)];
         }
 
-        if([self collectionID])
-        {
-            OEDBCollection *collection = [OEDBCollection objectWithID:[self collectionID] inContext:context];
-            if(collection != nil && [collection isDeleted] == NO)
-            {
-                [[game mutableCollections] addObject:collection];
-                DLog(@"add to collection: %@", collection);
-            }
-        }
-
         [rom save];
 
-        [self exitWithStatus:OEImportItemStatusFinished error:nil];
+        [self exitWithStatus:OEImportExitSuccess error:nil];
     }
     else
     {
@@ -800,7 +813,7 @@
         [rom save];
 
         NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoGame userInfo:nil];
-        [self exitWithStatus:OEImportItemStatusFatalError error:error];
+        [self exitWithStatus:OEImportExitErrorFatal error:error];
     }
 }
 @end

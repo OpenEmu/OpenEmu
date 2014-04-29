@@ -27,11 +27,11 @@
 #import <Foundation/Foundation.h>
 
 typedef enum  {
-    OEImportItemStatusIdle,
-    OEImportItemStatusResolvableError,
-    OEImportItemStatusFatalError,
-    OEImportItemStatusFinished,
-} OEImportItemState;
+    OEImportExitNone,
+    OEImportExitErrorResolvable,
+    OEImportExitErrorFatal,
+    OEImportExitSuccess,
+} OEImportExitStatus;
 
 typedef void (^OEImportItemCompletionBlock)(void);
 @class OEROMImporter;
@@ -44,7 +44,7 @@ typedef void (^OEImportItemCompletionBlock)(void);
 @property (copy) NSManagedObjectID   *collectionID;
 
 @property (copy) NSError             *error;
-@property       OEImportItemState    importState;
+@property        OEImportExitStatus   exitStatus;
 
 @property (copy) OEImportItemCompletionBlock completionHandler;
 @property (strong) OEImportOperation *archive;

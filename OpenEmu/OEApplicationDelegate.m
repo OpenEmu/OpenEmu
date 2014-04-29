@@ -613,7 +613,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
                 [self OE_loadDatabaseAsynchronouslyFormURL:databaseURL createIfNecessary:YES];
             }
-            else [self OE_performDatabaseSelection];
+            else
+            {
+                [self OE_performDatabaseSelection];
+            }
 
             break;
         }
@@ -637,8 +640,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // Preload composition plugins
     [OECompositionPlugin allPlugins];
 
-    [[OELibraryDatabase defaultDatabase] save:nil];
-    [[OELibraryDatabase defaultDatabase] disableSystemsWithoutPlugin];
+    OELibraryDatabase *library = [OELibraryDatabase defaultDatabase];
+    [library disableSystemsWithoutPlugin];
+    [[library mainThreadContext] save:nil];
 
     [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:_OEApplicationDelegateAllPluginsContext];
 }
