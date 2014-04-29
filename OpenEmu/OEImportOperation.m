@@ -272,17 +272,25 @@
     if(status == OEImportExitSuccess)
     {
         NSManagedObjectContext *context = [[self importer] context];
-        if([self rom] != nil)
+        OEDBRom *rom = [self rom];
+        if(rom != nil)
         {
-            if([[self rom] game] && [self collectionID])
+            if([self collectionID] != nil && [rom game] != nil)
             {
                 OEDBCollection *collection = [OEDBCollection objectWithID:[self collectionID] inContext:context];
                 if(collection != nil && [collection isDeleted] == NO)
                 {
-                    [[[[self rom] game] mutableCollections] addObject:collection];
+                    [[[rom game] mutableCollections] addObject:collection];
                 }
+                [rom save];
+            }
 
-                [[self rom] save];
+            // start sync thread
+            if([[[rom game] status] intValue] == OEDBGameStatusProcessing)
+            {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                    [[[self importer] database] startOpenVGDBSync];
+                });
             }
 
             NSManagedObjectContext *parentContext = [context parentContext];
@@ -448,6 +456,7 @@
         {
             [duplicateItem setExploreArchives:NO];
             [duplicateItem setCollectionID:[self collectionID]];
+            [duplicateItem setRom:[self rom]];
 
             // TODO: insert operation at front of queue (after other subitems)
             [importer addOperation:duplicateItem];

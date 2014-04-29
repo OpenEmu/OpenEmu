@@ -834,10 +834,13 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (void)startOpenVGDBSync
 {
-    if(_syncThread == nil || [_syncThread isFinished])
+    @synchronized(_syncThread)
     {
-        _syncThread = [[NSThread alloc] initWithTarget:self selector:@selector(OpenVGSyncThreadMain) object:nil];
-        [_syncThread start];
+        if(_syncThread == nil || [_syncThread isFinished])
+        {
+            _syncThread = [[NSThread alloc] initWithTarget:self selector:@selector(OpenVGSyncThreadMain) object:nil];
+            [_syncThread start];
+        }
     }
 }
 
