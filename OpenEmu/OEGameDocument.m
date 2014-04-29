@@ -468,7 +468,8 @@ typedef enum : NSUInteger
     DLog(@"%@", typeName);
     if([typeName isEqualToString:@"org.openemu.savestate"])
     {
-        OEDBSaveState *state = [OEDBSaveState updateOrCreateStateWithURL:absoluteURL];
+        NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
+        OEDBSaveState *state = [OEDBSaveState updateOrCreateStateWithURL:absoluteURL inContext:context];
         if(state && [self OE_setupDocumentWithSaveState:state error:outError])
             return YES;
         return NO;
@@ -1110,12 +1111,18 @@ typedef enum : NSUInteger
          if([stateName hasPrefix:OESaveStateSpecialNamePrefix])
          {
              state = [[self rom] saveStateWithName:stateName];
-             [state setCoreIdentifier:[core bundleIdentifier]];
-             [state setCoreVersion:[core version]];
+
+             NSString *coreIdentifier = [core bundleIdentifier];
+             NSString *coreVersion = [core version];
+             [state setCoreIdentifier:coreIdentifier];
+             [state setCoreVersion:coreVersion];
          }
 
          if(state == nil)
-             state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:core withFile:temporaryStateFileURL];
+         {
+             NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
+             state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:core withFile:temporaryStateFileURL inContext:context];
+         }
          else
          {
              [state replaceStateFileWithFile:temporaryStateFileURL];
@@ -1123,8 +1130,12 @@ typedef enum : NSUInteger
              [state writeInfoPlist];
          }
 
-         [[state libraryDatabase] save:nil];
-         
+         [state save];
+         NSManagedObjectContext *mainContext = [state managedObjectContext];
+         [mainContext performBlock:^{
+             [mainContext save:nil];
+         }];
+
          NSData *TIFFData = [[[self gameViewController] takeNativeScreenshot] TIFFRepresentation];
          NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
 
@@ -1208,7 +1219,8 @@ typedef enum : NSUInteger
     {
         if(plugin == nil)
         {
-            [self presentError:error];
+            if(error != nil)
+                [self presentError:error];
             return;
         }
 
