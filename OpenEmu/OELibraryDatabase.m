@@ -862,20 +862,22 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     while((result = [nestedContext executeFetchRequest:request error:nil]) && [result count] != 0)
     {
-        [nestedContext performBlockAndWait:^{
-            OEDBGame *game = [result lastObject];
-            [game performInfoSync];
-            [game save];
-        }];
-
-        NSDate *now = [NSDate date];
-        NSTimeInterval timeSinceLastSave = [now timeIntervalSinceDate:lastMainSave];
-        if(timeSinceLastSave > OpenVGDBSyncMainContextSaveDelay)
-        {
-            [mainContext performBlock:^{
-                [mainContext save:nil];
+        @autoreleasepool {
+            [nestedContext performBlockAndWait:^{
+                OEDBGame *game = [result lastObject];
+                [game performInfoSync];
+                [game save];
             }];
-            lastMainSave = now;
+
+            NSDate *now = [NSDate date];
+            NSTimeInterval timeSinceLastSave = [now timeIntervalSinceDate:lastMainSave];
+            if(timeSinceLastSave > OpenVGDBSyncMainContextSaveDelay)
+            {
+                [mainContext performBlock:^{
+                    [mainContext save:nil];
+                }];
+                lastMainSave = now;
+            }
         }
         [NSThread sleepForTimeInterval:0.5];
     }
