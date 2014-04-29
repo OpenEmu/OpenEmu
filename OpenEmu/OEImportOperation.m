@@ -272,7 +272,7 @@
     if(status == OEImportExitSuccess)
     {
         NSManagedObjectContext *context = [[self importer] context];
-        if([self rom])
+        if([self rom] != nil)
         {
             if([[self rom] game] && [self collectionID])
             {
@@ -803,6 +803,7 @@
         }
 
         [rom save];
+        [self setRom:rom];
 
         [self exitWithStatus:OEImportExitSuccess error:nil];
     }
@@ -812,6 +813,7 @@
         [game delete];
         [rom save];
 
+        [self setRom:nil];
         NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoGame userInfo:nil];
         [self exitWithStatus:OEImportExitErrorFatal error:error];
     }
