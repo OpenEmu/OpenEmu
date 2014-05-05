@@ -401,8 +401,8 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
     if(reloadListView)
         [listView reloadData];
-    //else
-        //[gridView reloadCellsAtIndexes:[gridView indexesForVisibleCells]];
+    else
+        [gridView reloadData];
     
     if(_selectedViewTag == tag && tag != OEBlankSlateTag) return;
 

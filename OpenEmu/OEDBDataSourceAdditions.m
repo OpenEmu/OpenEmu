@@ -92,24 +92,20 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
 {
     OEDBImage *image = [self boxImage];
 
-    if(image == nil)
-    {
-        CGFloat aspectRatio = [[self system] coverAspectRatio];
-        NSImage *noArtworkImage = [[NSImage alloc] init];
-        [noArtworkImage setSize:NSMakeSize(300, 300*aspectRatio)];
-        return noArtworkImage;
-    }
-
-    if([image isLocalImageAvailable])
+    if([image isLocalImageAvailable] && [image relativePath] != nil)
     {
         return [image imageURL];
     }
-    else if([[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
+
+    if(image != nil && [image source] != nil && [[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
     {
         return [image sourceURL];
     }
 
-    return nil;
+    CGFloat aspectRatio = [[self system] coverAspectRatio];
+    NSImage *noArtworkImage = [[NSImage alloc] init];
+    [noArtworkImage setSize:NSMakeSize(300, 300*aspectRatio)];
+    return noArtworkImage;
 }
 
 - (NSString *)imageTitle
