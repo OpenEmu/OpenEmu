@@ -377,7 +377,7 @@
     NSString *path = [url path];
     NSString *extension = [[path pathExtension] lowercaseString];
 
-    if([extension isEqualToString:@"nds"])
+    if([extension isEqualToString:@"nds"] || [extension isEqualToString:@"iso"])
         return;
 
     XADArchive *archive = nil;
