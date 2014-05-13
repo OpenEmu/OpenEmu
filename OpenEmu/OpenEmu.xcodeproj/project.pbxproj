@@ -788,6 +788,7 @@
 		94BE9E6C171689C900AB08E6 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E66171689C900AB08E6 /* Controller-Preferences.plist */; };
 		94BE9E6D171689C900AB08E6 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94BE9E67171689C900AB08E6 /* Keyboard-Mappings.plist */; };
 		94BE9E741716922100AB08E6 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
+		94C59FBF1921CCBD0096BCC2 /* OEN64SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C59FBE1921CCBD0096BCC2 /* OEN64SystemController.m */; };
 		94CE3FB218DE92970079CC16 /* 3DO.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 943F99B31707DF3700270E89 /* 3DO.oesystemplugin */; };
 		94CEB26E17A84809005A2107 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94CEB27417A84809005A2107 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94CEB27217A84809005A2107 /* InfoPlist.strings */; };
@@ -2505,6 +2506,8 @@
 		94BE9E65171689C900AB08E6 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94BE9E66171689C900AB08E6 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94BE9E67171689C900AB08E6 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		94C59FBD1921CCBD0096BCC2 /* OEN64SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemController.h; sourceTree = "<group>"; };
+		94C59FBE1921CCBD0096BCC2 /* OEN64SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEN64SystemController.m; sourceTree = "<group>"; };
 		94CEB26D17A84809005A2107 /* GameCube.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameCube.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94CEB27117A84809005A2107 /* GameCube-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GameCube-Info.plist"; sourceTree = "<group>"; };
 		94CEB27317A84809005A2107 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3236,6 +3239,8 @@
 		141554111442B3B300A01683 /* N64 */ = {
 			isa = PBXGroup;
 			children = (
+				94C59FBD1921CCBD0096BCC2 /* OEN64SystemController.h */,
+				94C59FBE1921CCBD0096BCC2 /* OEN64SystemController.m */,
 				1415541F1442B7B100A01683 /* OEN64SystemResponder.h */,
 				141554201442B7B100A01683 /* OEN64SystemResponder.m */,
 				141554221442B85000A01683 /* OEN64SystemResponderClient.h */,
@@ -7494,6 +7499,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				141554211442B7B100A01683 /* OEN64SystemResponder.m in Sources */,
+				94C59FBF1921CCBD0096BCC2 /* OEN64SystemController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

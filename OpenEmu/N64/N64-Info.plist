@@ -25,7 +25,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OESystemController</string>
+	<string>OEN64SystemController</string>
 	<key>OESystemName</key>
 	<string>Nintendo 64</string>
 	<key>OESystemIdentifier</key>
@@ -192,11 +192,11 @@
 	<dict>
 		<key>OEAnalogControlsKey</key>
 		<array>
-            <string>OEN64AnalogUp</string>
-            <string>OEN64AnalogDown</string>
-            <string>OEN64AnalogLeft</string>
-            <string>OEN64AnalogRight</string>
-        </array>
+			<string>OEN64AnalogUp</string>
+			<string>OEN64AnalogDown</string>
+			<string>OEN64AnalogLeft</string>
+			<string>OEN64AnalogRight</string>
+		</array>
 		<key>OEHatSwitchControlsKey</key>
 		<array>
 			<array>
