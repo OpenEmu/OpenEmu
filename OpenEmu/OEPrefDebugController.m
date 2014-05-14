@@ -140,6 +140,11 @@ NSString * const OptionsKey = @"options";
                                       Option(@"Europe", @2),
                                       Option(@"Other", @3),
                                       ),
+                              Popover(@"Run games using", @selector(changeGameMode:),
+                                      Option(@"XPC", NSStringFromClass([OEXPCGameCoreManager class])),
+                                      Option(@"Distributed Objects", NSStringFromClass([OEDOGameCoreManager class])),
+                                      Option(@"Background Thread", NSStringFromClass([OEThreadGameCoreManager class])),
+                                      ),
 
                               Group(@"Library Window"),
                               NCheckbox(OEMenuOptionsStyleKey, @"Dark GridView context menu"),
@@ -203,6 +208,12 @@ NSString * const OptionsKey = @"options";
     }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsDidChangeNotification object:self];
+}
+
+- (void)changeGameMode:(NSPopUpButton*)sender
+{
+    NSMenuItem *selectedItem = [sender selectedItem];
+    [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEGameCoreManagerModePreferenceKey];
 }
 
 #pragma mark -
