@@ -667,7 +667,7 @@
     BOOL organizeLibrary = [standardUserDefaults boolForKey:OEOrganizeLibraryKey];
     if((copyToLibrary || organizeLibrary) && [[[url pathExtension] lastPathComponent] isEqualToString:@"cue"])
     {
-        NSString *referencedFilesDirectory = [path stringByDeletingLastPathComponent];
+        NSString *referencedFilesDirectory = [[[self sourceURL] path] stringByDeletingLastPathComponent];
         OECUESheet *cue = [[OECUESheet alloc] initWithPath:path andReferencedFilesDirectory:referencedFilesDirectory];
         if(cue == nil)
         {
