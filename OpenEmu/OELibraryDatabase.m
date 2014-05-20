@@ -191,7 +191,8 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     // Setup a moc for use on main thread
     _mainThreadMOC = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    _mainThreadMOC.parentContext = _writerContext;
+    [_mainThreadMOC setParentContext:_writerContext];
+    [_mainThreadMOC setUndoManager:nil];
     [[_mainThreadMOC userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
     [[_mainThreadMOC userInfo] setValue:@"UI" forKey:@"name"];
 
@@ -327,6 +328,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [context setParentContext:_mainThreadMOC];
+    [context setUndoManager:nil];
     [context setMergePolicy:[_mainThreadMOC mergePolicy]];
     [[context userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
 
@@ -450,7 +452,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSUndoManager *)undoManager
 {
-    return [_mainThreadMOC undoManager];
+    return nil; // [_mainThreadMOC undoManager];
 }
 
 #pragma mark - Database queries

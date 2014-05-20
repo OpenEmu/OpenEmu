@@ -101,7 +101,6 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
         NSOperation *initializeMOCOp = [NSBlockOperation blockOperationWithBlock:^{
             NSManagedObjectContext *context = [aDatabase makeChildContext];
-            [context setUndoManager:nil];
             [self setContext:context];
         }];
         [queue addOperations:@[initializeMOCOp] waitUntilFinished:YES];

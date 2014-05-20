@@ -44,7 +44,7 @@
     if(handleFileExtension)
     {
         NSError *error = nil;
-        NSData *dataTrackBuffer = [NSData dataWithContentsOfFile:dataTrackPath options:NSDataReadingMappedIfSafe | NSDataReadingUncached error:&error];
+        NSData *dataTrackBuffer = [NSData dataWithContentsOfFile:dataTrackPath options:NSDataReadingUncached error:&error];
 
         NSString* dataTrackString = @"PC-FX:Hu_CD-ROM ";
         NSData* dataSearch = [dataTrackString dataUsingEncoding:NSUTF8StringEncoding];
