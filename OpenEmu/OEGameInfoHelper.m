@@ -381,7 +381,10 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
         NSString *formatName = [archive formatName];
         if ([formatName isEqualToString:@"MacBinary"])
             return nil;
-
+        
+        if( [formatName isEqualToString:@"LZMA_Alone"])
+            return nil;
+        
         if (![archive entryHasSize:entryIndex] || [archive entryIsEncrypted:entryIndex] || [archive entryIsDirectory:entryIndex] || [archive entryIsArchive:entryIndex])
             return nil;
 

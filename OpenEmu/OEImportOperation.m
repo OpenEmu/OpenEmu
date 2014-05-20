@@ -380,7 +380,12 @@
     {
         NSString    *formatName = [archive formatName];
 
+        // XADArchive file detection is not exactly the best
+        // ignore some formats
         if ([formatName isEqualToString:@"MacBinary"])
+            return;
+        
+        if( [formatName isEqualToString:@"LZMA_Alone"])
             return;
         
         // disable multi-rom archives
@@ -414,6 +419,13 @@
                     [archive _extractEntry:i as:extractionPath deferDirectories:YES dataFork:YES resourceFork:NO];
                 }
                 @catch (NSException *exception) {
+                    NSLog(@"exception handeled");
+                }
+                
+                // exception is caught but handler does not execute, so check if extraction worked
+                NSNumber *fileSize = [tmpURL fileSize];
+                if([fileSize integerValue] == 0)
+                {
                     [fm removeItemAtPath:folder error:nil];
                     tmpURL = nil;
                     IMPORTDLog(@"unpack failed");

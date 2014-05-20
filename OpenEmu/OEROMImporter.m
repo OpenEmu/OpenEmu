@@ -296,8 +296,6 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
         OEImportExitStatus state = [blockOperation exitStatus];
         if(state == OEImportExitSuccess)
         {
-            if([op archive])
-                [[op archive] cancel];
             importer.numberOfProcessedItems ++;
         }
         else if(state == OEImportExitErrorFatal)
@@ -306,8 +304,6 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
         }
         else if(state == OEImportExitErrorResolvable)
         {
-            if([op archive])
-                [[op archive] cancel];
         }
 
         OEImportItemCompletionBlock block = [op completionHandler];
