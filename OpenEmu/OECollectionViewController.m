@@ -51,6 +51,8 @@
 #import "OEDBSmartCollection.h"
 #import "OEDBSaveState.h"
 
+#import "OEDBAllGamesCollection.h"
+
 #import "OECenteredTextFieldCell.h"
 #import "OELibraryDatabase.h"
 
@@ -897,10 +899,47 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
     NSArray *selectedGames = [self selectedGames];
     BOOL multipleGames = ([selectedGames count]>1);
-    if([[self representedObject] isKindOfClass:[OEDBSmartCollection class]])
-        return;
+    if([[self representedObject] isKindOfClass:[OEDBSmartCollection class]] || [self representedObject]==(id<OECollectionViewItemProtocol>)[OEDBAllGamesCollection sharedDBAllGamesCollection])
+    {
+        // delete games from library if user allows it
+        if([[OEHUDAlert removeGamesFromLibraryAlert:multipleGames] runModal])
+        {
+            NSURL* romsFolderURL             = [[[self libraryController] database] romsFolderURL];
+            __block BOOL romsAreInRomsFolder = NO;
+            [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
+                [[game roms] enumerateObjectsUsingBlock:^(OEDBRom *rom, BOOL *stopRoms) {
+                    NSURL *romURL = [rom URL];
+                    if(romURL != nil && [romURL isSubpathOfURL:romsFolderURL])
+                    {
+                        romsAreInRomsFolder = YES;
+                        
+                        *stopGames = YES;
+                        *stopRoms = YES;
+                    }
+                }];
+            }];
+            
+            BOOL deleteFiles = NO;
+            if(romsAreInRomsFolder)
+            {
+                NSUInteger alertReturn = [[OEHUDAlert removeGameFilesFromLibraryAlert:multipleGames] runModal];
+                deleteFiles = (alertReturn == NSAlertDefaultReturn);
+            }
+            
+            DLog(@"deleteFiles: %d", deleteFiles);
+            [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
+                [game deleteByMovingFile:deleteFiles keepSaveStates:YES];
+                [game save];
+            }];
+            
+            NSRect visibleRect = [gridView visibleRect];
+            [self OE_reloadData];
+            [gridView scrollRectToVisible:visibleRect];
+        }
+    }
     else if([[self representedObject] isMemberOfClass:[OEDBCollection class]])
     {
+        // remove games from collection if user allows it
         if([[OEHUDAlert removeGamesFromCollectionAlert] runModal])
         {
             OEDBCollection* collection = (OEDBCollection*)[self representedObject];
@@ -908,40 +947,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
             [collection save];
         }
         [self setNeedsReload];
-    }
-    else if([[OEHUDAlert removeGamesFromLibraryAlert:multipleGames] runModal])
-    {
-        NSURL* romsFolderURL             = [[[self libraryController] database] romsFolderURL];
-        __block BOOL romsAreInRomsFolder = NO; 
-        [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
-            [[game roms] enumerateObjectsUsingBlock:^(OEDBRom *rom, BOOL *stopRoms) {
-                NSURL *romURL = [rom URL];
-                if(romURL != nil && [romURL isSubpathOfURL:romsFolderURL])
-                {
-                    romsAreInRomsFolder = YES;
-                    
-                    *stopGames = YES;
-                    *stopRoms = YES;
-                }
-            }];
-        }];
-        
-        BOOL deleteFiles = NO;
-        if(romsAreInRomsFolder)
-        {
-            NSUInteger alertReturn = [[OEHUDAlert removeGameFilesFromLibraryAlert:multipleGames] runModal];
-            deleteFiles = (alertReturn == NSAlertDefaultReturn);
-        }
-        
-        DLog(@"deleteFiles: %d", deleteFiles);
-        [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
-            [game deleteByMovingFile:deleteFiles keepSaveStates:YES];
-            [game save];
-        }];
-
-        NSRect visibleRect = [gridView visibleRect];
-        [self OE_reloadData];
-        [gridView scrollRectToVisible:visibleRect];
     }
 }
 
