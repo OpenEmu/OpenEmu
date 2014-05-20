@@ -101,6 +101,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
         NSOperation *initializeMOCOp = [NSBlockOperation blockOperationWithBlock:^{
             NSManagedObjectContext *context = [aDatabase makeChildContext];
+            [context setUndoManager:nil];
             [self setContext:context];
         }];
         [queue addOperations:@[initializeMOCOp] waitUntilFinished:YES];
@@ -290,7 +291,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
 - (void(^)(void))OE_completionHandlerForOperation:(OEImportOperation*)op
 {
-    __block OEImportOperation *blockOperation = op;
+    __block __unsafe_unretained OEImportOperation *blockOperation = op;
     __block OEROMImporter     *importer = self;
     return ^{
         OEImportExitStatus state = [blockOperation exitStatus];
@@ -306,14 +307,14 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
         {
         }
 
-        OEImportItemCompletionBlock block = [op completionHandler];
+        OEImportItemCompletionBlock block = [blockOperation completionHandler];
         if(block != nil)
         {
             // save so changes propagate to other stores
-            [[self context] save:nil];
+            [[importer context] save:nil];
             
             dispatch_after(1.0, dispatch_get_main_queue(), ^{
-                block([op romObjectID]);
+                block([blockOperation romObjectID]);
             });
         }
 
@@ -321,7 +322,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
         if([[importer operationQueue] operationCount] == 0)
         {
-            [self finish];
+            [importer finish];
         }
     };
 }

@@ -187,6 +187,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     [_writerContext setPersistentStoreCoordinator:coordinator];
     [[_writerContext userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
     [[_writerContext userInfo] setValue:@"main" forKey:@"name"];
+    [_writerContext setUndoManager:nil];
 
     // Setup a moc for use on main thread
     _mainThreadMOC = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];

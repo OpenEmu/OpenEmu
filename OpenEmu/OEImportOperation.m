@@ -272,8 +272,9 @@
             // start sync thread
             if([[[rom game] status] intValue] == OEDBGameStatusProcessing)
             {
+                OELibraryDatabase *database = [[self importer] database];
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                    [[[self importer] database] startOpenVGDBSync];
+                    [database startOpenVGDBSync];
                 });
             }
 
@@ -299,35 +300,40 @@
 {
     return [[self rom] permanentID];
 }
+
 #pragma mark - NSOperation Overrides
 - (void)main
 {
-    [[[self importer] context] performBlockAndWait:^{
-        if([self shouldExit]) return;
-
-        [self OE_performImportStepCheckDirectory];
-        if([self shouldExit]) return;
-
-        [self OE_performImportStepCheckArchiveFile];
-        if([self shouldExit]) return;
-
-        [self OE_performImportStepDetermineSystem];
-        if([self shouldExit]) return;
-
-        [self OE_performImportStepHash];
-        if([self shouldExit]) return;
-
-        [self OE_performImportStepCheckHash];
-        if([self shouldExit]) return;
-
-        [self OE_performImportStepOrganize];
-        if([self shouldExit]) return;
-
-        [self OE_performImportStepOrganizeAdditionalFiles];
-        if([self shouldExit]) return;
+    @autoreleasepool {
         
-        [self OE_performImportStepCreateCoreDataObjects];
-    }];
+        [[[self importer] context] performBlockAndWait:^{
+            if([self shouldExit]) return;
+            
+            [self OE_performImportStepCheckDirectory];
+            if([self shouldExit]) return;
+            
+            [self OE_performImportStepCheckArchiveFile];
+            if([self shouldExit]) return;
+            
+            [self OE_performImportStepDetermineSystem];
+            if([self shouldExit]) return;
+            
+            [self OE_performImportStepHash];
+            if([self shouldExit]) return;
+            
+            [self OE_performImportStepCheckHash];
+            if([self shouldExit]) return;
+            
+            [self OE_performImportStepOrganize];
+            if([self shouldExit]) return;
+            
+            [self OE_performImportStepOrganizeAdditionalFiles];
+            if([self shouldExit]) return;
+            
+            [self OE_performImportStepCreateCoreDataObjects];
+        }];
+        
+    }
 }
 #pragma mark - Importing
 - (void)OE_performImportStepCheckDirectory
