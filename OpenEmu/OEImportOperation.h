@@ -39,7 +39,7 @@ typedef void (^OEImportItemCompletionBlock)(void);
 + (instancetype)operationWithURL:(NSURL*)url inImporter:(OEROMImporter*)importer;
 @property BOOL exploreArchives;
 
-@property (copy, nonatomic) NSURL    *URL;
+@property (copy) NSURL    *URL;
 @property (copy) NSURL               *sourceURL;
 @property (copy) NSManagedObjectID   *collectionID;
 
@@ -49,6 +49,5 @@ typedef void (^OEImportItemCompletionBlock)(void);
 @property        OEImportExitStatus   exitStatus;
 
 @property (copy) OEImportItemCompletionBlock completionHandler;
-@property (strong) OEImportOperation *archive;
 @property (strong) OEROMImporter *importer;
 @end

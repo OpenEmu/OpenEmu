@@ -251,22 +251,6 @@
     [encoder encodeObject:[self sourceURL] forKey:@"sourceURL"];
 }
 #pragma mark -
-- (void)setURL:(NSURL *)URL
-{
-    if([self archive])
-        [[self archive] setURL:URL];
-    else
-        _url = URL;
-}
-
-- (NSURL*)URL
-{
-    if([self archive])
-        return [[self archive] URL];
-    return _url;
-}
-@synthesize URL=_url;
-#pragma mark -
 - (void)exitWithStatus:(OEImportExitStatus)status error:(NSError*)error
 {
     if(status == OEImportExitSuccess)
@@ -377,6 +361,8 @@
     NSString *path = [url path];
     NSString *extension = [[path pathExtension] lowercaseString];
 
+    // nds and some isos might be recognized as compressed archives by XADArchive
+    // but we don't ever want to extract anything from those files
     if([extension isEqualToString:@"nds"] || [extension isEqualToString:@"iso"])
         return;
 
@@ -392,14 +378,15 @@
 
     if(archive != nil)
     {
-        BOOL hasSubItem = NO;
-        OEROMImporter *importer = [self importer];
         NSString    *formatName = [archive formatName];
-        OEImportOperation *duplicateItem = [OEImportOperation operationWithURL:[self URL] inImporter:importer];
 
         if ([formatName isEqualToString:@"MacBinary"])
             return;
-
+        
+        // disable multi-rom archives
+        if([archive numberOfEntries] > 1)
+            return;
+        
         for(int i=0; i<[archive numberOfEntries]; i++)
         {
             if(![archive entryHasSize:i] || [archive entryIsEncrypted:i] || [archive entryIsDirectory:i] || [archive entryIsArchive:i])
@@ -435,33 +422,10 @@
 
             if(tmpURL)
             {
-                OEImportOperation *subItem = [OEImportOperation operationWithURL:tmpURL inImporter:importer];
-                if(subItem)
-                {
-                    [subItem setArchive:duplicateItem];
-                    [subItem setURL:[self URL]];
-                    [subItem setExtractedFileURL:tmpURL];
-                    [subItem setArchiveFileIndex:i];
-                    [subItem setExploreArchives:NO];
-                    [subItem setCollectionID:[self collectionID]];
-
-                    // TODO: insert operation at front of queue
-                    [importer addOperation:subItem];
-                    hasSubItem = YES;
-                }
+                [self setExtractedFileURL:tmpURL];
+                [self setArchiveFileIndex:i];
+                [self setExploreArchives:NO];
             }
-        }
-
-        if(hasSubItem)
-        {
-            [duplicateItem setExploreArchives:NO];
-            [duplicateItem setCollectionID:[self collectionID]];
-            [duplicateItem setRom:[self rom]];
-
-            // TODO: insert operation at front of queue (after other subitems)
-            [importer addOperation:duplicateItem];
-            [duplicateItem setCollectionID:[self collectionID]];
-            [self exitWithStatus:OEImportExitSuccess error:nil];
         }
     }
 }
@@ -614,6 +578,8 @@
 
         if(error != nil)
         {
+            IMPORTDLog(@"Could not copy rom to library");
+            [self exitWithStatus:OEImportExitErrorFatal error:error];
             return;
         }
 
