@@ -511,22 +511,21 @@
     NSURL *url = [self extractedFileURL] ?: [self URL];
 
     NSArray *validSystems = [OEDBSystem systemsForFileWithURL:url inContext:context error:&error];
-    if(validSystems == nil)
+    if(validSystems == nil || [validSystems count] == 0)
     {
         IMPORTDLog(@"Could not get valid systems");
         IMPORTDLog(@"%@", error);
-
-        error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
-        [self exitWithStatus:OEImportExitErrorFatal error:error];
-        return;
-    }
-    else if([validSystems count] == 0)
-    {
-        // Try again with the zip itself
-        IMPORTDLog(@"No valid system found for item at url %@", url);
-
-        error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
-        [self exitWithStatus:OEImportExitErrorFatal error:error];
+        if([self extractedFileURL])
+        {
+            IMPORTDLog(@"Try again with zip itself");
+            [self setExtractedFileURL:nil];
+            [self OE_performImportStepDetermineSystem];
+        }
+        else
+        {
+            error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoSystem userInfo:nil];
+            [self exitWithStatus:OEImportExitErrorFatal error:error];
+        }
         return;
     }
     else if([validSystems count] == 1)
@@ -584,9 +583,11 @@
         }];
 
         if([[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:&error])
+        {
             // Lock original file again
             if(romFileLocked)
                 [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(YES) } ofItemAtPath:[url path] error:&error];
+        }
 
         if(error != nil)
         {
@@ -666,6 +667,7 @@
         if(cue == nil)
         {
             // TODO: Create user info
+            IMPORTDLog(@"unable to read cue sheet");
             NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeInvalidFile userInfo:nil];
             [self exitWithStatus:OEImportExitErrorFatal error:error];
             return;
@@ -673,6 +675,8 @@
 
         if(![cue allFilesAvailable])
         {
+            IMPORTDLog(@"Some files from the cuesheet are missing!");
+
             // TODO: Create user info
             NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeAdditionalFiles userInfo:nil];
             [self exitWithStatus:OEImportExitErrorFatal error:error];
