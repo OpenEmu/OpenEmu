@@ -102,7 +102,8 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 
     // TODO: FIX
     OEDBGame *game = nil;
-    OEDBRom *rom = nil; //[OEDBRom romWithURL:url error:outError];
+    NSManagedObjectContext *context = [database mainThreadContext];
+    OEDBRom *rom = [OEDBRom romWithURL:url inContext:context error:outError];
     if(rom != nil)
     {
         game = [rom game];
@@ -113,8 +114,8 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     if(game == nil && urlReachable)
     {
         [defaultFileManager hashFileAtURL:url md5:&md5 crc32:&crc error:outError];
-        OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inContext:[game managedObjectContext] error:outError];
-        if(!rom) rom = [OEDBRom romWithCRC32HashString:crc inContext:[game managedObjectContext] error:outError];
+        OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inContext:context error:outError];
+        if(!rom) rom = [OEDBRom romWithCRC32HashString:crc inContext:context error:outError];
         if(rom) game = [rom game];
     }
     

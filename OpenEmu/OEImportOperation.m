@@ -294,6 +294,11 @@
     return _shouldExit || [self isCancelled];
 }
 @synthesize shouldExit=_shouldExit;
+
+- (NSManagedObjectID*)romObjectID
+{
+    return [[self rom] permanentID];
+}
 #pragma mark - NSOperation Overrides
 - (void)main
 {

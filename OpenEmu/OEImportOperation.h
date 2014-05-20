@@ -33,7 +33,7 @@ typedef enum  {
     OEImportExitSuccess,
 } OEImportExitStatus;
 
-typedef void (^OEImportItemCompletionBlock)(void);
+typedef void (^OEImportItemCompletionBlock)(NSManagedObjectID*);
 @class OEROMImporter;
 @interface OEImportOperation : NSOperation <NSObject, NSCoding>
 + (instancetype)operationWithURL:(NSURL*)url inImporter:(OEROMImporter*)importer;
@@ -42,6 +42,8 @@ typedef void (^OEImportItemCompletionBlock)(void);
 @property (copy) NSURL    *URL;
 @property (copy) NSURL               *sourceURL;
 @property (copy) NSManagedObjectID   *collectionID;
+@property (nonatomic, readonly) NSManagedObjectID *romObjectID;
+
 
 @property (strong, readonly) NSArray *systemIdentifiers;
 

@@ -516,7 +516,11 @@ typedef enum : NSUInteger
         // Could not find game in database. Try to import the file
         OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
         OEImportItemCompletionBlock completion =
-        ^{
+        ^(NSManagedObjectID *romID){
+            
+            // import probably failed
+            if(!romID) return;
+            
             OEHUDAlert *alert = [[OEHUDAlert alloc] init];
 
             NSString *fileName    = [[absoluteURL lastPathComponent] stringByDeletingPathExtension];
@@ -528,7 +532,14 @@ typedef enum : NSUInteger
             alert.alternateButtonTitle = NSLocalizedString(@"No", @"");
 
             if([alert runModal] == NSAlertDefaultReturn)
-                [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:absoluteURL display:YES completionHandler:nil];
+            {
+                NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
+                OEDBRom *rom = [OEDBRom objectWithID:romID inContext:context];
+                if(rom != nil)
+                {
+                    [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[rom URL] display:YES completionHandler:nil];
+                }
+            }
         };
 
         if([importer importItemAtURL:absoluteURL withCompletionHandler:completion])

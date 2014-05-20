@@ -430,7 +430,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
          
          if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEImportRequiredError)
          {
-             completionHandler(nil, NO, nil);
+             if(completionHandler != nil)
+                 completionHandler(nil, NO, nil);
              return;
          }
          

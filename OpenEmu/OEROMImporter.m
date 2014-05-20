@@ -308,7 +308,14 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
         OEImportItemCompletionBlock block = [op completionHandler];
         if(block != nil)
-            dispatch_async(dispatch_get_main_queue(), block);
+        {
+            // save so changes propagate to other stores
+            [[self context] save:nil];
+            
+            dispatch_after(1.0, dispatch_get_main_queue(), ^{
+                block([op romObjectID]);
+            });
+        }
 
         [self OE_performSelectorOnDelegate:@selector(romImporter:stoppedProcessingItem:) withObject:blockOperation];
 
