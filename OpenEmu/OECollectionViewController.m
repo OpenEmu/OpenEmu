@@ -927,9 +927,12 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
             }
             
             DLog(@"deleteFiles: %d", deleteFiles);
-            [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
-                [game deleteByMovingFile:deleteFiles keepSaveStates:YES];
-                [game save];
+            NSManagedObjectContext *context = [[selectedGames lastObject] managedObjectContext];
+            [context performBlockAndWait:^{
+                [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
+                    [game deleteByMovingFile:deleteFiles keepSaveStates:YES save:NO];
+                }];
+                [context save:nil];
             }];
             
             NSRect visibleRect = [gridView visibleRect];

@@ -78,6 +78,7 @@ extern NSString *const OEGameArtworkPropertiesKey;
 - (void)setBoxImageByURL:(NSURL *)url;
 
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag;
+- (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag save:(BOOL)saveFlag;
 
 #pragma mark - Core Data utilities
 
