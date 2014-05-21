@@ -103,9 +103,29 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
     }
 
     CGFloat aspectRatio = [[self system] coverAspectRatio];
-    NSImage *noArtworkImage = [[NSImage alloc] init];
-    [noArtworkImage setSize:NSMakeSize(300, 300*aspectRatio)];
-    return noArtworkImage;
+    return [[self class] OE_artworkPlacholderWithAspectRatio:aspectRatio];
+}
+
++ (NSImage*)OE_artworkPlacholderWithAspectRatio:(CGFloat)ratio
+{
+    static NSCache *cache = nil;
+    if(cache == nil)
+    {
+        cache = [[NSCache alloc] init];
+        [cache setCountLimit:20];
+    }
+    
+    NSString *key = [NSString stringWithFormat:@"%f", ratio];
+    NSImage *image = [cache objectForKey:key];
+    if(image == nil)
+    {
+        image = [[NSImage alloc] init];
+        [image setSize:NSMakeSize(300, 300*ratio)];
+        [cache setObject:image forKey:key];
+        [image setCacheMode:NSImageCacheBySize];
+
+    }
+    return image;
 }
 
 - (NSString *)imageTitle
