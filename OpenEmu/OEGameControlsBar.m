@@ -126,6 +126,9 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
         [NSCursor setHiddenUntilMouseMoves:YES];
 
+        // Show HUD when switching back from other applications
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mouseMoved:) name:NSApplicationDidBecomeActiveNotification object:nil];
+
         // Setup plugins menu
         NSMutableSet   *filterSet     = [NSMutableSet set];
         [filterSet addObjectsFromArray:[OECompositionPlugin allPluginNames]];
@@ -143,6 +146,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     _gameViewController = nil;
 
     [NSEvent removeMonitor:_eventMonitor];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Cheats
