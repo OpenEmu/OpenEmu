@@ -144,9 +144,10 @@ static NSDictionary *disabledActions = nil;
 
 - (NSRect)OE_relativeFrameFromFrame:(NSRect)rect
 {
-    const NSRect frame = [self frame];
-    const NSRect result  = NSMakeRect(rect.origin.x - frame.origin.x, rect.origin.y - frame.origin.y, rect.size.width, rect.size.height);
-	return NSIntegralRect(result);
+    NSRect frame = [self frame];
+    frame = NSMakeRect(rect.origin.x - frame.origin.x, rect.origin.y - frame.origin.y, rect.size.width, rect.size.height);
+
+    return NSIntegralRectWithOptions(frame, NSAlignAllEdgesOutward);
 }
 
 - (NSRect)relativeImageFrame
@@ -245,7 +246,6 @@ static NSDictionary *disabledActions = nil;
     // absolute rects
     const NSRect frame  = [self frame];
     const NSRect bounds = {{0,0}, frame.size};
-	const NSRect imageFrame = [self imageFrame];
 
     // relative rects
 	const NSRect relativeImageFrame  = [self relativeImageFrame];
@@ -300,18 +300,18 @@ static NSDictionary *disabledActions = nil;
 		// add a glossy overlay if image is loaded
         if(state == IKImageStateReady)
         {
-            NSImage *glossyImage = [self OE_glossImageWithSize:imageFrame.size];
+            NSImage *glossyImage = [self OE_glossImageWithSize:relativeImageFrame.size];
             [_glossyLayer setContentsScale:scaleFactor];
             [_glossyLayer setFrame:relativeImageFrame];
             [_glossyLayer setContents:glossyImage];
             [_glossyLayer setHidden:NO];
 
-            if([identifier characterAtIndex:0]==':' && !NSEqualSizes(imageFrame.size, _lastImageSize))
+            if([identifier characterAtIndex:0]==':' && !NSEqualSizes(relativeImageFrame.size, _lastImageSize))
             {
-                NSImage *missingArtworkImage = [self missingArtworkImageWithSize:imageFrame.size];
+                NSImage *missingArtworkImage = [self missingArtworkImageWithSize:relativeImageFrame.size];
                 [_missingArtworkLayer setFrame:relativeImageFrame];
                 [_missingArtworkLayer setContents:missingArtworkImage];
-                _lastImageSize = imageFrame.size;
+                _lastImageSize = relativeImageFrame.size;
             }
 
             if([identifier characterAtIndex:0]!=':')
@@ -376,7 +376,7 @@ static NSDictionary *disabledActions = nil;
     // background layer
 	if(type == IKImageBrowserCellBackgroundLayer)
     {
-        [_backgroundLayer setFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        [_backgroundLayer setFrame:bounds];
 
         // add shadow if image is loaded
         if(state == IKImageStateReady)
