@@ -435,7 +435,26 @@ enum : OEFSMEventLabel
         
         if([identifier isEqualToString:@"enabled"])             return @([coreInfo isSelected]);
         else if([identifier isEqualToString:@"emulatorName"])   return [[coreInfo core] name];
-        else if([identifier isEqualToString:@"emulatorSystem"]) return [[[coreInfo core] systemNames] componentsJoinedByString:@", "];
+        else if([identifier isEqualToString:@"emulatorSystem"])
+        {
+            NSUInteger columnIndex = [tableView columnWithIdentifier:[tableColumn identifier]];
+            OESetupAssistantMinorTextCell *cell = (OESetupAssistantMinorTextCell *)[self tableView:tableView dataCellForTableColumn:tableColumn row:rowIndex];
+            NSMutableArray *systemNames = [[[coreInfo core] systemNames] mutableCopy];
+            NSString *systemNamesString = nil;
+            CGFloat columnWidth = NSWidth([tableView rectOfColumn:columnIndex]);
+            CGFloat stringWidth = 0.0;
+            do
+            {
+                systemNamesString = [systemNames componentsJoinedByString:@", "];
+                stringWidth = [systemNamesString sizeWithAttributes:[cell attributes]].width;
+                if([systemNames count] == 0)
+                    return [[[coreInfo core] systemNames] componentsJoinedByString:@", "];
+                
+                [systemNames removeObjectAtIndex:[systemNames count]-1];
+            } while(stringWidth > columnWidth);
+            
+            return systemNamesString;
+        }
     }
     else if(tableView == [self mountedVolumesTableView])
     {
