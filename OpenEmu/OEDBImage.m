@@ -102,7 +102,7 @@
         [image setRelativePath:[fileUrl relativeString]];
         [image setSourceURL:url];
         [image setFormat:format];
-        [image save];
+        // [image save];
 
         return image;
     }
@@ -111,7 +111,7 @@
 
         [image setBox:nil];
         [image delete];
-        [image save];
+        // [image save];
         return nil;
     }
 }
@@ -285,11 +285,19 @@
 
 - (void)prepareForDeletion
 {
-    NSURL *url = [self imageURL];
-    [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
+    if([[self managedObjectContext] parentContext] == nil)
+    {
+        NSURL *url = [self imageURL];
+        [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
+    }
 }
 
 #pragma mark -
+- (NSString*)UUID
+{
+    return [self relativePath];
+}
+
 - (NSImage *)image
 {
     NSURL *imageURL = [self imageURL];

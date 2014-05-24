@@ -49,6 +49,7 @@ typedef enum : NSBitmapImageFileType
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
 - (NSImage *)image;
+- (NSString*)UUID;
 - (NSURL *)imageURL;
 - (BOOL)convertToFormat:(OEBitmapImageFileType)format withProperties:(NSDictionary*)attributes;
 

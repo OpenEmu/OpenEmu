@@ -69,7 +69,7 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
     OEDBImage *image = [self boxImage];
     NSString *result = nil;
     if([image isLocalImageAvailable] && [image relativePath] != nil)
-        result = [[image imageURL] absoluteString];
+        result = [image UUID];
     else if(image != nil && [image source] != nil && [[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
         result = [image source];
     else
@@ -82,10 +82,16 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
 
 - (NSString *)imageRepresentationType
 {
-    if([self boxImage])
-        return IKImageBrowserNSURLRepresentationType;
+    NSString *result = nil;
+    OEDBImage *image = [self boxImage];
+    if([image isLocalImageAvailable] && [image relativePath] != nil)
+        result = IKImageBrowserNSURLRepresentationType;
+    else if(image != nil && [image source] != nil && [[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
+        result = IKImageBrowserNSURLRepresentationType;
     else
-        return IKImageBrowserNSImageRepresentationType;
+        result = IKImageBrowserNSImageRepresentationType;
+    
+    return result;
 }
 
 - (id)imageRepresentation

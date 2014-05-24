@@ -314,11 +314,14 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 {
     OEDBImage *image = [OEDBImage createImageWithURL:url type:OEBitmapImageFileTypeDefault inContext:[self managedObjectContext]];
     OEDBImage *currentImage = [self boxImage];
+        
     if(currentImage != nil)
+    {
         [currentImage delete];
+    }
 
     [self setBoxImage:image];
-    [self save];
+    // [self save];
 }
 
 #pragma mark - Core Data utilities

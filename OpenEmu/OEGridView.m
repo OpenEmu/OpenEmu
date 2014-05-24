@@ -88,7 +88,7 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     [self setCellsStyleMask:IKCellsStyleNone];
 
     IKImageBrowserLayoutManager *layoutManager = [self layoutManager];
-
+    
     [layoutManager setCellMargin:CGSizeMake(35, 35)];
     [layoutManager setMargin:CGSizeMake(0, 35)];
     [layoutManager setAlignLeftForSingleRow:NO];

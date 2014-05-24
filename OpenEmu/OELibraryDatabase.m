@@ -921,13 +921,13 @@ static OELibraryDatabase *defaultDatabase = nil;
             [nestedContext performBlockAndWait:^{
                 OEDBGame *game = [result lastObject];
                 [game performInfoSync];
-                [game save];
             }];
 
             NSDate *now = [NSDate date];
             NSTimeInterval timeSinceLastSave = [now timeIntervalSinceDate:lastMainSave];
             if(timeSinceLastSave > OpenVGDBSyncMainContextSaveDelay)
             {
+                [nestedContext save:nil];
                 [mainContext performBlock:^{
                     [mainContext save:nil];
                 }];
@@ -936,7 +936,8 @@ static OELibraryDatabase *defaultDatabase = nil;
         }
         [NSThread sleepForTimeInterval:0.5];
     }
-
+    
+    [nestedContext save:nil];
     [mainContext performBlock:^{
         [mainContext save:nil];
     }];
