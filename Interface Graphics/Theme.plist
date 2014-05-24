@@ -13,7 +13,7 @@
 		<key>game_scanner_issues_background</key>
 		<string>#1d1d1d</string>
 		<key>hud_tooltip_background</key>
-		<string>white</string>
+		<string>rgba(255,255,255,0.9)</string>
 		<key>light_menu_background</key>
 		<string>clear</string>
 	</dict>
