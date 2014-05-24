@@ -899,7 +899,11 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
     NSArray *selectedGames = [self selectedGames];
     BOOL multipleGames = ([selectedGames count]>1);
-    if([[self representedObject] isKindOfClass:[OEDBSmartCollection class]] || [self representedObject]==(id<OECollectionViewItemProtocol>)[OEDBAllGamesCollection sharedDBAllGamesCollection])
+    
+    // deleting from 'All Games', Smart Collections and consoles removes games from the library
+    if([[self representedObject] isKindOfClass:[OEDBSmartCollection class]]
+       || [self representedObject]==(id<OECollectionViewItemProtocol>)[OEDBAllGamesCollection sharedDBAllGamesCollection]
+       || [[self representedObject] isKindOfClass:[OEDBSystem class]])
     {
         // delete games from library if user allows it
         if([[OEHUDAlert removeGamesFromLibraryAlert:multipleGames] runModal])
@@ -940,6 +944,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
             [gridView scrollRectToVisible:visibleRect];
         }
     }
+    // deletign from normal collections removes games from that collection
     else if([[self representedObject] isMemberOfClass:[OEDBCollection class]])
     {
         // remove games from collection if user allows it
