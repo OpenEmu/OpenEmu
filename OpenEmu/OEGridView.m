@@ -556,6 +556,9 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 
     [renderer fillGradientInRect:gradientRectBottom bottomColor:fullColor topColor:emptyColor];
     [renderer fillGradientInRect:gradientRectTop bottomColor:emptyColor   topColor:fullColor];
+    
+    [renderer setColorRed:0.0 Green:0.0 Blue:0.0 Alpha:1.0];
+    [renderer fillRect:NSMakeRect(0, NSMinY(visibleRect)-10, NSWidth(visibleRect), 10)];
 }
 
 @end
