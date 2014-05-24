@@ -229,7 +229,7 @@
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
-				<real>1.0</real>
+				<real>1</real>
 				<key>Color</key>
 				<string>rgba(0,0,0,0.4)</string>
 				<key>Offset</key>
@@ -400,7 +400,7 @@
 			<key>Traits</key>
 			<string>Bold</string>
 			<key>Weight</key>
-			<real>3.0</real>
+			<real>3</real>
 		</dict>
 		<key>gloss_button_blue</key>
 		<dict>
@@ -457,7 +457,7 @@
 			<key>Traits</key>
 			<string>Bold</string>
 			<key>Weight</key>
-			<real>3.0</real>
+			<real>3</real>
 		</dict>
 		<key>gloss_button_green</key>
 		<dict>
@@ -502,7 +502,7 @@
 			<key>Traits</key>
 			<string>Bold</string>
 			<key>Weight</key>
-			<real>3.0</real>
+			<real>3</real>
 		</dict>
 		<key>gloss_checkbox</key>
 		<dict>
@@ -513,7 +513,7 @@
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
-				<real>1.0</real>
+				<real>1</real>
 				<key>Color</key>
 				<string>rgba(0,0,0,0.4)</string>
 				<key>Offset</key>
@@ -723,7 +723,7 @@
 			<key>Traits</key>
 			<string>Bold</string>
 			<key>Weight</key>
-			<real>3.0</real>
+			<real>3</real>
 		</dict>
 		<key>hud_textfield</key>
 		<dict>
@@ -761,19 +761,12 @@
 			<string>black</string>
 			<key>Family</key>
 			<string>Lucida Grande</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Color</key>
-				<string>black</string>
-				<key>Offset</key>
-				<string>{0, 1}</string>
-			</dict>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Traits</key>
 			<string>Bold</string>
 			<key>Weight</key>
-			<real>3.0</real>
+			<real>3</real>
 		</dict>
 		<key>light_menu_item</key>
 		<dict>
@@ -905,7 +898,7 @@
 			<key>Traits</key>
 			<string>Bold</string>
 			<key>Weight</key>
-			<real>4.0</real>
+			<real>4</real>
 		</dict>
 		<key>preferences_wood_text</key>
 		<dict>
@@ -1031,7 +1024,7 @@
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
-				<real>1.0</real>
+				<real>1</real>
 				<key>Color</key>
 				<string>rgba(255,255,255,0.25)</string>
 				<key>Offset</key>
@@ -1072,8 +1065,7 @@
 			<key>States</key>
 			<dict>
 				<key>Disabled</key>
-				<dict>
-				</dict>
+				<dict/>
 				<key>Pressed</key>
 				<dict>
 					<key>Colors</key>
@@ -1130,8 +1122,7 @@
 			<key>States</key>
 			<dict>
 				<key>Disabled</key>
-				<dict>
-				</dict>
+				<dict/>
 				<key>Pressed</key>
 				<dict>
 					<key>Colors</key>
@@ -1287,8 +1278,7 @@
 			<key>States</key>
 			<dict>
 				<key>Default</key>
-				<dict>
-				</dict>
+				<dict/>
 				<key>Toggle Mixed</key>
 				<dict>
 					<key>Parts</key>
@@ -2155,8 +2145,7 @@
 			<key>States</key>
 			<dict>
 				<key>Default</key>
-				<dict>
-				</dict>
+				<dict/>
 				<key>Toggle Mixed</key>
 				<dict>
 					<key>Parts</key>
