@@ -197,7 +197,7 @@
         
         serial = [[serial componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]] componentsJoinedByString:@""];
         
-        NSMutableString *formattedSerial = [NSMutableString stringWithString:serial];
+        NSMutableString *formattedSerial = [NSMutableString stringWithString:[serial uppercaseString]];
         [formattedSerial insertString:@"-" atIndex:4];
         
         NSLog(@"Serial: %@", formattedSerial);
