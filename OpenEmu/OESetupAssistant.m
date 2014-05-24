@@ -517,6 +517,18 @@ enum : OEFSMEventLabel
     return cell;
 }
 
+- (NSString*)tableView:(NSTableView *)tableView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation
+{
+    if(tableView == _installCoreTableView && [[tableColumn identifier] isEqualToString:@"emulatorSystem"])
+    {
+        OESetupCoreInfo *coreInfo = [_coresToDownload objectAtIndex:row];
+        return [[[coreInfo core] systemNames] componentsJoinedByString:@", "];
+    }
+    
+    if([cell isKindOfClass:[NSTextFieldCell class]])
+        return [cell stringValue];
+    return nil;
+}
 @end
 
 #pragma mark - OESetupCoreInfo
