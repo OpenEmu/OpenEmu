@@ -158,17 +158,15 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 
 #pragma mark -
-- (void)applicationWillFinishLaunching:(NSNotification *)aNotification
-{
-}
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(libraryDatabaseDidLoad:) name:OELibraryDidLoadNotificationName object:nil];
 
     // Preload Open Panel
     [NSOpenPanel openPanel];
-
+    
+    [[NSDocumentController sharedDocumentController] clearRecentDocuments:nil];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self loadDatabase];
     });
@@ -437,6 +435,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
          
          if(completionHandler != nil)
              completionHandler(document, documentWasAlreadyOpen, error);
+         
+         [[NSDocumentController sharedDocumentController] clearRecentDocuments:nil];
      }];
 }
 
