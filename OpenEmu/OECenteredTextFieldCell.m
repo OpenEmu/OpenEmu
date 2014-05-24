@@ -84,7 +84,6 @@
 
 #pragma mark -
 #pragma mark Drawing
-
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
     [[self attributedStringValue] drawInRect:[self titleRectForBounds:cellFrame]];

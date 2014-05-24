@@ -96,6 +96,10 @@
     
     [self setTextAttributes:attributes];
     [self setStringValue:[self stringValue]];
-    
+}
+
+- (NSRect)expansionFrameWithFrame:(NSRect)cellFrame inView:(NSView *)view
+{
+    return NSZeroRect;
 }
 @end

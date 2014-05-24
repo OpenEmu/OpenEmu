@@ -150,9 +150,14 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
             color = [NSColor colorWithDeviceWhite:[[self OE_coreDownloadAtRow:rowIndex] canBeInstalled] ? 0.44 : 0.86 alpha:1.0];
         }
         
-        attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:weight size:11.0], NSFontAttributeName, 
-                color, NSForegroundColorAttributeName, nil];
+        NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+        [style setLineBreakMode:NSLineBreakByTruncatingTail];
+        
+        attr = @{
+                 NSFontAttributeName : [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:weight size:11.0],
+                 NSForegroundColorAttributeName : color,
+                 NSParagraphStyleAttributeName : style
+                 };
         [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
     }
 }
@@ -212,6 +217,23 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
     if([columnIdentifier isEqualToString:@"versionColumn"] && [anObject boolValue])
         [self OE_updateOrInstallItemAtRow:rowIndex];
 }
+
+- (NSString*)tableView:(NSTableView *)tableView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation
+{
+    const NSString *columnIdentifier = [tableColumn identifier];
+    const OECoreDownload *plugin     = [self OE_coreDownloadAtRow:row];
+
+    if([columnIdentifier isEqualToString:@"systemColumn"])
+    {
+        return [[plugin systemNames] componentsJoinedByString:@", "];
+    }
+
+    if([cell isKindOfClass:[NSTextFieldCell class]])
+        return [cell stringValue];
+    
+    return nil;
+}
+
 
 #pragma mark -
 #pragma mark OEPreferencePane Protocol
