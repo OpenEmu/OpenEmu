@@ -307,7 +307,17 @@
         if(count == 1)
         {
             NSString *path = [url path];
-            [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation source:[path stringByDeletingLastPathComponent] destination:nil files:[NSArray arrayWithObject:[path lastPathComponent]] tag:NULL];
+            NSString *source = [path stringByDeletingLastPathComponent];
+            NSArray *files = @[[path lastPathComponent]];
+
+            if([[[path pathExtension] lowercaseString] isEqualToString:@"cue"])
+            {
+                OECUESheet *sheet = [[OECUESheet alloc] initWithPath:path];
+                NSArray *additionalFileNames = [sheet referencedFilesNames];
+                files = [files arrayByAddingObjectsFromArray:additionalFileNames];
+            }
+
+            [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation source:source destination:@"" files:files tag:NULL];
         } else DLog(@"Keeping file, other roms depent on it!");
     }
 
