@@ -315,7 +315,7 @@
             if([[[path pathExtension] lowercaseString] isEqualToString:@"cue"])
             {
                 OECUESheet *sheet = [[OECUESheet alloc] initWithPath:path];
-                NSArray *additionalFileNames = [sheet referencedFilesNames];
+                NSArray *additionalFileNames = [sheet referencedFileNames];
                 files = [files arrayByAddingObjectsFromArray:additionalFileNames];
             }
 
