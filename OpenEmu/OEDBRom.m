@@ -33,6 +33,8 @@
 #import "NSFileManager+OEHashingAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
 
+#import <OpenEmuSystem/OECUESheet.h>
+
 @interface OEDBRom ()
 - (void)OE_calculateHashes;
 @end
