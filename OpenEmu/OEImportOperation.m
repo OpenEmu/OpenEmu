@@ -285,6 +285,8 @@
         }
     }
 
+    [[NSFileManager defaultManager] removeItemAtURL:[self extractedFileURL] error:nil];
+
     _shouldExit = YES;
     [self setError:error];
     [self setExitStatus:status];
@@ -305,7 +307,6 @@
 - (void)main
 {
     @autoreleasepool {
-        
         [[[self importer] context] performBlockAndWait:^{
             if([self shouldExit]) return;
             
