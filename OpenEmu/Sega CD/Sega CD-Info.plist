@@ -153,39 +153,6 @@
 	</array>
 	<key>OENumberOfPlayersKey</key>
 	<integer>2</integer>
-	<key>OERequiredFiles</key>
-	<array>
-		<dict>
-			<key>Description</key>
-			<string>Mega-CD Model 1 (EU 921027) BIOS 1.00</string>
-			<key>MD5</key>
-			<string>e66fa1dc5820d254611fdcdba0662372</string>
-			<key>Name</key>
-			<string>BIOS_CD_E.bin</string>
-			<key>Size</key>
-			<integer>131072</integer>
-		</dict>
-		<dict>
-			<key>Description</key>
-			<string>Sega CD Model 1 (US 921011) BIOS 1.10</string>
-			<key>MD5</key>
-			<string>2efd74e3232ff260e371b99f84024f7f</string>
-			<key>Name</key>
-			<string>BIOS_CD_U.bin</string>
-			<key>Size</key>
-			<integer>131072</integer>
-		</dict>
-		<dict>
-			<key>Description</key>
-			<string>Mega-CD Model 1 (JP 911217) BIOS 1.00p</string>
-			<key>MD5</key>
-			<string>278a9397d192149e84e820ac621a8edd</string>
-			<key>Name</key>
-			<string>BIOS_CD_J.bin</string>
-			<key>Size</key>
-			<integer>131072</integer>
-		</dict>
-	</array>
 	<key>OEResponderClassKey</key>
 	<string>OESegaCDSystemResponder</string>
 	<key>OESystemIcon</key>

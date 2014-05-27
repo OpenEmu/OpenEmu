@@ -43,8 +43,6 @@
 
 + (NSArray *)supportedTypeExtensions;
 - (NSArray *)supportedTypeExtensions;
-+ (NSArray *)requiredFiles;
-- (NSArray *)requiredFiles;
 + (OESystemPlugin *)systemPluginForIdentifier:(NSString *)gameSystemIdentifier;
 + (void)registerGameSystemPlugin:(OESystemPlugin *)plugin forIdentifier:(NSString *)gameSystemIdentifier;
 + (OESystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;

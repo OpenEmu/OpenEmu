@@ -32,19 +32,6 @@
 	<string>Game Boy Advance</string>
 	<key>OENumberOfPlayersKey</key>
 	<integer>4</integer>
-	<key>OERequiredFiles</key>
-	<array>
-		<dict>
-			<key>Description</key>
-			<string>Game Boy Advance BIOS</string>
-			<key>MD5</key>
-			<string>a860e8c0b6d573d191e4ec7db1b1e4f6</string>
-			<key>Name</key>
-			<string>bios.rom</string>
-			<key>Size</key>
-			<integer>16384</integer>
-		</dict>
-	</array>
 	<key>OEResponderClassKey</key>
 	<string>OEGBASystemResponder</string>
 	<key>OEFileSuffixes</key>

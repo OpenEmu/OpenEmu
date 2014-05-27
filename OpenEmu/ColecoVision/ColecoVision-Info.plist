@@ -198,19 +198,6 @@
 	</array>
 	<key>OENumberOfPlayersKey</key>
 	<integer>2</integer>
-	<key>OERequiredFiles</key>
-	<array>
-		<dict>
-			<key>Description</key>
-			<string>ColecoVision BIOS</string>
-			<key>MD5</key>
-			<string>2c66f5911e5b42b8ebe113403548eee7</string>
-			<key>Name</key>
-			<string>coleco.rom</string>
-			<key>Size</key>
-			<integer>8192</integer>
-		</dict>
-	</array>
 	<key>OEResponderClassKey</key>
 	<string>OEColecoVisionSystemResponder</string>
 	<key>OESystemIcon</key>

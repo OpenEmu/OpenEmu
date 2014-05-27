@@ -26,6 +26,7 @@
 
 #import "OEImportOperation.h"
 #import "OESystemPlugin.h"
+#import "OECorePlugin.h"
 
 #import "OEROMImporter.h"
 #import <MagicKit/MagicKit.h>
@@ -154,15 +155,15 @@
 + (BOOL)OE_isBiosFileAtURL:(NSURL*)url
 {
     // Copy known BIOS / System Files to BIOS folder
-    for(NSDictionary *validFile in [OESystemPlugin requiredFiles])
+    for(id validFile in [OECorePlugin requiredFiles])
     {
-        NSString *biosSystemFileName = [validFile objectForKey:@"Name"];
+        NSString *biosSystemFileName = [validFile valueForKey:@"Name"];
         NSString *biosFilename       = [url lastPathComponent];
         NSError  *error              = nil;
 
         if([biosFilename caseInsensitiveCompare:biosSystemFileName] == NSOrderedSame)
         {
-            IMPORTDLog(@"File seems to be a filter at %@", url);
+            IMPORTDLog(@"File seems to be a bios at %@", url);
 
             NSFileManager *fileManager = [NSFileManager defaultManager];
             NSArray       *components  = @[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"BIOS"];
@@ -171,7 +172,7 @@
 
             if(![fileManager createDirectoryAtURL:biosURL withIntermediateDirectories:YES attributes:nil error:&error])
             {
-                IMPORTDLog(@"Could not create directory before copying filter at %@", url);
+                IMPORTDLog(@"Could not create directory before copying bios at %@", url);
                 IMPORTDLog(@"%@", error);
                 error = nil;
             }

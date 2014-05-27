@@ -158,19 +158,6 @@
 	</array>
 	<key>OENumberOfPlayersKey</key>
 	<integer>2</integer>
-	<key>OERequiredFiles</key>
-	<array>
-		<dict>
-			<key>Description</key>
-			<string>TurboGrafx-CD/PC Engine CD BIOS</string>
-			<key>MD5</key>
-			<string>ff1a674273fe3540ccef576376407d1d</string>
-			<key>Name</key>
-			<string>syscard3.pce</string>
-			<key>Size</key>
-			<string>262656</string>
-		</dict>
-	</array>
 	<key>OEResponderClassKey</key>
 	<string>OEPCECDSystemResponder</string>
 	<key>OESystemIdentifier</key>

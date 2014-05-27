@@ -153,19 +153,6 @@
 	</array>
 	<key>OENumberOfPlayersKey</key>
 	<integer>2</integer>
-	<key>OERequiredFiles</key>
-	<array>
-		<dict>
-			<key>Description</key>
-			<string>PC-FX BIOS</string>
-			<key>MD5</key>
-			<string>08e36edbea28a017f79f8d4f7ff9b6d7</string>
-			<key>Name</key>
-			<string>pcfx.rom</string>
-			<key>Size</key>
-			<integer>1048576</integer>
-		</dict>
-	</array>
 	<key>OEResponderClassKey</key>
 	<string>OEPCFXSystemResponder</string>
 	<key>OESystemIcon</key>

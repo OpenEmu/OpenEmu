@@ -918,10 +918,10 @@ typedef enum : NSUInteger
 - (BOOL)OE_checkRequiredFiles
 {
     // Check current system plugin for OERequiredFiles and core plugin for OEGameCoreRequiresFiles opt-in
-    if ([_gameSystemController requiredFiles] != nil && [[[_gameCoreManager plugin] controller] requiresFiles]) {
+    if ([[[_gameCoreManager plugin] controller] requiredFilesForSystemIdentifier:[_gameSystemController systemIdentifier]] != nil && [[[_gameCoreManager plugin] controller] requiresFilesForSystemIdentifier:[_gameSystemController systemIdentifier]]) {
         BOOL missingFileStatus = NO;
         NSSortDescriptor *sortedRequiredFiles = [NSSortDescriptor sortDescriptorWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-        NSArray *validRequiredFiles = [[_gameSystemController requiredFiles] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortedRequiredFiles]];
+        NSArray *validRequiredFiles = [[[[_gameCoreManager plugin] controller] requiredFilesForSystemIdentifier:[_gameSystemController systemIdentifier]] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortedRequiredFiles]];
         NSMutableString *missingFilesMessage = [[NSMutableString alloc] init];
         NSMutableString *missingFilesList = [[NSMutableString alloc] init];
         
@@ -929,13 +929,14 @@ typedef enum : NSUInteger
         {
             NSString *biosFilename = [validRequiredFile objectForKey:@"Name"];
             NSString *biosDescription = [validRequiredFile objectForKey:@"Description"];
+            BOOL biosOptional = [[validRequiredFile objectForKey:@"Optional"] boolValue];
             NSString *biosPath = [NSString pathWithComponents:@[
                                                                 [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
                                                                 @"OpenEmu", @"BIOS"]];
             NSString *destFilePath = [biosPath stringByAppendingPathComponent:biosFilename];
             
-            // Check if the required files exist
-            if (![[NSFileManager defaultManager] fileExistsAtPath:destFilePath])
+            // Check if the required files exist and are optional
+            if (![[NSFileManager defaultManager] fileExistsAtPath:destFilePath] && !biosOptional)
             {
                 missingFileStatus = YES;
                 [missingFilesList appendString:[NSString stringWithFormat:@"%@\n\t\"%@\"\n\n", biosDescription, biosFilename]];
@@ -963,7 +964,7 @@ typedef enum : NSUInteger
 
 - (BOOL)supportsCheats
 {
-    return [[[_gameCoreManager plugin] controller] supportsCheatCode];
+    return [[[_gameCoreManager plugin] controller] supportsCheatCodeForSystemIdentifier:[_gameSystemController systemIdentifier]];
 }
 
 - (IBAction)addCheat:(id)sender;
