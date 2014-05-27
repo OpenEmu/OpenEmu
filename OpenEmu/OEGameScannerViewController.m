@@ -54,10 +54,9 @@
     self = [super initWithCoder:aDecoder];
     if(self)
     {
-        OEGameInfoHelper *gameInfoHelper = [OEGameInfoHelper sharedHelper];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameInfoHelperWillUpdate:) name:OEGameInfoHelperWillUpdateNotificationName object:gameInfoHelper];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameInfoHelperDidChangeUpdateProgress:) name:OEGameInfoHelperDidChangeUpdateProgressNotificationName object:gameInfoHelper];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameInfoHelperDidUpdate:) name:OEGameInfoHelperDidUpdateNotificationName object:gameInfoHelper];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameInfoHelperWillUpdate:) name:OEGameInfoHelperWillUpdateNotificationName object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameInfoHelperDidChangeUpdateProgress:) name:OEGameInfoHelperDidChangeUpdateProgressNotificationName object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameInfoHelperDidUpdate:) name:OEGameInfoHelperDidUpdateNotificationName object:nil];
     }
     return self;
 }
@@ -382,6 +381,7 @@
         [[self itemsRequiringAttention] addObject:item];
         [[self issuesView] reloadData];
         [self OE_setupActionsMenu];
+        [self OE_showGameScannerView];
     }
     [self OE_updateProgress];
 }
@@ -406,6 +406,7 @@
             [self OE_hideGameScannerView];
     });
 }
+
 #pragma mark - NSTableViewDataSource Implementation
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -421,21 +422,22 @@
     {
         return [[item URL] lastPathComponent];
     }
+    else if([columnIdentifier isEqualToString:@"checked"])
+    {
+        return @([item checked]);
+    }
 
-    // TODO: Fix
-    // return [[item importInfo] objectForKey:columnIdentifier];
-    return @"";
+    return nil;
 }
 
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     NSString *columnIdentifier = [tableColumn identifier];
-    if([columnIdentifier isEqualToString:@"path"]) return;
-
-    // OEImportOperation *item = [[self itemsRequiringAttention] objectAtIndex:row];
-    // [[item importInfo] setObject:object forKey:columnIdentifier];
-
-    // TODO: Fix
+    if([columnIdentifier isEqualToString:@"checked"])
+    {
+        OEImportOperation *item = [[self itemsRequiringAttention] objectAtIndex:row];
+        [item setChecked:[object boolValue]];
+    }
 }
 
 #pragma mark - NSTableViewDelegate Implementation
@@ -469,13 +471,13 @@
 
 - (void)selectAll:(id)sender
 {
-    [[self itemsRequiringAttention] setValue:@YES forKeyPath:@"importInfo.checked"];
+    [[self itemsRequiringAttention] setValue:@YES forKeyPath:@"checked"];
     [[self issuesView] reloadData];
 }
 
 - (void)deselectAll:(id)sender
 {
-    [[self itemsRequiringAttention] setValue:@NO forKeyPath:@"importInfo.checked"];
+    [[self itemsRequiringAttention] setValue:@NO forKeyPath:@"checked"];
     [[self issuesView] reloadData];
 }
 
@@ -485,9 +487,7 @@
     [[self itemsRequiringAttention] indexesOfObjectsPassingTest:
      ^ BOOL (id obj, NSUInteger idx, BOOL *stop)
      {
-         // TODO: FIX
-         //return [[[obj importInfo] objectForKey:@"checked"] boolValue];
-         return YES;
+         return [obj checked];
      }];
 
     [[self issuesView] beginUpdates];
@@ -500,11 +500,8 @@
         [[self itemsRequiringAttention] enumerateObjectsAtIndexes:selectedItemIndexes options:0 usingBlock:
          ^(OEImportOperation *item, NSUInteger idx, BOOL *stop)
          {
-             /*
-             [[item importInfo] setObject:[NSArray arrayWithObject:selectedSystem] forKey:OEImportInfoSystemID];
-              */
-             [item setError:nil];
-             [item setExitStatus:OEImportExitNone];
+             [item setSystemIdentifiers:@[selectedSystem]];
+             [[item importer] rescheduleOperation:item];
          }];
     }
 
@@ -515,11 +512,8 @@
 
     [[self issuesView] reloadData];
 
-    if([[self itemsRequiringAttention] count] == 0)
-    {
-        [[self importer] start];
-        [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self];
-    }
+    [[self importer] start];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self];
 }
 
 #pragma mark - UI Actions Scanner
@@ -581,6 +575,8 @@
 
 - (void)OE_hideGameScannerView
 {
+    if([[self itemsRequiringAttention] count] != 0) return;
+
     NSView *scannerView = [self gameScannerView];
     NSView *sidebarView = [[[scannerView superview] subviews] objectAtIndex:0];
     NSView *superView   = [sidebarView superview];

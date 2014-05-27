@@ -288,6 +288,17 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     [self OE_performSelectorOnDelegate:@selector(romImporterChangedItemCount:) withObject:self];
 }
 
+- (void)rescheduleOperation:(OEImportOperation*)operation
+{
+    OEImportOperation *copy = [operation copy];
+    [copy setCompletionBlock:[self OE_completionHandlerForOperation:copy]];
+
+    NSOperationQueue *queue = [self operationQueue];
+    [queue addOperation:copy];
+
+    self.numberOfProcessedItems --;
+}
+
 - (void(^)(void))OE_completionHandlerForOperation:(OEImportOperation*)op
 {
     __block __unsafe_unretained OEImportOperation *blockOperation = op;
@@ -505,7 +516,8 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     
     [self setNumberOfProcessedItems:0];
     [self setTotalNumberOfItems:0];
-    
+    [[self operationQueue] setSuspended:YES];
+
     [self OE_performSelectorOnDelegate:@selector(romImporterDidCancel:) withObject:self];
 }
 
@@ -518,6 +530,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
     [self setNumberOfProcessedItems:0];
     [self setTotalNumberOfItems:0];
+    [[self operationQueue] setSuspended:YES];
 
     [self OE_performSelectorOnDelegate:@selector(romImporterDidFinish:) withObject:self];
 }

@@ -95,8 +95,8 @@ typedef enum : NSInteger {
 - (BOOL)importItemAtURL:(NSURL *)url withCompletionHandler:(OEImportItemCompletionBlock)handler;
 - (BOOL)importItemsAtURLs:(NSArray *)urls withCompletionHandler:(OEImportItemCompletionBlock)handler;
 
-
 - (void)addOperation:(OEImportOperation*)operation;
+- (void)rescheduleOperation:(OEImportOperation*)operation;
 #pragma mark - Spotlight importing -
 - (void)discoverRoms:(NSArray *)volumes;
 - (void)updateSearchResults:(NSNotification *)notification;

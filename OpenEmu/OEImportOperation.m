@@ -61,12 +61,12 @@
 @property (strong, readwrite) NSString *md5Hash;
 @property (strong, readwrite) NSString *crcHash;
 
-@property (strong, readwrite) NSArray *systemIdentifiers;
-
 @property (strong, readwrite) OEDBRom *rom;
 @end
 
 @implementation OEImportOperation
+@synthesize checked;
+
 #pragma mark - Creating Import Operations
 + (instancetype)operationWithURL:(NSURL*)url inImporter:(OEROMImporter*)importer
 {
@@ -250,6 +250,33 @@
 {
     [encoder encodeObject:[self URL] forKey:@"URL"];
     [encoder encodeObject:[self sourceURL] forKey:@"sourceURL"];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    OEImportOperation *copy = [[OEImportOperation allocWithZone:zone] init];
+    [copy setExitStatus:OEImportExitNone];
+    [copy setError:nil];
+
+    [copy setExploreArchives:[self exploreArchives]];
+    [copy setURL:[self URL]];
+    [copy setSourceURL:[self sourceURL]];
+    [copy setCollectionID:[self collectionID]];
+    [copy setRom:[self rom]];
+
+    [copy setSystemIdentifiers:[self systemIdentifiers]];
+    [copy setCompletionHandler:[self completionHandler]];
+    [copy setImporter:[self importer]];
+
+    [copy setChecked:[self checked]];
+
+    [copy setFileName:[self fileName]];
+    [copy setExtractedFileURL:[self extractedFileURL]];
+    [copy setArchiveFileIndex:[self archiveFileIndex]];
+    [copy setMd5Hash:[self md5Hash]];
+    [copy setCrcHash:[self crcHash]];
+
+    return copy;
 }
 #pragma mark -
 - (void)exitWithStatus:(OEImportExitStatus)status error:(NSError*)error
@@ -457,6 +484,8 @@
 
 - (void)OE_performImportStepHash
 {
+    if([self md5Hash] || [self crcHash]) return;
+
     IMPORTDLog();
     NSURL         *url = [self extractedFileURL] ?: [self URL];
     NSString      *md5, *crc;
@@ -523,7 +552,23 @@
     NSManagedObjectContext *context = [importer context];
     NSURL *url = [self extractedFileURL] ?: [self URL];
 
-    NSArray *validSystems = [OEDBSystem systemsForFileWithURL:url inContext:context error:&error];
+    // see if systemidentifiers are set already (meaning that user determined system)
+    NSArray *validSystems = nil;
+    if([self systemIdentifiers])
+    {
+        NSMutableArray *systems = [NSMutableArray arrayWithCapacity:[[self systemIdentifiers] count]];
+        [[self systemIdentifiers] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:obj inContext:context];
+            if(system != nil)
+                [systems addObject:system];
+        }];
+        validSystems = systems;
+    }
+    else
+    {
+        validSystems = [OEDBSystem systemsForFileWithURL:url inContext:context error:&error];
+    }
+
     if(validSystems == nil || [validSystems count] == 0)
     {
         IMPORTDLog(@"Could not get valid systems");

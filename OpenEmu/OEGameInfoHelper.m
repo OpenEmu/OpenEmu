@@ -178,7 +178,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 {
     [[self fileDownload] cancel];
     [self setFileDownload:nil];
-    _updating = YES;
+    _updating = NO;
     _downloadProgress = 1.0;
     _downloadVerison  = nil;
 

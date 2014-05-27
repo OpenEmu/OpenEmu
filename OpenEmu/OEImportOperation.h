@@ -35,21 +35,23 @@ typedef enum  {
 
 typedef void (^OEImportItemCompletionBlock)(NSManagedObjectID*);
 @class OEROMImporter;
-@interface OEImportOperation : NSOperation <NSObject, NSCoding>
+@interface OEImportOperation : NSOperation <NSObject, NSCoding, NSCopying>
 + (instancetype)operationWithURL:(NSURL*)url inImporter:(OEROMImporter*)importer;
 @property BOOL exploreArchives;
 
-@property (copy) NSURL    *URL;
+@property (copy) NSURL               *URL;
 @property (copy) NSURL               *sourceURL;
 @property (copy) NSManagedObjectID   *collectionID;
 @property (nonatomic, readonly) NSManagedObjectID *romObjectID;
 
 
-@property (strong, readonly) NSArray *systemIdentifiers;
+@property (strong) NSArray *systemIdentifiers;
 
 @property (copy) NSError             *error;
 @property        OEImportExitStatus   exitStatus;
 
 @property (copy) OEImportItemCompletionBlock completionHandler;
 @property (strong) OEROMImporter *importer;
+
+@property BOOL checked;
 @end
