@@ -538,7 +538,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     NSAssert(protocol_getMethodDescription(@protocol(OEROMImporterDelegate), selector, NO, YES).name == selector,
              @"Unknown delegate method %@", NSStringFromSelector(selector));
 
-    [(NSObject *)[self delegate] performSelectorOnMainThread:selector withObject:object waitUntilDone:NO];
+    [(NSObject *)[self delegate] performSelectorOnMainThread:selector withObject:object waitUntilDone:YES];
 }
 
 @end
