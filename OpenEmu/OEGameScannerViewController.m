@@ -211,6 +211,18 @@
         [menu addItem:menuItem];
     }
 
+    // sort by system name
+    NSArray *items = [[menu itemArray] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [[obj1 title] compare:[obj2 title]];
+    }];
+
+    [menu removeAllItems];
+
+    [items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [menu addItem:obj];
+    }];
+
+
     [[self actionPopUpButton] setMenu:menu];
 }
 
