@@ -33,6 +33,8 @@ typedef enum  {
     OEImportExitSuccess,
 } OEImportExitStatus;
 
+extern NSString * const OEImportManualSystems;
+
 typedef void (^OEImportItemCompletionBlock)(NSManagedObjectID*);
 @class OEROMImporter;
 @interface OEImportOperation : NSOperation <NSObject, NSCoding, NSCopying>

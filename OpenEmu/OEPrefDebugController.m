@@ -60,6 +60,7 @@
 #import "OEControllerImageView.h"
 #import "OEControlsButtonSetupView.h"
 #import "OEDBDataSourceAdditions.h"
+#import "OEImportOperation.h"
 
 @interface OELibraryDatabase (Private)
 - (void)OE_createInitialItems;
@@ -153,6 +154,7 @@ NSString * const OptionsKey = @"options";
                               Checkbox(OECoverGridViewGlossDisabledKey, @"Disable grid view gloss overlay"),
                               Checkbox(OECoverGridViewAutoDownloadEnabledKey, @"Download missing artwork on the fly"),
                               Checkbox(OEDisplayGameTitle, @"Show game titles instead of rom names"),
+                              Checkbox(OEImportManualSystems, @"Manually choose system on import"),
 
                               Group(@"HUD Bar / Gameplay"),
                               NCheckbox(OEDontShowGameTitleInWindowKey, @"Use game name as window title"),

@@ -40,6 +40,8 @@
 #import "OEDBRom.h"
 #import "OEDBCollection.h"
 
+NSString * const OEImportManualSystems = @"OEImportManualSystems";
+
 @interface OEImportOperation ()
 - (void)OE_performImportStepCheckDirectory;
 - (void)OE_performImportStepCheckArchiveFile;
@@ -563,6 +565,10 @@
                 [systems addObject:system];
         }];
         validSystems = systems;
+    }
+    else if([[NSUserDefaults standardUserDefaults] boolForKey:OEImportManualSystems])
+    {
+        validSystems = [OEDBSystem allSystemsInContext:context];
     }
     else
     {
