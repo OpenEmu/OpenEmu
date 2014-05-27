@@ -74,6 +74,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 @property(weak) OEGameDocument *document;
 
 - (BOOL)supportsCheats;
+- (BOOL)supportsSaveStates;
 - (NSString *)coreIdentifier;
 - (NSString *)systemIdentifier;
 

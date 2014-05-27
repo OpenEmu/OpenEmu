@@ -1046,6 +1046,11 @@ typedef enum : NSUInteger
 
 #pragma mark - Saving States
 
+- (BOOL)supportsSaveStates
+{
+    return ![[[_gameCoreManager plugin] controller] saveStatesNotSupportedForSystemIdentifier:[_gameSystemController systemIdentifier]];
+}
+
 - (BOOL)OE_pauseEmulationIfNeeded
 {
     BOOL pauseNeeded = _emulationStatus == OEEmulationStatusPlaying;

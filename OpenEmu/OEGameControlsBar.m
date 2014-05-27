@@ -419,6 +419,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     NSMenu *menu = [[NSMenu alloc] init];
 
     NSMenuItem *newSaveItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game", @"") action:@selector(saveState:) keyEquivalent:@""];
+    [newSaveItem setEnabled:[[self gameViewController] supportsSaveStates]];
     [menu setDelegate:self];
     [menu addItem:newSaveItem];
 

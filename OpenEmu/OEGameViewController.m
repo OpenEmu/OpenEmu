@@ -174,6 +174,11 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     return [[self document] supportsCheats];
 }
 
+- (BOOL)supportsSaveStates
+{
+    return [[self document] supportsSaveStates];
+}
+
 - (NSString *)coreIdentifier;
 {
     return [[self document] coreIdentifier];
