@@ -328,10 +328,7 @@
         // TODO: remove states
     }
 
-    NSManagedObjectContext *context = [self managedObjectContext];
-    [context performBlockAndWait:^{
-        [context deleteObject:self];
-    }];
+    [[self managedObjectContext] deleteObject:self];
 }
 
 + (NSString *)entityName

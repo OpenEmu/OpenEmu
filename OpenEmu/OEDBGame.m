@@ -147,79 +147,6 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     [[self libraryDatabase] startOpenVGDBSync];
 }
 
-- (void)performInfoSync
-{
-    __block NSMutableDictionary *result = nil;
-    __block NSError *error = nil;
-
-    NSString * const boxImageURLKey = @"boxImageURL";
-
-    OEDBRom *rom = [[self roms] anyObject];
-    result = [[[OEGameInfoHelper sharedHelper] gameInfoForROM:rom error:&error] mutableCopy];
-
-    if(result != nil && [result objectForKey:boxImageURLKey] != nil)
-    {
-        NSString *normalizedURL = [[result objectForKey:boxImageURLKey] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSURL   *url = [NSURL URLWithString:normalizedURL];
-        [self setBoxImageByURL:url];
-
-        [result removeObjectForKey:boxImageURLKey];
-    }
-
-    if(result != nil)
-    {
-        [self setValuesForKeysWithDictionary:result];
-        [self setLastInfoSync:[NSDate date]];
-    }
-    [self setStatus:@(OEDBGameStatusOK)];
-}
-
-#pragma mark -
-
-- (id)mergeInfoFromGame:(OEDBGame *)game
-{
-    // TODO: (low priority): improve merging
-    // we could merge with priority based on last info sync for example
-    if([self name] == nil)
-        [self setName:[game name]];
-    
-    if([self gameTitle] == nil)
-        [self setGameTitle:[game gameTitle]];
-	
-    if([self gameDescription] == nil)
-        [self setGameDescription:[game gameDescription]];
-    
-    if([self lastInfoSync] == nil)
-        [self setLastInfoSync:[game lastInfoSync]];
-	
-    if([self importDate] == nil)
-        [self setImportDate:[game importDate]];
-    
-    if([self rating] == nil)
-        [self setRating:[game rating]];
-    
-    if([self boxImage] == nil)
-        [self setBoxImage:[game boxImage]];
-    
-    NSMutableSet *ownCollections = [self mutableCollections];
-    NSSet *gameCollections = [game collections];
-    [ownCollections unionSet:gameCollections];
-    
-    NSMutableSet *ownCredits = [self mutableCredits];
-    NSSet *gameCredits = [game credits];
-    [ownCredits unionSet:gameCredits];
-    
-    NSMutableSet *ownRoms = [self mutableRoms];
-    NSSet *gameRoms = [game roms];
-    [ownRoms unionSet:gameRoms];
-    
-    NSMutableSet *ownGenres = [self mutableGenres];
-    NSSet *gameGenres = [game genres];
-    [ownGenres unionSet:gameGenres];
-    
-    return self;
-}
-
 #pragma mark - Accessors
 
 - (NSDate *)lastPlayed
@@ -301,6 +228,9 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 #pragma mark -
 - (void)setBoxImageByImage:(NSImage *)img
 {
+    DLog(@"not implemented");
+    // TODO: implement
+    /*
     OEBitmapImageFileType type = [[NSUserDefaults standardUserDefaults] integerForKey:OEGameArtworkFormatKey];
     OEDBImage *image = [OEDBImage createImageWithNSImage:img type:type inContext:[self managedObjectContext]];
     OEDBImage *currentImage = [self boxImage];
@@ -308,10 +238,14 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
         [currentImage delete];
     [self setBoxImage:image];
     [self save];
+     */
 }
 
 - (void)setBoxImageByURL:(NSURL *)url
 {
+    DLog(@"not implemented");
+    // TODO: implement
+/*
     OEDBImage *image = [OEDBImage createImageWithURL:url type:OEBitmapImageFileTypeDefault inContext:[self managedObjectContext]];
     OEDBImage *currentImage = [self boxImage];
         
@@ -322,30 +256,21 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 
     [self setBoxImage:image];
     // [self save];
+ */
 }
 
 #pragma mark - Core Data utilities
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
 {
-    [self deleteByMovingFile:moveToTrash keepSaveStates:statesFlag save:YES];
-}
-
-- (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag save:(BOOL)saveFlag
-{
-    NSManagedObjectContext *context = [self managedObjectContext];
-    [context performBlockAndWait:^{
-         NSMutableSet *mutableRoms = [self mutableRoms];
-         while ([mutableRoms count])
-         {
-             OEDBRom *aRom = [mutableRoms anyObject];
-             [aRom deleteByMovingFile:moveToTrash keepSaveStates:statesFlag];
-             [mutableRoms removeObject:aRom];
-         }
-        
-        [context deleteObject:self];
-        if(saveFlag)
-            [context save:nil];
-    }];
+    NSMutableSet *mutableRoms = [self mutableRoms];
+    while ([mutableRoms count])
+    {
+        OEDBRom *aRom = [mutableRoms anyObject];
+        [aRom deleteByMovingFile:moveToTrash keepSaveStates:statesFlag];
+        [mutableRoms removeObject:aRom];
+    }
+    [self setRoms:[NSSet set]];
+    [[self managedObjectContext] deleteObject:self];
 }
 
 + (NSString *)entityName

@@ -33,6 +33,7 @@
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBSaveState.h"
+#import "OEDBImage.h"
 
 #import "OEDBSavedGamesMedia.h"
 #import "OEDBScreenshotsMedia.h"
@@ -40,13 +41,13 @@
 
 #import "OESystemPicker.h"
 
-
 #import "OEFSWatcher.h"
 #import "OEROMImporter.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
 #import "NSImage+OEDrawingAdditions.h"
+#import "NSMutableDictionary+OEAdditions.h"
 
 #import <OpenEmuBase/OpenEmuBase.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
@@ -54,6 +55,8 @@
 #import "OEDBCollection.h"
 #import "OEDBSmartCollection.h"
 #import "OEDBCollectionFolder.h"
+
+#import "OEGameInfoHelper.h"
 
 NSString *const OELibraryDidLoadNotificationName = @"OELibraryDidLoadNotificationName";
 
@@ -72,7 +75,7 @@ NSString *const OELibraryRomsFolderURLKey    = @"romsFolderURL";
 const int OELibraryErrorCodeFolderNotFound       = 1;
 const int OELibraryErrorCodeFileInFolderNotFound = 2;
 
-const CGFloat OpenVGDBSyncMainContextSaveDelay = 5.0;
+const NSInteger OpenVGDBSyncBatchSize = 5;
 
 @interface OELibraryDatabase ()
 {
@@ -320,7 +323,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSManagedObjectContext*)mainThreadContext
 {
-    OECoreDataMainThreadAssertion();
     return _mainThreadMOC;
 }
 
@@ -902,45 +904,100 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (void)OpenVGSyncThreadMain
 {
-    NSArray *result = nil;
+    NSArray *romKeys    = @[ @"md5", @"crc32", @"URL", @"header", @"serial", @"archiveFileIndex" ];
+    NSArray *gameKeys   = @[ @"permanentID", @"system" ];
+    NSArray *systemKeys = @[ @"systemIdentifier" ];
+
     NSFetchRequest *request   = [[NSFetchRequest alloc] initWithEntityName:[OEDBGame entityName]];
     NSPredicate    *predicate = [NSPredicate predicateWithFormat:@"status == %d", OEDBGameStatusProcessing];
 
-    [request setFetchLimit:1];
+    [request setFetchLimit:OpenVGDBSyncBatchSize];
     [request setPredicate:predicate];
 
-    NSManagedObjectContext *nestedContext = [self makeChildContext];
-    [[nestedContext userInfo] setObject:@"OpenVGDB" forKey:@"name"];
+    NSManagedObjectContext *mainContext = [[OELibraryDatabase defaultDatabase] mainThreadContext];
 
-    NSManagedObjectContext *mainContext = [nestedContext parentContext];
-    NSDate *lastMainSave = [NSDate date];
-
-    while((result = [nestedContext executeFetchRequest:request error:nil]) && [result count] != 0)
-    {
-        @autoreleasepool {
-            [nestedContext performBlockAndWait:^{
-                OEDBGame *game = [result lastObject];
-                [game performInfoSync];
-            }];
-
-            NSDate *now = [NSDate date];
-            NSTimeInterval timeSinceLastSave = [now timeIntervalSinceDate:lastMainSave];
-            if(timeSinceLastSave > OpenVGDBSyncMainContextSaveDelay)
-            {
-                [nestedContext save:nil];
-                [mainContext performBlock:^{
-                    [mainContext save:nil];
-                }];
-                lastMainSave = now;
-            }
-        }
-        [NSThread sleepForTimeInterval:0.5];
-    }
-    
-    [nestedContext save:nil];
-    [mainContext performBlock:^{
-        [mainContext save:nil];
+    __block NSUInteger count = 0;
+    [mainContext performBlockAndWait:^{
+        count = [mainContext countForFetchRequest:request error:nil];
     }];
+
+    while(count != 0)
+    {
+        __block NSMutableArray *games = nil;
+        [mainContext performBlockAndWait:^{
+            NSArray *gamesObjects = [mainContext executeFetchRequest:request error:nil];
+            games = [NSMutableArray arrayWithCapacity:[gamesObjects count]];
+            [gamesObjects enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stop) {
+                OEDBRom *rom = [game defaultROM];
+                OEDBSystem *system = [game system];
+
+                NSDictionary *gameInfo   = [game dictionaryWithValuesForKeys:gameKeys];
+                NSDictionary *romInfo    = [rom dictionaryWithValuesForKeys:romKeys];
+                NSDictionary *systemInfo = [system dictionaryWithValuesForKeys:systemKeys];
+
+                NSMutableDictionary *info = [gameInfo mutableCopy];
+                [info addEntriesFromDictionary:romInfo];
+                [info addEntriesFromDictionary:systemInfo];
+
+                [games addObject:info];
+            }];
+        }];
+
+        OEGameInfoHelper *helper = [OEGameInfoHelper sharedHelper];
+        for(int i=0; i < [games count]; i++)
+        {
+            NSDictionary *gameInfo = [games objectAtIndex:i];
+
+            NSManagedObjectID *objectID = [gameInfo valueForKey:@"permanentID"];
+            NSDictionary *result = [helper gameInfoWithDictionary:gameInfo];
+
+            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:objectID, @"objectID", @(OEDBGameStatusOK), @"status", nil];
+
+            if(result != nil)
+                [dict addEntriesFromDictionary:result];
+
+            NSDictionary *image = [OEDBImage prepareImageWithURLString:[dict objectForKey:@"boxImageURL"]];
+            if(image != nil)
+                [dict setObject:image forKey:@"image"];
+
+            [NSThread sleepForTimeInterval:0.5];
+
+            [games replaceObjectAtIndex:i withObject:dict];
+        }
+
+        __block NSMutableArray *previousBoxImages = [NSMutableArray arrayWithCapacity:[games count]];
+
+        [mainContext performBlockAndWait:^{
+            for(int i=0; i < [games count]; i++)
+            {
+                NSMutableDictionary *gameInfo = [games objectAtIndex:i];
+                NSManagedObjectID   *objectID = [gameInfo popObjectForKey:@"objectID"];
+                NSDictionary *imageDictionary = [gameInfo popObjectForKey:@"image"];
+
+                [gameInfo removeObjectForKey:@"boxImageURL"];
+                OEDBGame *game = [OEDBGame objectWithID:objectID inContext:mainContext];
+                [game setValuesForKeysWithDictionary:gameInfo];
+
+                OEDBImage *image = [OEDBImage createImageWithDictionary:imageDictionary];
+                if(image) {
+                    OEDBImage *previousImage = [game boxImage];
+                    if(previousImage) [previousBoxImages addObject:[previousImage permanentID]];
+                    [game setBoxImage:image];
+                }
+            }
+
+            [mainContext save:nil];
+            count = [mainContext countForFetchRequest:request error:nil];
+        }];
+
+        [mainContext performBlock:^{
+            [previousBoxImages enumerateObjectsUsingBlock:^(NSManagedObjectID *objID, NSUInteger idx, BOOL *stop) {
+                OEDBItem *item = [OEDBItem objectWithID:objID inContext:mainContext];
+                [mainContext deleteObject:item];
+            }];
+            [mainContext save:nil];
+        }];
+    };
 }
 #pragma mark - Debug
 

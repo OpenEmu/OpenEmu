@@ -206,15 +206,28 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     return [_database executeQuery:sql error:error];
 }
 
-- (NSDictionary*)gameInfoForROM:(OEDBRom*)rom error:(NSError *__autoreleasing*)error
+- (NSDictionary*)gameInfoWithDictionary:(NSDictionary*)gameInfo
 {
-    // TODO: this method could use some cleanup
-    // TODO: remove extracted rom if necessary
-    if(![self database]) return @{};
-    
-    BOOL isSystemWithHashlessROM = [self hashlessROMCheckForSystem:[[[rom game] system] systemIdentifier]];
-    BOOL isSystemWithROMHeader   = [self headerROMCheckForSystem:[[[rom game] system] systemIdentifier]];
-    BOOL isSystemWithROMSerial   = [self serialROMCheckForSystem:[[[rom game] system] systemIdentifier]];
+    NSArray *keys = [[gameInfo allKeys] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        return [gameInfo valueForKey:evaluatedObject] != [NSNull null];
+    }]];
+    gameInfo = [gameInfo dictionaryWithValuesForKeys:keys];
+
+    NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
+
+    NSString *systemIdentifier = [gameInfo valueForKeyPath:@"systemIdentifier"];
+    NSString *header = [gameInfo valueForKey:@"header"];
+    NSString *serial = [gameInfo valueForKey:@"serial"];
+    NSString *md5    = [gameInfo valueForKey:@"md5"];
+    NSString *crc    = [gameInfo valueForKey:@"crc32"];
+    NSURL    *url    = [gameInfo valueForKey:@"URL"];
+    NSNumber *archiveFileIndex = [gameInfo valueForKey:@"archiveFileIndex"];
+
+    if(![self database]) return resultDict;
+
+    BOOL isSystemWithHashlessROM = [self hashlessROMCheckForSystem:systemIdentifier];
+    BOOL isSystemWithROMHeader   = [self headerROMCheckForSystem:systemIdentifier];
+    BOOL isSystemWithROMSerial   = [self serialROMCheckForSystem:systemIdentifier];
 
     NSString * const DBMD5Key= @"romHashMD5";
     NSString * const DBCRCKey= @"romHashCRC";
@@ -230,30 +243,30 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
         if (isSystemWithHashlessROM)
         {
             key = DBROMFileNameKey;
-            value = [[[rom location] lastPathComponent] lowercaseString];
+            value = [[url lastPathComponent] lowercaseString];
         }
         // check if the system has headers in the db and instead match by header
         else if (isSystemWithROMHeader)
         {
             key = DBROMHeaderKey;
-            value = [[rom header] uppercaseString];
+            value = [header uppercaseString];
         }
         // check if the system has serials in the db and instead match by serial
         else if (isSystemWithROMSerial)
         {
             key = DBROMSerialKey;
-            value = [[rom serial] uppercaseString];
+            value = [serial uppercaseString];
         }
         else
         {
-            int headerSize = [self sizeOfROMHeaderForSystem:[[[rom game] system] systemIdentifier]];
+            int headerSize = [self sizeOfROMHeaderForSystem:systemIdentifier];
             
             // if rom has no header we can use the hash we calculated at import
-            if(headerSize == 0 && (value = [rom md5HashIfAvailable]) != nil)
+            if(headerSize == 0 && (value = md5) != nil)
             {
                 key = DBMD5Key;
             }
-            else if(headerSize == 0 && (value = [rom crcHashIfAvailable]) != nil)
+            else if(headerSize == 0 && (value = crc) != nil)
             {
                 key = DBCRCKey;
             }
@@ -266,25 +279,26 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     // try to fetch header, serial or hash from file
     if(value == nil)
     {
-        NSURL *romURL = [self _urlOfExtractedRom:rom];
+        NSURL *romURL = [self _urlOfExtractedFile:url archiveFileIndex:archiveFileIndex];
         if(romURL == nil) // rom is no archive, use original file URL
-            romURL = [rom URL];
+            romURL = url;
         
-        NSString *systemIdentifier = [[[rom game] system] systemIdentifier];
         NSString *headerFound = [OEDBSystem headerForFileWithURL:romURL forSystem:systemIdentifier];
         NSString *serialFound = [OEDBSystem serialForFileWithURL:romURL forSystem:systemIdentifier];
 
         if(headerFound == nil && serialFound == nil)
         {
-            int headerSize = [self sizeOfROMHeaderForSystem:[[[rom game] system] systemIdentifier]];
-            [[NSFileManager defaultManager] hashFileAtURL:romURL headerSize:headerSize md5:&value crc32:nil error:error];
+            int headerSize = [self sizeOfROMHeaderForSystem:systemIdentifier];
+            [[NSFileManager defaultManager] hashFileAtURL:romURL headerSize:headerSize md5:&value crc32:nil error:nil];
             key   = DBMD5Key;
             value = [value uppercaseString];
         }
         else
         {
-            [rom setHeader:headerFound];
-            [rom setSerial:serialFound];
+            if(headerFound)
+                [resultDict setObject:headerFound forKey:@"defaultROM.header"];
+            if(serialFound)
+                [resultDict setObject:serialFound forKey:@"defaultROM.serial"];
         }
     }
     
@@ -297,7 +311,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
                      FROM ROMs rom LEFT JOIN RELEASES release USING (romID) LEFT JOIN REGIONS region on (regionLocalizedID=region.regionID)\
                      WHERE %@ = '%@'", key, value];
 
-    __block NSArray *result = [_database executeQuery:sql error:error];
+    __block NSArray *result = [_database executeQuery:sql error:nil];
     if([result count] > 1)
     {
         // the database holds multiple regions for this rom (probably WORLD rom)
@@ -321,7 +335,9 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
         [obj removeObjectForKey:@"region"];
     }];
 
-    return [result lastObject];
+    [resultDict addEntriesFromDictionary:[result lastObject]];
+
+    return resultDict;
 }
 
 - (BOOL)hashlessROMCheckForSystem:(NSString*)system
@@ -360,12 +376,12 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     return [[[result lastObject] objectForKey:@"size"] intValue];
 }
 
-- (NSURL*)_urlOfExtractedRom:(OEDBRom*)rom
+- (NSURL*)_urlOfExtractedFile:(NSURL *)url archiveFileIndex:(id)archiveFileIndex
 {
-    if([rom archiveFileIndex] == nil)
+    if(archiveFileIndex == nil && archiveFileIndex != [NSNull null])
         return nil;
 
-    NSString *path = [[rom URL] path];
+    NSString *path = [url path];
     XADArchive *archive;
     @try {
         archive = [XADArchive archiveForFile:path];
@@ -375,16 +391,16 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
         archive = nil;
     }
 
-    int entryIndex = [[rom archiveFileIndex] intValue];
+    int entryIndex = [archiveFileIndex intValue];
     if (archive && [archive numberOfEntries] > entryIndex)
     {
         NSString *formatName = [archive formatName];
         if ([formatName isEqualToString:@"MacBinary"])
             return nil;
-        
+
         if( [formatName isEqualToString:@"LZMA_Alone"])
             return nil;
-        
+
         if (![archive entryHasSize:entryIndex] || [archive entryIsEncrypted:entryIndex] || [archive entryIsDirectory:entryIndex] || [archive entryIsArchive:entryIndex])
             return nil;
 
@@ -417,6 +433,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     }
     return nil;
 }
+
 #pragma mark - NSURLDownload Delegate
 - (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
 {

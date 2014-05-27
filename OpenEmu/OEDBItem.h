@@ -39,7 +39,6 @@
 + (NSArray*)allObjectsInContext:(NSManagedObjectContext*)context error:(NSError**)error;
 + (NSArray*)allObjectsInContext:(NSManagedObjectContext*)context sortBy:(NSArray*)sortDescriptors error:(NSError**)error;
 
-
 - (NSManagedObjectID*)permanentID;
 - (NSURL*)permanentIDURI;
 

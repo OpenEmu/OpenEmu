@@ -899,7 +899,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
     NSArray *selectedGames = [self selectedGames];
     BOOL multipleGames = ([selectedGames count]>1);
-    
+
     // deleting from 'All Games', Smart Collections and consoles removes games from the library
     if([[self representedObject] isKindOfClass:[OEDBSmartCollection class]]
        || [self representedObject]==(id<OECollectionViewItemProtocol>)[OEDBAllGamesCollection sharedDBAllGamesCollection]
@@ -931,14 +931,13 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
             }
             
             DLog(@"deleteFiles: %d", deleteFiles);
-            NSManagedObjectContext *context = [[selectedGames lastObject] managedObjectContext];
-            [context performBlockAndWait:^{
-                [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
-                    [game deleteByMovingFile:deleteFiles keepSaveStates:YES save:NO];
-                }];
-                [context save:nil];
+            [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
+                [game deleteByMovingFile:deleteFiles keepSaveStates:YES];
             }];
-            
+
+            NSManagedObjectContext *context = [[selectedGames lastObject] managedObjectContext];
+            [context save:nil];
+
             NSRect visibleRect = [gridView visibleRect];
             [self OE_reloadData];
             [gridView scrollRectToVisible:visibleRect];
@@ -963,7 +962,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     OECoreDataMainThreadAssertion();
 
     NSArray *selectedGames = [self selectedGames];
-    id collection = [[[self libraryController] sidebarController] addCollection:NO];
+    OEDBCollection *collection = [[[self libraryController] sidebarController] addCollection:NO];
     [collection setGames:[NSSet setWithArray:selectedGames]];
     [collection save];
     [self setNeedsReload];
@@ -973,7 +972,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     OECoreDataMainThreadAssertion();
 
-    id collection;
+    OEDBCollection *collection;
     if(![sender isKindOfClass:[OEDBCollection class]])
     {
         collection = [sender representedObject];
@@ -989,7 +988,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 - (void)downloadCoverArt:(id)sender
 {
     [[self selectedGames] makeObjectsPerformSelector:@selector(requestCoverDownload)];
-    [[[self selectedGames] lastObject] save];
+    [(OEDBGame*)[[self selectedGames] lastObject] save];
     [self reloadDataIndexes:[self selectedIndexes]];
 }
 
@@ -997,7 +996,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 - (void)cancelCoverArtDownload:(id)sender
 {
     [[self selectedGames] makeObjectsPerformSelector:@selector(cancelCoverDownload)];
-    [[[self selectedGames] lastObject] save];
+    [(OEDBGame*)[[self selectedGames] lastObject] save];
     [self reloadDataIndexes:[self selectedIndexes]];
 }
 
@@ -1016,7 +1015,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
             return;
 
         [[self selectedGames] makeObjectsPerformSelector:@selector(setBoxImageByURL:) withObject:[openPanel URL]];
-        [[[self selectedGames] lastObject] save];
+        [(OEDBGame*)[[self selectedGames] lastObject] save];
         [self reloadDataIndexes:[self selectedIndexes]];
     }];
 }
@@ -1520,6 +1519,8 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
 - (void)OE_reloadData
 {
+    OECoreDataMainThreadAssertion();
+
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(OE_reloadData) object:nil];
     if(!gamesController) return;
     
@@ -1528,9 +1529,9 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [gamesController setLimit:[[self representedObject] fetchLimit]];
     [gamesController setFetchSortDescriptors:[[self representedObject] fetchSortDescriptors]];
     __block BOOL ok;
-    [[gamesController managedObjectContext] performBlockAndWait:^{
-        ok = [gamesController fetchWithRequest:nil merge:NO error:nil];
-    }];
+
+    DLog(@"%@", [[[gamesController managedObjectContext] userInfo] valueForKey:@"name"]);
+    ok = [gamesController fetchWithRequest:nil merge:NO error:nil];
 
     if(!ok)
     {

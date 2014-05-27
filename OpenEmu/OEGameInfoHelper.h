@@ -39,7 +39,9 @@ extern NSString * const OEGameInfoHelperDidUpdateNotificationName;
 
 @interface OEGameInfoHelper : NSObject
 + (id)sharedHelper;
-- (NSDictionary*)gameInfoForROM:(OEDBRom*)rom error:(NSError *__autoreleasing*)error;
+
+- (NSDictionary*)gameInfoWithDictionary:(NSDictionary*)gameInfo;
+
 - (BOOL)hashlessROMCheckForSystem:(NSString*)system;
 - (BOOL)headerROMCheckForSystem:(NSString*)system;
 - (BOOL)serialROMCheckForSystem:(NSString*)system;

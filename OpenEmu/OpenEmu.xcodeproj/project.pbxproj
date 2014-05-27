@@ -430,6 +430,7 @@
 		83AAC3311458172C005ADD16 /* installer_dark_inset_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AAC32D1458172C005ADD16 /* installer_dark_inset_box.png */; };
 		83AAC3321458172C005ADD16 /* installer_gamepad_graphics.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AAC32E1458172C005ADD16 /* installer_gamepad_graphics.png */; };
 		83AB259917A6A432009C80BC /* OEControlsSectionTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AB259817A6A432009C80BC /* OEControlsSectionTitleView.m */; };
+		83ACB6E719353E94004C6372 /* NSMutableDictionary+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83ACB6E619353E94004C6372 /* NSMutableDictionary+OEAdditions.m */; };
 		83AE9F0D14B2725300E91BD8 /* controller_genesis.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AE9F0A14B271E200E91BD8 /* controller_genesis.png */; };
 		83AEF939140B78B6007803D7 /* filter_effect_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AEF937140B78B6007803D7 /* filter_effect_frame.png */; };
 		83B1E1C914FE734E00AA652F /* menu_item_mixed_state.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B1E1C814FE734E00AA652F /* menu_item_mixed_state.png */; };
@@ -2033,6 +2034,8 @@
 		83AAC32E1458172C005ADD16 /* installer_gamepad_graphics.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_gamepad_graphics.png; sourceTree = "<group>"; };
 		83AB259717A6A432009C80BC /* OEControlsSectionTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsSectionTitleView.h; sourceTree = "<group>"; };
 		83AB259817A6A432009C80BC /* OEControlsSectionTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsSectionTitleView.m; sourceTree = "<group>"; };
+		83ACB6E519353E94004C6372 /* NSMutableDictionary+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+OEAdditions.h"; sourceTree = "<group>"; };
+		83ACB6E619353E94004C6372 /* NSMutableDictionary+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+OEAdditions.m"; sourceTree = "<group>"; };
 		83AE9F0A14B271E200E91BD8 /* controller_genesis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis.png; sourceTree = "<group>"; };
 		83AEF937140B78B6007803D7 /* filter_effect_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_effect_frame.png; sourceTree = "<group>"; };
 		83B1E1C814FE734E00AA652F /* menu_item_mixed_state.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_item_mixed_state.png; sourceTree = "<group>"; };
@@ -3492,6 +3495,8 @@
 				14E4A7F91616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m */,
 				1486195E166076A400BDB800 /* NSDate+OESortAdditions.h */,
 				1486195F166076A400BDB800 /* NSDate+OESortAdditions.m */,
+				83ACB6E519353E94004C6372 /* NSMutableDictionary+OEAdditions.h */,
+				83ACB6E619353E94004C6372 /* NSMutableDictionary+OEAdditions.m */,
 			);
 			name = "Additions to standard classes";
 			sourceTree = "<group>";
@@ -7599,6 +7604,7 @@
 				53439B0013B92EC1005C0CC8 /* OEScrollView.m in Sources */,
 				53439B0313B92ED3005C0CC8 /* OECenteredTextFieldCell.m in Sources */,
 				53439B0713B92EEC005C0CC8 /* OEGridViewFieldEditor.m in Sources */,
+				83ACB6E719353E94004C6372 /* NSMutableDictionary+OEAdditions.m in Sources */,
 				53439B1713B92FFA005C0CC8 /* OESidebarCell.m in Sources */,
 				53439B1813B92FFA005C0CC8 /* OESidebarController.m in Sources */,
 				53439B1913B92FFA005C0CC8 /* OESidebarFieldEditor.m in Sources */,

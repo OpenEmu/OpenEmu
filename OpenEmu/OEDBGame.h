@@ -57,10 +57,8 @@ extern NSString *const OEGameArtworkPropertiesKey;
 
 #pragma mark - Cover Art Database Sync
 - (void)requestInfoSync;
-- (void)performInfoSync; // will blocks until results arrive
 - (void)cancelCoverDownload;
 - (void)requestCoverDownload;
-- (id)mergeInfoFromGame:(OEDBGame *)game;
 
 #pragma mark - Accessors
 
@@ -78,7 +76,6 @@ extern NSString *const OEGameArtworkPropertiesKey;
 - (void)setBoxImageByURL:(NSURL *)url;
 
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag;
-- (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag save:(BOOL)saveFlag;
 
 #pragma mark - Core Data utilities
 

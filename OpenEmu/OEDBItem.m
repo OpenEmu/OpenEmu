@@ -106,6 +106,7 @@
     NSAssert(NO, @"+entityName must be overriden");
     return nil;
 }
+
 - (NSString*)entityName
 {
     return [[self class] entityName];

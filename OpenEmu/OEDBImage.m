@@ -36,122 +36,94 @@
 @implementation OEDBImage
 @dynamic source, width, height, format, Box, relativePath;
 
-+ (instancetype)createImageWithNSImage:(NSImage*)image
++ (NSDictionary*)prepareImageWithURLString:(NSString*)urlString;
 {
-    return [self createImageWithNSImage:image type:OEBitmapImageFileTypeDefault];
+    if(urlString == nil) return nil;
+
+    NSURL *url = [NSURL URLWithString:urlString];
+    if(url == nil) return nil;
+
+    NSMutableDictionary *result = [NSMutableDictionary dictionaryWithObject:url forKey:@"URL"];
+
+    NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
+    if(!image) return result;
+
+    __block NSSize imageSize = [image size];
+    const NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEGameArtworkPropertiesKey];
+    NSString *fileName = [NSString stringWithUUID];
+    OEBitmapImageFileType type = [standardUserDefaults integerForKey:OEGameArtworkFormatKey];
+
+    __block NSBitmapImageRep *imageRep = nil;
+    __block NSInteger maxArea = 0;
+    [[image representations] enumerateObjectsUsingBlock:^(NSImageRep *rep, NSUInteger idx, BOOL *stop)
+     {
+         if([rep isKindOfClass:[NSBitmapImageRep class]])
+         {
+             NSInteger area = [rep pixelsHigh]*[rep pixelsWide];
+             if(area >= maxArea)
+             {
+                 imageRep = (NSBitmapImageRep*)rep;
+                 maxArea = area;
+
+                 imageSize.width  = [rep pixelsWide];
+                 imageSize.height = [rep pixelsHigh];
+             }
+         }
+     }];
+
+    if(imageRep == nil)
+    {
+        DLog(@"No NSBitmapImageRep found, creating one...");
+        [image lockFocus];
+        imageRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){{0,0}, imageSize}];
+        [image unlockFocus];
+    }
+
+    if(imageRep == nil)
+    {
+        DLog(@"Could not draw NSImage in NSBitmapimage rep, exiting…");
+        return result;
+    }
+
+    NSData *data = [imageRep representationUsingType:type properties:properties];
+
+    // TODO: get database from context
+    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+
+    NSURL *coverFolderURL = [database coverFolderURL];
+    NSURL *imageURL = [NSURL URLWithString:fileName relativeToURL:coverFolderURL];
+
+    if(![data writeToURL:imageURL atomically:YES])
+    {
+        [[NSFileManager defaultManager] removeItemAtURL:imageURL error:nil];
+        DLog(@"Failed to write image file! Exiting…");
+        return result;
+    }
+
+    [result setObject:@(imageSize.width) forKey:@"width"];
+    [result setObject:@(imageSize.height) forKey:@"height"];
+    [result setObject:[imageURL relativeString] forKey:@"relativePath"];
+    [result setObject:@(type) forKey:@"format"];
+
+    return result;
 }
 
-+ (instancetype)createImageWithNSImage:(NSImage*)image type:(OEBitmapImageFileType)type
++ (instancetype)createImageWithDictionary:(NSDictionary*)dictionary
 {
     OECoreDataMainThreadAssertion();
-
-    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
-    return [self createImageWithNSImage:image type:type inContext:context];
+    return [self createImageWithDictionary:dictionary inContext:[[OELibraryDatabase defaultDatabase] mainThreadContext]];
 }
 
-+ (instancetype)createImageWithNSImage:(NSImage*)nsimage type:(OEBitmapImageFileType)type inContext:(NSManagedObjectContext *)context
-{
-    const NSSize size = [nsimage size];
-    OEDBImage *image = [OEDBImage createObjectInContext:context];
-    NSBitmapImageFileType format;
-    NSURL *fileUrl = [image OE_writeImage:nsimage withType:type usedFormat:&format inContext:context];
-    if(fileUrl != nil)
-    {
-        [image setWidth:size.width];
-        [image setHeight:size.height];
-        [image setRelativePath:[fileUrl relativeString]];
-        [image setFormat:format];
-
-        [image save];
-        return image;
-    }
-    else
-    {
-        [image setBox:nil];
-        [image delete];
-        [image save];
-
-        return nil;
-    }
-}
-
-+ (instancetype)createImageWithURL:(NSURL*)url
-{
-    return [self createImageWithURL:url type:OEBitmapImageFileTypeDefault];
-}
-
-+ (instancetype)createImageWithURL:(NSURL*)url type:(OEBitmapImageFileType)type
-{
-    OECoreDataMainThreadAssertion();
-
-    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
-    return [self createImageWithURL:url type:type inContext:context];
-}
-
-+ (instancetype)createImageWithURL:(NSURL*)url type:(OEBitmapImageFileType)type inContext:(NSManagedObjectContext *)context
++ (instancetype)createImageWithDictionary:(NSDictionary*)dictionary inContext:(NSManagedObjectContext*)context
 {
     OEDBImage *image = [OEDBImage createObjectInContext:context];
-    NSSize size = NSZeroSize;
-    NSBitmapImageFileType format;
-    NSURL *fileUrl = [image OE_writeURL:url withType:type usedFormat:&format outSize:&size inContext:context];
+    [image setSourceURL:[dictionary valueForKey:@"URL"]];
+    [image setWidth:[[dictionary valueForKey:@"width"] floatValue]];
+    [image setHeight:[[dictionary valueForKey:@"height"] floatValue]];
 
-    if(fileUrl != nil)
-    {
-        [image setWidth:size.width];
-        [image setHeight:size.height];
-        [image setRelativePath:[fileUrl relativeString]];
-        [image setSourceURL:url];
-        [image setFormat:format];
-        // [image save];
-
-        return image;
-    }
-    else
-    {
-
-        [image setBox:nil];
-        [image delete];
-        // [image save];
-        return nil;
-    }
-}
-
-+ (instancetype)createImageWithData:(NSData*)data
-{
-    return [self createImageWithData:data type:OEBitmapImageFileTypeDefault];
-}
-+ (instancetype)createImageWithData:(NSData*)data type:(OEBitmapImageFileType)type
-{
-    OECoreDataMainThreadAssertion();
-
-    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
-
-    return [self createImageWithData:data type:type inContext:context];
-}
-+ (instancetype)createImageWithData:(NSData*)data type:(OEBitmapImageFileType)type inContext:(NSManagedObjectContext *)context
-{
-    OEDBImage *image = [OEDBImage createObjectInContext:context];
-    NSSize size = NSZeroSize;
-    NSBitmapImageFileType format;
-    NSURL *fileUrl = [image OE_writeData:data withType:type usedFormat:&format outSize:&size inContext:context];
-    if(fileUrl != nil)
-    {
-        [image setWidth:size.width];
-        [image setHeight:size.height];
-        [image setRelativePath:[fileUrl relativeString]];
-        [image setFormat:format];
-        [image save];
-
-        return image;
-    }
-    else
-    {
-        [image setBox:nil];
-        [image delete];
-        [image save];
-
-        return nil;
-    }
+    [image setRelativePath:[dictionary valueForKey:@"relativePath"]];
+    [image setFormat:[[dictionary valueForKey:@"format"] shortValue]];
 
     return image;
 }
@@ -167,68 +139,7 @@
 
 - (NSURL*)OE_writeImage:(NSImage*)image withType:(OEBitmapImageFileType)type usedFormat:(NSBitmapImageFileType*)usedFormat withProperties:(NSDictionary*)properties inContext:(NSManagedObjectContext*)context
 {
-    if(image == nil)
-    {
-        DLog(@"No image passed in, exiting…");
-        return nil;
-    }
-
-    const NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    const NSSize         imageSize             = [image size];
-    NSString *fileName = [NSString stringWithUUID];
-
-    if(type == OEBitmapImageFileTypeDefault || type==OEBitmapImageFileTypeOriginal)
-        type = [standardUserDefaults integerForKey:OEGameArtworkFormatKey];
-
-    __block NSBitmapImageRep *imageRep = nil;
-    __block NSInteger maxArea = 0;
-    [[image representations] enumerateObjectsUsingBlock:^(NSImageRep *rep, NSUInteger idx, BOOL *stop)
-     {
-         if([rep isKindOfClass:[NSBitmapImageRep class]])
-         {
-             NSInteger area = [rep pixelsHigh]*[rep pixelsWide];
-             if(area >= maxArea)
-             {
-                 imageRep = (NSBitmapImageRep*)rep;
-                 maxArea = area;
-             }
-         }
-     }];
-
-
-    if(imageRep == nil)
-    {
-        DLog(@"No NSBitmapImageRep found, creating one...");
-        [image lockFocus];
-        imageRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){{0,0}, imageSize}];
-        [image unlockFocus];
-    }
-
-    if(imageRep == nil)
-    {
-        DLog(@"Could not draw NSImage in NSBitmapimage rep, exiting…");
-        return nil;
-    }
-
-    NSData *data = [imageRep representationUsingType:type properties:properties];
-
-    // TODO: get database from context
-    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
-
-    NSURL *coverFolderURL = [database coverFolderURL];
-    NSURL *imageURL = [NSURL URLWithString:fileName relativeToURL:coverFolderURL];
-    
-    if(![data writeToURL:imageURL atomically:YES])
-    {
-        [[NSFileManager defaultManager] removeItemAtURL:imageURL error:nil];
-        DLog(@"Failed to write image file! Exiting…");
-        return nil;
-    }
-
-    if(usedFormat != NULL)
-        *usedFormat = type;
-
-    return imageURL;
+    return nil;
 }
 
 - (NSURL*)OE_writeURL:(NSURL*)url withType:(OEBitmapImageFileType)type usedFormat:(NSBitmapImageFileType*)usedFormat outSize:(NSSize*)size inContext:(NSManagedObjectContext*)context

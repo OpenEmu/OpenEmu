@@ -222,7 +222,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (id)duplicateCollection:(id)originalCollection
 {
-    id duplicateCollection = [[self database] addNewCollection:[NSString stringWithFormat:NSLocalizedString(@"%@ copy", @"Duplicated collection name"), [originalCollection valueForKey:@"name"]]];
+    OEDBCollection *duplicateCollection = [[self database] addNewCollection:[NSString stringWithFormat:NSLocalizedString(@"%@ copy", @"Duplicated collection name"), [originalCollection valueForKey:@"name"]]];
 
     [duplicateCollection setGames:[originalCollection games]];
     [duplicateCollection save];
@@ -562,8 +562,8 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     if([[object stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] isNotEqualTo:@""])
     {
-        [item setSidebarName:object];
-        [item save];
+        [(id<OESidebarItem>)item setSidebarName:object];
+        [(OEDBCollection*)item save];
         [self reloadData];
 
         NSInteger row = [outlineView rowForItem:item];
@@ -627,8 +627,8 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     if(removeItem)
     {
-        [item delete];
-        [item save];
+        [(OEDBCollection*)item delete];
+        [(OEDBCollection*)item save];
 
         // keep selection on last object if the one we removed was last
         if(index == [[self view] numberOfRows]-1)
