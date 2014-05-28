@@ -133,10 +133,10 @@ static const unsigned short konamiCodeSize = 10;
     [self setVisiblePaneIndex:-1];
     
     // Make sure that value from User Defaults is valid
-    if(selectedTab < 0 || selectedTab >= [[toolbar items] count])
+    if(selectedTab < 0 || selectedTab >= [toolbar numberOfItems])
         selectedTab = 0;
     
-    OEToolbarItem *selectedItem = [[toolbar items] objectAtIndex:selectedTab];
+    OEToolbarItem *selectedItem = [toolbar itemAtIndex:selectedTab];
     [toolbar markItemAsSelected:selectedItem];
     [self switchView:selectedItem animate:NO];
     
@@ -261,8 +261,8 @@ static const unsigned short konamiCodeSize = 10;
         [toolbarItem setAction:@selector(switchView:)];
         [toolbar addItem:toolbarItem];
     }
-    if(lastSelection >= [[toolbar items] count]) lastSelection = 0;
-    [self switchView:[[toolbar items] objectAtIndex:lastSelection] animate:YES];
+    if(lastSelection >= [toolbar numberOfItems]) lastSelection = 0;
+    [self switchView:[toolbar itemAtIndex:lastSelection] animate:YES];
     [self setVisiblePaneIndex:lastSelection];
 
     [win setTitleBarView:toolbar];
@@ -297,7 +297,7 @@ static const unsigned short konamiCodeSize = 10;
     NSInteger selectedTab;
     
     if([sender isKindOfClass:[OEToolbarItem class]])
-        selectedTab = [[toolbar items] indexOfObject:sender];
+        selectedTab = [toolbar indexOfItem:sender];
     else if([sender isKindOfClass:[NSNumber class]])
         selectedTab = [sender integerValue];
     else return;

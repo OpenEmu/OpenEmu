@@ -30,6 +30,7 @@
 
 @interface OEToolbarView ()
 - (void)OE_commonToolbarViewInit;
+@property(strong) NSMutableArray *items;
 @end 
 
 @implementation OEToolbarView
@@ -59,7 +60,7 @@
 
 - (void)addItem:(OEToolbarItem *)item
 {
-    [self.items addObject:item];
+    [[self items] addObject:item];
     [self setNeedsDisplay:YES];
 }
 
@@ -69,14 +70,14 @@
 }
 - (NSUInteger)selectedItemIndex
 {
-    return [self.items indexOfObject:selectedItem];
+    return [[self items] indexOfObject:selectedItem];
 }
 - (void)markItemAsSelected:(OEToolbarItem*)tbItem{
-    NSUInteger index = [self.items indexOfObject:tbItem];
+    NSUInteger index = [self indexOfItem:tbItem];
     if(index == NSNotFound){
         selectedItem = nil;
     } else {
-        selectedItem = [self.items objectAtIndex:index];
+        selectedItem = [self itemAtIndex:index];
     }
 }
 
@@ -86,7 +87,19 @@
                     [[self items] objectAtIndex:itemIndex] :
                     nil);
 }
-
+#pragma mark -
+- (NSInteger)numberOfItems
+{
+    return [[self items] count];
+}
+- (OEToolbarItem*)itemAtIndex:(NSInteger)index
+{
+    return [[self items] objectAtIndex:index];
+}
+- (NSInteger)indexOfItem:(OEToolbarItem*)item
+{
+    return [[self items] indexOfObject:item];
+}
 #pragma mark -
 - (BOOL)isOpaque{
     return NO;
@@ -205,7 +218,7 @@
 
 - (void)OE_commonToolbarViewInit
 {
-    self.items = [[NSMutableArray alloc] init];
+    [self setItems:[NSMutableArray array]];
 }
 
 @end

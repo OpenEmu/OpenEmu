@@ -29,8 +29,6 @@
 @interface OEToolbarView : INTitlebarView
 {
 @private
-    NSMutableArray *items;
-    
     OEToolbarItem *highlightedItem;
     OEToolbarItem *selectedItem;
 }
@@ -41,8 +39,9 @@
 - (void)markItemAsSelected:(OEToolbarItem*)tbItem; // basically selects a toolbar item without invoking its actions
 - (void)markItemIndexAsSelected:(NSUInteger)itemIndex;
 
-// FIXME: This is atrotious !
-@property(strong) NSMutableArray *items;
+- (NSInteger)numberOfItems;
+- (OEToolbarItem*)itemAtIndex:(NSInteger)index;
+- (NSInteger)indexOfItem:(OEToolbarItem*)item;
 @end
 
 @interface OEToolbarItem : NSObject
