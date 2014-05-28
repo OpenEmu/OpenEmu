@@ -228,35 +228,30 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 #pragma mark -
 - (void)setBoxImageByImage:(NSImage *)img
 {
-    DLog(@"not implemented");
-    // TODO: implement
-    /*
-    OEBitmapImageFileType type = [[NSUserDefaults standardUserDefaults] integerForKey:OEGameArtworkFormatKey];
-    OEDBImage *image = [OEDBImage createImageWithNSImage:img type:type inContext:[self managedObjectContext]];
-    OEDBImage *currentImage = [self boxImage];
-    if(currentImage != nil)
-        [currentImage delete];
-    [self setBoxImage:image];
-    [self save];
-     */
+    NSDictionary *dictionary = [OEDBImage prepareImageWithNSImage:img];
+    NSManagedObjectContext *context = [self managedObjectContext];
+    [context performBlockAndWait:^{
+        OEDBImage *currentImage = [self boxImage];
+        if(currentImage) [context deleteObject:currentImage];
+
+        OEDBImage *newImage = [OEDBImage createImageWithDictionary:dictionary];
+        if(newImage) [self setBoxImage:newImage];
+        else [context deleteObject:newImage];
+    }];
 }
 
 - (void)setBoxImageByURL:(NSURL *)url
 {
-    DLog(@"not implemented");
-    // TODO: implement
-/*
-    OEDBImage *image = [OEDBImage createImageWithURL:url type:OEBitmapImageFileTypeDefault inContext:[self managedObjectContext]];
-    OEDBImage *currentImage = [self boxImage];
-        
-    if(currentImage != nil)
-    {
-        [currentImage delete];
-    }
+    NSDictionary *dictionary = [OEDBImage prepareImageWithURLString:url];
+    NSManagedObjectContext *context = [self managedObjectContext];
+    [context performBlockAndWait:^{
+        OEDBImage *currentImage = [self boxImage];
+        if(currentImage) [context deleteObject:currentImage];
 
-    [self setBoxImage:image];
-    // [self save];
- */
+        OEDBImage *newImage = [OEDBImage createImageWithDictionary:dictionary];
+        if(newImage) [self setBoxImage:newImage];
+        else [context deleteObject:newImage];
+    }];
 }
 
 #pragma mark - Core Data utilities
@@ -286,7 +281,6 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 - (void)prepareForDeletion
 {
     [[self boxImage] delete];
-    [[self roms] makeObjectsPerformSelector:@selector(delete)];
 }
 
 #pragma mark - NSPasteboardWriting

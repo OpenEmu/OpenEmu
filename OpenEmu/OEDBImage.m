@@ -46,6 +46,21 @@
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithObject:url forKey:@"URL"];
 
     NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
+    NSDictionary *tempInfo = [self OE_prepareImage:image];
+
+    [result addEntriesFromDictionary:tempInfo];
+
+    return result;
+}
+
++ (NSDictionary*)prepareImageWithNSImage:(NSImage*)image
+{
+    return [self OE_prepareImage:image];
+}
+
++ (NSDictionary*)OE_prepareImage:(NSImage*)image
+{
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
     if(image == nil) return result;
 
     __block NSSize imageSize = [image size];

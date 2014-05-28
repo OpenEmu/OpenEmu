@@ -1014,8 +1014,11 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         if(result != NSFileHandlingPanelOKButton)
             return;
 
-        [[self selectedGames] makeObjectsPerformSelector:@selector(setBoxImageByURL:) withObject:[openPanel URL]];
-        [(OEDBGame*)[[self selectedGames] lastObject] save];
+        NSArray *selectedGames = [self selectedGames];
+        [selectedGames makeObjectsPerformSelector:@selector(setBoxImageByURL:) withObject:[openPanel URL]];
+        NSManagedObjectContext *context = [[selectedGames lastObject] managedObjectContext];
+        [context save:nil];
+
         [self reloadDataIndexes:[self selectedIndexes]];
     }];
 }

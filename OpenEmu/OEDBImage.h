@@ -36,6 +36,8 @@ typedef enum : NSBitmapImageFileType
 @interface OEDBImage : OEDBItem
 
 + (NSDictionary*)prepareImageWithURLString:(NSURL*)url;
++ (NSDictionary*)prepareImageWithNSImage:(NSImage*)image;
+
 + (instancetype)createImageWithDictionary:(NSDictionary*)dictionary;
 
 #pragma mark - Core Data utilities

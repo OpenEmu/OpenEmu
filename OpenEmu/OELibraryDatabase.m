@@ -1002,7 +1002,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
         [mainContext performBlock:^{
             [previousBoxImages enumerateObjectsUsingBlock:^(NSManagedObjectID *objID, NSUInteger idx, BOOL *stop) {
-                OEDBItem *item = [OEDBItem objectWithID:objID inContext:mainContext];
+                OEDBImage *item = [OEDBImage objectWithID:objID inContext:mainContext];
                 [mainContext deleteObject:item];
             }];
             [mainContext save:nil];
