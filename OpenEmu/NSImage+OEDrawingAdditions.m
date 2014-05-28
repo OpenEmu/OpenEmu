@@ -45,8 +45,13 @@
 
 @implementation NSImage (OEDrawingAdditions)
 
+TODO("Remove OEDrawingAdditions and replace it with Themed images");
 - (void)drawInRect:(NSRect)targetRect fromRect:(NSRect)sourceRect operation:(NSCompositingOperation)op fraction:(CGFloat)frac respectFlipped:(BOOL)flipped hints:(NSDictionary *)hints leftBorder:(float)leftBorder rightBorder:(float)rightBorder topBorder:(float)topBorder bottomBorder:(float)bottomBorder
 {
+    /* temporary fix for NSWarnForDrawingImageWithNoCurrentContext. This method should be removed anyway!
+     * http://www.marshut.com/iixzsv/nswarnfordrawingimagewithnocurrentcontext.html
+     */
+    [self setCacheMode:NSImageCacheNever];
 
     if(NSEqualRects(sourceRect, NSZeroRect)) sourceRect = (NSRect){ .size = [self size] };
 
@@ -79,6 +84,9 @@
     {
         workingTargetRect = NSMakeRect(targetRect.origin.x, targetRect.origin.y, leftBorder, bottomBorder);
     }
+
+    NSGraphicsContext *context = [NSGraphicsContext currentContext];
+    if(context == nil) return;
     [self drawInRect:workingTargetRect fromRect:workingSourceRect operation:op fraction:frac respectFlipped:flipped hints:drawingHints];
 
     // Bottom Center
@@ -99,6 +107,7 @@
     {
         workingTargetRect = NSMakeRect(targetRect.origin.x+leftBorder, targetRect.origin.y, targetRect.size.width-leftBorder-rightBorder, bottomBorder);
     }
+
     [self drawInRect:workingTargetRect fromRect:workingSourceRect operation:op fraction:frac respectFlipped:flipped hints:drawingHints];
 
     // Bottom Right
