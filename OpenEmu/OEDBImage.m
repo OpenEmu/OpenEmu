@@ -152,7 +152,68 @@
 
 - (NSURL*)OE_writeImage:(NSImage*)image withType:(OEBitmapImageFileType)type usedFormat:(NSBitmapImageFileType*)usedFormat withProperties:(NSDictionary*)properties inContext:(NSManagedObjectContext*)context
 {
-    return nil;
+    if(image == nil)
+    {
+        DLog(@"No image passed in, exiting…");
+        return nil;
+    }
+
+    const NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    const NSSize         imageSize             = [image size];
+    NSString *fileName = [NSString stringWithUUID];
+
+    if(type == OEBitmapImageFileTypeDefault || type==OEBitmapImageFileTypeOriginal)
+        type = [standardUserDefaults integerForKey:OEGameArtworkFormatKey];
+
+    __block NSBitmapImageRep *imageRep = nil;
+    __block NSInteger maxArea = 0;
+    [[image representations] enumerateObjectsUsingBlock:^(NSImageRep *rep, NSUInteger idx, BOOL *stop)
+     {
+         if([rep isKindOfClass:[NSBitmapImageRep class]])
+         {
+             NSInteger area = [rep pixelsHigh]*[rep pixelsWide];
+             if(area >= maxArea)
+             {
+                 imageRep = (NSBitmapImageRep*)rep;
+                 maxArea = area;
+             }
+         }
+     }];
+
+
+    if(imageRep == nil)
+    {
+        DLog(@"No NSBitmapImageRep found, creating one...");
+        [image lockFocus];
+        imageRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){{0,0}, imageSize}];
+        [image unlockFocus];
+    }
+
+    if(imageRep == nil)
+    {
+        DLog(@"Could not draw NSImage in NSBitmapimage rep, exiting…");
+        return nil;
+    }
+
+    NSData *data = [imageRep representationUsingType:type properties:properties];
+
+    // TODO: get database from context
+    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+
+    NSURL *coverFolderURL = [database coverFolderURL];
+    NSURL *imageURL = [NSURL URLWithString:fileName relativeToURL:coverFolderURL];
+
+    if(![data writeToURL:imageURL atomically:YES])
+    {
+        [[NSFileManager defaultManager] removeItemAtURL:imageURL error:nil];
+        DLog(@"Failed to write image file! Exiting…");
+        return nil;
+    }
+
+    if(usedFormat != NULL)
+        *usedFormat = type;
+    
+    return imageURL;
 }
 
 - (NSURL*)OE_writeURL:(NSURL*)url withType:(OEBitmapImageFileType)type usedFormat:(NSBitmapImageFileType*)usedFormat outSize:(NSSize*)size inContext:(NSManagedObjectContext*)context

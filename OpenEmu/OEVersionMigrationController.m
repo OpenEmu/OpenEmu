@@ -138,10 +138,11 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
 
         OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
         NSFetchRequest    *request  = [NSFetchRequest fetchRequestWithEntityName:[OEDBImage entityName]];
+        [request setFetchLimit:1];
         NSPredicate     *predicate  = [NSPredicate predicateWithFormat:@"format = -1"];
         [request setPredicate:predicate];
 
-        NSManagedObjectContext *context = [database makeChildContext];
+        NSManagedObjectContext *context = [database mainThreadContext];
         NSArray *images = [context executeFetchRequest:request error:nil];
         if(images != nil && [images count] == 0)
         {
@@ -160,14 +161,31 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
         }
         else
         {
-            [images enumerateObjectsUsingBlock:^(OEDBImage *image, NSUInteger idx, BOOL *stop) {
-                if(![image convertToFormat:format withProperties:attributes])
-                {
-                    DLog(@"Failed to migrate image! Delete...");
-                    [[image managedObjectContext] deleteObject:image];
-                    [[image managedObjectContext] save:nil];
-                }
+            [request setFetchLimit:10];
+            __block NSUInteger count = 0;
+            [context performBlockAndWait:^{
+                count = [context countForFetchRequest:request error:nil];
             }];
+            while(count != 0)
+            {
+                [context performBlockAndWait:^{
+                    NSArray *images = [context executeFetchRequest:request error:nil];
+                    [images enumerateObjectsUsingBlock:^(OEDBImage *image, NSUInteger idx, BOOL *stop) {
+                        if(![image convertToFormat:format withProperties:attributes])
+                        {
+                            DLog(@"Failed to migrate image! Delete...");
+                            [[image managedObjectContext] deleteObject:image];
+                        }
+                    }];
+                    [context save:nil];
+                }];
+
+                [NSThread sleepForTimeInterval:1.0];
+
+                [context performBlockAndWait:^{
+                    count = [context countForFetchRequest:request error:nil];
+                }];
+            }
         }
     };
     dispatch_async(queue, block);
