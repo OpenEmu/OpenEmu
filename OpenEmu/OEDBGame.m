@@ -283,6 +283,12 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
 
+- (void)prepareForDeletion
+{
+    [[self boxImage] delete];
+    [[self roms] makeObjectsPerformSelector:@selector(delete)];
+}
+
 #pragma mark - NSPasteboardWriting
 // TODO: fix pasteboard writing
 - (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard

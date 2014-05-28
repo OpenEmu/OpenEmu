@@ -979,11 +979,13 @@ static OELibraryDatabase *defaultDatabase = nil;
                 [game setValuesForKeysWithDictionary:gameInfo];
 
                 OEDBImage *image = [OEDBImage createImageWithDictionary:imageDictionary];
-                if(image) {
+                if(image)
+                {
                     OEDBImage *previousImage = [game boxImage];
                     if(previousImage) [previousBoxImages addObject:[previousImage permanentID]];
                     [game setBoxImage:image];
                 }
+                else [mainContext deleteObject:image];
             }
 
             [mainContext save:nil];

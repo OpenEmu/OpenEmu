@@ -275,13 +275,15 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     };
     
     determineQueryParams();
-    
+
     // try to fetch header, serial or hash from file
     if(value == nil)
     {
+        BOOL removeFile = NO;
         NSURL *romURL = [self _urlOfExtractedFile:url archiveFileIndex:archiveFileIndex];
         if(romURL == nil) // rom is no archive, use original file URL
             romURL = url;
+        else removeFile = YES;
         
         NSString *headerFound = [OEDBSystem headerForFileWithURL:romURL forSystem:systemIdentifier];
         NSString *serialFound = [OEDBSystem serialForFileWithURL:romURL forSystem:systemIdentifier];
@@ -300,6 +302,9 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
             if(serialFound)
                 [resultDict setObject:serialFound forKey:@"defaultROM.serial"];
         }
+
+        if(removeFile)
+            [[NSFileManager defaultManager] removeItemAtURL:romURL error:nil];
     }
     
     determineQueryParams();
@@ -398,7 +403,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
         if ([formatName isEqualToString:@"MacBinary"])
             return nil;
 
-        if( [formatName isEqualToString:@"LZMA_Alone"])
+        if ([formatName isEqualToString:@"LZMA_Alone"])
             return nil;
 
         if (![archive entryHasSize:entryIndex] || [archive entryIsEncrypted:entryIndex] || [archive entryIsDirectory:entryIndex] || [archive entryIsArchive:entryIndex])

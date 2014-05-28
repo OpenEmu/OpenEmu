@@ -46,7 +46,7 @@
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithObject:url forKey:@"URL"];
 
     NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
-    if(!image) return result;
+    if(image == nil) return result;
 
     __block NSSize imageSize = [image size];
     const NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
