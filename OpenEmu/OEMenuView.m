@@ -511,10 +511,10 @@ static const CGFloat OEMenuScrollAutoStep    = 8.0;
     OEMenu     *menu            = [self OE_menu];
     NSMenuItem *highlightedItem = [menu highlightedItem];
 
-    if([menu OE_closing] || [highlightedItem hasSubmenu]) return;
+    if([menu OE_closing] || ([highlightedItem hasSubmenu] && [highlightedItem isEnabled])) return;
     [menu OE_setClosing:YES];
 
-    if(highlightedItem != nil && ![highlightedItem isSeparatorItem])
+    if(highlightedItem != nil && ![highlightedItem isSeparatorItem] && [highlightedItem isEnabled])
     {
         // Flash the highlighted item right before closing the submenu
         [self performSelector:@selector(OE_flashItem:) withObject:highlightedItem afterDelay:OEMenuItemFlashDelay];

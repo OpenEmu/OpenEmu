@@ -372,14 +372,19 @@
 
                     // remove original
                     [fm removeItemAtURL:currentStoreURL error:nil];
-                    
+
+                    // remove artwork directory
+                    [fm removeItemAtURL:artworkURL error:nil];
+
                     // remove 'other files'
                     [fm removeItemAtURL:[currentLocation URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", OEDatabaseFileName, @"-shm"]] error:nil];
                     [fm removeItemAtURL:[currentLocation URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", OEDatabaseFileName, @"-wal"]] error:nil];
                 }
                 
                 success = success && alertResult==-1;
+
                 // TODO: cleanup old location by removing empty directories
+
                 [alert closeWithResult:NSAlertDefaultReturn];
             });
             alertResult = [alert runModal];
