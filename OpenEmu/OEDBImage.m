@@ -103,9 +103,7 @@
 
     NSData *data = [imageRep representationUsingType:type properties:properties];
 
-    // TODO: get database from context
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
-
     NSURL *coverFolderURL = [database coverFolderURL];
     NSURL *imageURL = [NSURL URLWithString:fileName relativeToURL:coverFolderURL];
 

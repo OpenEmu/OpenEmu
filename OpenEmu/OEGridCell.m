@@ -331,7 +331,6 @@ static NSDictionary *disabledActions = nil;
         }
 
         // the selection layer is cached else the CATransition initialization fires the layers to be redrawn which causes the CATransition to be initalized again: loop
-        // TODO: Appropriately cache all layers
         if(! CGRectEqualToRect([_selectionLayer frame], CGRectInset(relativeImageFrame, -6.0, -6.0)) || windowActive != _lastWindowActive)
         {
             [_selectionLayer removeFromSuperlayer];

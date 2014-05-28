@@ -1189,7 +1189,8 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
         if([obj isKindOfClass:[OEDBItem class]])
         {
-            TODO("Save HERE");
+            OEDBItem *item = (OEDBItem *)obj;
+            [[item managedObjectContext] save:nil];
         }
     }
 }

@@ -679,19 +679,11 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [_romsController arrangedObjects];
 }
 
-- (NSArray *)romsInCollection:(id)collection
-{
-    // TODO: implement
-    NSLog(@"Roms in collection called, but not implemented");
-    return [NSArray array];
-}
-
 #pragma mark -
 
 - (NSArray *)lastPlayedRoms
 {
-    // TODO: get numberOfRoms from defaults or system settings
-    NSUInteger numberOfRoms = 5;
+    NSUInteger numberOfRoms = [[NSDocumentController sharedDocumentController] maximumRecentDocumentCount];
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
 
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"lastPlayed != nil"];
@@ -706,8 +698,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSDictionary *)lastPlayedRomsBySystem
 {
-    // TODO: get numberOfRoms from defaults or system settings
-    NSUInteger numberOfRoms = 5;
+    NSUInteger numberOfRoms = [[NSDocumentController sharedDocumentController] maximumRecentDocumentCount];
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
 
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"lastPlayed != nil"];
