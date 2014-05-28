@@ -974,6 +974,10 @@ static OELibraryDatabase *defaultDatabase = nil;
                 NSManagedObjectID   *objectID = [gameInfo popObjectForKey:@"objectID"];
                 NSDictionary *imageDictionary = [gameInfo popObjectForKey:@"image"];
 
+                NSString *md5 = [gameInfo popObjectForKey:@"md5"];
+                NSString *serial = [gameInfo popObjectForKey:@"serial"];
+                NSString *header = [gameInfo popObjectForKey:@"header"];
+
                 [gameInfo removeObjectForKey:@"boxImageURL"];
                 OEDBGame *game = [OEDBGame objectWithID:objectID inContext:mainContext];
                 [game setValuesForKeysWithDictionary:gameInfo];
@@ -986,6 +990,10 @@ static OELibraryDatabase *defaultDatabase = nil;
                     [game setBoxImage:image];
                 }
                 else [mainContext deleteObject:image];
+
+                if(md5) [[game defaultROM] setMd5:md5];
+                if(serial) [[game defaultROM] setSerial:serial];
+                if(header) [[game defaultROM] setHeader:header];
             }
 
             [mainContext save:nil];

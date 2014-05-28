@@ -294,13 +294,16 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
             [[NSFileManager defaultManager] hashFileAtURL:romURL headerSize:headerSize md5:&value crc32:nil error:nil];
             key   = DBMD5Key;
             value = [value uppercaseString];
+
+            if(value)
+                [resultDict setObject:value forKey:@"md5"];
         }
         else
         {
             if(headerFound)
-                [resultDict setObject:headerFound forKey:@"defaultROM.header"];
+                [resultDict setObject:headerFound forKey:@"header"];
             if(serialFound)
-                [resultDict setObject:serialFound forKey:@"defaultROM.serial"];
+                [resultDict setObject:serialFound forKey:@"serial"];
         }
 
         if(removeFile)
