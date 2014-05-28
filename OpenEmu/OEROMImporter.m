@@ -122,7 +122,8 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
     // only pick OEImportOperations
     NSPredicate *filterPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject isKindOfClass:[OEImportOperation class]];
+        return [evaluatedObject isKindOfClass:[OEImportOperation class]]
+                    && ![evaluatedObject isFinished] && ![evaluatedObject isCancelled];
     }];
     NSArray *operations = [[queue operations] filteredArrayUsingPredicate:filterPredicate];
 
