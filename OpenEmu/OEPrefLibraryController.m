@@ -218,7 +218,8 @@
             dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
             dispatch_after(popTime, queue, ^{
                 NSError *error = nil;
-                
+
+                NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] writerContext];
                 // setup progress handler
                 [fm setProgressHandler:^BOOL(float progress){
                     // update progress
@@ -261,7 +262,7 @@
                 }];
                 
                 __block NSInteger copiedCount = 0;
-                
+
                 // Setup callback to execute after each successfull copy
                 [fm setItemDoneHandler:^ BOOL (NSURL *src, NSURL *dst, NSError *error){
                    if(error == nil)
@@ -269,13 +270,10 @@
                        // change db entry for roms
                        if(![dst isDirectory])
                        {
-                           /*
-                           [alert performBlockInModalSession:^{
-                               [[OEDBRom romWithURL:src inDatabase:library error:nil] setURL:dst];
-                               TODO("Save HERE");
+                           [context performBlockAndWait:^{
+                               [[OEDBRom romWithURL:src inContext:context error:nil] setURL:dst];
                            }];
-                            */
-                           
+
                            // keep track of successfully copied roms
                            copiedCount++;
                        }
@@ -300,8 +298,7 @@
                     return;
                 }
                 
-                [alert performBlockInModalSession:^{
-                    NSManagedObjectContext *context = [library makeChildContext];
+                [context performBlockAndWait:^{
                     // make copied paths relative
                     NSArray        *fetchResult    = nil;
                     NSFetchRequest *fetchRequest   = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
@@ -337,11 +334,12 @@
                     
                     // show error
                     [alert performBlockInModalSession:^{
-                        NSManagedObjectContext *context = [library makeChildContext];
                         [alert setShowsProgressbar:NO];
                         [alert setMessageText:@"Could not move library data!"];
                         [alert setDefaultButtonTitle:@"OK"];
-                        
+                    }];
+
+                    [context performBlockAndWait:^{
                         // restore previous paths
                         [[NSUserDefaults standardUserDefaults] setObject:[currentLocation path] forKey:OEDatabasePathKey];
                         [library setRomsFolderURL:currentRomsURL];
