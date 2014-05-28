@@ -30,7 +30,7 @@
 @implementation OEScrollView
 
 - (void)drawRect:(NSRect)rect{
-    [super drawRect: rect];
+    [super drawRect:rect];
 	
     if([self hasVerticalScroller] && [self hasHorizontalScroller]){
         NSRect vframe = [[self verticalScroller]frame];

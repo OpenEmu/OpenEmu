@@ -27,9 +27,5 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OEScrollView : NSScrollView {
-@private
-    
-}
-
+@interface OEScrollView : NSScrollView
 @end

@@ -234,7 +234,6 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
     return nil;
 }
 
-
 #pragma mark -
 #pragma mark OEPreferencePane Protocol
 
@@ -255,7 +254,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
 
 - (NSSize)viewSize
 {
-    return NSMakeSize(423, 474);
+    return NSMakeSize(423, 460);
 }
 
 @end
