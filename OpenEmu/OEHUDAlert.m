@@ -232,8 +232,11 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 {
     result = res;
     [NSApp stopModalWithCode:result];
-    [_window close];
-    [self OE_performCallback];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_window close];
+        [self OE_performCallback];
+    });
 }
 #pragma mark -
 #pragma mark Window Configuration

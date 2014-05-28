@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
-
+ 
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -89,7 +89,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 #pragma mark -
 
 @interface OECollectionViewController ()
-{    
+{
     IBOutlet NSView *gridViewContainer;// gridview
     IBOutlet OEGridView *gridView;// scrollview for gridview
 
@@ -97,7 +97,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     IBOutlet IKImageFlowView *coverFlowView;
     IBOutlet OETableView *listView;
     IBOutlet OEBlankSlateView *blankSlateView;
-    
+
     NSDate *_listViewSelectionChangeDate;
 }
 
@@ -121,20 +121,20 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     // Make sure not to reinitialize for subclassed objects
     if(self != [OECollectionViewController class]) return;
-    
+
     // Indicators for list view
     NSImage *image = [NSImage imageNamed:@"list_indicators"];
-    
+
     // unselected states
     [image setName:@"list_indicators_playing" forSubimageInRect:NSMakeRect(0, 32, 12, 12)];
     [image setName:@"list_indicators_missing" forSubimageInRect:NSMakeRect(0, 24, 12, 12)];
     [image setName:@"list_indicators_unplayed" forSubimageInRect:NSMakeRect(0, 12, 12, 12)];
-    
+
     // selected states
     [image setName:@"list_indicators_playing_selected" forSubimageInRect:NSMakeRect(12, 32, 12, 12)];
     [image setName:@"list_indicators_missing_selected" forSubimageInRect:NSMakeRect(12, 24, 12, 12)];
     [image setName:@"list_indicators_unplayed_selected" forSubimageInRect:NSMakeRect(12, 12, 12, 12)];
-    
+
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OELastGridSizeKey : @1.0f }];
 }
 
@@ -159,24 +159,24 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 - (void)loadView
 {
     [super loadView];
-        
+
     // Set up games controller
     gamesController = [[OEArrayController alloc] init];
     [gamesController setAutomaticallyRearrangesObjects:YES];
     [gamesController setAutomaticallyPreparesContent:NO];
     [gamesController setUsesLazyFetching:NO];
-    
+
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
     //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
 
     OE_defaultSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"cleanDisplayName" ascending:YES selector:@selector(caseInsensitiveCompare:)]];
-    
+
     [gamesController setManagedObjectContext:context];
     [gamesController setEntityName:@"Game"];
     [gamesController setSortDescriptors:OE_defaultSortDescriptors];
     [gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
     [gamesController setAvoidsEmptySelection:NO];
-    
+
     // Setup View
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 
@@ -189,13 +189,13 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
     [sizeSlider setContinuous:YES];
-    
+
     // set up flow view
     [coverFlowView setDelegate:self];
     [coverFlowView setDataSource:self];
     [coverFlowView setCellsAlignOnBaseline:YES];
     [coverFlowView setCellBorderColor:[NSColor blueColor]];
-    
+
     // Set up list view
     [listView setTarget:self];
     [listView setDelegate:self];
@@ -218,12 +218,12 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
         [[aColumn headerCell] setAlignment:[[aColumn dataCell] alignment]];
     }
-    
+
     // Setup BlankSlate View
     [blankSlateView setDelegate:self];
     [blankSlateView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [blankSlateView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-    
+
     // Watch the main thread's managed object context for changes
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
 
@@ -257,7 +257,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         return;
     }
     [super setRepresentedObject:representedObject];
-    
+
     [[listView tableColumnWithIdentifier:@"listViewConsoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
 
     [self OE_reloadData];
@@ -272,34 +272,34 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     if(![self libraryController] || _selectedViewTag==OEBlankSlateTag)
         return nil;
-    
+
     NSMutableData    *data  = [NSMutableData data];
     NSKeyedArchiver  *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     NSSlider *sizeSlider    = [[self libraryController] toolbarSlider];
-    
+
     [coder encodeInt:_selectedViewTag forKey:@"selectedView"];
     [coder encodeFloat:[sizeSlider floatValue] forKey:@"sliderValue"];
     [coder encodeObject:[self selectedIndexes] forKey:@"selectionIndexes"];
     if([listView headerState]) [coder encodeObject:[listView headerState] forKey:@"listViewHeaderState"];
     if([listView sortDescriptors]) [coder encodeObject:[listView sortDescriptors] forKey:@"listViewSortDescriptors"];
     if(_selectedViewTag == OEGridViewTag) [coder encodeRect:[[gridView enclosingScrollView] documentVisibleRect] forKey:@"gridViewVisibleRect"];
-    
+
     [coder finishEncoding];
-    
+
     return data;
 }
 
 - (void)restoreState:(id)state
 {
     if([self libraryController] == nil) return;
-    
+
     NSInteger     selectedViewTag;
     CGFloat       sliderValue;
     NSIndexSet   *selectionIndexes;
     NSDictionary *listViewHeaderState = nil;
     NSArray      *listViewSortDescriptors = nil;
     NSRect        gridViewVisibleRect = NSZeroRect;
-    
+
     NSSlider     *sizeSlider     = [[self libraryController] toolbarSlider];
     NSTextField  *searchField    = [[self libraryController] toolbarSearchField];
 
@@ -312,21 +312,21 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         listViewHeaderState     = [coder decodeObjectForKey:@"listViewHeaderState"];
         listViewSortDescriptors = [coder decodeObjectForKey:@"listViewSortDescriptors"];
         gridViewVisibleRect     = [coder decodeRectForKey:@"gridViewVisibleRect"];
-        
+
         [coder finishDecoding];
-                
+
         // Make sure selected view tag is valid
         if(selectedViewTag != OEListViewTag && selectedViewTag != OEListViewTag && selectedViewTag != OEFlowViewTag)
-           selectedViewTag = OEGridViewTag;
-        
+            selectedViewTag = OEGridViewTag;
+
         // Make sure slider value is valid
         if(sliderValue < [sizeSlider minValue] || sliderValue > [sizeSlider maxValue])
-           sliderValue = [sizeSlider doubleValue];
+            sliderValue = [sizeSlider doubleValue];
     }
     else
     {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        
+
         selectedViewTag  = [userDefaults integerForKey:OELastCollectionViewKey];
         sliderValue      = [userDefaults floatForKey:OELastGridSizeKey];
         selectionIndexes = [NSIndexSet indexSet];
@@ -398,14 +398,14 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
             reloadListView = YES;
             break;
     }
-	
+
     [[self gamesController] setSortDescriptors:sortDescriptors];
 
     if(reloadListView)
         [listView reloadData];
     else
         [gridView reloadData];
-    
+
     if(_selectedViewTag == tag && tag != OEBlankSlateTag) return;
 
     [self OE_setupToolbarStatesForViewTag:tag];
@@ -434,28 +434,28 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
             splitterPosition = 0.0f;
             break;
     }
-    
+
     // Set splitter position (makes the difference between flow and list view)
     if(splitterPosition != -1)
         [flowlistViewContainer setSplitterPosition:splitterPosition animated:NO];
-    
+
     if([view superview] == [self view]) return;
-    
+
     // Determine if we are about to replace the current first responder or one of its superviews
     id firstResponder = [[[self view] window] firstResponder];
     BOOL makeFirstResponder = [firstResponder isKindOfClass:[NSView class]] && [firstResponder isDescendantOf:[self view]];
-    
+
     // Remove subviews
     while([[[self view] subviews] count] != 0)
     {
         NSView *currentSubview = [[[self view] subviews] objectAtIndex:0];
         [currentSubview removeFromSuperview];
     }
-    
+
     // Add new subview
     [[self view] addSubview:view];
     [view setFrame:[[self view] bounds]];
-    
+
     // restore first responder if necessary
     if(makeFirstResponder)
         [[[self view] window] makeFirstResponder:view];
@@ -499,24 +499,24 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     if(count)
     {
         [self OE_switchToView:[self OE_currentViewTagByToolbarState]];
-        
+
         [[[self libraryController] toolbarGridViewButton] setEnabled:YES];
         [[[self libraryController] toolbarFlowViewButton] setEnabled:YES];
         [[[self libraryController] toolbarListViewButton] setEnabled:YES];
-        
+
         [[[self libraryController] toolbarSearchField] setEnabled:YES];
     }
     else
     {
         [self OE_switchToView:OEBlankSlateTag];
-        
+
         [[[self libraryController] toolbarGridViewButton] setEnabled:NO];
         [[[self libraryController] toolbarFlowViewButton] setEnabled:NO];
         [[[self libraryController] toolbarListViewButton] setEnabled:NO];
-        
+
         [[[self libraryController] toolbarSearchField] setEnabled:NO];
         [[[self libraryController] toolbarSlider] setEnabled:NO];
-        
+
         if([[self representedObject] isKindOfClass:[OEDBSystem class]])
             [blankSlateView setRepresentedSystemPlugin:[(OEDBSystem*)[self representedObject] plugin]];
         else if([[self representedObject] respondsToSelector:@selector(collectionViewName)])
@@ -546,7 +546,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     NSString *searchTerm = [sender stringValue];
     NSArray *tokens = [searchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    
+
     NSMutableArray *predarray = [NSMutableArray array];
     for(NSString *token in tokens)
     {
@@ -557,9 +557,9 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         }
     }
     NSPredicate *pred = [NSCompoundPredicate andPredicateWithSubpredicates:predarray];
-    
+
     [gamesController setFilterPredicate:pred];
-    
+
     [listView reloadData];
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     [gridView reloadData];
@@ -601,12 +601,12 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     NSPasteboard *draggingPasteboard = [sender draggingPasteboard];
     NSImage      *draggingImage      = [[NSImage alloc] initWithPasteboard:draggingPasteboard];
     NSInteger     draggingOperation  = [gridView draggingOperation];
-    
+
     if (draggingOperation == IKImageBrowserDropOn && draggingImage)
     {
         NSUInteger droppedIndex = [gridView indexAtLocationOfDroppedItem];
         OEDBGame  *droppedGame  = [[gridView cellForItemAtIndex:droppedIndex] representedItem];
-        
+
         [droppedGame setBoxImageByImage:draggingImage];
         [[droppedGame managedObjectContext] save:nil];
         [self OE_reloadData];
@@ -622,7 +622,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     {
         [NSApp presentError:[NSError errorWithDomain:@"Error in performing drag operation." code:-1 userInfo:nil]];
     }
-    
+
     gridView.draggingOperation = IKImageBrowserDropNone;
     return YES;
 }
@@ -656,24 +656,24 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem;
     NSArray *games = [[gamesController arrangedObjects] objectsAtIndexes:indexes];
-    
+
     if([indexes count] == 1)
     {
         NSInteger index = [indexes lastIndex];
         [menu addItemWithTitle:NSLocalizedString(@"Play Game", @"") action:@selector(startGame:) keyEquivalent:@""];
         OEDBGame  *game = [[gamesController arrangedObjects] objectAtIndex:index];
-        
+
         // Create Save Game Menu
         menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Play Save Games", @"") action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_saveStateMenuForGame:game]];
         [menu addItem:menuItem];
-        
+
         [menu addItem:[NSMenuItem separatorItem]];
-        
+
         // Create Rating Item
         menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Rating", @"") action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
-        [menu addItem:menuItem];    
+        [menu addItem:menuItem];
         [menu addItemWithTitle:NSLocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
 
@@ -701,11 +701,11 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         {
             [menu addItemWithTitle:NSLocalizedString(@"Play Games (Caution)", @"") action:@selector(startGame:) keyEquivalent:@""];
         }
-        
+
         // Create Rating Item
         menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Rating", @"") action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
-        [menu addItem:menuItem];    
+        [menu addItem:menuItem];
         [menu addItemWithTitle:NSLocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
 
@@ -718,11 +718,11 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Add To Collection", @"") action:NULL keyEquivalent:@""];
         [collectionMenuItem setSubmenu:[self OE_collectionsMenuForGames:games]];
         [menu addItem:collectionMenuItem];
-        
+
         [menu addItem:[NSMenuItem separatorItem]];
         [menu addItemWithTitle:NSLocalizedString(@"Delete Games", @"") action:@selector(deleteSelectedGames:) keyEquivalent:@""];
     }
-    
+
     [menu setAutoenablesItems:YES];
     return menu;
 }
@@ -731,10 +731,10 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     NSMenu    *saveGamesMenu = [[NSMenu alloc] init];
     NSSet     *roms = [game roms];
-    
+
     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         [obj removeMissingStates];
-        
+
         NSMenuItem  *item;
         NSArray     *saveStates = [obj normalSaveStatesByTimestampAscending:NO];
         for(OEDBSaveState *saveState in saveStates)
@@ -742,7 +742,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
             NSString *itemTitle = [saveState name];
             if(!itemTitle || [itemTitle isEqualToString:@""])
                 itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
-            
+
             item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(startSelectedGameWithSaveState:) keyEquivalent:@""];
             [item setRepresentedObject:saveState];
             [saveGamesMenu addItem:item];
@@ -757,13 +757,13 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
             }
         }
     }];
-    
+
     if([[saveGamesMenu itemArray] count] == 0)
     {
         [saveGamesMenu addItemWithTitle:NSLocalizedString(@"No Save States available", @"") action:NULL keyEquivalent:@""];
         [(NSMenuItem*)[[saveGamesMenu itemArray] lastObject] setEnabled:NO];
     }
-    
+
     return saveGamesMenu;
 }
 
@@ -771,7 +771,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     NSMenu   *ratingMenu = [[NSMenu alloc] init];
     NSString *ratingLabel = @"★★★★★";
-    
+
     for (NSInteger i=0; i<=5; i++) {
         NSMenuItem *ratingItem = [[NSMenuItem alloc] initWithTitle:[ratingLabel substringToIndex:i] action:@selector(setRatingForSelectedGames:) keyEquivalent:@""];
         [ratingItem setRepresentedObject:@(i)];
@@ -779,14 +779,14 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
             [ratingItem setTitle:NSLocalizedString(@"None", "")];
         [ratingMenu addItem:ratingItem];
     }
-    
+
     BOOL valuesDiffer = NO;
     for(NSInteger i=0; i<[games count]; i++)
     {
         NSNumber   *gameRating = [(OEDBGame *)[games objectAtIndex:i] rating];
         NSInteger   itemIndex = [gameRating integerValue];
         NSMenuItem *item = [ratingMenu itemAtIndex:itemIndex];
-        
+
         if(i==0)
             [item setState:NSOnState];
         else if([item state] != NSOnState)
@@ -795,14 +795,14 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
             [item setState:NSMixedState];
         }
     }
-    
+
     if(valuesDiffer)
     {
         NSNumber   *gameRating = [(OEDBGame *)[games objectAtIndex:0] rating];
         NSMenuItem *item = [ratingMenu itemAtIndex:[gameRating integerValue]];
         [item setState:NSMixedState];
     }
-    
+
     return ratingMenu;
 }
 
@@ -810,27 +810,27 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     NSMenu  *collectionMenu = [[NSMenu alloc] init];
     NSArray *collections = [[[self libraryController] database] collections];
-    
+
     [collectionMenu addItemWithTitle:NSLocalizedString(@"New Collection from Selection", @"")
                               action:@selector(makeNewCollectionWithSelectedGames:)
                        keyEquivalent:@""];
-    
+
     for(id collection in collections)
     {
         if([collection isMemberOfClass:[OEDBCollection class]] && collection != [self representedObject])
         {
             NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:[collection valueForKey:@"name"] action:@selector(addSelectedGamesToCollection:) keyEquivalent:@""];
-            
+
             // TODO: might want to use managedObjectID instead
             [collectionMenuItem setRepresentedObject:collection];
             [collectionMenu addItem:collectionMenuItem];
         }
     }
-    
+
     if([[collectionMenu itemArray] count]!=1)
         [collectionMenu insertItem:[NSMenuItem separatorItem] atIndex:1];
-    
-    
+
+
     return collectionMenu;
 }
 
@@ -841,7 +841,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     {
         [game setRating:[sender representedObject]];
     }
-    
+
     [self reloadDataIndexes:[self selectedIndexes]];
 }
 
@@ -849,7 +849,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     NSArray *selectedGames = [self selectedGames];
     NSMutableArray *urls = [NSMutableArray array];
-    
+
     [selectedGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSSet *roms = [obj roms];
         [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
@@ -868,7 +868,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     OEDBSaveState *state = [stateItem representedObject];
     NSString *stateName = [state name];
     OEHUDAlert *alert = [OEHUDAlert deleteStateAlertWithStateName:stateName];
-    
+
     NSUInteger result = [alert runModal];
     if(result)
         [state remove];
@@ -916,20 +916,20 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
                     if(romURL != nil && [romURL isSubpathOfURL:romsFolderURL])
                     {
                         romsAreInRomsFolder = YES;
-                        
+
                         *stopGames = YES;
                         *stopRoms = YES;
                     }
                 }];
             }];
-            
+
             BOOL deleteFiles = NO;
             if(romsAreInRomsFolder)
             {
                 NSUInteger alertReturn = [[OEHUDAlert removeGameFilesFromLibraryAlert:multipleGames] runModal];
                 deleteFiles = (alertReturn == NSAlertDefaultReturn);
             }
-            
+
             DLog(@"deleteFiles: %d", deleteFiles);
             [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stopGames) {
                 [game deleteByMovingFile:deleteFiles keepSaveStates:YES];
@@ -977,7 +977,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     {
         collection = [sender representedObject];
     }
-    
+
     NSArray *selectedGames = [self selectedGames];
     [[collection mutableGames] addObjectsFromArray:selectedGames];
     [collection save];
@@ -1030,8 +1030,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
 - (void)consolidateFiles:(id)sender
 {
-    TODO("rewrite this part");
-    // TODO: rewrite to escape threading hell
     dispatch_async(dispatch_get_main_queue(), ^{
         NSArray *games = [self selectedGames];
         if([games count] == 0) return;
@@ -1052,110 +1050,94 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         [alert setDefaultButtonTitle:nil];
         [alert setMessageText:nil];
 
-        NSMutableArray *gameIDs = [NSMutableArray arrayWithCapacity:[games count]];
-        [games enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stop) {
-            NSManagedObjectID *object = [game permanentID];
-            [gameIDs addObject:object];
-        }];
-
         __block NSInteger alertResult = -1;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        NSManagedObjectContext *c = nil;
-        // register objects in queue context, oehudalert's modal session will block it from fetching the objects later…
-        __block NSMutableArray *threadSafeGames = [NSMutableArray arrayWithCapacity:[gameIDs count]];
-        dispatch_sync(queue, ^{
-            for (NSUInteger i=0; i<[gameIDs count]; i++) {
-                NSManagedObjectID *objectID = [gameIDs objectAtIndex:i];
-                [threadSafeGames addObject:[OEDBGame objectWithID:objectID inContext:c]];
-            }
-        });
+        NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] makeWriterChildContext];
+
+        NSArray *gameIDs = [games valueForKey:@"permanentID"];
 
         dispatch_after(popTime, queue, ^{
-            __block NSError *error = nil;
-            for (NSUInteger i=0; i<[threadSafeGames count]; i++) {
-                if(alertResult != -1) break;
-
-                OEDBGame *aGame = [threadSafeGames objectAtIndex:i];
-                NSSet *roms = [aGame roms];
-                for(OEDBRom *rom in roms)
+            [context performBlockAndWait:^{
+                NSError *error = nil;
+                for (NSUInteger i=0; i<[gameIDs count]; i++)
                 {
                     if(alertResult != -1) break;
 
-                    NSURL *url = [rom URL];
-                    if([url checkResourceIsReachableAndReturnError:nil] && ![url isSubpathOfURL:[[rom libraryDatabase] romsFolderURL]])
+                    NSManagedObjectID *gameID = [gameIDs objectAtIndex:i];
+                    OEDBGame *game = [OEDBGame objectWithID:gameID inContext:context];
+                    NSSet *roms = [game roms];
+                    for(OEDBRom *rom in roms)
                     {
-                        BOOL romFileLocked = NO;
-                        if([[[[NSFileManager defaultManager] attributesOfItemAtPath:[url path] error:nil] objectForKey:NSFileImmutable] boolValue])
+                        if(alertResult != -1) break;
+
+                        NSURL *url = [rom URL];
+                        if([url checkResourceIsReachableAndReturnError:nil] && ![url isSubpathOfURL:[[rom libraryDatabase] romsFolderURL]])
                         {
-                            romFileLocked = YES;
-                            [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(FALSE) } ofItemAtPath:[url path] error:nil];
-                        }
+                            BOOL romFileLocked = NO;
+                            if([[[[NSFileManager defaultManager] attributesOfItemAtPath:[url path] error:nil] objectForKey:NSFileImmutable] boolValue])
+                            {
+                                romFileLocked = YES;
+                                [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(FALSE) } ofItemAtPath:[url path] error:nil];
+                            }
 
-                        NSString *fullName  = [url lastPathComponent];
-                        NSString *extension = [fullName pathExtension];
-                        NSString *baseName  = [fullName stringByDeletingPathExtension];
+                            NSString *fullName  = [url lastPathComponent];
+                            NSString *extension = [fullName pathExtension];
+                            NSString *baseName  = [fullName stringByDeletingPathExtension];
 
-                        NSURL *unsortedFolder = [[rom libraryDatabase] romsFolderURLForSystem:[aGame system]];
-                        NSURL *romURL         = [unsortedFolder URLByAppendingPathComponent:fullName];
-                        romURL = [romURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-                            NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", baseName, triesCount, extension];
-                            return [unsortedFolder URLByAppendingPathComponent:newName];
-                        }];
-
-                        if([[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:&error] && (alertResult == -1))
-                        {
-                            TODO("rewrite this part");
-                            [alert performBlockInModalSession:^{
-                                /*
-                                OEDBRom *rom = [OEDBRom objectWithID:objectID inLibrary:database];
-                                NSString *location = [rom location];
-                                NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
-                                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location = %@", location];
-                                [fetchRequest setPredicate:predicate];
-                                NSArray *roms = [[rom libraryDatabase] executeFetchRequest:fetchRequest error:nil];
-                                [roms enumerateObjectsUsingBlock:^(OEDBRom *obj, NSUInteger idx, BOOL *stop) {
-                                    [obj setURL:romURL];
-                                }];
-                                [rom setURL:romURL];
-
-                                [[rom managedObjectContext] save:nil];
-                                 */
+                            NSURL *unsortedFolder = [[rom libraryDatabase] romsFolderURLForSystem:[game system]];
+                            NSURL *romURL         = [unsortedFolder URLByAppendingPathComponent:fullName];
+                            romURL = [romURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+                                NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", baseName, triesCount, extension];
+                                return [unsortedFolder URLByAppendingPathComponent:newName];
                             }];
-                        }
-                        else if(error != nil) break;
 
-                        if(romFileLocked)
-                            [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(YES) } ofItemAtPath:[url path] error:nil];
+                            if([[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:&error])
+                            {
+                                [rom setURL:romURL];
+                            }
+                            else if(error != nil) break;
+
+                            if(romFileLocked)
+                                [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(YES) } ofItemAtPath:[url path] error:nil];
+                        }
                     }
+
+                    [alert performBlockInModalSession:^{
+                        [alert setProgress:(float)(i+1)/[games count]];
+                    }];
+
+                    if(error != nil)
+                        break;
                 }
 
-                [alert performBlockInModalSession:^{
-                    [alert setProgress:(float)(i+1)/[games count]];
-                }];
-
                 if(error != nil)
-                    break;
-            }
+                {
+                    OEAlertCompletionHandler originalCompletionHandler = [alert callbackHandler];
+                    [alert setCallbackHandler:^(OEHUDAlert *alert, NSUInteger result){
+                        NSString *messageText = [error localizedDescription];
+                        OEHUDAlert *errorAlert = [OEHUDAlert alertWithMessageText:messageText defaultButton:@"OK" alternateButton:@""];
+                        [errorAlert setTitle:@"Consolidating files failed."];
+                        [errorAlert runModal];
 
-            if(error != nil)
-            {
-                OEAlertCompletionHandler originalCompletionHandler = [alert callbackHandler];
-                [alert setCallbackHandler:^(OEHUDAlert *alert, NSUInteger result){
-                    NSString *messageText = [error localizedDescription];
-                    OEHUDAlert *errorAlert = [OEHUDAlert alertWithMessageText:messageText defaultButton:@"OK" alternateButton:@""];
-                    [errorAlert setTitle:@"Consolidating files failed."];
-                    [errorAlert runModal];
-                    
-                    if(originalCompletionHandler) originalCompletionHandler(alert, result);
+                        if(originalCompletionHandler) originalCompletionHandler(alert, result);
+                    }];
+                }
+
+                [context save:nil];
+                NSManagedObjectContext *writerContext = [context parentContext];
+                [writerContext performBlock:^{
+                    [[writerContext userInfo] setObject:@(YES) forKey:OEManagedObjectContextHasDirectChangesKey];
+                    [writerContext save:nil];
                 }];
-            }
-            
-            [alert closeWithResult:NSAlertDefaultReturn];
-            
+
+                [alert closeWithResult:NSAlertDefaultReturn];
+            }];
         });
+
         [alert setDefaultButtonTitle:@"Stop"];
         alertResult = [alert runModal];
+
     });
 }
 #pragma mark -
@@ -1197,14 +1179,14 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         {
             if([anObject isKindOfClass:[NSAttributedString class]])
                 anObject = [anObject string];
-            
+
             [obj setListViewTitle:anObject];
 
             // Search results may no longer be valid, reload
             [self OE_reloadData];
         }
         else return;
-        
+
         if([obj isKindOfClass:[OEDBItem class]])
         {
             TODO("Save HERE");
@@ -1225,9 +1207,9 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         if(![[mainSortDescriptor key] isEqualToString:@"listViewTitle"])
         {
             [listView setSortDescriptors:(@[
-                                          mainSortDescriptor,
-                                          [NSSortDescriptor sortDescriptorWithKey:@"listViewTitle" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)],
-                                          ])];
+                                            mainSortDescriptor,
+                                            [NSSortDescriptor sortDescriptorWithKey:@"listViewTitle" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)],
+                                            ])];
         }
     }
 
@@ -1249,7 +1231,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 }
 
 #pragma mark -
-#pragma mark TableView Drag and Drop 
+#pragma mark TableView Drag and Drop
 - (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id < NSDraggingInfo >)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation
 {
     NSPasteboard *pboard = [info draggingPasteboard];
@@ -1260,7 +1242,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     OEROMImporter *romImporter = [[[self libraryController] database] importer];
     OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
     [romImporter importItemsAtPaths:files intoCollectionWithID:[collection permanentID]];
-    
+
     return YES;
 }
 
@@ -1277,12 +1259,12 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     if( aTableView == listView )
     {
-        [rowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) 
+        [rowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop)
          {
              id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:idx];
              [pboard writeObjects:[NSArray arrayWithObject:obj]];
          }];
-        
+
         return YES;
     }
 
@@ -1328,11 +1310,11 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
     if([aNotification object] != listView) return;
-    
+
     _listViewSelectionChangeDate = [NSDate date];
 
     if([[listView selectedRowIndexes] count] == 1) [coverFlowView setSelectedIndex:(int)[[listView selectedRowIndexes] firstIndex]];
-    
+
     if([[NSUserDefaults standardUserDefaults] boolForKey:OEDebugCollectionView] && [[[self gamesController] selectedObjects] count])
     {
         [[OECollectionDebugWindowController sharedController] setRepresentedObject:[[[self gamesController] selectedObjects] objectAtIndex:0]];
@@ -1376,7 +1358,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
     NSInteger row = [listView clickedRow];
     if(row == -1) return;
-    
+
     id game = [self tableView:sender objectValueForTableColumn:nil row:row];
     if(!game) return;
 
@@ -1412,7 +1394,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 }
 
 - (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index
-{    
+{
     [listView selectRowIndexes:[NSIndexSet indexSetWithIndex:[sender selectedIndex]] byExtendingSelection:NO];
     [listView scrollRowToVisible:index];
 }
@@ -1423,7 +1405,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     if (![[[draggingInfo draggingPasteboard] types] containsObject:NSFilenamesPboardType])
         return NSDragOperationNone;
-    
+
     return NSDragOperationCopy;
 }
 
@@ -1432,12 +1414,12 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     NSPasteboard *pboard = [draggingInfo draggingPasteboard];
     if (![[pboard types] containsObject:NSFilenamesPboardType])
         return NO;
-    
+
     NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
     OEROMImporter *romImporter = [[[self libraryController] database] importer];
     OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
     [romImporter importItemsAtPaths:files intoCollectionWithID:[collection permanentID]];
-    
+
     return YES;
 }
 
@@ -1523,7 +1505,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 - (void)OE_reloadData
 {
     OECoreDataMainThreadAssertion();
-
+    
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(OE_reloadData) object:nil];
     if(!gamesController) return;
     
@@ -1532,20 +1514,20 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [gamesController setLimit:[[self representedObject] fetchLimit]];
     [gamesController setFetchSortDescriptors:[[self representedObject] fetchSortDescriptors]];
     __block BOOL ok;
-
+    
     DLog(@"%@", [[[gamesController managedObjectContext] userInfo] valueForKey:@"name"]);
     ok = [gamesController fetchWithRequest:nil merge:NO error:nil];
-
+    
     if(!ok)
     {
         NSLog(@"Error while fetching");
         return;
     }
-
+    
     [gridView reloadData];
     [listView reloadData];
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-
+    
     [self OE_updateBlankSlate];
 }
 

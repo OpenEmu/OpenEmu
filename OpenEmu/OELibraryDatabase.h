@@ -47,6 +47,8 @@ extern NSString *const OELibraryDatabaseUserInfoKey;
 extern NSString *const OESaveStateFolderURLKey;
 extern NSString *const OEScreenshotFolderURLKey;
 
+extern NSString *const OEManagedObjectContextHasDirectChangesKey;
+
 @interface OELibraryDatabase : NSObject
 
 + (OELibraryDatabase *)defaultDatabase;
@@ -56,6 +58,7 @@ extern NSString *const OEScreenshotFolderURLKey;
 - (NSManagedObjectContext*)mainThreadContext;
 
 - (NSManagedObjectContext*)makeChildContext;
+- (NSManagedObjectContext*)makeWriterChildContext;
 
 @property (strong) OEROMImporter *importer;
 

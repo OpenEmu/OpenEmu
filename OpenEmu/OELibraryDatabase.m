@@ -72,6 +72,8 @@ NSString *const OEAutoImportFolderURLKey     = @"autoImportFolder";
 
 NSString *const OELibraryRomsFolderURLKey    = @"romsFolderURL";
 
+NSString *const OEManagedObjectContextHasDirectChangesKey = @"hasDirectChanges";
+
 const int OELibraryErrorCodeFolderNotFound       = 1;
 const int OELibraryErrorCodeFileInFolderNotFound = 2;
 
@@ -313,6 +315,18 @@ static OELibraryDatabase *defaultDatabase = nil;
             [writerContext save:nil];
         }];
     }
+    else if([note object] == _writerContext)
+    {
+        NSManagedObjectContext *context = [note object];
+        if([[[context userInfo] valueForKey:OEManagedObjectContextHasDirectChangesKey] boolValue])
+        {
+            [[context userInfo] setObject:@(NO) forKey:OEManagedObjectContextHasDirectChangesKey];
+            [_mainThreadMOC performBlock:^{
+                [_mainThreadMOC mergeChangesFromContextDidSaveNotification:note];
+                [_mainThreadMOC save:nil];
+            }];
+        }
+    }
 }
 
 #pragma mark - Accessing / Creating managed object contexts
@@ -337,6 +351,16 @@ static OELibraryDatabase *defaultDatabase = nil;
     return context;
 }
 
+- (NSManagedObjectContext*)makeWriterChildContext
+{
+    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [context setParentContext:_writerContext];
+    [context setUndoManager:nil];
+    [context setMergePolicy:[_writerContext mergePolicy]];
+    [[context userInfo] setValue:self forKey:OELibraryDatabaseUserInfoKey];
+
+    return context;
+}
 #pragma mark - Administration
 
 - (void)disableSystemsWithoutPlugin
@@ -486,8 +510,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     [mediaArray addObject:savedGamesMedia];
     
     // Screenshots
-    OEDBScreenshotsMedia *sreenshotsMedia = [OEDBScreenshotsMedia sharedDBScreenshotsMedia];
-    [mediaArray addObject:sreenshotsMedia];
+    OEDBScreenshotsMedia *screenshotsMedia = [OEDBScreenshotsMedia sharedDBScreenshotsMedia];
+    [mediaArray addObject:screenshotsMedia];
     
     // Video
     OEDBVideoMedia *videoMedia = [OEDBVideoMedia sharedDBVideoMedia];
