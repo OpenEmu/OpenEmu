@@ -147,6 +147,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     self = [super init];
     if (self) {
+        [[OEVersionMigrationController defaultMigrationController] addMigratorTarget:self selector:@selector(migrationRemoveCores:) forVersion:@"1.0.3"];
+
         [self setStartupQueue:[NSMutableArray array]];
     }
     return self;
@@ -925,8 +927,37 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
-#pragma mark - Debug
+#pragma mark - Migration
+- (BOOL)migrationRemoveCores:(NSError**)outError
+{
+    // remove all cores, this is not critical so ignore errors
+    NSString *folder    = [OECorePlugin pluginFolder];
+    NSString *extension = [OECorePlugin pluginExtension];
 
+    if(extension == nil) return YES;
+
+    NSString *openEmuSearchPath = [@"OpenEmu" stringByAppendingPathComponent:folder];
+
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSFileManager *manager = [NSFileManager defaultManager];
+
+    for(NSString *path in paths)
+    {
+        NSString *subpath = [path stringByAppendingPathComponent:openEmuSearchPath];
+        NSArray  *subpaths = [manager contentsOfDirectoryAtPath:subpath error:NULL];
+        for(NSString *bundlePath in subpaths)
+        {
+            if([extension isEqualToString:[bundlePath pathExtension]])
+            {
+                [[NSFileManager defaultManager] removeItemAtPath:bundlePath error:nil];
+            }
+        }
+    }
+
+    return YES;
+}
+
+#pragma mark - Debug
 - (IBAction)OEDebug_logResponderChain:(id)sender;
 {
     DLog(@"NSApp.KeyWindow: %@", [NSApp keyWindow]);
