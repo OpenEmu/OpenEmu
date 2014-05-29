@@ -62,10 +62,12 @@
 #define coreIconTopToViewTop 312
 #define coreIconX 263
 
+#define instructionsTopToViewTop 317
+
 #define rightColumnX 309
 
 #define ViewWidth 427
-#define ViewHeight 366
+#define ViewHeight 382
 #pragma mark -
 
 @implementation OEBlankSlateView
@@ -128,7 +130,8 @@
     [self OE_addLeftHeadlineWithText:NSLocalizedString(@"Collections", @"") toView:view];
 
     NSRect rect = (NSRect){ .size = { [view frame].size.width, bottomTextViewHeight }};
-    
+    rect.origin.y = NSMaxY([view bounds])-NSHeight(rect)-instructionsTopToViewTop;
+
     NSTextView *textView = [[NSTextView alloc] initWithFrame:NSInsetRect(rect, -4, 0)];
     NSString   *text     = [NSString stringWithFormat:NSLocalizedString(@"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.", @""), collectionName];
     [textView setString:text];
@@ -165,6 +168,7 @@
     [self OE_addLeftHeadlineWithText:(plugin ? [plugin systemName] : NSLocalizedString(@"System", @"")) toView:view];
     
     NSRect      rect     = (NSRect){ .size = {[view frame].size.width/12*7, bottomTextViewHeight}};
+    rect.origin.y = NSMaxY([view bounds])-NSHeight(rect)-instructionsTopToViewTop;
     NSTextView *textView = [[NSTextView alloc] initWithFrame:NSInsetRect(rect, -4, 0)];
     NSString   *text     = [NSString stringWithFormat:NSLocalizedString(@"%@ games you add to OpenEmu will appear in this Console Library", @""), [plugin systemName]];
     [textView setDrawsBackground:NO];
@@ -186,8 +190,9 @@
     [textView setShadow:shadow];
     
     [view addSubview:textView];
-    
-    NSImageView *coreIconView = [[NSImageView alloc] initWithFrame:(NSRect){{coreIconX, [view frame].size.height-40-coreIconTopToViewTop},{40, 40}}];
+
+    rect   = (NSRect){{coreIconX, [view frame].size.height-40-coreIconTopToViewTop},{40, 40}};
+    NSImageView *coreIconView = [[NSImageView alloc] initWithFrame:rect];
     [coreIconView setImage:[NSImage imageNamed:@"blank_slate_core_icon"]];
     [view addSubview:coreIconView];
     [coreIconView unregisterDraggedTypes];
@@ -204,8 +209,8 @@
                                 [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName,
                                 nil];
     [cell setTextAttributes:dictionary];
-    
-    NSTextField *coreSuppliedByLabel = [[NSTextField alloc] initWithFrame:(NSRect){{rightColumnX, bottomTextViewHeight-16},{[view frame].size.width-rightColumnX, 17}}];
+
+    NSTextField *coreSuppliedByLabel = [[NSTextField alloc] initWithFrame:(NSRect){{rightColumnX, NSMaxY([view bounds])-16-instructionsTopToViewTop},{[view frame].size.width-rightColumnX, 17}}];
     [coreSuppliedByLabel setCell:cell];
     [coreSuppliedByLabel setEditable:NO];
     [coreSuppliedByLabel setSelectable:NO];
@@ -222,9 +227,13 @@
     [pluginsForSystem enumerateObjectsUsingBlock:^(OECorePlugin *core, NSUInteger idx, BOOL *stop) {
         NSString *projectURL = [[core infoDictionary] valueForKey:@"OEProjectURL"];
         NSString *name       = [core displayName];
-        
+
         // Create weblink button for current core
-        OEButton *gotoButton = [[OEButton alloc] initWithFrame:(NSRect){{ rightColumnX, bottomTextViewHeight - 16 * (idx+2) -1}, { [view frame].size.width - rightColumnX, 20 }}];
+        NSRect frame = (NSRect){{ rightColumnX, NSMaxY([view bounds])-2*16-instructionsTopToViewTop - 16 * idx}, { [view frame].size.width - rightColumnX, 20 }};
+        OEButton *gotoButton = [[OEButton alloc] initWithFrame:frame];
+
+
+
         [gotoButton setAutoresizingMask:NSViewWidthSizable];
         [gotoButton setAlignment:NSLeftTextAlignment];
         [gotoButton setImagePosition:NSImageRight];
