@@ -189,6 +189,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 - (void)mouseMoved:(NSEvent *)theEvent
 {
     NSWindow *parentWindow = [self parentWindow];
+    if(parentWindow == nil) return;
+
     NSPoint mouseLoc = [NSEvent mouseLocation];
 
     if(!NSPointInRect(mouseLoc, [parentWindow convertRectToScreen:[[[self gameViewController] view] frame]])) return;
