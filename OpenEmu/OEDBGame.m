@@ -242,7 +242,8 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 
 - (void)setBoxImageByURL:(NSURL *)url
 {
-    NSDictionary *dictionary = [OEDBImage prepareImageWithURLString:url];
+    NSString      *urlString = [url absoluteString];
+    NSDictionary *dictionary = [OEDBImage prepareImageWithURLString:urlString];
     NSManagedObjectContext *context = [self managedObjectContext];
     [context performBlockAndWait:^{
         OEDBImage *currentImage = [self boxImage];

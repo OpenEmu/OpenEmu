@@ -35,7 +35,7 @@ typedef enum : NSBitmapImageFileType
 @class OELibraryDatabase, OEDBGame;
 @interface OEDBImage : OEDBItem
 
-+ (NSDictionary*)prepareImageWithURLString:(NSURL*)url;
++ (NSDictionary*)prepareImageWithURLString:(NSString*)url;
 + (NSDictionary*)prepareImageWithNSImage:(NSImage*)image;
 
 + (instancetype)createImageWithDictionary:(NSDictionary*)dictionary;
