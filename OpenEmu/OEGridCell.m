@@ -236,7 +236,7 @@ static NSDictionary *disabledActions = nil;
     const OEGridView *browser = [self imageBrowserView];
     const NSWindow   *window  = [browser window];
     const CGFloat scaleFactor = [[window screen] backingScaleFactor];
-    const BOOL   windowActive = [window isKeyWindow];
+    const BOOL   windowActive = [window isKeyWindow] && [window firstResponder]==browser;
     const BOOL   isSelected   = [self isSelected];
     const IKImageBrowserCellState state = [self cellState];
     const id<OECoverGridDataSourceItem> representedItem = [self representedItem];

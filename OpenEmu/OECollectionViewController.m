@@ -344,6 +344,8 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [searchField setStringValue:@""];
 	[self search:searchField];
 
+    [gridView setSelectionIndexes:selectionIndexes byExtendingSelection:NO];
+    
     if(selectedViewTag == OEGridViewTag)
     {
         //[gridView setSelectionIndexes:selectionIndexes];

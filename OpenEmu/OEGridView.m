@@ -142,12 +142,16 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 
 - (BOOL)becomeFirstResponder
 {
-    return YES;
+    BOOL success = [super becomeFirstResponder];
+    [self setNeedsDisplay:YES];
+    return success;
 }
 
 - (BOOL)resignFirstResponder
 {
-    return YES;
+    BOOL success = [super resignFirstResponder];
+    [self setNeedsDisplay:YES];
+    return success;
 }
 
 #pragma mark - Mouse Interaction
