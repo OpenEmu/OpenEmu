@@ -530,7 +530,7 @@ static NSDictionary *disabledActions = nil;
     if(cache == nil)
     {
         cache = [[NSCache alloc] init];
-        [cache setCountLimit:15];
+        [cache setCountLimit:25];
     }
 
     NSString *key = NSStringFromSize(size);

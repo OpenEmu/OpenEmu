@@ -485,12 +485,6 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
         [[self operationQueue] setSuspended:NO];
         [self OE_performSelectorOnDelegate:@selector(romImporterDidStart:) withObject:self];
     }
-    else
-    {
-        [self setStatus:OEImporterStatusStopped];
-        [[self operationQueue] setSuspended:YES];
-        [self OE_performSelectorOnDelegate:@selector(romImporterDidFinish:) withObject:self];
-    }
 }
 
 - (void)pause

@@ -526,6 +526,11 @@
 
     [[self importer] start];
     [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self];
+
+    if([[self importer] numberOfProcessedItems] != [[self importer] totalNumberOfItems])
+    {
+        [self OE_hideGameScannerView];
+    }
 }
 
 #pragma mark - UI Actions Scanner
