@@ -283,9 +283,10 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 #pragma mark -
 - (void)exitWithStatus:(OEImportExitStatus)status error:(NSError*)error
 {
+    NSManagedObjectContext *context = [[self importer] context];
+
     if(status == OEImportExitSuccess)
     {
-        NSManagedObjectContext *context = [[self importer] context];
         OEDBRom *rom = [self rom];
         if(rom != nil)
         {
@@ -296,23 +297,26 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
                 {
                     [[[rom game] mutableCollections] addObject:collection];
                 }
-                [rom save];
             }
 
             // start sync thread
             if([[[rom game] status] intValue] == OEDBGameStatusProcessing)
             {
                 OELibraryDatabase *database = [[self importer] database];
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)),dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                     [database startOpenVGDBSync];
                 });
             }
-
-            NSManagedObjectContext *parentContext = [context parentContext];
-            [parentContext performBlock:^{
-                [parentContext save:nil];
-            }];
         }
+    }
+
+    if(status != OEImportExitErrorFatal)
+    {
+        [context save:nil];
+        NSManagedObjectContext *parentContext = [context parentContext];
+        [parentContext performBlock:^{
+            [parentContext save:nil];
+        }];
     }
 
     [[NSFileManager defaultManager] removeItemAtURL:[self extractedFileURL] error:nil];
@@ -857,7 +861,6 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             [game setStatus:@(OEDBGameStatusProcessing)];
         }
 
-        [rom save];
         [self setRom:rom];
 
         [self exitWithStatus:OEImportExitSuccess error:nil];
@@ -866,7 +869,6 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     {
         [rom delete];
         [game delete];
-        [rom save];
 
         [self setRom:nil];
         NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeNoGame userInfo:nil];
