@@ -39,4 +39,18 @@
             : @"Atari 2600");
 }
 
+- (OECanHandleState)canHandleFile:(NSString *)path
+{
+    OECanHandleState canHandleFile = OECanHandleNo;
+    
+    NSURL *fileURL = [NSURL fileURLWithPath:path];
+    NSNumber *fileSize = nil;
+    [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:nil];
+    
+    if([fileSize intValue] < 2097152)
+        canHandleFile = OECanHandleYes;
+    
+    return canHandleFile;
+}
+
 @end
