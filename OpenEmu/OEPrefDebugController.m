@@ -172,7 +172,7 @@ NSString * const OptionsKey = @"options";
                               Checkbox(OEWiimoteSupportEnabled, @"WiiRemote support (requires relaunch)"),
                               NCheckbox(OEControlsDisableMouseSelection, @"Clicking on image selects button"),
                               NCheckbox(OEControlsDisableMouseDeactivation, @"Clicking outside image deselects button"),
-                              Checkbox(OEControlsButtonHighlightRollsOver, @"Select first fied after setting the last"),
+                              Checkbox(OEControlsButtonHighlightRollsOver, @"Select first field after setting the last"),
                               Checkbox(OEDebugDrawControllerMaskKey, @"Draw button mask above image"),
                               Checkbox(@"logsHIDEvents", @"Log HID Events"),
                               Checkbox(@"logsHIDEventsNoKeyboard", @"Log Keyboard Events"),
