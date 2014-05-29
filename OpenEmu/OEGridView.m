@@ -117,6 +117,23 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     }];
     return result;
 }
+#pragma mark - ToolTips
+- (void)installToolTips
+{
+    [self removeAllToolTips];
+    [[self visibleItemIndexes] enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        IKImageBrowserCell *cell = [self cellForItemAtIndex:idx];
+        NSRect titleRect = [cell titleFrame];
+        [self addToolTipRect:titleRect owner:self userData:(void *)idx];
+    }];
+}
+
+- (NSString*)view:(NSView *)view stringForToolTip:(NSToolTipTag)tag point:(NSPoint)point userData:(void *)data
+{
+    NSUInteger idx = (NSUInteger)data;
+    id obj = [[self dataSource] imageBrowser:self itemAtIndex:idx];
+    return [obj imageTitle];
+}
 #pragma mark - Managing Responder
 - (BOOL)acceptsFirstResponder
 {
@@ -132,6 +149,7 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 {
     return YES;
 }
+
 #pragma mark - Mouse Interaction
 - (void)mouseDown:(NSEvent *)theEvent
 {
