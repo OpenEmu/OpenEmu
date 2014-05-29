@@ -51,6 +51,9 @@
 #import "NSView+FadeImage.h"
 #import "NSViewController+OEAdditions.h"
 
+// using the main window controller here is not very nice, but meh
+#import "OEMainWindowController.h"
+
 #import <objc/message.h>
 
 NSString *const OEGameCoreManagerModePreferenceKey = @"OEGameCoreManagerModePreference";
@@ -535,9 +538,16 @@ typedef enum : NSUInteger
             {
                 NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
                 OEDBRom *rom = [OEDBRom objectWithID:romID inContext:context];
-                if(rom != nil)
+
+                // Ugly hack to start imported games in main window
+                OEMainWindowController *mainWindowController = [[NSApp delegate] mainWindowController];
+                if([mainWindowController mainWindowRunsGame] == NO)
                 {
-                    [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[rom URL] display:YES completionHandler:nil];
+                    [mainWindowController startGame:[rom game]];
+                }
+                else
+                {
+                    [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[rom URL] display:NO completionHandler:nil];
                 }
             }
         };

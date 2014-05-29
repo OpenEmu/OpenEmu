@@ -139,6 +139,12 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 {
     return @"MainWindow";
 }
+#pragma mark -
+// ugly hack, remove
+- (void)startGame:(OEDBGame*)game
+{
+    [self OE_openGameDocumentWithGame:game saveState:[game autosaveForLastPlayedRom]];
+}
 
 #pragma mark -
 

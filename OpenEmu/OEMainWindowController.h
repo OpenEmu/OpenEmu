@@ -30,6 +30,7 @@ extern NSString *const OEForcePopoutGameWindowKey;
 extern NSString *const OEFullScreenGameWindowKey;
 extern NSString *const OEMainWindowFullscreenKey;
 
+@class OEDBGame;
 @class OEGameDocument;
 @class OELibraryController;
 
@@ -46,4 +47,6 @@ extern NSString *const OEMainWindowFullscreenKey;
 - (IBAction)undockGameWindow:(id)sender;
 - (IBAction)launchLastPlayedROM:(id)sender;
 
+// ugly hack, remove
+- (void)startGame:(OEDBGame*)game;
 @end

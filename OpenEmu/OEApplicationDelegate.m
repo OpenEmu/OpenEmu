@@ -424,7 +424,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
          {
              NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
              BOOL fullScreen = [standardDefaults boolForKey:OEFullScreenGameWindowKey];
-             
+
              [self OE_setupGameDocument:(OEGameDocument*)document display:YES fullScreen:fullScreen completionHandler:nil];
          }
          
