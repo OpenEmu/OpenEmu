@@ -41,6 +41,7 @@ enum _OECoreUpdaterErrorCode
 + (id)sharedUpdater;
 
 - (void)checkForUpdates;
+- (void)checkForUpdatesAndInstall;
 - (void)checkForNewCores:(NSNumber *)fromModal;
 
 - (void)installCoreForGame:(OEDBGame *)game withCompletionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler;

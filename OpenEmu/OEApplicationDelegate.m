@@ -147,7 +147,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     self = [super init];
     if (self) {
-        [[OEVersionMigrationController defaultMigrationController] addMigratorTarget:self selector:@selector(migrationRemoveCores:) forVersion:@"1.0.3"];
+        [[OEVersionMigrationController defaultMigrationController] addMigratorTarget:self selector:@selector(migrationForceUpdateCores:) forVersion:@"1.0.3"];
 
         [self setStartupQueue:[NSMutableArray array]];
     }
@@ -928,32 +928,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 
 #pragma mark - Migration
-- (BOOL)migrationRemoveCores:(NSError**)outError
+- (BOOL)migrationForceUpdateCores:(NSError**)outError
 {
-    // remove all cores, this is not critical so ignore errors
-    NSString *folder    = [OECorePlugin pluginFolder];
-    NSString *extension = [OECorePlugin pluginExtension];
-
-    if(extension == nil) return YES;
-
-    NSString *openEmuSearchPath = [@"OpenEmu" stringByAppendingPathComponent:folder];
-
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    NSFileManager *manager = [NSFileManager defaultManager];
-
-    for(NSString *path in paths)
-    {
-        NSString *subpath = [path stringByAppendingPathComponent:openEmuSearchPath];
-        NSArray  *subpaths = [manager contentsOfDirectoryAtPath:subpath error:NULL];
-        for(NSString *bundlePath in subpaths)
-        {
-            if([extension isEqualToString:[bundlePath pathExtension]])
-            {
-                [[NSFileManager defaultManager] removeItemAtPath:bundlePath error:nil];
-            }
-        }
-    }
-
+    [[OECoreUpdater sharedUpdater] checkForUpdatesAndInstall];
     return YES;
 }
 

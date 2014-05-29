@@ -44,6 +44,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 @interface OECoreUpdater ()
 {
     NSMutableDictionary *_coresDict;
+    BOOL autoInstall;
 }
 
 - (void)OE_updateCoreList;
@@ -77,6 +78,8 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     if((self = [super init]))
     {
         _coresDict = [[NSMutableDictionary alloc] init];
+
+        autoInstall = NO;
 
         [[OECorePlugin allPlugins] enumerateObjectsUsingBlock:
          ^(id obj, NSUInteger idx, BOOL *stop)
@@ -128,6 +131,13 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
         }
     }
 }
+
+- (void)checkForUpdatesAndInstall
+{
+    autoInstall = YES;
+    [self checkForUpdates];
+}
+
 - (void)checkForNewCores:(NSNumber *)fromModal
 {
     NSURL *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
@@ -386,6 +396,10 @@ static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProg
         [download setHasUpdate:YES];
         [download setAppcastItem:update];
         [download setDelegate:self];
+
+        if(autoInstall)
+            [download startDownload:nil];
+
         break;
     }
 
