@@ -1157,6 +1157,34 @@
 	</dict>
 	<key>Images</key>
 	<dict>
+		<key>grid_slider_large</key>
+		<dict>
+			<key>Resource</key>
+			<string>grid_slider_large</string>
+			<key>States</key>
+			<dict>
+				<key>Window Active, Enabled</key>
+				<string>{{0, 0}, {10, 10}}</string>
+				<key>Window Inactive</key>
+				<string>{{10, 0}, {10, 10}}</string>
+				<key>Disabled</key>
+				<string>{{10, 0}, {10, 10}}</string>
+			</dict>
+		</dict>
+		<key>grid_slider_small</key>
+		<dict>
+			<key>Resource</key>
+			<string>grid_slider_small</string>
+			<key>States</key>
+			<dict>
+				<key>Window Active, Enabled</key>
+				<string>{{0, 0}, {7, 7}}</string>
+				<key>Window Inactive</key>
+				<string>{{7, 0}, {7, 7}}</string>
+				<key>Disabled</key>
+				<string>{{7, 0}, {7, 7}}</string>
+			</dict>
+		</dict>
 		<key>controls_triangle</key>
 		<dict>
 			<key>Resource</key>

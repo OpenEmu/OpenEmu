@@ -28,9 +28,10 @@
 #import "OEToolTip.h"
 #import "OEControl.h"
 #import "OESliderCell.h"
+#import "OETheme.h"
 @interface OESlider : NSSlider <OEControl, OEToolTip>
 {
-    BOOL hintImagesShowActive;
+    OEThemeState hintImagesState;
 }
 
 - (void)setLevelThemeImageKey:(NSString*)levelImageKey;
