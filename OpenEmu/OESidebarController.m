@@ -102,8 +102,11 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     self.groups = @[
                     [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"CONSOLES", @"") autosaveName:OESidebarGroupConsolesAutosaveName],
-                    //[OESidebarGroupItem groupItemWithName:NSLocalizedString(@"MEDIA", @"") autosaveName:OESidebarGroupMediaAutosaveName],
+                    
+#define DevicesSectionIndex 1 // keep track of devices section index so we can skip it if no devices are connected
                     [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"DEVICES", @"") autosaveName:OESidebarGroupDevicesAutosaveName],
+
+                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"MEDIA", @"") autosaveName:OESidebarGroupMediaAutosaveName],
                     [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"COLLECTIONS", @"") autosaveName:OESidebarGroupCollectionsAutosaveName]
                     ];
 
@@ -245,8 +248,8 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     NSArray *collections = [database collections];
     [self setCollections:collections];
-    // TODO: add media collections
-    //self.media = [[self database] media]    ? : [NSArray array];
+
+    [self setMedia:[[self database] media] ?: [NSArray array]];
 
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     [sidebarView reloadData];
@@ -293,6 +296,11 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     NSAssert(item==nil || [item conformsToProtocol:@protocol(OESidebarItem)], @"All sidebar items must conform to OESidebarItem");
 
     return item;
+}
+#pragma mark - Helpers
+- (BOOL)OE_devicesSectionVisisble
+{
+    return [[[OEStorageDeviceManager sharedStorageDeviceManager] devices] count] == 0;
 }
 
 #pragma mark -
@@ -499,7 +507,8 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     if(item == nil)
     {
-        if(index!=0 && [[[OEStorageDeviceManager sharedStorageDeviceManager] devices] count] == 0)
+        // Skip over Devices section if it's hidden
+        if(index >= DevicesSectionIndex && [self OE_devicesSectionVisisble])
             index += 1;
 
         return [[self groups] objectAtIndex:index];
@@ -508,8 +517,8 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     NSString *autosaveName = [item isKindOfClass:[OESidebarGroupItem class]]?[item autosaveName]:nil;
     if([autosaveName isEqualToString:OESidebarGroupConsolesAutosaveName])
         return [[self systems] objectAtIndex:index];
-    //else if([autosaveName isEqualToString:OESidebarGroupMediaAutosaveName])
-        //return [[self media] objectAtIndex:index];
+    else if([autosaveName isEqualToString:OESidebarGroupMediaAutosaveName])
+        return [[self media] objectAtIndex:index];
     else if([autosaveName isEqualToString:OESidebarGroupDevicesAutosaveName])
         return [[[OEStorageDeviceManager sharedStorageDeviceManager] devices] objectAtIndex:index];
     else if([autosaveName isEqualToString:OESidebarGroupCollectionsAutosaveName])
@@ -527,7 +536,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     if(item == nil)
     {
-        if([[[OEStorageDeviceManager sharedStorageDeviceManager] devices] count] == 0)
+        if([self OE_devicesSectionVisisble])
             return [[self groups] count] -1;
         else
             return [[self groups] count];
@@ -541,8 +550,8 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     NSString *autosaveName = [item isKindOfClass:[OESidebarGroupItem class]]?[item autosaveName]:nil;
     if([autosaveName isEqualToString:OESidebarGroupConsolesAutosaveName])
         return [[self systems] count];
-    //else if([autosaveName isEqualToString:OESidebarGroupMediaAutosaveName])
-        //return [[self media] count];
+    else if([autosaveName isEqualToString:OESidebarGroupMediaAutosaveName])
+        return [[self media] count];
     else if([autosaveName isEqualToString:OESidebarGroupDevicesAutosaveName])
         return [[[OEStorageDeviceManager sharedStorageDeviceManager] devices] count];
     else if([autosaveName isEqualToString:OESidebarGroupCollectionsAutosaveName])
@@ -560,7 +569,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     self.editingItem = nil;
 
-    if([[object stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] isNotEqualTo:@""])
+    if([[object stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] isNotEqualTo:@""])
     {
         [(id<OESidebarItem>)item setSidebarName:object];
         [(OEDBCollection*)item save];

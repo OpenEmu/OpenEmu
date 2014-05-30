@@ -68,7 +68,7 @@ extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 #pragma mark - Database queries
 - (NSArray *)collections;
 - (NSArray *)romsForPredicate:(NSPredicate*)predicate;
-
+- (NSArray *)media;
 - (NSArray *)lastPlayedRoms;
 - (NSDictionary *)lastPlayedRomsBySystem;
 
