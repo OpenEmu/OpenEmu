@@ -1157,6 +1157,42 @@
 	</dict>
 	<key>Images</key>
 	<dict>
+		<key>wood_track_vertical</key>
+		<dict>
+			<key>Resource</key>
+			<string>wood_track_vertical</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0, 0}, {15, 21}}</string>
+				<key>Unused</key>
+				<string>{{0, 21}, {15, 21}}</string>
+			</dict>
+		</dict>
+		<key>wood_arrow_down</key>
+		<dict>
+			<key>Resource</key>
+			<string>wood_arrow_down</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0, 0}, {15, 15}}</string>
+				<key>Pressed</key>
+				<string>{{15, 0}, {15, 15}}</string>
+			</dict>
+		</dict>
+		<key>wood_arrow_up</key>
+		<dict>
+			<key>Resource</key>
+			<string>wood_arrow_up</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0, 0}, {15, 15}}</string>
+				<key>Pressed</key>
+				<string>{{15, 0}, {15, 15}}</string>
+			</dict>
+		</dict>
 		<key>sort_arrow</key>
 		<dict>
 			<key>Resource</key>

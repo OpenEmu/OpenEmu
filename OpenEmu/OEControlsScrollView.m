@@ -27,7 +27,7 @@
 #import "OEControlsScrollView.h"
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEUIDrawingUtils.h"
-
+#import "OETheme.h"
 @implementation OEControlsScrollView
 - (void)awakeFromNib
 {
@@ -41,19 +41,6 @@
     // Make sure not to reinitialize for subclassed objects
     if (self != [OEControlsScroller class])
         return;
-
-    NSImage *image = [NSImage imageNamed:@"wood_arrow_up"];
-    [image setName:@"wood_arrow_up_normal" forSubimageInRect:(NSRect){{0,0},{image.size.width/2,image.size.height}}];
-    [image setName:@"wood_arrow_up_highlighted" forSubimageInRect:(NSRect){{image.size.width/2,0},{image.size.width/2,image.size.height}}];
-    
-    image = [NSImage imageNamed:@"wood_arrow_down"];
-    [image setName:@"wood_arrow_down_normal" forSubimageInRect:(NSRect){{0,0},{image.size.width/2,image.size.height}}];
-    [image setName:@"wood_arrow_down_highlighted" forSubimageInRect:(NSRect){{image.size.width/2,0},{image.size.width/2,image.size.height}}];
-    
-    image = [NSImage imageNamed:@"wood_track_vertical"];
-    [image setName:@"wood_track_vertical_normal" forSubimageInRect:(NSRect){{0,0},{image.size.width/2,image.size.height}}];
-    [image setName:@"wood_track_vertical_inactive" forSubimageInRect:(NSRect){{0,0},{image.size.width/2,image.size.height}}];
-    
 }
 
 - (id)init
@@ -66,8 +53,9 @@
 
 - (NSImage*)OE_trackImage
 {
-    return [NSImage imageNamed:@"wood_track_vertical_normal"];
+    return [[OETheme sharedTheme] imageForKey:@"wood_track_vertical" forState:OEThemeStateDefault];
 }
+
 - (NSImage*)OE_knobImage
 {
     return [NSImage imageNamed:@"wood_knob_vertical"];
