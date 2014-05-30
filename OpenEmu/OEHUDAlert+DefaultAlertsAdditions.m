@@ -38,6 +38,7 @@ NSString *const OEChangeCoreAlertSuppressionKey = @"changeCoreWithoutConfirmatio
 NSString *const OEResetSystemAlertSuppressionKey = @"resetSystemWithoutConfirmation";
 NSString *const OEStopEmulationAlertSuppressionKey = @"stopEmulationWithoutConfirmation";
 NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDialogChoice";
+NSString *const OEGameCoreGlitchesSuppressionKey = @"OEGameCoreGlitches";
 
 @implementation OEHUDAlert (DefaultAlertsAdditions)
 

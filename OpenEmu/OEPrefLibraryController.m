@@ -495,7 +495,8 @@
                               OEChangeCoreAlertSuppressionKey,
                               OEResetSystemAlertSuppressionKey,
                               OEStopEmulationAlertSuppressionKey,
-                              OERemoveGameFilesFromLibraryAlertSuppressionKey];
+                              OERemoveGameFilesFromLibraryAlertSuppressionKey,
+                              OEGameCoreGlitchesSuppressionKey];
     
     [keysToRemove enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
         [standardUserDefaults removeObjectForKey:key];

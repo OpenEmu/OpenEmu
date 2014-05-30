@@ -604,6 +604,8 @@ typedef enum : NSUInteger
 {
     if([self OE_checkRequiredFiles]) return;
     
+    [self OE_checkGlitches];
+    
     if(_emulationStatus != OEEmulationStatusNotSetup) return;
 
     [_gameCoreManager loadROMWithCompletionHandler:
@@ -971,6 +973,43 @@ typedef enum : NSUInteger
             
             return YES;
         }
+    }
+    return NO;
+}
+
+- (BOOL)OE_checkGlitches
+{
+    NSString *OEGameCoreGlitchesKey       = OEGameCoreGlitchesSuppressionKey;
+    NSString *OEGameCoreGlitchesKeyFormat = @"%@.%@";
+    NSString *coreName                    = [[[_gameCoreManager plugin] controller] pluginName];
+    NSString *systemIdentifier            = [_gameSystemController systemIdentifier];
+    NSString *systemKey                   = [NSString stringWithFormat:OEGameCoreGlitchesKeyFormat, coreName, systemIdentifier];
+    NSUserDefaults *userDefaults          = [NSUserDefaults standardUserDefaults];
+    
+    NSDictionary *glitchInfo              = [userDefaults objectForKey:OEGameCoreGlitchesKey];
+    BOOL showAlert                        = ![[glitchInfo valueForKey:systemKey] boolValue];
+    
+    if([[[_gameCoreManager plugin] controller] hasGlitchesForSystemIdentifier:[_gameSystemController systemIdentifier]] && showAlert)
+    {
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", @""), coreName, coreName];
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message
+                                               defaultButton:NSLocalizedString(@"OK", @"")
+                                             alternateButton:nil];
+        [alert setHeadlineText:NSLocalizedString(@"Warning", @"")];
+        [alert setShowsSuppressionButton:YES];
+        [alert setSuppressionLabelText:@"Do not show me again"];
+        
+        if([alert runModal] && [[alert suppressionButton] state] == NSOnState)
+        {
+            NSMutableDictionary *systemKeyGlitchInfo = [NSMutableDictionary dictionary];
+            [systemKeyGlitchInfo addEntriesFromDictionary:glitchInfo];
+            [systemKeyGlitchInfo setValue:@YES forKey:systemKey];
+            
+            [userDefaults setObject:systemKeyGlitchInfo forKey:OEGameCoreGlitchesKey];
+            [userDefaults synchronize];
+        }
+        
+        return YES;
     }
     return NO;
 }
