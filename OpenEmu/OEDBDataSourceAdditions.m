@@ -161,20 +161,13 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
 
 #pragma mark -
 #pragma mark ListView DataSource Item
-
-- (NSImage *)listViewStatus
+- (OEThemeImage *)listViewStatus
 {
-    NSString *imageName = [self OE_listViewStatusImageName];
-    return (imageName ? [NSImage imageNamed:imageName] : nil);
+    NSString *imageKey = [self OE_listViewStatusImageKey];
+    return [[OETheme sharedTheme] themeImageForKey:imageKey];
 }
 
-- (NSImage *)listViewSelectedStatus
-{
-    NSString *imageName = [self OE_listViewStatusImageName];
-    return (imageName ? [NSImage imageNamed:[imageName stringByAppendingString:@"_selected"]] : nil);
-}
-
-- (NSString *)OE_listViewStatusImageName
+- (NSString *)OE_listViewStatusImageKey
 {
     return ([self OE_hasOpenDocument] ? @"list_indicators_playing"  :
             ([[self status] intValue] == OEDBGameStatusAlert) ? @"list_indicators_missing"  :

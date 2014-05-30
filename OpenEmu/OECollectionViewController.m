@@ -122,19 +122,6 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     // Make sure not to reinitialize for subclassed objects
     if(self != [OECollectionViewController class]) return;
 
-    // Indicators for list view
-    NSImage *image = [NSImage imageNamed:@"list_indicators"];
-
-    // unselected states
-    [image setName:@"list_indicators_playing" forSubimageInRect:NSMakeRect(0, 32, 12, 12)];
-    [image setName:@"list_indicators_missing" forSubimageInRect:NSMakeRect(0, 24, 12, 12)];
-    [image setName:@"list_indicators_unplayed" forSubimageInRect:NSMakeRect(0, 12, 12, 12)];
-
-    // selected states
-    [image setName:@"list_indicators_playing_selected" forSubimageInRect:NSMakeRect(12, 32, 12, 12)];
-    [image setName:@"list_indicators_missing_selected" forSubimageInRect:NSMakeRect(12, 24, 12, 12)];
-    [image setName:@"list_indicators_unplayed_selected" forSubimageInRect:NSMakeRect(12, 12, 12, 12)];
-
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OELastGridSizeKey : @1.0f }];
 }
 
@@ -1162,7 +1149,12 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     id result                                = nil;
 
     if(columnId == nil)                                               result = item;
-    else if([columnId isEqualToString:@"listViewStatus"])             result = ([[listView selectedRowIndexes] containsIndex:rowIndex] ? [item listViewSelectedStatus] : [item listViewStatus]);
+    else if([columnId isEqualToString:@"listViewStatus"])
+    {
+        OEThemeImage *image = [item listViewStatus];
+        OEThemeState state  = [[listView selectedRowIndexes] containsIndex:rowIndex] ? OEThemeInputStateFocused : OEThemeStateDefault;
+        result = [image imageForState:state];
+    }
     else if([item respondsToSelector:NSSelectorFromString(columnId)]) result = [item valueForKey:columnId];
 
     return result;

@@ -2583,6 +2583,42 @@
 				<string>{{0,0},{16,16}}</string>
 			</dict>
 		</dict>
+		<key>list_indicators_unplayed</key>
+		<dict>
+			<key>Resource</key>
+			<string>list_indicators</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0, 24}, {12, 12}}</string>
+				<key>Focused</key>
+				<string>{{12, 24}, {12, 12}}</string>
+			</dict>
+		</dict>
+		<key>list_indicators_playing</key>
+		<dict>
+			<key>Resource</key>
+			<string>list_indicators</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0, 32}, {12, 12}}</string>
+				<key>Focused</key>
+				<string>{{12, 32}, {12, 12}}</string>
+			</dict>
+		</dict>
+		<key>list_indicators_missing</key>
+		<dict>
+			<key>Resource</key>
+			<string>list_indicators</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0, 12}, {12, 12}}</string>
+				<key>Focused</key>
+				<string>{{12, 12}, {12, 12}}</string>
+			</dict>
+		</dict>
 	</dict>
 	<key>Name</key>
 	<string>Default</string>
