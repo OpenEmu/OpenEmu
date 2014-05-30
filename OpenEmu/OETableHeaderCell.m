@@ -28,7 +28,7 @@
 
 #import "OEUIDrawingUtils.h"
 #import "NSImage+OEDrawingAdditions.h"
-
+#import "OETheme.h"
 #pragma mark - Private variables
 
 static const NSSize  _OESortIndicatorSize   = {15, 14};
@@ -37,21 +37,6 @@ static const CGFloat _OESortIndicatorMargin = 5;
 #pragma mark -
 
 @implementation OETableHeaderCell
-
-+ (void)initialize
-{
-    if(self != [OETableHeaderCell class])
-        return;
-
-    NSImage *sourceImage = [NSImage imageNamed:@"table_header"];
-    [sourceImage setName:@"table_header_background_active"  forSubimageInRect:NSMakeRect(0, 17, 16, 17)];
-    [sourceImage setName:@"table_header_background_pressed" forSubimageInRect:NSMakeRect(0,  0, 16, 17)];
-
-    sourceImage = [NSImage imageNamed:@"sort_arrow"];
-    [sourceImage setName:@"sort_arrow_inactive" forSubimageInRect:(NSRect){{_OESortIndicatorSize.width * 0, 0}, _OESortIndicatorSize}];
-    [sourceImage setName:@"sort_arrow_pressed"  forSubimageInRect:(NSRect){{_OESortIndicatorSize.width * 1, 0}, _OESortIndicatorSize}];
-    [sourceImage setName:@"sort_arrow_rollover" forSubimageInRect:(NSRect){{_OESortIndicatorSize.width * 2, 0}, _OESortIndicatorSize}];
-}
 
 #pragma mark -
 
@@ -82,9 +67,11 @@ static const CGFloat _OESortIndicatorMargin = 5;
 
     // Draw background and border
 	const BOOL hideLeftHighlight     = isPressed || isFirstColumn || isOutOfBoundsColumn;
-	NSImage *backgroundImage         = [NSImage imageNamed:(isPressed ? @"table_header_background_pressed" : @"table_header_background_active")];
+    OEThemeState sate = isPressed ? OEThemeInputStatePressed : OEThemeStateDefault;
 
-    [backgroundImage drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil leftBorder:7 rightBorder:8 topBorder:0 bottomBorder:0];
+	NSImage *backgroundImage = [[OETheme sharedTheme] imageForKey:@"table_header_background" forState:sate];
+    [backgroundImage setMatchesOnlyOnBestFittingAxis:NO];
+    [backgroundImage drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
 
     // Draw highlight on left edge
     if(!hideLeftHighlight)
@@ -207,9 +194,10 @@ static const CGFloat _OESortIndicatorMargin = 5;
 {
 	if(priority != 1) return;
 
-	NSImage *sortindicatorImage = [NSImage imageNamed:([self state] ? @"sort_arrow_pressed" : @"sort_arrow_inactive")];
+    OEThemeState state = [self state] ? OEThemeInputStatePressed : OEThemeStateDefault;
 
-	[sortindicatorImage drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:!ascending hints:nil];
+    NSImage *image = [[OETheme sharedTheme] imageForKey:@"sort_arrow" forState:state];
+    [image drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:!ascending hints:nil];
 }
 
 @end

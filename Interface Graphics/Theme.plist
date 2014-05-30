@@ -1157,6 +1157,46 @@
 	</dict>
 	<key>Images</key>
 	<dict>
+		<key>sort_arrow</key>
+		<dict>
+			<key>Resource</key>
+			<string>sort_arrow</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0, 0}, {15, 14}}</string>
+				<key>Pressed</key>
+				<string>{{15, 0}, {15, 14}}</string>
+				<key>Roll Over</key>
+				<string>{{30, 0}, {15, 14}}</string>
+			</dict>
+		</dict>
+		<key>table_header_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>table_header</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 0}, {7, 17}}</string>
+						<string>{{7, 0}, {1, 17}}</string>
+						<string>{{8, 0}, {8, 17}}</string>
+					</array>
+				</dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 17}, {7, 17}}</string>
+						<string>{{7, 17}, {1, 17}}</string>
+						<string>{{8, 17}, {8, 17}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
 		<key>sidebar_triangle</key>
 		<dict>
 			<key>Resource</key>
