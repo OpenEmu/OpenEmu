@@ -1157,6 +1157,44 @@
 	</dict>
 	<key>Images</key>
 	<dict>
+		<key>hud_alert_window</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_alert_window</string>
+			<key>States</key>
+			<dict>
+				<key>Window Active</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,0},{14,24}}</string>
+						<string>{{15,0},{1,24}}</string>
+						<string>{{16,0},{14,24}}</string>
+						<string>{{0,24},{14,1}}</string>
+						<string>{{15,24},{1,1}}</string>
+						<string>{{16,24},{14,1}}</string>
+						<string>{{0,25},{14,22}}</string>
+						<string>{{15,25},{1,22}}</string>
+						<string>{{16,25},{14,22}}</string>
+					</array>
+				</dict>
+				<key>Window Inactive</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0,0},{14,24}}</string>
+						<string>{{15,0},{1,24}}</string>
+						<string>{{16,0},{14,24}}</string>
+						<string>{{0,24},{14,1}}</string>
+						<string>{{15,24},{1,1}}</string>
+						<string>{{16,24},{14,1}}</string>
+						<string>{{0,25},{14,22}}</string>
+						<string>{{15,25},{1,22}}</string>
+						<string>{{16,25},{14,22}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
 		<key>grid_slider_large</key>
 		<dict>
 			<key>Resource</key>
