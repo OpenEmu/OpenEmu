@@ -28,16 +28,13 @@
 #import "OESidebarOutlineButtonCell.h"
 #import "OESidebarOutlineView.h"
 #import "NSImage+OEDrawingAdditions.h"
+#import "OETheme.h"
 @implementation OESidebarOutlineButtonCell
 
 + (void)initialize
 {
     if(self != [OESidebarOutlineButtonCell class])
         return;
-    
-    NSImage *image = [NSImage imageNamed:@"sidebar_triangle"];
-    [image setName:@"sidebar_triangle_closed" forSubimageInRect:NSMakeRect(0, 0, 9, 9)];
-    [image setName:@"sidebar_triangle_open" forSubimageInRect:NSMakeRect(9, 0, 9, 9)];
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
@@ -47,12 +44,15 @@
     NSRect triangleRect = (NSRect){{cellFrame.origin.x+round((cellFrame.size.width-9)/2),cellFrame.origin.y+round((cellFrame.size.height-9)/2)},{9,9}};
     
     NSRectFill(triangleRect);
-    NSImage *triangleImage = [self state]==NSOnState?[NSImage imageNamed:@"sidebar_triangle_open"]:[NSImage imageNamed:@"sidebar_triangle_closed"];
-    [triangleImage drawInRect:triangleRect fromRect:NSZeroRect operation:NSCompositeDestinationAtop fraction:1 respectFlipped:YES hints:nil];
+
+
+    OEThemeState state = [self state]==NSOnState ? OEThemeInputStateToggleOn : OEThemeInputStateToggleOff;
+    NSImage  *triangle = [[OETheme sharedTheme] imageForKey:@"sidebar_triangle" forState:state];
+    [triangle drawInRect:triangleRect fromRect:NSZeroRect operation:NSCompositeDestinationAtop fraction:1 respectFlipped:YES hints:nil];
     
     NSRect shadowRect = triangleRect;
     shadowRect.origin.y -= 1;
-    [triangleImage drawInRect:shadowRect fromRect:NSZeroRect operation:NSCompositeDestinationOver fraction:1 respectFlipped:YES hints:nil]; 
+    [triangle drawInRect:shadowRect fromRect:NSZeroRect operation:NSCompositeDestinationOver fraction:1 respectFlipped:YES hints:nil];
     
     if([controlView isKindOfClass:[OESidebarOutlineView class]] && [(OESidebarOutlineView*)controlView isDrawingAboveDropHighlight])
         [[(OESidebarOutlineView*)controlView dropBackgroundColor] setFill];

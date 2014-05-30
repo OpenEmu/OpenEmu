@@ -1157,6 +1157,18 @@
 	</dict>
 	<key>Images</key>
 	<dict>
+		<key>sidebar_triangle</key>
+		<dict>
+			<key>Resource</key>
+			<string>sidebar_triangle</string>
+			<key>States</key>
+			<dict>
+				<key>Toggle Off</key>
+				<string>{{0, 0}, {9, 9}}</string>
+				<key>Toggle On</key>
+				<string>{{9, 0}, {9, 9}}</string>
+			</dict>
+		</dict>
 		<key>hud_alert_window</key>
 		<dict>
 			<key>Resource</key>
