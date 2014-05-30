@@ -160,6 +160,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     for(id validFile in [OECorePlugin requiredFiles])
     {
         NSString *biosSystemFileName = [validFile valueForKey:@"Name"];
+        NSString *biosSystemFileMD5  = [validFile valueForKey:@"MD5"];
         NSString *biosFilename       = [url lastPathComponent];
         NSError  *error              = nil;
 
@@ -171,6 +172,20 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             NSArray       *components  = @[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"BIOS"];
             NSURL         *biosURL     = [NSURL fileURLWithPathComponents:components];
             NSURL         *destination = [NSURL URLWithString:biosFilename relativeToURL:biosURL];
+            NSString      *md5;
+            
+            if(![fileManager hashFileAtURL:url md5:&md5 crc32:nil error:&error])
+            {
+                IMPORTDLog(@"Could not hash bios file at %@", url);
+                IMPORTDLog(@"%@", error);
+            }
+            
+            if(![md5 caseInsensitiveCompare:biosSystemFileMD5] == NSOrderedSame)
+            {
+                IMPORTDLog(@"Could not match hashes of bios file %@ with db %@", md5, biosSystemFileMD5);
+                IMPORTDLog(@"%@", error);
+                return NO;
+            }
 
             if(![fileManager createDirectoryAtURL:biosURL withIntermediateDirectories:YES attributes:nil error:&error])
             {
