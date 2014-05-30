@@ -218,8 +218,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     if(startInFullscreen != [[mainWindowController window] isFullScreen])
         [[mainWindowController window] toggleFullScreen:self];
 
-    [self bind:@"logHIDEvents" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEvents" options:nil];
-    [self bind:@"logKeyboardEvents" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.logsHIDEventsNoKeyboard" options:nil];
+    NSUserDefaultsController *sudc = [NSUserDefaultsController sharedUserDefaultsController];
+    [self bind:@"logHIDEvents" toObject:sudc withKeyPath:@"values.logsHIDEvents" options:nil];
+    [self bind:@"logKeyboardEvents" toObject:sudc withKeyPath:@"values.logsHIDEventsNoKeyboard" options:nil];
 
     _unhandledEventsMonitor =
     [[OEDeviceManager sharedDeviceManager] addUnhandledEventMonitorHandler:
@@ -241,6 +242,57 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     }];
     [self setStartupQueue:nil];
 }
+
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+    if([OEXPCGameCoreManager canUseXPCGameCoreManager])
+        [[OEXPCCAgentConfiguration defaultConfiguration] tearDownAgent];
+}
+
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
+{
+    if(_libraryLoaded)
+        [mainWindowController showWindow:self];
+    else
+        [[self startupQueue] addObject:^{[mainWindowController showWindow:self];}];
+
+    return NO;
+}
+
+- (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
+{
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:OESetupAssistantHasFinishedKey]){
+        [NSApp replyToOpenOrPrint:NSApplicationDelegateReplyCancel];
+        return;
+    }
+
+    void(^block)(void) = ^{
+        DLog();
+        if([filenames count] == 1)
+        {
+            NSURL *url = [NSURL fileURLWithPath:[filenames lastObject]];
+            [self openDocumentWithContentsOfURL:url display:YES completionHandler:
+             ^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
+             {
+                 NSApplicationDelegateReply reply = (document != nil) ? NSApplicationDelegateReplySuccess : NSApplicationDelegateReplyFailure;
+                 [NSApp replyToOpenOrPrint:reply];
+             }];
+        }
+        else
+        {
+            NSApplicationDelegateReply reply = NSApplicationDelegateReplyFailure;
+            OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
+            if([importer importItemsAtPaths:filenames])
+                reply = NSApplicationDelegateReplySuccess;
+            
+            [NSApp replyToOpenOrPrint:reply];
+        }
+    };
+    if(_libraryLoaded) block();
+    else [[self startupQueue] addObject:block];
+}
+
+#pragma mark - NSDocumentController Overrides
 
 - (void)addDocument:(NSDocument *)document
 {
@@ -301,103 +353,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
          }];
     }
 #undef SEND_CALLBACK
-}
-
-- (void)applicationWillTerminate:(NSNotification *)notification
-{
-    if([OEXPCGameCoreManager canUseXPCGameCoreManager])
-        [[OEXPCCAgentConfiguration defaultConfiguration] tearDownAgent];
-}
-
-- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
-{
-    if(_libraryLoaded)
-        [mainWindowController showWindow:self];
-    else
-        [[self startupQueue] addObject:^{[mainWindowController showWindow:self];}];
-
-    return NO;
-}
-
-- (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
-{
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:OESetupAssistantHasFinishedKey]){
-        [NSApp replyToOpenOrPrint:NSApplicationDelegateReplyCancel];
-        return;
-    }
-
-    void(^block)(void) = ^{
-        DLog();
-        if([filenames count] == 1)
-        {
-            NSURL *url = [NSURL fileURLWithPath:[filenames lastObject]];
-            [self openDocumentWithContentsOfURL:url display:YES completionHandler:
-             ^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
-             {
-                 NSApplicationDelegateReply reply = (document != nil) ? NSApplicationDelegateReplySuccess : NSApplicationDelegateReplyFailure;
-                 [NSApp replyToOpenOrPrint:reply];
-             }];
-        }
-        else
-        {
-            NSApplicationDelegateReply reply = NSApplicationDelegateReplyFailure;
-            OEROMImporter *importer = [[OELibraryDatabase defaultDatabase] importer];
-            if([importer importItemsAtPaths:filenames])
-                reply = NSApplicationDelegateReplySuccess;
-            
-            [NSApp replyToOpenOrPrint:reply];
-        }
-    };
-    if(_libraryLoaded) block();
-    else [[self startupQueue] addObject:block];
-}
-
-- (void)setLogHIDEvents:(BOOL)value
-{
-    if(_logHIDEvents == value)
-        return;
-
-    _logHIDEvents = value;
-
-    if(_HIDEventsMonitor != nil)
-    {
-        [[OEDeviceManager sharedDeviceManager] removeMonitor:_HIDEventsMonitor];
-        _HIDEventsMonitor = nil;
-    }
-
-    if(_logHIDEvents)
-    {
-        _HIDEventsMonitor = [[OEDeviceManager sharedDeviceManager] addGlobalEventMonitorHandler:
-         ^ BOOL (OEDeviceHandler *handler, OEHIDEvent *event)
-         {
-             if([event type] != OEHIDEventTypeKeyboard) NSLog(@"%@", event);
-             return YES;
-         }];
-    }
-}
-
-- (void)setLogKeyboardEvents:(BOOL)value
-{
-    if(_logKeyboardEvents == value)
-        return;
-
-    _logKeyboardEvents = value;
-
-    if(_keyboardEventsMonitor != nil)
-    {
-        [[OEDeviceManager sharedDeviceManager] removeMonitor:_keyboardEventsMonitor];
-        _keyboardEventsMonitor = nil;
-    }
-
-    if(_logKeyboardEvents)
-    {
-        _keyboardEventsMonitor = [[OEDeviceManager sharedDeviceManager] addGlobalEventMonitorHandler:
-         ^ BOOL (OEDeviceHandler *handler, OEHIDEvent *event)
-         {
-             if([event type] == OEHIDEventTypeKeyboard) NSLog(@"%@", event);
-             return YES;
-         }];
-    }
 }
 
 - (void)OE_setupGameDocument:(OEGameDocument *)document display:(BOOL)displayDocument fullScreen:(BOOL)fullScreen completionHandler:(void (^)(OEGameDocument *document, NSError *error))completionHandler;
@@ -935,6 +890,54 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 
 #pragma mark - Debug
+- (void)setLogHIDEvents:(BOOL)value
+{
+    if(_logHIDEvents == value)
+        return;
+
+    _logHIDEvents = value;
+
+    if(_HIDEventsMonitor != nil)
+    {
+        [[OEDeviceManager sharedDeviceManager] removeMonitor:_HIDEventsMonitor];
+        _HIDEventsMonitor = nil;
+    }
+
+    if(_logHIDEvents)
+    {
+        _HIDEventsMonitor = [[OEDeviceManager sharedDeviceManager] addGlobalEventMonitorHandler:
+                             ^ BOOL (OEDeviceHandler *handler, OEHIDEvent *event)
+                             {
+                                 if([event type] != OEHIDEventTypeKeyboard) NSLog(@"%@", event);
+                                 return YES;
+                             }];
+    }
+}
+
+- (void)setLogKeyboardEvents:(BOOL)value
+{
+    if(_logKeyboardEvents == value)
+        return;
+
+    _logKeyboardEvents = value;
+
+    if(_keyboardEventsMonitor != nil)
+    {
+        [[OEDeviceManager sharedDeviceManager] removeMonitor:_keyboardEventsMonitor];
+        _keyboardEventsMonitor = nil;
+    }
+
+    if(_logKeyboardEvents)
+    {
+        _keyboardEventsMonitor = [[OEDeviceManager sharedDeviceManager] addGlobalEventMonitorHandler:
+                                  ^ BOOL (OEDeviceHandler *handler, OEHIDEvent *event)
+                                  {
+                                      if([event type] == OEHIDEventTypeKeyboard) NSLog(@"%@", event);
+                                      return YES;
+                                  }];
+    }
+}
+
 - (IBAction)OEDebug_logResponderChain:(id)sender;
 {
     DLog(@"NSApp.KeyWindow: %@", [NSApp keyWindow]);
