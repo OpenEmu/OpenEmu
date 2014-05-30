@@ -39,7 +39,6 @@
 
 - (void)drawInRect:(NSRect)targetRect fromRect:(NSRect)sourceRect operation:(NSCompositingOperation)op fraction:(CGFloat)requestedAlpha respectFlipped:(BOOL)respectContextIsFlipped hints:(NSDictionary *)hints leftBorder:(float)leftBorder rightBorder:(float)rightBorder topBorder:(float)topBorder bottomBorder:(float)bottomBorder;
 - (NSImage *)subImageFromRect:(NSRect)rect;
-- (void)setName:(NSString *)name forSubimageInRect:(NSRect)aRect;
 - (NSImage *)imageFromParts:(NSArray *)parts vertical:(BOOL)vertical;
 - (NSImage *)ninePartImageWithStretchedRect:(NSRect)stretchedRect;
 - (void)OE_setMatchesOnlyOnBestFittingAxis:(BOOL)flag;

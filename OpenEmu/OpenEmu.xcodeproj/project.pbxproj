@@ -181,7 +181,6 @@
 		53439B1B13B92FFA005C0CC8 /* OESidebarOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B1613B92FFA005C0CC8 /* OESidebarOutlineView.m */; };
 		53439B2113B93078005C0CC8 /* OEMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B1E13B93078005C0CC8 /* OEMenu.m */; };
 		53439B2E13B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2513B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m */; };
-		53439B4A13B93138005C0CC8 /* OECoreSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B4313B93138005C0CC8 /* OECoreSliderCell.m */; };
 		53439B5513B9316F005C0CC8 /* OEPreferencesControlsBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5013B9316F005C0CC8 /* OEPreferencesControlsBox.m */; };
 		53439B5A13B93255005C0CC8 /* OEAttributedTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5913B93255005C0CC8 /* OEAttributedTextFieldCell.m */; };
 		53439B5D13B9326D005C0CC8 /* INAppStoreWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5C13B9326D005C0CC8 /* INAppStoreWindow.m */; };
@@ -1678,8 +1677,6 @@
 		53439B1E13B93078005C0CC8 /* OEMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMenu.m; sourceTree = "<group>"; };
 		53439B2413B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefCoreSliderLabelCell.h; sourceTree = "<group>"; };
 		53439B2513B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefCoreSliderLabelCell.m; sourceTree = "<group>"; };
-		53439B4213B93138005C0CC8 /* OECoreSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreSliderCell.h; sourceTree = "<group>"; };
-		53439B4313B93138005C0CC8 /* OECoreSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreSliderCell.m; sourceTree = "<group>"; };
 		53439B4F13B9316F005C0CC8 /* OEPreferencesControlsBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPreferencesControlsBox.h; sourceTree = "<group>"; };
 		53439B5013B9316F005C0CC8 /* OEPreferencesControlsBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPreferencesControlsBox.m; sourceTree = "<group>"; };
 		53439B5813B93255005C0CC8 /* OEAttributedTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAttributedTextFieldCell.h; sourceTree = "<group>"; };
@@ -3834,7 +3831,6 @@
 		53439B3313B930A9005C0CC8 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				53439B3A13B93106005C0CC8 /* Buttons */,
 				53439B4E13B93151005C0CC8 /* Boxes */,
 				53439B5813B93255005C0CC8 /* OEAttributedTextFieldCell.h */,
 				53439B5913B93255005C0CC8 /* OEAttributedTextFieldCell.m */,
@@ -3857,23 +3853,6 @@
 				831E95D714705D8C008487A6 /* OEControlsScrollView.m */,
 			);
 			name = Controls;
-			sourceTree = "<group>";
-		};
-		53439B3A13B93106005C0CC8 /* Buttons */ = {
-			isa = PBXGroup;
-			children = (
-				53439B3B13B9310B005C0CC8 /* Button Cells */,
-			);
-			name = Buttons;
-			sourceTree = "<group>";
-		};
-		53439B3B13B9310B005C0CC8 /* Button Cells */ = {
-			isa = PBXGroup;
-			children = (
-				53439B4213B93138005C0CC8 /* OECoreSliderCell.h */,
-				53439B4313B93138005C0CC8 /* OECoreSliderCell.m */,
-			);
-			name = "Button Cells";
 			sourceTree = "<group>";
 		};
 		53439B4E13B93151005C0CC8 /* Boxes */ = {
@@ -7586,7 +7565,6 @@
 				53439B1B13B92FFA005C0CC8 /* OESidebarOutlineView.m in Sources */,
 				53439B2113B93078005C0CC8 /* OEMenu.m in Sources */,
 				53439B2E13B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m in Sources */,
-				53439B4A13B93138005C0CC8 /* OECoreSliderCell.m in Sources */,
 				830CB918186878D6006EAE5A /* OEArrayController.m in Sources */,
 				53439B5513B9316F005C0CC8 /* OEPreferencesControlsBox.m in Sources */,
 				53439B5A13B93255005C0CC8 /* OEAttributedTextFieldCell.m in Sources */,

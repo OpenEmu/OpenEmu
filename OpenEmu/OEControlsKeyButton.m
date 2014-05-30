@@ -26,6 +26,7 @@
 
 #import "OEControlsKeyButton.h"
 #import "NSImage+OEDrawingAdditions.h"
+#import "OETheme.h"
 
 @interface OEControlsKeyButton ()
 - (void)OE_commonControlsKeyButtonInit;
@@ -41,14 +42,6 @@
 + (void)initialize
 {
     [self exposeBinding:@"title"];
-    
-    // Make sure not to reinitialize for subclassed objects
-    if(self != [OEControlsKeyButton class]) return;
-
-    NSImage *image = [NSImage imageNamed:@"wood_textfield"];
-    
-    [image setName:@"wood_textfield_active" forSubimageInRect:NSMakeRect(0, 0, 5, 24)];
-    [image setName:@"wood_textfield_inactive" forSubimageInRect:NSMakeRect(0, 24, 5, 24)];
 }
 
 - (id)initWithCoder:(NSCoder *)coder 
@@ -96,9 +89,11 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     // Draw Backgrounds
-    NSImage *backgroundImage = self.state==NSOnState? [NSImage imageNamed:@"wood_textfield_active"] : [NSImage imageNamed:@"wood_textfield_inactive"];
-    [backgroundImage drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:2 rightBorder:2 topBorder:5 bottomBorder:5];
-        
+    const NSRect bounds = [self bounds];
+    OEThemeState themeState = self.state==NSOnState ? OEThemeInputStateFocused : OEThemeStateDefault;
+    NSImage *image = [[OETheme sharedTheme] imageForKey:@"wood_textfield" forState:themeState];
+    [image drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     
     NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:15 size:11.0];

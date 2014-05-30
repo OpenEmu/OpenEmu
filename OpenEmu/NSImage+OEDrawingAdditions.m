@@ -278,17 +278,6 @@ TODO("Remove OEDrawingAdditions and replace it with Themed images");
     return resultImage;
 }
 
-- (void)setName:(NSString *)name forSubimageInRect:(NSRect)aRect
-{
-    static NSMutableArray *interfaceImages;
-    if(!interfaceImages) interfaceImages = [[NSMutableArray alloc] init];
-
-    NSImage *resultImage = [self subImageFromRect:aRect];
-    [resultImage setName:name];
-
-    [interfaceImages addObject:resultImage];
-}
-
 - (NSImage *)imageFromParts:(NSArray *)parts vertical:(BOOL)vertical;
 {
     if(parts == nil || [parts count] == 0) return self;

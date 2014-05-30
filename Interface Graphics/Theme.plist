@@ -1157,6 +1157,70 @@
 	</dict>
 	<key>Images</key>
 	<dict>
+		<key>slim_dark_pill_button</key>
+		<dict>
+			<key>Resource</key>
+			<string>slim_dark_pill_button</string>
+			<key>States</key>
+			<dict>
+				<key>Pressed</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 15}, {9, 15}}</string>
+						<string>{{9, 15}, {10, 15}}</string>
+						<string>{{19, 15}, {9, 15}}</string>
+					</array>
+				</dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 0}, {9, 15}}</string>
+						<string>{{9, 0}, {10, 15}}</string>
+						<string>{{19, 0}, {9, 15}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>wood_textfield</key>
+		<dict>
+			<key>Resource</key>
+			<string>wood_textfield</string>
+			<key>States</key>
+			<dict>
+				<key>Focused</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 24}, {2, 5}}</string>
+						<string>{{2, 24}, {1, 5}}</string>
+						<string>{{3, 24}, {2, 5}}</string>
+						<string>{{0, 29}, {2, 14}}</string>
+						<string>{{2, 29}, {1, 14}}</string>
+						<string>{{3, 29}, {2, 14}}</string>
+						<string>{{0, 43}, {2, 5}}</string>
+						<string>{{2, 43}, {1, 5}}</string>
+						<string>{{3, 43}, {2, 5}}</string>
+					</array>
+				</dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 0}, {2, 5}}</string>
+						<string>{{2, 0}, {1, 5}}</string>
+						<string>{{3, 0}, {2, 5}}</string>
+						<string>{{0, 5}, {2, 14}}</string>
+						<string>{{2, 5}, {1, 14}}</string>
+						<string>{{3, 5}, {2, 14}}</string>
+						<string>{{0, 19}, {2, 5}}</string>
+						<string>{{2, 19}, {1, 5}}</string>
+						<string>{{3, 19}, {2, 5}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
 		<key>wood_track_vertical</key>
 		<dict>
 			<key>Resource</key>

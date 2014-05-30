@@ -31,12 +31,6 @@
 #import "OETheme.h"
 @implementation OESidebarOutlineButtonCell
 
-+ (void)initialize
-{
-    if(self != [OESidebarOutlineButtonCell class])
-        return;
-}
-
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
     [([self isHighlighted]?[NSColor colorWithDeviceWhite:0.4 alpha:1.0]:[NSColor colorWithDeviceWhite:0.6 alpha:1.0]) setFill];

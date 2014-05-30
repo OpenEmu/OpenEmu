@@ -35,22 +35,8 @@
     [self setHasHorizontalScroller:NO];
 }
 @end
+
 @implementation OEControlsScroller
-+ (void)initialize
-{
-    // Make sure not to reinitialize for subclassed objects
-    if (self != [OEControlsScroller class])
-        return;
-}
-
-- (id)init
-{
-    self = [super init];
-    if (self) {
-    }
-    return self;
-}
-
 - (NSImage*)OE_trackImage
 {
     return [[OETheme sharedTheme] imageForKey:@"wood_track_vertical" forState:OEThemeStateDefault];
