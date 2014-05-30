@@ -30,7 +30,7 @@
 
 #import "OEButton.h"
 #import "OEButtonCell.h"
-
+#import "OETheme.h"
 #pragma mark - Private variables
 
 static const CGFloat _OEHUDWindowLeftBorder            =  1.0;
@@ -409,9 +409,8 @@ static NSImage *frameImage, *frameImageInactive;
 {
     if(self != [OEHUDWindowThemeView class]) return;
 
-    NSRect centerRect = (NSRect){{14, 26}, {1, 1}};
-    frameImage = [[NSImage imageNamed:@"hud_window_active"] ninePartImageWithStretchedRect:centerRect];
-    frameImageInactive = [[NSImage imageNamed:@"hud_window_inactive"] ninePartImageWithStretchedRect:centerRect];
+    frameImage = [[OETheme sharedTheme] imageForKey:@"hud_window" forState:OEThemeInputStateWindowActive];
+    frameImageInactive = [[OETheme sharedTheme] imageForKey:@"hud_window" forState:OEThemeInputStateWindowInactive];
 }
 
 - (BOOL)isOpaque

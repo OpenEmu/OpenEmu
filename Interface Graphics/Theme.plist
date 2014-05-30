@@ -1347,6 +1347,44 @@
 				</dict>
 			</dict>
 		</dict>
+		<key>hud_window</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_window</string>
+			<key>States</key>
+			<dict>
+				<key>Window Active</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 0}, {14, 26}}</string>
+						<string>{{14, 0}, {1, 26}}</string>
+						<string>{{15, 0}, {14, 26}}</string>
+						<string>{{0, 26}, {14, 1}}</string>
+						<string>{{14, 26}, {1, 1}}</string>
+						<string>{{15, 26}, {14, 1}}</string>
+						<string>{{0, 27}, {14, 20}}</string>
+						<string>{{14, 27}, {1, 20}}</string>
+						<string>{{15, 27}, {14, 20}}</string>
+					</array>
+				</dict>
+				<key>Window Inactive</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{29, 0}, {14, 26}}</string>
+						<string>{{43, 0}, {1, 26}}</string>
+						<string>{{44, 0}, {14, 26}}</string>
+						<string>{{29, 26}, {14, 1}}</string>
+						<string>{{43, 26}, {1, 1}}</string>
+						<string>{{44, 26}, {14, 1}}</string>
+						<string>{{29, 27}, {14, 20}}</string>
+						<string>{{43, 27}, {1, 20}}</string>
+						<string>{{44, 27}, {14, 20}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
 		<key>grid_slider_large</key>
 		<dict>
 			<key>Resource</key>
