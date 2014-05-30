@@ -30,6 +30,7 @@
 #import "OEGameDocument.h"
 #import "OEGameViewController.h"
 #import "NSArray+OEAdditions.h"
+#import "OETheme.h"
 
 static NSDateFormatter *_OEListViewDateFormatter;
 static void OE_initOEListViewDateFormatter(void) __attribute__((constructor));
@@ -358,7 +359,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
 
 - (NSImage *)sidebarIcon
 {
-    return [NSImage imageNamed:@"collections_simple"];
+    return [[OETheme sharedTheme] imageForKey:@"collections_simple" forState:OEThemeStateDefault];
 }
 
 - (NSString *)sidebarName
@@ -398,7 +399,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
 
 - (NSImage *)sidebarIcon
 {
-    return [NSImage imageNamed:@"collections_smart"];
+    return [[OETheme sharedTheme] imageForKey:@"collections_smart" forState:OEThemeStateDefault];
 }
 
 - (BOOL)isEditableInSidebar
@@ -412,7 +413,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
 
 - (NSImage *)sidebarIcon
 {
-    return [NSImage imageNamed:@"collections_folder"];
+    return [[OETheme sharedTheme] imageForKey:@"collections_folder" forState:OEThemeStateDefault];
 }
 
 - (BOOL)hasSubCollections

@@ -25,7 +25,7 @@
  */
 
 #import "OEDBVideoMedia.h"
-
+#import "OETheme.h"
 @implementation OEDBVideoMedia
 
 + (instancetype)sharedDBVideoMedia
@@ -40,7 +40,7 @@
 
 - (NSImage *)sidebarIcon
 {
-    return [NSImage imageNamed:@"media_video"];
+    return [[OETheme sharedTheme] imageForKey:@"media_video" forState:OEThemeStateDefault];
 }
 
 - (NSString *)sidebarName

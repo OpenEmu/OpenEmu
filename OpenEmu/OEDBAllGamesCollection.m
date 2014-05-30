@@ -25,7 +25,7 @@
  */
 
 #import "OEDBAllGamesCollection.h"
-
+#import "OETheme.h"
 @implementation OEDBAllGamesCollection
 
 + (instancetype)sharedDBAllGamesCollection
@@ -40,7 +40,7 @@
 
 - (NSImage *)sidebarIcon
 {
-    return [NSImage imageNamed:@"collections_smart"];
+    return [[OETheme sharedTheme] imageForKey:@"collections_smart" forState:OEThemeStateDefault];
 }
 
 - (NSString *)sidebarName

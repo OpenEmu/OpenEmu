@@ -79,19 +79,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     if (self != [OESidebarController class])
         return;
 
-    // Collection Icons for sidebar
-    NSImage *image = [NSImage imageNamed:@"collections"];
-
-    [image setName:@"collections_simple" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];
-    [image setName:@"collections_smart" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
-    
-    // Media Icons for sidebar
-    NSImage *imageMedia = [NSImage imageNamed:@"media"];
-    
-    [imageMedia setName:@"media_saved_games" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];
-    [imageMedia setName:@"media_screenshots" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
-    [imageMedia setName:@"media_video" forSubimageInRect:NSMakeRect(32, 0, 16, 16)];
-
     [[NSUserDefaults standardUserDefaults] registerDefaults:(@{
                                                              OESidebarGroupConsolesAutosaveName    : @YES,
                                                              OESidebarGroupCollectionsAutosaveName : @YES,
@@ -102,7 +89,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     self.groups = @[
                     [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"CONSOLES", @"") autosaveName:OESidebarGroupConsolesAutosaveName],
-                    
+
 #define DevicesSectionIndex 1 // keep track of devices section index so we can skip it if no devices are connected
                     [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"DEVICES", @"") autosaveName:OESidebarGroupDevicesAutosaveName],
 

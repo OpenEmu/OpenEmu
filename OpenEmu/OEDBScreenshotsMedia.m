@@ -25,7 +25,7 @@
  */
 
 #import "OEDBScreenshotsMedia.h"
-
+#import "OETheme.h"
 @implementation OEDBScreenshotsMedia
 
 + (instancetype)sharedDBScreenshotsMedia
@@ -40,7 +40,7 @@
 
 - (NSImage *)sidebarIcon
 {
-    return [NSImage imageNamed:@"media_screenshots"];
+    return [[OETheme sharedTheme] imageForKey:@"media_screenshots" forState:OEThemeStateDefault];
 }
 
 - (NSString *)sidebarName

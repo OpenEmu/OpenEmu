@@ -2533,6 +2533,56 @@
 				</dict>
 			</dict>
 		</dict>
+		<key>media_saved_games</key>
+		<dict>
+			<key>Resource</key>
+			<string>media</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0,0},{16,16}}</string>
+			</dict>
+		</dict>
+		<key>media_screenshots</key>
+		<dict>
+			<key>Resource</key>
+			<string>media</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{16,0},{16,16}}</string>
+			</dict>
+		</dict>
+		<key>media_video</key>
+		<dict>
+			<key>Resource</key>
+			<string>media</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{32,0},{16,16}}</string>
+			</dict>
+		</dict>
+		<key>collections_smart</key>
+		<dict>
+			<key>Resource</key>
+			<string>collections</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{16,0},{16,16}}</string>
+			</dict>
+		</dict>
+		<key>collections_simple</key>
+		<dict>
+			<key>Resource</key>
+			<string>collections</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0,0},{16,16}}</string>
+			</dict>
+		</dict>
 	</dict>
 	<key>Name</key>
 	<string>Default</string>
