@@ -579,6 +579,11 @@ typedef enum : NSUInteger
         NSInteger slot = [menuItem representedObject] ? [[menuItem representedObject] integerValue] : [menuItem tag];
         return [[self rom] quickSaveStateInSlot:slot]!=nil;
     }
+    else if(action == @selector(quickSave:))
+    {
+        if(![self supportsSaveStates])
+            return NO;
+    }
     else if(action == @selector(toggleEmulationPaused:))
     {
         if(_emulationStatus == OEEmulationStatusPaused)
@@ -1072,6 +1077,9 @@ typedef enum : NSUInteger
 
 - (void)saveState:(id)sender;
 {
+    if(![self supportsSaveStates])
+        return;
+    
     BOOL didPauseEmulation = [self OE_pauseEmulationIfNeeded];
 
     NSInteger   saveGameNo    = [[self rom] saveStateCount] + 1;
