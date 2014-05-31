@@ -50,6 +50,8 @@
 
 #import "OECheats.h"
 
+#import "OETheme.h"
+
 #pragma mark - Public variables
 
 NSString *const OEGameControlsBarCanDeleteSaveStatesKey = @"HUDBarCanDeleteState";
@@ -625,8 +627,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    NSImage *barBackground = [NSImage imageNamed:@"hud_bar"];
-    [barBackground drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:15 rightBorder:15 topBorder:0 bottomBorder:0];
+    NSImage *barBackground = [[OETheme sharedTheme] imageForKey:@"hud_bar" forState:OEThemeStateDefault];
+    [barBackground drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 }
 
 - (void)setupControls

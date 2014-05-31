@@ -26,6 +26,7 @@
 
 #import "OECoreTableProgressCell.h"
 #import "NSImage+OEDrawingAdditions.h"
+#import "OEThemeImage.h"
 @implementation OECoreTableProgressCell
 
 - (id)init 
@@ -78,8 +79,8 @@
     cellFrame = NSInsetRect(cellFrame, [self widthInset], (cellFrame.size.height-15)/2);
     
     NSRect trackRect = cellFrame;
-    NSImage *image = [NSImage imageNamed:@"install_progress_bar_track"];
-    [image drawInRect:trackRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:10 rightBorder:10 topBorder:0 bottomBorder:0];
+    NSImage *image = [[OETheme sharedTheme] imageForKey:@"install_progress_track" forState:OEThemeStateDefault];
+    [image drawInRect:trackRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     
     NSRect progressRect = cellFrame;
     float value = [[self objectValue] floatValue];
@@ -87,8 +88,8 @@
     if(value>=1.0) value = 1.0;
     progressRect.size.width = value*progressRect.size.width;
     progressRect.size.width = progressRect.size.width < 12 ? 12 : roundf(progressRect.size.width);
-    
-    image = [NSImage imageNamed:@"install_progress_bar"];
-    [image drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:6 rightBorder:6 topBorder:0 bottomBorder:0];    
+
+    image = [[OETheme sharedTheme] imageForKey:@"install_progress_bar" forState:OEThemeStateDefault];
+    [image drawInRect:progressRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 }
 @end

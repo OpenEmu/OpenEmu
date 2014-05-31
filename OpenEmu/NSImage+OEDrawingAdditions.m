@@ -26,6 +26,7 @@
 
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEUtilities.h"
+
 @interface OENSThreePartImage : NSImage
 
 - (id)initWithImageParts:(NSArray *)imageParts vertical:(BOOL)vertical;
@@ -44,67 +45,6 @@
 @end
 
 @implementation NSImage (OEDrawingAdditions)
-
-TODO("Remove OEDrawingAdditions and replace it with Themed images");
-- (void)drawInRect:(NSRect)targetRect fromRect:(NSRect)sourceRect operation:(NSCompositingOperation)op fraction:(CGFloat)frac respectFlipped:(BOOL)flipped hints:(NSDictionary *)hints leftBorder:(float)leftBorder rightBorder:(float)rightBorder topBorder:(float)topBorder bottomBorder:(float)bottomBorder
-{
-    /* temporary fix for NSWarnForDrawingImageWithNoCurrentContext. This method should be removed anyway!
-     * http://www.marshut.com/iixzsv/nswarnfordrawingimagewithnocurrentcontext.html
-     */
-    [self setCacheMode:NSImageCacheNever];
-
-    if(NSEqualRects(sourceRect, NSZeroRect)) sourceRect = (NSRect){ .size = [self size] };
-
-    if(topBorder == 0 && bottomBorder == 0)
-    { // Three Part Image
-        NSMutableArray *parts = [NSMutableArray array];
-        NSSize size = sourceRect.size;
-
-        if(!NSEqualSizes(self.size, sourceRect.size))
-        {
-            DLog();
-        }
-
-
-
-        [parts addObject:[NSValue valueWithRect:(NSRect){{NSMinX(sourceRect)+0, 0}, {leftBorder, size.height}}]];
-        [parts addObject:[NSValue valueWithRect:(NSRect){{NSMinX(sourceRect)+leftBorder, 0}, {size.width-leftBorder-rightBorder, size.height}}]];
-        [parts addObject:[NSValue valueWithRect:(NSRect){{NSMinX(sourceRect)+size.width-rightBorder, 0}, {rightBorder, size.height}}]];
-
-        NSImage *image = [self imageFromParts:parts vertical:NO];
-        [image drawInRect:targetRect fromRect:sourceRect operation:op fraction:frac respectFlipped:flipped hints:hints];
-        return;
-    }
-    else if(leftBorder == 0 && rightBorder == 0)
-    { // Three Part Image
-        NSMutableArray *parts = [NSMutableArray array];
-        NSSize size = sourceRect.size;
-
-        if(!NSEqualSizes(self.size, sourceRect.size))
-        {
-            DLog(@"%@ | %@", NSStringFromSize(self.size), NSStringFromSize(sourceRect.size));
-        }
-
-        [parts addObject:[NSValue valueWithRect:(NSRect){{NSMinX(sourceRect), 0}, {size.width, topBorder}}]];
-        [parts addObject:[NSValue valueWithRect:(NSRect){{NSMinX(sourceRect), topBorder}, {size.width, size.height-topBorder-bottomBorder}}]];
-        [parts addObject:[NSValue valueWithRect:(NSRect){{NSMinX(sourceRect), size.height-bottomBorder}, {size.width, bottomBorder}}]];
-
-        [@{@"Parts":parts} writeToFile:@"/Users/chris/Desktop/parts.plist" atomically:YES];
-
-        NSImage *image = [self imageFromParts:parts vertical:YES];
-        [image drawInRect:targetRect fromRect:sourceRect operation:op fraction:frac respectFlipped:flipped hints:hints];
-        return;
-    }
-    else
-    { // Nine Part Image
-        NSSize size = sourceRect.size;
-        NSRect strechedRect = NSMakeRect(leftBorder, topBorder, size.width-leftBorder-rightBorder, size.height-topBorder-bottomBorder);
-        NSImage *image = [self ninePartImageWithStretchedRect:strechedRect];
-        [image drawInRect:targetRect fromRect:sourceRect operation:op fraction:frac respectFlipped:flipped hints:hints];
-        return;
-    }
-}
-
 - (NSImage *)subImageFromRect:(NSRect)rect
 {
     int major, minor;
@@ -197,12 +137,15 @@ TODO("Remove OEDrawingAdditions and replace it with Themed images");
                        [NSValue valueWithRect:NSIntersectionRect(top, right)],
                        ];
 
-    [@{ @"Parts":parts } writeToFile:@"/Users/chris/Desktop/parts.plist" atomically:YES];
+    NSMutableArray *partStrings = [NSMutableArray array];
+    [parts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [partStrings addObject:NSStringFromRect([obj rectValue])];
+    }];
 
     return [self imageFromParts:parts  vertical:NO];
 }
 
-- (void)OE_setMatchesOnlyOnBestFittingAxis:(BOOL)flag
+- (void)setMatchesOnlyOnBestFittingAxisWithoutCrashing:(BOOL)flag
 {
     // According to https://developer.apple.com/library/mac/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/APIs/APIs.html#//apple_ref/doc/uid/TP40012302-CH5-SW20
     // setMatchesOnlyOnBestFittingAxis was introduced in 10.7.4

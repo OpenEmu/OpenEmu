@@ -27,7 +27,7 @@
 #import "OEToolbarView.h"
 #import "NSImage+OEDrawingAdditions.h"
 #import "NSImage+OEHighlight.h"
-
+#import "OETheme.h"
 @interface OEToolbarView ()
 - (void)OE_commonToolbarViewInit;
 @property(strong) NSMutableArray *items;
@@ -143,8 +143,8 @@
         }
         
         if(anItem == selectedItem){
-            NSImage *selectionHighlight = [NSImage imageNamed:@"tab_selector"];
-            [selectionHighlight drawInRect:anItem.itemRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:12 rightBorder:12 topBorder:0 bottomBorder:0];
+            NSImage *selectionHighlight = [[OETheme sharedTheme] imageForKey:@"tab_selector" forState:OEThemeStateDefault];
+            [selectionHighlight drawInRect:anItem.itemRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
         }
         
         NSImage *icon = anItem.icon;

@@ -1176,6 +1176,74 @@
 				</dict>
 			</dict>
 		</dict>
+		<key>install_progress_bar</key>
+		<dict>
+			<key>Resource</key>
+			<string>install_progress_bar</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 0}, {6, 15}}</string>
+						<string>{{6, 0}, {16, 15}}</string>
+						<string>{{22, 0}, 6, 15}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>install_progress_track</key>
+		<dict>
+			<key>Resource</key>
+			<string>install_progress_bar_track</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 0}, {10, 15}}</string>
+						<string>{{10, 0}, {8, 15}}</string>
+						<string>{{18, 0}, 10, 15}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>tab_selector</key>
+		<dict>
+			<key>Resource</key>
+			<string>tab_selector</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 0}, {12, 54}}</string>
+						<string>{{12, 0}, {1, 54}}</string>
+						<string>{{13, 0}, {12, 54}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>hud_bar</key>
+		<dict>
+			<key>Resource</key>
+			<string>hud_bar</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 0}, {15, 45}}</string>
+						<string>{{15, 0}, {1, 45}}</string>
+						<string>{{16, 0}, {15, 45}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
 		<key>scroller_track_horizontal</key>
 		<dict>
 			<key>Resource</key>
@@ -1660,6 +1728,23 @@
 			</array>
 			<key>Resource</key>
 			<string>dark_inset_box</string>
+		</dict>
+		<key>installer_scroll_box</key>
+		<dict>
+			<key>Parts</key>
+			<array>
+				<string>{{0, 0}, {5, 5}}</string>
+				<string>{{5, 0}, {1, 5}}</string>
+				<string>{{6, 0}, {5, 5}}</string>
+				<string>{{0, 5}, {5, 1}}</string>
+				<string>{{5, 5}, {1, 1}}</string>
+				<string>{{6, 5}, {5, 1}}</string>
+				<string>{{0, 6}, {5, 5}}</string>
+				<string>{{5, 6}, {1, 5}}</string>
+				<string>{{6, 6}, {5, 5}}</string>
+			</array>
+			<key>Resource</key>
+			<string>installer_scrollview_box</string>
 		</dict>
 		<key>dark_menu_background</key>
 		<dict>

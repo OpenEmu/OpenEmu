@@ -3771,10 +3771,6 @@
 				53439AED13B92E9A005C0CC8 /* OEMainWindow.m */,
 				53439AF813B92EB3005C0CC8 /* OEImageButton.h */,
 				53439AF913B92EB3005C0CC8 /* OEImageButton.m */,
-				53439AFB13B92EB9005C0CC8 /* OEScroller.h */,
-				53439AFC13B92EB9005C0CC8 /* OEScroller.m */,
-				53439AFE13B92EC1005C0CC8 /* OEScrollView.h */,
-				53439AFF13B92EC1005C0CC8 /* OEScrollView.m */,
 				53439B0113B92ED3005C0CC8 /* OECenteredTextFieldCell.h */,
 				53439B0213B92ED3005C0CC8 /* OECenteredTextFieldCell.m */,
 				8310446F13BE419000B283B0 /* OEHorizontalSplitView.h */,
@@ -4649,6 +4645,10 @@
 				8394074A1778AE3A00669B0B /* Cells */,
 				83DEE4A2162D62E4005D8AD7 /* OEProgressIndicator.h */,
 				83DEE4A3162D62E4005D8AD7 /* OEProgressIndicator.m */,
+				53439AFB13B92EB9005C0CC8 /* OEScroller.h */,
+				53439AFC13B92EB9005C0CC8 /* OEScroller.m */,
+				53439AFE13B92EC1005C0CC8 /* OEScrollView.h */,
+				53439AFF13B92EC1005C0CC8 /* OEScrollView.m */,
 			);
 			name = "Other Controls";
 			sourceTree = "<group>";
