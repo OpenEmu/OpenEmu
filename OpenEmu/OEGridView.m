@@ -84,7 +84,8 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     [self setAllowsReordering:NO];
     [self setAllowsDroppingOnItems:YES];
     [self setAnimates:NO];
-    [self setClipsToBounds:NO];
+
+    [self private_setClipsToBounds:NO];
     [self setCellsStyleMask:IKCellsStyleNone];
 
     IKImageBrowserLayoutManager *layoutManager = [self layoutManager];
@@ -583,4 +584,11 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     [renderer fillRect:NSMakeRect(0, NSMinY(visibleRect)-10, NSWidth(visibleRect), 10)];
 }
 
+
+#pragma mark -
+- (void)private_setClipsToBounds:(BOOL)flag
+{
+    if([self respondsToSelector:@selector(setClipsToBounds:)])
+        [self setClipsToBounds:flag];
+}
 @end
