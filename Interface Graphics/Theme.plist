@@ -1157,6 +1157,118 @@
 	</dict>
 	<key>Images</key>
 	<dict>
+		<key>scroller_track_vertical</key>
+		<dict>
+			<key>Resource</key>
+			<string>track_vertical</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Vertical</key>
+					<true/>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 0}, {15, 9}}</string>
+						<string>{{0, 9}, {15, 1}}</string>
+						<string>{{0, 10}, 15, 9}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>scroller_track_horizontal</key>
+		<dict>
+			<key>Resource</key>
+			<string>track_horizontal</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 0}, {9, 15}}</string>
+						<string>{{9, 0}, {1, 15}}</string>
+						<string>{{10, 0}, {9, 15}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>scroller_knob_vertical</key>
+		<dict>
+			<key>Resource</key>
+			<string>knob_vertical</string>
+			<key>States</key>
+			<dict>
+				<key>Window Inactive</key>
+				<dict>
+					<key>Vertical</key>
+					<true/>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 0}, {13, 7}}</string>
+						<string>{{0, 7}, {13, 1}}</string>
+						<string>{{0, 8}, {13, 7}}</string>
+					</array>
+				</dict>
+				<key>Window Active</key>
+				<dict>
+					<key>Vertical</key>
+					<true/>
+					<key>Parts</key>
+					<array>
+						<string>{{13, 0}, {13, 7}}</string>
+						<string>{{13, 7}, {13, 1}}</string>
+						<string>{{13, 8}, {13, 7}}</string>
+					</array>
+				</dict>
+				<key>Window Active, Pressed</key>
+				<dict>
+					<key>Vertical</key>
+					<true/>
+					<key>Parts</key>
+					<array>
+						<string>{{26, 0}, {13, 7}}</string>
+						<string>{{26, 7}, {13, 1}}</string>
+						<string>{{26, 8}, {13, 7}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<key>scroller_knob_horizontal</key>
+		<dict>
+			<key>Resource</key>
+			<string>knob_horizontal</string>
+			<key>States</key>
+			<dict>
+				<key>Window Inactive</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 0}, {7, 13}}</string>
+						<string>{{7, 0}, {1, 13}}</string>
+						<string>{{8, 0}, {7, 13}}</string>
+					</array>
+				</dict>
+				<key>Window Active</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 13}, {7, 13}}</string>
+						<string>{{7, 13}, {1, 13}}</string>
+						<string>{{8, 13}, {7, 13}}</string>
+					</array>
+				</dict>
+				<key>Window Active, Pressed</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 26}, {7, 13}}</string>
+						<string>{{7, 26}, {1, 13}}</string>
+						<string>{{8, 26}, {7, 13}}</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
 		<key>slim_dark_pill_button</key>
 		<dict>
 			<key>Resource</key>
@@ -1227,10 +1339,47 @@
 			<string>wood_track_vertical</string>
 			<key>States</key>
 			<dict>
+				<key>Window Inactive</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 0}, {15, 10}}</string>
+						<string>{{0, 10}, {15, 1}}</string>
+						<string>{{0, 11}, {15, 10}}</string>
+					</array>
+					<key>Vertical</key>
+					<true/>
+				</dict>
+				<key>Window Active</key>
+				<dict>
+					<key>Parts</key>
+					<array>
+						<string>{{15, 0}, {15, 10}}</string>
+						<string>{{15, 10}, {15, 1}}</string>
+						<string>{{15, 11}, {15, 10}}</string>
+					</array>
+					<key>Vertical</key>
+					<true/>
+				</dict>
+			</dict>
+		</dict>
+		<key>wood_knob_vertical</key>
+		<dict>
+			<key>Resource</key>
+			<string>wood_knob_vertical</string>
+			<key>States</key>
+			<dict>
 				<key>Default</key>
-				<string>{{0, 0}, {15, 21}}</string>
-				<key>Unused</key>
-				<string>{{0, 21}, {15, 21}}</string>
+				<dict>
+					<key>Vertical</key>
+					<true/>
+					<key>Parts</key>
+					<array>
+						<string>{{0, 0}, {13, 17}}</string>
+						<string>{{0, 17}, {13, 1}}</string>
+						<string>{{0, 18}, {13, 17}}</string>
+					</array>
+				</dict>
 			</dict>
 		</dict>
 		<key>wood_arrow_down</key>
@@ -1265,9 +1414,9 @@
 			<dict>
 				<key>Default</key>
 				<string>{{0, 0}, {15, 14}}</string>
-				<key>Pressed</key>
+				<key>Mouse Over, Pressed</key>
 				<string>{{15, 0}, {15, 14}}</string>
-				<key>Roll Over</key>
+				<key>Mouse Over</key>
 				<string>{{30, 0}, {15, 14}}</string>
 			</dict>
 		</dict>
