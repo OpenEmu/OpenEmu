@@ -122,7 +122,7 @@
             [typeHierarchy addObjectsFromArray:superTypeHierarchy];
         }
     } else if ([superTypes isKindOfClass:[NSString class]]) {
-        typeHierarchy = [NSArray arrayWithObject:superTypes];
+        typeHierarchy = [NSMutableArray arrayWithObject:superTypes];
     }
     else {
         typeHierarchy = nil;
