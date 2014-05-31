@@ -25,11 +25,10 @@
  */
 
 #import <Foundation/Foundation.h>
-
+#import "OETheme.h"
 @protocol OEListViewDataSourceItem <NSObject>
 
-- (NSImage *)listViewStatus;
-- (NSImage *)listViewSelectedStatus;
+- (OEThemeImage *)listViewStatus;
 - (NSNumber *)listViewRating;
 - (NSString *)listViewTitle;
 - (NSString *)listViewLastPlayed;

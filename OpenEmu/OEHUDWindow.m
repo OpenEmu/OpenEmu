@@ -30,7 +30,7 @@
 
 #import "OEButton.h"
 #import "OEButtonCell.h"
-
+#import "OETheme.h"
 #pragma mark - Private variables
 
 static const CGFloat _OEHUDWindowLeftBorder            =  1.0;
@@ -94,19 +94,6 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 }
 
 #pragma mark - Lifecycle
-
-+ (void)initialize
-{
-    // Make sure not to reinitialize for subclassed objects
-    if(self != [OEHUDWindow class]) return;
-
-    if([NSImage imageNamed:@"hud_window_active"]) return;
-    NSImage *img = [NSImage imageNamed:@"hud_window"];
-    
-    [img setName:@"hud_window_active"   forSubimageInRect:NSMakeRect(0, 0, img.size.width / 2, img.size.height)];
-    [img setName:@"hud_window_inactive" forSubimageInRect:NSMakeRect(img.size.width / 2, 0, img.size.width / 2, img.size.height)];
-}
-
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)windowStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)deferCreation
 {
     if((self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask | NSResizableWindowMask backing:bufferingType defer:deferCreation]))
@@ -422,9 +409,8 @@ static NSImage *frameImage, *frameImageInactive;
 {
     if(self != [OEHUDWindowThemeView class]) return;
 
-    NSRect centerRect = (NSRect){{14, 26}, {1, 1}};
-    frameImage = [[NSImage imageNamed:@"hud_window_active"] ninePartImageWithStretchedRect:centerRect];
-    frameImageInactive = [[NSImage imageNamed:@"hud_window_inactive"] ninePartImageWithStretchedRect:centerRect];
+    frameImage = [[OETheme sharedTheme] imageForKey:@"hud_window" forState:OEThemeInputStateWindowActive];
+    frameImageInactive = [[OETheme sharedTheme] imageForKey:@"hud_window" forState:OEThemeInputStateWindowInactive];
 }
 
 - (BOOL)isOpaque

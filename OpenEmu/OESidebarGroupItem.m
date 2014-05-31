@@ -34,6 +34,7 @@
     OESidebarGroupItem *newItem = [[self alloc] init];
     newItem.name = name;
     newItem.autosaveName = autosaveName;
+    
     return newItem;
 }
 

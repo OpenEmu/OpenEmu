@@ -25,7 +25,7 @@
  */
 
 #import <AppKit/AppKit.h>
-
+#import "OEProgressIndicator.h"
 @interface OECoreTableProgressCell : NSCell
 @property float widthInset;
 @end

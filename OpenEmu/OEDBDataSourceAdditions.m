@@ -30,6 +30,7 @@
 #import "OEGameDocument.h"
 #import "OEGameViewController.h"
 #import "NSArray+OEAdditions.h"
+#import "OETheme.h"
 
 static NSDateFormatter *_OEListViewDateFormatter;
 static void OE_initOEListViewDateFormatter(void) __attribute__((constructor));
@@ -160,20 +161,13 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
 
 #pragma mark -
 #pragma mark ListView DataSource Item
-
-- (NSImage *)listViewStatus
+- (OEThemeImage *)listViewStatus
 {
-    NSString *imageName = [self OE_listViewStatusImageName];
-    return (imageName ? [NSImage imageNamed:imageName] : nil);
+    NSString *imageKey = [self OE_listViewStatusImageKey];
+    return [[OETheme sharedTheme] themeImageForKey:imageKey];
 }
 
-- (NSImage *)listViewSelectedStatus
-{
-    NSString *imageName = [self OE_listViewStatusImageName];
-    return (imageName ? [NSImage imageNamed:[imageName stringByAppendingString:@"_selected"]] : nil);
-}
-
-- (NSString *)OE_listViewStatusImageName
+- (NSString *)OE_listViewStatusImageKey
 {
     return ([self OE_hasOpenDocument] ? @"list_indicators_playing"  :
             ([[self status] intValue] == OEDBGameStatusAlert) ? @"list_indicators_missing"  :
@@ -358,7 +352,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
 
 - (NSImage *)sidebarIcon
 {
-    return [NSImage imageNamed:@"collections_simple"];
+    return [[OETheme sharedTheme] imageForKey:@"collections_simple" forState:OEThemeStateDefault];
 }
 
 - (NSString *)sidebarName
@@ -398,7 +392,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
 
 - (NSImage *)sidebarIcon
 {
-    return [NSImage imageNamed:@"collections_smart"];
+    return [[OETheme sharedTheme] imageForKey:@"collections_smart" forState:OEThemeStateDefault];
 }
 
 - (BOOL)isEditableInSidebar
@@ -412,7 +406,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
 
 - (NSImage *)sidebarIcon
 {
-    return [NSImage imageNamed:@"collections_folder"];
+    return [[OETheme sharedTheme] imageForKey:@"collections_folder" forState:OEThemeStateDefault];
 }
 
 - (BOOL)hasSubCollections

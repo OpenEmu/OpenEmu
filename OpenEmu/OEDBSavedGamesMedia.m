@@ -25,7 +25,7 @@
  */
 
 #import "OEDBSavedGamesMedia.h"
-
+#import "OETheme.h"
 @implementation OEDBSavedGamesMedia
 
 + (instancetype)sharedDBSavedGamesMedia
@@ -40,7 +40,7 @@
 
 - (NSImage *)sidebarIcon
 {
-    return [NSImage imageNamed:@"media_saved_games"];
+    return [[OETheme sharedTheme] imageForKey:@"media_saved_games" forState:OEThemeStateDefault];
 }
 
 - (NSString *)sidebarName

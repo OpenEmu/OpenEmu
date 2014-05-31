@@ -25,6 +25,15 @@
  */
 
 #import <Foundation/Foundation.h>
-@interface OEScroller : NSScroller
+#import "OETheme.h"
+#import "OEControl.h"
+@interface OEScroller : NSScroller <OEControl>
+- (void)setThemeKey:(NSString *)key;
+- (void)setBackgroundThemeImageKey:(NSString *)key;
+- (void)setThemeImageKey:(NSString *)key;
+- (void)setThemeTextAttributesKey:(NSString *)key;
+
+@property (nonatomic, readonly) OEThemeState stateMask;
+
 @property BOOL isVertical;
 @end

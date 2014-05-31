@@ -27,6 +27,7 @@
 #import "OETableCornerView.h"
 #import	"OEUIDrawingUtils.h"
 #import "NSImage+OEDrawingAdditions.h"
+#import "OETheme.h"
 @implementation OETableCornerView
 
 - (BOOL)isFlipped
@@ -47,8 +48,8 @@
 	cellFrame.size.width -= 1;
 	cellFrame.origin.x += 1;
 	
-	NSImage *backgroundImage = [NSImage imageNamed:@"table_header_background_active"];
-	[backgroundImage drawInRect:cellFrame fromRect:NSMakeRect(0, 0, 15, 17) operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil leftBorder:7 rightBorder:7 topBorder:0 bottomBorder:0];
+    NSImage *image = [[OETheme sharedTheme] imageForKey:@"table_header_background" forState:OEThemeStateDefault];
+	[image drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
 
 	NSRect leftHighlightRect = cellFrame;
 	leftHighlightRect.size.width = 1;

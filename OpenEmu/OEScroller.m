@@ -29,22 +29,27 @@
 #import "OEScroller.h"
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEUIDrawingUtils.h"
+
+#import "OETheme.h"
+
 @interface OEScroller ()
 - (void)OE_detectOrientation;
-
-- (NSImage*)OE_knobImage;
-- (NSImage*)OE_trackImage;
-- (NSRect)OE_knobSubimageRectForState:(OEUIState)state;
-- (NSRect)OE_arrowSubimageRectForState:(OEUIState)state;
+@property (strong) OEThemeImage *trackImage;
+@property (strong) OEThemeImage *knobImage;
 @end
 @implementation OEScroller
+@synthesize backgroundThemeImage, themeImage, themeTextAttributes;
+@synthesize trackWindowActivity, trackMouseActivity, trackModifierActivity, modifierEventMonitor;
+
 @synthesize isVertical;
 
-- (BOOL)autohidesScrollers{
+- (BOOL)autohidesScrollers
+{
     return YES;
 }
 
-- (id)initWithCoder:(NSCoder *)coder {
+- (id)initWithCoder:(NSCoder *)coder
+{
     self = [super initWithCoder:coder];
     if (self) {
         [self OE_detectOrientation];
@@ -56,7 +61,8 @@
     return self;
 }
 
-- (id)init{
+- (id)init
+{
     self = [super init];
     if (self) {
         [self OE_detectOrientation];
@@ -67,13 +73,16 @@
     }
     return self;
 }
-- (void)setFrame:(NSRect)frameRect
+
+- (void)awakeFromNib
 {
-    [super setFrame:frameRect];
-    [self OE_detectOrientation];
+    if([self trackImage] == nil)
+    {
+        [self setThemeKey:@"scroller"];
+    }
 }
-#pragma mark -
-#pragma mark Config
+
+#pragma mark - Config
 + (BOOL)isCompatibleWithOverlayScrollers {
     return YES;
 }
@@ -86,21 +95,52 @@
     return [super scrollerWidthForControlSize:controlSize scrollerStyle:scrollerStyle];
 }
 
-- (NSImage*)OE_knobImage
+#pragma mark - Themeing
+- (void)setThemeKey:(NSString *)key
 {
-    return [self isVertical] ? [NSImage imageNamed:@"knob_vertical"] : [NSImage imageNamed:@"knob_horizontal"];
+    [self OE_detectOrientation];
 
+    NSString *directionSuffix = [self isVertical] ? @"_vertical" : @"_horizontal";
+
+    NSString *trackKey = [key stringByAppendingFormat:@"_track%@", directionSuffix];
+    NSString *knobKey  = [key stringByAppendingFormat:@"_knob%@",  directionSuffix];
+
+    OETheme *theme = [OETheme sharedTheme];
+    [self setTrackImage:[theme themeImageForKey:trackKey]];
+    [self setKnobImage:[theme themeImageForKey:knobKey]];
+
+    _stateMask = [[self trackImage] stateMask] | [[self knobImage] stateMask];
 }
-- (NSImage*)OE_trackImage
+
+- (void)setBackgroundThemeImageKey:(NSString *)key
+{}
+- (void)setThemeImageKey:(NSString *)key
+{}
+- (void)setThemeTextAttributesKey:(NSString *)key
+{}
+
+- (OEThemeState)OE_currentState
 {
-    if([self isVertical])
-        return [NSImage imageNamed:@"track_vertical"];
-    else
-        return [NSImage imageNamed:@"track_horizontal"];
+    // This is a convenience method that retrieves the current state of the scroller
+    BOOL focused      = NO;
+    BOOL windowActive = NO;
+    BOOL highlighted  = NO;
+    BOOL buttonState  = NO;
+    BOOL hovering     = NO;
+
+    if(((_stateMask & OEThemeStateAnyFocus) != 0) || ((_stateMask & OEThemeStateAnyWindowActivity) != 0))
+    {
+        // Set the focused, windowActive, and hover properties only if the state mask is tracking the button's focus, mouse hover, and window activity properties
+        NSWindow *window = [self window];
+
+        focused      = [window firstResponder] == self || ([window firstResponder] && [self respondsToSelector:@selector(currentEditor)] && [window firstResponder]==[self currentEditor]);
+        windowActive = ((_stateMask & OEThemeStateAnyWindowActivity) != 0) && ([window isMainWindow] || ([window parentWindow] && [[window parentWindow] isMainWindow]));
+    }
+
+    return [OEThemeObject themeStateWithWindowActive:windowActive buttonState:buttonState selected:highlighted enabled:[self isEnabled] focused:focused houseHover:hovering modifierMask:[NSEvent modifierFlags]] & _stateMask;
 }
 
-#pragma mark -
-#pragma mark Scroller Drawing
+#pragma mark - Scroller Drawing
 - (void)drawArrow:(NSScrollerArrow)arrow highlight:(BOOL)flag
 {
     return [super drawArrow:arrow highlight:flag];
@@ -111,8 +151,10 @@
     if([self scrollerStyle] == NSScrollerStyleOverlay)
         return [super drawKnobSlotInRect:slotRect highlight:flag];
 
-    NSImage *image = [self OE_trackImage];
-    [image drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:isVertical?0:9 rightBorder:isVertical?0:9 topBorder:!isVertical?0:9 bottomBorder:!isVertical?0:9];
+    NSRect bounds = [self bounds];
+    OEThemeState state = [self OE_currentState];
+    NSImage *image = [[self trackImage] imageForState:state];
+    [image drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 }
 
 - (void)drawKnob
@@ -120,10 +162,12 @@
     if([self scrollerStyle] == NSScrollerStyleOverlay)
         return [super drawKnob];
     
-    NSRect imageRect = [self OE_knobSubimageRectForState:OEUIStateEnabled];
     NSRect targetRect = [self rectForPart:NSScrollerKnob];
-    
-    [[self OE_knobImage] drawInRect:targetRect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:isVertical?0:7 rightBorder:isVertical?0:7 topBorder:!isVertical?0:7 bottomBorder:!isVertical?0:7];
+
+    OEThemeState state = [self OE_currentState];
+    NSImage *knobImage = [[self knobImage] imageForState:state];
+
+    [knobImage drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 }
 
 - (NSRect)rectForPart:(NSScrollerPart)aPart{    
@@ -132,13 +176,14 @@
     
     switch (aPart) {
         case NSScrollerKnob:;
-            
             NSRect knobRect = [self rectForPart:NSScrollerKnobSlot];
             if (isVertical){
                 knobRect = NSInsetRect(knobRect, 0, 1);
-                
+
+                NSImage *knobImage = [[self knobImage] imageForState:OEThemeStateDefault];
+                NSSize size = [knobImage size];
                 float knobHeight = roundf(knobRect.size.height  *[self knobProportion]);
-                knobHeight = knobHeight < minKnobHeight ? minKnobHeight : knobHeight;
+                knobHeight = knobHeight < size.height ? size.height : knobHeight;
                 
                 knobRect.size.width -= 2;
                 
@@ -167,81 +212,6 @@
     }
     
     return [super rectForPart:aPart];
-}
-
-#pragma mark -
-- (NSRect)OE_knobSubimageRectForState:(OEUIState)state{
-    NSRect knobImageRect;
-    
-    if(!isVertical){ 
-        knobImageRect = NSMakeRect(0, 0, 15, 13);
-        switch (state) {
-            case OEUIStateInactive:
-                knobImageRect.origin.y = 26;
-                break;
-            case OEUIStateEnabled:
-            case OEUIStateActive:
-                knobImageRect.origin.y = 13;
-                break;
-            case OEUIStatePressed:
-                knobImageRect.origin.y = 0;
-                break;
-            default:break;
-        }
-    } else {
-        knobImageRect = NSMakeRect(0, 0, 13, 15);
-        switch (state) {
-            case OEUIStateInactive:
-                knobImageRect.origin.x = 0;
-                break;
-            case OEUIStateEnabled:
-            case OEUIStateActive:
-                knobImageRect.origin.x = 13;
-                break;
-            case OEUIStatePressed:
-                knobImageRect.origin.x = 26;
-                break;
-            default:break;
-        }
-    }
-    
-    return knobImageRect;
-}
-
-- (NSRect)OE_arrowSubimageRectForState:(OEUIState)state{
-    NSRect arrowRect = NSMakeRect(0, 0, 15, 15);
-    
-    if(!isVertical){
-        switch (state) {
-            case OEUIStateInactive:
-                arrowRect.origin.y = 30;
-                break;
-            case OEUIStateEnabled:
-            case OEUIStateActive:
-                arrowRect.origin.y = 15;
-                break;
-            case OEUIStatePressed:
-                arrowRect.origin.y = 0;
-                break;
-            default:break;
-        }
-    } else {
-        switch (state) {
-            case OEUIStateInactive:
-                arrowRect.origin.x = 0;
-                break;
-            case OEUIStateEnabled:
-            case OEUIStateActive:
-                arrowRect.origin.x = 15;
-                break;
-            case OEUIStatePressed:
-                arrowRect.origin.x = 30;
-                break;
-            default:break;
-        }
-    }
-    
-    return arrowRect;
 }
 
 - (void)OE_detectOrientation{

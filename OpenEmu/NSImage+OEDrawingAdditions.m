@@ -26,6 +26,7 @@
 
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEUtilities.h"
+
 @interface OENSThreePartImage : NSImage
 
 - (id)initWithImageParts:(NSArray *)imageParts vertical:(BOOL)vertical;
@@ -44,217 +45,6 @@
 @end
 
 @implementation NSImage (OEDrawingAdditions)
-
-TODO("Remove OEDrawingAdditions and replace it with Themed images");
-- (void)drawInRect:(NSRect)targetRect fromRect:(NSRect)sourceRect operation:(NSCompositingOperation)op fraction:(CGFloat)frac respectFlipped:(BOOL)flipped hints:(NSDictionary *)hints leftBorder:(float)leftBorder rightBorder:(float)rightBorder topBorder:(float)topBorder bottomBorder:(float)bottomBorder
-{
-    /* temporary fix for NSWarnForDrawingImageWithNoCurrentContext. This method should be removed anyway!
-     * http://www.marshut.com/iixzsv/nswarnfordrawingimagewithnocurrentcontext.html
-     */
-    [self setCacheMode:NSImageCacheNever];
-
-    if(NSEqualRects(sourceRect, NSZeroRect)) sourceRect = (NSRect){ .size = [self size] };
-
-    NSRect workingSourceRect;
-    NSRect workingTargetRect;
-
-    BOOL sourceFlipped = [self isFlipped];
-    BOOL targetFlipped = [[NSGraphicsContext currentContext] isFlipped];
-
-    NSDictionary *drawingHints = @{NSImageHintInterpolation:@(NSImageInterpolationNone)};
-    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationNone];
-    
-    [self OE_setMatchesOnlyOnBestFittingAxis:YES];
-
-    // Bottom Left
-    if(sourceFlipped)
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x, sourceRect.origin.y+sourceRect.size.height-bottomBorder, leftBorder, bottomBorder);
-    }
-    else
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x, sourceRect.origin.y, leftBorder, bottomBorder);
-    }
-
-    if(targetFlipped)
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x, targetRect.origin.y+targetRect.size.height-bottomBorder, leftBorder, bottomBorder);
-    }
-    else
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x, targetRect.origin.y, leftBorder, bottomBorder);
-    }
-
-    NSGraphicsContext *context = [NSGraphicsContext currentContext];
-    if(context == nil) return;
-    [self drawInRect:workingTargetRect fromRect:workingSourceRect operation:op fraction:frac respectFlipped:flipped hints:drawingHints];
-
-    // Bottom Center
-    if(sourceFlipped)
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x+leftBorder, sourceRect.origin.y+sourceRect.size.height-bottomBorder, sourceRect.size.width-leftBorder-rightBorder, bottomBorder);
-    }
-    else
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x+leftBorder, sourceRect.origin.y, sourceRect.size.width-leftBorder-rightBorder, bottomBorder);
-    }
-
-    if(targetFlipped)
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x+leftBorder, targetRect.origin.y+targetRect.size.height-bottomBorder, targetRect.size.width-leftBorder-rightBorder, bottomBorder);
-    }
-    else
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x+leftBorder, targetRect.origin.y, targetRect.size.width-leftBorder-rightBorder, bottomBorder);
-    }
-
-    [self drawInRect:workingTargetRect fromRect:workingSourceRect operation:op fraction:frac respectFlipped:flipped hints:drawingHints];
-
-    // Bottom Right
-    if(sourceFlipped)
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x+sourceRect.size.width-rightBorder, sourceRect.origin.y+sourceRect.size.height-bottomBorder, rightBorder, bottomBorder);
-    }
-    else
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x+sourceRect.size.width-rightBorder, sourceRect.origin.y, rightBorder, bottomBorder);
-    }
-
-    if(targetFlipped)
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x+targetRect.size.width-rightBorder, targetRect.origin.y+targetRect.size.height-bottomBorder, rightBorder, bottomBorder);
-    }
-    else
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x+targetRect.size.width-rightBorder, targetRect.origin.y, rightBorder, bottomBorder);
-    }
-    [self drawInRect:workingTargetRect fromRect:workingSourceRect operation:op fraction:frac respectFlipped:flipped hints:drawingHints];
-
-
-    // Center Left
-    if(sourceFlipped)
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x, sourceRect.origin.y+topBorder, leftBorder, sourceRect.size.height-topBorder-bottomBorder);
-    }
-    else
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x, sourceRect.origin.y+bottomBorder, leftBorder, sourceRect.size.height-topBorder-bottomBorder);
-    }
-
-    if(targetFlipped)
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x, targetRect.origin.y+topBorder, leftBorder, targetRect.size.height-topBorder-bottomBorder);
-    }
-    else
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x, targetRect.origin.y+bottomBorder, leftBorder, targetRect.size.height-topBorder-bottomBorder);
-    }
-    [self drawInRect:workingTargetRect fromRect:workingSourceRect operation:op fraction:frac respectFlipped:flipped hints:drawingHints];
-
-
-    // Center Center
-    if(sourceFlipped)
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x+leftBorder, sourceRect.origin.y+topBorder, sourceRect.size.width-rightBorder-leftBorder, sourceRect.size.height-topBorder-bottomBorder);
-    }
-    else
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x+leftBorder, sourceRect.origin.y+bottomBorder, sourceRect.size.width-rightBorder-leftBorder, sourceRect.size.height-topBorder-bottomBorder);
-    }
-
-    if(targetFlipped)
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x+leftBorder, targetRect.origin.y+topBorder, targetRect.size.width-leftBorder-rightBorder, targetRect.size.height-topBorder-bottomBorder);
-    }
-    else
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x+leftBorder, targetRect.origin.y+bottomBorder, targetRect.size.width-leftBorder-rightBorder, targetRect.size.height-topBorder-bottomBorder);
-    }
-    [self drawInRect:workingTargetRect fromRect:workingSourceRect operation:op fraction:frac respectFlipped:flipped hints:drawingHints];
-
-
-    // Center Right
-    if(sourceFlipped)
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x+sourceRect.size.width-rightBorder, sourceRect.origin.y+topBorder, rightBorder, sourceRect.size.height-topBorder-bottomBorder);
-    }
-    else
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x+sourceRect.size.width-rightBorder, sourceRect.origin.y+bottomBorder, rightBorder, sourceRect.size.height-topBorder-bottomBorder);
-    }
-
-    if(targetFlipped)
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x+targetRect.size.width-rightBorder, targetRect.origin.y+topBorder, rightBorder, targetRect.size.height-topBorder-bottomBorder);
-    }
-    else
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x+targetRect.size.width-rightBorder, targetRect.origin.y+bottomBorder, rightBorder, targetRect.size.height-topBorder-bottomBorder);
-    }
-    [self drawInRect:workingTargetRect fromRect:workingSourceRect operation:op fraction:frac respectFlipped:flipped hints:drawingHints];
-
-
-    // Top Left
-    if(sourceFlipped)
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x, sourceRect.origin.y, leftBorder, topBorder);
-    }
-    else
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x, sourceRect.origin.y+sourceRect.size.height-topBorder, leftBorder, topBorder);
-    }
-
-    if(targetFlipped)
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x, targetRect.origin.y, leftBorder, topBorder);
-    }
-    else
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x, targetRect.origin.y+targetRect.size.height-topBorder, leftBorder, topBorder);
-    }
-    [self drawInRect:workingTargetRect fromRect:workingSourceRect operation:op fraction:frac respectFlipped:flipped hints:drawingHints];
-
-    // Top Center
-    if(sourceFlipped)
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x+leftBorder, sourceRect.origin.y, sourceRect.size.width-rightBorder-leftBorder, topBorder);
-    }
-    else
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x+leftBorder, sourceRect.origin.y+sourceRect.size.height-topBorder, sourceRect.size.width-rightBorder-leftBorder, topBorder);
-    }
-
-    if(targetFlipped)
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x+leftBorder, targetRect.origin.y, targetRect.size.width-leftBorder-rightBorder, topBorder);
-    }
-    else
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x+leftBorder, targetRect.origin.y+targetRect.size.height-topBorder, targetRect.size.width-leftBorder-rightBorder, topBorder);
-    }
-    [self drawInRect:workingTargetRect fromRect:workingSourceRect operation:op fraction:frac respectFlipped:flipped hints:drawingHints];
-
-    // Top Right
-    if(sourceFlipped)
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x+sourceRect.size.width-rightBorder, sourceRect.origin.y, rightBorder, topBorder);
-    }
-    else
-    {
-        workingSourceRect = NSMakeRect(sourceRect.origin.x+sourceRect.size.width-rightBorder, sourceRect.origin.y+sourceRect.size.height-topBorder, rightBorder, topBorder);
-    }
-
-    if(targetFlipped)
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x+targetRect.size.width-rightBorder, targetRect.origin.y, rightBorder, topBorder);
-    }
-    else
-    {
-        workingTargetRect = NSMakeRect(targetRect.origin.x+targetRect.size.width-rightBorder, targetRect.origin.y+targetRect.size.height-topBorder, rightBorder, topBorder);
-    }
-    [self drawInRect:workingTargetRect fromRect:workingSourceRect operation:op fraction:frac respectFlipped:flipped hints:drawingHints];
-}
-
 - (NSImage *)subImageFromRect:(NSRect)rect
 {
     int major, minor;
@@ -276,17 +66,6 @@ TODO("Remove OEDrawingAdditions and replace it with Themed images");
     }
 
     return resultImage;
-}
-
-- (void)setName:(NSString *)name forSubimageInRect:(NSRect)aRect
-{
-    static NSMutableArray *interfaceImages;
-    if(!interfaceImages) interfaceImages = [[NSMutableArray alloc] init];
-
-    NSImage *resultImage = [self subImageFromRect:aRect];
-    [resultImage setName:name];
-
-    [interfaceImages addObject:resultImage];
 }
 
 - (NSImage *)imageFromParts:(NSArray *)parts vertical:(BOOL)vertical;
@@ -357,17 +136,23 @@ TODO("Remove OEDrawingAdditions and replace it with Themed images");
                        [NSValue valueWithRect:NSIntersectionRect(top, center)],
                        [NSValue valueWithRect:NSIntersectionRect(top, right)],
                        ];
+
+    NSMutableArray *partStrings = [NSMutableArray array];
+    [parts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [partStrings addObject:NSStringFromRect([obj rectValue])];
+    }];
+
     return [self imageFromParts:parts  vertical:NO];
 }
 
-- (void)OE_setMatchesOnlyOnBestFittingAxis:(BOOL)flag
+- (void)setMatchesOnlyOnBestFittingAxisWithoutCrashing:(BOOL)flag
 {
     // According to https://developer.apple.com/library/mac/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/APIs/APIs.html#//apple_ref/doc/uid/TP40012302-CH5-SW20
     // setMatchesOnlyOnBestFittingAxis was introduced in 10.7.4
     int maj, min, bugfix;
     GetSystemVersion(&maj, &min, &bugfix);
     if(maj == 10 && (min > 7 || bugfix >= 4))
-        [self setMatchesOnlyOnBestFittingAxis:YES];
+        [self setMatchesOnlyOnBestFittingAxis:flag];
 }
 @end
 
