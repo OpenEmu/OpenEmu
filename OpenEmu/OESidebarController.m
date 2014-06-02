@@ -35,7 +35,7 @@
 #import "OEDBAllGamesCollection.h"
 #import "OEDBSystem.h"
 #import "OEDBSmartCollection.h"
-#import "OECollectionViewItemProtocol.h"
+#import "OEGameCollectionViewItemProtocol.h"
 
 #import "OEStorageDeviceManager.h"
 

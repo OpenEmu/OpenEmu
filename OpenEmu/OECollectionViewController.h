@@ -35,7 +35,7 @@
 
 #import "OEMainWindowController.h"
 #import "OELibrarySubviewController.h"
-#import "OECollectionViewItemProtocol.h"
+#import "OEGameCollectionViewItemProtocol.h"
 
 @class OELibraryController;
 @class OEHorizontalSplitView;
@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 
 - (void)reloadData;
 - (void)setNeedsReload;
-- (void)setNeedsReloadVisisble;
+- (void)setNeedsReloadVisible;
 - (void)reloadDataIndexes:(NSIndexSet *)indexSet;
 - (void)fetchItems;
 

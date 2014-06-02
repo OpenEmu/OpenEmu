@@ -40,7 +40,7 @@
 #import "OEListViewDataSourceItem.h"
 #import "OEDBAllGamesCollection.h"
 
-#import "OECollectionViewItemProtocol.h"
+#import "OEGameCollectionViewItemProtocol.h"
 
 extern NSString * const OECoverGridViewAutoDownloadEnabledKey;
 @interface OEDBGame (DataSourceAdditions) <OECoverGridDataSourceItem, OECoverFlowDataSourceItem, OEListViewDataSourceItem>

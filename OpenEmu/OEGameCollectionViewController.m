@@ -82,7 +82,6 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         NSLog(@"Error while fetching");
         return;
     }
-
 }
 
 - (void)dealloc

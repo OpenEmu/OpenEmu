@@ -31,7 +31,7 @@
 #import "OECorePlugin.h"
 
 #import "OEBlankSlateForegroundLayer.h"
-#import "OECollectionViewItemProtocol.h"
+#import "OEGameCollectionViewItemProtocol.h"
 
 #import "OEButton.h"
 #import "OEPopUpButtonCell.h"

@@ -1631,7 +1631,7 @@
 		53439AA513B92CC7005C0CC8 /* OELibraryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryController.m; sourceTree = "<group>"; };
 		53439AA813B92CE5005C0CC8 /* OECollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECollectionViewController.h; sourceTree = "<group>"; };
 		53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OECollectionViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		53439AAA13B92CE5005C0CC8 /* OECollectionViewItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OECollectionViewItemProtocol.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		53439AAA13B92CE5005C0CC8 /* OEGameCollectionViewItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OEGameCollectionViewItemProtocol.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		53439AAF13B92D1A005C0CC8 /* OECoverFlowDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoverFlowDataSourceItem.h; sourceTree = "<group>"; };
 		53439AB113B92DA3005C0CC8 /* OECoverGridDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoverGridDataSourceItem.h; sourceTree = "<group>"; };
 		53439AD813B92E59005C0CC8 /* OEListViewDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEListViewDataSourceItem.h; sourceTree = "<group>"; };
@@ -3714,7 +3714,11 @@
 			children = (
 				53439AA813B92CE5005C0CC8 /* OECollectionViewController.h */,
 				53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */,
-				53439AAA13B92CE5005C0CC8 /* OECollectionViewItemProtocol.h */,
+				94A4E994179FAB9E00AD8C7D /* OEMediaViewController.h */,
+				94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */,
+				53439AAA13B92CE5005C0CC8 /* OEGameCollectionViewItemProtocol.h */,
+				8363A42E193C954100F18425 /* OEGameCollectionViewController.h */,
+				8363A42F193C954100F18425 /* OEGameCollectionViewController.m */,
 				53439AAC13B92CF1005C0CC8 /* Cover Flow View */,
 				53439AAE13B92CFE005C0CC8 /* Grid View */,
 				837DF19416D2B0BA00024BE1 /* OECollectionDebugView */,
@@ -3722,8 +3726,6 @@
 				83955CB9165DAE7900572B34 /* Blank Slate View */,
 				830CB916186878D6006EAE5A /* OEArrayController.h */,
 				830CB917186878D6006EAE5A /* OEArrayController.m */,
-				8363A42E193C954100F18425 /* OEGameCollectionViewController.h */,
-				8363A42F193C954100F18425 /* OEGameCollectionViewController.m */,
 			);
 			name = "Collection View";
 			sourceTree = "<group>";
@@ -5339,8 +5341,6 @@
 				94A4E98F179F9D0400AD8C7D /* OEDBScreenshotsMedia.m */,
 				94A4E990179F9D0400AD8C7D /* OEDBVideoMedia.h */,
 				94A4E991179F9D0400AD8C7D /* OEDBVideoMedia.m */,
-				94A4E994179FAB9E00AD8C7D /* OEMediaViewController.h */,
-				94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */,
 			);
 			name = Media;
 			sourceTree = "<group>";
