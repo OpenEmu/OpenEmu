@@ -55,7 +55,7 @@
 
 - (NSString*)viewControllerClassName
 {
-    return @"OECollectionViewController";
+    return @"OEGameCollectionViewController";
 }
 
 - (NSString*)sidebarID

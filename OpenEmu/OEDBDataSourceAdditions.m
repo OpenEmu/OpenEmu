@@ -293,7 +293,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
 
 - (NSString*)viewControllerClassName
 {
-    return @"OECollectionViewController";
+    return @"OEGameCollectionViewController";
 }
 
 - (NSString*)sidebarID
@@ -342,7 +342,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
 @implementation OEDBCollection (DataSourceAdditions)
 - (NSString*)viewControllerClassName
 {
-    return @"OECollectionViewController";
+    return @"OEGameCollectionViewController";
 }
 
 - (NSString*)sidebarID

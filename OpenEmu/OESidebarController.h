@@ -35,7 +35,7 @@ extern NSString *const OESidebarMaxWidth;
 extern NSString *const OEMainViewMinWidth;
 
 @class OELibraryDatabase, OESidebarOutlineView;
-@protocol OECollectionViewItemProtocol;
+@protocol OEGameCollectionViewItemProtocol;
 @protocol OESidebarItem;
 
 @interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource>

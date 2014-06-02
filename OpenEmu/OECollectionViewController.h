@@ -25,14 +25,17 @@
  */
 
 #import <Cocoa/Cocoa.h>
+
+#import "OETableView.h"
 #import "OEGridView.h"
 #import "IKImageFlowView.h"
 #import "OEBlankSlateView.h"
 
 #import "NSViewController+OEAdditions.h"
 
-#import "OECollectionViewItemProtocol.h"
+#import "OEMainWindowController.h"
 #import "OELibrarySubviewController.h"
+#import "OECollectionViewItemProtocol.h"
 
 @class OELibraryController;
 @class OEHorizontalSplitView;
@@ -47,9 +50,17 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 
 @interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController>
 
+- (void)reloadData;
+- (void)setNeedsReload;
+- (void)setNeedsReloadVisisble;
+- (void)reloadDataIndexes:(NSIndexSet *)indexSet;
+- (void)fetchItems;
+
+- (void)updateBlankSlate;
+- (BOOL)shouldShowBlankSlate;
 #pragma mark -
 - (NSArray *)selectedGames;
-- (NSIndexSet *)selectedIndexes;
+@property (nonatomic) NSIndexSet *selectionIndexes;
 
 #pragma mark -
 #pragma mark View Selection
@@ -63,16 +74,18 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 - (IBAction)changeGridSize:(id)sender;
 
 #pragma mark -
-#pragma mark Context Menu Actions
+#pragma mark Context Menu
+- (NSMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes;
 - (IBAction)showSelectedGamesInFinder:(id)sender;
 
 #pragma mark -
-- (id <OECollectionViewItemProtocol>)representedObject;
+- (id <OEGameCollectionViewItemProtocol>)representedObject;
 #pragma mark -
 @property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
-@property(readonly) OEArrayController *gamesController;
 @end
 
 @interface OECollectionViewController ()
-@property (assign) IBOutlet OEGridView *gridView;
+@property (assign) IBOutlet IKImageFlowView *coverFlowView;
+@property (assign) IBOutlet OETableView     *listView;
+@property (assign) IBOutlet OEGridView      *gridView;
 @end

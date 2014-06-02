@@ -443,7 +443,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     }
 
     id<OESidebarItem> selectedItem = [self selectedSidebarItem];
-    if([selectedItem conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
+    if([selectedItem conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)])
         [[NSUserDefaults standardUserDefaults] setValue:[selectedItem sidebarID] forKey:OELastCollectionSelectedKey];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:nil];

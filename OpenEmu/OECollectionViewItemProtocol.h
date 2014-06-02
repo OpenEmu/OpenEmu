@@ -27,7 +27,7 @@
 #import <Foundation/Foundation.h>
 
 
-@protocol OECollectionViewItemProtocol <NSObject>
+@protocol OEGameCollectionViewItemProtocol <NSObject>
 - (NSString *)collectionViewName;
 - (BOOL)isCollectionEditable;
 - (BOOL)shouldShowSystemColumnInListView;

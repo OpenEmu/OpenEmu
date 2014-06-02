@@ -62,17 +62,17 @@ extern NSString * const OECoverGridViewAutoDownloadEnabledKey;
 #pragma mark -
 #pragma mark Implementation of items that can be presented by CollectionView
 
-@interface OEDBSystem (OECollectionViewItemAdditions) <OECollectionViewItemProtocol>
+@interface OEDBSystem (OECollectionViewItemAdditions) <OEGameCollectionViewItemProtocol>
 @end
 
-@interface OEDBCollection (OECollectionViewItemAdditions) <OECollectionViewItemProtocol>
+@interface OEDBCollection (OECollectionViewItemAdditions) <OEGameCollectionViewItemProtocol>
 @end
 
-@interface OEDBCollectionFolder (OECollectionViewItemAdditions) <OECollectionViewItemProtocol>
+@interface OEDBCollectionFolder (OECollectionViewItemAdditions) <OEGameCollectionViewItemProtocol>
 @end
 
-@interface OEDBSmartCollection (OECollectionViewItemAdditions) <OECollectionViewItemProtocol>
+@interface OEDBSmartCollection (OECollectionViewItemAdditions) <OEGameCollectionViewItemProtocol>
 @end
 
-@interface OEDBAllGamesCollection (OECollectionViewItemAdditions) <OECollectionViewItemProtocol>
+@interface OEDBAllGamesCollection (OECollectionViewItemAdditions) <OEGameCollectionViewItemProtocol>
 @end
