@@ -164,9 +164,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(libraryDatabaseDidLoad:) name:OELibraryDidLoadNotificationName object:nil];
 
-    // Preload Open Panel
-    [NSOpenPanel openPanel];
-    
     [[NSDocumentController sharedDocumentController] clearRecentDocuments:nil];
     
     dispatch_async(dispatch_get_main_queue(), ^{
