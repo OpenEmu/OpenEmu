@@ -30,4 +30,16 @@
 
 // -layoutManager is used to customize layout (general margin, alignment of single rows, etc.)
 - (IKImageBrowserLayoutManager*)layoutManager;
+
+// -gridGroupFromDictionary:(id)arg1
+- (id)gridGroupFromDictionary:(id)arg1;
+
+// -drawGroupsBackground
+- (void)drawGroupsBackground;
+
+// Group rects
+- (struct CGRect)rectOfFloatingGroupHeader:(id)arg1;
+- (struct CGRect)_rectOfGroup:(id)arg1;
+- (struct CGRect)_rectOfGroupTail:(id)arg1;
+- (struct CGRect)_rectOfGroupHeader:(id)arg1;
 @end

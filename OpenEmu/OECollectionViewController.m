@@ -56,7 +56,6 @@
 #import "OECenteredTextFieldCell.h"
 #import "OELibraryDatabase.h"
 
-#import "NSViewController+OEAdditions.h"
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
 
@@ -67,31 +66,22 @@
 
 #import "OECollectionDebugWindowController.h"
 #import "OEBackgroundNoisePattern.h"
+
+#import "OEGridGameCell.h"
 #pragma mark - Public variables
 
 NSString * const OELastGridSizeKey       = @"lastGridSize";
 NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 #pragma mark - Private variables
-
-typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
-    OEBlankSlateTag = -1,
-    OEGridViewTag   = 0,
-    OEFlowViewTag   = 1,
-    OEListViewTag   = 2
-};
-
 static const float OE_coverFlowHeightPercentage = 0.75;
 static NSArray *OE_defaultSortDescriptors;
 
-static const CGFloat defaultGridWidth = 143;
-static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 #pragma mark -
 
 @interface OECollectionViewController ()
 {
     IBOutlet NSView *gridViewContainer;// gridview
-    IBOutlet OEGridView *gridView;// scrollview for gridview
 
     IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
     IBOutlet IKImageFlowView *coverFlowView;
@@ -168,10 +158,11 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 
     // Set up GridView
-    [gridView setDelegate:self];
-    [gridView setDataSource:self];
-    [gridView setDraggingDestinationDelegate:self];
-    [gridView setCellSize:defaultGridSize];
+    [_gridView setCellClass:[OEGridGameCell class]];
+    [_gridView setDelegate:self];
+    [_gridView setDataSource:self];
+    [_gridView setDraggingDestinationDelegate:self];
+    [_gridView setCellSize:defaultGridSize];
 
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
@@ -269,7 +260,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [coder encodeObject:[self selectedIndexes] forKey:@"selectionIndexes"];
     if([listView headerState]) [coder encodeObject:[listView headerState] forKey:@"listViewHeaderState"];
     if([listView sortDescriptors]) [coder encodeObject:[listView sortDescriptors] forKey:@"listViewSortDescriptors"];
-    if(_selectedViewTag == OEGridViewTag) [coder encodeRect:[[gridView enclosingScrollView] documentVisibleRect] forKey:@"gridViewVisibleRect"];
+    if(_selectedViewTag == OEGridViewTag) [coder encodeRect:[[_gridView enclosingScrollView] documentVisibleRect] forKey:@"gridViewVisibleRect"];
 
     [coder finishEncoding];
 
@@ -331,12 +322,12 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [searchField setStringValue:@""];
 	[self search:searchField];
 
-    [gridView setSelectionIndexes:selectionIndexes byExtendingSelection:NO];
+    [_gridView setSelectionIndexes:selectionIndexes byExtendingSelection:NO];
     
     if(selectedViewTag == OEGridViewTag)
     {
-        //[gridView setSelectionIndexes:selectionIndexes];
-        [gridView scrollRectToVisible:gridViewVisibleRect];
+        //[_gridView setSelectionIndexes:selectionIndexes];
+        [_gridView scrollRectToVisible:gridViewVisibleRect];
     }
 
     [self OE_updateBlankSlate];
@@ -393,7 +384,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     if(reloadListView)
         [listView reloadData];
     else
-        [gridView reloadData];
+        [_gridView reloadData];
 
     if(_selectedViewTag == tag && tag != OEBlankSlateTag) return;
 
@@ -551,13 +542,14 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 
     [listView reloadData];
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-    [gridView reloadData];
+    [_gridView reloadData];
 }
 
 - (IBAction)changeGridSize:(id)sender
 {
     float zoomValue = [sender floatValue];
-    [gridView setCellSize:NSMakeSize(roundf(26+142*zoomValue), roundf(defaultGridWidth*zoomValue))];
+
+    [_gridView setCellSize:OEScaleSize(defaultGridSize, zoomValue)];
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:zoomValue] forKey:OELastGridSizeKey];
 }
 
@@ -589,12 +581,12 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
 {
     NSPasteboard *draggingPasteboard = [sender draggingPasteboard];
     NSImage      *draggingImage      = [[NSImage alloc] initWithPasteboard:draggingPasteboard];
-    NSInteger     draggingOperation  = [gridView draggingOperation];
+    NSInteger     draggingOperation  = [_gridView draggingOperation];
 
     if (draggingOperation == IKImageBrowserDropOn && draggingImage)
     {
-        NSUInteger droppedIndex = [gridView indexAtLocationOfDroppedItem];
-        OEDBGame  *droppedGame  = [[gridView cellForItemAtIndex:droppedIndex] representedItem];
+        NSUInteger droppedIndex = [_gridView indexAtLocationOfDroppedItem];
+        OEDBGame  *droppedGame  = [[_gridView cellForItemAtIndex:droppedIndex] representedItem];
 
         [droppedGame setBoxImageByImage:draggingImage];
         [[droppedGame managedObjectContext] save:nil];
@@ -612,7 +604,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         [NSApp presentError:[NSError errorWithDomain:@"Error in performing drag operation." code:-1 userInfo:nil]];
     }
 
-    gridView.draggingOperation = IKImageBrowserDropNone;
+    [_gridView setDraggingOperation:IKImageBrowserDropNone];
     return YES;
 }
 
@@ -927,9 +919,9 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
             NSManagedObjectContext *context = [[selectedGames lastObject] managedObjectContext];
             [context save:nil];
 
-            NSRect visibleRect = [gridView visibleRect];
+            NSRect visibleRect = [_gridView visibleRect];
             [self OE_reloadData];
-            [gridView scrollRectToVisible:visibleRect];
+            [_gridView scrollRectToVisible:visibleRect];
         }
     }
     // deletign from normal collections removes games from that collection
@@ -1476,8 +1468,8 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadDataIndexes:) object:nil];
     if(!gamesController) return;
     [gamesController rearrangeObjects];
-    [gridView performSelectorOnMainThread:@selector(reloadData) withObject:Nil waitUntilDone:NO];
-    //[gridView reloadCellsAtIndexes:indexSet];
+    [_gridView performSelectorOnMainThread:@selector(reloadData) withObject:Nil waitUntilDone:NO];
+    //[_gridView reloadCellsAtIndexes:indexSet];
     [listView reloadDataForRowIndexes:indexSet
                         columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
     [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
@@ -1490,8 +1482,8 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadVisibleData) object:nil];
     if(!gamesController) return;
     [gamesController rearrangeObjects];
-    [gridView performSelectorOnMainThread:@selector(reloadData) withObject:Nil waitUntilDone:NO];
-    //[gridView reloadCellsAtIndexes:[gridView indexesForVisibleCells]];
+    [_gridView performSelectorOnMainThread:@selector(reloadData) withObject:Nil waitUntilDone:NO];
+    //[_gridView reloadCellsAtIndexes:[_gridView indexesForVisibleCells]];
     [listView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndexesInRange:[listView rowsInRect:[listView visibleRect]]]
                         columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
@@ -1519,7 +1511,7 @@ static const NSSize defaultGridSize = (NSSize){26+142, defaultGridWidth};
         return;
     }
     
-    [gridView reloadData];
+    [_gridView reloadData];
     [listView reloadData];
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     

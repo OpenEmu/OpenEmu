@@ -26,9 +26,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import "OELibrarySubviewController.h"
-#import "OEBlankSlateView.h"
+#import "OECollectionViewController.h"
 
 #import "OEGridView.h"
-@interface OEMediaViewController : NSViewController <OELibrarySubviewController, OEBlankSlateViewDelegate>
-@property (strong) IBOutlet OEGridView *gridView;
+@interface OEMediaViewController : OECollectionViewController <OELibrarySubviewController, OEBlankSlateViewDelegate>
 @end

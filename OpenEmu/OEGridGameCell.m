@@ -6,7 +6,7 @@
 //
 //
 
-#import "OEGridCell.h"
+#import "OEGridGameCell.h"
 
 #import "OETheme.h"
 #import "NSImage+OEDrawingAdditions.h"
@@ -32,7 +32,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
 - (BOOL)acceptsDrop;
 @end
 
-@interface OEGridCell ()
+@interface OEGridGameCell ()
 @property NSImage *selectorImage;
 @property CALayer *selectionLayer;
 
@@ -50,7 +50,7 @@ __strong static OEThemeImage *selectorRingImage = nil;
 @property NSSize  lastImageSize;
 @end
 
-@implementation OEGridCell
+@implementation OEGridGameCell
 
 static CGColorRef placeHolderStrokeColoRef = NULL;
 static CGColorRef placeHolderFillColoRef   = NULL;
@@ -59,7 +59,7 @@ static NSDictionary *disabledActions = nil;
 
 + (void)initialize
 {
-    if([self class] == [OEGridCell class])
+    if([self class] == [OEGridGameCell class])
     {
 		const CGFloat fillComponents[4]   = {1.0, 1.0, 1.0, 0.08};
 		const CGFloat strokeComponents[4] = {1.0, 1.0, 1.0, 0.1};

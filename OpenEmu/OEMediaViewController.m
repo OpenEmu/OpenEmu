@@ -27,6 +27,10 @@
 #import "OEMediaViewController.h"
 #import "OEBlankSlateView.h"
 
+@interface OECollectionViewController ()
+- (void)OE_showView:(OECollectionViewControllerViewTag)tag;
+@end
+
 @interface OEMediaViewController ()
 {
     IBOutlet OEBlankSlateView *blankSlateView;
@@ -34,32 +38,25 @@
 @end
 
 @implementation OEMediaViewController
-
-- (void)awakeFromNib
-{
-    //[[self gridView] setDataSource:self];
-    //[[self gridView] setDelegate:self];
-}
-
 - (void)loadView
 {
     [super loadView];
-    
+
+    OEGridView *gridView = [self gridView];
+    [gridView setDataSource:self];
+    [gridView setDelegate:self];
+
     // Setup View
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-        
-    // Setup BlankSlate View
-    [blankSlateView setDelegate:self];
-    [blankSlateView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-    [blankSlateView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-    
-    [[self view] addSubview:blankSlateView];
-    [blankSlateView setFrame:[[self view] bounds]];
+
+    [self OE_showView:OEGridViewTag];
+    [gridView reloadData];
 }
 
-- (NSString*)nibName
+- (void)viewDidAppear
 {
-    return @"CollectionView";
+    [super viewDidAppear];
+    [self OE_showView:OEGridViewTag];
 }
 
 - (void)setRepresentedObject:(id)representedObject
@@ -89,21 +86,36 @@
     [[controller toolbarFlowViewButton] setEnabled:FALSE];
     [[controller toolbarListViewButton] setEnabled:FALSE];
     
-    [[controller toolbarSearchField] setEnabled:NO];
-    [[controller toolbarSlider] setEnabled:NO];
+    [[controller toolbarSearchField] setEnabled:YES];
+    [[controller toolbarSlider] setEnabled:YES];
 }
 
 #pragma mark - GridView DataSource -
-/*
-- (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
+- (NSUInteger)numberOfGroupsInImageBrowser:(IKImageBrowserView *)aBrowser
+{
+    return 1;
+}
+
+- (id)imageBrowser:(IKImageBrowserView *)aBrowser itemAtIndex:(NSUInteger)index
 {
     return nil;
 }
 
+- (NSDictionary*)imageBrowser:(IKImageBrowserView *)aBrowser groupAtIndex:(NSUInteger)index
+{
+    return @{
+             IKImageBrowserGroupRangeKey : [NSValue valueWithRange:NSMakeRange(0, 0)],
+             OEImageBrowserGroupSubtitleKey : @"Nintendo (NES)",
+             IKImageBrowserGroupTitleKey : @"Super Mario 64",
+             IKImageBrowserGroupStyleKey : @(IKGroupDisclosureStyle)
+             };
+
+}
+
 - (NSUInteger)numberOfItemsInGridView:(OEGridView *)gridView
 {
+    DLog(@"test");
     //return [[[self representedObject] games] count];
     return 0;
 }
-*/
 @end

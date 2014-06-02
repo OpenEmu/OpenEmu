@@ -10,7 +10,7 @@
 #import "OEGridView.h"
 
 extern NSString *const OECoverGridViewGlossDisabledKey;
-@interface OEGridCell : IKImageBrowserCell
+@interface OEGridGameCell : IKImageBrowserCell
 + (NSImage *)missingArtworkImageWithSize:(NSSize)size;
 - (NSImage *)missingArtworkImageWithSize:(NSSize)size;
 

@@ -305,6 +305,52 @@
 			<key>Weight</key>
 			<integer>3</integer>
 		</dict>
+		<key>grid_group_title</key>
+		<dict>
+			<key>Color</key>
+			<string>white</string>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,1.0)</string>
+				<key>Offset</key>
+				<string>{0,1}</string>
+			</dict>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<integer>3</integer>
+		</dict>
+		<key>grid_group_subtitle</key>
+		<dict>
+			<key>Color</key>
+			<string>white</string>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,1.0)</string>
+				<key>Offset</key>
+				<string>{0,1}</string>
+			</dict>
+			<key>Size</key>
+			<integer>11</integer>
+			<key>Alignment</key>
+			<string>Right</string>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<integer>3</integer>
+		</dict>
 		<key>game_scanner_issues_headline</key>
 		<dict>
 			<key>Color</key>
@@ -1174,6 +1220,16 @@
 						<string>{{0, 10}, 15, 9}}</string>
 					</array>
 				</dict>
+			</dict>
+		</dict>
+		<key>grid_group_background</key>
+		<dict>
+			<key>Resource</key>
+			<string>grid_header</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0,0}, {1, 27}}</string>
 			</dict>
 		</dict>
 		<key>install_progress_bar</key>

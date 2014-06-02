@@ -55,7 +55,7 @@
 #import "OEGameViewController.h"
 #import "OECollectionDebugWindowController.h"
 #import "OERetrodeDeviceManager.h"
-#import "OEGridCell.h"
+#import "OEGridGameCell.h"
 #import "OEGameView.h"
 #import "OEControllerImageView.h"
 #import "OEControlsButtonSetupView.h"

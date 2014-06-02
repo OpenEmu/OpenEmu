@@ -363,6 +363,8 @@
 		8356AEF215DA703100AA6B44 /* OEImportOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8356AEF115DA703100AA6B44 /* OEImportOperation.m */; };
 		835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 835F3F3F1683534700C74B97 /* OEToolTipManager.m */; };
 		836291FE1515F30700192116 /* OEFSWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 836291FD1515F30700192116 /* OEFSWatcher.m */; };
+		8363A3CF193C8B2600F18425 /* grid_header.png in Resources */ = {isa = PBXBuildFile; fileRef = 8363A3CD193C8B2600F18425 /* grid_header.png */; };
+		8363A3D0193C8B2600F18425 /* grid_header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8363A3CE193C8B2600F18425 /* grid_header@2x.png */; };
 		83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */; };
 		836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */; };
 		836BC95A1853817500B6AF26 /* OEGameInfoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9591853817500B6AF26 /* OEGameInfoHelper.m */; };
@@ -509,7 +511,7 @@
 		8C4C808916986697009B8A28 /* OEGLSLShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808816986697009B8A28 /* OEGLSLShader.m */; };
 		8C4C808E16986C87009B8A28 /* OECGShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4C808D16986C87009B8A28 /* OECGShader.m */; };
 		8CAD37CF16A18C3000AE25F5 /* Cg.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCBC0C8169B323100141631 /* Cg.framework */; };
-		8CBD3AA217D23AA80022399B /* OEGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CBD3AA117D23AA80022399B /* OEGridCell.m */; };
+		8CBD3AA217D23AA80022399B /* OEGridGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CBD3AA117D23AA80022399B /* OEGridGameCell.m */; };
 		8CCBC0C9169B323100141631 /* Cg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCBC0C8169B323100141631 /* Cg.framework */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
@@ -1926,6 +1928,9 @@
 		835F3F4116835F1A00C74B97 /* OEToolTip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEToolTip.h; sourceTree = "<group>"; };
 		836291FC1515F30700192116 /* OEFSWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFSWatcher.h; sourceTree = "<group>"; };
 		836291FD1515F30700192116 /* OEFSWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFSWatcher.m; sourceTree = "<group>"; };
+		8363A3CC193C81F800F18425 /* IKImageBrowserGridGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKImageBrowserGridGroup.h; sourceTree = "<group>"; };
+		8363A3CD193C8B2600F18425 /* grid_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid_header.png; sourceTree = "<group>"; };
+		8363A3CE193C8B2600F18425 /* grid_header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grid_header@2x.png"; sourceTree = "<group>"; };
 		83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OECustomWindow.h"; sourceTree = "<group>"; };
 		83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+OECustomWindow.m"; sourceTree = "<group>"; };
 		836BC9551853815A00B6AF26 /* OESQLiteDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESQLiteDatabase.h; sourceTree = "<group>"; };
@@ -2147,8 +2152,8 @@
 		8C8AD73516B5DBE20004D97C /* snes_ntsc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = snes_ntsc.c; sourceTree = "<group>"; };
 		8C8AD73616B5DBE20004D97C /* snes_ntsc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = snes_ntsc.h; sourceTree = "<group>"; };
 		8C8AD73716B5DBE20004D97C /* snes_ntsc.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = snes_ntsc.txt; sourceTree = "<group>"; };
-		8CBD3AA017D23AA80022399B /* OEGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridCell.h; sourceTree = "<group>"; };
-		8CBD3AA117D23AA80022399B /* OEGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridCell.m; sourceTree = "<group>"; };
+		8CBD3AA017D23AA80022399B /* OEGridGameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridGameCell.h; sourceTree = "<group>"; };
+		8CBD3AA117D23AA80022399B /* OEGridGameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridGameCell.m; sourceTree = "<group>"; };
 		8CCBC0C8169B323100141631 /* Cg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Cg.framework; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94052EFC172DC1DD00B90DE6 /* controller_nds_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_nds_mask@2x.png"; sourceTree = "<group>"; };
@@ -3748,8 +3753,8 @@
 			isa = PBXGroup;
 			children = (
 				53439AB113B92DA3005C0CC8 /* OECoverGridDataSourceItem.h */,
-				8CBD3AA017D23AA80022399B /* OEGridCell.h */,
-				8CBD3AA117D23AA80022399B /* OEGridCell.m */,
+				8CBD3AA017D23AA80022399B /* OEGridGameCell.h */,
+				8CBD3AA117D23AA80022399B /* OEGridGameCell.m */,
 				EFBD5D7B14EFE26300FBD1E0 /* OEGridView.h */,
 				EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */,
 				8305A47E18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.h */,
@@ -3867,6 +3872,8 @@
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				8363A3CD193C8B2600F18425 /* grid_header.png */,
+				8363A3CE193C8B2600F18425 /* grid_header@2x.png */,
 				948FCB64182C7A63001B16BE /* about_background.jpg */,
 				11DC4D4018681B04006CE75D /* about_background@2x.jpg */,
 				53439B9E13B93920005C0CC8 /* arrow_down.png */,
@@ -4450,6 +4457,7 @@
 				837820B81907FB2D0043593F /* IKImageWrapper.h */,
 				837820B71907FADB0043593F /* IKRenderer.h */,
 				837820BA1907FB6E0043593F /* IKImageBrowserView.h */,
+				8363A3CC193C81F800F18425 /* IKImageBrowserGridGroup.h */,
 			);
 			name = "Image Kit Headers (Private)";
 			sourceTree = "<group>";
@@ -6765,6 +6773,7 @@
 				836CFD6A14709D3C00397683 /* wood_track_vertical.png in Resources */,
 				83D435F214718891003FE856 /* closed_weblink_arrow.png in Resources */,
 				837777BC147A8F6A0091A896 /* hud_progress_bar_track.png in Resources */,
+				8363A3CF193C8B2600F18425 /* grid_header.png in Resources */,
 				837777BD147A8F6A0091A896 /* hud_progress_bar.png in Resources */,
 				8308F0EE1862FFEC0046BD8A /* OpenEmu.icns in Resources */,
 				83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */,
@@ -6779,6 +6788,7 @@
 				83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */,
 				83B1E1C914FE734E00AA652F /* menu_item_mixed_state.png in Resources */,
 				8375696915125A1F00795226 /* dark_menu_scroll_arrows.png in Resources */,
+				8363A3D0193C8B2600F18425 /* grid_header@2x.png in Resources */,
 				8375696A15125A1F00795226 /* light_menu_scroll_arrows.png in Resources */,
 				838C0BF815BFF2AD00519C08 /* debug_tab_icon.png in Resources */,
 				831C9AE21600989600038D0D /* menu_submenu_arrow.png in Resources */,
@@ -7699,7 +7709,7 @@
 				C69CA5EE17D3BED400178CB7 /* NSDocumentController+OEAdditions.m in Sources */,
 				C67DBF4317DBE859006AF087 /* NSDocument+OEAdditions.m in Sources */,
 				C61DDF1F17E5CA7E0031D50D /* OEXPCInterface.m in Sources */,
-				8CBD3AA217D23AA80022399B /* OEGridCell.m in Sources */,
+				8CBD3AA217D23AA80022399B /* OEGridGameCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

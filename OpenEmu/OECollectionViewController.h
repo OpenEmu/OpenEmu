@@ -29,12 +29,22 @@
 #import "IKImageFlowView.h"
 #import "OEBlankSlateView.h"
 
+#import "NSViewController+OEAdditions.h"
+
 #import "OECollectionViewItemProtocol.h"
 #import "OELibrarySubviewController.h"
 
 @class OELibraryController;
 @class OEHorizontalSplitView;
 @class OEArrayController;
+
+typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
+    OEBlankSlateTag = -1,
+    OEGridViewTag   = 0,
+    OEFlowViewTag   = 1,
+    OEListViewTag   = 2
+};
+
 @interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController>
 
 #pragma mark -
@@ -61,5 +71,8 @@
 #pragma mark -
 @property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
 @property(readonly) OEArrayController *gamesController;
+@end
 
+@interface OECollectionViewController ()
+@property (assign) IBOutlet OEGridView *gridView;
 @end

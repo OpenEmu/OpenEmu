@@ -37,6 +37,7 @@ static NSString * const OEThemeFontFamilyAttributeName          = @"Family";
 static NSString * const OEThemeFontSizeAttributeName            = @"Size";
 static NSString * const OEThemeFontWeightAttributeName          = @"Weight";
 static NSString * const OEThemeFontTraitsAttributeName          = @"Traits";
+static NSString * const OEThemeFontAlignmentAttributeName       = @"Alignment";
 
 #pragma mark -
 #pragma mark Theme font shadow
@@ -138,11 +139,34 @@ id _OEObjectFromDictionary(NSDictionary *dictionary, NSString *attributeName, Cl
 
     NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:familyAttribute traits:mask weight:weight size:size];
 
+    NSMutableParagraphStyle *style = nil;
+    if([definition objectForKey:OEThemeFontAlignmentAttributeName])
+    {
+        if(style == nil) style = [[NSMutableParagraphStyle alloc] init];
+
+        NSString *alignment = [[definition objectForKey:OEThemeFontAlignmentAttributeName] lowercaseString];
+        NSTextAlignment textAlignment = NSNaturalTextAlignment;
+
+        if([alignment isEqualToString:@"left"])
+            textAlignment = NSLeftTextAlignment;
+        else if([alignment isEqualToString:@"center"])
+            textAlignment = NSCenterTextAlignment;
+        else if([alignment isEqualToString:@"right"])
+            textAlignment = NSRightTextAlignment;
+        else if([alignment isEqualToString:@"justify"] || [alignment isEqualToString:@"justified"])
+            textAlignment = NSJustifiedTextAlignment;
+        else if([alignment isEqualToString:@"natural"])
+            textAlignment = NSNaturalTextAlignment;
+
+        [style setAlignment:textAlignment];
+    }
+
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
     if(font)            [attributes setValue:font            forKey:NSFontAttributeName];
     if(shadow)          [attributes setValue:shadow          forKey:NSShadowAttributeName];
     if(foregroundColor) [attributes setValue:foregroundColor forKey:NSForegroundColorAttributeName];
     if(backgroundColor) [attributes setValue:backgroundColor forKey:NSBackgroundColorAttributeName];
+    if(style)           [attributes setValue:style           forKey:NSParagraphStyleAttributeName];
 
     return [attributes copy];
 }

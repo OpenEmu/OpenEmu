@@ -27,6 +27,9 @@
 #import <Cocoa/Cocoa.h>
 #import <ImageKit/ImageKit.h>
 
+extern const NSSize defaultGridSize;
+extern const NSString * const OEImageBrowserGroupSubtitleKey;
+
 typedef enum
 {
     IKImageBrowserDropNone = 2
@@ -35,6 +38,9 @@ typedef enum
 @interface OEGridView : IKImageBrowserView <NSTextFieldDelegate>
 @property NSImage *proposedImage;
 @property (assign) IKImageBrowserDropOperation draggingOperation;
+
+@property Class cellClass;
+@property (nonatomic, strong) NSString *groupThemeKey;
 @end
 
 @protocol OEGridViewMenuSource <NSObject>
