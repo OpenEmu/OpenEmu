@@ -318,19 +318,19 @@
 				<key>Color</key>
 				<string>rgba(0,0,0,1.0)</string>
 				<key>Offset</key>
-				<string>{0,1}</string>
+				<string>{0,-1}</string>
 			</dict>
 			<key>Size</key>
-			<integer>11</integer>
+			<integer>12</integer>
 			<key>Traits</key>
 			<string>Bold</string>
 			<key>Weight</key>
-			<integer>3</integer>
+			<integer>6</integer>
 		</dict>
 		<key>grid_group_subtitle</key>
 		<dict>
 			<key>Color</key>
-			<string>white</string>
+			<string>rgb(184, 184, 184)</string>
 			<key>Family</key>
 			<string>Lucida Grande</string>
 			<key>Shadow</key>
@@ -340,10 +340,10 @@
 				<key>Color</key>
 				<string>rgba(0,0,0,1.0)</string>
 				<key>Offset</key>
-				<string>{0,1}</string>
+				<string>{0,-1}</string>
 			</dict>
 			<key>Size</key>
-			<integer>11</integer>
+			<integer>12</integer>
 			<key>Alignment</key>
 			<string>Right</string>
 			<key>Traits</key>

@@ -668,21 +668,33 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 
     [renderer drawImage:backgroundImage inRect:headerRect fromRect:NSZeroRect alpha:1.0];
 
-    const NSString *title = [group title];
+    NSString *title = [group title];
     if(title != nil)
     {
-        const NSDictionary *titleAttributes = [[self groupTitleAttributes] textAttributesForState:state] ?: @{};
-        const NSRect titleRect = (NSRect){{NSMinX(headerRect)+HeaderLeftBorder, NSMinY(headerRect)},
+        NSDictionary *titleAttributes = [[self groupTitleAttributes] textAttributesForState:state] ?: @{};
+        NSRect titleRect = (NSRect){{NSMinX(headerRect)+HeaderLeftBorder, NSMinY(headerRect)},
             {NSWidth(headerRect)-HeaderLeftBorder, NSHeight(headerRect)}};
+
+        // center text
+        NSAttributedString *string = [[NSAttributedString alloc] initWithString:title attributes:titleAttributes];
+        CGFloat stringHeight = [string size].height;
+        titleRect = NSInsetRect(titleRect, 0, (NSHeight(titleRect)-stringHeight)/4.0);
+
         [renderer drawText:title inRect:titleRect withAttributes:titleAttributes withAlpha:1.0];
     }
 
-    const NSString *subtitle = [group objectForKey:OEImageBrowserGroupSubtitleKey];
+    NSString *subtitle = [group objectForKey:OEImageBrowserGroupSubtitleKey];
     if(subtitle != nil)
     {
         NSDictionary *subtitleAttributes = [[self groupSubtitleAttributes] textAttributesForState:state] ?: @{};
-        const NSRect subtitleRect = (NSRect){{NSMinX(headerRect)+HeaderLeftBorder, NSMinY(headerRect)},
+        NSRect subtitleRect = (NSRect){{NSMinX(headerRect)+HeaderLeftBorder, NSMinY(headerRect)},
             {NSWidth(headerRect)-HeaderLeftBorder-HeaderRightBorder, NSHeight(headerRect)}};
+
+        // center text
+        NSAttributedString *string = [[NSAttributedString alloc] initWithString:subtitle attributes:subtitleAttributes];
+        CGFloat stringHeight = [string size].height;
+        subtitleRect = NSInsetRect(subtitleRect, 0, (NSHeight(subtitleRect)-stringHeight)/4.0);
+
         [renderer drawText:subtitle inRect:subtitleRect withAttributes:subtitleAttributes withAlpha:1.0];
     }
 }
