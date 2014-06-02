@@ -68,10 +68,12 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 {
     OECoreDataMainThreadAssertion();
 
-    NSPredicate *pred = [self representedObject]?[[self representedObject] fetchPredicate]:[NSPredicate predicateWithValue:NO];
+    id <OEGameCollectionViewItemProtocol>representedObject = (id <OEGameCollectionViewItemProtocol>)[self representedObject];
+
+    NSPredicate *pred = representedObject ? [representedObject fetchPredicate]:[NSPredicate predicateWithValue:NO];
     [gamesController setFetchPredicate:pred];
-    [gamesController setLimit:[[self representedObject] fetchLimit]];
-    [gamesController setFetchSortDescriptors:[[self representedObject] fetchSortDescriptors]];
+    [gamesController setLimit:[representedObject fetchLimit]];
+    [gamesController setFetchSortDescriptors:[representedObject fetchSortDescriptors]];
     __block BOOL ok;
 
     DLog(@"%@", [[[gamesController managedObjectContext] userInfo] valueForKey:@"name"]);
@@ -112,6 +114,20 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     [fetchRequest setFetchLimit:1];
     NSUInteger count = [[gamesController managedObjectContext] countForFetchRequest:fetchRequest error:NULL];
     return count == 0;
+}
+
+- (void)setRepresentedObject:(id)representedObject
+{
+    [super setRepresentedObject:representedObject];
+
+    NSAssert([representedObject conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)], @"");
+
+    [[[self listView] tableColumnWithIdentifier:@"listViewConsoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
+    [self reloadData];
+}
+- (id <OEGameCollectionViewItemProtocol>)representedObject
+{
+    return (id <OEGameCollectionViewItemProtocol>) [super representedObject];
 }
 #pragma mark - UI Actions
 - (void)search:(id)sender
@@ -677,9 +693,10 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     }
     else if (draggingOperation == IKImageBrowserDropBefore || draggingOperation == IKImageBrowserDropOn)
     {
+        id <OEGameCollectionViewItemProtocol>representedObject = (id <OEGameCollectionViewItemProtocol>)[self representedObject];
         NSArray *files = [draggingPasteboard propertyListForType:NSFilenamesPboardType];
         OEROMImporter *romImporter = [[[self libraryController] database] importer];
-        OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
+        OEDBCollection *collection = [representedObject isKindOfClass:[OEDBCollection class]] ? (OEDBCollection *)representedObject : nil;
         [romImporter importItemsAtPaths:files intoCollectionWithID:[collection permanentID]];
     }
     else if (draggingOperation == IKImageBrowserDropNone)
@@ -687,7 +704,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         [NSApp presentError:[NSError errorWithDomain:@"Error in performing drag operation." code:-1 userInfo:nil]];
     }
 
-    [[self gridView] setDraggingOperation:IKImageBrowserDropNone];
+    [[self gridView] setDraggingOperation:(IKImageBrowserDropOperation)IKImageBrowserDropNone];
     return YES;
 }
 

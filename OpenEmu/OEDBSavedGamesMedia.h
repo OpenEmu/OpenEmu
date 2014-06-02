@@ -26,7 +26,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OESidebarItem.h"
-
-@interface OEDBSavedGamesMedia : NSObject <OESidebarItem>
+#import "OECollectionViewItemProtocol.h"
+@interface OEDBSavedGamesMedia : NSObject <OESidebarItem, OECollectionViewItemProtocol>
 + (instancetype)sharedDBSavedGamesMedia;
 @end

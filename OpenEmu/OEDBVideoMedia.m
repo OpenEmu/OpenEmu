@@ -38,6 +38,7 @@
     return sharedInstance;
 }
 
+#pragma mark - SidebarItem
 - (NSImage *)sidebarIcon
 {
     return [[OETheme sharedTheme] imageForKey:@"media_video" forState:OEThemeStateDefault];
@@ -82,5 +83,9 @@
 {
     return NO;
 }
-
+#pragma mark - OECollectionViewItemProtocol
+- (BOOL)isCollectionEditable
+{
+    return NO;
+}
 @end

@@ -38,6 +38,7 @@
     return sharedInstance;
 }
 
+#pragma mark - OESidebarItem
 - (NSImage *)sidebarIcon
 {
     return [[OETheme sharedTheme] imageForKey:@"media_saved_games" forState:OEThemeStateDefault];
@@ -82,5 +83,9 @@
 {
     return NO;
 }
-
+#pragma mark - OECollectionViewItemProtocol
+- (BOOL)isCollectionEditable
+{
+    return NO;
+}
 @end

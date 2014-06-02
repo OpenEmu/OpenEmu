@@ -27,8 +27,9 @@
 #import <Cocoa/Cocoa.h>
 #import <ImageKit/ImageKit.h>
 
-extern const NSSize defaultGridSize;
-extern const NSString * const OEImageBrowserGroupSubtitleKey;
+extern NSSize const defaultGridSize;
+extern NSString * const OEImageBrowserGroupSubtitleKey;
+extern NSString *const OECoverGridViewGlossDisabledKey;
 
 typedef enum
 {

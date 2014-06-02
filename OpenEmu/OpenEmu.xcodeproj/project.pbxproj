@@ -366,6 +366,7 @@
 		8363A3CF193C8B2600F18425 /* grid_header.png in Resources */ = {isa = PBXBuildFile; fileRef = 8363A3CD193C8B2600F18425 /* grid_header.png */; };
 		8363A3D0193C8B2600F18425 /* grid_header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8363A3CE193C8B2600F18425 /* grid_header@2x.png */; };
 		8363A430193C954100F18425 /* OEGameCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363A42F193C954100F18425 /* OEGameCollectionViewController.m */; };
+		8363A43A193CBAFA00F18425 /* OEGridMediaItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363A439193CBAFA00F18425 /* OEGridMediaItemCell.m */; };
 		83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */; };
 		836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */; };
 		836BC95A1853817500B6AF26 /* OEGameInfoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9591853817500B6AF26 /* OEGameInfoHelper.m */; };
@@ -1934,6 +1935,10 @@
 		8363A3CE193C8B2600F18425 /* grid_header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grid_header@2x.png"; sourceTree = "<group>"; };
 		8363A42E193C954100F18425 /* OEGameCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCollectionViewController.h; sourceTree = "<group>"; };
 		8363A42F193C954100F18425 /* OEGameCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCollectionViewController.m; sourceTree = "<group>"; };
+		8363A438193CBAFA00F18425 /* OEGridMediaItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridMediaItemCell.h; sourceTree = "<group>"; };
+		8363A439193CBAFA00F18425 /* OEGridMediaItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridMediaItemCell.m; sourceTree = "<group>"; };
+		8363A43B193CBB7700F18425 /* IKImageBrowserCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKImageBrowserCell.h; sourceTree = "<group>"; };
+		8363A43C193CC1BF00F18425 /* OECollectionViewItemProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OECollectionViewItemProtocol.h; sourceTree = "<group>"; };
 		83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OECustomWindow.h"; sourceTree = "<group>"; };
 		83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+OECustomWindow.m"; sourceTree = "<group>"; };
 		836BC9551853815A00B6AF26 /* OESQLiteDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESQLiteDatabase.h; sourceTree = "<group>"; };
@@ -3716,6 +3721,7 @@
 				53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */,
 				94A4E994179FAB9E00AD8C7D /* OEMediaViewController.h */,
 				94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */,
+				8363A43C193CC1BF00F18425 /* OECollectionViewItemProtocol.h */,
 				53439AAA13B92CE5005C0CC8 /* OEGameCollectionViewItemProtocol.h */,
 				8363A42E193C954100F18425 /* OEGameCollectionViewController.h */,
 				8363A42F193C954100F18425 /* OEGameCollectionViewController.m */,
@@ -3770,6 +3776,8 @@
 				53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */,
 				83955CB6165DA9B100572B34 /* OEBackgroundNoisePattern.h */,
 				83955CB7165DA9BC00572B34 /* OEBackgroundNoisePattern.m */,
+				8363A438193CBAFA00F18425 /* OEGridMediaItemCell.h */,
+				8363A439193CBAFA00F18425 /* OEGridMediaItemCell.m */,
 			);
 			name = "Grid View";
 			sourceTree = "<group>";
@@ -4465,6 +4473,7 @@
 				837820B71907FADB0043593F /* IKRenderer.h */,
 				837820BA1907FB6E0043593F /* IKImageBrowserView.h */,
 				8363A3CC193C81F800F18425 /* IKImageBrowserGridGroup.h */,
+				8363A43B193CBB7700F18425 /* IKImageBrowserCell.h */,
 			);
 			name = "Image Kit Headers (Private)";
 			sourceTree = "<group>";
@@ -7642,6 +7651,7 @@
 				8356AEF215DA703100AA6B44 /* OEImportOperation.m in Sources */,
 				83B65F5715F0DEA100C742D2 /* NSArray+OEAdditions.m in Sources */,
 				8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */,
+				8363A43A193CBAFA00F18425 /* OEGridMediaItemCell.m in Sources */,
 				8353EB2315FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m in Sources */,
 				8353EB7D15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel in Sources */,
 				831C9AAD160095BA00038D0D /* OETheme.m in Sources */,

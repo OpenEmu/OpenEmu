@@ -26,7 +26,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OESidebarItem.h"
-
-@interface OEDBVideoMedia : NSObject <OESidebarItem>
+#import "OECollectionViewItemProtocol.h"
+@interface OEDBVideoMedia : NSObject <OESidebarItem, OECollectionViewItemProtocol>
 + (instancetype)sharedDBVideoMedia;
 @end

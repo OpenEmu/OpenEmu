@@ -26,7 +26,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OESidebarItem.h"
-
-@interface OEDBScreenshotsMedia : NSObject <OESidebarItem>
+#import "OECollectionViewItemProtocol.h"
+@interface OEDBScreenshotsMedia : NSObject <OESidebarItem, OECollectionViewItemProtocol>
 + (instancetype)sharedDBScreenshotsMedia;
 @end

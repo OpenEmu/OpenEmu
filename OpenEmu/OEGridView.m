@@ -45,8 +45,9 @@
 #import "IKImageBrowserGridGroup.h"
 
 #pragma mark -
-const NSSize defaultGridSize = (NSSize){26+142, 143};
-const NSString * const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKey";
+NSSize const defaultGridSize = (NSSize){26+142, 143};
+NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKey";
+NSString *const OECoverGridViewGlossDisabledKey = @"OECoverGridViewGlossDisabledKey";
 
 @interface NSView (ApplePrivate)
 - (void)setClipsToBounds:(BOOL)arg1;
@@ -207,28 +208,32 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 
     if(index != NSNotFound)
     {
-        OEGridGameCell *clickedCell = (OEGridGameCell*)[self cellForItemAtIndex:index];
-        const NSRect titleRect  = [clickedCell titleFrame];
-        const NSRect imageRect  = [clickedCell imageFrame];
-        const NSRect ratingRect = NSInsetRect([clickedCell ratingFrame], -5, -1);
+        IKImageBrowserCell *cell = [self cellForItemAtIndex:index];
+        if([cell isKindOfClass:[OEGridGameCell class]])
+        {
+            OEGridGameCell *clickedCell = (OEGridGameCell*)cell;
+            const NSRect titleRect  = [clickedCell titleFrame];
+            const NSRect imageRect  = [clickedCell imageFrame];
+            const NSRect ratingRect = NSInsetRect([clickedCell ratingFrame], -5, -1);
 
-        // see if user double clicked on title layer
-        if([theEvent clickCount] >= 2 && NSPointInRect(mouseLocationInView, titleRect))
-        {
-            [self renameGameAtIndex:index];
-            return;
-        }
-        // Check for dragging
-        else if(NSPointInRect(mouseLocationInView, imageRect))
-        {
-            _draggingIndex = index;
-        }
-        // Check for rating layer interaction
-        else if(NSPointInRect(mouseLocationInView, ratingRect))
-        {
-            _ratingTracking = index;
-            [self OE_updateRatingForItemAtIndex:index withLocation:mouseLocationInView inRect:ratingRect];
-            return;
+            // see if user double clicked on title layer
+            if([theEvent clickCount] >= 2 && NSPointInRect(mouseLocationInView, titleRect))
+            {
+                [self renameGameAtIndex:index];
+                return;
+            }
+            // Check for dragging
+            else if(NSPointInRect(mouseLocationInView, imageRect))
+            {
+                _draggingIndex = index;
+            }
+            // Check for rating layer interaction
+            else if(NSPointInRect(mouseLocationInView, ratingRect))
+            {
+                _ratingTracking = index;
+                [self OE_updateRatingForItemAtIndex:index withLocation:mouseLocationInView inRect:ratingRect];
+                return;
+            }
         }
     }
 

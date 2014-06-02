@@ -191,22 +191,18 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 }
 
 #pragma mark - OELibrarySubviewControllerProtocol Implementation
-- (void)setRepresentedObject:(id<OEGameCollectionViewItemProtocol>)representedObject
+- (void)setRepresentedObject:(id<OECollectionViewItemProtocol>)representedObject
 {
-    NSAssert([representedObject conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)], @"OECollectionViewController accepts OECollectionViewItemProtocol represented objects only");
+    NSAssert([representedObject conformsToProtocol:@protocol(OECollectionViewItemProtocol)], @"OECollectionViewController accepts OEGameCollectionViewItemProtocol represented objects only");
 
     if(representedObject == [self representedObject])
     {
         return;
     }
     [super setRepresentedObject:representedObject];
-
-    [[listView tableColumnWithIdentifier:@"listViewConsoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
-
-    [self reloadData];
 }
 
-- (id <OEGameCollectionViewItemProtocol>)representedObject
+- (id <OECollectionViewItemProtocol>)representedObject
 {
     return [super representedObject];
 }
@@ -279,8 +275,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     if(listViewSortDescriptors == nil)
         ;//        listViewSortDescriptors = OE_defaultSortDescriptors;
 
-    FIXME("restore selection");
-    // [gamesController setSelectionIndexes:selectionIndexes];
+    [self setSelectionIndexes:selectionIndexes];
     [listView setSortDescriptors:listViewSortDescriptors];
     [listView setHeaderState:listViewHeaderState];
     [self OE_switchToView:selectedViewTag];
@@ -485,7 +480,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 - (void)viewDidAppear
 {
     [super viewDidAppear];
-    [self updateBlankSlate];
+    [self reloadData];
 }
 
 #pragma mark -
@@ -551,6 +546,16 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     return 0;
+}
+
+- (NSUInteger)numberOfItemsInImageFlow:(IKImageFlowView *)aBrowser
+{
+    return 0;
+}
+
+- (id)imageFlow:(id)aFlowLayer itemAtIndex:(int)index
+{
+    return nil;
 }
 
 #pragma mark - Delegates

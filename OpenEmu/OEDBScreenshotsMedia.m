@@ -37,7 +37,7 @@
     });
     return sharedInstance;
 }
-
+#pragma mark - OESidebarItem
 - (NSImage *)sidebarIcon
 {
     return [[OETheme sharedTheme] imageForKey:@"media_screenshots" forState:OEThemeStateDefault];
@@ -82,5 +82,9 @@
 {
     return NO;
 }
-
+#pragma mark - OECollectionViewItemProtocol
+- (BOOL)isCollectionEditable
+{
+    return NO;
+}
 @end

@@ -25,16 +25,24 @@
  */
 
 #import "OEMediaViewController.h"
-#import "OEBlankSlateView.h"
 
-@interface OECollectionViewController ()
-- (void)OE_showView:(OECollectionViewControllerViewTag)tag;
+#import "OEDBSavedGamesMedia.h"
+#import "OEGridMediaItemCell.h"
+
+#import "OEDBSaveState.h"
+#import "OEDBGame.h"
+#import "OEDBRom.h"
+#import "OEDBSystem.h"
+
+
+@interface OESavedGamesDataWrapper : NSObject
++ (id)wrapperWithState:(OEDBSaveState*)state;
+@property (strong) OEDBSaveState *state;
 @end
 
 @interface OEMediaViewController ()
-{
-    IBOutlet OEBlankSlateView *blankSlateView;
-}
+@property (strong) NSArray *groupRanges;
+@property (strong) NSArray *items;
 @end
 
 @implementation OEMediaViewController
@@ -42,30 +50,24 @@
 {
     [super loadView];
 
-    OEGridView *gridView = [self gridView];
-    [gridView setDataSource:self];
-    [gridView setDelegate:self];
-
-    // Setup View
-    [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-
+    [[self gridView] setCellClass:[OEGridMediaItemCell class]];
     [self OE_showView:OEGridViewTag];
-    [gridView reloadData];
 }
 
 - (void)viewDidAppear
 {
     [super viewDidAppear];
+
     [self OE_showView:OEGridViewTag];
 }
 
 - (void)setRepresentedObject:(id)representedObject
 {
     //NSAssert([representedObject isKindOfClass:[OEMedia class]], @"Media View Controller can only represent OEMedia objects.");
-    //[super setRepresentedObject:representedObject];
-    //[representedObject setDelegate:self];
+    [super setRepresentedObject:representedObject];
+    [self reloadData];
 }
-#pragma mark - OELibrarySubviewController Implementation -
+#pragma mark - OELibrarySubviewController Implementation
 - (id)encodeCurrentState
 {
     return nil;
@@ -90,32 +92,128 @@
     [[controller toolbarSlider] setEnabled:YES];
 }
 
-#pragma mark - GridView DataSource -
+#pragma mark -
+- (BOOL)shouldShowBlankSlate
+{
+    return [[self groupRanges] count] == 0;
+}
+
+- (void)fetchItems
+{
+#pragma TODO(Improve group detection)
+    if([self representedObject] != [OEDBSavedGamesMedia sharedDBSavedGamesMedia])
+    {
+        _groupRanges = nil;
+        _items = nil;
+        return;
+    }
+
+    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
+
+    NSFetchRequest *req = [[NSFetchRequest alloc] init];
+    [req setEntity:[NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context]];
+    [req setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"rom.game.gameTitle" ascending:YES],
+                              [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]]];
+
+    NSError *error  = nil;
+    NSArray *result = nil;
+    if(!(result=[context executeFetchRequest:req error:&error]))
+    {
+        DLog(@"Error fetching save states");
+        DLog(@"%@", error);
+    }
+
+    NSInteger i;
+    NSMutableArray *ranges = [NSMutableArray array];
+    if([result count] == 0)
+    {
+        return;
+    }
+
+    OEDBGame   *game = [[[result objectAtIndex:0] rom] game];
+    NSUInteger groupStart = 0;
+    for(i=0; i < [result count]; i++)
+    {
+        OEDBSaveState *state = [result objectAtIndex:i];
+        if([[state rom] game] != game)
+        {
+            [ranges addObject:[NSValue valueWithRange:NSMakeRange(groupStart, i-groupStart)]];
+            groupStart = i;
+            game = [[state rom] game];
+        }
+    }
+
+    if(groupStart != i)
+    {
+        [ranges addObject:[NSValue valueWithRange:NSMakeRange(groupStart, i-groupStart)]];
+    }
+
+    _groupRanges = ranges;
+    _items = result;
+}
+
+#pragma mark - GridView DataSource
 - (NSUInteger)numberOfGroupsInImageBrowser:(IKImageBrowserView *)aBrowser
 {
-    return 1;
+    return [_groupRanges count];
 }
 
 - (id)imageBrowser:(IKImageBrowserView *)aBrowser itemAtIndex:(NSUInteger)index
 {
-    return nil;
+    return [OESavedGamesDataWrapper wrapperWithState:[[self items] objectAtIndex:index]];
 }
 
 - (NSDictionary*)imageBrowser:(IKImageBrowserView *)aBrowser groupAtIndex:(NSUInteger)index
 {
+    NSValue  *groupRange = [[self groupRanges] objectAtIndex:index];
+    NSRange range = [groupRange rangeValue];
+    OEDBSaveState *firstState = [[self items] objectAtIndex:range.location];
     return @{
-             IKImageBrowserGroupRangeKey : [NSValue valueWithRange:NSMakeRange(0, 0)],
-             OEImageBrowserGroupSubtitleKey : @"Nintendo (NES)",
-             IKImageBrowserGroupTitleKey : @"Super Mario 64",
-             IKImageBrowserGroupStyleKey : @(IKGroupDisclosureStyle)
+             IKImageBrowserGroupTitleKey : [[[firstState rom] game] gameTitle],
+             IKImageBrowserGroupRangeKey : groupRange,
+             IKImageBrowserGroupStyleKey : @(IKGroupDisclosureStyle),
+             OEImageBrowserGroupSubtitleKey : [[[[firstState rom] game] system] lastLocalizedName]
              };
 
 }
 
-- (NSUInteger)numberOfItemsInGridView:(OEGridView *)gridView
+- (NSUInteger)numberOfItemsInImageBrowser:(IKImageBrowserView *)aBrowser
 {
-    DLog(@"test");
-    //return [[[self representedObject] games] count];
-    return 0;
+    return [[self items] count];
+}
+@end
+
+#pragma mark - OESavedGamesDataWrapper
+@implementation OESavedGamesDataWrapper
++ (id)wrapperWithState:(OEDBSaveState*)state
+{
+    OESavedGamesDataWrapper *obj = [[self alloc] init];
+    [obj setState:state];
+    return obj;
+}
+
+- (NSString *)imageUID
+{
+    return [[self state] location];
+}
+
+- (NSString *)imageRepresentationType
+{
+    return IKImageBrowserNSURLRepresentationType;
+}
+
+- (id)imageRepresentation
+{
+    return [[self state] screenshotURL];
+}
+
+- (NSString *)imageTitle
+{
+    return [[self state] displayName];
+}
+
+- (NSString *)imageSubtitle
+{
+    return [NSString stringWithFormat:@"%@", [[self state] timestamp]];
 }
 @end

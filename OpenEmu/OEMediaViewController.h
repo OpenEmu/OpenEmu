@@ -28,6 +28,5 @@
 #import "OELibrarySubviewController.h"
 #import "OECollectionViewController.h"
 
-#import "OEGridView.h"
 @interface OEMediaViewController : OECollectionViewController <OELibrarySubviewController, OEBlankSlateViewDelegate>
 @end

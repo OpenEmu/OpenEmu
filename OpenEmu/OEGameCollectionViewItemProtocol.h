@@ -25,11 +25,10 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "OECollectionViewItemProtocol.h"
 
-
-@protocol OEGameCollectionViewItemProtocol <NSObject>
+@protocol OEGameCollectionViewItemProtocol <OECollectionViewItemProtocol>
 - (NSString *)collectionViewName;
-- (BOOL)isCollectionEditable;
 - (BOOL)shouldShowSystemColumnInListView;
 
 - (NSPredicate *)fetchPredicate;

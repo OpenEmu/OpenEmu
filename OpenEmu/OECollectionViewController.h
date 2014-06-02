@@ -35,7 +35,7 @@
 
 #import "OEMainWindowController.h"
 #import "OELibrarySubviewController.h"
-#import "OEGameCollectionViewItemProtocol.h"
+#import "OECollectionViewItemProtocol.h"
 
 @class OELibraryController;
 @class OEHorizontalSplitView;
@@ -76,10 +76,9 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 #pragma mark -
 #pragma mark Context Menu
 - (NSMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes;
-- (IBAction)showSelectedGamesInFinder:(id)sender;
 
 #pragma mark -
-- (id <OEGameCollectionViewItemProtocol>)representedObject;
+- (id <OECollectionViewItemProtocol>)representedObject;
 #pragma mark -
 @property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
 @end
@@ -88,4 +87,6 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 @property (assign) IBOutlet IKImageFlowView *coverFlowView;
 @property (assign) IBOutlet OETableView     *listView;
 @property (assign) IBOutlet OEGridView      *gridView;
+
+- (void)OE_showView:(OECollectionViewControllerViewTag)tag;
 @end
