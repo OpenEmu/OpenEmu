@@ -26,10 +26,12 @@
 
 #import "OEBlankSlateView.h"
 
+#import "OEDBSystem.h"
 #import "OESystemPlugin.h"
 #import "OECorePlugin.h"
 
 #import "OEBlankSlateForegroundLayer.h"
+#import "OECollectionViewItemProtocol.h"
 
 #import "OEButton.h"
 #import "OEPopUpButtonCell.h"
@@ -112,6 +114,19 @@
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 #pragma mark -
+- (void)setRepresentedObject:(id)representedObject
+{
+
+    if([representedObject isKindOfClass:[OEDBSystem class]])
+    {
+        [self setRepresentedSystemPlugin:[(OEDBSystem*)representedObject plugin]];
+    }
+    else if([[self representedObject] respondsToSelector:@selector(collectionViewName)])
+        [self setRepresentedCollectionName:[representedObject collectionViewName]];
+    else
+        DLog(@"Unknown represented object: %@ %@", [representedObject className], representedObject);
+}
+
 - (void)setRepresentedCollectionName:(NSString *)representedCollectionName
 {
     if(representedCollectionName == _representedCollectionName) return;
@@ -150,6 +165,7 @@
     
     [view addSubview:textView];
 }
+
 
 - (void)setRepresentedSystemPlugin:(OESystemPlugin *)representedSystemPlugin
 {

@@ -463,11 +463,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         [[[self libraryController] toolbarSearchField] setEnabled:NO];
         [[[self libraryController] toolbarSlider] setEnabled:NO];
 
-#pragma FIXME("just pass represented object to blankSlateView")
-        if([[self representedObject] isKindOfClass:[OEDBSystem class]])
-            [blankSlateView setRepresentedSystemPlugin:[(OEDBSystem*)[self representedObject] plugin]];
-        else if([[self representedObject] respondsToSelector:@selector(collectionViewName)])
-            [blankSlateView setRepresentedCollectionName:[[self representedObject] collectionViewName]];
+        [blankSlateView setRepresentedObject:[self representedObject]];
     }
 }
 

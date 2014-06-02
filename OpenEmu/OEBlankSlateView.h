@@ -38,6 +38,8 @@
 
 @interface OEBlankSlateView : OEBlankSlateBackgroundView
 
+@property (nonatomic) id representedObject;
+
 @property (nonatomic) NSString* representedCollectionName;
 @property (nonatomic) OESystemPlugin* representedSystemPlugin;
 
