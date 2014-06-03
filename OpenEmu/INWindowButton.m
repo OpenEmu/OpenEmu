@@ -48,9 +48,6 @@ NSString *const kINWindowButtonGroupDefault = @"com.indragie.inappstorewindow.de
 	if (group == nil) {
 		group = [[[self class] alloc] initWithIdentifier:identifier];
 		[groups setObject:group forKey:identifier];
-#if !__has_feature(objc_arc)
-        [group release];
-#endif
 	}
 	return group;
 }
@@ -63,14 +60,6 @@ NSString *const kINWindowButtonGroupDefault = @"com.indragie.inappstorewindow.de
 	}
 	return self;
 }
-
-#if !__has_feature(objc_arc)
-- (void)dealloc
-{
-	[_identifier release];
-	[super dealloc];
-}
-#endif
 
 - (void)setNumberOfCaptures:(NSInteger)numberOfCaptures
 {
@@ -107,8 +96,8 @@ NSString *const kINWindowButtonGroupDefault = @"com.indragie.inappstorewindow.de
 
 @interface INWindowButton ()
 @property (nonatomic, copy) NSString *groupIdentifier;
-@property (nonatomic, INAppStoreWindowStrong, readonly) INWindowButtonGroup *group;
-@property (nonatomic, INAppStoreWindowStrong) NSTrackingArea *mouseTrackingArea;
+@property (nonatomic, strong, readonly) INWindowButtonGroup *group;
+@property (nonatomic, strong) NSTrackingArea *mouseTrackingArea;
 
 @end
 
@@ -141,14 +130,6 @@ NSString *const kINWindowButtonGroupDefault = @"com.indragie.inappstorewindow.de
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-#if !__has_feature(objc_arc)
-	[_activeImage release];
-	[_inactiveImage release];
-	[_activeNotKeyWindowImage release];
-	[_rolloverImage release];
-	[_groupIdentifier release];
-	[super dealloc];
-#endif
 }
 
 #pragma mark - Group
@@ -179,9 +160,6 @@ NSString *const kINWindowButtonGroupDefault = @"com.indragie.inappstorewindow.de
 																	userInfo:nil];
 
 	[self addTrackingArea:self.mouseTrackingArea = mouseTrackingArea];
-#if !__has_feature(objc_arc)
-    [mouseTrackingArea release];
-#endif
 }
 
 #pragma mark - Window State Handling

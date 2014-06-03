@@ -9,14 +9,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-#if __has_feature(objc_arc)
-#define INAppStoreWindowStrong strong
-#define INAppStoreWindowBridge __bridge
-#else
-#define INAppStoreWindowStrong retain
-#define INAppStoreWindowBridge
-#endif
-
 /**
  A concrete NSButton subclass that allows to mimic standard window title bar "traffic light" buttons
  and replace their graphics with custom ones.
@@ -31,27 +23,27 @@
 /**
  An image for the normal state.
  */
-@property (nonatomic, INAppStoreWindowStrong) NSImage *activeImage;
+@property (nonatomic, strong) NSImage *activeImage;
 
 /**
  An image for the normal state, but displayed when receiver's window in not a key.
  */
-@property (nonatomic, INAppStoreWindowStrong) NSImage *activeNotKeyWindowImage;
+@property (nonatomic, strong) NSImage *activeNotKeyWindowImage;
 
 /**
  An image used in disabled state.
  */
-@property (nonatomic, INAppStoreWindowStrong) NSImage *inactiveImage;
+@property (nonatomic, strong) NSImage *inactiveImage;
 
 /**
  An image used when user hovers receiver with mouse pointer.
  */
-@property (nonatomic, INAppStoreWindowStrong) NSImage *rolloverImage;
+@property (nonatomic, strong) NSImage *rolloverImage;
 
 /**
  An image for the pressed state.
  */
-@property (nonatomic, INAppStoreWindowStrong) NSImage *pressedImage;
+@property (nonatomic, strong) NSImage *pressedImage;
 
 /**
  @param size Designated size of the button. System size is 14x16 and you are considered to use it.
