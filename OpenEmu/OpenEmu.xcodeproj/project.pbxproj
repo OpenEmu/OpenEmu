@@ -310,6 +310,9 @@
 		8303BC0C14E318C200FCD701 /* light_menu_body.png in Resources */ = {isa = PBXBuildFile; fileRef = 8303BC0414E318C200FCD701 /* light_menu_body.png */; };
 		8303BC0D14E318C200FCD701 /* light_submenu_body.png in Resources */ = {isa = PBXBuildFile; fileRef = 8303BC0514E318C200FCD701 /* light_submenu_body.png */; };
 		8303BC0E14E318C200FCD701 /* menu_item_tick_mark.png in Resources */ = {isa = PBXBuildFile; fileRef = 8303BC0614E318C200FCD701 /* menu_item_tick_mark.png */; };
+		8304D88A193E1EB8001E7357 /* INAppStoreWindowSwizzling.c in Sources */ = {isa = PBXBuildFile; fileRef = 8304D884193E1EB8001E7357 /* INAppStoreWindowSwizzling.c */; };
+		8304D88B193E1EB8001E7357 /* INTitlebarView+CoreUIRendering.m in Sources */ = {isa = PBXBuildFile; fileRef = 8304D887193E1EB8001E7357 /* INTitlebarView+CoreUIRendering.m */; };
+		8304D88C193E1EB8001E7357 /* NSDocument+INAppStoreWindowFixes.m in Sources */ = {isa = PBXBuildFile; fileRef = 8304D889193E1EB8001E7357 /* NSDocument+INAppStoreWindowFixes.m */; };
 		8305267513FBC999006179C6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8305267413FBC999006179C6 /* Security.framework */; };
 		8305A48018FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */; };
 		830639EB16691B51006E4254 /* OEGameScanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 830639EA16691B51006E4254 /* OEGameScanner.xib */; };
@@ -1838,6 +1841,12 @@
 		8303BC0414E318C200FCD701 /* light_menu_body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_menu_body.png; sourceTree = "<group>"; };
 		8303BC0514E318C200FCD701 /* light_submenu_body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_submenu_body.png; sourceTree = "<group>"; };
 		8303BC0614E318C200FCD701 /* menu_item_tick_mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_item_tick_mark.png; sourceTree = "<group>"; };
+		8304D884193E1EB8001E7357 /* INAppStoreWindowSwizzling.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = INAppStoreWindowSwizzling.c; sourceTree = "<group>"; };
+		8304D885193E1EB8001E7357 /* INAppStoreWindowSwizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INAppStoreWindowSwizzling.h; sourceTree = "<group>"; };
+		8304D886193E1EB8001E7357 /* INTitlebarView+CoreUIRendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "INTitlebarView+CoreUIRendering.h"; sourceTree = "<group>"; };
+		8304D887193E1EB8001E7357 /* INTitlebarView+CoreUIRendering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "INTitlebarView+CoreUIRendering.m"; sourceTree = "<group>"; };
+		8304D888193E1EB8001E7357 /* NSDocument+INAppStoreWindowFixes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDocument+INAppStoreWindowFixes.h"; sourceTree = "<group>"; };
+		8304D889193E1EB8001E7357 /* NSDocument+INAppStoreWindowFixes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDocument+INAppStoreWindowFixes.m"; sourceTree = "<group>"; };
 		8305267413FBC999006179C6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8305A47E18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridViewCellIndicationLayer.h; sourceTree = "<group>"; };
 		8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewCellIndicationLayer.m; sourceTree = "<group>"; };
@@ -3854,10 +3863,7 @@
 				53439B4E13B93151005C0CC8 /* Boxes */,
 				53439B5813B93255005C0CC8 /* OEAttributedTextFieldCell.h */,
 				53439B5913B93255005C0CC8 /* OEAttributedTextFieldCell.m */,
-				53439B5B13B9326D005C0CC8 /* INAppStoreWindow.h */,
-				53439B5C13B9326D005C0CC8 /* INAppStoreWindow.m */,
-				A6F3061018AF3BB7007CF986 /* INWindowButton.h */,
-				A6F3061118AF3BB7007CF986 /* INWindowButton.m */,
+				8304D881193E1E5E001E7357 /* INAppStoreWindow & Extensions */,
 				83B72F4F15024B1E0052BCA0 /* OEAppStoreWindow.h */,
 				83B72F5015024B1E0052BCA0 /* OEAppStoreWindow.m */,
 				53439B5E13B93276005C0CC8 /* Toolbar */,
@@ -4244,6 +4250,24 @@
 				831C9AE01600986500038D0D /* Light Style */,
 			);
 			path = Menu;
+			sourceTree = "<group>";
+		};
+		8304D881193E1E5E001E7357 /* INAppStoreWindow & Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8304D884193E1EB8001E7357 /* INAppStoreWindowSwizzling.c */,
+				8304D885193E1EB8001E7357 /* INAppStoreWindowSwizzling.h */,
+				8304D886193E1EB8001E7357 /* INTitlebarView+CoreUIRendering.h */,
+				8304D887193E1EB8001E7357 /* INTitlebarView+CoreUIRendering.m */,
+				8304D888193E1EB8001E7357 /* NSDocument+INAppStoreWindowFixes.h */,
+				8304D889193E1EB8001E7357 /* NSDocument+INAppStoreWindowFixes.m */,
+				53439B5B13B9326D005C0CC8 /* INAppStoreWindow.h */,
+				53439B5C13B9326D005C0CC8 /* INAppStoreWindow.m */,
+				A6F3061018AF3BB7007CF986 /* INWindowButton.h */,
+				A6F3061118AF3BB7007CF986 /* INWindowButton.m */,
+			);
+			name = "INAppStoreWindow & Extensions";
+			path = "INAppstoreWindow & Extensions";
 			sourceTree = "<group>";
 		};
 		831C9AAA1600957100038D0D /* Theme Engine */ = {
@@ -7558,6 +7582,7 @@
 				C6AC9D4D1190C9AE0083DDFD /* OEGameCoreManager.m in Sources */,
 				C6AC9DEF1190E2C90083DDFD /* OpenEmuHelperApp.m in Sources */,
 				1EA4404911973E9C001D71CA /* OEGameQuickLookDocument.m in Sources */,
+				8304D88B193E1EB8001E7357 /* INTitlebarView+CoreUIRendering.m in Sources */,
 				82C5EFAE1237E76C001262F7 /* AsyncUdpSocket.m in Sources */,
 				82C5EFB31237E7E1001262F7 /* OENetServer.m in Sources */,
 				53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */,
@@ -7716,6 +7741,8 @@
 				83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */,
 				83B867B4171D63070038988C /* OERetrode.m in Sources */,
 				837820BD19081A090043593F /* OELibraryMigrator.m in Sources */,
+				8304D88A193E1EB8001E7357 /* INAppStoreWindowSwizzling.c in Sources */,
+				8304D88C193E1EB8001E7357 /* NSDocument+INAppStoreWindowFixes.m in Sources */,
 				83B867B5171D63070038988C /* OERetrodeDeviceManager.m in Sources */,
 				83B867B6171D63070038988C /* OERetrodeViewController.m in Sources */,
 				83B867BC171D63940038988C /* NSString+OERangeAdditions.m in Sources */,
