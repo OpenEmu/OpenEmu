@@ -26,7 +26,7 @@
 
 #import "OERetrodeViewController.h"
 #import "OERetrode.h"
-@interface OERetrodeViewController ()
+@interface OERetrodeViewController () <NSFileManagerDelegate>
 @end
 
 @implementation OERetrodeViewController

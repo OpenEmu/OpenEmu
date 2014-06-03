@@ -101,7 +101,7 @@
         return result;
     }
 
-    NSData *data = [imageRep representationUsingType:type properties:properties];
+    NSData *data = [imageRep representationUsingType:(NSBitmapImageFileType)type properties:properties];
 
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
     NSURL *coverFolderURL = [database coverFolderURL];
@@ -195,7 +195,7 @@
         return nil;
     }
 
-    NSData *data = [imageRep representationUsingType:type properties:properties];
+    NSData *data = [imageRep representationUsingType:(NSBitmapImageFileType)type properties:properties];
 
     // TODO: get database from context
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
@@ -211,7 +211,7 @@
     }
 
     if(usedFormat != NULL)
-        *usedFormat = type;
+        *usedFormat = (NSBitmapImageFileType)type;
     
     return imageURL;
 }

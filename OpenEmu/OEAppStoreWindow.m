@@ -55,7 +55,7 @@
         return [super mouseDown:event];
     }
     
-	NSPoint originalMouseLocation = [self convertBaseToScreen:[event locationInWindow]];
+    NSPoint originalMouseLocation = [self convertRectToScreen:(NSRect){.origin=[event locationInWindow]}].origin;
 	NSPoint originalFrameOrigin = [self frame].origin;
     while (YES)
 	{
@@ -63,7 +63,7 @@
         if ([newEvent type] == NSLeftMouseUp)
 			break;
 		
-		NSPoint newMouseLocation = [self convertBaseToScreen:[newEvent locationInWindow]];		
+        NSPoint newMouseLocation = [self convertRectToScreen:(NSRect){.origin=[newEvent locationInWindow]}].origin;
         NSPoint newFrameOrigin = originalFrameOrigin;
         
         newFrameOrigin.x += (newMouseLocation.x - originalMouseLocation.x);

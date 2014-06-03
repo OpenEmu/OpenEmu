@@ -46,8 +46,6 @@
 @interface OEMediaViewController ()
 @property (strong) NSArray *groupRanges;
 @property (strong) NSArray *items;
-
-@property BOOL byGame;
 @end
 
 @implementation OEMediaViewController
@@ -56,7 +54,6 @@
     self = [super init];
     if (self)
     {
-        _byGame = NO;
     }
     return self;
 }
@@ -64,10 +61,7 @@
 {
     [super loadView];
 
-    if (_byGame)
-        [[self gridView] setCellClass:[OEGridMediaItemCell class]];
-    else
-        [[self gridView] setCellClass:[OEGridMediaGroupItemCell class]];
+    [[self gridView] setCellClass:[OEGridMediaItemCell class]];
 
     [self OE_showView:OEGridViewTag];
 }
@@ -131,83 +125,42 @@
     NSMutableArray *ranges = [NSMutableArray array];
     NSArray *result = nil;
 
-    if(_byGame)
+    NSFetchRequest *req = [[NSFetchRequest alloc] init];
+    [req setEntity:[NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context]];
+    [req setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"rom.game.gameTitle" ascending:YES],
+                              [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]]];
+    [req setPredicate:[NSPredicate predicateWithFormat:@"rom.game != nil"]];
+
+    NSError *error  = nil;
+    if(!(result=[context executeFetchRequest:req error:&error]))
     {
-        NSFetchRequest *req = [[NSFetchRequest alloc] init];
-        [req setEntity:[NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context]];
-        [req setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"rom.game.gameTitle" ascending:YES],
-                                  [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]]];
-
-        NSError *error  = nil;
-        if(!(result=[context executeFetchRequest:req error:&error]))
-        {
-            DLog(@"Error fetching save states");
-            DLog(@"%@", error);
-        }
-
-        NSInteger i;
-        if([result count] == 0)
-        {
-            return;
-        }
-
-        OEDBGame   *game = [[[result objectAtIndex:0] rom] game];
-        NSUInteger groupStart = 0;
-        for(i=0; i < [result count]; i++)
-        {
-            OEDBSaveState *state = [result objectAtIndex:i];
-            if([[state rom] game] != game)
-            {
-                [ranges addObject:[NSValue valueWithRange:NSMakeRange(groupStart, i-groupStart)]];
-                groupStart = i;
-                game = [[state rom] game];
-            }
-        }
-        
-        if(groupStart != i)
-        {
-            [ranges addObject:[NSValue valueWithRange:NSMakeRange(groupStart, i-groupStart)]];
-        }
+        DLog(@"Error fetching save states");
+        DLog(@"%@", error);
     }
-    else
+
+    NSInteger i;
+    if([result count] == 0)
     {
-        NSFetchRequest *req = [[NSFetchRequest alloc] init];
-        [req setEntity:[NSEntityDescription entityForName:@"Game" inManagedObjectContext:context]];
-        [req setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"system.lastLocalizedName" ascending:YES],
-                                  [NSSortDescriptor sortDescriptorWithKey:@"gameTitle" ascending:YES]]];
+        return;
+    }
 
-        NSError *error  = nil;
-        if(!(result=[context executeFetchRequest:req error:&error]))
-        {
-            DLog(@"Error fetching save states");
-            DLog(@"%@", error);
-        }
-
-        NSInteger i;
-        if([result count] == 0)
-        {
-            return;
-        }
-
-        OEDBSystem *system = [[result objectAtIndex:0] system];
-        NSUInteger groupStart = 0;
-        for(i=0; i < [result count]; i++)
-        {
-            OEDBGame *game = [result objectAtIndex:i];
-            if([game system] != system)
-            {
-                [ranges addObject:[NSValue valueWithRange:NSMakeRange(groupStart, i-groupStart)]];
-                groupStart = i;
-                system = [game system];
-            }
-        }
-
-        if(groupStart != i)
+    OEDBGame   *game = [[[result objectAtIndex:0] rom] game];
+    NSUInteger groupStart = 0;
+    for(i=0; i < [result count]; i++)
+    {
+        OEDBSaveState *state = [result objectAtIndex:i];
+        if([[state rom] game] != game)
         {
             [ranges addObject:[NSValue valueWithRange:NSMakeRange(groupStart, i-groupStart)]];
+            groupStart = i;
+            game = [[state rom] game];
         }
     }
 
+    if(groupStart != i)
+    {
+        [ranges addObject:[NSValue valueWithRange:NSMakeRange(groupStart, i-groupStart)]];
+    }
     _groupRanges = ranges;
     _items = result;
 }
@@ -220,18 +173,13 @@
 
 - (id)imageBrowser:(IKImageBrowserView *)aBrowser itemAtIndex:(NSUInteger)index
 {
-    if(_byGame)
         return [OESavedGamesDataWrapper wrapperWithState:[[self items] objectAtIndex:index]];
-    else
-        return [OESavedGamesDataWrapper wrapperWithGame:[[self items] objectAtIndex:index]];
 }
 
 - (NSDictionary*)imageBrowser:(IKImageBrowserView *)aBrowser groupAtIndex:(NSUInteger)index
 {
     NSValue  *groupRange = [[self groupRanges] objectAtIndex:index];
     NSRange range = [groupRange rangeValue];
-    if(_byGame)
-    {
         OEDBSaveState *firstState = [[self items] objectAtIndex:range.location];
         return @{
                  IKImageBrowserGroupTitleKey : [[[firstState rom] game] gameTitle],
@@ -239,19 +187,6 @@
                  IKImageBrowserGroupStyleKey : @(IKGroupDisclosureStyle),
                  OEImageBrowserGroupSubtitleKey : [[[[firstState rom] game] system] lastLocalizedName]
                  };
-    }
-    else
-    {
-        OEDBGame *game = [[self items] objectAtIndex:range.location];
-        NSUInteger count = range.length;
-        return @{
-                 IKImageBrowserGroupTitleKey : [[game system] lastLocalizedName],
-                 IKImageBrowserGroupRangeKey : groupRange,
-                 IKImageBrowserGroupStyleKey : @(IKGroupDisclosureStyle),
-                 OEImageBrowserGroupSubtitleKey : [NSString stringWithFormat:@"%ld Game%s", count, count!=1?"s":""]
-                 };
-    }
-
 }
 
 - (NSUInteger)numberOfItemsInImageBrowser:(IKImageBrowserView *)aBrowser

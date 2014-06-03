@@ -26,7 +26,7 @@
 
 #import "OEDBItem.h"
 
-typedef enum : NSBitmapImageFileType
+typedef enum : NSUInteger
 {
     OEBitmapImageFileTypeOriginal = 7,
     OEBitmapImageFileTypeDefault  = 8,

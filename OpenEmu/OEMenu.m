@@ -91,8 +91,8 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
     NSRect   rect       = NSZeroRect;
     NSValue *rectValue  = [options objectForKey:OEMenuOptionsScreenRectKey];
     if(rectValue)  rect = [rectValue rectValue];
-    else if(event) rect = (NSRect){ .origin = [[event window] convertBaseToScreen:[event locationInWindow]] };
-    else           rect = [[view window] convertRectToScreen:[view convertRect:[view bounds] toView:nil]];
+    else if(event) rect = [[event window] convertRectToScreen:(NSRect){ .origin = [event locationInWindow] }];
+    else           rect = [[view window]  convertRectToScreen:[view convertRect:[view bounds] toView:nil]];
 
     [result OE_updateFrameAttachedToScreenRect:rect];
     NSEvent *postEvent = [result OE_showMenuAttachedToWindow:[event window] withEvent:event];
@@ -486,7 +486,7 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
 {
     const NSPoint locationInWindow = [event locationInWindow];
     NSWindow *window               = [event window];
-    return window == nil ? locationInWindow : [window convertBaseToScreen:locationInWindow];
+    return window == nil ? locationInWindow : [window convertRectToScreen:(NSRect){.origin=locationInWindow}].origin;
 }
 
 - (NSEvent *)OE_mockMouseEvent:(NSEvent *)event

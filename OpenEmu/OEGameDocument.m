@@ -540,7 +540,7 @@ typedef enum : NSUInteger
                 OEDBRom *rom = [OEDBRom objectWithID:romID inContext:context];
 
                 // Ugly hack to start imported games in main window
-                OEMainWindowController *mainWindowController = [[NSApp delegate] mainWindowController];
+                OEMainWindowController *mainWindowController = [(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
                 if([mainWindowController mainWindowRunsGame] == NO)
                 {
                     [mainWindowController startGame:[rom game]];

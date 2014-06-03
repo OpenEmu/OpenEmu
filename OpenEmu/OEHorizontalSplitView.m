@@ -253,12 +253,12 @@
     }
     
     NSWindow *win = [self window];
-    NSPoint startPos = [win convertBaseToScreen:[theEvent locationInWindow]];
+    NSPoint startPos = [win convertRectToScreen:(NSRect){.origin=[theEvent locationInWindow]}].origin;
     NSPoint origin   = win.frame.origin;
     
     while((theEvent = [win nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)]) && theEvent && [theEvent type] != NSLeftMouseUp)
     {
-        NSPoint newPos = [win convertBaseToScreen:[theEvent locationInWindow]];
+        NSPoint newPos = [win convertRectToScreen:(NSRect){.origin=[theEvent locationInWindow]}].origin;
         [win setFrameOrigin:NSMakePoint(origin.x + newPos.x - startPos.x, origin.y + newPos.y - startPos.y)];
     }
 }

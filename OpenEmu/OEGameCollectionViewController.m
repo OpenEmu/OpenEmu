@@ -811,7 +811,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
     NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
     OEROMImporter *romImporter = [[[self libraryController] database] importer];
-    OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
+    OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? (OEDBCollection*)[self representedObject] : nil;
     [romImporter importItemsAtPaths:files intoCollectionWithID:[collection permanentID]];
 
     return YES;

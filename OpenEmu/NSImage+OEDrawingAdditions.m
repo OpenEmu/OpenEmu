@@ -60,7 +60,7 @@
     else
     {
         resultImage = [[NSImage alloc] initWithSize:rect.size];
-        [resultImage lockFocusFlipped:[self isFlipped]];
+        [resultImage lockFocusFlipped:NO];
         [self drawInRect:NSMakeRect(0, 0, rect.size.width, rect.size.height) fromRect:rect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
         [resultImage unlockFocus];
     }
@@ -94,8 +94,7 @@
 
         if(!NSIsEmptyRect(rect))
         {
-            // Flip coordinate system (if it is not already flipped)
-            if(![self isFlipped]) rect.origin.y = size.height - rect.origin.y - rect.size.height;
+            rect.origin.y = size.height - rect.origin.y - rect.size.height;
             [imageParts addObject:[self subImageFromRect:rect]];
         }
         else
