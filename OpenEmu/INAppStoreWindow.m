@@ -452,13 +452,13 @@ NS_INLINE void INApplyClippingPathInCurrentContext(CGPathRef path) {
 		return;
 	}
 
-	NSPoint where = [window convertBaseToScreen:[theEvent locationInWindow]];
+    NSPoint where = [window convertRectToScreen:(NSRect){.origin=[theEvent locationInWindow]}].origin;
 	NSPoint origin = [window frame].origin;
 	CGFloat deltaX = 0.0;
 	CGFloat deltaY = 0.0;
 	while ((theEvent = [NSApp nextEventMatchingMask:NSLeftMouseDownMask | NSLeftMouseDraggedMask | NSLeftMouseUpMask untilDate:[NSDate distantFuture] inMode:NSEventTrackingRunLoopMode dequeue:YES]) && ([theEvent type] != NSLeftMouseUp)) {
 		@autoreleasepool {
-			NSPoint now = [window convertBaseToScreen:[theEvent locationInWindow]];
+			NSPoint now = [window convertRectToScreen:(NSRect){.origin=[theEvent locationInWindow]}].origin;
 			deltaX += now.x - where.x;
 			deltaY += now.y - where.y;
 			if (fabs(deltaX) >= _mouseDragDetectionThreshold || fabs(deltaY) >= _mouseDragDetectionThreshold) {
