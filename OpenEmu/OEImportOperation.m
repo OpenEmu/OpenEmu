@@ -120,19 +120,18 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSError       *error       = nil;
         NSString      *cgFilename  = [url lastPathComponent];
-        NSArray       *components  = @[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"Filters"];
-        NSURL         *filtersURL  = [NSURL fileURLWithPathComponents:components];
-        NSURL         *destination = [NSURL URLWithString:cgFilename relativeToURL:filtersURL];
+        NSString      *filtersPath = [NSString pathWithComponents:@[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"Filters"]];
+        NSString      *destination = [filtersPath stringByAppendingPathComponent:cgFilename];
 
 
-        if(![fileManager createDirectoryAtURL:filtersURL withIntermediateDirectories:YES attributes:nil error:&error])
+        if(![fileManager createDirectoryAtURL:[NSURL fileURLWithPath:filtersPath] withIntermediateDirectories:YES attributes:nil error:&error])
         {
             IMPORTDLog(@"Could not create directory before copying filter at %@", url);
             IMPORTDLog(@"%@", error);
             error = nil;
         }
 
-        if(![fileManager copyItemAtURL:url toURL:destination error:&error])
+        if(![fileManager copyItemAtURL:url toURL:[NSURL fileURLWithPath:destination] error:&error])
         {
             IMPORTDLog(@"Could not copy filter %@ to %@", url, destination);
             IMPORTDLog(@"%@", error);
@@ -169,9 +168,8 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             IMPORTDLog(@"File seems to be a bios at %@", url);
 
             NSFileManager *fileManager = [NSFileManager defaultManager];
-            NSArray       *components  = @[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"BIOS"];
-            NSURL         *biosURL     = [NSURL fileURLWithPathComponents:components];
-            NSURL         *destination = [NSURL URLWithString:biosFilename relativeToURL:biosURL];
+            NSString      *biosPath = [NSString pathWithComponents:@[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"BIOS"]];
+            NSString      *destination = [biosPath stringByAppendingPathComponent:biosFilename];
             NSString      *md5;
             
             if(![fileManager hashFileAtURL:url md5:&md5 crc32:nil error:&error])
@@ -187,14 +185,14 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
                 return NO;
             }
 
-            if(![fileManager createDirectoryAtURL:biosURL withIntermediateDirectories:YES attributes:nil error:&error])
+            if(![fileManager createDirectoryAtURL:[NSURL fileURLWithPath:biosPath] withIntermediateDirectories:YES attributes:nil error:&error])
             {
                 IMPORTDLog(@"Could not create directory before copying bios at %@", url);
                 IMPORTDLog(@"%@", error);
                 error = nil;
             }
 
-            if(![fileManager copyItemAtURL:url toURL:destination error:&error])
+            if(![fileManager copyItemAtURL:url toURL:[NSURL fileURLWithPath:destination] error:&error])
             {
                 IMPORTDLog(@"Could not copy bios file %@ to %@", url, destination);
                 IMPORTDLog(@"%@", error);
