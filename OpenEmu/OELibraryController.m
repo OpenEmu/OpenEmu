@@ -46,6 +46,9 @@
 
 #import "OEBackgroundNoisePattern.h"
 
+#import "OEGameCollectionViewController.h"
+#import "OEMediaViewController.h"
+
 #pragma mark - Exported variables
 NSString * const OELastCollectionSelectedKey = @"lastCollectionSelected";
 
@@ -231,10 +234,19 @@ static const CGFloat _OEToolbarHeight = 44;
     
     if([menuItem action] == @selector(editSmartCollection:))
         return [[[self sidebarController] selectedSidebarItem] isKindOfClass:[OEDBSmartCollection class]];
-    
+
+    const id currentViewController = [self currentViewController];
+
     if([menuItem action] == @selector(startGame:))
-        return [[self currentViewController] respondsToSelector:@selector(selectedGames)] && [[[self currentViewController] selectedGames] count] != 0;
-    
+    {
+        return [currentViewController isKindOfClass:[OEGameCollectionViewController class]] && [currentViewController respondsToSelector:@selector(selectedGames)] && [[currentViewController selectedGames] count] != 0;
+    }
+
+    if([menuItem action] == @selector(startSaveState:))
+    {
+        return [currentViewController isKindOfClass:[OEGameCollectionViewController class]] && [currentViewController respondsToSelector:@selector(selectedSaveStates)] && [[currentViewController selectedSaveStates] count] != 0;
+    }
+
     if([menuItem action] == @selector(find:))
     {
         return [[self toolbarSearchField] isEnabled];
@@ -297,6 +309,20 @@ static const CGFloat _OEToolbarHeight = 44;
     if([[self delegate] respondsToSelector:@selector(libraryController:didSelectGame:)])
     {
         for(OEDBGame *game in gamesToStart) [[self delegate] libraryController:self didSelectGame:game];
+    }
+}
+
+- (IBAction)startSaveState:(id)sender
+{
+    OEMediaViewController *media = (OEMediaViewController *)[self currentViewController];
+    NSArray *statesToLaunch = [media selectedSaveStates];
+
+    if([statesToLaunch count] != 1) return;
+
+    if([[self delegate] respondsToSelector:@selector(libraryController:didSelectSaveState:)])
+    {
+        for(OEDBSaveState *state in statesToLaunch)
+            [[self delegate] libraryController:self didSelectSaveState:state];
     }
 }
 

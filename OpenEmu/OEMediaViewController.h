@@ -30,5 +30,6 @@
 
 @interface OEMediaViewController : OECollectionViewController <OELibrarySubviewController, OEBlankSlateViewDelegate>
 
+- (NSArray*)selectedSaveStates;
 - (IBAction)showInFinder:(id)sender;
 @end

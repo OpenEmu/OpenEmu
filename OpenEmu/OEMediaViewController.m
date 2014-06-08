@@ -100,6 +100,12 @@
     return @[];
 }
 
+- (NSArray*)selectedSaveStates
+{
+    NSIndexSet *indices = [self selectionIndexes];
+    return [[self items] objectsAtIndexes:indices];
+}
+
 - (NSIndexSet*)selectionIndexes
 {
     return [[self gridView] selectionIndexes];
@@ -182,14 +188,13 @@
 
     if([indexes count] == 1)
     {
-        [menu addItemWithTitle:@"Play Save State" action:NULL keyEquivalent:@""];
+        [menu addItemWithTitle:@"Play Save State" action:@selector(startSaveState:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Rename" action:@selector(beginEditingWithSelectedItem:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Show in Finder" action:@selector(showInFinder:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Delete Save State" action:@selector(deleteSelectedItems:) keyEquivalent:@""];
     }
     else
     {
-        [menu addItemWithTitle:@"Play (Caution)" action:NULL keyEquivalent:@""];
         [menu addItemWithTitle:@"Show in Finder" action:@selector(showInFinder:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Delete Save States" action:@selector(deleteSelectedItems:) keyEquivalent:@""];
     }
@@ -252,6 +257,11 @@
     [state setName:title];
     [state moveToDefaultLocation];
     [state save];
+}
+
+- (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index
+{
+    [NSApp sendAction:@selector(startSaveState:) to:nil from:self];
 }
 @end
 
