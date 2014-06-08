@@ -50,6 +50,10 @@
     [[self image] drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:[self isFlipped] hints:nil];
 }
 
+- (BOOL)isFlipped
+{
+    return _shouldFlipCoordinates;
+}
 #pragma mark - Theme
 - (void)setThemeKey:(NSString *)key
 {

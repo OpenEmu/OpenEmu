@@ -145,6 +145,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
         _otherInputLabelView = [[NSTextView alloc] init];
 
         OEBackgroundImageView *box = [[OEBackgroundImageView alloc] initWithThemeKey:@"dark_inset_box"];
+        [box setShouldFlipCoordinates:YES];
         _boxView = box;
         
         [self setSuppressOnDefaultReturnOnly:YES];

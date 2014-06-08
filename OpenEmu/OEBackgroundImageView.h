@@ -37,4 +37,5 @@
 
 @property(nonatomic, readonly, getter = isTrackingWindowActivity)    BOOL trackWindowActivity;
 @property(nonatomic, readonly, getter = isTrackingMouseActivity)     BOOL trackMouseActivity;
+@property BOOL shouldFlipCoordinates;
 @end
