@@ -35,6 +35,7 @@
 #import "OEDBRom.h"
 #import "OEDBSystem.h"
 
+#import "OEGridView.h"
 
 @interface OESavedGamesDataWrapper : NSObject
 + (id)wrapperWithState:(OEDBSaveState*)state;
@@ -53,16 +54,17 @@
 {
     self = [super init];
     if (self)
-    {
-    }
+    {}
     return self;
 }
 - (void)loadView
 {
     [super loadView];
 
+    [[self gridView] setAutomaticallyMinimizeRowMargin:YES];
     [[self gridView] setCellClass:[OEGridMediaItemCell class]];
 
+    [self OE_setupToolbarStatesForViewTag:OEGridViewTag];
     [self OE_showView:OEGridViewTag];
 }
 
@@ -70,6 +72,7 @@
 {
     [super viewDidAppear];
 
+    [self OE_setupToolbarStatesForViewTag:OEGridViewTag];
     [self OE_showView:OEGridViewTag];
 }
 
@@ -78,6 +81,9 @@
     //NSAssert([representedObject isKindOfClass:[OEMedia class]], @"Media View Controller can only represent OEMedia objects.");
     [super setRepresentedObject:representedObject];
     [self reloadData];
+
+    [self OE_setupToolbarStatesForViewTag:OEGridViewTag];
+    [self OE_showView:OEGridViewTag];
 }
 #pragma mark - OELibrarySubviewController Implementation
 - (id)encodeCurrentState
@@ -92,6 +98,11 @@
 - (NSArray*)selectedGames
 {
     return @[];
+}
+
+- (NSIndexSet*)selectionIndexes
+{
+    return [[self gridView] selectionIndexes];
 }
 
 - (void)setLibraryController:(OELibraryController *)controller
@@ -164,7 +175,45 @@
     _groupRanges = ranges;
     _items = result;
 }
+#pragma mark - Context Menu
+- (NSMenu*)menuForItemsAtIndexes:(NSIndexSet *)indexes
+{
+    NSMenu *menu = [[NSMenu alloc] init];
 
+    if([indexes count] == 1)
+    {
+        [menu addItemWithTitle:@"Play Save State" action:NULL keyEquivalent:@""];
+        [menu addItemWithTitle:@"Rename" action:@selector(beginEditingWithSelectedItem:) keyEquivalent:@""];
+        [menu addItemWithTitle:@"Show in Finder" action:@selector(showInFinder:) keyEquivalent:@""];
+        [menu addItemWithTitle:@"Delete Save State" action:@selector(deleteSelectedItems:) keyEquivalent:@""];
+    }
+    else
+    {
+        [menu addItemWithTitle:@"Play (Caution)" action:NULL keyEquivalent:@""];
+        [menu addItemWithTitle:@"Show in Finder" action:@selector(showInFinder:) keyEquivalent:@""];
+        [menu addItemWithTitle:@"Delete Save States" action:@selector(deleteSelectedItems:) keyEquivalent:@""];
+    }
+
+    return [menu numberOfItems] != 0 ? menu : nil;
+}
+
+- (IBAction)showInFinder:(id)sender
+{
+    NSIndexSet *indexes = [self selectionIndexes];
+    NSArray *saveStates = [[self items] objectsAtIndexes:indexes];
+    NSArray *urls = [saveStates valueForKeyPath:@"URL.absoluteURL"];
+    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:urls];
+}
+
+- (void)deleteSelectedItems:(id)sender
+{
+    NSIndexSet *selection = [self selectionIndexes];
+    NSArray *states = [[[self items] objectsAtIndexes:selection] copy];
+    [states enumerateObjectsUsingBlock:^(OEDBSaveState *state, NSUInteger idx, BOOL *stop) {
+        [state remove];
+    }];
+    [[[[self libraryController] database] mainThreadContext] save:nil];
+}
 #pragma mark - GridView DataSource
 - (NSUInteger)numberOfGroupsInImageBrowser:(IKImageBrowserView *)aBrowser
 {
@@ -192,6 +241,17 @@
 - (NSUInteger)numberOfItemsInImageBrowser:(IKImageBrowserView *)aBrowser
 {
     return [[self items] count];
+}
+
+- (void)gridView:(OEGridView *)gridView setTitle:(NSString *)title forItemAtIndex:(NSInteger)index
+{
+    if(index < 0 || index >= [_items count] || [title length] == 0)
+        return;
+
+    OEDBSaveState *state = [[self items] objectAtIndex:index];
+    [state setName:title];
+    [state moveToDefaultLocation];
+    [state save];
 }
 @end
 

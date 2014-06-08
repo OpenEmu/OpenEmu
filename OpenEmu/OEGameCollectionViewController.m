@@ -91,7 +91,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     [[self listView] unbind:@"selectionIndexes"];
     gamesController = nil;
 }
-#pragma mark -
+#pragma mark - Selection
 - (NSArray *)selectedGames
 {
     return [gamesController selectedObjects];
@@ -105,6 +105,8 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 - (void)setSelectionIndexes:(NSIndexSet *)selectionIndexes
 {
     [gamesController setSelectionIndexes:selectionIndexes];
+
+    [[self gridView] setSelectionIndexes:selectionIndexes byExtendingSelection:NO];
 }
 #pragma mark -
 - (BOOL)shouldShowBlankSlate
@@ -156,17 +158,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 - (IBAction)showSelectedGamesInFinder:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
-    NSMutableArray *urls = [NSMutableArray array];
-
-    [selectedGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSSet *roms = [obj roms];
-        [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-            // -[NSWorkspace activateFileViewerSelectingURLs:] does not like relative URLs, i.e., those with non-nil baseURL.
-            // We need to make sure only absolute URLs are passed to that method.
-            [urls addObject:[[obj URL] absoluteURL]];
-        }];
-    }];
-
+    NSArray *urls = [selectedGames valueForKeyPath:@"defaultROM.URL.absoluteURL"];
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:urls];
 }
 
@@ -182,26 +174,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         [state remove];
 }
 
-- (void)renameSelectedGame:(id)sender
-{
-    NSLog(@"renameSelectedGame: Not implemented yet.");
-}
-
-- (void)delete:(id)sender
-{
-    [self deleteSelectedGames:sender];
-}
-- (void)deleteBackward:(id)sender
-{
-    [self deleteSelectedGames:sender];
-}
-
-- (void)deleteBackwardByDecomposingPreviousCharacter:(id)sender
-{
-    [self deleteSelectedGames:sender];
-}
-
-- (void)deleteSelectedGames:(id)sender
+- (void)deleteSelectedItems:(id)sender
 {
     OECoreDataMainThreadAssertion();
 
@@ -491,8 +464,8 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         [collectionMenuItem setSubmenu:[self OE_collectionsMenuForGames:games]];
         [menu addItem:collectionMenuItem];
         [menu addItem:[NSMenuItem separatorItem]];
-        [menu addItemWithTitle:NSLocalizedString(@"Rename Game", @"") action:@selector(renameSelectedGame:) keyEquivalent:@""];
-        [menu addItemWithTitle:NSLocalizedString(@"Delete Game", @"") action:@selector(deleteSelectedGames:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Rename Game", @"") action:@selector(beginEditingWithSelectedItem:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Delete Game", @"") action:@selector(deleteSelectedItems:) keyEquivalent:@""];
     }
     else
     {
@@ -519,7 +492,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         [menu addItem:collectionMenuItem];
 
         [menu addItem:[NSMenuItem separatorItem]];
-        [menu addItemWithTitle:NSLocalizedString(@"Delete Games", @"") action:@selector(deleteSelectedGames:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Delete Games", @"") action:@selector(deleteSelectedItems:) keyEquivalent:@""];
     }
     
     [menu setAutoenablesItems:YES];
@@ -661,16 +634,6 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     return [self menuForItemsAtIndexes:indexes];
 }
 #pragma mark - GridView Delegate
-- (void)imageBrowserSelectionDidChange:(IKImageBrowserView *)aBrowser
-{
-    [self setSelectionIndexes:[aBrowser selectionIndexes]];
-}
-
-- (void)imageBrowser:(IKImageBrowserView *)aBrowser removeItemsAtIndexes:(NSIndexSet *)indexes
-{
-    [self deleteSelectedGames:aBrowser];
-}
-
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index
 {
     [[self libraryController] startGame:self];
@@ -708,6 +671,15 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     return YES;
 }
 
+- (void)gridView:(OEGridView*)gridView setTitle:(NSString*)title forItemAtIndex:(NSInteger)index
+{
+    if(index >= 0 && index < [[gamesController arrangedObjects] count] && [title length] != 0)
+    {
+        OEDBGame * game = [[[self gamesController] arrangedObjects] objectAtIndex:index];
+        [game setDisplayName:title];
+        [game save];
+    }
+}
 #pragma mark - NSTableView DataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
@@ -799,7 +771,6 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         [[self coverFlowView] setSelectedIndex:(int)selectedRow];
     }
     else [[self coverFlowView] reloadData];
-
 }
 
 #pragma mark - TableView Drag and Drop
@@ -876,6 +847,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     _listViewSelectionChangeDate = [NSDate date];
 
     if([[[self listView] selectedRowIndexes] count] == 1) [[self coverFlowView] setSelectedIndex:(int)[[[self listView] selectedRowIndexes] firstIndex]];
+    [self setSelectionIndexes:[[self listView] selectedRowIndexes]];
 }
 
 - (BOOL)tableView:(NSTableView *)tableView shouldTrackCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
@@ -897,16 +869,6 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     return NO;
 }
 
-#pragma mark - NSTableView Type Select
-- (NSString*)tableView:(NSTableView *)tableView typeSelectStringForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-{
-    if([[tableColumn identifier] isEqualToString:@"listViewTitle"])
-    {
-        return [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
-    }
-    return @"";
-}
-
 #pragma mark - NSTableView Interaction
 - (void)tableViewWasDoubleClicked:(id)sender
 {
@@ -919,11 +881,6 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     if(!game) return;
 
     [[self libraryController] startGame:game];
-}
-#pragma mark - OETableView Menu
-- (NSMenu *)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes
-{
-    return [self menuForItemsAtIndexes:indexes];
 }
 
 #pragma mark - ImageFlow Data Source

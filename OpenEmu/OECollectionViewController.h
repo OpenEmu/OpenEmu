@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
     OEListViewTag   = 2
 };
 
-@interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController>
+@interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController, OEGridViewDelegate, OEGridViewMenuSource>
 
 - (void)reloadData;
 - (void)setNeedsReload;
@@ -73,6 +73,8 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 - (IBAction)search:(id)sender;
 - (IBAction)changeGridSize:(id)sender;
 
+- (IBAction)deleteSelectedItems:(id)sender;
+
 #pragma mark -
 #pragma mark Context Menu
 - (NSMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes;
@@ -87,6 +89,8 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 @property (assign) IBOutlet IKImageFlowView *coverFlowView;
 @property (assign) IBOutlet OETableView     *listView;
 @property (assign) IBOutlet OEGridView      *gridView;
-
+- (void)OE_switchToView:(OECollectionViewControllerViewTag)tag;
 - (void)OE_showView:(OECollectionViewControllerViewTag)tag;
+- (void)OE_setupToolbarStatesForViewTag:(OECollectionViewControllerViewTag)tag;
+
 @end

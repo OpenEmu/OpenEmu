@@ -29,4 +29,6 @@
 #import "OECollectionViewController.h"
 
 @interface OEMediaViewController : OECollectionViewController <OELibrarySubviewController, OEBlankSlateViewDelegate>
+
+- (IBAction)showInFinder:(id)sender;
 @end

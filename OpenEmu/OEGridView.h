@@ -42,8 +42,16 @@ typedef enum
 
 @property Class cellClass;
 @property (nonatomic, strong) NSString *groupThemeKey;
+@property (nonatomic) BOOL automaticallyMinimizeRowMargin;
+
+- (void)beginEditingWithSelectedItem:(id)sender;
+- (void)beginEditingItemAtIndex:(NSInteger)index;
 @end
 
 @protocol OEGridViewMenuSource <NSObject>
 - (NSMenu *)gridView:(OEGridView*)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes;
+@end
+
+@protocol OEGridViewDelegate <NSObject>
+- (void)gridView:(OEGridView*)gridView setTitle:(NSString*)title forItemAtIndex:(NSInteger)index;
 @end

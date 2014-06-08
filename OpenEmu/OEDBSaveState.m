@@ -346,12 +346,8 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 - (void)remove
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
-    [context performBlock:^{
-        [[NSFileManager defaultManager] removeItemAtURL:[self URL] error:nil];
-        [context deleteObject:self];
-        [context save:nil];
-    }];
+    [[NSFileManager defaultManager] removeItemAtURL:[self URL] error:nil];
+    [[self managedObjectContext] deleteObject:self];
 }
 
 - (void)removeIfMissing
@@ -374,26 +370,24 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 - (void)moveToDefaultLocation
 {
-    [[self managedObjectContext] performBlock:^{
-        NSURL    *saveStateFolderURL = [[self libraryDatabase] stateFolderURLForROM:[self rom]];
-        if([[self URL] isSubpathOfURL:saveStateFolderURL]) return;
+    NSURL    *saveStateFolderURL = [[self libraryDatabase] stateFolderURLForROM:[self rom]];
+    if([[self URL] isSubpathOfURL:saveStateFolderURL]) return;
 
-        NSURL    *newStateURL        = [saveStateFolderURL URLByAppendingPathComponent:[[self URL] lastPathComponent]];
-        NSString *currentFileName    = [[[self URL] lastPathComponent] stringByDeletingPathExtension];
-        newStateURL                  = [newStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-            return [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %ld.%@", currentFileName, triesCount, OESaveStateSuffix]];
-        }];
-
-        NSError *error = nil;
-        if(![[NSFileManager defaultManager] moveItemAtURL:[self URL] toURL:newStateURL error:&error])
-        {
-            DLog(@"Error occured while moving State to default location");
-            DLog(@"%@", [error localizedDescription]);
-            return;
-        }
-        [self setURL:newStateURL];
-        [[self managedObjectContext] save:nil];
+    NSURL    *newStateURL        = [saveStateFolderURL URLByAppendingPathComponent:[[self URL] lastPathComponent]];
+    NSString *currentFileName    = [[[self URL] lastPathComponent] stringByDeletingPathExtension];
+    newStateURL                  = [newStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+        return [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %ld.%@", currentFileName, triesCount, OESaveStateSuffix]];
     }];
+
+    NSError *error = nil;
+    if(![[NSFileManager defaultManager] moveItemAtURL:[self URL] toURL:newStateURL error:&error])
+    {
+        DLog(@"Error occured while moving State to default location");
+        DLog(@"%@", [error localizedDescription]);
+        return;
+    }
+    [self setURL:newStateURL];
+    [[self managedObjectContext] save:nil];
 }
 
 #pragma mark - Data Accessors

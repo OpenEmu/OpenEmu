@@ -315,8 +315,7 @@ static NSGradient *highlightGradient, *normalGradient;
 }
 
 #pragma mark - Context menu
-
-- (void)renameSelectedGame:(id)sender
+- (void)beginEditingWithSelectedItem:(id)sender
 {
     if([[self selectedRowIndexes] count] != 1)
     {

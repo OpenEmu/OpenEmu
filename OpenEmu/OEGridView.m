@@ -160,6 +160,15 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     }];
     return result;
 }
+#pragma mark - Controlling Layout
+- (void)setAutomaticallyMinimizeRowMargin:(BOOL)flag
+{
+    [[self layoutManager] setAutomaticallyMinimizeRowMargin:flag];
+}
+- (BOOL)automaticallyMinimizeRowMargin
+{
+    return [[self layoutManager] automaticallyMinimizeRowMargin];
+}
 #pragma mark - ToolTips
 - (void)installToolTips
 {
@@ -209,26 +218,27 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     if(index != NSNotFound)
     {
         IKImageBrowserCell *cell = [self cellForItemAtIndex:index];
-        if([cell isKindOfClass:[OEGridGameCell class]])
+
+        const NSRect titleRect  = [cell titleFrame];
+        const NSRect imageRect  = [cell imageFrame];
+        // see if user double clicked on title layer
+        if([theEvent clickCount] >= 2 && NSPointInRect(mouseLocationInView, titleRect))
+        {
+            [self beginEditingItemAtIndex:index];
+            return;
+        }
+        // Check for dragging
+        else if(NSPointInRect(mouseLocationInView, imageRect))
+        {
+            _draggingIndex = index;
+        }
+        else if([cell isKindOfClass:[OEGridGameCell class]])
         {
             OEGridGameCell *clickedCell = (OEGridGameCell*)cell;
-            const NSRect titleRect  = [clickedCell titleFrame];
-            const NSRect imageRect  = [clickedCell imageFrame];
             const NSRect ratingRect = NSInsetRect([clickedCell ratingFrame], -5, -1);
 
-            // see if user double clicked on title layer
-            if([theEvent clickCount] >= 2 && NSPointInRect(mouseLocationInView, titleRect))
-            {
-                [self renameGameAtIndex:index];
-                return;
-            }
-            // Check for dragging
-            else if(NSPointInRect(mouseLocationInView, imageRect))
-            {
-                _draggingIndex = index;
-            }
             // Check for rating layer interaction
-            else if(NSPointInRect(mouseLocationInView, ratingRect))
+            if(NSPointInRect(mouseLocationInView, ratingRect))
             {
                 _ratingTracking = index;
                 [self OE_updateRatingForItemAtIndex:index withLocation:mouseLocationInView inRect:ratingRect];
@@ -256,9 +266,9 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
         NSMutableArray *draggingItems = [NSMutableArray array];
 
         [selectionIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-            OEGridGameCell   *clickedCell = (OEGridGameCell*)[self cellForItemAtIndex:idx];
-            id           item         = [clickedCell representedItem];
-            const NSRect imageRect    = [clickedCell imageFrame];
+            IKImageBrowserCell *cell = [self cellForItemAtIndex:idx];
+            id           item         = [cell representedItem];
+            const NSRect imageRect    = [cell imageFrame];
 
             NSDraggingItem *dragItem = [[NSDraggingItem alloc] initWithPasteboardWriter:item];
             NSImage *dragImage = nil;
@@ -317,7 +327,7 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
         [self handleKeyInput:event character:' '];
     } else [super keyDown:event];
 }
-#pragma mark -
+
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
     [[self window] makeFirstResponder:self];
@@ -464,7 +474,7 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     [self reloadData];
 }
 #pragma mark - Renaming items
-- (void)renameSelectedGame:(id)sender
+- (void)beginEditingWithSelectedItem:(id)sender
 {
     if([[self selectionIndexes] count] != 1)
     {
@@ -473,17 +483,13 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     }
 
     NSUInteger selectedIndex = [[self selectionIndexes] firstIndex];
-    [self renameGameAtIndex:selectedIndex];
+    [self beginEditingItemAtIndex:selectedIndex];
 }
 
-- (void)renameGameAtIndex:(NSInteger)index
+- (void)beginEditingItemAtIndex:(NSInteger)index
 {
     if(![[self fieldEditor] isHidden])
         [self OE_cancelFieldEditor];
-
-    OEGridGameCell *selectedCell = (OEGridGameCell *)[self cellForItemAtIndex:index];
-    if(!selectedCell) return;
-    if(![selectedCell isKindOfClass:[OEGridGameCell class]]) return;
 
     [self OE_setupFieldEditorForCellAtIndex:index];
 }
@@ -491,16 +497,14 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 #pragma mark -
 - (void)OE_setupFieldEditorForCellAtIndex:(NSInteger)index
 {
-    OEGridGameCell *cell = (OEGridGameCell*)[self cellForItemAtIndex:index];
+    IKImageBrowserCell *cell = [self cellForItemAtIndex:index];
     _editingIndex = index;
 
     NSRect fieldFrame = [cell titleFrame];
     fieldFrame        = NSOffsetRect(NSInsetRect(fieldFrame, 0.0, -1.0), 0.0, 1.0);
     [_fieldEditor setFrame:[self backingAlignedRect:fieldFrame options:NSAlignAllEdgesNearest]];
 
-    //[textLayer setHidden:YES];
-
-    NSString *title = [[cell representedItem] displayName];
+    NSString *title = [[cell representedItem] imageTitle];
     [_fieldEditor setString:title];
     [_fieldEditor setDelegate:self];
     [_fieldEditor setHidden:NO];
@@ -538,13 +542,10 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     {
         if(_editingIndex == NSNotFound) return;
 
-        OEGridGameCell *selectedCell = (OEGridGameCell *)[self cellForItemAtIndex:_editingIndex];
-        id <OECoverGridDataSourceItem> selectedItem = [selectedCell representedItem];
-
-        [selectedItem setGridTitle:[_fieldEditor string]];
-        if([selectedItem isKindOfClass:[NSManagedObject class]])
+        if([[self delegate] respondsToSelector:@selector(gridView:setTitle:forItemAtIndex:)])
         {
-            [[(NSManagedObject*)selectedItem managedObjectContext] save:nil];
+            NSString *title = [_fieldEditor string];
+            [[self delegate] gridView:self setTitle:title forItemAtIndex:_editingIndex];
         }
 
         [self OE_cancelFieldEditor];

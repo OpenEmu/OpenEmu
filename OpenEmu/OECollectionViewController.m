@@ -295,17 +295,48 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [self updateBlankSlate];
 }
 
-#pragma mark -
+#pragma mark - Selection
 - (NSArray *)selectedGames
 {
-    [self doesNotImplementSelector:_cmd];
+    [self doesNotImplementOptionalSelector:_cmd];
     return nil;
 }
 
 - (NSIndexSet *)selectedIndexes
 {
-    [self doesNotImplementSelector:_cmd];
+    [self doesNotImplementOptionalSelector:_cmd];
     return nil;
+}
+
+- (void)imageBrowserSelectionDidChange:(IKImageBrowserView *)aBrowser
+{
+    [self setSelectionIndexes:[aBrowser selectionIndexes]];
+}
+
+#pragma mark - Deleting Items
+- (void)delete
+{
+    [self deleteSelectedItems:self];
+}
+
+- (void)delete:(id)sender
+{
+    [self deleteSelectedItems:sender];
+}
+
+- (void)deleteBackward:(id)sender
+{
+    [self deleteSelectedItems:sender];
+}
+
+- (void)deleteBackwardByDecomposingPreviousCharacter:(id)sender
+{
+    [self deleteSelectedItems:sender];
+}
+
+- (void)deleteSelectedItems:(id)sender
+{
+    [self doesNotImplementOptionalSelector:_cmd];
 }
 
 #pragma mark -
@@ -510,6 +541,15 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     return [[self libraryController] validateMenuItem:menuItem];
 }
 
+- (NSMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet *)indexes
+{
+    return [self menuForItemsAtIndexes:indexes];
+}
+
+- (NSMenu *)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes
+{
+    return [self menuForItemsAtIndexes:indexes];
+}
 #pragma mark - Blank Slate Delegate
 - (NSDragOperation)blankSlateView:(OEBlankSlateView *)blankSlateView validateDrop:(id<NSDraggingInfo>)draggingInfo
 {
@@ -561,6 +601,20 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 #pragma mark - Delegates
 - (void)tableViewWasDoubleClicked:(id)sender
 {}
+
+- (NSString*)tableView:(NSTableView *)tableView typeSelectStringForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    if([[tableColumn identifier] isEqualToString:@"listViewTitle"])
+    {
+        return [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
+    }
+    return @"";
+}
+
+- (void)imageBrowser:(IKImageBrowserView *)aBrowser removeItemsAtIndexes:(NSIndexSet *)indexes
+{
+    [self deleteSelectedItems:aBrowser];
+}
 
 #pragma mark -
 #pragma mark Private
