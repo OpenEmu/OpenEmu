@@ -26,39 +26,85 @@
 
 #import "OERetrodeViewController.h"
 #import "OERetrode.h"
+
+#import "OEGridGameCell.h"
+#import "OEGameInfoHelper.h"
+#import "OEDBDataSourceAdditions.h"
+@interface OERetrodeGame : NSObject
++ (instancetype)gameWithDictionary:(NSDictionary*)dict;
+@property NSURL *url;
+@property NSString *title;
+@property NSString *path;
+@property NSInteger gridRating;
+@end
+
 @interface OERetrodeViewController () <NSFileManagerDelegate>
+@property (strong) NSMutableArray *items;
 @end
 
 @implementation OERetrodeViewController
-- (void)awakeFromNib
+- (instancetype)init
 {
-    [[self gridView] setDataSource:self];
-    [[self gridView] setDelegate:self];
+    self = [super init];
+    if (self)
+    {}
+    return self;
+}
+- (void)loadView
+{
+    [super loadView];
+
+    [[self gridView] setAutomaticallyMinimizeRowMargin:YES];
+    [[self gridView] setCellClass:[OEGridGameCell class]];
+
+    [self OE_setupToolbarStatesForViewTag:OEGridViewTag];
+    [self OE_showView:OEGridViewTag];
 }
 
-- (NSString*)nibName
+- (void)viewDidAppear
 {
-    return @"OERetrodeViewController";
+    [super viewDidAppear];
+
+    [self OE_setupToolbarStatesForViewTag:OEGridViewTag];
+    [self OE_showView:OEGridViewTag];
 }
 
 - (void)setRepresentedObject:(id)representedObject
 {
+    NSLog(@"%@", [representedObject className]);
     NSAssert([representedObject isKindOfClass:[OERetrode class]], @"Retrode View Controller can only represent OERetrode objects.");
     [super setRepresentedObject:representedObject];
     [representedObject setDelegate:self];
+
+    [self reloadData];
+
+    [self OE_setupToolbarStatesForViewTag:OEGridViewTag];
+    [self OE_showView:OEGridViewTag];
 }
-#pragma mark - OELibrarySubviewController Implementation -
+#pragma mark - OELibrarySubviewController Implementation
 - (id)encodeCurrentState
 {
     return nil;
 }
 
 - (void)restoreState:(id)state
-{}
+{
+}
 
 - (NSArray*)selectedGames
 {
     return @[];
+}
+
+- (NSArray*)selectedSaveStates
+{
+    NSIndexSet *indices = [self selectionIndexes];
+    return [[self items] objectsAtIndexes:indices];
+}
+
+- (NSIndexSet*)selectionIndexes
+{
+    return [[self gridView] selectionIndexes];
 }
 
 - (void)setLibraryController:(OELibraryController *)controller
@@ -66,10 +112,114 @@
     [[controller toolbarGridViewButton] setEnabled:FALSE];
     [[controller toolbarFlowViewButton] setEnabled:FALSE];
     [[controller toolbarListViewButton] setEnabled:FALSE];
-    
-    [[controller toolbarSearchField] setEnabled:NO];
-    [[controller toolbarSlider] setEnabled:NO];
+
+    [[controller toolbarSearchField] setEnabled:YES];
+    [[controller toolbarSlider] setEnabled:YES];
 }
+
+#pragma mark -
+- (BOOL)shouldShowBlankSlate
+{
+    return [[self items] count] == 0;
+}
+
+- (void)fetchItems
+{
+#pragma TODO(Improve group detection)
+    OERetrode *retrode = (OERetrode *)[self representedObject];
+
+    NSArray *games = [retrode games];
+    NSMutableArray *previousItems = [[self items] copy];
+    _items = [NSMutableArray array];
+    [games enumerateObjectsUsingBlock:^(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
+        NSString *path = [dict valueForKey:@"path"];
+
+        __block OERetrodeGame *item = nil;
+        [previousItems enumerateObjectsUsingBlock:^(OERetrodeGame *obj, NSUInteger idx, BOOL *stop) {
+            if([[obj path] isEqualToString:path])
+            {
+                *stop = YES;
+                item = obj;
+            }
+        }];
+
+        if(item == nil)
+        {
+            item = [OERetrodeGame gameWithDictionary:dict];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSDictionary *dict = @{@"URL" : [NSURL fileURLWithPath:[item path]]};
+                NSDictionary *result = [[OEGameInfoHelper sharedHelper] gameInfoWithDictionary:dict];
+                NSString *gameTitle = [result objectForKey:@"gameTitle"];
+                if(gameTitle != nil)
+                    [item setTitle:gameTitle];
+                NSString *imageURLString = [result objectForKey:@"boxImageURL"];
+                if(imageURLString != nil)
+                    [item setUrl:[NSURL URLWithString:imageURLString]];
+                [self reloadData];
+            });
+        }
+
+        [_items addObject:item];
+    }];
+    DLog(@"%@", _items);
+}
+#pragma mark - Context Menu
+- (NSMenu*)menuForItemsAtIndexes:(NSIndexSet *)indexes
+{
+    NSMenu *menu = [[NSMenu alloc] init];
+
+    if([indexes count] == 1)
+    {
+        [menu addItemWithTitle:@"Import Game" action:@selector(deleteSelectedItems:) keyEquivalent:@""];
+        [menu addItemWithTitle:@"Show in Finder" action:@selector(showInFinder:) keyEquivalent:@""];
+    }
+    else
+    {
+        [menu addItemWithTitle:@"Import Games" action:@selector(deleteSelectedItems:) keyEquivalent:@""];
+        [menu addItemWithTitle:@"Show in Finder" action:@selector(showInFinder:) keyEquivalent:@""];
+    }
+
+    return [menu numberOfItems] != 0 ? menu : nil;
+}
+
+- (IBAction)showInFinder:(id)sender
+{
+    NSIndexSet *indexes = [self selectionIndexes];
+    NSArray *saveStates = [[self items] objectsAtIndexes:indexes];
+    NSMutableArray *urls = [NSMutableArray array];
+
+    [saveStates enumerateObjectsUsingBlock:^(OERetrodeGame *g, NSUInteger idx, BOOL *stop) {
+        [urls addObject:[NSURL fileURLWithPath:[g path]]];
+    }];
+
+    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:urls];
+}
+
+#pragma mark - GridView DataSource
+- (id)imageBrowser:(IKImageBrowserView *)aBrowser itemAtIndex:(NSUInteger)index
+{
+    return [[self items] objectAtIndex:index];
+}
+
+- (NSUInteger)numberOfItemsInImageBrowser:(IKImageBrowserView *)aBrowser
+{
+    return [[self items] count];
+}
+
+- (NSUInteger)numberOfGroupsInImageBrowser:(IKImageBrowserView *)aBrowser
+{
+    return 1;
+}
+
+- (NSDictionary*)imageBrowser:(IKImageBrowserView *)aBrowser groupAtIndex:(NSUInteger)index
+{
+    return @{
+             IKImageBrowserGroupTitleKey : NSLocalizedString(@"Slot 1", @"Retrode Slot 1 Group Header"),
+             IKImageBrowserGroupRangeKey : [NSValue valueWithRange:(NSRange){0, [[self items] count]}],
+             IKImageBrowserGroupStyleKey : @(IKGroupDisclosureStyle),
+             };
+}
+
 #pragma mark - Retrode Delegate
 - (void)retrodeDidDisconnect:(OERetrode*)retrode
 {
@@ -78,7 +228,7 @@
 - (void)retrodeDidRescanGames:(OERetrode*)retrode
 {
     DLog();
-    [[self gridView] reloadData];
+    [self reloadData];
 }
 - (void)retrodeHardwareDidBecomeAvailable:(OERetrode*)retrode
 {
@@ -106,45 +256,43 @@
 {
     DLog();
 }
-/*
 
-#pragma mark - GridView DataSource -
-- (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
+@end
+
+@implementation OERetrodeGame
+
++ (instancetype)gameWithDictionary:(NSDictionary*)dict
 {
-    OERetrode *retrode = [self representedObject];
-    id game = [[retrode games] objectAtIndex:index];
-    
-    OEGridViewCell *item = (OEGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
-    
-    if(item == nil) item = (OEGridViewCell *)[view dequeueReusableCell];
-    if(item == nil) item = [[OEGridViewCell alloc] init];
-    
-    [item setImageSize:[view itemSize]];
-    [item setImage:nil];
-    
-    [item setTitle:[game objectForKey:@"gameTitle"]];
+    OERetrodeGame *game = [[OERetrodeGame alloc] init];
+    [game setPath:[dict valueForKey:@"path"]];
+    [game setTitle:[dict valueForKey:@"gameTitle"]];
 
-    return item;
-    return nil;
+    return game;
 }
 
-- (NSUInteger)numberOfItemsInGridView:(OEGridView *)gridView
+- (NSInteger)gridStatus
 {
-    return [[[self representedObject] games] count];
+    return 0;
 }
 
- - (void)gridView:(OEGridView *)gridView willBeginEditingCellForItemAtIndex:(NSUInteger)index;
-- (void)gridView:(OEGridView *)gridView didEndEditingCellForItemAtIndex:(NSUInteger)index;
-- (id<NSPasteboardWriting>)gridView:(OEGridView *)gridView pasteboardWriterForIndex:(NSInteger)index;
-- (NSMenu *)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet *)indexes;
+- (NSString *)imageRepresentationType
+{
+    return [self url] ? IKImageBrowserNSURLRepresentationType : IKImageBrowserNSImageRepresentationType;
+}
 
-#pragma mark - GridView Delegate -
-- (void)selectionChangedInGridView:(OEGridView *)gridView;
-- (void)gridView:(OEGridView *)gridView doubleClickedCellForItemAtIndex:(NSUInteger)index;
-- (NSDragOperation)gridView:(OEGridView *)gridView validateDrop:(id<NSDraggingInfo>)sender;
-- (NSDragOperation)gridView:(OEGridView *)gridView draggingUpdated:(id<NSDraggingInfo>)sender;
-- (BOOL)gridView:(OEGridView *)gridView acceptDrop:(id<NSDraggingInfo>)sender;
-- (BOOL)gridView:(OEGridView *)gridView shouldTypeSelectForEvent:(NSEvent *)event withCurrentSearchString:(NSString *)searchString;
-- (NSString*)gridView:(OEGridView *)gridView typeSelectStringForItemAtIndex:(NSUInteger)idx;
-*/
+- (NSString*)imageTitle
+{
+    return [self title] ?: @"";
+}
+
+- (id)imageRepresentation
+{
+    return [self url] ?: [OEDBGame artworkPlacholderWithAspectRatio:1.365385];
+}
+
+- (NSString*)imageUID
+{
+    return [[self url] absoluteString] ?: @":MissingArtwork(1.365385)";
+}
+
 @end

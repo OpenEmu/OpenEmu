@@ -110,10 +110,10 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
     }
 
     CGFloat aspectRatio = [[self system] coverAspectRatio];
-    return [[self class] OE_artworkPlacholderWithAspectRatio:aspectRatio];
+    return [[self class] artworkPlacholderWithAspectRatio:aspectRatio];
 }
 
-+ (NSImage*)OE_artworkPlacholderWithAspectRatio:(CGFloat)ratio
++ (NSImage*)artworkPlacholderWithAspectRatio:(CGFloat)ratio
 {
     static NSCache *cache = nil;
     if(cache == nil)

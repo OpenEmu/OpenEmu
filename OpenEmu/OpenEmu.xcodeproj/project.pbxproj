@@ -442,7 +442,6 @@
 		83B867B4171D63070038988C /* OERetrode.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B867AE171D63070038988C /* OERetrode.m */; };
 		83B867B5171D63070038988C /* OERetrodeDeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B867B0171D63070038988C /* OERetrodeDeviceManager.m */; };
 		83B867B6171D63070038988C /* OERetrodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B867B2171D63070038988C /* OERetrodeViewController.m */; };
-		83B867B7171D63070038988C /* OERetrodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83B867B3171D63070038988C /* OERetrodeViewController.xib */; };
 		83B867B9171D63510038988C /* retrode.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B867B8171D63510038988C /* retrode.png */; };
 		83B867BC171D63940038988C /* NSString+OERangeAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B867BB171D63940038988C /* NSString+OERangeAdditions.m */; };
 		83B867BE171D63C70038988C /* DiskArbitration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83B867BD171D63C70038988C /* DiskArbitration.framework */; };
@@ -2064,7 +2063,6 @@
 		83B867B0171D63070038988C /* OERetrodeDeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERetrodeDeviceManager.m; sourceTree = "<group>"; };
 		83B867B1171D63070038988C /* OERetrodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERetrodeViewController.h; sourceTree = "<group>"; };
 		83B867B2171D63070038988C /* OERetrodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERetrodeViewController.m; sourceTree = "<group>"; };
-		83B867B3171D63070038988C /* OERetrodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OERetrodeViewController.xib; sourceTree = "<group>"; };
 		83B867B8171D63510038988C /* retrode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retrode.png; sourceTree = "<group>"; };
 		83B867BA171D63940038988C /* NSString+OERangeAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OERangeAdditions.h"; sourceTree = "<group>"; };
 		83B867BB171D63940038988C /* NSString+OERangeAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OERangeAdditions.m"; sourceTree = "<group>"; };
@@ -4660,7 +4658,6 @@
 				83B867B0171D63070038988C /* OERetrodeDeviceManager.m */,
 				83B867B1171D63070038988C /* OERetrodeViewController.h */,
 				83B867B2171D63070038988C /* OERetrodeViewController.m */,
-				83B867B3171D63070038988C /* OERetrodeViewController.xib */,
 			);
 			name = Retrode;
 			sourceTree = "<group>";
@@ -6850,7 +6847,6 @@
 				C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */,
 				830639EB16691B51006E4254 /* OEGameScanner.xib in Resources */,
 				837DF19B16D2B0F400024BE1 /* OECollectionDebugWindowController.xib in Resources */,
-				83B867B7171D63070038988C /* OERetrodeViewController.xib in Resources */,
 				83B867B9171D63510038988C /* retrode.png in Resources */,
 				EC350F7317401AC1005DA3B2 /* background_lighting@2x.png in Resources */,
 				EC350F7417401AC1005DA3B2 /* blank_slate_arrow@2x.png in Resources */,

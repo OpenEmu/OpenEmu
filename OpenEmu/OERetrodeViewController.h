@@ -29,6 +29,6 @@
 
 #import "OERetrode.h"
 #import "OEGridView.h"
-@interface OERetrodeViewController : NSViewController <OELibrarySubviewController, OERetrodeDelegate>
-@property (strong) IBOutlet OEGridView *gridView;
+#import "OECollectionViewController.h"
+@interface OERetrodeViewController : OECollectionViewController <OELibrarySubviewController, OERetrodeDelegate>
 @end

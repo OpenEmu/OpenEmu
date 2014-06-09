@@ -44,6 +44,7 @@
 
 extern NSString * const OECoverGridViewAutoDownloadEnabledKey;
 @interface OEDBGame (DataSourceAdditions) <OECoverGridDataSourceItem, OECoverFlowDataSourceItem, OEListViewDataSourceItem>
++ (NSImage*)artworkPlacholderWithAspectRatio:(CGFloat)ratio;
 @end
 
 @interface OEDBSystem (DataSourceAdditions) <OESidebarItem> 

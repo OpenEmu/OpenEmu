@@ -193,8 +193,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 #pragma mark - OELibrarySubviewControllerProtocol Implementation
 - (void)setRepresentedObject:(id<OECollectionViewItemProtocol>)representedObject
 {
-    NSAssert([representedObject conformsToProtocol:@protocol(OECollectionViewItemProtocol)], @"OECollectionViewController accepts OEGameCollectionViewItemProtocol represented objects only");
-
     if(representedObject == [self representedObject])
     {
         return;
