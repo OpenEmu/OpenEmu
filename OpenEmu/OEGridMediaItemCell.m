@@ -201,7 +201,7 @@ static NSDictionary *disabledActions = nil;
     [_subtextLayer setTruncationMode:kCATruncationEnd];
     [_subtextLayer setForegroundColor:[[NSColor colorWithRed:184.0/255.0 green:184.0/255.0 blue:184.0/255.0 alpha:1.0] CGColor]];
     [_subtextLayer setFont:(__bridge CTFontRef)titleFont];
-    [_subtextLayer setFontSize:12.0];
+    [_subtextLayer setFontSize:10.0];
 
     [_subtextLayer setShadowColor:[[NSColor blackColor] CGColor]];
     [_subtextLayer setShadowOffset:CGSizeMake(0.0, -1.0)];
