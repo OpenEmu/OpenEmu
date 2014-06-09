@@ -42,4 +42,11 @@
 - (struct CGRect)_rectOfGroup:(id)arg1;
 - (struct CGRect)_rectOfGroupTail:(id)arg1;
 - (struct CGRect)_rectOfGroupHeader:(id)arg1;
+
+- (void)startSelectionProcess:(NSPoint)arg1;
+- (void)endSelectionProcess:(NSPoint)arg1;
+- (void)updateSelectionProcess:(NSPoint)arg1;
+
+- (unsigned long long)groupIndexAtViewLocation:(struct CGPoint)arg1 clickableArea:(BOOL)arg2;
+- (id)groupAtViewLocation:(struct CGPoint)arg1 clickableArea:(BOOL)arg2;
 @end

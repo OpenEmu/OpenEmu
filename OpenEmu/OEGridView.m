@@ -246,7 +246,7 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
             }
         }
     }
-
+    
     _lastPointInView = mouseLocationInView;
 
     [super mouseDown:theEvent];
@@ -317,6 +317,25 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     _draggingIndex  = NSNotFound;
 
     [super mouseUp:theEvent];
+}
+
+- (id)groupAtViewLocation:(struct CGPoint)arg1 clickableArea:(BOOL)arg2
+{
+    // Return no group if grid view is looking for something clickable
+    // this prevents it from selecting all items in a group making group
+    // headers unclickable
+    if(arg2) return nil;
+    return [super groupAtViewLocation:arg1 clickableArea:arg2];
+}
+
+- (void)startSelectionProcess:(NSPoint)arg1
+{
+    // Since we disabled clickable group header image views will start
+    // selecting, this should be disabled as well for clicks starting in
+    // group headers
+    IKImageBrowserGridGroup *group = [super groupAtViewLocation:arg1 clickableArea:YES];
+    if(group == nil)
+        [super startSelectionProcess:arg1];
 }
 #pragma mark - Keyboard Interaction
 - (void)keyDown:(NSEvent*)event
