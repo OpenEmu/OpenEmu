@@ -267,6 +267,16 @@
 
 #pragma mark - OESavedGamesDataWrapper
 @implementation OESavedGamesDataWrapper
+static NSDateFormatter *formatter = nil;
++ (void)initialize
+{
+    if (self == [OESavedGamesDataWrapper class]) {
+        formatter = [[NSDateFormatter alloc] init];
+        [formatter setDoesRelativeDateFormatting:YES];
+        [formatter setDateStyle:NSDateFormatterMediumStyle];
+        [formatter setTimeStyle:NSDateFormatterMediumStyle];
+    }
+}
 + (id)wrapperWithState:(OEDBSaveState*)state
 {
     OESavedGamesDataWrapper *obj = [[self alloc] init];
@@ -311,6 +321,7 @@
         NSUInteger count = [[[self game] defaultROM] saveStateCount];
         return [NSString stringWithFormat:@"%ld Save%s", count, count!=1 ? "s" : ""];
     }
-    return [NSString stringWithFormat:@"%@", [[self state] timestamp]];
+
+    return [formatter stringFromDate:[[self state] timestamp]];
 }
 @end
