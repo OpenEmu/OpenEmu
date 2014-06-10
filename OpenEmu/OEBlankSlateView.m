@@ -33,6 +33,7 @@
 #import "OEBlankSlateForegroundLayer.h"
 #import "OECollectionViewItemProtocol.h"
 #import "OEGameCollectionViewItemProtocol.h"
+#import "OEDBDataSourceAdditions.h"
 
 #import "OEButton.h"
 #import "OEPopUpButtonCell.h"
@@ -117,12 +118,9 @@
 #pragma mark -
 - (void)setRepresentedObject:(id)representedObject
 {
-
     if([representedObject isKindOfClass:[OEDBSystem class]])
-    {
         [self setRepresentedSystemPlugin:[(OEDBSystem*)representedObject plugin]];
-    }
-    else if([[self representedObject] respondsToSelector:@selector(collectionViewName)])
+    else if([representedObject conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)])
         [self setRepresentedCollectionName:[representedObject collectionViewName]];
     else
         DLog(@"Unknown represented object: %@ %@", [representedObject className], representedObject);

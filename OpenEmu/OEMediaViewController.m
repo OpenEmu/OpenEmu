@@ -132,8 +132,8 @@
 #pragma TODO(Improve group detection)
     if([self representedObject] != [OEDBSavedGamesMedia sharedDBSavedGamesMedia])
     {
-        _groupRanges = nil;
-        _items = nil;
+        _groupRanges = @[];
+        _items = @[];
         return;
     }
 
@@ -234,13 +234,13 @@
 {
     NSValue  *groupRange = [[self groupRanges] objectAtIndex:index];
     NSRange range = [groupRange rangeValue];
-        OEDBSaveState *firstState = [[self items] objectAtIndex:range.location];
-        return @{
-                 IKImageBrowserGroupTitleKey : [[[firstState rom] game] gameTitle],
-                 IKImageBrowserGroupRangeKey : groupRange,
-                 IKImageBrowserGroupStyleKey : @(IKGroupDisclosureStyle),
-                 OEImageBrowserGroupSubtitleKey : [[[[firstState rom] game] system] lastLocalizedName]
-                 };
+    OEDBSaveState *firstState = [[self items] objectAtIndex:range.location];
+    return @{
+             IKImageBrowserGroupTitleKey : [[[firstState rom] game] gameTitle],
+             IKImageBrowserGroupRangeKey : groupRange,
+             IKImageBrowserGroupStyleKey : @(IKGroupDisclosureStyle),
+             OEImageBrowserGroupSubtitleKey : [[[[firstState rom] game] system] lastLocalizedName]
+             };
 }
 
 - (NSUInteger)numberOfItemsInImageBrowser:(IKImageBrowserView *)aBrowser
