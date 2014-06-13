@@ -59,6 +59,7 @@ NSString *const OEGameControlsBarShowsAutoSaveStateKey  = @"HUDBarShowAutosaveSt
 NSString *const OEGameControlsBarShowsQuickSaveStateKey = @"HUDBarShowQuicksaveState";
 NSString *const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions";
 NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
+NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutput";
 
 @interface OEHUDControlsBarView : NSView
 
@@ -96,6 +97,7 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
         OEGameControlsBarFadeOutDelayKey : @1.5,
         OEGameControlsBarShowsAutoSaveStateKey : @NO,
         OEGameControlsBarShowsQuickSaveStateKey : @NO,
+        OEGameControlsBarShowsAudioOutput : @NO,
      }];
 }
 
@@ -377,29 +379,32 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
     }
     else
         [item setEnabled:NO];
-#if 0
-    // Setup audio output
-    NSMenu *audioOutputMenu = [NSMenu new];
-    [audioOutputMenu setTitle:NSLocalizedString(@"Select Audio Output Device", @"")];
-    item = [NSMenuItem new];
-    [item setTitle:[audioOutputMenu title]];
-    [menu addItem:item];
-    [item setSubmenu:audioOutputMenu];
 
-    NSPredicate *outputPredicate = [NSPredicate predicateWithBlock:^BOOL(OEAudioDevice *device, NSDictionary *bindings) {
-        return [device numberOfOutputChannels] > 0;
-    }];
-    NSArray *audioOutputDevices = [[[OEAudioDeviceManager sharedAudioDeviceManager] audioDevices] filteredArrayUsingPredicate:outputPredicate];
-    if([audioOutputDevices count] == 0)
-        [item setEnabled:NO];
-    else
-        for(OEAudioDevice *device in audioOutputDevices)
-        {
-            NSMenuItem *deviceItem = [[NSMenuItem alloc] initWithTitle:[device deviceName] action:@selector(changeAudioOutputDevice:) keyEquivalent:@""];
-            [deviceItem setRepresentedObject:device];
-            [audioOutputMenu addItem:deviceItem];
-        }
-#endif
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarShowsAudioOutput])
+    {
+        // Setup audio output
+        NSMenu *audioOutputMenu = [NSMenu new];
+        [audioOutputMenu setTitle:NSLocalizedString(@"Select Audio Output Device", @"")];
+        item = [NSMenuItem new];
+        [item setTitle:[audioOutputMenu title]];
+        [menu addItem:item];
+        [item setSubmenu:audioOutputMenu];
+
+        NSPredicate *outputPredicate = [NSPredicate predicateWithBlock:^BOOL(OEAudioDevice *device, NSDictionary *bindings) {
+            return [device numberOfOutputChannels] > 0;
+        }];
+        NSArray *audioOutputDevices = [[[OEAudioDeviceManager sharedAudioDeviceManager] audioDevices] filteredArrayUsingPredicate:outputPredicate];
+        if([audioOutputDevices count] == 0)
+            [item setEnabled:NO];
+        else
+            for(OEAudioDevice *device in audioOutputDevices)
+            {
+                NSMenuItem *deviceItem = [[NSMenuItem alloc] initWithTitle:[device deviceName] action:@selector(changeAudioOutputDevice:) keyEquivalent:@""];
+                [deviceItem setRepresentedObject:device];
+                [audioOutputMenu addItem:deviceItem];
+            }
+    }
+
     // Create OEMenu and display it
     [menu setDelegate:self];
 

@@ -32,6 +32,7 @@ extern NSString *const OEGameControlsBarShowsAutoSaveStateKey;
 extern NSString *const OEGameControlsBarShowsQuickSaveStateKey;
 extern NSString *const OEGameControlsBarHidesOptionButtonKey;
 extern NSString *const OEGameControlsBarFadeOutDelayKey;
+extern NSString *const OEGameControlsBarShowsAudioOutput;
 
 @class OEGameViewController;
 @interface OEGameControlsBar : NSWindow <NSMenuDelegate>

@@ -164,6 +164,7 @@ NSString * const OptionsKey = @"options";
                               Checkbox(OESaveStateUseQuickSaveSlotsKey, @"Use quicksave slots"),
                               Checkbox(OEGameControlsBarShowsQuickSaveStateKey, @"Show quicksave in menu"),
                               Checkbox(OEGameControlsBarShowsAutoSaveStateKey, @"Show autosave in menu"),
+                              Checkbox(OEGameControlsBarShowsAudioOutput, @"Show audio output device in menu"),
                               Checkbox(OETakeNativeScreenshots, @"Take screenshots in native size"),
                               Checkbox(OEScreenshotAspectRationCorrectionDisabled, @"Disable aspect ratio correction"),
                               ColorWell(OEGameViewBackgroundColorKey, @"Game View Background color"),
