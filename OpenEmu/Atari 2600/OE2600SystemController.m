@@ -48,7 +48,7 @@
     [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:nil];
     
     if([fileSize intValue] < 2097152)
-        canHandleFile = OECanHandleYes;
+        canHandleFile = OECanHandleUncertain;
     
     return canHandleFile;
 }
