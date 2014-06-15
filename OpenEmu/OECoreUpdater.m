@@ -86,7 +86,14 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
          {
              OECoreDownload *aDownload = [[OECoreDownload alloc] initWithPlugin:obj];
              NSString *bundleID = [self lowerCaseID:[obj bundleIdentifier]];
-             [_coresDict setObject:aDownload forKey:bundleID];
+             if(bundleID != nil)
+             {
+                 [_coresDict setObject:aDownload forKey:bundleID];
+             }
+             else
+             {
+                 NSLog(@"Warning: There's a CorePlugin without bundle identifier");
+             }
          }];
 
         [self OE_updateCoreList];
