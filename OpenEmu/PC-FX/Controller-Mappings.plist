@@ -282,6 +282,33 @@
 		<key>OEPCFXButtonSelect</key>
 		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OEPCFXButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OEPCFXButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OEPCFXButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OEPCFXButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OEPCFXButton1</key>
+		<string>OEControllerNintendoWiiUProControllerButtonA</string>
+		<key>OEPCFXButton2</key>
+		<string>OEControllerNintendoWiiUProControllerButtonX</string>
+		<key>OEPCFXButton3</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OEPCFXButton4</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OEPCFXButton5</key>
+		<string>OEControllerNintendoWiiUProControllerButtonL</string>
+		<key>OEPCFXButton6</key>
+		<string>OEControllerNintendoWiiUProControllerButtonR</string>
+		<key>OEPCFXButtonRun</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OEPCFXButtonSelect</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
+	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
 		<key>OEPCFXButtonUp</key>

@@ -216,6 +216,27 @@
 		<key>OE5200ButtonReset</key>
 		<string>OEControllerWiimoteButtonHome</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OE5200ButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OE5200ButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OE5200ButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OE5200ButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OE5200ButtonFire2</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OE5200ButtonFire1</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OE5200ButtonStart</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OE5200ButtonPause</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
+		<key>OE5200ButtonReset</key>
+		<string>OEControllerNintendoWiiUProControllerButtonHome</string>
+	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
 		<key>OE5200ButtonUp</key>

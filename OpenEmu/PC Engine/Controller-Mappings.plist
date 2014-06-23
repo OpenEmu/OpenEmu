@@ -192,6 +192,25 @@
 		<key>OEPCEButtonSelect</key>
 		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OEPCEButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OEPCEButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OEPCEButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OEPCEButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OEPCEButton1</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OEPCEButton2</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OEPCEButtonRun</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OEPCEButtonSelect</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
+	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
 		<key>OEPCEButtonUp</key>

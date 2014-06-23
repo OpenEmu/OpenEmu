@@ -293,6 +293,41 @@
 		<key>OEGCButtonStart</key>
 		<string>OEControllerAdaptoidN64ButtonStart</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OEGCButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OEGCButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OEGCButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OEGCButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OEGCAnalogUp</key>
+		<string>OEControllerNintendoWiiUProControllerLeftAnalogUp</string>
+		<key>OEGCAnalogLeft</key>
+		<string>OEControllerNintendoWiiUProControllerLeftAnalogLeft</string>
+		<key>OEGCAnalogCUp</key>
+		<string>OEControllerNintendoWiiUProControllerRightAnalogUp</string>
+		<key>OEGCAnalogCLeft</key>
+		<string>OEControllerNintendoWiiUProControllerRightAnalogLeft</string>
+		<key>OEGCButtonA</key>
+		<string>OEControllerNintendoWiiUProControllerButtonA</string>
+		<key>OEGCButtonB</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OEGCButtonX</key>
+		<string>OEControllerNintendoWiiUProControllerButtonX</string>
+		<key>OEGCButtonY</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OEGCButtonL</key>
+		<string>OEControllerNintendoWiiUProControllerButtonZL</string>
+		<key>OEGCButtonR</key>
+		<string>OEControllerNintendoWiiUProControllerButtonZR</string>
+		<key>OEGCButtonZ</key>
+		<string>OEControllerNintendoWiiUProControllerButtonR</string>
+		<key>OEGCButtonStart</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
 		<key>OEGCButtonUp</key>

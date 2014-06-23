@@ -240,6 +240,29 @@
 		<key>OEVBButtonSelect</key>
 		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OEVBButtonLeftUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OEVBButtonLeftDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OEVBButtonLeftLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OEVBButtonLeftRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OEVBButtonA</key>
+		<string>OEControllerNintendoWiiUProControllerButtonA</string>
+		<key>OEVBButtonB</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OEVBButtonL</key>
+		<string>OEControllerNintendoWiiUProControllerButtonL</string>
+		<key>OEVBButtonR</key>
+		<string>OEControllerNintendoWiiUProControllerButtonR</string>
+		<key>OEVBButtonStart</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OEVBButtonSelect</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
+	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
 		<key>OEVBButtonLeftUp</key>

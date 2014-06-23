@@ -192,6 +192,25 @@
 		<key>OELynxButtonOption2</key>
 		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OELynxButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OELynxButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OELynxButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OELynxButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OELynxButtonA</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OELynxButtonB</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OELynxButtonOption1</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OELynxButtonOption2</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
+	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
 		<key>OELynxButtonUp</key>

@@ -234,6 +234,33 @@
 		<key>OESegaCDButtonMode</key>
 		<string>OEControllerRetrolinkN64ButtonZ</string>
 	</dict>
+	<key>OEControllerAdaptoidN64</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerAdaptoidN64DPadUp</string>
+		<key>OESegaCDButtonDown</key>
+		<string>OEControllerAdaptoidN64DPadDown</string>
+		<key>OESegaCDButtonLeft</key>
+		<string>OEControllerAdaptoidN64DPadLeft</string>
+		<key>OESegaCDButtonRight</key>
+		<string>OEControllerAdaptoidN64DPadRight</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerAdaptoidN64ButtonA</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerAdaptoidN64CPadDown</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerAdaptoidN64CPadRight</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerAdaptoidN64ButtonB</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerAdaptoidN64CPadLeft</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerAdaptoidN64CPadUp</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerAdaptoidN64ButtonStart</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerAdaptoidN64ButtonZ</string>
+	</dict>
 	<key>OEControllerWiimote</key>
 	<dict>
 		<key>OESegaCDButtonUp</key>
@@ -254,6 +281,33 @@
 		<string>OEControllerWiimoteButtonPlus</string>
 		<key>OESegaCDButtonMode</key>
 		<string>OEControllerWiimoteButtonMinus</string>
+	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OESegaCDButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OESegaCDButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OESegaCDButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerNintendoWiiUProControllerButtonA</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerNintendoWiiUProControllerButtonX</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerNintendoWiiUProControllerButtonL</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerNintendoWiiUProControllerButtonR</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
 	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>

@@ -168,6 +168,23 @@
 		<key>OE2600ButtonSelect</key>
 		<string>OEControllerWiimoteButtonMinus</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OE2600ButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OE2600ButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OE2600ButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OE2600ButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OE2600ButtonFire1</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+		<key>OE2600ButtonReset</key>
+		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OE2600ButtonSelect</key>
+		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
+	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
 		<key>OE2600ButtonUp</key>

@@ -144,6 +144,21 @@
 		<key>OESG1000Button2</key>
 		<string>OEControllerWiimoteButton2</string>
 	</dict>
+	<key>OEControllerNintendoWiiUProController</key>
+	<dict>
+		<key>OESG1000ButtonUp</key>
+		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
+		<key>OESG1000ButtonDown</key>
+		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
+		<key>OESG1000ButtonLeft</key>
+		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
+		<key>OESG1000ButtonRight</key>
+		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OESG1000Button1</key>
+		<string>OEControllerNintendoWiiUProControllerButtonY</string>
+		<key>OESG1000Button2</key>
+		<string>OEControllerNintendoWiiUProControllerButtonB</string>
+	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
 		<key>OESG1000ButtonUp</key>
