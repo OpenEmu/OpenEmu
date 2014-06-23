@@ -183,6 +183,7 @@ NSString * const OptionsKey = @"options";
                               Button(@"Set default save states directory", @selector(restoreSaveStatesDirectory:)),
                               Button(@"Choose save states directory", @selector(chooseSaveStatesDirectory:)),
                               Button(@"Add untracked save states", @selector(findUntrackedSaveStates:)),
+                              Button(@"Remove missing states", @selector(removeMissingStates:)),
 
                               Group(@"OpenVGDB"),
                               Button(@"Update OpenVGDB", @selector(updateOpenVGDB:)),
@@ -248,6 +249,15 @@ NSString * const OptionsKey = @"options";
         if([[url pathExtension] isEqualToString:@"oesavestate"])
             [OEDBSaveState updateOrCreateStateWithURL:url inContext:[database mainThreadContext]];
     }
+}
+
+- (void)removeMissingStates:(id)sender
+{
+    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+
+    NSArray *objects = [OEDBSaveState allObjectsInContext:[database mainThreadContext]];
+    [objects makeObjectsPerformSelector:@selector(removeIfMissing)];
+    [[database mainThreadContext] save:nil];
 }
 #pragma mark -
 - (void)updateOpenVGDB:(id)sender
