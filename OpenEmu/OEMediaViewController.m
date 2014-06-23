@@ -161,16 +161,16 @@
         return;
     }
 
-    OEDBGame   *game = [[[result objectAtIndex:0] rom] game];
+    NSManagedObjectID *gameID = [[[[result objectAtIndex:0] rom] game] objectID];
     NSUInteger groupStart = 0;
     for(i=0; i < [result count]; i++)
     {
         OEDBSaveState *state = [result objectAtIndex:i];
-        if([[state rom] game] != game)
+        if(![[[[state rom] game] objectID] isEqualTo:gameID])
         {
             [ranges addObject:[NSValue valueWithRange:NSMakeRange(groupStart, i-groupStart)]];
             groupStart = i;
-            game = [[state rom] game];
+            gameID = [[[state rom] game] objectID];
         }
     }
 

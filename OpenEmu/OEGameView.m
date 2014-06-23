@@ -112,8 +112,12 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     QCRenderer        *_filterRenderer;
     CGColorSpaceRef    _rgbColorSpace;
     NSTimeInterval     _filterTime;
-    NSDate            *_filterStartTime;
+    NSDate            *_filterStartDate;
     BOOL               _filterHasOutputMousePositionKeys;
+
+    // Save State Notifications
+    NSTimeInterval _lastQuickSave;
+    GLuint _saveStateTexture;
 }
 
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context
@@ -235,8 +239,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     _filters = [self OE_shadersForContext:cgl_ctx];
     _gameServer = [[SyphonServer alloc] initWithName:self.gameTitle context:cgl_ctx options:nil];
 
-    CGLUnlockContext(cgl_ctx);
-
     // filters
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *systemIdentifier = [[self delegate] systemIdentifier];
@@ -249,6 +251,11 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
     // our texture is in NTSC colorspace from the cores
     _rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
+
+    _lastQuickSave = [NSDate timeIntervalSinceReferenceDate];
+    [self OE_createSaveStateTexture];
+
+    CGLUnlockContext(cgl_ctx);
 
     // rendering
     [self setupDisplayLink];
@@ -280,10 +287,13 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     }
 }
 
+- (void)showQuickSaveNotification
+{
+    _lastQuickSave = [[NSDate date] timeIntervalSinceDate:_filterStartDate];;
+}
+
 - (void)removeFromSuperview
 {
-    DLog(@"removeFromSuperview");
-
     CVDisplayLinkStop(_gameDisplayLinkRef);
 
     [super removeFromSuperview];
@@ -324,6 +334,9 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     _ntscDestination = 0;
     glDeleteTextures(1, &_ntscTexture);
     _ntscTexture = 0;
+
+    glDeleteTextures(1, &_saveStateTexture);
+    _saveStateTexture = 0;
 
     free(_multipassSizes);
     _multipassSizes = 0;
@@ -464,12 +477,12 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 {
     // FIXME: Why not using the timestamps passed by parameters ?
     // rendering time for QC filters..
-    if(_filterStartTime == 0)
+    if(_filterStartDate == nil)
     {
-        _filterStartTime = [NSDate date];
+        _filterStartDate = [NSDate date];
     }
 
-    _filterTime = [[NSDate date] timeIntervalSinceDate:_filterStartTime];
+    _filterTime = [[NSDate date] timeIntervalSinceDate:_filterStartDate];
 
     // Just assume 60 fps, this isn't critical
     _gameFrameCount = _filterTime * 60;
@@ -530,6 +543,58 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
         if([_gameServer hasClients])
             [_gameServer publishFrameTexture:_gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
+
+
+        // Draw quick save notification if appropriate
+        NSTimeInterval difference = _filterTime-_lastQuickSave;
+        const static NSTimeInterval fadeIn  = 0.25;
+        const static NSTimeInterval visible = 1.25;
+        const static NSTimeInterval fadeOut = 0.25;
+        if(difference < fadeIn+visible+fadeOut)
+        {
+            double alpha = 1.0;
+            if(difference < visible)
+                alpha = difference/fadeIn;
+            else if(difference >= fadeIn+visible)
+                alpha = 1.0 - (difference-fadeIn-visible) / fadeOut;
+
+            const OEIntSize   aspectSize     = _gameAspectSize;
+            const NSSize      viewSize       = [self bounds].size;
+            const float       wr             = viewSize.width / aspectSize.width;
+            const float       hr             = viewSize.height / aspectSize.height;
+            const OEIntSize   textureIntSize = (wr > hr ?
+                                                (OEIntSize){hr * aspectSize.width, viewSize.height      } :
+                                                (OEIntSize){viewSize.width      , wr * aspectSize.height});
+            const NSRect bounds = [self bounds];
+            CGFloat scaleFactor = [[self window] backingScaleFactor] ?: 1.0;
+
+            const NSSize  imageSize   = {28.0*scaleFactor, 28*scaleFactor};
+            const CGPoint imageOrigin = {10*scaleFactor, 10*scaleFactor};
+
+            const NSRect rect = (NSRect){{-1.0* (textureIntSize.width-imageOrigin.x)/NSWidth(bounds), (textureIntSize.height-imageSize.height-imageOrigin.y)/NSHeight(bounds)}, {imageSize.width/NSWidth(bounds),imageSize.height/NSHeight(bounds)}};
+
+            glDisable(GL_TEXTURE_RECTANGLE_EXT);
+
+            glEnable(GL_BLEND); 
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+            glColor4f(alpha, alpha, alpha, alpha); 
+
+            glEnable(GL_TEXTURE_2D); 
+            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); 
+            glBindTexture(GL_TEXTURE_2D, _saveStateTexture);
+
+            glBegin(GL_QUADS);
+            glTexCoord2f(0.0, 0.0); glVertex2d(NSMinX(rect), NSMinY(rect));
+            glTexCoord2f(0.0, 1.0); glVertex2d(NSMinX(rect), NSMaxY(rect));
+            glTexCoord2f(1.0, 1.0); glVertex2d(NSMaxX(rect), NSMaxY(rect));
+            glTexCoord2f(1.0, 0.0); glVertex2d(NSMaxX(rect), NSMinY(rect));
+            glEnd(); 
+            
+            glBindTexture(GL_TEXTURE_2D, 0); 
+            glDisable(GL_TEXTURE_2D); 
+            
+            glEnable(GL_TEXTURE_RECTANGLE_EXT);
+        }
 
         [[self openGLContext] flushBuffer];
 
@@ -1315,6 +1380,57 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 - (void)mouseExited:(NSEvent *)theEvent;
 {
     [[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
+}
+#pragma mark - Private Helpers
+- (void)viewDidChangeBackingProperties
+{
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+    glDeleteTextures(1, &_saveStateTexture);
+    _saveStateTexture = 0;
+
+    [self OE_createSaveStateTexture];
+}
+
+- (void)OE_createSaveStateTexture
+{
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+
+    if(_saveStateTexture)
+    {
+        glDeleteTextures(1, &_saveStateTexture);
+        _saveStateTexture = 0;
+    }
+
+
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSURL    *url    = [bundle URLForImageResource:@"hud_quicksave_notification"];
+
+    CGFloat scaleFactor = [[self window] backingScaleFactor];
+    size_t index = scaleFactor > 1.0 ? 1 : 0;
+    CGImageSourceRef image_source = CGImageSourceCreateWithURL((__bridge CFURLRef)(url), NULL);
+    CGImageRef image = CGImageSourceCreateImageAtIndex(image_source, index, NULL);
+
+    GLuint width  = (GLuint)CGImageGetWidth(image);
+    GLuint height = (GLuint)CGImageGetHeight(image);
+
+    void *data = malloc(width * height * 4);
+
+    CGColorSpaceRef color_space = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
+    CGContextRef context = CGBitmapContextCreate(data, width, height, 8, width * 4, color_space, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), image);
+
+    glGenTextures(1, &_saveStateTexture);
+    glBindTexture(GL_TEXTURE_2D, _saveStateTexture); 
+
+    glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, data); 
+
+    CFRelease(context);
+    CFRelease(color_space);
+    free(data);
+    CFRelease(image);
+    CFRelease(image_source);
 }
 
 @end

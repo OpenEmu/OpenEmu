@@ -75,6 +75,7 @@ NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor";
 
 NSString *const OEScreenshotFileFormatKey = @"screenshotFormat";
 NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
+
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
 

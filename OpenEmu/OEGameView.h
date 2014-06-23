@@ -60,6 +60,8 @@ extern NSString * const OEScreenshotAspectRationCorrectionDisabled;
 - (void)render;
 
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+
+- (void)showQuickSaveNotification;
 @end
 
 @protocol OEGameViewDelegate <NSObject>

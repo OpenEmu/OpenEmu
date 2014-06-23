@@ -1153,10 +1153,12 @@ typedef enum : NSUInteger
 
     NSString *name = [OEDBSaveState nameOfQuickSaveInSlot:slot];
     BOOL didPauseEmulation = [self OE_pauseEmulationIfNeeded];
+
     [self OE_saveStateWithName:name completionHandler:
      ^{
          if(didPauseEmulation) [self setEmulationPaused:NO];
-     }];
+         [[[self gameViewController] gameView] showQuickSaveNotification];
+    }];
 }
 
 - (void)OE_saveStateWithName:(NSString *)stateName completionHandler:(void(^)(void))handler
