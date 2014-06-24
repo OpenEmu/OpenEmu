@@ -148,6 +148,8 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 // What to do about that?
 - (void)prepareOpenGL
 {
+    [self setWantsBestResolutionOpenGLSurface:YES];
+
     [super prepareOpenGL];
 
     DLog(@"prepareOpenGL");
@@ -455,15 +457,14 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 - (void)reshape
 {
 //    DLog(@"reshape");
-
+    
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLSetCurrentContext(cgl_ctx);
 	CGLLockContext(cgl_ctx);
     
 	[self update];
 
-	NSRect mainRenderViewFrame = [self frame];
-	glViewport(0, 0, mainRenderViewFrame.size.width, mainRenderViewFrame.size.height);
+	glViewport(0, 0, floorf(NSWidth([self bounds])*[[self window] backingScaleFactor]), floorf(NSHeight([self bounds])*[[self window] backingScaleFactor]));
 
 	CGLUnlockContext(cgl_ctx);
 }
@@ -565,11 +566,10 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
             const OEIntSize   textureIntSize = (wr > hr ?
                                                 (OEIntSize){hr * aspectSize.width, viewSize.height      } :
                                                 (OEIntSize){viewSize.width      , wr * aspectSize.height});
-            const NSRect bounds = [self bounds];
-            CGFloat scaleFactor = [[self window] backingScaleFactor] ?: 1.0;
+            const NSRect  bounds = [self bounds];
 
-            const NSSize  imageSize   = {28.0*scaleFactor, 28*scaleFactor};
-            const CGPoint imageOrigin = {10*scaleFactor, 10*scaleFactor};
+            const NSSize  imageSize   = {56.0, 56.0};
+            const CGPoint imageOrigin = {20.0, 20.0};
 
             const NSRect rect = (NSRect){{-1.0* (textureIntSize.width-imageOrigin.x)/NSWidth(bounds), (textureIntSize.height-imageSize.height-imageOrigin.y)/NSHeight(bounds)}, {imageSize.width/NSWidth(bounds),imageSize.height/NSHeight(bounds)}};
 
@@ -635,7 +635,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     glDisableClientState(GL_VERTEX_ARRAY);
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+    glViewport(0, 0, floorf(NSWidth([self bounds])*[[self window] backingScaleFactor]), floorf(NSHeight([self bounds])*[[self window] backingScaleFactor]));
 }
 
 - (void)OE_applyCgShader:(OECGShader *)shader usingVertices:(const GLfloat *)vertices withTextureSize:(const OEIntSize)textureSize withOutputSize:(const OEIntSize)outputSize inPassNumber:(const NSUInteger)passNumber inCGLContext:(CGLContextObj)cgl_ctx
@@ -833,7 +833,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
     // render to screen
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+    glViewport(0, 0, floorf(NSWidth([self bounds])*[[self window] backingScaleFactor]), floorf(NSHeight([self bounds])*[[self window] backingScaleFactor]));
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, 0);
     glDisable(GL_TEXTURE_RECTANGLE_EXT);
     glEnable(GL_TEXTURE_2D);
@@ -1072,7 +1072,8 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 - (NSImage *)screenshot
 {
     const OEIntSize   aspectSize     = _gameAspectSize;
-    const NSSize      frameSize      = [self frame].size;
+    const CGFloat     scaleFactor    = [[self window] backingScaleFactor];
+    const NSSize      frameSize      = OEScaleSize([self bounds].size, scaleFactor);
     const float       wr             = frameSize.width / aspectSize.width;
     const float       hr             = frameSize.height / aspectSize.height;
     const OEIntSize   textureIntSize = (wr > hr ?
@@ -1406,9 +1407,13 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     }
 
     CGImageSourceRef imageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)[[NSBundle mainBundle] URLForImageResource:@"hud_quicksave_notification"], NULL);
-    CGImageRef image = CGImageSourceCreateImageAtIndex(imageSource, 0, NULL);
+
+    CGFloat scaleFactor = [[self window] backingScaleFactor] ?: 1.0;
+    size_t index = MIN(scaleFactor > 1.0 ? 0 : 1, CGImageSourceGetCount(imageSource) -1);
+
+    CGImageRef image = CGImageSourceCreateImageAtIndex(imageSource, index, NULL);
     CFRelease(imageSource);
-    size_t width  = CGImageGetWidth (image);
+    size_t width  = CGImageGetWidth(image);
     size_t height = CGImageGetHeight(image);
     CGRect rect = CGRectMake(0.0f, 0.0f, width, height);
 
