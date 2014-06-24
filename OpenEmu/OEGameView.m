@@ -1401,36 +1401,36 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
         _saveStateTexture = 0;
     }
 
+    CGImageSourceRef imageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)[[NSBundle mainBundle] URLForImageResource:@"hud_quicksave_notification"], NULL);
+    CGImageRef image = CGImageSourceCreateImageAtIndex(imageSource, 0, NULL);
+    CFRelease(imageSource);
+    size_t width  = CGImageGetWidth (image);
+    size_t height = CGImageGetHeight(image);
+    CGRect rect = CGRectMake(0.0f, 0.0f, width, height);
 
-    NSBundle *bundle = [NSBundle mainBundle];
-    NSURL    *url    = [bundle URLForImageResource:@"hud_quicksave_notification"];
-
-    CGFloat scaleFactor = [[self window] backingScaleFactor];
-    size_t index = scaleFactor > 1.0 ? 1 : 0;
-    CGImageSourceRef image_source = CGImageSourceCreateWithURL((__bridge CFURLRef)(url), NULL);
-    CGImageRef image = CGImageSourceCreateImageAtIndex(image_source, index, NULL);
-
-    GLuint width  = (GLuint)CGImageGetWidth(image);
-    GLuint height = (GLuint)CGImageGetHeight(image);
-
-    void *data = malloc(width * height * 4);
-
-    CGColorSpaceRef color_space = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
-    CGContextRef context = CGBitmapContextCreate(data, width, height, 8, width * 4, color_space, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
-    CGContextDrawImage(context, CGRectMake(0, 0, width, height), image);
+    void *imageData = malloc(width * height * 4);
+    CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx = CGBitmapContextCreate(imageData, width, height, 8, width * 4, colourSpace, kCGBitmapByteOrder32Host | kCGImageAlphaPremultipliedFirst);
+    CFRelease(colourSpace);
+    CGContextTranslateCTM(ctx, 0, height);
+    CGContextScaleCTM(ctx, 1.0f, -1.0f);
+    CGContextSetBlendMode(ctx, kCGBlendModeCopy);
+    CGContextDrawImage(ctx, rect, image);
+    CGContextRelease(ctx);
+    CFRelease(image);
 
     glGenTextures(1, &_saveStateTexture);
-    glBindTexture(GL_TEXTURE_2D, _saveStateTexture); 
+    glBindTexture(GL_TEXTURE_2D, _saveStateTexture);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, (GLint)width);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, data); 
-
-    CFRelease(context);
-    CFRelease(color_space);
-    free(data);
-    CFRelease(image);
-    CFRelease(image_source);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, (int)width, (int)height, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, imageData);
+    free(imageData);
 }
 
 @end
