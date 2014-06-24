@@ -1093,6 +1093,9 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     [[self openGLContext] makeCurrentContext];
+    NSTimeInterval tempQuickSaveTime = _lastQuickSave;
+    _lastQuickSave = [NSDate timeIntervalSinceReferenceDate];
+    [self render];
     CGLLockContext(cgl_ctx);
     {
         glReadPixels((frameSize.width - textureNSSize.width) / 2,
@@ -1101,6 +1104,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
                      GL_RGB, GL_UNSIGNED_BYTE, [imageRep bitmapData]);
     }
     CGLUnlockContext(cgl_ctx);
+    _lastQuickSave = tempQuickSaveTime;
 
     NSImage *screenshotImage = [[NSImage alloc] initWithSize:textureNSSize];
     [screenshotImage addRepresentation:imageRep];
