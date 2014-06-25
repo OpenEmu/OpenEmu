@@ -219,11 +219,30 @@
 {
     NSIndexSet *selection = [self selectionIndexes];
     NSArray *states = [[[self items] objectsAtIndexes:selection] copy];
-    [states enumerateObjectsUsingBlock:^(OEDBSaveState *state, NSUInteger idx, BOOL *stop) {
-        [state remove];
-    }];
-    [[[[self libraryController] database] mainThreadContext] save:nil];
-    [self reloadData];
+
+    OEHUDAlert *alert = nil;
+    if([states count] < 1)
+    {
+        DLog(@"delete empty selection");
+        return;
+    }
+    else if([states count] == 1)
+    {
+        alert = [OEHUDAlert deleteStateAlertWithStateName:[[states lastObject] displayName]];
+    }
+    else if([states count] > 1)
+    {
+        alert = [OEHUDAlert deleteStateAlertWithStateCount:[states count]];
+    }
+
+    if([alert runModal] == NSAlertDefaultReturn)
+    {
+        [states enumerateObjectsUsingBlock:^(OEDBSaveState *state, NSUInteger idx, BOOL *stop) {
+            [state remove];
+        }];
+        [[[[self libraryController] database] mainThreadContext] save:nil];
+        [self reloadData];
+    }
 }
 #pragma mark - GridView DataSource
 - (NSUInteger)numberOfGroupsInImageBrowser:(IKImageBrowserView *)aBrowser

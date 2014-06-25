@@ -647,6 +647,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadData) object:nil];
     [self performSelector:@selector(reloadData) withObject:nil afterDelay:reloadDelay];
 }
+
 - (void)setNeedsReloadVisible
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadVisibleData) object:nil];

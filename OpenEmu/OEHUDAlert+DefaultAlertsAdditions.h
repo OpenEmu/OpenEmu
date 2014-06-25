@@ -47,6 +47,7 @@ extern NSString *const OEGameCoreGlitchesSuppressionKey;
 + (id)saveAutoSaveGameAlert;
 + (id)loadAutoSaveGameAlert;
 + (id)deleteStateAlertWithStateName:(NSString *)stateName;
++ (id)deleteStateAlertWithStateCount:(NSUInteger)count;
 + (id)resetSystemAlert;
 + (id)stopEmulationAlert;
 
@@ -54,4 +55,5 @@ extern NSString *const OEGameCoreGlitchesSuppressionKey;
 + (id)removeGamesFromLibraryAlert:(BOOL)multipleGames;
 + (id)removeGameFilesFromLibraryAlert:(BOOL)multipleGames;
 + (id)renameSpecialStateAlert;
+
 @end

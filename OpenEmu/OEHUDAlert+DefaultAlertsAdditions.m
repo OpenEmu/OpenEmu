@@ -155,6 +155,19 @@ NSString *const OERenameSpecialSaveStateAlertSuppressionKey = @"OERenameSpecialS
     return alert;
 }
 
++ (id)deleteStateAlertWithStateCount:(NSUInteger)count
+{
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete %ld save games from your OpenEmu library?", @""), count];
+    [alert setMessageText:messageText];
+    [alert setDefaultButtonTitle:NSLocalizedString(@"Delete Saves", @"")];
+    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
+    [alert setHeadlineText:nil];
+    [alert showSuppressionButtonForUDKey:OEDeleteGameAlertSuppressionKey];
+
+    return alert;
+}
+
 + (id)removeGamesFromCollectionAlert
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
