@@ -39,6 +39,8 @@ NSString *const OEResetSystemAlertSuppressionKey = @"resetSystemWithoutConfirmat
 NSString *const OEStopEmulationAlertSuppressionKey = @"stopEmulationWithoutConfirmation";
 NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDialogChoice";
 NSString *const OEGameCoreGlitchesSuppressionKey = @"OEGameCoreGlitches";
+NSString *const OERenameSpecialSaveStateAlertSuppressionKey = @"OERenameSpecialSaveStateAlertSuppressionKey";
+
 
 @implementation OEHUDAlert (DefaultAlertsAdditions)
 
@@ -193,6 +195,22 @@ NSString *const OEGameCoreGlitchesSuppressionKey = @"OEGameCoreGlitches";
     [alert showSuppressionButtonForUDKey:OERemoveGameFilesFromLibraryAlertSuppressionKey];
     [alert setSuppressOnDefaultReturnOnly:NO];
     
+    return alert;
+}
+
+
++ (id)renameSpecialStateAlert
+{
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    NSString *headlineText = [NSString stringWithFormat:NSLocalizedString(@"Rename Special Save State or something?", @"")];
+    [alert setHeadlineText:headlineText];
+    NSString *messageText = NSLocalizedString(@"Won't be able to recognize it as special save state…", @"");
+    [alert setMessageText:messageText];
+    [alert setDefaultButtonTitle:NSLocalizedString(@"Rename", @"")];
+    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
+    [alert showSuppressionButtonForUDKey:OERenameSpecialSaveStateAlertSuppressionKey];
+    [alert setSuppressOnDefaultReturnOnly:YES];
+
     return alert;
 }
 

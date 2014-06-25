@@ -37,6 +37,8 @@
 
 #import "OEGridView.h"
 
+#import "OEHUDAlert+DefaultAlertsAdditions.h"
+
 @interface OESavedGamesDataWrapper : NSObject
 + (id)wrapperWithState:(OEDBSaveState*)state;
 + (id)wrapperWithGame:(OEDBGame*)game;
@@ -260,9 +262,18 @@
         return;
 
     OEDBSaveState *state = [[self items] objectAtIndex:index];
-    [state setName:title];
-    [state moveToDefaultLocation];
-    [state save];
+    if(![state isSpecialState] || [[OEHUDAlert renameSpecialStateAlert] runModal] == NSAlertDefaultReturn)
+    {
+        [state setName:title];
+        [state moveToDefaultLocation];
+
+        if([state writeToDisk] == NO)
+        {
+            // TODO: delete save state with
+            NSLog(@"Writing save state '%@' failed. It should be delted!", title);
+        }
+        [state save];
+    }
 }
 
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index

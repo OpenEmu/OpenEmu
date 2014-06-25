@@ -53,4 +53,5 @@ extern NSString *const OEGameCoreGlitchesSuppressionKey;
 + (id)removeGamesFromCollectionAlert;
 + (id)removeGamesFromLibraryAlert:(BOOL)multipleGames;
 + (id)removeGameFilesFromLibraryAlert:(BOOL)multipleGames;
++ (id)renameSpecialStateAlert;
 @end

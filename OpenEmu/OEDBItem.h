@@ -47,4 +47,7 @@
 
 - (BOOL)save;
 - (void)delete;
+
+- (BOOL)writeToDisk;
+- (BOOL)readFromDisk;
 @end

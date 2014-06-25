@@ -137,4 +137,16 @@
         [context deleteObject:self];
     }];
 }
+
+- (BOOL)writeToDisk
+{
+    // TODO: implement
+    return YES;
+}
+
+- (BOOL)readFromDisk
+{
+    // TODO: implement
+    return YES;
+}
 @end
