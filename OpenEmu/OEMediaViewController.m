@@ -158,6 +158,9 @@
     NSInteger i;
     if([result count] == 0)
     {
+        _groupRanges = @[];
+        _items = @[];
+
         return;
     }
 
@@ -218,6 +221,7 @@
         [state remove];
     }];
     [[[[self libraryController] database] mainThreadContext] save:nil];
+    [self reloadData];
 }
 #pragma mark - GridView DataSource
 - (NSUInteger)numberOfGroupsInImageBrowser:(IKImageBrowserView *)aBrowser
