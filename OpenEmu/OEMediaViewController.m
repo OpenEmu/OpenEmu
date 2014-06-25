@@ -49,6 +49,8 @@
 @interface OEMediaViewController ()
 @property (strong) NSArray *groupRanges;
 @property (strong) NSArray *items;
+
+@property BOOL shouldShowBlankSlate;
 @end
 
 @implementation OEMediaViewController
@@ -65,27 +67,17 @@
 
     [[self gridView] setAutomaticallyMinimizeRowMargin:YES];
     [[self gridView] setCellClass:[OEGridMediaItemCell class]];
-
-    [self OE_setupToolbarStatesForViewTag:OEGridViewTag];
-    [self OE_showView:OEGridViewTag];
 }
 
 - (void)viewDidAppear
 {
     [super viewDidAppear];
-
-    [self OE_setupToolbarStatesForViewTag:OEGridViewTag];
-    [self OE_showView:OEGridViewTag];
 }
 
 - (void)setRepresentedObject:(id)representedObject
 {
-    //NSAssert([representedObject isKindOfClass:[OEMedia class]], @"Media View Controller can only represent OEMedia objects.");
     [super setRepresentedObject:representedObject];
     [self reloadData];
-
-    [self OE_setupToolbarStatesForViewTag:OEGridViewTag];
-    [self OE_showView:OEGridViewTag];
 }
 #pragma mark - OELibrarySubviewController Implementation
 - (id)encodeCurrentState
@@ -115,6 +107,8 @@
 
 - (void)setLibraryController:(OELibraryController *)controller
 {
+    [super setLibraryController:controller];
+    
     [[controller toolbarGridViewButton] setEnabled:FALSE];
     [[controller toolbarFlowViewButton] setEnabled:FALSE];
     [[controller toolbarListViewButton] setEnabled:FALSE];
@@ -124,18 +118,16 @@
 }
 
 #pragma mark -
-- (BOOL)shouldShowBlankSlate
-{
-    return [[self groupRanges] count] == 0;
-}
-
 - (void)fetchItems
 {
 #pragma TODO(Improve group detection)
     if([self representedObject] != [OEDBSavedGamesMedia sharedDBSavedGamesMedia])
     {
-        _groupRanges = @[];
-        _items = @[];
+        _items                = @[];
+        _groupRanges          = @[];
+        _shouldShowBlankSlate = YES;
+
+        [self updateBlankSlate];
         return;
     }
 
@@ -146,9 +138,19 @@
 
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
     [req setEntity:[NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context]];
+
+    _shouldShowBlankSlate = [context countForFetchRequest:req error:nil] == 0;
+    if(_shouldShowBlankSlate)
+    {
+        _items       = @[];
+        _groupRanges = @[];
+
+        [self updateBlankSlate];
+        return;
+    }
+
     [req setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"rom.game.gameTitle" ascending:YES],
                               [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]]];
-    [req setPredicate:[NSPredicate predicateWithFormat:@"rom.game != nil"]];
 
     NSError *error  = nil;
     if(!(result=[context executeFetchRequest:req error:&error]))
@@ -163,6 +165,7 @@
         _groupRanges = @[];
         _items = @[];
 
+        [self updateBlankSlate];
         return;
     }
 

@@ -29,6 +29,9 @@
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
 #import "OECorePlugin.h"
+#import "OEDBSavedGamesMedia.h"
+#import "OEDBScreenshotsMedia.h"
+#import "OEDBVideoMedia.h"
 
 #import "OEBlankSlateForegroundLayer.h"
 #import "OECollectionViewItemProtocol.h"
@@ -122,6 +125,8 @@
         [self setRepresentedSystemPlugin:[(OEDBSystem*)representedObject plugin]];
     else if([representedObject conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)])
         [self setRepresentedCollectionName:[representedObject collectionViewName]];
+    else if([representedObject isKindOfClass:[OEDBSavedGamesMedia class]] || [representedObject isKindOfClass:[OEDBVideoMedia class]] || [representedObject isKindOfClass:[OEDBScreenshotsMedia class]])
+        [self setRepresentedMediaType:representedObject];
     else
         DLog(@"Unknown represented object: %@ %@", [representedObject className], representedObject);
 }
@@ -364,6 +369,22 @@
     [view setFrame:viewFrame];
     [self addSubview:view];
 }
+
+
+- (void)setRepresentedMediaType:(id <OESidebarItem>)item
+{
+    if(_representedCollectionName == [item sidebarName])
+        return;
+
+    _representedSystemPlugin = nil;
+    _representedCollectionName = [item sidebarName];
+
+    NSView *view = [[NSView alloc] initWithFrame:(NSRect){ .size = { ViewWidth, ViewHeight }}];
+
+    [self OE_setupView:view withCollectionName:[item sidebarName]];
+    [self OE_showView:view];
+}
+
 
 - (void)layoutSublayersOfLayer:(CALayer *)theLayer
 {
