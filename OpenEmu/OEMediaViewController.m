@@ -235,11 +235,13 @@
     NSValue  *groupRange = [[self groupRanges] objectAtIndex:index];
     NSRange range = [groupRange rangeValue];
     OEDBSaveState *firstState = [[self items] objectAtIndex:range.location];
+    OEDBGame   *game   = [[firstState rom] game];
+    OEDBSystem *system = [[[firstState rom] game] system];
     return @{
-             IKImageBrowserGroupTitleKey : [[[firstState rom] game] gameTitle],
+             IKImageBrowserGroupTitleKey : [game gameTitle] ?: [game displayName],
              IKImageBrowserGroupRangeKey : groupRange,
              IKImageBrowserGroupStyleKey : @(IKGroupDisclosureStyle),
-             OEImageBrowserGroupSubtitleKey : [[[[firstState rom] game] system] lastLocalizedName]
+             OEImageBrowserGroupSubtitleKey : [system lastLocalizedName] ?: [system name]
              };
 }
 
