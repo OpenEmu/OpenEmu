@@ -37,7 +37,6 @@
 
 #import "OEDBSavedGamesMedia.h"
 #import "OEDBScreenshotsMedia.h"
-#import "OEDBVideoMedia.h"
 
 #import "OESystemPicker.h"
 
@@ -512,10 +511,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     // Screenshots
     OEDBScreenshotsMedia *screenshotsMedia = [OEDBScreenshotsMedia sharedDBScreenshotsMedia];
     [mediaArray addObject:screenshotsMedia];
-    
-    // Video
-    OEDBVideoMedia *videoMedia = [OEDBVideoMedia sharedDBVideoMedia];
-    [mediaArray addObject:videoMedia];
     
     return mediaArray;
 }

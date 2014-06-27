@@ -31,7 +31,6 @@
 #import "OECorePlugin.h"
 #import "OEDBSavedGamesMedia.h"
 #import "OEDBScreenshotsMedia.h"
-#import "OEDBVideoMedia.h"
 
 #import "OEBlankSlateForegroundLayer.h"
 #import "OECollectionViewItemProtocol.h"
@@ -125,7 +124,7 @@
         [self setRepresentedSystemPlugin:[(OEDBSystem*)representedObject plugin]];
     else if([representedObject conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)])
         [self setRepresentedCollectionName:[representedObject collectionViewName]];
-    else if([representedObject isKindOfClass:[OEDBSavedGamesMedia class]] || [representedObject isKindOfClass:[OEDBVideoMedia class]] || [representedObject isKindOfClass:[OEDBScreenshotsMedia class]])
+    else if([representedObject isKindOfClass:[OEDBSavedGamesMedia class]] || [representedObject isKindOfClass:[OEDBScreenshotsMedia class]])
         [self setRepresentedMediaType:representedObject];
     else
         DLog(@"Unknown represented object: %@ %@", [representedObject className], representedObject);

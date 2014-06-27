@@ -280,7 +280,6 @@
 		8227756B1489471A00B19E27 /* OEGGSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755C1489471A00B19E27 /* OEGGSystemResponder.m */; };
 		828BF57E1669F97B00759F10 /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
 		828BF57F1669F99600759F10 /* OEUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F738FB1617FF2B00BB2519 /* OEUtilities.m */; };
-		829022AA0F47F90D00BB7AB7 /* OEGameQTRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 829022A90F47F90D00BB7AB7 /* OEGameQTRecorder.m */; };
 		82965F851041DC3200F30B74 /* OECorePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82965F841041DC3200F30B74 /* OECorePicker.xib */; };
 		82965F881041DC4600F30B74 /* OECorePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82965F871041DC4600F30B74 /* OECorePickerController.m */; };
 		829779340E743F2A00631240 /* OEGameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* OEGameAudio.m */; };
@@ -297,7 +296,6 @@
 		82DE4B63102655DA007184EB /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEE1026533E007184EB /* UniversalDetector.framework */; };
 		82DE4B7F102655FC007184EB /* XADMaster.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
 		82DE4B8010265600007184EB /* UniversalDetector.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEE1026533E007184EB /* UniversalDetector.framework */; };
-		82FC495D102123D100408B4F /* OEFrameEncodeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FC495C102123D100408B4F /* OEFrameEncodeOperation.m */; };
 		830013AE17A7C5A000EB128A /* controls_triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 830013AD17A7C5A000EB128A /* controls_triangle.png */; };
 		8301557B1456BF7A0093D681 /* OEGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8301557A1456BF7A0093D681 /* OEGameViewController.m */; };
 		83025E60146BDD5E00A06EF9 /* OECoreTableButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83025E5F146BDD5E00A06EF9 /* OECoreTableButtonCell.m */; };
@@ -774,7 +772,6 @@
 		94A2260E170761D200098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A22608170761D200098DA0 /* Keyboard-Mappings.plist */; };
 		94A4E98D179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E98C179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m */; };
 		94A4E992179F9D0400AD8C7D /* OEDBScreenshotsMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E98F179F9D0400AD8C7D /* OEDBScreenshotsMedia.m */; };
-		94A4E993179F9D0400AD8C7D /* OEDBVideoMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E991179F9D0400AD8C7D /* OEDBVideoMedia.m */; };
 		94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */; };
 		94A4E998179FB98100AD8C7D /* media.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A4E997179FB98100AD8C7D /* media.png */; };
 		94A5321918DF8A3700AE11B3 /* Jaguar.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 943C80121708A62E00D8D93E /* Jaguar.oesystemplugin */; };
@@ -1808,8 +1805,6 @@
 		8227755E1489471A00B19E27 /* GameGear-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GameGear-Info.plist"; sourceTree = "<group>"; };
 		82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuBase-Info.plist"; sourceTree = "<group>"; };
 		825CC280148C13750063A9B5 /* OpenEmu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmu-Info.plist"; sourceTree = "<group>"; };
-		829022A80F47F90D00BB7AB7 /* OEGameQTRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameQTRecorder.h; sourceTree = "<group>"; };
-		829022A90F47F90D00BB7AB7 /* OEGameQTRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameQTRecorder.m; sourceTree = "<group>"; };
 		82965F841041DC3200F30B74 /* OECorePicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OECorePicker.xib; sourceTree = "<group>"; };
 		82965F861041DC4600F30B74 /* OECorePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECorePickerController.h; sourceTree = "<group>"; };
 		82965F871041DC4600F30B74 /* OECorePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECorePickerController.m; sourceTree = "<group>"; };
@@ -1825,8 +1820,6 @@
 		82DE446510252F2F007184EB /* IKImageFlowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IKImageFlowView.h; sourceTree = "<group>"; };
 		82DE4AEE1026533E007184EB /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UniversalDetector.framework; sourceTree = "<group>"; };
 		82DE4AEF1026533E007184EB /* XADMaster.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XADMaster.framework; sourceTree = "<group>"; };
-		82FC495B102123D100408B4F /* OEFrameEncodeOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFrameEncodeOperation.h; sourceTree = "<group>"; };
-		82FC495C102123D100408B4F /* OEFrameEncodeOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFrameEncodeOperation.m; sourceTree = "<group>"; };
 		830013AD17A7C5A000EB128A /* controls_triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controls_triangle.png; sourceTree = "<group>"; };
 		830155791456BF7A0093D681 /* OEGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameViewController.h; sourceTree = "<group>"; };
 		8301557A1456BF7A0093D681 /* OEGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameViewController.m; sourceTree = "<group>"; };
@@ -2498,8 +2491,6 @@
 		94A4E98C179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSavedGamesMedia.m; sourceTree = "<group>"; };
 		94A4E98E179F9D0400AD8C7D /* OEDBScreenshotsMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBScreenshotsMedia.h; sourceTree = "<group>"; };
 		94A4E98F179F9D0400AD8C7D /* OEDBScreenshotsMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBScreenshotsMedia.m; sourceTree = "<group>"; };
-		94A4E990179F9D0400AD8C7D /* OEDBVideoMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBVideoMedia.h; sourceTree = "<group>"; };
-		94A4E991179F9D0400AD8C7D /* OEDBVideoMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBVideoMedia.m; sourceTree = "<group>"; };
 		94A4E994179FAB9E00AD8C7D /* OEMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMediaViewController.h; sourceTree = "<group>"; };
 		94A4E995179FAB9F00AD8C7D /* OEMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMediaViewController.m; sourceTree = "<group>"; };
 		94A4E997179FB98100AD8C7D /* media.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = media.png; sourceTree = "<group>"; };
@@ -4163,7 +4154,6 @@
 				1E2F3DB810DEAB370019AA84 /* Migration */,
 				82DE498810263A09007184EB /* Downloader */,
 				C62F546E0FE6AD6700DF15BA /* Plugins */,
-				829022A70F47F8FE00BB7AB7 /* QuickTime */,
 				8249C8E40E899CD30027EFDF /* Audio */,
 				829165DA0E85F9A400493FD8 /* Graphics */,
 				831C9AAA1600957100038D0D /* Theme Engine */,
@@ -4185,17 +4175,6 @@
 				C69DCD000FE994A5009AE5A6 /* OEPluginDocument.m */,
 			);
 			name = OpenEmuCore;
-			sourceTree = "<group>";
-		};
-		829022A70F47F8FE00BB7AB7 /* QuickTime */ = {
-			isa = PBXGroup;
-			children = (
-				829022A80F47F90D00BB7AB7 /* OEGameQTRecorder.h */,
-				829022A90F47F90D00BB7AB7 /* OEGameQTRecorder.m */,
-				82FC495B102123D100408B4F /* OEFrameEncodeOperation.h */,
-				82FC495C102123D100408B4F /* OEFrameEncodeOperation.m */,
-			);
-			name = QuickTime;
 			sourceTree = "<group>";
 		};
 		829165DA0E85F9A400493FD8 /* Graphics */ = {
@@ -5383,8 +5362,6 @@
 				94A4E98C179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m */,
 				94A4E98E179F9D0400AD8C7D /* OEDBScreenshotsMedia.h */,
 				94A4E98F179F9D0400AD8C7D /* OEDBScreenshotsMedia.m */,
-				94A4E990179F9D0400AD8C7D /* OEDBVideoMedia.h */,
-				94A4E991179F9D0400AD8C7D /* OEDBVideoMedia.m */,
 			);
 			name = Media;
 			sourceTree = "<group>";
@@ -7573,13 +7550,11 @@
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				829779340E743F2A00631240 /* OEGameAudio.m in Sources */,
 				837820B61907E8520043593F /* OEBlankSlateForegroundLayer.m in Sources */,
-				829022AA0F47F90D00BB7AB7 /* OEGameQTRecorder.m in Sources */,
 				C62F54710FE6ADC500DF15BA /* OEPlugin.m in Sources */,
 				C62F549B0FE6CC1500DF15BA /* OECorePlugin.m in Sources */,
 				C69DCD010FE994A5009AE5A6 /* OEPluginDocument.m in Sources */,
 				82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */,
 				C62D53050FFB51D6007C2649 /* OECompositionPlugin.m in Sources */,
-				82FC495D102123D100408B4F /* OEFrameEncodeOperation.m in Sources */,
 				82965F881041DC4600F30B74 /* OECorePickerController.m in Sources */,
 				1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */,
 				C6953CA1117293760091276F /* OEGameView.m in Sources */,
@@ -7755,7 +7730,6 @@
 				8394074D1778AE4F00669B0B /* OESliderCell.m in Sources */,
 				94A4E98D179F9A4D00AD8C7D /* OEDBSavedGamesMedia.m in Sources */,
 				94A4E992179F9D0400AD8C7D /* OEDBScreenshotsMedia.m in Sources */,
-				94A4E993179F9D0400AD8C7D /* OEDBVideoMedia.m in Sources */,
 				94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */,
 				C6096192179B461C00239067 /* OEXPCGameCoreManager.m in Sources */,
 				C609619E179B8E1100239067 /* OEDOGameCoreManager.m in Sources */,
