@@ -20,4 +20,14 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
 
 #pragma mark - Core Data Properties
 @dynamic location, name, timestamp, userDescription, rom;
+
+- (void)setURL:(NSURL *)url
+{
+    [self setLocation:[url absoluteString]];
+}
+
+- (NSURL*)URL
+{
+    return [NSURL URLWithString:[self location]];
+}
 @end

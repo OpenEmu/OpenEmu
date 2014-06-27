@@ -245,14 +245,30 @@
 
 - (NSMenu*)OE_screenshotMenuForItensAtIndexes:(NSIndexSet *)indexes
 {
-    return nil;
+
+    NSMenu *menu = [[NSMenu alloc] init];
+
+    if([indexes count] == 1)
+    {
+        [menu addItemWithTitle:@"Rename" action:@selector(beginEditingWithSelectedItem:) keyEquivalent:@""];
+        [menu addItemWithTitle:@"Show in Finder" action:@selector(showInFinder:) keyEquivalent:@""];
+        [menu addItemWithTitle:@"Delete Screenshot" action:@selector(deleteSelectedItems:) keyEquivalent:@""];
+    }
+    else
+    {
+        [menu addItemWithTitle:@"Show in Finder" action:@selector(showInFinder:) keyEquivalent:@""];
+        [menu addItemWithTitle:@"Delete Screenshots" action:@selector(deleteSelectedItems:) keyEquivalent:@""];
+    }
+
+    return menu;
 }
 
 - (IBAction)showInFinder:(id)sender
 {
     NSIndexSet *indexes = [self selectionIndexes];
-    NSArray *saveStates = [[self items] objectsAtIndexes:indexes];
-    NSArray *urls = [saveStates valueForKeyPath:@"URL.absoluteURL"];
+    NSArray *items = [[self items] objectsAtIndexes:indexes];
+    NSArray *urls  = [items valueForKeyPath:@"URL.absoluteURL"];
+
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:urls];
 }
 

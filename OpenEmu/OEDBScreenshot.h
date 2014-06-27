@@ -22,4 +22,5 @@ extern NSString * const OEDBScreenshotImportRequired;
 @property (nonatomic, retain) NSString * userDescription;
 @property (nonatomic, retain) OEDBRom *rom;
 
+@property (nonatomic, assign) NSURL *URL;
 @end
