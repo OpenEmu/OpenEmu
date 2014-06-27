@@ -34,6 +34,7 @@
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBSystem.h"
+#import "OEDBScreenshot.h"
 
 #import "OEGridView.h"
 
@@ -49,6 +50,8 @@
 @interface OEMediaViewController ()
 @property (strong) NSArray *groupRanges;
 @property (strong) NSArray *items;
+
+@property BOOL saveStateMode;
 
 @property BOOL shouldShowBlankSlate;
 @property (strong) NSPredicate *searchPredicate;
@@ -80,6 +83,8 @@
 - (void)setRepresentedObject:(id)representedObject
 {
     [super setRepresentedObject:representedObject];
+
+    [self setSaveStateMode:[representedObject isKindOfClass:[OEDBSavedGamesMedia class]]];
     [self reloadData];
 }
 #pragma mark - OELibrarySubviewController Implementation
@@ -143,23 +148,13 @@
 - (void)fetchItems
 {
 #pragma TODO(Improve group detection)
-    if([self representedObject] != [OEDBSavedGamesMedia sharedDBSavedGamesMedia])
-    {
-        _items                = @[];
-        _groupRanges          = @[];
-        _shouldShowBlankSlate = YES;
-
-        [self updateBlankSlate];
-        return;
-    }
-
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
 
     NSMutableArray *ranges = [NSMutableArray array];
     NSArray *result = nil;
 
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
-    [req setEntity:[NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context]];
+    [req setEntity:[NSEntityDescription entityForName:[self OE_entityName] inManagedObjectContext:context]];
 
     _shouldShowBlankSlate = [context countForFetchRequest:req error:nil] == 0;
     if(_shouldShowBlankSlate)
@@ -196,7 +191,7 @@
     NSUInteger groupStart = 0;
     for(i=0; i < [result count]; i++)
     {
-        OEDBSaveState *state = [result objectAtIndex:i];
+        id state = [result objectAtIndex:i];
         if(![[[[state rom] game] objectID] isEqualTo:gameID])
         {
             [ranges addObject:[NSValue valueWithRange:NSMakeRange(groupStart, i-groupStart)]];
@@ -211,6 +206,11 @@
     }
     _groupRanges = ranges;
     _items = result;
+}
+
+- (NSString*)OE_entityName
+{
+    return [self saveStateMode] ? [OEDBSaveState entityName] : [OEDBScreenshot entityName];
 }
 #pragma mark - Context Menu
 - (NSMenu*)menuForItemsAtIndexes:(NSIndexSet *)indexes
@@ -285,9 +285,9 @@
 {
     NSValue  *groupRange = [[self groupRanges] objectAtIndex:index];
     NSRange range = [groupRange rangeValue];
-    OEDBSaveState *firstState = [[self items] objectAtIndex:range.location];
-    OEDBGame   *game   = [[firstState rom] game];
-    OEDBSystem *system = [[[firstState rom] game] system];
+    id firstItem = [[self items] objectAtIndex:range.location];
+    OEDBGame   *game   = [[firstItem rom] game];
+    OEDBSystem *system = [[[firstItem rom] game] system];
     return @{
              IKImageBrowserGroupTitleKey : [game gameTitle] ?: [game displayName],
              IKImageBrowserGroupRangeKey : groupRange,
@@ -306,18 +306,22 @@
     if(index < 0 || index >= [_items count] || [title length] == 0)
         return;
 
-    OEDBSaveState *state = [[self items] objectAtIndex:index];
-    if(![state isSpecialState] || [[OEHUDAlert renameSpecialStateAlert] runModal] == NSAlertDefaultReturn)
+    id item = [[self items] objectAtIndex:index];
+    BOOL showWarning = [self saveStateMode] && [item isSpecialState];
+    if(showWarning && [[OEHUDAlert renameSpecialStateAlert] runModal] == NSAlertDefaultReturn)
     {
-        [state setName:title];
-        [state moveToDefaultLocation];
-
-        if([state writeToDisk] == NO)
+        [(OEDBSaveState*)item setName:title];
+        if([self saveStateMode])
         {
-            // TODO: delete save state with
-            NSLog(@"Writing save state '%@' failed. It should be delted!", title);
+            [item moveToDefaultLocation];
+
+            if([item writeToDisk] == NO)
+            {
+                // TODO: delete save state with
+                NSLog(@"Writing save state '%@' failed. It should be delted!", title);
+            }
         }
-        [state save];
+        [item save];
     }
 }
 
@@ -366,14 +370,18 @@ static NSDateFormatter *formatter = nil;
 
 - (id)imageRepresentation
 {
-    return [[self state] screenshotURL];
+    if([[self state] isKindOfClass:[OEDBSaveState class]])
+        return [[self state] screenshotURL];
+    return [NSURL URLWithString:[[self state] location]];
 }
 
 - (NSString *)imageTitle
 {
     if([self game])
         return [[self game] displayName];
-    return [[self state] displayName];
+    else if([[self state] isKindOfClass:[OEDBSaveState class]])
+        return [[self state] displayName];
+    return [[self state] name];
 }
 
 - (NSString *)imageSubtitle

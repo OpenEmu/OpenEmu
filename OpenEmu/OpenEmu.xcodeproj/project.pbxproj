@@ -364,6 +364,7 @@
 		8356AEF215DA703100AA6B44 /* OEImportOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8356AEF115DA703100AA6B44 /* OEImportOperation.m */; };
 		835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 835F3F3F1683534700C74B97 /* OEToolTipManager.m */; };
 		836291FE1515F30700192116 /* OEFSWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 836291FD1515F30700192116 /* OEFSWatcher.m */; };
+		83633447195D798600470AB8 /* OEDBScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 83633446195D798600470AB8 /* OEDBScreenshot.m */; };
 		8363A3CF193C8B2600F18425 /* grid_header.png in Resources */ = {isa = PBXBuildFile; fileRef = 8363A3CD193C8B2600F18425 /* grid_header.png */; };
 		8363A3D0193C8B2600F18425 /* grid_header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8363A3CE193C8B2600F18425 /* grid_header@2x.png */; };
 		8363A430193C954100F18425 /* OEGameCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363A42F193C954100F18425 /* OEGameCollectionViewController.m */; };
@@ -1934,6 +1935,8 @@
 		835F3F4116835F1A00C74B97 /* OEToolTip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEToolTip.h; sourceTree = "<group>"; };
 		836291FC1515F30700192116 /* OEFSWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFSWatcher.h; sourceTree = "<group>"; };
 		836291FD1515F30700192116 /* OEFSWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFSWatcher.m; sourceTree = "<group>"; };
+		83633445195D798600470AB8 /* OEDBScreenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBScreenshot.h; sourceTree = "<group>"; };
+		83633446195D798600470AB8 /* OEDBScreenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBScreenshot.m; sourceTree = "<group>"; };
 		8363A3CC193C81F800F18425 /* IKImageBrowserGridGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKImageBrowserGridGroup.h; sourceTree = "<group>"; };
 		8363A3CD193C8B2600F18425 /* grid_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grid_header.png; sourceTree = "<group>"; };
 		8363A3CE193C8B2600F18425 /* grid_header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grid_header@2x.png"; sourceTree = "<group>"; };
@@ -3702,6 +3705,8 @@
 				83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */,
 				838AC27E14434EED00AC74C3 /* OEDBRom.h */,
 				838AC27F14434EED00AC74C3 /* OEDBRom.m */,
+				83633445195D798600470AB8 /* OEDBScreenshot.h */,
+				83633446195D798600470AB8 /* OEDBScreenshot.m */,
 			);
 			name = Items;
 			sourceTree = "<group>";
@@ -7666,6 +7671,7 @@
 				8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */,
 				8363A43A193CBAFA00F18425 /* OEGridMediaItemCell.m in Sources */,
 				8353EB2315FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m in Sources */,
+				83633447195D798600470AB8 /* OEDBScreenshot.m in Sources */,
 				8353EB7D15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel in Sources */,
 				831C9AAD160095BA00038D0D /* OETheme.m in Sources */,
 				831C9AB0160095E500038D0D /* OEThemeObject.m in Sources */,

@@ -75,7 +75,7 @@
         <attribute name="userDescription" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="rom" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="ROM" inverseName="saveStates" inverseEntity="ROM" indexed="YES" syncable="YES"/>
     </entity>
-    <entity name="Screenshot" syncable="YES">
+    <entity name="Screenshot" representedClassName="OEDBScreenshot" syncable="YES">
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>
@@ -96,12 +96,12 @@
         <element name="CollectionFolder" positionX="0" positionY="0" width="128" height="60"/>
         <element name="Contributor" positionX="0" positionY="0" width="128" height="90"/>
         <element name="Credit" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="Game" positionX="0" positionY="0" width="128" height="238"/>
+        <element name="Game" positionX="0" positionY="0" width="128" height="240"/>
         <element name="Genre" positionX="0" positionY="0" width="128" height="75"/>
         <element name="Image" positionX="0" positionY="0" width="128" height="135"/>
-        <element name="ROM" positionX="0" positionY="0" width="128" height="298"/>
+        <element name="Screenshot" positionX="0" positionY="0" width="128" height="118"/>
+        <element name="ROM" positionX="0" positionY="0" width="128" height="300"/>
         <element name="SaveState" positionX="0" positionY="0" width="128" height="150"/>
-        <element name="Screenshot" positionX="9" positionY="126" width="128" height="118"/>
         <element name="SmartCollection" positionX="0" positionY="0" width="128" height="45"/>
         <element name="System" positionX="0" positionY="0" width="128" height="120"/>
     </elements>

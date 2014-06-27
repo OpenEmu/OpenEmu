@@ -27,7 +27,8 @@
 #import "OELibraryMigrator.h"
 #import "OEMigrationWindowController.h"
 #import "OELibraryDatabase.h"
-
+#import "NSURL+OELibraryAdditions.h"
+#import "OEDBScreenshot.h"
 NSString *const OEMigrationErrorDomain = @"OEMigrationErrorDomain";
 
 @interface OELibraryMigrator ()
@@ -130,6 +131,15 @@ NSString *const OEMigrationErrorDomain = @"OEMigrationErrorDomain";
     {
         DLog(@"Moving to default library location failed");
         return cleanup(NO);
+    }
+
+    NSArray *versions = [sourceMetadata objectForKey:NSStoreModelVersionIdentifiersKey];
+    versions = [versions sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+
+    NSString *sourceVersion = [versions lastObject];
+    if([sourceVersion compare:@"1.3"] == NSOrderedAscending)
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OEDBScreenshotImportRequired];
     }
 
     DLog(@"Migration Done");
