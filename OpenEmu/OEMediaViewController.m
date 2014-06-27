@@ -41,10 +41,11 @@
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 
 @interface OESavedGamesDataWrapper : NSObject
++ (id)wrapperWithItem:(id)item;
 + (id)wrapperWithState:(OEDBSaveState*)state;
-+ (id)wrapperWithGame:(OEDBGame*)game;
-@property (strong) OEDBGame *game;
-@property (strong) OEDBSaveState *state;
++ (id)wrapperWithScreenshot:(OEDBScreenshot*)screenshot;
+@property (strong) OEDBSaveState  *state;
+@property (strong) OEDBScreenshot *screenshot;
 @end
 
 @interface OEMediaViewController ()
@@ -244,30 +245,37 @@
 - (void)deleteSelectedItems:(id)sender
 {
     NSIndexSet *selection = [self selectionIndexes];
-    NSArray *states = [[[self items] objectsAtIndexes:selection] copy];
+    NSArray *items = [[[self items] objectsAtIndexes:selection] copy];
 
-    OEHUDAlert *alert = nil;
-    if([states count] < 1)
+    if([[items lastObject] isKindOfClass:[OEDBSaveState class]])
     {
-        DLog(@"delete empty selection");
-        return;
-    }
-    else if([states count] == 1)
-    {
-        alert = [OEHUDAlert deleteStateAlertWithStateName:[[states lastObject] displayName]];
-    }
-    else if([states count] > 1)
-    {
-        alert = [OEHUDAlert deleteStateAlertWithStateCount:[states count]];
-    }
+        OEHUDAlert *alert = nil;
+        if([items count] < 1)
+        {
+            DLog(@"delete empty selection");
+            return;
+        }
+        else if([items count] == 1)
+        {
+            alert = [OEHUDAlert deleteStateAlertWithStateName:[[items lastObject] displayName]];
+        }
+        else if([items count] > 1)
+        {
+            alert = [OEHUDAlert deleteStateAlertWithStateCount:[items count]];
+        }
 
-    if([alert runModal] == NSAlertDefaultReturn)
+        if([alert runModal] == NSAlertDefaultReturn)
+        {
+            [items enumerateObjectsUsingBlock:^(OEDBSaveState *state, NSUInteger idx, BOOL *stop) {
+                [state remove];
+            }];
+            [[[[self libraryController] database] mainThreadContext] save:nil];
+            [self reloadData];
+        }
+    }
+    else
     {
-        [states enumerateObjectsUsingBlock:^(OEDBSaveState *state, NSUInteger idx, BOOL *stop) {
-            [state remove];
-        }];
-        [[[[self libraryController] database] mainThreadContext] save:nil];
-        [self reloadData];
+        NSLog(@"No delte action for items of %@ type", [[items lastObject] className]);
     }
 }
 #pragma mark - GridView DataSource
@@ -278,14 +286,14 @@
 
 - (id)imageBrowser:(IKImageBrowserView *)aBrowser itemAtIndex:(NSUInteger)index
 {
-        return [OESavedGamesDataWrapper wrapperWithState:[[self items] objectAtIndex:index]];
+    return [OESavedGamesDataWrapper wrapperWithItem:[[self items] objectAtIndex:index]];
 }
 
 - (NSDictionary*)imageBrowser:(IKImageBrowserView *)aBrowser groupAtIndex:(NSUInteger)index
 {
     NSValue  *groupRange = [[self groupRanges] objectAtIndex:index];
     NSRange range = [groupRange rangeValue];
-    id firstItem = [[self items] objectAtIndex:range.location];
+    id  firstItem = [[self items] objectAtIndex:range.location];
     OEDBGame   *game   = [[firstItem rom] game];
     OEDBSystem *system = [[[firstItem rom] game] system];
     return @{
@@ -307,27 +315,45 @@
         return;
 
     id item = [[self items] objectAtIndex:index];
-    BOOL showWarning = [self saveStateMode] && [item isSpecialState];
-    if(showWarning && [[OEHUDAlert renameSpecialStateAlert] runModal] == NSAlertDefaultReturn)
-    {
-        [(OEDBSaveState*)item setName:title];
-        if([self saveStateMode])
-        {
-            [item moveToDefaultLocation];
 
-            if([item writeToDisk] == NO)
+    if([item isKindOfClass:[OEDBSaveState class]])
+    {
+        OEDBSaveState *saveState = item;
+        if(![saveState isSpecialState] || [[OEHUDAlert renameSpecialStateAlert] runModal] == NSAlertDefaultReturn)
+        {
+            [saveState setName:title];
+            [saveState moveToDefaultLocation];
+
+            if([saveState writeToDisk] == NO)
             {
                 // TODO: delete save state with
                 NSLog(@"Writing save state '%@' failed. It should be delted!", title);
             }
         }
-        [item save];
     }
+    else if([item isKindOfClass:[OEDBScreenshot class]])
+    {
+        OEDBScreenshot *screenshot = item;
+        [screenshot setName:title];
+    } else {
+        NSLog(@"unkown item type");
+    }
+
+    [item save];
 }
 
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index
 {
-    [NSApp sendAction:@selector(startSaveState:) to:nil from:self];
+    id item = [[self items] objectAtIndex:index];
+
+    if([item isKindOfClass:[OEDBSaveState class]])
+    {
+        [NSApp sendAction:@selector(startSaveState:) to:nil from:self];
+    }
+    else
+    {
+        NSLog(@"No action for items of %@ type", [item className]);
+    }
 }
 @end
 
@@ -343,6 +369,16 @@ static NSDateFormatter *formatter = nil;
         [formatter setTimeStyle:NSDateFormatterMediumStyle];
     }
 }
+
++ (id)wrapperWithItem:(id)item
+{
+    if([item isKindOfClass:[OEDBSaveState class]])
+        return [self wrapperWithState:item];
+    else if([item isKindOfClass:[OEDBScreenshot class]])
+        return [self wrapperWithScreenshot:item];
+    return nil;
+}
+
 + (id)wrapperWithState:(OEDBSaveState*)state
 {
     OESavedGamesDataWrapper *obj = [[self alloc] init];
@@ -350,17 +386,20 @@ static NSDateFormatter *formatter = nil;
     return obj;
 }
 
-+ (id)wrapperWithGame:(OEDBGame *)game
++ (id)wrapperWithScreenshot:(OEDBScreenshot*)screenshot;
 {
     OESavedGamesDataWrapper *obj = [[self alloc] init];
-    [obj setGame:game];
-    [obj setState:[[[game defaultROM] saveStates] anyObject]];
+    [obj setScreenshot:screenshot];
     return obj;
 }
 
 - (NSString *)imageUID
 {
-    return [[self state] location];
+    if([self state])
+        return [[self state] location];
+    if([self screenshot])
+        return [[self screenshot] location];
+    return nil;
 }
 
 - (NSString *)imageRepresentationType
@@ -370,28 +409,24 @@ static NSDateFormatter *formatter = nil;
 
 - (id)imageRepresentation
 {
-    if([[self state] isKindOfClass:[OEDBSaveState class]])
-        return [[self state] screenshotURL];
-    return [NSURL URLWithString:[[self state] location]];
+    if([self state])
+            return [[self state] screenshotURL];
+    if([self screenshot])
+            return [NSURL URLWithString:[[self screenshot] location]];
+    return nil;
 }
 
 - (NSString *)imageTitle
 {
-    if([self game])
-        return [[self game] displayName];
-    else if([[self state] isKindOfClass:[OEDBSaveState class]])
+    if([self state])
         return [[self state] displayName];
-    return [[self state] name];
+    if([self screenshot])
+        return [[self screenshot] name];
+    return nil;
 }
 
 - (NSString *)imageSubtitle
 {
-    if([self game])
-    {
-        NSUInteger count = [[[self game] defaultROM] saveStateCount];
-        return [NSString stringWithFormat:@"%ld Save%s", count, count!=1 ? "s" : ""];
-    }
-
     return [formatter stringFromDate:[[self state] timestamp]];
 }
 @end
