@@ -364,6 +364,7 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
             [self setSelectionIndexes:indexes byExtendingSelection:NO];
 
         NSMenu *contextMenu = [(id <OEGridViewMenuSource>)[self dataSource] gridView:self menuForItemsAtIndexes:indexes];
+        if(!contextMenu) return nil;
 
         OEMenuStyle     style      = ([[NSUserDefaults standardUserDefaults] boolForKey:OEMenuOptionsStyleKey] ? OEMenuStyleLight : OEMenuStyleDark);
         IKImageBrowserCell *itemCell   = [self cellForItemAtIndex:index];

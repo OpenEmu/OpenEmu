@@ -216,6 +216,14 @@
 #pragma mark - Context Menu
 - (NSMenu*)menuForItemsAtIndexes:(NSIndexSet *)indexes
 {
+    if([self saveStateMode])
+        return [self OE_saveStateMenuForItensAtIndexes:indexes];
+    else
+        return [self OE_screenshotMenuForItensAtIndexes:indexes];
+}
+
+- (NSMenu*)OE_saveStateMenuForItensAtIndexes:(NSIndexSet *)indexes
+{
     NSMenu *menu = [[NSMenu alloc] init];
 
     if([indexes count] == 1)
@@ -232,6 +240,12 @@
     }
 
     return [menu numberOfItems] != 0 ? menu : nil;
+}
+
+
+- (NSMenu*)OE_screenshotMenuForItensAtIndexes:(NSIndexSet *)indexes
+{
+    return nil;
 }
 
 - (IBAction)showInFinder:(id)sender
