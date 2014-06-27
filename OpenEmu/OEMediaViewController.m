@@ -124,19 +124,14 @@
 - (void)search:(id)sender
 {
     NSString *searchTerm = [[[self libraryController] toolbarSearchField] stringValue];
-    NSArray *tokens = [searchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSMutableArray *predarray = [NSMutableArray array];
+    NSArray *tokens = [searchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSArray *keys = @[@"rom.game.gameTitle", @"rom.game.name", @"rom.game.system.lastLocalizedName", @"name", @"userDescription"];
     for(NSString *token in tokens)
-    {
         if(token.length > 0)
-        {
-            [predarray addObject:[NSPredicate predicateWithFormat:@"rom.game.gameTitle contains[cd] %@", token]];
-            [predarray addObject:[NSPredicate predicateWithFormat:@"rom.game.name contains[cd] %@", token]];
-            [predarray addObject:[NSPredicate predicateWithFormat:@"name contains[cd] %@", token]];
-            [predarray addObject:[NSPredicate predicateWithFormat:@"userDescription contains[cd] %@", token]];
-            [predarray addObject:[NSPredicate predicateWithFormat:@"rom.game.system.lastLocalizedName contains[cd] %@", token]];
-        }
-    }
+            for(NSString *key in keys)
+                [predarray addObject:[NSPredicate predicateWithFormat:@"%K contains[cd] %@", key, token]];
+
     if([predarray count])
         _searchPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:predarray];
     else
