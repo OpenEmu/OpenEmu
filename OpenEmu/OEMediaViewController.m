@@ -51,6 +51,7 @@
 @property (strong) NSArray *items;
 
 @property BOOL shouldShowBlankSlate;
+@property (strong) NSPredicate *searchPredicate;
 @end
 
 @implementation OEMediaViewController
@@ -58,7 +59,9 @@
 {
     self = [super init];
     if (self)
-    {}
+    {
+        _searchPredicate = [NSPredicate predicateWithValue:YES];
+    }
     return self;
 }
 - (void)loadView
@@ -118,6 +121,30 @@
 }
 
 #pragma mark -
+- (void)search:(id)sender
+{
+    NSString *searchTerm = [[[self libraryController] toolbarSearchField] stringValue];
+    NSArray *tokens = [searchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSMutableArray *predarray = [NSMutableArray array];
+    for(NSString *token in tokens)
+    {
+        if(token.length > 0)
+        {
+            [predarray addObject:[NSPredicate predicateWithFormat:@"rom.game.gameTitle contains[cd] %@", token]];
+            [predarray addObject:[NSPredicate predicateWithFormat:@"rom.game.name contains[cd] %@", token]];
+            [predarray addObject:[NSPredicate predicateWithFormat:@"name contains[cd] %@", token]];
+            [predarray addObject:[NSPredicate predicateWithFormat:@"userDescription contains[cd] %@", token]];
+            [predarray addObject:[NSPredicate predicateWithFormat:@"rom.game.system.lastLocalizedName contains[cd] %@", token]];
+        }
+    }
+    if([predarray count])
+        _searchPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:predarray];
+    else
+        _searchPredicate = [NSPredicate predicateWithValue:YES];
+
+    [self reloadData];
+}
+
 - (void)fetchItems
 {
 #pragma TODO(Improve group detection)
@@ -151,6 +178,7 @@
 
     [req setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"rom.game.gameTitle" ascending:YES],
                               [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]]];
+    [req setPredicate:_searchPredicate];
 
     NSError *error  = nil;
     if(!(result=[context executeFetchRequest:req error:&error]))
