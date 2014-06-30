@@ -108,6 +108,7 @@
 
 - (void)setURL:(NSURL *)url
 {
+    url = [url URLByStandardizingPath];
     if([url isSubpathOfURL:[[self libraryDatabase] romsFolderURL]])
     {
         NSString *romsFolderURLString = [[[self libraryDatabase] romsFolderURL] absoluteString];

@@ -59,7 +59,8 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 + (OEDBSaveState *)saveStateWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
-    
+
+    url = [url URLByStandardizingPath];
     NSString *absoluteString = [url absoluteString];
     if([absoluteString characterAtIndex:[absoluteString length]-1] != '/')
     {
@@ -83,6 +84,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 + (id)createSaveStateWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context
 {
     OEDBSaveState *newSaveState = [self createObjectInContext:context];
+    url = [url URLByStandardizingPath];
     [newSaveState setLocation:[url absoluteString]];
     if(![newSaveState readInfoPlist])
     {
@@ -112,6 +114,8 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 + (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inContext:(NSManagedObjectContext *)context
 {
+    stateFileURL = [stateFileURL URLByStandardizingPath];
+
     OEDBSaveState *newSaveState = [self createObjectInContext:context];
     [newSaveState setName:name];
     [newSaveState setRom:rom];
@@ -162,6 +166,9 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 - (BOOL)OE_createBundleAtURL:(NSURL *)bundleURL withStateFile:(NSURL *)stateFile error:(NSError **)error
 {
+    bundleURL = [bundleURL URLByStandardizingPath];
+    stateFile = [stateFile URLByStandardizingPath];
+
     NSFileManager *fileManager         = [NSFileManager defaultManager];
     NSDictionary  *directoryAttributes = @{};
     if(![fileManager createDirectoryAtURL:bundleURL withIntermediateDirectories:YES attributes:directoryAttributes error:error])
@@ -427,6 +434,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 - (void)setURL:(NSURL *)url
 {
+    url = [url URLByStandardizingPath];
     [self setLocation:[url absoluteString]];
 }
 

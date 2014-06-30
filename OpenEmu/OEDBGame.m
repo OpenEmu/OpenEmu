@@ -97,7 +97,8 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     
     NSError __autoreleasing *nilerr;
     if(outError == NULL) outError = &nilerr;
-    
+
+    url = [url URLByStandardizingPath];
     BOOL urlReachable = [url checkResourceIsReachableAndReturnError:outError];
 
     // TODO: FIX
@@ -242,7 +243,9 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 
 - (void)setBoxImageByURL:(NSURL *)url
 {
+    url = [url URLByStandardizingPath];
     NSString      *urlString = [url absoluteString];
+
     NSDictionary *dictionary = [OEDBImage prepareImageWithURLString:urlString];
     NSManagedObjectContext *context = [self managedObjectContext];
     [context performBlockAndWait:^{

@@ -47,6 +47,7 @@
 #import "NSURL+OELibraryAdditions.h"
 #import "NSImage+OEDrawingAdditions.h"
 #import "NSMutableDictionary+OEAdditions.h"
+#import "NSUserDefaults+OEAdditions.h"
 
 #import <OpenEmuBase/OpenEmuBase.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
@@ -815,7 +816,8 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSURL *)stateFolderURL
 {
-    if([[NSUserDefaults standardUserDefaults] objectForKey:OESaveStateFolderURLKey]) return [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:OESaveStateFolderURLKey]];
+    if([[NSUserDefaults standardUserDefaults] objectForKey:OESaveStateFolderURLKey])
+        return [[NSUserDefaults standardUserDefaults] URLForKey:OESaveStateFolderURLKey];
 
     NSString *saveStateFolderName = NSLocalizedString(@"Save States", @"Save States Folder Name");
     NSURL    *result = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
