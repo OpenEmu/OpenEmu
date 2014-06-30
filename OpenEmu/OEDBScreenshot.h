@@ -15,6 +15,7 @@
 extern NSString * const OEDBScreenshotImportRequired;
 
 @interface OEDBScreenshot : OEDBItem
+- (void)updateFile;
 
 @property (nonatomic, retain) NSString * location;
 @property (nonatomic, retain) NSString * name;

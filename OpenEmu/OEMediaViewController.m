@@ -303,9 +303,36 @@
             [self reloadData];
         }
     }
+    else if([[items lastObject] isKindOfClass:[OEDBScreenshot class]])
+    {
+        OEHUDAlert *alert = nil;
+        if([items count] < 1)
+        {
+            DLog(@"delete empty selection");
+            return;
+        }
+        else if([items count] == 1)
+        {
+            OEDBScreenshot *screenshot = [items lastObject];
+            alert = [OEHUDAlert deleteScreenshotAlertWithScreenshotName:[screenshot name]];
+        }
+        else if([items count] > 1)
+        {
+            alert = [OEHUDAlert deleteScreenshotAlertWithScreenshotCount:[items count]];
+        }
+
+        if([alert runModal] == NSAlertDefaultReturn)
+        {
+            [items enumerateObjectsUsingBlock:^(OEDBScreenshot *state, NSUInteger idx, BOOL *stop) {
+                [state delete];
+            }];
+            [[[[self libraryController] database] mainThreadContext] save:nil];
+            [self reloadData];
+        }
+    }
     else
     {
-        NSLog(@"No delte action for items of %@ type", [[items lastObject] className]);
+        NSLog(@"No delete action for items of %@ type", [[items lastObject] className]);
     }
 }
 #pragma mark - GridView DataSource
@@ -324,7 +351,7 @@
     NSValue  *groupRange = [[self groupRanges] objectAtIndex:index];
     NSRange range = [groupRange rangeValue];
     id  firstItem = [[self items] objectAtIndex:range.location];
-    OEDBGame   *game   = [[firstItem rom] game];
+    OEDBGame   *game   = [[firstItem rom]  game];
     OEDBSystem *system = [[[firstItem rom] game] system];
     return @{
              IKImageBrowserGroupTitleKey : [game gameTitle] ?: [game displayName],
@@ -365,6 +392,7 @@
     {
         OEDBScreenshot *screenshot = item;
         [screenshot setName:title];
+        [screenshot updateFile];
     } else {
         NSLog(@"unkown item type");
     }

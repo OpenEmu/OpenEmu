@@ -40,7 +40,8 @@ NSString *const OEStopEmulationAlertSuppressionKey = @"stopEmulationWithoutConfi
 NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey = @"trashFilesDialogChoice";
 NSString *const OEGameCoreGlitchesSuppressionKey = @"OEGameCoreGlitches";
 NSString *const OERenameSpecialSaveStateAlertSuppressionKey = @"OERenameSpecialSaveStateAlertSuppressionKey";
-
+NSString *const OEDeleteScreenshotAlertSuppressionKey = @"OEDeleteScreenshotAlertSuppressionKey";
+NSString *const OEDeleteSaveStateAlertSuppressionKey  = @"OEDeleteSaveStateAlertSuppressionKey";
 
 @implementation OEHUDAlert (DefaultAlertsAdditions)
 
@@ -150,7 +151,7 @@ NSString *const OERenameSpecialSaveStateAlertSuppressionKey = @"OERenameSpecialS
     [alert setDefaultButtonTitle:NSLocalizedString(@"Delete Save", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     [alert setHeadlineText:nil];
-    [alert showSuppressionButtonForUDKey:OEDeleteGameAlertSuppressionKey];
+    [alert showSuppressionButtonForUDKey:OEDeleteSaveStateAlertSuppressionKey];
     
     return alert;
 }
@@ -163,7 +164,35 @@ NSString *const OERenameSpecialSaveStateAlertSuppressionKey = @"OERenameSpecialS
     [alert setDefaultButtonTitle:NSLocalizedString(@"Delete Saves", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     [alert setHeadlineText:nil];
-    [alert showSuppressionButtonForUDKey:OEDeleteGameAlertSuppressionKey];
+    [alert showSuppressionButtonForUDKey:OEDeleteSaveStateAlertSuppressionKey];
+
+    return alert;
+}
+
+
+
++ (id)deleteScreenshotAlertWithScreenshotName:(NSString*)screenshotName
+{
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?", @""), screenshotName];
+    [alert setMessageText:messageText];
+    [alert setDefaultButtonTitle:NSLocalizedString(@"Delete Screenshot", @"")];
+    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
+    [alert setHeadlineText:nil];
+    [alert showSuppressionButtonForUDKey:OEDeleteScreenshotAlertSuppressionKey];
+
+    return alert;
+}
+
++ (id)deleteScreenshotAlertWithScreenshotCount:(NSUInteger)count
+{
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete %ld screenshots from your OpenEmu library?", @""), count];
+    [alert setMessageText:messageText];
+    [alert setDefaultButtonTitle:NSLocalizedString(@"Delete Screenshots", @"")];
+    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
+    [alert setHeadlineText:nil];
+    [alert showSuppressionButtonForUDKey:OEDeleteScreenshotAlertSuppressionKey];
 
     return alert;
 }

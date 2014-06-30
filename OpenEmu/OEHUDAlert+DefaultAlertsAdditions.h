@@ -51,6 +51,9 @@ extern NSString *const OEGameCoreGlitchesSuppressionKey;
 + (id)resetSystemAlert;
 + (id)stopEmulationAlert;
 
++ (id)deleteScreenshotAlertWithScreenshotName:(NSString*)screenshotName;
++ (id)deleteScreenshotAlertWithScreenshotCount:(NSUInteger)count;
+
 + (id)removeGamesFromCollectionAlert;
 + (id)removeGamesFromLibraryAlert:(BOOL)multipleGames;
 + (id)removeGameFilesFromLibraryAlert:(BOOL)multipleGames;
