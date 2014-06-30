@@ -455,6 +455,7 @@
 		83C68ED114483579000F720A /* OEHUDAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEHUDAlert.m */; };
 		83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C6C1DB190536CC00DD7B13 /* OEDBImageMigrationPolicy.m */; };
 		83CA87B01961C71C00D86D55 /* NSUserDefaults+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CA87AF1961C71C00D86D55 /* NSUserDefaults+OEAdditions.m */; };
+		83CA87B41961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */; };
 		83CAD4D4147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CAD4D3147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m */; };
 		83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */; };
 		83CE3DC314C84EC10036DB28 /* beta_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CE3DC214C84EC10036DB28 /* beta_icon.png */; };
@@ -2083,6 +2084,7 @@
 		83C6C1DB190536CC00DD7B13 /* OEDBImageMigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImageMigrationPolicy.m; sourceTree = "<group>"; };
 		83CA87AE1961C71C00D86D55 /* NSUserDefaults+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+OEAdditions.h"; sourceTree = "<group>"; };
 		83CA87AF1961C71C00D86D55 /* NSUserDefaults+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+OEAdditions.m"; sourceTree = "<group>"; };
+		83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.2 to 1.3.xcmappingmodel"; sourceTree = "<group>"; };
 		83CAD4D2147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSClipView+OEAnimatedScrolling.h"; sourceTree = "<group>"; };
 		83CAD4D3147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSClipView+OEAnimatedScrolling.m"; sourceTree = "<group>"; };
 		83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveState.h; sourceTree = "<group>"; };
@@ -4450,6 +4452,7 @@
 				832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */,
 				8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */,
 				83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */,
+				83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */,
 			);
 			name = "Mapping Models";
 			sourceTree = "<group>";
@@ -7646,6 +7649,7 @@
 				839310BC147802380020058E /* OECoreDownload.m in Sources */,
 				83CAD4D4147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m in Sources */,
 				83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */,
+				83CA87B41961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel in Sources */,
 				83F7DBAF18C0E2470029199C /* OEFileManager.m in Sources */,
 				EF2FDBEB14CFFE06002A64F2 /* OEControlsKeyButton.m in Sources */,
 				EF2FDBEC14CFFE11002A64F2 /* OEControlsKeyLabelCell.m in Sources */,

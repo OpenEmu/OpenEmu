@@ -35,5 +35,6 @@
 - (NSNumber*)fileSize;
 
 - (NSURL*)uniqueURLUsingBlock:(NSURL*(^)(NSInteger triesCount))block;
+- (NSURL*)urlRelativeToURL:(NSURL*)url;
 + (NSString*)validFilenameFromString:(NSString*)fileName;
 @end

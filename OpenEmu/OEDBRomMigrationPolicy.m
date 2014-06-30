@@ -28,7 +28,7 @@
 #import "NSArray+OEAdditions.h"
 #import <XADMaster/XADArchive.h>
 #import "OELibraryDatabase.h"
-
+#import "NSURL+OELibraryAdditions.h"
 extern NSString *const OELibraryRomsFolderURLKey;
 @implementation OEDBRomMigrationPolicy
 
@@ -94,6 +94,30 @@ extern NSString *const OELibraryRomsFolderURLKey;
 
         }
     }
+    else if([version isEqualToString:@"1.2"])
+    {
+        NSPersistentStoreCoordinator *coord = [[oldObject managedObjectContext] persistentStoreCoordinator];
+        NSURL *romsFolderURL = [self romsFolderURLWithPersistentStoreCoordinator:coord];
+        NSString *urlString = [oldObject valueForKey:@"location"];
+        NSURL *url = nil;
+        if([urlString rangeOfString:@"file://"].location == NSNotFound)
+             url = [NSURL URLWithString:urlString relativeToURL:romsFolderURL];
+        else
+            url = [NSURL URLWithString:urlString];
+
+        NSURL *relativeURL = [url urlRelativeToURL:romsFolderURL];
+        NSString *location = [relativeURL relativeString];
+        if(location)
+        {
+            NSArray *attributeMappings = [mapping attributeMappings];
+            NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
+                                          ^ BOOL (id obj)
+                                          {
+                                              return [[obj name] isEqualToString:@"location"];
+                                          }];
+            [mapping setValueExpression:[NSExpression expressionForConstantValue:location]];
+        }
+    }
 
     return [super createDestinationInstancesForSourceInstance:oldObject entityMapping:mapping manager:manager error:error];
 }
@@ -104,18 +128,20 @@ extern NSString *const OELibraryRomsFolderURLKey;
     NSDictionary *metadata = [coord metadataForPersistentStore:persistentStore];
 
     NSURL *databaseFolderURL = [[persistentStore URL] URLByDeletingLastPathComponent];
+    NSURL *result = nil;
     if([metadata objectForKey:OELibraryRomsFolderURLKey])
     {
         NSString *urlString = [metadata objectForKey:OELibraryRomsFolderURLKey];
         if([urlString rangeOfString:@"file://"].location == NSNotFound)
-            return [NSURL URLWithString:urlString relativeToURL:databaseFolderURL];
-        return [NSURL URLWithString:urlString];
+             result = [NSURL URLWithString:urlString relativeToURL:databaseFolderURL];
+        else result = [NSURL URLWithString:urlString];
     }
     else
     {
-        NSURL *result = [databaseFolderURL URLByAppendingPathComponent:@"roms" isDirectory:YES];
-        return result;
+        result = [databaseFolderURL URLByAppendingPathComponent:@"roms" isDirectory:YES];
     }
+
+    return [result standardizedURL];
 }
 
 @end

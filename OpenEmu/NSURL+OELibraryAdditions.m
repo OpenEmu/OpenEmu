@@ -78,7 +78,23 @@
 + (NSString*)validFilenameFromString:(NSString*)fileName
 {
     NSCharacterSet *illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\":<>"];
-    return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
+    return [fileName stringByTrimmingCharactersInSet:illegalFileNameCharacters];
 }
 
+- (NSURL*)urlRelativeToURL:(NSURL*)url
+{
+    NSString *absoluteString = [[self standardizedURL] absoluteString];
+    NSRange range = [absoluteString rangeOfString:[[url standardizedURL] absoluteString]];
+    NSURL *result = nil;
+    if(range.location != NSNotFound && range.location == 0)
+    {
+        result = [NSURL URLWithString:[absoluteString substringFromIndex:range.length] relativeToURL:url];
+    }
+    else
+    {
+        result = self;
+    }
+
+    return [result standardizedURL];
+}
 @end

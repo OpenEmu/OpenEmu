@@ -26,6 +26,8 @@
 
 #import "OEDBSaveStateMigrationPolicy.h"
 #import "NSArray+OEAdditions.h"
+#import "OELibraryDatabase.h"
+#import "NSURL+OELibraryAdditions.h"
 @implementation OEDBSaveStateMigrationPolicy
 
 - (BOOL)createDestinationInstancesForSourceInstance:(NSManagedObject *)oldObject entityMapping:(NSEntityMapping *)mapping manager:(NSMigrationManager *)manager error:(NSError **)error
@@ -50,7 +52,43 @@
             [mapping setValueExpression:[NSExpression expressionForConstantValue:location]];
         }
     }
+    else if([version isEqualToString:@"1.2"])
+    {
+        NSURL *romsFolderURL = [self stateFolderURL];
+        NSString *urlString = [oldObject valueForKey:@"location"];
+        NSURL *url = nil;
+        if([urlString rangeOfString:@"file://"].location == NSNotFound)
+            url = [NSURL URLWithString:urlString relativeToURL:romsFolderURL];
+        else
+            url = [NSURL URLWithString:urlString];
+
+        NSURL *relativeURL = [url urlRelativeToURL:romsFolderURL];
+        NSString *location = [relativeURL relativeString];
+        if(location)
+        {
+            NSArray *attributeMappings = [mapping attributeMappings];
+            NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
+                                          ^ BOOL (id obj)
+                                          {
+                                              return [[obj name] isEqualToString:@"location"];
+                                          }];
+            [mapping setValueExpression:[NSExpression expressionForConstantValue:location]];
+        }
+    }
+
     return [super createDestinationInstancesForSourceInstance:oldObject entityMapping:mapping manager:manager error:error];
 }
 
+- (NSURL*)stateFolderURL
+{
+    if([[NSUserDefaults standardUserDefaults] objectForKey:OESaveStateFolderURLKey])
+        return [[NSUserDefaults standardUserDefaults] URLForKey:OESaveStateFolderURLKey];
+
+    NSString *saveStateFolderName = NSLocalizedString(@"Save States", @"Save States Folder Name");
+    NSURL    *result = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];
+    result = [result URLByAppendingPathComponent:saveStateFolderName isDirectory:YES];
+
+    return [result standardizedURL];
+}
 @end
