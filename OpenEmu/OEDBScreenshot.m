@@ -61,7 +61,7 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
 {
     OELibraryDatabase *database = [self libraryDatabase];
     NSURL *screenshotDirectory = [database screenshotFolderURL];
-    NSString *fileName = [self name];
+    NSString *fileName = [NSURL validFilenameFromString:[self name]];
     NSString *fileExtension = @"png";
     NSURL *targetURL = [[screenshotDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", fileName, fileExtension]] URLByStandardizingPath];
     NSFileManager *fm = [NSFileManager defaultManager];

@@ -25,7 +25,7 @@
  */
 
 #import "NSURL+OELibraryAdditions.h"
-
+#import "NSString+OEAdditions.h"
 
 @implementation NSURL (OELibraryAdditions)
 
@@ -78,7 +78,7 @@
 + (NSString*)validFilenameFromString:(NSString*)fileName
 {
     NSCharacterSet *illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\":<>"];
-    return [fileName stringByTrimmingCharactersInSet:illegalFileNameCharacters];
+    return [fileName stringByDeletingCharactersInSet:illegalFileNameCharacters];
 }
 
 - (NSURL*)urlRelativeToURL:(NSURL*)url

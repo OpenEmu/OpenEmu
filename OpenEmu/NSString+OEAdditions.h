@@ -24,40 +24,11 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSString+OERangeAdditions.h"
+#import <Foundation/Foundation.h>
 
 
-@implementation NSString (OERangeAdditions)
-
-- (BOOL)isEqualToString:(NSString *)aString excludingRange:(NSRange)aRange
-{
-    NSUInteger length1 = [self length];
-    NSUInteger length2 = [aString length];
-    
-    if(length1 != length2) return NO;
-    
-    NSUInteger i = 0;
-    while(i < length1 && i < length2)
-    {
-        if(NSLocationInRange(i, aRange))
-        {
-            i = NSMaxRange(aRange);
-            continue;
-        }
-        
-        if([self characterAtIndex:i] != [aString characterAtIndex:i])
-            return NO;
-        
-        i++;
-    }
-    
-    return YES;
-}
-
-
-- (NSRange)fullRange
-{
-    return NSMakeRange(0, [self length]);
-}
-
+@interface NSString (OEAdditions)
+- (BOOL)isEqualToString:(NSString *)aString excludingRange:(NSRange)aRange;
+- (NSRange)fullRange;
+- (NSString*)stringByDeletingCharactersInSet:(NSCharacterSet*)set;
 @end

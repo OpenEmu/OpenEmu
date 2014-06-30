@@ -28,7 +28,7 @@
 #import "OERetrode_IOLevel.h"
 #import "OERetrode_Configuration.h"
 
-#import "NSString+OERangeAdditions.h"
+#import "NSString+OEAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
 
 
