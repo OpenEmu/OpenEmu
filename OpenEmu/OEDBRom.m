@@ -50,7 +50,7 @@
 + (id)romWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context error:(NSError *__autoreleasing*)outError
 {
     if(url == nil) return nil;
-    
+
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location == %@", [url absoluteString]];
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     
@@ -108,17 +108,8 @@
 
 - (void)setURL:(NSURL *)url
 {
-    url = [url URLByStandardizingPath];
-    if([url isSubpathOfURL:[[self libraryDatabase] romsFolderURL]])
-    {
-        NSString *romsFolderURLString = [[[self libraryDatabase] romsFolderURL] absoluteString];
-        NSString *relativeURLString   = [[url absoluteString] substringFromIndex:[romsFolderURLString length]];
-        
-        url = [NSURL URLWithString:relativeURLString relativeToURL:[[self libraryDatabase] romsFolderURL]];
-        [self setLocation:[url relativeString]];
-    }
-    else
-        [self setLocation:[url absoluteString]];
+    NSURL *romFolderURL = [[self libraryDatabase] romsFolderURL];
+    [self setLocation:[[url urlRelativeToURL:romFolderURL] relativeString]];
 }
 
 - (NSString *)md5Hash

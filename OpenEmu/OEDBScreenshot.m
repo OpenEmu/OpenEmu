@@ -44,12 +44,14 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
 
 - (void)setURL:(NSURL *)url
 {
-    [self setLocation:[[url URLByStandardizingPath] absoluteString]];
+    NSURL *screenshotDirectory = [[self libraryDatabase] screenshotFolderURL];
+    [self setLocation:[[url urlRelativeToURL:screenshotDirectory] relativeString]];
 }
 
 - (NSURL*)URL
 {
-    return [NSURL URLWithString:[self location]];
+    NSURL *screenshotDirectory = [[self libraryDatabase] screenshotFolderURL];
+    return [NSURL URLWithString:[self location] relativeToURL:screenshotDirectory];
 }
 
 - (void)prepareForDeletion
