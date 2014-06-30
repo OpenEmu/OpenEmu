@@ -184,6 +184,7 @@ NSString * const OptionsKey = @"options";
                               Button(@"Choose save states directory", @selector(chooseSaveStatesDirectory:)),
                               Button(@"Add untracked save states", @selector(findUntrackedSaveStates:)),
                               Button(@"Remove missing states", @selector(removeMissingStates:)),
+                              Button(@"Remove duplicate states", @selector(removeDuplicateStates:)),
 
                               Group(@"OpenVGDB"),
                               Button(@"Update OpenVGDB", @selector(updateOpenVGDB:)),
@@ -258,6 +259,37 @@ NSString * const OptionsKey = @"options";
     NSArray *objects = [OEDBSaveState allObjectsInContext:[database mainThreadContext]];
     [objects makeObjectsPerformSelector:@selector(removeIfMissing)];
     [[database mainThreadContext] save:nil];
+}
+
+- (void)removeDuplicateStates:(id)sender
+{
+    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+
+    NSArray *objects = [OEDBSaveState allObjectsInContext:[database mainThreadContext]];
+    objects = [objects sortedArrayUsingComparator:^NSComparisonResult(OEDBSaveState *obj1, OEDBSaveState *obj2) {
+        return [[[[obj1 URL] standardizedURL] absoluteString] compare:[[[obj2 URL] standardizedURL] absoluteString]];
+    }];
+
+    for(int i=0; i < [objects count]; i++)
+    {
+        OEDBSaveState *currentState = [objects objectAtIndex:i];
+        [currentState setURL:[currentState URL]];
+    }
+
+    OEDBSaveState *lastState = nil;
+    for(int i=0; i < [objects count]; i++)
+    {
+        OEDBSaveState *currentState = [objects objectAtIndex:i];
+        if([[[lastState URL] standardizedURL] isEqualTo:[[currentState URL] standardizedURL]]) {
+            [currentState delete];
+        } else {
+            [currentState setURL:[currentState URL]];
+            lastState = currentState;
+        }
+    }
+
+    [[database mainThreadContext] save:nil];
+
 }
 #pragma mark -
 - (void)updateOpenVGDB:(id)sender

@@ -436,7 +436,13 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 - (void)setURL:(NSURL *)url
 {
     NSURL *saveStateDirectoryURL = [[self libraryDatabase] stateFolderURL];
-    [self setLocation:[[url urlRelativeToURL:saveStateDirectoryURL] relativeString]];
+    NSString *string = [[url urlRelativeToURL:saveStateDirectoryURL] relativeString];
+
+    // make sure we don't save trailing '/' for save state bundles
+    if([string characterAtIndex:[string length]-1] == '/')
+        string = [string substringToIndex:[string length]-1];
+
+    [self setLocation:string];
 }
 
 - (NSURL *)screenshotURL

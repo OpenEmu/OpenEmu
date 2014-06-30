@@ -86,5 +86,4 @@ extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 #pragma mark - Data Model Relationships
 
 @property (nonatomic, retain) OEDBRom *rom;
-
 @end
