@@ -106,8 +106,6 @@
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
     NSURL *coverFolderURL = [database coverFolderURL];
     NSURL *imageURL = [NSURL URLWithString:fileName relativeToURL:coverFolderURL];
-    imageURL = [imageURL URLByStandardizingPath];
-
     if(![data writeToURL:imageURL atomically:YES])
     {
         [[NSFileManager defaultManager] removeItemAtURL:imageURL error:nil];

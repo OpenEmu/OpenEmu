@@ -51,7 +51,11 @@
 {
     if(url == nil) return nil;
 
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location == %@", [url absoluteString]];
+    NSURL *romFolderURL =  [[context userInfo] valueForKey:OELibraryDatabaseUserInfoKey];
+
+    url = [url urlRelativeToURL:romFolderURL];
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"location == %@", [url relativeString]];
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     
     [fetchRequest setFetchLimit:1];
@@ -93,17 +97,8 @@
 
 - (NSURL *)URL
 {
-    NSURL *result = nil;
-    NSString *location = [self location];
-    if([location isAbsolutePath])
-        result = [NSURL URLWithString:location];
-    else
-    {
-        OELibraryDatabase *database = [self libraryDatabase];
-        NSURL *baseURL = [database romsFolderURL];
-        result = [NSURL URLWithString:location relativeToURL:baseURL];
-    }
-    return result;
+    NSURL *romFolderURL = [[self libraryDatabase] romsFolderURL];
+    return [NSURL URLWithString:[self location] relativeToURL:romFolderURL];
 }
 
 - (void)setURL:(NSURL *)url
