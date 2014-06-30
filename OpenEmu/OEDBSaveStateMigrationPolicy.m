@@ -66,6 +66,10 @@
         NSString *location = [relativeURL relativeString];
         if(location)
         {
+            // make sure we don't save trailing '/' for save state bundles
+            if([location characterAtIndex:[location length]-1] == '/')
+                location = [location substringToIndex:[location length]-1];
+
             NSArray *attributeMappings = [mapping attributeMappings];
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
                                           ^ BOOL (id obj)

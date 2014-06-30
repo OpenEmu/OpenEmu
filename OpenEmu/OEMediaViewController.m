@@ -296,9 +296,7 @@
 
         if([alert runModal] == NSAlertDefaultReturn)
         {
-            [items enumerateObjectsUsingBlock:^(OEDBSaveState *state, NSUInteger idx, BOOL *stop) {
-                [state remove];
-            }];
+            [items makeObjectsPerformSelector:@selector(remove)];
             [[[[self libraryController] database] mainThreadContext] save:nil];
             [self reloadData];
         }
@@ -323,9 +321,7 @@
 
         if([alert runModal] == NSAlertDefaultReturn)
         {
-            [items enumerateObjectsUsingBlock:^(OEDBScreenshot *state, NSUInteger idx, BOOL *stop) {
-                [state delete];
-            }];
+            [items makeObjectsPerformSelector:@selector(delete)];
             [[[[self libraryController] database] mainThreadContext] save:nil];
             [self reloadData];
         }
@@ -371,10 +367,16 @@
     if(index < 0 || index >= [_items count] || [title length] == 0)
         return;
 
+    // ignore users who are trying to manually create auto or quick saves
+    if([title rangeOfString:OESaveStateSpecialNamePrefix].location == 0)
+        return;
+
     id item = [[self items] objectAtIndex:index];
 
     if([item isKindOfClass:[OEDBSaveState class]])
     {
+        if([[item displayName] isEqualToString:title]) return;
+
         OEDBSaveState *saveState = item;
         if(![saveState isSpecialState] || [[OEHUDAlert renameSpecialStateAlert] runModal] == NSAlertDefaultReturn)
         {
@@ -470,7 +472,7 @@ static NSDateFormatter *formatter = nil;
     if([self state])
             return [[self state] screenshotURL];
     if([self screenshot])
-            return [NSURL URLWithString:[[self screenshot] location]];
+            return [[self screenshot] URL];
     return nil;
 }
 
@@ -485,6 +487,10 @@ static NSDateFormatter *formatter = nil;
 
 - (NSString *)imageSubtitle
 {
-    return [formatter stringFromDate:[[self state] timestamp]];
+    if([self state])
+        return [formatter stringFromDate:[[self state] timestamp]];
+    if([self screenshot])
+        return [formatter stringFromDate:[[self screenshot] timestamp]];
+    return @"";
 }
 @end

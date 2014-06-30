@@ -353,7 +353,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
 - (void)remove
 {
-    [[NSFileManager defaultManager] removeItemAtURL:[self URL] error:nil];
+    [[NSFileManager defaultManager] trashItemAtURL:[self URL] resultingItemURL:nil error:nil];
     [[self managedObjectContext] deleteObject:self];
 }
 
@@ -412,6 +412,10 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     else if([name isEqualToString:OESaveStateQuicksaveName])
     {
         return NSLocalizedString(@"Quick Save State", @"Quicksave state display name");
+    }
+    else if([name rangeOfString:OESaveStateQuicksaveName].location == 0)
+    {
+        return [NSString stringWithFormat:NSLocalizedString(@"Quick Save, Slot %@", @"Quicksave state display name with slot"), [name substringFromIndex:[OESaveStateQuicksaveName length]]];
     }
     return name;
 }

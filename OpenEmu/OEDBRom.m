@@ -195,7 +195,7 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name beginswith[c] %@", OESaveStateAutosaveName];
     NSSet *set = [self saveStates];
     set = [set filteredSetUsingPredicate:predicate];
-    
+
     return [set anyObject];
 }
 
