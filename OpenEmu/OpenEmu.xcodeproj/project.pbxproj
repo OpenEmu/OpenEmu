@@ -385,6 +385,10 @@
 		83703B46140E4F9100EC27A7 /* Scale2xPlus.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B40140E4F9100EC27A7 /* Scale2xPlus.png */; };
 		83703B47140E4F9100EC27A7 /* Scale4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B41140E4F9100EC27A7 /* Scale4x.png */; };
 		83703B48140E4F9100EC27A7 /* Scale4xHQ.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B42140E4F9100EC27A7 /* Scale4xHQ.png */; };
+		83723812196329F1008D4C08 /* controller_ngp_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83723810196329F1008D4C08 /* controller_ngp_mask@2x.png */; };
+		83723813196329F1008D4C08 /* controller_ngp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83723811196329F1008D4C08 /* controller_ngp@2x.png */; };
+		8372381819632A0D008D4C08 /* controller_psp_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8372381619632A0D008D4C08 /* controller_psp_mask@2x.png */; };
+		8372381919632A0D008D4C08 /* controller_psp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8372381719632A0D008D4C08 /* controller_psp@2x.png */; };
 		83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83753F1614F537C400D708A7 /* OEPrefDebugController.m */; };
 		83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */; };
 		8375696915125A1F00795226 /* dark_menu_scroll_arrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 8375696715125A1F00795226 /* dark_menu_scroll_arrows.png */; };
@@ -1969,6 +1973,10 @@
 		83703B40140E4F9100EC27A7 /* Scale2xPlus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scale2xPlus.png; sourceTree = "<group>"; };
 		83703B41140E4F9100EC27A7 /* Scale4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scale4x.png; sourceTree = "<group>"; };
 		83703B42140E4F9100EC27A7 /* Scale4xHQ.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scale4xHQ.png; sourceTree = "<group>"; };
+		83723810196329F1008D4C08 /* controller_ngp_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_ngp_mask@2x.png"; sourceTree = "<group>"; };
+		83723811196329F1008D4C08 /* controller_ngp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_ngp@2x.png"; sourceTree = "<group>"; };
+		8372381619632A0D008D4C08 /* controller_psp_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psp_mask@2x.png"; sourceTree = "<group>"; };
+		8372381719632A0D008D4C08 /* controller_psp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psp@2x.png"; sourceTree = "<group>"; };
 		83753F1514F537C400D708A7 /* OEPrefDebugController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefDebugController.h; sourceTree = "<group>"; };
 		83753F1614F537C400D708A7 /* OEPrefDebugController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefDebugController.m; sourceTree = "<group>"; };
 		83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefDebugController.xib; sourceTree = "<group>"; };
@@ -4935,6 +4943,8 @@
 		94454EB717860E1E006C057B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8372381619632A0D008D4C08 /* controller_psp_mask@2x.png */,
+				8372381719632A0D008D4C08 /* controller_psp@2x.png */,
 				94454ECE17861098006C057B /* psp_library.png */,
 				94454EC917861098006C057B /* controller_psp_mask.png */,
 				94454ECA17861098006C057B /* controller_psp.png */,
@@ -5507,6 +5517,8 @@
 		C6252DAF14E7562700350A13 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83723810196329F1008D4C08 /* controller_ngp_mask@2x.png */,
+				83723811196329F1008D4C08 /* controller_ngp@2x.png */,
 				83FBA37014F2C672001F1299 /* neogeopocket_library.png */,
 				EC73206717C66EC900652C23 /* neogeopocket_library@2x.png */,
 				83F4DE2114E00F8800A82E36 /* controller_ngp_mask.png */,
@@ -6667,10 +6679,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				82C2909214840028007C0214 /* InfoPlist.strings in Resources */,
+				83723812196329F1008D4C08 /* controller_ngp_mask@2x.png in Resources */,
 				82C290931484002F007C0214 /* controller_ngp.png in Resources */,
 				83F4DE2314E00FF100A82E36 /* controller_ngp_mask.png in Resources */,
 				C6252DAE14E7556800350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA37114F2C672001F1299 /* neogeopocket_library.png in Resources */,
+				83723813196329F1008D4C08 /* controller_ngp@2x.png in Resources */,
 				9496290A164F7F7E00952A86 /* Controller-Mappings.plist in Resources */,
 				C6AF284E164E469C00681A06 /* Keyboard-Mappings.plist in Resources */,
 				EC73206817C66EC900652C23 /* neogeopocket_library@2x.png in Resources */,
@@ -7037,11 +7051,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8372381819632A0D008D4C08 /* controller_psp_mask@2x.png in Resources */,
 				94454EBB17860E1E006C057B /* InfoPlist.strings in Resources */,
 				94454ECF17861098006C057B /* controller_psp_mask.png in Resources */,
 				94454ED017861098006C057B /* controller_psp.png in Resources */,
 				94454ED117861098006C057B /* Controller-Mappings.plist in Resources */,
 				94454ED217861098006C057B /* Controller-Preferences.plist in Resources */,
+				8372381919632A0D008D4C08 /* controller_psp@2x.png in Resources */,
 				94454ED317861098006C057B /* Keyboard-Mappings.plist in Resources */,
 				94454ED417861098006C057B /* psp_library.png in Resources */,
 			);

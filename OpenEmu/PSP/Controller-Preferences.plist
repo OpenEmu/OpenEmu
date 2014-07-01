@@ -9,37 +9,37 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEPSPButtonUp</key>
-		<string>{0, 0}</string>
+		<string>{70, 176}</string>
 		<key>OEPSPButtonDown</key>
-		<string>{0, 0}</string>
+		<string>{70, 167}</string>
 		<key>OEPSPButtonLeft</key>
-		<string>{0, 0}</string>
+		<string>{65, 171}</string>
 		<key>OEPSPButtonRight</key>
-		<string>{0, 0}</string>
+		<string>{75, 171}</string>
 		<key>OEPSPAnalogUp</key>
-		<string>{0, 0}</string>
+		<string>{66, 259}</string>
 		<key>OEPSPAnalogDown</key>
-		<string>{0, 0}</string>
+		<string>{66, 213}</string>
 		<key>OEPSPAnalogLeft</key>
-		<string>{0, 0}</string>
+		<string>{43, 236}</string>
 		<key>OEPSPAnalogRight</key>
-		<string>{0, 0}</string>
+		<string>{89, 236}</string>
 		<key>OEPSPButtonTriangle</key>
-		<string>{0, 0}</string>
+		<string>{437, 262}</string>
 		<key>OEPSPButtonCircle</key>
-		<string>{0, 0}</string>
+		<string>{465, 235}</string>
 		<key>OEPSPButtonCross</key>
-		<string>{0, 0}</string>
+		<string>{437, 206}</string>
 		<key>OEPSPButtonSquare</key>
-		<string>{0, 0}</string>
+		<string>{409, 235}</string>
 		<key>OEPSPButtonStart</key>
-		<string>{0, 0}</string>
+		<string>{353, 140}</string>
 		<key>OEPSPButtonSelect</key>
-		<string>{0, 0}</string>
+		<string>{382, 140}</string>
 		<key>OEPSPButtonL1</key>
-		<string>{0, 0}</string>
+		<string>{68, 314}</string>
 		<key>OEPSPButtonR1</key>
-		<string>{0, 0}</string>
+		<string>{437, 314}</string>
 	</dict>
 </dict>
 </plist>
