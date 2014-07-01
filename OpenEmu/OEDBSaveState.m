@@ -30,7 +30,9 @@
 #import "OEDBGame.h"
 #import "OEDBSystem.h"
 #import "OECorePlugin.h"
+
 #import "NSURL+OELibraryAdditions.h"
+#import "NSManagedObjectContext+OEAdditions.h"
 
 #define OESaveStateDataFile         @"State"
 #define OESaveStateScreenshotFile   @"ScreenShot"
@@ -59,15 +61,16 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 + (OEDBSaveState *)saveStateWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
+    NSURL *saveStateDirectoryURL = [[context libraryDatabase] stateFolderURL];
+    NSURL *relativeURL = [url urlRelativeToURL:saveStateDirectoryURL];
 
-    url = [url URLByStandardizingPath];
-    NSString *absoluteString = [url absoluteString];
-    if([absoluteString characterAtIndex:[absoluteString length]-1] != '/')
+    NSString *urlString = [relativeURL relativeString];
+    if([urlString characterAtIndex:[urlString length]-1] == '/')
     {
-        absoluteString = [absoluteString stringByAppendingString:@"/"];
+        urlString = [urlString substringToIndex:[urlString length]-1];
     }
     
-    NSPredicate *predicate  = [NSPredicate predicateWithFormat:@"location == %@", absoluteString];
+    NSPredicate *predicate  = [NSPredicate predicateWithFormat:@"location == %@", urlString];
     [request setPredicate:predicate];
     
     return [[context executeFetchRequest:request error:nil] lastObject];
@@ -208,8 +211,9 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     NSFileManager     *defaultManager   = [NSFileManager defaultManager];
     NSString          *saveStatePath    = [path substringToIndex:range.location+range.length];
     NSURL             *originalStateUrl = [NSURL fileURLWithPath:saveStatePath];
-    NSURL             *stateURL         = originalStateUrl;
     NSURL             *stateFolderURL   = [database stateFolderURL];
+    originalStateUrl = [originalStateUrl urlRelativeToURL:stateFolderURL];
+    NSURL             *stateURL         = originalStateUrl;
 
     BOOL stateOutsideStateDir = ![originalStateUrl isSubpathOfURL:stateFolderURL];
     if(stateOutsideStateDir)
@@ -225,8 +229,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     }
 
     OEDBSaveState *saveState = [OEDBSaveState saveStateWithURL:stateURL inContext:context];
-    BOOL fileAvailable = [stateURL checkResourceIsReachableAndReturnError:nil];
-    if(fileAvailable)
+    if([saveState checkFilesAvailable])
     {
         if(saveState)
         {
@@ -413,7 +416,6 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 }
 
 #pragma mark - Data Accessors
-
 - (NSString *)displayName
 {
     if(![self isSpecialState])

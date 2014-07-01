@@ -389,6 +389,7 @@
 		83723813196329F1008D4C08 /* controller_ngp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83723811196329F1008D4C08 /* controller_ngp@2x.png */; };
 		8372381819632A0D008D4C08 /* controller_psp_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8372381619632A0D008D4C08 /* controller_psp_mask@2x.png */; };
 		8372381919632A0D008D4C08 /* controller_psp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8372381719632A0D008D4C08 /* controller_psp@2x.png */; };
+		8372381D196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8372381C196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.m */; };
 		83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83753F1614F537C400D708A7 /* OEPrefDebugController.m */; };
 		83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */; };
 		8375696915125A1F00795226 /* dark_menu_scroll_arrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 8375696715125A1F00795226 /* dark_menu_scroll_arrows.png */; };
@@ -1977,6 +1978,8 @@
 		83723811196329F1008D4C08 /* controller_ngp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_ngp@2x.png"; sourceTree = "<group>"; };
 		8372381619632A0D008D4C08 /* controller_psp_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psp_mask@2x.png"; sourceTree = "<group>"; };
 		8372381719632A0D008D4C08 /* controller_psp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psp@2x.png"; sourceTree = "<group>"; };
+		8372381B196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+OEAdditions.h"; sourceTree = "<group>"; };
+		8372381C196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+OEAdditions.m"; sourceTree = "<group>"; };
 		83753F1514F537C400D708A7 /* OEPrefDebugController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefDebugController.h; sourceTree = "<group>"; };
 		83753F1614F537C400D708A7 /* OEPrefDebugController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefDebugController.m; sourceTree = "<group>"; };
 		83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefDebugController.xib; sourceTree = "<group>"; };
@@ -3511,6 +3514,8 @@
 				83ACB6E619353E94004C6372 /* NSMutableDictionary+OEAdditions.m */,
 				83CA87AE1961C71C00D86D55 /* NSUserDefaults+OEAdditions.h */,
 				83CA87AF1961C71C00D86D55 /* NSUserDefaults+OEAdditions.m */,
+				8372381B196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.h */,
+				8372381C196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.m */,
 			);
 			name = "Additions to standard classes";
 			sourceTree = "<group>";
@@ -7734,6 +7739,7 @@
 				14861960166076A400BDB800 /* NSDate+OESortAdditions.m in Sources */,
 				835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */,
 				14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */,
+				8372381D196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.m in Sources */,
 				8C4C808916986697009B8A28 /* OEGLSLShader.m in Sources */,
 				8305A48018FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m in Sources */,
 				8C4C808E16986C87009B8A28 /* OECGShader.m in Sources */,

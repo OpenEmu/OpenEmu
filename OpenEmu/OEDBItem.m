@@ -28,10 +28,12 @@
 #import "OEDBItem.h"
 #import "OELibraryDatabase.h"
 
+#import "NSManagedObjectContext+OEAdditions.h"
+
 @implementation OEDBItem
 - (OELibraryDatabase *)libraryDatabase
 {
-    return [[[self managedObjectContext] userInfo] valueForKey:OELibraryDatabaseUserInfoKey];
+    return [[self managedObjectContext] libraryDatabase];
 }
 
 + (instancetype)createObjectInContext:(NSManagedObjectContext*)context
