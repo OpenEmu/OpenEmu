@@ -9,21 +9,21 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEPSPButtonUp</key>
-		<string>{70, 176}</string>
-		<key>OEPSPButtonDown</key>
-		<string>{70, 167}</string>
-		<key>OEPSPButtonLeft</key>
-		<string>{65, 171}</string>
-		<key>OEPSPButtonRight</key>
-		<string>{75, 171}</string>
-		<key>OEPSPAnalogUp</key>
 		<string>{66, 259}</string>
-		<key>OEPSPAnalogDown</key>
+		<key>OEPSPButtonDown</key>
 		<string>{66, 213}</string>
-		<key>OEPSPAnalogLeft</key>
+		<key>OEPSPButtonLeft</key>
 		<string>{43, 236}</string>
-		<key>OEPSPAnalogRight</key>
+		<key>OEPSPButtonRight</key>
 		<string>{89, 236}</string>
+		<key>OEPSPAnalogUp</key>
+		<string>{70, 176}</string>
+		<key>OEPSPAnalogDown</key>
+		<string>{70, 167}</string>
+		<key>OEPSPAnalogLeft</key>
+		<string>{65, 171}</string>
+		<key>OEPSPAnalogRight</key>
+		<string>{75, 171}</string>
 		<key>OEPSPButtonTriangle</key>
 		<string>{437, 262}</string>
 		<key>OEPSPButtonCircle</key>
