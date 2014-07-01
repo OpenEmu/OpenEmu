@@ -58,14 +58,15 @@ extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 - (BOOL)readInfoPlist;
 - (BOOL)writeInfoPlist;
 
+- (BOOL)checkFilesAvailable;
+
 - (void)remove;
 - (void)removeIfMissing;
 
 - (void)replaceStateFileWithFile:(NSURL *)stateFile;
-- (void)moveToDefaultLocation;
+- (void)moveToSaveStateFolder;
 
 #pragma mark - Data Accessors
-
 - (NSString *)displayName; // Should be used instead of -name if the string is to be displayed to the user
 - (BOOL)isSpecialState;
 

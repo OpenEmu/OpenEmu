@@ -847,7 +847,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     NSURL *result = [[self stateFolderURLForSystem:[[rom game] system]] URLByAppendingPathComponent:[fileName stringByDeletingPathExtension]];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
-    return result;
+    return [result standardizedURL];
 }
 
 - (NSURL *)screenshotFolderURL
@@ -862,7 +862,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
 
-    return result;
+    return [result standardizedURL];
 }
 
 - (NSURL *)coverFolderURL
@@ -871,9 +871,9 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSString       *libraryFolderPath = [[standardDefaults stringForKey:OEDatabasePathKey] stringByExpandingTildeInPath];
     NSString       *coverFolderPath   = [libraryFolderPath stringByAppendingPathComponent:@"Artwork/"];
 
-    NSURL *url = [NSURL fileURLWithPath:coverFolderPath isDirectory:YES];
-    [[NSFileManager defaultManager] createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:nil];
-    return url;
+    NSURL *result = [NSURL fileURLWithPath:coverFolderPath isDirectory:YES];
+    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+    return [result standardizedURL];
 }
 
 - (NSURL *)importQueueURL

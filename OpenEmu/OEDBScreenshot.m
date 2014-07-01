@@ -56,7 +56,9 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
 
 - (void)prepareForDeletion
 {
-    [[NSFileManager defaultManager] trashItemAtURL:[self URL] resultingItemURL:nil error:nil];
+    NSURL *url = [self URL];
+    if(url)
+        [[NSFileManager defaultManager] trashItemAtURL:url resultingItemURL:nil error:nil];
 }
 
 - (void)updateFile

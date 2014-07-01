@@ -247,7 +247,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
         saveState = nil;
     }
 
-    [saveState moveToDefaultLocation];
+    [saveState moveToSaveStateFolder];
     [context save:nil];
 
     return saveState;
@@ -351,9 +351,24 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     return YES;
 }
 
+- (BOOL)checkFilesAvailable
+{
+    NSURL *bundleURL  = [self URL];
+    NSURL *stateURL   = [self stateFileURL];
+    NSURL *infoURL    = [self infoPlistURL];
+    NSURL *screenshot = [self screenshotURL];
+
+    return [bundleURL checkResourceIsReachableAndReturnError:nil]
+        && [stateURL checkResourceIsReachableAndReturnError:nil]
+        && [infoURL checkResourceIsReachableAndReturnError:nil]
+        && [screenshot checkResourceIsReachableAndReturnError:nil];
+}
+
 - (void)remove
 {
-    [[NSFileManager defaultManager] trashItemAtURL:[self URL] resultingItemURL:nil error:nil];
+    NSURL *url = [self URL];
+    if(url)
+        [[NSFileManager defaultManager] trashItemAtURL:url resultingItemURL:nil error:nil];
     [[self managedObjectContext] deleteObject:self];
 }
 
@@ -375,7 +390,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     [[NSFileManager defaultManager] copyItemAtURL:stateFile toURL:[self stateFileURL] error:nil];
 }
 
-- (void)moveToDefaultLocation
+- (void)moveToSaveStateFolder
 {
     NSURL    *saveStateFolderURL = [[self libraryDatabase] stateFolderURLForROM:[self rom]];
     if([[self URL] isSubpathOfURL:saveStateFolderURL]) return;

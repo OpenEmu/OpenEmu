@@ -381,7 +381,7 @@
         if(![saveState isSpecialState] || [[OEHUDAlert renameSpecialStateAlert] runModal] == NSAlertDefaultReturn)
         {
             [saveState setName:title];
-            [saveState moveToDefaultLocation];
+            [saveState moveToSaveStateFolder];
 
             if([saveState writeToDisk] == NO)
             {

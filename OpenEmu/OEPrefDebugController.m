@@ -185,6 +185,7 @@ NSString * const OptionsKey = @"options";
                               Button(@"Add untracked save states", @selector(findUntrackedSaveStates:)),
                               Button(@"Remove missing states", @selector(removeMissingStates:)),
                               Button(@"Remove duplicate states", @selector(removeDuplicateStates:)),
+                              Button(@"Cleanup autosave state", @selector(cleanupAutoSaveStates:)),
 
                               Group(@"OpenVGDB"),
                               Button(@"Update OpenVGDB", @selector(updateOpenVGDB:)),
@@ -290,6 +291,44 @@ NSString * const OptionsKey = @"options";
 
     [[database mainThreadContext] save:nil];
 
+}
+
+- (void)cleanupAutoSaveStates:(id)sender
+{
+    [self removeDuplicateStates:self];
+
+    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = [database mainThreadContext];
+    NSArray *allRoms = [OEDBRom allObjectsInContext:context];
+    [allRoms enumerateObjectsUsingBlock:^(OEDBRom *rom, NSUInteger idx, BOOL *stop) {
+        NSSortDescriptor *timeStampSort = [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO];
+        NSArray *roms = [[rom saveStates] sortedArrayUsingDescriptors:@[timeStampSort]];
+        NSPredicate *autosaveFilter = [NSPredicate predicateWithFormat:@"name BEGINSWITH %@", OESaveStateAutosaveName];
+        NSArray *autosaves = [roms filteredArrayUsingPredicate:autosaveFilter];
+        OEDBSaveState *autosave = nil;
+        for(int i=0; i < [autosaves count]; i++)
+        {
+            OEDBSaveState *state = [autosaves objectAtIndex:i];
+            if([state checkFilesAvailable])
+            {
+                if(autosave)
+                {
+                    [state setName:NSLocalizedString(@"Recovered Auto Save", @"Recovered auto save name")];
+                    [state moveToSaveStateFolder];
+                    [state writeInfoPlist];
+                }
+                else autosave = state;
+            }
+            else
+            {
+                [state delete];
+            }
+        }
+
+        [autosave moveToSaveStateFolder];
+        [autosave writeInfoPlist];
+    }];
+    [context save:nil];
 }
 #pragma mark -
 - (void)updateOpenVGDB:(id)sender
