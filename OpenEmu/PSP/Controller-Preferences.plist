@@ -33,9 +33,9 @@
 		<key>OEPSPButtonSquare</key>
 		<string>{409, 235}</string>
 		<key>OEPSPButtonStart</key>
-		<string>{353, 140}</string>
-		<key>OEPSPButtonSelect</key>
 		<string>{382, 140}</string>
+		<key>OEPSPButtonSelect</key>
+		<string>{353, 140}</string>
 		<key>OEPSPButtonL1</key>
 		<string>{68, 314}</string>
 		<key>OEPSPButtonR1</key>
