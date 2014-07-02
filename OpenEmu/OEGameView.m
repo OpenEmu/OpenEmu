@@ -34,6 +34,7 @@
 #import "OEGLSLShader.h"
 #import "OECGShader.h"
 #import "OEMultipassShader.h"
+#import "OELUTTexture.h"
 
 #import "OEBuiltInShader.h"
 
@@ -93,6 +94,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     GLuint            *_multipassTextures;
     GLuint            *_multipassFBOs;
     OEIntSize         *_multipassSizes;
+    GLuint            *_lutTextures;
 
     snes_ntsc_t       *_ntscTable;
     uint16_t          *_ntscSource;
@@ -193,9 +195,11 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     // Resources for multipass-rendering
     _multipassTextures = (GLuint *) malloc(OEMultipasses * sizeof(GLuint));
     _multipassFBOs     = (GLuint *) malloc(OEMultipasses * sizeof(GLuint));
+    _lutTextures       = (GLuint *) malloc(OELUTTextures * sizeof(GLuint));
 
     glGenTextures(OEMultipasses, _multipassTextures);
     glGenFramebuffersEXT(OEMultipasses, _multipassFBOs);
+    glGenTextures(OELUTTextures, _lutTextures);
 
     for(NSUInteger i = 0; i < OEMultipasses; ++i)
     {
@@ -343,6 +347,10 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     free(_multipassSizes);
     _multipassSizes = 0;
 
+    glDeleteTextures(OELUTTextures, _lutTextures);
+    free(_lutTextures);
+    _lutTextures = 0;
+
     CGLUnlockContext(cgl_ctx);
     [super clearGLContext];
 }
@@ -360,7 +368,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     }
 
     error = CVDisplayLinkSetOutputCallback(_gameDisplayLinkRef, &MyDisplayLinkCallback, (__bridge void *)self);
-	if(error != kCVReturnSuccess)
+    if(error != kCVReturnSuccess)
     {
         NSLog(@"DisplayLink could not link to callback, error:%d", error);
         CVDisplayLinkRelease(_gameDisplayLinkRef);
@@ -373,7 +381,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     CGLPixelFormatObj cglPixelFormat = CGLGetPixelFormat(cgl_ctx);
 
     error = CVDisplayLinkSetCurrentCGDisplayFromOpenGLContext(_gameDisplayLinkRef, cgl_ctx, cglPixelFormat);
-	if(error != kCVReturnSuccess)
+    if(error != kCVReturnSuccess)
     {
         NSLog(@"DisplayLink could not link to GL Context, error:%d", error);
         CVDisplayLinkRelease(_gameDisplayLinkRef);
@@ -383,13 +391,13 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
     CVDisplayLinkStart(_gameDisplayLinkRef);
 
-	if(!CVDisplayLinkIsRunning(_gameDisplayLinkRef))
-	{
+    if(!CVDisplayLinkIsRunning(_gameDisplayLinkRef))
+    {
         CVDisplayLinkRelease(_gameDisplayLinkRef);
         _gameDisplayLinkRef = NULL;
 
-		NSLog(@"DisplayLink is not running - it should be. ");
-	}
+        NSLog(@"DisplayLink is not running - it should be. ");
+    }
 }
 
 - (void)rebindIOSurface
@@ -460,13 +468,13 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLSetCurrentContext(cgl_ctx);
-	CGLLockContext(cgl_ctx);
+    CGLLockContext(cgl_ctx);
     
-	[self update];
+    [self update];
 
-	glViewport(0, 0, floorf(NSWidth([self bounds])*[[self window] backingScaleFactor]), floorf(NSHeight([self bounds])*[[self window] backingScaleFactor]));
+    glViewport(0, 0, floorf(NSWidth([self bounds])*[[self window] backingScaleFactor]), floorf(NSHeight([self bounds])*[[self window] backingScaleFactor]));
 
-	CGLUnlockContext(cgl_ctx);
+    CGLUnlockContext(cgl_ctx);
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -703,6 +711,13 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
         cgGLEnableTextureParameter([shader fragmentPassTextures][i]);
         cgGLSetParameter2f([shader fragmentPassTextureVideoSizes][i], _multipassSizes[i+1].width, _multipassSizes[i+1].height);
         cgGLSetParameter2f([shader fragmentPassTextureSizes][i], _multipassSizes[i+1].width, _multipassSizes[i+1].height);
+    }
+
+    // bind LUT textures
+    for(NSUInteger i = 0; i < [[shader lutTextures] count]; ++i)
+    {
+        cgGLSetTextureParameter([shader fragmentLUTTextures][i], _lutTextures[i]);
+        cgGLEnableTextureParameter([shader fragmentLUTTextures][i]);
     }
 
     cgGLEnableProfile([shader fragmentProfile]);
@@ -1030,6 +1045,50 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
             else if([(OEMultipassShader *)filter NTSCFilter] == OENTSCFilterTypeRGB)
                 _ntscSetup = snes_ntsc_rgb;
             snes_ntsc_init(_ntscTable, &_ntscSetup);
+        }
+
+        if([self openGLContext] != nil)
+        {
+            CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+
+            // upload LUT textures
+            for(NSUInteger i = 0; i < [[(OEMultipassShader *)filter lutTextures] count]; ++i)
+            {
+                OELUTTexture *lut = [(OEMultipassShader *)filter lutTextures][i];
+                if(lut == nil) {
+                    NSLog(@"Warning: failed to load LUT texture %s", [[lut name] UTF8String]);
+                    continue;
+                }
+
+                CGImageRef texture = [lut texture];
+                if(texture == nil) {
+                    NSLog(@"Warning: failed to load LUT texture %s", [[lut name] UTF8String]);
+                    continue;
+                }
+
+                CGDataProviderRef provider = CGImageGetDataProvider(texture);
+                CFDataRef data = CGDataProviderCopyData(provider);
+
+                glBindTexture(GL_TEXTURE_2D, _lutTextures[i]);
+
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, [lut wrapType]);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, [lut wrapType]);
+
+                GLint mag_filter = [lut linearFiltering] ? GL_LINEAR : GL_NEAREST;
+                GLint min_filter = [lut linearFiltering] ? ([lut mipmap] ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR) :
+                                                           ([lut mipmap] ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mag_filter);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, min_filter);
+
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, CGImageGetWidth(texture), CGImageGetHeight(texture), 0, GL_RGBA, GL_UNSIGNED_BYTE, CFDataGetBytePtr(data));
+
+                if([lut mipmap])
+                    glGenerateMipmap(GL_TEXTURE_2D);
+                
+                glBindTexture(GL_TEXTURE_2D, 0);
+                
+                CFRelease(data);
+            }
         }
     }
 

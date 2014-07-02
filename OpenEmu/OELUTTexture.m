@@ -24,23 +24,44 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEGameShader.h"
+#import "OELUTTexture.h"
 
-typedef enum
+@implementation OELUTTexture
+
+- (void)loadTexture;
 {
-    OENTSCFilterTypeNone,
-    OENTSCFilterTypeRGB,
-    OENTSCFilterTypeSVideo,
-    OENTSCFilterTypeComposite
-} OENTSCFilterType;
+    // Release the texture if it was already loaded
+    if(_texture != nil)
+        CGImageRelease(_texture);
 
-@interface OEMultipassShader : OEGameShader
+    // Get the URL for the pathname passed to the function.
+    NSURL *url = [NSURL fileURLWithPath:_path];
 
-- (void)compileShaders;
+    // Create an image source from the URL.
+    CGImageSourceRef source = CGImageSourceCreateWithURL((__bridge CFURLRef)url, NULL);
 
-@property(readonly) NSUInteger numberOfPasses;
-@property(readonly) NSArray *shaders;
-@property(readonly) OENTSCFilterType NTSCFilter;
-@property(readonly) NSArray *lutTextures;
+    // Make sure the image source exists before continuing
+    if(source == nil){
+        NSLog(@"Failed to find texture at %s", [_path UTF8String]);
+        return;
+    }
+
+    // Create an image from the first item in the image source.
+    _texture = CGImageSourceCreateImageAtIndex(source, 0, NULL);
+    CFRelease(source);
+
+    // Make sure the image exists before continuing
+    if(_texture == nil)
+    {
+        NSLog(@"Failed to load texture from %s", [_path UTF8String]);
+        return;
+    }
+}
+
+- (void)dealloc
+{
+    if(_texture != nil)
+        CGImageRelease(_texture);
+}
 
 @end

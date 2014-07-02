@@ -158,6 +158,12 @@
             _fragmentPreviousTextureVideoSizes[i]   = [self fragmentParameterWithName:[[NSString stringWithFormat:@"PREV%lu.video_size", i] UTF8String]];
         }
 
+        _fragmentLUTTextures                        = (CGparameter *) malloc(sizeof(CGparameter) * [_lutTextures count]);
+        for(NSUInteger i = 0; i < [_lutTextures count]; ++i)
+        {
+            _fragmentLUTTextures[i]                    = [self fragmentParameterWithName:[_lutTextures[i] UTF8String]];
+        }
+
         [self setCompiled:YES];
     }
 }
@@ -184,6 +190,7 @@
         free(_fragmentPreviousTextures);
         free(_fragmentPreviousTextureSizes);
         free(_fragmentPreviousTextureVideoSizes);
+        free(_fragmentLUTTextures);
     }
 }
 

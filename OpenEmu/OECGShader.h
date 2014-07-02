@@ -37,6 +37,7 @@ typedef enum
 
 static const NSUInteger OEFramesSaved = 8;
 static const NSUInteger OEMultipasses = 10;
+static const NSUInteger OELUTTextures = 8;
 
 @interface OECGShader : OEGameShader
 
@@ -83,12 +84,15 @@ static const NSUInteger OEMultipasses = 10;
 @property(readonly) CGparameter *fragmentPreviousTextureSizes;
 @property(readonly) CGparameter *fragmentPreviousTextureVideoSizes;
 
+@property(readonly) CGparameter *fragmentLUTTextures;
+
 @property BOOL        linearFiltering;
 @property BOOL        floatFramebuffer;
 @property OEScaleType xScaleType;
 @property OEScaleType yScaleType;
 @property CGSize      scaler;
 @property NSUInteger  frameCountMod;
+@property NSArray*    lutTextures;
 
 - (CGparameter)vertexParameterWithName:(const char *)theParameterName;
 - (CGparameter)fragmentParameterWithName:(const char *)theParameterName;
