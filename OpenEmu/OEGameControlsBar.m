@@ -263,20 +263,20 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     NSMenu *menu = [[NSMenu alloc] init];
 
     NSMenuItem *item;
-    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Game Controls", @"") action:@selector(editControls:) keyEquivalent:@""];
+    item = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Edit Game Controls", @"") action:@selector(editControls:) keyEquivalent:@""];
     [menu addItem:item];
 
     // Setup Cheats Menu
     if([[self gameViewController] supportsCheats])
     {
         NSMenu *cheatsMenu = [[NSMenu alloc] init];
-        [cheatsMenu setTitle:NSLocalizedString(@"Select Cheat", @"")];
+        [cheatsMenu setTitle:OELocalizedString(@"Select Cheat", @"")];
         item = [[NSMenuItem alloc] init];
-        [item setTitle:NSLocalizedString(@"Select Cheat", @"")];
+        [item setTitle:OELocalizedString(@"Select Cheat", @"")];
         [menu addItem:item];
         [item setSubmenu:cheatsMenu];
 
-        NSMenuItem *addCheatMenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Add Cheat…", @"")
+        NSMenuItem *addCheatMenuItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Add Cheat…", @"")
                                                                   action:@selector(addCheat:)
                                                            keyEquivalent:@""];
         [addCheatMenuItem setRepresentedObject:_cheats];
@@ -300,7 +300,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
     // Setup Core selection menu
     NSMenu *coresMenu = [[NSMenu alloc] init];
-    [coresMenu setTitle:NSLocalizedString(@"Select Core", @"")];
+    [coresMenu setTitle:OELocalizedString(@"Select Core", @"")];
 
     NSString *systemIdentifier = [[self gameViewController] systemIdentifier];
     NSArray *corePlugins = [OECorePlugin corePluginsForSystemIdentifier:systemIdentifier];
@@ -321,7 +321,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         }
 
         item = [[NSMenuItem alloc] init];
-        item.title = NSLocalizedString(@"Select Core", @"");
+        item.title = OELocalizedString(@"Select Core", @"");
         [item setSubmenu:coresMenu];
         if([[coresMenu itemArray] count] > 1)
             [menu addItem:item];
@@ -329,7 +329,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
     // Setup Video Filter Menu
     NSMenu *filterMenu = [[NSMenu alloc] init];
-    [filterMenu setTitle:NSLocalizedString(@"Select Filter", @"")];
+    [filterMenu setTitle:OELocalizedString(@"Select Filter", @"")];
 
     NSString *selectedFilter = ([[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, systemIdentifier]]
                                 ? : [[NSUserDefaults standardUserDefaults] objectForKey:OEGameDefaultVideoFilterKey]);
@@ -348,7 +348,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     }
 
     item = [[NSMenuItem alloc] init];
-    item.title = NSLocalizedString(@"Select Filter", @"");
+    item.title = OELocalizedString(@"Select Filter", @"");
     [menu addItem:item];
     [item setSubmenu:filterMenu];
 
@@ -357,7 +357,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     const BOOL hasSubmenu = [integralScalingDelegate shouldAllowIntegralScaling] && [integralScalingDelegate respondsToSelector:@selector(maximumIntegralScale)];
 
     NSMenu *scaleMenu = [NSMenu new];
-    [scaleMenu setTitle:NSLocalizedString(@"Select Scale", @"")];
+    [scaleMenu setTitle:OELocalizedString(@"Select Scale", @"")];
     item = [NSMenuItem new];
     [item setTitle:[scaleMenu title]];
     [menu addItem:item];
@@ -370,7 +370,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
         for(unsigned int scale = 1; scale <= maxScale; scale++)
         {
-            NSString *scaleTitle  = [NSString stringWithFormat:NSLocalizedString(@"%ux", @"Integral scale menu item title"), scale];
+            NSString *scaleTitle  = [NSString stringWithFormat:OELocalizedString(@"%ux", @"Integral scale menu item title"), scale];
             NSMenuItem *scaleItem = [[NSMenuItem alloc] initWithTitle:scaleTitle action:@selector(changeIntegralScale:) keyEquivalent:@""];
             [scaleItem setRepresentedObject:@(scale)];
             [scaleItem setState:(scale == currentScale ? NSOnState : NSOffState)];
@@ -384,7 +384,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     {
         // Setup audio output
         NSMenu *audioOutputMenu = [NSMenu new];
-        [audioOutputMenu setTitle:NSLocalizedString(@"Select Audio Output Device", @"")];
+        [audioOutputMenu setTitle:OELocalizedString(@"Select Audio Output Device", @"")];
         item = [NSMenuItem new];
         [item setTitle:[audioOutputMenu title]];
         [menu addItem:item];
@@ -427,7 +427,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 {
     NSMenu *menu = [[NSMenu alloc] init];
 
-    NSMenuItem *newSaveItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game", @"") action:@selector(saveState:) keyEquivalent:@""];
+    NSMenuItem *newSaveItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Save Current Game", @"") action:@selector(saveState:) keyEquivalent:@""];
     [newSaveItem setEnabled:[[self gameViewController] supportsSaveStates]];
     [menu setDelegate:self];
     [menu addItem:newSaveItem];
@@ -459,8 +459,8 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             // Build Quck Load item with submenu
             if(includeQuickSaveState && useQuickSaveSlots)
             {
-                NSString *loadTitle   = NSLocalizedString(@"Quick Load", @"Quick load menu title");
-                //NSString *saveTitle   = NSLocalizedString(@"Quick Save", @"Quick save menu title");
+                NSString *loadTitle   = OELocalizedString(@"Quick Load", @"Quick load menu title");
+                //NSString *saveTitle   = OELocalizedString(@"Quick Save", @"Quick save menu title");
 
                 NSMenuItem *loadItem  = [[NSMenuItem alloc] initWithTitle:loadTitle action:NULL keyEquivalent:@""];
                 //NSMenuItem *saveItem  = [[NSMenuItem alloc] initWithTitle:saveTitle action:NULL keyEquivalent:@""];
@@ -475,13 +475,13 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
                 {
                     OEDBSaveState *state = [rom quickSaveStateInSlot:i];
 
-                    loadTitle = [NSString stringWithFormat:NSLocalizedString(@"Slot %d", @"Quick load menu item title"), i];
+                    loadTitle = [NSString stringWithFormat:OELocalizedString(@"Slot %d", @"Quick load menu item title"), i];
                     NSMenuItem *loadItem = [[NSMenuItem alloc] initWithTitle:loadTitle action:@selector(quickLoad:) keyEquivalent:@""];
                     [loadItem setEnabled:state != nil];
                     [loadItem setRepresentedObject:@(i)];
                     [loadSubmenu addItem:loadItem];
 
-                    //saveTitle  = [NSString stringWithFormat:NSLocalizedString(@"Save to Slot %d", @"Quick save menu item title"), i];
+                    //saveTitle  = [NSString stringWithFormat:OELocalizedString(@"Save to Slot %d", @"Quick save menu item title"), i];
                     //NSMenuItem *saveItem = [[NSMenuItem alloc] initWithTitle:saveTitle action:@selector(quickSave:) keyEquivalent:@""];
                     //[saveItem setRepresentedObject:@(i)];
                     //[saveSubmenu addItem:saveItem];
@@ -645,7 +645,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [stopButton setAction:@selector(stopEmulation:)];
     [stopButton setFrame:NSMakeRect(10, 13, 51, 23)];
     [stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-    [stopButton setToolTip:NSLocalizedString(@"Stop Emulation", @"Tooltip")];
+    [stopButton setToolTip:OELocalizedString(@"Stop Emulation", @"Tooltip")];
     [stopButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:stopButton];
 
@@ -656,7 +656,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [_pauseButton setAction:@selector(toggleEmulationPaused:)];
     [_pauseButton setFrame:NSMakeRect(82, 9, 32, 32)];
     [_pauseButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-    [_pauseButton setToolTip:NSLocalizedString(@"Pause Gameplay", @"Tooltip")];
+    [_pauseButton setToolTip:OELocalizedString(@"Pause Gameplay", @"Tooltip")];
     [_pauseButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:_pauseButton];
 
@@ -666,7 +666,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [restartButton setAction:@selector(resetEmulation:)];
     [restartButton setFrame:NSMakeRect(111, 9, 32, 32)];
     [restartButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-    [restartButton setToolTip:NSLocalizedString(@"Restart System", @"Tooltip")];
+    [restartButton setToolTip:OELocalizedString(@"Restart System", @"Tooltip")];
     [restartButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:restartButton];
 
@@ -677,7 +677,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [saveButton setAction:@selector(showSaveMenu:)];
     [saveButton setFrame:NSMakeRect(162, 6, 32, 32)];
     [saveButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-    [saveButton setToolTip:NSLocalizedString(@"Create or Load Save State", @"Tooltip")];
+    [saveButton setToolTip:OELocalizedString(@"Create or Load Save State", @"Tooltip")];
     [saveButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:saveButton];
 
@@ -691,7 +691,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [optionsButton setAction:@selector(showOptionsMenu:)];
         [optionsButton setFrame:NSMakeRect(212, 6, 32, 32)];
         [optionsButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-        [optionsButton setToolTip:NSLocalizedString(@"Options", @"Tooltip")];
+        [optionsButton setToolTip:OELocalizedString(@"Options", @"Tooltip")];
         [optionsButton setToolTipStyle:OEToolTipStyleHUD];
         [self addSubview:optionsButton];
     }
@@ -700,7 +700,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [volumeDownButton setTitle:nil];
     [volumeDownButton setThemeKey:@"hud_button_volume_down"];
     [volumeDownButton setAction:@selector(mute:)];
-    [volumeDownButton setToolTip:NSLocalizedString(@"Mute Audio", @"Tooltip")];
+    [volumeDownButton setToolTip:OELocalizedString(@"Mute Audio", @"Tooltip")];
     [volumeDownButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:volumeDownButton];
 
@@ -708,7 +708,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [volumeUpButton setTitle:nil];
     [volumeUpButton setThemeKey:@"hud_button_volume_up"];
     [volumeUpButton setAction:@selector(unmute:)];
-    [volumeUpButton setToolTip:NSLocalizedString(@"Unmute Audio", @"Tooltip")];
+    [volumeUpButton setToolTip:OELocalizedString(@"Unmute Audio", @"Tooltip")];
     [volumeUpButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:volumeUpButton];
 
@@ -721,7 +721,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [_slider setMinValue:0.0];
     [_slider setThemeKey:@"hud_slider"];
     [_slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:OEGameVolumeKey]];
-    [_slider setToolTip:NSLocalizedString(@"Change Volume", @"Tooltip")];
+    [_slider setToolTip:OELocalizedString(@"Change Volume", @"Tooltip")];
     [_slider setToolTipStyle:OEToolTipStyleHUD];
     [_slider setAction:@selector(changeVolume:)];
 
@@ -739,7 +739,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [_fullScreenButton setAction:@selector(toggleFullScreen:)];
     [_fullScreenButton setFrame:NSMakeRect(370 + (hideOptions ? 0 : 50), 13, 51, 23)];
     [_fullScreenButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-    [_fullScreenButton setToolTip:NSLocalizedString(@"Toggle Fullscreen", @"Tooltip")];
+    [_fullScreenButton setToolTip:OELocalizedString(@"Toggle Fullscreen", @"Tooltip")];
     [_fullScreenButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:_fullScreenButton];
 }

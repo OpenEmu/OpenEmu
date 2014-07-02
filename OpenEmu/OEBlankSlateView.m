@@ -145,13 +145,13 @@
 - (void)OE_setupView:(NSView*)view withCollectionName:(NSString *)collectionName
 {
     [self OE_setupBoxInView:view];
-    [self OE_addLeftHeadlineWithText:NSLocalizedString(@"Collections", @"") toView:view];
+    [self OE_addLeftHeadlineWithText:OELocalizedString(@"Collections", @"") toView:view];
 
     NSRect rect = (NSRect){ .size = { [view frame].size.width, bottomTextViewHeight }};
     rect.origin.y = NSMaxY([view bounds])-NSHeight(rect)-instructionsTopToViewTop;
 
     NSTextView *textView = [[NSTextView alloc] initWithFrame:NSInsetRect(rect, -4, 0)];
-    NSString   *text     = [NSString stringWithFormat:NSLocalizedString(@"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.", @""), collectionName];
+    NSString   *text     = [NSString stringWithFormat:OELocalizedString(@"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.", @""), collectionName];
     [textView setString:text];
     [textView setDrawsBackground:NO];
     [textView setEditable:NO];
@@ -184,12 +184,12 @@
 - (void)OE_setupView:(NSView*)view withSystemPlugin:(OESystemPlugin *)plugin
 {
     [self OE_setupBoxInView:view];
-    [self OE_addLeftHeadlineWithText:(plugin ? [plugin systemName] : NSLocalizedString(@"System", @"")) toView:view];
+    [self OE_addLeftHeadlineWithText:(plugin ? [plugin systemName] : OELocalizedString(@"System", @"")) toView:view];
     
     NSRect      rect     = (NSRect){ .size = {[view frame].size.width/12*7, bottomTextViewHeight}};
     rect.origin.y = NSMaxY([view bounds])-NSHeight(rect)-instructionsTopToViewTop;
     NSTextView *textView = [[NSTextView alloc] initWithFrame:NSInsetRect(rect, -4, 0)];
-    NSString   *text     = [NSString stringWithFormat:NSLocalizedString(@"%@ games you add to OpenEmu will appear in this Console Library", @""), [plugin systemName]];
+    NSString   *text     = [NSString stringWithFormat:OELocalizedString(@"%@ games you add to OpenEmu will appear in this Console Library", @""), [plugin systemName]];
     [textView setDrawsBackground:NO];
     [textView setEditable:NO];
     [textView setSelectable:NO];
@@ -235,7 +235,7 @@
     [coreSuppliedByLabel setSelectable:NO];
     [coreSuppliedByLabel setDrawsBackground:NO];
     [coreSuppliedByLabel setBezeled:NO];
-    [coreSuppliedByLabel setStringValue:NSLocalizedString(@"Core Provided By…", @"")];
+    [coreSuppliedByLabel setStringValue:OELocalizedString(@"Core Provided By…", @"")];
     [view addSubview:coreSuppliedByLabel];
     
     // Get core plugins that can handle the system
@@ -260,7 +260,7 @@
         [gotoButton setTarget:self];
         [gotoButton setAction:@selector(gotoProjectURL:)];
         [gotoButton setTitle:name];
-        [gotoButton setToolTip:[NSString stringWithFormat:NSLocalizedString(@"Takes you to the %@ project website", @"Weblink tooltip"), name]];
+        [gotoButton setToolTip:[NSString stringWithFormat:OELocalizedString(@"Takes you to the %@ project website", @"Weblink tooltip"), name]];
         [[gotoButton cell] setRepresentedObject:projectURL];
         [gotoButton sizeToFit];
         
@@ -338,7 +338,7 @@
     
     NSTextField *dragAndDropHereOuterGlowField = [[NSTextField alloc] initWithFrame:(NSRect){{0, [view frame].size.height-25-dndTextTopToViewTop},{[view frame].size.width, 25}}];
     [dragAndDropHereOuterGlowField setCell:glowCell];
-    [dragAndDropHereOuterGlowField setStringValue:NSLocalizedString(@"Drag & Drop Games Here", @"Blank Slate DnD Here")];
+    [dragAndDropHereOuterGlowField setStringValue:OELocalizedString(@"Drag & Drop Games Here", @"Blank Slate DnD Here")];
     [dragAndDropHereOuterGlowField setEditable:NO];
     [dragAndDropHereOuterGlowField setSelectable:NO];
     [dragAndDropHereOuterGlowField setDrawsBackground:NO];
@@ -346,7 +346,7 @@
     
     NSTextField *dragAndDropHereField = [[NSTextField alloc] initWithFrame:(NSRect){{0, [view frame].size.height-25-dndTextTopToViewTop},{[view frame].size.width, 25}}];
     [dragAndDropHereField setCell:defaultCell];
-    [dragAndDropHereField setStringValue:NSLocalizedString(@"Drag & Drop Games Here", @"Blank Slate DnD Here")];
+    [dragAndDropHereField setStringValue:OELocalizedString(@"Drag & Drop Games Here", @"Blank Slate DnD Here")];
     [dragAndDropHereField setEditable:NO];
     [dragAndDropHereField setSelectable:NO];
     [dragAndDropHereField setDrawsBackground:NO];

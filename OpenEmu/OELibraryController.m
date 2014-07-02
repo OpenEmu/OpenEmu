@@ -104,19 +104,19 @@ static const CGFloat _OEToolbarHeight = 44;
     [splitView setDelegate:self];
 
     // setup hotkeys
-    [_toolbarSidebarButton setToolTip:NSLocalizedString(@"Toggle Sidebar", @"Tooltip")];
+    [_toolbarSidebarButton setToolTip:OELocalizedString(@"Toggle Sidebar", @"Tooltip")];
     [_toolbarSidebarButton setToolTipStyle:OEToolTipStyleDefault];
 
-    [_toolbarGridViewButton setToolTip:NSLocalizedString(@"Switch To Grid View", @"Tooltip")];
+    [_toolbarGridViewButton setToolTip:OELocalizedString(@"Switch To Grid View", @"Tooltip")];
     [_toolbarGridViewButton setToolTipStyle:OEToolTipStyleDefault];
 
-    [_toolbarFlowViewButton setToolTip:NSLocalizedString(@"Switch To Flow View", @"Tooltip")];
+    [_toolbarFlowViewButton setToolTip:OELocalizedString(@"Switch To Flow View", @"Tooltip")];
     [_toolbarFlowViewButton setToolTipStyle:OEToolTipStyleDefault];
 
-    [_toolbarListViewButton setToolTip:NSLocalizedString(@"Switch To List View", @"Tooltip")];
+    [_toolbarListViewButton setToolTip:OELocalizedString(@"Switch To List View", @"Tooltip")];
     [_toolbarListViewButton setToolTipStyle:OEToolTipStyleDefault];
 
-    [_toolbarAddToSidebarButton setToolTip:NSLocalizedString(@"New Collection", @"Tooltip")];
+    [_toolbarAddToSidebarButton setToolTip:OELocalizedString(@"New Collection", @"Tooltip")];
     [_toolbarAddToSidebarButton setToolTipStyle:OEToolTipStyleDefault];
 }
 

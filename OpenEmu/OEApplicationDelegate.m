@@ -513,12 +513,12 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // setup alert, with options "Quit", "Select", "Create"
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
 
-    alert.headlineText = NSLocalizedString(@"Choose OpenEmu Library", @"");
-    alert.messageText  = NSLocalizedString(@"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one", @"");
+    alert.headlineText = OELocalizedString(@"Choose OpenEmu Library", @"");
+    alert.messageText  = OELocalizedString(@"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one", @"");
 
-    alert.defaultButtonTitle   = NSLocalizedString(@"Choose Library…", @"");
-    alert.alternateButtonTitle = NSLocalizedString(@"Create Library…", @"");
-    alert.otherButtonTitle     = NSLocalizedString(@"Quit", @"");
+    alert.defaultButtonTitle   = OELocalizedString(@"Choose Library…", @"");
+    alert.alternateButtonTitle = OELocalizedString(@"Create Library…", @"");
+    alert.otherButtonTitle     = OELocalizedString(@"Quit", @"");
 
     NSInteger result;
     switch([alert runModal])
@@ -763,7 +763,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [item setState:NSOffState];
     if([self cachedLastPlayedInfo] == nil)
     {
-        [item setTitle:NSLocalizedString(@"No game played yet!", "")];
+        [item setTitle:OELocalizedString(@"No game played yet!", @"")];
         [item setEnabled:NO];
         [item setIndentationLevel:0];
         return YES;
@@ -810,16 +810,16 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     NSMenuItem *newLoadItem, *newSaveItem;
     if(useSlots)
     {
-        newLoadItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quick Load", @"Quick Load Menu Item") action:NULL keyEquivalent:@""];
-        newSaveItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quick Save", @"Quick Save Menu Item") action:NULL keyEquivalent:@""];
+        newLoadItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Quick Load", @"Quick Load Menu Item") action:NULL keyEquivalent:@""];
+        newSaveItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Quick Save", @"Quick Save Menu Item") action:NULL keyEquivalent:@""];
 
         NSMenu *loadMenu = [[NSMenu alloc] init];
         NSMenu *saveMenu = [[NSMenu alloc] init];
 
         for(NSUInteger i=1; i < SaveStateSlotCount; i++)
         {
-            NSString *loadTitle = [NSString stringWithFormat:NSLocalizedString(@"Slot %ld", @"Slotted Quick Load Menu Item"), i];
-            NSString *saveTitle = [NSString stringWithFormat:NSLocalizedString(@"Slot %ld", @"Slotted Quick Save Menu Item"), i];
+            NSString *loadTitle = [NSString stringWithFormat:OELocalizedString(@"Slot %ld", @"Slotted Quick Load Menu Item"), i];
+            NSString *saveTitle = [NSString stringWithFormat:OELocalizedString(@"Slot %ld", @"Slotted Quick Save Menu Item"), i];
 
             NSMenuItem *loadItem = [[NSMenuItem alloc] initWithTitle:loadTitle action:@selector(quickLoad:) keyEquivalent:@""];
             NSMenuItem *saveItem = [[NSMenuItem alloc] initWithTitle:saveTitle action:@selector(quickSave:) keyEquivalent:@""];
@@ -842,9 +842,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     }
     else
     {
-        newLoadItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quick Load", @"Quick Load Menu Item") action:@selector(quickLoad:) keyEquivalent:@"l"];
+        newLoadItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Quick Load", @"Quick Load Menu Item") action:@selector(quickLoad:) keyEquivalent:@"l"];
         [newLoadItem setRepresentedObject:@"0"];
-        newSaveItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Quick Save", @"Quick Save Menu Item") action:@selector(quickSave:) keyEquivalent:@"s"];
+        newSaveItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Quick Save", @"Quick Save Menu Item") action:@selector(quickSave:) keyEquivalent:@"s"];
         [newSaveItem setRepresentedObject:@"0"];
     }
 

@@ -123,7 +123,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     {
         if(outError != NULL)
         {
-			NSString     *description = NSLocalizedString(@"The OpenEmu Library could not be found.", @"");
+			NSString     *description = OELocalizedString(@"The OpenEmu Library could not be found.", @"");
 			NSDictionary *dict        = [NSDictionary dictionaryWithObject:description forKey:NSLocalizedDescriptionKey];
 			
             *outError = [NSError errorWithDomain:@"OELibraryDatabase" code:OELibraryErrorCodeFolderNotFound userInfo:dict];
@@ -523,7 +523,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     if(name == nil)
     {
-        name = NSLocalizedString(@"New Collection", @"Default collection name");
+        name = OELocalizedString(@"New Collection", @"Default collection name");
 
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -554,7 +554,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSManagedObjectContext *context  = [self mainThreadContext];
     if(name == nil)
     {
-        name = NSLocalizedString(@"New Smart Collection", @"");
+        name = OELocalizedString(@"New Smart Collection", @"");
 
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
 
@@ -587,7 +587,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     if(name == nil)
     {
-        name = NSLocalizedString(@"New Folder", @"");
+        name = OELocalizedString(@"New Folder", @"");
 
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
 
@@ -796,7 +796,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (NSURL *)unsortedRomsFolderURL
 {
-    NSString *unsortedFolderName = NSLocalizedString(@"unsorted", @"Unsorted Folder Name");
+    NSString *unsortedFolderName = OELocalizedString(@"unsorted", @"Unsorted Folder Name");
 
     NSURL *result = [[self romsFolderURL] URLByAppendingPathComponent:unsortedFolderName isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
@@ -819,7 +819,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     if([[NSUserDefaults standardUserDefaults] objectForKey:OESaveStateFolderURLKey])
         return [[NSUserDefaults standardUserDefaults] URLForKey:OESaveStateFolderURLKey];
 
-    NSString *saveStateFolderName = NSLocalizedString(@"Save States", @"Save States Folder Name");
+    NSString *saveStateFolderName = OELocalizedString(@"Save States", @"Save States Folder Name");
     NSURL    *result = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];
     result = [result URLByAppendingPathComponent:saveStateFolderName isDirectory:YES];
@@ -832,7 +832,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (NSURL *)stateFolderURLForSystem:(OEDBSystem *)system
 {
     OESystemPlugin *plugin = [system plugin];
-    NSString *displayName = [plugin displayName] ?: NSLocalizedString(@"Unkown System", "Name of directory for savestates with unknown systems");
+    NSString *displayName = [plugin displayName] ?: OELocalizedString(@"Unkown System", @"Name of directory for savestates with unknown systems");
     NSURL *result = [[self stateFolderURL] URLByAppendingPathComponent:displayName isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
 
@@ -855,7 +855,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     if([[NSUserDefaults standardUserDefaults] objectForKey:OEScreenshotFolderURLKey])
         return [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:OEScreenshotFolderURLKey]];
 
-    NSString *screenshotFolderName = NSLocalizedString(@"Screenshots", @"Screenshot Folder Name");
+    NSString *screenshotFolderName = OELocalizedString(@"Screenshots", @"Screenshot Folder Name");
     NSURL    *result = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];
     result = [result URLByAppendingPathComponent:screenshotFolderName isDirectory:YES];
@@ -891,7 +891,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         result = [NSURL URLWithString:urlString];
     else
     {
-        NSString *autoImportFolderName = NSLocalizedString(@"Automatically Import", @"Automatically Import Name");
+        NSString *autoImportFolderName = OELocalizedString(@"Automatically Import", @"Automatically Import Name");
         result = [[self romsFolderURL] URLByAppendingPathComponent:autoImportFolderName isDirectory:YES];
     }
 

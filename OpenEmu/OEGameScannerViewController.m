@@ -80,10 +80,10 @@
     NSMenuItem *item = nil;
     NSMenu     *menu = [[NSMenu alloc] init];
 
-    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Select All", @"") action:@selector(selectAll:) keyEquivalent:@""];
+    item = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Select All", @"") action:@selector(selectAll:) keyEquivalent:@""];
     [item setTarget:self];
     [menu addItem:item];
-    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Deselect All", @"") action:@selector(deselectAll:) keyEquivalent:@""];
+    item = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Deselect All", @"") action:@selector(deselectAll:) keyEquivalent:@""];
     [item setTarget:self];
     [menu addItem:item];
 
@@ -152,10 +152,10 @@
             [[self progressIndicator] startAnimation:self];
 
             NSInteger count = MIN([[self importer] numberOfProcessedItems]+1, maxItems);
-            status = [NSString stringWithFormat:NSLocalizedString(@"Game %ld of %ld", @""), count, maxItems];
+            status = [NSString stringWithFormat:OELocalizedString(@"Game %ld of %ld", @""), count, maxItems];
 
             if([self isScanningDirectory])
-                status = NSLocalizedString(@"Scanning Directory", "");
+                status = OELocalizedString(@"Scanning Directory", @"");
         }
         else if([importer status] == OEImporterStatusStopped)
         {
@@ -173,7 +173,7 @@
         BOOL hideButton = YES;
         if([[self itemsRequiringAttention] count] != 0)
         {
-            [[self fixButton] setTitle:[NSString stringWithFormat:NSLocalizedString(@"Resolve %ld Issues", @""), [[self itemsRequiringAttention] count]]];
+            [[self fixButton] setTitle:[NSString stringWithFormat:OELocalizedString(@"Resolve %ld Issues", @""), [[self itemsRequiringAttention] count]]];
             [[self fixButton] sizeToFit];
             hideButton = NO;
             
@@ -197,7 +197,7 @@
     }
 
     NSMenu *menu = [[NSMenu alloc] init];
-    [menu addItemWithTitle:NSLocalizedString(@"Don't Import Selected", @"") action:NULL keyEquivalent:@""];
+    [menu addItemWithTitle:OELocalizedString(@"Don't Import Selected", @"") action:NULL keyEquivalent:@""];
 
     NSArray *systemIDs = [systemIDSet allObjects];
     NSManagedObjectContext *context = [[[self libraryController] database] mainThreadContext];
@@ -235,7 +235,7 @@
     [fixIssuesButton setThemeKey:@"game_scanner_fix_issues"];
     [fixIssuesButton setTarget:self];
     [fixIssuesButton setAction:@selector(showIssuesView:)];
-    [fixIssuesButton setTitle:NSLocalizedString(@"Resolve Issues", @"")];
+    [fixIssuesButton setTitle:OELocalizedString(@"Resolve Issues", @"")];
     [fixIssuesButton sizeToFit];
 
     [fixIssuesButton setHidden:YES];
@@ -304,11 +304,11 @@
 }
 - (NSString *)sidebarName
 {
-    return NSLocalizedString(@"Game Scanner", @"");
+    return OELocalizedString(@"Game Scanner", @"");
 }
 - (NSString *)sidebarID
 {
-    return NSLocalizedString(@"Game Scanner", @"");
+    return OELocalizedString(@"Game Scanner", @"");
 }
 
 - (NSString *)viewControllerClassName
@@ -542,10 +542,10 @@
         [[self importer] pause];
         OEHUDAlert *cancelAlert = [[OEHUDAlert alloc] init];
 
-        cancelAlert.headlineText = NSLocalizedString(@"Do you really want to cancel the import process?", @"");
-        cancelAlert.messageText  = NSLocalizedString(@"Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.", @"");
-        cancelAlert.defaultButtonTitle   = NSLocalizedString(@"Yes", @"");
-        cancelAlert.alternateButtonTitle = NSLocalizedString(@"No", @"");
+        cancelAlert.headlineText = OELocalizedString(@"Do you really want to cancel the import process?", @"");
+        cancelAlert.messageText  = OELocalizedString(@"Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.", @"");
+        cancelAlert.defaultButtonTitle   = OELocalizedString(@"Yes", @"");
+        cancelAlert.alternateButtonTitle = OELocalizedString(@"No", @"");
 
         [sender setState:[sender state] == NSOnState ? NSOffState : NSOnState];
         if([cancelAlert runModal] == NSAlertDefaultReturn)

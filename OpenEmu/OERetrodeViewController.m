@@ -214,7 +214,7 @@
 - (NSDictionary*)imageBrowser:(IKImageBrowserView *)aBrowser groupAtIndex:(NSUInteger)index
 {
     return @{
-             IKImageBrowserGroupTitleKey : NSLocalizedString(@"Slot 1", @"Retrode Slot 1 Group Header"),
+             IKImageBrowserGroupTitleKey : OELocalizedString(@"Slot 1", @"Retrode Slot 1 Group Header"),
              IKImageBrowserGroupRangeKey : [NSValue valueWithRange:(NSRange){0, [[self items] count]}],
              IKImageBrowserGroupStyleKey : @(IKGroupDisclosureStyle),
              };

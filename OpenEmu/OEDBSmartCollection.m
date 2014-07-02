@@ -25,7 +25,7 @@
  */
 
 #import "OEDBSmartCollection.h"
-
+#import "OETheme.h"
 
 @implementation OEDBSmartCollection
 
@@ -34,4 +34,73 @@
     return @"SmartCollection";
 }
 
+#pragma mark - Sidebar Item Protocol
+- (NSImage *)sidebarIcon
+{
+    return [[OETheme sharedTheme] imageForKey:@"collections_smart" forState:OEThemeStateDefault];
+}
+
+- (BOOL)isEditableInSidebar
+{
+    return NO;
+}
+
+- (NSString *)sidebarName
+{
+    if([self OE_isRecentlyAddedCollection])
+    {
+        return OELocalizedString(@"Recently Added", @"Recently Added Smart Collection Name");
+    }
+    return [self valueForKey:@"name"];
+}
+
+- (void)setSidebarName:(NSString *)newName
+{}
+
+#pragma mark - Game Collection View Item
+- (NSString *)collectionViewName
+{
+    if([self OE_isRecentlyAddedCollection])
+    {
+        return OELocalizedString(@"Recently Added", @"Recently Added Smart Collection Name");
+    }
+    return [self valueForKey:@"name"];
+}
+
+- (BOOL)isCollectionEditable
+{
+    return NO;
+}
+
+- (NSPredicate *)fetchPredicate
+{
+    if([self OE_isRecentlyAddedCollection])
+    {
+        return [NSPredicate predicateWithValue:YES];
+    }
+    return [NSPredicate predicateWithValue:NO];
+}
+
+- (BOOL)shouldShowSystemColumnInListView
+{
+    return YES;
+}
+
+- (NSInteger)fetchLimit
+{
+    return 30;
+}
+
+- (NSArray*)fetchSortDescriptors
+{
+    if([self OE_isRecentlyAddedCollection])
+        return @[[NSSortDescriptor sortDescriptorWithKey:@"importDate" ascending:NO]];
+    return @[];
+}
+
+#pragma mark - Private Methods
+- (BOOL)OE_isRecentlyAddedCollection
+{
+    return [[self valueForKey:@"name"] isEqualToString:@"Recently Added"];
+}
 @end

@@ -179,11 +179,11 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
     NSString *title = nil;
     if([plugin canBeInstalled])
     {
-        title = NSLocalizedString(@"Install", @"Install Core");
+        title = OELocalizedString(@"Install", @"Install Core");
     }
     else if([plugin hasUpdate])
     {
-        title = NSLocalizedString(@"Update", @"Update Core");
+        title = OELocalizedString(@"Update", @"Update Core");
     }
     
     if([plugin appcastItem] == nil || title == nil) return [tableColumn dataCellForRow:row];
@@ -249,7 +249,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
 
 - (NSString *)localizedTitle
 {
-    return NSLocalizedString([self title], "");
+    return OELocalizedString([self title], @"Preferences: Cores Toolbar item");
 }
 
 - (NSSize)viewSize

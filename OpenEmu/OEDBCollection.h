@@ -26,14 +26,16 @@
 
 #import <Cocoa/Cocoa.h>
 #import "OEDBItem.h"
-@interface OEDBCollection : OEDBItem
 
-#pragma mark -
-#pragma mark Data Model Properties
+#import "OESidebarItem.h"
+#import "OEGameCollectionViewItemProtocol.h"
+
+@interface OEDBCollection : OEDBItem <OESidebarItem, OEGameCollectionViewItemProtocol>
+
+#pragma mark - Data Model Properties
 @property (nonatomic, retain) NSString  *name;
 
-#pragma mark -
-#pragma mark Data Model Relationships
+#pragma mark - Data Model Relationships
 @property (nonatomic, retain)   NSSet        *games;
 @property (nonatomic, readonly) NSMutableSet *mutableGames;
 @end

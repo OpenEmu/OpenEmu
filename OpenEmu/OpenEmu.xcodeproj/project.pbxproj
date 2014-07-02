@@ -30,6 +30,17 @@
 			name = Distribution;
 			productName = Disribution;
 		};
+		8366F66C19645EAC0018116E /* OpenEmu (Localization) */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 8366F66D19645EAC0018116E /* Build configuration list for PBXAggregateTarget "OpenEmu (Localization)" */;
+			buildPhases = (
+			);
+			dependencies = (
+				8366F67119645EB40018116E /* PBXTargetDependency */,
+			);
+			name = "OpenEmu (Localization)";
+			productName = "OpenEmu (Localization)";
+		};
 		83F37141140BB166005A7353 /* Build SystemPlugins */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 83F37144140BB166005A7353 /* Build configuration list for PBXAggregateTarget "Build SystemPlugins" */;
@@ -1193,6 +1204,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 3887A7F51024D1F9000FC4CF;
 			remoteInfo = OESaveStateQLPlugin;
+		};
+		8366F67019645EB40018116E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
+			remoteInfo = OpenEmu;
 		};
 		83F37148140BB177005A7353 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -6562,6 +6580,11 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 0500;
+				TargetAttributes = {
+					8366F66C19645EAC0018116E = {
+						CreatedOnToolsVersion = 6.0;
+					};
+				};
 			};
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "OpenEmu" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -6573,6 +6596,7 @@
 				French,
 				German,
 				en,
+				de,
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
 			projectDirPath = "";
@@ -6628,6 +6652,7 @@
 				9479664E15EDE645004316AB /* Update Build Version */,
 				94EBBCD7183F422500743756 /* Build & Copy Experimental SystemPlugins */,
 				94C51FBC1847077700206E6F /* Set Experimental Appcast URLs */,
+				8366F66C19645EAC0018116E /* OpenEmu (Localization) */,
 			);
 		};
 /* End PBXProject section */
@@ -8097,6 +8122,11 @@
 			target = 3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */;
 			targetProxy = 8309A780166CE6360013AD4A /* PBXContainerItemProxy */;
 		};
+		8366F67119645EB40018116E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D15AC270486D014006FF6A4 /* OpenEmu */;
+			targetProxy = 8366F67019645EB40018116E /* PBXContainerItemProxy */;
+		};
 		83F37149140BB177005A7353 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C64BB08C136478E600C1AB23 /* NES */;
@@ -8803,6 +8833,22 @@
 				COPY_PHASE_STRIP = YES;
 				PRODUCT_NAME = Disribution;
 				VALIDATE_PRODUCT = NO;
+			};
+			name = Release;
+		};
+		8366F66E19645EAC0018116E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = DebugLocalization;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8366F66F19645EAC0018116E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = DebugLocalization;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -10445,6 +10491,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		8366F66D19645EAC0018116E /* Build configuration list for PBXAggregateTarget "OpenEmu (Localization)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8366F66E19645EAC0018116E /* Debug */,
+				8366F66F19645EAC0018116E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		83F37144140BB166005A7353 /* Build configuration list for PBXAggregateTarget "Build SystemPlugins" */ = {
 			isa = XCConfigurationList;

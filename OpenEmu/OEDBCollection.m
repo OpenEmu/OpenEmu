@@ -25,6 +25,7 @@
  */
 
 #import "OEDBCollection.h"
+#import "OETheme.h"
 
 @implementation OEDBCollection
 
@@ -43,6 +44,86 @@
 - (NSMutableSet*)mutableGames;
 {
     return [self mutableSetValueForKeyPath:@"games"];
+}
+
+#pragma mark - Sidebar Item Protocol
+- (NSString*)viewControllerClassName
+{
+    return @"OEGameCollectionViewController";
+}
+
+- (NSString*)sidebarID
+{
+    return [[self permanentIDURI] absoluteString];
+}
+
+- (NSImage *)sidebarIcon
+{
+    return [[OETheme sharedTheme] imageForKey:@"collections_simple" forState:OEThemeStateDefault];
+}
+
+- (NSString *)sidebarName
+{
+    return [self valueForKey:@"name"];
+}
+
+- (void)setSidebarName:(NSString *)newName
+{
+    [self setValue:newName forKey:@"name"];
+}
+
+- (BOOL)isSelectableInSidebar
+{
+    return YES;
+}
+
+- (BOOL)isEditableInSidebar
+{
+    return YES;
+}
+
+- (BOOL)isGroupHeaderInSidebar
+{
+    return NO;
+}
+
+- (BOOL)hasSubCollections
+{
+    return NO;
+}
+
+#pragma mark - OEGameCollectionView item
+- (NSString *)collectionViewName
+{
+    return [self valueForKey:@"name"];
+}
+
+- (BOOL)isCollectionEditable
+{
+    return YES;
+}
+
+- (NSArray *)items
+{
+    return nil;
+}
+
+- (NSPredicate *)fetchPredicate
+{
+    return [NSPredicate predicateWithFormat:@"ANY collections == %@", self];
+}
+- (NSInteger)fetchLimit
+{
+    return 0;
+}
+- (NSArray*)fetchSortDescriptors
+{
+    return @[];
+}
+
+- (BOOL)shouldShowSystemColumnInListView
+{
+    return YES;
 }
 
 @end

@@ -34,11 +34,19 @@
 
 #define BOOL_STR(value) ((value) ? "YES" : "NO")
 
+#ifdef DebugLocalization
+    #define OELocalizedString(_KEY_, _COMMENT_) OELogLocalizedString(_KEY_, _COMMENT_, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __FUNCTION__)
+NSString *OELogLocalizedString(NSString *key, NSString *comment, NSString *fileName, int line, const char* function);
+#else
+    #define OELocalizedString(_KEY_, _COMMENT_) NSLocalizedString(_KEY_,_COMMENT_)
+#endif
+
 #define OECoreDataMainThreadAssertion() NSAssert([NSThread isMainThread], @"Only call on main thread!")
 // output must be at least 2*len+1 bytes
 void tohex(const unsigned char *input, size_t len, char *output);
 void OEPrintFirstResponderChain(void);
 NSArray *OENextRespondersFromResponder(NSResponder *responder);
 NSString *temporaryDirectoryForDecompressionOfPath(NSString *aPath);
-
 bool GetSystemVersion( int *major, int *minor, int *bugfix );
+
+

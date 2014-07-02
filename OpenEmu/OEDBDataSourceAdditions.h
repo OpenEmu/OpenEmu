@@ -50,29 +50,8 @@ extern NSString * const OECoverGridViewAutoDownloadEnabledKey;
 @interface OEDBSystem (DataSourceAdditions) <OESidebarItem> 
 @end
 
-
-@interface OEDBCollection (DataSourceAdditions) <OESidebarItem> 
-@end
-
-@interface OEDBSmartCollection (DataSourceAdditions) <OESidebarItem> 
-@end
-
-@interface OEDBCollectionFolder (DataSourceAdditions) <OESidebarItem> 
-@end
-
-#pragma mark -
-#pragma mark Implementation of items that can be presented by CollectionView
-
+#pragma mark - Implementation of items that can be presented by OEGameCollectionView
 @interface OEDBSystem (OECollectionViewItemAdditions) <OEGameCollectionViewItemProtocol>
-@end
-
-@interface OEDBCollection (OECollectionViewItemAdditions) <OEGameCollectionViewItemProtocol>
-@end
-
-@interface OEDBCollectionFolder (OECollectionViewItemAdditions) <OEGameCollectionViewItemProtocol>
-@end
-
-@interface OEDBSmartCollection (OECollectionViewItemAdditions) <OEGameCollectionViewItemProtocol>
 @end
 
 @interface OEDBAllGamesCollection (OECollectionViewItemAdditions) <OEGameCollectionViewItemProtocol>

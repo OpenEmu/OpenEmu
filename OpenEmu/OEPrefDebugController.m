@@ -89,23 +89,23 @@ NSString * const OptionsKey = @"options";
 #define Separator() \
 @{ TypeKey:SeparatorType }
 #define FirstGroup(_NAME_) \
-@{ TypeKey:GroupType, LabelKey:_NAME_ }
+@{ TypeKey:GroupType, LabelKey:OELocalizedString(_NAME_,@"Debug Group") }
 #define Group(_NAME_) Separator(), \
-@{ TypeKey:GroupType, LabelKey:_NAME_ }
+@{ TypeKey:GroupType, LabelKey:OELocalizedString(_NAME_,@"Debug Group") }
 #define Checkbox(_KEY_, _LABEL_)  \
-@{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_,@"DebugModeLabel"), TypeKey:CheckboxType }
+@{ KeyKey:_KEY_, LabelKey:OELocalizedString(_LABEL_,@"Debug Checkbox Label"), TypeKey:CheckboxType }
 #define NCheckbox(_KEY_, _LABEL_) \
-@{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_,@"DebugModeLabel"), TypeKey:CheckboxType, NegatedKey:@YES }
+@{ KeyKey:_KEY_, LabelKey:OELocalizedString(_LABEL_,@"Debug Checkbox Label"), TypeKey:CheckboxType, NegatedKey:@YES }
 #define Button(_LABEL_, _ACTION_)  \
-@{ LabelKey:NSLocalizedString(_LABEL_,@"DebugModeLabel"), TypeKey:ButtonType, ActionKey:NSStringFromSelector(_ACTION_) }
+@{ LabelKey:OELocalizedString(_LABEL_,@"Debug Button Label"), TypeKey:ButtonType, ActionKey:NSStringFromSelector(_ACTION_) }
 #define Label(_LABEL_)  \
-@{ LabelKey:NSLocalizedString(_LABEL_,@"DebugModeLabel"), TypeKey:LabelType }
+@{ LabelKey:OELocalizedString(_LABEL_,@"Debug Label"), TypeKey:LabelType }
 #define Popover(_LABEL_, _ACTION_, ...)  \
-@{ LabelKey:NSLocalizedString(_LABEL_,@"DebugModeLabel"), TypeKey:PopoverType, ActionKey:NSStringFromSelector(_ACTION_), OptionsKey:@[__VA_ARGS__] }
+@{ LabelKey:OELocalizedString(_LABEL_,@"Debug Popover Label"), TypeKey:PopoverType, ActionKey:NSStringFromSelector(_ACTION_), OptionsKey:@[__VA_ARGS__] }
 #define Option(_OLABEL_, _OVAL_) \
 @{ LabelKey:_OLABEL_, ValueKey:_OVAL_ }
 #define ColorWell(_KEY_, _LABEL_) \
-@{ KeyKey:_KEY_, LabelKey:NSLocalizedString(_LABEL_,@"DebugModeLabel"), TypeKey:ColorType }
+@{ KeyKey:_KEY_, LabelKey:OELocalizedString(_LABEL_,@"DebugModeLabel"), TypeKey:ColorType }
 
 @implementation OEPrefDebugController
 - (void)awakeFromNib
@@ -313,7 +313,7 @@ NSString * const OptionsKey = @"options";
             {
                 if(autosave)
                 {
-                    [state setName:NSLocalizedString(@"Recovered Auto Save", @"Recovered auto save name")];
+                    [state setName:OELocalizedString(@"Recovered Auto Save", @"Recovered auto save name")];
                     [state moveToSaveStateFolder];
                     [state writeInfoPlist];
                 }
@@ -505,7 +505,7 @@ NSString * const OptionsKey = @"options";
 
 - (NSString *)localizedTitle
 {
-    return NSLocalizedString([self title], "");
+    return OELocalizedString([self title], @"Preferences: Debug Toolbar Item");
 }
 
 - (NSSize)viewSize

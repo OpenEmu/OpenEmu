@@ -128,7 +128,7 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
 
     if([item isGroupHeaderInSidebar])
     {
-        title = [self isItemExpanded:item] ? NSLocalizedString(@"Collapse", @"") : NSLocalizedString(@"Expand", @"");
+        title = [self isItemExpanded:item] ? OELocalizedString(@"Collapse", @"") : OELocalizedString(@"Expand", @"");
 
         menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(OE_toggleGroupForMenuItem:) keyEquivalent:@""];
         [menuItem setRepresentedObject:item];
@@ -149,7 +149,7 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
     }
     else if([item isKindOfClass:[OEDBSystem class]])
     {
-        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open Library", @"")
+        menuItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Open Library", @"")
                                               action:@selector(OE_selectRowForMenuItem:)
                                        keyEquivalent:@""];
         [menuItem setTag:index];
@@ -157,14 +157,14 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
 
         [menu addItem:[NSMenuItem separatorItem]];
 
-        NSString *title = [NSString stringWithFormat:@"%@ \"%@\"", NSLocalizedString(@"Hide", @""), [item name]];
+        NSString *title = [NSString stringWithFormat:OELocalizedString(@"Hide \"%@\"", @""), [item name]];
         menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(OE_toggleSystemForMenuItem:) keyEquivalent:@""];
         [menuItem setRepresentedObject:item];
         [menu addItem:menuItem];
     }
     else
     {
-        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open Collection", @"")
+        menuItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Open Collection", @"")
                                               action:@selector(OE_selectRowForMenuItem:)
                                        keyEquivalent:@""];
         [menuItem setTag:index];
@@ -174,18 +174,18 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
         {
             [menu addItem:[NSMenuItem separatorItem]];
 
-            title = [NSString stringWithFormat:@"%@ \"%@\"", NSLocalizedString(@"Rename", @""), [item sidebarName]];
+            title = [NSString stringWithFormat:OELocalizedString(@"Rename \"%@\"", @"Rename collection sidebar context menu item"), [item sidebarName]];
             menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(OE_renameRowForMenuItem:) keyEquivalent:@""];
             [menuItem setTag:index];
             [menu addItem:menuItem];
 
-            menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Duplicate Collection", @"")
+            menuItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Duplicate Collection", @"")
                                                   action:@selector(OE_duplicateCollectionForMenuItem:)
                                            keyEquivalent:@""];
             [menuItem setRepresentedObject:item];
             [menu addItem:menuItem];
             
-            menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Delete Collection", @"")
+            menuItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Delete Collection", @"")
                                                   action:@selector(OE_removeRowForMenuItem:)
                                            keyEquivalent:@""];
             [menuItem setTag:index];

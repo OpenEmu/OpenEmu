@@ -99,7 +99,7 @@
 
 - (NSString *)localizedTitle
 {
-    return NSLocalizedString([self title], "");
+    return OELocalizedString(@"Library", @"Preferences: Library Toolbar Item");
 }
 
 - (NSSize)viewSize
@@ -208,8 +208,8 @@
             
             [alert setShowsProgressbar:YES];
             [alert setProgress:0.0];
-            [alert setHeadlineText:NSLocalizedString(@"Copying Artwork Files…", @"")];
-            [alert setTitle:NSLocalizedString(@"", @"")];
+            [alert setHeadlineText:OELocalizedString(@"Copying Artwork Files…", @"Alert Headline: Library migration")];
+            [alert setTitle:@""];
             [alert setShowsProgressbar:YES];
             [alert setDefaultButtonTitle:@"Cancel"];
             [alert setMessageText:nil];
@@ -257,8 +257,8 @@
                 // Copy roms directory
                 [alert performBlockInModalSession:^{
                     [alert setProgress:0.0];
-                    [alert setHeadlineText:NSLocalizedString(@"Copying ROM Files…", @"")];
-                    [alert setTitle:NSLocalizedString(@"", @"")];
+                    [alert setHeadlineText:OELocalizedString(@"Copying ROM Files…", @"Alert Headline: Library migration")];
+                    [alert setTitle:@""];
                 }];
                 
                 __block NSInteger copiedCount = 0;
@@ -450,8 +450,8 @@
     // Otherwise the mainwindow sidebar would be messed up
     if(enabled && [[OEDBSystem enabledSystemsinContext:context] count] == 1)
     {
-        NSString *message = NSLocalizedString(@"At least one System must be enabled", @"");
-        NSString *button = NSLocalizedString(@"OK", @"");
+        NSString *message = OELocalizedString(@"At least one System must be enabled", @"");
+        NSString *button = OELocalizedString(@"OK", @"");
         OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message defaultButton:button alternateButton:nil];
         [alert runModal];
 
@@ -465,8 +465,8 @@
     // Is also ensured by disabling ui element (checkbox)
     if(![system plugin])
     {
-        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"%@ could not be enabled because its plugin was not found.", @""), [system name]];
-        NSString *button = NSLocalizedString(@"OK", @"");
+        NSString *message = [NSString stringWithFormat:OELocalizedString(@"%@ could not be enabled because its plugin was not found.", @""), [system name]];
+        NSString *button = OELocalizedString(@"OK", @"");
         OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message defaultButton:button alternateButton:nil];
         [alert runModal];
 
@@ -578,14 +578,14 @@
          NSMutableArray *warnings = [NSMutableArray arrayWithCapacity:2];
          if([system plugin] == nil)
          {
-             [warnings addObject:NSLocalizedString(@"The System plugin could not be found!", @"")];
+             [warnings addObject:OELocalizedString(@"The System plugin could not be found!", @"")];
 
              // disabling ui element here so no system without a plugin can be enabled
              [button setEnabled:NO];
          }
 
          if(!foundCore)
-             [warnings addObject:NSLocalizedString(@"This System has no corresponding core installed.", @"")];
+             [warnings addObject:OELocalizedString(@"This System has no corresponding core installed.", @"")];
 
          if([warnings count] != 0)
          {

@@ -127,3 +127,31 @@ bool GetSystemVersion(int *major, int *minor, int *bugfix)
     
     return YES;
 }
+
+#ifdef DebugLocalization
+static NSFileHandle    *OELocalizationLog = nil;
+static NSMutableDictionary *OEWrittenKeys = nil;
+NSString *OELogLocalizedString(NSString *key, NSString *comment, NSString *fileName, int line, const char* function)
+{
+
+    if(OELocalizationLog == nil)
+    {
+        NSURL *url = [NSURL fileURLWithPath:[@"~/Desktop/LocalizationLog.txt" stringByExpandingTildeInPath]];
+        [[NSFileManager defaultManager] createFileAtPath:[url path] contents:[NSData data] attributes:nil];
+        OELocalizationLog = [NSFileHandle fileHandleForWritingToURL:url error:nil];
+
+        OEWrittenKeys = [NSMutableDictionary dictionary];
+    }
+
+    if([OEWrittenKeys objectForKey:key] == nil)
+    {
+        key = [key stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+        NSString *string = [NSString stringWithFormat:@"/* %@(%d): %20@ */ \"%@\" = \"%@\";\n", fileName, line, comment, key, key];
+        NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+        [OELocalizationLog writeData:data];
+        [OEWrittenKeys setObject:comment forKey:key];
+    }
+
+    return @"LOCALIZED";
+}
+#endif

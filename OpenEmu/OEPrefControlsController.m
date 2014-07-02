@@ -279,7 +279,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     NSMenu *playerMenu = [[NSMenu alloc] init];
     for(NSUInteger player = 0; player < numberOfPlayers; player++)
     {
-        NSString   *playerTitle = [NSString stringWithFormat:NSLocalizedString(@"Player %ld", @""), player + 1];
+        NSString   *playerTitle = [NSString stringWithFormat:OELocalizedString(@"Player %ld", @""), player + 1];
         NSMenuItem *playerItem  = [[NSMenuItem alloc] initWithTitle:playerTitle action:NULL keyEquivalent:@""];
         [playerItem setTag:player + 1];
         [playerMenu addItem:playerItem];
@@ -297,7 +297,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     NSMenu *playerMenu = [[NSMenu alloc] init];
     for(NSUInteger player = 0; player < numberOfPlayers; player++)
     {
-        NSString   *playerTitle = [NSString stringWithFormat:NSLocalizedString(@"Player %ld", @""), player + 1];
+        NSString   *playerTitle = [NSString stringWithFormat:OELocalizedString(@"Player %ld", @""), player + 1];
         NSMenuItem *playerItem  = [[NSMenuItem alloc] initWithTitle:playerTitle action:NULL keyEquivalent:@""];
         [playerItem setTag:player + 1];
         [playerMenu addItem:playerItem];
@@ -314,7 +314,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 - (void)OE_setUpInputMenu;
 {
     NSMenu *inputMenu = [[NSMenu alloc] init];
-    NSMenuItem *inputItem = [inputMenu addItemWithTitle:NSLocalizedString(@"Keyboard", @"Keyboard bindings menu item.") action:NULL keyEquivalent:@""];
+    NSMenuItem *inputItem = [inputMenu addItemWithTitle:OELocalizedString(@"Keyboard", @"Keyboard bindings menu item.") action:NULL keyEquivalent:@""];
     [inputItem setRepresentedObject:_OEKeyboardMenuItemRepresentedObject];
 
     [inputMenu addItem:[NSMenuItem separatorItem]];
@@ -323,7 +323,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
     [inputMenu addItem:[NSMenuItem separatorItem]];
 
-    [inputMenu addItemWithTitle:NSLocalizedString(@"Add a Wiimote…", @"Wiimote bindings menu item.") action:@selector(searchForWiimote:) keyEquivalent:@""];
+    [inputMenu addItemWithTitle:OELocalizedString(@"Add a Wiimote…", @"Wiimote bindings menu item.") action:@selector(searchForWiimote:) keyEquivalent:@""];
 
     [[self inputPopupButton] setMenu:inputMenu];
     [self OE_updateInputPopupButtonSelection];
@@ -355,7 +355,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     NSArray *controllers = [[OEDeviceManager sharedDeviceManager] controllerDeviceHandlers];
     if([controllers count] == 0)
     {
-        [[inputMenu addItemWithTitle:NSLocalizedString(@"No available controllers", @"Menu item indicating that no controllers is plugged in") action:NULL keyEquivalent:@""] setEnabled:NO];
+        [[inputMenu addItemWithTitle:OELocalizedString(@"No available controllers", @"Menu item indicating that no controllers is plugged in") action:NULL keyEquivalent:@""] setEnabled:NO];
         return;
     }
 
@@ -535,10 +535,10 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     
     if([[OEDeviceManager sharedDeviceManager] isBluetoothEnabled])
     {
-        [alert setMessageText:NSLocalizedString(@"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②.", @"")];
-        [alert setDefaultButtonTitle:NSLocalizedString(@"Start Scanning", @"")];
-        [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
-        [alert setHeadlineText:NSLocalizedString(@"Make your Wiimote discoverable", @"")];
+        [alert setMessageText:OELocalizedString(@"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②.", @"")];
+        [alert setDefaultButtonTitle:OELocalizedString(@"Start Scanning", @"")];
+        [alert setAlternateButtonTitle:OELocalizedString(@"Cancel", @"")];
+        [alert setHeadlineText:OELocalizedString(@"Make your Wiimote discoverable", @"")];
 
         if([alert runModal])
         {
@@ -549,9 +549,9 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     }
     else
     {
-        [alert setMessageText:NSLocalizedString(@"Bluetooth must be enabled to pair a Wii controller.", @"")];
-        [alert setDefaultButtonTitle:NSLocalizedString(@"OK", @"")];
-        [alert setHeadlineText:NSLocalizedString(@"Bluetooth Not Enabled", @"")];
+        [alert setMessageText:OELocalizedString(@"Bluetooth must be enabled to pair a Wii controller.", @"")];
+        [alert setDefaultButtonTitle:OELocalizedString(@"OK", @"")];
+        [alert setHeadlineText:OELocalizedString(@"Bluetooth Not Enabled", @"")];
         [alert runModal];
     }
 }
@@ -746,7 +746,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 - (NSString *)localizedTitle
 {
-    return NSLocalizedString([self title], @"");
+    return OELocalizedString([self title], @"Preferences: Controls Toolbar Item");
 }
 
 - (NSSize)viewSize

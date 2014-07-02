@@ -131,7 +131,7 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
 
     if([name hasPrefix:OESaveStateSpecialNamePrefix])
     {
-        name = NSLocalizedString(name, @"Localized special save state name");
+        name = OELocalizedString(name, @"Localized special save state name");
     }
 
     NSError  *error              = nil;
@@ -424,15 +424,15 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     NSString *name = [self name];
     if([name isEqualToString:OESaveStateAutosaveName])
     {
-        return NSLocalizedString(@"Auto Save State", @"Autosave state display name");
+        return OELocalizedString(@"Auto Save State", @"Autosave state display name");
     }
     else if([name isEqualToString:OESaveStateQuicksaveName])
     {
-        return NSLocalizedString(@"Quick Save State", @"Quicksave state display name");
+        return OELocalizedString(@"Quick Save State", @"Quicksave state display name");
     }
     else if([name rangeOfString:OESaveStateQuicksaveName].location == 0)
     {
-        return [NSString stringWithFormat:NSLocalizedString(@"Quick Save, Slot %@", @"Quicksave state display name with slot"), [name substringFromIndex:[OESaveStateQuicksaveName length]]];
+        return [NSString stringWithFormat:OELocalizedString(@"Quick Save, Slot %@", @"Quicksave state display name with slot"), [name substringFromIndex:[OESaveStateQuicksaveName length]]];
     }
     return name;
 }

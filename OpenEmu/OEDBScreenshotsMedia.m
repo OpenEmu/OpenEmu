@@ -45,7 +45,7 @@
 
 - (NSString *)sidebarName
 {
-    return NSLocalizedString(@"Screenshots", @"");
+    return OELocalizedString(@"Screenshots", @"");
 }
 
 - (void)setSidebarName:(NSString *)newName

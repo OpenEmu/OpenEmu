@@ -46,7 +46,7 @@
 
 - (NSString *)sidebarName
 {
-    return NSLocalizedString(@"Saved Games", @"");
+    return OELocalizedString(@"Saved Games", @"");
 }
 
 - (void)setSidebarName:(NSString *)newName
