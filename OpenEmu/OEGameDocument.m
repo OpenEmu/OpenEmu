@@ -407,7 +407,7 @@ typedef enum : NSUInteger
     OEDeviceHandler *devHandler = [[notification userInfo] objectForKey:OEDeviceManagerDeviceHandlerUserInfoKey];
     NSString *lowBatteryString = [NSString stringWithFormat:OELocalizedString(@"Device number %lu, %@, has disconnected.", @"Device disconnection detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
     OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:lowBatteryString
-                                           defaultButton:OELocalizedString(@"Resume", nil)
+                                           defaultButton:OELocalizedString(@"Resume", @"Resume game after battery warning button label")
                                          alternateButton:nil];
     [alert setHeadlineText:[NSString stringWithFormat:OELocalizedString(@"Device Disconnected", @"A controller device has disconnected.")]];
     [alert runModal];
@@ -1123,7 +1123,7 @@ typedef enum : NSUInteger
 
     NSInteger   saveGameNo    = [[self rom] saveStateCount] + 1;
     // TODO: properly format date
-    NSString    *proposedName = [NSString stringWithFormat:@"%@%ld %@", OELocalizedString(@"Save-Game-", @""), saveGameNo, [NSDate date]];
+    NSString    *proposedName = [NSString stringWithFormat:OELocalizedString(@"Save-Game-%@%ld %@", @"default save game default"), saveGameNo, [NSDate date]];
     OEHUDAlert  *alert        = [OEHUDAlert saveGameAlertWithProposedName:proposedName];
 
     [alert setWindow:[[[self gameViewController] view] window]];

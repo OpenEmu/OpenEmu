@@ -307,7 +307,7 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
             *err = [NSError errorWithDomain:OEVersionMigrationErrorDomain
                                        code:1 
                                    userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                             OELocalizedString(@"Some migrations failed to complete properly",@""),NSLocalizedDescriptionKey,
+                                             OELocalizedString(@"Some migrations failed to complete properly", @""),NSLocalizedDescriptionKey,
                                              errors,OEVersionMigrationFailureErrorsKey,
                                              nil]];
         

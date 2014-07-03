@@ -344,7 +344,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         [alert setShowsProgressbar:YES];
         [alert setProgress:0.0];
         [alert setHeadlineText:OELocalizedString(@"Copying Game Files…", @"")];
-        [alert setTitle:OELocalizedString(@"", @"")];
+        [alert setTitle:@""];
         [alert setShowsProgressbar:YES];
         [alert setDefaultButtonTitle:nil];
         [alert setMessageText:nil];
