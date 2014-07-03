@@ -17,5 +17,6 @@
 #import <Sparkle/SUAppcast.h>
 #import <Sparkle/SUAppcastItem.h>
 #import <Sparkle/SUVersionComparisonProtocol.h>
+#import <Sparkle/SUStandardVersionComparator.h>
 
 #endif
