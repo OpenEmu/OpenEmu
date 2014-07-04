@@ -26,6 +26,7 @@
 
 #import "OEUtilities.m"
 #import <CommonCrypto/CommonDigest.h>
+#import "OEBuildVersion.h"
 
 // output must be at least 2*len+1 bytes
 void tohex(const unsigned char *input, size_t len, char *output)
@@ -130,28 +131,55 @@ bool GetSystemVersion(int *major, int *minor, int *bugfix)
 
 #ifdef DebugLocalization
 static NSFileHandle    *OELocalizationLog = nil;
-static NSMutableDictionary *OEWrittenKeys = nil;
 NSString *OELogLocalizedString(NSString *key, NSString *comment, NSString *fileName, int line, const char* function)
 {
-
     if(OELocalizationLog == nil)
     {
-        NSURL *url = [NSURL fileURLWithPath:[@"~/Desktop/LocalizationLog.txt" stringByExpandingTildeInPath]];
+        NSURL *url = [NSURL fileURLWithPath:[@"~/Desktop/OpenEmu Runtime Analysis.strings" stringByExpandingTildeInPath]];
+        [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
         [[NSFileManager defaultManager] createFileAtPath:[url path] contents:[NSData data] attributes:nil];
         OELocalizationLog = [NSFileHandle fileHandleForWritingToURL:url error:nil];
 
-        OEWrittenKeys = [NSMutableDictionary dictionary];
+        NSString *version = [NSString stringWithFormat:@"/*%@*/\n", LONG_BUILD_VERSION];
+        [OELocalizationLog writeData:[version dataUsingEncoding:NSUTF8StringEncoding]];
     }
 
-    if([OEWrittenKeys objectForKey:key] == nil)
     {
-        key = [key stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
-        NSString *string = [NSString stringWithFormat:@"/* %@(%d): %20@ */ \"%@\" = \"%@\";\n", fileName, line, comment, key, key];
+        NSString *escapedKey = [key stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+
+        NSString *value = [escapedKey copy];
+        NSError *error = nil;
+        NSRegularExpression *ex = [NSRegularExpression regularExpressionWithPattern:@"%[0-9]*\\.*[0-9]*[hlqLztj]*[%dDuUxXoOfeEgGcCsSpaAF@]" options:0 error:&error];
+        NSArray *matches = [ex matchesInString:value options:0 range:NSMakeRange(0, [key length])];
+        if([matches count] > 1)
+        {
+            for(NSInteger i=[matches count]; i > 0; i--)
+            {
+                NSTextCheckingResult *match = [matches objectAtIndex:i-1];
+                NSRange range = [match range];
+
+                NSMutableString *replacement = [NSMutableString stringWithFormat:@"%%%ld$", i];
+
+                NSRegularExpression *ex2 = [NSRegularExpression regularExpressionWithPattern:@"[hlqLztj]*[%dDuUxXoOfeEgGcCsSpaAF@]" options:0 error:nil];
+                NSRange r = [[[ex2 matchesInString:value options:0 range:range] lastObject] range];
+                [replacement appendString:[value substringWithRange:r]];
+
+                value = [value stringByReplacingCharactersInRange:range withString:replacement];
+            }
+        } else {
+            value = key;
+        }
+
+
+        NSString *string = [NSString stringWithFormat:@"/*r%@%@%@%d%@%@*/ \"%@\" = \"%@\";\n",
+                            OELocalizationSeparationString, fileName,
+                            OELocalizationSeparationString, line,
+                            OELocalizationSeparationString, comment,
+                            escapedKey, value];
         NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
         [OELocalizationLog writeData:data];
-        [OEWrittenKeys setObject:comment forKey:key];
     }
 
-    return @"LOCALIZED";
+    return [@"[L]" stringByAppendingString:NSLocalizedString(key, comment)];
 }
 #endif

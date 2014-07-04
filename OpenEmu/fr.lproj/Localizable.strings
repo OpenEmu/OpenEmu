@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2009-2014, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,30 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/** THIS FILE WAS GENERATED AUTOMATICALLY! DO NOT CHANGE! **/
 
-#import <Cocoa/Cocoa.h>
-
-#define GENERATE_PRAGMA(x) _Pragma(#x)
-#define TODO(x) GENERATE_PRAGMA(message("[TODO] " #x))
-#define FIXME(x) GENERATE_PRAGMA(message("[FIXME] " #x))
-#define NOTE(x) GENERATE_PRAGMA(message("[NOTE] " #x))
-
-#define BOOL_STR(value) ((value) ? "YES" : "NO")
-
-#ifdef DebugLocalization
-    #define OELocalizationSeparationString @"|"
-    #define OELocalizedString(_KEY_, _COMMENT_) OELogLocalizedString(_KEY_, _COMMENT_, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __FUNCTION__)
-NSString *OELogLocalizedString(NSString *key, NSString *comment, NSString *fileName, int line, const char* function);
-#else
-    #define OELocalizedString(_KEY_, _COMMENT_) NSLocalizedString(_KEY_,_COMMENT_)
-#endif
-
-#define OECoreDataMainThreadAssertion() NSAssert([NSThread isMainThread], @"Only call on main thread!")
-// output must be at least 2*len+1 bytes
-void tohex(const unsigned char *input, size_t len, char *output);
-void OEPrintFirstResponderChain(void);
-NSArray *OENextRespondersFromResponder(NSResponder *responder);
-NSString *temporaryDirectoryForDecompressionOfPath(NSString *aPath);
-bool GetSystemVersion( int *major, int *minor, int *bugfix );
-
+/*d90b052d270dd6ce2f624526609e64477d84e58a*/
 

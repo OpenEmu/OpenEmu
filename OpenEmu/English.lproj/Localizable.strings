@@ -26,448 +26,582 @@
 
 /** THIS FILE WAS GENERATED AUTOMATICALLY! DO NOT CHANGE! **/
 
-/*bd7bcf5e5fcc72bcbf4f9249679aec1e2398de14*/
+/*d90b052d270dd6ce2f624526609e64477d84e58a*/
 
-/*s:OESidebarController.m:215:Duplicated collection name*/ "%@ copy" = "%@ copy";
+/*s|OESidebarController.m|215|Duplicated collection name*/ "%@ copy" = "%@ copy";
 
-/*s:OEPrefLibraryController.m:468:*/ "%@ could not be enabled because its plugin was not found." = "%@ could not be enabled because its plugin was not found.";
+/*s|OEPrefLibraryController.m|468|*/ "%@ could not be enabled because its plugin was not found." = "%@ could not be enabled because its plugin was not found.";
 
-/*s:OEBlankSlateView.m:192:*/ "%@ games you add to OpenEmu will appear in this Console Library" = "%@ games you add to OpenEmu will appear in this Console Library";
+/*s|OEBlankSlateView.m|192|*/ "%@ games you add to OpenEmu will appear in this Console Library" = "%@ games you add to OpenEmu will appear in this Console Library";
 
-/*s:OEGameControlsBar.m:373:Integral scale menu item title*/ "%ux" = "%ux";
+/*s|OEGameControlsBar.m|373|Integral scale menu item title*/ "%ux" = "%ux";
 
-/*s:OEGameDocument.m:1036:*/ "Add Cheat" = "Add Cheat";
+/*s|OEGameDocument.m|1036|*/ "Add Cheat" = "Add Cheat";
 
-/*s:OEGameControlsBar.m:279:*/ "Add Cheat…" = "Add Cheat…";
+/*s|OEGameControlsBar.m|279|*/ "Add Cheat…" = "Add Cheat…";
 
-/*s:OEGameCollectionViewController.m:475:*/
-/*s:OEGameCollectionViewController.m:503:*/ "Add Cover Art From File…" = "Add Cover Art From File…";
+/*s|OEGameCollectionViewController.m|475|*/
+/*s|OEGameCollectionViewController.m|503|*/ "Add Cover Art From File…" = "Add Cover Art From File…";
 
-/*s:OEGameCollectionViewController.m:481:*/
-/*s:OEGameCollectionViewController.m:508:*/ "Add To Collection" = "Add To Collection";
+/*s|OEGameCollectionViewController.m|481|*/
+/*s|OEGameCollectionViewController.m|508|*/ "Add To Collection" = "Add To Collection";
 
-/*s:OEPrefControlsController.m:326:Wiimote bindings menu item.*/ "Add a Wiimote…" = "Add a Wiimote…";
+/*s|OEPrefControlsController.m|326|Wiimote bindings menu item.*/ "Add a Wiimote…" = "Add a Wiimote…";
 
-/*s:OEDBAllGamesCollection.m:48:*/ "All Games" = "All Games";
+/*s|OEDBAllGamesCollection.m|48|*/ "All Games" = "All Games";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:162:*/ "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Are you sure you want to delete %ld save games from your OpenEmu library?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|162|*/ "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Are you sure you want to delete %ld save games from your OpenEmu library?";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:190:*/ "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Are you sure you want to delete %ld screenshots from your OpenEmu library?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|190|*/ "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Are you sure you want to delete %ld screenshots from your OpenEmu library?";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:149:*/ "Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Are you sure you want to delete the save game called '%@' from your OpenEmu library?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|149|*/ "Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Are you sure you want to delete the save game called '%@' from your OpenEmu library?";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:177:*/ "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|177|*/ "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:218:*/ "Are you sure you want to delete the selected game from your OpenEmu library?" = "Are you sure you want to delete the selected game from your OpenEmu library?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|218|*/ "Are you sure you want to delete the selected game from your OpenEmu library?" = "Are you sure you want to delete the selected game from your OpenEmu library?";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:217:*/ "Are you sure you want to delete the selected games from your OpenEmu library?" = "Are you sure you want to delete the selected games from your OpenEmu library?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|217|*/ "Are you sure you want to delete the selected games from your OpenEmu library?" = "Are you sure you want to delete the selected games from your OpenEmu library?";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:52:*/ "Are you sure you want to quit the application?" = "Are you sure you want to quit the application?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|52|*/ "Are you sure you want to quit the application?" = "Are you sure you want to quit the application?";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:203:*/ "Are you sure you want to remove the selected games from the collection?" = "Are you sure you want to remove the selected games from the collection?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|203|*/ "Are you sure you want to remove the selected games from the collection?" = "Are you sure you want to remove the selected games from the collection?";
 
-/*s:OESidebarController.m:615:*/ "Are you sure you want to remove this collection?" = "Are you sure you want to remove this collection?";
+/*s|OESidebarController.m|615|*/ "Are you sure you want to remove this collection?" = "Are you sure you want to remove this collection?";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:121:*/ "Are you sure you want to reset the console?" = "Are you sure you want to reset the console?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|121|*/ "Are you sure you want to reset the console?" = "Are you sure you want to reset the console?";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:135:*/ "Are you sure you want to stop emulation?" = "Are you sure you want to stop emulation?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|135|*/ "Are you sure you want to stop emulation?" = "Are you sure you want to stop emulation?";
 
-/*s:OEPrefLibraryController.m:453:*/ "At least one System must be enabled" = "At least one System must be enabled";
+/*s|OEPrefLibraryController.m|453|*/ "At least one System must be enabled" = "At least one System must be enabled";
 
-/*s:OEDBSaveState.m:427:Autosave state display name*/ "Auto Save State" = "Auto Save State";
+/*s|OEDBSaveState.m|427|Autosave state display name*/ "Auto Save State" = "Auto Save State";
 
-/*s:OELibraryDatabase.m:894:Automatically Import Name*/ "Automatically Import" = "Automatically Import";
+/*s|OELibraryDatabase.m|894|Automatically Import Name*/ "Automatically Import" = "Automatically Import";
 
-/*s:OEPrefControlsController.m:554:*/ "Bluetooth Not Enabled" = "Bluetooth Not Enabled";
+/*s|OEPrefControlsController.m|554|*/ "Bluetooth Not Enabled" = "Bluetooth Not Enabled";
 
-/*s:OEPrefControlsController.m:552:*/ "Bluetooth must be enabled to pair a Wii controller." = "Bluetooth must be enabled to pair a Wii controller.";
+/*s|OEPrefControlsController.m|552|*/ "Bluetooth must be enabled to pair a Wii controller." = "Bluetooth must be enabled to pair a Wii controller.";
 
-/*s:OESidebarController.m:97:*/ "COLLECTIONS" = "COLLECTIONS";
+/*s|OESidebarController.m|97|*/ "COLLECTIONS" = "COLLECTIONS";
 
-/*s:OESidebarController.m:91:*/ "CONSOLES" = "CONSOLES";
+/*s|OESidebarController.m|91|*/ "CONSOLES" = "CONSOLES";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:193:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:55:*/
-/*s:OEGameCollectionViewController.m:340:*/
-/*s:OEGameDocument.m:719:*/
-/*s:OECoreUpdater.m:254:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:165:*/
-/*s:OESidebarController.m:617:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:101:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:123:*/
-/*s:OEGameDocument.m:1317:*/
-/*s:OEMainWindowController.m:279:*/
-/*s:OEPrefControlsController.m:540:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:180:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:206:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:221:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:152:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:252:*/
-/*s:OEGameDocument.m:1037:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:137:*/ "Cancel" = "Cancel";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|55|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|152|*/
+/*s|OEMainWindowController.m|279|*/
+/*s|OEPrefControlsController.m|540|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|180|*/
+/*s|OECoreUpdater.m|254|*/
+/*s|OEGameDocument.m|1037|*/
+/*s|OEGameDocument.m|719|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|137|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|206|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|193|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|252|*/
+/*s|OESidebarController.m|617|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|123|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|221|*/
+/*s|OEGameDocument.m|1317|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|101|*/
+/*s|OEGameCollectionViewController.m|340|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|165|*/ "Cancel" = "Cancel";
 
-/*s:OEGameCollectionViewController.m:473:*/ "Cancel Cover Art Download" = "Cancel Cover Art Download";
+/*s|OEGameCollectionViewController.m|473|*/ "Cancel Cover Art Download" = "Cancel Cover Art Download";
 
-/*s:OEGameDocument.m:718:*/ "Change Core" = "Change Core";
+/*s|OEGameDocument.m|718|*/ "Change Core" = "Change Core";
 
-/*s:OEGameControlsBar.m:724:Tooltip*/ "Change Volume" = "Change Volume";
+/*s|OEGameControlsBar.m|724|Tooltip*/ "Change Volume" = "Change Volume";
 
-/*s:OEGameDocument.m:1030:*/ "Cheat Description" = "Cheat Description";
+/*s|OEGameDocument.m|1030|*/ "Cheat Description" = "Cheat Description";
 
-/*s:OEApplicationDelegate.m:519:*/ "Choose Library…" = "Choose Library…";
+/*s|OEApplicationDelegate.m|519|*/ "Choose Library…" = "Choose Library…";
 
-/*s:OEApplicationDelegate.m:516:*/ "Choose OpenEmu Library" = "Choose OpenEmu Library";
+/*s|OEApplicationDelegate.m|516|*/ "Choose OpenEmu Library" = "Choose OpenEmu Library";
 
-/*s:OEGameDocument.m:177:Inexistent file error recovery suggestion.*/
-/*s:OEGameDocument.m:500:Inexistent file error recovery suggestion.*/ "Choose a valid file." = "Choose a valid file.";
+/*s|OEGameDocument.m|177|Inexistent file error recovery suggestion.*/
+/*s|OEGameDocument.m|500|Inexistent file error recovery suggestion.*/ "Choose a valid file." = "Choose a valid file.";
 
-/*s:OEGameScannerViewController.m:546:*/ "Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.";
+/*s|OEGameScannerViewController.m|546|*/ "Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.";
 
-/*s:OEGameDocument.m:1032:*/ "Code:" = "Code:";
+/*s|OEGameDocument.m|1032|*/ "Code:" = "Code:";
 
-/*s:OESidebarOutlineView.m:131:*/ "Collapse" = "Collapse";
+/*s|OESidebarOutlineView.m|131|*/ "Collapse" = "Collapse";
 
-/*s:OEBlankSlateView.m:148:*/ "Collections" = "Collections";
+/*s|OEBlankSlateView.m|148|*/ "Collections" = "Collections";
 
-/*s:OEGameCollectionViewController.m:339:*/ "Consolidate" = "Consolidate";
+/*s|OEGameCollectionViewController.m|339|*/ "Consolidate" = "Consolidate";
 
-/*s:OEGameCollectionViewController.m:476:*/
-/*s:OEGameCollectionViewController.m:504:*/ "Consolidate Files…" = "Consolidate Files…";
+/*s|OEGameCollectionViewController.m|476|*/
+/*s|OEGameCollectionViewController.m|504|*/ "Consolidate Files…" = "Consolidate Files…";
 
-/*s:OEGameCollectionViewController.m:338:*/ "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.";
+/*s|OEGameCollectionViewController.m|338|*/ "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.";
 
-/*s:OEPrefLibraryController.m:211:Alert Headline*/ "Copying Artwork Files…" = "Copying Artwork Files…";
+/*s|OEPrefLibraryController.m|211|Alert Headline: Library migration*/ "Copying Artwork Files…" = "Copying Artwork Files…";
 
-/*s:OEGameCollectionViewController.m:346:*/ "Copying Game Files…" = "Copying Game Files…";
+/*s|OEGameCollectionViewController.m|346|*/ "Copying Game Files…" = "Copying Game Files…";
 
-/*s:OEPrefLibraryController.m:260:Alert Headline*/ "Copying ROM Files…" = "Copying ROM Files…";
+/*s|OEPrefLibraryController.m|260|Alert Headline: Library migration*/ "Copying ROM Files…" = "Copying ROM Files…";
 
-/*s:OEBlankSlateView.m:238:*/ "Core Provided By…" = "Core Provided By…";
+/*s|OEBlankSlateView.m|238|*/ "Core Provided By…" = "Core Provided By…";
 
-/*s:OEDOGameCoreManager.m:137:Timed out error reason.*/ "Couldn't connect to the background process." = "Couldn't connect to the background process.";
+/*s|OEDOGameCoreManager.m|137|Timed out error reason.*/ "Couldn't connect to the background process." = "Couldn't connect to the background process.";
 
-/*s:OEApplicationDelegate.m:520:*/ "Create Library…" = "Create Library…";
+/*s|OEApplicationDelegate.m|520|*/ "Create Library…" = "Create Library…";
 
-/*s:OEBlankSlateView.m:154:*/ "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.";
+/*s|OEBlankSlateView.m|154|*/ "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.";
 
-/*s:OEGameControlsBar.m:680:Tooltip*/ "Create or Load Save State" = "Create or Load Save State";
+/*s|OEGameControlsBar.m|680|Tooltip*/ "Create or Load Save State" = "Create or Load Save State";
 
-/*s:OESidebarController.m:94:*/ "DEVICES" = "DEVICES";
+/*s|OESidebarController.m|94|*/ "DEVICES" = "DEVICES";
 
-/*s:OESidebarOutlineView.m:188:*/ "Delete Collection" = "Delete Collection";
+/*s|OESidebarOutlineView.m|188|*/ "Delete Collection" = "Delete Collection";
 
-/*s:OEGameCollectionViewController.m:486:*/ "Delete Game" = "Delete Game";
+/*s|OEGameCollectionViewController.m|486|*/ "Delete Game" = "Delete Game";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:220:*/
-/*s:OEGameCollectionViewController.m:513:*/ "Delete Games" = "Delete Games";
+/*s|OEGameCollectionViewController.m|513|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|220|*/ "Delete Games" = "Delete Games";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:151:*/ "Delete Save" = "Delete Save";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|151|*/ "Delete Save" = "Delete Save";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:164:*/ "Delete Saves" = "Delete Saves";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|164|*/ "Delete Saves" = "Delete Saves";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:179:*/ "Delete Screenshot" = "Delete Screenshot";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|179|*/ "Delete Screenshot" = "Delete Screenshot";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:192:*/ "Delete Screenshots" = "Delete Screenshots";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|192|*/ "Delete Screenshots" = "Delete Screenshots";
 
-/*s:OEGameScannerViewController.m:86:*/ "Deselect All" = "Deselect All";
+/*s|OEGameScannerViewController.m|86|*/ "Deselect All" = "Deselect All";
 
-/*s:OEGameDocument.m:412:A controller device has disconnected.*/ "Device Disconnected" = "Device Disconnected";
+/*s|OEGameDocument.m|412|A controller device has disconnected.*/ "Device Disconnected" = "Device Disconnected";
 
-/*s:OEGameDocument.m:408:Device disconnection detail message.*/ "Device number %lu, %@, has disconnected." = "Device number %1$lu, %2$@, has disconnected.";
+/*s|OEGameDocument.m|408|Device disconnection detail message.*/ "Device number %lu, %@, has disconnected." = "Device number %1$lu, %2$@, has disconnected.";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:69:*/ "Do Not Save" = "Do Not Save";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|69|*/ "Do Not Save" = "Do Not Save";
 
-/*s:OEHUDAlert.m:714:*/ "Do not ask me again" = "Do not ask me again";
+/*s|OEHUDAlert.m|714|*/ "Do not ask me again" = "Do not ask me again";
 
-/*s:OEGameScannerViewController.m:545:*/ "Do you really want to cancel the import process?" = "Do you really want to cancel the import process?";
+/*s|OEGameScannerViewController.m|545|*/ "Do you really want to cancel the import process?" = "Do you really want to cancel the import process?";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:82:*/ "Do you want to continue playing where you left off?" = "Do you want to continue playing where you left off?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|82|*/ "Do you want to continue playing where you left off?" = "Do you want to continue playing where you left off?";
 
-/*s:OEGameScannerViewController.m:200:*/ "Don't Import Selected" = "Don't Import Selected";
+/*s|OEGameScannerViewController.m|200|*/ "Don't Import Selected" = "Don't Import Selected";
 
-/*s:OEGameCollectionViewController.m:502:*/
-/*s:OEGameCollectionViewController.m:471:*/ "Download Cover Art" = "Download Cover Art";
+/*s|OEGameCollectionViewController.m|471|*/
+/*s|OEGameCollectionViewController.m|502|*/ "Download Cover Art" = "Download Cover Art";
 
-/*s:OECoreUpdater.m:295:*/ "Downloading and Installing Core…" = "Downloading and Installing Core…";
+/*s|OECoreUpdater.m|295|*/ "Downloading and Installing Core…" = "Downloading and Installing Core…";
 
-/*s:OEBlankSlateView.m:341:Blank Slate DnD Here*/
-/*s:OEBlankSlateView.m:349:Blank Slate DnD Here*/ "Drag & Drop Games Here" = "Drag & Drop Games Here";
+/*s|OEBlankSlateView.m|341|Blank Slate DnD Here*/
+/*s|OEBlankSlateView.m|349|Blank Slate DnD Here*/ "Drag & Drop Games Here" = "Drag & Drop Games Here";
 
-/*s:OESidebarOutlineView.m:182:*/ "Duplicate Collection" = "Duplicate Collection";
+/*s|OESidebarOutlineView.m|182|*/ "Duplicate Collection" = "Duplicate Collection";
 
-/*s:OEGameControlsBar.m:266:*/ "Edit Game Controls" = "Edit Game Controls";
+/*s|OEGameControlsBar.m|266|*/ "Edit Game Controls" = "Edit Game Controls";
 
-/*s:OECoreUpdater.m:315:*/ "Error!" = "Error!";
+/*s|OECoreUpdater.m|315|*/ "Error!" = "Error!";
 
-/*s:OEGameScannerViewController.m:155:*/ "Game %ld of %ld" = "Game %1$ld of %2$ld";
+/*s|OEGameScannerViewController.m|155|*/ "Game %ld of %ld" = "Game %1$ld of %2$ld";
 
-/*s:OEGameScannerViewController.m:307:*/
-/*s:OEGameScannerViewController.m:311:*/ "Game Scanner" = "Game Scanner";
+/*s|OEGameScannerViewController.m|307|*/
+/*s|OEGameScannerViewController.m|311|*/ "Game Scanner" = "Game Scanner";
 
-/*s:OESidebarOutlineView.m:160:*/ "Hide \"%@\"" = "Hide \"%@\"";
+/*s|OESidebarOutlineView.m|160|*/ "Hide \"%@\"" = "Hide \"%@\"";
 
-/*s:OEPrefControlsController.m:538:*/ "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②.";
+/*s|OEPrefControlsController.m|538|*/ "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②.";
 
-/*s:OEGameDocument.m:717:*/ "If you change the core you current progress will be lost and save states will not work anymore." = "If you change the core you current progress will be lost and save states will not work anymore.";
+/*s|OEGameDocument.m|717|*/ "If you change the core you current progress will be lost and save states will not work anymore." = "If you change the core you current progress will be lost and save states will not work anymore.";
 
-/*s:OEPrefCoresController.m:182:Install Core*/
-/*s:OECoreUpdater.m:253:*/ "Install" = "Install";
+/*s|OECoreUpdater.m|253|*/
+/*s|OEPrefCoresController.m|182|Install Core*/ "Install" = "Install";
 
-/*s:OECoreUpdater.m:296:*/ "Installing Core" = "Installing Core";
+/*s|OECoreUpdater.m|296|*/ "Installing Core" = "Installing Core";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:236:*/ "Keep Files" = "Keep Files";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|236|*/ "Keep Files" = "Keep Files";
 
-/*s:OEPrefControlsController.m:317:Keyboard bindings menu item.*/ "Keyboard" = "Keyboard";
+/*s|OEPrefControlsController.m|317|Keyboard bindings menu item.*/ "Keyboard" = "Keyboard";
 
-/*s:OEPrefLibraryController.m:102:Preferences*/ "Library" = "Library";
+/*s|OEPrefLibraryController.m|102|Preferences: Library Toolbar Item*/ "Library" = "Library";
 
-/*s:OEMainWindowController.m:278:*/ "Locate" = "Locate";
+/*s|OEMainWindowController.m|278|*/ "Locate" = "Locate";
 
-/*s:OEMainWindowController.m:285:Locate panel title*/ "Locate '%@'" = "Locate '%@'";
+/*s|OEMainWindowController.m|285|Locate panel title*/ "Locate '%@'" = "Locate '%@'";
 
-/*s:OEGameDocument.m:396:Device battery level is low.*/ "Low Controller Battery" = "Low Controller Battery";
+/*s|OEGameDocument.m|396|Device battery level is low.*/ "Low Controller Battery" = "Low Controller Battery";
 
-/*s:OESidebarController.m:96:*/ "MEDIA" = "MEDIA";
+/*s|OESidebarController.m|96|*/ "MEDIA" = "MEDIA";
 
-/*s:OEGameDocument.m:276:No Core error recovery suggestion.*/ "Make sure your internet connection is active and download a suitable core." = "Make sure your internet connection is active and download a suitable core.";
+/*s|OEGameDocument.m|276|No Core error recovery suggestion.*/ "Make sure your internet connection is active and download a suitable core." = "Make sure your internet connection is active and download a suitable core.";
 
-/*s:OEPrefControlsController.m:541:*/ "Make your Wiimote discoverable" = "Make your Wiimote discoverable";
+/*s|OEPrefControlsController.m|541|*/ "Make your Wiimote discoverable" = "Make your Wiimote discoverable";
 
-/*s:OECoreUpdater.m:256:*/ "Missing Core" = "Missing Core";
+/*s|OECoreUpdater.m|256|*/ "Missing Core" = "Missing Core";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:231:*/ "Move selected games to Trash, or keep them in the Library folder?" = "Move selected games to Trash, or keep them in the Library folder?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|231|*/ "Move selected games to Trash, or keep them in the Library folder?" = "Move selected games to Trash, or keep them in the Library folder?";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:235:*/ "Move to Trash" = "Move to Trash";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|235|*/ "Move to Trash" = "Move to Trash";
 
-/*s:OEGameControlsBar.m:703:Tooltip*/ "Mute Audio" = "Mute Audio";
+/*s|OEGameControlsBar.m|703|Tooltip*/ "Mute Audio" = "Mute Audio";
 
-/*s:OELibraryController.m:119:Tooltip*/
-/*s:OELibraryDatabase.m:526:Default collection name*/ "New Collection" = "New Collection";
+/*s|OELibraryController.m|119|Tooltip*/
+/*s|OELibraryDatabase.m|526|Default collection name*/ "New Collection" = "New Collection";
 
-/*s:OEGameCollectionViewController.m:604:*/ "New Collection from Selection" = "New Collection from Selection";
+/*s|OEGameCollectionViewController.m|604|*/ "New Collection from Selection" = "New Collection from Selection";
 
-/*s:OELibraryDatabase.m:590:*/ "New Folder" = "New Folder";
+/*s|OELibraryDatabase.m|590|*/ "New Folder" = "New Folder";
 
-/*s:OELibraryDatabase.m:557:*/ "New Smart Collection" = "New Smart Collection";
+/*s|OELibraryDatabase.m|557|*/ "New Smart Collection" = "New Smart Collection";
 
-/*s:OEGameScannerViewController.m:548:*/
-/*s:OEGameDocument.m:535:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:84:*/ "No" = "No";
+/*s|OEGameDocument.m|535|*/
+/*s|OEGameScannerViewController.m|548|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|84|*/ "No" = "No";
 
-/*s:OEGameCollectionViewController.m:553:*/ "No Save States available" = "No Save States available";
+/*s|OEGameCollectionViewController.m|553|*/ "No Save States available" = "No Save States available";
 
-/*s:OEPrefControlsController.m:358:Menu item indicating that no controllers is plugged in*/ "No available controllers" = "No available controllers";
+/*s|OEPrefControlsController.m|358|Menu item indicating that no controllers is plugged in*/ "No available controllers" = "No available controllers";
 
-/*s:OEApplicationDelegate.m:766:*/ "No game played yet!" = "No game played yet!";
+/*s|OEApplicationDelegate.m|766|*/ "No game played yet!" = "No game played yet!";
 
-/*s:OEGameCollectionViewController.m:569:*/ "None" = "None";
+/*s|OEGameCollectionViewController.m|569|*/ "None" = "None";
 
-/*s:OECoreUpdater.m:318:*/
-/*s:OEGameDocument.m:996:*/
-/*s:OEGameDocument.m:969:*/
-/*s:OEPrefLibraryController.m:454:*/
-/*s:OEGameDocument.m:1316:*/
-/*s:OEPrefLibraryController.m:469:*/
-/*s:OEPrefControlsController.m:553:*/ "OK" = "OK";
+/*s|OEGameDocument.m|1316|*/
+/*s|OECoreUpdater.m|318|*/
+/*s|OEPrefControlsController.m|553|*/
+/*s|OEPrefLibraryController.m|469|*/
+/*s|OEPrefLibraryController.m|454|*/
+/*s|OEGameDocument.m|996|*/
+/*s|OEGameDocument.m|969|*/ "OK" = "OK";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:233:*/ "Only files in the OpenEmu Library folder will be moved to the Trash." = "Only files in the OpenEmu Library folder will be moved to the Trash.";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|233|*/ "Only files in the OpenEmu Library folder will be moved to the Trash." = "Only files in the OpenEmu Library folder will be moved to the Trash.";
 
-/*s:OESidebarOutlineView.m:167:*/ "Open Collection" = "Open Collection";
+/*s|OESidebarOutlineView.m|167|*/ "Open Collection" = "Open Collection";
 
-/*s:OESidebarOutlineView.m:152:*/ "Open Library" = "Open Library";
+/*s|OESidebarOutlineView.m|152|*/ "Open Library" = "Open Library";
 
-/*s:OEGameDocument.m:275:No Core error reason.*/ "OpenEmu could not find a Core to launch the game" = "OpenEmu could not find a Core to launch the game";
+/*s|OEGameDocument.m|275|No Core error reason.*/ "OpenEmu could not find a Core to launch the game" = "OpenEmu could not find a Core to launch the game";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:67:*/ "OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu includes a save game feature that allows you to continue playing exactly where you left off.";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|67|*/ "OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu includes a save game feature that allows you to continue playing exactly where you left off.";
 
-/*s:OEApplicationDelegate.m:517:*/ "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one";
+/*s|OEApplicationDelegate.m|517|*/ "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one";
 
-/*s:OECoreUpdater.m:222:*/ "OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu uses 'Cores' to emulate games. You need the %1$@ Core to play %2$@";
+/*s|OECoreUpdater.m|222|*/ "OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu uses 'Cores' to emulate games. You need the %1$@ Core to play %2$@";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:53:*/ "OpenEmu will save and quit all games that are currently running." = "OpenEmu will save and quit all games that are currently running.";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|53|*/ "OpenEmu will save and quit all games that are currently running." = "OpenEmu will save and quit all games that are currently running.";
 
-/*s:OEGameControlsBar.m:694:Tooltip*/ "Options" = "Options";
+/*s|OEGameControlsBar.m|694|Tooltip*/ "Options" = "Options";
 
-/*s:OEGameDocument.m:595:*/ "Pause Emulation" = "Pause Emulation";
+/*s|OEGameDocument.m|595|*/ "Pause Emulation" = "Pause Emulation";
 
-/*s:OEGameControlsBar.m:659:Tooltip*/ "Pause Gameplay" = "Pause Gameplay";
+/*s|OEGameControlsBar.m|659|Tooltip*/ "Pause Gameplay" = "Pause Gameplay";
 
-/*s:OEGameCollectionViewController.m:453:*/ "Play Game" = "Play Game";
+/*s|OEGameCollectionViewController.m|453|*/ "Play Game" = "Play Game";
 
-/*s:OEGameCollectionViewController.m:492:*/ "Play Games (Caution)" = "Play Games (Caution)";
+/*s|OEGameCollectionViewController.m|492|*/ "Play Games (Caution)" = "Play Games (Caution)";
 
-/*s:OEGameCollectionViewController.m:457:*/ "Play Save Games" = "Play Save Games";
+/*s|OEGameCollectionViewController.m|457|*/ "Play Save Games" = "Play Save Games";
 
-/*s:OEPrefControlsController.m:300:*/
-/*s:OEPrefControlsController.m:282:*/ "Player %ld" = "Player %ld";
+/*s|OEPrefControlsController.m|282|*/
+/*s|OEPrefControlsController.m|300|*/ "Player %ld" = "Player %ld";
 
-/*s:OEApplicationDelegate.m:813:Quick Load Menu Item*/
-/*s:OEGameControlsBar.m:462:Quick load menu title*/
-/*s:OEApplicationDelegate.m:845:Quick Load Menu Item*/ "Quick Load" = "Quick Load";
+/*s|OEApplicationDelegate.m|813|Quick Load Menu Item*/
+/*s|OEApplicationDelegate.m|845|Quick Load Menu Item*/
+/*s|OEGameControlsBar.m|462|Quick load menu title*/ "Quick Load" = "Quick Load";
 
-/*s:OEGameControlsBar.m:463:Quick save menu title*/
-/*s:OEApplicationDelegate.m:847:Quick Save Menu Item*/
-/*s:OEApplicationDelegate.m:814:Quick Save Menu Item*/ "Quick Save" = "Quick Save";
+/*s|OEApplicationDelegate.m|814|Quick Save Menu Item*/
+/*s|OEApplicationDelegate.m|847|Quick Save Menu Item*/
+/*s|OEGameControlsBar.m|463|Quick save menu title*/ "Quick Save" = "Quick Save";
 
-/*s:OEDBSaveState.m:431:Quicksave state display name*/ "Quick Save State" = "Quick Save State";
+/*s|OEDBSaveState.m|431|Quicksave state display name*/ "Quick Save State" = "Quick Save State";
 
-/*s:OEDBSaveState.m:435:Quicksave state display name with slot*/ "Quick Save, Slot %@" = "Quick Save, Slot %@";
+/*s|OEDBSaveState.m|435|Quicksave state display name with slot*/ "Quick Save, Slot %@" = "Quick Save, Slot %@";
 
-/*s:OEApplicationDelegate.m:521:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:54:*/ "Quit" = "Quit";
+/*s|OEApplicationDelegate.m|521|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|54|*/ "Quit" = "Quit";
 
-/*s:OEGameCollectionViewController.m:464:*/
-/*s:OEGameCollectionViewController.m:496:*/ "Rating" = "Rating";
+/*s|OEGameCollectionViewController.m|464|*/
+/*s|OEGameCollectionViewController.m|496|*/ "Rating" = "Rating";
 
-/*s:OEDBSmartCollection.m:52:Recently Added Smart Collection Name*/
-/*s:OEDBSmartCollection.m:65:Recently Added Smart Collection Name*/ "Recently Added" = "Recently Added";
+/*s|OEDBSmartCollection.m|52|Recently Added Smart Collection Name*/
+/*s|OEDBSmartCollection.m|65|Recently Added Smart Collection Name*/ "Recently Added" = "Recently Added";
 
-/*s:OEPrefDebugController.m:316:Recovered auto save name*/ "Recovered Auto Save" = "Recovered Auto Save";
+/*s|OEPrefDebugController.m|316|Recovered auto save name*/ "Recovered Auto Save" = "Recovered Auto Save";
 
-/*s:OESidebarController.m:616:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:205:*/ "Remove" = "Remove";
+/*s|OESidebarController.m|616|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|205|*/ "Remove" = "Remove";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:251:*/ "Rename" = "Rename";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|251|*/ "Rename" = "Rename";
 
-/*s:OESidebarOutlineView.m:177:Rename collection sidebar context menu item*/ "Rename \"%@\"" = "Rename \"%@\"";
+/*s|OESidebarOutlineView.m|177|Rename collection sidebar context menu item*/ "Rename \"%@\"" = "Rename \"%@\"";
 
-/*s:OEGameCollectionViewController.m:485:*/ "Rename Game" = "Rename Game";
+/*s|OEGameCollectionViewController.m|485|*/ "Rename Game" = "Rename Game";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:247:*/ "Rename Special Save State or something?" = "Rename Special Save State or something?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|247|*/ "Rename Special Save State or something?" = "Rename Special Save State or something?";
 
-/*s:OEGameDocument.m:971:*/ "Required files are missing." = "Required files are missing.";
+/*s|OEGameDocument.m|971|*/ "Required files are missing." = "Required files are missing.";
 
-/*s:OEGameScannerViewController.m:176:*/ "Resolve %ld Issues" = "Resolve %ld Issues";
+/*s|OEGameScannerViewController.m|176|*/ "Resolve %ld Issues" = "Resolve %ld Issues";
 
-/*s:OEGameScannerViewController.m:238:*/ "Resolve Issues" = "Resolve Issues";
+/*s|OEGameScannerViewController.m|238|*/ "Resolve Issues" = "Resolve Issues";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:122:*/ "Restart" = "Restart";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|122|*/ "Restart" = "Restart";
 
-/*s:OEGameControlsBar.m:669:Tooltip*/ "Restart System" = "Restart System";
+/*s|OEGameControlsBar.m|669|Tooltip*/ "Restart System" = "Restart System";
 
-/*s:OEGameDocument.m:410:Resume game after battery warning button label*/
-/*s:OEGameDocument.m:394:nil*/ "Resume" = "Resume";
+/*s|OEGameDocument.m|394|nil*/
+/*s|OEGameDocument.m|410|Resume game after battery warning button label*/ "Resume" = "Resume";
 
-/*s:OEGameDocument.m:591:*/ "Resume Emulation" = "Resume Emulation";
+/*s|OEGameDocument.m|591|*/ "Resume Emulation" = "Resume Emulation";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:99:*/ "Save As:" = "Save As:";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|99|*/ "Save As:" = "Save As:";
 
-/*s:OEGameControlsBar.m:430:*/ "Save Current Game" = "Save Current Game";
+/*s|OEGameControlsBar.m|430|*/ "Save Current Game" = "Save Current Game";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:100:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:68:*/ "Save Game" = "Save Game";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|68|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|100|*/ "Save Game" = "Save Game";
 
-/*s:OELibraryDatabase.m:822:Save States Folder Name*/
-/*s:OEDBSaveStateMigrationPolicy.m:91:Save States Folder Name*/ "Save States" = "Save States";
+/*s|OEDBSaveStateMigrationPolicy.m|91|Save States Folder Name*/
+/*s|OELibraryDatabase.m|822|Save States Folder Name*/ "Save States" = "Save States";
 
-/*s:OEGameControlsBar.m:484:Quick save menu item title*/ "Save to Slot %d" = "Save to Slot %d";
+/*s|OEGameControlsBar.m|484|Quick save menu item title*/ "Save to Slot %d" = "Save to Slot %d";
 
-/*s:OEGameDocument.m:1126:default save game default*/ "Save-Game-%@%ld %@" = "Save-Game-%1$@%2$ld %3$@";
+/*s|OEGameDocument.m|1126|default save game default*/ "Save-Game-%@%ld %@" = "Save-Game-%1$@%2$ld %3$@";
 
-/*s:OEDBSavedGamesMedia.m:49:*/ "Saved Games" = "Saved Games";
+/*s|OEDBSavedGamesMedia.m|49|*/ "Saved Games" = "Saved Games";
 
-/*s:OEGameScannerViewController.m:158:*/ "Scanning Directory" = "Scanning Directory";
+/*s|OEGameScannerViewController.m|158|*/ "Scanning Directory" = "Scanning Directory";
 
-/*s:OELibraryDatabase.m:858:Screenshot Folder Name*/
-/*s:OEDBScreenshotsMedia.m:48:*/ "Screenshots" = "Screenshots";
+/*s|OEDBScreenshotsMedia.m|48|*/
+/*s|OELibraryDatabase.m|858|Screenshot Folder Name*/ "Screenshots" = "Screenshots";
 
-/*s:OEGameScannerViewController.m:83:*/ "Select All" = "Select All";
+/*s|OEGameScannerViewController.m|83|*/ "Select All" = "Select All";
 
-/*s:OEGameControlsBar.m:387:*/ "Select Audio Output Device" = "Select Audio Output Device";
+/*s|OEGameControlsBar.m|387|*/ "Select Audio Output Device" = "Select Audio Output Device";
 
-/*s:OEGameControlsBar.m:275:*/
-/*s:OEGameControlsBar.m:273:*/ "Select Cheat" = "Select Cheat";
+/*s|OEGameControlsBar.m|273|*/
+/*s|OEGameControlsBar.m|275|*/ "Select Cheat" = "Select Cheat";
 
-/*s:OEGameControlsBar.m:324:*/
-/*s:OEGameControlsBar.m:303:*/ "Select Core" = "Select Core";
+/*s|OEGameControlsBar.m|303|*/
+/*s|OEGameControlsBar.m|324|*/ "Select Core" = "Select Core";
 
-/*s:OEGameControlsBar.m:351:*/
-/*s:OEGameControlsBar.m:332:*/ "Select Filter" = "Select Filter";
+/*s|OEGameControlsBar.m|332|*/
+/*s|OEGameControlsBar.m|351|*/ "Select Filter" = "Select Filter";
 
-/*s:OEGameControlsBar.m:360:*/ "Select Scale" = "Select Scale";
+/*s|OEGameControlsBar.m|360|*/ "Select Scale" = "Select Scale";
 
-/*s:OEGameCollectionViewController.m:467:*/
-/*s:OEGameCollectionViewController.m:499:*/ "Show In Finder" = "Show In Finder";
+/*s|OEGameCollectionViewController.m|467|*/
+/*s|OEGameCollectionViewController.m|499|*/ "Show In Finder" = "Show In Finder";
 
-/*s:OEGameControlsBar.m:478:Quick load menu item title*/ "Slot %d" = "Slot %d";
+/*s|OEGameControlsBar.m|478|Quick load menu item title*/ "Slot %d" = "Slot %d";
 
-/*s:OEApplicationDelegate.m:822:Slotted Quick Save Menu Item*/
-/*s:OEApplicationDelegate.m:821:Slotted Quick Load Menu Item*/ "Slot %ld" = "Slot %ld";
+/*s|OEApplicationDelegate.m|821|Slotted Quick Load Menu Item*/
+/*s|OEApplicationDelegate.m|822|Slotted Quick Save Menu Item*/ "Slot %ld" = "Slot %ld";
 
-/*s:OERetrodeViewController.m:217:Retrode Slot 1 Group Header*/ "Slot 1" = "Slot 1";
+/*s|OERetrodeViewController.m|217|Retrode Slot 1 Group Header*/ "Slot 1" = "Slot 1";
 
-/*s:OEVersionMigrationController.m:310:*/ "Some migrations failed to complete properly" = "Some migrations failed to complete properly";
+/*s|OEVersionMigrationController.m|310|*/ "Some migrations failed to complete properly" = "Some migrations failed to complete properly";
 
-/*s:OEPrefControlsController.m:539:*/ "Start Scanning" = "Start Scanning";
+/*s|OEPrefControlsController.m|539|*/ "Start Scanning" = "Start Scanning";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:136:*/ "Stop" = "Stop";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|136|*/ "Stop" = "Stop";
 
-/*s:OEGameControlsBar.m:648:Tooltip*/ "Stop Emulation" = "Stop Emulation";
+/*s|OEGameControlsBar.m|648|Tooltip*/ "Stop Emulation" = "Stop Emulation";
 
-/*s:OELibraryController.m:113:Tooltip*/ "Switch To Flow View" = "Switch To Flow View";
+/*s|OELibraryController.m|113|Tooltip*/ "Switch To Flow View" = "Switch To Flow View";
 
-/*s:OELibraryController.m:110:Tooltip*/ "Switch To Grid View" = "Switch To Grid View";
+/*s|OELibraryController.m|110|Tooltip*/ "Switch To Grid View" = "Switch To Grid View";
 
-/*s:OELibraryController.m:116:Tooltip*/ "Switch To List View" = "Switch To List View";
+/*s|OELibraryController.m|116|Tooltip*/ "Switch To List View" = "Switch To List View";
 
-/*s:OEBlankSlateView.m:187:*/ "System" = "System";
+/*s|OEBlankSlateView.m|187|*/ "System" = "System";
 
-/*s:OEBlankSlateView.m:263:Weblink tooltip*/ "Takes you to the %@ project website" = "Takes you to the %@ project website";
+/*s|OEBlankSlateView.m|263|Weblink tooltip*/ "Takes you to the %@ project website" = "Takes you to the %@ project website";
 
-/*s:OEGameDocument.m:994:*/ "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "The %1$@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %2$@.";
+/*s|OEGameDocument.m|994|*/ "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "The %1$@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %2$@.";
 
-/*s:OELibraryDatabase.m:126:*/ "The OpenEmu Library could not be found." = "The OpenEmu Library could not be found.";
+/*s|OELibraryDatabase.m|126|*/ "The OpenEmu Library could not be found." = "The OpenEmu Library could not be found.";
 
-/*s:OEPrefLibraryController.m:581:*/ "The System plugin could not be found!" = "The System plugin could not be found!";
+/*s|OEPrefLibraryController.m|581|*/ "The System plugin could not be found!" = "The System plugin could not be found!";
 
-/*s:OEDOGameCoreManager.m:150:Invalid helper connection error reason.*/ "The background process connection couldn't be established" = "The background process connection couldn't be established";
+/*s|OEDOGameCoreManager.m|150|Invalid helper connection error reason.*/ "The background process connection couldn't be established" = "The background process connection couldn't be established";
 
-/*s:OEDOGameCoreManager.m:115:Not running background process error*/ "The background process couldn't be launched" = "The background process couldn't be launched";
+/*s|OEDOGameCoreManager.m|115|Not running background process error*/ "The background process couldn't be launched" = "The background process couldn't be launched";
 
-/*s:OEGameDocument.m:392:Low battery alert detail message.*/ "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "The battery in device number %1$lu, %2$@, is low. Please charge or replace the battery.";
+/*s|OEGameDocument.m|392|Low battery alert detail message.*/ "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "The battery in device number %1$lu, %2$@, is low. Please charge or replace the battery.";
 
-/*s:OECoreUpdater.m:317:*/ "The core could not be downloaded. Try installing it from the Cores preferences." = "The core could not be downloaded. Try installing it from the Cores preferences.";
+/*s|OECoreUpdater.m|317|*/ "The core could not be downloaded. Try installing it from the Cores preferences." = "The core could not be downloaded. Try installing it from the Cores preferences.";
 
-/*s:OEGameDocument.m:498:Inexistent file error reason.*/
-/*s:OEGameDocument.m:175:Inexistent file error reason.*/ "The file you selected doesn't exist" = "The file you selected doesn't exist";
+/*s|OEGameDocument.m|175|Inexistent file error reason.*/
+/*s|OEGameDocument.m|498|Inexistent file error reason.*/ "The file you selected doesn't exist" = "The file you selected doesn't exist";
 
-/*s:OEMainWindowController.m:276:*/ "The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "The game '%@' could not be started because a rom file could not be found. Do you want to locate it?";
+/*s|OEMainWindowController.m|276|*/ "The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "The game '%@' could not be started because a rom file could not be found. Do you want to locate it?";
 
-/*s:OEGameDocument.m:530:*/ "The game '%@' was imported." = "The game '%@' was imported.";
+/*s|OEGameDocument.m|530|*/ "The game '%@' was imported." = "The game '%@' was imported.";
 
-/*s:OEDOGameCoreManager.m:166:Nil root proxy object error reason.*/ "The root proxy object is nil." = "The root proxy object is nil.";
+/*s|OEDOGameCoreManager.m|166|Nil root proxy object error reason.*/ "The root proxy object is nil." = "The root proxy object is nil.";
 
-/*s:OEPrefLibraryController.m:588:*/ "This System has no corresponding core installed." = "This System has no corresponding core installed.";
+/*s|OEPrefLibraryController.m|588|*/ "This System has no corresponding core installed." = "This System has no corresponding core installed.";
 
-/*s:OEGameDocument.m:1315:*/ "This save state was created with a different core. Do you want to switch to that core now?" = "This save state was created with a different core. Do you want to switch to that core now?";
+/*s|OEGameDocument.m|1315|*/ "This save state was created with a different core. Do you want to switch to that core now?" = "This save state was created with a different core. Do you want to switch to that core now?";
 
-/*s:OEGameDocument.m:1028:*/ "Title:" = "Title:";
+/*s|OEGameDocument.m|1028|*/ "Title:" = "Title:";
 
-/*s:OECoreUpdater.m:239:*/ "To launch the save state %@ you will need to install the '%@' Core" = "To launch the save state %1$@ you will need to install the '%2$@' Core";
+/*s|OECoreUpdater.m|239|*/ "To launch the save state %@ you will need to install the '%@' Core" = "To launch the save state %1$@ you will need to install the '%2$@' Core";
 
-/*s:OEGameControlsBar.m:742:Tooltip*/ "Toggle Fullscreen" = "Toggle Fullscreen";
+/*s|OEGameControlsBar.m|742|Tooltip*/ "Toggle Fullscreen" = "Toggle Fullscreen";
 
-/*s:OELibraryController.m:107:Tooltip*/ "Toggle Sidebar" = "Toggle Sidebar";
+/*s|OELibraryController.m|107|Tooltip*/ "Toggle Sidebar" = "Toggle Sidebar";
 
-/*s:OELibraryDatabase.m:835:Name of directory for savestates with unknown systems*/ "Unkown System" = "Unkown System";
+/*s|OELibraryDatabase.m|835|Name of directory for savestates with unknown systems*/ "Unkown System" = "Unkown System";
 
-/*s:OEGameControlsBar.m:711:Tooltip*/ "Unmute Audio" = "Unmute Audio";
+/*s|OEGameControlsBar.m|711|Tooltip*/ "Unmute Audio" = "Unmute Audio";
 
-/*s:OEPrefCoresController.m:186:Update Core*/ "Update" = "Update";
+/*s|OEPrefCoresController.m|186|Update Core*/ "Update" = "Update";
 
-/*s:OEGameDocument.m:998:*/ "Warning" = "Warning";
+/*r|OEDBDataSourceAdditions.m|217|*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:249:*/ "Won't be able to recognize it as special save state…" = "Won't be able to recognize it as special save state…";
+/*r|OEDBSaveState.m|134|Localized special save state name*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:81:*/ "Would you like to continue your last game?" = "Would you like to continue your last game?";
+/*r|OEGameDocument.m|968|*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:66:*/ "Would you like to save your game before you quit?" = "Would you like to save your game before you quit?";
+/*r|OEPrefControlsController.m|749|Preferences: Controls Toolbar Item*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
-/*s:OEGameDocument.m:534:*/
-/*s:OEGameScannerViewController.m:547:*/
-/*s:OEHUDAlert+DefaultAlertsAdditions.m:83:*/ "Yes" = "Yes";
+/*r|OEPrefCoresController.m|252|Preferences: Cores Toolbar item*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
-/*s:OEGameDocument.m:532:*/ "Your game finished importing, do you want to play it now?" = "Your game finished importing, do you want to play it now?";
+/*r|OEPrefDebugController.m|92|Debug Group*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
-/*s:OELibraryDatabase.m:799:Unsorted Folder Name*/ "unsorted" = "unsorted";
+/*r|OEPrefDebugController.m|94|Debug Group*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
+/*r|OEPrefDebugController.m|96|Debug Checkbox Label*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
+/*r|OEPrefDebugController.m|98|Debug Checkbox Label*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
+/*r|OEPrefDebugController.m|100|Debug Button Label*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
+/*r|OEPrefDebugController.m|102|Debug Label*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
+/*r|OEPrefDebugController.m|104|Debug Popover Label*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
+/*r|OEPrefDebugController.m|108|DebugModeLabel*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
+/*r|OEPrefDebugController.m|508|Preferences: Debug Toolbar Item*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
+/*r|OEPrefGameplayController.m|93|Preferences: Gamplay Toolbar Item*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
+/*s|OEGameDocument.m|998|*/ "Warning" = "Warning";
+
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|249|*/ "Won't be able to recognize it as special save state…" = "Won't be able to recognize it as special save state…";
+
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|81|*/ "Would you like to continue your last game?" = "Would you like to continue your last game?";
+
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|66|*/ "Would you like to save your game before you quit?" = "Would you like to save your game before you quit?";
+
+/*s|OEGameDocument.m|534|*/
+/*s|OEGameScannerViewController.m|547|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|83|*/ "Yes" = "Yes";
+
+/*s|OEGameDocument.m|532|*/ "Your game finished importing, do you want to play it now?" = "Your game finished importing, do you want to play it now?";
+
+/*s|OELibraryDatabase.m|799|Unsorted Folder Name*/ "unsorted" = "unsorted";
+
+/*r|OEPrefDebugController.m|184|Debug Button Label*/ "Choose save states directory" = "Choose save states directory";
+
+/*r|OEPrefDebugController.m|134|Debug Group*/ "General" = "General";
+
+/*r|OEPrefDebugController.m|150|Debug Group*/ "Library Window" = "Library Window";
+
+/*r|OEPrefDebugController.m|191|Debug Button Label*/ "Update OpenVGDB" = "Update OpenVGDB";
+
+/*r|OEPrefDebugController.m|162|Debug Checkbox Label*/ "Show options button" = "Show options button";
+
+/*r|OEPrefDebugController.m|180|Debug Checkbox Label*/ "Show all global keys" = "Show all global keys";
+
+/*r|OEPrefDebugController.m|183|Debug Button Label*/ "Set default save states directory" = "Set default save states directory";
+
+/*r|OEPrefControlsController.m|749|Preferences: Controls Toolbar Item*/ "Controls" = "Controls";
+
+/*r|OEPrefDebugController.m|187|Debug Button Label*/ "Remove duplicate states" = "Remove duplicate states";
+
+/*r|OEPrefDebugController.m|195|Debug Label*/ "Not implemented right now" = "Not implemented right now";
+
+/*r|OEPrefDebugController.m|173|Debug Checkbox Label*/ "WiiRemote support (requires relaunch)" = "WiiRemote support (requires relaunch)";
+
+/*r|OEPrefDebugController.m|165|Debug Checkbox Label*/ "Show quicksave in menu" = "Show quicksave in menu";
+
+/*r|OEPrefDebugController.m|153|Debug Checkbox Label*/ "Enable Retrode support" = "Enable Retrode support";
+
+/*r|OEGameScannerViewController.m|83|*/ "Select All" = "Select All";
+
+/*r|OEPrefDebugController.m|155|Debug Checkbox Label*/ "Download missing artwork on the fly" = "Download missing artwork on the fly";
+
+/*r|OEPrefCoresController.m|252|Preferences: Cores Toolbar item*/ "Cores" = "Cores";
+
+/*r|OEPrefDebugController.m|151|Debug Checkbox Label*/ "Dark GridView context menu" = "Dark GridView context menu";
+
+/*r|OEPrefDebugController.m|508|Preferences: Debug Toolbar Item*/ "Secrets" = "Secrets";
+
+/*r|OEPrefDebugController.m|185|Debug Button Label*/ "Add untracked save states" = "Add untracked save states";
+
+/*r|OEPrefDebugController.m|163|Debug Checkbox Label*/ "Use gamecore picker" = "Use gamecore picker";
+
+/*r|OEPrefDebugController.m|152|Debug Checkbox Label*/ "Show collection view debug controller" = "Show collection view debug controller";
+
+/*r|OEPrefDebugController.m|156|Debug Checkbox Label*/ "Show game titles instead of rom names" = "Show game titles instead of rom names";
+
+/*r|OEPrefDebugController.m|164|Debug Checkbox Label*/ "Use quicksave slots" = "Use quicksave slots";
+
+/*r|OEPrefDebugController.m|176|Debug Checkbox Label*/ "Select first field after setting the last" = "Select first field after setting the last";
+
+/*r|OEPrefDebugController.m|161|Debug Checkbox Label*/ "Can delete save states" = "Can delete save states";
+
+/*r|OEPrefDebugController.m|186|Debug Button Label*/ "Remove missing states" = "Remove missing states";
+
+/*r|OEPrefDebugController.m|182|Debug Group*/ "Save States" = "Save States";
+
+/*r|OEPrefDebugController.m|169|Debug Checkbox Label*/ "Disable aspect ratio correction" = "Disable aspect ratio correction";
+
+/*r|OEPrefDebugController.m|190|Debug Group*/ "OpenVGDB" = "OpenVGDB";
+
+/*r|OEPrefGameplayController.m|93|Preferences: Gamplay Toolbar Item*/ "Gameplay" = "Gameplay";
+
+/*r|OEPrefDebugController.m|172|Debug Group*/ "Controls Setup" = "Controls Setup";
+
+/*r|OEPrefDebugController.m|167|Debug Checkbox Label*/ "Show audio output device in menu" = "Show audio output device in menu";
+
+/*r|OEPrefDebugController.m|196|Debug Label*/ "" = "";
+
+/*r|OEPrefDebugController.m|178|Debug Checkbox Label*/ "Log HID Events" = "Log HID Events";
+
+/*r|OEPrefDebugController.m|179|Debug Checkbox Label*/ "Log Keyboard Events" = "Log Keyboard Events";
+
+/*r|OEPrefDebugController.m|148|Debug Popover Label*/ "Run games using" = "Run games using";
+
+/*r|OEPrefDebugController.m|192|Debug Button Label*/ "Cancel OpenVGDB Update" = "Cancel OpenVGDB Update";
+
+/*r|OEPrefDebugController.m|194|Debug Group*/ "Database Actions" = "Database Actions";
+
+/*r|OEPrefDebugController.m|157|Debug Checkbox Label*/ "Manually choose system on import" = "Manually choose system on import";
+
+/*r|OEPrefDebugController.m|154|Debug Checkbox Label*/ "Disable grid view gloss overlay" = "Disable grid view gloss overlay";
+
+/*r|OEPrefDebugController.m|188|Debug Button Label*/ "Cleanup autosave state" = "Cleanup autosave state";
+
+/*r|OEPrefDebugController.m|136|Debug Checkbox Label*/ "Setup Assistant has finished" = "Setup Assistant has finished";
+
+/*r|OEPrefDebugController.m|177|Debug Checkbox Label*/ "Draw button mask above image" = "Draw button mask above image";
+
+/*r|OEPrefDebugController.m|170|DebugModeLabel*/ "Game View Background color" = "Game View Background color";
+
+/*r|OEPrefDebugController.m|135|Debug Checkbox Label*/ "Debug Mode" = "Debug Mode";
+
+/*r|OEPrefDebugController.m|143|Debug Popover Label*/ "Region" = "Region";
+
+/*r|OEPrefDebugController.m|159|Debug Group*/ "HUD Bar / Gameplay" = "HUD Bar / Gameplay";
+
+/*r|OEPrefDebugController.m|174|Debug Checkbox Label*/ "Clicking on image selects button" = "Clicking on image selects button";
+
+/*r|OEPrefDebugController.m|166|Debug Checkbox Label*/ "Show autosave in menu" = "Show autosave in menu";
+
+/*r|OEPrefDebugController.m|160|Debug Checkbox Label*/ "Use game name as window title" = "Use game name as window title";
+
+/*r|OEPrefDebugController.m|175|Debug Checkbox Label*/ "Clicking outside image deselects button" = "Clicking outside image deselects button";
+
+/*r|OEPrefDebugController.m|168|Debug Checkbox Label*/ "Take screenshots in native size" = "Take screenshots in native size";
 

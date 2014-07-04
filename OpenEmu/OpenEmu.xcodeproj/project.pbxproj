@@ -1958,6 +1958,8 @@
 		8363A440193CF41200F18425 /* IKOpenGLRoundedRectRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKOpenGLRoundedRectRenderer.h; sourceTree = "<group>"; };
 		83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OECustomWindow.h"; sourceTree = "<group>"; };
 		83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+OECustomWindow.m"; sourceTree = "<group>"; };
+		836B208D1966B45000966EF5 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		836B208E1966B45200966EF5 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		836BC9551853815A00B6AF26 /* OESQLiteDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESQLiteDatabase.h; sourceTree = "<group>"; };
 		836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESQLiteDatabase.m; sourceTree = "<group>"; };
 		836BC9581853817500B6AF26 /* OEGameInfoHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameInfoHelper.h; sourceTree = "<group>"; };
@@ -6574,6 +6576,7 @@
 				German,
 				en,
 				de,
+				fr,
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
 			projectDirPath = "";
@@ -7501,7 +7504,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Define BUILD_VERSION with git revision and build configuration\ngitBundle=`which git`\ngitDescribe=`${gitBundle} describe`\ngitRefInfo=$(echo $gitDescribe | grep -oE \"([0-9]{1,3})\\-([a-zA-Z0-9]{8})\")\n\nbundleConfiguration=\"$CONFIGURATION\"\nbuildRef=\"${gitRefInfo}-${bundleConfiguration}\"\n\necho \"#define BUILD_VERSION @\\\"$buildRef\\\"\" > OEBuildVersion.h";
+			shellScript = "# Define BUILD_VERSION with git revision and build configuration\ngitBundle=`which git`\ngitDescribe=`${gitBundle} describe`\ngitRefInfo=$(echo $gitDescribe | grep -oE \"([0-9]{1,3})\\-([a-zA-Z0-9]{8})\")\n\nlongBuildRef=`${gitBundle} rev-parse --verify HEAD`\n\nbundleConfiguration=\"$CONFIGURATION\"\nbuildRef=\"${gitRefInfo}-${bundleConfiguration}\"\n\necho \"#define BUILD_VERSION @\\\"$buildRef\\\"\" > OEBuildVersion.h\necho \"#define LONG_BUILD_VERSION @\\\"$longBuildRef\\\"\" >> OEBuildVersion.h";
 		};
 		94C51FBD1847077700206E6F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -8543,6 +8546,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				C6BFB29C0F7CC8A600040FFA /* English */,
+				836B208D1966B45000966EF5 /* de */,
+				836B208E1966B45200966EF5 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
