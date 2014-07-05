@@ -269,6 +269,7 @@
     NSArray *items = [[self items] objectsAtIndexes:indexes];
     NSArray *urls  = [items valueForKeyPath:@"URL.absoluteURL"];
 
+    NSLog(@"%@", urls);
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:urls];
 }
 

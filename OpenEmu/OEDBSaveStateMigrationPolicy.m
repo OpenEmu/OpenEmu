@@ -88,7 +88,7 @@
     if([[NSUserDefaults standardUserDefaults] objectForKey:OESaveStateFolderURLKey])
         return [[NSUserDefaults standardUserDefaults] URLForKey:OESaveStateFolderURLKey];
 
-    NSString *saveStateFolderName = OELocalizedString(@"Save States", @"Save States Folder Name");
+    NSString *saveStateFolderName = @"Save States";
     NSURL    *result = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];
     result = [result URLByAppendingPathComponent:saveStateFolderName isDirectory:YES];

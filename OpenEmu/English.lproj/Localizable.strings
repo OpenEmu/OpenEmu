@@ -357,9 +357,6 @@
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|100|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|68|*/ "Save Game" = "Save Game";
 
-/*s|OELibraryDatabase.m|822|Save States Folder Name*/
-/*s|OEDBSaveStateMigrationPolicy.m|91|Save States Folder Name*/ "Save States" = "Save States";
-
 /*s|OEGameControlsBar.m|484|Quick save menu item title*/ "Save to Slot %d" = "Save to Slot %d";
 
 /*s|OEGameDocument.m|1126|default save game default*/ "Save-Game-%@%ld %@" = "Save-Game-%1$@%2$ld %3$@";
@@ -368,7 +365,6 @@
 
 /*s|OEGameScannerViewController.m|158|*/ "Scanning Directory" = "Scanning Directory";
 
-/*s|OELibraryDatabase.m|858|Screenshot Folder Name*/
 /*s|OEDBScreenshotsMedia.m|48|*/ "Screenshots" = "Screenshots";
 
 /*s|OEGameScannerViewController.m|83|*/ "Select All" = "Select All";
@@ -449,8 +445,6 @@
 
 /*s|OELibraryController.m|107|Tooltip*/ "Toggle Sidebar" = "Toggle Sidebar";
 
-/*s|OELibraryDatabase.m|835|Name of directory for savestates with unknown systems*/ "Unkown System" = "Unkown System";
-
 /*s|OEGameControlsBar.m|711|Tooltip*/ "Unmute Audio" = "Unmute Audio";
 
 /*s|OEPrefCoresController.m|186|Update Core*/ "Update" = "Update";
@@ -498,8 +492,6 @@
 /*s|OEGameScannerViewController.m|547|*/ "Yes" = "Yes";
 
 /*s|OEGameDocument.m|532|*/ "Your game finished importing, do you want to play it now?" = "Your game finished importing, do you want to play it now?";
-
-/*s|OELibraryDatabase.m|799|Unsorted Folder Name*/ "unsorted" = "unsorted";
 
 /*r|OEPrefDebugController.m|179|Debug Checkbox Label*/ "Log Keyboard Events" = "Log Keyboard Events";
 

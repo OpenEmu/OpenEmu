@@ -103,7 +103,7 @@ static const CGFloat _OEToolbarHeight = 44;
     OELibrarySplitView *splitView = [self mainSplitView];
     [splitView setDelegate:self];
 
-    // setup hotkeys
+    // setup tool tips
     [_toolbarSidebarButton setToolTip:OELocalizedString(@"Toggle Sidebar", @"Tooltip")];
     [_toolbarSidebarButton setToolTipStyle:OEToolTipStyleDefault];
 
