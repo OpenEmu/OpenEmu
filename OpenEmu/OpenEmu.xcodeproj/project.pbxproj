@@ -144,6 +144,17 @@
 		1BFC2725116C1F6700B95689 /* OETaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* OETaskWrapper.m */; };
 		1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2F3DBA10DEAB4C0019AA84 /* OEVersionMigrationController.m */; };
 		1EA4404911973E9C001D71CA /* OEGameQuickLookDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA4404811973E9C001D71CA /* OEGameQuickLookDocument.m */; };
+		2205C36B196205260013C675 /* _hq2x.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C355196204A60013C675 /* _hq2x.cg */; };
+		2205C36C196205270013C675 /* _hq2x.png in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C356196204A60013C675 /* _hq2x.png */; };
+		2205C36D196205270013C675 /* _hq3x.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C357196204A60013C675 /* _hq3x.cg */; };
+		2205C36E196205270013C675 /* _hq3x.png in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C358196204A60013C675 /* _hq3x.png */; };
+		2205C36F196205270013C675 /* _hq4x.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C359196204A60013C675 /* _hq4x.cg */; };
+		2205C370196205270013C675 /* _hq4x.png in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C35A196204A60013C675 /* _hq4x.png */; };
+		2205C371196205270013C675 /* _pass1.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C35B196204A60013C675 /* _pass1.cg */; };
+		2205C372196205270013C675 /* _pass2.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C35C196204A60013C675 /* _pass2.inc */; };
+		2205C373196205270013C675 /* HQ2x.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C35D196204A60013C675 /* HQ2x.cgp */; };
+		2205C374196205270013C675 /* HQ3x.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C35E196204A60013C675 /* HQ3x.cgp */; };
+		2205C375196205270013C675 /* HQ4x.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C35F196204A60013C675 /* HQ4x.cgp */; };
 		2205C378196402B50013C675 /* OELUTTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 2205C377196402B50013C675 /* OELUTTexture.m */; };
 		3887A8051024D2BC000FC4CF /* GenerateThumbnailForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8021024D2BC000FC4CF /* GenerateThumbnailForURL.m */; };
 		3887A8061024D2BC000FC4CF /* GeneratePreviewForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8031024D2BC000FC4CF /* GeneratePreviewForURL.m */; };
@@ -1409,6 +1420,17 @@
 			dstPath = Filters;
 			dstSubfolderSpec = 13;
 			files = (
+				2205C36B196205260013C675 /* _hq2x.cg in Copy Filters Folder To App Resources */,
+				2205C36C196205270013C675 /* _hq2x.png in Copy Filters Folder To App Resources */,
+				2205C36D196205270013C675 /* _hq3x.cg in Copy Filters Folder To App Resources */,
+				2205C36E196205270013C675 /* _hq3x.png in Copy Filters Folder To App Resources */,
+				2205C36F196205270013C675 /* _hq4x.cg in Copy Filters Folder To App Resources */,
+				2205C370196205270013C675 /* _hq4x.png in Copy Filters Folder To App Resources */,
+				2205C371196205270013C675 /* _pass1.cg in Copy Filters Folder To App Resources */,
+				2205C372196205270013C675 /* _pass2.inc in Copy Filters Folder To App Resources */,
+				2205C373196205270013C675 /* HQ2x.cgp in Copy Filters Folder To App Resources */,
+				2205C374196205270013C675 /* HQ3x.cgp in Copy Filters Folder To App Resources */,
+				2205C375196205270013C675 /* HQ4x.cgp in Copy Filters Folder To App Resources */,
 				94FEFA5218A80EF30033A762 /* _ntsc-pass1-composite-3phase.cg in Copy Filters Folder To App Resources */,
 				94FEFA5318A80EF30033A762 /* _ntsc-pass1-encode-demodulate.inc in Copy Filters Folder To App Resources */,
 				94FEFA5418A80EF30033A762 /* _ntsc-pass1-vertex.inc in Copy Filters Folder To App Resources */,
@@ -1598,6 +1620,17 @@
 		1E4B6B4C10DEBB4500B2CD45 /* SUVersionComparisonProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SUVersionComparisonProtocol.h; path = Sparkle.framework/Headers/SUVersionComparisonProtocol.h; sourceTree = "<group>"; };
 		1EA4404711973E9C001D71CA /* OEGameQuickLookDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameQuickLookDocument.h; sourceTree = "<group>"; };
 		1EA4404811973E9C001D71CA /* OEGameQuickLookDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameQuickLookDocument.m; sourceTree = "<group>"; };
+		2205C355196204A60013C675 /* _hq2x.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _hq2x.cg; sourceTree = "<group>"; };
+		2205C356196204A60013C675 /* _hq2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = _hq2x.png; sourceTree = "<group>"; };
+		2205C357196204A60013C675 /* _hq3x.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _hq3x.cg; sourceTree = "<group>"; };
+		2205C358196204A60013C675 /* _hq3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = _hq3x.png; sourceTree = "<group>"; };
+		2205C359196204A60013C675 /* _hq4x.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _hq4x.cg; sourceTree = "<group>"; };
+		2205C35A196204A60013C675 /* _hq4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = _hq4x.png; sourceTree = "<group>"; };
+		2205C35B196204A60013C675 /* _pass1.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _pass1.cg; sourceTree = "<group>"; };
+		2205C35C196204A60013C675 /* _pass2.inc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.pascal; path = _pass2.inc; sourceTree = "<group>"; };
+		2205C35D196204A60013C675 /* HQ2x.cgp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HQ2x.cgp; sourceTree = "<group>"; };
+		2205C35E196204A60013C675 /* HQ3x.cgp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HQ3x.cgp; sourceTree = "<group>"; };
+		2205C35F196204A60013C675 /* HQ4x.cgp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HQ4x.cgp; sourceTree = "<group>"; };
 		2205C376196402B50013C675 /* OELUTTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELUTTexture.h; sourceTree = "<group>"; };
 		2205C377196402B50013C675 /* OELUTTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELUTTexture.m; sourceTree = "<group>"; };
 		2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameDocument.m; sourceTree = "<group>"; };
@@ -3694,6 +3727,24 @@
 			name = QuickLook;
 			sourceTree = "<group>";
 		};
+		2205C354196204A60013C675 /* HQx */ = {
+			isa = PBXGroup;
+			children = (
+				2205C355196204A60013C675 /* _hq2x.cg */,
+				2205C356196204A60013C675 /* _hq2x.png */,
+				2205C357196204A60013C675 /* _hq3x.cg */,
+				2205C358196204A60013C675 /* _hq3x.png */,
+				2205C359196204A60013C675 /* _hq4x.cg */,
+				2205C35A196204A60013C675 /* _hq4x.png */,
+				2205C35B196204A60013C675 /* _pass1.cg */,
+				2205C35C196204A60013C675 /* _pass2.inc */,
+				2205C35D196204A60013C675 /* HQ2x.cgp */,
+				2205C35E196204A60013C675 /* HQ3x.cgp */,
+				2205C35F196204A60013C675 /* HQ4x.cgp */,
+			);
+			path = HQx;
+			sourceTree = "<group>";
+		};
 		2A37F4AAFDCFA73011CA2CEA /* OpenEmu */ = {
 			isa = PBXGroup;
 			children = (
@@ -5614,6 +5665,7 @@
 		C344D5F6174C45050011579E /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				2205C354196204A60013C675 /* HQx */,
 				94380773184E6AE100E2274B /* Themaister NTSC */,
 				8C09E4BE1867975E0095DB4E /* Beam4.cgp */,
 				8C09E4BF1867975E0095DB4E /* NTSC (Blargg).cgp */,
