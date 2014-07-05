@@ -362,6 +362,7 @@
 		8353EB2315FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB2215FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m */; };
 		8353EB7D15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */; };
 		8356AEF215DA703100AA6B44 /* OEImportOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8356AEF115DA703100AA6B44 /* OEImportOperation.m */; };
+		835E09D71967078100B35633 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 835E09D51967078100B35633 /* Localizable.strings */; };
 		835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 835F3F3F1683534700C74B97 /* OEToolTipManager.m */; };
 		836291FE1515F30700192116 /* OEFSWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 836291FD1515F30700192116 /* OEFSWatcher.m */; };
 		83633447195D798600470AB8 /* OEDBScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 83633446195D798600470AB8 /* OEDBScreenshot.m */; };
@@ -918,7 +919,6 @@
 		C6B947E71365080B00A425F0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		C6B947ED1365080B00A425F0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6B947EB1365080B00A425F0 /* InfoPlist.strings */; };
 		C6B948101365096800A425F0 /* OEGenesisSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B9480B1365096800A425F0 /* OEGenesisSystemResponder.m */; };
-		C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6BFB29E0F7CC8E700040FFA /* Localizable.strings */; };
 		C6C3734216BE7065003E57AE /* OEBuiltInShader.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C3734116BE7065003E57AE /* OEBuiltInShader.m */; };
 		C6C3734316BE7BAF003E57AE /* OE Startup.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 1B32151114DDD06500C5B50A /* OE Startup.qtz */; };
 		C6D120C517112E1300E868A8 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C317112E1300E868A8 /* OpenEmuBase.framework */; };
@@ -1937,6 +1937,7 @@
 		8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.0 Beta to 0.2.xcmappingmodel"; sourceTree = "<group>"; };
 		8356AEF015DA703100AA6B44 /* OEImportOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEImportOperation.h; sourceTree = "<group>"; };
 		8356AEF115DA703100AA6B44 /* OEImportOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEImportOperation.m; sourceTree = "<group>"; };
+		835E09D61967078100B35633 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		835F3F3E1683534700C74B97 /* OEToolTipManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEToolTipManager.h; sourceTree = "<group>"; };
 		835F3F3F1683534700C74B97 /* OEToolTipManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEToolTipManager.m; sourceTree = "<group>"; };
 		835F3F4116835F1A00C74B97 /* OEToolTip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEToolTip.h; sourceTree = "<group>"; };
@@ -1958,8 +1959,6 @@
 		8363A440193CF41200F18425 /* IKOpenGLRoundedRectRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKOpenGLRoundedRectRenderer.h; sourceTree = "<group>"; };
 		83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OECustomWindow.h"; sourceTree = "<group>"; };
 		83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+OECustomWindow.m"; sourceTree = "<group>"; };
-		836B208D1966B45000966EF5 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
-		836B208E1966B45200966EF5 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		836BC9551853815A00B6AF26 /* OESQLiteDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESQLiteDatabase.h; sourceTree = "<group>"; };
 		836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESQLiteDatabase.m; sourceTree = "<group>"; };
 		836BC9581853817500B6AF26 /* OEGameInfoHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameInfoHelper.h; sourceTree = "<group>"; };
@@ -2095,6 +2094,8 @@
 		83C68ED014483579000F720A /* OEHUDAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDAlert.m; sourceTree = "<group>"; };
 		83C6C1DA190536CC00DD7B13 /* OEDBImageMigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBImageMigrationPolicy.h; sourceTree = "<group>"; };
 		83C6C1DB190536CC00DD7B13 /* OEDBImageMigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImageMigrationPolicy.m; sourceTree = "<group>"; };
+		83C94A7C19680BED00DD84B1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		83C94A7F19680BF400DD84B1 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83CA87AE1961C71C00D86D55 /* NSUserDefaults+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+OEAdditions.h"; sourceTree = "<group>"; };
 		83CA87AF1961C71C00D86D55 /* NSUserDefaults+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+OEAdditions.m"; sourceTree = "<group>"; };
 		83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.2 to 1.3.xcmappingmodel"; sourceTree = "<group>"; };
@@ -2680,7 +2681,6 @@
 		C6B9480B1365096800A425F0 /* OEGenesisSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGenesisSystemResponder.m; sourceTree = "<group>"; };
 		C6B9480C1365096800A425F0 /* OEGenesisSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemResponder.h; sourceTree = "<group>"; };
 		C6BF6BC717CAF09F004A8841 /* OEGameCoreManager_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEGameCoreManager_Internal.h; sourceTree = "<group>"; };
-		C6BFB29C0F7CC8A600040FFA /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C6C3728016BDB22F003E57AE /* OEGameShader_ForSubclassEyesOnly.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEGameShader_ForSubclassEyesOnly.h; sourceTree = "<group>"; };
 		C6C3734016BE7065003E57AE /* OEBuiltInShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBuiltInShader.h; sourceTree = "<group>"; };
 		C6C3734116BE7065003E57AE /* OEBuiltInShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBuiltInShader.m; sourceTree = "<group>"; };
@@ -3459,6 +3459,7 @@
 		1BEF34741168F8640090F72B /* PLists */ = {
 			isa = PBXGroup;
 			children = (
+				835E09D51967078100B35633 /* Localizable.strings */,
 				838E2A221600A05C00CF7198 /* Theme.plist */,
 				82DD29DA12369F1100B58A8F /* KeyboardUsages.plist */,
 				82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */,
@@ -3468,7 +3469,6 @@
 				825CC280148C13750063A9B5 /* OpenEmu-Info.plist */,
 				C6F696BF1648F64B00B243DB /* Controller-Database.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
-				C6BFB29E0F7CC8E700040FFA /* Localizable.strings */,
 			);
 			name = PLists;
 			sourceTree = "<group>";
@@ -6727,7 +6727,6 @@
 				1BFC26D0116C1CA300B95689 /* OpenEmuHelperApp in Resources */,
 				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
-				C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */,
 				C67A36AA0FE7F1F500A665E2 /* OECorePluginIcon.icns in Resources */,
 				C69DCCED0FE99415009AE5A6 /* OEFilterPluginIcon.icns in Resources */,
 				82965F851041DC3200F30B74 /* OECorePicker.xib in Resources */,
@@ -6757,6 +6756,7 @@
 				53439C0913B93920005C0CC8 /* grid_slider_small.png in Resources */,
 				53439C0A13B93920005C0CC8 /* grid_slider_thumb.png in Resources */,
 				53439C0B13B93920005C0CC8 /* grid_slider_track.png in Resources */,
+				835E09D71967078100B35633 /* Localizable.strings in Resources */,
 				53439C0C13B93920005C0CC8 /* knob_horizontal.png in Resources */,
 				53439C0D13B93920005C0CC8 /* knob_vertical.png in Resources */,
 				11DC4D4718681E64006CE75D /* controls_triangle@2x.png in Resources */,
@@ -8294,6 +8294,16 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
+		835E09D51967078100B35633 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				835E09D61967078100B35633 /* English */,
+				83C94A7C19680BED00DD84B1 /* de */,
+				83C94A7F19680BF400DD84B1 /* fr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		9405538917A34C6B009B505D /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -8540,16 +8550,6 @@
 				C6B947EC1365080B00A425F0 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		C6BFB29E0F7CC8E700040FFA /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C6BFB29C0F7CC8A600040FFA /* English */,
-				836B208D1966B45000966EF5 /* de */,
-				836B208E1966B45200966EF5 /* fr */,
-			);
-			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		FEB66261187B791800D14713 /* InfoPlist.strings */ = {
