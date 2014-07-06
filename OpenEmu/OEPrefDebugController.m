@@ -510,7 +510,7 @@ NSString * const OptionsKey = @"options";
 
 - (NSSize)viewSize
 {
-    return NSMakeSize(320, 400);
+    return NSMakeSize(423, 400);
 }
 
 - (NSString *)nibName

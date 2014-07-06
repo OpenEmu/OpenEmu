@@ -1123,7 +1123,9 @@ typedef enum : NSUInteger
 
     NSInteger   saveGameNo    = [[self rom] saveStateCount] + 1;
     // TODO: properly format date
-    NSString    *proposedName = [NSString stringWithFormat:OELocalizedString(@"Save-Game-%@%ld %@", @"default save game default"), saveGameNo, [NSDate date]];
+    NSDate *date = [NSDate date];
+    NSString *format = NSLocalizedString(@"Save-Game-%ld %@", @"default save game default");
+    NSString    *proposedName = [NSString stringWithFormat:format, saveGameNo, date];
     OEHUDAlert  *alert        = [OEHUDAlert saveGameAlertWithProposedName:proposedName];
 
     [alert setWindow:[[[self gameViewController] view] window]];
