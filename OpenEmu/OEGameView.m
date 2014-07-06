@@ -1499,6 +1499,10 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, (int)width, (int)height, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, imageData);
     free(imageData);
+
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 @end
