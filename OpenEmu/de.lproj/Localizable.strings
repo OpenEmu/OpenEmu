@@ -26,7 +26,9 @@
 
 /** THIS FILE WAS GENERATED AUTOMATICALLY! DO NOT CHANGE! **/
 
-/*b0c354c2a84027328a90df0cbac8be4bf7e55bee*/
+/*9ab113a3acd2c1a4937772ada08aca971af9cf04*/
+
+/*r|OEPrefDebugController.m|196|Debug Label*/ "" = "";
 
 /*s|OESidebarController.m|215|Duplicated collection name*/ "%@ copy" = "%@ kopieren";
 
@@ -36,10 +38,12 @@
 
 /*s|OEGameControlsBar.m|279|*/ "Add Cheat…" = "Cheat hinzufügen…";
 
-/*s|OEGameCollectionViewController.m|508|*/
-/*s|OEGameCollectionViewController.m|481|*/ "Add To Collection" = "Zur Sammlung hinzufügen";
+/*s|OEGameCollectionViewController.m|481|*/
+/*s|OEGameCollectionViewController.m|508|*/ "Add To Collection" = "Zur Sammlung hinzufügen";
 
 /*s|OEPrefControlsController.m|326|Wiimote bindings menu item.*/ "Add a Wiimote…" = "Wiimote hinzufügen…";
+
+/*r|OEPrefDebugController.m|185|Debug Button Label*/ "Add untracked save states" = "";
 
 /*s|OEDBAllGamesCollection.m|48|*/ "All Games" = "Alle Spiele";
 
@@ -51,25 +55,29 @@
 
 /*s|OESidebarController.m|91|*/ "CONSOLES" = "KONSOLEN";
 
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|55|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|180|*/
+/*r|OEPrefDebugController.m|161|Debug Checkbox Label*/ "Can delete save states" = "";
+
 /*s|OECoreUpdater.m|254|*/
-/*s|OEGameDocument.m|719|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|193|*/
 /*s|OEGameCollectionViewController.m|340|*/
-/*s|OEGameDocument.m|1317|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|252|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|152|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|221|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|206|*/
-/*s|OESidebarController.m|617|*/
+/*s|OEGameDocument.m|719|*/
 /*s|OEGameDocument.m|1037|*/
+/*s|OEGameDocument.m|1317|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|55|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|101|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|123|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|137|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|152|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|165|*/
-/*s|OEPrefControlsController.m|540|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|180|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|193|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|206|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|221|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|252|*/
 /*s|OEMainWindowController.m|279|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|101|*/ "Cancel" = "abbrechen";
+/*s|OEPrefControlsController.m|540|*/
+/*s|OESidebarController.m|617|*/ "Cancel" = "abbrechen";
+
+/*r|OEPrefDebugController.m|192|Debug Button Label*/ "Cancel OpenVGDB Update" = "";
 
 /*s|OEGameDocument.m|718|*/ "Change Core" = "Kern auswählen";
 
@@ -81,11 +89,25 @@
 
 /*s|OEApplicationDelegate.m|516|*/ "Choose OpenEmu Library" = "OpenEmu Bibliothek auswählen";
 
+/*r|OEPrefDebugController.m|184|Debug Button Label*/ "Choose save states directory" = "";
+
+/*r|OEPrefDebugController.m|188|Debug Button Label*/ "Cleanup autosave state" = "";
+
+/*r|OEPrefDebugController.m|174|Debug Checkbox Label*/ "Clicking on image selects button" = "";
+
+/*r|OEPrefDebugController.m|175|Debug Checkbox Label*/ "Clicking outside image deselects button" = "";
+
 /*s|OEGameDocument.m|1032|*/ "Code:" = "Code:";
 
 /*s|OESidebarOutlineView.m|131|*/ "Collapse" = "Einklappen";
 
 /*s|OEBlankSlateView.m|148|*/ "Collections" = "Sammlungen";
+
+/*r|OEPrefControlsController.m|749|Preferences: Controls Toolbar Item*/ "Controls" = "Steuerung";
+
+/*r|OEPrefDebugController.m|172|Debug Group*/ "Controls Setup" = "Steuerung";
+
+/*r|OEPrefCoresController.m|252|Preferences: Cores Toolbar item*/ "Cores" = "Kerne";
 
 /*s|OEApplicationDelegate.m|520|*/ "Create Library…" = "Bibliothek anlegen…";
 
@@ -93,12 +115,18 @@
 
 /*s|OESidebarController.m|94|*/ "DEVICES" = "GERÄTE";
 
+/*r|OEPrefDebugController.m|151|Debug Checkbox Label*/ "Dark GridView context menu" = "";
+
+/*r|OEPrefDebugController.m|194|Debug Group*/ "Database Actions" = "";
+
+/*r|OEPrefDebugController.m|135|Debug Checkbox Label*/ "Debug Mode" = "Debug Modus";
+
 /*s|OESidebarOutlineView.m|188|*/ "Delete Collection" = "Sammlung löschen";
 
 /*s|OEGameCollectionViewController.m|486|*/ "Delete Game" = "Spiel löschen";
 
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|220|*/
-/*s|OEGameCollectionViewController.m|513|*/ "Delete Games" = "Spiele löschen";
+/*s|OEGameCollectionViewController.m|513|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|220|*/ "Delete Games" = "Spiele löschen";
 
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|151|*/ "Delete Save" = "Spielstand löschen";
 
@@ -110,18 +138,36 @@
 
 /*s|OEGameScannerViewController.m|86|*/ "Deselect All" = "Auswahl aufheben";
 
+/*r|OEPrefDebugController.m|169|Debug Checkbox Label*/ "Disable aspect ratio correction" = "";
+
+/*r|OEPrefDebugController.m|154|Debug Checkbox Label*/ "Disable grid view gloss overlay" = "";
+
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|69|*/ "Do Not Save" = "Nicht speichern";
 
 /*s|OEHUDAlert.m|714|*/ "Do not ask me again" = "Nicht erneut fragen";
 
 /*s|OEGameScannerViewController.m|200|*/ "Don't Import Selected" = "Auswahl nicht importieren";
 
+/*r|OEPrefDebugController.m|155|Debug Checkbox Label*/ "Download missing artwork on the fly" = "";
+
+/*r|OEPrefDebugController.m|177|Debug Checkbox Label*/ "Draw button mask above image" = "";
+
 /*s|OESidebarOutlineView.m|182|*/ "Duplicate Collection" = "Sammlung duplizieren";
 
 /*s|OEGameControlsBar.m|266|*/ "Edit Game Controls" = "Steuerung anpassen";
 
+/*r|OEPrefDebugController.m|153|Debug Checkbox Label*/ "Enable Retrode support" = "";
+
 /*s|OEGameScannerViewController.m|307|*/
 /*s|OEGameScannerViewController.m|311|*/ "Game Scanner" = "Game Scanner";
+
+/*r|OEPrefDebugController.m|170|DebugModeLabel*/ "Game View Background color" = "";
+
+/*r|OEPrefGameplayController.m|93|Preferences: Gamplay Toolbar Item*/ "Gameplay" = "Gameplay";
+
+/*r|OEPrefDebugController.m|134|Debug Group*/ "General" = "Allgemein";
+
+/*r|OEPrefDebugController.m|159|Debug Group*/ "HUD Bar / Gameplay" = "";
 
 /*s|OESidebarOutlineView.m|160|*/ "Hide \"%@\"" = "\"%@\" ausblenden";
 
@@ -136,14 +182,22 @@
 
 /*s|OEPrefLibraryController.m|102|Preferences: Library Toolbar Item*/ "Library" = "Bibliothek";
 
+/*r|OEPrefDebugController.m|150|Debug Group*/ "Library Window" = "";
+
+/*r|OEPrefDebugController.m|178|Debug Checkbox Label*/ "Log HID Events" = "";
+
+/*r|OEPrefDebugController.m|179|Debug Checkbox Label*/ "Log Keyboard Events" = "";
+
 /*s|OESidebarController.m|96|*/ "MEDIA" = "MEDIA";
+
+/*r|OEPrefDebugController.m|157|Debug Checkbox Label*/ "Manually choose system on import" = "";
 
 /*s|OECoreUpdater.m|256|*/ "Missing Core" = "Kern fehlt";
 
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|235|*/ "Move to Trash" = "In den Papierkorb bewegen";
 
-/*s|OELibraryDatabase.m|526|Default collection name*/
-/*s|OELibraryController.m|119|Tooltip*/ "New Collection" = "Neue Sammlung";
+/*s|OELibraryController.m|119|Tooltip*/
+/*s|OELibraryDatabase.m|526|Default collection name*/ "New Collection" = "Neue Sammlung";
 
 /*s|OEGameCollectionViewController.m|604|*/ "New Collection from Selection" = "Neue Sammlung aus Auswahl";
 
@@ -151,23 +205,27 @@
 
 /*s|OELibraryDatabase.m|557|*/ "New Smart Collection" = "Neue Intelligente Sammlung";
 
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|84|*/
+/*s|OEGameDocument.m|535|*/
 /*s|OEGameScannerViewController.m|548|*/
-/*s|OEGameDocument.m|535|*/ "No" = "Nein";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|84|*/ "No" = "Nein";
 
 /*s|OEGameCollectionViewController.m|553|*/ "No Save States available" = "Keine Spielstände verfügbar";
 
+/*r|OEPrefDebugController.m|195|Debug Label*/ "Not implemented right now" = "";
+
 /*s|OECoreUpdater.m|318|*/
 /*s|OEGameDocument.m|969|*/
+/*s|OEGameDocument.m|996|*/
 /*s|OEGameDocument.m|1316|*/
-/*s|OEPrefLibraryController.m|454|*/
-/*s|OEPrefLibraryController.m|469|*/
 /*s|OEPrefControlsController.m|553|*/
-/*s|OEGameDocument.m|996|*/ "OK" = "OK";
+/*s|OEPrefLibraryController.m|454|*/
+/*s|OEPrefLibraryController.m|469|*/ "OK" = "OK";
 
 /*s|OESidebarOutlineView.m|167|*/ "Open Collection" = "Sammlung öffnen";
 
 /*s|OESidebarOutlineView.m|152|*/ "Open Library" = "Bibliothek öffnen";
+
+/*r|OEPrefDebugController.m|190|Debug Group*/ "OpenVGDB" = "OpenVGDB";
 
 /*s|OEGameControlsBar.m|694|Tooltip*/ "Options" = "Optionen";
 
@@ -180,22 +238,28 @@
 /*s|OEPrefControlsController.m|282|*/
 /*s|OEPrefControlsController.m|300|*/ "Player %ld" = "Spieler %ld";
 
-/*s|OEGameControlsBar.m|462|Quick load menu title*/
 /*s|OEApplicationDelegate.m|813|Quick Load Menu Item*/
-/*s|OEApplicationDelegate.m|845|Quick Load Menu Item*/ "Quick Load" = "Schnellladen";
+/*s|OEApplicationDelegate.m|845|Quick Load Menu Item*/
+/*s|OEGameControlsBar.m|462|Quick load menu title*/ "Quick Load" = "Schnellladen";
 
-/*s|OEGameControlsBar.m|463|Quick save menu title*/
 /*s|OEApplicationDelegate.m|814|Quick Save Menu Item*/
-/*s|OEApplicationDelegate.m|847|Quick Save Menu Item*/ "Quick Save" = "Schnell- speichern";
+/*s|OEApplicationDelegate.m|847|Quick Save Menu Item*/
+/*s|OEGameControlsBar.m|463|Quick save menu title*/ "Quick Save" = "Schnell- speichern";
 
 /*s|OEApplicationDelegate.m|521|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|54|*/ "Quit" = "Beenden";
 
-/*s|OEGameCollectionViewController.m|496|*/
-/*s|OEGameCollectionViewController.m|464|*/ "Rating" = "Bewertung";
+/*s|OEGameCollectionViewController.m|464|*/
+/*s|OEGameCollectionViewController.m|496|*/ "Rating" = "Bewertung";
 
 /*s|OEDBSmartCollection.m|52|Recently Added Smart Collection Name*/
 /*s|OEDBSmartCollection.m|65|Recently Added Smart Collection Name*/ "Recently Added" = "Zuletzt hinzugefügt";
+
+/*r|OEPrefDebugController.m|143|Debug Popover Label*/ "Region" = "Region";
+
+/*r|OEPrefDebugController.m|187|Debug Button Label*/ "Remove duplicate states" = "";
+
+/*r|OEPrefDebugController.m|186|Debug Button Label*/ "Remove missing states" = "";
 
 /*s|OESidebarOutlineView.m|177|Rename collection sidebar context menu item*/ "Rename \"%@\"" = "\"%@\" umbenennen";
 
@@ -216,11 +280,17 @@
 
 /*s|OEGameDocument.m|591|*/ "Resume Emulation" = "Emulation fortsetzen";
 
+/*r|OEPrefDebugController.m|148|Debug Popover Label*/ "Run games using" = "";
+
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|99|*/ "Save As:" = "Speichern unter:";
+
+/*r|OEPrefDebugController.m|182|Debug Group*/ "Save States" = "Spielstände";
 
 /*s|OEGameDocument.m|1126|default save game default*/ "Save-Game-%ld %@" = "Spielstand %ld %@";
 
 /*s|OEDBScreenshotsMedia.m|48|*/ "Screenshots" = "Screenshots";
+
+/*r|OEPrefDebugController.m|508|Preferences: Debug Toolbar Item*/ "Secrets" = "Geheimnisse";
 
 /*s|OEGameScannerViewController.m|83|*/ "Select All" = "Alles Auswählen";
 
@@ -233,8 +303,28 @@
 /*s|OEGameControlsBar.m|332|*/
 /*s|OEGameControlsBar.m|351|*/ "Select Filter" = "Filter auswählen";
 
+/*r|OEPrefDebugController.m|176|Debug Checkbox Label*/ "Select first field after setting the last" = "";
+
+/*r|OEPrefDebugController.m|183|Debug Button Label*/ "Set default save states directory" = "";
+
+/*r|OEPrefDebugController.m|136|Debug Checkbox Label*/ "Setup Assistant has finished" = "";
+
 /*s|OEGameCollectionViewController.m|467|*/
 /*s|OEGameCollectionViewController.m|499|*/ "Show In Finder" = "Im Finder anzeigen";
+
+/*r|OEPrefDebugController.m|180|Debug Checkbox Label*/ "Show all global keys" = "";
+
+/*r|OEPrefDebugController.m|167|Debug Checkbox Label*/ "Show audio output device in menu" = "";
+
+/*r|OEPrefDebugController.m|166|Debug Checkbox Label*/ "Show autosave in menu" = "";
+
+/*r|OEPrefDebugController.m|152|Debug Checkbox Label*/ "Show collection view debug controller" = "";
+
+/*r|OEPrefDebugController.m|156|Debug Checkbox Label*/ "Show game titles instead of rom names" = "";
+
+/*r|OEPrefDebugController.m|162|Debug Checkbox Label*/ "Show options button" = "";
+
+/*r|OEPrefDebugController.m|165|Debug Checkbox Label*/ "Show quicksave in menu" = "";
 
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|136|*/ "Stop" = "Anhalten";
 
@@ -242,9 +332,19 @@
 
 /*s|OEBlankSlateView.m|187|*/ "System" = "System";
 
+/*r|OEPrefDebugController.m|168|Debug Checkbox Label*/ "Take screenshots in native size" = "";
+
 /*s|OEGameDocument.m|1028|*/ "Title:" = "Titel:";
 
 /*s|OEPrefCoresController.m|186|Update Core*/ "Update" = "Aktualisieren";
+
+/*r|OEPrefDebugController.m|191|Debug Button Label*/ "Update OpenVGDB" = "";
+
+/*r|OEPrefDebugController.m|160|Debug Checkbox Label*/ "Use game name as window title" = "";
+
+/*r|OEPrefDebugController.m|163|Debug Checkbox Label*/ "Use gamecore picker" = "";
+
+/*r|OEPrefDebugController.m|164|Debug Checkbox Label*/ "Use quicksave slots" = "";
 
 /*r|OEDBDataSourceAdditions.m|217|*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
@@ -278,109 +378,9 @@
 
 /*s|OEGameDocument.m|998|*/ "Warning" = "Warnung";
 
-/*s|OEGameScannerViewController.m|547|*/
-/*s|OEGameDocument.m|534|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|83|*/ "Yes" = "Ja";
-
-/*r|OEPrefDebugController.m|179|Debug Checkbox Label*/ "Log Keyboard Events" = "";
-
-/*r|OEPrefDebugController.m|183|Debug Button Label*/ "Set default save states directory" = "";
-
-/*r|OEPrefDebugController.m|187|Debug Button Label*/ "Remove duplicate states" = "";
-
-/*r|OEPrefDebugController.m|157|Debug Checkbox Label*/ "Manually choose system on import" = "";
-
-/*r|OEPrefDebugController.m|152|Debug Checkbox Label*/ "Show collection view debug controller" = "";
-
-/*r|OEPrefDebugController.m|164|Debug Checkbox Label*/ "Use quicksave slots" = "";
-
-/*r|OEPrefDebugController.m|151|Debug Checkbox Label*/ "Dark GridView context menu" = "";
-
-/*r|OEPrefDebugController.m|135|Debug Checkbox Label*/ "Debug Mode" = "Debug Modus";
-
-/*r|OEPrefDebugController.m|185|Debug Button Label*/ "Add untracked save states" = "";
-
-/*r|OEPrefDebugController.m|180|Debug Checkbox Label*/ "Show all global keys" = "";
-
-/*r|OEPrefDebugController.m|165|Debug Checkbox Label*/ "Show quicksave in menu" = "";
-
-/*r|OEPrefDebugController.m|160|Debug Checkbox Label*/ "Use game name as window title" = "";
-
-/*r|OEPrefDebugController.m|168|Debug Checkbox Label*/ "Take screenshots in native size" = "";
-
-/*r|OEPrefDebugController.m|191|Debug Button Label*/ "Update OpenVGDB" = "";
-
-/*r|OEPrefDebugController.m|143|Debug Popover Label*/ "Region" = "Region";
-
-/*r|OEPrefControlsController.m|749|Preferences: Controls Toolbar Item*/ "Controls" = "Steuerung";
-
-/*r|OEPrefDebugController.m|167|Debug Checkbox Label*/ "Show audio output device in menu" = "";
-
-/*r|OEPrefDebugController.m|176|Debug Checkbox Label*/ "Select first field after setting the last" = "";
-
-/*r|OEPrefDebugController.m|508|Preferences: Debug Toolbar Item*/ "Secrets" = "Geheimnisse";
-
-/*r|OEPrefDebugController.m|155|Debug Checkbox Label*/ "Download missing artwork on the fly" = "";
-
-/*r|OEPrefDebugController.m|177|Debug Checkbox Label*/ "Draw button mask above image" = "";
-
-/*r|OEPrefDebugController.m|184|Debug Button Label*/ "Choose save states directory" = "";
-
-/*r|OEPrefDebugController.m|194|Debug Group*/ "Database Actions" = "";
-
-/*r|OEPrefDebugController.m|175|Debug Checkbox Label*/ "Clicking outside image deselects button" = "";
-
-/*r|OEPrefDebugController.m|195|Debug Label*/ "Not implemented right now" = "";
-
-/*r|OEPrefDebugController.m|174|Debug Checkbox Label*/ "Clicking on image selects button" = "";
-
-/*r|OEPrefDebugController.m|192|Debug Button Label*/ "Cancel OpenVGDB Update" = "";
-
-/*r|OEPrefDebugController.m|188|Debug Button Label*/ "Cleanup autosave state" = "";
-
-/*r|OEPrefDebugController.m|150|Debug Group*/ "Library Window" = "";
-
-/*r|OEPrefDebugController.m|159|Debug Group*/ "HUD Bar / Gameplay" = "";
-
-/*r|OEPrefDebugController.m|169|Debug Checkbox Label*/ "Disable aspect ratio correction" = "";
-
-/*r|OEPrefDebugController.m|190|Debug Group*/ "OpenVGDB" = "OpenVGDB";
-
-/*r|OEPrefDebugController.m|186|Debug Button Label*/ "Remove missing states" = "";
-
-/*r|OEPrefDebugController.m|182|Debug Group*/ "Save States" = "Spielstände";
-
-/*r|OEPrefDebugController.m|172|Debug Group*/ "Controls Setup" = "Steuerung";
-
-/*r|OEPrefGameplayController.m|93|Preferences: Gamplay Toolbar Item*/ "Gameplay" = "Gameplay";
-
 /*r|OEPrefDebugController.m|173|Debug Checkbox Label*/ "WiiRemote support (requires relaunch)" = "";
 
-/*r|OEPrefDebugController.m|170|DebugModeLabel*/ "Game View Background color" = "";
-
-/*r|OEPrefDebugController.m|156|Debug Checkbox Label*/ "Show game titles instead of rom names" = "";
-
-/*r|OEPrefDebugController.m|166|Debug Checkbox Label*/ "Show autosave in menu" = "";
-
-/*r|OEPrefDebugController.m|162|Debug Checkbox Label*/ "Show options button" = "";
-
-/*r|OEPrefCoresController.m|252|Preferences: Cores Toolbar item*/ "Cores" = "Kerne";
-
-/*r|OEPrefDebugController.m|134|Debug Group*/ "General" = "Allgemein";
-
-/*r|OEPrefDebugController.m|196|Debug Label*/ "" = "";
-
-/*r|OEPrefDebugController.m|153|Debug Checkbox Label*/ "Enable Retrode support" = "";
-
-/*r|OEPrefDebugController.m|178|Debug Checkbox Label*/ "Log HID Events" = "";
-
-/*r|OEPrefDebugController.m|136|Debug Checkbox Label*/ "Setup Assistant has finished" = "";
-
-/*r|OEPrefDebugController.m|163|Debug Checkbox Label*/ "Use gamecore picker" = "";
-
-/*r|OEPrefDebugController.m|154|Debug Checkbox Label*/ "Disable grid view gloss overlay" = "";
-
-/*r|OEPrefDebugController.m|148|Debug Popover Label*/ "Run games using" = "";
-
-/*r|OEPrefDebugController.m|161|Debug Checkbox Label*/ "Can delete save states" = "";
+/*s|OEGameDocument.m|534|*/
+/*s|OEGameScannerViewController.m|547|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|83|*/ "Yes" = "Ja";
 
