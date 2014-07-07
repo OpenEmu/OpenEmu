@@ -120,7 +120,6 @@
 		11E0C9C9175ADD0700CDAB86 /* controller_vb_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11E0C9C7175ADD0700CDAB86 /* controller_vb_mask@2x.png */; };
 		11E0C9CA175ADD0700CDAB86 /* controller_vb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11E0C9C8175ADD0700CDAB86 /* controller_vb@2x.png */; };
 		141554101442B3B300A01683 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
-		141554161442B3B300A01683 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 141554141442B3B300A01683 /* InfoPlist.strings */; };
 		141554211442B7B100A01683 /* OEN64SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 141554201442B7B100A01683 /* OEN64SystemResponder.m */; };
 		143F299A164DE0CC00544CCF /* MagicKit.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 143F2995164DE0B300544CCF /* MagicKit.framework */; };
 		143F299D164DE18100544CCF /* MagicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 143F2995164DE0B300544CCF /* MagicKit.framework */; };
@@ -353,6 +352,7 @@
 		8337393215BFD24A00D83D2F /* OESystemPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E41F28158546E90069B8AF /* OESystemPicker.m */; };
 		8337393815BFD87900D83D2F /* OELibraryToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8337393715BFD87700D83D2F /* OELibraryToolbarView.m */; };
 		8337F38E1726B3600068DD90 /* OEBackgroundImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8337F38D1726B3600068DD90 /* OEBackgroundImageView.m */; };
+		833ADC4C196B058000217D9A /* N64-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 833ADC4B196B058000217D9A /* N64-Info.plist */; };
 		834C07DC166CD36A0000C146 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
 		8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB1F15FF5CB10026E326 /* OEDBRomMigrationPolicy.m */; };
@@ -1550,8 +1550,6 @@
 		11E0C9C7175ADD0700CDAB86 /* controller_vb_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_vb_mask@2x.png"; sourceTree = "<group>"; };
 		11E0C9C8175ADD0700CDAB86 /* controller_vb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_vb@2x.png"; sourceTree = "<group>"; };
 		1415540F1442B3B300A01683 /* N64.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = N64.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		141554131442B3B300A01683 /* N64-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "N64-Info.plist"; sourceTree = "<group>"; };
-		141554151442B3B300A01683 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1415541F1442B7B100A01683 /* OEN64SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemResponder.h; sourceTree = "<group>"; };
 		141554201442B7B100A01683 /* OEN64SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEN64SystemResponder.m; sourceTree = "<group>"; };
 		141554221442B85000A01683 /* OEN64SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemResponderClient.h; sourceTree = "<group>"; };
@@ -1924,6 +1922,7 @@
 		8337393715BFD87700D83D2F /* OELibraryToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryToolbarView.m; sourceTree = "<group>"; };
 		8337F38C1726B35F0068DD90 /* OEBackgroundImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBackgroundImageView.h; sourceTree = "<group>"; };
 		8337F38D1726B3600068DD90 /* OEBackgroundImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBackgroundImageView.m; sourceTree = "<group>"; };
+		833ADC4B196B058000217D9A /* N64-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "N64-Info.plist"; sourceTree = "<group>"; };
 		83507245142F6029005D9033 /* OEControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControllerImageView.h; sourceTree = "<group>"; };
 		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
 		8353EB1A15FF41930026E326 /* OEDatabase 0.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.2.xcdatamodel"; sourceTree = "<group>"; };
@@ -2063,7 +2062,6 @@
 		839A3906196AAFDA001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A3907196AAFDA001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A3908196AAFDA001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		839A3909196AAFDB001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A390A196AAFDB001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A390B196AAFDB001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A390C196AAFDB001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2112,7 +2110,6 @@
 		839A3938196AAFEC001A119A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A3939196AAFEC001A119A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A393A196AAFEC001A119A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		839A393B196AAFEC001A119A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A393C196AAFED001A119A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A393D196AAFED001A119A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A393E196AAFED001A119A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3376,17 +3373,16 @@
 		141554121442B3B300A01683 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				833ADC4B196B058000217D9A /* N64-Info.plist */,
 				11BD776B196A46AD00BFB3FE /* controller_n64.png */,
 				11BD776D196A46AD00BFB3FE /* controller_n64@2x.png */,
 				11BD776A196A46AD00BFB3FE /* controller_n64_mask.png */,
 				11BD776C196A46AD00BFB3FE /* controller_n64_mask@2x.png */,
 				83FBA37214F2C699001F1299 /* n64_library.png */,
 				EC350F45174019A2005DA3B2 /* n64_library@2x.png */,
-				141554131442B3B300A01683 /* N64-Info.plist */,
 				C6AF284F164E46AC00681A06 /* Keyboard-Mappings.plist */,
 				94E6C303166DB15900082F27 /* Controller-Mappings.plist */,
 				C6252DB114E7566600350A13 /* Controller-Preferences.plist */,
-				141554141442B3B300A01683 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -6763,9 +6759,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				833ADC4C196B058000217D9A /* N64-Info.plist in Resources */,
 				11BD776F196A46AD00BFB3FE /* controller_n64.png in Resources */,
 				11BD7771196A46AD00BFB3FE /* controller_n64@2x.png in Resources */,
-				141554161442B3B300A01683 /* InfoPlist.strings in Resources */,
 				C6252DB214E7566600350A13 /* Controller-Preferences.plist in Resources */,
 				83FBA37314F2C699001F1299 /* n64_library.png in Resources */,
 				C6AF2850164E46AC00681A06 /* Keyboard-Mappings.plist in Resources */,
@@ -8354,16 +8350,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		141554141442B3B300A01683 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				141554151442B3B300A01683 /* en */,
-				839A3909196AAFDB001A119A /* de */,
-				839A393B196AAFEC001A119A /* ru */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		820EB7501483F9D3008EC398 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

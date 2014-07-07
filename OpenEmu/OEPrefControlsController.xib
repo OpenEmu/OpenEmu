@@ -63,7 +63,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view id="112" customClass="OEControlsButtonSetupView">
-                                        <rect key="frame" x="0.0" y="0.0" width="260" height="270"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="278" height="270"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                     </view>
                                 </subviews>

@@ -43,7 +43,7 @@
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 240}, {295, 91}}</string>
 				<int key="NSWTFlags">611845120</int>
-				<string key="NSWindowTitle">Select System</string>
+				<string key="NSWindowTitle">System auswählen</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
@@ -57,6 +57,7 @@
 							<string key="NSFrame">{{186, 13}, {95, 32}}</string>
 							<reference key="NSSuperview" ref="388999047"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="926894843">
