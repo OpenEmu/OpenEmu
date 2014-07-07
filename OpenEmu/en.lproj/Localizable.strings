@@ -34,6 +34,8 @@
 
 /*s|OEBlankSlateView.m|192|*/ "%@ games you add to OpenEmu will appear in this Console Library" = "%@ games you add to OpenEmu will appear in this Console Library";
 
+/*s|OEGameDocument.m|966|Missing files dialog text*/ "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again.";
+
 /*s|OEGameControlsBar.m|373|Integral scale menu item title*/ "%ux" = "%ux";
 
 /*s|OEGameDocument.m|1036|*/ "Add Cheat" = "Add Cheat";
