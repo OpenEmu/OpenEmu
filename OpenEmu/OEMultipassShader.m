@@ -80,7 +80,7 @@
     result = [self checkRegularExpression:@"(?<=textures=).*" inString:strippedInput withError:error];
     if(result.range.length != 0)
     {
-        NSString *otherArguments = [strippedInput substringWithRange:result.range];
+        NSString *otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         lutNames = [otherArguments componentsSeparatedByString: @";"];
         if([lutNames count] > OELUTTextures)
         {
@@ -161,7 +161,7 @@
         return NO;
     }
 
-    _numberOfPasses = [[strippedInput substringWithRange:result.range] integerValue];
+    _numberOfPasses = [[[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""] integerValue];
 
     if(_numberOfPasses > OEMultipasses)
     {
@@ -265,7 +265,7 @@
         result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale%ld=).*", i] inString:strippedInput withError:error];
         if(result.range.length != 0)
         {
-            otherArguments = [strippedInput substringWithRange:result.range];
+            otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             [shader setScaler:CGSizeMake([otherArguments floatValue], [otherArguments floatValue])];
         }
         else
@@ -276,14 +276,14 @@
             result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale_x%ld=).*", i] inString:strippedInput withError:error];
             if(result.range.length != 0)
             {
-                otherArguments = [strippedInput substringWithRange:result.range];
+                otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
                 x = [otherArguments floatValue];
             }
 
             result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale_y%ld=).*", i] inString:strippedInput withError:error];
             if(result.range.length != 0)
             {
-                otherArguments = [strippedInput substringWithRange:result.range];
+                otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
                 y = [otherArguments floatValue];
             }
 
@@ -302,7 +302,7 @@
         result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=frame_count_mod%ld=).*", i] inString:strippedInput withError:error];
         if(result.range.length != 0)
         {
-            otherArguments = [strippedInput substringWithRange:result.range];
+            otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             [shader setFrameCountMod:[otherArguments integerValue]];
         }
 
