@@ -26,7 +26,7 @@
 
 /** THIS FILE WAS GENERATED AUTOMATICALLY! DO NOT CHANGE! **/
 
-/*9ab113a3acd2c1a4937772ada08aca971af9cf04*/
+/*44369c5bce3718b0bae1a7c4ca0d57937e6593b1*/
 
 /*r|OEPrefDebugController.m|196|Debug Label*/ "" = "";
 
@@ -211,6 +211,8 @@
 
 /*s|OEHUDAlert.m|714|*/ "Do not ask me again" = "Do not ask me again";
 
+/*s|OEGameDocument.m|1000|Alert suppression label*/ "Do not show me again" = "Do not show me again";
+
 /*s|OEGameScannerViewController.m|545|*/ "Do you really want to cancel the import process?" = "Do you really want to cancel the import process?";
 
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|82|*/ "Do you want to continue playing where you left off?" = "Do you want to continue playing where you left off?";
@@ -234,6 +236,8 @@
 /*s|OEGameControlsBar.m|266|*/ "Edit Game Controls" = "Edit Game Controls";
 
 /*r|OEPrefDebugController.m|153|Debug Checkbox Label*/ "Enable Retrode support" = "Enable Retrode support";
+
+/*s|OEGameDocument.m|1040|Cheats button label*/ "Enable now" = "Enable now";
 
 /*s|OECoreUpdater.m|315|*/ "Error!" = "Error!";
 

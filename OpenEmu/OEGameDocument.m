@@ -997,7 +997,7 @@ typedef enum : NSUInteger
                                              alternateButton:nil];
         [alert setHeadlineText:OELocalizedString(@"Warning", @"")];
         [alert setShowsSuppressionButton:YES];
-        [alert setSuppressionLabelText:@"Do not show me again"];
+        [alert setSuppressionLabelText:OELocalizedString(@"Do not show me again", @"Alert suppression label")];
         
         if([alert runModal] && [[alert suppressionButton] state] == NSOnState)
         {
@@ -1037,7 +1037,7 @@ typedef enum : NSUInteger
     [alert setAlternateButtonTitle:OELocalizedString(@"Cancel", @"")];
     
     [alert setShowsSuppressionButton:YES];
-    [alert setSuppressionLabelText:@"Enable now"];
+    [alert setSuppressionLabelText:OELocalizedString(@"Enable now", @"Cheats button label")];
 
     [alert setInputLimit:1000];
 
