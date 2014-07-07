@@ -26,7 +26,7 @@
 
 /** THIS FILE WAS GENERATED AUTOMATICALLY! DO NOT CHANGE! **/
 
-/*8973ac72eb562c4fd7f35d0c91fc2bfa5ce557d8*/
+/*00a663fa5eaadd70b2a9fcc09e7f7c990e65b49f*/
 
 /*s|OESidebarController.m|215|Duplicated collection name*/ "%@ copy" = "%@ kopieren";
 
@@ -51,25 +51,25 @@
 
 /*s|OESidebarController.m|91|*/ "CONSOLES" = "KONSOLEN";
 
-/*s|OESidebarController.m|617|*/
-/*s|OEGameDocument.m|1037|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|123|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|137|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|165|*/
-/*s|OEPrefControlsController.m|540|*/
-/*s|OEMainWindowController.m|279|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|101|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|55|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|180|*/
 /*s|OECoreUpdater.m|254|*/
-/*s|OEGameDocument.m|719|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|193|*/
-/*s|OEGameCollectionViewController.m|340|*/
-/*s|OEGameDocument.m|1317|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|123|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|252|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|152|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|137|*/
+/*s|OEGameDocument.m|1037|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|206|*/
+/*s|OEMainWindowController.m|279|*/
+/*s|OESidebarController.m|617|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|55|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|221|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|206|*/ "Cancel" = "abbrechen";
+/*s|OEPrefControlsController.m|540|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|101|*/
+/*s|OEGameDocument.m|719|*/
+/*s|OEGameCollectionViewController.m|340|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|193|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|165|*/
+/*s|OEGameDocument.m|1317|*/
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|152|*/ "Cancel" = "abbrechen";
 
 /*s|OEGameDocument.m|718|*/ "Change Core" = "Kern auswählen";
 
@@ -157,13 +157,13 @@
 
 /*s|OEGameCollectionViewController.m|553|*/ "No Save States available" = "Keine Spielstände verfügbar";
 
-/*s|OECoreUpdater.m|318|*/
-/*s|OEGameDocument.m|969|*/
 /*s|OEGameDocument.m|1316|*/
+/*s|OEGameDocument.m|996|*/
 /*s|OEPrefLibraryController.m|454|*/
 /*s|OEPrefLibraryController.m|469|*/
-/*s|OEPrefControlsController.m|553|*/
-/*s|OEGameDocument.m|996|*/ "OK" = "OK";
+/*s|OECoreUpdater.m|318|*/
+/*s|OEGameDocument.m|969|*/
+/*s|OEPrefControlsController.m|553|*/ "OK" = "OK";
 
 /*s|OESidebarOutlineView.m|167|*/ "Open Collection" = "Sammlung öffnen";
 
@@ -186,7 +186,7 @@
 
 /*s|OEGameControlsBar.m|463|Quick save menu title*/
 /*s|OEApplicationDelegate.m|814|Quick Save Menu Item*/
-/*s|OEApplicationDelegate.m|847|Quick Save Menu Item*/ "Quick Save" = "Schnellspeichern";
+/*s|OEApplicationDelegate.m|847|Quick Save Menu Item*/ "Quick Save" = "Schnell- speichern";
 
 /*s|OEApplicationDelegate.m|521|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|54|*/ "Quit" = "Beenden";
@@ -278,9 +278,9 @@
 
 /*s|OEGameDocument.m|998|*/ "Warning" = "Warnung";
 
+/*s|OEGameScannerViewController.m|547|*/
 /*s|OEGameDocument.m|534|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|83|*/
-/*s|OEGameScannerViewController.m|547|*/ "Yes" = "Ja";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|83|*/ "Yes" = "Ja";
 
 /*r|OEPrefDebugController.m|179|Debug Checkbox Label*/ "Log Keyboard Events" = "";
 
