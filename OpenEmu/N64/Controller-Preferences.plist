@@ -9,41 +9,41 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEN64ButtonDPadUp</key>
-		<string>{0, 0}</string>
+		<string>{127, 307}</string>
 		<key>OEN64ButtonDPadDown</key>
-		<string>{0, 0}</string>
+		<string>{127, 265}</string>
 		<key>OEN64ButtonDPadLeft</key>
-		<string>{0, 0}</string>
+		<string>{104, 285}</string>
 		<key>OEN64ButtonDPadRight</key>
-		<string>{0, 0}</string>
+		<string>{149, 285}</string>
 		<key>OEN64ButtonCUp</key>
-		<string>{0, 0}</string>
+		<string>{383, 324}</string>
 		<key>OEN64ButtonCDown</key>
-		<string>{0, 0}</string>
+		<string>{383, 276}</string>
 		<key>OEN64ButtonCLeft</key>
-		<string>{0, 0}</string>
+		<string>{359, 300}</string>
 		<key>OEN64ButtonCRight</key>
-		<string>{0, 0}</string>
+		<string>{407, 300}</string>
 		<key>OEN64ButtonL</key>
-		<string>{0, 0}</string>
+		<string>{125, 373}</string>
 		<key>OEN64ButtonR</key>
-		<string>{0, 0}</string>
+		<string>{374, 373}</string>
 		<key>OEN64ButtonA</key>
-		<string>{0, 0}</string>
+		<string>{353, 246}</string>
 		<key>OEN64ButtonB</key>
-		<string>{0, 0}</string>
+		<string>{325, 273}</string>
 		<key>OEN64ButtonStart</key>
-		<string>{0, 0}</string>
+		<string>{250, 271}</string>
 		<key>OEN64ButtonZ</key>
-		<string>{0, 0}</string>
+		<string>{250, 236}</string>
 		<key>OEN64AnalogLeft</key>
-		<string>{0, 0}</string>
+		<string>{230, 194}</string>
 		<key>OEN64AnalogRight</key>
-		<string>{0, 0}</string>
+		<string>{270, 194}</string>
 		<key>OEN64AnalogUp</key>
-		<string>{0, 0}</string>
+		<string>{250, 214}</string>
 		<key>OEN64AnalogDown</key>
-		<string>{0, 0}</string>
+		<string>{250, 175}</string>
 	</dict>
 </dict>
 </plist>
