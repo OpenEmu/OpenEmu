@@ -963,7 +963,7 @@ typedef enum : NSUInteger
         // Alert the user of missing BIOS/system files that are required for the core
         if (missingFileStatus)
         {
-            [missingFilesMessage appendString:[NSString stringWithFormat:@"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again.", missingFilesList]];
+            [missingFilesMessage appendString:[NSString stringWithFormat:OELocalizedString(@"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again.", @"Missing files dialog text"), missingFilesList]];
             
             OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:OELocalizedString(missingFilesMessage, @"")
                                                    defaultButton:OELocalizedString(@"OK", @"")
