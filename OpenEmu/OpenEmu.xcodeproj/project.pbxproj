@@ -156,6 +156,15 @@
 		2205C374196205270013C675 /* HQ3x.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C35E196204A60013C675 /* HQ3x.cgp */; };
 		2205C375196205270013C675 /* HQ4x.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2205C35F196204A60013C675 /* HQ4x.cgp */; };
 		2205C378196402B50013C675 /* OELUTTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 2205C377196402B50013C675 /* OELUTTexture.m */; };
+		22849839196ABBE70051D13E /* _xbr-lv2-a-pass0.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 22849827196ABB120051D13E /* _xbr-lv2-a-pass0.cg */; };
+		2284983A196ABBE70051D13E /* xBR (rounded).cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 22849828196ABB120051D13E /* xBR (rounded).cgp */; };
+		2284983B196ABBE70051D13E /* _xbr-lv2-b-pass0.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 22849829196ABB120051D13E /* _xbr-lv2-b-pass0.cg */; };
+		2284983C196ABBE70051D13E /* xBR (semi rounded).cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2284982A196ABB120051D13E /* xBR (semi rounded).cgp */; };
+		2284983D196ABBE70051D13E /* _xbr-lv2-c-pass0.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2284982B196ABB120051D13E /* _xbr-lv2-c-pass0.cg */; };
+		2284983E196ABBE70051D13E /* xBR (squared).cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2284982C196ABB120051D13E /* xBR (squared).cgp */; };
+		2284983F196ABBE70051D13E /* _xbr-lv2-d-pass0.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2284982D196ABB120051D13E /* _xbr-lv2-d-pass0.cg */; };
+		22849840196ABBE70051D13E /* xBR (semi squared).cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2284982E196ABB120051D13E /* xBR (semi squared).cgp */; };
+		22849841196ABBE70051D13E /* _xbr-lv2-pass1.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2284982F196ABB120051D13E /* _xbr-lv2-pass1.cg */; };
 		3887A8051024D2BC000FC4CF /* GenerateThumbnailForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8021024D2BC000FC4CF /* GenerateThumbnailForURL.m */; };
 		3887A8061024D2BC000FC4CF /* GeneratePreviewForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8031024D2BC000FC4CF /* GeneratePreviewForURL.m */; };
 		3887A8071024D2BC000FC4CF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8041024D2BC000FC4CF /* main.c */; };
@@ -524,8 +533,6 @@
 		8C09E4DB1867984B0095DB4E /* _beam4_2.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C11867975E0095DB4E /* _beam4_2.cg */; };
 		8C09E4DC1867984B0095DB4E /* _beam4_3.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C21867975E0095DB4E /* _beam4_3.cg */; };
 		8C09E4DD1867984B0095DB4E /* _stock.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C31867975E0095DB4E /* _stock.cg */; };
-		8C09E4DE1867984B0095DB4E /* 2xBR.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C41867975E0095DB4E /* 2xBR.cg */; };
-		8C09E4DF1867984B0095DB4E /* 4xBR.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C51867975E0095DB4E /* 4xBR.cg */; };
 		8C09E4E01867984B0095DB4E /* Blinky.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C61867975E0095DB4E /* Blinky.cg */; };
 		8C09E4E11867984B0095DB4E /* CRT.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C71867975E0095DB4E /* CRT.cg */; };
 		8C09E4E21867984B0095DB4E /* LCD3x.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C81867975E0095DB4E /* LCD3x.cg */; };
@@ -1420,6 +1427,15 @@
 			dstPath = Filters;
 			dstSubfolderSpec = 13;
 			files = (
+				22849839196ABBE70051D13E /* _xbr-lv2-a-pass0.cg in Copy Filters Folder To App Resources */,
+				2284983A196ABBE70051D13E /* xBR (rounded).cgp in Copy Filters Folder To App Resources */,
+				2284983B196ABBE70051D13E /* _xbr-lv2-b-pass0.cg in Copy Filters Folder To App Resources */,
+				2284983C196ABBE70051D13E /* xBR (semi rounded).cgp in Copy Filters Folder To App Resources */,
+				2284983D196ABBE70051D13E /* _xbr-lv2-c-pass0.cg in Copy Filters Folder To App Resources */,
+				2284983E196ABBE70051D13E /* xBR (squared).cgp in Copy Filters Folder To App Resources */,
+				2284983F196ABBE70051D13E /* _xbr-lv2-d-pass0.cg in Copy Filters Folder To App Resources */,
+				22849840196ABBE70051D13E /* xBR (semi squared).cgp in Copy Filters Folder To App Resources */,
+				22849841196ABBE70051D13E /* _xbr-lv2-pass1.cg in Copy Filters Folder To App Resources */,
 				2205C36B196205260013C675 /* _hq2x.cg in Copy Filters Folder To App Resources */,
 				2205C36C196205270013C675 /* _hq2x.png in Copy Filters Folder To App Resources */,
 				2205C36D196205270013C675 /* _hq3x.cg in Copy Filters Folder To App Resources */,
@@ -1443,8 +1459,6 @@
 				8C09E4DB1867984B0095DB4E /* _beam4_2.cg in Copy Filters Folder To App Resources */,
 				8C09E4DC1867984B0095DB4E /* _beam4_3.cg in Copy Filters Folder To App Resources */,
 				8C09E4DD1867984B0095DB4E /* _stock.cg in Copy Filters Folder To App Resources */,
-				8C09E4DE1867984B0095DB4E /* 2xBR.cg in Copy Filters Folder To App Resources */,
-				8C09E4DF1867984B0095DB4E /* 4xBR.cg in Copy Filters Folder To App Resources */,
 				8C09E4E01867984B0095DB4E /* Blinky.cg in Copy Filters Folder To App Resources */,
 				8C09E4E11867984B0095DB4E /* CRT.cg in Copy Filters Folder To App Resources */,
 				8C09E4E21867984B0095DB4E /* LCD3x.cg in Copy Filters Folder To App Resources */,
@@ -1633,6 +1647,15 @@
 		2205C35F196204A60013C675 /* HQ4x.cgp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HQ4x.cgp; sourceTree = "<group>"; };
 		2205C376196402B50013C675 /* OELUTTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELUTTexture.h; sourceTree = "<group>"; };
 		2205C377196402B50013C675 /* OELUTTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELUTTexture.m; sourceTree = "<group>"; };
+		22849827196ABB120051D13E /* _xbr-lv2-a-pass0.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "_xbr-lv2-a-pass0.cg"; sourceTree = "<group>"; };
+		22849828196ABB120051D13E /* xBR (rounded).cgp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "xBR (rounded).cgp"; sourceTree = "<group>"; };
+		22849829196ABB120051D13E /* _xbr-lv2-b-pass0.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "_xbr-lv2-b-pass0.cg"; sourceTree = "<group>"; };
+		2284982A196ABB120051D13E /* xBR (semi rounded).cgp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "xBR (semi rounded).cgp"; sourceTree = "<group>"; };
+		2284982B196ABB120051D13E /* _xbr-lv2-c-pass0.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "_xbr-lv2-c-pass0.cg"; sourceTree = "<group>"; };
+		2284982C196ABB120051D13E /* xBR (squared).cgp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "xBR (squared).cgp"; sourceTree = "<group>"; };
+		2284982D196ABB120051D13E /* _xbr-lv2-d-pass0.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "_xbr-lv2-d-pass0.cg"; sourceTree = "<group>"; };
+		2284982E196ABB120051D13E /* xBR (semi squared).cgp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "xBR (semi squared).cgp"; sourceTree = "<group>"; };
+		2284982F196ABB120051D13E /* _xbr-lv2-pass1.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "_xbr-lv2-pass1.cg"; sourceTree = "<group>"; };
 		2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameDocument.m; sourceTree = "<group>"; };
 		2A37F4AEFDCFA73011CA2CEA /* OEGameDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameDocument.h; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -2345,8 +2368,6 @@
 		8C09E4C11867975E0095DB4E /* _beam4_2.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = _beam4_2.cg; sourceTree = "<group>"; };
 		8C09E4C21867975E0095DB4E /* _beam4_3.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = _beam4_3.cg; sourceTree = "<group>"; };
 		8C09E4C31867975E0095DB4E /* _stock.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = _stock.cg; sourceTree = "<group>"; };
-		8C09E4C41867975E0095DB4E /* 2xBR.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = 2xBR.cg; sourceTree = "<group>"; };
-		8C09E4C51867975E0095DB4E /* 4xBR.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = 4xBR.cg; sourceTree = "<group>"; };
 		8C09E4C61867975E0095DB4E /* Blinky.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = Blinky.cg; sourceTree = "<group>"; };
 		8C09E4C71867975E0095DB4E /* CRT.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = CRT.cg; sourceTree = "<group>"; };
 		8C09E4C81867975E0095DB4E /* LCD3x.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = LCD3x.cg; sourceTree = "<group>"; };
@@ -3743,6 +3764,22 @@
 				2205C35F196204A60013C675 /* HQ4x.cgp */,
 			);
 			path = HQx;
+			sourceTree = "<group>";
+		};
+		22849824196ABAB60051D13E /* xBR */ = {
+			isa = PBXGroup;
+			children = (
+				22849827196ABB120051D13E /* _xbr-lv2-a-pass0.cg */,
+				22849828196ABB120051D13E /* xBR (rounded).cgp */,
+				22849829196ABB120051D13E /* _xbr-lv2-b-pass0.cg */,
+				2284982A196ABB120051D13E /* xBR (semi rounded).cgp */,
+				2284982B196ABB120051D13E /* _xbr-lv2-c-pass0.cg */,
+				2284982C196ABB120051D13E /* xBR (squared).cgp */,
+				2284982D196ABB120051D13E /* _xbr-lv2-d-pass0.cg */,
+				2284982E196ABB120051D13E /* xBR (semi squared).cgp */,
+				2284982F196ABB120051D13E /* _xbr-lv2-pass1.cg */,
+			);
+			name = xBR;
 			sourceTree = "<group>";
 		};
 		2A37F4AAFDCFA73011CA2CEA /* OpenEmu */ = {
@@ -5665,6 +5702,7 @@
 		C344D5F6174C45050011579E /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				22849824196ABAB60051D13E /* xBR */,
 				2205C354196204A60013C675 /* HQx */,
 				94380773184E6AE100E2274B /* Themaister NTSC */,
 				8C09E4BE1867975E0095DB4E /* Beam4.cgp */,
@@ -5673,8 +5711,6 @@
 				8C09E4C11867975E0095DB4E /* _beam4_2.cg */,
 				8C09E4C21867975E0095DB4E /* _beam4_3.cg */,
 				8C09E4C31867975E0095DB4E /* _stock.cg */,
-				8C09E4C41867975E0095DB4E /* 2xBR.cg */,
-				8C09E4C51867975E0095DB4E /* 4xBR.cg */,
 				8C09E4C61867975E0095DB4E /* Blinky.cg */,
 				8C09E4C71867975E0095DB4E /* CRT.cg */,
 				8C09E4C81867975E0095DB4E /* LCD3x.cg */,

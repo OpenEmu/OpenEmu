@@ -1,0 +1,193 @@
+/*
+   Hyllian's xBR LV2 D (squared) - pass0 Shader
+   
+   Copyright (C) 2011/2013 Hyllian/Jararaca - sergiogdb@gmail.com
+
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License
+   as published by the Free Software Foundation; either version 2
+   of the License, or (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+
+   Incorporates some of the ideas from SABR shader. Thanks to Joshua Street.
+*/
+
+const static float coef            = 2.0;
+const static float4 eq_threshold   = float4(15.0, 15.0, 15.0, 15.0);
+const static float y_weight        = 48.0;
+const static float u_weight        = 7.0;
+const static float v_weight        = 6.0;
+const static float3x3 yuv          = float3x3(0.299, 0.587, 0.114, -0.169, -0.331, 0.499, 0.499, -0.418, -0.0813);
+const static float3x3 yuv_weighted = float3x3(y_weight*yuv[0], u_weight*yuv[1], v_weight*yuv[2]);
+const static float4 delta          = float4(0.4, 0.4, 0.4, 0.4);
+
+
+float3 remapTo01(float3 v, float3 low, float3 high)
+{
+	return saturate((v - low)/(high-low));
+}
+
+
+float4 df(float4 A, float4 B)
+{
+	return float4(abs(A-B));
+}
+
+float c_df(float3 c1, float3 c2)
+{
+	float3 df = abs(c1 - c2);
+	return df.r + df.g + df.b;
+}
+
+
+bool4 eq(float4 A, float4 B)
+{
+	return (df(A, B) < eq_threshold);
+}
+
+float4 weighted_distance(float4 a, float4 b, float4 c, float4 d, float4 e, float4 f, float4 g, float4 h)
+{
+	return (df(a,b) + df(a,c) + df(d,e) + df(d,f) + 4.0*df(g,h));
+}
+
+
+
+struct input
+{
+	float2 video_size;
+	float2 texture_size;
+	float2 output_size;
+	float frame_count;
+	float frame_direction;
+	float frame_rotation;
+};
+
+
+struct out_vertex {
+	float4 position : POSITION;
+	float4 color    : COLOR;
+	float2 texCoord : TEXCOORD0;
+	float4 t1;
+	float4 t2;
+	float4 t3;
+	float4 t4;
+	float4 t5;
+	float4 t6;
+	float4 t7;
+};
+
+/*    VERTEX_SHADER    */
+out_vertex main_vertex
+(
+	float4 position	: POSITION,
+	float4 color	: COLOR,
+	float2 texCoord : TEXCOORD0,
+
+   	uniform float4x4 modelViewProj,
+	uniform input IN
+)
+{
+	out_vertex OUT;
+
+	OUT.position = mul(modelViewProj, position);
+	OUT.color = color;
+
+	float2 ps = float2(1.0/IN.texture_size.x, 1.0/IN.texture_size.y);
+	float dx = ps.x;
+	float dy = ps.y;
+
+	//    A1 B1 C1
+	// A0  A  B  C C4
+	// D0  D  E  F F4
+	// G0  G  H  I I4
+	//    G5 H5 I5
+
+	OUT.texCoord = texCoord;
+	OUT.t1 = texCoord.xxxy + float4( -dx, 0, dx,-2.0*dy); // A1 B1 C1
+	OUT.t2 = texCoord.xxxy + float4( -dx, 0, dx,    -dy); //  A  B  C
+	OUT.t3 = texCoord.xxxy + float4( -dx, 0, dx,      0); //  D  E  F
+	OUT.t4 = texCoord.xxxy + float4( -dx, 0, dx,     dy); //  G  H  I
+	OUT.t5 = texCoord.xxxy + float4( -dx, 0, dx, 2.0*dy); // G5 H5 I5
+	OUT.t6 = texCoord.xyyy + float4(-2.0*dx,-dy, 0,  dy); // A0 D0 G0
+	OUT.t7 = texCoord.xyyy + float4( 2.0*dx,-dy, 0,  dy); // C4 F4 I4
+
+	return OUT;
+}
+
+
+/*    FRAGMENT SHADER    */
+float4 main_fragment(in out_vertex VAR, uniform sampler2D decal : TEXUNIT0, uniform input IN) : COLOR
+{
+	bool4 edr, edr_left, edr_up; 
+	bool4 interp_restriction_lv1, interp_restriction_lv2_left, interp_restriction_lv2_up;
+
+	float3 A1 = tex2D(decal, VAR.t1.xw).rgb;
+	float3 B1 = tex2D(decal, VAR.t1.yw).rgb;
+	float3 C1 = tex2D(decal, VAR.t1.zw).rgb;
+
+	float3 A  = tex2D(decal, VAR.t2.xw).rgb;
+	float3 B  = tex2D(decal, VAR.t2.yw).rgb;
+	float3 C  = tex2D(decal, VAR.t2.zw).rgb;
+
+	float3 D  = tex2D(decal, VAR.t3.xw).rgb;
+	float3 E  = tex2D(decal, VAR.t3.yw).rgb;
+	float3 F  = tex2D(decal, VAR.t3.zw).rgb;
+
+	float3 G  = tex2D(decal, VAR.t4.xw).rgb;
+	float3 H  = tex2D(decal, VAR.t4.yw).rgb;
+	float3 I  = tex2D(decal, VAR.t4.zw).rgb;
+
+	float3 G5 = tex2D(decal, VAR.t5.xw).rgb;
+	float3 H5 = tex2D(decal, VAR.t5.yw).rgb;
+	float3 I5 = tex2D(decal, VAR.t5.zw).rgb;
+
+	float3 A0 = tex2D(decal, VAR.t6.xy).rgb;
+	float3 D0 = tex2D(decal, VAR.t6.xz).rgb;
+	float3 G0 = tex2D(decal, VAR.t6.xw).rgb;
+
+	float3 C4 = tex2D(decal, VAR.t7.xy).rgb;
+	float3 F4 = tex2D(decal, VAR.t7.xz).rgb;
+	float3 I4 = tex2D(decal, VAR.t7.xw).rgb;
+
+	float4 b = mul( float4x3(B, D, H, F), yuv_weighted[0] );
+	float4 c = mul( float4x3(C, A, G, I), yuv_weighted[0] );
+	float4 e = mul( float4x3(E, E, E, E), yuv_weighted[0] );
+	float4 d = b.yzwx;
+	float4 f = b.wxyz;
+	float4 g = c.zwxy;
+	float4 h = b.zwxy;
+	float4 i = c.wxyz;
+
+	float4 i4 = mul( float4x3(I4, C1, A0, G5), yuv_weighted[0] );
+	float4 i5 = mul( float4x3(I5, C4, A1, G0), yuv_weighted[0] );
+	float4 h5 = mul( float4x3(H5, F4, B1, D0), yuv_weighted[0] );
+	float4 f4 = h5.yzwx;
+
+	float4 c1 = i4.yzwx;
+	float4 g0 = i5.wxyz;
+
+	interp_restriction_lv1      = ((e!=f) && (e!=h)  &&  ( !eq(f,b) && !eq(h,d) || eq(e,i) && !eq(f,i4) && !eq(h,i5) || eq(e,g) || eq(e,c) ) && (f!=f4 && f!=i || h!=h5 && h!=i || h!=g || f!=c || eq(b,c1) && eq(d,g0)));
+	interp_restriction_lv2_left = ((e!=g) && (d!=g));
+	interp_restriction_lv2_up   = ((e!=c) && (b!=c));
+
+	edr      = (weighted_distance( e, c, g, i, h5, f4, h, f) < weighted_distance( h, d, i5, f, i4, b, e, i)) && interp_restriction_lv1;
+	edr_left = ((coef*df(f,g)) <= df(h,c)) && interp_restriction_lv2_left && edr;
+	edr_up   = (df(f,g) >= (coef*df(h,c))) && interp_restriction_lv2_up   && edr;
+
+	float3 info;
+
+	info.x = dot(float4(edr     ), float4(8.0f, 4.0f, 2.0f, 1.0f));
+	info.y = dot(float4(edr_left), float4(8.0f, 4.0f, 2.0f, 1.0f));
+	info.z = dot(float4(edr_up  ), float4(8.0f, 4.0f, 2.0f, 1.0f));
+
+	return float4(remapTo01(info, float3(0.0f, 0.0f, 0.0f), float3(255.0f, 255.0f, 255.0f)), 1.0);
+}
