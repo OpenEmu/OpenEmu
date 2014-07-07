@@ -33,7 +33,6 @@
 @end
 
 @implementation OETableHeaderView
-
 - (NSMenu *)menuForEvent:(NSEvent *)event
 {
     [[self window] makeFirstResponder:self];

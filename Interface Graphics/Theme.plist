@@ -1554,18 +1554,18 @@
 				<dict>
 					<key>Parts</key>
 					<array>
-						<string>{{0, 0}, {7, 17}}</string>
-						<string>{{7, 0}, {1, 17}}</string>
-						<string>{{8, 0}, {8, 17}}</string>
+						<string>{{0, 0}, {2, 17}}</string>
+						<string>{{2, 0}, {12, 17}}</string>
+						<string>{14, 0}, {2, 17}}</string>
 					</array>
 				</dict>
 				<key>Pressed</key>
 				<dict>
 					<key>Parts</key>
 					<array>
-						<string>{{0, 17}, {7, 17}}</string>
-						<string>{{7, 17}, {1, 17}}</string>
-						<string>{{8, 17}, {8, 17}}</string>
+						<string>{{0, 17}, {6, 17}}</string>
+						<string>{{6, 17}, {1, 17}}</string>
+						<string>{7, 17}, {8, 17}}</string>
 					</array>
 				</dict>
 			</dict>

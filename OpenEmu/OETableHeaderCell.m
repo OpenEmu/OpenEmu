@@ -70,7 +70,7 @@ static const CGFloat _OESortIndicatorMargin = 5;
     OEThemeState sate = isPressed ? OEThemeInputStatePressed : OEThemeStateDefault;
 
 	NSImage *backgroundImage = [[OETheme sharedTheme] imageForKey:@"table_header_background" forState:sate];
-    [backgroundImage setMatchesOnlyOnBestFittingAxisWithoutCrashing:NO];
+    [backgroundImage setMatchesOnlyOnBestFittingAxisWithoutCrashing:YES];
     [backgroundImage drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
 
     // Draw highlight on left edge
