@@ -67,10 +67,10 @@
             if(!worked && outError)
                 *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSExecutableLoadError userInfo:
                              [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSString stringWithFormat:@"Couldn't load %@ plugin", path], NSLocalizedDescriptionKey,
-                              @"A version of this plugin is already loaded",                NSLocalizedFailureReasonErrorKey,
-                              @"You need to restart the application to commit the change",  NSLocalizedRecoverySuggestionErrorKey,
-                              [NSArray arrayWithObjects:@"Restart now", @"Cancel", nil],    NSLocalizedRecoveryOptionsErrorKey,
+                              [NSString stringWithFormat:OELocalizedString(@"Couldn't load %@ plugin", @""), path], NSLocalizedDescriptionKey,
+                              OELocalizedString(@"A version of this plugin is already loaded", @""),                NSLocalizedFailureReasonErrorKey,
+                              OELocalizedString(@"You need to restart the application to commit the change", @""), NSLocalizedRecoverySuggestionErrorKey,
+                              [NSArray arrayWithObjects:OELocalizedString(@"Restart now",@""), OELocalizedString(@"Cancel",@""), nil],    NSLocalizedRecoveryOptionsErrorKey,
                               nil]];
         }
     }

@@ -150,7 +150,7 @@
     NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
     if([documents count] != 0 || [[library importer] status] == OEImporterStatusRunning)
     {
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"Please close all games and wait for the importer to finish." defaultButton:@"OK" alternateButton:nil];
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:OELocalizedString(@"Please close all games and wait for the importer to finish.", @"") defaultButton:OELocalizedString(@"OK", @"") alternateButton:nil];
         [alert runModal];
         return;
     }
@@ -162,7 +162,7 @@
     NSURL *newLocation     = [newParentLocation URLByAppendingPathComponent:[currentLocation lastPathComponent] isDirectory:YES];
     if([newLocation isSubpathOfURL:currentLocation])
     {
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"You can't move your library here!" defaultButton:@"OK" alternateButton:nil];
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:OELocalizedString(@"You can't move your library here!", @"") defaultButton:OELocalizedString(@"OK", @"") alternateButton:nil];
         [alert runModal];
         return;
     }
@@ -211,7 +211,7 @@
             [alert setHeadlineText:OELocalizedString(@"Copying Artwork Files…", @"Alert Headline: Library migration")];
             [alert setTitle:@""];
             [alert setShowsProgressbar:YES];
-            [alert setDefaultButtonTitle:@"Cancel"];
+            [alert setDefaultButtonTitle:OELocalizedString(@"Cancel", @"")];
             [alert setMessageText:nil];
 
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
@@ -238,12 +238,12 @@
                 if(!(success=[fm copyItemAtURL:artworkURL toURL:newArtworkURL error:&error]))
                 {
                     DLog(@"Failed to copy artwork");
-                    
+
                     // show error
                     [alert performBlockInModalSession:^{
                         [alert setShowsProgressbar:NO];
-                        [alert setMessageText:@"Copying artwork failed!"];
-                        [alert setDefaultButtonTitle:@"OK"];
+                        [alert setMessageText:OELocalizedString(@"Copying artwork failed!", @"")];
+                        [alert setDefaultButtonTitle:OELocalizedString(@"OK", @"")];
                     }];
                     
                     // clean up
@@ -291,8 +291,8 @@
                     // show error
                     [alert performBlockInModalSession:^{
                         [alert setShowsProgressbar:NO];
-                        [alert setMessageText:[NSString stringWithFormat:@"Could not move complete library! %ld roms were moved", copiedCount]];
-                        [alert setDefaultButtonTitle:@"OK"];
+                        [alert setMessageText:[NSString stringWithFormat:OELocalizedString(@"Could not move complete library! %ld roms were moved", @""), copiedCount]];
+                        [alert setDefaultButtonTitle:OELocalizedString(@"OK",@"")];
                     }];
                     
                     return;
@@ -335,8 +335,8 @@
                     // show error
                     [alert performBlockInModalSession:^{
                         [alert setShowsProgressbar:NO];
-                        [alert setMessageText:@"Could not move library data!"];
-                        [alert setDefaultButtonTitle:@"OK"];
+                        [alert setMessageText:OELocalizedString(@"Could not move library data!", @"")];
+                        [alert setDefaultButtonTitle:OELocalizedString(@"OK",@"")];
                     }];
 
                     [context performBlockAndWait:^{
@@ -398,7 +398,7 @@
         // sync because we are about to force exit
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"Your library was moved sucessfully. OpenEmu must relaunch now!" defaultButton:@"Relaunch" alternateButton:nil];
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:OELocalizedString(@"Your library was moved sucessfully. OpenEmu must relaunch now!", @"") defaultButton:OELocalizedString(@"Relaunch", @"") alternateButton:nil];
         [alert runModal];
         
         // restart application

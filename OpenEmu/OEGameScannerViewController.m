@@ -133,7 +133,7 @@
         [[self progressIndicator] startAnimation:self];
 
         [[self fixButton] setHidden:YES];
-        [[self statusLabel] setStringValue:@"Downloading Game DB"];
+        [[self statusLabel] setStringValue:OELocalizedString(@"Downloading Game DB",@"")];
     }
     else
     {
@@ -161,13 +161,13 @@
         {
             [[self progressIndicator] stopAnimation:self];
             [[self progressIndicator] setIndeterminate:YES];
-            status = @"Done";
+            status = OELocalizedString(@"Done", @"");
         }
         else
         {
             [[self progressIndicator] stopAnimation:self];
             [[self progressIndicator] setIndeterminate:YES];
-            status = @"Scanner Paused";
+            status = OELocalizedString(@"Scanner Paused", @"");
         }
 
         BOOL hideButton = YES;
@@ -308,7 +308,7 @@
 }
 - (NSString *)sidebarID
 {
-    return OELocalizedString(@"Game Scanner", @"");
+    return @"Game Scanner";
 }
 
 - (NSString *)viewControllerClassName
