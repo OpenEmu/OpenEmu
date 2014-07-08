@@ -50,7 +50,7 @@
 #import "OEMediaViewController.h"
 
 #pragma mark - Exported variables
-NSString * const OELastCollectionSelectedKey = @"lastCollectionSelected";
+NSString * const OELastSidebarSelectionKey = @"lastSidebarSelection";
 
 #pragma mark - Imported variables
 extern NSString * const OESidebarSelectionDidChangeNotificationName;

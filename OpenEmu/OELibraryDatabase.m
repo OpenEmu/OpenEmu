@@ -512,7 +512,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     // Screenshots
     OEDBScreenshotsMedia *screenshotsMedia = [OEDBScreenshotsMedia sharedDBScreenshotsMedia];
     [mediaArray addObject:screenshotsMedia];
-    
+
     return mediaArray;
 }
 

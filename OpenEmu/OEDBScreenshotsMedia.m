@@ -60,7 +60,7 @@
 
 - (NSString*)sidebarID
 {
-    return @"OEDBScreenshotsMedia";
+    return @"screenshotMedia";
 }
 
 - (BOOL)isSelectableInSidebar

@@ -42,7 +42,6 @@
 #pragma mark - State Handling
 - (id)encodeCurrentState;
 - (void)restoreState:(id)state;
-
 @optional
 #pragma mark - Library Handling
 - (void)setLibraryController:(OELibraryController*)controller;

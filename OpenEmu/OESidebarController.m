@@ -44,7 +44,7 @@
 #import "NSImage+OEDrawingAdditions.h"
 #import "NSArray+OEAdditions.h"
 
-extern NSString *const OELastCollectionSelectedKey;
+extern NSString *const OELastSidebarSelectionKey;
 NSString *const OESuppressRemoveCollectionConfirmationKey = @"removeCollectionWithoutConfirmation";
 extern NSString * const OEDBSystemsDidChangeNotification;
 
@@ -161,7 +161,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     // get last selected collection item
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    id itemID = [standardUserDefaults valueForKey:OELastCollectionSelectedKey];
+    id itemID = [standardUserDefaults valueForKey:OELastSidebarSelectionKey];
 
     // set database
     _database = database;
@@ -177,6 +177,11 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
                           }];
         if(!collectionItem)
             collectionItem = [[self collections] firstObjectMatchingBlock:
+                              ^ BOOL (id obj) {
+                                  return [[obj sidebarID] isEqualTo:itemID];
+                              }];
+        if(!collectionItem)
+            collectionItem = [[self media] firstObjectMatchingBlock:
                               ^ BOOL (id obj) {
                                   return [[obj sidebarID] isEqualTo:itemID];
                               }];
@@ -443,8 +448,8 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     }
 
     id<OESidebarItem> selectedItem = [self selectedSidebarItem];
-    if([selectedItem conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)])
-        [[NSUserDefaults standardUserDefaults] setValue:[selectedItem sidebarID] forKey:OELastCollectionSelectedKey];
+    if([selectedItem conformsToProtocol:@protocol(OESidebarItem)])
+        [[NSUserDefaults standardUserDefaults] setValue:[selectedItem sidebarID] forKey:OELastSidebarSelectionKey];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:nil];
 }

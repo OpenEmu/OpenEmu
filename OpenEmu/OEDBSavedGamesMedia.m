@@ -61,7 +61,7 @@
 
 - (NSString*)sidebarID
 {
-    return @"OEDBSavedGamesMedia";
+    return @"savedGames";
 }
 
 - (BOOL)isSelectableInSidebar
