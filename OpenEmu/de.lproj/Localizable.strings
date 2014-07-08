@@ -26,7 +26,7 @@
 
 /** THIS FILE WAS GENERATED AUTOMATICALLY! DO NOT CHANGE! **/
 
-/*9ab113a3acd2c1a4937772ada08aca971af9cf04*/
+/*001e6f4a00f4fa2d19f2beeb83bdd5c9b1c94fc6*/
 
 /*r|OEPrefDebugController.m|196|Debug Label*/ "" = "";
 
@@ -75,6 +75,7 @@
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|252|*/
 /*s|OEMainWindowController.m|279|*/
 /*s|OEPrefControlsController.m|540|*/
+/*s|OEPrefLibraryController.m|214|*/
 /*s|OESidebarController.m|617|*/ "Cancel" = "abbrechen";
 
 /*r|OEPrefDebugController.m|192|Debug Button Label*/ "Cancel OpenVGDB Update" = "";
@@ -158,8 +159,7 @@
 
 /*r|OEPrefDebugController.m|153|Debug Checkbox Label*/ "Enable Retrode support" = "";
 
-/*s|OEGameScannerViewController.m|307|*/
-/*s|OEGameScannerViewController.m|311|*/ "Game Scanner" = "Game Scanner";
+/*s|OEGameScannerViewController.m|307|*/ "Game Scanner" = "Game Scanner";
 
 /*r|OEPrefDebugController.m|170|DebugModeLabel*/ "Game View Background color" = "";
 
@@ -218,6 +218,7 @@
 /*s|OEGameDocument.m|996|*/
 /*s|OEGameDocument.m|1318|*/
 /*s|OEPrefControlsController.m|553|*/
+/*s|OEPrefLibraryController.m|246|*/
 /*s|OEPrefLibraryController.m|454|*/
 /*s|OEPrefLibraryController.m|469|*/ "OK" = "OK";
 
@@ -286,7 +287,7 @@
 
 /*r|OEPrefDebugController.m|182|Debug Group*/ "Save States" = "Spielstände";
 
-/*s|OEGameDocument.m|1126|default save game default*/ "Save-Game-%ld %@" = "Spielstand %ld %@";
+/*s|OEGameDocument.m|1126|default save game name*/ "Save-Game-%ld %@" = "Spielstand %ld %@";
 
 /*s|OEDBScreenshotsMedia.m|48|*/ "Screenshots" = "Screenshots";
 
@@ -352,6 +353,8 @@
 
 /*r|OEGameDocument.m|968|*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
+/*r|OEGameScannerViewController.m|136|*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
 /*r|OEPrefControlsController.m|749|Preferences: Controls Toolbar Item*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
 /*r|OEPrefCoresController.m|252|Preferences: Cores Toolbar item*/ "VALUE SPECIFIED AT RUNTIME" = "";
@@ -375,6 +378,10 @@
 /*r|OEPrefDebugController.m|508|Preferences: Debug Toolbar Item*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
 /*r|OEPrefGameplayController.m|93|Preferences: Gamplay Toolbar Item*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
+/*r|OEPrefLibraryController.m|295|*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
+/*r|OEPrefLibraryController.m|339|*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
 /*s|OEGameDocument.m|998|*/ "Warning" = "Warnung";
 

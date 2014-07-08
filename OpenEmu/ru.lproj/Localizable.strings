@@ -26,7 +26,7 @@
 
 /** THIS FILE WAS GENERATED AUTOMATICALLY! DO NOT CHANGE! **/
 
-/*9ab113a3acd2c1a4937772ada08aca971af9cf04*/
+/*001e6f4a00f4fa2d19f2beeb83bdd5c9b1c94fc6*/
 
 /*r|OEPrefDebugController.m|196|Debug Label*/ "" = "";
 
@@ -134,6 +134,8 @@
 
 /*r|OEGameDocument.m|968|*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
+/*r|OEGameScannerViewController.m|136|*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
 /*r|OEPrefControlsController.m|749|Preferences: Controls Toolbar Item*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
 /*r|OEPrefCoresController.m|252|Preferences: Cores Toolbar item*/ "VALUE SPECIFIED AT RUNTIME" = "";
@@ -157,6 +159,10 @@
 /*r|OEPrefDebugController.m|508|Preferences: Debug Toolbar Item*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
 /*r|OEPrefGameplayController.m|93|Preferences: Gamplay Toolbar Item*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
+/*r|OEPrefLibraryController.m|295|*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
+/*r|OEPrefLibraryController.m|339|*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
 /*r|OEPrefDebugController.m|173|Debug Checkbox Label*/ "WiiRemote support (requires relaunch)" = "";
 
