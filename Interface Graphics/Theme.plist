@@ -3219,6 +3219,16 @@
 				<string>{{32,0},{16,16}}</string>
 			</dict>
 		</dict>
+		<key>media_featured</key>
+		<dict>
+			<key>Resource</key>
+			<string>media_featured</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0,0},{16,16}}</string>
+			</dict>
+		</dict>
 		<key>collections_smart</key>
 		<dict>
 			<key>Resource</key>

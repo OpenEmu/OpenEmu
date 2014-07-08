@@ -502,6 +502,7 @@
 		83DEE4A4162D62E4005D8AD7 /* OEProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE4A3162D62E4005D8AD7 /* OEProgressIndicator.m */; };
 		83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83DEF7C3196C403400C7DF57 /* ControlLabels.strings */; };
 		83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E25057147BC6BF0074EE14 /* hud_textfield.png */; };
+		83E40BED196CAAD000E469C6 /* media_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E40BEC196CAAD000E469C6 /* media_featured.png */; };
 		83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */; };
 		83F444F7196CA135007E8C63 /* OEDBFeaturedGamesMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F444F6196CA135007E8C63 /* OEDBFeaturedGamesMedia.m */; };
 		83F444FD196CA24B007E8C63 /* OEFeaturedGamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F444FC196CA24B007E8C63 /* OEFeaturedGamesViewController.m */; };
@@ -2364,6 +2365,7 @@
 		83DEF7C4196C403700C7DF57 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/ControlLabels.strings; sourceTree = "<group>"; };
 		83DEF7C5196C403800C7DF57 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ControlLabels.strings; sourceTree = "<group>"; };
 		83E25057147BC6BF0074EE14 /* hud_textfield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_textfield.png; sourceTree = "<group>"; };
+		83E40BEC196CAAD000E469C6 /* media_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = media_featured.png; sourceTree = "<group>"; };
 		83E41F27158546E90069B8AF /* OESystemPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESystemPicker.h; sourceTree = "<group>"; };
 		83E41F28158546E90069B8AF /* OESystemPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESystemPicker.m; sourceTree = "<group>"; };
 		83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_scrollview_box.png; sourceTree = "<group>"; };
@@ -4279,6 +4281,7 @@
 				53439BBC13B93920005C0CC8 /* list_rating.png */,
 				EC350F6117401AC1005DA3B2 /* list_rating@2x.png */,
 				94A4E997179FB98100AD8C7D /* media.png */,
+				83E40BEC196CAAD000E469C6 /* media_featured.png */,
 				8303BBFE14E318C200FCD701 /* Menu */,
 				53439BBD13B93920005C0CC8 /* missing_artwork.pdf */,
 				53439BBE13B93920005C0CC8 /* missing_rom.pdf */,
@@ -7327,6 +7330,7 @@
 				830013AE17A7C5A000EB128A /* controls_triangle.png in Resources */,
 				83495DE019A3A4EB009DB6E5 /* bios_missing@2x.png in Resources */,
 				94AE2C1017B07D450018DFBB /* cheats-database.xml in Resources */,
+				83E40BED196CAAD000E469C6 /* media_featured.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
