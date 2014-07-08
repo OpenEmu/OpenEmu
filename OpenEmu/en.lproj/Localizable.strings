@@ -38,6 +38,8 @@
 
 /*s|OEGameControlsBar.m|373|Integral scale menu item title*/ "%ux" = "%ux";
 
+/*s|OEPluginDocument.m|71|*/ "A version of this plugin is already loaded" = "A version of this plugin is already loaded";
+
 /*s|OEGameDocument.m|1036|*/ "Add Cheat" = "Add Cheat";
 
 /*s|OEGameControlsBar.m|279|*/ "Add Cheat…" = "Add Cheat…";
@@ -96,7 +98,7 @@
 /*s|OEGameCollectionViewController.m|340|*/
 /*s|OEGameDocument.m|719|*/
 /*s|OEGameDocument.m|1037|*/
-/*s|OEGameDocument.m|1317|*/
+/*s|OEGameDocument.m|1319|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|55|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|101|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|123|*/
@@ -110,6 +112,7 @@
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|252|*/
 /*s|OEMainWindowController.m|279|*/
 /*s|OEPrefControlsController.m|540|*/
+/*s|OEPrefLibraryController.m|214|*/
 /*s|OESidebarController.m|617|*/ "Cancel" = "Cancel";
 
 /*s|OEGameCollectionViewController.m|473|*/ "Cancel Cover Art Download" = "Cancel Cover Art Download";
@@ -162,11 +165,19 @@
 
 /*s|OEPrefLibraryController.m|260|Alert Headline: Library migration*/ "Copying ROM Files…" = "Copying ROM Files…";
 
+/*s|OEPrefLibraryController.m|245|*/ "Copying artwork failed!" = "Copying artwork failed!";
+
 /*s|OEBlankSlateView.m|238|*/ "Core Provided By…" = "Core Provided By…";
 
 /*r|OEPrefCoresController.m|252|Preferences: Cores Toolbar item*/ "Cores" = "Cores";
 
+/*s|OEPrefLibraryController.m|294|*/ "Could not move complete library! %ld roms were moved" = "Could not move complete library! %ld roms were moved";
+
+/*s|OEPrefLibraryController.m|338|*/ "Could not move library data!" = "Could not move library data!";
+
 /*s|OEDOGameCoreManager.m|137|Timed out error reason.*/ "Couldn't connect to the background process." = "Couldn't connect to the background process.";
+
+/*s|OEPluginDocument.m|70|*/ "Couldn't load %@ plugin" = "Couldn't load %@ plugin";
 
 /*s|OEApplicationDelegate.m|520|*/ "Create Library…" = "Create Library…";
 
@@ -219,6 +230,8 @@
 
 /*s|OEGameScannerViewController.m|200|*/ "Don't Import Selected" = "Don't Import Selected";
 
+/*s|OEGameScannerViewController.m|164|*/ "Done" = "Done";
+
 /*s|OEGameCollectionViewController.m|471|*/
 /*s|OEGameCollectionViewController.m|502|*/ "Download Cover Art" = "Download Cover Art";
 
@@ -243,8 +256,7 @@
 
 /*s|OEGameScannerViewController.m|155|*/ "Game %ld of %ld" = "Game %1$ld of %2$ld";
 
-/*s|OEGameScannerViewController.m|307|*/
-/*s|OEGameScannerViewController.m|311|*/ "Game Scanner" = "Game Scanner";
+/*s|OEGameScannerViewController.m|307|*/ "Game Scanner" = "Game Scanner";
 
 /*r|OEPrefDebugController.m|170|DebugModeLabel*/ "Game View Background color" = "Game View Background color";
 
@@ -325,8 +337,9 @@
 /*s|OECoreUpdater.m|318|*/
 /*s|OEGameDocument.m|969|*/
 /*s|OEGameDocument.m|996|*/
-/*s|OEGameDocument.m|1316|*/
+/*s|OEGameDocument.m|1318|*/
 /*s|OEPrefControlsController.m|553|*/
+/*s|OEPrefLibraryController.m|246|*/
 /*s|OEPrefLibraryController.m|454|*/
 /*s|OEPrefLibraryController.m|469|*/ "OK" = "OK";
 
@@ -362,6 +375,8 @@
 
 /*s|OEPrefControlsController.m|282|*/
 /*s|OEPrefControlsController.m|300|*/ "Player %ld" = "Player %ld";
+
+/*s|OEPrefLibraryController.m|153|*/ "Please close all games and wait for the importer to finish." = "Please close all games and wait for the importer to finish.";
 
 /*s|OEApplicationDelegate.m|813|Quick Load Menu Item*/
 /*s|OEApplicationDelegate.m|845|Quick Load Menu Item*/
@@ -413,6 +428,8 @@
 
 /*s|OEGameControlsBar.m|669|Tooltip*/ "Restart System" = "Restart System";
 
+/*s|OEPluginDocument.m|73|*/ "Restart now\",@\"\"), OELocalizedString(@\"Cancel\",@\"" = "Restart now\",@\"\"), OELocalizedString(@\"Cancel\",@\"";
+
 /*s|OEGameDocument.m|394|nil*/
 /*s|OEGameDocument.m|410|Resume game after battery warning button label*/ "Resume" = "Resume";
 
@@ -431,9 +448,11 @@
 
 /*s|OEGameControlsBar.m|484|Quick save menu item title*/ "Save to Slot %d" = "Save to Slot %d";
 
-/*s|OEGameDocument.m|1126|default save game default*/ "Save-Game-%ld %@" = "Save-Game-%ld %@";
+/*s|OEGameDocument.m|1126|default save game name*/ "Save-Game-%ld %@" = "Save-Game-%ld %@";
 
 /*s|OEDBSavedGamesMedia.m|49|*/ "Saved Games" = "Saved Games";
+
+/*s|OEGameScannerViewController.m|170|*/ "Scanner Paused" = "Scanner Paused";
 
 /*s|OEGameScannerViewController.m|158|*/ "Scanning Directory" = "Scanning Directory";
 
@@ -531,7 +550,7 @@
 
 /*s|OEPrefLibraryController.m|588|*/ "This System has no corresponding core installed." = "This System has no corresponding core installed.";
 
-/*s|OEGameDocument.m|1315|*/ "This save state was created with a different core. Do you want to switch to that core now?" = "This save state was created with a different core. Do you want to switch to that core now?";
+/*s|OEGameDocument.m|1317|*/ "This save state was created with a different core. Do you want to switch to that core now?" = "This save state was created with a different core. Do you want to switch to that core now?";
 
 /*s|OEGameDocument.m|1028|*/ "Title:" = "Title:";
 
@@ -561,6 +580,8 @@
 
 /*r|OEGameDocument.m|968|*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
+/*r|OEGameScannerViewController.m|136|*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
 /*r|OEPrefControlsController.m|749|Preferences: Controls Toolbar Item*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
 /*r|OEPrefCoresController.m|252|Preferences: Cores Toolbar item*/ "VALUE SPECIFIED AT RUNTIME" = "";
@@ -585,6 +606,10 @@
 
 /*r|OEPrefGameplayController.m|93|Preferences: Gamplay Toolbar Item*/ "VALUE SPECIFIED AT RUNTIME" = "";
 
+/*r|OEPrefLibraryController.m|295|*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
+/*r|OEPrefLibraryController.m|339|*/ "VALUE SPECIFIED AT RUNTIME" = "";
+
 /*s|OEGameDocument.m|998|*/ "Warning" = "Warning";
 
 /*r|OEPrefDebugController.m|173|Debug Checkbox Label*/ "WiiRemote support (requires relaunch)" = "WiiRemote support (requires relaunch)";
@@ -599,5 +624,11 @@
 /*s|OEGameScannerViewController.m|547|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|83|*/ "Yes" = "Yes";
 
+/*s|OEPrefLibraryController.m|165|*/ "You can't move your library here!" = "You can't move your library here!";
+
+/*s|OEPluginDocument.m|72|*/ "You need to restart the application to commit the change" = "You need to restart the application to commit the change";
+
 /*s|OEGameDocument.m|532|*/ "Your game finished importing, do you want to play it now?" = "Your game finished importing, do you want to play it now?";
+
+/*s|OEPrefLibraryController.m|401|*/ "Your library was moved sucessfully. OpenEmu must relaunch now!" = "Your library was moved sucessfully. OpenEmu must relaunch now!";
 
