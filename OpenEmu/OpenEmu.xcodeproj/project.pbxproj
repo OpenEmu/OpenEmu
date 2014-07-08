@@ -351,7 +351,6 @@
 		8337393215BFD24A00D83D2F /* OESystemPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E41F28158546E90069B8AF /* OESystemPicker.m */; };
 		8337393815BFD87900D83D2F /* OELibraryToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8337393715BFD87700D83D2F /* OELibraryToolbarView.m */; };
 		8337F38E1726B3600068DD90 /* OEBackgroundImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8337F38D1726B3600068DD90 /* OEBackgroundImageView.m */; };
-		833ADC4C196B058000217D9A /* N64-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 833ADC4B196B058000217D9A /* N64-Info.plist */; };
 		833ADC4D196B078E00217D9A /* CollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 833ADC4F196B078E00217D9A /* CollectionView.xib */; };
 		834C07DC166CD36A0000C146 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
@@ -6761,7 +6760,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				833ADC4C196B058000217D9A /* N64-Info.plist in Resources */,
 				11BD776F196A46AD00BFB3FE /* controller_n64.png in Resources */,
 				11BD7771196A46AD00BFB3FE /* controller_n64@2x.png in Resources */,
 				C6252DB214E7566600350A13 /* Controller-Preferences.plist in Resources */,
