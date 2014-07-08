@@ -36,10 +36,13 @@
 
 #ifdef DebugLocalization
     #define OELocalizationSeparationString @"|"
-    #define OELocalizedString(_KEY_, _COMMENT_) OELogLocalizedString(_KEY_, _COMMENT_, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __FUNCTION__)
-NSString *OELogLocalizedString(NSString *key, NSString *comment, NSString *fileName, int line, const char* function);
+    #define OELocalizedString(_KEY_, _COMMENT_) OELogLocalizedString(_KEY_, _COMMENT_, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __FUNCTION__, nil)
+    #define OELocalizedStringFromTable(_KEY_, _TABLE_, _COMMENT_) OELogLocalizedString(_KEY_, _COMMENT_, [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, __FUNCTION__, _TABLE_)
+
+    NSString *OELogLocalizedString(NSString *key, NSString *comment, NSString *fileName, int line, const char* function, NSString *table);
 #else
     #define OELocalizedString(_KEY_, _COMMENT_) NSLocalizedString(_KEY_,_COMMENT_)
+    #define OELocalizedStringFromTable(_KEY_, _TABLE, _COMMENT_) NSLocalizedStringFromTable(_KEY_, _TABLE, _COMMENT_)
 #endif
 
 #define OECoreDataMainThreadAssertion() NSAssert([NSThread isMainThread], @"Only call on main thread!")

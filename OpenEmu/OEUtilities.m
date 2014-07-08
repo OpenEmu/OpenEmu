@@ -130,10 +130,12 @@ bool GetSystemVersion(int *major, int *minor, int *bugfix)
 }
 
 #ifdef DebugLocalization
-static NSFileHandle    *OELocalizationLog = nil;
-NSString *OELogLocalizedString(NSString *key, NSString *comment, NSString *fileName, int line, const char* function)
+static NSFileHandle *OELocalizationLog = nil;
+static NSMutableDictionary *OELocalizationTableLog = nil;
+NSString *OELogLocalizedString(NSString *key, NSString *comment, NSString *fileName, int line, const char* function, NSString *table)
 {
-    if(OELocalizationLog == nil)
+    NSFileHandle *handle = nil;
+    if(table == nil && OELocalizationLog == nil)
     {
         NSURL *url = [NSURL fileURLWithPath:[@"~/Desktop/OpenEmu Runtime Analysis.strings" stringByExpandingTildeInPath]];
         [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
@@ -143,6 +145,23 @@ NSString *OELogLocalizedString(NSString *key, NSString *comment, NSString *fileN
         NSString *version = [NSString stringWithFormat:@"/*%@*/\n", LONG_BUILD_VERSION];
         [OELocalizationLog writeData:[version dataUsingEncoding:NSUTF8StringEncoding]];
     }
+    else if(table != nil && [OELocalizationTableLog objectForKey:table] == nil)
+    {
+        if(OELocalizationTableLog == nil) OELocalizationTableLog = [NSMutableDictionary dictionary];
+        NSString *path = [NSString stringWithFormat:@"~/Desktop/OpenEmu Runtime Analysis (%@).strings", table];
+        NSURL *url = [NSURL fileURLWithPath:[path stringByExpandingTildeInPath]];
+        [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
+        [[NSFileManager defaultManager] createFileAtPath:[url path] contents:[NSData data] attributes:nil];
+        NSFileHandle *h = [NSFileHandle fileHandleForWritingToURL:url error:nil];
+
+        NSString *version = [NSString stringWithFormat:@"/*%@*/\n", LONG_BUILD_VERSION];
+        [h writeData:[version dataUsingEncoding:NSUTF8StringEncoding]];
+
+        [OELocalizationTableLog setObject:h forKey:table];
+    }
+
+    if(table == nil) handle = OELocalizationLog;
+    else handle = [OELocalizationTableLog objectForKey:table];
 
     {
         NSString *escapedKey = [key stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
@@ -177,7 +196,7 @@ NSString *OELogLocalizedString(NSString *key, NSString *comment, NSString *fileN
                             OELocalizationSeparationString, comment,
                             escapedKey, value];
         NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-        [OELocalizationLog writeData:data];
+        [handle writeData:data];
     }
 
     return [@"[L]" stringByAppendingString:NSLocalizedString(key, comment)];
