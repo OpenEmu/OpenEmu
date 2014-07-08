@@ -476,6 +476,7 @@
 		83DEE49F162D62B2005D8AD7 /* game_scanner_progress_candy.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DEE49B162D62B2005D8AD7 /* game_scanner_progress_candy.png */; };
 		83DEE4A0162D62B2005D8AD7 /* game_scanner_progress_track.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DEE49C162D62B2005D8AD7 /* game_scanner_progress_track.png */; };
 		83DEE4A4162D62E4005D8AD7 /* OEProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE4A3162D62E4005D8AD7 /* OEProgressIndicator.m */; };
+		83DEF7C0196C3F9200C7DF57 /* ControlLabels.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83DEF7BF196C3F9200C7DF57 /* ControlLabels.strings */; };
 		83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E25057147BC6BF0074EE14 /* hud_textfield.png */; };
 		83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */; };
 		83F4700C15750497001931BD /* OEGameScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4700B15750497001931BD /* OEGameScannerViewController.m */; };
@@ -2221,6 +2222,7 @@
 		83DEE49C162D62B2005D8AD7 /* game_scanner_progress_track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_scanner_progress_track.png; sourceTree = "<group>"; };
 		83DEE4A2162D62E4005D8AD7 /* OEProgressIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEProgressIndicator.h; sourceTree = "<group>"; };
 		83DEE4A3162D62E4005D8AD7 /* OEProgressIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEProgressIndicator.m; sourceTree = "<group>"; };
+		83DEF7BF196C3F9200C7DF57 /* ControlLabels.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = ControlLabels.strings; sourceTree = "<group>"; };
 		83E25057147BC6BF0074EE14 /* hud_textfield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_textfield.png; sourceTree = "<group>"; };
 		83E41F27158546E90069B8AF /* OESystemPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESystemPicker.h; sourceTree = "<group>"; };
 		83E41F28158546E90069B8AF /* OESystemPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESystemPicker.m; sourceTree = "<group>"; };
@@ -3560,6 +3562,7 @@
 			children = (
 				83B04E3D1968610F00CB985E /* InfoPlist.strings */,
 				83B04E3F1968610F00CB985E /* Localizable.strings */,
+				83DEF7BF196C3F9200C7DF57 /* ControlLabels.strings */,
 				838E2A221600A05C00CF7198 /* Theme.plist */,
 				82DD29DA12369F1100B58A8F /* KeyboardUsages.plist */,
 				82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */,
@@ -6834,6 +6837,7 @@
 				53439BF513B93920005C0CC8 /* arrow_up.png in Resources */,
 				53439BF613B93920005C0CC8 /* background_lighting.png in Resources */,
 				53439BFA13B93920005C0CC8 /* box_gloss.pdf in Resources */,
+				83DEF7C0196C3F9200C7DF57 /* ControlLabels.strings in Resources */,
 				53439BFB13B93920005C0CC8 /* collections.png in Resources */,
 				53439BFD13B93920005C0CC8 /* hud_bar.png in Resources */,
 				53439BFE13B93920005C0CC8 /* hud_button.png in Resources */,
