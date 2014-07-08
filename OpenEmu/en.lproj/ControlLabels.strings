@@ -92,8 +92,8 @@
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "P" = "P";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Pause" = "Pause";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Player Start" = "Player Start";
-/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Quick Load" = "Quick Load";
-/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Quick Save" = "Quick Save";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Quick Load Button" = "Quick Load";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Quick Save Button" = "Quick Save";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "R Diff A" = "R Diff A";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "R Diff B" = "R Diff B";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "R Diff" = "R Diff";

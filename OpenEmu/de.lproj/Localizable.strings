@@ -244,7 +244,7 @@
 
 /*s|OEApplicationDelegate.m|814|Quick Save Menu Item*/
 /*s|OEApplicationDelegate.m|847|Quick Save Menu Item*/
-/*s|OEGameControlsBar.m|463|Quick save menu title*/ "Quick Save" = "Schnell- speichern";
+/*s|OEGameControlsBar.m|463|Quick save menu title*/ "Quick Save" = "Schnellspeichern";
 
 /*s|OEApplicationDelegate.m|521|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|54|*/ "Quit" = "Beenden";

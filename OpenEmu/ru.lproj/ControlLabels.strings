@@ -1,0 +1,138 @@
+/*
+ Copyright (c) 2009-2014, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*572bbfe7ef79c89ed27708013f65a9b85d52e89b*/
+
+/*r|OEControlsButtonSetupView.m|544|Section Title*/ "Gameplay Buttons" = "Gameplay Buttons";
+/*r|OEControlsButtonSetupView.m|544|Section Title*/ "Special Keys" = "Special Keys";
+/*r|OEControlsButtonSetupView.m|559|Group Label*/ "Analog" = "Analog";
+/*r|OEControlsButtonSetupView.m|559|Group Label*/ "C-Pad" = "C-Pad";
+/*r|OEControlsButtonSetupView.m|559|Group Label*/ "D-Pad" = "D-Pad";
+/*r|OEControlsButtonSetupView.m|559|Group Label*/ "Keypad" = "Keypad";
+/*r|OEControlsButtonSetupView.m|559|Group Label*/ "Left Analog" = "Left Analog";
+/*r|OEControlsButtonSetupView.m|559|Group Label*/ "Left D-Pad" = "Left D-Pad";
+/*r|OEControlsButtonSetupView.m|559|Group Label*/ "Right Analog" = "Right Analog";
+/*r|OEControlsButtonSetupView.m|559|Group Label*/ "Right D-Pad" = "Right D-Pad";
+/*r|OEControlsButtonSetupView.m|559|Group Label*/ "Switches" = "Switches";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "#" = "#";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "*" = "*";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "0" = "0";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "1" = "1";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "2" = "2";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "2/6 Mode" = "2/6 Mode";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "3" = "3";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "4" = "4";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "5" = "5";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "6" = "6";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "7" = "7";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "8" = "8";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "9" = "9";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "A" = "A";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Analog Mode" = "Analog Mode";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "B" = "B";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Button 1" = "Button 1";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Button 1/Start" = "Button 1/Start";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Button 2" = "Button 2";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Button 3" = "Button 3";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Button 4" = "Button 4";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Button 5" = "Button 5";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Button 6" = "Button 6";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "C" = "C";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Change Disk Side" = "Change Disk Side";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Console Pause" = "Console Pause";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Display Mode" = "Display Mode";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Down" = "Down";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Fast Forward" = "Fast Forward";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Fire 1" = "Fire 1";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Fire 2" = "Fire 2";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Fire" = "Fire";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Fullscreen" = "Fullscreen";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Insert Coin" = "Insert Coin";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "L Diff A" = "L Diff A";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "L Diff B" = "L Diff B";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "L Diff" = "L Diff";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "L" = "L";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "L1" = "L1";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "L2" = "L2";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "L3" = "L3";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Left Action" = "Left Action";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Left Trigger" = "Left Trigger";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Left" = "Left";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Lid" = "Lid";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Load" = "Load";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Mic" = "Mic";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Mode" = "Mode";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Mute" = "Mute";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Option 1" = "Option 1";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Option 2" = "Option 2";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Option" = "Option";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "P" = "P";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Pause" = "Pause";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Player Start" = "Player Start";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Quick Load Button" = "Quick Load";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Quick Save Button" = "Quick Save";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "R Diff A" = "R Diff A";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "R Diff B" = "R Diff B";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "R Diff" = "R Diff";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "R" = "R";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "R1" = "R1";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "R2" = "R2";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "R3" = "R3";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Reset" = "Reset";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Right Action" = "Right Action";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Right Trigger" = "Right Trigger";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Right" = "Right";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Run" = "Run";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Save" = "Save";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Screenshot" = "Screenshot";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Select" = "Select";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Service" = "Service";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Sound" = "Sound";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Start" = "Start";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "TV Black & White" = "TV Black & White";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "TV Color" = "TV Color";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Up" = "Up";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Volume Down" = "Volume Down";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Volume Up" = "Volume Up";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "X" = "X";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "X1 Up" = "X1 Up";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "X2 Right" = "X2 Right";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "X3 Down" = "X3 Down";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "X4 Left" = "X4 Left";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Y" = "Y";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Y1 Up" = "Y1 Up";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Y2 Right" = "Y2 Right";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Y3 Down" = "Y3 Down";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Y4 Left" = "Y4 Left";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Z" = "Z";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "□ " = "□ ";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "▢" = "▢";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "△ " = "△ ";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "△" = "△";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "○ " = "○ ";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "◯" = "◯";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "✕ " = "✕ ";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "✕" = "✕";
