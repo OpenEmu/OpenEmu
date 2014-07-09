@@ -62,6 +62,7 @@ enum _OEGameDocumentErrorCodes
 - (void)showInSeparateWindowInFullScreen:(BOOL)fullScreen;
 
 @property(readonly) OEDBRom *rom;
+@property(readonly) NSURL   *romFileURL;
 @property(readonly) OECorePlugin *corePlugin;
 @property(readonly) OESystemPlugin *systemPlugin;
 

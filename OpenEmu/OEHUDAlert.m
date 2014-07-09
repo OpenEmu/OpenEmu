@@ -150,6 +150,8 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
         
         [self setSuppressOnDefaultReturnOnly:YES];
         [self OE_setupWindow];
+
+        [self setBlocks:[NSMutableArray array]];
     }
     
     return self;
@@ -176,8 +178,6 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
         return result;
     }
 
-    [self setBlocks:[NSMutableArray array]];
-    
     [self OE_autosizeWindow];
     
     NSModalSession session = [NSApp beginModalSessionForWindow:_window];
@@ -294,6 +294,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 - (void)setProgress:(double)progress
 {
+    [[self progressbar] setIndeterminate:progress == -1];
     [[self progressbar] setDoubleValue:progress];
 }
 

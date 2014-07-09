@@ -59,4 +59,5 @@ extern NSString *const OEGameCoreGlitchesSuppressionKey;
 + (id)removeGameFilesFromLibraryAlert:(BOOL)multipleGames;
 + (id)renameSpecialStateAlert;
 
++ (id)romDownloadRequiredAlert:(NSString*)name server:(NSString*)server;
 @end

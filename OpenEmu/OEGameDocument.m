@@ -50,6 +50,7 @@
 #import "NSURL+OELibraryAdditions.h"
 #import "NSView+FadeImage.h"
 #import "NSViewController+OEAdditions.h"
+#import "OEDownload.h"
 
 // using the main window controller here is not very nice, but meh
 #import "OEMainWindowController.h"
@@ -163,26 +164,110 @@ typedef enum : NSUInteger
 
 - (BOOL)OE_setupDocumentWithROM:(OEDBRom *)rom usingCorePlugin:(OECorePlugin *)core error:(NSError **)outError
 {
-    NSString *romPath = [[rom URL] path];
-    if(![[NSFileManager defaultManager] fileExistsAtPath:romPath])
+    NSURL *fileURL = [rom URL];
+
+    // Check if local file is available
+    if(![fileURL checkResourceIsReachableAndReturnError:nil])
     {
-        if(outError != NULL)
+        fileURL = nil;
+        NSURL *sourceURL = [rom sourceURL];
+
+        // try to fallback on external source
+        if(sourceURL)
         {
-            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-                                            code:OEFileDoesNotExistError
-                                        userInfo:
-                         [NSDictionary dictionaryWithObjectsAndKeys:
-                          OELocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
-                          NSLocalizedFailureReasonErrorKey,
-                          OELocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
-                          NSLocalizedRecoverySuggestionErrorKey,
-                          nil]];
+            NSString *name   = [rom fileName] ?: [[sourceURL lastPathComponent] stringByDeletingPathExtension];
+            NSString *server = [sourceURL host];
+
+            if([[OEHUDAlert romDownloadRequiredAlert:name server:server] runModal] == NSAlertDefaultReturn)
+            {
+                __block NSURL   *destination;
+                __block NSError *error;
+
+                NSString *message = [NSString stringWithFormat:OELocalizedString(@"Downloading %@…", @"Downloading rom message text"), name];
+                OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message defaultButton:OELocalizedString(@"Cancel",@"") alternateButton:@""];
+                [alert setShowsProgressbar:YES];
+                [alert setProgress:-1];
+
+                OEDownload *download = [[OEDownload alloc] initWithURL:sourceURL];
+                [download setProgressHandler:^BOOL(CGFloat progress)
+                 {
+                    [alert setProgress:progress];
+                    // continue as long as alert is still visible
+                    return [[alert window] isVisible];
+                }];
+
+                [download setCompletionHandler:^(NSURL *dst, NSError *err)
+                 {
+                    destination = dst;
+                    error = err;
+                    [alert closeWithResult:NSAlertAlternateReturn];
+                }];
+
+                [alert performBlockInModalSession:^{
+                    [download startDownload];
+                }];
+
+                if([alert runModal] == NSAlertDefaultReturn || [error code] == NSUserCancelledError)
+                {
+                    [download cancelDownload];
+
+                    // User canceld
+                    if(outError != NULL)
+                        *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                                                        code:NSUserCancelledError
+                                                    userInfo:nil];
+                    return NO;
+                }
+                else
+                {
+                    if(error || destination == nil)
+                    {
+                        if(outError != NULL)
+                            *outError = [error copy];
+                        return NO;
+                    }
+
+                    fileURL = [destination copy];
+                    // make sure that rom's fileName is set
+                    if([rom fileName] == nil) {
+                        [rom setFileName:[destination lastPathComponent]];
+                        [rom save];
+                    }
+                }
+            }
+            else
+            {
+                // User canceld
+                if(outError != NULL)
+                    *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                                                    code:NSUserCancelledError
+                                                userInfo:nil];
+                return NO;
+            }
         }
-        DLog(@"File does not exist");
-        return NO;
+
+        // check if we have recovered
+        if(fileURL == nil || [fileURL checkResourceIsReachableAndReturnError:nil] == NO)
+        {
+            if(outError != NULL)
+            {
+                *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                                                code:OEFileDoesNotExistError
+                                            userInfo:
+                             [NSDictionary dictionaryWithObjectsAndKeys:
+                              OELocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
+                              NSLocalizedFailureReasonErrorKey,
+                              OELocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
+                              NSLocalizedRecoverySuggestionErrorKey,
+                              nil]];
+            }
+            DLog(@"File does not exist");
+            return NO;
+        }
     }
 
     _rom = rom;
+    _romFileURL = fileURL;
     _corePlugin = core;
     _systemPlugin = [[[[self rom] game] system] plugin];
     _gameSystemController = [_systemPlugin controller];
@@ -254,7 +339,7 @@ typedef enum : NSUInteger
     _corePlugin = corePlugin;
     [[NSUserDefaults standardUserDefaults] setValue:[_corePlugin bundleIdentifier] forKey:UDSystemCoreMappingKeyForSystemIdentifier([self systemIdentifier])];
 
-    NSString *path = [[[self rom] URL] path];
+    NSString *path = [[self romFileURL] path];
      // if file is in an archive append :entryIndex to path, so the core manager can figure out which entry to load
     if([[self rom] archiveFileIndex])
         path = [path stringByAppendingFormat:@":%d",[[[self rom] archiveFileIndex] intValue]];
@@ -306,6 +391,15 @@ typedef enum : NSUInteger
     }
 
     return chosenCore;
+}
+
+- (void)dealloc
+{
+    NSURL *url = [self romFileURL];
+    if([url isNotEqualTo:[[self rom] URL]])
+    {
+        [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
+    }
 }
 
 #pragma mark - Game Window
@@ -838,7 +932,6 @@ typedef enum : NSUInteger
 }
 
 #pragma mark - Controlling Emulation
-
 - (IBAction)performClose:(id)sender
 {
     [self close];

@@ -42,6 +42,7 @@ NSString *const OEGameCoreGlitchesSuppressionKey = @"OEGameCoreGlitches";
 NSString *const OERenameSpecialSaveStateAlertSuppressionKey = @"OERenameSpecialSaveStateAlertSuppressionKey";
 NSString *const OEDeleteScreenshotAlertSuppressionKey = @"OEDeleteScreenshotAlertSuppressionKey";
 NSString *const OEDeleteSaveStateAlertSuppressionKey  = @"OEDeleteSaveStateAlertSuppressionKey";
+NSString *const OEDownloadRomWarningSupperssionKey    = @"OEDownloadRomWarningSupperssionKey";
 
 @implementation OEHUDAlert (DefaultAlertsAdditions)
 
@@ -251,6 +252,21 @@ NSString *const OEDeleteSaveStateAlertSuppressionKey  = @"OEDeleteSaveStateAlert
     [alert setDefaultButtonTitle:OELocalizedString(@"Rename", @"")];
     [alert setAlternateButtonTitle:OELocalizedString(@"Cancel", @"")];
     [alert showSuppressionButtonForUDKey:OERenameSpecialSaveStateAlertSuppressionKey];
+    [alert setSuppressOnDefaultReturnOnly:YES];
+
+    return alert;
+}
+
++ (id)romDownloadRequiredAlert:(NSString*)name server:(NSString*)server
+{
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    NSString *headlineText = [NSString stringWithFormat:OELocalizedString(@"Rom requires download", @"Download rom dialog headline")];
+    [alert setHeadlineText:headlineText];
+    NSString *messageText = [NSString stringWithFormat:OELocalizedString(@"In order to play %@ you need to download it from %@. Are you sure you trust that source?", @""), name, server];
+    [alert setMessageText:messageText];
+    [alert setDefaultButtonTitle:OELocalizedString(@"Download", @"")];
+    [alert setAlternateButtonTitle:OELocalizedString(@"Cancel", @"")];
+    [alert showSuppressionButtonForUDKey:OEDownloadRomWarningSupperssionKey];
     [alert setSuppressOnDefaultReturnOnly:YES];
 
     return alert;

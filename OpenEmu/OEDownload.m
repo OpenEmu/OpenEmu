@@ -120,6 +120,14 @@
     [self OE_endDownload];
 }
 
+- (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
+{
+    NSString *temporaryDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:@"org.openemu.openemu/"];
+    [[NSFileManager defaultManager] createDirectoryAtPath:temporaryDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+
+    [download setDestination:[temporaryDirectory stringByAppendingPathComponent:filename] allowOverwrite:YES];
+}
+
 - (void)download:(NSURLDownload *)download didCreateDestination:(NSString *)path
 {
     [self setDestinationURL:[NSURL fileURLWithPath:path isDirectory:NO]];
