@@ -42,7 +42,7 @@
 @implementation OEDBRom
 @dynamic URL;
 // Data Model Properties
-@dynamic location, favorite, crc32, md5, lastPlayed, fileSize, playCount, playTime, archiveFileIndex, header, serial, fileName;
+@dynamic location, favorite, crc32, md5, lastPlayed, fileSize, playCount, playTime, archiveFileIndex, header, serial, fileName, source;
 // Data Model Relationships
 @dynamic game, saveStates, tosec;
 
@@ -94,7 +94,6 @@
 }
 
 #pragma mark - Accessors
-
 - (NSURL *)URL
 {
     NSURL *romFolderURL = [[self libraryDatabase] romsFolderURL];
@@ -105,6 +104,16 @@
 {
     NSURL *romFolderURL = [[self libraryDatabase] romsFolderURL];
     [self setLocation:[[url urlRelativeToURL:romFolderURL] relativeString]];
+}
+
+- (NSURL *)sourceURL
+{
+    return [NSURL URLWithString:[self source]];
+}
+
+- (void)setSourceURL:(NSURL *)sourceURL
+{
+    [self setLocation:[sourceURL absoluteString]];
 }
 
 - (NSString *)md5Hash

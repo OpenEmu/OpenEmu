@@ -39,6 +39,7 @@
 + (id)romWithMD5HashString:(NSString *)md5Hash inContext:(NSManagedObjectContext *)context error:(NSError *__autoreleasing*)outError;
 
 @property(nonatomic) NSURL *URL;
+@property(nonatomic) NSURL *sourceURL;
 
 #pragma mark - Accessors
 // returns md5 hash for rom. calculates it if necessary so the method can take a long time to return, and might return nil if hash is not in db and can not be calculated
@@ -83,8 +84,8 @@
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
 #pragma mark - Data Model Properties
-
 @property(nonatomic, retain)                    NSString *location;
+@property(nonatomic, retain)                    NSString *source;
 @property(nonatomic, retain, getter=isFavorite) NSNumber *favorite;
 @property(nonatomic, retain)                    NSString *crc32;
 @property(nonatomic, retain)                    NSString *md5;
