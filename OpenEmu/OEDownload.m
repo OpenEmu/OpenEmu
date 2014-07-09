@@ -79,7 +79,7 @@
 {
     [self setProgress:-1.0];
 
-    NSURLRequest  *request  = [NSURLRequest requestWithURL:[self url]];
+    NSURLRequest  *request  = [NSURLRequest requestWithURL:[self url] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:60.0];
     NSURLDownload *download = [[NSURLDownload alloc] initWithRequest:request delegate:self];
 
     [self setDownload:download];
@@ -112,6 +112,7 @@
 
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
 {
+    DLog(@"%@", error);
     [self setError:error];
 
     [[NSFileManager defaultManager] removeItemAtURL:[self destinationURL] error:nil];

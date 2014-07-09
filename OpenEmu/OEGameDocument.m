@@ -188,28 +188,26 @@ typedef enum : NSUInteger
                 [alert setShowsProgressbar:YES];
                 [alert setProgress:-1];
 
-                OEDownload *download = [[OEDownload alloc] initWithURL:sourceURL];
-                [download setProgressHandler:^BOOL(CGFloat progress)
-                 {
-                    [alert setProgress:progress];
-                    // continue as long as alert is still visible
-                    return [[alert window] isVisible];
-                }];
-
-                [download setCompletionHandler:^(NSURL *dst, NSError *err)
-                 {
-                    destination = dst;
-                    error = err;
-                    [alert closeWithResult:NSAlertAlternateReturn];
-                }];
-
                 [alert performBlockInModalSession:^{
+                    OEDownload *download = [[OEDownload alloc] initWithURL:sourceURL];
+                    [download setProgressHandler:^BOOL(CGFloat progress) {
+                        [alert setProgress:progress];
+                        return YES;
+                    }];
+
+                    [download setCompletionHandler:^(NSURL *dst, NSError *err) {
+                        destination = dst,
+                        error = err;
+                        [alert closeWithResult:NSAlertAlternateReturn];
+                    }];
+
                     [download startDownload];
                 }];
 
+
                 if([alert runModal] == NSAlertDefaultReturn || [error code] == NSUserCancelledError)
                 {
-                    [download cancelDownload];
+                    //[download cancelDownload];
 
                     // User canceld
                     if(outError != NULL)
@@ -462,7 +460,6 @@ typedef enum : NSUInteger
 }
 
 #pragma mark - Device Notifications
-
 - (void)OE_addDeviceNotificationObservers
 {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];

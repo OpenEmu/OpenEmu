@@ -41,6 +41,7 @@
 #import "OEBackgroundImageView.h"
 
 #import "OETheme.h"
+#import "OEDownload.h"
 
 static const CGFloat _OEHUDAlertBoxSideMargin           =  18.0;
 static const CGFloat _OEHUDAlertBoxTopMargin            =  51.0;
@@ -168,7 +169,6 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 }
 
 #pragma mark -
-
 - (NSUInteger)runModal
 {
     if([self suppressionUDKey] && [[NSUserDefaults standardUserDefaults] valueForKey:[self suppressionUDKey]])
@@ -180,12 +180,11 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
     [self OE_autosizeWindow];
     
-    NSModalSession session = [NSApp beginModalSessionForWindow:_window];
-    if([self window])
+    if(_window)
     {
         NSPoint p = (NSPoint){
-            [[self window] frame].origin.x + ([[self window] frame].size.width-[_window frame].size.width)/2,
-            [[self window] frame].origin.y + ([[self window] frame].size.height-[_window frame].size.height)/2
+            [_window frame].origin.x + ([[self window] frame].size.width-[_window frame].size.width)/2,
+            [_window frame].origin.y + ([[self window] frame].size.height-[_window frame].size.height)/2
         };
         [_window setFrameOrigin:p];
     }
@@ -206,19 +205,22 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
             }
         }
     };
-    
+
+    NSModalSession session = [NSApp beginModalSessionForWindow:_window];
+
     while([NSApp runModalSession:session] == NSRunContinuesResponse)
     {
+        [[NSRunLoop mainRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
         executeBlocks();
-        [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.2]];
+
     }
     executeBlocks();
    
     [NSApp endModalSession:session];
+
     [_window close];
-    
-    [[self window] makeKeyAndOrderFront:self];
-    
+
     return result;
 }
 
