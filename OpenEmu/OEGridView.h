@@ -44,6 +44,8 @@ typedef enum
 @property (nonatomic, strong) NSString *groupThemeKey;
 @property (nonatomic) BOOL automaticallyMinimizeRowMargin;
 
+- (void)performSetup;
+
 - (void)beginEditingWithSelectedItem:(id)sender;
 - (void)beginEditingItemAtIndex:(NSInteger)index;
 @end

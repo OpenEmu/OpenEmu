@@ -368,6 +368,7 @@
 		832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */; };
 		832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D293F1451A68700BDF950 /* OEMainWindowController.m */; };
 		832D29431451ACF200BDF950 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832D29421451ACF200BDF950 /* MainWindow.xib */; };
+		832F7F94196EAE4D004F10D4 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 832F7F93196EAE4D004F10D4 /* WebKit.framework */; };
 		832FA8801455526E00BBBD94 /* NSControl+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */; };
 		83338C2217A281C7007E32E9 /* secret.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83338C2117A281C7007E32E9 /* secret.mp3 */; };
 		8337393215BFD24A00D83D2F /* OESystemPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E41F28158546E90069B8AF /* OESystemPicker.m */; };
@@ -475,6 +476,8 @@
 		83C0B37414D6FC58007CAC00 /* sidebar_triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C0B37314D6FC58007CAC00 /* sidebar_triangle.png */; };
 		83C68ED114483579000F720A /* OEHUDAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEHUDAlert.m */; };
 		83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C6C1DB190536CC00DD7B13 /* OEDBImageMigrationPolicy.m */; };
+		83C748CC196DF34D0090BC91 /* OEFeaturedGamesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83C748CB196DF34D0090BC91 /* OEFeaturedGamesViewController.xib */; };
+		83C748D1196DF5890090BC91 /* OEFeaturedGamesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C748D0196DF5890090BC91 /* OEFeaturedGamesView.m */; };
 		83CA87B01961C71C00D86D55 /* NSUserDefaults+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CA87AF1961C71C00D86D55 /* NSUserDefaults+OEAdditions.m */; };
 		83CA87B41961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */; };
 		83CACEC8196D6D1300999E70 /* OEDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CACEC7196D6D1300999E70 /* OEDownload.m */; };
@@ -1999,6 +2002,7 @@
 		832D293E1451A68700BDF950 /* OEMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMainWindowController.h; sourceTree = "<group>"; };
 		832D293F1451A68700BDF950 /* OEMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMainWindowController.m; sourceTree = "<group>"; };
 		832D29421451ACF200BDF950 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		832F7F93196EAE4D004F10D4 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		832FA87E1455526E00BBBD94 /* NSControl+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSControl+OEAdditions.h"; sourceTree = "<group>"; };
 		832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSControl+OEAdditions.m"; sourceTree = "<group>"; };
 		83338C2117A281C7007E32E9 /* secret.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = secret.mp3; path = sounds/secret.mp3; sourceTree = "<group>"; };
@@ -2322,6 +2326,9 @@
 		83C68ED014483579000F720A /* OEHUDAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDAlert.m; sourceTree = "<group>"; };
 		83C6C1DA190536CC00DD7B13 /* OEDBImageMigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBImageMigrationPolicy.h; sourceTree = "<group>"; };
 		83C6C1DB190536CC00DD7B13 /* OEDBImageMigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImageMigrationPolicy.m; sourceTree = "<group>"; };
+		83C748CB196DF34D0090BC91 /* OEFeaturedGamesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEFeaturedGamesViewController.xib; sourceTree = "<group>"; };
+		83C748CF196DF5890090BC91 /* OEFeaturedGamesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFeaturedGamesView.h; sourceTree = "<group>"; };
+		83C748D0196DF5890090BC91 /* OEFeaturedGamesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFeaturedGamesView.m; sourceTree = "<group>"; };
 		83CA87AE1961C71C00D86D55 /* NSUserDefaults+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+OEAdditions.h"; sourceTree = "<group>"; };
 		83CA87AF1961C71C00D86D55 /* NSUserDefaults+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+OEAdditions.m"; sourceTree = "<group>"; };
 		83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.2 to 1.3.xcmappingmodel"; sourceTree = "<group>"; };
@@ -3171,6 +3178,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				832F7F94196EAE4D004F10D4 /* WebKit.framework in Frameworks */,
 				836BC95C1853865D00B6AF26 /* libsqlite3.dylib in Frameworks */,
 				83B867BE171D63C70038988C /* DiskArbitration.framework in Frameworks */,
 				C6D120C517112E1300E868A8 /* OpenEmuBase.framework in Frameworks */,
@@ -3749,48 +3757,48 @@
 		1BEF34751168F88A0090F72B /* Additions to standard classes */ = {
 			isa = PBXGroup;
 			children = (
-				83F7DBAD18C0E2470029199C /* OEFileManager.h */,
-				83F7DBAE18C0E2470029199C /* OEFileManager.m */,
-				83B867BA171D63940038988C /* NSString+OEAdditions.h */,
-				83B867BB171D63940038988C /* NSString+OEAdditions.m */,
-				C67DBF4117DBE859006AF087 /* NSDocument+OEAdditions.h */,
-				C67DBF4217DBE859006AF087 /* NSDocument+OEAdditions.m */,
-				3D711838150064F50056E3BF /* PSYBlockTimer.h */,
-				3D711839150064F50056E3BF /* PSYBlockTimer.m */,
-				C6D6FA7C14E2264C0083C75D /* NSViewController+OEAdditions.h */,
-				C6D6FA7D14E2264C0083C75D /* NSViewController+OEAdditions.m */,
-				83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */,
-				83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */,
-				53439B8E13B937DB005C0CC8 /* NSImage+OEHighlight.h */,
-				53439B8F13B937DB005C0CC8 /* NSImage+OEHighlight.m */,
+				83B65F5515F0DEA100C742D2 /* NSArray+OEAdditions.h */,
+				83B65F5615F0DEA100C742D2 /* NSArray+OEAdditions.m */,
 				82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */,
 				82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */,
-				53439B9113B937EA005C0CC8 /* NSImage+OEDrawingAdditions.h */,
-				53439B9213B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m */,
-				53439B9413B937F5005C0CC8 /* NSURL+OELibraryAdditions.h */,
-				53439B9513B937F5005C0CC8 /* NSURL+OELibraryAdditions.m */,
+				83CAD4D2147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.h */,
+				83CAD4D3147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m */,
 				EFBD5D7614EFE19A00FBD1E0 /* NSColor+OEAdditions.h */,
 				EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */,
 				832FA87E1455526E00BBBD94 /* NSControl+OEAdditions.h */,
 				832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */,
-				83CAD4D2147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.h */,
-				83CAD4D3147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m */,
-				83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */,
-				83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */,
-				83DDEE81156CDEEB009EB43D /* NSView+FadeImage.h */,
-				83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */,
-				83B65F5515F0DEA100C742D2 /* NSArray+OEAdditions.h */,
-				83B65F5615F0DEA100C742D2 /* NSArray+OEAdditions.m */,
-				14E4A7F81616EF8B00082311 /* NSWindow+OEFullScreenAdditions.h */,
-				14E4A7F91616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m */,
 				1486195E166076A400BDB800 /* NSDate+OESortAdditions.h */,
 				1486195F166076A400BDB800 /* NSDate+OESortAdditions.m */,
-				83ACB6E519353E94004C6372 /* NSMutableDictionary+OEAdditions.h */,
-				83ACB6E619353E94004C6372 /* NSMutableDictionary+OEAdditions.m */,
-				83CA87AE1961C71C00D86D55 /* NSUserDefaults+OEAdditions.h */,
-				83CA87AF1961C71C00D86D55 /* NSUserDefaults+OEAdditions.m */,
+				C67DBF4117DBE859006AF087 /* NSDocument+OEAdditions.h */,
+				C67DBF4217DBE859006AF087 /* NSDocument+OEAdditions.m */,
+				83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */,
+				83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */,
+				53439B9113B937EA005C0CC8 /* NSImage+OEDrawingAdditions.h */,
+				53439B9213B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m */,
+				53439B8E13B937DB005C0CC8 /* NSImage+OEHighlight.h */,
+				53439B8F13B937DB005C0CC8 /* NSImage+OEHighlight.m */,
 				8372381B196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.h */,
 				8372381C196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.m */,
+				83ACB6E519353E94004C6372 /* NSMutableDictionary+OEAdditions.h */,
+				83ACB6E619353E94004C6372 /* NSMutableDictionary+OEAdditions.m */,
+				83B867BA171D63940038988C /* NSString+OEAdditions.h */,
+				83B867BB171D63940038988C /* NSString+OEAdditions.m */,
+				53439B9413B937F5005C0CC8 /* NSURL+OELibraryAdditions.h */,
+				53439B9513B937F5005C0CC8 /* NSURL+OELibraryAdditions.m */,
+				83CA87AE1961C71C00D86D55 /* NSUserDefaults+OEAdditions.h */,
+				83CA87AF1961C71C00D86D55 /* NSUserDefaults+OEAdditions.m */,
+				83DDEE81156CDEEB009EB43D /* NSView+FadeImage.h */,
+				83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */,
+				C6D6FA7C14E2264C0083C75D /* NSViewController+OEAdditions.h */,
+				C6D6FA7D14E2264C0083C75D /* NSViewController+OEAdditions.m */,
+				83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */,
+				83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */,
+				14E4A7F81616EF8B00082311 /* NSWindow+OEFullScreenAdditions.h */,
+				14E4A7F91616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m */,
+				83F7DBAD18C0E2470029199C /* OEFileManager.h */,
+				83F7DBAE18C0E2470029199C /* OEFileManager.m */,
+				3D711838150064F50056E3BF /* PSYBlockTimer.h */,
+				3D711839150064F50056E3BF /* PSYBlockTimer.m */,
 			);
 			name = "Additions to standard classes";
 			sourceTree = "<group>";
@@ -3928,6 +3936,7 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				832F7F93196EAE4D004F10D4 /* WebKit.framework */,
 				836BC95B1853865D00B6AF26 /* libsqlite3.dylib */,
 				C6711810136368330034379A /* Cocoa.framework */,
 				C6772C081710E9A900ED580A /* OpenEmu */,
@@ -5033,6 +5042,9 @@
 			children = (
 				83F444FB196CA24B007E8C63 /* OEFeaturedGamesViewController.h */,
 				83F444FC196CA24B007E8C63 /* OEFeaturedGamesViewController.m */,
+				83C748CB196DF34D0090BC91 /* OEFeaturedGamesViewController.xib */,
+				83C748CF196DF5890090BC91 /* OEFeaturedGamesView.h */,
+				83C748D0196DF5890090BC91 /* OEFeaturedGamesView.m */,
 			);
 			name = "Featured Games";
 			sourceTree = "<group>";
@@ -7172,6 +7184,7 @@
 				83FE966419685F8F00DD8DB9 /* OESetupAssistant.xib in Resources */,
 				11DC4D4518681E56006CE75D /* core_triangle@2x.png in Resources */,
 				11DC4D4118681B04006CE75D /* about_background@2x.jpg in Resources */,
+				83C748CC196DF34D0090BC91 /* OEFeaturedGamesViewController.xib in Resources */,
 				83A9E152144723E20051AF1D /* hud_power_glyph.png in Resources */,
 				83FE965519685F4300DD8DB9 /* MainMenu.xib in Resources */,
 				832D29431451ACF200BDF950 /* MainWindow.xib in Resources */,
@@ -8108,6 +8121,7 @@
 				831C9AD61600971600038D0D /* OEButton.m in Sources */,
 				83D94FAF19A4CD2A007583E1 /* OETableCellGroupView.m in Sources */,
 				2205C378196402B50013C675 /* OELUTTexture.m in Sources */,
+				83C748D1196DF5890090BC91 /* OEFeaturedGamesView.m in Sources */,
 				831C9AD71600971600038D0D /* OEButtonCell.m in Sources */,
 				831C9ADC1600973B00038D0D /* OEPopUpButton.m in Sources */,
 				831C9ADD1600973B00038D0D /* OEPopUpButtonCell.m in Sources */,

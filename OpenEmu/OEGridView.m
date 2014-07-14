@@ -97,7 +97,23 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     return self;
 }
 
+- (instancetype)initWithFrame:(NSRect)frameRect
+{
+    self = [super initWithFrame:frameRect];
+    if (self)
+    {
+        _cellClass = [IKImageBrowserCell class];
+        [self performSetup];
+    }
+    return self;
+}
+
 - (void)awakeFromNib
+{
+    [self performSetup];
+}
+
+- (void)performSetup
 {
     _editingIndex = NSNotFound;
     _ratingTracking = NSNotFound;
@@ -116,7 +132,7 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     [self setCellsStyleMask:IKCellsStyleNone];
 
     IKImageBrowserLayoutManager *layoutManager = [self layoutManager];
-    
+
     [layoutManager setCellMargin:CGSizeMake(35, 35)];
     [layoutManager setMargin:CGSizeMake(0, 35)];
     [layoutManager setAlignLeftForSingleRow:NO];

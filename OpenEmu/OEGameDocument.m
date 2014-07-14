@@ -207,8 +207,6 @@ typedef enum : NSUInteger
 
                 if([alert runModal] == NSAlertDefaultReturn || [error code] == NSUserCancelledError)
                 {
-                    //[download cancelDownload];
-
                     // User canceld
                     if(outError != NULL)
                         *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain

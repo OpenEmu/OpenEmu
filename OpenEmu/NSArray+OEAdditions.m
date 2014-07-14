@@ -31,4 +31,35 @@
     for(id item in self) if(block(item)) return item;
     return nil;
 }
+
+- (NSArray*)arrayByMakingObjectsPerformSelector:(SEL)selector
+{
+    NSMutableArray *result = [NSMutableArray arrayWithCapacity:[self count]];
+    [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSMethodSignature *sig = [obj methodSignatureForSelector:selector];
+        NSInvocation *invo = [NSInvocation invocationWithMethodSignature:sig];
+        [invo invokeWithTarget:obj];
+        id value;
+        [invo getReturnValue:&value];
+        if(value == nil) value = [NSNull null];
+
+        [result addObject:value];
+    }];
+    return result;
+}
+
+- (NSArray*)arrayByEvaluatingBlock:(id (^)(id obj, NSUInteger idx, BOOL *stop))block
+{
+    __block BOOL stopped = NO;
+    NSMutableArray *resultArray = [NSMutableArray arrayWithCapacity:[self count]];
+    [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        id result = block(obj, idx, &stopped);
+        if(result == nil) result = [NSNull null];
+        [resultArray addObject:result];
+        *stop = stopped;
+    }];
+
+    if(stopped) return nil;
+    return resultArray;
+}
 @end
