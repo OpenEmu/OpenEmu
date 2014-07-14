@@ -1193,6 +1193,156 @@
 			<key>Weight</key>
 			<string>11.0</string>
 		</dict>
+		<key>feature_headline</key>
+		<dict>
+			<key>Color</key>
+			<string>#eff3fd</string>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>0</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,1)</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+			<key>Size</key>
+			<integer>18</integer>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<integer>8</integer>
+		</dict>
+		<key>feature_gamename</key>
+		<dict>
+			<key>Color</key>
+			<string>#eff3fd</string>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>0</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,1)</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+			<key>Size</key>
+			<integer>16</integer>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<integer>8</integer>
+		</dict>
+		<key>feature_text</key>
+		<dict>
+			<key>Color</key>
+			<string>#616672</string>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>0</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,1)</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+			<key>Size</key>
+			<integer>14</integer>
+		</dict>
+		<key>feature_description</key>
+		<dict>
+			<key>Color</key>
+			<string>#616672</string>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,0.4)</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+			<key>Size</key>
+			<integer>12</integer>
+			<key>Alignment</key>
+			<string>Justify</string>
+		</dict>
+		<key>feature_developer</key>
+		<dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Size</key>
+			<integer>14</integer>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>0</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,1)</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Color</key>
+					<string>#616672</string>
+				</dict>
+				<key>Mouse Over</key>
+				<dict>
+					<key>Color</key>
+					<string>#9c2a32</string>
+				</dict>
+				<key>Mouse Over, Pressed</key>
+				<dict>
+					<key>Color</key>
+					<string>#9c2a32</string>
+				</dict>
+			</dict>
+		</dict>
+		<key>feature_button</key>
+		<dict>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<dict>
+					<key>Color</key>
+					<string>#929DA5</string>
+				</dict>
+				<key>Enabled, Mouse Over</key>
+				<dict>
+					<key>Color</key>
+					<string>#9C2A32</string>
+				</dict>
+				<key>Enabled, Mouse Over, Pressed</key>
+				<dict>
+					<key>Color</key>
+					<string>#9C2A32</string>
+				</dict>
+			</dict>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>1</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,1)</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+			<key>Size</key>
+			<integer>13</integer>
+		</dict>
 	</dict>
 	<key>Gradients</key>
 	<dict>

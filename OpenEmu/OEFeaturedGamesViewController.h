@@ -10,9 +10,9 @@
 #import <WebKit/WebKit.h>
 
 #import "OELibrarySubviewController.h"
-#import "OEFeaturedGamesView.h"
 
 @interface OEFeaturedGamesViewController : NSViewController <OELibrarySubviewController>
 @property (nonatomic) OELibraryController *libraryController;
 @property (assign) IBOutlet WebView *webView;
+@property (assign) IBOutlet NSTableView *tableView;
 @end

@@ -477,7 +477,6 @@
 		83C68ED114483579000F720A /* OEHUDAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEHUDAlert.m */; };
 		83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C6C1DB190536CC00DD7B13 /* OEDBImageMigrationPolicy.m */; };
 		83C748CC196DF34D0090BC91 /* OEFeaturedGamesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83C748CB196DF34D0090BC91 /* OEFeaturedGamesViewController.xib */; };
-		83C748D1196DF5890090BC91 /* OEFeaturedGamesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C748D0196DF5890090BC91 /* OEFeaturedGamesView.m */; };
 		83CA87B01961C71C00D86D55 /* NSUserDefaults+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CA87AF1961C71C00D86D55 /* NSUserDefaults+OEAdditions.m */; };
 		83CA87B41961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */; };
 		83CACEC8196D6D1300999E70 /* OEDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CACEC7196D6D1300999E70 /* OEDownload.m */; };
@@ -507,6 +506,11 @@
 		83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83DEF7C3196C403400C7DF57 /* ControlLabels.strings */; };
 		83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E25057147BC6BF0074EE14 /* hud_textfield.png */; };
 		83E40BED196CAAD000E469C6 /* media_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E40BEC196CAAD000E469C6 /* media_featured.png */; };
+		83E89274197471F8004D4489 /* OEURLImagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E89273197471F8004D4489 /* OEURLImagesView.m */; };
+		83E8927A19748C20004D4489 /* NS(Attributed)String+Geometrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */; };
+		83E8927D197490B3004D4489 /* OEScrollDummyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8927C197490B3004D4489 /* OEScrollDummyView.m */; };
+		83E89280197494DB004D4489 /* feature_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E8927E197494DB004D4489 /* feature_button.png */; };
+		83E89281197494DB004D4489 /* feature_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E8927F197494DB004D4489 /* feature_button@2x.png */; };
 		83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */; };
 		83F444F7196CA135007E8C63 /* OEDBFeaturedGamesMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F444F6196CA135007E8C63 /* OEDBFeaturedGamesMedia.m */; };
 		83F444FD196CA24B007E8C63 /* OEFeaturedGamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F444FC196CA24B007E8C63 /* OEFeaturedGamesViewController.m */; };
@@ -2327,8 +2331,6 @@
 		83C6C1DA190536CC00DD7B13 /* OEDBImageMigrationPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBImageMigrationPolicy.h; sourceTree = "<group>"; };
 		83C6C1DB190536CC00DD7B13 /* OEDBImageMigrationPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImageMigrationPolicy.m; sourceTree = "<group>"; };
 		83C748CB196DF34D0090BC91 /* OEFeaturedGamesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEFeaturedGamesViewController.xib; sourceTree = "<group>"; };
-		83C748CF196DF5890090BC91 /* OEFeaturedGamesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFeaturedGamesView.h; sourceTree = "<group>"; };
-		83C748D0196DF5890090BC91 /* OEFeaturedGamesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFeaturedGamesView.m; sourceTree = "<group>"; };
 		83CA87AE1961C71C00D86D55 /* NSUserDefaults+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+OEAdditions.h"; sourceTree = "<group>"; };
 		83CA87AF1961C71C00D86D55 /* NSUserDefaults+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+OEAdditions.m"; sourceTree = "<group>"; };
 		83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.2 to 1.3.xcmappingmodel"; sourceTree = "<group>"; };
@@ -2378,6 +2380,14 @@
 		83E40BEC196CAAD000E469C6 /* media_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = media_featured.png; sourceTree = "<group>"; };
 		83E41F27158546E90069B8AF /* OESystemPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESystemPicker.h; sourceTree = "<group>"; };
 		83E41F28158546E90069B8AF /* OESystemPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESystemPicker.m; sourceTree = "<group>"; };
+		83E89272197471F8004D4489 /* OEURLImagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEURLImagesView.h; sourceTree = "<group>"; };
+		83E89273197471F8004D4489 /* OEURLImagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEURLImagesView.m; sourceTree = "<group>"; };
+		83E8927819748C20004D4489 /* NS(Attributed)String+Geometrics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NS(Attributed)String+Geometrics.h"; sourceTree = "<group>"; };
+		83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NS(Attributed)String+Geometrics.m"; sourceTree = "<group>"; };
+		83E8927B197490B3004D4489 /* OEScrollDummyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEScrollDummyView.h; sourceTree = "<group>"; };
+		83E8927C197490B3004D4489 /* OEScrollDummyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEScrollDummyView.m; sourceTree = "<group>"; };
+		83E8927E197494DB004D4489 /* feature_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feature_button.png; sourceTree = "<group>"; };
+		83E8927F197494DB004D4489 /* feature_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "feature_button@2x.png"; sourceTree = "<group>"; };
 		83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_scrollview_box.png; sourceTree = "<group>"; };
 		83F444F5196CA135007E8C63 /* OEDBFeaturedGamesMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBFeaturedGamesMedia.h; sourceTree = "<group>"; };
 		83F444F6196CA135007E8C63 /* OEDBFeaturedGamesMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBFeaturedGamesMedia.m; sourceTree = "<group>"; };
@@ -3757,6 +3767,8 @@
 		1BEF34751168F88A0090F72B /* Additions to standard classes */ = {
 			isa = PBXGroup;
 			children = (
+				83E8927819748C20004D4489 /* NS(Attributed)String+Geometrics.h */,
+				83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */,
 				83B65F5515F0DEA100C742D2 /* NSArray+OEAdditions.h */,
 				83B65F5615F0DEA100C742D2 /* NSArray+OEAdditions.m */,
 				82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */,
@@ -4240,6 +4252,8 @@
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				83E8927E197494DB004D4489 /* feature_button.png */,
+				83E8927F197494DB004D4489 /* feature_button@2x.png */,
 				948FCB64182C7A63001B16BE /* about_background.jpg */,
 				11DC4D4018681B04006CE75D /* about_background@2x.jpg */,
 				53439B9E13B93920005C0CC8 /* arrow_down.png */,
@@ -5043,8 +5057,10 @@
 				83F444FB196CA24B007E8C63 /* OEFeaturedGamesViewController.h */,
 				83F444FC196CA24B007E8C63 /* OEFeaturedGamesViewController.m */,
 				83C748CB196DF34D0090BC91 /* OEFeaturedGamesViewController.xib */,
-				83C748CF196DF5890090BC91 /* OEFeaturedGamesView.h */,
-				83C748D0196DF5890090BC91 /* OEFeaturedGamesView.m */,
+				83E89272197471F8004D4489 /* OEURLImagesView.h */,
+				83E89273197471F8004D4489 /* OEURLImagesView.m */,
+				83E8927B197490B3004D4489 /* OEScrollDummyView.h */,
+				83E8927C197490B3004D4489 /* OEScrollDummyView.m */,
 			);
 			name = "Featured Games";
 			sourceTree = "<group>";
@@ -7128,6 +7144,7 @@
 				53439C0313B93920005C0CC8 /* hud_slider_thumb.png in Resources */,
 				53439C0413B93920005C0CC8 /* hud_slider_track.png in Resources */,
 				53439C0513B93920005C0CC8 /* hud_volume.png in Resources */,
+				83E89280197494DB004D4489 /* feature_button.png in Resources */,
 				53439C0613B93920005C0CC8 /* hud_window.png in Resources */,
 				53439C0713B93920005C0CC8 /* grid_rating.png in Resources */,
 				53439C0813B93920005C0CC8 /* grid_slider_large.png in Resources */,
@@ -7263,6 +7280,7 @@
 				EC350F8717401AC1005DA3B2 /* open_weblink_arrow@2x.png in Resources */,
 				EC350F8817401AC1005DA3B2 /* scrollbar_corner@2x.png in Resources */,
 				EC350F8917401AC1005DA3B2 /* search_cancel@2x.png in Resources */,
+				83E89281197494DB004D4489 /* feature_button@2x.png in Resources */,
 				EC350F8A17401AC1005DA3B2 /* search_field@2x.png in Resources */,
 				EC350F8B17401AC1005DA3B2 /* search_loupe@2x.png in Resources */,
 				EC350F8C17401AC1005DA3B2 /* selector_ring@2x.png in Resources */,
@@ -8026,6 +8044,7 @@
 				53439B0713B92EEC005C0CC8 /* OEGridViewFieldEditor.m in Sources */,
 				83ACB6E719353E94004C6372 /* NSMutableDictionary+OEAdditions.m in Sources */,
 				53439B1713B92FFA005C0CC8 /* OESidebarCell.m in Sources */,
+				83E8927D197490B3004D4489 /* OEScrollDummyView.m in Sources */,
 				53439B1813B92FFA005C0CC8 /* OESidebarController.m in Sources */,
 				53439B1913B92FFA005C0CC8 /* OESidebarFieldEditor.m in Sources */,
 				53439B1A13B92FFA005C0CC8 /* OESidebarGroupItem.m in Sources */,
@@ -8124,6 +8143,7 @@
 				83C748D1196DF5890090BC91 /* OEFeaturedGamesView.m in Sources */,
 				831C9AD71600971600038D0D /* OEButtonCell.m in Sources */,
 				831C9ADC1600973B00038D0D /* OEPopUpButton.m in Sources */,
+				83E8927A19748C20004D4489 /* NS(Attributed)String+Geometrics.m in Sources */,
 				831C9ADD1600973B00038D0D /* OEPopUpButtonCell.m in Sources */,
 				838E2A271600A23800CF7198 /* NSMenuItem+OEMenuItemExtraDataAdditions.m in Sources */,
 				14E4A7FA1616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m in Sources */,
@@ -8177,6 +8197,7 @@
 				83F444F7196CA135007E8C63 /* OEDBFeaturedGamesMedia.m in Sources */,
 				C6096192179B461C00239067 /* OEXPCGameCoreManager.m in Sources */,
 				C609619E179B8E1100239067 /* OEDOGameCoreManager.m in Sources */,
+				83E89274197471F8004D4489 /* OEURLImagesView.m in Sources */,
 				C60961A4179C4A1C00239067 /* OEThreadGameCoreManager.m in Sources */,
 				C60961A7179C4BD000239067 /* OEThreadProxy.m in Sources */,
 				83AB259917A6A432009C80BC /* OEControlsSectionTitleView.m in Sources */,

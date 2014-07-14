@@ -286,8 +286,9 @@ NSColor *OENSColorFromString(NSString *colorString)
 
     if(!colorString) return nil;
 
-    NSColor *result = [namedColors valueForKey:[[colorString lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
-    return (result ?: _OENSColorFromString(colorString));
+    NSString *cleanedUpColorString = [[colorString lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSColor *result = [namedColors valueForKey:cleanedUpColorString];
+    return (result ?: _OENSColorFromString(cleanedUpColorString));
 }
 
 
