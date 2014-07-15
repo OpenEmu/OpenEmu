@@ -121,8 +121,6 @@
 		<string>OEGBAButtonR</string>
 		<string>OEGBAButtonStart</string>
 		<string>OEGBAButtonSelect</string>
-		<string>OEGBAButtonSpeed</string>
-		<string>OEGBAButtonCapture</string>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
