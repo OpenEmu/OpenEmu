@@ -25,7 +25,6 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <WebKit/WebKit.h>
 
 #import "OELibrarySubviewController.h"
 

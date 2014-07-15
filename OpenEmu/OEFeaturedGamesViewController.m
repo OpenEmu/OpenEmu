@@ -36,11 +36,9 @@
 #import "NSArray+OEAdditions.h"
 #import "NS(Attributed)String+Geometrics.h"
 
-NSString * const OEFeaturedGamesViewURLString = @"file:///Users/chris/Desktop/openemu.github.io/index.html";
 NSString * const OEFeaturedGamesURLString = @"file:///Users/chris/Desktop/games.xml";
 
 NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
-
 
 const static CGFloat DescriptionX     = 146.0;
 const static CGFloat TableViewSpacing = 86.0;
@@ -218,7 +216,6 @@ const static CGFloat TableViewSpacing = 86.0;
     NSURL *url = [NSURL URLWithString:[game fileURLString]];
     NSInteger fileIndex = [game fileIndex];
 
-
 }
 
 - (NSInteger)rowOfButton:(NSButton*)button
@@ -309,7 +306,7 @@ const static CGFloat TableViewSpacing = 86.0;
         [import setTarget:self];
         [import setAction:@selector(importGame:)];
         [import sizeToFit];
-        [import setFrameOrigin:(NSPoint){NSMaxX([system frame])+0.0, NSMinY([system frame])}];
+        [import setFrameOrigin:(NSPoint){NSMaxX([system frame])+5.0, NSMinY([system frame])}];
 
         NSScrollView *descriptionScroll = [subviews objectAtIndex:4];
         NSTextView *description = [descriptionScroll documentView];

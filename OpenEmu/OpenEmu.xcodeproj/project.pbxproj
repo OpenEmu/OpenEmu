@@ -396,6 +396,7 @@
 		8363A43A193CBAFA00F18425 /* OEGridMediaItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363A439193CBAFA00F18425 /* OEGridMediaItemCell.m */; };
 		8363A43F193CD12C00F18425 /* OEGridMediaGroupItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363A43E193CD12C00F18425 /* OEGridMediaGroupItemCell.m */; };
 		83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */; };
+		836AEA6E19755FE300B86935 /* OEOutlinedButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA6D19755FE300B86935 /* OEOutlinedButtonCell.m */; };
 		836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */; };
 		836BC95A1853817500B6AF26 /* OEGameInfoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9591853817500B6AF26 /* OEGameInfoHelper.m */; };
 		836BC95C1853865D00B6AF26 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 836BC95B1853865D00B6AF26 /* libsqlite3.dylib */; };
@@ -2105,6 +2106,8 @@
 		8363A440193CF41200F18425 /* IKOpenGLRoundedRectRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKOpenGLRoundedRectRenderer.h; sourceTree = "<group>"; };
 		83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OECustomWindow.h"; sourceTree = "<group>"; };
 		83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+OECustomWindow.m"; sourceTree = "<group>"; };
+		836AEA6C19755FE300B86935 /* OEOutlinedButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOutlinedButtonCell.h; sourceTree = "<group>"; };
+		836AEA6D19755FE300B86935 /* OEOutlinedButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOutlinedButtonCell.m; sourceTree = "<group>"; };
 		836BC9551853815A00B6AF26 /* OESQLiteDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESQLiteDatabase.h; sourceTree = "<group>"; };
 		836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESQLiteDatabase.m; sourceTree = "<group>"; };
 		836BC9581853817500B6AF26 /* OEGameInfoHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameInfoHelper.h; sourceTree = "<group>"; };
@@ -4708,6 +4711,8 @@
 				831C9AD51600971600038D0D /* OEButtonCell.m */,
 				831C9ADA1600973B00038D0D /* OEPopUpButtonCell.h */,
 				831C9ADB1600973B00038D0D /* OEPopUpButtonCell.m */,
+				836AEA6C19755FE300B86935 /* OEOutlinedButtonCell.h */,
+				836AEA6D19755FE300B86935 /* OEOutlinedButtonCell.m */,
 			);
 			name = "Button Cells";
 			sourceTree = "<group>";
@@ -8171,6 +8176,7 @@
 				8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */,
 				C6772A7F1710C0C900ED580A /* snes_ntsc.c in Sources */,
 				83B867A8171D62DA0038988C /* OEStorageDevice.m in Sources */,
+				836AEA6E19755FE300B86935 /* OEOutlinedButtonCell.m in Sources */,
 				83B867A9171D62DA0038988C /* OEStorageDeviceManager.m in Sources */,
 				83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */,
 				83B867B4171D63070038988C /* OERetrode.m in Sources */,
