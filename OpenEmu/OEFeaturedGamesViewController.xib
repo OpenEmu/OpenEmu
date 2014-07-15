@@ -3,49 +3,34 @@
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
-        <plugIn identifier="com.apple.WebKitIBPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEFeaturedGamesViewController">
             <connections>
                 <outlet property="tableView" destination="KhY-cL-moa" id="T9h-Z8-To4"/>
                 <outlet property="view" destination="uxN-df-boz" id="cEb-AE-HUQ"/>
-                <outlet property="webView" destination="QnL-VX-ak5" id="btw-Vg-fTG"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application"/>
-        <customView id="c22-O7-iKe" customClass="OEBlankSlateBackgroundView">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="387"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <webView id="QnL-VX-ak5">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="387"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12" plugInsEnabled="NO" javaEnabled="NO" javaScriptCanOpenWindowsAutomatically="NO">
-                        <nil key="identifier"/>
-                    </webPreferences>
-                </webView>
-            </subviews>
-        </customView>
         <customView id="uxN-df-boz" customClass="OEBlankSlateBackgroundView">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="387"/>
+            <rect key="frame" x="0.0" y="0.0" width="817" height="583"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="360" horizontalPageScroll="10" verticalLineScroll="360" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="bDj-Fj-QyG">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="387"/>
+                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="220" horizontalPageScroll="10" verticalLineScroll="220" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="bDj-Fj-QyG">
+                    <rect key="frame" x="0.0" y="0.0" width="817" height="583"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="RGw-Kn-YDx">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="387"/>
+                        <rect key="frame" x="0.0" y="0.0" width="817" height="583"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="360" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="KhY-cL-moa">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="387"/>
+                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="220" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="KhY-cL-moa">
+                                <rect key="frame" x="0.0" y="0.0" width="817" height="583"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn editable="NO" width="477" minWidth="40" maxWidth="1000" id="plD-bs-5oS">
+                                    <tableColumn editable="NO" width="817" minWidth="40" maxWidth="1000" id="plD-bs-5oS">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -59,11 +44,11 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="GameView" id="OKd-iL-eW1">
-                                                <rect key="frame" x="0.0" y="0.0" width="477" height="167"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="817" height="167"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="Smq-Bg-E0G" customClass="OELabel">
-                                                        <rect key="frame" x="161" y="87" width="295" height="60"/>
+                                                        <rect key="frame" x="232" y="87" width="500" height="60"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="oqK-8m-n8t" customClass="OELabelCell">
                                                             <font key="font" metaFont="system"/>
@@ -78,7 +63,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="iie-xQ-AtJ" customClass="OELabel">
-                                                        <rect key="frame" x="161" y="110" width="28" height="19"/>
+                                                        <rect key="frame" x="232" y="110" width="28" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="by" id="oNq-wX-JNR" customClass="OELabelCell">
                                                             <font key="font" metaFont="system"/>
@@ -93,7 +78,7 @@
                                                         </connections>
                                                     </textField>
                                                     <button focusRingType="none" id="ss5-rY-sYe" customClass="OEButton">
-                                                        <rect key="frame" x="161" y="90" width="59" height="18"/>
+                                                        <rect key="frame" x="232" y="90" width="59" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="SIc-aZ-puf" customClass="OEButtonCell">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -104,7 +89,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </button>
                                                     <button focusRingType="none" id="rix-Tm-zJs" customClass="OEButton">
-                                                        <rect key="frame" x="228" y="90" width="61" height="18"/>
+                                                        <rect key="frame" x="299" y="90" width="61" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="Se1-Vc-J4Y" customClass="OEButtonCell">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -115,21 +100,21 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </button>
                                                     <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="Gpg-xF-AVQ" customClass="OEScrollDummyView">
-                                                        <rect key="frame" x="161" y="21" width="291" height="53"/>
+                                                        <rect key="frame" x="232" y="21" width="498" height="53"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="cmd-Uo-28p">
-                                                            <rect key="frame" x="0.0" y="0.0" width="291" height="53"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="498" height="53"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" verticallyResizable="NO" findStyle="panel" continuousSpellChecking="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="EM4-yi-C1u">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="291" height="53"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="498" height="53"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <size key="minSize" width="291" height="53"/>
-                                                                    <size key="maxSize" width="463" height="10000000"/>
+                                                                    <size key="minSize" width="498" height="53"/>
+                                                                    <size key="maxSize" width="639" height="10000000"/>
                                                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <size key="minSize" width="291" height="53"/>
-                                                                    <size key="maxSize" width="463" height="10000000"/>
+                                                                    <size key="minSize" width="498" height="53"/>
+                                                                    <size key="maxSize" width="639" height="10000000"/>
                                                                 </textView>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -144,11 +129,11 @@
                                                         </scroller>
                                                     </scrollView>
                                                     <customView id="awI-1D-r5I" customClass="OEURLImagesView">
-                                                        <rect key="frame" x="15" y="29" width="140" height="127"/>
+                                                        <rect key="frame" x="86" y="29" width="140" height="127"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     </customView>
                                                     <button focusRingType="none" id="5kk-p4-hJg" customClass="OEButton">
-                                                        <rect key="frame" x="181" y="111" width="204" height="18"/>
+                                                        <rect key="frame" x="252" y="111" width="204" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="D7D-mh-2qM" customClass="OEButtonCell">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -161,11 +146,11 @@
                                                 </subviews>
                                             </tableCellView>
                                             <tableCellView identifier="HeaderView" id="Lu4-Ie-5bt">
-                                                <rect key="frame" x="0.0" y="167" width="477" height="94"/>
+                                                <rect key="frame" x="0.0" y="167" width="817" height="94"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="vFl-AX-naa" customClass="OELabel">
-                                                        <rect key="frame" x="90" y="10" width="387" height="41"/>
+                                                        <rect key="frame" x="90" y="3" width="727" height="57"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="JSC-Ns-HCV" customClass="OELabelCell">
                                                             <font key="font" metaFont="system"/>
@@ -185,8 +170,238 @@
                                                 </connections>
                                             </tableCellView>
                                             <tableCellView identifier="FeatureView" id="AlP-qZ-NUr">
-                                                <rect key="frame" x="0.0" y="261" width="477" height="360"/>
+                                                <rect key="frame" x="0.0" y="261" width="817" height="220"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <customView id="1yX-5M-iLY" customClass="OEBackgroundImageView">
+                                                        <rect key="frame" x="86" y="0.0" width="645" height="220"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <subviews>
+                                                            <customView id="RVu-F3-nDj">
+                                                                <rect key="frame" x="8" y="11" width="204" height="200"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <subviews>
+                                                                    <customView id="Hbl-cX-W2X" customClass="OEURLImagesView">
+                                                                        <rect key="frame" x="12" y="83" width="180" height="107"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    </customView>
+                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="0CD-QO-y6f" customClass="OELabel">
+                                                                        <rect key="frame" x="18" y="14" width="168" height="60"/>
+                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Table View Cell" id="Qg6-Jy-yrb" customClass="OELabelCell">
+                                                                            <font key="font" metaFont="system"/>
+                                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                        </textFieldCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_gamename"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                        <connections>
+                                                                            <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="hAP-Wg-Xa5"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="1sl-Iw-k85" customClass="OELabel">
+                                                                        <rect key="frame" x="18" y="31" width="28" height="19"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="by" id="U7L-tO-Okc" customClass="OELabelCell">
+                                                                            <font key="font" metaFont="system"/>
+                                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                        </textFieldCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_text"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                        <connections>
+                                                                            <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="Icz-Hi-f4e"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <button focusRingType="none" id="UwV-Md-06C" customClass="OEButton">
+                                                                        <rect key="frame" x="18" y="11" width="59" height="18"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="65X-Ve-LCa" customClass="OEButtonCell">
+                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                        </buttonCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_button"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </button>
+                                                                    <button focusRingType="none" id="E7y-Tz-1qf" customClass="OEButton">
+                                                                        <rect key="frame" x="85" y="11" width="61" height="18"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="xYS-gb-JIA" customClass="OEButtonCell">
+                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                        </buttonCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_button"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </button>
+                                                                    <button focusRingType="none" id="rUH-WG-nRq" customClass="OEButton">
+                                                                        <rect key="frame" x="38" y="32" width="204" height="18"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="8Rt-p4-N0C" customClass="OEButtonCell">
+                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                        </buttonCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_developer"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </button>
+                                                                </subviews>
+                                                            </customView>
+                                                            <customView id="fWt-jo-lSb">
+                                                                <rect key="frame" x="220" y="11" width="204" height="200"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <subviews>
+                                                                    <customView id="8In-DY-9QG" customClass="OEURLImagesView">
+                                                                        <rect key="frame" x="12" y="83" width="180" height="107"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    </customView>
+                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="Eif-4f-CpZ" customClass="OELabel">
+                                                                        <rect key="frame" x="18" y="14" width="168" height="60"/>
+                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Table View Cell" id="RKM-R4-e0F" customClass="OELabelCell">
+                                                                            <font key="font" metaFont="system"/>
+                                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                        </textFieldCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_gamename"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                        <connections>
+                                                                            <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="Uwc-vB-7eq"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="iFS-Qn-KNI" customClass="OELabel">
+                                                                        <rect key="frame" x="18" y="31" width="28" height="19"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="by" id="GiT-8a-K7z" customClass="OELabelCell">
+                                                                            <font key="font" metaFont="system"/>
+                                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                        </textFieldCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_text"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                        <connections>
+                                                                            <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="h6v-KU-7zv"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <button focusRingType="none" id="882-T1-u9B" customClass="OEButton">
+                                                                        <rect key="frame" x="18" y="11" width="59" height="18"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="Ufp-J5-Fdn" customClass="OEButtonCell">
+                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                        </buttonCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_button"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </button>
+                                                                    <button focusRingType="none" id="4IR-R8-vWe" customClass="OEButton">
+                                                                        <rect key="frame" x="85" y="11" width="61" height="18"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="A9j-pe-YlF" customClass="OEButtonCell">
+                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                        </buttonCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_button"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </button>
+                                                                    <button focusRingType="none" id="JRg-J5-JNV" customClass="OEButton">
+                                                                        <rect key="frame" x="38" y="32" width="204" height="18"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="c8b-na-xYA" customClass="OEButtonCell">
+                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                        </buttonCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_developer"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </button>
+                                                                </subviews>
+                                                            </customView>
+                                                            <customView id="sN5-rM-I3f">
+                                                                <rect key="frame" x="432" y="11" width="204" height="200"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <subviews>
+                                                                    <customView id="LeL-8G-gVy" customClass="OEURLImagesView">
+                                                                        <rect key="frame" x="12" y="83" width="180" height="107"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    </customView>
+                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="9PG-f8-PSQ" customClass="OELabel">
+                                                                        <rect key="frame" x="18" y="14" width="168" height="60"/>
+                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Table View Cell" id="dJP-6m-thX" customClass="OELabelCell">
+                                                                            <font key="font" metaFont="system"/>
+                                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                        </textFieldCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_gamename"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                        <connections>
+                                                                            <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="5Cw-mm-wZg"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="kOc-Cy-zdH" customClass="OELabel">
+                                                                        <rect key="frame" x="18" y="31" width="28" height="19"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="by" id="InD-gN-dOa" customClass="OELabelCell">
+                                                                            <font key="font" metaFont="system"/>
+                                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                        </textFieldCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_text"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                        <connections>
+                                                                            <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="9UH-dd-ugf"/>
+                                                                        </connections>
+                                                                    </textField>
+                                                                    <button focusRingType="none" id="GZt-UQ-5kg" customClass="OEButton">
+                                                                        <rect key="frame" x="18" y="11" width="59" height="18"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="G3t-rb-H79" customClass="OEButtonCell">
+                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                        </buttonCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_button"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </button>
+                                                                    <button focusRingType="none" id="BqM-X5-bQy" customClass="OEButton">
+                                                                        <rect key="frame" x="85" y="11" width="61" height="18"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="9bU-JH-JqS" customClass="OEButtonCell">
+                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                        </buttonCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_button"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </button>
+                                                                    <button focusRingType="none" id="4MS-I3-jM5" customClass="OEButton">
+                                                                        <rect key="frame" x="38" y="32" width="204" height="18"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="PzT-my-Dzg" customClass="OEButtonCell">
+                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                        </buttonCell>
+                                                                        <userDefinedRuntimeAttributes>
+                                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_developer"/>
+                                                                        </userDefinedRuntimeAttributes>
+                                                                    </button>
+                                                                </subviews>
+                                                            </customView>
+                                                        </subviews>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_inset_box"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </customView>
+                                                </subviews>
                                             </tableCellView>
                                         </prototypeCellViews>
                                     </tableColumn>

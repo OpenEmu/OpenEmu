@@ -509,8 +509,6 @@
 		83E89274197471F8004D4489 /* OEURLImagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E89273197471F8004D4489 /* OEURLImagesView.m */; };
 		83E8927A19748C20004D4489 /* NS(Attributed)String+Geometrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */; };
 		83E8927D197490B3004D4489 /* OEScrollDummyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8927C197490B3004D4489 /* OEScrollDummyView.m */; };
-		83E89280197494DB004D4489 /* feature_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E8927E197494DB004D4489 /* feature_button.png */; };
-		83E89281197494DB004D4489 /* feature_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E8927F197494DB004D4489 /* feature_button@2x.png */; };
 		83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */; };
 		83F444F7196CA135007E8C63 /* OEDBFeaturedGamesMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F444F6196CA135007E8C63 /* OEDBFeaturedGamesMedia.m */; };
 		83F444FD196CA24B007E8C63 /* OEFeaturedGamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F444FC196CA24B007E8C63 /* OEFeaturedGamesViewController.m */; };
@@ -2386,8 +2384,6 @@
 		83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NS(Attributed)String+Geometrics.m"; sourceTree = "<group>"; };
 		83E8927B197490B3004D4489 /* OEScrollDummyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEScrollDummyView.h; sourceTree = "<group>"; };
 		83E8927C197490B3004D4489 /* OEScrollDummyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEScrollDummyView.m; sourceTree = "<group>"; };
-		83E8927E197494DB004D4489 /* feature_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feature_button.png; sourceTree = "<group>"; };
-		83E8927F197494DB004D4489 /* feature_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "feature_button@2x.png"; sourceTree = "<group>"; };
 		83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_scrollview_box.png; sourceTree = "<group>"; };
 		83F444F5196CA135007E8C63 /* OEDBFeaturedGamesMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBFeaturedGamesMedia.h; sourceTree = "<group>"; };
 		83F444F6196CA135007E8C63 /* OEDBFeaturedGamesMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBFeaturedGamesMedia.m; sourceTree = "<group>"; };
@@ -4252,8 +4248,6 @@
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				83E8927E197494DB004D4489 /* feature_button.png */,
-				83E8927F197494DB004D4489 /* feature_button@2x.png */,
 				948FCB64182C7A63001B16BE /* about_background.jpg */,
 				11DC4D4018681B04006CE75D /* about_background@2x.jpg */,
 				53439B9E13B93920005C0CC8 /* arrow_down.png */,
@@ -7144,7 +7138,6 @@
 				53439C0313B93920005C0CC8 /* hud_slider_thumb.png in Resources */,
 				53439C0413B93920005C0CC8 /* hud_slider_track.png in Resources */,
 				53439C0513B93920005C0CC8 /* hud_volume.png in Resources */,
-				83E89280197494DB004D4489 /* feature_button.png in Resources */,
 				53439C0613B93920005C0CC8 /* hud_window.png in Resources */,
 				53439C0713B93920005C0CC8 /* grid_rating.png in Resources */,
 				53439C0813B93920005C0CC8 /* grid_slider_large.png in Resources */,
@@ -7280,7 +7273,6 @@
 				EC350F8717401AC1005DA3B2 /* open_weblink_arrow@2x.png in Resources */,
 				EC350F8817401AC1005DA3B2 /* scrollbar_corner@2x.png in Resources */,
 				EC350F8917401AC1005DA3B2 /* search_cancel@2x.png in Resources */,
-				83E89281197494DB004D4489 /* feature_button@2x.png in Resources */,
 				EC350F8A17401AC1005DA3B2 /* search_field@2x.png in Resources */,
 				EC350F8B17401AC1005DA3B2 /* search_loupe@2x.png in Resources */,
 				EC350F8C17401AC1005DA3B2 /* selector_ring@2x.png in Resources */,

@@ -12,6 +12,8 @@
 #import "OEDownload.h"
 #import "OEBlankSlateBackgroundView.h"
 #import "OEURLImagesView.h"
+#import "OEDBSystem.h"
+#import "OELibraryController.h"
 
 #import "NSArray+OEAdditions.h"
 #import "NS(Attributed)String+Geometrics.h"
@@ -20,6 +22,10 @@ NSString * const OEFeaturedGamesViewURLString = @"file:///Users/chris/Desktop/op
 NSString * const OEFeaturedGamesURLString = @"file:///Users/chris/Desktop/games.xml";
 
 NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
+
+
+const static CGFloat DescriptionX     = 146.0;
+const static CGFloat TableViewSpacing = 86.0;
 
 @interface OEFeaturedGame : NSObject
 - (instancetype)initWithNode:(NSXMLNode*)node;
@@ -33,6 +39,8 @@ NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
 @property (readonly, copy) NSDate   *released;
 @property (readonly) NSInteger fileIndex;
 @property (readonly, copy) NSArray  *images;
+
+@property (nonatomic, readonly) NSString *systemShortName;
 
 @property (readonly, copy) NSString *systemIdentifier;
 @end
@@ -63,26 +71,23 @@ NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
 
     NSView *view = self.view;
 
-    [view setPostsBoundsChangedNotifications:YES];
-    [view setPostsFrameChangedNotifications:YES];
     [view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 
-    [[self webView] setDrawsBackground:NO];
-    [[self webView] setUIDelegate:self];
-    [[self webView] setPolicyDelegate:self];
-    [[self webView] setFrameLoadDelegate:self];
-    [[self webView] setMainFrameURL:OEFeaturedGamesViewURLString];
+    NSTableView *tableView = [self tableView];
+    [tableView setAllowsColumnReordering:NO];
+    [tableView setAllowsEmptySelection:YES];
+    [tableView setAllowsMultipleSelection:NO];
+    [tableView setAllowsColumnResizing:NO];
+    [tableView setAllowsTypeSelect:NO];
+    [tableView setDelegate:self];
+    [tableView setDataSource:self];
+    [tableView sizeLastColumnToFit];
+    [tableView setColumnAutoresizingStyle:NSTableViewUniformColumnAutoresizingStyle];
+    [[[tableView tableColumns] lastObject] setResizingMask:NSTableColumnAutoresizingMask];
 
-    [[self tableView] setAllowsColumnReordering:NO];
-    [[self tableView] setAllowsEmptySelection:YES];
-    [[self tableView] setAllowsMultipleSelection:NO];
-    [[self tableView] setAllowsTypeSelect:NO];
-    [[self tableView] setDelegate:self];
-    [[self tableView] setDataSource:self];
-
-    [[self tableView] sizeLastColumnToFit];
-    [[self tableView] setColumnAutoresizingStyle:NSTableViewUniformColumnAutoresizingStyle];
-    [[[[self tableView] tableColumns] lastObject] setResizingMask:NSTableColumnAutoresizingMask];
+    [tableView setPostsBoundsChangedNotifications:YES];
+    [tableView setPostsFrameChangedNotifications:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:tableView];
 
     [self updateGames];
     [[self tableView] reloadData];
@@ -138,79 +143,8 @@ NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
     }];
 
     [[self tableView] reloadData];
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        WebScriptObject *script = [[self webView] windowScriptObject];
-        [script callWebScriptMethod:@"reloadData" withArguments:@[]];
-    });
 }
 
-- (NSDictionary*)OE_gameDictionaryWithNode:(NSXMLNode*)node
-{
-#define StringValue(_XPATH_)  [[[node nodesForXPath:_XPATH_ error:nil] lastObject] stringValue]
-#define IntegerValue(_XPATH_) (id)(StringValue(_XPATH_) ? @([StringValue(_XPATH_) integerValue]) : [NSNull null])
-#define DateValue(_XPATH_)    [NSDate dateWithTimeIntervalSince1970:[IntegerValue(_XPATH_) integerValue]]
-
-    id name            = StringValue(@"@name") ?: [NSNull null];
-    id developer       = StringValue(@"@developer") ?: [NSNull null];
-    id website         = StringValue(@"@website") ?: [NSNull null];
-    id fileURLString   = StringValue(@"@file") ?: [NSNull null];
-    id fileIndex       = IntegerValue(@"@fileIndex") ?: [NSNull null];
-    id gameDescription = StringValue(@"description") ?: [NSNull null];
-    id added             = DateValue(@"@added") ?: [NSNull null];
-    id released          = DateValue(@"@released") ?: [NSNull null];
-    id systemIdentifier = StringValue(@"@systemIdentifier") ?: [NSNull null];
-
-    NSArray *images = [node nodesForXPath:@"images/image" error:nil];
-    images = [images arrayByEvaluatingBlock:^id(NSXMLNode *node, NSUInteger idx, BOOL *stop) {
-        return StringValue(@"@src") ?: [NSNull null];
-    }];
-
-    return @{ @"name":name, @"developer":developer, @"website":website, @"file":fileURLString, @"description":gameDescription, @"systemIdentifier":systemIdentifier};
-
-#undef StringValue
-#undef IntegerValue
-#undef DateValue
-}
-- (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id < WebPolicyDecisionListener >)listener
-{
-    NSURL *url = [request URL];
-    if([[url scheme] isEqualTo:@"oe"])
-    {
-        NSArray *games = nil;
-        NSString *host = [url host];
-        if([host isEqualTo:@"features"])
-        {
-            games = [self.games subarrayWithRange:NSMakeRange(0, 3)];
-        }
-        else if([host isEqualTo:@"others"])
-        {
-            // TODO: apply search filter here
-            games = [self.games subarrayWithRange:NSMakeRange(3, [self.games count]-3)];
-        }
-
-        if(games)
-        {
-            NSUInteger options = 0;
-#ifdef DEBUG
-            options = NSJSONWritingPrettyPrinted;
-#endif
-            NSData *data = [NSJSONSerialization dataWithJSONObject:games options:options error:nil];
-
-            [listener ignore];
-        }
-    }
-
-    NSString *host = [[request URL] host];
-    if (host)
-    {
-        [[NSWorkspace sharedWorkspace] openURL:[request URL]];
-    }
-    else
-    {
-        [listener use];
-    }
-}
 #pragma mark - View Managing
 - (void)displayError:(NSError*)error
 {
@@ -221,6 +155,13 @@ NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
 {
     OEThemeTextAttributes *attribtues = [[OETheme sharedTheme] themeTextAttributesForKey:@"feature_description"];
     return [attribtues textAttributesForState:OEThemeStateDefault];
+}
+
+- (void)tableViewFrameDidChange:(NSNotification*)notification
+{
+    [[self tableView] beginUpdates];
+    [[self tableView] reloadData];
+    [[self tableView] endUpdates];
 }
 
 #pragma mark - Table View Datasource
@@ -250,6 +191,26 @@ NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
     else if(row == 1)
     {
         view = [tableView makeViewWithIdentifier:@"FeatureView" owner:self];
+        NSArray *games = [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
+
+        NSView *subview = [[view subviews] lastObject];
+        [games enumerateObjectsUsingBlock:^(OEFeaturedGame *game, NSUInteger idx, BOOL *stop) {
+            NSView *container = [[subview subviews] objectAtIndex:idx];
+
+            OEURLImagesView *artworkView = [[container subviews] objectAtIndex:0];
+            [artworkView setURLs:[game images]];
+
+            NSTextField *label = [[container subviews] objectAtIndex:1];
+            [label setStringValue:[game name]];
+
+            NSButton *developer = [[container subviews] objectAtIndex:5];
+            [developer setTitle:[game developer]];
+
+            NSButton *system = [[container subviews] objectAtIndex:3];
+            [system setTitle:[game systemShortName]];
+        }];
+
+
     }
     else
     {
@@ -262,7 +223,7 @@ NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
         [titleField setStringValue:[game name]];
 
         NSButton    *system  = [subviews objectAtIndex:2];
-        [system setTitle:[game systemIdentifier]];
+        [system setTitle:[game systemShortName]];
         [system sizeToFit];
 
         NSButton    *import  = [subviews objectAtIndex:3];
@@ -296,7 +257,7 @@ NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
     if(row == 0 || row == 2)
         return 94.0;
     if(row == 1)
-        return 60.0;
+        return 220.0;
 
     CGFloat textHeight = 0.0;
     OEFeaturedGame *game = [self tableView:tableView objectValueForTableColumn:nil row:row];
@@ -306,7 +267,8 @@ NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
         NSDictionary *attributes = [self descriptionStringAttributes];
         NSAttributedString *string = [[NSAttributedString alloc] initWithString:gameDescription attributes:attributes];
 
-        textHeight = [string heightForWidth:291.0] + 130.0;
+        CGFloat width = NSWidth([tableView bounds]) - 2*TableViewSpacing -DescriptionX;
+        textHeight = [string heightForWidth:width] + 130.0;
     }
 
     return MAX(160.0, textHeight);
@@ -315,60 +277,6 @@ NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
 {
     return NO;
-}
-
-#pragma mark - JavaScript Bridge
-+ (BOOL)isKeyExcludedFromWebScript:(const char *)name
-{
-    return YES;
-}
-
-+ (BOOL)isSelectorExcludedFromWebScript:(SEL)selector
-{
-    if(selector == @selector(featuredGames))
-        return NO;
-    if(selector == @selector(otherGames))
-        return NO;
-
-    return YES;
-}
-
-- (NSArray*)featuredGames
-{
-    if([[self games] count] < 3)
-        return @[];
-
-    return [[self games] subarrayWithRange:NSMakeRange(0, 3)];
-}
-
-- (NSArray*)otherGames
-{
-    if([[self games] count] < 3)
-        return @[];
-
-    return [[self games] subarrayWithRange:NSMakeRange(3, [[self games] count]-3)];
-}
-
-- (void)webView:(WebView *)sender didCommitLoadForFrame:(WebFrame *)frame
-{
-    // Inject OpenEmu object
-    [[sender windowScriptObject] setValue:self forKey:@"OpenEmu"];
-}
-
-#pragma mark - WebKit dragging
-- (NSUInteger)webView:(WebView *)webView dragDestinationActionMaskForDraggingInfo:(id <NSDraggingInfo>)draggingInfo
-{
-    return 0;
-}
-- (NSUInteger)webView:(WebView *)webView dragSourceActionMaskForPoint:(NSPoint)point
-{
-    return 0;
-}
-
-- (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems
-{
-    return defaultMenuItems;
-    return nil;
 }
 
 #pragma mark - State Handling
@@ -426,15 +334,16 @@ NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
     return self;
 }
 
-+ (BOOL)isKeyExcludedFromWebScript:(const char *)name
+- (NSString*)systemShortName
 {
-    return strlen(name) <= 1;
-}
+    NSString *identifier = [self systemIdentifier];
+    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
 
-+ (NSString*)webScriptNameForKey:(const char *)name
-{
-    if(strlen(name) <= 1) return @"";
-    return [NSString stringWithUTF8String:name+1];
+    OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:identifier inContext:context];
+    if([[system shortname] length] != 0)
+        return [system shortname];
+
+    return [[[identifier componentsSeparatedByString:@"."] lastObject] uppercaseString];
 }
 @end
 

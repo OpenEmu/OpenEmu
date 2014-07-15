@@ -13,6 +13,5 @@
 
 @interface OEFeaturedGamesViewController : NSViewController <OELibrarySubviewController>
 @property (nonatomic) OELibraryController *libraryController;
-@property (assign) IBOutlet WebView *webView;
 @property (assign) IBOutlet NSTableView *tableView;
 @end
