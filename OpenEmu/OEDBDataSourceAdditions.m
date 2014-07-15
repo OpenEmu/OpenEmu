@@ -63,6 +63,16 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
     return [self boxImage] != nil;
 }
 
+- (BOOL)shouldIndicateDeletable
+{
+    return [[[self roms] anyObject] source] != nil;
+}
+
+- (BOOL)shouldIndicateDownloadable
+{
+    OEDBRom *rom = [[self roms] anyObject];
+    return !([rom source] == nil || [[rom URL] checkResourceIsReachableAndReturnError:nil]);
+}
 #pragma mark -
 #pragma mark CoverFlowDataSourceItem
 - (NSString *)imageUID

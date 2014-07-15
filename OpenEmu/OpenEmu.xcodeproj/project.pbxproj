@@ -397,6 +397,7 @@
 		8363A43F193CD12C00F18425 /* OEGridMediaGroupItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363A43E193CD12C00F18425 /* OEGridMediaGroupItemCell.m */; };
 		83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */; };
 		836AEA6E19755FE300B86935 /* OEOutlinedButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA6D19755FE300B86935 /* OEOutlinedButtonCell.m */; };
+		836AEA711975BFE100B86935 /* OEGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA701975BFE100B86935 /* OEGridCell.m */; };
 		836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */; };
 		836BC95A1853817500B6AF26 /* OEGameInfoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9591853817500B6AF26 /* OEGameInfoHelper.m */; };
 		836BC95C1853865D00B6AF26 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 836BC95B1853865D00B6AF26 /* libsqlite3.dylib */; };
@@ -2108,6 +2109,8 @@
 		83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+OECustomWindow.m"; sourceTree = "<group>"; };
 		836AEA6C19755FE300B86935 /* OEOutlinedButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOutlinedButtonCell.h; sourceTree = "<group>"; };
 		836AEA6D19755FE300B86935 /* OEOutlinedButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOutlinedButtonCell.m; sourceTree = "<group>"; };
+		836AEA6F1975BFE100B86935 /* OEGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridCell.h; sourceTree = "<group>"; };
+		836AEA701975BFE100B86935 /* OEGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridCell.m; sourceTree = "<group>"; };
 		836BC9551853815A00B6AF26 /* OESQLiteDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESQLiteDatabase.h; sourceTree = "<group>"; };
 		836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESQLiteDatabase.m; sourceTree = "<group>"; };
 		836BC9581853817500B6AF26 /* OEGameInfoHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameInfoHelper.h; sourceTree = "<group>"; };
@@ -2182,7 +2185,7 @@
 		83977F6D1408FEA800175858 /* controller_sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms.png; sourceTree = "<group>"; };
 		8397BF41190949BD00A708D1 /* IKImageBrowserLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IKImageBrowserLayoutManager.h; sourceTree = "<group>"; };
 		839A38EC196AAFD6001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = de; path = de.lproj/Credits.rtf; sourceTree = "<group>"; };
-		839A38ED196AAFD7001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		839A38ED196AAFD7001A119A /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A38EE196AAFD7001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		839A38EF196AAFD7001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OEPrefCoresController.xib; sourceTree = "<group>"; };
 		839A38F0196AAFD7001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OEPrefGameplayController.xib; sourceTree = "<group>"; };
@@ -2230,7 +2233,7 @@
 		839A391B196AAFDB001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A391C196AAFDB001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A391E196AAFE8001A119A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ru; path = ru.lproj/Credits.rtf; sourceTree = "<group>"; };
-		839A391F196AAFE8001A119A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		839A391F196AAFE8001A119A /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A3920196AAFE8001A119A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		839A3921196AAFE8001A119A /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/OEPrefCoresController.xib; sourceTree = "<group>"; };
 		839A3922196AAFE8001A119A /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/OEPrefGameplayController.xib; sourceTree = "<group>"; };
@@ -4132,19 +4135,21 @@
 		53439AAE13B92CFE005C0CC8 /* Grid View */ = {
 			isa = PBXGroup;
 			children = (
+				83955CB6165DA9B100572B34 /* OEBackgroundNoisePattern.h */,
+				83955CB7165DA9BC00572B34 /* OEBackgroundNoisePattern.m */,
 				53439AB113B92DA3005C0CC8 /* OECoverGridDataSourceItem.h */,
+				836AEA6F1975BFE100B86935 /* OEGridCell.h */,
+				836AEA701975BFE100B86935 /* OEGridCell.m */,
 				8CBD3AA017D23AA80022399B /* OEGridGameCell.h */,
 				8CBD3AA117D23AA80022399B /* OEGridGameCell.m */,
+				8363A438193CBAFA00F18425 /* OEGridMediaItemCell.h */,
+				8363A439193CBAFA00F18425 /* OEGridMediaItemCell.m */,
 				EFBD5D7B14EFE26300FBD1E0 /* OEGridView.h */,
 				EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */,
 				8305A47E18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.h */,
 				8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */,
 				53439B0513B92EEC005C0CC8 /* OEGridViewFieldEditor.h */,
 				53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */,
-				83955CB6165DA9B100572B34 /* OEBackgroundNoisePattern.h */,
-				83955CB7165DA9BC00572B34 /* OEBackgroundNoisePattern.m */,
-				8363A438193CBAFA00F18425 /* OEGridMediaItemCell.h */,
-				8363A439193CBAFA00F18425 /* OEGridMediaItemCell.m */,
 			);
 			name = "Grid View";
 			sourceTree = "<group>";
@@ -8064,6 +8069,7 @@
 				53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */,
 				53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */,
 				53439B9013B937DB005C0CC8 /* NSImage+OEHighlight.m in Sources */,
+				836AEA711975BFE100B86935 /* OEGridCell.m in Sources */,
 				53439B9313B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m in Sources */,
 				53439B9613B937F5005C0CC8 /* NSURL+OELibraryAdditions.m in Sources */,
 				C6289C32135B215B00EEE97C /* OESystemPlugin.m in Sources */,

@@ -41,4 +41,8 @@
 
 - (void)setGridRating:(NSUInteger)newRating;
 - (void)setGridTitle:(NSString*)title;
+
+#pragma mark -
+- (BOOL)shouldIndicateDownloadable;
+- (BOOL)shouldIndicateDeletable;
 @end

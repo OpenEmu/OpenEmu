@@ -25,8 +25,8 @@
  */
 
 #import <ImageKit/ImageKit.h>
-#import "OEGridView.h"
+#import "OEGridCell.h"
 
-@interface OEGridMediaItemCell : IKImageBrowserCell
-- (OEGridView*)imageBrowserView;
+@interface OEGridMediaItemCell : OEGridCell
+
 @end

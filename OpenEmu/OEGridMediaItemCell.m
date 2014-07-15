@@ -107,11 +107,6 @@ static NSDictionary *disabledActions = nil;
 {
     return NSImageAlignBottom;
 }
-
-- (OEGridView*)imageBrowserView
-{
-    return (OEGridView*)[super imageBrowserView];
-}
 #pragma mark - Frames
 - (NSRect)imageContainerFrame
 {
@@ -138,7 +133,6 @@ static NSDictionary *disabledActions = nil;
 
 - (NSRect)subtitleFrame
 {
-
     NSRect frame;
 
     frame.size.width = [self frame].size.width;

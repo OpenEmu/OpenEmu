@@ -94,10 +94,6 @@ static NSDictionary *disabledActions = nil;
     return NSImageAlignBottom;
 }
 
-- (OEGridView*)imageBrowserView
-{
-    return (OEGridView*)[super imageBrowserView];
-}
 #pragma mark - Frames
 - (NSRect)imageContainerFrame
 {
@@ -139,6 +135,16 @@ static NSDictionary *disabledActions = nil;
     return [self imageFrame];
 }
 
+- (NSRect)downloadButtonFrame
+{
+    return [self imageFrame];
+}
+
+- (NSRect)deleteButtonFrame
+{
+    return NSMakeRect(0, 0, 25, 25);
+}
+
 - (NSRect)OE_relativeFrameFromFrame:(NSRect)rect
 {
     NSRect frame = [self frame];
@@ -162,6 +168,42 @@ static NSDictionary *disabledActions = nil;
     return [self OE_relativeFrameFromFrame:[self ratingFrame]];
 }
 
+- (NSRect)relativeDownloadButtonFrame
+{
+    return [self OE_relativeFrameFromFrame:[self downloadButtonFrame]];
+}
+
+- (NSRect)relativeDeleteButtonFrame
+{
+    return [self OE_relativeFrameFromFrame:[self deleteButtonFrame]];
+}
+#pragma mark - Interaction
+- (BOOL)isInteractive
+{
+    return YES;
+}
+
+- (BOOL)mouseEntered:(NSEvent *)theEvent
+{
+    return [[self representedItem] shouldIndicateDeletable] || [[self representedItem] shouldIndicateDownloadable];
+}
+
+- (void)mouseExited:(NSEvent*)theEvent
+{}
+
+- (BOOL)mouseDown:(NSEvent*)theEvent
+{
+    return NO;
+}
+
+- (void)mouseUp:(NSEvent*)theEvent
+{
+}
+
+- (NSRect)trackingRect
+{
+    return [self imageFrame];
+}
 #pragma mark - Apple Private Overrides
 - (BOOL)acceptsDrop
 {

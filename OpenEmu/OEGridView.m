@@ -59,6 +59,7 @@ NSString *const OECoverGridViewGlossDisabledKey = @"OECoverGridViewGlossDisabled
 @property NSInteger draggingIndex;
 @property NSInteger editingIndex;
 @property NSInteger ratingTracking;
+@property OEGridCell *trackingCell;
 @property OEGridViewFieldEditor *fieldEditor;
 
 @property CALayer *dragIndicationLayer;
@@ -222,7 +223,58 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     return success;
 }
 
+- (void)delayedUpdateTrackingAreasAfterScrolling
+{
+    [[self trackingAreas] enumerateObjectsUsingBlock:^(NSTrackingArea *area, NSUInteger idx, BOOL *stop) {
+        [self removeTrackingArea:area];
+    }];
+
+    NSTrackingAreaOptions options = NSTrackingActiveInKeyWindow|NSTrackingMouseEnteredAndExited|NSTrackingMouseMoved;
+    [[self visibleItemIndexes] enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        OEGridCell *cell = (OEGridCell*)[self cellForItemAtIndex:idx];
+        if([cell isInteractive])
+        {
+            NSRect trackingRect = [cell trackingRect];
+            if(!NSEqualRects(trackingRect, NSZeroRect))
+            {
+                NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect:trackingRect options:options owner:self userInfo:nil];
+                [self addTrackingArea:area];
+            }
+        }
+    }];
+}
+
 #pragma mark - Mouse Interaction
+- (void)mouseEntered:(NSEvent *)theEvent
+{
+    NSPoint location = [theEvent locationInWindow];
+    NSPoint locationInView = [self convertPoint:location fromView:nil];
+
+    NSInteger itemIndex = [self indexOfItemAtPoint:locationInView];
+    OEGridCell *cell = (OEGridCell*)[self cellForItemAtIndex:itemIndex];
+    if([cell isInteractive] && [cell mouseEntered:theEvent])
+    {
+        _trackingCell = cell;
+    }
+}
+
+- (void)mouseMoved:(NSEvent *)theEvent
+{
+    if(_trackingCell)
+    {
+        [_trackingCell mouseMoved:theEvent];
+    }
+}
+
+- (void)mouseExited:(NSEvent *)theEvent
+{
+    if(_trackingCell)
+    {
+        [_trackingCell mouseExited:theEvent];
+        _trackingCell = nil;
+    }
+}
+
 - (void)mouseDown:(NSEvent *)theEvent
 {
     [self OE_cancelFieldEditor];
@@ -233,7 +285,7 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 
     if(index != NSNotFound)
     {
-        IKImageBrowserCell *cell = [self cellForItemAtIndex:index];
+        OEGridCell *cell = (OEGridCell*)[self cellForItemAtIndex:index];
 
         const NSRect titleRect  = [cell titleFrame];
         const NSRect imageRect  = [cell imageFrame];
@@ -244,6 +296,10 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
             return;
         }
         // Check for dragging
+        else if([cell isInteractive] && [cell mouseDown:theEvent])
+        {
+            _trackingCell = cell;
+        }
         else if(NSPointInRect(mouseLocationInView, imageRect))
         {
             _draggingIndex = index;
@@ -271,6 +327,8 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 - (void)mouseDragged:(NSEvent *)theEvent
 {
     if(_draggingSession) return;
+
+    if(_trackingCell) return;
 
     const NSPoint mouseLocationInWindow = [theEvent locationInWindow];
     const NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
@@ -329,6 +387,9 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
+    [_trackingCell mouseUp:theEvent];
+
+    _trackingCell = nil;
     _ratingTracking = NSNotFound;
     _draggingIndex  = NSNotFound;
 
