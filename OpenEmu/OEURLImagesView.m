@@ -8,6 +8,8 @@
 
 #import "OEURLImagesView.h"
 
+NSString * const OEURLImagesViewImageDidLoadNotificationName = @"OEURLImagesViewImageDidLoad";
+
 @interface OEURLImagesView ()
 @property (assign) NSProgressIndicator *loadingIndicator;
 @property (nonatomic) NSInteger currentImage;
@@ -15,16 +17,22 @@
 
 @implementation OEURLImagesView
 static NSCache *cache;
+static NSMutableDictionary *loading;
 
-const static CGFloat itemWidth = 12.0;
+const static CGFloat itemWidth = 10.0;
 const static CGFloat itemSpace =  4.0;
 
+const static NSLock *lock;
 + (void)initialize
 {
     if([self class] == [OEURLImagesView class])
     {
+        lock = [[NSLock alloc] init];
+
         cache = [[NSCache alloc] init];
         [cache setCountLimit:50];
+
+        loading = [NSMutableDictionary dictionary];
     }
 }
 
@@ -57,6 +65,9 @@ const static CGFloat itemSpace =  4.0;
     [indicator setStyle:NSProgressIndicatorSpinningStyle];
     [indicator setControlSize:NSRegularControlSize];
     [indicator setHidden:YES];
+    [indicator setUsesThreadedAnimation:YES];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageDidLoad:) name:OEURLImagesViewImageDidLoadNotificationName object:nil];
 
     _loadingIndicator = indicator;
 
@@ -65,13 +76,17 @@ const static CGFloat itemSpace =  4.0;
     [self setCurrentImage:0];
 }
 
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 #pragma mark -
 - (void)setURLs:(NSArray *)urls
 {
     _URLs = urls;
-    [self OE_fetchImages];
-    
-    [self setCurrentImage:0];
+
+    if(urls) [self setCurrentImage:0];
 }
 
 - (void)setCurrentImage:(NSInteger)currentImage
@@ -80,7 +95,10 @@ const static CGFloat itemSpace =  4.0;
 
     NSURL *url = [[self URLs] objectAtIndex:currentImage];
 
+    [lock lock];
     NSImage *cachedImage = [cache objectForKey:url];
+    [lock unlock];
+
     NSProgressIndicator *progress = [self loadingIndicator];
     if(cachedImage)
     {
@@ -92,6 +110,8 @@ const static CGFloat itemSpace =  4.0;
     }
     else
     {
+        [self OE_fetchImage:_currentImage];
+
         if([progress isHidden])
         {
             [progress setHidden:NO];
@@ -100,6 +120,17 @@ const static CGFloat itemSpace =  4.0;
     }
 
     [self setNeedsDisplay:YES];
+}
+
+- (void)imageDidLoad:(NSNotification*)notification
+{
+    NSURL *loadedImage = [[notification userInfo] objectForKey:@"URL"];
+    NSURL *url = [[self URLs] objectAtIndex:_currentImage];
+
+    if([loadedImage isEqualTo:url])
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setCurrentImage:_currentImage];
+        });
 }
 
 - (void)viewDidMoveToSuperview
@@ -171,7 +202,7 @@ const static CGFloat itemSpace =  4.0;
         if(i == _currentImage)
         {
             [[NSColor clearColor] setFill];
-            [[NSColor colorWithRed:0 green:1.0 blue:0.0 alpha:1.0] setStroke];
+            [[NSColor colorWithRed:0 green:136.0/255.0 blue:204.0/255.0 alpha:1.0] setStroke];
         } else {
             [[NSColor grayColor] setFill];
             [[NSColor clearColor] setStroke];
@@ -230,34 +261,32 @@ const static CGFloat itemSpace =  4.0;
 }
 
 #pragma mark -
-- (void)OE_fetchImages
-{
-    [[self URLs] enumerateObjectsUsingBlock:^(NSURL *url, NSUInteger idx, BOOL *stop) {
-        if([cache objectForKey:url] == nil)
-            [self OE_fetchImage:idx];
-    }];
-}
-
 - (void)OE_fetchImage:(NSInteger)index
 {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     NSURL *url = [[self URLs] objectAtIndex:index];
 
-    dispatch_async(queue, ^{
-        if([cache objectForKey:url] == nil)
-        {
+    if(url == nil) return;
+
+    [lock lock];
+    if([cache objectForKey:url] == nil && [loading objectForKey:url] == nil)
+    {
+        [loading setObject:@(YES) forKey:url];
+
+        dispatch_async(queue, ^{
             NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
             if(image == nil)
                 image = [NSImage imageNamed:@"remote_image_unavaiable"];
 
-            if([cache objectForKey:url] == nil)
-            {
-                [cache setObject:image forKey:url];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self setCurrentImage:[self currentImage]];
-                });
-            }
-        }
-    });
+            [lock lock];
+            [cache setObject:image forKey:url];
+            [loading removeObjectForKey:url];
+            [lock unlock];
+
+            NSDictionary *userInfo = @{ @"URL": url };
+            [[NSNotificationCenter defaultCenter] postNotificationName:OEURLImagesViewImageDidLoadNotificationName object:nil userInfo:userInfo];
+        });
+    }
+    [lock unlock];
 }
 @end
