@@ -166,21 +166,21 @@ id _OEObjectFromDictionary(NSDictionary *dictionary, NSString *attributeName, Cl
     {
         if(style == nil) style = [[NSMutableParagraphStyle alloc] init];
 
-        NSString *alignment = [[definition objectForKey:OEThemeFontLineBreakAttributeName] lowercaseString];
+        NSString *modeString = [[definition objectForKey:OEThemeFontLineBreakAttributeName] lowercaseString];
         NSLineBreakMode mode = NSLineBreakByClipping;
 
-        if([alignment isEqualToString:@"Word Wrap"])
+        if([modeString isEqualToString:@"word wrap"])
             mode = NSLineBreakByWordWrapping;
-        else if([alignment isEqualToString:@"Char Wrap"])
+        else if([modeString isEqualToString:@"char wrap"])
             mode = NSLineBreakByCharWrapping;
-        else if([alignment isEqualToString:@"Clip"])
+        else if([modeString isEqualToString:@"clip"])
             mode = NSLineBreakByClipping;
-        else if([alignment isEqualToString:@"Truncate Head"])
+        else if([modeString isEqualToString:@"truncate head"])
             mode = NSLineBreakByTruncatingHead;
-        else if([alignment isEqualToString:@"Truncate Middle"])
-            mode = NSLineBreakByTruncatingTail;
-        else if([alignment isEqualToString:@"Truncate Tail"])
+        else if([modeString isEqualToString:@"truncate middle"])
             mode = NSLineBreakByTruncatingMiddle;
+        else if([modeString isEqualToString:@"truncate tail"])
+            mode = NSLineBreakByTruncatingTail;
 
         [style setLineBreakMode:mode];
     }

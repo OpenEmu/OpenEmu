@@ -1426,6 +1426,8 @@
 			<string>Bold</string>
 			<key>Weight</key>
 			<integer>3</integer>
+			<key>Line Break</key>
+			<string>Truncate Tail</string>
 		</dict>
 		<key>sidebar_item_badge</key>
 		<dict>
