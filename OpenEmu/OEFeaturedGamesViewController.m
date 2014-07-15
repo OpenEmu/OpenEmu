@@ -164,6 +164,59 @@ const static CGFloat TableViewSpacing = 86.0;
     [[self tableView] endUpdates];
 }
 
+#pragma mark - UI Methods
+- (IBAction)gotoDeveloperWebsite:(id)sender
+{
+    NSInteger row = [self rowOfButton:sender];
+
+    if(row < 0 || row >= [[self games] count]) return;
+
+    OEFeaturedGame *game = [[self games] objectAtIndex:row];
+
+    NSURL *url = [NSURL URLWithString:[game website]];
+    [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
+- (IBAction)importGame:(id)sender
+{
+    NSInteger row = [self rowOfButton:sender];
+
+    if(row < 0 || row >= [[self games] count]) return;
+
+    OEFeaturedGame *game = [[self games] objectAtIndex:row];
+    NSURL *url = [NSURL URLWithString:[game fileURLString]];
+    NSInteger fileIndex = [game fileIndex];
+
+}
+
+- (IBAction)launchGame:(id)sender
+{
+    NSInteger row = [self rowOfButton:sender];
+
+    if(row < 0 || row >= [[self games] count]) return;
+
+    OEFeaturedGame *game = [[self games] objectAtIndex:row];
+    NSURL *url = [NSURL URLWithString:[game fileURLString]];
+    NSInteger fileIndex = [game fileIndex];
+
+
+}
+
+- (NSInteger)rowOfButton:(NSButton*)button
+{
+    NSRect buttonRect = [button frame];
+    NSRect buttonRectOnView = [[self tableView] convertRect:buttonRect fromView:button];
+
+    NSInteger row = [[self tableView] rowAtPoint:(NSPoint){NSMidX(buttonRectOnView), NSMidY(buttonRectOnView)}];
+
+    if(row == 1)
+    {
+        NSView *container = [[button superview] superview];
+        return [[container subviews] indexOfObjectIdenticalTo:[button superview]];
+    }
+
+    return row;
+}
 #pragma mark - Table View Datasource
 - (NSInteger)numberOfRowsInTableView:(IKImageBrowserView *)aBrowser
 {
@@ -205,12 +258,18 @@ const static CGFloat TableViewSpacing = 86.0;
 
             NSButton *developer = [[container subviews] objectAtIndex:5];
             [developer setTitle:[game developer]];
+            [developer setTarget:self];
+            [developer setAction:@selector(gotoDeveloperWebsite:)];
+            [developer setObjectValue:[game website]];
+
+            NSButton *import = [[container subviews] objectAtIndex:4];
+            [import setTarget:self];
+            [import setAction:@selector(importGame:)];
 
             NSButton *system = [[container subviews] objectAtIndex:3];
+            [system setEnabled:NO];
             [system setTitle:[game systemShortName]];
         }];
-
-
     }
     else
     {
@@ -223,10 +282,13 @@ const static CGFloat TableViewSpacing = 86.0;
         [titleField setStringValue:[game name]];
 
         NSButton    *system  = [subviews objectAtIndex:2];
+        [system setEnabled:NO];
         [system setTitle:[game systemShortName]];
         [system sizeToFit];
 
         NSButton    *import  = [subviews objectAtIndex:3];
+        [import setTarget:self];
+        [import setAction:@selector(importGame:)];
         [import sizeToFit];
         [import setFrameOrigin:(NSPoint){NSMaxX([system frame])+0.0, NSMinY([system frame])}];
 
@@ -241,6 +303,9 @@ const static CGFloat TableViewSpacing = 86.0;
 
         NSTextField *label     = [subviews objectAtIndex:1];
         NSButton    *developer = [subviews objectAtIndex:6];
+        [developer setTarget:self];
+        [developer setAction:@selector(gotoDeveloperWebsite:)];
+        [developer setObjectValue:[game website]];
         [developer setTitle:[game developer]];
         [developer sizeToFit];
         [developer setFrameSize:NSMakeSize([developer frame].size.width, label.frame.size.height)];

@@ -1297,12 +1297,12 @@
 					<key>Color</key>
 					<string>#616672</string>
 				</dict>
-				<key>Mouse Over</key>
+				<key>Window Active, Mouse Over</key>
 				<dict>
 					<key>Color</key>
 					<string>#9c2a32</string>
 				</dict>
-				<key>Mouse Over, Pressed</key>
+				<key>Window Active, Mouse Over, Pressed</key>
 				<dict>
 					<key>Color</key>
 					<string>#9c2a32</string>
