@@ -36,8 +36,23 @@ const CGFloat BadgeSpacing = 2.0;
 - (NSDictionary *)_textAttributes;
 @end
 
+@interface OESidebarCell ()
+@property (nonatomic, strong) NSString *themeKey;
+@property OEThemeTextAttributes *groupAttributes;
+@property OEThemeTextAttributes *itemAttributes;
+@property OEThemeTextAttributes *badgeAttributes;
+@property OEThemeGradient *highlightGradient;
+@end
+
 @implementation OESidebarCell
-@synthesize isGroup, isEditing, image;
+@synthesize isGroup = _isGroup, isEditing=_isEditing, image=_image, badge=_badge;
+@synthesize themed = _themed;
+@synthesize hovering = _hovering;
+@synthesize stateMask = _stateMask;
+@synthesize backgroundThemeImage = _backgroundThemeImage;
+@synthesize themeImage = _themeImage;
+@synthesize themeTextAttributes = _themeTextAttributes;
+
 - (id)init 
 {
     if((self = [super init]))
@@ -52,18 +67,62 @@ const CGFloat BadgeSpacing = 2.0;
 - (id)copyWithZone:(NSZone *)zone 
 {
     OESidebarCell *cell = (OESidebarCell *)[super copyWithZone:zone];
-    cell.image = image;
-    cell.badge = [self badge];
+
+    [cell setImage:[self image]];
+    [cell setBadge:[self badge]];
+    [cell setThemeKey:[self themeKey]];
+
     return cell;
+}
+#pragma mark - Theming
+- (void)setThemeKey:(NSString *)key
+{
+    _themeKey = key;
+
+    NSString *itemKey  = [key stringByAppendingFormat:@"_item"];
+    NSString *itemBadgeKey = [key stringByAppendingString:@"_item_badge"];
+    NSString *groupKey = [key stringByAppendingFormat:@"_group"];
+    NSString *highlightKey = [key stringByAppendingFormat:@"_highlight"];
+
+    OETheme *theme = [OETheme sharedTheme];
+    [self setItemAttributes:[theme themeTextAttributesForKey:itemKey]];
+    [self setBadgeAttributes:[theme themeTextAttributesForKey:itemBadgeKey]];
+    [self setGroupAttributes:[theme themeTextAttributesForKey:groupKey]];
+
+    [self setHighlightGradient:[theme themeGradientForKey:highlightKey]];
+}
+
+- (void)setBackgroundThemeImageKey:(NSString *)key
+{
+}
+
+- (void)setThemeImageKey:(NSString *)key
+{
+}
+
+- (void)setThemeTextAttributesKey:(NSString *)key
+{
+}
+
+- (void)setBackgroundThemeImage:(OEThemeImage *)backgroundThemeImage
+{
+}
+
+- (void)setThemeImage:(OEThemeImage *)themeImage
+{
+}
+
+- (void)setThemeTextAttributes:(OEThemeTextAttributes *)themeTextAttributes
+{
 }
 
 #pragma mark - Frames
 - (NSRect)imageRectForBounds:(NSRect)cellFrame 
 {
     NSRect result;
-    if(image != nil)
+    if(_image != nil)
     {
-		NSSize iconSize = [image size];
+		NSSize iconSize = [_image size];
 		result = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y+ (cellFrame.size.height-iconSize.height)/2, iconSize.width, iconSize.height);
         result.origin.y = ceil(result.origin.y);
     } 
@@ -77,9 +136,9 @@ const CGFloat BadgeSpacing = 2.0;
 - (NSRect)titleRectForBounds:(NSRect)cellFrame 
 {
     NSRect result;
-    if(image != nil)
+    if(_image != nil)
     {
-        CGFloat imageWidth = [image size].width;
+        CGFloat imageWidth = [_image size].width;
         result = cellFrame;
         result.origin.x += (6.0 + imageWidth);
         result.size.width -= (6.0 + imageWidth);
@@ -184,76 +243,32 @@ const CGFloat BadgeSpacing = 2.0;
 	NSRect imageFrame = [self imageRectForBounds:cellFrame];
     if([self image] != nil)
     {
-        if([self drawsBackground])
-        {
-            [[self backgroundColor] set];
-            NSRectFill(imageFrame);
-        }
 		[[self image] drawInRect:imageFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
 	
 	NSRect titleFrame = [self titleRectForBounds:cellFrame];
-	
-	NSFont *font;
-	NSColor *textColor;
-	NSShadow *shadow = [[NSShadow alloc] init];
-	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-	
-	
-	NSWindow *win = [controlView window];
+    NSWindow *win = [controlView window];
 	BOOL isSelected = [self isHighlighted];
 	BOOL isActive = [win isMainWindow] && [win firstResponder]==controlView;
 
-    font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.0];
-
-	// set style
+    OEThemeState state = (isActive   ? OEThemeInputStateWindowActive : OEThemeInputStateWindowInactive) |
+                         (isSelected ? OEThemeInputStateFocused : OEThemeInputStateUnfocused);
+    NSDictionary *attributes = nil;
 	if([self isGroup])
     {
-		textColor = [NSColor colorWithDeviceRed:0.682 green:0.678 blue:0.678 alpha:1.0];
-		[shadow setShadowColor:[NSColor blackColor]];
-		[shadow setShadowBlurRadius:1];
-		[shadow setShadowOffset:NSMakeSize(0, 1)];
+        attributes = [[self groupAttributes] textAttributesForState:state];
 		
 		titleFrame = cellFrame;
 		titleFrame.size.height -= 9;
 		titleFrame.origin.y += 9;
 		titleFrame.origin.x += 2;
 		titleFrame.size.width -= 2;
-	} 
-    else if(isSelected && isActive)
-    {
-        // selected active
-		[shadow setShadowBlurRadius:1];
-		[shadow setShadowOffset:NSMakeSize(0, -1)];	
-		textColor = [NSColor whiteColor];
-		[shadow setShadowColor:[NSColor blackColor]];
-	}
-    else if(isSelected)
-    {
-        // selected inactive
-		[shadow setShadowBlurRadius:1];
-		[shadow setShadowOffset:NSMakeSize(0, -1)];
-		[shadow setShadowColor:[NSColor colorWithDeviceRed:0.682 green:0.678 blue:0.678 alpha:1.0]];
-		
-		textColor = [NSColor colorWithDeviceRed:0.141 green:0.141 blue:0.141 alpha:1.0];
 	}
     else
     {
-        // not a group, not selected
-		textColor = [NSColor colorWithDeviceRed:(225/255.0) green:(224/255.0) blue:(224/255.0) alpha:1.0];
-		[shadow setShadowColor:[NSColor blackColor]];
-		[shadow setShadowBlurRadius:1];
-		[shadow setShadowOffset:NSMakeSize(0, -1)];
-	}
-	
-	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-								textColor, NSForegroundColorAttributeName,
-								paragraphStyle, NSParagraphStyleAttributeName,
-								shadow, NSShadowAttributeName,
-								font, NSFontAttributeName,
-								nil];
-    
+        attributes = [[self itemAttributes] textAttributesForState:state];
+    }
+
 	NSAttributedString *strVal = [[NSAttributedString alloc] initWithString:[self stringValue] attributes:attributes];
 	[self setAttributedStringValue:strVal];
 
@@ -265,6 +280,8 @@ const CGFloat BadgeSpacing = 2.0;
 
 - (void)drawBadgeInFrame:(NSRect)frame highlighted:(BOOL)highlighted active:(BOOL)isActive
 {
+    OEThemeState state = (isActive   ? OEThemeInputStateWindowActive : OEThemeInputStateWindowInactive) | (highlighted ? OEThemeInputStateFocused : OEThemeInputStateUnfocused);
+
     frame = NSInsetRect(frame, BadgeSpacing, BadgeSpacing);
 
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:frame xRadius:3.0 yRadius:3.0];
@@ -275,14 +292,16 @@ const CGFloat BadgeSpacing = 2.0;
     [path fill];
     [path stroke];
 
-    [[self badge] drawInRect:frame withAttributes:@{}];
+    NSString *badge = [self badge];
+    NSDictionary *attributes = [[self badgeAttributes] textAttributesForState:state];
+    [badge drawInRect:frame withAttributes:attributes];
 }
 
 - (NSUInteger)hitTestForEvent:(NSEvent *)event inRect:(NSRect)cellFrame ofView:(NSView *)controlView
 {
     NSPoint point = [controlView convertPoint:[event locationInWindow] fromView:nil];
     // If we have an image, we need to see if the user clicked on the image portion.
-    if(image != nil)
+    if(_image != nil)
     {
         // This code closely mimics drawWithFrame:inView:
         NSRect imageFrame = [self imageRectForBounds:cellFrame];

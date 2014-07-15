@@ -25,12 +25,10 @@
  */
 #import <Foundation/Foundation.h>
 
+#import "OETheme.h"
+#import "OECell.h"
+@interface OESidebarCell : NSTextFieldCell <OECell>
 
-@interface OESidebarCell : NSTextFieldCell 
-{
-@private
-	BOOL isGroup, isEditing;
-}
 @property (readwrite) BOOL isGroup;
 @property (readwrite) BOOL isEditing;
 @property (strong) NSImage  *image;

@@ -101,13 +101,12 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     [sidebarView setHeaderView:nil];
 
-    OESidebarCell *cell = [[OESidebarCell alloc] init];
+    OESidebarCell *cell = [[[sidebarView tableColumns] lastObject] dataCell];
     [cell setEditable:YES];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controlTextDidEndEditing:) name:NSControlTextDidEndEditingNotification object:cell];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controlTextDidBeginEditing:) name:NSControlTextDidBeginEditingNotification object:cell];
 
-    [[[sidebarView tableColumns] objectAtIndex:0] setDataCell:cell];
     [sidebarView setIndentationPerLevel:7];
     [sidebarView setAutosaveName:@"sidebarView"];
     [sidebarView setAutoresizesOutlineColumn:NO];
