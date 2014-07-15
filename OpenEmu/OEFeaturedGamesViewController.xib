@@ -252,7 +252,7 @@
                                                             </customView>
                                                             <customView id="fWt-jo-lSb">
                                                                 <rect key="frame" x="220" y="11" width="204" height="200"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <subviews>
                                                                     <customView id="8In-DY-9QG" customClass="OEFeaturedGamesCoverView">
                                                                         <rect key="frame" x="12" y="83" width="180" height="107"/>
@@ -325,7 +325,7 @@
                                                             </customView>
                                                             <customView id="sN5-rM-I3f">
                                                                 <rect key="frame" x="432" y="11" width="204" height="200"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                 <subviews>
                                                                     <customView id="LeL-8G-gVy" customClass="OEFeaturedGamesCoverView">
                                                                         <rect key="frame" x="12" y="83" width="180" height="107"/>

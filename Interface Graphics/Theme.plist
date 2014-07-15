@@ -1333,24 +1333,8 @@
 		</dict>
 		<key>homebrew_button</key>
 		<dict>
-			<key>States</key>
-			<dict>
-				<key>Default</key>
-				<dict>
-					<key>Color</key>
-					<string>#929DA5</string>
-				</dict>
-				<key>Enabled, Mouse Over</key>
-				<dict>
-					<key>Color</key>
-					<string>#9C2A32</string>
-				</dict>
-				<key>Enabled, Mouse Over, Pressed</key>
-				<dict>
-					<key>Color</key>
-					<string>#9C2A32</string>
-				</dict>
-			</dict>
+			<key>Color</key>
+			<string>#929DA5</string>
 			<key>Family</key>
 			<string>Lucida Grande</string>
 			<key>Shadow</key>
