@@ -595,11 +595,14 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     if([cell isKindOfClass:[OESidebarCell class]])
     {
-        [(OESidebarCell*)cell setImage:[item sidebarIcon]];
-        [(OESidebarCell*)cell setIsGroup:[item isGroupHeaderInSidebar]];
+        OESidebarCell *sidebarCell = (OESidebarCell*)cell;
+        [sidebarCell setImage:[item sidebarIcon]];
+        NSString *badge = [item respondsToSelector:@selector(badge)] ? [item badge] : nil;
+        [sidebarCell setBadge:badge];
+        [sidebarCell setIsGroup:[item isGroupHeaderInSidebar]];
 
         if(self.editingItem == nil)
-            [(OESidebarCell*)cell setIsEditing:NO];
+            [sidebarCell setIsEditing:NO];
         if(self.view.isDrawingAboveDropHighlight)
             [cell setHighlighted:NO];
     }

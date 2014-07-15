@@ -82,6 +82,11 @@
 {
     return NO;
 }
+
+- (NSString*)badge
+{
+    return @"NEW!";
+}
 #pragma mark - OECollectionViewItemProtocol
 - (BOOL)isCollectionEditable
 {

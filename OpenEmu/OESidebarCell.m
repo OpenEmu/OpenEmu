@@ -29,15 +29,15 @@
 #import "OESidebarFieldEditor.h"
 #import "OESidebarOutlineView.h"
 
+
+const CGFloat BadgeSpacing = 2.0;
+
 @interface NSTextFieldCell (ApplePrivate)
-
 - (NSDictionary *)_textAttributes;
-
 @end
 
 @implementation OESidebarCell
 @synthesize isGroup, isEditing, image;
-
 - (id)init 
 {
     if((self = [super init]))
@@ -53,9 +53,11 @@
 {
     OESidebarCell *cell = (OESidebarCell *)[super copyWithZone:zone];
     cell.image = image;
+    cell.badge = [self badge];
     return cell;
 }
 
+#pragma mark - Frames
 - (NSRect)imageRectForBounds:(NSRect)cellFrame 
 {
     NSRect result;
@@ -89,10 +91,29 @@
     {
         result = [super titleRectForBounds:cellFrame];
     }
-	
+
+    NSRect badgeRect = [self badgeRectForBounds:cellFrame];
+    if(!NSEqualRects(badgeRect, NSZeroRect))
+    {
+        result.size.width -= NSMaxX(result)-NSMinX(badgeRect);
+    }
+
     return result;
 }
 
+- (NSRect)badgeRectForBounds:(NSRect)bounds
+{
+    if([self badge] == nil || [[self badge] length] == 0) return NSZeroRect;
+
+    NSRect rect = bounds;
+
+    CGFloat width = [[self badge] sizeWithAttributes:@{}].width;
+    rect.origin.x += rect.size.width -width -2*BadgeSpacing;
+    rect.size.width = width+2*BadgeSpacing;
+
+    return rect;
+}
+#pragma mark - Drawing
 - (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent 
 {
 	NSRect textFrame = [self titleRectForBounds:NSInsetRect(aRect, 0, 1)];
@@ -156,26 +177,6 @@
 	self.isEditing = YES;
 	
 	return textObj;
-}
-
-- (NSDictionary *)_textAttributes
-{
-	NSDictionary *typeAttributes = [super _textAttributes];
-	
-	if([self isEditing])
-    {
-        NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
-        NSColor *textColor = [NSColor blackColor];
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        [paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-        typeAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                          textColor, NSForegroundColorAttributeName,
-                          paragraphStyle, NSParagraphStyleAttributeName,
-                          font, NSFontAttributeName,
-                          nil];
-	}
-	
-	return typeAttributes;
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView 
@@ -255,8 +256,26 @@
     
 	NSAttributedString *strVal = [[NSAttributedString alloc] initWithString:[self stringValue] attributes:attributes];
 	[self setAttributedStringValue:strVal];
-    
+
     [super drawWithFrame:titleFrame inView:controlView];
+
+    NSRect badgeFrame = [self badgeRectForBounds:cellFrame];
+    [self drawBadgeInFrame:badgeFrame highlighted:isSelected active:isActive];
+}
+
+- (void)drawBadgeInFrame:(NSRect)frame highlighted:(BOOL)highlighted active:(BOOL)isActive
+{
+    frame = NSInsetRect(frame, BadgeSpacing, BadgeSpacing);
+
+    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:frame xRadius:3.0 yRadius:3.0];
+
+    [[NSColor lightGrayColor] setFill];
+    [[NSColor yellowColor] setStroke];
+
+    [path fill];
+    [path stroke];
+
+    [[self badge] drawInRect:frame withAttributes:@{}];
 }
 
 - (NSUInteger)hitTestForEvent:(NSEvent *)event inRect:(NSRect)cellFrame ofView:(NSView *)controlView
@@ -282,6 +301,27 @@
 	
     // At this point, the cellFrame has been modified to exclude the portion for the image. Let the superclass handle the hit testing at this point.
     return [super hitTestForEvent:event inRect:cellFrame ofView:controlView];    
+}
+
+#pragma mark - Apple Private Overrides
+- (NSDictionary *)_textAttributes
+{
+	NSDictionary *typeAttributes = [super _textAttributes];
+
+	if([self isEditing])
+    {
+        NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
+        NSColor *textColor = [NSColor blackColor];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+        typeAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                          textColor, NSForegroundColorAttributeName,
+                          paragraphStyle, NSParagraphStyleAttributeName,
+                          font, NSFontAttributeName,
+                          nil];
+	}
+
+	return typeAttributes;
 }
 
 @end

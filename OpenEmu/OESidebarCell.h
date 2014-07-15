@@ -33,5 +33,6 @@
 }
 @property (readwrite) BOOL isGroup;
 @property (readwrite) BOOL isEditing;
-@property (strong) NSImage* image;
+@property (strong) NSImage  *image;
+@property (strong) NSString *badge;
 @end
