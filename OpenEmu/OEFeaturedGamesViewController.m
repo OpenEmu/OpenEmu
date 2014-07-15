@@ -272,19 +272,47 @@ const static CGFloat TableViewSpacing = 86.0;
             NSTextField *label = [[container subviews] objectAtIndex:1];
             [label setStringValue:[game name]];
 
+            // setup 'by <developer>'
+            NSTextField *byLabel = [[container subviews] objectAtIndex:2];
+
             NSButton *developer = [[container subviews] objectAtIndex:5];
             [developer setTitle:[game developer]];
             [developer setTarget:self];
             [developer setAction:@selector(gotoDeveloperWebsite:)];
             [developer setObjectValue:[game website]];
+            [developer sizeToFit];
+            // size to fit seems to ignore shadow… so we manually adjust height
+            NSSize size = [developer frame].size;
+            size.height += 2.0;
+            [developer setFrameSize:size];
+
+            // center in view
+            CGFloat width = NSWidth([byLabel frame])+NSWidth([developer frame]) + 0.0;
+            CGFloat y = NSMinY([byLabel frame]);
+            CGFloat x = NSMidX([container bounds]) - width/2.0;
+            [byLabel setFrameOrigin:(NSPoint){x, y}];
+            x += NSWidth([byLabel frame]) + 0.0;
+            [developer setFrameOrigin:(NSPoint){x, y}];
+
+            // System / Import buttons
+            NSButton *system = [[container subviews] objectAtIndex:3];
+            [system setEnabled:NO];
+            [system setTitle:[game systemShortName]];
+            [system sizeToFit];
 
             NSButton *import = [[container subviews] objectAtIndex:4];
             [import setTarget:self];
             [import setAction:@selector(importGame:)];
+            [import sizeToFit];
 
-            NSButton *system = [[container subviews] objectAtIndex:3];
-            [system setEnabled:NO];
-            [system setTitle:[game systemShortName]];
+            // center in view
+            width = NSWidth([system frame])+NSWidth([import frame]) + 5.0;
+            y = NSMinY([system frame]);
+
+            x = NSMidX([container bounds]) - width/2.0;
+            [system setFrameOrigin:(NSPoint){x, y}];
+            x += NSWidth([system frame]) + 5.0;
+            [import setFrameOrigin:(NSPoint){x, y}];
         }];
     }
     else

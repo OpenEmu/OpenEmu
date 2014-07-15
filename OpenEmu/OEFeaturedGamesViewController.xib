@@ -201,7 +201,7 @@
                                                                         </connections>
                                                                     </textField>
                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="1sl-Iw-k85" customClass="OELabel">
-                                                                        <rect key="frame" x="18" y="31" width="28" height="19"/>
+                                                                        <rect key="frame" x="18" y="34" width="21" height="19"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="by" id="U7L-tO-Okc" customClass="OELabelCell">
                                                                             <font key="font" metaFont="system"/>
@@ -238,7 +238,7 @@
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
                                                                     <button focusRingType="none" id="rUH-WG-nRq" customClass="OEButton">
-                                                                        <rect key="frame" x="38" y="32" width="204" height="18"/>
+                                                                        <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="8Rt-p4-N0C" customClass="OEButtonCell">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -274,7 +274,7 @@
                                                                         </connections>
                                                                     </textField>
                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="iFS-Qn-KNI" customClass="OELabel">
-                                                                        <rect key="frame" x="18" y="31" width="28" height="19"/>
+                                                                        <rect key="frame" x="18" y="34" width="21" height="19"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="by" id="GiT-8a-K7z" customClass="OELabelCell">
                                                                             <font key="font" metaFont="system"/>
@@ -311,7 +311,7 @@
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
                                                                     <button focusRingType="none" id="JRg-J5-JNV" customClass="OEButton">
-                                                                        <rect key="frame" x="38" y="32" width="204" height="18"/>
+                                                                        <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="c8b-na-xYA" customClass="OEButtonCell">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -347,7 +347,7 @@
                                                                         </connections>
                                                                     </textField>
                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="kOc-Cy-zdH" customClass="OELabel">
-                                                                        <rect key="frame" x="18" y="31" width="28" height="19"/>
+                                                                        <rect key="frame" x="18" y="34" width="21" height="19"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="by" id="InD-gN-dOa" customClass="OELabelCell">
                                                                             <font key="font" metaFont="system"/>
@@ -384,7 +384,7 @@
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
                                                                     <button focusRingType="none" id="4MS-I3-jM5" customClass="OEButton">
-                                                                        <rect key="frame" x="38" y="32" width="204" height="18"/>
+                                                                        <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="PzT-my-Dzg" customClass="OEButtonCell">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
