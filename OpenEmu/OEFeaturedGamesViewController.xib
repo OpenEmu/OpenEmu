@@ -128,7 +128,7 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
-                                                    <customView id="awI-1D-r5I" customClass="OEURLImagesView">
+                                                    <customView id="awI-1D-r5I" customClass="OEFeaturedGamesCoverView">
                                                         <rect key="frame" x="86" y="29" width="140" height="127"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     </customView>
@@ -181,7 +181,7 @@
                                                                 <rect key="frame" x="8" y="11" width="204" height="200"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <subviews>
-                                                                    <customView id="Hbl-cX-W2X" customClass="OEURLImagesView">
+                                                                    <customView id="Hbl-cX-W2X" customClass="OEFeaturedGamesCoverView">
                                                                         <rect key="frame" x="12" y="83" width="180" height="107"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     </customView>
@@ -254,7 +254,7 @@
                                                                 <rect key="frame" x="220" y="11" width="204" height="200"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <subviews>
-                                                                    <customView id="8In-DY-9QG" customClass="OEURLImagesView">
+                                                                    <customView id="8In-DY-9QG" customClass="OEFeaturedGamesCoverView">
                                                                         <rect key="frame" x="12" y="83" width="180" height="107"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     </customView>
@@ -327,7 +327,7 @@
                                                                 <rect key="frame" x="432" y="11" width="204" height="200"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <subviews>
-                                                                    <customView id="LeL-8G-gVy" customClass="OEURLImagesView">
+                                                                    <customView id="LeL-8G-gVy" customClass="OEFeaturedGamesCoverView">
                                                                         <rect key="frame" x="12" y="83" width="180" height="107"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     </customView>

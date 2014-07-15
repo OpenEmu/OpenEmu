@@ -24,16 +24,16 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEURLImagesView.h"
+#import "OEFeaturedGamesCoverView.h"
 
 NSString * const OEURLImagesViewImageDidLoadNotificationName = @"OEURLImagesViewImageDidLoad";
 
-@interface OEURLImagesView ()
+@interface OEFeaturedGamesCoverView ()
 @property (assign) NSProgressIndicator *loadingIndicator;
 @property (nonatomic) NSInteger currentImage;
 @end
 
-@implementation OEURLImagesView
+@implementation OEFeaturedGamesCoverView
 static NSCache *cache;
 static NSMutableDictionary *loading;
 
@@ -43,7 +43,7 @@ const static CGFloat itemSpace =  4.0;
 const static NSLock *lock;
 + (void)initialize
 {
-    if([self class] == [OEURLImagesView class])
+    if([self class] == [OEFeaturedGamesCoverView class])
     {
         lock = [[NSLock alloc] init];
 

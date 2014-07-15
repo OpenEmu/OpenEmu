@@ -506,7 +506,7 @@
 		83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83DEF7C3196C403400C7DF57 /* ControlLabels.strings */; };
 		83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E25057147BC6BF0074EE14 /* hud_textfield.png */; };
 		83E40BED196CAAD000E469C6 /* media_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E40BEC196CAAD000E469C6 /* media_featured.png */; };
-		83E89274197471F8004D4489 /* OEURLImagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E89273197471F8004D4489 /* OEURLImagesView.m */; };
+		83E89274197471F8004D4489 /* OEFeaturedGamesCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E89273197471F8004D4489 /* OEFeaturedGamesCoverView.m */; };
 		83E8927A19748C20004D4489 /* NS(Attributed)String+Geometrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */; };
 		83E8927D197490B3004D4489 /* OEDisabledScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E8927C197490B3004D4489 /* OEDisabledScrollView.m */; };
 		83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */; };
@@ -2378,8 +2378,8 @@
 		83E40BEC196CAAD000E469C6 /* media_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = media_featured.png; sourceTree = "<group>"; };
 		83E41F27158546E90069B8AF /* OESystemPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESystemPicker.h; sourceTree = "<group>"; };
 		83E41F28158546E90069B8AF /* OESystemPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESystemPicker.m; sourceTree = "<group>"; };
-		83E89272197471F8004D4489 /* OEURLImagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEURLImagesView.h; sourceTree = "<group>"; };
-		83E89273197471F8004D4489 /* OEURLImagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEURLImagesView.m; sourceTree = "<group>"; };
+		83E89272197471F8004D4489 /* OEFeaturedGamesCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFeaturedGamesCoverView.h; sourceTree = "<group>"; };
+		83E89273197471F8004D4489 /* OEFeaturedGamesCoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFeaturedGamesCoverView.m; sourceTree = "<group>"; };
 		83E8927819748C20004D4489 /* NS(Attributed)String+Geometrics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NS(Attributed)String+Geometrics.h"; sourceTree = "<group>"; };
 		83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NS(Attributed)String+Geometrics.m"; sourceTree = "<group>"; };
 		83E8927B197490B3004D4489 /* OEDisabledScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDisabledScrollView.h; sourceTree = "<group>"; };
@@ -5053,8 +5053,8 @@
 				83F444FB196CA24B007E8C63 /* OEFeaturedGamesViewController.h */,
 				83F444FC196CA24B007E8C63 /* OEFeaturedGamesViewController.m */,
 				83C748CB196DF34D0090BC91 /* OEFeaturedGamesViewController.xib */,
-				83E89272197471F8004D4489 /* OEURLImagesView.h */,
-				83E89273197471F8004D4489 /* OEURLImagesView.m */,
+				83E89272197471F8004D4489 /* OEFeaturedGamesCoverView.h */,
+				83E89273197471F8004D4489 /* OEFeaturedGamesCoverView.m */,
 			);
 			name = "Featured Games";
 			sourceTree = "<group>";
@@ -8189,7 +8189,7 @@
 				83F444F7196CA135007E8C63 /* OEDBFeaturedGamesMedia.m in Sources */,
 				C6096192179B461C00239067 /* OEXPCGameCoreManager.m in Sources */,
 				C609619E179B8E1100239067 /* OEDOGameCoreManager.m in Sources */,
-				83E89274197471F8004D4489 /* OEURLImagesView.m in Sources */,
+				83E89274197471F8004D4489 /* OEFeaturedGamesCoverView.m in Sources */,
 				C60961A4179C4A1C00239067 /* OEThreadGameCoreManager.m in Sources */,
 				C60961A7179C4BD000239067 /* OEThreadProxy.m in Sources */,
 				83AB259917A6A432009C80BC /* OEControlsSectionTitleView.m in Sources */,

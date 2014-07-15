@@ -29,7 +29,7 @@
 #import "OETheme.h"
 #import "OEDownload.h"
 #import "OEBlankSlateBackgroundView.h"
-#import "OEURLImagesView.h"
+#import "OEFeaturedGamesCoverView.h"
 #import "OEDBSystem.h"
 #import "OELibraryController.h"
 
@@ -269,7 +269,7 @@ const static CGFloat TableViewSpacing = 86.0;
         [games enumerateObjectsUsingBlock:^(OEFeaturedGame *game, NSUInteger idx, BOOL *stop) {
             NSView *container = [[subview subviews] objectAtIndex:idx];
 
-            OEURLImagesView *artworkView = [[container subviews] objectAtIndex:0];
+            OEFeaturedGamesCoverView *artworkView = [[container subviews] objectAtIndex:0];
             [artworkView setURLs:[game images]];
 
             NSTextField *label = [[container subviews] objectAtIndex:1];
@@ -329,7 +329,7 @@ const static CGFloat TableViewSpacing = 86.0;
         [developer sizeToFit];
         [developer setFrameSize:NSMakeSize([developer frame].size.width, label.frame.size.height)];
 
-        OEURLImagesView *imagesView = [subviews objectAtIndex:5];
+        OEFeaturedGamesCoverView *imagesView = [subviews objectAtIndex:5];
         [imagesView setURLs:[game images]];
     }
 

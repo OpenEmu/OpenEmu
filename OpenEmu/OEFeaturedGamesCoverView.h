@@ -26,6 +26,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface OEURLImagesView : NSView
+@interface OEFeaturedGamesCoverView : NSView
 @property (nonatomic, copy) NSArray *URLs;
 @end
