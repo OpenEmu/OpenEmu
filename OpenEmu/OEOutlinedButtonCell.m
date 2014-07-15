@@ -9,6 +9,7 @@
 #import "OEOutlinedButtonCell.h"
 
 @implementation OEOutlinedButtonCell
+
 - (void)drawBezelWithFrame:(NSRect)frame inView:(NSView *)controlView
 {
     [[NSGraphicsContext currentContext] saveGraphicsState];

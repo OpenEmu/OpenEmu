@@ -169,7 +169,7 @@ const static CGFloat TableViewSpacing = 86.0;
 
 - (NSDictionary*)descriptionStringAttributes
 {
-    OEThemeTextAttributes *attribtues = [[OETheme sharedTheme] themeTextAttributesForKey:@"feature_description"];
+    OEThemeTextAttributes *attribtues = [[OETheme sharedTheme] themeTextAttributesForKey:@"homebrew_description"];
     return [attribtues textAttributesForState:OEThemeStateDefault];
 }
 

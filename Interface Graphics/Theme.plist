@@ -1193,7 +1193,7 @@
 			<key>Weight</key>
 			<string>11.0</string>
 		</dict>
-		<key>feature_headline</key>
+		<key>homebrew_headline</key>
 		<dict>
 			<key>Color</key>
 			<string>#eff3fd</string>
@@ -1215,7 +1215,7 @@
 			<key>Weight</key>
 			<integer>8</integer>
 		</dict>
-		<key>feature_gamename</key>
+		<key>homebrew_gamename</key>
 		<dict>
 			<key>Color</key>
 			<string>#eff3fd</string>
@@ -1237,7 +1237,29 @@
 			<key>Weight</key>
 			<integer>8</integer>
 		</dict>
-		<key>feature_text</key>
+		<key>feature_gamename</key>
+		<dict>
+			<key>Color</key>
+			<string>#eff3fd</string>
+			<key>Family</key>
+			<string>Lucida Grande</string>
+			<key>Shadow</key>
+			<dict>
+				<key>Blur Radius</key>
+				<integer>0</integer>
+				<key>Color</key>
+				<string>rgba(0,0,0,1)</string>
+				<key>Offset</key>
+				<string>{0,-1}</string>
+			</dict>
+			<key>Size</key>
+			<integer>14</integer>
+			<key>Traits</key>
+			<string>Bold</string>
+			<key>Weight</key>
+			<integer>8</integer>
+		</dict>
+		<key>homebrew_text</key>
 		<dict>
 			<key>Color</key>
 			<string>#616672</string>
@@ -1255,7 +1277,7 @@
 			<key>Size</key>
 			<integer>14</integer>
 		</dict>
-		<key>feature_description</key>
+		<key>homebrew_description</key>
 		<dict>
 			<key>Color</key>
 			<string>#616672</string>
@@ -1275,7 +1297,7 @@
 			<key>Alignment</key>
 			<string>Justify</string>
 		</dict>
-		<key>feature_developer</key>
+		<key>homebrew_developer</key>
 		<dict>
 			<key>Family</key>
 			<string>Lucida Grande</string>
@@ -1309,7 +1331,7 @@
 				</dict>
 			</dict>
 		</dict>
-		<key>feature_button</key>
+		<key>homebrew_button</key>
 		<dict>
 			<key>States</key>
 			<dict>
