@@ -38,6 +38,7 @@ static NSString * const OEThemeFontSizeAttributeName            = @"Size";
 static NSString * const OEThemeFontWeightAttributeName          = @"Weight";
 static NSString * const OEThemeFontTraitsAttributeName          = @"Traits";
 static NSString * const OEThemeFontAlignmentAttributeName       = @"Alignment";
+static NSString * const OEThemeFontLineBreakAttributeName       = @"Line Break";
 
 #pragma mark -
 #pragma mark Theme font shadow
@@ -159,6 +160,29 @@ id _OEObjectFromDictionary(NSDictionary *dictionary, NSString *attributeName, Cl
             textAlignment = NSNaturalTextAlignment;
 
         [style setAlignment:textAlignment];
+    }
+
+    if([definition objectForKey:OEThemeFontLineBreakAttributeName])
+    {
+        if(style == nil) style = [[NSMutableParagraphStyle alloc] init];
+
+        NSString *alignment = [[definition objectForKey:OEThemeFontLineBreakAttributeName] lowercaseString];
+        NSLineBreakMode mode = NSLineBreakByClipping;
+
+        if([alignment isEqualToString:@"Word Wrap"])
+            mode = NSLineBreakByWordWrapping;
+        else if([alignment isEqualToString:@"Char Wrap"])
+            mode = NSLineBreakByCharWrapping;
+        else if([alignment isEqualToString:@"Clip"])
+            mode = NSLineBreakByClipping;
+        else if([alignment isEqualToString:@"Truncate Head"])
+            mode = NSLineBreakByTruncatingHead;
+        else if([alignment isEqualToString:@"Truncate Middle"])
+            mode = NSLineBreakByTruncatingTail;
+        else if([alignment isEqualToString:@"Truncate Tail"])
+            mode = NSLineBreakByTruncatingMiddle;
+
+        [style setLineBreakMode:mode];
     }
 
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
