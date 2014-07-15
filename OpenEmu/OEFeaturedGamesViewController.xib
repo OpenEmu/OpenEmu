@@ -99,7 +99,7 @@
                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="feature_button"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </button>
-                                                    <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="Gpg-xF-AVQ" customClass="OEScrollDummyView">
+                                                    <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="Gpg-xF-AVQ" customClass="OEDisabledScrollView">
                                                         <rect key="frame" x="232" y="21" width="498" height="53"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="cmd-Uo-28p">

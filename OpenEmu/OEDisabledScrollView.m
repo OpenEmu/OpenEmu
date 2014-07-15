@@ -24,9 +24,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEScrollDummyView.h"
+#import "OEDisabledScrollView.h"
 
-@implementation OEScrollDummyView
+@implementation OEDisabledScrollView
 
 - (void)scrollWheel:(NSEvent *)theEvent
 {

@@ -26,6 +26,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface OEScrollDummyView : NSScrollView
+@interface OEDisabledScrollView : NSScrollView
 
 @end
