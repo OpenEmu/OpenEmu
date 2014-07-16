@@ -39,6 +39,8 @@ __strong static OEThemeImage *selectorRingImage = nil;
 @property CALayer     *glossyLayer;
 @property CALayer     *backgroundLayer;
 @property CALayer     *missingArtworkLayer;
+@property CALayer     *downloadLayer;
+@property OEThemeState downloadButtonState;
 
 @property OEGridViewCellIndicationLayer *indicationLayer;
 
@@ -81,8 +83,10 @@ static NSDictionary *disabledActions = nil;
         });
 
         if(disabledActions == nil)
-            disabledActions = @{@"position":[NSNull null],@"bounds":[NSNull null], @"frame":[NSNull null], @"contents":[NSNull null]};
-
+            disabledActions = @{ @"position" : [NSNull null],
+                                   @"bounds" : [NSNull null],
+                                    @"frame" : [NSNull null],
+                                 @"contents" : [NSNull null]};
         [self OE_setupLayers];
     }
 
@@ -137,7 +141,10 @@ static NSDictionary *disabledActions = nil;
 
 - (NSRect)downloadButtonFrame
 {
-    return [self imageFrame];
+    const NSRect  frame = [self imageFrame];
+    const CGFloat width = 73.0, height = 73.0;
+
+    return NSMakeRect(NSMaxX(frame)-width, NSMaxY(frame)-height, width, height);
 }
 
 - (NSRect)deleteButtonFrame
@@ -177,32 +184,96 @@ static NSDictionary *disabledActions = nil;
 {
     return [self OE_relativeFrameFromFrame:[self deleteButtonFrame]];
 }
+
+- (NSPoint)convertPointFromViewToForegroundLayer:(NSPoint)p
+{
+    NSRect frame = [self frame];
+
+    return NSMakePoint(p.x-frame.origin.x, p.y-frame.origin.y);
+}
 #pragma mark - Interaction
 - (BOOL)isInteractive
 {
+    return [[self representedItem] shouldIndicateDownloadable];
+}
+
+#define LocationInDownloadLayer() NSPointInTriangle(location, (NSPoint){71,23}, (NSPoint){27,71}, (NSPoint){71,71})
+- (BOOL)mouseEntered:(NSEvent *)theEvent
+{
+    NSPoint locationInWindow = [theEvent locationInWindow];
+    NSPoint location = [[self imageBrowserView] convertPoint:locationInWindow fromView:nil];
+    location = [self convertPointFromViewToForegroundLayer:location];
+    location = [_downloadLayer convertPoint:location fromLayer:_foregroundLayer];
+    if(LocationInDownloadLayer())
+    {
+        _downloadButtonState |= OEThemeInputStateMouseOver;
+        _downloadButtonState &= ~OEThemeInputStateMouseOff;
+
+        [[self imageBrowserView] reloadCellDataAtIndex:[self indexOfRepresentedItem]];
+        return YES;
+    }
+    else
+    {
+        _downloadButtonState |= OEThemeInputStateMouseOff;
+        _downloadButtonState &= ~OEThemeInputStateMouseOver;
+
+        [[self imageBrowserView] reloadCellDataAtIndex:[self indexOfRepresentedItem]];
+        return NO;
+    }
     return YES;
 }
 
-- (BOOL)mouseEntered:(NSEvent *)theEvent
+- (BOOL)mouseMoved:(NSEvent*)theEvent
 {
-    return [[self representedItem] shouldIndicateDeletable] || [[self representedItem] shouldIndicateDownloadable];
+    return [self mouseEntered:theEvent];
 }
 
 - (void)mouseExited:(NSEvent*)theEvent
-{}
+{
+    _downloadButtonState = OEThemeStateDefault;
+    [[self imageBrowserView] reloadCellDataAtIndex:[self indexOfRepresentedItem]];
+}
 
 - (BOOL)mouseDown:(NSEvent*)theEvent
 {
-    return NO;
+    NSPoint locationInWindow = [theEvent locationInWindow];
+    NSPoint location = [[self imageBrowserView] convertPoint:locationInWindow fromView:nil];
+    location = [self convertPointFromViewToForegroundLayer:location];
+    location = [_downloadLayer convertPoint:location fromLayer:_foregroundLayer];
+
+    if(LocationInDownloadLayer())
+    {
+        _downloadButtonState = OEThemeInputStatePressed | OEThemeInputStateMouseOver;
+        [[self imageBrowserView] reloadCellDataAtIndex:[self indexOfRepresentedItem]];
+        return YES;
+    }
+    else
+    {
+        _downloadButtonState = OEThemeStateDefault;
+        [[self imageBrowserView] reloadCellDataAtIndex:[self indexOfRepresentedItem]];
+        return NO;
+    }
 }
 
 - (void)mouseUp:(NSEvent*)theEvent
 {
+    _downloadButtonState &= ~OEThemeInputStatePressed;
+
+    NSPoint locationInWindow = [theEvent locationInWindow];
+    NSPoint location = [[self imageBrowserView] convertPoint:locationInWindow fromView:nil];
+    location = [self convertPointFromViewToForegroundLayer:location];
+    location = [_downloadLayer convertPoint:location fromLayer:_foregroundLayer];
+    if(LocationInDownloadLayer())
+    {
+        NSLog(@"send action");
+        // TODO: Send action
+    }
+    [[self imageBrowserView] reloadCellDataAtIndex:[self indexOfRepresentedItem]];
 }
 
 - (NSRect)trackingRect
 {
-    return [self imageFrame];
+    return [self downloadButtonFrame];
 }
 #pragma mark - Apple Private Overrides
 - (BOOL)acceptsDrop
@@ -265,6 +336,8 @@ static NSDictionary *disabledActions = nil;
     [_backgroundLayer setShadowOffset:CGSizeMake(0.0, -3.0)];
     [_backgroundLayer setShadowRadius:3.0];
     [_backgroundLayer setContentsGravity:kCAGravityResize];
+
+    _downloadButtonState = OEThemeStateDefault;
 }
 
 - (CALayer *)layerForType:(NSString *)type
@@ -396,6 +469,21 @@ static NSDictionary *disabledActions = nil;
         {
             [_selectionLayer removeFromSuperlayer];
             _selectionLayer = nil;
+        }
+
+        if([representedItem shouldIndicateDownloadable])
+        {
+            if(_downloadLayer == nil)
+            {
+                _downloadLayer = [CALayer layer];
+                [_downloadLayer setContentsGravity:kCAGravityTopRight];
+                [[_glossyLayer superlayer] insertSublayer:_downloadLayer below:_glossyLayer];
+            }
+
+            OEThemeImage *image = [[OETheme sharedTheme] themeImageForKey:@"grid_download"];
+            [_downloadLayer setContents:[image imageForState:_downloadButtonState]];
+            [_downloadLayer setFrame:[self relativeDownloadButtonFrame]];
+            [_downloadLayer setContentsScale:scaleFactor];
         }
 
 		[CATransaction commit];

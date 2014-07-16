@@ -14,7 +14,7 @@
 - (OEGridView*)imageBrowserView;
 
 - (BOOL)mouseEntered:(NSEvent *)theEvent;
-- (void)mouseMoved:(NSEvent *)theEvent;
+- (BOOL)mouseMoved:(NSEvent *)theEvent;
 - (void)mouseExited:(NSEvent*)theEvent;
 - (BOOL)mouseDown:(NSEvent*)theEvent;
 - (void)mouseUp:(NSEvent*)theEvent;

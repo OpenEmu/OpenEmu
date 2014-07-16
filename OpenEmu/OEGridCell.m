@@ -20,8 +20,10 @@
     return NO;
 }
 
-- (void)mouseMoved:(NSEvent *)theEvent
-{}
+- (BOOL)mouseMoved:(NSEvent *)theEvent
+{
+    return NO;
+}
 
 - (void)mouseExited:(NSEvent*)theEvent
 {}

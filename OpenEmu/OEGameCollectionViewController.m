@@ -635,7 +635,6 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     [self reloadDataIndexes:[self selectedIndexes]];
 }
 
-
 #pragma mark - GridView DataSource
 - (NSUInteger)numberOfItemsInImageBrowser:(IKImageBrowserView *)aBrowser
 {

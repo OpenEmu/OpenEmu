@@ -4,6 +4,7 @@
 #import "IKImageBrowserLayoutManager.h"
 #import "IKImageWrapper.h"
 #import "IKRenderer.h"
+
 @interface IKImageBrowserView (ApplePrivate)
 // -handleKeyInput:character: is called to allow space in type select
 - (BOOL)handleKeyInput:(id)arg1 character:(unsigned short)arg2;
@@ -49,4 +50,6 @@
 
 - (unsigned long long)groupIndexAtViewLocation:(struct CGPoint)arg1 clickableArea:(BOOL)arg2;
 - (id)groupAtViewLocation:(struct CGPoint)arg1 clickableArea:(BOOL)arg2;
+
+- (void)reloadCellDataAtIndex:(unsigned long long)arg1;
 @end

@@ -251,18 +251,36 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     NSPoint locationInView = [self convertPoint:location fromView:nil];
 
     NSInteger itemIndex = [self indexOfItemAtPoint:locationInView];
-    OEGridCell *cell = (OEGridCell*)[self cellForItemAtIndex:itemIndex];
-    if([cell isInteractive] && [cell mouseEntered:theEvent])
+    if(itemIndex != NSNotFound)
     {
-        _trackingCell = cell;
+        OEGridCell *cell = (OEGridCell*)[self cellForItemAtIndex:itemIndex];
+        if([cell isInteractive] && [cell mouseEntered:theEvent])
+        {
+            _trackingCell = cell;
+        }
     }
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
-    if(_trackingCell)
+    if(_trackingCell == nil)
     {
-        [_trackingCell mouseMoved:theEvent];
+        NSPoint mouseLocationInWindow = [theEvent locationInWindow];
+        NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
+        NSInteger index = [self indexOfItemWithFrameAtPoint:mouseLocationInView];
+        if(index != NSNotFound)
+        {
+            OEGridCell *cell = (OEGridCell*)[self cellForItemAtIndex:index];
+            if([cell isInteractive])
+            {
+                _trackingCell = cell;
+            }
+        }
+    }
+
+    if(_trackingCell != nil && ![_trackingCell mouseMoved:theEvent])
+    {
+        _trackingCell = nil;
     }
 }
 
@@ -289,17 +307,19 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 
         const NSRect titleRect  = [cell titleFrame];
         const NSRect imageRect  = [cell imageFrame];
+
+        if([cell isInteractive] && [cell mouseDown:theEvent])
+        {
+            _trackingCell = cell;
+            return;
+        }
         // see if user double clicked on title layer
-        if([theEvent clickCount] >= 2 && NSPointInRect(mouseLocationInView, titleRect))
+        else if([theEvent clickCount] >= 2 && NSPointInRect(mouseLocationInView, titleRect))
         {
             [self beginEditingItemAtIndex:index];
             return;
         }
         // Check for dragging
-        else if([cell isInteractive] && [cell mouseDown:theEvent])
-        {
-            _trackingCell = cell;
-        }
         else if(NSPointInRect(mouseLocationInView, imageRect))
         {
             _draggingIndex = index;
@@ -389,11 +409,12 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 {
     [_trackingCell mouseUp:theEvent];
 
-    _trackingCell = nil;
     _ratingTracking = NSNotFound;
     _draggingIndex  = NSNotFound;
 
-    [super mouseUp:theEvent];
+    if(_trackingCell == nil)
+        [super mouseUp:theEvent];
+    else _trackingCell = nil;
 }
 
 - (id)groupAtViewLocation:(struct CGPoint)arg1 clickableArea:(BOOL)arg2
