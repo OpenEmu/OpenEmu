@@ -3566,6 +3566,20 @@
 				<string>{{12, 12}, {12, 12}}</string>
 			</dict>
 		</dict>
+		<key>grid_download</key>
+		<dict>
+			<key>Resource</key>
+			<string>grid_download</string>
+			<key>States</key>
+			<dict>
+				<key>Default</key>
+				<string>{{0, 0}, {73, 73}}</string>
+				<key>Mouse Over</key>
+				<string>{{73, 0}, {73, 73}}</string>
+				<key>Mouse Over, Pressed</key>
+				<string>{{146, 0}, {73, 73}}</string>
+			</dict>
+		</dict>
 	</dict>
 	<key>Name</key>
 	<string>Default</string>
