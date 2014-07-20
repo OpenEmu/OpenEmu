@@ -26,7 +26,7 @@
 
 /** THIS FILE WAS GENERATED AUTOMATICALLY! DO NOT CHANGE! **/
 
-/*05e802db14611ef889067de4ac83fad14ea2b90b*/
+/*b5be533096485bb7b4245af0de1aa52c219b9c26*/
 
 /*r|OEPrefDebugController.m|196|Debug Label*/ "" = "";
 
@@ -52,7 +52,7 @@
 
 /*s|OEPrefControlsController.m|326|Wiimote bindings menu item.*/ "Add a Wiimote…" = "Adicionar um Wiimote…";
 
-/*r|OEPrefDebugController.m|185|Debug Button Label*/ "Add untracked save states" = "Add untracked save states";
+/*r|OEPrefDebugController.m|185|Debug Button Label*/ "Add untracked save states" = "Adicionar estados de salvamento externos";
 
 /*s|OEDBAllGamesCollection.m|48|*/ "All Games" = "Todos os jogos";
 
@@ -92,7 +92,7 @@
 
 /*s|OESidebarController.m|91|*/ "CONSOLES" = "CONSOLES";
 
-/*r|OEPrefDebugController.m|161|Debug Checkbox Label*/ "Can delete save states" = "Pode deletar salvamentos";
+/*r|OEPrefDebugController.m|161|Debug Checkbox Label*/ "Can delete save states" = "Permitir deletar salvamentos";
 
 /*s|OECoreUpdater.m|254|*/
 /*s|OEGameCollectionViewController.m|340|*/
@@ -132,7 +132,7 @@
 /*s|OEGameDocument.m|177|Inexistent file error recovery suggestion.*/
 /*s|OEGameDocument.m|500|Inexistent file error recovery suggestion.*/ "Choose a valid file." = "Escolha um arquivo válido.";
 
-/*r|OEPrefDebugController.m|184|Debug Button Label*/ "Choose save states directory" = "Escolha o diretório dos salvamentos";
+/*r|OEPrefDebugController.m|184|Debug Button Label*/ "Choose save states directory" = "Escolher pasta dos salvamentos";
 
 /*s|OEGameScannerViewController.m|546|*/ "Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Escolha Sim para remover todos os itens da fila. Itens que já foram importados serão mantidos em sua biblioteca.";
 
@@ -167,7 +167,7 @@
 
 /*s|OEPrefLibraryController.m|245|*/ "Copying artwork failed!" = "A cópia das Artes de Capa falhou!";
 
-/*s|OEBlankSlateView.m|238|*/ "Core Provided By…" = "Núcleo Fornecido Por";
+/*s|OEBlankSlateView.m|238|*/ "Core Provided By…" = "Núcleo por...";
 
 /*r|OEPrefCoresController.m|252|Preferences: Cores Toolbar item*/ "Cores" = "Núcleos";
 
@@ -187,7 +187,7 @@
 
 /*s|OESidebarController.m|94|*/ "DEVICES" = "DISPOSITIVOS";
 
-/*r|OEPrefDebugController.m|151|Debug Checkbox Label*/ "Dark GridView context menu" = "Menu contextual GridView Dark";
+/*r|OEPrefDebugController.m|151|Debug Checkbox Label*/ "Dark GridView context menu" = "Menu contextual GridView Preto";
 
 /*r|OEPrefDebugController.m|194|Debug Group*/ "Database Actions" = "Ações de Banco de Dados";
 
@@ -220,7 +220,7 @@
 
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|69|*/ "Do Not Save" = "Não Salvar";
 
-/*s|OEHUDAlert.m|714|*/ "Do not ask me again" = "Não perguntar novamente";
+/*s|OEHUDAlert.m|714|*/ "Do not ask me again" = "Não perguntar mais";
 
 /*s|OEGameDocument.m|1000|Alert suppression label*/ "Do not show me again" = "Não exibir novamente";
 
@@ -242,7 +242,7 @@
 /*s|OEBlankSlateView.m|341|Blank Slate DnD Here*/
 /*s|OEBlankSlateView.m|349|Blank Slate DnD Here*/ "Drag & Drop Games Here" = "Arraste e Solte os Jogos Aqui";
 
-/*r|OEPrefDebugController.m|177|Debug Checkbox Label*/ "Draw button mask above image" = "Desenhe a máscara do botão em cima da imagem";
+/*r|OEPrefDebugController.m|177|Debug Checkbox Label*/ "Draw button mask above image" = "Mostrar contorno do botão na imagem";
 
 /*s|OESidebarOutlineView.m|182|*/ "Duplicate Collection" = "Duplicar Coleção";
 
@@ -367,11 +367,11 @@
 
 /*s|OEGameControlsBar.m|659|Tooltip*/ "Pause Gameplay" = "Pausar Gameplay";
 
-/*s|OEGameCollectionViewController.m|453|*/ "Play Game" = "Jogar Jogo";
+/*s|OEGameCollectionViewController.m|453|*/ "Play Game" = "Jogar";
 
-/*s|OEGameCollectionViewController.m|492|*/ "Play Games (Caution)" = "Jogar Jogo (Cuidado)";
+/*s|OEGameCollectionViewController.m|492|*/ "Play Games (Caution)" = "Jogar (Cuidado)";
 
-/*s|OEGameCollectionViewController.m|457|*/ "Play Save Games" = "Jogar jogos salvos";
+/*s|OEGameCollectionViewController.m|457|*/ "Play Save Games" = "Jogar a partir de salvamento";
 
 /*s|OEPrefControlsController.m|282|*/
 /*s|OEPrefControlsController.m|300|*/ "Player %ld" = "Jogador %ld";
@@ -394,7 +394,7 @@
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|54|*/ "Quit" = "Sair";
 
 /*s|OEGameCollectionViewController.m|464|*/
-/*s|OEGameCollectionViewController.m|496|*/ "Rating" = "Qualificar";
+/*s|OEGameCollectionViewController.m|496|*/ "Rating" = "Avaliar";
 
 /*s|OEDBSmartCollection.m|52|Recently Added Smart Collection Name*/
 /*s|OEDBSmartCollection.m|65|Recently Added Smart Collection Name*/ "Recently Added" = "Adicionados Recentemente";
@@ -477,9 +477,9 @@
 
 /*r|OEPrefDebugController.m|176|Debug Checkbox Label*/ "Select first field after setting the last" = "Selecione primeiro campo depois de setar o último";
 
-/*r|OEPrefDebugController.m|183|Debug Button Label*/ "Set default save states directory" = "Configurar pasta padrão dos estados de salvamento";
+/*r|OEPrefDebugController.m|183|Debug Button Label*/ "Set default save states directory" = "Definir pasta padrão dos estados de salvamentos";
 
-/*r|OEPrefDebugController.m|136|Debug Checkbox Label*/ "Setup Assistant has finished" = "O Assistente de Instalação terminou";
+/*r|OEPrefDebugController.m|136|Debug Checkbox Label*/ "Setup Assistant has finished" = "Não mostrar mais Assistente de Instalação";
 
 /*s|OEGameCollectionViewController.m|467|*/
 /*s|OEGameCollectionViewController.m|499|*/ "Show In Finder" = "Exibir no Finder";
@@ -570,7 +570,7 @@
 
 /*r|OEPrefDebugController.m|160|Debug Checkbox Label*/ "Use game name as window title" = "Usar nome do jogo como título da janela";
 
-/*r|OEPrefDebugController.m|163|Debug Checkbox Label*/ "Use gamecore picker" = "Usar gamecore picker";
+/*r|OEPrefDebugController.m|163|Debug Checkbox Label*/ "Use gamecore picker" = "Usar seletor de Núcleo";
 
 /*r|OEPrefDebugController.m|164|Debug Checkbox Label*/ "Use quicksave slots" = "Usar espaços de salvamento rápido";
 

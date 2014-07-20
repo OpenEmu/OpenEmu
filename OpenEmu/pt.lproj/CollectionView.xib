@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1070" identifier="macosx"/>
+        <deployment version="1070" defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
@@ -23,22 +23,22 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
         </customView>
         <splitView dividerStyle="thin" id="4" userLabel="ListFlowView" customClass="OEHorizontalSplitView">
-            <rect key="frame" x="0.0" y="0.0" width="735" height="669"/>
+            <rect key="frame" x="0.0" y="0.0" width="946" height="669"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <customView id="10" customClass="IKImageFlowView">
-                    <rect key="frame" x="0.0" y="0.0" width="735" height="332"/>
+                    <rect key="frame" x="0.0" y="0.0" width="946" height="332"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </customView>
                 <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" scrollerKnobStyle="light" id="11" customClass="OEScrollView">
-                    <rect key="frame" x="0.0" y="333" width="735" height="336"/>
+                    <rect key="frame" x="0.0" y="333" width="946" height="336"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Kau-pV-nnr">
-                        <rect key="frame" x="0.0" y="17" width="735" height="304"/>
+                        <rect key="frame" x="0.0" y="17" width="946" height="319"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" autosaveColumns="NO" autosaveName="listView" headerView="12" id="13" customClass="OETableView">
-                                <rect key="frame" x="0.0" y="0.0" width="922" height="304"/>
+                                <rect key="frame" x="0.0" y="0.0" width="946" height="319"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -57,7 +57,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                     </tableColumn>
                                     <tableColumn identifier="listViewTitle" width="334" minWidth="100" maxWidth="1000" id="19">
-                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Name">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Nome">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
@@ -70,8 +70,8 @@
                                         <sortDescriptor key="sortDescriptorPrototype" selector="localizedCaseInsensitiveCompare:" sortKey="listViewTitle"/>
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                     </tableColumn>
-                                    <tableColumn identifier="listViewRating" width="70" minWidth="55" maxWidth="80" id="18">
-                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Rating">
+                                    <tableColumn identifier="listViewRating" width="72" minWidth="55" maxWidth="80" id="18">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Avaliação">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -82,8 +82,8 @@
                                         <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="listViewRating"/>
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                     </tableColumn>
-                                    <tableColumn identifier="listViewLastPlayed" editable="NO" width="103" minWidth="100" maxWidth="1000" id="17">
-                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Last Played">
+                                    <tableColumn identifier="listViewLastPlayed" editable="NO" width="110" minWidth="100" maxWidth="1000" id="17">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Última Reprodução">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -96,8 +96,8 @@
                                         <sortDescriptor key="sortDescriptorPrototype" selector="OE_compareDMYTranslatingNilToDistantPast:" sortKey="lastPlayed"/>
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                     </tableColumn>
-                                    <tableColumn identifier="listViewConsoleName" editable="NO" width="104" minWidth="100" maxWidth="1000" id="16">
-                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="System">
+                                    <tableColumn identifier="listViewConsoleName" editable="NO" width="100" minWidth="100" maxWidth="1000" id="16">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Sistema">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -111,7 +111,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                     </tableColumn>
                                     <tableColumn identifier="listViewSaveStateCount" editable="NO" width="90" minWidth="90" maxWidth="3.4028234663852886e+38" id="103">
-                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Save Games">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Salvamentos">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -124,8 +124,8 @@
                                         <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="saveStateCount"/>
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                     </tableColumn>
-                                    <tableColumn identifier="listViewPlayCount" editable="NO" width="90" minWidth="90" maxWidth="3.4028234663852886e+38" id="105">
-                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Play Count">
+                                    <tableColumn identifier="listViewPlayCount" editable="NO" width="96" minWidth="90" maxWidth="3.4028234663852886e+38" id="105">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Reproduções">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -138,8 +138,8 @@
                                         <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="playCount"/>
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                     </tableColumn>
-                                    <tableColumn identifier="listViewPlayTime" editable="NO" width="90" minWidth="90" maxWidth="3.4028234663852886e+38" id="107">
-                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Play Time">
+                                    <tableColumn identifier="listViewPlayTime" editable="NO" width="102" minWidth="90" maxWidth="3.4028234663852886e+38" id="107">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Tempo de Jogo">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -157,16 +157,16 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </clipView>
-                    <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="14" customClass="OEScroller">
-                        <rect key="frame" x="0.0" y="321" width="735" height="15"/>
+                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="14" customClass="OEScroller">
+                        <rect key="frame" x="0.0" y="321" width="920" height="15"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="15" customClass="OEScroller">
-                        <rect key="frame" x="720" y="17" width="15" height="303"/>
+                        <rect key="frame" x="-15" y="17" width="15" height="0.0"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <tableHeaderView key="headerView" focusRingType="none" id="12" customClass="OETableHeaderView">
-                        <rect key="frame" x="0.0" y="0.0" width="922" height="17"/>
+                        <rect key="frame" x="0.0" y="0.0" width="946" height="17"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </tableHeaderView>
                 </scrollView>
