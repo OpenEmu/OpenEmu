@@ -26,7 +26,7 @@
 
 /** THIS FILE WAS GENERATED AUTOMATICALLY! DO NOT CHANGE! **/
 
-/*4713a4d0366db07d5a3ef1add57c2645f962afb3*/
+/*b5be533096485bb7b4245af0de1aa52c219b9c26*/
 
 /*r|OEPrefDebugController.m|196|Debug Label*/ "" = "";
 
@@ -52,7 +52,7 @@
 
 /*s|OEPrefControlsController.m|326|Wiimote bindings menu item.*/ "Add a Wiimote…" = "Adicionar um Wiimote…";
 
-/*r|OEPrefDebugController.m|185|Debug Button Label*/ "Add untracked save states" = "Add untracked save states";
+/*r|OEPrefDebugController.m|185|Debug Button Label*/ "Add untracked save states" = "Adicionar estados de salvamento externos";
 
 /*s|OEDBAllGamesCollection.m|48|*/ "All Games" = "Todos os jogos";
 
@@ -92,7 +92,7 @@
 
 /*s|OESidebarController.m|91|*/ "CONSOLES" = "CONSOLES";
 
-/*r|OEPrefDebugController.m|161|Debug Checkbox Label*/ "Can delete save states" = "Pode deletar salvamentos";
+/*r|OEPrefDebugController.m|161|Debug Checkbox Label*/ "Can delete save states" = "Permitir deletar salvamentos";
 
 /*s|OECoreUpdater.m|254|*/
 /*s|OEGameCollectionViewController.m|340|*/
@@ -132,7 +132,7 @@
 /*s|OEGameDocument.m|177|Inexistent file error recovery suggestion.*/
 /*s|OEGameDocument.m|500|Inexistent file error recovery suggestion.*/ "Choose a valid file." = "Escolha um arquivo válido.";
 
-/*r|OEPrefDebugController.m|184|Debug Button Label*/ "Choose save states directory" = "Escolha o diretório dos salvamentos";
+/*r|OEPrefDebugController.m|184|Debug Button Label*/ "Choose save states directory" = "Escolher pasta dos salvamentos";
 
 /*s|OEGameScannerViewController.m|546|*/ "Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Escolha Sim para remover todos os itens da fila. Itens que já foram importados serão mantidos em sua biblioteca.";
 
@@ -187,7 +187,7 @@
 
 /*s|OESidebarController.m|94|*/ "DEVICES" = "DISPOSITIVOS";
 
-/*r|OEPrefDebugController.m|151|Debug Checkbox Label*/ "Dark GridView context menu" = "Menu contextual GridView Dark";
+/*r|OEPrefDebugController.m|151|Debug Checkbox Label*/ "Dark GridView context menu" = "Menu contextual GridView Preto";
 
 /*r|OEPrefDebugController.m|194|Debug Group*/ "Database Actions" = "Ações de Banco de Dados";
 
@@ -242,7 +242,7 @@
 /*s|OEBlankSlateView.m|341|Blank Slate DnD Here*/
 /*s|OEBlankSlateView.m|349|Blank Slate DnD Here*/ "Drag & Drop Games Here" = "Arraste e Solte os Jogos Aqui";
 
-/*r|OEPrefDebugController.m|177|Debug Checkbox Label*/ "Draw button mask above image" = "Desenhe a máscara do botão em cima da imagem";
+/*r|OEPrefDebugController.m|177|Debug Checkbox Label*/ "Draw button mask above image" = "Mostrar contorno do botão na imagem";
 
 /*s|OESidebarOutlineView.m|182|*/ "Duplicate Collection" = "Duplicar Coleção";
 
@@ -477,9 +477,9 @@
 
 /*r|OEPrefDebugController.m|176|Debug Checkbox Label*/ "Select first field after setting the last" = "Selecione primeiro campo depois de setar o último";
 
-/*r|OEPrefDebugController.m|183|Debug Button Label*/ "Set default save states directory" = "Configurar pasta padrão dos estados de salvamento";
+/*r|OEPrefDebugController.m|183|Debug Button Label*/ "Set default save states directory" = "Definir pasta padrão dos estados de salvamentos";
 
-/*r|OEPrefDebugController.m|136|Debug Checkbox Label*/ "Setup Assistant has finished" = "O Assistente de Instalação terminou";
+/*r|OEPrefDebugController.m|136|Debug Checkbox Label*/ "Setup Assistant has finished" = "Não mostrar mais Assistente de Instalação";
 
 /*s|OEGameCollectionViewController.m|467|*/
 /*s|OEGameCollectionViewController.m|499|*/ "Show In Finder" = "Exibir no Finder";
@@ -570,7 +570,7 @@
 
 /*r|OEPrefDebugController.m|160|Debug Checkbox Label*/ "Use game name as window title" = "Usar nome do jogo como título da janela";
 
-/*r|OEPrefDebugController.m|163|Debug Checkbox Label*/ "Use gamecore picker" = "Usar gamecore picker";
+/*r|OEPrefDebugController.m|163|Debug Checkbox Label*/ "Use gamecore picker" = "Usar seletor de Núcleo";
 
 /*r|OEPrefDebugController.m|164|Debug Checkbox Label*/ "Use quicksave slots" = "Usar espaços de salvamento rápido";
 

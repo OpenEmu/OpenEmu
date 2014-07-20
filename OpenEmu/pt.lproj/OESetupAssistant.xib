@@ -50,6 +50,7 @@
 						<string key="NSFrameSize">{829, 510}</string>
 						<reference key="NSSuperview" ref="881693176"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:499</string>
 						<string key="NSClassName">NSView</string>
 					</object>
@@ -73,6 +74,7 @@
 								<string key="NSFrame">{{381, 19}, {103, 23}}</string>
 								<reference key="NSSuperview" ref="474548371"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:1566</string>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="798502528">
@@ -102,7 +104,7 @@
 									<object class="NSTextField" id="876423249">
 										<reference key="NSNextResponder" ref="611238554"/>
 										<int key="NSvFlags">268</int>
-										<string key="NSFrame">{{17, 60}, {238, 17}}</string>
+										<string key="NSFrame">{{17, 60}, {269, 17}}</string>
 										<reference key="NSSuperview" ref="611238554"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="538222832"/>
@@ -111,7 +113,7 @@
 										<object class="NSTextFieldCell" key="NSCell" id="722682972">
 											<int key="NSCellFlags">68157504</int>
 											<int key="NSCellFlags2">272630784</int>
-											<string key="NSContents">Click on the ‘Next’ button to begin!</string>
+											<string key="NSContents">Clique no botão "Avançar" para continuar!</string>
 											<reference key="NSSupport" ref="339280016"/>
 											<string key="NSCellIdentifier">_NS:3944</string>
 											<reference key="NSControlView" ref="876423249"/>
@@ -135,7 +137,7 @@
 									<object class="NSTextField" id="446097662">
 										<reference key="NSNextResponder" ref="611238554"/>
 										<int key="NSvFlags">268</int>
-										<string key="NSFrame">{{17, 113}, {388, 98}}</string>
+										<string key="NSFrame">{{17, 113}, {367, 98}}</string>
 										<reference key="NSSuperview" ref="611238554"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="876423249"/>
@@ -146,10 +148,10 @@
 											<int key="NSCellFlags">-2080374784</int>
 											<int key="NSCellFlags2">272760832</int>
 											<string type="base64-UTF8" key="NSContents">VW0gZXhjaXRhbnRlIG11bmRvIGRlIGpvZ29zIGFnb3JhIGVzdMOhIGFvIHNldSBhbGNhbmNlLiBQYXJh
-IHRlIGFqdWRhciBhIGNvbWXDp2FyLCBnb3N0YXLDrWFtb3MgZGUgZmF6ZXIgYWxndW1hcyBwZXJndW50
-YXMgcXVlIGlyw6NvIHRlIGd1aWFyIHBhcmEgcXVlIHZvY8OqIGNvbnNpZ2HigKYKCuKAoiBBZGljaW5h
-ciBqb2dvcyAoUk9NcykgcXVlIHZvY8OqIGrDoSBwb3NzdWEgbGVnYWxtZW50ZS4KCuKAoiBBc3NlZ3Vy
-YXIgcXVlIHZvY8OqIGVzdGVqYSByb2RhbmRvIG9zIHBsdWdpbnMgY29ycmV0b3MgKG7DumNsZW9zKS4</string>
+IGEgY29tZcOnYXIsIGdvc3RhcsOtYW1vcyBkZSBmYXplciBhbGd1bWFzIHBlcmd1bnRhcyBxdWUgaXLD
+o28gZ3Vpw6EtbG8gcGFyYSBxdWUgdm9jw6ogY29uc2lnYeKApgoK4oCiIEFkaWNpbmFyIGpvZ29zIChS
+T01zKSBxdWUgdm9jw6ogasOhIHBvc3N1YSBsZWdhbG1lbnRlLgoK4oCiIEFzc2VndXJhciBxdWUgdm9j
+w6ogZXN0ZWphIHJvZGFuZG8gb3MgcGx1Z2lucyBjb3JyZXRvcyAobsO6Y2xlb3MpLg</string>
 											<object class="NSFont" key="NSSupport" id="26">
 												<string key="NSName">.LucidaGrandeUI</string>
 												<double key="NSSize">11</double>
@@ -173,7 +175,7 @@ YXIgcXVlIHZvY8OqIGVzdGVqYSByb2RhbmRvIG9zIHBsdWdpbnMgY29ycmV0b3MgKG7DumNsZW9zKS4<
 									<object class="NSTextField" id="577156846">
 										<reference key="NSNextResponder" ref="611238554"/>
 										<int key="NSvFlags">268</int>
-										<string key="NSFrame">{{17, 219}, {154, 17}}</string>
+										<string key="NSFrame">{{17, 219}, {169, 17}}</string>
 										<reference key="NSSuperview" ref="611238554"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="446097662"/>
@@ -182,7 +184,7 @@ YXIgcXVlIHZvY8OqIGVzdGVqYSByb2RhbmRvIG9zIHBsdWdpbnMgY29ycmV0b3MgKG7DumNsZW9zKS4<
 										<object class="NSTextFieldCell" key="NSCell" id="929203760">
 											<int key="NSCellFlags">68157504</int>
 											<int key="NSCellFlags2">272630784</int>
-											<string key="NSContents">Welcome to OpenEmu!</string>
+											<string key="NSContents">Bem vindo ao OpenEmu!</string>
 											<object class="NSFont" key="NSSupport" id="723047489">
 												<string key="NSName">.LucidaGrandeUI-Bold</string>
 												<double key="NSSize">13</double>
@@ -237,6 +239,7 @@ YXIgcXVlIHZvY8OqIGVzdGVqYSByb2RhbmRvIG9zIHBsdWdpbnMgY29ycmV0b3MgKG7DumNsZW9zKS4<
 								<string key="NSFrame">{{381, 19}, {103, 23}}</string>
 								<reference key="NSSuperview" ref="662927161"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:1566</string>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="203001092">
@@ -633,6 +636,7 @@ YXIgcXVlIHZvY8OqIGVzdGVqYSByb2RhbmRvIG9zIHBsdWdpbnMgY29ycmV0b3MgKG7DumNsZW9zKS4<
 								<string key="NSFrame">{{381, 19}, {103, 23}}</string>
 								<reference key="NSSuperview" ref="661688689"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:1566</string>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="1070656076">
@@ -772,6 +776,7 @@ YXIgcXVlIHZvY8OqIGVzdGVqYSByb2RhbmRvIG9zIHBsdWdpbnMgY29ycmV0b3MgKG7DumNsZW9zKS4<
 								<string key="NSFrame">{{381, 19}, {103, 23}}</string>
 								<reference key="NSSuperview" ref="918788066"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:1566</string>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="867086650">
@@ -1107,6 +1112,7 @@ YXIgcXVlIHZvY8OqIGVzdGVqYSByb2RhbmRvIG9zIHBsdWdpbnMgY29ycmV0b3MgKG7DumNsZW9zKS4<
 								<string key="NSFrame">{{381, 19}, {103, 23}}</string>
 								<reference key="NSSuperview" ref="532716124"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:1566</string>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="1034055518">
@@ -1168,9 +1174,9 @@ YXIgcXVlIHZvY8OqIGVzdGVqYSByb2RhbmRvIG9zIHBsdWdpbnMgY29ycmV0b3MgKG7DumNsZW9zKS4<
 											<int key="NSCellFlags">-2080374784</int>
 											<int key="NSCellFlags2">272760832</int>
 											<string type="base64-UTF8" key="NSContents">Qm9hISBWb2PDqiBjb25maWd1cm91IHR1ZG8gZSBlc3TDoSBwcm9udG8gcHJhIG1hbmRhciB2ZXIgbm9z
-IGpvZ29zIQoKTGVtYnJlLXNlIHF1ZSB2b2PDqiBwb2RlIG11ZGFyIHRhbnRvIHNldXMgY29udHJvbGVz
-IGRvIHRlY2xhZG8gcXVhbnRvIGNvbmZpZ3VyYXIgc2V1cyBjb250cm9sZXMgKGUgZGUgb3V0cm9zIGpv
-Z2Fkb3JlcykgbmFzIFByZWZlcsOqbmNpYXMgcXVhbmRvIHF1aXNlci4</string>
+IGpvZ29zIQoKTGVtYnJlLXNlIHF1ZSB2b2PDqiBwb2RlIGNvbmZpZ3VyYXIgc2V1IHRlY2xhZG8gZSBz
+ZXVzIGNvbnRyb2xlcyAob3UgZGUgb3V0cm9zIGpvZ2Fkb3JlcykgbmFzIFByZWZlcsOqbmNpYXMgcXVh
+bmRvIHF1aXNlci4</string>
 											<reference key="NSSupport" ref="26"/>
 											<string key="NSPlaceholderString">asf</string>
 											<string key="NSCellIdentifier">_NS:354</string>
@@ -1190,7 +1196,7 @@ Z2Fkb3JlcykgbmFzIFByZWZlcsOqbmNpYXMgcXVhbmRvIHF1aXNlci4</string>
 									<object class="NSTextField" id="1068056339">
 										<reference key="NSNextResponder" ref="567183406"/>
 										<int key="NSvFlags">268</int>
-										<string key="NSFrame">{{17, 219}, {62, 17}}</string>
+										<string key="NSFrame">{{17, 219}, {97, 17}}</string>
 										<reference key="NSSuperview" ref="567183406"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="506884755"/>
@@ -1199,7 +1205,7 @@ Z2Fkb3JlcykgbmFzIFByZWZlcsOqbmNpYXMgcXVhbmRvIHF1aXNlci4</string>
 										<object class="NSTextFieldCell" key="NSCell" id="437883713">
 											<int key="NSCellFlags">68157504</int>
 											<int key="NSCellFlags2">272630784</int>
-											<string key="NSContents">Let’s Go!</string>
+											<string key="NSContents">Vamos nessa!</string>
 											<reference key="NSSupport" ref="723047489"/>
 											<string key="NSCellIdentifier">_NS:3944</string>
 											<reference key="NSControlView" ref="1068056339"/>
