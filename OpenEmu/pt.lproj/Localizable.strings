@@ -26,7 +26,7 @@
 
 /** THIS FILE WAS GENERATED AUTOMATICALLY! DO NOT CHANGE! **/
 
-/*05e802db14611ef889067de4ac83fad14ea2b90b*/
+/*4713a4d0366db07d5a3ef1add57c2645f962afb3*/
 
 /*r|OEPrefDebugController.m|196|Debug Label*/ "" = "";
 
@@ -167,7 +167,7 @@
 
 /*s|OEPrefLibraryController.m|245|*/ "Copying artwork failed!" = "A cópia das Artes de Capa falhou!";
 
-/*s|OEBlankSlateView.m|238|*/ "Core Provided By…" = "Núcleo Fornecido Por";
+/*s|OEBlankSlateView.m|238|*/ "Core Provided By…" = "Núcleo por...";
 
 /*r|OEPrefCoresController.m|252|Preferences: Cores Toolbar item*/ "Cores" = "Núcleos";
 
@@ -220,7 +220,7 @@
 
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|69|*/ "Do Not Save" = "Não Salvar";
 
-/*s|OEHUDAlert.m|714|*/ "Do not ask me again" = "Não perguntar novamente";
+/*s|OEHUDAlert.m|714|*/ "Do not ask me again" = "Não perguntar mais";
 
 /*s|OEGameDocument.m|1000|Alert suppression label*/ "Do not show me again" = "Não exibir novamente";
 
@@ -367,11 +367,11 @@
 
 /*s|OEGameControlsBar.m|659|Tooltip*/ "Pause Gameplay" = "Pausar Gameplay";
 
-/*s|OEGameCollectionViewController.m|453|*/ "Play Game" = "Jogar Jogo";
+/*s|OEGameCollectionViewController.m|453|*/ "Play Game" = "Jogar";
 
-/*s|OEGameCollectionViewController.m|492|*/ "Play Games (Caution)" = "Jogar Jogo (Cuidado)";
+/*s|OEGameCollectionViewController.m|492|*/ "Play Games (Caution)" = "Jogar (Cuidado)";
 
-/*s|OEGameCollectionViewController.m|457|*/ "Play Save Games" = "Jogar jogos salvos";
+/*s|OEGameCollectionViewController.m|457|*/ "Play Save Games" = "Jogar a partir de salvamento";
 
 /*s|OEPrefControlsController.m|282|*/
 /*s|OEPrefControlsController.m|300|*/ "Player %ld" = "Jogador %ld";
@@ -394,7 +394,7 @@
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|54|*/ "Quit" = "Sair";
 
 /*s|OEGameCollectionViewController.m|464|*/
-/*s|OEGameCollectionViewController.m|496|*/ "Rating" = "Qualificar";
+/*s|OEGameCollectionViewController.m|496|*/ "Rating" = "Avaliar";
 
 /*s|OEDBSmartCollection.m|52|Recently Added Smart Collection Name*/
 /*s|OEDBSmartCollection.m|65|Recently Added Smart Collection Name*/ "Recently Added" = "Adicionados Recentemente";

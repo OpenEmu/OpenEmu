@@ -26,7 +26,7 @@
 
 /*572bbfe7ef79c89ed27708013f65a9b85d52e89b*/
 
-/*r|OEControlsButtonSetupView.m|544|Section Title*/ "Gameplay Buttons" = "Botões de Jogo";
+/*r|OEControlsButtonSetupView.m|544|Section Title*/ "Gameplay Buttons" = "Botões";
 /*r|OEControlsButtonSetupView.m|544|Section Title*/ "Special Keys" = "Teclas Especiais";
 /*r|OEControlsButtonSetupView.m|559|Group Label*/ "Analog" = "Analógico";
 /*r|OEControlsButtonSetupView.m|559|Group Label*/ "C-Pad" = "C-Pad";
@@ -83,15 +83,15 @@
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Left" = "Esquerdo";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Lid" = "Tampa";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Load" = "Carregar";
-/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Mic" = "Microfone";
-/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Mode" = "Modo";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Mic" = "Mic";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Mode" = "Mode";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Mute" = "Mutar";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Option 1" = "Opção 1";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Option 2" = "Opção 2";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Option" = "Opção";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "P" = "P";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Pause" = "Pause";
-/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Player Start" = "Player Start";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Player Start" = "Iniciar Jogador";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Quick Load Button" = "Carregamento Rápido";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Quick Save Button" = "Salvamento Rápido;
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "R Diff A" = "R Diff A";
@@ -114,7 +114,7 @@
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Start" = "Start";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "TV Black & White" = "TV Preto e Branco";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "TV Color" = "TV Cores";
-/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Up" = "Up";
+/*r|OEControlsButtonSetupView.m|568|Button Label*/ "Up" = "Cima";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Volume Down" = "Abaixar Volume";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "Volume Up" = "Aumentar Volume";
 /*r|OEControlsButtonSetupView.m|568|Button Label*/ "X" = "X";
