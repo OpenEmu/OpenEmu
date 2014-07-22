@@ -31,6 +31,7 @@
 #import "OEHUDAlert.h"
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
+#import "NSArray+OEAdditions.h"
 #import "OERatingCell.h"
 
 #import "OEDBGame.h"
@@ -177,6 +178,8 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 {
     NSArray *selectedGames = [self selectedGames];
     NSArray *urls = [selectedGames valueForKeyPath:@"defaultROM.URL.absoluteURL"];
+    urls = [urls filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self != nil"]];
+
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:urls];
 }
 
@@ -447,6 +450,11 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     NSMenuItem *menuItem;
     NSArray *games = [[gamesController arrangedObjects] objectsAtIndexes:indexes];
 
+    __block BOOL hasLocalFiles = NO;
+    [games enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stop) {
+        *stop = hasLocalFiles = [[game defaultROM] source] == nil;
+    }];
+
     if([indexes count] == 1)
     {
         NSInteger index = [indexes lastIndex];
@@ -464,7 +472,9 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         menuItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Rating", @"") action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
         [menu addItem:menuItem];
-        [menu addItemWithTitle:OELocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
+
+        if(hasLocalFiles)
+            [menu addItemWithTitle:OELocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
 
         if([[game status] isEqualTo:@(OEDBGameStatusOK)])
@@ -496,7 +506,9 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         menuItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Rating", @"") action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
         [menu addItem:menuItem];
-        [menu addItemWithTitle:OELocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
+
+        if(hasLocalFiles)
+            [menu addItemWithTitle:OELocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
 
         [menu addItemWithTitle:OELocalizedString(@"Download Cover Art", @"") action:@selector(downloadCoverArt:) keyEquivalent:@""];
