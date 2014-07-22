@@ -53,7 +53,6 @@
 #import "OESetupAssistant.h"
 #import "OECollectionViewController.h"
 #import "OEGameViewController.h"
-#import "OECollectionDebugWindowController.h"
 #import "OERetrodeDeviceManager.h"
 #import "OEGridGameCell.h"
 #import "OEGameView.h"
@@ -149,7 +148,6 @@ NSString * const OptionsKey = @"options";
 
                               Group(@"Library Window"),
                               NCheckbox(OEMenuOptionsStyleKey, @"Dark GridView context menu"),
-                              Checkbox(OEDebugCollectionView, @"Show collection view debug controller"),
                               Checkbox(OERetrodeSupportEnabledKey, @"Enable Retrode support"),
                               Checkbox(OECoverGridViewGlossDisabledKey, @"Disable grid view gloss overlay"),
                               Checkbox(OECoverGridViewAutoDownloadEnabledKey, @"Download missing artwork on the fly"),

@@ -286,7 +286,10 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
             *stop = YES;
         }
     }];
-    
+
+    if([[self status] isEqualTo:@(OEDBGameStatusDownloading)] || [[self status] isEqualTo:@(OEDBGameStatusProcessing)])
+       return result;
+
     if(!result)
        [self setStatus:[NSNumber numberWithInt:OEDBGameStatusAlert]];
     else if([[self status] intValue] == OEDBGameStatusAlert)

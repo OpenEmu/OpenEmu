@@ -63,7 +63,6 @@
 
 #import "OEArrayController.h"
 
-#import "OECollectionDebugWindowController.h"
 #import "OEBackgroundNoisePattern.h"
 
 #import "OEGridGameCell.h"

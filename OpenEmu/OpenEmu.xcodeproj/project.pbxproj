@@ -421,8 +421,6 @@
 		837820B61907E8520043593F /* OEBlankSlateForegroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820B51907E8520043593F /* OEBlankSlateForegroundLayer.m */; };
 		837820BD19081A090043593F /* OELibraryMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820BC19081A090043593F /* OELibraryMigrator.m */; };
 		837820C119081B1C0043593F /* OEMigrationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820BF19081B1C0043593F /* OEMigrationWindowController.m */; };
-		837DF19A16D2B0F400024BE1 /* OECollectionDebugWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 837DF19816D2B0F400024BE1 /* OECollectionDebugWindowController.m */; };
-		837DF19B16D2B0F400024BE1 /* OECollectionDebugWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 837DF19916D2B0F400024BE1 /* OECollectionDebugWindowController.xib */; };
 		83802E6A142F6FF900130517 /* controls_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 83802E69142F6FF900130517 /* controls_highlight.png */; };
 		8382D23513C5C5E100906221 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D23413C5C5E100906221 /* OEPrefControlsController.xib */; };
 		838C0BF815BFF2AD00519C08 /* debug_tab_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 838C0BF715BFF2AD00519C08 /* debug_tab_icon.png */; };
@@ -2148,9 +2146,6 @@
 		837820BC19081A090043593F /* OELibraryMigrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryMigrator.m; sourceTree = "<group>"; };
 		837820BE19081B1C0043593F /* OEMigrationWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMigrationWindowController.h; sourceTree = "<group>"; };
 		837820BF19081B1C0043593F /* OEMigrationWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMigrationWindowController.m; sourceTree = "<group>"; };
-		837DF19716D2B0F400024BE1 /* OECollectionDebugWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECollectionDebugWindowController.h; sourceTree = "<group>"; };
-		837DF19816D2B0F400024BE1 /* OECollectionDebugWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECollectionDebugWindowController.m; sourceTree = "<group>"; };
-		837DF19916D2B0F400024BE1 /* OECollectionDebugWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OECollectionDebugWindowController.xib; sourceTree = "<group>"; };
 		83802E69142F6FF900130517 /* controls_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controls_highlight.png; sourceTree = "<group>"; };
 		8382D23413C5C5E100906221 /* OEPrefControlsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefControlsController.xib; sourceTree = "<group>"; };
 		838AC27E14434EED00AC74C3 /* OEDBRom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBRom.h; sourceTree = "<group>"; };
@@ -4100,7 +4095,6 @@
 				8363A43E193CD12C00F18425 /* OEGridMediaGroupItemCell.m */,
 				53439AAC13B92CF1005C0CC8 /* Cover Flow View */,
 				53439AAE13B92CFE005C0CC8 /* Grid View */,
-				837DF19416D2B0BA00024BE1 /* OECollectionDebugView */,
 				53439AAD13B92CFC005C0CC8 /* List View */,
 				83955CB9165DAE7900572B34 /* Blank Slate View */,
 				830CB916186878D6006EAE5A /* OEArrayController.h */,
@@ -4864,16 +4858,6 @@
 				8363A440193CF41200F18425 /* IKOpenGLRoundedRectRenderer.h */,
 			);
 			name = "Image Kit Headers (Private)";
-			sourceTree = "<group>";
-		};
-		837DF19416D2B0BA00024BE1 /* OECollectionDebugView */ = {
-			isa = PBXGroup;
-			children = (
-				837DF19716D2B0F400024BE1 /* OECollectionDebugWindowController.h */,
-				837DF19816D2B0F400024BE1 /* OECollectionDebugWindowController.m */,
-				837DF19916D2B0F400024BE1 /* OECollectionDebugWindowController.xib */,
-			);
-			name = OECollectionDebugView;
 			sourceTree = "<group>";
 		};
 		8382D22C13C5C55200906221 /* Preferences */ = {
@@ -7265,7 +7249,6 @@
 				83DEE4A0162D62B2005D8AD7 /* game_scanner_progress_track.png in Resources */,
 				C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */,
 				83FE965919685F6700DD8DB9 /* OEGameScanner.xib in Resources */,
-				837DF19B16D2B0F400024BE1 /* OECollectionDebugWindowController.xib in Resources */,
 				83B867B9171D63510038988C /* retrode.png in Resources */,
 				EC350F7317401AC1005DA3B2 /* background_lighting@2x.png in Resources */,
 				EC350F7417401AC1005DA3B2 /* blank_slate_arrow@2x.png in Resources */,
@@ -8184,7 +8167,6 @@
 				94791E9516AE8A18007DB8BE /* OEShaderPlugin.m in Sources */,
 				8C415ECD16B0682B00980DB9 /* OEMultipassShader.m in Sources */,
 				C6C3734216BE7065003E57AE /* OEBuiltInShader.m in Sources */,
-				837DF19A16D2B0F400024BE1 /* OECollectionDebugWindowController.m in Sources */,
 				94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */,
 				838DB01916DBE14E00B8DDC8 /* OETextField.m in Sources */,
 				838DB01C16DBE15900B8DDC8 /* OETextFieldCell.m in Sources */,
