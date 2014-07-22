@@ -85,8 +85,11 @@
 {
     [super setRepresentedObject:representedObject];
 
-    [self setSaveStateMode:[representedObject isKindOfClass:[OEDBSavedGamesMedia class]]];
-    [self reloadData];
+    if(representedObject)
+    {
+        [self setSaveStateMode:[representedObject isKindOfClass:[OEDBSavedGamesMedia class]]];
+        [self reloadData];
+    }
 }
 #pragma mark - OELibrarySubviewController Implementation
 - (id)encodeCurrentState
@@ -149,6 +152,8 @@
 - (void)fetchItems
 {
 #pragma TODO(Improve group detection)
+    if([self representedObject] == nil) return;
+
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
 
     NSMutableArray *ranges = [NSMutableArray array];
@@ -178,7 +183,31 @@
         DLog(@"%@", error);
     }
 
-    NSInteger i;
+    /* This method crashed a few times when calling [[[result objectAtIndex:0] rom] game] with a coredata exception that was impossible to predict. Maybe my library was just corrupted, but if this happens in the wild we can enable this code to delete all roms, games and save states that cause the crash :/
+     */
+    /*
+    while([result count])
+    {
+        OEDBSaveState *firstState = [result objectAtIndex:0];
+        @try
+        {
+            [[firstState rom] game]
+            break;
+        }
+        @catch (NSException *exception)
+        {
+            [[firstState rom] delete];
+            [firstState delete];
+            [context save:nil];
+
+            if([result count] > 1)
+                result = [result subarrayWithRange:NSMakeRange(1, [result count]-1)];
+            else 
+                result = @[];
+        }
+    }
+     */
+
     if([result count] == 0)
     {
         _groupRanges = @[];
@@ -190,6 +219,7 @@
 
     NSManagedObjectID *gameID = [[[[result objectAtIndex:0] rom] game] objectID];
     NSUInteger groupStart = 0;
+    NSInteger i;
     for(i=0; i < [result count]; i++)
     {
         id state = [result objectAtIndex:i];
