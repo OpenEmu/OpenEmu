@@ -25,8 +25,8 @@
  */
 
 #import "OECollectionViewController.h"
-
-@interface OEGameCollectionViewController : OECollectionViewController
+#import "OEGameGridViewDelegate.h"
+@interface OEGameCollectionViewController : OECollectionViewController <OEGameGridViewDelegate>
 - (IBAction)showSelectedGamesInFinder:(id)sender;
 
 - (void)deleteSaveState:(id)stateItem;

@@ -31,6 +31,7 @@ typedef NS_ENUM(NSUInteger, OEDBGameStatus)
 {
     OEDBGameStatusOK,
     OEDBGameStatusProcessing,
+    OEDBGameStatusDownloading,
     OEDBGameStatusAlert
 };
 
@@ -60,8 +61,11 @@ extern NSString *const OEGameArtworkPropertiesKey;
 - (void)cancelCoverDownload;
 - (void)requestCoverDownload;
 
-#pragma mark - Accessors
+#pragma mark - ROM Downloading
+- (void)requestROMDownload;
+- (void)cancelROMDownload;
 
+#pragma mark - Accessors
 @property(readonly) OEDBRom       *defaultROM;
 @property(readonly) NSDate        *lastPlayed;
 @property(readonly) OEDBSaveState *autosaveForLastPlayedRom;
@@ -78,12 +82,10 @@ extern NSString *const OEGameArtworkPropertiesKey;
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag;
 
 #pragma mark - Core Data utilities
-
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
 #pragma mark - Data Model Properties
-
 @property(nonatomic, retain)   NSString *name;
 @property(nonatomic, retain)   NSString *gameTitle;
 @property(nonatomic, retain)   NSNumber *rating;
@@ -95,7 +97,6 @@ extern NSString *const OEGameArtworkPropertiesKey;
 @property(nonatomic, readonly) NSString *cleanDisplayName;
 
 #pragma mark - Data Model Relationships
-
 @property(nonatomic, retain) OEDBImage  *boxImage;
 @property(nonatomic, retain) OEDBSystem *system;
 
@@ -107,5 +108,4 @@ extern NSString *const OEGameArtworkPropertiesKey;
 @property(nonatomic, readonly) NSMutableSet *mutableCollections;
 @property(nonatomic, retain)   NSSet        *credits;
 @property(nonatomic, readonly) NSMutableSet *mutableCredits;
-
 @end

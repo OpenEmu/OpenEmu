@@ -272,6 +272,48 @@
     return value;
 }
 
+#pragma mark - File Handling
+- (BOOL)consolidateFilesWithError:(NSError**)error
+{
+    NSURL *url = [self URL];
+    OELibraryDatabase *library = [self libraryDatabase];
+    NSURL *romsFolderURL = [library romsFolderURL];
+
+    if([url checkResourceIsReachableAndReturnError:nil] && ![url isSubpathOfURL:romsFolderURL])
+    {
+        BOOL romFileLocked = NO;
+        if([[[[NSFileManager defaultManager] attributesOfItemAtPath:[url path] error:nil] objectForKey:NSFileImmutable] boolValue])
+        {
+            romFileLocked = YES;
+            [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(FALSE) } ofItemAtPath:[url path] error:nil];
+        }
+
+        NSString *fullName  = [url lastPathComponent];
+        NSString *extension = [fullName pathExtension];
+        NSString *baseName  = [fullName stringByDeletingPathExtension];
+
+        OEDBSystem  *system = [[self game] system];
+
+        NSURL *unsortedFolder = [library romsFolderURLForSystem:system];
+        NSURL *romURL         = [unsortedFolder URLByAppendingPathComponent:fullName];
+        romURL = [romURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+            NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", baseName, triesCount, extension];
+            return [unsortedFolder URLByAppendingPathComponent:newName];
+        }];
+
+        if([[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:error])
+        {
+            [self setURL:romURL];
+            NSLog(@"New URL: %@", romURL);
+        }
+        else if(error != nil) return NO;
+
+        if(romFileLocked)
+            [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(YES) } ofItemAtPath:[url path] error:nil];
+    }
+    return YES;
+}
+
 - (BOOL)filesAvailable
 {
     NSError *error = nil;
@@ -290,7 +332,7 @@
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
 {
     NSURL *url = [self URL];
-    
+
     if(moveToTrash && [url isSubpathOfURL:[[self libraryDatabase] romsFolderURL]])
     {
         NSInteger count = 1;

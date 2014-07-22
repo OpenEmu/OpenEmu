@@ -30,10 +30,10 @@
 
 #import "OEDBSystem.h"
 #import "OEDBRom.h"
-
 #import "OEDBImage.h"
 
 #import "OEGameInfoHelper.h"
+#import "OEDownload.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
 #import "NSArray+OEAdditions.h"
@@ -43,8 +43,12 @@ NSString *const OEDisplayGameTitle = @"displayGameTitle";
 
 NSString *const OEGameArtworkFormatKey = @"artworkFormat";
 NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
+@interface OEDBGame ()
+@property OEDownload *romDownload;
+@end
 
 @implementation OEDBGame
+@synthesize romDownload=_romDownload;
 @dynamic name, gameTitle, rating, gameDescription, importDate, lastInfoSync, status, displayName;
 @dynamic boxImage, system, roms, genres, collections, credits;
 
@@ -130,26 +134,91 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 #pragma mark - Cover Art Database Sync / Info Lookup
 - (void)requestCoverDownload
 {
-    [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
-    [self save];
-    [[self libraryDatabase] startOpenVGDBSync];
+    if([[self status] isEqualTo:@(OEDBGameStatusAlert)] || [[self status] isEqualTo:@(OEDBGameStatusOK)])
+    {
+        [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
+        [self save];
+        [[self libraryDatabase] startOpenVGDBSync];
+    }
 }
 
 - (void)cancelCoverDownload
 {
-    [self setStatus:[NSNumber numberWithInt:OEDBGameStatusOK]];
-    [self save];
+    if([[self status] isEqualTo:@(OEDBGameStatusProcessing)])
+    {
+        [self setStatus:[NSNumber numberWithInt:OEDBGameStatusOK]];
+        [self save];
+    }
 }
 
 - (void)requestInfoSync
 {
-    [self setStatus:[NSNumber numberWithInt:OEDBGameStatusProcessing]];
+    if([[self status] isEqualTo:@(OEDBGameStatusAlert)] || [[self status] isEqualTo:@(OEDBGameStatusOK)])
+    {
+        [self setStatus:@(OEDBGameStatusProcessing)];
+        [self save];
+        [[self libraryDatabase] startOpenVGDBSync];
+    }
+}
+
+#pragma mark - ROM Downloading
+- (void)requestROMDownload
+{
+    if(_romDownload != nil) return;
+    [self setStatus:@(OEDBGameStatusDownloading)];
+
+    OEDBRom *rom = [self defaultROM];
+    NSString *source = [rom source];
+    if(source == nil || [source length] == 0)
+    {
+        DLog(@"Invalid URL to download!");
+        return;
+    }
+
+    NSURL *url = [NSURL URLWithString:source];
+    if(url == nil)
+    {
+        DLog(@"Invalid URL to download!");
+        return;
+    }
+
+    __block __strong OEDBGame *blockSelf = self; // We don't want to be deallocated while the download is still running
+    _romDownload = [[OEDownload alloc] initWithURL:url];
+    [_romDownload setCompletionHandler:^(NSURL *url, NSError *error) {
+        if(!url || error)
+        {
+            DLog(@"ROM download Failed!");
+            DLog(@"%@", error);
+        }
+        else
+        {
+            DLog(@"Downloaded to %@", url);
+            [rom setURL:url];
+            NSError *err = nil;
+            if(![rom consolidateFilesWithError:&err])
+            {
+                DLog(@"%@", err);
+                [rom setURL:nil];
+            }
+            [rom save];
+        }
+
+        [blockSelf setStatus:@(OEDBGameStatusOK)];
+        [blockSelf setRomDownload:nil];
+        [blockSelf save];
+    }];
+    [_romDownload startDownload];
+}
+
+- (void)cancelROMDownload
+{
+    [_romDownload cancelDownload];
+    _romDownload = nil;
+    [self setStatus:@(OEDBGameStatusOK)];
     [self save];
-    [[self libraryDatabase] startOpenVGDBSync];
 }
 
 #pragma mark - Accessors
-
 - (NSDate *)lastPlayed
 {
     NSArray *roms = [[self roms] allObjects];
@@ -259,6 +328,14 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 }
 
 #pragma mark - Core Data utilities
+- (void)awakeFromFetch
+{
+    if([[self status] isEqualTo:@(OEDBGameStatusDownloading)])
+    {
+        [self setStatus:@(OEDBGameStatusOK)];
+    }
+}
+
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag
 {
     NSMutableSet *mutableRoms = [self mutableRoms];
@@ -285,6 +362,9 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 - (void)prepareForDeletion
 {
     [[self boxImage] delete];
+
+    [_romDownload cancelDownload];
+    _romDownload = nil;
 }
 
 #pragma mark - NSPasteboardWriting

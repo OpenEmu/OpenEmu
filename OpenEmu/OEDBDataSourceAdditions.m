@@ -65,13 +65,13 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
 
 - (BOOL)shouldIndicateDeletable
 {
-    return [[[self roms] anyObject] source] != nil;
+    return [[self defaultROM] source] != nil;
 }
 
 - (BOOL)shouldIndicateDownloadable
 {
-    OEDBRom *rom = [[self roms] anyObject];
-    return !([rom source] == nil || [[rom URL] checkResourceIsReachableAndReturnError:nil]);
+    OEDBRom *rom = [self defaultROM];
+    return !([[self status] isEqualTo:@(OEDBGameStatusDownloading)] || [rom source] == nil || [[rom URL] checkResourceIsReachableAndReturnError:nil]);
 }
 #pragma mark -
 #pragma mark CoverFlowDataSourceItem

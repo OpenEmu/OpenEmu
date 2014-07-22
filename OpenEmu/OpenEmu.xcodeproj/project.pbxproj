@@ -2017,6 +2017,7 @@
 		8337393715BFD87700D83D2F /* OELibraryToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryToolbarView.m; sourceTree = "<group>"; };
 		8337F38C1726B35F0068DD90 /* OEBackgroundImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBackgroundImageView.h; sourceTree = "<group>"; };
 		8337F38D1726B3600068DD90 /* OEBackgroundImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBackgroundImageView.m; sourceTree = "<group>"; };
+		833A1E4C197EAE2D004EC052 /* OEGameGridViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEGameGridViewDelegate.h; sourceTree = "<group>"; };
 		833ADC4B196B058000217D9A /* N64-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "N64-Info.plist"; sourceTree = "<group>"; };
 		833ADC4E196B078E00217D9A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CollectionView.xib; sourceTree = "<group>"; };
 		833ADC50196B079000217D9A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/CollectionView.xib; sourceTree = "<group>"; };
@@ -4154,6 +4155,7 @@
 				8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */,
 				53439B0513B92EEC005C0CC8 /* OEGridViewFieldEditor.h */,
 				53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */,
+				833A1E4C197EAE2D004EC052 /* OEGameGridViewDelegate.h */,
 			);
 			name = "Grid View";
 			sourceTree = "<group>";

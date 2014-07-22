@@ -38,9 +38,6 @@
 + (id)romWithCRC32HashString:(NSString *)crcHash inContext:(NSManagedObjectContext *)context error:(NSError *__autoreleasing*)outError;
 + (id)romWithMD5HashString:(NSString *)md5Hash inContext:(NSManagedObjectContext *)context error:(NSError *__autoreleasing*)outError;
 
-@property(nonatomic) NSURL *URL;
-@property(nonatomic) NSURL *sourceURL;
-
 #pragma mark - Accessors
 // returns md5 hash for rom. calculates it if necessary so the method can take a long time to return, and might return nil if hash is not in db and can not be calculated
 - (NSString *)md5Hash;
@@ -70,15 +67,19 @@
 
 - (void)removeMissingStates;
 
+
+#pragma mark - File Handling
+- (BOOL)consolidateFilesWithError:(NSError**)error;
 - (BOOL)filesAvailable;
 
-#pragma mark - Mainpulating a rom
+@property(nonatomic) NSURL *URL;
+@property(nonatomic) NSURL *sourceURL;
 
+#pragma mark - Mainpulating a rom
 // sets roms "lastPlayed" to now
 - (void)markAsPlayedNow;
 
 #pragma mark - Core Data utilities
-
 - (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag;
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;

@@ -372,36 +372,9 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
                     for(OEDBRom *rom in roms)
                     {
                         if(alertResult != -1) break;
-
-                        NSURL *url = [rom URL];
-                        if([url checkResourceIsReachableAndReturnError:nil] && ![url isSubpathOfURL:[[rom libraryDatabase] romsFolderURL]])
+                        if([rom consolidateFilesWithError:&error])
                         {
-                            BOOL romFileLocked = NO;
-                            if([[[[NSFileManager defaultManager] attributesOfItemAtPath:[url path] error:nil] objectForKey:NSFileImmutable] boolValue])
-                            {
-                                romFileLocked = YES;
-                                [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(FALSE) } ofItemAtPath:[url path] error:nil];
-                            }
-
-                            NSString *fullName  = [url lastPathComponent];
-                            NSString *extension = [fullName pathExtension];
-                            NSString *baseName  = [fullName stringByDeletingPathExtension];
-
-                            NSURL *unsortedFolder = [[rom libraryDatabase] romsFolderURLForSystem:[game system]];
-                            NSURL *romURL         = [unsortedFolder URLByAppendingPathComponent:fullName];
-                            romURL = [romURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-                                NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", baseName, triesCount, extension];
-                                return [unsortedFolder URLByAppendingPathComponent:newName];
-                            }];
-
-                            if([[NSFileManager defaultManager] copyItemAtURL:url toURL:romURL error:&error])
-                            {
-                                [rom setURL:romURL];
-                            }
-                            else if(error != nil) break;
-
-                            if(romFileLocked)
-                                [[NSFileManager defaultManager] setAttributes:@{ NSFileImmutable: @(YES) } ofItemAtPath:[url path] error:nil];
+                            break;
                         }
                     }
 
@@ -452,7 +425,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
     __block BOOL hasLocalFiles = NO;
     [games enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stop) {
-        *stop = hasLocalFiles = [[game defaultROM] source] == nil;
+        *stop = hasLocalFiles = [[game defaultROM] filesAvailable];
     }];
 
     if([indexes count] == 1)
@@ -666,6 +639,12 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index
 {
     [[self libraryController] startGame:self];
+}
+
+- (void)gridView:(OEGridView*)gridView requestsDownloadRomForItemAtIndex:(NSUInteger)index
+{
+    OEDBGame *game = [[[self gamesController] arrangedObjects] objectAtIndex:index];
+    [game requestROMDownload];
 }
 #pragma mark - GridView DraggingDestinationDelegate
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender

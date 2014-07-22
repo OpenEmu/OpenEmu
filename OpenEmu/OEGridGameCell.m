@@ -15,6 +15,8 @@
 
 #import "IKImageBrowserCell.h"
 
+#import "OEGameGridViewDelegate.h"
+
 static const CGFloat OEGridCellTitleHeight                      = 16.0;        // Height of the title view
 static const CGFloat OEGridCellImageTitleSpacing                = 17.0;        // Space between the image and the title
 static const CGFloat OEGridCellSubtitleHeight                   = 11.0;        // Subtitle height
@@ -265,8 +267,12 @@ static NSDictionary *disabledActions = nil;
     location = [_downloadLayer convertPoint:location fromLayer:_foregroundLayer];
     if(LocationInDownloadLayer())
     {
-        NSLog(@"send action");
-        // TODO: Send action
+        // call method in delegate
+        id delegate = [[self imageBrowserView] delegate];
+        if([delegate conformsToProtocol:@protocol(OEGameGridViewDelegate)])
+        {
+            [delegate gridView:[self imageBrowserView] requestsDownloadRomForItemAtIndex:[self indexOfRepresentedItem]];
+        }
     }
     [[self imageBrowserView] reloadCellDataAtIndex:[self indexOfRepresentedItem]];
 }
@@ -485,6 +491,11 @@ static NSDictionary *disabledActions = nil;
             [_downloadLayer setFrame:[self relativeDownloadButtonFrame]];
             [_downloadLayer setContentsScale:scaleFactor];
         }
+        else
+        {
+            [_downloadLayer removeFromSuperlayer];
+            _downloadLayer = nil;
+        }
 
 		[CATransaction commit];
 		return _foregroundLayer;
@@ -534,9 +545,10 @@ static NSDictionary *disabledActions = nil;
     switch (status)
     {
         case 1:
+        case 2:
             indicationType = OEGridViewCellIndicationTypeProcessing;
             break;
-        case 2:
+        case 3:
             indicationType = OEGridViewCellIndicationTypeFileMissing;
             break;
         default:

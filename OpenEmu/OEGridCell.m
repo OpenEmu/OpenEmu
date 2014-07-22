@@ -41,6 +41,7 @@
 {
     return NSZeroRect;
 }
+
 #pragma mark - Helpers
 - (OEGridView*)imageBrowserView
 {
