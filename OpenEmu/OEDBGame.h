@@ -30,9 +30,9 @@
 typedef NS_ENUM(NSUInteger, OEDBGameStatus)
 {
     OEDBGameStatusOK,
-    OEDBGameStatusProcessing,
     OEDBGameStatusDownloading,
-    OEDBGameStatusAlert
+    OEDBGameStatusAlert,
+    OEDBGameStatusProcessing,
 };
 
 extern NSString *const OEPasteboardTypeGame;

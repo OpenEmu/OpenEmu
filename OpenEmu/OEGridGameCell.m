@@ -545,10 +545,10 @@ static NSDictionary *disabledActions = nil;
     switch (status)
     {
         case 1:
-        case 2:
+        case 3:
             indicationType = OEGridViewCellIndicationTypeProcessing;
             break;
-        case 3:
+        case 2:
             indicationType = OEGridViewCellIndicationTypeFileMissing;
             break;
         default:
