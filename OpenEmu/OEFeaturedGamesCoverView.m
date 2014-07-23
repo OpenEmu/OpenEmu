@@ -169,7 +169,7 @@ const static NSLock *lock;
 
     const CGFloat width = (numberOfImages*itemWidth + (numberOfImages-1)*itemSpace);
     const CGFloat minX = midX - width/2.0;
-    return NSMakeRect(minX, 20, width, itemWidth);
+    return NSMakeRect(minX, 0, width, itemWidth);
 }
 
 - (NSRect)rectForPageSelector:(NSInteger)page
@@ -180,12 +180,16 @@ const static NSLock *lock;
     const CGFloat minX = midX - (numberOfImages*itemWidth + (numberOfImages-1)*itemSpace)/2.0
                               + (page*itemWidth + (page-1)*itemSpace);
 
-    return NSMakeRect(minX, 20, itemWidth, itemWidth);
+    return NSMakeRect(minX, 0, itemWidth, itemWidth);
 }
 
 - (NSRect)rectForImage:(NSImage*)image
 {
-    return NSInsetRect([self bounds], 10, 10);
+    NSRect rect = NSInsetRect([self bounds], 10, 10);
+    rect.origin.y += 10.0;
+    rect.size.height -= 10.0;
+
+    return rect;
 }
 
 #pragma mark - Drawing
@@ -195,6 +199,9 @@ const static NSLock *lock;
     [[NSColor clearColor] setFill];
     NSRectFill([self bounds]);
 
+    const CGFloat scaleFactor = [[self window] backingScaleFactor];
+
+    // Draw image
     NSURL *url = [[self URLs] objectAtIndex:_currentImage];
     NSImage *image = [cache objectForKey:url];
     if(image)
@@ -212,6 +219,7 @@ const static NSLock *lock;
         [[NSGraphicsContext currentContext] restoreGraphicsState];
     }
 
+    // Draw page selector
     NSInteger numberOfImages = [[self URLs] count];
     for(NSInteger i=0; i < numberOfImages; i++)
     {

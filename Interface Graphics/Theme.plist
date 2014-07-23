@@ -1262,7 +1262,7 @@
 		<key>homebrew_text</key>
 		<dict>
 			<key>Color</key>
-			<string>#616672</string>
+			<string>#929DA5</string>
 			<key>Family</key>
 			<string>Lucida Grande</string>
 			<key>Shadow</key>
@@ -1280,13 +1280,13 @@
 		<key>homebrew_description</key>
 		<dict>
 			<key>Color</key>
-			<string>#616672</string>
+			<string>rgba(127,127,127,1.0)</string>
 			<key>Family</key>
 			<string>Lucida Grande</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>Color</key>
 				<string>rgba(0,0,0,0.4)</string>
 				<key>Offset</key>
@@ -1317,7 +1317,7 @@
 				<key>Default</key>
 				<dict>
 					<key>Color</key>
-					<string>#616672</string>
+					<string>#929DA5</string>
 				</dict>
 				<key>Window Active, Mouse Over</key>
 				<dict>
@@ -1334,7 +1334,7 @@
 		<key>homebrew_button</key>
 		<dict>
 			<key>Color</key>
-			<string>#929DA5</string>
+			<string>rgba(127,127,127,1.0)</string>
 			<key>Family</key>
 			<string>Lucida Grande</string>
 			<key>Shadow</key>
