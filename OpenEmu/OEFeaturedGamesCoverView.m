@@ -229,7 +229,9 @@ const static NSLock *lock;
         {
             [[NSColor clearColor] setFill];
             [[NSColor colorWithRed:0 green:136.0/255.0 blue:204.0/255.0 alpha:1.0] setStroke];
-        } else {
+        }
+        else
+        {
             [[NSColor grayColor] setFill];
             [[NSColor clearColor] setStroke];
         }

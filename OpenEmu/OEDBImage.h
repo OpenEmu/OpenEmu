@@ -40,6 +40,8 @@ typedef enum : NSUInteger
 
 + (instancetype)createImageWithDictionary:(NSDictionary*)dictionary;
 
+- (BOOL)localFilesAvailable;
+
 #pragma mark - Core Data utilities
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;

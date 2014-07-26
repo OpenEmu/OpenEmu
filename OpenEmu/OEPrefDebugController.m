@@ -190,7 +190,10 @@ NSString * const OptionsKey = @"options";
                               Button(@"Cancel OpenVGDB Update", @selector(cancelOpenVGDBUpdate:)),
 
                               Group(@"Database Actions"),
-                              Label(@"Not implemented right now"),
+                              Button(@"Delete Artwork that can be downloaded", @selector(removeArtworkWithRemoteBacking:)),
+                              Button(@"Download missing artwork", @selector(downloadMissingArtwork:)),
+                              Button(@"Remove untracked artwork files", @selector(removeUntrackedImageFiles:)),
+
                               Label(@""),
                               ];
 }
@@ -345,6 +348,117 @@ NSString * const OptionsKey = @"options";
 {
     OEGameInfoHelper *helper = [OEGameInfoHelper sharedHelper];
     [helper cancelUpdate];
+}
+
+- (void)removeArtworkWithRemoteBacking:(id)sender
+{
+    OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = [library mainThreadContext];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[OEDBImage entityName]];
+    NSPredicate  *predicate = [NSPredicate predicateWithFormat:@"source == nil"];
+
+    [request setPredicate:predicate];
+
+    NSError *error  = nil;
+    NSArray *result = [context executeFetchRequest:request error:&error];
+    if(!result)
+    {
+        DLog(@"Could not execute fetch request: %@", error);
+        return;
+    }
+
+    NSUInteger count = 0;
+    for(OEDBImage *image in result)
+    {
+        // make sure we only delete image files that can be downloaded automatically!
+        if([image sourceURL])
+        {
+            NSURL *fileURL = [image imageURL];
+            [[NSFileManager defaultManager] removeItemAtURL:fileURL error:nil];
+            [image setRelativePath:nil];
+            count++;
+        }
+    }
+    [context save:nil];
+    NSLog(@"Deleted %ld image files!", count);
+}
+
+- (void)downloadMissingArtwork:(id)sender
+{
+    NSAlert *alert = [NSAlert alertWithMessageText:OELocalizedString(@"While performing this operation OpenEmu will be unresponsive.","")
+                                     defaultButton:@"Do it!"
+                                   alternateButton:@"Cancel Operation"
+                                       otherButton:@""
+                         informativeTextWithFormat:@""];
+    if([alert runModal] != NSAlertDefaultReturn) return;
+
+    OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = [library mainThreadContext];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[OEDBImage entityName]];
+    NSPredicate  *predicate = [NSPredicate predicateWithFormat:@"source != nil"];
+    [request setPredicate:predicate];
+
+    NSError *error  = nil;
+    NSArray *result = [context executeFetchRequest:request error:&error];
+    if(!result)
+    {
+        DLog(@"Could not execute fetch request: %@", error);
+        return;
+    }
+
+    NSUInteger count = 0;
+    for(OEDBImage *image in result)
+    {
+        // make sure we only delete image files that can be downloaded automatically!
+        if(![image localFilesAvailable])
+        {
+            @autoreleasepool {
+                NSDictionary *newInfo = [OEDBImage prepareImageWithURLString:[image source]];
+                if(newInfo && [newInfo valueForKey:@"relativePath"])
+                {
+                    [image setWidth:[[newInfo valueForKey:@"width"] floatValue]];
+                    [image setHeight:[[newInfo valueForKey:@"height"] floatValue]];
+                    [image setRelativePath:[newInfo valueForKey:@"relativePath"]];
+                    [image setFormat:[[newInfo valueForKey:@"format"] shortValue]];
+                    count ++;
+                }
+            }
+        }
+        if(count % 20 == 0)
+            [context save:nil];
+    }
+    [context save:nil];
+    NSLog(@"Downloaded %ld image files!", count);
+}
+
+- (void)removeUntrackedImageFiles:(id)sender
+{
+    OELibraryDatabase *library   = [OELibraryDatabase defaultDatabase];
+    NSURL *artworkDirectory      = [library coverFolderURL];
+
+    NSArray *artworkFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:artworkDirectory includingPropertiesForKeys:nil options:0 error:nil];
+    NSMutableSet *artwork = [NSMutableSet setWithArray:artworkFiles];
+
+    NSManagedObjectContext *context = [library mainThreadContext];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[OEDBImage entityName]];
+    NSPredicate  *predicate = [NSPredicate predicateWithFormat:@"relativePath != nil"];
+    [request setPredicate:predicate];
+
+    NSArray *images = [context executeFetchRequest:request error:nil];
+    if(images == nil)
+    {
+        return;
+    }
+
+    for(OEDBImage *image in images)
+    {
+        [artwork removeObject:[image imageURL]];
+    }
+
+    [artwork enumerateObjectsUsingBlock:^(NSURL *untrackedFile, BOOL *stop) {
+        [[NSFileManager defaultManager] removeItemAtURL:untrackedFile error:nil];
+    }];
+    NSLog(@"Removed %ld unknown files from artwork directory", [artwork count]);
 }
 #pragma mark -
 - (void)changeUDColor:(id)sender

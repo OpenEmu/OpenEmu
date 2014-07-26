@@ -256,6 +256,10 @@
         return YES;
     }
 }
+- (BOOL)localFilesAvailable
+{
+    return [[self imageURL] checkResourceIsReachableAndReturnError:nil];
+}
 #pragma mark - Core Data utilities
 + (NSString *)entityName
 {
