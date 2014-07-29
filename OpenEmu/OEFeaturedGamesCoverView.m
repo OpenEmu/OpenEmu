@@ -169,7 +169,7 @@ const static NSLock *lock;
 
     const CGFloat width = (numberOfImages*itemWidth + (numberOfImages-1)*itemSpace);
     const CGFloat minX = midX - width/2.0;
-    return NSMakeRect(minX, 0, width, itemWidth);
+    return NSMakeRect(minX, 1, width, itemWidth);
 }
 
 - (NSRect)rectForPageSelector:(NSInteger)page
@@ -180,7 +180,7 @@ const static NSLock *lock;
     const CGFloat minX = midX - (numberOfImages*itemWidth + (numberOfImages-1)*itemSpace)/2.0
                               + (page*itemWidth + (page-1)*itemSpace);
 
-    return NSMakeRect(minX, 0, itemWidth, itemWidth);
+    return NSMakeRect(minX, 1, itemWidth, itemWidth);
 }
 
 - (NSRect)rectForImage:(NSImage*)image
