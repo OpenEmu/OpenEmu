@@ -304,7 +304,7 @@ const static NSLock *lock;
         dispatch_async(queue, ^{
             NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
             if(image == nil)
-                image = [NSImage imageNamed:@"remote_image_unavaiable"];
+                image = [NSImage imageNamed:NSImageNameCaution];
 
             [lock lock];
             [cache setObject:image forKey:url];
