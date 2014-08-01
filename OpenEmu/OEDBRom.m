@@ -51,7 +51,8 @@
 {
     if(url == nil) return nil;
 
-    NSURL *romFolderURL =  [[context userInfo] valueForKey:OELibraryDatabaseUserInfoKey];
+    OELibraryDatabase *library = [[context userInfo] valueForKey:OELibraryDatabaseUserInfoKey];
+    NSURL *romFolderURL = [library romsFolderURL];
 
     url = [url urlRelativeToURL:romFolderURL];
 
