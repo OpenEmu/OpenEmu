@@ -26,6 +26,30 @@
 		<string>{0, 0}</string>
 		<key>OE5200ButtonReset</key>
 		<string>{0, 0}</string>
+		<key>OE5200Button1</key>
+		<string>{0, 0}</string>
+		<key>OE5200Button2</key>
+		<string>{0, 0}</string>
+		<key>OE5200Button3</key>
+		<string>{0, 0}</string>
+		<key>OE5200Button4</key>
+		<string>{0, 0}</string>
+		<key>OE5200Button5</key>
+		<string>{0, 0}</string>
+		<key>OE5200Button6</key>
+		<string>{0, 0}</string>
+		<key>OE5200Button7</key>
+		<string>{0, 0}</string>
+		<key>OE5200Button8</key>
+		<string>{0, 0}</string>
+		<key>OE5200Button9</key>
+		<string>{0, 0}</string>
+		<key>OE5200Button0</key>
+		<string>{0, 0}</string>
+		<key>OE5200ButtonAsterisk</key>
+		<string>{0, 0}</string>
+		<key>OE5200ButtonPound</key>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>

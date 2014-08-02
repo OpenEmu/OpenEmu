@@ -88,6 +88,85 @@
 				<string>OE5200ButtonReset</string>
 			</dict>
 		</array>
+		<array>
+			<string>Keypad</string>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>1</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE5200Button1</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>2</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE5200Button2</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>3</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE5200Button3</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>4</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE5200Button4</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>5</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE5200Button5</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>6</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE5200Button6</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>7</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE5200Button7</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>8</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE5200Button8</string>
+			</dict>
+		</array>
+		<array>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>9</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE5200Button9</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>0</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE5200Button0</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>*</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE5200ButtonAsterisk</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>#</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OE5200ButtonPound</string>
+			</dict>
+		</array>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
@@ -127,6 +206,18 @@
 		<string>OE5200ButtonStart</string>
 		<string>OE5200ButtonPause</string>
 		<string>OE5200ButtonReset</string>
+		<string>OE5200Button1</string>
+		<string>OE5200Button2</string>
+		<string>OE5200Button3</string>
+		<string>OE5200Button4</string>
+		<string>OE5200Button5</string>
+		<string>OE5200Button6</string>
+		<string>OE5200Button7</string>
+		<string>OE5200Button8</string>
+		<string>OE5200Button9</string>
+		<string>OE5200Button0</string>
+		<string>OE5200ButtonAsterisk</string>
+		<string>OE5200ButtonPound</string>
 	</array>
 	<key>OENumberOfPlayersKey</key>
 	<integer>2</integer>

@@ -20,5 +20,29 @@
 	<integer>229</integer>
 	<key>OE5200ButtonReset</key>
 	<integer>20</integer>
+	<key>OE5200Button1</key>
+	<integer>30</integer>
+	<key>OE5200Button2</key>
+	<integer>31</integer>
+	<key>OE5200Button3</key>
+	<integer>32</integer>
+	<key>OE5200Button4</key>
+	<integer>33</integer>
+	<key>OE5200Button5</key>
+	<integer>34</integer>
+	<key>OE5200Button6</key>
+	<integer>35</integer>
+	<key>OE5200Button7</key>
+	<integer>36</integer>
+	<key>OE5200Button8</key>
+	<integer>37</integer>
+	<key>OE5200Button9</key>
+	<integer>38</integer>
+	<key>OE5200Button0</key>
+	<integer>39</integer>
+	<key>OE5200ButtonAsterisk</key>
+	<integer>45</integer>
+	<key>OE5200ButtonPound</key>
+	<integer>46</integer>
 </dict>
 </plist>
