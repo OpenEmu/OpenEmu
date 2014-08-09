@@ -1050,6 +1050,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
         if([self openGLContext] != nil)
         {
             CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+            CGLLockContext(cgl_ctx);
 
             // upload LUT textures
             for(NSUInteger i = 0; i < [[(OEMultipassShader *)filter lutTextures] count]; ++i)
@@ -1089,6 +1090,8 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
                 
                 CFRelease(data);
             }
+
+            CGLUnlockContext(cgl_ctx);
         }
     }
 
