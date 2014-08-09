@@ -24,23 +24,19 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEGameShader.h"
+#import <Foundation/Foundation.h>
+#import <ImageIO/ImageIO.h>
 
-typedef enum
-{
-    OENTSCFilterTypeNone,
-    OENTSCFilterTypeRGB,
-    OENTSCFilterTypeSVideo,
-    OENTSCFilterTypeComposite
-} OENTSCFilterType;
+@interface OELUTTexture : NSObject
 
-@interface OEMultipassShader : OEGameShader
+@property(readonly) CGImageRef texture;
 
-- (void)compileShaders;
+- (void)loadTexture;
 
-@property(readonly) NSUInteger numberOfPasses;
-@property(readonly) NSArray *shaders;
-@property(readonly) OENTSCFilterType NTSCFilter;
-@property(readonly) NSArray *lutTextures;
+@property NSString *name;
+@property NSString *path;
+@property BOOL linearFiltering;
+@property GLenum wrapType;
+@property BOOL mipmap;
 
 @end

@@ -28,10 +28,12 @@
 #import "OEShaderPlugin.h"
 #import "OECGShader.h"
 #import "OEGameShader_ForSubclassEyesOnly.h"
+#import "OELUTTexture.h"
 
 @implementation OEMultipassShader
 {
     NSMutableArray *_shaders;
+    NSMutableArray *_lutTextures;
 }
 
 - (void)compileShaders
@@ -42,6 +44,9 @@
 
         for(OECGShader *x in _shaders)
             [x compileShaders];
+
+        for(OELUTTexture* x in _lutTextures)
+            [x loadTexture];
 
         [self setCompiled:YES];
     }
@@ -68,16 +73,95 @@
     // Remove whitespace
     NSArray  *seperateByWhitespace = [input componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *strippedInput = [seperateByWhitespace componentsJoinedByString:@""];
+    NSTextCheckingResult *result = nil;
+    NSArray *lutNames = nil;
+
+    // Check for LUTs
+    result = [self checkRegularExpression:@"(?<=textures=).*" inString:strippedInput withError:error];
+    if(result.range.length != 0)
+    {
+        NSString *otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        lutNames = [otherArguments componentsSeparatedByString: @";"];
+        if([lutNames count] > OELUTTextures)
+        {
+            NSLog(@"Too many lut textures in %@: %@", [self shaderName], error);
+            return NO;
+        }
+
+        _lutTextures = [NSMutableArray arrayWithCapacity:[lutNames count]];
+
+        for(NSUInteger i = 0; i < [lutNames count]; ++i)
+        {
+            OELUTTexture *lut = [OELUTTexture new];
+            [lut setName:lutNames[i]];
+
+            result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=%s=).*", [[lut name] UTF8String]] inString:strippedInput withError:error];
+            if(result.range.length == 0)
+            {
+                NSLog(@"Couldn't find \"%s\" argument of %@: %@", [[lut name] UTF8String], [self shaderName], error);
+                return NO;
+            }
+
+            NSString *texture = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+
+            // Find texture
+            NSFileManager *manager = [NSFileManager defaultManager];
+            [lut setPath: [[[self filePath] stringByDeletingLastPathComponent] stringByAppendingPathComponent:texture]];
+            if(![manager fileExistsAtPath:[lut path]])
+            {
+                NSLog(@"Couldn't find texture named %@", texture);
+                return NO;
+            }
+
+            // Check if linear filtering is to be used
+            result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=%s_linear=).*", [[lut name] UTF8String]] inString:strippedInput withError:error];
+            otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+            if([otherArguments isEqualToString:@"true"] || [otherArguments isEqualToString:@"1"])
+            {
+                [lut setLinearFiltering:YES];
+            }
+
+            // Check which wrap mode is to be used
+            result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=%s_wrap_mode=).*", [[lut name] UTF8String]] inString:strippedInput withError:error];
+            otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+            if([otherArguments isEqualToString:@"clamp_to_border"])
+            {
+                [lut setWrapType:GL_CLAMP_TO_BORDER];
+            }
+            else if([otherArguments isEqualToString:@"clamp_to_edge"])
+            {
+                [lut setWrapType:GL_CLAMP_TO_EDGE];
+            }
+            else if([otherArguments isEqualToString:@"repeat"])
+            {
+                [lut setWrapType:GL_REPEAT];
+            }
+            else if([otherArguments isEqualToString:@"mirrored_repeat"])
+            {
+                [lut setWrapType:GL_MIRRORED_REPEAT];
+            }
+
+            // Check if mipmapping is to be used
+            result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=%s_mipmap=).*", [[lut name] UTF8String]] inString:strippedInput withError:error];
+            otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+            if([otherArguments isEqualToString:@"true"] || [otherArguments isEqualToString:@"1"])
+            {
+                [lut setMipmap:YES];
+            }
+            
+            [_lutTextures addObject:lut];
+        }
+    }
 
     // Parse the number of shaders
-    NSTextCheckingResult *result = [self checkRegularExpression:@"(?<=shaders=).*$" inString:strippedInput withError:error];
+    result = [self checkRegularExpression:@"(?<=shaders=).*$" inString:strippedInput withError:error];
     if(result.range.length == 0)
     {
         NSLog(@"Couldn't find \"shaders\" argument of %@: %@", [self shaderName], error);
         return NO;
     }
 
-    _numberOfPasses = [[strippedInput substringWithRange:result.range] integerValue];
+    _numberOfPasses = [[[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""] integerValue];
 
     if(_numberOfPasses > OEMultipasses)
     {
@@ -181,7 +265,7 @@
         result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale%ld=).*", i] inString:strippedInput withError:error];
         if(result.range.length != 0)
         {
-            otherArguments = [strippedInput substringWithRange:result.range];
+            otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             [shader setScaler:CGSizeMake([otherArguments floatValue], [otherArguments floatValue])];
         }
         else
@@ -192,14 +276,14 @@
             result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale_x%ld=).*", i] inString:strippedInput withError:error];
             if(result.range.length != 0)
             {
-                otherArguments = [strippedInput substringWithRange:result.range];
+                otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
                 x = [otherArguments floatValue];
             }
 
             result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=scale_y%ld=).*", i] inString:strippedInput withError:error];
             if(result.range.length != 0)
             {
-                otherArguments = [strippedInput substringWithRange:result.range];
+                otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
                 y = [otherArguments floatValue];
             }
 
@@ -218,10 +302,12 @@
         result = [self checkRegularExpression:[NSString stringWithFormat:@"(?<=frame_count_mod%ld=).*", i] inString:strippedInput withError:error];
         if(result.range.length != 0)
         {
-            otherArguments = [strippedInput substringWithRange:result.range];
+            otherArguments = [[strippedInput substringWithRange:result.range] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
             [shader setFrameCountMod:[otherArguments integerValue]];
         }
-        
+
+        // Add the LUTs to the shader
+        [shader setLutTextures:lutNames];
 
         // Add the shader to the shaders array
         [_shaders addObject:shader];
@@ -248,6 +334,11 @@
 - (NSArray *)shaders
 {
     return _shaders;
+}
+
+- (NSArray *)lutTextures
+{
+    return _lutTextures;
 }
 
 @end
