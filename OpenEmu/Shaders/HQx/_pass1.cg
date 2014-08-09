@@ -99,7 +99,7 @@ float4 main_fragment(in out_vertex VAR, uniform sampler2D decal : TEXUNIT0, unif
 	float3 w3  = mul(yuv, tex2D(decal, VAR.t1.zw).rgb);
 
 	float3 w4  = mul(yuv, tex2D(decal, VAR.t2.xw).rgb);
-	float3 w5  = mul(yuv, tex2D(decal, VAR.t2.yw).rgb);
+	float3 w5  = mul(yuv, tex2D(decal, VAR.texCoord).rgb);
 	float3 w6  = mul(yuv, tex2D(decal, VAR.t2.zw).rgb);
 
 	float3 w7  = mul(yuv, tex2D(decal, VAR.t3.xw).rgb);
