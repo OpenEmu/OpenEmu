@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_odyssey2</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_odyssey2_mask</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OEOdyssey2ButtonUp</key>
+		<string>{0, 0}</string>
+		<key>OEOdyssey2ButtonDown</key>
+		<string>{0, 0}</string>
+		<key>OEOdyssey2ButtonAction</key>
+		<string>{0, 0}</string>
+		<key>OEOdyssey2ButtonLeft</key>
+		<string>{0, 0}</string>
+		<key>OEOdyssey2ButtonRight</key>
+		<string>{0, 0}</string>
+	</dict>
+</dict>
+</plist>

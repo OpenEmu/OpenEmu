@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEOdyssey2ButtonUp</key>
+	<integer>82</integer>
+	<key>OEOdyssey2ButtonDown</key>
+	<integer>81</integer>
+	<key>OEOdyssey2ButtonLeft</key>
+	<integer>80</integer>
+	<key>OEOdyssey2ButtonRight</key>
+	<integer>79</integer>
+	<key>OEOdyssey2ButtonAction</key>
+	<integer>4</integer>
+</dict>
+</plist>
