@@ -24,11 +24,25 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <OpenEmuSystem/OpenEmuSystem.h>
-#import "Odyssey2SystemResponderClient.h"
+#import "OEOdyssey2SystemResponder.h"
+#import "OEOdyssey2SystemResponderClient.h"
 
-@interface Odyssey2SystemResponder : OESystemResponder
+@implementation OEOdyssey2SystemResponder
+@dynamic client;
 
-@property(nonatomic, weak) id<Odyssey2SystemResponderClient> client;
++ (Protocol *)gameSystemResponderClientProtocol;
+{
+    return @protocol(OEOdyssey2SystemResponderClient);
+}
+
+- (void)pressEmulatorKey:(OESystemKey *)aKey
+{
+    [[self client] didPushOdyssey2Button:(OEOdyssey2Button)[aKey key] forPlayer:[aKey player]];
+}
+
+- (void)releaseEmulatorKey:(OESystemKey *)aKey
+{
+    [[self client] didReleaseOdyssey2Button:(OEOdyssey2Button)[aKey key] forPlayer:[aKey player]];
+}
 
 @end

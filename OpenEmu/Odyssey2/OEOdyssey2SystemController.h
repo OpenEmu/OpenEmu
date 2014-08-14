@@ -25,22 +25,8 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
-@protocol OESystemResponderClient;
-
-typedef enum _Odyssey2Button
-{
-	Odyssey2ButtonUp,
-	Odyssey2ButtonDown,
-	Odyssey2ButtonLeft,
-	Odyssey2ButtonRight,
-	OEOdyssey2ButtonAction,
-	Odyssey2ButtonCount
-} Odyssey2Button;
-
-@protocol Odyssey2SystemResponderClient <OESystemResponderClient, NSObject>
-
-- (oneway void)didPushOdyssey2Button:(Odyssey2Button)button forPlayer:(NSUInteger)player;
-- (oneway void)didReleaseOdyssey2Button:(Odyssey2Button)button forPlayer:(NSUInteger)player;
+@interface OEOdyssey2SystemController : OESystemController
 
 @end

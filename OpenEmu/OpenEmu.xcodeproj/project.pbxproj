@@ -623,8 +623,8 @@
 		943F99D41707F48400270E89 /* OE3DOSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943F99D31707F48400270E89 /* OE3DOSystemController.m */; };
 		94404756199D4DF0002D805E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		9440475C199D4DF1002D805E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9440475A199D4DF1002D805E /* InfoPlist.strings */; };
-		94404769199D4FEE002D805E /* Odyssey2SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94404764199D4FEE002D805E /* Odyssey2SystemController.m */; };
-		9440476B199D4FEE002D805E /* Odyssey2SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94404766199D4FEE002D805E /* Odyssey2SystemResponder.m */; };
+		94404769199D4FEE002D805E /* OEOdyssey2SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94404764199D4FEE002D805E /* OEOdyssey2SystemController.m */; };
+		9440476B199D4FEE002D805E /* OEOdyssey2SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94404766199D4FEE002D805E /* OEOdyssey2SystemResponder.m */; };
 		94404772199D5032002D805E /* controller_odyssey2_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 9440476C199D5032002D805E /* controller_odyssey2_mask.png */; };
 		94404773199D5032002D805E /* controller_odyssey2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9440476D199D5032002D805E /* controller_odyssey2.png */; };
 		94404774199D5032002D805E /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9440476E199D5032002D805E /* Controller-Mappings.plist */; };
@@ -2509,11 +2509,11 @@
 		94404755199D4DF0002D805E /* Odyssey2.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Odyssey2.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94404759199D4DF0002D805E /* Odyssey2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Odyssey2-Info.plist"; sourceTree = "<group>"; };
 		9440475B199D4DF1002D805E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		94404763199D4FEE002D805E /* Odyssey2SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Odyssey2SystemController.h; sourceTree = "<group>"; };
-		94404764199D4FEE002D805E /* Odyssey2SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Odyssey2SystemController.m; sourceTree = "<group>"; };
-		94404765199D4FEE002D805E /* Odyssey2SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Odyssey2SystemResponder.h; sourceTree = "<group>"; };
-		94404766199D4FEE002D805E /* Odyssey2SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Odyssey2SystemResponder.m; sourceTree = "<group>"; };
-		94404767199D4FEE002D805E /* Odyssey2SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Odyssey2SystemResponderClient.h; sourceTree = "<group>"; };
+		94404763199D4FEE002D805E /* OEOdyssey2SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOdyssey2SystemController.h; sourceTree = "<group>"; };
+		94404764199D4FEE002D805E /* OEOdyssey2SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOdyssey2SystemController.m; sourceTree = "<group>"; };
+		94404765199D4FEE002D805E /* OEOdyssey2SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOdyssey2SystemResponder.h; sourceTree = "<group>"; };
+		94404766199D4FEE002D805E /* OEOdyssey2SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOdyssey2SystemResponder.m; sourceTree = "<group>"; };
+		94404767199D4FEE002D805E /* OEOdyssey2SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOdyssey2SystemResponderClient.h; sourceTree = "<group>"; };
 		9440476C199D5032002D805E /* controller_odyssey2_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_odyssey2_mask.png; sourceTree = "<group>"; };
 		9440476D199D5032002D805E /* controller_odyssey2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_odyssey2.png; sourceTree = "<group>"; };
 		9440476E199D5032002D805E /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
@@ -5200,11 +5200,11 @@
 		94404757199D4DF0002D805E /* Odyssey2 */ = {
 			isa = PBXGroup;
 			children = (
-				94404763199D4FEE002D805E /* Odyssey2SystemController.h */,
-				94404764199D4FEE002D805E /* Odyssey2SystemController.m */,
-				94404765199D4FEE002D805E /* Odyssey2SystemResponder.h */,
-				94404766199D4FEE002D805E /* Odyssey2SystemResponder.m */,
-				94404767199D4FEE002D805E /* Odyssey2SystemResponderClient.h */,
+				94404763199D4FEE002D805E /* OEOdyssey2SystemController.h */,
+				94404764199D4FEE002D805E /* OEOdyssey2SystemController.m */,
+				94404765199D4FEE002D805E /* OEOdyssey2SystemResponder.h */,
+				94404766199D4FEE002D805E /* OEOdyssey2SystemResponder.m */,
+				94404767199D4FEE002D805E /* OEOdyssey2SystemResponderClient.h */,
 				94404758199D4DF0002D805E /* Supporting Files */,
 			);
 			path = Odyssey2;
@@ -8158,8 +8158,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94404769199D4FEE002D805E /* Odyssey2SystemController.m in Sources */,
-				9440476B199D4FEE002D805E /* Odyssey2SystemResponder.m in Sources */,
+				94404769199D4FEE002D805E /* OEOdyssey2SystemController.m in Sources */,
+				9440476B199D4FEE002D805E /* OEOdyssey2SystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11156,6 +11156,7 @@
 				9440475F199D4DF1002D805E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		94454EC117860E1E006C057B /* Build configuration list for PBXNativeTarget "PSP" */ = {
 			isa = XCConfigurationList;

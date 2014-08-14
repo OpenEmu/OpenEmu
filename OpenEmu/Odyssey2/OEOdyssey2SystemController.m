@@ -24,25 +24,33 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "Odyssey2SystemResponder.h"
-#import "Odyssey2SystemResponderClient.h"
+#import "OEOdyssey2SystemController.h"
+#import "OEOdyssey2SystemResponder.h"
+#import "OEOdyssey2SystemResponderClient.h"
 
-@implementation Odyssey2SystemResponder
-@dynamic client;
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
-+ (Protocol *)gameSystemResponderClientProtocol;
+@implementation OEOdyssey2SystemController
+
+- (NSString *)systemName
 {
-    return @protocol(Odyssey2SystemResponderClient);
+    return ([[OELocalizationHelper sharedHelper] isRegionEU]
+            ? @"Videopac+"
+            : @"Odyssey²");
 }
 
-- (void)pressEmulatorKey:(OESystemKey *)aKey
-{
-    [[self client] didPushOdyssey2Button:(Odyssey2Button)[aKey key] forPlayer:[aKey player]];
-}
-
-- (void)releaseEmulatorKey:(OESystemKey *)aKey
-{
-    [[self client] didReleaseOdyssey2Button:(Odyssey2Button)[aKey key] forPlayer:[aKey player]];
-}
+//- (OECanHandleState)canHandleFile:(NSString *)path
+//{
+//    OECanHandleState canHandleFile = OECanHandleNo;
+//    
+//    NSURL *fileURL = [NSURL fileURLWithPath:path];
+//    NSNumber *fileSize = nil;
+//    [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:nil];
+//    
+//    if([fileSize intValue] < 2097152)
+//        canHandleFile = OECanHandleUncertain;
+//    
+//    return canHandleFile;
+//}
 
 @end

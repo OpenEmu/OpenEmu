@@ -24,33 +24,11 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "Odyssey2SystemController.h"
-#import "Odyssey2SystemResponder.h"
-#import "Odyssey2SystemResponderClient.h"
-
 #import <OpenEmuSystem/OpenEmuSystem.h>
+#import "OEOdyssey2SystemResponderClient.h"
 
-@implementation Odyssey2SystemController
+@interface OEOdyssey2SystemResponder : OESystemResponder
 
-- (NSString *)systemName
-{
-    return ([[OELocalizationHelper sharedHelper] isRegionEU]
-            ? @"Videopac+"
-            : @"Odyssey²");
-}
-
-//- (OECanHandleState)canHandleFile:(NSString *)path
-//{
-//    OECanHandleState canHandleFile = OECanHandleNo;
-//    
-//    NSURL *fileURL = [NSURL fileURLWithPath:path];
-//    NSNumber *fileSize = nil;
-//    [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:nil];
-//    
-//    if([fileSize intValue] < 2097152)
-//        canHandleFile = OECanHandleUncertain;
-//    
-//    return canHandleFile;
-//}
+@property(nonatomic, weak) id<OEOdyssey2SystemResponderClient> client;
 
 @end
