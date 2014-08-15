@@ -577,6 +577,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 {
     OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
     [[view fullScreenButton] setState:NSOnState];
+    [self mouseMoved:NULL];  // Show HUD because fullscreen animation makes the cursor appear
 }
 
 - (void)parentWindowWillExitFullScreen:(NSNotification *)notification;
