@@ -50,13 +50,13 @@ CISO_H ciso;
         NSData *dataBuffer;
 
         dataFile = [NSFileHandle fileHandleForReadingAtPath:path];
-        [dataFile seekToFileOffset: 0x8001];
-        dataBuffer = [dataFile readDataOfLength:5];
+        [dataFile seekToFileOffset: 0x8008];
+        dataBuffer = [dataFile readDataOfLength:8];
 
         NSString *dataString = [[NSString alloc] initWithData:dataBuffer encoding:NSUTF8StringEncoding];
         NSLog(@"'%@'", dataString);
 
-        if([dataString isEqualToString:@"CD001"])
+        if([dataString isEqualToString:@"PSP GAME"])
             canHandleFile = OECanHandleYes;
 
         [dataFile closeFile];
