@@ -42,5 +42,7 @@ typedef enum _OEOdyssey2Button
 
 - (oneway void)didPushOdyssey2Button:(OEOdyssey2Button)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleaseOdyssey2Button:(OEOdyssey2Button)button forPlayer:(NSUInteger)player;
+- (void)keyUp:(unsigned short)keyCode;
+- (void)keyDown:(unsigned short)keyCode;
 
 @end

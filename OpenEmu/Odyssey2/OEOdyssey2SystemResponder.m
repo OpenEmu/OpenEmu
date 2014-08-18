@@ -45,4 +45,24 @@
     [[self client] didReleaseOdyssey2Button:(OEOdyssey2Button)[aKey key] forPlayer:[aKey player]];
 }
 
+- (void)HIDKeyDown:(OEHIDEvent *)theEvent
+{
+    [[self client] keyDown:[theEvent keycode]];
+}
+
+- (void)HIDKeyUp:(OEHIDEvent *)theEvent
+{
+    [[self client] keyUp:[theEvent keycode]];
+}
+
+- (void)keyDown:(NSEvent *)theEvent
+{
+    [[self client] keyDown:[theEvent keyCode]];
+}
+
+- (void)keyUp:(NSEvent *)theEvent
+{
+    [[self client] keyUp:[theEvent keyCode]];
+}
+
 @end
