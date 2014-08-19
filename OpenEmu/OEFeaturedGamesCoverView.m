@@ -185,9 +185,26 @@ const static NSLock *lock;
 
 - (NSRect)rectForImage:(NSImage*)image
 {
-    NSRect rect = NSInsetRect([self bounds], 10, 10);
-    rect.origin.y += 10.0;
+    const NSRect  bounds      = [self bounds];
+    const NSSize  imageSize   = [image size];
+    const CGFloat aspectRatio = imageSize.width/imageSize.height;
+
+    NSRect rect = NSInsetRect(bounds, 10, 10);
+
+    // leave some room for page selector
     rect.size.height -= 10.0;
+
+    // keep original aspect ratio
+    if(aspectRatio < NSWidth(bounds)/NSHeight(bounds))
+        rect.size.width  = NSHeight(rect) * aspectRatio;
+    else
+        rect.size.height = NSWidth(rect) / aspectRatio;
+
+    // center horizontally
+    rect.origin.x = ( NSWidth(bounds)  - NSWidth(rect)  ) / 2.0;
+
+    // adjust for page selector, again
+    rect.origin.y += 10.0;
 
     return rect;
 }
