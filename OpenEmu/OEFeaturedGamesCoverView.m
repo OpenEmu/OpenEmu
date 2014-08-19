@@ -189,10 +189,13 @@ const static NSLock *lock;
     const NSSize  imageSize   = [image size];
     const CGFloat aspectRatio = imageSize.width/imageSize.height;
 
-    NSRect rect = NSInsetRect(bounds, 10, 10);
+    const CGFloat border = 10.0; // border for drawing image shadows
+    const CGFloat pageSelectorHeight = 10.0;
+
+    NSRect rect = NSInsetRect(bounds, border, border);
 
     // leave some room for page selector
-    rect.size.height -= 10.0;
+    rect.size.height -= pageSelectorHeight;
 
     // keep original aspect ratio
     if(aspectRatio < NSWidth(bounds)/NSHeight(bounds))
@@ -204,7 +207,7 @@ const static NSLock *lock;
     rect.origin.x = ( NSWidth(bounds)  - NSWidth(rect)  ) / 2.0;
 
     // adjust for page selector, again
-    rect.origin.y += 10.0;
+    rect.origin.y += pageSelectorHeight;
 
     return rect;
 }
