@@ -600,7 +600,8 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
             
             glBindTexture(GL_TEXTURE_2D, 0); 
             glDisable(GL_TEXTURE_2D); 
-            
+
+            glDisable(GL_BLEND);
             glEnable(GL_TEXTURE_RECTANGLE_EXT);
         }
 
