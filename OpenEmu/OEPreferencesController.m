@@ -42,7 +42,7 @@
 #import "OEPrefControlsController.h"
 #import "OEPrefCoresController.h"
 #import "OEPrefDebugController.h"
-
+#import "OEPrefBiosController.h"
 
 NSString *const OEDebugModeKey = @"debug";
 NSString *const OESelectedPreferencesTabKey = @"selectedPreferencesTab";
@@ -229,6 +229,9 @@ static const unsigned short konamiCodeSize = 10;
     controller = [[OEPrefCoresController alloc] init];
     [array addObject:controller];
 
+    controller = [[OEPrefBiosController alloc] init];
+    [array addObject:controller];
+
     controller = [[OEPrefDebugController alloc] init];
     [array addObject:controller];
     
@@ -286,7 +289,6 @@ static const unsigned short konamiCodeSize = 10;
 }
 
 #pragma mark -
-
 - (void)switchView:(id)sender
 {
     [self switchView:sender animate:YES];

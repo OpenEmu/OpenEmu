@@ -35,12 +35,10 @@
 static NSColor *cellEditingFillColor, *textColor, *cellSelectedTextColor, *strokeColor;
 static NSGradient *highlightGradient, *normalGradient;
 
-
 @interface OETableView ()
 @property(strong, readwrite) NSColor *selectionColor;
 - (BOOL)OE_isActive;
 @end
-
 
 @implementation OETableView
 
@@ -103,18 +101,38 @@ static NSGradient *highlightGradient, *normalGradient;
 - (void)drawBackgroundInClipRect:(NSRect)clipRect
 {
 	NSColor *rowBackground = [NSColor colorWithDeviceWhite:0.059 alpha:1.0];
-	NSColor *alternateRowBackground = [NSColor colorWithDeviceWhite:0.114 alpha:1.0];
+    NSColor *alternateRowBackground = [NSColor colorWithDeviceWhite:0.114 alpha:1.0];
 	
 	[rowBackground setFill];
 	NSRectFill(clipRect);
 	
 	[alternateRowBackground setFill];
-	
-	for(float i=[self rowHeight]+[self intercellSpacing].height; i<clipRect.origin.y+clipRect.size.height; i+=2*([self rowHeight]+[self intercellSpacing].height))
-	{
-		NSRect rowRect = NSMakeRect(clipRect.origin.x, i, clipRect.size.width, [self rowHeight]+[self intercellSpacing].height);
-		NSRectFill(rowRect);
-	}
+
+    if([[self delegate] respondsToSelector:@selector(tableView:heightOfRow:)])
+    {
+        NSRange range = [self rowsInRect:clipRect];
+
+        NSUInteger end = range.location+range.length;
+        for(NSInteger i=range.location; i < end; i+=2)
+        {
+            if([[self delegate] respondsToSelector:@selector(tableView:heightOfRow:)] && [[self delegate] tableView:self isGroupRow:i])
+                i --;
+            else
+            {
+                NSRect rowRect = [self rectOfRow:i];
+                NSRectFill(rowRect);
+            }
+        }
+    }
+    else
+    {
+        // Optimize drawing for 'simple' table views
+        for(float i=[self rowHeight]+[self intercellSpacing].height; i<clipRect.origin.y+clipRect.size.height; i+=2*([self rowHeight]+[self intercellSpacing].height))
+        {
+            NSRect rowRect = NSMakeRect(clipRect.origin.x, i, clipRect.size.width, [self rowHeight]+[self intercellSpacing].height);
+            NSRectFill(rowRect);
+        }
+    }
 }
 
 - (BOOL)OE_isActive

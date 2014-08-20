@@ -96,7 +96,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     if([self OE_isTextFileAtURL:url])
         return nil;
 
-    if([self OE_isBiosFileAtURL:url])
+    if([self isBiosFileAtURL:url])
         return nil;
 
     if([self OE_isInvalidExtensionAtURL:url])
@@ -153,8 +153,12 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     return NO;
 }
 
-+ (BOOL)OE_isBiosFileAtURL:(NSURL*)url
++ (BOOL)isBiosFileAtURL:(NSURL*)url
 {
+    NSString *md5 = nil;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString      *biosPath = [NSString pathWithComponents:@[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"BIOS"]];
+
     // Copy known BIOS / System Files to BIOS folder
     for(id validFile in [OECorePlugin requiredFiles])
     {
@@ -167,12 +171,9 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         {
             IMPORTDLog(@"File seems to be a bios at %@", url);
 
-            NSFileManager *fileManager = [NSFileManager defaultManager];
-            NSString      *biosPath = [NSString pathWithComponents:@[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"BIOS"]];
             NSString      *destination = [biosPath stringByAppendingPathComponent:biosFilename];
-            NSString      *md5;
-            
-            if(![fileManager hashFileAtURL:url md5:&md5 crc32:nil error:&error])
+
+            if(!md5 && ![fileManager hashFileAtURL:url md5:&md5 crc32:nil error:&error])
             {
                 IMPORTDLog(@"Could not hash bios file at %@", url);
                 IMPORTDLog(@"%@", error);

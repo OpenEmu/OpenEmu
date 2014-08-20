@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -23,38 +23,19 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import <Cocoa/Cocoa.h>
+#import "OEPreferencePane.h"
 
-#import <Foundation/Foundation.h>
+@class OEBackgroundGradientView;
+@class OECenteredTextFieldCell;
+@interface OEPrefBiosController : NSViewController <OEPreferencePane, NSTableViewDataSource, NSTableViewDelegate>
 
-typedef enum  {
-    OEImportExitNone,
-    OEImportExitErrorResolvable,
-    OEImportExitErrorFatal,
-    OEImportExitSuccess,
-} OEImportExitStatus;
+- (NSImage *)icon;
+- (NSString *)title;
 
-extern NSString * const OEImportManualSystems;
+- (NSSize)viewSize;
 
-typedef void (^OEImportItemCompletionBlock)(NSManagedObjectID*);
-@class OEROMImporter;
-@interface OEImportOperation : NSOperation <NSObject, NSCoding, NSCopying>
-+ (instancetype)operationWithURL:(NSURL*)url inImporter:(OEROMImporter*)importer;
-+ (BOOL)isBiosFileAtURL:(NSURL*)url;
-@property BOOL exploreArchives;
+@property(nonatomic, weak) IBOutlet NSTableView *tableView;
 
-@property (copy) NSURL               *URL;
-@property (copy) NSURL               *sourceURL;
-@property (copy) NSManagedObjectID   *collectionID;
-@property (nonatomic, readonly) NSManagedObjectID *romObjectID;
-
-
-@property (strong) NSArray *systemIdentifiers;
-
-@property (copy) NSError             *error;
-@property        OEImportExitStatus   exitStatus;
-
-@property (copy) OEImportItemCompletionBlock completionHandler;
-@property (strong) OEROMImporter *importer;
-
-@property BOOL checked;
 @end
+

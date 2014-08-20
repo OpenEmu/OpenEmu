@@ -44,5 +44,4 @@ extern NSString *const OEPreferencesUserInfoSystemIdentifierKey;
 @property NSArray *preferencePanes;
 @property(nonatomic) NSInteger visiblePaneIndex;
 @property(readonly) NSViewController<OEPreferencePane> *selectedPreferencePane;
-
 @end

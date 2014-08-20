@@ -374,6 +374,12 @@
 		8337393815BFD87900D83D2F /* OELibraryToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8337393715BFD87700D83D2F /* OELibraryToolbarView.m */; };
 		8337F38E1726B3600068DD90 /* OEBackgroundImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8337F38D1726B3600068DD90 /* OEBackgroundImageView.m */; };
 		833ADC4D196B078E00217D9A /* CollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 833ADC4F196B078E00217D9A /* CollectionView.xib */; };
+		83495DD419A38F31009DB6E5 /* OEPrefBiosController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83495DD319A38F31009DB6E5 /* OEPrefBiosController.m */; };
+		83495DD819A38F3D009DB6E5 /* OEPrefBiosController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83495DD719A38F3D009DB6E5 /* OEPrefBiosController.xib */; };
+		83495DDD19A3A4EB009DB6E5 /* bios_found.png in Resources */ = {isa = PBXBuildFile; fileRef = 83495DD919A3A4EB009DB6E5 /* bios_found.png */; };
+		83495DDE19A3A4EB009DB6E5 /* bios_found@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83495DDA19A3A4EB009DB6E5 /* bios_found@2x.png */; };
+		83495DDF19A3A4EB009DB6E5 /* bios_missing.png in Resources */ = {isa = PBXBuildFile; fileRef = 83495DDB19A3A4EB009DB6E5 /* bios_missing.png */; };
+		83495DE019A3A4EB009DB6E5 /* bios_missing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83495DDC19A3A4EB009DB6E5 /* bios_missing@2x.png */; };
 		834C07DC166CD36A0000C146 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
 		8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB1F15FF5CB10026E326 /* OEDBRomMigrationPolicy.m */; };
@@ -477,6 +483,9 @@
 		83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D175B218FF155700E5ED34 /* OEBlankSlateBackgroundView.m */; };
 		83D435F214718891003FE856 /* closed_weblink_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D435F114718890003FE856 /* closed_weblink_arrow.png */; };
 		83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
+		83D94FAF19A4CD2A007583E1 /* OETableCellGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D94FAE19A4CD2A007583E1 /* OETableCellGroupView.m */; };
+		83D94FB419A4D43B007583E1 /* bios_tab_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D94FB219A4D43B007583E1 /* bios_tab_icon.png */; };
+		83D94FB519A4D43B007583E1 /* bios_tab_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D94FB319A4D43B007583E1 /* bios_tab_icon@2x.png */; };
 		83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */; };
 		83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */; };
 		83DC1FCD147085C800F3D77A /* controller_gba.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DC1FCA1470857900F3D77A /* controller_gba.png */; };
@@ -1998,6 +2007,13 @@
 		833ADC4E196B078E00217D9A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CollectionView.xib; sourceTree = "<group>"; };
 		833ADC50196B079000217D9A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/CollectionView.xib; sourceTree = "<group>"; };
 		833ADC51196B079200217D9A /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/CollectionView.xib; sourceTree = "<group>"; };
+		83495DD219A38F31009DB6E5 /* OEPrefBiosController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefBiosController.h; sourceTree = "<group>"; };
+		83495DD319A38F31009DB6E5 /* OEPrefBiosController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefBiosController.m; sourceTree = "<group>"; };
+		83495DD719A38F3D009DB6E5 /* OEPrefBiosController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefBiosController.xib; sourceTree = "<group>"; };
+		83495DD919A3A4EB009DB6E5 /* bios_found.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bios_found.png; sourceTree = "<group>"; };
+		83495DDA19A3A4EB009DB6E5 /* bios_found@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bios_found@2x.png"; sourceTree = "<group>"; };
+		83495DDB19A3A4EB009DB6E5 /* bios_missing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bios_missing.png; sourceTree = "<group>"; };
+		83495DDC19A3A4EB009DB6E5 /* bios_missing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bios_missing@2x.png"; sourceTree = "<group>"; };
 		83507245142F6029005D9033 /* OEControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControllerImageView.h; sourceTree = "<group>"; };
 		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
 		8352C0EE197ACC4D00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2314,6 +2330,10 @@
 		83D175B218FF155700E5ED34 /* OEBlankSlateBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateBackgroundView.m; sourceTree = "<group>"; };
 		83D175B918FF218200E5ED34 /* OEDatabase 1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.2.xcdatamodel"; sourceTree = "<group>"; };
 		83D435F114718890003FE856 /* closed_weblink_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closed_weblink_arrow.png; sourceTree = "<group>"; };
+		83D94FAD19A4CD2A007583E1 /* OETableCellGroupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETableCellGroupView.h; sourceTree = "<group>"; };
+		83D94FAE19A4CD2A007583E1 /* OETableCellGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableCellGroupView.m; sourceTree = "<group>"; };
+		83D94FB219A4D43B007583E1 /* bios_tab_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bios_tab_icon.png; sourceTree = "<group>"; };
+		83D94FB319A4D43B007583E1 /* bios_tab_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bios_tab_icon@2x.png"; sourceTree = "<group>"; };
 		83D9991D146F40DA004409DC /* OEControlsKeySeparatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeySeparatorView.h; sourceTree = "<group>"; };
 		83D9991E146F40DA004409DC /* OEControlsKeySeparatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeySeparatorView.m; sourceTree = "<group>"; };
 		83DB70DE1442F40B00850CD8 /* OEControlsKeyHeadlineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyHeadlineCell.h; sourceTree = "<group>"; };
@@ -3943,6 +3963,8 @@
 				53439B6D13B932DB005C0CC8 /* OEPrefLibraryController.m */,
 				53439B6F13B932ED005C0CC8 /* OEPrefGameplayController.h */,
 				53439B7013B932ED005C0CC8 /* OEPrefGameplayController.m */,
+				83495DD219A38F31009DB6E5 /* OEPrefBiosController.h */,
+				83495DD319A38F31009DB6E5 /* OEPrefBiosController.m */,
 				53439B7213B932FA005C0CC8 /* OEPrefControlsController.h */,
 				53439B7313B932FA005C0CC8 /* OEPrefControlsController.m */,
 				C669163B0FC9BC3E007DE3D8 /* OEControlsButtonSetupView.h */,
@@ -4070,6 +4092,8 @@
 				53439AE013B92E59005C0CC8 /* OETableHeaderView.m */,
 				53439AE113B92E59005C0CC8 /* OETableView.h */,
 				53439AE213B92E59005C0CC8 /* OETableView.m */,
+				83D94FAD19A4CD2A007583E1 /* OETableCellGroupView.h */,
+				83D94FAE19A4CD2A007583E1 /* OETableCellGroupView.m */,
 			);
 			name = "List View";
 			sourceTree = "<group>";
@@ -4196,8 +4220,6 @@
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				8363A3CD193C8B2600F18425 /* grid_header.png */,
-				8363A3CE193C8B2600F18425 /* grid_header@2x.png */,
 				948FCB64182C7A63001B16BE /* about_background.jpg */,
 				11DC4D4018681B04006CE75D /* about_background@2x.jpg */,
 				53439B9E13B93920005C0CC8 /* arrow_down.png */,
@@ -4206,6 +4228,10 @@
 				53439BA113B93920005C0CC8 /* arrow_up.png */,
 				53439BA213B93920005C0CC8 /* background_lighting.png */,
 				EC350F4F17401AC1005DA3B2 /* background_lighting@2x.png */,
+				83495DD919A3A4EB009DB6E5 /* bios_found.png */,
+				83495DDA19A3A4EB009DB6E5 /* bios_found@2x.png */,
+				83495DDB19A3A4EB009DB6E5 /* bios_missing.png */,
+				83495DDC19A3A4EB009DB6E5 /* bios_missing@2x.png */,
 				83BF5291146C2F0A00B5F742 /* blank_slate_arrow.png */,
 				EC350F5017401AC1005DA3B2 /* blank_slate_arrow@2x.png */,
 				83BF5294146C2F4000B5F742 /* blank_slate_box.png */,
@@ -4225,6 +4251,8 @@
 				EC350F5717401AC1005DA3B2 /* game_scanner_progress_candy@2x.png */,
 				83DEE49C162D62B2005D8AD7 /* game_scanner_progress_track.png */,
 				EC350F5817401AC1005DA3B2 /* game_scanner_progress_track@2x.png */,
+				8363A3CD193C8B2600F18425 /* grid_header.png */,
+				8363A3CE193C8B2600F18425 /* grid_header@2x.png */,
 				53439BB413B93920005C0CC8 /* grid_rating.png */,
 				EC350F5917401AC1005DA3B2 /* grid_rating@2x.png */,
 				53439BB513B93920005C0CC8 /* grid_slider_large.png */,
@@ -4280,14 +4308,14 @@
 				EC350F6D17401AC1005DA3B2 /* toolbar_sidebar_button@2x.png */,
 				53439BED13B93920005C0CC8 /* toolbar_view_buttons.png */,
 				EC350F6E17401AC1005DA3B2 /* toolbar_view_buttons@2x.png */,
-				53439BEE13B93920005C0CC8 /* track_horizontal.png */,
-				EC350F7017401AC1005DA3B2 /* track_horizontal@2x.png */,
 				53439BEF13B93920005C0CC8 /* track_horizontal_spacer.png */,
 				EC350F6F17401AC1005DA3B2 /* track_horizontal_spacer@2x.png */,
-				53439BF013B93920005C0CC8 /* track_vertical.png */,
-				EC350F7217401AC1005DA3B2 /* track_vertical@2x.png */,
+				53439BEE13B93920005C0CC8 /* track_horizontal.png */,
+				EC350F7017401AC1005DA3B2 /* track_horizontal@2x.png */,
 				53439BF113B93920005C0CC8 /* track_vertical_spacer.png */,
 				EC350F7117401AC1005DA3B2 /* track_vertical_spacer@2x.png */,
+				53439BF013B93920005C0CC8 /* track_vertical.png */,
+				EC350F7217401AC1005DA3B2 /* track_vertical@2x.png */,
 			);
 			name = "Interface Graphics";
 			path = "../Interface Graphics";
@@ -4335,6 +4363,8 @@
 		53439BC013B93920005C0CC8 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				83D94FB219A4D43B007583E1 /* bios_tab_icon.png */,
+				83D94FB319A4D43B007583E1 /* bios_tab_icon@2x.png */,
 				83CE3DC214C84EC10036DB28 /* beta_icon.png */,
 				EC350FD917401B58005DA3B2 /* beta_icon@2x.png */,
 				53439BC813B93920005C0CC8 /* controls_background.jpg */,
@@ -4797,6 +4827,7 @@
 		8382D22C13C5C55200906221 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				83495DD719A38F3D009DB6E5 /* OEPrefBiosController.xib */,
 				8382D23413C5C5E100906221 /* OEPrefControlsController.xib */,
 				83FE9644196859B100DD8DB9 /* OEPrefCoresController.xib */,
 				83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */,
@@ -7044,6 +7075,7 @@
 				53439BF213B93920005C0CC8 /* arrow_down.png in Resources */,
 				53439BF313B93920005C0CC8 /* arrow_left.png in Resources */,
 				53439BF413B93920005C0CC8 /* arrow_right.png in Resources */,
+				83495DDF19A3A4EB009DB6E5 /* bios_missing.png in Resources */,
 				53439BF513B93920005C0CC8 /* arrow_up.png in Resources */,
 				53439BF613B93920005C0CC8 /* background_lighting.png in Resources */,
 				53439BFA13B93920005C0CC8 /* box_gloss.pdf in Resources */,
@@ -7200,7 +7232,9 @@
 				EC350F8F17401AC1005DA3B2 /* table_header@2x.png in Resources */,
 				EC350F9017401AC1005DA3B2 /* toolbar_add_button@2x.png in Resources */,
 				EC350F9117401AC1005DA3B2 /* toolbar_sidebar_button@2x.png in Resources */,
+				83495DDE19A3A4EB009DB6E5 /* bios_found@2x.png in Resources */,
 				EC350F9217401AC1005DA3B2 /* toolbar_view_buttons@2x.png in Resources */,
+				83495DDD19A3A4EB009DB6E5 /* bios_found.png in Resources */,
 				EC350F9317401AC1005DA3B2 /* track_horizontal_spacer@2x.png in Resources */,
 				EC350F9417401AC1005DA3B2 /* track_horizontal@2x.png in Resources */,
 				EC350F9517401AC1005DA3B2 /* track_vertical_spacer@2x.png in Resources */,
@@ -7210,6 +7244,7 @@
 				EC350F9E17401AEF005DA3B2 /* installer_dark_inset_box@2x.png in Resources */,
 				EC350F9F17401AEF005DA3B2 /* installer_gamepad_graphics@2x.png in Resources */,
 				EC350FA017401AEF005DA3B2 /* installer_scrollview_box@2x.png in Resources */,
+				83D94FB419A4D43B007583E1 /* bios_tab_icon.png in Resources */,
 				EC350FA417401B0B005DA3B2 /* menu_item_mixed_state@2x.png in Resources */,
 				EC350FA517401B0B005DA3B2 /* menu_item_tick_mark@2x.png in Resources */,
 				EC350FA617401B0B005DA3B2 /* menu_submenu_arrow@2x.png in Resources */,
@@ -7245,6 +7280,7 @@
 				EC350FF117401B58005DA3B2 /* controls_highlight@2x.png in Resources */,
 				EC350FF217401B58005DA3B2 /* controls_tab_icon@2x.png in Resources */,
 				EC350FF317401B58005DA3B2 /* cores_tab_icon@2x.png in Resources */,
+				83495DD819A38F3D009DB6E5 /* OEPrefBiosController.xib in Resources */,
 				EC350FF417401B58005DA3B2 /* dark_box@2x.png in Resources */,
 				EC350FF517401B58005DA3B2 /* dark_button@2x.png in Resources */,
 				EC350FF617401B58005DA3B2 /* dark_checkbox@2x.png in Resources */,
@@ -7261,6 +7297,7 @@
 				EC35100117401B58005DA3B2 /* tab_selector@2x.png in Resources */,
 				EC35100217401B58005DA3B2 /* wood_inset_box@2x.png in Resources */,
 				EC35100317401B58005DA3B2 /* wood_knob_vertical@2x.png in Resources */,
+				83D94FB519A4D43B007583E1 /* bios_tab_icon@2x.png in Resources */,
 				EC35100417401B58005DA3B2 /* wood_popup_button@2x.png in Resources */,
 				EC35100517401B58005DA3B2 /* wood_textfield@2x.png in Resources */,
 				EC35100617401B58005DA3B2 /* wood_track_vertical@2x.png in Resources */,
@@ -7270,6 +7307,7 @@
 				94A4E998179FB98100AD8C7D /* media.png in Resources */,
 				83338C2217A281C7007E32E9 /* secret.mp3 in Resources */,
 				830013AE17A7C5A000EB128A /* controls_triangle.png in Resources */,
+				83495DE019A3A4EB009DB6E5 /* bios_missing@2x.png in Resources */,
 				94AE2C1017B07D450018DFBB /* cheats-database.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7905,6 +7943,7 @@
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				829779340E743F2A00631240 /* OEGameAudio.m in Sources */,
 				837820B61907E8520043593F /* OEBlankSlateForegroundLayer.m in Sources */,
+				83495DD419A38F31009DB6E5 /* OEPrefBiosController.m in Sources */,
 				C62F54710FE6ADC500DF15BA /* OEPlugin.m in Sources */,
 				C62F549B0FE6CC1500DF15BA /* OECorePlugin.m in Sources */,
 				C69DCD010FE994A5009AE5A6 /* OEPluginDocument.m in Sources */,
@@ -8038,6 +8077,7 @@
 				831C9ACC160096A900038D0D /* OEMenuItemExtraData.m in Sources */,
 				831C9AD0160096E000038D0D /* OEMatrix.m in Sources */,
 				831C9AD61600971600038D0D /* OEButton.m in Sources */,
+				83D94FAF19A4CD2A007583E1 /* OETableCellGroupView.m in Sources */,
 				2205C378196402B50013C675 /* OELUTTexture.m in Sources */,
 				831C9AD71600971600038D0D /* OEButtonCell.m in Sources */,
 				831C9ADC1600973B00038D0D /* OEPopUpButton.m in Sources */,
