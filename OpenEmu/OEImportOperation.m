@@ -195,7 +195,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
             if(![fileManager copyItemAtURL:url toURL:[NSURL fileURLWithPath:destination] error:&error])
             {
-                IMPORTDLog(@"Could not copy bios file %@ to %@", url, destination);
+                DLog(@"Could not copy bios file %@ to %@", url, destination);
                 IMPORTDLog(@"%@", error);
             }
 

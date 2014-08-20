@@ -33,6 +33,7 @@
 
 #import "NSString+OEAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
+#import "NSFileManager+OEHashingAdditions.h"
 
 NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files";
 
@@ -72,7 +73,7 @@ NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu
 
     [cores enumerateObjectsUsingBlock:^(OECorePlugin *core, NSUInteger idx, BOOL *stop)
     {
-        NSArray *requiredFiles = [core requiredFiles];
+        NSArray *requiredFiles = [[core requiredFiles] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"Description" ascending:YES]]];
         if([requiredFiles count])
         {
             [items addObject:core];
@@ -106,11 +107,66 @@ NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu
     NSString      *biosPath = [NSString pathWithComponents:@[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"BIOS"]];
     NSString      *destination = [biosPath stringByAppendingPathComponent:fileName];
     NSURL *url = [NSURL fileURLWithPath:destination];
+    return [url checkResourceIsReachableAndReturnError:nil];
+}
 
-    if(TRUE) // perform longer check (also tries to import…)
-        return [OEImportOperation isBiosFileAtURL:url] && [url checkResourceIsReachableAndReturnError:nil];
-    else
-        return [url checkResourceIsReachableAndReturnError:nil];
+- (BOOL)importBIOSFile:(NSURL*)url
+{
+    BOOL success = NO;
+
+    if([url checkResourceIsReachableAndReturnError:nil])
+    {
+
+        NSString *md5 = nil;
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSString      *biosPath = [NSString pathWithComponents:@[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"BIOS"]];
+
+        // Copy known BIOS / System Files to BIOS folder
+        for(id validFile in [OECorePlugin requiredFiles])
+        {
+            NSString *biosSystemFileName = [validFile valueForKey:@"Name"];
+            NSString *biosSystemFileMD5  = [validFile valueForKey:@"MD5"];
+            NSError  *error              = nil;
+
+            NSString *destination = [biosPath stringByAppendingPathComponent:biosSystemFileName];
+            NSURL    *desitionationURL = [NSURL fileURLWithPath:destination];
+            if([desitionationURL checkResourceIsReachableAndReturnError:nil])
+            {
+                success = YES; // already imported
+                continue;
+            }
+
+            if(!md5 && ![fileManager hashFileAtURL:url md5:&md5 crc32:nil error:&error])
+            {
+                DLog(@"Could not hash bios file at %@", url);
+                DLog(@"%@", error);
+                return NO;
+            }
+
+            if(![md5 caseInsensitiveCompare:biosSystemFileMD5] == NSOrderedSame)
+            {
+                continue;
+            }
+
+            if(![fileManager createDirectoryAtURL:[NSURL fileURLWithPath:biosPath] withIntermediateDirectories:YES attributes:nil error:&error])
+            {
+                DLog(@"Could not create directory before copying bios at %@", url);
+                NSLog(@"%@", error);
+                error = nil;
+                continue;
+            }
+
+            if(![fileManager copyItemAtURL:url toURL:[NSURL fileURLWithPath:destination] error:&error])
+            {
+                DLog(@"Could not copy bios file %@ to %@", url, destination);
+                DLog(@"%@", error);
+                continue;
+            }
+
+            success = YES;
+        }
+    }
+    return success;
 }
 
 #pragma mark - Table View
@@ -238,17 +294,14 @@ NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu
         }
         else if([url isFileURL])
         {
-            importedSomething |= [OEImportOperation isBiosFileAtURL:url];
+            importedSomething |= [self importBIOSFile:url];
         }
     };
     recCheckURL = checkURL;
 
     [files enumerateObjectsUsingBlock:checkURL];
 
-    if(importedSomething)
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self reloadData];
-        });
+    [self reloadData];
     return importedSomething;
 }
 #pragma mark - OEPreferencePane Protocol

@@ -111,6 +111,11 @@ static NSGradient *highlightGradient, *normalGradient;
     if([[self delegate] respondsToSelector:@selector(tableView:heightOfRow:)])
     {
         NSRange range = [self rowsInRect:clipRect];
+        if(range.location % 2 != 0)
+        {
+            range.location -= 1;
+            range.length += 1;
+        }
 
         NSUInteger end = range.location+range.length;
         for(NSInteger i=range.location; i < end; i+=2)
