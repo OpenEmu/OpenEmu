@@ -90,7 +90,11 @@
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" tag="1" id="xLs-XI-X6L" customClass="OETextField">
                                                         <rect key="frame" x="30" y="14" width="222" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+<<<<<<< HEAD
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" sendsActionOnEndEditing="YES" title="scph5502.bin" id="FjA-9l-aL6" customClass="OETextFieldCell">
+=======
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="scph5502.bin" id="FjA-9l-aL6" customClass="OETextFieldCell">
+>>>>>>> Improve performance of bios file check.
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
