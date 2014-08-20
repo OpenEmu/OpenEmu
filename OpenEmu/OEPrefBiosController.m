@@ -224,16 +224,26 @@ NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu
     NSArray *files = [[info draggingPasteboard] readObjectsForClasses:@[[NSURL class]] options:nil];
 
     __block BOOL importedSomething = NO;
-    [files enumerateObjectsUsingBlock:^(NSURL *url, NSUInteger idx, BOOL *stop) {
+
+    __weak __block void (^recCheckURL)(NSURL *url, NSUInteger idx, BOOL *stop);
+    void(^checkURL)(NSURL *, NSUInteger, BOOL*) = ^(NSURL *url, NSUInteger idx, BOOL *stop) {
         if([url isDirectory])
         {
-
+            NSDirectoryEnumerator *direnum = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles|NSDirectoryEnumerationSkipsPackageDescendants|NSDirectoryEnumerationSkipsSubdirectoryDescendants errorHandler:NULL];
+            NSURL *suburl = nil;
+            while(suburl = [direnum nextObject])
+            {
+                recCheckURL(suburl, idx, stop);
+            }
         }
         else if([url isFileURL])
         {
             importedSomething |= [OEImportOperation isBiosFileAtURL:url];
         }
-    }];
+    };
+    recCheckURL = checkURL;
+
+    [files enumerateObjectsUsingBlock:checkURL];
 
     if(importedSomething)
         dispatch_async(dispatch_get_main_queue(), ^{
