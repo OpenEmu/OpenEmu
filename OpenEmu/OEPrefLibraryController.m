@@ -417,7 +417,7 @@
             [[library writerContext] save:nil];
         }];
 
-        if(error) [NSApp presentError:error];
+        if(error) [self presentError:error];
     }
     
     NSString *databasePath = [[[library databaseFolderURL] path] stringByAbbreviatingWithTildeInPath];

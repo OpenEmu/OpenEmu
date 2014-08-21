@@ -672,7 +672,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     }
     else if (draggingOperation == IKImageBrowserDropNone)
     {
-        [NSApp presentError:[NSError errorWithDomain:@"Error in performing drag operation." code:-1 userInfo:nil]];
+        [self presentError:[NSError errorWithDomain:@"Error in performing drag operation." code:-1 userInfo:nil]];
     }
 
     [[self gridView] setDraggingOperation:(IKImageBrowserDropOperation)IKImageBrowserDropNone];

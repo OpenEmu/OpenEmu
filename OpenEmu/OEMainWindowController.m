@@ -300,7 +300,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                 }
             }
             else if(error)
-                [NSApp presentError:error];
+                [self presentError:error];
             return;
         }
         else if ([[game status] intValue] == OEDBGameStatusAlert)

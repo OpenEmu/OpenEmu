@@ -94,7 +94,7 @@
 {
     [[self download] cancel];
 
-    [self setError:[NSError errorWithDomain:@"OEErrorDomain" code:NSUserCancelledError userInfo:nil]];
+    [self setError:[NSError errorWithDomain:NSCocoaErrorDomain code:NSUserCancelledError userInfo:nil]];
     [self OE_endDownload];
 }
 

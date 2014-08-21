@@ -496,7 +496,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         }
         else
         {
-            [NSApp presentError:error];
+            [self presentError:error];
             [self OE_performDatabaseSelection];
         }
         return;

@@ -209,7 +209,7 @@ typedef enum : NSUInteger
                 {
                     // User canceld
                     if(outError != NULL)
-                        *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                        *outError = [NSError errorWithDomain:NSCocoaErrorDomain
                                                         code:NSUserCancelledError
                                                     userInfo:nil];
                     return NO;
@@ -235,7 +235,7 @@ typedef enum : NSUInteger
             {
                 // User canceld
                 if(outError != NULL)
-                    *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                    *outError = [NSError errorWithDomain:NSCocoaErrorDomain
                                                     code:NSUserCancelledError
                                                 userInfo:nil];
                 return NO;
