@@ -105,7 +105,7 @@
     NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
     NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
     
-    unsigned long long offsetFound;
+    unsigned long long offsetFound = 0;
     NSArray *dataTrackList = @[ @"SEGA GENESIS    ", @"SEGA MEGA DRIVE " ];
     
     // Find which offset contains the 256-byte header

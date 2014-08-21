@@ -219,8 +219,6 @@ const static NSLock *lock;
     [[NSColor clearColor] setFill];
     NSRectFill([self bounds]);
 
-    const CGFloat scaleFactor = [[self window] backingScaleFactor];
-
     // Draw image
     NSURL *url = [[self URLs] objectAtIndex:_currentImage];
     NSImage *image = [cache objectForKey:url];

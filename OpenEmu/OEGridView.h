@@ -48,7 +48,6 @@ typedef enum
 
 - (void)beginEditingWithSelectedItem:(id)sender;
 - (void)beginEditingItemAtIndex:(NSInteger)index;
-
 - (void)reloadCellDataAtIndex:(unsigned long long)arg1;
 @end
 

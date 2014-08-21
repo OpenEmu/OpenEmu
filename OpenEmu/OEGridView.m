@@ -824,6 +824,11 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 }
 
 #pragma mark -
+- (void)reloadCellDataAtIndex:(unsigned long long)arg1
+{
+    [super reloadCellDataAtIndex:arg1];
+}
+
 - (void)private_setClipsToBounds:(BOOL)flag
 {
     if([self respondsToSelector:@selector(setClipsToBounds:)])

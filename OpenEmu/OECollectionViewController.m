@@ -564,7 +564,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 
     NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
     OEROMImporter *romImporter = [[[self libraryController] database] importer];
-    OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? [self representedObject] : nil;
+    OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? (OEDBCollection *)[self representedObject] : nil;
     [romImporter importItemsAtPaths:files intoCollectionWithID:[collection permanentID]];
 
     return YES;
@@ -613,6 +613,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [self deleteSelectedItems:aBrowser];
 }
 
+- (void)gridView:(OEGridView *)gridView setTitle:(NSString *)title forItemAtIndex:(NSInteger)index
+{}
 #pragma mark -
 #pragma mark Private
 #define reloadDelay 0.5
