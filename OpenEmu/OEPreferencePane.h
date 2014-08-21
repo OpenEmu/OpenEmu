@@ -36,4 +36,5 @@
 
 @optional
 - (NSColor *)toolbarSeparationColor;
+- (BOOL)isVisible;
 @end

@@ -35,16 +35,31 @@
 #import "NSURL+OELibraryAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
 
+#import "OEPreferencesController.h"
 NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files";
 
 @interface OEPrefBiosController () <NSTextViewDelegate>
 @property (strong) NSArray *items;
+@property (nonatomic, getter=isVisible) BOOL visisble;
 @end
 
 @implementation OEPrefBiosController
 @synthesize tableView;
 
+static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListContext;
+
 #pragma mark - ViewController Overrides
+- (id)init
+{
+    self = [super init];
+    if(self)
+    {
+        [OECorePlugin addObserver:self forKeyPath:@"allPlugins" options:0 context:_OEPrefBiosCoreListContext];
+        [self reloadData];
+    }
+    return self;
+}
+
 - (void)awakeFromNib
 {
     NSTableView *view = [self tableView];
@@ -65,6 +80,27 @@ NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu
     return @"OEPrefBiosController";
 }
 
+- (void)setVisisble:(BOOL)visisble
+{
+    if(visisble != _visisble)
+    {
+        _visisble = visisble;
+        [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesRebuildToolbarNotificationName object:self];
+    }
+}
+
+- (void)dealloc
+{
+    [OECorePlugin removeObserver:self forKeyPath:@"allPlugins" context:_OEPrefBiosCoreListContext];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if(context != _OEPrefBiosCoreListContext)
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    else
+        [self reloadData];
+}
 #pragma mark - Private Methods
 - (void)reloadData
 {
@@ -74,6 +110,7 @@ NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu
     [cores enumerateObjectsUsingBlock:^(OECorePlugin *core, NSUInteger idx, BOOL *stop)
     {
         NSArray *requiredFiles = [[core requiredFiles] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"Description" ascending:YES]]];
+        DLog(@"%@: %ld", [core name], [[core requiredFiles] count]);
         if([requiredFiles count])
         {
             [items addObject:core];
@@ -82,6 +119,8 @@ NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu
     }];
 
     [self setItems:items];
+    [self setVisisble:[items count]!=0];
+
     [[self tableView] reloadData];
 }
 
@@ -129,7 +168,6 @@ NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu
         }
 
         NSUInteger fileSize = [[dictionary objectForKey:NSURLFileSizeKey] unsignedIntegerValue];
-
 
         // Copy known BIOS / System Files to BIOS folder
         for(id validFile in [OECorePlugin requiredFiles])

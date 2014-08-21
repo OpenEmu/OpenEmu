@@ -51,7 +51,7 @@ NSString *const OEPreferencesOpenPaneNotificationName  = @"OEPrefOpenPane";
 NSString *const OEPreferencesSetupPaneNotificationName = @"OEPrefSetupPane";
 NSString *const OEPreferencesUserInfoPanelNameKey        = @"panelName";
 NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
-
+NSString *const OEPreferencesRebuildToolbarNotificationName = @"OEPrefRebuildToolbar";
 #define AnimationDuration 0.3
 
 @interface OEPreferencesController () <NSWindowDelegate>
@@ -75,7 +75,7 @@ static const unichar konamiCode[] = { NSUpArrowFunctionKey, NSUpArrowFunctionKey
 static const unsigned short konamiCodeSize = 10;
 
 @synthesize preferencePanes;
-@synthesize visiblePaneIndex = _visiblePaneIndex;
+@synthesize visibleItemIndex = _visibleItemIndex;
 @dynamic window;
 
 - (id)initWithWindow:(NSWindow *)window
@@ -84,6 +84,8 @@ static const unsigned short konamiCodeSize = 10;
     if (self) 
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_openPreferencePane:) name:OEPreferencesOpenPaneNotificationName object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_rebuildToolbarWithNotification:) name:OEPreferencesRebuildToolbarNotificationName object:nil];
+
         [self setWindowFrameAutosaveName:@"Preferences"];
     }
     
@@ -130,7 +132,7 @@ static const unsigned short konamiCodeSize = 10;
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger selectedTab = [standardDefaults integerForKey:OESelectedPreferencesTabKey];
     
-    [self setVisiblePaneIndex:-1];
+    [self setVisibleItemIndex:-1];
     
     // Make sure that value from User Defaults is valid
     if(selectedTab < 0 || selectedTab >= [toolbar numberOfItems])
@@ -207,7 +209,7 @@ static const unsigned short konamiCodeSize = 10;
 
 - (NSViewController<OEPreferencePane> *)selectedPreferencePane
 {
-    NSInteger selected = [self visiblePaneIndex];
+    NSInteger selected = [self visibleItemIndex];
     return selected >= 0 && selected < [preferencePanes count] ? [[self preferencePanes] objectAtIndex:selected] : nil;
 }
 
@@ -239,8 +241,16 @@ static const unsigned short konamiCodeSize = 10;
     [self OE_rebuildToolbar];
 }
 
+- (void)OE_rebuildToolbarWithNotification:(NSNotification*)notification
+{
+    [self OE_rebuildToolbar];
+}
+
 - (void)OE_rebuildToolbar
 {
+    if([[self preferencePanes] count] == 0)
+        return;
+
     NSUInteger lastSelection = 0;
     if(toolbar)
     {
@@ -251,22 +261,22 @@ static const unsigned short konamiCodeSize = 10;
     
     OEAppStoreWindow *win = (OEAppStoreWindow*)[self window];
     toolbar = [[OEToolbarView alloc] initWithFrame:NSMakeRect(0, 0, win.frame.size.width-10.0, 58.0)];
-    
-    for(id <OEPreferencePane> aPreferencePane in self.preferencePanes)
-    {
-        if([aPreferencePane isKindOfClass:[OEPrefDebugController class]] && ![[NSUserDefaults standardUserDefaults] boolForKey:OEDebugModeKey])
-            continue;
-        
-        OEToolbarItem *toolbarItem = [[OEToolbarItem alloc] init];
-        [toolbarItem setTitle:[aPreferencePane localizedTitle]];
-        [toolbarItem setIcon:[aPreferencePane icon]];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(switchView:)];
-        [toolbar addItem:toolbarItem];
-    }
+
+    [[self preferencePanes] enumerateObjectsUsingBlock:^(id <OEPreferencePane> aPreferencePane, NSUInteger idx, BOOL *stop) {
+        if(![aPreferencePane respondsToSelector:@selector(isVisible)] || [aPreferencePane isVisible])
+        {
+            OEToolbarItem *toolbarItem = [[OEToolbarItem alloc] init];
+            [toolbarItem setTitle:[aPreferencePane localizedTitle]];
+            [toolbarItem setIcon:[aPreferencePane icon]];
+            [toolbarItem setTarget:self];
+            [toolbarItem setAction:@selector(switchView:)];
+            [toolbarItem setRepresentedObject:@(idx)];
+            [toolbar addItem:toolbarItem];
+        }
+    }];
     if(lastSelection >= [toolbar numberOfItems]) lastSelection = 0;
     [self switchView:[toolbar itemAtIndex:lastSelection] animate:YES];
-    [self setVisiblePaneIndex:lastSelection];
+    [self setVisibleItemIndex:[[[toolbar itemAtIndex:lastSelection] representedObject] integerValue]];
 
     [win setTitleBarView:toolbar];
 }
@@ -294,18 +304,13 @@ static const unsigned short konamiCodeSize = 10;
     [self switchView:sender animate:YES];
 }
 
-- (void)switchView:(id)sender animate:(BOOL)animateFlag
+- (void)switchView:(OEToolbarItem*)item animate:(BOOL)animateFlag
 {
-    NSInteger selectedTab;
-    
-    if([sender isKindOfClass:[OEToolbarItem class]])
-        selectedTab = [toolbar indexOfItem:sender];
-    else if([sender isKindOfClass:[NSNumber class]])
-        selectedTab = [sender integerValue];
-    else return;
+    NSInteger selectedTab = [toolbar indexOfItem:item];
+    NSInteger selectedPane = [[item representedObject] integerValue];
     
     NSViewController<OEPreferencePane> *currentPane = [self selectedPreferencePane];
-    NSViewController<OEPreferencePane> *nextPane    = [[self preferencePanes] objectAtIndex:selectedTab];
+    NSViewController<OEPreferencePane> *nextPane    = [[self preferencePanes] objectAtIndex:selectedPane];
     
     if(currentPane == nextPane) return;
     
@@ -327,7 +332,7 @@ static const unsigned short konamiCodeSize = 10;
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     [standardDefaults setInteger:selectedTab forKey:OESelectedPreferencesTabKey];
-    [self setVisiblePaneIndex:selectedTab];
+    [self setVisibleItemIndex:selectedTab];
 
     [[self window] makeFirstResponder:[nextPane view]];
 }
@@ -366,9 +371,9 @@ static const unsigned short konamiCodeSize = 10;
 
 #pragma mark - Properties
 
-- (void)setVisiblePaneIndex:(NSInteger)visiblePaneIndex
+- (void)setVisibleItemIndex:(NSInteger)visiblePaneIndex
 {
-    _visiblePaneIndex = visiblePaneIndex;
+    _visibleItemIndex = visiblePaneIndex;
     [toolbar markItemIndexAsSelected:visiblePaneIndex];
 }
 

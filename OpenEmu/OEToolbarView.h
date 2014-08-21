@@ -51,4 +51,5 @@
 @property(copy) NSImage *icon;
 @property(unsafe_unretained) id target;
 @property SEL action;
+@property(strong) id representedObject;
 @end

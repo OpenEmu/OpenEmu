@@ -29,6 +29,7 @@
 extern NSString *const OEDebugModeKey;
 extern NSString *const OEPreferencesOpenPaneNotificationName;
 extern NSString *const OEPreferencesSetupPaneNotificationName;
+extern NSString *const OEPreferencesRebuildToolbarNotificationName;
 extern NSString *const OEPreferencesUserInfoPanelNameKey;
 extern NSString *const OEPreferencesUserInfoSystemIdentifierKey;
 
@@ -42,6 +43,6 @@ extern NSString *const OEPreferencesUserInfoSystemIdentifierKey;
 - (void)switchView:(id)sender animate:(BOOL)animateFlag;
 
 @property NSArray *preferencePanes;
-@property(nonatomic) NSInteger visiblePaneIndex;
+@property(nonatomic) NSInteger visibleItemIndex;
 @property(readonly) NSViewController<OEPreferencePane> *selectedPreferencePane;
 @end

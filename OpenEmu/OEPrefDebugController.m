@@ -629,4 +629,9 @@ NSString * const OptionsKey = @"options";
 {
     return @"OEPrefDebugController";
 }
+
+- (BOOL)isVisible
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:OEDebugModeKey];
+}
 @end
