@@ -43,7 +43,7 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
 {
     @autoreleasepool {
         
-        NSURL *imageUrl = [(NSURL*)url URLByAppendingPathComponent:@"ScreenShot"];
+        NSURL *imageUrl = [url URLByAppendingPathComponent:@"ScreenShot"];
         NSImage     *image = [[NSImage alloc] initWithContentsOfURL:imageUrl];
         
         NSSize  canvasSize = [image size];

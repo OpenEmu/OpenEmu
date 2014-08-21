@@ -40,7 +40,7 @@
 static const CGFloat OEGridCellTitleHeight                      = 16.0;        // Height of the title view
 static const CGFloat OEGridCellImageTitleSpacing                = 17.0;        // Space between the image and the title
 static const CGFloat OEGridCellSubtitleHeight                   = 11.0;        // Subtitle height
-static const CGFloat OEGridCellSubtitleWidth                    = 56.0;        // Subtitle's width
+__unused static const CGFloat OEGridCellSubtitleWidth                    = 56.0;        // Subtitle's width
 static const CGFloat OEGridCellGlossWidthToHeightRatio          = 0.6442;      // Gloss image's width to height ratio
 
 static const CGFloat OEGridCellImageContainerLeft   = 13.0;

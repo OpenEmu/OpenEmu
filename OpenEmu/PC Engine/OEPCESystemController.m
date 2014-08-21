@@ -50,7 +50,6 @@
         NSString *path = [bundle pathForImageResource:imageName];
         image = [[NSImage alloc] initWithContentsOfFile:path];
         [image setName:imageName];
-        [image autorelease];
     }
     return image;
 }

@@ -2035,7 +2035,7 @@
 		8352C0EF197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = pt; path = pt.lproj/Credits.rtf; sourceTree = "<group>"; };
 		8352C0F0197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8352C0F1197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
-		8352C0F2197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/ControlLabels.strings; sourceTree = "<group>"; };
+		8352C0F2197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/ControlLabels.strings; sourceTree = "<group>"; };
 		8352C0F3197ACC4F00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OEPrefCoresController.xib; sourceTree = "<group>"; };
 		8352C0F4197ACC4F00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OEPrefGameplayController.xib; sourceTree = "<group>"; };
 		8352C0F5197ACC4F00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OEPrefLibraryController.xib; sourceTree = "<group>"; };
@@ -9371,7 +9371,7 @@
 		3887A7F81024D1FA000FC4CF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "OESaveStateQLPlugin-Info.plist";
 				INSTALL_PATH = "";
@@ -9383,7 +9383,7 @@
 		3887A7F91024D1FA000FC4CF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "OESaveStateQLPlugin-Info.plist";
 				INSTALL_PATH = "";
