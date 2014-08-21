@@ -116,17 +116,27 @@ NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu
 
     if([url checkResourceIsReachableAndReturnError:nil])
     {
-
         NSString *md5 = nil;
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString      *biosPath = [NSString pathWithComponents:@[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"BIOS"]];
 
+        NSError  *error              = nil;
+        NSDictionary *dictionary = [url resourceValuesForKeys:@[NSURLFileSizeKey] error:&error];
+        if(!dictionary)
+        {
+            DLog(@"Something is wrong with this file, could not read its size");
+            return NO;
+        }
+
+        NSUInteger fileSize = [[dictionary objectForKey:NSURLFileSizeKey] unsignedIntegerValue];
+
+
         // Copy known BIOS / System Files to BIOS folder
         for(id validFile in [OECorePlugin requiredFiles])
         {
-            NSString *biosSystemFileName = [validFile valueForKey:@"Name"];
-            NSString *biosSystemFileMD5  = [validFile valueForKey:@"MD5"];
-            NSError  *error              = nil;
+            NSString  *biosSystemFileName = [validFile valueForKey:@"Name"];
+            NSString  *biosSystemFileMD5  = [validFile valueForKey:@"MD5"];
+            NSUInteger biosSystemFileSize = (NSUInteger)[[validFile valueForKey:@"Size"] integerValue];
 
             NSString *destination = [biosPath stringByAppendingPathComponent:biosSystemFileName];
             NSURL    *desitionationURL = [NSURL fileURLWithPath:destination];
@@ -136,6 +146,13 @@ NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu
                 continue;
             }
 
+            // compare file size
+            if(fileSize != biosSystemFileSize)
+            {
+                continue;
+            }
+
+            // compare md5 hash
             if(!md5 && ![fileManager hashFileAtURL:url md5:&md5 crc32:nil error:&error])
             {
                 DLog(@"Could not hash bios file at %@", url);
