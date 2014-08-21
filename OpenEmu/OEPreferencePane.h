@@ -26,6 +26,7 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const OEPreferencePaneDidChangeVisibilityNotificationName;
 
 @protocol OEPreferencePane <NSObject>
 - (NSImage *)icon;

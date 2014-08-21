@@ -29,7 +29,6 @@
 extern NSString *const OEDebugModeKey;
 extern NSString *const OEPreferencesOpenPaneNotificationName;
 extern NSString *const OEPreferencesSetupPaneNotificationName;
-extern NSString *const OEPreferencesRebuildToolbarNotificationName;
 extern NSString *const OEPreferencesUserInfoPanelNameKey;
 extern NSString *const OEPreferencesUserInfoSystemIdentifierKey;
 

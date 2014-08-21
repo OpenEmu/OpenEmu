@@ -51,7 +51,7 @@ NSString *const OEPreferencesOpenPaneNotificationName  = @"OEPrefOpenPane";
 NSString *const OEPreferencesSetupPaneNotificationName = @"OEPrefSetupPane";
 NSString *const OEPreferencesUserInfoPanelNameKey        = @"panelName";
 NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
-NSString *const OEPreferencesRebuildToolbarNotificationName = @"OEPrefRebuildToolbar";
+NSString *const OEPreferencePaneDidChangeVisibilityNotificationName = @"OEPrefVisibilityChanged";
 #define AnimationDuration 0.3
 
 @interface OEPreferencesController () <NSWindowDelegate>
@@ -84,7 +84,7 @@ static const unsigned short konamiCodeSize = 10;
     if (self) 
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_openPreferencePane:) name:OEPreferencesOpenPaneNotificationName object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_rebuildToolbarWithNotification:) name:OEPreferencesRebuildToolbarNotificationName object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_rebuildToolbarWithNotification:) name:OEPreferencePaneDidChangeVisibilityNotificationName object:nil];
 
         [self setWindowFrameAutosaveName:@"Preferences"];
     }

@@ -86,7 +86,7 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     if(visisble != _visisble)
     {
         _visisble = visisble;
-        [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesRebuildToolbarNotificationName object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencePaneDidChangeVisibilityNotificationName object:self];
     }
 }
 
