@@ -28,6 +28,8 @@
 
 @class OEBackgroundGradientView;
 @class OECenteredTextFieldCell;
+
+extern NSString * const OEPreferencesAlwaysShowBiosKey;
 @interface OEPrefBiosController : NSViewController <OEPreferencePane, NSTableViewDataSource, NSTableViewDelegate>
 
 - (NSImage *)icon;

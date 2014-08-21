@@ -36,15 +36,16 @@
 #import "NSFileManager+OEHashingAdditions.h"
 
 #import "OEPreferencesController.h"
-NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files";
 
+NSString * const OEPreferencesAlwaysShowBiosKey = @"OEPreferencesAlwaysShowBios";
+NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files";
 @interface OEPrefBiosController () <NSTextViewDelegate>
 @property (strong) NSArray *items;
 @property (nonatomic, getter=isVisible) BOOL visisble;
 @end
 
 @implementation OEPrefBiosController
-@synthesize tableView;
+@synthesize tableView, visisble=_visisble;
 
 static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListContext;
 
@@ -89,6 +90,11 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     }
 }
 
+- (BOOL)isVisible
+{
+    return _visisble || [[NSUserDefaults standardUserDefaults] boolForKey:OEPreferencesAlwaysShowBiosKey];
+}
+
 - (void)dealloc
 {
     [OECorePlugin removeObserver:self forKeyPath:@"allPlugins" context:_OEPrefBiosCoreListContext];
@@ -110,7 +116,6 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     [cores enumerateObjectsUsingBlock:^(OECorePlugin *core, NSUInteger idx, BOOL *stop)
     {
         NSArray *requiredFiles = [[core requiredFiles] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"Description" ascending:YES]]];
-        DLog(@"%@: %ld", [core name], [[core requiredFiles] count]);
         if([requiredFiles count])
         {
             [items addObject:core];

@@ -60,6 +60,7 @@
 #import "OEControlsButtonSetupView.h"
 #import "OEDBDataSourceAdditions.h"
 #import "OEImportOperation.h"
+#import "OEPrefBiosController.h"
 
 @interface OELibraryDatabase (Private)
 - (void)OE_createInitialItems;
@@ -176,6 +177,7 @@ NSString * const OptionsKey = @"options";
                               Checkbox(@"logsHIDEvents", @"Log HID Events"),
                               Checkbox(@"logsHIDEventsNoKeyboard", @"Log Keyboard Events"),
                               Checkbox(@"OEShowAllGlobalKeys", @"Show all global keys"),
+                              Checkbox(OEPreferencesAlwaysShowBiosKey, @"Always show BIOS preferences"),
 
                               Group(@"Save States"),
                               Button(@"Set default save states directory", @selector(restoreSaveStatesDirectory:)),
