@@ -183,6 +183,22 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:urls];
 }
 
+- (IBAction)trashDownloadedFiles:(id)sender
+{
+    NSArray *selectedGames = [self selectedGames];
+
+    for(OEDBGame *game in selectedGames)
+    {
+        OEDBRom *rom = [game defaultROM];
+        if([[rom source] length] != 0)
+        {
+            [[NSFileManager defaultManager] trashItemAtURL:[rom URL] resultingItemURL:nil error:nil];
+        }
+    }
+
+    [self reloadData];
+}
+
 - (void)deleteSaveState:(id)stateItem
 {
     // TODO: localize and rephrase text
@@ -424,8 +440,13 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     NSArray *games = [[gamesController arrangedObjects] objectsAtIndexes:indexes];
 
     __block BOOL hasLocalFiles = NO;
+    __block BOOL hasRemoteFiles = NO;
     [games enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stop) {
-        *stop = hasLocalFiles = [[game defaultROM] filesAvailable];
+        if(!hasLocalFiles)
+            hasLocalFiles = [[game defaultROM] filesAvailable];
+        if(!hasRemoteFiles)
+            hasRemoteFiles = [[[game defaultROM] source] length] != 0;
+        *stop = hasLocalFiles && hasRemoteFiles;
     }];
 
     if([indexes count] == 1)
@@ -447,7 +468,11 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         [menu addItem:menuItem];
 
         if(hasLocalFiles)
+        {
             [menu addItemWithTitle:OELocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
+            if(hasRemoteFiles)
+                [menu addItemWithTitle:OELocalizedString(@"Trash downloaded Files", @"") action:@selector(trashDownloadedFiles:) keyEquivalent:@""];
+        }
         [menu addItem:[NSMenuItem separatorItem]];
 
         if([[game status] isEqualTo:@(OEDBGameStatusOK)])
@@ -480,8 +505,13 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
         [menu addItem:menuItem];
 
+        
         if(hasLocalFiles)
+        {
             [menu addItemWithTitle:OELocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
+            if(hasRemoteFiles)
+                [menu addItemWithTitle:OELocalizedString(@"Trash downloaded Files", @"") action:@selector(trashDownloadedFiles:) keyEquivalent:@""];
+        }
         [menu addItem:[NSMenuItem separatorItem]];
 
         [menu addItemWithTitle:OELocalizedString(@"Download Cover Art", @"") action:@selector(downloadCoverArt:) keyEquivalent:@""];
