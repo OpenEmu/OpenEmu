@@ -144,9 +144,22 @@ static NSDictionary *disabledActions = nil;
 - (NSRect)downloadButtonFrame
 {
     const NSRect  frame = [self imageFrame];
-    const CGFloat width = 73.0, height = 73.0;
+    CGFloat width = 47.0, height = 73.0;
 
-    return NSMakeRect(NSMaxX(frame)-width, NSMaxY(frame)-height, width, height);
+    if(NSWidth(frame) <= width)
+    {
+        const CGFloat ar = height/width;
+        width = ceilf(NSWidth(frame));
+        height = ceilf(width * ar);
+    }
+    if(NSHeight(frame) <= height)
+    {
+        const CGFloat ar = width/height;
+        height = ceilf(NSHeight(frame));
+        width = ceilf(height * ar);
+    }
+
+    return NSMakeRect(NSMaxX(frame)-width+1, NSMaxY(frame)-height+1, width, height);
 }
 
 - (NSRect)deleteButtonFrame
@@ -199,7 +212,7 @@ static NSDictionary *disabledActions = nil;
     return [[self representedItem] shouldIndicateDownloadable];
 }
 
-#define LocationInDownloadLayer() NSPointInTriangle(location, (NSPoint){71,23}, (NSPoint){27,71}, (NSPoint){71,71})
+#define LocationInDownloadLayer() NSPointInTriangle(location, (NSPoint){47,0}, (NSPoint){0,73}, (NSPoint){47,73})
 - (BOOL)mouseEntered:(NSEvent *)theEvent
 {
     NSPoint locationInWindow = [theEvent locationInWindow];
@@ -482,7 +495,8 @@ static NSDictionary *disabledActions = nil;
             if(_downloadLayer == nil)
             {
                 _downloadLayer = [CALayer layer];
-                [_downloadLayer setContentsGravity:kCAGravityTopRight];
+                [_downloadLayer setContentsGravity:kCAGravityResizeAspect];
+                [_downloadLayer setActions:disabledActions];
                 [[_glossyLayer superlayer] insertSublayer:_downloadLayer below:_glossyLayer];
             }
 

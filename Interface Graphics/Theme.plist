@@ -3573,11 +3573,11 @@
 			<key>States</key>
 			<dict>
 				<key>Default</key>
-				<string>{{0, 0}, {73, 73}}</string>
+				<string>{{0, 0}, {47, 73}}</string>
 				<key>Mouse Over</key>
-				<string>{{73, 0}, {73, 73}}</string>
+				<string>{{47, 0}, {47, 73}}</string>
 				<key>Mouse Over, Pressed</key>
-				<string>{{146, 0}, {73, 73}}</string>
+				<string>{{94, 0}, {47, 73}}</string>
 			</dict>
 		</dict>
 	</dict>
