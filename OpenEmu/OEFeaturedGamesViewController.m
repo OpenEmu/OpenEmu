@@ -36,7 +36,7 @@
 #import "NSArray+OEAdditions.h"
 #import "NS(Attributed)String+Geometrics.h"
 
-NSString * const OEFeaturedGamesURLString = @"file:///Users/chris/Desktop/games.xml";
+NSString * const OEFeaturedGamesURLString = @"file:///games.xml";
 
 NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
 
