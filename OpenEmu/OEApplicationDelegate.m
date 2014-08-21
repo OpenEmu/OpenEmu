@@ -780,8 +780,12 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     }
     else
     {
+        NSString *title = [(OEDBGame *)[value game] displayName];
+
+        if(!title) return NO;
+        
         [item setIndentationLevel:1];
-        [item setTitle:[(OEDBGame *)[value game] displayName]];
+        [item setTitle:title];
         [item setEnabled:YES];
         [item setRepresentedObject:value];
         [item setAction:@selector(launchLastPlayedROM:)];

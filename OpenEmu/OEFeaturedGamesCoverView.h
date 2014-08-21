@@ -28,4 +28,7 @@
 
 @interface OEFeaturedGamesCoverView : NSView
 @property (nonatomic, copy) NSArray *URLs;
+
+@property (assign) id target;
+@property SEL doubleAction;
 @end

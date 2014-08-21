@@ -53,8 +53,9 @@ const static CGFloat TableViewSpacing = 86.0;
 @property (readonly, copy) NSString *gameDescription;
 @property (readonly, copy) NSDate   *added;
 @property (readonly, copy) NSDate   *released;
-@property (readonly) NSInteger fileIndex;
+@property (readonly)       NSInteger fileIndex;
 @property (readonly, copy) NSArray  *images;
+@property (readonly, copy) NSString  *md5;
 
 @property (nonatomic, readonly) NSString *systemShortName;
 
@@ -183,7 +184,7 @@ const static CGFloat TableViewSpacing = 86.0;
 #pragma mark - UI Methods
 - (IBAction)gotoDeveloperWebsite:(id)sender
 {
-    NSInteger row = [self rowOfButton:sender];
+    NSInteger row = [self rowOfView:sender];
 
     if(row < 0 || row >= [[self games] count]) return;
 
@@ -195,7 +196,7 @@ const static CGFloat TableViewSpacing = 86.0;
 
 - (IBAction)importGame:(id)sender
 {
-    NSInteger row = [self rowOfButton:sender];
+    NSInteger row = [self rowOfView:sender];
 
     if(row < 0 || row >= [[self games] count]) return;
 
@@ -203,32 +204,60 @@ const static CGFloat TableViewSpacing = 86.0;
     NSURL *url = [NSURL URLWithString:[game fileURLString]];
     NSInteger fileIndex = [game fileIndex];
 
-
+    NSLog(@"%@ %ld", url, fileIndex);
 }
 
 - (IBAction)launchGame:(id)sender
 {
-    NSInteger row = [self rowOfButton:sender];
+    NSInteger row = [self rowOfView:sender];
 
     if(row < 0 || row >= [[self games] count]) return;
 
-    OEFeaturedGame *game = [[self games] objectAtIndex:row];
-    NSURL *url = [NSURL URLWithString:[game fileURLString]];
-    NSInteger fileIndex = [game fileIndex];
+    OEFeaturedGame *featuredGame = [[self games] objectAtIndex:row];
+    NSURL *url = [NSURL URLWithString:[featuredGame fileURLString]];
+    NSInteger fileIndex = [featuredGame fileIndex];
+    NSString *systemIdentifier = [featuredGame systemIdentifier];
+    NSString *md5  = [featuredGame md5];
+    NSString *name = [featuredGame name];
 
+    OELibraryDatabase      *db = [[self libraryController] database];
+    NSManagedObjectContext *context = [db mainThreadContext];
+    OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inContext:context error:nil];
+    if(rom == nil)
+    {
+        NSEntityDescription *romDescription  = [OEDBRom entityDescriptionInContext:context];
+        NSEntityDescription *gameDescription = [OEDBGame entityDescriptionInContext:context];
+        rom = [[OEDBRom alloc] initWithEntity:romDescription insertIntoManagedObjectContext:context];
+        [rom setSourceURL:url];
+        [rom setArchiveFileIndex:@(fileIndex)];
+        [rom setMd5:md5];
+
+        OEDBGame *game = [[OEDBGame alloc] initWithEntity:gameDescription insertIntoManagedObjectContext:context];
+        [game setRoms:[NSSet setWithObject:rom]];
+        [game setName:name];
+
+        [game setBoxImageByURL:[[featuredGame images] objectAtIndex:0]];
+
+        OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inContext:context];
+        [game setSystem:system];
+    }
+
+    OEDBGame *game = [rom game];
+    [game save];
+    [[self libraryController] startGame:game];
 }
 
-- (NSInteger)rowOfButton:(NSButton*)button
+- (NSInteger)rowOfView:(NSView*)view
 {
-    NSRect buttonRect = [button frame];
-    NSRect buttonRectOnView = [[self tableView] convertRect:buttonRect fromView:button];
+    NSRect viewRect = [view frame];
+    NSRect viewRectOnView = [[self tableView] convertRect:viewRect fromView:[view superview]];
 
-    NSInteger row = [[self tableView] rowAtPoint:(NSPoint){NSMidX(buttonRectOnView), NSMidY(buttonRectOnView)}];
+    NSInteger row = [[self tableView] rowAtPoint:(NSPoint){NSMidX(viewRectOnView), NSMidY(viewRectOnView)}];
 
     if(row == 1)
     {
-        NSView *container = [[button superview] superview];
-        return [[container subviews] indexOfObjectIdenticalTo:[button superview]];
+        NSView *container = [[view superview] superview];
+        return [[container subviews] indexOfObjectIdenticalTo:[view superview]];
     }
 
     return row;
@@ -268,6 +297,8 @@ const static CGFloat TableViewSpacing = 86.0;
 
             OEFeaturedGamesCoverView *artworkView = [[container subviews] objectAtIndex:0];
             [artworkView setURLs:[game images]];
+            [artworkView setTarget:self];
+            [artworkView setDoubleAction:@selector(launchGame:)];
 
             NSTextField *label = [[container subviews] objectAtIndex:1];
             [label setStringValue:[game name]];
@@ -366,6 +397,8 @@ const static CGFloat TableViewSpacing = 86.0;
 
         OEFeaturedGamesCoverView *imagesView = [subviews objectAtIndex:5];
         [imagesView setURLs:[game images]];
+        [imagesView setTarget:self];
+        [imagesView setDoubleAction:@selector(launchGame:)];
     }
 
     return view;
@@ -440,6 +473,7 @@ const static CGFloat TableViewSpacing = 86.0;
         _added           = DateValue(@"@added");
         _released        = DateValue(@"@released");
         _systemIdentifier = StringValue(@"@system");
+        _md5             = StringValue(@"@md5");
 
         NSArray *images = [node nodesForXPath:@"images/image" error:nil];
         _images = [images arrayByEvaluatingBlock:^id(NSXMLNode *node, NSUInteger idx, BOOL *stop) {

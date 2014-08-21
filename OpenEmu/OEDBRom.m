@@ -114,7 +114,7 @@
 
 - (void)setSourceURL:(NSURL *)sourceURL
 {
-    [self setLocation:[sourceURL absoluteString]];
+    [self setSource:[sourceURL absoluteString]];
 }
 
 - (NSString *)md5Hash

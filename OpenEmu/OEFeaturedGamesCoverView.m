@@ -262,6 +262,14 @@ const static NSLock *lock;
 }
 
 #pragma mark - Interaction
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    if([theEvent clickCount] == 2 && [self doubleAction])
+    {
+        [NSApp sendAction:[self doubleAction] to:[self target] from:self];
+    }
+}
+
 - (void)updateTrackingAreas
 {
     [[self trackingAreas] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
