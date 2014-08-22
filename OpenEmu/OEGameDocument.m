@@ -1299,7 +1299,6 @@ typedef enum : NSUInteger
          {
              [state replaceStateFileWithFile:temporaryStateFileURL];
              [state setTimestamp:[NSDate date]];
-             [state writeInfoPlist];
          }
 
          [state save];
@@ -1367,7 +1366,7 @@ typedef enum : NSUInteger
 
     void (^loadState)(void) =
     ^{
-        [_gameCoreManager loadStateFromFileAtPath:[[state stateFileURL] path] completionHandler:
+        [_gameCoreManager loadStateFromFileAtPath:[[state dataFileURL] path] completionHandler:
          ^(BOOL success, NSError *error)
          {
              if(!success)
@@ -1439,7 +1438,7 @@ typedef enum : NSUInteger
     NSString *stateName = [state name];
     OEHUDAlert *alert = [OEHUDAlert deleteStateAlertWithStateName:stateName];
 
-    if([alert runModal]) [state remove];
+    if([alert runModal]) [state deleteAndRemoveFiles];
 }
 
 #pragma mark - OEGameViewControllerDelegate methods

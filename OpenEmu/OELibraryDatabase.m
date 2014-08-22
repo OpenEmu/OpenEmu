@@ -441,7 +441,7 @@ static OELibraryDatabase *defaultDatabase = nil;
                 NSArray *result = [context executeFetchRequest:fetchRequest error:&error];
                 if(error) DLog(@"executing fetch request failed: %@", error);
                 [result enumerateObjectsUsingBlock:^(OEDBSaveState *state, NSUInteger idx, BOOL *stop) {
-                    [state remove];
+                    [state delete];
                 }];
             }
         }

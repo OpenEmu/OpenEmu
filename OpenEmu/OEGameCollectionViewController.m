@@ -207,7 +207,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
     NSUInteger result = [alert runModal];
     if(result)
-        [state remove];
+        [state deleteAndRemoveFiles];
 }
 
 - (void)deleteSelectedItems:(id)sender

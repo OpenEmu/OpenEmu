@@ -327,7 +327,7 @@
 
         if([alert runModal] == NSAlertDefaultReturn)
         {
-            [items makeObjectsPerformSelector:@selector(remove)];
+            [items makeObjectsPerformSelector:@selector(deleteAndRemoveFiles)];
             [[[[self libraryController] database] mainThreadContext] save:nil];
             [self reloadData];
         }
@@ -412,7 +412,7 @@
         if(![saveState isSpecialState] || [[OEHUDAlert renameSpecialStateAlert] runModal] == NSAlertDefaultReturn)
         {
             [saveState setName:title];
-            [saveState moveToSaveStateFolder];
+            [saveState moveToDefaultLocation];
 
             if([saveState writeToDisk] == NO)
             {

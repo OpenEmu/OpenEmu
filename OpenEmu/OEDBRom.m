@@ -240,7 +240,9 @@
 - (void)removeMissingStates
 {
     NSSet *set = [[self saveStates] copy];
-    [set makeObjectsPerformSelector:@selector(removeIfMissing)];
+    set = [set filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"isValid == FALSE"]];
+    NSLog(@"%@", set);
+    [set makeObjectsPerformSelector:@selector(delete)];
 }
 
 - (void)incrementPlayCount

@@ -317,7 +317,7 @@ NSString * const OptionsKey = @"options";
 
         [statesToDelete enumerateObjectsUsingBlock:^(OEDBSaveState *state, NSUInteger idx, BOOL *stop) {
             [state setRom:nil];
-            [state remove];
+            [state delete];
         }];
         count += [statesToDelete count];
     }];
@@ -343,13 +343,12 @@ NSString * const OptionsKey = @"options";
         for(int i=0; i < [autosaves count]; i++)
         {
             OEDBSaveState *state = [autosaves objectAtIndex:i];
-            if([state checkFilesAvailable])
+            if(YES) // TODO: fix -checkFilesAvailable
             {
                 if(autosave)
                 {
                     [state setName:OELocalizedString(@"Recovered Auto Save", @"Recovered auto save name")];
-                    [state moveToSaveStateFolder];
-                    [state writeInfoPlist];
+                    [state moveToDefaultLocation];
                 }
                 else autosave = state;
             }
@@ -359,8 +358,7 @@ NSString * const OptionsKey = @"options";
             }
         }
 
-        [autosave moveToSaveStateFolder];
-        [autosave writeInfoPlist];
+        [autosave moveToDefaultLocation];
     }];
     [context save:nil];
 }
