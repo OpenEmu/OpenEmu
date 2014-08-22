@@ -172,7 +172,7 @@
         return;
     }
 
-    [req setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"rom.game.gameTitle" ascending:YES],
+    [req setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"rom.game.name" ascending:YES],
                               [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]]];
     [req setPredicate:_searchPredicate];
 
