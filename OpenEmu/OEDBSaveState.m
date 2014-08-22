@@ -334,7 +334,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
 + (NSURL*)OE_screenShotURLWithBundleURL:(NSURL*)url
 {
-    return [url URLByAppendingPathComponent:OEScreenshotFolderURLKey];
+    return [url URLByAppendingPathComponent:OESaveStateScreenshotFile];
 }
 #pragma mark - Handling Bundle & Files
 - (BOOL)writeToDisk
@@ -516,6 +516,25 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
 - (BOOL)isValid
 {
+    if(!([self filesAvailable] && [self rom] != nil))
+    {
+        if([self rom] == nil)
+            NSLog(@"%@", [self rom]);
+
+        NSURL *bundleURL  = [self URL];
+        NSURL *stateURL   = [self dataFileURL];
+        NSURL *infoURL    = [self infoPlistURL];
+        NSURL *screenshot = [self screenshotURL];
+
+        if(![bundleURL checkResourceIsReachableAndReturnError:nil])
+            DLog(@"bundle missing: %@", bundleURL);
+        if(![stateURL checkResourceIsReachableAndReturnError:nil])
+            DLog(@"state missing: %@", stateURL);
+        if(![infoURL checkResourceIsReachableAndReturnError:nil])
+            DLog(@"info.plist missing: %@", infoURL);
+        if(![screenshot checkResourceIsReachableAndReturnError:nil])
+            DLog(@"screenshot missing: %@", screenshot);
+    }
     return [self filesAvailable] && [self rom] != nil;
 }
 #pragma mark - Management
@@ -528,17 +547,10 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     [self save];
 }
 
-- (void)removeIfMissing
+- (void)deleteAndRemoveFilesIfMissing
 {
-    // TODO: re-implement
-    NSError *error;
-    if(![[self URL] checkResourceIsReachableAndReturnError:&error])
-    {
-        NSLog(@"Removing save state: %@", [self URL]);
-        NSLog(@"Reason: %@", [error localizedDescription]);
-        
-        [self delete];
-    }
+    if(![self isValid])
+        [self deleteAndRemoveFiles];
 }
 
 - (BOOL)moveToDefaultLocation

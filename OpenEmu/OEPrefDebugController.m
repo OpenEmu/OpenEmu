@@ -198,6 +198,8 @@ NSString * const OptionsKey = @"options";
                               Button(@"Cleanup rom hashes", @selector(cleanupHashes:)),
                               Button(@"Remove duplicated roms", @selector(removeDuplicatedRoms:)),
                               Label(@""),
+                              Button(@"Perform Sanity Check on Database", @selector(sanityCheck:)),
+                              Label(@""),
                               ];
 }
 
@@ -262,7 +264,7 @@ NSString * const OptionsKey = @"options";
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
 
     NSArray *objects = [OEDBSaveState allObjectsInContext:[database mainThreadContext]];
-    [objects makeObjectsPerformSelector:@selector(removeIfMissing)];
+    [objects makeObjectsPerformSelector:@selector(deleteAndRemoveFilesIfMissing)];
     [[database mainThreadContext] save:nil];
 }
 
@@ -532,6 +534,82 @@ NSString * const OptionsKey = @"options";
 
     NSLog(@"%ld roms deleted", [romsToDelete count]);
     [context save:nil];
+}
+
+- (IBAction)sanityCheck:(id)sender
+{
+    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = [database mainThreadContext];
+    __block NSUInteger count = 0;
+    __block NSUInteger count2 = 0;
+
+    NSLog(@"= START SANITY CHECK =");
+
+    NSArray *allRoms = [OEDBRom allObjectsInContext:context];
+
+    // Look for roms without games
+    count = 0;
+    [allRoms enumerateObjectsUsingBlock:^(OEDBRom *rom, NSUInteger idx, BOOL *stop) {
+        if([rom game] == nil)
+            count ++;
+    }];
+    if(count) NSLog(@"Found %ld roms without game!", count);
+
+    // Look for roms referencing the same file
+    allRoms = [allRoms sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"location" ascending:YES]]];
+    count = 0;
+    OEDBRom *lastRom = nil;
+    for(OEDBRom *rom in allRoms)
+        if([[rom location] isEqualToString:[lastRom location]])
+            count ++;
+    if(count) NSLog(@"Found %ld duplicated roms!", count);
+
+    // Look for roms with same hash
+    allRoms = [allRoms sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"md5" ascending:YES]]];
+    count = 0;
+    lastRom = nil;
+    for(OEDBRom *rom in allRoms)
+        if([[rom md5] isEqualToString:[lastRom md5]] && [rom md5] != nil && [[rom md5] length] != 0)
+            count ++;
+    if(count) NSLog(@"Found %ld duplicated roms!", count);
+
+
+    // Look for games without roms
+    NSArray *allGames = [OEDBGame allObjectsInContext:context];
+    count = 0;
+    [allGames enumerateObjectsUsingBlock:^(OEDBGame *game, NSUInteger idx, BOOL *stop) {
+        if([[game roms] count] == 0)
+            count ++;
+    }];
+    if(count) NSLog(@"Found %ld games without rom!", count);
+
+
+    // Look for save states without rom
+    NSArray *allStates = [OEDBSaveState allObjectsInContext:context];
+    count = 0;
+    count2 = 0;
+    for(OEDBSaveState *state in allStates)
+    {
+        if([state rom] == nil)
+            count ++;
+        if(![state isValid])
+            count2++;
+    }
+    if(count) NSLog(@"Found %ld save states without rom!", count);
+    if(count2) NSLog(@"Found %ld invalid save states!", count2);
+
+
+    // Look for images without game
+    NSArray *allImages = [OEDBImage allObjectsInContext:context];
+    count = 0;
+    [allImages enumerateObjectsUsingBlock:^(OEDBImage *image, NSUInteger idx, BOOL *stop) {
+        if([image Box] == nil)
+            count ++;
+    }];
+    if(count) NSLog(@"Found %ld images without game!", count);
+
+
+    NSLog(@"= Done =");
 }
 #pragma mark -
 - (void)changeUDColor:(id)sender

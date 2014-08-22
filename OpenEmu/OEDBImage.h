@@ -57,6 +57,6 @@ typedef enum : NSUInteger
 @property (nonatomic) float width, height;
 @property (nonatomic) short format;
 @property (nonatomic, retain) NSString *relativePath;
-@property (nonatomic, retain) NSString * source;
+@property (nonatomic, retain) NSString *source;
 @property (nonatomic, retain) OEDBGame *Box;
 @end
