@@ -85,7 +85,7 @@
 {
     if(md5Hash == nil) return nil;
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"md5 == %@", md5Hash];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"md5 == %@", [md5Hash lowercaseString]];
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     [fetchRequest setFetchLimit:1];
     [fetchRequest setIncludesPendingChanges:YES];
@@ -169,8 +169,8 @@
         return;
     }
     
-    [self setCrc32:crc32Hash];
-    [self setMd5:md5Hash];
+    [self setCrc32:[crc32Hash lowercaseString]];
+    [self setMd5:[md5Hash lowercaseString]];
 }
 
 

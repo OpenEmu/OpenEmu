@@ -229,26 +229,22 @@ NSString *const OESaveStateUseQuickSaveSlotsKey = @"UseQuickSaveSlots";
     }
 
     OEDBSaveState *saveState = [OEDBSaveState saveStateWithURL:stateURL inContext:context];
-    if([saveState checkFilesAvailable])
+    if(saveState)
     {
-        if(saveState)
+        // update state info from plist
+        [saveState readInfoPlist];
+
+        if([saveState checkFilesAvailable])
         {
-            // update state info from plist
-            [saveState readInfoPlist];
-        }
-        else
-        {
-            // create new save state
-            saveState = [OEDBSaveState createSaveStateWithURL:stateURL inContext:context];
+            // file missing, delete state from db
+            [saveState remove];
+            [saveState save];
+            saveState = nil;
         }
     }
     else
-    {
-        // file missing, delete state from db
-        [saveState remove];
-        [saveState save];
-        saveState = nil;
-    }
+        saveState = [OEDBSaveState createSaveStateWithURL:stateURL inContext:context];
+
 
     [saveState moveToSaveStateFolder];
     [context save:nil];

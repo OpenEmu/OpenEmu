@@ -522,8 +522,8 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     }
     else
     {
-        [self setMd5Hash:md5];
-        [self setCrcHash:crc];
+        [self setMd5Hash:[md5 lowercaseString]];
+        [self setCrcHash:[crc lowercaseString]];
     }
 
 }
@@ -818,8 +818,8 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
     [rom setURL:[self URL]];
     if([self fileName] != nil) [rom setFileName:[self fileName]];
-    if(crc != nil) [rom setCrc32:crc];
-    if(md5 != nil) [rom setMd5:md5];
+    if(crc != nil) [rom setCrc32:[crc lowercaseString]];
+    if(md5 != nil) [rom setMd5:[md5 lowercaseString]];
 
     // Check if system plugin for ROM implemented headerLookupForFile: and serialLookupForFile:
     NSAssert([[self systemIdentifiers] count] == 1, @"System should have been detected at an earlier import stage");

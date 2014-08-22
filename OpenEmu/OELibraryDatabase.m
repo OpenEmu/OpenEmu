@@ -1009,7 +1009,7 @@ static OELibraryDatabase *defaultDatabase = nil;
                 }
                 else [mainContext deleteObject:image];
 
-                if(md5) [[game defaultROM] setMd5:md5];
+                if(md5) [[game defaultROM] setMd5:[md5 lowercaseString]];
                 if(serial) [[game defaultROM] setSerial:serial];
                 if(header) [[game defaultROM] setHeader:header];
             }

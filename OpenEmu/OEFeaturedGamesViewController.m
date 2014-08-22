@@ -230,7 +230,7 @@ const static CGFloat TableViewSpacing = 86.0;
         rom = [[OEDBRom alloc] initWithEntity:romDescription insertIntoManagedObjectContext:context];
         [rom setSourceURL:url];
         [rom setArchiveFileIndex:@(fileIndex)];
-        [rom setMd5:md5];
+        [rom setMd5:[md5 lowercaseString]];
 
         OEDBGame *game = [[OEDBGame alloc] initWithEntity:gameDescription insertIntoManagedObjectContext:context];
         [game setRoms:[NSSet setWithObject:rom]];
