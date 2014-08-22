@@ -61,7 +61,7 @@ extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 
 - (BOOL)isValid;
 - (void)deleteAndRemoveFiles;
-- (void)deleteAndRemoveFilesIfMissing;
+- (void)deleteAndRemoveFilesIfInvalid;
 #pragma mark - Data Accessors
 - (NSString *)displayName; // Should be used instead of -name if the string is to be displayed to the user
 - (BOOL)isSpecialState;

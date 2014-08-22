@@ -48,6 +48,7 @@
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEHUDAlert.h"
+#import "NSFileManager+OEHashingAdditions.h"
 #pragma mark Key sources
 #import "OEPreferencesController.h"
 #import "OESetupAssistant.h"
@@ -182,10 +183,8 @@ NSString * const OptionsKey = @"options";
                               Group(@"Save States"),
                               Button(@"Set default save states directory", @selector(restoreSaveStatesDirectory:)),
                               Button(@"Choose save states directory", @selector(chooseSaveStatesDirectory:)),
-                              Button(@"Add untracked save states", @selector(findUntrackedSaveStates:)),
-                              Button(@"Remove missing states", @selector(removeMissingStates:)),
-                              Button(@"Remove duplicate states", @selector(removeDuplicateStates:)),
                               Button(@"Cleanup autosave state", @selector(cleanupAutoSaveStates:)),
+                              Button(@"Cleanup Save States", @selector(cleanupSaveStates:)),
 
                               Group(@"OpenVGDB"),
                               Button(@"Update OpenVGDB", @selector(updateOpenVGDB:)),
@@ -245,94 +244,8 @@ NSString * const OptionsKey = @"options";
         [[NSUserDefaults standardUserDefaults] setObject:[[openPanel URL] absoluteString] forKey:OESaveStateFolderURLKey];
 }
 
-- (void)findUntrackedSaveStates:(id)sender
-{
-    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
-    NSURL *statesFolder = [database stateFolderURL];
-    NSFileManager *fm   = [NSFileManager defaultManager];
-
-    NSDirectoryEnumerator *enumerator = [fm enumeratorAtURL:statesFolder includingPropertiesForKeys:nil options:0 errorHandler:nil];
-    for (NSURL *url in enumerator)
-    {
-        if([[url pathExtension] isEqualToString:@"oesavestate"])
-            [OEDBSaveState updateOrCreateStateWithURL:url inContext:[database mainThreadContext]];
-    }
-}
-
-- (void)removeMissingStates:(id)sender
-{
-    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
-
-    NSArray *objects = [OEDBSaveState allObjectsInContext:[database mainThreadContext]];
-    [objects makeObjectsPerformSelector:@selector(deleteAndRemoveFilesIfMissing)];
-    [[database mainThreadContext] save:nil];
-}
-
-- (void)removeDuplicateStates:(id)sender
-{
-    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
-
-    NSArray *objects = [OEDBSaveState allObjectsInContext:[database mainThreadContext]];
-    objects = [objects sortedArrayUsingComparator:^NSComparisonResult(OEDBSaveState *obj1, OEDBSaveState *obj2) {
-        return [[[[obj1 URL] standardizedURL] absoluteString] compare:[[[obj2 URL] standardizedURL] absoluteString]];
-    }];
-
-    for(int i=0; i < [objects count]; i++)
-    {
-        OEDBSaveState *currentState = [objects objectAtIndex:i];
-        [currentState setURL:[currentState URL]];
-    }
-
-    OEDBSaveState *lastState = nil;
-    for(int i=0; i < [objects count]; i++)
-    {
-        OEDBSaveState *currentState = [objects objectAtIndex:i];
-        if([[[lastState URL] standardizedURL] isEqualTo:[[currentState URL] standardizedURL]]) {
-            [currentState delete];
-        } else {
-            [currentState setURL:[currentState URL]];
-            lastState = currentState;
-        }
-    }
-
-    NSManagedObjectContext *context = [database mainThreadContext];
-
-    NSArray *roms = [OEDBRom allObjectsInContext:context];
-    __block NSUInteger count = 0;
-    [roms enumerateObjectsUsingBlock:^(OEDBRom *rom, NSUInteger idx, BOOL *stop) {
-        NSArray *saveStates = [[rom saveStates] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
-
-        OEDBSaveState *lastState = nil;
-        NSMutableArray *statesToDelete = [NSMutableArray array];
-        for(OEDBSaveState *state in saveStates)
-        {
-            if(lastState)
-            {
-                if([[lastState timestamp] isEqualToDate:[state timestamp]] &&
-                    [[lastState coreIdentifier] isEqualToString:[state coreIdentifier]])
-                {
-                    [statesToDelete addObject:state];
-                }
-            }
-            lastState = state;
-        }
-
-        [statesToDelete enumerateObjectsUsingBlock:^(OEDBSaveState *state, NSUInteger idx, BOOL *stop) {
-            [state setRom:nil];
-            [state delete];
-        }];
-        count += [statesToDelete count];
-    }];
-
-    NSLog(@"Deleted %ld save states", count);
-
-    [context save:nil];
-}
-
 - (void)cleanupAutoSaveStates:(id)sender
 {
-    [self removeDuplicateStates:self];
-
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [database mainThreadContext];
     NSArray *allRoms = [OEDBRom allObjectsInContext:context];
@@ -363,6 +276,73 @@ NSString * const OptionsKey = @"options";
         [autosave moveToDefaultLocation];
     }];
     [context save:nil];
+}
+
+- (void)cleanupSaveStates:(id)sender
+{
+    OELibraryDatabase     *database = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = [database mainThreadContext];
+    NSArray          *allSaveStates = [OEDBSaveState allObjectsInContext:context];
+
+    // remove invalid save states
+    [allSaveStates makeObjectsPerformSelector:@selector(deleteAndRemoveFilesIfInvalid)];
+    [context save:nil];
+
+    // add untracked save states
+    NSURL *statesFolder = [database stateFolderURL];
+    NSFileManager *fm   = [NSFileManager defaultManager];
+    NSDirectoryEnumerator *enumerator = [fm enumeratorAtURL:statesFolder includingPropertiesForKeys:nil options:0 errorHandler:nil];
+    for (NSURL *url in enumerator)
+    {
+        if([[url pathExtension] isEqualToString:OESaveStateSuffix])
+            [OEDBSaveState createSaveStateByImportingBundleURL:url intoContext:context];
+    }
+
+    // remove invalid save states, again
+    allSaveStates = [OEDBSaveState allObjectsInContext:context];
+    [allSaveStates makeObjectsPerformSelector:@selector(deleteAndRemoveFilesIfInvalid)];
+    [context save:nil];
+
+    // remove duplicates
+    allSaveStates = [OEDBSaveState allObjectsInContext:context];
+    allSaveStates = [allSaveStates sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"rom.md5" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"coreIdentifier" ascending:YES], [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]]];
+    OEDBSaveState *lastState = nil;
+    for(OEDBSaveState *saveState in allSaveStates)
+    {
+        if(lastState && [lastState rom] == [saveState rom]
+           && [[lastState timestamp] isEqualTo:[saveState timestamp]]
+           && [[lastState coreIdentifier] isEqualToString:[saveState coreIdentifier]])
+        {
+            NSString *currentHash = nil, *previousHash;
+            [[NSFileManager defaultManager] hashFileAtURL:[saveState dataFileURL] headerSize:0 md5:&currentHash crc32:nil error:nil];
+            [[NSFileManager defaultManager] hashFileAtURL:[lastState dataFileURL] headerSize:0 md5:&previousHash crc32:nil error:nil];
+
+            if([currentHash isEqualToString:previousHash])
+            {
+                if([[lastState URL] isEqualTo:[saveState URL]])
+                {
+                    [lastState delete];
+                }
+                else
+                {
+                    [lastState deleteAndRemoveFiles];
+                }
+            }
+        }
+        lastState = saveState;
+    }
+    [context save:nil];
+
+    // move to default location
+    allSaveStates = [OEDBSaveState allObjectsInContext:context];
+    for(OEDBSaveState *saveState in allSaveStates)
+    {
+        if(![saveState moveToDefaultLocation])
+        {
+            NSLog(@"SaveState is still corrupt!");
+            DLog(@"%@", [saveState URL]);
+        }
+    }
 }
 #pragma mark -
 - (void)updateOpenVGDB:(id)sender

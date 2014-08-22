@@ -240,9 +240,8 @@
 - (void)removeMissingStates
 {
     NSSet *set = [[self saveStates] copy];
-    set = [set filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"isValid == FALSE"]];
-    NSLog(@"%@", set);
-    [set makeObjectsPerformSelector:@selector(delete)];
+    [set makeObjectsPerformSelector:@selector(deleteAndRemoveFilesIfInvalid)];
+    [self save];
 }
 
 - (void)incrementPlayCount

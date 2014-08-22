@@ -547,7 +547,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     [self save];
 }
 
-- (void)deleteAndRemoveFilesIfMissing
+- (void)deleteAndRemoveFilesIfInvalid
 {
     if(![self isValid])
         [self deleteAndRemoveFiles];
