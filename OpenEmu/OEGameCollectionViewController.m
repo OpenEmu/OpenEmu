@@ -95,7 +95,6 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     [gamesController setFetchSortDescriptors:[representedObject fetchSortDescriptors]];
     __block BOOL ok;
 
-    DLog(@"%@", [[[gamesController managedObjectContext] userInfo] valueForKey:@"name"]);
     ok = [gamesController fetchWithRequest:nil merge:NO error:nil];
 
     if(!ok)

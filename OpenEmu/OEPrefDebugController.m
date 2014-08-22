@@ -196,7 +196,7 @@ NSString * const OptionsKey = @"options";
                               Button(@"Download missing artwork", @selector(downloadMissingArtwork:)),
                               Button(@"Remove untracked artwork files", @selector(removeUntrackedImageFiles:)),
                               Button(@"Cleanup rom hashes", @selector(cleanupHashes:)),
-
+                              Button(@"Remove duplicated roms", @selector(removeDuplicatedRoms:)),
                               Label(@""),
                               ];
 }
@@ -296,6 +296,7 @@ NSString * const OptionsKey = @"options";
     NSManagedObjectContext *context = [database mainThreadContext];
 
     NSArray *roms = [OEDBRom allObjectsInContext:context];
+    __block NSUInteger count = 0;
     [roms enumerateObjectsUsingBlock:^(OEDBRom *rom, NSUInteger idx, BOOL *stop) {
         NSArray *saveStates = [[rom saveStates] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
 
@@ -318,7 +319,10 @@ NSString * const OptionsKey = @"options";
             [state setRom:nil];
             [state remove];
         }];
+        count += [statesToDelete count];
     }];
+
+    NSLog(@"Deleted %ld save states", count);
 
     [context save:nil];
 }
@@ -501,6 +505,34 @@ NSString * const OptionsKey = @"options";
         [rom setCrc32:[[rom crc32] lowercaseString]];
     }];
 
+    [context save:nil];
+}
+
+- (void)removeDuplicatedRoms:(id)sender
+{
+    OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = [library mainThreadContext];
+
+    NSArray *objects = [OEDBRom allObjectsInContext:context];
+    objects = [objects sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"md5" ascending:YES]]];
+    OEDBRom *lastRom = nil;
+    NSMutableArray *romsToDelete = [NSMutableArray array];
+    for(OEDBRom *rom in objects)
+    {
+        if(lastRom && [[rom md5] isEqualToString:[lastRom md5]])
+        {
+            [rom setSaveStates:[[lastRom saveStates] setByAddingObjectsFromSet:[rom saveStates]]];
+            [romsToDelete addObject:lastRom];
+        }
+        lastRom = rom;
+    }
+
+    [romsToDelete enumerateObjectsUsingBlock:^(OEDBRom *rom, NSUInteger idx, BOOL *stop) {
+        [[rom game] deleteByMovingFile:NO keepSaveStates:YES];
+        [rom deleteByMovingFile:NO keepSaveStates:NO];
+    }];
+
+    NSLog(@"%ld roms deleted", [romsToDelete count]);
     [context save:nil];
 }
 #pragma mark -
