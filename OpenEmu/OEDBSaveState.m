@@ -555,25 +555,42 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
 - (BOOL)moveToDefaultLocation
 {
-    // TODO:
-    NSURL    *saveStateFolderURL = [[self libraryDatabase] stateFolderURLForROM:[self rom]];
-    if([[self URL] isSubpathOfURL:saveStateFolderURL]) return NO;
+    OEDBRom *rom = [self rom];
+    NSURL *saveStateDirectoryURL = [[self libraryDatabase] stateFolderURLForROM:rom];
+    NSURL *currentURL = [self URL];
 
-    NSURL    *newStateURL        = [saveStateFolderURL URLByAppendingPathComponent:[[self URL] lastPathComponent]];
-    NSString *currentFileName    = [[[self URL] lastPathComponent] stringByDeletingPathExtension];
-    newStateURL                  = [newStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-        return [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %ld.%@", currentFileName, triesCount, OESaveStateSuffix]];
-    }];
+    // TODO: remove invalid filesystem characters from desiredName
+    NSString *desiredName = [self displayName];
+    NSString *desiredFileName = [NSString stringWithFormat:@"%@.%@", desiredName, OESaveStateSuffix];
+    NSURL    *url         = [saveStateDirectoryURL URLByAppendingPathComponent:desiredFileName isDirectory:NO];
+
+    // check if save state is already where it's supposed to be
+    if([[[url absoluteURL] standardizedURL] isEqualTo:[[currentURL absoluteURL] standardizedURL]]) return YES;
+
+    // check if url is already take, determine unique url if so
+    if([url checkResourceIsReachableAndReturnError:nil])
+    {
+        NSUInteger count = 1;
+        do {
+            desiredFileName = [NSString stringWithFormat:@"%@ %ld.%@", desiredName, count, OESaveStateSuffix];
+            url = [saveStateDirectoryURL URLByAppendingPathComponent:desiredFileName isDirectory:NO];
+            count ++;
+        } while([[url standardizedURL] isNotEqualTo:[currentURL standardizedURL]] && [url checkResourceIsReachableAndReturnError:nil]);
+    }
+
+    // only proceed if the location has changed
+    if([[[url absoluteURL] standardizedURL] isEqualTo:[[currentURL absoluteURL] standardizedURL]]) return YES;
 
     NSError *error = nil;
-    if(![[NSFileManager defaultManager] moveItemAtURL:[self URL] toURL:newStateURL error:&error])
+    if(![[NSFileManager defaultManager] moveItemAtURL:currentURL toURL:url error:&error])
     {
-        DLog(@"Error occured while moving State to default location");
-        DLog(@"%@", [error localizedDescription]);
+        DLog(@"Could not move save state to new location!");
         return NO;
     }
-    [self setURL:newStateURL];
-    [[self managedObjectContext] save:nil];
+
+    [self setURL:url];
+    [self save];
+
     return YES;
 }
 
