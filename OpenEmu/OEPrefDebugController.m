@@ -195,6 +195,7 @@ NSString * const OptionsKey = @"options";
                               Button(@"Delete Artwork that can be downloaded", @selector(removeArtworkWithRemoteBacking:)),
                               Button(@"Download missing artwork", @selector(downloadMissingArtwork:)),
                               Button(@"Remove untracked artwork files", @selector(removeUntrackedImageFiles:)),
+                              Button(@"Cleanup rom hashes", @selector(cleanupHashes:)),
 
                               Label(@""),
                               ];
@@ -292,8 +293,34 @@ NSString * const OptionsKey = @"options";
         }
     }
 
-    [[database mainThreadContext] save:nil];
+    NSManagedObjectContext *context = [database mainThreadContext];
 
+    NSArray *roms = [OEDBRom allObjectsInContext:context];
+    [roms enumerateObjectsUsingBlock:^(OEDBRom *rom, NSUInteger idx, BOOL *stop) {
+        NSArray *saveStates = [[rom saveStates] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES],[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+
+        OEDBSaveState *lastState = nil;
+        NSMutableArray *statesToDelete = [NSMutableArray array];
+        for(OEDBSaveState *state in saveStates)
+        {
+            if(lastState)
+            {
+                if([[lastState timestamp] isEqualToDate:[state timestamp]] &&
+                    [[lastState coreIdentifier] isEqualToString:[state coreIdentifier]])
+                {
+                    [statesToDelete addObject:state];
+                }
+            }
+            lastState = state;
+        }
+
+        [statesToDelete enumerateObjectsUsingBlock:^(OEDBSaveState *state, NSUInteger idx, BOOL *stop) {
+            [state setRom:nil];
+            [state remove];
+        }];
+    }];
+
+    [context save:nil];
 }
 
 - (void)cleanupAutoSaveStates:(id)sender
@@ -461,6 +488,20 @@ NSString * const OptionsKey = @"options";
         [[NSFileManager defaultManager] removeItemAtURL:untrackedFile error:nil];
     }];
     NSLog(@"Removed %ld unknown files from artwork directory", [artwork count]);
+}
+
+- (void)cleanupHashes:(id)sender
+{
+    OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = [library mainThreadContext];
+
+    NSArray *objects = [OEDBRom allObjectsInContext:context];
+    [objects enumerateObjectsUsingBlock:^(OEDBRom *rom, NSUInteger idx, BOOL *stop) {
+        [rom setMd5:[[rom md5] lowercaseString]];
+        [rom setCrc32:[[rom crc32] lowercaseString]];
+    }];
+
+    [context save:nil];
 }
 #pragma mark -
 - (void)changeUDColor:(id)sender

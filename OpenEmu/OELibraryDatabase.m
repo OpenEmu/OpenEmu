@@ -850,6 +850,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSString *fileName = [rom fileName];
     if(fileName == nil)
         fileName = [[rom URL] lastPathComponent];
+    if(fileName == nil)
+        fileName = [[rom sourceURL] lastPathComponent];
 
     NSURL *result = [[self stateFolderURLForSystem:[[rom game] system]] URLByAppendingPathComponent:[fileName stringByDeletingPathExtension]];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
