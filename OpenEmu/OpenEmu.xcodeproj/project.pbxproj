@@ -173,6 +173,10 @@
 		3D15428114E20E22009C3DEE /* OENonARCHacks.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D15428014E20E22009C3DEE /* OENonARCHacks.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3D1D8D821650C22900DBC37D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1D8D811650C22900DBC37D /* Accelerate.framework */; };
 		3DFAB00D144644D4005EF0C3 /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
+		4FD1F8C0199DA337008ACECB /* controller_colecovision_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FD1F8BE199DA337008ACECB /* controller_colecovision_mask@2x.png */; };
+		4FD1F8C1199DA337008ACECB /* controller_colecovision@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FD1F8BF199DA337008ACECB /* controller_colecovision@2x.png */; };
+		4FD1F8C2199DA3E0008ACECB /* controller_colecovision_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FD1F8BE199DA337008ACECB /* controller_colecovision_mask@2x.png */; };
+		4FD1F8C3199DA3E0008ACECB /* controller_colecovision@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FD1F8BF199DA337008ACECB /* controller_colecovision@2x.png */; };
 		53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */; };
 		53439A9013B92C68005C0CC8 /* OEDBDataSourceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8F13B92C68005C0CC8 /* OEDBDataSourceAdditions.m */; };
 		53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9313B92C97005C0CC8 /* OEDBAllGamesCollection.m */; };
@@ -1715,6 +1719,8 @@
 		3D1D8D811650C22900DBC37D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		3D711838150064F50056E3BF /* PSYBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSYBlockTimer.h; sourceTree = "<group>"; };
 		3D711839150064F50056E3BF /* PSYBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSYBlockTimer.m; sourceTree = "<group>"; };
+		4FD1F8BE199DA337008ACECB /* controller_colecovision_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_colecovision_mask@2x.png"; sourceTree = "<group>"; };
+		4FD1F8BF199DA337008ACECB /* controller_colecovision@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_colecovision@2x.png"; sourceTree = "<group>"; };
 		53439A8A13B92C4A005C0CC8 /* OELibraryDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibraryDatabase.h; sourceTree = "<group>"; };
 		53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryDatabase.m; sourceTree = "<group>"; };
 		53439A8E13B92C68005C0CC8 /* OEDBDataSourceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBDataSourceAdditions.h; sourceTree = "<group>"; };
@@ -5784,7 +5790,9 @@
 			children = (
 				94BE9E62171689C900AB08E6 /* colecovision_library.png */,
 				94BE9E63171689C900AB08E6 /* controller_colecovision_mask.png */,
+				4FD1F8BE199DA337008ACECB /* controller_colecovision_mask@2x.png */,
 				94BE9E64171689C900AB08E6 /* controller_colecovision.png */,
+				4FD1F8BF199DA337008ACECB /* controller_colecovision@2x.png */,
 				94BE9E54171683E000AB08E6 /* ColecoVision-Info.plist */,
 				94BE9E67171689C900AB08E6 /* Keyboard-Mappings.plist */,
 				94BE9E65171689C900AB08E6 /* Controller-Mappings.plist */,
@@ -7205,6 +7213,7 @@
 				83AAC3311458172C005ADD16 /* installer_dark_inset_box.png in Resources */,
 				83AAC3321458172C005ADD16 /* installer_gamepad_graphics.png in Resources */,
 				83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */,
+				4FD1F8C1199DA337008ACECB /* controller_colecovision@2x.png in Resources */,
 				83025E63146BDD9400A06EF9 /* slim_dark_pill_button.png in Resources */,
 				83025E69146BE71600A06EF9 /* install_progress_bar_track.png in Resources */,
 				83025E6A146BE71600A06EF9 /* install_progress_bar.png in Resources */,
@@ -7314,6 +7323,7 @@
 				EC350FCB17401B44005DA3B2 /* hud_bar@2x.png in Resources */,
 				EC350FCC17401B44005DA3B2 /* hud_button@2x.png in Resources */,
 				EC350FCD17401B44005DA3B2 /* hud_close_button@2x.png in Resources */,
+				4FD1F8C0199DA337008ACECB /* controller_colecovision_mask@2x.png in Resources */,
 				EC350FCE17401B44005DA3B2 /* hud_fullscreen_glyph@2x.png in Resources */,
 				EC350FCF17401B44005DA3B2 /* hud_glyphs@2x.png in Resources */,
 				EC350FD017401B44005DA3B2 /* hud_power_glyph@2x.png in Resources */,
@@ -7714,7 +7724,9 @@
 				94BE9E57171683E000AB08E6 /* InfoPlist.strings in Resources */,
 				94BE9E68171689C900AB08E6 /* colecovision_library.png in Resources */,
 				94BE9E69171689C900AB08E6 /* controller_colecovision_mask.png in Resources */,
+				4FD1F8C2199DA3E0008ACECB /* controller_colecovision_mask@2x.png in Resources */,
 				94BE9E6A171689C900AB08E6 /* controller_colecovision.png in Resources */,
+				4FD1F8C3199DA3E0008ACECB /* controller_colecovision@2x.png in Resources */,
 				94BE9E6B171689C900AB08E6 /* Controller-Mappings.plist in Resources */,
 				94BE9E6C171689C900AB08E6 /* Controller-Preferences.plist in Resources */,
 				94BE9E6D171689C900AB08E6 /* Keyboard-Mappings.plist in Resources */,
