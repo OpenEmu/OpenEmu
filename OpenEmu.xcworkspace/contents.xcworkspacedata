@@ -53,6 +53,9 @@
       location = "group:Nestopia/Nestopia.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:O2EM/O2EM.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:picodrive/Picodrive.xcodeproj">
    </FileRef>
    <FileRef
