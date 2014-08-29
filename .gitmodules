@@ -73,3 +73,6 @@
 [submodule "VirtualJaguar"]
 	path = VirtualJaguar
 	url = git@github.com:OpenEmu/VirtualJaguar-Core.git
+[submodule "O2EM"]
+	path = O2EM
+	url = git@github.com:OpenEmu/O2EM-Core.git
