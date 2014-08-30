@@ -163,9 +163,13 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     _progressbar = nil;
     _suppressionButton = nil;
         
-    // Remove Callbacks
-    self.target = nil;
-    self.callbackHandler = nil;    
+    // Remove Callbacks (don't call setter)
+    target = nil;
+    callbackHandler = nil;
+
+    [_alternateButton setTarget:nil];
+    [_defaultButton  setTarget:nil];
+    [_otherButton    setTarget:nil];
 }
 
 #pragma mark -

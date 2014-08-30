@@ -285,17 +285,20 @@ static const unsigned short konamiCodeSize = 10;
 {
     NSDictionary *userInfo = [notification userInfo];
     NSString     *paneName = [userInfo valueForKey:OEPreferencesUserInfoPanelNameKey];
-    
-    NSInteger index = 0;
-    for(id<OEPreferencePane> aPreferencePane in [self preferencePanes])
-    {
-        if([[aPreferencePane title] isEqualToString:paneName]) break;
-        
-        index++;
-    }
 
-    [self switchView:[NSNumber numberWithInteger:index] animate:[[self window] isVisible]];
-    [[self window] makeKeyAndOrderFront:self];
+    NSInteger index = [[self preferencePanes] indexOfObjectPassingTest:^BOOL(id <OEPreferencePane>obj, NSUInteger idx, BOOL *stop) {
+        return [[obj title] isEqualToString:paneName] && (*stop=YES);
+    }];
+
+    if(index != NSNotFound)
+    {
+        BOOL windowVisible = [[self window] isVisible];
+        OEToolbarItem *item = [toolbar itemAtIndex:index];
+        [self switchView:item animate:windowVisible];
+        [self setVisibleItemIndex:[[item representedObject] integerValue]];
+
+        [[self window] makeKeyAndOrderFront:self];
+    }
 }
 
 #pragma mark -
