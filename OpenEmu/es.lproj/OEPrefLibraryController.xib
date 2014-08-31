@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">13B42</string>
-		<string key="IBDocument.InterfaceBuilderVersion">4514</string>
-		<string key="IBDocument.AppKitVersion">1265</string>
-		<string key="IBDocument.HIToolboxVersion">696.00</string>
+		<int key="IBDocument.SystemTarget">1090</int>
+		<string key="IBDocument.SystemVersion">13D65</string>
+		<string key="IBDocument.InterfaceBuilderVersion">5056</string>
+		<string key="IBDocument.AppKitVersion">1265.20</string>
+		<string key="IBDocument.HIToolboxVersion">698.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">4514</string>
+			<string key="NS.object.0">5056</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSButton</string>
@@ -100,7 +100,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="776277269">
 							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Available Libraries:</string>
+							<string key="NSContents">Bibliotecas disponibles:</string>
 							<object class="NSFont" key="NSSupport" id="363489343">
 								<string key="NSName">.LucidaGrandeUI</string>
 								<double key="NSSize">13</double>
@@ -140,7 +140,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="157201080">
 							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Organisation Methods</string>
+							<string key="NSContents">Métodos de organización</string>
 							<reference key="NSSupport" ref="363489343"/>
 							<reference key="NSControlView" ref="860041787"/>
 							<reference key="NSBackgroundColor" ref="748970771"/>
@@ -160,7 +160,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="496760588">
 							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Reset all dialog warnings:</string>
+							<string key="NSContents">Restaurar todos los diálogos de advertencia:</string>
 							<reference key="NSSupport" ref="363489343"/>
 							<reference key="NSControlView" ref="10646871"/>
 							<reference key="NSBackgroundColor" ref="748970771"/>
@@ -204,7 +204,7 @@
 							<object class="NSButtonCell" id="1043907944">
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Keep games organised</string>
+								<string key="NSContents">Mantener organizados los juegos</string>
 								<reference key="NSSupport" ref="363489343"/>
 								<reference key="NSControlView" ref="720796102"/>
 								<int key="NSTag">1</int>
@@ -225,7 +225,7 @@
 							<object class="NSButtonCell" id="183435253">
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Copy files to Game Library folder when adding to library</string>
+								<string key="NSContents">Copiar en biblioteca de juegos los archivos añadidos a la biblioteca</string>
 								<reference key="NSSupport" ref="363489343"/>
 								<reference key="NSControlView" ref="720796102"/>
 								<int key="NSButtonFlags">1211912448</int>
@@ -240,7 +240,7 @@
 							<object class="NSButtonCell" id="522933202">
 								<int key="NSCellFlags">-2080374784</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Automatically lookup game information &amp; artwork</string>
+								<string key="NSContents">Buscar información y carátulas de los juegos automáticamente</string>
 								<reference key="NSSupport" ref="363489343"/>
 								<reference key="NSControlView" ref="720796102"/>
 								<int key="NSButtonFlags">1211912448</int>
@@ -292,7 +292,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="171989535">
 							<int key="NSCellFlags">68157504</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Game Library Folder Location:</string>
+							<string key="NSContents">Ubicación de la biblioteca de juegos:</string>
 							<reference key="NSSupport" ref="363489343"/>
 							<reference key="NSControlView" ref="534342859"/>
 							<reference key="NSBackgroundColor" ref="748970771"/>
@@ -312,7 +312,7 @@
 						<object class="NSButtonCell" key="NSCell" id="322744709">
 							<int key="NSCellFlags">67108864</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Change…</string>
+							<string key="NSContents">Cambiar…</string>
 							<reference key="NSSupport" ref="363489343"/>
 							<reference key="NSControlView" ref="511159761"/>
 							<int key="NSButtonFlags">-2038284288</int>
@@ -340,7 +340,7 @@
 						<object class="NSButtonCell" key="NSCell" id="299364425">
 							<int key="NSCellFlags">67108864</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Reset</string>
+							<string key="NSContents">Restaurar</string>
 							<reference key="NSSupport" ref="363489343"/>
 							<reference key="NSControlView" ref="255576367"/>
 							<int key="NSButtonFlags">-2038284288</int>
@@ -364,7 +364,7 @@
 						<object class="NSButtonCell" key="NSCell" id="683146298">
 							<int key="NSCellFlags">67108864</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Reset warnings</string>
+							<string key="NSContents">Restablecer advertencias</string>
 							<reference key="NSSupport" ref="363489343"/>
 							<reference key="NSControlView" ref="852418824"/>
 							<int key="NSButtonFlags">-2038284288</int>
@@ -390,7 +390,7 @@
 										<string key="NSFrameSize">{342, 108}</string>
 										<reference key="NSSuperview" ref="461844596"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="669572557"/>
+										<reference key="NSNextKeyView" ref="1004833419"/>
 									</object>
 								</array>
 								<string key="NSFrameSize">{351, 106}</string>
@@ -419,6 +419,7 @@
 								<string key="NSFrame">{{351, 0}, {15, 106}}</string>
 								<reference key="NSSuperview" ref="187468863"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="NSEnabled">YES</bool>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="187468863"/>
@@ -430,7 +431,7 @@
 						<string key="NSFrame">{{47, 33}, {366, 106}}</string>
 						<reference key="NSSuperview" ref="832558422"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="461844596"/>
+						<reference key="NSNextKeyView" ref="669572557"/>
 						<int key="NSsFlags">149584</int>
 						<reference key="NSVScroller" ref="1004833419"/>
 						<reference key="NSHScroller" ref="669572557"/>
@@ -1221,10 +1222,6 @@
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<bool key="IBDocument.previouslyAttemptedUpgradeToXcode5">YES</bool>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="1070" key="NS.object.0"/>
-		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
 			<integer value="4600" key="NS.object.0"/>
