@@ -393,6 +393,10 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
         return nil;
 
     NSString *path = [url path];
+
+    if(!path || ![[NSFileManager defaultManager] fileExistsAtPath:path])
+        return nil;
+    
     XADArchive *archive;
     @try {
         archive = [XADArchive archiveForFile:path];
