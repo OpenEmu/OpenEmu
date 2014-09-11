@@ -161,7 +161,7 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 #pragma mark - Cells
 - (IKImageBrowserCell *)newCellForRepresentedItem:(id) cell
 {
-	return [[[self cellClass] alloc] init];
+    return [[[self cellClass] alloc] init];
 }
 #pragma mark -
 - (NSInteger)indexOfItemWithFrameAtPoint:(NSPoint)point
@@ -438,11 +438,20 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 #pragma mark - Keyboard Interaction
 - (void)keyDown:(NSEvent*)event
 {
-    // original implementation does not pass space key to type-select
-    if([event keyCode]==kVK_Space)
-    {
-        [self handleKeyInput:event character:' '];
-    } else [super keyDown:event];
+    switch (event.keyCode) {
+        // original implementation does not pass space key to type-select
+        case kVK_Space:
+            [self handleKeyInput:event character:' '];
+            break;
+            
+        case kVK_Return:
+            [self beginEditingWithSelectedItem:self];
+            break;
+            
+        default:
+            [super keyDown:event];
+            break;
+    }
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
