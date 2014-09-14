@@ -2039,7 +2039,7 @@
 		8352C0EF197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = pt; path = pt.lproj/Credits.rtf; sourceTree = "<group>"; };
 		8352C0F0197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8352C0F1197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
-		8352C0F2197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/ControlLabels.strings; sourceTree = "<group>"; };
+		8352C0F2197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/ControlLabels.strings; sourceTree = "<group>"; };
 		8352C0F3197ACC4F00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OEPrefCoresController.xib; sourceTree = "<group>"; };
 		8352C0F4197ACC4F00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OEPrefGameplayController.xib; sourceTree = "<group>"; };
 		8352C0F5197ACC4F00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OEPrefLibraryController.xib; sourceTree = "<group>"; };
@@ -2189,7 +2189,7 @@
 		83977F6D1408FEA800175858 /* controller_sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms.png; sourceTree = "<group>"; };
 		8397BF41190949BD00A708D1 /* IKImageBrowserLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IKImageBrowserLayoutManager.h; sourceTree = "<group>"; };
 		839A38EC196AAFD6001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = de; path = de.lproj/Credits.rtf; sourceTree = "<group>"; };
-		839A38ED196AAFD7001A119A /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		839A38ED196AAFD7001A119A /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A38EE196AAFD7001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		839A38EF196AAFD7001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OEPrefCoresController.xib; sourceTree = "<group>"; };
 		839A38F0196AAFD7001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OEPrefGameplayController.xib; sourceTree = "<group>"; };
@@ -7010,7 +7010,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0600;
 			};
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "OpenEmu" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -10891,9 +10891,11 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -10927,9 +10929,11 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = NS_BUILD_32_LIKE_64;
