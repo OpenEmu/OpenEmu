@@ -34,6 +34,25 @@
 NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
 
 @implementation OEDBScreenshot
+
++ (instancetype)createObjectInContext:(NSManagedObjectContext *)context forROM:(OEDBRom*)rom withFile:(NSURL*)file
+{
+    OEDBScreenshot *screenshot = nil;
+    if([file checkResourceIsReachableAndReturnError:nil])
+    {
+        NSString *name = [[file lastPathComponent] stringByDeletingPathExtension];
+        screenshot = [OEDBScreenshot createObjectInContext:context];
+        [screenshot setURL:file];
+        [screenshot setRom:rom];
+        [screenshot setTimestamp:[NSDate date]];
+        [screenshot setName:name];
+
+        [screenshot updateFile];
+        [screenshot save];
+    }
+    return screenshot;
+}
+
 + (NSString*)entityName
 {
     return @"Screenshot";

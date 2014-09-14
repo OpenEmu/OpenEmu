@@ -29,6 +29,7 @@
 #import "OEDBRom.h"
 #import "OEDBSystem.h"
 #import "OEDBGame.h"
+#import "OEDBScreenshot.h"
 
 #import "OEGameView.h"
 #import "OECorePickerController.h"
@@ -258,13 +259,20 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH.mm.ss"];
     NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
-    
-    NSURL *screenshotFolderURL = [[OELibraryDatabase defaultDatabase] screenshotFolderURL];
-    NSURL *screenshotURL = [screenshotFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %@.png", [[[[self document] rom] game] displayName], timeStamp]];
+
+    NSString *fileName = [NSString stringWithFormat:@"%@ %@.png", [[[[self document] rom] game] displayName], timeStamp];
+    NSString *temporaryPath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
+    NSURL *temporaryURL = [NSURL fileURLWithPath:temporaryPath];
 
     __autoreleasing NSError *error;
-    if(![imageData writeToURL:screenshotURL options:NSDataWritingAtomic error:&error])
-        NSLog(@"Could not save screenshot at URL: %@, with error: %@", screenshotURL, error);
+    if(![imageData writeToURL:temporaryURL options:NSDataWritingAtomic error:&error])
+    {
+        NSLog(@"Could not save screenshot at URL: %@, with error: %@", temporaryURL, error);
+    } else {
+        OEDBRom *rom = [[self document] rom];
+        OEDBScreenshot *screenshot = [OEDBScreenshot createObjectInContext:[rom managedObjectContext] forROM:rom withFile:temporaryURL];
+        [screenshot save];
+    }
 }
 
 #pragma mark - OEGameCoreDisplayHelper methods

@@ -33,6 +33,8 @@
 extern NSString * const OEDBScreenshotImportRequired;
 
 @interface OEDBScreenshot : OEDBItem
+
++ (instancetype)createObjectInContext:(NSManagedObjectContext *)context forROM:(OEDBRom*)rom withFile:(NSURL*)file;
 - (void)updateFile;
 
 @property (nonatomic, retain) NSString * location;
