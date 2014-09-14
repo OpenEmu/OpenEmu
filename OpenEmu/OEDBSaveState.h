@@ -53,7 +53,7 @@ extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 + (NSString *)nameOfQuickSaveInSlot:(NSInteger)slot;
 
 #pragma mark - Management
-- (void)replaceStateFileWithFile:(NSURL *)stateFile;
+- (BOOL)replaceStateFileWithFile:(NSURL *)stateFile;
 - (BOOL)moveToDefaultLocation;
 
 - (BOOL)readFromDisk;

@@ -205,6 +205,13 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
         return nil;
     }
 
+    if(![savestate replaceStateFileWithFile:dataFileURL])
+    {
+        DLog(@"Could not copy data file to bundle!");
+        [savestate delete];
+        return nil;
+    }
+
     [savestate save];
     return savestate;
 }
@@ -418,7 +425,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     && [infoURL checkResourceIsReachableAndReturnError:nil];
 }
 
-- (void)replaceStateFileWithFile:(NSURL *)stateFile
+- (BOOL)replaceStateFileWithFile:(NSURL *)stateFile
 {
     NSError *error = nil;
     if(![[NSFileManager defaultManager] removeItemAtURL:[self dataFileURL] error:&error])
@@ -431,7 +438,9 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     {
         DLog(@"Could not copy new state file");
         DLog(@"%@", error);
+        return NO;
     }
+    return YES;
 }
 
 - (BOOL)isValid
