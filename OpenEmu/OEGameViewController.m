@@ -227,15 +227,18 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 #pragma mark - User Defaults
 
-- (NSString *)gameSystemAspectSizeKey {
+- (NSString *)gameSystemAspectSizeKey
+{
     return [NSString stringWithFormat:OEGameSystemAspectSizeKeyFormat, self.systemIdentifier];
 }
 
-- (BOOL)hasGameSystemAspectSizeUserDefault {
+- (BOOL)hasGameSystemAspectSizeUserDefault
+{
     return [[NSUserDefaults standardUserDefaults] objectForKey:self.gameSystemAspectSizeKey] != nil;
 }
 
-- (OEIntSize)gameSystemAspectSizeUserDefault {
+- (OEIntSize)gameSystemAspectSizeUserDefault
+{
     NSDictionary *aspectSizeObject = [[NSUserDefaults standardUserDefaults] objectForKey:self.gameSystemAspectSizeKey];
     if (aspectSizeObject) {
         return OEIntSizeMake([aspectSizeObject[@"width"] intValue], [aspectSizeObject[@"height"] intValue]);
@@ -244,12 +247,14 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     }
 }
 
-- (void)setGameSystemAspectSizeUserDefault:(OEIntSize)aspectSize {
+- (void)setGameSystemAspectSizeUserDefault:(OEIntSize)aspectSize
+{
     NSDictionary *aspectSizeObject = @{@"width": @(aspectSize.width), @"height": @(aspectSize.height)};
     [[NSUserDefaults standardUserDefaults] setObject:aspectSizeObject forKey:self.gameSystemAspectSizeKey];
 }
 
-- (void)removeGameSystemAspectSizeUserDefault {
+- (void)removeGameSystemAspectSizeUserDefault
+{
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:self.gameSystemAspectSizeKey];
 }
 
@@ -283,12 +288,14 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     return YES;
 }
 
-- (void)setDefaultAspectSize:(id)sender {
+- (void)setDefaultAspectSize:(id)sender
+{
     [self removeGameSystemAspectSizeUserDefault];
     [self setAspectSize:[self gameSystemAspectSizeUserDefault]];
 }
 
-- (void)setCustomAspectSize:(id)sender {
+- (void)setCustomAspectSize:(id)sender
+{
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     
     [alert setOtherInputLabelText:NSLocalizedString(@"Width:", @"")];

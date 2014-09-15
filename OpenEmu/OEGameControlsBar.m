@@ -62,7 +62,8 @@ NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutput";
 
 
-static inline NSString *OEIntSizeToAspectRatioString(OEIntSize size) {
+static inline NSString *OEIntSizeToAspectRatioString(OEIntSize size)
+{
     return [NSString stringWithFormat:@"%dx%d", size.width, size.height];
 }
 
@@ -402,9 +403,12 @@ static inline NSString *OEIntSizeToAspectRatioString(OEIntSize size) {
     
     [aspectRatioMenu addItem:defaultAspectRatioMenuItem];
     
-    if (selectedAspectSize.width == defaultAspectSize.width && selectedAspectSize.height == defaultAspectSize.height) {
+    if (selectedAspectSize.width == defaultAspectSize.width && selectedAspectSize.height == defaultAspectSize.height)
+    {
         [defaultAspectRatioMenuItem setState:NSOnState];
-    } else {
+    }
+    else
+    {
         [defaultAspectRatioMenuItem setState:NSOffState];
         
         NSMenuItem *customAspectRatioMenuItem = [[NSMenuItem alloc] init];
