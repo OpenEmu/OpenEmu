@@ -61,6 +61,11 @@ NSString *const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions
 NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutput";
 
+
+static inline NSString *OEIntSizeToAspectRatioString(OEIntSize size) {
+    return [NSString stringWithFormat:@"%dx%d", size.width, size.height];
+}
+
 @interface OEHUDControlsBarView : NSView
 
 @property(strong, readonly) OESlider *slider;
@@ -379,10 +384,46 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     }
     else
         [item setEnabled:NO];
+  
+    // Setup Aspect Ratio Menu
+    NSMenu *aspectRatioMenu = [[NSMenu alloc] init];
+    [aspectRatioMenu setTitle:NSLocalizedString(@"Aspect Ratio", @"")];
+    item = [[NSMenuItem alloc] init];
+    [item setTitle:NSLocalizedString(@"Aspect Ratio", @"")];
+    [menu addItem:item];
+    [item setSubmenu:aspectRatioMenu];
+    
+    OEIntSize selectedAspectSize = [[self gameViewController] gameSystemAspectSizeUserDefault];
+    OEIntSize defaultAspectSize = [[self gameViewController] coreDefaultAspectSize];
+    
+    NSMenuItem *defaultAspectRatioMenuItem = [[NSMenuItem alloc] init];
+    defaultAspectRatioMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"Default (%@)", @""), OEIntSizeToAspectRatioString(defaultAspectSize)];
+    defaultAspectRatioMenuItem.action = @selector(setDefaultAspectSize:);
+    
+    [aspectRatioMenu addItem:defaultAspectRatioMenuItem];
+    
+    if (selectedAspectSize.width == defaultAspectSize.width && selectedAspectSize.height == defaultAspectSize.height) {
+        [defaultAspectRatioMenuItem setState:NSOnState];
+    } else {
+        [defaultAspectRatioMenuItem setState:NSOffState];
+        
+        NSMenuItem *customAspectRatioMenuItem = [[NSMenuItem alloc] init];
+        customAspectRatioMenuItem.title = [NSString stringWithFormat:NSLocalizedString(@"Custom (%@)", @""), OEIntSizeToAspectRatioString(selectedAspectSize)];
+        [customAspectRatioMenuItem setState:NSOnState];
+        [aspectRatioMenu addItem:customAspectRatioMenuItem];
+    }
+    
+    [aspectRatioMenu addItem:[NSMenuItem separatorItem]];
+    
+    NSMenuItem *setCustomAspectRatioMenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Set Custom Aspect Ratio…", @"")
+                                                                          action:@selector(setCustomAspectSize:)
+                                                                   keyEquivalent:@""];
+    [aspectRatioMenu addItem:setCustomAspectRatioMenuItem];
 
+    // Setup audio output
+  
     if([[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarShowsAudioOutput])
     {
-        // Setup audio output
         NSMenu *audioOutputMenu = [NSMenu new];
         [audioOutputMenu setTitle:OELocalizedString(@"Select Audio Output Device", @"")];
         item = [NSMenuItem new];

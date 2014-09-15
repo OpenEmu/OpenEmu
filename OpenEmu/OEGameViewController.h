@@ -33,6 +33,7 @@
 extern NSString *const OEGameVolumeKey;
 extern NSString *const OEGameDefaultVideoFilterKey;
 extern NSString *const OEGameSystemVideoFilterKeyFormat;
+extern NSString *const OEGameSystemAspectSizeKeyFormat;
 extern NSString *const OEGameCoresInBackgroundKey;
 extern NSString *const OEDontShowGameTitleInWindowKey;
 extern NSString *const OEAutoSwitchCoreAlertSuppressionKey;
@@ -46,7 +47,6 @@ extern NSString *const OETakeNativeScreenshots;
 
 extern NSString *const OEScreenshotFileFormatKey;
 extern NSString *const OEScreenshotPropertiesKey;
-
 
 @class OEDBRom;
 @class OEDBGame;
@@ -77,14 +77,25 @@ extern NSString *const OEScreenshotPropertiesKey;
 - (BOOL)supportsSaveStates;
 - (NSString *)coreIdentifier;
 - (NSString *)systemIdentifier;
+- (OEIntSize)coreDefaultAspectSize;
 
 - (NSImage *)takeNativeScreenshot;
 
 - (void)reflectVolume:(float)volume;
 - (void)reflectEmulationPaused:(BOOL)paused;
+
+#pragma mark - User Defaults
+
+- (BOOL)hasGameSystemAspectSizeUserDefault;
+- (OEIntSize)gameSystemAspectSizeUserDefault;
+- (void)setGameSystemAspectSizeUserDefault:(OEIntSize) size;
+- (void)removeGameSystemAspectSizeUserDefault;
+
 #pragma mark - HUD Bar Actions
 // switchCore:: expects sender or [sender representedObject] to be an OECorePlugin object and prompts the user for confirmation
 - (void)selectFilter:(id)sender;
+- (void)setDefaultAspectSize:(id)sender;
+- (void)setCustomAspectSize:(id)sender;
 - (void)toggleControlsVisibility:(id)sender;
 
 #pragma mark - Taking Screenshots

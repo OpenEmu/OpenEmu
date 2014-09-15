@@ -63,6 +63,7 @@
 NSString *const OEGameVolumeKey = @"volume";
 NSString *const OEGameDefaultVideoFilterKey = @"videoFilter";
 NSString *const OEGameSystemVideoFilterKeyFormat = @"videoFilter.%@";
+NSString *const OEGameSystemAspectSizeKeyFormat = @"aspectSize.%@";
 NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
 NSString *const OEDontShowGameTitleInWindowKey = @"dontShowGameTitleInWindow";
 NSString *const OEAutoSwitchCoreAlertSuppressionKey = @"changeCoreWhenLoadingStateWitoutConfirmation";
@@ -80,6 +81,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
 
+
 @interface OEGameViewController () <OEGameViewDelegate>
 {
     // Standard game document stuff
@@ -88,6 +90,8 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     OEIntSize   _aspectSize;
     BOOL        _pausedByGoingToBackground;
 }
+
+@property (readonly) NSString *gameSystemAspectSizeKey;
 
 @end
 
@@ -191,6 +195,15 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     return [[self document] systemIdentifier];
 }
 
+- (OEIntSize)coreDefaultAspectSize {
+    NSArray *corePlugins = [OECorePlugin corePluginsForSystemIdentifier:self.systemIdentifier];
+    NSUInteger coreIndex = [corePlugins indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        return [[(OECorePlugin *)obj bundleIdentifier] isEqualToString:self.coreIdentifier];
+    }];
+    
+    return [[[[corePlugins[coreIndex] gameCoreClass] alloc] init] aspectSize];
+}
+
 - (NSImage *)takeNativeScreenshot
 {
     return [_gameView nativeScreenshot];
@@ -210,6 +223,34 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 {
     [sender setState:![sender state]];
     [[self controlsWindow] setCanShow:[sender state]==NSOffState];
+}
+
+#pragma mark - User Defaults
+
+- (NSString *)gameSystemAspectSizeKey {
+    return [NSString stringWithFormat:OEGameSystemAspectSizeKeyFormat, self.systemIdentifier];
+}
+
+- (BOOL)hasGameSystemAspectSizeUserDefault {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:self.gameSystemAspectSizeKey] != nil;
+}
+
+- (OEIntSize)gameSystemAspectSizeUserDefault {
+    NSDictionary *aspectSizeObject = [[NSUserDefaults standardUserDefaults] objectForKey:self.gameSystemAspectSizeKey];
+    if (aspectSizeObject) {
+        return OEIntSizeMake([aspectSizeObject[@"width"] intValue], [aspectSizeObject[@"height"] intValue]);
+    } else {
+        return self.coreDefaultAspectSize;
+    }
+}
+
+- (void)setGameSystemAspectSizeUserDefault:(OEIntSize)aspectSize {
+    NSDictionary *aspectSizeObject = @{@"width": @(aspectSize.width), @"height": @(aspectSize.height)};
+    [[NSUserDefaults standardUserDefaults] setObject:aspectSizeObject forKey:self.gameSystemAspectSizeKey];
+}
+
+- (void)removeGameSystemAspectSizeUserDefault {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:self.gameSystemAspectSizeKey];
 }
 
 #pragma mark - HUD Bar Actions
@@ -240,6 +281,40 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
             [menuItem setState:NSOnState];
     }
     return YES;
+}
+
+- (void)setDefaultAspectSize:(id)sender {
+    [self removeGameSystemAspectSizeUserDefault];
+    [self setAspectSize:[self gameSystemAspectSizeUserDefault]];
+}
+
+- (void)setCustomAspectSize:(id)sender {
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    
+    [alert setOtherInputLabelText:NSLocalizedString(@"Width:", @"")];
+    [alert setShowsOtherInputField:YES];
+    [alert setOtherStringValue:@"8"];
+    
+    [alert setInputLabelText:NSLocalizedString(@"Height:", @"")];
+    [alert setShowsInputField:YES];
+    [alert setStringValue:@"7"];
+    
+    [alert setDefaultButtonTitle:NSLocalizedString(@"Set Aspect Ratio", @"")];
+    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
+    
+    [alert setInputLimit:1000];
+    
+    if([alert runModal]) {
+        int width, height;
+        width = [[alert otherStringValue] intValue];
+        height = [[alert stringValue] intValue];
+        
+        if (width > 0 && height > 0) {
+            OEIntSize newAspectSize = OEIntSizeMake(width, height);
+            [self setGameSystemAspectSizeUserDefault:newAspectSize];
+            [self setAspectSize:newAspectSize];
+        }
+    }
 }
 
 #pragma mark - Taking Screenshots
@@ -285,7 +360,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
 {
     _screenSize = newScreenSize;
-    _aspectSize = newAspectSize;
+    _aspectSize = self.hasGameSystemAspectSizeUserDefault ? self.gameSystemAspectSizeUserDefault : newAspectSize;
     [_gameView setScreenSize:_screenSize aspectSize:_aspectSize withIOSurfaceID:newSurfaceID];
 }
 
@@ -297,8 +372,8 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 - (void)setAspectSize:(OEIntSize)newAspectSize;
 {
-    _aspectSize = newAspectSize;
-    [_gameView setAspectSize:newAspectSize];
+    _aspectSize = self.hasGameSystemAspectSizeUserDefault ? self.gameSystemAspectSizeUserDefault : newAspectSize;
+    [_gameView setAspectSize:_aspectSize];
 }
 
 #pragma mark - Info
