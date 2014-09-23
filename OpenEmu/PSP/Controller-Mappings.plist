@@ -337,5 +337,36 @@
 		<key>OEPSPButtonSelect</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OEPSPButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OEPSPButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OEPSPButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OEPSPButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OEPSPAnalogUp</key>
+		<string>OEControllerMayflashGCNAnalogUp</string>
+		<key>OEPSPAnalogLeft</key>
+		<string>OEControllerMayflashGCNAnalogLeft</string>
+		<key>OEPSPButtonCircle</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OEPSPButtonCross</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OEPSPButtonTriangle</key>
+		<string>OEControllerMayflashGCNButtonX</string>
+		<key>OEPSPButtonSquare</key>
+		<string>OEControllerMayflashGCNButtonY</string>
+		<key>OEPSPButtonL1</key>
+		<string>OEControllerMayflashGCNButtonL</string>
+		<key>OEPSPButtonR1</key>
+		<string>OEControllerMayflashGCNButtonR</string>
+		<key>OEPSPButtonStart</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OEPSPButtonSelect</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+	</dict>
 </dict>
 </plist>

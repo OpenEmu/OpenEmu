@@ -224,5 +224,24 @@
 		<key>OEPCEButtonSelect</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OEPCEButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OEPCEButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OEPCEButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OEPCEButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OEPCEButton1</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OEPCEButton2</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OEPCEButtonRun</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OEPCEButtonSelect</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+	</dict>
 </dict>
 </plist>

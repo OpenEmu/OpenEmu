@@ -196,5 +196,22 @@
 		<key>OESMSButtonStart</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OESMSButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OESMSButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OESMSButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OESMSButtonA</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OESMSButtonB</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OESMSButtonStart</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+	</dict>
 </dict>
 </plist>

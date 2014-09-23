@@ -330,5 +330,32 @@
 		<key>OESegaCDButtonMode</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OESegaCDButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OESegaCDButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OESegaCDButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerMayflashGCNButtonX</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerMayflashGCNButtonY</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerMayflashGCNButtonL</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerMayflashGCNButtonR</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+	</dict>
 </dict>
 </plist>

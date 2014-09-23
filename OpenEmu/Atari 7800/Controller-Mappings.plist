@@ -252,5 +252,26 @@
 		<key>OE7800ButtonReset</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonHome</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OE7800ButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OE7800ButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OE7800ButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OE7800ButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OE7800ButtonFire2</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OE7800ButtonFire1</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OE7800ButtonSelect</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OE7800ButtonPause</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+		<key>OE7800ButtonReset</key>
+		<string>OEControllerMayflashGCNButtonR</string>
+	</dict>
 </dict>
 </plist>

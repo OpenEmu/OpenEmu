@@ -224,5 +224,24 @@
 		<key>OELynxButtonOption2</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OELynxButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OELynxButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OELynxButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OELynxButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OELynxButtonA</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OELynxButtonB</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OELynxButtonOption1</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OELynxButtonOption2</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+	</dict>
 </dict>
 </plist>

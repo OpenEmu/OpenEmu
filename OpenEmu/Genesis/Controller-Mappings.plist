@@ -330,5 +330,32 @@
 		<key>OEGenesisButtonMode</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OEGenesisButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OEGenesisButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OEGenesisButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OEGenesisButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OEGenesisButtonA</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OEGenesisButtonB</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OEGenesisButtonC</key>
+		<string>OEControllerMayflashGCNButtonX</string>
+		<key>OEGenesisButtonX</key>
+		<string>OEControllerMayflashGCNButtonY</string>
+		<key>OEGenesisButtonY</key>
+		<string>OEControllerMayflashGCNButtonL</string>
+		<key>OEGenesisButtonZ</key>
+		<string>OEControllerMayflashGCNButtonR</string>
+		<key>OEGenesisButtonStart</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OEGenesisButtonMode</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+	</dict>
 </dict>
 </plist>

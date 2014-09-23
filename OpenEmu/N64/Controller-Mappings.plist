@@ -325,5 +325,40 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OEN64AnalogUp</key>
+		<string>OEControllerMayflashGCNAnalogUp</string>
+		<key>OEN64AnalogLeft</key>
+		<string>OEControllerMayflashGCNAnalogLeft</string>
+		<key>OEN64ButtonDPadUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OEN64ButtonDPadDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OEN64ButtonDPadLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OEN64ButtonDPadRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEControllerMayflashGCNCStickUp</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEControllerMayflashGCNCStickLeft</string>
+		<key>OEN64ButtonCDown</key>
+		<string>OEControllerMayflashGCNCStickDown</string>
+		<key>OEN64ButtonCRight</key>
+		<string>OEControllerMayflashGCNCStickRight</string>
+		<key>OEN64ButtonA</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OEN64ButtonB</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OEN64ButtonL</key>
+		<string>OEControllerMayflashGCNButtonL</string>
+		<key>OEN64ButtonR</key>
+		<string>OEControllerMayflashGCNButtonR</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+	</dict>
 </dict>
 </plist>

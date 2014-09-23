@@ -224,5 +224,24 @@
 		<key>OENESButtonSelect</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OENESButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OENESButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OENESButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OENESButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OENESButtonA</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OENESButtonB</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OENESButtonStart</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OENESButtonSelect</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+	</dict>
 </dict>
 </plist>

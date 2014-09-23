@@ -252,5 +252,26 @@
 		<key>OEJaguarButtonOption</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OEJaguarButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OEJaguarButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OEJaguarButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OEJaguarButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OEJaguarButtonC</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OEJaguarButtonB</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OEJaguarButtonA</key>
+		<string>OEControllerMayflashGCNButtonX</string>
+		<key>OEJaguarButtonPause</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OEJaguarButtonOption</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+	</dict>
 </dict>
 </plist>

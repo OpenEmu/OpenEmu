@@ -309,5 +309,32 @@
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OEArcadeButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OEArcadeButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OEArcadeButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerMayflashGCNButtonL</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerMayflashGCNButtonR</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerMayflashGCNButtonX</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerMayflashGCNButtonY</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+	</dict>
 </dict>
 </plist>

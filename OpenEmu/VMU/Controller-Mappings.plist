@@ -224,5 +224,24 @@
 		<key>OEVMUButtonMode</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OEVMUButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OEVMUButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OEVMUButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OEVMUButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OEVMUButtonB</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OEVMUButtonA</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OEVMUButtonSleep</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OEVMUButtonMode</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+	</dict>
 </dict>
 </plist>

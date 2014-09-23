@@ -252,5 +252,26 @@
 		<key>OE5200ButtonReset</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonHome</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OE5200ButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OE5200ButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OE5200ButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OE5200ButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OE5200ButtonFire2</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OE5200ButtonFire1</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OE5200ButtonStart</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OE5200ButtonPause</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+		<key>OE5200ButtonReset</key>
+		<string>OEControllerMayflashGCNButtonR</string>
+	</dict>
 </dict>
 </plist>

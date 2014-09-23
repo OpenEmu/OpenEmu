@@ -168,5 +168,20 @@
 		<key>OEColecoVisionButtonRightAction</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OEColecoVisionButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OEColecoVisionButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OEColecoVisionButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OEColecoVisionButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OEColecoVisionButtonLeftAction</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OEColecoVisionButtonRightAction</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+	</dict>
 </dict>
 </plist>
