@@ -729,7 +729,7 @@ static OELibraryDatabase *defaultDatabase = nil;
                                     {
                                         return [[aRom game] system] == aSystem;
                                     }]];
-         [result setObject:romsForSystem forKey:[aSystem lastLocalizedName]];
+         [result setObject:romsForSystem forKey:[aSystem name]];
      }];
 
     return result;
