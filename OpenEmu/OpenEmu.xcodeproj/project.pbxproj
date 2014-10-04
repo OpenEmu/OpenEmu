@@ -81,6 +81,7 @@
 				94EBBCFB183F42CE00743756 /* CopyFiles */,
 			);
 			dependencies = (
+				277CBA6019DE55700059A2C1 /* PBXTargetDependency */,
 				9440477E199D56B2002D805E /* PBXTargetDependency */,
 				94A5321618DF8A2B00AE11B3 /* PBXTargetDependency */,
 				94CE3FB618DE92A20079CC16 /* PBXTargetDependency */,
@@ -166,6 +167,19 @@
 		2284983F196ABBE70051D13E /* _xbr-lv2-d-pass0.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2284982D196ABB120051D13E /* _xbr-lv2-d-pass0.cg */; };
 		22849840196ABBE70051D13E /* xBR (semi squared).cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2284982E196ABB120051D13E /* xBR (semi squared).cgp */; };
 		22849841196ABBE70051D13E /* _xbr-lv2-pass1.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 2284982F196ABB120051D13E /* _xbr-lv2-pass1.cg */; };
+		277CBA3619DE54200059A2C1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		277CBA3719DE54200059A2C1 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
+		277CBA4A19DE54A80059A2C1 /* OEIntellivisionSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 277CBA4819DE54A80059A2C1 /* OEIntellivisionSystemResponder.m */; };
+		277CBA4D19DE55030059A2C1 /* intellivision_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 277CBA4B19DE55030059A2C1 /* intellivision_library.png */; };
+		277CBA4E19DE55030059A2C1 /* intellivision_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 277CBA4C19DE55030059A2C1 /* intellivision_library@2x.png */; };
+		277CBA5319DE55120059A2C1 /* controller_intellivision_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 277CBA4F19DE55120059A2C1 /* controller_intellivision_mask.png */; };
+		277CBA5419DE55120059A2C1 /* controller_intellivision_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 277CBA5019DE55120059A2C1 /* controller_intellivision_mask@2x.png */; };
+		277CBA5519DE55120059A2C1 /* controller_intellivision.png in Resources */ = {isa = PBXBuildFile; fileRef = 277CBA5119DE55120059A2C1 /* controller_intellivision.png */; };
+		277CBA5619DE55120059A2C1 /* controller_intellivision@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 277CBA5219DE55120059A2C1 /* controller_intellivision@2x.png */; };
+		277CBA5A19DE55210059A2C1 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 277CBA5819DE55210059A2C1 /* Keyboard-Mappings.plist */; };
+		277CBA5D19DE553C0059A2C1 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 277CBA5B19DE553C0059A2C1 /* Controller-Mappings.plist */; };
+		277CBA5E19DE553C0059A2C1 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 277CBA5C19DE553C0059A2C1 /* Controller-Preferences.plist */; };
+		277CBA6119DE558B0059A2C1 /* Intellivision.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 277CBA4519DE54200059A2C1 /* Intellivision.oesystemplugin */; };
 		3887A8051024D2BC000FC4CF /* GenerateThumbnailForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8021024D2BC000FC4CF /* GenerateThumbnailForURL.m */; };
 		3887A8061024D2BC000FC4CF /* GeneratePreviewForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8031024D2BC000FC4CF /* GeneratePreviewForURL.m */; };
 		3887A8071024D2BC000FC4CF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8041024D2BC000FC4CF /* main.c */; };
@@ -1201,6 +1215,13 @@
 			remoteGlobalIDString = 83F37141140BB166005A7353;
 			remoteInfo = "Build SystemPlugins";
 		};
+		277CBA5F19DE55700059A2C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 277CBA3219DE54200059A2C1;
+			remoteInfo = Intellivision;
+		};
 		3DAA589914464890001C09A8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1585,6 +1606,7 @@
 			dstPath = OpenEmu.app/Contents/PlugIns/Systems;
 			dstSubfolderSpec = 16;
 			files = (
+				277CBA6119DE558B0059A2C1 /* Intellivision.oesystemplugin in CopyFiles */,
 				94404780199D5830002D805E /* Odyssey2.oesystemplugin in CopyFiles */,
 				94A5321918DF8A3700AE11B3 /* Jaguar.oesystemplugin in CopyFiles */,
 				94CE3FB218DE92970079CC16 /* 3DO.oesystemplugin in CopyFiles */,
@@ -1699,6 +1721,20 @@
 		2284982D196ABB120051D13E /* _xbr-lv2-d-pass0.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "_xbr-lv2-d-pass0.cg"; sourceTree = "<group>"; };
 		2284982E196ABB120051D13E /* xBR (semi squared).cgp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "xBR (semi squared).cgp"; sourceTree = "<group>"; };
 		2284982F196ABB120051D13E /* _xbr-lv2-pass1.cg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "_xbr-lv2-pass1.cg"; sourceTree = "<group>"; };
+		277CBA4519DE54200059A2C1 /* Intellivision.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Intellivision.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		277CBA4719DE54A80059A2C1 /* OEIntellivisionSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEIntellivisionSystemResponder.h; sourceTree = "<group>"; };
+		277CBA4819DE54A80059A2C1 /* OEIntellivisionSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEIntellivisionSystemResponder.m; sourceTree = "<group>"; };
+		277CBA4919DE54A80059A2C1 /* OEIntellivisionSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEIntellivisionSystemResponderClient.h; sourceTree = "<group>"; };
+		277CBA4B19DE55030059A2C1 /* intellivision_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = intellivision_library.png; sourceTree = "<group>"; };
+		277CBA4C19DE55030059A2C1 /* intellivision_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intellivision_library@2x.png"; sourceTree = "<group>"; };
+		277CBA4F19DE55120059A2C1 /* controller_intellivision_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_intellivision_mask.png; sourceTree = "<group>"; };
+		277CBA5019DE55120059A2C1 /* controller_intellivision_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_intellivision_mask@2x.png"; sourceTree = "<group>"; };
+		277CBA5119DE55120059A2C1 /* controller_intellivision.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_intellivision.png; sourceTree = "<group>"; };
+		277CBA5219DE55120059A2C1 /* controller_intellivision@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_intellivision@2x.png"; sourceTree = "<group>"; };
+		277CBA5719DE55210059A2C1 /* Intellivision-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Intellivision-Info.plist"; sourceTree = "<group>"; };
+		277CBA5819DE55210059A2C1 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		277CBA5B19DE553C0059A2C1 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		277CBA5C19DE553C0059A2C1 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameDocument.m; sourceTree = "<group>"; };
 		2A37F4AEFDCFA73011CA2CEA /* OEGameDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameDocument.h; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -3214,6 +3250,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		277CBA3519DE54200059A2C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				277CBA3619DE54200059A2C1 /* Cocoa.framework in Frameworks */,
+				277CBA3719DE54200059A2C1 /* OpenEmuSystem.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3887A7F41024D1F9000FC4CF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -3712,6 +3757,7 @@
 				94CEB26D17A84809005A2107 /* GameCube.oesystemplugin */,
 				FEB6625B187B791800D14713 /* MSX.oesystemplugin */,
 				94404755199D4DF0002D805E /* Odyssey2.oesystemplugin */,
+				277CBA4519DE54200059A2C1 /* Intellivision.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3933,6 +3979,34 @@
 				2284982F196ABB120051D13E /* _xbr-lv2-pass1.cg */,
 			);
 			name = xBR;
+			sourceTree = "<group>";
+		};
+		277CBA2E19DE52640059A2C1 /* Intellivision */ = {
+			isa = PBXGroup;
+			children = (
+				277CBA4719DE54A80059A2C1 /* OEIntellivisionSystemResponder.h */,
+				277CBA4819DE54A80059A2C1 /* OEIntellivisionSystemResponder.m */,
+				277CBA4919DE54A80059A2C1 /* OEIntellivisionSystemResponderClient.h */,
+				277CBA3119DE535E0059A2C1 /* Supporting Files */,
+			);
+			path = Intellivision;
+			sourceTree = "<group>";
+		};
+		277CBA3119DE535E0059A2C1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				277CBA4B19DE55030059A2C1 /* intellivision_library.png */,
+				277CBA4C19DE55030059A2C1 /* intellivision_library@2x.png */,
+				277CBA4F19DE55120059A2C1 /* controller_intellivision_mask.png */,
+				277CBA5019DE55120059A2C1 /* controller_intellivision_mask@2x.png */,
+				277CBA5119DE55120059A2C1 /* controller_intellivision.png */,
+				277CBA5219DE55120059A2C1 /* controller_intellivision@2x.png */,
+				277CBA5719DE55210059A2C1 /* Intellivision-Info.plist */,
+				277CBA5819DE55210059A2C1 /* Keyboard-Mappings.plist */,
+				277CBA5B19DE553C0059A2C1 /* Controller-Mappings.plist */,
+				277CBA5C19DE553C0059A2C1 /* Controller-Preferences.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		2A37F4AAFDCFA73011CA2CEA /* OpenEmu */ = {
@@ -6160,6 +6234,7 @@
 				94CEB26F17A84809005A2107 /* GameCube */,
 				822775521489471A00B19E27 /* GameGear */,
 				C6B947E81365080B00A425F0 /* Genesis */,
+				277CBA2E19DE52640059A2C1 /* Intellivision */,
 				943C80141708A62F00D8D93E /* Jaguar */,
 				94A22455170753C800098DA0 /* Lynx */,
 				FEB6624D187B624E00D14713 /* MSX */,
@@ -6362,6 +6437,23 @@
 			productName = OpenEmuHelperApp;
 			productReference = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */;
 			productType = "com.apple.product-type.tool";
+		};
+		277CBA3219DE54200059A2C1 /* Intellivision */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 277CBA4219DE54200059A2C1 /* Build configuration list for PBXNativeTarget "Intellivision" */;
+			buildPhases = (
+				277CBA3319DE54200059A2C1 /* Sources */,
+				277CBA3519DE54200059A2C1 /* Frameworks */,
+				277CBA3819DE54200059A2C1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Intellivision;
+			productName = Intellivision;
+			productReference = 277CBA4519DE54200059A2C1 /* Intellivision.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
 		};
 		3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */ = {
 			isa = PBXNativeTarget;
@@ -7073,6 +7165,7 @@
 				941F5A0017A785AD0005D7EA /* Atari 7800 */,
 				94CEB26C17A84809005A2107 /* GameCube */,
 				94404754199D4DF0002D805E /* Odyssey2 */,
+				277CBA3219DE54200059A2C1 /* Intellivision */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -7121,6 +7214,22 @@
 				11BD7770196A46AD00BFB3FE /* controller_n64_mask@2x.png in Resources */,
 				EC350F46174019A2005DA3B2 /* n64_library@2x.png in Resources */,
 				11BD776E196A46AD00BFB3FE /* controller_n64_mask.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		277CBA3819DE54200059A2C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				277CBA5419DE55120059A2C1 /* controller_intellivision_mask@2x.png in Resources */,
+				277CBA5D19DE553C0059A2C1 /* Controller-Mappings.plist in Resources */,
+				277CBA5A19DE55210059A2C1 /* Keyboard-Mappings.plist in Resources */,
+				277CBA5619DE55120059A2C1 /* controller_intellivision@2x.png in Resources */,
+				277CBA4E19DE55030059A2C1 /* intellivision_library@2x.png in Resources */,
+				277CBA5519DE55120059A2C1 /* controller_intellivision.png in Resources */,
+				277CBA4D19DE55030059A2C1 /* intellivision_library.png in Resources */,
+				277CBA5319DE55120059A2C1 /* controller_intellivision_mask.png in Resources */,
+				277CBA5E19DE553C0059A2C1 /* Controller-Preferences.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8018,6 +8127,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		277CBA3319DE54200059A2C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				277CBA4A19DE54A80059A2C1 /* OEIntellivisionSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3887A7F31024D1F9000FC4CF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -8557,6 +8674,11 @@
 			isa = PBXTargetDependency;
 			target = 83F37141140BB166005A7353 /* Build SystemPlugins */;
 			targetProxy = 1B6A25011430F8FB009F1CE1 /* PBXContainerItemProxy */;
+		};
+		277CBA6019DE55700059A2C1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 277CBA3219DE54200059A2C1 /* Intellivision */;
+			targetProxy = 277CBA5F19DE55700059A2C1 /* PBXContainerItemProxy */;
 		};
 		3DAA589A14464890001C09A8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -9460,6 +9582,50 @@
 				);
 				PRODUCT_NAME = OpenEmuHelperApp;
 				VALID_ARCHS = x86_64;
+			};
+			name = Release;
+		};
+		277CBA4319DE54200059A2C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Intellivision/Intellivision-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Intellivision;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		277CBA4419DE54200059A2C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "Intellivision/Intellivision-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				PRODUCT_NAME = Intellivision;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -11294,6 +11460,15 @@
 			buildConfigurations = (
 				1BEF2A9611682A530090F72B /* Debug */,
 				1BEF2A9711682A530090F72B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		277CBA4219DE54200059A2C1 /* Build configuration list for PBXNativeTarget "Intellivision" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				277CBA4319DE54200059A2C1 /* Debug */,
+				277CBA4419DE54200059A2C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEIntellivisionButtonUp</key>
+	<integer>82</integer>
+	<key>OEIntellivisionButtonDown</key>
+	<integer>81</integer>
+	<key>OEIntellivisionButtonLeft</key>
+	<integer>80</integer>
+	<key>OEIntellivisionButtonRight</key>
+	<integer>79</integer>
+	<key>OEIntellivisionButtonTopAction</key>
+	<integer>27</integer>
+	<key>OEIntellivisionButtonBottomLeftAction</key>
+	<integer>20</integer>
+	<key>OEIntellivisionButtonBottomRightAction</key>
+	<integer>26</integer>
+	<key>OEIntellivisionButton1</key>
+	<integer>30</integer>
+	<key>OEIntellivisionButton2</key>
+	<integer>31</integer>
+	<key>OEIntellivisionButton3</key>
+	<integer>32</integer>
+	<key>OEIntellivisionButton4</key>
+	<integer>33</integer>
+	<key>OEIntellivisionButton5</key>
+	<integer>34</integer>
+	<key>OEIntellivisionButton6</key>
+	<integer>35</integer>
+	<key>OEIntellivisionButton7</key>
+	<integer>36</integer>
+	<key>OEIntellivisionButton8</key>
+	<integer>37</integer>
+	<key>OEIntellivisionButton9</key>
+	<integer>38</integer>
+	<key>OEIntellivisionButton0</key>
+	<integer>39</integer>
+	<key>OEIntellivisionButtonClear</key>
+	<integer>45</integer>
+	<key>OEIntellivisionButtonEnter</key>
+	<integer>46</integer>
+</dict>
+</plist>
