@@ -231,8 +231,11 @@ static const unsigned short konamiCodeSize = 10;
     controller = [[OEPrefCoresController alloc] init];
     [array addObject:controller];
 
+    TODO(@"Re-enable after 1.0.4");
+    /*
     controller = [[OEPrefBiosController alloc] init];
     [array addObject:controller];
+     */
 
     controller = [[OEPrefDebugController alloc] init];
     [array addObject:controller];
