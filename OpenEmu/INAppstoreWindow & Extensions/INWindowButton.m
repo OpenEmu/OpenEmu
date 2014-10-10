@@ -1,12 +1,13 @@
 //
-//  INWindowButton.m
+//	INWindowButton.m
 //
-//  Copyright 2013-2014 Vladislav Alexeev. All rights reserved.
+//	Copyright 2013-2014 Vladislav Alexeev. All rights reserved.
 //
-//  Licensed under the BSD 2-clause License. See LICENSE file distributed in the source
-//  code of this project.
+//	Licensed under the BSD 2-clause License. See LICENSE file distributed in the source
+//	code of this project.
 //
 
+#import "INAppStoreWindowCompatibility.h"
 #import "INWindowButton.h"
 
 #pragma mark - Window Button Group
@@ -44,10 +45,10 @@ NSString *const kINWindowButtonGroupDefault = @"com.indragie.inappstorewindow.de
 		identifier = kINWindowButtonGroupDefault;
 	}
 
-	INWindowButtonGroup *group = [groups objectForKey:identifier];
+	INWindowButtonGroup *group = groups[identifier];
 	if (group == nil) {
 		group = [[[self class] alloc] initWithIdentifier:identifier];
-		[groups setObject:group forKey:identifier];
+		groups[identifier] = group;
 	}
 	return group;
 }
@@ -202,13 +203,13 @@ NSString *const kINWindowButtonGroupDefault = @"com.indragie.inappstorewindow.de
 - (void)windowWillEnterFullScreen:(NSNotification *)n
 {
 	[self.group resetMouseCaptures];
-	[self setHidden:YES];
+	self.hidden = YES;
 }
 
 - (void)windowWillExitFullScreen:(NSNotification *)n
 {
 	[self.group resetMouseCaptures];
-	[self setHidden:NO];
+	self.hidden = NO;
 }
 
 - (void)windowDidMiniaturize:(NSNotification *)notification
@@ -252,17 +253,13 @@ NSString *const kINWindowButtonGroupDefault = @"com.indragie.inappstorewindow.de
 
 - (void)setEnabled:(BOOL)enabled
 {
-	[super setEnabled:enabled];
-	if (enabled) {
-		self.image = self.activeImage;
-	} else {
-		self.image = self.inactiveImage;
-	}
+	super.enabled = enabled;
+	[self updateActiveImage];
 }
 
 - (void)updateRollOverImage
 {
-	if ([self.group shouldDisplayRollOver] && [self isEnabled]) {
+	if (self.group.shouldDisplayRollOver && self.isEnabled) {
 		self.image = self.rolloverImage;
 	} else {
 		[self updateImage];
@@ -271,7 +268,7 @@ NSString *const kINWindowButtonGroupDefault = @"com.indragie.inappstorewindow.de
 
 - (void)updateImage
 {
-	if ([self.window isKeyWindow]) {
+	if (self.window.isKeyWindow) {
 		[self updateActiveImage];
 	} else {
 		self.image = self.activeNotKeyWindowImage;
@@ -280,11 +277,7 @@ NSString *const kINWindowButtonGroupDefault = @"com.indragie.inappstorewindow.de
 
 - (void)updateActiveImage
 {
-	if ([self isEnabled]) {
-		self.image = self.activeImage;
-	} else {
-		self.image = self.inactiveImage;
-	}
+	self.image = self.isEnabled ? self.activeImage : self.inactiveImage;
 }
 
 @end

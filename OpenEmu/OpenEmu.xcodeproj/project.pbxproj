@@ -332,6 +332,7 @@
 		82DE4B7F102655FC007184EB /* XADMaster.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
 		82DE4B8010265600007184EB /* UniversalDetector.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEE1026533E007184EB /* UniversalDetector.framework */; };
 		830013AE17A7C5A000EB128A /* controls_triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 830013AD17A7C5A000EB128A /* controls_triangle.png */; };
+		83004AE619E82BBA00967F5E /* INWindowBackgroundView+CoreUIRendering.m in Sources */ = {isa = PBXBuildFile; fileRef = 83004AE519E82BBA00967F5E /* INWindowBackgroundView+CoreUIRendering.m */; };
 		8301557B1456BF7A0093D681 /* OEGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8301557A1456BF7A0093D681 /* OEGameViewController.m */; };
 		83025E60146BDD5E00A06EF9 /* OECoreTableButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83025E5F146BDD5E00A06EF9 /* OECoreTableButtonCell.m */; };
 		83025E63146BDD9400A06EF9 /* slim_dark_pill_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 83025E62146BDD9400A06EF9 /* slim_dark_pill_button.png */; };
@@ -1958,6 +1959,9 @@
 		82DE4AEE1026533E007184EB /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UniversalDetector.framework; sourceTree = "<group>"; };
 		82DE4AEF1026533E007184EB /* XADMaster.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XADMaster.framework; sourceTree = "<group>"; };
 		830013AD17A7C5A000EB128A /* controls_triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controls_triangle.png; sourceTree = "<group>"; };
+		83004AE119E82B7F00967F5E /* INAppStoreWindowCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INAppStoreWindowCompatibility.h; sourceTree = "<group>"; };
+		83004AE419E82BBA00967F5E /* INWindowBackgroundView+CoreUIRendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "INWindowBackgroundView+CoreUIRendering.h"; sourceTree = "<group>"; };
+		83004AE519E82BBA00967F5E /* INWindowBackgroundView+CoreUIRendering.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "INWindowBackgroundView+CoreUIRendering.m"; sourceTree = "<group>"; };
 		830155791456BF7A0093D681 /* OEGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameViewController.h; sourceTree = "<group>"; };
 		8301557A1456BF7A0093D681 /* OEGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameViewController.m; sourceTree = "<group>"; };
 		83025E5E146BDD5E00A06EF9 /* OECoreTableButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreTableButtonCell.h; sourceTree = "<group>"; };
@@ -4743,6 +4747,7 @@
 		8304D881193E1E5E001E7357 /* INAppStoreWindow & Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				83004AE119E82B7F00967F5E /* INAppStoreWindowCompatibility.h */,
 				8304D884193E1EB8001E7357 /* INAppStoreWindowSwizzling.c */,
 				8304D885193E1EB8001E7357 /* INAppStoreWindowSwizzling.h */,
 				8304D886193E1EB8001E7357 /* INTitlebarView+CoreUIRendering.h */,
@@ -4753,6 +4758,8 @@
 				53439B5C13B9326D005C0CC8 /* INAppStoreWindow.m */,
 				A6F3061018AF3BB7007CF986 /* INWindowButton.h */,
 				A6F3061118AF3BB7007CF986 /* INWindowButton.m */,
+				83004AE419E82BBA00967F5E /* INWindowBackgroundView+CoreUIRendering.h */,
+				83004AE519E82BBA00967F5E /* INWindowBackgroundView+CoreUIRendering.m */,
 			);
 			name = "INAppStoreWindow & Extensions";
 			path = "INAppstoreWindow & Extensions";
@@ -8243,6 +8250,7 @@
 				53439B9313B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m in Sources */,
 				53439B9613B937F5005C0CC8 /* NSURL+OELibraryAdditions.m in Sources */,
 				C6289C32135B215B00EEE97C /* OESystemPlugin.m in Sources */,
+				83004AE619E82BBA00967F5E /* INWindowBackgroundView+CoreUIRendering.m in Sources */,
 				8310447113BE419000B283B0 /* OEHorizontalSplitView.m in Sources */,
 				83199722142741790068C865 /* OEROMImporter.m in Sources */,
 				83507247142F6029005D9033 /* OEControllerImageView.m in Sources */,

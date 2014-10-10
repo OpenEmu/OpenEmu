@@ -1,7 +1,8 @@
 //
 //  INAppStoreWindow.h
 //
-//  Copyright 2011-2014 Indragie Karunaratne. All rights reserved.
+//  Copyright (c) 2011-2014 Indragie Karunaratne. All rights reserved.
+//  Copyright (c) 2014 Petroules Corporation. All rights reserved.
 //
 //  Licensed under the BSD 2-clause License. See LICENSE file distributed in the source
 //  code of this project.
@@ -9,12 +10,36 @@
 
 #import <Cocoa/Cocoa.h>
 
+/**
+ Height of a small bottom bar of a window. Currently, this is 22 points.
+ */
+APPKIT_EXTERN const NSInteger kINAppStoreWindowSmallBottomBarHeight;
+
+/**
+ Height of a large bottom bar of a window. Currently, this is 32 points.
+ */
+APPKIT_EXTERN const NSInteger kINAppStoreWindowLargeBottomBarHeight;
+
 @class INWindowButton;
+
+/**
+ * Draws default style OS X window backgrounds and separators.
+ */
+@interface INWindowBackgroundView : NSView
+
+@end
 
 /**
  Draws a default style OS X title bar.
  */
-@interface INTitlebarView : NSView
+@interface INTitlebarView : INWindowBackgroundView
+
+@end
+
+/**
+ Draws a default style OS X bottom bar.
+ */
+@interface INBottomBarView : INWindowBackgroundView
 
 @end
 
@@ -25,13 +50,14 @@
 @interface INAppStoreWindow : NSWindow
 
 /**
- Prototype for a block used to implement custom drawing code for a window's title bar.
+ Prototype for a block used to implement custom drawing code for a window's title bar or bottom bar.
  @param drawsAsMainWindow Whether the window should be drawn in main state.
  @param drawingRect Drawing area of the window's title bar.
+ @param edge NSMinYEdge to draw a bottom bar, NSMaxYEdge to draw a title bar.
  @param clippingPath Path to clip drawing according to window's rounded corners.
  */
-typedef void (^INAppStoreWindowTitleBarDrawingBlock)(BOOL drawsAsMainWindow,
-													 CGRect drawingRect, CGPathRef clippingPath);
+typedef void (^INAppStoreWindowBackgroundDrawingBlock)(BOOL drawsAsMainWindow, CGRect drawingRect,
+													   CGRectEdge edge, CGPathRef clippingPath);
 
 /**
  The height of the title bar. By default, this is set to the standard title bar height.
@@ -46,6 +72,20 @@ typedef void (^INAppStoreWindowTitleBarDrawingBlock)(BOOL drawsAsMainWindow,
  (textured, etc.).
  */
 @property (nonatomic, strong) NSView *titleBarView;
+
+/**
+ The height of the bottom bar. By default, this is set to 0.
+ */
+@property (nonatomic) CGFloat bottomBarHeight;
+
+/**
+ Container view for custom views added to the bottom bar.
+ 
+ Add subviews to this view that you want to show in the bottom bar (e.g. labels, sliders, etc.).
+ This view can also be set if you want to use a different style bottom bar from the default one
+ (textured, etc.).
+ */
+@property (nonatomic, strong) NSView *bottomBarView;
 
 /**
  Whether the fullscreen button is vertically centered.
@@ -76,6 +116,11 @@ typedef void (^INAppStoreWindowTitleBarDrawingBlock)(BOOL drawsAsMainWindow,
  Whether to display the baseline separator between the window's title bar and content area.
  */
 @property (nonatomic) BOOL showsBaselineSeparator;
+
+/**
+ Whether to display the bottom separator between the window's bottom bar and content area.
+ */
+@property (nonatomic) BOOL showsBottomBarSeparator;
 
 /**
  Distance between the traffic light buttons and the left edge of the window.
@@ -150,6 +195,11 @@ typedef void (^INAppStoreWindowTitleBarDrawingBlock)(BOOL drawsAsMainWindow,
 @property (nonatomic, strong) INWindowButton *fullScreenButton;
 
 /**
+ The divider line between the window title and document versions button.
+ */
+@property (nonatomic, readonly) NSTextField *titleDivider;
+
+/**
  The font used to draw the window's title text.
  */
 @property (nonatomic, strong) NSFont *titleFont;
@@ -160,6 +210,13 @@ typedef void (^INAppStoreWindowTitleBarDrawingBlock)(BOOL drawsAsMainWindow,
  If this property is \c nil, the system gradient will be used.
  */
 @property (nonatomic, strong) NSGradient *titleBarGradient;
+
+/**
+ Gradient used to draw the window's bottom bar, when the window is main.
+
+ If this property is \c nil, the system gradient will be used.
+ */
+@property (nonatomic, strong) NSGradient *bottomBarGradient;
 
 /**
  Color of the separator line between a window's title bar and content area,
@@ -191,6 +248,13 @@ typedef void (^INAppStoreWindowTitleBarDrawingBlock)(BOOL drawsAsMainWindow,
 @property (nonatomic, strong) NSGradient *inactiveTitleBarGradient;
 
 /**
+ Gradient used to draw the window's bottom bar, when the window is not main.
+
+ If this property is \c nil, the system gradient will be used.
+ */
+@property (nonatomic, strong) NSGradient *inactiveBottomBarGradient;
+
+/**
  Color of the separator line between a window's title bar and content area,
  when the window is not main.
 
@@ -215,7 +279,17 @@ typedef void (^INAppStoreWindowTitleBarDrawingBlock)(BOOL drawsAsMainWindow,
 /**
  Block to override the drawing of the window title bar with a custom implementation.
  */
-@property (nonatomic, copy) INAppStoreWindowTitleBarDrawingBlock titleBarDrawingBlock;
+@property (nonatomic, copy) INAppStoreWindowBackgroundDrawingBlock titleBarDrawingBlock;
+
+/**
+ Block to override the drawing of the window bottom bar with a custom implementation.
+ */
+@property (nonatomic, copy) INAppStoreWindowBackgroundDrawingBlock bottomBarDrawingBlock;
+
+/**
+ Whether to draw a noise pattern overlay on the title bar on Lion+.
+ */
+@property (nonatomic) BOOL drawsTitlePatternOverlay;
 
 /*!
  Default system gradient used to draw a window's title bar.
@@ -226,6 +300,13 @@ typedef void (^INAppStoreWindowTitleBarDrawingBlock)(BOOL drawsAsMainWindow,
  For OS X 10.6 it is currently an approximation.
  */
 + (NSGradient *)defaultTitleBarGradient:(BOOL)drawsAsMainWindow;
+
+/*!
+ Default system gradient used to draw a window's bottom bar.
+ @param drawsAsMainWindow \c YES to return the gradient used when the window is drawn in its main
+ state, \c NO to return the color used when the window is inactive.
+ */
++ (NSGradient *)defaultBottomBarGradient:(BOOL)drawsAsMainWindow;
 
 /*!
  Default system color of the separator line between a window's title bar and content area.
