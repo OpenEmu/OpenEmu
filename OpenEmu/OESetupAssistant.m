@@ -320,12 +320,12 @@ enum : OEFSMEventLabel
     [_fsm addTransitionFrom:_OEFSMCoreSelectionState to:_OEFSMWelcomeState event:_OEFSMBackEvent action:^{
         [blockSelf OE_goBackToView:[blockSelf welcomeView]];
     }];
-    [_fsm addTransitionFrom:_OEFSMCoreSelectionState to:_OEFSMGameScannerSelectionState event:_OEFSMNextEvent action:^{
-        [blockSelf OE_goForwardToView:[blockSelf gameScannerAllowView]];
+    [_fsm addTransitionFrom:_OEFSMCoreSelectionState to:_OEFSMLastScreenState event:_OEFSMNextEvent action:^{
+        [blockSelf OE_goForwardToView:[blockSelf lastStepView]];
     }];
 
     // Game scanner allow checkbox screen
-
+/*
     [_fsm addState:_OEFSMGameScannerSelectionState];
     [[self allowScanForGames] setState:NSOffState];
     [_fsm addTransitionFrom:_OEFSMGameScannerSelectionState to:_OEFSMCoreSelectionState event:_OEFSMBackEvent action:^{
@@ -350,12 +350,12 @@ enum : OEFSMEventLabel
     [_fsm addTransitionFrom:_OEFSMGameScannerVolumeSelectionState to:_OEFSMLastScreenState event:_OEFSMNextEvent action:^{
         [blockSelf OE_goForwardToView:[blockSelf lastStepView]];
     }];
-
+*/
     // Last screen
 
     [_fsm addState:_OEFSMLastScreenState];
-    [_fsm addTransitionFrom:_OEFSMLastScreenState to:_OEFSMGameScannerSelectionState event:_OEFSMBackEvent action:^{
-        [blockSelf OE_goBackToView:[blockSelf gameScannerAllowView]];
+    [_fsm addTransitionFrom:_OEFSMLastScreenState to:_OEFSMCoreSelectionState event:_OEFSMBackEvent action:^{
+        [blockSelf OE_goBackToView:[blockSelf coreSelectionView]];
     }];
     [_fsm addTransitionFrom:_OEFSMLastScreenState to:_OEFSMEndState event:_OEFSMNextEvent action:nil];
 
@@ -366,6 +366,8 @@ enum : OEFSMEventLabel
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OESetupAssistantHasFinishedKey];
 
         NSMutableArray *selectedVolumes = nil;
+        BOOL shouldScan = NO;
+/*
         BOOL shouldScan = ([[blockSelf allowScanForGames] state] == NSOnState);
         if(shouldScan)
         {
@@ -375,7 +377,7 @@ enum : OEFSMEventLabel
                 if([volumeInfo isSelected]) [selectedVolumes addObject:[volumeInfo URL]];
             }
         }
-
+*/
         if([blockSelf completionBlock] != nil) [blockSelf completionBlock](shouldScan, selectedVolumes);
     }];
 }
