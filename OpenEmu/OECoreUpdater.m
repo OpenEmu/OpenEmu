@@ -217,7 +217,43 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
     if([validPlugins count])
     {
-        OECoreDownload *download = [validPlugins lastObject];
+        OECoreDownload *download = nil;
+
+        if([validPlugins count] == 1)
+            download = [validPlugins lastObject];
+        else
+        {
+            // Sort by core name alphabetically to match our automatic Core Picker behavior
+            validPlugins = [validPlugins sortedArrayUsingComparator:
+                            ^ NSComparisonResult (id obj1, id obj2)
+                            {
+                                return [[obj1 name] compare:[obj2 name]];
+                            }];
+
+            // Check if a core is set as default in OEApplicationDelegate
+            __block BOOL didFindDefaultCore = NO;
+            __block NSUInteger foundDefaultCoreIndex = 0;
+
+            [validPlugins enumerateObjectsUsingBlock:^(id plugin, NSUInteger idx, BOOL *stop)
+            {
+                NSString *sysID = [NSString stringWithFormat:@"defaultCore.%@", systemIdentifier];
+                NSString *userDef = [[NSUserDefaults standardUserDefaults] valueForKey:sysID];
+
+                if(userDef != nil && [userDef caseInsensitiveCompare:[plugin bundleIdentifier]] == NSOrderedSame)
+                {
+                    didFindDefaultCore = YES;
+                    foundDefaultCoreIndex = idx;
+                    *stop = YES;
+                }
+            }];
+
+            // Use default core plugin for this system, otherwise just use first found from the sorted list
+            if(didFindDefaultCore)
+                download = [validPlugins objectAtIndex:foundDefaultCoreIndex];
+            else
+                download = [validPlugins objectAtIndex:0];
+        }
+
         NSString *coreName = [download name];
         NSString *message = [NSString stringWithFormat:OELocalizedString(@"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@", @""), coreName, [game displayName]];
         [self installCoreWithDownload:download message:message completionHandler:handler];
