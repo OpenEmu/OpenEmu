@@ -128,6 +128,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                                    OEGameDefaultVideoFilterKey : @"Pixellate",
                                                OEGameVolumeKey : @0.5f,
                        OEGameControlsBarCanDeleteSaveStatesKey : @YES,
+                              @"defaultCore.openemu.system.gb" : @"org.openemu.Gambatte",
                              @"defaultCore.openemu.system.gba" : @"org.openemu.VisualBoyAdvance",
                              @"defaultCore.openemu.system.nes" : @"org.openemu.Nestopia",
                             @"defaultCore.openemu.system.snes" : @"org.openemu.SNES9x",
