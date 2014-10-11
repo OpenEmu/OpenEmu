@@ -1,0 +1,4 @@
+x = {Add.New.Speed}
+For_Mode.turbo = {
+  speed_turbo = x
+}
