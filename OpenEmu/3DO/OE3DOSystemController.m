@@ -52,9 +52,17 @@
         NSData *dataTrackBuffer, *otherDataTrackBuffer;
 
         dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
+
+        // First check if we find these bytes at offset 0x0 found in some dumps
+        uint8_t bytes[] = { 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x02, 0x00, 0x01 };
         [dataTrackFile seekToFileOffset: 0x0];
+        dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
+        NSData *dataCompare = [[NSData alloc] initWithBytes:bytes length:sizeof(bytes)];
+        BOOL bytesFound = [dataTrackBuffer isEqualToData:dataCompare];
+
+        [dataTrackFile seekToFileOffset: bytesFound ? 0x10 : 0x0];
         dataTrackBuffer = [dataTrackFile readDataOfLength: 8];
-        [dataTrackFile seekToFileOffset: 0x28];
+        [dataTrackFile seekToFileOffset: bytesFound ? 0x38 : 0x28];
         otherDataTrackBuffer = [dataTrackFile readDataOfLength: 6];
 
         NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
