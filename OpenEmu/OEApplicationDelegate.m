@@ -148,7 +148,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     self = [super init];
     if (self) {
-        [[OEVersionMigrationController defaultMigrationController] addMigratorTarget:self selector:@selector(migrationForceUpdateCores:) forVersion:@"1.0.3"];
+        [[OEVersionMigrationController defaultMigrationController] addMigratorTarget:self selector:@selector(migrationForceUpdateCores:) forVersion:@"1.0.4"];
 
         [self setStartupQueue:[NSMutableArray array]];
     }
