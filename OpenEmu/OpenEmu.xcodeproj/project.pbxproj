@@ -36,6 +36,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				946C7ABF19EE4B70000F9466 /* PBXTargetDependency */,
 				94CEB29917A8D4F0005A2107 /* PBXTargetDependency */,
 				940553B217A35DE0009B505D /* PBXTargetDependency */,
 				94454F2E178B49E4006C057B /* PBXTargetDependency */,
@@ -101,7 +102,6 @@
 				94EBBD00183F48BD00743756 /* PBXTargetDependency */,
 				94EBBD16183F4ACB00743756 /* PBXTargetDependency */,
 				94EBBCFE183F48A700743756 /* PBXTargetDependency */,
-				94EBBCFA183F42A200743756 /* PBXTargetDependency */,
 				94EBBD30183F4DA400743756 /* PBXTargetDependency */,
 			);
 			name = "Build & Copy Experimental SystemPlugins";
@@ -696,6 +696,7 @@
 		946B947E17828A4000A212AC /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 946B947817828A4000A212AC /* Controller-Preferences.plist */; };
 		946B947F17828A4000A212AC /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 946B947917828A4000A212AC /* Keyboard-Mappings.plist */; };
 		946B948417828B3D00A212AC /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
+		946C7ABB19EE4AF4000F9466 /* Atari 2600.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224A31707543600098DA0 /* Atari 2600.oesystemplugin */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		94791E9516AE8A18007DB8BE /* OEShaderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 94791E9416AE8A18007DB8BE /* OEShaderPlugin.m */; };
 		948E540E1571D78D002D26E0 /* SegaMasterSystem.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
 		948E540F1571D78D002D26E0 /* NES.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
@@ -877,7 +878,6 @@
 		94D7E8E415073E3900FBDD85 /* OENDSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */; };
 		94DEA000171896AE00073397 /* NDS.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */; };
 		94E6C304166DB15900082F27 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94E6C303166DB15900082F27 /* Controller-Mappings.plist */; };
-		94EBBCFC183F42F800743756 /* Atari 2600.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94A224A31707543600098DA0 /* Atari 2600.oesystemplugin */; };
 		94EBBD01183F48C900743756 /* Atari 5200.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94A224B31707544100098DA0 /* Atari 5200.oesystemplugin */; };
 		94EBBD18183F4AEB00743756 /* Atari 7800.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 941F5A0117A785AD0005D7EA /* Atari 7800.oesystemplugin */; };
 		94EBBD19183F4AFA00743756 /* ColecoVision.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94BE9E50171683E000AB08E6 /* ColecoVision.oesystemplugin */; };
@@ -1314,6 +1314,13 @@
 			remoteGlobalIDString = 94A224821707541E00098DA0;
 			remoteInfo = "Virtual Boy";
 		};
+		946C7ABE19EE4B70000F9466 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94A224A21707543600098DA0;
+			remoteInfo = "Atari 2600";
+		};
 		9479665415EDE6B3004316AB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1348,13 +1355,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 94D7E8C815073BA000FBDD85;
 			remoteInfo = NDS;
-		};
-		94EBBCF9183F42A200743756 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 94A224A21707543600098DA0;
-			remoteInfo = "Atari 2600";
 		};
 		94EBBCFD183F48A700743756 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1569,6 +1569,7 @@
 			dstPath = Systems;
 			dstSubfolderSpec = 13;
 			files = (
+				946C7ABB19EE4AF4000F9466 /* Atari 2600.oesystemplugin in Copy System Plugins to App Plugins */,
 				94CEB29C17A8D507005A2107 /* Sega 32X.oesystemplugin in Copy System Plugins to App Plugins */,
 				940553B917A35FB4009B505D /* PC Engine.oesystemplugin in Copy System Plugins to App Plugins */,
 				94454F31178B4ABA006C057B /* Virtual Boy.oesystemplugin in Copy System Plugins to App Plugins */,
@@ -1612,7 +1613,6 @@
 				94EBBD19183F4AFA00743756 /* ColecoVision.oesystemplugin in CopyFiles */,
 				94EBBD18183F4AEB00743756 /* Atari 7800.oesystemplugin in CopyFiles */,
 				94EBBD01183F48C900743756 /* Atari 5200.oesystemplugin in CopyFiles */,
-				94EBBCFC183F42F800743756 /* Atari 2600.oesystemplugin in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8722,6 +8722,11 @@
 			target = 94A224821707541E00098DA0 /* Virtual Boy */;
 			targetProxy = 94454F2D178B49E4006C057B /* PBXContainerItemProxy */;
 		};
+		946C7ABF19EE4B70000F9466 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94A224A21707543600098DA0 /* Atari 2600 */;
+			targetProxy = 946C7ABE19EE4B70000F9466 /* PBXContainerItemProxy */;
+		};
 		9479665515EDE6B3004316AB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9479664E15EDE645004316AB /* Update Build Version */;
@@ -8746,11 +8751,6 @@
 			isa = PBXTargetDependency;
 			target = 94D7E8C815073BA000FBDD85 /* NDS */;
 			targetProxy = 94D7E8E8150741B500FBDD85 /* PBXContainerItemProxy */;
-		};
-		94EBBCFA183F42A200743756 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 94A224A21707543600098DA0 /* Atari 2600 */;
-			targetProxy = 94EBBCF9183F42A200743756 /* PBXContainerItemProxy */;
 		};
 		94EBBCFE183F48A700743756 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
