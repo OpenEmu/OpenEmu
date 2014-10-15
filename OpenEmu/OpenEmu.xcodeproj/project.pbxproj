@@ -116,6 +116,10 @@
 		11BD776F196A46AD00BFB3FE /* controller_n64.png in Resources */ = {isa = PBXBuildFile; fileRef = 11BD776B196A46AD00BFB3FE /* controller_n64.png */; };
 		11BD7770196A46AD00BFB3FE /* controller_n64_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11BD776C196A46AD00BFB3FE /* controller_n64_mask@2x.png */; };
 		11BD7771196A46AD00BFB3FE /* controller_n64@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11BD776D196A46AD00BFB3FE /* controller_n64@2x.png */; };
+		11CBD87519EE33FC00CB1199 /* controller_2600_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 11CBD87119EE33FC00CB1199 /* controller_2600_mask.png */; };
+		11CBD87619EE33FC00CB1199 /* controller_2600@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11CBD87219EE33FC00CB1199 /* controller_2600@2x.png */; };
+		11CBD87719EE33FC00CB1199 /* controller_2600_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11CBD87319EE33FC00CB1199 /* controller_2600_mask@2x.png */; };
+		11CBD87819EE33FC00CB1199 /* controller_2600.png in Resources */ = {isa = PBXBuildFile; fileRef = 11CBD87419EE33FC00CB1199 /* controller_2600.png */; };
 		11DC4D4118681B04006CE75D /* about_background@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 11DC4D4018681B04006CE75D /* about_background@2x.jpg */; };
 		11DC4D4518681E56006CE75D /* core_triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DC4D4418681E56006CE75D /* core_triangle@2x.png */; };
 		11DC4D4718681E64006CE75D /* controls_triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DC4D4618681E64006CE75D /* controls_triangle@2x.png */; };
@@ -800,8 +804,6 @@
 		94A225B91707603400098DA0 /* segacd_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225B31707603400098DA0 /* segacd_library.png */; };
 		94A225BD1707608B00098DA0 /* OE2600SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A225BB1707608B00098DA0 /* OE2600SystemResponder.m */; };
 		94A225C41707609E00098DA0 /* atari2600_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225BE1707609E00098DA0 /* atari2600_library.png */; };
-		94A225C51707609E00098DA0 /* controller_2600_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225BF1707609E00098DA0 /* controller_2600_mask.png */; };
-		94A225C61707609E00098DA0 /* controller_2600.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225C01707609E00098DA0 /* controller_2600.png */; };
 		94A225C71707609E00098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225C11707609E00098DA0 /* Controller-Mappings.plist */; };
 		94A225C81707609E00098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225C21707609E00098DA0 /* Controller-Preferences.plist */; };
 		94A225C91707609E00098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225C31707609E00098DA0 /* Keyboard-Mappings.plist */; };
@@ -1622,6 +1624,10 @@
 		11BD776B196A46AD00BFB3FE /* controller_n64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_n64.png; sourceTree = "<group>"; };
 		11BD776C196A46AD00BFB3FE /* controller_n64_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_n64_mask@2x.png"; sourceTree = "<group>"; };
 		11BD776D196A46AD00BFB3FE /* controller_n64@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_n64@2x.png"; sourceTree = "<group>"; };
+		11CBD87119EE33FC00CB1199 /* controller_2600_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_2600_mask.png; sourceTree = "<group>"; };
+		11CBD87219EE33FC00CB1199 /* controller_2600@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_2600@2x.png"; sourceTree = "<group>"; };
+		11CBD87319EE33FC00CB1199 /* controller_2600_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_2600_mask@2x.png"; sourceTree = "<group>"; };
+		11CBD87419EE33FC00CB1199 /* controller_2600.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_2600.png; sourceTree = "<group>"; };
 		11DC4D4018681B04006CE75D /* about_background@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "about_background@2x.jpg"; sourceTree = "<group>"; };
 		11DC4D4418681E56006CE75D /* core_triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "core_triangle@2x.png"; sourceTree = "<group>"; };
 		11DC4D4618681E64006CE75D /* controls_triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controls_triangle@2x.png"; sourceTree = "<group>"; };
@@ -2814,8 +2820,6 @@
 		94A225BB1707608B00098DA0 /* OE2600SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE2600SystemResponder.m; sourceTree = "<group>"; };
 		94A225BC1707608B00098DA0 /* OE2600SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE2600SystemResponderClient.h; sourceTree = "<group>"; };
 		94A225BE1707609E00098DA0 /* atari2600_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atari2600_library.png; sourceTree = "<group>"; };
-		94A225BF1707609E00098DA0 /* controller_2600_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_2600_mask.png; sourceTree = "<group>"; };
-		94A225C01707609E00098DA0 /* controller_2600.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_2600.png; sourceTree = "<group>"; };
 		94A225C11707609E00098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94A225C21707609E00098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94A225C31707609E00098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
@@ -5699,8 +5703,10 @@
 			isa = PBXGroup;
 			children = (
 				94A225BE1707609E00098DA0 /* atari2600_library.png */,
-				94A225BF1707609E00098DA0 /* controller_2600_mask.png */,
-				94A225C01707609E00098DA0 /* controller_2600.png */,
+				11CBD87419EE33FC00CB1199 /* controller_2600.png */,
+				11CBD87219EE33FC00CB1199 /* controller_2600@2x.png */,
+				11CBD87119EE33FC00CB1199 /* controller_2600_mask.png */,
+				11CBD87319EE33FC00CB1199 /* controller_2600_mask@2x.png */,
 				94A224A71707543600098DA0 /* Atari 2600-Info.plist */,
 				94A225C31707609E00098DA0 /* Keyboard-Mappings.plist */,
 				94A225C11707609E00098DA0 /* Controller-Mappings.plist */,
@@ -7753,12 +7759,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11CBD87819EE33FC00CB1199 /* controller_2600.png in Resources */,
 				94A224AA1707543600098DA0 /* InfoPlist.strings in Resources */,
+				11CBD87619EE33FC00CB1199 /* controller_2600@2x.png in Resources */,
 				94A225C41707609E00098DA0 /* atari2600_library.png in Resources */,
-				94A225C51707609E00098DA0 /* controller_2600_mask.png in Resources */,
-				94A225C61707609E00098DA0 /* controller_2600.png in Resources */,
 				94A225C71707609E00098DA0 /* Controller-Mappings.plist in Resources */,
+				11CBD87519EE33FC00CB1199 /* controller_2600_mask.png in Resources */,
 				94A225C81707609E00098DA0 /* Controller-Preferences.plist in Resources */,
+				11CBD87719EE33FC00CB1199 /* controller_2600_mask@2x.png in Resources */,
 				94A225C91707609E00098DA0 /* Keyboard-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

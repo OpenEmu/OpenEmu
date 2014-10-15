@@ -9,15 +9,15 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OE2600ButtonUp</key>
-		<string>{0, 0}</string>
+		<string>{249, 335}</string>
 		<key>OE2600ButtonDown</key>
-		<string>{0, 0}</string>
+		<string>{249, 124}</string>
 		<key>OE2600ButtonFire1</key>
-		<string>{0, 0}</string>
+		<string>{158, 345}</string>
 		<key>OE2600ButtonLeft</key>
-		<string>{0, 0}</string>
+		<string>{137, 232}</string>
 		<key>OE2600ButtonRight</key>
-		<string>{0, 0}</string>
+		<string>{361, 232}</string>
 		<key>OE2600ButtonReset</key>
 		<string>{0, 0}</string>
 		<key>OE2600ButtonSelect</key>
