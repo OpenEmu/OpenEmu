@@ -42,15 +42,15 @@
 
 /*s|OEGameDocument.m|1036|*/ "Add Cheat" = "Cheat hinzufügen";
 
-/*s|OEGameControlsBar.m|279|*/ "Add Cheat…" = "Cheat hinzufügen…";
+/*s|OEGameControlsBar.m|279|*/ "Add Cheat…" = "Cheat hinzufügen …";
 
 /*s|OEGameCollectionViewController.m|475|*/
-/*s|OEGameCollectionViewController.m|503|*/ "Add Cover Art From File…" = "Cover aus Datei hinzufügen…";
+/*s|OEGameCollectionViewController.m|503|*/ "Add Cover Art From File…" = "Cover aus Datei hinzufügen …";
 
 /*s|OEGameCollectionViewController.m|481|*/
 /*s|OEGameCollectionViewController.m|508|*/ "Add To Collection" = "Zur Sammlung hinzufügen";
 
-/*s|OEPrefControlsController.m|326|Wiimote bindings menu item.*/ "Add a Wiimote…" = "Wiimote hinzufügen…";
+/*s|OEPrefControlsController.m|326|Wiimote bindings menu item.*/ "Add a Wiimote…" = "Wiimote hinzufügen …";
 
 /*r|OEPrefDebugController.m|185|Debug Button Label*/ "Add untracked save states" = "Nicht getrackte Spielstände hinzufügen";
 
@@ -125,7 +125,7 @@
 
 /*s|OEGameDocument.m|1030|*/ "Cheat Description" = "Cheat-Beschreibung";
 
-/*s|OEApplicationDelegate.m|519|*/ "Choose Library…" = "Mediathek auswählen…";
+/*s|OEApplicationDelegate.m|519|*/ "Choose Library…" = "Mediathek auswählen …";
 
 /*s|OEApplicationDelegate.m|516|*/ "Choose OpenEmu Library" = "OpenEmu-Mediathek auswählen";
 
@@ -151,7 +151,7 @@
 /*s|OEGameCollectionViewController.m|339|*/ "Consolidate" = "Zusammenlegen";
 
 /*s|OEGameCollectionViewController.m|476|*/
-/*s|OEGameCollectionViewController.m|504|*/ "Consolidate Files…" = "Dateien zusammenlegen…";
+/*s|OEGameCollectionViewController.m|504|*/ "Consolidate Files…" = "Dateien zusammenlegen …";
 
 /*s|OEGameCollectionViewController.m|338|*/ "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Beim Zusammenlegen werden die ausgewählten Spiele in den OpenEmu-Spieleordner kopiert.\n\nDiese Aktion kann nicht rückgängig gemacht werden.";
 
@@ -159,11 +159,11 @@
 
 /*r|OEPrefDebugController.m|172|Debug Group*/ "Controls Setup" = "Steuerung";
 
-/*s|OEPrefLibraryController.m|211|Alert Headline: Library migration*/ "Copying Artwork Files…" = "Kopiere Cover-Dateien…";
+/*s|OEPrefLibraryController.m|211|Alert Headline: Library migration*/ "Copying Artwork Files…" = "Kopiere Cover-Dateien …";
 
-/*s|OEGameCollectionViewController.m|346|*/ "Copying Game Files…" = "Kopiere Spiel-Dateien…";
+/*s|OEGameCollectionViewController.m|346|*/ "Copying Game Files…" = "Kopiere Spiel-Dateien …";
 
-/*s|OEPrefLibraryController.m|260|Alert Headline: Library migration*/ "Copying ROM Files…" = "Kopiere ROM-Dateien…";
+/*s|OEPrefLibraryController.m|260|Alert Headline: Library migration*/ "Copying ROM Files…" = "Kopiere ROM-Dateien …";
 
 /*s|OEPrefLibraryController.m|245|*/ "Copying artwork failed!" = "Kopieren des Covers fehlgeschlagen.";
 
@@ -179,7 +179,7 @@
 
 /*s|OEPluginDocument.m|70|*/ "Couldn't load %@ plugin" = "Konnte Plugin %@ nicht laden";
 
-/*s|OEApplicationDelegate.m|520|*/ "Create Library…" = "Mediathek erstellen…";
+/*s|OEApplicationDelegate.m|520|*/ "Create Library…" = "Mediathek erstellen …";
 
 /*s|OEBlankSlateView.m|154|*/ "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Erstelle eine eigene Spieleauswahl. Um ein Spiel zur Sammlung hinzuzufügen, wähle es in der Konsolenansicht aus und ziehe es auf „%@“ in der Seitenleiste.";
 
@@ -224,7 +224,7 @@
 
 /*s|OEGameDocument.m|1000|Alert suppression label*/ "Do not show me again" = "Nicht erneut anzeigen";
 
-/*s|OEGameScannerViewController.m|545|*/ "Do you really want to cancel the import process?" = "Möchtest du den Importm wirklich abbrechen?";
+/*s|OEGameScannerViewController.m|545|*/ "Do you really want to cancel the import process?" = "Möchtest du den Import wirklich abbrechen?";
 
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|82|*/ "Do you want to continue playing where you left off?" = "Möchtest du dort weiterspielen, wo du zuletzt aufgehört hast?";
 
