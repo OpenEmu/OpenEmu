@@ -17,6 +17,9 @@
       location = "group:Atari800/Atari800.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:BlissEmu/sys/OpenEmu/Bliss.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:blueMSX/blueMSX.xcodeproj">
    </FileRef>
    <FileRef
