@@ -191,12 +191,11 @@
     BOOL focused      = NO;
     BOOL windowActive = NO;
 
+    NSWindow *window = [[self controlView] window];
     if(((_stateMask & OEThemeStateAnyFocus) != 0) || ((_stateMask & OEThemeStateAnyWindowActivity) != 0))
     {
         // Set the focused, windowActive, and hover properties only if the state mask is tracking the button's focus, mouse hover, and window activity properties
-        NSWindow *window = [[self controlView] window];
-
-        focused      = self.isEditing || [window firstResponder] == [self controlView];
+        focused      = self.isEditing || [window firstResponder] == [self controlView] || [window firstResponder]==[self fieldEditor];
         windowActive = ((_stateMask & OEThemeStateAnyWindowActivity) != 0) && ([window isMainWindow] || ([window parentWindow] && [[window parentWindow] isMainWindow]));
     }
 
@@ -270,7 +269,6 @@
 {
     return (!_themed || _themeImage == nil ? [super image] : [_themeImage imageForState:[self OE_currentState]]);
 }
-
 
 - (void)OE_recomputeStateMask
 {
