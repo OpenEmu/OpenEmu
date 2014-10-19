@@ -287,7 +287,8 @@ typedef void (^INAppStoreWindowBackgroundDrawingBlock)(BOOL drawsAsMainWindow, C
 @property (nonatomic, copy) INAppStoreWindowBackgroundDrawingBlock bottomBarDrawingBlock;
 
 /**
- Whether to draw a noise pattern overlay on the title bar on Lion+.
+ Whether to draw a noise pattern overlay on the title bar on OS X 10.7-10.9. This
+ property has no effect when running on OS X 10.10 or higher.
  */
 @property (nonatomic) BOOL drawsTitlePatternOverlay;
 

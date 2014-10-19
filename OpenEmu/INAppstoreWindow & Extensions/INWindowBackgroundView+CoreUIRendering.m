@@ -11,6 +11,7 @@
 #import "INAppStoreWindowCompatibility.h"
 #import "INAppStoreWindowSwizzling.h"
 #import "INWindowBackgroundView+CoreUIRendering.h"
+#import <objc/runtime.h>
 
 #if !defined(INAPPSTOREWINDOW_NO_COREUI) || !INAPPSTOREWINDOW_NO_COREUI
 
@@ -23,6 +24,7 @@ static NSString * const kCUIStateActive = @"normal";
 static NSString * const kCUIStateInactive = @"inactive";
 static NSString * const kCUIStateKey = @"state";
 static NSString * const kCUIWidgetKey = @"widget";
+static NSString * const kCUIWidgetWindowBottomBar = @"kCUIWidgetWindowBottomBar";
 static NSString * const kCUIWidgetWindowFrame = @"kCUIWidgetWindowFrame";
 static NSString * const kCUIWindowFrameBottomBarHeightKey = @"kCUIWindowFrameBottomBarHeightKey";
 static NSString * const kCUIWindowFrameDrawBottomBarSeparatorKey = @"kCUIWindowFrameDrawBottomBarSeparatorKey";
@@ -36,6 +38,12 @@ static NSString * const kCUIWindowTypeKey = @"windowtype";
 @interface NSWindow (NSWindowPrivate)
 
 + (CUIRendererRef)coreUIRenderer;
+
+@end
+
+@interface /* NSAppearance */ NSObject (NSAppearancePrivate)
+
+- (void)_drawInRect:(CGRect)rect context:(CGContextRef)cgContext options:(CFDictionaryRef)options;
 
 @end
 
@@ -65,6 +73,7 @@ static NSString * const kCUIWindowTypeKey = @"windowtype";
 		[self loadConstant:&kCUIStateInactive named:@"kCUIStateInactive" fromBundle:bundle];
 		[self loadConstant:&kCUIStateKey named:@"kCUIStateKey" fromBundle:bundle];
 		[self loadConstant:&kCUIWidgetKey named:@"kCUIWidgetKey" fromBundle:bundle];
+		[self loadConstant:&kCUIWidgetWindowBottomBar named:@"kCUIWidgetWindowBottomBar" fromBundle:bundle];
 		[self loadConstant:&kCUIWidgetWindowFrame named:@"kCUIWidgetWindowFrame" fromBundle:bundle];
 		[self loadConstant:&kCUIWindowFrameBottomBarHeightKey named:@"kCUIWindowFrameBottomBarHeightKey" fromBundle:bundle];
 		[self loadConstant:&kCUIWindowFrameDrawBottomBarSeparatorKey named:@"kCUIWindowFrameDrawBottomBarSeparatorKey" fromBundle:bundle];
@@ -106,13 +115,29 @@ static NSString * const kCUIWindowTypeKey = @"windowtype";
 		// NOTE: While kCUIWidgetWindowBottomBar can be used to draw a bottom bar, this only allows
 		// it to be drawn with the separator shown as kCUIWindowFrameDrawBottomBarSeparatorKey only
 		// applies to the kCUIWidgetWindowFrame widget. So we use that instead; it produces
-		// identical results.
+		// identical results... except in Yosemite where the other options work correctly.
+		if (INRunningYosemite()) {
+			options[kCUIWidgetKey] = kCUIWidgetWindowBottomBar;
+		}
 		options[kCUIWindowFrameBottomBarHeightKey] = @(window.bottomBarHeight);
 		options[kCUIWindowFrameDrawBottomBarSeparatorKey] = @(showsSeparator);
 		options[kCUIWindowFrameRoundedBottomCornersKey] = @(YES);
 		options[kCUIWindowFrameRoundedTopCornersKey] = @(NO);
 	}
-	CUIDraw([NSWindow coreUIRenderer], drawingRect, [[NSGraphicsContext currentContext] graphicsPort], (__bridge CFDictionaryRef) options, nil);
+
+	id appearance = nil;
+	if (INRunningMavericks()) {
+		Class clazz = NSClassFromString(@"NSAppearance");
+		if ([clazz respondsToSelector:@selector(currentAppearance)]) {
+			appearance = [clazz performSelector:@selector(currentAppearance)];
+		}
+	}
+
+	if ([appearance respondsToSelector:@selector(_drawInRect:context:options:)]) {
+		[appearance _drawInRect:drawingRect context:[[NSGraphicsContext currentContext] graphicsPort] options:(__bridge CFDictionaryRef)options];
+	} else {
+		CUIDraw([NSWindow coreUIRenderer], drawingRect, [[NSGraphicsContext currentContext] graphicsPort], (__bridge CFDictionaryRef) options, nil);
+	}
 }
 
 #endif // !defined(INAPPSTOREWINDOW_NO_COREUI) || !INAPPSTOREWINDOW_NO_COREUI

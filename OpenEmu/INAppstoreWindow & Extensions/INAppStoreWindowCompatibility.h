@@ -11,6 +11,18 @@
 
 #import <Cocoa/Cocoa.h>
 
+#ifndef NSAppKitVersionNumber10_7
+#define NSAppKitVersionNumber10_7 1138
+#endif
+
+#ifndef NSAppKitVersionNumber10_9
+#define NSAppKitVersionNumber10_9 1265
+#endif
+
+#ifndef NSAppKitVersionNumber10_10
+#define NSAppKitVersionNumber10_10 1343
+#endif
+
 #if __MAC_OS_X_VERSION_MAX_ALLOWED < 1070
 enum { NSWindowDocumentVersionsButton = 6, NSWindowFullScreenButton = 7 };
 enum { NSFullScreenWindowMask = 1 << 14 };
@@ -23,7 +35,6 @@ extern NSString * const NSWindowWillEnterVersionBrowserNotification;
 extern NSString * const NSWindowDidEnterVersionBrowserNotification;
 extern NSString * const NSWindowWillExitVersionBrowserNotification;
 extern NSString * const NSWindowDidExitVersionBrowserNotification;
-#define NSAppKitVersionNumber10_7 1138
 #endif
 
 #if __MAC_OS_X_VERSION_MAX_ALLOWED < 1080
@@ -51,3 +62,15 @@ extern NSString * const NSWindowDidExitVersionBrowserNotification;
 - (id)initWithBase64Encoding:(NSString *)base64String;
 @end
 #endif
+
+NS_INLINE bool INRunningLion() {
+	return (NSInteger)NSAppKitVersionNumber >= NSAppKitVersionNumber10_7;
+}
+
+NS_INLINE bool INRunningMavericks() {
+	return (NSInteger)NSAppKitVersionNumber >= NSAppKitVersionNumber10_9;
+}
+
+NS_INLINE bool INRunningYosemite() {
+	return (NSInteger)NSAppKitVersionNumber >= NSAppKitVersionNumber10_10;
+}
