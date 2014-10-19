@@ -371,7 +371,7 @@
                BlueprintIdentifier = "82D8155D0F1D878700EF8CF5"
                BuildableName = "Build &amp; Install Bliss"
                BlueprintName = "Build &amp; Install Bliss"
-               ReferencedContainer = "container:BlissEmu/sys/OpenEmu/Bliss.xcodeproj">
+               ReferencedContainer = "container:Bliss/Bliss.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
