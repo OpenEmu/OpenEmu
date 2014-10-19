@@ -76,3 +76,6 @@
 [submodule "O2EM"]
 	path = O2EM
 	url = git@github.com:OpenEmu/O2EM-Core.git
+[submodule "Bliss"]
+	path = Bliss
+	url = git@github.com:/OpenEmu/Bliss-Core.git
