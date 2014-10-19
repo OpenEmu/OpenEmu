@@ -76,7 +76,3 @@
 [submodule "O2EM"]
 	path = O2EM
 	url = git@github.com:OpenEmu/O2EM-Core.git
-[submodule "BlissEmu"]
-	path = BlissEmu
-	url = git@github.com:jeremiah-sypult/BlissEmu.git
-	branch = OpenEmu
