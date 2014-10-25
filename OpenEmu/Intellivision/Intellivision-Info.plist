@@ -182,6 +182,7 @@
 		<string>intv</string>
 		<string>int</string>
 		<string>bin</string>
+		<string>rom</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
