@@ -47,11 +47,13 @@
 
 - (void)HIDKeyDown:(OEHIDEvent *)theEvent
 {
+    [super HIDKeyDown:theEvent];
     [[self client] keyDown:[theEvent keycode]];
 }
 
 - (void)HIDKeyUp:(OEHIDEvent *)theEvent
 {
+    [super HIDKeyUp:theEvent];
     [[self client] keyUp:[theEvent keycode]];
 }
 
