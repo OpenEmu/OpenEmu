@@ -61,6 +61,7 @@
 #pragma mark -
 #pragma mark Display Link
 
+NSString * const OEShowSaveStateNotificationKey = @"OEShowSaveStateNotification";
 NSString * const OEScreenshotAspectRationCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
 
 static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
@@ -120,6 +121,14 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     // Save State Notifications
     NSTimeInterval _lastQuickSave;
     GLuint _saveStateTexture;
+}
+
++ (void)initialize
+{
+    if([self class] == [OEGameView class])
+    {
+        [[NSUserDefaults standardUserDefaults] registerDefaults:@{OEShowSaveStateNotificationKey:@(YES)}];
+    }
 }
 
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context
@@ -295,7 +304,8 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
 - (void)showQuickSaveNotification
 {
-    _lastQuickSave = [[NSDate date] timeIntervalSinceDate:_filterStartDate];;
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEShowSaveStateNotificationKey])
+        _lastQuickSave = [[NSDate date] timeIntervalSinceDate:_filterStartDate];;
 }
 
 - (void)removeFromSuperview

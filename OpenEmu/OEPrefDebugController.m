@@ -161,6 +161,7 @@ NSString * const OptionsKey = @"options";
                               Checkbox(OEGameControlsBarCanDeleteSaveStatesKey, @"Can delete save states"),
                               NCheckbox(OEGameControlsBarHidesOptionButtonKey, @"Show options button"),
                               Checkbox(OEForceCorePicker, @"Use gamecore picker"),
+                              Checkbox(OEShowSaveStateNotificationKey, @"Show quicksave notification during gameplay"),
                               Checkbox(OESaveStateUseQuickSaveSlotsKey, @"Use quicksave slots"),
                               Checkbox(OEGameControlsBarShowsQuickSaveStateKey, @"Show quicksave in menu"),
                               Checkbox(OEGameControlsBarShowsAutoSaveStateKey, @"Show autosave in menu"),
