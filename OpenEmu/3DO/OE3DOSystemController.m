@@ -69,7 +69,7 @@
         NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
         NSLog(@"%@", dataTrackString);
         NSLog(@"%@", otherDataTrackString);
-        if([dataTrackString isEqualToString:@"\x01\x5a\x5a\x5a\x5a\x5a\x01\x00"] && ([otherDataTrackString isEqualToString:@"CD-ROM"] || [otherDataTrackString rangeOfString:@"TECD"].location != NSNotFound))
+        if([dataTrackString isEqualToString:@"\x01\x5a\x5a\x5a\x5a\x5a\x01\x00"] && ((otherDataTrackString && [otherDataTrackString caseInsensitiveCompare:@"CD-ROM"] == NSOrderedSame) || [otherDataTrackString rangeOfString:@"TECD"].location != NSNotFound))
             canHandleFile = OECanHandleYes;
 
         [dataTrackFile closeFile];
