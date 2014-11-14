@@ -39,18 +39,18 @@
             : @"Odyssey²");
 }
 
-//- (OECanHandleState)canHandleFile:(NSString *)path
-//{
-//    OECanHandleState canHandleFile = OECanHandleNo;
-//    
-//    NSURL *fileURL = [NSURL fileURLWithPath:path];
-//    NSNumber *fileSize = nil;
-//    [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:nil];
-//    
-//    if([fileSize intValue] < 2097152)
-//        canHandleFile = OECanHandleUncertain;
-//    
-//    return canHandleFile;
-//}
+- (OECanHandleState)canHandleFile:(NSString *)path
+{
+    OECanHandleState canHandleFile = OECanHandleNo;
+    
+    NSURL *fileURL = [NSURL fileURLWithPath:path];
+    NSNumber *fileSize = nil;
+    [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:nil];
+    
+    if([fileSize intValue] < 2097152)
+        canHandleFile = OECanHandleUncertain;
+    
+    return canHandleFile;
+}
 
 @end

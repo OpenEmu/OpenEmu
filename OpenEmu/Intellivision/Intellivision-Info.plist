@@ -25,7 +25,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2014 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OESystemController</string>
+	<string>OEIntellivisionSystemController</string>
 	<key>OEControlListKey</key>
 	<array>
 		<array>

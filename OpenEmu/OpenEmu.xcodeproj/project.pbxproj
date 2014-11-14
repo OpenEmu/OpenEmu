@@ -597,6 +597,7 @@
 		940553A717A350AF009B505D /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		940553B917A35FB4009B505D /* PC Engine.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224331707537F00098DA0 /* PC Engine.oesystemplugin */; };
 		941ABD2E1A15DF5C0072686C /* OEColecoVisionSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941ABD2D1A15DF5C0072686C /* OEColecoVisionSystemController.m */; };
+		941ABD361A1605E50072686C /* OEIntellivisionSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941ABD351A1605E50072686C /* OEIntellivisionSystemController.m */; };
 		941F5A0217A785AE0005D7EA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		941F5A0817A785AE0005D7EA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 941F5A0617A785AE0005D7EA /* InfoPlist.strings */; };
 		941F5A1217A786710005D7EA /* OE7800SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F5A1017A786710005D7EA /* OE7800SystemResponder.m */; };
@@ -2508,6 +2509,8 @@
 		940553A417A34EE9009B505D /* controller_pcecd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pcecd.png; sourceTree = "<group>"; };
 		941ABD2C1A15DF5C0072686C /* OEColecoVisionSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEColecoVisionSystemController.h; sourceTree = "<group>"; };
 		941ABD2D1A15DF5C0072686C /* OEColecoVisionSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEColecoVisionSystemController.m; sourceTree = "<group>"; };
+		941ABD341A1605E50072686C /* OEIntellivisionSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEIntellivisionSystemController.h; sourceTree = "<group>"; };
+		941ABD351A1605E50072686C /* OEIntellivisionSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEIntellivisionSystemController.m; sourceTree = "<group>"; };
 		941F5A0117A785AD0005D7EA /* Atari 7800.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 7800.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		941F5A0517A785AE0005D7EA /* Atari 7800-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari 7800-Info.plist"; sourceTree = "<group>"; };
 		941F5A0717A785AE0005D7EA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3902,6 +3905,8 @@
 		277CBA2E19DE52640059A2C1 /* Intellivision */ = {
 			isa = PBXGroup;
 			children = (
+				941ABD341A1605E50072686C /* OEIntellivisionSystemController.h */,
+				941ABD351A1605E50072686C /* OEIntellivisionSystemController.m */,
 				277CBA4719DE54A80059A2C1 /* OEIntellivisionSystemResponder.h */,
 				277CBA4819DE54A80059A2C1 /* OEIntellivisionSystemResponder.m */,
 				277CBA4919DE54A80059A2C1 /* OEIntellivisionSystemResponderClient.h */,
@@ -8056,6 +8061,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				941ABD361A1605E50072686C /* OEIntellivisionSystemController.m in Sources */,
 				277CBA4A19DE54A80059A2C1 /* OEIntellivisionSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

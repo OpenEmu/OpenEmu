@@ -24,20 +24,13 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OE2600SystemController.h"
-#import "OE2600SystemResponder.h"
-#import "OE2600SystemResponderClient.h"
+#import "OEIntellivisionSystemController.h"
+#import "OEIntellivisionSystemResponder.h"
+#import "OEIntellivisionSystemResponderClient.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
-@implementation OE2600SystemController
-
-- (NSString *)systemName
-{
-    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
-            ? @"Atari 2800"
-            : @"Atari 2600");
-}
+@implementation OEIntellivisionSystemController
 
 - (OECanHandleState)canHandleFile:(NSString *)path
 {

@@ -24,38 +24,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OE2600SystemController.h"
-#import "OE2600SystemResponder.h"
-#import "OE2600SystemResponderClient.h"
-
+#import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
-@implementation OE2600SystemController
-
-- (NSString *)systemName
-{
-    return ([[OELocalizationHelper sharedHelper] isRegionJAP]
-            ? @"Atari 2800"
-            : @"Atari 2600");
-}
-
-- (OECanHandleState)canHandleFile:(NSString *)path
-{
-    if(![[path pathExtension] isEqualToString:@"bin"])
-    {
-        return OECanHandleUncertain;
-    }
-    
-    OECanHandleState canHandleFile = OECanHandleNo;
-    
-    NSURL *fileURL = [NSURL fileURLWithPath:path];
-    NSNumber *fileSize = nil;
-    [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:nil];
-    
-    if([fileSize intValue] < 2097152)
-        canHandleFile = OECanHandleUncertain;
-    
-    return canHandleFile;
-}
+@interface OEIntellivisionSystemController : OESystemController
 
 @end
