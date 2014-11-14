@@ -28,16 +28,36 @@
 #import "OEMSXSystemResponder.h"
 #import "OEMSXSystemResponderClient.h"
 
+#import <OpenEmuSystem/OpenEmuSystem.h>
+
 @implementation OEMSXSystemController
 
-- (NSUInteger)numberOfPlayers
+- (OECanHandleState)canHandleFile:(NSString *)path
 {
-    return 2;
-}
-
-- (Class)responderClass
-{
-    return [OEMSXSystemResponder class];
+    if(![[path pathExtension] isEqualToString:@"rom"])
+    {
+        return OECanHandleUncertain;
+    }
+    
+    OECanHandleState canHandleFile = OECanHandleNo;
+    
+    NSFileHandle *dataROMFile;
+    NSData *dataBuffer;
+    
+    dataROMFile = [NSFileHandle fileHandleForReadingAtPath: path];
+    
+    // MSX cart header starts at 0x0 with 41 42
+    uint8_t bytes[] = { 0x41, 0x42 };
+    [dataROMFile seekToFileOffset: 0x0];
+    dataBuffer = [dataROMFile readDataOfLength: 2];
+    NSData *dataCompare = [[NSData alloc] initWithBytes:bytes length:sizeof(bytes)];
+    
+    if([dataBuffer isEqualToData:dataCompare])
+        canHandleFile = OECanHandleYes;
+    
+    [dataROMFile closeFile];
+    
+    return canHandleFile;
 }
 
 @end
