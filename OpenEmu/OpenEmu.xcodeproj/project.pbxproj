@@ -596,6 +596,7 @@
 		940553A617A34EE9009B505D /* controller_pcecd.png in Resources */ = {isa = PBXBuildFile; fileRef = 940553A417A34EE9009B505D /* controller_pcecd.png */; };
 		940553A717A350AF009B505D /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		940553B917A35FB4009B505D /* PC Engine.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224331707537F00098DA0 /* PC Engine.oesystemplugin */; };
+		941ABD2E1A15DF5C0072686C /* OEColecoVisionSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941ABD2D1A15DF5C0072686C /* OEColecoVisionSystemController.m */; };
 		941F5A0217A785AE0005D7EA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		941F5A0817A785AE0005D7EA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 941F5A0617A785AE0005D7EA /* InfoPlist.strings */; };
 		941F5A1217A786710005D7EA /* OE7800SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F5A1017A786710005D7EA /* OE7800SystemResponder.m */; };
@@ -2505,6 +2506,8 @@
 		940553A017A34DCC009B505D /* tgcd_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tgcd_library.png; sourceTree = "<group>"; };
 		940553A317A34EE9009B505D /* controller_pcecd_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pcecd_mask.png; sourceTree = "<group>"; };
 		940553A417A34EE9009B505D /* controller_pcecd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pcecd.png; sourceTree = "<group>"; };
+		941ABD2C1A15DF5C0072686C /* OEColecoVisionSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEColecoVisionSystemController.h; sourceTree = "<group>"; };
+		941ABD2D1A15DF5C0072686C /* OEColecoVisionSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEColecoVisionSystemController.m; sourceTree = "<group>"; };
 		941F5A0117A785AD0005D7EA /* Atari 7800.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 7800.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		941F5A0517A785AE0005D7EA /* Atari 7800-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari 7800-Info.plist"; sourceTree = "<group>"; };
 		941F5A0717A785AE0005D7EA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -5820,6 +5823,8 @@
 		94BE9E52171683E000AB08E6 /* ColecoVision */ = {
 			isa = PBXGroup;
 			children = (
+				941ABD2C1A15DF5C0072686C /* OEColecoVisionSystemController.h */,
+				941ABD2D1A15DF5C0072686C /* OEColecoVisionSystemController.m */,
 				94BE9E5E171689B400AB08E6 /* OEColecoVisionSystemResponder.h */,
 				94BE9E5F171689B400AB08E6 /* OEColecoVisionSystemResponder.m */,
 				94BE9E60171689B400AB08E6 /* OEColecoVisionSystemResponderClient.h */,
@@ -8501,6 +8506,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				941ABD2E1A15DF5C0072686C /* OEColecoVisionSystemController.m in Sources */,
 				94BE9E61171689B400AB08E6 /* OEColecoVisionSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
