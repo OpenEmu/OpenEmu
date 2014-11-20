@@ -1055,9 +1055,12 @@ typedef enum : NSUInteger
             
             OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:OELocalizedString(missingFilesMessage, @"")
                                                    defaultButton:OELocalizedString(@"OK", @"")
-                                                 alternateButton:nil];
+                                                 alternateButton:OELocalizedString(@"Learn More", @"")];
             [alert setHeadlineText:OELocalizedString(@"Required files are missing.", @"")];
-            [alert runModal];
+            if(([alert runModal] == NSAlertAlternateReturn))
+            {
+                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files"]];
+            }
             
             return YES;
         }
