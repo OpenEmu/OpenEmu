@@ -188,13 +188,19 @@
         
         //NSLog(@"output: %@", output);
         
-        // Scan for cdrom: and end of serial, format string and return
-        NSString *serial;
-        NSScanner *scanner = [NSScanner scannerWithString:output];
-        [scanner scanUpToString:@"cdrom:" intoString:nil];
-        [scanner scanUpToString:@":" intoString:nil];
-        [scanner scanUpToString:@";" intoString:&serial];
+        // RegEx pattern match the disc serial
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"BOOT ?= ?cdrom:\\\\?(.+\\\\)?(.+);" options:NSRegularExpressionCaseInsensitive error:nil];
+        NSTextCheckingResult *match = [regex firstMatchInString:output options:0 range:NSMakeRange(0, [output length])];
         
+        if(match == nil)
+        {
+            NSLog(@"RegEx pattern could not match serial. Full string:\n%@", output);
+            return @"NO MATCH";
+        }
+        
+        NSString *serial = [output substringWithRange:[match rangeAtIndex:2]];
+        
+        // Format serial and return
         serial = [[serial componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]] componentsJoinedByString:@""];
         
         NSMutableString *formattedSerial = [NSMutableString stringWithString:[serial uppercaseString]];
