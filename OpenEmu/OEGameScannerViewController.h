@@ -48,7 +48,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 @property (strong) IBOutlet NSButton            *togglePauseButton;
 @property (strong) IBOutlet NSProgressIndicator *progressIndicator;
 @property (strong) IBOutlet NSTextField         *statusLabel;
-@property (strong) NSButton *fixButton;
+@property (strong) IBOutlet NSButton *fixButton;
 
 #pragma mark - Issue Resolving UI
 @property (strong) IBOutlet NSTableView   *issuesView;
