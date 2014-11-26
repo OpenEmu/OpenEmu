@@ -268,9 +268,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         selectionIndexes = [NSIndexSet indexSet];
     }
 
-    FIXME("restore default sort descriptors");
     if(listViewSortDescriptors == nil)
-        ;//        listViewSortDescriptors = OE_defaultSortDescriptors;
+        listViewSortDescriptors = [self defaultSortDescriptors];
 
     [self setSelectionIndexes:selectionIndexes];
     [listView setSortDescriptors:listViewSortDescriptors];
@@ -363,8 +362,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     BOOL reloadListView = NO;
     switch (tag) {
         case OEGridViewTag:
-            FIXME("restore default sort descriptors");
-            ; //sortDescriptors = OE_defaultSortDescriptors;
+                sortDescriptors = [self defaultSortDescriptors];
             break;
         default:
             sortDescriptors = [listView sortDescriptors];
@@ -372,8 +370,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
             break;
     }
 
-    FIXME("restore default sort descriptors");
-//    [[self gamesController] setSortDescriptors:sortDescriptors];
+    [self setSortDescriptors:sortDescriptors];
 
     if(reloadListView)
         [listView reloadData];
@@ -615,14 +612,21 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 
 - (void)gridView:(OEGridView *)gridView setTitle:(NSString *)title forItemAtIndex:(NSInteger)index
 {}
-#pragma mark -
-#pragma mark Private
-#define reloadDelay 0.5
+#pragma mark - Core Data
+- (NSArray*)defaultSortDescriptors
+{
+    return @[];
+}
+
+- (void)setSortDescriptors:(NSArray*)descriptors
+{}
+
 - (void)OE_managedObjectContextDidUpdate:(NSNotification *)notification
 {
     [self performSelector:@selector(noteNumbersChanged) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
 }
 
+#define reloadDelay 0.5
 - (void)noteNumbersChanged
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateViews) object:nil];
@@ -633,6 +637,9 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 {
     [self doesNotImplementSelector:_cmd];
 }
+
+
+#pragma mark - Private
 
 - (void)updateViews
 {
@@ -699,24 +706,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 
     [self fetchItems];
 
-#pragma FIXME("check if fetching is enough")
-    /*
-    NSPredicate *pred = [self representedObject]?[[self representedObject] fetchPredicate]:[NSPredicate predicateWithValue:NO];
-    [gamesController setFetchPredicate:pred];
-    [gamesController setLimit:[[self representedObject] fetchLimit]];
-    [gamesController setFetchSortDescriptors:[[self representedObject] fetchSortDescriptors]];
-    __block BOOL ok;
-    
-    DLog(@"%@", [[[gamesController managedObjectContext] userInfo] valueForKey:@"name"]);
-    ok = [gamesController fetchWithRequest:nil merge:NO error:nil];
-    
-    if(!ok)
-    {
-        NSLog(@"Error while fetching");
-        return;
-    }
-     */
-    
     [_gridView reloadData];
     [listView reloadData];
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];

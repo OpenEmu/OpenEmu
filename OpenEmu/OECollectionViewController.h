@@ -55,21 +55,22 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 - (void)setNeedsReloadVisible;
 - (void)reloadDataIndexes:(NSIndexSet *)indexSet;
 - (void)fetchItems;
+- (NSArray*)defaultSortDescriptors;
+- (void)setSortDescriptors:(NSArray*)descriptors;
 
 - (void)updateBlankSlate;
 - (BOOL)shouldShowBlankSlate;
+
 #pragma mark -
 - (NSArray *)selectedGames;
 @property (nonatomic) NSIndexSet *selectionIndexes;
 
-#pragma mark -
-#pragma mark View Selection
+#pragma mark - View Selection
 - (IBAction)switchToGridView:(id)sender;
 - (IBAction)switchToFlowView:(id)sender;
 - (IBAction)switchToListView:(id)sender;
 
-#pragma mark -
-#pragma mark Toolbar Actions
+#pragma mark - Toolbar Actions
 - (IBAction)search:(id)sender;
 - (IBAction)changeGridSize:(id)sender;
 

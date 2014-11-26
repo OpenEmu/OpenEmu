@@ -104,6 +104,16 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     }
 }
 
+- (NSArray*)defaultSortDescriptors
+{
+    return OE_defaultSortDescriptors;
+}
+
+- (void)setSortDescriptors:(NSArray*)descriptors
+{
+    [[self gamesController] setSortDescriptors:descriptors];
+}
+
 - (void)dealloc
 {
     [[self listView] unbind:@"selectionIndexes"];
@@ -145,6 +155,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     [[[self listView] tableColumnWithIdentifier:@"listViewConsoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
     [self reloadData];
 }
+
 - (id <OEGameCollectionViewItemProtocol>)representedObject
 {
     return (id <OEGameCollectionViewItemProtocol>) [super representedObject];
