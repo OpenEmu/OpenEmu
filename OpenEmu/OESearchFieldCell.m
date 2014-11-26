@@ -38,6 +38,7 @@
 - (NSDictionary*)_textAttributes; // Apple Private Override
 @property OESearchFieldFieldEditor *fieldEditor;
 @property (nonatomic)  BOOL isEditing;
+@property OEThemeState lastState;
 @end
 
 @implementation OESearchFieldCell
@@ -81,6 +82,8 @@
     OESearchFieldFieldEditor *fieldEditor =[[OESearchFieldFieldEditor alloc] initWithFrame:NSMakeRect(0, 0, 0, 14)];
     [fieldEditor setFieldEditor:YES];
     [self setFieldEditor:fieldEditor];
+
+    _lastState = [self OE_currentState];
 }
 
 - (void)updatePlaceholder
@@ -121,7 +124,6 @@
         [[_backgroundThemeImage imageForState:[self OE_currentState]] drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
 
-    [self updatePlaceholder];
     [self drawInteriorWithFrame:cellFrame inView:controlView];
 }
 
@@ -199,7 +201,13 @@
         windowActive = ((_stateMask & OEThemeStateAnyWindowActivity) != 0) && ([window isMainWindow] || ([window parentWindow] && [[window parentWindow] isMainWindow]));
     }
 
-    return [OEThemeObject themeStateWithWindowActive:windowActive buttonState:[self state] selected:NO enabled:[self isEnabled] focused:focused houseHover:[self isHovering] modifierMask:[NSEvent modifierFlags]] & _stateMask;
+    OEThemeState newState = [OEThemeObject themeStateWithWindowActive:windowActive buttonState:[self state] selected:NO enabled:[self isEnabled] focused:focused houseHover:[self isHovering] modifierMask:[NSEvent modifierFlags]] & _stateMask;
+    if(newState != _lastState)
+    {
+        _lastState = newState;
+        [self updatePlaceholder];
+    }
+    return newState;
 }
 
 - (BOOL)startTrackingAt:(NSPoint)startPoint inView:(NSView *)controlView
