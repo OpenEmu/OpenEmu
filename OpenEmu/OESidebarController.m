@@ -93,8 +93,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 #define DevicesSectionIndex 1 // keep track of devices section index so we can skip it if no devices are connected
                     [OESidebarGroupItem groupItemWithName:OELocalizedString(@"DEVICES", @"") autosaveName:OESidebarGroupDevicesAutosaveName],
 
-                    TODO("Re-enable after 1.0.4")
-                    // [OESidebarGroupItem groupItemWithName:OELocalizedString(@"MEDIA", @"") autosaveName:OESidebarGroupMediaAutosaveName],
+                    [OESidebarGroupItem groupItemWithName:OELocalizedString(@"MEDIA", @"") autosaveName:OESidebarGroupMediaAutosaveName],
                     [OESidebarGroupItem groupItemWithName:OELocalizedString(@"COLLECTIONS", @"") autosaveName:OESidebarGroupCollectionsAutosaveName]
                     ];
 
