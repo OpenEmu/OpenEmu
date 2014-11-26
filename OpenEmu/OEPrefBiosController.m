@@ -250,24 +250,31 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     {
         NSTableCellView *groupCell = [view makeViewWithIdentifier:@"InfoCell" owner:self];
 
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:OELocalizedString(@"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our User guide on BIOS files for more information.", @"BIOS files preferences introduction text")];
+        OETheme *theme = [OETheme sharedTheme];
+        NSMutableDictionary *attributes = [[theme textAttributesForKey:@"bios_info" forState:OEThemeStateDefault] mutableCopy];
+        NSMutableDictionary *linkAttributes = [[theme textAttributesForKey:@"bios_info_link" forState:OEThemeStateDefault] mutableCopy];
+
+        // Change cursors
+        [attributes setObject:[NSCursor arrowCursor] forKey:NSCursorAttributeName];
+        [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+
+        NSString *infoText = [NSString stringWithFormat:OELocalizedString(@"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information.", @"BIOS files preferences introduction text"), OEBiosUserGuideURLString];
         NSString *linkText = OELocalizedString(@"User guide on BIOS files", @"Bios files introduction text, active region");
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:infoText attributes:attributes];
 
-        NSDictionary *attributes = [[OETheme sharedTheme] textAttributesForKey:@"bios_info" forState:OEThemeStateDefault];
-        [string setAttributes:attributes range:[[string string] fullRange]];
+        NSRange linkRange = [infoText rangeOfString:OEBiosUserGuideURLString];
+        [attributedString setAttributes:@{NSLinkAttributeName:[NSURL URLWithString:OEBiosUserGuideURLString]} range:linkRange];
+        [attributedString replaceCharactersInRange:linkRange withString:linkText];
 
-        NSMutableDictionary *linkAttributes = [[[OETheme sharedTheme] textAttributesForKey:@"bios_info_link" forState:OEThemeStateDefault] mutableCopy];
-        [linkAttributes setObject:[NSURL URLWithString:OEBiosUserGuideURLString] forKey:NSLinkAttributeName];
-
-        NSRange linkRange = [[string string] rangeOfString:linkText];
-        [string setAttributes:linkAttributes range:linkRange];
-
-        [groupCell setObjectValue:string];
+        [groupCell setObjectValue:attributedString];
 
         NSTextView *textView = [[[groupCell subviews] lastObject] documentView];
         [textView setDelegate:self];
         [textView setEditable:NO];
         [textView setSelectable:YES];
+        [textView setTypingAttributes:attributes];
+        [textView setSelectedTextAttributes:attributes];
+        [textView setLinkTextAttributes:linkAttributes];
 
         return groupCell;
     } else row = row -1;
@@ -310,7 +317,8 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
 {
     if(row == 0)
     {
-        return 90.0;
+        // TODO: Localize height of row
+        return 80.0;
     }
     else if([self tableView:view isGroupRow:row])
     {
@@ -328,7 +336,10 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     [[NSWorkspace sharedWorkspace] openURL:link];
     return YES;
 }
-
+- (NSRange)textView:(NSTextView *)aTextView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange
+{
+    return NSMakeRange(0, 0);
+}
 - (NSDragOperation)tableView:(NSTableView *)table validateDrop:(id<NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)dropOperation
 {
     [table setDropRow:-1 dropOperation:NSTableViewDropOn];

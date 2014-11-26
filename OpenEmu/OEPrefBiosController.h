@@ -37,7 +37,7 @@ extern NSString * const OEPreferencesAlwaysShowBiosKey;
 
 - (NSSize)viewSize;
 
-@property(nonatomic, weak) IBOutlet NSTableView *tableView;
+@property (assign) IBOutlet NSTableView *tableView;
 
 @end
 
