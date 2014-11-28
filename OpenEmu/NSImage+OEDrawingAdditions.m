@@ -52,8 +52,36 @@
     GetSystemVersion(&major, &minor, NULL);
     if(major == 10 && minor >= 8)
     {
-        resultImage = [NSImage imageWithSize:rect.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
-            [self drawInRect:dstRect fromRect:rect operation:NSCompositeSourceOver fraction:1.0];
+        resultImage = [NSImage imageWithSize:rect.size flipped:NO drawingHandler:
+                       ^BOOL(NSRect dstRect)
+        {
+            // Manually pick best representation for subimage based on scale of graphics context
+            // AppKit seems to fail here (esp. for search field cancel button), probably because
+            // it checks the size of the original image
+            CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
+            CGRect    deviceRect = CGContextConvertRectToDeviceSpace(context, dstRect);
+            CGFloat        scale = deviceRect.size.height / dstRect.size.height;
+            CGFloat  imageHeight = [self size].height;
+
+            NSImageRep *representation = nil;
+            for(NSImageRep *rep in [self representations])
+            {
+                CGFloat repScale = scale;
+                // Only inspect size of bitmap image reps
+                if([rep isKindOfClass:[NSBitmapImageRep class]])
+                    repScale = [(NSBitmapImageRep*)rep pixelsHigh] / imageHeight;
+                if(scale == repScale) {
+                    representation = rep;
+                    break;
+                }
+            }
+
+            if(representation)
+                [representation drawInRect:dstRect fromRect:rect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+            else
+                // Let AppKit pick a representation if we couldn't find one.
+                [self drawInRect:dstRect fromRect:rect operation:NSCompositeSourceOver fraction:1.0];
+
             return YES;
         }];
     }
