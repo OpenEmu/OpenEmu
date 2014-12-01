@@ -340,7 +340,7 @@ typedef enum : NSUInteger
     if([[self rom] archiveFileIndex])
         path = [path stringByAppendingFormat:@":%d",[[[self rom] archiveFileIndex] intValue]];
 
-    return [[managerClass alloc] initWithROMPath:path corePlugin:_corePlugin systemController:_gameSystemController displayHelper:self];
+    return [[managerClass alloc] initWithROMPath:path romCRC32:[[self rom] crc32] romMD5:[[self rom] md5] romHeader:[[self rom] header] romSerial:[[self rom] serial] systemRegion:[[OELocalizationHelper sharedHelper] regionName] corePlugin:_corePlugin systemController:_gameSystemController displayHelper:self];
 }
 
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError

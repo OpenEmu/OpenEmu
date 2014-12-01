@@ -75,7 +75,7 @@
         [_helper setDisplayHelper:(id<OEGameCoreDisplayHelper>)_displayHelperProxy];
 
         NSError *error;
-        if(![_helper loadROMAtPath:[self ROMPath] withCorePluginAtPath:[[self plugin] path] systemIdentifier:[[self systemController] systemIdentifier] error:&error])
+        if(![_helper loadROMAtPath:[self ROMPath] romCRC32:[self ROMCRC32] romMD5:[self ROMMD5] romHeader:[self ROMHeader] romSerial:[self ROMSerial] systemRegion:[self systemRegion] withCorePluginAtPath:[[self plugin] path] systemIdentifier:[[self systemController] systemIdentifier] error:&error])
         {
             FIXME("Return a proper error object here.");
             if(_errorHandler != nil)

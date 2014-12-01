@@ -109,7 +109,7 @@ enum _OEHelperAppErrorCodes
 
 - (void)launchApplication;
 
-- (BOOL)loadROMAtPath:(NSString *)aPath withCorePluginAtPath:(NSString *)pluginPath systemIdentifier:(NSString *)systemIdentifier error:(NSError **)error;
+- (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion withCorePluginAtPath:(NSString *)pluginPath systemIdentifier:(NSString *)systemIdentifier error:(NSError **)error;
 - (void)setupProcessPollingTimer;
 - (void)quitHelperTool;
 

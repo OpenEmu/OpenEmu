@@ -138,7 +138,7 @@
 
          if(gameCoreHelper == nil) return;
 
-         [gameCoreHelper loadROMAtPath:[self ROMPath] usingCorePluginAtPath:[[self plugin] path] systemPluginPath:[[[self systemController] bundle] bundlePath] completionHandler:
+         [gameCoreHelper loadROMAtPath:[self ROMPath] romCRC32:[self ROMCRC32] romMD5:[self ROMMD5] romHeader:[self ROMHeader] romSerial:[self ROMSerial] systemRegion:[self systemRegion] usingCorePluginAtPath:[[self plugin] path] systemPluginPath:[[[self systemController] bundle] bundlePath] completionHandler:
           ^(NSXPCListenerEndpoint *gameCoreEndpoint, NSError *error)
           {
               if(gameCoreEndpoint == nil)

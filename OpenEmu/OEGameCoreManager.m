@@ -36,11 +36,16 @@
 
 @implementation OEGameCoreManager
 
-- (id)initWithROMPath:(NSString *)romPath corePlugin:(OECorePlugin *)plugin systemController:(OESystemController *)systemController displayHelper:(id<OEGameCoreDisplayHelper>)displayHelper
+- (id)initWithROMPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion corePlugin:(OECorePlugin *)plugin systemController:(OESystemController *)systemController displayHelper:(id<OEGameCoreDisplayHelper>)displayHelper
 {
     if((self = [super init]))
     {
         _ROMPath          = romPath;
+        _ROMCRC32         = romCRC32;
+        _ROMMD5           = romMD5;
+        _ROMHeader        = romHeader;
+        _ROMSerial        = romSerial;
+        _systemRegion     = systemRegion;
         _plugin           = plugin;
         _systemController = systemController;
         _displayHelper    = displayHelper;

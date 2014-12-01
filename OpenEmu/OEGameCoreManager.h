@@ -35,9 +35,14 @@
 
 @interface OEGameCoreManager : NSObject <OEGameCoreHelper>
 
-- (id)initWithROMPath:(NSString *)romPath corePlugin:(OECorePlugin *)plugin systemController:(OESystemController *)systemController displayHelper:(id<OEGameCoreDisplayHelper>)displayHelper;
+- (id)initWithROMPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion corePlugin:(OECorePlugin *)plugin systemController:(OESystemController *)systemController displayHelper:(id<OEGameCoreDisplayHelper>)displayHelper;
 
 @property(readonly, copy) NSString                    *ROMPath;
+@property(readonly, copy) NSString                    *ROMCRC32;
+@property(readonly, copy) NSString                    *ROMMD5;
+@property(readonly, copy) NSString                    *ROMHeader;
+@property(readonly, copy) NSString                    *ROMSerial;
+@property(readonly, copy) NSString                    *systemRegion;
 @property(readonly, weak) OECorePlugin                *plugin;
 @property(readonly, weak) OESystemController          *systemController;
 @property(readonly, weak) id<OEGameCoreDisplayHelper>  displayHelper;

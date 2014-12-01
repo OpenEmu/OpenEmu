@@ -51,7 +51,7 @@
 
 - (oneway void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 
-- (oneway void)loadROMAtPath:(bycopy NSString *)romPath usingCorePluginAtPath:(bycopy NSString *)corePluginPath systemPluginAtPath:(bycopy NSString *)systemPluginPath withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate displayHelper:(byref id<OEDOGameCoreDisplayHelper>)displayHelper messageIdentifier:(NSString *)identifier;
+- (oneway void)loadROMAtPath:(bycopy NSString *)romPath romCRC32:(bycopy NSString *)romCRC32 romMD5:(bycopy NSString *)romMD5 romHeader:(bycopy NSString *)romHeader romSerial:(bycopy NSString *)romSerial systemRegion:(bycopy NSString *)systemRegion usingCorePluginAtPath:(bycopy NSString *)corePluginPath systemPluginAtPath:(bycopy NSString *)systemPluginPath withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate displayHelper:(byref id<OEDOGameCoreDisplayHelper>)displayHelper messageIdentifier:(NSString *)identifier;
 
 @end
 

@@ -526,7 +526,7 @@
 
 #pragma mark - Game Core methods
 
-- (BOOL)loadROMAtPath:(NSString *)aPath withCorePluginAtPath:(NSString *)pluginPath systemIdentifier:(NSString *)systemIdentifier error:(NSError **)error
+- (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion withCorePluginAtPath:(NSString *)pluginPath systemIdentifier:(NSString *)systemIdentifier error:(NSError **)error
 {
     if([self loadedRom]) return NO;
 
@@ -549,6 +549,11 @@
     [_gameCore setAudioDelegate:self];
 
     [_gameCore setSystemIdentifier:systemIdentifier];
+    [_gameCore setSystemRegion:systemRegion];
+    [_gameCore setROMCRC32:romCRC32];
+    [_gameCore setROMMD5:romMD5];
+    [_gameCore setROMHeader:romHeader];
+    [_gameCore setROMSerial:romSerial];
 
     DLog(@"Loaded bundle. About to load rom...");
 

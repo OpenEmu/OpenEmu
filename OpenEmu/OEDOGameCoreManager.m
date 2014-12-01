@@ -51,9 +51,9 @@
 
 @implementation OEDOGameCoreManager
 
-- (id)initWithROMPath:(NSString *)romPath corePlugin:(OECorePlugin *)plugin systemController:(OESystemController *)systemController displayHelper:(id<OEGameCoreDisplayHelper>)displayHelper
+- (id)initWithROMPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion corePlugin:(OECorePlugin *)plugin systemController:(OESystemController *)systemController displayHelper:(id<OEGameCoreDisplayHelper>)displayHelper
 {
-    if((self = [super initWithROMPath:romPath corePlugin:plugin systemController:systemController displayHelper:displayHelper]))
+    if((self = [super initWithROMPath:romPath romCRC32:romCRC32 romMD5:romMD5 romHeader:romHeader romSerial:romSerial systemRegion:systemRegion corePlugin:plugin systemController:systemController displayHelper:displayHelper]))
     {
         _pendingBlocks = [NSMutableDictionary dictionary];
         _delegateHelper = [[OEDOGameCoreHelperDelegateHelper alloc] initWithGameCoreManager:self];
@@ -73,6 +73,11 @@
     [self setGameCoreHelper:(id<OEGameCoreHelper>)[NSNull null]];
 
     [_rootProxy loadROMAtPath:[self ROMPath]
+                     romCRC32:[self ROMCRC32]
+                       romMD5:[self ROMMD5]
+                    romHeader:[self ROMHeader]
+                    romSerial:[self ROMSerial]
+                 systemRegion:[self systemRegion]
         usingCorePluginAtPath:[[self plugin] path]
            systemPluginAtPath:[[[self systemController] bundle] bundlePath]
                  withDelegate:_delegateHelper

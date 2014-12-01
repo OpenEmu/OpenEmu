@@ -104,12 +104,12 @@
     return NO;
 }
 
-- (void)loadROMAtPath:(NSString *)romPath usingCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath completionHandler:(void (^)(NSXPCListenerEndpoint *, NSError *))completionHandler
+- (void)loadROMAtPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion usingCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath completionHandler:(void (^)(NSXPCListenerEndpoint *, NSError *))completionHandler
 {
     OESystemPlugin *plugin = [OESystemPlugin systemPluginWithBundleAtPath:systemPluginPath];
 
     NSError *error;
-    if(![self loadROMAtPath:romPath withCorePluginAtPath:pluginPath systemIdentifier:[plugin systemIdentifier] error:&error])
+    if(![self loadROMAtPath:romPath romCRC32:romCRC32 romMD5:romMD5 romHeader:romHeader romSerial:romSerial systemRegion:systemRegion withCorePluginAtPath:pluginPath systemIdentifier:[plugin systemIdentifier] error:&error])
     {
         completionHandler(nil, error);
         return;
