@@ -30,7 +30,7 @@
 
 /*s|OESidebarController.m|215|Duplicated collection name*/ "%@ copy" = "Copia de %@";
 
-/*s|OEPrefLibraryController.m|468|*/ "%@ could not be enabled because its plugin was not found." = "%@ could not be enabled because its plugin was not found.";
+/*s|OEPrefLibraryController.m|468|*/ "%@ could not be enabled because its plugin was not found." = "%@ no se ha podido activar porque el plugin no se encontró.";
 
 /*s|OEBlankSlateView.m|192|*/ "%@ games you add to OpenEmu will appear in this Console Library" = "Los juegos de %@ añadidos a OpenEmu aparecerán en esta biblioteca de consolas";
 
@@ -54,15 +54,15 @@
 
 /*s|OEDBAllGamesCollection.m|48|*/ "All Games" = "Todos los juegos";
 
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|162|*/ "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Are you sure you want to delete %ld save games from your OpenEmu library?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|162|*/ "Are you sure you want to delete %ld save games from your OpenEmu library?" = "¿Está seguro que desea eliminar %ld partidas guardadas de su biblioteca de OpenEmu?";
 
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|190|*/ "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Are you sure you want to delete %ld screenshots from your OpenEmu library?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|190|*/ "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "¿Está seguro que desea eliminar %ld capturas de pantalla de su biblioteca de OpenEmu?";
 
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|149|*/ "Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Are you sure you want to delete the save game called '%@' from your OpenEmu library?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|149|*/ "Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "¿Está seguro que desea eliminar la partida guardada llamada '%@' de su biblioteca de OpenEmu?";
 
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|177|*/ "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|177|*/ "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "¿Está seguro que desea eliminar la captura de pantalla llamada '%@' de su biblioteca de OpenEmu?";
 
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|218|*/ "Are you sure you want to delete the selected game from your OpenEmu library?" = "¿Está seguro que desea eliminar el juego seleccionado de la biblioteca de OpenEmu?";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|218|*/ "Are you sure you want to delete the selected game from your OpenEmu library?" = "¿Está seguro que desea eliminar el juego seleccionado de su biblioteca de OpenEmu?";
 
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|217|*/ "Are you sure you want to delete the selected games from your OpenEmu library?" = "¿Está seguro que desea eliminar los juegos seleccionados de su biblioteca de OpenEmu?";
 
@@ -80,7 +80,7 @@
 
 /*s|OEDBSaveState.m|427|Autosave state display name*/ "Auto Save State" = "Auto Save State";
 
-/*s|OELibraryDatabase.m|894|Automatically Import Name*/ "Automatically Import" = "Automatically Import";
+/*s|OELibraryDatabase.m|894|Automatically Import Name*/ "Automatically Import" = "Automatically Import";/*no traducir nombre de carpeta*/
 
 /*s|OEPrefControlsController.m|554|*/ "Bluetooth Not Enabled" = "Bluetooth desactivado";
 
@@ -113,9 +113,9 @@
 /*s|OEPrefLibraryController.m|214|*/
 /*s|OESidebarController.m|617|*/ "Cancel" = "Cancelar";
 
-/*s|OEGameCollectionViewController.m|473|*/ "Cancel Cover Art Download" = "Cancel Cover Art Download";
+/*s|OEGameCollectionViewController.m|473|*/ "Cancel Cover Art Download" = "Cancelar descargar carátula";
 
-/*r|OEPrefDebugController.m|192|Debug Button Label*/ "Cancel OpenVGDB Update" = "Cancel OpenVGDB Update";
+/*r|OEPrefDebugController.m|192|Debug Button Label*/ "Cancel OpenVGDB Update" = "Cancelar actualizar OpenVGDB";
 
 /*s|OEGameDocument.m|718|*/ "Change Core" = "Cambiar núcleo";
 
@@ -132,7 +132,7 @@
 
 /*r|OEPrefDebugController.m|184|Debug Button Label*/ "Choose save states directory" = "Choose save states directory";
 
-/*s|OEGameScannerViewController.m|546|*/ "Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.";
+/*s|OEGameScannerViewController.m|546|*/ "Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Elija Si para eliminar todos los ítems de la cola. Los ítems que finalicen la importación se mantendrán en su biblioteca.";
 
 /*r|OEPrefDebugController.m|188|Debug Button Label*/ "Cleanup autosave state" = "Cleanup autosave state";
 
@@ -142,7 +142,7 @@
 
 /*s|OEGameDocument.m|1032|*/ "Code:" = "Código:";
 
-/*s|OESidebarOutlineView.m|131|*/ "Collapse" = "Collapse";
+/*s|OESidebarOutlineView.m|131|*/ "Collapse" = "Contraer";
 
 /*s|OEBlankSlateView.m|148|*/ "Collections" = "Colecciones";
 
@@ -163,15 +163,15 @@
 
 /*s|OEPrefLibraryController.m|260|Alert Headline: Library migration*/ "Copying ROM Files…" = "Copiando archivos ROM…";
 
-/*s|OEPrefLibraryController.m|245|*/ "Copying artwork failed!" = "Copying artwork failed!";
+/*s|OEPrefLibraryController.m|245|*/ "Copying artwork failed!" = "¡Falló al copiar carátula!";
 
 /*s|OEBlankSlateView.m|238|*/ "Core Provided By…" = "Núcleo proporcionado por…";
 
 /*r|OEPrefCoresController.m|252|Preferences: Cores Toolbar item*/ "Cores" = "Núcleos";
 
-/*s|OEPrefLibraryController.m|294|*/ "Could not move complete library! %ld roms were moved" = "Could not move complete library! %ld roms were moved";
+/*s|OEPrefLibraryController.m|294|*/ "Could not move complete library! %ld roms were moved" = "¡No ha podido mover la biblioteca completa! %ld roms fueron movidas";
 
-/*s|OEPrefLibraryController.m|338|*/ "Could not move library data!" = "Could not move library data!";
+/*s|OEPrefLibraryController.m|338|*/ "Could not move library data!" = "¡No ha podido mover los datos de la biblioteca!";
 
 /*s|OEDOGameCoreManager.m|137|Timed out error reason.*/ "Couldn't connect to the background process." = "Couldn't connect to the background process.";
 
@@ -179,11 +179,11 @@
 
 /*s|OEApplicationDelegate.m|520|*/ "Create Library…" = "Crear biblioteca…";
 
-/*s|OEBlankSlateView.m|154|*/ "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Cree una selección personal de juegos. Para añadir a la colección, seleccione un juego desde su biblioteca de consolas y arrástrelo a ’%@’ en la izquierda.";
+/*s|OEBlankSlateView.m|154|*/ "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Cree una selección personal de juegos. Para añadir a la colección, seleccione un juego de su biblioteca de consolas y arrástrelo a ’%@’ en la izquierda.";
 
 /*s|OEGameControlsBar.m|680|Tooltip*/ "Create or Load Save State" = "Create or Load Save State";
 
-/*s|OESidebarController.m|94|*/ "DEVICES" = "DEVICES";
+/*s|OESidebarController.m|94|*/ "DEVICES" = "DISPOSITIVOS";
 
 /*r|OEPrefDebugController.m|151|Debug Checkbox Label*/ "Dark GridView context menu" = "Dark GridView context menu";
 
@@ -191,7 +191,7 @@
 
 /*r|OEPrefDebugController.m|135|Debug Checkbox Label*/ "Debug Mode" = "Modo depurar";
 
-/*s|OESidebarOutlineView.m|188|*/ "Delete Collection" = "Delete Collection";
+/*s|OESidebarOutlineView.m|188|*/ "Delete Collection" = "Eliminar colección";
 
 /*s|OEGameCollectionViewController.m|486|*/ "Delete Game" = "Eliminar juego";
 
@@ -202,9 +202,9 @@
 
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|164|*/ "Delete Saves" = "Delete Saves";
 
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|179|*/ "Delete Screenshot" = "Delete Screenshot";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|179|*/ "Delete Screenshot" = "Eliminar captura de pantalla";
 
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|192|*/ "Delete Screenshots" = "Delete Screenshots";
+/*s|OEHUDAlert+DefaultAlertsAdditions.m|192|*/ "Delete Screenshots" = "Eliminar capturas de pantalla";
 
 /*s|OEGameScannerViewController.m|86|*/ "Deselect All" = "Desmarcar todo";
 
@@ -222,13 +222,13 @@
 
 /*s|OEGameDocument.m|1000|Alert suppression label*/ "Do not show me again" = "No volver a mostrar";
 
-/*s|OEGameScannerViewController.m|545|*/ "Do you really want to cancel the import process?" = "Do you really want to cancel the import process?";
+/*s|OEGameScannerViewController.m|545|*/ "Do you really want to cancel the import process?" = "¿Realmente desea cancelar el proceso de importación?";
 
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|82|*/ "Do you want to continue playing where you left off?" = "¿Desea continuar jugando donde lo dejó?";
 
-/*s|OEGameScannerViewController.m|200|*/ "Don't Import Selected" = "Don't Import Selected";
+/*s|OEGameScannerViewController.m|200|*/ "Don't Import Selected" = "No importar seleccionado";
 
-/*s|OEGameScannerViewController.m|164|*/ "Done" = "Done";
+/*s|OEGameScannerViewController.m|164|*/ "Done" = "Hecho";
 
 /*s|OEGameCollectionViewController.m|471|*/
 /*s|OEGameCollectionViewController.m|502|*/ "Download Cover Art" = "Descargar carátula";
@@ -250,9 +250,9 @@
 
 /*s|OEGameDocument.m|1040|Cheats button label*/ "Enable now" = "Activar ahora";
 
-/*s|OECoreUpdater.m|315|*/ "Error!" = "Error!";
+/*s|OECoreUpdater.m|315|*/ "Error!" = "¡Error!";
 
-/*s|OEGameScannerViewController.m|155|*/ "Game %ld of %ld" = "Game %1$ld of %2$ld";
+/*s|OEGameScannerViewController.m|155|*/ "Game %ld of %ld" = "Juego %1$ld de %2$ld";
 
 /*s|OEGameScannerViewController.m|307|*/ "Game Scanner" = "Game Scanner";
 
@@ -283,9 +283,9 @@
 
 /*r|OEPrefDebugController.m|150|Debug Group*/ "Library Window" = "Ventana de biblioteca";
 
-/*s|OEMainWindowController.m|278|*/ "Locate" = "Localizar";
+/*s|OEMainWindowController.m|278|*/ "Locate" = "Buscar";
 
-/*s|OEMainWindowController.m|285|Locate panel title*/ "Locate '%@'" = "Localizar '%@'";
+/*s|OEMainWindowController.m|285|Locate panel title*/ "Locate '%@'" = "Buscar '%@'";
 
 /*r|OEPrefDebugController.m|178|Debug Checkbox Label*/ "Log HID Events" = "Registro de eventos del HID";
 
@@ -312,7 +312,7 @@
 /*s|OELibraryController.m|119|Tooltip*/
 /*s|OELibraryDatabase.m|526|Default collection name*/ "New Collection" = "Nueva colección";
 
-/*s|OEGameCollectionViewController.m|604|*/ "New Collection from Selection" = "New Collection from Selection";
+/*s|OEGameCollectionViewController.m|604|*/ "New Collection from Selection" = "Nueva colección desde selección";
 
 /*s|OELibraryDatabase.m|590|*/ "New Folder" = "New Folder";
 
@@ -367,7 +367,7 @@
 
 /*s|OEGameCollectionViewController.m|453|*/ "Play Game" = "Jugar partida";
 
-/*s|OEGameCollectionViewController.m|492|*/ "Play Games (Caution)" = "Play Games (Caution)";
+/*s|OEGameCollectionViewController.m|492|*/ "Play Games (Caution)" = "Jugar partidas (Precaución)";
 
 /*s|OEGameCollectionViewController.m|457|*/ "Play Save Games" = "Jugar partidas guardadas";
 
@@ -416,11 +416,11 @@
 
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|247|*/ "Rename Special Save State or something?" = "Rename Special Save State or something?";
 
-/*s|OEGameDocument.m|971|*/ "Required files are missing." = "Required files are missing.";
+/*s|OEGameDocument.m|971|*/ "Required files are missing." = "Los archivos necesarios no se encontraron.";
 
 /*s|OEGameScannerViewController.m|176|*/ "Resolve %ld Issues" = "Solucionar %ld errores";
 
-/*s|OEGameScannerViewController.m|238|*/ "Resolve Issues" = "Resolve Issues";
+/*s|OEGameScannerViewController.m|238|*/ "Resolve Issues" = "Solucionar errores";
 
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|122|*/ "Restart" = "Reiniciar";
 
@@ -450,9 +450,9 @@
 
 /*s|OEDBSavedGamesMedia.m|49|*/ "Saved Games" = "Partidas guardadas";
 
-/*s|OEGameScannerViewController.m|170|*/ "Scanner Paused" = "Scanner Paused";
+/*s|OEGameScannerViewController.m|170|*/ "Scanner Paused" = "Buscador pausado";
 
-/*s|OEGameScannerViewController.m|158|*/ "Scanning Directory" = "Scanning Directory";
+/*s|OEGameScannerViewController.m|158|*/ "Scanning Directory" = "Analizando directorio";
 
 /*s|OEDBScreenshotsMedia.m|48|*/ "Screenshots" = "Capturas de pantalla";
 
@@ -527,7 +527,7 @@
 
 /*s|OELibraryDatabase.m|126|*/ "The OpenEmu Library could not be found." = "La biblioteca de OpenEmu no se ha podido encontrar.";
 
-/*s|OEPrefLibraryController.m|581|*/ "The System plugin could not be found!" = "The System plugin could not be found!";
+/*s|OEPrefLibraryController.m|581|*/ "The System plugin could not be found!" = "¡El plugin del sistema no se ha podido encontrar!";
 
 /*s|OEDOGameCoreManager.m|150|Invalid helper connection error reason.*/ "The background process connection couldn't be established" = "The background process connection couldn't be established";
 
@@ -535,18 +535,18 @@
 
 /*s|OEGameDocument.m|392|Low battery alert detail message.*/ "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "The battery in device number %1$lu, %2$@, is low. Please charge or replace the battery.";
 
-/*s|OECoreUpdater.m|317|*/ "The core could not be downloaded. Try installing it from the Cores preferences." = "The core could not be downloaded. Try installing it from the Cores preferences.";
+/*s|OECoreUpdater.m|317|*/ "The core could not be downloaded. Try installing it from the Cores preferences." = "El núcleo no se ha podido descargar. Intente instalarlo desde las preferencias de los núcleos.";
 
 /*s|OEGameDocument.m|175|Inexistent file error reason.*/
 /*s|OEGameDocument.m|498|Inexistent file error reason.*/ "The file you selected doesn't exist" = "The file you selected doesn't exist";
 
-/*s|OEMainWindowController.m|276|*/ "The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "El juego '%@' no se ha podido iniciar debido a que el archivo rom no se ha encontrado. ¿Desea localizarlo?";
+/*s|OEMainWindowController.m|276|*/ "The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "El juego '%@' no se ha podido iniciar debido a que el archivo rom no se ha encontrado. ¿Desea buscarlo?";
 
-/*s|OEGameDocument.m|530|*/ "The game '%@' was imported." = "The game '%@' was imported.";
+/*s|OEGameDocument.m|530|*/ "The game '%@' was imported." = "El juego '%@' fue importado.";
 
 /*s|OEDOGameCoreManager.m|166|Nil root proxy object error reason.*/ "The root proxy object is nil." = "The root proxy object is nil.";
 
-/*s|OEPrefLibraryController.m|588|*/ "This System has no corresponding core installed." = "This System has no corresponding core installed.";
+/*s|OEPrefLibraryController.m|588|*/ "This System has no corresponding core installed." = "Este sistema no tiene su correspondiente núcleo instalado.";
 
 /*s|OEGameDocument.m|1317|*/ "This save state was created with a different core. Do you want to switch to that core now?" = "This save state was created with a different core. Do you want to switch to that core now?";
 
@@ -554,7 +554,7 @@
 
 /*s|OECoreUpdater.m|239|*/ "To launch the save state %@ you will need to install the '%@' Core" = "To launch the save state %1$@ you will need to install the '%2$@' Core";
 
-/*s|OEGameDocument.m|966|Missing files dialog text*/ "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again.";
+/*s|OEGameDocument.m|966|Missing files dialog text*/ "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "Para ejecutar este núcleo necesita lo siguiente:\n\n%@Arrastrar y soltar los archivo(s) necesario(s) a la ventana de la biblioteca de juegos y volver a intentar.";
 
 /*s|OEGameControlsBar.m|742|Tooltip*/ "Toggle Fullscreen" = "Toggle Fullscreen";
 
@@ -622,11 +622,11 @@
 /*s|OEGameScannerViewController.m|547|*/
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|83|*/ "Yes" = "Si";
 
-/*s|OEPrefLibraryController.m|165|*/ "You can't move your library here!" = "You can't move your library here!";
+/*s|OEPrefLibraryController.m|165|*/ "You can't move your library here!" = "¡No puede mover su biblioteca aquí!";
 
 /*s|OEPluginDocument.m|72|*/ "You need to restart the application to commit the change" = "You need to restart the application to commit the change";
 
-/*s|OEGameDocument.m|532|*/ "Your game finished importing, do you want to play it now?" = "Your game finished importing, do you want to play it now?";
+/*s|OEGameDocument.m|532|*/ "Your game finished importing, do you want to play it now?" = "Finalizada la importación del juego, ¿desea jugar ahora?";
 
 /*s|OEPrefLibraryController.m|401|*/ "Your library was moved sucessfully. OpenEmu must relaunch now!" = "Su biblioteca fue movida correctamente. ¡OpenEmu debe reiniciarse ahora!";
 
