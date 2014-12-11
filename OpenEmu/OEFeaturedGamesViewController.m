@@ -303,10 +303,8 @@ const static CGFloat TableViewSpacing = 86.0;
             NSTextField *label = [[container subviews] objectAtIndex:1];
             [label setStringValue:[game name]];
 
-            // setup 'by <developer>'
-            NSTextField *byLabel = [[container subviews] objectAtIndex:2];
-
-            NSButton *developer = [[container subviews] objectAtIndex:5];
+            // setup '<developer>'
+            NSButton *developer = [[container subviews] objectAtIndex:4];
             [developer setTitle:[game developer]];
             [developer setTarget:self];
             [developer setAction:@selector(gotoDeveloperWebsite:)];
@@ -318,20 +316,18 @@ const static CGFloat TableViewSpacing = 86.0;
             [developer setFrameSize:size];
 
             // center in view
-            CGFloat width = NSWidth([byLabel frame])+NSWidth([developer frame]) + 0.0;
-            CGFloat y = NSMinY([byLabel frame]);
+            CGFloat width = NSWidth([developer frame]) + 0.0;
+            CGFloat y = NSMinY([developer frame]);
             CGFloat x = NSMidX([container bounds]) - width/2.0;
-            [byLabel setFrameOrigin:(NSPoint){x, y}];
-            x += NSWidth([byLabel frame]) + 0.0;
             [developer setFrameOrigin:(NSPoint){x, y}];
 
             // system / year tags
-            NSButton *system = [[container subviews] objectAtIndex:3];
+            NSButton *system = [[container subviews] objectAtIndex:2];
             [system setEnabled:NO];
             [system setTitle:[game systemShortName]];
             [system sizeToFit];
 
-            NSButton *year = [[container subviews] objectAtIndex:4];
+            NSButton *year = [[container subviews] objectAtIndex:3];
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateFormat:@"Y"];
             [year setEnabled:NO];
@@ -362,14 +358,14 @@ const static CGFloat TableViewSpacing = 86.0;
         [titleField setStringValue:[game name]];
 
         // system / year flags
-        NSButton    *system  = [subviews objectAtIndex:2];
+        NSButton    *system  = [subviews objectAtIndex:1];
         [system setEnabled:NO];
         [system setTitle:[game systemShortName]];
         [system sizeToFit];
 
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"Y"];
-        NSButton    *year  = [subviews objectAtIndex:3];
+        NSButton    *year  = [subviews objectAtIndex:2];
         [year setHidden:[[game released] timeIntervalSince1970] == 0];
         [year setTitle:[formatter stringFromDate:[game released]]];
         [year setEnabled:NO];
@@ -377,7 +373,7 @@ const static CGFloat TableViewSpacing = 86.0;
         [year setFrameOrigin:(NSPoint){NSMaxX([system frame])+5.0, NSMinY([system frame])}];
 
         // description
-        NSScrollView *descriptionScroll = [subviews objectAtIndex:4];
+        NSScrollView *descriptionScroll = [subviews objectAtIndex:3];
         NSTextView *description = [descriptionScroll documentView];
 
         [description setString:[game gameDescription] ?: @""];
@@ -386,16 +382,15 @@ const static CGFloat TableViewSpacing = 86.0;
         [[description textStorage] setAttributes:attributes range:NSMakeRange(0, length)];
         [description sizeToFit];
 
-        NSTextField *label     = [subviews objectAtIndex:1];
-        NSButton    *developer = [subviews objectAtIndex:6];
+        NSButton    *developer = [subviews objectAtIndex:5];
         [developer setTarget:self];
         [developer setAction:@selector(gotoDeveloperWebsite:)];
         [developer setObjectValue:[game website]];
         [developer setTitle:[game developer]];
         [developer sizeToFit];
-        [developer setFrameSize:NSMakeSize([developer frame].size.width, label.frame.size.height)];
+        [developer setFrameSize:NSMakeSize([developer frame].size.width, [developer frame].size.height)];
 
-        OEFeaturedGamesCoverView *imagesView = [subviews objectAtIndex:5];
+        OEFeaturedGamesCoverView *imagesView = [subviews objectAtIndex:4];
         [imagesView setURLs:[game images]];
         [imagesView setTarget:self];
         [imagesView setDoubleAction:@selector(launchGame:)];
@@ -409,7 +404,7 @@ const static CGFloat TableViewSpacing = 86.0;
     if(row == 0 || row == 2)
         return 94.0;
     if(row == 1)
-        return 220.0;
+        return 230.0; // adjusts inset
 
     CGFloat textHeight = 0.0;
     OEFeaturedGame *game = [self tableView:tableView objectValueForTableColumn:nil row:row];
@@ -420,7 +415,7 @@ const static CGFloat TableViewSpacing = 86.0;
         NSAttributedString *string = [[NSAttributedString alloc] initWithString:gameDescription attributes:attributes];
 
         CGFloat width = NSWidth([tableView bounds]) - 2*TableViewSpacing -DescriptionX;
-        textHeight = [string heightForWidth:width] + 130.0;
+        textHeight = [string heightForWidth:width] + 140.0; // fixes overlapping description rows
     }
 
     return MAX(160.0, textHeight);
