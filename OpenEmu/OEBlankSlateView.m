@@ -87,10 +87,13 @@
     return self;
 }
 
-- (void)awakeFromNib
+- (instancetype)initWithCoder:(NSCoder *)coder
 {
-    [super awakeFromNib];
-    [self OE_commonBlankSlateInit];
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self OE_commonBlankSlateInit];
+    }
+    return self;
 }
 
 - (void)OE_commonBlankSlateInit
