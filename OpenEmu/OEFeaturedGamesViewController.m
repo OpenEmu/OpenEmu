@@ -63,6 +63,7 @@ const static CGFloat TableViewSpacing = 86.0;
 @end
 @interface OEFeaturedGamesViewController () <NSTableViewDataSource, NSTableViewDelegate>
 @property (strong) NSArray *games;
+@property (strong) OEDownload *currentDownload;
 @end
 
 @implementation OEFeaturedGamesViewController
@@ -105,39 +106,61 @@ const static CGFloat TableViewSpacing = 86.0;
     [tableView setPostsBoundsChangedNotifications:YES];
     [tableView setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:tableView];
-
-    [self updateGames];
-    [[self tableView] reloadData];
 }
 
+- (void)viewDidAppear
+{
+    [super viewDidAppear];
+    // Fetch games if we haven't already, this allows reloading if an error occured, by switching to a different collection or media view and then back to featured games
+    if([[self games] count] == 0)
+    {
+        [self updateGames];
+    }
+}
 #pragma mark - Data Handling
 - (void)updateGames
 {
-    NSURL    *url = [NSURL URLWithString:OEFeaturedGamesURLString];
+    // Indicate that we're fetching some external resource
+    [self displayUpdate];
+
+    [[self currentDownload] cancelDownload];
+
+    NSURL *url = [NSURL URLWithString:OEFeaturedGamesURLString];
 
     OEDownload *download = [[OEDownload alloc] initWithURL:url];
+    OEDownload __weak *blockDL = download;
     [download setCompletionHandler:^(NSURL *destination, NSError *error) {
+        if([self currentDownload]==blockDL)
+            [self setCurrentDownload:nil];
+
         if(error == nil && destination != nil)
         {
-            [self parseFileAtURL:destination];
+            if(![self parseFileAtURL:destination error:&error])
+            {
+                [self displayError:error];
+            }
+            else
+            {
+                [self displayResults];
+            }
         }
         else
         {
             [self displayError:error];
         }
     }];
-
+    [self setCurrentDownload:download];
     [download startDownload];
 }
 
-- (void)parseFileAtURL:(NSURL*)url
+- (BOOL)parseFileAtURL:(NSURL*)url error:(NSError**)outError
 {
     NSError       *error    = nil;
     NSXMLDocument *document = [[NSXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error];
     if(document == nil)
     {
         DLog(@"%@", error);
-        return;
+        return NO;
     }
 
     NSArray *dates = [document nodesForXPath:@"//game/@added" error:&error];
@@ -159,13 +182,24 @@ const static CGFloat TableViewSpacing = 86.0;
         return [[OEFeaturedGame alloc] initWithNode:node];
     }];
 
-    [[self tableView] reloadData];
+    return YES;
 }
 
-#pragma mark - View Managing
+#pragma mark - View Management
+- (void)displayUpdate
+{
+    NSLog(@"We're updating…");
+}
+
 - (void)displayError:(NSError*)error
 {
-    NSLog(@"%@", error);
+    NSLog(@"We have an error…");
+}
+
+- (void)displayResults
+{
+    NSLog(@"We have results!");
+    [[self tableView] reloadData];
 }
 
 - (NSDictionary*)descriptionStringAttributes

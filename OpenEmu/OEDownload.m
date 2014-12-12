@@ -166,6 +166,8 @@
 {
     dispatch_semaphore_signal(_waitSemaphore);
     if([self completionHandler]) [self completionHandler](self.destinationURL, self.error);
+    // Make sure we only call completion handler once
+    [self setCompletionHandler:nil];
 }
 
 @end
