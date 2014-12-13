@@ -36,7 +36,7 @@
 #import "NSArray+OEAdditions.h"
 #import "NS(Attributed)String+Geometrics.h"
 
-NSString * const OEFeaturedGamesURLString = @"file:///games.xml";
+NSString * const OEFeaturedGamesURLString = @"https://raw.githubusercontent.com/OpenEmu/OpenEmu-Update/master/games.xml";
 
 NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
 
