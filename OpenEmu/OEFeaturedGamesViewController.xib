@@ -12,20 +12,19 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="uxN-df-boz" customClass="OEBlankSlateBackgroundView">
             <rect key="frame" x="0.0" y="0.0" width="817" height="583"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="220" horizontalPageScroll="10" verticalLineScroll="220" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="bDj-Fj-QyG">
+                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="230" horizontalPageScroll="10" verticalLineScroll="230" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="bDj-Fj-QyG">
                     <rect key="frame" x="0.0" y="0.0" width="817" height="583"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="RGw-Kn-YDx">
                         <rect key="frame" x="0.0" y="0.0" width="817" height="583"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="220" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="KhY-cL-moa">
-                                <rect key="frame" x="0.0" y="0.0" width="817" height="583"/>
+                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="230" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="KhY-cL-moa">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -48,7 +47,7 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="Smq-Bg-E0G" customClass="OELabel">
-                                                        <rect key="frame" x="262" y="87" width="500" height="60"/>
+                                                        <rect key="frame" x="282" y="95" width="500" height="60"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="oqK-8m-n8t" customClass="OELabelCell">
                                                             <font key="font" metaFont="system"/>
@@ -63,7 +62,7 @@
                                                         </connections>
                                                     </textField>
                                                     <button focusRingType="none" id="ss5-rY-sYe" customClass="OEButton">
-                                                        <rect key="frame" x="265" y="88" width="59" height="18"/>
+                                                        <rect key="frame" x="285" y="96" width="59" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="SIc-aZ-puf" customClass="OEOutlinedButtonCell">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -74,7 +73,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </button>
                                                     <button focusRingType="none" id="rix-Tm-zJs" customClass="OEButton">
-                                                        <rect key="frame" x="332" y="88" width="61" height="18"/>
+                                                        <rect key="frame" x="352" y="96" width="61" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="Se1-Vc-J4Y" customClass="OEOutlinedButtonCell">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -85,7 +84,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </button>
                                                     <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="Gpg-xF-AVQ" userLabel="Description" customClass="OEDisabledScrollView">
-                                                        <rect key="frame" x="262" y="21" width="498" height="53"/>
+                                                        <rect key="frame" x="282" y="29" width="498" height="53"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="cmd-Uo-28p">
                                                             <rect key="frame" x="0.0" y="0.0" width="498" height="53"/>
@@ -95,10 +94,10 @@
                                                                     <rect key="frame" x="0.0" y="0.0" width="498" height="53"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <size key="minSize" width="0.0" height="53"/>
+                                                                    <size key="minSize" width="498" height="53"/>
                                                                     <size key="maxSize" width="639" height="10000000"/>
                                                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <size key="minSize" width="0.0" height="53"/>
+                                                                    <size key="minSize" width="498" height="53"/>
                                                                     <size key="maxSize" width="639" height="10000000"/>
                                                                 </textView>
                                                             </subviews>
@@ -114,11 +113,11 @@
                                                         </scroller>
                                                     </scrollView>
                                                     <customView id="awI-1D-r5I" customClass="OEFeaturedGamesCoverView">
-                                                        <rect key="frame" x="36" y="-10" width="220" height="165"/>
+                                                        <rect key="frame" x="36" y="-30" width="240" height="185"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     </customView>
                                                     <button focusRingType="none" id="5kk-p4-hJg" customClass="OEButton">
-                                                        <rect key="frame" x="262" y="111" width="204" height="18"/>
+                                                        <rect key="frame" x="282" y="119" width="204" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="D7D-mh-2qM" customClass="OEButtonCell">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>

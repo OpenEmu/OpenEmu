@@ -449,10 +449,10 @@ const static CGFloat TableViewSpacing = 86.0;
         NSAttributedString *string = [[NSAttributedString alloc] initWithString:gameDescription attributes:attributes];
 
         CGFloat width = NSWidth([tableView bounds]) - 2*TableViewSpacing -DescriptionX;
-        textHeight = [string heightForWidth:width] + 140.0; // fixes overlapping description rows
+        textHeight = [string heightForWidth:width] + 120.0; // fixes overlapping description rows
     }
 
-    return MAX(160.0, textHeight);
+    return MAX(220.0, textHeight);
 }
 #pragma mark - TableView Delegate
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
