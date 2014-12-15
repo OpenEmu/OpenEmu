@@ -10935,7 +10935,7 @@
 					OpenEmuXPCCommunicator,
 				);
 				PRODUCT_NAME = OpenEmu;
-				SDKROOT = macosx10.9;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
@@ -10968,7 +10968,7 @@
 					OpenEmuXPCCommunicator,
 				);
 				PRODUCT_NAME = OpenEmu;
-				SDKROOT = macosx10.9;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;
