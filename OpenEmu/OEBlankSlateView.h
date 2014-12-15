@@ -39,13 +39,14 @@
 @interface OEBlankSlateView : OEBlankSlateBackgroundView
 @property (nonatomic) id representedObject;
 @property (assign) id <OEBlankSlateViewDelegate> delegate;
-- (void)gotoProjectURL:(id)sender;
 @property (readonly, strong) NSView *containerView;
+
+- (void)gotoProjectURL:(id)sender;
+- (void)setupViewForRepresentedObject;
 @end
 
 @interface OEBlankSlateView (SetupMethods)
 - (void)addLeftHeadlineWithText:(NSString*)text;
 - (void)addInformationalText:(NSString*)text;
-- (void)commonBlankSlateInit;
 - (void)setupBoxWithText:(NSString*)text andImageView:(NSView*)arrowImageView;
 @end

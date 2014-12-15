@@ -129,6 +129,24 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
     NSView *container = [[NSView alloc] initWithFrame:(NSRect){ .size = { OEBlankSlateContainerWidth, OEBlankSlateContainerHeight }}];
     [self setContainerView:container];
 
+    [self setupViewForRepresentedObject];
+
+    // Remove current blank slate subview
+    [[[self subviews] lastObject] removeFromSuperview];
+
+    NSRect  bounds   = [self bounds];
+    NSSize  viewSize = [[self containerView] frame].size;
+
+    NSRect  viewFrame   = NSMakeRect(ceil((NSWidth(bounds) - viewSize.width) / 2.0), ceil((NSHeight(bounds) - viewSize.height) / 2.0), viewSize.width, viewSize.height);
+    [[self containerView] setAutoresizingMask:NSViewMaxXMargin|NSViewMinXMargin|NSViewMaxYMargin|NSViewMinYMargin];
+    [[self containerView] setFrame:viewFrame];
+    [self addSubview:[self containerView]];
+}
+
+- (void)setupViewForRepresentedObject
+{
+    id representedObject = [self representedObject];
+
     if([representedObject isKindOfClass:[OEDBSystem class]])
     {
         [self setRepresentedSystemPlugin:[(OEDBSystem*)representedObject plugin]];
@@ -145,17 +163,6 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
     {
         DLog(@"Unknown represented object: %@ %@", [representedObject className], representedObject);
     }
-
-    // Remove current blank slate subview
-    [[[self subviews] lastObject] removeFromSuperview];
-
-    NSRect  bounds   = [self bounds];
-    NSSize  viewSize = [[self containerView] frame].size;
-
-    NSRect  viewFrame   = NSMakeRect(ceil((NSWidth(bounds) - viewSize.width) / 2.0), ceil((NSHeight(bounds) - viewSize.height) / 2.0), viewSize.width, viewSize.height);
-    [[self containerView] setAutoresizingMask:NSViewMaxXMargin|NSViewMinXMargin|NSViewMaxYMargin|NSViewMinYMargin];
-    [[self containerView] setFrame:viewFrame];
-    [self addSubview:[self containerView]];
 }
 
 - (void)setRepresentedCollectionName:(NSString *)representedCollectionName

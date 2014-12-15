@@ -137,6 +137,8 @@ const static CGFloat TableViewSpacing = 86.0;
     [download setCompletionHandler:^(NSURL *destination, NSError *error) {
         if([self currentDownload]==blockDL)
             [self setCurrentDownload:nil];
+        if([error domain] == NSCocoaErrorDomain && [error code] == NSUserCancelledError)
+            return;
 
         if(error == nil && destination != nil)
         {
@@ -194,7 +196,7 @@ const static CGFloat TableViewSpacing = 86.0;
 - (void)displayUpdate
 {
     OEFeaturedGamesBlankSlateView *blankSlate = [[OEFeaturedGamesBlankSlateView alloc] initWithFrame:[[self view] bounds]];
-    [blankSlate setProgressAction:@"Fetching Games…"];
+    [blankSlate setRepresentedObject:OELocalizedString(@"Fetching Games…", @"Featured Games Blank Slate View Updating Info")];
     [self showBlankSlate:blankSlate];
 
     [[self tableView] setHidden:YES];
@@ -203,9 +205,8 @@ const static CGFloat TableViewSpacing = 86.0;
 
 - (void)displayError:(NSError*)error
 {
-    NSLog(@"We have an error…");
     OEFeaturedGamesBlankSlateView *blankSlate = [[OEFeaturedGamesBlankSlateView alloc] initWithFrame:[[self view] bounds]];
-    [blankSlate setError:@"No Internet Connection"];
+    [blankSlate setRepresentedObject:error];
     [self showBlankSlate:blankSlate];
 }
 

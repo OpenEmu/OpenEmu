@@ -26,6 +26,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <Quartz/Quartz.h>
-@interface OEBlankSlateBackgroundView : NSView
 
+@interface OEBlankSlateBackgroundView : NSView
 @end
