@@ -57,30 +57,25 @@
 @property (readwrite, strong) NSView *containerView;
 @end
 
-// TODO: convert defines to constants
 #pragma mark - Sizes
-#define boxHeight 261
-const CGFloat OEBlankSlateBoxImageToTop    = 52.0;
-const CGFloat OEBlankSlateBoxImageToBottom = 70.0;
+const CGFloat OEBlankSlateContainerWidth = 427.0;
+const CGFloat OEBlankSlateContainerHeight = 382.0;
 
-#define arrowTopToViewTop 52
-#define arrowTopToViewBottom 70
-#define dndTextTopToViewTop 202
+// Sizes defining box
+const CGFloat OEBlankSlateBoxHeight        = 261.0; // height of box
+const CGFloat OEBlankSlateBoxImageToTop    =  52.0; // image top to view top distance
+const CGFloat OEBlankSlateBoxImageToBottom =  70.0; // image bottom to view bottom distance
+const CGFloat OEBlankSlateBoxTextToTop     = 202.0; // distance of box top to text
 
-#define bottomTextViewHeight 49
-#define bottomHeadlineHeight 21
-#define bottomHeadlineTopToViewTop 296
+const CGFloat OEBlankSlateHeadlineHeight   =  21.0; // height of headline
+const CGFloat OEBlankSlateHeadlineToTop    = 296.0; // space between headline and view top
 
-#define coreIconTopToViewTop 312
-#define coreIconX 263
+const CGFloat OEBlankSlateBottomTextHeight =  49.0; // height of instructional text
+const CGFloat OEBlankSlateBottomTextTop = 317.0;
 
-#define instructionsTopToViewTop 317
-
-#define rightColumnX 309
-
-#define ViewWidth 427
-#define ViewHeight 382
-#pragma mark -
+const CGFloat OEBlankSlateCoreToTop = 312.0; // space between core icon and view top
+const CGFloat OEBlankSlateCoreX     = 263.0; // x coordinate of core icon
+const CGFloat OEBlankSlateRightColumnX = 309.0;
 
 @implementation OEBlankSlateView
 
@@ -131,7 +126,7 @@ const CGFloat OEBlankSlateBoxImageToBottom = 70.0;
     if(_representedObject == representedObject) return;
     _representedObject = representedObject;
 
-    NSView *container = [[NSView alloc] initWithFrame:(NSRect){ .size = { ViewWidth, ViewHeight }}];
+    NSView *container = [[NSView alloc] initWithFrame:(NSRect){ .size = { OEBlankSlateContainerWidth, OEBlankSlateContainerHeight }}];
     [self setContainerView:container];
 
     if([representedObject isKindOfClass:[OEDBSystem class]])
@@ -196,8 +191,8 @@ const CGFloat OEBlankSlateBoxImageToBottom = 70.0;
     [self OE_setupDragAndDropBox];
     [self addLeftHeadlineWithText:(plugin ? [plugin systemName] : OELocalizedString(@"System", @""))];
     
-    NSRect      rect     = (NSRect){ .size = {NSWidth(containerFrame)/12*7, bottomTextViewHeight}};
-    rect.origin.y = NSHeight(containerFrame)-NSHeight(rect)-instructionsTopToViewTop;
+    NSRect      rect     = (NSRect){ .size = {NSWidth(containerFrame)/12*7, OEBlankSlateBottomTextHeight}};
+    rect.origin.y = NSHeight(containerFrame)-NSHeight(rect)-OEBlankSlateBottomTextTop;
     NSTextView *textView = [[NSTextView alloc] initWithFrame:NSInsetRect(rect, -4, 0)];
     NSString   *text     = [NSString stringWithFormat:OELocalizedString(@"%@ games you add to OpenEmu will appear in this Console Library", @""), [plugin systemName]];
     [textView setDrawsBackground:NO];
@@ -220,7 +215,7 @@ const CGFloat OEBlankSlateBoxImageToBottom = 70.0;
     
     [container addSubview:textView];
 
-    rect   = (NSRect){{coreIconX, NSHeight(containerFrame)-40-coreIconTopToViewTop},{40, 40}};
+    rect   = (NSRect){{OEBlankSlateCoreX, NSHeight(containerFrame)-40-OEBlankSlateCoreToTop},{40, 40}};
     NSImageView *coreIconView = [[NSImageView alloc] initWithFrame:rect];
     [coreIconView setImage:[NSImage imageNamed:@"blank_slate_core_icon"]];
     [container addSubview:coreIconView];
@@ -239,7 +234,7 @@ const CGFloat OEBlankSlateBoxImageToBottom = 70.0;
                                 nil];
     [cell setTextAttributes:dictionary];
 
-    NSTextField *coreSuppliedByLabel = [[NSTextField alloc] initWithFrame:(NSRect){{rightColumnX, NSHeight(containerFrame)-16-instructionsTopToViewTop},{NSWidth(containerFrame)-rightColumnX, 17}}];
+    NSTextField *coreSuppliedByLabel = [[NSTextField alloc] initWithFrame:(NSRect){{OEBlankSlateRightColumnX, NSHeight(containerFrame)-16-OEBlankSlateBottomTextTop},{NSWidth(containerFrame)-OEBlankSlateRightColumnX, 17}}];
     [coreSuppliedByLabel setCell:cell];
     [coreSuppliedByLabel setEditable:NO];
     [coreSuppliedByLabel setSelectable:NO];
@@ -258,7 +253,7 @@ const CGFloat OEBlankSlateBoxImageToBottom = 70.0;
         NSString *name       = [core displayName];
 
         // Create weblink button for current core
-        NSRect frame = (NSRect){{ rightColumnX, NSHeight(containerFrame)-2*16-instructionsTopToViewTop - 16 * idx}, { NSWidth(containerFrame) - rightColumnX, 20 }};
+        NSRect frame = (NSRect){{ OEBlankSlateRightColumnX, NSHeight(containerFrame)-2*16-OEBlankSlateBottomTextTop - 16 * idx}, { NSWidth(containerFrame) - OEBlankSlateRightColumnX, 20 }};
         OEButton *gotoButton = [[OEButton alloc] initWithFrame:frame];
         [gotoButton setAutoresizingMask:NSViewWidthSizable];
         [gotoButton setAlignment:NSLeftTextAlignment];
@@ -293,7 +288,7 @@ const CGFloat OEBlankSlateBoxImageToBottom = 70.0;
                                 nil];
     [cell setTextAttributes:dictionary];
     
-    NSTextField *headlineField = [[NSTextField alloc] initWithFrame:(NSRect){{-2, NSHeight(containerFrame)-21-bottomHeadlineTopToViewTop},{NSWidth(containerFrame), 21}}];
+    NSTextField *headlineField = [[NSTextField alloc] initWithFrame:(NSRect){{-2, NSHeight(containerFrame)-21-OEBlankSlateHeadlineToTop},{NSWidth(containerFrame), 21}}];
     [headlineField setCell:cell];
     [headlineField setStringValue:text];
     [headlineField setEditable:NO];
@@ -321,14 +316,14 @@ const CGFloat OEBlankSlateBoxImageToBottom = 70.0;
     NSView *container = [self containerView];
     NSRect containerFrame = [container frame];
 
-    NSImageView *boxImageView = [[NSImageView alloc] initWithFrame:(NSRect){{0,NSHeight(containerFrame)-boxHeight},{NSWidth(containerFrame),boxHeight}}];
+    NSImageView *boxImageView = [[NSImageView alloc] initWithFrame:(NSRect){{0,NSHeight(containerFrame)-OEBlankSlateBoxHeight},{NSWidth(containerFrame),OEBlankSlateBoxHeight}}];
     [boxImageView setImage:[NSImage imageNamed:@"blank_slate_box"]];
     [container addSubview:boxImageView];
     [boxImageView unregisterDraggedTypes];
 
-    CGFloat height = boxHeight-arrowTopToViewBottom-arrowTopToViewTop;
+    CGFloat height = OEBlankSlateBoxHeight-OEBlankSlateBoxImageToBottom-OEBlankSlateBoxImageToTop;
     CGFloat width  = 300;
-    [arrowImageView setFrame:(NSRect){{(round(NSWidth(containerFrame)-width)/2), NSHeight(containerFrame)-height-arrowTopToViewTop},{width, height}}];
+    [arrowImageView setFrame:(NSRect){{(round(NSWidth(containerFrame)-width)/2), NSHeight(containerFrame)-height-OEBlankSlateBoxImageToTop},{width, height}}];
     [container addSubview:arrowImageView];
 
     OECenteredTextFieldCell *defaultCell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
@@ -361,7 +356,7 @@ const CGFloat OEBlankSlateBoxImageToBottom = 70.0;
                   nil];
     [glowCell setTextAttributes:dictionary];
 
-    NSTextField *dragAndDropHereOuterGlowField = [[NSTextField alloc] initWithFrame:(NSRect){{0, NSHeight(containerFrame)-25-dndTextTopToViewTop},{NSWidth(containerFrame), 25}}];
+    NSTextField *dragAndDropHereOuterGlowField = [[NSTextField alloc] initWithFrame:(NSRect){{0, NSHeight(containerFrame)-25-OEBlankSlateBoxTextToTop},{NSWidth(containerFrame), 25}}];
     [dragAndDropHereOuterGlowField setCell:glowCell];
     [dragAndDropHereOuterGlowField setStringValue:text];
     [dragAndDropHereOuterGlowField setEditable:NO];
@@ -369,7 +364,7 @@ const CGFloat OEBlankSlateBoxImageToBottom = 70.0;
     [dragAndDropHereOuterGlowField setDrawsBackground:NO];
     [dragAndDropHereOuterGlowField setBezeled:NO];
 
-    NSTextField *dragAndDropHereField = [[NSTextField alloc] initWithFrame:(NSRect){{0, NSHeight(containerFrame)-25-dndTextTopToViewTop},{NSWidth(containerFrame), 25}}];
+    NSTextField *dragAndDropHereField = [[NSTextField alloc] initWithFrame:(NSRect){{0, NSHeight(containerFrame)-25-OEBlankSlateBoxTextToTop},{NSWidth(containerFrame), 25}}];
     [dragAndDropHereField setCell:defaultCell];
     [dragAndDropHereField setStringValue:text];
     [dragAndDropHereField setEditable:NO];
@@ -412,8 +407,8 @@ const CGFloat OEBlankSlateBoxImageToBottom = 70.0;
     NSView *container = [self containerView];
     NSRect containerFrame = [container frame];
 
-    NSRect rect = (NSRect){ .size = { NSWidth(containerFrame), bottomTextViewHeight }};
-    rect.origin.y = NSHeight(containerFrame)-NSHeight(rect)-instructionsTopToViewTop;
+    NSRect rect = (NSRect){ .size = { NSWidth(containerFrame), OEBlankSlateBottomTextHeight }};
+    rect.origin.y = NSHeight(containerFrame)-NSHeight(rect)-OEBlankSlateBottomTextTop;
 
     NSTextView *textView = [[NSTextView alloc] initWithFrame:NSInsetRect(rect, -4, 0)];
     [textView setString:text];
