@@ -115,12 +115,14 @@ const static CGFloat TableViewSpacing = 86.0;
 - (void)viewDidAppear
 {
     [super viewDidAppear];
+    
     // Fetch games if we haven't already, this allows reloading if an error occured, by switching to a different collection or media view and then back to featured games
     if([[self games] count] == 0)
     {
         [self updateGames];
     }
 }
+
 #pragma mark - Data Handling
 - (void)updateGames
 {
@@ -212,8 +214,6 @@ const static CGFloat TableViewSpacing = 86.0;
 
 - (void)displayResults
 {
-    NSLog(@"We have results!");
-
     [_blankSlate removeFromSuperview];
     [self setBlankSlate:nil];
 
@@ -248,7 +248,6 @@ const static CGFloat TableViewSpacing = 86.0;
     {
         NSView *view = [self view];
         NSRect bounds = [view bounds];
-        NSLog(@"showBlankSlate: %@", NSStringFromRect(bounds));
         [_blankSlate setFrame:bounds];
 
         [view addSubview:_blankSlate];
@@ -277,8 +276,6 @@ const static CGFloat TableViewSpacing = 86.0;
     OEFeaturedGame *game = [[self games] objectAtIndex:row];
     NSURL *url = [NSURL URLWithString:[game fileURLString]];
     NSInteger fileIndex = [game fileIndex];
-
-    NSLog(@"%@ %ld", url, fileIndex);
 }
 
 - (IBAction)launchGame:(id)sender
