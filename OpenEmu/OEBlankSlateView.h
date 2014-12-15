@@ -37,39 +37,15 @@
 @end
 
 @interface OEBlankSlateView : OEBlankSlateBackgroundView
-
 @property (nonatomic) id representedObject;
-
-@property (nonatomic) NSString* representedCollectionName;
-@property (nonatomic) OESystemPlugin* representedSystemPlugin;
-
 @property (assign) id <OEBlankSlateViewDelegate> delegate;
-
 - (void)gotoProjectURL:(id)sender;
+@property (readonly, strong) NSView *containerView;
 @end
 
-@interface OEBlankSlateView (PrivateMethods)
-#pragma mark - Sizes
-#define boxHeight 261
-#define arrowTopToViewTop 52
-#define dndTextTopToViewTop 202
-
-#define bottomTextViewHeight 49
-#define bottomHeadlineHeight 21
-#define bottomHeadlineTopToViewTop 296
-
-#define coreIconTopToViewTop 312
-#define coreIconX 263
-
-#define instructionsTopToViewTop 317
-
-#define rightColumnX 309
-
-#define ViewWidth 427
-#define ViewHeight 382
-- (void)OE_addLeftHeadlineWithText:(NSString*)text toView:(NSView*)view;
-- (void)OE_setupDragAndDropBoxInView:(NSView*)view;
-- (void)OE_showView:(NSView*)view;
-- (void)OE_commonBlankSlateInit;
-- (void)OE_setupBoxInView:(NSView*)view withText:(NSString*)text andImageView:(NSView*)arrowImageView;
+@interface OEBlankSlateView (SetupMethods)
+- (void)addLeftHeadlineWithText:(NSString*)text;
+- (void)addInformationalText:(NSString*)text;
+- (void)commonBlankSlateInit;
+- (void)setupBoxWithText:(NSString*)text andImageView:(NSView*)arrowImageView;
 @end
