@@ -33,6 +33,8 @@
 #import "OEDBSystem.h"
 #import "OELibraryController.h"
 
+#import "OEFeaturedGamesBlankSlateView.h"
+
 #import "NSArray+OEAdditions.h"
 #import "NS(Attributed)String+Geometrics.h"
 
@@ -64,9 +66,11 @@ const static CGFloat TableViewSpacing = 86.0;
 @interface OEFeaturedGamesViewController () <NSTableViewDataSource, NSTableViewDelegate>
 @property (strong) NSArray *games;
 @property (strong) OEDownload *currentDownload;
+@property (strong, nonatomic) OEFeaturedGamesBlankSlateView *blankSlate;
 @end
 
 @implementation OEFeaturedGamesViewController
+@synthesize blankSlate=_blankSlate;
 
 + (void)initialize
 {
@@ -120,9 +124,10 @@ const static CGFloat TableViewSpacing = 86.0;
 #pragma mark - Data Handling
 - (void)updateGames
 {
-    // Indicate that we're fetching some external resource
+    // Indicate that we're fetching some remote resources
     [self displayUpdate];
 
+    // Cancel last download
     [[self currentDownload] cancelDownload];
 
     NSURL *url = [NSURL URLWithString:OEFeaturedGamesURLString];
@@ -188,18 +193,31 @@ const static CGFloat TableViewSpacing = 86.0;
 #pragma mark - View Management
 - (void)displayUpdate
 {
-    NSLog(@"We're updating…");
+    OEFeaturedGamesBlankSlateView *blankSlate = [[OEFeaturedGamesBlankSlateView alloc] initWithFrame:[[self view] bounds]];
+    [blankSlate setProgressAction:@"Fetching Games…"];
+    [self showBlankSlate:blankSlate];
+
+    [[self tableView] setHidden:YES];
+
 }
 
 - (void)displayError:(NSError*)error
 {
     NSLog(@"We have an error…");
+    OEFeaturedGamesBlankSlateView *blankSlate = [[OEFeaturedGamesBlankSlateView alloc] initWithFrame:[[self view] bounds]];
+    [blankSlate setError:@"No Internet Connection"];
+    [self showBlankSlate:blankSlate];
 }
 
 - (void)displayResults
 {
     NSLog(@"We have results!");
+
+    [_blankSlate removeFromSuperview];
+    [self setBlankSlate:nil];
+
     [[self tableView] reloadData];
+    [[self tableView] setHidden:NO];
 }
 
 - (NSDictionary*)descriptionStringAttributes
@@ -215,6 +233,27 @@ const static CGFloat TableViewSpacing = 86.0;
     [[self tableView] endUpdates];
 }
 
+#pragma mark -
+- (void)showBlankSlate:(OEFeaturedGamesBlankSlateView *)blankSlate
+{
+    if(_blankSlate != blankSlate)
+    {
+        [_blankSlate removeFromSuperview];
+    }
+
+    [self setBlankSlate:blankSlate];
+
+    if(_blankSlate)
+    {
+        NSView *view = [self view];
+        NSRect bounds = [view bounds];
+        NSLog(@"showBlankSlate: %@", NSStringFromRect(bounds));
+        [_blankSlate setFrame:bounds];
+
+        [view addSubview:_blankSlate];
+        [_blankSlate setAutoresizingMask:NSViewHeightSizable|NSViewWidthSizable];
+    }
+}
 #pragma mark - UI Methods
 - (IBAction)gotoDeveloperWebsite:(id)sender
 {

@@ -56,16 +56,17 @@
     NSRect layerRect = NSInsetRect(visibleRect, 1, 1);
     layerRect.size.height -= 1;
 
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+
     [[self sublayers] enumerateObjectsUsingBlock:^(CALayer *layer, NSUInteger idx, BOOL *stop) {
         if(![layer isHidden])
         {
-            [CATransaction begin];
-            [CATransaction setDisableActions:YES];
             [layer setFrame:layerRect];
             [layer drawInContext:ctx];
-            [CATransaction commit];
         }
     }];
+    [CATransaction commit];
 
     [NSGraphicsContext restoreGraphicsState];
 }

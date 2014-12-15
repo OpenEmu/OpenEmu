@@ -164,6 +164,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [blankSlateView setDelegate:self];
     [blankSlateView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [blankSlateView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+    [blankSlateView setFrame:[[self view] bounds]];
 
     // Watch the main thread's managed object context for changes
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];

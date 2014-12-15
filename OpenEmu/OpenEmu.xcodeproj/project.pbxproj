@@ -346,7 +346,7 @@
 		8305A48018FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */; };
 		8308F0EE1862FFEC0046BD8A /* OpenEmu.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8308F0ED1862FFEB0046BD8A /* OpenEmu.icns */; };
 		83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */; };
-		8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy Files (1 item) */ = {isa = PBXBuildFile; fileRef = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */; };
+		8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy SaveState QL Generator */ = {isa = PBXBuildFile; fileRef = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */; };
 		830BC86914D5E35A000826E2 /* controller_snes_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 830BC86714D5E1E6000826E2 /* controller_snes_mask.png */; };
 		830BC86C14D5F1DD000826E2 /* controller_gba_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 830BC86A14D5F1A5000826E2 /* controller_gba_mask.png */; };
 		830CB918186878D6006EAE5A /* OEArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 830CB917186878D6006EAE5A /* OEArrayController.m */; };
@@ -395,6 +395,7 @@
 		83495DDE19A3A4EB009DB6E5 /* bios_found@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83495DDA19A3A4EB009DB6E5 /* bios_found@2x.png */; };
 		83495DDF19A3A4EB009DB6E5 /* bios_missing.png in Resources */ = {isa = PBXBuildFile; fileRef = 83495DDB19A3A4EB009DB6E5 /* bios_missing.png */; };
 		83495DE019A3A4EB009DB6E5 /* bios_missing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83495DDC19A3A4EB009DB6E5 /* bios_missing@2x.png */; };
+		834B6F2E1A3B453000CA6A26 /* OEFeaturedGamesBlankSlateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 834B6F2D1A3B453000CA6A26 /* OEFeaturedGamesBlankSlateView.m */; };
 		834C07DC166CD36A0000C146 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
 		8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8353EB1F15FF5CB10026E326 /* OEDBRomMigrationPolicy.m */; };
@@ -495,6 +496,15 @@
 		83CA87B41961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */; };
 		83CACEC8196D6D1300999E70 /* OEDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CACEC7196D6D1300999E70 /* OEDownload.m */; };
 		83CAD4D4147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CAD4D3147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m */; };
+		83CB0C701A3EF3A200409FB2 /* blank_slate_warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CB0C6E1A3EF3A200409FB2 /* blank_slate_warning.png */; };
+		83CB0C711A3EF3A200409FB2 /* blank_slate_warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CB0C6F1A3EF3A200409FB2 /* blank_slate_warning@2x.png */; };
+		83CB0C7A1A3F000700409FB2 /* OEBlankSlateSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CB0C791A3F000700409FB2 /* OEBlankSlateSpinnerView.m */; };
+		83CB0C7E1A3F040600409FB2 /* blank_slate_spinner_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CB0C7B1A3F040600409FB2 /* blank_slate_spinner_bg@2x.png */; };
+		83CB0C7F1A3F040600409FB2 /* blank_slate_spinner_fg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CB0C7C1A3F040600409FB2 /* blank_slate_spinner_fg@2x.png */; };
+		83CB0C801A3F040600409FB2 /* blank_slate_spinner_sp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CB0C7D1A3F040600409FB2 /* blank_slate_spinner_sp@2x.png */; };
+		83CB0C841A3F0F9400409FB2 /* blank_slate_spinner_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CB0C811A3F0F9400409FB2 /* blank_slate_spinner_bg.png */; };
+		83CB0C851A3F0F9400409FB2 /* blank_slate_spinner_fg.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CB0C821A3F0F9400409FB2 /* blank_slate_spinner_fg.png */; };
+		83CB0C861A3F0F9400409FB2 /* blank_slate_spinner_sp.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CB0C831A3F0F9400409FB2 /* blank_slate_spinner_sp.png */; };
 		83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */; };
 		83CE3DC314C84EC10036DB28 /* beta_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CE3DC214C84EC10036DB28 /* beta_icon.png */; };
 		83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D175B218FF155700E5ED34 /* OEBlankSlateBackgroundView.m */; };
@@ -1554,15 +1564,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8309A77E166CE51E0013AD4A /* Copy Files (1 item) */ = {
+		8309A77E166CE51E0013AD4A /* Copy SaveState QL Generator */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = Contents/Library/QuickLook;
 			dstSubfolderSpec = 1;
 			files = (
-				8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy Files (1 item) */,
+				8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy SaveState QL Generator */,
 			);
-			name = "Copy Files (1 item)";
+			name = "Copy SaveState QL Generator";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		948E540C1571D739002D26E0 /* Copy System Plugins to App Plugins */ = {
@@ -2053,6 +2063,8 @@
 		83495DDA19A3A4EB009DB6E5 /* bios_found@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bios_found@2x.png"; sourceTree = "<group>"; };
 		83495DDB19A3A4EB009DB6E5 /* bios_missing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bios_missing.png; sourceTree = "<group>"; };
 		83495DDC19A3A4EB009DB6E5 /* bios_missing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bios_missing@2x.png"; sourceTree = "<group>"; };
+		834B6F2C1A3B453000CA6A26 /* OEFeaturedGamesBlankSlateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFeaturedGamesBlankSlateView.h; sourceTree = "<group>"; };
+		834B6F2D1A3B453000CA6A26 /* OEFeaturedGamesBlankSlateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFeaturedGamesBlankSlateView.m; sourceTree = "<group>"; };
 		83507245142F6029005D9033 /* OEControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControllerImageView.h; sourceTree = "<group>"; };
 		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
 		8352C0EE197ACC4D00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2318,6 +2330,16 @@
 		83CACEC7196D6D1300999E70 /* OEDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDownload.m; sourceTree = "<group>"; };
 		83CAD4D2147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSClipView+OEAnimatedScrolling.h"; sourceTree = "<group>"; };
 		83CAD4D3147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSClipView+OEAnimatedScrolling.m"; sourceTree = "<group>"; };
+		83CB0C6E1A3EF3A200409FB2 /* blank_slate_warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_slate_warning.png; sourceTree = "<group>"; };
+		83CB0C6F1A3EF3A200409FB2 /* blank_slate_warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blank_slate_warning@2x.png"; sourceTree = "<group>"; };
+		83CB0C781A3F000700409FB2 /* OEBlankSlateSpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBlankSlateSpinnerView.h; sourceTree = "<group>"; };
+		83CB0C791A3F000700409FB2 /* OEBlankSlateSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateSpinnerView.m; sourceTree = "<group>"; };
+		83CB0C7B1A3F040600409FB2 /* blank_slate_spinner_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blank_slate_spinner_bg@2x.png"; sourceTree = "<group>"; };
+		83CB0C7C1A3F040600409FB2 /* blank_slate_spinner_fg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blank_slate_spinner_fg@2x.png"; sourceTree = "<group>"; };
+		83CB0C7D1A3F040600409FB2 /* blank_slate_spinner_sp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blank_slate_spinner_sp@2x.png"; sourceTree = "<group>"; };
+		83CB0C811A3F0F9400409FB2 /* blank_slate_spinner_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_slate_spinner_bg.png; sourceTree = "<group>"; };
+		83CB0C821A3F0F9400409FB2 /* blank_slate_spinner_fg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_slate_spinner_fg.png; sourceTree = "<group>"; };
+		83CB0C831A3F0F9400409FB2 /* blank_slate_spinner_sp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_slate_spinner_sp.png; sourceTree = "<group>"; };
 		83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveState.h; sourceTree = "<group>"; };
 		83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSaveState.m; sourceTree = "<group>"; };
 		83CE3DC214C84EC10036DB28 /* beta_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beta_icon.png; sourceTree = "<group>"; };
@@ -4310,8 +4332,6 @@
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				83160E2519A60FE800CACD99 /* grid_download.png */,
-				83160E2619A60FE800CACD99 /* grid_download@2x.png */,
 				948FCB64182C7A63001B16BE /* about_background.jpg */,
 				11DC4D4018681B04006CE75D /* about_background@2x.jpg */,
 				53439B9E13B93920005C0CC8 /* arrow_down.png */,
@@ -4330,6 +4350,14 @@
 				EC350F5117401AC1005DA3B2 /* blank_slate_box@2x.png */,
 				830EF6CB146C590D00B0C8B0 /* blank_slate_core_icon.png */,
 				EC350F5217401AC1005DA3B2 /* blank_slate_core_icon@2x.png */,
+				83CB0C811A3F0F9400409FB2 /* blank_slate_spinner_bg.png */,
+				83CB0C7B1A3F040600409FB2 /* blank_slate_spinner_bg@2x.png */,
+				83CB0C821A3F0F9400409FB2 /* blank_slate_spinner_fg.png */,
+				83CB0C7C1A3F040600409FB2 /* blank_slate_spinner_fg@2x.png */,
+				83CB0C831A3F0F9400409FB2 /* blank_slate_spinner_sp.png */,
+				83CB0C7D1A3F040600409FB2 /* blank_slate_spinner_sp@2x.png */,
+				83CB0C6E1A3EF3A200409FB2 /* blank_slate_warning.png */,
+				83CB0C6F1A3EF3A200409FB2 /* blank_slate_warning@2x.png */,
 				53439BA613B93920005C0CC8 /* box_gloss.pdf */,
 				83D435F114718890003FE856 /* closed_weblink_arrow.png */,
 				EC350F5317401AC1005DA3B2 /* closed_weblink_arrow@2x.png */,
@@ -4343,6 +4371,8 @@
 				EC350F5717401AC1005DA3B2 /* game_scanner_progress_candy@2x.png */,
 				83DEE49C162D62B2005D8AD7 /* game_scanner_progress_track.png */,
 				EC350F5817401AC1005DA3B2 /* game_scanner_progress_track@2x.png */,
+				83160E2519A60FE800CACD99 /* grid_download.png */,
+				83160E2619A60FE800CACD99 /* grid_download@2x.png */,
 				8363A3CD193C8B2600F18425 /* grid_header.png */,
 				8363A3CE193C8B2600F18425 /* grid_header@2x.png */,
 				53439BB413B93920005C0CC8 /* grid_rating.png */,
@@ -4364,8 +4394,8 @@
 				EC350F6017401AC1005DA3B2 /* list_indicators@2x.png */,
 				53439BBC13B93920005C0CC8 /* list_rating.png */,
 				EC350F6117401AC1005DA3B2 /* list_rating@2x.png */,
-				94A4E997179FB98100AD8C7D /* media.png */,
 				83E40BEC196CAAD000E469C6 /* media_featured.png */,
+				94A4E997179FB98100AD8C7D /* media.png */,
 				8303BBFE14E318C200FCD701 /* Menu */,
 				53439BBD13B93920005C0CC8 /* missing_artwork.pdf */,
 				53439BBE13B93920005C0CC8 /* missing_rom.pdf */,
@@ -4967,6 +4997,8 @@
 				83D175B218FF155700E5ED34 /* OEBlankSlateBackgroundView.m */,
 				837820B41907E8520043593F /* OEBlankSlateForegroundLayer.h */,
 				837820B51907E8520043593F /* OEBlankSlateForegroundLayer.m */,
+				83CB0C781A3F000700409FB2 /* OEBlankSlateSpinnerView.h */,
+				83CB0C791A3F000700409FB2 /* OEBlankSlateSpinnerView.m */,
 				83955CB3165D939100572B34 /* OEBlankSlateView.h */,
 				83955CB4165D939100572B34 /* OEBlankSlateView.m */,
 			);
@@ -5112,6 +5144,8 @@
 				83C748CB196DF34D0090BC91 /* OEFeaturedGamesViewController.xib */,
 				83E89272197471F8004D4489 /* OEFeaturedGamesCoverView.h */,
 				83E89273197471F8004D4489 /* OEFeaturedGamesCoverView.m */,
+				834B6F2C1A3B453000CA6A26 /* OEFeaturedGamesBlankSlateView.h */,
+				834B6F2D1A3B453000CA6A26 /* OEFeaturedGamesBlankSlateView.m */,
 			);
 			name = "Featured Games";
 			sourceTree = "<group>";
@@ -6446,7 +6480,7 @@
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				828ED4F00E7D98F60059F397 /* Copy Frameworks to App Frameworks */,
 				948E540C1571D739002D26E0 /* Copy System Plugins to App Plugins */,
-				8309A77E166CE51E0013AD4A /* Copy Files (1 item) */,
+				8309A77E166CE51E0013AD4A /* Copy SaveState QL Generator */,
 			);
 			buildRules = (
 			);
@@ -7242,6 +7276,7 @@
 				53439C0A13B93920005C0CC8 /* grid_slider_thumb.png in Resources */,
 				53439C0B13B93920005C0CC8 /* grid_slider_track.png in Resources */,
 				53439C0C13B93920005C0CC8 /* knob_horizontal.png in Resources */,
+				83CB0C861A3F0F9400409FB2 /* blank_slate_spinner_sp.png in Resources */,
 				53439C0D13B93920005C0CC8 /* knob_vertical.png in Resources */,
 				83B04E421968610F00CB985E /* Localizable.strings in Resources */,
 				11DC4D4718681E64006CE75D /* controls_triangle@2x.png in Resources */,
@@ -7271,6 +7306,7 @@
 				53439C3613B93920005C0CC8 /* search_cancel.png in Resources */,
 				53439C3713B93920005C0CC8 /* search_field.png in Resources */,
 				53439C3813B93920005C0CC8 /* search_loupe.png in Resources */,
+				83CB0C7F1A3F040600409FB2 /* blank_slate_spinner_fg@2x.png in Resources */,
 				53439C3913B93920005C0CC8 /* selector_ring.png in Resources */,
 				53439C3A13B93920005C0CC8 /* sort_arrow.png in Resources */,
 				53439C3B13B93920005C0CC8 /* spinner.pdf in Resources */,
@@ -7334,6 +7370,7 @@
 				838C0BF815BFF2AD00519C08 /* debug_tab_icon.png in Resources */,
 				831C9AE21600989600038D0D /* menu_submenu_arrow.png in Resources */,
 				831C9AE4160098BB00038D0D /* dark_menu_arrows_body.png in Resources */,
+				83CB0C7E1A3F040600409FB2 /* blank_slate_spinner_bg@2x.png in Resources */,
 				831C9AE61600991200038D0D /* dark_menu_separator_item.png in Resources */,
 				831C9AE81600992B00038D0D /* light_menu_arrows_body.png in Resources */,
 				831C9AEA1600993B00038D0D /* light_menu_separator_item.png in Resources */,
@@ -7341,6 +7378,8 @@
 				83DEE49D162D62B2005D8AD7 /* game_scanner_buttons.png in Resources */,
 				83DEE49E162D62B2005D8AD7 /* game_scanner_progress_bar.png in Resources */,
 				83DEE49F162D62B2005D8AD7 /* game_scanner_progress_candy.png in Resources */,
+				83CB0C701A3EF3A200409FB2 /* blank_slate_warning.png in Resources */,
+				83CB0C801A3F040600409FB2 /* blank_slate_spinner_sp@2x.png in Resources */,
 				83DEE4A0162D62B2005D8AD7 /* game_scanner_progress_track.png in Resources */,
 				C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */,
 				83FE965919685F6700DD8DB9 /* OEGameScanner.xib in Resources */,
@@ -7415,6 +7454,8 @@
 				EC350FD117401B44005DA3B2 /* hud_progress_bar_track@2x.png in Resources */,
 				EC350FD217401B44005DA3B2 /* hud_progress_bar@2x.png in Resources */,
 				EC350FD317401B44005DA3B2 /* hud_slider_level@2x.png in Resources */,
+				83CB0C841A3F0F9400409FB2 /* blank_slate_spinner_bg.png in Resources */,
+				83CB0C851A3F0F9400409FB2 /* blank_slate_spinner_fg.png in Resources */,
 				EC350FD417401B44005DA3B2 /* hud_slider_thumb@2x.png in Resources */,
 				EC350FD517401B44005DA3B2 /* hud_slider_track@2x.png in Resources */,
 				EC350FD617401B44005DA3B2 /* hud_textfield@2x.png in Resources */,
@@ -7447,6 +7488,7 @@
 				EC35100517401B58005DA3B2 /* wood_textfield@2x.png in Resources */,
 				EC35100617401B58005DA3B2 /* wood_track_vertical@2x.png in Resources */,
 				EC13823317401D4A00F951F4 /* dark_popup_button@2x.png in Resources */,
+				83CB0C711A3EF3A200409FB2 /* blank_slate_warning@2x.png in Resources */,
 				83B04E3C196860B800CB985E /* Credits.rtf in Resources */,
 				EC1382351740210400F951F4 /* controls_background@2x.jpg in Resources */,
 				94A4E998179FB98100AD8C7D /* media.png in Resources */,
@@ -8265,6 +8307,7 @@
 				83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */,
 				83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */,
 				83955CB8165DA9BC00572B34 /* OEBackgroundNoisePattern.m in Sources */,
+				83CB0C7A1A3F000700409FB2 /* OEBlankSlateSpinnerView.m in Sources */,
 				14861960166076A400BDB800 /* NSDate+OESortAdditions.m in Sources */,
 				835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */,
 				14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */,
@@ -8274,6 +8317,7 @@
 				8C4C808E16986C87009B8A28 /* OECGShader.m in Sources */,
 				94791E9516AE8A18007DB8BE /* OEShaderPlugin.m in Sources */,
 				8C415ECD16B0682B00980DB9 /* OEMultipassShader.m in Sources */,
+				834B6F2E1A3B453000CA6A26 /* OEFeaturedGamesBlankSlateView.m in Sources */,
 				C6C3734216BE7065003E57AE /* OEBuiltInShader.m in Sources */,
 				94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */,
 				838DB01916DBE14E00B8DDC8 /* OETextField.m in Sources */,
@@ -10891,7 +10935,7 @@
 					OpenEmuXPCCommunicator,
 				);
 				PRODUCT_NAME = OpenEmu;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.9;
 				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
@@ -10924,7 +10968,7 @@
 					OpenEmuXPCCommunicator,
 				);
 				PRODUCT_NAME = OpenEmu;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.9;
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;
