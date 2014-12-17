@@ -446,10 +446,15 @@ static const CGFloat _OEToolbarHeight = 44;
 }
 
 #pragma mark - OELibrarySplitViewDelegate
-
 - (void)librarySplitViewDidToggleSidebar:(NSNotification *)notification
 {
     [self layoutToolbar];
+
+    NSView *sidebarView = [[self sidebarController] view];
+    if(![[self mainSplitView] isSidebarVisible])
+    {
+        [[sidebarView window] makeFirstResponder:[[[self mainSplitView] subviews] lastObject]];
+    }
 }
 
 - (void)splitViewDidResizeSubviews:(NSNotification *)notification
@@ -479,7 +484,6 @@ static const CGFloat _OEToolbarHeight = 44;
 }
 
 #pragma mark -
-
 - (void)layoutToolbar
 {
     CGFloat splitterPosition = [[self mainSplitView] splitterPosition];
