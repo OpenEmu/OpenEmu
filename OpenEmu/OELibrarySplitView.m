@@ -61,12 +61,10 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
     OELibrarySplitViewDelegateProxy *_delegateProxy;
 }
 
-- (instancetype)OE_commonLibrarySplitViewInit __attribute__((objc_method_family(init)));
 - (NSView *)OE_sidebarContainerView;
 - (NSView *)OE_mainContainerView;
 - (CGFloat)OE_visibleSidebarSplitterPosition;
 - (void)OE_getSidebarFrame:(NSRect *)sidebarFrame mainFrame:(NSRect *)mainFrame forSplitterAtPosition:(CGFloat)splitterPosition;
-
 @end
 
 @implementation OELibrarySplitView
@@ -81,28 +79,61 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
                                                              _OESidebarVisibleKey : @YES,
                                                              _OESidebarWidthKey   : @186.0f,
                                                              })];
-
 }
 
 - (id)init
 {
-    return [[super init] OE_commonLibrarySplitViewInit];
+    self = [super init];
+    if(self)
+    {
+        [self OE_commonLibrarySplitViewInit];
+    }
+    return self;
 }
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-    return [[super initWithCoder:coder] OE_commonLibrarySplitViewInit];
+    self = [super initWithCoder:coder];
+    if(self)
+    {
+        [self OE_commonLibrarySplitViewInit];
+    }
+    return self;
 }
 
 - (id)initWithFrame:(NSRect)frame
 {
-    return [[super initWithFrame:frame] OE_commonLibrarySplitViewInit];
+    self = [super initWithFrame:frame];
+    if(self)
+    {
+        [self OE_commonLibrarySplitViewInit];
+    }
+    return self;
 }
 
-- (instancetype)OE_commonLibrarySplitViewInit
+- (void)OE_commonLibrarySplitViewInit
 {
     [super setDelegate:self];
-    return self;
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+
+    NSRect newSidebarFrame, newMainFrame;
+    const CGFloat splitterPosition = [self OE_visibleSidebarSplitterPosition];
+    BOOL hidingSidebar = ![[NSUserDefaults standardUserDefaults] boolForKey:_OESidebarVisibleKey];
+    [self OE_getSidebarFrame:&newSidebarFrame mainFrame:&newMainFrame forSplitterAtPosition:(hidingSidebar ? 0 : splitterPosition)];
+    [[self OE_sidebarContainerView] setFrame:newSidebarFrame];
+    [[self OE_mainContainerView]    setFrame:newMainFrame];
+
+    NSNotification *notification = [NSNotification notificationWithName:OELibrarySplitViewDidToggleSidebarNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+    if([[_delegateProxy localDelegate] respondsToSelector:@selector(librarySplitViewDidToggleSidebar:)])
+        [[_delegateProxy localDelegate] librarySplitViewDidToggleSidebar:notification];
+
+    [self adjustSubviews];
 }
 
 #pragma mark - Main methods
@@ -128,7 +159,6 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
         {
             [[_delegateProxy localDelegate] librarySplitViewDidToggleSidebar:notification];
         }
-
     };
 
     const CGFloat splitterPosition = [self OE_visibleSidebarSplitterPosition];
