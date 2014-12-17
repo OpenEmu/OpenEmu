@@ -32,12 +32,13 @@
 #import "OELibrarySplitView.h"
 #import "OEButton.h"
 
+extern NSString * const OELibraryStatesKey;
+
 @class OELibraryDatabase;
 @class OESidebarController;
 @class OELibrarySplitView;
 
 @protocol OELibraryControllerDelegate, OELibrarySubviewController;
-
 @interface OELibraryController : NSViewController <OEMainWindowContentController, OELibrarySplitViewDelegate>
 - (void)layoutToolbar;
 

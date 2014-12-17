@@ -51,6 +51,7 @@
 
 #pragma mark - Exported variables
 NSString * const OELastSidebarSelectionKey = @"lastSidebarSelection";
+NSString * const OELibraryStatesKey        = @"Library States";
 
 #pragma mark - Imported variables
 extern NSString * const OESidebarSelectionDidChangeNotificationName;
@@ -426,11 +427,11 @@ static const CGFloat _OEToolbarHeight = 44;
     if(!itemID || !state) return;
     
     NSUserDefaults      *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary        *libraryStates        = [standardUserDefaults valueForKey:@"Library States"];
+    NSDictionary        *libraryStates        = [standardUserDefaults valueForKey:OELibraryStatesKey];
     NSMutableDictionary *mutableLibraryStates = libraryStates ? [libraryStates mutableCopy] : [NSMutableDictionary dictionary];
     
     [mutableLibraryStates setObject:state forKey:itemID];
-    [standardUserDefaults setObject:mutableLibraryStates forKey:@"Library States"];
+    [standardUserDefaults setObject:mutableLibraryStates forKey:OELibraryStatesKey];
     [standardUserDefaults synchronize];
 }
 
@@ -439,7 +440,7 @@ static const CGFloat _OEToolbarHeight = 44;
     if(!itemID) return nil;
     
     NSUserDefaults      *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary        *libraryStates        = [standardUserDefaults valueForKey:@"Library States"];
+    NSDictionary        *libraryStates        = [standardUserDefaults valueForKey:OELibraryStatesKey];
    
     return [libraryStates objectForKey:itemID];
 }
