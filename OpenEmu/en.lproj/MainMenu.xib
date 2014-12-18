@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">13D65</string>
-		<string key="IBDocument.InterfaceBuilderVersion">5056</string>
-		<string key="IBDocument.AppKitVersion">1265.20</string>
-		<string key="IBDocument.HIToolboxVersion">698.00</string>
+		<string key="IBDocument.SystemVersion">14B25</string>
+		<string key="IBDocument.InterfaceBuilderVersion">6254</string>
+		<string key="IBDocument.AppKitVersion">1343.16</string>
+		<string key="IBDocument.HIToolboxVersion">755.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">5056</string>
+			<string key="NS.object.0">6254</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSButton</string>
@@ -57,7 +57,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="208793915">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSImageView" id="416131386">
@@ -73,8 +73,6 @@
 							</set>
 							<string key="NSFrameSize">{400, 463}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="644123232">
 								<int key="NSCellFlags">0</int>
@@ -9425,7 +9423,6 @@ zrbPN8+40DnQutE80b7SP9LB00TTxtRJ1MvVTtXR1lXW2Ndc1+DYZNjo2WzZ8dp22vvbgNwF3IrdEN2W
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{17, 184}, {366, 18}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="899331155"/>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowVert">1</double>
@@ -9440,9 +9437,9 @@ zrbPN8+40DnQutE80b7SP9LB00TTxtRJ1MvVTtXR1lXW2Ndc1+DYZNjo2WzZ8dp22vvbgNwF3IrdEN2W
 								<int key="NSCellFlags2">138413056</int>
 								<string key="NSContents">Label</string>
 								<object class="NSFont" key="NSSupport">
-									<string key="NSName">LucidaGrande-Bold</string>
+									<bool key="IBIsSystemFont">YES</bool>
 									<double key="NSSize">14</double>
-									<int key="NSfFlags">16</int>
+									<int key="NSfFlags">2072</int>
 								</object>
 								<reference key="NSControlView" ref="763836097"/>
 								<object class="NSColor" key="NSBackgroundColor" id="847376711">
@@ -9467,7 +9464,6 @@ zrbPN8+40DnQutE80b7SP9LB00TTxtRJ1MvVTtXR1lXW2Ndc1+DYZNjo2WzZ8dp22vvbgNwF3IrdEN2W
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{18, 158}, {366, 18}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="587908840"/>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowVert">1</double>
@@ -9479,9 +9475,9 @@ zrbPN8+40DnQutE80b7SP9LB00TTxtRJ1MvVTtXR1lXW2Ndc1+DYZNjo2WzZ8dp22vvbgNwF3IrdEN2W
 								<int key="NSCellFlags2">138413056</int>
 								<string key="NSContents">Version</string>
 								<object class="NSFont" key="NSSupport">
-									<string key="NSName">LucidaGrande</string>
+									<bool key="IBIsSystemFont">YES</bool>
 									<double key="NSSize">10</double>
-									<int key="NSfFlags">16</int>
+									<int key="NSfFlags">1044</int>
 								</object>
 								<reference key="NSControlView" ref="899331155"/>
 								<reference key="NSBackgroundColor" ref="847376711"/>
@@ -9503,8 +9499,7 @@ zrbPN8+40DnQutE80b7SP9LB00TTxtRJ1MvVTtXR1lXW2Ndc1+DYZNjo2WzZ8dp22vvbgNwF3IrdEN2W
 											<int key="NSvFlags">2322</int>
 											<string key="NSFrameSize">{225, 85}</string>
 											<reference key="NSSuperview" ref="983593750"/>
-											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="856984639"/>
+											<reference key="NSNextKeyView" ref="538893524"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="584703138">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -9563,7 +9558,12 @@ IEdpdEh1Yi4gA</bytes>
 														<reference key="NSColor" ref="402204676"/>
 													</object>
 												</dictionary>
-												<reference key="NSInsertionColor" ref="402204676"/>
+												<object class="NSColor" key="NSInsertionColor">
+													<int key="NSColorSpace">6</int>
+													<string key="NSCatalogName">System</string>
+													<string key="NSColorName">controlTextColor</string>
+													<reference key="NSColor" ref="402204676"/>
+												</object>
 												<dictionary key="NSLinkAttributes">
 													<object class="NSColor" key="NSColor">
 														<int key="NSColorSpace">1</int>
@@ -9586,7 +9586,6 @@ IEdpdEh1Yi4gA</bytes>
 									</array>
 									<string key="NSFrameSize">{225, 85}</string>
 									<reference key="NSSuperview" ref="12243242"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="1065152195"/>
 									<reference key="NSDocView" ref="1065152195"/>
 									<reference key="NSBGColor" ref="622283368"/>
@@ -9595,15 +9594,17 @@ IEdpdEh1Yi4gA</bytes>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">2</int>
+									<bool key="NSAutomaticallyAdjustsContentInsets">YES</bool>
 								</object>
 								<object class="NSScroller" id="538893524">
 									<reference key="NSNextResponder" ref="12243242"/>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="12243242"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="381387013"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
+									<string key="NSControlAction">_doScroller:</string>
+									<reference key="NSControlTarget" ref="12243242"/>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="12243242"/>
 									<string key="NSAction">_doScroller:</string>
@@ -9614,17 +9615,17 @@ IEdpdEh1Yi4gA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {16, 75}}</string>
 									<reference key="NSSuperview" ref="12243242"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="983593750"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
+									<string key="NSControlAction">_doScroller:</string>
+									<reference key="NSControlTarget" ref="12243242"/>
 									<reference key="NSTarget" ref="12243242"/>
 									<string key="NSAction">_doScroller:</string>
 								</object>
 							</array>
 							<string key="NSFrame">{{88, 47}, {225, 85}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="538893524"/>
+							<reference key="NSNextKeyView" ref="983593750"/>
 							<object class="NSShadow" key="NSViewShadow">
 								<double key="NSShadowVert">1</double>
 								<reference key="NSShadowColor" ref="402204676"/>
@@ -9643,15 +9644,13 @@ IEdpdEh1Yi4gA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{127, 138}, {147, 21}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="906225131">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">134250496</int>
 								<string key="NSContents">www.openemu.org</string>
 								<object class="NSFont" key="NSSupport" id="16608784">
-									<string key="NSName">.LucidaGrandeUI</string>
+									<bool key="IBIsSystemFont">YES</bool>
 									<double key="NSSize">13</double>
 									<int key="NSfFlags">1044</int>
 								</object>
@@ -9676,8 +9675,6 @@ IEdpdEh1Yi4gA</bytes>
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{113, 17}, {176, 32}}</string>
 							<reference key="NSSuperview" ref="208793915"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="373049417">
 								<int key="NSCellFlags">67108864</int>
@@ -9697,8 +9694,6 @@ IEdpdEh1Yi4gA</bytes>
 						</object>
 					</array>
 					<string key="NSFrameSize">{400, 463}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="416131386"/>
 					<bool key="NSViewIsLayerTreeHost">YES</bool>
 				</object>
@@ -10548,7 +10543,7 @@ IEdpdEh1Yi4gA</bytes>
 									<reference key="NSMenu" ref="64773122"/>
 									<bool key="NSIsDisabled">YES</bool>
 									<string key="NSTitle">Volume Up </string>
-									<string key="NSKeyEquiv"></string>
+									<string key="NSKeyEquiv">+</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="364983442"/>
@@ -10558,7 +10553,7 @@ IEdpdEh1Yi4gA</bytes>
 									<reference key="NSMenu" ref="64773122"/>
 									<bool key="NSIsDisabled">YES</bool>
 									<string key="NSTitle">Volume Down</string>
-									<string key="NSKeyEquiv"></string>
+									<string key="NSKeyEquiv">-</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="364983442"/>
@@ -10844,7 +10839,7 @@ IEdpdEh1Yi4gA</bytes>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<bool key="usesAutoincrementingIDs">NO</bool>
-			<array class="NSMutableArray" key="connectionRecords">
+			<array key="connectionRecords">
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
@@ -12518,6 +12513,7 @@ IEdpdEh1Yi4gA</bytes>
 				<string key="50H-ys-sAp.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="50H-ys-sAp.showNotes"/>
 				<string key="5YI-Il-P9H.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="793.IBPersistedLastKnownCanvasPosition">{387, 400.5}</string>
 				<string key="793.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="NO" key="793.showNotes"/>
 				<string key="794.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -12655,7 +12651,7 @@ IEdpdEh1Yi4gA</bytes>
 					<string key="superclassName">NSOpenGLView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/IKImageFlowView.h</string>
+						<string key="minorKey">OpenEmu/IKImageFlowView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -12736,7 +12732,58 @@ IEdpdEh1Yi4gA</bytes>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEApplicationDelegate.h</string>
+						<string key="minorKey">OpenEmu/OEApplicationDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEApplicationDelegate</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="OEDebug_logResponderChain:">id</string>
+						<string key="openWeblink:">id</string>
+						<string key="showOEHelp:">id</string>
+						<string key="showOEIssues:">id</string>
+						<string key="showOEReleaseNotes:">id</string>
+						<string key="showOEWebSite:">id</string>
+						<string key="showOpenEmuWindow:">id</string>
+						<string key="showPreferencesWindow:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="OEDebug_logResponderChain:">
+							<string key="name">OEDebug_logResponderChain:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="openWeblink:">
+							<string key="name">openWeblink:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showOEHelp:">
+							<string key="name">showOEHelp:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showOEIssues:">
+							<string key="name">showOEIssues:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showOEReleaseNotes:">
+							<string key="name">showOEReleaseNotes:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showOEWebSite:">
+							<string key="name">showOEWebSite:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showOpenEmuWindow:">
+							<string key="name">showOpenEmuWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showPreferencesWindow:">
+							<string key="name">showPreferencesWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">OpenEmu/OEApplicationDelegate.m</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -12744,7 +12791,7 @@ IEdpdEh1Yi4gA</bytes>
 					<string key="superclassName">NSView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEBackgroundGradientView.h</string>
+						<string key="minorKey">OpenEmu/OEBackgroundGradientView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -12752,7 +12799,7 @@ IEdpdEh1Yi4gA</bytes>
 					<string key="superclassName">NSView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEBlankSlateBackgroundView.h</string>
+						<string key="minorKey">OpenEmu/OEBlankSlateBackgroundView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -12760,7 +12807,7 @@ IEdpdEh1Yi4gA</bytes>
 					<string key="superclassName">OEBlankSlateBackgroundView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEBlankSlateView.h</string>
+						<string key="minorKey">OpenEmu/OEBlankSlateView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -12768,7 +12815,7 @@ IEdpdEh1Yi4gA</bytes>
 					<string key="superclassName">NSButton</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEButton.h</string>
+						<string key="minorKey">OpenEmu/OEButton.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -12776,7 +12823,7 @@ IEdpdEh1Yi4gA</bytes>
 					<string key="superclassName">NSButtonCell</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEButtonCell.h</string>
+						<string key="minorKey">OpenEmu/OEButtonCell.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -12784,8 +12831,72 @@ IEdpdEh1Yi4gA</bytes>
 					<string key="superclassName">NSViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="changeGridSize:">id</string>
+						<string key="deleteSelectedItems:">id</string>
 						<string key="search:">id</string>
-						<string key="showSelectedGamesInFinder:">id</string>
+						<string key="switchToFlowView:">id</string>
+						<string key="switchToGridView:">id</string>
+						<string key="switchToListView:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="changeGridSize:">
+							<string key="name">changeGridSize:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="deleteSelectedItems:">
+							<string key="name">deleteSelectedItems:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="search:">
+							<string key="name">search:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="switchToFlowView:">
+							<string key="name">switchToFlowView:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="switchToGridView:">
+							<string key="name">switchToGridView:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="switchToListView:">
+							<string key="name">switchToListView:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="coverFlowView">IKImageFlowView</string>
+						<string key="gridView">OEGridView</string>
+						<string key="libraryController">OELibraryController</string>
+						<string key="listView">OETableView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="coverFlowView">
+							<string key="name">coverFlowView</string>
+							<string key="candidateClassName">IKImageFlowView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="gridView">
+							<string key="name">gridView</string>
+							<string key="candidateClassName">OEGridView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="libraryController">
+							<string key="name">libraryController</string>
+							<string key="candidateClassName">OELibraryController</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="listView">
+							<string key="name">listView</string>
+							<string key="candidateClassName">OETableView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">OpenEmu/OECollectionViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OECollectionViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="changeGridSize:">id</string>
+						<string key="search:">id</string>
 						<string key="switchToFlowView:">id</string>
 						<string key="switchToGridView:">id</string>
 						<string key="switchToListView:">id</string>
@@ -12797,10 +12908,6 @@ IEdpdEh1Yi4gA</bytes>
 						</object>
 						<object class="IBActionInfo" key="search:">
 							<string key="name">search:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showSelectedGamesInFinder:">
-							<string key="name">showSelectedGamesInFinder:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="switchToFlowView:">
@@ -12818,51 +12925,132 @@ IEdpdEh1Yi4gA</bytes>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="blankSlateView">OEBlankSlateView</string>
-						<string key="coverFlowView">IKImageFlowView</string>
 						<string key="flowlistViewContainer">OEHorizontalSplitView</string>
-						<string key="gridView">OEGridView</string>
 						<string key="gridViewContainer">NSView</string>
-						<string key="libraryController">OELibraryController</string>
-						<string key="listView">OETableView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="blankSlateView">
 							<string key="name">blankSlateView</string>
 							<string key="candidateClassName">OEBlankSlateView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="coverFlowView">
-							<string key="name">coverFlowView</string>
-							<string key="candidateClassName">IKImageFlowView</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="flowlistViewContainer">
 							<string key="name">flowlistViewContainer</string>
 							<string key="candidateClassName">OEHorizontalSplitView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="gridView">
-							<string key="name">gridView</string>
-							<string key="candidateClassName">OEGridView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="gridViewContainer">
 							<string key="name">gridViewContainer</string>
 							<string key="candidateClassName">NSView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="libraryController">
-							<string key="name">libraryController</string>
-							<string key="candidateClassName">OELibraryController</string>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">OpenEmu/OECollectionViewController.m</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEGameCollectionViewController</string>
+					<string key="superclassName">OECollectionViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">showSelectedGamesInFinder:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">showSelectedGamesInFinder:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">showSelectedGamesInFinder:</string>
+							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="listView">
-							<string key="name">listView</string>
-							<string key="candidateClassName">OETableView</string>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">OpenEmu/OEGameCollectionViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEGameCollectionViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="showSelectedGamesInFinder:">id</string>
+						<string key="trashDownloadedFiles:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="showSelectedGamesInFinder:">
+							<string key="name">showSelectedGamesInFinder:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="trashDownloadedFiles:">
+							<string key="name">trashDownloadedFiles:</string>
+							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OECollectionViewController.h</string>
+						<string key="minorKey">OpenEmu/OEGameCollectionViewController.m</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">OEGameDocument</string>
 					<string key="superclassName">NSDocument</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="addCheat:">id</string>
+						<string key="changeAudioOutputDevice:">id</string>
+						<string key="changeVolume:">id</string>
+						<string key="deleteSaveState:">id</string>
+						<string key="editControls:">id</string>
+						<string key="mute:">id</string>
+						<string key="setCheat:">id</string>
+						<string key="stopEmulation:">id</string>
+						<string key="toggleCheat:">id</string>
+						<string key="unmute:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="addCheat:">
+							<string key="name">addCheat:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="changeAudioOutputDevice:">
+							<string key="name">changeAudioOutputDevice:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="changeVolume:">
+							<string key="name">changeVolume:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="deleteSaveState:">
+							<string key="name">deleteSaveState:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="editControls:">
+							<string key="name">editControls:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="mute:">
+							<string key="name">mute:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setCheat:">
+							<string key="name">setCheat:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="stopEmulation:">
+							<string key="name">stopEmulation:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleCheat:">
+							<string key="name">toggleCheat:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="unmute:">
+							<string key="name">unmute:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">OpenEmu/OEGameDocument.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEGameDocument</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addCheat:">id</string>
 						<string key="changeAudioOutputDevice:">id</string>
@@ -12924,7 +13112,7 @@ IEdpdEh1Yi4gA</bytes>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEGameDocument.h</string>
+						<string key="minorKey">OpenEmu/OEGameDocument.m</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -12943,7 +13131,7 @@ IEdpdEh1Yi4gA</bytes>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEGameViewController.h</string>
+						<string key="minorKey">OpenEmu/OEGameViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -12951,7 +13139,7 @@ IEdpdEh1Yi4gA</bytes>
 					<string key="superclassName">IKImageBrowserView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEGridView.h</string>
+						<string key="minorKey">OpenEmu/OEGridView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -12959,7 +13147,7 @@ IEdpdEh1Yi4gA</bytes>
 					<string key="superclassName">NSSplitView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEHorizontalSplitView.h</string>
+						<string key="minorKey">OpenEmu/OEHorizontalSplitView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -12970,12 +13158,12 @@ IEdpdEh1Yi4gA</bytes>
 						<string key="addToLibrary:">id</string>
 						<string key="changeGridSize:">id</string>
 						<string key="editSmartCollection:">id</string>
-						<string key="find:">id</string>
 						<string key="newCollection:">id</string>
 						<string key="newCollectionFolder:">id</string>
 						<string key="newSmartCollection:">id</string>
 						<string key="search:">id</string>
 						<string key="startGame:">id</string>
+						<string key="startSaveState:">id</string>
 						<string key="switchToFlowView:">id</string>
 						<string key="switchToGridView:">id</string>
 						<string key="switchToListView:">id</string>
@@ -12998,10 +13186,6 @@ IEdpdEh1Yi4gA</bytes>
 							<string key="name">editSmartCollection:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="find:">
-							<string key="name">find:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="newCollection:">
 							<string key="name">newCollection:</string>
 							<string key="candidateClassName">id</string>
@@ -13020,6 +13204,10 @@ IEdpdEh1Yi4gA</bytes>
 						</object>
 						<object class="IBActionInfo" key="startGame:">
 							<string key="name">startGame:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="startSaveState:">
+							<string key="name">startSaveState:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="switchToFlowView:">
@@ -13095,7 +13283,93 @@ IEdpdEh1Yi4gA</bytes>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OELibraryController.h</string>
+						<string key="minorKey">OpenEmu/OELibraryController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OELibraryController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="addCollectionAction:">id</string>
+						<string key="addToLibrary:">id</string>
+						<string key="changeGridSize:">id</string>
+						<string key="editSmartCollection:">id</string>
+						<string key="find:">id</string>
+						<string key="newCollection:">id</string>
+						<string key="newCollectionFolder:">id</string>
+						<string key="newSmartCollection:">id</string>
+						<string key="search:">id</string>
+						<string key="startGame:">id</string>
+						<string key="startSaveState:">id</string>
+						<string key="switchToFlowView:">id</string>
+						<string key="switchToGridView:">id</string>
+						<string key="switchToListView:">id</string>
+						<string key="toggleSidebar:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="addCollectionAction:">
+							<string key="name">addCollectionAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="addToLibrary:">
+							<string key="name">addToLibrary:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="changeGridSize:">
+							<string key="name">changeGridSize:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="editSmartCollection:">
+							<string key="name">editSmartCollection:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="find:">
+							<string key="name">find:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="newCollection:">
+							<string key="name">newCollection:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="newCollectionFolder:">
+							<string key="name">newCollectionFolder:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="newSmartCollection:">
+							<string key="name">newSmartCollection:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="search:">
+							<string key="name">search:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="startGame:">
+							<string key="name">startGame:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="startSaveState:">
+							<string key="name">startSaveState:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="switchToFlowView:">
+							<string key="name">switchToFlowView:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="switchToGridView:">
+							<string key="name">switchToGridView:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="switchToListView:">
+							<string key="name">switchToListView:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="toggleSidebar:">
+							<string key="name">toggleSidebar:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">OpenEmu/OELibraryController.m</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -13103,7 +13377,7 @@ IEdpdEh1Yi4gA</bytes>
 					<string key="superclassName">NSSplitView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OELibrarySplitView.h</string>
+						<string key="minorKey">OpenEmu/OELibrarySplitView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -13139,12 +13413,40 @@ IEdpdEh1Yi4gA</bytes>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEMainWindowController.h</string>
+						<string key="minorKey">OpenEmu/OEMainWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEMainWindowController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="launchLastPlayedROM:">id</string>
+						<string key="undockGameWindow:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="launchLastPlayedROM:">
+							<string key="name">launchLastPlayedROM:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="undockGameWindow:">
+							<string key="name">undockGameWindow:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">OpenEmu/OEMainWindowController.m</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">OEPreferencesController</string>
 					<string key="superclassName">NSWindowController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">OpenEmu/OEPreferencesController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEPreferencesController</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">coreGradientOverlayView</string>
 						<string key="NS.object.0">OEBackgroundGradientView</string>
@@ -13158,7 +13460,7 @@ IEdpdEh1Yi4gA</bytes>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEPreferencesController.h</string>
+						<string key="minorKey">OpenEmu/OEPreferencesController.m</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -13177,7 +13479,25 @@ IEdpdEh1Yi4gA</bytes>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OESidebarController.h</string>
+						<string key="minorKey">OpenEmu/OESidebarController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OESidebarController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">addCollectionAction:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">addCollectionAction:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">addCollectionAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">OpenEmu/OESidebarController.m</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -13185,37 +13505,7 @@ IEdpdEh1Yi4gA</bytes>
 					<string key="superclassName">NSTableView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OETableView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">SUUpdater</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">checkForUpdates:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">checkForUpdates:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">checkForUpdates:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">delegate</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">delegate</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">delegate</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/SUUpdater.h</string>
+						<string key="minorKey">OpenEmu/OETableView.h</string>
 					</object>
 				</object>
 			</array>
@@ -13227,10 +13517,6 @@ IEdpdEh1Yi4gA</bytes>
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1070" key="NS.object.0"/>
 		</object>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="1070" key="NS.object.0"/>
-		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
 			<integer value="4600" key="NS.object.0"/>
@@ -13238,8 +13524,8 @@ IEdpdEh1Yi4gA</bytes>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NSMenuCheckmark">{11, 11}</string>
-			<string key="NSMenuMixedState">{10, 3}</string>
+			<string key="NSMenuCheckmark">{12, 12}</string>
+			<string key="NSMenuMixedState">{10, 2}</string>
 		</dictionary>
 	</data>
 </archive>
