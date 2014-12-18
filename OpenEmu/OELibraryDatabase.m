@@ -103,7 +103,6 @@ const NSInteger OpenVGDBSyncBatchSize = 5;
 
 @property(strong) OEFSWatcher *saveStateWatcher, *autoImportWatcher;
 @property(copy)   NSURL       *databaseURL;
-@property(strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @end
 
 static OELibraryDatabase *defaultDatabase = nil;

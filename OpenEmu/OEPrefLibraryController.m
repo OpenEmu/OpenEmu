@@ -43,6 +43,8 @@
 
 #import "OEFileManager.h"
 
+NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocationDidChangeNotificationName";
+
 @implementation OEPrefLibraryController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -326,7 +328,6 @@
                     [library setRomsFolderURL:currentRomsURL];
                     NSError *error = nil;
                     [context save:&error];
-                    NSLog(@"%@", error);
                 }];
 
 
@@ -374,9 +375,16 @@
                 }
                 else
                 {
+                    [coord removePersistentStore:store error:nil];
+                    [coord addPersistentStoreWithType:[store type] configuration:nil URL:[store URL] options:0 error:nil];
 
-                    DLog(@"Done, removing originals...");
-                    [coord addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:newStoreURL options:0 error:&error];
+                    // Make sure to post notification on main thread!
+                    void (^postNotification)() = ^(){
+                        [[OELibraryDatabase defaultDatabase] setPersistentStoreCoordinator:coord];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:OELibraryLocationDidChangeNotificationName object:self userInfo:nil];
+                    };
+                    dispatch_async(dispatch_get_main_queue(), postNotification);
+                    [context save:nil];
 
                     // remove original
                     [fm removeItemAtURL:currentStoreURL error:nil];
@@ -406,13 +414,8 @@
         // sync because we are about to force exit
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:OELocalizedString(@"Your library was moved sucessfully. OpenEmu must relaunch now!", @"") defaultButton:OELocalizedString(@"Relaunch", @"") alternateButton:nil];
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:OELocalizedString(@"Your library was moved sucessfully.", @"") defaultButton:OELocalizedString(@"OK", @"") alternateButton:nil];
         [alert runModal];
-        
-        // restart application
-        NSString *script = [NSString stringWithFormat:@"sleep 0.1 && open '%@'", [[NSBundle mainBundle] bundlePath]];
-        [NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", script]];
-        exit(EXIT_SUCCESS);
     }
     else
     {

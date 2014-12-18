@@ -30,6 +30,8 @@
 #import "OELibraryDatabase.h"
 #import "OESidebarCell.h"
 
+#import "OEPrefLibraryController.h"
+
 #import "OESidebarOutlineView.h"
 #import "OEDBGame.h"
 #import "OEDBAllGamesCollection.h"
@@ -110,6 +112,8 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controlTextDidEndEditing:) name:NSControlTextDidEndEditingNotification object:cell];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controlTextDidBeginEditing:) name:NSControlTextDidBeginEditingNotification object:cell];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
 
     [sidebarView setIndentationPerLevel:7];
     [sidebarView setAutosaveName:@"sidebarView"];
@@ -298,8 +302,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     return [[[OEStorageDeviceManager sharedStorageDeviceManager] devices] count] == 0;
 }
 
-#pragma mark -
-#pragma mark Notifications
+#pragma mark - Notifications
 - (void)reloadDataAndPreserveSelection
 {
     id        previousSelectedItem = [self selectedSidebarItem];
@@ -346,6 +349,11 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     [self reloadData];
     [self outlineViewSelectionDidChange:nil];
+}
+
+- (void)libraryLocationDidChange:(NSNotification*)notification
+{
+    [self reloadData];
 }
 
 #pragma mark -
