@@ -324,12 +324,17 @@
                     // note new rom folder loation in library
                     [[NSUserDefaults standardUserDefaults] setObject:[currentLocation path] forKey:OEDatabasePathKey];
                     [library setRomsFolderURL:currentRomsURL];
-                    [context save:nil];
+                    NSError *error = nil;
+                    [context save:&error];
+                    NSLog(@"%@", error);
                 }];
-                
+
+
                 // copy core data store over
-                [fm setItemDoneHandler:nil];
-                if(!(success=[fm copyItemAtURL:currentStoreURL toURL:newStoreURL error:&error]))
+                NSPersistentStoreCoordinator *coord = [context persistentStoreCoordinator];
+                NSPersistentStore *store = [coord persistentStoreForURL:currentStoreURL];
+                store = [coord migratePersistentStore:store toURL:newStoreURL options:nil withType:NSSQLiteStoreType error:&error];
+                if(!store || error)
                 {
                     DLog(@"failed copy store data");
                     
@@ -369,7 +374,9 @@
                 }
                 else
                 {
+
                     DLog(@"Done, removing originals...");
+                    [coord addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:newStoreURL options:0 error:&error];
 
                     // remove original
                     [fm removeItemAtURL:currentStoreURL error:nil];
