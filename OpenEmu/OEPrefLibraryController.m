@@ -234,8 +234,8 @@
                 // Setup error handler
                 [fm setErrorHandler:^BOOL(NSURL *src, NSURL *dst, NSError *error){ DLog(@"OEFM Error handler called on %@", src); return NO; }];
 
-                // Copy artwork directory
-                if(!(success=[fm copyItemAtURL:artworkURL toURL:newArtworkURL error:&error]))
+                // Copy artwork directory if it exists
+                if([artworkURL checkResourceIsReachableAndReturnError:nil] && !(success=[fm copyItemAtURL:artworkURL toURL:newArtworkURL error:&error]))
                 {
                     DLog(@"Failed to copy artwork");
 
@@ -283,8 +283,9 @@
                    }
                    return YES;
                 }];
-                
-                if(!(success=[fm copyItemAtURL:currentRomsURL toURL:newRomsURL error:&error]))
+
+                // copy only if it exists
+                if([currentRomsURL checkResourceIsReachableAndReturnError:nil] && !(success=[fm copyItemAtURL:currentRomsURL toURL:newRomsURL error:&error]))
                 {
                     DLog(@"Failed to copy roms");
                     
