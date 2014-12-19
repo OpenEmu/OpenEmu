@@ -66,6 +66,8 @@
 #import "OEBackgroundNoisePattern.h"
 
 #import "OEGridGameCell.h"
+
+#import "OEPrefLibraryController.h"
 #pragma mark - Public variables
 
 NSString * const OELastGridSizeKey       = @"lastGridSize";
@@ -172,6 +174,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 
     [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:OEDisplayGameTitle options:0 context:NULL];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
+
     // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
     // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
     // empty collection until -setRepresentedObject: is received again
@@ -183,13 +187,18 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     return @"CollectionView";
 }
 
-#pragma mark - KVO
+#pragma mark - KVO / Notifications
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if([keyPath isEqualToString:OEDisplayGameTitle])
         [self setNeedsReloadVisible];
 }
 
+
+- (void)libraryLocationDidChange:(NSNotification*)notification
+{
+    [self reloadData];
+}
 #pragma mark - OELibrarySubviewControllerProtocol Implementation
 - (void)setRepresentedObject:(id<OECollectionViewItemProtocol>)representedObject
 {

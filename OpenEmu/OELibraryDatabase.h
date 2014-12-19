@@ -50,7 +50,6 @@ extern NSString *const OEScreenshotFolderURLKey;
 extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 
 @interface OELibraryDatabase : NSObject
-
 + (OELibraryDatabase *)defaultDatabase;
 + (BOOL)loadFromURL:(NSURL *)url error:(NSError *__autoreleasing*)outError;
 
@@ -94,7 +93,10 @@ extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 #pragma mark - OpenVGDB Sync
 - (void)startOpenVGDBSync;
 
+
+// Exposed for library migration
+@property(strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
 #pragma mark - Debug
 - (void)dump;
-
 @end
