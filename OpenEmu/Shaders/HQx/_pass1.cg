@@ -46,9 +46,9 @@ struct out_vertex {
 	float4 position : POSITION;
 	float4 color    : COLOR;
 	float2 texCoord : TEXCOORD0;
-	float4 t1;
-	float4 t2;
-	float4 t3;
+	float4 t1       : TEXCOORD1;
+	float4 t2       : TEXCOORD2;
+	float4 t3       : TEXCOORD3;
 };
 
 /*    VERTEX_SHADER    */
@@ -99,7 +99,7 @@ float4 main_fragment(in out_vertex VAR, uniform sampler2D decal : TEXUNIT0, unif
 	float3 w3  = mul(yuv, tex2D(decal, VAR.t1.zw).rgb);
 
 	float3 w4  = mul(yuv, tex2D(decal, VAR.t2.xw).rgb);
-	float3 w5  = mul(yuv, tex2D(decal, VAR.texCoord).rgb);
+	float3 w5  = mul(yuv, tex2D(decal, VAR.t2.yw).rgb);
 	float3 w6  = mul(yuv, tex2D(decal, VAR.t2.zw).rgb);
 
 	float3 w7  = mul(yuv, tex2D(decal, VAR.t3.xw).rgb);
