@@ -76,13 +76,13 @@ struct out_vertex {
 	float4 position : POSITION;
 	float4 color    : COLOR;
 	float2 texCoord : TEXCOORD0;
-	float4 t1;
-	float4 t2;
-	float4 t3;
-	float4 t4;
-	float4 t5;
-	float4 t6;
-	float4 t7;
+	float4 t1       : TEXCOORD1;
+	float4 t2       : TEXCOORD2;
+	float4 t3       : TEXCOORD3;
+	float4 t4       : TEXCOORD4;
+	float4 t5       : TEXCOORD5;
+	float4 t6       : TEXCOORD6;
+	float4 t7       : TEXCOORD7;
 };
 
 /*    VERTEX_SHADER    */
