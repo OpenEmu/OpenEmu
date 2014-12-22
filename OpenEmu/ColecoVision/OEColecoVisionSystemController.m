@@ -34,7 +34,7 @@
 
 - (OECanHandleState)canHandleFile:(NSString *)path
 {
-    if(![[path pathExtension] isEqualToString:@"rom"])
+    if(![[[path pathExtension] lowercaseString] isEqualToString:@"rom"])
     {
         return OECanHandleUncertain;
     }
