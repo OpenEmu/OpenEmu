@@ -1462,10 +1462,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 #pragma mark - Private Helpers
 - (void)viewDidChangeBackingProperties
 {
-    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
-    glDeleteTextures(1, &_saveStateTexture);
-    _saveStateTexture = 0;
-
     [self OE_createSaveStateTexture];
 }
 
