@@ -126,7 +126,7 @@
 	<key>OEResponderClassKey</key>
 	<string>OESVSystemResponder</string>
 	<key>OESystemIcon</key>
-	<string>arcade_library</string>
+	<string>supervision_library</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.sv</string>
 	<key>OESystemName</key>

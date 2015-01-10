@@ -515,6 +515,7 @@
 		83CB0C851A3F0F9400409FB2 /* blank_slate_spinner_fg.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CB0C821A3F0F9400409FB2 /* blank_slate_spinner_fg.png */; };
 		83CB0C861A3F0F9400409FB2 /* blank_slate_spinner_sp.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CB0C831A3F0F9400409FB2 /* blank_slate_spinner_sp.png */; };
 		83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */; };
+		83CDAE9C1A61892900DF964A /* supervision_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CDAE9B1A61892900DF964A /* supervision_library.png */; };
 		83CE3DC314C84EC10036DB28 /* beta_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CE3DC214C84EC10036DB28 /* beta_icon.png */; };
 		83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D175B218FF155700E5ED34 /* OEBlankSlateBackgroundView.m */; };
 		83D435F214718891003FE856 /* closed_weblink_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D435F114718890003FE856 /* closed_weblink_arrow.png */; };
@@ -2367,6 +2368,7 @@
 		83CB0C831A3F0F9400409FB2 /* blank_slate_spinner_sp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_slate_spinner_sp.png; sourceTree = "<group>"; };
 		83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveState.h; sourceTree = "<group>"; };
 		83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSaveState.m; sourceTree = "<group>"; };
+		83CDAE9B1A61892900DF964A /* supervision_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = supervision_library.png; sourceTree = "<group>"; };
 		83CE3DC214C84EC10036DB28 /* beta_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beta_icon.png; sourceTree = "<group>"; };
 		83D175B118FF155700E5ED34 /* OEBlankSlateBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBlankSlateBackgroundView.h; sourceTree = "<group>"; };
 		83D175B218FF155700E5ED34 /* OEBlankSlateBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateBackgroundView.m; sourceTree = "<group>"; };
@@ -4994,6 +4996,7 @@
 		837964E31A6149C000A8DE5C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83CDAE9B1A61892900DF964A /* supervision_library.png */,
 				837964EA1A614ACD00A8DE5C /* Controller-Mappings.plist */,
 				837964EB1A614ACD00A8DE5C /* Controller-Preferences.plist */,
 				837964EC1A614ACD00A8DE5C /* Keyboard-Mappings.plist */,
@@ -7573,6 +7576,7 @@
 				EC35100017401B58005DA3B2 /* slim_dark_pill_button@2x.png in Resources */,
 				83B6FBFB1948E30100586A2C /* hud_quicksave_notification@2x.png in Resources */,
 				EC35100117401B58005DA3B2 /* tab_selector@2x.png in Resources */,
+				83CDAE9C1A61892900DF964A /* supervision_library.png in Resources */,
 				EC35100217401B58005DA3B2 /* wood_inset_box@2x.png in Resources */,
 				EC35100317401B58005DA3B2 /* wood_knob_vertical@2x.png in Resources */,
 				83D94FB519A4D43B007583E1 /* bios_tab_icon@2x.png in Resources */,
@@ -11607,6 +11611,7 @@
 				837964E61A6149C000A8DE5C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		83F37144140BB166005A7353 /* Build configuration list for PBXAggregateTarget "Build SystemPlugins" */ = {
 			isa = XCConfigurationList;
