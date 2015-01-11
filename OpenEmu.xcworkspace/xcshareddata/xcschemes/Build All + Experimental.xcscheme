@@ -382,6 +382,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "837965451A616BFD00A8DE5C"
+               BuildableName = "Build &amp; Install Potator"
+               BlueprintName = "Build &amp; Install Potator"
+               ReferencedContainer = "container:Potator-Core/Potator.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "94C51FBC1847077700206E6F"
                BuildableName = "Set Experimental Appcast URLs"
                BlueprintName = "Set Experimental Appcast URLs"

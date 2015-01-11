@@ -62,6 +62,9 @@
       location = "group:picodrive/Picodrive.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Potator-Core/Potator.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:PPSSPP/PPSSPP.xcodeproj">
    </FileRef>
    <FileRef
