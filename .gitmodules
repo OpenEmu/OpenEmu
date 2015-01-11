@@ -79,3 +79,6 @@
 [submodule "Bliss"]
 	path = Bliss
 	url = git@github.com:OpenEmu/Bliss-Core.git
+[submodule "Potator-Core"]
+	path = Potator-Core
+	url = https://github.com/OpenEmu/Potator-Core.git
