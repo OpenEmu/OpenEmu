@@ -8,9 +8,6 @@
       location = "group:OpenEmu-SDK/OpenEmu-SDK.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:iPhoneRemote/iPhoneRemote.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:4DO/4DO.xcodeproj">
    </FileRef>
    <FileRef
