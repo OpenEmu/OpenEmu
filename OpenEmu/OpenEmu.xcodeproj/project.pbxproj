@@ -5223,7 +5223,7 @@
 				8C8AD73616B5DBE20004D97C /* snes_ntsc.h */,
 				8C8AD73716B5DBE20004D97C /* snes_ntsc.txt */,
 			);
-			name = "Blargg's NTSC filter";
+			path = "Blargg's NTSC filter";
 			sourceTree = "<group>";
 		};
 		9405538617A34C6B009B505D /* PC Engine CD */ = {
