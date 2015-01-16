@@ -102,6 +102,7 @@
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>rom</string>
+		<string>msx</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
