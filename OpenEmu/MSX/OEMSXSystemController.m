@@ -34,11 +34,6 @@
 
 - (OECanHandleState)canHandleFile:(NSString *)path
 {
-    if(![[[path pathExtension] lowercaseString] isEqualToString:@"rom"])
-    {
-        return OECanHandleUncertain;
-    }
-    
     OECanHandleState canHandleFile = OECanHandleNo;
     
     NSFileHandle *dataROMFile;
