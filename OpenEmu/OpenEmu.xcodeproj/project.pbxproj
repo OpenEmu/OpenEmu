@@ -355,6 +355,7 @@
 		8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8314A98B155410EF00DF13B5 /* OEDBItem.m */; };
 		83160E2719A60FE800CACD99 /* grid_download.png in Resources */ = {isa = PBXBuildFile; fileRef = 83160E2519A60FE800CACD99 /* grid_download.png */; };
 		83160E2819A60FE800CACD99 /* grid_download@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83160E2619A60FE800CACD99 /* grid_download@2x.png */; };
+		8316F6F61A697986003ADDB3 /* supervision_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CDAE9B1A61892900DF964A /* supervision_library.png */; };
 		83199722142741790068C865 /* OEROMImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* OEROMImporter.m */; };
 		831C2AE4144F41E4009533C0 /* OEApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C2AE3144F41E4009533C0 /* OEApplicationDelegate.m */; };
 		831C9AAD160095BA00038D0D /* OETheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AAC160095BA00038D0D /* OETheme.m */; };
@@ -7306,6 +7307,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8316F6F61A697986003ADDB3 /* supervision_library.png in Resources */,
 				837964F51A614ACD00A8DE5C /* Supervision-Info.plist in Resources */,
 				837964F11A614ACD00A8DE5C /* Controller-Mappings.plist in Resources */,
 				837964F31A614ACD00A8DE5C /* Keyboard-Mappings.plist in Resources */,
