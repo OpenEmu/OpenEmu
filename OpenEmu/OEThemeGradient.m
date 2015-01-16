@@ -37,7 +37,7 @@ static NSString * const OEThemeGradientAngleAttributeName     = @"Angle";
 #pragma mark -
 #pragma mark Implementation
 
-@interface OENSGradient : NSGradient
+@interface OEGradient : NSGradient
 
 @property(nonatomic, assign) CGFloat angle; // Saves the angle specified by the theme definition
 
@@ -85,7 +85,7 @@ static NSString * const OEThemeGradientAngleAttributeName     = @"Angle";
                  locations[idx] = [location floatValue];
              }];
 
-            result = [[OENSGradient alloc] initWithColors:colors atLocations:locations colorSpace:[NSColorSpace genericRGBColorSpace]];
+            result = [[OEGradient alloc] initWithColors:colors atLocations:locations colorSpace:[NSColorSpace genericRGBColorSpace]];
             [result setAngle:[angle floatValue]];
         }
     }
@@ -118,7 +118,7 @@ static NSString * const OEThemeGradientAngleAttributeName     = @"Angle";
 
 @end
 
-@implementation OENSGradient
+@implementation OEGradient
 
 @synthesize angle = _angle;
 
