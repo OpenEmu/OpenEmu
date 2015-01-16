@@ -2,21 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>OEGBButtonUp</key>
+	<key>OESVButtonUp</key>
 	<integer>82</integer>
-	<key>OEGBButtonDown</key>
+	<key>OESVButtonDown</key>
 	<integer>81</integer>
-	<key>OEGBButtonLeft</key>
+	<key>OESVButtonLeft</key>
 	<integer>80</integer>
-	<key>OEGBButtonRight</key>
+	<key>OESVButtonRight</key>
 	<integer>79</integer>
-	<key>OEGBButtonA</key>
+	<key>OESVButtonA</key>
 	<integer>4</integer>
-	<key>OEGBButtonB</key>
+	<key>OESVButtonB</key>
 	<integer>22</integer>
-	<key>OEGBButtonStart</key>
+	<key>OESVButtonStart</key>
 	<integer>40</integer>
-	<key>OEGBButtonSelect</key>
+	<key>OESVButtonSelect</key>
 	<integer>229</integer>
 </dict>
 </plist>
