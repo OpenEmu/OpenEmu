@@ -318,8 +318,6 @@
 		82C2909114840024007C0214 /* OENGPSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 820EB7571483F9D3008EC398 /* OENGPSystemResponder.m */; };
 		82C2909214840028007C0214 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 820EB7501483F9D3008EC398 /* InfoPlist.strings */; };
 		82C290931484002F007C0214 /* controller_ngp.png in Resources */ = {isa = PBXBuildFile; fileRef = 820EB74E1483F9D3008EC398 /* controller_ngp.png */; };
-		82C5EFAE1237E76C001262F7 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C5EFAC1237E76C001262F7 /* AsyncUdpSocket.m */; };
-		82C5EFB31237E7E1001262F7 /* OENetServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C5EFB21237E7E1001262F7 /* OENetServer.m */; };
 		82CAFBBE0FEDAA4200CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFBB70FEDAA3D00CCDC7E /* config.yaml */; };
 		82DD29DB12369F1100B58A8F /* KeyboardUsages.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82DD29DA12369F1100B58A8F /* KeyboardUsages.plist */; };
 		82DD2B1E1236CF0200B58A8F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DD2B1D1236CF0200B58A8F /* Carbon.framework */; };
@@ -1957,10 +1955,6 @@
 		82965F871041DC4600F30B74 /* OECorePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECorePickerController.m; sourceTree = "<group>"; };
 		829779320E743F2A00631240 /* OEGameAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameAudio.h; sourceTree = "<group>"; };
 		829779330E743F2A00631240 /* OEGameAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameAudio.m; sourceTree = "<group>"; };
-		82C5EFAB1237E76C001262F7 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocket.h; sourceTree = "<group>"; };
-		82C5EFAC1237E76C001262F7 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
-		82C5EFB11237E7E1001262F7 /* OENetServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENetServer.h; sourceTree = "<group>"; };
-		82C5EFB21237E7E1001262F7 /* OENetServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENetServer.m; sourceTree = "<group>"; };
 		82CAFBB70FEDAA3D00CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		82DD29DA12369F1100B58A8F /* KeyboardUsages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KeyboardUsages.plist; sourceTree = "<group>"; };
 		82DD2B1D1236CF0200B58A8F /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
@@ -4641,7 +4635,6 @@
 				53439A8813B92BF4005C0CC8 /* Main Window */,
 				53439A8713B92BEF005C0CC8 /* Preferences */,
 				53439A8613B92BEB005C0CC8 /* HUD */,
-				82C5EC781236EEA3001262F7 /* Network */,
 				1E2F3DB810DEAB370019AA84 /* Migration */,
 				82DE498810263A09007184EB /* Downloader */,
 				C62F546E0FE6AD6700DF15BA /* Plugins */,
@@ -4689,17 +4682,6 @@
 				2205C377196402B50013C675 /* OELUTTexture.m */,
 			);
 			name = Graphics;
-			sourceTree = "<group>";
-		};
-		82C5EC781236EEA3001262F7 /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				82C5EFAB1237E76C001262F7 /* AsyncUdpSocket.h */,
-				82C5EFAC1237E76C001262F7 /* AsyncUdpSocket.m */,
-				82C5EFB11237E7E1001262F7 /* OENetServer.h */,
-				82C5EFB21237E7E1001262F7 /* OENetServer.m */,
-			);
-			name = Network;
 			sourceTree = "<group>";
 		};
 		82DE498810263A09007184EB /* Downloader */ = {
@@ -8263,8 +8245,6 @@
 				C6AC9DEF1190E2C90083DDFD /* OpenEmuHelperApp.m in Sources */,
 				1EA4404911973E9C001D71CA /* OEGameQuickLookDocument.m in Sources */,
 				8304D88B193E1EB8001E7357 /* INTitlebarView+CoreUIRendering.m in Sources */,
-				82C5EFAE1237E76C001262F7 /* AsyncUdpSocket.m in Sources */,
-				82C5EFB31237E7E1001262F7 /* OENetServer.m in Sources */,
 				53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */,
 				53439A9013B92C68005C0CC8 /* OEDBDataSourceAdditions.m in Sources */,
 				53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */,
