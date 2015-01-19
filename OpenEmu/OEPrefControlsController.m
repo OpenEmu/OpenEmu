@@ -359,6 +359,9 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
         return;
     }
 
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"deviceDescription.name" ascending:YES];
+    controllers = [controllers sortedArrayUsingDescriptors:@[sort]];
+
     for(OEDeviceHandler *handler in controllers)
     {
         NSString *deviceName = [[handler deviceDescription] name];
