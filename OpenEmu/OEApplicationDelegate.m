@@ -34,7 +34,6 @@
 #import "OECoreUpdater.h"
 
 #import "OESystemPlugin.h"
-#import "OECompositionPlugin.h"
 #import "OEShaderPlugin.h"
 
 #import "NSAttributedString+Hyperlink.h"
@@ -205,8 +204,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // Replace quick save / quick load items with menus if required
     [self OE_updateControlsMenu];
 
-    // Preload Composition plugins so HUDControls Bar and Gameplay Preferneces load faster
-    [OECompositionPlugin allPluginNames];
+    // Preload Shader plugins so HUDControls Bar and Gameplay preferences load faster
+    [OEShaderPlugin allPluginNames];
 
     [mainWindowController showWindow:self];
 
@@ -584,7 +583,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     [OEPlugin registerPluginClass:[OECorePlugin class]];
     [OEPlugin registerPluginClass:[OESystemPlugin class]];
-    [OEPlugin registerPluginClass:[OECompositionPlugin class]];
     [OEPlugin registerPluginClass:[OECGShaderPlugin class]];
     [OEPlugin registerPluginClass:[OEGLSLShaderPlugin class]];
     [OEPlugin registerPluginClass:[OEMultipassShaderPlugin class]];
@@ -592,9 +590,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // Register all system controllers with the bindings controller
     for(OESystemPlugin *plugin in [OESystemPlugin allPlugins])
         [OEBindingsController registerSystemController:[plugin controller]];
-
-    // Preload composition plugins
-    [OECompositionPlugin allPlugins];
 
     OELibraryDatabase *library = [OELibraryDatabase defaultDatabase];
     [library disableSystemsWithoutPlugin];

@@ -27,7 +27,6 @@
 #import "OEGameView.h"
 
 #import "OEGameDocument.h"
-#import "OECompositionPlugin.h"
 #import "OEShaderPlugin.h"
 
 #import "OEGameShader.h"
@@ -48,10 +47,7 @@
 
 #import "snes_ntsc.h"
 
-// TODO: bind vsync. Is it even necessary, why do we want it off at all?
-
 #pragma mark -
-
 #if CGFLOAT_IS_DOUBLE
 #define CGFLOAT_EPSILON DBL_EPSILON
 #else
@@ -110,10 +106,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     CVDisplayLinkRef   _gameDisplayLinkRef;
     SyphonServer      *_gameServer;
 
-    // QC based filters
-    CIImage           *_gameCIImage;
-    QCRenderer        *_filterRenderer;
-    CGColorSpaceRef    _rgbColorSpace;
+    // Filters
     NSTimeInterval     _filterTime;
     NSDate            *_filterStartDate;
     BOOL               _filterHasOutputMousePositionKeys;
@@ -264,9 +257,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
     [self setFilterName:filter];
 
-    // our texture is in NTSC colorspace from the cores
-    _rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
-
     _lastQuickSave = [NSDate timeIntervalSinceReferenceDate];
     [self OE_createSaveStateTexture];
 
@@ -305,7 +295,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 - (void)showQuickSaveNotification
 {
     if([[NSUserDefaults standardUserDefaults] boolForKey:OEShowSaveStateNotificationKey])
-        _lastQuickSave = [[NSDate date] timeIntervalSinceDate:_filterStartDate];;
+        _lastQuickSave = [[NSDate date] timeIntervalSinceDate:_filterStartDate];
 }
 
 - (void)removeFromSuperview
@@ -457,14 +447,8 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     [_gameServer stop];
     _gameServer = nil;
 
-    _gameCIImage = nil;
-
     // filters
     self.filters = nil;
-    _filterRenderer = nil;
-
-    CGColorSpaceRelease(_rgbColorSpace);
-    _rgbColorSpace = NULL;
 
     if(_gameSurfaceRef != NULL) CFRelease(_gameSurfaceRef);
 }
@@ -494,7 +478,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
 - (void)render
 {
-    // FIXME: Why not using the timestamps passed by parameters ?
     // rendering time for QC filters..
     if(_filterStartDate == nil)
     {
@@ -511,7 +494,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(_gameSurfaceRef != NULL)
     {
-        //NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)_rgbColorSpace forKey:kCIImageColorSpace];
         CGRect textureRect = CGRectMake(0, 0, _gameScreenSize.width, _gameScreenSize.height);
 
         CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
@@ -519,10 +501,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
         [[self openGLContext] makeCurrentContext];
 
         CGLLockContext(cgl_ctx);
-
-        // always set the CIImage, so save states save
-        // TODO: Since screenshots do not use gameCIImage anymore, should we remove it as a property?
-        //[self setGameCIImage:[[CIImage imageWithIOSurface:_gameSurfaceRef options:options] imageByCroppingToRect:textureRect]];
 
         OEGameShader *shader = [_filters objectForKey:_filterName];
 
@@ -534,35 +512,9 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
         if(shader != nil)
             [self OE_drawSurface:_gameSurfaceRef inCGLContext:cgl_ctx usingShader:shader];
-        else
-        {
-            // Since our filters no longer rely on QC, it may not be around.
-            if(_filterRenderer == nil) [self OE_refreshFilterRenderer];
-
-            if(_filterRenderer != nil)
-            {
-                NSDictionary *arguments = nil;
-
-                NSWindow *gameWindow = [self window];
-                NSRect  frame = [self frame];
-                NSPoint mouseLocation = [gameWindow mouseLocationOutsideOfEventStream];
-
-                mouseLocation.x /= frame.size.width;
-                mouseLocation.y /= frame.size.height;
-
-                arguments = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSValue valueWithPoint:mouseLocation], QCRendererMouseLocationKey,
-                             [gameWindow currentEvent], QCRendererEventKey,
-                             nil];
-
-                [_filterRenderer setValue:_gameCIImage forInputKey:@"OEImageInput"];
-                [_filterRenderer renderAtTime:_filterTime arguments:arguments];
-            }
-        }
 
         if([_gameServer hasClients])
             [_gameServer publishFrameTexture:_gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
-
 
         // Draw quick save notification if appropriate
         NSTimeInterval difference = _filterTime-_lastQuickSave;
@@ -1004,14 +956,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     return kCVReturnSuccess;
 }
 
-#pragma mark -
-#pragma mark Filters and Compositions
-
-- (QCComposition *)composition
-{
-    return [[OECompositionPlugin pluginWithName:_filterName] composition];
-}
-
+#pragma mark - Filters
 - (void)setFilterName:(NSString *)value
 {
     if(_filterName != value)
@@ -1020,7 +965,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
         _filterName = [value copy];
 
         [self OE_refreshFilterRenderer];
-        [[self delegate] gameView:self setDrawSquarePixels:[self composition] != nil];
+        [[self delegate] gameView:self setDrawSquarePixels:NO];
     }
 }
 
@@ -1030,8 +975,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     // but only if its appropriate
 
     DLog(@"releasing old filterRenderer");
-
-    _filterRenderer = nil;
 
     if(_filterName == nil) return;
 
@@ -1105,43 +1048,9 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
             CGLUnlockContext(cgl_ctx);
         }
     }
-
-    if([_filters objectForKey:_filterName] == nil && [self openGLContext] != nil)
-    {
-        CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
-        CGLLockContext(cgl_ctx);
-
-        DLog(@"making new filter renderer");
-
-        // This will be responsible for our rendering... weee...
-        QCComposition *compo = [self composition];
-
-        if(compo != nil)
-            _filterRenderer = [[QCRenderer alloc] initWithCGLContext:cgl_ctx
-                                                        pixelFormat:CGLGetPixelFormat(cgl_ctx)
-                                                         colorSpace:_rgbColorSpace
-                                                        composition:compo];
-
-        if(_filterRenderer == nil)
-            NSLog(@"Warning: failed to create our filter QCRenderer");
-
-        if(![[_filterRenderer inputKeys] containsObject:@"OEImageInput"])
-            NSLog(@"Warning: invalid Filter composition. Does not contain valid image input key");
-
-        if([[_filterRenderer outputKeys] containsObject:@"OEMousePositionX"] && [[_filterRenderer outputKeys] containsObject:@"OEMousePositionY"])
-        {
-            DLog(@"filter has mouse output position keys");
-            _filterHasOutputMousePositionKeys = YES;
-        }
-        else
-            _filterHasOutputMousePositionKeys = NO;
-
-        CGLUnlockContext(cgl_ctx);
-    }
 }
 
 #pragma mark - Screenshots
-
 - (NSImage *)screenshot
 {
     const OEIntSize   aspectSize     = _gameAspectSize;
@@ -1266,7 +1175,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     if(_delegate != value)
     {
         _delegate = value;
-        [_delegate gameView:self setDrawSquarePixels:[self composition] != nil];
+        [_delegate gameView:self setDrawSquarePixels:NO];
     }
 }
 
