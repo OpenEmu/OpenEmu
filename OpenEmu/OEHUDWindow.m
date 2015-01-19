@@ -590,6 +590,18 @@ static NSImage *frameImage, *frameImageInactive;
 
 - (id)forwardingTargetForSelector:(SEL)selector
 {
+    // The default implementation of validRequestorForSendType:returnType: passes the
+    // message to next responder which again is OEHUDWindowDelegateProxy thus creating
+    // infinite recursion.
+    // The bug also exists for every responder method that is overridden by the delegate
+    // and passed on to next responder by default!
+    //
+    // For now validRequestorForSendType:returnType: is the only crash seen in the wild.
+    if(selector == @selector(validRequestorForSendType:returnType:))
+    {
+        return nil;
+    }
+
     // OEHUDWindow takes precedence over its (local) delegate
     if([_superDelegate respondsToSelector:selector])
         return _superDelegate;
