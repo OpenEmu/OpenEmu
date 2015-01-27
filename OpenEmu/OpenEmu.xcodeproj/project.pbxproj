@@ -82,6 +82,7 @@
 				94EBBCFB183F42CE00743756 /* CopyFiles */,
 			);
 			dependencies = (
+				8378DE941A785849003DA046 /* PBXTargetDependency */,
 				837964F71A614B3600A8DE5C /* PBXTargetDependency */,
 				277CBA6019DE55700059A2C1 /* PBXTargetDependency */,
 				9440477E199D56B2002D805E /* PBXTargetDependency */,
@@ -436,6 +437,7 @@
 		837820B61907E8520043593F /* OEBlankSlateForegroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820B51907E8520043593F /* OEBlankSlateForegroundLayer.m */; };
 		837820BD19081A090043593F /* OELibraryMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820BC19081A090043593F /* OELibraryMigrator.m */; };
 		837820C119081B1C0043593F /* OEMigrationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 837820BF19081B1C0043593F /* OEMigrationWindowController.m */; };
+		8378DE951A785853003DA046 /* GameCube.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94CEB26D17A84809005A2107 /* GameCube.oesystemplugin */; };
 		837964F11A614ACD00A8DE5C /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 837964EA1A614ACD00A8DE5C /* Controller-Mappings.plist */; };
 		837964F21A614ACD00A8DE5C /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 837964EB1A614ACD00A8DE5C /* Controller-Preferences.plist */; };
 		837964F31A614ACD00A8DE5C /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 837964EC1A614ACD00A8DE5C /* Keyboard-Mappings.plist */; };
@@ -1278,6 +1280,13 @@
 			remoteGlobalIDString = 3887A7F51024D1F9000FC4CF;
 			remoteInfo = OESaveStateQLPlugin;
 		};
+		8378DE931A785849003DA046 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94CEB26C17A84809005A2107;
+			remoteInfo = GameCube;
+		};
 		837964F61A614B3600A8DE5C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1619,6 +1628,7 @@
 			dstPath = OpenEmu.app/Contents/PlugIns/Systems;
 			dstSubfolderSpec = 16;
 			files = (
+				8378DE951A785853003DA046 /* GameCube.oesystemplugin in CopyFiles */,
 				837964FA1A614C6A00A8DE5C /* Supervision.oesystemplugin in CopyFiles */,
 				277CBA6119DE558B0059A2C1 /* Intellivision.oesystemplugin in CopyFiles */,
 				94404780199D5830002D805E /* Odyssey2.oesystemplugin in CopyFiles */,
@@ -8748,6 +8758,11 @@
 			isa = PBXTargetDependency;
 			target = 3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */;
 			targetProxy = 8309A780166CE6360013AD4A /* PBXContainerItemProxy */;
+		};
+		8378DE941A785849003DA046 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94CEB26C17A84809005A2107 /* GameCube */;
+			targetProxy = 8378DE931A785849003DA046 /* PBXContainerItemProxy */;
 		};
 		837964F71A614B3600A8DE5C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
