@@ -9543,6 +9543,8 @@
 					__TEXT,
 					__info_plist,
 					"$(INFOPLIST_FILE)",
+					"-pagezero_size",
+					0x1000,
 				);
 				PRODUCT_NAME = OpenEmuHelperApp;
 				VALID_ARCHS = x86_64;
@@ -9573,6 +9575,8 @@
 					__TEXT,
 					__info_plist,
 					"$(INFOPLIST_FILE)",
+					"-pagezero_size",
+					0x1000,
 				);
 				PRODUCT_NAME = OpenEmuHelperApp;
 				VALID_ARCHS = x86_64;
