@@ -9,21 +9,21 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OELynxButtonUp</key>
-		<string>{0, 0}</string>
+		<string>{71,253}</string>
 		<key>OELynxButtonDown</key>
-		<string>{0, 0}</string>
+		<string>{71, 209}</string>
 		<key>OELynxButtonLeft</key>
-		<string>{0, 0}</string>
+		<string>{50, 228}</string>
 		<key>OELynxButtonRight</key>
-		<string>{0, 0}</string>
-		<key>OELynxButtonA</key>
-		<string>{0, 0}</string>
+		<string>{93, 228}</string>
 		<key>OELynxButtonB</key>
-		<string>{0, 0}</string>
+		<string>{394, 300}</string>
+		<key>OELynxButtonA</key>
+		<string>{433, 310}</string>
 		<key>OELynxButtonOption1</key>
-		<string>{0, 0}</string>
+		<string>{363, 265}</string>
 		<key>OELynxButtonOption2</key>
-		<string>{0, 0}</string>
+		<string>{362, 190}</string>
 	</dict>
 </dict>
 </plist>
