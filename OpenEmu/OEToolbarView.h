@@ -26,7 +26,7 @@
 #import <Cocoa/Cocoa.h>
 #import "INAppStoreWindow.h"
 @class OEToolbarItem;
-@interface OEToolbarView : INTitlebarView
+@interface OEToolbarView : INTitlebarView <NSAccessibilityGroup>
 {
 @private
     OEToolbarItem *highlightedItem;
@@ -44,7 +44,7 @@
 - (NSInteger)indexOfItem:(OEToolbarItem*)item;
 @end
 
-@interface OEToolbarItem : NSObject
+@interface OEToolbarItem : NSObject <NSAccessibilityButton>
 @property NSRect itemRect;
 
 @property(copy) NSString *title;
@@ -52,4 +52,6 @@
 @property(unsafe_unretained) id target;
 @property SEL action;
 @property(strong) id representedObject;
+
+@property (weak) id accessibilityParent;
 @end

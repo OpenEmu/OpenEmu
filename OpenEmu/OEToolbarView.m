@@ -60,6 +60,7 @@
 
 - (void)addItem:(OEToolbarItem *)item
 {
+    [item setAccessibilityParent:self];
     [[self items] addObject:item];
     [self setNeedsDisplay:YES];
 }
@@ -68,10 +69,12 @@
 - (OEToolbarItem*)selectedItem{
     return selectedItem;
 }
+
 - (NSUInteger)selectedItemIndex
 {
     return [[self items] indexOfObject:selectedItem];
 }
+
 - (void)markItemAsSelected:(OEToolbarItem*)tbItem{
     NSUInteger index = [self indexOfItem:tbItem];
     if(index == NSNotFound){
@@ -169,7 +172,16 @@
 - (void)mouseDown:(NSEvent *)theEvent
 {
     NSPoint loc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    
+    BOOL highlightSuccess = [self _highlightItemAtPoint:loc];
+
+    if(!highlightSuccess)
+    {
+        [super mouseDown:theEvent];
+    }
+}
+
+- (BOOL)_highlightItemAtPoint:(NSPoint)loc
+{
     highlightedItem = nil;
     for(OEToolbarItem *anItem in [self items])
         if(NSPointInRect(loc, [anItem itemRect]))
@@ -177,28 +189,31 @@
             highlightedItem = anItem;
             break;
         }
-    
+
     [self setNeedsDisplay:YES];
-    
-    if(highlightedItem == nil) [super mouseDown:theEvent];
+
+    return highlightedItem != nil;
 }
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
     NSPoint loc = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    
+    [self _selectItemAtPoint:loc];
+}
+
+- (BOOL)_selectItemAtPoint:(NSPoint)loc
+{
     if(highlightedItem && NSPointInRect(loc, [highlightedItem itemRect]))
     {
-        selectedItem = highlightedItem;        
+        selectedItem = highlightedItem;
         if([selectedItem action] != NULL)
         {
             [NSApp sendAction:[selectedItem action] to:[selectedItem target] from:selectedItem];
         }
     }
-    highlightedItem = nil;
-
-    
     [self setNeedsDisplay:YES];
+
+    return YES;
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent
@@ -221,8 +236,73 @@
     [self setItems:[NSMutableArray array]];
 }
 
+#pragma mark - Accessiblity
+- (NSRect)accessibilityFrame
+{
+    NSRect windowFrame = [[self window] frame];
+    NSRect viewFrame   = [self frame];
+
+    return (NSRect){.origin = { NSMinX(windowFrame), NSMaxY(windowFrame)-NSHeight(viewFrame) },
+                    .size=viewFrame.size };
+}
+
+- (id)accessibilityParent
+{
+    return [self window];
+}
+
+- (NSArray*)accessibilityChildren
+{
+    return self.items;
+}
+
+-  (NSString*)accessibilityRoleDescription
+{
+    return @"toolbar";
+}
+
+- (NSString*)accessibilityRole
+{
+    return @"toolbar";
+}
+
 @end
 
 @implementation OEToolbarItem
 @synthesize title, icon, target, action, itemRect;
+@synthesize accessibilityParent;
+#pragma mark - Accessiblity
+- (NSRect)accessibilityFrame
+{
+    OEToolbarView *view = [self accessibilityParent];
+    NSRect    viewFrame = [view accessibilityFrame];
+
+
+    return (NSRect){ .origin = NSMakePoint(NSMinX(viewFrame)+NSMinX(itemRect), NSMinY(viewFrame)+NSMinY(itemRect)),
+                     .size   = itemRect.size };
+}
+
+- (NSArray*)accessibilityChildren
+{
+    return nil;
+}
+
+-  (NSString*)accessibilityRoleDescription
+{
+    return @"toolbar button";
+}
+
+- (NSString*)accessibilityLabel
+{
+    return [self title];
+}
+
+- (BOOL)accessibilityPerformPress
+{
+    OEToolbarView *view = [self accessibilityParent];
+    NSPoint center = (NSPoint){.x=NSMidX([self itemRect]), .y=NSMidY([self itemRect])};
+    [view _highlightItemAtPoint:center];
+    return [view _selectItemAtPoint:center];
+}
+
 @end
