@@ -197,7 +197,6 @@
     }
 
     NSMenu *menu = [[NSMenu alloc] init];
-    [menu addItemWithTitle:OELocalizedString(@"Don't Import Selected", @"") action:NULL keyEquivalent:@""];
 
     NSArray *systemIDs = [systemIDSet allObjects];
     NSManagedObjectContext *context = [[[self libraryController] database] mainThreadContext];
@@ -217,6 +216,8 @@
     }];
 
     [menu removeAllItems];
+    [menu addItemWithTitle:OELocalizedString(@"Don't Import Selected", @"") action:NULL keyEquivalent:@""];
+    [menu addItem:[NSMenuItem separatorItem]];
 
     [items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [menu addItem:obj];
