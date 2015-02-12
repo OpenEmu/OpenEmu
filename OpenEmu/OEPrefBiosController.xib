@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1070" identifier="macosx"/>
         <development version="5100" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6250"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPrefBiosController">
@@ -31,7 +31,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn identifier="AutomaticTableColumnIdentifier.0" width="420" minWidth="40" maxWidth="1000" id="30M-H4-2FY">
+                                    <tableColumn identifier="AutomaticTableColumnIdentifier.0" width="423" minWidth="423" maxWidth="423" id="30M-H4-2FY">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -45,11 +45,11 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView identifier="CoreCell" id="hFf-wE-j2a" customClass="OETableCellGroupView">
-                                                <rect key="frame" x="1" y="1" width="420" height="17"/>
+                                                <rect key="frame" x="1" y="1" width="423" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="GS8-0y-6Ry" customClass="OETextField">
-                                                        <rect key="frame" x="0.0" y="1" width="420" height="17"/>
+                                                        <rect key="frame" x="0.0" y="1" width="423" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="YrR-8w-4CP" customClass="OETextFieldCell">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -68,12 +68,12 @@
                                                     <outlet property="textField" destination="GS8-0y-6Ry" id="KPD-UI-WS2"/>
                                                 </connections>
                                             </tableCellView>
-                                            <tableCellView identifier="FileCell" id="hP5-d6-JZ7">
-                                                <rect key="frame" x="1" y="20" width="420" height="56"/>
+                                            <tableCellView identifier="FileCell" id="hP5-d6-JZ7" customClass="OETableCellView">
+                                                <rect key="frame" x="1" y="20" width="423" height="56"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="tkx-gB-e8N" customClass="OETextField">
-                                                        <rect key="frame" x="12" y="34" width="408" height="17"/>
+                                                        <rect key="frame" x="12" y="34" width="411" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="PlayStation (EU) SCPH-5502 BIOS" id="Hbv-dS-4vw" customClass="OETextFieldCell">
                                                             <font key="font" metaFont="system"/>
@@ -88,7 +88,7 @@
                                                         </connections>
                                                     </textField>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" tag="1" id="xLs-XI-X6L" customClass="OETextField">
-                                                        <rect key="frame" x="30" y="14" width="222" height="17"/>
+                                                        <rect key="frame" x="30" y="14" width="225" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" sendsActionOnEndEditing="YES" title="scph5502.bin" id="FjA-9l-aL6" customClass="OETextFieldCell">
                                                             <font key="font" metaFont="system"/>
@@ -112,25 +112,33 @@
                                                     <outlet property="textField" destination="tkx-gB-e8N" id="jC2-ws-gyd"/>
                                                 </connections>
                                             </tableCellView>
-                                            <tableCellView identifier="InfoCell" id="Byy-Ku-AfU">
-                                                <rect key="frame" x="1" y="78" width="420" height="90"/>
+                                            <tableCellView identifier="InfoCell" id="Byy-Ku-AfU" customClass="OETableCellView">
+                                                <rect key="frame" x="1" y="78" width="423" height="90"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="eFR-Km-ZoQ">
-                                                        <rect key="frame" x="15" y="9" width="391" height="73"/>
+                                                        <rect key="frame" x="15" y="9" width="394" height="73"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="kho-xU-BTB">
                                                             <rect key="frame" x="0.0" y="0.0" width="391" height="73"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" verticallyResizable="YES" allowsNonContiguousLayout="YES" id="Ynq-yb-Moe">
+                                                                <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" verticallyResizable="YES" allowsNonContiguousLayout="YES" id="Ynq-yb-Moe" customClass="OEArrowCursorTextView">
                                                                     <rect key="frame" x="0.0" y="0.0" width="391" height="73"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <size key="minSize" width="391" height="73"/>
+                                                                    <size key="minSize" width="394" height="73"/>
                                                                     <size key="maxSize" width="463" height="10000000"/>
+                                                                    <attributedString key="textStorage">
+                                                                        <fragment content="asdasd">
+                                                                            <attributes>
+                                                                                <font key="NSFont" metaFont="smallSystem"/>
+                                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                                            </attributes>
+                                                                        </fragment>
+                                                                    </attributedString>
                                                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                    <size key="minSize" width="391" height="73"/>
+                                                                    <size key="minSize" width="394" height="73"/>
                                                                     <size key="maxSize" width="463" height="10000000"/>
                                                                     <connections>
                                                                         <binding destination="Byy-Ku-AfU" name="attributedString" keyPath="objectValue" id="2R3-AZ-NEA">
@@ -163,7 +171,7 @@
                         </subviews>
                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </clipView>
-                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Pte-Dx-7ad" customClass="OEScroller">
+                    <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="Pte-Dx-7ad" customClass="OEScroller">
                         <rect key="frame" x="1" y="119" width="223" height="15"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>

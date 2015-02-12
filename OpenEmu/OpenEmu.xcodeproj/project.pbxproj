@@ -422,6 +422,8 @@
 		836CFD6814709D3C00397683 /* wood_knob_vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = 836CFD6314709D3C00397683 /* wood_knob_vertical.png */; };
 		836CFD6914709D3C00397683 /* wood_track_vertical_spacer.png in Resources */ = {isa = PBXBuildFile; fileRef = 836CFD6414709D3C00397683 /* wood_track_vertical_spacer.png */; };
 		836CFD6A14709D3C00397683 /* wood_track_vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = 836CFD6514709D3C00397683 /* wood_track_vertical.png */; };
+		8370D3DC1A8D25D900313F87 /* OETableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8370D3DB1A8D25D900313F87 /* OETableCellView.m */; };
+		8370D3E11A8D2A7600313F87 /* OEArrowCursorTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8370D3E01A8D2A7600313F87 /* OEArrowCursorTextView.m */; };
 		83723812196329F1008D4C08 /* controller_ngp_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83723810196329F1008D4C08 /* controller_ngp_mask@2x.png */; };
 		83723813196329F1008D4C08 /* controller_ngp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83723811196329F1008D4C08 /* controller_ngp@2x.png */; };
 		8372381819632A0D008D4C08 /* controller_psp_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8372381619632A0D008D4C08 /* controller_psp_mask@2x.png */; };
@@ -2177,6 +2179,10 @@
 		836CFD6314709D3C00397683 /* wood_knob_vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_knob_vertical.png; sourceTree = "<group>"; };
 		836CFD6414709D3C00397683 /* wood_track_vertical_spacer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_track_vertical_spacer.png; sourceTree = "<group>"; };
 		836CFD6514709D3C00397683 /* wood_track_vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_track_vertical.png; sourceTree = "<group>"; };
+		8370D3DA1A8D25D900313F87 /* OETableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETableCellView.h; sourceTree = "<group>"; };
+		8370D3DB1A8D25D900313F87 /* OETableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableCellView.m; sourceTree = "<group>"; };
+		8370D3DF1A8D2A7600313F87 /* OEArrowCursorTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArrowCursorTextView.h; sourceTree = "<group>"; };
+		8370D3E01A8D2A7600313F87 /* OEArrowCursorTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEArrowCursorTextView.m; sourceTree = "<group>"; };
 		83723810196329F1008D4C08 /* controller_ngp_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_ngp_mask@2x.png"; sourceTree = "<group>"; };
 		83723811196329F1008D4C08 /* controller_ngp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_ngp@2x.png"; sourceTree = "<group>"; };
 		8372381619632A0D008D4C08 /* controller_psp_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psp_mask@2x.png"; sourceTree = "<group>"; };
@@ -4222,6 +4228,8 @@
 				53439AE213B92E59005C0CC8 /* OETableView.m */,
 				83D94FAD19A4CD2A007583E1 /* OETableCellGroupView.h */,
 				83D94FAE19A4CD2A007583E1 /* OETableCellGroupView.m */,
+				8370D3DA1A8D25D900313F87 /* OETableCellView.h */,
+				8370D3DB1A8D25D900313F87 /* OETableCellView.m */,
 			);
 			name = "List View";
 			sourceTree = "<group>";
@@ -4328,6 +4336,8 @@
 				83025E5F146BDD5E00A06EF9 /* OECoreTableButtonCell.m */,
 				83025E64146BE68D00A06EF9 /* OECoreTableProgressCell.h */,
 				83025E65146BE68D00A06EF9 /* OECoreTableProgressCell.m */,
+				8370D3DF1A8D2A7600313F87 /* OEArrowCursorTextView.h */,
+				8370D3E01A8D2A7600313F87 /* OEArrowCursorTextView.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -8225,6 +8235,7 @@
 				C62F54710FE6ADC500DF15BA /* OEPlugin.m in Sources */,
 				C62F549B0FE6CC1500DF15BA /* OECorePlugin.m in Sources */,
 				C69DCD010FE994A5009AE5A6 /* OEPluginDocument.m in Sources */,
+				8370D3DC1A8D25D900313F87 /* OETableCellView.m in Sources */,
 				82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */,
 				82965F881041DC4600F30B74 /* OECorePickerController.m in Sources */,
 				1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */,
@@ -8254,6 +8265,7 @@
 				53439AF413B92EA8005C0CC8 /* OESearchFieldCell.m in Sources */,
 				53439AF713B92EAD005C0CC8 /* OESlider.m in Sources */,
 				53439AFA13B92EB3005C0CC8 /* OEImageButton.m in Sources */,
+				8370D3E11A8D2A7600313F87 /* OEArrowCursorTextView.m in Sources */,
 				53439AFD13B92EB9005C0CC8 /* OEScroller.m in Sources */,
 				53439B0013B92EC1005C0CC8 /* OEScrollView.m in Sources */,
 				83CA87B01961C71C00D86D55 /* NSUserDefaults+OEAdditions.m in Sources */,

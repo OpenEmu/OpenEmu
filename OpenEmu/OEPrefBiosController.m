@@ -29,6 +29,7 @@
 #import "OECorePlugin.h"
 
 #import "OETableView.h"
+#import "OETableCellView.h"
 #import "OETheme.h"
 
 #import "NSString+OEAdditions.h"
@@ -68,7 +69,6 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     [view setDelegate:self];
     [view setDataSource:self];
     [view setUsesAlternatingRowBackgroundColors:NO];
-    [view setBackgroundColor:[NSColor clearColor]];
     [view setFloatsGroupRows:YES];
 
     [view registerForDraggedTypes:@[NSURLPboardType]];
@@ -246,16 +246,19 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
 
 - (NSView *)tableView:(NSTableView *)view viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
+    NSColor *rowBackground = [NSColor colorWithDeviceWhite:0.059 alpha:1.0];
+    NSColor *alternateRowBackground = [NSColor colorWithDeviceWhite:0.114 alpha:1.0];
+
     if(row == 0)
     {
-        NSTableCellView *groupCell = [view makeViewWithIdentifier:@"InfoCell" owner:self];
+        OETableCellView *groupCell = [view makeViewWithIdentifier:@"InfoCell" owner:self];
 
         OETheme *theme = [OETheme sharedTheme];
         NSMutableDictionary *attributes = [[theme textAttributesForKey:@"bios_info" forState:OEThemeStateDefault] mutableCopy];
         NSMutableDictionary *linkAttributes = [[theme textAttributesForKey:@"bios_info_link" forState:OEThemeStateDefault] mutableCopy];
 
         // Change cursors
-        [attributes setObject:[NSCursor arrowCursor] forKey:NSCursorAttributeName];
+        [attributes     setObject:[NSCursor arrowCursor]        forKey:NSCursorAttributeName];
         [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
 
         NSString *infoText = [NSString stringWithFormat:OELocalizedString(@"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information.", @"BIOS files preferences introduction text"), OEBiosUserGuideURLString];
@@ -272,9 +275,12 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
         [textView setDelegate:self];
         [textView setEditable:NO];
         [textView setSelectable:YES];
+        [textView setDrawsBackground:YES];
         [textView setTypingAttributes:attributes];
         [textView setSelectedTextAttributes:attributes];
         [textView setLinkTextAttributes:linkAttributes];
+        [textView setBackgroundColor:rowBackground];
+        [groupCell setBackgroundColor:rowBackground];
 
         return groupCell;
     } else row = row -1;
@@ -289,7 +295,7 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     }
     else
     {
-        NSTableCellView *fileCell = [tableView makeViewWithIdentifier:@"FileCell" owner:self];
+        OETableCellView *fileCell = [tableView makeViewWithIdentifier:@"FileCell" owner:self];
 
         NSTextField *descriptionField = [fileCell textField];
         NSTextField *fileNameField = [fileCell viewWithTag:1];
@@ -307,6 +313,10 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
         [descriptionField setStringValue:description];
         [fileNameField setStringValue:[NSString stringWithFormat:@"%@ (%@)", name, [self OE_formatByteNumber:size]]];
         [availabilityIndicator setImage:image];
+
+        int rowsFromHeader = 0;
+        while(![self tableView:view isGroupRow:row+1-rowsFromHeader++])
+        [fileCell setBackgroundColor:rowsFromHeader%2 ? rowBackground : alternateRowBackground];
 
         return fileCell;
     }

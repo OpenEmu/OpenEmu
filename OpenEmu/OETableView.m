@@ -40,6 +40,10 @@ static NSGradient *highlightGradient, *normalGradient;
 - (BOOL)OE_isActive;
 @end
 
+@interface NSTableView (ApplePrivate)
+- (BOOL)isViewBased;
+@end
+
 @implementation OETableView
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -100,7 +104,10 @@ static NSGradient *highlightGradient, *normalGradient;
 
 - (void)drawBackgroundInClipRect:(NSRect)clipRect
 {
-	NSColor *rowBackground = [NSColor colorWithDeviceWhite:0.059 alpha:1.0];
+    if([self isViewBased])
+        return;
+
+    NSColor *rowBackground = [NSColor colorWithDeviceWhite:0.059 alpha:1.0];
     NSColor *alternateRowBackground = [NSColor colorWithDeviceWhite:0.114 alpha:1.0];
 	
 	[rowBackground setFill];
@@ -147,7 +154,13 @@ static NSGradient *highlightGradient, *normalGradient;
 
 - (void)highlightSelectionInClipRect:(NSRect)theClipRect
 {
-	NSColor *fillColor;
+    if([self isViewBased])
+    {
+        [super highlightSelectionInClipRect:theClipRect];
+        return;
+    }
+
+    NSColor *fillColor;
 	NSColor *lineColor;
 	if([self OE_isActive])
 	{
@@ -161,7 +174,7 @@ static NSGradient *highlightGradient, *normalGradient;
 	}
 	
 	[fillColor setFill];
-	
+
 	NSIndexSet *selectedRows = [self selectedRowIndexes];
 	
 	NSUInteger nextIndex = [selectedRows firstIndex];
