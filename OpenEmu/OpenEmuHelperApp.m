@@ -162,7 +162,7 @@
     
     const GLubyte *vendor = glGetString(GL_VENDOR);
     const GLubyte *renderer = glGetString(GL_RENDERER);
-    _hasSlowClientStorage = strstr((const char*)vendor, "Intel") || strstr((const char*)renderer, "NVIDIA GeForce 9600M GT OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce 8600M GT OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce GT 330M OpenGL Engine") != NULL;
+    _hasSlowClientStorage = strstr((const char*)vendor, "Intel") || strstr((const char*)renderer, "NVIDIA GeForce 9600M GT OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce 8600M GT OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce GT 330M OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce 320M OpenGL Engine") != NULL;
 }
 
 - (void)setupIOSurface
