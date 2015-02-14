@@ -260,9 +260,9 @@ NSString *const OEDownloadRomWarningSupperssionKey    = @"OEDownloadRomWarningSu
 + (id)romDownloadRequiredAlert:(NSString*)name server:(NSString*)server
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
-    NSString *headlineText = [NSString stringWithFormat:OELocalizedString(@"Rom requires download", @"Download rom dialog headline")];
+    NSString *headlineText = [NSString stringWithFormat:OELocalizedString(@"Game requires download", @"Download rom dialog headline")];
     [alert setHeadlineText:headlineText];
-    NSString *messageText = [NSString stringWithFormat:OELocalizedString(@"In order to play %@ you need to download it from %@. Are you sure you trust that source?", @""), name, server];
+    NSString *messageText = [NSString stringWithFormat:OELocalizedString(@"In order to play the game it must be downloaded.", @"")];
     [alert setMessageText:messageText];
     [alert setDefaultButtonTitle:OELocalizedString(@"Download", @"")];
     [alert setAlternateButtonTitle:OELocalizedString(@"Cancel", @"")];
