@@ -34,32 +34,27 @@
 
 #import "OEGameCoreHelper.h"
 
-@protocol OEGameViewDelegate;
-@class OESystemResponder;
-
 extern NSString * const OEShowSaveStateNotificationKey;
 extern NSString * const OEScreenshotAspectRationCorrectionDisabled;
+extern NSString * const OEDefaultVideoFilterKey;
+
+@protocol OEGameViewDelegate;
+
 
 @interface OEGameView : NSOpenGLView <OEGameCoreDisplayHelper>
 
-@property(nonatomic, assign) id<OEGameViewDelegate> delegate;
+@property (nonatomic, assign) id<OEGameViewDelegate> delegate;
 
-// QC based filters
-@property(copy) NSDictionary *filters;
-@property(nonatomic, copy) NSString *filterName;
-@property(nonatomic, copy) NSColor  *backgroundColor;
-// Screenshots
+@property (copy) NSDictionary *filters;
+@property (nonatomic, copy) NSString *filterName;
+@property (nonatomic, copy) NSColor  *backgroundColor;
+
 /* Returns a screenshot containing the game viewport with its current size in the window and filters */
 - (NSImage *)screenshot;
 
 /* Returns a screenshot as rendered by the emulator core: native size and no filters */
 - (NSImage *)nativeScreenshot;
 
-// Rendering methods
-- (void)setupDisplayLink;
-- (void)tearDownDisplayLink;
-- (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
-- (void)render;
 
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 

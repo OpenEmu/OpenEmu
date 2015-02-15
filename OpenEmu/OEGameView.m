@@ -26,49 +26,43 @@
 
 #import "OEGameView.h"
 
+#import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEGameDocument.h"
-#import "OEShaderPlugin.h"
+#import "OEDOGameCoreHelper.h"
 
+#import "OEShaderPlugin.h"
 #import "OEGameShader.h"
 #import "OEGLSLShader.h"
 #import "OECGShader.h"
+#import "OEBuiltInShader.h"
 #import "OEMultipassShader.h"
 #import "OELUTTexture.h"
 
-#import "OEBuiltInShader.h"
-
-#import "OEDOGameCoreHelper.h"
-
-#import <OpenEmuSystem/OpenEmuSystem.h>
-#import <OpenGL/CGLMacro.h>
 #import <IOSurface/IOSurface.h>
+#import <OpenGL/CGLMacro.h>
 #import <OpenGL/CGLIOSurface.h>
 #import <Accelerate/Accelerate.h>
 
 #import "snes_ntsc.h"
 
-#pragma mark -
-#if CGFLOAT_IS_DOUBLE
-#define CGFLOAT_EPSILON DBL_EPSILON
-#else
-#define CGFLOAT_EPSILON FLT_EPSILON
-#endif
-
-#pragma mark -
-#pragma mark Display Link
-
 NSString * const OEShowSaveStateNotificationKey = @"OEShowSaveStateNotification";
 NSString * const OEScreenshotAspectRationCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
+NSString * const OEDefaultVideoFilterKey = @"videoFilter";
 
-static const GLfloat cg_coords[] =
-{
+static const GLfloat cg_coords[] = {
     0, 0,
     1, 0,
     1, 1,
     0, 1
 };
 
-static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
+@interface OEGameView ()
+// Rendering methods
+- (void)setupDisplayLink;
+- (void)tearDownDisplayLink;
+- (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
+- (void)render;
+@end
 
 @implementation OEGameView
 {
@@ -150,17 +144,15 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     return [[NSOpenGLPixelFormat alloc] initWithAttributes:attr];
 }
 
-// Warning: - because we are using a superview with a CALayer for transitioning, we have prepareOpenGL called more than once.
-// What to do about that?
 - (void)prepareOpenGL
 {
-    [super prepareOpenGL];
-
     [self setWantsBestResolutionOpenGLSurface:YES];
+    [super prepareOpenGL];
 
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLLockContext(cgl_ctx);
 
+    // Warning: because we are using a superview with a CALayer for transitioning, we have prepareOpenGL called more than once.
     if(_openGLContextIsSetup)
     {
         CGLUnlockContext(cgl_ctx);
@@ -329,7 +321,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     NSString *systemFilterKey  = [NSString stringWithFormat:@"videoFilter.%@", systemIdentifier];
     NSString *filter = [defaults objectForKey:systemFilterKey];
     if(filter == nil)
-        filter = [defaults objectForKey:_OEDefaultVideoFilterKey];
+        filter = [defaults objectForKey:OEDefaultVideoFilterKey];
 
     [self setFilterName:filter];
 }
@@ -1055,7 +1047,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
     // Revert to the Default Filter if the current is not available (ie. deleted)
     if(![_filters objectForKey:_filterName])
-        _filterName = [[NSUserDefaults standardUserDefaults] objectForKey:_OEDefaultVideoFilterKey];
+        _filterName = [[NSUserDefaults standardUserDefaults] objectForKey:OEDefaultVideoFilterKey];
 
     [filter compileShaders];
     if([filter isKindOfClass:[OEMultipassShader class]])
