@@ -355,7 +355,9 @@
 
 - (void)appendOutput:(NSString *)output fromProcess:(OETaskWrapper *)aTask
 {
+#ifdef LogCoreOutput
     printf("%s", [output UTF8String]);
+#endif
 }
 
 - (void)processStarted:(OETaskWrapper *)aTask

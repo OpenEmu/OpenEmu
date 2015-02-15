@@ -255,7 +255,9 @@
         // Send the data on to the controller; we can't just use +stringWithUTF8String: here
         // because -[data bytes] is not necessarily a properly terminated string.
         // -initWithData:encoding: on the other hand checks -[data length]
+#ifdef LogCoreOutput
         fprintf(stderr, "%s\n", [[NSString stringWithFormat:@"background process error: %@: %@", [_processIdentifier substringToIndex:[_processIdentifier rangeOfString:@" # "].location], [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]] UTF8String]);
+#endif
         [[notification object] readInBackgroundAndNotify];
     }
     else
@@ -276,7 +278,9 @@
         // Send the data on to the controller; we can't just use +stringWithUTF8String: here
         // because -[data bytes] is not necessarily a properly terminated string.
         // -initWithData:encoding: on the other hand checks -[data length]
+#ifdef LogCoreOutput
         fprintf(stderr, "%s\n", [[NSString stringWithFormat:@"background process error: %@: %@", [_processIdentifier substringToIndex:[_processIdentifier rangeOfString:@" # "].location], [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]] UTF8String]);
+#endif
         [[notification object] readInBackgroundAndNotify];
     }
     else
