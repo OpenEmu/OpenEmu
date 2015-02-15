@@ -208,7 +208,6 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 }
 
 #pragma mark - NSWindowDelegate
-
 - (void)windowDidMove:(NSNotification *)notification
 {
     if(![_borderWindow isDragging] && [[_delegateProxy localDelegate] respondsToSelector:@selector(windowDidMove:)])
@@ -216,7 +215,6 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 }
 
 #pragma mark - Private
-
 - (void)OE_commonHUDWindowInit
 {
     [self setHasShadow:YES];
@@ -277,7 +275,6 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 }
 
 #pragma mark - Public
-
 - (NSColor *)contentBackgroundColor
 {
     return [_backgroundView fillColor];
@@ -355,12 +352,8 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 
 - (void)display
 {
+    [super display];
     [[self contentView] display];
-}
-
-- (void)setParentWindow:(NSWindow *)window
-{
-    [super setParentWindow:window];
 }
 
 - (void)dealloc

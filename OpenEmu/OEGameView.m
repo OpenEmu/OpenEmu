@@ -60,11 +60,6 @@
 NSString * const OEShowSaveStateNotificationKey = @"OEShowSaveStateNotification";
 NSString * const OEScreenshotAspectRationCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
 
-static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
-{
-    return [(__bridge OEGameView *)displayLinkContext displayLinkRenderCallback:inOutputTime];
-}
-
 static const GLfloat cg_coords[] =
 {
     0, 0,
@@ -114,6 +109,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     NSTimeInterval _lastQuickSave;
     GLuint _saveStateTexture;
 }
+
 + (void)initialize
 {
     if([self class] == [OEGameView class])
@@ -122,16 +118,24 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     }
 }
 
-- (NSDictionary *)OE_shadersForContext:(CGLContextObj)context
+- (void)dealloc
 {
-    NSMutableDictionary *shaders = [NSMutableDictionary dictionary];
+    [self unbind:@"filterName"];
 
-    for(OEShaderPlugin *plugin in [OEShaderPlugin allPlugins])
-        shaders[[plugin name]] = [plugin shaderWithContext:context];
+    DLog(@"OEGameView dealloc");
+    [self tearDownDisplayLink];
 
-    return shaders;
+#ifdef SYPHON_SUPPORT
+    [self stopSyphon];
+#endif
+
+    // filters
+    [self setFilters:nil];
+
+    if(_gameSurfaceRef != NULL) CFRelease(_gameSurfaceRef);
 }
 
+#pragma mark - OpenGL Setup
 + (NSOpenGLPixelFormat *)defaultPixelFormat
 {
     // choose our pixel formats
@@ -150,18 +154,50 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 // What to do about that?
 - (void)prepareOpenGL
 {
-    [self setWantsBestResolutionOpenGLSurface:YES];
-
     [super prepareOpenGL];
 
-    DLog(@"prepareOpenGL");
-    // Synchronize buffer swaps with vertical refresh rate
-    GLint swapInt = 1;
-
-    [[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval];
+    [self setWantsBestResolutionOpenGLSurface:YES];
 
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLLockContext(cgl_ctx);
+
+    if(_openGLContextIsSetup)
+    {
+        CGLUnlockContext(cgl_ctx);
+        return;
+    }
+
+    // Synchronize buffer swaps with vertical refresh rate
+    GLint value = 1;
+    CGLSetParameter(cgl_ctx, kCGLCPSwapInterval, &value);
+
+    [self _prepareGameTexture];
+    [self _prepareMultipassFilter];
+    [self _prepareBlarggsFilter];
+    [self _prepareBackgroundColor];
+
+    [self _prepareAvailableFilters];
+
+#ifdef SYPHON_SUPPORT
+    [self startSyphon];
+#endif
+
+    [self OE_createSaveStateTexture];
+
+    _openGLContextIsSetup = YES;
+
+    CGLUnlockContext(cgl_ctx);
+
+    // rendering
+    [self setupDisplayLink];
+    [self rebindIOSurface];
+
+}
+
+- (void)_prepareGameTexture
+{
+    // NOTE: only call when cgl_ctx is locked and current
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
 
     // GL resources
     glGenTextures(1, &_gameTexture);
@@ -182,18 +218,17 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
         glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _rttGameTextures[i], 0);
     }
 
-    if([self backgroundColor])
-    {
-        NSColor *color = [self backgroundColor];
-        if([[color colorSpace] numberOfColorComponents] == 3)
-            glClearColor([color redComponent], [color greenComponent], [color blueComponent], [color alphaComponent]);
-        else
-            glClearColor([color whiteComponent], [color whiteComponent], [color whiteComponent], 1.0);
-    }
-
     GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
     if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
         NSLog(@"failed to make complete framebuffer object %x", status);
+
+    _frameCount = 0;
+}
+
+- (void)_prepareMultipassFilter
+{
+    // NOTE: only call when cgl_ctx is locked and current
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
 
     // Resources for multipass-rendering
     _multipassTextures = (GLuint *) malloc(OEMultipasses * sizeof(GLuint));
@@ -215,6 +250,12 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     }
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+}
+
+- (void)_prepareBlarggsFilter
+{
+    // NOTE: only call when cgl_ctx is locked and current
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
 
     // Setup resources needed for Blargg's NTSC filter
     _ntscMergeFields = 1;
@@ -242,35 +283,61 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     glBindTexture(GL_TEXTURE_2D, 0);
+}
 
-    _frameCount = 0;
+- (void)_prepareBackgroundColor
+{
+    // NOTE: only call when cgl_ctx is locked and current
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
 
-    _filters = [self OE_shadersForContext:cgl_ctx];
+    NSColor *color = [self backgroundColor];
 
-#ifdef SYPHON_SUPPORT
-    [self startSyphon];
-#endif
+    CGFloat colors[4] = { 0.0, 0.0, 0.0, 1.0 };
+    if([[color colorSpace] numberOfColorComponents] == 3)
+    {
+        colors[0] = [color redComponent];
+        colors[1] = [color greenComponent];
+        colors[2] = [color blueComponent];
+        colors[3] = [color alphaComponent];
+    }
+    else if([[color colorSpace] numberOfColorComponents] == 1)
+    {
+        colors[0] = [color whiteComponent];
+        colors[1] = [color whiteComponent];
+        colors[2] = [color whiteComponent];
+    }
 
-    // filters
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    glClearColor(colors[0], colors[1], colors[2], colors[3]);
+}
+
+- (void)_prepareAvailableFilters
+{
+    // NOTE: only call when cgl_ctx is locked and current
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+
+    // Setup available shaders
+    NSMutableDictionary *availableFilters = [NSMutableDictionary dictionary];
+
+    for(OEShaderPlugin *plugin in [OEShaderPlugin allPlugins])
+        availableFilters[[plugin name]] = [plugin shaderWithContext:cgl_ctx];
+
+    [self setFilters:availableFilters];
+
+    // Pick default filter
+    NSUserDefaults *defaults   = [NSUserDefaults standardUserDefaults];
     NSString *systemIdentifier = [[self delegate] systemIdentifier];
-    NSString *filter;
-    filter = [defaults objectForKey:[NSString stringWithFormat:@"videoFilter.%@", systemIdentifier]];
+    NSString *systemFilterKey  = [NSString stringWithFormat:@"videoFilter.%@", systemIdentifier];
+    NSString *filter = [defaults objectForKey:systemFilterKey];
     if(filter == nil)
         filter = [defaults objectForKey:_OEDefaultVideoFilterKey];
 
     [self setFilterName:filter];
-
-    _lastQuickSave = [NSDate timeIntervalSinceReferenceDate];
-    [self OE_createSaveStateTexture];
-
-    CGLUnlockContext(cgl_ctx);
-
-    // rendering
-    [self setupDisplayLink];
-    [self rebindIOSurface];
-
-    _openGLContextIsSetup = YES;
+}
+#pragma mark -
+- (void)showQuickSaveNotification
+{
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEShowSaveStateNotificationKey])
+        _lastQuickSave = [[NSDate date] timeIntervalSinceDate:_filterStartDate];
 }
 
 - (void)setEnableVSync:(BOOL)enable
@@ -286,11 +353,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     else
         CVDisplayLinkStart(_gameDisplayLinkRef);
 }
-- (void)showQuickSaveNotification
-{
-    if([[NSUserDefaults standardUserDefaults] boolForKey:OEShowSaveStateNotificationKey])
-        _lastQuickSave = [[NSDate date] timeIntervalSinceDate:_filterStartDate];
-}
 
 - (void)removeFromSuperview
 {
@@ -301,12 +363,14 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
 - (void)clearGLContext
 {
-    if(!_openGLContextIsSetup) return;
-
     DLog(@"clearGLContext");
-
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLLockContext(cgl_ctx);
+    if(!_openGLContextIsSetup)
+    {
+        CGLUnlockContext(cgl_ctx);
+        return;
+    }
 
     glDeleteTextures(1, &_gameTexture);
     _gameTexture = 0;
@@ -345,10 +409,32 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     free(_lutTextures);
     _lutTextures = 0;
 
+    _openGLContextIsSetup = NO;
+
     CGLUnlockContext(cgl_ctx);
     [super clearGLContext];
 }
 
+- (void)rebindIOSurface
+{
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+
+    if(_gameSurfaceRef != NULL) CFRelease(_gameSurfaceRef);
+
+    _gameSurfaceRef = IOSurfaceLookup(_gameSurfaceID);
+
+    if(_gameSurfaceRef == NULL) return;
+
+    glEnable(GL_TEXTURE_RECTANGLE_EXT);
+    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _gameTexture);
+    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGB8, (int)IOSurfaceGetWidth(_gameSurfaceRef), (int)IOSurfaceGetHeight(_gameSurfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, _gameSurfaceRef, 0);
+}
+
+#pragma mark - Display Link
+static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
+{
+    return [(__bridge OEGameView *)displayLinkContext displayLinkRenderCallback:inOutputTime];
+}
 - (void)setupDisplayLink
 {
     if(_gameDisplayLinkRef) [self tearDownDisplayLink];
@@ -361,7 +447,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
         return;
     }
 
-    error = CVDisplayLinkSetOutputCallback(_gameDisplayLinkRef, &MyDisplayLinkCallback, (__bridge void *)self);
+    error = CVDisplayLinkSetOutputCallback(_gameDisplayLinkRef, &OEGameViewDisplayLinkCallback, (__bridge void *)self);
     if(error != kCVReturnSuccess)
     {
         NSLog(@"DisplayLink could not link to callback, error:%d", error);
@@ -394,21 +480,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     }
 }
 
-- (void)rebindIOSurface
-{
-    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
-
-    if(_gameSurfaceRef != NULL) CFRelease(_gameSurfaceRef);
-
-    _gameSurfaceRef = IOSurfaceLookup(_gameSurfaceID);
-
-    if(_gameSurfaceRef == NULL) return;
-
-    glEnable(GL_TEXTURE_RECTANGLE_EXT);
-    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _gameTexture);
-    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGB8, (int)IOSurfaceGetWidth(_gameSurfaceRef), (int)IOSurfaceGetHeight(_gameSurfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, _gameSurfaceRef, 0);
-}
-
 - (void)tearDownDisplayLink
 {
     DLog(@"deleteDisplayLink");
@@ -430,23 +501,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     CGLUnlockContext(cgl_ctx);
 }
 
-- (void)dealloc
-{
-    [self unbind:@"filterName"];
-
-    DLog(@"OEGameView dealloc");
-    [self tearDownDisplayLink];
-
-#ifdef SYPHON_SUPPORT
-    [self stopSyphon];
-#endif
-
-    // filters
-    self.filters = nil;
-
-    if(_gameSurfaceRef != NULL) CFRelease(_gameSurfaceRef);
-}
-
 #pragma mark - Syphon Support
 #ifdef SYPHON_SUPPORT
 @synthesize syphonServer=_syphonServer, syphonTitle=_syphonTitle;
@@ -458,8 +512,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
 - (void)startSyphon
 {
-    // make sure cgl_ctx is current context and locked when -startSyphon is called
-
+    // NOTE: only call when cgl_ctx is locked and current
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     NSString *syphonTitle = [self syphonTitle];
     _syphonServer = [[SyphonServer alloc] initWithName:syphonTitle context:cgl_ctx options:nil];
@@ -1396,6 +1449,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
 - (void)OE_createSaveStateTexture
 {
+    _lastQuickSave = [NSDate timeIntervalSinceReferenceDate];
     return;
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
 
