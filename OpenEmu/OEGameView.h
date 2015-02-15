@@ -30,6 +30,7 @@
 
 #import <Syphon/Syphon.h>
 #import <OpenEmuBase/OpenEmuBase.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 #import "OEGameCoreHelper.h"
 
@@ -38,6 +39,7 @@
 
 extern NSString * const OEShowSaveStateNotificationKey;
 extern NSString * const OEScreenshotAspectRationCorrectionDisabled;
+
 @interface OEGameView : NSOpenGLView <OEGameCoreDisplayHelper>
 
 @property(nonatomic, assign) id<OEGameViewDelegate> delegate;
@@ -45,7 +47,6 @@ extern NSString * const OEScreenshotAspectRationCorrectionDisabled;
 // QC based filters
 @property(copy) NSDictionary *filters;
 @property(nonatomic, copy) NSString *filterName;
-@property(nonatomic, copy) NSString *gameTitle;
 @property(nonatomic, copy) NSColor  *backgroundColor;
 // Screenshots
 /* Returns a screenshot containing the game viewport with its current size in the window and filters */
@@ -64,6 +65,14 @@ extern NSString * const OEScreenshotAspectRationCorrectionDisabled;
 
 - (void)showQuickSaveNotification;
 @end
+
+#ifdef Syphon
+// Syphon support
+@interface OEGameView ()
+@property (nonatomic, copy)  NSString *syphonTitle;
+@property (readonly, strong) SyphonServer *syphonServer;
+@end
+#endif
 
 @protocol OEGameViewDelegate <NSObject>
 - (NSString *)systemIdentifier;

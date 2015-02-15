@@ -104,7 +104,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     OEIntSize          _gameScreenSize;
     OEIntSize          _gameAspectSize;
     CVDisplayLinkRef   _gameDisplayLinkRef;
-    SyphonServer      *_gameServer;
 
     // Filters
     NSTimeInterval     _filterTime;
@@ -115,7 +114,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     NSTimeInterval _lastQuickSave;
     GLuint _saveStateTexture;
 }
-
 + (void)initialize
 {
     if([self class] == [OEGameView class])
@@ -187,7 +185,10 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     if([self backgroundColor])
     {
         NSColor *color = [self backgroundColor];
-        glClearColor([color redComponent], [color greenComponent], [color blueComponent], [color alphaComponent]);
+        if([[color colorSpace] numberOfColorComponents] == 3)
+            glClearColor([color redComponent], [color greenComponent], [color blueComponent], [color alphaComponent]);
+        else
+            glClearColor([color whiteComponent], [color whiteComponent], [color whiteComponent], 1.0);
     }
 
     GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
@@ -245,7 +246,10 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     _frameCount = 0;
 
     _filters = [self OE_shadersForContext:cgl_ctx];
-    _gameServer = [[SyphonServer alloc] initWithName:self.gameTitle context:cgl_ctx options:nil];
+
+#ifdef Syphon
+    [self startSyphon];
+#endif
 
     // filters
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -282,16 +286,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     else
         CVDisplayLinkStart(_gameDisplayLinkRef);
 }
-
-- (void)setGameTitle:(NSString *)title
-{
-    if(_gameTitle != title)
-    {
-        _gameTitle = [title copy];
-        [_gameServer setName:title];
-    }
-}
-
 - (void)showQuickSaveNotification
 {
     if([[NSUserDefaults standardUserDefaults] boolForKey:OEShowSaveStateNotificationKey])
@@ -443,9 +437,9 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     DLog(@"OEGameView dealloc");
     [self tearDownDisplayLink];
 
-    [_gameServer setName:@""];
-    [_gameServer stop];
-    _gameServer = nil;
+#ifdef Syphon
+    [self stopSyphon];
+#endif
 
     // filters
     self.filters = nil;
@@ -453,13 +447,37 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     if(_gameSurfaceRef != NULL) CFRelease(_gameSurfaceRef);
 }
 
-#pragma mark -
-#pragma mark Rendering
+#pragma mark - Syphon Support
+#ifdef Syphon
+@synthesize syphonServer=_syphonServer, syphonTitle=_syphonTitle;
+- (void)setSyphonTitle:(NSString *)title
+{
+    _syphonTitle = [title copy];
+    [[self syphonServer] setName:title];
+}
+
+- (void)startSyphon
+{
+    // make sure cgl_ctx is current context and locked when -startSyphon is called
+
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+    NSString *syphonTitle = [self syphonTitle];
+    _syphonServer = [[SyphonServer alloc] initWithName:syphonTitle context:cgl_ctx options:nil];
+}
+
+- (void)stopSyphon
+{
+    // Stop Syphon Server
+    SyphonServer *syphonServer = [self syphonServer];
+    [syphonServer setName:@""];
+    [syphonServer stop];
+    _syphonServer = nil;
+}
+#endif
+#pragma mark - Rendering
 
 - (void)reshape
 {
-//    DLog(@"reshape");
-    
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLSetCurrentContext(cgl_ctx);
     CGLLockContext(cgl_ctx);
@@ -513,8 +531,11 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
         if(shader != nil)
             [self OE_drawSurface:_gameSurfaceRef inCGLContext:cgl_ctx usingShader:shader];
 
-        if([_gameServer hasClients])
-            [_gameServer publishFrameTexture:_gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
+#ifdef Syphon
+        SyphonServer *syphonServer = [self syphonServer];
+        if([syphonServer hasClients])
+            [syphonServer publishFrameTexture:_gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
+#endif
 
         // Draw quick save notification if appropriate
         NSTimeInterval difference = _filterTime-_lastQuickSave;
@@ -1376,6 +1397,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
 - (void)OE_createSaveStateTexture
 {
+    return;
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
 
     if(_saveStateTexture)
