@@ -66,7 +66,7 @@ extern NSString * const OEScreenshotAspectRationCorrectionDisabled;
 - (void)showQuickSaveNotification;
 @end
 
-#ifdef Syphon
+#ifdef SYPHON_SUPPORT
 // Syphon support
 @interface OEGameView ()
 @property (nonatomic, copy)  NSString *syphonTitle;

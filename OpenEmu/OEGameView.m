@@ -247,7 +247,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 
     _filters = [self OE_shadersForContext:cgl_ctx];
 
-#ifdef Syphon
+#ifdef SYPHON_SUPPORT
     [self startSyphon];
 #endif
 
@@ -437,7 +437,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     DLog(@"OEGameView dealloc");
     [self tearDownDisplayLink];
 
-#ifdef Syphon
+#ifdef SYPHON_SUPPORT
     [self stopSyphon];
 #endif
 
@@ -448,7 +448,7 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
 }
 
 #pragma mark - Syphon Support
-#ifdef Syphon
+#ifdef SYPHON_SUPPORT
 @synthesize syphonServer=_syphonServer, syphonTitle=_syphonTitle;
 - (void)setSyphonTitle:(NSString *)title
 {
@@ -512,8 +512,6 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(_gameSurfaceRef != NULL)
     {
-        CGRect textureRect = CGRectMake(0, 0, _gameScreenSize.width, _gameScreenSize.height);
-
         CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
 
         [[self openGLContext] makeCurrentContext];
@@ -531,7 +529,8 @@ static NSString *const _OEDefaultVideoFilterKey = @"videoFilter";
         if(shader != nil)
             [self OE_drawSurface:_gameSurfaceRef inCGLContext:cgl_ctx usingShader:shader];
 
-#ifdef Syphon
+#ifdef SYPHON_SUPPORT
+        CGRect textureRect = CGRectMake(0, 0, _gameScreenSize.width, _gameScreenSize.height);
         SyphonServer *syphonServer = [self syphonServer];
         if([syphonServer hasClients])
             [syphonServer publishFrameTexture:_gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
