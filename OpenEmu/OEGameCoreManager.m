@@ -26,13 +26,11 @@
 
 #import "OEGameCoreManager.h"
 #import "OECorePlugin.h"
-#import "OEGameCoreHelper.h"
-#import "OpenEmuHelperApp.h"
-#import "OEGameDocument.h"
-#import "OETaskWrapper.h"
 #import "OEGameCoreManager_Internal.h"
 
 #import <OpenEmuBase/OpenEmuBase.h>
+
+NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
 
 @implementation OEGameCoreManager
 

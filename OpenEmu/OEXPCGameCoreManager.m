@@ -53,7 +53,11 @@
 
 + (BOOL)canUseXPCGameCoreManager
 {
-    return [NSHashTable respondsToSelector:@selector(weakObjectsHashTable)];
+    int major, minor;
+    GetSystemVersion(&major, &minor, NULL);
+    if(major >= 10 && minor >= 8)
+        return YES;
+    return NO;
 }
 
 - (void)getTerminatingProcesses:(void(^)(NSMutableSet *processes))block

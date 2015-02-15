@@ -27,11 +27,21 @@
 #import <Cocoa/Cocoa.h>
 
 #import "OEGameCoreHelper.h"
-#import "OETaskWrapper.h"
 #import <OpenEmuBase/OpenEmuBase.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @protocol OEGameCoreDisplayHelper;
 @class OECorePlugin, OEGameCoreController;
+
+enum _OEGameCoreManagerErrorCodes
+{
+    OEHelperAppNotRunningError     = -3,
+    OEConnectionTimedOutError      = -4,
+    OEInvalidHelperConnectionError = -5,
+    OENilRootProxyObjectError      = -6,
+};
+
+extern NSString * const OEGameCoreErrorDomain;
 
 @interface OEGameCoreManager : NSObject <OEGameCoreHelper>
 

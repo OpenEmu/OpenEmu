@@ -28,7 +28,6 @@
 #import "OEDOGameCoreHelper.h"
 #import "OEGameCoreHelper.h"
 #import "OEGameCoreManager_Internal.h"
-#import "OEGameDocument.h"
 #import "OETaskWrapper.h"
 #import "OECorePlugin.h"
 #import <OpenEmuBase/OpenEmuBase.h>
@@ -115,7 +114,7 @@
     if(![_taskWrapper isRunning])
     {
         if(outError != NULL)
-            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+            *outError = [NSError errorWithDomain:OEGameCoreErrorDomain
                                             code:OEHelperAppNotRunningError
                                         userInfo:[NSDictionary dictionaryWithObject:OELocalizedString(@"The background process couldn't be launched", @"Not running background process error") forKey:NSLocalizedFailureReasonErrorKey]];
         return NO;
@@ -137,7 +136,7 @@
             [self stop];
             if(outError != NULL)
             {
-                *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                *outError = [NSError errorWithDomain:OEGameCoreErrorDomain
                                                 code:OEConnectionTimedOutError
                                             userInfo:[NSDictionary dictionaryWithObject:OELocalizedString(@"Couldn't connect to the background process.", @"Timed out error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
             }
@@ -150,7 +149,7 @@
     {
         [self stop];
         if(outError != NULL)
-            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+            *outError = [NSError errorWithDomain:OEGameCoreErrorDomain
                                             code:OEInvalidHelperConnectionError
                                         userInfo:[NSDictionary dictionaryWithObject:OELocalizedString(@"The background process connection couldn't be established", @"Invalid helper connection error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
 
@@ -166,7 +165,7 @@
         [self stop];
         if(outError != NULL)
         {
-            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+            *outError = [NSError errorWithDomain:OEGameCoreErrorDomain
                                             code:OENilRootProxyObjectError
                                         userInfo:[NSDictionary dictionaryWithObject:OELocalizedString(@"The root proxy object is nil.", @"Nil root proxy object error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
         }

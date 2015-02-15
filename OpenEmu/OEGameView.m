@@ -112,6 +112,28 @@ static const GLfloat cg_coords[] = {
     }
 }
 
+- (instancetype)initWithFrame:(NSRect)frameRect
+{
+    self = [super initWithFrame:frameRect];
+    if (self)
+    {
+        // Make sure we have a screen size set so _prepareGameTexture does not fail
+        _gameScreenSize = (OEIntSize){.width=1, .height=1};
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self)
+    {
+        // Make sure we have a screen size set so _prepareGameTexture does not fail
+        _gameScreenSize = (OEIntSize){.width=1, .height=1};
+    }
+    return self;
+}
+
 - (void)dealloc
 {
     [self unbind:@"filterName"];
@@ -166,7 +188,7 @@ static const GLfloat cg_coords[] = {
     [self _prepareGameTexture];
     [self _prepareMultipassFilter];
     [self _prepareBlarggsFilter];
-    [self _prepareBackgroundColor];
+    [self _applyBackgroundColor];
 
     [self _prepareAvailableFilters];
 
@@ -277,31 +299,6 @@ static const GLfloat cg_coords[] = {
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-- (void)_prepareBackgroundColor
-{
-    // NOTE: only call when cgl_ctx is locked and current
-    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
-
-    NSColor *color = [self backgroundColor];
-
-    CGFloat colors[4] = { 0.0, 0.0, 0.0, 1.0 };
-    if([[color colorSpace] numberOfColorComponents] == 3)
-    {
-        colors[0] = [color redComponent];
-        colors[1] = [color greenComponent];
-        colors[2] = [color blueComponent];
-        colors[3] = [color alphaComponent];
-    }
-    else if([[color colorSpace] numberOfColorComponents] == 1)
-    {
-        colors[0] = [color whiteComponent];
-        colors[1] = [color whiteComponent];
-        colors[2] = [color whiteComponent];
-    }
-
-    glClearColor(colors[0], colors[1], colors[2], colors[3]);
-}
-
 - (void)_prepareAvailableFilters
 {
     // NOTE: only call when cgl_ctx is locked and current
@@ -321,7 +318,7 @@ static const GLfloat cg_coords[] = {
     NSString *systemFilterKey  = [NSString stringWithFormat:@"videoFilter.%@", systemIdentifier];
     NSString *filter = [defaults objectForKey:systemFilterKey];
     if(filter == nil)
-        filter = [defaults objectForKey:OEDefaultVideoFilterKey];
+        filter = [defaults objectForKey:OEDefaultVideoFilterKey] ?: @"Nearest Neighbor";
 
     [self setFilterName:filter];
 }
@@ -421,6 +418,41 @@ static const GLfloat cg_coords[] = {
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _gameTexture);
     CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGB8, (int)IOSurfaceGetWidth(_gameSurfaceRef), (int)IOSurfaceGetHeight(_gameSurfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, _gameSurfaceRef, 0);
 }
+#pragma mark - 
+- (void)setBackgroundColor:(NSColor *)backgroundColor
+{
+    _backgroundColor = backgroundColor;
+
+    if(_openGLContextIsSetup)
+    {
+        [self _applyBackgroundColor];
+    }
+}
+
+- (void)_applyBackgroundColor
+{
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+    CGLSetCurrentContext(cgl_ctx);
+
+    NSColor *color = [self backgroundColor];
+
+    CGFloat colors[4] = { 0.0, 0.0, 0.0, 1.0 };
+    if([[color colorSpace] numberOfColorComponents] == 3)
+    {
+        colors[0] = [color redComponent];
+        colors[1] = [color greenComponent];
+        colors[2] = [color blueComponent];
+        colors[3] = [color alphaComponent];
+    }
+    else if([[color colorSpace] numberOfColorComponents] == 1)
+    {
+        colors[0] = [color whiteComponent];
+        colors[1] = [color whiteComponent];
+        colors[2] = [color whiteComponent];
+    }
+
+    glClearColor(colors[0], colors[1], colors[2], colors[3]);
+}
 
 #pragma mark - Display Link
 static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
@@ -519,8 +551,8 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     _syphonServer = nil;
 }
 #endif
-#pragma mark - Rendering
 
+#pragma mark - Rendering
 - (void)reshape
 {
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
@@ -529,7 +561,9 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     
     [self update];
 
-    glViewport(0, 0, floorf(NSWidth([self bounds])*[[self window] backingScaleFactor]), floorf(NSHeight([self bounds])*[[self window] backingScaleFactor]));
+    const NSRect bounds = [self bounds];
+    const NSRect boundsOnWindow = [self convertRectToBacking:bounds];
+    glViewport(0, 0, NSWidth(boundsOnWindow),NSHeight(boundsOnWindow));
 
     CGLUnlockContext(cgl_ctx);
 }

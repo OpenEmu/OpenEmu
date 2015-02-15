@@ -1710,7 +1710,7 @@
 		1BA788FD0FF9C95A007CE5DB /* OEGameShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameShader.h; sourceTree = "<group>"; };
 		1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameShader.m; sourceTree = "<group>"; };
 		1BEF2A7311682A330090F72B /* OpenEmuHelperApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuHelperApp.h; sourceTree = "<group>"; };
-		1BEF2A7411682A330090F72B /* OpenEmuHelperApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OpenEmuHelperApp.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		1BEF2A7411682A330090F72B /* OpenEmuHelperApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OpenEmuHelperApp.m; sourceTree = "<group>"; };
 		1BEF2A9411682A530090F72B /* OpenEmuHelperApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OpenEmuHelperApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEF2AC311682A9D0090F72B /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
 		1BEF2C4711684AE90090F72B /* OEDOGameCoreHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDOGameCoreHelper.h; sourceTree = "<group>"; };
