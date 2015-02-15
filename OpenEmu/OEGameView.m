@@ -1437,7 +1437,6 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 - (void)OE_createSaveStateTexture
 {
     _lastQuickSave = [NSDate timeIntervalSinceReferenceDate];
-    return;
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
 
     if(_saveStateTexture)
