@@ -541,6 +541,12 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
 - (void)render
 {
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+    CGLSetCurrentContext(cgl_ctx);
+    CGLLockContext(cgl_ctx);
+
+    glClear(GL_COLOR_BUFFER_BIT);
+
     // rendering time for QC filters..
     if(_filterStartDate == nil)
     {
@@ -557,12 +563,6 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(_gameSurfaceRef != NULL)
     {
-        CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
-
-        [[self openGLContext] makeCurrentContext];
-
-        CGLLockContext(cgl_ctx);
-
         OEGameShader *shader = [_filters objectForKey:_filterName];
 
         glMatrixMode(GL_PROJECTION);
@@ -586,7 +586,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
         const static NSTimeInterval fadeIn  = 0.25;
         const static NSTimeInterval visible = 1.25;
         const static NSTimeInterval fadeOut = 0.25;
-        if(difference < fadeIn+visible+fadeOut)
+        if(difference < fadeIn+visible+fadeOut && NO)
         {
             double alpha = 1.0;
             if(difference < visible)
@@ -631,17 +631,10 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
             glDisable(GL_BLEND);
             glEnable(GL_TEXTURE_RECTANGLE_EXT);
         }
-
-        [[self openGLContext] flushBuffer];
-
-        CGLUnlockContext(cgl_ctx);
     }
-    else
-    {
-        // note that a null surface is a valid situation: it is possible that a game document has been opened but the underlying game emulation
-        // hasn't started yet
-        NSLog(@"Surface is null");
-    }
+
+    CGLUnlockContext(cgl_ctx);
+    [[self openGLContext] flushBuffer];
 }
 
 - (void)OE_renderToTexture:(GLuint)renderTarget usingTextureCoords:(const GLint *)texCoords inCGLContext:(CGLContextObj)cgl_ctx
@@ -1049,7 +1042,12 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     if(![_filters objectForKey:_filterName])
         _filterName = [[NSUserDefaults standardUserDefaults] objectForKey:OEDefaultVideoFilterKey];
 
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+    CGLLockContext(cgl_ctx);
+    CGLSetCurrentContext(cgl_ctx);
+
     [filter compileShaders];
+
     if([filter isKindOfClass:[OEMultipassShader class]])
     {
         free(_multipassSizes);
@@ -1068,9 +1066,6 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
         if([self openGLContext] != nil)
         {
-            CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
-            CGLLockContext(cgl_ctx);
-
             // upload LUT textures
             for(NSUInteger i = 0; i < [[(OEMultipassShader *)filter lutTextures] count]; ++i)
             {
@@ -1109,10 +1104,10 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
                 
                 CFRelease(data);
             }
-
-            CGLUnlockContext(cgl_ctx);
         }
     }
+
+    CGLUnlockContext(cgl_ctx);
 }
 
 #pragma mark - Screenshots
