@@ -49,6 +49,13 @@ NSSize const defaultGridSize = (NSSize){26+142, 143};
 NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKey";
 NSString *const OECoverGridViewGlossDisabledKey = @"OECoverGridViewGlossDisabledKey";
 
+@implementation IKCGRenderer (ScaleFactorAdditions)
+- (unsigned long long)scaleFactor
+{
+    return self->_currentScaleFactor ?: 1.0;
+}
+@end
+
 @interface NSView (ApplePrivate)
 - (void)setClipsToBounds:(BOOL)arg1;
 @end
