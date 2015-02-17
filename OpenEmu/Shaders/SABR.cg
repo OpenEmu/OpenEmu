@@ -78,13 +78,13 @@ struct out_vertex {
 	half4 pos : POSITION;
 	half4 color : COLOR;
 	float2 tc : TEXCOORD0;
-	float4 xyp_1_2_3;
-	float4 xyp_5_10_15;
-	float4 xyp_6_7_8;
-	float4 xyp_9_14_9;
-	float4 xyp_11_12_13;
-	float4 xyp_16_17_18;
-	float4 xyp_21_22_23;
+	float4 xyp_1_2_3 : TEXCOORD1;
+	float4 xyp_5_10_15 : TEXCOORD2;
+	float4 xyp_6_7_8 : TEXCOORD3;
+	float4 xyp_9_14_9 : TEXCOORD4;
+	float4 xyp_11_12_13 : TEXCOORD5;
+	float4 xyp_16_17_18 : TEXCOORD6;
+	float4 xyp_21_22_23 : TEXCOORD7;
 };
 
 /* VERTEX SHADER */
