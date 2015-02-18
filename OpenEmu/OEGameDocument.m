@@ -1256,8 +1256,11 @@ typedef enum : NSUInteger
 
 - (void)OE_saveStateWithName:(NSString *)stateName completionHandler:(void(^)(void))handler
 {
-    NSAssert(_emulationStatus > OEEmulationStatusStarting, @"Cannot save state if emulation has not been set up");
-    NSAssert([self rom] != nil, @"Cannot save states without a rom.");
+    if(_emulationStatus > OEEmulationStatusStarting || [self rom] == nil) {
+        if(handler)
+            handler();
+        return;
+    }
 
     NSString *temporaryDirectoryPath = NSTemporaryDirectory();
     NSURL    *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
