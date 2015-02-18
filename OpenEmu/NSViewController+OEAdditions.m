@@ -25,14 +25,40 @@
  */
 
 #import "NSViewController+OEAdditions.h"
+#import "OEUtilities.h"
+#include <objc/runtime.h>
+
+void OEMethodCopy(SEL oldMethod, SEL newMethod);
+void OEMethodCopy(SEL oldMethod, SEL newMethod)
+{
+    Class class = [NSViewController class];
+    Method origMethod = class_getInstanceMethod(class, oldMethod);
+    IMP implementaion = method_getImplementation(origMethod);
+    const char *types = method_getTypeEncoding(origMethod);
+    class_addMethod(class, newMethod, implementaion, types);
+}
 
 @implementation NSViewController (OEAdditions)
 
-- (void)viewWillAppear;
++ (void)load
+{
+    int major, minor;
+
+    if(GetSystemVersion(&major, &minor, NULL) && major == 10 && minor < 10)
+    {
+        OEMethodCopy(@selector(OE_viewWillAppear),    @selector(viewWillAppear));
+        OEMethodCopy(@selector(OE_viewDidAppear),     @selector(viewDidAppear));
+        OEMethodCopy(@selector(OE_viewWillDisappear), @selector(viewWillDisappear));
+        OEMethodCopy(@selector(OE_viewDidDisappear),  @selector(viewDidDisappear));
+    }
+}
+
+
+- (void)OE_viewWillAppear;
 {
 }
 
-- (void)viewDidAppear;
+- (void)OE_viewDidAppear;
 {
     if([[self view] nextResponder] != self)
     {
@@ -41,11 +67,11 @@
     }
 }
 
-- (void)viewWillDisappear;
+- (void)OE_viewWillDisappear;
 {
 }
 
-- (void)viewDidDisappear;
+- (void)OE_viewDidDisappear;
 {
 }
 

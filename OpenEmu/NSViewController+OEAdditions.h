@@ -28,10 +28,12 @@
 
 @interface NSViewController (OEAdditions)
 
+@end
+
+@interface NSViewController ()
 - (void)viewWillAppear;
 - (void)viewDidAppear;
 
 - (void)viewWillDisappear;
 - (void)viewDidDisappear;
-
 @end
