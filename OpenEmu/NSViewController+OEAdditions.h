@@ -28,9 +28,6 @@
 
 @interface NSViewController (OEAdditions)
 
-- (void)viewWillLoad;
-- (void)viewDidLoad;
-
 - (void)viewWillAppear;
 - (void)viewDidAppear;
 
