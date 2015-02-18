@@ -37,6 +37,8 @@
 #import "OEDBSystem.h"
 #import "OELibraryDatabase.h"
 
+#import "OECorePlugin.h"
+
 NSString *const OESidebarConsolesNotCollapsibleKey   = @"OESidebarConsolesNotCollapsible";
 NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemNotification";
 
@@ -154,6 +156,34 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
                                        keyEquivalent:@""];
         [menuItem setTag:index];
         [menu addItem:menuItem];
+
+        NSArray *cores = [OECorePlugin corePluginsForSystemIdentifier:[item systemIdentifier]];
+        if([cores count] > 1)
+        {
+            NSString *title = OELocalizedString(@"Default Core", @"Sidebar context menu item to pick default core for a system");
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            NSString *systemIdentifier = [(OEDBSystem*)item systemIdentifier];
+            NSString *defaultCoreKey = [NSString stringWithFormat:@"defaultCore.%@", systemIdentifier];
+            NSString *defaultCoreIdentifier = [defaults objectForKey:defaultCoreKey];
+
+            NSMenuItem *coreItem = [[NSMenuItem alloc] initWithTitle:title action:NULL keyEquivalent:@""];
+            NSMenu *submenu = [[NSMenu alloc] initWithTitle:title];
+            for(OECorePlugin *core in cores)
+            {
+                NSString *coreName = [core displayName];
+                NSString *systemIdentifier = [(OEDBSystem*)item systemIdentifier];
+                NSString *coreIdentifier = [core bundleIdentifier];
+
+                NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:coreName action:@selector(changeDefaultCore:) keyEquivalent:@""];
+                NSInteger state = [coreIdentifier isEqualToString:defaultCoreIdentifier] ? NSOnState : NSOffState;
+                [item setState:state];
+
+                [item setRepresentedObject:@{@"core":coreIdentifier, @"system":systemIdentifier}];
+                [submenu addItem:item];
+            }
+            [coreItem setSubmenu:submenu];
+            [menu addItem:coreItem];
+        }
 
         [menu addItem:[NSMenuItem separatorItem]];
 

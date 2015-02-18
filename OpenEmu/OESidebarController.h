@@ -57,6 +57,8 @@ extern NSString *const OEMainViewMinWidth;
 - (void)removeItemForMenuItem:(NSMenuItem *)menuItem;
 - (void)renameItemForMenuItem:(NSMenuItem *)menuItem;
 
+- (void)changeDefaultCore:(id)sender;
+
 - (id<OESidebarItem>)selectedSidebarItem;
 
 @property (strong) OESidebarOutlineView *view;

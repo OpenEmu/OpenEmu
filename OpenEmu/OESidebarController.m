@@ -296,6 +296,17 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     return item;
 }
+#pragma mark -
+- (void)changeDefaultCore:(id)sender
+{
+    NSDictionary *data = [sender representedObject];
+    NSString *systemIdentifier = [data objectForKey:@"system"];
+    NSString *coreIdentifier   = [data objectForKey:@"core"];
+
+    NSString *defaultCoreKey = [NSString stringWithFormat:@"defaultCore.%@", systemIdentifier];
+    [[NSUserDefaults standardUserDefaults] setObject:coreIdentifier forKey:defaultCoreKey];
+}
+
 #pragma mark - Helpers
 - (BOOL)OE_devicesSectionVisisble
 {
