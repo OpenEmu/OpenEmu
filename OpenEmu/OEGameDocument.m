@@ -803,6 +803,8 @@ typedef enum : NSUInteger
 
     if([[plugin bundleIdentifier] isEqual:[[_gameCoreManager plugin] bundleIdentifier]]) return;
 
+    [self setEmulationPaused:YES];
+
     OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:OELocalizedString(@"If you change the core you current progress will be lost and save states will not work anymore.", @"")
                                            defaultButton:OELocalizedString(@"Change Core", @"")
                                          alternateButton:OELocalizedString(@"Cancel", @"")];
