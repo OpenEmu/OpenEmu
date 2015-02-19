@@ -20,9 +20,6 @@
       location = "group:blueMSX/blueMSX.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:BSNES/BSNES.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:CrabEmu/CrabEmu.xcodeproj">
    </FileRef>
    <FileRef
