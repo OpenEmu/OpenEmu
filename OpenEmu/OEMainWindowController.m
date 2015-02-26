@@ -60,6 +60,8 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     BOOL            _shouldExitFullScreenWhenGameFinishes;
     BOOL            _shouldUndockGameWindowOnFullScreenExit;
     BOOL            _resumePlayingAfterFullScreenTransition;
+
+    BOOL _isLaunchingGame;
 }
 
 @end
@@ -133,6 +135,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     [showRomNames     bind:@"enabled" toObject:self withKeyPath:@"mainWindowRunsGame" options:negateOptions];
     [undockGameWindow bind:@"enabled" toObject:self withKeyPath:@"mainWindowRunsGame" options:@{}];
 
+    _isLaunchingGame = NO;
 }
 
 - (NSString *)windowNibName
@@ -258,6 +261,10 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 - (void)OE_openGameDocumentWithGame:(OEDBGame *)game saveState:(OEDBSaveState *)state
 {
+    // make sure we don't launch a game multiple times :/
+    if(_isLaunchingGame) return;
+    _isLaunchingGame = YES;
+
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     BOOL openInSeparateWindow = _mainWindowRunsGame || [standardDefaults boolForKey:OEForcePopoutGameWindowKey];
     BOOL fullScreen = [standardDefaults boolForKey:OEFullScreenGameWindowKey];
@@ -266,6 +273,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     void (^openDocument)(OEGameDocument *, NSError *) =
     ^(OEGameDocument *document, NSError *error)
     {
+        _isLaunchingGame = NO;
         if(document == nil)
         {
             if([[error domain] isEqualToString:OEGameDocumentErrorDomain] && [error code] == OEFileDoesNotExistError)
@@ -301,6 +309,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
             }
             else if(error)
                 [self presentError:error];
+
             return;
         }
         else if ([[game status] intValue] == OEDBGameStatusAlert)
