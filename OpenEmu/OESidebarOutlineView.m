@@ -107,9 +107,17 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
         [self _drawDropHighlightOnRow:_highlightedRow];
 }
 
-#pragma mark -
-#pragma mark Menu
+- (void)mouseDown:(NSEvent*)theEvent
+{
+    // ignore control-clicks, those will go directly to -menuForEvent:
+    // before eventually arriving here
+    if([theEvent modifierFlags] & NSControlKeyMask)
+        return;
 
+    [super mouseDown:theEvent];
+}
+
+#pragma mark - Menu
 - (NSMenu *)menuForEvent:(NSEvent *)event
 {
     [[self window] makeFirstResponder:self];

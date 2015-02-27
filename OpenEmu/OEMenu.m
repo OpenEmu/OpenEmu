@@ -178,11 +178,12 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
 
 - (void)OE_cancelTrackingWithFadeDuration:(CGFloat)duration completionHandler:(void (^)(void))completionHandler
 {
-    if(_cancelTracking) return;
+    if(_cancelTracking || [__sharedMenuStack count]==0) return;
     _cancelTracking = YES;
 
     if(self != [__sharedMenuStack objectAtIndex:0]) [[__sharedMenuStack objectAtIndex:0] OE_cancelTrackingWithFadeDuration:duration completionHandler:completionHandler];
-    else                                            [self OE_hideWindowWithFadeDuration:duration completionHandler:completionHandler];
+    else
+        [self OE_hideWindowWithFadeDuration:duration completionHandler:completionHandler];
 }
 
 - (void)cancelTracking
