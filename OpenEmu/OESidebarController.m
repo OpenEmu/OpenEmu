@@ -143,6 +143,13 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDidAppear:) name:OEStorageDeviceDidAppearNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceDidDisappear:) name:OEStorageDeviceDidDisappearNotificationName object:nil];
+
+    id viewsNextResponder = [[self view] nextResponder];
+    if(viewsNextResponder != self)
+    {
+        [[self view] setNextResponder:self];
+        [self setNextResponder:viewsNextResponder];
+    }
 }
 
 - (void)deviceDidAppear:(id)notification
