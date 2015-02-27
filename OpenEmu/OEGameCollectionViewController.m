@@ -81,6 +81,8 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     [gamesController setAvoidsEmptySelection:NO];
 
     [[self listView] bind:@"selectionIndexes" toObject:gamesController withKeyPath:@"selectionIndexes" options:@{}];
+
+    [[self listView] setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 }
 
 - (void)fetchItems
@@ -828,6 +830,9 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     if (![[pboard types] containsObject:NSFilenamesPboardType])
         return NO;
 
+    if([[pboard types] containsObject:OEPasteboardTypeGame])
+        return NO;
+
     NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
     OEROMImporter *romImporter = [[[self libraryController] database] importer];
     OEDBCollection *collection = [[self representedObject] isKindOfClass:[OEDBCollection class]] ? (OEDBCollection*)[self representedObject] : nil;
@@ -838,7 +843,11 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
 - (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
 {
-    if (![[[info draggingPasteboard] types] containsObject:NSFilenamesPboardType])
+    NSPasteboard *pboard = [info draggingPasteboard];
+    if (![[pboard types] containsObject:NSFilenamesPboardType])
+        return NSDragOperationNone;
+
+    if([[pboard types] containsObject:OEPasteboardTypeGame])
         return NSDragOperationNone;
 
     return NSDragOperationCopy;
@@ -847,13 +856,10 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
 {
-    if( aTableView == [self listView] )
+    if(aTableView == [self listView])
     {
-        [rowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop)
-         {
-             id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:idx];
-             [pboard writeObjects:[NSArray arrayWithObject:obj]];
-         }];
+        NSArray *objects = [[gamesController arrangedObjects] objectsAtIndexes:rowIndexes];
+        [pboard writeObjects:objects];
         
         return YES;
     }
@@ -944,6 +950,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
 #pragma mark - ImageFlow Delegates
 - (NSUInteger)imageFlow:(IKImageFlowView *)browser writeItemsAtIndexes:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pasteboard{ return 0; }
+
 - (void)imageFlow:(IKImageFlowView *)sender removeItemsAtIndexes:(NSIndexSet *)indexes
 {}
 

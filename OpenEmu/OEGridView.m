@@ -514,13 +514,11 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 #pragma mark - NSDraggingSource
 - (NSDragOperation)draggingSession:(NSDraggingSession *)session sourceOperationMaskForDraggingContext:(NSDraggingContext)context
 {
-    DLog();
-    return context == NSDraggingContextWithinApplication ? NSDragOperationCopy : NSDragOperationNone;
+    return NSDragOperationCopy;
 }
 
 - (void)draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation
 {
-    DLog();
     _draggingSession = nil;
     _draggingIndex  = NSNotFound;
 }

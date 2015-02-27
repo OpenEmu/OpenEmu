@@ -371,45 +371,29 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 }
 
 #pragma mark - NSPasteboardWriting
-// TODO: fix pasteboard writing
 - (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard
 {
-    return [NSArray arrayWithObjects:(NSString *)kPasteboardTypeFileURLPromise, OEPasteboardTypeGame, /* NSPasteboardTypeTIFF,*/ nil];
-}
-
-- (NSPasteboardWritingOptions)writingOptionsForType:(NSString *)type pasteboard:(NSPasteboard *)pasteboard
-{
-    if(type ==(NSString *)kPasteboardTypeFileURLPromise)
-        return NSPasteboardWritingPromised;
-    
-    return 0;
+    return @[ OEPasteboardTypeGame, (NSString*)kUTTypeFileURL ];
 }
 
 - (id)pasteboardPropertyListForType:(NSString *)type
 {
-    if(type == (NSString *)kPasteboardTypeFileURLPromise)
-    {
-        NSSet *roms = [self roms];
-        NSMutableArray *paths = [NSMutableArray arrayWithCapacity:[roms count]];
-        for(OEDBRom *aRom in roms)
-        {
-            NSString *urlString = [[aRom URL] absoluteString];
-            [paths addObject:urlString];
-        }
-        return paths;
-    } 
-    else if(type == OEPasteboardTypeGame)
+    if(type == OEPasteboardTypeGame)
     {
         return [[self permanentIDURI] absoluteString];
     }
-    
-    // TODO: return appropriate obj
+    else if([type isEqualToString:(NSString*)kUTTypeFileURL])
+    {
+        OEDBRom *rom = [self defaultROM];
+        NSURL *url = [rom URL];
+        return [url pasteboardPropertyListForType:(NSString*)kUTTypeFileURL];
+    }
+
     DLog(@"Unkown type %@", type);
     return nil;
 }
 
 #pragma mark - NSPasteboardReading
-
 - (id)initWithPasteboardPropertyList:(id)propertyList ofType:(NSString *)type
 {
     if(type == OEPasteboardTypeGame)
