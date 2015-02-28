@@ -302,10 +302,9 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
 - (void(^)(void))OE_completionHandlerForOperation:(OEImportOperation*)op
 {
-    __block __unsafe_unretained OEImportOperation *blockOperation = op;
     __block OEROMImporter     *importer = self;
     return ^{
-        OEImportExitStatus state = [blockOperation exitStatus];
+        OEImportExitStatus state = [op exitStatus];
         if(state == OEImportExitSuccess)
         {
             importer.numberOfProcessedItems ++;
@@ -318,23 +317,25 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
         {
         }
 
-        OEImportItemCompletionBlock block = [blockOperation completionHandler];
+        OEImportItemCompletionBlock block = [op completionHandler];
         if(block != nil)
         {
             // save so changes propagate to other stores
             [[importer context] save:nil];
             
             dispatch_after(1.0, dispatch_get_main_queue(), ^{
-                block([blockOperation romObjectID]);
+                block([op romObjectID]);
             });
         }
 
-        [self OE_performSelectorOnDelegate:@selector(romImporter:stoppedProcessingItem:) withObject:blockOperation];
+        [self OE_performSelectorOnDelegate:@selector(romImporter:stoppedProcessingItem:) withObject:op];
 
         if([[importer operationQueue] operationCount] == 0)
         {
             [importer finish];
         }
+
+        [op setCompletionHandler:nil];
     };
 }
 #pragma mark - Spotlight importing -
