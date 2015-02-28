@@ -163,10 +163,11 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     
     if(_window)
     {
+        NSRect hudWindowFrame = [_hudWindow frame];
         NSRect windowFrame = [_window frame];
         NSPoint p = (NSPoint){
-            windowFrame.origin.x + (windowFrame.size.width -[_hudWindow frame].size.width )/2,
-            windowFrame.origin.y + (windowFrame.size.height-[_hudWindow frame].size.height)/2
+            windowFrame.origin.x + (windowFrame.size.width -hudWindowFrame.size.width )/2,
+            windowFrame.origin.y + (windowFrame.size.height-hudWindowFrame.size.height)/2
         };
         [_hudWindow setFrameOrigin:p];
     }
@@ -174,6 +175,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     {
         [_hudWindow center];
     }
+    [_hudWindow makeKeyAndOrderFront:nil];
     
     void(^executeBlocks)(void) = ^{
         NSMutableArray *blocks = [self blocks];
@@ -189,7 +191,6 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     };
 
     NSModalSession session = [NSApp beginModalSessionForWindow:_hudWindow];
-
     while([NSApp runModalSession:session] == NSRunContinuesResponse)
     {
         [[NSRunLoop mainRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
@@ -818,6 +819,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 {
     return YES;
 }
+
 @end
 
 @implementation HUDAlertContentView
