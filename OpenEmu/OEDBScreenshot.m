@@ -66,13 +66,15 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
 
 - (id)pasteboardPropertyListForType:(NSString *)type
 {
+    NSURL *url = [[self URL] absoluteURL];
     if([type isEqualToString:(NSString*)kUTTypeFileURL])
     {
-        return [[self URL] pasteboardPropertyListForType:type];
+        return [url pasteboardPropertyListForType:type];
     }
     else if([type isEqualToString:(NSString*)kUTTypeImage])
     {
-        return [[[NSImage alloc] initWithContentsOfURL:[self URL]] pasteboardPropertyListForType:type];
+        NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
+        return [image pasteboardPropertyListForType:type];
     }
 
     return nil;
