@@ -163,7 +163,6 @@ static OSStatus _OEAOPropertyListenerProc(AudioObjectID inObjectID, UInt32 inNum
     }
 
     NSMutableArray *devicesToAdd = [NSMutableArray array];
-    NSArray        *devicesToRemove;
 
     @synchronized(_devices)
     {
@@ -192,12 +191,11 @@ static OSStatus _OEAOPropertyListenerProc(AudioObjectID inObjectID, UInt32 inNum
              return YES;
          }];
 
-        devicesToRemove = [_devices objectsAtIndexes:indexesToRemove];
+        // TODO: Maybe post individual notifications for each device that was removed/added. Maybe
+        //         devicesToRemove = [_devices objectsAtIndexes:indexesToRemove];
 
         [_devices removeObjectsAtIndexes:indexesToRemove];
         [_devices addObjectsFromArray:devicesToAdd];
-
-        // Maybe post individual notifications for each device that was removed/added. Maybe
     }
 
     DLog(@"OEAudioDeviceManager added audio devices %@", devicesToAdd);

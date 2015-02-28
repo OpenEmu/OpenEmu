@@ -272,10 +272,6 @@ const static CGFloat TableViewSpacing = 86.0;
     NSInteger row = [self rowOfView:sender];
 
     if(row < 0 || row >= [[self games] count]) return;
-
-    OEFeaturedGame *game = [[self games] objectAtIndex:row];
-    NSURL *url = [NSURL URLWithString:[game fileURLString]];
-    NSInteger fileIndex = [game fileIndex];
 }
 
 - (IBAction)launchGame:(id)sender

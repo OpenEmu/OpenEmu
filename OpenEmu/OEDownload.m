@@ -84,7 +84,7 @@
 {
     [self setProgress:-1.0];
 
-    NSURLRequest  *request  = [NSURLRequest requestWithURL:[self url] cachePolicy:NSURLCacheStorageAllowed timeoutInterval:60.0];
+    NSURLRequest  *request  = [NSURLRequest requestWithURL:[self url] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:60.0];
     NSURLDownload *download = [[NSURLDownload alloc] initWithRequest:request delegate:self];
 
     [self setDownload:download];

@@ -1479,4 +1479,9 @@ typedef enum : NSUInteger
     [[self gameViewController] setAspectSize:newAspectSize];
 }
 
+- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
+{
+    [self setAspectSize:newAspectSize];
+    [self setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
+}
 @end

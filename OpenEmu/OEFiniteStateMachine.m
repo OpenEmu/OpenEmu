@@ -266,6 +266,11 @@ typedef struct
         _timersQueue = dispatch_queue_create(queueName, DISPATCH_QUEUE_SERIAL);
         dispatch_set_context(_timersQueue, timersQueueContext);
         dispatch_set_finalizer_f(_timersQueue, OE_timersQueueFinalizer);
+
+        // silence analyzer: timersQueueContext is freed in OE_timersQueueFinalizer
+#ifdef  __clang_analyzer__
+        free(timersQueueContext);
+#endif
     }
     for(OEFSMTimerTransition *timerTransition in timerTransitions)
     {

@@ -44,6 +44,12 @@
     
     object_setInstanceVariable(self, "_outlineCell", sidebarOutlineCell);
     object_setInstanceVariable(self, "_trackingOutlineCell", sidebarOutlineCell);
+
+    // silence analyzer: sidebarOutlineCell will be released when the cell is remove from the outline view
+#ifdef __clang_analyzer__
+    [sidebarOutlineCell release];
+    [sidebarOutlineCell release];
+#endif
 }
 
 @end
