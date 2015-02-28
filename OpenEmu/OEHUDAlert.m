@@ -57,17 +57,17 @@ static const CGFloat _OEHUDAlertButtonLength            = 103.0;
 static const CGFloat _OEHUDAlertButtonHeight            =  23.0;
 static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
-@interface OEAlertWindow : NSWindow <OECustomWindow>
+@interface OEAlertWindow : NSWindow
+@end
+
+@interface HUDAlertContentView : NSView
+@property NSPoint draggingPoint;
 @end
 
 @interface OEHUDAlert ()
 {
-    NSWindow *_window;
-    NSUInteger result;
-    
-    OEAlertCompletionHandler callbackHandler;
+    OEAlertCompletionHandler _callbackHandler;
 }
-
 - (void)OE_performCallback;
 - (void)OE_layoutButtons;
 - (void)OE_setupWindow;
@@ -78,24 +78,8 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 @end
 
 @implementation OEHUDAlert
-#pragma mark Properties
-@synthesize result, suppressionUDKey;
-
-@synthesize target, callback;
-@synthesize suppressOnDefaultReturnOnly;
-
-@synthesize defaultButton = _defaultButton, alternateButton = _alternateButton, otherButton=_otherButton;
-@synthesize progressbar = _progressbar;
-@synthesize messageTextView = _messageTextView, headlineTextView= _headlineTextView;
-@synthesize suppressionButton = _suppressionButton;
-@synthesize inputField = _inputField, inputLabelView = _inputLabelView, otherInputField = _otherInputField, otherInputLabelView = _otherInputLabelView;
-@synthesize boxView = _boxView;
-@synthesize window;
-
-@dynamic inputLimit, progress;
 
 #pragma mark -
-
 - (void)show
 {
     [_window makeKeyAndOrderFront:self];
@@ -121,7 +105,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     self = [super init];
     if(self)
     {
-        _window = [[OEAlertWindow alloc] init];
+        _window = [[OEAlertWindow alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0) styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:YES];
         [_window setReleasedWhenClosed:NO];
         
         _suppressionButton = [[OEButton alloc] init];
@@ -164,8 +148,8 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     _suppressionButton = nil;
         
     // Remove Callbacks (don't call setter)
-    target = nil;
-    callbackHandler = nil;
+    _target = nil;
+    _callbackHandler = nil;
 
     [_alternateButton setTarget:nil];
     [_defaultButton  setTarget:nil];
@@ -177,9 +161,9 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 {
     if([self suppressionUDKey] && [[NSUserDefaults standardUserDefaults] valueForKey:[self suppressionUDKey]])
     {
-        result = [[NSUserDefaults standardUserDefaults] integerForKey:[self suppressionUDKey]];
+        _result = [[NSUserDefaults standardUserDefaults] integerForKey:[self suppressionUDKey]];
         [self OE_performCallback];
-        return result;
+        return _result;
     }
 
     [self OE_autosizeWindow];
@@ -225,7 +209,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
     [_window close];
 
-    return result;
+    return _result;
 }
 
 - (void)performBlockInModalSession:(void(^)(void))block
@@ -238,8 +222,8 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 - (void)closeWithResult:(NSInteger)res
 {
-    result = res;
-    [NSApp stopModalWithCode:result];
+    _result = res;
+    [NSApp stopModalWithCode:_result];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [_window close];
@@ -344,21 +328,21 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 - (void)buttonAction:(id)sender
 {
     if(sender == [self defaultButton] || sender == [self inputField])
-        result = NSAlertDefaultReturn;
+        _result = NSAlertDefaultReturn;
     else if(sender == [self alternateButton])
-        result = NSAlertAlternateReturn;
+        _result = NSAlertAlternateReturn;
     else if(sender == [self otherButton])
-        result = NSAlertOtherReturn;
+        _result = NSAlertOtherReturn;
     else 
-        result = NSAlertDefaultReturn;
+        _result = NSAlertDefaultReturn;
 
-    if(result != NSAlertOtherReturn && [[self suppressionButton] state] && (result || ![self suppressOnDefaultReturnOnly]) && [self suppressionUDKey])
+    if(_result != NSAlertOtherReturn && [[self suppressionButton] state] && (_result || ![self suppressOnDefaultReturnOnly]) && [self suppressionUDKey])
     {
         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-        [standardUserDefaults setInteger:result forKey:[self suppressionUDKey]];
+        [standardUserDefaults setInteger:_result forKey:[self suppressionUDKey]];
     }
 
-    [NSApp stopModalWithCode:result];
+    [NSApp stopModalWithCode:_result];
     [self OE_performCallback];
 }
 
@@ -439,7 +423,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 - (void)setCallbackHandler:(OEAlertCompletionHandler)handler
 {
-    callbackHandler = [handler copy];
+    _callbackHandler = [handler copy];
     
     [[self alternateButton] setTarget:self];
     [[self alternateButton] setAction:@selector(buttonAction:)];
@@ -451,7 +435,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 - (OEAlertCompletionHandler)callbackHandler
 {
-    return callbackHandler;
+    return _callbackHandler;
 }
 
 - (void)OE_performCallback
@@ -461,9 +445,9 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     
     if([self callbackHandler] != nil)
     {
-        callbackHandler(self, [self result]);
+        _callbackHandler(self, [self result]);
         [self callbackHandler];
-        callbackHandler = nil;
+        _callbackHandler = nil;
     }
 }
 
@@ -810,41 +794,47 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 @implementation OEAlertWindow
 
-+ (void)initialize
+- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
-    // Make sure not to reinitialize for subclassed objects
-    if(self != [OEAlertWindow class]) return;
-
-    [NSWindow registerWindowClassForCustomThemeFrameDrawing:[OEAlertWindow class]];
-}
-
-- (id)init
-{
-    self = [super init];
+    self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:bufferingType defer:flag];
     if(self)
     {
         [self setOpaque:NO];
         [self setBackgroundColor:[NSColor clearColor]];
+        [self setMovableByWindowBackground:YES];
+
+        NSRect frame = contentRect;
+        contentRect.origin = NSMakePoint(0, 0);
+        NSView *contentView = [[HUDAlertContentView alloc] initWithFrame:frame];
+        [self setContentView:contentView];
     }
     return self;
 }
 
-#pragma mark OECustomWindow implementation
-
-- (BOOL)drawsAboveDefaultThemeFrame
+- (BOOL)canBecomeKeyWindow
 {
     return YES;
 }
 
-- (void)drawThemeFrame:(NSRect)dirtyRect
+- (BOOL)canBecomeMainWindow
 {
-    NSRect bounds = [self frame];
-    bounds.origin = (NSPoint){0,0};
+    return YES;
+}
+@end
 
-    [[NSColor clearColor] setFill];
-    NSRectFill(bounds);
+@implementation HUDAlertContentView
 
-    OEThemeState state = [[(NSView*)self window] isMainWindow] ? OEThemeInputStateWindowActive : OEThemeInputStateWindowInactive;
+- (BOOL)isOpaque
+{
+    return NO;
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+    NSRect bounds = [self bounds];
+
+    NSWindow    *window = [self window];
+    OEThemeState  state = [window isMainWindow] ? OEThemeInputStateWindowActive : OEThemeInputStateWindowInactive;
     OEThemeImage *image = [[OETheme sharedTheme] themeImageForKey:@"hud_alert_window"];
     NSImage *nsimage = [image imageForState:state];
     [nsimage drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];

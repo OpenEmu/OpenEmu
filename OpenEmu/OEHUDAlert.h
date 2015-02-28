@@ -37,37 +37,31 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 + (id)alertWithMessageText:(NSString *)msgText defaultButton:(NSString*)defaultButtonLabel alternateButton:(NSString*)alternateButtonLabel;
 
 #pragma mark -
-
 - (NSUInteger)runModal;
 - (void)performBlockInModalSession:(void(^)(void))block;
 - (void)closeWithResult:(NSInteger)res;
 
-@property(readonly) NSUInteger result;
+@property (readonly) NSUInteger result;
+@property (strong)   NSWindow  *window;
 
-@property(strong) NSWindow *window;
-
-#pragma mark -
-#pragma mark Sizing
 @property CGFloat height, width;
+@property (readonly, strong) NSView *boxView;
 
-@property(readonly, strong) NSView *boxView;
+#pragma mark - Buttons
+@property (readonly, strong) OEButton *defaultButton;
+@property (readonly, strong) OEButton *alternateButton;
+@property (readonly, strong) OEButton *otherButton;
 
-#pragma mark -
-#pragma mark Buttons
-@property(readonly, strong) OEButton *defaultButton;
-@property(readonly, strong) OEButton *alternateButton;
-@property(readonly, strong) OEButton *otherButton;
+@property (readonly, strong) NSTextView *messageTextView;
+@property (readonly, strong) NSTextView *headlineTextView;
 
-@property(readonly, strong) NSTextView *messageTextView;
-@property(readonly, strong) NSTextView *headlineTextView;
-
-@property(strong) NSString *stringValue, *otherStringValue, *inputLabelText, *otherInputLabelText;
-@property(strong) NSString *defaultButtonTitle, *alternateButtonTitle, *otherButtonTitle, *title, *messageText, *headlineText;
+@property (strong) NSString *stringValue, *otherStringValue, *inputLabelText, *otherInputLabelText;
+@property (strong) NSString *defaultButtonTitle, *alternateButtonTitle, *otherButtonTitle, *title, *messageText, *headlineText;
 
 #pragma mark -
 #pragma mark Input Field
-@property(readonly, strong) NSTextView *inputLabelView, *otherInputLabelView;
-@property(readonly, strong) OETextField *inputField, *otherInputField;
+@property (readonly, strong) NSTextView *inputLabelView, *otherInputLabelView;
+@property (readonly, strong) OETextField *inputField, *otherInputField;
 @property BOOL showsInputField, showsOtherInputField;
 @property NSInteger inputLimit;
 
@@ -75,7 +69,7 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 #pragma mark Progress Bar
 
 @property BOOL showsProgressbar;
-@property(strong, readonly) OEProgressIndicator *progressbar;
+@property (strong, readonly) OEProgressIndicator *progressbar;
 
 @property double progress;
 
