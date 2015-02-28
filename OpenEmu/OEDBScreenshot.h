@@ -32,7 +32,7 @@
 
 extern NSString * const OEDBScreenshotImportRequired;
 
-@interface OEDBScreenshot : OEDBItem
+@interface OEDBScreenshot : OEDBItem <NSPasteboardWriting>
 
 + (instancetype)createObjectInContext:(NSManagedObjectContext *)context forROM:(OEDBRom*)rom withFile:(NSURL*)file;
 - (void)updateFile;

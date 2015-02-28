@@ -526,6 +526,22 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
         [self writeToDisk];
 }
 
+#pragma mark - NSPasteboardWriting
+- (NSArray*)writableTypesForPasteboard:(NSPasteboard *)pasteboard
+{
+    return @[(NSString*)kUTTypeFileURL];
+}
+
+- (id)pasteboardPropertyListForType:(NSString *)type
+{
+    if([type isEqualToString:(NSString*)kUTTypeFileURL])
+    {
+        return [[[self URL] absoluteURL] pasteboardPropertyListForType:type];
+    }
+
+    return nil;
+}
+
 #pragma mark - Data Accessors
 - (NSString *)displayName
 {

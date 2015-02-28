@@ -58,6 +58,26 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
     return @"Screenshot";
 }
 
+#pragma mark - NSPasteboardWriting
+- (NSArray*)writableTypesForPasteboard:(NSPasteboard *)pasteboard
+{
+    return @[(NSString*)kUTTypeFileURL, (NSString*)kUTTypeImage];
+}
+
+- (id)pasteboardPropertyListForType:(NSString *)type
+{
+    if([type isEqualToString:(NSString*)kUTTypeFileURL])
+    {
+        return [[self URL] pasteboardPropertyListForType:type];
+    }
+    else if([type isEqualToString:(NSString*)kUTTypeImage])
+    {
+        return [[[NSImage alloc] initWithContentsOfURL:[self URL]] pasteboardPropertyListForType:type];
+    }
+
+    return nil;
+}
+
 #pragma mark - Core Data Properties
 @dynamic location, name, timestamp, userDescription, rom;
 

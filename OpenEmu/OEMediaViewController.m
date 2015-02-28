@@ -40,7 +40,7 @@
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 
-@interface OESavedGamesDataWrapper : NSObject
+@interface OESavedGamesDataWrapper : NSObject <NSPasteboardWriting>
 + (id)wrapperWithItem:(id)item;
 + (id)wrapperWithState:(OEDBSaveState*)state;
 + (id)wrapperWithScreenshot:(OEDBScreenshot*)screenshot;
@@ -485,6 +485,28 @@ static NSDateFormatter *formatter = nil;
     return obj;
 }
 
+#pragma mark - NSPasteboardWriting
+- (NSArray*)writableTypesForPasteboard:(NSPasteboard *)pasteboard
+{
+    if([self state])
+        return [[self state] writableTypesForPasteboard:pasteboard];
+    if([self screenshot])
+        return [[self screenshot] writableTypesForPasteboard:pasteboard];
+
+    return nil;
+}
+
+- (id)pasteboardPropertyListForType:(NSString *)type
+{
+    if([self state])
+        return [[self state] pasteboardPropertyListForType:type];
+    if([self screenshot])
+        return [[self screenshot] pasteboardPropertyListForType:type];
+
+    return nil;
+}
+
+#pragma mark - ImageKit DataSource Item
 - (NSString *)imageUID
 {
     if([self state])
