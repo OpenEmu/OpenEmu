@@ -481,7 +481,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
         if(hasLocalFiles)
         {
-            [menu addItemWithTitle:NSLocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
+            [menu addItemWithTitle:NSLocalizedString(@"Show in Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
             if(hasRemoteFiles)
                 [menu addItemWithTitle:NSLocalizedString(@"Trash downloaded Files", @"") action:@selector(trashDownloadedFiles:) keyEquivalent:@""];
         }
@@ -520,7 +520,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         
         if(hasLocalFiles)
         {
-            [menu addItemWithTitle:NSLocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
+            [menu addItemWithTitle:NSLocalizedString(@"Show in Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
             if(hasRemoteFiles)
                 [menu addItemWithTitle:NSLocalizedString(@"Trash downloaded Files", @"") action:@selector(trashDownloadedFiles:) keyEquivalent:@""];
         }

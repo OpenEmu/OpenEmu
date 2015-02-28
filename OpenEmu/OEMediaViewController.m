@@ -258,15 +258,22 @@
 
     if([indexes count] == 1)
     {
-        [menu addItemWithTitle:@"Play Save State" action:@selector(startSaveState:) keyEquivalent:@""];
-        [menu addItemWithTitle:@"Rename" action:@selector(beginEditingWithSelectedItem:) keyEquivalent:@""];
-        [menu addItemWithTitle:@"Show in Finder" action:@selector(showInFinder:) keyEquivalent:@""];
-        [menu addItemWithTitle:@"Delete Save State" action:@selector(deleteSelectedItems:) keyEquivalent:@""];
+
+        [menu addItemWithTitle:NSLocalizedString(@"Play Save State", @"SaveState View Context menu")
+                        action:@selector(startSaveState:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Rename", @"SaveState View Context menu")
+                        action:@selector(beginEditingWithSelectedItem:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Show in Finder", @"SaveState View Context menu")
+                        action:@selector(showInFinder:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Delete Save State", @"SaveState View Context menu")
+                        action:@selector(deleteSelectedItems:) keyEquivalent:@""];
     }
     else
     {
-        [menu addItemWithTitle:@"Show in Finder" action:@selector(showInFinder:) keyEquivalent:@""];
-        [menu addItemWithTitle:@"Delete Save States" action:@selector(deleteSelectedItems:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Show in Finder", @"SaveState View Context menu")
+                        action:@selector(showInFinder:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Delete Save States", @"SaveState View Context menu (plural)")
+                        action:@selector(deleteSelectedItems:) keyEquivalent:@""];
     }
 
     return [menu numberOfItems] != 0 ? menu : nil;
@@ -280,14 +287,19 @@
 
     if([indexes count] == 1)
     {
-        [menu addItemWithTitle:@"Rename" action:@selector(beginEditingWithSelectedItem:) keyEquivalent:@""];
-        [menu addItemWithTitle:@"Show in Finder" action:@selector(showInFinder:) keyEquivalent:@""];
-        [menu addItemWithTitle:@"Delete Screenshot" action:@selector(deleteSelectedItems:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Rename", @"SaveState View Context menu")
+                        action:@selector(beginEditingWithSelectedItem:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Show in Finder", @"SaveState View Context menu")
+                        action:@selector(showInFinder:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Delete Screenshot", @"Screenshot View Context menu")
+                        action:@selector(deleteSelectedItems:) keyEquivalent:@""];
     }
     else
     {
-        [menu addItemWithTitle:@"Show in Finder" action:@selector(showInFinder:) keyEquivalent:@""];
-        [menu addItemWithTitle:@"Delete Screenshots" action:@selector(deleteSelectedItems:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Show in Finder", @"SaveState View Context menu")
+                        action:@selector(showInFinder:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Delete Screenshots", @"Screenshot View Context menu (plural)")
+                        action:@selector(deleteSelectedItems:) keyEquivalent:@""];
     }
 
     return menu;
@@ -299,7 +311,6 @@
     NSArray *items = [[self items] objectsAtIndexes:indexes];
     NSArray *urls  = [items valueForKeyPath:@"URL.absoluteURL"];
 
-    NSLog(@"%@", urls);
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:urls];
 }
 

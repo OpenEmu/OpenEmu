@@ -434,7 +434,7 @@
 
 "Show game titles instead of rom names" = "Exibir Títulos dos jogos ao invés dos nomes das roms";
 
-"Show In Finder" = "Exibir no Finder";
+"Show in Finder" = "Exibir no Finder";
 
 "Show options button" = "Exibir botão de opções";
 
@@ -549,3 +549,11 @@
 "Download" = "Download"; // TODO
 
 "Play Save State" = "Play Save State"; //TODO
+
+"Delete Save State" = "Delete Save State"; //TODO
+
+"Delete Save States" = "Delete Save States"; //TODO
+
+"Delete Screenshot" = "Delete Screenshot"; //TODO
+
+"Delete Screenshots" = "Delete Screenshots"; //TODO

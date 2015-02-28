@@ -436,7 +436,7 @@
 
 "Show game titles instead of rom names" = "Spieletitel statt Dateinamen anzeigen";
 
-"Show In Finder" = "In Finder anzeigen";
+"Show in Finder" = "In Finder anzeigen";
 
 "Show options button" = "Optionen-Schaltfläche anzeigen";
 
@@ -571,3 +571,11 @@
 "Download" = "Herunterladen";
 
 "Play Save State" = "Spielstand starten";
+
+"Delete Save State" = "Spielstand löschen";
+
+"Delete Save States" = "Spielstände löschen";
+
+"Delete Screenshot" = "Screenshot löschen";
+
+"Delete Screenshots" = "Screenshots löschen";
