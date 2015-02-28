@@ -199,7 +199,6 @@ static OSStatus _OEAOPropertyListenerProc(AudioObjectID inObjectID, UInt32 inNum
     }
 
     DLog(@"OEAudioDeviceManager added audio devices %@", devicesToAdd);
-    DLog(@"OEAudioDeviceManager removed audio devices %@", devicesToRemove);
 
     free(deviceIDs);
 }

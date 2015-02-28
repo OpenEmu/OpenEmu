@@ -1,656 +1,293 @@
 /*
- Copyright (c) 2009-2014, OpenEmu Team
- 
+ Copyright (c) 2015, OpenEmu Team
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright
- notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
- notice, this list of conditions and the following disclaimer in the
- documentation and/or other materials provided with the distribution.
- * Neither the name of the OpenEmu Team nor the
- names of its contributors may be used to endorse or promote products
- derived from this software without specific prior written permission.
- 
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/** THIS FILE WAS GENERATED AUTOMATICALLY! DO NOT CHANGE! **/
-
-/*001e6f4a00f4fa2d19f2beeb83bdd5c9b1c94fc6*/
-
-/*r|OEPrefDebugController.m|196|Debug Label*/ "" = "";
-
-/*s|OESidebarController.m|215|Duplicated collection name*/ "%@ copy" = "%@ Kopie";
-
-/*s|OEPrefLibraryController.m|468|*/ "%@ could not be enabled because its plugin was not found." = "%@ konnte nicht aktiviert werden, da kein Plugin gefunden wurde.";
-
-/*s|OEBlankSlateView.m|192|*/ "%@ games you add to OpenEmu will appear in this Console Library" = "„%@“-Spiele, die du zu OpenEmu hinzufügst, erscheinen in dieser Ansicht.";
-
-/*s|OEGameControlsBar.m|373|Integral scale menu item title*/ "%ux" = "%ux";
-
-/*s|OEPluginDocument.m|71|*/ "A version of this plugin is already loaded" = "Es ist bereits eine Version dieses Plugins geladen";
-
-/*s|OEGameDocument.m|1036|*/ "Add Cheat" = "Cheat hinzufügen";
-
-/*s|OEGameControlsBar.m|279|*/ "Add Cheat…" = "Cheat hinzufügen …";
-
-/*s|OEGameCollectionViewController.m|475|*/
-/*s|OEGameCollectionViewController.m|503|*/ "Add Cover Art From File…" = "Cover aus Datei hinzufügen …";
-
-/*s|OEGameCollectionViewController.m|481|*/
-/*s|OEGameCollectionViewController.m|508|*/ "Add To Collection" = "Zur Sammlung hinzufügen";
-
-/*s|OEPrefControlsController.m|326|Wiimote bindings menu item.*/ "Add a Wiimote…" = "Wiimote hinzufügen …";
-
-/*r|OEPrefDebugController.m|185|Debug Button Label*/ "Add untracked save states" = "Nicht getrackte Spielstände hinzufügen";
-
-/*s|OEDBAllGamesCollection.m|48|*/ "All Games" = "Alle Spiele";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|162|*/ "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Möchtest du wirklich %ld Spielstände aus deiner OpenEmu-Mediathek entfernen?";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|190|*/ "Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Möchtest du wirklich %ld Screenshots aus deiner OpenEmu-Mediathek entfernen?";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|149|*/ "Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Möchtest du den Spielstand „%@“ wirklich aus deiner OpenEmu-Mediathek entfernen?";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|177|*/ "Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Möchtest du den Screenshot „%@“ wirklich aus deiner OpenEmu-Mediathek entfernen?";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|218|*/ "Are you sure you want to delete the selected game from your OpenEmu library?" = "Möchtest du das ausgewählte Spiel wirklich aus deiner OpenEmu-Mediathek entfernen?";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|217|*/ "Are you sure you want to delete the selected games from your OpenEmu library?" = "Möchtest du die ausgewählten Spiele wirklich aus deiner OpenEmu-Mediathek entfernen?";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|52|*/ "Are you sure you want to quit the application?" = "Möchtest du die Anwendung wirklich beenden?";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|203|*/ "Are you sure you want to remove the selected games from the collection?" = "Möchtest du die ausgewählten Spiele wirklich aus der Sammlung entfernen?";
-
-/*s|OESidebarController.m|615|*/ "Are you sure you want to remove this collection?" = "Möchtest du diese Sammlung wirklich entfernen?";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|121|*/ "Are you sure you want to reset the console?" = "Möchtest du die Konsole wirklich neu starten?";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|135|*/ "Are you sure you want to stop emulation?" = "Möchtest du das Spiel wirklich beenden?";
-
-/*s|OEPrefLibraryController.m|453|*/ "At least one System must be enabled" = "Es muss mindestens ein System aktiviert sein";
-
-/*s|OEDBSaveState.m|427|Autosave state display name*/ "Auto Save State" = "Automatische Sicherung";
-
-/*s|OELibraryDatabase.m|894|Automatically Import Name*/ "Automatically Import" = "Automatisch zu OpenEmu hinzufügen";
-
-/*s|OEPrefControlsController.m|554|*/ "Bluetooth Not Enabled" = "Bluetooth ist nicht aktiviert";
-
-/*s|OEPrefControlsController.m|552|*/ "Bluetooth must be enabled to pair a Wii controller." = "Bluetooth muss aktiviert sein, um eine Wiimote hinzuzufügen.";
-
-/*s|OESidebarController.m|97|*/ "COLLECTIONS" = "SAMMLUNGEN";
-
-/*s|OESidebarController.m|91|*/ "CONSOLES" = "KONSOLEN";
-
-/*r|OEPrefDebugController.m|161|Debug Checkbox Label*/ "Can delete save states" = "Spielstände sind löschbar";
-
-/*s|OECoreUpdater.m|254|*/
-/*s|OEGameCollectionViewController.m|340|*/
-/*s|OEGameDocument.m|719|*/
-/*s|OEGameDocument.m|1037|*/
-/*s|OEGameDocument.m|1319|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|55|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|101|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|123|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|137|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|152|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|165|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|180|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|193|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|206|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|221|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|252|*/
-/*s|OEMainWindowController.m|279|*/
-/*s|OEPrefControlsController.m|540|*/
-/*s|OEPrefLibraryController.m|214|*/
-/*s|OESidebarController.m|617|*/ "Cancel" = "Abbrechen";
-
-/*s|OEGameCollectionViewController.m|473|*/ "Cancel Cover Art Download" = "Cover-Download abbrechen";
-
-/*r|OEPrefDebugController.m|192|Debug Button Label*/ "Cancel OpenVGDB Update" = "OpenVGDB-Update abbrechen";
-
-/*s|OEGameDocument.m|718|*/ "Change Core" = "Kern wechseln";
-
-/*s|OEGameControlsBar.m|724|Tooltip*/ "Change Volume" = "Lautstärke ändern";
-
-/*s|OEGameDocument.m|1030|*/ "Cheat Description" = "Cheat-Beschreibung";
-
-/*s|OEApplicationDelegate.m|519|*/ "Choose Library…" = "Mediathek auswählen …";
-
-/*s|OEApplicationDelegate.m|516|*/ "Choose OpenEmu Library" = "OpenEmu-Mediathek auswählen";
-
-/*s|OEGameDocument.m|177|Inexistent file error recovery suggestion.*/
-/*s|OEGameDocument.m|500|Inexistent file error recovery suggestion.*/ "Choose a valid file." = "Wähle eine gültige Datei aus.";
-
-/*r|OEPrefDebugController.m|184|Debug Button Label*/ "Choose save states directory" = "Spielstandordner auswählen";
-
-/*s|OEGameScannerViewController.m|546|*/ "Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Möchtest du wirklich alle Objekte aus der Warteschlange entfernen? Spiele, die bereits importiert wurden, bleiben in der Mediathek.";
-
-/*r|OEPrefDebugController.m|188|Debug Button Label*/ "Cleanup autosave state" = "Automatische Sicherungen aufräumen";
-
-/*r|OEPrefDebugController.m|174|Debug Checkbox Label*/ "Clicking on image selects button" = "Klick auf Grafik wählt Button aus";
-
-/*r|OEPrefDebugController.m|175|Debug Checkbox Label*/ "Clicking outside image deselects button" = "Klick außerhalb der Grafik hebt Auswahl auf";
-
-/*s|OEGameDocument.m|1032|*/ "Code:" = "Code:";
-
-/*s|OESidebarOutlineView.m|131|*/ "Collapse" = "Ein-/Ausklappen";
-
-/*s|OEBlankSlateView.m|148|*/ "Collections" = "Sammlungen";
-
-/*s|OEGameCollectionViewController.m|339|*/ "Consolidate" = "Zusammenlegen";
-
-/*s|OEGameCollectionViewController.m|476|*/
-/*s|OEGameCollectionViewController.m|504|*/ "Consolidate Files…" = "Dateien zusammenlegen …";
-
-/*s|OEGameCollectionViewController.m|338|*/ "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Beim Zusammenlegen werden die ausgewählten Spiele in den OpenEmu-Spieleordner kopiert.\n\nDiese Aktion kann nicht rückgängig gemacht werden.";
-
-/*r|OEPrefControlsController.m|749|Preferences: Controls Toolbar Item*/ "Controls" = "Steuerung";
-
-/*r|OEPrefDebugController.m|172|Debug Group*/ "Controls Setup" = "Steuerung";
-
-/*s|OEPrefLibraryController.m|211|Alert Headline: Library migration*/ "Copying Artwork Files…" = "Kopiere Cover-Dateien …";
-
-/*s|OEGameCollectionViewController.m|346|*/ "Copying Game Files…" = "Kopiere Spiel-Dateien …";
-
-/*s|OEPrefLibraryController.m|260|Alert Headline: Library migration*/ "Copying ROM Files…" = "Kopiere ROM-Dateien …";
-
-/*s|OEPrefLibraryController.m|245|*/ "Copying artwork failed!" = "Kopieren des Covers fehlgeschlagen.";
-
-/*s|OEBlankSlateView.m|238|*/ "Core Provided By…" = "Kern powered by…";
-
-/*r|OEPrefCoresController.m|252|Preferences: Cores Toolbar item*/ "Cores" = "Kerne";
-
-/*s|OEPrefLibraryController.m|294|*/ "Could not move complete library! %ld roms were moved" = "Mediathek konnte nicht vollständig verschoben werden! %ld ROMs wurden verschoben.";
-
-/*s|OEPrefLibraryController.m|338|*/ "Could not move library data!" = "Mediathek-Daten konnten nicht verschoben werden.";
-
-/*s|OEDOGameCoreManager.m|137|Timed out error reason.*/ "Couldn't connect to the background process." = "Die Verbindung mit dem Hintergrundprozess ist fehlgeschlagen.";
-
-/*s|OEPluginDocument.m|70|*/ "Couldn't load %@ plugin" = "Konnte Plugin %@ nicht laden";
-
-/*s|OEApplicationDelegate.m|520|*/ "Create Library…" = "Mediathek erstellen …";
-
-/*s|OEBlankSlateView.m|154|*/ "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Erstelle eine eigene Spieleauswahl. Um ein Spiel zur Sammlung hinzuzufügen, wähle es in der Konsolenansicht aus und ziehe es auf „%@“ in der Seitenleiste.";
-
-/*s|OEGameControlsBar.m|680|Tooltip*/ "Create or Load Save State" = "Spielstand erstellen oder laden";
-
-/*s|OESidebarController.m|94|*/ "DEVICES" = "GERÄTE";
-
-/*r|OEPrefDebugController.m|151|Debug Checkbox Label*/ "Dark GridView context menu" = "Dunkles Kontextmenü in Spieleansicht verwenden";
-
-/*r|OEPrefDebugController.m|194|Debug Group*/ "Database Actions" = "Datenbank-Aktionen";
-
-/*r|OEPrefDebugController.m|135|Debug Checkbox Label*/ "Debug Mode" = "Debug-Modus";
-
-/*s|OESidebarOutlineView.m|188|*/ "Delete Collection" = "Sammlung löschen";
-
-/*s|OEGameCollectionViewController.m|486|*/ "Delete Game" = "Spiel löschen";
-
-/*s|OEGameCollectionViewController.m|513|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|220|*/ "Delete Games" = "Spiele löschen";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|151|*/ "Delete Save" = "Spielstand löschen";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|164|*/ "Delete Saves" = "Spielstände löschen";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|179|*/ "Delete Screenshot" = "Screenshot löschen";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|192|*/ "Delete Screenshots" = "Screenshots löschen";
-
-/*s|OEGameScannerViewController.m|86|*/ "Deselect All" = "Auswahl aufheben";
-
-/*s|OEGameDocument.m|412|A controller device has disconnected.*/ "Device Disconnected" = "Gerät getrennt";
-
-/*s|OEGameDocument.m|408|Device disconnection detail message.*/ "Device number %lu, %@, has disconnected." = "Gerät %1$lu (%2$@) wurde getrent.";
-
-/*r|OEPrefDebugController.m|169|Debug Checkbox Label*/ "Disable aspect ratio correction" = "Seitenverhältnis-Korrektur deaktivieren";
-
-/*r|OEPrefDebugController.m|154|Debug Checkbox Label*/ "Disable grid view gloss overlay" = "Glanz-Overlay in Symbolansicht deaktivieren";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|69|*/ "Do Not Save" = "Nicht sichern";
-
-/*s|OEHUDAlert.m|714|*/ "Do not ask me again" = "Nicht erneut fragen";
-
-/*s|OEGameDocument.m|1000|Alert suppression label*/ "Do not show me again" = "Nicht erneut anzeigen";
-
-/*s|OEGameScannerViewController.m|545|*/ "Do you really want to cancel the import process?" = "Möchtest du den Import wirklich abbrechen?";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|82|*/ "Do you want to continue playing where you left off?" = "Möchtest du dort weiterspielen, wo du zuletzt aufgehört hast?";
-
-/*s|OEGameScannerViewController.m|200|*/ "Don't Import Selected" = "Auswahl nicht importieren";
-
-/*s|OEGameScannerViewController.m|164|*/ "Done" = "Fertig";
-
-/*s|OEGameCollectionViewController.m|471|*/
-/*s|OEGameCollectionViewController.m|502|*/ "Download Cover Art" = "Cover herunterladen";
-
-/*r|OEPrefDebugController.m|155|Debug Checkbox Label*/ "Download missing artwork on the fly" = "Fehlende Cover „on the fly“ herunterladen";
-
-/*s|OECoreUpdater.m|295|*/ "Downloading and Installing Core…" = "Kern herunterladen und installieren…";
-
-/*s|OEBlankSlateView.m|341|Blank Slate DnD Here*/
-/*s|OEBlankSlateView.m|349|Blank Slate DnD Here*/ "Drag & Drop Games Here" = "Spiele per Drag & Drop hinzufügen";
-
-/*r|OEPrefDebugController.m|177|Debug Checkbox Label*/ "Draw button mask above image" = "Button-Maske über Grafik legen";
-
-/*s|OESidebarOutlineView.m|182|*/ "Duplicate Collection" = "Sammlung duplizieren";
-
-/*s|OEGameControlsBar.m|266|*/ "Edit Game Controls" = "Steuerung bearbeiten";
-
-/*r|OEPrefDebugController.m|153|Debug Checkbox Label*/ "Enable Retrode support" = "Retrode-Unterstützung aktivieren";
-
-/*s|OEGameDocument.m|1040|Cheats button label*/ "Enable now" = "Sofort aktivieren";
-
-/*s|OECoreUpdater.m|315|*/ "Error!" = "Fehler!";
-
-/*s|OEGameScannerViewController.m|155|*/ "Game %ld of %ld" = "Spiel %1$ld von %2$ld";
-
-/*s|OEGameScannerViewController.m|307|*/ "Game Scanner" = "Spiele-Scanner";
-
-/*r|OEPrefDebugController.m|170|DebugModeLabel*/ "Game View Background color" = "Hintergrund der Spieleansicht";
-
-/*r|OEPrefGameplayController.m|93|Preferences: Gamplay Toolbar Item*/ "Gameplay" = "Gameplay";
-
-/*r|OEPrefDebugController.m|134|Debug Group*/ "General" = "Allgemein";
-
-/*r|OEPrefDebugController.m|159|Debug Group*/ "HUD Bar / Gameplay" = "HUD-Bar/Gameplay";
-
-/*s|OESidebarOutlineView.m|160|*/ "Hide \"%@\"" = "\"%@\" ausblenden";
-
-/*s|OEPrefControlsController.m|538|*/ "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "Wenn sich unter der Batteriefachdeckung ein roter Knopf befindet, drücke ihn.\nFalls nicht, drücke die Knöpfe ① und ②.";
-
-/*s|OEGameDocument.m|717|*/ "If you change the core you current progress will be lost and save states will not work anymore." = "Wenn du den Kern wechselst, wirst du deinen aktuellen Fortschritt verlieren und bisher gesicherte Spielstände werden nicht mehr funktionieren.";
-
-/*s|OECoreUpdater.m|253|*/
-/*s|OEPrefCoresController.m|182|Install Core*/ "Install" = "Installieren";
-
-/*s|OECoreUpdater.m|296|*/ "Installing Core" = "Kern installieren";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|236|*/ "Keep Files" = "Dateien behalten";
-
-/*s|OEPrefControlsController.m|317|Keyboard bindings menu item.*/ "Keyboard" = "Tastatur";
-
-/*s|OEPrefLibraryController.m|102|Preferences: Library Toolbar Item*/ "Library" = "Mediathek";
-
-/*r|OEPrefDebugController.m|150|Debug Group*/ "Library Window" = "Mediathek-Ansicht";
-
-/*s|OEMainWindowController.m|278|*/ "Locate" = "Suchen";
-
-/*s|OEMainWindowController.m|285|Locate panel title*/ "Locate '%@'" = "Suche '%@'";
-
-/*r|OEPrefDebugController.m|178|Debug Checkbox Label*/ "Log HID Events" = "HID-Events loggen";
-
-/*r|OEPrefDebugController.m|179|Debug Checkbox Label*/ "Log Keyboard Events" = "Tastatur-Events loggen";
-
-/*s|OEGameDocument.m|396|Device battery level is low.*/ "Low Controller Battery" = "Batterieladung des Controllers ist schwach";
-
-/*s|OESidebarController.m|96|*/ "MEDIA" = "MEDIEN";
-
-/*s|OEGameDocument.m|276|No Core error recovery suggestion.*/ "Make sure your internet connection is active and download a suitable core." = "Stelle sicher, dass deine Internetverbindung aktiv ist, und lade einen passenden Kern herunter.";
-
-/*s|OEPrefControlsController.m|541|*/ "Make your Wiimote discoverable" = "Mache deine Wiimote entdeckbar";
-
-
-/*r|OEPrefDebugController.m|157|Debug Checkbox Label*/ "Manually choose system on import" = "System beim Import manuell auswählen";
-
-/*s|OECoreUpdater.m|256|*/ "Missing Core" = "Kern fehlt";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|231|*/ "Move selected games to Trash, or keep them in the Library folder?" = "Ausgewählte Spiele in den Papierkorb legen oder im Spieleordner behalten?";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|235|*/ "Move to Trash" = "In Papierkorb legen";
-
-/*s|OEGameControlsBar.m|703|Tooltip*/ "Mute Audio" = "Ton aus";
-
-/*s|OELibraryController.m|119|Tooltip*/
-/*s|OELibraryDatabase.m|526|Default collection name*/ "New Collection" = "Neue Sammlung";
-
-/*s|OEGameCollectionViewController.m|604|*/ "New Collection from Selection" = "Neue Sammlung aus Auswahl";
-
-/*s|OELibraryDatabase.m|590|*/ "New Folder" = "Neuer Ordner";
-
-/*s|OELibraryDatabase.m|557|*/ "New Smart Collection" = "Neue intelligente Sammlung";
-
-/*s|OEGameDocument.m|535|*/
-/*s|OEGameScannerViewController.m|548|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|84|*/ "No" = "Nein";
-
-/*s|OEGameCollectionViewController.m|553|*/ "No Save States available" = "Keine Spielstände verfügbar";
-
-/*s|OEPrefControlsController.m|358|Menu item indicating that no controllers is plugged in*/ "No available controllers" = "Keine Controller verfügbar";
-
-/*s|OEApplicationDelegate.m|766|*/ "No game played yet!" = "Noch kein Spiel gespielt.";
-
-/*s|OEGameCollectionViewController.m|569|*/ "None" = "Keine";
-
-/*r|OEPrefDebugController.m|195|Debug Label*/ "Not implemented right now" = "Noch nicht implementiert";
-
-/*s|OECoreUpdater.m|318|*/
-/*s|OEGameDocument.m|969|*/
-/*s|OEGameDocument.m|996|*/
-/*s|OEGameDocument.m|1318|*/
-/*s|OEPrefControlsController.m|553|*/
-/*s|OEPrefLibraryController.m|246|*/
-/*s|OEPrefLibraryController.m|454|*/
-/*s|OEPrefLibraryController.m|469|*/ "OK" = "OK";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|233|*/ "Only files in the OpenEmu Library folder will be moved to the Trash." = "Nur Dateien, die sich im OpenEmu-Spieleordner befinden, werden in den Papierkorb gelegt.";
-
-/*s|OESidebarOutlineView.m|167|*/ "Open Collection" = "Sammlung anzeigen";
-
-/*s|OESidebarOutlineView.m|152|*/ "Open Library" = "Konsole anzeigen";
-
-/*s|OEGameDocument.m|275|No Core error reason.*/ "OpenEmu could not find a Core to launch the game" = "OpenEmu konnte keinen Kern finden, um das Spiel zu starten";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|67|*/ "OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu besitzt eine Funktion, dank der du dort weiterspielen kannst, wo du zuletzt aufgehört hast.";
-
-/*s|OEApplicationDelegate.m|517|*/ "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu benötigt eine Mediathek, um fortzufahren. Du kannst eine bereits existierende OpenEmu-Mediathek auswählen oder eine neue erstellen.";
-
-/*s|OECoreUpdater.m|222|*/ "OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu nutzt sogenannte „Kerne“, um Spiele zu emulieren. Du benötigst den „%1$@“-Kern, um „%2$@“ zu spielen.";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|53|*/ "OpenEmu will save and quit all games that are currently running." = "OpenEmu wird alle derzeit laufenden Spiele sichern und beenden.";
-
-/*r|OEPrefDebugController.m|190|Debug Group*/ "OpenVGDB" = "OpenVGDB";
-
-/*s|OEGameControlsBar.m|694|Tooltip*/ "Options" = "Optionen";
-
-/*s|OEGameDocument.m|595|*/ "Pause Emulation" = "Spiel pausieren";
-
-/*s|OEGameControlsBar.m|659|Tooltip*/ "Pause Gameplay" = "Spiel pausieren";
-
-/*s|OEGameCollectionViewController.m|453|*/ "Play Game" = "Spiel starten";
-
-/*s|OEGameCollectionViewController.m|492|*/ "Play Games (Caution)" = "Spiele starten (Vorsicht)";
-
-/*s|OEGameCollectionViewController.m|457|*/ "Play Save Games" = "Spielstand öffnen";
-
-/*s|OEPrefControlsController.m|282|*/
-/*s|OEPrefControlsController.m|300|*/ "Player %ld" = "Spieler %ld";
-
-/*s|OEPrefLibraryController.m|153|*/ "Please close all games and wait for the importer to finish." = "Bitte beende alle Spiele und warte, bis der Importvorgang beendet ist.";
-
-/*s|OEApplicationDelegate.m|813|Quick Load Menu Item*/
-/*s|OEApplicationDelegate.m|845|Quick Load Menu Item*/
-/*s|OEGameControlsBar.m|462|Quick load menu title*/ "Quick Load" = "Schnell laden";
-
-/*s|OEApplicationDelegate.m|814|Quick Save Menu Item*/
-/*s|OEApplicationDelegate.m|847|Quick Save Menu Item*/
-/*s|OEGameControlsBar.m|463|Quick save menu title*/ "Quick Save" = "Schnell sichern";
-
-/*s|OEDBSaveState.m|431|Quicksave state display name*/ "Quick Save State" = "Schnelle Sicherung";
-
-/*s|OEDBSaveState.m|435|Quicksave state display name with slot*/ "Quick Save, Slot %@" = "Schnelle Sicherung, Slot %@";
-
-/*s|OEApplicationDelegate.m|521|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|54|*/ "Quit" = "Beenden";
-
-/*s|OEGameCollectionViewController.m|464|*/
-/*s|OEGameCollectionViewController.m|496|*/ "Rating" = "Bewertung";
-
-/*s|OEDBSmartCollection.m|52|Recently Added Smart Collection Name*/
-/*s|OEDBSmartCollection.m|65|Recently Added Smart Collection Name*/ "Recently Added" = "Zuletzt hinzugefügt";
-
-/*s|OEPrefDebugController.m|316|Recovered auto save name*/ "Recovered Auto Save" = "Wiederhergestellte automatische Sicherung";
-
-/*r|OEPrefDebugController.m|143|Debug Popover Label*/ "Region" = "Region";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|205|*/
-/*s|OESidebarController.m|616|*/ "Remove" = "Entfernen";
-
-/*r|OEPrefDebugController.m|187|Debug Button Label*/ "Remove duplicate states" = "Doppelte Spielstände entfernen";
-
-/*r|OEPrefDebugController.m|186|Debug Button Label*/ "Remove missing states" = "Fehlende Spielstände entfernen";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|251|*/ "Rename" = "Umbenennen";
-
-/*s|OESidebarOutlineView.m|177|Rename collection sidebar context menu item*/ "Rename \"%@\"" = "\„%@\“ umbenennen";
-
-/*s|OEGameCollectionViewController.m|485|*/ "Rename Game" = "Spiel umbenennen";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|247|*/ "Rename Special Save State or something?" = "Spezial-Spielstand umbenennen?";
-
-/*s|OEGameDocument.m|971|*/ "Required files are missing." = "Erforderliche Dateien fehlen.";
-
-/*s|OEGameScannerViewController.m|176|*/ "Resolve %ld Issues" = "%ld Problem(e) beheben";
-
-/*s|OEGameScannerViewController.m|238|*/ "Resolve Issues" = "Probleme beheben";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|122|*/ "Restart" = "Neu starten";
-
-/*s|OEGameControlsBar.m|669|Tooltip*/ "Restart System" = "Konsole neu starten";
-
-/*s|OEPluginDocument.m|73|*/ "Restart now" = "Jetzt neu starten";
-
-/*s|OEGameDocument.m|394|nil*/
-/*s|OEGameDocument.m|410|Resume game after battery warning button label*/ "Resume" = "Fortsetzen";
-
-/*s|OEGameDocument.m|591|*/ "Resume Emulation" = "Spiel fortsetzen";
-
-/*r|OEPrefDebugController.m|148|Debug Popover Label*/ "Run games using" = "Starte Spiele als";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|99|*/ "Save As:" = "Titel:";
-
-/*s|OEGameControlsBar.m|430|*/ "Save Current Game" = "Aktuelles Spiel sichern";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|68|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|100|*/ "Save Game" = "Spielstand sichern";
-
-/*r|OEPrefDebugController.m|182|Debug Group*/ "Save States" = "Spielstände";
-
-/*s|OEGameControlsBar.m|484|Quick save menu item title*/ "Save to Slot %d" = "In Slot %d sichern";
-
-/*s|OEGameDocument.m|1126|default save game name*/ "Save-Game-%ld %@" = "Spielstand %ld - %@";
-
-/*s|OEDBSavedGamesMedia.m|49|*/ "Saved Games" = "Spielstände";
-
-/*s|OEGameScannerViewController.m|170|*/ "Scanner Paused" = "Durchsuchen pausiert";
-
-/*s|OEGameScannerViewController.m|158|*/ "Scanning Directory" = "Ordner durchsuchen";
-
-/*s|OEDBScreenshotsMedia.m|48|*/ "Screenshots" = "Screenshots";
-
-/*r|OEPrefDebugController.m|508|Preferences: Debug Toolbar Item*/ "Secrets" = "Geheim";
-
-/*s|OEGameScannerViewController.m|83|*/ "Select All" = "Alle auswählen";
-
-/*s|OEGameControlsBar.m|387|*/ "Select Audio Output Device" = "Audio-Ausgabegerät auswählen";
-
-/*s|OEGameControlsBar.m|273|*/
-/*s|OEGameControlsBar.m|275|*/ "Select Cheat" = "Cheat auswählen";
-
-/*s|OEGameControlsBar.m|303|*/
-/*s|OEGameControlsBar.m|324|*/ "Select Core" = "Kern auswählen";
-
-/*s|OEGameControlsBar.m|332|*/
-/*s|OEGameControlsBar.m|351|*/ "Select Filter" = "Filter auswählen";
-
-/*s|OEGameControlsBar.m|360|*/ "Select Scale" = "Skalierung auswählen";
-
-/*r|OEPrefDebugController.m|176|Debug Checkbox Label*/ "Select first field after setting the last" = "Nach letztem Feld erstes auswählen";
-
-/*r|OEPrefDebugController.m|183|Debug Button Label*/ "Set default save states directory" = "Standard-Spielstandordner festlegen";
-
-/*r|OEPrefDebugController.m|136|Debug Checkbox Label*/ "Setup Assistant has finished" = "Setup-Assistent wurde durchlaufen";
-
-/*s|OEGameCollectionViewController.m|467|*/
-/*s|OEGameCollectionViewController.m|499|*/ "Show In Finder" = "In Finder anzeigen";
-
-/*r|OEPrefDebugController.m|180|Debug Checkbox Label*/ "Show all global keys" = "Alle Global-Keys anzeigen";
-
-/*r|OEPrefDebugController.m|167|Debug Checkbox Label*/ "Show audio output device in menu" = "Audio-Ausgabegerät in Menü anzeigen";
-
-/*r|OEPrefDebugController.m|166|Debug Checkbox Label*/ "Show autosave in menu" = "Automatische Sicherung in Menü anzeigen";
-
-/*r|OEPrefDebugController.m|152|Debug Checkbox Label*/ "Show collection view debug controller" = "Sammlungsansicht-Debug-Controller anzeigen";
-
-/*r|OEPrefDebugController.m|156|Debug Checkbox Label*/ "Show game titles instead of rom names" = "Spieletitel statt Dateinamen anzeigen";
-
-/*r|OEPrefDebugController.m|162|Debug Checkbox Label*/ "Show options button" = "Optionen-Schaltfläche anzeigen";
-
-/*r|OEPrefDebugController.m|165|Debug Checkbox Label*/ "Show quicksave in menu" = "Schnelle Sicherung in Menü anzeigen";
-
-/*s|OEGameControlsBar.m|478|Quick load menu item title*/ "Slot %d" = "Slot %d";
-
-/*s|OEApplicationDelegate.m|821|Slotted Quick Load Menu Item*/
-/*s|OEApplicationDelegate.m|822|Slotted Quick Save Menu Item*/ "Slot %ld" = "Slot %ld";
-
-/*s|OERetrodeViewController.m|217|Retrode Slot 1 Group Header*/ "Slot 1" = "Slot 1";
-
-/*s|OEVersionMigrationController.m|310|*/ "Some migrations failed to complete properly" = "Einige Migrationen konnten nicht korrekt durchgeführt werden";
-
-/*s|OEPrefControlsController.m|539|*/ "Start Scanning" = "Wiimote suchen";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|136|*/ "Stop" = "Beenden";
-
-/*s|OEGameControlsBar.m|648|Tooltip*/ "Stop Emulation" = "Spiel beenden";
-
-/*s|OELibraryController.m|113|Tooltip*/ "Switch To Flow View" = "Objekte mit Cover Flow zeigen";
-
-/*s|OELibraryController.m|110|Tooltip*/ "Switch To Grid View" = "Objekte als Symbole zeigen";
-
-/*s|OELibraryController.m|116|Tooltip*/ "Switch To List View" = "Objekte in einer Liste zeigen";
-
-/*s|OEBlankSlateView.m|187|*/ "System" = "System";
-
-/*r|OEPrefDebugController.m|168|Debug Checkbox Label*/ "Take screenshots in native size" = "Screenshots in Originalgröße aufnehmen";
-
-/*s|OEBlankSlateView.m|263|Weblink tooltip*/ "Takes you to the %@ project website" = "Besuche die „%@“-Projektseite";
-
-/*s|OEGameDocument.m|994|*/ "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "Der „%1$@“-Kern hat Kompatibilitätsprobleme, daher können einige Spiele nicht fehlerfrei oder gar nicht gespielt werden.\n\nBitte melde keine Fehler, da wir für die Entwicklung von „%2$@“ nicht zuständig sind.";
-
-/*s|OELibraryDatabase.m|126|*/ "The OpenEmu Library could not be found." = "Die OpenEmu-Mediathek konnte nicht gefunden werden.";
-
-/*s|OEPrefLibraryController.m|581|*/ "The System plugin could not be found!" = "Das System-Plugin konnte nicht gefunden werden.";
-
-/*s|OEDOGameCoreManager.m|150|Invalid helper connection error reason.*/ "The background process connection couldn't be established" = "Es konnte keine Verbindung mit dem Hintergrundprozess hergestellt werden";
-
-/*s|OEDOGameCoreManager.m|115|Not running background process error*/ "The background process couldn't be launched" = "Der Hintergrundprozess konnte nicht gestartet werden";
-
-/*s|OEGameDocument.m|392|Low battery alert detail message.*/ "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "Die Batterieladung in Gerät %1$lu (%2$@) ist gering. Bitte lade das Gerät oder ersetze die Batterie.";
-
-/*s|OECoreUpdater.m|317|*/ "The core could not be downloaded. Try installing it from the Cores preferences." = "Der Kern konnte nicht heruntergeladen werden. Versuche ihn in den Kern-Einstellungen zu installieren.";
-
-/*s|OEGameDocument.m|175|Inexistent file error reason.*/
-/*s|OEGameDocument.m|498|Inexistent file error reason.*/ "The file you selected doesn't exist" = "Die Datei, die du ausgewählt hast, existiert nicht";
-
-/*s|OEMainWindowController.m|276|*/ "The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "Das Spiel „%@“ konnte nicht gestartet werden, da die ROM-Datei nicht gefunden wurde. Möchtest du sie suchen?";
-
-/*s|OEGameDocument.m|530|*/ "The game '%@' was imported." = "Das Spiel „%@“ wurde importiert.";
-
-/*s|OEDOGameCoreManager.m|166|Nil root proxy object error reason.*/ "The root proxy object is nil." = "Das Root-Proxy-Objekt ist null.";
-
-/*s|OEPrefLibraryController.m|588|*/ "This System has no corresponding core installed." = "Für dieses System ist kein Kern installiert.";
-
-/*s|OEGameDocument.m|1317|*/ "This save state was created with a different core. Do you want to switch to that core now?" = "Dieser Spielstand wurde mit einem anderen Kern erstellt. Möchtest du zu diesem Kern wechseln?";
-
-/*s|OEGameDocument.m|1028|*/ "Title:" = "Titel:";
-
-/*s|OECoreUpdater.m|239|*/ "To launch the save state %@ you will need to install the '%@' Core" = "Um den Spielstand „%1$@“ zu laden, musst du den Kern „%2$@“ installieren";
-
-/*s|OEGameDocument.m|966|Missing files dialog text*/ "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "Um dieses Spiel zu starten, werden folgende Dateien benötigt:\n\n%@Ziehe die erforderlichen Dateien in die Mediatheksansicht und starte das Spiel erneut.";
-
-/*s|OEGameControlsBar.m|742|Tooltip*/ "Toggle Fullscreen" = "Vollbild ein/aus";
-
-/*s|OELibraryController.m|107|Tooltip*/ "Toggle Sidebar" = "Seitenleiste ein-/ausblenden";
-
-/*s|OEGameControlsBar.m|711|Tooltip*/ "Unmute Audio" = "Ton ein";
-
-/*s|OEPrefCoresController.m|186|Update Core*/ "Update" = "Aktualisieren";
-
-/*r|OEPrefDebugController.m|191|Debug Button Label*/ "Update OpenVGDB" = "OpenVGDB aktualisieren";
-
-/*r|OEPrefDebugController.m|160|Debug Checkbox Label*/ "Use game name as window title" = "Spieltitel als Fenstertitel verwenden";
-
-/*r|OEPrefDebugController.m|163|Debug Checkbox Label*/ "Use gamecore picker" = "Kernauswahldialog verwenden";
-
-/*r|OEPrefDebugController.m|164|Debug Checkbox Label*/ "Use quicksave slots" = "Slots für schnelle Sicherung verwenden";
-
-/*r|OEDBDataSourceAdditions.m|217|*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEDBSaveState.m|134|Localized special save state name*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEGameDocument.m|968|*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEGameScannerViewController.m|136|*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEPrefControlsController.m|749|Preferences: Controls Toolbar Item*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEPrefCoresController.m|252|Preferences: Cores Toolbar item*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEPrefDebugController.m|92|Debug Group*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEPrefDebugController.m|94|Debug Group*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEPrefDebugController.m|96|Debug Checkbox Label*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEPrefDebugController.m|98|Debug Checkbox Label*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEPrefDebugController.m|100|Debug Button Label*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEPrefDebugController.m|102|Debug Label*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEPrefDebugController.m|104|Debug Popover Label*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEPrefDebugController.m|108|DebugModeLabel*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEPrefDebugController.m|508|Preferences: Debug Toolbar Item*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEPrefGameplayController.m|93|Preferences: Gamplay Toolbar Item*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEPrefLibraryController.m|295|*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*r|OEPrefLibraryController.m|339|*/ "VALUE SPECIFIED AT RUNTIME" = "";
-
-/*s|OEGameDocument.m|998|*/ "Warning" = "Warnung";
-
-/*r|OEPrefDebugController.m|173|Debug Checkbox Label*/ "WiiRemote support (requires relaunch)" = "Wiimote-Unterstützung aktivieren (erfordert Neustart)";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|249|*/ "Won't be able to recognize it as special save state…" = "Wird nicht als Spezial-Spielstand erkannt werden können…";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|81|*/ "Would you like to continue your last game?" = "Möchtest du dein letztes Spiel weiterspielen?";
-
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|66|*/ "Would you like to save your game before you quit?" = "Möchtest du dein Spiel vor dem Beenden sichern?";
-
-/*s|OEGameDocument.m|534|*/
-/*s|OEGameScannerViewController.m|547|*/
-/*s|OEHUDAlert+DefaultAlertsAdditions.m|83|*/ "Yes" = "Ja";
-
-/*s|OEPrefLibraryController.m|165|*/ "You can't move your library here!" = "Du kannst deine Mediathek nicht hierhin verschieben.";
-
-/*s|OEPluginDocument.m|72|*/ "You need to restart the application to commit the change" = "OpenEmu muss neu gestartet werden, um die Änderungen anzuwenden";
-
-/*s|OEGameDocument.m|532|*/ "Your game finished importing, do you want to play it now?" = "Dein Spiel wurde importiert. Möchtest du es jetzt spielen?";
-
-/*s|OEPrefLibraryController.m|401|*/ "Your library was moved sucessfully. OpenEmu must relaunch now!" = "Deine Mediathek wurde erfolgreich verschoben. OpenEmu muss jetzt neu gestartet werden.";
-
-/*s|OEGameScannerViewController.m|136|*/ "Downloading Game DB" = "Spiele-DB herunterladen";
-
-"Relaunch" = "Neu starten";
-
+"%@ copy" = "%@ Kopie";
+"%@ could not be enabled because its plugin was not found." = "%@ konnte nicht aktiviert werden, da kein Plugin gefunden wurde.";
+"%@ games you add to OpenEmu will appear in this Console Library" = "„%@“-Spiele, die du zu OpenEmu hinzufügst, erscheinen in dieser Ansicht.";
+"%ux" = "%ux";
+"A version of this plugin is already loaded" = "Es ist bereits eine Version dieses Plugins geladen";
+"Add a Wiimote…" = "Wiimote hinzufügen …";
+"Add Cheat" = "Cheat hinzufügen";
+"Add Cheat…" = "Cheat hinzufügen …";
+"Add Cover Art From File…" = "Cover aus Datei hinzufügen …";
+"Add To Collection" = "Zur Sammlung hinzufügen";
+"Add untracked save states" = "Nicht getrackte Spielstände hinzufügen";
+"All Games" = "Alle Spiele";
+"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Möchtest du wirklich %ld Spielstände aus deiner OpenEmu-Mediathek entfernen?";
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Möchtest du wirklich %ld Screenshots aus deiner OpenEmu-Mediathek entfernen?";
+"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Möchtest du den Spielstand „%@“ wirklich aus deiner OpenEmu-Mediathek entfernen?";
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Möchtest du den Screenshot „%@“ wirklich aus deiner OpenEmu-Mediathek entfernen?";
+"Are you sure you want to delete the selected game from your OpenEmu library?" = "Möchtest du das ausgewählte Spiel wirklich aus deiner OpenEmu-Mediathek entfernen?";
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "Möchtest du die ausgewählten Spiele wirklich aus deiner OpenEmu-Mediathek entfernen?";
+"Are you sure you want to quit the application?" = "Möchtest du die Anwendung wirklich beenden?";
+"Are you sure you want to remove the selected games from the collection?" = "Möchtest du die ausgewählten Spiele wirklich aus der Sammlung entfernen?";
+"Are you sure you want to remove this collection?" = "Möchtest du diese Sammlung wirklich entfernen?";
+"Are you sure you want to reset the console?" = "Möchtest du die Konsole wirklich neu starten?";
+"Are you sure you want to stop emulation?" = "Möchtest du das Spiel wirklich beenden?";
+"At least one System must be enabled" = "Es muss mindestens ein System aktiviert sein";
+"Auto Save State" = "Automatische Sicherung";
+"Automatically Import" = "Automatisch zu OpenEmu hinzufügen";
+"Bluetooth must be enabled to pair a Wii controller." = "Bluetooth muss aktiviert sein, um eine Wiimote hinzuzufügen.";
+"Bluetooth Not Enabled" = "Bluetooth ist nicht aktiviert";
+"Can delete save states" = "Spielstände sind löschbar";
+"Cancel Cover Art Download" = "Cover-Download abbrechen";
+"Cancel OpenVGDB Update" = "OpenVGDB-Update abbrechen";
+"Cancel" = "Abbrechen";
+"Change Core" = "Kern wechseln";
+"Change Volume" = "Lautstärke ändern";
+"Cheat Description" = "Cheat-Beschreibung";
+"Choose a valid file." = "Wähle eine gültige Datei aus.";
+"Choose Library…" = "Mediathek auswählen …";
+"Choose OpenEmu Library" = "OpenEmu-Mediathek auswählen";
+"Choose save states directory" = "Spielstandordner auswählen";
+"Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Möchtest du wirklich alle Objekte aus der Warteschlange entfernen? Spiele, die bereits importiert wurden, bleiben in der Mediathek.";
+"Cleanup autosave state" = "Automatische Sicherungen aufräumen";
+"Clicking on image selects button" = "Klick auf Grafik wählt Button aus";
+"Clicking outside image deselects button" = "Klick außerhalb der Grafik hebt Auswahl auf";
+"Code:" = "Code:";
+"Collapse" = "Ein-/Ausklappen";
+"COLLECTIONS" = "SAMMLUNGEN";
+"Collections" = "Sammlungen";
+"CONSOLES" = "KONSOLEN";
+"Consolidate Files…" = "Dateien zusammenlegen …";
+"Consolidate" = "Zusammenlegen";
+"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Beim Zusammenlegen werden die ausgewählten Spiele in den OpenEmu-Spieleordner kopiert.\n\nDiese Aktion kann nicht rückgängig gemacht werden.";
+"Controls Setup" = "Steuerung";
+"Controls" = "Steuerung";
+"Copying artwork failed!" = "Kopieren des Covers fehlgeschlagen.";
+"Copying Artwork Files…" = "Kopiere Cover-Dateien …";
+"Copying Game Files…" = "Kopiere Spiel-Dateien …";
+"Copying ROM Files…" = "Kopiere ROM-Dateien …";
+"Core Provided By…" = "Kern powered by…";
+"Cores" = "Kerne";
+"Could not move complete library! %ld roms were moved" = "Mediathek konnte nicht vollständig verschoben werden! %ld ROMs wurden verschoben.";
+"Could not move library data!" = "Mediathek-Daten konnten nicht verschoben werden.";
+"Couldn't connect to the background process." = "Die Verbindung mit dem Hintergrundprozess ist fehlgeschlagen.";
+"Couldn't load %@ plugin" = "Konnte Plugin %@ nicht laden";
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Erstelle eine eigene Spieleauswahl. Um ein Spiel zur Sammlung hinzuzufügen, wähle es in der Konsolenansicht aus und ziehe es auf „%@“ in der Seitenleiste.";
+"Create Library…" = "Mediathek erstellen …";
+"Create or Load Save State" = "Spielstand erstellen oder laden";
+"Dark GridView context menu" = "Dunkles Kontextmenü in Spieleansicht verwenden";
+"Database Actions" = "Datenbank-Aktionen";
+"Debug Mode" = "Debug-Modus";
+"Delete Collection" = "Sammlung löschen";
+"Delete Game" = "Spiel löschen";
+"Delete Games" = "Spiele löschen";
+"Delete Save" = "Spielstand löschen";
+"Delete Saves" = "Spielstände löschen";
+"Delete Screenshot" = "Screenshot löschen";
+"Delete Screenshots" = "Screenshots löschen";
+"Deselect All" = "Auswahl aufheben";
+"Device Disconnected" = "Gerät getrennt";
+"Device number %lu, %@, has disconnected." = "Gerät %1$lu (%2$@) wurde getrent.";
+"DEVICES" = "GERÄTE";
+"Disable aspect ratio correction" = "Seitenverhältnis-Korrektur deaktivieren";
+"Disable grid view gloss overlay" = "Glanz-Overlay in Symbolansicht deaktivieren";
+"Do not ask me again" = "Nicht erneut fragen";
+"Do Not Save" = "Nicht sichern";
+"Do not show me again" = "Nicht erneut anzeigen";
+"Do you really want to cancel the import process?" = "Möchtest du den Import wirklich abbrechen?";
+"Do you want to continue playing where you left off?" = "Möchtest du dort weiterspielen, wo du zuletzt aufgehört hast?";
+"Don't Import Selected" = "Auswahl nicht importieren";
+"Done" = "Fertig";
+"Download Cover Art" = "Cover herunterladen";
+"Download missing artwork on the fly" = "Fehlende Cover „on the fly“ herunterladen";
+"Downloading and Installing Core…" = "Kern herunterladen und installieren…";
+"Downloading Game DB" = "Spiele-DB herunterladen";
+"Drag & Drop Games Here" = "Spiele per Drag & Drop hinzufügen";
+"Draw button mask above image" = "Button-Maske über Grafik legen";
+"Duplicate Collection" = "Sammlung duplizieren";
+"Edit Game Controls" = "Steuerung bearbeiten";
+"Enable now" = "Sofort aktivieren";
+"Enable Retrode support" = "Retrode-Unterstützung aktivieren";
+"Error!" = "Fehler!";
+"Game %ld of %ld" = "Spiel %1$ld von %2$ld";
+"Game Scanner" = "Spiele-Scanner";
+"Game View Background color" = "Hintergrund der Spieleansicht";
+"Gameplay" = "Gameplay";
+"General" = "Allgemein";
+"Hide \"%@\"" = "\"%@\" ausblenden";
+"HUD Bar / Gameplay" = "HUD-Bar/Gameplay";
+"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "Wenn sich unter der Batteriefachdeckung ein roter Knopf befindet, drücke ihn.\nFalls nicht, drücke die Knöpfe ① und ②.";
+"If you change the core you current progress will be lost and save states will not work anymore." = "Wenn du den Kern wechselst, wirst du deinen aktuellen Fortschritt verlieren und bisher gesicherte Spielstände werden nicht mehr funktionieren.";
+"Install" = "Installieren";
+"Installing Core" = "Kern installieren";
+"Keep Files" = "Dateien behalten";
+"Keyboard" = "Tastatur";
+"Library Window" = "Mediathek-Ansicht";
+"Library" = "Mediathek";
+"Locate '%@'" = "Suche '%@'";
+"Locate" = "Suchen";
+"Log HID Events" = "HID-Events loggen";
+"Log Keyboard Events" = "Tastatur-Events loggen";
+"Low Controller Battery" = "Batterieladung des Controllers ist schwach";
+"Make sure your internet connection is active and download a suitable core." = "Stelle sicher, dass deine Internetverbindung aktiv ist, und lade einen passenden Kern herunter.";
+"Make your Wiimote discoverable" = "Mache deine Wiimote entdeckbar";
+"Manually choose system on import" = "System beim Import manuell auswählen";
+"MEDIA" = "MEDIEN";
+"Missing Core" = "Kern fehlt";
+"Move selected games to Trash, or keep them in the Library folder?" = "Ausgewählte Spiele in den Papierkorb legen oder im Spieleordner behalten?";
+"Move to Trash" = "In Papierkorb legen";
+"Mute Audio" = "Ton aus";
+"New Collection from Selection" = "Neue Sammlung aus Auswahl";
+"New Collection" = "Neue Sammlung";
+"New Folder" = "Neuer Ordner";
+"New Smart Collection" = "Neue intelligente Sammlung";
+"No available controllers" = "Keine Controller verfügbar";
+"No game played yet!" = "Noch kein Spiel gespielt.";
+"No Save States available" = "Keine Spielstände verfügbar";
+"No" = "Nein";
+"None" = "Keine";
+"Not implemented right now" = "Noch nicht implementiert";
+"OK" = "OK";
+"Only files in the OpenEmu Library folder will be moved to the Trash." = "Nur Dateien, die sich im OpenEmu-Spieleordner befinden, werden in den Papierkorb gelegt.";
+"Open Collection" = "Sammlung anzeigen";
+"Open Library" = "Konsole anzeigen";
+"OpenEmu could not find a Core to launch the game" = "OpenEmu konnte keinen Kern finden, um das Spiel zu starten";
+"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu besitzt eine Funktion, dank der du dort weiterspielen kannst, wo du zuletzt aufgehört hast.";
+"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu benötigt eine Mediathek, um fortzufahren. Du kannst eine bereits existierende OpenEmu-Mediathek auswählen oder eine neue erstellen.";
+"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu nutzt sogenannte „Kerne“, um Spiele zu emulieren. Du benötigst den „%1$@“-Kern, um „%2$@“ zu spielen.";
+"OpenEmu will save and quit all games that are currently running." = "OpenEmu wird alle derzeit laufenden Spiele sichern und beenden.";
+"OpenVGDB" = "OpenVGDB";
+"Options" = "Optionen";
+"Pause Emulation" = "Spiel pausieren";
+"Pause Gameplay" = "Spiel pausieren";
+"Play Game" = "Spiel starten";
+"Play Games (Caution)" = "Spiele starten (Vorsicht)";
+"Play Save Games" = "Spielstand öffnen";
+"Player %ld" = "Spieler %ld";
+"Please close all games and wait for the importer to finish." = "Bitte beende alle Spiele und warte, bis der Importvorgang beendet ist.";
+"Quick Load" = "Schnell laden";
+"Quick Save State" = "Schnelle Sicherung";
+"Quick Save" = "Schnell sichern";
+"Quick Save, Slot %@" = "Schnelle Sicherung, Slot %@";
+"Quit" = "Beenden";
+"Rating" = "Bewertung";
+"Recently Added" = "Zuletzt hinzugefügt";
+"Recovered Auto Save" = "Wiederhergestellte automatische Sicherung";
+"Region" = "Region";
+"Remove duplicate states" = "Doppelte Spielstände entfernen";
+"Remove missing states" = "Fehlende Spielstände entfernen";
+"Remove" = "Entfernen";
+"Rename Game" = "Spiel umbenennen";
+"Rename Special Save State or something?" = "Spezial-Spielstand umbenennen?";
+"Rename \"%@\"" = "\„%@\“ umbenennen";
+"Rename" = "Umbenennen";
+"Required files are missing." = "Erforderliche Dateien fehlen.";
+"Resolve %ld Issues" = "%ld Problem(e) beheben";
+"Resolve Issues" = "Probleme beheben";
+"Restart now" = "Jetzt neu starten";
+"Restart System" = "Konsole neu starten";
+"Restart" = "Neu starten";
+"Resume Emulation" = "Spiel fortsetzen";
+"Resume" = "Fortsetzen";
+"Run games using" = "Starte Spiele als";
+"Save As:" = "Titel:";
+"Save Current Game" = "Aktuelles Spiel sichern";
+"Save Game" = "Spielstand sichern";
+"Save States" = "Spielstände";
+"Save to Slot %d" = "In Slot %d sichern";
+"Save-Game-%ld %@" = "Spielstand %ld - %@";
+"Saved Games" = "Spielstände";
+"Scanner Paused" = "Durchsuchen pausiert";
+"Scanning Directory" = "Ordner durchsuchen";
+"Screenshots" = "Screenshots";
+"Secrets" = "Geheim";
+"Select All" = "Alle auswählen";
+"Select Audio Output Device" = "Audio-Ausgabegerät auswählen";
+"Select Cheat" = "Cheat auswählen";
+"Select Core" = "Kern auswählen";
+"Select Filter" = "Filter auswählen";
+"Select first field after setting the last" = "Nach letztem Feld erstes auswählen";
+"Select Scale" = "Skalierung auswählen";
+"Set default save states directory" = "Standard-Spielstandordner festlegen";
+"Setup Assistant has finished" = "Setup-Assistent wurde durchlaufen";
+"Show all global keys" = "Alle Global-Keys anzeigen";
+"Show audio output device in menu" = "Audio-Ausgabegerät in Menü anzeigen";
+"Show autosave in menu" = "Automatische Sicherung in Menü anzeigen";
+"Show collection view debug controller" = "Sammlungsansicht-Debug-Controller anzeigen";
+"Show game titles instead of rom names" = "Spieletitel statt Dateinamen anzeigen";
+"Show In Finder" = "In Finder anzeigen";
+"Show options button" = "Optionen-Schaltfläche anzeigen";
+"Show quicksave in menu" = "Schnelle Sicherung in Menü anzeigen";
+"Slot %d" = "Slot %d";
+"Slot %ld" = "Slot %ld";
+"Slot 1" = "Slot 1";
+"Some migrations failed to complete properly" = "Einige Migrationen konnten nicht korrekt durchgeführt werden";
+"Start Scanning" = "Wiimote suchen";
+"Stop Emulation" = "Spiel beenden";
+"Stop" = "Beenden";
+"Switch To Flow View" = "Objekte mit Cover Flow zeigen";
+"Switch To Grid View" = "Objekte als Symbole zeigen";
+"Switch To List View" = "Objekte in einer Liste zeigen";
+"System" = "System";
+"Take screenshots in native size" = "Screenshots in Originalgröße aufnehmen";
+"Takes you to the %@ project website" = "Besuche die „%@“-Projektseite";
+"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "Der „%1$@“-Kern hat Kompatibilitätsprobleme, daher können einige Spiele nicht fehlerfrei oder gar nicht gespielt werden.\n\nBitte melde keine Fehler, da wir für die Entwicklung von „%2$@“ nicht zuständig sind.";
+"The background process connection couldn't be established" = "Es konnte keine Verbindung mit dem Hintergrundprozess hergestellt werden";
+"The background process couldn't be launched" = "Der Hintergrundprozess konnte nicht gestartet werden";
+"The battery in device number %lu, %@, is low. Please charge or replace the battery." = "Die Batterieladung in Gerät %1$lu (%2$@) ist gering. Bitte lade das Gerät oder ersetze die Batterie.";
+"The core could not be downloaded. Try installing it from the Cores preferences." = "Der Kern konnte nicht heruntergeladen werden. Versuche ihn in den Kern-Einstellungen zu installieren.";
+"The file you selected doesn't exist" = "Die Datei, die du ausgewählt hast, existiert nicht";
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "Das Spiel „%@“ konnte nicht gestartet werden, da die ROM-Datei nicht gefunden wurde. Möchtest du sie suchen?";
+"The game '%@' was imported." = "Das Spiel „%@“ wurde importiert.";
+"The OpenEmu Library could not be found." = "Die OpenEmu-Mediathek konnte nicht gefunden werden.";
+"The root proxy object is nil." = "Das Root-Proxy-Objekt ist null.";
+"The System plugin could not be found!" = "Das System-Plugin konnte nicht gefunden werden.";
+"This save state was created with a different core. Do you want to switch to that core now?" = "Dieser Spielstand wurde mit einem anderen Kern erstellt. Möchtest du zu diesem Kern wechseln?";
+"This System has no corresponding core installed." = "Für dieses System ist kein Kern installiert.";
+"Title:" = "Titel:";
+"To launch the save state %@ you will need to install the '%@' Core" = "Um den Spielstand „%1$@“ zu laden, musst du den Kern „%2$@“ installieren";
+"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "Um dieses Spiel zu starten, werden folgende Dateien benötigt:\n\n%@Ziehe die erforderlichen Dateien in die Mediatheksansicht und starte das Spiel erneut.";
+"Toggle Fullscreen" = "Vollbild ein/aus";
+"Toggle Sidebar" = "Seitenleiste ein-/ausblenden";
+"Unmute Audio" = "Ton ein";
+"Update OpenVGDB" = "OpenVGDB aktualisieren";
+"Update" = "Aktualisieren";
+"Use game name as window title" = "Spieltitel als Fenstertitel verwenden";
+"Use gamecore picker" = "Kernauswahldialog verwenden";
+"Use quicksave slots" = "Slots für schnelle Sicherung verwenden";
+"VALUE SPECIFIED AT RUNTIME" = "";
+"Warning" = "Warnung";
+"WiiRemote support (requires relaunch)" = "Wiimote-Unterstützung aktivieren (erfordert Neustart)";
+"Won't be able to recognize it as special save state…" = "Wird nicht als Spezial-Spielstand erkannt werden können…";
+"Would you like to continue your last game?" = "Möchtest du dein letztes Spiel weiterspielen?";
+"Would you like to save your game before you quit?" = "Möchtest du dein Spiel vor dem Beenden sichern?";
+"Yes" = "Ja";
+"You can't move your library here!" = "Du kannst deine Mediathek nicht hierhin verschieben.";
+"You need to restart the application to commit the change" = "OpenEmu muss neu gestartet werden, um die Änderungen anzuwenden";
+"Your game finished importing, do you want to play it now?" = "Dein Spiel wurde importiert. Möchtest du es jetzt spielen?";
+"Your library was moved sucessfully. OpenEmu must relaunch now!" = "Deine Mediathek wurde erfolgreich verschoben. OpenEmu muss jetzt neu gestartet werden.";
 "Always show BIOS preferences" = "BIOS-Einstellungen immer anzeigen";
-
-"Cleanup Save States" = "Spielstände aufräumen";
-
-"Delete Artwork that can be downloaded" = "Herunterladbare Cover löschen";
-
-"Download missing artwork" = "Fehlende Cover hinzufügen";
-
-"While performing this operation OpenEmu will be unresponsive." = "Während dieser Aktion wird OpenEmu nicht mehr reagieren.";
-
-"Remove untracked artwork files" = "Nicht getrackte Cover entfernen";
-
 "Cleanup rom hashes" = "ROM-Prüfsummen aufräumen";
-
-"Remove duplicated roms" = "Doppelte ROMs entfernen";
-
+"Cleanup Save States" = "Spielstände aufräumen";
+"Delete Artwork that can be downloaded" = "Herunterladbare Cover löschen";
+"Download missing artwork" = "Fehlende Cover hinzufügen";
 "Perform Sanity Check on Database" = "Datenbank auf Plausibilität prüfen";
+"Relaunch" = "Neu starten";
+"Remove duplicated roms" = "Doppelte ROMs entfernen";
+"Remove untracked artwork files" = "Nicht getrackte Cover entfernen";
+"While performing this operation OpenEmu will be unresponsive." = "Während dieser Aktion wird OpenEmu nicht mehr reagieren.";

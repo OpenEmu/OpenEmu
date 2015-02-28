@@ -1680,7 +1680,6 @@
 		1BEF2A9411682A530090F72B /* OpenEmuHelperApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OpenEmuHelperApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEF2AC311682A9D0090F72B /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
 		1BEF2C4711684AE90090F72B /* OEDOGameCoreHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDOGameCoreHelper.h; sourceTree = "<group>"; };
-		1BEF2CFF116854650090F72B /* OpenEmuDebugHelperAppApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuDebugHelperAppApp-Info.plist"; sourceTree = "<group>"; };
 		1BEF2D13116855690090F72B /* OETaskWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETaskWrapper.h; sourceTree = "<group>"; };
 		1BEF2D14116855690090F72B /* OETaskWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETaskWrapper.m; sourceTree = "<group>"; };
 		1E2F3DB910DEAB4C0019AA84 /* OEVersionMigrationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVersionMigrationController.h; sourceTree = "<group>"; };
@@ -3799,7 +3798,6 @@
 				82DD29DA12369F1100B58A8F /* KeyboardUsages.plist */,
 				82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */,
 				14B3038916F31B3A00865A5E /* OpenEmuHelperApp-Info.plist */,
-				1BEF2CFF116854650090F72B /* OpenEmuDebugHelperAppApp-Info.plist */,
 				3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */,
 				825CC280148C13750063A9B5 /* OpenEmu-Info.plist */,
 				C6F696BF1648F64B00B243DB /* Controller-Database.plist */,
