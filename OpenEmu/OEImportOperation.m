@@ -39,6 +39,7 @@
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBCollection.h"
+#import "OEDBSaveState.h"
 
 NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
@@ -85,6 +86,9 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     if([[resourceValues objectForKey:NSURLIsHiddenKey] boolValue] || [[resourceValues objectForKey:NSURLIsPackageKey] boolValue])
     {
         IMPORTDLog(@"Item is hidden file or package directory at %@", url);
+        // Check for .oesavestate files and copy them directly (not going through importer queue)
+        [self OE_tryImportSaveStateAtURL:url];
+
         return nil;
     }
 
@@ -140,6 +144,17 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         return YES;
     }
     return NO;
+}
+
++ (void)OE_tryImportSaveStateAtURL:(NSURL*)url
+{
+    NSString *pathExtension = [[url pathExtension] lowercaseString];
+
+    if([pathExtension isEqualToString:OESaveStateSuffix])
+    {
+        OELibraryDatabase *db = [OELibraryDatabase defaultDatabase];
+        [OEDBSaveState createSaveStateByImportingBundleURL:url intoContext:[db mainThreadContext] copy:YES];
+    }
 }
 
 + (BOOL)OE_isTextFileAtURL:(NSURL*)url;

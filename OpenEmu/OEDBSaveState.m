@@ -81,6 +81,10 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
 + (id)createSaveStateByImportingBundleURL:(NSURL *)url intoContext:(NSManagedObjectContext *)context
 {
+    return [self createSaveStateByImportingBundleURL:url intoContext:context copy:NO];
+}
++ (id)createSaveStateByImportingBundleURL:(NSURL *)url intoContext:(NSManagedObjectContext *)context copy:(BOOL)copyFlag
+{
     // Check if state is already in database
     OEDBSaveState *state = [self saveStateWithURL:url inContext:context];
     if(state)
@@ -121,6 +125,26 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
     // Create new object
     NSURL *standardizedURL = [url standardizedURL];
+    if(copyFlag)
+    {
+        NSString *(^makeTempPath)(int i) = ^NSString*(int i){
+            NSString *fileName = @"SaveState.oesavestate";
+            if(i != 0)
+                fileName = [NSString stringWithFormat:@"SaveState %d.oesavestate", i];
+            return [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
+        };
+
+        NSString *temporaryPath;
+        int i=0;
+        do
+            temporaryPath = makeTempPath(i++);
+        while ([[NSFileManager defaultManager] fileExistsAtPath:temporaryPath]);
+        NSURL *temporaryURL = [NSURL fileURLWithPath:temporaryPath];
+        [[NSFileManager defaultManager] copyItemAtURL:url toURL:temporaryURL error:nil];
+
+        standardizedURL = [temporaryURL standardizedURL];
+    }
+
     state = [self createObjectInContext:context];
     [state setURL:standardizedURL];
 
