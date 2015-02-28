@@ -514,7 +514,7 @@
 
 "Use quicksave slots" = "Usar espaços de salvamento rápido";
 
-"VALUE SPECIFIED AT RUNTIME" = "";
+"VALUE SPECIFIED AT RUNTIME" = "VALOR ESPECIFICADO EM TEMPO DE EXECUÇÃO";
 
 "Warning" = "Atenção";
 
@@ -526,7 +526,7 @@
 
 "Would you like to save your game before you quit?" = "Deseja salvar seu jogo antes de sair?";
 
-"Yes" = "Si";
+"Yes" = "Sim";
 
 "You can't move your library here!" = "Você não pode mover sua biblioteca aqui!";
 
@@ -536,28 +536,28 @@
 
 "Your library was moved sucessfully. OpenEmu must relaunch now!" = "Sua biblioteca foi movida com sucesso. O OpenEmu deve ser reiniciado agora!";
 
-"System Files" = "System Files"; // TODO
+"System Files" = "Arquivos do Sistema"; 
 
-"Featured Games" = "Featured Games"; //TODO
+"Featured Games" = "Jogos em Destaque"; 
 
-"Default Core" = "Default Core"; //TODO
+"Default Core" = "Núcleo Padrão"; 
 
-"Game requires download" = "Game requires download"; // TODO
+"Game requires download" = "O Jogo precisa ser baixado"; 
 
-"In order to play the game it must be downloaded." = "In order to play the game it must be downloaded."; // TODO
+"In order to play the game it must be downloaded." = "Você precisa baixar o jogo para poder jogá-lo."; 
 
-"Download" = "Download"; // TODO
+"Download" = "Baixar";
 
-"Play Save State" = "Play Save State"; //TODO
+"Play Save State" = "Jogar Salvamento"; 
 
-"Delete Save State" = "Delete Save State"; //TODO
+"Delete Save State" = "Remover Salvamento"; 
 
-"Delete Save States" = "Delete Save States"; //TODO
+"Delete Save States" = "Remover Salvamentos"; 
 
-"Delete Screenshot" = "Delete Screenshot"; //TODO
+"Delete Screenshot" = "Remover Screenshot"; 
 
-"Delete Screenshots" = "Delete Screenshots"; //TODO
+"Delete Screenshots" = "Remover Screenshots"; 
 
-"Fetching Games…" = "Fetching Games…"; //TODO
+"Fetching Games…" = "Buscando Jogos…"; 
 
-"All Homebrew" = "All Homebrew"; //TODO
+"All Homebrew" = "Todos os Homebrews"; 
