@@ -66,6 +66,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 @interface OEHUDAlert ()
 {
+    NSWindow *_hudWindow;
     OEAlertCompletionHandler _callbackHandler;
 }
 - (void)OE_performCallback;
@@ -79,13 +80,6 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 @implementation OEHUDAlert
 
-#pragma mark -
-- (void)show
-{
-    [_window makeKeyAndOrderFront:self];
-    [_window center];
-}
-
 + (id)alertWithMessageText:(NSString *)msgText defaultButton:(NSString *)defaultButtonLabel alternateButton:(NSString *)alternateButtonLabel
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
@@ -97,16 +91,15 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     return alert;
 }
 
-#pragma mark -
-#pragma mark Memory Management
+#pragma mark - Memory Management
 
 - (id)init
 {
     self = [super init];
     if(self)
     {
-        _window = [[OEAlertWindow alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0) styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:YES];
-        [_window setReleasedWhenClosed:NO];
+        _hudWindow = [[OEAlertWindow alloc] initWithContentRect:NSMakeRect(0, 0, 0, 0) styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:YES];
+        [_hudWindow setReleasedWhenClosed:NO];
         
         _suppressionButton = [[OEButton alloc] init];
         [_suppressionButton setButtonType:NSSwitchButton];
@@ -170,15 +163,16 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     
     if(_window)
     {
+        NSRect windowFrame = [_window frame];
         NSPoint p = (NSPoint){
-            [_window frame].origin.x + ([[self window] frame].size.width-[_window frame].size.width)/2,
-            [_window frame].origin.y + ([[self window] frame].size.height-[_window frame].size.height)/2
+            windowFrame.origin.x + (windowFrame.size.width -[_hudWindow frame].size.width )/2,
+            windowFrame.origin.y + (windowFrame.size.height-[_hudWindow frame].size.height)/2
         };
-        [_window setFrameOrigin:p];
+        [_hudWindow setFrameOrigin:p];
     }
     else 
     {
-        [_window center];
+        [_hudWindow center];
     }
     
     void(^executeBlocks)(void) = ^{
@@ -194,20 +188,20 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
         }
     };
 
-    NSModalSession session = [NSApp beginModalSessionForWindow:_window];
+    NSModalSession session = [NSApp beginModalSessionForWindow:_hudWindow];
 
     while([NSApp runModalSession:session] == NSRunContinuesResponse)
     {
         [[NSRunLoop mainRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
         executeBlocks();
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.2]];
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.05]];
 
     }
     executeBlocks();
    
     [NSApp endModalSession:session];
 
-    [_window close];
+    [_hudWindow close];
 
     return _result;
 }
@@ -226,46 +220,50 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     [NSApp stopModalWithCode:_result];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_window close];
+        [_hudWindow close];
         [self OE_performCallback];
     });
 }
-#pragma mark -
-#pragma mark Window Configuration
+
+- (void)show
+{
+    [_hudWindow makeKeyAndOrderFront:self];
+    [_hudWindow center];
+}
+#pragma mark - Window Configuration
 - (void)setTitle:(NSString *)title
 {
-    [_window setTitle:title];
+    [_hudWindow setTitle:title];
 }
 - (NSString *)title
 {
-    return [_window title];
+    return [_hudWindow title];
 }
 
 - (CGFloat)height
 {
-    return [_window frame].size.height; 
+    return [_hudWindow frame].size.height;
 }
 
 - (void)setHeight:(CGFloat)height
 {
-    NSRect frame = [_window frame];
+    NSRect frame = [_hudWindow frame];
     frame.size.height = height;
-    [_window setFrame:frame display:YES];
+    [_hudWindow setFrame:frame display:YES];
 }
 
 - (CGFloat)width
 {
-    return [_window frame].size.width; 
+    return [_hudWindow frame].size.width;
 }
 
 - (void)setWidth:(CGFloat)width
 {
-    NSRect frame = [_window frame];
+    NSRect frame = [_hudWindow frame];
     frame.size.width = width;
-    [_window setFrame:frame display:YES];
+    [_hudWindow setFrame:frame display:YES];
 }
-#pragma mark -
-#pragma mark Progress Bar
+#pragma mark - Progress Bar
 
 - (void)setShowsProgressbar:(BOOL)showsProgressbar
 {
@@ -590,9 +588,9 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
 - (void)OE_setupWindow
 {    
-    NSRect frame = [_window frame];
+    NSRect frame = [_hudWindow frame];
     frame.size = (NSSize){ _OEHUDAlertBoxSideMargin + _OEHUDAlertDefaultBoxWidth + _OEHUDAlertBoxSideMargin, 1 };
-    [_window setFrame:frame display:NO];
+    [_hudWindow setFrame:frame display:NO];
 
     NSFont *defaultFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
     NSFont *boldFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.0];
@@ -606,7 +604,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     [[self defaultButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
     [[self defaultButton] setTitle:@""];
     [[self defaultButton] setHidden:YES];
-    [[_window contentView] addSubview:[self defaultButton]];
+    [[_hudWindow contentView] addSubview:[self defaultButton]];
     
     [[self alternateButton] setThemeKey:@"hud_button"];
     [[self alternateButton] setTarget:self andAction:@selector(buttonAction:)];
@@ -614,7 +612,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     [[self alternateButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
     [[self alternateButton] setTitle:@""];
     [[self alternateButton] setHidden:YES];
-    [[_window contentView] addSubview:[self alternateButton]];
+    [[_hudWindow contentView] addSubview:[self alternateButton]];
     
     [[self otherButton] setThemeKey:@"hud_button"];
     [[self otherButton] setTarget:self andAction:@selector(buttonAction:)];
@@ -622,12 +620,12 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     [[self otherButton] setAutoresizingMask:NSViewMinXMargin | NSViewMaxYMargin];
     [[self otherButton] setTitle:@""];
     [[self otherButton] setHidden:YES];
-    [[_window contentView] addSubview:[self otherButton]];
+    [[_hudWindow contentView] addSubview:[self otherButton]];
 
     // Setup Box
     [[self boxView] setFrame:(NSRect){{_OEHUDAlertBoxSideMargin, _OEHUDAlertBoxTopMargin},{_OEHUDAlertDefaultBoxWidth, 1}}];
     [[self boxView] setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
-    [[_window contentView] addSubview:[self boxView]];
+    [[_hudWindow contentView] addSubview:[self boxView]];
 
     // Setup Headline Text View
     [[self headlineTextView] setEditable:NO];
@@ -659,7 +657,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     [[self inputField] setTarget:self andAction:@selector(buttonAction:)];
     [[self inputField] setEditable:YES];
     [[self inputField] setThemeKey:@"hud_textfield"];
-    [[_window contentView] addSubview:[self inputField]];
+    [[_hudWindow contentView] addSubview:[self inputField]];
     
     [[self inputLabelView] setEditable:NO];
     [[self inputLabelView] setSelectable:NO];
@@ -670,7 +668,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     [[self inputLabelView] setAlignment:NSRightTextAlignment];
     [[self inputLabelView] setFrame:NSMakeRect(1, 57, 61, 23)];
     [[self inputLabelView] setHidden:YES];
-    [[_window contentView] addSubview:[self inputLabelView]];
+    [[_hudWindow contentView] addSubview:[self inputLabelView]];
     
     // Setup Other Input Field
     OETextFieldCell *otherInputCell = [[OETextFieldCell alloc] init];
@@ -683,7 +681,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     [[self otherInputField] setEditable:YES];
     [[self otherInputField] setWantsLayer:YES];
     [[self otherInputField] setThemeKey:@"hud_textfield"];
-    [[_window contentView] addSubview:[self otherInputField]];
+    [[_hudWindow contentView] addSubview:[self otherInputField]];
 
     [[self otherInputLabelView] setEditable:NO];
     [[self otherInputLabelView] setSelectable:NO];
@@ -694,7 +692,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     [[self otherInputLabelView] setAlignment:NSRightTextAlignment];
     [[self otherInputLabelView] setFrame:NSMakeRect(1, 96, 61, 23)];
     [[self otherInputLabelView] setHidden:YES];
-    [[_window contentView] addSubview:[self otherInputLabelView]];
+    [[_hudWindow contentView] addSubview:[self otherInputLabelView]];
     
     // Setup Progressbar
     [[self progressbar] setFrame:NSMakeRect(64, 47, 258, 14)];
@@ -708,12 +706,12 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
                                                   _OEHUDAlertSuppressionButtonLength, _OEHUDAlertSuppressionButtonHeight)];
     [[self suppressionButton] setHidden:YES];
     [[self suppressionButton] setTarget:self andAction:@selector(suppressionButtonAction:)];
-    [[_window contentView] addSubview:[self suppressionButton]];
+    [[_hudWindow contentView] addSubview:[self suppressionButton]];
 }
 
 - (void)OE_autosizeWindow
 {
-    NSRect frame = [_window frame];
+    NSRect frame = [_hudWindow frame];
     
     if([[self boxView] isHidden])
     {
@@ -722,7 +720,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
         else
             frame.size.height = 112;
 
-        [_window setFrame:frame display:NO];
+        [_hudWindow setFrame:frame display:NO];
     }
     else
     {
@@ -769,7 +767,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
         frame.size.height = _OEHUDAlertBoxTopMargin + boxFrame.size.height + _OEHUDAlertBoxBottomMargin;
         frame.size.width = (2 * _OEHUDAlertBoxSideMargin) + boxFrame.size.width;
-        [_window setFrame:frame display:NO];
+        [_hudWindow setFrame:frame display:NO];
         [[self boxView] setFrame:boxFrame];
     }
 }
