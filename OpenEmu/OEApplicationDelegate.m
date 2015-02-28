@@ -93,6 +93,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 @property(nonatomic) BOOL logKeyboardEvents;
 
 @property(nonatomic) BOOL libraryLoaded;
+@property(nonatomic) BOOL reviewingUnsavedDocuments;
 @property(nonatomic) NSMutableArray *startupQueue;
 @end
 
@@ -150,6 +151,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [[OEVersionMigrationController defaultMigrationController] addMigratorTarget:self selector:@selector(migrationForceUpdateCores:) forVersion:@"1.0.4"];
 
         [self setStartupQueue:[NSMutableArray array]];
+        _reviewingUnsavedDocuments = NO;
     }
     return self;
 }
@@ -308,11 +310,18 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 
 #define SEND_CALLBACK ((void(*)(id, SEL, NSDocumentController *, BOOL, void *))objc_msgSend)
-
 - (void)reviewUnsavedDocumentsWithAlertTitle:(NSString *)title cancellable:(BOOL)cancellable delegate:(id)delegate didReviewAllSelector:(SEL)didReviewAllSelector contextInfo:(void *)contextInfo
 {
+    if(_reviewingUnsavedDocuments)
+    {
+        SEND_CALLBACK(delegate, didReviewAllSelector, self, NO, contextInfo);
+        return;
+    }
+    _reviewingUnsavedDocuments = YES;
+
     if([_gameDocuments count] == 0)
     {
+        _reviewingUnsavedDocuments = NO;
         [super reviewUnsavedDocumentsWithAlertTitle:title cancellable:cancellable delegate:delegate didReviewAllSelector:didReviewAllSelector contextInfo:contextInfo];
         return;
     }
@@ -321,6 +330,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [self closeAllDocumentsWithDelegate:delegate didCloseAllSelector:didReviewAllSelector contextInfo:contextInfo];
     else
         SEND_CALLBACK(delegate, didReviewAllSelector, self, NO, contextInfo);
+
+    _reviewingUnsavedDocuments = NO;
 }
 
 - (void)closeAllDocumentsWithDelegate:(id)delegate didCloseAllSelector:(SEL)didCloseAllSelector contextInfo:(void *)contextInfo
