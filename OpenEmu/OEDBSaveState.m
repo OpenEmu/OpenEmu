@@ -83,6 +83,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 {
     return [self createSaveStateByImportingBundleURL:url intoContext:context copy:NO];
 }
+
 + (id)createSaveStateByImportingBundleURL:(NSURL *)url intoContext:(NSManagedObjectContext *)context copy:(BOOL)copyFlag
 {
     // Check if state is already in database

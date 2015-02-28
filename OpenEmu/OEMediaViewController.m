@@ -447,6 +447,28 @@
         NSLog(@"No action for items of %@ type", [item className]);
     }
 }
+
+#pragma mark - GridView DraggingDestinationDelegate
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
+{
+    NSPasteboard *draggingPasteboard = [sender draggingPasteboard];
+    NSInteger     draggingOperation  = [[self gridView] draggingOperation];
+
+    if (draggingOperation == IKImageBrowserDropBefore || draggingOperation == IKImageBrowserDropOn)
+    {
+        NSArray *files = [draggingPasteboard propertyListForType:NSFilenamesPboardType];
+        OEROMImporter *romImporter = [[[self libraryController] database] importer];
+        [romImporter importItemsAtPaths:files intoCollectionWithID:nil];
+    }
+    else if (draggingOperation == IKImageBrowserDropNone)
+    {
+        [self presentError:[NSError errorWithDomain:@"Error in performing drag operation." code:-1 userInfo:nil]];
+    }
+
+    [[self gridView] setDraggingOperation:(IKImageBrowserDropOperation)IKImageBrowserDropNone];
+    return YES;
+}
+
 @end
 
 #pragma mark - OESavedGamesDataWrapper
