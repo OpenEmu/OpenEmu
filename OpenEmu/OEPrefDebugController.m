@@ -62,7 +62,7 @@
 #import "OEDBDataSourceAdditions.h"
 #import "OEImportOperation.h"
 #import "OEPrefBiosController.h"
-
+#import "OEMainWindowController.h"
 @interface OELibraryDatabase (Private)
 - (void)OE_createInitialItems;
 @end
@@ -149,6 +149,7 @@ NSString * const OptionsKey = @"options";
                                       ),
 
                               Group(@"Library Window"),
+                              Button(@"Reset main window size", @selector(resetMainWindow:)),
                               NCheckbox(OEMenuOptionsStyleKey, @"Dark GridView context menu"),
                               Checkbox(OERetrodeSupportEnabledKey, @"Enable Retrode support"),
                               Checkbox(OECoverGridViewGlossDisabledKey, @"Disable grid view gloss overlay"),
@@ -226,6 +227,20 @@ NSString * const OptionsKey = @"options";
 {
     NSMenuItem *selectedItem = [sender selectedItem];
     [[NSUserDefaults standardUserDefaults] setObject:[selectedItem representedObject] forKey:OEGameCoreManagerModePreferenceKey];
+}
+#pragma mark -
+- (void)resetMainWindow:(id)sender
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"NSSplitView Subview Frames mainSplitView"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"NSWindow Frame LibraryWindow"];
+
+    [[NSApp windows] enumerateObjectsUsingBlock:^(NSWindow *window, NSUInteger idx, BOOL *stop) {
+        if([[window windowController] isKindOfClass:[OEMainWindowController class]])
+        {
+            [window setFrame:NSMakeRect(0, 0, 830, 555) display:NO];
+            [window center];
+        }
+    }];
 }
 
 #pragma mark -
