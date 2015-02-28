@@ -560,7 +560,7 @@
 
 "System Files" = "System Dateien";
 
-"Featured Games" = "Homebrew"; //TODO
+"Featured Games" = "Im Spotlight";
 
 "Default Core" = "Kern"; //TODO
 
@@ -579,3 +579,7 @@
 "Delete Screenshot" = "Screenshot löschen";
 
 "Delete Screenshots" = "Screenshots löschen";
+
+"Fetching Games…" = "Spiele werden geladen…";
+
+"All Homebrew" = "Alle Homebrew Spiele";
