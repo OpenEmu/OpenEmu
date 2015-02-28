@@ -69,8 +69,6 @@ NSString *const OECoverGridViewGlossDisabledKey = @"OECoverGridViewGlossDisabled
 @property OEGridCell *trackingCell;
 @property OEGridViewFieldEditor *fieldEditor;
 
-@property CALayer *dragIndicationLayer;
-
 // Theme Objects
 @property (strong) OEThemeImage          *groupBackgroundImage;
 @property (strong) OEThemeTextAttributes *groupTitleAttributes;
@@ -731,7 +729,6 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 
     arg1 = [[self enclosingScrollView] documentVisibleRect];
 
-    [renderer clearViewport:arg1];
     [renderer drawImage:lightingImage inRect:arg1 fromRect:NSZeroRect alpha:1.0];
 
     IKImageWrapper *image = noiseImageHighRes;
