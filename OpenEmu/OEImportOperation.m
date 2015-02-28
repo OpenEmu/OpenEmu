@@ -29,7 +29,6 @@
 #import "OECorePlugin.h"
 
 #import "OEROMImporter.h"
-#import <MagicKit/MagicKit.h>
 #import <XADMaster/XADArchive.h>
 
 #import "NSFileManager+OEHashingAdditions.h"
