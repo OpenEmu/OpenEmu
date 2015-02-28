@@ -160,10 +160,21 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 + (BOOL)OE_isTextFileAtURL:(NSURL*)url;
 {
     NSString *pathExtension = [[url pathExtension] lowercaseString];
-    if([pathExtension isEqualToString:@"md"] && [[[GEMagicKit magicForFileAtURL:url] uniformTypeHierarchy] containsObject:(id)kUTTypeText])
+
+    if([pathExtension isEqualToString:@"md"])
     {
-        IMPORTDLog(@"Text file found at %@", url);
-        return YES;
+        // Read 1k of the file an looks for null bytes
+        const int sampleSize = 1024;
+        char sampleBuffer[sampleSize];
+        const char * path = [[url path] cStringUsingEncoding:NSUTF8StringEncoding];
+        FILE * f = fopen(path, "r");
+        if(f)
+        {
+            size_t bytesRead = fread(sampleBuffer, sizeof(char), sampleSize, f);
+            fclose(f);
+            if(memchr(sampleBuffer, '\0', bytesRead) == NULL)
+                return YES;
+        }
     }
     return NO;
 }
