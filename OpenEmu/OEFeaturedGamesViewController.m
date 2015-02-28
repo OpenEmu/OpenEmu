@@ -198,7 +198,7 @@ const static CGFloat TableViewSpacing = 86.0;
 - (void)displayUpdate
 {
     OEFeaturedGamesBlankSlateView *blankSlate = [[OEFeaturedGamesBlankSlateView alloc] initWithFrame:[[self view] bounds]];
-    [blankSlate setRepresentedObject:OELocalizedString(@"Fetching Games…", @"Featured Games Blank Slate View Updating Info")];
+    [blankSlate setRepresentedObject:NSLocalizedString(@"Fetching Games…", @"Featured Games Blank Slate View Updating Info")];
     [self showBlankSlate:blankSlate];
 
     [[self tableView] setHidden:YES];
@@ -337,8 +337,8 @@ const static CGFloat TableViewSpacing = 86.0;
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-    if(rowIndex == 0) return OELocalizedString(@"Featured Games", @"");
-    if(rowIndex == 2) return OELocalizedString(@"All Homebrew", @"");
+    if(rowIndex == 0) return NSLocalizedString(@"Featured Games", @"");
+    if(rowIndex == 2) return NSLocalizedString(@"All Homebrew", @"");
 
     if(rowIndex == 1) return [[self games] subarrayWithRange:NSMakeRange(0, 3)];
 

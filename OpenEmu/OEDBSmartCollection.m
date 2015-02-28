@@ -49,7 +49,7 @@
 {
     if([self OE_isRecentlyAddedCollection])
     {
-        return OELocalizedString(@"Recently Added", @"Recently Added Smart Collection Name");
+        return NSLocalizedString(@"Recently Added", @"Recently Added Smart Collection Name");
     }
     return [self valueForKey:@"name"];
 }
@@ -62,7 +62,7 @@
 {
     if([self OE_isRecentlyAddedCollection])
     {
-        return OELocalizedString(@"Recently Added", @"Recently Added Smart Collection Name");
+        return NSLocalizedString(@"Recently Added", @"Recently Added Smart Collection Name");
     }
     return [self valueForKey:@"name"];
 }

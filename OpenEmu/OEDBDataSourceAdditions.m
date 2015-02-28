@@ -224,7 +224,7 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
 
 - (NSString *)listViewConsoleName
 {
-    return OELocalizedString([[self system] valueForKey:@"name"], @"");
+    return NSLocalizedString([[self system] valueForKey:@"name"], @"");
 }
 
 - (void)setGridViewRating:(NSNumber *)number

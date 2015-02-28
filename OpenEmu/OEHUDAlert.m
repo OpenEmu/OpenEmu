@@ -718,7 +718,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     [[self boxView] addSubview:[self progressbar]];
     
     // Setup Suppression Button
-    [[self suppressionButton] setTitle:OELocalizedString(@"Do not ask me again", @"")];
+    [[self suppressionButton] setTitle:NSLocalizedString(@"Do not ask me again", @"")];
     [[self suppressionButton] setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
     [[self suppressionButton] setFrame:NSMakeRect(_OEHUDAlertBoxSideMargin, _OEHUDAlertBoxSideMargin - 1,
                                                   _OEHUDAlertSuppressionButtonLength, _OEHUDAlertSuppressionButtonHeight)];

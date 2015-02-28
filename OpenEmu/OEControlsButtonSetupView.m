@@ -541,7 +541,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     NSAssert([controlList count]%2==0, @"control list has to have an even number of items (headline and group pairs)");
     for(NSUInteger i=0; i < [controlList count]; i+=2) // Sections
     {
-        NSString *sectionTitle    = OELocalizedStringFromTable([controlList objectAtIndex:i], @"ControlLabels", @"Section Title");
+        NSString *sectionTitle    = NSLocalizedStringFromTable([controlList objectAtIndex:i], @"ControlLabels", @"Section Title");
         NSArray  *sectionContents = [controlList objectAtIndex:i+1];
 
         for(NSArray *group in sectionContents)
@@ -556,7 +556,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
                     if([row isEqualToString:@"-"])
                         [self OE_addRowSeperator];
                     else
-                        [self OE_addGroupLabel:OELocalizedStringFromTable(row, @"ControlLabels", @"Group Label")];
+                        [self OE_addGroupLabel:NSLocalizedStringFromTable(row, @"ControlLabels", @"Group Label")];
                 }
                 else if([row isKindOfClass:[NSDictionary class]]) {
                     NSString *fontFamily = nil;
@@ -565,7 +565,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
                         fontFamily = [row objectForKey:OEControlListKeyFontFamilyKey];
                     }
 
-                    NSString *label = OELocalizedStringFromTable([row objectForKey:OEControlListKeyLabelKey], @"ControlLabels", @"Button Label");
+                    NSString *label = NSLocalizedStringFromTable([row objectForKey:OEControlListKeyLabelKey], @"ControlLabels", @"Button Label");
 
                     [self OE_addButtonWithName:[row objectForKey:OEControlListKeyNameKey]
                                          label:[label stringByAppendingString:@":"] fontFamily:fontFamily];

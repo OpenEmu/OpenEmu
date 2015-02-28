@@ -176,9 +176,9 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
 - (void)OE_setupViewWithCollectionName:(NSString *)collectionName
 {
     [self OE_setupDragAndDropBox];
-    [self addLeftHeadlineWithText:OELocalizedString(@"Collections", @"")];
+    [self addLeftHeadlineWithText:NSLocalizedString(@"Collections", @"")];
 
-    NSString   *text = [NSString stringWithFormat:OELocalizedString(@"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.", @""), collectionName];
+    NSString   *text = [NSString stringWithFormat:NSLocalizedString(@"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.", @""), collectionName];
     [self addInformationalText:text];
 }
 
@@ -196,12 +196,12 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
     NSRect containerFrame = [container frame];
 
     [self OE_setupDragAndDropBox];
-    [self addLeftHeadlineWithText:(plugin ? [plugin systemName] : OELocalizedString(@"System", @""))];
+    [self addLeftHeadlineWithText:(plugin ? [plugin systemName] : NSLocalizedString(@"System", @""))];
     
     NSRect      rect     = (NSRect){ .size = {NSWidth(containerFrame)/12*7, OEBlankSlateBottomTextHeight}};
     rect.origin.y = NSHeight(containerFrame)-NSHeight(rect)-OEBlankSlateBottomTextTop;
     NSTextView *textView = [[NSTextView alloc] initWithFrame:NSInsetRect(rect, -4, 0)];
-    NSString   *text     = [NSString stringWithFormat:OELocalizedString(@"%@ games you add to OpenEmu will appear in this Console Library", @""), [plugin systemName]];
+    NSString   *text     = [NSString stringWithFormat:NSLocalizedString(@"%@ games you add to OpenEmu will appear in this Console Library", @""), [plugin systemName]];
     [textView setDrawsBackground:NO];
     [textView setEditable:NO];
     [textView setSelectable:NO];
@@ -247,7 +247,7 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
     [coreSuppliedByLabel setSelectable:NO];
     [coreSuppliedByLabel setDrawsBackground:NO];
     [coreSuppliedByLabel setBezeled:NO];
-    [coreSuppliedByLabel setStringValue:OELocalizedString(@"Core Provided By…", @"")];
+    [coreSuppliedByLabel setStringValue:NSLocalizedString(@"Core Provided By…", @"")];
     [container addSubview:coreSuppliedByLabel];
     
     // Get core plugins that can handle the system
@@ -269,7 +269,7 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
         [gotoButton setTarget:self];
         [gotoButton setAction:@selector(gotoProjectURL:)];
         [gotoButton setTitle:name];
-        [gotoButton setToolTip:[NSString stringWithFormat:OELocalizedString(@"Takes you to the %@ project website", @"Weblink tooltip"), name]];
+        [gotoButton setToolTip:[NSString stringWithFormat:NSLocalizedString(@"Takes you to the %@ project website", @"Weblink tooltip"), name]];
         [[gotoButton cell] setRepresentedObject:projectURL];
         [gotoButton sizeToFit];
         
@@ -315,7 +315,7 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
     [arrowImageView setImageAlignment:NSImageAlignTop];
     [arrowImageView unregisterDraggedTypes];
 
-    [self setupBoxWithText:OELocalizedString(@"Drag & Drop Games Here", @"Blank Slate DnD Here") andImageView:arrowImageView];
+    [self setupBoxWithText:NSLocalizedString(@"Drag & Drop Games Here", @"Blank Slate DnD Here") andImageView:arrowImageView];
 }
 
 - (void)setupBoxWithText:(NSString*)text andImageView:(NSView*)arrowImageView

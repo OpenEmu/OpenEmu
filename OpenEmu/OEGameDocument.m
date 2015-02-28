@@ -183,8 +183,8 @@ typedef enum : NSUInteger
                 __block NSURL   *destination;
                 __block NSError *error;
 
-                NSString *message = [NSString stringWithFormat:OELocalizedString(@"Downloading %@…", @"Downloading rom message text"), name];
-                OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message defaultButton:OELocalizedString(@"Cancel",@"") alternateButton:@""];
+                NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Downloading %@…", @"Downloading rom message text"), name];
+                OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message defaultButton:NSLocalizedString(@"Cancel",@"") alternateButton:@""];
                 [alert setShowsProgressbar:YES];
                 [alert setProgress:-1];
 
@@ -251,9 +251,9 @@ typedef enum : NSUInteger
                                                 code:OEFileDoesNotExistError
                                             userInfo:
                              [NSDictionary dictionaryWithObjectsAndKeys:
-                              OELocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
+                              NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
                               NSLocalizedFailureReasonErrorKey,
-                              OELocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
+                              NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
                               NSLocalizedRecoverySuggestionErrorKey,
                               nil]];
             }
@@ -353,8 +353,8 @@ typedef enum : NSUInteger
             *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
                                             code:OENoCoreError
                                         userInfo: @{
-                                                    NSLocalizedFailureReasonErrorKey : OELocalizedString(@"OpenEmu could not find a Core to launch the game", @"No Core error reason."),
-                                                    NSLocalizedRecoverySuggestionErrorKey : OELocalizedString(@"Make sure your internet connection is active and download a suitable core.", @"No Core error recovery suggestion."),
+                                                    NSLocalizedFailureReasonErrorKey : NSLocalizedString(@"OpenEmu could not find a Core to launch the game", @"No Core error reason."),
+                                                    NSLocalizedRecoverySuggestionErrorKey : NSLocalizedString(@"Make sure your internet connection is active and download a suitable core.", @"No Core error recovery suggestion."),
                                                     }];
         chosenCore = nil;
     }
@@ -478,11 +478,11 @@ typedef enum : NSUInteger
     [self setEmulationPaused:YES];
 
     OEDeviceHandler *devHandler = [notification object];
-    NSString *lowBatteryString = [NSString stringWithFormat:OELocalizedString(@"The battery in device number %lu, %@, is low. Please charge or replace the battery.", @"Low battery alert detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
+    NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"The battery in device number %lu, %@, is low. Please charge or replace the battery.", @"Low battery alert detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
     OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:lowBatteryString
-                                           defaultButton:OELocalizedString(@"Resume", nil)
+                                           defaultButton:NSLocalizedString(@"Resume", nil)
                                          alternateButton:nil];
-    [alert setHeadlineText:[NSString stringWithFormat:OELocalizedString(@"Low Controller Battery", @"Device battery level is low.")]];
+    [alert setHeadlineText:[NSString stringWithFormat:NSLocalizedString(@"Low Controller Battery", @"Device battery level is low.")]];
     [alert runModal];
 
     if(isRunning) [self setEmulationPaused:NO];
@@ -494,11 +494,11 @@ typedef enum : NSUInteger
     [self setEmulationPaused:YES];
 
     OEDeviceHandler *devHandler = [[notification userInfo] objectForKey:OEDeviceManagerDeviceHandlerUserInfoKey];
-    NSString *lowBatteryString = [NSString stringWithFormat:OELocalizedString(@"Device number %lu, %@, has disconnected.", @"Device disconnection detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
+    NSString *lowBatteryString = [NSString stringWithFormat:NSLocalizedString(@"Device number %lu, %@, has disconnected.", @"Device disconnection detail message."), [devHandler deviceNumber], [[devHandler deviceDescription] name]];
     OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:lowBatteryString
-                                           defaultButton:OELocalizedString(@"Resume", @"Resume game after battery warning button label")
+                                           defaultButton:NSLocalizedString(@"Resume", @"Resume game after battery warning button label")
                                          alternateButton:nil];
-    [alert setHeadlineText:[NSString stringWithFormat:OELocalizedString(@"Device Disconnected", @"A controller device has disconnected.")]];
+    [alert setHeadlineText:[NSString stringWithFormat:NSLocalizedString(@"Device Disconnected", @"A controller device has disconnected.")]];
     [alert runModal];
 
     if(isRunning) [self setEmulationPaused:NO];
@@ -584,9 +584,9 @@ typedef enum : NSUInteger
                                             code:OEFileDoesNotExistError
                                         userInfo:
                          [NSDictionary dictionaryWithObjectsAndKeys:
-                          OELocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
+                          NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
                           NSLocalizedFailureReasonErrorKey,
-                          OELocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
+                          NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
                           NSLocalizedRecoverySuggestionErrorKey,
                           nil]];
         }
@@ -616,12 +616,12 @@ typedef enum : NSUInteger
             OEHUDAlert *alert = [[OEHUDAlert alloc] init];
 
             NSString *fileName    = [[absoluteURL lastPathComponent] stringByDeletingPathExtension];
-            NSString *messageText = [NSString stringWithFormat:OELocalizedString(@"The game '%@' was imported.", @""), fileName];
+            NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"The game '%@' was imported.", @""), fileName];
             
-            alert.headlineText = OELocalizedString(@"Your game finished importing, do you want to play it now?", @"");
+            alert.headlineText = NSLocalizedString(@"Your game finished importing, do you want to play it now?", @"");
             alert.messageText = messageText;
-            alert.defaultButtonTitle = OELocalizedString(@"Yes", @"");
-            alert.alternateButtonTitle = OELocalizedString(@"No", @"");
+            alert.defaultButtonTitle = NSLocalizedString(@"Yes", @"");
+            alert.alternateButtonTitle = NSLocalizedString(@"No", @"");
 
             if([alert runModal] == NSAlertDefaultReturn)
             {
@@ -677,11 +677,11 @@ typedef enum : NSUInteger
     {
         if(_emulationStatus == OEEmulationStatusPaused)
         {
-            [menuItem setTitle:OELocalizedString(@"Resume Emulation", @"")];
+            [menuItem setTitle:NSLocalizedString(@"Resume Emulation", @"")];
             return YES;
         }
 
-        [menuItem setTitle:OELocalizedString(@"Pause Emulation", @"")];
+        [menuItem setTitle:NSLocalizedString(@"Pause Emulation", @"")];
         return _emulationStatus == OEEmulationStatusPlaying;
     }
     return YES;
@@ -805,9 +805,9 @@ typedef enum : NSUInteger
 
     [self setEmulationPaused:YES];
 
-    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:OELocalizedString(@"If you change the core you current progress will be lost and save states will not work anymore.", @"")
-                                           defaultButton:OELocalizedString(@"Change Core", @"")
-                                         alternateButton:OELocalizedString(@"Cancel", @"")];
+    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"If you change the core you current progress will be lost and save states will not work anymore.", @"")
+                                           defaultButton:NSLocalizedString(@"Change Core", @"")
+                                         alternateButton:NSLocalizedString(@"Cancel", @"")];
     [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
 
     [alert setCallbackHandler:
@@ -1053,12 +1053,12 @@ typedef enum : NSUInteger
         // Alert the user of missing BIOS/system files that are required for the core
         if (missingFileStatus)
         {
-            [missingFilesMessage appendString:[NSString stringWithFormat:OELocalizedString(@"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again.", @"Missing files dialog text"), missingFilesList]];
+            [missingFilesMessage appendString:[NSString stringWithFormat:NSLocalizedString(@"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again.", @"Missing files dialog text"), missingFilesList]];
             
-            OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:OELocalizedString(missingFilesMessage, @"")
-                                                   defaultButton:OELocalizedString(@"OK", @"")
-                                                 alternateButton:OELocalizedString(@"Learn More", @"")];
-            [alert setHeadlineText:OELocalizedString(@"Required files are missing.", @"")];
+            OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(missingFilesMessage, @"")
+                                                   defaultButton:NSLocalizedString(@"OK", @"")
+                                                 alternateButton:NSLocalizedString(@"Learn More", @"")];
+            [alert setHeadlineText:NSLocalizedString(@"Required files are missing.", @"")];
             if(([alert runModal] == NSAlertAlternateReturn))
             {
                 [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files"]];
@@ -1084,13 +1084,13 @@ typedef enum : NSUInteger
     
     if([[[_gameCoreManager plugin] controller] hasGlitchesForSystemIdentifier:[_gameSystemController systemIdentifier]] && showAlert)
     {
-        NSString *message = [NSString stringWithFormat:OELocalizedString(@"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", @""), coreName, coreName];
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@.", @""), coreName, coreName];
         OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message
-                                               defaultButton:OELocalizedString(@"OK", @"")
+                                               defaultButton:NSLocalizedString(@"OK", @"")
                                              alternateButton:nil];
-        [alert setHeadlineText:OELocalizedString(@"Warning", @"")];
+        [alert setHeadlineText:NSLocalizedString(@"Warning", @"")];
         [alert setShowsSuppressionButton:YES];
-        [alert setSuppressionLabelText:OELocalizedString(@"Do not show me again", @"Alert suppression label")];
+        [alert setSuppressionLabelText:NSLocalizedString(@"Do not show me again", @"Alert suppression label")];
         
         if([alert runModal] && [[alert suppressionButton] state] == NSOnState)
         {
@@ -1118,19 +1118,19 @@ typedef enum : NSUInteger
 {
     OEHUDAlert *alert = [[OEHUDAlert alloc] init];
 
-    [alert setOtherInputLabelText:OELocalizedString(@"Title:", @"")];
+    [alert setOtherInputLabelText:NSLocalizedString(@"Title:", @"")];
     [alert setShowsOtherInputField:YES];
-    [alert setOtherStringValue:OELocalizedString(@"Cheat Description", @"")];
+    [alert setOtherStringValue:NSLocalizedString(@"Cheat Description", @"")];
 
-    [alert setInputLabelText:OELocalizedString(@"Code:", @"")];
+    [alert setInputLabelText:NSLocalizedString(@"Code:", @"")];
     [alert setShowsInputField:YES];
     [alert setStringValue:@"Join multi-line cheats with '+' e.g. 000-000+111-111"];
 
-    [alert setDefaultButtonTitle:OELocalizedString(@"Add Cheat", @"")];
-    [alert setAlternateButtonTitle:OELocalizedString(@"Cancel", @"")];
+    [alert setDefaultButtonTitle:NSLocalizedString(@"Add Cheat", @"")];
+    [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     
     [alert setShowsSuppressionButton:YES];
-    [alert setSuppressionLabelText:OELocalizedString(@"Enable now", @"Cheats button label")];
+    [alert setSuppressionLabelText:NSLocalizedString(@"Enable now", @"Cheats button label")];
 
     [alert setInputLimit:1000];
 
@@ -1217,7 +1217,7 @@ typedef enum : NSUInteger
     NSInteger   saveGameNo    = [[self rom] saveStateCount] + 1;
     // TODO: properly format date
     NSDate *date = [NSDate date];
-    NSString *format = OELocalizedString(@"Save-Game-%ld %@", @"default save game name");
+    NSString *format = NSLocalizedString(@"Save-Game-%ld %@", @"default save game name");
     NSString    *proposedName = [NSString stringWithFormat:format, saveGameNo, date];
     OEHUDAlert  *alert        = [OEHUDAlert saveGameAlertWithProposedName:proposedName];
 
@@ -1410,9 +1410,9 @@ typedef enum : NSUInteger
          }];
     };
 
-    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:OELocalizedString(@"This save state was created with a different core. Do you want to switch to that core now?", @"")
-                                           defaultButton:OELocalizedString(@"OK", @"")
-                                         alternateButton:OELocalizedString(@"Cancel", @"")];
+    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"This save state was created with a different core. Do you want to switch to that core now?", @"")
+                                           defaultButton:NSLocalizedString(@"OK", @"")
+                                         alternateButton:NSLocalizedString(@"Cancel", @"")];
     [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
 
     if([alert runModal])

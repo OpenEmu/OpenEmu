@@ -90,13 +90,13 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 - (void)awakeFromNib
 {
     self.groups = @[
-                    [OESidebarGroupItem groupItemWithName:OELocalizedString(@"CONSOLES", @"") autosaveName:OESidebarGroupConsolesAutosaveName],
+                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"CONSOLES", @"") autosaveName:OESidebarGroupConsolesAutosaveName],
 
 #define DevicesSectionIndex 1 // keep track of devices section index so we can skip it if no devices are connected
-                    [OESidebarGroupItem groupItemWithName:OELocalizedString(@"DEVICES", @"") autosaveName:OESidebarGroupDevicesAutosaveName],
+                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"DEVICES", @"") autosaveName:OESidebarGroupDevicesAutosaveName],
 
-                    [OESidebarGroupItem groupItemWithName:OELocalizedString(@"MEDIA", @"") autosaveName:OESidebarGroupMediaAutosaveName],
-                    [OESidebarGroupItem groupItemWithName:OELocalizedString(@"COLLECTIONS", @"") autosaveName:OESidebarGroupCollectionsAutosaveName]
+                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"MEDIA", @"") autosaveName:OESidebarGroupMediaAutosaveName],
+                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"COLLECTIONS", @"") autosaveName:OESidebarGroupCollectionsAutosaveName]
                     ];
 
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
@@ -231,7 +231,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (id)duplicateCollection:(id)originalCollection
 {
-    OEDBCollection *duplicateCollection = [[self database] addNewCollection:[NSString stringWithFormat:OELocalizedString(@"%@ copy", @"Duplicated collection name"), [originalCollection valueForKey:@"name"]]];
+    OEDBCollection *duplicateCollection = [[self database] addNewCollection:[NSString stringWithFormat:NSLocalizedString(@"%@ copy", @"Duplicated collection name"), [originalCollection valueForKey:@"name"]]];
 
     [duplicateCollection setGames:[originalCollection games]];
     [duplicateCollection save];
@@ -649,9 +649,9 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     if([item isEditableInSidebar] || [item isKindOfClass:[OEDBSmartCollection class]])
     {
-        NSString *msg = OELocalizedString(@"Are you sure you want to remove this collection?", @"");
-        NSString *confirm = OELocalizedString(@"Remove", @"");
-        NSString *cancel = OELocalizedString(@"Cancel", @"");
+        NSString *msg = NSLocalizedString(@"Are you sure you want to remove this collection?", @"");
+        NSString *confirm = NSLocalizedString(@"Remove", @"");
+        NSString *cancel = NSLocalizedString(@"Cancel", @"");
 
         OEHUDAlert* alert = [OEHUDAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel];
         [alert showSuppressionButtonForUDKey:OESuppressRemoveCollectionConfirmationKey];

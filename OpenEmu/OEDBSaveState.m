@@ -576,15 +576,15 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     NSString *name = [self name];
     if([name isEqualToString:OESaveStateAutosaveName])
     {
-        return OELocalizedString(@"Auto Save State", @"Autosave state display name");
+        return NSLocalizedString(@"Auto Save State", @"Autosave state display name");
     }
     else if([name isEqualToString:OESaveStateQuicksaveName])
     {
-        return OELocalizedString(@"Quick Save State", @"Quicksave state display name");
+        return NSLocalizedString(@"Quick Save State", @"Quicksave state display name");
     }
     else if([name rangeOfString:OESaveStateQuicksaveName].location == 0)
     {
-        return [NSString stringWithFormat:OELocalizedString(@"Quick Save, Slot %@", @"Quicksave state display name with slot"), [name substringFromIndex:[OESaveStateQuicksaveName length]]];
+        return [NSString stringWithFormat:NSLocalizedString(@"Quick Save, Slot %@", @"Quicksave state display name with slot"), [name substringFromIndex:[OESaveStateQuicksaveName length]]];
     }
     return name;
 }

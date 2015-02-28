@@ -255,7 +255,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
         }
 
         NSString *coreName = [download name];
-        NSString *message = [NSString stringWithFormat:OELocalizedString(@"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@", @""), coreName, [game displayName]];
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@", @""), coreName, [game displayName]];
         [self installCoreWithDownload:download message:message completionHandler:handler];
     }
     else
@@ -272,7 +272,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     if(download != nil)
     {
         NSString *coreName = [download name];
-        NSString *message = [NSString stringWithFormat:OELocalizedString(@"To launch the save state %@ you will need to install the '%@' Core", @""), [state name], coreName];
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"To launch the save state %@ you will need to install the '%@' Core", @""), [state name], coreName];
         [self installCoreWithDownload:download message:message completionHandler:handler];
     }
     else
@@ -286,10 +286,10 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 - (void)installCoreWithDownload:(OECoreDownload *)download message:(NSString *)message completionHandler:(void(^)(OECorePlugin *plugin, NSError *error))handler
 {
     OEHUDAlert *aAlert = [[OEHUDAlert alloc] init];
-    [aAlert setDefaultButtonTitle:OELocalizedString(@"Install", @"")];
-    [aAlert setAlternateButtonTitle:OELocalizedString(@"Cancel", @"")];
+    [aAlert setDefaultButtonTitle:NSLocalizedString(@"Install", @"")];
+    [aAlert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
 
-    [aAlert setHeadlineText:OELocalizedString(@"Missing Core", @"")];
+    [aAlert setHeadlineText:NSLocalizedString(@"Missing Core", @"")];
     [aAlert setMessageText:message];
 
     [aAlert setDefaultButtonAction:@selector(startInstall) andTarget:self];
@@ -328,8 +328,8 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 - (void)startInstall
 {
     [[self alert] setProgress:0.0];
-    [[self alert] setHeadlineText:OELocalizedString(@"Downloading and Installing Core…", @"")];
-    [[self alert] setTitle:OELocalizedString(@"Installing Core", @"")];
+    [[self alert] setHeadlineText:NSLocalizedString(@"Downloading and Installing Core…", @"")];
+    [[self alert] setTitle:NSLocalizedString(@"Installing Core", @"")];
     [[self alert] setShowsProgressbar:YES];
     [[self alert] setDefaultButtonTitle:nil];
     [[self alert] setMessageText:nil];
@@ -348,10 +348,10 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     {
         [[self alert] setShowsProgressbar:NO];
         [[self alert] setHeadlineText:nil];
-        [[self alert] setTitle:OELocalizedString(@"Error!", @"")];
+        [[self alert] setTitle:NSLocalizedString(@"Error!", @"")];
 
-        [[self alert] setMessageText:OELocalizedString(@"The core could not be downloaded. Try installing it from the Cores preferences.", @"")];
-        [[self alert] setDefaultButtonTitle:OELocalizedString(@"OK", @"")];
+        [[self alert] setMessageText:NSLocalizedString(@"The core could not be downloaded. Try installing it from the Cores preferences.", @"")];
+        [[self alert] setDefaultButtonTitle:NSLocalizedString(@"OK", @"")];
         [[self alert] setAlternateButtonTitle:nil];
 
         [[[self alert] defaultButton] setThemeKey:@"hud_button_red"];

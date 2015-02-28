@@ -429,7 +429,7 @@
 
 /*s|OEGameControlsBar.m|669|Tooltip*/ "Restart System" = "Konsole neu starten";
 
-/*s|OEPluginDocument.m|73|*/ "Restart now\",@\"\"), OELocalizedString(@\"Cancel\",@\"" = "Jetzt neu starten\",@\"\"), OELocalizedString(@\"Abbrechen\",@\"";
+/*s|OEPluginDocument.m|73|*/ "Restart now" = "Jetzt neu starten";
 
 /*s|OEGameDocument.m|394|nil*/
 /*s|OEGameDocument.m|410|Resume game after battery warning button label*/ "Resume" = "Fortsetzen";

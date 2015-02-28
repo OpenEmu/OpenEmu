@@ -261,8 +261,8 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
         [attributes     setObject:[NSCursor arrowCursor]        forKey:NSCursorAttributeName];
         [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
 
-        NSString *infoText = [NSString stringWithFormat:OELocalizedString(@"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information.", @"BIOS files preferences introduction text"), OEBiosUserGuideURLString];
-        NSString *linkText = OELocalizedString(@"User guide on BIOS files", @"Bios files introduction text, active region");
+        NSString *infoText = [NSString stringWithFormat:NSLocalizedString(@"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information.", @"BIOS files preferences introduction text"), OEBiosUserGuideURLString];
+        NSString *linkText = NSLocalizedString(@"User guide on BIOS files", @"Bios files introduction text, active region");
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:infoText attributes:attributes];
 
         NSRange linkRange = [infoText rangeOfString:OEBiosUserGuideURLString];
@@ -398,7 +398,7 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
 
 - (NSString *)localizedTitle
 {
-    return OELocalizedString([self title], @"Preferences: Bios Toolbar item");
+    return NSLocalizedString([self title], @"Preferences: Bios Toolbar item");
 }
 
 - (NSSize)viewSize

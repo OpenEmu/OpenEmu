@@ -88,7 +88,7 @@
 
 - (NSString *)localizedTitle
 {
-    return OELocalizedString([self title], @"Preferences: Gamplay Toolbar Item");
+    return NSLocalizedString([self title], @"Preferences: Gamplay Toolbar Item");
 }
 
 - (NSSize)viewSize

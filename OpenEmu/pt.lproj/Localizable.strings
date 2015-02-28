@@ -428,7 +428,7 @@
 
 /*s|OEGameControlsBar.m|669|Tooltip*/ "Restart System" = "Reiniciar Sistema";
 
-/*s|OEPluginDocument.m|73|*/ "Restart now\",@\"\"), OELocalizedString(@\"Cancel\",@\"" = "Reiniciar Agora\",@\"\"), OELocalizedString(@\"Cancel\",@\"";
+/*s|OEPluginDocument.m|73|*/ "Restart now" = "Reiniciar Agora";
 
 /*s|OEGameDocument.m|394|nil*/
 /*s|OEGameDocument.m|410|Resume game after battery warning button label*/ "Resume" = "Continuar";

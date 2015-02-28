@@ -116,7 +116,7 @@
         if(outError != NULL)
             *outError = [NSError errorWithDomain:OEGameCoreErrorDomain
                                             code:OEHelperAppNotRunningError
-                                        userInfo:[NSDictionary dictionaryWithObject:OELocalizedString(@"The background process couldn't be launched", @"Not running background process error") forKey:NSLocalizedFailureReasonErrorKey]];
+                                        userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The background process couldn't be launched", @"Not running background process error") forKey:NSLocalizedFailureReasonErrorKey]];
         return NO;
     }
 
@@ -138,7 +138,7 @@
             {
                 *outError = [NSError errorWithDomain:OEGameCoreErrorDomain
                                                 code:OEConnectionTimedOutError
-                                            userInfo:[NSDictionary dictionaryWithObject:OELocalizedString(@"Couldn't connect to the background process.", @"Timed out error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
+                                            userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"Couldn't connect to the background process.", @"Timed out error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
             }
             return NO;
         }
@@ -151,7 +151,7 @@
         if(outError != NULL)
             *outError = [NSError errorWithDomain:OEGameCoreErrorDomain
                                             code:OEInvalidHelperConnectionError
-                                        userInfo:[NSDictionary dictionaryWithObject:OELocalizedString(@"The background process connection couldn't be established", @"Invalid helper connection error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
+                                        userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The background process connection couldn't be established", @"Invalid helper connection error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
 
         return NO;
     }
@@ -167,7 +167,7 @@
         {
             *outError = [NSError errorWithDomain:OEGameCoreErrorDomain
                                             code:OENilRootProxyObjectError
-                                        userInfo:[NSDictionary dictionaryWithObject:OELocalizedString(@"The root proxy object is nil.", @"Nil root proxy object error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
+                                        userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The root proxy object is nil.", @"Nil root proxy object error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
         }
         return NO;
     }

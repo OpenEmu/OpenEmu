@@ -123,7 +123,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     {
         if(outError != NULL)
         {
-			NSString     *description = OELocalizedString(@"The OpenEmu Library could not be found.", @"");
+			NSString     *description = NSLocalizedString(@"The OpenEmu Library could not be found.", @"");
 			NSDictionary *dict        = [NSDictionary dictionaryWithObject:description forKey:NSLocalizedDescriptionKey];
 			
             *outError = [NSError errorWithDomain:@"OELibraryDatabase" code:OELibraryErrorCodeFolderNotFound userInfo:dict];
@@ -528,7 +528,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     if(name == nil)
     {
-        name = OELocalizedString(@"New Collection", @"Default collection name");
+        name = NSLocalizedString(@"New Collection", @"Default collection name");
 
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -559,7 +559,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSManagedObjectContext *context  = [self mainThreadContext];
     if(name == nil)
     {
-        name = OELocalizedString(@"New Smart Collection", @"");
+        name = NSLocalizedString(@"New Smart Collection", @"");
 
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
 
@@ -592,7 +592,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     if(name == nil)
     {
-        name = OELocalizedString(@"New Folder", @"");
+        name = NSLocalizedString(@"New Folder", @"");
 
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
 
@@ -898,7 +898,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         result = [NSURL URLWithString:urlString];
     else
     {
-        NSString *autoImportFolderName = OELocalizedString(@"Automatically Import", @"Automatically Import Name");
+        NSString *autoImportFolderName = NSLocalizedString(@"Automatically Import", @"Automatically Import Name");
         result = [[self romsFolderURL] URLByAppendingPathComponent:autoImportFolderName isDirectory:YES];
     }
 

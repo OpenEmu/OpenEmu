@@ -366,15 +366,15 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
         OEHUDAlert  *alert = [[OEHUDAlert alloc] init];
         [alert setHeadlineText:@""];
-        [alert setMessageText:OELocalizedString(@"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.", @"")];
-        [alert setDefaultButtonTitle:OELocalizedString(@"Consolidate", @"")];
-        [alert setAlternateButtonTitle:OELocalizedString(@"Cancel", @"")];
+        [alert setMessageText:NSLocalizedString(@"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.", @"")];
+        [alert setDefaultButtonTitle:NSLocalizedString(@"Consolidate", @"")];
+        [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
         if([alert runModal] != NSAlertDefaultReturn) return;
 
         alert = [[OEHUDAlert alloc] init];
         [alert setShowsProgressbar:YES];
         [alert setProgress:0.0];
-        [alert setHeadlineText:OELocalizedString(@"Copying Game Files…", @"")];
+        [alert setHeadlineText:NSLocalizedString(@"Copying Game Files…", @"")];
         [alert setTitle:@""];
         [alert setShowsProgressbar:YES];
         [alert setDefaultButtonTitle:nil];
@@ -464,80 +464,80 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     if([indexes count] == 1)
     {
         NSInteger index = [indexes lastIndex];
-        [menu addItemWithTitle:OELocalizedString(@"Play Game", @"") action:@selector(startGame:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Play Game", @"") action:@selector(startGame:) keyEquivalent:@""];
         OEDBGame  *game = [[gamesController arrangedObjects] objectAtIndex:index];
 
         // Create Save Game Menu
-        menuItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Play Save Games", @"") action:NULL keyEquivalent:@""];
+        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Play Save Games", @"") action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_saveStateMenuForGame:game]];
         [menu addItem:menuItem];
 
         [menu addItem:[NSMenuItem separatorItem]];
 
         // Create Rating Item
-        menuItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Rating", @"") action:NULL keyEquivalent:@""];
+        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Rating", @"") action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
         [menu addItem:menuItem];
 
         if(hasLocalFiles)
         {
-            [menu addItemWithTitle:OELocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
+            [menu addItemWithTitle:NSLocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
             if(hasRemoteFiles)
-                [menu addItemWithTitle:OELocalizedString(@"Trash downloaded Files", @"") action:@selector(trashDownloadedFiles:) keyEquivalent:@""];
+                [menu addItemWithTitle:NSLocalizedString(@"Trash downloaded Files", @"") action:@selector(trashDownloadedFiles:) keyEquivalent:@""];
         }
         [menu addItem:[NSMenuItem separatorItem]];
 
         if([[game status] isEqualTo:@(OEDBGameStatusOK)])
-            [menu addItemWithTitle:OELocalizedString(@"Download Cover Art", @"") action:@selector(downloadCoverArt:) keyEquivalent:@""];
+            [menu addItemWithTitle:NSLocalizedString(@"Download Cover Art", @"") action:@selector(downloadCoverArt:) keyEquivalent:@""];
         if([[game status] isEqualTo:@(OEDBGameStatusProcessing)])
-            [menu addItemWithTitle:OELocalizedString(@"Cancel Cover Art Download", @"") action:@selector(cancelCoverArtDownload:) keyEquivalent:@""];
+            [menu addItemWithTitle:NSLocalizedString(@"Cancel Cover Art Download", @"") action:@selector(cancelCoverArtDownload:) keyEquivalent:@""];
 
-        [menu addItemWithTitle:OELocalizedString(@"Add Cover Art From File…", @"") action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
-        [menu addItemWithTitle:OELocalizedString(@"Consolidate Files…", @"") action:@selector(consolidateFiles:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Add Cover Art From File…", @"") action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Consolidate Files…", @"") action:@selector(consolidateFiles:) keyEquivalent:@""];
 
         //[menu addItemWithTitle:@"Add Save File To Game…" action:@selector(addSaveStateFromFile:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
         // Create Add to collection menu
-        NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Add To Collection", @"") action:NULL keyEquivalent:@""];
+        NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Add To Collection", @"") action:NULL keyEquivalent:@""];
         [collectionMenuItem setSubmenu:[self OE_collectionsMenuForGames:games]];
         [menu addItem:collectionMenuItem];
         [menu addItem:[NSMenuItem separatorItem]];
-        [menu addItemWithTitle:OELocalizedString(@"Rename Game", @"") action:@selector(beginEditingWithSelectedItem:) keyEquivalent:@""];
-        [menu addItemWithTitle:OELocalizedString(@"Delete Game", @"") action:@selector(deleteSelectedItems:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Rename Game", @"") action:@selector(beginEditingWithSelectedItem:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Delete Game", @"") action:@selector(deleteSelectedItems:) keyEquivalent:@""];
     }
     else
     {
         if([[NSUserDefaults standardUserDefaults] boolForKey:OEForcePopoutGameWindowKey])
         {
-            [menu addItemWithTitle:OELocalizedString(@"Play Games (Caution)", @"") action:@selector(startGame:) keyEquivalent:@""];
+            [menu addItemWithTitle:NSLocalizedString(@"Play Games (Caution)", @"") action:@selector(startGame:) keyEquivalent:@""];
         }
 
         // Create Rating Item
-        menuItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Rating", @"") action:NULL keyEquivalent:@""];
+        menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Rating", @"") action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
         [menu addItem:menuItem];
 
         
         if(hasLocalFiles)
         {
-            [menu addItemWithTitle:OELocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
+            [menu addItemWithTitle:NSLocalizedString(@"Show In Finder", @"") action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
             if(hasRemoteFiles)
-                [menu addItemWithTitle:OELocalizedString(@"Trash downloaded Files", @"") action:@selector(trashDownloadedFiles:) keyEquivalent:@""];
+                [menu addItemWithTitle:NSLocalizedString(@"Trash downloaded Files", @"") action:@selector(trashDownloadedFiles:) keyEquivalent:@""];
         }
         [menu addItem:[NSMenuItem separatorItem]];
 
-        [menu addItemWithTitle:OELocalizedString(@"Download Cover Art", @"") action:@selector(downloadCoverArt:) keyEquivalent:@""];
-        [menu addItemWithTitle:OELocalizedString(@"Add Cover Art From File…", @"") action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
-        [menu addItemWithTitle:OELocalizedString(@"Consolidate Files…", @"") action:@selector(consolidateFiles:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Download Cover Art", @"") action:@selector(downloadCoverArt:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Add Cover Art From File…", @"") action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Consolidate Files…", @"") action:@selector(consolidateFiles:) keyEquivalent:@""];
 
         [menu addItem:[NSMenuItem separatorItem]];
         // Create Add to collection menu
-        NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:OELocalizedString(@"Add To Collection", @"") action:NULL keyEquivalent:@""];
+        NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Add To Collection", @"") action:NULL keyEquivalent:@""];
         [collectionMenuItem setSubmenu:[self OE_collectionsMenuForGames:games]];
         [menu addItem:collectionMenuItem];
 
         [menu addItem:[NSMenuItem separatorItem]];
-        [menu addItemWithTitle:OELocalizedString(@"Delete Games", @"") action:@selector(deleteSelectedItems:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Delete Games", @"") action:@selector(deleteSelectedItems:) keyEquivalent:@""];
     }
     
     [menu setAutoenablesItems:YES];
@@ -577,7 +577,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
     if([[saveGamesMenu itemArray] count] == 0)
     {
-        [saveGamesMenu addItemWithTitle:OELocalizedString(@"No Save States available", @"") action:NULL keyEquivalent:@""];
+        [saveGamesMenu addItemWithTitle:NSLocalizedString(@"No Save States available", @"") action:NULL keyEquivalent:@""];
         [(NSMenuItem*)[[saveGamesMenu itemArray] lastObject] setEnabled:NO];
     }
 
@@ -593,7 +593,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         NSMenuItem *ratingItem = [[NSMenuItem alloc] initWithTitle:[ratingLabel substringToIndex:i] action:@selector(setRatingForSelectedGames:) keyEquivalent:@""];
         [ratingItem setRepresentedObject:@(i)];
         if(i == 0)
-            [ratingItem setTitle:OELocalizedString(@"None", @"")];
+            [ratingItem setTitle:NSLocalizedString(@"None", @"")];
         [ratingMenu addItem:ratingItem];
     }
 
@@ -628,7 +628,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     NSMenu  *collectionMenu = [[NSMenu alloc] init];
     NSArray *collections = [[[self libraryController] database] collections];
 
-    [collectionMenu addItemWithTitle:OELocalizedString(@"New Collection from Selection", @"")
+    [collectionMenu addItemWithTitle:NSLocalizedString(@"New Collection from Selection", @"")
                               action:@selector(makeNewCollectionWithSelectedGames:)
                        keyEquivalent:@""];
 

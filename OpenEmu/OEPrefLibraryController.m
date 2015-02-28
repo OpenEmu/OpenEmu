@@ -101,7 +101,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
 
 - (NSString *)localizedTitle
 {
-    return OELocalizedString(@"Library", @"Preferences: Library Toolbar Item");
+    return NSLocalizedString(@"Library", @"Preferences: Library Toolbar Item");
 }
 
 - (NSSize)viewSize
@@ -152,7 +152,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
     NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
     if([documents count] != 0 || [[library importer] status] == OEImporterStatusRunning)
     {
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:OELocalizedString(@"Please close all games and wait for the importer to finish.", @"") defaultButton:OELocalizedString(@"OK", @"") alternateButton:nil];
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"Please close all games and wait for the importer to finish.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
         [alert runModal];
         return;
     }
@@ -164,7 +164,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
     NSURL *newLocation     = [newParentLocation URLByAppendingPathComponent:[currentLocation lastPathComponent] isDirectory:YES];
     if([newLocation isSubpathOfURL:currentLocation])
     {
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:OELocalizedString(@"You can't move your library here!", @"") defaultButton:OELocalizedString(@"OK", @"") alternateButton:nil];
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"You can't move your library here!", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
         [alert runModal];
         return;
     }
@@ -210,10 +210,10 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
             
             [alert setShowsProgressbar:YES];
             [alert setProgress:0.0];
-            [alert setHeadlineText:OELocalizedString(@"Copying Artwork Files…", @"Alert Headline: Library migration")];
+            [alert setHeadlineText:NSLocalizedString(@"Copying Artwork Files…", @"Alert Headline: Library migration")];
             [alert setTitle:@""];
             [alert setShowsProgressbar:YES];
-            [alert setDefaultButtonTitle:OELocalizedString(@"Cancel", @"")];
+            [alert setDefaultButtonTitle:NSLocalizedString(@"Cancel", @"")];
             [alert setMessageText:nil];
 
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
@@ -244,8 +244,8 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
                     // show error
                     [alert performBlockInModalSession:^{
                         [alert setShowsProgressbar:NO];
-                        [alert setMessageText:OELocalizedString(@"Copying artwork failed!", @"")];
-                        [alert setDefaultButtonTitle:OELocalizedString(@"OK", @"")];
+                        [alert setMessageText:NSLocalizedString(@"Copying artwork failed!", @"")];
+                        [alert setDefaultButtonTitle:NSLocalizedString(@"OK", @"")];
                     }];
                     
                     // clean up
@@ -259,7 +259,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
                 // Copy roms directory
                 [alert performBlockInModalSession:^{
                     [alert setProgress:0.0];
-                    [alert setHeadlineText:OELocalizedString(@"Copying ROM Files…", @"Alert Headline: Library migration")];
+                    [alert setHeadlineText:NSLocalizedString(@"Copying ROM Files…", @"Alert Headline: Library migration")];
                     [alert setTitle:@""];
                 }];
                 
@@ -294,8 +294,8 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
                     // show error
                     [alert performBlockInModalSession:^{
                         [alert setShowsProgressbar:NO];
-                        [alert setMessageText:[NSString stringWithFormat:OELocalizedString(@"Could not move complete library! %ld roms were moved", @""), copiedCount]];
-                        [alert setDefaultButtonTitle:OELocalizedString(@"OK",@"")];
+                        [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"Could not move complete library! %ld roms were moved", @""), copiedCount]];
+                        [alert setDefaultButtonTitle:NSLocalizedString(@"OK",@"")];
                     }];
                     
                     return;
@@ -342,8 +342,8 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
                     // show error
                     [alert performBlockInModalSession:^{
                         [alert setShowsProgressbar:NO];
-                        [alert setMessageText:OELocalizedString(@"Could not move library data!", @"")];
-                        [alert setDefaultButtonTitle:OELocalizedString(@"OK",@"")];
+                        [alert setMessageText:NSLocalizedString(@"Could not move library data!", @"")];
+                        [alert setDefaultButtonTitle:NSLocalizedString(@"OK",@"")];
                     }];
 
                     [context performBlockAndWait:^{
@@ -414,7 +414,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
         // sync because we are about to force exit
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:OELocalizedString(@"Your library was moved sucessfully.", @"") defaultButton:OELocalizedString(@"OK", @"") alternateButton:nil];
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"Your library was moved sucessfully.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
         [alert runModal];
     }
     else
@@ -461,8 +461,8 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
     // Otherwise the mainwindow sidebar would be messed up
     if(enabled && [[OEDBSystem enabledSystemsinContext:context] count] == 1)
     {
-        NSString *message = OELocalizedString(@"At least one System must be enabled", @"");
-        NSString *button = OELocalizedString(@"OK", @"");
+        NSString *message = NSLocalizedString(@"At least one System must be enabled", @"");
+        NSString *button = NSLocalizedString(@"OK", @"");
         OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message defaultButton:button alternateButton:nil];
         [alert runModal];
 
@@ -476,8 +476,8 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
     // Is also ensured by disabling ui element (checkbox)
     if(![system plugin])
     {
-        NSString *message = [NSString stringWithFormat:OELocalizedString(@"%@ could not be enabled because its plugin was not found.", @""), [system name]];
-        NSString *button = OELocalizedString(@"OK", @"");
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"%@ could not be enabled because its plugin was not found.", @""), [system name]];
+        NSString *button = NSLocalizedString(@"OK", @"");
         OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message defaultButton:button alternateButton:nil];
         [alert runModal];
 
@@ -589,14 +589,14 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
          NSMutableArray *warnings = [NSMutableArray arrayWithCapacity:2];
          if([system plugin] == nil)
          {
-             [warnings addObject:OELocalizedString(@"The System plugin could not be found!", @"")];
+             [warnings addObject:NSLocalizedString(@"The System plugin could not be found!", @"")];
 
              // disabling ui element here so no system without a plugin can be enabled
              [button setEnabled:NO];
          }
 
          if(!foundCore)
-             [warnings addObject:OELocalizedString(@"This System has no corresponding core installed.", @"")];
+             [warnings addObject:NSLocalizedString(@"This System has no corresponding core installed.", @"")];
 
          if([warnings count] != 0)
          {

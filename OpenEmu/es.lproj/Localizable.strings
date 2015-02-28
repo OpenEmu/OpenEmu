@@ -426,7 +426,7 @@
 
 /*s|OEGameControlsBar.m|669|Tooltip*/ "Restart System" = "Reiniciar sistema";
 
-/*s|OEPluginDocument.m|73|*/ "Restart now\",@\"\"), OELocalizedString(@\"Cancel\",@\"" = "Restart now\",@\"\"), OELocalizedString(@\"Cancel\",@\"";
+/*s|OEPluginDocument.m|73|*/ "Restart now" = "Restart now";
 
 /*s|OEGameDocument.m|394|nil*/
 /*s|OEGameDocument.m|410|Resume game after battery warning button label*/ "Resume" = "Resume";
@@ -505,7 +505,7 @@
 
 /*s|OEVersionMigrationController.m|310|*/ "Some migrations failed to complete properly" = "Some migrations failed to complete properly";
 
-/*s|OEPrefControlsController.m|539|*/ "Start Scanning" = "Comenzar búsqueda	";
+/*s|OEPrefControlsController.m|539|*/ "Start Scanning" = "Comenzar búsqueda";
 
 /*s|OEHUDAlert+DefaultAlertsAdditions.m|136|*/ "Stop" = "Detener";
 

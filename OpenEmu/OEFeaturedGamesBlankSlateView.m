@@ -33,12 +33,12 @@
 {
     id representedObject = [self representedObject];
 
-    NSString *text = OELocalizedString(@"Check out some excellent homebrew games.", @"");
+    NSString *text = NSLocalizedString(@"Check out some excellent homebrew games.", @"");
     if([representedObject isKindOfClass:[NSString class]])
     {
         OEBlankSlateSpinnerView *spinner = [[OEBlankSlateSpinnerView alloc] initWithFrame:NSZeroRect];
         [self setupBoxWithText:representedObject andImageView:spinner];
-        [self addLeftHeadlineWithText:OELocalizedString(@"Featured Games", @"")];
+        [self addLeftHeadlineWithText:NSLocalizedString(@"Featured Games", @"")];
         [self addInformationalText:text];
     }
     else if([representedObject isKindOfClass:[NSError class]])
@@ -50,9 +50,9 @@
         [warningImageView unregisterDraggedTypes];
 
         // TODO: extract real error reason here. Make sure it's not much longer than this!
-        NSString *reason = OELocalizedString(@"No Internet Connection", @"Featured Games Blank Slate View Error Info");
+        NSString *reason = NSLocalizedString(@"No Internet Connection", @"Featured Games Blank Slate View Error Info");
         [self setupBoxWithText:reason andImageView:warningImageView];
-        [self addLeftHeadlineWithText:OELocalizedString(@"Featured Games", @"")];
+        [self addLeftHeadlineWithText:NSLocalizedString(@"Featured Games", @"")];
         [self addInformationalText:text];
     }
     else
