@@ -515,6 +515,8 @@
          {
              [item setSystemIdentifiers:@[selectedSystem]];
              [[item importer] rescheduleOperation:item];
+             [item setCompletionBlock:nil];
+             [item setCompletionHandler:nil];
          }];
     }
 
