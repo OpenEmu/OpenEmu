@@ -2053,7 +2053,7 @@
 		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
 		8352C0EE197ACC4D00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8352C0EF197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = pt; path = pt.lproj/Credits.rtf; sourceTree = "<group>"; };
-		8352C0F0197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8352C0F0197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8352C0F1197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8352C0F2197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/ControlLabels.strings; sourceTree = "<group>"; };
 		8352C0F3197ACC4F00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OEPrefCoresController.xib; sourceTree = "<group>"; };
@@ -2280,7 +2280,7 @@
 		83ACB6E619353E94004C6372 /* NSMutableDictionary+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+OEAdditions.m"; sourceTree = "<group>"; };
 		83AE9F0A14B271E200E91BD8 /* controller_genesis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis.png; sourceTree = "<group>"; };
 		83B04E3B196860B800CB985E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		83B04E3E1968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83B04E3E1968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83B04E401968610F00CB985E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83B1E1C814FE734E00AA652F /* menu_item_mixed_state.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_item_mixed_state.png; sourceTree = "<group>"; };
 		83B65F5515F0DEA100C742D2 /* NSArray+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEAdditions.h"; sourceTree = "<group>"; };
@@ -2386,7 +2386,7 @@
 		83E8927C197490B3004D4489 /* OEDisabledScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDisabledScrollView.m; sourceTree = "<group>"; };
 		83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_scrollview_box.png; sourceTree = "<group>"; };
 		83F3E31D19B3B382009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = es; path = es.lproj/Credits.rtf; sourceTree = "<group>"; };
-		83F3E31E19B3B383009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83F3E31E19B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83F3E31F19B3B383009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83F3E32019B3B383009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ControlLabels.strings; sourceTree = "<group>"; };
 		83F3E32119B3B383009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OEPrefCoresController.xib; sourceTree = "<group>"; };
