@@ -237,7 +237,7 @@ NSString * const OptionsKey = @"options";
     [[NSApp windows] enumerateObjectsUsingBlock:^(NSWindow *window, NSUInteger idx, BOOL *stop) {
         if([[window windowController] isKindOfClass:[OEMainWindowController class]])
         {
-            [window setFrame:NSMakeRect(0, 0, 830, 555) display:NO];
+            [window setFrame:NSMakeRect(0, 0, 830, 555+22) display:NO];
             [window center];
         }
     }];
