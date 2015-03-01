@@ -44,6 +44,8 @@ extern NSString *const OEGameControlsBarShowsAudioOutput;
 
 - (BOOL)canFadeOut;
 
+- (void)repositionOnGameWindow;
+
 @property(nonatomic) CGFloat volume;
 @property(readwrite) BOOL canShow;
 

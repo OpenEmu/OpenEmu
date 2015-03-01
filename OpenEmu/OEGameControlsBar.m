@@ -261,6 +261,34 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     return _openMenus == 0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
 }
 
+- (void)repositionOnGameWindow
+{
+    if(!_gameWindow || ![self parentWindow]) return;
+
+    static const CGFloat _OEControlsMargin = 19;
+
+    NSView *gameView = [[self gameViewController] view];
+    NSRect gameViewFrame = [gameView frame];
+    NSRect gameViewFrameInWindow = [gameView convertRect:gameViewFrame toView:nil];
+    NSPoint origin = [_gameWindow convertRectToScreen:gameViewFrameInWindow].origin;
+
+    origin.x += (NSWidth(gameViewFrame) - NSWidth([self frame])) / 2;
+
+    // If the controls bar fits, it sits over the window
+    if(NSWidth(gameViewFrame) >= NSWidth([self frame]))
+        origin.y += _OEControlsMargin;
+    else
+    {
+        // Otherwise, it sits below the window
+        origin.y -= (NSHeight([self frame]) + _OEControlsMargin);
+
+        // Unless below the window means it being off-screen, in which case it sits above the window
+        if(origin.y < NSMinY([[_gameWindow screen] visibleFrame]))
+            origin.y = NSMaxY([_gameWindow frame]) + _OEControlsMargin;
+    }
+
+    [self setFrameOrigin:origin];
+}
 #pragma mark -
 - (void)gameWindowDidChangeScreen:(NSNotification*)notification
 {
@@ -289,7 +317,9 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     }
     else if(!screensDiffer && [self parentWindow] == nil)
     {
+        // attach to window and center the controls bar
         [[self gameWindow] addChildWindow:self ordered:NSWindowAbove];
+        [self repositionOnGameWindow];
     }
 }
 

@@ -155,7 +155,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     if(window == nil) return;
 
     [_controlsWindow setGameWindow:window];
-    [self OE_repositionControlsWindow];
+    [_controlsWindow repositionOnGameWindow];
 
     [window makeFirstResponder:_gameView];
 }
@@ -320,35 +320,6 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 }
 
 #pragma mark - Private Methods
-
-- (void)OE_repositionControlsWindow
-{
-    NSWindow *gameWindow = [self OE_rootWindow];
-    if(gameWindow == nil) return;
-
-    static const CGFloat _OEControlsMargin = 19;
-
-    NSRect gameViewFrameInWindow = [_gameView convertRect:[_gameView frame] toView:nil];
-    NSPoint origin = [gameWindow convertRectToScreen:gameViewFrameInWindow].origin;
-
-    origin.x += ([_gameView frame].size.width - [_controlsWindow frame].size.width) / 2;
-
-    // If the controls bar fits, it sits over the window
-    if([_gameView frame].size.width >= [_controlsWindow frame].size.width)
-        origin.y += _OEControlsMargin;
-    else
-    {
-        // Otherwise, it sits below the window
-        origin.y -= ([_controlsWindow frame].size.height + _OEControlsMargin);
-
-        // Unless below the window means it being off-screen, in which case it sits above the window
-        if(origin.y < NSMinY([[gameWindow screen] visibleFrame]))
-            origin.y = NSMaxY([gameWindow frame]) + _OEControlsMargin;
-    }
-
-    [_controlsWindow setFrameOrigin:origin];
-}
-
 - (NSWindow *)OE_rootWindow
 {
     NSWindow *window = [[self gameView] window];
@@ -361,7 +332,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 - (void)viewDidChangeFrame:(NSNotification*)notification
 {
-    [self OE_repositionControlsWindow];
+    [_controlsWindow repositionOnGameWindow];
 }
 
 #pragma mark - OEGameViewDelegate Protocol
