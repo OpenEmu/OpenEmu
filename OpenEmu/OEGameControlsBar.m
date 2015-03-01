@@ -450,7 +450,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         {
             [menu addItem:[NSMenuItem separatorItem]];
             
-            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:@"Load" action:NULL keyEquivalent:@""];
+            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Load", @"") action:NULL keyEquivalent:@""];
             [item setEnabled:NO];
             [menu addItem:item];
 
