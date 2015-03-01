@@ -25,7 +25,44 @@
  */
 #import "OELibraryToolbarView.h"
 
+@interface OELibraryToolbarView ()
+@property NSPoint lastMouseLocation;
+@end
 @implementation OELibraryToolbarView
+
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    NSWindow *window = [self window];
+    _lastMouseLocation = [window convertRectToScreen:(NSRect){.origin = [theEvent locationInWindow]}].origin;
+}
+
+- (void)mouseDragged:(NSEvent *)theEvent
+{
+    if(NSEqualPoints(_lastMouseLocation, NSZeroPoint))
+        return;
+
+    NSWindow *window = [self window];
+
+    NSPoint currentPoint = [window convertRectToScreen:(NSRect){.origin = [theEvent locationInWindow]}].origin;
+
+    NSPoint diff = (NSPoint){
+        .x = currentPoint.x - _lastMouseLocation.x,
+        .y = currentPoint.y - _lastMouseLocation.y,
+    };
+
+    NSPoint origin = [window frame].origin;
+
+    origin.x += diff.x;
+    origin.y += diff.y;
+
+    _lastMouseLocation = currentPoint;
+    [window setFrameOrigin:origin];
+}
+
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    _lastMouseLocation = NSZeroPoint;
+}
 
 - (void)drawRect:(NSRect)dirtyRect
 {
