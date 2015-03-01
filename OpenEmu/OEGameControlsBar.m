@@ -628,7 +628,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 }
 
 #pragma mark -
-
 - (void)drawRect:(NSRect)dirtyRect
 {
     NSImage *barBackground = [[OETheme sharedTheme] imageForKey:@"hud_bar" forState:OEThemeStateDefault];

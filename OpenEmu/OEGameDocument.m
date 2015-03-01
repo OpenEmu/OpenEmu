@@ -931,12 +931,15 @@ typedef enum : NSUInteger
 #pragma mark - Controlling Emulation
 - (IBAction)performClose:(id)sender
 {
-    [self close];
+    [self stopEmulation:sender];
 }
 
 - (IBAction)stopEmulation:(id)sender;
 {
-    [self close];
+    // we can't just close the document here because proper shutdown is implemented in
+    // method -canCloseDocumentWithDelegate:shouldCloseSelector:contextInfo:
+    [[[self windowControllers] valueForKey:@"window"] makeObjectsPerformSelector:@selector(performClose:)
+                                                                      withObject:sender];
 }
 
 - (void)toggleEmulationPaused:(id)sender;
