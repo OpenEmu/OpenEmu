@@ -96,7 +96,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
     // Check if url points to valid Save State
     NSString *fileName = [self OE_stringByRemovingTrailingSlash:[url lastPathComponent]];
-    NSString *fileExtension = [fileName pathExtension];
+    NSString *fileExtension = [[fileName pathExtension] lowercaseString];
 
     // Check url extension
     if([fileExtension isNotEqualTo:@"oesavestate"])

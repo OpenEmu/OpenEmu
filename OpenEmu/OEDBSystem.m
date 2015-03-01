@@ -119,7 +119,7 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     __block OESystemPlugin *theOneAndOnlySystemThatGetsAChanceToHandleTheFile = nil;
     NSMutableArray         *otherSystemsThatMightBeAbleToHandleTheFile = [NSMutableArray array];
     
-    NSString *fileExtension = [url pathExtension];
+    NSString *fileExtension = [[url pathExtension] lowercaseString];
     
     [[OESystemPlugin allPlugins] enumerateObjectsUsingBlock:^(OESystemPlugin *systemPlugin, NSUInteger idx, BOOL *stop) {
         if([[systemPlugin controller] canHandleFileExtension:fileExtension])
