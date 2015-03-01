@@ -45,15 +45,13 @@ extern NSString *const OEGameControlsBarShowsAudioOutput;
 - (BOOL)canFadeOut;
 
 @property(nonatomic) CGFloat volume;
-
 @property(readwrite) BOOL canShow;
 
 #pragma mark - Updating UI States
-
 - (void)reflectVolume:(CGFloat)volume;
 - (void)reflectEmulationRunning:(BOOL)isEmulationRunning;
 
 @property(readonly, unsafe_unretained) OEGameViewController *gameViewController;
-
+@property (nonatomic, strong) NSWindow *gameWindow;
 @end
 

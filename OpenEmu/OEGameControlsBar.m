@@ -70,18 +70,16 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 @end
 
 @interface OEGameControlsBar ()
-{
-    id              _eventMonitor;
-    NSTimer        *_fadeTimer;
-    NSArray        *_filterPlugins;
-    NSUInteger      _openMenus;
-    NSMutableArray *_cheats;
-    BOOL            _cheatsLoaded;
-}
+@property (strong) id eventMonitor;
+@property (strong) NSTimer *fadeTimer;
+@property (strong) NSArray *filterPlugins;
+@property (strong) NSMutableArray *cheats;
+@property          NSUInteger openMenus;
+@property          BOOL cheatsLoaded;
 
-@property(unsafe_unretained) OEGameViewController *gameViewController;
-@property(strong) OEHUDControlsBarView *controlsView;
-@property(strong, nonatomic) NSDate *lastMouseMovement;
+@property (unsafe_unretained) OEGameViewController *gameViewController;
+@property (strong) OEHUDControlsBarView *controlsView;
+@property (strong, nonatomic) NSDate *lastMouseMovement;
 @end
 
 @implementation OEGameControlsBar
@@ -113,6 +111,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [self setAlphaValue:0.0];
         [self setCanShow:YES];
         [self setGameViewController:controller];
+        [self setAnimationBehavior:NSWindowAnimationBehaviorNone];
 
         OEHUDControlsBarView *barView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45)];
         [[self contentView] addSubview:barView];
@@ -120,7 +119,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         
         _eventMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSMouseMovedMask handler:^NSEvent*(NSEvent* e)
                          {
-                             if([NSApp isActive] && [[self parentWindow] isMainWindow])
+                             if([NSApp isActive] && [[self gameWindow] isMainWindow])
                                  [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:e waitUntilDone:NO];
                              return e;
                          }];
@@ -129,8 +128,10 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
         [NSCursor setHiddenUntilMouseMoves:YES];
 
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         // Show HUD when switching back from other applications
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mouseMoved:) name:NSApplicationDidBecomeActiveNotification object:nil];
+        [nc addObserver:self selector:@selector(mouseMoved:) name:NSApplicationDidBecomeActiveNotification object:nil];
+        [nc addObserver:self selector:@selector(didMove:) name:NSWindowDidMoveNotification object:self];
 
         // Setup plugins menu
         NSMutableSet   *filterSet     = [NSMutableSet set];
@@ -148,12 +149,19 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     _gameViewController = nil;
 
     [NSEvent removeMonitor:_eventMonitor];
-
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+    _gameWindow = nil;
+}
+
+- (NSRect)bounds
+{
+    NSRect bounds = [self frame];
+    bounds.origin = NSMakePoint(0, 0);
+    return bounds;
 }
 
 #pragma mark - Cheats
-
 - (void)OE_loadCheats
 {
     // In order to load cheats, we need the game core to be running and, consequently, the ROM to be set.
@@ -171,8 +179,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     }
 }
 
-#pragma mark -
-
+#pragma mark - Manage Visibility
 - (void)show
 {
     if([self canShow])
@@ -181,21 +188,28 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)hide
 {
-    [[self animator] setAlphaValue:0.0];
-    [_fadeTimer invalidate];
-    _fadeTimer = nil;
-
     [NSCursor setHiddenUntilMouseMoves:YES];
+
+    // only hide if 'docked' to game window (aka on the same screen)
+    if([self parentWindow])
+        [[self animator] setAlphaValue:0.0];
+    else [self setAlphaValue:1.0];
+
+        [_fadeTimer invalidate];
+    _fadeTimer = nil;
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
-    NSWindow *parentWindow = [self parentWindow];
-    if(parentWindow == nil) return;
+    NSWindow *gameWindow = [self gameWindow];
+    if(gameWindow == nil) return;
 
+    NSView *gameView = [[self gameViewController] view];
+    NSRect viewFrame = [gameView frame];
     NSPoint mouseLoc = [NSEvent mouseLocation];
 
-    if(!NSPointInRect(mouseLoc, [parentWindow convertRectToScreen:[[[self gameViewController] view] frame]])) return;
+    NSRect viewFrameOnScreen = [gameWindow convertRectToScreen:viewFrame];
+    if(!NSPointInRect(mouseLoc, viewFrameOnScreen)) return;
 
     if([self alphaValue] == 0.0)
     {
@@ -242,20 +256,50 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     else [_fadeTimer setFireDate:hideDate];
 }
 
-- (NSRect)bounds
-{
-    NSRect bounds = [self frame];
-    bounds.origin = NSMakePoint(0, 0);
-    return bounds;
-}
-
 - (BOOL)canFadeOut
 {
     return _openMenus == 0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
 }
 
-#pragma mark - Menus
+#pragma mark -
+- (void)gameWindowDidChangeScreen:(NSNotification*)notification
+{
+    [self adjustWindowAttachment:YES];
+}
 
+- (void)didMove:(NSNotification*)notification
+{
+    [self adjustWindowAttachment:NO];
+}
+
+- (void)adjustWindowAttachment:(BOOL)userChangesGamemWindow;
+{
+    NSWindow *gameWindow = [self gameWindow];
+    NSScreen *barScreen  = [self screen];
+    NSScreen *gameScreen = [gameWindow screen];
+
+    BOOL screensDiffer = barScreen != gameScreen;
+    if(!userChangesGamemWindow && screensDiffer && [self parentWindow] != nil)
+    {
+        NSRect f = [self frame];
+        [self orderOut:nil];
+        [self setFrame:NSZeroRect display:NO];
+        [self setFrame:f display:NO];
+        [self orderFront:self];
+    }
+    else if(!screensDiffer && [self parentWindow] == nil)
+    {
+        [[self gameWindow] addChildWindow:self ordered:NSWindowAbove];
+    }
+}
+
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    [super mouseUp:theEvent];
+    [self adjustWindowAttachment:NO];
+}
+
+#pragma mark - Menus
 - (void)showOptionsMenu:(id)sender
 {
     NSMenu *menu = [[NSMenu alloc] init];
@@ -571,38 +615,45 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [self OE_loadCheats];
 }
 
-- (void)parentWindowDidEnterFullScreen:(NSNotification *)notification;
+- (void)gameWindowDidEnterFullScreen:(NSNotification *)notification;
 {
     OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
     [[view fullScreenButton] setState:NSOnState];
     [self mouseMoved:NULL];  // Show HUD because fullscreen animation makes the cursor appear
 }
 
-- (void)parentWindowWillExitFullScreen:(NSNotification *)notification;
+- (void)gameWindowWillExitFullScreen:(NSNotification *)notification;
 {
     OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
     [[view fullScreenButton] setState:NSOffState];
 }
 
-- (void)setParentWindow:(NSWindow *)window
+- (void)setGameWindow:(NSWindow *)gameWindow
 {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 
     if([self parentWindow] != nil)
     {
-        [nc removeObserver:self name:NSWindowDidEnterFullScreenNotification object:[self parentWindow]];
-        [nc removeObserver:self name:NSWindowWillExitFullScreenNotification object:[self parentWindow]];
+        [nc removeObserver:self name:NSWindowDidEnterFullScreenNotification object:_gameWindow];
+        [nc removeObserver:self name:NSWindowWillExitFullScreenNotification object:_gameWindow];
+        [nc removeObserver:self name:NSWindowDidChangeScreenNotification    object:_gameWindow];
     }
 
-    [super setParentWindow:window];
-
-    if(window != nil)
+    if((!_gameWindow || [self parentWindow]) && gameWindow != [self parentWindow])
     {
-        [nc addObserver:self selector:@selector(parentWindowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:window];
-        [nc addObserver:self selector:@selector(parentWindowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object:window];
+        [[self parentWindow] removeChildWindow:self];
+        [gameWindow addChildWindow:self ordered:NSWindowAbove];
+    }
+    _gameWindow = gameWindow;
+
+    if(gameWindow != nil)
+    {
+        [nc addObserver:self selector:@selector(gameWindowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:gameWindow];
+        [nc addObserver:self selector:@selector(gameWindowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object:gameWindow];
+        [nc addObserver:self selector:@selector(gameWindowDidChangeScreen:) name:NSWindowDidChangeScreenNotification object:gameWindow];
 
         OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
-        [[view fullScreenButton] setState:[window isFullScreen] ? NSOnState : NSOffState];
+        [[view fullScreenButton] setState:[gameWindow isFullScreen] ? NSOnState : NSOffState];
     }
 }
 

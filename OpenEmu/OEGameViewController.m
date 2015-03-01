@@ -127,6 +127,8 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         [[self view] addSubview:_gameView];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:_gameView];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidChangeScreen:) name:NSWindowDidMoveNotification object:self];
     }
     return self;
 }
@@ -138,6 +140,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     [_gameView setDelegate:nil];
     _gameView = nil;
 
+    [_controlsWindow setGameWindow:nil];
     [_controlsWindow close];
     _controlsWindow = nil;
 }
@@ -148,15 +151,11 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 {
     [super viewDidAppear];
 
-    if([_controlsWindow parentWindow] != nil)
-        [[_controlsWindow parentWindow] removeChildWindow:_controlsWindow];
-
     NSWindow *window = [self OE_rootWindow];
     if(window == nil) return;
 
-    [window addChildWindow:_controlsWindow ordered:NSWindowAbove];
+    [_controlsWindow setGameWindow:window];
     [self OE_repositionControlsWindow];
-    [_controlsWindow orderFront:self];
 
     [window makeFirstResponder:_gameView];
 }
@@ -166,6 +165,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     [super viewWillDisappear];
 
     [_controlsWindow hide];
+    [_controlsWindow setGameWindow:nil];
     [[self OE_rootWindow] removeChildWindow:_controlsWindow];
 }
 
