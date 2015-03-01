@@ -1124,7 +1124,7 @@ typedef enum : NSUInteger
 
     [alert setInputLabelText:NSLocalizedString(@"Code:", @"")];
     [alert setShowsInputField:YES];
-    [alert setStringValue:@"Join multi-line cheats with '+' e.g. 000-000+111-111"];
+    [alert setStringValue:NSLocalizedString(@"Join multi-line cheats with '+' e.g. 000-000+111-111", @"")];
 
     [alert setDefaultButtonTitle:NSLocalizedString(@"Add Cheat", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];

@@ -415,8 +415,8 @@ NSString * const OptionsKey = @"options";
 - (void)downloadMissingArtwork:(id)sender
 {
     NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"While performing this operation OpenEmu will be unresponsive.","")
-                                     defaultButton:@"Do it!"
-                                   alternateButton:@"Cancel Operation"
+                                     defaultButton:NSLocalizedString(@"Do it!", @"")
+                                   alternateButton:NSLocalizedString(@"Cancel Operation", @"")
                                        otherButton:@""
                          informativeTextWithFormat:@""];
     if([alert runModal] != NSAlertDefaultReturn) return;
