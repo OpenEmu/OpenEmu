@@ -1465,7 +1465,11 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 #pragma mark - Private Helpers
 - (void)viewDidChangeBackingProperties
 {
+    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
+    CGLLockContext(cgl_ctx);
+    CGLSetCurrentContext(cgl_ctx);
     [self OE_createSaveStateTexture];
+    CGLUnlockContext(cgl_ctx);
 }
 
 - (void)OE_createSaveStateTexture
