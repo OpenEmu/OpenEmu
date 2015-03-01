@@ -121,6 +121,8 @@
 	<string>OpEm</string>
 	<key>CFBundleVersion</key>
 	<string>1.0.4</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.4</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.games</string>
 	<key>LSMinimumSystemVersion</key>
