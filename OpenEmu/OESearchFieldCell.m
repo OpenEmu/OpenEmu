@@ -91,7 +91,7 @@
     NSString     *placeholder = [self placeholderString];
     NSDictionary *attributes  = [self _textAttributes];
 
-    NSAttributedString *attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder?:@"Search" attributes:attributes];
+    NSAttributedString *attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder?:NSLocalizedString(@"Search", @"") attributes:attributes];
     [self setPlaceholderAttributedString:attributedPlaceholder];
 }
 #pragma mark - Drawing
