@@ -513,6 +513,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         BOOL includeQuickSaveState = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarShowsQuickSaveStateKey];
         BOOL useQuickSaveSlots = [[NSUserDefaults standardUserDefaults] boolForKey:OESaveStateUseQuickSaveSlotsKey];
         NSArray *saveStates = [rom normalSaveStatesByTimestampAscending:YES];
+        BOOL canDeleteSaveStates = [[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarCanDeleteSaveStatesKey];
 
         if(includeQuickSaveState && !useQuickSaveSlots && [rom quickSaveStateInSlot:0] != nil)
             saveStates = [@[[rom quickSaveStateInSlot:0]] arrayByAddingObjectsFromArray:saveStates];
@@ -528,21 +529,24 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             [item setEnabled:NO];
             [menu addItem:item];
 
+            if(canDeleteSaveStates)
+            {
+                item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Delete", @"") action:NULL keyEquivalent:@""];
+                [item setAlternate:YES];
+                [item setEnabled:NO];
+                [item setKeyEquivalentModifierMask:NSAlternateKeyMask];
+                [menu addItem:item];
+            }
+
             // Build Quck Load item with submenu
             if(includeQuickSaveState && useQuickSaveSlots)
             {
                 NSString *loadTitle   = NSLocalizedString(@"Quick Load", @"Quick load menu title");
-                //NSString *saveTitle   = NSLocalizedString(@"Quick Save", @"Quick save menu title");
-
                 NSMenuItem *loadItem  = [[NSMenuItem alloc] initWithTitle:loadTitle action:NULL keyEquivalent:@""];
-                //NSMenuItem *saveItem  = [[NSMenuItem alloc] initWithTitle:saveTitle action:NULL keyEquivalent:@""];
-                //[saveItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
-                //[saveItem setAlternate:YES];
 
                 NSMenu *loadSubmenu = [[NSMenu alloc] initWithTitle:loadTitle];
                 [loadItem setIndentationLevel:1];
-                //NSMenu *saveSubmenu = [[NSMenu alloc] initWithTitle:saveTitle];
-                
+
                 for(NSInteger i = 1; i <= 9; i++)
                 {
                     OEDBSaveState *state = [rom quickSaveStateInSlot:i];
@@ -552,18 +556,10 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
                     [loadItem setEnabled:state != nil];
                     [loadItem setRepresentedObject:@(i)];
                     [loadSubmenu addItem:loadItem];
-
-                    //saveTitle  = [NSString stringWithFormat:NSLocalizedString(@"Save to Slot %d", @"Quick save menu item title"), i];
-                    //NSMenuItem *saveItem = [[NSMenuItem alloc] initWithTitle:saveTitle action:@selector(quickSave:) keyEquivalent:@""];
-                    //[saveItem setRepresentedObject:@(i)];
-                    //[saveSubmenu addItem:saveItem];
                 }
 
                 [loadItem setSubmenu:loadSubmenu];
                 [menu addItem:loadItem];
-
-                //[saveItem setSubmenu:saveSubmenu];
-                //[menu addItem:saveItem];
             }
 
             // Add 'normal' save states
@@ -580,7 +576,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
                 [item setRepresentedObject:saveState];
                 [menu addItem:item];
 
-                if([[NSUserDefaults standardUserDefaults] boolForKey:OEGameControlsBarCanDeleteSaveStatesKey])
+                if(canDeleteSaveStates)
                 {
                     NSMenuItem *deleteStateItem = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(deleteSaveState:) keyEquivalent:@""];
                     [deleteStateItem setAlternate:YES];
