@@ -100,7 +100,7 @@
 
 "Cheat Description" = "Cheat-Beschreibung";
 
-"Check out some excellent homebrew games." = "Entdecke einige großartige Homebrew-Spiele";
+"Check out some excellent homebrew games." = "Entdecke einige großartige Homebrew-Spiele.";
 
 "Choose a valid file." = "Wähle eine gültige Datei aus.";
 
@@ -284,7 +284,7 @@
 
 "Installing Core" = "Kern installieren";
 
-"Join multi-line cheats with '+' e.g. 000-000+111-111" = "Verbinde mehrzeilige Cheats mit „+“ z. B. 0000+1111";
+"Join multi-line cheats with '+' e.g. 000-000+111-111" = "Verbinde mehrzeilige Cheats mit „+“, z. B. 0000+1111";
 
 "Keep Files" = "Dateien behalten";
 
@@ -459,6 +459,8 @@
 "Scanning Directory" = "Ordner durchsuchen";
 
 "Screenshots" = "Screenshots";
+
+"Search" = "Suchen";
 
 "Secrets" = "Geheim";
 

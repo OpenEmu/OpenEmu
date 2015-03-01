@@ -64,7 +64,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view id="112" customClass="OEControlsButtonSetupView">
-                                        <rect key="frame" x="0.0" y="0.0" width="362" height="270"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="387" height="270"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                     </view>
                                 </subviews>
@@ -97,7 +97,7 @@
                             </userDefinedRuntimeAttributes>
                         </textField>
                         <popUpButton verticalHuggingPriority="750" id="9" customClass="OEPopUpButton">
-                            <rect key="frame" x="80" y="12" width="137" height="26"/>
+                            <rect key="frame" x="71" y="12" width="146" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="12" customClass="OEPopUpButtonCell">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
