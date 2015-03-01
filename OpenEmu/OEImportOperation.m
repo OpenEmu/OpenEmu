@@ -57,7 +57,6 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 @property (readonly, nonatomic) BOOL shouldExit;
 
 @property (strong, readwrite) NSString  *fileName;
-@property (strong, readwrite) NSURL     *extractedFileURL;
 @property (readwrite)         NSInteger  archiveFileIndex;
 
 @property (strong, readwrite) NSString *md5Hash;
@@ -358,7 +357,10 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         }];
     }
 
-    [[NSFileManager defaultManager] removeItemAtURL:[self extractedFileURL] error:nil];
+    if(status != OEImportExitErrorResolvable)
+    {
+        [[NSFileManager defaultManager] removeItemAtURL:[self extractedFileURL] error:nil];
+    }
 
     _shouldExit = YES;
     [self setError:error];

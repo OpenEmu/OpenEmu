@@ -519,6 +519,16 @@
              [item setCompletionHandler:nil];
          }];
     }
+    else
+    {
+        [[self itemsRequiringAttention] enumerateObjectsAtIndexes:selectedItemIndexes options:0 usingBlock:
+         ^(OEImportOperation *item, NSUInteger idx, BOOL *stop)
+         {
+             NSURL *extractedFile = [item extractedFileURL];
+             if(extractedFile)
+                 [[NSFileManager defaultManager] removeItemAtURL:extractedFile error:nil];
+         }];
+    }
 
     [[self itemsRequiringAttention] removeObjectsAtIndexes:selectedItemIndexes];
 
