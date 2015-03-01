@@ -586,6 +586,8 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
                     [deleteStateItem setAlternate:YES];
                     [deleteStateItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
                     [deleteStateItem setRepresentedObject:saveState];
+                    [deleteStateItem setIndentationLevel:1];
+
                     [menu addItem:deleteStateItem];
                 }
             }
