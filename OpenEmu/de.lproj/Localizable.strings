@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright (c) 2015, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
@@ -90,9 +90,9 @@
 
 "Cancel OpenVGDB Update" = "OpenVGDB-Update abbrechen";
 
-"Cancel" = "Abbrechen";
-
 "Cancel Operation" = "Operation abbrechen";
+
+"Cancel" = "Abbrechen";
 
 "Change Core" = "Kern wechseln";
 
