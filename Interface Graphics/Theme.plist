@@ -204,12 +204,12 @@
 					<key>Color</key>
 					<string>rgb(125,125,125)</string>
 				</dict>
-				<key>Pressed</key>
+				<key>Enabled, Pressed</key>
 				<dict>
 					<key>Color</key>
 					<string>black</string>
 				</dict>
-				<key>Pressed,Alternate</key>
+				<key>Enabled, Pressed,Alternate</key>
 				<dict>
 					<key>Color</key>
 					<string>white</string>
@@ -834,12 +834,12 @@
 					<key>Color</key>
 					<string>rgb(125,125,125)</string>
 				</dict>
-				<key>Pressed</key>
+				<key>Enabled, Pressed</key>
 				<dict>
 					<key>Color</key>
 					<string>white</string>
 				</dict>
-				<key>Pressed,Alternate</key>
+				<key>Enabled, Pressed, Alternate</key>
 				<dict>
 					<key>Color</key>
 					<string>white</string>
@@ -1503,7 +1503,7 @@
 			<dict>
 				<key>Disabled</key>
 				<dict/>
-				<key>Pressed</key>
+				<key>Enabled, Pressed</key>
 				<dict>
 					<key>Colors</key>
 					<array>
@@ -1511,7 +1511,7 @@
 						<string>rgb(122,122,122)</string>
 					</array>
 				</dict>
-				<key>Pressed,Alternate</key>
+				<key>Enabled, Pressed, Alternate</key>
 				<dict>
 					<key>Colors</key>
 					<array>
@@ -1560,7 +1560,7 @@
 			<dict>
 				<key>Disabled</key>
 				<dict/>
-				<key>Pressed</key>
+				<key>Enabled, Pressed</key>
 				<dict>
 					<key>Colors</key>
 					<array>
@@ -1568,7 +1568,7 @@
 						<string>rgb(26,26,26)</string>
 					</array>
 				</dict>
-				<key>Pressed,Alternate</key>
+				<key>Enabled, Pressed, Alternate</key>
 				<dict>
 					<key>Colors</key>
 					<array>
