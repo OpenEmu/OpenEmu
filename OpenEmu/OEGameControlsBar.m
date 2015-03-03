@@ -299,14 +299,15 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [self adjustWindowAttachment:NO];
 }
 
-- (void)adjustWindowAttachment:(BOOL)userChangesGamemWindow;
+- (void)adjustWindowAttachment:(BOOL)userMovesGameWindow;
 {
     NSWindow *gameWindow = [self gameWindow];
     NSScreen *barScreen  = [self screen];
     NSScreen *gameScreen = [gameWindow screen];
 
     BOOL screensDiffer = barScreen != gameScreen;
-    if(!userChangesGamemWindow && screensDiffer && [self parentWindow] != nil)
+
+    if(!userMovesGameWindow && screensDiffer && [self parentWindow] != nil && barScreen != nil)
     {
         NSRect f = [self frame];
         [self orderOut:nil];
