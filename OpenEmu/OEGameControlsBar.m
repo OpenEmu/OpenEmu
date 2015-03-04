@@ -257,7 +257,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (BOOL)canFadeOut
 {
-    return [_openMenus count] && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
+    return [_openMenus count]==0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
 }
 
 - (void)repositionOnGameWindow
