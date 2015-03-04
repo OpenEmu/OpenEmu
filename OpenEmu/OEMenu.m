@@ -163,14 +163,13 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
          }];
     };
 
+    id<NSMenuDelegate> delegate = [[self menu] delegate];
     void (^fireCompletionHandler)(void) = ^{
         if(completionHandler) completionHandler();
         [[self parentWindow] removeChildWindow:self];
 
         // Invoked after a menu closed.
-        id<NSMenuDelegate> delegate = [[self menu] delegate];
         if([delegate respondsToSelector:@selector(menuDidClose:)]) [delegate menuDidClose:[_view menu]];
-
     };
 
     [NSAnimationContext runAnimationGroup:changes completionHandler:fireCompletionHandler];
