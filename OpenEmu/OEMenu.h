@@ -92,3 +92,7 @@ static inline NSRect OENSInsetRectWithEdgeInsets(NSRect rect, NSEdgeInsets inset
 @property(nonatomic, assign) NSMenuItem *highlightedItem;                // Currently highlighted menu item (can be a primary or alternate menu item)
 
 @end
+
+@interface NSMenu (OEMenuAdditions)
+@property (nonatomic, setter=setOEMenu:, assign) OEMenu *oeMenu;
+@end

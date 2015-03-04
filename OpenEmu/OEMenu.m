@@ -32,6 +32,8 @@
 #import "NSMenuItem+OEMenuItemExtraDataAdditions.h"
 #import "OEPopUpButton.h"
 
+#import <objc/runtime.h>
+
 #pragma mark -
 #pragma mark Menu option keys
 
@@ -62,6 +64,7 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
     NSAssert(result != nil, @"out of memory");
     [result setMenu:menu];
     [result OE_parseOptions:options];
+    [menu setOEMenu:result];
 
     return result;
 }
@@ -118,6 +121,11 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
         [self setCollectionBehavior:NSWindowCollectionBehaviorTransient | NSWindowCollectionBehaviorIgnoresCycle];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [[self menu] setOEMenu:nil];
 }
 
 - (void)orderWindow:(NSWindowOrderingMode)place relativeTo:(NSInteger)otherWin
@@ -480,6 +488,9 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
     [parentWindow addChildWindow:self ordered:NSWindowAbove];
     if(![parentWindow isKindOfClass:[OEMenu class]] && ![parentWindow isKeyWindow]) [parentWindow makeKeyAndOrderFront:self];
     if(![parentWindow isKindOfClass:[OEMenu class]] || [parentWindow isVisible]) [self orderFrontRegardless];
+
+    if(![parentWindow isKindOfClass:[OEMenu class]])
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(parentWindowWillClose:) name:NSWindowWillCloseNotification object:parentWindow];
 }
 
 + (NSPoint)OE_locationInScreenForEvent:(NSEvent *)event
@@ -652,6 +663,11 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
     [_view setMenu:menu];
 }
 
+- (void)parentWindowWillClose:(NSNotification*)notification
+{
+    [self cancelTrackingWithoutAnimation];
+}
+
 @end
 
 @implementation OEMenu (OEMenuViewAdditions)
@@ -726,4 +742,18 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
     [self OE_cancelTrackingWithFadeDuration:OEMenuFadeOutDuration completionHandler:completionHandler];
 }
 
+@end
+
+
+const static char OEMenuReference;
+@implementation NSMenu (OEMenuAdditions)
+- (void)setOEMenu:(OEMenu *)oeMenu
+{
+    objc_setAssociatedObject(self, &OEMenuReference, oeMenu, OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (OEMenu*)oeMenu
+{
+    return objc_getAssociatedObject(self, &OEMenuReference);
+}
 @end

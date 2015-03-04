@@ -74,7 +74,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 @property (strong) NSTimer *fadeTimer;
 @property (strong) NSArray *filterPlugins;
 @property (strong) NSMutableArray *cheats;
-@property          NSUInteger openMenus;
+@property          NSMutableSet *openMenus;
 @property          BOOL cheatsLoaded;
 
 @property (unsafe_unretained) OEGameViewController *gameViewController;
@@ -123,7 +123,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
                                  [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:e waitUntilDone:NO];
                              return e;
                          }];
-        _openMenus = 0;
+        _openMenus = [NSMutableSet set];
         _controlsView = barView;
 
         [NSCursor setHiddenUntilMouseMoves:YES];
@@ -257,7 +257,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (BOOL)canFadeOut
 {
-    return _openMenus == 0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
+    return [_openMenus count] && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
 }
 
 - (void)repositionOnGameWindow
@@ -606,15 +606,14 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 }
 
 #pragma mark - OEMenuDelegate Implementation
-
 - (void)menuWillOpen:(NSMenu *)menu
 {
-    _openMenus++;
+    [_openMenus addObject:menu];
 }
 
 - (void)menuDidClose:(NSMenu *)menu
 {
-    _openMenus--;
+    [_openMenus removeObject:menu];
 }
 
 - (void)setVolume:(CGFloat)value
@@ -660,6 +659,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 
+    // un-register notifications for parent window
     if([self parentWindow] != nil)
     {
         [nc removeObserver:self name:NSWindowDidEnterFullScreenNotification object:_gameWindow];
@@ -667,13 +667,23 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
         [nc removeObserver:self name:NSWindowDidChangeScreenNotification    object:_gameWindow];
     }
 
+    // remove from parent window if there was one, and attach to to the new game window
     if((!_gameWindow || [self parentWindow]) && gameWindow != [self parentWindow])
     {
         [[self parentWindow] removeChildWindow:self];
         [gameWindow addChildWindow:self ordered:NSWindowAbove];
     }
+
+    // if there is no new window we should close all menus
+    if(gameWindow == nil)
+    {
+        id openOEMenus = [_openMenus valueForKey:@"oeMenu"];
+        [openOEMenus makeObjectsPerformSelector:@selector(cancelTrackingWithoutAnimation)];
+    }
+
     _gameWindow = gameWindow;
 
+    // register notifications and update state of the fullscreen button
     if(gameWindow != nil)
     {
         [nc addObserver:self selector:@selector(gameWindowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:gameWindow];
