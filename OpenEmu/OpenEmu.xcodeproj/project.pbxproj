@@ -445,8 +445,6 @@
 		837964F91A614C0A00A8DE5C /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		837964FA1A614C6A00A8DE5C /* Supervision.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 837964E11A6149C000A8DE5C /* Supervision.oesystemplugin */; };
 		83802E6A142F6FF900130517 /* controls_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 83802E69142F6FF900130517 /* controls_highlight.png */; };
-		83834A191AAC7815004E0768 /* search_loupe_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 83834A171AAC7815004E0768 /* search_loupe_menu.png */; };
-		83834A1A1AAC7815004E0768 /* search_loupe_menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83834A181AAC7815004E0768 /* search_loupe_menu@2x.png */; };
 		838C0BF815BFF2AD00519C08 /* debug_tab_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 838C0BF715BFF2AD00519C08 /* debug_tab_icon.png */; };
 		838DB01916DBE14E00B8DDC8 /* OETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 838DB01816DBE14E00B8DDC8 /* OETextField.m */; };
 		838DB01C16DBE15900B8DDC8 /* OETextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 838DB01B16DBE15900B8DDC8 /* OETextFieldCell.m */; };
@@ -2182,8 +2180,6 @@
 		837964EF1A614ACD00A8DE5C /* OESVSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESVSystemResponderClient.h; sourceTree = "<group>"; };
 		837964F01A614ACD00A8DE5C /* Supervision-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Supervision-Info.plist"; sourceTree = "<group>"; };
 		83802E69142F6FF900130517 /* controls_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controls_highlight.png; sourceTree = "<group>"; };
-		83834A171AAC7815004E0768 /* search_loupe_menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_loupe_menu.png; sourceTree = "<group>"; };
-		83834A181AAC7815004E0768 /* search_loupe_menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_loupe_menu@2x.png"; sourceTree = "<group>"; };
 		838AC27E14434EED00AC74C3 /* OEDBRom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBRom.h; sourceTree = "<group>"; };
 		838AC27F14434EED00AC74C3 /* OEDBRom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBRom.m; sourceTree = "<group>"; };
 		838C0BF715BFF2AD00519C08 /* debug_tab_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = debug_tab_icon.png; sourceTree = "<group>"; };
@@ -3163,58 +3159,6 @@
 		EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+OEAdditions.m"; sourceTree = "<group>"; };
 		EFBD5D7B14EFE26300FBD1E0 /* OEGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridView.h; sourceTree = "<group>"; };
 		EFBD5D7C14EFE26300FBD1E0 /* OEGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridView.m; sourceTree = "<group>"; };
-		F1242CC01AAB74E800EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OEMigrationWindowController.xib; sourceTree = "<group>"; };
-		F1242CC11AAB74E800EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CC21AAB74E800EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CC31AAB74E900EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CC41AAB74E900EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CC51AAB74E900EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CC61AAB74EA00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CC71AAB74EA00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CC81AAB74EA00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CC91AAB74EB00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CCA1AAB74EB00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CCB1AAB74EB00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CCC1AAB74EC00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CCD1AAB74ED00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CCE1AAB74ED00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CCF1AAB74ED00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CD01AAB74EE00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CD11AAB74EE00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CD21AAB74EE00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CD31AAB74EF00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CD41AAB74EF00EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CD51AAB74F000EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CD61AAB74F000EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CD71AAB74F000EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CD81AAB74F100EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CD91AAB74F100EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CDA1AAB74F100EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CDB1AAB74F100EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CDC1AAB74F200EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CDD1AAB74F200EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CDE1AAB74F200EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CDF1AAB74F300EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CE01AAB74F300EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CE11AAB74F300EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CE21AAB74F400EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CE31AAB74F400EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CE41AAB74F400EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = fr; path = fr.lproj/Credits.rtf; sourceTree = "<group>"; };
-		F1242CE51AAB74F500EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F1242CE61AAB74F500EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		F1242CE71AAB74F500EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/ControlLabels.strings; sourceTree = "<group>"; };
-		F1242CE81AAB74F500EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OEPrefControlsController.xib; sourceTree = "<group>"; };
-		F1242CE91AAB74F600EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OEPrefCoresController.xib; sourceTree = "<group>"; };
-		F1242CEA1AAB74F600EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OEPrefGameplayController.xib; sourceTree = "<group>"; };
-		F1242CEB1AAB74F600EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OEPrefLibraryController.xib; sourceTree = "<group>"; };
-		F1242CEC1AAB74F700EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/CollectionView.xib; sourceTree = "<group>"; };
-		F1242CED1AAB74F700EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/Library.xib; sourceTree = "<group>"; };
-		F1242CEE1AAB74F700EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/Preferences.xib; sourceTree = "<group>"; };
-		F1242CEF1AAB74F700EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		F1242CF01AAB74F800EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OEGameScanner.xib; sourceTree = "<group>"; };
-		F1242CF11AAB74F800EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OESystemPicker.xib; sourceTree = "<group>"; };
-		F1242CF21AAB74F800EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OECorePicker.xib; sourceTree = "<group>"; };
-		F1242CF31AAB74F900EB52CE /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OESetupAssistant.xib; sourceTree = "<group>"; };
 		FEB66250187B62CA00D14713 /* OEMSXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemController.h; sourceTree = "<group>"; };
 		FEB66251187B62CA00D14713 /* OEMSXSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMSXSystemController.m; sourceTree = "<group>"; };
 		FEB66253187B751700D14713 /* OEMSXSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemResponder.h; sourceTree = "<group>"; };
@@ -4369,8 +4313,6 @@
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				83834A171AAC7815004E0768 /* search_loupe_menu.png */,
-				83834A181AAC7815004E0768 /* search_loupe_menu@2x.png */,
 				948FCB64182C7A63001B16BE /* about_background.jpg */,
 				11DC4D4018681B04006CE75D /* about_background@2x.jpg */,
 				53439B9E13B93920005C0CC8 /* arrow_down.png */,
@@ -7147,7 +7089,6 @@
 				pt,
 				en,
 				es,
-				fr,
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
 			projectDirPath = "";
@@ -7398,14 +7339,12 @@
 				830EF6CF146C5D5D00B0C8B0 /* open_weblink_arrow.png in Resources */,
 				836CFD6614709D3C00397683 /* wood_arrow_down.png in Resources */,
 				836CFD6714709D3C00397683 /* wood_arrow_up.png in Resources */,
-				83834A1A1AAC7815004E0768 /* search_loupe_menu@2x.png in Resources */,
 				836CFD6814709D3C00397683 /* wood_knob_vertical.png in Resources */,
 				836CFD6914709D3C00397683 /* wood_track_vertical_spacer.png in Resources */,
 				836CFD6A14709D3C00397683 /* wood_track_vertical.png in Resources */,
 				83D435F214718891003FE856 /* closed_weblink_arrow.png in Resources */,
 				837777BC147A8F6A0091A896 /* hud_progress_bar_track.png in Resources */,
 				8363A3CF193C8B2600F18425 /* grid_header.png in Resources */,
-				83834A191AAC7815004E0768 /* search_loupe_menu.png in Resources */,
 				837777BD147A8F6A0091A896 /* hud_progress_bar.png in Resources */,
 				8308F0EE1862FFEC0046BD8A /* OpenEmu.icns in Resources */,
 				83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */,
@@ -8920,7 +8859,6 @@
 				839A390B196AAFDB001A119A /* de */,
 				8352C10F197ACC5700DDAD05 /* pt */,
 				83F3E33D19B3B385009EC4ED /* es */,
-				F1242CD11AAB74EE00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -8932,7 +8870,6 @@
 				839A3904196AAFDA001A119A /* de */,
 				8352C109197ACC5500DDAD05 /* pt */,
 				83F3E33719B3B385009EC4ED /* es */,
-				F1242CCB1AAB74EB00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -8944,7 +8881,6 @@
 				833ADC50196B079000217D9A /* de */,
 				8352C0F6197ACC5000DDAD05 /* pt */,
 				83F3E32419B3B383009EC4ED /* es */,
-				F1242CEC1AAB74F700EB52CE /* fr */,
 			);
 			name = CollectionView.xib;
 			sourceTree = "<group>";
@@ -8956,7 +8892,6 @@
 				839A38EC196AAFD6001A119A /* de */,
 				8352C0EF197ACC4E00DDAD05 /* pt */,
 				83F3E31D19B3B382009EC4ED /* es */,
-				F1242CE41AAB74F400EB52CE /* fr */,
 			);
 			name = Credits.rtf;
 			sourceTree = "<group>";
@@ -8968,7 +8903,6 @@
 				839A38ED196AAFD7001A119A /* de */,
 				8352C0F0197ACC4E00DDAD05 /* pt */,
 				83F3E31E19B3B383009EC4ED /* es */,
-				F1242CE51AAB74F500EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -8980,7 +8914,6 @@
 				839A38EE196AAFD7001A119A /* de */,
 				8352C0F1197ACC4E00DDAD05 /* pt */,
 				83F3E31F19B3B383009EC4ED /* es */,
-				F1242CE61AAB74F500EB52CE /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -8992,7 +8925,6 @@
 				83DEF7C4196C403700C7DF57 /* de */,
 				8352C0F2197ACC4E00DDAD05 /* pt */,
 				83F3E32019B3B383009EC4ED /* es */,
-				F1242CE71AAB74F500EB52CE /* fr */,
 			);
 			name = ControlLabels.strings;
 			sourceTree = "<group>";
@@ -9004,7 +8936,6 @@
 				839A38F9196AAFD8001A119A /* de */,
 				8352C0FE197ACC5200DDAD05 /* pt */,
 				83F3E32C19B3B384009EC4ED /* es */,
-				F1242CC01AAB74E800EB52CE /* fr */,
 			);
 			name = OEMigrationWindowController.xib;
 			sourceTree = "<group>";
@@ -9016,7 +8947,6 @@
 				839A38EF196AAFD7001A119A /* de */,
 				8352C0F3197ACC4F00DDAD05 /* pt */,
 				83F3E32119B3B383009EC4ED /* es */,
-				F1242CE91AAB74F600EB52CE /* fr */,
 			);
 			name = OEPrefCoresController.xib;
 			sourceTree = "<group>";
@@ -9028,7 +8958,6 @@
 				839A38F0196AAFD7001A119A /* de */,
 				8352C0F4197ACC4F00DDAD05 /* pt */,
 				83F3E32219B3B383009EC4ED /* es */,
-				F1242CEA1AAB74F600EB52CE /* fr */,
 			);
 			name = OEPrefGameplayController.xib;
 			sourceTree = "<group>";
@@ -9040,7 +8969,6 @@
 				839A38F1196AAFD7001A119A /* de */,
 				8352C0F5197ACC4F00DDAD05 /* pt */,
 				83F3E32319B3B383009EC4ED /* es */,
-				F1242CEB1AAB74F600EB52CE /* fr */,
 			);
 			name = OEPrefLibraryController.xib;
 			sourceTree = "<group>";
@@ -9052,7 +8980,6 @@
 				839A38F2196AAFD8001A119A /* de */,
 				8352C0F7197ACC5000DDAD05 /* pt */,
 				83F3E32519B3B383009EC4ED /* es */,
-				F1242CED1AAB74F700EB52CE /* fr */,
 			);
 			name = Library.xib;
 			sourceTree = "<group>";
@@ -9064,7 +8991,6 @@
 				839A38F3196AAFD8001A119A /* de */,
 				8352C0F8197ACC5000DDAD05 /* pt */,
 				83F3E32619B3B383009EC4ED /* es */,
-				F1242CEE1AAB74F700EB52CE /* fr */,
 			);
 			name = Preferences.xib;
 			sourceTree = "<group>";
@@ -9076,7 +9002,6 @@
 				839A38F4196AAFD8001A119A /* de */,
 				8352C0F9197ACC5000DDAD05 /* pt */,
 				83F3E32719B3B384009EC4ED /* es */,
-				F1242CEF1AAB74F700EB52CE /* fr */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -9088,7 +9013,6 @@
 				839A38F5196AAFD8001A119A /* de */,
 				8352C0FA197ACC5100DDAD05 /* pt */,
 				83F3E32819B3B384009EC4ED /* es */,
-				F1242CF01AAB74F800EB52CE /* fr */,
 			);
 			name = OEGameScanner.xib;
 			sourceTree = "<group>";
@@ -9100,7 +9024,6 @@
 				839A38F6196AAFD8001A119A /* de */,
 				8352C0FB197ACC5100DDAD05 /* pt */,
 				83F3E32919B3B384009EC4ED /* es */,
-				F1242CF11AAB74F800EB52CE /* fr */,
 			);
 			name = OESystemPicker.xib;
 			sourceTree = "<group>";
@@ -9112,7 +9035,6 @@
 				839A38F7196AAFD8001A119A /* de */,
 				8352C0FC197ACC5100DDAD05 /* pt */,
 				83F3E32A19B3B384009EC4ED /* es */,
-				F1242CF21AAB74F800EB52CE /* fr */,
 			);
 			name = OECorePicker.xib;
 			sourceTree = "<group>";
@@ -9124,7 +9046,6 @@
 				839A38F8196AAFD8001A119A /* de */,
 				8352C0FD197ACC5100DDAD05 /* pt */,
 				83F3E32B19B3B384009EC4ED /* es */,
-				F1242CF31AAB74F900EB52CE /* fr */,
 			);
 			name = OESetupAssistant.xib;
 			sourceTree = "<group>";
@@ -9134,7 +9055,6 @@
 			children = (
 				8FD905781AA2927100FA7662 /* en */,
 				8FD9057A1AA2927300FA7662 /* de */,
-				F1242CE81AAB74F500EB52CE /* fr */,
 			);
 			name = OEPrefControlsController.xib;
 			sourceTree = "<group>";
@@ -9146,7 +9066,6 @@
 				839A390F196AAFDB001A119A /* de */,
 				8352C113197ACC5900DDAD05 /* pt */,
 				83F3E34219B3B386009EC4ED /* es */,
-				F1242CD61AAB74F000EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9158,7 +9077,6 @@
 				839A38FE196AAFD9001A119A /* de */,
 				8352C103197ACC5400DDAD05 /* pt */,
 				83F3E33119B3B385009EC4ED /* es */,
-				F1242CC51AAB74E900EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9170,7 +9088,6 @@
 				839A3906196AAFDA001A119A /* de */,
 				8352C10B197ACC5600DDAD05 /* pt */,
 				83F3E33919B3B385009EC4ED /* es */,
-				F1242CCD1AAB74ED00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9182,7 +9099,6 @@
 				839A391B196AAFDB001A119A /* de */,
 				8352C11E197ACC5B00DDAD05 /* pt */,
 				83F3E34E19B3B387009EC4ED /* es */,
-				F1242CE21AAB74F400EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9194,7 +9110,6 @@
 				839A3919196AAFDB001A119A /* de */,
 				8352C11C197ACC5B00DDAD05 /* pt */,
 				83F3E34C19B3B387009EC4ED /* es */,
-				F1242CE01AAB74F300EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9206,7 +9121,6 @@
 				839A38FA196AAFD9001A119A /* de */,
 				8352C0FF197ACC5200DDAD05 /* pt */,
 				83F3E32D19B3B384009EC4ED /* es */,
-				F1242CC11AAB74E800EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9216,7 +9130,6 @@
 			children = (
 				9440475B199D4DF1002D805E /* en */,
 				83F3E34019B3B386009EC4ED /* es */,
-				F1242CD41AAB74EF00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9228,7 +9141,6 @@
 				839A3912196AAFDB001A119A /* de */,
 				8352C0EE197ACC4D00DDAD05 /* pt */,
 				83F3E34519B3B386009EC4ED /* es */,
-				F1242CD91AAB74F100EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9240,7 +9152,6 @@
 				839A38FB196AAFD9001A119A /* de */,
 				8352C100197ACC5200DDAD05 /* pt */,
 				83F3E32E19B3B384009EC4ED /* es */,
-				F1242CC21AAB74E800EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9252,7 +9163,6 @@
 				839A3914196AAFDB001A119A /* de */,
 				8352C117197ACC5A00DDAD05 /* pt */,
 				83F3E34719B3B386009EC4ED /* es */,
-				F1242CDB1AAB74F100EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9264,7 +9174,6 @@
 				839A390E196AAFDB001A119A /* de */,
 				8352C112197ACC5800DDAD05 /* pt */,
 				83F3E34119B3B386009EC4ED /* es */,
-				F1242CD51AAB74F000EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9276,7 +9185,6 @@
 				839A391C196AAFDB001A119A /* de */,
 				8352C11F197ACC5C00DDAD05 /* pt */,
 				83F3E34F19B3B387009EC4ED /* es */,
-				F1242CE31AAB74F400EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9288,7 +9196,6 @@
 				839A3907196AAFDA001A119A /* de */,
 				8352C10C197ACC5600DDAD05 /* pt */,
 				83F3E33A19B3B385009EC4ED /* es */,
-				F1242CCE1AAB74ED00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9300,7 +9207,6 @@
 				839A3910196AAFDB001A119A /* de */,
 				8352C114197ACC5900DDAD05 /* pt */,
 				83F3E34319B3B386009EC4ED /* es */,
-				F1242CD71AAB74F000EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9312,7 +9218,6 @@
 				839A3917196AAFDB001A119A /* de */,
 				8352C11A197ACC5A00DDAD05 /* pt */,
 				83F3E34A19B3B386009EC4ED /* es */,
-				F1242CDE1AAB74F200EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9324,7 +9229,6 @@
 				839A391A196AAFDB001A119A /* de */,
 				8352C11D197ACC5B00DDAD05 /* pt */,
 				83F3E34D19B3B387009EC4ED /* es */,
-				F1242CE11AAB74F300EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9336,7 +9240,6 @@
 				839A3915196AAFDB001A119A /* de */,
 				8352C118197ACC5A00DDAD05 /* pt */,
 				83F3E34819B3B386009EC4ED /* es */,
-				F1242CDC1AAB74F200EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9348,7 +9251,6 @@
 				839A38FC196AAFD9001A119A /* de */,
 				8352C101197ACC5200DDAD05 /* pt */,
 				83F3E32F19B3B384009EC4ED /* es */,
-				F1242CC31AAB74E900EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9360,7 +9262,6 @@
 				839A38FD196AAFD9001A119A /* de */,
 				8352C102197ACC5300DDAD05 /* pt */,
 				83F3E33019B3B385009EC4ED /* es */,
-				F1242CC41AAB74E900EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9372,7 +9273,6 @@
 				839A390D196AAFDB001A119A /* de */,
 				8352C111197ACC5800DDAD05 /* pt */,
 				83F3E33F19B3B386009EC4ED /* es */,
-				F1242CD31AAB74EF00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9384,7 +9284,6 @@
 				839A3913196AAFDB001A119A /* de */,
 				8352C116197ACC5900DDAD05 /* pt */,
 				83F3E34619B3B386009EC4ED /* es */,
-				F1242CDA1AAB74F100EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9396,7 +9295,6 @@
 				839A3900196AAFDA001A119A /* de */,
 				8352C105197ACC5400DDAD05 /* pt */,
 				83F3E33319B3B385009EC4ED /* es */,
-				F1242CC71AAB74EA00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9408,7 +9306,6 @@
 				839A3911196AAFDB001A119A /* de */,
 				8352C115197ACC5900DDAD05 /* pt */,
 				83F3E34419B3B386009EC4ED /* es */,
-				F1242CD81AAB74F100EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9420,7 +9317,6 @@
 				839A38FF196AAFD9001A119A /* de */,
 				8352C104197ACC5400DDAD05 /* pt */,
 				83F3E33219B3B385009EC4ED /* es */,
-				F1242CC61AAB74EA00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9432,7 +9328,6 @@
 				839A3903196AAFDA001A119A /* de */,
 				8352C108197ACC5500DDAD05 /* pt */,
 				83F3E33619B3B385009EC4ED /* es */,
-				F1242CCA1AAB74EB00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9444,7 +9339,6 @@
 				839A390A196AAFDB001A119A /* de */,
 				8352C10E197ACC5700DDAD05 /* pt */,
 				83F3E33C19B3B385009EC4ED /* es */,
-				F1242CD01AAB74EE00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9456,7 +9350,6 @@
 				839A3902196AAFDA001A119A /* de */,
 				8352C107197ACC5500DDAD05 /* pt */,
 				83F3E33519B3B385009EC4ED /* es */,
-				F1242CC91AAB74EB00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9468,7 +9361,6 @@
 				839A3918196AAFDB001A119A /* de */,
 				8352C11B197ACC5B00DDAD05 /* pt */,
 				83F3E34B19B3B387009EC4ED /* es */,
-				F1242CDF1AAB74F300EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9480,7 +9372,6 @@
 				839A390C196AAFDB001A119A /* de */,
 				8352C110197ACC5800DDAD05 /* pt */,
 				83F3E33E19B3B385009EC4ED /* es */,
-				F1242CD21AAB74EE00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9492,7 +9383,6 @@
 				839A3916196AAFDB001A119A /* de */,
 				8352C119197ACC5A00DDAD05 /* pt */,
 				83F3E34919B3B386009EC4ED /* es */,
-				F1242CDD1AAB74F200EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9504,7 +9394,6 @@
 				839A3901196AAFDA001A119A /* de */,
 				8352C106197ACC5500DDAD05 /* pt */,
 				83F3E33419B3B385009EC4ED /* es */,
-				F1242CC81AAB74EA00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9516,7 +9405,6 @@
 				839A3905196AAFDA001A119A /* de */,
 				8352C10A197ACC5600DDAD05 /* pt */,
 				83F3E33819B3B385009EC4ED /* es */,
-				F1242CCC1AAB74EC00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -9528,7 +9416,6 @@
 				839A3908196AAFDA001A119A /* de */,
 				8352C10D197ACC5700DDAD05 /* pt */,
 				83F3E33B19B3B385009EC4ED /* es */,
-				F1242CCF1AAB74ED00EB52CE /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
