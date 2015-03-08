@@ -24,12 +24,12 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-"Archived Game" = "Jeu archivé";
+"Archived Game" = "Archived Game";
 
-"GameCorePlugin" = "Plugin de cœur de jeu OpenEmu";
+"GameCorePlugin" = "GameCorePlugin";
 
-"OpenEmu Save State" = "Partie sauvegardée OpenEmu";
+"OpenEmu Save State" = "OpenEmu Save State";
 
-"System Plugin" = "Plugin de système OpenEmu";
+"System Plugin" = "System Plugin";
 
-"VideoFilterPlugin" = "Plugin de filtre vidéo OpenEmu";
+"VideoFilterPlugin" = "VideoFilterPlugin";
