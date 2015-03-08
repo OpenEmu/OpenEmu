@@ -110,7 +110,7 @@
 
 "Choose save states directory" = "Escolher pasta dos salvamentos";
 
-"Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Escolha Sim para remover todos os itens da fila. Itens que já foram importados serão mantidos em sua biblioteca.";
+"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Escolha Sim para remover todos os itens da fila. Itens que já foram importados serão mantidos em sua biblioteca.";
 
 "Cleanup autosave state" = "Limpar salvamentos automáticos";
 
@@ -315,6 +315,8 @@
 "MEDIA" = "MÍDIA";
 
 "Missing Core" = "Núcleo Não Encontrado";
+
+"Move selected game to Trash, or keep it in the Library folder?" = "Move selected game to Trash, or keep it in the Library folder?";
 
 "Move selected games to Trash, or keep them in the Library folder?" = "Mover jogos selecionados para a Lixeira ou mantê-los na pasta da Biblioteca?";
 

@@ -110,7 +110,7 @@
 
 "Choose save states directory" = "Choose save states directory";
 
-"Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.";
+"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.";
 
 "Cleanup autosave state" = "Cleanup autosave state";
 
@@ -315,6 +315,8 @@
 "MEDIA" = "MEDIA";
 
 "Missing Core" = "Missing Core";
+
+"Move selected game to Trash, or keep it in the Library folder?" = "Move selected game to Trash, or keep it in the Library folder?";
 
 "Move selected games to Trash, or keep them in the Library folder?" = "Move selected games to Trash, or keep them in the Library folder?";
 
