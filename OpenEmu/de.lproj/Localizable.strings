@@ -110,7 +110,7 @@
 
 "Choose save states directory" = "Spielstandordner auswählen";
 
-"Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Möchtest du wirklich alle Objekte aus der Warteschlange entfernen? Spiele, die bereits importiert wurden, bleiben in der Mediathek.";
+"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Möchtest du wirklich alle Objekte aus der Warteschlange entfernen? Spiele, die bereits importiert wurden, bleiben in der Mediathek.";
 
 "Cleanup autosave state" = "Automatische Sicherungen aufräumen";
 
@@ -315,6 +315,8 @@
 "MEDIA" = "Medien";
 
 "Missing Core" = "Kern fehlt";
+
+"Move selected game to Trash, or keep it in the Library folder?" = "Move selected game to Trash, or keep it in the Library folder?";
 
 "Move selected games to Trash, or keep them in the Library folder?" = "Ausgewählte Spiele in den Papierkorb legen oder im Spieleordner behalten?";
 

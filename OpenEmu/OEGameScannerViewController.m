@@ -556,7 +556,7 @@
         OEHUDAlert *cancelAlert = [[OEHUDAlert alloc] init];
 
         cancelAlert.headlineText = NSLocalizedString(@"Do you really want to cancel the import process?", @"");
-        cancelAlert.messageText  = NSLocalizedString(@"Chose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.", @"");
+        cancelAlert.messageText  = NSLocalizedString(@"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.", @"");
         cancelAlert.defaultButtonTitle   = NSLocalizedString(@"Yes", @"");
         cancelAlert.alternateButtonTitle = NSLocalizedString(@"No", @"");
 
