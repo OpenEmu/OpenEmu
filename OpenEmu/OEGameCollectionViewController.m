@@ -152,6 +152,8 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 {
     [super setRepresentedObject:representedObject];
 
+    [[[self libraryController] toolbarSearchField] setSearchMenuTemplate:nil];
+
     NSAssert([representedObject conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)], @"");
 
     [[[self listView] tableColumnWithIdentifier:@"listViewConsoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];

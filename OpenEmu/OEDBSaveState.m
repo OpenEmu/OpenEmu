@@ -71,7 +71,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     [request setPredicate:[NSPredicate predicateWithFormat:@"location == %@", urlString]];
     NSArray *results = [context executeFetchRequest:request error:nil];
-    if([results count] >= 1)
+    if([results count] > 1)
     {
         NSLog(@"WARNING: Found several save states with the same URL!");
     }
@@ -90,7 +90,6 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     OEDBSaveState *state = [self saveStateWithURL:url inContext:context];
     if(state)
     {
-        DLog(@"SaveState %@ is already in database", [state displayName]);
         return state;
     }
 
@@ -412,7 +411,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
     // Check additional files (data)
     if(![dataURL checkResourceIsReachableAndReturnError:&error])
     {
-        DLog(@"Data file if missing!");
+        DLog(@"Data file is missing!");
         DLog(@"%@", error);
         return NO;
     }
@@ -472,9 +471,6 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 {
     if(!([self filesAvailable] && [self rom] != nil))
     {
-        if([self rom] == nil)
-            NSLog(@"%@", [self rom]);
-
         NSURL *bundleURL  = [self URL];
         NSURL *stateURL   = [self dataFileURL];
         NSURL *infoURL    = [self infoPlistURL];

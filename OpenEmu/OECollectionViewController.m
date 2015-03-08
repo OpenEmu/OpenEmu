@@ -481,6 +481,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         [[[self libraryController] toolbarListViewButton] setEnabled:YES];
 
         [[[self libraryController] toolbarSearchField] setEnabled:YES];
+
+        [[[self libraryController] toolbarSlider] setEnabled:YES];
     }
     else
     {
@@ -491,10 +493,13 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         [[[self libraryController] toolbarListViewButton] setEnabled:NO];
 
         [[[self libraryController] toolbarSearchField] setEnabled:NO];
+
         [[[self libraryController] toolbarSlider] setEnabled:NO];
 
         [blankSlateView setRepresentedObject:[self representedObject]];
     }
+
+    [[[self libraryController] toolbarSearchField] setMenu:nil];
 }
 
 - (BOOL)shouldShowBlankSlate

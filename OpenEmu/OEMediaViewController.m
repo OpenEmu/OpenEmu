@@ -51,6 +51,7 @@
 @interface OEMediaViewController ()
 @property (strong) NSArray *groupRanges;
 @property (strong) NSArray *items;
+@property (strong) NSArray *searchKeys;
 
 @property BOOL saveStateMode;
 
@@ -65,6 +66,7 @@
     if (self)
     {
         _searchPredicate = [NSPredicate predicateWithValue:YES];
+        _searchKeys = @[@"rom.game.gameTitle", @"rom.game.name", @"rom.game.system.lastLocalizedName", @"name", @"userDescription"];
     }
     return self;
 }
@@ -79,6 +81,67 @@
 - (void)viewDidAppear
 {
     [super viewDidAppear];
+
+    DLog();
+    [self _setupSearchMenuTemplate];
+}
+
+- (void)_setupSearchMenuTemplate
+{
+    NSMenuItem *item = nil;
+    NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
+    [menu addItemWithTitle:NSLocalizedString(@"Filter by:", @"Search field menu, first item, instructional") action:NULL keyEquivalent:@""];
+
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Everything", @"Search field filter selection title")
+                                      action:@selector(searchScopeDidChange:) keyEquivalent:@""];
+    [item setState:NSOnState];
+    [item setTarget:self];
+    [item setRepresentedObject:@[@"rom.game.gameTitle", @"rom.game.name", @"rom.game.system.lastLocalizedName", @"name", @"userDescription"]];
+    [item setIndentationLevel:1];
+    [menu addItem:item];
+
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Name", @"Search field filter selection title")
+                                      action:@selector(searchScopeDidChange:) keyEquivalent:@""];
+    [item setTarget:self];
+    [item setRepresentedObject:@[@"name"]];
+    [item setIndentationLevel:1];
+    [menu addItem:item];
+
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Description", @"Search field filter selection title")
+                                      action:@selector(searchScopeDidChange:) keyEquivalent:@""];
+    [item setTarget:self];
+    [item setRepresentedObject:@[@"userDescription"]];
+    [item setIndentationLevel:1];
+    [menu addItem:item];
+
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Game Name", @"")
+                                      action:@selector(searchScopeDidChange:) keyEquivalent:@""];
+    [item setTarget:self];
+    [item setRepresentedObject:@[@"rom.game.gameTitle", @"rom.game.name"]];
+    [item setIndentationLevel:1];
+    [menu addItem:item];
+
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"System", @"")
+                                      action:@selector(searchScopeDidChange:) keyEquivalent:@""];
+    [item setTarget:self];
+    [item setRepresentedObject:@[@"rom.game.system.lastLocalizedName"]];
+    [item setIndentationLevel:1];
+    [menu addItem:item];
+
+    [[[self libraryController] toolbarSearchField] setSearchMenuTemplate:menu];
+}
+
+- (void)searchScopeDidChange:(NSMenuItem*)sender
+{
+    NSMenu *menu = [sender menu];
+    [[menu itemArray] enumerateObjectsUsingBlock:^(NSMenuItem *item, NSUInteger idx, BOOL *stop) {
+        [item setState:NSOffState];
+    }];
+
+    [sender setState:NSOnState];
+    [self setSearchKeys:[sender representedObject]];
+    NSSearchField *field = [[self libraryController] toolbarSearchField];
+    [self search:field];
 }
 
 - (void)setRepresentedObject:(id)representedObject
@@ -90,6 +153,9 @@
         [self setSaveStateMode:[representedObject isKindOfClass:[OEDBSavedGamesMedia class]]];
         [self reloadData];
     }
+    DLog();
+    [self _setupSearchMenuTemplate];
+
 }
 #pragma mark - OELibrarySubviewController Implementation
 - (id)encodeCurrentState
@@ -135,10 +201,10 @@
     NSString *searchTerm = [[[self libraryController] toolbarSearchField] stringValue];
     NSMutableArray *predarray = [NSMutableArray array];
     NSArray *tokens = [searchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSArray *keys = @[@"rom.game.gameTitle", @"rom.game.name", @"rom.game.system.lastLocalizedName", @"name", @"userDescription"];
+
     for(NSString *token in tokens)
         if(token.length > 0)
-            for(NSString *key in keys)
+            for(NSString *key in [self searchKeys])
                 [predarray addObject:[NSPredicate predicateWithFormat:@"%K contains[cd] %@", key, token]];
 
     if([predarray count])
@@ -183,31 +249,6 @@
         DLog(@"%@", error);
     }
 
-    /* This method crashed a few times when calling [[[result objectAtIndex:0] rom] game] with a coredata exception that was impossible to predict. Maybe my library was just corrupted, but if this happens in the wild we can enable this code to delete all roms, games and save states that cause the crash :/
-     */
-    /*
-    while([result count])
-    {
-        OEDBSaveState *firstState = [result objectAtIndex:0];
-        @try
-        {
-            [[firstState rom] game]
-            break;
-        }
-        @catch (NSException *exception)
-        {
-            [[firstState rom] delete];
-            [firstState delete];
-            [context save:nil];
-
-            if([result count] > 1)
-                result = [result subarrayWithRange:NSMakeRange(1, [result count]-1)];
-            else 
-                result = @[];
-        }
-    }
-     */
-
     if([result count] == 0)
     {
         _groupRanges = @[];
@@ -222,12 +263,13 @@
     NSInteger i;
     for(i=0; i < [result count]; i++)
     {
-        id state = [result objectAtIndex:i];
-        if(![[[[state rom] game] objectID] isEqualTo:gameID])
+        OEDBSaveState *state = [result objectAtIndex:i];
+        NSManagedObjectID *objectID = [[[state rom] game] objectID];
+        if(![objectID isEqualTo:gameID])
         {
             [ranges addObject:[NSValue valueWithRange:NSMakeRange(groupStart, i-groupStart)]];
             groupStart = i;
-            gameID = [[[state rom] game] objectID];
+            gameID = objectID;
         }
     }
 

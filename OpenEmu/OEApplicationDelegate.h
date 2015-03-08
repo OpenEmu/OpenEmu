@@ -41,8 +41,8 @@
 
 - (void)loadDatabase;
 
-@property(unsafe_unretained) IBOutlet NSWindow               *aboutWindow;
-@property(unsafe_unretained) IBOutlet NSMenu                 *fileMenu;
+@property(unsafe_unretained) IBOutlet NSWindow     *aboutWindow;
+@property(unsafe_unretained) IBOutlet NSMenu       *fileMenu;
 @property(strong) IBOutlet OEMainWindowController  *mainWindowController;
 @property(strong) IBOutlet OEPreferencesController *preferencesController;
 

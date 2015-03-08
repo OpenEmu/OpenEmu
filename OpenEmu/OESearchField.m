@@ -31,6 +31,7 @@
 {
     NSTrackingArea *_trackingArea;   // Mouse tracking area used only if the control reacts to the mouse's location
 }
+@property (copy, nonatomic) NSString *themeKey;
 @end
 
 @implementation OESearchField
@@ -39,6 +40,23 @@
     return [OESearchFieldCell class];
 }
 
+#pragma mark - 
+- (void)setSearchMenuTemplate:(NSMenu *)menu
+{
+    [super setSearchMenuTemplate:menu];
+
+    // setup search button
+    NSButtonCell *oldSearchButtonCell = [[self cell] searchButtonCell];
+    if(![oldSearchButtonCell isKindOfClass:[OEButtonCell class]])
+        return; // Themeing is not set up yet.
+
+    OEButtonCell *searchButtonCell = (OEButtonCell*)oldSearchButtonCell;
+    [searchButtonCell setMenu:menu];
+    NSString *themeKey = [[self themeKey] stringByAppendingString:@"_search"];
+    if(menu)
+        themeKey = [themeKey stringByAppendingString:@"_menu"];
+    [searchButtonCell setThemeKey:themeKey];
+}
 #pragma mark - OEControl + State Support
 @synthesize trackWindowActivity = _trackWindowActivity;
 @synthesize trackMouseActivity = _trackMouseActivity;
@@ -68,7 +86,7 @@
     [super viewDidMoveToWindow];
     [self updateTrackingAreas];
 }
-
+#pragma mark - Interaction
 - (void)updateTrackingAreas
 {
     if(_trackingArea) [self removeTrackingArea:_trackingArea];
@@ -125,6 +143,7 @@
     }
 }
 
+#pragma mark -
 - (void)OE_windowKeyChanged:(NSNotification *)notification
 {
     // The keyedness of the window has changed, we want to redisplay the button with the new state, this is only fired when NSWindowDidBecomeMainNotification and NSWindowDidResignMainNotification is registered.
@@ -191,6 +210,8 @@
 
 - (void)setThemeKey:(NSString *)key
 {
+    _themeKey = [key copy];
+
     NSString *backgroundKey = key;
     if(![key hasSuffix:@"_background"])
     {
@@ -220,8 +241,9 @@
     OEButtonCell *searchButtonCell    = [[OEButtonCell alloc] initTextCell:@""];
     [searchButtonCell setAction:[oldSearchButtonCell action]];
     [searchButtonCell setTarget:[oldSearchButtonCell target]];
-    [searchButtonCell setThemeKey:[key stringByAppendingString:@"_search"]];
     [[self cell] setSearchButtonCell:searchButtonCell];
+    // update loupe image
+    [self setSearchMenuTemplate:[self searchMenuTemplate]];
 }
 
 - (void)setBackgroundThemeImageKey:(NSString *)key

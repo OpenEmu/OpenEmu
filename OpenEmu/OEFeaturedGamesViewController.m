@@ -121,6 +121,8 @@ const static CGFloat TableViewSpacing = 86.0;
     {
         [self updateGames];
     }
+
+    [[[self libraryController] toolbarSearchField] setSearchMenuTemplate:nil];
 }
 
 #pragma mark - Data Handling

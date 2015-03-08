@@ -445,6 +445,8 @@
 		837964F91A614C0A00A8DE5C /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		837964FA1A614C6A00A8DE5C /* Supervision.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 837964E11A6149C000A8DE5C /* Supervision.oesystemplugin */; };
 		83802E6A142F6FF900130517 /* controls_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 83802E69142F6FF900130517 /* controls_highlight.png */; };
+		83834A191AAC7815004E0768 /* search_loupe_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 83834A171AAC7815004E0768 /* search_loupe_menu.png */; };
+		83834A1A1AAC7815004E0768 /* search_loupe_menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83834A181AAC7815004E0768 /* search_loupe_menu@2x.png */; };
 		838C0BF815BFF2AD00519C08 /* debug_tab_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 838C0BF715BFF2AD00519C08 /* debug_tab_icon.png */; };
 		838DB01916DBE14E00B8DDC8 /* OETextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 838DB01816DBE14E00B8DDC8 /* OETextField.m */; };
 		838DB01C16DBE15900B8DDC8 /* OETextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 838DB01B16DBE15900B8DDC8 /* OETextFieldCell.m */; };
@@ -2180,6 +2182,8 @@
 		837964EF1A614ACD00A8DE5C /* OESVSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESVSystemResponderClient.h; sourceTree = "<group>"; };
 		837964F01A614ACD00A8DE5C /* Supervision-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Supervision-Info.plist"; sourceTree = "<group>"; };
 		83802E69142F6FF900130517 /* controls_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controls_highlight.png; sourceTree = "<group>"; };
+		83834A171AAC7815004E0768 /* search_loupe_menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_loupe_menu.png; sourceTree = "<group>"; };
+		83834A181AAC7815004E0768 /* search_loupe_menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_loupe_menu@2x.png"; sourceTree = "<group>"; };
 		838AC27E14434EED00AC74C3 /* OEDBRom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBRom.h; sourceTree = "<group>"; };
 		838AC27F14434EED00AC74C3 /* OEDBRom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBRom.m; sourceTree = "<group>"; };
 		838C0BF715BFF2AD00519C08 /* debug_tab_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = debug_tab_icon.png; sourceTree = "<group>"; };
@@ -4313,6 +4317,8 @@
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				83834A171AAC7815004E0768 /* search_loupe_menu.png */,
+				83834A181AAC7815004E0768 /* search_loupe_menu@2x.png */,
 				948FCB64182C7A63001B16BE /* about_background.jpg */,
 				11DC4D4018681B04006CE75D /* about_background@2x.jpg */,
 				53439B9E13B93920005C0CC8 /* arrow_down.png */,
@@ -7339,12 +7345,14 @@
 				830EF6CF146C5D5D00B0C8B0 /* open_weblink_arrow.png in Resources */,
 				836CFD6614709D3C00397683 /* wood_arrow_down.png in Resources */,
 				836CFD6714709D3C00397683 /* wood_arrow_up.png in Resources */,
+				83834A1A1AAC7815004E0768 /* search_loupe_menu@2x.png in Resources */,
 				836CFD6814709D3C00397683 /* wood_knob_vertical.png in Resources */,
 				836CFD6914709D3C00397683 /* wood_track_vertical_spacer.png in Resources */,
 				836CFD6A14709D3C00397683 /* wood_track_vertical.png in Resources */,
 				83D435F214718891003FE856 /* closed_weblink_arrow.png in Resources */,
 				837777BC147A8F6A0091A896 /* hud_progress_bar_track.png in Resources */,
 				8363A3CF193C8B2600F18425 /* grid_header.png in Resources */,
+				83834A191AAC7815004E0768 /* search_loupe_menu.png in Resources */,
 				837777BD147A8F6A0091A896 /* hud_progress_bar.png in Resources */,
 				8308F0EE1862FFEC0046BD8A /* OpenEmu.icns in Resources */,
 				83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */,
