@@ -3299,13 +3299,13 @@
 			<key>States</key>
 			<dict>
 				<key>Disabled</key>
-				<string>{{0,0},{13,14}}</string>
+				<string>{{0,0},{18,14}}</string>
 				<key>Window Active</key>
-				<string>{{13,0},{13,14}}</string>
+				<string>{{18,0},{18,14}}</string>
 				<key>Window Active, Focused</key>
-				<string>{{26,0},{13,14}}</string>
+				<string>{{36,0},{18,14}}</string>
 				<key>Window Inactive</key>
-				<string>{{0,0},{13,14}}</string>
+				<string>{{0,0},{18,14}}</string>
 			</dict>
 		</dict>
 		<key>selector_ring</key>

@@ -241,6 +241,9 @@
     OEButtonCell *searchButtonCell    = [[OEButtonCell alloc] initTextCell:@""];
     [searchButtonCell setAction:[oldSearchButtonCell action]];
     [searchButtonCell setTarget:[oldSearchButtonCell target]];
+    [searchButtonCell setImagePosition:NSImageLeft];
+    [searchButtonCell setImageScaling:NSImageScaleNone];
+
     [[self cell] setSearchButtonCell:searchButtonCell];
     // update loupe image
     [self setSearchMenuTemplate:[self searchMenuTemplate]];

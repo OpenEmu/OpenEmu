@@ -103,7 +103,6 @@
 
     // Right gap (cancel image)
     rect.size.width -= 23.0;
-
     rect.size.height = 21.0;
 
     return rect;
@@ -114,6 +113,19 @@
     rect = [super cancelButtonRectForBounds:rect];
     rect.origin.y -= 1.0;
     return rect;
+}
+
+- (NSRect)searchButtonRectForBounds:(NSRect)rect
+{
+    NSRect r = [super searchButtonRectForBounds:rect];
+
+    r.origin.x += 5.0;
+    if([self searchMenuTemplate])
+        r.size.width = 18.0;
+    else
+        r.size.width = 13.0;
+
+    return r;
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
