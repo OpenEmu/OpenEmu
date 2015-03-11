@@ -227,9 +227,11 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
         if(![self database]) return resultDict;
 
-        BOOL isSystemWithHashlessROM = [self hashlessROMCheckForSystem:systemIdentifier];
-        BOOL isSystemWithROMHeader   = [self headerROMCheckForSystem:systemIdentifier];
-        BOOL isSystemWithROMSerial   = [self serialROMCheckForSystem:systemIdentifier];
+        __block BOOL isSystemWithHashlessROM = [self hashlessROMCheckForSystem:systemIdentifier];
+        __block BOOL isSystemWithROMHeader   = [self headerROMCheckForSystem:systemIdentifier];
+        __block BOOL isSystemWithROMSerial   = [self serialROMCheckForSystem:systemIdentifier];
+
+        __block int headerSize = [self sizeOfROMHeaderForSystem:systemIdentifier];
 
         NSString * const DBMD5Key= @"romHashMD5";
         NSString * const DBCRCKey= @"romHashCRC";
@@ -261,8 +263,6 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
             }
             else
             {
-                int headerSize = [self sizeOfROMHeaderForSystem:systemIdentifier];
-
                 // if rom has no header we can use the hash we calculated at import
                 if(headerSize == 0 && (value = md5) != nil)
                 {
@@ -292,7 +292,6 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
             if(headerFound == nil && serialFound == nil)
             {
-                int headerSize = [self sizeOfROMHeaderForSystem:systemIdentifier];
                 [[NSFileManager defaultManager] hashFileAtURL:romURL headerSize:headerSize md5:&value crc32:nil error:nil];
                 key   = DBMD5Key;
                 value = [value uppercaseString];
@@ -313,6 +312,17 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
         }
 
         determineQueryParams();
+
+        if(value == nil)
+        {
+            // Still nothing to look up, force determineQueryParams to use Hashes
+            isSystemWithHashlessROM = NO;
+            isSystemWithROMHeader = NO;
+            isSystemWithROMSerial = NO;
+            headerSize = 0;
+
+            determineQueryParams();
+        }
 
         if(value == nil)
             return nil;
