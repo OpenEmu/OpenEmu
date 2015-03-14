@@ -243,7 +243,7 @@ NSString * const OptionsKey = @"options";
         }
     }];
 }
-
+ 
 #pragma mark -
 - (void)restoreSaveStatesDirectory:(id)sender
 {
@@ -781,7 +781,6 @@ NSString * const OptionsKey = @"options";
 
     id currentValue;
     __block NSInteger index = 0;
-
     if(userDefaultsKey && (currentValue = [defaults objectForKey:userDefaultsKey]))
     {
         NSArray *itemArray = [button itemArray];

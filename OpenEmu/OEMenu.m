@@ -313,14 +313,13 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
         case OEMaxXEdge:
             if(NSMinX(frame) < NSMinX(screenFrame) || NSMaxX(frame) > NSMaxX(screenFrame))
             {
-                NSLog(@"Flip to the other side.");
                 OERectEdge newEdge = ((edge == OEMinXEdge) ? OEMaxXEdge : OEMinXEdge);
                 frame.origin       = originForEdge(newEdge);
 
                 if((NSMinX(frame) < NSMinX(screenFrame)) || (NSMaxX(frame) > NSMaxX(screenFrame)))
                 {
                     // TODO: Make view smaller
-                    NSLog(@"Make view smaller");
+                    NSLog(@"TODO: Make view smaller");
                 }
                 else
                 {
@@ -340,14 +339,13 @@ static NSMutableArray *__sharedMenuStack; // Array of all the open instances of 
         case OEMaxYEdge:
             if(NSMinY(frame) < NSMinY(screenFrame) || NSMaxY(frame) > NSMaxY(screenFrame))
             {
-                NSLog(@"Flip to the other side.");
                 OERectEdge newEdge = ((edge == OEMinYEdge) ? OEMaxYEdge : OEMinYEdge);
                 frame.origin       = originForEdge(newEdge);
 
                 if((NSMinY(frame) < NSMinY(screenFrame)) || (NSMaxY(frame) > NSMaxY(screenFrame)))
                 {
                     // TODO: Make view smaller
-                    NSLog(@"Make view smaller");
+                    NSLog(@"TODO: Make view smaller");
                 }
                 else
                 {
