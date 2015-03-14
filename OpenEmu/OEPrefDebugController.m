@@ -198,6 +198,7 @@ NSString * const OptionsKey = @"options";
                               Button(@"Remove untracked artwork files", @selector(removeUntrackedImageFiles:)),
                               Button(@"Cleanup rom hashes", @selector(cleanupHashes:)),
                               Button(@"Remove duplicated roms", @selector(removeDuplicatedRoms:)),
+                              Button(@"Cancel cover sync for all games", @selector(cancelCoverArtSync:)),
                               Label(@""),
                               Button(@"Perform Sanity Check on Database", @selector(sanityCheck:)),
                               Label(@""),
@@ -360,7 +361,7 @@ NSString * const OptionsKey = @"options";
         }
     }
 }
-#pragma mark -
+#pragma mark - OpenVGDB Actions
 - (void)updateOpenVGDB:(id)sender
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -379,6 +380,7 @@ NSString * const OptionsKey = @"options";
     [helper cancelUpdate];
 }
 
+#pragma mark - Database actions
 - (void)removeArtworkWithRemoteBacking:(id)sender
 {
     OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
@@ -530,6 +532,19 @@ NSString * const OptionsKey = @"options";
 
     NSLog(@"%ld roms deleted", [romsToDelete count]);
     [context save:nil];
+}
+
+- (IBAction)cancelCoverArtSync:(id)sender
+{
+    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = [database mainThreadContext];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[OEDBGame entityName]];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"status == %d", OEDBGameStatusProcessing]];
+    NSArray *games = [context executeFetchRequest:request error:nil];
+    [games makeObjectsPerformSelector:@selector(setStatus:) withObject:@(OEDBGameStatusOK)];
+    [context save:nil];
+
+    NSLog(@"Cancelled cover art download for %ld games", [games count]);
 }
 
 - (IBAction)sanityCheck:(id)sender

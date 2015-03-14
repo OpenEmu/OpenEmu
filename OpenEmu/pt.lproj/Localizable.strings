@@ -603,3 +603,5 @@
 "Your game finished importing, do you want to play it now?" = "A importação do jogo terminou, deseja jogar agora?";
 
 "Your library was moved sucessfully. OpenEmu must relaunch now!" = "Sua biblioteca foi movida com sucesso.";
+
+"Cancel cover sync for all games" = "Cancel cover sync for all games"; // TODO

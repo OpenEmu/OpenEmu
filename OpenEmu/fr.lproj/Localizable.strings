@@ -603,3 +603,5 @@
 "Your game finished importing, do you want to play it now?" = "L’importation de votre jeu est terminée, voulez-vous y jouer maintenant ?";
 
 "Your library was moved sucessfully." = "Votre bibliothèque a été déplacée avec succès.";
+
+"Cancel cover sync for all games" = "Cancel cover sync for all games"; // TODO
