@@ -750,8 +750,50 @@ NSString * const OptionsKey = @"options";
             [popup addItemWithTitle:[obj objectForKey:LabelKey]];
             [[popup itemAtIndex:idx] setRepresentedObject:[obj objectForKey:ValueKey]];
         }];
+
+        [self OE_setupSelectedItemForPopupButton:popup withKeyDescription:keyDescription];
     }
     return cellView;
+}
+
+- (void)OE_setupSelectedItemForPopupButton:(NSPopUpButton*)button withKeyDescription:(NSDictionary*)keyDescription
+{
+    NSString      *action    = [keyDescription valueForKey:@"action"];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    NSString   *userDefaultsKey = nil;
+    BOOL (^test)(id, id) = NULL;
+
+    if([action isEqualToString:@"changeGameMode:"])
+    {
+        userDefaultsKey = OEGameCoreManagerModePreferenceKey;
+        test = ^BOOL(id obj, id currentValue) {
+            return [[obj representedObject] isEqualToString:currentValue];
+        };
+    }
+    else if([action isEqualToString:@"changeRegion:"])
+    {
+        userDefaultsKey = OERegionKey;
+        test = ^BOOL(id obj, id currentValue) {
+            return [[obj representedObject] intValue] == [currentValue intValue];
+        };
+    }
+
+    id currentValue;
+    __block NSInteger index = 0;
+
+    if(userDefaultsKey && (currentValue = [defaults objectForKey:userDefaultsKey]))
+    {
+        NSArray *itemArray = [button itemArray];
+        [itemArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if(test(obj, currentValue))
+            {
+                index = idx;
+                *stop = YES;
+            }
+        }];
+    }
+    [button selectItemAtIndex:index];
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
