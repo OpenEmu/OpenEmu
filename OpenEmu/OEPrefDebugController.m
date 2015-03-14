@@ -742,6 +742,7 @@ NSString * const OptionsKey = @"options";
         [labelField setStringValue:label];
 
         NSPopUpButton *popup = [[cellView subviews] lastObject];
+        [popup removeAllItems];
         [popup setAction:NSSelectorFromString(action)];
         [popup setTarget:self];
 
