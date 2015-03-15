@@ -385,7 +385,7 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
     else if([type isEqualToString:(NSString*)kUTTypeFileURL])
     {
         OEDBRom *rom = [self defaultROM];
-        NSURL *url = [rom URL];
+        NSURL *url = [[rom URL] absoluteURL];
         return [url pasteboardPropertyListForType:(NSString*)kUTTypeFileURL];
     }
 
