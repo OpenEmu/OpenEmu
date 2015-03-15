@@ -532,6 +532,8 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 #pragma mark - NSDraggingDestination
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
 {
+    if([sender draggingSource] == self) return NSDragOperationNone;
+
     [self OE_generateProposedImageFromPasteboard:[sender draggingPasteboard]];
     NSDragOperation op = [super draggingEntered:sender];
     return op;
@@ -539,6 +541,8 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
+    if([sender draggingSource] == self) return NO;
+
     [self setProposedImage:nil];
     return [super performDragOperation:sender];
 }
@@ -551,6 +555,8 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 
 - (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender
 {
+    if([sender draggingSource] == self) return NSDragOperationNone;
+
     NSDragOperation op = [super draggingUpdated:sender];
     return op;
 }
