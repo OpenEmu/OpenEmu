@@ -739,6 +739,8 @@
 		94962908164F7D9E00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94962907164F7D9E00952A86 /* Controller-Mappings.plist */; };
 		9496290A164F7F7E00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94962909164F7F7E00952A86 /* Controller-Mappings.plist */; };
 		9496290C164F834D00952A86 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9496290B164F834D00952A86 /* Controller-Mappings.plist */; };
+		9499B60B1ABCE1A600276D21 /* controller_lynx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9499B60A1ABCE1A600276D21 /* controller_lynx_mask@2x.png */; };
+		9499B60D1ABCE1B400276D21 /* controller_lynx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9499B60C1ABCE1B400276D21 /* controller_lynx@2x.png */; };
 		94A224341707537F00098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94A2243A1707537F00098DA0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94A224381707537F00098DA0 /* InfoPlist.strings */; };
 		94A224441707539D00098DA0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -2675,6 +2677,8 @@
 		94962907164F7D9E00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94962909164F7F7E00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		9496290B164F834D00952A86 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		9499B60A1ABCE1A600276D21 /* controller_lynx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_lynx_mask@2x.png"; sourceTree = "<group>"; };
+		9499B60C1ABCE1B400276D21 /* controller_lynx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_lynx@2x.png"; sourceTree = "<group>"; };
 		94A224331707537F00098DA0 /* PC Engine.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PC Engine.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94A224371707537F00098DA0 /* PC Engine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PC Engine-Info.plist"; sourceTree = "<group>"; };
 		94A224391707537F00098DA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -5608,6 +5612,8 @@
 				94A2256D17075E9000098DA0 /* lynx_library.png */,
 				94A2256817075E9000098DA0 /* controller_lynx_mask.png */,
 				94A2256917075E9000098DA0 /* controller_lynx.png */,
+				9499B60A1ABCE1A600276D21 /* controller_lynx_mask@2x.png */,
+				9499B60C1ABCE1B400276D21 /* controller_lynx@2x.png */,
 				94A22457170753C800098DA0 /* Lynx-Info.plist */,
 				94A2256C17075E9000098DA0 /* Keyboard-Mappings.plist */,
 				94A2256A17075E9000098DA0 /* Controller-Mappings.plist */,
@@ -7744,12 +7750,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				94A2245A170753C800098DA0 /* InfoPlist.strings in Resources */,
+				9499B60B1ABCE1A600276D21 /* controller_lynx_mask@2x.png in Resources */,
 				94A2256E17075E9000098DA0 /* controller_lynx_mask.png in Resources */,
 				94A2256F17075E9000098DA0 /* controller_lynx.png in Resources */,
 				94A2257017075E9000098DA0 /* Controller-Mappings.plist in Resources */,
 				94A2257117075E9000098DA0 /* Controller-Preferences.plist in Resources */,
 				94A2257217075E9000098DA0 /* Keyboard-Mappings.plist in Resources */,
 				94A2257317075E9000098DA0 /* lynx_library.png in Resources */,
+				9499B60D1ABCE1B400276D21 /* controller_lynx@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
