@@ -9,29 +9,29 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEWSButtonX1</key>
-		<string>{0, 0}</string>
+		<string>{72, 192}</string>
 		<key>OEWSButtonX3</key>
-		<string>{0, 0}</string>
+		<string>{72, 144}</string>
 		<key>OEWSButtonX4</key>
-		<string>{0, 0}</string>
+		<string>{48, 168}</string>
 		<key>OEWSButtonX2</key>
-		<string>{0, 0}</string>
+		<string>{98, 168}</string>
 		<key>OEWSButtonY1</key>
-		<string>{0, 0}</string>
+		<string>{72, 320}</string>
 		<key>OEWSButtonY3</key>
-		<string>{0, 0}</string>
+		<string>{72, 270}</string>
 		<key>OEWSButtonY4</key>
-		<string>{0, 0}</string>
+		<string>{48, 295}</string>
 		<key>OEWSButtonY2</key>
-		<string>{0, 0}</string>
+		<string>{98, 295}</string>
 		<key>OEWSButtonA</key>
-		<string>{0, 0}</string>
+		<string>{458, 170}</string>
 		<key>OEWSButtonB</key>
-		<string>{0, 0}</string>
+		<string>{433, 144}</string>
 		<key>OEWSButtonStart</key>
-		<string>{0, 0}</string>
+		<string>{218, 119}</string>
 		<key>OEWSButtonSound</key>
-		<string>{0, 0}</string>
+		<string>{177, 119}</string>
 	</dict>
 </dict>
 </plist>
