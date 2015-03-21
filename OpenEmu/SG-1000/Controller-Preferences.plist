@@ -9,17 +9,17 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OESG1000ButtonUp</key>
-		<string>{0, 0}</string>
+		<string>{248, 290}</string>
 		<key>OESG1000ButtonDown</key>
-		<string>{0, 0}</string>
+		<string>{248, 240}</string>
 		<key>OESG1000ButtonLeft</key>
-		<string>{0, 0}</string>
+		<string>{220, 262}</string>
 		<key>OESG1000ButtonRight</key>
-		<string>{0, 0}</string>
+		<string>{278, 262}</string>
 		<key>OESG1000Button1</key>
-		<string>{0, 0}</string>
+		<string>{180, 380}</string>
 		<key>OESG1000Button2</key>
-		<string>{0, 0}</string>
+		<string>{320, 380}</string>
 	</dict>
 </dict>
 </plist>
