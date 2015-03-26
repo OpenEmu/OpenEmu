@@ -32,8 +32,17 @@
 
 - (OECanHandleState)canHandleFile:(NSString *)path
 {
-    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-    NSString *dataTrack = [cueSheet dataTrackPath];
+    NSString *dataTrack;
+    if([[[path pathExtension] lowercaseString] isEqualToString:@"ccd"])
+    {
+        OECloneCD *cueSheet = [[OECloneCD alloc] initWithURL:[NSURL fileURLWithPath:path]];
+        dataTrack = [cueSheet dataTrackPath];
+    }
+    else if([[[path pathExtension] lowercaseString] isEqualToString:@"cue"])
+    {
+        OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
+        dataTrack = [cueSheet dataTrackPath];
+    }
 
     NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
     NSLog(@"PSX data track path: %@", dataTrackPath);
@@ -69,9 +78,18 @@
 
 - (NSString *)serialLookupForFile:(NSString *)path
 {
-    // Path is a cuesheet so get the first data track from the file for reading
-    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-    NSString *dataTrack = [cueSheet dataTrackPath];
+    NSString *dataTrack;
+    if([[[path pathExtension] lowercaseString] isEqualToString:@"ccd"])
+    {
+        OECloneCD *cueSheet = [[OECloneCD alloc] initWithURL:[NSURL fileURLWithPath:path]];
+        dataTrack = [cueSheet dataTrackPath];
+    }
+    else if([[[path pathExtension] lowercaseString] isEqualToString:@"cue"])
+    {
+        OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
+        dataTrack = [cueSheet dataTrackPath];
+    }
+
     NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
     
     NSFileHandle *dataTrackFile;

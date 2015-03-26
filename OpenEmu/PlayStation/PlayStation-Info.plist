@@ -257,6 +257,7 @@
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>cue</string>
+		<string>ccd</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
