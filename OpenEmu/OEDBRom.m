@@ -34,6 +34,7 @@
 #import "NSURL+OELibraryAdditions.h"
 
 #import <OpenEmuSystem/OECUESheet.h>
+#import <OpenEmuSystem/OECloneCD.h>
 
 @interface OEDBRom ()
 - (void)OE_calculateHashes;
@@ -356,6 +357,12 @@
             {
                 OECUESheet *sheet = [[OECUESheet alloc] initWithPath:path];
                 NSArray *additionalFileNames = [sheet referencedFileNames];
+                files = [files arrayByAddingObjectsFromArray:additionalFileNames];
+            }
+            else if([[[path pathExtension] lowercaseString] isEqualToString:@"ccd"])
+            {
+                OECloneCD *ccd = [[OECloneCD alloc] initWithURL:url];
+                NSArray *additionalFileNames = [ccd referencedFileNames];
                 files = [files arrayByAddingObjectsFromArray:additionalFileNames];
             }
 

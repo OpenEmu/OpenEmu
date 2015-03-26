@@ -817,6 +817,54 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             }
         }
     }
+    else if((copyToLibrary || organizeLibrary) && [[[url pathExtension] lastPathComponent] isEqualToString:@"ccd"])
+    {
+        NSURL *referencedFilesDirectory = [[self sourceURL] URLByDeletingLastPathComponent];
+        OECloneCD *ccd = [[OECloneCD alloc] initWithURL:url andReferencedFilesDirectory:referencedFilesDirectory];
+        if(ccd == nil)
+        {
+            // TODO: Create user info
+            IMPORTDLog(@"unable to read ccd");
+            NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeInvalidFile userInfo:nil];
+            [self exitWithStatus:OEImportExitErrorFatal error:error];
+            return;
+        }
+
+        if(![ccd allFilesAvailable])
+        {
+            IMPORTDLog(@"img and/or sub files from the ccd are missing!");
+            
+            // TODO: Create user info
+            NSError *error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeAdditionalFiles userInfo:nil];
+            [self exitWithStatus:OEImportExitErrorFatal error:error];
+            return;
+        }
+
+        NSURL *sourceURL = [self sourceURL];
+        NSURL *targetDirectory = [url URLByDeletingLastPathComponent];
+        if(copyToLibrary && ![sourceURL isSubpathOfURL:[database romsFolderURL]])
+        {
+            IMPORTDLog(@"copy to '%@'", targetDirectory);
+            NSError *error = nil;
+            if(![ccd copyReferencedFilesToURL:targetDirectory withError:&error])
+            {
+                IMPORTDLog(@"%@", error);
+                [self exitWithStatus:OEImportExitErrorFatal error:error];
+                return;
+            }
+        }
+        else if(organizeLibrary && [sourceURL isSubpathOfURL:[database romsFolderURL]])
+        {
+            IMPORTDLog(@"move to '%@'", targetDirectory);
+            NSError *error = nil;
+            if(![ccd moveReferencedFilesToURL:targetDirectory withError:&error])
+            {
+                IMPORTDLog(@"%@", error);
+                [self exitWithStatus:OEImportExitErrorFatal error:error];
+                return;
+            }
+        }
+    }
 
 }
 
