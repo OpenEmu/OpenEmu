@@ -45,7 +45,7 @@
 
 - (NSString *)sidebarName
 {
-    return NSLocalizedString(@"Featured Games", @"");
+    return NSLocalizedString(@"Homebrew Games", @"");
 }
 
 - (void)setSidebarName:(NSString *)newName
