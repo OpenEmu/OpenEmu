@@ -286,7 +286,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
                 NSTextField *label = animated([group objectAtIndex:j + 1]);
                 NSRect labelRect = NSIntegralRect(NSMakeRect(leftGap, buttonRect.origin.y - 4, width - leftGap - labelButtonSpacing - buttonWidth, itemHeight));
                 
-                BOOL multiline = [label attributedStringValue].size.width + 5 >= labelRect.size.width;
+                BOOL multiline = [label.stringValue sizeWithAttributes:@{NSFontAttributeName: label.font}].width + 5 >= labelRect.size.width;
                 if(multiline)
                 {
                     labelRect.size.height += 10;
