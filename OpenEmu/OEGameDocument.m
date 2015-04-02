@@ -29,6 +29,7 @@
 #import "OEApplicationDelegate.h"
 #import "OEAudioDeviceManager.h"
 #import "OEBackgroundColorView.h"
+#import "OEBIOSFile.h"
 #import "OECorePickerController.h"
 #import "OECorePlugin.h"
 #import "OECoreUpdater.h"
@@ -691,7 +692,7 @@ typedef enum : NSUInteger
 
 - (void)setupGameWithCompletionHandler:(void(^)(BOOL success, NSError *error))handler;
 {
-    if([self OE_checkRequiredFiles]) return;
+    if(![self OE_checkRequiredFiles]) return;
     
     [self OE_checkGlitches];
     
@@ -1029,48 +1030,13 @@ typedef enum : NSUInteger
 {
     // Check current system plugin for OERequiredFiles and core plugin for OEGameCoreRequiresFiles opt-in
     if ([[[_gameCoreManager plugin] controller] requiredFilesForSystemIdentifier:[_gameSystemController systemIdentifier]] != nil && [[[_gameCoreManager plugin] controller] requiresFilesForSystemIdentifier:[_gameSystemController systemIdentifier]]) {
-        BOOL missingFileStatus = NO;
-        NSSortDescriptor *sortedRequiredFiles = [NSSortDescriptor sortDescriptorWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-        NSArray *validRequiredFiles = [[[[_gameCoreManager plugin] controller] requiredFilesForSystemIdentifier:[_gameSystemController systemIdentifier]] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortedRequiredFiles]];
-        NSMutableString *missingFilesMessage = [[NSMutableString alloc] init];
-        NSMutableString *missingFilesList = [[NSMutableString alloc] init];
-        
-        for(NSDictionary *validRequiredFile in validRequiredFiles)
-        {
-            NSString *biosFilename = [validRequiredFile objectForKey:@"Name"];
-            NSString *biosDescription = [validRequiredFile objectForKey:@"Description"];
-            BOOL biosOptional = [[validRequiredFile objectForKey:@"Optional"] boolValue];
-            NSString *biosPath = [NSString pathWithComponents:@[
-                                                                [NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject],
-                                                                @"OpenEmu", @"BIOS"]];
-            NSString *destFilePath = [biosPath stringByAppendingPathComponent:biosFilename];
-            
-            // Check if the required files exist and are optional
-            if (![[NSFileManager defaultManager] fileExistsAtPath:destFilePath] && !biosOptional)
-            {
-                missingFileStatus = YES;
-                [missingFilesList appendString:[NSString stringWithFormat:@"%@\n\t\"%@\"\n\n", biosDescription, biosFilename]];
-            }
-            
-        }
-        // Alert the user of missing BIOS/system files that are required for the core
-        if (missingFileStatus)
-        {
-            [missingFilesMessage appendString:[NSString stringWithFormat:NSLocalizedString(@"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again.", @"Missing files dialog text"), missingFilesList]];
-            
-            OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(missingFilesMessage, @"")
-                                                   defaultButton:NSLocalizedString(@"OK", @"")
-                                                 alternateButton:NSLocalizedString(@"Learn More", @"")];
-            [alert setHeadlineText:NSLocalizedString(@"Required files are missing.", @"")];
-            if(([alert runModal] == NSAlertAlternateReturn))
-            {
-                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files"]];
-            }
-            
-            return YES;
-        }
+
+        NSArray *validRequiredFiles = [[[_gameCoreManager plugin] controller] requiredFilesForSystemIdentifier:[_gameSystemController systemIdentifier]];
+        OEBIOSFile *biosFile = [[OEBIOSFile alloc] init];
+
+        return [biosFile allRequiredFilesAvailableForSystemIdentifier:validRequiredFiles];
     }
-    return NO;
+    return YES;
 }
 
 - (BOOL)OE_checkGlitches

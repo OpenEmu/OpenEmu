@@ -35,6 +35,7 @@
 #import "NSString+OEAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
+#import "OEBIOSFile.h"
 
 #import "OEPreferencesController.h"
 
@@ -156,77 +157,8 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
 
 - (BOOL)importBIOSFile:(NSURL*)url
 {
-    BOOL success = NO;
-
-    if([url checkResourceIsReachableAndReturnError:nil])
-    {
-        NSString *md5 = nil;
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSString      *biosPath = [NSString pathWithComponents:@[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"BIOS"]];
-
-        NSError  *error              = nil;
-        NSDictionary *dictionary = [url resourceValuesForKeys:@[NSURLFileSizeKey] error:&error];
-        if(!dictionary)
-        {
-            DLog(@"Something is wrong with this file, could not read its size");
-            return NO;
-        }
-
-        NSUInteger fileSize = [[dictionary objectForKey:NSURLFileSizeKey] unsignedIntegerValue];
-
-        // Copy known BIOS / System Files to BIOS folder
-        for(id validFile in [OECorePlugin requiredFiles])
-        {
-            NSString  *biosSystemFileName = [validFile valueForKey:@"Name"];
-            NSString  *biosSystemFileMD5  = [validFile valueForKey:@"MD5"];
-            NSUInteger biosSystemFileSize = (NSUInteger)[[validFile valueForKey:@"Size"] integerValue];
-
-            NSString *destination = [biosPath stringByAppendingPathComponent:biosSystemFileName];
-            NSURL    *desitionationURL = [NSURL fileURLWithPath:destination];
-            if([desitionationURL checkResourceIsReachableAndReturnError:nil])
-            {
-                success = YES; // already imported
-                continue;
-            }
-
-            // compare file size
-            if(fileSize != biosSystemFileSize)
-            {
-                continue;
-            }
-
-            // compare md5 hash
-            if(!md5 && ![fileManager hashFileAtURL:url md5:&md5 crc32:nil error:&error])
-            {
-                DLog(@"Could not hash bios file at %@", url);
-                DLog(@"%@", error);
-                return NO;
-            }
-
-            if(![md5 caseInsensitiveCompare:biosSystemFileMD5] == NSOrderedSame)
-            {
-                continue;
-            }
-
-            if(![fileManager createDirectoryAtURL:[NSURL fileURLWithPath:biosPath] withIntermediateDirectories:YES attributes:nil error:&error])
-            {
-                DLog(@"Could not create directory before copying bios at %@", url);
-                NSLog(@"%@", error);
-                error = nil;
-                continue;
-            }
-
-            if(![fileManager copyItemAtURL:url toURL:[NSURL fileURLWithPath:destination] error:&error])
-            {
-                DLog(@"Could not copy bios file %@ to %@", url, destination);
-                DLog(@"%@", error);
-                continue;
-            }
-
-            success = YES;
-        }
-    }
-    return success;
+    OEBIOSFile *biosFile = [[OEBIOSFile alloc] init];
+    return [biosFile checkIfBIOSFileAndImportAtURL:url];
 }
 
 #pragma mark - Table View
@@ -306,7 +238,8 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
         NSString *name = [item objectForKey:@"Name"];
         NSNumber *size = [item objectForKey:@"Size"];
 
-        BOOL available = [self isBIOSFileAvailable:item];
+        OEBIOSFile *biosFile = [[OEBIOSFile alloc] init];
+        BOOL available = [biosFile isBIOSFileAvailable:item];
         NSString *imageName = available ? @"bios_found" : @"bios_missing";
         NSImage  *image     = [NSImage imageNamed:imageName];
 

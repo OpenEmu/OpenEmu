@@ -39,6 +39,7 @@
 #import "OEDBRom.h"
 #import "OEDBCollection.h"
 #import "OEDBSaveState.h"
+#import "OEBIOSFile.h"
 
 NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
@@ -179,54 +180,8 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
 + (BOOL)isBiosFileAtURL:(NSURL*)url
 {
-    NSString *md5 = nil;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString      *biosPath = [NSString pathWithComponents:@[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"BIOS"]];
-
-    // Copy known BIOS / System Files to BIOS folder
-    for(id validFile in [OECorePlugin requiredFiles])
-    {
-        NSString *biosSystemFileName = [validFile valueForKey:@"Name"];
-        NSString *biosSystemFileMD5  = [validFile valueForKey:@"MD5"];
-        NSString *biosFilename       = [url lastPathComponent];
-        NSError  *error              = nil;
-
-        if([biosFilename caseInsensitiveCompare:biosSystemFileName] == NSOrderedSame)
-        {
-            IMPORTDLog(@"File seems to be a bios at %@", url);
-
-            NSString      *destination = [biosPath stringByAppendingPathComponent:biosFilename];
-
-            if(!md5 && ![fileManager hashFileAtURL:url md5:&md5 crc32:nil error:&error])
-            {
-                IMPORTDLog(@"Could not hash bios file at %@", url);
-                IMPORTDLog(@"%@", error);
-            }
-            
-            if(![md5 caseInsensitiveCompare:biosSystemFileMD5] == NSOrderedSame)
-            {
-                IMPORTDLog(@"Could not match hashes of bios file %@ with db %@", md5, biosSystemFileMD5);
-                IMPORTDLog(@"%@", error);
-                return NO;
-            }
-
-            if(![fileManager createDirectoryAtURL:[NSURL fileURLWithPath:biosPath] withIntermediateDirectories:YES attributes:nil error:&error])
-            {
-                IMPORTDLog(@"Could not create directory before copying bios at %@", url);
-                IMPORTDLog(@"%@", error);
-                error = nil;
-            }
-
-            if(![fileManager copyItemAtURL:url toURL:[NSURL fileURLWithPath:destination] error:&error])
-            {
-                DLog(@"Could not copy bios file %@ to %@", url, destination);
-                IMPORTDLog(@"%@", error);
-            }
-
-            return YES;
-        }
-    }
-    return NO;
+    OEBIOSFile *biosFile = [[OEBIOSFile alloc] init];
+    return [biosFile checkIfBIOSFileAndImportAtURL:url];
 }
 
 + (BOOL)OE_isInvalidExtensionAtURL:(NSURL *)url

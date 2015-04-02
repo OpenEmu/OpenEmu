@@ -272,4 +272,17 @@ NSString *const OEDownloadRomWarningSupperssionKey    = @"OEDownloadRomWarningSu
     return alert;
 }
 
++ (id)missingBIOSFilesAlert:(NSString*)missingFilesList
+{
+    NSMutableString *missingFilesMessage = [[NSMutableString alloc] init];
+    [missingFilesMessage appendString:[NSString stringWithFormat:NSLocalizedString(@"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again.", @"Missing files dialog text"), missingFilesList]];
+
+    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(missingFilesMessage, @"")
+                                           defaultButton:NSLocalizedString(@"OK", @"")
+                                         alternateButton:NSLocalizedString(@"Learn More", @"")];
+    [alert setHeadlineText:NSLocalizedString(@"Required files are missing.", @"")];
+
+    return alert;
+}
+
 @end

@@ -703,6 +703,7 @@
 		94454F31178B4ABA006C057B /* Virtual Boy.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224831707541E00098DA0 /* Virtual Boy.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		94525EE217A9A778003CB1A2 /* OESega32XSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94525EE117A9A778003CB1A2 /* OESega32XSystemController.m */; };
 		94539B00187D09B100CD1BA9 /* Pixellate.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94539AFD187D096C00CD1BA9 /* Pixellate.cg */; };
+		9453E3821ACBBADD004F42AD /* OEBIOSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9453E3811ACBBADD004F42AD /* OEBIOSFile.m */; };
 		945E42FC1517F2B500057D08 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		945E43021517F2B500057D08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 945E43001517F2B500057D08 /* InfoPlist.strings */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
@@ -2648,6 +2649,8 @@
 		94525EE017A9A778003CB1A2 /* OESega32XSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESega32XSystemController.h; sourceTree = "<group>"; };
 		94525EE117A9A778003CB1A2 /* OESega32XSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESega32XSystemController.m; sourceTree = "<group>"; };
 		94539AFD187D096C00CD1BA9 /* Pixellate.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = Pixellate.cg; sourceTree = "<group>"; };
+		9453E3801ACBBADD004F42AD /* OEBIOSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBIOSFile.h; sourceTree = "<group>"; };
+		9453E3811ACBBADD004F42AD /* OEBIOSFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBIOSFile.m; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E43011517F2B500057D08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -5157,6 +5160,8 @@
 		83C09355166787BC00E52265 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				9453E3801ACBBADD004F42AD /* OEBIOSFile.h */,
+				9453E3811ACBBADD004F42AD /* OEBIOSFile.m */,
 				94F6CB7A16DD727600CD48A4 /* OECheats.h */,
 				94F6CB7B16DD727600CD48A4 /* OECheats.m */,
 			);
@@ -8349,6 +8354,7 @@
 				83DDEE83156CDEEB009EB43D /* NSView+FadeImage.m in Sources */,
 				83DDEE87156CE2F0009EB43D /* OEFadeView.m in Sources */,
 				8363A430193C954100F18425 /* OEGameCollectionViewController.m in Sources */,
+				9453E3821ACBBADD004F42AD /* OEBIOSFile.m in Sources */,
 				83F4700C15750497001931BD /* OEGameScannerViewController.m in Sources */,
 				8337393215BFD24A00D83D2F /* OESystemPicker.m in Sources */,
 				8337393815BFD87900D83D2F /* OELibraryToolbarView.m in Sources */,

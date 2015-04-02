@@ -60,4 +60,6 @@ extern NSString *const OEGameCoreGlitchesSuppressionKey;
 + (id)renameSpecialStateAlert;
 
 + (id)romDownloadRequiredAlert:(NSString*)name server:(NSString*)server;
+
++ (id)missingBIOSFilesAlert:(NSString*)missingFilesList;
 @end
