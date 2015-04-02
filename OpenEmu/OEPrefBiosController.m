@@ -145,16 +145,6 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     return [NSString stringWithFormat:@"%ld %@", size, [units objectAtIndex:unitIdx]];
 }
 
-- (BOOL)isBIOSFileAvailable:(NSDictionary*)file
-{
-    NSString *fileName = [file objectForKey:@"Name"];
-
-    NSString      *biosPath = [NSString pathWithComponents:@[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"BIOS"]];
-    NSString      *destination = [biosPath stringByAppendingPathComponent:fileName];
-    NSURL *url = [NSURL fileURLWithPath:destination];
-    return [url checkResourceIsReachableAndReturnError:nil];
-}
-
 - (BOOL)importBIOSFile:(NSURL*)url
 {
     OEBIOSFile *biosFile = [[OEBIOSFile alloc] init];
