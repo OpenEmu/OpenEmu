@@ -692,11 +692,17 @@ typedef enum : NSUInteger
 
 - (void)setupGameWithCompletionHandler:(void(^)(BOOL success, NSError *error))handler;
 {
-    if(![self OE_checkRequiredFiles]) return;
+    if(![self OE_checkRequiredFiles]){
+        handler(NO, nil);
+        return;
+    }
     
     [self OE_checkGlitches];
     
-    if(_emulationStatus != OEEmulationStatusNotSetup) return;
+    if(_emulationStatus != OEEmulationStatusNotSetup) {
+        handler(NO, nil);
+        return;
+    }
 
     [_gameCoreManager loadROMWithCompletionHandler:
      ^(id systemClient)
