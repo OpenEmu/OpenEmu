@@ -40,6 +40,11 @@
     [NSWindow registerWindowClassForCustomThemeFrameDrawing:[OEMainWindow class]];
 }
 
+- (void)awakeFromNib
+{
+    [self setBackgroundColor:[NSColor blackColor]];
+}
+
 - (BOOL)drawsAboveDefaultThemeFrame
 {
     return YES;
