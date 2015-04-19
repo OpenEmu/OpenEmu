@@ -160,9 +160,10 @@
     // Ensure our context is set for clients not able to use CGL Macros.
     CGLSetCurrentContext(cgl_ctx);
     
-    const GLubyte *vendor = glGetString(GL_VENDOR);
-    const GLubyte *renderer = glGetString(GL_RENDERER);
-    _hasSlowClientStorage = strstr((const char*)vendor, "Intel") || strstr((const char*)renderer, "NVIDIA GeForce 9600M GT OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce 8600M GT OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce GT 330M OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce 320M OpenGL Engine") != NULL;
+    //const GLubyte *vendor = glGetString(GL_VENDOR);
+    //const GLubyte *renderer = glGetString(GL_RENDERER);
+    //_hasSlowClientStorage = strstr((const char*)vendor, "Intel") || strstr((const char*)renderer, "NVIDIA GeForce 9600M GT OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce 8600M GT OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce GT 330M OpenGL Engine") || strstr((const char*)renderer, "NVIDIA GeForce 320M OpenGL Engine") != NULL;
+    _hasSlowClientStorage = YES;
 }
 
 - (void)setupIOSurface
