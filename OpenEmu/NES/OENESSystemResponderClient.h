@@ -43,5 +43,10 @@ typedef enum _OENESButton
 
 - (oneway void)didPushNESButton:(OENESButton)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleaseNESButton:(OENESButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didTriggerGunAtPoint:(OEIntPoint)point;
+- (oneway void)didReleaseTrigger;
+- (oneway void)mouseMovedAtPoint:(OEIntPoint)point;
+- (oneway void)rightMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)rightMouseUp;
 
 @end

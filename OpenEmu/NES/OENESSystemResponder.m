@@ -45,4 +45,29 @@
     [[self client] didReleaseNESButton:(OENESButton)[aKey key] forPlayer:[aKey player]];
 }
 
+- (void)mouseDownAtPoint:(OEIntPoint)aPoint
+{
+    [[self client] didTriggerGunAtPoint:aPoint];
+}
+
+- (void)mouseUpAtPoint
+{
+    [[self client] didReleaseTrigger];
+}
+
+- (void)mouseMovedAtPoint:(OEIntPoint)aPoint
+{
+    [[self client] mouseMovedAtPoint:aPoint];
+}
+
+- (void)rightMouseDownAtPoint:(OEIntPoint)aPoint
+{
+    [[self client] rightMouseDownAtPoint:aPoint];
+}
+
+- (void)rightMouseUpAtPoint
+{
+    [[self client] rightMouseUp];
+}
+
 @end
