@@ -31,7 +31,7 @@
 @interface OEToolbarView ()
 - (void)OE_commonToolbarViewInit;
 @property(strong) NSMutableArray *items;
-@end 
+@end
 
 @implementation OEToolbarView
 @synthesize items;
@@ -42,7 +42,7 @@
     {
         [self OE_commonToolbarViewInit];
     }
-    
+
     return self;
 }
 
@@ -52,7 +52,7 @@
     {
         [self OE_commonToolbarViewInit];
     }
-    
+
     return self;
 }
 
@@ -104,65 +104,72 @@
     return [[self items] indexOfObject:item];
 }
 #pragma mark -
-- (BOOL)isOpaque{
+- (BOOL)isOpaque
+{
     return NO;
 }
 
-- (void)drawRect:(NSRect)dirtyRect{
+- (void)drawRect:(NSRect)dirtyRect
+{
     [super drawRect:dirtyRect];
-        
+
     float itemSpacing = 5;
     float titlePadding = 8;
     float imageSideLength = 36;
     float imageTitleSpacing = 4;
-    
+
     NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:4.0 size:11.0];
     NSColor *textColor = [NSColor blackColor];
     NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.45]];
     [shadow setShadowBlurRadius:1];
     [shadow setShadowOffset:NSMakeSize(0, -1)];
-    
+
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     [ps setAlignment:NSCenterTextAlignment];
-    
+
     NSMutableDictionary *textAttributes = [NSMutableDictionary dictionary];
     [textAttributes setObject:font forKey:NSFontAttributeName];
     [textAttributes setObject:shadow forKey:NSShadowAttributeName];
     [textAttributes setObject:textColor forKey:NSForegroundColorAttributeName];
     [textAttributes setObject:ps forKey:NSParagraphStyleAttributeName];
-    
+
     float x = itemSpacing;
-    for(OEToolbarItem *anItem in [self items]){
+    for(OEToolbarItem *anItem in [self items])
+    {
         x += titlePadding;
-        
+
         NSAttributedString *title = [[NSAttributedString alloc] initWithString:anItem.title attributes:textAttributes];
         NSRect titleRect = NSMakeRect(x, 6, title.size.width, title.size.height);
         NSRect imageRect = NSMakeRect(x+(title.size.width-imageSideLength)/2, titleRect.origin.y+titleRect.size.height+imageTitleSpacing-3, imageSideLength, imageSideLength);
         imageRect.origin.x = roundf(imageRect.origin.x);
 
-        if(NSEqualRects(anItem.itemRect, NSZeroRect)){
+        if(NSEqualRects(anItem.itemRect, NSZeroRect))
+        {
             anItem.itemRect = NSMakeRect(x-titlePadding, 1, title.size.width+2*titlePadding, 54);
         }
-        
-        if(anItem == selectedItem){
+
+        if(anItem == selectedItem)
+        {
             NSImage *selectionHighlight = [[OETheme sharedTheme] imageForKey:@"tab_selector" forState:OEThemeStateDefault];
             [selectionHighlight drawInRect:anItem.itemRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
         }
-        
+
         NSImage *icon = anItem.icon;
 
-        NSPoint mouseLocationOnScreen = [NSEvent mouseLocation];
-        NSPoint mouseLocationOnWindow = [[self window] convertRectFromScreen:(NSRect){mouseLocationOnScreen, {0,0}}].origin;
-        NSPoint mouseLocationOnView   = [self convertPoint:mouseLocationOnWindow fromView:nil];
+        if([NSEvent pressedMouseButtons] & NSLeftMouseDown)
+        {
+            NSPoint mouseLocationOnScreen = [NSEvent mouseLocation];
+            NSPoint mouseLocationOnWindow = [[self window] convertRectFromScreen:(NSRect){mouseLocationOnScreen, {0,0}}].origin;
+            NSPoint mouseLocationOnView   = [self convertPoint:mouseLocationOnWindow fromView:nil];
 
-        if(anItem == highlightedItem && NSPointInRect(mouseLocationOnView, anItem.itemRect)){
-            icon = [icon imageForHighlight];
+            if(anItem == highlightedItem && NSPointInRect(mouseLocationOnView, anItem.itemRect)){
+                icon = [icon imageForHighlight];
+            }
         }
-        
         [icon drawInRect:imageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
         [anItem.title drawInRect:titleRect withAttributes:textAttributes];
-        
+
         x += title.size.width;
         x += titlePadding;
         x += itemSpacing;
@@ -243,7 +250,7 @@
     NSRect viewFrame   = [self frame];
 
     return (NSRect){.origin = { NSMinX(windowFrame), NSMaxY(windowFrame)-NSHeight(viewFrame) },
-                    .size=viewFrame.size };
+        .size=viewFrame.size };
 }
 
 - (id)accessibilityParent
@@ -279,7 +286,7 @@
 
 
     return (NSRect){ .origin = NSMakePoint(NSMinX(viewFrame)+NSMinX(itemRect), NSMinY(viewFrame)+NSMinY(itemRect)),
-                     .size   = itemRect.size };
+        .size   = itemRect.size };
 }
 
 - (NSArray*)accessibilityChildren
