@@ -620,7 +620,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
         const static NSTimeInterval fadeIn  = 0.25;
         const static NSTimeInterval visible = 1.25;
         const static NSTimeInterval fadeOut = 0.25;
-        if(difference < fadeIn+visible+fadeOut && NO)
+        if(difference < fadeIn+visible+fadeOut)
         {
             double alpha = 1.0;
             if(difference < visible)
