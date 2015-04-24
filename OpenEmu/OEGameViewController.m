@@ -308,15 +308,8 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     if(OEIntSizeIsEmpty(_screenSize) || OEIntSizeIsEmpty(_aspectSize))
         return NSMakeSize(400, 300);
 
-    CGFloat wr = (CGFloat) _aspectSize.width / _screenSize.width;
-    CGFloat hr = (CGFloat) _aspectSize.height / _screenSize.height;
-    CGFloat ratio = MAX(hr, wr);
-    NSSize scaled = NSMakeSize((wr / ratio), (hr / ratio));
-    
-    CGFloat halfw = scaled.width;
-    CGFloat halfh = scaled.height;
-    
-    return NSMakeSize(_screenSize.width / halfh, _screenSize.height / halfw);
+    NSSize corrected = [_gameView correctScreenSize:_screenSize forAspectSize:_aspectSize returnVertices:NO];
+    return corrected;
 }
 
 #pragma mark - Private Methods

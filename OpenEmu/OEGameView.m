@@ -630,11 +630,8 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
             const OEIntSize   aspectSize     = _gameAspectSize;
             const NSSize      viewSize       = [self bounds].size;
-            const float       wr             = viewSize.width / aspectSize.width;
-            const float       hr             = viewSize.height / aspectSize.height;
-            const OEIntSize   textureIntSize = (wr > hr ?
-                                                (OEIntSize){hr * aspectSize.width, viewSize.height      } :
-                                                (OEIntSize){viewSize.width      , wr * aspectSize.height});
+            const OEIntSize viewIntSize = (OEIntSize){viewSize.width, viewSize.height};
+            const OEIntSize textureIntSize = [self OE_correctTextureSize:viewIntSize forAspectSize:aspectSize];
             const NSRect  bounds = [self bounds];
 
             const NSSize  imageSize   = {56.0, 56.0};
@@ -956,14 +953,9 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     glClientActiveTexture(GL_TEXTURE0);
     glColor4f(1.0, 1.0, 1.0, 1.0);
 
-    // calculate aspect ratio
-    NSSize scaled;
-    OEIntSize aspectSize = _gameAspectSize;
-    float wr = aspectSize.width / self.frame.size.width;
-    float hr = aspectSize.height / self.frame.size.height;
-    float ratio;
-    ratio = (hr < wr ? wr : hr);
-    scaled = NSMakeSize(( wr / ratio), (hr / ratio));
+    // adjust for aspect ratio
+    OEIntSize frameSize = (OEIntSize){self.frame.size.width, self.frame.size.height};
+    NSSize scaled = [self correctScreenSize:frameSize forAspectSize:_gameAspectSize returnVertices:YES];
 
     float halfw = scaled.width;
     float halfh = scaled.height;
@@ -1150,11 +1142,8 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     const OEIntSize   aspectSize     = _gameAspectSize;
     const CGFloat     scaleFactor    = [[self window] backingScaleFactor];
     const NSSize      frameSize      = OEScaleSize([self bounds].size, scaleFactor);
-    const float       wr             = frameSize.width / aspectSize.width;
-    const float       hr             = frameSize.height / aspectSize.height;
-    const OEIntSize   textureIntSize = (wr > hr ?
-                                        (OEIntSize){hr * aspectSize.width, frameSize.height      } :
-                                        (OEIntSize){frameSize.width      , wr * aspectSize.height});
+    const OEIntSize   frameIntSize   = (OEIntSize){frameSize.width, frameSize.height};
+    const OEIntSize   textureIntSize = [self OE_correctTextureSize:frameIntSize forAspectSize:aspectSize];
     const NSSize      textureNSSize  = NSSizeFromOEIntSize(textureIntSize);
 
     NSBitmapImageRep *imageRep       = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
@@ -1241,13 +1230,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
     if(!disableAspectRatioCorrection)
     {
-        // calculate aspect ratio
-        OEIntSize aspectSize = _gameAspectSize;
-        float     wr         = imageSize.width  / aspectSize.width;
-        float     hr         = imageSize.height / aspectSize.height;
-
-        if(wr > hr) imageSize.height = imageSize.width  * aspectSize.height / aspectSize.width;
-        else        imageSize.width  = imageSize.height * aspectSize.width  / aspectSize.height;
+        imageSize = [self correctScreenSize:_gameScreenSize forAspectSize:_gameAspectSize returnVertices:NO];
     }
     
     NSImage *screenshotImage = [[NSImage alloc] initWithSize:imageSize];
@@ -1320,6 +1303,27 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 - (void)setAspectSize:(OEIntSize)newAspectSize
 {
     _gameAspectSize = newAspectSize;
+}
+
+- (NSSize)correctScreenSize:(OEIntSize)screenSize forAspectSize:(OEIntSize)aspectSize returnVertices:(BOOL)flag
+{
+    // calculate aspect ratio
+    CGFloat wr = (CGFloat) aspectSize.width / screenSize.width;
+    CGFloat hr = (CGFloat) aspectSize.height / screenSize.height;
+    CGFloat ratio = MAX(hr, wr);
+    NSSize scaled = NSMakeSize((wr / ratio), (hr / ratio));
+
+    CGFloat halfw = scaled.width;
+    CGFloat halfh = scaled.height;
+
+    NSSize corrected;
+
+    if(flag)
+        corrected = NSMakeSize(halfw, halfh);
+    else
+        corrected = NSMakeSize(screenSize.width / halfh, screenSize.height / halfw);
+
+    return corrected;
 }
 
 #pragma mark - Responder
@@ -1521,6 +1525,18 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+- (OEIntSize)OE_correctTextureSize:(OEIntSize)textureSize forAspectSize:(OEIntSize)aspectSize
+{
+    // calculate aspect ratio
+    float     wr             = textureSize.width / aspectSize.width;
+    float     hr             = textureSize.height / aspectSize.height;
+    OEIntSize textureIntSize = (wr > hr ?
+                                (OEIntSize){hr * aspectSize.width, textureSize.height      } :
+                                (OEIntSize){textureSize.width    , wr * aspectSize.height  });
+
+    return textureIntSize;
 }
 
 @end

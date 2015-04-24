@@ -59,6 +59,8 @@ extern NSString * const OEDefaultVideoFilterKey;
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 
 - (void)showQuickSaveNotification;
+
+- (NSSize)correctScreenSize:(OEIntSize)screenSize forAspectSize:(OEIntSize)aspectSize returnVertices:(BOOL)flag;
 @end
 
 #ifdef SYPHON_SUPPORT
