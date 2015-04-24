@@ -1379,7 +1379,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     CGPoint location = [anEvent locationInWindow];
     location = [self convertPoint:location fromView:nil];
     location.y = frame.size.height - location.y;
-    OEIntSize screenSize = _gameScreenSize;
+    NSSize screenSize = [self correctScreenSize:_gameScreenSize forAspectSize:_gameAspectSize returnVertices:NO];
 
     CGRect screenRect = { .size.width = screenSize.width, .size.height = screenSize.height };
 
