@@ -157,7 +157,7 @@
         double progress = _downloadedLength / (double)_totalDownloadLength;
 
         // Try reducing number callbacks
-        if(fabsf(progress-_progress) > 0.01)
+        if(fabs(progress-_progress) > 0.01)
             [self setProgress:progress];
     }
 }

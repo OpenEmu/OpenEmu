@@ -221,8 +221,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [self bind:@"logHIDEvents" toObject:sudc withKeyPath:@"values.logsHIDEvents" options:nil];
     [self bind:@"logKeyboardEvents" toObject:sudc withKeyPath:@"values.logsHIDEventsNoKeyboard" options:nil];
 
-    _unhandledEventsMonitor =
-    [[OEDeviceManager sharedDeviceManager] addUnhandledEventMonitorHandler:
+    _unhandledEventsMonitor = [[OEDeviceManager sharedDeviceManager] addUnhandledEventMonitorHandler:
      ^(OEDeviceHandler *handler, OEHIDEvent *event)
      {
          if(![NSApp isActive] && [event type] == OEHIDEventTypeKeyboard) return;

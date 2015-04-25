@@ -89,6 +89,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     return self;
 }
 
+
 - (void)awakeFromNib
 {
     NSWindow *window = [self window];
@@ -97,7 +98,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
     [[self libraryController] setDelegate:self];
 
-    [window setWindowController:self];
     [window setDelegate:self];
 
     // Setup Window behavior
@@ -142,6 +142,12 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 {
     return @"MainWindow";
 }
+
+- (void)windowDidLoad
+{
+    NSLog(@"window did load");
+}
+
 #pragma mark -
 // ugly hack, remove
 - (void)startGame:(OEDBGame*)game
