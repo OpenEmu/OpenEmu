@@ -621,14 +621,10 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
     
     NSTextField     *labelField     = [[NSTextField alloc] initWithFrame:NSZeroRect];
     OEControlsKeyLabelCell *labelFieldCell = [[OEControlsKeyLabelCell alloc] init];
+    [labelFieldCell setFontFamily:fontFamily];
 
     [labelField setCell:labelFieldCell];
     [labelField setStringValue:aLabel];
-
-    if(fontFamily != nil)
-    {
-        [labelFieldCell setFontFamily:fontFamily];
-    }
 
     [currentGroup addObject:labelField];
 }

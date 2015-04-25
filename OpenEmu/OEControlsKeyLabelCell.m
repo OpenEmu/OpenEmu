@@ -32,7 +32,7 @@
 {
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     
-    [self setFontFamily:@"Lucida Grande"];
+    [self setFontFamily:nil];
 
     NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowBlurRadius:1.0];
@@ -54,15 +54,16 @@
 
 - (void)setFontFamily:(NSString *)aFontFamily
 {
-    if(aFontFamily != nil)
-    {
-        NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:aFontFamily traits:NSFontBoldTrait weight:9.0 size:11.0];
-        [self setFont:font];
-        _fontFamily = aFontFamily;
-    }
-    else
-        [self setFontFamily:@"Lucida Grande"];
+    NSString * const defaultFontFamily = @"Lucida Grande";
 
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    NSFont *font = [fontManager fontWithFamily:aFontFamily traits:NSFontBoldTrait weight:9.0 size:11.0];
+    if(!font) {
+        font = [fontManager fontWithFamily:defaultFontFamily traits:NSFontBoldTrait weight:9.0 size:11.0];
+    }
+
+    [self setFont:font];
+    _fontFamily = aFontFamily;
 }
 
 @end
