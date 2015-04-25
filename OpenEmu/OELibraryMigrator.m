@@ -29,6 +29,7 @@
 #import "OELibraryDatabase.h"
 #import "NSURL+OELibraryAdditions.h"
 #import "OEDBScreenshot.h"
+#import "ALIterativeMigrator.h"
 NSString *const OEMigrationErrorDomain = @"OEMigrationErrorDomain";
 
 @interface OELibraryMigrator ()
@@ -48,91 +49,27 @@ NSString *const OEMigrationErrorDomain = @"OEMigrationErrorDomain";
 #pragma mark -
 - (BOOL)runMigration:(NSError *__autoreleasing *)outError
 {
-    NSBundle *bundle = [NSBundle mainBundle];
-    NSDictionary *sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType
-                                                                                              URL:_storeURL
-                                                                                            error:outError];
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"OEDatabase" withExtension:@"momd"];
     NSManagedObjectModel *destinationModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    if(sourceMetadata == nil)
-        return NO;
 
-    if([destinationModel isConfiguration:nil compatibleWithStoreMetadata:sourceMetadata])
+    NSArray* modelNames = @[@"OEDatabase",
+                            @"OEDatabase 0.2",
+                            @"OEDatabase 0.3",
+                            @"OEDatabase 0.4",
+                            @"OEDatabase 0.5",
+                            @"OEDatabase 1.0",
+                            @"OEDatabase 1.1",
+                            @"OEDatabase 1.2",
+                            @"OEDatabase 1.3"];
+    if (![ALIterativeMigrator iterativeMigrateURL:_storeURL ofType:NSSQLiteStoreType toModel:destinationModel orderedModelNames:modelNames error:outError])
     {
-        DLog(@"No migration needed");
-        return YES;
-    }
+        if(outError)
+            DLog(@"Error migrating to latest model: %@\n %@", *outError, [*outError userInfo]);
 
-    NSManagedObjectModel *sourceModel = [NSManagedObjectModel mergedModelFromBundles:@[bundle] forStoreMetadata:sourceMetadata];
-    if(sourceModel == nil)
-    {
-        DLog(@"Can't find souce model");
-        return NO;
-    }
-
-    NSMappingModel *mappingModel = [NSMappingModel mappingModelFromBundles:@[bundle] forSourceModel:sourceModel destinationModel:destinationModel];
-    if(mappingModel == nil)
-    {
-        DLog(@"No mapping model, try to infer one");
-        mappingModel = [NSMappingModel inferredMappingModelForSourceModel:sourceModel destinationModel:destinationModel error:outError];
-    }
-
-    if(mappingModel == nil)
-    {
-        DLog(@"Still no mapping model");
         return NO;
     }
 
-    // create urls for migration
-    NSString *fileExtension = [_storeURL pathExtension];
-    NSURL *temporaryDestination = [_storeURL URLByDeletingPathExtension];
-    NSString *fileName = [temporaryDestination lastPathComponent];
-    NSString *temporaryFileName = [NSString stringWithFormat:@"Temporary %@.%@", fileName, fileExtension];
-    temporaryDestination = [[_storeURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:temporaryFileName];
-
-    NSString *previousStoreFileName = [NSString stringWithFormat:@"Previous %@.%@", fileName, fileExtension];
-    NSURL *previousStoreURL = [[_storeURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:previousStoreFileName];
-
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    [fileManager removeItemAtURL:temporaryDestination error:nil];
-
-    NSMigrationManager *manager = [[NSMigrationManager alloc] initWithSourceModel:sourceModel destinationModel:destinationModel];
-
-    OEMigrationWindowController *windowController = [[OEMigrationWindowController alloc] initWithMigrationManager:manager];
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        [windowController showWindow:self];
-        [[windowController indicator] setIndeterminate:YES];
-        [[windowController indicator] startAnimation:self];
-    });
-
-    BOOL(^cleanup)(BOOL) = ^(BOOL success){
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [fileManager removeItemAtURL:temporaryDestination error:nil];
-            [windowController close];
-        });
-        return success;
-    };
-
-    BOOL success = [manager migrateStoreFromURL:_storeURL type:NSSQLiteStoreType options:@{} withMappingModel:mappingModel toDestinationURL:temporaryDestination destinationType:NSSQLiteStoreType destinationOptions:@{} error:outError];
-    if(success == NO)
-    {
-        DLog(@"Migration failed!");
-        return cleanup(NO);
-    }
-
-    [fileManager removeItemAtURL:previousStoreURL error:nil];
-    if(![fileManager moveItemAtURL:_storeURL toURL:previousStoreURL error:outError])
-    {
-        DLog(@"Moving to previous library location failed");
-        return cleanup(NO);
-    }
-    [fileManager removeItemAtURL:_storeURL error:nil];
-    if(![fileManager moveItemAtURL:temporaryDestination toURL:_storeURL error:outError])
-    {
-        DLog(@"Moving to default library location failed");
-        return cleanup(NO);
-    }
-
+    NSDictionary *sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:_storeURL error:outError];
     NSArray *versions = [sourceMetadata objectForKey:NSStoreModelVersionIdentifiersKey];
     versions = [versions sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 
@@ -143,7 +80,7 @@ NSString *const OEMigrationErrorDomain = @"OEMigrationErrorDomain";
     }
 
     DLog(@"Migration Done");
-    return cleanup(YES);
+    return YES;
 }
 
 @end

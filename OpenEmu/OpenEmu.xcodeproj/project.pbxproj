@@ -518,6 +518,7 @@
 		83CDAE9C1A61892900DF964A /* supervision_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CDAE9B1A61892900DF964A /* supervision_library.png */; };
 		83CE3DC314C84EC10036DB28 /* beta_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CE3DC214C84EC10036DB28 /* beta_icon.png */; };
 		83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D175B218FF155700E5ED34 /* OEBlankSlateBackgroundView.m */; };
+		83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D33BD51AEB9ABE0085753B /* ALIterativeMigrator.m */; };
 		83D435F214718891003FE856 /* closed_weblink_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D435F114718890003FE856 /* closed_weblink_arrow.png */; };
 		83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
 		83D94FAF19A4CD2A007583E1 /* OETableCellGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D94FAE19A4CD2A007583E1 /* OETableCellGroupView.m */; };
@@ -1729,7 +1730,6 @@
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmu_Prefix.pch; sourceTree = "<group>"; };
-		3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = OpenEmuQCIcon.icns; sourceTree = "<group>"; };
 		375903750FF82C4000135C45 /* openemuqc_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = openemuqc_pub.pem; sourceTree = "<group>"; };
 		37CC66190FF8379B00226BCB /* config_qc.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config_qc.yaml; sourceTree = "<group>"; };
 		3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OESaveStateQLPlugin.qlgenerator; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2352,6 +2352,8 @@
 		83D175B118FF155700E5ED34 /* OEBlankSlateBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBlankSlateBackgroundView.h; sourceTree = "<group>"; };
 		83D175B218FF155700E5ED34 /* OEBlankSlateBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBlankSlateBackgroundView.m; sourceTree = "<group>"; };
 		83D175B918FF218200E5ED34 /* OEDatabase 1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.2.xcdatamodel"; sourceTree = "<group>"; };
+		83D33BD41AEB9ABE0085753B /* ALIterativeMigrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALIterativeMigrator.h; sourceTree = "<group>"; };
+		83D33BD51AEB9ABE0085753B /* ALIterativeMigrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALIterativeMigrator.m; sourceTree = "<group>"; };
 		83D435F114718890003FE856 /* closed_weblink_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closed_weblink_arrow.png; sourceTree = "<group>"; };
 		83D94FAD19A4CD2A007583E1 /* OETableCellGroupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETableCellGroupView.h; sourceTree = "<group>"; };
 		83D94FAE19A4CD2A007583E1 /* OETableCellGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableCellGroupView.m; sourceTree = "<group>"; };
@@ -3655,29 +3657,30 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				83B867BD171D63C70038988C /* DiskArbitration.framework */,
-				14A9073916FAA0AE005E2635 /* FeedbackReporter.framework */,
-				8CCBC0C8169B323100141631 /* Cg.framework */,
 				3D1D8D811650C22900DBC37D /* Accelerate.framework */,
-				8322D746156A973400FC0E81 /* IOBluetooth.framework */,
-				1B42C66C1429510A004691D7 /* Syphon.framework */,
-				8305267413FBC999006179C6 /* Security.framework */,
-				53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */,
 				53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */,
+				53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */,
+				82DD2B1D1236CF0200B58A8F /* Carbon.framework */,
+				8CCBC0C8169B323100141631 /* Cg.framework */,
 				53D32E3213B95E2800A6ACE0 /* CoreAudio.framework */,
 				53D32E3813B95E6500A6ACE0 /* CoreVideo.framework */,
-				82DD2B1D1236CF0200B58A8F /* Carbon.framework */,
+				83B867BD171D63C70038988C /* DiskArbitration.framework */,
+				14A9073916FAA0AE005E2635 /* FeedbackReporter.framework */,
 				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
 				53439B8613B934DB005C0CC8 /* ImageKit.framework */,
+				8322D746156A973400FC0E81 /* IOBluetooth.framework */,
 				5380E82313B9596500E76DEF /* IOKit.framework */,
 				1BEF2AC311682A9D0090F72B /* IOSurface.framework */,
+				836BC95B1853865D00B6AF26 /* libsqlite3.dylib */,
+				0A9F272116635A1B008B1FB8 /* libz.dylib */,
 				5380E83013B95C7C00E76DEF /* OpenGL.framework */,
-				3887A8961024D796000FC4CF /* QuickLook.framework */,
-				53D32E4513B95F0800A6ACE0 /* Quartz.framework */,
 				53D32E4B13B95F5400A6ACE0 /* QTKit.framework */,
+				53D32E4513B95F0800A6ACE0 /* Quartz.framework */,
+				3887A8961024D796000FC4CF /* QuickLook.framework */,
+				8305267413FBC999006179C6 /* Security.framework */,
+				1B42C66C1429510A004691D7 /* Syphon.framework */,
 				82DE4AEE1026533E007184EB /* UniversalDetector.framework */,
 				82DE4AEF1026533E007184EB /* XADMaster.framework */,
-				0A9F272116635A1B008B1FB8 /* libz.dylib */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -3855,7 +3858,6 @@
 				8308F0ED1862FFEB0046BD8A /* OpenEmu.icns */,
 				C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */,
 				C67A36A90FE7F1F500A665E2 /* OECorePluginIcon.icns */,
-				3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */,
 			);
 			name = "Icons and Graphics";
 			sourceTree = "<group>";
@@ -3931,10 +3933,12 @@
 		1E2F3DB810DEAB370019AA84 /* Migration */ = {
 			isa = PBXGroup;
 			children = (
+				83D33BD41AEB9ABE0085753B /* ALIterativeMigrator.h */,
+				83D33BD51AEB9ABE0085753B /* ALIterativeMigrator.m */,
 				8353EB2715FF63760026E326 /* Mapping Models */,
-				1E4B6B5110DEBBA300B2CD45 /* Sparkle Headers */,
 				1E2F3DB910DEAB4C0019AA84 /* OEVersionMigrationController.h */,
 				1E2F3DBA10DEAB4C0019AA84 /* OEVersionMigrationController.m */,
+				1E4B6B5110DEBBA300B2CD45 /* Sparkle Headers */,
 			);
 			name = Migration;
 			sourceTree = "<group>";
@@ -4055,7 +4059,6 @@
 			children = (
 				83B04E3A196860B800CB985E /* Credits.rtf */,
 				1B32150F14DDD03200C5B50A /* Setup Assistant Animation Resources */,
-				83FA054F13B9DFC20055A520 /* Frameworks */,
 				C68A54E41516AD3C001053F2 /* OEDatabase.xcdatamodeld */,
 				1BEF34741168F8640090F72B /* PLists */,
 				1BEF34731168F8350090F72B /* Icons and Graphics */,
@@ -4073,8 +4076,7 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				836BC95B1853865D00B6AF26 /* libsqlite3.dylib */,
-				C6711810136368330034379A /* Cocoa.framework */,
+				83FA054F13B9DFC20055A520 /* Copied Frameworks */,
 				C6772C081710E9A900ED580A /* OpenEmu */,
 				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
 				C6711812136368330034379A /* Other Frameworks */,
@@ -5226,13 +5228,13 @@
 			name = "Game Scanner";
 			sourceTree = "<group>";
 		};
-		83FA054F13B9DFC20055A520 /* Frameworks */ = {
+		83FA054F13B9DFC20055A520 /* Copied Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				1B48F21716671473004E8ABA /* FeedbackReporter.framework */,
 				83FA054D13B9DF940055A520 /* Sparkle.framework */,
 			);
-			name = Frameworks;
+			name = "Copied Frameworks";
 			sourceTree = "<group>";
 		};
 		8C8AD72F16B5DBA70004D97C /* Blargg's NTSC filter */ = {
@@ -6229,6 +6231,7 @@
 			isa = PBXGroup;
 			children = (
 				C6711813136368330034379A /* AppKit.framework */,
+				C6711810136368330034379A /* Cocoa.framework */,
 				C6711814136368330034379A /* CoreData.framework */,
 				C6711815136368330034379A /* Foundation.framework */,
 			);
@@ -8381,6 +8384,7 @@
 				83D94FAF19A4CD2A007583E1 /* OETableCellGroupView.m in Sources */,
 				2205C378196402B50013C675 /* OELUTTexture.m in Sources */,
 				831C9AD71600971600038D0D /* OEButtonCell.m in Sources */,
+				83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */,
 				831C9ADC1600973B00038D0D /* OEPopUpButton.m in Sources */,
 				83E8927A19748C20004D4489 /* NS(Attributed)String+Geometrics.m in Sources */,
 				831C9ADD1600973B00038D0D /* OEPopUpButtonCell.m in Sources */,
