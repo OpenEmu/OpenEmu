@@ -605,3 +605,15 @@
 "Your library was moved sucessfully." = "Votre bibliothèque a été déplacée avec succès.";
 
 "Cancel cover sync for all games" = "Cancel cover sync for all games"; // TODO
+
+"Filter by:" = "Filter by:"; // TODO  // Search field menu, first item, instructional
+
+"Everything" = "Everything"; // TODO  // Search field menu, search everything item title
+
+"Name" = "Name"; // TODO  // Search field menu, only search names
+
+"Description" = "Description"; // TODO // Search field menu, only search description
+
+"Game Name" = "Game Name"; // TODO // Search field menu, only search game name
+
+"System" = "System"; // TODO // Search field menu, only search system name
