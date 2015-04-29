@@ -44,7 +44,7 @@
 
 "Add To Collection" = "Añadir a la colección";
 
-"Add untracked save states" = "Add untracked save states";/*preferencias secrets*/
+"Add untracked save states" = "Añadir estados guardados no indexados";
 
 "All Games" = "Todos los juegos";
 
@@ -84,7 +84,7 @@
 
 "Bluetooth Not Enabled" = "Bluetooth desactivado";
 
-"Can delete save states" = "Can delete save states";/*preferencias secrets*/
+"Can delete save states" = "Poder eliminar estados guardados";
 
 "Cancel Cover Art Download" = "Cancelar descargar carátula";
 
@@ -102,7 +102,7 @@
 
 "Check out some excellent homebrew games." = "Check out some excellent homebrew games.";/*ventana homebrew*/
 
-"Choose a valid file." = "Choose a valid file.";/*****/
+"Choose a valid file." = "Elija un archivo valido.";
 
 "Choose Library…" = "Elegir biblioteca…";
 
@@ -132,11 +132,11 @@
 
 "CONSOLES" = "CONSOLAS";
 
-"Consolidate Files…" = "Consolidate Files…";/*boton */
+"Consolidate Files…" = "Consolidar archivos…";
 
-"Consolidate" = "Consolidate";/*****/
+"Consolidate" = "Consolidar";
 
-"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.";/*****/
+"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Consolidar copiará todos los juegos seleccionados en la carpeta biblioteca de OpenEmu.\n\nEsto no se puede deshacer.";
 
 "Controls Setup" = "Configuración de mandos";
 
@@ -160,7 +160,7 @@
 
 "Couldn't connect to the background process." = "Couldn't connect to the background process.";/*****/
 
-"Couldn't load %@ plugin" = "Couldn't load %@ plugin";/*****/
+"Couldn't load %@ plugin" = "No ha podido cargar el plugin %@";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Cree una selección personal de juegos. Para añadir a la colección, seleccione un juego de su biblioteca de consolas y arrástrelo a ’%@’ en la izquierda.";
 
@@ -168,7 +168,7 @@
 
 "Create or Load Save State" = "Crear o cargar estado guardado";
 
-"Dark GridView context menu" = "Dark GridView context menu";/*preferencias secrets*/
+"Dark GridView context menu" = "Menú contextual oscuro en vista cuadrícula";
 
 "Database Actions" = "Database Actions";/*preferencias secrets*/
 
@@ -206,9 +206,9 @@
 
 "Disable aspect ratio correction" = "Desactivar corrección de la relación de aspecto";
 
-"Disable grid view gloss overlay" = "Disable grid view gloss overlay";/*preferencias secrets*/
+"Disable grid view gloss overlay" = "Desactivar superponer brillo en vista cuadrícula";
 
-"Do it!" = "Do it!";/*****/
+"Do it!" = "¡Hacerlo!";
 
 "Do not ask me again" = "No volver a preguntar";
 
@@ -346,7 +346,7 @@
 
 "OK" = "Aceptar";
 
-"Only files in the OpenEmu Library folder will be moved to the Trash." = "Solo los archivos de la carpeta de la biblioteca de  OpenEmu se moverán a la papelera.";
+"Only files in the OpenEmu Library folder will be moved to the Trash." = "Solo los archivos de la carpeta biblioteca de  OpenEmu se moverán a la papelera.";
 
 "Open Collection" = "Abrir colección";
 
@@ -386,7 +386,7 @@
 
 "Quick Load" = "Carga rápida";
 
-"Quick Save State" = "Quick Save State";/*****/
+"Quick Save State" = "Guardado rápido de estado";
 
 "Quick Save" = "Guardado rápido";
 
@@ -410,7 +410,7 @@
 
 "Remove missing states" = "Borrar estados no encontrados";
 
-"Remove untracked artwork files" = "Remove untracked artwork files"; //TODO
+"Remove untracked artwork files" = "Borrar archivos de carátulas no indexados";
 
 "Remove" = "Eliminar";
 
@@ -430,7 +430,7 @@
 
 "Resolve Issues" = "Solucionar errores";
 
-"Restart now" = "Restart now";/*****/
+"Restart now" = "Reiniciar ahora";
 
 "Restart System" = "Reiniciar sistema";
 
@@ -458,7 +458,7 @@
 
 "Scanner Paused" = "Buscador pausado";
 
-"Scanning Directory" = "Analizando directorio";
+"Scanning Directory" = "Analizando carpeta";
 
 "Screenshots" = "Capturas de pantalla";
 
@@ -484,7 +484,7 @@
 
 "Setup Assistant has finished" = "Asistente de configuración ha finalizado";
 
-"Show all global keys" = "Show all global keys";/*preferencias secrets*/
+"Show all global keys" = "Mostrar todas las teclas genéricas";
 
 "Show audio output device in menu" = "Mostrar dispositivo de entrada de audio en el menú";
 
@@ -500,7 +500,7 @@
 
 "Show quicksave in menu" = "Mostrar guardado rápido en menú";
 
-"Show quicksave notification during gameplay" = "Show quicksave notification during gameplay";/*****/
+"Show quicksave notification during gameplay" = "Mostrar notificación de guardado rápido durante modo de juego";
 
 "Slot %d" = "Ranura %d";
 
@@ -540,7 +540,7 @@
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "El núcleo no se ha podido descargar. Intente instalarlo desde las preferencias de los núcleos.";
 
-"The file you selected doesn't exist" = "The file you selected doesn't exist";/*****/
+"The file you selected doesn't exist" = "El archivo seleccionado no existe";
 
 "The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "El juego '%@' no se ha podido iniciar debido a que el archivo rom no se ha encontrado. ¿Desea buscarlo?";
 
@@ -566,13 +566,13 @@
 
 "Toggle Sidebar" = "Toggle Sidebar";/*****/
 
-"Trash downloaded Files" = "Trash downloaded Files";/*opcion en menu contextual junto a consolide*/
+"Trash downloaded Files" = "Desechar archivos descargados";
 
 "Unmute Audio" = "No silenciar audio";
 
 "Update OpenVGDB" = "Actualizar OpenVGDB";
 
-"Update" = "Update";/*****/
+"Update" = "Actualizar";
 
 "Use game name as window title" = "Usar nombre del juego como título de ventana";
 
@@ -598,22 +598,20 @@
 
 "You can't move your library here!" = "¡No puede mover su biblioteca aquí!";
 
-"You need to restart the application to commit the change" = "You need to restart the application to commit the change";/*****/
+"You need to restart the application to commit the change" = "Necesita reiniciar la aplicación para confirmar el cambio";
 
 "Your game finished importing, do you want to play it now?" = "Finalizada la importación del juego, ¿desea jugar ahora?";
 
-"Your library was moved sucessfully. OpenEmu must relaunch now!" = "Su biblioteca fue movida correctamente.";
+"Your library was moved sucessfully. OpenEmu must relaunch now!" = "Su biblioteca fue movida correctamente.¡OpenEmu debe reiniciar ahora!";
 
 "Cancel cover sync for all games" = "Cancelar sincronización de caratula para todos los juegos";
 
-"Filter by:" = "Filter by:"; // TODO  // Search field menu, first item, instructional
+"Filter by:" = "Filtrar por:";
 
-"Everything" = "Everything"; // TODO  // Search field menu, search everything item title
+"Everything" = "Todo";
 
-"Name" = "Name"; // TODO  // Search field menu, only search names
+"Name" = "Nombre";
 
-"Description" = "Description"; // TODO // Search field menu, only search description
+"Description" = "Descripción";
 
-"Game Name" = "Game Name"; // TODO // Search field menu, only search game name
-
-"System" = "System"; // TODO // Search field menu, only search system name
+"Game Name" = "Nombre del juego";
