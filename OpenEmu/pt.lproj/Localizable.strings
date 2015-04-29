@@ -402,8 +402,6 @@
 
 "Region" = "Região";
 
-"Relaunch" = "Relaunch"; //TODO
-
 "Remove duplicate states" = "Remover estados duplicados";
 
 "Remove duplicated roms" = "Remove duplicated roms"; // TODO
@@ -489,8 +487,6 @@
 "Show audio output device in menu" = "Exibir dispositivo de saída de áudio no menu";
 
 "Show autosave in menu" = "Exibir salvamento automático no menu";
-
-"Show collection view debug controller" = "Exibir collection view debug controller";
 
 "Show game titles instead of rom names" = "Exibir Títulos dos jogos ao invés dos nomes das roms";
 

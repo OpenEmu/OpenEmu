@@ -402,8 +402,6 @@
 
 "Region" = "Région";
 
-"Relaunch" = "Relancer";
-
 "Remove duplicate states" = "Supprimer les sauvegardes dupliquées";
 
 "Remove duplicated roms" = "Supprimer les roms dupliquées";
@@ -489,8 +487,6 @@
 "Show audio output device in menu" = "Afficher le périphérique de sortie dans le menu";
 
 "Show autosave in menu" = "Afficher la sauvegarde automatique dans le menu";
-
-"Show collection view debug controller" = "Afficher le contrôleur de débogage de l’affichage de la collection";
 
 "Show game titles instead of rom names" = "Afficher les titres des jeux à la place des noms des roms";
 
