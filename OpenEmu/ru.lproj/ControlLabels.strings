@@ -1,0 +1,142 @@
+﻿/*
+ Copyright (c) 2015, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/* Section Title */
+  "Gameplay Buttons" = "Gameplay Buttons";
+  "Special Keys" = "Special Keys";
+
+/* Group Labels */
+  "Analog" = "Analog";
+  "C-Pad" = "C-Pad";
+  "D-Pad" = "D-Pad";
+  "Keypad" = "Keypad";
+  "Left Analog" = "Left Analog";
+  "Left D-Pad" = "Left D-Pad";
+  "Right Analog" = "Right Analog";
+  "Right D-Pad" = "Right D-Pad";
+  "Switches" = "Switches";
+
+/* Button Labels */
+  "#" = "#";
+  "*" = "*";
+  "0" = "0";
+  "1" = "1";
+  "2" = "2";
+  "2/6 Mode" = "2/6 Mode";
+  "3" = "3";
+  "4" = "4";
+  "5" = "5";
+  "6" = "6";
+  "7" = "7";
+  "8" = "8";
+  "9" = "9";
+  "A" = "A";
+  "Analog Mode" = "Analog Mode";
+  "B" = "B";
+  "Button 1" = "Button 1";
+  "Button 1/Start" = "Button 1/Start";
+  "Button 2" = "Button 2";
+  "Button 3" = "Button 3";
+  "Button 4" = "Button 4";
+  "Button 5" = "Button 5";
+  "Button 6" = "Button 6";
+  "C" = "C";
+  "Change Disk Side" = "Change Disk Side";
+  "Console Pause" = "Console Pause";
+  "Display Mode" = "Display Mode";
+  "Down" = "Down";
+  "Fast Forward" = "Fast Forward";
+  "Fire 1" = "Fire 1";
+  "Fire 2" = "Fire 2";
+  "Fire" = "Fire";
+  "Fullscreen" = "Fullscreen";
+  "Insert Coin" = "Insert Coin";
+  "L Diff A" = "L Diff A";
+  "L Diff B" = "L Diff B";
+  "L Diff" = "L Diff";
+  "L" = "L";
+  "L1" = "L1";
+  "L2" = "L2";
+  "L3" = "L3";
+  "Left Action" = "Left Action";
+  "Left Trigger" = "Left Trigger";
+  "Left" = "Left";
+  "Lid" = "Lid";
+  "Load" = "Load";
+  "Mic" = "Mic";
+  "Mode" = "Mode";
+  "Mute" = "Mute";
+  "Option 1" = "Option 1";
+  "Option 2" = "Option 2";
+  "Option" = "Option";
+  "P" = "P";
+  "Pause" = "Pause";
+  "Player Start" = "Player Start";
+  "Quick Load Button" = "Quick Load";
+  "Quick Save Button" = "Quick Save";
+  "R Diff A" = "R Diff A";
+  "R Diff B" = "R Diff B";
+  "R Diff" = "R Diff";
+  "R" = "R";
+  "R1" = "R1";
+  "R2" = "R2";
+  "R3" = "R3";
+  "Reset" = "Reset";
+  "Rewind" = "Rewind";
+  "Right Action" = "Right Action";
+  "Right Trigger" = "Right Trigger";
+  "Right" = "Right";
+  "Run" = "Run";
+  "Save" = "Save";
+  "Screenshot" = "Screenshot";
+  "Select" = "Select";
+  "Service" = "Service";
+  "Sound" = "Sound";
+  "Start" = "Start";
+  "TV Black & White" = "TV Black & White";
+  "TV Color" = "TV Color";
+  "Up" = "Up";
+  "Volume Down" = "Volume Down";
+  "Volume Up" = "Volume Up";
+  "X" = "X";
+  "X1 Up" = "X1 Up";
+  "X2 Right" = "X2 Right";
+  "X3 Down" = "X3 Down";
+  "X4 Left" = "X4 Left";
+  "Y" = "Y";
+  "Y1 Up" = "Y1 Up";
+  "Y2 Right" = "Y2 Right";
+  "Y3 Down" = "Y3 Down";
+  "Y4 Left" = "Y4 Left";
+  "Z" = "Z";
+  "□ " = "□ ";
+  "▢" = "▢";
+  "△ " = "△ ";
+  "△" = "△";
+  "○ " = "○ ";
+  "◯" = "◯";
+  "✕ " = "✕ ";
+  "✕" = "✕";
