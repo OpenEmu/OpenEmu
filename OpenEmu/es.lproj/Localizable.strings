@@ -170,7 +170,7 @@
 
 "Dark GridView context menu" = "Menú contextual oscuro en vista cuadrícula";
 
-"Database Actions" = "Database Actions";/*preferencias secrets*/
+"Database Actions" = "Opciones de la base de datos";
 
 "Debug Mode" = "Modo depurar";
 
@@ -274,7 +274,7 @@
 
 "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "Si hay un botón rojo en la tapa trasera de la batería, púlselo.\nSi no, mantenga pulsados los botones ①+②.";
 
-"If you change the core you current progress will be lost and save states will not work anymore." = "If you change the core you current progress will be lost and save states will not work anymore.";/*****/
+"If you change the core you current progress will be lost and save states will not work anymore." = "Si cambia el núcleo se perderá su progreso actual y los estados guardados no funcionarán más.";
 
 "In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "Para emular algunos sistemas, se necesitan archivos de BIOS debido a la creciente complejidad del hardware y software de las consolas de juegos modernas. Por favor lea nuestra %@ para más información.";
 
@@ -294,7 +294,7 @@
 
 "Library" = "Biblioteca";
 
-"Load" = "Load";
+"Load" = "Cargar";
 
 "Locate '%@'" = "Buscar '%@'";
 
@@ -304,7 +304,7 @@
 
 "Log Keyboard Events" = "Registro de eventos del teclado";
 
-"Low Controller Battery" = "Low Controller Battery";/*****/
+"Low Controller Battery" = "Batería baja en mando";
 
 "Make sure your internet connection is active and download a suitable core." = "Asegúrese que su conexión a internet está activa y descargue un núcleo compatible.";
 
@@ -342,7 +342,7 @@
 
 "None" = "Ninguna";
 
-"Not implemented right now" = "Not implemented right now";/*****/
+"Not implemented right now" = "No implementado actualmente";
 
 "OK" = "Aceptar";
 
@@ -354,7 +354,7 @@
 
 "OpenEmu could not find a Core to launch the game" = "OpenEmu no ha podido encontrar un núcleo para iniciar el juego";
 
-"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu includes a save game feature that allows you to continue playing exactly where you left off.";/*****/
+"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu incluye la característica guardar partida que le permite continuar jugando exactamente donde lo dejó.";
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu necesita una biblioteca para continuar. Puede elegir una biblioteca existente de OpenEmu o crear una nueva";
 
@@ -398,7 +398,7 @@
 
 "Recently Added" = "Recientemente añadidos";
 
-"Recovered Auto Save" = "Recovered Auto Save";/*****/
+"Recovered Auto Save" = "Guardado autómatico recuperado";
 
 "Region" = "Región";
 
@@ -436,7 +436,7 @@
 
 "Resume Emulation" = "Reanudar emulación";
 
-"Resume" = "Resume";/*****/
+"Resume" = "Reanudar";
 
 "Run games using" = "Ejecutar juegos usando";
 
@@ -504,7 +504,7 @@
 
 "Slot 1" = "Ranura 1";
 
-"Some migrations failed to complete properly" = "Some migrations failed to complete properly";/*****/
+"Some migrations failed to complete properly" = "Algunas migraciones no se completaron correctamente";
 
 "Start Scanning" = "Comenzar búsqueda";
 
@@ -528,11 +528,11 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "El núcleo %1$@ tiene problemas de compatibilidad y algunos juegos pueden contener fallos o no reproducirse.\n\nPor favor no informe estos problemas ya que no somos responsables del desarrollo de %2$@.";
 
-"The background process connection couldn't be established" = "The background process connection couldn't be established";/*****/
+"The background process connection couldn't be established" = "La conexión del proceso en segundo plano no se ha podido establecer";
 
 "The background process couldn't be launched" = "The background process couldn't be launched";/*****/
 
-"The battery in device number %lu, %@, is low. Please charge or replace the battery." = "The battery in device number %1$lu, %2$@, is low. Please charge or replace the battery.";/*****/
+"The battery in device number %lu, %@, is low. Please charge or replace the battery." = "La batería del dispositivo número %1$lu, %2$@, está baja. Por favor cambie o reemplace la batería.";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "El núcleo no se ha podido descargar. Intente instalarlo desde las preferencias de los núcleos.";
 
@@ -588,7 +588,7 @@
 
 "Would you like to continue your last game?" = "¿Desea continuar su última partida?";
 
-"Would you like to save your game before you quit?" = "Would you like to save your game before you quit?";/*opción no ejecutada*/
+"Would you like to save your game before you quit?" = "¿Desea guardar su partida antes de salir?";
 
 "Yes" = "Si";
 
@@ -603,6 +603,12 @@
 "Cancel cover sync for all games" = "Cancelar sincronización de caratula para todos los juegos";
 
 "Filter by:" = "Filtrar por:";
+
+"Everything" = "Todo";
+
+"Name" = "Nombre";
+
+"Description" = "Descripción";
 
 "Everything" = "Todo";
 
