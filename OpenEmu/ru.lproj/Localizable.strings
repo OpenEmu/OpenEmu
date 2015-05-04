@@ -1,0 +1,615 @@
+/*
+ Copyright (c) 2015, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+"%@ copy" = "%@ копия";
+
+"%@ could not be enabled because its plugin was not found." = "%@ не может быть включен, так как плагин не найден.";
+
+"%@ games you add to OpenEmu will appear in this Console Library" = "%@ игры, добавленные в OpenEmu появятся в Библиотеке Консолей";
+
+"%ux" = "%ux";
+
+"A version of this plugin is already loaded" = "Версия этого плагина уже загружена";
+
+"Add a Wiimote…" = "Добавить Wiimote…";
+
+"Add Cheat" = "Добавить Чит-код";
+
+"Add Cheat…" = "Добавить Чит-код…";
+
+"Add Cover Art From File…" = "Добавить обложку из файла…";
+
+"Add To Collection" = "Добавить в коллекцию";
+
+"Add untracked save states" = "Добавить неотслеживаемые сохранения";
+
+"All Games" = "Все игры";
+
+"All Homebrew" = "Все Homebrew";
+
+"Always show BIOS preferences" = "Всегда показывать предпочтения BIOS";
+
+"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Вы уверены, что хотите удалить %ld сохранений игр из медиатеки OpenEmu?";
+
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Вы уверены, что хотите удалить %ld снимков экрана из медиатеки OpenEmu?";
+
+"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Вы уверены, что хотите удалить сохранение игры: '%@' из медиатеки OpenEmu?";
+
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Вы уверены, что хотите удалить снимок экрана: '%@' из медиатеки OpenEmu?";
+
+"Are you sure you want to delete the selected game from your OpenEmu library?" = "Вы уверены, что хотите удалить выбранную игру из медиатеки OpenEmu?";
+
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "Вы уверены, что хотите удалить выбранные игры из медиатеки OpenEmu?";
+
+"Are you sure you want to quit the application?" = "Вы уверены, что хотите закрыть приложение?";
+
+"Are you sure you want to remove the selected games from the collection?" = "Вы уверены, что хотите удалить выбранные игры из коллекции?";
+
+"Are you sure you want to remove this collection?" = "Вы уверены, что хотите удалить коллекцию?";
+
+"Are you sure you want to reset the console?" = "Вы уверены, что хотите перезагрузить консоль?";
+
+"Are you sure you want to stop emulation?" = "Вы уверены, что хотите остановить эмуляцию?";
+
+"At least one System must be enabled" = "По крайней мере, одна система должна быть включена";
+
+"Auto Save State" = "Автоматическое сохранение состояния";
+
+"Automatically Import" = "Автоматический импорт";
+
+"Bluetooth must be enabled to pair a Wii controller." = "Bluetooth должен быть включен для создания пары с контроллером Wii.";
+
+"Bluetooth Not Enabled" = "Bluetooth не включен";
+
+"Can delete save states" = "Можете удалить сохраненные состояния";
+
+"Cancel Cover Art Download" = "Отменить загрузку обложки";
+
+"Cancel OpenVGDB Update" = "Отменить обновление OpenVGDB";
+
+"Cancel Operation" = "Отменить операцию";
+
+"Cancel" = "Отменить";
+
+"Change Core" = "Сменить ядро";
+
+"Change Volume" = "Изменить громкость";
+
+"Cheat Description" = "Описание Чит-кода";
+
+"Check out some excellent homebrew games." = "Проверьте некоторые отличные homebrew-игры.";
+
+"Choose a valid file." = "Выберите правильный файл.";
+
+"Choose Library…" = "Выберите библиотеку…";
+
+"Choose OpenEmu Library" = "Выберите библиотеку OpenEmu";
+
+"Choose save states directory" = "Выберите директорию для сохраненных состояний";
+
+"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Выберите Да, чтобы удалить все элементы из очереди. Предметы, которые закончили импорт будут сохранены в библиотеке.";
+
+"Cleanup autosave state" = "Очистить автоматически сохраненное состояние";
+
+"Cleanup rom hashes" = "Очистить хэши ромов";
+
+"Cleanup Save States" = "Очистить сохраненные состояния";
+
+"Clicking on image selects button" = "Щелчок по изображению назначает кнопку";
+
+"Clicking outside image deselects button" = "Щелчок за пределы изображения снимает назначение кнопки";
+
+"Code:" = "Код:";
+
+"Collapse" = "Свернуть";
+
+"COLLECTIONS" = "КОЛЛЕКЦИИ";
+
+"Collections" = "Коллекции";
+
+"CONSOLES" = "КОНСОЛИ";
+
+"Consolidate Files…" = "Консолидировать файлы…";
+
+"Consolidate" = "Консолидировать";
+
+"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Консолидация скопирует все выбранные игры в папку библиотеки OpenEmu.\n\nЭто действие отменить невозможно.";
+
+"Controls Setup" = "Настроить управление";
+
+"Controls" = "Управление";
+
+"Copying artwork failed!" = "Не удалось скопировать обложку!";
+
+"Copying Artwork Files…" = "Копирование файлов обложки…";
+
+"Copying Game Files…" = "Копирование файлов игры…";
+
+"Copying ROM Files…" = "Копирование файлов ром…";
+
+"Core Provided By…" = "Ядро предоставляется…";
+
+"Cores" = "Ядра";
+
+"Could not move complete library! %ld roms were moved" = "Не удалось переместить всю библиотеку! %ld ромов перемещено";
+
+"Could not move library data!" = "Не удалось переместить данные из библиотеки!";
+
+"Couldn't connect to the background process." = "Не удалось подключиться к фоновому процессу.";
+
+"Couldn't load %@ plugin" = "Не удалось загрузить плагин: %@";
+
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Создайте свой набор игр. Чтобы добавить игры в коллекцию, выберите игру из вашей библиотеки и перетащите ’%@’ на левую панель.";
+
+"Create Library…" = "Создать библиотеку…";
+
+"Create or Load Save State" = "Создать или загрузить сохраненное состояние";
+
+"Dark GridView context menu" = "Контекстное меню темного GridView";
+
+"Database Actions" = "Действия с базой данных";
+
+"Debug Mode" = "Режим отладки";
+
+"Default Core" = "Ядро по-умолчанию";
+
+"Delete Artwork that can be downloaded" = "Удалить обложку, которая может быть загружена";
+
+"Delete Collection" = "Удалить коллекцию";
+
+"Delete Game" = "Удалить игру";
+
+"Delete Games" = "Удалить игры";
+
+"Delete Save State" = "Удалить сохраненное состояние";
+
+"Delete Save States" = "Удалить сохраненные состояния";
+
+"Delete Save" = "Удалить сохранение";
+
+"Delete Saves" = "Удалить сохранения";
+
+"Delete Screenshot" = "Удалить снимок экрана";
+
+"Delete Screenshots" = "Удалить снимки экрана";
+
+"Deselect All" = "Сбросить выделения со всех";
+
+"Device Disconnected" = "Устройство отключено";
+
+"Device number %lu, %@, has disconnected." = "Устройство под номером %1$lu, %2$@, было отключено.";
+
+"DEVICES" = "УСТРОЙСТВА";
+
+"Disable aspect ratio correction" = "Отключить коррекцию соотношения сторон";
+
+"Disable grid view gloss overlay" = "Отключить глянцевую накладку GridView";
+
+"Do it!" = "Сделать это!";
+
+"Do not ask me again" = "Больше не спрашивать";
+
+"Do Not Save" = "Не сохранять";
+
+"Do not show me again" = "Больше не показывать";
+
+"Do you really want to cancel the import process?" = "Вы действительно хотите прекратить процесс импорта?";
+
+"Do you want to continue playing where you left off?" = "Вы хотите продолжить игру там где остановились?";
+
+"Don't Import Selected" = "Не импортировать выбранное";
+
+"Done" = "Готово";
+
+"Download Cover Art" = "Загрузить обложку";
+
+"Download missing artwork on the fly" = "Автоматически загружать недостающие обложки";
+
+"Download missing artwork" = "Загрузить отсутствующую обложку";
+
+"Download" = "Скачать";
+
+"Downloading %@…" = "Скачивание %@…";
+
+"Downloading and Installing Core…" = "Скачивание и установка ядра…";
+
+"Downloading Game DB" = "Скачивание базы данных игр";
+
+"Drag & Drop Games Here" = "Перетащите игры сюда";
+
+"Draw button mask above image" = "Нарисуйте маску кнопки на изображении";
+
+"Duplicate Collection" = "Дублировать коллекцию";
+
+"Edit Game Controls" = "Редактировать управление в игре";
+
+"Enable now" = "Включить сейчас";
+
+"Enable Retrode support" = "Включить поддержку Retrode";
+
+"Error!" = "Ошибка!";
+
+"Featured Games" = "Рекомендуемые игры";
+
+"Fetching Games…" = "Выборка игр…";
+
+"Game %ld of %ld" = "Игра %1$ld из %2$ld";
+
+"Game requires download" = "Игру необходимо скачать";
+
+"Game Scanner" = "Сканер игр";
+
+"Game View Background color" = "Цвет фона окна игры";
+
+"Gameplay" = "Геймплей";
+
+"General" = "Основное";
+
+"Hide \"%@\"" = "Скрыть \"%@\"";
+
+"HUD Bar / Gameplay" = "HUD-полоса / Геймплей";
+
+"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "Если есть красная кнопка на задней крышке аккумулятора, нажмите ее.\nЕсли ее нет, зажмите кнопки ①+②.";
+
+"If you change the core you current progress will be lost and save states will not work anymore." = "Если вы измените ядро, то ваш текущий прогресс будет потерян и сохраненные состояния не будут работать.";
+
+"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "Для того, чтобы эмулировать некоторые системы, необходимы файлы BIOS в связи с увеличением сложности аппаратных средств и программного обеспечения современных игровых консолей. Для получения дополнительной информации, прочтите %@.";
+
+"In order to play the game it must be downloaded." = "Для того, чтобы играть в игру, необходимо ее скачать.";
+
+"Install" = "Установить";
+
+"Installing Core" = "Установка ядра";
+
+"Join multi-line cheats with '+' e.g. 000-000+111-111" = "Объединяйте многострочные Чит-коды при помощи символа '+', например: 000-000+111-111";
+
+"Keep Files" = "Хранить файлы";
+
+"Keyboard" = "Клавиатура";
+
+"Library Window" = "Окно библиотеки";
+
+"Library" = "Библиотека";
+
+"Load" = "Загрузить";
+
+"Locate '%@'" = "Найти '%@'";
+
+"Locate" = "Найти";
+
+"Log HID Events" = "Логировать события HID";
+
+"Log Keyboard Events" = "Логировать события клавиатуры";
+
+"Low Controller Battery" = "Низкий уровень заряда батареи контроллера";
+
+"Make sure your internet connection is active and download a suitable core." = "Убедитесь что вам доступно соединение с интернетом и скачайте необходимое ядро.";
+
+"Make your Wiimote discoverable" = "Убедитесь, что Wiimote доступен";
+
+"Manually choose system on import" = "Определить систему вручную в процессе импорта";
+
+"MEDIA" = "МЕДИА";
+
+"Missing Core" = "Ядро не найдено";
+
+"Move selected game to Trash, or keep it in the Library folder?" = "Переместить выбранную игру в корзину, или оставить в папке библиотеки?";
+
+"Move selected games to Trash, or keep them in the Library folder?" = "Переместить выбранные игры в корзину, или оставить в папке библиотеки?";
+
+"Move to Trash" = "Переместить в корзину";
+
+"Mute Audio" = "Выключить звук";
+
+"New Collection from Selection" = "Новая коллекция из выбранного";
+
+"New Collection" = "Новая коллекция";
+
+"New Folder" = "Новая папка";
+
+"New Smart Collection" = "Новая смарт-коллекция";
+
+"No available controllers" = "Нет доступных контроллеров";
+
+"No game played yet!" = "Вы пока не играли ни в одну игру!";
+
+"No Save States available" = "Нет доступных сохраненных состояний";
+
+"No" = "Нет";
+
+"None" = "Ничего";
+
+"Not implemented right now" = "Пока что не используется";
+
+"OK" = "ОК";
+
+"Only files in the OpenEmu Library folder will be moved to the Trash." = "Только файлы из папки библиотеки OpenEmu будут перемещены в корзину.";
+
+"Open Collection" = "Открыть коллекцию";
+
+"Open Library" = "Открыть библиотеку";
+
+"OpenEmu could not find a Core to launch the game" = "OpenEmu не может найти подходящее ядро для запуска игры";
+
+"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu включает в себя возможность сохранения игр, благодаря которой вы можете продолжать играть именно там, где вы остановились";
+
+"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu необходима библиотека для продолжения. Вы можете выбрать существующую библиотеку OpenEmu или создать новую";
+
+"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu использует 'ядра' для эмуляции игр. Вам необходимо %1$@ ядро чтобы играть в %2$@";
+
+"OpenEmu will save and quit all games that are currently running." = "OpenEmu сохранит и закроет все игры, которые выполняются в настоящее время.";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Options" = "Опции";
+
+"Pause Emulation" = "Приостановить эмуляцию";
+
+"Pause Gameplay" = "Приостановить геймплей";
+
+"Perform Sanity Check on Database" = "Выполните проверку исправности базы данных";
+
+"Play Game" = "Запустить игру";
+
+"Play Games (Caution)" = "Запустить игры (Внимание)";
+
+"Play Save Games" = "Запустить сохранение";
+
+"Play Save State" = "Запустить сохраненное состояние";
+
+"Player %ld" = "Игрок %ld";
+
+"Please close all games and wait for the importer to finish." = "Пожалуйста закройте все игры и подождите пока закончится процесс импорта.";
+
+"Quick Load" = "Быстрая загрузка";
+
+"Quick Save State" = "Быстрое сохранение состояния";
+
+"Quick Save" = "Быстрое сохранение";
+
+"Quick Save, Slot %@" = "Быстрое сохранение в слот %@";
+
+"Quit" = "Выйти";
+
+"Rating" = "Рейтинг";
+
+"Recently Added" = "Недавно добавленные";
+
+"Recovered Auto Save" = "Восстановленное автоматическое сохранение";
+
+"Region" = "Регион";
+
+"Remove duplicate states" = "Удалить дубликаты состояний";
+
+"Remove duplicated roms" = "Удалить дубликаты ромов";
+
+"Remove missing states" = "Удалить потерянные состояния";
+
+"Remove untracked artwork files" = "Удалить неотслеживаемые файлы обложек";
+
+"Remove" = "Удалить";
+
+"Rename \"%@\"" = "Переименовать \"%@\"";
+
+"Rename Game" = "Переименовать игру";
+
+"Rename Special Save State or something?" = "Переименовать сохраненное состояние или что-то еще?";
+
+"Rename" = "Переименовать";
+
+"Required files are missing." = "Необходимые файлы не найдены.";
+
+"Reset main window size" = "Сбросить размер главного окна";
+
+"Resolve %ld Issues" = "Решить %ld проблем";
+
+"Resolve Issues" = "Решить проблемы";
+
+"Restart now" = "Перезапустить сейчас";
+
+"Restart System" = "Перезапустить систему";
+
+"Restart" = "Перезапустить";
+
+"Resume Emulation" = "Продолжить эмуляцию Emulation";
+
+"Resume" = "Продолжить";
+
+"Run games using" = "Запустить игры используя";
+
+"Save As:" = "Сохранить как:";
+
+"Save Current Game" = "Сохранить текущую игру";
+
+"Save Game" = "Сохранить игру";
+
+"Save States" = "Сохранить состояние";
+
+"Save to Slot %d" = "Сохранить в слот: %d";
+
+"Save-Game-%ld %@" = "Сохранение-%ld %@";
+
+"Saved Games" = "Сохраненные игры";
+
+"Scanner Paused" = "Сканер приостановлен";
+
+"Scanning Directory" = "Сканируется директория";
+
+"Screenshots" = "Снимки экрана";
+
+"Search" = "Поиск";
+
+"Secrets" = "Секреты";
+
+"Select All" = "Выбрать все";
+
+"Select Audio Output Device" = "Выбрать звуковыводящее устройство";
+
+"Select Cheat" = "Выбрать чит-код";
+
+"Select Core" = "Выбрать ядро";
+
+"Select Filter" = "Выбрать фильтр";
+
+"Select first field after setting the last" = "Выберите первое поле после установки последнего";
+
+"Select Scale" = "Выберите размер";
+
+"Set default save states directory" = "Установить директорию по-умолчанию для сохранения состояний";
+
+"Setup Assistant has finished" = "Ассистент установки закончил свою работу";
+
+"Show all global keys" = "Показать все глобальные кнопки";
+
+"Show audio output device in menu" = "Показать звуковыводящее устройство в меню";
+
+"Show autosave in menu" = "Показать автоматическое сохранение в меню";
+
+"Show game titles instead of rom names" = "Показывать название игры вместо названия рома";
+
+"Show in Finder" = "Показать в Finder";
+
+"Show options button" = "Показать кнопку опций";
+
+"Show quicksave in menu" = "Показать быстрое сохранение в меню";
+
+"Show quicksave notification during gameplay" = "Показать уведомление о быстром сохранении в процессе игры";
+
+"Slot %d" = "Слот %d";
+
+"Slot %ld" = "Слот %ld";
+
+"Slot 1" = "Слот 1";
+
+"Some migrations failed to complete properly" = "Не удалось применить некоторые миграции";
+
+"Start Scanning" = "Начать сканирование";
+
+"Stop Emulation" = "Остановить эмуляцию";
+
+"Stop" = "Остановить";
+
+"Switch To Flow View" = "Переключиться на Flow View";
+
+"Switch To Grid View" = "Переключиться на Grid View";
+
+"Switch To List View" = "Переключиться на List View";
+
+"System Files" = "Системные файлы";
+
+"System" = "Система";
+
+"Take screenshots in native size" = "Делать снимки экрана в реальном размере";
+
+"Takes you to the %@ project website" = "Перенаправит вас на сайт проекта: %@";
+
+"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "У ядра %1$@ есть известные проблемы совместимости и некоторые игры могут воспроизводиться с ошибками или не воспроизводиться вообще.\n\nПожалуйста не сообщайте нам о проблемах совместимости, так как мы не ответственны за разработку %2$@.";
+
+"The background process connection couldn't be established" = "Соединение с фоновым процессом не может быть установлено";
+
+"The background process couldn't be launched" = "Фоновый процесс не может быть запущен";
+
+"The battery in device number %lu, %@, is low. Please charge or replace the battery." = "Батарея в устройстве под номером %1$lu, %2$@, близка к состоянию разрядки. Пожалуйста, зарядите или замените батарею.";
+
+"The core could not be downloaded. Try installing it from the Cores preferences." = "Не удается загрузить ядро. Попробуйте установить его вручную из раздела опций 'Ядра'.";
+
+"The file you selected doesn't exist" = "Выбранного вами файла не существует";
+
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "Игра '%@' не может быть запущена, так как ром не найден. Хотите указать его расположение?";
+
+"The game '%@' was imported." = "Игра '%@' была импортирована.";
+
+"The OpenEmu Library could not be found." = "Библиотеку OpenEmu не удается найти.";
+
+"The root proxy object is nil." = "Корневой прокси-объект отсутствует.";
+
+"The System plugin could not be found!" = "Системный плагин не удается найти!";
+
+"This save state was created with a different core. Do you want to switch to that core now?" = "Этот снимок состояния был сделан с другим ядром. Хотите переключиться на это ядро сейчас?";
+
+"This System has no corresponding core installed." = "В системе не установлено соответствующее ядро.";
+
+"Title:" = "Название:";
+
+"To launch the save state %@ you will need to install the '%@' Core" = "Для запуска сохраненного состояния %1$@ вам необходимо установить ядро: '%2$@'";
+
+"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "Для запуска данного ядра вам необходимо:\n\n%@Перетащите необходимые файлы в окно библиотеки и попробуйте повторить операцию.";
+
+"Toggle Fullscreen" = "Полный экран";
+
+"Toggle Sidebar" = "Сайдбар";
+
+"Trash downloaded Files" = "Переместить в корзину скаченные файлы";
+
+"Unmute Audio" = "Включить звук";
+
+"Update OpenVGDB" = "Обновить OpenVGDB";
+
+"Update" = "Обновить";
+
+"Use game name as window title" = "Использовать название игры в качестве заголовка окна";
+
+"Use gamecore picker" = "Использовать выбор ядра";
+
+"Use quicksave slots" = "Использовать слоты быстрых сохранений";
+
+"User guide on BIOS files" = "Руководство пользователя по файлам BIOS";
+
+"Warning" = "Внимание";
+
+"While performing this operation OpenEmu will be unresponsive." = "Во время выполнения данной операции OpenEmu может не отвечать.";
+
+"WiiRemote support (requires relaunch)" = "Поддержка WiiRemote (необходим перезапуск)";
+
+"Won't be able to recognize it as special save state…" = "Невозможно распознать в качестве сохраненного состояния…";
+
+"Would you like to continue your last game?" = "Вы хотите продолжить последнюю запущенную игру?";
+
+"Would you like to save your game before you quit?" = "Вы хотите сохранить игру перед выходом?";
+
+"Yes" = "Да";
+
+"You can't move your library here!" = "Вы не можете переместить библиотеку сюда!";
+
+"You need to restart the application to commit the change" = "Вам необходимо перезапустить приложение чтобы изменения вступили в силу";
+
+"Your game finished importing, do you want to play it now?" = "Ваша игра импортирована, хотите запустить ее сейчас?";
+
+"Your library was moved sucessfully." = "Ваша библиотека успешно перемещена.";
+
+"Cancel cover sync for all games" = "Прекратить синхронизацию обложек для всех игр";
+
+"Filter by:" = "Фильтровать по:"; // TODO  // Search field menu, first item, instructional
+
+"Everything" = "Все"; // TODO  // Search field menu, search everything item title
+
+"Name" = "Имя"; // TODO  // Search field menu, only search names
+
+"Description" = "Описание"; // TODO // Search field menu, only search description
+
+"Game Name" = "Название игры"; // TODO // Search field menu, only search game name
+
+"System" = "Система"; // TODO // Search field menu, only search system name
