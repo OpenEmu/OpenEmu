@@ -43,6 +43,9 @@
         OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
         dataTrack = [cueSheet dataTrackPath];
     }
+    else if([[[path pathExtension] lowercaseString] isEqualToString:@"m3u"])
+        return OECanHandleYes;
+        
 
     NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
     NSLog(@"PSX data track path: %@", dataTrackPath);
