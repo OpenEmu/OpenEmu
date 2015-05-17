@@ -92,6 +92,11 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
     [[self gameCoreHelper] setCheat:cheatCode withType:type enabled:enabled];
 }
 
+- (void)setDisc:(NSUInteger)discNumber
+{
+    [[self gameCoreHelper] setDisc:discNumber];
+}
+
 - (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
 {
     [[self gameCoreHelper] setupEmulationWithCompletionHandler:

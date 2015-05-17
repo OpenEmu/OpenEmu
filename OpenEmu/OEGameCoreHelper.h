@@ -44,6 +44,7 @@
 - (void)loadStateFromFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL success, NSError *error))block;
 
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
+- (void)setDisc:(NSUInteger)discNumber;
 
 @end
 
@@ -53,5 +54,6 @@
 - (void)setAspectSize:(OEIntSize)newAspectSize;
 - (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+- (void)setDiscCount:(NSUInteger)discCount;
 
 @end

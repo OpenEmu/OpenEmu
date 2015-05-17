@@ -565,6 +565,7 @@
     if([_gameCore loadFileAtPath:aPath error:error])
     {
         DLog(@"Loaded new Rom: %@", aPath);
+        [[self displayHelper] setDiscCount:[_gameCore discCount]];
         return self.loadedRom = YES;
     }
     else
@@ -792,6 +793,11 @@
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 {
     [[self gameCoreProxy] setCheat:cheatCode setType:type setEnabled:enabled];
+}
+
+- (void)setDisc:(NSUInteger)discNumber
+{
+    [[self gameCoreProxy] setDisc:discNumber];
 }
 
 #pragma mark - OEGameCoreDisplayHelper subclass handles

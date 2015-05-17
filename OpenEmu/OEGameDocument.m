@@ -1166,6 +1166,18 @@ typedef enum : NSUInteger
     [_gameCoreManager setCheat:cheatCode withType:type enabled:enabled];
 }
 
+#pragma mark - Discs
+
+- (BOOL)supportsMultipleDiscs
+{
+    return [[[_gameCoreManager plugin] controller] supportsMultipleDiscsForSystemIdentifier:[_gameSystemController systemIdentifier]];
+}
+
+- (IBAction)setDisc:(id)sender;
+{
+    [_gameCoreManager setDisc:[[sender representedObject] unsignedIntegerValue]];
+}
+
 #pragma mark - Saving States
 
 - (BOOL)supportsSaveStates
@@ -1452,6 +1464,11 @@ typedef enum : NSUInteger
 - (void)setAspectSize:(OEIntSize)newAspectSize;
 {
     [[self gameViewController] setAspectSize:newAspectSize];
+}
+
+- (void)setDiscCount:(NSUInteger)discCount
+{
+    [[self gameViewController] setDiscCount:discCount];
 }
 
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID

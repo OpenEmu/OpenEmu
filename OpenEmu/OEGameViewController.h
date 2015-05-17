@@ -75,6 +75,8 @@ extern NSString *const OEScreenshotPropertiesKey;
 
 - (BOOL)supportsCheats;
 - (BOOL)supportsSaveStates;
+- (BOOL)supportsMultipleDiscs;
+- (NSUInteger)discCount;
 - (NSString *)coreIdentifier;
 - (NSString *)systemIdentifier;
 

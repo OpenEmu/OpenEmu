@@ -87,6 +87,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     OEIntSize   _screenSize;
     OEIntSize   _aspectSize;
     BOOL        _pausedByGoingToBackground;
+    NSUInteger  _discCount;
 }
 
 @end
@@ -179,6 +180,16 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 - (BOOL)supportsSaveStates
 {
     return [[self document] supportsSaveStates];
+}
+
+- (BOOL)supportsMultipleDiscs
+{
+    return [[self document] supportsMultipleDiscs];
+}
+
+- (NSUInteger)discCount
+{
+    return _discCount;
 }
 
 - (NSString *)coreIdentifier;
@@ -299,6 +310,11 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 {
     _aspectSize = newAspectSize;
     [_gameView setAspectSize:newAspectSize];
+}
+
+- (void)setDiscCount:(NSUInteger)discCount
+{
+    _discCount = discCount;
 }
 
 #pragma mark - Info

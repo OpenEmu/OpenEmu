@@ -50,6 +50,7 @@
 - (oneway void)loadStateFromFileAtPath:(NSString *)fileName withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier;
 
 - (oneway void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
+- (oneway void)setDisc:(NSUInteger)discNumber;
 
 - (oneway void)loadROMAtPath:(bycopy NSString *)romPath romCRC32:(bycopy NSString *)romCRC32 romMD5:(bycopy NSString *)romMD5 romHeader:(bycopy NSString *)romHeader romSerial:(bycopy NSString *)romSerial systemRegion:(bycopy NSString *)systemRegion usingCorePluginAtPath:(bycopy NSString *)corePluginPath systemPluginAtPath:(bycopy NSString *)systemPluginPath withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate displayHelper:(byref id<OEDOGameCoreDisplayHelper>)displayHelper messageIdentifier:(NSString *)identifier;
 
@@ -61,6 +62,7 @@
 - (oneway void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 - (oneway void)setAspectSize:(OEIntSize)newAspectSize;
 - (oneway void)setFrameInterval:(NSTimeInterval)newFrameInterval;
+- (oneway void)setDiscCount:(NSUInteger)discCount;
 
 @end
 

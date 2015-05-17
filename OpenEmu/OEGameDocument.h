@@ -93,6 +93,10 @@ enum _OEGameDocumentErrorCodes
 - (BOOL)supportsCheats;
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 
+#pragma mark - Discs
+- (IBAction)setDisc:(id)sender;
+- (BOOL)supportsMultipleDiscs;
+
 #pragma mark - Saving States
 - (BOOL)supportsSaveStates;
 

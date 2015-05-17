@@ -399,6 +399,29 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
             [menu addItem:item];
     }
 
+    // Setup Disc selection Menu
+    if([[self gameViewController] supportsMultipleDiscs])
+    {
+        NSUInteger maxDiscs = [[self gameViewController] discCount];
+
+        NSMenu *discsMenu = [[NSMenu alloc] init];
+        [discsMenu setTitle:NSLocalizedString(@"Select Disc", @"")];
+        item = [[NSMenuItem alloc] init];
+        [item setTitle:NSLocalizedString(@"Select Disc", @"")];
+        [menu addItem:item];
+        [item setSubmenu:discsMenu];
+        [item setEnabled:maxDiscs > 1 ? YES : NO];
+
+        for(unsigned int disc = 1; disc <= maxDiscs; disc++)
+        {
+            NSString *discTitle  = [NSString stringWithFormat:NSLocalizedString(@"Disc %u", @"Disc selection menu item title"), disc];
+            NSMenuItem *discsMenuItem = [[NSMenuItem alloc] initWithTitle:discTitle action:@selector(setDisc:) keyEquivalent:@""];
+            [discsMenuItem setRepresentedObject:@(disc)];
+
+            [discsMenu addItem:discsMenuItem];
+        }
+    }
+
     // Setup Video Filter Menu
     NSMenu *filterMenu = [[NSMenu alloc] init];
     [filterMenu setTitle:NSLocalizedString(@"Select Filter", @"")];

@@ -286,6 +286,11 @@
     [_rootProxy setCheat:cheatCode withType:type enabled:enabled];
 }
 
+- (void)setDisc:(NSUInteger)discNumber
+{
+    [_rootProxy setDisc:discNumber];
+}
+
 #pragma mark - Message set up
 
 - (NSString *)messageIdentifierForSetupCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))completionHandler;
