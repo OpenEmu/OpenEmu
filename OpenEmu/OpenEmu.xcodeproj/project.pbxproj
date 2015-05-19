@@ -581,6 +581,8 @@
 		83FE965919685F6700DD8DB9 /* OEGameScanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83FE965B19685F6700DD8DB9 /* OEGameScanner.xib */; };
 		83FE966019685F7D00DD8DB9 /* OECorePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83FE966219685F7D00DD8DB9 /* OECorePicker.xib */; };
 		83FE966419685F8F00DD8DB9 /* OESetupAssistant.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83FE966619685F8F00DD8DB9 /* OESetupAssistant.xib */; };
+		871CE9121B0BCFB800B89E96 /* controller_pcfx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */; };
+		871CE9131B0BCFB800B89E96 /* controller_pcfx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */; };
 		8C09E4D81867984B0095DB4E /* Beam4.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4BE1867975E0095DB4E /* Beam4.cgp */; };
 		8C09E4D91867984B0095DB4E /* NTSC (Blargg).cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4BF1867975E0095DB4E /* NTSC (Blargg).cgp */; };
 		8C09E4DA1867984B0095DB4E /* _beam4_1.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C01867975E0095DB4E /* _beam4_1.cg */; };
@@ -2489,6 +2491,8 @@
 		83FE965D19685F7000DD8DB9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OESystemPicker.xib; sourceTree = "<group>"; };
 		83FE966119685F7D00DD8DB9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OECorePicker.xib; sourceTree = "<group>"; };
 		83FE966519685F8F00DD8DB9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OESetupAssistant.xib; sourceTree = "<group>"; };
+		871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pcfx_mask@2x.png"; sourceTree = "<group>"; };
+		871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pcfx@2x.png"; sourceTree = "<group>"; };
 		8C09E4BE1867975E0095DB4E /* Beam4.cgp */ = {isa = PBXFileReference; lastKnownFileType = text; path = Beam4.cgp; sourceTree = "<group>"; };
 		8C09E4BF1867975E0095DB4E /* NTSC (Blargg).cgp */ = {isa = PBXFileReference; lastKnownFileType = text; path = "NTSC (Blargg).cgp"; sourceTree = "<group>"; };
 		8C09E4C01867975E0095DB4E /* _beam4_1.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = _beam4_1.cg; sourceTree = "<group>"; };
@@ -5659,6 +5663,8 @@
 				94A2258017075F0C00098DA0 /* pcfx_library.png */,
 				94A2257B17075F0C00098DA0 /* controller_pcfx_mask.png */,
 				94A2257C17075F0C00098DA0 /* controller_pcfx.png */,
+				871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */,
+				871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */,
 				94A22467170753D500098DA0 /* PC-FX-Info.plist */,
 				94A2257F17075F0C00098DA0 /* Keyboard-Mappings.plist */,
 				94A2257D17075F0C00098DA0 /* Controller-Mappings.plist */,
@@ -7791,9 +7797,11 @@
 				94A2258117075F0C00098DA0 /* controller_pcfx_mask.png in Resources */,
 				94A2258217075F0C00098DA0 /* controller_pcfx.png in Resources */,
 				94A2258317075F0C00098DA0 /* Controller-Mappings.plist in Resources */,
+				871CE9131B0BCFB800B89E96 /* controller_pcfx@2x.png in Resources */,
 				94A2258417075F0C00098DA0 /* Controller-Preferences.plist in Resources */,
 				94A2258517075F0C00098DA0 /* Keyboard-Mappings.plist in Resources */,
 				94A2258617075F0C00098DA0 /* pcfx_library.png in Resources */,
+				871CE9121B0BCFB800B89E96 /* controller_pcfx_mask@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
