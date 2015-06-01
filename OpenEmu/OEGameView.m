@@ -1256,6 +1256,10 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     }
 }
 
+
+- (void)setDiscCount:(NSUInteger)discCount
+{}
+
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
 {
     _gameAspectSize = newAspectSize;
