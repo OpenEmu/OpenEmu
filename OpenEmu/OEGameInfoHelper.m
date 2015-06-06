@@ -337,6 +337,9 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
             // the database holds multiple regions for this rom (probably WORLD rom)
             // so we pick the preferred region if it's available or just any if not
             NSString *preferredRegion = [[OELocalizationHelper sharedHelper] regionName];
+            // TODO: Associate regionName's in the database with -[OELocalizationHelper regionName]'s
+            if([preferredRegion isEqualToString:@"North America"]) preferredRegion = @"USA";
+
             [result enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 if([[obj valueForKey:@"region"] isEqualToString:preferredRegion])
                 {
