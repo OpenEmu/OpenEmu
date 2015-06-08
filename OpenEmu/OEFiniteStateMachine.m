@@ -112,9 +112,7 @@ typedef struct
 
 - (void)dealloc
 {
-    if(_timersQueue) [self OE_releaseTimersQueue];;
-    if(_actionsQueue) dispatch_release(_actionsQueue);
-    if(_processingQueue) dispatch_release(_processingQueue);
+    if(_timersQueue) [self OE_releaseTimersQueue];
 }
 
 #pragma mark - Main methods
@@ -290,7 +288,6 @@ typedef struct
     OETimersQueueContext *context = dispatch_get_context(_timersQueue);
     context->cancelled = YES;
 
-    dispatch_release(_timersQueue);
     _timersQueue = NULL;
 }
 
@@ -305,8 +302,6 @@ typedef struct
 {
     if(actionsQueue != _actionsQueue)
     {
-        if(actionsQueue) dispatch_retain(actionsQueue);
-        if(_actionsQueue) dispatch_release(_actionsQueue);
         _actionsQueue = actionsQueue;
     }
 }

@@ -61,11 +61,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    dispatch_release(_waitSemaphore);
-}
-
 - (void)setProgress:(CGFloat)progress
 {
     [self willChangeValueForKey:@"progress"];
