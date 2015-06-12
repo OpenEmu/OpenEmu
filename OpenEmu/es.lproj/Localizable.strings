@@ -108,7 +108,7 @@
 
 "Choose OpenEmu Library" = "Elegir biblioteca de OpenEmu";
 
-"Choose save states directory" = "Elegir carpeta de estados guardados";
+"Choose save states directory…" = "Elegir carpeta de estados guardados…";
 
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Elija Si para eliminar todos los ítems de la cola. Los ítems que finalicen la importación se mantendrán en su biblioteca.";
 
@@ -442,7 +442,7 @@
 
 "Save As:" = "Guardar como:";
 
-"Save Current Game" = "Guardar partida actual";
+"Save Current Game…" = "Guardar partida actual…";
 
 "Save Game" = "Guardar partida";
 
@@ -617,3 +617,9 @@
 "Description" = "Descripción";
 
 "Game Name" = "Nombre del juego";
+
+"Delete" = "Delete"; // TODO
+
+"Homebrew Games" = "Homebrew Games"; // TODO
+
+"No Internet Connection" = "No Internet Connection"; // TODO

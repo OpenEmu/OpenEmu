@@ -38,7 +38,7 @@
     {
         OEBlankSlateSpinnerView *spinner = [[OEBlankSlateSpinnerView alloc] initWithFrame:NSZeroRect];
         [self setupBoxWithText:representedObject andImageView:spinner];
-        [self addLeftHeadlineWithText:NSLocalizedString(@"Featured Games", @"")];
+        [self addLeftHeadlineWithText:NSLocalizedString(@"Homebrew Games", @"")];
         [self addInformationalText:text];
     }
     else if([representedObject isKindOfClass:[NSError class]])
@@ -52,7 +52,7 @@
         // TODO: extract real error reason here. Make sure it's not much longer than this!
         NSString *reason = NSLocalizedString(@"No Internet Connection", @"Featured Games Blank Slate View Error Info");
         [self setupBoxWithText:reason andImageView:warningImageView];
-        [self addLeftHeadlineWithText:NSLocalizedString(@"Featured Games", @"")];
+        [self addLeftHeadlineWithText:NSLocalizedString(@"Homebrew Games", @"")];
         [self addInformationalText:text];
     }
     else

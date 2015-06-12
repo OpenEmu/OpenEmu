@@ -184,7 +184,7 @@ NSString * const OptionsKey = @"options";
 
                               Group(@"Save States"),
                               Button(@"Set default save states directory", @selector(restoreSaveStatesDirectory:)),
-                              Button(@"Choose save states directory", @selector(chooseSaveStatesDirectory:)),
+                              Button(@"Choose save states directory…", @selector(chooseSaveStatesDirectory:)),
                               Button(@"Cleanup autosave state", @selector(cleanupAutoSaveStates:)),
                               Button(@"Cleanup Save States", @selector(cleanupSaveStates:)),
 
