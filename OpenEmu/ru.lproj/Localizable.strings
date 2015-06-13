@@ -108,7 +108,7 @@
 
 "Choose OpenEmu Library" = "Выберите библиотеку OpenEmu";
 
-"Choose save states directory" = "Выберите директорию для сохраненных состояний";
+"Choose save states directory…" = "Выберите директорию для сохраненных состояний…";
 
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Выберите Да, чтобы удалить все элементы из очереди. Предметы, которые закончили импорт будут сохранены в библиотеке.";
 
@@ -442,7 +442,7 @@
 
 "Save As:" = "Сохранить как:";
 
-"Save Current Game" = "Сохранить текущую игру";
+"Save Current Game…" = "Сохранить текущую игру…";
 
 "Save Game" = "Сохранить игру";
 
@@ -612,4 +612,8 @@
 
 "Game Name" = "Название игры"; // TODO // Search field menu, only search game name
 
-"System" = "Система"; // TODO // Search field menu, only search system name
+"Delete" = "Delete"; // TODO
+
+"Homebrew Games" = "Homebrew Games"; // TODO
+
+"No Internet Connection" = "No Internet Connection"; // TODO

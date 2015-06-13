@@ -38,9 +38,9 @@
 
 "Add Cheat" = "Adicionar Trapaça";
 
-"Add Cheat…" = "Adicionar Trapaça";
+"Add Cheat…" = "Adicionar Trapaça…";
 
-"Add Cover Art From File…" = "Adicionar Arte de Capa...";
+"Add Cover Art From File…" = "Adicionar Arte de Capa…";
 
 "Add To Collection" = "Adicionar à Coleção";
 
@@ -104,11 +104,11 @@
 
 "Choose a valid file." = "Escolha um arquivo válido.";
 
-"Choose Library…" = "Escolher Biblioteca...";
+"Choose Library…" = "Escolher Biblioteca…";
 
 "Choose OpenEmu Library" = "Escolher Biblioteca OpenEmu";
 
-"Choose save states directory" = "Escolher pasta dos salvamentos";
+"Choose save states directory…" = "Escolher pasta dos salvamentos…";
 
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Escolha Sim para remover todos os itens da fila. Itens que já foram importados serão mantidos em sua biblioteca.";
 
@@ -132,7 +132,7 @@
 
 "CONSOLES" = "CONSOLES";
 
-"Consolidate Files…" = "Consolidar Arquivos...";
+"Consolidate Files…" = "Consolidar Arquivos…";
 
 "Consolidate" = "Consolidar";
 
@@ -144,13 +144,13 @@
 
 "Copying artwork failed!" = "A cópia das Artes de Capa falhou!";
 
-"Copying Artwork Files…" = "Copiando Artes de Capa...";
+"Copying Artwork Files…" = "Copiando Artes de Capa…";
 
-"Copying Game Files…" = "Copiando Jogos...";
+"Copying Game Files…" = "Copiando Jogos…";
 
-"Copying ROM Files…" = "Copiando ROMs...";
+"Copying ROM Files…" = "Copiando ROMs…";
 
-"Core Provided By…" = "Núcleo por...";
+"Core Provided By…" = "Núcleo por…";
 
 "Cores" = "Núcleos";
 
@@ -164,7 +164,7 @@
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Crie uma seleção pessoal de jogos. Para adicionar a uma coleção, selecione um jogo de sua biblioteca de consoles e arraste-o para o ’%@’ na esquerda.";
 
-"Create Library…" = "Criar Biblioteca...";
+"Create Library…" = "Criar Biblioteca…";
 
 "Create or Load Save State" = "Crie ou carregue salvamentos";
 
@@ -234,7 +234,7 @@
 
 "Downloading %@…" = "Downloading %@…";
 
-"Downloading and Installing Core…" = "Baixando e Instalando Núcleo...";
+"Downloading and Installing Core…" = "Baixando e Instalando Núcleo…";
 
 "Downloading Game DB" = "Downloading Game DB"; //TODO
 
@@ -442,7 +442,7 @@
 
 "Save As:" = "Salvar como:";
 
-"Save Current Game" = "Salvar Jogo Atual";
+"Save Current Game…" = "Salvar Jogo Atual…";
 
 "Save Game" = "Salvamento";
 
@@ -612,4 +612,8 @@
 
 "Game Name" = "Game Name"; // TODO // Search field menu, only search game name
 
-"System" = "System"; // TODO // Search field menu, only search system name
+"Delete" = "Delete"; // TODO
+
+"Homebrew Games" = "Homebrew Games"; // TODO
+
+"No Internet Connection" = "No Internet Connection"; // TODO
