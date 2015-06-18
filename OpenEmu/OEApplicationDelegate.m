@@ -177,6 +177,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     _libraryLoaded = YES;
 
+    [self OE_removeInvalidPlugins];
+
     [self OE_loadPlugins];
 
     DLog();
@@ -589,6 +591,26 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 
 #pragma mark -
+- (void)OE_removeInvalidPlugins
+{
+    // Remove beta era core plugins
+    for(OECorePlugin *plugin in [OECorePlugin allPlugins])
+    {
+        NSString *pluginFeedURL = [plugin.infoDictionary objectForKey:@"SUFeedURL"];
+        if([pluginFeedURL rangeOfString:@"openemu.org/update"].location != NSNotFound)
+        {
+            NSURL *coreBundleURL = [[plugin bundle] bundleURL];
+            [[NSFileManager defaultManager] removeItemAtURL:coreBundleURL error:nil];
+        }
+    }
+
+    // Remove system plugins in app support (they ship in the app bundle)
+    NSURL *systemsDirectory = [[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmu/Systems"];
+
+    if([systemsDirectory checkResourceIsReachableAndReturnError:nil])
+        [[NSFileManager defaultManager] removeItemAtURL:systemsDirectory error:nil];
+}
+
 - (void)OE_loadPlugins
 {
     [OEPlugin registerPluginClass:[OECorePlugin class]];
