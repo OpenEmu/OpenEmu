@@ -160,4 +160,44 @@
     return NO;
 }
 
+/**
+ Determine if file with MD5 is BIOS file and copy to BIOS folder
+ @param url    url to file
+ @param md5    md5 of file
+ @returns YES if BIOS file and copied successfully. Returns NO if an error occurred.
+ */
+- (BOOL)checkIfBIOSFileAndImportAtURL:(NSURL *)url withMD5:(NSString *)md5
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    // Copy known BIOS / System Files to BIOS folder
+    for(id validFile in [OECorePlugin requiredFiles])
+    {
+        NSString *biosSystemFileName = [validFile valueForKey:@"Name"];
+        NSString *biosSystemFileMD5  = [validFile valueForKey:@"MD5"];
+        NSError  *error              = nil;
+
+        NSString *destination = [_biosPath stringByAppendingPathComponent:biosSystemFileName];
+        NSURL    *desitionationURL = [NSURL fileURLWithPath:destination];
+        if([md5 caseInsensitiveCompare:biosSystemFileMD5] == NSOrderedSame)
+        {
+            if(![fileManager createDirectoryAtURL:[NSURL fileURLWithPath:_biosPath] withIntermediateDirectories:YES attributes:nil error:&error])
+            {
+                DLog(@"Could not create directory before copying bios at %@", url);
+                DLog(@"%@", error);
+                error = nil;
+            }
+
+            if(![fileManager copyItemAtURL:url toURL:desitionationURL error:&error])
+            {
+                DLog(@"Could not copy bios file %@ to %@", url, desitionationURL);
+            }
+
+            return YES;
+        }
+    }
+
+    return NO;
+}
+
 @end

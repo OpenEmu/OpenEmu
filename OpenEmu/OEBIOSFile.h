@@ -37,5 +37,6 @@
 - (BOOL)isBIOSFileAvailable:(NSDictionary *)file;
 - (BOOL)allRequiredFilesAvailableForSystemIdentifier:(NSArray *)systemIdentifier;
 - (BOOL)checkIfBIOSFileAndImportAtURL:(NSURL *)url;
+- (BOOL)checkIfBIOSFileAndImportAtURL:(NSURL *)url withMD5:(NSString *)md5;
 
 @end

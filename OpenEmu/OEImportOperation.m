@@ -99,9 +99,6 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     if([self OE_isTextFileAtURL:url])
         return nil;
 
-    if([self isBiosFileAtURL:url])
-        return nil;
-
     if([self OE_isInvalidExtensionAtURL:url])
         return nil;
 
@@ -176,12 +173,6 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         }
     }
     return NO;
-}
-
-+ (BOOL)isBiosFileAtURL:(NSURL*)url
-{
-    OEBIOSFile *biosFile = [[OEBIOSFile alloc] init];
-    return [biosFile checkIfBIOSFileAndImportAtURL:url];
 }
 
 + (BOOL)OE_isInvalidExtensionAtURL:(NSURL *)url
@@ -506,6 +497,13 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     {
         [self setMd5Hash:[md5 lowercaseString]];
         [self setCrcHash:[crc lowercaseString]];
+
+        OEBIOSFile *biosFile = [[OEBIOSFile alloc] init];
+        if([biosFile checkIfBIOSFileAndImportAtURL:url withMD5:[self md5Hash]])
+        {
+            IMPORTDLog(@"File seems to be a BIOS at %@", url);
+            [self exitWithStatus:OEImportExitNone error:nil];
+        }
     }
 
 }

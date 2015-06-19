@@ -39,7 +39,6 @@ typedef void (^OEImportItemCompletionBlock)(NSManagedObjectID*);
 @class OEROMImporter;
 @interface OEImportOperation : NSOperation <NSObject, NSCoding, NSCopying>
 + (instancetype)operationWithURL:(NSURL*)url inImporter:(OEROMImporter*)importer;
-+ (BOOL)isBiosFileAtURL:(NSURL*)url;
 @property BOOL exploreArchives;
 
 @property (copy) NSURL               *URL;
