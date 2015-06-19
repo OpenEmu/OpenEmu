@@ -339,31 +339,31 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     @autoreleasepool {
         [[[self importer] context] performBlockAndWait:^{
             if([self shouldExit]) return;
-            
+
             [self OE_performImportStepCheckDirectory];
             if([self shouldExit]) return;
-            
+
             [self OE_performImportStepCheckArchiveFile];
             if([self shouldExit]) return;
-            
-            [self OE_performImportStepDetermineSystem];
-            if([self shouldExit]) return;
-            
+
             [self OE_performImportStepHash];
             if([self shouldExit]) return;
-            
+
+            [self OE_performImportStepDetermineSystem];
+            if([self shouldExit]) return;
+
             [self OE_performImportStepCheckHash];
             if([self shouldExit]) return;
-            
+
             [self OE_performImportStepOrganize];
             if([self shouldExit]) return;
-            
+
             [self OE_performImportStepOrganizeAdditionalFiles];
             if([self shouldExit]) return;
-            
+
             [self OE_performImportStepCreateCoreDataObjects];
         }];
-        
+
     }
 }
 #pragma mark - Importing
