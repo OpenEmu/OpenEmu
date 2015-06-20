@@ -593,6 +593,17 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 #pragma mark -
 - (void)OE_removeInvalidPlugins
 {
+    // Remove Higan WIP systems as defaults if found, since our core port does not support them
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if([[defaults stringForKey:@"defaultCore.openemu.system.gb"] isEqualToString: @"org.openemu.Higan"])
+        [defaults setObject:@"org.openemu.Gambatte" forKey:@"defaultCore.openemu.system.gb"];
+
+    if([[defaults stringForKey:@"defaultCore.openemu.system.gba"] isEqualToString: @"org.openemu.Higan"])
+        [defaults setObject:@"org.openemu.VisualBoyAdvance" forKey:@"defaultCore.openemu.system.gba"];
+
+    if([[defaults stringForKey:@"defaultCore.openemu.system.nes"] isEqualToString: @"org.openemu.Higan"])
+        [defaults setObject:@"org.openemu.Nestopia" forKey:@"defaultCore.openemu.system.nes"];
+
     // Remove beta era core plugins
     for(OECorePlugin *plugin in [OECorePlugin allPlugins])
     {
