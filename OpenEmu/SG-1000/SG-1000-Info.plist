@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>org.openemu.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -26,18 +26,6 @@
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OESystemController</string>
-	<key>OESystemName</key>
-	<string>SG-1000</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.sg1000</string>
-	<key>OENumberOfPlayersKey</key>
-	<integer>2</integer>
-	<key>OEResponderClassKey</key>
-	<string>OESG1000SystemResponder</string>
-	<key>OEFileSuffixes</key>
-	<array>
-		<string>sg</string>
-	</array>
 	<key>OEControlListKey</key>
 	<array>
 		<array>
@@ -81,8 +69,6 @@
 			</dict>
 		</array>
 	</array>
-	<key>OESystemIcon</key>
-	<string>sg1000_library</string>
 	<key>OEControlTypesKey</key>
 	<dict>
 		<key>OEAxisControlsKey</key>
@@ -106,6 +92,10 @@
 			</array>
 		</array>
 	</dict>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>sg</string>
+	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
 		<string>OESG1000ButtonUp</string>
@@ -115,5 +105,15 @@
 		<string>OESG1000Button1</string>
 		<string>OESG1000Button2</string>
 	</array>
+	<key>OENumberOfPlayersKey</key>
+	<integer>2</integer>
+	<key>OEResponderClassKey</key>
+	<string>OESG1000SystemResponder</string>
+	<key>OESystemIcon</key>
+	<string>sg1000_library</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.sg1000</string>
+	<key>OESystemName</key>
+	<string>SG-1000</string>
 </dict>
 </plist>

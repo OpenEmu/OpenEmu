@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>org.openemu.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -26,18 +26,6 @@
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OESystemController</string>
-	<key>OESystemName</key>
-	<string>Game Gear</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.gg</string>
-	<key>OENumberOfPlayersKey</key>
-	<integer>1</integer>
-	<key>OEResponderClassKey</key>
-	<string>OEGGSystemResponder</string>
-	<key>OEFileSuffixes</key>
-	<array>
-		<string>gg</string>
-	</array>
 	<key>OEControlListKey</key>
 	<array>
 		<array>
@@ -88,29 +76,8 @@
 			</dict>
 		</array>
 	</array>
-	<key>OESystemIcon</key>
-	<string>gamegear_library</string>
-	<key>OEGenericControlNamesKey</key>
-	<array>
-		<string>OEGGButtonUp</string>
-		<string>OEGGButtonDown</string>
-		<string>OEGGButtonLeft</string>
-		<string>OEGGButtonRight</string>
-		<string>OEGGButtonA</string>
-		<string>OEGGButtonB</string>
-		<string>OEGGButtonStart</string>
-	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
-		<key>OEHatSwitchControlsKey</key>
-		<array>
-			<array>
-				<string>OEGGButtonUp</string>
-				<string>OEGGButtonRight</string>
-				<string>OEGGButtonDown</string>
-				<string>OEGGButtonLeft</string>
-			</array>
-		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
@@ -122,6 +89,39 @@
 				<string>OEGGButtonRight</string>
 			</array>
 		</array>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OEGGButtonUp</string>
+				<string>OEGGButtonRight</string>
+				<string>OEGGButtonDown</string>
+				<string>OEGGButtonLeft</string>
+			</array>
+		</array>
 	</dict>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>gg</string>
+	</array>
+	<key>OEGenericControlNamesKey</key>
+	<array>
+		<string>OEGGButtonUp</string>
+		<string>OEGGButtonDown</string>
+		<string>OEGGButtonLeft</string>
+		<string>OEGGButtonRight</string>
+		<string>OEGGButtonA</string>
+		<string>OEGGButtonB</string>
+		<string>OEGGButtonStart</string>
+	</array>
+	<key>OENumberOfPlayersKey</key>
+	<integer>1</integer>
+	<key>OEResponderClassKey</key>
+	<string>OEGGSystemResponder</string>
+	<key>OESystemIcon</key>
+	<string>gamegear_library</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.gg</string>
+	<key>OESystemName</key>
+	<string>Game Gear</string>
 </dict>
 </plist>

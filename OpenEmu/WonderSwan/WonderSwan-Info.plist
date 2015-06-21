@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>org.openemu.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -26,14 +26,6 @@
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OESystemController</string>
-	<key>OESystemName</key>
-	<string>WonderSwan</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.ws</string>
-	<key>OENumberOfPlayersKey</key>
-	<integer>1</integer>
-	<key>OEResponderClassKey</key>
-	<string>OEWSSystemResponder</string>
 	<key>OEControlListKey</key>
 	<array>
 		<array>
@@ -160,7 +152,15 @@
 		<string>OEWSButtonStart</string>
 		<string>OEWSButtonSound</string>
 	</array>
+	<key>OENumberOfPlayersKey</key>
+	<integer>1</integer>
+	<key>OEResponderClassKey</key>
+	<string>OEWSSystemResponder</string>
 	<key>OESystemIcon</key>
 	<string>wonderswan_library</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.ws</string>
+	<key>OESystemName</key>
+	<string>WonderSwan</string>
 </dict>
 </plist>

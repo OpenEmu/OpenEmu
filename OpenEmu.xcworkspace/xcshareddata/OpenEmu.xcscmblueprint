@@ -1,0 +1,252 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "B3DAFA4E8DC41169A7FC9D30D8420929A5ED0B16+++8BEED2D",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "3CA43A995D758185C7C83EA3E8E67E0B9957FC4C+++8B0AECB" : 0,
+    "7D002C6D71039D90725E90C29449D5847742045D+++8968B5B" : 0,
+    "EF8050D48B7829759B1D45A77A596737B18361CD+++CED72FE" : 0,
+    "C44E1FFE30558D3DF359E28F498352AE2F7E3669+++BC7FE11" : 0,
+    "736EA45DF41CA583E921716CF02EAD7E43325CBE+++1DC8B0B" : 0,
+    "0B0831A6C0BD3358789F2DBB232256AC81AE5B1A+++6331608" : 0,
+    "786F59C516A1C218060925DD3FF0976FDF92EAD6+++A5CE231" : 0,
+    "B7E6BF36701A2C183993AB52AD41451C04E3AB8F+++135B42D" : 0,
+    "811C93072520BFDF784DD72DFBF4A4692AF3859E+++146DA33" : 0,
+    "7B8EFFDFDBC3B4E722F3C4F45A892AAF5B32F018+++6E0900D" : 0,
+    "B3DAFA4E8DC41169A7FC9D30D8420929A5ED0B16+++8BEED2D" : 0,
+    "234D2CA5342662DBCF2CE658D752931CE220DF5C+++AD9BFBC" : 0,
+    "51E44C659D67088644D729914E59BBF3C9A184AE+++F030928" : 0,
+    "34E316B290D73CDCF3FA6A1453ECD07D14D5F48B+++6C5C94A" : 0,
+    "B16402BDFB6407CFB0B67960B5F665211E597236+++C89A0E6" : 0,
+    "C75D5DBB039E87CDBC8738118E81FC2F44F21F97+++AD274CA" : 0,
+    "E06AC08B104CCBF0404EB8E04324DAD47B2FA9D0+++87D505C" : 0,
+    "D8793984FBEA2370FFC254005B220554A62F723A+++3CAB7BE" : 0,
+    "F675EB84877AFE96EB84D5BB9EED404326FE9539+++9E907E1" : 0,
+    "71364F5253A45E45E21D0210D3020300D8B8F8F9+++33436FD" : 0,
+    "739A98657A19EBFE4D3481305500ABFEF96080A6+++5934164" : 0,
+    "3779DC62718024B535AF37ACD48BD94BDA5632F1+++B0B734F" : 0,
+    "739A98657A19EBFE4D3481305500ABFEF96080A6+++E8A52EC" : 0,
+    "7BE901D98E0ACCD32284959563E5A3A302F7556B+++E579C0B" : 0,
+    "D9BE8F9631E247241F8797F31125DEB85BCFDC21+++2DE7207" : 0,
+    "5BD6C65548E4F2D3B0BA3A3B6DFE67166C7B2F19+++73D7C46" : 0,
+    "4641FB648B5BA6C55D42733DDACA3FA0E5804DFC+++8C35F89" : 0,
+    "EAF15DA2ADEFD77EC82FD271376B8C864BB06FF6+++E2575B6" : 0,
+    "5172308B0517DB4471ED0DAFBA8744F9ADB3C56C+++515F9A9" : 0,
+    "3C226A3A685D6B4DE8DE56247D3DD41DB99B39C8+++0AF9D41" : 0,
+    "660BA74C3D0A9E3ADEB886972207A39D8C1DB732+++4855979" : 0,
+    "BF6698EE7317D4C9C1B93B3E92682172B0686D40+++484883F" : 0,
+    "F6A98FD682749D05861BC4FFFF8E27C9ADB1318B+++FF82B1F" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "F05C05F0-419C-4142-810F-94A3568609A8",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "3CA43A995D758185C7C83EA3E8E67E0B9957FC4C+++8B0AECB" : "OpenEmuVirtualJaguar",
+    "7D002C6D71039D90725E90C29449D5847742045D+++8968B5B" : "OpenEmuCrabEmu",
+    "EF8050D48B7829759B1D45A77A596737B18361CD+++CED72FE" : "OpenEmu4DO",
+    "C44E1FFE30558D3DF359E28F498352AE2F7E3669+++BC7FE11" : "OpenEmuAtari800",
+    "736EA45DF41CA583E921716CF02EAD7E43325CBE+++1DC8B0B" : "OpenEmuPPSSPP\/ppsspp",
+    "0B0831A6C0BD3358789F2DBB232256AC81AE5B1A+++6331608" : "OpenEmuPotator-Core",
+    "786F59C516A1C218060925DD3FF0976FDF92EAD6+++A5CE231" : "OpenEmuStella",
+    "B7E6BF36701A2C183993AB52AD41451C04E3AB8F+++135B42D" : "OpenEmupicodrive\/platform\/libpicofe",
+    "811C93072520BFDF784DD72DFBF4A4692AF3859E+++146DA33" : "OpenEmuProSystem",
+    "7B8EFFDFDBC3B4E722F3C4F45A892AAF5B32F018+++6E0900D" : "OpenEmuUME",
+    "B3DAFA4E8DC41169A7FC9D30D8420929A5ED0B16+++8BEED2D" : "OpenEmu",
+    "234D2CA5342662DBCF2CE658D752931CE220DF5C+++AD9BFBC" : "OpenEmuSNES9x",
+    "51E44C659D67088644D729914E59BBF3C9A184AE+++F030928" : "OpenEmuBliss",
+    "34E316B290D73CDCF3FA6A1453ECD07D14D5F48B+++6C5C94A" : "OpenEmuVisualBoyAdvance",
+    "B16402BDFB6407CFB0B67960B5F665211E597236+++C89A0E6" : "OpenEmupicodrive",
+    "C75D5DBB039E87CDBC8738118E81FC2F44F21F97+++AD274CA" : "OpenEmuMednafen",
+    "E06AC08B104CCBF0404EB8E04324DAD47B2FA9D0+++87D505C" : "OpenEmuGambatte",
+    "D8793984FBEA2370FFC254005B220554A62F723A+++3CAB7BE" : "OpenEmupicodrive\/cpu\/cyclone",
+    "F675EB84877AFE96EB84D5BB9EED404326FE9539+++9E907E1" : "OpenEmublueMSX",
+    "71364F5253A45E45E21D0210D3020300D8B8F8F9+++33436FD" : "OpenEmuHigan",
+    "739A98657A19EBFE4D3481305500ABFEF96080A6+++5934164" : "OpenEmu\/FCEU\/",
+    "3779DC62718024B535AF37ACD48BD94BDA5632F1+++B0B734F" : "OpenEmuVecXGL",
+    "739A98657A19EBFE4D3481305500ABFEF96080A6+++E8A52EC" : "OpenEmuMupen64Plus",
+    "7BE901D98E0ACCD32284959563E5A3A302F7556B+++E579C0B" : "OpenEmuGenesisPlus",
+    "D9BE8F9631E247241F8797F31125DEB85BCFDC21+++2DE7207" : "OpenEmuyabause",
+    "5BD6C65548E4F2D3B0BA3A3B6DFE67166C7B2F19+++73D7C46" : "OpenEmuPPSSPP\/ppsspp\/native",
+    "4641FB648B5BA6C55D42733DDACA3FA0E5804DFC+++8C35F89" : "OpenEmuNeoPop",
+    "EAF15DA2ADEFD77EC82FD271376B8C864BB06FF6+++E2575B6" : "OpenEmuBSNES",
+    "5172308B0517DB4471ED0DAFBA8744F9ADB3C56C+++515F9A9" : "OpenEmuTwoMbit",
+    "3C226A3A685D6B4DE8DE56247D3DD41DB99B39C8+++0AF9D41" : "OpenEmuNestopia",
+    "660BA74C3D0A9E3ADEB886972207A39D8C1DB732+++4855979" : "OpenEmuOpenEmu-SDK",
+    "BF6698EE7317D4C9C1B93B3E92682172B0686D40+++484883F" : "OpenEmuO2EM",
+    "F6A98FD682749D05861BC4FFFF8E27C9ADB1318B+++FF82B1F" : "OpenEmuPPSSPP"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "OpenEmu",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 203,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "OpenEmu.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/OpenEmu\/Potator-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0B0831A6C0BD3358789F2DBB232256AC81AE5B1A+++6331608"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/SNES9x-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "234D2CA5342662DBCF2CE658D752931CE220DF5C+++AD9BFBC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/VisualBoyAdvance-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "34E316B290D73CDCF3FA6A1453ECD07D14D5F48B+++6C5C94A"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/VecXGL-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3779DC62718024B535AF37ACD48BD94BDA5632F1+++B0B734F"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/Nestopia-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3C226A3A685D6B4DE8DE56247D3DD41DB99B39C8+++0AF9D41"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/VirtualJaguar-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3CA43A995D758185C7C83EA3E8E67E0B9957FC4C+++8B0AECB"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/NeoPop-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "4641FB648B5BA6C55D42733DDACA3FA0E5804DFC+++8C35F89"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/TwoMbit-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5172308B0517DB4471ED0DAFBA8744F9ADB3C56C+++515F9A9"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/Bliss-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "51E44C659D67088644D729914E59BBF3C9A184AE+++F030928"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/hrydgard\/native.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5BD6C65548E4F2D3B0BA3A3B6DFE67166C7B2F19+++73D7C46"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/OpenEmu-SDK.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "660BA74C3D0A9E3ADEB886972207A39D8C1DB732+++4855979"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/Higan-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "71364F5253A45E45E21D0210D3020300D8B8F8F9+++33436FD"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/hrydgard\/ppsspp.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "736EA45DF41CA583E921716CF02EAD7E43325CBE+++1DC8B0B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/FCEU-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "739A98657A19EBFE4D3481305500ABFEF96080A6+++5934164"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/Mupen64Plus-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "739A98657A19EBFE4D3481305500ABFEF96080A6+++E8A52EC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/Mupen64Plus-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "739A98657A19EBFE4D3481305500ABFEF96080A6+++E8A52EC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/Stella-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "786F59C516A1C218060925DD3FF0976FDF92EAD6+++A5CE231"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/UME-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7B8EFFDFDBC3B4E722F3C4F45A892AAF5B32F018+++6E0900D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/GenesisPlus-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7BE901D98E0ACCD32284959563E5A3A302F7556B+++E579C0B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/CrabEmu-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7D002C6D71039D90725E90C29449D5847742045D+++8968B5B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/ProSystem-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "811C93072520BFDF784DD72DFBF4A4692AF3859E+++146DA33"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/picodrive.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B16402BDFB6407CFB0B67960B5F665211E597236+++C89A0E6"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/OpenEmu.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B3DAFA4E8DC41169A7FC9D30D8420929A5ED0B16+++8BEED2D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git:\/\/notaz.gp2x.de\/~notaz\/libpicofe.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B7E6BF36701A2C183993AB52AD41451C04E3AB8F+++135B42D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/O2EM-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BF6698EE7317D4C9C1B93B3E92682172B0686D40+++484883F"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/Atari800-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C44E1FFE30558D3DF359E28F498352AE2F7E3669+++BC7FE11"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/Mednafen-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C75D5DBB039E87CDBC8738118E81FC2F44F21F97+++AD274CA"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git:\/\/notaz.gp2x.de\/~notaz\/cyclone68000.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D8793984FBEA2370FFC254005B220554A62F723A+++3CAB7BE"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/yabause.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D9BE8F9631E247241F8797F31125DEB85BCFDC21+++2DE7207"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/Gambatte-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E06AC08B104CCBF0404EB8E04324DAD47B2FA9D0+++87D505C"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/BSNES-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "EAF15DA2ADEFD77EC82FD271376B8C864BB06FF6+++E2575B6"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/4DO-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "EF8050D48B7829759B1D45A77A596737B18361CD+++CED72FE"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/blueMSX-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F675EB84877AFE96EB84D5BB9EED404326FE9539+++9E907E1"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:OpenEmu\/PPSSPP-Core.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F6A98FD682749D05861BC4FFFF8E27C9ADB1318B+++FF82B1F"
+    }
+  ]
+}

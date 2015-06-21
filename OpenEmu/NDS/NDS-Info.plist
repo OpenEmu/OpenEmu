@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>org.openemu.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -26,18 +26,6 @@
 	<string>Copyright © 2012 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>OENDSSystemController</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.nds</string>
-	<key>OESystemName</key>
-	<string>Nintendo DS</string>
-	<key>OENumberOfPlayersKey</key>
-	<integer>4</integer>
-	<key>OEResponderClassKey</key>
-	<string>OENDSSystemResponder</string>
-	<key>OEFileSuffixes</key>
-	<array>
-		<string>nds</string>
-	</array>
 	<key>OEControlListKey</key>
 	<array>
 		<array>
@@ -133,8 +121,33 @@
 			</dict>
 		</array>
 	</array>
-	<key>OESystemIcon</key>
-	<string>nds_library</string>
+	<key>OEControlTypesKey</key>
+	<dict>
+		<key>OEAxisControlsKey</key>
+		<array>
+			<array>
+				<string>OENDSButtonUp</string>
+				<string>OENDSButtonDown</string>
+			</array>
+			<array>
+				<string>OENDSButtonLeft</string>
+				<string>OENDSButtonRight</string>
+			</array>
+		</array>
+		<key>OEHatSwitchControlsKey</key>
+		<array>
+			<array>
+				<string>OENDSButtonUp</string>
+				<string>OENDSButtonRight</string>
+				<string>OENDSButtonDown</string>
+				<string>OENDSButtonLeft</string>
+			</array>
+		</array>
+	</dict>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>nds</string>
+	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
 		<string>OENDSButtonUp</string>
@@ -153,28 +166,15 @@
 		<string>OENDSButtonLid</string>
 		<string>OENDSButtonDebug</string>
 	</array>
-	<key>OEControlTypesKey</key>
-	<dict>
-		<key>OEHatSwitchControlsKey</key>
-		<array>
-			<array>
-				<string>OENDSButtonUp</string>
-				<string>OENDSButtonRight</string>
-				<string>OENDSButtonDown</string>
-				<string>OENDSButtonLeft</string>
-			</array>
-		</array>
-		<key>OEAxisControlsKey</key>
-		<array>
-			<array>
-				<string>OENDSButtonUp</string>
-				<string>OENDSButtonDown</string>
-			</array>
-			<array>
-				<string>OENDSButtonLeft</string>
-				<string>OENDSButtonRight</string>
-			</array>
-		</array>
-	</dict>
+	<key>OENumberOfPlayersKey</key>
+	<integer>4</integer>
+	<key>OEResponderClassKey</key>
+	<string>OENDSSystemResponder</string>
+	<key>OESystemIcon</key>
+	<string>nds_library</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.nds</string>
+	<key>OESystemName</key>
+	<string>Nintendo DS</string>
 </dict>
 </plist>
