@@ -28,6 +28,4 @@
 #import "INAppStoreWindow.h"
 
 @interface OEAppStoreWindow : INAppStoreWindow
-- (NSRect)contentRectForFrameRect:(NSRect)frameRect;
-- (NSRect)frameRectForContentRect:(NSRect)contentRect;
 @end

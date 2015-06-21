@@ -128,11 +128,12 @@
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     [ps setAlignment:NSCenterTextAlignment];
 
-    NSMutableDictionary *textAttributes = [NSMutableDictionary dictionary];
-    [textAttributes setObject:font forKey:NSFontAttributeName];
-    [textAttributes setObject:shadow forKey:NSShadowAttributeName];
-    [textAttributes setObject:textColor forKey:NSForegroundColorAttributeName];
-    [textAttributes setObject:ps forKey:NSParagraphStyleAttributeName];
+    NSDictionary *textAttributes = @{
+                                     NSFontAttributeName: font,
+                                     NSShadowAttributeName: shadow,
+                                     NSForegroundColorAttributeName: textColor,
+                                     NSParagraphStyleAttributeName:ps
+                                     };
 
     float x = itemSpacing;
     for(OEToolbarItem *anItem in [self items])
@@ -283,7 +284,6 @@
 {
     OEToolbarView *view = [self accessibilityParent];
     NSRect    viewFrame = [view accessibilityFrame];
-
 
     return (NSRect){ .origin = NSMakePoint(NSMinX(viewFrame)+NSMinX(itemRect), NSMinY(viewFrame)+NSMinY(itemRect)),
         .size   = itemRect.size };

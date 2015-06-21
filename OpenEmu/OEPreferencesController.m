@@ -66,6 +66,7 @@ NSString *const OEPreferencePaneDidChangeVisibilityNotificationName = @"OEPrefVi
 - (void)OE_openPreferencePane:(NSNotification *)notification;
 
 @property OEAppStoreWindow *window;
+@property NSView *subviewContainer;
 @property id konamiCodeMonitor;
 @property unsigned short konamiCodeIndex;
 @end
@@ -117,7 +118,9 @@ static const unsigned short konamiCodeSize = 10;
     [preferencesItem setEnabled:YES];
 
     OEAppStoreWindow *win = (OEAppStoreWindow *)[self window];
-    [win close]; // Make sure window doesn't show up in window menu until it's actual visible
+   [win close]; // Make sure window doesn't show up in window menu until it's actual visible
+
+    [self setSubviewContainer:[[[win contentView] subviews] lastObject]];
 
     NSColor *windowBackgroundColor = [NSColor colorWithDeviceRed:0.149 green:0.149 blue:0.149 alpha:1.0];
     [win setBackgroundColor:windowBackgroundColor];
@@ -128,6 +131,8 @@ static const unsigned short konamiCodeSize = 10;
     [win setCenterTrafficLightButtons:NO];
     [win setTitleBarHeight:83.0];
     [win setMovableByWindowBackground:NO];
+    [win setShowsTitle:YES];
+    [win setVerticallyCenterTitle:NO];
    
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger selectedTab = [standardDefaults integerForKey:OESelectedPreferencesTabKey];
@@ -141,15 +146,15 @@ static const unsigned short konamiCodeSize = 10;
     OEToolbarItem *selectedItem = [toolbar itemAtIndex:selectedTab];
     [toolbar markItemAsSelected:selectedItem];
     [self switchView:selectedItem animate:NO];
-    
-    [[[self window] contentView] setWantsLayer:YES];
+
+    [_subviewContainer setWantsLayer:YES];
     
     CATransition *paneTransition = [CATransition animation];
     paneTransition.type = kCATransitionFade;
     paneTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
     paneTransition.duration = AnimationDuration;
-    
-    [[[self window] contentView] setAnimations:[NSDictionary dictionaryWithObject:paneTransition  forKey:@"subviews"]];
+
+    [_subviewContainer setAnimations:[NSDictionary dictionaryWithObject:paneTransition  forKey:@"subviews"]];
 }
 
 #pragma mark - NSWindowDelegate
@@ -344,7 +349,7 @@ static const unsigned short konamiCodeSize = 10;
 {
     NSWindow *win = [self window];
     
-    if(view == [win contentView]) return;
+    if(view == [[_subviewContainer subviews] lastObject]) return;
 
     NSRect contentRect = [win contentRectForFrameRect:[win frame]];
     contentRect.size = size;
@@ -359,11 +364,11 @@ static const unsigned short konamiCodeSize = 10;
     
     [CATransaction begin];
     
-    id target = [win contentView];
+    id target = _subviewContainer;
     if(animateFlag) target = [target animator];
     
-    if([[[win contentView] subviews] count] >= 1)
-        [target replaceSubview:[[[win contentView] subviews] lastObject] with:view];
+    if([[_subviewContainer subviews] count] >= 1)
+        [target replaceSubview:[[_subviewContainer subviews] lastObject] with:view];
     else
         [target addSubview:view];
     

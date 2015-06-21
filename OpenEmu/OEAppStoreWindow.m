@@ -46,8 +46,13 @@
     return rect;
 }
 
-#pragma mark -
-#pragma mark Toolbar dragging fix
+- (CGFloat)_minimumTitlebarHeight
+{
+    return 22.0;
+}
+
+
+#pragma mark - Toolbar dragging fix
 - (void)mouseDown:(NSEvent *)event
 {
     if([event locationInWindow].y <= [self frame].size.height - [self titleBarHeight])
