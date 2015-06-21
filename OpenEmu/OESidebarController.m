@@ -273,7 +273,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     if([sidebarView selectedRow] != index)
     {
         [sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-        [self outlineViewSelectionDidChange:nil];
+        [self outlineViewSelectionDidChange:[NSNotification notificationWithName:NSOutlineViewSelectionDidChangeNotification object:self]];
     }
 }
 
@@ -359,14 +359,14 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     if(rowToSelect != previousSelectedRow && rowToSelect != NSNotFound)
     {
         [[self view] selectRowIndexes:[NSIndexSet indexSetWithIndex:rowToSelect] byExtendingSelection:NO];
-        [self outlineViewSelectionDidChange:nil];
+        [self outlineViewSelectionDidChange:[NSNotification notificationWithName:NSOutlineViewSelectionDidChangeNotification object:self]];
     }
 }
 
 - (void)importingChanged
 {
     [self reloadData];
-    [self outlineViewSelectionDidChange:nil];
+    [self outlineViewSelectionDidChange:[NSNotification notificationWithName:NSOutlineViewSelectionDidChangeNotification object:self]];
 }
 
 - (void)libraryLocationDidChange:(NSNotification*)notification

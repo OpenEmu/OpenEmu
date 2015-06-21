@@ -200,6 +200,11 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
+    [self _performMouseMoved:theEvent];
+}
+
+- (void)_performMouseMoved:(NSEvent *)theEvent
+{
     NSWindow *gameWindow = [self gameWindow];
     if(gameWindow == nil) return;
 
@@ -669,7 +674,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 {
     OEHUDControlsBarView *view = [[[self contentView] subviews] lastObject];
     [[view fullScreenButton] setState:NSOnState];
-    [self mouseMoved:NULL];  // Show HUD because fullscreen animation makes the cursor appear
+    [self _performMouseMoved:nil];  // Show HUD because fullscreen animation makes the cursor appear
 }
 
 - (void)gameWindowWillExitFullScreen:(NSNotification *)notification;
@@ -750,7 +755,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 {
     OEButton *stopButton = [[OEButton alloc] init];
     [stopButton setThemeKey:@"hud_button_power"];
-    [stopButton setTitle:nil];
+    [stopButton setTitle:@""];
     [stopButton setTarget:self];
     [stopButton setAction:@selector(stopEmulation:)];
     [stopButton setFrame:NSMakeRect(10, 13, 51, 23)];
@@ -762,7 +767,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     _pauseButton = [[OEButton alloc] init];
     [_pauseButton setButtonType:NSToggleButton];
     [_pauseButton setThemeKey:@"hud_button_toggle_pause"];
-    [_pauseButton setTitle:nil];
+    [_pauseButton setTitle:@""];
     [_pauseButton setAction:@selector(toggleEmulationPaused:)];
     [_pauseButton setFrame:NSMakeRect(82, 9, 32, 32)];
     [_pauseButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
@@ -772,7 +777,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
     OEButton *restartButton = [[OEButton alloc] init];
     [restartButton setThemeKey:@"hud_button_restart"];
-    [restartButton setTitle:nil];
+    [restartButton setTitle:@""];
     [restartButton setAction:@selector(resetEmulation:)];
     [restartButton setFrame:NSMakeRect(111, 9, 32, 32)];
     [restartButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
@@ -782,7 +787,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 
     OEButton *saveButton = [[OEButton alloc] init];
     [saveButton setThemeKey:@"hud_button_save"];
-    [saveButton setTitle:nil];
+    [saveButton setTitle:@""];
     [saveButton setTarget:[self window]];
     [saveButton setAction:@selector(showSaveMenu:)];
     [saveButton setFrame:NSMakeRect(162, 6, 32, 32)];
@@ -796,7 +801,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     {
         OEButton *optionsButton = [[OEButton alloc] init];
         [optionsButton setThemeKey:@"hud_button_options"];
-        [optionsButton setTitle:nil];
+        [optionsButton setTitle:@""];
         [optionsButton setTarget:[self window]];
         [optionsButton setAction:@selector(showOptionsMenu:)];
         [optionsButton setFrame:NSMakeRect(212, 6, 32, 32)];
@@ -807,7 +812,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     }
 
     OEButton *volumeDownButton = [[OEButton alloc] initWithFrame:NSMakeRect(223 + (hideOptions ? 0 : 50), 17, 13, 14)];
-    [volumeDownButton setTitle:nil];
+    [volumeDownButton setTitle:@""];
     [volumeDownButton setThemeKey:@"hud_button_volume_down"];
     [volumeDownButton setAction:@selector(mute:)];
     [volumeDownButton setToolTip:NSLocalizedString(@"Mute Audio", @"Tooltip")];
@@ -815,7 +820,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [self addSubview:volumeDownButton];
 
     OEButton *volumeUpButton = [[OEButton alloc] initWithFrame:NSMakeRect(320 + (hideOptions? 0 : 50), 17, 15, 14)];
-    [volumeUpButton setTitle:nil];
+    [volumeUpButton setTitle:@""];
     [volumeUpButton setThemeKey:@"hud_button_volume_up"];
     [volumeUpButton setAction:@selector(unmute:)];
     [volumeUpButton setToolTip:NSLocalizedString(@"Unmute Audio", @"Tooltip")];
@@ -843,7 +848,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [self addSubview:_slider];
 
     _fullScreenButton = [[OEButton alloc] init];
-    [_fullScreenButton setTitle:nil];
+    [_fullScreenButton setTitle:@""];
     [_fullScreenButton setThemeKey:@"hud_button_fullscreen"];
     [_fullScreenButton setButtonType:NSPushOnPushOffButton];
     [_fullScreenButton setAction:@selector(toggleFullScreen:)];
