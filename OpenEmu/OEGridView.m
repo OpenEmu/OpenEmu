@@ -247,6 +247,8 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
             }
         }
     }];
+
+    [self installToolTips];
 }
 
 #pragma mark - Mouse Interaction
