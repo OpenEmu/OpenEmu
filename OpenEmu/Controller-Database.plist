@@ -3124,6 +3124,15 @@
 				<key>Usage</key>
 				<string>Rx</string>
 			</dict>
+			<key>OEControllerSonyPS4Dualshock4ButtonL2Button</key>
+			<dict>
+				<key>Name</key>
+				<string>L2</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>7</string>
+			</dict>
 			<key>OEControllerSonyPS4Dualshock4ButtonL3</key>
 			<dict>
 				<key>Name</key>
@@ -3150,6 +3159,15 @@
 				<string>Trigger</string>
 				<key>Usage</key>
 				<string>Ry</string>
+			</dict>
+			<key>OEControllerSonyPS4Dualshock4ButtonR2Button</key>
+			<dict>
+				<key>Name</key>
+				<string>R2</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>8</string>
 			</dict>
 			<key>OEControllerSonyPS4Dualshock4ButtonR3</key>
 			<dict>
