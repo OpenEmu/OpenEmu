@@ -157,7 +157,7 @@
 		<string>OEPCEButtonMode</string>
 	</array>
 	<key>OENumberOfPlayersKey</key>
-	<integer>2</integer>
+	<integer>5</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEPCESystemResponder</string>
 	<key>OESystemIdentifier</key>
