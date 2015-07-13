@@ -281,7 +281,7 @@
 		<string>OEPSXRightAnalogRight</string>
 	</array>
 	<key>OENumberOfPlayersKey</key>
-	<integer>4</integer>
+	<integer>8</integer>
 	<key>OEResponderClassKey</key>
 	<string>OEPSXSystemResponder</string>
 	<key>OESystemIcon</key>
