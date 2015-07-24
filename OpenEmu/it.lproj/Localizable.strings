@@ -1,0 +1,620 @@
+/*
+ Copyright (c) 2015, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+"%@ copy" = "%@ copia";  // "Duplicated collection name"
+
+"%@ could not be enabled because its plugin was not found." = "Non è stato possibile attivare il sistema %@ perché il suo plugin non è stato trovato.";  // error fallback; never shows
+
+"%@ games you add to OpenEmu will appear in this Console Library" = "I giochi per %@ che importerai in OpenEmu appariranno in questa Libreria Console.";
+
+"%ux" = "%ux";
+
+"A version of this plugin is already loaded" = "Una versione di questo plugin era già stata caricata"; // user opened a plugin and loading has failed; nsalert description
+
+"Add a Wiimote…" = "Collega Wiimote…";
+
+"Add Cheat" = "Nuovo codice";
+
+"Add Cheat…" = "Nuovo codice…";
+
+"Add Cover Art From File…" = "Seleziona copertina da file…";
+
+"Add To Collection" = "Aggiungi a raccolta";
+
+"Add untracked save states" = "Aggiungi salvataggi non tracciati"; // unused!
+
+"All Games" = "Tutti i giochi";
+
+"All Homebrew" = "Tutti gli Homebrew";
+
+"Always show BIOS preferences" = "Mostra sempre le preferenze dei BIOS";
+
+"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Sei sicuro di voler cancellare %ld salvataggi dalla libreria OpenEmu?";
+
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Sei sicuro di voler cancellare %ld istantanee dalla libreria OpenEmu?";
+
+"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Sei sicuro di voler cancellare il salvataggio '%@' dalla libreria OpenEmu?";
+
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Sei sicuro di voler cancellare l'istantanea '%@' dalla libreria OpenEmu?";
+
+"Are you sure you want to delete the selected game from your OpenEmu library?" = "Sei sicuro di voler cancellare il gioco selezionato dalla libreria OpenEmu?";
+
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "Sei sicuro di voler cancellare i giochi selezionati dalla libreria OpenEmu?";
+
+"Are you sure you want to quit the application?" = "Sei sicuro di voler uscire?";
+
+"Are you sure you want to remove the selected games from the collection?" = "Sei sicuro di voler togliere i giochi selezionati da questa raccolta?";
+
+"Are you sure you want to remove this collection?" = "Sei sicuro di voler eliminare questa raccolta?";
+
+"Are you sure you want to reset the console?" = "Sei sicuro di voler resettare la console?";
+
+"Are you sure you want to stop emulation?" = "Sei sicuro di voler chiudere l'emulatore?";
+
+"At least one System must be enabled" = "Deve essere attivo almeno un sistema";
+
+"Auto Save State" = "Salvataggio automatico";
+
+"Automatically Import" = "Importazione Automatica"; // folder name
+
+"Bluetooth must be enabled to pair a Wii controller." = "Per collegare un controller Wii, Bluetooth deve essere attivo.";
+
+"Bluetooth Not Enabled" = "Bluetooth disattivato";
+
+"Can delete save states" = "Abilita eliminazione salvataggi";
+
+"Cancel Cover Art Download" = "Annulla scaricamento copertine";
+
+"Cancel cover sync for all games" = "Annulla sincronizzazione copertine di tutti i giochi";
+
+"Cancel OpenVGDB Update" = "Annulla aggiornamento di OpenVGDB";
+
+"Cancel Operation" = "Annulla operazione";  // download missing artwork dialog button (debug) - standard nsalert
+
+"Cancel" = "Annulla";
+
+"Change Core" = "Cambia Core";
+
+"Change Volume" = "Cambia volume";
+
+"Cheat Description" = "Descrizione codice";
+
+"Check out some excellent homebrew games." = "Scopri alcuni tra i migliori giochi homebrew.";
+
+"Choose a valid file." = "Scegliere un file valido.";
+
+"Choose Library…" = "Seleziona libreria…";
+
+"Choose OpenEmu Library" = "Scegli la libreria OpenEmu";
+
+"Choose save states directory…" = "Scegli cartella dei salvataggi di stato…";
+
+"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Scegli Sì per annullare l'importazione di tutti gli elementi ancora in coda. I giochi già importati non verranno tolti dalla libreria.";
+
+"Cleanup autosave state" = "Ripulisci salvataggi automatici";
+
+"Cleanup rom hashes" = "Ripulisci hash ROM";
+
+"Cleanup Save States" = "Ripulisci stati salvati";
+
+"Clicking on image selects button" = "Seleziona pulsante facendo clic sull'immagine";
+
+"Clicking outside image deselects button" = "Deseleziona il pulsante facendo clic fuori dall'immagine";
+
+"Code:" = "Codice:";
+
+"Collapse" = "Contrai";
+
+"COLLECTIONS" = "RACCOLTE";
+
+"Collections" = "Raccolte";
+
+"CONSOLES" = "CONSOLE";
+
+"Consolidate Files…" = "Raggruppa file…";
+
+"Consolidate" = "Raggruppa";
+
+"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "I giochi selezionati verranno copiati all'interno della cartella della Libreria OpenEmu.\n\nQuesta operazione non si può annullare.";
+
+"Controls Setup" = "Opzioni del pannello Controlli";
+
+"Controls" = "Controlli";
+
+"Copying artwork failed!" = "Copia dell'immagine non riuscita!";
+
+"Copying Artwork Files…" = "Copia immagini…";
+
+"Copying Game Files…" = "Copia file dei giochi…";
+
+"Copying ROM Files…" = "Copia file ROM…";
+
+"Core Provided By…" = "Core fornito da…";
+
+"Cores" = "Core";
+
+"Could not move complete library! %ld roms were moved" = "Non è stato possibile spostare completamente la libreria! Sono state spostate solo %ld ROM";
+
+"Could not move library data!" = "Non è stato possibile spostare i dati della libreria!";
+
+"Couldn't connect to the background process." = "Errore di collegamento al processo in background.";
+
+"Couldn't load %@ plugin" = "Non è stato possibile caricare il plugin %@";
+
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Crea una raccolta di giochi personalizzata. Per aggiungere un gioco alla raccolta, selezionalo nella sua libreria console e trascinalo su ’%@’, nella barra laterale.";
+
+"Create Library…" = "Crea libreria…";
+
+"Create or Load Save State" = "Salvataggi di stato";  // dropdown menu tooltip
+
+"Dark GridView context menu" = "Menu contestuale scuro nella GridView";
+
+"Database Actions" = "Operazioni sul database";
+
+"Debug Mode" = "Modalità di debug";
+
+"Default Core" = "Core predefinito";
+
+"Delete Artwork that can be downloaded" = "Elimina le immagini che si possono scaricare";
+
+"Delete Collection" = "Elimina raccolta";
+
+"Delete Game" = "Elimina gioco";
+
+"Delete Games" = "Elimina giochi";
+
+"Delete Save State" = "Elimina";  // menu (same string as button for consistency with screenshots)
+
+"Delete Save States" = "Elimina";  // menu (same string as button for consistency with screenshots)
+
+"Delete Save" = "Elimina";  // dialog button ("Elimina salvataggio" is too long and is clipped)
+
+"Delete Saves" = "Elimina";  // dialog button (clipped for consistency with singular)
+
+"Delete Screenshot" = "Elimina";  // button & menu (clipped for consistency with plural)
+
+"Delete Screenshots" = "Elimina";  // button & menu ("Elimina istantanee" is too long and is clipped)
+
+"Delete" = "Elimina";
+
+"Deselect All" = "Deseleziona tutto";
+
+"Device Disconnected" = "Dispositivo scollegato";
+
+"Device number %lu, %@, has disconnected." = "Il dispositivo n° %1$lu, %2$@, si è scollegato";
+
+"DEVICES" = "DISPOSITIVI";
+
+"Disable aspect ratio correction" = "Disattiva correzione aspect ratio";
+
+"Disable grid view gloss overlay" = "Disattiva l'effetto riflesso nella vista a griglia";
+
+"Do it!" = "Va bene!";  // download missing artwork (debug) - standard nsalert
+
+"Do not ask me again" = "Non chiedermelo più";
+
+"Do Not Save" = "Non salvare";
+
+"Do not show me again" = "Non avvisarmi più";
+
+"Do you really want to cancel the import process?" = "Vuoi davvero annullare l'importazione?";
+
+"Do you want to continue playing where you left off?" = "Vuoi continuare a giocare da dove avevi smesso?";
+
+"Don't Import Selected" = "Non importare la selezione";
+
+"Done" = "Scansione completata";   // scanner caption
+
+"Download Cover Art" = "Scarica copertina";
+
+"Download missing artwork on the fly" = "Scarica automaticamente le immagini mancanti";
+
+"Download missing artwork" = "Scarica immagini mancanti";
+
+"Download" = "Scarica";
+
+"Downloading %@…" = "Scaricamento di %@…";
+
+"Downloading and Installing Core…" = "Scaricamento e installazione del Core…";
+
+"Downloading Game DB" = "Scarico database giochi";  // caption for openvgdb update progress bar
+
+"Drag & Drop Games Here" = "Trascina i giochi qui";
+
+"Draw button mask above image" = "Mostra la maschera dei pulsanti sull'immagine";
+
+"Duplicate Collection" = "Duplica raccolta";
+
+"Edit Game Controls" = "Modifica controlli";
+
+"Enable now" = "Attiva adesso";
+
+"Enable Retrode support" = "Attiva supporto per Retrode";
+
+"Error!" = "Errore!";  // The core could not be downloaded
+
+"Featured Games" = "In primo piano";   // top of homebrew games list
+
+"Fetching Games…" = "Caricamento lista…";
+
+"Game %ld of %ld" = "Gioco %1$ld di %2$ld";  // scanner running && not scanning directory
+
+"Game requires download" = "Il gioco va scaricato";  // Download rom dialog headline; used in homebrew games view
+
+"Game Scanner" = "Scanner giochi";
+
+"Game View Background color" = "Colore di sfondo modalità di gioco";
+
+"Gameplay" = "Gameplay";
+
+"General" = "Generali";
+
+"Hide \"%@\"" = "Nascondi \"%@\"";
+
+"Homebrew Games" = "Giochi Homebrew";
+
+"HUD Bar / Gameplay" = "Barra HUD / Modalità di gioco";
+
+"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "Se c'è un pulsante rosso sul retro, premilo.\nAltrimenti, tieni premuti insieme i pulsanti ① e ②.";
+
+"If you change the core you current progress will be lost and save states will not work anymore." = "Cambiando il core i progressi attuali nel gioco saranno persi e i vecchi salvataggi smetteranno di funzionare.";
+
+"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "A causa della crescente complessità dell'hardware e del software delle console più moderne, per emularle servono dei file BIOS. Leggi il nostro %@ per informazioni più dettagliate.";
+
+"In order to play the game it must be downloaded." = "Devi scaricare questo gioco per poterlo aprire.";
+
+"Install" = "Installa";
+
+"Installing Core" = "Installazione Core";
+
+"Join multi-line cheats with '+' e.g. 000-000+111-111" = "Separa righe multiple con '+': 000-000+111-111";
+
+"Keep Files" = "Mantieni i file";
+
+"Keyboard" = "Tastiera";
+
+"Library Window" = "Finestra Libreria";
+
+"Library" = "Libreria";
+
+"Load" = "Carica";
+
+"Locate '%@'" = "Trova '%@'";
+
+"Locate" = "Trova";
+
+"Log HID Events" = "Attiva log eventi HID";
+
+"Log Keyboard Events" = "Attiva log eventi tastiera";
+
+"Low Controller Battery" = "Batteria controller scarica";
+
+"Make sure your internet connection is active and download a suitable core." = "Assicurati di essere connesso a Internet e scarica un core adeguato.";
+
+"Make your Wiimote discoverable" = "Rendi il Wiimote visibile";
+
+"Manually choose system on import" = "Scegli manualmente un sistema quando importi un gioco";
+
+"MEDIA" = "MEDIA";
+
+"Missing Core" = "Core mancante";
+
+"Move selected game to Trash, or keep it in the Library folder?" = "Vuoi spostare il gioco nel cestino, o lasciarlo nella cartella della libreria?";
+
+"Move selected games to Trash, or keep them in the Library folder?" = "Vuoi spostare i giochi nel cestino, o lasciarli nella cartella della libreria?";
+
+"Move to Trash" = "Cestina";
+
+"Mute Audio" = "Disattiva audio";
+
+"New Collection from Selection" = "Nuova raccolta da selezione";
+
+"New Collection" = "Nuova raccolta";
+
+"New Folder" = "Nuova cartella";
+
+"New Smart Collection" = "Nuova raccolta smart";
+
+"No available controllers" = "Nessun controller disponibile";
+
+"No game played yet!" = "Non hai ancora giocato a niente!";   // Recently played
+
+"No Internet Connection" = "Non sei connesso a Internet";  // Featured Games Blank Slate View Error Info
+
+"No Save States available" = "Nessun salvataggio disponibile";
+
+"No" = "No";
+
+"None" = "Nessuna";  // rating
+
+"Not implemented right now" = "Non ancora implementato";  // unused
+
+"OK" = "OK";
+
+"Only files in the OpenEmu Library folder will be moved to the Trash." = "Solo i file che si trovano nella cartella della libreria di OpenEmu verranno spostati nel cestino.";
+
+"Open Collection" = "Apri raccolta";
+
+"Open Library" = "Apri libreria";
+
+"OpenEmu could not find a Core to launch the game" = "OpenEmu non ha trovato nessun Core per avviare il gioco";
+
+"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu include un sistema di salvataggio che permette di continuare il gioco esattamente da dove lo avevi interrotto.";  // autosave before you quit alert description
+
+"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "A OpenEmu serve una libreria per continuare. Puoi scegliere una libreria OpenEmu esistente o crearne una nuova";
+
+"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu usa dei 'Core' per emulare i giochi. Per giocare a %2$@ serve installare il Core %1$@";  // Shown when no core is found for the system of a just imported ROM. Headline = "Missing Core"
+
+"OpenEmu will save and quit all games that are currently running." = "Tutti i giochi aperti verranno salvati e poi chiusi.";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Options" = "Opzioni";
+
+"Pause Emulation" = "Sospendi emulatore";
+
+"Pause Gameplay" = "Sospensione gioco";
+
+"Perform Sanity Check on Database" = "Effettua verifica del database";
+
+"Play Game" = "Lancia il gioco";
+
+"Play Games (Caution)" = "Lancia i giochi (attenzione)";   // menu item which appears intead of "Play Game" if more than 1 game is selected (never appears, disabled by default by hidden pref)
+
+"Play Save Games" = "Carica salvataggio";
+
+"Play Save State" = "Carica salvataggio";
+
+"Player %ld" = "Giocatore %ld";
+
+"Please close all games and wait for the importer to finish." = "Chiudere tutti i giochi e attendere il completamento dell'importazione.";
+
+"Quick Load" = "Carica veloce";  // global button
+
+"Quick Save State" = "Salvataggio veloce";  // unused
+
+"Quick Save" = "Salva veloce";   // global button
+
+"Quick Save, Slot %@" = "Salvataggio veloce, slot %@";
+
+"Quit" = "Esci";
+
+"Rating" = "Classifica";
+
+"Recently Added" = "Aggiunti di recente";
+
+"Recovered Auto Save" = "Salvataggio automatico recuperato";
+
+"Region" = "Zona geografica";
+
+"Remove duplicate states" = "Rimuovi stati duplicati";  // unused
+
+"Remove duplicated roms" = "Rimuovi ROM duplicate";
+
+"Remove missing states" = "Rimuovi stati mancanti";   // unused
+
+"Remove untracked artwork files" = "Rimuovi file immagine non tracciati";
+
+"Remove" = "Rimuovi";   // remove collection or game
+
+"Rename \"%@\"" = "Rinomina \"%@\"";
+
+"Rename Game" = "Rinomina gioco";
+
+"Rename Special Save State or something?" = "Vuoi rinominare un salvataggio speciale?";
+
+"Rename" = "Rinomina";
+
+"Required files are missing." = "Mancano alcuni file necessari.";  // missing BIOS file alert
+
+"Reset main window size" = "Reimposta dimensioni finestra principale";
+
+"Resolve %ld Issues" = "Risolvi %ld problemi";
+
+"Resolve Issues" = "Risolvi problemi";
+
+"Restart now" = "Riavvia ora";
+
+"Restart System" = "Riavvia sistema";
+
+"Restart" = "Riavvia";
+
+"Resume Emulation" = "Continua emulazione";
+
+"Resume" = "Continua";
+
+"Run games using" = "Esegui giochi usando";
+
+"Save As:" = "Nome:";
+
+"Save Current Game…" = "Salva partita in corso…";
+
+"Save Game" = "Salva gioco";
+
+"Save States" = "Salvataggi";
+
+"Save to Slot %d" = "Salva nello slot %d";
+
+"Save-Game-%ld %@" = "Salvataggio-%ld %@";
+
+"Saved Games" = "Salvataggi";  // sidebar
+
+"Scanner Paused" = "Scansione sospesa";  // scanner caption
+
+"Scanning Directory" = "Scansione cartella";  // scanner caption
+
+"Screenshots" = "Istantanee";
+
+"Search" = "Ricerca";
+
+"Secrets" = "Segreti";
+
+"Select All" = "Seleziona tutto";
+
+"Select Audio Output Device" = "Uscita audio";
+
+"Select Cheat" = "Trucchi";
+
+"Select Core" = "Core";
+
+"Select Filter" = "Filtri";
+
+"Select first field after setting the last" = "Seleziona il primo campo dopo aver impostato l'ultimo";
+
+"Select Scale" = "Scala";
+
+"Set default save states directory" = "Reimposta cartella dei salvataggi di stato";
+
+"Setup Assistant has finished" = "L'assistente iniziale è terminato";
+
+"Show all global keys" = "Mostra tutti i controlli globali";
+
+"Show audio output device in menu" = "Mostra dispositivi di uscita audio nel menu";
+
+"Show autosave in menu" = "Mostra salvataggi automatici nel menu";
+
+"Show game titles instead of rom names" = "Mostra titoli dei giochi al posto dei nomi delle ROM";
+
+"Show in Finder" = "Mostra nel Finder";
+
+"Show options button" = "Mostra pulsante opzioni";
+
+"Show quicksave in menu" = "Mostra salvataggi veloci nel menu";
+
+"Show quicksave notification during gameplay" = "Mostra notifiche di salvataggio veloce durante il gioco";
+
+"Slot %d" = "Slot %d";
+
+"Slot %ld" = "Slot %ld";
+
+"Slot 1" = "Slot 1";
+
+"Some migrations failed to complete properly" = "Non è stato possibile completare correttamente alcune migrazioni";
+
+"Start Scanning" = "Avvia scansione";
+
+"Stop Emulation" = "Chiudi emulatore";
+
+"Stop" = "Chiudi";
+
+"Switch To Flow View" = "Visualizza come Cover Flow";    // tooltip
+
+"Switch To Grid View" = "Visualizza come griglia";    // tooltip
+
+"Switch To List View" = "Visualizza come elenco";   // tooltip
+
+"System Files" = "File di sistema";
+
+"System" = "Sistema";
+
+"Take screenshots in native size" = "Scatta le istantanee nelle dimensioni originali";
+
+"Takes you to the %@ project website" = "Vai al sito del progetto %@"; // weblink tooltip
+
+"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "Il Core %1$@ ha problemi di compatibilità: alcuni giochi potrebbero non funzionare o avere problemi.\n\nSiccome non siamo responsabili dello sviluppo di %2$@, non segnalateci difetti riguardanti questo Core.";
+
+"The background process connection couldn't be established" = "Non è stato possibile collegarsi al processo in background";
+
+"The background process couldn't be launched" = "Non è stato possibile avviare il processo in background";
+
+"The battery in device number %lu, %@, is low. Please charge or replace the battery." = "Si sta scaricando la batteria del dispositivo %1$lu, %2$@. Ricaricare o cambiare la batteria.";
+
+"The core could not be downloaded. Try installing it from the Cores preferences." = "Non è stato possibile scaricare il core. Prova a installarlo dalle preferenze dei Core.";
+
+"The file you selected doesn't exist" = "Il file selezionato non esiste";
+
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "Non è stato possibile avviare il gioco '%@' perché non ho trovato il file ROM. Vuoi cercarlo manualmente?";
+
+"The game '%@' was imported." = "Hai importato '%@'.";
+
+"The OpenEmu Library could not be found." = "La libreria OpenEmu non è stata trovata.";
+
+"The root proxy object is nil." = "L'oggetto proxy alla radice è nil.";
+
+"The System plugin could not be found!" = "Il plugin di questo sistema non è stato trovato!";
+
+"This save state was created with a different core. Do you want to switch to that core now?" = "Questo salvataggio è stato creato con un'altro core. Vuoi passare a quel core ora?";
+
+"This System has no corresponding core installed." = "Per questo sistema non è stato installato nessun core.";
+
+"Title:" = "Titolo:";
+
+"To launch the save state %@ you will need to install the '%@' Core" = "Per caricare il salvataggio  %1$@ serve installare il core '%2$@'";
+
+"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "Per usare questo core servono i seguenti file:\n\n%@Trascina i file richiesti sulla finestra della libreria e riprova.";
+
+"Toggle Fullscreen" = "Modalità a tutto schermo";
+
+"Toggle Sidebar" = "Mostra/nascondi barra laterale";
+
+"Trash downloaded Files" = "Sposta file scaricati nel cestino";
+
+"Unmute Audio" = "Attiva audio";
+
+"Update OpenVGDB" = "Aggiorna OpenVGDB";
+
+"Update" = "Aggiorna";   // Update Core button label
+
+"Use game name as window title" = "Usa nome gioco come titolo della finestra";
+
+"Use gamecore picker" = "Usa finestra di scelta manuale dei core";
+
+"Use quicksave slots" = "Usa slot salvataggi veloci";
+
+"User guide on BIOS files" = "Manuale sui file BIOS";
+
+"Warning" = "Attenzione";
+
+"While performing this operation OpenEmu will be unresponsive." = "Mentre questa operazione è in corso, OpenEmu smetterà di rispondere.";
+
+"WiiRemote support (requires relaunch)" = "Supporto WiiRemote (richiede il riavvio di OpenEmu)";
+
+"Won't be able to recognize it as special save state…" = "Poi non sarà più possibile distinguerlo da un salvataggio normale…";
+
+"Would you like to continue your last game?" = "Vuoi continuare il gioco?";
+
+"Would you like to save your game before you quit?" = "Vuoi salvare il gioco prima di uscire?";
+
+"Yes" = "Sì";
+
+"You can't move your library here!" = "Non puoi spostare la libreria qui!";
+
+"You need to restart the application to commit the change" = "Per applicare le modifiche è necessario riavviare l'applicazione";
+
+"Your game finished importing, do you want to play it now?" = "Il gioco è stato importato; vuoi aprirlo subito?";
+
+"Your library was moved sucessfully." = "La libreria è stata spostata con successo.";
+
+"Filter by:" = "Filtra per:"; // Search field menu, first item, instructional
+
+"Everything" = "Tutto";  // Search field menu, search everything item title
+
+"Name" = "Nome";  // Search field menu, only search names
+
+"Description" = "Descrizione";  // Search field menu, only search description
+
+"Game Name" = "Nome gioco";  // Search field menu, only search game name
+
