@@ -396,6 +396,10 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
 
 - (void)_drawDropHighlightOnRow:(NSInteger)arg1
 {
+    // do not draw Drop Highlight on currently selected row
+    if([self selectedRow] == arg1)
+        return;
+    
     NSRect rect = [self rectOfGroup:[self itemAtRow:arg1]];
     if([[self itemAtRow:arg1] isGroupHeaderInSidebar] || arg1 == -1)
     {
