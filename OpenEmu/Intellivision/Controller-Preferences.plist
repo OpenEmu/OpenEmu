@@ -9,43 +9,43 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEIntellivisionButtonUp</key>
-		<string>{250, 430}</string>
+		<string>{251, 140}</string>
 		<key>OEIntellivisionButtonDown</key>
-		<string>{250, 376}</string>
+		<string>{251, 95}</string>
 		<key>OEIntellivisionButtonLeft</key>
-		<string>{223, 403}</string>
+		<string>{228, 118}</string>
 		<key>OEIntellivisionButtonRight</key>
-		<string>{276, 403}</string>
+		<string>{273, 118}</string>
 		<key>OEIntellivisionButtonTopAction</key>
-		<string>{178, 316}</string>
+		<string>{170, 300}</string>
 		<key>OEIntellivisionButtonBottomLeftAction</key>
-		<string>{178, 326}</string>
+		<string>{170, 250}</string>
 		<key>OEIntellivisionButtonBottomRightAction</key>
-		<string>{323, 326}</string>
+		<string>{334, 250}</string>
 		<key>OEIntellivisionButton1</key>
-		<string>{208, 242}</string>
+		<string>{212, 332}</string>
 		<key>OEIntellivisionButton2</key>
-		<string>{250, 242}</string>
+		<string>{250, 332}</string>
 		<key>OEIntellivisionButton3</key>
-		<string>{292, 242}</string>
+		<string>{288, 332}</string>
 		<key>OEIntellivisionButton4</key>
-		<string>{208, 195}</string>
+		<string>{212, 294}</string>
 		<key>OEIntellivisionButton5</key>
-		<string>{250, 195}</string>
+		<string>{250, 294}</string>
 		<key>OEIntellivisionButton6</key>
-		<string>{292, 195}</string>
+		<string>{288, 294}</string>
 		<key>OEIntellivisionButton7</key>
-		<string>{208, 150}</string>
+		<string>{212, 256}</string>
 		<key>OEIntellivisionButton8</key>
-		<string>{250, 150}</string>
+		<string>{250, 256}</string>
 		<key>OEIntellivisionButton9</key>
-		<string>{292, 150}</string>
+		<string>{288, 256}</string>
 		<key>OEIntellivisionButton0</key>
-		<string>{250, 105}</string>
+		<string>{250, 218}</string>
 		<key>OEIntellivisionButtonClear</key>
-		<string>{208, 105}</string>
+		<string>{212, 218}</string>
 		<key>OEIntellivisionButtonEnter</key>
-		<string>{292, 105}</string>
+		<string>{288, 218}</string>
 	</dict>
 </dict>
 </plist>
