@@ -4,9 +4,6 @@
 [submodule "CrabEmu"]
 	path = CrabEmu
 	url = git@github.com:OpenEmu/CrabEmu-Core.git
-[submodule "BSNES"]
-	path = BSNES
-	url = git@github.com:OpenEmu/BSNES-Core.git
 [submodule "FCEU"]
 	path = FCEU
 	url = git@github.com:OpenEmu/FCEU-Core.git
