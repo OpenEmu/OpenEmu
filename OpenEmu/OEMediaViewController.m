@@ -326,9 +326,12 @@
 {
 
     NSMenu *menu = [[NSMenu alloc] init];
+    NSMenu *shareMenu = [self OE_shareMenuForItemsAtIndexes:indexes];
 
     if([indexes count] == 1)
     {
+        [[menu addItemWithTitle:NSLocalizedString(@"Share", @"SaveState View Context menu")
+                         action:nil keyEquivalent:@""] setSubmenu:shareMenu];
         [menu addItemWithTitle:NSLocalizedString(@"Rename", @"SaveState View Context menu")
                         action:@selector(beginEditingWithSelectedItem:) keyEquivalent:@""];
         [menu addItemWithTitle:NSLocalizedString(@"Show in Finder", @"SaveState View Context menu")
@@ -338,6 +341,8 @@
     }
     else
     {
+        [[menu addItemWithTitle:NSLocalizedString(@"Share", @"SaveState View Context menu")
+                         action:nil keyEquivalent:@""] setSubmenu:shareMenu];
         [menu addItemWithTitle:NSLocalizedString(@"Show in Finder", @"SaveState View Context menu")
                         action:@selector(showInFinder:) keyEquivalent:@""];
         [menu addItemWithTitle:NSLocalizedString(@"Delete Screenshots", @"Screenshot View Context menu (plural)")
@@ -346,6 +351,34 @@
 
     return menu;
 }
+
+- (NSMenu*)OE_shareMenuForItemsAtIndexes:(NSIndexSet *)indexes
+{
+    NSMenu *menu = [[NSMenu alloc] init];
+    NSArray *items = [[self items] objectsAtIndexes:indexes];
+    NSArray *urls  = [items valueForKeyPath:@"URL.absoluteURL"];
+    NSArray *sharingServices = [NSSharingService sharingServicesForItems:urls];
+    
+    for (NSSharingService *currentService in sharingServices)
+    {
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[currentService title]
+                                                      action:@selector(shareFromService:) keyEquivalent:@""];
+        [item setImage:[currentService image]];
+        [item setRepresentedObject:currentService];
+        [menu addItem:item];
+    }
+    
+    return menu;
+}
+             
+ - (IBAction)shareFromService:(id)sender
+{
+     NSIndexSet *indexes = [self selectionIndexes];
+     NSArray *items = [[self items] objectsAtIndexes:indexes];
+     NSArray *urls  = [items valueForKeyPath:@"URL.absoluteURL"];
+     
+     [[sender representedObject] performWithItems:urls];
+ }
 
 - (IBAction)showInFinder:(id)sender
 {
