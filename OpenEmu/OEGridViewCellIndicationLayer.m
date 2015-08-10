@@ -89,7 +89,7 @@ static CGColorRef processingItemBackgroundColorRef = nil;
     {
         [sublayer setFrame:bounds];
     }
-    [CATransaction flush];
+    [CATransaction commit];
 }
 
 #pragma mark -
