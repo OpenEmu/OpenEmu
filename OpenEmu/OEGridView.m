@@ -485,9 +485,6 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 
         NSRect          hitRect             = NSInsetRect([itemCell imageFrame], 5, 5);
         //NSRect          hitRectOnView       = [itemCell convertRect:hitRect toLayer:self.layer];
-        int major, minor;
-        GetSystemVersion(&major, &minor, NULL);
-        if (major == 10 && minor < 8) hitRect.origin.y = self.bounds.size.height - hitRect.origin.y - hitRect.size.height;
         NSRect          hitRectOnWindow     = [self convertRect:hitRect toView:nil];
         NSRect          visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
         NSRect          visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
