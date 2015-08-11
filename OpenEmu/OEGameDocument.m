@@ -78,7 +78,7 @@ typedef enum : NSUInteger
     OEEmulationStatusTerminating,
 } OEEmulationStatus;
 
-@interface OEGameDocument () <OEGameCoreDisplayHelper>
+@interface OEGameDocument ()
 {
     OEGameCoreManager  *_gameCoreManager;
     OESystemController *_gameSystemController;
@@ -341,7 +341,7 @@ typedef enum : NSUInteger
     if([[self rom] archiveFileIndex])
         path = [path stringByAppendingFormat:@":%d",[[[self rom] archiveFileIndex] intValue]];
 
-    return [[managerClass alloc] initWithROMPath:path romCRC32:[[self rom] crc32] romMD5:[[self rom] md5] romHeader:[[self rom] header] romSerial:[[self rom] serial] systemRegion:[[OELocalizationHelper sharedHelper] regionName] corePlugin:_corePlugin systemController:_gameSystemController displayHelper:self];
+    return [[managerClass alloc] initWithROMPath:path romCRC32:[[self rom] crc32] romMD5:[[self rom] md5] romHeader:[[self rom] header] romSerial:[[self rom] serial] systemRegion:[[OELocalizationHelper sharedHelper] regionName] corePlugin:_corePlugin systemController:_gameSystemController displayHelper:_gameViewController];
 }
 
 - (OECorePlugin *)OE_coreForSystem:(OESystemPlugin *)system error:(NSError **)outError
@@ -1449,31 +1449,4 @@ typedef enum : NSUInteger
     [_gameCoreManager setDrawSquarePixels:drawSquarePixels];
 }
 
-#pragma mark OEGameCoreDisplayHelper methods
-
-- (void)setEnableVSync:(BOOL)enable;
-{
-    [[self gameViewController] setEnableVSync:enable];
-}
-
-- (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-{
-    [[self gameViewController] setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
-}
-
-- (void)setAspectSize:(OEIntSize)newAspectSize;
-{
-    [[self gameViewController] setAspectSize:newAspectSize];
-}
-
-- (void)setDiscCount:(NSUInteger)discCount
-{
-    [[self gameViewController] setDiscCount:discCount];
-}
-
-- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
-{
-    [self setAspectSize:newAspectSize];
-    [self setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
-}
 @end
