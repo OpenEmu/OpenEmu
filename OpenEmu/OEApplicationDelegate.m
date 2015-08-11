@@ -63,8 +63,6 @@
 
 #import "OERetrodeDeviceManager.h"
 
-#import "OEXPCGameCoreManager.h"
-
 #import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
 #import <objc/message.h>
 
@@ -245,8 +243,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
-    if([OEXPCGameCoreManager canUseXPCGameCoreManager])
-        [[OEXPCCAgentConfiguration defaultConfiguration] tearDownAgent];
+    [[OEXPCCAgentConfiguration defaultConfiguration] tearDownAgent];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
