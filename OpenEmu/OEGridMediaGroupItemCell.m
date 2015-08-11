@@ -455,22 +455,7 @@ static NSDictionary *disabledActions = nil;
         return YES;
     };
 
-    int major, minor;
-    GetSystemVersion(&major, &minor, NULL);
-    if(major == 10 && minor >= 8)
-    {
-        glossImage = [NSImage imageWithSize:size flipped:NO drawingHandler:drawingBlock];
-    }
-    else
-    {
-        NSRect dstRect = (NSRect){{0,0}, size};
-        glossImage = [[NSImage alloc] initWithSize:size];
-        [glossImage lockFocus];
-
-        drawingBlock(dstRect);
-
-        [glossImage unlockFocus];
-    }
+    glossImage = [NSImage imageWithSize:size flipped:NO drawingHandler:drawingBlock];
 
     [cache setObject:glossImage forKey:key cost:size.height*size.width];
 
@@ -528,23 +513,8 @@ static NSDictionary *disabledActions = nil;
         return YES;
     };
 
-    int major, minor;
-    GetSystemVersion(&major, &minor, NULL);
-    if(major == 10 && minor >= 8)
-    {
-        selectionImage = [NSImage imageWithSize:size flipped:NO drawingHandler:drawingBlock];
-    }
-    else
-    {
-        selectionImage = [[NSImage alloc] initWithSize:size];
-        [selectionImage lockFocus];
-        
-        NSRect destinationRect = (NSRect){{0,0}, size};
-        drawingBlock(destinationRect);
-        
-        [selectionImage unlockFocus];
-    }
-    
+    selectionImage = [NSImage imageWithSize:size flipped:NO drawingHandler:drawingBlock];
+
     // Cache the image for later use
     [self OE_setStandardImage:selectionImage named:imageKey];
     

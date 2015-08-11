@@ -50,53 +50,44 @@
     int major, minor;
     NSImage *resultImage = nil;
     GetSystemVersion(&major, &minor, NULL);
-    if(major == 10 && minor >= 8)
+
+    resultImage = [NSImage imageWithSize:rect.size flipped:NO drawingHandler:
+                   ^BOOL(NSRect dstRect)
     {
-        resultImage = [NSImage imageWithSize:rect.size flipped:NO drawingHandler:
-                       ^BOOL(NSRect dstRect)
+        NSImageRep *representation = nil;
+
+        // On 10.10 Yosemite drawing behaviour has changed
+        if(major == 10 && minor >= 10)
         {
-            NSImageRep *representation = nil;
+            // Manually pick best representation for subimage based on scale of graphics context
+            // AppKit seems to fail here (esp. for search field cancel button), probably because
+            // it checks the size of the original image
+            CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
+            CGRect    deviceRect = CGContextConvertRectToDeviceSpace(context, dstRect);
+            CGFloat        scale = deviceRect.size.height / dstRect.size.height;
+            CGFloat  imageHeight = [self size].height;
 
-            // On 10.10 Yosemite drawing behaviour has changed
-            if(major == 10 && minor >= 10)
+            for(NSImageRep *rep in [self representations])
             {
-                // Manually pick best representation for subimage based on scale of graphics context
-                // AppKit seems to fail here (esp. for search field cancel button), probably because
-                // it checks the size of the original image
-                CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
-                CGRect    deviceRect = CGContextConvertRectToDeviceSpace(context, dstRect);
-                CGFloat        scale = deviceRect.size.height / dstRect.size.height;
-                CGFloat  imageHeight = [self size].height;
-
-                for(NSImageRep *rep in [self representations])
-                {
-                    CGFloat repScale = scale;
-                    // Only inspect size of bitmap image reps
-                    if([rep isKindOfClass:[NSBitmapImageRep class]])
-                        repScale = [(NSBitmapImageRep*)rep pixelsHigh] / imageHeight;
-                    if(scale == repScale) {
-                        representation = rep;
-                        break;
-                    }
+                CGFloat repScale = scale;
+                // Only inspect size of bitmap image reps
+                if([rep isKindOfClass:[NSBitmapImageRep class]])
+                    repScale = [(NSBitmapImageRep*)rep pixelsHigh] / imageHeight;
+                if(scale == repScale) {
+                    representation = rep;
+                    break;
                 }
             }
+        }
 
-            if(representation)
-                [representation drawInRect:dstRect fromRect:rect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
-            else
-                // Let AppKit pick a representation if we couldn't find one.
-                [self drawInRect:dstRect fromRect:rect operation:NSCompositeSourceOver fraction:1.0];
+        if(representation)
+            [representation drawInRect:dstRect fromRect:rect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+        else
+            // Let AppKit pick a representation if we couldn't find one.
+            [self drawInRect:dstRect fromRect:rect operation:NSCompositeSourceOver fraction:1.0];
 
-            return YES;
-        }];
-    }
-    else
-    {
-        resultImage = [[NSImage alloc] initWithSize:rect.size];
-        [resultImage lockFocusFlipped:NO];
-        [self drawInRect:NSMakeRect(0, 0, rect.size.width, rect.size.height) fromRect:rect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
-        [resultImage unlockFocus];
-    }
+        return YES;
+    }];
 
     return resultImage;
 }
