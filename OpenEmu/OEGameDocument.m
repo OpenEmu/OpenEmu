@@ -325,13 +325,8 @@ typedef enum : NSUInteger
     NSString *managerClassName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameCoreManagerModePreferenceKey];
 
     Class managerClass = NSClassFromString(managerClassName);
-    if(managerClass == [OEXPCGameCoreManager class])
-    {
-        if(![OEXPCGameCoreManager canUseXPCGameCoreManager])
-            managerClass = [OEDOGameCoreManager class];
-    }
-    else if(managerClass != [OEThreadGameCoreManager class] && managerClass != [OEDOGameCoreManager class])
-        managerClass = [OEXPCGameCoreManager canUseXPCGameCoreManager] ? [OEXPCGameCoreManager class] : [OEDOGameCoreManager class];
+    if(managerClass != [OEThreadGameCoreManager class] && managerClass != [OEDOGameCoreManager class])
+        managerClass = [OEXPCGameCoreManager class];
 
     _corePlugin = corePlugin;
     [[NSUserDefaults standardUserDefaults] setValue:[_corePlugin bundleIdentifier] forKey:UDSystemCoreMappingKeyForSystemIdentifier([self systemIdentifier])];

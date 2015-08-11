@@ -27,5 +27,4 @@
 #import "OEGameCoreManager.h"
 
 @interface OEXPCGameCoreManager : OEGameCoreManager
-+ (BOOL)canUseXPCGameCoreManager;
 @end

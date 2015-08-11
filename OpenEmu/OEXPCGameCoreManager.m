@@ -51,15 +51,6 @@
 @implementation OEXPCGameCoreManager
 @dynamic gameCoreHelper;
 
-+ (BOOL)canUseXPCGameCoreManager
-{
-    int major, minor;
-    GetSystemVersion(&major, &minor, NULL);
-    if(major >= 10 && minor >= 8)
-        return YES;
-    return NO;
-}
-
 - (void)getTerminatingProcesses:(void(^)(NSMutableSet *processes))block
 {
     static dispatch_queue_t queue;
