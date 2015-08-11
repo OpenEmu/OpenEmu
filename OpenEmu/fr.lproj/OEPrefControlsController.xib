@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPrefControlsController">
@@ -60,11 +60,11 @@
                             <rect key="frame" x="1" y="47" width="230" height="269"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <clipView key="contentView" drawsBackground="NO" id="P60-Lp-yJ1">
-                                <rect key="frame" x="0.0" y="0.0" width="215" height="269"/>
+                                <rect key="frame" x="0.0" y="0.0" width="230" height="269"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view id="112" customClass="OEControlsButtonSetupView">
-                                        <rect key="frame" x="0.0" y="0.0" width="341" height="270"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="270"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                     </view>
                                 </subviews>
