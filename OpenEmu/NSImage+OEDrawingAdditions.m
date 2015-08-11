@@ -176,16 +176,6 @@
 
     return [self imageFromParts:parts  vertical:NO];
 }
-
-- (void)setMatchesOnlyOnBestFittingAxisWithoutCrashing:(BOOL)flag
-{
-    // According to https://developer.apple.com/library/mac/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/APIs/APIs.html#//apple_ref/doc/uid/TP40012302-CH5-SW20
-    // setMatchesOnlyOnBestFittingAxis was introduced in 10.7.4
-    int maj, min, bugfix;
-    GetSystemVersion(&maj, &min, &bugfix);
-    if(maj == 10 && (min > 7 || bugfix >= 4))
-        [self setMatchesOnlyOnBestFittingAxis:flag];
-}
 @end
 
 static inline id OENilForNSNull(id x)

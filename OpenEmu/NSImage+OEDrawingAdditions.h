@@ -39,5 +39,4 @@
 - (NSImage *)subImageFromRect:(NSRect)rect;
 - (NSImage *)imageFromParts:(NSArray *)parts vertical:(BOOL)vertical;
 - (NSImage *)ninePartImageWithStretchedRect:(NSRect)stretchedRect;
-- (void)setMatchesOnlyOnBestFittingAxisWithoutCrashing:(BOOL)flag;
 @end
