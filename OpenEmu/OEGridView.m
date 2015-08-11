@@ -134,7 +134,7 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
     [self setAllowsDroppingOnItems:YES];
     [self setAnimates:NO];
 
-    [self private_setClipsToBounds:NO];
+    [self setClipsToBounds:NO];
     [self setCellsStyleMask:IKCellsStyleNone];
 
     IKImageBrowserLayoutManager *layoutManager = [self layoutManager];
@@ -846,11 +846,5 @@ static IKImageWrapper *lightingImage, *noiseImageHighRes, *noiseImage;
 - (void)reloadCellDataAtIndex:(unsigned long long)arg1
 {
     [super reloadCellDataAtIndex:arg1];
-}
-
-- (void)private_setClipsToBounds:(BOOL)flag
-{
-    if([self respondsToSelector:@selector(setClipsToBounds:)])
-        [self setClipsToBounds:flag];
 }
 @end
