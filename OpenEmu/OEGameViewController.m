@@ -283,6 +283,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         OEDBRom *rom = [[self document] rom];
         OEDBScreenshot *screenshot = [OEDBScreenshot createObjectInContext:[rom managedObjectContext] forROM:rom withFile:temporaryURL];
         [screenshot save];
+        [[self gameView] showScreenShotNotification];
     }
 }
 

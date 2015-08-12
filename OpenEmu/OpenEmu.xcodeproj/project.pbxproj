@@ -345,6 +345,7 @@
 		8308F0EE1862FFEC0046BD8A /* OpenEmu.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8308F0ED1862FFEB0046BD8A /* OpenEmu.icns */; };
 		83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */; };
 		8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy SaveState QL Generator */ = {isa = PBXBuildFile; fileRef = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		830BBECB1B7BE979000B13CB /* OEGameViewNotificationRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 830BBECA1B7BE979000B13CB /* OEGameViewNotificationRenderer.m */; };
 		830BC86914D5E35A000826E2 /* controller_snes_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 830BC86714D5E1E6000826E2 /* controller_snes_mask.png */; };
 		830BC86C14D5F1DD000826E2 /* controller_gba_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 830BC86A14D5F1A5000826E2 /* controller_gba_mask.png */; };
 		830CB918186878D6006EAE5A /* OEArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 830CB917186878D6006EAE5A /* OEArrayController.m */; };
@@ -426,6 +427,8 @@
 		8372381819632A0D008D4C08 /* controller_psp_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8372381619632A0D008D4C08 /* controller_psp_mask@2x.png */; };
 		8372381919632A0D008D4C08 /* controller_psp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8372381719632A0D008D4C08 /* controller_psp@2x.png */; };
 		8372381D196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8372381C196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.m */; };
+		837416B81B7BD70900786E9D /* hud_screenshot_notification.png in Resources */ = {isa = PBXBuildFile; fileRef = 837416B61B7BD70900786E9D /* hud_screenshot_notification.png */; };
+		837416B91B7BD70900786E9D /* hud_screenshot_notification@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 837416B71B7BD70900786E9D /* hud_screenshot_notification@2x.png */; };
 		83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83753F1614F537C400D708A7 /* OEPrefDebugController.m */; };
 		83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */; };
 		8375696915125A1F00795226 /* dark_menu_scroll_arrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 8375696715125A1F00795226 /* dark_menu_scroll_arrows.png */; };
@@ -2023,6 +2026,8 @@
 		8308F0ED1862FFEB0046BD8A /* OpenEmu.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = OpenEmu.icns; sourceTree = "<group>"; };
 		83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+OEHashingAdditions.h"; sourceTree = "<group>"; };
 		83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+OEHashingAdditions.m"; sourceTree = "<group>"; };
+		830BBEC91B7BE979000B13CB /* OEGameViewNotificationRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameViewNotificationRenderer.h; sourceTree = "<group>"; };
+		830BBECA1B7BE979000B13CB /* OEGameViewNotificationRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameViewNotificationRenderer.m; sourceTree = "<group>"; };
 		830BC86714D5E1E6000826E2 /* controller_snes_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_mask.png; sourceTree = "<group>"; };
 		830BC86A14D5F1A5000826E2 /* controller_gba_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gba_mask.png; sourceTree = "<group>"; };
 		830CB916186878D6006EAE5A /* OEArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArrayController.h; sourceTree = "<group>"; };
@@ -2212,6 +2217,8 @@
 		8372381719632A0D008D4C08 /* controller_psp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psp@2x.png"; sourceTree = "<group>"; };
 		8372381B196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+OEAdditions.h"; sourceTree = "<group>"; };
 		8372381C196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+OEAdditions.m"; sourceTree = "<group>"; };
+		837416B61B7BD70900786E9D /* hud_screenshot_notification.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_screenshot_notification.png; sourceTree = "<group>"; };
+		837416B71B7BD70900786E9D /* hud_screenshot_notification@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_screenshot_notification@2x.png"; sourceTree = "<group>"; };
 		83753F1514F537C400D708A7 /* OEPrefDebugController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefDebugController.h; sourceTree = "<group>"; };
 		83753F1614F537C400D708A7 /* OEPrefDebugController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefDebugController.m; sourceTree = "<group>"; };
 		83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefDebugController.xib; sourceTree = "<group>"; };
@@ -4550,6 +4557,8 @@
 		53439BA913B93920005C0CC8 /* HUD */ = {
 			isa = PBXGroup;
 			children = (
+				837416B61B7BD70900786E9D /* hud_screenshot_notification.png */,
+				837416B71B7BD70900786E9D /* hud_screenshot_notification@2x.png */,
 				83920CDC147E675C00D219EA /* hud_alert_window.png */,
 				EC350FBB17401B44005DA3B2 /* hud_alert_window@2x.png */,
 				53439BAA13B93920005C0CC8 /* hud_bar.png */,
@@ -4752,6 +4761,8 @@
 				8C415ECC16B0682B00980DB9 /* OEMultipassShader.m */,
 				2205C376196402B50013C675 /* OELUTTexture.h */,
 				2205C377196402B50013C675 /* OELUTTexture.m */,
+				830BBEC91B7BE979000B13CB /* OEGameViewNotificationRenderer.h */,
+				830BBECA1B7BE979000B13CB /* OEGameViewNotificationRenderer.m */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -7487,6 +7498,7 @@
 				83CE3DC314C84EC10036DB28 /* beta_icon.png in Resources */,
 				83C0B37414D6FC58007CAC00 /* sidebar_triangle.png in Resources */,
 				8303BC0814E318C200FCD701 /* dark_menu_body.png in Resources */,
+				837416B81B7BD70900786E9D /* hud_screenshot_notification.png in Resources */,
 				8303BC0A14E318C200FCD701 /* dark_submenu_body.png in Resources */,
 				8303BC0C14E318C200FCD701 /* light_menu_body.png in Resources */,
 				8303BC0D14E318C200FCD701 /* light_submenu_body.png in Resources */,
@@ -7613,6 +7625,7 @@
 				83CDAE9C1A61892900DF964A /* supervision_library.png in Resources */,
 				EC35100217401B58005DA3B2 /* wood_inset_box@2x.png in Resources */,
 				EC35100317401B58005DA3B2 /* wood_knob_vertical@2x.png in Resources */,
+				837416B91B7BD70900786E9D /* hud_screenshot_notification@2x.png in Resources */,
 				83D94FB519A4D43B007583E1 /* bios_tab_icon@2x.png in Resources */,
 				EC35100417401B58005DA3B2 /* wood_popup_button@2x.png in Resources */,
 				EC35100517401B58005DA3B2 /* wood_textfield@2x.png in Resources */,
@@ -8449,6 +8462,7 @@
 				83200BF9162F5C1C00BCFA9D /* OESidebarBackgroundView.m in Sources */,
 				8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */,
 				14F8750D1649377E002AE3B8 /* OEFiniteStateMachine.m in Sources */,
+				830BBECB1B7BE979000B13CB /* OEGameViewNotificationRenderer.m in Sources */,
 				83955CB5165D939100572B34 /* OEBlankSlateView.m in Sources */,
 				83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */,
 				83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */,

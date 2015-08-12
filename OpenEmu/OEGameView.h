@@ -34,12 +34,10 @@
 
 #import "OEGameCoreHelper.h"
 
-extern NSString * const OEShowSaveStateNotificationKey;
 extern NSString * const OEScreenshotAspectRationCorrectionDisabled;
 extern NSString * const OEDefaultVideoFilterKey;
 
 @protocol OEGameViewDelegate;
-
 
 @interface OEGameView : NSOpenGLView <OEGameCoreDisplayHelper>
 
@@ -59,6 +57,7 @@ extern NSString * const OEDefaultVideoFilterKey;
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 
 - (void)showQuickSaveNotification;
+- (void)showScreenShotNotification;
 
 - (NSSize)correctScreenSize:(OEIntSize)screenSize forAspectSize:(OEIntSize)aspectSize returnVertices:(BOOL)flag;
 @end

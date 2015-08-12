@@ -38,6 +38,8 @@
 #import "OEMultipassShader.h"
 #import "OELUTTexture.h"
 
+#import "OEGameViewNotificationRenderer.h"
+
 #import <IOSurface/IOSurface.h>
 #import <OpenGL/CGLMacro.h>
 #import <OpenGL/CGLIOSurface.h>
@@ -45,7 +47,6 @@
 
 #import "snes_ntsc.h"
 
-NSString * const OEShowSaveStateNotificationKey = @"OEShowSaveStateNotification";
 NSString * const OEScreenshotAspectRationCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
 NSString * const OEDefaultVideoFilterKey = @"videoFilter";
 
@@ -62,6 +63,8 @@ static const GLfloat cg_coords[] = {
 - (void)tearDownDisplayLink;
 - (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
 - (void)render;
+
+@property OEGameViewNotificationRenderer *notificationRenderer;
 @end
 
 @implementation OEGameView
@@ -100,16 +103,7 @@ static const GLfloat cg_coords[] = {
     BOOL               _filterHasOutputMousePositionKeys;
 
     // Save State Notifications
-    NSTimeInterval _lastQuickSave;
     GLuint _saveStateTexture;
-}
-
-+ (void)initialize
-{
-    if([self class] == [OEGameView class])
-    {
-        [[NSUserDefaults standardUserDefaults] registerDefaults:@{OEShowSaveStateNotificationKey:@(YES)}];
-    }
 }
 
 - (instancetype)initWithFrame:(NSRect)frameRect
@@ -196,7 +190,10 @@ static const GLfloat cg_coords[] = {
     [self startSyphon];
 #endif
 
-    [self OE_createSaveStateTexture];
+    _notificationRenderer = [[OEGameViewNotificationRenderer alloc] init];
+    [_notificationRenderer setScaleFactor:[[self window] backingScaleFactor]];
+    [_notificationRenderer setAspectSize:_gameAspectSize];
+    [_notificationRenderer setupInContext:[self openGLContext]];
 
     _openGLContextIsSetup = YES;
 
@@ -325,8 +322,12 @@ static const GLfloat cg_coords[] = {
 #pragma mark -
 - (void)showQuickSaveNotification
 {
-    if([[NSUserDefaults standardUserDefaults] boolForKey:OEShowSaveStateNotificationKey])
-        _lastQuickSave = [[NSDate date] timeIntervalSinceDate:_filterStartDate];
+    [_notificationRenderer showQuickStateNotification];
+}
+
+- (void)showScreenShotNotification
+{
+    [_notificationRenderer showScreenShotNotification];
 }
 
 - (void)setEnableVSync:(BOOL)enable
@@ -615,53 +616,8 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
             [syphonServer publishFrameTexture:_gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
 #endif
 
-        // Draw quick save notification if appropriate
-        NSTimeInterval difference = _filterTime-_lastQuickSave;
-        const static NSTimeInterval fadeIn  = 0.25;
-        const static NSTimeInterval visible = 1.25;
-        const static NSTimeInterval fadeOut = 0.25;
-        if(difference < fadeIn+visible+fadeOut)
-        {
-            double alpha = 1.0;
-            if(difference < visible)
-                alpha = difference/fadeIn;
-            else if(difference >= fadeIn+visible)
-                alpha = 1.0 - (difference-fadeIn-visible) / fadeOut;
-
-            const OEIntSize   aspectSize     = _gameAspectSize;
-            const NSSize      viewSize       = [self bounds].size;
-            const OEIntSize viewIntSize = (OEIntSize){viewSize.width, viewSize.height};
-            const OEIntSize textureIntSize = [self OE_correctTextureSize:viewIntSize forAspectSize:aspectSize];
-            const NSRect  bounds = [self bounds];
-
-            const NSSize  imageSize   = {56.0, 56.0};
-            const CGPoint imageOrigin = {20.0, 20.0};
-
-            const NSRect rect = (NSRect){{-1.0* (textureIntSize.width-imageOrigin.x)/NSWidth(bounds), (textureIntSize.height-imageSize.height-imageOrigin.y)/NSHeight(bounds)}, {imageSize.width/NSWidth(bounds),imageSize.height/NSHeight(bounds)}};
-
-            glDisable(GL_TEXTURE_RECTANGLE_EXT);
-
-            glEnable(GL_BLEND); 
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
-            glColor4f(alpha, alpha, alpha, alpha); 
-
-            glEnable(GL_TEXTURE_2D); 
-            glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); 
-            glBindTexture(GL_TEXTURE_2D, _saveStateTexture);
-
-            glBegin(GL_QUADS);
-            glTexCoord2f(0.0, 0.0); glVertex2d(NSMinX(rect), NSMinY(rect));
-            glTexCoord2f(0.0, 1.0); glVertex2d(NSMinX(rect), NSMaxY(rect));
-            glTexCoord2f(1.0, 1.0); glVertex2d(NSMaxX(rect), NSMaxY(rect));
-            glTexCoord2f(1.0, 0.0); glVertex2d(NSMaxX(rect), NSMinY(rect));
-            glEnd(); 
-            
-            glBindTexture(GL_TEXTURE_2D, 0); 
-            glDisable(GL_TEXTURE_2D); 
-
-            glDisable(GL_BLEND);
-            glEnable(GL_TEXTURE_RECTANGLE_EXT);
-        }
+        [_notificationRenderer setBounds:[self bounds]];
+        [_notificationRenderer render];
     }
 
     CGLUnlockContext(cgl_ctx);
@@ -1159,8 +1115,8 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     [[self openGLContext] makeCurrentContext];
-    NSTimeInterval tempQuickSaveTime = _lastQuickSave;
-    _lastQuickSave = [NSDate timeIntervalSinceReferenceDate];
+
+    _notificationRenderer.disableNotifications = true;
     [self render];
     CGLLockContext(cgl_ctx);
     {
@@ -1170,7 +1126,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
                      GL_RGB, GL_UNSIGNED_BYTE, [imageRep bitmapData]);
     }
     CGLUnlockContext(cgl_ctx);
-    _lastQuickSave = tempQuickSaveTime;
+    _notificationRenderer.disableNotifications = false;
 
     NSImage *screenshotImage = [[NSImage alloc] initWithSize:textureNSSize];
     [screenshotImage addRepresentation:imageRep];
@@ -1260,7 +1216,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
 {
-    _gameAspectSize = newAspectSize;
+    [self setAspectSize:newAspectSize];
     [self setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
 }
 
@@ -1305,6 +1261,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 - (void)setAspectSize:(OEIntSize)newAspectSize
 {
     _gameAspectSize = newAspectSize;
+    [_notificationRenderer setAspectSize:_gameAspectSize];
 }
 
 - (NSSize)correctScreenSize:(OEIntSize)screenSize forAspectSize:(OEIntSize)aspectSize returnVertices:(BOOL)flag
@@ -1474,59 +1431,10 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     CGLLockContext(cgl_ctx);
     CGLSetCurrentContext(cgl_ctx);
-    [self OE_createSaveStateTexture];
+    [_notificationRenderer cleanUp];
+    [_notificationRenderer setScaleFactor:[[self window] backingScaleFactor]];
+    [_notificationRenderer setupInContext:[self openGLContext]];
     CGLUnlockContext(cgl_ctx);
-}
-
-- (void)OE_createSaveStateTexture
-{
-    _lastQuickSave = [NSDate timeIntervalSinceReferenceDate];
-    CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
-
-    if(_saveStateTexture)
-    {
-        glDeleteTextures(1, &_saveStateTexture);
-        _saveStateTexture = 0;
-    }
-
-    CGImageSourceRef imageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)[[NSBundle mainBundle] URLForImageResource:@"hud_quicksave_notification"], NULL);
-
-    CGFloat scaleFactor = [[self window] backingScaleFactor] ?: 1.0;
-    size_t index = MIN(scaleFactor > 1.0 ? 0 : 1, CGImageSourceGetCount(imageSource) -1);
-
-    CGImageRef image = CGImageSourceCreateImageAtIndex(imageSource, index, NULL);
-    CFRelease(imageSource);
-    size_t width  = CGImageGetWidth(image);
-    size_t height = CGImageGetHeight(image);
-    CGRect rect = CGRectMake(0.0f, 0.0f, width, height);
-
-    void *imageData = malloc(width * height * 4);
-    CGColorSpaceRef colourSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef ctx = CGBitmapContextCreate(imageData, width, height, 8, width * 4, colourSpace, kCGBitmapByteOrder32Host | kCGImageAlphaPremultipliedFirst);
-    CFRelease(colourSpace);
-    CGContextTranslateCTM(ctx, 0, height);
-    CGContextScaleCTM(ctx, 1.0f, -1.0f);
-    CGContextSetBlendMode(ctx, kCGBlendModeCopy);
-    CGContextDrawImage(ctx, rect, image);
-    CGContextRelease(ctx);
-    CFRelease(image);
-
-    glGenTextures(1, &_saveStateTexture);
-    glBindTexture(GL_TEXTURE_2D, _saveStateTexture);
-
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, (GLint)width);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, (int)width, (int)height, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, imageData);
-    free(imageData);
-
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 0);
-    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 - (OEIntSize)OE_correctTextureSize:(OEIntSize)textureSize forAspectSize:(OEIntSize)aspectSize

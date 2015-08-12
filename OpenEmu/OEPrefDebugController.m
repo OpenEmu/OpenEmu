@@ -57,6 +57,7 @@
 #import "OERetrodeDeviceManager.h"
 #import "OEGridGameCell.h"
 #import "OEGameView.h"
+#import "OEGameViewNotificationRenderer.h"
 #import "OEControllerImageView.h"
 #import "OEControlsButtonSetupView.h"
 #import "OEDBDataSourceAdditions.h"
@@ -163,6 +164,7 @@ NSString * const OptionsKey = @"options";
                               NCheckbox(OEGameControlsBarHidesOptionButtonKey, @"Show options button"),
                               Checkbox(OEForceCorePicker, @"Use gamecore picker"),
                               Checkbox(OEShowSaveStateNotificationKey, @"Show quicksave notification during gameplay"),
+                              Checkbox(OEShowScreenShotNotificationKey, @"Show screenshot notification during gameplay"),
                               Checkbox(OESaveStateUseQuickSaveSlotsKey, @"Use quicksave slots"),
                               Checkbox(OEGameControlsBarShowsQuickSaveStateKey, @"Show quicksave in menu"),
                               Checkbox(OEGameControlsBarShowsAutoSaveStateKey, @"Show autosave in menu"),
