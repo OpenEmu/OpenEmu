@@ -2028,6 +2028,8 @@
 		83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+OEHashingAdditions.m"; sourceTree = "<group>"; };
 		830BBEC91B7BE979000B13CB /* OEGameViewNotificationRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameViewNotificationRenderer.h; sourceTree = "<group>"; };
 		830BBECA1B7BE979000B13CB /* OEGameViewNotificationRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameViewNotificationRenderer.m; sourceTree = "<group>"; };
+		830BBECC1B7BF916000B13CB /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OEPrefControlsController.xib; sourceTree = "<group>"; };
+		830BBECD1B7BF919000B13CB /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OEPrefControlsController.xib; sourceTree = "<group>"; };
 		830BC86714D5E1E6000826E2 /* controller_snes_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_mask.png; sourceTree = "<group>"; };
 		830BC86A14D5F1A5000826E2 /* controller_gba_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gba_mask.png; sourceTree = "<group>"; };
 		830CB916186878D6006EAE5A /* OEArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArrayController.h; sourceTree = "<group>"; };
@@ -9245,6 +9247,8 @@
 				8FD9057A1AA2927300FA7662 /* de */,
 				F1A2C8701AAD0B3B00A17C80 /* fr */,
 				0162C81D1AFACDE2003536F4 /* it */,
+				830BBECC1B7BF916000B13CB /* es */,
+				830BBECD1B7BF919000B13CB /* pt */,
 			);
 			name = OEPrefControlsController.xib;
 			sourceTree = "<group>";
