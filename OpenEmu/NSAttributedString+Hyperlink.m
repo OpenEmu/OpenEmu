@@ -33,7 +33,7 @@
                                             attributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                         [aURL absoluteString], NSLinkAttributeName,
                                                         [NSColor blueColor], NSForegroundColorAttributeName,
-                                                        [NSNumber numberWithInt:NSSingleUnderlineStyle], NSUnderlineStyleAttributeName,
+                                                        [NSNumber numberWithInt:NSUnderlineStyleSingle], NSUnderlineStyleAttributeName,
                                                         nil]];
 }
 @end

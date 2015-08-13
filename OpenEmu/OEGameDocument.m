@@ -57,6 +57,7 @@
 #import "OEMainWindowController.h"
 
 #import <objc/message.h>
+#import <IOKit/pwr_mgt/IOPMLib.h>
 
 NSString *const OEGameCoreManagerModePreferenceKey = @"OEGameCoreManagerModePreference";
 NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
@@ -83,7 +84,7 @@ typedef enum : NSUInteger
     OEGameCoreManager  *_gameCoreManager;
     OESystemController *_gameSystemController;
 
-    NSTimer            *_systemSleepTimer;
+    IOPMAssertionID     _displaySleepAssertionID;
 
     OEEmulationStatus   _emulationStatus;
     OEDBSaveState      *_saveStateForGameStart;
@@ -525,26 +526,22 @@ typedef enum : NSUInteger
     return displayName ? : @"";
 }
 
-#pragma mark - OS Sleep Handling
-
-- (void)preventSystemSleepTimer:(NSTimer *)aTimer;
-{
-    UpdateSystemActivity(OverallAct);
-}
+#pragma mark - Display Sleep Handling
 
 - (void)enableOSSleep
 {
-    if(_systemSleepTimer == nil) return;
+    if(_displaySleepAssertionID == kIOPMNullAssertionID) return;
 
-    [_systemSleepTimer invalidate];
-    _systemSleepTimer = nil;
+    IOPMAssertionRelease(_displaySleepAssertionID);
+    _displaySleepAssertionID = kIOPMNullAssertionID;
 }
 
 - (void)disableOSSleep
 {
-    if(_systemSleepTimer != nil) return;
+    if(_displaySleepAssertionID != kIOPMNullAssertionID) return;
 
-    _systemSleepTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(preventSystemSleepTimer:) userInfo:nil repeats:YES];
+    IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleDisplaySleep,
+                                kIOPMAssertionLevelOn, CFSTR("OpenEmu playing game"), &_displaySleepAssertionID);
 }
 
 #pragma mark - NSDocument Stuff

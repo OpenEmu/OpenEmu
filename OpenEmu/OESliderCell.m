@@ -149,9 +149,7 @@
 - (void)setThemeImageKey:(NSString *)key
 {
     OEThemeImage *image = [[OETheme sharedTheme] themeImageForKey:key];
-    NSImage *realImage = [image imageForState:OEThemeStateDefault];
     [self setThemeImage:image];
-    [self setKnobThickness:[realImage size].width];
 }
 
 - (void)setBackgroundThemeImage:(OEThemeImage *)backgroundThemeImage
