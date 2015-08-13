@@ -390,9 +390,28 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
     _representedSystemPlugin = nil;
     _representedCollectionName = [item sidebarName];
 
-    [self OE_setupViewWithCollectionName:[item sidebarName]];
+    [self OE_setupScreenShotBox];
+    [self OE_setupScreenShotText];
 }
 
+- (void)OE_setupScreenShotBox
+{
+    NSImageView *arrowImageView = [[NSImageView alloc] initWithFrame:NSZeroRect];
+    [arrowImageView setImage:[NSImage imageNamed:@"blank_slate_camera"]];
+    [arrowImageView setImageScaling:NSImageScaleNone];
+    [arrowImageView setImageAlignment:NSImageAlignTop];
+    [arrowImageView unregisterDraggedTypes];
+
+    [self setupBoxWithText:NSLocalizedString(@"No Screenshots Found", @"No screen shots found") andImageView:arrowImageView];
+}
+
+- (void)OE_setupScreenShotText
+{
+    [self addLeftHeadlineWithText:NSLocalizedString(@"Screenshots", @"")];
+
+    NSString *text = NSLocalizedString(@"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + t while playing a game.", @"");
+    [self addInformationalText:text];
+}
 
 - (void)layoutSublayersOfLayer:(CALayer *)theLayer
 {

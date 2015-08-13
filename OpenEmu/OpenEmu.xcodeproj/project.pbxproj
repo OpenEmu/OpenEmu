@@ -469,6 +469,8 @@
 		83977F681408FE6700175858 /* controller_gb.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F671408FE6700175858 /* controller_gb.png */; };
 		83977F6C1408FE8E00175858 /* controller_nes.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F6A1408FE8E00175858 /* controller_nes.png */; };
 		83977F6E1408FEA800175858 /* controller_sms.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F6D1408FEA800175858 /* controller_sms.png */; };
+		83A466A91B7D3DDD00D0C184 /* blank_slate_camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 83A466A71B7D3DDD00D0C184 /* blank_slate_camera.png */; };
+		83A466AA1B7D3DDD00D0C184 /* blank_slate_camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83A466A81B7D3DDD00D0C184 /* blank_slate_camera@2x.png */; };
 		83A9758A184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A97589184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.m */; };
 		83A9E152144723E20051AF1D /* hud_power_glyph.png in Resources */ = {isa = PBXBuildFile; fileRef = 83A9E151144723E20051AF1D /* hud_power_glyph.png */; };
 		83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AAC32814581699005ADD16 /* OESetupAssistantBackgroundView.m */; };
@@ -2331,6 +2333,8 @@
 		839A391A196AAFDB001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A391B196AAFDB001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A391C196AAFDB001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83A466A71B7D3DDD00D0C184 /* blank_slate_camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_slate_camera.png; sourceTree = "<group>"; };
+		83A466A81B7D3DDD00D0C184 /* blank_slate_camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blank_slate_camera@2x.png"; sourceTree = "<group>"; };
 		83A8CD8D1709E1EE00F5D145 /* OEDatabase 0.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.5.xcdatamodel"; sourceTree = "<group>"; };
 		83A97588184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantScrollBorderView.h; sourceTree = "<group>"; };
 		83A97589184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantScrollBorderView.m; sourceTree = "<group>"; };
@@ -4442,6 +4446,8 @@
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				83A466A71B7D3DDD00D0C184 /* blank_slate_camera.png */,
+				83A466A81B7D3DDD00D0C184 /* blank_slate_camera@2x.png */,
 				83834A171AAC7815004E0768 /* search_loupe_menu.png */,
 				83834A181AAC7815004E0768 /* search_loupe_menu@2x.png */,
 				948FCB64182C7A63001B16BE /* about_background.jpg */,
@@ -7419,6 +7425,7 @@
 				83CB0C861A3F0F9400409FB2 /* blank_slate_spinner_sp.png in Resources */,
 				53439C0D13B93920005C0CC8 /* knob_vertical.png in Resources */,
 				83B04E421968610F00CB985E /* Localizable.strings in Resources */,
+				83A466A91B7D3DDD00D0C184 /* blank_slate_camera.png in Resources */,
 				11DC4D4718681E64006CE75D /* controls_triangle@2x.png in Resources */,
 				53439C0E13B93920005C0CC8 /* list_indicators.png in Resources */,
 				53439C0F13B93920005C0CC8 /* list_rating.png in Resources */,
@@ -7547,6 +7554,7 @@
 				EC350F8317401AC1005DA3B2 /* knob_vertical@2x.png in Resources */,
 				EC350F8417401AC1005DA3B2 /* list_indicators@2x.png in Resources */,
 				EC350F8517401AC1005DA3B2 /* list_rating@2x.png in Resources */,
+				83A466AA1B7D3DDD00D0C184 /* blank_slate_camera@2x.png in Resources */,
 				EC350F8617401AC1005DA3B2 /* noise@2x.png in Resources */,
 				EC350F8717401AC1005DA3B2 /* open_weblink_arrow@2x.png in Resources */,
 				EC350F8817401AC1005DA3B2 /* scrollbar_corner@2x.png in Resources */,
