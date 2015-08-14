@@ -390,8 +390,21 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
     _representedSystemPlugin = nil;
     _representedCollectionName = [item sidebarName];
 
-    [self OE_setupScreenShotBox];
-    [self OE_setupScreenShotText];
+    if([_representedObject isKindOfClass:[OEDBScreenshotsMedia class]])
+    {
+        [self OE_setupScreenShotBox];
+        [self OE_setupScreenShotText];
+    } else {
+        NSImageView *arrowImageView = [[NSImageView alloc] initWithFrame:NSZeroRect];
+        [arrowImageView setImage:[NSImage imageNamed:@"blank_slate_arrow"]];
+        [arrowImageView setImageScaling:NSImageScaleNone];
+        [arrowImageView setImageAlignment:NSImageAlignTop];
+        [arrowImageView unregisterDraggedTypes];
+
+        [self setupBoxWithText:NSLocalizedString(@"Drag & Drop Save States Here", @"Blank Slate DnD Save States Here") andImageView:arrowImageView];
+
+        [self OE_setupSaveStateText];
+    }
 }
 
 - (void)OE_setupScreenShotBox
@@ -410,6 +423,14 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
     [self addLeftHeadlineWithText:NSLocalizedString(@"Screenshots", @"")];
 
     NSString *text = NSLocalizedString(@"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + t while playing a game.", @"");
+    [self addInformationalText:text];
+}
+
+- (void)OE_setupSaveStateText
+{
+    [self addLeftHeadlineWithText:NSLocalizedString(@"Save States", @"")];
+
+    NSString *text = NSLocalizedString(@"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves.", @"");
     [self addInformationalText:text];
 }
 
