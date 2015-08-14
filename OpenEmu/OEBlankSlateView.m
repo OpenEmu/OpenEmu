@@ -309,13 +309,8 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
 
 - (void)OE_setupDragAndDropBox
 {
-    NSImageView *arrowImageView = [[NSImageView alloc] initWithFrame:NSZeroRect];
-    [arrowImageView setImage:[NSImage imageNamed:@"blank_slate_arrow"]];
-    [arrowImageView setImageScaling:NSImageScaleNone];
-    [arrowImageView setImageAlignment:NSImageAlignTop];
-    [arrowImageView unregisterDraggedTypes];
-
-    [self setupBoxWithText:NSLocalizedString(@"Drag & Drop Games Here", @"Blank Slate DnD Here") andImageView:arrowImageView];
+    NSImageView *imageView = [self OE_makeImageViewWithImageNamed:@"blank_slate_arrow"];
+    [self setupBoxWithText:NSLocalizedString(@"Drag & Drop Games Here", @"Blank Slate DnD Here") andImageView:imageView];
 }
 
 - (void)setupBoxWithText:(NSString*)text andImageView:(NSView*)arrowImageView
@@ -395,13 +390,8 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
         [self OE_setupScreenShotBox];
         [self OE_setupScreenShotText];
     } else {
-        NSImageView *arrowImageView = [[NSImageView alloc] initWithFrame:NSZeroRect];
-        [arrowImageView setImage:[NSImage imageNamed:@"blank_slate_arrow"]];
-        [arrowImageView setImageScaling:NSImageScaleNone];
-        [arrowImageView setImageAlignment:NSImageAlignTop];
-        [arrowImageView unregisterDraggedTypes];
-
-        [self setupBoxWithText:NSLocalizedString(@"Drag & Drop Save States Here", @"Blank Slate DnD Save States Here") andImageView:arrowImageView];
+        NSImageView *imageView = [self OE_makeImageViewWithImageNamed:@"blank_slate_arrow"];
+        [self setupBoxWithText:NSLocalizedString(@"Drag & Drop Save States Here", @"Blank Slate DnD Save States Here") andImageView:imageView];
 
         [self OE_setupSaveStateText];
     }
@@ -409,13 +399,8 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
 
 - (void)OE_setupScreenShotBox
 {
-    NSImageView *arrowImageView = [[NSImageView alloc] initWithFrame:NSZeroRect];
-    [arrowImageView setImage:[NSImage imageNamed:@"blank_slate_camera"]];
-    [arrowImageView setImageScaling:NSImageScaleNone];
-    [arrowImageView setImageAlignment:NSImageAlignTop];
-    [arrowImageView unregisterDraggedTypes];
-
-    [self setupBoxWithText:NSLocalizedString(@"No Screenshots Found", @"No screen shots found") andImageView:arrowImageView];
+    NSImageView *imageView = [self OE_makeImageViewWithImageNamed:@"blank_slate_camera"];
+    [self setupBoxWithText:NSLocalizedString(@"No Screenshots Found", @"No screen shots found") andImageView:imageView];
 }
 
 - (void)OE_setupScreenShotText
@@ -448,6 +433,15 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
     [CATransaction flush];
 }
 
+- (NSImageView*)OE_makeImageViewWithImageNamed:(NSString*)imageName{
+    NSImageView *arrowImageView = [[NSImageView alloc] initWithFrame:NSZeroRect];
+    [arrowImageView setImage:[NSImage imageNamed:imageName]];
+    [arrowImageView setImageScaling:NSImageScaleNone];
+    [arrowImageView setImageAlignment:NSImageAlignTop];
+    [arrowImageView unregisterDraggedTypes];
+
+    return arrowImageView;
+}
 #pragma mark - View Setup
 - (void)addInformationalText:(NSString*)text
 {
