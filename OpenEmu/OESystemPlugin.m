@@ -125,6 +125,11 @@ static NSArray *_cachedSupportedTypeExtensions = nil;
     return [[self controller] fileTypes];
 }
 
+- (BOOL)supportsDiscs
+{
+    return [[self controller] supportsDiscs];
+}
+
 - (CGFloat)coverAspectRatio
 {
     return [[self controller] coverAspectRatio];

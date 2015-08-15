@@ -40,10 +40,11 @@
 #import "OEButton.h"
 #import "OEPopUpButtonCell.h"
 #import "OECenteredTextFieldCell.h"
+#import "OEArrowCursorTextView.h"
 
 #import "NSColor+OEAdditions.h"
 
-@interface OEBlankSlateView ()
+@interface OEBlankSlateView () <NSTextViewDelegate>
 @property CALayer *dragIndicationLayer;
 @property NSDragOperation lastDragOperation;
 - (void)commonBlankSlateInit;
@@ -76,6 +77,8 @@ const CGFloat OEBlankSlateBottomTextTop = 317.0;
 const CGFloat OEBlankSlateCoreToTop = 312.0; // space between core icon and view top
 const CGFloat OEBlankSlateCoreX     = 263.0; // x coordinate of core icon
 const CGFloat OEBlankSlateRightColumnX = 309.0;
+
+NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-CD-based-games";
 
 @implementation OEBlankSlateView
 
@@ -178,7 +181,7 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
     [self OE_setupDragAndDropBox];
     [self addLeftHeadlineWithText:NSLocalizedString(@"Collections", @"")];
 
-    NSString   *text = [NSString stringWithFormat:NSLocalizedString(@"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.", @""), collectionName];
+    NSString *text = [NSString stringWithFormat:NSLocalizedString(@"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.", @""), collectionName];
     [self addInformationalText:text];
 }
 
@@ -200,25 +203,54 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
     
     NSRect      rect     = (NSRect){ .size = {NSWidth(containerFrame)/12*7, OEBlankSlateBottomTextHeight}};
     rect.origin.y = NSHeight(containerFrame)-NSHeight(rect)-OEBlankSlateBottomTextTop;
-    NSTextView *textView = [[NSTextView alloc] initWithFrame:NSInsetRect(rect, -4, 0)];
-    NSString   *text     = [NSString stringWithFormat:NSLocalizedString(@"%@ games you add to OpenEmu will appear in this Console Library", @""), [plugin systemName]];
+    NSTextView *textView = [[OEArrowCursorTextView alloc] initWithFrame:NSInsetRect(rect, -4, 0)];
+
+    NSString *textFormat = nil;
+
+    if([plugin supportsDiscs]) {
+        textFormat = NSLocalizedString(@"%@ games will appear here. Check out %@ on how to add disc-based games.", @"");
+    } else {
+        textFormat = NSLocalizedString(@"%@ games you add to OpenEmu will appear in this Console Library", @"");
+    }
+
+    NSString *text = [NSString stringWithFormat:textFormat, [plugin systemName], NSLocalizedString(@"this guide", @"this guide")];
+
     [textView setDrawsBackground:NO];
     [textView setEditable:NO];
-    [textView setSelectable:NO];
+    [textView setSelectionGranularity:NSSelectByCharacter];
+    [textView setDelegate:self];
     [textView setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0]];
     [textView setTextColor:[NSColor colorWithDeviceWhite:0.86 alpha:1.0]];
     [textView setTextContainerInset:NSMakeSize(0, 0)];
-    
+
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
     [paraStyle setLineSpacing:2];
     [textView setDefaultParagraphStyle:paraStyle];
     [textView setString:text];
-    
+
     NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor blackColor]];
     [shadow setShadowBlurRadius:0];
     [shadow setShadowOffset:(NSSize){0,-1}];
     [textView setShadow:shadow];
+
+    NSMutableDictionary *attributes = [[textView typingAttributes] mutableCopy];
+    [attributes setObject:[NSCursor arrowCursor] forKey:NSCursorAttributeName];
+    [textView setTypingAttributes:attributes];
+    [textView setMarkedTextAttributes:attributes];
+    [textView setSelectedTextAttributes:attributes];
+
+    if([plugin supportsDiscs]) {
+        NSRange guideLinkRange = [[textView string] rangeOfString:NSLocalizedString(@"this guide", @"this guide")];
+        NSDictionary *guideLinkAttribtues = @{
+                                              NSLinkAttributeName: [NSURL URLWithString:OECDBasedGamesUserGuideURLString],
+                                              };
+        [[textView textStorage] setAttributes:guideLinkAttribtues range:guideLinkRange];
+    }
+    NSMutableDictionary *linkAttributes = [attributes mutableCopy];
+    [linkAttributes setObject:@(NSUnderlineStyleSingle) forKey:NSUnderlineStyleAttributeName];
+    [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
+    [textView setLinkTextAttributes:linkAttributes];
     
     [container addSubview:textView];
 
@@ -441,6 +473,17 @@ const CGFloat OEBlankSlateRightColumnX = 309.0;
     [arrowImageView unregisterDraggedTypes];
 
     return arrowImageView;
+}
+#pragma mark - NSTextView Delegate
+- (BOOL)textView:(NSTextView *)textView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex
+{
+    [[NSWorkspace sharedWorkspace] openURL:link];
+    return YES;
+}
+
+- (NSRange)textView:(NSTextView *)aTextView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange
+{
+    return NSMakeRange(0, 0);
 }
 #pragma mark - View Setup
 - (void)addInformationalText:(NSString*)text

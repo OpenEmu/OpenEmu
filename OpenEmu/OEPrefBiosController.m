@@ -269,10 +269,13 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     [[NSWorkspace sharedWorkspace] openURL:link];
     return YES;
 }
+
 - (NSRange)textView:(NSTextView *)aTextView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange
 {
     return NSMakeRange(0, 0);
 }
+
+#pragma mark - NSTableView Delegate
 - (NSDragOperation)tableView:(NSTableView *)table validateDrop:(id<NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)dropOperation
 {
     [table setDropRow:-1 dropOperation:NSTableViewDropOn];
