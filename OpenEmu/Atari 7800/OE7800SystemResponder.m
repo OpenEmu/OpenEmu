@@ -45,4 +45,19 @@
     [[self client] didRelease7800Button:(OE7800Button)[aKey key] forPlayer:[aKey player]];
 }
 
+- (void)mouseMovedAtPoint:(OEIntPoint)aPoint
+{
+    [[self client] mouseMovedAtPoint:aPoint];
+}
+
+- (void)mouseDownAtPoint:(OEIntPoint)aPoint
+{
+    [[self client] leftMouseDownAtPoint:aPoint];
+}
+
+- (void)mouseUpAtPoint
+{
+    [[self client] leftMouseUp];
+}
+
 @end

@@ -48,5 +48,8 @@ typedef enum _OE7800Button
 
 - (oneway void)didPush7800Button:(OE7800Button)button forPlayer:(NSUInteger)player;
 - (oneway void)didRelease7800Button:(OE7800Button)button forPlayer:(NSUInteger)player;
+- (oneway void)mouseMovedAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseUp;
 
 @end
