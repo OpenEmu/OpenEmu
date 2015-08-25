@@ -182,6 +182,10 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     // Ignore unsupported file extensions
     NSMutableSet *validExtensions = [NSMutableSet setWithArray:[OESystemPlugin supportedTypeExtensions]];
 
+    // Hack fix for #2031
+    // TODO: Build set for extensions from all BIOS file types?
+    [validExtensions addObject:@"img"];
+
     // TODO:
     // The Archived Game document type lists all supported archive extensions, e.g. zip
     NSDictionary *bundleInfo      = [[NSBundle mainBundle] infoDictionary];
