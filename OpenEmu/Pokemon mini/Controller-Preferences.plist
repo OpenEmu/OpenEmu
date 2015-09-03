@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_pokemonmini</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_pokemonmini_mask</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OEPMButtonMenu</key>
+		<string>{96, 261}</string>
+		<key>OEPMButtonA</key>
+		<string>{96, 226}</string>
+		<key>OEPMButtonB</key>
+		<string>{78, 243}</string>
+		<key>OEPMButtonC</key>
+		<string>{118, 243}</string>
+		<key>OEPMButtonUp</key>
+		<string>{123, 185}</string>
+		<key>OEPMButtonDown</key>
+		<string>{123, 161}</string>
+		<key>OEPMButtonLeft</key>
+		<string>{424, 250}</string>
+		<key>OEPMButtonRight</key>
+		<string>{387, 236}</string>
+		<key>OEPMButtonPower</key>
+		<string>{81, 325}</string>
+		<key>OEPMButtonShake</key>
+		<string>{419, 325}</string>
+	</dict>
+</dict>
+</plist>

@@ -56,6 +56,9 @@
       location = "group:picodrive/Picodrive.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:PokeMini/PokeMini.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Potator-Core/Potator.xcodeproj">
    </FileRef>
    <FileRef
