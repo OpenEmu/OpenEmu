@@ -82,6 +82,7 @@
 				94EBBCFB183F42CE00743756 /* CopyFiles */,
 			);
 			dependencies = (
+				081A462E1B9574B800565444 /* PBXTargetDependency */,
 				8378DE941A785849003DA046 /* PBXTargetDependency */,
 				837964F71A614B3600A8DE5C /* PBXTargetDependency */,
 				277CBA6019DE55700059A2C1 /* PBXTargetDependency */,
@@ -112,6 +113,17 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		081A462F1B9574CE00565444 /* Pokemon mini.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 081A46261B95744A00565444 /* Pokemon mini.oesystemplugin */; };
+		0867695A1B96E8B2006545DA /* OEPMSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 086769591B96E8B2006545DA /* OEPMSystemResponder.m */; };
+		0867695D1B96E8D4006545DA /* pokemonmini_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 0867695C1B96E8D4006545DA /* pokemonmini_library.png */; };
+		0867695F1B96E8DB006545DA /* pokemonmini_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0867695E1B96E8DB006545DA /* pokemonmini_library@2x.png */; };
+		086769611B96E8E6006545DA /* controller_pokemonmini_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 086769601B96E8E6006545DA /* controller_pokemonmini_mask.png */; };
+		086769631B96E902006545DA /* controller_pokemonmini.png in Resources */ = {isa = PBXBuildFile; fileRef = 086769621B96E902006545DA /* controller_pokemonmini.png */; };
+		086769671B96E92C006545DA /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 086769661B96E92C006545DA /* Keyboard-Mappings.plist */; };
+		086769691B96E936006545DA /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 086769681B96E936006545DA /* Controller-Preferences.plist */; };
+		0867696B1B96E93F006545DA /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0867696A1B96E93F006545DA /* Controller-Mappings.plist */; };
+		08D786141B9586F600CCC1A3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		08D786151B95870000CCC1A3 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		0A9F272216635A1B008B1FB8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9F272116635A1B008B1FB8 /* libz.dylib */; };
 		0A9F272316635A55008B1FB8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9F272116635A1B008B1FB8 /* libz.dylib */; };
 		11BD776E196A46AD00BFB3FE /* controller_n64_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 11BD776A196A46AD00BFB3FE /* controller_n64_mask.png */; };
@@ -1209,6 +1221,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		081A462D1B9574B800565444 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 081A46251B95744A00565444;
+			remoteInfo = Pokemonmini;
+		};
 		1B6A25011430F8FB009F1CE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1612,6 +1631,7 @@
 			dstPath = OpenEmu.app/Contents/PlugIns/Systems;
 			dstSubfolderSpec = 16;
 			files = (
+				081A462F1B9574CE00565444 /* Pokemon mini.oesystemplugin in CopyFiles */,
 				8378DE951A785853003DA046 /* GameCube.oesystemplugin in CopyFiles */,
 				837964FA1A614C6A00A8DE5C /* Supervision.oesystemplugin in CopyFiles */,
 				277CBA6119DE558B0059A2C1 /* Intellivision.oesystemplugin in CopyFiles */,
@@ -1692,6 +1712,19 @@
 		0162C8261AFACDE6003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OESystemPicker.xib; sourceTree = "<group>"; };
 		0162C8271AFACDE7003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OECorePicker.xib; sourceTree = "<group>"; };
 		0162C8281AFACDE7003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OESetupAssistant.xib; sourceTree = "<group>"; };
+		081A46261B95744A00565444 /* Pokemon mini.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pokemon mini.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		081A46291B95744A00565444 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		086769581B96E8A2006545DA /* OEPMSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPMSystemResponder.h; path = "Pokemon mini/OEPMSystemResponder.h"; sourceTree = SOURCE_ROOT; };
+		086769591B96E8B2006545DA /* OEPMSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEPMSystemResponder.m; path = "Pokemon mini/OEPMSystemResponder.m"; sourceTree = SOURCE_ROOT; };
+		0867695B1B96E8C2006545DA /* OEPMSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPMSystemResponderClient.h; path = "Pokemon mini/OEPMSystemResponderClient.h"; sourceTree = SOURCE_ROOT; };
+		0867695C1B96E8D4006545DA /* pokemonmini_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pokemonmini_library.png; path = "Pokemon mini/pokemonmini_library.png"; sourceTree = SOURCE_ROOT; };
+		0867695E1B96E8DB006545DA /* pokemonmini_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pokemonmini_library@2x.png"; path = "Pokemon mini/pokemonmini_library@2x.png"; sourceTree = SOURCE_ROOT; };
+		086769601B96E8E6006545DA /* controller_pokemonmini_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controller_pokemonmini_mask.png; path = "Pokemon mini/controller_pokemonmini_mask.png"; sourceTree = SOURCE_ROOT; };
+		086769621B96E902006545DA /* controller_pokemonmini.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controller_pokemonmini.png; path = "Pokemon mini/controller_pokemonmini.png"; sourceTree = SOURCE_ROOT; };
+		086769641B96E922006545DA /* Pokemon mini-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Pokemon mini-Info.plist"; path = "Pokemon mini/Pokemon mini-Info.plist"; sourceTree = SOURCE_ROOT; };
+		086769661B96E92C006545DA /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Keyboard-Mappings.plist"; path = "Pokemon mini/Keyboard-Mappings.plist"; sourceTree = SOURCE_ROOT; };
+		086769681B96E936006545DA /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Controller-Preferences.plist"; path = "Pokemon mini/Controller-Preferences.plist"; sourceTree = SOURCE_ROOT; };
+		0867696A1B96E93F006545DA /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Controller-Mappings.plist"; path = "Pokemon mini/Controller-Mappings.plist"; sourceTree = SOURCE_ROOT; };
 		0A9F272116635A1B008B1FB8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		11BD776A196A46AD00BFB3FE /* controller_n64_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_n64_mask.png; sourceTree = "<group>"; };
 		11BD776B196A46AD00BFB3FE /* controller_n64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_n64.png; sourceTree = "<group>"; };
@@ -3309,6 +3342,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		081A46231B95744A00565444 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08D786141B9586F600CCC1A3 /* Cocoa.framework in Frameworks */,
+				08D786151B95870000CCC1A3 /* OpenEmuSystem.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1415540C1442B3B300A01683 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -3714,6 +3756,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		081A461F1B9572C400565444 /* Pokemon mini */ = {
+			isa = PBXGroup;
+			children = (
+				086769581B96E8A2006545DA /* OEPMSystemResponder.h */,
+				086769591B96E8B2006545DA /* OEPMSystemResponder.m */,
+				0867695B1B96E8C2006545DA /* OEPMSystemResponderClient.h */,
+				081A46361B95752200565444 /* Supporting Files */,
+			);
+			name = "Pokemon mini";
+			path = Vectrex;
+			sourceTree = "<group>";
+		};
+		081A46271B95744A00565444 /* Pokemonmini */ = {
+			isa = PBXGroup;
+			children = (
+				081A46281B95744A00565444 /* Supporting Files */,
+			);
+			path = Pokemonmini;
+			sourceTree = "<group>";
+		};
+		081A46281B95744A00565444 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				081A46291B95744A00565444 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		081A46361B95752200565444 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0867695C1B96E8D4006545DA /* pokemonmini_library.png */,
+				0867695E1B96E8DB006545DA /* pokemonmini_library@2x.png */,
+				086769601B96E8E6006545DA /* controller_pokemonmini_mask.png */,
+				086769621B96E902006545DA /* controller_pokemonmini.png */,
+				086769641B96E922006545DA /* Pokemon mini-Info.plist */,
+				086769661B96E92C006545DA /* Keyboard-Mappings.plist */,
+				0867696A1B96E93F006545DA /* Controller-Mappings.plist */,
+				086769681B96E936006545DA /* Controller-Preferences.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -3844,6 +3929,7 @@
 				94404755199D4DF0002D805E /* Odyssey2.oesystemplugin */,
 				277CBA4519DE54200059A2C1 /* Intellivision.oesystemplugin */,
 				837964E11A6149C000A8DE5C /* Supervision.oesystemplugin */,
+				081A46261B95744A00565444 /* Pokemon mini.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4078,6 +4164,7 @@
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				C60CDDD511780DD100EB472F /* Documentation */,
 				C67B0CB51363370B00F18A5D /* OpenEmuSystem */,
+				081A46271B95744A00565444 /* Pokemonmini */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 			);
@@ -6351,6 +6438,7 @@
 				9405538617A34C6B009B505D /* PC Engine CD */,
 				94A22465170753D500098DA0 /* PC-FX */,
 				94A224F81707596200098DA0 /* PlayStation */,
+				081A461F1B9572C400565444 /* Pokemon mini */,
 				94454EB617860E1E006C057B /* PSP */,
 				94A224D51707556D00098DA0 /* Saturn */,
 				946B9464178289BB00A212AC /* Sega 32X */,
@@ -6509,6 +6597,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		081A46251B95744A00565444 /* Pokemon mini */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 081A462A1B95744A00565444 /* Build configuration list for PBXNativeTarget "Pokemon mini" */;
+			buildPhases = (
+				081A46221B95744A00565444 /* Sources */,
+				081A46231B95744A00565444 /* Frameworks */,
+				081A46241B95744A00565444 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pokemon mini";
+			productName = Pokemonmini;
+			productReference = 081A46261B95744A00565444 /* Pokemon mini.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		1415540E1442B3B300A01683 /* N64 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1415541A1442B3B300A01683 /* Build configuration list for PBXNativeTarget "N64" */;
@@ -7224,6 +7329,9 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 0700;
 				TargetAttributes = {
+					081A46251B95744A00565444 = {
+						CreatedOnToolsVersion = 6.4;
+					};
 					837964E01A6149C000A8DE5C = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
@@ -7287,6 +7395,7 @@
 				94404754199D4DF0002D805E /* Odyssey2 */,
 				277CBA3219DE54200059A2C1 /* Intellivision */,
 				837964E01A6149C000A8DE5C /* Supervision */,
+				081A46251B95744A00565444 /* Pokemon mini */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -7298,6 +7407,20 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		081A46241B95744A00565444 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				086769671B96E92C006545DA /* Keyboard-Mappings.plist in Resources */,
+				0867696B1B96E93F006545DA /* Controller-Mappings.plist in Resources */,
+				086769691B96E936006545DA /* Controller-Preferences.plist in Resources */,
+				0867695D1B96E8D4006545DA /* pokemonmini_library.png in Resources */,
+				0867695F1B96E8DB006545DA /* pokemonmini_library@2x.png in Resources */,
+				086769611B96E8E6006545DA /* controller_pokemonmini_mask.png in Resources */,
+				086769631B96E902006545DA /* controller_pokemonmini.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1415540D1442B3B300A01683 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -8232,6 +8355,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		081A46221B95744A00565444 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0867695A1B96E8B2006545DA /* OEPMSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1415540B1442B3B300A01683 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -8811,6 +8942,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		081A462E1B9574B800565444 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 081A46251B95744A00565444 /* Pokemon mini */;
+			targetProxy = 081A462D1B9574B800565444 /* PBXContainerItemProxy */;
+		};
 		1B6A25021430F8FB009F1CE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 83F37141140BB166005A7353 /* Build SystemPlugins */;
@@ -9691,6 +9827,57 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		081A462B1B95744A00565444 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Pokemon mini/Pokemon mini-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.10;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		081A462C1B95744A00565444 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Pokemon mini/Pokemon mini-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.10;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
 		141554181442B3B300A01683 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -11800,6 +11987,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		081A462A1B95744A00565444 /* Build configuration list for PBXNativeTarget "Pokemon mini" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				081A462B1B95744A00565444 /* Debug */,
+				081A462C1B95744A00565444 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		1415541A1442B3B300A01683 /* Build configuration list for PBXNativeTarget "N64" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
