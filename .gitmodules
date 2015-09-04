@@ -79,6 +79,6 @@
 [submodule "Potator-Core"]
 	path = Potator-Core
 	url = https://github.com/OpenEmu/Potator-Core.git
-[submodule "PokeMini-Core"]
+[submodule "PokeMini"]
 	path = PokeMini
 	url = git@github.com:OpenEmu/PokeMini-Core
