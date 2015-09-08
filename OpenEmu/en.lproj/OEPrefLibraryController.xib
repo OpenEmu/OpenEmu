@@ -68,7 +68,7 @@
                 <textField verticalHuggingPriority="750" id="10" customClass="OELabel">
                     <rect key="frame" x="41" y="292" width="144" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Organisation Methods" id="18" customClass="OELabelCell">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Organization Methods" id="18" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -113,7 +113,7 @@
                     </buttonCell>
                     <cells>
                         <column>
-                            <buttonCell type="check" title="Keep games organised" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="20" userLabel="Check Box Cell" customClass="OEButtonCell">
+                            <buttonCell type="check" title="Keep games organized" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="20" userLabel="Check Box Cell" customClass="OEButtonCell">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                                 <connections>
