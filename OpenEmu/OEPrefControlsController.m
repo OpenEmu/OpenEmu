@@ -543,7 +543,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
         [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
         [alert setHeadlineText:NSLocalizedString(@"Make your Wiimote discoverable", @"")];
 
-        if([alert runModal])
+        if([alert runModal] == NSAlertFirstButtonReturn)
         {
             // Start WiiRemote support
             if([[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportEnabled])

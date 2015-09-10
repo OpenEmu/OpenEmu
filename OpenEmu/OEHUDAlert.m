@@ -155,8 +155,9 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     if([self suppressionUDKey] && [[NSUserDefaults standardUserDefaults] valueForKey:[self suppressionUDKey]])
     {
         _result = [[NSUserDefaults standardUserDefaults] integerForKey:[self suppressionUDKey]];
+        NSInteger suppressionValue = (_result == 1 ? NSAlertFirstButtonReturn : NSAlertSecondButtonReturn);
         [self OE_performCallback];
-        return _result;
+        return suppressionValue;
     }
 
     [self OE_autosizeWindow];
@@ -191,7 +192,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     };
 
     NSModalSession session = [NSApp beginModalSessionForWindow:_hudWindow];
-    while([NSApp runModalSession:session] == NSRunContinuesResponse)
+    while([NSApp runModalSession:session] == NSModalResponseContinue)
     {
         [[NSRunLoop mainRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
         executeBlocks();
@@ -327,18 +328,19 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 - (void)buttonAction:(id)sender
 {
     if(sender == [self defaultButton] || sender == [self inputField])
-        _result = NSAlertDefaultReturn;
+        _result = NSAlertFirstButtonReturn;
     else if(sender == [self alternateButton])
-        _result = NSAlertAlternateReturn;
+        _result = NSAlertSecondButtonReturn;
     else if(sender == [self otherButton])
-        _result = NSAlertOtherReturn;
+        _result = NSAlertThirdButtonReturn;
     else 
-        _result = NSAlertDefaultReturn;
+        _result = NSAlertFirstButtonReturn;
 
-    if(_result != NSAlertOtherReturn && [[self suppressionButton] state] && (_result || ![self suppressOnDefaultReturnOnly]) && [self suppressionUDKey])
+    if(_result != NSAlertThirdButtonReturn && [[self suppressionButton] state] && (_result || ![self suppressOnDefaultReturnOnly]) && [self suppressionUDKey])
     {
+        NSInteger suppressionValue = (_result == NSAlertFirstButtonReturn ? 1 : 0);
         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-        [standardUserDefaults setInteger:_result forKey:[self suppressionUDKey]];
+        [standardUserDefaults setInteger:suppressionValue forKey:[self suppressionUDKey]];
     }
 
     [NSApp stopModalWithCode:_result];

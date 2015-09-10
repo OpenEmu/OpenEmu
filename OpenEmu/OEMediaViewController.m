@@ -411,7 +411,7 @@
             alert = [OEHUDAlert deleteStateAlertWithStateCount:[items count]];
         }
 
-        if([alert runModal] == NSAlertDefaultReturn)
+        if([alert runModal] == NSAlertFirstButtonReturn)
         {
             [items makeObjectsPerformSelector:@selector(deleteAndRemoveFiles)];
             [[[[self libraryController] database] mainThreadContext] save:nil];
@@ -436,7 +436,7 @@
             alert = [OEHUDAlert deleteScreenshotAlertWithScreenshotCount:[items count]];
         }
 
-        if([alert runModal] == NSAlertDefaultReturn)
+        if([alert runModal] == NSAlertFirstButtonReturn)
         {
             [items makeObjectsPerformSelector:@selector(delete)];
             [[[[self libraryController] database] mainThreadContext] save:nil];
@@ -496,7 +496,7 @@
         if([[item displayName] isEqualToString:title]) return;
 
         OEDBSaveState *saveState = item;
-        if(![saveState isSpecialState] || [[OEHUDAlert renameSpecialStateAlert] runModal] == NSAlertDefaultReturn)
+        if(![saveState isSpecialState] || [[OEHUDAlert renameSpecialStateAlert] runModal] == NSAlertFirstButtonReturn)
         {
             [saveState setName:title];
             [saveState moveToDefaultLocation];

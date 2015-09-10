@@ -561,7 +561,7 @@
         cancelAlert.alternateButtonTitle = NSLocalizedString(@"No", @"");
 
         [sender setState:[sender state] == NSOnState ? NSOffState : NSOnState];
-        if([cancelAlert runModal] == NSAlertDefaultReturn)
+        if([cancelAlert runModal] == NSAlertFirstButtonReturn)
         {
             [[self importer] cancel];
             [self OE_hideGameScannerView];

@@ -645,7 +645,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 - (void)removeItemAtIndex:(NSUInteger)index
 {
     id item = [[self view] itemAtRow:index];
-    BOOL removeItem = NO;
 
     if([item isEditableInSidebar] || [item isKindOfClass:[OEDBSmartCollection class]])
     {
@@ -653,26 +652,25 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         NSString *confirm = NSLocalizedString(@"Remove", @"");
         NSString *cancel = NSLocalizedString(@"Cancel", @"");
 
-        OEHUDAlert* alert = [OEHUDAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel];
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel];
         [alert showSuppressionButtonForUDKey:OESuppressRemoveCollectionConfirmationKey];
-        removeItem = [alert runModal];
-    }
 
-    if(removeItem)
-    {
-        [(OEDBCollection*)item delete];
-        [(OEDBCollection*)item save];
+        if([alert runModal] == NSAlertFirstButtonReturn)
+        {
+            [(OEDBCollection*)item delete];
+            [(OEDBCollection*)item save];
 
-        // keep selection on last object if the one we removed was last
-        if(index == [[self view] numberOfRows]-1)
-            index --;
+            // keep selection on last object if the one we removed was last
+            if(index == [[self view] numberOfRows]-1)
+                index --;
 
-        NSIndexSet *selIn = [[NSIndexSet alloc] initWithIndex:index];
-        [[self view] selectRowIndexes:selIn byExtendingSelection:NO];
-        [self reloadData];
+            NSIndexSet *selIn = [[NSIndexSet alloc] initWithIndex:index];
+            [[self view] selectRowIndexes:selIn byExtendingSelection:NO];
+            [self reloadData];
 
-        OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
-        [[NSNotificationCenter defaultCenter] postNotificationName:NSOutlineViewSelectionDidChangeNotification object:sidebarView];
+            OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
+            [[NSNotificationCenter defaultCenter] postNotificationName:NSOutlineViewSelectionDidChangeNotification object:sidebarView];
+        }
     }
 }
 

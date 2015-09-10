@@ -106,7 +106,7 @@
     // Alert the user of missing BIOS/system files that are required for the core
     if (missingFileStatus)
     {
-        if([[OEHUDAlert missingBIOSFilesAlert:[NSString stringWithString:missingFilesList]] runModal] == NSAlertAlternateReturn)
+        if([[OEHUDAlert missingBIOSFilesAlert:[NSString stringWithString:missingFilesList]] runModal] == NSAlertSecondButtonReturn)
         {
             [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files"]];
         }

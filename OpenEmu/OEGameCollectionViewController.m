@@ -221,7 +221,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     OEHUDAlert *alert = [OEHUDAlert deleteStateAlertWithStateName:stateName];
 
     NSUInteger result = [alert runModal];
-    if(result)
+    if(result == NSAlertFirstButtonReturn)
         [state deleteAndRemoveFiles];
 }
 
@@ -238,7 +238,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
        || [[self representedObject] isKindOfClass:[OEDBSystem class]])
     {
         // delete games from library if user allows it
-        if([[OEHUDAlert removeGamesFromLibraryAlert:multipleGames] runModal])
+        if([[OEHUDAlert removeGamesFromLibraryAlert:multipleGames] runModal] == NSAlertFirstButtonReturn)
         {
             NSURL* romsFolderURL             = [[[self libraryController] database] romsFolderURL];
             __block BOOL romsAreInRomsFolder = NO;
@@ -259,7 +259,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
             if(romsAreInRomsFolder)
             {
                 NSUInteger alertReturn = [[OEHUDAlert removeGameFilesFromLibraryAlert:multipleGames] runModal];
-                deleteFiles = (alertReturn == NSAlertDefaultReturn);
+                deleteFiles = (alertReturn == NSAlertFirstButtonReturn);
             }
 
             DLog(@"deleteFiles: %d", deleteFiles);
@@ -279,7 +279,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     else if([[self representedObject] isMemberOfClass:[OEDBCollection class]])
     {
         // remove games from collection if user allows it
-        if([[OEHUDAlert removeGamesFromCollectionAlert] runModal])
+        if([[OEHUDAlert removeGamesFromCollectionAlert] runModal] == NSAlertFirstButtonReturn)
         {
             OEDBCollection* collection = (OEDBCollection*)[self representedObject];
             [[collection mutableGames] minusSet:[NSSet setWithArray:selectedGames]];
@@ -371,7 +371,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
         [alert setMessageText:NSLocalizedString(@"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.", @"")];
         [alert setDefaultButtonTitle:NSLocalizedString(@"Consolidate", @"")];
         [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
-        if([alert runModal] != NSAlertDefaultReturn) return;
+        if([alert runModal] != NSAlertFirstButtonReturn) return;
 
         alert = [[OEHUDAlert alloc] init];
         [alert setShowsProgressbar:YES];
@@ -436,7 +436,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
                     [writerContext save:nil];
                 }];
                 
-                [alert closeWithResult:NSAlertDefaultReturn];
+                [alert closeWithResult:NSAlertFirstButtonReturn];
             }];
         });
         

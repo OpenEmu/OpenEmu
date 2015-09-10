@@ -301,7 +301,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     [self setAlert:aAlert];
 
     NSUInteger result = [[self alert] runModal];
-    if(result == NSAlertAlternateReturn)
+    if(result == NSAlertSecondButtonReturn)
     {
         handler(nil, nil);
     }
@@ -320,7 +320,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     [[self coreDownload] cancelDownload:self];
     [self setCompletionHandler:nil];
     [self setCoreDownload:nil];
-    [[self alert] closeWithResult:NSAlertAlternateReturn];
+    [[self alert] closeWithResult:NSAlertSecondButtonReturn];
     [self setAlert:nil];
     [self setCoreIdentifier:nil];
 }
@@ -366,7 +366,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
 - (void)failInstallWithError:(NSError*)error
 {
-    [[self alert] closeWithResult:NSAlertDefaultReturn];
+    [[self alert] closeWithResult:NSAlertFirstButtonReturn];
 
     if([self completionHandler] != nil) [self completionHandler]([OECorePlugin corePluginWithBundleIdentifier:[self coreIdentifier]], error);
 
@@ -377,7 +377,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
 - (void)finishInstall
 {
-    [[self alert] closeWithResult:NSAlertDefaultReturn];
+    [[self alert] closeWithResult:NSAlertFirstButtonReturn];
 
     if([self completionHandler] != nil)
     {

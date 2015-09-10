@@ -290,7 +290,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                 NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", @""), [game name]];
                 if([[OEHUDAlert alertWithMessageText:messageText
                                        defaultButton:NSLocalizedString(@"Locate", @"")
-                                     alternateButton:NSLocalizedString(@"Cancel", @"")] runModal] == NSAlertDefaultReturn)
+                                     alternateButton:NSLocalizedString(@"Cancel", @"")] runModal] == NSAlertFirstButtonReturn)
                 {
                     OEDBRom  *missingRom = [[game roms] anyObject];
                     NSURL   *originalURL = [missingRom URL];
@@ -305,7 +305,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                     [panel setAllowsOtherFileTypes:NO];
                     [panel setAllowedFileTypes:@[extension]];
 
-                    if([panel runModal])
+                    if([panel runModal] == NSModalResponseOK)
                     {
                         [missingRom setURL:[panel URL]];
                         [missingRom save];
@@ -345,7 +345,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         }
     };
 
-    if(state != nil || ((state=[game autosaveForLastPlayedRom]) && [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertDefaultReturn))
+    if(state != nil || ((state=[game autosaveForLastPlayedRom]) && [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertFirstButtonReturn))
         [[NSDocumentController sharedDocumentController] openGameDocumentWithSaveState:state display:openInSeparateWindow fullScreen:fullScreen completionHandler:openDocument];
     else
         [[NSDocumentController sharedDocumentController] openGameDocumentWithGame:game display:openInSeparateWindow fullScreen:fullScreen completionHandler:openDocument];

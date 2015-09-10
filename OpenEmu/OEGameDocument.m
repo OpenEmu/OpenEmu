@@ -180,7 +180,7 @@ typedef enum : NSUInteger
             NSString *name   = [rom fileName] ?: [[sourceURL lastPathComponent] stringByDeletingPathExtension];
             NSString *server = [sourceURL host];
 
-            if([[OEHUDAlert romDownloadRequiredAlert:name server:server] runModal] == NSAlertDefaultReturn)
+            if([[OEHUDAlert romDownloadRequiredAlert:name server:server] runModal] == NSAlertFirstButtonReturn)
             {
                 __block NSURL   *destination;
                 __block NSError *error;
@@ -200,14 +200,14 @@ typedef enum : NSUInteger
                     [download setCompletionHandler:^(NSURL *dst, NSError *err) {
                         destination = dst,
                         error = err;
-                        [alert closeWithResult:NSAlertAlternateReturn];
+                        [alert closeWithResult:NSAlertSecondButtonReturn];
                     }];
 
                     [download startDownload];
                 }];
 
 
-                if([alert runModal] == NSAlertDefaultReturn || [error code] == NSUserCancelledError)
+                if([alert runModal] == NSAlertFirstButtonReturn || [error code] == NSUserCancelledError)
                 {
                     // User canceld
                     if(outError != NULL)
@@ -616,7 +616,7 @@ typedef enum : NSUInteger
             alert.defaultButtonTitle = NSLocalizedString(@"Yes", @"");
             alert.alternateButtonTitle = NSLocalizedString(@"No", @"");
 
-            if([alert runModal] == NSAlertDefaultReturn)
+            if([alert runModal] == NSAlertFirstButtonReturn)
             {
                 NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
                 OEDBRom *rom = [OEDBRom objectWithID:romID inContext:context];
@@ -645,7 +645,7 @@ typedef enum : NSUInteger
 
     // TODO: Load rom that was just imported instead of the default one
     OEDBSaveState *state = [game autosaveForLastPlayedRom];
-    if(state != nil && [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertDefaultReturn)
+    if(state != nil && [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertFirstButtonReturn)
         return [self OE_setupDocumentWithSaveState:state error:outError];
     else
         return [self OE_setupDocumentWithROM:[game defaultROM] usingCorePlugin:nil error:outError];
@@ -812,7 +812,7 @@ typedef enum : NSUInteger
     [alert setCallbackHandler:
      ^(OEHUDAlert *alert, NSUInteger result)
      {
-         if(result != NSAlertDefaultReturn)
+         if(result != NSAlertFirstButtonReturn)
              return;
 
          NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
@@ -948,7 +948,7 @@ typedef enum : NSUInteger
 
 - (void)resetEmulation:(id)sender;
 {
-    if([[OEHUDAlert resetSystemAlert] runModal] == NSAlertDefaultReturn)
+    if([[OEHUDAlert resetSystemAlert] runModal] == NSAlertFirstButtonReturn)
     {
         [_gameCoreManager resetEmulationWithCompletionHandler:
          ^{
@@ -964,7 +964,7 @@ typedef enum : NSUInteger
 
     //[[self controlsWindow] setCanShow:NO];
 
-    if(![[OEHUDAlert stopEmulationAlert] runModal] == NSAlertDefaultReturn)
+    if([[OEHUDAlert stopEmulationAlert] runModal] != NSAlertFirstButtonReturn)
     {
         //[[self controlsWindow] setCanShow:YES];
         [self disableOSSleep];
@@ -1059,7 +1059,7 @@ typedef enum : NSUInteger
         [alert setShowsSuppressionButton:YES];
         [alert setSuppressionLabelText:NSLocalizedString(@"Do not show me again", @"Alert suppression label")];
         
-        if([alert runModal] && [[alert suppressionButton] state] == NSOnState)
+        if([alert runModal] == NSAlertFirstButtonReturn && [[alert suppressionButton] state] == NSOnState)
         {
             NSMutableDictionary *systemKeyGlitchInfo = [NSMutableDictionary dictionary];
             [systemKeyGlitchInfo addEntriesFromDictionary:glitchInfo];
@@ -1101,7 +1101,7 @@ typedef enum : NSUInteger
 
     [alert setInputLimit:1000];
 
-    if([alert runModal])
+    if([alert runModal] == NSAlertFirstButtonReturn)
     {
         NSNumber *enabled;
         if ([[alert suppressionButton] state] == NSOnState)
@@ -1204,7 +1204,7 @@ typedef enum : NSUInteger
     [alert setCallbackHandler:
      ^(OEHUDAlert *alert, NSUInteger result)
      {
-         if(result == NSAlertDefaultReturn)
+         if(result == NSAlertFirstButtonReturn)
          {
              [self OE_saveStateWithName:[alert stringValue] completionHandler:
               ^{
@@ -1394,7 +1394,7 @@ typedef enum : NSUInteger
                                          alternateButton:NSLocalizedString(@"Cancel", @"")];
     [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
 
-    if([alert runModal])
+    if([alert runModal] == NSAlertFirstButtonReturn)
     {
         OECorePlugin *core = [OECorePlugin corePluginWithBundleIdentifier:[state coreIdentifier]];
         if(core != nil)
@@ -1426,7 +1426,7 @@ typedef enum : NSUInteger
     NSString *stateName = [state name];
     OEHUDAlert *alert = [OEHUDAlert deleteStateAlertWithStateName:stateName];
 
-    if([alert runModal]) [state deleteAndRemoveFiles];
+    if([alert runModal] == NSAlertFirstButtonReturn) [state deleteAndRemoveFiles];
 }
 
 #pragma mark - OEGameViewControllerDelegate methods

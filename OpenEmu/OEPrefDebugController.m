@@ -259,7 +259,7 @@ NSString * const OptionsKey = @"options";
     [openPanel setCanChooseFiles:NO];
     [openPanel setCanCreateDirectories:YES];
 
-    if([openPanel runModal] == NSAlertDefaultReturn)
+    if([openPanel runModal] == NSAlertFirstButtonReturn)
         [[NSUserDefaults standardUserDefaults] setObject:[[openPanel URL] absoluteString] forKey:OESaveStateFolderURLKey];
 }
 
@@ -418,12 +418,10 @@ NSString * const OptionsKey = @"options";
 
 - (void)downloadMissingArtwork:(id)sender
 {
-    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"While performing this operation OpenEmu will be unresponsive.","")
+    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"While performing this operation OpenEmu will be unresponsive.","")
                                      defaultButton:NSLocalizedString(@"Do it!", @"")
-                                   alternateButton:NSLocalizedString(@"Cancel Operation", @"")
-                                       otherButton:@""
-                         informativeTextWithFormat:@""];
-    if([alert runModal] != NSAlertDefaultReturn) return;
+                                   alternateButton:NSLocalizedString(@"Cancel Operation", @"")];
+    if([alert runModal] != NSAlertFirstButtonReturn) return;
 
     OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [library mainThreadContext];

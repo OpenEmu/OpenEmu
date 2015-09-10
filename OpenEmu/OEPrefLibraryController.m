@@ -401,7 +401,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
 
                 // TODO: cleanup old location by removing empty directories
 
-                [alert closeWithResult:NSAlertDefaultReturn];
+                [alert closeWithResult:NSAlertFirstButtonReturn];
             });
             alertResult = [alert runModal];
         }

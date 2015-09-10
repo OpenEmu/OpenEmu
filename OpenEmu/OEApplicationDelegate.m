@@ -325,7 +325,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         return;
     }
 
-    if([[OEHUDAlert quitApplicationAlert] runModal] == NSAlertDefaultReturn)
+    if([[OEHUDAlert quitApplicationAlert] runModal] == NSAlertFirstButtonReturn)
         [self closeAllDocumentsWithDelegate:delegate didCloseAllSelector:didReviewAllSelector contextInfo:contextInfo];
     else
         SEND_CALLBACK(delegate, didReviewAllSelector, self, NO, contextInfo);
@@ -533,12 +533,12 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     NSInteger result;
     switch([alert runModal])
     {
-        case NSAlertOtherReturn :
+        case NSAlertThirdButtonReturn :
         {
             [[NSApplication sharedApplication] terminate:self];
             return;
         };
-        case NSAlertDefaultReturn :
+        case NSAlertFirstButtonReturn :
         {
             NSOpenPanel *openPanel = [NSOpenPanel openPanel];
             [openPanel setCanChooseFiles:YES];
@@ -546,7 +546,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             [openPanel setCanChooseDirectories:YES];
             [openPanel setAllowsMultipleSelection:NO];
             [openPanel beginWithCompletionHandler:^(NSInteger result) {
-                if(result == NSOKButton)
+                if(result == NSModalResponseOK)
                 {
                     NSURL *databaseURL = [openPanel URL];
                     NSString *databasePath = [databaseURL path];
@@ -564,13 +564,13 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             }];
             break;
         }
-        case NSAlertAlternateReturn :
+        case NSAlertSecondButtonReturn :
         {
             NSSavePanel *savePanel = [NSSavePanel savePanel];
             [savePanel setNameFieldStringValue:@"OpenEmu Library"];
             result = [savePanel runModal];
 
-            if(result == NSOKButton)
+            if(result == NSModalResponseOK)
             {
                 NSURL *databaseURL = [savePanel URL];
                 [[NSFileManager defaultManager] removeItemAtURL:databaseURL error:nil];
