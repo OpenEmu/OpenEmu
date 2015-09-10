@@ -500,7 +500,6 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
                               OEAutoSwitchCoreAlertSuppressionKey,
                               OERemoveGameFromCollectionAlertSuppressionKey,
                               OELoadAutoSaveAlertSuppressionKey,
-                              OESaveGameWhenQuitAlertSuppressionKey,
                               OEDeleteGameAlertSuppressionKey,
                               OESaveGameAlertSuppressionKey,
                               OEChangeCoreAlertSuppressionKey,

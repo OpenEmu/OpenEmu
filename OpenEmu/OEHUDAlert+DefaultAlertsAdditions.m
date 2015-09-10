@@ -31,7 +31,6 @@ NSString *const OEMaxSaveGameNameLengthKey = @"MaxSaveGameNameLength";
 
 NSString *const OERemoveGameFromCollectionAlertSuppressionKey = @"removeGamesFromCollectionWithoutConfirmation";
 NSString *const OELoadAutoSaveAlertSuppressionKey   = @"loadAutosaveDialogChoice";
-NSString *const OESaveGameWhenQuitAlertSuppressionKey = @"autosaveOnStopDialogChoice";
 NSString *const OEDeleteGameAlertSuppressionKey = @"removeStatesWithoutConfirmation";
 NSString *const OESaveGameAlertSuppressionKey = @"saveGameWithoutConfirmation";
 NSString *const OEChangeCoreAlertSuppressionKey = @"changeCoreWithoutConfirmation";
@@ -55,23 +54,6 @@ NSString *const OEDownloadRomWarningSupperssionKey    = @"OEDownloadRomWarningSu
     alert.defaultButtonTitle = NSLocalizedString(@"Quit", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
 
-    return alert;
-}
-
-+ (id)saveAutoSaveGameAlert
-{
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OESaveGameWhenQuitAlertSuppressionKey: @(1)}];
-    
-    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
-
-    alert.headlineText = NSLocalizedString(@"Would you like to save your game before you quit?", @"");
-    alert.messageText = NSLocalizedString(@"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off.", @"");
-    alert.defaultButtonTitle = NSLocalizedString(@"Save Game", @"");
-    alert.alternateButtonTitle = NSLocalizedString(@"Do Not Save", @"");
-    
-    [alert setSuppressOnDefaultReturnOnly:NO];
-    [alert showSuppressionButtonForUDKey:OESaveGameWhenQuitAlertSuppressionKey];
-    
     return alert;
 }
 

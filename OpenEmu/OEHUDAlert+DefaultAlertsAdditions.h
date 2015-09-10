@@ -31,7 +31,6 @@ extern NSString *const OEMaxSaveGameNameLengthKey;
 
 extern NSString *const OERemoveGameFromCollectionAlertSuppressionKey;
 extern NSString *const OELoadAutoSaveAlertSuppressionKey;
-extern NSString *const OESaveGameWhenQuitAlertSuppressionKey;
 extern NSString *const OEDeleteGameAlertSuppressionKey;
 extern NSString *const OESaveGameAlertSuppressionKey;
 extern NSString *const OEChangeCoreAlertSuppressionKey;
@@ -45,7 +44,6 @@ extern NSString *const OEDownloadRomWarningSupperssionKey;
 
 + (id)quitApplicationAlert;
 + (id)saveGameAlertWithProposedName:(NSString *)name;
-+ (id)saveAutoSaveGameAlert;
 + (id)loadAutoSaveGameAlert;
 + (id)deleteStateAlertWithStateName:(NSString *)stateName;
 + (id)deleteStateAlertWithStateCount:(NSUInteger)count;
