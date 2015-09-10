@@ -721,15 +721,15 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [allTypes setObject:systemDocument forKey:typeName];
     }
 
-    NSString *error = nil;
+    NSError *error = nil;
     NSPropertyListFormat format;
 
     NSString *infoPlistPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Info.plist"];
     NSData   *infoPlistXml  = [[NSFileManager defaultManager] contentsAtPath:infoPlistPath];
-    NSMutableDictionary *infoPlist = [NSPropertyListSerialization propertyListFromData:infoPlistXml
-                                                                      mutabilityOption:NSPropertyListMutableContainers
+    NSMutableDictionary *infoPlist = [NSPropertyListSerialization propertyListWithData:infoPlistXml
+                                                                               options:NSPropertyListMutableContainers
                                                                                 format:&format
-                                                                      errorDescription:&error];
+                                                                                 error:&error];
     if(infoPlist == nil) NSLog(@"%@", error);
 
     NSArray *existingTypes = [infoPlist objectForKey:@"CFBundleDocumentTypes"];
@@ -737,9 +737,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [allTypes setObject:type forKey:[type objectForKey:@"CFBundleTypeName"]];
     [infoPlist setObject:[allTypes allValues] forKey:@"CFBundleDocumentTypes"];
 
-    NSData *updated = [NSPropertyListSerialization dataFromPropertyList:infoPlist
+    NSData *updated = [NSPropertyListSerialization dataWithPropertyList:infoPlist
                                                                  format:NSPropertyListXMLFormat_v1_0
-                                                       errorDescription:&error];
+                                                                options:0
+                                                                  error:&error];
 
     if(updated != nil)
         [updated writeToFile:infoPlistPath atomically:YES];
