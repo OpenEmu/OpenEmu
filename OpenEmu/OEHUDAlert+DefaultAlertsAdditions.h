@@ -39,6 +39,7 @@ extern NSString *const OEResetSystemAlertSuppressionKey;
 extern NSString *const OEStopEmulationAlertSuppressionKey;
 extern NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey;
 extern NSString *const OEGameCoreGlitchesSuppressionKey;
+extern NSString *const OEDownloadRomWarningSupperssionKey;
 
 @interface OEHUDAlert (DefaultAlertsAdditions)
 

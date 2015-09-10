@@ -507,7 +507,8 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
                               OEResetSystemAlertSuppressionKey,
                               OEStopEmulationAlertSuppressionKey,
                               OERemoveGameFilesFromLibraryAlertSuppressionKey,
-                              OEGameCoreGlitchesSuppressionKey];
+                              OEGameCoreGlitchesSuppressionKey,
+                              OEDownloadRomWarningSupperssionKey];
     
     [keysToRemove enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
         [standardUserDefaults removeObjectForKey:key];
