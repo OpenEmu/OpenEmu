@@ -32,10 +32,10 @@
 {
     if(!anotherDate) return [self compare:[NSDate distantPast]];
 
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
 
-    NSDateComponents *selfDMY = [gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:self];
-    NSDateComponents *anotherDMY = [gregorian components:(NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:anotherDate];
+    NSDateComponents *selfDMY = [gregorian components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:self];
+    NSDateComponents *anotherDMY = [gregorian components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:anotherDate];
 
     if([selfDMY year]  != [anotherDMY year])  return ([selfDMY year]  > [anotherDMY year]  ? NSOrderedDescending : NSOrderedAscending);
     if([selfDMY month] != [anotherDMY month]) return ([selfDMY month] > [anotherDMY month] ? NSOrderedDescending : NSOrderedAscending);
