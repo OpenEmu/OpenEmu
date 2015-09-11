@@ -339,7 +339,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     [openPanel setAllowsMultipleSelection:NO];
     [openPanel setCanChooseDirectories:NO];
     [openPanel setCanChooseFiles:YES];
-    NSArray *imageTypes = [NSImage imageFileTypes];
+    NSArray *imageTypes = [NSImage imageTypes];
     [openPanel setAllowedFileTypes:imageTypes];
 
     [openPanel beginWithCompletionHandler:^(NSInteger result) {
