@@ -432,7 +432,6 @@ static const CGFloat _OEToolbarHeight = 44;
     
     [mutableLibraryStates setObject:state forKey:itemID];
     [standardUserDefaults setObject:mutableLibraryStates forKey:OELibraryStatesKey];
-    [standardUserDefaults synchronize];
 }
 
 - (id)OE_storedStateForSidebarItemWithID:(NSString *)itemID

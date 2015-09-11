@@ -397,7 +397,6 @@ typedef enum
         _OELastWindowSizeKey : NSStringFromSize(windowSize),
     };
     [userDefaults setObject:integralScaleInfo forKey:systemKey];
-    [userDefaults synchronize]; // needed whilst AppKit isn’t fixed to synchronise defaults in -_deallocHardCore:
 
     [gameViewController viewWillDisappear];
     [gameViewController viewDidDisappear];

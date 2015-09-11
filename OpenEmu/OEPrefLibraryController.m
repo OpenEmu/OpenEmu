@@ -411,9 +411,7 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
     {
         // point openemu to new library location
         [[NSUserDefaults standardUserDefaults] setObject:[[newLocation path] stringByAbbreviatingWithTildeInPath] forKey:OEDatabasePathKey];
-        // sync because we are about to force exit
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
+
         OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"Your library was moved sucessfully.", @"") defaultButton:NSLocalizedString(@"OK", @"") alternateButton:nil];
         [alert runModal];
     }

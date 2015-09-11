@@ -1066,7 +1066,6 @@ typedef enum : NSUInteger
             [systemKeyGlitchInfo setValue:@YES forKey:systemKey];
             
             [userDefaults setObject:systemKeyGlitchInfo forKey:OEGameCoreGlitchesKey];
-            [userDefaults synchronize];
         }
         
         return YES;
