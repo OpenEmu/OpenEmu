@@ -9,17 +9,17 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OE7800ButtonUp</key>
-		<string>{0, 0}</string>
+		<string>{244,284}</string>
 		<key>OE7800ButtonDown</key>
-		<string>{0, 0}</string>
+		<string>{244, 239}</string>
 		<key>OE7800ButtonFire1</key>
-		<string>{0, 0}</string>
+		<string>{182, 327}</string>
 		<key>OE7800ButtonFire2</key>
-		<string>{0, 0}</string>
+		<string>{300, 327}</string>
 		<key>OE7800ButtonLeft</key>
-		<string>{0, 0}</string>
+		<string>{222, 261}</string>
 		<key>OE7800ButtonRight</key>
-		<string>{0, 0}</string>
+		<string>{264, 261}</string>
 		<key>OE7800ButtonSelect</key>
 		<string>{0, 0}</string>
 		<key>OE7800ButtonPause</key>
