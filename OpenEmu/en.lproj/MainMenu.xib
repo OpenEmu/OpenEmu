@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
     <objects>
@@ -11,7 +10,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application">
+        <customObject id="-3" userLabel="Application" customClass="NSObject">
             <connections>
                 <outlet property="delegate" destination="805" id="806"/>
             </connections>
@@ -29,7 +28,7 @@
                     <imageView id="795">
                         <rect key="frame" x="0.0" y="0.0" width="400" height="463"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="0FBC8D01-6B19-46D6-AF10-913F7D575389" id="804"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="7C6C1349-47AD-4EB6-9B94-6AD67EEAECA2" id="804"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" id="796">
                         <rect key="frame" x="17" y="184" width="366" height="18"/>
@@ -515,7 +514,7 @@ DQ
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="1051"/>
-                            <menuItem title="Always Hide Controls" enabled="NO" keyEquivalent="H" id="ayc-Ld-Nyd">
+                            <menuItem title="Always Hide HUD" enabled="NO" keyEquivalent="H" id="ayc-Ld-Nyd">
                                 <connections>
                                     <action selector="toggleControlsVisibility:" target="-1" id="aEF-Tc-Nhr"/>
                                 </connections>
@@ -636,7 +635,7 @@ DQ
         <userDefaultsController representsSharedInstance="YES" id="1212"/>
     </objects>
     <resources>
-        <image name="0FBC8D01-6B19-46D6-AF10-913F7D575389" width="400" height="463">
+        <image name="7C6C1349-47AD-4EB6-9B94-6AD67EEAECA2" width="400" height="463">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
