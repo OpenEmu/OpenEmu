@@ -1714,7 +1714,6 @@
 		0162C8271AFACDE7003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OECorePicker.xib; sourceTree = "<group>"; };
 		0162C8281AFACDE7003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OESetupAssistant.xib; sourceTree = "<group>"; };
 		081A46261B95744A00565444 /* Pokemon mini.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pokemon mini.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
-		081A46291B95744A00565444 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		086769581B96E8A2006545DA /* OEPMSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPMSystemResponder.h; path = "Pokemon mini/OEPMSystemResponder.h"; sourceTree = SOURCE_ROOT; };
 		086769591B96E8B2006545DA /* OEPMSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEPMSystemResponder.m; path = "Pokemon mini/OEPMSystemResponder.m"; sourceTree = SOURCE_ROOT; };
 		0867695B1B96E8C2006545DA /* OEPMSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPMSystemResponderClient.h; path = "Pokemon mini/OEPMSystemResponderClient.h"; sourceTree = SOURCE_ROOT; };
@@ -3769,22 +3768,6 @@
 			path = Vectrex;
 			sourceTree = "<group>";
 		};
-		081A46271B95744A00565444 /* Pokemonmini */ = {
-			isa = PBXGroup;
-			children = (
-				081A46281B95744A00565444 /* Supporting Files */,
-			);
-			path = Pokemonmini;
-			sourceTree = "<group>";
-		};
-		081A46281B95744A00565444 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				081A46291B95744A00565444 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		081A46361B95752200565444 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -4163,7 +4146,6 @@
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				C60CDDD511780DD100EB472F /* Documentation */,
 				C67B0CB51363370B00F18A5D /* OpenEmuSystem */,
-				081A46271B95744A00565444 /* Pokemonmini */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 			);
