@@ -27,7 +27,6 @@
 #import "OESidebarOutlineView.h"
 #import "OESidebarOutlineButtonCell.h"
 #import <objc/runtime.h>
-#import "NSViewController+OEAdditions.h"
 
 @implementation OESidebarOutlineView (OEPrivate)
 

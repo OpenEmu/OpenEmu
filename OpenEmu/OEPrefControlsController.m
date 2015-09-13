@@ -26,8 +26,6 @@
 
 #import <Quartz/Quartz.h>
 
-#import "NSViewController+OEAdditions.h"
-
 #import "OEPrefControlsController.h"
 #import "OEBackgroundGradientView.h"
 #import "OEBackgroundImageView.h"

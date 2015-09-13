@@ -53,7 +53,6 @@
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
 #import "NSColor+OEAdditions.h"
-#import "NSViewController+OEAdditions.h"
 
 #import "OEPreferencesController.h"
 #import "OELibraryDatabase.h"

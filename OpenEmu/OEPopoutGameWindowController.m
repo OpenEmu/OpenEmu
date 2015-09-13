@@ -31,7 +31,6 @@
 #import "OEGameViewController.h"
 #import "OEGameView.h"
 #import "OEGameControlsBar.h"
-#import "NSViewController+OEAdditions.h"
 #import "NSWindow+OEFullScreenAdditions.h"
 #import <QuartzCore/QuartzCore.h>
 #import "OEUtilities.h"

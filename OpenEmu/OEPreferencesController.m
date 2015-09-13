@@ -33,7 +33,6 @@
 #import "OEAppStoreWindow.h"
 
 #import "NSImage+OEDrawingAdditions.h"
-#import "NSViewController+OEAdditions.h"
 
 #import "OEPreferencePane.h"
 

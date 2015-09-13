@@ -25,7 +25,6 @@
  */
 
 #import "OESetupAssistant.h"
-#import "NSViewController+OEAdditions.h"
 #import "OESetupAssistantTableView.h"
 #import "OEFiniteStateMachine.h"
 #import "OEButton.h"

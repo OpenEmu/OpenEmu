@@ -38,7 +38,6 @@
 #import "OESystemPlugin.h"
 #import "OEDBSmartCollection.h"
 
-#import "NSViewController+OEAdditions.h"
 #import "NSArray+OEAdditions.h"
 #import "NSWindow+OEFullScreenAdditions.h"
 
@@ -347,15 +346,6 @@ static const CGFloat _OEToolbarHeight = 44;
     if([nextViewController respondsToSelector:@selector(setLibraryController:)])
         [nextViewController setLibraryController:self];
 
-
-    int major,minor;
-    // Yosemite introduced viewWillDisappear and viewWillAppear methods and will call them appropriately
-    if(GetSystemVersion(&major, &minor, nil) && major == 10 && minor < 10)
-    {
-        [oldViewController viewWillDisappear];
-        [nextViewController viewWillAppear];
-    }
-
     NSView *newView    = [nextViewController view];    
     if(oldViewController)
     {
@@ -375,13 +365,6 @@ static const CGFloat _OEToolbarHeight = 44;
     }
     [self setCurrentViewController:nextViewController];
 
-    // Yosemite introduced viewDidAppear and viewDidDisappear methods and will call them appropriately
-    if(major == 10 && minor < 10)
-    {
-        [nextViewController viewDidAppear];
-        [oldViewController viewDidDisappear];
-    }
-    
     if([oldViewController respondsToSelector:@selector(setLibraryController:)])
         [oldViewController setLibraryController:nil];
 }

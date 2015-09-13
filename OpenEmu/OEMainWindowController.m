@@ -35,7 +35,6 @@
 #import "OELibraryController.h"
 
 #import "NSDocumentController+OEAdditions.h"
-#import "NSViewController+OEAdditions.h"
 #import "OEGameDocument.h"
 #import "OEGameCoreManager.h"
 #import "OEGameViewController.h"

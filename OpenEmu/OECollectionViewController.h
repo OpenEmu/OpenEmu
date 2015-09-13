@@ -31,8 +31,6 @@
 #import "IKImageFlowView.h"
 #import "OEBlankSlateView.h"
 
-#import "NSViewController+OEAdditions.h"
-
 #import "OEMainWindowController.h"
 #import "OELibrarySubviewController.h"
 #import "OECollectionViewItemProtocol.h"

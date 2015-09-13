@@ -50,7 +50,6 @@
 #import "OEXPCGameCoreManager.h"
 #import "NSURL+OELibraryAdditions.h"
 #import "NSView+FadeImage.h"
-#import "NSViewController+OEAdditions.h"
 #import "OEDownload.h"
 
 // using the main window controller here is not very nice, but meh
