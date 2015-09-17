@@ -514,8 +514,6 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
     CVDisplayLinkStop(_gameDisplayLinkRef);
 
-    CVDisplayLinkSetOutputCallback(_gameDisplayLinkRef, NULL, NULL);
-
     // we really ought to wait.
     while(CVDisplayLinkIsRunning(_gameDisplayLinkRef))
         DLog(@"waiting for displaylink to stop");
