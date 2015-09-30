@@ -613,8 +613,8 @@
 		87FB253C1BBC572E00E739CE /* Controller-Preferences-NA.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FB253A1BBC572E00E739CE /* Controller-Preferences-NA.plist */; settings = {ASSET_TAGS = (); }; };
 		87FB253F1BBC883200E739CE /* controller_genesis_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB253D1BBC883200E739CE /* controller_genesis_mask@2x.png */; settings = {ASSET_TAGS = (); }; };
 		87FB25401BBC883200E739CE /* controller_genesis@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB253E1BBC883200E739CE /* controller_genesis@2x.png */; settings = {ASSET_TAGS = (); }; };
-		87FB25431BBC894F00E739CE /* pcengine_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25411BBC894F00E739CE /* pcengine_library@2x.png */; settings = {ASSET_TAGS = (); }; };
-		87FB25441BBC894F00E739CE /* tg16_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25421BBC894F00E739CE /* tg16_library@2x.png */; settings = {ASSET_TAGS = (); }; };
+		87FB25431BBC894F00E739CE /* pcenginecd_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25411BBC894F00E739CE /* pcenginecd_library@2x.png */; settings = {ASSET_TAGS = (); }; };
+		87FB25441BBC894F00E739CE /* tgcd_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25421BBC894F00E739CE /* tgcd_library@2x.png */; settings = {ASSET_TAGS = (); }; };
 		87FB25481BBC89F300E739CE /* controller_fc_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25451BBC89F300E739CE /* controller_fc_mask@2x.png */; settings = {ASSET_TAGS = (); }; };
 		87FB25491BBC89F300E739CE /* controller_fc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25461BBC89F300E739CE /* controller_fc@2x.png */; settings = {ASSET_TAGS = (); }; };
 		87FB254A1BBC89F300E739CE /* famicom_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25471BBC89F300E739CE /* famicom_library@2x.png */; settings = {ASSET_TAGS = (); }; };
@@ -2613,8 +2613,8 @@
 		87FB253A1BBC572E00E739CE /* Controller-Preferences-NA.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-NA.plist"; sourceTree = "<group>"; };
 		87FB253D1BBC883200E739CE /* controller_genesis_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_genesis_mask@2x.png"; sourceTree = "<group>"; };
 		87FB253E1BBC883200E739CE /* controller_genesis@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_genesis@2x.png"; sourceTree = "<group>"; };
-		87FB25411BBC894F00E739CE /* pcengine_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pcengine_library@2x.png"; sourceTree = "<group>"; };
-		87FB25421BBC894F00E739CE /* tg16_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tg16_library@2x.png"; sourceTree = "<group>"; };
+		87FB25411BBC894F00E739CE /* pcenginecd_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pcenginecd_library@2x.png"; sourceTree = "<group>"; };
+		87FB25421BBC894F00E739CE /* tgcd_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tgcd_library@2x.png"; sourceTree = "<group>"; };
 		87FB25451BBC89F300E739CE /* controller_fc_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_fc_mask@2x.png"; sourceTree = "<group>"; };
 		87FB25461BBC89F300E739CE /* controller_fc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_fc@2x.png"; sourceTree = "<group>"; };
 		87FB25471BBC89F300E739CE /* famicom_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "famicom_library@2x.png"; sourceTree = "<group>"; };
@@ -5432,8 +5432,8 @@
 			children = (
 				9405539F17A34DCC009B505D /* pcenginecd_library.png */,
 				940553A017A34DCC009B505D /* tgcd_library.png */,
-				87FB25411BBC894F00E739CE /* pcengine_library@2x.png */,
-				87FB25421BBC894F00E739CE /* tg16_library@2x.png */,
+				87FB25411BBC894F00E739CE /* pcenginecd_library@2x.png */,
+				87FB25421BBC894F00E739CE /* tgcd_library@2x.png */,
 				940553A317A34EE9009B505D /* controller_pcecd_mask.png */,
 				940553A417A34EE9009B505D /* controller_pcecd.png */,
 				9405538817A34C6B009B505D /* PC Engine CD-Info.plist */,
@@ -7812,13 +7812,13 @@
 			files = (
 				9405538B17A34C6B009B505D /* InfoPlist.strings in Resources */,
 				9405539C17A34DAB009B505D /* Controller-Mappings.plist in Resources */,
-				87FB25431BBC894F00E739CE /* pcengine_library@2x.png in Resources */,
+				87FB25431BBC894F00E739CE /* pcenginecd_library@2x.png in Resources */,
 				9405539D17A34DAB009B505D /* Controller-Preferences.plist in Resources */,
 				9405539E17A34DAB009B505D /* Keyboard-Mappings.plist in Resources */,
 				940553A117A34DCC009B505D /* pcenginecd_library.png in Resources */,
 				940553A217A34DCC009B505D /* tgcd_library.png in Resources */,
 				940553A517A34EE9009B505D /* controller_pcecd_mask.png in Resources */,
-				87FB25441BBC894F00E739CE /* tg16_library@2x.png in Resources */,
+				87FB25441BBC894F00E739CE /* tgcd_library@2x.png in Resources */,
 				940553A617A34EE9009B505D /* controller_pcecd.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
