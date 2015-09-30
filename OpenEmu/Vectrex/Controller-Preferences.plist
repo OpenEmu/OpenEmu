@@ -3,27 +3,27 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_vectrex</string>
+	<string>controller_vectrex_eu</string>
 	<key>OEControllerImageMaskKey</key>
 	<string>controller_vectrex_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEVectrexAnalogUp</key>
-		<string>{0, 0}</string>
+		<string>{127, 238}</string>
 		<key>OEVectrexAnalogDown</key>
-		<string>{0, 0}</string>
+		<string>{127, 210}</string>
 		<key>OEVectrexAnalogLeft</key>
-		<string>{0, 0}</string>
+		<string>{116, 225}</string>
 		<key>OEVectrexAnalogRight</key>
-		<string>{0, 0}</string>
+		<string>{140, 225}</string>
 		<key>OEVectrexButton1</key>
-		<string>{0, 0}</string>
+		<string>{236, 224}</string>
 		<key>OEVectrexButton2</key>
-		<string>{0, 0}</string>
+		<string>{299, 224}</string>
 		<key>OEVectrexButton3</key>
-		<string>{0, 0}</string>
+		<string>{362, 224}</string>
 		<key>OEVectrexButton4</key>
-		<string>{0, 0}</string>
+		<string>{425, 224}</string>
 	</dict>
 </dict>
 </plist>
