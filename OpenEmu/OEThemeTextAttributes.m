@@ -166,6 +166,9 @@ id _OEObjectFromDictionary(NSDictionary *dictionary, NSString *attributeName, Cl
     {
         if(style == nil) style = [[NSMutableParagraphStyle alloc] init];
 
+        [style setAllowsDefaultTighteningForTruncation:NO];
+        [style setTighteningFactorForTruncation:0.1];
+
         NSString *modeString = [[definition objectForKey:OEThemeFontLineBreakAttributeName] lowercaseString];
         NSLineBreakMode mode = NSLineBreakByClipping;
 
