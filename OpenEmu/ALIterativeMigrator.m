@@ -245,10 +245,7 @@
                                               URL:(NSURL*)url
                                             error:(NSError **)error
 {
-   NSDictionary* sourceMetadata =
-   [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:storeType
-                                                              URL:url
-                                                            error:error];
+   NSDictionary* sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:storeType URL:url options:nil error:error];
    if (nil == sourceMetadata && NULL != error)
    {
       NSString* errorDesc = [NSString stringWithFormat:

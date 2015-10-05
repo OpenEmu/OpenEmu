@@ -142,7 +142,10 @@ static const GLfloat cg_coords[] = {
     // filters
     [self setFilters:nil];
 
-    if(_gameSurfaceRef != NULL) CFRelease(_gameSurfaceRef);
+    if(_gameSurfaceRef != NULL) {
+        CFRelease(_gameSurfaceRef);
+        _gameSurfaceRef = NULL;
+    }
 }
 
 #pragma mark - OpenGL Setup

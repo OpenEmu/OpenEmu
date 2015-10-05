@@ -69,7 +69,7 @@ NSString *const OEMigrationErrorDomain = @"OEMigrationErrorDomain";
         return NO;
     }
 
-    NSDictionary *sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:_storeURL error:outError];
+    NSDictionary *sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:_storeURL options:nil error:outError];
     NSArray *versions = [sourceMetadata objectForKey:NSStoreModelVersionIdentifiersKey];
     versions = [versions sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 

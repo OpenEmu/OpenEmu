@@ -277,7 +277,7 @@ NSString * const OptionsKey = @"options";
         for(int i=0; i < [autosaves count]; i++)
         {
             OEDBSaveState *state = [autosaves objectAtIndex:i];
-            if(YES) // TODO: fix -checkFilesAvailable
+            if(/* DISABLES CODE */ (YES)) // TODO: fix -checkFilesAvailable
             {
                 if(autosave)
                 {

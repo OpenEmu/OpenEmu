@@ -397,7 +397,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         {
             NSArray *games = [pboard readObjectsForClasses:@[[NSURL class]] options:nil];
             if([games count] == 1){
-                name = [[[[[games lastObject] absoluteString] lastPathComponent] stringByDeletingPathExtension] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                name = [[[[[games lastObject] absoluteString] lastPathComponent] stringByDeletingPathExtension] stringByRemovingPercentEncoding];
             }
         }
         collection = [[self database] addNewCollection:name];

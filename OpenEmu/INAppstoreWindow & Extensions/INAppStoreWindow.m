@@ -208,6 +208,7 @@ NS_INLINE void INApplyClippingPathInCurrentContext(CGPathRef path) {
 		case NSMaxYEdge:
 			multiplier = 1;
 			break;
+        default: break;
 	}
 
 	INAppStoreWindow *window = (INAppStoreWindow *)self.window;

@@ -773,7 +773,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     if(url != nil)
     {
-        NSError             *error             = nil;
         NSPersistentStore   *persistentStore   = [[[self persistentStoreCoordinator] persistentStores] lastObject];
         NSDictionary        *metadata          = [persistentStore metadata];
         NSMutableDictionary *mutableMetaData   = [metadata mutableCopy];
@@ -792,7 +791,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         //
         // Also see discussion at http://www.cocoabuilder.com/archive/cocoa/295041-setting-not-saving-nspersistentdocument-metadata-changes-file-modification-date.html
         [[self persistentStoreCoordinator] setMetadata:mutableMetaData forPersistentStore:persistentStore];
-        [NSPersistentStoreCoordinator setMetadata:mutableMetaData forPersistentStoreOfType:[persistentStore type] URL:[persistentStore URL] error:&error];
+        [NSPersistentStoreCoordinator setMetadata:mutableMetaData forPersistentStoreOfType:[persistentStore type] URL:[persistentStore URL] options:nil error:NULL];
         [_writerContext performBlock:^{
             [_writerContext save:nil];
         }];

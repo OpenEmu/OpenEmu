@@ -350,23 +350,29 @@
         if(count == 1)
         {
             NSString *path = [url path];
-            NSString *source = [path stringByDeletingLastPathComponent];
-            NSArray *files = @[[path lastPathComponent]];
+            NSURL *baseURL = [NSURL fileURLWithPath:[path stringByDeletingLastPathComponent] isDirectory:YES];
+            NSMutableArray *fileNames = [NSMutableArray arrayWithObject:[path lastPathComponent]];
 
             if([[[path pathExtension] lowercaseString] isEqualToString:@"cue"])
             {
                 OECUESheet *sheet = [[OECUESheet alloc] initWithPath:path];
                 NSArray *additionalFileNames = [sheet referencedFileNames];
-                files = [files arrayByAddingObjectsFromArray:additionalFileNames];
+                [fileNames addObjectsFromArray:additionalFileNames];
             }
             else if([[[path pathExtension] lowercaseString] isEqualToString:@"ccd"])
             {
                 OECloneCD *ccd = [[OECloneCD alloc] initWithURL:url];
                 NSArray *additionalFileNames = [ccd referencedFileNames];
-                files = [files arrayByAddingObjectsFromArray:additionalFileNames];
+                [fileNames addObjectsFromArray:additionalFileNames];
             }
 
-            [[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation source:source destination:@"" files:files tag:NULL];
+            for(int i=0; i < [fileNames count]; i++){
+                NSString *fileName = [fileNames objectAtIndex:i];
+                NSURL *url = [NSURL fileURLWithPath:fileName isDirectory:NO relativeToURL:baseURL];
+                [fileNames replaceObjectAtIndex:i withObject:url];
+            }
+
+            [[NSWorkspace sharedWorkspace] recycleURLs:fileNames completionHandler:^(NSDictionary<NSURL *,NSURL *> * _Nonnull newURLs, NSError * _Nullable error) {}];
         } else DLog(@"Keeping file, other roms depent on it!");
     }
 
