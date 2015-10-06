@@ -33,7 +33,6 @@
 - (NSMenu *)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes;
 @end
 
-
 @interface OETableView : NSTableView
 - (void)setHeaderClickable:(BOOL)flag;
 - (NSDictionary *)defaultHeaderState;

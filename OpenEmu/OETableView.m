@@ -46,60 +46,78 @@ static NSGradient *highlightGradient, *normalGradient;
 
 @implementation OETableView
 
+- (instancetype)initWithFrame:(NSRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self _performCommonInit];
+    }
+    return self;
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) 
-	{
-		if(!cellEditingFillColor)
-		{
-			cellEditingFillColor = [NSColor greenColor];
-		}
-		
-		if(!textColor)
-		{
-			textColor = [NSColor whiteColor];
-		}
-		
-		if(!cellSelectedTextColor)
-		{
-			cellSelectedTextColor = [NSColor whiteColor];
-		}
-		
-		if(!highlightGradient)
-		{
-			highlightGradient = [[NSGradient alloc] initWithStartingColor:[NSColor greenColor] endingColor:[NSColor magentaColor]];
-		}
-
-		if(!strokeColor)
-		{
-			strokeColor = [NSColor blackColor];
-		}
-
-		if(!normalGradient)
-		{
-			NSColor *c1 = [NSColor colorWithDeviceWhite:0.29 alpha:1.0];
-			NSColor *c2 = [NSColor colorWithDeviceWhite:0.18 alpha:1.0];
-			normalGradient = [[NSGradient alloc] initWithStartingColor:c1 endingColor:c2];
-		}
-		
-		self.selectionColor = [NSColor colorWithDeviceRed:0.173 green:0.286 blue:0.976 alpha:1.0];
-		[self setIntercellSpacing:NSMakeSize(1, 0)];
-		
-		[self setBackgroundColor:[NSColor blackColor]];
-		[self setFocusRingType:NSFocusRingTypeNone];
-		
-		for (NSTableColumn *aColumn in [self tableColumns]) 
-		{
-			OETableHeaderCell *newHeader = [[OETableHeaderCell alloc] initTextCell:[[aColumn headerCell] stringValue]];
-			[newHeader setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11]];
-			[aColumn setHeaderCell: newHeader];
-		}
-
-        [self setHeaderClickable:YES];
-        [self setCornerView:[[OETableCornerView alloc] init]];
+    {
+        [self _performCommonInit];
 	}
     return self;
+}
+
+- (void)_performCommonInit
+{
+
+    if(!cellEditingFillColor)
+    {
+        cellEditingFillColor = [NSColor greenColor];
+    }
+
+    if(!textColor)
+    {
+        textColor = [NSColor whiteColor];
+    }
+
+    if(!cellSelectedTextColor)
+    {
+        cellSelectedTextColor = [NSColor whiteColor];
+    }
+
+    if(!highlightGradient)
+    {
+        highlightGradient = [[NSGradient alloc] initWithStartingColor:[NSColor greenColor] endingColor:[NSColor magentaColor]];
+    }
+
+    if(!strokeColor)
+    {
+        strokeColor = [NSColor blackColor];
+    }
+
+    if(!normalGradient)
+    {
+        NSColor *c1 = [NSColor colorWithDeviceWhite:0.29 alpha:1.0];
+        NSColor *c2 = [NSColor colorWithDeviceWhite:0.18 alpha:1.0];
+        normalGradient = [[NSGradient alloc] initWithStartingColor:c1 endingColor:c2];
+    }
+
+    self.selectionColor = [NSColor colorWithDeviceRed:0.173 green:0.286 blue:0.976 alpha:1.0];
+    [self setIntercellSpacing:NSMakeSize(1, 0)];
+
+    [self setBackgroundColor:[NSColor blackColor]];
+    [self setFocusRingType:NSFocusRingTypeNone];
+
+    for (NSTableColumn *aColumn in [self tableColumns])
+    {
+        OETableHeaderCell *newHeader = [[OETableHeaderCell alloc] initTextCell:[[aColumn headerCell] stringValue]];
+        [newHeader setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11]];
+        [aColumn setHeaderCell: newHeader];
+    }
+
+    [self setHeaderClickable:YES];
+
+    NSSize frameSize = [[self headerView] frame].size;
+    frameSize.height = 17.0;
+    [[self headerView] setFrameSize:frameSize];
 }
 
 - (void)drawBackgroundInClipRect:(NSRect)clipRect
@@ -258,7 +276,7 @@ static NSGradient *highlightGradient, *normalGradient;
 	}
 }
 
-- (void)setHeaderClickable:(BOOL)flag{
+- (void)setHeaderClickable:(BOOL)flag {
     for(NSTableColumn *aColumn in [self tableColumns])
     {
         OETableHeaderCell *cell = [aColumn headerCell];
