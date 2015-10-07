@@ -91,17 +91,11 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 - (void)awakeFromNib
 {
-    NSWindow *window = [self window];
-
     [super awakeFromNib];
 
     [[self libraryController] setDelegate:self];
-
-    [window setDelegate:self];
-
-    // Setup Window behavior
-    [window setRestorable:NO];
-    [window setExcludedFromWindowsMenu:YES];
+    
+    [self setUpWindow];
 
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OESetupAssistantHasFinishedKey])
     {
@@ -114,7 +108,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
              [self setCurrentContentController:[self libraryController] animate:NO];
          }];
 
-        [window center];
+        [[self window] center];
 
         [self setCurrentContentController:setupAssistant];
     }
@@ -123,18 +117,32 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         [self setCurrentContentController:[self libraryController] animate:NO];
     }
 
-    // setup menu items
+    [self setUpViewMenuItemBindings];
+
+    _isLaunchingGame = NO;
+}
+
+- (void)setUpWindow
+{    
+    NSWindow *window = [self window];
+    
+    [window setDelegate:self];
+    
+    [window setRestorable:NO];
+    [window setExcludedFromWindowsMenu:YES];
+}
+
+- (void)setUpViewMenuItemBindings
+{
     NSMenu *viewMenu = [[[NSApp mainMenu] itemAtIndex:3] submenu];
     NSMenuItem *showLibraryNames = [viewMenu itemWithTag:10];
     NSMenuItem *showRomNames     = [viewMenu itemWithTag:11];
     NSMenuItem *undockGameWindow = [viewMenu itemWithTag:3];
-
+    
     NSDictionary *negateOptions = @{NSValueTransformerNameBindingOption:NSNegateBooleanTransformerName};
     [showLibraryNames bind:@"enabled" toObject:self withKeyPath:@"mainWindowRunsGame" options:negateOptions];
     [showRomNames     bind:@"enabled" toObject:self withKeyPath:@"mainWindowRunsGame" options:negateOptions];
     [undockGameWindow bind:@"enabled" toObject:self withKeyPath:@"mainWindowRunsGame" options:@{}];
-
-    _isLaunchingGame = NO;
 }
 
 - (NSString *)windowNibName
