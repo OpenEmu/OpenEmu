@@ -13,7 +13,6 @@
                 <outlet property="toolbarAddToSidebarButton" destination="MC0-En-swu" id="uDo-eN-q3b"/>
                 <outlet property="toolbarGridViewButton" destination="YKh-EG-aoB" id="FZF-V5-hmN"/>
                 <outlet property="toolbarListViewButton" destination="aFx-ug-UHq" id="OZO-wC-DFm"/>
-                <outlet property="toolbarSearchField" destination="cQ4-Cg-7sb" id="vJ9-UN-Dp1"/>
                 <outlet property="toolbarSidebarButton" destination="6qp-Ef-QZt" id="LLW-bO-Osj"/>
                 <outlet property="toolbarSlider" destination="uGn-ph-Zwc" id="FWJ-nI-xh2"/>
                 <outlet property="window" destination="3" id="42"/>
@@ -32,7 +31,7 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                 <animations/>
             </view>
-            <toolbar key="toolbar" implicitIdentifier="647CF7A7-A628-4038-A1D8-26746C7CC43D" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="OsE-Wy-Uye">
+            <toolbar key="toolbar" implicitIdentifier="647CF7A7-A628-4038-A1D8-26746C7CC43D" autosavesConfiguration="NO" displayMode="iconOnly" sizeMode="regular" id="OsE-Wy-Uye">
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="En8-5L-D94"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Xux-dy-rDX"/>
@@ -77,27 +76,6 @@
                         <connections>
                             <action selector="toggleSidebar:" target="49" id="roF-yy-xJ3"/>
                         </connections>
-                    </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="50C0717B-85E9-48B4-8377-C4B06F1227D2" label="Search" paletteLabel="Search" id="SsF-ys-9wa">
-                        <nil key="toolTip"/>
-                        <size key="minSize" width="271" height="22"/>
-                        <size key="maxSize" width="271" height="22"/>
-                        <searchField key="view" wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" id="cQ4-Cg-7sb" customClass="OESearchField">
-                            <rect key="frame" x="0.0" y="14" width="271" height="22"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <animations/>
-                            <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Search" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="3lv-sI-lcd" customClass="OESearchFieldCell">
-                                <font key="font" metaFont="system"/>
-                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                            </searchFieldCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="search_field"/>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="search:" target="49" id="1PW-oS-uEQ"/>
-                            </connections>
-                        </searchField>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="399CF9BB-738C-4345-8E3B-9526F0829DC8" label="Grid Size" paletteLabel="Grid Size" tag="-1" id="f4W-dV-6ai">
                         <nil key="toolTip"/>
@@ -193,6 +171,27 @@
                             <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </box>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="D0566603-D6DD-4296-9016-9AD1C13ECFEC" label="Search" paletteLabel="Search" id="x4Q-Xg-EIc">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="50" height="22"/>
+                        <size key="maxSize" width="220" height="22"/>
+                        <searchField key="view" wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" id="M1Q-Dp-fr7" customClass="OESearchField">
+                            <rect key="frame" x="0.0" y="14" width="220" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
+                            <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Search" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="SqK-N3-Cyt" customClass="OESearchFieldCell">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </searchFieldCell>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="search_field"/>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="search:" target="49" id="cWt-wy-soq"/>
+                            </connections>
+                        </searchField>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="XMx-Yt-0Om"/>
@@ -200,7 +199,7 @@
                     <toolbarItem reference="Xux-dy-rDX"/>
                     <toolbarItem reference="f4W-dV-6ai"/>
                     <toolbarItem reference="gAN-DS-OYR"/>
-                    <toolbarItem reference="SsF-ys-9wa"/>
+                    <toolbarItem reference="x4Q-Xg-EIc"/>
                 </defaultToolbarItems>
             </toolbar>
             <connections>
@@ -212,7 +211,6 @@
                 <outlet property="toolbarAddToSidebarButton" destination="MC0-En-swu" id="zPt-ci-eMd"/>
                 <outlet property="toolbarGridViewButton" destination="YKh-EG-aoB" id="yEe-C4-wcI"/>
                 <outlet property="toolbarListViewButton" destination="aFx-ug-UHq" id="pk5-wj-hlI"/>
-                <outlet property="toolbarSearchField" destination="cQ4-Cg-7sb" id="Azx-D6-Vx9"/>
                 <outlet property="toolbarSidebarButton" destination="6qp-Ef-QZt" id="aZT-u4-0PD"/>
                 <outlet property="toolbarSlider" destination="uGn-ph-Zwc" id="rkN-QH-lIj"/>
             </connections>

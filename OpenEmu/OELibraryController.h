@@ -40,7 +40,6 @@ extern NSString * const OELibraryStatesKey;
 
 @protocol OELibraryControllerDelegate, OELibrarySubviewController;
 @interface OELibraryController : NSViewController <OEMainWindowContentController, OELibrarySplitViewDelegate>
-- (void)layoutToolbar;
 
 @property(unsafe_unretained) id<OELibraryControllerDelegate> delegate;
 

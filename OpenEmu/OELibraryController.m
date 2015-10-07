@@ -108,8 +108,6 @@ static const CGFloat _OEToolbarHeight = 44;
 {
     [super viewDidAppear];
     
-    [self layoutToolbar];
-    
     [[self sidebarController] reloadData];
 }
 
@@ -412,8 +410,6 @@ static const CGFloat _OEToolbarHeight = 44;
 #pragma mark - OELibrarySplitViewDelegate
 - (void)librarySplitViewDidToggleSidebar:(NSNotification *)notification
 {
-    [self layoutToolbar];
-
     NSView *sidebarView = [[self sidebarController] view];
     if(![[self mainSplitView] isSidebarVisible])
     {
@@ -423,7 +419,6 @@ static const CGFloat _OEToolbarHeight = 44;
 
 - (void)splitViewDidResizeSubviews:(NSNotification *)notification
 {
-    [self layoutToolbar];
 }
 
 #pragma mark - Private
@@ -445,23 +440,6 @@ static const CGFloat _OEToolbarHeight = 44;
         }
     }
     return [_subviewControllers valueForKey:className];
-}
-
-#pragma mark -
-- (void)layoutToolbar
-{
-    CGFloat splitterPosition = [[self mainSplitView] splitterPosition];
-    NSView *toolbarItemContainer = [[self toolbarSearchField] superview];
-
-    NSRect toolbarItemContainerFrame =
-    {
-        .origin.x = splitterPosition,
-        .origin.y = 0,
-        .size.width = NSWidth([[toolbarItemContainer superview] bounds]) - splitterPosition,
-        .size.height = _OEToolbarHeight
-    };
-
-    [toolbarItemContainer setFrame:toolbarItemContainerFrame];
 }
 
 @end
