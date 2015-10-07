@@ -56,6 +56,9 @@ extern NSString *const OEMainWindowFullscreenKey;
 - (IBAction)undockGameWindow:(id)sender;
 - (IBAction)launchLastPlayedROM:(id)sender;
 
+- (IBAction)switchToGridView:(id)sender;
+- (IBAction)switchToListView:(id)sender;
+
 // ugly hack, remove
 - (void)startGame:(OEDBGame*)game;
 @end

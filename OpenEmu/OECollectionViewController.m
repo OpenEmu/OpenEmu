@@ -349,19 +349,16 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 #pragma mark View Selection
 - (IBAction)switchToGridView:(id)sender
 {
-    [sender setState:NSOnState];
     [self OE_switchToView:OEGridViewTag];
 }
 
 - (IBAction)switchToFlowView:(id)sender
 {
-    [sender setState:NSOnState];
     [self OE_switchToView:OEFlowViewTag];
 }
 
 - (IBAction)switchToListView:(id)sender
 {
-    [sender setState:NSOnState];
     [self OE_switchToView:OEListViewTag];
 }
 

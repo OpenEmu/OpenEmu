@@ -145,7 +145,7 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_view_button_grid"/>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="switchToGridView:" target="49" id="59o-h1-p6J"/>
+                                            <action selector="switchToGridView:" target="-2" id="0Ux-5E-atP"/>
                                         </connections>
                                     </button>
                                     <button id="aFx-ug-UHq" userLabel="List View Mode Button" customClass="OEButton">
@@ -160,7 +160,7 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_view_button_list"/>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="switchToListView:" target="49" id="B1H-JX-OYO"/>
+                                            <action selector="switchToListView:" target="-2" id="7OV-mA-iOo"/>
                                         </connections>
                                     </button>
                                 </subviews>
