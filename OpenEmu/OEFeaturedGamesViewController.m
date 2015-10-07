@@ -508,7 +508,6 @@ const static CGFloat TableViewSpacing = 86.0;
 {
     _libraryController = libraryController;
 
-    [[libraryController toolbarFlowViewButton] setEnabled:NO];
     [[libraryController toolbarGridViewButton] setEnabled:NO];
     [[libraryController toolbarListViewButton] setEnabled:NO];
 

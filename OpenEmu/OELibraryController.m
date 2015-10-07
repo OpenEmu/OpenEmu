@@ -102,22 +102,6 @@ static const CGFloat _OEToolbarHeight = 44;
     // setup splitview
     OELibrarySplitView *splitView = [self mainSplitView];
     [splitView setDelegate:self];
-
-    // setup tool tips
-    [_toolbarSidebarButton setToolTip:NSLocalizedString(@"Toggle Sidebar", @"Tooltip")];
-    [_toolbarSidebarButton setToolTipStyle:OEToolTipStyleDefault];
-
-    [_toolbarGridViewButton setToolTip:NSLocalizedString(@"Switch To Grid View", @"Tooltip")];
-    [_toolbarGridViewButton setToolTipStyle:OEToolTipStyleDefault];
-
-    [_toolbarFlowViewButton setToolTip:NSLocalizedString(@"Switch To Flow View", @"Tooltip")];
-    [_toolbarFlowViewButton setToolTipStyle:OEToolTipStyleDefault];
-
-    [_toolbarListViewButton setToolTip:NSLocalizedString(@"Switch To List View", @"Tooltip")];
-    [_toolbarListViewButton setToolTipStyle:OEToolTipStyleDefault];
-
-    [_toolbarAddToSidebarButton setToolTip:NSLocalizedString(@"New Collection", @"Tooltip")];
-    [_toolbarAddToSidebarButton setToolTipStyle:OEToolTipStyleDefault];
 }
 
 - (void)viewDidAppear
@@ -255,8 +239,6 @@ static const CGFloat _OEToolbarHeight = 44;
     NSButton *button = nil;
     if([menuItem action] == @selector(switchToGridView:))
         button = [self toolbarGridViewButton];
-    else if([menuItem action] == @selector(switchToFlowView:))
-        button = [self toolbarFlowViewButton];
     else if([menuItem action] == @selector(switchToListView:))
         button = [self toolbarListViewButton];
     else return YES;

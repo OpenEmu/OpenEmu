@@ -3,12 +3,19 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+        <capability name="box content view" minToolsVersion="7.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEMainWindowController">
             <connections>
                 <outlet property="libraryController" destination="49" id="50"/>
                 <outlet property="placeholderView" destination="4" id="53"/>
+                <outlet property="toolbarAddToSidebarButton" destination="MC0-En-swu" id="uDo-eN-q3b"/>
+                <outlet property="toolbarGridViewButton" destination="YKh-EG-aoB" id="FZF-V5-hmN"/>
+                <outlet property="toolbarListViewButton" destination="aFx-ug-UHq" id="OZO-wC-DFm"/>
+                <outlet property="toolbarSearchField" destination="cQ4-Cg-7sb" id="vJ9-UN-Dp1"/>
+                <outlet property="toolbarSidebarButton" destination="6qp-Ef-QZt" id="LLW-bO-Osj"/>
+                <outlet property="toolbarSlider" destination="uGn-ph-Zwc" id="FWJ-nI-xh2"/>
                 <outlet property="window" destination="3" id="42"/>
             </connections>
         </customObject>
@@ -25,10 +32,190 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                 <animations/>
             </view>
+            <toolbar key="toolbar" implicitIdentifier="647CF7A7-A628-4038-A1D8-26746C7CC43D" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="OsE-Wy-Uye">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="En8-5L-D94"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Xux-dy-rDX"/>
+                    <toolbarItem implicitItemIdentifier="C7AADBD5-6C09-47BD-81B7-C338CB4E36FC" label="Add" paletteLabel="Add" id="zVy-Hc-WQw">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="28" height="23"/>
+                        <size key="maxSize" width="28" height="23"/>
+                        <button key="view" id="MC0-En-swu" userLabel="Add To Sidebar Button" customClass="OEButton">
+                            <rect key="frame" x="0.0" y="14" width="28" height="23"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
+                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" inset="2" id="Vdn-WG-HMo" customClass="OEButtonCell">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_sidebar_button_add"/>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <connections>
+                            <action selector="addCollectionAction:" target="49" id="Abk-jK-fdD"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="A9DEEB69-D35F-4DF3-8A8B-DA4C4C26238D" label="Sidebar" paletteLabel="Sidebar" id="XMx-Yt-0Om">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="28" height="23"/>
+                        <size key="maxSize" width="28" height="23"/>
+                        <button key="view" id="6qp-Ef-QZt" userLabel="Side Bar Collapse Button" customClass="OEButton">
+                            <rect key="frame" x="10" y="14" width="28" height="23"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
+                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" inset="2" id="dop-I3-p0V" customClass="OEButtonCell">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                                <string key="keyEquivalent">s</string>
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                            </buttonCell>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_sidebar_button_close"/>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <connections>
+                            <action selector="toggleSidebar:" target="49" id="roF-yy-xJ3"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="50C0717B-85E9-48B4-8377-C4B06F1227D2" label="Search" paletteLabel="Search" id="SsF-ys-9wa">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="271" height="22"/>
+                        <size key="maxSize" width="271" height="22"/>
+                        <searchField key="view" wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" id="cQ4-Cg-7sb" customClass="OESearchField">
+                            <rect key="frame" x="0.0" y="14" width="271" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
+                            <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Search" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="3lv-sI-lcd" customClass="OESearchFieldCell">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </searchFieldCell>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="search_field"/>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="search:" target="49" id="1PW-oS-uEQ"/>
+                            </connections>
+                        </searchField>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="399CF9BB-738C-4345-8E3B-9526F0829DC8" label="Grid Size" paletteLabel="Grid Size" tag="-1" id="f4W-dV-6ai">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="153" height="34"/>
+                        <size key="maxSize" width="177" height="114"/>
+                        <box key="view" borderType="none" titlePosition="noTitle" id="loo-ZN-fVz">
+                            <rect key="frame" x="0.0" y="14" width="177" height="38"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <view key="contentView" id="aFN-Be-rUn">
+                                <rect key="frame" x="0.0" y="0.0" width="177" height="38"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView id="igX-ic-WqI" userLabel="Minus Hint Image View">
+                                        <rect key="frame" x="22" y="15" width="7" height="7"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topRight" id="Thb-P0-4MG"/>
+                                    </imageView>
+                                    <slider verticalHuggingPriority="750" id="uGn-ph-Zwc" userLabel="Size Slider" customClass="OESlider">
+                                        <rect key="frame" x="34" y="11" width="103" height="15"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" minValue="0.5" maxValue="2.5" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="55Y-pm-bui" customClass="OESliderCell"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="grid_slider"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="changeGridSize:" target="49" id="ISA-23-LIx"/>
+                                            <outlet property="maxHint" destination="A5V-Es-XOx" id="AeF-O9-soR"/>
+                                            <outlet property="minHint" destination="igX-ic-WqI" id="nFg-yP-GbP"/>
+                                        </connections>
+                                    </slider>
+                                    <imageView id="A5V-Es-XOx" userLabel="Max Hint Image View">
+                                        <rect key="frame" x="145" y="14" width="10" height="10"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" id="G0S-qB-jKr"/>
+                                    </imageView>
+                                </subviews>
+                                <animations/>
+                            </view>
+                            <animations/>
+                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </box>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="CC8CBEA1-1CC8-4AD5-A7F6-5F8F7FC07F0E" label="View" paletteLabel="View" tag="-1" id="gAN-DS-OYR">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="59" height="32"/>
+                        <size key="maxSize" width="59" height="38"/>
+                        <box key="view" borderType="none" titlePosition="noTitle" id="ywr-tL-Mf1">
+                            <rect key="frame" x="0.0" y="14" width="59" height="38"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <view key="contentView" id="DXo-NN-FqZ">
+                                <rect key="frame" x="0.0" y="0.0" width="59" height="38"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <button id="YKh-EG-aoB" userLabel="Grid View Mode Button" customClass="OEButton">
+                                        <rect key="frame" x="2" y="6" width="27" height="23"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" inset="2" id="9nI-BV-gaj" customClass="OEButtonCell">
+                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_view_button_grid"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="switchToGridView:" target="49" id="59o-h1-p6J"/>
+                                        </connections>
+                                    </button>
+                                    <button id="aFx-ug-UHq" userLabel="List View Mode Button" customClass="OEButton">
+                                        <rect key="frame" x="29" y="6" width="27" height="23"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <animations/>
+                                        <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" borderStyle="border" inset="2" id="H2g-tr-K0L" customClass="OEButtonCell">
+                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_view_button_list"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="switchToListView:" target="49" id="B1H-JX-OYO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <animations/>
+                            </view>
+                            <animations/>
+                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </box>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="XMx-Yt-0Om"/>
+                    <toolbarItem reference="zVy-Hc-WQw"/>
+                    <toolbarItem reference="Xux-dy-rDX"/>
+                    <toolbarItem reference="f4W-dV-6ai"/>
+                    <toolbarItem reference="gAN-DS-OYR"/>
+                    <toolbarItem reference="SsF-ys-9wa"/>
+                </defaultToolbarItems>
+            </toolbar>
             <connections>
                 <outlet property="delegate" destination="-2" id="54"/>
             </connections>
         </window>
-        <viewController id="49" customClass="OELibraryController"/>
+        <viewController id="49" customClass="OELibraryController">
+            <connections>
+                <outlet property="toolbarAddToSidebarButton" destination="MC0-En-swu" id="zPt-ci-eMd"/>
+                <outlet property="toolbarGridViewButton" destination="YKh-EG-aoB" id="yEe-C4-wcI"/>
+                <outlet property="toolbarListViewButton" destination="aFx-ug-UHq" id="pk5-wj-hlI"/>
+                <outlet property="toolbarSearchField" destination="cQ4-Cg-7sb" id="Azx-D6-Vx9"/>
+                <outlet property="toolbarSidebarButton" destination="6qp-Ef-QZt" id="aZT-u4-0PD"/>
+                <outlet property="toolbarSlider" destination="uGn-ph-Zwc" id="rkN-QH-lIj"/>
+            </connections>
+        </viewController>
     </objects>
 </document>

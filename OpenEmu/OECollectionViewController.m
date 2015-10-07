@@ -448,24 +448,20 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     {
         case OEGridViewTag:
             [[[self libraryController] toolbarGridViewButton] setState:NSOnState];
-            [[[self libraryController] toolbarFlowViewButton] setState:NSOffState];
             [[[self libraryController] toolbarListViewButton] setState:NSOffState];
             [[[self libraryController] toolbarSlider] setEnabled:YES];
             break;
-        case OEFlowViewTag:
-            [[[self libraryController] toolbarGridViewButton] setState:NSOffState];
-            [[[self libraryController] toolbarFlowViewButton] setState:NSOnState];
-            [[[self libraryController] toolbarListViewButton] setState:NSOffState];
-            [[[self libraryController] toolbarSlider] setEnabled:NO];
-            break;
         case OEListViewTag:
             [[[self libraryController] toolbarGridViewButton] setState:NSOffState];
-            [[[self libraryController] toolbarFlowViewButton] setState:NSOffState];
             [[[self libraryController] toolbarListViewButton] setState:NSOnState];
             [[[self libraryController] toolbarSlider] setEnabled:NO];
             break;
         case OEBlankSlateTag:
             [[[self libraryController] toolbarSlider] setEnabled:NO];
+            break;
+            
+            // Deprecated.
+        case OEFlowViewTag:
             break;
     }
 }
@@ -477,7 +473,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         [self OE_switchToView:[self OE_currentViewTagByToolbarState]];
 
         [[[self libraryController] toolbarGridViewButton] setEnabled:YES];
-        [[[self libraryController] toolbarFlowViewButton] setEnabled:YES];
         [[[self libraryController] toolbarListViewButton] setEnabled:YES];
 
         [[[self libraryController] toolbarSearchField] setEnabled:YES];
@@ -489,7 +484,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         [self OE_switchToView:OEBlankSlateTag];
 
         [[[self libraryController] toolbarGridViewButton] setEnabled:NO];
-        [[[self libraryController] toolbarFlowViewButton] setEnabled:NO];
         [[[self libraryController] toolbarListViewButton] setEnabled:NO];
 
         [[[self libraryController] toolbarSearchField] setEnabled:NO];
@@ -511,8 +505,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 {
     if([[[self libraryController] toolbarGridViewButton] state] == NSOnState)
         return OEGridViewTag;
-    else if([[[self libraryController] toolbarFlowViewButton] state] == NSOnState)
-        return OEFlowViewTag;
     else
         return OEListViewTag;
 }

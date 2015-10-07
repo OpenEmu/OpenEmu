@@ -316,6 +316,7 @@
 		53D32E4D13B95F6200A6ACE0 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E4B13B95F5400A6ACE0 /* QTKit.framework */; };
 		53D32E4E13B95F9A00A6ACE0 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */; };
 		53D32E4F13B95F9A00A6ACE0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */; };
+		5AEAD4911BC5848800900F70 /* ToggleSidebarTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 5AEAD4901BC5848800900F70 /* ToggleSidebarTemplate.pdf */; settings = {ASSET_TAGS = (); }; };
 		820EB7421483F9A2008EC398 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
 		82277547148946DF00B19E27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -2017,6 +2018,7 @@
 		53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		53D32E4513B95F0800A6ACE0 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		53D32E4B13B95F5400A6ACE0 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
+		5AEAD4901BC5848800900F70 /* ToggleSidebarTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = ToggleSidebarTemplate.pdf; sourceTree = "<group>"; };
 		820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NeoGeo Pocket.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		820EB74E1483F9D3008EC398 /* controller_ngp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_ngp.png; sourceTree = "<group>"; };
 		820EB7511483F9D3008EC398 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -4641,6 +4643,7 @@
 				53439BE913B93920005C0CC8 /* spinner.pdf */,
 				53439BEA13B93920005C0CC8 /* table_header.png */,
 				EC350F6B17401AC1005DA3B2 /* table_header@2x.png */,
+				5AEAD4901BC5848800900F70 /* ToggleSidebarTemplate.pdf */,
 				53439BEB13B93920005C0CC8 /* toolbar_add_button.png */,
 				EC350F6C17401AC1005DA3B2 /* toolbar_add_button@2x.png */,
 				53439BEC13B93920005C0CC8 /* toolbar_sidebar_button.png */,
@@ -7751,6 +7754,7 @@
 				EC350FCC17401B44005DA3B2 /* hud_button@2x.png in Resources */,
 				EC350FCD17401B44005DA3B2 /* hud_close_button@2x.png in Resources */,
 				EC350FCE17401B44005DA3B2 /* hud_fullscreen_glyph@2x.png in Resources */,
+				5AEAD4911BC5848800900F70 /* ToggleSidebarTemplate.pdf in Resources */,
 				EC350FCF17401B44005DA3B2 /* hud_glyphs@2x.png in Resources */,
 				EC350FD017401B44005DA3B2 /* hud_power_glyph@2x.png in Resources */,
 				EC350FD117401B44005DA3B2 /* hud_progress_bar_track@2x.png in Resources */,
