@@ -19,163 +19,23 @@
             <rect key="frame" x="0.0" y="0.0" width="830" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <customView id="656" customClass="OELibraryToolbarView">
-                    <rect key="frame" x="0.0" y="0.0" width="830" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <button id="652" userLabel="Add To Sidebar Button" customClass="OEButton">
-                            <rect key="frame" x="14" y="10" width="28" height="23"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <animations/>
-                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" inset="2" id="653" customClass="OEButtonCell">
-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="system"/>
-                            </buttonCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_sidebar_button_add"/>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="addCollectionAction:" target="-2" id="655"/>
-                            </connections>
-                        </button>
-                        <customView id="617">
-                            <rect key="frame" x="0.0" y="0.0" width="830" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <button id="619" userLabel="Side Bar Collapse Button" customClass="OEButton">
-                                    <rect key="frame" x="14" y="10" width="28" height="23"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <animations/>
-                                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" inset="2" id="634" customClass="OEButtonCell">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                        <string key="keyEquivalent">s</string>
-                                        <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                    </buttonCell>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_sidebar_button_close"/>
-                                    </userDefinedRuntimeAttributes>
-                                    <connections>
-                                        <action selector="toggleSidebar:" target="-2" id="651"/>
-                                    </connections>
-                                </button>
-                                <button id="626" userLabel="Grid View Mode Button" customClass="OEButton">
-                                    <rect key="frame" x="74" y="10" width="27" height="23"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <animations/>
-                                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" inset="2" id="627" customClass="OEButtonCell">
-                                        <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_view_button_grid"/>
-                                    </userDefinedRuntimeAttributes>
-                                    <connections>
-                                        <action selector="switchToGridView:" target="-2" id="698"/>
-                                    </connections>
-                                </button>
-                                <button id="620" userLabel="Flow View Mode Button" customClass="OEButton">
-                                    <rect key="frame" x="101" y="10" width="27" height="23"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <animations/>
-                                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" borderStyle="border" inset="2" id="633" customClass="OEButtonCell">
-                                        <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_view_button_flow"/>
-                                    </userDefinedRuntimeAttributes>
-                                    <connections>
-                                        <action selector="switchToFlowView:" target="-2" id="699"/>
-                                    </connections>
-                                </button>
-                                <button id="625" userLabel="List View Mode Button" customClass="OEButton">
-                                    <rect key="frame" x="128" y="10" width="27" height="23"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <animations/>
-                                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" borderStyle="border" inset="2" id="628" customClass="OEButtonCell">
-                                        <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_view_button_list"/>
-                                    </userDefinedRuntimeAttributes>
-                                    <connections>
-                                        <action selector="switchToListView:" target="-2" id="700"/>
-                                    </connections>
-                                </button>
-                                <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" id="623" customClass="OESearchField">
-                                    <rect key="frame" x="282" y="10" width="271" height="22"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <animations/>
-                                    <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Search" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="630" customClass="OESearchFieldCell">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </searchFieldCell>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="search_field"/>
-                                    </userDefinedRuntimeAttributes>
-                                    <connections>
-                                        <action selector="search:" target="-2" id="702"/>
-                                    </connections>
-                                </searchField>
-                                <customView id="657">
-                                    <rect key="frame" x="667" y="0.0" width="163" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView id="624" userLabel="Minus Hint Image View">
-                                            <rect key="frame" x="15" y="18" width="7" height="7"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                            <animations/>
-                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topRight" id="629"/>
-                                        </imageView>
-                                        <slider verticalHuggingPriority="750" id="622" userLabel="Size Slider" customClass="OESlider">
-                                            <rect key="frame" x="27" y="13" width="103" height="15"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                            <animations/>
-                                            <sliderCell key="cell" controlSize="small" state="on" alignment="left" minValue="0.5" maxValue="2.5" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="631" customClass="OESliderCell"/>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="grid_slider"/>
-                                            </userDefinedRuntimeAttributes>
-                                            <connections>
-                                                <action selector="changeGridSize:" target="-2" id="701"/>
-                                                <outlet property="maxHint" destination="621" id="636"/>
-                                                <outlet property="minHint" destination="624" id="637"/>
-                                            </connections>
-                                        </slider>
-                                        <imageView id="621" userLabel="Max Hint Image View">
-                                            <rect key="frame" x="138" y="17" width="10" height="10"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                            <animations/>
-                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" id="632"/>
-                                        </imageView>
-                                    </subviews>
-                                    <animations/>
-                                </customView>
-                            </subviews>
-                            <animations/>
-                        </customView>
-                    </subviews>
-                    <animations/>
-                </customView>
                 <splitView autosaveName="mainSplitView" dividerStyle="thin" vertical="YES" id="393" userLabel="Library Split View" customClass="OELibrarySplitView">
-                    <rect key="frame" x="0.0" y="45" width="830" height="555"/>
+                    <rect key="frame" x="0.0" y="0.0" width="830" height="600"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <customView wantsLayer="YES" id="395" customClass="OESidebarBackgroundView">
-                            <rect key="frame" x="0.0" y="0.0" width="186" height="555"/>
+                            <rect key="frame" x="0.0" y="0.0" width="186" height="600"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                             <subviews>
                                 <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="549">
-                                    <rect key="frame" x="0.0" y="0.0" width="186" height="555"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="186" height="600"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <clipView key="contentView" id="KU4-pj-msp">
-                                        <rect key="frame" x="0.0" y="0.0" width="186" height="555"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="186" height="600"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" indentationPerLevel="16" outlineTableColumn="554" id="552" customClass="OESidebarOutlineView">
-                                                <rect key="frame" x="0.0" y="0.0" width="186" height="19"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="186" height="600"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <animations/>
                                                 <size key="intercellSpacing" width="3" height="2"/>
@@ -295,11 +155,11 @@
                             <animations/>
                         </customView>
                         <customView id="394">
-                            <rect key="frame" x="187" y="0.0" width="643" height="555"/>
+                            <rect key="frame" x="187" y="0.0" width="643" height="600"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <customView id="404">
-                                    <rect key="frame" x="0.0" y="0.0" width="643" height="556"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="643" height="601"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <animations/>
                                 </customView>
