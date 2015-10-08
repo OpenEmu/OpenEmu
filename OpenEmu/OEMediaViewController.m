@@ -188,7 +188,6 @@
     [super setLibraryController:controller];
     
     [[controller toolbarGridViewButton] setEnabled:FALSE];
-    [[controller toolbarFlowViewButton] setEnabled:FALSE];
     [[controller toolbarListViewButton] setEnabled:FALSE];
     
     [[controller toolbarSearchField] setEnabled:YES];

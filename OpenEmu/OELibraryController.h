@@ -40,7 +40,6 @@ extern NSString * const OELibraryStatesKey;
 
 @protocol OELibraryControllerDelegate, OELibrarySubviewController;
 @interface OELibraryController : NSViewController <OEMainWindowContentController, OELibrarySplitViewDelegate>
-- (void)layoutToolbar;
 
 @property(unsafe_unretained) id<OELibraryControllerDelegate> delegate;
 
@@ -84,7 +83,6 @@ extern NSString * const OELibraryStatesKey;
 
 @property (strong) IBOutlet OEButton      *toolbarSidebarButton;
 @property (strong) IBOutlet OEButton      *toolbarGridViewButton;
-@property (strong) IBOutlet OEButton      *toolbarFlowViewButton;
 @property (strong) IBOutlet OEButton      *toolbarListViewButton;
 
 @property (strong) IBOutlet OEButton      *toolbarAddToSidebarButton;

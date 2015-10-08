@@ -42,7 +42,7 @@
 typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
     OEBlankSlateTag = -1,
     OEGridViewTag   = 0,
-    OEFlowViewTag   = 1,
+    OEFlowViewTag   = 1, // Deprecated.
     OEListViewTag   = 2
 };
 

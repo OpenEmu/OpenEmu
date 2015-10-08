@@ -91,18 +91,40 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 - (void)awakeFromNib
 {
-    NSWindow *window = [self window];
-
     [super awakeFromNib];
+    
+    [self setUpLibraryController];
+    [self setUpWindow];
+    [self setUpCurrentContentController];
+    [self setUpViewMenuItemBindings];
+    [self setUpToolbarButtonTooltips];
 
-    [[self libraryController] setDelegate:self];
+    _isLaunchingGame = NO;
+}
 
+- (void)setUpLibraryController
+{
+    OELibraryController *libraryController = [self libraryController];
+    
+    [libraryController setDelegate:self];
+}
+
+- (void)setUpWindow
+{    
+    NSWindow *window = [self window];
+    
     [window setDelegate:self];
-
-    // Setup Window behavior
+    
     [window setRestorable:NO];
     [window setExcludedFromWindowsMenu:YES];
+    
+    [window setTitleVisibility:NSWindowTitleHidden];
+    
+    [window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantDark]];
+}
 
+- (void)setUpCurrentContentController
+{
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OESetupAssistantHasFinishedKey])
     {
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
@@ -113,28 +135,43 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                  [[[OELibraryDatabase defaultDatabase] importer] discoverRoms:volumes];
              [self setCurrentContentController:[self libraryController] animate:NO];
          }];
-
-        [window center];
-
+        
+        [[self window] center];
+        
         [self setCurrentContentController:setupAssistant];
     }
     else
     {
         [self setCurrentContentController:[self libraryController] animate:NO];
     }
+}
 
-    // setup menu items
+- (void)setUpViewMenuItemBindings
+{
     NSMenu *viewMenu = [[[NSApp mainMenu] itemAtIndex:3] submenu];
     NSMenuItem *showLibraryNames = [viewMenu itemWithTag:10];
     NSMenuItem *showRomNames     = [viewMenu itemWithTag:11];
     NSMenuItem *undockGameWindow = [viewMenu itemWithTag:3];
-
+    
     NSDictionary *negateOptions = @{NSValueTransformerNameBindingOption:NSNegateBooleanTransformerName};
     [showLibraryNames bind:@"enabled" toObject:self withKeyPath:@"mainWindowRunsGame" options:negateOptions];
     [showRomNames     bind:@"enabled" toObject:self withKeyPath:@"mainWindowRunsGame" options:negateOptions];
     [undockGameWindow bind:@"enabled" toObject:self withKeyPath:@"mainWindowRunsGame" options:@{}];
+}
 
-    _isLaunchingGame = NO;
+- (void)setUpToolbarButtonTooltips
+{
+    [_toolbarSidebarButton setToolTip:NSLocalizedString(@"Toggle Sidebar", @"Tooltip")];
+    [_toolbarSidebarButton setToolTipStyle:OEToolTipStyleDefault];
+    
+    [_toolbarGridViewButton setToolTip:NSLocalizedString(@"Switch To Grid View", @"Tooltip")];
+    [_toolbarGridViewButton setToolTipStyle:OEToolTipStyleDefault];
+    
+    [_toolbarListViewButton setToolTip:NSLocalizedString(@"Switch To List View", @"Tooltip")];
+    [_toolbarListViewButton setToolTipStyle:OEToolTipStyleDefault];
+    
+    [_toolbarAddToSidebarButton setToolTip:NSLocalizedString(@"New Collection", @"Tooltip")];
+    [_toolbarAddToSidebarButton setToolTipStyle:OEToolTipStyleDefault];
 }
 
 - (NSString *)windowNibName
@@ -495,6 +532,22 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     OEDBGame *game = [[sender representedObject] game];
     
     [self libraryController:nil didSelectGame:game];
+}
+
+#pragma mark - IBActions
+
+- (IBAction)switchToGridView:(id)sender
+{
+    [[self toolbarListViewButton] setState:NSOffState];
+    
+    [[self libraryController] switchToGridView:sender];
+}
+
+- (IBAction)switchToListView:(id)sender
+{
+    [[self toolbarGridViewButton] setState:NSOffState];
+    
+    [[self libraryController] switchToListView:sender];
 }
 
 @end
