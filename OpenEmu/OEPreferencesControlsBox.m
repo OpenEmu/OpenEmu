@@ -48,7 +48,7 @@
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
+    [super drawRect:[self bounds]];
 
     const NSColor *lineColor = [NSColor colorWithDeviceRed:0.45 green:0.24 blue:0.0 alpha:1.0];
     NSColor *highlightColor = [NSColor colorWithDeviceRed:1.0 green:0.92 blue:0.0 alpha:0.14];
