@@ -105,8 +105,9 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     CALayer *layer = [self layer];
 
     // Setup foreground
-    OEBlankSlateForegroundLayer *foregroundLayer = [[OEBlankSlateForegroundLayer alloc] init];
-    [layer addSublayer:foregroundLayer];
+    // TODO: cleanup
+    // OEBlankSlateForegroundLayer *foregroundLayer = [[OEBlankSlateForegroundLayer alloc] init];
+    // [layer addSublayer:foregroundLayer];
 
     // Setup drag indication layer
     _dragIndicationLayer = [[CALayer alloc] init];
