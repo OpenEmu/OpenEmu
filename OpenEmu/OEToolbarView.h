@@ -24,9 +24,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import <Cocoa/Cocoa.h>
-#import "INAppStoreWindow.h"
+
 @class OEToolbarItem;
-@interface OEToolbarView : INTitlebarView <NSAccessibilityGroup>
+@interface OEToolbarView : NSView <NSAccessibilityGroup>
 {
 @private
     OEToolbarItem *highlightedItem;
@@ -42,6 +42,8 @@
 - (NSInteger)numberOfItems;
 - (OEToolbarItem*)itemAtIndex:(NSInteger)index;
 - (NSInteger)indexOfItem:(OEToolbarItem*)item;
+
+@property NSColor *bottomSeparatorColor;
 @end
 
 @interface OEToolbarItem : NSObject <NSAccessibilityButton>

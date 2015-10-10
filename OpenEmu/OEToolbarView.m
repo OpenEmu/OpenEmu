@@ -175,6 +175,11 @@
         x += titlePadding;
         x += itemSpacing;
     }
+
+    // draw bottom separator
+    [[self bottomSeparatorColor] setFill];
+    NSRect viewRect = [self bounds];
+    NSRectFill(NSMakeRect(NSMinX(viewRect), NSMinY(viewRect), NSWidth(viewRect), 1));
 }
 
 - (void)mouseDown:(NSEvent *)theEvent

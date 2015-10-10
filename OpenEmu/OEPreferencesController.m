@@ -30,7 +30,6 @@
 #import "OEBackgroundGradientView.h"
 
 #import "OEToolbarView.h"
-#import "OEAppStoreWindow.h"
 
 #import "NSImage+OEDrawingAdditions.h"
 
@@ -64,7 +63,6 @@ NSString *const OEPreferencePaneDidChangeVisibilityNotificationName = @"OEPrefVi
 - (void)OE_rebuildToolbar;
 - (void)OE_openPreferencePane:(NSNotification *)notification;
 
-@property OEAppStoreWindow *window;
 @property NSView *subviewContainer;
 @property id konamiCodeMonitor;
 @property unsigned short konamiCodeIndex;
@@ -116,8 +114,9 @@ static const unsigned short konamiCodeSize = 10;
     [preferencesItem setAction:@selector(showWindow:)];
     [preferencesItem setEnabled:YES];
 
-    OEAppStoreWindow *win = (OEAppStoreWindow *)[self window];
-   [win close]; // Make sure window doesn't show up in window menu until it's actual visible
+    NSWindow *win = [self window];
+    [win setTitlebarAppearsTransparent:YES];
+    [win close]; // Make sure window doesn't show up in window menu until it's actual visible
 
     [self setSubviewContainer:[[[win contentView] subviews] lastObject]];
 
@@ -125,14 +124,13 @@ static const unsigned short konamiCodeSize = 10;
     [win setBackgroundColor:windowBackgroundColor];
 
     [self OE_reloadPreferencePanes];
-    
-    [win setTitleBarView:toolbar];
-    [win setCenterTrafficLightButtons:NO];
-    [win setTitleBarHeight:83.0];
-    [win setMovableByWindowBackground:NO];
-    [win setShowsTitle:YES];
-    [win setVerticallyCenterTitle:NO];
-   
+
+    NSTitlebarAccessoryViewController *toolbarController = [[NSTitlebarAccessoryViewController alloc] init];
+    [toolbarController setLayoutAttribute:NSLayoutAttributeBottom];
+    [toolbarController setFullScreenMinHeight:61.0];
+    [toolbarController setView:toolbar];
+    [win addTitlebarAccessoryViewController:toolbarController];
+
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger selectedTab = [standardDefaults integerForKey:OESelectedPreferencesTabKey];
     
@@ -160,9 +158,10 @@ static const unsigned short konamiCodeSize = 10;
 
 - (NSRect)window:(NSWindow *)window willPositionSheet:(NSWindow *)sheet usingRect:(NSRect)rect
 {
+    /*
     if([window isKindOfClass:[OEAppStoreWindow class]])
         rect.origin.y -= [(OEAppStoreWindow*)window titleBarHeight]-22.0;
-    
+    */
     return rect;
 }
 
@@ -263,7 +262,7 @@ static const unsigned short konamiCodeSize = 10;
         toolbar = nil;
     }
     
-    OEAppStoreWindow *win = (OEAppStoreWindow*)[self window];
+    NSWindow *win = [self window];
     toolbar = [[OEToolbarView alloc] initWithFrame:NSMakeRect(0, 0, win.frame.size.width-10.0, 58.0)];
 
     [[self preferencePanes] enumerateObjectsUsingBlock:^(id <OEPreferencePane> aPreferencePane, NSUInteger idx, BOOL *stop) {
@@ -282,7 +281,8 @@ static const unsigned short konamiCodeSize = 10;
     [self switchView:[toolbar itemAtIndex:lastSelection] animate:YES];
     [self setVisibleItemIndex:[[[toolbar itemAtIndex:lastSelection] representedObject] integerValue]];
 
-    [win setTitleBarView:toolbar];
+    NSTitlebarAccessoryViewController *viewController = [[win titlebarAccessoryViewControllers] lastObject];
+    [viewController setView:toolbar];
 }
 
 - (void)OE_openPreferencePane:(NSNotification *)notification
@@ -326,17 +326,15 @@ static const unsigned short konamiCodeSize = 10;
 
     NSSize viewSize = [nextPane viewSize];
     NSView *view = [nextPane view];
-    
-    [[self window] setBaselineSeparatorColor:[NSColor blackColor]];
-    
+
     [self OE_showView:view atSize:viewSize animate:animateFlag];
     [nextPane viewDidAppear];
     [currentPane viewDidDisappear];
-    
+
     BOOL viewHasCustomColor = [nextPane respondsToSelector:@selector(toolbarSeparationColor)];
-    if(viewHasCustomColor) [[self window] setBaselineSeparatorColor:[nextPane toolbarSeparationColor]];
-    else [[self window] setBaselineSeparatorColor:[NSColor blackColor]];
-    
+    if(viewHasCustomColor) [toolbar setBottomSeparatorColor:[nextPane toolbarSeparationColor]];
+    else [toolbar setBottomSeparatorColor:[NSColor blackColor]];
+
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     [standardDefaults setInteger:selectedTab forKey:OESelectedPreferencesTabKey];
     [self setVisibleItemIndex:selectedTab];
