@@ -200,11 +200,11 @@
             </connections>
         </viewController>
         <customView id="Noi-h4-exO">
-            <rect key="frame" x="0.0" y="0.0" width="189" height="52"/>
+            <rect key="frame" x="0.0" y="0.0" width="189" height="38"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button id="Cf6-7e-U7P" userLabel="Side Bar Collapse Button" customClass="OEButton">
-                    <rect key="frame" x="3" y="14" width="28" height="23"/>
+                    <rect key="frame" x="3" y="7" width="28" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <animations/>
                     <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" inset="2" id="gs1-aq-yYx" customClass="OEButtonCell">
@@ -222,31 +222,15 @@
                 </button>
             </subviews>
             <animations/>
-            <point key="canvasLocation" x="71.5" y="853"/>
+            <point key="canvasLocation" x="70.5" y="853"/>
         </customView>
         <customView id="NdI-Ph-MUH">
-            <rect key="frame" x="0.0" y="0.0" width="548" height="52"/>
+            <rect key="frame" x="0.0" y="0.0" width="548" height="38"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" id="1Bq-GS-IB1" customClass="OESearchField">
-                    <rect key="frame" x="315" y="15" width="220" height="22"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                    <animations/>
-                    <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Search" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="QJZ-8r-4uK" customClass="OESearchFieldCell">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                    </searchFieldCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="search_field"/>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <action selector="search:" target="-2" id="CBE-it-e1E"/>
-                    </connections>
-                </searchField>
                 <view id="xg7-D4-lv8">
-                    <rect key="frame" x="69" y="7" width="177" height="38"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <rect key="frame" x="69" y="0.0" width="177" height="38"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <imageView id="3Am-Xd-We9" userLabel="Minus Hint Image View">
                             <rect key="frame" x="22" y="15" width="7" height="7"/>
@@ -278,14 +262,14 @@
                     <animations/>
                 </view>
                 <box borderType="none" titlePosition="noTitle" id="zX3-Z4-fc0">
-                    <rect key="frame" x="251" y="6" width="59" height="38"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <rect key="frame" x="251" y="0.0" width="53" height="38"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <view key="contentView" id="2uC-ni-sHM">
-                        <rect key="frame" x="0.0" y="0.0" width="59" height="38"/>
+                        <rect key="frame" x="0.0" y="0.0" width="53" height="38"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button id="cin-mq-baC" userLabel="Grid View Mode Button" customClass="OEButton">
-                                <rect key="frame" x="2" y="6" width="27" height="23"/>
+                                <rect key="frame" x="0.0" y="7" width="27" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" inset="2" id="fbX-XN-EbR" customClass="OEButtonCell">
@@ -300,7 +284,7 @@
                                 </connections>
                             </button>
                             <button id="VnH-2L-TSa" userLabel="List View Mode Button" customClass="OEButton">
-                                <rect key="frame" x="29" y="6" width="27" height="23"/>
+                                <rect key="frame" x="27" y="7" width="26" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" borderStyle="border" inset="2" id="cUl-8z-swE" customClass="OEButtonCell">
@@ -321,6 +305,22 @@
                     <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </box>
+                <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" id="1Bq-GS-IB1" customClass="OESearchField">
+                    <rect key="frame" x="315" y="7" width="220" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <animations/>
+                    <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Search" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="QJZ-8r-4uK" customClass="OESearchFieldCell">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </searchFieldCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="search_field"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="search:" target="-2" id="CBE-it-e1E"/>
+                    </connections>
+                </searchField>
             </subviews>
             <animations/>
             <point key="canvasLocation" x="486" y="853"/>
