@@ -55,9 +55,6 @@ NSString * const OELibraryStatesKey        = @"Library States";
 #pragma mark - Imported variables
 extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
-#pragma mark - Private variables
-static const CGFloat _OEToolbarHeight = 44;
-
 @interface OELibraryController ()
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
@@ -109,6 +106,18 @@ static const CGFloat _OEToolbarHeight = 44;
     [super viewDidAppear];
     
     [[self sidebarController] reloadData];
+
+    if([[[[self view] window] titlebarAccessoryViewControllers] count]) return;
+
+    NSTitlebarAccessoryViewController * leftViewController = [[NSTitlebarAccessoryViewController alloc] init];
+    [leftViewController setLayoutAttribute:NSLayoutAttributeLeft];
+    [leftViewController setView:[self leftToolbarView]];
+    [[[self view] window] addTitlebarAccessoryViewController:leftViewController];
+
+    NSTitlebarAccessoryViewController * rightViewController = [[NSTitlebarAccessoryViewController alloc] init];
+    [rightViewController setLayoutAttribute:NSLayoutAttributeRight];
+    [rightViewController setView:[self rightToolbarView]];
+    [[[self view] window] addTitlebarAccessoryViewController:rightViewController];
 }
 
 - (void)viewWillDisappear

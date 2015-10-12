@@ -117,10 +117,10 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     
     [window setRestorable:NO];
     [window setExcludedFromWindowsMenu:YES];
-    
     [window setTitleVisibility:NSWindowTitleHidden];
-    
     [window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantDark]];
+    [window setTitlebarAppearsTransparent:YES];
+    [window setToolbar:nil];
 }
 
 - (void)setUpCurrentContentController
@@ -134,6 +134,10 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
              if(discoverRoms)
                  [[[OELibraryDatabase defaultDatabase] importer] discoverRoms:volumes];
              [self setCurrentContentController:[self libraryController] animate:NO];
+
+             NSWindow *window = [self window];
+             [window setTitlebarAppearsTransparent:NO];
+             [window setToolbar:[[NSToolbar alloc] initWithIdentifier:@""]];
          }];
         
         [[self window] center];
@@ -142,6 +146,10 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     }
     else
     {
+        NSWindow *window = [self window];
+        [window setTitlebarAppearsTransparent:NO];
+        [window setToolbar:[[NSToolbar alloc] initWithIdentifier:@""]];
+
         [self setCurrentContentController:[self libraryController] animate:NO];
     }
 }
@@ -225,15 +233,21 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         _currentContentController = controller;
 
         [viewToReplace removeFromSuperview];
+        NSWindow *window = [self window];
 
         if(controller == [_gameDocument gameViewController])
         {
+            [window setTitlebarAppearsTransparent:YES];
+            [window setToolbar:nil];
             [_gameDocument setGameWindowController:self];
             [_gameDocument setEmulationPaused:NO];
         }
         else
         {
-            NSWindow *window = [self window];
+            if(controller == [self libraryController]){
+                [window setTitlebarAppearsTransparent:NO];
+                [window setToolbar:[[NSToolbar alloc] initWithIdentifier:@""]];
+            }
 
             [window setTitle:OEDefaultWindowTitle];
 #if DEBUG_PRINT
@@ -365,6 +379,11 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         _shouldExitFullScreenWhenGameFinishes = ![[self window] isFullScreen];
         _gameDocument = document;
         _mainWindowRunsGame = YES;
+
+        [[self window] setTitlebarAppearsTransparent:YES];
+        while([[[self window] titlebarAccessoryViewControllers] count])
+            [[self window] removeTitlebarAccessoryViewControllerAtIndex:0];
+        [[self window] setToolbar:nil];
 
         if(fullScreen && ![[self window] isFullScreen])
         {

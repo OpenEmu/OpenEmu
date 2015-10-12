@@ -91,6 +91,9 @@ extern NSString * const OELibraryStatesKey;
 
 - (void)showViewController:(NSViewController<OELibrarySubviewController> *)nextViewController;
 
+@property (assign) IBOutlet NSView *leftToolbarView;
+@property (assign) IBOutlet NSView *rightToolbarView;
+
 @end
 
 @class OEDBGame, OEDBRom, OEDBSaveState;
