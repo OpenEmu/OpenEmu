@@ -5,7 +5,7 @@
 	<key>Colors</key>
 	<dict>
 		<key>preferences_background</key>
-		<string>rgba(38, 38, 38, 1)</string>
+		<string>#252525</string>
 		<key>black_background</key>
 		<string>black</string>
 		<key>dark_menu_background</key>
