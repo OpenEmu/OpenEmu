@@ -119,7 +119,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     [window setExcludedFromWindowsMenu:YES];
     [window setTitleVisibility:NSWindowTitleHidden];
     [window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantDark]];
-    [window setTitlebarAppearsTransparent:YES];
     [window setToolbar:nil];
 }
 
@@ -136,7 +135,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
              [self setCurrentContentController:[self libraryController] animate:NO];
 
              NSWindow *window = [self window];
-             [window setTitlebarAppearsTransparent:NO];
              [window setToolbar:[[NSToolbar alloc] initWithIdentifier:@""]];
          }];
         
@@ -147,7 +145,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     else
     {
         NSWindow *window = [self window];
-        [window setTitlebarAppearsTransparent:NO];
         [window setToolbar:[[NSToolbar alloc] initWithIdentifier:@""]];
 
         [self setCurrentContentController:[self libraryController] animate:NO];
@@ -237,15 +234,16 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
         if(controller == [_gameDocument gameViewController])
         {
-            [window setTitlebarAppearsTransparent:YES];
             [window setToolbar:nil];
+            [window setTitleVisibility:NSWindowTitleVisible];
             [_gameDocument setGameWindowController:self];
             [_gameDocument setEmulationPaused:NO];
         }
         else
         {
+            [window setTitleVisibility:NSWindowTitleHidden];
+
             if(controller == [self libraryController]){
-                [window setTitlebarAppearsTransparent:NO];
                 [window setToolbar:[[NSToolbar alloc] initWithIdentifier:@""]];
             }
 
@@ -380,7 +378,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         _gameDocument = document;
         _mainWindowRunsGame = YES;
 
-        [[self window] setTitlebarAppearsTransparent:YES];
         while([[[self window] titlebarAccessoryViewControllers] count])
             [[self window] removeTitlebarAccessoryViewControllerAtIndex:0];
         [[self window] setToolbar:nil];
