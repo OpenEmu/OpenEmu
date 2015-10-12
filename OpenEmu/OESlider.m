@@ -296,6 +296,7 @@
     }
     return self;
 }
+
 - (void)updateHintImages
 {
     BOOL enabled = [self isEnabled];
@@ -325,7 +326,7 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     [super drawRect:dirtyRect];
-    [self performSelectorInBackground:@selector(updateHintImages) withObject:nil];
+    [self updateHintImages];
 }
 
 @end
