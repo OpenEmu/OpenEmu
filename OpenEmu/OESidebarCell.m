@@ -119,17 +119,15 @@ const CGFloat BadgeSpacing = 2.0;
 #pragma mark - Frames
 - (NSRect)imageRectForBounds:(NSRect)cellFrame 
 {
-    NSRect result;
+    NSRect result = NSZeroRect;
+
     if(_image != nil)
     {
 		NSSize iconSize = [_image size];
 		result = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y+ (cellFrame.size.height-iconSize.height)/2, iconSize.width, iconSize.height);
         result.origin.y = ceil(result.origin.y);
-    } 
-    else 
-    {
-        result = NSZeroRect;
     }
+
     return result;
 }
 
@@ -261,8 +259,8 @@ const CGFloat BadgeSpacing = 2.0;
 		titleFrame = cellFrame;
 		titleFrame.size.height -= 9;
 		titleFrame.origin.y += 9;
-		titleFrame.origin.x += 2;
-		titleFrame.size.width -= 2;
+		titleFrame.origin.x -= 8;
+		titleFrame.size.width += 8;
 	}
     else
     {

@@ -191,7 +191,6 @@
 		3887A8061024D2BC000FC4CF /* GeneratePreviewForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8031024D2BC000FC4CF /* GeneratePreviewForURL.m */; };
 		3887A8071024D2BC000FC4CF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8041024D2BC000FC4CF /* main.c */; };
 		3887A8971024D796000FC4CF /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3887A8961024D796000FC4CF /* QuickLook.framework */; };
-		3D15428114E20E22009C3DEE /* OENonARCHacks.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D15428014E20E22009C3DEE /* OENonARCHacks.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3D1D8D821650C22900DBC37D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1D8D811650C22900DBC37D /* Accelerate.framework */; };
 		3DFAB00D144644D4005EF0C3 /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
 		4FC6C54519AD7C4D00231545 /* controller_colecovision@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FC6C54019AD7BBB00231545 /* controller_colecovision@2x.png */; };
@@ -507,7 +506,6 @@
 		83BC345E1516456000F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */; };
 		83BF5292146C2F0A00B5F742 /* blank_slate_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 83BF5291146C2F0A00B5F742 /* blank_slate_arrow.png */; };
 		83BF5295146C2F4000B5F742 /* blank_slate_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83BF5294146C2F4000B5F742 /* blank_slate_box.png */; };
-		83C0B37114D6EF02007CAC00 /* OESidebarOutlineButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C0B37014D6EF01007CAC00 /* OESidebarOutlineButtonCell.m */; };
 		83C0B37414D6FC58007CAC00 /* sidebar_triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C0B37314D6FC58007CAC00 /* sidebar_triangle.png */; };
 		83C68ED114483579000F720A /* OEHUDAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEHUDAlert.m */; };
 		83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C6C1DB190536CC00DD7B13 /* OEDBImageMigrationPolicy.m */; };
@@ -1835,7 +1833,6 @@
 		3887A8041024D2BC000FC4CF /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OESaveStateQLPlugin-Info.plist"; sourceTree = "<group>"; };
 		3887A8961024D796000FC4CF /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
-		3D15428014E20E22009C3DEE /* OENonARCHacks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENonARCHacks.m; sourceTree = "<group>"; };
 		3D1D8D811650C22900DBC37D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		3D711838150064F50056E3BF /* PSYBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSYBlockTimer.h; sourceTree = "<group>"; };
 		3D711839150064F50056E3BF /* PSYBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSYBlockTimer.m; sourceTree = "<group>"; };
@@ -2410,8 +2407,6 @@
 		83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEHUDAlert+DefaultAlertsAdditions.m"; sourceTree = "<group>"; };
 		83BF5291146C2F0A00B5F742 /* blank_slate_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_slate_arrow.png; sourceTree = "<group>"; };
 		83BF5294146C2F4000B5F742 /* blank_slate_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_slate_box.png; sourceTree = "<group>"; };
-		83C0B36F14D6EF01007CAC00 /* OESidebarOutlineButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarOutlineButtonCell.h; sourceTree = "<group>"; };
-		83C0B37014D6EF01007CAC00 /* OESidebarOutlineButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarOutlineButtonCell.m; sourceTree = "<group>"; };
 		83C0B37314D6FC58007CAC00 /* sidebar_triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sidebar_triangle.png; sourceTree = "<group>"; };
 		83C68ECF14483579000F720A /* OEHUDAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDAlert.h; sourceTree = "<group>"; };
 		83C68ED014483579000F720A /* OEHUDAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDAlert.m; sourceTree = "<group>"; };
@@ -4459,9 +4454,6 @@
 				53439B1213B92FFA005C0CC8 /* OESidebarFieldEditor.m */,
 				53439B1513B92FFA005C0CC8 /* OESidebarOutlineView.h */,
 				53439B1613B92FFA005C0CC8 /* OESidebarOutlineView.m */,
-				83C0B36F14D6EF01007CAC00 /* OESidebarOutlineButtonCell.h */,
-				83C0B37014D6EF01007CAC00 /* OESidebarOutlineButtonCell.m */,
-				3D15428014E20E22009C3DEE /* OENonARCHacks.m */,
 				83200BF7162F5C1C00BCFA9D /* OESidebarBackgroundView.h */,
 				83200BF8162F5C1C00BCFA9D /* OESidebarBackgroundView.m */,
 			);
@@ -8536,10 +8528,8 @@
 				EF2FDBEB14CFFE06002A64F2 /* OEControlsKeyButton.m in Sources */,
 				EF2FDBEC14CFFE11002A64F2 /* OEControlsKeyLabelCell.m in Sources */,
 				EF2FDBED14CFFE1B002A64F2 /* OEControlsKeySeparatorView.m in Sources */,
-				83C0B37114D6EF02007CAC00 /* OESidebarOutlineButtonCell.m in Sources */,
 				1B6DA4A914DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m in Sources */,
 				83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */,
-				3D15428114E20E22009C3DEE /* OENonARCHacks.m in Sources */,
 				83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */,
 				EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.m in Sources */,
 				EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */,

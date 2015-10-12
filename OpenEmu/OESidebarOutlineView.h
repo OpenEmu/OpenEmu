@@ -25,7 +25,6 @@
  */
 #import <Foundation/Foundation.h>
 
-extern NSString *const OESidebarConsolesNotCollapsibleKey;
 extern NSString *const OESidebarTogglesSystemNotification;
 
 @interface OESidebarOutlineView : NSOutlineView <NSDraggingDestination>
@@ -37,6 +36,3 @@ extern NSString *const OESidebarTogglesSystemNotification;
 @property CGFloat dropCornerRadius;
 @end
 
-@interface OESidebarOutlineView (OEPrivate)
-- (void)setupOutlineCell;
-@end

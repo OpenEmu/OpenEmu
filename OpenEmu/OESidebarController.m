@@ -121,13 +121,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     [sidebarView registerForDraggedTypes:[NSArray arrayWithObjects:OEPasteboardTypeGame, NSFilenamesPboardType, nil]];
     [sidebarView setDelegate:self];
     [sidebarView setDataSource:self];
-    for(OESidebarGroupItem *groupItem in [self groups])
-    {
-        if([[NSUserDefaults standardUserDefaults] boolForKey:[groupItem autosaveName]])
-            [sidebarView expandItem:groupItem];
-        else
-            [sidebarView collapseItem:groupItem];
-    }
+    [sidebarView expandItem:nil expandChildren:YES];
     [sidebarView setAllowsEmptySelection:NO];
 
     NSScrollView *enclosingScrollView = [sidebarView enclosingScrollView];
@@ -494,24 +488,11 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item
 {
-    for(id aGroup in self.groups)
-        if(aGroup != item && [outlineView isItemExpanded:aGroup])
-        {
-            if([item isKindOfClass:[OESidebarGroupItem class]])
-            {
-                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:[item autosaveName]];
-            }
-            return YES;
-        }
     return NO;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldExpandItem:(id)item
 {
-    if([item isKindOfClass:[OESidebarGroupItem class]])
-    {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:[item autosaveName]];
-    }
     return YES;
 }
 

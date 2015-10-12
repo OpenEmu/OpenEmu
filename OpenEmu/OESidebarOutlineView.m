@@ -30,7 +30,6 @@
 #import "OESidebarController.h"
 
 #import <objc/runtime.h>
-#import "OESidebarOutlineButtonCell.h"
 #import "OESideBarGroupItem.h"
 #import "OEMenu.h"
 
@@ -39,7 +38,6 @@
 
 #import "OECorePlugin.h"
 
-NSString *const OESidebarConsolesNotCollapsibleKey   = @"OESidebarConsolesNotCollapsible";
 NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemNotification";
 
 @interface OESidebarOutlineView ()
@@ -71,7 +69,6 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
     self = [super initWithCoder:aDecoder];
     if (self) 
     {
-        [self setupOutlineCell];
         [self OE_setupDefaultColors];
         _highlightedRow = -1;
     }
@@ -83,7 +80,6 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
     self = [super initWithFrame:frameRect];
     if (self) 
     {
-        [self setupOutlineCell];
         [self OE_setupDefaultColors];
         _highlightedRow = -1;
     }
@@ -289,12 +285,7 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
 
 - (NSRect)frameOfOutlineCellAtRow:(NSInteger)row
 {
-    if(row==0 && [[NSUserDefaults standardUserDefaults] boolForKey:OESidebarConsolesNotCollapsibleKey])
-        return NSZeroRect;
-    
-    NSRect rect = [super frameOfOutlineCellAtRow:row];
-    rect.origin.y += 3;
-    return rect;
+    return NSZeroRect;
 }
 
 - (NSRect)rectOfGroup:(id)item
@@ -310,7 +301,7 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
     if(![self isItemExpanded:item])
         return [self rectOfRow:[self rowForItem:item]];
     
-    // TODO: this will break when we add collection folders that can have children on their own
+    // TODO: this will break when we add collection folders that can have children of their own
     NSUInteger children = [[self dataSource] outlineView:self numberOfChildrenOfItem:item];
     NSRect firstItem = [self rectOfRow:[self rowForItem:item]];
     NSRect lastItem  = [self rectOfRow:[self rowForItem:item] + children];
