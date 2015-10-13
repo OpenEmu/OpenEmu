@@ -242,7 +242,7 @@
             <rect key="frame" x="0.0" y="0.0" width="35" height="38"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <button id="Cf6-7e-U7P" userLabel="Side Bar Collapse Button" customClass="OEButton">
+                <button hidden="YES" id="Cf6-7e-U7P" userLabel="Side Bar Collapse Button" customClass="OEButton">
                     <rect key="frame" x="3" y="7" width="28" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <animations/>
