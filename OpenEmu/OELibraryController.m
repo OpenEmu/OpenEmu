@@ -180,6 +180,18 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
         [[self currentViewController] performSelector:@selector(changeGridSize:) withObject:sender];
 }
 
+- (void)magnifyWithEvent:(NSEvent*)event {
+    if([[self currentViewController] respondsToSelector:@selector(changeGridSize:)])
+    {
+        CGFloat zoomChange = [event magnification];
+        CGFloat zoomValue = [[self toolbarSlider] floatValue];
+
+        [[self toolbarSlider] setFloatValue:zoomValue+zoomChange];
+        [self changeGridSize:[self toolbarSlider]];
+    }
+}
+
+
 - (IBAction)addCollectionAction:(id)sender
 {
     [[self sidebarController] addCollectionAction:sender];
