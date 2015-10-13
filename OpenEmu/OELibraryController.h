@@ -85,7 +85,7 @@ extern NSString * const OELibraryStatesKey;
 @property (strong) IBOutlet OEButton      *toolbarGridViewButton;
 @property (strong) IBOutlet OEButton      *toolbarListViewButton;
 
-@property (strong) IBOutlet OEButton      *toolbarAddToSidebarButton;
+@property (strong) IBOutlet NSButton      *toolbarAddToSidebarButton;
 @property (strong) IBOutlet NSSearchField *toolbarSearchField;
 @property (strong) IBOutlet NSSlider      *toolbarSlider;
 

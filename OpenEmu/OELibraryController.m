@@ -109,15 +109,18 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
     if([[[[self view] window] titlebarAccessoryViewControllers] count]) return;
 
-    NSTitlebarAccessoryViewController * leftViewController = [[NSTitlebarAccessoryViewController alloc] init];
-    [leftViewController setLayoutAttribute:NSLayoutAttributeLeft];
-    [leftViewController setView:[self leftToolbarView]];
-    [[[self view] window] addTitlebarAccessoryViewController:leftViewController];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSTitlebarAccessoryViewController * leftViewController = [[NSTitlebarAccessoryViewController alloc] init];
+        [leftViewController setLayoutAttribute:NSLayoutAttributeLeft];
+        [leftViewController setView:[self leftToolbarView]];
+        [[[self view] window] addTitlebarAccessoryViewController:leftViewController];
 
-    NSTitlebarAccessoryViewController * rightViewController = [[NSTitlebarAccessoryViewController alloc] init];
-    [rightViewController setLayoutAttribute:NSLayoutAttributeRight];
-    [rightViewController setView:[self rightToolbarView]];
-    [[[self view] window] addTitlebarAccessoryViewController:rightViewController];
+        NSTitlebarAccessoryViewController * rightViewController = [[NSTitlebarAccessoryViewController alloc] init];
+        [rightViewController setLayoutAttribute:NSLayoutAttributeRight];
+        [rightViewController setView:[self rightToolbarView]];
+        [[[self view] window] addTitlebarAccessoryViewController:rightViewController];
+    });
 }
 
 - (void)viewWillDisappear
@@ -285,7 +288,9 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 {
     NSMutableArray *gamesToStart = [NSMutableArray new];
 
-    if([sender isKindOfClass:[OEDBGame class]]) [gamesToStart addObject:sender];
+    if([sender isKindOfClass:[OEDBGame class]]){
+        [gamesToStart addObject:sender];
+    }
     else
     {
         NSAssert([(id)[self currentViewController] respondsToSelector:@selector(selectedGames)], @"Attempt to start a game from a view controller that doesn't announc selectedGames");
@@ -335,7 +340,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     if([nextViewController respondsToSelector:@selector(setLibraryController:)])
         [nextViewController setLibraryController:self];
 
-    NSView *newView    = [nextViewController view];    
+    NSView *newView = [nextViewController view];
     if(oldViewController)
     {
         NSView *superView = [[oldViewController view] superview];
@@ -434,7 +439,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag
 {
-    [NSApp setPresentationOptions:(fsFlag ? NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideToolbar : NSApplicationPresentationDefault)];
+    [NSApp setPresentationOptions:(fsFlag ? NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar : NSApplicationPresentationDefault)];
 }
 
 - (NSViewController<OELibrarySubviewController> *)viewControllerWithClassName:(NSString *)className

@@ -13,6 +13,7 @@
                 <outlet property="mainSplitView" destination="393" id="511"/>
                 <outlet property="rightToolbarView" destination="NdI-Ph-MUH" id="uCW-YS-NzT"/>
                 <outlet property="sidebarController" destination="558" id="561"/>
+                <outlet property="toolbarAddToSidebarButton" destination="em2-c2-Ple" id="5JH-Ti-zp6"/>
                 <outlet property="toolbarGridViewButton" destination="cin-mq-baC" id="mWD-VO-mhw"/>
                 <outlet property="toolbarListViewButton" destination="VnH-2L-TSa" id="3Wk-hJ-Nsf"/>
                 <outlet property="toolbarSearchField" destination="1Bq-GS-IB1" id="d5H-Uz-Yqg"/>
@@ -35,11 +36,49 @@
                             <rect key="frame" x="0.0" y="0.0" width="186" height="600"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                             <subviews>
+                                <customView id="eJN-rJ-UEs">
+                                    <rect key="frame" x="0.0" y="0.0" width="185" height="36"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <customView id="ixr-9h-E1d" customClass="OEBackgroundColorView">
+                                            <rect key="frame" x="0.0" y="35" width="185" height="1"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                            <animations/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                                    <color key="value" white="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </customView>
+                                        <button id="em2-c2-Ple">
+                                            <rect key="frame" x="11" y="11" width="16" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <animations/>
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSAddTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="q1u-B2-Jyy">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="addCollectionAction:" target="-2" id="hHF-gk-8LU"/>
+                                            </connections>
+                                        </button>
+                                        <button hidden="YES" id="jEV-C9-uG0">
+                                            <rect key="frame" x="37" y="11" width="16" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <animations/>
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSActionTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="NFy-eR-08s">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                        </button>
+                                    </subviews>
+                                    <animations/>
+                                </customView>
                                 <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="549">
-                                    <rect key="frame" x="0.0" y="0.0" width="186" height="600"/>
+                                    <rect key="frame" x="0.0" y="36" width="186" height="564"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <clipView key="contentView" id="KU4-pj-msp">
-                                        <rect key="frame" x="0.0" y="0.0" width="186" height="600"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="186" height="564"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" indentationPerLevel="16" outlineTableColumn="554" id="552" customClass="OESidebarOutlineView">
@@ -200,7 +239,7 @@
             </connections>
         </viewController>
         <customView id="Noi-h4-exO">
-            <rect key="frame" x="0.0" y="0.0" width="189" height="38"/>
+            <rect key="frame" x="0.0" y="0.0" width="35" height="38"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button id="Cf6-7e-U7P" userLabel="Side Bar Collapse Button" customClass="OEButton">
@@ -222,7 +261,7 @@
                 </button>
             </subviews>
             <animations/>
-            <point key="canvasLocation" x="70.5" y="853"/>
+            <point key="canvasLocation" x="-6.5" y="853"/>
         </customView>
         <customView id="NdI-Ph-MUH">
             <rect key="frame" x="0.0" y="0.0" width="548" height="38"/>
@@ -326,4 +365,8 @@
             <point key="canvasLocation" x="486" y="853"/>
         </customView>
     </objects>
+    <resources>
+        <image name="NSActionTemplate" width="14" height="14"/>
+        <image name="NSAddTemplate" width="11" height="11"/>
+    </resources>
 </document>

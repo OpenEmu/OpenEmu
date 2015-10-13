@@ -498,7 +498,9 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 - (void)windowDidEnterFullScreen:(NSNotification *)notification
 {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OEMainWindowFullscreenKey];
-    if(_gameDocument == nil) return;
+    if(_gameDocument == nil) {
+        return;
+    }
 
     if(_shouldExitFullScreenWhenGameFinishes)
     {
