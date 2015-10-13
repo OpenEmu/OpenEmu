@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15A282b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
@@ -30,7 +30,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="400" height="463"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="7C7D9EF1-A7E7-45E6-B43B-B40893D6728B" id="804"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="3600EC4C-DDEF-497C-9FC7-E6F10A80AB20" id="804"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" id="796">
                         <rect key="frame" x="17" y="184" width="366" height="18"/>
@@ -410,19 +410,12 @@ CA
                 <menuItem title="View" id="973">
                     <menu key="submenu" title="View" id="1035">
                         <items>
-                            <menuItem title="Show Toolbar" keyEquivalent="t" id="5kO-fw-ARd">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                            <menuItem title="Show Sidebar" keyEquivalent="S" id="5kO-fw-ARd">
                                 <connections>
-                                    <action selector="toggleToolbarShown:" target="-1" id="N4m-Gt-Yfh"/>
+                                    <action selector="toggleSidebar:" target="-1" id="oJI-XQ-7i0"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Customize Toolbar…" id="ZZ9-nb-ZUf">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="runToolbarCustomizationPalette:" target="-1" id="JWJ-j9-FKz"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="mot-M1-WyU"/>
+                            <menuItem isSeparatorItem="YES" tag="1" id="mot-M1-WyU"/>
                             <menuItem title="as Grid" state="on" tag="301" enabled="NO" keyEquivalent="1" id="1040">
                                 <connections>
                                     <action selector="switchToGridView:" target="-1" id="1151"/>
@@ -450,7 +443,7 @@ CA
                                     </binding>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="1308"/>
+                            <menuItem isSeparatorItem="YES" tag="1" id="1308"/>
                             <menuItem title="Fullscreen" tag="2" enabled="NO" keyEquivalent="f" id="1038">
                                 <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                 <connections>
@@ -655,7 +648,7 @@ DQ
         <userDefaultsController representsSharedInstance="YES" id="1212"/>
     </objects>
     <resources>
-        <image name="7C7D9EF1-A7E7-45E6-B43B-B40893D6728B" width="400" height="463">
+        <image name="3600EC4C-DDEF-497C-9FC7-E6F10A80AB20" width="400" height="463">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -9925,7 +9918,7 @@ AQIAAwAAAAMACHr6AQMAAwAAAAEAAQAAAQYAAwAAAAEAAgAAAREABAAAAAUACHsUARIAAwAAAAEAAQAA
 ARUAAwAAAAEAAwAAARYAAwAAAAEAbQAAARcABAAAAAUACHsAARwAAwAAAAEAAQAAAVMAAwAAAAMACHso
 h3MABwAADEgACHsuAAAAAAAIAAgACAAB/vAAAf7wAAH+8AAB/vAAAH6QAAAACAAB/vgAA/3oAAX82AAH
 +8gAAQABAAEAAAxITGlubwIQAABtbnRyUkdCIFhZWiAHzgACAAkABgAxAABhY3NwTVNGVAAAAABJRUMg
-c1JHQgAAAAAAAAAAAAAAAAAA9tYAAQAAAADTLUhQICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+c1JHQgAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLUhQICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAABFjcHJ0AAABUAAAADNkZXNjAAABhAAAAGx3dHB0AAAB8AAAABRia3B0
 AAACBAAAABRyWFlaAAACGAAAABRnWFlaAAACLAAAABRiWFlaAAACQAAAABRkbW5kAAACVAAAAHBkbWRk
 AAACxAAAAIh2dWVkAAADTAAAAIZ2aWV3AAAD1AAAACRsdW1pAAAD+AAAABRtZWFzAAAEDAAAACR0ZWNo

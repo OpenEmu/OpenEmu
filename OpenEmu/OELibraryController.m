@@ -93,8 +93,6 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     [[self view] setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:OESidebarSelectionDidChangeNotificationName object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:sidebarCtrl];
-    
-    [self updateToggleSidebarButtonState];
 
     // setup splitview
     OELibrarySplitView *splitView = [self mainSplitView];
@@ -138,18 +136,6 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 }
 
 #pragma mark - Toolbar
-
-- (IBAction)toggleSidebar:(id)sender
-{
-    [[self mainSplitView] toggleSidebar];
-}
-
-- (void)updateToggleSidebarButtonState
-{
-    [[self toolbarSidebarButton] setState:([[self mainSplitView] isSidebarVisible] ? NSOnState : NSOffState)];
-    [[self toolbarSidebarButton] display];
-}
-
 - (IBAction)switchToGridView:(id)sender
 {
     if([[self currentViewController] respondsToSelector:@selector(switchToGridView:)])
@@ -233,35 +219,72 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 }
 
 #pragma mark - Menu Items
+- (BOOL)OE_isSiderbarVisible
+{
+    return [[self mainSplitView] isSidebarVisible];
+}
+- (IBAction)showSidebar:(id)sender
+{
+    if([self OE_isSiderbarVisible]) return;
 
+    [self toggleSidebar:sender];
+}
+
+- (IBAction)hideSidebar:(id)sender
+{
+    if(![self OE_isSiderbarVisible]) return;
+
+    [self toggleSidebar:sender];
+}
+
+- (IBAction)toggleSidebar:(id)sender
+{
+    [[self mainSplitView] toggleSidebar];
+}
+
+#pragma mark -
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-    if([menuItem action] == @selector(newCollectionFolder:)) return NO;
+    SEL action = [menuItem action];
+
+    if(action == @selector(toggleSidebar:))
+    {
+        NSString *title = nil;
+        if([self OE_isSiderbarVisible]) {
+            title = NSLocalizedString(@"Hide Sidebar", @"Hide Sidebar menu item");
+        } else {
+            title = NSLocalizedString(@"Show Sidebar", @"Show sidebar menu item");
+        }
+        [menuItem setTitle:title];
+        return YES;
+    }
+
+    if(action == @selector(newCollectionFolder:)) return NO;
     
-    if([menuItem action] == @selector(editSmartCollection:))
+    if(action == @selector(editSmartCollection:))
         return [[[self sidebarController] selectedSidebarItem] isKindOfClass:[OEDBSmartCollection class]];
 
     const id currentViewController = [self currentViewController];
 
-    if([menuItem action] == @selector(startGame:))
+    if(action == @selector(startGame:))
     {
         return [currentViewController isKindOfClass:[OEGameCollectionViewController class]] && [currentViewController respondsToSelector:@selector(selectedGames)] && [[currentViewController selectedGames] count] != 0;
     }
 
-    if([menuItem action] == @selector(startSaveState:))
+    if(action == @selector(startSaveState:))
     {
         return [currentViewController isKindOfClass:[OEGameCollectionViewController class]] && [currentViewController respondsToSelector:@selector(selectedSaveStates)] && [[currentViewController selectedSaveStates] count] != 0;
     }
 
-    if([menuItem action] == @selector(find:))
+    if(action == @selector(find:))
     {
         return [[self toolbarSearchField] isEnabled];
     }
-    
+
     NSButton *button = nil;
-    if([menuItem action] == @selector(switchToGridView:))
+    if(action == @selector(switchToGridView:))
         button = [self toolbarGridViewButton];
-    else if([menuItem action] == @selector(switchToListView:))
+    else if(action == @selector(switchToListView:))
         button = [self toolbarListViewButton];
     else return YES;
     

@@ -55,7 +55,7 @@
 
     CALayer *bgLayer = [CALayer layer];
     [bgLayer setContentsGravity:kCAAlignmentCenter];
-    [bgLayer setFrame:bounds];;
+    [bgLayer setFrame:bounds];
     [bgLayer setDelegate:self];
     [self setDropShadowLayer:bgLayer];
 
@@ -68,7 +68,7 @@
 
     CALayer *fgLayer = [CALayer layer];
     [fgLayer setContentsGravity:kCAAlignmentCenter];
-    [fgLayer setFrame:bounds];;
+    [fgLayer setFrame:bounds];
     [fgLayer setDelegate:self];
     [self setInnerShadowLayer:fgLayer];
 

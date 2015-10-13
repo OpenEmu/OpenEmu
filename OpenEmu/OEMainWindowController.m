@@ -166,9 +166,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 - (void)setUpToolbarButtonTooltips
 {
-    [_toolbarSidebarButton setToolTip:NSLocalizedString(@"Toggle Sidebar", @"Tooltip")];
-    [_toolbarSidebarButton setToolTipStyle:OEToolTipStyleDefault];
-    
     [_toolbarGridViewButton setToolTip:NSLocalizedString(@"Switch To Grid View", @"Tooltip")];
     [_toolbarGridViewButton setToolTipStyle:OEToolTipStyleDefault];
     

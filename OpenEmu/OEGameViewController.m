@@ -170,7 +170,6 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 }
 
 #pragma mark - Controlling Emulation
-
 - (BOOL)supportsCheats;
 {
     return [[self document] supportsCheats];
@@ -249,6 +248,8 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         else
             [menuItem setState:NSOnState];
     }
+
+
     return YES;
 }
 

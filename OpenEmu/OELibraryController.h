@@ -45,9 +45,7 @@ extern NSString * const OELibraryStatesKey;
 
 - (void)startSelectedGameWithSaveState:(id)stateItem;
 
-#pragma mark -
-#pragma mark Toolbar Actions
-- (IBAction)toggleSidebar:(id)sender;
+#pragma mark - Toolbar Actions
 - (IBAction)switchToGridView:(id)sender;
 - (IBAction)switchToListView:(id)sender;
 - (IBAction)switchToFlowView:(id)sender;
@@ -55,8 +53,7 @@ extern NSString * const OELibraryStatesKey;
 - (IBAction)changeGridSize:(id)sender;
 - (IBAction)addCollectionAction:(id)sender;
 
-#pragma mark -
-#pragma mark Menu Item Actions
+#pragma mark - Menu Item Actions
 - (IBAction)newCollection:(id)sender;
 - (IBAction)newSmartCollection:(id)sender;
 - (IBAction)newCollectionFolder:(id)sender;
@@ -66,8 +63,10 @@ extern NSString * const OELibraryStatesKey;
 - (IBAction)startGame:(id)sender;
 - (IBAction)startSaveState:(id)sender;
 
-#pragma mark -
-#pragma mark Menu Items
+- (IBAction)toggleSidebar:(id)sender;
+- (IBAction)showSidebar:(id)sender;
+- (IBAction)hideSidebar:(id)sender;
+#pragma mark - Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 
 #pragma mark -
@@ -81,7 +80,6 @@ extern NSString * const OELibraryStatesKey;
 @property (strong) IBOutlet OELibrarySplitView           *mainSplitView;
 @property (strong) IBOutlet NSView                       *mainContentPlaceholderView;
 
-@property (strong) IBOutlet OEButton      *toolbarSidebarButton;
 @property (strong) IBOutlet OEButton      *toolbarGridViewButton;
 @property (strong) IBOutlet OEButton      *toolbarListViewButton;
 

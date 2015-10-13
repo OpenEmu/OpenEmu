@@ -122,7 +122,7 @@ enum : OEFSMEventLabel
 - (void)OE_goForwardToView:(NSView *)view;
 - (void)OE_goBackToView:(NSView *)view;
 - (void)OE_dissolveToView:(NSView *)view;
-- (void)OE_processVolumeNotification:(NSNotification *)notification;;
+- (void)OE_processVolumeNotification:(NSNotification *)notification;
 
 @end
 
