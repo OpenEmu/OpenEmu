@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_dc</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_dc_mask</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OEDCButtonUp</key>
+		<string>{0, 0}</string>
+		<key>OEDCButtonDown</key>
+		<string>{0, 0}</string>
+		<key>OEDCButtonLeft</key>
+		<string>{0, 0}</string>
+		<key>OEDCButtonRight</key>
+		<string>{0, 0}</string>
+		<key>OEDCButtonA</key>
+		<string>{0, 0}</string>
+		<key>OEDCButtonB</key>
+		<string>{0, 0}</string>
+		<key>OEDCButtonX</key>
+		<string>{0, 0}</string>
+		<key>OEDCButtonY</key>
+		<string>{0, 0}</string>
+		<key>OEDCAnalogL</key>
+		<string>{0, 0}</string>
+		<key>OEDCAnalogR</key>
+		<string>{0, 0}</string>
+		<key>OEDCButtonStart</key>
+		<string>{0, 0}</string>
+		<key>OEDCAnalogUp</key>
+		<string>{0, 0}</string>
+		<key>OEDCAnalogDown</key>
+		<string>{0, 0}</string>
+		<key>OEDCAnalogLeft</key>
+		<string>{0, 0}</string>
+		<key>OEDCAnalogRight</key>
+		<string>{0, 0}</string>
+	</dict>
+</dict>
+</plist>
