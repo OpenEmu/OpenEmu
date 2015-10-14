@@ -114,8 +114,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark -
-#pragma mark View Controller Stuff
+#pragma mark - View Controller Stuff
 - (void)loadView
 {
     [super loadView];
@@ -184,7 +183,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 
 - (NSString *)nibName
 {
-    return @"CollectionView";
+    return @"OECollectionViewController";
 }
 
 #pragma mark - KVO / Notifications

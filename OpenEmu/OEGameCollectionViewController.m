@@ -60,6 +60,11 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 @implementation OEGameCollectionViewController
 @synthesize gamesController=gamesController;
 
+- (NSString*)nibName
+{
+    return @"OEGameCollectionViewController";
+}
+
 - (void)loadView
 {
     [super loadView];

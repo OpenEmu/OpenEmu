@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="OELibraryGamesViewController">
+            <connections>
+                <outlet property="view" destination="dnL-g7-Sbc" id="8Ck-DD-WmI"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <splitView autosaveName="mainSplitView" dividerStyle="thin" vertical="YES" id="kWd-SK-uTP" userLabel="Library Split View" customClass="OELibrarySplitView">
+            <rect key="frame" x="0.0" y="0.0" width="521" height="346"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView fixedFrame="YES" id="gmv-tR-CVI">
+                    <rect key="frame" x="0.0" y="0.0" width="322.5" height="346"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <animations/>
+                </customView>
+                <customView fixedFrame="YES" id="dnL-g7-Sbc">
+                    <rect key="frame" x="323.5" y="0.0" width="197.5" height="346"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
+                </customView>
+            </subviews>
+            <animations/>
+            <holdingPriorities>
+                <real value="250"/>
+                <real value="250"/>
+            </holdingPriorities>
+        </splitView>
+    </objects>
+</document>

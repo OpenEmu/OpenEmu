@@ -45,7 +45,7 @@ extern NSString * const OELibraryStatesKey;
 
 - (void)startSelectedGameWithSaveState:(id)stateItem;
 
-#pragma mark - Toolbar Actions
+#pragma mark - Toolbar
 - (IBAction)switchToGridView:(id)sender;
 - (IBAction)switchToListView:(id)sender;
 - (IBAction)switchToFlowView:(id)sender;
@@ -58,11 +58,18 @@ extern NSString * const OELibraryStatesKey;
 - (IBAction)newSmartCollection:(id)sender;
 - (IBAction)newCollectionFolder:(id)sender;
 
+#pragma mark - Menu Item Actions
 - (IBAction)editSmartCollection:(id)sender;
 - (IBAction)addToLibrary:(id)sender;
 - (IBAction)startGame:(id)sender;
 - (IBAction)startSaveState:(id)sender;
 
+#pragma mark - Custom Views
+- (IBAction)toggleSaveStateView:(id)sender;
+- (IBAction)toggleScreenshotView:(id)sender;
+- (IBAction)toggleHomebrewView:(id)sender;
+
+#pragma mark - Controlling Sidebar
 - (IBAction)toggleSidebar:(id)sender;
 - (IBAction)showSidebar:(id)sender;
 - (IBAction)hideSidebar:(id)sender;
@@ -75,7 +82,7 @@ extern NSString * const OELibraryStatesKey;
 @property (strong)    OELibraryDatabase *database;
 
 @property (strong) IBOutlet OESidebarController         *sidebarController;
-@property (strong) NSViewController <OELibrarySubviewController> *currentViewController;
+@property (nonatomic) NSViewController <OELibrarySubviewController> *currentViewController;
 
 @property (strong) IBOutlet OELibrarySplitView           *mainSplitView;
 @property (strong) IBOutlet NSView                       *mainContentPlaceholderView;

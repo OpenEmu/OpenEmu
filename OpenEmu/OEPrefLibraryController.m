@@ -159,7 +159,6 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
     
     // TODO: stop sync thread!
     // TODO: use migratePersistentStore:toURL:options:withType:error so we don't have to restart the app
-    
     NSURL *currentLocation = [library databaseFolderURL];
     NSURL *newLocation     = [newParentLocation URLByAppendingPathComponent:[currentLocation lastPathComponent] isDirectory:YES];
     if([newLocation isSubpathOfURL:currentLocation])

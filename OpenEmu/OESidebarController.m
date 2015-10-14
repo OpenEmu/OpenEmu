@@ -79,10 +79,14 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     if (self != [OESidebarController class])
         return;
 
-    [[NSUserDefaults standardUserDefaults] registerDefaults:(@{
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{
                                                              OESidebarGroupConsolesAutosaveName    : @YES,
                                                              OESidebarGroupCollectionsAutosaveName : @YES,
-                                                             })];
+                                                             }];
+}
+
+- (NSString*)nibName {
+    return @"OESidebarController";
 }
 
 - (void)awakeFromNib
