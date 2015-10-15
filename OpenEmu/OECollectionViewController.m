@@ -511,8 +511,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [self reloadData];
 }
 
-#pragma mark -
-#pragma mark Toolbar Actions
+#pragma mark - Toolbar Actions
 - (IBAction)search:(id)sender
 {
     [self doesNotImplementSelector:_cmd];
@@ -526,8 +525,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:zoomValue] forKey:OELastGridSizeKey];
 }
 
-#pragma mark -
-#pragma mark Context Menu
+#pragma mark - Context Menu
 - (NSMenu*)menuForItemsAtIndexes:(NSIndexSet *)indexes
 {
     return nil;
