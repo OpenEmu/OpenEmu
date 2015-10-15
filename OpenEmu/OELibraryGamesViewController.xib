@@ -7,7 +7,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OELibraryGamesViewController">
             <connections>
-                <outlet property="gameCollectionController" destination="ZI1-g0-Ovb" id="9b1-gk-XaK"/>
+                <outlet property="collectionController" destination="ZI1-g0-Ovb" id="UFH-j4-ahm"/>
+                <outlet property="collectionViewContainer" destination="0nE-Pi-8Ai" id="4Fj-Az-faN"/>
                 <outlet property="sidebarController" destination="Rft-IF-Ag9" id="icY-DX-yAy"/>
                 <outlet property="view" destination="swh-F8-vNy" id="phb-uI-0hA"/>
             </connections>
@@ -19,11 +20,7 @@
                 <outlet property="view" destination="Evu-SM-BeR" id="e43-jY-76m"/>
             </connections>
         </viewController>
-        <viewController id="ZI1-g0-Ovb" customClass="OEGameCollectionViewController">
-            <connections>
-                <outlet property="view" destination="rGx-aT-ao7" id="EMH-x8-ej9"/>
-            </connections>
-        </viewController>
+        <viewController nibName="" id="ZI1-g0-Ovb" customClass="OEGameCollectionViewController"/>
         <splitView autosaveName="mainSplitView" dividerStyle="thin" vertical="YES" id="swh-F8-vNy" userLabel="Library Split View" customClass="OELibrarySplitView">
             <rect key="frame" x="0.0" y="0.0" width="830" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -197,13 +194,6 @@
                 <customView id="0nE-Pi-8Ai">
                     <rect key="frame" x="187" y="0.0" width="643" height="600"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <subviews>
-                        <customView id="rGx-aT-ao7">
-                            <rect key="frame" x="0.0" y="0.0" width="643" height="601"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <animations/>
-                        </customView>
-                    </subviews>
                     <animations/>
                 </customView>
             </subviews>
@@ -212,6 +202,7 @@
                 <real value="250"/>
                 <real value="250"/>
             </holdingPriorities>
+            <point key="canvasLocation" x="130" y="149"/>
         </splitView>
     </objects>
     <resources>

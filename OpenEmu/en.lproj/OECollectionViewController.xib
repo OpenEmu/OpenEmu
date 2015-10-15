@@ -13,16 +13,11 @@
                 <outlet property="gridView" destination="95" id="KDt-aM-Nmy"/>
                 <outlet property="gridViewContainer" destination="0jF-GH-3Dc" id="rH2-Wc-Iu5"/>
                 <outlet property="listView" destination="13" id="68"/>
-                <outlet property="view" destination="1" id="102"/>
+                <outlet property="view" destination="xKI-vo-Z9u" id="lgq-hC-tD4"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView id="1">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <animations/>
-        </customView>
         <splitView dividerStyle="thin" id="4" userLabel="ListFlowView" customClass="OEHorizontalSplitView">
             <rect key="frame" x="0.0" y="0.0" width="735" height="669"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -224,6 +219,12 @@
                 </scrollView>
             </subviews>
             <animations/>
+        </customView>
+        <customView id="xKI-vo-Z9u">
+            <rect key="frame" x="0.0" y="0.0" width="163" height="96"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <animations/>
+            <point key="canvasLocation" x="-188.5" y="527"/>
         </customView>
     </objects>
 </document>

@@ -62,15 +62,26 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
 - (NSString*)nibName
 {
-    return @"OEGameCollectionViewController";
+    return @"OECollectionViewController";
 }
 
 - (void)loadView
 {
     [super loadView];
 
-    // Set up games controller
-    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
+    [[self listView] bind:@"selectionIndexes" toObject:gamesController withKeyPath:@"selectionIndexes" options:@{}];
+    [[self listView] setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+}
+
+- (void)setLibraryController:(OELibraryController *)libraryController
+{
+    [super setLibraryController:libraryController];
+    [self _setupGamesController];
+}
+
+- (void)_setupGamesController {
+    OELibraryDatabase *database = [[self libraryController] database];
+    NSManagedObjectContext *context = [database mainThreadContext];
 
     OE_defaultSortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"cleanDisplayName" ascending:YES selector:@selector(caseInsensitiveCompare:)]];
 
@@ -84,10 +95,6 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     [gamesController setSortDescriptors:OE_defaultSortDescriptors];
     [gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
     [gamesController setAvoidsEmptySelection:NO];
-
-    [[self listView] bind:@"selectionIndexes" toObject:gamesController withKeyPath:@"selectionIndexes" options:@{}];
-
-    [[self listView] setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 }
 
 - (void)fetchItems
@@ -100,13 +107,12 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     [gamesController setFetchPredicate:pred];
     [gamesController setLimit:[representedObject fetchLimit]];
     [gamesController setFetchSortDescriptors:[representedObject fetchSortDescriptors]];
-    __block BOOL ok;
 
-    ok = [gamesController fetchWithRequest:nil merge:NO error:nil];
-
-    if(!ok)
+    NSError *error = nil;
+    if(![gamesController fetchWithRequest:nil merge:NO error:&error])
     {
-        NSLog(@"Error while fetching");
+        NSLog(@"Error while fetching: %@", gamesController);
+        NSLog(@"%@", [error localizedDescription]);
         return;
     }
 }

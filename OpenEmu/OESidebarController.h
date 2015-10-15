@@ -28,7 +28,9 @@
 
 #import "OESidebarOutlineView.h"
 
+
 extern NSString *const OESuppressRemoveCollectionConfirmationKey;
+extern NSString *const OESidebarSelectionDidChangeNotificationName;
 
 extern NSString *const OESidebarMinWidth;
 extern NSString *const OESidebarMaxWidth;

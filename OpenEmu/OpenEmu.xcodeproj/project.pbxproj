@@ -306,7 +306,6 @@
 		831C9ADD1600973B00038D0D /* OEPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9ADB1600973B00038D0D /* OEPopUpButtonCell.m */; };
 		83200BF9162F5C1C00BCFA9D /* OESidebarBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83200BF8162F5C1C00BCFA9D /* OESidebarBackgroundView.m */; };
 		8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8328D9E413C75CAE0026D2A7 /* OEDBImage.m */; };
-		832AA0F21BCEB15300E33883 /* OEGameCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832AA0F11BCEB15300E33883 /* OEGameCollectionViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		832AA0F41BCEB29500E33883 /* OESidebarController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832AA0F31BCEB29500E33883 /* OESidebarController.xib */; settings = {ASSET_TAGS = (); }; };
 		832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */; };
 		832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D293F1451A68700BDF950 /* OEMainWindowController.m */; };
@@ -1831,7 +1830,6 @@
 		8322D746156A973400FC0E81 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = System/Library/Frameworks/IOBluetooth.framework; sourceTree = SDKROOT; };
 		8328D9E313C75CAE0026D2A7 /* OEDBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OEDBImage.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8328D9E413C75CAE0026D2A7 /* OEDBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OEDBImage.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		832AA0F11BCEB15300E33883 /* OEGameCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEGameCollectionViewController.xib; sourceTree = "<group>"; };
 		832AA0F31BCEB29500E33883 /* OESidebarController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OESidebarController.xib; sourceTree = "<group>"; };
 		832AB285186496990022DFB0 /* OEDatabase 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.0.xcdatamodel"; sourceTree = "<group>"; };
 		832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.0 Beta 4 to 1.0.xcmappingmodel"; sourceTree = "<group>"; };

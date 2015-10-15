@@ -13,5 +13,7 @@
 @interface OELibraryGamesViewController : NSViewController <OELibrarySubviewController>
 @property (weak, nonatomic) OELibraryController* libraryController;
 @property (weak) IBOutlet OESidebarController *sidebarController;
-@property (weak) IBOutlet OEGameCollectionViewController *gameCollectionController;
+@property (weak) IBOutlet OEGameCollectionViewController *collectionController;
+
+@property (weak) IBOutlet NSView *collectionViewContainer;
 @end
