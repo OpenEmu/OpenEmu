@@ -383,9 +383,9 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     else
         [_gridView reloadData];
 
+    [self OE_setupToolbarStatesForViewTag:tag];
     if(_selectedViewTag == tag && tag != OEBlankSlateTag) return;
 
-    [self OE_setupToolbarStatesForViewTag:tag];
     [self OE_showView:tag];
 
     _selectedViewTag = tag;

@@ -549,19 +549,17 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     [self libraryController:nil didSelectGame:game];
 }
 
-#pragma mark - IBActions
-
 - (IBAction)switchToGridView:(id)sender
 {
     [[self toolbarListViewButton] setState:NSOffState];
-    
+    [[self toolbarGridViewButton] setState:NSOnState];
     [[self libraryController] switchToGridView:sender];
 }
 
 - (IBAction)switchToListView:(id)sender
 {
     [[self toolbarGridViewButton] setState:NSOffState];
-    
+    [[self toolbarListViewButton] setState:NSOnState];
     [[self libraryController] switchToListView:sender];
 }
 
