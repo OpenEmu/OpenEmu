@@ -134,12 +134,6 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
 
     if([item isGroupHeaderInSidebar])
     {
-        title = [self isItemExpanded:item] ? NSLocalizedString(@"Collapse", @"") : NSLocalizedString(@"Expand", @"");
-
-        menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(OE_toggleGroupForMenuItem:) keyEquivalent:@""];
-        [menuItem setRepresentedObject:item];
-        [menu addItem:menuItem];
-
         if(index == 0)
         {
             [menu addItem:[NSMenuItem separatorItem]];
