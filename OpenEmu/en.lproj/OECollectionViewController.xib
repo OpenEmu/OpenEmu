@@ -225,6 +225,5 @@
             </subviews>
             <animations/>
         </customView>
-        <viewController id="gPD-1z-ZEg" customClass="OEGameScannerViewController"/>
     </objects>
 </document>

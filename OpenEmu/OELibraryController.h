@@ -82,7 +82,7 @@ extern NSString * const OELibraryStatesKey;
 @property (strong)    OELibraryDatabase *database;
 
 @property (strong) IBOutlet OESidebarController         *sidebarController;
-@property (nonatomic) NSViewController <OELibrarySubviewController> *currentViewController;
+@property (nonatomic, readonly) NSViewController <OELibrarySubviewController> *currentViewController;
 
 @property (strong) IBOutlet OELibrarySplitView           *mainSplitView;
 @property (strong) IBOutlet NSView                       *mainContentPlaceholderView;

@@ -82,8 +82,12 @@
 {
     [super viewDidAppear];
 
-    DLog();
+    DLog(@"view did appear");
     [self _setupSearchMenuTemplate];
+}
+
+- (void)viewDidDisappear {
+    DLog(@"view did disappear");
 }
 
 - (void)_setupSearchMenuTemplate
@@ -153,7 +157,6 @@
         [self setSaveStateMode:[representedObject isKindOfClass:[OEDBSavedGamesMedia class]]];
         [self reloadData];
     }
-    DLog();
     [self _setupSearchMenuTemplate];
 
 }
@@ -164,8 +167,7 @@
 }
 
 - (void)restoreState:(id)state
-{
-}
+{}
 
 - (NSArray*)selectedGames
 {
@@ -216,6 +218,10 @@
 
 - (void)fetchItems
 {
+    _items       = @[];
+    _groupRanges = @[];
+    return;
+    
 #pragma TODO(Improve group detection)
     if([self representedObject] == nil) return;
 

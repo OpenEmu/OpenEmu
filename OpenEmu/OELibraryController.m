@@ -51,6 +51,8 @@
 #import "OEDBScreenshotsMedia.h"
 #import "OEFeaturedGamesViewController.h"
 
+#import "OELibraryGamesViewController.h"
+
 #pragma mark - Exported variables
 NSString * const OELastSidebarSelectionKey = @"lastSidebarSelection";
 NSString * const OELibraryStatesKey        = @"Library States";
@@ -60,11 +62,6 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
 @interface OELibraryController ()
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
-
-/*
-@property NSMutableDictionary *subviewControllers;
-- (NSViewController<OELibrarySubviewController> *)viewControllerWithClassName:(NSString *)className;
-*/
 
 @property (strong) NSViewController *mainViewController;
 @property (strong) NSViewController *overlayChildController;
@@ -87,22 +84,18 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 {
     [super loadView];
 
-
     if([self database] == nil) [self setDatabase:[OELibraryDatabase defaultDatabase]];
-    
-    [[self sidebarController] view];
-    
-    // setup sidebar controller
-    OESidebarController *sidebarCtrl = [self sidebarController];    
-    [sidebarCtrl setDatabase:[self database]];
 
-    [[self view] setPostsFrameChangedNotifications:YES];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:OESidebarSelectionDidChangeNotificationName object:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:sidebarCtrl];
+    OELibraryGamesViewController *controller = [[OELibraryGamesViewController alloc] init];
+    [controller setLibraryController:self];
 
-    // setup splitview
-    OELibrarySplitView *splitView = [self mainSplitView];
-    [splitView setDelegate:self];
+    NSView *subview = [controller view];
+    [subview setFrame:[[self view] bounds]];
+    [subview setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+    [[self view] addSubview:subview];
+    [self addChildViewController:controller];
+
+    [self setMainViewController:controller];
 }
 
 - (void)viewDidAppear
@@ -124,8 +117,8 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     [super viewWillDisappear];
     
     // Save Current State
-    id lastState = [[self currentViewController] encodeCurrentState];
-    id itemID    = [[[self currentViewController] representedObject] sidebarID];
+//    id lastState = [[self currentViewController] encodeCurrentState];
+//    id itemID    = [[[self currentViewController] representedObject] sidebarID];
 //    [self OE_storeState:lastState forSidebarItemWithID:itemID];
     
     NSView *toolbarItemContainer = [[self toolbarSearchField] superview];
@@ -253,35 +246,39 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
 - (IBAction)toggleHomebrewView:(id)sender
 {
-    OEFeaturedGamesViewController *featured = [[OEFeaturedGamesViewController alloc] init];
-    [featured setLibraryController:self];
+    OEFeaturedGamesViewController *controller = [[OEFeaturedGamesViewController alloc] init];
+    [controller setLibraryController:self];
 
-    [self _showOverlayController:featured];
+    [self _showOverlayController:controller];
 }
 
 - (void)_showOverlayController:(NSViewController<OELibrarySubviewController>*)newViewController
 {
     [self _removeCurrentOverlayController];
 
-    [self addChildViewController:newViewController];
-
     NSView *newView = [newViewController view];
     [newView setFrame:[[self view] bounds]];
     [newView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [[self view] addSubview:newView];
+    [self addChildViewController:newViewController];
 
-    [self setCurrentViewController:newViewController];
+    [self setOverlayChildController:newViewController];
 }
 
 - (void)_removeCurrentOverlayController
 {
     NSViewController *currentViewController = [self overlayChildController];
-
     if(!currentViewController) return;
 
-    [currentViewController removeFromParentViewController];
     [[currentViewController view] removeFromSuperview];
+    [currentViewController removeFromParentViewController];
+
+    [self setOverlayChildController:nil];
 }
+
+#pragma mark -
+- (void)showViewController:(NSViewController<OELibrarySubviewController> *)nextViewController
+{}
 
 #pragma mark - Controlling Sidebar
 - (BOOL)OE_isSiderbarVisible
