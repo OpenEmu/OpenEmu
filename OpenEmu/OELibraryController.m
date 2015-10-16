@@ -106,10 +106,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
     if([[[[self view] window] titlebarAccessoryViewControllers] count]) return;
 
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [self prepareToolbar];
-    });
+    [self prepareToolbar];
 }
 
 - (void)viewWillDisappear
@@ -133,15 +130,20 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 }
 
 - (void)prepareToolbar {
+    NSWindow *window = [[self view] window];
+    
+    while([[window titlebarAccessoryViewControllers] count])
+        [window removeTitlebarAccessoryViewControllerAtIndex:0];
+
     NSTitlebarAccessoryViewController * leftViewController = [[NSTitlebarAccessoryViewController alloc] init];
     [leftViewController setLayoutAttribute:NSLayoutAttributeLeft];
     [leftViewController setView:[self leftToolbarView]];
-    [[[self view] window] addTitlebarAccessoryViewController:leftViewController];
+    [window addTitlebarAccessoryViewController:leftViewController];
 
     NSTitlebarAccessoryViewController * rightViewController = [[NSTitlebarAccessoryViewController alloc] init];
     [rightViewController setLayoutAttribute:NSLayoutAttributeRight];
     [rightViewController setView:[self rightToolbarView]];
-    [[[self view] window] addTitlebarAccessoryViewController:rightViewController];
+    [window addTitlebarAccessoryViewController:rightViewController];
 }
 
 #pragma mark - Toolbar
