@@ -29,7 +29,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="186" height="600"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                     <subviews>
-                        <customView id="aoh-d8-ctm">
+                        <customView hidden="YES" id="aoh-d8-ctm">
                             <rect key="frame" x="0.0" y="0.0" width="185" height="36"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
@@ -131,6 +131,9 @@
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_toggle_pause_cancel"/>
                                     </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="buttonAction:" target="juh-5x-f5U" id="o8W-6K-ddm"/>
+                                    </connections>
                                 </button>
                                 <customView id="eIq-bW-kuZ" customClass="OEHorizontalLine">
                                     <rect key="frame" x="0.0" y="73" width="185" height="2"/>
@@ -204,6 +207,15 @@
             </holdingPriorities>
             <point key="canvasLocation" x="130" y="149"/>
         </splitView>
+        <viewController id="juh-5x-f5U" customClass="OEGameScannerViewController">
+            <connections>
+                <outlet property="gameScannerView" destination="GEj-BL-eLK" id="CT4-Xq-aVb"/>
+                <outlet property="headlineLabel" destination="YLv-AD-2L2" id="Jvd-JE-D46"/>
+                <outlet property="progressIndicator" destination="ecg-qx-RWc" id="s7a-30-SCw"/>
+                <outlet property="statusLabel" destination="KwU-gZ-ksn" id="Qmg-oQ-LjA"/>
+                <outlet property="togglePauseButton" destination="Nvs-ey-EH6" id="HUz-DO-0vK"/>
+            </connections>
+        </viewController>
     </objects>
     <resources>
         <image name="NSActionTemplate" width="14" height="14"/>

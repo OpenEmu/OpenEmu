@@ -28,6 +28,7 @@
 
 #import "OEGameCollectionViewController.h"
 #import "OESidebarController.h"
+#import "OEGameScannerViewController.h"
 
 @interface OELibraryGamesViewController () <OELibrarySplitViewDelegate>
 @end
@@ -78,6 +79,7 @@
 {
     [[self sidebarController] setDatabase:[_libraryController database]];
     [[self collectionController] setLibraryController:_libraryController];
+    [[self gameScannerController] setLibraryController:_libraryController];
 }
 
 #pragma mark - Toolbar
