@@ -90,13 +90,13 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 - (void)awakeFromNib
 {
     self.groups = @[
-                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"CONSOLES", @"") autosaveName:OESidebarGroupConsolesAutosaveName],
+                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"Consoles", @"") autosaveName:OESidebarGroupConsolesAutosaveName],
 
 #define DevicesSectionIndex 1 // keep track of devices section index so we can skip it if no devices are connected
-                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"DEVICES", @"") autosaveName:OESidebarGroupDevicesAutosaveName],
+                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"Devices", @"") autosaveName:OESidebarGroupDevicesAutosaveName],
 
-                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"MEDIA", @"") autosaveName:OESidebarGroupMediaAutosaveName],
-                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"COLLECTIONS", @"") autosaveName:OESidebarGroupCollectionsAutosaveName]
+                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"Media", @"") autosaveName:OESidebarGroupMediaAutosaveName],
+                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"Collections", @"") autosaveName:OESidebarGroupCollectionsAutosaveName]
                     ];
 
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
