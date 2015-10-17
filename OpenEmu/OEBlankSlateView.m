@@ -220,7 +220,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     [textView setEditable:NO];
     [textView setSelectionGranularity:NSSelectByCharacter];
     [textView setDelegate:self];
-    [textView setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0]];
+    [textView setFont:[NSFont systemFontOfSize:11]];
     [textView setTextColor:[NSColor colorWithDeviceWhite:0.86 alpha:1.0]];
     [textView setTextContainerInset:NSMakeSize(0, 0)];
 
@@ -268,7 +268,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     [shadow setShadowBlurRadius:0];
     
     NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:15 size:11.0], NSFontAttributeName,
+                                [NSFont systemFontOfSize:11], NSFontAttributeName,
                                 shadow, NSShadowAttributeName,
                                 [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName,
                                 nil];
@@ -322,7 +322,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     [shadow setShadowBlurRadius:0];
     
     NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:15 size:11.0], NSFontAttributeName,
+                                [NSFont systemFontOfSize:11], NSFontAttributeName,
                                 shadow, NSShadowAttributeName,
                                 [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName,
                                 nil];
@@ -370,7 +370,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     [style setAlignment:NSCenterTextAlignment];
     NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:10 size:18.0], NSFontAttributeName,
+                                [NSFont boldSystemFontOfSize:18], NSFontAttributeName,
                                 style, NSParagraphStyleAttributeName,
                                 shadow, NSShadowAttributeName,
                                 [NSColor colorWithDeviceWhite:0.11 alpha:1.0], NSForegroundColorAttributeName,
@@ -384,7 +384,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     [shadow setShadowBlurRadius:2];
 
     dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                  [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:10 size:18.0], NSFontAttributeName,
+                  [NSFont boldSystemFontOfSize:18], NSFontAttributeName,
                   style, NSParagraphStyleAttributeName,
                   shadow, NSShadowAttributeName,
                   [NSColor colorWithDeviceWhite:0.11 alpha:0.0], NSForegroundColorAttributeName,
@@ -500,7 +500,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     [textView setDrawsBackground:NO];
     [textView setEditable:NO];
     [textView setSelectable:NO];
-    [textView setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0]];
+    [textView setFont:[NSFont systemFontOfSize:11]];
     [textView setTextColor:[NSColor colorWithDeviceWhite:0.86 alpha:1.0]];
     [textView setTextContainerInset:NSMakeSize(0, 0)];
 

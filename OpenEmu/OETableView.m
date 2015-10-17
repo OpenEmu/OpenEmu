@@ -109,7 +109,7 @@ static NSGradient *highlightGradient, *normalGradient;
     for (NSTableColumn *aColumn in [self tableColumns])
     {
         OETableHeaderCell *newHeader = [[OETableHeaderCell alloc] initTextCell:[[aColumn headerCell] stringValue]];
-        [newHeader setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11]];
+        [newHeader setFont:[NSFont boldSystemFontOfSize:11]];
         [aColumn setHeaderCell: newHeader];
     }
 

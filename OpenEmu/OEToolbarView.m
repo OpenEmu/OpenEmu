@@ -118,7 +118,7 @@
     float imageSideLength = 36;
     float imageTitleSpacing = 4;
 
-    NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:4.0 size:11.0];
+    NSFont *font = [NSFont systemFontOfSize:11];
     NSColor *textColor = [NSColor blackColor];
     NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.45]];

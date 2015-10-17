@@ -156,7 +156,7 @@
 {
 	NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
 	
-	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.5];
+    NSFont *font = [NSFont boldSystemFontOfSize:11.5];
 	
 	NSShadow *shadow = [[NSShadow alloc] init];
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
@@ -197,7 +197,7 @@
 {
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
 	
-	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
+    NSFont *font = [NSFont systemFontOfSize:11];
 	
 	NSShadow *shadow = [[NSShadow alloc] init];
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];

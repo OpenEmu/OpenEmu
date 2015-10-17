@@ -461,7 +461,7 @@ static NSImage *frameImage, *frameImageInactive;
         [titleAttributes setObject:ps forKey:NSParagraphStyleAttributeName];
 
         NSColor *textColor = isFocused ? [NSColor colorWithDeviceWhite:0.86 alpha:1.0] : [NSColor colorWithDeviceWhite:0.61 alpha:1.0];
-        NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:2.0 size:13.0];
+        NSFont *font = [NSFont systemFontOfSize:13];
         NSShadow *shadow = [[NSShadow alloc] init];
         [shadow setShadowColor:[NSColor colorWithDeviceRed:0.129 green:0.129 blue:0.129 alpha:1.0]];
         [shadow setShadowBlurRadius:1.0];
