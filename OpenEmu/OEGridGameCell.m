@@ -314,7 +314,7 @@ static NSDictionary *disabledActions = nil;
     [_foregroundLayer setActions:disabledActions];
 
     // setup title layer
-    NSFont *titleFont = [NSFont labelFontOfSize:[NSFont labelFontSize]];
+    NSFont *titleFont = [NSFont systemFontOfSize:11 weight:NSFontWeightMedium];
     _textLayer = [CATextLayer layer];
     [_textLayer setActions:disabledActions];
 
