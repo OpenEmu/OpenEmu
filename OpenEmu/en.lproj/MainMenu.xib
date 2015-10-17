@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9058" systemVersion="15A282b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9058"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -30,7 +30,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="400" height="463"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="3600EC4C-DDEF-497C-9FC7-E6F10A80AB20" id="804"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="55155152-D468-467D-8216-96BCDD936500" id="804"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" id="796">
                         <rect key="frame" x="17" y="184" width="366" height="18"/>
@@ -98,7 +98,7 @@ documentation, licenses and to issue
 bugs please visit us on our GitHub. </string>
                                             <attributes>
                                                 <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <font key="NSFont" size="11" name="LucidaGrande"/>
+                                                <font key="NSFont" metaFont="smallSystem"/>
                                                 <real key="NSKern" value="0.0"/>
                                                 <integer key="NSLigature" value="0"/>
                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.2249999999999999"/>
@@ -648,7 +648,7 @@ DQ
         <userDefaultsController representsSharedInstance="YES" id="1212"/>
     </objects>
     <resources>
-        <image name="3600EC4C-DDEF-497C-9FC7-E6F10A80AB20" width="400" height="463">
+        <image name="55155152-D468-467D-8216-96BCDD936500" width="400" height="463">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
