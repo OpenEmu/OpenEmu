@@ -30,9 +30,12 @@
 
 #ifdef __OBJC__
 #import <Cocoa/Cocoa.h>
+
+#if __has_feature(objc_arc)
 #import <OpenEmuBase/OpenEmuBase.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEUtilities.h"
+#endif
 
 #if __has_feature(objc_bool)
 #undef YES

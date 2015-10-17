@@ -27,6 +27,7 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEJaguarSystemResponderClient.h"
 
+OE_EXPORTED_CLASS
 @interface OEJaguarSystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OEJaguarSystemResponderClient> client;

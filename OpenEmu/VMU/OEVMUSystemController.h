@@ -28,6 +28,7 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 
+OE_EXPORTED_CLASS
 @interface OEVMUSystemController : OESystemController
 
 @end

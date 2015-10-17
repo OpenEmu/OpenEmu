@@ -27,6 +27,7 @@
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
+OE_EXPORTED_CLASS
 @interface OESNESSystemController : OESystemController
 {
 @private

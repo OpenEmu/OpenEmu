@@ -595,36 +595,36 @@
 		871CE9131B0BCFB800B89E96 /* controller_pcfx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */; };
 		87BC4DA21BA3A88600BF1F86 /* controller_7800_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87BC4DA01BA3A88600BF1F86 /* controller_7800_mask@2x.png */; };
 		87BC4DA31BA3A88600BF1F86 /* controller_7800@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87BC4DA11BA3A88600BF1F86 /* controller_7800@2x.png */; };
-		87DF051A1BCE302F0060E2C2 /* controller_dc_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 87DF05061BCE302E0060E2C2 /* controller_dc_mask.png */; settings = {ASSET_TAGS = (); }; };
-		87DF051B1BCE302F0060E2C2 /* controller_dc_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87DF05071BCE302E0060E2C2 /* controller_dc_mask@2x.png */; settings = {ASSET_TAGS = (); }; };
-		87DF051C1BCE302F0060E2C2 /* controller_dc.png in Resources */ = {isa = PBXBuildFile; fileRef = 87DF05081BCE302E0060E2C2 /* controller_dc.png */; settings = {ASSET_TAGS = (); }; };
-		87DF051D1BCE302F0060E2C2 /* controller_dc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87DF05091BCE302E0060E2C2 /* controller_dc@2x.png */; settings = {ASSET_TAGS = (); }; };
-		87DF051E1BCE302F0060E2C2 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87DF050A1BCE302E0060E2C2 /* Controller-Mappings.plist */; settings = {ASSET_TAGS = (); }; };
-		87DF051F1BCE302F0060E2C2 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87DF050B1BCE302E0060E2C2 /* Controller-Preferences.plist */; settings = {ASSET_TAGS = (); }; };
-		87DF05201BCE302F0060E2C2 /* dc_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 87DF050C1BCE302E0060E2C2 /* dc_library.png */; settings = {ASSET_TAGS = (); }; };
-		87DF05271BCE302F0060E2C2 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87DF05131BCE302F0060E2C2 /* Keyboard-Mappings.plist */; settings = {ASSET_TAGS = (); }; };
-		87DF05281BCE302F0060E2C2 /* OEDCSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DF05151BCE302F0060E2C2 /* OEDCSystemController.m */; settings = {ASSET_TAGS = (); }; };
-		87DF05291BCE302F0060E2C2 /* OEDCSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DF05171BCE302F0060E2C2 /* OEDCSystemResponder.m */; settings = {ASSET_TAGS = (); }; };
-		87DF053E1BCE31460060E2C2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87DF053D1BCE31460060E2C2 /* InfoPlist.strings */; settings = {ASSET_TAGS = (); }; };
+		87DF051A1BCE302F0060E2C2 /* controller_dc_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 87DF05061BCE302E0060E2C2 /* controller_dc_mask.png */; };
+		87DF051B1BCE302F0060E2C2 /* controller_dc_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87DF05071BCE302E0060E2C2 /* controller_dc_mask@2x.png */; };
+		87DF051C1BCE302F0060E2C2 /* controller_dc.png in Resources */ = {isa = PBXBuildFile; fileRef = 87DF05081BCE302E0060E2C2 /* controller_dc.png */; };
+		87DF051D1BCE302F0060E2C2 /* controller_dc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87DF05091BCE302E0060E2C2 /* controller_dc@2x.png */; };
+		87DF051E1BCE302F0060E2C2 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87DF050A1BCE302E0060E2C2 /* Controller-Mappings.plist */; };
+		87DF051F1BCE302F0060E2C2 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87DF050B1BCE302E0060E2C2 /* Controller-Preferences.plist */; };
+		87DF05201BCE302F0060E2C2 /* dc_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 87DF050C1BCE302E0060E2C2 /* dc_library.png */; };
+		87DF05271BCE302F0060E2C2 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87DF05131BCE302F0060E2C2 /* Keyboard-Mappings.plist */; };
+		87DF05281BCE302F0060E2C2 /* OEDCSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DF05151BCE302F0060E2C2 /* OEDCSystemController.m */; };
+		87DF05291BCE302F0060E2C2 /* OEDCSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DF05171BCE302F0060E2C2 /* OEDCSystemResponder.m */; };
+		87DF053E1BCE31460060E2C2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87DF053D1BCE31460060E2C2 /* InfoPlist.strings */; };
 		87DF05411BCE3CEA0060E2C2 /* Dreamcast.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87DF04FE1BCE2D100060E2C2 /* Dreamcast.oesystemplugin */; };
 		87DF05421BCE3D970060E2C2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		87DF05441BCE3DA50060E2C2 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87DF05431BCE3DA50060E2C2 /* OpenEmuSystem.framework */; };
-		87FB25321BBC56AB00E739CE /* controller_vectrex_eu.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB252B1BBC56AB00E739CE /* controller_vectrex_eu.png */; settings = {ASSET_TAGS = (); }; };
-		87FB25331BBC56AB00E739CE /* controller_vectrex_eu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB252C1BBC56AB00E739CE /* controller_vectrex_eu@2x.png */; settings = {ASSET_TAGS = (); }; };
-		87FB25341BBC56AB00E739CE /* controller_vectrex_jap.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB252D1BBC56AB00E739CE /* controller_vectrex_jap.png */; settings = {ASSET_TAGS = (); }; };
-		87FB25351BBC56AB00E739CE /* controller_vectrex_jap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB252E1BBC56AB00E739CE /* controller_vectrex_jap@2x.png */; settings = {ASSET_TAGS = (); }; };
-		87FB25361BBC56AB00E739CE /* controller_vectrex_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB252F1BBC56AB00E739CE /* controller_vectrex_mask@2x.png */; settings = {ASSET_TAGS = (); }; };
-		87FB25371BBC56AC00E739CE /* controller_vectrex_usa.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25301BBC56AB00E739CE /* controller_vectrex_usa.png */; settings = {ASSET_TAGS = (); }; };
-		87FB25381BBC56AC00E739CE /* controller_vectrex_usa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25311BBC56AB00E739CE /* controller_vectrex_usa@2x.png */; settings = {ASSET_TAGS = (); }; };
-		87FB253B1BBC572E00E739CE /* Controller-Preferences-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25391BBC572E00E739CE /* Controller-Preferences-JAP.plist */; settings = {ASSET_TAGS = (); }; };
-		87FB253C1BBC572E00E739CE /* Controller-Preferences-NA.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FB253A1BBC572E00E739CE /* Controller-Preferences-NA.plist */; settings = {ASSET_TAGS = (); }; };
-		87FB253F1BBC883200E739CE /* controller_genesis_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB253D1BBC883200E739CE /* controller_genesis_mask@2x.png */; settings = {ASSET_TAGS = (); }; };
-		87FB25401BBC883200E739CE /* controller_genesis@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB253E1BBC883200E739CE /* controller_genesis@2x.png */; settings = {ASSET_TAGS = (); }; };
-		87FB25431BBC894F00E739CE /* pcenginecd_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25411BBC894F00E739CE /* pcenginecd_library@2x.png */; settings = {ASSET_TAGS = (); }; };
-		87FB25441BBC894F00E739CE /* tgcd_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25421BBC894F00E739CE /* tgcd_library@2x.png */; settings = {ASSET_TAGS = (); }; };
-		87FB25481BBC89F300E739CE /* controller_fc_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25451BBC89F300E739CE /* controller_fc_mask@2x.png */; settings = {ASSET_TAGS = (); }; };
-		87FB25491BBC89F300E739CE /* controller_fc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25461BBC89F300E739CE /* controller_fc@2x.png */; settings = {ASSET_TAGS = (); }; };
-		87FB254A1BBC89F300E739CE /* famicom_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25471BBC89F300E739CE /* famicom_library@2x.png */; settings = {ASSET_TAGS = (); }; };
+		87FB25321BBC56AB00E739CE /* controller_vectrex_eu.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB252B1BBC56AB00E739CE /* controller_vectrex_eu.png */; };
+		87FB25331BBC56AB00E739CE /* controller_vectrex_eu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB252C1BBC56AB00E739CE /* controller_vectrex_eu@2x.png */; };
+		87FB25341BBC56AB00E739CE /* controller_vectrex_jap.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB252D1BBC56AB00E739CE /* controller_vectrex_jap.png */; };
+		87FB25351BBC56AB00E739CE /* controller_vectrex_jap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB252E1BBC56AB00E739CE /* controller_vectrex_jap@2x.png */; };
+		87FB25361BBC56AB00E739CE /* controller_vectrex_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB252F1BBC56AB00E739CE /* controller_vectrex_mask@2x.png */; };
+		87FB25371BBC56AC00E739CE /* controller_vectrex_usa.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25301BBC56AB00E739CE /* controller_vectrex_usa.png */; };
+		87FB25381BBC56AC00E739CE /* controller_vectrex_usa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25311BBC56AB00E739CE /* controller_vectrex_usa@2x.png */; };
+		87FB253B1BBC572E00E739CE /* Controller-Preferences-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25391BBC572E00E739CE /* Controller-Preferences-JAP.plist */; };
+		87FB253C1BBC572E00E739CE /* Controller-Preferences-NA.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FB253A1BBC572E00E739CE /* Controller-Preferences-NA.plist */; };
+		87FB253F1BBC883200E739CE /* controller_genesis_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB253D1BBC883200E739CE /* controller_genesis_mask@2x.png */; };
+		87FB25401BBC883200E739CE /* controller_genesis@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB253E1BBC883200E739CE /* controller_genesis@2x.png */; };
+		87FB25431BBC894F00E739CE /* pcenginecd_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25411BBC894F00E739CE /* pcenginecd_library@2x.png */; };
+		87FB25441BBC894F00E739CE /* tgcd_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25421BBC894F00E739CE /* tgcd_library@2x.png */; };
+		87FB25481BBC89F300E739CE /* controller_fc_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25451BBC89F300E739CE /* controller_fc_mask@2x.png */; };
+		87FB25491BBC89F300E739CE /* controller_fc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25461BBC89F300E739CE /* controller_fc@2x.png */; };
+		87FB254A1BBC89F300E739CE /* famicom_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25471BBC89F300E739CE /* famicom_library@2x.png */; };
 		8C09E4D81867984B0095DB4E /* Beam4.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4BE1867975E0095DB4E /* Beam4.cgp */; };
 		8C09E4D91867984B0095DB4E /* NTSC (Blargg).cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4BF1867975E0095DB4E /* NTSC (Blargg).cgp */; };
 		8C09E4DA1867984B0095DB4E /* _beam4_1.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C01867975E0095DB4E /* _beam4_1.cg */; };
@@ -10177,7 +10177,7 @@
 		3887A7F81024D1FA000FC4CF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "OESaveStateQLPlugin-Info.plist";
 				INSTALL_PATH = "";
@@ -10190,7 +10190,7 @@
 		3887A7F91024D1FA000FC4CF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "OESaveStateQLPlugin-Info.plist";
 				INSTALL_PATH = "";
@@ -11748,6 +11748,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -11756,10 +11757,10 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
+				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -11768,6 +11769,7 @@
 					DEBUG_PRINT,
 					NS_BUILD_32_LIKE_64,
 				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -11776,9 +11778,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				SDKROOT = macosx;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 			};
@@ -11789,6 +11791,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -11797,13 +11800,15 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = NS_BUILD_32_LIKE_64;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -11812,8 +11817,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				SDKROOT = macosx;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 			};
@@ -12266,6 +12271,7 @@
 				87DF05031BCE2D100060E2C2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9405539117A34C6B009B505D /* Build configuration list for PBXNativeTarget "PC Engine CD" */ = {
 			isa = XCConfigurationList;

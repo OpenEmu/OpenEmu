@@ -27,6 +27,7 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEOdyssey2SystemResponderClient.h"
 
+OE_EXPORTED_CLASS
 @interface OEOdyssey2SystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OEOdyssey2SystemResponderClient> client;

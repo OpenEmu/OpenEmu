@@ -27,6 +27,7 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OESG1000SystemResponderClient.h"
 
+OE_EXPORTED_CLASS
 @interface OESG1000SystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OESG1000SystemResponderClient> client;

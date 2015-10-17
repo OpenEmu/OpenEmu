@@ -27,6 +27,7 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEPCESystemResponderClient.h"
 
+OE_EXPORTED_CLASS
 @interface OEPCESystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OEPCESystemResponderClient> client;

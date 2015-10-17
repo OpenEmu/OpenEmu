@@ -27,6 +27,7 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEFDSSystemResponderClient.h"
 
+OE_EXPORTED_CLASS
 @interface OEFDSSystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OEFDSSystemResponderClient> client;

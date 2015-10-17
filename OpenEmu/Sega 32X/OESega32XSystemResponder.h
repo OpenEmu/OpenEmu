@@ -27,6 +27,7 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OESega32XSystemResponderClient.h"
 
+OE_EXPORTED_CLASS
 @interface OESega32XSystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OESega32XSystemResponderClient> client;

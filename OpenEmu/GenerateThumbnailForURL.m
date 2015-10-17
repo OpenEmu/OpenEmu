@@ -63,7 +63,6 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
             QLThumbnailRequestFlushContext(thumbnail, cgContext);
             CFRelease(cgContext);
         }
-        [image release];
     }
     return noErr;
 }

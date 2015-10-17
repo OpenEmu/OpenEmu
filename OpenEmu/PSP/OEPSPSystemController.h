@@ -50,6 +50,7 @@ typedef struct ciso_header
 #endif
 }CISO_H;
 
+OE_EXPORTED_CLASS
 @interface OEPSPSystemController : OESystemController
 
 @end

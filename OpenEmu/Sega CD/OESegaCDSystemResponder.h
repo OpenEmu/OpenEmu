@@ -27,6 +27,7 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OESegaCDSystemResponderClient.h"
 
+OE_EXPORTED_CLASS
 @interface OESegaCDSystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OESegaCDSystemResponderClient> client;

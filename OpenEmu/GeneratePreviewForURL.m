@@ -41,7 +41,7 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 {
     @autoreleasepool {
         
-        NSURL *imageUrl = [(NSURL*)url URLByAppendingPathComponent:@"ScreenShot"];
+        NSURL *imageUrl = [(__bridge NSURL*)url URLByAppendingPathComponent:@"ScreenShot"];
         NSImage     *image = [[NSImage alloc] initWithContentsOfURL:imageUrl];
         
         NSSize  canvasSize = [image size];
@@ -60,9 +60,7 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
             }
             QLPreviewRequestFlushContext(preview, cgContext);
             CFRelease(cgContext);
-        }
-        
-        [image release];
+        }        
     }
     return noErr;
 }

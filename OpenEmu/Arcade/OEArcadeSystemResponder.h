@@ -27,6 +27,7 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEArcadeSystemResponderClient.h"
 
+OE_EXPORTED_CLASS
 @interface OEArcadeSystemResponder : OESystemResponder
 
 @property(nonatomic, weak) id<OEArcadeSystemResponderClient> client;
