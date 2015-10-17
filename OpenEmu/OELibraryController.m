@@ -149,7 +149,8 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 #pragma mark - Toolbar
 - (IBAction)addCollectionAction:(id)sender
 {
-    [[self sidebarController] addCollectionAction:sender];
+    if([[self currentViewController] respondsToSelector:@selector(addCollectionAction:)])
+        [[self currentViewController] performSelector:@selector(addCollectionAction:) withObject:sender];
 }
 
 - (IBAction)switchToGridView:(id)sender
@@ -197,23 +198,18 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 #pragma mark - FileMenu Actions
 - (IBAction)newCollection:(id)sender
 {
-    [[self database] addNewCollection:nil];
-    
-    [[self sidebarController] reloadData];
+    if([[self currentViewController] respondsToSelector:@selector(addCollectionAction:)])
+        [[self currentViewController] performSelector:@selector(addCollectionAction:) withObject:sender];
 }
 
 - (IBAction)newSmartCollection:(id)sender
 {
-    [[self database] addNewSmartCollection:nil];
-    
-    [[self sidebarController] reloadData];
+    // TODO: implement
 }
 
 - (IBAction)newCollectionFolder:(id)sender
 {
-    [[self database] addNewCollectionFolder:nil];
-    
-    [[self sidebarController] reloadData];
+    // TODO: implement
 }
 
 - (IBAction)editSmartCollection:(id)sender

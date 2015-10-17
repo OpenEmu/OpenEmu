@@ -68,14 +68,14 @@
                             <animations/>
                         </customView>
                         <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="JYU-Tk-u7m">
-                            <rect key="frame" x="0.0" y="36" width="186" height="564"/>
+                            <rect key="frame" x="0.0" y="0.0" width="186" height="600"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <clipView key="contentView" id="MQJ-cq-QCT">
-                                <rect key="frame" x="0.0" y="0.0" width="186" height="564"/>
+                                <rect key="frame" x="0.0" y="0.0" width="186" height="600"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" indentationPerLevel="16" outlineTableColumn="TQT-sV-f9j" id="Evu-SM-BeR" customClass="OESidebarOutlineView">
-                                        <rect key="frame" x="0.0" y="0.0" width="186" height="19"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="186" height="600"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <animations/>
                                         <size key="intercellSpacing" width="3" height="2"/>
