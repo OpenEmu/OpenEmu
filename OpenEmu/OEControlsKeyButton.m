@@ -96,7 +96,7 @@
 
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     
-    NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:15 size:11.0];
+    NSFont *font = [NSFont boldSystemFontOfSize:11];
     NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowBlurRadius:1.0];
     [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.25]];

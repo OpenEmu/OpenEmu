@@ -163,7 +163,7 @@ const static CGFloat buttonTitleGap = 5.0;
     dispatch_once(&onceToken, ^{
         NSMutableDictionary *attr = [[NSMutableDictionary alloc] init];
 
-        NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.0];
+        NSFont *font = [NSFont boldSystemFontOfSize:11];
 
         NSShadow *shadow = [[NSShadow alloc] init];
         [shadow setShadowBlurRadius:1.0];
