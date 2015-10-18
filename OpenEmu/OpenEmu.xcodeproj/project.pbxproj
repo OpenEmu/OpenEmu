@@ -2138,6 +2138,8 @@
 		83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NS(Attributed)String+Geometrics.m"; sourceTree = "<group>"; };
 		83E8927B197490B3004D4489 /* OEDisabledScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDisabledScrollView.h; sourceTree = "<group>"; };
 		83E8927C197490B3004D4489 /* OEDisabledScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDisabledScrollView.m; sourceTree = "<group>"; };
+		83ED8BF01BD29D12001D5414 /* toolbar_toggle_template@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar_toggle_template@2x.png"; sourceTree = "<group>"; };
+		83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_scrollview_box.png; sourceTree = "<group>"; };
 		83F3E31E19B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83F3E31F19B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83F3E32019B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ControlLabels.strings; sourceTree = "<group>"; };
