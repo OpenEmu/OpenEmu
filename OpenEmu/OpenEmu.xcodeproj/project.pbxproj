@@ -428,6 +428,10 @@
 		83F4DE2314E00FF100A82E36 /* controller_ngp_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2114E00F8800A82E36 /* controller_ngp_mask.png */; };
 		83F4DE2614E0131800A82E36 /* controller_gb_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */; };
 		83F4DE2914E0169900A82E36 /* controller_genesis_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */; };
+		83F607731BD3E4C9001236FC /* hud_quicksave_notification.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F6076F1BD3E4C9001236FC /* hud_quicksave_notification.png */; settings = {ASSET_TAGS = (); }; };
+		83F607741BD3E4C9001236FC /* hud_quicksave_notification@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F607701BD3E4C9001236FC /* hud_quicksave_notification@2x.png */; settings = {ASSET_TAGS = (); }; };
+		83F607751BD3E4C9001236FC /* hud_screenshot_notification.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F607711BD3E4C9001236FC /* hud_screenshot_notification.png */; settings = {ASSET_TAGS = (); }; };
+		83F607761BD3E4C9001236FC /* hud_screenshot_notification@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F607721BD3E4C9001236FC /* hud_screenshot_notification@2x.png */; settings = {ASSET_TAGS = (); }; };
 		83F7DBAF18C0E2470029199C /* OEFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DBAE18C0E2470029199C /* OEFileManager.m */; };
 		83F7EADA171D911400D32E26 /* OESearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7EAD9171D911400D32E26 /* OESearchField.m */; };
 		83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711813136368330034379A /* AppKit.framework */; };
@@ -2195,6 +2199,10 @@
 		83F4DE2114E00F8800A82E36 /* controller_ngp_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_ngp_mask.png; sourceTree = "<group>"; };
 		83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gb_mask.png; sourceTree = "<group>"; };
 		83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis_mask.png; sourceTree = "<group>"; };
+		83F6076F1BD3E4C9001236FC /* hud_quicksave_notification.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_quicksave_notification.png; sourceTree = "<group>"; };
+		83F607701BD3E4C9001236FC /* hud_quicksave_notification@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_quicksave_notification@2x.png"; sourceTree = "<group>"; };
+		83F607711BD3E4C9001236FC /* hud_screenshot_notification.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_screenshot_notification.png; sourceTree = "<group>"; };
+		83F607721BD3E4C9001236FC /* hud_screenshot_notification@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_screenshot_notification@2x.png"; sourceTree = "<group>"; };
 		83F7DBAD18C0E2470029199C /* OEFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFileManager.h; sourceTree = "<group>"; };
 		83F7DBAE18C0E2470029199C /* OEFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFileManager.m; sourceTree = "<group>"; };
 		83F7EAD8171D911400D32E26 /* OESearchField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESearchField.h; sourceTree = "<group>"; };
@@ -4050,6 +4058,10 @@
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				83F6076F1BD3E4C9001236FC /* hud_quicksave_notification.png */,
+				83F607701BD3E4C9001236FC /* hud_quicksave_notification@2x.png */,
+				83F607711BD3E4C9001236FC /* hud_screenshot_notification.png */,
+				83F607721BD3E4C9001236FC /* hud_screenshot_notification@2x.png */,
 				83338C2117A281C7007E32E9 /* secret.mp3 */,
 			);
 			name = "Interface Graphics";
@@ -6844,6 +6856,8 @@
 				82DD29DB12369F1100B58A8F /* KeyboardUsages.plist in Resources */,
 				833ADC4D196B078E00217D9A /* OECollectionViewController.xib in Resources */,
 				83FE964D19685A0800DD8DB9 /* OELibraryController.xib in Resources */,
+				83F607761BD3E4C9001236FC /* hud_screenshot_notification@2x.png in Resources */,
+				83F607751BD3E4C9001236FC /* hud_screenshot_notification.png in Resources */,
 				83FE965119685A6A00DD8DB9 /* Preferences.xib in Resources */,
 				83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */,
 				83B04E421968610F00CB985E /* Localizable.strings in Resources */,
@@ -6857,10 +6871,12 @@
 				556CEBF01BCE173B00F00EAA /* Graphics.xcassets in Resources */,
 				832D29431451ACF200BDF950 /* MainWindow.xib in Resources */,
 				83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */,
+				83F607731BD3E4C9001236FC /* hud_quicksave_notification.png in Resources */,
 				838E2A231600A05C00CF7198 /* Theme.plist in Resources */,
 				C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */,
 				83FE965919685F6700DD8DB9 /* OEGameScanner.xib in Resources */,
 				83B04E411968610F00CB985E /* InfoPlist.strings in Resources */,
+				83F607741BD3E4C9001236FC /* hud_quicksave_notification@2x.png in Resources */,
 				83FE963C1968596C00DD8DB9 /* OEMigrationWindowController.xib in Resources */,
 				83495DD819A38F3D009DB6E5 /* OEPrefBiosController.xib in Resources */,
 				83CDAE9C1A61892900DF964A /* supervision_library.png in Resources */,
