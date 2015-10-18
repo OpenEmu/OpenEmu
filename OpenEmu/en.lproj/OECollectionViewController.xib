@@ -201,13 +201,14 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                     </clipView>
                     <animations/>
+                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="38" bottom="0.0"/>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="94" customClass="OEScroller">
-                        <rect key="frame" x="-100" y="-100" width="628" height="15"/>
+                        <rect key="frame" x="0.0" y="494" width="643" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </scroller>
-                    <scroller key="verticalScroller" hidden="YES" canDrawConcurrently="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="93" customClass="OEScroller">
-                        <rect key="frame" x="628" y="0.0" width="15" height="495"/>
+                    <scroller key="verticalScroller" canDrawConcurrently="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="93" customClass="OEScroller">
+                        <rect key="frame" x="627" y="38" width="16" height="472"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </scroller>
