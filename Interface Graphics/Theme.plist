@@ -24,7 +24,7 @@
 		<key>about_github_link</key>
 		<dict>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -58,7 +58,7 @@
 		<key>about_website_link</key>
 		<dict>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -94,7 +94,7 @@
 		<key>dark_button</key>
 		<dict>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -125,7 +125,7 @@
 		<key>dark_button_small</key>
 		<dict>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -156,7 +156,7 @@
 		<key>dark_checkbox</key>
 		<dict>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -191,7 +191,7 @@
 			<key>Color</key>
 			<string>white</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>States</key>
@@ -227,11 +227,11 @@
 			<key>Color</key>
 			<string>rgb(227,227,227)</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
-				<real>1</real>
+				<integer>1</integer>
 				<key>Color</key>
 				<string>rgba(0,0,0,0.4)</string>
 				<key>Offset</key>
@@ -245,7 +245,7 @@
 		<key>game_scanner_fix_issues</key>
 		<dict>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>States</key>
@@ -290,7 +290,7 @@
 			<key>Color</key>
 			<string>rgba(174,173,173,1.0)</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -312,7 +312,7 @@
 			<key>Color</key>
 			<string>white</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -334,7 +334,7 @@
 			<key>Color</key>
 			<string>rgb(184, 184, 184)</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -358,7 +358,7 @@
 			<key>Color</key>
 			<string>rgba(174,173,173,1.0)</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -380,7 +380,7 @@
 			<key>Color</key>
 			<string>rgba(156,156,156,1.0)</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -398,7 +398,7 @@
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -455,7 +455,7 @@
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -512,7 +512,7 @@
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -557,11 +557,11 @@
 			<key>Color</key>
 			<string>rgb(227,227,227)</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
-				<real>1</real>
+				<integer>1</integer>
 				<key>Color</key>
 				<string>rgba(0,0,0,0.4)</string>
 				<key>Offset</key>
@@ -577,7 +577,7 @@
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -618,7 +618,7 @@
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -659,7 +659,7 @@
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -698,7 +698,7 @@
 		<key>hud_checkbox</key>
 		<dict>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -733,7 +733,7 @@
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -778,7 +778,7 @@
 			<key>Color</key>
 			<string>#dbdbdb</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Traits</key>
@@ -793,7 +793,7 @@
 			<key>Color</key>
 			<string>#f2f2f2</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Traits</key>
@@ -808,7 +808,7 @@
 			<key>Color</key>
 			<string>black</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Traits</key>
@@ -821,7 +821,7 @@
 			<key>Color</key>
 			<string>black</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>States</key>
@@ -855,7 +855,7 @@
 		<key>open_weblink</key>
 		<dict>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>States</key>
@@ -909,7 +909,7 @@
 			<key>Color</key>
 			<string>rgb(245,245,245)</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -931,7 +931,7 @@
 			<key>Color</key>
 			<string>rgb(245,245,245)</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -953,7 +953,7 @@
 			<key>Color</key>
 			<string>rgb(245,245,245)</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -975,7 +975,7 @@
 			<key>Color</key>
 			<string>#526ba0</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -997,7 +997,7 @@
 			<key>Color</key>
 			<string>rgb(215,215,215)</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1019,7 +1019,7 @@
 			<key>Color</key>
 			<string>#d9d9d9</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1041,7 +1041,7 @@
 			<key>Color</key>
 			<string>rgb(227,227,227)</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1063,7 +1063,7 @@
 			<key>Color</key>
 			<string>black</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1083,7 +1083,7 @@
 		<key>search_field</key>
 		<dict>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1128,7 +1128,7 @@
 			<key>Background Color</key>
 			<string>#808080</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1178,11 +1178,11 @@
 			<key>Color</key>
 			<string>black</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
-				<real>1</real>
+				<integer>1</integer>
 				<key>Color</key>
 				<string>rgba(255,255,255,0.25)</string>
 				<key>Offset</key>
@@ -1200,7 +1200,7 @@
 			<key>Color</key>
 			<string>#eff3fd</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1222,7 +1222,7 @@
 			<key>Color</key>
 			<string>#eff3fd</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1244,7 +1244,7 @@
 			<key>Color</key>
 			<string>#eff3fd</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1266,7 +1266,7 @@
 			<key>Color</key>
 			<string>#929DA5</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1284,7 +1284,7 @@
 			<key>Color</key>
 			<string>rgba(127,127,127,1.0)</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1302,7 +1302,7 @@
 		<key>homebrew_developer</key>
 		<dict>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Size</key>
 			<integer>14</integer>
 			<key>Shadow</key>
@@ -1338,7 +1338,7 @@
 			<key>Color</key>
 			<string>rgba(127,127,127,1.0)</string>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1354,7 +1354,7 @@
 		<key>sidebar_group</key>
 		<dict>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1376,7 +1376,7 @@
 		<key>sidebar_item</key>
 		<dict>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>States</key>
@@ -1434,7 +1434,7 @@
 		<key>sidebar_item_badge</key>
 		<dict>
 			<key>Family</key>
-			<string>Lucida Grande</string>
+			<string>San Francisco</string>
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Shadow</key>

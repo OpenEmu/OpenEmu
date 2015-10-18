@@ -34,7 +34,7 @@
 	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 	[paragraphStyle setAlignment:[self alignment]];
 	
-	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:4.0 size:12.0];
+	NSFont *font = [NSFont boldSystemFontOfSize:12];
 		
 	[attributes setObject:[NSColor colorWithDeviceWhite:0.89 alpha:1.0] forKey:NSForegroundColorAttributeName];
 	[attributes setObject:font forKey:NSFontAttributeName];

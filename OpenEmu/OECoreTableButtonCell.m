@@ -100,7 +100,7 @@
     if([self isHighlighted])
     {
         textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0.0 size:9.0], NSFontAttributeName,
+                                    [NSFont systemFontOfSize:9], NSFontAttributeName,
                                     [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName,
                                     paraStyle, NSParagraphStyleAttributeName,
                                     shadow, NSShadowAttributeName,
@@ -109,7 +109,7 @@
     else
     {
         textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                          [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0.0 size:9.0], NSFontAttributeName,
+                          [NSFont systemFontOfSize:9], NSFontAttributeName,
                           [NSColor colorWithDeviceWhite:0.89 alpha:1.0], NSForegroundColorAttributeName,
                           paraStyle, NSParagraphStyleAttributeName,
                           shadow, NSShadowAttributeName,

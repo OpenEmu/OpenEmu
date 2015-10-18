@@ -204,7 +204,7 @@ static NSDictionary *disabledActions = nil;
     [_foregroundLayer setCornerRadius:10];
 
     // setup title layer
-    NSFont *titleFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:12];
+    NSFont *titleFont = [NSFont boldSystemFontOfSize:12];
     _textLayer = [CATextLayer layer];
     [_textLayer setActions:disabledActions];
 

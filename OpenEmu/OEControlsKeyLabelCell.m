@@ -54,12 +54,10 @@
 
 - (void)setFontFamily:(NSString *)aFontFamily
 {
-    NSString * const defaultFontFamily = @"Lucida Grande";
-
     NSFontManager *fontManager = [NSFontManager sharedFontManager];
     NSFont *font = [fontManager fontWithFamily:aFontFamily traits:NSFontBoldTrait weight:9.0 size:11.0];
     if(!font) {
-        font = [fontManager fontWithFamily:defaultFontFamily traits:NSFontBoldTrait weight:9.0 size:11.0];
+        font = [NSFont boldSystemFontOfSize:11];
     }
 
     [self setFont:font];

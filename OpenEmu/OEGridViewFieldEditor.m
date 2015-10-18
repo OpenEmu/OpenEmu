@@ -51,7 +51,7 @@
         [self setHidden:YES];
         [self setWantsLayer:YES];
 
-        NSFont *fieldEditorFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:12];
+        NSFont *fieldEditorFont = [NSFont boldSystemFontOfSize:12];
         [self setAlignment:NSCenterTextAlignment];
         [self setBorderColor:[NSColor blackColor]];
         [self setFont:fieldEditorFont];

@@ -595,8 +595,8 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     frame.size = (NSSize){ _OEHUDAlertBoxSideMargin + _OEHUDAlertDefaultBoxWidth + _OEHUDAlertBoxSideMargin, 1 };
     [_hudWindow setFrame:frame display:NO];
 
-    NSFont *defaultFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
-    NSFont *boldFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.0];
+    NSFont *defaultFont = [NSFont systemFontOfSize:11];
+    NSFont *boldFont = [NSFont boldSystemFontOfSize:11];
 
     NSColor *defaultColor = [NSColor colorWithDeviceWhite:0.859 alpha:1.0];
 

@@ -154,7 +154,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
         [style setLineBreakMode:NSLineBreakByTruncatingTail];
         
         attr = @{
-                 NSFontAttributeName : [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:weight size:11.0],
+                 NSFontAttributeName : [NSFont systemFontOfSize:11],
                  NSForegroundColorAttributeName : color,
                  NSParagraphStyleAttributeName : style
                  };
