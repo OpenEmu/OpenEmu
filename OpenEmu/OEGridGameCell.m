@@ -21,7 +21,6 @@ static const CGFloat OEGridCellTitleHeight                      = 16.0;        /
 static const CGFloat OEGridCellImageTitleSpacing                = 17.0;        // Space between the image and the title
 static const CGFloat OEGridCellSubtitleHeight                   = 11.0;        // Subtitle height
 static const CGFloat OEGridCellSubtitleWidth                    = 56.0;        // Subtitle's width
-static const CGFloat OEGridCellGlossWidthToHeightRatio          = 0.6442;      // Gloss image's width to height ratio
 
 static const CGFloat OEGridCellImageContainerLeft   = 13.0;
 static const CGFloat OEGridCellImageContainerTop    = 7.0;
@@ -38,7 +37,6 @@ __strong static OEThemeImage *selectorRingImage = nil;
 @property CALayer     *foregroundLayer;
 @property CATextLayer *textLayer;
 @property CALayer     *ratingLayer;
-@property CALayer     *glossyLayer;
 @property CALayer     *backgroundLayer;
 @property CALayer     *missingArtworkLayer;
 @property CALayer     *downloadLayer;
@@ -314,7 +312,8 @@ static NSDictionary *disabledActions = nil;
     [_foregroundLayer setActions:disabledActions];
 
     // setup title layer
-    NSFont *titleFont = [NSFont systemFontOfSize:11 weight:NSFontWeightMedium];
+    const CGFloat titleFontSize = [NSFont systemFontSize];
+    NSFont *titleFont = [NSFont systemFontOfSize:titleFontSize weight:NSFontWeightMedium];
     _textLayer = [CATextLayer layer];
     [_textLayer setActions:disabledActions];
 
@@ -322,12 +321,8 @@ static NSDictionary *disabledActions = nil;
     [_textLayer setTruncationMode:kCATruncationEnd];
     [_textLayer setForegroundColor:[[NSColor whiteColor] CGColor]];
     [_textLayer setFont:(__bridge CTFontRef)titleFont];
-    [_textLayer setFontSize:12.0];
+    [_textLayer setFontSize:titleFontSize];
 
-    [_textLayer setShadowColor:[[NSColor blackColor] CGColor]];
-    [_textLayer setShadowOffset:CGSizeMake(0.0, -1.0)];
-    [_textLayer setShadowRadius:1.0];
-    [_textLayer setShadowOpacity:1.0];
     [_foregroundLayer addSublayer:_textLayer];
 
     // setup rating layer
@@ -339,11 +334,6 @@ static NSDictionary *disabledActions = nil;
     [_missingArtworkLayer setActions:disabledActions];
     [_foregroundLayer addSublayer:_missingArtworkLayer];
 
-    // setup gloss layer
-    _glossyLayer = [CALayer layer];
-    [_glossyLayer setActions:disabledActions];
-    [_foregroundLayer addSublayer:_glossyLayer];
-
     _indicationLayer = [[OEGridViewCellIndicationLayer alloc] init];
     [_indicationLayer setType:OEGridViewCellIndicationTypeNone];
     [_foregroundLayer addSublayer:_indicationLayer];
@@ -352,8 +342,8 @@ static NSDictionary *disabledActions = nil;
     _backgroundLayer = [CALayer layer];
     [_backgroundLayer setActions:disabledActions];
     [_backgroundLayer setShadowColor:[[NSColor blackColor] CGColor]];
-    [_backgroundLayer setShadowOffset:CGSizeMake(0.0, -3.0)];
-    [_backgroundLayer setShadowRadius:3.0];
+    [_backgroundLayer setShadowOffset:CGSizeMake(0.0, -2.0)];
+    [_backgroundLayer setShadowRadius:2.0];
     [_backgroundLayer setContentsGravity:kCAGravityResize];
 
     _downloadButtonState = OEThemeStateDefault;
@@ -428,15 +418,8 @@ static NSDictionary *disabledActions = nil;
         [_ratingLayer setFrame:relativeRatingFrame];
         [_ratingLayer setContents:ratingImage];
 
-		// add a glossy overlay if image is loaded
         if(state == IKImageStateReady)
         {
-            NSImage *glossyImage = [self OE_glossImageWithSize:relativeImageFrame.size];
-            [_glossyLayer setContentsScale:scaleFactor];
-            [_glossyLayer setFrame:relativeImageFrame];
-            [_glossyLayer setContents:glossyImage];
-            [_glossyLayer setHidden:NO];
-
             if([identifier characterAtIndex:0]==':' && !NSEqualSizes(relativeImageFrame.size, _lastImageSize))
             {
                 NSImage *missingArtworkImage = [self missingArtworkImageWithSize:relativeImageFrame.size];
@@ -456,7 +439,6 @@ static NSDictionary *disabledActions = nil;
         }
         else
         {
-            [_glossyLayer setHidden:YES];
             [_proposedImageLayer removeFromSuperlayer];
             [_indicationLayer setType:OEGridViewCellIndicationTypeNone];
         }
@@ -497,7 +479,6 @@ static NSDictionary *disabledActions = nil;
                 _downloadLayer = [CALayer layer];
                 [_downloadLayer setContentsGravity:kCAGravityResizeAspect];
                 [_downloadLayer setActions:disabledActions];
-                [[_glossyLayer superlayer] insertSublayer:_downloadLayer below:_glossyLayer];
             }
 
             OEThemeImage *image = [[OETheme sharedTheme] themeImageForKey:@"grid_download"];
@@ -604,55 +585,6 @@ static NSDictionary *disabledActions = nil;
 {
     // TODO: why do we use the background layer?
     [[[self imageBrowserView] backgroundLayer] setValue:image forKey:name];
-}
-
-- (NSImage *)OE_glossImageWithSize:(NSSize)size
-{
-    if([[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewGlossDisabledKey]) return nil;
-    if(NSEqualSizes(size, NSZeroSize)) return nil;
-
-    static NSCache *cache = nil;
-    if(cache == nil)
-    {
-        cache = [[NSCache alloc] init];
-        [cache setCountLimit:30];
-    }
-
-    NSString *key = NSStringFromSize(size);
-    NSImage *glossImage = [cache objectForKey:key];
-    if(glossImage) return glossImage;
-
-    BOOL(^drawingBlock)(NSRect) = ^BOOL(NSRect dstRect)
-    {
-        NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
-
-        // Draw gloss image fit proportionally within the cell
-        NSImage *boxGlossImage = [NSImage imageNamed:@"box_gloss"];
-        CGRect   boxGlossFrame = CGRectMake(0.0, 0.0, size.width, floor(size.width * OEGridCellGlossWidthToHeightRatio));
-        boxGlossFrame.origin.y = size.height - CGRectGetHeight(boxGlossFrame);
-        [boxGlossImage drawInRect:boxGlossFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-
-        [currentContext saveGraphicsState];
-        [currentContext setShouldAntialias:YES];
-
-        const NSRect bounds = NSMakeRect(0.0, 0.0, size.width-0.5, size.height-0.5);
-        [[NSColor colorWithCalibratedWhite:1.0 alpha:0.4] setStroke];
-        [[NSBezierPath bezierPathWithRect:NSOffsetRect(bounds, 0.0, -1.0)] stroke];
-
-        [[NSColor blackColor] setStroke];
-        NSBezierPath *path = [NSBezierPath bezierPathWithRect:bounds];
-        [path stroke];
-
-        [currentContext restoreGraphicsState];
-
-        return YES;
-    };
-
-    glossImage = [NSImage imageWithSize:size flipped:NO drawingHandler:drawingBlock];
-
-    [cache setObject:glossImage forKey:key cost:size.height*size.width];
-
-    return glossImage;
 }
 
 - (NSImage *)missingArtworkImageWithSize:(NSSize)size

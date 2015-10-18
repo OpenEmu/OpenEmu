@@ -137,34 +137,33 @@ static inline id OEKeyForState(OEThemeState state)
                 if(_stateMask & OEThemeStateAnyModifier)       _stateMask |= OEThemeStateAnyModifier;
 
                 // Iterate through each state to determine if unspecified inputs should be discarded
-                __block BOOL updateStates = FALSE;
-                [_states enumerateObjectsUsingBlock:
-                 ^ (NSNumber *obj, NSUInteger idx, BOOL *stop)
-                 {
-                     OEThemeState state = [obj unsignedIntegerValue];
-                     if(state != OEThemeStateDefault)
-                     {
-                         // Implicitly set any unspecified input state with it's wild card counter part
-                         if(!(state & OEThemeStateAnyWindowActivity)) state |= OEThemeStateAnyWindowActivity;
-                         if(!(state & OEThemeStateAnyToggle))         state |= OEThemeStateAnyToggle;
-                         if(!(state & OEThemeStateAnySelection))      state |= OEThemeStateAnySelection;
-                         if(!(state & OEThemeStateAnyInteraction))    state |= OEThemeStateAnyInteraction;
-                         if(!(state & OEThemeStateAnyFocus))          state |= OEThemeStateAnyFocus;
-                         if(!(state & OEThemeStateAnyMouse))          state |= OEThemeStateAnyMouse;
-                         if(!(state & OEThemeStateAnyModifier))       state |= OEThemeStateAnyModifier;
-
-                         // Trim bits not specified in the state mask
-                         state &= _stateMask;
-
-                         // Update state table if the state was modified
-                         if(state != [obj unsignedIntegerValue])
-                         {
-                             [_objectByState setValue:[_objectByState objectForKey:obj] forKey:OEKeyForState(state)];
-                             [_objectByState removeObjectForKey:obj];
-                             updateStates = YES;
-                         }
-                     }
-                 }];
+                BOOL updateStates = FALSE;
+                for(NSNumber *obj in _states) {
+                    
+                    OEThemeState state = [obj unsignedIntegerValue];
+                    if(state != OEThemeStateDefault)
+                    {
+                        // Implicitly set any unspecified input state with it's wild card counter part
+                        if(!(state & OEThemeStateAnyWindowActivity)) state |= OEThemeStateAnyWindowActivity;
+                        if(!(state & OEThemeStateAnyToggle))         state |= OEThemeStateAnyToggle;
+                        if(!(state & OEThemeStateAnySelection))      state |= OEThemeStateAnySelection;
+                        if(!(state & OEThemeStateAnyInteraction))    state |= OEThemeStateAnyInteraction;
+                        if(!(state & OEThemeStateAnyFocus))          state |= OEThemeStateAnyFocus;
+                        if(!(state & OEThemeStateAnyMouse))          state |= OEThemeStateAnyMouse;
+                        if(!(state & OEThemeStateAnyModifier))       state |= OEThemeStateAnyModifier;
+                        
+                        // Trim bits not specified in the state mask
+                        state &= _stateMask;
+                        
+                        // Update state table if the state was modified
+                        if(state != [obj unsignedIntegerValue])
+                        {
+                            [_objectByState setValue:[_objectByState objectForKey:obj] forKey:OEKeyForState(state)];
+                            [_objectByState removeObjectForKey:obj];
+                            updateStates = YES;
+                        }
+                    }
+                }
 
                 // If the state table was modified then get a sorted list of states that can be used by -objectForState:
                 if(updateStates) _states = [[[_objectByState allKeys] sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
@@ -232,7 +231,7 @@ static inline id OEKeyForState(OEThemeState state)
 - (id)objectForState:(OEThemeState)state
 {
     OEThemeState maskedState = state & _stateMask; // Trim unused bits
-    __block id   results     = nil;
+    id   results             = nil;
 
     if(maskedState == 0)
     {
@@ -245,23 +244,27 @@ static inline id OEKeyForState(OEThemeState state)
         if(results == nil)
         {
             // Try to implicitly determine what object represents the supplied state
-            [_states enumerateObjectsUsingBlock:
-             ^ (NSNumber *obj, NSUInteger idx, BOOL *stop)
-             {
-                 const OEThemeState state = [obj unsignedIntegerValue];
-                 if((maskedState & state) == maskedState)
-                 {
-                     // This state is the best we are going to get for the requested state
-                     results = [_objectByState objectForKey:OEKeyForState(state)];
-
-                     // Explicitly set the state to the implicitly discovered object so the next time we are looking for this state we can short circuit this process
-                     if(state != 0 && state != OEThemeStateDefault) [self OE_setValue:results forState:maskedState];
-                     *stop = YES;
-                 }
-             }];
+            for(NSNumber *obj in _states) {
+                
+                const OEThemeState state = [obj unsignedIntegerValue];
+                if((maskedState & state) == maskedState)
+                {
+                    // This state is the best we are going to get for the requested state
+                    results = [_objectByState objectForKey:OEKeyForState(state)];
+                    
+                    // Explicitly set the state to the implicitly discovered object so the next time we are looking for this state we can short circuit this process
+                    if(state != 0 && state != OEThemeStateDefault) {
+                        [self OE_setValue:results forState:maskedState];
+                    }
+                    
+                    break;
+                }
+            }
 
             // If no object was found, then explicitly set it to Null, so the next time we try to obtain an object for the specified state we will quickly return nil
-            if(results == nil) [self OE_setValue:[NSNull null] forState:maskedState];
+            if(results == nil) {
+                [self OE_setValue:[NSNull null] forState:maskedState];
+            }
         }
     }
 
@@ -313,44 +316,45 @@ NSString *NSStringFromThemeState(OEThemeState state)
 
 OEThemeState OEThemeStateFromString(NSString *state)
 {
-    __block OEThemeState result = 0;
-    [[state componentsSeparatedByString:@","] enumerateObjectsUsingBlock:
-     ^ (NSString *obj, NSUInteger idx, BOOL *stop)
-     {
-         NSString *component = [obj stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-
-         if([component caseInsensitiveCompare:OEThemeInputStateDefaultName] == NSOrderedSame)
-         {
-             // The 'Default' input state takes precendent over any other input state
-             result = OEThemeStateDefault;
-             *stop  = YES;
-         }
-         else if([component caseInsensitiveCompare:OEThemeStateAnyWindowActivityName]       == NSOrderedSame) result |= OEThemeStateAnyWindowActivity;
-         else if([component caseInsensitiveCompare:OEThemeStateAnyToggleName]               == NSOrderedSame) result |= OEThemeStateAnyToggle;
-         else if([component caseInsensitiveCompare:OEThemeStateAnySelectionName]            == NSOrderedSame) result |= OEThemeStateAnySelection;
-         else if([component caseInsensitiveCompare:OEThemeStateAnyInteractionName]          == NSOrderedSame) result |= OEThemeStateAnyInteraction;
-         else if([component caseInsensitiveCompare:OEThemeStateAnyModifierName]             == NSOrderedSame) result |= OEThemeStateAnyModifier;
-         else if([component caseInsensitiveCompare:OEThemeStateAnyFocusName]                == NSOrderedSame) result |= OEThemeStateAnyFocus;
-         else if([component caseInsensitiveCompare:OEThemeStateAnyMouseName]                == NSOrderedSame) result |= OEThemeStateAnyMouse;
-         else if([component caseInsensitiveCompare:OEThemeInputStateWindowInactiveName]     == NSOrderedSame) result |= OEThemeInputStateWindowInactive;
-         else if([component caseInsensitiveCompare:OEThemeInputStateWindowActiveName]       == NSOrderedSame) result |= OEThemeInputStateWindowActive;
-         else if([component caseInsensitiveCompare:OEThemeInputStateToggleOffName]          == NSOrderedSame) result |= OEThemeInputStateToggleOff;
-         else if([component caseInsensitiveCompare:OEThemeInputStateToggleOnName]           == NSOrderedSame) result |= OEThemeInputStateToggleOn;
-         else if([component caseInsensitiveCompare:OEThemeInputStateToggleMixedName]        == NSOrderedSame) result |= OEThemeInputStateToggleMixed;
-         else if([component caseInsensitiveCompare:OEThemeInputStateUnpressedName]          == NSOrderedSame) result |= OEThemeInputStateUnpressed;
-         else if([component caseInsensitiveCompare:OEThemeInputStatePressedName]            == NSOrderedSame) result |= OEThemeInputStatePressed;
-         else if([component caseInsensitiveCompare:OEThemeInputStateDisabledName]           == NSOrderedSame) result |= OEThemeInputStateDisabled;
-         else if([component caseInsensitiveCompare:OEThemeInputStateEnabledName]            == NSOrderedSame) result |= OEThemeInputStateEnabled;
-         else if([component caseInsensitiveCompare:OEThemeInputStateUnfocusedName]          == NSOrderedSame) result |= OEThemeInputStateUnfocused;
-         else if([component caseInsensitiveCompare:OEThemeInputStateFocusedName]            == NSOrderedSame) result |= OEThemeInputStateFocused;
-         else if([component caseInsensitiveCompare:OEThemeInputStateMouseOffName]           == NSOrderedSame) result |= OEThemeInputStateMouseOff;
-         else if([component caseInsensitiveCompare:OEThemeInputStateMouseOverName]          == NSOrderedSame) result |= OEThemeInputStateMouseOver;
-         else if([component caseInsensitiveCompare:OEThemeInputStateModifierAlternateName]  == NSOrderedSame) result |= OEThemeInputStateModifierAlternate;
-         else if([component caseInsensitiveCompare:OEThemeInputStateModifierNoneName]       == NSOrderedSame) result |= OEThemeInputStateModifierNone;
-         else
-             NSLog(@"- Unknown State Input: %@", component);
-     }];
-
+    OEThemeState result = 0;
+    NSCharacterSet *whitespace = [NSCharacterSet whitespaceCharacterSet];
+    
+    for(NSString *obj in [state componentsSeparatedByString:@","])
+    {
+        NSString *component = [obj stringByTrimmingCharactersInSet:whitespace];
+        
+        if([component caseInsensitiveCompare:OEThemeInputStateDefaultName] == NSOrderedSame)
+        {
+            // The 'Default' input state takes precendent over any other input state
+            result = OEThemeStateDefault;
+            break;
+        }
+        else if([component caseInsensitiveCompare:OEThemeStateAnyWindowActivityName]       == NSOrderedSame) result |= OEThemeStateAnyWindowActivity;
+        else if([component caseInsensitiveCompare:OEThemeStateAnyToggleName]               == NSOrderedSame) result |= OEThemeStateAnyToggle;
+        else if([component caseInsensitiveCompare:OEThemeStateAnySelectionName]            == NSOrderedSame) result |= OEThemeStateAnySelection;
+        else if([component caseInsensitiveCompare:OEThemeStateAnyInteractionName]          == NSOrderedSame) result |= OEThemeStateAnyInteraction;
+        else if([component caseInsensitiveCompare:OEThemeStateAnyModifierName]             == NSOrderedSame) result |= OEThemeStateAnyModifier;
+        else if([component caseInsensitiveCompare:OEThemeStateAnyFocusName]                == NSOrderedSame) result |= OEThemeStateAnyFocus;
+        else if([component caseInsensitiveCompare:OEThemeStateAnyMouseName]                == NSOrderedSame) result |= OEThemeStateAnyMouse;
+        else if([component caseInsensitiveCompare:OEThemeInputStateWindowInactiveName]     == NSOrderedSame) result |= OEThemeInputStateWindowInactive;
+        else if([component caseInsensitiveCompare:OEThemeInputStateWindowActiveName]       == NSOrderedSame) result |= OEThemeInputStateWindowActive;
+        else if([component caseInsensitiveCompare:OEThemeInputStateToggleOffName]          == NSOrderedSame) result |= OEThemeInputStateToggleOff;
+        else if([component caseInsensitiveCompare:OEThemeInputStateToggleOnName]           == NSOrderedSame) result |= OEThemeInputStateToggleOn;
+        else if([component caseInsensitiveCompare:OEThemeInputStateToggleMixedName]        == NSOrderedSame) result |= OEThemeInputStateToggleMixed;
+        else if([component caseInsensitiveCompare:OEThemeInputStateUnpressedName]          == NSOrderedSame) result |= OEThemeInputStateUnpressed;
+        else if([component caseInsensitiveCompare:OEThemeInputStatePressedName]            == NSOrderedSame) result |= OEThemeInputStatePressed;
+        else if([component caseInsensitiveCompare:OEThemeInputStateDisabledName]           == NSOrderedSame) result |= OEThemeInputStateDisabled;
+        else if([component caseInsensitiveCompare:OEThemeInputStateEnabledName]            == NSOrderedSame) result |= OEThemeInputStateEnabled;
+        else if([component caseInsensitiveCompare:OEThemeInputStateUnfocusedName]          == NSOrderedSame) result |= OEThemeInputStateUnfocused;
+        else if([component caseInsensitiveCompare:OEThemeInputStateFocusedName]            == NSOrderedSame) result |= OEThemeInputStateFocused;
+        else if([component caseInsensitiveCompare:OEThemeInputStateMouseOffName]           == NSOrderedSame) result |= OEThemeInputStateMouseOff;
+        else if([component caseInsensitiveCompare:OEThemeInputStateMouseOverName]          == NSOrderedSame) result |= OEThemeInputStateMouseOver;
+        else if([component caseInsensitiveCompare:OEThemeInputStateModifierAlternateName]  == NSOrderedSame) result |= OEThemeInputStateModifierAlternate;
+        else if([component caseInsensitiveCompare:OEThemeInputStateModifierNoneName]       == NSOrderedSame) result |= OEThemeInputStateModifierNone;
+        else
+            NSLog(@"- Unknown State Input: %@", component);
+    }
+    
     // Implicitly return the default state, if no input state was specified
     return result;
 }

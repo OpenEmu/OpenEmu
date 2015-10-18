@@ -153,7 +153,6 @@ NSString * const OptionsKey = @"options";
                               Button(@"Reset main window size", @selector(resetMainWindow:)),
                               NCheckbox(OEMenuOptionsStyleKey, @"Dark GridView context menu"),
                               Checkbox(OERetrodeSupportEnabledKey, @"Enable Retrode support"),
-                              Checkbox(OECoverGridViewGlossDisabledKey, @"Disable grid view gloss overlay"),
                               Checkbox(OECoverGridViewAutoDownloadEnabledKey, @"Download missing artwork on the fly"),
                               Checkbox(OEDisplayGameTitle, @"Show game titles instead of rom names"),
                               Checkbox(OEImportManualSystems, @"Manually choose system on import"),

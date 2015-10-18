@@ -27,8 +27,13 @@
 #import "OEThemeTextAttributes.h"
 #import "NSColor+OEAdditions.h"
 
-#pragma mark -
-#pragma mark Theme font attributes
+#pragma mark - Magic font tokens
+
+static NSString * const OESystemFontFamilyMagicToken      = @"$SYSTEM_FONT_FAMILY";
+static NSString * const OEMonospacedDigitSystemFontFamily = @"$MONOSPACED_DIGIT_SYSTEM_FONT_FAMILY";
+static NSString * const OELabelFontFamilyMagicToken       = @"$LABEL_FONT_FAMILY";
+
+#pragma mark - Theme font attributes
 
 static NSString * const OEThemeFontForegroundColorAttributeName = @"Color";
 static NSString * const OEThemeFontBackgroundColorAttributeName = @"Background Color";
@@ -40,24 +45,21 @@ static NSString * const OEThemeFontTraitsAttributeName          = @"Traits";
 static NSString * const OEThemeFontAlignmentAttributeName       = @"Alignment";
 static NSString * const OEThemeFontLineBreakAttributeName       = @"Line Break";
 
-#pragma mark -
-#pragma mark Theme font shadow
+#pragma mark - Theme font shadow
 
 static NSString * const OEThemeFontShadowAttributeName          = @"Shadow";
 static NSString * const OEThemeShadowOffsetAttributeName        = @"Offset";
 static NSString * const OEThemeShadowBlurRadiusAttributeName    = @"Blur Radius";
 static NSString * const OEThemeShadowColorAttributeName         = @"Color";
 
-#pragma mark -
-#pragma mark Theme font traits
+#pragma mark - Theme font traits
 
 static NSString * const OEThemeFontTraitBoldName                = @"Bold";
 static NSString * const OEThemeFontTraitUnboldName              = @"Unbold";
 static NSString * const OEThemeFontTraitItalicName              = @"Italic";
 static NSString * const OEThemeFontTraitUnitalic                = @"Unitalic";
 
-#pragma mark -
-#pragma mark Implementation
+#pragma mark - Implementation
 
 static NSFontTraitMask _OENSFontTraitMaskFromString(NSString *string);
 static id _OEObjectFromDictionary(NSDictionary *dictionary, NSString *attributeName, Class expectedClass, id (^parse)(id obj));
@@ -65,19 +67,24 @@ static id _OEObjectFromDictionary(NSDictionary *dictionary, NSString *attributeN
 // Parses a comma separated NSString of theme font traits
 NSFontTraitMask _OENSFontTraitMaskFromString(NSString *string)
 {
-    __block NSFontTraitMask mask = 0;
-
-    [[string componentsSeparatedByString:@","] enumerateObjectsUsingBlock:
-     ^ (NSString *obj, NSUInteger idx, BOOL *stop)
-     {
-         NSString *trait = [obj stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-
-         if([trait caseInsensitiveCompare:OEThemeFontTraitBoldName]        == NSOrderedSame) mask |= NSBoldFontMask;
-         else if([trait caseInsensitiveCompare:OEThemeFontTraitUnboldName] == NSOrderedSame) mask |= NSUnboldFontMask;
-         else if([trait caseInsensitiveCompare:OEThemeFontTraitItalicName] == NSOrderedSame) mask |= NSItalicFontMask;
-         else if([trait caseInsensitiveCompare:OEThemeFontTraitUnitalic]   == NSOrderedSame) mask |= NSUnitalicFontMask;
-     }];
-
+    NSFontTraitMask mask = 0;
+    NSCharacterSet *whitespace = [NSCharacterSet whitespaceCharacterSet];
+    
+    for(NSString *token in [string componentsSeparatedByString:@","]) {
+        
+        NSString *trimmedToken = [token stringByTrimmingCharactersInSet:whitespace];
+        
+        if([trimmedToken caseInsensitiveCompare:OEThemeFontTraitBoldName] == NSOrderedSame) {
+            mask |= NSBoldFontMask;
+        } else if([trimmedToken caseInsensitiveCompare:OEThemeFontTraitUnboldName] == NSOrderedSame) {
+            mask |= NSUnboldFontMask;
+        } else if([trimmedToken caseInsensitiveCompare:OEThemeFontTraitItalicName] == NSOrderedSame) {
+            mask |= NSItalicFontMask;
+        } else if([trimmedToken caseInsensitiveCompare:OEThemeFontTraitUnitalic] == NSOrderedSame) {
+            mask |= NSUnitalicFontMask;
+        }
+    }
+    
     return mask;
 }
 
@@ -129,7 +136,7 @@ id _OEObjectFromDictionary(NSDictionary *dictionary, NSString *attributeName, Cl
 
     NSString   *familyAttribute = ([definition valueForKey:OEThemeFontFamilyAttributeName]   ?: [definition objectForKey:OEThemeObjectValueAttributeName]);
     CGFloat     size            = [([definition objectForKey:OEThemeFontSizeAttributeName]   ?: [NSNumber numberWithFloat:12.0]) floatValue];
-    NSUInteger  weight          = [([definition objectForKey:OEThemeFontWeightAttributeName] ?: [NSNumber numberWithInt:5]) intValue];
+    CGFloat  weight          = [([definition objectForKey:OEThemeFontWeightAttributeName] ?: [NSNumber numberWithFloat:5]) floatValue];
 
     NSFontTraitMask  mask = [_OEObjectFromDictionary(definition, OEThemeFontTraitsAttributeName, [NSNumber class],
                                                      ^ id (id mask)
@@ -138,7 +145,19 @@ id _OEObjectFromDictionary(NSDictionary *dictionary, NSString *attributeName, Cl
                                                          return [NSNumber numberWithUnsignedInteger:_OENSFontTraitMaskFromString(mask)];
                                                      }) unsignedIntegerValue];
 
-    NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:familyAttribute traits:mask weight:weight size:size];
+    NSFont *font;
+    if([familyAttribute isEqualToString:OESystemFontFamilyMagicToken]) {
+        NSFont *systemFont = [NSFont systemFontOfSize:size weight:weight];
+        font = [[NSFontManager sharedFontManager] convertFont:systemFont toHaveTrait:mask];
+    } else if([familyAttribute isEqualToString:OEMonospacedDigitSystemFontFamily]) {
+        NSFont *monospacedDigitSystemFont = [NSFont monospacedDigitSystemFontOfSize:size weight:weight];
+        font = [[NSFontManager sharedFontManager] convertFont:monospacedDigitSystemFont toHaveTrait:mask];
+    } else if([familyAttribute isEqualToString:OELabelFontFamilyMagicToken]) {
+        NSFont *labelFont = [NSFont labelFontOfSize:size];
+        font = [[NSFontManager sharedFontManager] convertFont:labelFont toHaveTrait:mask];
+    } else {
+        font = [[NSFontManager sharedFontManager] fontWithFamily:familyAttribute traits:mask weight:weight size:size];
+    }
 
     NSMutableParagraphStyle *style = nil;
     if([definition objectForKey:OEThemeFontAlignmentAttributeName])
