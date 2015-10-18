@@ -29,7 +29,6 @@
 
 extern NSSize const defaultGridSize;
 extern NSString * const OEImageBrowserGroupSubtitleKey;
-extern NSString *const OECoverGridViewGlossDisabledKey;
 
 typedef enum
 {

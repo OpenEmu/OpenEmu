@@ -267,8 +267,8 @@ const CGFloat BadgeSpacing = 2.0;
         attributes = [[self itemAttributes] textAttributesForState:state];
         
         // Adjust the title frame to fit the system typeface.
-        titleFrame.size.height += 2;
-        titleFrame.origin.y -= 2;
+        titleFrame.size.height += 3;
+        titleFrame.origin.y -= 3;
     }
 
 	NSAttributedString *strVal = [[NSAttributedString alloc] initWithString:[self stringValue] attributes:attributes];
