@@ -261,11 +261,6 @@ const CGFloat BadgeSpacing = 2.0;
 		titleFrame.origin.y += 9;
 		titleFrame.origin.x -= 8;
 		titleFrame.size.width += 8;
-        
-        // NOTE: The bold trait specified in "sidebar_group" in Theme.plist doesn't get applied for some reason, so manually set a bold font for group sidebar items. This is a hack, but since NSCell is deprecated, this code will eventually be replaced by a view-based solution anyway.
-        NSMutableDictionary *mutableAttributes = [attributes mutableCopy];
-        mutableAttributes[NSFontAttributeName] = [NSFont boldSystemFontOfSize:11];
-        attributes = mutableAttributes;
     }
     else
     {

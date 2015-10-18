@@ -24,7 +24,7 @@
 		<key>about_github_link</key>
 		<dict>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -58,7 +58,7 @@
 		<key>about_website_link</key>
 		<dict>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -94,7 +94,7 @@
 		<key>dark_button</key>
 		<dict>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -106,6 +106,8 @@
 			</dict>
 			<key>Size</key>
 			<integer>11</integer>
+			<key>Weight</key>
+			<real>0.2</real>
 			<key>States</key>
 			<dict>
 				<key>Default</key>
@@ -119,13 +121,11 @@
 					<string>rgb(188,188,188,1.0)</string>
 				</dict>
 			</dict>
-			<key>Traits</key>
-			<string>Bold</string>
 		</dict>
 		<key>dark_button_small</key>
 		<dict>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -137,6 +137,8 @@
 			</dict>
 			<key>Size</key>
 			<integer>9</integer>
+			<key>Weight</key>
+			<real>0.2</real>
 			<key>States</key>
 			<dict>
 				<key>Default</key>
@@ -150,13 +152,11 @@
 					<string>rgb(188,188,188,1.0)</string>
 				</dict>
 			</dict>
-			<key>Traits</key>
-			<string>Bold</string>
 		</dict>
 		<key>dark_checkbox</key>
 		<dict>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -181,17 +181,15 @@
 					<string>gray</string>
 				</dict>
 			</dict>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<integer>0</integer>
+			<real>0.2</real>
 		</dict>
 		<key>dark_menu_item</key>
 		<dict>
 			<key>Color</key>
 			<string>white</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>States</key>
@@ -217,17 +215,15 @@
 					<string>white</string>
 				</dict>
 			</dict>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<integer>11</integer>
+			<real>0.2</real>
 		</dict>
 		<key>dark_popup_button</key>
 		<dict>
 			<key>Color</key>
 			<string>rgb(227,227,227)</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -239,13 +235,13 @@
 			</dict>
 			<key>Size</key>
 			<integer>11</integer>
-			<key>Traits</key>
-			<string>Bold</string>
+			<key>Weight</key>
+			<real>0.2</real>
 		</dict>
 		<key>game_scanner_fix_issues</key>
 		<dict>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>States</key>
@@ -290,7 +286,7 @@
 			<key>Color</key>
 			<string>rgba(174,173,173,1.0)</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -312,7 +308,7 @@
 			<key>Color</key>
 			<string>white</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -334,7 +330,7 @@
 			<key>Color</key>
 			<string>rgb(184, 184, 184)</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -358,7 +354,7 @@
 			<key>Color</key>
 			<string>rgba(174,173,173,1.0)</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -380,7 +376,7 @@
 			<key>Color</key>
 			<string>rgba(156,156,156,1.0)</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -398,7 +394,7 @@
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -455,7 +451,7 @@
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -512,7 +508,7 @@
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -557,7 +553,7 @@
 			<key>Color</key>
 			<string>rgb(227,227,227)</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -577,7 +573,7 @@
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -618,7 +614,7 @@
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -659,7 +655,7 @@
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -698,7 +694,7 @@
 		<key>hud_checkbox</key>
 		<dict>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -733,7 +729,7 @@
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -778,7 +774,7 @@
 			<key>Color</key>
 			<string>#dbdbdb</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Traits</key>
@@ -793,7 +789,7 @@
 			<key>Color</key>
 			<string>#f2f2f2</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Traits</key>
@@ -808,7 +804,7 @@
 			<key>Color</key>
 			<string>black</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Traits</key>
@@ -821,7 +817,7 @@
 			<key>Color</key>
 			<string>black</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>States</key>
@@ -847,15 +843,13 @@
 					<string>white</string>
 				</dict>
 			</dict>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<integer>11</integer>
+			<real>0.2</real>
 		</dict>
 		<key>open_weblink</key>
 		<dict>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>States</key>
@@ -909,7 +903,7 @@
 			<key>Color</key>
 			<string>rgb(245,245,245)</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -923,15 +917,13 @@
 			<integer>11</integer>
 			<key>Traits</key>
 			<string>Bold</string>
-			<key>Weight</key>
-			<integer>8</integer>
 		</dict>
 		<key>bios_main</key>
 		<dict>
 			<key>Color</key>
 			<string>rgb(245,245,245)</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -943,17 +935,15 @@
 			</dict>
 			<key>Size</key>
 			<integer>11</integer>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<integer>8</integer>
+			<real>0.5</real>
 		</dict>
 		<key>bios_info</key>
 		<dict>
 			<key>Color</key>
 			<string>rgb(245,245,245)</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -968,14 +958,14 @@
 			<key>Traits</key>
 			<string>Regular</string>
 			<key>Weight</key>
-			<integer>4</integer>
+			<integer>0</integer>
 		</dict>
 		<key>bios_info_link</key>
 		<dict>
 			<key>Color</key>
 			<string>#526ba0</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -987,17 +977,15 @@
 			</dict>
 			<key>Size</key>
 			<integer>12</integer>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<integer>4</integer>
+			<integer>0</integer>
 		</dict>
 		<key>bios_sub</key>
 		<dict>
 			<key>Color</key>
 			<string>rgb(215,215,215)</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1012,14 +1000,14 @@
 			<key>Traits</key>
 			<string>Regular</string>
 			<key>Weight</key>
-			<integer>4</integer>
+			<real>0.2</real>
 		</dict>
 		<key>bios_group</key>
 		<dict>
 			<key>Color</key>
 			<string>#d9d9d9</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1031,17 +1019,15 @@
 			</dict>
 			<key>Size</key>
 			<integer>11</integer>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<integer>4</integer>
+			<real>0.2</real>
 		</dict>
 		<key>preferences_text</key>
 		<dict>
 			<key>Color</key>
 			<string>rgb(227,227,227)</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1053,17 +1039,15 @@
 			</dict>
 			<key>Size</key>
 			<integer>11</integer>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<real>4</real>
+			<real>0.2</real>
 		</dict>
 		<key>preferences_wood_text</key>
 		<dict>
 			<key>Color</key>
 			<string>black</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1075,15 +1059,13 @@
 			</dict>
 			<key>Size</key>
 			<integer>11</integer>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<integer>8</integer>
+			<real>0.2</real>
 		</dict>
 		<key>search_field</key>
 		<dict>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1118,17 +1100,15 @@
 					<string>#545454</string>
 				</dict>
 			</dict>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<integer>3</integer>
+			<real>0.2</real>
 		</dict>
 		<key>search_field_selection</key>
 		<dict>
 			<key>Background Color</key>
 			<string>#808080</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1168,17 +1148,15 @@
 					<string>#545454</string>
 				</dict>
 			</dict>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<integer>3</integer>
+			<real>0.2</real>
 		</dict>
 		<key>wood_popup_button</key>
 		<dict>
 			<key>Color</key>
 			<string>black</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1190,17 +1168,15 @@
 			</dict>
 			<key>Size</key>
 			<integer>11</integer>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<string>11.0</string>
+			<string>0.4</string>
 		</dict>
 		<key>homebrew_headline</key>
 		<dict>
 			<key>Color</key>
 			<string>#eff3fd</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1212,17 +1188,15 @@
 			</dict>
 			<key>Size</key>
 			<integer>18</integer>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<integer>8</integer>
+			<real>0.2</real>
 		</dict>
 		<key>homebrew_gamename</key>
 		<dict>
 			<key>Color</key>
 			<string>#eff3fd</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1234,17 +1208,15 @@
 			</dict>
 			<key>Size</key>
 			<integer>16</integer>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<integer>8</integer>
+			<real>0.2</real>
 		</dict>
 		<key>feature_gamename</key>
 		<dict>
 			<key>Color</key>
 			<string>#eff3fd</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1256,17 +1228,15 @@
 			</dict>
 			<key>Size</key>
 			<integer>14</integer>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<integer>8</integer>
+			<real>0.1</real>
 		</dict>
 		<key>homebrew_text</key>
 		<dict>
 			<key>Color</key>
 			<string>#929DA5</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1278,13 +1248,15 @@
 			</dict>
 			<key>Size</key>
 			<integer>14</integer>
+			<key>Weight</key>
+			<real>0.2</real>
 		</dict>
 		<key>homebrew_description</key>
 		<dict>
 			<key>Color</key>
 			<string>rgba(127,127,127,1.0)</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1296,15 +1268,19 @@
 			</dict>
 			<key>Size</key>
 			<integer>12</integer>
+			<key>Weight</key>
+			<real>0.2</real>
 			<key>Alignment</key>
 			<string>Justify</string>
 		</dict>
 		<key>homebrew_developer</key>
 		<dict>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Size</key>
 			<integer>14</integer>
+			<key>Weight</key>
+			<string>0.2</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1338,7 +1314,7 @@
 			<key>Color</key>
 			<string>rgba(127,127,127,1.0)</string>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Shadow</key>
 			<dict>
 				<key>Blur Radius</key>
@@ -1350,91 +1326,53 @@
 			</dict>
 			<key>Size</key>
 			<integer>12</integer>
+			<key>Weight</key>
+			<real>0.2</real>
 		</dict>
 		<key>sidebar_group</key>
 		<dict>
 			<key>Family</key>
-			<string>San Francisco</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>1</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,1)</string>
-				<key>Offset</key>
-				<string>{0,1}</string>
-			</dict>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Size</key>
 			<integer>11</integer>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Color</key>
 			<string>rgba(153, 153, 153, 1.0)</string>
 			<key>Weight</key>
-			<integer>3</integer>
+			<integer>1</integer>
 		</dict>
 		<key>sidebar_item</key>
 		<dict>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Size</key>
-			<integer>11</integer>
+			<integer>12</integer>
 			<key>States</key>
 			<dict>
 				<key>Unfocused</key>
 				<dict>
-					<key>Shadow</key>
-					<dict>
-						<key>Blur Radius</key>
-						<integer>1</integer>
-						<key>Color</key>
-						<string>rgba(0,0,0,1)</string>
-						<key>Offset</key>
-						<string>{0,-1}</string>
-					</dict>
 					<key>Color</key>
 					<string>rgba(225, 224, 224, 1.0)</string>
 				</dict>
 				<key>Window Active, Focused</key>
 				<dict>
-					<key>Shadow</key>
-					<dict>
-						<key>Blur Radius</key>
-						<integer>1</integer>
-						<key>Color</key>
-						<string>rgba(0,0,0,1)</string>
-						<key>Offset</key>
-						<string>{0,-1}</string>
-					</dict>
 					<key>Color</key>
 					<string>white</string>
 				</dict>
 				<key>Window Inactive, Focused</key>
 				<dict>
-					<key>Shadow</key>
-					<dict>
-						<key>Blur Radius</key>
-						<integer>1</integer>
-						<key>Color</key>
-						<string>rgba(153,153,153,1)</string>
-						<key>Offset</key>
-						<string>{0,-1}</string>
-					</dict>
 					<key>Color</key>
 					<string>rgba(36,36,36,1.0)</string>
 				</dict>
 			</dict>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<integer>3</integer>
+			<real>0.1</real>
 			<key>Line Break</key>
 			<string>Truncate Tail</string>
 		</dict>
 		<key>sidebar_item_badge</key>
 		<dict>
 			<key>Family</key>
-			<string>San Francisco</string>
+			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Alignment</key>
 			<string>Center</string>
 			<key>Shadow</key>
@@ -1471,10 +1409,8 @@
 					<string>#545454</string>
 				</dict>
 			</dict>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<integer>3</integer>
+			<real>0.3</real>
 		</dict>
 	</dict>
 	<key>Gradients</key>
