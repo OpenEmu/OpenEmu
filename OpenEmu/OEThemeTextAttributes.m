@@ -65,19 +65,24 @@ static id _OEObjectFromDictionary(NSDictionary *dictionary, NSString *attributeN
 // Parses a comma separated NSString of theme font traits
 NSFontTraitMask _OENSFontTraitMaskFromString(NSString *string)
 {
-    __block NSFontTraitMask mask = 0;
-
-    [[string componentsSeparatedByString:@","] enumerateObjectsUsingBlock:
-     ^ (NSString *obj, NSUInteger idx, BOOL *stop)
-     {
-         NSString *trait = [obj stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-
-         if([trait caseInsensitiveCompare:OEThemeFontTraitBoldName]        == NSOrderedSame) mask |= NSBoldFontMask;
-         else if([trait caseInsensitiveCompare:OEThemeFontTraitUnboldName] == NSOrderedSame) mask |= NSUnboldFontMask;
-         else if([trait caseInsensitiveCompare:OEThemeFontTraitItalicName] == NSOrderedSame) mask |= NSItalicFontMask;
-         else if([trait caseInsensitiveCompare:OEThemeFontTraitUnitalic]   == NSOrderedSame) mask |= NSUnitalicFontMask;
-     }];
-
+    NSFontTraitMask mask = 0;
+    NSCharacterSet *whitespace = [NSCharacterSet whitespaceCharacterSet];
+    
+    for(NSString *token in [string componentsSeparatedByString:@","]) {
+        
+        NSString *trimmedToken = [token stringByTrimmingCharactersInSet:whitespace];
+        
+        if([trimmedToken caseInsensitiveCompare:OEThemeFontTraitBoldName] == NSOrderedSame) {
+            mask |= NSBoldFontMask;
+        } else if([trimmedToken caseInsensitiveCompare:OEThemeFontTraitUnboldName] == NSOrderedSame) {
+            mask |= NSUnboldFontMask;
+        } else if([trimmedToken caseInsensitiveCompare:OEThemeFontTraitItalicName] == NSOrderedSame) {
+            mask |= NSItalicFontMask;
+        } else if([trimmedToken caseInsensitiveCompare:OEThemeFontTraitUnitalic] == NSOrderedSame) {
+            mask |= NSUnitalicFontMask;
+        }
+    }
+    
     return mask;
 }
 
