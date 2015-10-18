@@ -81,13 +81,11 @@
 - (void)viewDidAppear
 {
     [super viewDidAppear];
-
-    DLog(@"view did appear");
     [self _setupSearchMenuTemplate];
 }
 
 - (void)viewDidDisappear {
-    DLog(@"view did disappear");
+    [super viewDidDisappear];
 }
 
 - (void)_setupSearchMenuTemplate
@@ -158,7 +156,11 @@
         [self reloadData];
     }
     [self _setupSearchMenuTemplate];
+}
 
+- (OECollectionViewControllerViewTag)OE_currentViewTagByToolbarState
+{
+    return OEGridViewTag;
 }
 #pragma mark - OELibrarySubviewController Implementation
 - (id)encodeCurrentState

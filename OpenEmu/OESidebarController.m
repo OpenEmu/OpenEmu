@@ -447,8 +447,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     [outlineView setDropItem:nil dropChildIndex:NSOutlineViewDropOnItemIndex];
     return NSDragOperationCopy;
 }
-#pragma mark -
-#pragma mark NSOutlineView Delegate
+#pragma mark - NSOutlineView Delegate
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
     if(![self database]) return;

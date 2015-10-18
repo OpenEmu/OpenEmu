@@ -3324,22 +3324,10 @@
 			<string>toolbar_toggle_template</string>
 			<key>States</key>
 			<dict>
-				<key>Default</key>
-				<string>{{28,23},{28,23}}</string>
-				<key>Pressed</key>
-				<string>{{0,23},{28,23}}</string>
-				<key>Toggle Off, Disabled</key>
-				<string>{{56,23},{28,23}}</string>
-				<key>Toggle Off, Window Inactive</key>
-				<string>{{0,23},{28,23}}</string>
+				<key>Toggle Off</key>
+				<string>{{0,0},{28,23}}</string>
 				<key>Toggle On</key>
 				<string>{{28,0},{28,23}}</string>
-				<key>Toggle On, Disabled</key>
-				<string>{{0,0},{28,23}}</string>
-				<key>Toggle On, Pressed</key>
-				<string>{{56,0},{28,23}}</string>
-				<key>Toggle On, Window Inactive</key>
-				<string>{{0,0},{28,23}}</string>
 			</dict>
 		</dict>
 		<key>toolbar_view_button_flow_background</key>

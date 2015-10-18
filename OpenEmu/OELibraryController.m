@@ -241,6 +241,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
     OEMediaViewController *controller = [[OEMediaViewController alloc] init];
     [controller setLibraryController:self];
+    [controller view];
     [controller setRepresentedObject:[OEDBSavedGamesMedia sharedDBSavedGamesMedia]];
 
     [self _showOverlayController:controller];
@@ -290,7 +291,6 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     [self _removeCurrentOverlayController];
 
     NSView *newView = [newViewController view];
-    NSLog(@"_showOverlayController: %@", [newView subviews]);
     [newView setFrame:[[self view] bounds]];
     [newView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [[self view] addSubview:newView];

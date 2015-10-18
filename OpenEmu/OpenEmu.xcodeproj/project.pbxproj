@@ -283,6 +283,8 @@
 		8306CD2F1BD3AD480025BC6C /* OESidebarOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD211BD3AC3D0025BC6C /* OESidebarOutlineView.m */; };
 		8306CD321BD3B4C50025BC6C /* noise.png in Resources */ = {isa = PBXBuildFile; fileRef = 8306CD301BD3B4C50025BC6C /* noise.png */; settings = {ASSET_TAGS = (); }; };
 		8306CD331BD3B4C50025BC6C /* noise@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8306CD311BD3B4C50025BC6C /* noise@2x.png */; settings = {ASSET_TAGS = (); }; };
+		8306CD351BD3B7BC0025BC6C /* toolbar_toggle_template@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8306CD341BD3B7BB0025BC6C /* toolbar_toggle_template@2x.png */; };
+		8306CD371BD3D53B0025BC6C /* toolbar_toggle_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 8306CD361BD3D53B0025BC6C /* toolbar_toggle_template.png */; settings = {ASSET_TAGS = (); }; };
 		83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */; };
 		8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy SaveState QL Generator */ = {isa = PBXBuildFile; fileRef = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		830BBECB1B7BE979000B13CB /* OEGameViewNotificationRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 830BBECA1B7BE979000B13CB /* OEGameViewNotificationRenderer.m */; };
@@ -1780,6 +1782,8 @@
 		8306CD211BD3AC3D0025BC6C /* OESidebarOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarOutlineView.m; sourceTree = "<group>"; };
 		8306CD301BD3B4C50025BC6C /* noise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noise.png; sourceTree = "<group>"; };
 		8306CD311BD3B4C50025BC6C /* noise@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noise@2x.png"; sourceTree = "<group>"; };
+		8306CD341BD3B7BB0025BC6C /* toolbar_toggle_template@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar_toggle_template@2x.png"; sourceTree = "<group>"; };
+		8306CD361BD3D53B0025BC6C /* toolbar_toggle_template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toolbar_toggle_template.png; sourceTree = "<group>"; };
 		83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+OEHashingAdditions.h"; sourceTree = "<group>"; };
 		83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+OEHashingAdditions.m"; sourceTree = "<group>"; };
 		830BBEC91B7BE979000B13CB /* OEGameViewNotificationRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameViewNotificationRenderer.h; sourceTree = "<group>"; };
@@ -4071,6 +4075,8 @@
 		53439B9D13B93920005C0CC8 /* Interface Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				8306CD361BD3D53B0025BC6C /* toolbar_toggle_template.png */,
+				8306CD341BD3B7BB0025BC6C /* toolbar_toggle_template@2x.png */,
 				8306CD301BD3B4C50025BC6C /* noise.png */,
 				8306CD311BD3B4C50025BC6C /* noise@2x.png */,
 				83338C2117A281C7007E32E9 /* secret.mp3 */,
@@ -6852,6 +6858,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8306CD351BD3B7BC0025BC6C /* toolbar_toggle_template@2x.png in Resources */,
 				C6C3734316BE7BAF003E57AE /* OE Startup.qtz in Resources */,
 				8306CD261BD3AC3D0025BC6C /* OESidebarController.xib in Resources */,
 				1B32151514DDD49E00C5B50A /* OpenEmu.dae in Resources */,
@@ -6867,6 +6874,7 @@
 				83FE965119685A6A00DD8DB9 /* Preferences.xib in Resources */,
 				83DEF7C1196C403400C7DF57 /* ControlLabels.strings in Resources */,
 				83B04E421968610F00CB985E /* Localizable.strings in Resources */,
+				8306CD371BD3D53B0025BC6C /* toolbar_toggle_template.png in Resources */,
 				83FE9642196859B100DD8DB9 /* OEPrefCoresController.xib in Resources */,
 				83FE9646196859D300DD8DB9 /* OEPrefGameplayController.xib in Resources */,
 				83FE964A196859F800DD8DB9 /* OEPrefLibraryController.xib in Resources */,

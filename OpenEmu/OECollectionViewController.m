@@ -167,13 +167,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [blankSlateView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
     [blankSlateView setFrame:[[self view] bounds]];
 
-    // Watch the main thread's managed object context for changes
-    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
-
-    [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:OEDisplayGameTitle options:0 context:NULL];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
-
     // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
     // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
     // empty collection until -setRepresentedObject: is received again
@@ -507,7 +500,21 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 - (void)viewDidAppear
 {
     [super viewDidAppear];
-    [self reloadData];
+
+    // Watch the main thread's managed object context for changes
+    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
+
+    [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:OEDisplayGameTitle options:0 context:NULL];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
+}
+
+- (void)viewDidDisappear
+{
+    [super viewDidDisappear];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:OEDisplayGameTitle];
 }
 
 #pragma mark - Toolbar Actions
