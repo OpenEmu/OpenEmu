@@ -35,7 +35,6 @@
 #import <Quartz/Quartz.h> // for ImageKit
 
 #import "OECoverGridDataSourceItem.h"
-#import "OECoverFlowDataSourceItem.h"
 #import "OESidebarItem.h"
 #import "OEListViewDataSourceItem.h"
 #import "OEDBAllGamesCollection.h"
@@ -43,7 +42,7 @@
 #import "OEGameCollectionViewItemProtocol.h"
 
 extern NSString * const OECoverGridViewAutoDownloadEnabledKey;
-@interface OEDBGame (DataSourceAdditions) <OECoverGridDataSourceItem, OECoverFlowDataSourceItem, OEListViewDataSourceItem>
+@interface OEDBGame (DataSourceAdditions) <OECoverGridDataSourceItem, OEListViewDataSourceItem>
 + (NSImage*)artworkPlacholderWithAspectRatio:(CGFloat)ratio;
 @end
 

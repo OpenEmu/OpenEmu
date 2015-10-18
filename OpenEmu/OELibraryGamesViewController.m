@@ -98,11 +98,6 @@
     [[self collectionController] switchToListView:sender];
 }
 
-- (IBAction)switchToFlowView:(id)sender
-{
-    [[self collectionController] switchToFlowView:sender];
-}
-
 - (IBAction)search:(id)sender
 {
     [[self collectionController] search:sender];
@@ -116,8 +111,8 @@
 #pragma mark - Sidebar handling
 - (void)_updateCollectionContentsFromSidebar:(id)sender
 {
-    id sleectedItem = [[self sidebarController] selectedSidebarItem];
-    [[self collectionController] setRepresentedObject:sleectedItem];
+    id selectedItem = [[self sidebarController] selectedSidebarItem];
+    [[self collectionController] setRepresentedObject:selectedItem];
 }
 
 @end

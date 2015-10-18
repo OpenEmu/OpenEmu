@@ -8,7 +8,6 @@
         <customObject id="-2" userLabel="File's Owner" customClass="OECollectionViewController">
             <connections>
                 <outlet property="blankSlateView" destination="109" id="110"/>
-                <outlet property="coverFlowView" destination="10" id="101"/>
                 <outlet property="flowlistViewContainer" destination="4" id="65"/>
                 <outlet property="gridView" destination="95" id="KDt-aM-Nmy"/>
                 <outlet property="gridViewContainer" destination="0jF-GH-3Dc" id="rH2-Wc-Iu5"/>
@@ -20,22 +19,17 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <splitView dividerStyle="thin" id="4" userLabel="ListFlowView" customClass="OEHorizontalSplitView">
             <rect key="frame" x="0.0" y="0.0" width="735" height="669"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
             <subviews>
-                <customView id="10" customClass="IKImageFlowView">
-                    <rect key="frame" x="0.0" y="0.0" width="735" height="332"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <animations/>
-                </customView>
                 <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" scrollerKnobStyle="light" id="11" customClass="OEScrollView">
-                    <rect key="frame" x="0.0" y="333" width="735" height="336"/>
+                    <rect key="frame" x="0.0" y="0.0" width="735" height="669"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Kau-pV-nnr">
-                        <rect key="frame" x="0.0" y="17" width="735" height="319"/>
+                        <rect key="frame" x="0.0" y="0.0" width="735" height="669"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" autosaveColumns="NO" autosaveName="listView" headerView="12" id="13" customClass="OETableView">
-                                <rect key="frame" x="0.0" y="0.0" width="922" height="19"/>
+                                <rect key="frame" x="0.0" y="0.0" width="922" height="614"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <size key="intercellSpacing" width="3" height="2"/>
@@ -157,8 +151,9 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </clipView>
                     <animations/>
+                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="38" bottom="0.0"/>
                     <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="14" customClass="OEScroller">
-                        <rect key="frame" x="0.0" y="320" width="735" height="16"/>
+                        <rect key="frame" x="0.0" y="653" width="735" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </scroller>
@@ -176,9 +171,9 @@
             </subviews>
             <animations/>
             <holdingPriorities>
-                <real value="250"/>
-                <real value="250"/>
+                <real value="490"/>
             </holdingPriorities>
+            <point key="canvasLocation" x="352.5" y="106.5"/>
         </splitView>
         <customView id="109" customClass="OEBlankSlateView">
             <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>

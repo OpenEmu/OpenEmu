@@ -73,8 +73,7 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
     OEDBRom *rom = [self defaultROM];
     return !([[self status] isEqualTo:@(OEDBGameStatusDownloading)] || [rom source] == nil || [[rom URL] checkResourceIsReachableAndReturnError:nil]);
 }
-#pragma mark -
-#pragma mark CoverFlowDataSourceItem
+
 - (NSString *)imageUID
 {
     OEDBImage *image = [self boxImage];

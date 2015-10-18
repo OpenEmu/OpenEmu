@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" promptedForUpgradeToXcode5="NO">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -11,7 +11,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application">
+        <customObject id="-3" userLabel="Application" customClass="NSObject">
             <connections>
                 <outlet property="delegate" destination="805" id="806"/>
             </connections>
@@ -29,7 +29,8 @@
                     <imageView id="795">
                         <rect key="frame" x="0.0" y="0.0" width="400" height="463"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="8AC6882C-840E-4D7C-81EC-E038E249DC9C" id="804"/>
+                        <animations/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="EF261100-979E-4603-B04D-C650A0CAE30D" id="804"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" id="796">
                         <rect key="frame" x="17" y="184" width="366" height="18"/>
@@ -38,6 +39,7 @@
                             <size key="offset" width="0.0" height="1"/>
                             <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </shadow>
+                        <animations/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="803" userLabel="Text Field Cell - Label">
                             <font key="font" metaFont="systemBold" size="14"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -58,6 +60,7 @@
                             <size key="offset" width="0.0" height="1"/>
                             <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </shadow>
+                        <animations/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="center" title="Versione" id="1182" userLabel="Text Field Cell - Label">
                             <font key="font" metaFont="system" size="10"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -81,6 +84,7 @@
                                 <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" verticallyResizable="YES" linkDetection="YES" spellingCorrection="YES" id="1l5-5j-Ds9">
                                     <rect key="frame" x="0.0" y="0.0" width="300" height="85"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <animations/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <size key="minSize" width="300" height="85"/>
@@ -88,28 +92,8 @@
                                     <attributedString key="textStorage">
                                         <fragment>
                                             <string key="content">Ringraziamenti speciali a tutti coloro che hanno 
-</string>
-                                            <attributes>
-                                                <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <font key="NSFont" size="11" name="LucidaGrande"/>
-                                                <real key="NSKern" value="0.0"/>
-                                                <integer key="NSLigature" value="0"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.2249999999999999"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment>
-                                            <string key="content">reso OpenEmu possibile. Per saperne di più
-</string>
-                                            <attributes>
-                                                <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <font key="NSFont" size="11" name="LucidaGrande"/>
-                                                <real key="NSKern" value="0.0"/>
-                                                <integer key="NSLigature" value="0"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.2249999999999999"/>
-                                            </attributes>
-                                        </fragment>
-                                        <fragment>
-                                            <string key="content">riguardo i contributori, i core di emulazione, 
+reso OpenEmu possibile. Per saperne di più
+riguardo i contributori, i core di emulazione, 
 la documentazione, le licenze, e per segnalare
 bachi, visita la nostra pagina GitHub. </string>
                                             <attributes>
@@ -126,24 +110,29 @@ bachi, visita la nostra pagina GitHub. </string>
                                     <size key="maxSize" width="463" height="10000000"/>
                                 </textView>
                             </subviews>
+                            <animations/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </clipView>
                         <shadow key="shadow">
                             <size key="offset" width="0.0" height="1"/>
                             <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </shadow>
+                        <animations/>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="0Zy-n4-Kh1">
                             <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                             <autoresizingMask key="autoresizingMask"/>
+                            <animations/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="JS9-VV-Ksy">
                             <rect key="frame" x="-100" y="-100" width="16" height="75"/>
                             <autoresizingMask key="autoresizingMask"/>
+                            <animations/>
                         </scroller>
                     </scrollView>
                     <button focusRingType="none" id="cm1-gR-GtS" customClass="OEButton">
                         <rect key="frame" x="127" y="138" width="147" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <animations/>
                         <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="50H-ys-sAp" customClass="OEButtonCell">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -158,6 +147,7 @@ bachi, visita la nostra pagina GitHub. </string>
                     <button focusRingType="none" id="9lc-1E-ygn" customClass="OEButton">
                         <rect key="frame" x="113" y="17" width="176" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <animations/>
                         <buttonCell key="cell" type="bevel" title="www.github.com/openemu" bezelStyle="rounded" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="y9C-BZ-tbY" customClass="OEButtonCell">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -170,6 +160,7 @@ bachi, visita la nostra pagina GitHub. </string>
                         </connections>
                     </button>
                 </subviews>
+                <animations/>
             </view>
             <point key="canvasLocation" x="387" y="400.5"/>
         </window>
@@ -424,11 +415,6 @@ CA
                                     <action selector="switchToGridView:" target="-1" id="1151"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Come Cover Flow" tag="302" enabled="NO" keyEquivalent="2" id="1037">
-                                <connections>
-                                    <action selector="switchToFlowView:" target="-1" id="1152"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Come elenco" tag="303" enabled="NO" keyEquivalent="3" id="1036">
                                 <connections>
                                     <action selector="switchToListView:" target="-1" id="1153"/>
@@ -656,10 +642,10 @@ DQ
         <userDefaultsController representsSharedInstance="YES" id="1212"/>
     </objects>
     <resources>
-        <image name="8AC6882C-840E-4D7C-81EC-E038E249DC9C" width="400" height="463">
+        <image name="EF261100-979E-4603-B04D-C650A0CAE30D" width="400" height="463">
             <mutableData key="keyedArchiveRepresentation">
-YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
-GxwgISksLzU4VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
+YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
+GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
 DBIAwAAAgAKACtISCRMVWk5TLm9iamVjdHOhFIADgAnSEgkXGqIYGYAEgAWACBAA0h0JHh9fEBROU1RJ
 RkZSZXByZXNlbnRhdGlvboAGgAdPEgAIh3ZNTQAqAAh6WB4bMBwZLBwZLhwZKhsYKRwZLh0aKxsYKxwZ
 Lh4bLhoXKhoZKxsaLBsaLBsaLCEeMSAbLxoXKCYkOTMrQjczQaB7aKh/bWVQVysoOyIfMCEeMSUiNR0a
@@ -9926,7 +9912,7 @@ AQIAAwAAAAMACHr6AQMAAwAAAAEAAQAAAQYAAwAAAAEAAgAAAREABAAAAAUACHsUARIAAwAAAAEAAQAA
 ARUAAwAAAAEAAwAAARYAAwAAAAEAbQAAARcABAAAAAUACHsAARwAAwAAAAEAAQAAAVMAAwAAAAMACHso
 h3MABwAADEgACHsuAAAAAAAIAAgACAAB/vAAAf7wAAH+8AAB/vAAAH6QAAAACAAB/vgAA/3oAAX82AAH
 +8gAAQABAAEAAAxITGlubwIQAABtbnRyUkdCIFhZWiAHzgACAAkABgAxAABhY3NwTVNGVAAAAABJRUMg
-c1JHQgAAAAAAAAAAAAAAAAAA9tYAAQAAAADTLUhQICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+c1JHQgAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLUhQICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAABFjcHJ0AAABUAAAADNkZXNjAAABhAAAAGx3dHB0AAAB8AAAABRia3B0
 AAACBAAAABRyWFlaAAACGAAAABRnWFlaAAACLAAAABRiWFlaAAACQAAAABRkbW5kAAACVAAAAHBkbWRk
 AAACxAAAAIh2dWVkAAADTAAAAIZ2aWV3AAAD1AAAACRsdW1pAAAD+AAAABRtZWFzAAAEDAAAACR0ZWNo
@@ -9978,15 +9964,14 @@ yD3IvMk6ybnKOMq3yzbLtsw1zLXNNc21zjbOts83z7jQOdC60TzRvtI/0sHTRNPG1EnUy9VO1dHWVdbY
 11zX4Nhk2OjZbNnx2nba+9uA3AXcit0Q3ZbeHN6i3ynfr+A24L3hROHM4lPi2+Nj4+vkc+T85YTmDeaW
 5x/nqegy6LzpRunQ6lvq5etw6/vshu0R7ZzuKO6070DvzPBY8OXxcvH/8ozzGfOn9DT0wvVQ9d72bfb7
 94r4Gfio+Tj5x/pX+uf7d/wH/Jj9Kf26/kv+3P9t///SIiMkJVokY2xhc3NuYW1lWCRjbGFzc2VzXxAQ
-TlNCaXRtYXBJbWFnZVJlcKMmJyhfEBBOU0JpdG1hcEltYWdlUmVwWk5TSW1hZ2VSZXBYTlNPYmplY3TS
-IiMqK1dOU0FycmF5oioo0iIjLS5eTlNNdXRhYmxlQXJyYXmjLSoo0zAxCTIzNFdOU1doaXRlXE5TQ29s
-b3JTcGFjZUQwIDAAEAOAC9IiIzY3V05TQ29sb3KiNijSIiM5OldOU0ltYWdlojkoXxAPTlNLZXllZEFy
-Y2hpdmVy0T0+VHJvb3SAAQAAAAgAAAARAAAAGgAAACMAAAAtAAAAMgAAADcAAABFAAAASwAAAFQAAABb
-AAAAaAAAAG8AAAB3AAAAeQAAAH4AAACAAAAAggAAAIcAAACSAAAAlAAAAJYAAACYAAAAnQAAAKAAAACi
-AAAApAAAAKYAAACoAAAArQAAAMQAAADGAAAAyAAIiEQACIhJAAiIVAAIiF0ACIhwAAiIdAAIiIcACIiS
-AAiImwAIiKAACIioAAiIqwAIiLAACIi/AAiIwwAIiMoACIjSAAiI3wAIiOQACIjmAAiI6AAIiO0ACIj1
-AAiI+AAIiP0ACIkFAAiJCAAIiRoACIkdAAiJIgAAAAAAAAQBAAAAAAAAAD8AAAAAAAAAAAAAAAAACIkk
-A
+TlNCaXRtYXBJbWFnZVJlcKMkJidaTlNJbWFnZVJlcFhOU09iamVjdNIiIykqV05TQXJyYXmiKSfSIiMs
+LV5OU011dGFibGVBcnJheaMsKSfTLzAJMTIzV05TV2hpdGVcTlNDb2xvclNwYWNlRDAgMAAQA4AL0iIj
+NTZXTlNDb2xvcqI1J9IiIzg5V05TSW1hZ2WiOCdfEA9OU0tleWVkQXJjaGl2ZXLRPD1Ucm9vdIABAAAA
+CAAAABEAAAAaAAAAIwAAAC0AAAAyAAAANwAAAEUAAABLAAAAVAAAAFsAAABoAAAAbwAAAHcAAAB5AAAA
+fgAAAIAAAACCAAAAhwAAAJIAAACUAAAAlgAAAJgAAACdAAAAoAAAAKIAAACkAAAApgAAAKgAAACtAAAA
+xAAAAMYAAADIAAiIRAAIiEkACIhUAAiIXQAIiHAACIh0AAiIfwAIiIgACIiNAAiIlQAIiJgACIidAAiI
+rAAIiLAACIi3AAiIvwAIiMwACIjRAAiI0wAIiNUACIjaAAiI4gAIiOUACIjqAAiI8gAIiPUACIkHAAiJ
+CgAIiQ8AAAAAAAAEAQAAAAAAAAA+AAAAAAAAAAAAAAAAAAiJEQ
 </mutableData>
         </image>
     </resources>

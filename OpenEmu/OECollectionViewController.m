@@ -36,10 +36,8 @@
 
 #import "OETableHeaderCell.h"
 #import "OEListViewDataSourceItem.h"
-#import "OEHorizontalSplitView.h"
 
 #import "OECoverGridDataSourceItem.h"
-#import "OECoverFlowDataSourceItem.h"
 #import "OEBlankSlateView.h"
 
 #import "OEDBSystem.h"
@@ -73,13 +71,9 @@
 NSString * const OELastGridSizeKey       = @"lastGridSize";
 NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
-static const float OE_coverFlowHeightPercentage = 0.75;
-
 @interface OECollectionViewController ()
 {
     IBOutlet NSView *gridViewContainer;// gridview
-
-    IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
     IBOutlet OEBlankSlateView *blankSlateView;
 }
 
@@ -90,7 +84,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 {
     int _selectedViewTag;
 }
-@synthesize libraryController, listView=listView, coverFlowView=coverFlowView;
+@synthesize libraryController, listView=listView;
 
 + (void)initialize
 {
@@ -132,12 +126,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
     [sizeSlider setContinuous:YES];
-
-    // set up flow view
-    [coverFlowView setDelegate:self];
-    [coverFlowView setDataSource:self];
-    [coverFlowView setCellsAlignOnBaseline:YES];
-    [coverFlowView setCellBorderColor:[NSColor blueColor]];
 
     // Set up list view
     [listView setTarget:self];
@@ -253,7 +241,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         [coder finishDecoding];
 
         // Make sure selected view tag is valid
-        if(selectedViewTag != OEListViewTag && selectedViewTag != OEListViewTag && selectedViewTag != OEFlowViewTag)
+        if(selectedViewTag != OEListViewTag && selectedViewTag != OEGridViewTag)
             selectedViewTag = OEGridViewTag;
 
         // Make sure slider value is valid
@@ -343,11 +331,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [self OE_switchToView:OEGridViewTag];
 }
 
-- (IBAction)switchToFlowView:(id)sender
-{
-    [self OE_switchToView:OEFlowViewTag];
-}
-
 - (IBAction)switchToListView:(id)sender
 {
     [self OE_switchToView:OEListViewTag];
@@ -386,7 +369,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 - (void)OE_showView:(OECollectionViewControllerViewTag)tag
 {
     NSView *view;
-    float splitterPosition = -1;
     switch (tag) {
         case OEBlankSlateTag:
             view = blankSlateView;
@@ -394,19 +376,10 @@ static const float OE_coverFlowHeightPercentage = 0.75;
         case OEGridViewTag:
             view = gridViewContainer;
             break;
-        case OEFlowViewTag:
-            view = flowlistViewContainer;
-            splitterPosition = NSHeight([view frame]) * OE_coverFlowHeightPercentage;
-            break;
         case OEListViewTag:
-            view = flowlistViewContainer; //  TODO: fix splitter position here too
-            splitterPosition = 0.0f;
+            view = listView;
             break;
     }
-
-    // Set splitter position (makes the difference between flow and list view)
-    if(splitterPosition != -1)
-        [flowlistViewContainer setSplitterPosition:splitterPosition animated:NO];
 
     if([view superview] == [self view]) return;
 
@@ -446,10 +419,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
             break;
         case OEBlankSlateTag:
             [[[self libraryController] toolbarSlider] setEnabled:NO];
-            break;
-            
-            // Deprecated.
-        case OEFlowViewTag:
             break;
     }
 }
@@ -683,12 +652,8 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 //   if(!gamesController) return;
 //    [gamesController rearrangeObjects];
     [_gridView performSelectorOnMainThread:@selector(reloadData) withObject:Nil waitUntilDone:NO];
-    //[_gridView reloadCellsAtIndexes:indexSet];
     [listView reloadDataForRowIndexes:indexSet
                         columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
-    [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-        [coverFlowView reloadCellDataAtIndex:(int)idx];
-    }];
 }
 
 - (void)_reloadVisibleData
@@ -702,7 +667,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     //[_gridView reloadCellsAtIndexes:[_gridView indexesForVisibleCells]];
     [listView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndexesInRange:[listView rowsInRect:[listView visibleRect]]]
                         columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
-    [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 - (void)reloadData
@@ -715,8 +679,7 @@ static const float OE_coverFlowHeightPercentage = 0.75;
 
     [_gridView reloadData];
     [listView reloadData];
-    [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-    
+
     [self updateBlankSlate];
 }
 

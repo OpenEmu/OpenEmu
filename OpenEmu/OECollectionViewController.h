@@ -36,13 +36,11 @@
 #import "OECollectionViewItemProtocol.h"
 
 @class OELibraryController;
-@class OEHorizontalSplitView;
 @class OEArrayController;
 
 typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
     OEBlankSlateTag = -1,
     OEGridViewTag   = 0,
-    OEFlowViewTag   = 1, // Deprecated.
     OEListViewTag   = 2
 };
 
@@ -63,29 +61,24 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 - (NSArray *)selectedGames;
 @property (nonatomic) NSIndexSet *selectionIndexes;
 
-#pragma mark - View Selection
+#pragma mark - Toolbar
 - (IBAction)switchToGridView:(id)sender;
-- (IBAction)switchToFlowView:(id)sender;
 - (IBAction)switchToListView:(id)sender;
-
-#pragma mark - Toolbar Actions
 - (IBAction)search:(id)sender;
 - (IBAction)changeGridSize:(id)sender;
 
 - (IBAction)deleteSelectedItems:(id)sender;
 
-#pragma mark -
-#pragma mark Context Menu
+#pragma mark - Context Menu
 - (NSMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes;
 
 #pragma mark -
 - (id <OECollectionViewItemProtocol>)representedObject;
-#pragma mark -
+
 @property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
 @end
 
 @interface OECollectionViewController ()
-@property (assign) IBOutlet IKImageFlowView *coverFlowView;
 @property (assign) IBOutlet OETableView     *listView;
 @property (assign) IBOutlet OEGridView      *gridView;
 - (void)OE_switchToView:(OECollectionViewControllerViewTag)tag;

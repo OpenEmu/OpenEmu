@@ -48,7 +48,6 @@ extern NSString * const OELibraryStatesKey;
 #pragma mark - Toolbar
 - (IBAction)switchToGridView:(id)sender;
 - (IBAction)switchToListView:(id)sender;
-- (IBAction)switchToFlowView:(id)sender;
 - (IBAction)search:(id)sender;
 - (IBAction)changeGridSize:(id)sender;
 - (IBAction)addCollectionAction:(id)sender;

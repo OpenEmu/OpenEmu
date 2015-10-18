@@ -10,7 +10,6 @@
                 <outlet property="mainContentPlaceholderView" destination="404" id="658"/>
                 <outlet property="mainSplitView" destination="393" id="511"/>
                 <outlet property="toolbarAddToSidebarButton" destination="652" id="654"/>
-                <outlet property="toolbarFlowViewButton" destination="620" id="643"/>
                 <outlet property="toolbarGridViewButton" destination="626" id="638"/>
                 <outlet property="toolbarListViewButton" destination="625" id="639"/>
                 <outlet property="toolbarSearchField" destination="623" id="640"/>
@@ -78,21 +77,6 @@
                                     </userDefinedRuntimeAttributes>
                                     <connections>
                                         <action selector="switchToGridView:" target="-2" id="698"/>
-                                    </connections>
-                                </button>
-                                <button id="620" userLabel="Flow View Mode Button" customClass="OEButton">
-                                    <rect key="frame" x="101" y="10" width="27" height="23"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <animations/>
-                                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" borderStyle="border" inset="2" id="633" customClass="OEButtonCell">
-                                        <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_view_button_flow"/>
-                                    </userDefinedRuntimeAttributes>
-                                    <connections>
-                                        <action selector="switchToFlowView:" target="-2" id="699"/>
                                     </connections>
                                 </button>
                                 <button id="625" userLabel="List View Mode Button" customClass="OEButton">

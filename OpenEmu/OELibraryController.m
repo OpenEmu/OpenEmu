@@ -165,12 +165,6 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
         [[self currentViewController] performSelector:@selector(switchToListView:) withObject:sender];
 }
 
-- (IBAction)switchToFlowView:(id)sender
-{
-    if([[self currentViewController] respondsToSelector:@selector(switchToFlowView:)])
-        [[self currentViewController] performSelector:@selector(switchToFlowView:) withObject:sender];
-}
-
 - (IBAction)search:(id)sender
 {
     if([[self currentViewController] respondsToSelector:@selector(search:)])

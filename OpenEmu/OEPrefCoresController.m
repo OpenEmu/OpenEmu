@@ -154,9 +154,9 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
         [style setLineBreakMode:NSLineBreakByTruncatingTail];
         
         attr = @{
-                 NSFontAttributeName : [NSFont systemFontOfSize:11],
+                 NSFontAttributeName : [NSFont systemFontOfSize:11 weight:weight],
                  NSForegroundColorAttributeName : color,
-                 NSParagraphStyleAttributeName : style
+                 NSParagraphStyleAttributeName : style,
                  };
         [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
     }
