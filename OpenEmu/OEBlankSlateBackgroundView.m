@@ -51,8 +51,6 @@
 
 - (void)OE_commonInit
 {
-    OEBackgroundNoisePatternCreate();
-
     const NSRect bounds = [self bounds];
 
     [self setWantsLayer:YES];

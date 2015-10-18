@@ -77,7 +77,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
 - (NSString *)nibName
 {
-    return @"Library";
+    return @"OELibraryController";
 }
 
 - (void)loadView
