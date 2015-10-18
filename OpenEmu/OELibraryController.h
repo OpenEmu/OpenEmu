@@ -99,6 +99,9 @@ extern NSString * const OELibraryStatesKey;
 @property (assign) IBOutlet NSView *leftToolbarView;
 @property (assign) IBOutlet NSView *rightToolbarView;
 
+@property (assign) IBOutlet NSButton *screenshotsButton;
+@property (assign) IBOutlet NSButton *savestateButton;
+@property (assign) IBOutlet NSButton *featuredGamesButton;
 @end
 
 @class OEDBGame, OEDBRom, OEDBSaveState;

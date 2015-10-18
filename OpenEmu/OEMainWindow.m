@@ -29,8 +29,7 @@
 #define titleBarHeight 21.0
 
 @implementation OEMainWindow
-#pragma mark -
-#pragma mark Custom Theme Drawing
+
 + (void)initialize
 {
     // Make sure not to reinitialize for subclassed objects

@@ -470,8 +470,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 }
 
 - (void)outlineViewSelectionIsChanging:(NSNotification *)notification
-{
-}
+{}
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {

@@ -172,7 +172,6 @@ static const float OE_coverFlowHeightPercentage = 0.75;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
 
     [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:OEDisplayGameTitle options:0 context:NULL];
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
 
     // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate

@@ -224,30 +224,65 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 }
 
 #pragma mark - Overlay Views
+- (void)_clearToolbarButtons {
+    [[self savestateButton] setState:NSOffState];
+    [[self screenshotsButton] setState:NSOffState];
+    [[self featuredGamesButton] setState:NSOffState];
+}
+
 - (IBAction)toggleSaveStateView:(id)sender
 {
+    if([[self savestateButton] state] != NSOnState){
+        [self _removeCurrentOverlayController];
+        [self _clearToolbarButtons];
+        return;
+    }
+
+
     OEMediaViewController *controller = [[OEMediaViewController alloc] init];
     [controller setLibraryController:self];
     [controller setRepresentedObject:[OEDBSavedGamesMedia sharedDBSavedGamesMedia]];
 
     [self _showOverlayController:controller];
+
+    [self _clearToolbarButtons];
+    [[self savestateButton] setState:NSOnState];
 }
 
 - (IBAction)toggleScreenshotView:(id)sender
 {
+    if([[self screenshotsButton] state] != NSOnState){
+        [self _removeCurrentOverlayController];
+        [self _clearToolbarButtons];
+        return;
+    }
+
     OEMediaViewController *controller = [[OEMediaViewController alloc] init];
     [controller setLibraryController:self];
     [controller setRepresentedObject:[OEDBScreenshotsMedia sharedDBScreenshotsMedia]];
 
     [self _showOverlayController:controller];
+
+
+    [self _clearToolbarButtons];
+    [[self screenshotsButton] setState:NSOnState];
 }
 
 - (IBAction)toggleHomebrewView:(id)sender
 {
+    if([[self featuredGamesButton] state] != NSOnState){
+        [self _removeCurrentOverlayController];
+        [self _clearToolbarButtons];
+        return;
+    }
+
     OEFeaturedGamesViewController *controller = [[OEFeaturedGamesViewController alloc] init];
     [controller setLibraryController:self];
 
     [self _showOverlayController:controller];
+
+    [self _clearToolbarButtons];
+    [[self featuredGamesButton] setState:NSOnState];
 }
 
 - (void)_showOverlayController:(NSViewController<OELibrarySubviewController>*)newViewController
@@ -255,6 +290,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     [self _removeCurrentOverlayController];
 
     NSView *newView = [newViewController view];
+    NSLog(@"_showOverlayController: %@", [newView subviews]);
     [newView setFrame:[[self view] bounds]];
     [newView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [[self view] addSubview:newView];

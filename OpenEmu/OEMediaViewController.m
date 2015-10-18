@@ -217,11 +217,7 @@
 }
 
 - (void)fetchItems
-{
-    _items       = @[];
-    _groupRanges = @[];
-    return;
-    
+{   
 #pragma TODO(Improve group detection)
     if([self representedObject] == nil) return;
 

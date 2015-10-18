@@ -37,7 +37,6 @@
 #import "OEDBGame.h"
 #import "OEDBSystem.h"
 #import "OEDBSaveState.h"
-#import "OEGameScannerViewController.h"
 
 NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 
