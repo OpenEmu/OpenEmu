@@ -1,7 +1,7 @@
 # Xcode
-*.DS_Store
+.DS_Store
 OEBuildVersion.h
-*/build/*
+build/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -13,9 +13,8 @@ OEBuildVersion.h
 *.xcworkspace
 !OpenEmu.xcworkspace
 !default.xcworkspace
-xcuserdata
+xcuserdata/
 *.xccheckout
 profile
 *.moved-aside
-icon?
-DerivedData
+DerivedData/
