@@ -77,7 +77,7 @@ enum _OEHelperAppErrorCodes
     // Alternate-thread rendering
     CGLPixelFormatObj     _glPixelFormat;
     CGLContextObj         _alternateContext;
-    GLuint                _tempFBO;
+    GLuint                _alternateFBO;
     GLuint                _tempRB[2];
 
     // OE stuff

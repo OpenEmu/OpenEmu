@@ -52,6 +52,8 @@
     BOOL _hasSlowClientStorage;
 }
 
+@synthesize enableVSync=_enableVSync;
+
 #pragma mark -
 
 - (void)launchApplication
@@ -78,7 +80,10 @@
     _gameAudio = [[OEGameAudio alloc] initWithCore:_gameCore];
     [_gameAudio setVolume:1.0];
 
-    if(![_gameCore rendersToOpenGL])
+    OEGameCoreRendering rendering = _gameCore.gameCoreRendering;
+    NSAssert(rendering == OEGameCoreRendering2DVideo || rendering == OEGameCoreRenderingOpenGL2Video, @"Other 3D APIs not implemented yet");
+
+    if(rendering == OEGameCoreRendering2DVideo)
         [self setupGameTexture];
 
     // ensure we set _screenSize corectly from the get go
@@ -253,9 +258,9 @@
     GLenum internalPixelFormat, pixelFormat, pixelType;
 
     bufferSize  = [_gameCore bufferSize];
-    videoBuffer = [_gameCore videoBuffer];
+    videoBuffer = [_gameCore getVideoBufferWithHint:nil];
 
-    internalPixelFormat = [_gameCore internalPixelFormat];
+    internalPixelFormat = GL_RGB;
     pixelFormat         = [_gameCore pixelFormat];
     pixelType           = [_gameCore pixelType];
 
@@ -298,7 +303,17 @@
 - (void)updateGameTexture
 {
     CGLContextObj cgl_ctx = _glContext;
-    OEIntSize bufferSize = [_gameCore bufferSize];
+    OEIntSize  bufferSize;
+    const void *videoBuffer;
+
+    GLenum internalPixelFormat, pixelFormat, pixelType;
+
+    bufferSize  = [_gameCore bufferSize];
+    videoBuffer = [_gameCore getVideoBufferWithHint:nil];
+
+    internalPixelFormat = GL_RGB;
+    pixelFormat         = [_gameCore pixelFormat];
+    pixelType           = [_gameCore pixelType];
 
     glEnable(GL_TEXTURE_RECTANGLE_ARB);
 
@@ -306,7 +321,7 @@
 
     if(!_hasSlowClientStorage) glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-    glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, bufferSize.width, bufferSize.height, [_gameCore pixelFormat], [_gameCore pixelType], [_gameCore videoBuffer]);
+    glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, bufferSize.width, bufferSize.height, pixelFormat, pixelType, videoBuffer);
 
     GLenum status = glGetError();
     if(status)
@@ -364,7 +379,7 @@
     status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
     if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
     {
-        if(![_gameCore rendersToOpenGL])
+        if(_gameCore.gameCoreRendering == OEGameCoreRendering2DVideo)
         {
             // Setup OpenGL states
             glViewport(0, 0, bufferSize.width, bufferSize.height);
@@ -397,9 +412,7 @@
 {
     CGLContextObj cgl_ctx = _glContext;
 
-    BOOL rendersToOpenGL = [_gameCore rendersToOpenGL];
-
-    if(!rendersToOpenGL)
+    if(_gameCore.gameCoreRendering == OEGameCoreRendering2DVideo)
     {
         // Restore OpenGL states
         glMatrixMode(GL_MODELVIEW);
@@ -695,7 +708,7 @@
 
 - (BOOL)isEmulationPaused
 {
-    return [_gameCore isEmulationPaused];
+    return _gameCore.rate == 0;
 }
 
 #pragma mark - OEGameCoreHelper methods
@@ -708,7 +721,7 @@
 
 - (void)setPauseEmulation:(BOOL)paused
 {
-    [[self gameCoreProxy] setPauseEmulation:paused];
+    [[self gameCoreProxy] setRate:paused ? 0 : 1.0];
 }
 
 - (void)setDrawSquarePixels:(BOOL)value
@@ -829,18 +842,24 @@
 
 - (void)setEnableVSync:(BOOL)flag
 {
+    _enableVSync = flag;
     [self updateEnableVSync:flag];
+}
+
+- (BOOL)hasAlternateThreadContext
+{
+    return _alternateContext != NULL;
 }
 
 - (void)willExecute
 {
-    if([_gameCore rendersToOpenGL])
+    if(_gameCore.gameCoreRendering != OEGameCoreRendering2DVideo)
         [self beginDrawToIOSurface];
 }
 
 - (void)didExecute
 {
-    if(![_gameCore rendersToOpenGL])
+    if(_gameCore.gameCoreRendering == OEGameCoreRendering2DVideo)
     {
         [self updateGameTexture];
         [self beginDrawToIOSurface];
@@ -868,8 +887,8 @@
     CGLSetCurrentContext(_alternateContext);
 
     // Create an FBO for 3D games to draw into, so they don't accidentally update the IOSurface
-    glGenFramebuffersEXT(1, &_tempFBO);
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _tempFBO);
+    glGenFramebuffersEXT(1, &_alternateFBO);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _alternateFBO);
 
     OEIntSize surfaceSize = _screenSize;
 
@@ -888,22 +907,24 @@
         NSLog(@"Cannot create temp FBO");
         NSLog(@"OpenGL error %04X", status);
 
-        glDeleteFramebuffersEXT(1, &_tempFBO);
+        glDeleteFramebuffersEXT(1, &_alternateFBO);
     }
 
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _tempFBO);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _alternateFBO);
 }
 
 - (void)willRenderFrameOnAlternateThread
 {
-
+    if (_alternateFBO == 0) {
+        [self startRenderingOnAlternateThread];
+    }
 }
 
 - (void)didRenderFrameOnAlternateThread
 {
     CGLContextObj cgl_ctx = _alternateContext;
 
-    glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, _tempFBO);
+    glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, _alternateFBO);
     glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, _gameFBO);
 
     OEIntSize surfaceSize = _screenSize;
@@ -914,7 +935,7 @@
     glFlushRenderAPPLE();
 
     // If we need to do GL commands in endDrawToIOSurface, use glFenceSync here and glWaitSync there?
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _tempFBO);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _alternateFBO);
 }
 
 #pragma mark - OEAudioDelegate
