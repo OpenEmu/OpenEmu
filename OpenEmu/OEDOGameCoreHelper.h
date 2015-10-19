@@ -39,7 +39,6 @@
 - (oneway void)setVolume:(CGFloat)value;
 - (oneway void)setPauseEmulation:(BOOL)pauseEmulation;
 - (oneway void)setAudioOutputDeviceID:(AudioDeviceID)deviceID;
-- (oneway void)setDrawSquarePixels:(BOOL)drawSquarePixels;
 
 - (oneway void)setupEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier;
 - (oneway void)startEmulationWithDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate messageIdentifier:(NSString *)identifier;

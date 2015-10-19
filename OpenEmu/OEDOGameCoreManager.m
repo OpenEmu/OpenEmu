@@ -204,11 +204,6 @@
     [_rootProxy setAudioOutputDeviceID:deviceID];
 }
 
-- (void)setDrawSquarePixels:(BOOL)drawSquarePixels;
-{
-    [_rootProxy setDrawSquarePixels:drawSquarePixels];
-}
-
 - (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
 {
     void *blk = _Block_copy((__bridge void *)handler);

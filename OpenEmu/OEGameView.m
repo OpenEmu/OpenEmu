@@ -1021,7 +1021,6 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
         _filterName = [value copy];
 
         [self OE_refreshFilterRenderer];
-        [[self delegate] gameView:self setDrawSquarePixels:NO];
     }
 }
 
@@ -1222,7 +1221,6 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     if(_delegate != value)
     {
         _delegate = value;
-        [_delegate gameView:self setDrawSquarePixels:NO];
     }
 }
 

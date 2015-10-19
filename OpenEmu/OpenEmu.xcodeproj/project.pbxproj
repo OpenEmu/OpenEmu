@@ -190,6 +190,8 @@
 		3887A8071024D2BC000FC4CF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8041024D2BC000FC4CF /* main.c */; };
 		3887A8971024D796000FC4CF /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3887A8961024D796000FC4CF /* QuickLook.framework */; };
 		3D1D8D821650C22900DBC37D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1D8D811650C22900DBC37D /* Accelerate.framework */; };
+		3D41E8EB1BD4959300A76EFD /* OEOpenGL2GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */; };
+		3D41E8EC1BD4959300A76EFD /* OEOpenGL2GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */; };
 		3DFAB00D144644D4005EF0C3 /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
 		4FC6C54519AD7C4D00231545 /* controller_colecovision@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FC6C54019AD7BBB00231545 /* controller_colecovision@2x.png */; };
 		4FC6C54619AD7C5B00231545 /* controller_colecovision_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FC6C53F19AD7BBB00231545 /* controller_colecovision_mask@2x.png */; };
@@ -246,7 +248,7 @@
 		53D32E4D13B95F6200A6ACE0 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E4B13B95F5400A6ACE0 /* QTKit.framework */; };
 		53D32E4E13B95F9A00A6ACE0 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */; };
 		53D32E4F13B95F9A00A6ACE0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */; };
-		556CEBF01BCE173B00F00EAA /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */; settings = {ASSET_TAGS = (); }; };
+		556CEBF01BCE173B00F00EAA /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */; };
 		820EB7421483F9A2008EC398 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
 		82277547148946DF00B19E27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -272,17 +274,17 @@
 		83025E66146BE68E00A06EF9 /* OECoreTableProgressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83025E65146BE68D00A06EF9 /* OECoreTableProgressCell.m */; };
 		8305267513FBC999006179C6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8305267413FBC999006179C6 /* Security.framework */; };
 		8305A48018FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8305A47F18FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m */; };
-		8306CD101BD3AC180025BC6C /* OELibraryGamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD0E1BD3AC180025BC6C /* OELibraryGamesViewController.m */; settings = {ASSET_TAGS = (); }; };
-		8306CD111BD3AC180025BC6C /* OELibraryGamesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8306CD0F1BD3AC180025BC6C /* OELibraryGamesViewController.xib */; settings = {ASSET_TAGS = (); }; };
-		8306CD261BD3AC3D0025BC6C /* OESidebarController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8306CD1A1BD3AC3D0025BC6C /* OESidebarController.xib */; settings = {ASSET_TAGS = (); }; };
+		8306CD101BD3AC180025BC6C /* OELibraryGamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD0E1BD3AC180025BC6C /* OELibraryGamesViewController.m */; };
+		8306CD111BD3AC180025BC6C /* OELibraryGamesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8306CD0F1BD3AC180025BC6C /* OELibraryGamesViewController.xib */; };
+		8306CD261BD3AC3D0025BC6C /* OESidebarController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8306CD1A1BD3AC3D0025BC6C /* OESidebarController.xib */; };
 		8306CD2A1BD3AD480025BC6C /* OESidebarBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD141BD3AC3D0025BC6C /* OESidebarBackgroundView.m */; };
 		8306CD2B1BD3AD480025BC6C /* OESidebarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD161BD3AC3D0025BC6C /* OESidebarCell.m */; };
 		8306CD2C1BD3AD480025BC6C /* OESidebarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD181BD3AC3D0025BC6C /* OESidebarController.m */; };
 		8306CD2D1BD3AD480025BC6C /* OESidebarFieldEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD1C1BD3AC3D0025BC6C /* OESidebarFieldEditor.m */; };
 		8306CD2E1BD3AD480025BC6C /* OESidebarGroupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD1E1BD3AC3D0025BC6C /* OESidebarGroupItem.m */; };
 		8306CD2F1BD3AD480025BC6C /* OESidebarOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD211BD3AC3D0025BC6C /* OESidebarOutlineView.m */; };
-		8306CD3A1BD3DB020025BC6C /* OEGameScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD391BD3DB020025BC6C /* OEGameScannerViewController.m */; settings = {ASSET_TAGS = (); }; };
-		8306CD3E1BD3DB180025BC6C /* OEGameCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD3C1BD3DB180025BC6C /* OEGameCollectionViewController.m */; settings = {ASSET_TAGS = (); }; };
+		8306CD3A1BD3DB020025BC6C /* OEGameScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD391BD3DB020025BC6C /* OEGameScannerViewController.m */; };
+		8306CD3E1BD3DB180025BC6C /* OEGameCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8306CD3C1BD3DB180025BC6C /* OEGameCollectionViewController.m */; };
 		83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */; };
 		8309A77F166CE52D0013AD4A /* OESaveStateQLPlugin.qlgenerator in Copy SaveState QL Generator */ = {isa = PBXBuildFile; fileRef = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		830BBECB1B7BE979000B13CB /* OEGameViewNotificationRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 830BBECA1B7BE979000B13CB /* OEGameViewNotificationRenderer.m */; };
@@ -428,10 +430,10 @@
 		83F4DE2314E00FF100A82E36 /* controller_ngp_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2114E00F8800A82E36 /* controller_ngp_mask.png */; };
 		83F4DE2614E0131800A82E36 /* controller_gb_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */; };
 		83F4DE2914E0169900A82E36 /* controller_genesis_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */; };
-		83F607731BD3E4C9001236FC /* hud_quicksave_notification.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F6076F1BD3E4C9001236FC /* hud_quicksave_notification.png */; settings = {ASSET_TAGS = (); }; };
-		83F607741BD3E4C9001236FC /* hud_quicksave_notification@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F607701BD3E4C9001236FC /* hud_quicksave_notification@2x.png */; settings = {ASSET_TAGS = (); }; };
-		83F607751BD3E4C9001236FC /* hud_screenshot_notification.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F607711BD3E4C9001236FC /* hud_screenshot_notification.png */; settings = {ASSET_TAGS = (); }; };
-		83F607761BD3E4C9001236FC /* hud_screenshot_notification@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F607721BD3E4C9001236FC /* hud_screenshot_notification@2x.png */; settings = {ASSET_TAGS = (); }; };
+		83F607731BD3E4C9001236FC /* hud_quicksave_notification.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F6076F1BD3E4C9001236FC /* hud_quicksave_notification.png */; };
+		83F607741BD3E4C9001236FC /* hud_quicksave_notification@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F607701BD3E4C9001236FC /* hud_quicksave_notification@2x.png */; };
+		83F607751BD3E4C9001236FC /* hud_screenshot_notification.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F607711BD3E4C9001236FC /* hud_screenshot_notification.png */; };
+		83F607761BD3E4C9001236FC /* hud_screenshot_notification@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F607721BD3E4C9001236FC /* hud_screenshot_notification@2x.png */; };
 		83F7DBAF18C0E2470029199C /* OEFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7DBAE18C0E2470029199C /* OEFileManager.m */; };
 		83F7EADA171D911400D32E26 /* OESearchField.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F7EAD9171D911400D32E26 /* OESearchField.m */; };
 		83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711813136368330034379A /* AppKit.framework */; };
@@ -1631,6 +1633,9 @@
 		3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OESaveStateQLPlugin-Info.plist"; sourceTree = "<group>"; };
 		3887A8961024D796000FC4CF /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		3D1D8D811650C22900DBC37D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		3D41E8E51BD47DEF00A76EFD /* OEGameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameRenderer.h; sourceTree = "<group>"; };
+		3D41E8E91BD4959300A76EFD /* OEOpenGL2GameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOpenGL2GameRenderer.h; sourceTree = "<group>"; };
+		3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOpenGL2GameRenderer.m; sourceTree = "<group>"; };
 		3D711838150064F50056E3BF /* PSYBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSYBlockTimer.h; sourceTree = "<group>"; };
 		3D711839150064F50056E3BF /* PSYBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSYBlockTimer.m; sourceTree = "<group>"; };
 		4FC6C53F19AD7BBB00231545 /* controller_colecovision_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_colecovision_mask@2x.png"; sourceTree = "<group>"; };
@@ -3553,6 +3558,7 @@
 		1BEF2A621168265D0090F72B /* Helper App (IOSurface helper) */ = {
 			isa = PBXGroup;
 			children = (
+				3D41E8E41BD47DA300A76EFD /* Renderers */,
 				C6AC9D371190C5E60083DDFD /* OpenEmuHelperAppMain.m */,
 				1BEF2A7311682A330090F72B /* OpenEmuHelperApp.h */,
 				1BEF2A7411682A330090F72B /* OpenEmuHelperApp.m */,
@@ -3811,6 +3817,16 @@
 				3887A8041024D2BC000FC4CF /* main.c */,
 			);
 			name = OpenEmuQLGenerator;
+			sourceTree = "<group>";
+		};
+		3D41E8E41BD47DA300A76EFD /* Renderers */ = {
+			isa = PBXGroup;
+			children = (
+				3D41E8E51BD47DEF00A76EFD /* OEGameRenderer.h */,
+				3D41E8E91BD4959300A76EFD /* OEOpenGL2GameRenderer.h */,
+				3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */,
+			);
+			name = Renderers;
 			sourceTree = "<group>";
 		};
 		53439A8613B92BEB005C0CC8 /* HUD */ = {
@@ -7514,6 +7530,7 @@
 				C6772A851710C9C400ED580A /* OECorePlugin.m in Sources */,
 				C609619B179B74DE00239067 /* OESystemPlugin.m in Sources */,
 				1BEF2CA011684E7E0090F72B /* OEGameAudio.m in Sources */,
+				3D41E8EC1BD4959300A76EFD /* OEOpenGL2GameRenderer.m in Sources */,
 				1BEF2A9C11682A5E0090F72B /* OpenEmuHelperApp.m in Sources */,
 				1BEF2D15116855690090F72B /* OETaskWrapper.m in Sources */,
 				C6AC9D391190C6490083DDFD /* OpenEmuHelperAppMain.m in Sources */,
@@ -7649,6 +7666,7 @@
 				53439B6E13B932DB005C0CC8 /* OEPrefLibraryController.m in Sources */,
 				53439B7113B932ED005C0CC8 /* OEPrefGameplayController.m in Sources */,
 				53439B7413B932FA005C0CC8 /* OEPrefControlsController.m in Sources */,
+				3D41E8EB1BD4959300A76EFD /* OEOpenGL2GameRenderer.m in Sources */,
 				53439B7713B93303005C0CC8 /* OEPrefCoresController.m in Sources */,
 				53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */,
 				53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */,

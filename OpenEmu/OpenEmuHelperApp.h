@@ -57,52 +57,8 @@ enum _OEHelperAppErrorCodes
 };
 
 @interface OpenEmuHelperApp : NSResponder <NSApplicationDelegate, OEGameCoreHelper, OERenderDelegate, OEAudioDelegate>
-{
-@private
-    NSRunningApplication *_parentApplication; // the process id of the parent app (Open Emu or our debug helper)
 
-    // IOSurface requirements
-    IOSurfaceRef          _surfaceRef;
-
-    // GL Requirements
-    CGLContextObj         _glContext;
-    GLuint                _gameTexture;      // this is the texture that is defined by the gameCores pixelFormat and type
-    GLuint                _gameFBO;          // this FBO uses the IOSurfaceTexture as an attachment and renders the gameTexture to 'square pixels'
-    GLuint                _ioSurfaceTexture; // square pixel, bufferSize texture sent off to our Parent App for display. Yay.
-    GLuint                _depthStencilRB;   // FBO RenderBuffer Attachment for depth and stencil buffer
-
-    // poll parent ID, KVO does not seem to be working with NSRunningApplication
-    NSTimer              *_pollingTimer;
-
-    // Alternate-thread rendering
-    CGLPixelFormatObj     _glPixelFormat;
-    CGLContextObj         _alternateContext;
-    GLuint                _alternateFBO;
-    GLuint                _tempRB[2];
-
-    // OE stuff
-    OEThreadProxy        *_gameCoreProxy;
-    OEGameCoreController *_gameController;
-    OEGameAudio          *_gameAudio;
-
-    // screen subrect stuff
-    OEIntSize             _previousScreenSize;
-    CGFloat               _gameAspectRatio;
-
-    BOOL                  _hasStartedAudio;
-}
-
-@property BOOL loadedRom;
-@property(readonly, getter=isRunning) BOOL running;
-
-@property(readonly) OEIntSize screenSize;
-@property(readonly) OEIntSize aspectSize;
-@property(readonly) BOOL isEmulationPaused;
-
-@property(nonatomic) BOOL drawSquarePixels;
-@property(readonly) IOSurfaceID surfaceID;
 @property id<OEGameCoreDisplayHelper> displayHelper;
-
 @property(readonly) OEGameCore *gameCoreProxy;
 @property(readonly) OEGameCore *gameCore;
 @property(readonly) Protocol *gameSystemResponderClientProtocol;
@@ -110,32 +66,5 @@ enum _OEHelperAppErrorCodes
 - (void)launchApplication;
 
 - (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion withCorePluginAtPath:(NSString *)pluginPath systemIdentifier:(NSString *)systemIdentifier error:(NSError **)error;
-- (void)setupProcessPollingTimer;
-- (void)quitHelperTool;
-
-#pragma mark - IOSurface and GL Render
-
-- (void)setupOpenGLOnScreen:(NSScreen *)screen;
-- (void)setupIOSurface;
-- (void)setupFBO;
-- (void)setupGameTexture;
-- (void)pollParentProcess;
-- (void)setupGameCoreAudioAndVideo;
-- (void)updateGameTexture;
-
-- (void)beginDrawToIOSurface;
-- (void)drawGameTexture;
-- (void)endDrawToIOSurface;
-- (void)destroySurface;
-- (void)updateScreenSize;
-
-- (void)updateEnableVSync:(BOOL)enable;
-- (void)updateScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-- (void)updateAspectSize:(OEIntSize)newAspectSize;
-
-#pragma mark - OE Render Delegate protocol methods
-
-- (void)willExecute;
-- (void)didExecute;
 
 @end

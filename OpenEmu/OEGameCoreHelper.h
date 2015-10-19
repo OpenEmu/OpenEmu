@@ -33,7 +33,6 @@
 - (void)setVolume:(CGFloat)value;
 - (void)setPauseEmulation:(BOOL)pauseEmulation;
 - (void)setAudioOutputDeviceID:(AudioDeviceID)deviceID;
-- (void)setDrawSquarePixels:(BOOL)drawSquarePixels;
 
 - (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler;

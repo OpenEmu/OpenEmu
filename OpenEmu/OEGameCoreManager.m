@@ -82,11 +82,6 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
     [[self gameCoreHelper] setAudioOutputDeviceID:deviceID];
 }
 
-- (void)setDrawSquarePixels:(BOOL)drawSquarePixels;
-{
-    [[self gameCoreHelper] setDrawSquarePixels:drawSquarePixels];
-}
-
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled
 {
     [[self gameCoreHelper] setCheat:cheatCode withType:type enabled:enabled];

@@ -105,7 +105,6 @@ enum _OEGameDocumentErrorCodes
 
 #pragma mark - OEGameViewController Methods
 
-- (void)gameViewController:(OEGameViewController *)sender setDrawSquarePixels:(BOOL)drawSquarePixels;
 - (void)gameViewController:(OEGameViewController *)sender didReceiveMouseEvent:(OEEvent *)event;
 
 @end

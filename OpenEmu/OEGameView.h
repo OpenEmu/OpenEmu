@@ -72,6 +72,5 @@ extern NSString * const OEDefaultVideoFilterKey;
 
 @protocol OEGameViewDelegate <NSObject>
 - (NSString *)systemIdentifier;
-- (void)gameView:(OEGameView *)gameView setDrawSquarePixels:(BOOL)drawSquarePixels;
 - (void)gameView:(OEGameView *)gameView didReceiveMouseEvent:(OEEvent *)event;
 @end

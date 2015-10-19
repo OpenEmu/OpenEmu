@@ -352,9 +352,4 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     [[self document] gameViewController:self didReceiveMouseEvent:event];
 }
 
-- (void)gameView:(OEGameView *)gameView setDrawSquarePixels:(BOOL)drawSquarePixels
-{
-    [[self document] gameViewController:self setDrawSquarePixels:drawSquarePixels];
-}
-
 @end

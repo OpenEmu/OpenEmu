@@ -1436,9 +1436,4 @@ typedef enum : NSUInteger
     [[self gameSystemResponder] handleMouseEvent:event];
 }
 
-- (void)gameViewController:(OEGameViewController *)sender setDrawSquarePixels:(BOOL)drawSquarePixels
-{
-    [_gameCoreManager setDrawSquarePixels:drawSquarePixels];
-}
-
 @end
