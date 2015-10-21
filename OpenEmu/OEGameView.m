@@ -1236,15 +1236,21 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
 - (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 {
-    DLog(@"Set screensize to: %@", NSStringFromOEIntSize(newScreenSize));
+    BOOL surfaceChanged = _gameSurfaceID != newSurfaceID;
+    BOOL screenRectChanged = _gameScreenSize.width != newScreenSize.width || _gameScreenSize.height != newScreenSize.height;
+
+    if (!surfaceChanged && !screenRectChanged) return;
+    DLog(@"Set screensize to: %@ surfaceId:%d", NSStringFromOEIntSize(newScreenSize), newSurfaceID);
+
     // Recache the new resized surfaceID, so we can get our surfaceRef from it, to draw.
     _gameSurfaceID = newSurfaceID;
     _gameScreenSize = newScreenSize;
 
-    [self rebindIOSurface];
-
     CGLContextObj cgl_ctx = [[self openGLContext] CGLContextObj];
     [[self openGLContext] makeCurrentContext];
+    
+    if (surfaceChanged) [self rebindIOSurface];
+
     CGLLockContext(cgl_ctx);
     {
         if(_rttGameTextures)
