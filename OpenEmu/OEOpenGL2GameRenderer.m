@@ -15,8 +15,8 @@ CGLSetCurrentContext(cgl_ctx);
 
 @implementation OEOpenGL2GameRenderer
 {
-    BOOL                  _shouldUseClientStorage;
     BOOL                  _is2DMode;
+    BOOL                  _shouldUseClientStorage;
 
     // GL stuff
     CGLContextObj         _glContext;
@@ -70,7 +70,6 @@ CGLSetCurrentContext(cgl_ctx);
     // We'll be in trouble if a game core does software vector drawing.
 
     // Oops, 3D games using alternate threads can't change size unless we can reallocate it!
-
     return _is2DMode == NO && _alternateContext != NULL;
 }
 
@@ -138,12 +137,21 @@ CGLSetCurrentContext(cgl_ctx);
     glGenTextures(1, &_ioSurfaceTexture);
     glEnable(GL_TEXTURE_RECTANGLE_ARB);
     glBindTexture(GL_TEXTURE_RECTANGLE_ARB, _ioSurfaceTexture);
+    if (_shouldUseClientStorage) {
+        glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
+    }
 
-    CGLError err = CGLTexImageIOSurface2D(_glContext, GL_TEXTURE_RECTANGLE_ARB, GL_RGBA8,
+    CGLError err = CGLTexImageIOSurface2D(_glContext, GL_TEXTURE_RECTANGLE_ARB, GL_RGB,
                                           (GLsizei)_surfaceSize.width, (GLsizei)_surfaceSize.height,
                                           GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, self.ioSurface, 0);
     if(err != kCGLNoError) {
         NSLog(@"Error creating IOSurface texture: %s & %x", CGLErrorString(err), glGetError());
+    }
+
+    if (_shouldUseClientStorage) {
+        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_PRIVATE_APPLE);
+        glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
     }
 
     // Unbind
@@ -181,6 +189,32 @@ CGLSetCurrentContext(cgl_ctx);
 
     DECLARE_CGL_CONTEXT
 
+    /*
+     TODO:
+     Allocate our own buffer at bufferSize, aligned to 128-byte or whatever it is,
+     and pass that as the hint to getVideoBufferWithHint:. If the core can use it,
+     then use texture range on that buffer, and THEN try client storage.
+     
+     (Even more direct 2D rendering will just point the IOSurface pointer at the game and not need this class.)
+     */
+
+    const void *videoBuffer;
+
+    GLenum internalPixelFormat, pixelFormat, pixelType;
+    videoBuffer = [_gameCore getVideoBufferWithHint:nil];
+
+    internalPixelFormat = [_gameCore internalPixelFormat];
+    pixelFormat         = [_gameCore pixelFormat];
+    pixelType           = [_gameCore pixelType];
+
+    if (internalPixelFormat == GL_RGB) {
+        // TODO: If the internal pixel format isn't weird,
+        // we should be able to send our pixels straight to ioSurfaceTexture and skip all this stuff.
+        // But I tried and it broke Sega Saturn.
+//        _is2DDirectRender = YES;
+//        return;
+    }
+
     // Create the texture which game pixels go into.
     glEnable(GL_TEXTURE_RECTANGLE_ARB);
     glGenTextures(1, &_gameTexture);
@@ -191,26 +225,10 @@ CGLSetCurrentContext(cgl_ctx);
         NSLog(@"createNewTexture, after bindTex: OpenGL error %04X", status);
     }
 
-    /*
-     TODO:
-     Allocate our own buffer at bufferSize, aligned to 128-byte or whatever it is,
-     and pass that as the hint to getVideoBufferWithHint:. If the core can use it,
-     then use texture range on that buffer, and THEN try client storage.
-     */
-
-    const void *videoBuffer;
-
-    GLenum internalPixelFormat, pixelFormat, pixelType;
-    videoBuffer = [_gameCore getVideoBufferWithHint:nil];
-
-    internalPixelFormat = GL_RGB;
-    pixelFormat         = [_gameCore pixelFormat];
-    pixelType           = [_gameCore pixelType];
-
     if(_shouldUseClientStorage)
     {
-        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
         glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
     }
 
     // proper tex params.
@@ -236,6 +254,17 @@ CGLSetCurrentContext(cgl_ctx);
     }
     
     DLog(@"Finished setting up gameTexture");
+
+    // Set up the context's matrix
+    glViewport(0, 0, _surfaceSize.width, _surfaceSize.height);
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    glOrtho(0, _surfaceSize.width, 0, _surfaceSize.height, -1, 1);
+
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
 }
 
 - (void)clearFramebuffer
@@ -251,39 +280,27 @@ CGLSetCurrentContext(cgl_ctx);
     DECLARE_CGL_CONTEXT
 
     if (cgl_ctx) {
-        glDeleteTextures(1, &_ioSurfaceTexture);
-        _ioSurfaceTexture = 0;
-
-        glDeleteTextures(1, &_gameTexture);
-        _gameTexture = 0;
-
-        glDeleteRenderbuffers(1, &_depthStencilRB);
-        _depthStencilRB = 0;
-
-        glDeleteFramebuffersEXT(1, &_gameFBO);
-        _gameFBO = 0;
-
+        if (_alternateContext)
+            CGLReleaseContext(_alternateContext);
         CGLReleasePixelFormat(_glPixelFormat);
         CGLReleaseContext(_glContext);
+
+        _alternateContext = nil;
+        _glContext = nil;
+        _glPixelFormat = nil;
     }
 }
 
 // Execution
 - (void)willExecuteFrame
 {
-    if (_alternateContext) return;
+    if (_alternateContext)
+        return; // should avoid work in this thread
 
     DECLARE_CGL_CONTEXT
 
-    // Prepare to render a game frame.
-
-    // Save state in case the game messes it up.
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
-    glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
-
     // Bind our FBO / and thus our IOSurface
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _gameFBO);
-
     // Assume FBOs JUST WORK, because we checked on startExecution
     GLenum status = glGetError();
     if(status)
@@ -297,19 +314,9 @@ CGLSetCurrentContext(cgl_ctx);
         NSLog(@"OpenGL error %04X in draw, check FBO", status);
     }
 
-    if(_is2DMode)
-    {
-        // Set up OpenGL states for 2D games
-        glViewport(0, 0, _surfaceSize.width, _surfaceSize.height);
-        glMatrixMode(GL_PROJECTION);
-        glPushMatrix();
-        glLoadIdentity();
-        glOrtho(0, _surfaceSize.width, 0, _surfaceSize.height, -1, 1);
-
-        glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
-        glLoadIdentity();
-    }
+    // Save state in case the game messes it up.
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
 }
 
 - (void)didExecuteFrame
@@ -318,15 +325,20 @@ CGLSetCurrentContext(cgl_ctx);
 
     DECLARE_CGL_CONTEXT
 
-    // Update the gameTexture from the real pixels
+    // Reset anything the core did.
+    glPopAttrib();
+    glPopClientAttrib();
+
     if (_is2DMode) {
+        // Probably not going down this path anymore...
+        // Update the gameTexture from the real pixels
+        // then blit gameTexture to ioSurfaceTexture
         const void *videoBuffer;
 
-        GLenum internalPixelFormat, pixelFormat, pixelType;
+        GLenum pixelFormat, pixelType;
 
         videoBuffer = [_gameCore getVideoBufferWithHint:nil];
 
-        internalPixelFormat = GL_RGB;
         pixelFormat         = [_gameCore pixelFormat];
         pixelType           = [_gameCore pixelType];
 
@@ -374,19 +386,8 @@ CGLSetCurrentContext(cgl_ctx);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         glDisableClientState(GL_VERTEX_ARRAY);
 
-        glMatrixMode(GL_PROJECTION);
-        glPopMatrix();
-        glMatrixMode(GL_MODELVIEW);
-        glPopMatrix();
-
         // Update the IOSurface.
         glFlushRenderAPPLE();
-    }
-
-    // Reset anything the core did.
-    {
-        glPopAttrib();
-        glPopClientAttrib();
     }
 }
 
