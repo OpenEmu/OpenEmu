@@ -84,6 +84,7 @@
     BOOL                  _hasStartedAudio;
 }
 
+@synthesize enableVSync=_enableVSync;
 @synthesize gameCoreProxy=_gameCoreProxy;
 
 #pragma mark -
@@ -503,9 +504,13 @@
 
 - (void)willExecute
 {
+    [_gameRenderer willExecuteFrame];
+}
+
+- (void)didExecute
+{
     OEIntRect screenRect = _gameCore.screenRect;
 
-    // TODO: Shouldn't we handle these after emulating the frame!?
     if(!OEIntSizeEqualToSize(screenRect.size, _previousScreenSize))
     {
         DLog(@"Sending did change screen rect to %@", NSStringFromOEIntRect(screenRect));
@@ -522,11 +527,6 @@
         [self updateAspectSize:aspectSize];
     }
 
-    [_gameRenderer willExecuteFrame];
-}
-
-- (void)didExecute
-{
     [_gameRenderer didExecuteFrame];
 
     if(!_hasStartedAudio)
@@ -554,6 +554,17 @@
 - (void)didRenderFrameOnAlternateThread
 {
     [_gameRenderer didRenderFrameOnAlternateThread];
+}
+
+- (BOOL)enableVSync
+{
+    return _enableVSync;
+}
+
+- (void)setEnableVSync:(BOOL)enableVSync
+{
+    _enableVSync = enableVSync;
+    [self updateEnableVSync:_enableVSync];
 }
 
 #pragma mark - OEAudioDelegate
