@@ -13,15 +13,18 @@
 CGLContextObj cgl_ctx = _glContext; \
 CGLSetCurrentContext(cgl_ctx);
 
+#define DIRECTER_RENDERING 0
+
 @implementation OEOpenGL2GameRenderer
 {
     BOOL                  _is2DMode;
+    BOOL                  _is2DDirectRender;
     BOOL                  _shouldUseClientStorage;
 
     // GL stuff
     CGLContextObj         _glContext;
     CGLPixelFormatObj     _glPixelFormat;
-    GLuint                _gameFBO;          // Framebuffer object which the ioSurfaceTexture is tied to
+    GLuint                _ioSurfaceFBO;     // Framebuffer object which the ioSurfaceTexture is tied to
     GLuint                _depthStencilRB;   // FBO RenderBuffer Attachment for depth and stencil buffer
     GLuint                _ioSurfaceTexture; // texture wrapping the IOSurface, used as the render target. Uses the usual pixel format.
     GLuint                _gameTexture;      // (2D mode) texture wrapping game's videoBuffer. Uses the game's pixel formats.
@@ -40,7 +43,7 @@ CGLSetCurrentContext(cgl_ctx);
 {
     self = [super init];
     // just be sane for now.
-    _gameFBO     = 0;
+    _ioSurfaceFBO= 0;
     _gameTexture = 0;
 
     return self;
@@ -123,10 +126,9 @@ CGLSetCurrentContext(cgl_ctx);
      *
      * It seems to be faster on all AMD GPUs. If you can figure out the bugs, turn it back on...
      */
-    _shouldUseClientStorage = NO;
+    _shouldUseClientStorage = YES;
 }
 
-// make an FBO and bind out IOSurface backed texture to it
 - (void)setupFramebuffer
 {
     GLenum status;
@@ -142,7 +144,7 @@ CGLSetCurrentContext(cgl_ctx);
         glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
     }
 
-    CGLError err = CGLTexImageIOSurface2D(_glContext, GL_TEXTURE_RECTANGLE_ARB, GL_RGB,
+    CGLError err = CGLTexImageIOSurface2D(_glContext, GL_TEXTURE_RECTANGLE_ARB, GL_RGB8,
                                           (GLsizei)_surfaceSize.width, (GLsizei)_surfaceSize.height,
                                           GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, self.ioSurface, 0);
     if(err != kCGLNoError) {
@@ -159,13 +161,13 @@ CGLSetCurrentContext(cgl_ctx);
     glDisable(GL_TEXTURE_RECTANGLE_ARB);
 
     // Wrap the texture in an FBO (wow, so indirect)
-    glGenFramebuffersEXT(1, &_gameFBO);
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _gameFBO);
+    glGenFramebuffersEXT(1, &_ioSurfaceFBO);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _ioSurfaceFBO);
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_ARB, _ioSurfaceTexture, 0);
     status = glGetError();
     if(status != 0)
     {
-        NSLog(@"Cannot attach IOSurface, OpenGL error %04X", status);
+        NSLog(@"setup: create ioSurface FBO 1, OpenGL error %04X", status);
     }
 
     // Complete the FBO
@@ -173,6 +175,11 @@ CGLSetCurrentContext(cgl_ctx);
     glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, _depthStencilRB);
     glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_DEPTH24_STENCIL8, (GLsizei)_surfaceSize.width, (GLsizei)_surfaceSize.height);
     glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER_EXT, _depthStencilRB);
+    status = glGetError();
+    if(status != 0)
+    {
+        NSLog(@"setup: create ioSurface FBO 2, OpenGL error %04X", status);
+    }
 
     status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
     if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
@@ -183,8 +190,6 @@ CGLSetCurrentContext(cgl_ctx);
 
 - (void)setup2DMode
 {
-    DLog(@"starting to setup gameTexture");
-
     GLenum status;
 
     DECLARE_CGL_CONTEXT
@@ -195,7 +200,7 @@ CGLSetCurrentContext(cgl_ctx);
      and pass that as the hint to getVideoBufferWithHint:. If the core can use it,
      then use texture range on that buffer, and THEN try client storage.
      
-     (Even more direct 2D rendering will just point the IOSurface pointer at the game and not need this class.)
+     (Even more direct 2D rendering will just have the game draw into the IOSurface pixels and not need this class)
      */
 
     const void *videoBuffer;
@@ -207,13 +212,16 @@ CGLSetCurrentContext(cgl_ctx);
     pixelFormat         = [_gameCore pixelFormat];
     pixelType           = [_gameCore pixelType];
 
-    if (internalPixelFormat == GL_RGB) {
-        // TODO: If the internal pixel format isn't weird,
-        // we should be able to send our pixels straight to ioSurfaceTexture and skip all this stuff.
-        // But I tried and it broke Sega Saturn.
-//        _is2DDirectRender = YES;
-//        return;
+#if DIRECTER_RENDERING
+    if (internalPixelFormat == GL_RGB8 || internalPixelFormat == GL_RGB5) {
+        // As long as the game pixels are RGB not RGBA etc., we should be able to save one copy and upload the buffer into the iosurface texture.
+        _is2DDirectRender = YES;
+        DLog(@"Setup GL2.1 2D 'direct core-buffered' rendering, pixfmt %d %d %d", internalPixelFormat, pixelFormat, pixelType);
+        return;
     }
+#endif
+
+    DLog(@"Setup GL2.1 2D 'indirect core-buffered' rendering, pixfmt %d %d %d", internalPixelFormat, pixelFormat, pixelType);
 
     // Create the texture which game pixels go into.
     glEnable(GL_TEXTURE_RECTANGLE_ARB);
@@ -273,6 +281,18 @@ CGLSetCurrentContext(cgl_ctx);
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+    GLenum status = glGetError();
+    if(status != 0)
+    {
+        NSLog(@"setup: clear ioSurface, OpenGL error %04X", status);
+    }
+
+    glFlushRenderAPPLE();
+    status = glGetError();
+    if(status != 0)
+    {
+        NSLog(@"setup: final flush, OpenGL error %04X", status);
+    }
 }
 
 - (void)destroyGLResources
@@ -300,7 +320,7 @@ CGLSetCurrentContext(cgl_ctx);
     DECLARE_CGL_CONTEXT
 
     // Bind our FBO / and thus our IOSurface
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _gameFBO);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _ioSurfaceFBO);
     // Assume FBOs JUST WORK, because we checked on startExecution
     GLenum status = glGetError();
     if(status)
@@ -329,10 +349,9 @@ CGLSetCurrentContext(cgl_ctx);
     glPopAttrib();
     glPopClientAttrib();
 
-    if (_is2DMode) {
-        // Probably not going down this path anymore...
-        // Update the gameTexture from the real pixels
-        // then blit gameTexture to ioSurfaceTexture
+#if 0
+    if (_is2DDirectRender) {
+        // Tell the ioSurfaceTexture to update from the client buffer.
         const void *videoBuffer;
 
         GLenum pixelFormat, pixelType;
@@ -343,24 +362,60 @@ CGLSetCurrentContext(cgl_ctx);
         pixelType           = [_gameCore pixelType];
 
         glEnable(GL_TEXTURE_RECTANGLE_ARB);
+        glBindTexture(GL_TEXTURE_RECTANGLE_ARB, _ioSurfaceTexture);
+        if(_shouldUseClientStorage) {
+            glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+        }
+
+        OEIntRect screenRect = _gameCore.screenRect;
+        OEIntSize screenSize = screenRect.size;
+
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, _surfaceSize.width);
+        glPixelStorei(GL_UNPACK_SKIP_PIXELS, screenRect.origin.x);
+        glPixelStorei(GL_UNPACK_SKIP_ROWS,   screenRect.origin.y);
+
+        glTexSubImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, 0, 0, screenSize.width, screenSize.height, pixelFormat, pixelType, videoBuffer);
+        GLenum status = glGetError();
+        if(status)
+        {
+            NSLog(@"draw: texSubImage: OpenGL error %04X", status);
+        }
+
+        // Update the IOSurface.
+        glFlushRenderAPPLE();
+    } else
+#endif
+
+    if (_is2DMode) {
+        /*
+         1. Upload the game pixels to gameTexture. (The game might have non-RGB internal format, like it outputs a picture with alpha or something.)
+         Note: we actually upload all of bufferRect even though screenRect might say some pixels are not active. Not worth changing really.
+         2. Draw into ioSurfaceTexture so that the active rect starts in the 0,0 corner.
+         TODO: send the app screenRect instead of screenSize to avoid this step.
+         Also, the IOSurface is upside down compared to gameTexture! This is why the direct rendering method above doesn't work.
+         TODO: don't do that.
+         */
+
+        const void *videoBuffer;
+        GLenum pixelFormat, pixelType;
+
+        videoBuffer = [_gameCore getVideoBufferWithHint:nil];
+
+        pixelFormat          = [_gameCore pixelFormat];
+        pixelType            = [_gameCore pixelType];
+        OEIntRect screenRect = _gameCore.screenRect;
+        OEIntSize screenSize = screenRect.size;
+
+        glEnable(GL_TEXTURE_RECTANGLE_ARB);
         glBindTexture(GL_TEXTURE_RECTANGLE_ARB, _gameTexture);
         if(_shouldUseClientStorage) {
             glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
         }
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
         glTexSubImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, 0, 0, _surfaceSize.width, _surfaceSize.height, pixelFormat, pixelType, videoBuffer);
-
-        // Update the IOSurface FBO from the gameTexture.
-        // We draw the active screen rect into one corner of the IOSurface. I think.
-        OEIntRect screenRect = _gameCore.screenRect;
-        OEIntSize screenSize = screenRect.size;
 
         glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-        glColor4f(1.0, 1.0, 1.0, 1.0);
-
-        // TODO: Pre-allocate these and use VBOs instead of keeping them on the stack.
         const GLint tex_coords[] =
         {
             screenRect.origin.x, screenSize.height + screenRect.origin.y,
@@ -448,7 +503,7 @@ CGLSetCurrentContext(cgl_ctx);
     CGLContextObj cgl_ctx = _alternateContext;
 
     glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, _alternateFBO);
-    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, _gameFBO);
+    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, _ioSurfaceFBO);
 
     glBlitFramebufferEXT(0, 0, _surfaceSize.width, _surfaceSize.height,
                          0, 0, _surfaceSize.width, _surfaceSize.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
