@@ -192,6 +192,8 @@
 		3D1D8D821650C22900DBC37D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1D8D811650C22900DBC37D /* Accelerate.framework */; };
 		3D41E8EB1BD4959300A76EFD /* OEOpenGL2GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */; };
 		3D41E8EC1BD4959300A76EFD /* OEOpenGL2GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */; };
+		3DA6EDCC1BD790B900560326 /* OEOpenGL3GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA6EDCB1BD790B900560326 /* OEOpenGL3GameRenderer.m */; };
+		3DA6EDCD1BD790B900560326 /* OEOpenGL3GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA6EDCB1BD790B900560326 /* OEOpenGL3GameRenderer.m */; };
 		3DFAB00D144644D4005EF0C3 /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
 		4FC6C54519AD7C4D00231545 /* controller_colecovision@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FC6C54019AD7BBB00231545 /* controller_colecovision@2x.png */; };
 		4FC6C54619AD7C5B00231545 /* controller_colecovision_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FC6C53F19AD7BBB00231545 /* controller_colecovision_mask@2x.png */; };
@@ -1638,6 +1640,8 @@
 		3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOpenGL2GameRenderer.m; sourceTree = "<group>"; };
 		3D711838150064F50056E3BF /* PSYBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSYBlockTimer.h; sourceTree = "<group>"; };
 		3D711839150064F50056E3BF /* PSYBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSYBlockTimer.m; sourceTree = "<group>"; };
+		3DA6EDCA1BD790B900560326 /* OEOpenGL3GameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOpenGL3GameRenderer.h; sourceTree = "<group>"; };
+		3DA6EDCB1BD790B900560326 /* OEOpenGL3GameRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOpenGL3GameRenderer.m; sourceTree = "<group>"; };
 		4FC6C53F19AD7BBB00231545 /* controller_colecovision_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_colecovision_mask@2x.png"; sourceTree = "<group>"; };
 		4FC6C54019AD7BBB00231545 /* controller_colecovision@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_colecovision@2x.png"; sourceTree = "<group>"; };
 		53439A8A13B92C4A005C0CC8 /* OELibraryDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibraryDatabase.h; sourceTree = "<group>"; };
@@ -3825,6 +3829,8 @@
 				3D41E8E51BD47DEF00A76EFD /* OEGameRenderer.h */,
 				3D41E8E91BD4959300A76EFD /* OEOpenGL2GameRenderer.h */,
 				3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */,
+				3DA6EDCA1BD790B900560326 /* OEOpenGL3GameRenderer.h */,
+				3DA6EDCB1BD790B900560326 /* OEOpenGL3GameRenderer.m */,
 			);
 			name = Renderers;
 			sourceTree = "<group>";
@@ -7533,6 +7539,7 @@
 				3D41E8EC1BD4959300A76EFD /* OEOpenGL2GameRenderer.m in Sources */,
 				1BEF2A9C11682A5E0090F72B /* OpenEmuHelperApp.m in Sources */,
 				1BEF2D15116855690090F72B /* OETaskWrapper.m in Sources */,
+				3DA6EDCD1BD790B900560326 /* OEOpenGL3GameRenderer.m in Sources */,
 				C6AC9D391190C6490083DDFD /* OpenEmuHelperAppMain.m in Sources */,
 				828BF57F1669F99600759F10 /* OEUtilities.m in Sources */,
 				C609619A179B6E3F00239067 /* OpenEmuXPCHelperApp.m in Sources */,
@@ -7762,6 +7769,7 @@
 				83CB0C7A1A3F000700409FB2 /* OEBlankSlateSpinnerView.m in Sources */,
 				14861960166076A400BDB800 /* NSDate+OESortAdditions.m in Sources */,
 				835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */,
+				3DA6EDCC1BD790B900560326 /* OEOpenGL3GameRenderer.m in Sources */,
 				14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */,
 				8372381D196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.m in Sources */,
 				8C4C808916986697009B8A28 /* OEGLSLShader.m in Sources */,

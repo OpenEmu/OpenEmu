@@ -34,6 +34,7 @@
 #import "OECorePlugin.h"
 #import "OEGameRenderer.h"
 #import "OEOpenGL2GameRenderer.h"
+#import "OEOpenGL3GameRenderer.h"
 
 // Compression support
 #import <XADMaster/XADArchive.h>
@@ -172,9 +173,14 @@
 - (void)updateGameRenderer
 {
     OEGameCoreRendering rendering = _gameCore.gameCoreRendering;
-    NSAssert(rendering == OEGameCoreRendering2DVideo || rendering == OEGameCoreRenderingOpenGL2Video, @"Other 3D APIs not implemented yet");
 
-    _gameRenderer = [OEOpenGL2GameRenderer new];
+    if (rendering == OEGameCoreRendering2DVideo || rendering == OEGameCoreRenderingOpenGL2Video)
+        _gameRenderer = [OEOpenGL2GameRenderer new];
+    else if (rendering == OEGameCoreRenderingOpenGL3Video)
+        _gameRenderer = [OEOpenGL3GameRenderer new];
+    else
+        NSAssert(0, @"Rendering API %u not supported yet", (unsigned)rendering);
+
     _gameRenderer.gameCore  = _gameCore;
     // pass over core and iosurface and tell it to setup
 }
@@ -408,8 +414,8 @@
 {
     NSLog(@"Setting up emulation");
 
-    [_gameCore setupEmulation];
     [self setupGameCoreAudioAndVideo];
+    [_gameCore setupEmulation];
 
     DLog(@"finished setting up rom");
     if(handler) handler(_surfaceID, _screenSize, _previousAspectSize);

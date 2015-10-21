@@ -78,6 +78,8 @@ CGLSetCurrentContext(cgl_ctx);
 
 - (void)setupVideo
 {
+    DLog(@"Setting up OpenGL2.x/2D renderer");
+
     [self setupGLContext];
 
     DECLARE_CGL_CONTEXT
@@ -109,7 +111,6 @@ CGLSetCurrentContext(cgl_ctx);
     }
     CGLRetainPixelFormat(_glPixelFormat);
 
-    DLog(@"creating context");
     err = CGLCreateContext(_glPixelFormat, NULL, &_glContext);
     if(err != kCGLNoError)
     {
@@ -126,7 +127,7 @@ CGLSetCurrentContext(cgl_ctx);
      *
      * It seems to be faster on all AMD GPUs. If you can figure out the bugs, turn it back on...
      */
-    _shouldUseClientStorage = YES;
+    _shouldUseClientStorage = NO;
 }
 
 - (void)setupFramebuffer
@@ -281,18 +282,7 @@ CGLSetCurrentContext(cgl_ctx);
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    GLenum status = glGetError();
-    if(status != 0)
-    {
-        NSLog(@"setup: clear ioSurface, OpenGL error %04X", status);
-    }
-
     glFlushRenderAPPLE();
-    status = glGetError();
-    if(status != 0)
-    {
-        NSLog(@"setup: final flush, OpenGL error %04X", status);
-    }
 }
 
 - (void)destroyGLResources
@@ -380,9 +370,6 @@ CGLSetCurrentContext(cgl_ctx);
         {
             NSLog(@"draw: texSubImage: OpenGL error %04X", status);
         }
-
-        // Update the IOSurface.
-        glFlushRenderAPPLE();
     } else
 #endif
 
@@ -440,10 +427,10 @@ CGLSetCurrentContext(cgl_ctx);
         glDrawArrays( GL_TRIANGLE_FAN, 0, 4);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         glDisableClientState(GL_VERTEX_ARRAY);
-
-        // Update the IOSurface.
-        glFlushRenderAPPLE();
     }
+
+    // Update the IOSurface.
+    glFlushRenderAPPLE();
 }
 
 - (void)willRenderOnAlternateThread
