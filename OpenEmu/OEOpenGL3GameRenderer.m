@@ -79,7 +79,8 @@
     static const CGLPixelFormatAttribute attributes[] = {
         kCGLPFAAccelerated,
         kCGLPFAAllowOfflineRenderers,
-        kCGLPFAOpenGLProfile, (CGLPixelFormatAttribute)kCGLOGLPVersion_GL3_Core,
+        kCGLPFAOpenGLProfile, (CGLPixelFormatAttribute)kCGLOGLPVersion_3_2_Core,
+        kCGLPFADepthSize, 24,
         0 };
 
     CGLError err = kCGLNoError;
@@ -151,6 +152,8 @@
     {
         NSLog(@"Cannot create FBO, OpenGL error %04X", status);
     }
+
+    glViewport(0, 0, _surfaceSize.width, _surfaceSize.height);
 }
 
 - (void)clearFramebuffer
@@ -206,6 +209,7 @@
 
     glFlushRenderAPPLE();
 }
+
 
 - (void)willRenderOnAlternateThread
 {
