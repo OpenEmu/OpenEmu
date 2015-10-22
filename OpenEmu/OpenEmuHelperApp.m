@@ -516,6 +516,8 @@
 - (void)didExecute
 {
     OEIntRect screenRect = _gameCore.screenRect;
+    OEIntSize aspectSize = _gameCore.aspectSize;
+    OEIntSize previousAspectSize = _previousAspectSize;
 
     if(!OEIntSizeEqualToSize(screenRect.size, _previousScreenSize))
     {
@@ -524,11 +526,8 @@
         [self updateScreenSize:_screenSize withIOSurfaceID:_surfaceID];
     }
 
-    OEIntSize aspectSize = _gameCore.aspectSize;
-
-    if(!OEIntSizeEqualToSize(aspectSize, _previousAspectSize))
+    if(!OEIntSizeEqualToSize(aspectSize, previousAspectSize))
     {
-        _previousAspectSize = aspectSize;
         DLog(@"Sending did change aspect to %@", NSStringFromOEIntSize(aspectSize));
         [self updateAspectSize:aspectSize];
     }
