@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEPSXButtonUp</key>
+	<integer>82</integer>
+	<key>OEPSXButtonDown</key>
+	<integer>81</integer>
+	<key>OEPSXButtonLeft</key>
+	<integer>80</integer>
+	<key>OEPSXButtonRight</key>
+	<integer>79</integer>
+	<key>OEPSXButtonTriangle</key>
+	<integer>27</integer>
+	<key>OEPSXButtonCircle</key>
+	<integer>29</integer>
+	<key>OEPSXButtonCross</key>
+	<integer>22</integer>
+	<key>OEPSXButtonSquare</key>
+	<integer>4</integer>
+	<key>OEPSXButtonL1</key>
+	<integer>20</integer>
+	<key>OEPSXButtonL2</key>
+	<integer>26</integer>
+	<key>OEPSXButtonL3</key>
+	<integer>8</integer>
+	<key>OEPSXButtonR1</key>
+	<integer>7</integer>
+	<key>OEPSXButtonR2</key>
+	<integer>9</integer>
+	<key>OEPSXButtonR3</key>
+	<integer>10</integer>
+	<key>OEPSXButtonStart</key>
+	<integer>40</integer>
+	<key>OEPSXButtonSelect</key>
+	<integer>229</integer>
+	<key>OEPSXButtonAnalogMode</key>
+	<integer>49</integer>
+</dict>
+</plist>
