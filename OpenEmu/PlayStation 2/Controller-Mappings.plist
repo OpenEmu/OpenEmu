@@ -4,415 +4,415 @@
 <dict>
 	<key>OEControllerMicrosoftXbox360</key>
 	<dict>
-		<key>OEPSXButtonUp</key>
+		<key>OEPS2ButtonUp</key>
 		<string>OEControllerMicrosoftXbox360DPadUp</string>
-		<key>OEPSXButtonDown</key>
+		<key>OEPS2ButtonDown</key>
 		<string>OEControllerMicrosoftXbox360DPadDown</string>
-		<key>OEPSXButtonLeft</key>
+		<key>OEPS2ButtonLeft</key>
 		<string>OEControllerMicrosoftXbox360DPadLeft</string>
-		<key>OEPSXButtonRight</key>
+		<key>OEPS2ButtonRight</key>
 		<string>OEControllerMicrosoftXbox360DPadRight</string>
-		<key>OEPSXLeftAnalogUp</key>
+		<key>OEPS2LeftAnalogUp</key>
 		<string>OEControllerMicrosoftXbox360LeftAnalogUp</string>
-		<key>OEPSXLeftAnalogLeft</key>
+		<key>OEPS2LeftAnalogLeft</key>
 		<string>OEControllerMicrosoftXbox360LeftAnalogLeft</string>
-		<key>OEPSXRightAnalogUp</key>
+		<key>OEPS2RightAnalogUp</key>
 		<string>OEControllerMicrosoftXbox360RightAnalogUp</string>
-		<key>OEPSXRightAnalogLeft</key>
+		<key>OEPS2RightAnalogLeft</key>
 		<string>OEControllerMicrosoftXbox360RightAnalogLeft</string>
-		<key>OEPSXButtonCircle</key>
+		<key>OEPS2ButtonCircle</key>
 		<string>OEControllerMicrosoftXbox360ButtonB</string>
-		<key>OEPSXButtonCross</key>
+		<key>OEPS2ButtonCross</key>
 		<string>OEControllerMicrosoftXbox360ButtonA</string>
-		<key>OEPSXButtonTriangle</key>
+		<key>OEPS2ButtonTriangle</key>
 		<string>OEControllerMicrosoftXbox360ButtonY</string>
-		<key>OEPSXButtonSquare</key>
+		<key>OEPS2ButtonSquare</key>
 		<string>OEControllerMicrosoftXbox360ButtonX</string>
-		<key>OEPSXButtonL1</key>
+		<key>OEPS2ButtonL1</key>
 		<string>OEControllerMicrosoftXbox360ButtonLeftShoulder</string>
-		<key>OEPSXButtonL2</key>
+		<key>OEPS2ButtonL2</key>
 		<string>OEControllerMicrosoftXbox360ButtonLeftTrigger</string>
-		<key>OEPSXButtonL3</key>
+		<key>OEPS2ButtonL3</key>
 		<string>OEControllerMicrosoftXbox360ButtonLeftAnalog</string>
-		<key>OEPSXButtonR1</key>
+		<key>OEPS2ButtonR1</key>
 		<string>OEControllerMicrosoftXbox360ButtonRightShoulder</string>
-		<key>OEPSXButtonR2</key>
+		<key>OEPS2ButtonR2</key>
 		<string>OEControllerMicrosoftXbox360ButtonRightTrigger</string>
-		<key>OEPSXButtonR3</key>
+		<key>OEPS2ButtonR3</key>
 		<string>OEControllerMicrosoftXbox360ButtonRightAnalog</string>
-		<key>OEPSXButtonStart</key>
+		<key>OEPS2ButtonStart</key>
 		<string>OEControllerMicrosoftXbox360ButtonStart</string>
-		<key>OEPSXButtonSelect</key>
+		<key>OEPS2ButtonSelect</key>
 		<string>OEControllerMicrosoftXbox360ButtonBack</string>
-		<key>OEPSXButtonAnalogMode</key>
+		<key>OEPS2ButtonAnalogMode</key>
 		<string>OEControllerMicrosoftXbox360ButtonHome</string>
 	</dict>
 	<key>OEControllerSonyPS3Sixaxis</key>
 	<dict>
-		<key>OEPSXButtonUp</key>
+		<key>OEPS2ButtonUp</key>
 		<string>OEControllerSonyPS3SixaxisDPadUp</string>
-		<key>OEPSXButtonDown</key>
+		<key>OEPS2ButtonDown</key>
 		<string>OEControllerSonyPS3SixaxisDPadDown</string>
-		<key>OEPSXButtonLeft</key>
+		<key>OEPS2ButtonLeft</key>
 		<string>OEControllerSonyPS3SixaxisDPadLeft</string>
-		<key>OEPSXButtonRight</key>
+		<key>OEPS2ButtonRight</key>
 		<string>OEControllerSonyPS3SixaxisDPadRight</string>
-		<key>OEPSXLeftAnalogUp</key>
+		<key>OEPS2LeftAnalogUp</key>
 		<string>OEControllerSonyPS3SixaxisLeftAnalogUp</string>
-		<key>OEPSXLeftAnalogLeft</key>
+		<key>OEPS2LeftAnalogLeft</key>
 		<string>OEControllerSonyPS3SixaxisLeftAnalogLeft</string>
-		<key>OEPSXRightAnalogUp</key>
+		<key>OEPS2RightAnalogUp</key>
 		<string>OEControllerSonyPS3SixaxisRightAnalogUp</string>
-		<key>OEPSXRightAnalogLeft</key>
+		<key>OEPS2RightAnalogLeft</key>
 		<string>OEControllerSonyPS3SixaxisRightAnalogLeft</string>
-		<key>OEPSXButtonCircle</key>
+		<key>OEPS2ButtonCircle</key>
 		<string>OEControllerSonyPS3SixaxisButtonCircle</string>
-		<key>OEPSXButtonCross</key>
+		<key>OEPS2ButtonCross</key>
 		<string>OEControllerSonyPS3SixaxisButtonCross</string>
-		<key>OEPSXButtonTriangle</key>
+		<key>OEPS2ButtonTriangle</key>
 		<string>OEControllerSonyPS3SixaxisButtonTriangle</string>
-		<key>OEPSXButtonSquare</key>
+		<key>OEPS2ButtonSquare</key>
 		<string>OEControllerSonyPS3SixaxisButtonSquare</string>
-		<key>OEPSXButtonL1</key>
+		<key>OEPS2ButtonL1</key>
 		<string>OEControllerSonyPS3SixaxisButtonL1</string>
-		<key>OEPSXButtonL2</key>
+		<key>OEPS2ButtonL2</key>
 		<string>OEControllerSonyPS3SixaxisButtonL2</string>
-		<key>OEPSXButtonL3</key>
+		<key>OEPS2ButtonL3</key>
 		<string>OEControllerSonyPS3SixaxisButtonL3</string>
-		<key>OEPSXButtonR1</key>
+		<key>OEPS2ButtonR1</key>
 		<string>OEControllerSonyPS3SixaxisButtonR1</string>
-		<key>OEPSXButtonR2</key>
+		<key>OEPS2ButtonR2</key>
 		<string>OEControllerSonyPS3SixaxisButtonR2</string>
-		<key>OEPSXButtonR3</key>
+		<key>OEPS2ButtonR3</key>
 		<string>OEControllerSonyPS3SixaxisButtonR3</string>
-		<key>OEPSXButtonStart</key>
+		<key>OEPS2ButtonStart</key>
 		<string>OEControllerSonyPS3SixaxisButtonStart</string>
-		<key>OEPSXButtonSelect</key>
+		<key>OEPS2ButtonSelect</key>
 		<string>OEControllerSonyPS3SixaxisButtonSelect</string>
-		<key>OEPSXButtonAnalogMode</key>
+		<key>OEPS2ButtonAnalogMode</key>
 		<string>OEControllerSonyPS3SixaxisButtonHome</string>
 	</dict>
 	<key>OEControllerLogitechDualAction</key>
 	<dict>
-		<key>OEPSXButtonUp</key>
+		<key>OEPS2ButtonUp</key>
 		<string>OEControllerLogitechDualActionDPadUp</string>
-		<key>OEPSXLeftAnalogUp</key>
+		<key>OEPS2LeftAnalogUp</key>
 		<string>OEControllerLogitechDualActionLeftAnalogUp</string>
-		<key>OEPSXLeftAnalogLeft</key>
+		<key>OEPS2LeftAnalogLeft</key>
 		<string>OEControllerLogitechDualActionLeftAnalogLeft</string>
-		<key>OEPSXRightAnalogUp</key>
+		<key>OEPS2RightAnalogUp</key>
 		<string>OEControllerLogitechDualActionRightAnalogUp</string>
-		<key>OEPSXRightAnalogLeft</key>
+		<key>OEPS2RightAnalogLeft</key>
 		<string>OEControllerLogitechDualActionRightAnalogLeft</string>
-		<key>OEPSXButtonCircle</key>
+		<key>OEPS2ButtonCircle</key>
 		<string>OEControllerLogitechDualActionButton3</string>
-		<key>OEPSXButtonCross</key>
+		<key>OEPS2ButtonCross</key>
 		<string>OEControllerLogitechDualActionButton2</string>
-		<key>OEPSXButtonTriangle</key>
+		<key>OEPS2ButtonTriangle</key>
 		<string>OEControllerLogitechDualActionButton4</string>
-		<key>OEPSXButtonSquare</key>
+		<key>OEPS2ButtonSquare</key>
 		<string>OEControllerLogitechDualActionButton1</string>
-		<key>OEPSXButtonL1</key>
+		<key>OEPS2ButtonL1</key>
 		<string>OEControllerLogitechDualActionButtonLeftShoulder</string>
-		<key>OEPSXButtonL2</key>
+		<key>OEPS2ButtonL2</key>
 		<string>OEControllerLogitechDualActionButtonLeftTrigger</string>
-		<key>OEPSXButtonL3</key>
+		<key>OEPS2ButtonL3</key>
 		<string>OEControllerLogitechDualActionButtonLeftAnalog</string>
-		<key>OEPSXButtonR1</key>
+		<key>OEPS2ButtonR1</key>
 		<string>OEControllerLogitechDualActionButtonRightShoulder</string>
-		<key>OEPSXButtonR2</key>
+		<key>OEPS2ButtonR2</key>
 		<string>OEControllerLogitechDualActionButtonRightTrigger</string>
-		<key>OEPSXButtonR3</key>
+		<key>OEPS2ButtonR3</key>
 		<string>OEControllerLogitechDualActionButtonRightAnalog</string>
-		<key>OEPSXButtonStart</key>
+		<key>OEPS2ButtonStart</key>
 		<string>OEControllerLogitechDualActionButtonStart</string>
-		<key>OEPSXButtonSelect</key>
+		<key>OEPS2ButtonSelect</key>
 		<string>OEControllerLogitechDualActionButtonSelect</string>
 	</dict>
 	<key>OEControllerSegaSaturn</key>
 	<dict>
-		<key>OEPSXButtonUp</key>
+		<key>OEPS2ButtonUp</key>
 		<string>OEControllerSegaSaturnDPadUp</string>
-		<key>OEPSXButtonLeft</key>
+		<key>OEPS2ButtonLeft</key>
 		<string>OEControllerSegaSaturnDPadLeft</string>
-		<key>OEPSXButtonCircle</key>
+		<key>OEPS2ButtonCircle</key>
 		<string>OEControllerSegaSaturnButtonC</string>
-		<key>OEPSXButtonCross</key>
+		<key>OEPS2ButtonCross</key>
 		<string>OEControllerSegaSaturnButtonB</string>
-		<key>OEPSXButtonTriangle</key>
+		<key>OEPS2ButtonTriangle</key>
 		<string>OEControllerSegaSaturnButtonZ</string>
-		<key>OEPSXButtonSquare</key>
+		<key>OEPS2ButtonSquare</key>
 		<string>OEControllerSegaSaturnButtonY</string>
-		<key>OEPSXButtonL1</key>
+		<key>OEPS2ButtonL1</key>
 		<string>OEControllerSegaSaturnButtonLeftShoulder</string>
-		<key>OEPSXButtonR1</key>
+		<key>OEPS2ButtonR1</key>
 		<string>OEControllerSegaSaturnButtonRightShoulder</string>
-		<key>OEPSXButtonStart</key>
+		<key>OEPS2ButtonStart</key>
 		<string>OEControllerSegaSaturnButtonStart</string>
-		<key>OEPSXButtonSelect</key>
+		<key>OEPS2ButtonSelect</key>
 		<string>OEControllerSegaSaturnButtonX</string>
 	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
-		<key>OEPSXButtonUp</key>
+		<key>OEPS2ButtonUp</key>
 		<string>OEControllerGravisGamePadProDPadUp</string>
-		<key>OEPSXButtonLeft</key>
+		<key>OEPS2ButtonLeft</key>
 		<string>OEControllerGravisGamePadProDPadLeft</string>
-		<key>OEPSXButtonCircle</key>
+		<key>OEPS2ButtonCircle</key>
 		<string>OEControllerGravisGamePadProButton3</string>
-		<key>OEPSXButtonCross</key>
+		<key>OEPS2ButtonCross</key>
 		<string>OEControllerGravisGamePadProButton2</string>
-		<key>OEPSXButtonTriangle</key>
+		<key>OEPS2ButtonTriangle</key>
 		<string>OEControllerGravisGamePadProButton4</string>
-		<key>OEPSXButtonSquare</key>
+		<key>OEPS2ButtonSquare</key>
 		<string>OEControllerGravisGamePadProButton1</string>
-		<key>OEPSXButtonL1</key>
+		<key>OEPS2ButtonL1</key>
 		<string>OEControllerGravisGamePadProButtonLeftShoulder</string>
-		<key>OEPSXButtonL2</key>
+		<key>OEPS2ButtonL2</key>
 		<string>OEControllerGravisGamePadProButtonLeftTrigger</string>
-		<key>OEPSXButtonR1</key>
+		<key>OEPS2ButtonR1</key>
 		<string>OEControllerGravisGamePadProButtonRightShoulder</string>
-		<key>OEPSXButtonR2</key>
+		<key>OEPS2ButtonR2</key>
 		<string>OEControllerGravisGamePadProButtonRightTrigger</string>
-		<key>OEPSXButtonStart</key>
+		<key>OEPS2ButtonStart</key>
 		<string>OEControllerGravisGamePadProButtonStart</string>
-		<key>OEPSXButtonSelect</key>
+		<key>OEPS2ButtonSelect</key>
 		<string>OEControllerGravisGamePadProButtonSelect</string>
 	</dict>
 	<key>OEControllerRetroUSBSNES</key>
 	<dict>
-		<key>OEPSXButtonUp</key>
+		<key>OEPS2ButtonUp</key>
 		<string>OEControllerRetroUSBSNESDPadUp</string>
-		<key>OEPSXButtonLeft</key>
+		<key>OEPS2ButtonLeft</key>
 		<string>OEControllerRetroUSBSNESDPadLeft</string>
-		<key>OEPSXButtonCircle</key>
+		<key>OEPS2ButtonCircle</key>
 		<string>OEControllerRetroUSBSNESButtonA</string>
-		<key>OEPSXButtonCross</key>
+		<key>OEPS2ButtonCross</key>
 		<string>OEControllerRetroUSBSNESButtonB</string>
-		<key>OEPSXButtonTriangle</key>
+		<key>OEPS2ButtonTriangle</key>
 		<string>OEControllerRetroUSBSNESButtonX</string>
-		<key>OEPSXButtonSquare</key>
+		<key>OEPS2ButtonSquare</key>
 		<string>OEControllerRetroUSBSNESButtonY</string>
-		<key>OEPSXButtonL1</key>
+		<key>OEPS2ButtonL1</key>
 		<string>OEControllerRetroUSBSNESButtonLeftShoulder</string>
-		<key>OEPSXButtonR1</key>
+		<key>OEPS2ButtonR1</key>
 		<string>OEControllerRetroUSBSNESButtonRightShoulder</string>
-		<key>OEPSXButtonStart</key>
+		<key>OEPS2ButtonStart</key>
 		<string>OEControllerRetroUSBSNESButtonStart</string>
-		<key>OEPSXButtonSelect</key>
+		<key>OEPS2ButtonSelect</key>
 		<string>OEControllerRetroUSBSNESButtonSelect</string>
 	</dict>
 	<key>OEControllerPS3NeoGeoPad</key>
 	<dict>
-		<key>OEPSXButtonUp</key>
+		<key>OEPS2ButtonUp</key>
 		<string>OEControllerPS3NeoGeoPadDPadUp</string>
-		<key>OEPSXButtonCircle</key>
+		<key>OEPS2ButtonCircle</key>
 		<string>OEControllerPS3NeoGeoPadButtonCircle</string>
-		<key>OEPSXButtonCross</key>
+		<key>OEPS2ButtonCross</key>
 		<string>OEControllerPS3NeoGeoPadButtonCross</string>
-		<key>OEPSXButtonTriangle</key>
+		<key>OEPS2ButtonTriangle</key>
 		<string>OEControllerPS3NeoGeoPadButtonTriangle</string>
-		<key>OEPSXButtonSquare</key>
+		<key>OEPS2ButtonSquare</key>
 		<string>OEControllerPS3NeoGeoPadButtonSquare</string>
-		<key>OEPSXButtonL1</key>
+		<key>OEPS2ButtonL1</key>
 		<string>OEControllerPS3NeoGeoPadButtonL1</string>
-		<key>OEPSXButtonL2</key>
+		<key>OEPS2ButtonL2</key>
 		<string>OEControllerPS3NeoGeoPadButtonL2</string>
-		<key>OEPSXButtonR1</key>
+		<key>OEPS2ButtonR1</key>
 		<string>OEControllerPS3NeoGeoPadButtonR1</string>
-		<key>OEPSXButtonR2</key>
+		<key>OEPS2ButtonR2</key>
 		<string>OEControllerPS3NeoGeoPadButtonR2</string>
-		<key>OEPSXButtonStart</key>
+		<key>OEPS2ButtonStart</key>
 		<string>OEControllerPS3NeoGeoPadButtonStart</string>
-		<key>OEPSXButtonSelect</key>
+		<key>OEPS2ButtonSelect</key>
 		<string>OEControllerPS3NeoGeoPadButtonSelect</string>
-		<key>OEPSXButtonAnalogMode</key>
+		<key>OEPS2ButtonAnalogMode</key>
 		<string>OEControllerPS3NeoGeoPadButtonHome</string>
 	</dict>
 	<key>OEControllerRetrode</key>
 	<dict>
-		<key>OEPSXButtonUp</key>
+		<key>OEPS2ButtonUp</key>
 		<string>OEControllerRetrodeDPadUp</string>
-		<key>OEPSXButtonLeft</key>
+		<key>OEPS2ButtonLeft</key>
 		<string>OEControllerRetrodeDPadLeft</string>
-		<key>OEPSXButtonCircle</key>
+		<key>OEPS2ButtonCircle</key>
 		<string>OEControllerRetrodeButtonA</string>
-		<key>OEPSXButtonCross</key>
+		<key>OEPS2ButtonCross</key>
 		<string>OEControllerRetrodeButtonB</string>
-		<key>OEPSXButtonTriangle</key>
+		<key>OEPS2ButtonTriangle</key>
 		<string>OEControllerRetrodeButtonX</string>
-		<key>OEPSXButtonSquare</key>
+		<key>OEPS2ButtonSquare</key>
 		<string>OEControllerRetrodeButtonY</string>
-		<key>OEPSXButtonL1</key>
+		<key>OEPS2ButtonL1</key>
 		<string>OEControllerRetrodeButtonLeftShoulder</string>
-		<key>OEPSXButtonR1</key>
+		<key>OEPS2ButtonR1</key>
 		<string>OEControllerRetrodeButtonRightShoulder</string>
-		<key>OEPSXButtonStart</key>
+		<key>OEPS2ButtonStart</key>
 		<string>OEControllerRetrodeButtonStart</string>
-		<key>OEPSXButtonSelect</key>
+		<key>OEPS2ButtonSelect</key>
 		<string>OEControllerRetrodeButtonSelect</string>
 	</dict>
 	<key>OEControllerRetrolinkSNES</key>
 	<dict>
-		<key>OEPSXButtonUp</key>
+		<key>OEPS2ButtonUp</key>
 		<string>OEControllerRetrolinkSNESDPadUp</string>
-		<key>OEPSXButtonLeft</key>
+		<key>OEPS2ButtonLeft</key>
 		<string>OEControllerRetrolinkSNESDPadLeft</string>
-		<key>OEPSXButtonCircle</key>
+		<key>OEPS2ButtonCircle</key>
 		<string>OEControllerRetrolinkSNESButtonA</string>
-		<key>OEPSXButtonCross</key>
+		<key>OEPS2ButtonCross</key>
 		<string>OEControllerRetrolinkSNESButtonB</string>
-		<key>OEPSXButtonTriangle</key>
+		<key>OEPS2ButtonTriangle</key>
 		<string>OEControllerRetrolinkSNESButtonX</string>
-		<key>OEPSXButtonSquare</key>
+		<key>OEPS2ButtonSquare</key>
 		<string>OEControllerRetrolinkSNESButtonY</string>
-		<key>OEPSXButtonL1</key>
+		<key>OEPS2ButtonL1</key>
 		<string>OEControllerRetrolinkSNESButtonLeftShoulder</string>
-		<key>OEPSXButtonR1</key>
+		<key>OEPS2ButtonR1</key>
 		<string>OEControllerRetrolinkSNESButtonRightShoulder</string>
-		<key>OEPSXButtonStart</key>
+		<key>OEPS2ButtonStart</key>
 		<string>OEControllerRetrolinkSNESButtonStart</string>
-		<key>OEPSXButtonSelect</key>
+		<key>OEPS2ButtonSelect</key>
 		<string>OEControllerRetrolinkSNESButtonSelect</string>
 	</dict>
 	<key>OEControllerRetrolinkN64</key>
 	<dict>
-		<key>OEPSXButtonUp</key>
+		<key>OEPS2ButtonUp</key>
 		<string>OEControllerRetrolinkN64DPadUp</string>
-		<key>OEPSXLeftAnalogUp</key>
+		<key>OEPS2LeftAnalogUp</key>
 		<string>OEControllerRetrolinkN64AnalogUp</string>
-		<key>OEPSXLeftAnalogLeft</key>
+		<key>OEPS2LeftAnalogLeft</key>
 		<string>OEControllerRetrolinkN64AnalogLeft</string>
-		<key>OEPSXButtonCircle</key>
+		<key>OEPS2ButtonCircle</key>
 		<string>OEControllerRetrolinkN64CPadRight</string>
-		<key>OEPSXButtonCross</key>
+		<key>OEPS2ButtonCross</key>
 		<string>OEControllerRetrolinkN64CPadDown</string>
-		<key>OEPSXButtonTriangle</key>
+		<key>OEPS2ButtonTriangle</key>
 		<string>OEControllerRetrolinkN64CPadUp</string>
-		<key>OEPSXButtonSquare</key>
+		<key>OEPS2ButtonSquare</key>
 		<string>OEControllerRetrolinkN64CPadLeft</string>
-		<key>OEPSXButtonL1</key>
+		<key>OEPS2ButtonL1</key>
 		<string>OEControllerRetrolinkN64ButtonLeftShoulder</string>
-		<key>OEPSXButtonR1</key>
+		<key>OEPS2ButtonR1</key>
 		<string>OEControllerRetrolinkN64ButtonRightShoulder</string>
-		<key>OEPSXButtonStart</key>
+		<key>OEPS2ButtonStart</key>
 		<string>OEControllerRetrolinkN64ButtonStart</string>
-		<key>OEPSXButtonSelect</key>
+		<key>OEPS2ButtonSelect</key>
 		<string>OEControllerRetrolinkN64ButtonZ</string>
 	</dict>
 	<key>OEControllerAdaptoidN64</key>
 	<dict>
-		<key>OEPSXButtonUp</key>
+		<key>OEPS2ButtonUp</key>
 		<string>OEControllerAdaptoidN64DPadUp</string>
-		<key>OEPSXButtonDown</key>
+		<key>OEPS2ButtonDown</key>
 		<string>OEControllerAdaptoidN64DPadDown</string>
-		<key>OEPSXLeftAnalogUp</key>
+		<key>OEPS2LeftAnalogUp</key>
 		<string>OEControllerAdaptoidN64AnalogUp</string>
-		<key>OEPSXLeftAnalogLeft</key>
+		<key>OEPS2LeftAnalogLeft</key>
 		<string>OEControllerAdaptoidN64AnalogLeft</string>
-		<key>OEPSXButtonLeft</key>
+		<key>OEPS2ButtonLeft</key>
 		<string>OEControllerAdaptoidN64DPadLeft</string>
-		<key>OEPSXButtonRight</key>
+		<key>OEPS2ButtonRight</key>
 		<string>OEControllerAdaptoidN64DPadRight</string>
-		<key>OEPSXButtonCircle</key>
+		<key>OEPS2ButtonCircle</key>
 		<string>OEControllerAdaptoidN64CPadRight</string>
-		<key>OEPSXButtonCross</key>
+		<key>OEPS2ButtonCross</key>
 		<string>OEControllerAdaptoidN64CPadDown</string>
-		<key>OEPSXButtonTriangle</key>
+		<key>OEPS2ButtonTriangle</key>
 		<string>OEControllerAdaptoidN64CPadUp</string>
-		<key>OEPSXButtonSquare</key>
+		<key>OEPS2ButtonSquare</key>
 		<string>OEControllerAdaptoidN64CPadLeft</string>
-		<key>OEPSXButtonL1</key>
+		<key>OEPS2ButtonL1</key>
 		<string>OEControllerAdaptoidN64ButtonLeftShoulder</string>
-		<key>OEPSXButtonR1</key>
+		<key>OEPS2ButtonR1</key>
 		<string>OEControllerAdaptoidN64ButtonRightShoulder</string>
-		<key>OEPSXButtonStart</key>
+		<key>OEPS2ButtonStart</key>
 		<string>OEControllerAdaptoidN64ButtonStart</string>
-		<key>OEPSXButtonSelect</key>
+		<key>OEPS2ButtonSelect</key>
 		<string>OEControllerAdaptoidN64ButtonZ</string>
 	</dict>
 	<key>OEControllerNintendoWiiUProController</key>
 	<dict>
-		<key>OEPSXButtonUp</key>
+		<key>OEPS2ButtonUp</key>
 		<string>OEControllerNintendoWiiUProControllerDPadUp</string>
-		<key>OEPSXButtonDown</key>
+		<key>OEPS2ButtonDown</key>
 		<string>OEControllerNintendoWiiUProControllerDPadDown</string>
-		<key>OEPSXButtonLeft</key>
+		<key>OEPS2ButtonLeft</key>
 		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
-		<key>OEPSXButtonRight</key>
+		<key>OEPS2ButtonRight</key>
 		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
-		<key>OEPSXLeftAnalogUp</key>
+		<key>OEPS2LeftAnalogUp</key>
 		<string>OEControllerNintendoWiiUProControllerLeftAnalogUp</string>
-		<key>OEPSXLeftAnalogLeft</key>
+		<key>OEPS2LeftAnalogLeft</key>
 		<string>OEControllerNintendoWiiUProControllerLeftAnalogLeft</string>
-		<key>OEPSXRightAnalogUp</key>
+		<key>OEPS2RightAnalogUp</key>
 		<string>OEControllerNintendoWiiUProControllerRightAnalogUp</string>
-		<key>OEPSXRightAnalogLeft</key>
+		<key>OEPS2RightAnalogLeft</key>
 		<string>OEControllerNintendoWiiUProControllerRightAnalogLeft</string>
-		<key>OEPSXButtonCircle</key>
+		<key>OEPS2ButtonCircle</key>
 		<string>OEControllerNintendoWiiUProControllerButtonA</string>
-		<key>OEPSXButtonCross</key>
+		<key>OEPS2ButtonCross</key>
 		<string>OEControllerNintendoWiiUProControllerButtonB</string>
-		<key>OEPSXButtonTriangle</key>
+		<key>OEPS2ButtonTriangle</key>
 		<string>OEControllerNintendoWiiUProControllerButtonX</string>
-		<key>OEPSXButtonSquare</key>
+		<key>OEPS2ButtonSquare</key>
 		<string>OEControllerNintendoWiiUProControllerButtonY</string>
-		<key>OEPSXButtonL1</key>
+		<key>OEPS2ButtonL1</key>
 		<string>OEControllerNintendoWiiUProControllerButtonL</string>
-		<key>OEPSXButtonL2</key>
+		<key>OEPS2ButtonL2</key>
 		<string>OEControllerNintendoWiiUProControllerButtonZL</string>
-		<key>OEPSXButtonL3</key>
+		<key>OEPS2ButtonL3</key>
 		<string>OEControllerNintendoWiiUProControllerButtonLeftAnalog</string>
-		<key>OEPSXButtonR1</key>
+		<key>OEPS2ButtonR1</key>
 		<string>OEControllerNintendoWiiUProControllerButtonR</string>
-		<key>OEPSXButtonR2</key>
+		<key>OEPS2ButtonR2</key>
 		<string>OEControllerNintendoWiiUProControllerButtonZR</string>
-		<key>OEPSXButtonR3</key>
+		<key>OEPS2ButtonR3</key>
 		<string>OEControllerNintendoWiiUProControllerButtonRightAnalog</string>
-		<key>OEPSXButtonStart</key>
+		<key>OEPS2ButtonStart</key>
 		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
-		<key>OEPSXButtonSelect</key>
+		<key>OEPS2ButtonSelect</key>
 		<string>OEControllerNintendoWiiUProControllerButtonMinus</string>
-		<key>OEPSXButtonAnalogMode</key>
+		<key>OEPS2ButtonAnalogMode</key>
 		<string>OEControllerNintendoWiiUProControllerButtonHome</string>
 	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
-		<key>OEPSXButtonUp</key>
+		<key>OEPS2ButtonUp</key>
 		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
-		<key>OEPSXLeftAnalogUp</key>
+		<key>OEPS2LeftAnalogUp</key>
 		<string>OEControllerSonyPS4Dualshock4LeftAnalogUp</string>
-		<key>OEPSXLeftAnalogLeft</key>
+		<key>OEPS2LeftAnalogLeft</key>
 		<string>OEControllerSonyPS4Dualshock4LeftAnalogLeft</string>
-		<key>OEPSXRightAnalogUp</key>
+		<key>OEPS2RightAnalogUp</key>
 		<string>OEControllerSonyPS4Dualshock4RightAnalogUp</string>
-		<key>OEPSXRightAnalogLeft</key>
+		<key>OEPS2RightAnalogLeft</key>
 		<string>OEControllerSonyPS4Dualshock4RightAnalogLeft</string>
-		<key>OEPSXButtonCircle</key>
+		<key>OEPS2ButtonCircle</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCircle</string>
-		<key>OEPSXButtonCross</key>
+		<key>OEPS2ButtonCross</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
-		<key>OEPSXButtonTriangle</key>
+		<key>OEPS2ButtonTriangle</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonTriangle</string>
-		<key>OEPSXButtonSquare</key>
+		<key>OEPS2ButtonSquare</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
-		<key>OEPSXButtonL1</key>
+		<key>OEPS2ButtonL1</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonL1</string>
-		<key>OEPSXButtonL2</key>
+		<key>OEPS2ButtonL2</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonL2</string>
-		<key>OEPSXButtonL3</key>
+		<key>OEPS2ButtonL3</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonL3</string>
-		<key>OEPSXButtonR1</key>
+		<key>OEPS2ButtonR1</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
-		<key>OEPSXButtonR2</key>
+		<key>OEPS2ButtonR2</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonR2</string>
-		<key>OEPSXButtonR3</key>
+		<key>OEPS2ButtonR3</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonR3</string>
-		<key>OEPSXButtonStart</key>
+		<key>OEPS2ButtonStart</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
-		<key>OEPSXButtonSelect</key>
+		<key>OEPS2ButtonSelect</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
-		<key>OEPSXButtonAnalogMode</key>
+		<key>OEPS2ButtonAnalogMode</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonHome</string>
 	</dict>
 </dict>

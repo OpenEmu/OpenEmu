@@ -2,39 +2,39 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>OEPSXButtonUp</key>
+	<key>OEPS2ButtonUp</key>
 	<integer>82</integer>
-	<key>OEPSXButtonDown</key>
+	<key>OEPS2ButtonDown</key>
 	<integer>81</integer>
-	<key>OEPSXButtonLeft</key>
+	<key>OEPS2ButtonLeft</key>
 	<integer>80</integer>
-	<key>OEPSXButtonRight</key>
+	<key>OEPS2ButtonRight</key>
 	<integer>79</integer>
-	<key>OEPSXButtonTriangle</key>
+	<key>OEPS2ButtonTriangle</key>
 	<integer>27</integer>
-	<key>OEPSXButtonCircle</key>
+	<key>OEPS2ButtonCircle</key>
 	<integer>29</integer>
-	<key>OEPSXButtonCross</key>
+	<key>OEPS2ButtonCross</key>
 	<integer>22</integer>
-	<key>OEPSXButtonSquare</key>
+	<key>OEPS2ButtonSquare</key>
 	<integer>4</integer>
-	<key>OEPSXButtonL1</key>
+	<key>OEPS2ButtonL1</key>
 	<integer>20</integer>
-	<key>OEPSXButtonL2</key>
+	<key>OEPS2ButtonL2</key>
 	<integer>26</integer>
-	<key>OEPSXButtonL3</key>
+	<key>OEPS2ButtonL3</key>
 	<integer>8</integer>
-	<key>OEPSXButtonR1</key>
+	<key>OEPS2ButtonR1</key>
 	<integer>7</integer>
-	<key>OEPSXButtonR2</key>
+	<key>OEPS2ButtonR2</key>
 	<integer>9</integer>
-	<key>OEPSXButtonR3</key>
+	<key>OEPS2ButtonR3</key>
 	<integer>10</integer>
-	<key>OEPSXButtonStart</key>
+	<key>OEPS2ButtonStart</key>
 	<integer>40</integer>
-	<key>OEPSXButtonSelect</key>
+	<key>OEPS2ButtonSelect</key>
 	<integer>229</integer>
-	<key>OEPSXButtonAnalogMode</key>
+	<key>OEPS2ButtonAnalogMode</key>
 	<integer>49</integer>
 </dict>
 </plist>
