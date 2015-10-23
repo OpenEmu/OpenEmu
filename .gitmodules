@@ -82,3 +82,6 @@
 [submodule "PokeMini"]
 	path = PokeMini
 	url = git@github.com:OpenEmu/PokeMini-Core
+[submodule "Reicast"]
+	path = Reicast
+	url = git@github.com:OpenEmu/Reicast-Core.git
