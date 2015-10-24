@@ -186,6 +186,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
         return;
     }
     [super setRepresentedObject:representedObject];
+    [self updateBlankSlate];
 }
 
 - (id <OECollectionViewItemProtocol>)representedObject
@@ -377,7 +378,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
             view = gridViewContainer;
             break;
         case OEListViewTag:
-            view = listView;
+            view = [listView enclosingScrollView];
             break;
     }
 
@@ -420,6 +421,8 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
             break;
         case OEBlankSlateTag:
             [[toolbar gridSizeSlider] setEnabled:NO];
+            [[toolbar gridViewButton] setEnabled:NO];
+            [[toolbar listViewButton] setEnabled:NO];
             break;
     }
 }
@@ -492,12 +495,6 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     [notificationCenter removeObserver:self name:NSManagedObjectContextDidSaveNotification object:context];
     [notificationCenter removeObserver:self name:OELibraryLocationDidChangeNotificationName object:nil];
     [standardUserDefaults removeObserver:self forKeyPath:OEDisplayGameTitle];
-
-    return;
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateViews) object:nil];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadData) object:nil];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadVisibleData) object:nil];
-
 }
 
 #pragma mark - Toolbar Actions
@@ -616,7 +613,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     [self performSelector:@selector(noteNumbersChanged) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
 }
 
-#define reloadDelay 5.5
+#define reloadDelay 0.5
 - (void)noteNumbersChanged
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateViews) object:nil];

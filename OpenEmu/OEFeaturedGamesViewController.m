@@ -115,14 +115,30 @@ const static CGFloat TableViewSpacing = 86.0;
 - (void)viewDidAppear
 {
     [super viewDidAppear];
-    
+    [self _setupToolbar];
+
     // Fetch games if we haven't already, this allows reloading if an error occured, by switching to a different collection or media view and then back to featured games
     if([[self games] count] == 0)
     {
         [self updateGames];
     }
+}
 
-    [[[[self libraryController] toolbar] searchField] setSearchMenuTemplate:nil];
+- (void)_setupToolbar
+{
+    OELibraryController *libraryController = [self libraryController];
+    OELibraryToolbar *toolbar = [libraryController toolbar];
+
+    [[toolbar addButton] setEnabled:NO];
+
+    [[toolbar gridSizeSlider] setEnabled:NO];
+    [[toolbar gridViewButton] setEnabled:NO];
+    [[toolbar listViewButton] setEnabled:NO];
+
+    NSSearchField *field = [toolbar searchField];
+    [field setSearchMenuTemplate:nil];
+    [field setEnabled:false];
+    [field setStringValue:@""];
 }
 
 #pragma mark - Data Handling

@@ -51,8 +51,31 @@
 
     [self addChildViewController:[self sidebarController]];
     [self addChildViewController:[self collectionController]];
-
 }
+
+- (void)viewDidAppear
+{
+    [self _setupToolbar];
+    [self _updateCollectionContentsFromSidebar:nil];
+}
+
+- (void)_setupToolbar
+{
+    OELibraryController *libraryController = [self libraryController];
+    OELibraryToolbar *toolbar = [libraryController toolbar];
+
+    [[toolbar addButton] setEnabled:YES];
+
+    [[toolbar gridSizeSlider] setEnabled:YES];
+    [[toolbar gridViewButton] setEnabled:YES];
+    [[toolbar listViewButton] setEnabled:YES];
+
+    NSSearchField *field = [toolbar searchField];
+    [field setSearchMenuTemplate:nil];
+    [field setEnabled:false];
+    [field setStringValue:@""];
+}
+
 #pragma mark - OELibrarySubviewController
 - (id)encodeCurrentState
 {

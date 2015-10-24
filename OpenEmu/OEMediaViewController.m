@@ -81,6 +81,25 @@
 - (void)viewDidAppear
 {
     [super viewDidAppear];
+    [self _setupToolbar];
+}
+
+- (void)_setupToolbar
+{
+    OELibraryController *libraryController = [self libraryController];
+    OELibraryToolbar *toolbar = [libraryController toolbar];
+
+    [[toolbar addButton] setEnabled:NO];
+
+    [[toolbar gridSizeSlider] setEnabled:NO];
+    [[toolbar gridViewButton] setEnabled:NO];
+    [[toolbar listViewButton] setEnabled:NO];
+
+    NSSearchField *field = [toolbar searchField];
+    [field setSearchMenuTemplate:nil];
+    [field setEnabled:false];
+    [field setStringValue:@""];
+
     [self _setupSearchMenuTemplate];
 }
 

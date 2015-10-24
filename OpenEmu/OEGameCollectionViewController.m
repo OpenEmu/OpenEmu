@@ -69,8 +69,19 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 {
     [super loadView];
 
-    [[self listView] bind:@"selectionIndexes" toObject:gamesController withKeyPath:@"selectionIndexes" options:@{}];
     [[self listView] setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+}
+
+- (void)viewDidAppear
+{
+    [super viewDidAppear];
+    [[self listView] bind:@"selectionIndexes" toObject:gamesController withKeyPath:@"selectionIndexes" options:@{}];
+}
+
+- (void)viewDidDisappear
+{
+    [super viewDidDisappear];
+    [[self listView] unbind:@"selectionIndexes"];
 }
 
 - (void)setLibraryController:(OELibraryController *)libraryController
@@ -129,7 +140,6 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
 - (void)dealloc
 {
-    [[self listView] unbind:@"selectionIndexes"];
     gamesController = nil;
 }
 #pragma mark - Selection

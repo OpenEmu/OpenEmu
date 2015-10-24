@@ -45,6 +45,7 @@
         [[textView cell] setScrollable:YES];
         [textView setBezeled:NO];
         [textView setAllowsEditingTextAttributes:NO];
+        [textView setBackgroundColor:[NSColor whiteColor]];
         [self addSubview:textView];
 
         [self setAutoresizesSubviews:NO];

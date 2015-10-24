@@ -284,7 +284,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 - (id<OESidebarItem>)selectedSidebarItem
 {
     id<OESidebarItem> item = [[self view] itemAtRow:[[self view] selectedRow]];
-
     NSAssert(item==nil || [item conformsToProtocol:@protocol(OESidebarItem)], @"All sidebar items must conform to OESidebarItem");
 
     return item;

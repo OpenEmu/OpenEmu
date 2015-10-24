@@ -49,7 +49,7 @@
                                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="grid_slider"/>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="changeGridSize:" target="-1" id="f4V-e5-5e1"/>
+                                        <action selector="changeGridSize:" target="-2" id="Kik-9s-ZBa"/>
                                         <outlet property="maxHint" destination="WVb-HG-sWJ" id="Q6j-VZ-HXY"/>
                                         <outlet property="minHint" destination="frh-Ke-F5l" id="7Xu-mI-gzI"/>
                                     </connections>
@@ -91,7 +91,7 @@
                                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_view_button_grid"/>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="switchToGridView:" target="-1" id="3DQ-tq-bxW"/>
+                                        <action selector="switchToGridView:" target="-2" id="zk0-sR-BHG"/>
                                     </connections>
                                 </button>
                                 <button id="l8b-vJ-uKr" userLabel="List View Mode Button" customClass="OEButton">
@@ -106,7 +106,7 @@
                                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_view_button_list"/>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="switchToListView:" target="-1" id="K6b-fS-DE9"/>
+                                        <action selector="switchToListView:" target="-2" id="YSf-lu-Ylg"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -140,7 +140,7 @@
                                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_sidebar_button_add"/>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="newCollection:" target="-1" id="Ueo-ru-Ko0"/>
+                                        <action selector="newCollection:" target="-2" id="Pd5-Ww-KK2"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -176,7 +176,7 @@
                                         </segments>
                                     </segmentedCell>
                                     <connections>
-                                        <action selector="switchCategory:" target="-1" id="07T-dz-1Sr"/>
+                                        <action selector="switchCategory:" target="-2" id="EHg-mf-kZT"/>
                                     </connections>
                                 </segmentedControl>
                             </subviews>
@@ -211,7 +211,7 @@
                                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="search_field"/>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="search:" target="-1" id="dFF-wt-ZJn"/>
+                                        <action selector="search:" target="-2" id="FLY-FQ-vrE"/>
                                     </connections>
                                 </searchField>
                             </subviews>
@@ -235,7 +235,7 @@
             </defaultToolbarItems>
             <connections>
                 <outlet property="addButton" destination="VQo-7G-prp" id="lhF-q6-qtM"/>
-                <outlet property="gridSizeSlider" destination="hfc-c7-igG" id="vmE-X8-ZGj"/>
+                <outlet property="gridSizeSlider" destination="hfc-c7-igG" id="kAN-nU-qBy"/>
                 <outlet property="gridViewButton" destination="iN6-LV-eCq" id="2mi-H3-aUp"/>
                 <outlet property="listViewButton" destination="l8b-vJ-uKr" id="uw4-pE-waN"/>
                 <outlet property="searchField" destination="NZT-Zn-8Vl" id="h1E-yp-9F4"/>
