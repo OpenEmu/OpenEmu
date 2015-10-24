@@ -17,15 +17,16 @@
 
 #import "OEGameGridViewDelegate.h"
 
-static const CGFloat OEGridCellTitleHeight                      = 16.0;        // Height of the title view
-static const CGFloat OEGridCellImageTitleSpacing                = 17.0;        // Space between the image and the title
-static const CGFloat OEGridCellSubtitleHeight                   = 11.0;        // Subtitle height
-static const CGFloat OEGridCellSubtitleWidth                    = 56.0;        // Subtitle's width
+static const CGFloat OEGridCellTitleHeight                      = 16.0; // Height of the title view
+static const CGFloat OEGridCellImageTitleSpacing                = 17.0; // Space between the image and the title
+static const CGFloat OEGridCellSubtitleHeight                   = 11.0; // Subtitle height
+static const CGFloat OEGridCellSubtitleWidth                    = 56.0; // Subtitle width
+static const CGFloat OEGridCellSubtitleTitleSpace               = 4.0;  // Space between title and subtitle
 
 static const CGFloat OEGridCellImageContainerLeft   = 13.0;
 static const CGFloat OEGridCellImageContainerTop    = 7.0;
 static const CGFloat OEGridCellImageContainerRight  = 13.0;
-static const CGFloat OEGridCellImageContainerBottom = OEGridCellTitleHeight + OEGridCellImageTitleSpacing + OEGridCellSubtitleHeight;
+static const CGFloat OEGridCellImageContainerBottom = OEGridCellTitleHeight + OEGridCellImageTitleSpacing + OEGridCellSubtitleHeight + OEGridCellSubtitleTitleSpace;
 
 __strong static OEThemeImage *selectorRingImage = nil;
 
@@ -117,7 +118,7 @@ static NSDictionary *disabledActions = nil;
     frame.size.width = [self frame].size.width;
     frame.size.height = OEGridCellTitleHeight;
     frame.origin.x = [self frame].origin.x;
-    frame.origin.y = [self frame].origin.y + OEGridCellSubtitleHeight;
+    frame.origin.y = [self frame].origin.y + OEGridCellSubtitleHeight + OEGridCellSubtitleTitleSpace;
 
     return frame;
 }
