@@ -197,11 +197,8 @@
 		3DA6EDCD1BD790B900560326 /* OEOpenGL3GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA6EDCB1BD790B900560326 /* OEOpenGL3GameRenderer.m */; };
 		3DB744AA1BD8BA9E00C23E74 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		3DB744AB1BD8BA9E00C23E74 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
-		3DB744BC1BD8BAB200C23E74 /* OEPS2SystemController.h in Sources */ = {isa = PBXBuildFile; fileRef = 3DB744771BD8B95300C23E74 /* OEPS2SystemController.h */; };
 		3DB744BD1BD8BAB200C23E74 /* OEPS2SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB744781BD8B95300C23E74 /* OEPS2SystemController.m */; };
-		3DB744BE1BD8BAB200C23E74 /* OEPS2SystemResponder.h in Sources */ = {isa = PBXBuildFile; fileRef = 3DB744791BD8B95300C23E74 /* OEPS2SystemResponder.h */; };
 		3DB744BF1BD8BAB200C23E74 /* OEPS2SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7447A1BD8B95300C23E74 /* OEPS2SystemResponder.m */; };
-		3DB744C01BD8BAB200C23E74 /* OEPS2SystemResponderClient.h in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7447B1BD8B95300C23E74 /* OEPS2SystemResponderClient.h */; };
 		3DB744C11BD8BACD00C23E74 /* controller_psx_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB7447F1BD8B9DE00C23E74 /* controller_psx_mask.png */; };
 		3DB744C21BD8BACD00C23E74 /* controller_psx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744801BD8B9DE00C23E74 /* controller_psx_mask@2x.png */; };
 		3DB744C31BD8BACD00C23E74 /* controller_psx.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744811BD8B9DE00C23E74 /* controller_psx.png */; };
@@ -7703,11 +7700,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3DB744BC1BD8BAB200C23E74 /* OEPS2SystemController.h in Sources */,
 				3DB744BD1BD8BAB200C23E74 /* OEPS2SystemController.m in Sources */,
-				3DB744BE1BD8BAB200C23E74 /* OEPS2SystemResponder.h in Sources */,
 				3DB744BF1BD8BAB200C23E74 /* OEPS2SystemResponder.m in Sources */,
-				3DB744C01BD8BAB200C23E74 /* OEPS2SystemResponderClient.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
