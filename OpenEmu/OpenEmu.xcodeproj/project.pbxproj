@@ -206,7 +206,6 @@
 		3DB744C51BD8BACD00C23E74 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744831BD8B9DE00C23E74 /* Controller-Mappings.plist */; };
 		3DB744C61BD8BACD00C23E74 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744841BD8B9DE00C23E74 /* Controller-Preferences.plist */; };
 		3DB744C71BD8BACD00C23E74 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744851BD8B9DE00C23E74 /* Keyboard-Mappings.plist */; };
-		3DB744C81BD8BACD00C23E74 /* PlayStation2-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744861BD8B9DE00C23E74 /* PlayStation2-Info.plist */; };
 		3DB744C91BD8BACD00C23E74 /* psx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744871BD8B9DE00C23E74 /* psx_library.png */; };
 		3DB744CA1BD8BACD00C23E74 /* psx_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744881BD8B9DE00C23E74 /* psx_library@2x.png */; };
 		3DB744CB1BD8BACD00C23E74 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3DB744931BD8B9EC00C23E74 /* InfoPlist.strings */; };
@@ -6934,7 +6933,6 @@
 				3DB744C51BD8BACD00C23E74 /* Controller-Mappings.plist in Resources */,
 				3DB744C61BD8BACD00C23E74 /* Controller-Preferences.plist in Resources */,
 				3DB744C71BD8BACD00C23E74 /* Keyboard-Mappings.plist in Resources */,
-				3DB744C81BD8BACD00C23E74 /* PlayStation2-Info.plist in Resources */,
 				3DB744C91BD8BACD00C23E74 /* psx_library.png in Resources */,
 				3DB744CA1BD8BACD00C23E74 /* psx_library@2x.png in Resources */,
 				3DB744CB1BD8BACD00C23E74 /* InfoPlist.strings in Resources */,
@@ -9661,6 +9659,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(PROJECT_BUILD_DIR)",
 					"$(PROJECT_DIR)-SDK/build/Debug",
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
