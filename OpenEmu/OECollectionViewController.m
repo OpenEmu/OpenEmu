@@ -124,7 +124,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     [_gridView setCellSize:defaultGridSize];
 
     //set initial zoom value
-    NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
+    NSSlider *sizeSlider = [[[self libraryController] toolbar] gridSizeSlider];
     [sizeSlider setContinuous:YES];
 
     // Set up list view
@@ -200,7 +200,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
     NSMutableData    *data  = [NSMutableData data];
     NSKeyedArchiver  *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-    NSSlider *sizeSlider    = [[self libraryController] toolbarSlider];
+    NSSlider *sizeSlider    = [[[self libraryController] toolbar] gridSizeSlider];
 
     [coder encodeInt:_selectedViewTag forKey:@"selectedView"];
     [coder encodeFloat:[sizeSlider floatValue] forKey:@"sliderValue"];
@@ -225,8 +225,8 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     NSArray      *listViewSortDescriptors = nil;
     NSRect        gridViewVisibleRect = NSZeroRect;
 
-    NSSlider     *sizeSlider     = [[self libraryController] toolbarSlider];
-    NSTextField  *searchField    = [[self libraryController] toolbarSearchField];
+    NSSlider     *sizeSlider     = [[[self libraryController] toolbar] gridSizeSlider];
+    NSTextField  *searchField    = [[[self libraryController] toolbar] searchField];
 
     NSKeyedUnarchiver *coder = state ? [[NSKeyedUnarchiver alloc] initForReadingWithData:state] : nil;
     if(coder)
@@ -405,52 +405,52 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 - (void)OE_setupToolbarStatesForViewTag:(OECollectionViewControllerViewTag)tag
 {
+    OELibraryToolbar *toolbar = [[self libraryController] toolbar];
     switch (tag)
     {
         case OEGridViewTag:
-            [[[self libraryController] toolbarGridViewButton] setState:NSOnState];
-            [[[self libraryController] toolbarListViewButton] setState:NSOffState];
-            [[[self libraryController] toolbarSlider] setEnabled:YES];
+            [[toolbar gridViewButton] setState:NSOnState];
+            [[toolbar listViewButton] setState:NSOffState];
+            [[toolbar gridSizeSlider] setEnabled:YES];
             break;
         case OEListViewTag:
-            [[[self libraryController] toolbarGridViewButton] setState:NSOffState];
-            [[[self libraryController] toolbarListViewButton] setState:NSOnState];
-            [[[self libraryController] toolbarSlider] setEnabled:NO];
+            [[toolbar gridViewButton] setState:NSOffState];
+            [[toolbar listViewButton] setState:NSOnState];
+            [[toolbar gridSizeSlider] setEnabled:NO];
             break;
         case OEBlankSlateTag:
-            [[[self libraryController] toolbarSlider] setEnabled:NO];
+            [[toolbar gridSizeSlider] setEnabled:NO];
             break;
     }
 }
 
 - (void)updateBlankSlate
 {
+    OELibraryToolbar *toolbar = [[self libraryController] toolbar];
     if(![self shouldShowBlankSlate])
     {
         [self OE_switchToView:[self OE_currentViewTagByToolbarState]];
 
-        [[[self libraryController] toolbarGridViewButton] setEnabled:YES];
-        [[[self libraryController] toolbarListViewButton] setEnabled:YES];
+        [[toolbar gridViewButton] setEnabled:YES];
+        [[toolbar listViewButton] setEnabled:YES];
 
-        [[[self libraryController] toolbarSearchField] setEnabled:YES];
+        [[toolbar searchField] setEnabled:YES];
 
-        [[[self libraryController] toolbarSlider] setEnabled:YES];
+        [[toolbar gridSizeSlider] setEnabled:YES];
     }
     else
     {
         [self OE_switchToView:OEBlankSlateTag];
 
-        [[[self libraryController] toolbarGridViewButton] setEnabled:NO];
-        [[[self libraryController] toolbarListViewButton] setEnabled:NO];
-
-        [[[self libraryController] toolbarSearchField] setEnabled:NO];
-
-        [[[self libraryController] toolbarSlider] setEnabled:NO];
+        [[toolbar gridViewButton] setEnabled:NO];
+        [[toolbar listViewButton] setEnabled:NO];
+        [[toolbar searchField] setEnabled:NO];
+        [[toolbar gridSizeSlider] setEnabled:NO];
 
         [blankSlateView setRepresentedObject:[self representedObject]];
     }
 
-    [[[self libraryController] toolbarSearchField] setMenu:nil];
+    [[toolbar searchField] setMenu:nil];
 }
 
 - (BOOL)shouldShowBlankSlate
@@ -460,7 +460,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 - (OECollectionViewControllerViewTag)OE_currentViewTagByToolbarState
 {
-    if([[[self libraryController] toolbarGridViewButton] state] == NSOnState)
+    if([[[[self libraryController] toolbar] gridViewButton] state] == NSOnState)
         return OEGridViewTag;
     else
         return OEListViewTag;
@@ -470,20 +470,34 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 {
     [super viewDidAppear];
 
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+
     // Watch the main thread's managed object context for changes
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
+    [notificationCenter addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
 
-    [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:OEDisplayGameTitle options:0 context:NULL];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    [standardUserDefaults addObserver:self forKeyPath:OEDisplayGameTitle options:0 context:NULL];
+    [notificationCenter addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
 }
 
 - (void)viewDidDisappear
 {
     [super viewDidDisappear];
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:OEDisplayGameTitle];
+    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+
+    [notificationCenter removeObserver:self name:NSManagedObjectContextDidSaveNotification object:context];
+    [notificationCenter removeObserver:self name:OELibraryLocationDidChangeNotificationName object:nil];
+    [standardUserDefaults removeObserver:self forKeyPath:OEDisplayGameTitle];
+
+    return;
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateViews) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadData) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadVisibleData) object:nil];
+
 }
 
 #pragma mark - Toolbar Actions
@@ -602,7 +616,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     [self performSelector:@selector(noteNumbersChanged) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO];
 }
 
-#define reloadDelay 0.5
+#define reloadDelay 5.5
 - (void)noteNumbersChanged
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateViews) object:nil];

@@ -580,7 +580,8 @@
 - (IBAction)showIssuesView:(id)sender
 {
     [[self issuesView] reloadData];
-    [[self libraryController] showViewController:self];
+    // TODO: re-implement showViewController or something similar
+//    [[self libraryController] showViewController:self];
     [[self issuesView] sizeToFit];
 }
 

@@ -163,7 +163,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 {
     [super setRepresentedObject:representedObject];
 
-    [[[self libraryController] toolbarSearchField] setSearchMenuTemplate:nil];
+    [[[[self libraryController] toolbar] searchField] setSearchMenuTemplate:nil];
 
     NSAssert([representedObject conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)], @"");
 
@@ -302,12 +302,13 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 - (void)makeNewCollectionWithSelectedGames:(id)sender
 {
     OECoreDataMainThreadAssertion();
-
+/*
     NSArray *selectedGames = [self selectedGames];
     OEDBCollection *collection = [[[self libraryController] sidebarController] addCollection:NO];
     [collection setGames:[NSSet setWithArray:selectedGames]];
     [collection save];
     [self setNeedsReload];
+ */
 }
 
 - (void)addSelectedGamesToCollection:(id)sender

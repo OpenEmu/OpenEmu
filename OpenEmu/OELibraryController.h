@@ -31,7 +31,7 @@
 #import "OELibraryDatabase.h"
 #import "OELibrarySplitView.h"
 #import "OEButton.h"
-
+#import "OELibraryToolbar.h"
 extern NSString * const OELibraryStatesKey;
 
 @class OELibraryDatabase;
@@ -45,7 +45,7 @@ extern NSString * const OELibraryStatesKey;
 
 - (void)startSelectedGameWithSaveState:(id)stateItem;
 
-#pragma mark - Toolbar
+#pragma mark - Toolbar Actions
 - (IBAction)switchToGridView:(id)sender;
 - (IBAction)switchToListView:(id)sender;
 - (IBAction)search:(id)sender;
@@ -64,43 +64,15 @@ extern NSString * const OELibraryStatesKey;
 - (IBAction)startSaveState:(id)sender;
 
 #pragma mark - Custom Views
-- (IBAction)toggleSaveStateView:(id)sender;
-- (IBAction)toggleScreenshotView:(id)sender;
-- (IBAction)toggleHomebrewView:(id)sender;
+- (IBAction)switchCategory:(id)sender;
 
-#pragma mark - Controlling Sidebar
-- (IBAction)toggleSidebar:(id)sender;
-- (IBAction)showSidebar:(id)sender;
-- (IBAction)hideSidebar:(id)sender;
 #pragma mark - Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 
-#pragma mark -
-#pragma mark Properties
-@property (nonatomic, getter=isSidebarVisible) BOOL sidebarVisible;
-@property (strong)    OELibraryDatabase *database;
-
-@property (strong) IBOutlet OESidebarController         *sidebarController;
+#pragma mark - Properties
+@property (strong) OELibraryDatabase *database;
 @property (nonatomic, readonly) NSViewController <OELibrarySubviewController> *currentViewController;
-
-@property (strong) IBOutlet OELibrarySplitView           *mainSplitView;
-@property (strong) IBOutlet NSView                       *mainContentPlaceholderView;
-
-@property (strong) IBOutlet OEButton      *toolbarGridViewButton;
-@property (strong) IBOutlet OEButton      *toolbarListViewButton;
-
-@property (strong) IBOutlet NSButton      *toolbarAddToSidebarButton;
-@property (strong) IBOutlet NSSearchField *toolbarSearchField;
-@property (strong) IBOutlet NSSlider      *toolbarSlider;
-
-- (void)showViewController:(NSViewController<OELibrarySubviewController> *)nextViewController;
-
-@property (assign) IBOutlet NSView *leftToolbarView;
-@property (assign) IBOutlet NSView *rightToolbarView;
-
-@property (assign) IBOutlet NSButton *screenshotsButton;
-@property (assign) IBOutlet NSButton *savestateButton;
-@property (assign) IBOutlet NSButton *featuredGamesButton;
+@property (strong) IBOutlet OELibraryToolbar *toolbar;
 @end
 
 @class OEDBGame, OEDBRom, OEDBSaveState;

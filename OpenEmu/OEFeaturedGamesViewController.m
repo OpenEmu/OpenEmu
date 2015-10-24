@@ -122,7 +122,7 @@ const static CGFloat TableViewSpacing = 86.0;
         [self updateGames];
     }
 
-    [[[self libraryController] toolbarSearchField] setSearchMenuTemplate:nil];
+    [[[[self libraryController] toolbar] searchField] setSearchMenuTemplate:nil];
 }
 
 #pragma mark - Data Handling
@@ -508,12 +508,10 @@ const static CGFloat TableViewSpacing = 86.0;
 {
     _libraryController = libraryController;
 
-    [[libraryController toolbarGridViewButton] setEnabled:NO];
-    [[libraryController toolbarListViewButton] setEnabled:NO];
-
-    [[libraryController toolbarSearchField] setEnabled:NO];
-
-    [[libraryController toolbarSlider] setEnabled:NO];
+    [[[libraryController toolbar] gridViewButton] setEnabled:NO];
+    [[[libraryController toolbar] listViewButton] setEnabled:NO];
+    [[[libraryController toolbar] searchField] setEnabled:NO];
+    [[[libraryController toolbar] gridSizeSlider] setEnabled:NO];
 }
 @end
 

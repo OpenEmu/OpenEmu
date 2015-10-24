@@ -109,11 +109,6 @@
 
 - (void)setLibraryController:(OELibraryController *)controller
 {
-    [[controller toolbarGridViewButton] setEnabled:FALSE];
-    [[controller toolbarListViewButton] setEnabled:FALSE];
-
-    [[controller toolbarSearchField] setEnabled:YES];
-    [[controller toolbarSlider] setEnabled:YES];
 }
 
 #pragma mark -

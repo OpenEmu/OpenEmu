@@ -130,7 +130,7 @@
     [item setIndentationLevel:1];
     [menu addItem:item];
 
-    [[[self libraryController] toolbarSearchField] setSearchMenuTemplate:menu];
+    [[[[self libraryController] toolbar] searchField] setSearchMenuTemplate:menu];
 }
 
 - (void)searchScopeDidChange:(NSMenuItem*)sender
@@ -142,7 +142,7 @@
 
     [sender setState:NSOnState];
     [self setSearchKeys:[sender representedObject]];
-    NSSearchField *field = [[self libraryController] toolbarSearchField];
+    NSSearchField *field = [[[self libraryController] toolbar] searchField];
     [self search:field];
 }
 
@@ -191,17 +191,17 @@
 {
     [super setLibraryController:controller];
     
-    [[controller toolbarGridViewButton] setEnabled:FALSE];
-    [[controller toolbarListViewButton] setEnabled:FALSE];
+    [self.libraryController.toolbar.gridViewButton setEnabled:FALSE];
+    [self.libraryController.toolbar.listViewButton setEnabled:FALSE];
     
-    [[controller toolbarSearchField] setEnabled:YES];
-    [[controller toolbarSlider] setEnabled:YES];
+    [self.libraryController.toolbar.searchField setEnabled:YES];
+    [self.libraryController.toolbar.gridSizeSlider setEnabled:YES];
 }
 
 #pragma mark -
 - (void)search:(id)sender
 {
-    NSString *searchTerm = [[[self libraryController] toolbarSearchField] stringValue];
+    NSString *searchTerm = [self.libraryController.toolbar.searchField stringValue];
     NSMutableArray *predarray = [NSMutableArray array];
     NSArray *tokens = [searchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
