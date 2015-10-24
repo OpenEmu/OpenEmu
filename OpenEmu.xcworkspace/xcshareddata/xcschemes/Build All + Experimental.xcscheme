@@ -472,20 +472,6 @@
                ReferencedContainer = "container:OpenEmu/OpenEmu.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8CBB42FF178C399D00FA270D"
-               BuildableName = "Build &amp; Install Reicast"
-               BlueprintName = "Build &amp; Install Reicast"
-               ReferencedContainer = "container:Reicast/Reicast.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

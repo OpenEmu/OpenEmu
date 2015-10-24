@@ -68,9 +68,6 @@
       location = "group:ProSystem/ProSystem.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Reicast/Reicast.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:SNES9x/SNES9x.xcodeproj">
    </FileRef>
    <FileRef
