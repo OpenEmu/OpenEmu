@@ -119,21 +119,21 @@
                 </toolbarItem>
                 <toolbarItem implicitItemIdentifier="8E705F8E-572D-4DD5-A1C3-96B9EE05D79A" label="Category" paletteLabel="Category" tag="-1" id="Jiu-4k-Ecu">
                     <nil key="toolTip"/>
-                    <size key="minSize" width="295" height="34"/>
-                    <size key="maxSize" width="306" height="114"/>
+                    <size key="minSize" width="360" height="34"/>
+                    <size key="maxSize" width="360" height="114"/>
                     <box key="view" borderType="none" titlePosition="noTitle" id="XJ3-gQ-HUH">
-                        <rect key="frame" x="0.0" y="14" width="306" height="38"/>
+                        <rect key="frame" x="0.0" y="14" width="348" height="38"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="Nyg-fr-RuE">
-                            <rect key="frame" x="0.0" y="0.0" width="306" height="38"/>
+                            <rect key="frame" x="0.0" y="0.0" width="348" height="38"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <segmentedControl verticalHuggingPriority="750" id="enK-iW-Klt">
-                                    <rect key="frame" x="6" y="10" width="295" height="20"/>
+                                    <rect key="frame" x="4" y="9" width="346" height="24"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <animations/>
-                                    <segmentedCell key="cell" controlSize="small" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="y2e-ND-lKU">
-                                        <font key="font" metaFont="smallSystem"/>
+                                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="y2e-ND-lKU">
+                                        <font key="font" metaFont="system"/>
                                         <segments>
                                             <segment label="Library" selected="YES"/>
                                             <segment label="Save States" tag="1"/>
@@ -206,7 +206,7 @@
                 <outlet property="searchField" destination="NZT-Zn-8Vl" id="h1E-yp-9F4"/>
                 <outlet property="viewSelector" destination="enK-iW-Klt" id="tkm-Yq-MTt"/>
             </connections>
-            <point key="canvasLocation" x="-911.5" y="-78"/>
+            <point key="canvasLocation" x="-901" y="-78"/>
         </toolbar>
     </objects>
 </document>
