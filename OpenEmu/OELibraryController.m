@@ -57,12 +57,13 @@
 NSString * const OELastSidebarSelectionKey = @"lastSidebarSelection";
 NSString * const OELibraryStatesKey        = @"Library States";
 
-typedef enum : NSInteger {
+typedef NS_ENUM(NSInteger, OELibraryCategory) {
     OELibraryCategoryGames,
     OELibraryCategorySaveStates,
     OELibraryCategoryScreenshots,
     OELibraryCategoryHomebrew
-} OELibraryCategory;
+};
+
 #pragma mark - Imported variables
 extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
