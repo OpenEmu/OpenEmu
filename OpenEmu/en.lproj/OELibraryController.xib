@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
         <capability name="box content view" minToolsVersion="7.0"/>
     </dependencies>
     <objects>
@@ -25,13 +25,13 @@
                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="cAJ-ae-jpG"/>
                 <toolbarItem implicitItemIdentifier="399CF9BB-738C-4345-8E3B-9526F0829DC8" label="Grid Size" paletteLabel="Grid Size" tag="-1" id="4KY-AU-4s0">
                     <nil key="toolTip"/>
-                    <size key="minSize" width="140" height="34"/>
-                    <size key="maxSize" width="183" height="38"/>
+                    <size key="minSize" width="110" height="34"/>
+                    <size key="maxSize" width="116" height="38"/>
                     <box key="view" borderType="none" titlePosition="noTitle" id="1vd-UG-i31">
-                        <rect key="frame" x="0.0" y="14" width="183" height="38"/>
+                        <rect key="frame" x="0.0" y="14" width="116" height="38"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="Lvs-uK-5Ch">
-                            <rect key="frame" x="0.0" y="0.0" width="183" height="38"/>
+                            <rect key="frame" x="0.0" y="0.0" width="116" height="38"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <imageView id="frh-Ke-F5l" userLabel="Minus Hint Image View">
@@ -41,7 +41,7 @@
                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topRight" id="Q9h-4Z-F9s"/>
                                 </imageView>
                                 <slider verticalHuggingPriority="750" id="hfc-c7-igG" userLabel="Size Slider" customClass="OESlider">
-                                    <rect key="frame" x="20" y="12" width="137" height="15"/>
+                                    <rect key="frame" x="20" y="12" width="76" height="15"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <animations/>
                                     <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" minValue="0.5" maxValue="2.5" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="mhj-6u-lCz" customClass="OESliderCell"/>
@@ -55,7 +55,7 @@
                                     </connections>
                                 </slider>
                                 <imageView id="WVb-HG-sWJ" userLabel="Max Hint Image View">
-                                    <rect key="frame" x="165" y="15" width="10" height="10"/>
+                                    <rect key="frame" x="98" y="15" width="10" height="10"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <animations/>
                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" id="oze-RB-u52"/>
@@ -241,7 +241,7 @@
                 <outlet property="searchField" destination="NZT-Zn-8Vl" id="h1E-yp-9F4"/>
                 <outlet property="viewSelector" destination="enK-iW-Klt" id="tkm-Yq-MTt"/>
             </connections>
-            <point key="canvasLocation" x="-153" y="-46"/>
+            <point key="canvasLocation" x="-187" y="-110"/>
         </toolbar>
     </objects>
 </document>
