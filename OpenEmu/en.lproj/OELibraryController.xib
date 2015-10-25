@@ -191,11 +191,12 @@
                 <toolbarItem implicitItemIdentifier="38BE7ED5-34C4-40FA-871F-D886BEA66184" label="Adaptive Space" paletteLabel="Adaptive Space" tag="-1" id="7nQ-Nj-a9l" customClass="TAAdaptiveSpaceItem"/>
             </allowedToolbarItems>
             <defaultToolbarItems>
+                <toolbarItem reference="e9d-Ol-Po9"/>
+                <toolbarItem reference="DWE-Na-du6"/>
+                <toolbarItem reference="4KY-AU-4s0"/>
                 <toolbarItem reference="7nQ-Nj-a9l"/>
                 <toolbarItem reference="Jiu-4k-Ecu"/>
                 <toolbarItem reference="cAJ-ae-jpG"/>
-                <toolbarItem reference="4KY-AU-4s0"/>
-                <toolbarItem reference="DWE-Na-du6"/>
                 <toolbarItem reference="Nu8-Bo-VSq"/>
             </defaultToolbarItems>
             <connections>
