@@ -233,16 +233,23 @@ NSString * const OptionsKey = @"options";
 #pragma mark -
 - (void)resetMainWindow:(id)sender
 {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"NSSplitView Subview Frames mainSplitView"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"NSWindow Frame LibraryWindow"];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    [defaults removeObjectForKey:@"NSSplitView Subview Frames mainSplitView"];
+    [defaults removeObjectForKey:@"NSWindow Frame LibraryWindow"];
 
-    [[NSApp windows] enumerateObjectsUsingBlock:^(NSWindow *window, NSUInteger idx, BOOL *stop) {
+    for(NSWindow *window in [NSApp windows])
+    {
         if([[window windowController] isKindOfClass:[OEMainWindowController class]])
         {
-            [window setFrame:NSMakeRect(0, 0, 830, 555+22) display:NO];
+            // Matches the content size specified in MainWindow.xib.
+            [window setContentSize:NSMakeSize(1024, 720)];
+            
             [window center];
+            
+            break;
         }
-    }];
+    }
 }
  
 #pragma mark -
