@@ -243,7 +243,7 @@ NSString * const OptionsKey = @"options";
         if([[window windowController] isKindOfClass:[OEMainWindowController class]])
         {
             // Matches the content size specified in MainWindow.xib.
-            [window setContentSize:NSMakeSize(1024, 720)];
+            [window setContentSize:NSMakeSize(830, 555)];
             
             [window center];
             
