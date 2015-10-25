@@ -38,14 +38,14 @@
 
 - (NSColor *)borderColor {
     if (!_borderColor) {
-        _borderColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.25];
+        _borderColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.15];
     }
     return _borderColor;
 }
 
 - (NSRect)borderRect {
     
-    const CGFloat borderWidth = 0.5;
+    const CGFloat borderWidth = MAX(0.5, 1.0 / self.window.backingScaleFactor);
     
     NSRect bounds = self.bounds;
     NSRect rect = NSMakeRect(NSMaxX(bounds) - borderWidth,
@@ -53,7 +53,7 @@
                              borderWidth,
                              NSHeight(bounds));
     
-    return [self centerScanRect:rect];
+    return rect;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
