@@ -27,18 +27,47 @@
 #import "OESidebarBackgroundView.h"
 
 @implementation OESidebarBackgroundView
+@synthesize fillColor = _fillColor, borderColor = _borderColor;
 
-- (void)drawRect:(NSRect)dirtyRect
-{
-    [[NSColor colorWithDeviceWhite:(63/255.0) alpha:1.0] setFill];
+- (NSColor *)fillColor {
+    if (!_fillColor) {
+        _fillColor = [NSColor colorWithDeviceWhite:63.0 / 255.0 alpha:1.0];
+    }
+    return _fillColor;
+}
+
+- (NSColor *)borderColor {
+    if (!_borderColor) {
+        _borderColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.25];
+    }
+    return _borderColor;
+}
+
+- (NSRect)borderRect {
+    
+    const CGFloat borderWidth = 0.5;
+    
+    NSRect bounds = self.bounds;
+    NSRect rect = NSMakeRect(NSMaxX(bounds) - borderWidth,
+                             NSMinY(bounds),
+                             borderWidth,
+                             NSHeight(bounds));
+    
+    return [self centerScanRect:rect];
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+    
+    // Draw background.
+    [self.fillColor setFill];
     NSRectFill(dirtyRect);
-    [[NSColor blackColor] setFill];
-    NSRect blackBorderLine = [self bounds];
     
-    blackBorderLine.origin.x += blackBorderLine.size.width-1;
-    blackBorderLine.size.width = 1;
-    
-    NSRectFill(NSIntersectionRect(blackBorderLine, dirtyRect));
+    // Draw border.
+    NSRect borderRect = self.borderRect;
+    if ([self needsToDrawRect:borderRect]) {
+        [self.borderColor setFill];
+        NSRectFill(borderRect);
+    }
 }
 
 @end

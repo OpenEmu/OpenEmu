@@ -27,4 +27,6 @@
 #import <Cocoa/Cocoa.h>
 
 @interface OESidebarBackgroundView : NSView
+@property (nonatomic, strong, readonly) NSColor *fillColor;
+@property (nonatomic, strong, readonly) NSColor *borderColor;
 @end
