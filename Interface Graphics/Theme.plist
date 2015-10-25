@@ -581,6 +581,8 @@
 			</dict>
 			<key>Size</key>
 			<integer>11</integer>
+			<key>Weight</key>
+			<real>0.2</real>
 			<key>States</key>
 			<dict>
 				<key>Default</key>
@@ -622,6 +624,8 @@
 			</dict>
 			<key>Size</key>
 			<integer>11</integer>
+			<key>Weight</key>
+			<real>0.2</real>
 			<key>States</key>
 			<dict>
 				<key>Default</key>
@@ -663,6 +667,8 @@
 			</dict>
 			<key>Size</key>
 			<integer>11</integer>
+			<key>Weight</key>
+			<real>0.2</real>
 			<key>States</key>
 			<dict>
 				<key>Default</key>
