@@ -267,6 +267,8 @@
 		53D32E4E13B95F9A00A6ACE0 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */; };
 		53D32E4F13B95F9A00A6ACE0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */; };
 		556CEBF01BCE173B00F00EAA /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */; };
+		5ABE03291BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */; };
+		5ABE032A1BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03281BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m */; };
 		820EB7421483F9A2008EC398 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
 		82277547148946DF00B19E27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -425,7 +427,7 @@
 		83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D33BD51AEB9ABE0085753B /* ALIterativeMigrator.m */; };
 		83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
 		83D94FAF19A4CD2A007583E1 /* OETableCellGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D94FAE19A4CD2A007583E1 /* OETableCellGroupView.m */; };
-		83D9AF3C1BD5852F00B882C8 /* OELibraryToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D9AF3B1BD5852F00B882C8 /* OELibraryToolbar.m */; settings = {ASSET_TAGS = (); }; };
+		83D9AF3C1BD5852F00B882C8 /* OELibraryToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D9AF3B1BD5852F00B882C8 /* OELibraryToolbar.m */; };
 		83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */; };
 		83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */; };
 		83DC1FCD147085C800F3D77A /* controller_gba.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DC1FCA1470857900F3D77A /* controller_gba.png */; };
@@ -1785,6 +1787,10 @@
 		53D32E4513B95F0800A6ACE0 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		53D32E4B13B95F5400A6ACE0 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
 		556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Graphics.xcassets; sourceTree = "<group>"; };
+		5ABE03251BDCA03600BC7B6A /* TAAdaptiveSpaceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItem.h; sourceTree = "<group>"; };
+		5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAdaptiveSpaceItem.m; sourceTree = "<group>"; };
+		5ABE03271BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItemView.h; sourceTree = "<group>"; };
+		5ABE03281BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAdaptiveSpaceItemView.m; sourceTree = "<group>"; };
 		820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NeoGeo Pocket.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		820EB74E1483F9D3008EC398 /* controller_ngp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_ngp.png; sourceTree = "<group>"; };
 		820EB7511483F9D3008EC398 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -4449,9 +4455,13 @@
 				53439AA413B92CC7005C0CC8 /* OELibraryController.h */,
 				53439AA513B92CC7005C0CC8 /* OELibraryController.m */,
 				8337393515BFD77900D83D2F /* OELibrarySubviewController.h */,
-				53439B0413B92EDC005C0CC8 /* Utilities */,
 				83D9AF3A1BD5852F00B882C8 /* OELibraryToolbar.h */,
 				83D9AF3B1BD5852F00B882C8 /* OELibraryToolbar.m */,
+				5ABE03251BDCA03600BC7B6A /* TAAdaptiveSpaceItem.h */,
+				5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */,
+				5ABE03271BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.h */,
+				5ABE03281BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m */,
+				53439B0413B92EDC005C0CC8 /* Utilities */,
 			);
 			name = "MainWindow: Library";
 			sourceTree = "<group>";
@@ -7915,9 +7925,11 @@
 				8C4C808E16986C87009B8A28 /* OECGShader.m in Sources */,
 				94791E9516AE8A18007DB8BE /* OEShaderPlugin.m in Sources */,
 				8C415ECD16B0682B00980DB9 /* OEMultipassShader.m in Sources */,
+				5ABE03291BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m in Sources */,
 				834B6F2E1A3B453000CA6A26 /* OEFeaturedGamesBlankSlateView.m in Sources */,
 				C6C3734216BE7065003E57AE /* OEBuiltInShader.m in Sources */,
 				94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */,
+				5ABE032A1BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m in Sources */,
 				838DB01916DBE14E00B8DDC8 /* OETextField.m in Sources */,
 				838DB01C16DBE15900B8DDC8 /* OETextFieldCell.m in Sources */,
 				14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */,

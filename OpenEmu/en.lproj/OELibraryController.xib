@@ -117,60 +117,26 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                 </toolbarItem>
-                <toolbarItem implicitItemIdentifier="2EC1300E-9C08-49BF-9272-36E2D2D9754B" label="Add" paletteLabel="Add" tag="-1" id="POq-Kg-17A">
-                    <nil key="toolTip"/>
-                    <size key="minSize" width="28" height="34"/>
-                    <size key="maxSize" width="28" height="38"/>
-                    <box key="view" borderType="none" titlePosition="noTitle" id="vBY-ss-Mvy">
-                        <rect key="frame" x="0.0" y="14" width="28" height="34"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <view key="contentView" id="hwh-JD-a2P">
-                            <rect key="frame" x="0.0" y="0.0" width="28" height="34"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <button id="VQo-7G-prp" userLabel="Add To Sidebar Button" customClass="OEButton">
-                                    <rect key="frame" x="0.0" y="7" width="28" height="23"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <animations/>
-                                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" inset="2" id="UTp-5e-jRq" customClass="OEButtonCell">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_sidebar_button_add"/>
-                                    </userDefinedRuntimeAttributes>
-                                    <connections>
-                                        <action selector="newCollection:" target="-2" id="Pd5-Ww-KK2"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                            <animations/>
-                        </view>
-                        <animations/>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </box>
-                </toolbarItem>
                 <toolbarItem implicitItemIdentifier="8E705F8E-572D-4DD5-A1C3-96B9EE05D79A" label="Category" paletteLabel="Category" tag="-1" id="Jiu-4k-Ecu">
                     <nil key="toolTip"/>
-                    <size key="minSize" width="153" height="34"/>
-                    <size key="maxSize" width="700" height="114"/>
+                    <size key="minSize" width="295" height="34"/>
+                    <size key="maxSize" width="306" height="114"/>
                     <box key="view" borderType="none" titlePosition="noTitle" id="XJ3-gQ-HUH">
-                        <rect key="frame" x="0.0" y="14" width="295" height="38"/>
+                        <rect key="frame" x="0.0" y="14" width="306" height="38"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="Nyg-fr-RuE">
-                            <rect key="frame" x="0.0" y="0.0" width="295" height="38"/>
+                            <rect key="frame" x="0.0" y="0.0" width="306" height="38"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <segmentedControl verticalHuggingPriority="750" id="enK-iW-Klt">
-                                    <rect key="frame" x="-2" y="11" width="295" height="20"/>
+                                    <rect key="frame" x="6" y="10" width="295" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <animations/>
                                     <segmentedCell key="cell" controlSize="small" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="y2e-ND-lKU">
                                         <font key="font" metaFont="smallSystem"/>
                                         <segments>
-                                            <segment label="Library"/>
-                                            <segment label="Save States" selected="YES" tag="1"/>
+                                            <segment label="Library" selected="YES"/>
+                                            <segment label="Save States" tag="1"/>
                                             <segment label="Screenshots"/>
                                             <segment label="Homebrew"/>
                                         </segments>
@@ -189,17 +155,17 @@
                 </toolbarItem>
                 <toolbarItem implicitItemIdentifier="EFC0B5C0-3EDC-40C4-A2F5-104B980BB6DA" label="Search" paletteLabel="Search" tag="-1" id="Nu8-Bo-VSq" userLabel="Search">
                     <nil key="toolTip"/>
-                    <size key="minSize" width="220" height="34"/>
-                    <size key="maxSize" width="220" height="38"/>
+                    <size key="minSize" width="160" height="34"/>
+                    <size key="maxSize" width="166" height="38"/>
                     <box key="view" borderType="none" titlePosition="noTitle" id="ALS-TT-WCw">
-                        <rect key="frame" x="0.0" y="14" width="220" height="38"/>
+                        <rect key="frame" x="0.0" y="14" width="166" height="38"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <view key="contentView" id="UbR-HE-f5h">
-                            <rect key="frame" x="0.0" y="0.0" width="220" height="38"/>
+                            <rect key="frame" x="0.0" y="0.0" width="166" height="38"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" id="NZT-Zn-8Vl" customClass="OESearchField">
-                                    <rect key="frame" x="0.0" y="8" width="220" height="22"/>
+                                    <rect key="frame" x="0.0" y="8" width="166" height="22"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <animations/>
                                     <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Search" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="gXt-MS-4X4" customClass="OESearchFieldCell">
@@ -222,11 +188,10 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                 </toolbarItem>
+                <toolbarItem implicitItemIdentifier="38BE7ED5-34C4-40FA-871F-D886BEA66184" label="Adaptive Space" paletteLabel="Adaptive Space" tag="-1" id="7nQ-Nj-a9l" customClass="TAAdaptiveSpaceItem"/>
             </allowedToolbarItems>
             <defaultToolbarItems>
-                <toolbarItem reference="POq-Kg-17A"/>
-                <toolbarItem reference="cAJ-ae-jpG"/>
-                <toolbarItem reference="cAJ-ae-jpG"/>
+                <toolbarItem reference="7nQ-Nj-a9l"/>
                 <toolbarItem reference="Jiu-4k-Ecu"/>
                 <toolbarItem reference="cAJ-ae-jpG"/>
                 <toolbarItem reference="4KY-AU-4s0"/>
@@ -234,14 +199,13 @@
                 <toolbarItem reference="Nu8-Bo-VSq"/>
             </defaultToolbarItems>
             <connections>
-                <outlet property="addButton" destination="VQo-7G-prp" id="lhF-q6-qtM"/>
                 <outlet property="gridSizeSlider" destination="hfc-c7-igG" id="kAN-nU-qBy"/>
                 <outlet property="gridViewButton" destination="iN6-LV-eCq" id="2mi-H3-aUp"/>
                 <outlet property="listViewButton" destination="l8b-vJ-uKr" id="uw4-pE-waN"/>
                 <outlet property="searchField" destination="NZT-Zn-8Vl" id="h1E-yp-9F4"/>
                 <outlet property="viewSelector" destination="enK-iW-Klt" id="tkm-Yq-MTt"/>
             </connections>
-            <point key="canvasLocation" x="-187" y="-110"/>
+            <point key="canvasLocation" x="-911.5" y="-78"/>
         </toolbar>
     </objects>
 </document>
