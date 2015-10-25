@@ -343,8 +343,8 @@ static NSDictionary *disabledActions = nil;
     _backgroundLayer = [CALayer layer];
     [_backgroundLayer setActions:disabledActions];
     [_backgroundLayer setShadowColor:[[NSColor blackColor] CGColor]];
-    [_backgroundLayer setShadowOffset:CGSizeMake(0.0, -2.0)];
-    [_backgroundLayer setShadowRadius:2.0];
+    [_backgroundLayer setShadowOffset:CGSizeMake(0.0, -1.0)];
+    [_backgroundLayer setShadowRadius:1.0];
     [_backgroundLayer setContentsGravity:kCAGravityResize];
 
     _downloadButtonState = OEThemeStateDefault;
