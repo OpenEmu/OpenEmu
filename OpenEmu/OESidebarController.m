@@ -116,6 +116,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
 
     [sidebarView setIndentationPerLevel:7];
+    [sidebarView setIntercellSpacing:NSMakeSize(0, 4)];
     [sidebarView setAutosaveName:@"sidebarView"];
     [sidebarView setAutoresizesOutlineColumn:NO];
     [sidebarView registerForDraggedTypes:[NSArray arrayWithObjects:OEPasteboardTypeGame, NSFilenamesPboardType, nil]];
