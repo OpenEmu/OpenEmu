@@ -186,6 +186,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
         return;
     }
     [super setRepresentedObject:representedObject];
+    [self view];
     [self updateBlankSlate];
 }
 
@@ -380,9 +381,11 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
         case OEListViewTag:
             view = [listView enclosingScrollView];
             break;
+        default:
+            break;
     }
 
-    if([view superview] == [self view]) return;
+    if(!view || [view superview] == [self view]) return;
 
     // Determine if we are about to replace the current first responder or one of its superviews
     id firstResponder = [[[self view] window] firstResponder];

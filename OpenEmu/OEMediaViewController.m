@@ -97,57 +97,60 @@
 
     NSSearchField *field = [toolbar searchField];
     [field setSearchMenuTemplate:nil];
-    [field setEnabled:false];
+    [field setEnabled:true];
     [field setStringValue:@""];
 
     [self _setupSearchMenuTemplate];
 }
 
-- (void)viewDidDisappear {
-    [super viewDidDisappear];
+- (void)updateBlankSlate
+{
+    [super updateBlankSlate];
+
+    OELibraryController *libraryController = [self libraryController];
+    OELibraryToolbar *toolbar = [libraryController toolbar];
+
+    [[toolbar searchField] setEnabled:_shouldShowBlankSlate];
 }
 
 - (void)_setupSearchMenuTemplate
 {
     NSMenuItem *item = nil;
     NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
-    [menu addItemWithTitle:NSLocalizedString(@"Filter by:", @"Search field menu, first item, instructional") action:NULL keyEquivalent:@""];
 
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Everything", @"Search field filter selection title")
                                       action:@selector(searchScopeDidChange:) keyEquivalent:@""];
     [item setState:NSOnState];
-    [item setTarget:self];
     [item setRepresentedObject:@[@"rom.game.gameTitle", @"rom.game.name", @"rom.game.system.lastLocalizedName", @"name", @"userDescription"]];
-    [item setIndentationLevel:1];
     [menu addItem:item];
 
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Name", @"Search field filter selection title")
                                       action:@selector(searchScopeDidChange:) keyEquivalent:@""];
-    [item setTarget:self];
     [item setRepresentedObject:@[@"name"]];
-    [item setIndentationLevel:1];
     [menu addItem:item];
 
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Description", @"Search field filter selection title")
                                       action:@selector(searchScopeDidChange:) keyEquivalent:@""];
-    [item setTarget:self];
     [item setRepresentedObject:@[@"userDescription"]];
-    [item setIndentationLevel:1];
     [menu addItem:item];
 
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Game Name", @"")
                                       action:@selector(searchScopeDidChange:) keyEquivalent:@""];
-    [item setTarget:self];
     [item setRepresentedObject:@[@"rom.game.gameTitle", @"rom.game.name"]];
-    [item setIndentationLevel:1];
     [menu addItem:item];
 
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"System", @"")
                                       action:@selector(searchScopeDidChange:) keyEquivalent:@""];
-    [item setTarget:self];
     [item setRepresentedObject:@[@"rom.game.system.lastLocalizedName"]];
-    [item setIndentationLevel:1];
     [menu addItem:item];
+
+    for(item in [menu itemArray]){
+        [item setTarget:self];
+        [item setIndentationLevel:1];
+    }
+
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Filter by:", @"Search field menu, first item, instructional") action:NULL keyEquivalent:@""];
+    [menu insertItem:item atIndex:0];
 
     [[[[self libraryController] toolbar] searchField] setSearchMenuTemplate:menu];
 }
@@ -204,17 +207,6 @@
 - (NSIndexSet*)selectionIndexes
 {
     return [[self gridView] selectionIndexes];
-}
-
-- (void)setLibraryController:(OELibraryController *)controller
-{
-    [super setLibraryController:controller];
-    
-    [self.libraryController.toolbar.gridViewButton setEnabled:FALSE];
-    [self.libraryController.toolbar.listViewButton setEnabled:FALSE];
-    
-    [self.libraryController.toolbar.searchField setEnabled:YES];
-    [self.libraryController.toolbar.gridSizeSlider setEnabled:YES];
 }
 
 #pragma mark -

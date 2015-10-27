@@ -216,21 +216,17 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
     switch (category) {
         case OELibraryCategoryGames:
-            NSLog(@"games");
             newViewController = [[OELibraryGamesViewController alloc] init];
             break;
         case OELibraryCategorySaveStates:
-            NSLog(@"save states");
             newViewController = [[OEMediaViewController alloc] init];
             [newViewController setRepresentedObject:[OEDBSavedGamesMedia sharedDBSavedGamesMedia]];
             break;
         case OELibraryCategoryScreenshots:
-            NSLog(@"screenshots");
             newViewController = [[OEMediaViewController alloc] init];
             [newViewController setRepresentedObject:[OEDBScreenshotsMedia sharedDBScreenshotsMedia]];
             break;
         case OELibraryCategoryHomebrew:
-            NSLog(@"homebrew");
             newViewController = [[OEFeaturedGamesViewController alloc] init];
             break;
         default:
