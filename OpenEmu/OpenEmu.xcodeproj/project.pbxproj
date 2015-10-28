@@ -404,11 +404,6 @@
 		83B04E411968610F00CB985E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3D1968610F00CB985E /* InfoPlist.strings */; };
 		83B04E421968610F00CB985E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3F1968610F00CB985E /* Localizable.strings */; };
 		83B65F5715F0DEA100C742D2 /* NSArray+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B65F5615F0DEA100C742D2 /* NSArray+OEAdditions.m */; };
-		83B867A8171D62DA0038988C /* OEStorageDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B867A5171D62DA0038988C /* OEStorageDevice.m */; };
-		83B867A9171D62DA0038988C /* OEStorageDeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B867A7171D62DA0038988C /* OEStorageDeviceManager.m */; };
-		83B867B4171D63070038988C /* OERetrode.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B867AE171D63070038988C /* OERetrode.m */; };
-		83B867B5171D63070038988C /* OERetrodeDeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B867B0171D63070038988C /* OERetrodeDeviceManager.m */; };
-		83B867B6171D63070038988C /* OERetrodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B867B2171D63070038988C /* OERetrodeViewController.m */; };
 		83B867BC171D63940038988C /* NSString+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B867BB171D63940038988C /* NSString+OEAdditions.m */; };
 		83B867BE171D63C70038988C /* DiskArbitration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83B867BD171D63C70038988C /* DiskArbitration.framework */; };
 		83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */; };
@@ -2132,18 +2127,6 @@
 		83B04E401968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		83B65F5515F0DEA100C742D2 /* NSArray+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEAdditions.h"; sourceTree = "<group>"; };
 		83B65F5615F0DEA100C742D2 /* NSArray+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+OEAdditions.m"; sourceTree = "<group>"; };
-		83B867A4171D62DA0038988C /* OEStorageDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEStorageDevice.h; sourceTree = "<group>"; };
-		83B867A5171D62DA0038988C /* OEStorageDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEStorageDevice.m; sourceTree = "<group>"; };
-		83B867A6171D62DA0038988C /* OEStorageDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEStorageDeviceManager.h; sourceTree = "<group>"; };
-		83B867A7171D62DA0038988C /* OEStorageDeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEStorageDeviceManager.m; sourceTree = "<group>"; };
-		83B867AB171D63070038988C /* OERetrode_Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERetrode_Configuration.h; sourceTree = "<group>"; };
-		83B867AC171D63070038988C /* OERetrode_IOLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERetrode_IOLevel.h; sourceTree = "<group>"; };
-		83B867AD171D63070038988C /* OERetrode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERetrode.h; sourceTree = "<group>"; };
-		83B867AE171D63070038988C /* OERetrode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERetrode.m; sourceTree = "<group>"; };
-		83B867AF171D63070038988C /* OERetrodeDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERetrodeDeviceManager.h; sourceTree = "<group>"; };
-		83B867B0171D63070038988C /* OERetrodeDeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERetrodeDeviceManager.m; sourceTree = "<group>"; };
-		83B867B1171D63070038988C /* OERetrodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERetrodeViewController.h; sourceTree = "<group>"; };
-		83B867B2171D63070038988C /* OERetrodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERetrodeViewController.m; sourceTree = "<group>"; };
 		83B867BA171D63940038988C /* NSString+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEAdditions.h"; sourceTree = "<group>"; };
 		83B867BB171D63940038988C /* NSString+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEAdditions.m"; sourceTree = "<group>"; };
 		83B867BD171D63C70038988C /* DiskArbitration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiskArbitration.framework; path = System/Library/Frameworks/DiskArbitration.framework; sourceTree = SDKROOT; };
@@ -4239,7 +4222,6 @@
 		828E64D00E84656900B1860B /* OpenEmuCore */ = {
 			isa = PBXGroup;
 			children = (
-				83B867A0171D616D0038988C /* Storage Devices */,
 				831C2AE2144F41E4009533C0 /* OEApplicationDelegate.h */,
 				831C2AE3144F41E4009533C0 /* OEApplicationDelegate.m */,
 				C69CA5EC17D3BED400178CB7 /* NSDocumentController+OEAdditions.h */,
@@ -4664,33 +4646,6 @@
 				C60961A6179C4BD000239067 /* OEThreadProxy.m */,
 			);
 			name = Utilities;
-			sourceTree = "<group>";
-		};
-		83B867A0171D616D0038988C /* Storage Devices */ = {
-			isa = PBXGroup;
-			children = (
-				83B867AA171D62E00038988C /* Retrode */,
-				83B867A4171D62DA0038988C /* OEStorageDevice.h */,
-				83B867A5171D62DA0038988C /* OEStorageDevice.m */,
-				83B867A6171D62DA0038988C /* OEStorageDeviceManager.h */,
-				83B867A7171D62DA0038988C /* OEStorageDeviceManager.m */,
-			);
-			name = "Storage Devices";
-			sourceTree = "<group>";
-		};
-		83B867AA171D62E00038988C /* Retrode */ = {
-			isa = PBXGroup;
-			children = (
-				83B867AB171D63070038988C /* OERetrode_Configuration.h */,
-				83B867AC171D63070038988C /* OERetrode_IOLevel.h */,
-				83B867AD171D63070038988C /* OERetrode.h */,
-				83B867AE171D63070038988C /* OERetrode.m */,
-				83B867AF171D63070038988C /* OERetrodeDeviceManager.h */,
-				83B867B0171D63070038988C /* OERetrodeDeviceManager.m */,
-				83B867B1171D63070038988C /* OERetrodeViewController.h */,
-				83B867B2171D63070038988C /* OERetrodeViewController.m */,
-			);
-			name = Retrode;
 			sourceTree = "<group>";
 		};
 		83C09355166787BC00E52265 /* Utilities */ = {
@@ -7933,14 +7888,9 @@
 				14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */,
 				8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */,
 				C6772A7F1710C0C900ED580A /* snes_ntsc.c in Sources */,
-				83B867A8171D62DA0038988C /* OEStorageDevice.m in Sources */,
 				836AEA6E19755FE300B86935 /* OEOutlinedButtonCell.m in Sources */,
-				83B867A9171D62DA0038988C /* OEStorageDeviceManager.m in Sources */,
 				83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */,
-				83B867B4171D63070038988C /* OERetrode.m in Sources */,
 				837820BD19081A090043593F /* OELibraryMigrator.m in Sources */,
-				83B867B5171D63070038988C /* OERetrodeDeviceManager.m in Sources */,
-				83B867B6171D63070038988C /* OERetrodeViewController.m in Sources */,
 				83B867BC171D63940038988C /* NSString+OEAdditions.m in Sources */,
 				83F7EADA171D911400D32E26 /* OESearchField.m in Sources */,
 				8337F38E1726B3600068DD90 /* OEBackgroundImageView.m in Sources */,

@@ -39,8 +39,6 @@
 #import "OEDBSmartCollection.h"
 #import "OEGameCollectionViewItemProtocol.h"
 
-#import "OEStorageDeviceManager.h"
-
 #import "OEHUDAlert.h"
 
 #import "NSImage+OEDrawingAdditions.h"
@@ -53,7 +51,6 @@ extern NSString * const OEDBSystemsDidChangeNotification;
 NSString * const OESidebarSelectionDidChangeNotificationName = @"OESidebarSelectionDidChange";
 
 NSString * const OESidebarGroupConsolesAutosaveName    = @"sidebarConsolesItem";
-NSString * const OESidebarGroupDevicesAutosaveName     = @"sidebarDevicesItem";
 NSString * const OESidebarGroupCollectionsAutosaveName = @"sidebarCollectionsItem";
 
 NSString * const OESidebarMinWidth = @"sidebarMinWidth";
@@ -93,9 +90,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     self.groups = @[
                     [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"Consoles", @"") autosaveName:OESidebarGroupConsolesAutosaveName],
-
-#define DevicesSectionIndex 1 // keep track of devices section index so we can skip it if no devices are connected
-                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"Devices", @"") autosaveName:OESidebarGroupDevicesAutosaveName],
                     [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"Collections", @"") autosaveName:OESidebarGroupCollectionsAutosaveName]
                     ];
 
@@ -139,9 +133,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     [defaults addObserver:self selector:@selector(reloadDataAndPreserveSelection) name:OEDBSystemsDidChangeNotification object:nil];
 
-    [defaults addObserver:self selector:@selector(deviceDidAppear:) name:OEStorageDeviceDidAppearNotificationName object:nil];
-    [defaults addObserver:self selector:@selector(deviceDidDisappear:) name:OEStorageDeviceDidDisappearNotificationName object:nil];
-
     id viewsNextResponder = [[self view] nextResponder];
     if(viewsNextResponder != self)
     {
@@ -153,10 +144,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 - (void)deviceDidAppear:(id)notification
 {
     [self reloadDataAndPreserveSelection];
-    id devicesItem = [self.groups firstObjectMatchingBlock:^BOOL(id obj) {
-        return [[obj autosaveName] isEqualTo:OESidebarGroupDevicesAutosaveName];
-    }];
-    [[self view] expandItem:devicesItem];
 }
 
 - (void)deviceDidDisappear:(id)notification
@@ -301,12 +288,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     NSString *defaultCoreKey = [NSString stringWithFormat:@"defaultCore.%@", systemIdentifier];
     [[NSUserDefaults standardUserDefaults] setObject:coreIdentifier forKey:defaultCoreKey];
-}
-
-#pragma mark - Helpers
-- (BOOL)OE_devicesSectionVisisble
-{
-    return [[[OEStorageDeviceManager sharedStorageDeviceManager] devices] count] == 0;
 }
 
 #pragma mark - Notifications
@@ -502,18 +483,12 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     if(item == nil)
     {
-        // Skip over Devices section if it's hidden
-        if(index >= DevicesSectionIndex && [self OE_devicesSectionVisisble])
-            index += 1;
-
         return [[self groups] objectAtIndex:index];
     }
 
     NSString *autosaveName = [item isKindOfClass:[OESidebarGroupItem class]]?[item autosaveName]:nil;
     if([autosaveName isEqualToString:OESidebarGroupConsolesAutosaveName])
         return [[self systems] objectAtIndex:index];
-    else if([autosaveName isEqualToString:OESidebarGroupDevicesAutosaveName])
-        return [[[OEStorageDeviceManager sharedStorageDeviceManager] devices] objectAtIndex:index];
     else if([autosaveName isEqualToString:OESidebarGroupCollectionsAutosaveName])
         return [[self collections] objectAtIndex:index];
 
@@ -529,9 +504,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     if(item == nil)
     {
-        if([self OE_devicesSectionVisisble])
-            return [[self groups] count] -1;
-        else
             return [[self groups] count];
     }
 
@@ -543,8 +515,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     NSString *autosaveName = [item isKindOfClass:[OESidebarGroupItem class]]?[item autosaveName]:nil;
     if([autosaveName isEqualToString:OESidebarGroupConsolesAutosaveName])
         return [[self systems] count];
-    else if([autosaveName isEqualToString:OESidebarGroupDevicesAutosaveName])
-        return [[[OEStorageDeviceManager sharedStorageDeviceManager] devices] count];
     else if([autosaveName isEqualToString:OESidebarGroupCollectionsAutosaveName])
         return [[self collections] count];
 

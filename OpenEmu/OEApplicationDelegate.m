@@ -61,8 +61,6 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEToolTipManager.h"
 
-#import "OERetrodeDeviceManager.h"
-
 #import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
 #import <objc/message.h>
 
@@ -229,11 +227,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
          [[[self currentGameDocument] gameSystemResponder] handleHIDEvent:event];
      }];
-
-    // Start retrode support
-    if([[NSUserDefaults standardUserDefaults] boolForKey:OERetrodeSupportEnabledKey])
-        [OERetrodeDeviceManager class];
-
 
     [[self startupQueue] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         void(^block)(void) = obj;
