@@ -26,6 +26,11 @@
 
 #import "OEDBSavedGamesMedia.h"
 #import "OETheme.h"
+#import "OEDBSaveState.h"
+
+NSString * const OEDBSavedGamesMediaShowsAutoSaves = @"OEDBSavedGamesMediaShowsAutoSaves";
+NSString * const OEDBSavedGamesMediaShowsQuickSaves = @"OEDBSavedGamesMediaShowsQuickSaves";
+
 @implementation OEDBSavedGamesMedia
 
 + (instancetype)sharedDBSavedGamesMedia
@@ -87,5 +92,21 @@
 - (BOOL)isCollectionEditable
 {
     return NO;
+}
+
+- (NSPredicate*)baseFilterPredicate
+{
+    NSMutableArray *subpredicates = [NSMutableArray array];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    if(![defaults boolForKey:OEDBSavedGamesMediaShowsAutoSaves]){
+        [subpredicates addObject:[NSPredicate predicateWithFormat:@"name != %@", OESaveStateAutosaveName]];
+    }
+
+    if(![defaults boolForKey:OEDBSavedGamesMediaShowsQuickSaves]){
+       [subpredicates addObject:[NSPredicate predicateWithFormat:@"NOT(name BEGINSWITH %@)", OESaveStateQuicksaveName]];
+    }
+
+    return [NSCompoundPredicate andPredicateWithSubpredicates:subpredicates];
 }
 @end

@@ -27,6 +27,10 @@
 #import <Foundation/Foundation.h>
 #import "OESidebarItem.h"
 #import "OECollectionViewItemProtocol.h"
+
+extern NSString * const OEDBSavedGamesMediaShowsAutoSaves;
+extern NSString * const OEDBSavedGamesMediaShowsQuickSaves;
+
 @interface OEDBSavedGamesMedia : NSObject <OESidebarItem, OECollectionViewItemProtocol>
 + (instancetype)sharedDBSavedGamesMedia;
 @end

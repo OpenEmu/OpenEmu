@@ -65,6 +65,7 @@
 #import <objc/message.h>
 
 #import "OEDBSaveState.h"
+#import "OEDBSavedGamesMedia.h"
 #import "OELibraryMigrator.h"
 
 NSString *const OEWebSiteURL      = @"http://openemu.org/";
@@ -132,6 +133,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                                           OEBackgroundPauseKey : @YES,
                                               @"logsHIDEvents" : @NO,
                                     @"logsHIDEventsNoKeyboard" : @NO,
+
+                             OEDBSavedGamesMediaShowsAutoSaves : @YES,
+                            OEDBSavedGamesMediaShowsQuickSaves : @YES,
          }];
 
         [OEControllerDescription class];

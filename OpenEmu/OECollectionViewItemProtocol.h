@@ -28,4 +28,6 @@
 
 @protocol OECollectionViewItemProtocol <NSObject>
 - (BOOL)isCollectionEditable;
+@optional
+- (NSPredicate*)baseFilterPredicate;
 @end

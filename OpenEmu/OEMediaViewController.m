@@ -243,6 +243,12 @@
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
     [req setEntity:[NSEntityDescription entityForName:[self OE_entityName] inManagedObjectContext:context]];
 
+    NSPredicate *baseFilter = [NSPredicate predicateWithValue:YES];
+    if([[self representedObject] respondsToSelector:@selector(baseFilterPredicate)]){
+        baseFilter = [[self representedObject] baseFilterPredicate];
+    }
+    [req setPredicate:baseFilter];
+
     _shouldShowBlankSlate = [context countForFetchRequest:req error:nil] == 0;
     if(_shouldShowBlankSlate)
     {
@@ -255,7 +261,8 @@
 
     [req setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"rom.game.name" ascending:YES],
                               [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES]]];
-    [req setPredicate:_searchPredicate];
+
+    [req setPredicate:[NSCompoundPredicate andPredicateWithSubpredicates:@[baseFilter, _searchPredicate]]];
 
     NSError *error  = nil;
     if(!(result=[context executeFetchRequest:req error:&error]))

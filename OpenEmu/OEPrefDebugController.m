@@ -63,6 +63,7 @@
 #import "OEImportOperation.h"
 #import "OEPrefBiosController.h"
 #import "OEMainWindowController.h"
+#import "OEDBSavedGamesMedia.h"
 @interface OELibraryDatabase (Private)
 - (void)OE_createInitialItems;
 @end
@@ -154,6 +155,8 @@ NSString * const OptionsKey = @"options";
                               Checkbox(OECoverGridViewAutoDownloadEnabledKey, @"Download missing artwork on the fly"),
                               Checkbox(OEDisplayGameTitle, @"Show game titles instead of rom names"),
                               Checkbox(OEImportManualSystems, @"Manually choose system on import"),
+                              Checkbox(OEDBSavedGamesMediaShowsAutoSaves, @"Show autosave states in save state category"),
+                              Checkbox(OEDBSavedGamesMediaShowsQuickSaves, @"Show quicksave states in save state category"),
 
                               Group(@"HUD Bar / Gameplay"),
                               NCheckbox(OEDontShowGameTitleInWindowKey, @"Use game name as window title"),
