@@ -99,6 +99,8 @@
     [field setSearchMenuTemplate:nil];
     [field setEnabled:true];
     [field setStringValue:@""];
+    [field setTarget:self];
+    [field setEnabled:!_shouldShowBlankSlate];
 
     [self _setupSearchMenuTemplate];
 }
@@ -109,8 +111,7 @@
 
     OELibraryController *libraryController = [self libraryController];
     OELibraryToolbar *toolbar = [libraryController toolbar];
-
-    [[toolbar searchField] setEnabled:_shouldShowBlankSlate];
+    [[toolbar searchField] setEnabled:!_shouldShowBlankSlate];
 }
 
 - (void)_setupSearchMenuTemplate
