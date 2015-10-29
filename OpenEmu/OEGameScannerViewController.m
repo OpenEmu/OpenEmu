@@ -44,8 +44,13 @@
 #define OEGameScannerUpdateDelay 0.2
 
 @interface OEGameScannerViewController ()
+
 @property NSMutableArray *itemsRequiringAttention;
 @property BOOL isScanningDirectory;
+
+// Used to animate the game scanner view into place.
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *bottomLayoutConstraint;
+
 @end
 
 @implementation OEGameScannerViewController
@@ -88,7 +93,8 @@
     [menu addItem:item];
 
     [[self issuesView] setMenu:menu];
-
+    
+    [self hideGameScannerViewAnimated:NO];
 }
 
 - (void)setGameScannerView:(NSView *)gameScannerView
@@ -107,7 +113,7 @@
     if([[self importer] status] == OEImporterStatusRunning || [[OEGameInfoHelper sharedHelper] isUpdating])
     {
         [self OE_updateProgress];
-        [self OE_showGameScannerView];
+        [self showGameScannerViewAnimated:YES];
     }
 }
 
@@ -354,7 +360,7 @@
         if([[self importer] totalNumberOfItems] != [[self importer] numberOfProcessedItems])
         {
             [self OE_updateProgress];
-            [self OE_showGameScannerView];
+            [self showGameScannerViewAnimated:YES];
         }
     });
 }
@@ -378,7 +384,7 @@
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^{
         if([[self importer] totalNumberOfItems] == [[self importer] numberOfProcessedItems] && ![[OEGameInfoHelper sharedHelper] isUpdating])
-            [self OE_hideGameScannerView];
+            [self hideGameScannerViewAnimated:YES];
     });
 }
 
@@ -394,7 +400,7 @@
         [[self itemsRequiringAttention] addObject:item];
         [[self issuesView] reloadData];
         [self OE_setupActionsMenu];
-        [self OE_showGameScannerView];
+        [self showGameScannerViewAnimated:YES];
     }
     [self OE_updateProgress];
 }
@@ -403,7 +409,7 @@
 - (void)gameInfoHelperWillUpdate:(NSNotification*)notification
 {
     [self OE_updateProgress];
-    [self OE_showGameScannerView];
+    [self showGameScannerViewAnimated:YES];
 }
 - (void)gameInfoHelperDidChangeUpdateProgress:(NSNotification*)notification
 {
@@ -416,7 +422,7 @@
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^{
         if([[self importer] totalNumberOfItems] == [[self importer] numberOfProcessedItems])
-            [self OE_hideGameScannerView];
+            [self hideGameScannerViewAnimated:YES];
     });
 }
 
@@ -542,7 +548,7 @@
 
     if([[self importer] numberOfProcessedItems] != [[self importer] totalNumberOfItems])
     {
-        [self OE_hideGameScannerView];
+        [self hideGameScannerViewAnimated:YES];
     }
 }
 
@@ -564,7 +570,7 @@
         if([cancelAlert runModal] == NSAlertFirstButtonReturn)
         {
             [[self importer] cancel];
-            [self OE_hideGameScannerView];
+            [self hideGameScannerViewAnimated:YES];
 
             [sender setState:NSOffState];
         } else
@@ -585,40 +591,24 @@
     [[self issuesView] sizeToFit];
 }
 
-#pragma mark - Private
+#pragma mark - Show/Hide Game Scanner View
 
-- (void)OE_showGameScannerView
+- (void)showGameScannerViewAnimated:(BOOL)animated
 {
-    NSView *scannerView = [self gameScannerView];
-    NSView *sidebarView = [[[scannerView superview] subviews] objectAtIndex:0];
-    NSView *superView   = [sidebarView superview];
-    NSRect superviewBounds = [superView bounds];
-    NSRect scannerViewBounds = [scannerView bounds];
-
-    [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setCompletionHandler:
-     ^{
-         [sidebarView setFrame:(NSRect){ { 0, NSHeight(scannerViewBounds) }, { NSWidth(superviewBounds), NSHeight(superviewBounds) - NSHeight(scannerViewBounds) } }];
-     }];
-    [[scannerView animator] setFrameOrigin:NSMakePoint(0, 0)];
-    [NSAnimationContext endGrouping];
+    NSLayoutConstraint *constraint = animated ?
+                                     self.bottomLayoutConstraint.animator :
+                                     self.bottomLayoutConstraint;
+    
+    constraint.constant = 0;
 }
 
-- (void)OE_hideGameScannerView
-{
-    if([[self itemsRequiringAttention] count] != 0) return;
-
-    NSView *scannerView = [self gameScannerView];
-    NSView *sidebarView = [[[scannerView superview] subviews] objectAtIndex:0];
-    NSView *superView   = [sidebarView superview];
-
-    [NSAnimationContext beginGrouping];
-    [[NSAnimationContext currentContext] setCompletionHandler:
-     ^{
-         [sidebarView setFrame:[superView bounds]];
-     }];
-    [[scannerView animator] setFrameOrigin:NSMakePoint(0, -NSHeight([scannerView frame]))];
-    [NSAnimationContext endGrouping];
+- (void)hideGameScannerViewAnimated:(BOOL)animated
+{    
+    NSLayoutConstraint *constraint = animated ?
+    self.bottomLayoutConstraint.animator :
+    self.bottomLayoutConstraint;
+    
+    constraint.constant = -NSHeight(self.gameScannerView.frame);
 }
 
 @end

@@ -40,6 +40,8 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 #pragma mark - GameScanner UI
 - (IBAction)buttonAction:(id)sender;
 - (IBAction)resolveIssues:(id)sender;
+- (void)showGameScannerViewAnimated:(BOOL)animated;
+- (void)hideGameScannerViewAnimated:(BOOL)animated;
 
 @property (nonatomic) IBOutlet OELibraryController *libraryController;
 
@@ -53,4 +55,5 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 #pragma mark - Issue Resolving UI
 @property (strong) IBOutlet NSTableView   *issuesView;
 @property (strong) IBOutlet NSPopUpButton *actionPopUpButton;
+
 @end

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OELibraryGamesViewController">
             <connections>
                 <outlet property="collectionController" destination="ZI1-g0-Ovb" id="UFH-j4-ahm"/>
                 <outlet property="collectionViewContainer" destination="0nE-Pi-8Ai" id="4Fj-Az-faN"/>
+                <outlet property="gameScannerController" destination="juh-5x-f5U" id="d2Q-Um-3Fo"/>
                 <outlet property="sidebarController" destination="Rft-IF-Ag9" id="icY-DX-yAy"/>
                 <outlet property="view" destination="swh-F8-vNy" id="phb-uI-0hA"/>
             </connections>
@@ -29,43 +31,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="186" height="600"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                     <subviews>
-                        <customView id="aoh-d8-ctm">
-                            <rect key="frame" x="0.0" y="0.0" width="185" height="28"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <popUpButton id="GFy-U9-H7A">
-                                    <rect key="frame" x="0.0" y="2" width="33" height="26"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
-                                    <popUpButtonCell key="cell" type="bevel" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" pullsDown="YES" arrowPosition="noArrow" id="npV-Do-MPo">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="menu"/>
-                                        <menu key="menu" id="F3c-W5-k5f">
-                                            <items>
-                                                <menuItem state="on" image="sidebar_add" hidden="YES" id="ngO-qO-EH7"/>
-                                                <menuItem title="New Collection" id="Lkc-nZ-qig">
-                                                    <connections>
-                                                        <action selector="newCollection:" target="-1" id="Hy2-81-FWK"/>
-                                                    </connections>
-                                                </menuItem>
-                                                <menuItem isSeparatorItem="YES" id="5EQ-pA-c2w"/>
-                                                <menuItem title="Add To Library..." id="1U8-Yu-nH3">
-                                                    <connections>
-                                                        <action selector="addToLibrary:" target="-1" id="dMl-dD-TKi"/>
-                                                    </connections>
-                                                </menuItem>
-                                            </items>
-                                        </menu>
-                                    </popUpButtonCell>
-                                </popUpButton>
-                            </subviews>
-                            <animations/>
-                        </customView>
-                        <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="JYU-Tk-u7m">
-                            <rect key="frame" x="0.0" y="28" width="186" height="572"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JYU-Tk-u7m">
+                            <rect key="frame" x="0.0" y="103" width="186" height="497"/>
                             <clipView key="contentView" id="MQJ-cq-QCT">
-                                <rect key="frame" x="0.0" y="0.0" width="186" height="572"/>
+                                <rect key="frame" x="0.0" y="0.0" width="186" height="497"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" indentationPerLevel="16" outlineTableColumn="TQT-sV-f9j" id="Evu-SM-BeR" customClass="OESidebarOutlineView">
@@ -110,13 +79,15 @@
                                 <animations/>
                             </scroller>
                         </scrollView>
-                        <customView id="GEj-BL-eLK" userLabel="Game Scanner Background Color View" customClass="OEBackgroundColorView">
-                            <rect key="frame" x="0.0" y="-75" width="186" height="75"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="GEj-BL-eLK" userLabel="Game Scanner Background Color View" customClass="OEBackgroundColorView">
+                            <rect key="frame" x="0.0" y="0.0" width="185" height="75"/>
                             <subviews>
-                                <button id="Nvs-ey-EH6" customClass="OEButton">
-                                    <rect key="frame" x="151" y="22" width="25" height="25"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <button translatesAutoresizingMaskIntoConstraints="NO" id="Nvs-ey-EH6" customClass="OEButton">
+                                    <rect key="frame" x="150" y="22" width="25" height="25"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="25" id="U0M-DH-LGS"/>
+                                        <constraint firstAttribute="width" constant="25" id="tlF-xX-wb1"/>
+                                    </constraints>
                                     <animations/>
                                     <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" imagePosition="only" alignment="center" inset="2" id="J1i-Ms-dUn" customClass="OEButtonCell">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -129,27 +100,27 @@
                                         <action selector="buttonAction:" target="juh-5x-f5U" id="o8W-6K-ddm"/>
                                     </connections>
                                 </button>
-                                <customView id="eIq-bW-kuZ" customClass="OEHorizontalLine">
-                                    <rect key="frame" x="0.0" y="73" width="185" height="2"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="eIq-bW-kuZ" customClass="OEHorizontalLine">
+                                    <rect key="frame" x="0.0" y="73" width="184" height="2"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="2" id="vXN-Xz-XSX"/>
+                                    </constraints>
                                     <animations/>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_line"/>
                                     </userDefinedRuntimeAttributes>
                                 </customView>
-                                <progressIndicator maxValue="100" style="bar" id="ecg-qx-RWc" customClass="OEProgressIndicator">
-                                    <rect key="frame" x="16" y="20" width="132" height="20"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <progressIndicator wantsLayer="YES" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="ecg-qx-RWc" customClass="OEProgressIndicator">
+                                    <rect key="frame" x="16" y="20" width="131" height="20"/>
                                     <animations/>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_progress"/>
                                     </userDefinedRuntimeAttributes>
                                 </progressIndicator>
-                                <textField verticalHuggingPriority="750" id="YLv-AD-2L2" customClass="OELabel">
-                                    <rect key="frame" x="17" y="43" width="157" height="17"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YLv-AD-2L2" customClass="OELabel">
+                                    <rect key="frame" x="17" y="43" width="98" height="17"/>
                                     <animations/>
-                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="GAME SCANNER" id="R5g-ov-B26" customClass="OELabelCell">
+                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Game Scanner" id="R5g-ov-B26" customClass="OELabelCell">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -158,9 +129,8 @@
                                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_headline"/>
                                     </userDefinedRuntimeAttributes>
                                 </textField>
-                                <textField verticalHuggingPriority="750" id="KwU-gZ-ksn" customClass="OELabel">
-                                    <rect key="frame" x="17" y="4" width="157" height="17"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KwU-gZ-ksn" customClass="OELabel">
+                                    <rect key="frame" x="17" y="7" width="150" height="14"/>
                                     <animations/>
                                     <textFieldCell key="cell" lineBreakMode="truncatingHead" sendsActionOnEndEditing="YES" title="Scanner Paused" id="gJT-pJ-BJg" customClass="OELabelCell">
                                         <font key="font" metaFont="smallSystem"/>
@@ -171,24 +141,83 @@
                                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_text"/>
                                     </userDefinedRuntimeAttributes>
                                 </textField>
-                                <customView id="dfP-oz-jTp" customClass="OEBackgroundColorView">
-                                    <rect key="frame" x="185" y="0.0" width="1" height="75"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                    <animations/>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="black"/>
-                                    </userDefinedRuntimeAttributes>
-                                </customView>
                             </subviews>
+                            <constraints>
+                                <constraint firstItem="Nvs-ey-EH6" firstAttribute="centerY" secondItem="ecg-qx-RWc" secondAttribute="centerY" multiplier="0.9" id="85c-FI-uQF"/>
+                                <constraint firstItem="KwU-gZ-ksn" firstAttribute="leading" secondItem="GEj-BL-eLK" secondAttribute="leading" constant="19" id="87I-Zy-xD1"/>
+                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="YLv-AD-2L2" secondAttribute="trailing" constant="20" symbolic="YES" id="D65-WD-Uzr"/>
+                                <constraint firstAttribute="trailing" secondItem="Nvs-ey-EH6" secondAttribute="trailing" constant="10" id="G29-gi-5sR"/>
+                                <constraint firstItem="ecg-qx-RWc" firstAttribute="top" secondItem="YLv-AD-2L2" secondAttribute="bottom" constant="4" id="HiN-eC-Apx"/>
+                                <constraint firstItem="YLv-AD-2L2" firstAttribute="leading" secondItem="GEj-BL-eLK" secondAttribute="leading" constant="19" id="NPT-fe-64g"/>
+                                <constraint firstAttribute="height" constant="75" id="aNw-4k-fxe"/>
+                                <constraint firstItem="eIq-bW-kuZ" firstAttribute="leading" secondItem="GEj-BL-eLK" secondAttribute="leading" id="cDv-uj-0MM"/>
+                                <constraint firstAttribute="trailing" secondItem="eIq-bW-kuZ" secondAttribute="trailing" constant="1" id="eb4-XU-mdn"/>
+                                <constraint firstItem="eIq-bW-kuZ" firstAttribute="top" secondItem="GEj-BL-eLK" secondAttribute="top" id="jKX-D5-nJf"/>
+                                <constraint firstItem="YLv-AD-2L2" firstAttribute="top" secondItem="eIq-bW-kuZ" secondAttribute="bottom" constant="13" id="jOK-dS-3j1"/>
+                                <constraint firstItem="ecg-qx-RWc" firstAttribute="leading" secondItem="GEj-BL-eLK" secondAttribute="leading" constant="16" id="nyR-IJ-jtD"/>
+                                <constraint firstItem="KwU-gZ-ksn" firstAttribute="top" secondItem="ecg-qx-RWc" secondAttribute="bottom" id="sNE-TL-uWt"/>
+                                <constraint firstAttribute="trailing" secondItem="KwU-gZ-ksn" secondAttribute="trailing" constant="20" symbolic="YES" id="tIc-Yd-vC4"/>
+                                <constraint firstItem="Nvs-ey-EH6" firstAttribute="leading" secondItem="ecg-qx-RWc" secondAttribute="trailing" constant="3" id="xxM-5K-X3O"/>
+                            </constraints>
                             <animations/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="aoh-d8-ctm" userLabel="Bottom Bar">
+                            <rect key="frame" x="0.0" y="75" width="185" height="28"/>
+                            <subviews>
+                                <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="GFy-U9-H7A">
+                                    <rect key="frame" x="0.0" y="5" width="35" height="19"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="35" id="8Cr-AH-sYq"/>
+                                    </constraints>
+                                    <animations/>
+                                    <popUpButtonCell key="cell" type="bevel" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" pullsDown="YES" arrowPosition="noArrow" id="npV-Do-MPo">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="menu"/>
+                                        <menu key="menu" id="F3c-W5-k5f">
+                                            <items>
+                                                <menuItem state="on" image="sidebar_add" hidden="YES" id="ngO-qO-EH7"/>
+                                                <menuItem title="New Collection" id="Lkc-nZ-qig">
+                                                    <connections>
+                                                        <action selector="newCollection:" target="-1" id="Hy2-81-FWK"/>
+                                                    </connections>
+                                                </menuItem>
+                                                <menuItem isSeparatorItem="YES" id="5EQ-pA-c2w"/>
+                                                <menuItem title="Add To Library..." id="1U8-Yu-nH3">
+                                                    <connections>
+                                                        <action selector="addToLibrary:" target="-1" id="dMl-dD-TKi"/>
+                                                    </connections>
+                                                </menuItem>
+                                            </items>
+                                        </menu>
+                                    </popUpButtonCell>
+                                </popUpButton>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="28" id="CYd-WL-KfE"/>
+                                <constraint firstItem="GFy-U9-H7A" firstAttribute="leading" secondItem="aoh-d8-ctm" secondAttribute="leading" id="EBq-F7-CUl"/>
+                                <constraint firstItem="GFy-U9-H7A" firstAttribute="centerY" secondItem="aoh-d8-ctm" secondAttribute="centerY" id="Id0-i0-yui"/>
+                            </constraints>
+                            <animations/>
+                        </customView>
                     </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="GEj-BL-eLK" secondAttribute="trailing" constant="1" id="5Ng-9v-7Nt"/>
+                        <constraint firstAttribute="trailing" secondItem="aoh-d8-ctm" secondAttribute="trailing" constant="1" id="DBd-kv-g34"/>
+                        <constraint firstItem="JYU-Tk-u7m" firstAttribute="top" secondItem="gah-MP-JLP" secondAttribute="top" id="KbR-DQ-2bP"/>
+                        <constraint firstItem="GEj-BL-eLK" firstAttribute="leading" secondItem="gah-MP-JLP" secondAttribute="leading" id="M5V-Lw-Afp"/>
+                        <constraint firstItem="GEj-BL-eLK" firstAttribute="top" secondItem="aoh-d8-ctm" secondAttribute="bottom" id="QS4-Yc-vtn"/>
+                        <constraint firstItem="JYU-Tk-u7m" firstAttribute="leading" secondItem="gah-MP-JLP" secondAttribute="leading" id="eMQ-Lc-4RV"/>
+                        <constraint firstAttribute="trailing" secondItem="JYU-Tk-u7m" secondAttribute="trailing" id="nOC-st-OGr"/>
+                        <constraint firstAttribute="bottom" secondItem="GEj-BL-eLK" secondAttribute="bottom" id="nYc-mk-bxw"/>
+                        <constraint firstItem="aoh-d8-ctm" firstAttribute="top" secondItem="JYU-Tk-u7m" secondAttribute="bottom" id="r60-lL-Csx"/>
+                        <constraint firstItem="aoh-d8-ctm" firstAttribute="leading" secondItem="gah-MP-JLP" secondAttribute="leading" id="vtq-7R-fax"/>
+                    </constraints>
                     <animations/>
                 </customView>
-                <customView id="0nE-Pi-8Ai">
+                <customView fixedFrame="YES" id="0nE-Pi-8Ai">
                     <rect key="frame" x="187" y="0.0" width="643" height="600"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <animations/>
@@ -203,6 +232,7 @@
         </splitView>
         <viewController id="juh-5x-f5U" customClass="OEGameScannerViewController">
             <connections>
+                <outlet property="bottomLayoutConstraint" destination="nYc-mk-bxw" id="JiV-qo-Zso"/>
                 <outlet property="gameScannerView" destination="GEj-BL-eLK" id="CT4-Xq-aVb"/>
                 <outlet property="headlineLabel" destination="YLv-AD-2L2" id="Jvd-JE-D46"/>
                 <outlet property="progressIndicator" destination="ecg-qx-RWc" id="s7a-30-SCw"/>

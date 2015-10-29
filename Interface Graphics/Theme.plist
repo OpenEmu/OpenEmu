@@ -388,6 +388,8 @@
 			</dict>
 			<key>Size</key>
 			<integer>11</integer>
+			<key>Weight</key>
+			<real>0.1</real>
 		</dict>
 		<key>gloss_button</key>
 		<dict>
