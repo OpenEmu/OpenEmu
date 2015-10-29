@@ -222,11 +222,14 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             return
         }
         
+        let windowIsKeyWindow = controlView!.window!.keyWindow
         let highlighted = segment == highlightedSegment
         let selected = segment == selectedSegment
         
         let textColor: NSColor
-        if highlighted {
+        if !windowIsKeyWindow {
+            textColor = NSColor(deviceWhite: 0.6, alpha: 0.8)
+        } else if highlighted {
             textColor = NSColor(deviceWhite: 1, alpha: 0.9)
         } else if selected {
             textColor = NSColor(deviceRed: 0.39, green: 0.77, blue: 1, alpha: 1)
