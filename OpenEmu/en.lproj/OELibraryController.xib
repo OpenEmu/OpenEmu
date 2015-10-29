@@ -26,7 +26,7 @@
                 <toolbarItem implicitItemIdentifier="399CF9BB-738C-4345-8E3B-9526F0829DC8" label="Grid Size" paletteLabel="Grid Size" tag="-1" id="4KY-AU-4s0">
                     <nil key="toolTip"/>
                     <size key="minSize" width="100" height="34"/>
-                    <size key="maxSize" width="100" height="38"/>
+                    <size key="maxSize" width="106" height="38"/>
                     <box key="view" borderType="none" titlePosition="noTitle" id="1vd-UG-i31">
                         <rect key="frame" x="0.0" y="14" width="106" height="38"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -122,23 +122,23 @@
                     <size key="minSize" width="348" height="34"/>
                     <size key="maxSize" width="360" height="114"/>
                     <box key="view" borderType="none" titlePosition="noTitle" id="XJ3-gQ-HUH">
-                        <rect key="frame" x="0.0" y="14" width="348" height="38"/>
+                        <rect key="frame" x="0.0" y="14" width="353" height="38"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="Nyg-fr-RuE">
-                            <rect key="frame" x="0.0" y="0.0" width="348" height="38"/>
+                            <rect key="frame" x="0.0" y="0.0" width="353" height="38"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <segmentedControl verticalHuggingPriority="750" id="enK-iW-Klt">
-                                    <rect key="frame" x="4" y="9" width="346" height="24"/>
+                                    <rect key="frame" x="1" y="9" width="353" height="24"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <animations/>
-                                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="y2e-ND-lKU">
+                                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="y2e-ND-lKU" customClass="OEToolbarSegmentedCell">
                                         <font key="font" metaFont="system"/>
                                         <segments>
-                                            <segment label="Library" selected="YES"/>
-                                            <segment label="Save States" tag="1"/>
-                                            <segment label="Screenshots"/>
-                                            <segment label="Homebrew"/>
+                                            <segment label="Library" width="86" selected="YES"/>
+                                            <segment label="Save States" width="86" tag="1"/>
+                                            <segment label="Screenshots" width="86"/>
+                                            <segment label="Homebrew" width="86"/>
                                         </segments>
                                     </segmentedCell>
                                     <connections>
@@ -165,7 +165,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" id="NZT-Zn-8Vl" customClass="OESearchField">
-                                    <rect key="frame" x="0.0" y="8" width="166" height="22"/>
+                                    <rect key="frame" x="0.0" y="7" width="166" height="22"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <animations/>
                                     <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Search" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="gXt-MS-4X4" customClass="OESearchFieldCell">
@@ -205,7 +205,7 @@
                 <outlet property="searchField" destination="NZT-Zn-8Vl" id="h1E-yp-9F4"/>
                 <outlet property="viewSelector" destination="enK-iW-Klt" id="tkm-Yq-MTt"/>
             </connections>
-            <point key="canvasLocation" x="-900" y="-78"/>
+            <point key="canvasLocation" x="-897.5" y="-78"/>
         </toolbar>
     </objects>
 </document>
