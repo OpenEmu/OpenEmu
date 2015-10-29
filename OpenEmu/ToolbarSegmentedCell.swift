@@ -147,7 +147,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         } else {
             xOffset = NSMinX(bounds)
         }
-        
+
         return NSRect(x: xOffset,
                       y: NSMinY(bounds),
                   width: widthForSegment(segment),
@@ -180,10 +180,23 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             return NSBezierPath(rect: frame)
         }
     }
+    
+    func mouseInSegment(segment: Int) -> Bool {
+        
+        guard let controlView = controlView, window = controlView.window else {
+            return false
+        }
+        
+        let segmentRect = rectForSegment(segment)
+        let pointInWindow = window.convertPointFromScreen(NSEvent.mouseLocation())
+        let pointInControlView = controlView.convertPoint(pointInWindow, fromView: nil)
+        
+        return NSPointInRect(pointInControlView, segmentRect)
+    }
 
     override func drawSegment(segment: Int, inFrame frame: NSRect, withView controlView: NSView) {
         
-        let highlighted = segment == highlightedSegment
+        let highlighted = segment == highlightedSegment && mouseInSegment(segment)
         let selected = segment == selectedSegment
         
         if highlighted || selected {
@@ -223,7 +236,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         }
         
         let windowIsKeyWindow = controlView!.window!.keyWindow
-        let highlighted = segment == highlightedSegment
+        let highlighted = segment == highlightedSegment && mouseInSegment(segment)
         let selected = segment == selectedSegment
         
         let textColor: NSColor
@@ -286,6 +299,13 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         }
         
         return super.startTrackingAt(startPoint, inView: controlView)
+    }
+    
+    override func continueTracking(lastPoint: NSPoint, at currentPoint: NSPoint, inView controlView: NSView) -> Bool {
+        
+        controlView.needsDisplay = true
+        
+        return super.continueTracking(lastPoint, at: currentPoint, inView: controlView)
     }
     
     override func stopTracking(lastPoint: NSPoint, at stopPoint: NSPoint, inView controlView: NSView, mouseIsUp flag: Bool) {
@@ -364,5 +384,17 @@ extension NSBezierPath {
         path.closePath()
         
         return path
+    }
+}
+
+extension NSWindow {
+    
+    func convertPointFromScreen(point: NSPoint) -> NSPoint {
+     
+        let screenRect = NSRect(origin: point, size: NSZeroSize)
+        
+        let convertedRect = convertRectFromScreen(screenRect)
+        
+        return convertedRect.origin
     }
 }
