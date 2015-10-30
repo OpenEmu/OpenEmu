@@ -47,36 +47,29 @@
 @implementation NSImage (OEDrawingAdditions)
 - (NSImage *)subImageFromRect:(NSRect)rect
 {
-    int major, minor;
     NSImage *resultImage = nil;
-    GetSystemVersion(&major, &minor, NULL);
-
     resultImage = [NSImage imageWithSize:rect.size flipped:NO drawingHandler:
                    ^BOOL(NSRect dstRect)
     {
         NSImageRep *representation = nil;
 
-        // On 10.10 Yosemite drawing behaviour has changed
-        if(major == 10 && minor >= 10)
-        {
-            // Manually pick best representation for subimage based on scale of graphics context
-            // AppKit seems to fail here (esp. for search field cancel button), probably because
-            // it checks the size of the original image
-            CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
-            CGRect    deviceRect = CGContextConvertRectToDeviceSpace(context, dstRect);
-            CGFloat        scale = deviceRect.size.height / dstRect.size.height;
-            CGFloat  imageHeight = [self size].height;
+        // Manually pick best representation for subimage based on scale of graphics context
+        // AppKit seems to fail here (esp. for search field cancel button), probably because
+        // it checks the size of the original image
+        CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
+        CGRect    deviceRect = CGContextConvertRectToDeviceSpace(context, dstRect);
+        CGFloat        scale = deviceRect.size.height / dstRect.size.height;
+        CGFloat  imageHeight = [self size].height;
 
-            for(NSImageRep *rep in [self representations])
-            {
-                CGFloat repScale = scale;
-                // Only inspect size of bitmap image reps
-                if([rep isKindOfClass:[NSBitmapImageRep class]])
-                    repScale = [(NSBitmapImageRep*)rep pixelsHigh] / imageHeight;
-                if(scale == repScale) {
-                    representation = rep;
-                    break;
-                }
+        for(NSImageRep *rep in [self representations])
+        {
+            CGFloat repScale = scale;
+            // Only inspect size of bitmap image reps
+            if([rep isKindOfClass:[NSBitmapImageRep class]])
+                repScale = [(NSBitmapImageRep*)rep pixelsHigh] / imageHeight;
+            if(scale == repScale) {
+                representation = rep;
+                break;
             }
         }
 
