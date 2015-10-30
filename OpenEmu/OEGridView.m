@@ -712,8 +712,12 @@ static IKImageWrapper *lightingImage;
 
     NSUInteger scaleFactor = [renderer scaleFactor];
     [renderer setColorRed:0.03 Green:0.41 Blue:0.85 Alpha:1.0];
-
+    
     NSRect dragRect = [[self enclosingScrollView] documentVisibleRect];
+    
+    NSEdgeInsets contentInsets = [[self enclosingScrollView] contentInsets];
+    dragRect.size.height -= contentInsets.top + contentInsets.bottom + 2;
+    
     dragRect = NSInsetRect(dragRect, 1.0*scaleFactor, 1.0*scaleFactor);
     dragRect = NSIntegralRect(dragRect);
 
