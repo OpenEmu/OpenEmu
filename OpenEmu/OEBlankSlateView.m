@@ -463,11 +463,8 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     {
         if(layer == _dragIndicationLayer)
         {
-            // FIXME: The enclosing scroll view is nil at this point, so there's no way to retrieve the scroll view content insets in order to adjust the drag indicator frame. This hardcoded value is a workaround.
-            const CGFloat titlebarHeight = 37.0;
-            
             NSRect dragIndicationFrame = bounds;
-            dragIndicationFrame.size.height -= titlebarHeight;
+            dragIndicationFrame.size.height = NSHeight(self.window.contentLayoutRect);
             
             layer.frame = NSInsetRect(dragIndicationFrame, 1.0, 1.0);
         }
