@@ -33,6 +33,7 @@
 #import "OEButton.h"
 #import "OELibraryToolbar.h"
 extern NSString * const OELibraryStatesKey;
+extern NSString * const OELibraryLastCategoryKey;
 
 @class OELibraryDatabase;
 @class OESidebarController;

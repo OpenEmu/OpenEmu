@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
         <capability name="box content view" minToolsVersion="7.0"/>
     </dependencies>
@@ -199,11 +198,11 @@
                 <toolbarItem reference="Nu8-Bo-VSq"/>
             </defaultToolbarItems>
             <connections>
+                <outlet property="categorySelector" destination="enK-iW-Klt" id="dzK-Uu-Pbw"/>
                 <outlet property="gridSizeSlider" destination="hfc-c7-igG" id="kAN-nU-qBy"/>
                 <outlet property="gridViewButton" destination="iN6-LV-eCq" id="2mi-H3-aUp"/>
                 <outlet property="listViewButton" destination="l8b-vJ-uKr" id="uw4-pE-waN"/>
                 <outlet property="searchField" destination="NZT-Zn-8Vl" id="h1E-yp-9F4"/>
-                <outlet property="viewSelector" destination="enK-iW-Klt" id="tkm-Yq-MTt"/>
             </connections>
             <point key="canvasLocation" x="-897.5" y="-78"/>
         </toolbar>

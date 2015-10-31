@@ -56,12 +56,15 @@
 #pragma mark - Exported variables
 NSString * const OELastSidebarSelectionKey = @"lastSidebarSelection";
 NSString * const OELibraryStatesKey        = @"Library States";
+NSString * const OELibraryLastCategoryKey = @"OELibraryLastCategoryKey";
 
-typedef NS_ENUM(NSInteger, OELibraryCategory) {
+typedef NS_ENUM(NSUInteger, OELibraryCategory) {
     OELibraryCategoryGames,
     OELibraryCategorySaveStates,
     OELibraryCategoryScreenshots,
-    OELibraryCategoryHomebrew
+    OELibraryCategoryHomebrew,
+
+    OELibraryCategoryCount
 };
 
 #pragma mark - Imported variables
@@ -93,7 +96,12 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
     if([self database] == nil) [self setDatabase:[OELibraryDatabase defaultDatabase]];
 
-    OELibraryGamesViewController *controller = [[OELibraryGamesViewController alloc] init];
+    _selectedCategory = [[NSUserDefaults standardUserDefaults] integerForKey:OELibraryLastCategoryKey];
+    if(_selectedCategory >= OELibraryCategoryCount) {
+        _selectedCategory = OELibraryCategoryGames;
+    }
+
+    NSViewController<OELibrarySubviewController> *controller = [self _makeViewControllerForCategory:_selectedCategory];
     [controller setLibraryController:self];
 
     NSView *subview = [controller view];
@@ -101,9 +109,6 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     [subview setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [[self view] addSubview:subview];
     [self addChildViewController:controller];
-
-    _selectedCategory = OELibraryCategoryGames;
-
     [self setContentViewController:controller];
 }
 
@@ -113,6 +118,8 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
     NSWindow *window = [[self view] window];
     [window setToolbar:[self toolbar]];
+
+    [[[self toolbar] categorySelector] setSelectedSegment:_selectedCategory];
 }
 
 - (void)viewWillDisappear
@@ -206,35 +213,42 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 #pragma mark - Categories
 - (IBAction)switchCategory:(id)sender
 {
-    OELibraryCategory category = [[[self toolbar] viewSelector] selectedSegment];
+    OELibraryCategory category = [[[self toolbar] categorySelector] selectedSegment];
 
     if(category == _selectedCategory) {
         return;
     }
 
-    NSViewController<OELibrarySubviewController> *newViewController = nil;
+    NSViewController<OELibrarySubviewController> *newViewController = [self _makeViewControllerForCategory:category];
+    [self _showViewController:newViewController];
+
+    _selectedCategory = category;
+    [[NSUserDefaults standardUserDefaults] setInteger:_selectedCategory forKey:OELibraryLastCategoryKey];
+}
+
+- (NSViewController<OELibrarySubviewController> *)_makeViewControllerForCategory:(OELibraryCategory)category
+{
+    NSViewController<OELibrarySubviewController> *viewController = nil;
 
     switch (category) {
         case OELibraryCategoryGames:
-            newViewController = [[OELibraryGamesViewController alloc] init];
+            viewController = [[OELibraryGamesViewController alloc] init];
             break;
         case OELibraryCategorySaveStates:
-            newViewController = [[OEMediaViewController alloc] init];
-            [newViewController setRepresentedObject:[OEDBSavedGamesMedia sharedDBSavedGamesMedia]];
+            viewController = [[OEMediaViewController alloc] init];
+            [viewController setRepresentedObject:[OEDBSavedGamesMedia sharedDBSavedGamesMedia]];
             break;
         case OELibraryCategoryScreenshots:
-            newViewController = [[OEMediaViewController alloc] init];
-            [newViewController setRepresentedObject:[OEDBScreenshotsMedia sharedDBScreenshotsMedia]];
+            viewController = [[OEMediaViewController alloc] init];
+            [viewController setRepresentedObject:[OEDBScreenshotsMedia sharedDBScreenshotsMedia]];
             break;
         case OELibraryCategoryHomebrew:
-            newViewController = [[OEFeaturedGamesViewController alloc] init];
+            viewController = [[OEFeaturedGamesViewController alloc] init];
             break;
         default:
             break;
     }
-
-    [self _showViewController:newViewController];
-    _selectedCategory = category;
+    return viewController;
 }
 
 - (void)_showViewController:(NSViewController<OELibrarySubviewController>*)newViewController {
@@ -318,7 +332,6 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 }
 
 #pragma mark -
-
 - (IBAction)startGame:(id)sender
 {
     NSMutableArray *gamesToStart = [NSMutableArray new];
