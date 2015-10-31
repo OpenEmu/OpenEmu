@@ -171,14 +171,18 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 }
 
 - (void)magnifyWithEvent:(NSEvent*)event {
-    if([[self currentViewController] respondsToSelector:@selector(changeGridSize:)])
-    {
-        CGFloat zoomChange = [event magnification];
-        CGFloat zoomValue = [[[self toolbar] gridSizeSlider] floatValue];
 
-        [[[self toolbar] gridSizeSlider] setFloatValue:zoomValue+zoomChange];
-        [self changeGridSize:[[self toolbar] gridSizeSlider]];
-    }
+    if(![[[self toolbar] gridSizeSlider] isEnabled])
+        return;
+
+    if(![[self currentViewController] respondsToSelector:@selector(changeGridSize:)])
+        return;
+
+    CGFloat zoomChange = [event magnification];
+    CGFloat zoomValue = [[[self toolbar] gridSizeSlider] floatValue];
+
+    [[[self toolbar] gridSizeSlider] setFloatValue:zoomValue+zoomChange];
+    [self changeGridSize:[[self toolbar] gridSizeSlider]];
 }
 
 
