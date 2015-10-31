@@ -71,10 +71,18 @@ typedef NS_ENUM(NSUInteger, OELibraryCategory) {
 extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
 @interface OELibraryController ()
+
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
 @property OELibraryCategory selectedCategory;
-@property (strong) NSViewController *contentViewController;
+@property (nonatomic, readwrite) NSViewController <OELibrarySubviewController> *currentSubviewController;
+
+// Library subview controllers.
+@property (strong, readonly) OELibraryGamesViewController *libraryGamesViewController;
+@property (strong, readonly) OEMediaViewController *saveStatesViewController;
+@property (strong, readonly) OEMediaViewController *screenshotsViewController;
+@property (strong, readonly) OEFeaturedGamesViewController *homebrewViewController;
+
 @end
 
 @implementation OELibraryController
@@ -90,26 +98,42 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     return @"OELibraryController";
 }
 
-- (void)loadView
+- (void)viewDidLoad
 {
-    [super loadView];
-
+    [super viewDidLoad];
+    
     if([self database] == nil) [self setDatabase:[OELibraryDatabase defaultDatabase]];
-
+    
+    [self setUpCategoryViewControllers];
+    
     _selectedCategory = [[NSUserDefaults standardUserDefaults] integerForKey:OELibraryLastCategoryKey];
     if(_selectedCategory >= OELibraryCategoryCount) {
         _selectedCategory = OELibraryCategoryGames;
     }
+    
+    [self _showSubviewControllerForCategory:_selectedCategory];
+}
 
-    NSViewController<OELibrarySubviewController> *controller = [self _makeViewControllerForCategory:_selectedCategory];
-    [controller setLibraryController:self];
-
-    NSView *subview = [controller view];
-    [subview setFrame:[[self view] bounds]];
-    [subview setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-    [[self view] addSubview:subview];
-    [self addChildViewController:controller];
-    [self setContentViewController:controller];
+- (void)setUpCategoryViewControllers
+{
+    _libraryGamesViewController = [[OELibraryGamesViewController alloc] init];
+    _libraryGamesViewController.libraryController = self;
+    
+    _saveStatesViewController = [[OEMediaViewController alloc] init];
+    _saveStatesViewController.libraryController = self;
+    _saveStatesViewController.representedObject = [OEDBSavedGamesMedia sharedDBSavedGamesMedia];
+    
+    _screenshotsViewController = [[OEMediaViewController alloc] init];
+    _screenshotsViewController.libraryController = self;
+    _screenshotsViewController.representedObject = [OEDBScreenshotsMedia sharedDBScreenshotsMedia];
+    
+    _homebrewViewController = [[OEFeaturedGamesViewController alloc] init];
+    _homebrewViewController.libraryController = self;
+    
+    [self addChildViewController:_libraryGamesViewController];
+    [self addChildViewController:_saveStatesViewController];
+    [self addChildViewController:_screenshotsViewController];
+    [self addChildViewController:_homebrewViewController];
 }
 
 - (void)viewDidAppear
@@ -127,47 +151,44 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     [super viewWillDisappear];
     
     // Save Current State
-//    id lastState = [[self currentViewController] encodeCurrentState];
-//    id itemID    = [[[self currentViewController] representedObject] sidebarID];
+//    id lastState = [[self currentSubviewController] encodeCurrentState];
+//    id itemID    = [[[self currentSubviewController] representedObject] sidebarID];
 //    [self OE_storeState:lastState forSidebarItemWithID:itemID];
     
     NSView *toolbarItemContainer = [[[self toolbar] searchField] superview];
     [toolbarItemContainer setAutoresizingMask:NSViewWidthSizable];
 }
 
-- (id <OELibrarySubviewController>)currentViewController {
-    return (id <OELibrarySubviewController>)self.contentViewController;
-}
-
 #pragma mark - Toolbar
+
 - (IBAction)addCollectionAction:(id)sender
 {
-    if([[self currentViewController] respondsToSelector:@selector(addCollectionAction:)])
-        [[self currentViewController] performSelector:@selector(addCollectionAction:) withObject:sender];
+    if([[self currentSubviewController] respondsToSelector:@selector(addCollectionAction:)])
+        [[self currentSubviewController] performSelector:@selector(addCollectionAction:) withObject:sender];
 }
 
 - (IBAction)switchToGridView:(id)sender
 {
-    if([[self currentViewController] respondsToSelector:@selector(switchToGridView:)])
-       [[self currentViewController] performSelector:@selector(switchToGridView:) withObject:sender];
+    if([[self currentSubviewController] respondsToSelector:@selector(switchToGridView:)])
+       [[self currentSubviewController] performSelector:@selector(switchToGridView:) withObject:sender];
 }
 
 - (IBAction)switchToListView:(id)sender
 {
-    if([[self currentViewController] respondsToSelector:@selector(switchToListView:)])
-        [[self currentViewController] performSelector:@selector(switchToListView:) withObject:sender];
+    if([[self currentSubviewController] respondsToSelector:@selector(switchToListView:)])
+        [[self currentSubviewController] performSelector:@selector(switchToListView:) withObject:sender];
 }
 
 - (IBAction)search:(id)sender
 {
-    if([[self currentViewController] respondsToSelector:@selector(search:)])
-        [[self currentViewController] performSelector:@selector(search:) withObject:sender];
+    if([[self currentSubviewController] respondsToSelector:@selector(search:)])
+        [[self currentSubviewController] performSelector:@selector(search:) withObject:sender];
 }
 
 - (IBAction)changeGridSize:(id)sender
 {
-    if([[self currentViewController] respondsToSelector:@selector(changeGridSize:)])
-        [[self currentViewController] performSelector:@selector(changeGridSize:) withObject:sender];
+    if([[self currentSubviewController] respondsToSelector:@selector(changeGridSize:)])
+        [[self currentSubviewController] performSelector:@selector(changeGridSize:) withObject:sender];
 }
 
 - (void)magnifyWithEvent:(NSEvent*)event {
@@ -175,7 +196,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     if(![[[self toolbar] gridSizeSlider] isEnabled])
         return;
 
-    if(![[self currentViewController] respondsToSelector:@selector(changeGridSize:)])
+    if(![[self currentSubviewController] respondsToSelector:@selector(changeGridSize:)])
         return;
 
     CGFloat zoomChange = [event magnification];
@@ -187,10 +208,11 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
 
 #pragma mark - FileMenu Actions
+
 - (IBAction)newCollection:(id)sender
 {
-    if([[self currentViewController] respondsToSelector:@selector(addCollectionAction:)])
-        [[self currentViewController] performSelector:@selector(addCollectionAction:) withObject:sender];
+    if([[self currentSubviewController] respondsToSelector:@selector(addCollectionAction:)])
+        [[self currentSubviewController] performSelector:@selector(addCollectionAction:) withObject:sender];
 }
 
 - (IBAction)newSmartCollection:(id)sender
@@ -209,12 +231,14 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 }
 
 #pragma mark - Edit Menu
+
 - (IBAction)find:(id)sender
 {
 	[[[self view] window] makeFirstResponder:[[self toolbar] searchField]];
 }
 
 #pragma mark - Categories
+
 - (IBAction)switchCategory:(id)sender
 {
     OELibraryCategory category = [[[self toolbar] categorySelector] selectedSegment];
@@ -223,76 +247,83 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
         return;
     }
 
-    NSViewController<OELibrarySubviewController> *newViewController = [self _makeViewControllerForCategory:category];
-    [self _showViewController:newViewController];
+    [self _showSubviewControllerForCategory:category];
 
     _selectedCategory = category;
+    
     [[NSUserDefaults standardUserDefaults] setInteger:_selectedCategory forKey:OELibraryLastCategoryKey];
 }
 
-- (NSViewController<OELibrarySubviewController> *)_makeViewControllerForCategory:(OELibraryCategory)category
+- (NSViewController<OELibrarySubviewController> *)_subviewControllerForCategory:(OELibraryCategory)category
 {
     NSViewController<OELibrarySubviewController> *viewController = nil;
 
     switch (category) {
         case OELibraryCategoryGames:
-            viewController = [[OELibraryGamesViewController alloc] init];
-            break;
+            return self.libraryGamesViewController;
         case OELibraryCategorySaveStates:
-            viewController = [[OEMediaViewController alloc] init];
-            [viewController setRepresentedObject:[OEDBSavedGamesMedia sharedDBSavedGamesMedia]];
-            break;
+            return self.saveStatesViewController;
         case OELibraryCategoryScreenshots:
-            viewController = [[OEMediaViewController alloc] init];
-            [viewController setRepresentedObject:[OEDBScreenshotsMedia sharedDBScreenshotsMedia]];
-            break;
+            return self.screenshotsViewController;
         case OELibraryCategoryHomebrew:
-            viewController = [[OEFeaturedGamesViewController alloc] init];
-            break;
+            return self.homebrewViewController;
         default:
+            @throw [NSException exceptionWithName:NSInvalidArgumentException
+                                           reason:@"Unrecognized category."
+                                         userInfo:nil];
             break;
     }
     return viewController;
 }
 
-- (void)_showViewController:(NSViewController<OELibrarySubviewController>*)newViewController {
-    NSViewController *currentViewController = [self contentViewController];
-    if(currentViewController)
-    {
-        [[currentViewController view] removeFromSuperview];
-        [currentViewController removeFromParentViewController];
-        [self setContentViewController:nil];
+- (void)_showSubviewControllerForCategory:(OELibraryCategory)category
+{
+    NSViewController <OELibrarySubviewController> *newViewController = [self _subviewControllerForCategory:category];
+    NSViewController <OELibrarySubviewController> *currentSubviewController = self.currentSubviewController;
+    
+    newViewController.view.frame = self.view.bounds;
+    newViewController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    
+    if(currentSubviewController) {
+        
+        [NSAnimationContext beginGrouping];
+        
+        [[NSAnimationContext currentContext] setDuration:0.35];
+        
+        [self transitionFromViewController:currentSubviewController
+                          toViewController:newViewController
+                                   options:NSViewControllerTransitionCrossfade
+                         completionHandler:nil];
+        
+        [NSAnimationContext endGrouping];
+        
+    } else {
+        
+        [self.view addSubview:newViewController.view];
     }
+    
+    self.currentSubviewController = newViewController;
 
-    [newViewController setLibraryController:self];
-
-    NSView *newView = [newViewController view];
-    [newView setFrame:[[self view] bounds]];
-    [newView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-    [[self view] addSubview:newView];
-
-    [self addChildViewController:newViewController];
-    [self setContentViewController:newViewController];
-
-    [[[self view] window] makeFirstResponder:newView];
+    [self.view.window makeFirstResponder:newViewController.view];
 }
 
 #pragma mark -
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
     SEL action = [menuItem action];
     if(action == @selector(newCollectionFolder:)) return NO;
 
-    const id currentViewController = [self currentViewController];
+    const id currentSubviewController = [self currentSubviewController];
 
     if(action == @selector(startGame:))
     {
-        return [currentViewController isKindOfClass:[OEGameCollectionViewController class]] && [currentViewController respondsToSelector:@selector(selectedGames)] && [[currentViewController selectedGames] count] != 0;
+        return [currentSubviewController isKindOfClass:[OEGameCollectionViewController class]] && [currentSubviewController respondsToSelector:@selector(selectedGames)] && [[currentSubviewController selectedGames] count] != 0;
     }
 
     if(action == @selector(startSaveState:))
     {
-        return [currentViewController isKindOfClass:[OEGameCollectionViewController class]] && [currentViewController respondsToSelector:@selector(selectedSaveStates)] && [[currentViewController selectedSaveStates] count] != 0;
+        return [currentSubviewController isKindOfClass:[OEGameCollectionViewController class]] && [currentSubviewController respondsToSelector:@selector(selectedSaveStates)] && [[currentSubviewController selectedSaveStates] count] != 0;
     }
 
     if(action == @selector(find:))
@@ -312,6 +343,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 }
 
 #pragma mark - Import
+
 - (IBAction)addToLibrary:(id)sender
 {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
@@ -345,9 +377,9 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     }
     else
     {
-        NSAssert([(id)[self currentViewController] respondsToSelector:@selector(selectedGames)], @"Attempt to start a game from a view controller that doesn't announc selectedGames");
+        NSAssert([(id)[self currentSubviewController] respondsToSelector:@selector(selectedGames)], @"Attempt to start a game from a view controller that doesn't announc selectedGames");
 
-        [gamesToStart addObjectsFromArray:[(id <OELibrarySubviewController>)[self currentViewController] selectedGames]];
+        [gamesToStart addObjectsFromArray:[(id <OELibrarySubviewController>)[self currentSubviewController] selectedGames]];
     }
 
     NSAssert([gamesToStart count] > 0, @"Attempt to start a game while the selection is empty");
@@ -360,7 +392,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
 - (IBAction)startSaveState:(id)sender
 {
-    OEMediaViewController *media = (OEMediaViewController *)[self currentViewController];
+    OEMediaViewController *media = (OEMediaViewController *)[self currentSubviewController];
     NSArray *statesToLaunch = [media selectedSaveStates];
 
     if([statesToLaunch count] != 1) return;
@@ -383,6 +415,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 }
 
 #pragma mark - Private
+
 - (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag
 {
     [NSApp setPresentationOptions:(fsFlag ? NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar : NSApplicationPresentationDefault)];

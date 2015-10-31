@@ -72,7 +72,7 @@ extern NSString * const OELibraryLastCategoryKey;
 
 #pragma mark - Properties
 @property (strong) OELibraryDatabase *database;
-@property (nonatomic, readonly) NSViewController <OELibrarySubviewController> *currentViewController;
+@property (nonatomic, readonly) NSViewController <OELibrarySubviewController> *currentSubviewController;
 @property (strong) IBOutlet OELibraryToolbar *toolbar;
 @end
 

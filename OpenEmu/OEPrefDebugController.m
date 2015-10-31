@@ -269,7 +269,7 @@ NSString * const OptionsKey = @"options";
 - (void)showGameScannerView:(id)sender {
     
     OEMainWindowController *mainWindowController = self.mainWindow.windowController;
-    id <OELibrarySubviewController> currentViewController = mainWindowController.libraryController.currentViewController;
+    id <OELibrarySubviewController> currentViewController = mainWindowController.libraryController.currentSubviewController;
     
     if([currentViewController isKindOfClass:[OELibraryGamesViewController class]])
     {
@@ -280,7 +280,7 @@ NSString * const OptionsKey = @"options";
 - (void)hideGameScannerView:(id)sender {
     
     OEMainWindowController *mainWindowController = self.mainWindow.windowController;
-    id <OELibrarySubviewController> currentViewController = mainWindowController.libraryController.currentViewController;
+    id <OELibrarySubviewController> currentViewController = mainWindowController.libraryController.currentSubviewController;
     
     if([currentViewController isKindOfClass:[OELibraryGamesViewController class]])
     {
