@@ -91,9 +91,9 @@
 
     [[toolbar addButton] setEnabled:NO];
 
-    [[toolbar gridSizeSlider] setEnabled:NO];
     [[toolbar gridViewButton] setEnabled:NO];
     [[toolbar listViewButton] setEnabled:NO];
+    [[toolbar gridSizeSlider] setEnabled:!_shouldShowBlankSlate];
 
     NSSearchField *field = [toolbar searchField];
     [field setSearchMenuTemplate:nil];
@@ -112,6 +112,7 @@
     OELibraryController *libraryController = [self libraryController];
     OELibraryToolbar *toolbar = [libraryController toolbar];
     [[toolbar searchField] setEnabled:!_shouldShowBlankSlate];
+    [[toolbar gridSizeSlider] setEnabled:!_shouldShowBlankSlate];
 }
 
 - (void)_setupSearchMenuTemplate
