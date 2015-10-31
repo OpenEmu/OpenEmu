@@ -288,7 +288,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
         
         [NSAnimationContext beginGrouping];
         
-        [[NSAnimationContext currentContext] setDuration:0.35];
+        [[NSAnimationContext currentContext] setDuration:0.25];
         
         [self transitionFromViewController:currentSubviewController
                           toViewController:newViewController
