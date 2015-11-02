@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6724" systemVersion="14C78c" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6724"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEFeaturedGamesViewController">
@@ -25,7 +25,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="230" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" id="KhY-cL-moa">
+                                <rect key="frame" x="0.0" y="0.0" width="817" height="546"/>
                                 <autoresizingMask key="autoresizingMask"/>
+                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
@@ -49,6 +51,7 @@
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="Smq-Bg-E0G" customClass="OELabel">
                                                         <rect key="frame" x="282" y="95" width="500" height="60"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                        <animations/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="oqK-8m-n8t" customClass="OELabelCell">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -64,6 +67,7 @@
                                                     <button focusRingType="none" id="ss5-rY-sYe" customClass="OEButton">
                                                         <rect key="frame" x="285" y="96" width="59" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <animations/>
                                                         <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="SIc-aZ-puf" customClass="OEOutlinedButtonCell">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -75,6 +79,7 @@
                                                     <button focusRingType="none" id="rix-Tm-zJs" customClass="OEButton">
                                                         <rect key="frame" x="352" y="96" width="61" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <animations/>
                                                         <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="Se1-Vc-J4Y" customClass="OEOutlinedButtonCell">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -93,6 +98,7 @@
                                                                 <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" verticallyResizable="NO" findStyle="panel" continuousSpellChecking="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="EM4-yi-C1u">
                                                                     <rect key="frame" x="0.0" y="0.0" width="498" height="53"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    <animations/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <size key="minSize" width="498" height="53"/>
                                                                     <size key="maxSize" width="639" height="10000000"/>
@@ -101,24 +107,30 @@
                                                                     <size key="maxSize" width="639" height="10000000"/>
                                                                 </textView>
                                                             </subviews>
+                                                            <animations/>
                                                             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                                                         </clipView>
+                                                        <animations/>
                                                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="Smc-6i-B2w">
                                                             <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                                                             <autoresizingMask key="autoresizingMask"/>
+                                                            <animations/>
                                                         </scroller>
                                                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="DaE-6g-7An">
                                                             <rect key="frame" x="-100" y="-100" width="16" height="38"/>
                                                             <autoresizingMask key="autoresizingMask"/>
+                                                            <animations/>
                                                         </scroller>
                                                     </scrollView>
                                                     <customView id="awI-1D-r5I" customClass="OEFeaturedGamesCoverView">
                                                         <rect key="frame" x="36" y="-30" width="240" height="185"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <animations/>
                                                     </customView>
                                                     <button focusRingType="none" id="5kk-p4-hJg" customClass="OEButton">
                                                         <rect key="frame" x="282" y="119" width="204" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <animations/>
                                                         <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="D7D-mh-2qM" customClass="OEButtonCell">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -128,6 +140,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </button>
                                                 </subviews>
+                                                <animations/>
                                             </tableCellView>
                                             <tableCellView identifier="HeaderView" id="Lu4-Ie-5bt">
                                                 <rect key="frame" x="0.0" y="167" width="817" height="94"/>
@@ -136,6 +149,7 @@
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="vFl-AX-naa" customClass="OELabel">
                                                         <rect key="frame" x="30" y="3" width="727" height="57"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                        <animations/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="JSC-Ns-HCV" customClass="OELabelCell">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -149,6 +163,7 @@
                                                         </connections>
                                                     </textField>
                                                 </subviews>
+                                                <animations/>
                                                 <connections>
                                                     <outlet property="textField" destination="vFl-AX-naa" id="5dZ-m5-Dnf"/>
                                                 </connections>
@@ -168,10 +183,12 @@
                                                                     <customView id="Hbl-cX-W2X" customClass="OEFeaturedGamesCoverView">
                                                                         <rect key="frame" x="2" y="78" width="180" height="140"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                     </customView>
                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="0CD-QO-y6f" customClass="OELabel">
                                                                         <rect key="frame" x="18" y="14" width="150" height="60"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Table View Cell" id="Qg6-Jy-yrb" customClass="OELabelCell">
                                                                             <font key="font" metaFont="system"/>
                                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -187,6 +204,7 @@
                                                                     <button focusRingType="none" id="UwV-Md-06C" customClass="OEButton">
                                                                         <rect key="frame" x="18" y="11" width="59" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                         <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="65X-Ve-LCa" customClass="OEOutlinedButtonCell">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -198,6 +216,7 @@
                                                                     <button focusRingType="none" id="E7y-Tz-1qf" customClass="OEButton">
                                                                         <rect key="frame" x="85" y="11" width="61" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                         <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="xYS-gb-JIA" customClass="OEOutlinedButtonCell">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -209,6 +228,7 @@
                                                                     <button focusRingType="none" id="rUH-WG-nRq" customClass="OEButton">
                                                                         <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                         <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="8Rt-p4-N0C" customClass="OEButtonCell">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -218,6 +238,7 @@
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
                                                                 </subviews>
+                                                                <animations/>
                                                             </customView>
                                                             <customView id="fWt-jo-lSb">
                                                                 <rect key="frame" x="281" y="1" width="185" height="220"/>
@@ -226,10 +247,12 @@
                                                                     <customView id="8In-DY-9QG" customClass="OEFeaturedGamesCoverView">
                                                                         <rect key="frame" x="2" y="78" width="180" height="140"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                     </customView>
                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="Eif-4f-CpZ" customClass="OELabel">
                                                                         <rect key="frame" x="18" y="14" width="149" height="60"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Table View Cell" id="RKM-R4-e0F" customClass="OELabelCell">
                                                                             <font key="font" metaFont="system"/>
                                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -245,6 +268,7 @@
                                                                     <button focusRingType="none" id="882-T1-u9B" customClass="OEButton">
                                                                         <rect key="frame" x="18" y="11" width="59" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                         <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="Ufp-J5-Fdn" customClass="OEOutlinedButtonCell">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -256,6 +280,7 @@
                                                                     <button focusRingType="none" id="4IR-R8-vWe" customClass="OEButton">
                                                                         <rect key="frame" x="85" y="11" width="61" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                         <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="A9j-pe-YlF" customClass="OEOutlinedButtonCell">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -267,6 +292,7 @@
                                                                     <button focusRingType="none" id="JRg-J5-JNV" customClass="OEButton">
                                                                         <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                         <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="c8b-na-xYA" customClass="OEButtonCell">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -276,6 +302,7 @@
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
                                                                 </subviews>
+                                                                <animations/>
                                                             </customView>
                                                             <customView id="sN5-rM-I3f">
                                                                 <rect key="frame" x="545" y="1" width="186" height="220"/>
@@ -284,10 +311,12 @@
                                                                     <customView id="LeL-8G-gVy" customClass="OEFeaturedGamesCoverView">
                                                                         <rect key="frame" x="2" y="78" width="180" height="140"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                     </customView>
                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="9PG-f8-PSQ" customClass="OELabel">
                                                                         <rect key="frame" x="18" y="14" width="150" height="60"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Table View Cell" id="dJP-6m-thX" customClass="OELabelCell">
                                                                             <font key="font" metaFont="system"/>
                                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -303,6 +332,7 @@
                                                                     <button focusRingType="none" id="GZt-UQ-5kg" customClass="OEButton">
                                                                         <rect key="frame" x="18" y="11" width="59" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                         <buttonCell key="cell" type="square" title="SYSTEM" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="G3t-rb-H79" customClass="OEOutlinedButtonCell">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -314,6 +344,7 @@
                                                                     <button focusRingType="none" id="BqM-X5-bQy" customClass="OEButton">
                                                                         <rect key="frame" x="85" y="11" width="61" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                         <buttonCell key="cell" type="square" title="Import" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="9bU-JH-JqS" customClass="OEOutlinedButtonCell">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -325,6 +356,7 @@
                                                                     <button focusRingType="none" id="4MS-I3-jM5" customClass="OEButton">
                                                                         <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                        <animations/>
                                                                         <buttonCell key="cell" type="bevel" title="www.openemu.org" bezelStyle="rounded" alignment="left" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="PzT-my-Dzg" customClass="OEButtonCell">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -334,31 +366,40 @@
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
                                                                 </subviews>
+                                                                <animations/>
                                                             </customView>
                                                         </subviews>
+                                                        <animations/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_inset_box"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </customView>
                                                 </subviews>
+                                                <animations/>
                                             </tableCellView>
                                         </prototypeCellViews>
                                     </tableColumn>
                                 </tableColumns>
                             </tableView>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </clipView>
+                    <animations/>
+                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="37" bottom="0.0"/>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="wx5-R2-aHS" customClass="OEScroller">
                         <rect key="frame" x="0.0" y="371" width="480" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                     </scroller>
                     <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="XPB-Y0-isn" customClass="OEScroller">
                         <rect key="frame" x="224" y="17" width="15" height="102"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                     </scroller>
                 </scrollView>
             </subviews>
+            <animations/>
         </customView>
     </objects>
 </document>
