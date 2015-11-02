@@ -686,8 +686,7 @@ NSString * const OptionsKey = @"options";
         }
 
         NSString *key  = [colorObject objectForKey:KeyKey];
-        NSColor *color = [sender color];
-        NSString *value = OENSStringFromColor(color);
+        NSString *value = [[sender color] toString];
 
         [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
     }
@@ -762,7 +761,7 @@ NSString * const OptionsKey = @"options";
         NSColor     *color     = [NSColor blackColor];
         if([userDefaults stringForKey:key])
         {
-            color = OENSColorFromString([userDefaults stringForKey:key]);
+            color = [NSColor colorFromString:[userDefaults stringForKey:key]];
         }
         [colorWell setColor:color];
         [colorWell setAction:@selector(changeUDColor:)];

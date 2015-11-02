@@ -101,17 +101,18 @@ id _OEObjectFromDictionary(NSDictionary *dictionary, NSString *attributeName, Cl
 
 + (id)parseWithDefinition:(NSDictionary *)definition
 {
+
     // Parse the values from the new definition
     NSColor *foregroundColor = _OEObjectFromDictionary(definition, OEThemeFontForegroundColorAttributeName, [NSColor class],
                                                        ^ id (id color)
                                                        {
-                                                           return ([color isKindOfClass:[NSString class]] ? (OENSColorFromString(color) ?: [NSColor blackColor]) : [NSColor blackColor]);
+                                                           return ([color isKindOfClass:[NSString class]] ? ([NSColor colorFromString:color] ?: [NSColor blackColor]) : [NSColor blackColor]);
                                                        });
 
     NSColor *backgroundColor = _OEObjectFromDictionary(definition, OEThemeFontBackgroundColorAttributeName, [NSColor class],
                                                        ^ id (id color)
                                                        {
-                                                           return ([color isKindOfClass:[NSString class]] ? (OENSColorFromString(color) ?: nil) : nil);
+                                                           return ([color isKindOfClass:[NSString class]] ? ([NSColor colorFromString:color] ?: nil) : nil);
                                                        });
 
     NSShadow *shadow = _OEObjectFromDictionary(definition, OEThemeFontShadowAttributeName, [NSShadow class],
@@ -123,7 +124,7 @@ id _OEObjectFromDictionary(NSDictionary *dictionary, NSString *attributeName, Cl
                                                    CGFloat blurRadius = [[shadow valueForKey:OEThemeShadowBlurRadiusAttributeName] floatValue];
                                                    id      color      = [shadow objectForKey:OEThemeShadowColorAttributeName];
 
-                                                   if([color isKindOfClass:[NSString class]])      color = (OENSColorFromString(color) ?: [NSColor blackColor]);
+                                                   if([color isKindOfClass:[NSString class]])      color = ([NSColor colorFromString:color] ?: [NSColor blackColor]);
                                                    else if(![color isKindOfClass:[NSColor class]]) color = [NSColor blackColor];
 
                                                    NSShadow *result = [[NSShadow alloc] init];

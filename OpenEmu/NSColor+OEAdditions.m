@@ -25,159 +25,12 @@
  */
 
 #import "NSColor+OEAdditions.h"
-#import <objc/runtime.h>
-
-// Note: this file is compiled under MRR. It cannot be ARC because there is no supported way
-// to return an autoreleased CF object under ARC.
-
-#if __has_feature(objc_arc)
-#error This file cannot be compiled with ARC
-#endif
-
-static NSColor *_OENSColorFromRGBA(NSArray *parameters);
-static NSColor *_OENSColorFromHSLA(NSArray *parameters);
-static NSColor *_OENSColorFromString(NSString *colorString);
 
 @implementation NSColor (OEAdditions_internal)
-
-+ (void)load
-{
-    if(!class_getClassMethod(self, @selector(colorWithCGColor:)))
-        class_addMethod(object_getClass(self), @selector(colorWithCGColor:), (IMP)_NSColor_colorWithCGColor_, "@@:^v");
-
-    if(!class_getInstanceMethod(self, @selector(CGColor)))
-        class_addMethod(self, @selector(CGColor), (IMP)_NSColor_CGColor, "^v@:");
-}
-
-static NSColor * _NSColor_colorWithCGColor_(Class self, SEL _cmd, CGColorRef color)
-{
-    const CGFloat *components = CGColorGetComponents(color);
-    NSColorSpace  *colorSpace = [[NSColorSpace alloc] initWithCGColorSpace:CGColorGetColorSpace(color)];
-    NSColor       *result     = [NSColor colorWithColorSpace:colorSpace components:components count:CGColorGetNumberOfComponents(color)];
-    [colorSpace release];
-
-    return result;
-}
-
-static CGColorRef _NSColor_CGColor(NSColor *self, SEL _cmd)
-{
-    if([self isEqualTo:[NSColor blackColor]]) return CGColorGetConstantColor(kCGColorBlack);
-    if([self isEqualTo:[NSColor whiteColor]]) return CGColorGetConstantColor(kCGColorWhite);
-    if([self isEqualTo:[NSColor clearColor]]) return CGColorGetConstantColor(kCGColorClear);
-
-    NSColor *rgbColor = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-    CGFloat components[4];
-    [rgbColor getComponents:components];
-
-    CGColorSpaceRef theColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
-    CGColorRef      theColor      = CGColorCreate(theColorSpace, components);
-    CGColorSpaceRelease(theColorSpace);
-
-    return (CGColorRef)[(id)theColor autorelease];
-}
-
-@end
-
-NSColor *_OENSColorFromRGBA(NSArray *parameters)
-{
-    if([parameters count] < 3) return nil;
-
-    CGFloat red   = MAX(MIN([[parameters objectAtIndex:0] intValue], 255), 0) / 255.0;
-    CGFloat green = MAX(MIN([[parameters objectAtIndex:1] intValue], 255), 0) / 255.0;
-    CGFloat blue  = MAX(MIN([[parameters objectAtIndex:2] intValue], 255), 0) / 255.0;
-    CGFloat alpha = ([parameters count] > 3 ? MAX(MIN([[parameters objectAtIndex:3] floatValue], 1.0), 0.0) : 1.0);
-
-    return [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:alpha];
-}
-
-NSColor *_OENSColorFromHSLA(NSArray *parameters)
-{
-    if([parameters count] < 3) return nil;
-
-    CGFloat hue        = MAX(MIN([[parameters objectAtIndex:0] intValue], 360), 0) / 360.0;
-    CGFloat saturation = MAX(MIN([[parameters objectAtIndex:1] intValue], 100), 0) / 100.0;
-    CGFloat brightness = MAX(MIN([[parameters objectAtIndex:2] intValue], 100), 0) / 100.0;
-    CGFloat alpha      = ([parameters count] > 3 ? MAX(MIN([[parameters objectAtIndex:3] floatValue], 1.0), 0.0) : 1.0);
-
-    return [NSColor colorWithCalibratedHue:hue saturation:saturation brightness:brightness alpha:alpha];
-}
-
-NSColor *_OENSColorFromString(NSString *colorString)
-{
-    if(colorString == nil) return nil;
-
-    // Should be static?
-    NSRegularExpression  *rgbRegex      = [NSRegularExpression regularExpressionWithPattern:@"\\s*(?:(?:#)|(?:0x))?([0-9a-f]+)\\s*" options:0 error:nil];
-    NSRegularExpression  *functionRegex = [NSRegularExpression regularExpressionWithPattern:@"\\s*(.+)\\(((?:[^,]+,){2,3}[^,]+)\\)\\s*" options:0 error:nil];
-
-    const NSRange         range  = NSMakeRange(0, [colorString length]);
-    NSTextCheckingResult *match  = nil;
-    NSColor              *result = nil;
-
-    if((match = [[functionRegex matchesInString:colorString options:0 range:range] lastObject]))
-    {
-        NSString *function  = [[colorString substringWithRange:[match rangeAtIndex:1]] lowercaseString];
-        NSArray *parameters = [[[colorString substringWithRange:[match rangeAtIndex:2]] lowercaseString] componentsSeparatedByString:@","];
-
-        if([function isEqualToString:@"rgba"] || [function isEqualToString:@"rgb"])      result = _OENSColorFromRGBA(parameters);
-        else if([function isEqualToString:@"hsla"] || [function isEqualToString:@"hsl"]) result = _OENSColorFromHSLA(parameters);
-    }
-    else if((match = [[rgbRegex matchesInString:colorString options:0 range:range] lastObject]))
-    {
-        const NSRange matchRange = [match rangeAtIndex:1];
-        NSString *matchedString  = [[colorString substringWithRange:matchRange] lowercaseString];
-
-        switch(matchRange.length)
-        {
-            case 3: // rgb format
-            case 4: // rgba format
-            {
-                CGFloat red   = [matchedString characterAtIndex:0] / 255.0;
-                CGFloat green = [matchedString characterAtIndex:1] / 255.0;
-                CGFloat blue  = [matchedString characterAtIndex:2] / 255.0;
-                CGFloat alpha = (matchRange.length == 4 ? [matchedString characterAtIndex:3] / 255.0 : 1.0);
-
-                result = [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:alpha];
-
-                break;
-            }
-            case 6: // rrggbb format
-                matchedString = [matchedString stringByAppendingFormat:@"ff"];
-                break;
-            case 8: // rrggbbaa format
-                break;
-            default:
-                if(matchRange.length > 8) matchedString = [matchedString substringToIndex:8];
-                break;
-        }
-
-        if(result == nil)
-        {
-            long long unsigned int colorARGB = 0;
-
-            NSScanner *hexScanner = [NSScanner scannerWithString:matchedString];
-            [hexScanner scanHexLongLong:&colorARGB];
-
-            const CGFloat components[] =
-            {
-                (CGFloat)((colorARGB & 0xFF000000) >> 24) / 255.0f, // r
-                (CGFloat)((colorARGB & 0x00FF0000) >> 16) / 255.0f, // g
-                (CGFloat)((colorARGB & 0x0000FF00) >>  8) / 255.0f, // b
-                (CGFloat)((colorARGB & 0x000000FF) >>  0) / 255.0f  // a
-            };
-            
-            result = [NSColor colorWithColorSpace:[NSColorSpace deviceRGBColorSpace] components:components count:4];
-        }
-    }
-    return result;
-}
-
-// Inspired by http://www.w3.org/TR/css3-color/ and https://github.com/kballard/uicolor-utilities/blob/master/UIColor-Expanded.m
-NSColor *OENSColorFromString(NSString *colorString)
++ (NSColor*)colorFromString:(NSString*)colorString
 {
     static NSDictionary    *namedColors = nil;
-    static dispatch_once_t  onceToken;
-    dispatch_once(&onceToken, ^{
+    if(!namedColors) {
         // Mac OS X defined colors
         namedColors = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                        [NSColor clearColor],                        @"clear",
@@ -271,7 +124,7 @@ NSColor *OENSColorFromString(NSString *colorString)
                     if(name != NULL && value != NULL)
                     {
                         colorName  = [[NSString stringWithCString:name encoding:NSUTF8StringEncoding] lowercaseString];
-                        colorValue = _OENSColorFromString([NSString stringWithCString:value encoding:NSUTF8StringEncoding]);
+                        colorValue = [NSColor colorFromString:[NSString stringWithCString:value encoding:NSUTF8StringEncoding]];
 
                         if(colorName != nil && colorValue != nil) [namedColors setValue:colorValue forKey:colorName];
                     }
@@ -282,20 +135,116 @@ NSColor *OENSColorFromString(NSString *colorString)
         {
             if(names != NULL) free(names);
         }
-    });
+    }
 
     if(!colorString) return nil;
 
     NSString *cleanedUpColorString = [[colorString lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSColor *result = [namedColors valueForKey:cleanedUpColorString];
-    return (result ?: _OENSColorFromString(cleanedUpColorString));
+    return (result ?: [self _colorFromCleanString:cleanedUpColorString]);
 }
 
++ (NSColor*)_colorFromCleanString:(NSString *)colorString {
+    if(colorString == nil) return nil;
 
-NSString *OENSStringFromColor(NSColor *color)
+    // Should be static?
+    NSRegularExpression  *rgbRegex      = [NSRegularExpression regularExpressionWithPattern:@"\\s*(?:(?:#)|(?:0x))?([0-9a-f]+)\\s*" options:0 error:nil];
+    NSRegularExpression  *functionRegex = [NSRegularExpression regularExpressionWithPattern:@"\\s*(.+)\\(((?:[^,]+,){2,3}[^,]+)\\)\\s*" options:0 error:nil];
+
+    const NSRange         range  = NSMakeRange(0, [colorString length]);
+    NSTextCheckingResult *match  = nil;
+    NSColor              *result = nil;
+
+    if((match = [[functionRegex matchesInString:colorString options:0 range:range] lastObject]))
+    {
+        NSString *function  = [[colorString substringWithRange:[match rangeAtIndex:1]] lowercaseString];
+        NSArray *parameters = [[[colorString substringWithRange:[match rangeAtIndex:2]] lowercaseString] componentsSeparatedByString:@","];
+
+        if([function isEqualToString:@"rgba"] || [function isEqualToString:@"rgb"])
+            result = [NSColor colorFromRGBA:parameters];
+        else if([function isEqualToString:@"hsla"] || [function isEqualToString:@"hsl"])
+            result = [NSColor colorFromHSLA:parameters];
+    }
+    else if((match = [[rgbRegex matchesInString:colorString options:0 range:range] lastObject]))
+    {
+        const NSRange matchRange = [match rangeAtIndex:1];
+        NSString *matchedString  = [[colorString substringWithRange:matchRange] lowercaseString];
+
+        switch(matchRange.length)
+        {
+            case 3: // rgb format
+            case 4: // rgba format
+            {
+                CGFloat red   = [matchedString characterAtIndex:0] / 255.0;
+                CGFloat green = [matchedString characterAtIndex:1] / 255.0;
+                CGFloat blue  = [matchedString characterAtIndex:2] / 255.0;
+                CGFloat alpha = (matchRange.length == 4 ? [matchedString characterAtIndex:3] / 255.0 : 1.0);
+
+                result = [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:alpha];
+
+                break;
+            }
+            case 6: // rrggbb format
+                matchedString = [matchedString stringByAppendingFormat:@"ff"];
+                break;
+            case 8: // rrggbbaa format
+                break;
+            default:
+                if(matchRange.length > 8) matchedString = [matchedString substringToIndex:8];
+                break;
+        }
+
+        if(result == nil)
+        {
+            long long unsigned int colorARGB = 0;
+
+            NSScanner *hexScanner = [NSScanner scannerWithString:matchedString];
+            [hexScanner scanHexLongLong:&colorARGB];
+
+            const CGFloat components[] =
+            {
+                (CGFloat)((colorARGB & 0xFF000000) >> 24) / 255.0f, // r
+                (CGFloat)((colorARGB & 0x00FF0000) >> 16) / 255.0f, // g
+                (CGFloat)((colorARGB & 0x0000FF00) >>  8) / 255.0f, // b
+                (CGFloat)((colorARGB & 0x000000FF) >>  0) / 255.0f  // a
+            };
+
+            result = [NSColor colorWithColorSpace:[NSColorSpace deviceRGBColorSpace] components:components count:4];
+        }
+    }
+    return result;
+}
+
++ (NSColor*)colorFromRGBA:(NSArray*)parameters
 {
-    NSColor *rgbColor = [color colorUsingColorSpaceName:NSDeviceRGBColorSpace];
+    if([parameters count] < 3) return nil;
+
+    CGFloat red   = MAX(MIN([[parameters objectAtIndex:0] intValue], 255), 0) / 255.0;
+    CGFloat green = MAX(MIN([[parameters objectAtIndex:1] intValue], 255), 0) / 255.0;
+    CGFloat blue  = MAX(MIN([[parameters objectAtIndex:2] intValue], 255), 0) / 255.0;
+    CGFloat alpha = ([parameters count] > 3 ? MAX(MIN([[parameters objectAtIndex:3] floatValue], 1.0), 0.0) : 1.0);
+
+    return [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:alpha];
+}
+
++ (NSColor*)colorFromHSLA:(NSArray*)parameters
+{
+    if([parameters count] < 3) return nil;
+
+    CGFloat hue        = MAX(MIN([[parameters objectAtIndex:0] intValue], 360), 0) / 360.0;
+    CGFloat saturation = MAX(MIN([[parameters objectAtIndex:1] intValue], 100), 0) / 100.0;
+    CGFloat brightness = MAX(MIN([[parameters objectAtIndex:2] intValue], 100), 0) / 100.0;
+    CGFloat alpha      = ([parameters count] > 3 ? MAX(MIN([[parameters objectAtIndex:3] floatValue], 1.0), 0.0) : 1.0);
+
+    return [NSColor colorWithCalibratedHue:hue saturation:saturation brightness:brightness alpha:alpha];
+}
+
+// Inspired by http://www.w3.org/TR/css3-color/ and https://github.com/kballard/uicolor-utilities/blob/master/UIColor-Expanded.m
+- (NSString*)toString
+{
+    NSColor *rgbColor = [self colorUsingColorSpaceName:NSDeviceRGBColorSpace];
     NSString *result  = [NSString stringWithFormat:@"#%02x%02x%02x", (int)([rgbColor redComponent]*255), (int)([rgbColor greenComponent]*255), (int)([rgbColor blueComponent]*255)];
 
     return result;
 }
+@end

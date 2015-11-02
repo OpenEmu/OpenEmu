@@ -26,12 +26,7 @@
 
 #import <AppKit/AppKit.h>
 
-extern NSColor  *OENSColorFromString(NSString *colorString);
-extern NSString *OENSStringFromColor(NSColor *color);
-
 @interface NSColor (OEAdditions)
-
-+ (NSColor *)colorWithCGColor:(CGColorRef)color;
-- (CGColorRef)CGColor;
-
++ (NSColor*)colorFromString:(NSString*)string;
+- (NSString*)toString;
 @end

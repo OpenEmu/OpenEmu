@@ -120,7 +120,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
         if(backgroundColorName != nil)
         {
-            NSColor *color = OENSColorFromString(backgroundColorName);
+            NSColor *color = [NSColor colorFromString:backgroundColorName];
             [_gameView setBackgroundColor:color];
         }
         

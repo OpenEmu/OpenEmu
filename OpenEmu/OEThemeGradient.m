@@ -70,7 +70,7 @@ static NSString * const OEThemeGradientAngleAttributeName     = @"Angle";
     [rawColorStrings enumerateObjectsUsingBlock:
      ^ (id obj, NSUInteger idx, BOOL *stop)
      {
-         [colors addObject:(OENSColorFromString(obj) ?: [NSColor blackColor])];
+         [colors addObject:([NSColor colorFromString:obj] ?: [NSColor blackColor])];
      }];
 
     // Translate NSNumber objects to CGFloats
