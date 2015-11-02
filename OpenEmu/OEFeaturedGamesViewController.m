@@ -58,6 +58,7 @@ const static CGFloat TableViewSpacing = 86.0;
 @property (readonly)       NSInteger fileIndex;
 @property (readonly, copy) NSArray  *images;
 @property (readonly, copy) NSString  *md5;
+@property (readonly, copy) NSString  *systemGroup;
 
 @property (nonatomic, readonly) NSString *systemShortName;
 
@@ -65,6 +66,7 @@ const static CGFloat TableViewSpacing = 86.0;
 @end
 @interface OEFeaturedGamesViewController () <NSTableViewDataSource, NSTableViewDelegate>
 @property (strong) NSArray *games;
+@property (strong) NSArray *headerIndices;
 @property (strong) OEDownload *currentDownload;
 @property (strong, nonatomic) OEFeaturedGamesBlankSlateView *blankSlate;
 @end
@@ -202,12 +204,18 @@ const static CGFloat TableViewSpacing = 86.0;
             [newGameIndices addIndex:idx];
     }];
 
-    NSArray *allGames = [document nodesForXPath:@"//game" error:&error];
-    NSArray *newGames = [allGames objectsAtIndexes:newGameIndices];
+    NSArray *allGames = [document nodesForXPath:@"//system | //game" error:&error];
+    //NSArray *newGames = [allGames objectsAtIndexes:newGameIndices];
+    NSMutableArray *allHeaderIndices = [[NSMutableArray alloc] init];
+    self.games = [allGames arrayByEvaluatingBlock:^id(id node, NSUInteger idx, BOOL *block) {
+        // Keep track of system node indices to use for headers
+        if([[node nodesForXPath:@"@id" error:nil] lastObject])
+            [allHeaderIndices addObject:@(idx)];
 
-    self.games = [newGames arrayByEvaluatingBlock:^id(id node, NSUInteger idx, BOOL *block) {
         return [[OEFeaturedGame alloc] initWithNode:node];
     }];
+
+    self.headerIndices = [allHeaderIndices mutableCopy];
 
     return YES;
 }
@@ -360,16 +368,33 @@ const static CGFloat TableViewSpacing = 86.0;
 
     if(rowIndex == 1) return [[self games] subarrayWithRange:NSMakeRange(0, 3)];
 
+    if([[self headerIndices] containsObject:@(rowIndex)])
+    {
+        // Use system lastLocalizedName for header
+        OEFeaturedGame *game = [[self games] objectAtIndex:rowIndex];
+        NSString *identifier = [game systemGroup];
+
+        NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
+
+        OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:identifier inContext:context];
+
+        return [system lastLocalizedName];
+    }
+
     return [[self games] objectAtIndex:rowIndex];
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     NSTableCellView *view = nil;
-    
-    if(row == 0 || row == 2)
+
+    if(row == 0 || [[self headerIndices] containsObject:@(row)])
     {
         view = [tableView makeViewWithIdentifier:@"HeaderView" owner:self];
+    }
+    else if (row == 2)
+    {
+        [view setHidden:YES];
     }
     else if(row == 1)
     {
@@ -486,10 +511,12 @@ const static CGFloat TableViewSpacing = 86.0;
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    if(row == 0 || row == 2)
+    if(row == 0 || [[self headerIndices] containsObject:@(row)])
         return 94.0;
     if(row == 1)
         return 230.0; // adjusts inset
+    if (row == 2)
+        return 0.1;
 
     CGFloat textHeight = 0.0;
     OEFeaturedGame *game = [self tableView:tableView objectValueForTableColumn:nil row:row];
@@ -551,6 +578,7 @@ const static CGFloat TableViewSpacing = 86.0;
         _released        = DateValue(@"@released");
         _systemIdentifier = StringValue(@"@system");
         _md5             = StringValue(@"@md5");
+        _systemGroup     = StringValue(@"@id");
 
         NSArray *images = [node nodesForXPath:@"images/image" error:nil];
         _images = [images arrayByEvaluatingBlock:^id(NSXMLNode *node, NSUInteger idx, BOOL *stop) {
