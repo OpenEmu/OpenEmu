@@ -78,6 +78,8 @@ const CGFloat OEBlankSlateCoreToTop = 312.0; // space between core icon and view
 const CGFloat OEBlankSlateCoreX     = 263.0; // x coordinate of core icon
 const CGFloat OEBlankSlateRightColumnX = 309.0;
 
+const CGFloat OEBlankSlateWindowTitleBarHeight = 37.0; // adjustment for translucent title bar
+
 NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-CD-based-games";
 
 @implementation OEBlankSlateView
@@ -141,7 +143,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     NSRect  bounds   = [self bounds];
     NSSize  viewSize = [[self containerView] frame].size;
 
-    NSRect  viewFrame   = NSMakeRect(ceil((NSWidth(bounds) - viewSize.width) / 2.0), ceil((NSHeight(bounds) - viewSize.height) / 2.0), viewSize.width, viewSize.height);
+    NSRect  viewFrame   = NSMakeRect(ceil((NSWidth(bounds) - viewSize.width) / 2.0), ceil((NSHeight(bounds) - viewSize.height) / 2.0) + OEBlankSlateWindowTitleBarHeight, viewSize.width, viewSize.height);
     [[self containerView] setAutoresizingMask:NSViewMaxXMargin|NSViewMinXMargin|NSViewMaxYMargin|NSViewMinYMargin];
     [[self containerView] setFrame:viewFrame];
     [self addSubview:[self containerView]];
