@@ -39,18 +39,20 @@ class ToolbarSegmentedCell: NSSegmentedCell {
                                      endingColor: NSColor(deviceWhite: 0.15, alpha: 1))!
     
     let topActiveGradient = NSGradient(colorsAndLocations:
-        (NSColor(deviceWhite: 0, alpha: 0.95), 0),
-        (NSColor(deviceWhite: 0, alpha: 0.6), 0.1),
-        (NSColor(deviceWhite: 0, alpha: 0),   0.5))!
+        (NSColor(deviceWhite: 0, alpha: 1),    0),
+        (NSColor(deviceWhite: 0, alpha: 0.5),  0.15),
+        (NSColor(deviceWhite: 0, alpha: 0),    0.6))!
     
     let horizontalActiveGradient = NSGradient(colorsAndLocations:
-        (NSColor(deviceWhite: 0, alpha: 0.4), 0),
-        (NSColor(deviceWhite: 0, alpha: 0),   0.1))!
+        (NSColor(deviceWhite: 0, alpha: 1),    0),
+        (NSColor(deviceWhite: 0, alpha: 0.5),  0.01),
+        (NSColor(deviceWhite: 0, alpha: 0.01), 0.04),
+        (NSColor(deviceWhite: 0, alpha: 0),    0.5))!
     
     let bottomActiveGradient = NSGradient(colorsAndLocations:
-        (NSColor(deviceWhite: 0, alpha: 0.2), 0),
-        (NSColor(deviceWhite: 0, alpha: 0.2), 0.05),
-        (NSColor(deviceWhite: 0, alpha: 0),   0.3))!
+        (NSColor(deviceWhite: 0, alpha: 0.15), 0),
+        (NSColor(deviceWhite: 0, alpha: 0.15), 0.05),
+        (NSColor(deviceWhite: 0, alpha: 0),    0.15))!
     
     let borderColor = NSColor(deviceWhite: 0.01, alpha: 1)
     
@@ -262,7 +264,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             
             textShadow.shadowBlurRadius = 1.5
             textShadow.shadowOffset = NSSize(width: 0, height: -1.5)
-            textShadow.shadowColor = NSColor(deviceWhite: 0, alpha: 0.6)
+            textShadow.shadowColor = NSColor(deviceWhite: 0, alpha: 0.7)
             
         } else {
             
