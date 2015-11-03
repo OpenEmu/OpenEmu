@@ -177,16 +177,16 @@
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <customView id="RVu-F3-nDj">
-                                                                <rect key="frame" x="16" y="1" width="182" height="220"/>
+                                                                <rect key="frame" x="2" y="1" width="242" height="220"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <subviews>
                                                                     <customView id="Hbl-cX-W2X" customClass="OEFeaturedGamesCoverView">
-                                                                        <rect key="frame" x="2" y="78" width="180" height="140"/>
+                                                                        <rect key="frame" x="2" y="33" width="240" height="185"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
                                                                     </customView>
                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="0CD-QO-y6f" customClass="OELabel">
-                                                                        <rect key="frame" x="18" y="14" width="150" height="60"/>
+                                                                        <rect key="frame" x="2" y="-31" width="240" height="60"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Table View Cell" id="Qg6-Jy-yrb" customClass="OELabelCell">
@@ -201,7 +201,7 @@
                                                                             <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="hAP-Wg-Xa5"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <button focusRingType="none" id="UwV-Md-06C" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" id="UwV-Md-06C" customClass="OEButton">
                                                                         <rect key="frame" x="18" y="11" width="59" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
@@ -213,7 +213,7 @@
                                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_button"/>
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
-                                                                    <button focusRingType="none" id="E7y-Tz-1qf" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" id="E7y-Tz-1qf" customClass="OEButton">
                                                                         <rect key="frame" x="85" y="11" width="61" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
@@ -225,7 +225,7 @@
                                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_button"/>
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
-                                                                    <button focusRingType="none" id="rUH-WG-nRq" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" id="rUH-WG-nRq" customClass="OEButton">
                                                                         <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
@@ -241,16 +241,16 @@
                                                                 <animations/>
                                                             </customView>
                                                             <customView id="fWt-jo-lSb">
-                                                                <rect key="frame" x="281" y="1" width="185" height="220"/>
+                                                                <rect key="frame" x="253" y="1" width="242" height="220"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <subviews>
                                                                     <customView id="8In-DY-9QG" customClass="OEFeaturedGamesCoverView">
-                                                                        <rect key="frame" x="2" y="78" width="180" height="140"/>
+                                                                        <rect key="frame" x="2" y="33" width="240" height="185"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
                                                                     </customView>
                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="Eif-4f-CpZ" customClass="OELabel">
-                                                                        <rect key="frame" x="18" y="14" width="149" height="60"/>
+                                                                        <rect key="frame" x="2" y="-31" width="240" height="60"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Table View Cell" id="RKM-R4-e0F" customClass="OELabelCell">
@@ -265,7 +265,7 @@
                                                                             <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="Uwc-vB-7eq"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <button focusRingType="none" id="882-T1-u9B" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" id="882-T1-u9B" customClass="OEButton">
                                                                         <rect key="frame" x="18" y="11" width="59" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
@@ -277,7 +277,7 @@
                                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_button"/>
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
-                                                                    <button focusRingType="none" id="4IR-R8-vWe" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" id="4IR-R8-vWe" customClass="OEButton">
                                                                         <rect key="frame" x="85" y="11" width="61" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
@@ -289,7 +289,7 @@
                                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_button"/>
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
-                                                                    <button focusRingType="none" id="JRg-J5-JNV" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" id="JRg-J5-JNV" customClass="OEButton">
                                                                         <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
@@ -305,16 +305,16 @@
                                                                 <animations/>
                                                             </customView>
                                                             <customView id="sN5-rM-I3f">
-                                                                <rect key="frame" x="545" y="1" width="186" height="220"/>
+                                                                <rect key="frame" x="504" y="1" width="242" height="220"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                                 <subviews>
                                                                     <customView id="LeL-8G-gVy" customClass="OEFeaturedGamesCoverView">
-                                                                        <rect key="frame" x="2" y="78" width="180" height="140"/>
+                                                                        <rect key="frame" x="2" y="33" width="240" height="185"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
                                                                     </customView>
                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="9PG-f8-PSQ" customClass="OELabel">
-                                                                        <rect key="frame" x="18" y="14" width="150" height="60"/>
+                                                                        <rect key="frame" x="2" y="-31" width="240" height="60"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Table View Cell" id="dJP-6m-thX" customClass="OELabelCell">
@@ -329,7 +329,7 @@
                                                                             <binding destination="Lu4-Ie-5bt" name="value" keyPath="objectValue" id="5Cw-mm-wZg"/>
                                                                         </connections>
                                                                     </textField>
-                                                                    <button focusRingType="none" id="GZt-UQ-5kg" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" id="GZt-UQ-5kg" customClass="OEButton">
                                                                         <rect key="frame" x="18" y="11" width="59" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
@@ -341,7 +341,7 @@
                                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_button"/>
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
-                                                                    <button focusRingType="none" id="BqM-X5-bQy" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" id="BqM-X5-bQy" customClass="OEButton">
                                                                         <rect key="frame" x="85" y="11" width="61" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
@@ -353,7 +353,7 @@
                                                                             <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="homebrew_button"/>
                                                                         </userDefinedRuntimeAttributes>
                                                                     </button>
-                                                                    <button focusRingType="none" id="4MS-I3-jM5" customClass="OEButton">
+                                                                    <button hidden="YES" focusRingType="none" id="4MS-I3-jM5" customClass="OEButton">
                                                                         <rect key="frame" x="38" y="35" width="204" height="18"/>
                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                         <animations/>
@@ -392,7 +392,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </scroller>
-                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="XPB-Y0-isn" customClass="OEScroller">
+                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="XPB-Y0-isn" customClass="OEScroller">
                         <rect key="frame" x="224" y="17" width="15" height="102"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>

@@ -432,29 +432,29 @@ const static CGFloat TableViewSpacing = 86.0;
             [developer setFrameOrigin:(NSPoint){x, y}];
 
             // system / year tags
-            NSButton *system = [[container subviews] objectAtIndex:2];
-            [system setEnabled:NO];
-            [system setTitle:[game systemShortName]];
-            [system sizeToFit];
-
-            NSButton *year = [[container subviews] objectAtIndex:3];
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"Y"];
-            [year setEnabled:NO];
-            [year setHidden:[[game released] timeIntervalSince1970] == 0];
-            [year setTitle:[formatter stringFromDate:[game released]]];
-            [year sizeToFit];
+//            NSButton *system = [[container subviews] objectAtIndex:2];
+//            [system setEnabled:NO];
+//            [system setTitle:[game systemShortName]];
+//            [system sizeToFit];
+//
+//            NSButton *year = [[container subviews] objectAtIndex:3];
+//            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//            [formatter setDateFormat:@"Y"];
+//            [year setEnabled:NO];
+//            [year setHidden:[[game released] timeIntervalSince1970] == 0];
+//            [year setTitle:[formatter stringFromDate:[game released]]];
+//            [year sizeToFit];
 
             // center in view
-            if([[game released] timeIntervalSince1970] != 0)
-                width = NSWidth([system frame])+NSWidth([year frame]) + 5.0;
-            else width = NSWidth([system frame]);
-            y = NSMinY([system frame]);
-
-            x = NSMidX([container bounds]) - width/2.0;
-            [system setFrameOrigin:(NSPoint){x, y}];
-            x += NSWidth([system frame]) + 5.0;
-            [year setFrameOrigin:(NSPoint){x, y}];
+//            if([[game released] timeIntervalSince1970] != 0)
+//                width = NSWidth([system frame])+NSWidth([year frame]) + 5.0;
+//            else width = NSWidth([system frame]);
+//            y = NSMinY([system frame]);
+//
+//            x = NSMidX([container bounds]) - width/2.0;
+//            [system setFrameOrigin:(NSPoint){x, y}];
+//            x += NSWidth([system frame]) + 5.0;
+//            [year setFrameOrigin:(NSPoint){x, y}];
         }];
     }
     else
