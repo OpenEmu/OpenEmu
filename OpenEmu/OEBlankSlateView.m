@@ -458,13 +458,14 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     [CATransaction setDisableActions:YES];
     
     const NSRect bounds = self.bounds;
+    const NSRect contentLayoutRect = self.window.contentLayoutRect;
     
     for (CALayer *layer in theLayer.sublayers)
     {
         if(layer == _dragIndicationLayer)
         {
             NSRect dragIndicationFrame = bounds;
-            dragIndicationFrame.size.height = NSHeight(self.window.contentLayoutRect);
+            dragIndicationFrame.size.height = NSHeight(contentLayoutRect);
             
             layer.frame = NSInsetRect(dragIndicationFrame, 1.0, 1.0);
         }

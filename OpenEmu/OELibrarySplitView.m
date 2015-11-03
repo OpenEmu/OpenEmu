@@ -314,11 +314,9 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
     [_delegateProxy setLocalDelegate:delegate];
 }
 
-// We don't really draw the divider, so its thickness is 0 from an NSSplitView perspective.
-// Eventually we should make this class consider non-zero thickness.
-- (CGFloat)dividerThickness
+- (NSColor *)dividerColor
 {
-    return 0.0;
+    return [NSColor colorWithDeviceWhite:0 alpha:0.2];
 }
 
 - (BOOL)isFlipped

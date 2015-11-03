@@ -29,7 +29,7 @@ import Cocoa
 @objc(OESidebarBackgroundView)
 class SidebarBackgroundView: NSView {
     
-    var fillColor = NSColor(deviceWhite: 63 / 255, alpha: 0.5)
+    let fillColor = NSColor(deviceRed: 75 / 255, green: 75 / 255, blue: 81 / 255, alpha: 0.5)
 
     override func drawRect(dirtyRect: NSRect) {
         
