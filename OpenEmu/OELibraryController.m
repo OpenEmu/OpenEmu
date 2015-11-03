@@ -278,6 +278,8 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
 - (void)_showSubviewControllerForCategory:(OELibraryCategory)category
 {
+    const CGFloat crossfadeDuration = 0.35;
+    
     NSViewController <OELibrarySubviewController> *newViewController = [self _subviewControllerForCategory:category];
     NSViewController <OELibrarySubviewController> *currentSubviewController = self.currentSubviewController;
     
@@ -288,7 +290,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
         
         [NSAnimationContext beginGrouping];
         
-        [[NSAnimationContext currentContext] setDuration:0.25];
+        [[NSAnimationContext currentContext] setDuration:crossfadeDuration];
         
         [self transitionFromViewController:currentSubviewController
                           toViewController:newViewController

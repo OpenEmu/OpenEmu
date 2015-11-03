@@ -271,13 +271,6 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
 }
 
 #pragma mark - Calculating rects
-- (NSRect)rectOfRow:(NSInteger)row
-{
-    // We substract 1 here because the view is 1px wider than it should be so it can show a 1px black line on the right side that easily disappears when the sidebar is collapsed
-    NSRect rect = [super rectOfRow:row];
-    rect.size.width -= 1.0;
-    return rect;
-}
 
 - (NSRect)frameOfOutlineCellAtRow:(NSInteger)row
 {

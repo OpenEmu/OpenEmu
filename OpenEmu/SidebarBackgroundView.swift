@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,9 +24,18 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+import Cocoa
 
-@interface OESidebarBackgroundView : NSView
-@property (nonatomic, strong, readonly) NSColor *fillColor;
-@property (nonatomic, strong, readonly) NSColor *borderColor;
-@end
+@objc(OESidebarBackgroundView)
+class SidebarBackgroundView: NSView {
+    
+    var fillColor = NSColor(deviceWhite: 63 / 255, alpha: 0.5)
+
+    override func drawRect(dirtyRect: NSRect) {
+        
+        super.drawRect(dirtyRect)
+
+        fillColor.set()
+        NSRectFill(dirtyRect)
+    }
+}
