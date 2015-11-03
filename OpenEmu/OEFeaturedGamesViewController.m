@@ -516,7 +516,7 @@ const static CGFloat TableViewSpacing = 86.0;
     if(row == 1)
         return 230.0; // adjusts inset
     if (row == 2)
-        return 0.1;
+        return 1.0;
 
     CGFloat textHeight = 0.0;
     OEFeaturedGame *game = [self tableView:tableView objectValueForTableColumn:nil row:row];
