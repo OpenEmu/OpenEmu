@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OESetupAssistant">
@@ -20,7 +20,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <view id="238" customClass="OESetupAssistantBackgroundView">
             <rect key="frame" x="0.0" y="0.0" width="830" height="510"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -28,8 +28,10 @@
                 <customView id="265">
                     <rect key="frame" x="0.0" y="0.0" width="829" height="510"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <animations/>
                 </customView>
             </subviews>
+            <animations/>
         </view>
         <customView id="295" userLabel="Welcome View">
             <rect key="frame" x="0.0" y="0.0" width="830" height="510"/>
@@ -46,6 +48,7 @@
                                 <textField verticalHuggingPriority="750" id="315">
                                     <rect key="frame" x="17" y="219" width="154" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <animations/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Welcome to OpenEmu!" id="316">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -55,6 +58,7 @@
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="317">
                                     <rect key="frame" x="17" y="113" width="388" height="98"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <animations/>
                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" state="on" placeholderString="asf" id="318">
                                         <font key="font" metaFont="smallSystem"/>
                                         <string key="title">An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…
@@ -69,6 +73,7 @@
                                 <textField verticalHuggingPriority="750" id="319">
                                     <rect key="frame" x="17" y="60" width="238" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <animations/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Click on the ‘Next’ button to begin!" id="320">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -76,6 +81,7 @@
                                     </textFieldCell>
                                 </textField>
                             </subviews>
+                            <animations/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
@@ -83,6 +89,7 @@
                         <button verticalHuggingPriority="750" id="300" customClass="OEButton">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="301" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -98,8 +105,10 @@
                             </connections>
                         </button>
                     </subviews>
+                    <animations/>
                 </customView>
             </subviews>
+            <animations/>
         </customView>
         <customView id="263" userLabel="Core Selection View">
             <rect key="frame" x="0.0" y="0.0" width="830" height="510"/>
@@ -112,6 +121,7 @@
                         <button verticalHuggingPriority="750" id="249" customClass="OEButton">
                             <rect key="frame" x="21" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="250" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -133,6 +143,7 @@
                                 <textField verticalHuggingPriority="750" id="326">
                                     <rect key="frame" x="17" y="219" width="175" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <animations/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="System Cores Installation" id="329">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -142,6 +153,7 @@
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="327">
                                     <rect key="frame" x="17" y="126" width="422" height="85"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <animations/>
                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" state="on" placeholderString="asf" id="328">
                                         <font key="font" metaFont="smallSystem"/>
                                         <string key="title">OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores.</string>
@@ -161,8 +173,9 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="23" id="286" customClass="OESetupAssistantTableView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="412" height="110"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="412" height="25"/>
                                                         <autoresizingMask key="autoresizingMask"/>
+                                                        <animations/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -215,20 +228,26 @@
                                                         </connections>
                                                     </tableView>
                                                 </subviews>
+                                                <animations/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </clipView>
-                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="285" customClass="OEScroller">
+                                            <animations/>
+                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="285">
                                                 <rect key="frame" x="0.0" y="95" width="397" height="15"/>
                                                 <autoresizingMask key="autoresizingMask"/>
+                                                <animations/>
                                             </scroller>
-                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="283" customClass="OEScroller">
+                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="283">
                                                 <rect key="frame" x="397" y="0.0" width="15" height="95"/>
                                                 <autoresizingMask key="autoresizingMask"/>
+                                                <animations/>
                                             </scroller>
                                         </scrollView>
                                     </subviews>
+                                    <animations/>
                                 </customView>
                             </subviews>
+                            <animations/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
@@ -236,6 +255,7 @@
                         <button verticalHuggingPriority="750" id="245" customClass="OEButton">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="246" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -251,8 +271,10 @@
                             </connections>
                         </button>
                     </subviews>
+                    <animations/>
                 </customView>
             </subviews>
+            <animations/>
         </customView>
         <customView id="268" userLabel="Game Scanner Allow View">
             <rect key="frame" x="0.0" y="0.0" width="830" height="510"/>
@@ -269,6 +291,7 @@
                                 <button id="277" customClass="OEButton">
                                     <rect key="frame" x="18" y="102" width="426" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <animations/>
                                     <buttonCell key="cell" type="check" title="Allow OpenEmu To Scan For Games" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="280" customClass="OEButtonCell">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
@@ -280,6 +303,7 @@
                                 <textField verticalHuggingPriority="750" id="330">
                                     <rect key="frame" x="17" y="219" width="99" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <animations/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Game Scanner" id="333">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -289,6 +313,7 @@
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="331">
                                     <rect key="frame" x="17" y="126" width="401" height="85"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <animations/>
                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" state="on" placeholderString="asf" id="332">
                                         <font key="font" metaFont="smallSystem"/>
                                         <string key="title">You may already have game (ROM) files located on your computer. OpenEmu can search your computer for games you may already legally own and automatically add them to your OpenEmu library. OpenEmu will also seek to add box art and other information for your games where available.</string>
@@ -297,6 +322,7 @@
                                     </textFieldCell>
                                 </textField>
                             </subviews>
+                            <animations/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
@@ -304,6 +330,7 @@
                         <button verticalHuggingPriority="750" id="271" customClass="OEButton">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="274" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -318,6 +345,7 @@
                         <button verticalHuggingPriority="750" id="270" customClass="OEButton">
                             <rect key="frame" x="21" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="275" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -333,8 +361,10 @@
                             </connections>
                         </button>
                     </subviews>
+                    <animations/>
                 </customView>
             </subviews>
+            <animations/>
         </customView>
         <customView id="338" userLabel="Game Scanner Volume Selection View">
             <rect key="frame" x="0.0" y="0.0" width="830" height="510"/>
@@ -347,6 +377,7 @@
                         <button verticalHuggingPriority="750" id="340" customClass="OEButton">
                             <rect key="frame" x="21" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="358" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -368,6 +399,7 @@
                                 <textField verticalHuggingPriority="750" id="346">
                                     <rect key="frame" x="17" y="219" width="165" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <animations/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Scan Additional Sources" id="347">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -377,6 +409,7 @@
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="344">
                                     <rect key="frame" x="17" y="155" width="422" height="56"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <animations/>
                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" state="on" placeholderString="asf" id="357">
                                         <font key="font" metaFont="smallSystem"/>
                                         <string key="title">OpenEmu has detected you have the following mounted Hard Drives or shares available. If there are any game files residing in these locations, please tick on the associated item and OpenEmu can scan for and add these games to your Library.</string>
@@ -396,8 +429,9 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="23" id="350" customClass="OESetupAssistantTableView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="412" height="110"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="412" height="25"/>
                                                         <autoresizingMask key="autoresizingMask"/>
+                                                        <animations/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -437,20 +471,26 @@
                                                         </connections>
                                                     </tableView>
                                                 </subviews>
+                                                <animations/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </clipView>
-                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="349" customClass="OEScroller">
+                                            <animations/>
+                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="349">
                                                 <rect key="frame" x="0.0" y="95" width="397" height="15"/>
                                                 <autoresizingMask key="autoresizingMask"/>
+                                                <animations/>
                                             </scroller>
-                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="348" customClass="OEScroller">
+                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="348">
                                                 <rect key="frame" x="397" y="0.0" width="15" height="95"/>
                                                 <autoresizingMask key="autoresizingMask"/>
+                                                <animations/>
                                             </scroller>
                                         </scrollView>
                                     </subviews>
+                                    <animations/>
                                 </customView>
                             </subviews>
+                            <animations/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
@@ -458,6 +498,7 @@
                         <button verticalHuggingPriority="750" id="342" customClass="OEButton">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="343" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -473,8 +514,10 @@
                             </connections>
                         </button>
                     </subviews>
+                    <animations/>
                 </customView>
             </subviews>
+            <animations/>
         </customView>
         <customView id="394" userLabel="Last Step">
             <rect key="frame" x="0.0" y="0.0" width="830" height="510"/>
@@ -491,6 +534,7 @@
                                 <textField verticalHuggingPriority="750" id="400">
                                     <rect key="frame" x="17" y="219" width="62" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <animations/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Let’s Go!" id="401">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -500,6 +544,7 @@
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="399">
                                     <rect key="frame" x="17" y="155" width="383" height="56"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <animations/>
                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" state="on" placeholderString="asf" id="402">
                                         <font key="font" metaFont="smallSystem"/>
                                         <string key="title">Great! You are all setup now and ready to get gaming!
@@ -512,6 +557,7 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                 <textField verticalHuggingPriority="750" id="398">
                                     <rect key="frame" x="17" y="130" width="295" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <animations/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Click the ‘Go’ button to begin your adventure." id="403">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -519,6 +565,7 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                     </textFieldCell>
                                 </textField>
                             </subviews>
+                            <animations/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
@@ -526,6 +573,7 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                         <button verticalHuggingPriority="750" id="396" customClass="OEButton">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Go" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="404" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -543,6 +591,7 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                         <button verticalHuggingPriority="750" id="412" customClass="OEButton">
                             <rect key="frame" x="20" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="413" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -558,8 +607,10 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                             </connections>
                         </button>
                     </subviews>
+                    <animations/>
                 </customView>
             </subviews>
+            <animations/>
         </customView>
     </objects>
 </document>

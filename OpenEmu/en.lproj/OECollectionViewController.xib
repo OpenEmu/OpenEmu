@@ -29,11 +29,11 @@
                     <rect key="frame" x="0.0" y="0.0" width="643" height="510"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="wnb-pq-eE8">
-                        <rect key="frame" x="0.0" y="0.0" width="643" height="510"/>
+                        <rect key="frame" x="0.0" y="0.0" width="628" height="510"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <customView id="95" customClass="OEGridView">
-                                <rect key="frame" x="0.0" y="0.0" width="643" height="510"/>
+                                <rect key="frame" x="0.0" y="0.0" width="628" height="510"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                             </customView>
@@ -43,13 +43,13 @@
                     </clipView>
                     <animations/>
                     <edgeInsets key="contentInsets" left="0.0" right="0.0" top="36" bottom="0.0"/>
-                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="94" customClass="OEScroller">
+                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="94">
                         <rect key="frame" x="0.0" y="494" width="643" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </scroller>
-                    <scroller key="verticalScroller" canDrawConcurrently="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="93" customClass="OEScroller">
-                        <rect key="frame" x="627" y="36" width="16" height="474"/>
+                    <scroller key="verticalScroller" canDrawConcurrently="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="93">
+                        <rect key="frame" x="628" y="36" width="15" height="474"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </scroller>
@@ -63,7 +63,7 @@
             <animations/>
             <point key="canvasLocation" x="-188.5" y="527"/>
         </customView>
-        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="UCW-dx-p1F" customClass="OEScrollView">
+        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" id="UCW-dx-p1F" customClass="OEScrollView">
             <rect key="frame" x="0.0" y="0.0" width="735" height="290"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <clipView key="contentView" id="vft-3Z-KAS">

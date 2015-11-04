@@ -74,14 +74,6 @@
     return self;
 }
 
-- (void)awakeFromNib
-{
-    if([self trackImage] == nil)
-    {
-        [self setThemeKey:@"scroller"];
-    }
-}
-
 #pragma mark - Config
 + (BOOL)isCompatibleWithOverlayScrollers {
     return YES;

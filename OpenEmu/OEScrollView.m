@@ -29,12 +29,17 @@
 
 @implementation OEScrollView
 
+- (void)awakeFromNib
+{
+    [self setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantDark]];
+}
+
 - (void)drawRect:(NSRect)rect{
     [super drawRect:rect];
 	
     if([self hasVerticalScroller] && [self hasHorizontalScroller]){
-        NSRect vframe = [[self verticalScroller]frame];
-        NSRect hframe = [[self horizontalScroller]frame];
+        NSRect vframe = [[self verticalScroller] frame];
+        NSRect hframe = [[self horizontalScroller] frame];
         NSRect corner;
         corner.origin.x = NSMaxX(hframe);
         corner.origin.y = NSMinY(hframe);

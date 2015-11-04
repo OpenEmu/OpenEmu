@@ -387,12 +387,12 @@
                     </clipView>
                     <animations/>
                     <edgeInsets key="contentInsets" left="0.0" right="0.0" top="37" bottom="0.0"/>
-                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="wx5-R2-aHS" customClass="OEScroller">
+                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="wx5-R2-aHS">
                         <rect key="frame" x="0.0" y="371" width="480" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </scroller>
-                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="XPB-Y0-isn" customClass="OEScroller">
+                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="XPB-Y0-isn">
                         <rect key="frame" x="224" y="17" width="15" height="102"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
