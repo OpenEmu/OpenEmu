@@ -82,9 +82,9 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewBoundsDidChangeNotification object:[self view]];
 }
 
-- (void)setView:(NSView *)view
+- (void)viewDidLoad
 {
-    [super setView:view];
+    [super viewDidLoad];
 
     [self OE_setupActionsMenu];
 
@@ -100,12 +100,12 @@
 
     [[self issuesView] setMenu:menu];
     
-    [self hideGameScannerViewAnimated:NO];
+    [self layoutSidebarViewsWithVisibleGameScannerView:NO animated:NO];
     
     [self setItemsRequiringAttention:[NSMutableArray array]];
     
     [[self importer] setDelegate:self];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameScannerViewFrameChanged:) name:NSViewFrameDidChangeNotification object:view];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameScannerViewFrameChanged:) name:NSViewFrameDidChangeNotification object:self.view];
     
     [self OE_createFixButton];
     
@@ -593,57 +593,48 @@
     [[self issuesView] sizeToFit];
 }
 
-#pragma mark - Show/Hide Game Scanner View
+#pragma mark - Sidebar View Layout
 
-- (void)showGameScannerViewAnimated:(BOOL)animated
+- (void)layoutSidebarViewsWithVisibleGameScannerView:(BOOL)visibleGameScannerView animated:(BOOL)animated
 {
-    [self setGameScannerViewFrameAnimated:animated gameScannerVisible:YES];
-}
-
-- (void)hideGameScannerViewAnimated:(BOOL)animated
-{    
-    [self setGameScannerViewFrameAnimated:animated gameScannerVisible:NO];
-}
-
-- (void)setGameScannerViewFrameAnimated:(BOOL)animated gameScannerVisible:(BOOL)gameScannerVisible
-{
-    if(gameScannerVisible == self.gameScannerIsVisible)
-    {
-        return;
-    }
+    NSRect gameScannerFrame = self.view.frame;
+    gameScannerFrame.origin.y = visibleGameScannerView ? 0 : -NSHeight(gameScannerFrame);
     
-    const CGFloat yDifference = gameScannerVisible ?
-                                NSHeight(self.view.frame) :
-                                -NSHeight(self.view.frame);
+    NSRect bottomBarFrame = self.bottomBar.frame;
+    bottomBarFrame.origin.y = NSMaxY(gameScannerFrame);
     
-    NSRect newSourceListScrollViewFrame = self.sourceListScrollView.frame;
-    newSourceListScrollViewFrame.origin.y += yDifference;
-    newSourceListScrollViewFrame.size.height -= yDifference;
-    
-    NSRect newBottomBarFrame = self.bottomBar.frame;
-    newBottomBarFrame.origin.y += yDifference;
-    
-    NSRect newGameScannerFrame = self.view.frame;
-    newGameScannerFrame.origin.y += yDifference;
+    NSRect sourceListFrame = self.sourceListScrollView.frame;
+    sourceListFrame.origin.y = NSMaxY(bottomBarFrame);
+    sourceListFrame.size.height = NSHeight(self.sourceListScrollView.superview.frame) - sourceListFrame.origin.y;
     
     if(animated)
     {
         [NSAnimationContext beginGrouping];
         
-        self.sourceListScrollView.animator.frame = newSourceListScrollViewFrame;
-        self.bottomBar.animator.frame = newBottomBarFrame;
-        self.view.animator.frame = newGameScannerFrame;
+        self.view.animator.frame = gameScannerFrame;
+        self.bottomBar.animator.frame = bottomBarFrame;
+        self.sourceListScrollView.animator.frame = sourceListFrame;
         
         [NSAnimationContext endGrouping];
-        
-    } else {
-        
-        self.sourceListScrollView.frame = newSourceListScrollViewFrame;
-        self.bottomBar.frame = newBottomBarFrame;
-        self.view.frame = newGameScannerFrame;
     }
-    
-    self.gameScannerIsVisible = gameScannerVisible;
+    else
+    {
+        self.view.frame = gameScannerFrame;
+        self.bottomBar.frame = bottomBarFrame;
+        self.sourceListScrollView.frame = sourceListFrame;
+    }
+}
+
+#pragma mark - Show/Hide Game Scanner View
+
+- (void)showGameScannerViewAnimated:(BOOL)animated
+{
+    [self layoutSidebarViewsWithVisibleGameScannerView:YES animated:animated];
+}
+
+- (void)hideGameScannerViewAnimated:(BOOL)animated
+{    
+    [self layoutSidebarViewsWithVisibleGameScannerView:NO animated:animated];
 }
 
 @end

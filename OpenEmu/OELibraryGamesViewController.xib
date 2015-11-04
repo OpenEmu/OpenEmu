@@ -77,12 +77,12 @@
                                             </clipView>
                                             <animations/>
                                             <edgeInsets key="contentInsets" left="0.0" right="0.0" top="37" bottom="0.0"/>
-                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="AhO-Jy-5F7">
+                                            <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="AhO-Jy-5F7">
                                                 <rect key="frame" x="-100" y="-100" width="171" height="15"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <animations/>
                                             </scroller>
-                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="rph-sy-VNi">
+                                            <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="rph-sy-VNi">
                                                 <rect key="frame" x="171" y="17" width="15" height="494"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <animations/>
