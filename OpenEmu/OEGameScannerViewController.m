@@ -623,6 +623,8 @@
         self.bottomBar.frame = bottomBarFrame;
         self.sourceListScrollView.frame = sourceListFrame;
     }
+    
+    self.gameScannerIsVisible = visibleGameScannerView;
 }
 
 #pragma mark - Show/Hide Game Scanner View
