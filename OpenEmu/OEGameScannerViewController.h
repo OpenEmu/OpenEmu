@@ -45,7 +45,6 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
 @property (nonatomic) IBOutlet OELibraryController *libraryController;
 
-@property (strong, nonatomic) IBOutlet NSView   *gameScannerView;
 @property (strong) IBOutlet NSTextField         *headlineLabel;
 @property (strong) IBOutlet NSButton            *togglePauseButton;
 @property (strong) IBOutlet NSProgressIndicator *progressIndicator;

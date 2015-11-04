@@ -48,17 +48,23 @@
 @property NSMutableArray *itemsRequiringAttention;
 @property BOOL isScanningDirectory;
 
-// Used to animate the game scanner view into place.
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *bottomLayoutConstraint;
+@property (nonatomic, weak) IBOutlet NSView *bottomBar;
+@property (nonatomic, weak) IBOutlet NSScrollView *sourceListScrollView;
+
+@property (nonatomic) BOOL gameScannerIsVisible;
 
 @end
 
 @implementation OEGameScannerViewController
+
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if(self)
     {
+        // The game scanner view is already visible in OELibraryGamesViewController.xib.
+        _gameScannerIsVisible = YES;
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameInfoHelperWillUpdate:) name:OEGameInfoHelperWillUpdateNotificationName object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameInfoHelperDidChangeUpdateProgress:) name:OEGameInfoHelperDidChangeUpdateProgressNotificationName object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameInfoHelperDidUpdate:) name:OEGameInfoHelperDidUpdateNotificationName object:nil];
@@ -95,19 +101,14 @@
     [[self issuesView] setMenu:menu];
     
     [self hideGameScannerViewAnimated:NO];
-}
-
-- (void)setGameScannerView:(NSView *)gameScannerView
-{
-    _gameScannerView = gameScannerView;
-
+    
     [self setItemsRequiringAttention:[NSMutableArray array]];
-
+    
     [[self importer] setDelegate:self];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameScannerViewFrameChanged:) name:NSViewFrameDidChangeNotification object:gameScannerView];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameScannerViewFrameChanged:) name:NSViewFrameDidChangeNotification object:view];
+    
     [self OE_createFixButton];
-
+    
     // Show game scanner if importer is running already
     // or game info is downloading
     if([[self importer] status] == OEImporterStatusRunning || [[OEGameInfoHelper sharedHelper] isUpdating])
@@ -115,6 +116,7 @@
         [self OE_updateProgress];
         [self showGameScannerViewAnimated:YES];
     }
+
 }
 
 #pragma mark -
@@ -247,7 +249,7 @@
 
     [fixIssuesButton setHidden:YES];
 
-    [[self gameScannerView] addSubview:fixIssuesButton];
+    [[self view] addSubview:fixIssuesButton];
     [self setFixButton:fixIssuesButton];
 }
 
@@ -595,20 +597,53 @@
 
 - (void)showGameScannerViewAnimated:(BOOL)animated
 {
-    NSLayoutConstraint *constraint = animated ?
-                                     self.bottomLayoutConstraint.animator :
-                                     self.bottomLayoutConstraint;
-    
-    constraint.constant = 0;
+    [self setGameScannerViewFrameAnimated:animated gameScannerVisible:YES];
 }
 
 - (void)hideGameScannerViewAnimated:(BOOL)animated
 {    
-    NSLayoutConstraint *constraint = animated ?
-    self.bottomLayoutConstraint.animator :
-    self.bottomLayoutConstraint;
+    [self setGameScannerViewFrameAnimated:animated gameScannerVisible:NO];
+}
+
+- (void)setGameScannerViewFrameAnimated:(BOOL)animated gameScannerVisible:(BOOL)gameScannerVisible
+{
+    if(gameScannerVisible == self.gameScannerIsVisible)
+    {
+        return;
+    }
     
-    constraint.constant = -NSHeight(self.gameScannerView.frame);
+    const CGFloat yDifference = gameScannerVisible ?
+                                NSHeight(self.view.frame) :
+                                -NSHeight(self.view.frame);
+    
+    NSRect newSourceListScrollViewFrame = self.sourceListScrollView.frame;
+    newSourceListScrollViewFrame.origin.y += yDifference;
+    newSourceListScrollViewFrame.size.height -= yDifference;
+    
+    NSRect newBottomBarFrame = self.bottomBar.frame;
+    newBottomBarFrame.origin.y += yDifference;
+    
+    NSRect newGameScannerFrame = self.view.frame;
+    newGameScannerFrame.origin.y += yDifference;
+    
+    if(animated)
+    {
+        [NSAnimationContext beginGrouping];
+        
+        self.sourceListScrollView.animator.frame = newSourceListScrollViewFrame;
+        self.bottomBar.animator.frame = newBottomBarFrame;
+        self.view.animator.frame = newGameScannerFrame;
+        
+        [NSAnimationContext endGrouping];
+        
+    } else {
+        
+        self.sourceListScrollView.frame = newSourceListScrollViewFrame;
+        self.bottomBar.frame = newBottomBarFrame;
+        self.view.frame = newGameScannerFrame;
+    }
+    
+    self.gameScannerIsVisible = gameScannerVisible;
 }
 
 @end
