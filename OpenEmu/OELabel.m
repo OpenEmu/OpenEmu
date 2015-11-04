@@ -33,6 +33,11 @@
     return [OELabelCell class];
 }
 
+- (void)awakeFromNib{
+    [self setDrawsBackground:YES];
+    [self setBackgroundColor:[NSColor clearColor]];
+}
+
 - (void)setThemeKey:(NSString *)key
 {
     NSString *backgroundKey = key;
