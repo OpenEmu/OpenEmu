@@ -233,12 +233,23 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         {
             [window setToolbar:nil];
             [window setTitleVisibility:NSWindowTitleVisible];
+            
+            // Disable the full size content view window style mask attribute.
+            NSRect windowFrame = [window frame];
+            [window setStyleMask:[window styleMask] & ~NSFullSizeContentViewWindowMask];
+            [window setFrame:windowFrame display:NO];
+            
             [_gameDocument setGameWindowController:self];
             [_gameDocument setEmulationPaused:NO];
         }
         else
         {
             [window setTitleVisibility:NSWindowTitleHidden];
+            
+            // Enable the full size content view window style mask attribute.
+            NSRect windowFrame = [window frame];
+            [window setStyleMask:[window styleMask] | NSFullSizeContentViewWindowMask];
+            [window setFrame:windowFrame display:NO];
 
             if(controller == [self libraryController]){
                 [window setToolbar:[[NSToolbar alloc] initWithIdentifier:@""]];
