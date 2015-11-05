@@ -108,7 +108,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - View Controller Stuff
+#pragma mark - View Lifecycle
 - (void)loadView
 {
     [super loadView];
@@ -159,6 +159,36 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
     // empty collection until -setRepresentedObject: is received again
     if([self representedObject]) [self reloadData];
+}
+
+- (void)viewDidAppear
+{
+    [super viewDidAppear];
+    
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    
+    // Watch the main thread's managed object context for changes
+    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
+    [notificationCenter addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
+    
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    [standardUserDefaults addObserver:self forKeyPath:OEDisplayGameTitle options:0 context:NULL];
+    [notificationCenter addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
+    
+    if([self representedObject]) [self reloadData];
+}
+
+- (void)viewDidDisappear
+{
+    [super viewDidDisappear];
+    
+    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    
+    [notificationCenter removeObserver:self name:NSManagedObjectContextDidSaveNotification object:context];
+    [notificationCenter removeObserver:self name:OELibraryLocationDidChangeNotificationName object:nil];
+    [standardUserDefaults removeObserver:self forKeyPath:OEDisplayGameTitle];
 }
 
 - (NSString *)nibName
@@ -470,34 +500,6 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
         return OEGridViewTag;
     else
         return OEListViewTag;
-}
-#pragma mark -
-- (void)viewDidAppear
-{
-    [super viewDidAppear];
-
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-
-    // Watch the main thread's managed object context for changes
-    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
-    [notificationCenter addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
-
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    [standardUserDefaults addObserver:self forKeyPath:OEDisplayGameTitle options:0 context:NULL];
-    [notificationCenter addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
-}
-
-- (void)viewDidDisappear
-{
-    [super viewDidDisappear];
-
-    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-
-    [notificationCenter removeObserver:self name:NSManagedObjectContextDidSaveNotification object:context];
-    [notificationCenter removeObserver:self name:OELibraryLocationDidChangeNotificationName object:nil];
-    [standardUserDefaults removeObserver:self forKeyPath:OEDisplayGameTitle];
 }
 
 #pragma mark - Toolbar Actions
