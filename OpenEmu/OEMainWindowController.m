@@ -445,6 +445,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
              BOOL exitFullScreen = (_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen]);
              if(exitFullScreen)
              {
+                 [[self window] setToolbar:[[NSToolbar alloc] initWithIdentifier:@""]];
                  [[self window] toggleFullScreen:self];
                  _shouldExitFullScreenWhenGameFinishes = NO;
              }
