@@ -140,9 +140,6 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 {
     [super viewDidAppear];
 
-    NSWindow *window = [[self view] window];
-    [window setToolbar:[self toolbar]];
-
     [[[self toolbar] categorySelector] setSelectedSegment:_selectedCategory];
 }
 

@@ -77,12 +77,12 @@
                                             </clipView>
                                             <animations/>
                                             <edgeInsets key="contentInsets" left="0.0" right="0.0" top="37" bottom="0.0"/>
-                                            <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="AhO-Jy-5F7">
+                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="AhO-Jy-5F7">
                                                 <rect key="frame" x="-100" y="-100" width="171" height="15"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <animations/>
                                             </scroller>
-                                            <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="rph-sy-VNi">
+                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="rph-sy-VNi">
                                                 <rect key="frame" x="171" y="17" width="15" height="494"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <animations/>
@@ -209,7 +209,6 @@
         <viewController id="juh-5x-f5U" customClass="OEGameScannerViewController">
             <connections>
                 <outlet property="bottomBar" destination="aoh-d8-ctm" id="MAg-kQ-hP4"/>
-                <outlet property="gameScannerView" destination="GEj-BL-eLK" id="CT4-Xq-aVb"/>
                 <outlet property="headlineLabel" destination="YLv-AD-2L2" id="Jvd-JE-D46"/>
                 <outlet property="progressIndicator" destination="ecg-qx-RWc" id="s7a-30-SCw"/>
                 <outlet property="sourceListScrollView" destination="JYU-Tk-u7m" id="2Ur-DI-1oj"/>

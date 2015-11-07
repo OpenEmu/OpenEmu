@@ -107,47 +107,46 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     OELibraryController *libraryController = [self libraryController];
     
     [libraryController setDelegate:self];
+    
+    [libraryController view];
+    [[self window] setToolbar:[libraryController toolbar]];
 }
 
 - (void)setUpWindow
 {    
-    NSWindow *window = [self window];
+    NSWindow *window = self.window;
     
-    [window setDelegate:self];
+    window.delegate = self;
     
-    [window setRestorable:NO];
-    [window setExcludedFromWindowsMenu:YES];
-    [window setTitleVisibility:NSWindowTitleHidden];
-    [window setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantDark]];
-    [window setToolbar:nil];
+    window.restorable = NO;
+    window.excludedFromWindowsMenu = YES;
+    window.titleVisibility = NSWindowTitleHidden;
+    window.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
 }
 
 - (void)setUpCurrentContentController
 {
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OESetupAssistantHasFinishedKey])
     {
+        NSWindow *window = self.window;
+
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
         [setupAssistant setCompletionBlock:
          ^(BOOL discoverRoms, NSArray *volumes)
          {
              if(discoverRoms)
                  [[[OELibraryDatabase defaultDatabase] importer] discoverRoms:volumes];
-             [self setCurrentContentController:[self libraryController] animate:NO];
-
-             NSWindow *window = [self window];
-             [window setToolbar:[[NSToolbar alloc] initWithIdentifier:@""]];
+             [self setCurrentContentController:self.libraryController animate:NO];
          }];
         
-        [[self window] center];
+        window.toolbar.visible = NO;
+        [window center];
         
         [self setCurrentContentController:setupAssistant];
     }
     else
     {
-        NSWindow *window = [self window];
-        [window setToolbar:[[NSToolbar alloc] initWithIdentifier:@""]];
-
-        [self setCurrentContentController:[self libraryController] animate:NO];
+        [self setCurrentContentController:self.libraryController animate:NO];
     }
 }
 
@@ -231,7 +230,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
         if(controller == [_gameDocument gameViewController])
         {
-            [window setToolbar:nil];
+            [[window toolbar] setVisible:NO];
             [window setTitleVisibility:NSWindowTitleVisible];
             
             // Disable the full size content view window style mask attribute.
@@ -252,7 +251,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
             [window setFrame:windowFrame display:NO];
 
             if(controller == [self libraryController]){
-                [window setToolbar:[[NSToolbar alloc] initWithIdentifier:@""]];
+                [[window toolbar] setVisible:YES];
             }
 
             [window setTitle:OEDefaultWindowTitle];
@@ -388,7 +387,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
         while([[[self window] titlebarAccessoryViewControllers] count])
             [[self window] removeTitlebarAccessoryViewControllerAtIndex:0];
-        [[self window] setToolbar:nil];
+        [[[self window] toolbar] setVisible:NO];
 
         if(fullScreen && ![[self window] isFullScreen])
         {
@@ -445,7 +444,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
              BOOL exitFullScreen = (_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen]);
              if(exitFullScreen)
              {
-                 [[self window] setToolbar:[[NSToolbar alloc] initWithIdentifier:@""]];
+                 [[[self window] toolbar] setVisible:YES];
                  [[self window] toggleFullScreen:self];
                  _shouldExitFullScreenWhenGameFinishes = NO;
              }

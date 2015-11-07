@@ -33,7 +33,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <customView id="95" customClass="OEGridView">
-                                <rect key="frame" x="0.0" y="0.0" width="628" height="510"/>
+                                <rect key="frame" x="0.0" y="0.0" width="613" height="510"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                             </customView>
@@ -71,7 +71,7 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="H7O-is-mGk" id="7W7-OC-R11" customClass="OETableView">
-                        <rect key="frame" x="0.0" y="0.0" width="922" height="19"/>
+                        <rect key="frame" x="0.0" y="0.0" width="922" height="215"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                         <size key="intercellSpacing" width="3" height="2"/>
@@ -192,6 +192,7 @@
                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
             </clipView>
             <animations/>
+            <edgeInsets key="contentInsets" left="0.0" right="0.0" top="37" bottom="0.0"/>
             <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="6nI-Fu-se9">
                 <rect key="frame" x="0.0" y="274" width="735" height="16"/>
                 <autoresizingMask key="autoresizingMask"/>
