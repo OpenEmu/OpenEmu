@@ -18,19 +18,18 @@
 @property (nonatomic) OEGameCore   *gameCore;
 @property (nonatomic) IOSurfaceRef  ioSurface;
 @property (nonatomic) OEIntSize     surfaceSize;
-@property (nonatomic) id            presentationFramebuffer;
+
+@property (nonatomic, readonly) id presentationFramebuffer;
 
 - (void)updateRenderer; // gameCore, ioSurface or gameCore.screenRect changed
 
 // Properties
-- (BOOL)hasAlternateThread;
-- (BOOL)canChangeBufferSize; ///!< If the app can ask the IOSurface to change size if the window resizes
+- (BOOL)canChangeBufferSize; ///!< If the app can ask the IOSurface to change size if the window resizes.
 
 // Execution
 - (void)willExecuteFrame;
 - (void)didExecuteFrame;
-- (void)willRenderOnAlternateThread;
-- (void)startRenderingOnAlternateThread;
+
 - (void)willRenderFrameOnAlternateThread;
 - (void)didRenderFrameOnAlternateThread;
 

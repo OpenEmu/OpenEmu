@@ -7,11 +7,8 @@
 //
 
 #import "OEOpenGL2GameRenderer.h"
-#import <OpenGL/CGLMacro.h>
-
-#define DECLARE_CGL_CONTEXT \
-CGLContextObj cgl_ctx = _glContext; \
-CGLSetCurrentContext(cgl_ctx);
+#import <OpenGL/gl.h>
+#import <OpenGL/glext.h>
 
 #define DIRECTER_RENDERING 0
 
@@ -29,10 +26,13 @@ CGLSetCurrentContext(cgl_ctx);
     GLuint                _ioSurfaceTexture; // texture wrapping the IOSurface, used as the render target. Uses the usual pixel format.
     GLuint                _gameTexture;      // (2D mode) texture wrapping game's videoBuffer. Uses the game's pixel formats.
 
-    // Alternate-thread rendering (3D mode)
-    CGLContextObj         _alternateContext; // Alternate thread's GL2 context
-    GLuint                _alternateFBO;     // Alternate thread renders into this FBO which is blit into the IOSurface. Direct rendering to IOSurface can cause flicker.
+    // Double buffered FBO rendering (3D mode)
+    BOOL                  _isDoubleBufferFBOMode;
+    GLuint                _alternateFBO;     // 3D games may render into this FBO which is blit into the IOSurface. Used if game accidentally syncs surface.
     GLuint                _tempRB[2];        // Color and depth buffers backing alternate FBO.
+
+    // Alternate-thread rendering (3D mode)
+    CGLContextObj         _alternateContext; // Alternate thread's GL context.
 }
 
 @synthesize gameCore=_gameCore;
@@ -61,24 +61,21 @@ CGLSetCurrentContext(cgl_ctx);
 }
 
 // Properties
-- (BOOL)hasAlternateThread
-{
-    return _alternateContext != NULL;
-}
-
 - (BOOL)canChangeBufferSize
 {
     // 3D games can only change buffer size.
     // 2D games can only change screen rect.
     // We'll be in trouble if a game core does software vector drawing.
 
-    // Oops, 3D games using alternate threads can't change size unless we can reallocate it!
-    return _is2DMode == NO && _alternateContext == NULL;
+    // TODO: Test alternate threads - might need to call glViewport() again on that thread.
+    // TODO: Implement for double buffered FBO - need to reallocate alternateFBO.
+
+    return _is2DMode == NO && _alternateContext == nil && !_isDoubleBufferFBOMode;
 }
 
 - (id)presentationFramebuffer
 {
-    GLint fbo = _alternateContext ? _alternateFBO : _ioSurfaceFBO;
+    GLuint fbo = _isDoubleBufferFBOMode ? _alternateFBO : _ioSurfaceFBO;
 
     return @(fbo);
 }
@@ -88,14 +85,15 @@ CGLSetCurrentContext(cgl_ctx);
     DLog(@"Setting up OpenGL2.x/2D renderer");
 
     [self setupGLContext];
-
-    DECLARE_CGL_CONTEXT
-
     [self setupFramebuffer];
 
     _is2DMode = _gameCore.gameCoreRendering == OEGameCoreRendering2DVideo;
     if(_is2DMode)
         [self setup2DMode];
+    if (_gameCore.needsDoubleBufferedFBO)
+        [self setupDoubleBufferedFBO];
+    if (_gameCore.hasAlternateRenderingThread)
+        [self setupAlternateRenderingThread];
 
     [self clearFramebuffer];
     glFlushRenderAPPLE();
@@ -126,6 +124,8 @@ CGLSetCurrentContext(cgl_ctx);
     }
     CGLRetainContext(_glContext);
 
+    CGLSetCurrentContext(_glContext);
+
     /*
      * The original theory was that client storage textures (linear, no upload to VRAM)
      * would be faster on integrated Intel and NVidia GPUs. Instead, it seems they're
@@ -140,8 +140,6 @@ CGLSetCurrentContext(cgl_ctx);
 - (void)setupFramebuffer
 {
     GLenum status;
-
-    DECLARE_CGL_CONTEXT
 
     // Wrap the IOSurface in a texture
     glGenTextures(1, &_ioSurfaceTexture);
@@ -200,15 +198,16 @@ CGLSetCurrentContext(cgl_ctx);
 {
     GLenum status;
 
-    DECLARE_CGL_CONTEXT
-
     /*
      TODO:
      Allocate our own buffer at bufferSize, aligned to 128-byte or whatever it is,
      and pass that as the hint to getVideoBufferWithHint:. If the core can use it,
      then use texture range on that buffer, and THEN try client storage.
      
-     (Even more direct 2D rendering will just have the game draw into the IOSurface pixels and not need this class)
+     TODO 2:
+     If the game can do all that we could just have it draw in the iosurface pixels
+     and not need GL at all. Note, for that the app needs to be fixed to stop drawing
+     the surface upside-down.
      */
 
     const void *videoBuffer;
@@ -283,20 +282,79 @@ CGLSetCurrentContext(cgl_ctx);
     glLoadIdentity();
 }
 
+- (void)setupAlternateRenderingThread
+{
+    if(_alternateContext == NULL)
+        CGLCreateContext(_glPixelFormat, _glContext, &_alternateContext);
+}
+
+- (void)setupDoubleBufferedFBO
+{
+    // Clear the other one while we're on this one.
+    [self clearFramebuffer];
+
+    glGenFramebuffersEXT(1, &_alternateFBO);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _alternateFBO);
+
+    glGenRenderbuffersEXT(2, _tempRB);
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, _tempRB[0]);
+    glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_RGB8, (GLsizei)_surfaceSize.width, (GLsizei)_surfaceSize.height);
+    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT, _tempRB[0]);
+
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, _tempRB[1]);
+    glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_DEPTH32F_STENCIL8, (GLsizei)_surfaceSize.width, (GLsizei)_surfaceSize.height);
+    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER_EXT, _tempRB[1]);
+
+    GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+    if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
+    {
+        NSLog(@"Cannot create temp FBO");
+        NSLog(@"OpenGL error %04X", status);
+
+        glDeleteFramebuffersEXT(1, &_alternateFBO);
+    }
+
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    _isDoubleBufferFBOMode = YES;
+}
+
 - (void)clearFramebuffer
 {
-    DECLARE_CGL_CONTEXT
-
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    glFlushRenderAPPLE();
+}
+
+- (void)bindFBO:(GLuint)fbo
+{
+    // Bind our FBO / and thus our IOSurface
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbo);
+    // Assume FBOs JUST WORK, because we checked on startExecution
+    GLenum status = glGetError();
+    if(status)
+    {
+        NSLog(@"draw: bind FBO: OpenGL error %04X", status);
+    }
+
+    status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+    if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
+    {
+        NSLog(@"OpenGL error %04X in draw, check FBO", status);
+    }
+}
+
+- (void)copyAlternateFBO
+{
+    glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, _alternateFBO);
+    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, _ioSurfaceFBO);
+
+    glBlitFramebufferEXT(0, 0, _surfaceSize.width, _surfaceSize.height,
+                         0, 0, _surfaceSize.width, _surfaceSize.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 }
 
 - (void)destroyGLResources
 {
-    DECLARE_CGL_CONTEXT
-
-    if (cgl_ctx) {
+    if (_glContext) {
         if (_alternateContext)
             CGLReleaseContext(_alternateContext);
         CGLReleasePixelFormat(_glPixelFormat);
@@ -314,22 +372,8 @@ CGLSetCurrentContext(cgl_ctx);
     if (_alternateContext)
         return; // should avoid work in this thread
 
-    DECLARE_CGL_CONTEXT
-
-    // Bind our FBO / and thus our IOSurface
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _ioSurfaceFBO);
-    // Assume FBOs JUST WORK, because we checked on startExecution
-    GLenum status = glGetError();
-    if(status)
-    {
-        NSLog(@"draw: bind FBO: OpenGL error %04X", status);
-    }
-
-    status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-    if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
-    {
-        NSLog(@"OpenGL error %04X in draw, check FBO", status);
-    }
+    CGLSetCurrentContext(_glContext);
+    [self bindFBO:_isDoubleBufferFBOMode ? _alternateFBO : _ioSurfaceFBO];
 
     // Save state in case the game messes it up.
     glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -339,8 +383,6 @@ CGLSetCurrentContext(cgl_ctx);
 - (void)didExecuteFrame
 {
     if (_alternateContext) return;
-
-    DECLARE_CGL_CONTEXT
 
     // Reset anything the core did.
     glPopAttrib();
@@ -436,75 +478,27 @@ CGLSetCurrentContext(cgl_ctx);
         glDisableClientState(GL_VERTEX_ARRAY);
     }
 
+    if (_isDoubleBufferFBOMode) {
+        [self copyAlternateFBO];
+    }
+
     // Update the IOSurface.
     glFlushRenderAPPLE();
 }
 
-- (void)willRenderOnAlternateThread
-{
-    if(_alternateContext == NULL)
-        CGLCreateContext(_glPixelFormat, _glContext, &_alternateContext);
-}
-
-- (void)startRenderingOnAlternateThread
-{
-    CGLContextObj cgl_ctx = _alternateContext;
-    CGLSetCurrentContext(cgl_ctx);
-
-    /* Our only core that uses another thread (Mupen)
-     * needs other hacks, as something it does syncs the IOSurface
-     * in the middle of a frame. So we do manual double buffering.
-     * TODO: Alternate FBO really has nothing to do with alternate threading. Make it separate.
-     */
-
-    glGenFramebuffersEXT(1, &_alternateFBO);
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _alternateFBO);
-
-    glGenRenderbuffersEXT(2, _tempRB);
-    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, _tempRB[0]);
-    glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_RGB8, (GLsizei)_surfaceSize.width, (GLsizei)_surfaceSize.height);
-    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT, _tempRB[0]);
-
-    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, _tempRB[1]);
-    glRenderbufferStorage(GL_RENDERBUFFER_EXT, GL_DEPTH32F_STENCIL8, (GLsizei)_surfaceSize.width, (GLsizei)_surfaceSize.height);
-    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER_EXT, _tempRB[1]);
-
-    GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-    if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
-    {
-        NSLog(@"Cannot create temp FBO");
-        NSLog(@"OpenGL error %04X", status);
-
-        glDeleteFramebuffersEXT(1, &_alternateFBO);
-    }
-
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _alternateFBO);
-}
-
 - (void)willRenderFrameOnAlternateThread
 {
-    if (_alternateFBO == 0) {
-        [self startRenderingOnAlternateThread];
-    }
+    CGLSetCurrentContext(_alternateContext);
 
-    CGLContextObj cgl_ctx = _alternateContext;
-    CGLSetCurrentContext(cgl_ctx);
-
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _alternateFBO);
+    [self bindFBO:_isDoubleBufferFBOMode ? _alternateFBO : _ioSurfaceFBO];
 }
 
 - (void)didRenderFrameOnAlternateThread
 {
-    CGLContextObj cgl_ctx = _alternateContext;
+    if (_isDoubleBufferFBOMode)
+        [self copyAlternateFBO];
 
-    glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, _alternateFBO);
-    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, _ioSurfaceFBO);
-
-    glBlitFramebufferEXT(0, 0, _surfaceSize.width, _surfaceSize.height,
-                         0, 0, _surfaceSize.width, _surfaceSize.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
-
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _alternateFBO);
-
+    // Update the IOSurface.
     glFlushRenderAPPLE();
 }
 

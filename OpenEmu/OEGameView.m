@@ -1280,6 +1280,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
 - (void)setAspectSize:(OEIntSize)newAspectSize
 {
+    DLog(@"Set aspectsize to: %@", NSStringFromOEIntSize(newAspectSize));
     _gameAspectSize = newAspectSize;
     [_notificationRenderer setAspectSize:_gameAspectSize];
 }

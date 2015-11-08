@@ -503,11 +503,6 @@
 
 #pragma mark - OERenderDelegate protocol methods
 
-- (BOOL)hasAlternateThreadContext
-{
-    return [_gameRenderer hasAlternateThread];
-}
-
 - (id)presentationFramebuffer
 {
     return _gameRenderer.presentationFramebuffer;
@@ -532,29 +527,35 @@
 
 - (void)didExecute
 {
-    OEIntSize bufferSize = _gameRenderer.surfaceSize;
+    OEIntSize previousBufferSize = _gameRenderer.surfaceSize;
     OEIntSize previousAspectSize = _previousAspectSize;
 
+    OEIntSize bufferSize = _gameCore.bufferSize;
     OEIntRect screenRect = _gameCore.screenRect;
     OEIntSize aspectSize = _gameCore.aspectSize;
 
-    if(!OEIntSizeEqualToSize(screenRect.size, _previousScreenSize))
-    {
-        NSAssert((screenRect.origin.x + screenRect.size.width) <= bufferSize.width, @"screen rect must not be larger than buffer size");
-        NSAssert((screenRect.origin.y + screenRect.size.height) <= bufferSize.height, @"screen rect must not be larger than buffer size");
+    if (!OEIntSizeEqualToSize(previousBufferSize, bufferSize)) {
+        // The IOSurface is going to be recreated at the next frame.
+        // Don't check the other stuff because it's just going to glitch either way.
+    } else {
+        if(!OEIntSizeEqualToSize(screenRect.size, _previousScreenSize))
+        {
+            NSAssert((screenRect.origin.x + screenRect.size.width) <= bufferSize.width, @"screen rect must not be larger than buffer size");
+            NSAssert((screenRect.origin.y + screenRect.size.height) <= bufferSize.height, @"screen rect must not be larger than buffer size");
 
-        DLog(@"Sending did change screen rect to %@", NSStringFromOEIntRect(screenRect));
-        [self updateScreenSize];
-        [self updateScreenSize:_screenSize withIOSurfaceID:_surfaceID];
-    }
+            DLog(@"Sending did change screen rect to %@", NSStringFromOEIntRect(screenRect));
+            [self updateScreenSize];
+            [self updateScreenSize:_screenSize withIOSurfaceID:_surfaceID];
+        }
 
-    if(!OEIntSizeEqualToSize(aspectSize, previousAspectSize))
-    {
-        NSAssert(aspectSize.height <= bufferSize.height, @"aspect size must not be larger than buffer size");
-        NSAssert(aspectSize.width <= bufferSize.width, @"aspect size must not be larger than buffer size");
+        if(!OEIntSizeEqualToSize(aspectSize, previousAspectSize))
+        {
+            NSAssert(aspectSize.height <= bufferSize.height, @"aspect size must not be larger than buffer size");
+            NSAssert(aspectSize.width <= bufferSize.width, @"aspect size must not be larger than buffer size");
 
-        DLog(@"Sending did change aspect to %@", NSStringFromOEIntSize(aspectSize));
-        [self updateAspectSize:aspectSize];
+            DLog(@"Sending did change aspect to %@", NSStringFromOEIntSize(aspectSize));
+            [self updateAspectSize:aspectSize];
+        }
     }
 
     [_gameRenderer didExecuteFrame];
@@ -564,16 +565,6 @@
         [_gameAudio startAudio];
         _hasStartedAudio = YES;
     }
-}
-
-- (void)willRenderOnAlternateThread
-{
-    [_gameRenderer willRenderOnAlternateThread];
-}
-
-- (void)startRenderingOnAlternateThread
-{
-    [_gameRenderer startRenderingOnAlternateThread];
 }
 
 - (void)willRenderFrameOnAlternateThread
