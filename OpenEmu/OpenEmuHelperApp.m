@@ -414,8 +414,8 @@
 {
     NSLog(@"Setting up emulation");
 
-    [self setupGameCoreAudioAndVideo];
     [_gameCore setupEmulation];
+    [self setupGameCoreAudioAndVideo];
 
     DLog(@"finished setting up rom");
     if(handler) handler(_surfaceID, _screenSize, _previousAspectSize);
@@ -508,19 +508,41 @@
     return [_gameRenderer hasAlternateThread];
 }
 
+- (id)presentationFramebuffer
+{
+    return _gameRenderer.presentationFramebuffer;
+}
+
 - (void)willExecute
 {
+    // Check if bufferSize changed. (We'll let 3D games do this.)
+    // Try not to do this as it's kinda slow.
+    OEIntSize previousBufferSize = _gameRenderer.surfaceSize;
+    OEIntSize bufferSize = _gameCore.bufferSize;
+
+    if (!OEIntSizeEqualToSize(previousBufferSize, bufferSize)) {
+        DLog(@"Recreating IOSurface because of game size change to %@", NSStringFromOEIntSize(bufferSize));
+        NSAssert(_gameRenderer.canChangeBufferSize == YES, @"Game tried changing IOSurface in a state we don't support");
+
+        [self setupIOSurface];
+    }
+
     [_gameRenderer willExecuteFrame];
 }
 
 - (void)didExecute
 {
+    OEIntSize bufferSize = _gameRenderer.surfaceSize;
+    OEIntSize previousAspectSize = _previousAspectSize;
+
     OEIntRect screenRect = _gameCore.screenRect;
     OEIntSize aspectSize = _gameCore.aspectSize;
-    OEIntSize previousAspectSize = _previousAspectSize;
 
     if(!OEIntSizeEqualToSize(screenRect.size, _previousScreenSize))
     {
+        NSAssert((screenRect.origin.x + screenRect.size.width) <= bufferSize.width, @"screen rect must not be larger than buffer size");
+        NSAssert((screenRect.origin.y + screenRect.size.height) <= bufferSize.height, @"screen rect must not be larger than buffer size");
+
         DLog(@"Sending did change screen rect to %@", NSStringFromOEIntRect(screenRect));
         [self updateScreenSize];
         [self updateScreenSize:_screenSize withIOSurfaceID:_surfaceID];
@@ -528,6 +550,9 @@
 
     if(!OEIntSizeEqualToSize(aspectSize, previousAspectSize))
     {
+        NSAssert(aspectSize.height <= bufferSize.height, @"aspect size must not be larger than buffer size");
+        NSAssert(aspectSize.width <= bufferSize.width, @"aspect size must not be larger than buffer size");
+
         DLog(@"Sending did change aspect to %@", NSStringFromOEIntSize(aspectSize));
         [self updateAspectSize:aspectSize];
     }

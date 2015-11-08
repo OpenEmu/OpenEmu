@@ -18,6 +18,7 @@
 @property (nonatomic) OEGameCore   *gameCore;
 @property (nonatomic) IOSurfaceRef  ioSurface;
 @property (nonatomic) OEIntSize     surfaceSize;
+@property (nonatomic) id            presentationFramebuffer;
 
 - (void)updateRenderer; // gameCore, ioSurface or gameCore.screenRect changed
 

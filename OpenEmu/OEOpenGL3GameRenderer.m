@@ -60,7 +60,14 @@
     // 3D games can only change buffer size.
     // 2D games can only change screen rect.
     // Oops, 3D games using alternate threads can't change size unless we can reallocate it!
-    return _alternateContext != NULL;
+    return _alternateContext == NULL;
+}
+
+- (id)presentationFramebuffer
+{
+    GLint fbo = _alternateContext ? _alternateFBO : _ioSurfaceFBO;
+
+    return @(fbo);
 }
 
 - (void)setupVideo

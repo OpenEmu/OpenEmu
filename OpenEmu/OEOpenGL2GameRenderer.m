@@ -73,7 +73,14 @@ CGLSetCurrentContext(cgl_ctx);
     // We'll be in trouble if a game core does software vector drawing.
 
     // Oops, 3D games using alternate threads can't change size unless we can reallocate it!
-    return _is2DMode == NO && _alternateContext != NULL;
+    return _is2DMode == NO && _alternateContext == NULL;
+}
+
+- (id)presentationFramebuffer
+{
+    GLint fbo = _alternateContext ? _alternateFBO : _ioSurfaceFBO;
+
+    return @(fbo);
 }
 
 - (void)setupVideo
@@ -481,6 +488,7 @@ CGLSetCurrentContext(cgl_ctx);
     }
 
     CGLContextObj cgl_ctx = _alternateContext;
+    CGLSetCurrentContext(cgl_ctx);
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _alternateFBO);
 }
