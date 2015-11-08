@@ -26,6 +26,8 @@
 
     // Alternate-thread rendering (3D mode)
     CGLContextObj         _alternateContext; // Alternate thread's GL2 context
+    dispatch_semaphore_t  _renderingThreadCanProceedSemaphore;
+    dispatch_semaphore_t  _executeThreadCanProceedSemaphore;
 }
 
 @synthesize gameCore=_gameCore;
@@ -168,6 +170,9 @@
 {
     if(_alternateContext == NULL)
         CGLCreateContext(_glPixelFormat, _glContext, &_alternateContext);
+
+    _renderingThreadCanProceedSemaphore = dispatch_semaphore_create(0);
+    _executeThreadCanProceedSemaphore   = dispatch_semaphore_create(0);
 }
 
 - (void)setupDoubleBufferedFBO
@@ -246,6 +251,8 @@
 
     glBlitFramebuffer(0, 0, _surfaceSize.width, _surfaceSize.height,
                       0, 0, _surfaceSize.width, _surfaceSize.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, _alternateFBO);
 }
 
 - (void)willExecuteFrame

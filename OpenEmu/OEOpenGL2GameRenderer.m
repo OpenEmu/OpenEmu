@@ -33,6 +33,8 @@
 
     // Alternate-thread rendering (3D mode)
     CGLContextObj         _alternateContext; // Alternate thread's GL context.
+    dispatch_semaphore_t  _renderingThreadCanProceedSemaphore;
+    dispatch_semaphore_t  _executeThreadCanProceedSemaphore;
 }
 
 @synthesize gameCore=_gameCore;
@@ -286,6 +288,9 @@
 {
     if(_alternateContext == NULL)
         CGLCreateContext(_glPixelFormat, _glContext, &_alternateContext);
+
+    _renderingThreadCanProceedSemaphore = dispatch_semaphore_create(0);
+    _executeThreadCanProceedSemaphore   = dispatch_semaphore_create(0);
 }
 
 - (void)setupDoubleBufferedFBO
@@ -350,6 +355,13 @@
 
     glBlitFramebufferEXT(0, 0, _surfaceSize.width, _surfaceSize.height,
                          0, 0, _surfaceSize.width, _surfaceSize.height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+    GLenum status = glGetError();
+    if(status)
+    {
+        NSLog(@"draw: blit FBO: OpenGL error %04X", status);
+    }
+
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _alternateFBO);
 }
 
 - (void)destroyGLResources
