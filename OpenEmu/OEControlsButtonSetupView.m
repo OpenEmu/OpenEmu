@@ -646,6 +646,9 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
 
 - (id)OE_createSectionHeadingWithName:(NSString*)name collapsible:(BOOL)flag
 {
+    // Don't collapse groups, less noticeable
+    flag = NO;
+
     OEControlsSectionTitleView *labelField = [[OEControlsSectionTitleView alloc] initWithFrame:NSZeroRect];
     [labelField setStringValue:name];
     [labelField setCollapsible:flag];
