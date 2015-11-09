@@ -431,7 +431,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         
         for(int i=0; i<[archive numberOfEntries]; i++)
         {
-            if(![archive entryHasSize:i] || [archive entryIsEncrypted:i] || [archive entryIsDirectory:i] || [archive entryIsArchive:i])
+            if(([archive entryHasSize:i] && [archive sizeOfEntry:i] == 0) || [archive entryIsEncrypted:i] || [archive entryIsDirectory:i] || [archive entryIsArchive:i])
             {
                 IMPORTDLog(@"Entry %d is either empty, or a directory or encrypted or iteself an archive", i);
                 continue;
