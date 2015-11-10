@@ -1,5 +1,5 @@
 //
-//  OEOpenGL2DGameRenderer.m
+//  OEOpenGL3DGameRenderer.m
 //  OpenEmu
 //
 //  Created by Alexander Strange on 10/18/15.
@@ -37,14 +37,20 @@
 - (id)init
 {
     self = [super init];
-    // just be sane for now.
-    _ioSurfaceFBO= 0;
+
+    _renderingThreadCanProceedSemaphore = dispatch_semaphore_create(0);
+    _executeThreadCanProceedSemaphore   = dispatch_semaphore_create(0);
 
     return self;
 }
 
 - (void)dealloc
 {
+    if (_alternateContext) {
+        // Wake up the rendering thread.
+        dispatch_semaphore_signal(_renderingThreadCanProceedSemaphore);
+    }
+
     [self destroyGLResources];
 }
 
@@ -171,8 +177,9 @@
     if(_alternateContext == NULL)
         CGLCreateContext(_glPixelFormat, _glContext, &_alternateContext);
 
-    _renderingThreadCanProceedSemaphore = dispatch_semaphore_create(0);
-    _executeThreadCanProceedSemaphore   = dispatch_semaphore_create(0);
+    // Give the rendering thread one free frame.
+    // (Hopefully it won't call -didRenderFrame twice before we get to -willExecute)
+    dispatch_semaphore_signal(_renderingThreadCanProceedSemaphore);
 }
 
 - (void)setupDoubleBufferedFBO
@@ -257,8 +264,11 @@
 
 - (void)willExecuteFrame
 {
-    if (_alternateContext)
-        return; // should avoid work in this thread
+    if (_alternateContext) {
+        // Tell the rendering thread to go ahead.
+        dispatch_semaphore_signal(_renderingThreadCanProceedSemaphore);
+        return;
+    }
 
     CGLSetCurrentContext(_glContext);
 
@@ -270,7 +280,17 @@
 
 - (void)didExecuteFrame
 {
-    if (_alternateContext) return;
+    if (_alternateContext) {
+        // Wait for the rendering thread to complete this frame.
+        // Most cores with rendering threads don't seem to handle timing themselves
+        // - they're probably relying on Vsync.
+        dispatch_semaphore_wait(_executeThreadCanProceedSemaphore, DISPATCH_TIME_FOREVER);
+
+        // Don't do any other work.
+        // NOTE: if we start doing other GL stuff here (like filtering moves into this GL context)
+        // try out glFenceSync to avoid the glFlush/CPU<>GPU sync on other thread.
+        return;
+    }
 
     if (_isDoubleBufferFBOMode)
         [self copyAlternateFBO];
@@ -293,6 +313,13 @@
 
     // Update the IOSurface.
     glFlushRenderAPPLE();
+
+    // Technically the above should be a glFinish(), but I'm hoping the GPU work
+    // is fast enough that it's not needed.
+    dispatch_semaphore_signal(_executeThreadCanProceedSemaphore);
+
+    // Wait to be allowed to start next frame.
+    dispatch_semaphore_wait(_renderingThreadCanProceedSemaphore, DISPATCH_TIME_FOREVER);
 }
 
 @end
