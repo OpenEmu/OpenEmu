@@ -28,7 +28,7 @@
 #import "OEGridView.h"
 
 #import "OETheme.h"
-#import "NSImage+OEDrawingAdditions.h"
+#import "OEThemeImage.h"
 #import "OECoverGridDataSourceItem.h"
 #import "IKImageBrowserCell.h"
 

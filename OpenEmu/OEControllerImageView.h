@@ -24,8 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
-#import <QuartzCore/QuartzCore.h>
+@import Cocoa;
 
 extern NSString *const OEControlsDisableMouseSelection;
 extern NSString *const OEControlsDisableMouseDeactivation;

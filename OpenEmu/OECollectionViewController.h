@@ -24,17 +24,15 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
-#import "OETableView.h"
 #import "OEGridView.h"
-#import "IKImageFlowView.h"
 #import "OEBlankSlateView.h"
 
-#import "OEMainWindowController.h"
 #import "OELibrarySubviewController.h"
 #import "OECollectionViewItemProtocol.h"
 
+@class OETableView;
 @class OELibraryController;
 @class OEArrayController;
 

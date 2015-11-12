@@ -24,8 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "OETheme.h"
+@import Cocoa;
 #import "OECell.h"
 
 @interface OEPopUpButtonCell : NSPopUpButtonCell <OECell>

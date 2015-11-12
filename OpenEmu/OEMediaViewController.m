@@ -30,11 +30,17 @@
 #import "OEGridMediaItemCell.h"
 #import "OEGridMediaGroupItemCell.h"
 
+#import "OELibraryDatabase.h"
 #import "OEDBSaveState.h"
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBSystem.h"
 #import "OEDBScreenshot.h"
+
+#import "OEROMImporter.h"
+
+#import "OELibraryController.h"
+#import "OELibraryToolbar.h"
 
 #import "OEGridView.h"
 

@@ -24,8 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "OEMenuItemExtraData.h"
+@import Cocoa;
+@class OEMenuItemExtraData;
 
 @interface NSMenuItem (OEMenuItemExtraDataAdditions)
 

@@ -25,6 +25,8 @@
  */
 
 #import "OEMatrix.h"
+#import "OETheme.h"
+#import "OECell.h"
 
 @interface OEMatrix ()
 

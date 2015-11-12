@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 typedef BOOL (^OEFileManagerProgressCallback)(float progress);
 typedef BOOL (^OEFileManagerPerItemCallback)(NSURL *src, NSURL *dst, NSError *result);

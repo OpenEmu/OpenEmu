@@ -27,7 +27,6 @@
 #import "OETableCellGroupView.h"
 
 #import "OETheme.h"
-#import "NSImage+OEDrawingAdditions.h"
 
 @implementation OETableCellGroupView
 

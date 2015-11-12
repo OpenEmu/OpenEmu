@@ -32,11 +32,20 @@
 #import "OEFeaturedGamesCoverView.h"
 #import "OEDBSystem.h"
 #import "OELibraryController.h"
+#import "OELibraryToolbar.h"
+#import "OELibraryDatabase.h"
 
 #import "OEFeaturedGamesBlankSlateView.h"
 
+#import "OEDBGame.h"
+#import "OEDBRom.h"
+
+#import "OEThemeTextAttributes.h"
+
 #import "NSArray+OEAdditions.h"
 #import "NS(Attributed)String+Geometrics.h"
+
+@import Quartz;
 
 NSString * const OEFeaturedGamesURLString = @"https://raw.githubusercontent.com/OpenEmu/OpenEmu-Update/master/games.xml";
 

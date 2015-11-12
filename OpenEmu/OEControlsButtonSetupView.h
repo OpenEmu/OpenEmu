@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
 extern NSString * const OEControlsButtonHighlightRollsOver;
 @interface OEControlsButtonSetupView : NSView

@@ -27,6 +27,8 @@
 #import "OESliderCell.h"
 #import "OEControl.h"
 #import "NSImage+OEDrawingAdditions.h"
+#import "OETheme.h"
+#import "OEThemeImage.h"
 
 @implementation OESliderCell
 

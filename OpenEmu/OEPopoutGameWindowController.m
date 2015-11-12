@@ -32,12 +32,13 @@
 #import "OEGameView.h"
 #import "OEGameControlsBar.h"
 #import "NSWindow+OEFullScreenAdditions.h"
-#import <QuartzCore/QuartzCore.h>
 #import "OEUtilities.h"
 
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 #import "OEDBSystem.h"
+
+@import QuartzCore;
 
 #pragma mark - Private variables
 

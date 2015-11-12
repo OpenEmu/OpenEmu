@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Quartz/Quartz.h>
+@import Quartz;
 
 // Fuck QCCompositionLayer
 

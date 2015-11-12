@@ -25,8 +25,10 @@
 */
 
 #import "OESearchField.h"
-
+#import "OESearchFieldCell.h"
 #import "OEButtonCell.h"
+#import "OETheme.h"
+
 @interface OESearchField ()
 {
     NSTrackingArea *_trackingArea;   // Mouse tracking area used only if the control reacts to the mouse's location

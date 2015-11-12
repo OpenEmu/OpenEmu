@@ -24,8 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "OETheme.h"
+@import Foundation;
+#import "OEThemeObject.h"
+@class OEThemeImage;
+@class OEThemeTextAttributes;
 
 @protocol OECell <NSObject>
 

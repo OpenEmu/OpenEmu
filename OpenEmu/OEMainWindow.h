@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "NSWindow+OECustomWindow.h"
 
 // OELibraryWindow is a window object that replaces the gray line at the lower edge of a window's title bar with a black one

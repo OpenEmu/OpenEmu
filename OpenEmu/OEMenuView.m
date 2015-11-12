@@ -31,7 +31,7 @@
 #import "OEMenuDocumentView+OEMenuView.h"
 #import "NSMenuItem+OEMenuItemExtraDataAdditions.h"
 #import "OETheme.h"
-#import <Carbon/Carbon.h>
+#import "OEMenuItemExtraData.h"
 
 #pragma mark -
 #pragma mark Background Image Insets

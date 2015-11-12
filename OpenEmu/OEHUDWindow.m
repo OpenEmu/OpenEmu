@@ -25,7 +25,6 @@
  */
 
 #import "OEHUDWindow.h"
-#import "NSImage+OEDrawingAdditions.h"
 #import "NSColor+OEAdditions.h"
 
 #import "OEButton.h"

@@ -40,10 +40,11 @@
 
 #import "OEGameViewNotificationRenderer.h"
 
-#import <IOSurface/IOSurface.h>
+@import IOSurface;
+@import Accelerate;
 #import <OpenGL/CGLMacro.h>
 #import <OpenGL/CGLIOSurface.h>
-#import <Accelerate/Accelerate.h>
+#import <Syphon/Syphon.h>
 
 #import "snes_ntsc.h"
 

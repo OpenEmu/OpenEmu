@@ -24,10 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-
-#import "OETheme.h"
+@import Cocoa;
 #import "OECell.h"
+@class OEThemeTextAttributes;
+
 @interface OETextFieldCell : NSTextFieldCell <OECell>
 - (void)setSelectedThemeTextAttributesKey:(NSString*)key;
 @property OEThemeTextAttributes *selectedThemeTextAttributes;

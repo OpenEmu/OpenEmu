@@ -25,7 +25,7 @@
  */
 
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @interface OEInputLimitFormatter : NSFormatter
 - (id)initWithLimit:(NSUInteger)aLimit;

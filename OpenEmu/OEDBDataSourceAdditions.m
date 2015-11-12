@@ -31,6 +31,7 @@
 #import "OEGameViewController.h"
 #import "NSArray+OEAdditions.h"
 #import "OETheme.h"
+@import Quartz;
 
 static NSDateFormatter *_OEListViewDateFormatter;
 static void OE_initOEListViewDateFormatter(void) __attribute__((constructor));

@@ -25,6 +25,8 @@
  */
 
 #import "NSManagedObjectContext+OEAdditions.h"
+#import "OELibraryDatabase.h"
+
 @implementation NSManagedObjectContext (OEAdditions)
 - (OELibraryDatabase*)libraryDatabase
 {

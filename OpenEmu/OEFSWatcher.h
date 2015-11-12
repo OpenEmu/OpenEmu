@@ -24,7 +24,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 typedef void (^OEFSBlock)(NSString *path, FSEventStreamEventFlags flags);
 @interface OEFSWatcher : NSObject

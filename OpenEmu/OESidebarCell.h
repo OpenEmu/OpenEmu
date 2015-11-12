@@ -23,10 +23,9 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import <Foundation/Foundation.h>
-
-#import "OETheme.h"
+@import Foundation;
 #import "OECell.h"
+
 @interface OESidebarCell : NSTextFieldCell <OECell>
 
 @property (readwrite) BOOL isGroup;

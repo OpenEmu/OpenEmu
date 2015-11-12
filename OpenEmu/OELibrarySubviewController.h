@@ -24,8 +24,8 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "OELibraryController.h"
+@import Foundation;
+@class OELibraryController;
 
 /* NOTE:
  * If the sidebar changes selection and the selected item is suitable for a Library Subview Controller it will be set as representedObject 

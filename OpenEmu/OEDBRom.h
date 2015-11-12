@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <CoreData/CoreData.h>
+@import CoreData;
 #import "OEDBItem.h"
 
 @class OELibraryDatabase;

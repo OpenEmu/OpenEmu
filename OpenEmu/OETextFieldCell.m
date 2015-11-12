@@ -25,8 +25,10 @@
  */
 
 #import "OETextFieldCell.h"
-
 #import "OEControl.h"
+#import "OETheme.h"
+#import "OEThemeTextAttributes.h"
+#import "OEThemeImage.h"
 
 @interface OETextFieldCell ()
 {

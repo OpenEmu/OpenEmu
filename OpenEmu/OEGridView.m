@@ -27,8 +27,8 @@
 #import "OEGridView.h"
 
 #import "OETheme.h"
-
-#import <QuickLook/QuickLook.h>
+#import "OEThemeImage.h"
+#import "OEThemeTextAttributes.h"
 
 #import "OEGridGameCell.h"
 #import "OEGridViewFieldEditor.h"

@@ -25,6 +25,10 @@
  */
 
 #import "OELabelCell.h"
+#import "OETheme.h"
+#import "OEThemeTextAttributes.h"
+#import "OEThemeImage.h"
+
 @interface OELabelCell ()
 {
     NSMutableParagraphStyle *_style;

@@ -24,7 +24,6 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ImageKit/ImageKit.h>
 #import "OEGridCell.h"
 
 @interface OEGridMediaItemCell : OEGridCell

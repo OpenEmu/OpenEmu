@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <QuartzCore/QuartzCore.h>
+@import QuartzCore;
 
 @interface OEBlankSlateForegroundLayer : CALayer
 @end

@@ -6,7 +6,7 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
 @interface OELibraryToolbar : NSToolbar
 @property (assign) IBOutlet NSSegmentedControl *categorySelector;

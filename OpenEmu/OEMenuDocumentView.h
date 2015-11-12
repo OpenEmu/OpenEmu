@@ -24,9 +24,11 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 #import "OEMenu.h"
-#import "OETheme.h"
+@class OEThemeGradient;
+@class OEThemeImage;
+@class OEThemeTextAttributes;
 
 @interface OEMenuDocumentView : NSView
 {

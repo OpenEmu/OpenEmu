@@ -27,12 +27,14 @@
 #import "OEMainWindowController.h"
 #import "OEMainWindowContentController.h"
 
-#import "NSImage+OEDrawingAdditions.h"
 #import "OEMainWindow.h"
 #import "NSWindow+OEFullScreenAdditions.h"
 #import "OESetupAssistant.h"
 #import "OECoreUpdater.h"
 #import "OELibraryController.h"
+#import "OELibraryToolbar.h"
+#import "OELibraryDatabase.h"
+#import "OEButton.h"
 
 #import "NSDocumentController+OEAdditions.h"
 #import "OEGameDocument.h"
@@ -41,8 +43,12 @@
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "OEDBGame.h"
+#import "OEDBRom.h"
+
+#import "OEROMImporter.h"
 
 #import "NSView+FadeImage.h"
+#import "NSDocument+OEAdditions.h"
 
 #import "OpenEmu-Swift.h"
 

@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+@import Cocoa;
 
 @interface OECoreTableButtonCell : NSButtonCell
 @property float widthInset;

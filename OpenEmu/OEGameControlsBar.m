@@ -30,6 +30,7 @@
 
 #import "OEButton.h"
 #import "OESlider.h"
+#import "OESliderCell.h"
 
 #import "OEMenu.h"
 #import "OEDBRom.h"
@@ -50,6 +51,8 @@
 #import "OECheats.h"
 
 #import "OETheme.h"
+
+@import QuartzCore;
 
 #pragma mark - Public variables
 

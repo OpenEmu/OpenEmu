@@ -25,7 +25,6 @@
  */
 
 #import "OEToolbarView.h"
-#import "NSImage+OEDrawingAdditions.h"
 #import "NSImage+OEHighlight.h"
 #import "OETheme.h"
 @interface OEToolbarView ()

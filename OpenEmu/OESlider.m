@@ -25,7 +25,10 @@
  */
 
 #import "OESlider.h"
+#import "OESliderCell.h"
 #import "NSImage+OEDrawingAdditions.h"
+#import "OETheme.h"
+#import "OEThemeImage.h"
 
 @interface OESlider ()
 {

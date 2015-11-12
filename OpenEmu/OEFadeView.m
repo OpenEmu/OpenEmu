@@ -25,9 +25,8 @@
  */
 
 #import "OEFadeView.h"
-#import <QuartzCore/QuartzCore.h>
-
 #import "NSColor+OEAdditions.h"
+@import QuartzCore;
 
 @interface OEFadeView ()
 @property(copy) void(^callback)(void);

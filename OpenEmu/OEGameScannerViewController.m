@@ -28,6 +28,8 @@
 
 #import "OELibraryDatabase.h"
 
+#import "OELibraryController.h"
+
 #import "OEBackgroundColorView.h"
 
 #import "OEImportOperation.h"
@@ -40,6 +42,8 @@
 #import "OEHUDAlert.h"
 
 #import "OEGameInfoHelper.h"
+
+@import QuartzCore;
 
 #define OEGameScannerUpdateDelay 0.2
 

@@ -25,6 +25,8 @@
  */
 
 #import "OEBackgroundColorView.h"
+#import "OETheme.h"
+#import "OEThemeColor.h"
 
 @interface OEBackgroundColorView ()
 @property NSString *backgroundColorKey;

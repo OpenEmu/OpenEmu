@@ -26,6 +26,7 @@
 
 #import "OEControllerImageView.h"
 #import "NSImage+OEDrawingAdditions.h"
+@import QuartzCore;
 
 #define OverlayAlphaON  0.5
 #define OverlayAlphaOFF 0.0

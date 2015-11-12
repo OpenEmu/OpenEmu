@@ -24,15 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
 #import "OEDBGame.h"
 #import "OEDBSystem.h"
-#import "OEDBCollection.h"
-#import "OEDBSmartCollection.h"
-#import "OEDBCollectionFolder.h"
-
-#import <Quartz/Quartz.h> // for ImageKit
 
 #import "OECoverGridDataSourceItem.h"
 #import "OESidebarItem.h"

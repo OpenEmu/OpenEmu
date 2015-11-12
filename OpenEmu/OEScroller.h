@@ -24,9 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "OETheme.h"
+@import Foundation;
 #import "OEControl.h"
+#import "OEThemeObject.h"
+
 @interface OEScroller : NSScroller <OEControl>
 - (void)setThemeKey:(NSString *)key;
 - (void)setBackgroundThemeImageKey:(NSString *)key;

@@ -24,13 +24,11 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "OEROMImporter.h"
+@import Foundation;
 
-#import "OEDBRom.h"
-#import "OEDBGame.h"
-#import "OEDBSystem.h"
-
+@class OEDBRom;
+@class OEDBGame;
+@class OEDBSystem;
 @class OEROMImporter;
 
 extern const int OELibraryErrorCodeFolderNotFound;

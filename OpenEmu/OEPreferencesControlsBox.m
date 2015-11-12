@@ -25,7 +25,6 @@
  */
 
 #import "OEPreferencesControlsBox.h"
-#import "NSImage+OEDrawingAdditions.h"
 
 @implementation OEPreferencesControlsBox
 - (id)initWithFrame:(NSRect)frameRect

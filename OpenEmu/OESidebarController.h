@@ -24,10 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-
+@import Foundation;
 #import "OESidebarOutlineView.h"
-
 
 extern NSString *const OESuppressRemoveCollectionConfirmationKey;
 extern NSString *const OESidebarSelectionDidChangeNotificationName;
@@ -36,7 +34,7 @@ extern NSString *const OESidebarMinWidth;
 extern NSString *const OESidebarMaxWidth;
 extern NSString *const OEMainViewMinWidth;
 
-@class OELibraryDatabase, OESidebarOutlineView;
+@class OELibraryDatabase;
 @protocol OEGameCollectionViewItemProtocol;
 @protocol OESidebarItem;
 

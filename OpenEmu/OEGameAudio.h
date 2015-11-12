@@ -24,9 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <AudioToolbox/AudioToolbox.h>
-#import <AudioUnit/AudioUnit.h>
+@import Cocoa;
+@import CoreAudio;
 
 @class OEGameCore;
 

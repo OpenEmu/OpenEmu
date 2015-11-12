@@ -33,6 +33,8 @@
 #import "OECoreUpdater.h"
 #import "OECoreDownload.h"
 
+@import QuartzCore;
+
 #pragma mark - Public variables
 
 // Public user default keys

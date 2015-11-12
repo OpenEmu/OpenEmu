@@ -25,7 +25,8 @@
  */
 
 #import "OEMainWindow.h"
-#import <Quartz/Quartz.h>
+@import Quartz;
+
 #define titleBarHeight 21.0
 
 @implementation OEMainWindow

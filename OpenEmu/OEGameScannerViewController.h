@@ -24,12 +24,11 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-
+@import Cocoa;
 #import "OEROMImporter.h"
-#import "OELibraryController.h"
 #import "OELibrarySubviewController.h"
 #import "OESidebarItem.h"
+@class OELibraryController;
 
 #pragma mark - Imported variables
 extern NSString * const OESidebarSelectionDidChangeNotificationName;

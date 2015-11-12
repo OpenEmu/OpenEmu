@@ -25,7 +25,7 @@
  */
 
 #import "OEMenu.h"
-#import "OEMenuView.h"
+@class OEMenuView;
 
 #pragma mark -
 #pragma mark Menu sizes and insets

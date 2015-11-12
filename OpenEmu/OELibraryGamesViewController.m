@@ -29,6 +29,9 @@
 #import "OEGameCollectionViewController.h"
 #import "OESidebarController.h"
 #import "OEGameScannerViewController.h"
+#import "OELibraryToolbar.h"
+#import "OELibrarySplitView.h"
+#import "OELibraryController.h"
 
 @interface OELibraryGamesViewController () <OELibrarySplitViewDelegate>
 @end

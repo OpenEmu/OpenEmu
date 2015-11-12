@@ -25,7 +25,6 @@
  */
 
 #import "OESetupAssistantScrollBorderView.h"
-#import "NSImage+OEDrawingAdditions.h"
 #import "OETheme.h"
 @implementation OESetupAssistantScrollBorderView
 

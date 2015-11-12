@@ -24,11 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-
-#import <OpenEmuBase/OpenEmuBase.h>
+@import Cocoa;
 #import "OEGameCoreHelper.h"
-#import "OEGameControlsBar.h"
 
 extern NSString *const OEGameVolumeKey;
 extern NSString *const OEGameDefaultVideoFilterKey;

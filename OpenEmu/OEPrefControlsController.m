@@ -24,8 +24,6 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Quartz/Quartz.h>
-
 #import "OEPrefControlsController.h"
 #import "OEBackgroundGradientView.h"
 #import "OEBackgroundImageView.h"
@@ -42,6 +40,8 @@
 
 #import "OEPreferencesController.h"
 #import <OpenEmuSystem/OpenEmuSystem.h>
+
+@import Quartz;
 
 NSString *const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
 NSString *const OELastControlsPlayerKey           = @"lastControlsPlayer";

@@ -25,6 +25,9 @@
  */
 
 #import "OEPopUpButtonCell.h"
+#import "OETheme.h"
+#import "OEThemeTextAttributes.h"
+#import "OEThemeImage.h"
 
 @implementation OEPopUpButtonCell
 @synthesize hovering = _hover;

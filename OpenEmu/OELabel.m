@@ -26,6 +26,8 @@
 
 #import "OELabel.h"
 #import "OELabelCell.h"
+#import "OETheme.h"
+
 @implementation OELabel
 
 + (Class)cellClass

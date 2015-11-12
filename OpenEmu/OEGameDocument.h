@@ -24,8 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "NSDocument+OEAdditions.h"
+@import Cocoa;
 
 extern NSString *const OEGameCoreManagerModePreferenceKey;
 extern NSString *const OEGameDocumentErrorDomain;

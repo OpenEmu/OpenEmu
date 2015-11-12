@@ -24,9 +24,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 #import "OEControl.h"
-#import "OESearchFieldCell.h"
+
 @interface OESearchField : NSSearchField <OEControl>
 @property (nonatomic) OEThemeTextAttributes *selectedThemeTextAttributes;
 @end

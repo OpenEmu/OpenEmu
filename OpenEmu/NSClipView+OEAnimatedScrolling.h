@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
+@import Cocoa;
 
 @interface NSClipView (OEAnimatedScrolling)
 - (void)scrollToPoint:(NSPoint)p animated:(BOOL)animFlag;

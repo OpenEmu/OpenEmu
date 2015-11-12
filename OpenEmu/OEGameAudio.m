@@ -26,6 +26,7 @@
 
 #import "OEGameAudio.h"
 #import <OpenEmuBase/OpenEmuBase.h>
+@import AudioToolbox;
 
 typedef struct
 {

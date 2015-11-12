@@ -25,6 +25,8 @@
  */
 
 #import "OEButton.h"
+#import "OEButtonCell.h"
+#import "OETheme.h"
 
 @interface OEButton ()
 

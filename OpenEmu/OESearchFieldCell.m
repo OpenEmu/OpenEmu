@@ -26,6 +26,9 @@
 
 #import "OESearchFieldCell.h"
 #import "OEControl.h"
+#import "OETheme.h"
+#import "OEThemeImage.h"
+#import "OEThemeTextAttributes.h"
 
 @interface OESearchFieldFieldEditor : NSTextView
 @end

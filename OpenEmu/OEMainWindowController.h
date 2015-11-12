@@ -24,8 +24,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "OEButton.h"
+@import Cocoa;
+
+@class OEButton;
 
 extern NSString *const OEForcePopoutGameWindowKey;
 extern NSString *const OEFullScreenGameWindowKey;

@@ -24,9 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import <ImageIO/ImageIO.h>
-#import <OpenGL/OpenGL.h>
+@import Foundation;
 
 @interface OELUTTexture : NSObject
 

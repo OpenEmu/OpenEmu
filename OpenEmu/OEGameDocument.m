@@ -36,6 +36,7 @@
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 #import "OEDBSaveState.h"
+#import "OEDBSystem.h"
 #import "OEDOGameCoreManager.h"
 #import "OEGameCoreManager.h"
 #import "OEGameView.h"
@@ -51,6 +52,7 @@
 #import "NSURL+OELibraryAdditions.h"
 #import "NSView+FadeImage.h"
 #import "OEDownload.h"
+#import "OEROMImporter.h"
 
 // using the main window controller here is not very nice, but meh
 #import "OEMainWindowController.h"

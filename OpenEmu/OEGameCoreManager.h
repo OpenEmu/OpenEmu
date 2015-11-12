@@ -24,11 +24,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
 #import "OEGameCoreHelper.h"
-#import <OpenEmuBase/OpenEmuBase.h>
-#import <OpenEmuSystem/OpenEmuSystem.h>
 
 @protocol OEGameCoreDisplayHelper;
 @class OECorePlugin, OEGameCoreController;

@@ -25,7 +25,10 @@
  */
 
 #import "OEProgressIndicator.h"
-#import <Quartz/Quartz.h>
+#import "OETheme.h"
+#import "OEThemeImage.h"
+@import Quartz;
+
 @interface OEProgressIndicator ()
 {
     OEThemeImage *trackImage;

@@ -25,8 +25,8 @@
  */
 
 #import "OECoreTableButtonCell.h"
-#import "NSImage+OEDrawingAdditions.h"
 #import "OETheme.h"
+
 @implementation OECoreTableButtonCell
 
 - (id)init 

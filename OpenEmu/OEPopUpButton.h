@@ -24,8 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "OEPopUpButtonCell.h"
+@import Cocoa;
 #import "OEMenu.h"
 #import "OEControl.h"
 #import "OEToolTip.h"

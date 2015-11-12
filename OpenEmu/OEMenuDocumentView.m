@@ -27,8 +27,14 @@
 #import "OEMenuDocumentView.h"
 #import "OEMenuDocumentView+OEMenuView.h"
 #import "OEMenu.h"
+#import "OEMenuView.h"
 #import "OEMenu+OEMenuViewAdditions.h"
 #import "NSMenuItem+OEMenuItemExtraDataAdditions.h"
+#import "OETheme.h"
+#import "OEThemeImage.h"
+#import "OEThemeGradient.h"
+#import "OEThemeTextAttributes.h"
+#import "OEMenuItemExtraData.h"
 
 #pragma mark -
 #pragma mark Menu Item Spacing

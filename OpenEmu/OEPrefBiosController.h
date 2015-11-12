@@ -23,7 +23,7 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 #import "OEPreferencePane.h"
 
 @class OEBackgroundGradientView;

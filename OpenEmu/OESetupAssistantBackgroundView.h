@@ -24,8 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <Quartz/Quartz.h>
+@import Cocoa;
 
 @interface OESetupAssistantBackgroundView : NSView
 @end

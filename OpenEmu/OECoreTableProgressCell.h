@@ -24,8 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/AppKit.h>
-#import "OEProgressIndicator.h"
+@import Cocoa;
+
 @interface OECoreTableProgressCell : NSCell
 @property float widthInset;
 @end

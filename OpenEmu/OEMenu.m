@@ -31,6 +31,7 @@
 #import "OEMenuDocumentView.h"
 #import "NSMenuItem+OEMenuItemExtraDataAdditions.h"
 #import "OEPopUpButton.h"
+#import "OEMenuItemExtraData.h"
 
 #import <objc/runtime.h>
 

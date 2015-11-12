@@ -24,8 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+@import Foundation;
+@import CoreData;
 #import "OEDBItem.h"
 
 @class OEDBRom;

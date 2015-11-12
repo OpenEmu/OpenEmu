@@ -24,15 +24,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <Quartz/Quartz.h>
-#import <OpenGL/OpenGL.h>
-
-#import <Syphon/Syphon.h>
-#import <OpenEmuBase/OpenEmuBase.h>
-#import <OpenEmuSystem/OpenEmuSystem.h>
-
+@import Cocoa;
 #import "OEGameCoreHelper.h"
+@class SyphonServer;
 
 extern NSString * const OEScreenshotAspectRationCorrectionDisabled;
 extern NSString * const OEDefaultVideoFilterKey;

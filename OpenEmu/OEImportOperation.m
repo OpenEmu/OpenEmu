@@ -39,6 +39,7 @@
 #import "OEDBRom.h"
 #import "OEDBCollection.h"
 #import "OEDBSaveState.h"
+#import "OEDBSystem.h"
 #import "OEBIOSFile.h"
 
 NSString * const OEImportManualSystems = @"OEImportManualSystems";

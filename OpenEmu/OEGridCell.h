@@ -24,8 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <ImageKit/ImageKit.h>
-#import "OEGridView.h"
+@import Quartz;
+@class OEGridView;
 
 @interface OEGridCell : IKImageBrowserCell
 - (BOOL)isInteractive;

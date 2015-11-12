@@ -25,6 +25,8 @@
  */
 
 #import "OEPopUpButton.h"
+#import "OEPopUpButtonCell.h"
+#import "OETheme.h"
 
 @interface OEPopUpButton ()
 

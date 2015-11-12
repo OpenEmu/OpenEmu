@@ -26,6 +26,7 @@
 
 #import "OEBlankSlateBackgroundView.h"
 #import "OEBackgroundNoisePattern.h"
+@import QuartzCore;
 
 @implementation OEBlankSlateBackgroundView
 

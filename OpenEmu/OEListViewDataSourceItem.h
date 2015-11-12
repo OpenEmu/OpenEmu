@@ -24,8 +24,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "OETheme.h"
+@import Foundation;
+@class OEThemeImage;
+
 @protocol OEListViewDataSourceItem <NSObject>
 
 - (OEThemeImage *)listViewStatus;

@@ -24,9 +24,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import <Cocoa/Cocoa.h>
-#import "OETheme.h"
+@import Cocoa;
 #import "OECell.h"
+@class OEThemeImage;
 
 @interface OESliderCell : NSSliderCell <OECell>
 - (void)setLevelThemeImageKey:(NSString *)key;

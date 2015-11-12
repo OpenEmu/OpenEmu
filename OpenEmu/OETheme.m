@@ -25,6 +25,10 @@
  */
 
 #import "OETheme.h"
+#import "OEThemeColor.h"
+#import "OEThemeTextAttributes.h"
+#import "OEThemeImage.h"
+#import "OEThemeGradient.h"
 
 #pragma mark -
 #pragma mark Theme.plist keys

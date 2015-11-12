@@ -27,10 +27,10 @@
 #define minKnobHeight 20
 
 #import "OEScroller.h"
-#import "NSImage+OEDrawingAdditions.h"
 #import "OEUIDrawingUtils.h"
 
 #import "OETheme.h"
+#import "OEThemeImage.h"
 
 @interface OEScroller ()
 - (void)OE_detectOrientation;

@@ -24,8 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "OETextFieldCell.h"
+@import Cocoa;
 #import "OEControl.h"
 
 @interface OETextField : NSTextField <OEControl>

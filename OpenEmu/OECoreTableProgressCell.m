@@ -26,7 +26,9 @@
 
 #import "OECoreTableProgressCell.h"
 #import "NSImage+OEDrawingAdditions.h"
+#import "OETheme.h"
 #import "OEThemeImage.h"
+
 @implementation OECoreTableProgressCell
 
 - (id)init 

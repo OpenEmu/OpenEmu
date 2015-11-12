@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
 @interface OEMigrationWindowController : NSWindowController
 - (id)initWithMigrationManager:(NSMigrationManager*)manager;

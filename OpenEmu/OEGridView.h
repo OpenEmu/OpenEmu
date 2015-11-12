@@ -24,8 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <ImageKit/ImageKit.h>
+@import Cocoa;
+@import Quartz;
 
 extern NSSize const defaultGridSize;
 extern NSString * const OEImageBrowserGroupSubtitleKey;

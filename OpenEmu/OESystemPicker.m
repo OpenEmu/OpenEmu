@@ -24,6 +24,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "OESystemPicker.h"
+#import "OESystemPlugin.h"
 
 @interface OESystemPicker ()
 - (IBAction)confirmSelection:(id)sender;

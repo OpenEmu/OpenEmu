@@ -33,7 +33,11 @@
 #import "NSURL+OELibraryAdditions.h"
 #import "NSArray+OEAdditions.h"
 #import "OERatingCell.h"
+#import "OEMainWindowController.h"
+#import "OELibraryToolbar.h"
+#import "OELibraryController.h"
 
+#import "OELibraryDatabase.h"
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBSystem.h"
@@ -41,6 +45,15 @@
 #import "OEDBCollection.h"
 #import "OEDBSmartCollection.h"
 #import "OEDBAllGamesCollection.h"
+
+#import "OEROMImporter.h"
+
+#import "OEThemeObject.h"
+#import "OEThemeImage.h"
+
+#import "OETableView.h"
+
+#import "IKImageFlowView.h"
 
 #import "OEDBDataSourceAdditions.h"
 

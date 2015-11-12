@@ -25,10 +25,11 @@
  */
 
 #import "OESidebarCell.h"
-#import <AppKit/NSCell.h>
 #import "OESidebarFieldEditor.h"
 #import "OESidebarOutlineView.h"
-
+#import "OETheme.h"
+#import "OEThemeTextAttributes.h"
+#import "OEThemeGradient.h"
 
 const CGFloat BadgeSpacing = 2.0;
 

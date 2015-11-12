@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @interface NSFileManager (OEHashingAdditions)
 - (BOOL)hashFileAtURL:(NSURL*)url md5:(NSString**)outMD5 crc32:(NSString**)outCRC32 error:(NSError**)error;

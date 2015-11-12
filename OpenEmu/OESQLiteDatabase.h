@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @interface OESQLiteDatabase : NSObject
 - (id)initWithURL:(NSURL*)url error:(NSError *__autoreleasing *)error;

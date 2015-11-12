@@ -25,13 +25,13 @@
  */
 
 #import "OECollectionViewController.h"
-#import "NSImage+OEDrawingAdditions.h"
 #import "OEGameControlsBar.h"
 #import "OEMainWindowController.h"
 #import "OEGameViewController.h"
 #import "OEGameDocument.h"
 
 #import "OELibraryController.h"
+#import "OELibraryToolbar.h"
 #import "OEROMImporter.h"
 
 #import "OETableHeaderCell.h"
@@ -64,6 +64,8 @@
 #import "OEBackgroundNoisePattern.h"
 
 #import "OEGridGameCell.h"
+
+#import "IKImageFlowView.h"
 
 #import "OEPrefLibraryController.h"
 #pragma mark - Public variables

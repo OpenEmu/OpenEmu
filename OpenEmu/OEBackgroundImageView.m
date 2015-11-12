@@ -25,11 +25,16 @@
  */
 
 #import "OEBackgroundImageView.h"
+#import "OETheme.h"
+#import "OEThemeImage.h"
+#import "OEThemeTextAttributes.h"
+
 @interface OEBackgroundImageView ()
 @property(nonatomic, assign, getter = isHovering) BOOL         hovering;
 @property(nonatomic, readonly, getter = isThemed) BOOL         themed;
 @property (nonatomic, readonly)                   OEThemeState stateMask;
 @end
+
 @implementation OEBackgroundImageView
 - (id)initWithThemeKey:(NSString*)themeKey
 {

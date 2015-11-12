@@ -23,12 +23,11 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import <Foundation/Foundation.h>
-
+@import Foundation;
 #import "OEToolTip.h"
 #import "OEControl.h"
-#import "OESliderCell.h"
-#import "OETheme.h"
+#import "OEThemeObject.h"
+
 @interface OESlider : NSSlider <OEControl, OEToolTip>
 {
     OEThemeState hintImagesState;

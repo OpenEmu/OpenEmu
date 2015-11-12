@@ -24,8 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <CoreData/CoreData.h>
-#import "OELibraryDatabase.h"
+@import CoreData;
+@class OELibraryDatabase;
 
 @interface NSManagedObjectContext (OEAdditions)
 - (OELibraryDatabase*)libraryDatabase;

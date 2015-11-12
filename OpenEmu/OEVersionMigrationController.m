@@ -30,7 +30,9 @@
 
 #import "OEDBImageMigrationPolicy.h"
 #import "OELibraryDatabase.h"
+#import "OEDBGame.h"
 #import "OEDBImage.h"
+#import "OEDBRom.h"
 #import "OEDBScreenshot.h"
 
 #import "NSURL+OELibraryAdditions.h"

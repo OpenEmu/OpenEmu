@@ -25,7 +25,7 @@
  */
 
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "OEPreferencePane.h"
 
 @interface OEPrefDebugController : NSViewController <OEPreferencePane>

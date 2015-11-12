@@ -24,10 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "OEDBRom.h"
-#import "OEDBSystem.h"
-#import "OEDBGame.h"
+@import Foundation;
 
 extern NSString * const OEOpenVGDBVersionKey;
 extern NSString * const OEOpenVGDBUpdateCheckKey;

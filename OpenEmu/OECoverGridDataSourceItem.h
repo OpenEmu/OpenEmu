@@ -24,8 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import <ImageKit/ImageKit.h>
+@import Foundation;
 
 // used for cover grid and cover flow
 @protocol OECoverGridDataSourceItem <NSObject>

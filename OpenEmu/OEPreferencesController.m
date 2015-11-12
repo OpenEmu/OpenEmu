@@ -25,7 +25,6 @@
  */
 
 #import "OEPreferencesController.h"
-#import <Quartz/Quartz.h>
 
 #import "OEBackgroundGradientView.h"
 
@@ -41,6 +40,8 @@
 #import "OEPrefCoresController.h"
 #import "OEPrefDebugController.h"
 #import "OEPrefBiosController.h"
+
+@import QuartzCore;
 
 NSString *const OEDebugModeKey = @"debug";
 NSString *const OESelectedPreferencesTabKey = @"selectedPreferencesTab";

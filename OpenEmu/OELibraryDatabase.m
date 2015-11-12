@@ -46,7 +46,6 @@
 
 #import "NSFileManager+OEHashingAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
-#import "NSImage+OEDrawingAdditions.h"
 #import "NSMutableDictionary+OEAdditions.h"
 #import "NSUserDefaults+OEAdditions.h"
 

@@ -41,7 +41,8 @@
 
 #import "OEHUDAlert.h"
 
-#import "NSImage+OEDrawingAdditions.h"
+#import "OEROMImporter.h"
+
 #import "NSArray+OEAdditions.h"
 
 extern NSString *const OELastSidebarSelectionKey;

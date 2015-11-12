@@ -25,6 +25,7 @@
  */
 
 #import "OEOutlinedButtonCell.h"
+#import "OEThemeTextAttributes.h"
 
 @implementation OEOutlinedButtonCell
 

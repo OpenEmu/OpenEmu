@@ -24,12 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "OEThemeObject.h"
-#import "OEThemeColor.h"
-#import "OEThemeTextAttributes.h"
-#import "OEThemeImage.h"
-#import "OEThemeGradient.h"
 
 @class OEThemeColor;
 @class OEThemeTextAttributes;

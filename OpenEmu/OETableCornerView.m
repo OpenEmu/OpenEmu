@@ -26,7 +26,6 @@
 
 #import "OETableCornerView.h"
 #import	"OEUIDrawingUtils.h"
-#import "NSImage+OEDrawingAdditions.h"
 #import "OETheme.h"
 @implementation OETableCornerView
 

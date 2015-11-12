@@ -28,7 +28,7 @@
 #import "OEGridView.h"
 
 #import "OETheme.h"
-#import "NSImage+OEDrawingAdditions.h"
+#import "OEThemeImage.h"
 #import "OECoverGridDataSourceItem.h"
 
 static const CGFloat OEGridCellTitleHeight                      = 16.0;        // Height of the title view

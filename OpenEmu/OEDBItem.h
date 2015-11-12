@@ -25,7 +25,7 @@
  */
 
 
-#import <CoreData/CoreData.h>
+@import CoreData;
 @class OELibraryDatabase;
 @interface OEDBItem : NSManagedObject
 - (OELibraryDatabase*)libraryDatabase;

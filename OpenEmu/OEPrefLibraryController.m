@@ -27,10 +27,12 @@
 #import "OEPrefLibraryController.h"
 #import "OEApplicationDelegate.h"
 #import "OELibraryDatabase.h"
+#import "OEDBRom.h"
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
 #import "OECorePlugin.h"
 #import "OESidebarOutlineView.h"
+#import "OEROMImporter.h"
 
 #import "OEButton.h"
 #import "OEHUDAlert.h"

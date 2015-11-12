@@ -25,7 +25,6 @@
  */
 
 #import "OEImageButton.h"
-#import "NSImage+OEDrawingAdditions.h"
 
 @implementation OEImageButton
 @synthesize isInHover;

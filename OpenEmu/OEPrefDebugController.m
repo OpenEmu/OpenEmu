@@ -28,13 +28,18 @@
 #import "OEPrefDebugController.h"
 #import "OELibraryDatabase.h"
 #import "OESidebarController.h"
+#import "OELibraryController.h"
+#import "OEMenu.h"
 
 #import "OEDBGame.h"
 #import "OEDBImage.h"
+#import "OEDBRom.h"
 #import "OEDBSaveState.h"
 
 #import "NSURL+OELibraryAdditions.h"
 #import "NSColor+OEAdditions.h"
+
+#import "OEGameControlsBar.h"
 
 #import "OEGameViewController.h"
 

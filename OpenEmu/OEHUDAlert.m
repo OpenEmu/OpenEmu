@@ -33,7 +33,6 @@
 
 #import "OEProgressIndicator.h"
 
-#import "NSImage+OEDrawingAdditions.h"
 #import "NSControl+OEAdditions.h"
 #import "NSWindow+OECustomWindow.h"
 
@@ -41,6 +40,7 @@
 #import "OEBackgroundImageView.h"
 
 #import "OETheme.h"
+#import "OEThemeImage.h"
 #import "OEDownload.h"
 
 static const CGFloat _OEHUDAlertBoxSideMargin           =  18.0;

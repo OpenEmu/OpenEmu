@@ -26,9 +26,7 @@
 
 #import "OEDBImage.h"
 #import "OELibraryDatabase.h"
-
-#import "OEDBImage.h"
-#import "OELibraryDatabase.h"
+#import "OEDBGame.h"
 
 @interface OEDBImage ()
 @end

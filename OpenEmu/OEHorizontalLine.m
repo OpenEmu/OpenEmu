@@ -25,7 +25,7 @@
  */
 
 #import "OEHorizontalLine.h"
-
+#import "OETheme.h"
 #import "OEThemeObject.h"
 #import "OEThemeGradient.h"
 #import "OEThemeImage.h"

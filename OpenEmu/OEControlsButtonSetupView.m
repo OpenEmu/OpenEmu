@@ -24,8 +24,6 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Quartz/Quartz.h>
-
 #import "OEControlsButtonSetupView.h"
 
 #import "OEControlsKeyButton.h"
@@ -41,6 +39,8 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 #import "NSArray+OEAdditions.h"
+
+@import Quartz;
 
 NSString * const OEControlsButtonHighlightRollsOver = @"ButtonHighlightRollsOver";
 

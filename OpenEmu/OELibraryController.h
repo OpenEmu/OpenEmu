@@ -24,20 +24,18 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 
-#import "OEUIDrawingUtils.h"
 #import "OEMainWindowContentController.h"
-#import "OELibraryDatabase.h"
 #import "OELibrarySplitView.h"
-#import "OEButton.h"
-#import "OELibraryToolbar.h"
-extern NSString * const OELibraryStatesKey;
-extern NSString * const OELibraryLastCategoryKey;
 
 @class OELibraryDatabase;
 @class OESidebarController;
 @class OELibrarySplitView;
+@class OELibraryToolbar;
+
+extern NSString * const OELibraryStatesKey;
+extern NSString * const OELibraryLastCategoryKey;
 
 @protocol OELibraryControllerDelegate, OELibrarySubviewController;
 @interface OELibraryController : NSViewController <OEMainWindowContentController, OELibrarySplitViewDelegate>
