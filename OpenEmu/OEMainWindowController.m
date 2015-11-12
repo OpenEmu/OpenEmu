@@ -3,14 +3,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -18,10 +18,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OEMainWindowController.h"
@@ -43,7 +43,8 @@
 #import "OEDBGame.h"
 
 #import "NSView+FadeImage.h"
-#import "OEFadeView.h"
+
+#import "OpenEmu-Swift.h"
 
 NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
 NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
@@ -59,7 +60,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     BOOL            _shouldExitFullScreenWhenGameFinishes;
     BOOL            _shouldUndockGameWindowOnFullScreenExit;
     BOOL            _resumePlayingAfterFullScreenTransition;
-
+    
     BOOL _isLaunchingGame;
 }
 
@@ -79,12 +80,12 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 {
     if((self = [super initWithWindow:window]) == nil)
         return nil;
-
+    
     // Since restoration from autosave happens before NSWindowController
     // receives -windowDidLoad and we are autosaving the window size, we
     // need to set allowWindowResizing to YES before -windowDidLoad
     _allowWindowResizing = YES;
-
+    
     return self;
 }
 
@@ -98,7 +99,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     [self setUpCurrentContentController];
     [self setUpViewMenuItemBindings];
     [self setUpToolbarButtonTooltips];
-
+    
     _isLaunchingGame = NO;
 }
 
@@ -113,7 +114,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 }
 
 - (void)setUpWindow
-{    
+{
     NSWindow *window = self.window;
     
     window.delegate = self;
@@ -129,7 +130,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     if(![[NSUserDefaults standardUserDefaults] boolForKey:OESetupAssistantHasFinishedKey])
     {
         NSWindow *window = self.window;
-
+        
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
         [setupAssistant setCompletionBlock:
          ^(BOOL discoverRoms, NSArray *volumes)
@@ -183,6 +184,14 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 - (void)windowDidLoad
 {
     NSLog(@"window did load");
+    
+    [super windowDidLoad];
+    
+    NSWindow *window = self.window;
+    window.title = OEDefaultWindowTitle;
+#if DEBUG_PRINT
+    window.title = [window.title stringByAppendingString:@" (DEBUG BUILD)"];
+#endif
 }
 
 #pragma mark -
@@ -194,101 +203,102 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 #pragma mark -
 
-- (void)setCurrentContentController:(NSViewController *)controller animate:(BOOL)shouldAnimate
+- (void)setCurrentContentController:(NSViewController *)newController animate:(BOOL)shouldAnimate
 {
-    if(controller == nil) controller = [self libraryController];
-    if(controller == [self currentContentController]) return;
-
-    NSView *placeHolderView = [self placeholderView];
-
+    if(newController == nil) newController = self.libraryController;
+    if(newController == self.currentContentController) return;
+    
+    NSView *placeHolderView = self.placeholderView;
+    NSWindow *window = self.window;
+    
     // We use Objective-C blocks to factor out common code used in both animated and non-animated controller switching
-    void (^sendViewWillDisappear)(void) =
-    ^{
+    void (^sendViewWillDisappear)(void) = ^{
         [_currentContentController viewWillDisappear];
-        [controller viewWillAppear];
+        [newController viewWillAppear];
     };
-
-    void (^replaceController)(NSView *) =
-    ^(NSView *viewToReplace)
-    {
-        [[controller view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [[controller view] setFrame:[placeHolderView bounds]];
-
+    
+    void (^replaceController)(NSView *) = ^(NSView *viewToReplace) {
+        
+        newController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+        newController.view.frame = placeHolderView.bounds;
+        
         if(viewToReplace)
-            [placeHolderView replaceSubview:viewToReplace with:[controller view]];
+            [placeHolderView replaceSubview:viewToReplace with:newController.view];
         else
-            [placeHolderView addSubview:[controller view]];
-
-        [[self window] makeFirstResponder:[controller view]];
-
+            [placeHolderView addSubview:newController.view];
+        
+        [self.window makeFirstResponder:newController.view];
+        
         [_currentContentController viewDidDisappear];
-        [controller viewDidAppear];
-        _currentContentController = controller;
-
+        [newController viewDidAppear];
+        _currentContentController = newController;
+        
         [viewToReplace removeFromSuperview];
-        NSWindow *window = [self window];
-
-        if(controller == [_gameDocument gameViewController])
+        
+        if(newController == _gameDocument.gameViewController)
         {
-            [[window toolbar] setVisible:NO];
-            [window setTitleVisibility:NSWindowTitleVisible];
+            window.toolbar.visible = NO;
+            window.titleVisibility = NSWindowTitleVisible;
             
             // Disable the full size content view window style mask attribute.
-            NSRect windowFrame = [window frame];
-            [window setStyleMask:[window styleMask] & ~NSFullSizeContentViewWindowMask];
+            NSRect windowFrame = window.frame;
+            window.styleMask &= ~NSFullSizeContentViewWindowMask;
             [window setFrame:windowFrame display:NO];
             
-            [_gameDocument setGameWindowController:self];
-            [_gameDocument setEmulationPaused:NO];
+            _gameDocument.gameWindowController = self;
+            _gameDocument.emulationPaused = NO;
         }
         else
         {
-            [window setTitleVisibility:NSWindowTitleHidden];
+            window.titleVisibility = NSWindowTitleHidden;
             
-            // Enable the full size content view window style mask attribute.
-            NSRect windowFrame = [window frame];
-            [window setStyleMask:[window styleMask] | NSFullSizeContentViewWindowMask];
-            [window setFrame:windowFrame display:NO];
-
-            if(controller == [self libraryController]){
-                [[window toolbar] setVisible:YES];
+            if(newController == self.libraryController)
+            {
+                // Enable the full size content view window style mask attribute.
+                NSRect windowFrame = window.frame;
+                window.styleMask |= NSFullSizeContentViewWindowMask;
+                [window setFrame:windowFrame display:NO];
+                
+                window.toolbar.visible = YES;
             }
-
-            [window setTitle:OEDefaultWindowTitle];
-#if DEBUG_PRINT
-            [window setTitle:[[window title] stringByAppendingString:@" (DEBUG BUILD)"]];
-#endif
         }
     };
-
+    
     if(shouldAnimate)
     {
-        NSImage *currentState = [[self placeholderView] fadeImage];
-        NSImage *newState = nil;
-        if([_currentContentController respondsToSelector:@selector(setCachedSnapshot:)])
-            [(id<OEMainWindowContentController>)_currentContentController setCachedSnapshot:currentState];
-
+        CGRect windowFrame = self.window.frame;
+        NSWindow *fadeWindow = [[NSWindow alloc]initWithContentRect:windowFrame
+                                                          styleMask:NSBorderlessWindowMask
+                                                            backing:NSBackingStoreBuffered
+                                                              defer:NO];
+        [fadeWindow setFrame:windowFrame display:NO];
+        fadeWindow.ignoresMouseEvents = YES;
+        fadeWindow.backgroundColor = [NSColor clearColor];
+        fadeWindow.alphaValue = 1.0;
+        fadeWindow.opaque = NO;
+        
+        [window addChildWindow:fadeWindow ordered:NSWindowAbove];
+        
+        NSImageView *imageView = [[NSImageView alloc] initWithFrame:fadeWindow.contentView.bounds];
+        imageView.image = window.imageSnapshot;
+        imageView.autoresizesSubviews = NSViewWidthSizable | NSViewHeightSizable;
+        
+        fadeWindow.contentView = imageView;
+        
         sendViewWillDisappear();
-
-        OEFadeView *fadeView = [[OEFadeView alloc] initWithFrame:[placeHolderView bounds]];
-
-        if(_currentContentController)
-            [_placeholderView replaceSubview:[_currentContentController view] with:fadeView];
-        else
-            [_placeholderView addSubview:fadeView];
-
-        if([controller respondsToSelector:@selector(cachedSnapshot)])
-            newState = [(id <OEMainWindowContentController>)controller cachedSnapshot];
-
-        [fadeView fadeFromImage:currentState toImage:newState callback:
-         ^{
-             replaceController(fadeView);
-         }];
+        replaceController(_currentContentController.view);
+        
+        [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+            context.duration = 0.2;
+            fadeWindow.animator.alphaValue = 0.0;
+        } completionHandler:^{
+            [window removeChildWindow:fadeWindow];
+        }];
     }
     else
     {
         sendViewWillDisappear();
-        replaceController([_currentContentController view]);
+        replaceController(_currentContentController.view);
     }
 }
 
@@ -300,7 +310,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 - (IBAction)undockGameWindow:(id)sender
 {
     _mainWindowRunsGame = NO;
-
+    
     if(_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen])
     {
         [[self window] toggleFullScreen:self];
@@ -312,7 +322,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         [_gameDocument setEmulationPaused:YES];
         [self setCurrentContentController:nil];
         [_gameDocument setGameWindowController:nil];
-
+        
         [_gameDocument showInSeparateWindowInFullScreen:NO];
         _gameDocument = nil;
     }
@@ -325,11 +335,11 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     // make sure we don't launch a game multiple times :/
     if(_isLaunchingGame) return;
     _isLaunchingGame = YES;
-
+    
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     BOOL openInSeparateWindow = _mainWindowRunsGame || [standardDefaults boolForKey:OEForcePopoutGameWindowKey];
     BOOL fullScreen = [standardDefaults boolForKey:OEFullScreenGameWindowKey];
-
+    
     _shouldExitFullScreenWhenGameFinishes = NO;
     void (^openDocument)(OEGameDocument *, NSError *) =
     ^(OEGameDocument *document, NSError *error)
@@ -341,7 +351,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
             {
                 [game setStatus:@(OEDBGameStatusAlert)];
                 [game save];
-
+                
                 NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?", @""), [game name]];
                 if([[OEHUDAlert alertWithMessageText:messageText
                                        defaultButton:NSLocalizedString(@"Locate", @"")
@@ -350,7 +360,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                     OEDBRom  *missingRom = [[game roms] anyObject];
                     NSURL   *originalURL = [missingRom URL];
                     NSString  *extension = [originalURL pathExtension];
-
+                    
                     NSString *panelTitle = [NSString stringWithFormat:NSLocalizedString(@"Locate '%@'", @"Locate panel title"), [[originalURL pathComponents] lastObject]];
                     NSOpenPanel  *panel = [NSOpenPanel openPanel];
                     [panel setTitle:panelTitle];
@@ -359,7 +369,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                     [panel setDirectoryURL:[originalURL URLByDeletingLastPathComponent]];
                     [panel setAllowsOtherFileTypes:NO];
                     [panel setAllowedFileTypes:@[extension]];
-
+                    
                     if([panel runModal] == NSModalResponseOK)
                     {
                         [missingRom setURL:[panel URL]];
@@ -370,7 +380,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
             }
             else if(error)
                 [self presentError:error];
-
+            
             return;
         }
         else if ([[game status] intValue] == OEDBGameStatusAlert)
@@ -380,19 +390,19 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         }
         
         if(openInSeparateWindow) return;
-
+        
         _shouldExitFullScreenWhenGameFinishes = ![[self window] isFullScreen];
         _gameDocument = document;
         _mainWindowRunsGame = YES;
-
+        
         while([[[self window] titlebarAccessoryViewControllers] count])
             [[self window] removeTitlebarAccessoryViewControllerAtIndex:0];
         [[[self window] toolbar] setVisible:NO];
-
+        
         if(fullScreen && ![[self window] isFullScreen])
         {
             [NSApp activateIgnoringOtherApps:YES];
-
+            
             [self setCurrentContentController:[document gameViewController] animate:NO];
             [document setEmulationPaused:NO];
             [[self window] toggleFullScreen:self];
@@ -403,7 +413,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
             [self setCurrentContentController:[document gameViewController]];
         }
     };
-
+    
     if(state != nil || ((state=[game autosaveForLastPlayedRom]) && [[OEHUDAlert loadAutoSaveGameAlert] runModal] == NSAlertFirstButtonReturn))
         [[NSDocumentController sharedDocumentController] openGameDocumentWithSaveState:state display:openInSeparateWindow fullScreen:fullScreen completionHandler:openDocument];
     else
@@ -440,7 +450,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
              [_gameDocument close];
              _gameDocument = nil;
              _mainWindowRunsGame = NO;
-
+             
              BOOL exitFullScreen = (_shouldExitFullScreenWhenGameFinishes && [[self window] isFullScreen]);
              if(exitFullScreen)
              {
@@ -448,10 +458,10 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                  [[self window] toggleFullScreen:self];
                  _shouldExitFullScreenWhenGameFinishes = NO;
              }
-
+             
              [self setCurrentContentController:nil];
          }];
-
+        
         return NO;
     }
 }
@@ -466,7 +476,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         [[self libraryController] viewWillAppear];
         [[self libraryController] viewDidAppear];
     }
-
+    
     [self setCurrentContentController:nil];
 }
 
@@ -479,7 +489,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 - (void)windowDidBecomeMain:(NSNotification *)notification
 {
     NSMenu *mainMenu = [NSApp mainMenu];
-
+    
     NSMenu *windowMenu = [[mainMenu itemAtIndex:5] submenu];
     NSMenuItem *item = [windowMenu itemWithTag:MainMenu_Window_OpenEmuTag];
     [item setState:NSOnState];
@@ -488,7 +498,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 - (void)windowDidResignMain:(NSNotification *)notification
 {
     NSMenu *mainMenu = [NSApp mainMenu];
-
+    
     NSMenu *windowMenu = [[mainMenu itemAtIndex:5] submenu];
     NSMenuItem *item = [windowMenu itemWithTag:MainMenu_Window_OpenEmuTag];
     [item setState:NSOffState];
@@ -509,13 +519,13 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     if(_gameDocument == nil) {
         return;
     }
-
+    
     if(_shouldExitFullScreenWhenGameFinishes)
     {
         [_gameDocument setGameWindowController:self];
         [self setCurrentContentController:[_gameDocument gameViewController]];
     }
-
+    
     if(_resumePlayingAfterFullScreenTransition)
         [_gameDocument setEmulationPaused:NO];
 }
@@ -532,18 +542,18 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 - (void)windowDidExitFullScreen:(NSNotification *)notification
 {
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:OEMainWindowFullscreenKey];
-
+    
     if(_shouldUndockGameWindowOnFullScreenExit)
     {
         _shouldUndockGameWindowOnFullScreenExit = NO;
-
+        
         [self setCurrentContentController:nil];
-
+        
         [_gameDocument showInSeparateWindowInFullScreen:NO];
-
+        
         if(_resumePlayingAfterFullScreenTransition)
             [_gameDocument setEmulationPaused:NO];
-
+        
         _gameDocument = nil;
         _mainWindowRunsGame = NO;
     }

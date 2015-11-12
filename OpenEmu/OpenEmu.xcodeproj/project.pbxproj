@@ -268,6 +268,7 @@
 		53D32E4F13B95F9A00A6ACE0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */; };
 		556CEBF01BCE173B00F00EAA /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */; };
 		5A3ADE681BE86051005E398B /* SidebarBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3ADE671BE86051005E398B /* SidebarBackgroundView.swift */; };
+		5A886E581BF43AC900775123 /* NSWindow+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A886E571BF43AC900775123 /* NSWindow+Image.swift */; };
 		5ABE03291BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */; };
 		5ABE032A1BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03281BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m */; };
 		5AECA1491BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AECA1481BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift */; };
@@ -1783,6 +1784,7 @@
 		53D32E4B13B95F5400A6ACE0 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
 		556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Graphics.xcassets; sourceTree = "<group>"; };
 		5A3ADE671BE86051005E398B /* SidebarBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SidebarBackgroundView.swift; sourceTree = "<group>"; };
+		5A886E571BF43AC900775123 /* NSWindow+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSWindow+Image.swift"; sourceTree = "<group>"; };
 		5ABE03251BDCA03600BC7B6A /* TAAdaptiveSpaceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItem.h; sourceTree = "<group>"; };
 		5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAdaptiveSpaceItem.m; sourceTree = "<group>"; };
 		5ABE03271BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItemView.h; sourceTree = "<group>"; };
@@ -3694,6 +3696,7 @@
 				83CA87AF1961C71C00D86D55 /* NSUserDefaults+OEAdditions.m */,
 				83DDEE81156CDEEB009EB43D /* NSView+FadeImage.h */,
 				83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */,
+				5A886E571BF43AC900775123 /* NSWindow+Image.swift */,
 				83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */,
 				83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */,
 				14E4A7F81616EF8B00082311 /* NSWindow+OEFullScreenAdditions.h */,
@@ -7865,6 +7868,7 @@
 				838E2A271600A23800CF7198 /* NSMenuItem+OEMenuItemExtraDataAdditions.m in Sources */,
 				14E4A7FA1616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m in Sources */,
 				C6F738FC1617FF2B00BB2519 /* OEUtilities.m in Sources */,
+				5A886E581BF43AC900775123 /* NSWindow+Image.swift in Sources */,
 				83DEE48F162D52DC005D8AD7 /* OELabel.m in Sources */,
 				836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */,
 				83DEE490162D52DC005D8AD7 /* OELabelCell.m in Sources */,
