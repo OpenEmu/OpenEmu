@@ -639,7 +639,10 @@
 }
 
 - (void)hideGameScannerViewAnimated:(BOOL)animated
-{    
+{
+    if([[self itemsRequiringAttention] count] > 0)
+        return;
+    
     [self layoutSidebarViewsWithVisibleGameScannerView:NO animated:animated];
 }
 
