@@ -30,7 +30,6 @@
 - (IBAction)showSelectedGamesInFinder:(id)sender;
 
 - (void)deleteSaveState:(id)stateItem;
-- (void)makeNewCollectionWithSelectedGames:(id)sender;
 - (void)addSelectedGamesToCollection:(id)sender;
 - (void)downloadCoverArt:(id)sender;
 - (void)cancelCoverArtDownload:(id)sender;

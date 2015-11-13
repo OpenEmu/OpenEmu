@@ -322,18 +322,6 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     }
 }
 
-- (void)makeNewCollectionWithSelectedGames:(id)sender
-{
-    OECoreDataMainThreadAssertion();
-/*
-    NSArray *selectedGames = [self selectedGames];
-    OEDBCollection *collection = [[[self libraryController] sidebarController] addCollection:NO];
-    [collection setGames:[NSSet setWithArray:selectedGames]];
-    [collection save];
-    [self setNeedsReload];
- */
-}
-
 - (void)addSelectedGamesToCollection:(id)sender
 {
     OECoreDataMainThreadAssertion();

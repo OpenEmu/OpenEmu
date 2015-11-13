@@ -33,6 +33,8 @@
 #import "OELibrarySplitView.h"
 #import "OELibraryController.h"
 
+#import "OEDBCollection.h"
+
 @interface OELibraryGamesViewController () <OELibrarySplitViewDelegate>
 @end
 
@@ -139,6 +141,17 @@
 {
     id selectedItem = [[self sidebarController] selectedSidebarItem];
     [[self collectionController] setRepresentedObject:selectedItem];
+}
+
+- (void)makeNewCollectionWithSelectedGames:(id)sender
+{
+    OECoreDataMainThreadAssertion();
+    NSArray *selectedGames = [self selectedGames];
+    OEDBCollection *collection = [[self sidebarController] addCollection:NO];
+    [collection setGames:[NSSet setWithArray:selectedGames]];
+    [collection save];
+
+    [[self collectionController] setNeedsReload];
 }
 
 #pragma mark - Issue Resolving

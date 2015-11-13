@@ -37,4 +37,5 @@
 @property (weak) IBOutlet NSView *collectionViewContainer;
 
 - (IBAction)showIssuesView:(id)sender;
+- (void)makeNewCollectionWithSelectedGames:(id)sender;
 @end
