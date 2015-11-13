@@ -583,6 +583,13 @@
         if([cancelAlert runModal] == NSAlertFirstButtonReturn)
         {
             [[self importer] cancel];
+            [self setItemsRequiringAttention:[NSMutableArray array]];
+            [self OE_updateProgress];
+            if([[self view] superview])
+            {
+                [[self issuesView] reloadData];
+                [[self view] removeFromSuperview];
+            }
             [self hideGameScannerViewAnimated:YES];
 
             [sender setState:NSOffState];
