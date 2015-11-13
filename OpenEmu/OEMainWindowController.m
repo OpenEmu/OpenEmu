@@ -287,7 +287,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         
         NSImageView *imageView = [[NSImageView alloc] initWithFrame:fadeWindow.contentView.bounds];
         imageView.image = window.imageSnapshot;
-        imageView.autoresizesSubviews = NSViewWidthSizable | NSViewHeightSizable;
+        imageView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         
         fadeWindow.contentView = imageView;
         
