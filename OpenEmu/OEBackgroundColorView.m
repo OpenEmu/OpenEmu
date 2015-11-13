@@ -31,11 +31,20 @@
 @interface OEBackgroundColorView ()
 @property NSString *backgroundColorKey;
 @end
+
 @implementation OEBackgroundColorView
+
 - (void)drawRect:(NSRect)dirtyRect
 {
+    [super drawRect:dirtyRect];
+
     [[self backgroundColor] setFill];
     NSRectFill(dirtyRect);
+}
+
+- (BOOL)isOpaque
+{
+    return [[self backgroundColor] alphaComponent] == 1.0;
 }
 
 #pragma mark - OEControl Implementation -
@@ -43,6 +52,7 @@
 {
     return NO;
 }
+
 - (BOOL)isTrackingWindowActivity
 {
     return NO;
