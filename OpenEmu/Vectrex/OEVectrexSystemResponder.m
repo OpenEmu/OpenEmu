@@ -40,7 +40,7 @@
     OEVectrexButton button = (OEVectrexButton)aKey.key;
     if (button == OEVectrexAnalogDown || button == OEVectrexAnalogLeft || button == OEVectrexAnalogRight || button == OEVectrexAnalogUp)
         [[self client] didMoveVectrexJoystickDirection:button withValue:value forPlayer:aKey.player];
-    else if (fabsf(value) > 0.001f)
+    else if (fabs(value) > 0.001f)
     {
         [[self client] didPushVectrexButton:button forPlayer:aKey.player];
     }
