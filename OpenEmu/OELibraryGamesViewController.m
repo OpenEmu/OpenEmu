@@ -141,4 +141,16 @@
     [[self collectionController] setRepresentedObject:selectedItem];
 }
 
+#pragma mark - Issue Resolving
+- (IBAction)showIssuesView:(id)sender
+{
+    NSView *container  = [self collectionViewContainer];
+    NSView *issuesView = [[self gameScannerController] view];
+
+    if([[container subviews] containsObject:issuesView])
+        return;
+
+    [container addSubview:issuesView positioned:NSWindowAbove relativeTo:NULL];
+    [issuesView setFrame:[container bounds]];
+}
 @end

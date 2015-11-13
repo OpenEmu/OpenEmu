@@ -35,4 +35,6 @@
 @property (weak) IBOutlet OEGameScannerViewController *gameScannerController;
 
 @property (weak) IBOutlet NSView *collectionViewContainer;
+
+- (IBAction)showIssuesView:(id)sender;
 @end

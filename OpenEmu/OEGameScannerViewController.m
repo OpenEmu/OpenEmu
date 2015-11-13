@@ -3,14 +3,14 @@
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright
- notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
- notice, this list of conditions and the following disclaimer in the
- documentation and/or other materials provided with the distribution.
- * Neither the name of the OpenEmu Team nor the
- names of its contributors may be used to endorse or promote products
- derived from this software without specific prior written permission.
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
 
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -18,29 +18,27 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OEGameScannerViewController.h"
 
 #import "OELibraryDatabase.h"
-
 #import "OELibraryController.h"
-
-#import "OEBackgroundColorView.h"
-
-#import "OEImportOperation.h"
-#import "OECoreTableButtonCell.h"
+#import "OELibraryGamesViewController.h"
 
 #import "OEButton.h"
 #import "OEMenu.h"
-#import "OEDBSystem.h"
+#import "OEBackgroundColorView.h"
+#import "OECoreTableButtonCell.h"
 
 #import "OEHUDAlert.h"
 
+#import "OEDBSystem.h"
+#import "OEImportOperation.h"
 #import "OEGameInfoHelper.h"
 
 @import QuartzCore;
@@ -86,9 +84,12 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewBoundsDidChangeNotification object:[self view]];
 }
 
-- (void)viewDidLoad
+- (void)awakeFromNib
 {
-    [super viewDidLoad];
+    [self view]; // load other xib as well
+
+    if(!_scannerView || !_issuesView)
+        return;
 
     [self OE_setupActionsMenu];
 
@@ -103,16 +104,17 @@
     [menu addItem:item];
 
     [[self issuesView] setMenu:menu];
-    
+
     [self layoutSidebarViewsWithVisibleGameScannerView:NO animated:NO];
-    
+
     [self setItemsRequiringAttention:[NSMutableArray array]];
-    
+
     [[self importer] setDelegate:self];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameScannerViewFrameChanged:) name:NSViewFrameDidChangeNotification object:self.view];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameScannerViewFrameChanged:) name:NSViewFrameDidChangeNotification object:self.scannerView];
+
     [self OE_createFixButton];
-    
+
+
     // Show game scanner if importer is running already
     // or game info is downloading
     if([[self importer] status] == OEImporterStatusRunning || [[OEGameInfoHelper sharedHelper] isUpdating])
@@ -120,11 +122,13 @@
         [self OE_updateProgress];
         [self showGameScannerViewAnimated:YES];
     }
-
 }
 
+- (void)viewDidAppear
+{
+    [[self issuesView] reloadData];
+}
 #pragma mark -
-
 - (OEROMImporter *)importer
 {
     return [[OELibraryDatabase defaultDatabase] importer];
@@ -241,19 +245,18 @@
 
 - (void)OE_createFixButton
 {
-    OEButton *fixIssuesButton = [[OEButton alloc] initWithFrame:(NSRect){ { 14, 4 }, { [[self view] frame].size.width - 20, 20 } }];
+    OEButton *fixIssuesButton = [[OEButton alloc] initWithFrame:(NSRect){ { 14, 4 }, { [[self scannerView] frame].size.width - 20, 20 } }];
     [fixIssuesButton setAutoresizingMask:NSViewWidthSizable];
     [fixIssuesButton setAlignment:NSLeftTextAlignment];
     [fixIssuesButton setImagePosition:NSImageRight];
     [fixIssuesButton setThemeKey:@"game_scanner_fix_issues"];
-    [fixIssuesButton setTarget:self];
     [fixIssuesButton setAction:@selector(showIssuesView:)];
     [fixIssuesButton setTitle:NSLocalizedString(@"Resolve Issues", @"")];
     [fixIssuesButton sizeToFit];
 
     [fixIssuesButton setHidden:YES];
 
-    [[self view] addSubview:fixIssuesButton];
+    [[self scannerView] addSubview:fixIssuesButton];
     [self setFixButton:fixIssuesButton];
 }
 
@@ -552,9 +555,13 @@
     [[self importer] start];
     [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self];
 
-    if([[self importer] numberOfProcessedItems] != [[self importer] totalNumberOfItems])
+    if([[self importer] numberOfProcessedItems] == [[self importer] totalNumberOfItems])
     {
         [self hideGameScannerViewAnimated:YES];
+    }
+
+    if([[self itemsRequiringAttention] count] == 0) {
+        [[self view] removeFromSuperview];
     }
 }
 
@@ -589,19 +596,11 @@
     [self OE_updateProgress];
 }
 
-- (IBAction)showIssuesView:(id)sender
-{
-    [[self issuesView] reloadData];
-    // TODO: re-implement showViewController or something similar
-//    [[self libraryController] showViewController:self];
-    [[self issuesView] sizeToFit];
-}
-
 #pragma mark - Sidebar View Layout
 
 - (void)layoutSidebarViewsWithVisibleGameScannerView:(BOOL)visibleGameScannerView animated:(BOOL)animated
 {
-    NSRect gameScannerFrame = self.view.frame;
+    NSRect gameScannerFrame = self.scannerView.frame;
     gameScannerFrame.origin.y = visibleGameScannerView ? 0 : -NSHeight(gameScannerFrame);
     
     NSRect bottomBarFrame = self.bottomBar.frame;
@@ -612,22 +611,15 @@
     sourceListFrame.size.height = NSHeight(self.sourceListScrollView.superview.frame) - sourceListFrame.origin.y;
     
     if(animated)
-    {
         [NSAnimationContext beginGrouping];
         
-        self.view.animator.frame = gameScannerFrame;
+        self.scannerView.animator.frame = gameScannerFrame;
         self.bottomBar.animator.frame = bottomBarFrame;
         self.sourceListScrollView.animator.frame = sourceListFrame;
-        
-        [NSAnimationContext endGrouping];
-    }
-    else
-    {
-        self.view.frame = gameScannerFrame;
-        self.bottomBar.frame = bottomBarFrame;
-        self.sourceListScrollView.frame = sourceListFrame;
-    }
     
+    if(animated)
+        [NSAnimationContext endGrouping];
+
     self.gameScannerIsVisible = visibleGameScannerView;
 }
 
@@ -642,7 +634,7 @@
 {
     if([[self itemsRequiringAttention] count] > 0)
         return;
-    
+
     [self layoutSidebarViewsWithVisibleGameScannerView:NO animated:animated];
 }
 
