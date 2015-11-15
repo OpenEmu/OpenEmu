@@ -76,7 +76,7 @@ static NSDictionary *virtualPhysicalKeyMap;
                                @(kHIDUsage_KeyboardP):            @(OEMSXKeyP),
                                @(kHIDUsage_KeyboardOpenBracket):  @(OEMSXKeyLeftBracket),
                                @(kHIDUsage_KeyboardCloseBracket): @(OEMSXKeyRightBracket),
-                               @(kHIDUsage_KeyboardReturn):       @(OEMSXKeyReturn),
+                               @(kHIDUsage_KeyboardReturnOrEnter): @(OEMSXKeyReturn),
                                
                                @(kHIDUsage_KeyboardLeftControl): @(OEMSXKeyCtrl),
                                @(kHIDUsage_KeyboardA):           @(OEMSXKeyA),
