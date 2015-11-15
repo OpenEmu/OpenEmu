@@ -172,14 +172,13 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 - (void)setUpToolbarButtonTooltips
 {
-    [_toolbarGridViewButton setToolTip:NSLocalizedString(@"Switch To Grid View", @"Tooltip")];
-    [_toolbarGridViewButton setToolTipStyle:OEToolTipStyleDefault];
+    OELibraryToolbar *toolbar = [[self libraryController] toolbar];
     
-    [_toolbarListViewButton setToolTip:NSLocalizedString(@"Switch To List View", @"Tooltip")];
-    [_toolbarListViewButton setToolTipStyle:OEToolTipStyleDefault];
+    [[toolbar gridViewButton] setToolTip:NSLocalizedString(@"Switch To Grid View", @"Tooltip")];
+    [[toolbar gridViewButton] setToolTipStyle:OEToolTipStyleDefault];
     
-    [_toolbarAddToSidebarButton setToolTip:NSLocalizedString(@"New Collection", @"Tooltip")];
-    [_toolbarAddToSidebarButton setToolTipStyle:OEToolTipStyleDefault];
+    [[toolbar listViewButton] setToolTip:NSLocalizedString(@"Switch To List View", @"Tooltip")];
+    [[toolbar listViewButton] setToolTipStyle:OEToolTipStyleDefault];
 }
 
 - (NSString *)windowNibName
@@ -574,20 +573,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     OEDBGame *game = [[sender representedObject] game];
     
     [self libraryController:nil didSelectGame:game];
-}
-
-- (IBAction)switchToGridView:(id)sender
-{
-    [[self toolbarListViewButton] setState:NSOffState];
-    [[self toolbarGridViewButton] setState:NSOnState];
-    [[self libraryController] switchToGridView:sender];
-}
-
-- (IBAction)switchToListView:(id)sender
-{
-    [[self toolbarGridViewButton] setState:NSOffState];
-    [[self toolbarListViewButton] setState:NSOnState];
-    [[self libraryController] switchToListView:sender];
 }
 
 @end

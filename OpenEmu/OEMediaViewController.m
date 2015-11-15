@@ -42,6 +42,8 @@
 #import "OELibraryController.h"
 #import "OELibraryToolbar.h"
 
+#import "OEButton.h"
+
 #import "OEGridView.h"
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"

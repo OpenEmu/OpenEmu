@@ -40,6 +40,7 @@
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 
+#import "OEButton.h"
 #import "OEThemeTextAttributes.h"
 
 #import "NSArray+OEAdditions.h"

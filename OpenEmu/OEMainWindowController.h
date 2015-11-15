@@ -41,14 +41,6 @@ extern NSString *const OEMainWindowFullscreenKey;
 @property IBOutlet OELibraryController *libraryController;
 @property(weak) IBOutlet NSView *placeholderView;
 
-@property(weak) IBOutlet OEButton      *toolbarSidebarButton;
-@property(weak) IBOutlet OEButton      *toolbarGridViewButton;
-@property(weak) IBOutlet OEButton      *toolbarListViewButton;
-
-@property(weak) IBOutlet OEButton      *toolbarAddToSidebarButton;
-@property(weak) IBOutlet NSSearchField *toolbarSearchField;
-@property(weak) IBOutlet NSSlider      *toolbarSlider;
-
 @property(nonatomic) NSViewController  *currentContentController;
 @property(nonatomic) NSViewController  *defaultContentController;
 @property            BOOL               allowWindowResizing;
@@ -56,9 +48,6 @@ extern NSString *const OEMainWindowFullscreenKey;
 
 - (IBAction)undockGameWindow:(id)sender;
 - (IBAction)launchLastPlayedROM:(id)sender;
-
-- (IBAction)switchToGridView:(id)sender;
-- (IBAction)switchToListView:(id)sender;
 
 // ugly hack, remove
 - (void)startGame:(OEDBGame*)game;

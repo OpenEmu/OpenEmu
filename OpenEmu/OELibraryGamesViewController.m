@@ -30,10 +30,14 @@
 #import "OESidebarController.h"
 #import "OEGameScannerViewController.h"
 #import "OELibraryToolbar.h"
+#import "OEButton.h"
 #import "OELibrarySplitView.h"
 #import "OELibraryController.h"
 
 #import "OEDBCollection.h"
+
+#define MainMenu_View_GridTag      301
+#define MainMenu_View_ListTag      303
 
 @interface OELibraryGamesViewController () <OELibrarySplitViewDelegate>
 @end
@@ -119,11 +123,21 @@
 - (IBAction)switchToGridView:(id)sender
 {
     [[self collectionController] switchToGridView:sender];
+    
+    // Update state of respective view menu items.
+    NSMenu *viewMenu = [[[NSApp mainMenu] itemAtIndex:3] submenu];
+    [[viewMenu itemWithTag:MainMenu_View_GridTag] setState:NSOnState];
+    [[viewMenu itemWithTag:MainMenu_View_ListTag] setState:NSOffState];
 }
 
 - (IBAction)switchToListView:(id)sender
 {
     [[self collectionController] switchToListView:sender];
+    
+    // Update state of respective view menu items.
+    NSMenu *viewMenu = [[[NSApp mainMenu] itemAtIndex:3] submenu];
+    [[viewMenu itemWithTag:MainMenu_View_GridTag] setState:NSOffState];
+    [[viewMenu itemWithTag:MainMenu_View_ListTag] setState:NSOnState];
 }
 
 - (IBAction)search:(id)sender
