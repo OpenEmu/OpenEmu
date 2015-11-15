@@ -73,6 +73,7 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 #pragma mark -
 - (id <OECollectionViewItemProtocol>)representedObject;
 
+@property(nonatomic, readonly) OECollectionViewControllerViewTag selectedViewTag;
 @property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
 @end
 

@@ -79,13 +79,12 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     IBOutlet OEBlankSlateView *blankSlateView;
 }
 
+@property(nonatomic, readwrite) OECollectionViewControllerViewTag selectedViewTag;
+
 - (void)OE_managedObjectContextDidUpdate:(NSNotification *)notification;
 @end
 
 @implementation OECollectionViewController
-{
-    int _selectedViewTag;
-}
 @synthesize libraryController, listView=listView;
 
 + (void)initialize
@@ -123,6 +122,9 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     //set initial zoom value
     NSSlider *sizeSlider = [[[self libraryController] toolbar] gridSizeSlider];
     [sizeSlider setContinuous:YES];
+    CGFloat defaultZoomValue = [[NSUserDefaults standardUserDefaults] floatForKey:OELastGridSizeKey];
+    [sizeSlider setFloatValue:defaultZoomValue];
+    [self zoomGridViewWithValue:defaultZoomValue];
 
     // Set up list view
     [listView setTarget:self];
@@ -156,6 +158,15 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
     // empty collection until -setRepresentedObject: is received again
     if([self representedObject]) [self reloadData];
+}
+
+- (void)viewWillAppear
+{
+    [super viewWillAppear];
+    
+    // Update grid view with current size slider zoom value.
+    NSSlider *sizeSlider = [[[self libraryController] toolbar] gridSizeSlider];
+    [self zoomGridViewWithValue:[sizeSlider floatValue]];
 }
 
 - (void)viewDidAppear
@@ -231,7 +242,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     NSKeyedArchiver  *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     NSSlider *sizeSlider    = [[[self libraryController] toolbar] gridSizeSlider];
 
-    [coder encodeInt:_selectedViewTag forKey:@"selectedView"];
+    [coder encodeInteger:[self selectedViewTag] forKey:@"selectedView"];
     [coder encodeFloat:[sizeSlider floatValue] forKey:@"sliderValue"];
     [coder encodeObject:[self selectedIndexes] forKey:@"selectionIndexes"];
     if([listView headerState]) [coder encodeObject:[listView headerState] forKey:@"listViewHeaderState"];
@@ -260,7 +271,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     NSKeyedUnarchiver *coder = state ? [[NSKeyedUnarchiver alloc] initForReadingWithData:state] : nil;
     if(coder)
     {
-        selectedViewTag         = [coder decodeIntForKey:@"selectedView"];
+        selectedViewTag         = [coder decodeIntegerForKey:@"selectedView"];
         sliderValue             = [coder decodeFloatForKey:@"sliderValue"];
         selectionIndexes        = [coder decodeObjectForKey:@"selectionIndexes"];
         listViewHeaderState     = [coder decodeObjectForKey:@"listViewHeaderState"];
@@ -507,10 +518,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 - (IBAction)changeGridSize:(id)sender
 {
-    float zoomValue = [sender floatValue];
-
-    [_gridView setCellSize:OEScaleSize(defaultGridSize, zoomValue)];
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:zoomValue] forKey:OELastGridSizeKey];
+    [self zoomGridViewWithValue:[sender floatValue]];
 }
 
 #pragma mark - Context Menu
@@ -694,6 +702,12 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     [listView reloadData];
 
     [self updateBlankSlate];
+}
+
+- (void)zoomGridViewWithValue:(CGFloat)zoomValue
+{
+    _gridView.cellSize = OEScaleSize(defaultGridSize, zoomValue);
+    [[NSUserDefaults standardUserDefaults] setFloat:zoomValue forKey:OELastGridSizeKey];
 }
 
 @end
