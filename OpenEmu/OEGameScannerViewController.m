@@ -29,6 +29,7 @@
 #import "OELibraryDatabase.h"
 #import "OELibraryController.h"
 #import "OELibraryGamesViewController.h"
+#import "OELibraryToolbar.h"
 
 #import "OEButton.h"
 #import "OEMenu.h"
@@ -558,6 +559,14 @@
     if([[self itemsRequiringAttention] count] == 0) {
         [[self view] removeFromSuperview];
     }
+    
+    // Re-enable toolbar controls.
+    OELibraryToolbar *toolbar = [[self libraryController] toolbar];
+    [[toolbar categorySelector] setEnabled:YES];
+    [[toolbar gridViewButton] setEnabled:YES];
+    [[toolbar listViewButton] setEnabled:YES];
+    [[toolbar gridSizeSlider] setEnabled:YES];
+    [[toolbar searchField] setEnabled:YES];
 }
 
 #pragma mark - UI Actions Scanner

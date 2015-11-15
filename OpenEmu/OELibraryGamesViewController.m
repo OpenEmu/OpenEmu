@@ -179,5 +179,13 @@
 
     [container addSubview:issuesView positioned:NSWindowAbove relativeTo:NULL];
     [issuesView setFrame:[container bounds]];
+    
+    // Disable toolbar controls.
+    OELibraryToolbar *toolbar = [[self libraryController] toolbar];
+    [[toolbar categorySelector] setEnabled:NO];
+    [[toolbar gridViewButton] setEnabled:NO];
+    [[toolbar listViewButton] setEnabled:NO];
+    [[toolbar gridSizeSlider] setEnabled:NO];
+    [[toolbar searchField] setEnabled:NO];
 }
 @end
