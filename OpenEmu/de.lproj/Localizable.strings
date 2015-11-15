@@ -432,7 +432,9 @@
 
 "Reset main window size" = "Hauptfenster-Größe zurücksetzen";
 
-"Resolve %ld Issues" = "%ld Problem(e) beheben";
+"Resolve %ld Issue" = "%ld Problem beheben";
+
+"Resolve %ld Issues" = "%ld Probleme beheben";
 
 "Resolve Issues" = "Probleme beheben";
 

@@ -185,7 +185,7 @@
         BOOL hideButton = YES;
         if([[self itemsRequiringAttention] count] != 0)
         {
-            [[self fixButton] setTitle:[NSString stringWithFormat:NSLocalizedString(@"Resolve %ld Issues", @""), [[self itemsRequiringAttention] count]]];
+            [[self fixButton] setTitle:[[self itemsRequiringAttention] count] > 1 ? [NSString stringWithFormat:NSLocalizedString(@"Resolve %ld Issues", @""), [[self itemsRequiringAttention] count]] : [NSString stringWithFormat:NSLocalizedString(@"Resolve %ld Issue", @""), [[self itemsRequiringAttention] count]]];
             [[self fixButton] sizeToFit];
             hideButton = NO;
             
