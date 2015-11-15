@@ -132,11 +132,6 @@ static const CGFloat OEMenuScrollAutoStep    = 8.0;
     return self;
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)viewDidMoveToSuperview
 {
     // If the superview has been changed, then make sure we invalidate any of the timers that affect the visual feedback

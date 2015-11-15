@@ -94,11 +94,6 @@ const static NSLock *lock;
     [self setCurrentImage:0];
 }
 
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 #pragma mark -
 - (void)setURLs:(NSArray *)urls
 {

@@ -86,11 +86,6 @@ NSString *const OEDebugDrawControllerMaskKey = @"drawControllerMask";
     return self;
 }
 
-- (void)dealloc 
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 #pragma mark -
 
 - (void)drawRect:(NSRect)dirtyRect

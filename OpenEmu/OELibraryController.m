@@ -89,11 +89,6 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 @implementation OELibraryController
 @synthesize cachedSnapshot = _cachedSnapshot;
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (NSString *)nibName
 {
     return @"OELibraryController";

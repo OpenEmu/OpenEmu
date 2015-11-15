@@ -63,12 +63,6 @@
     [self setNeedsDisplay:YES];
 }
 
-- (void)dealloc 
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-}
-
 - (void)mouseEntered:(NSEvent *)theEvent
 {
     self.isInHover = YES;

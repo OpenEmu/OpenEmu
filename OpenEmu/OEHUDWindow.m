@@ -118,7 +118,6 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
     _isDeallocating = YES;
     _borderWindow = nil;
     [super setDelegate:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)anItem
@@ -353,11 +352,6 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 {
     [super display];
     [[self contentView] display];
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)canBecomeKeyWindow

@@ -93,9 +93,7 @@ static const unsigned short konamiCodeSize = 10;
 
 - (void)dealloc
 {
-    toolbar = nil;
- 
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    toolbar = nil; 
 }
 
 - (NSString*)windowNibName

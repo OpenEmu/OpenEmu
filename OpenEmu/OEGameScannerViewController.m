@@ -79,11 +79,6 @@
     return @"OEGameScanner";
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewBoundsDidChangeNotification object:[self view]];
-}
-
 - (void)awakeFromNib
 {
     [self view]; // load other xib as well

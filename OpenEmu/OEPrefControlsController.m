@@ -90,11 +90,6 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     return [NSSet setWithObjects:@"currentSystemBindings", @"currentSystemBindings.devicePlayerBindings", @"selectedPlayer", nil];
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 #pragma mark - ViewController Overrides
 
 - (void)awakeFromNib

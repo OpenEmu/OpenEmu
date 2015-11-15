@@ -152,11 +152,6 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     [self reloadDataAndPreserveSelection];
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)setDatabase:(OELibraryDatabase *)database
 {
     // get last selected collection item

@@ -152,7 +152,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     _gameViewController = nil;
 
     [NSEvent removeMonitor:_eventMonitor];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     _gameWindow = nil;
 }

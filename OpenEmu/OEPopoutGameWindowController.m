@@ -102,7 +102,6 @@ typedef enum
 {
     [[self window] setDelegate:nil];
     [self setWindow:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)windowShouldClose:(id)sender

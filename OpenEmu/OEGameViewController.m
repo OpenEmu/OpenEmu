@@ -135,8 +135,6 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-
     [_gameView setDelegate:nil];
     _gameView = nil;
 

@@ -105,11 +105,6 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     return self;
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 #pragma mark - View Lifecycle
 - (void)loadView
 {

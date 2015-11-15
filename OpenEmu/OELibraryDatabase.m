@@ -261,7 +261,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSLog(@"destroying LibraryDatabase");
     [self OE_removeStateWatcher];
     [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:OESaveStateFolderURLKey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)awakeFromNib
