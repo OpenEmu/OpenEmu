@@ -617,3 +617,5 @@
 "Description" = "Description"; // TODO // Search field menu, only search description
 
 "Game Name" = "Game Name"; // TODO // Search field menu, only search game name
+
+"Learn More" = "Learn More";

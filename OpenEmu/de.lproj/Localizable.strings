@@ -617,3 +617,5 @@
 "Description" = "Beschreibung";
 
 "Game Name" = "Spieltitel";
+
+"Learn More" = "Learn More"; // TODO Missing BIOS files modal, Wiimote modal

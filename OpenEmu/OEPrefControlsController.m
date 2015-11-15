@@ -534,13 +534,19 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
         [alert setMessageText:NSLocalizedString(@"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②.", @"")];
         [alert setDefaultButtonTitle:NSLocalizedString(@"Start Scanning", @"")];
         [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
+        [alert setOtherButtonTitle:NSLocalizedString(@"Learn More", @"")];
         [alert setHeadlineText:NSLocalizedString(@"Make your Wiimote discoverable", @"")];
 
-        if([alert runModal] == NSAlertFirstButtonReturn)
+        NSUInteger result = [alert runModal];
+        if(result == NSAlertFirstButtonReturn)
         {
             // Start WiiRemote support
             if([[NSUserDefaults standardUserDefaults] boolForKey:OEWiimoteSupportEnabled])
                 [[OEDeviceManager sharedDeviceManager] startWiimoteSearch];
+        }
+        else if(result == NSAlertThirdButtonReturn)
+        {
+            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-Wiimote-and-Wii-U-Pro-pairing"]];
         }
     }
     else
