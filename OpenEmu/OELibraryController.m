@@ -32,6 +32,8 @@
 #import "OELibrarySplitView.h"
 #import "OELibraryToolbar.h"
 
+#import "OEButton.h"
+
 #import "OELibrarySubviewController.h"
 #import "OEROMImporter.h"
 
@@ -326,7 +328,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
         return [[[self toolbar] searchField] isEnabled];
     }
 
-    NSButton *button = nil;
+    OEButton *button = nil;
     if(action == @selector(switchToGridView:))
         button = [[self toolbar] gridViewButton];
     else if(action == @selector(switchToListView:))
