@@ -618,14 +618,23 @@
     sourceListFrame.size.height = NSHeight(self.sourceListScrollView.superview.frame) - sourceListFrame.origin.y;
     
     if(animated)
+    {
         [NSAnimationContext beginGrouping];
         
+        // Set frames through animator proxies to implicitly animate changes.
         self.scannerView.animator.frame = gameScannerFrame;
         self.bottomBar.animator.frame = bottomBarFrame;
         self.sourceListScrollView.animator.frame = sourceListFrame;
     
-    if(animated)
         [NSAnimationContext endGrouping];
+    }
+    else
+    {
+        // Set frames directly without implicit animations.
+        self.scannerView.frame = gameScannerFrame;
+        self.bottomBar.frame = bottomBarFrame;
+        self.sourceListScrollView.frame = sourceListFrame;
+    }
 
     self.gameScannerIsVisible = visibleGameScannerView;
 }
