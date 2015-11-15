@@ -104,6 +104,8 @@
 		<string>rom</string>
 		<string>mx1</string>
 		<string>mx2</string>
+		<string>cas</string>
+		<string>dsk</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
