@@ -646,8 +646,8 @@ static NSDictionary *disabledActions = nil;
     BOOL(^drawingBlock)(NSRect) = ^BOOL(NSRect dstRect)
     {        
         const CGRect bounds = CGRectMake(0.0, 0.0, dstRect.size.width, dstRect.size.height);
-        NSBezierPath *selectionPath = [NSBezierPath bezierPathWithRoundedRect:CGRectInset(bounds, 0.0, 0.0) xRadius:4.0 yRadius:4.0];
-        [selectionPath appendBezierPath:[NSBezierPath bezierPathWithRoundedRect:CGRectInset(bounds, 3.0, 3.0) xRadius:1.5 yRadius:1.5]];
+        NSBezierPath *selectionPath = [NSBezierPath bezierPathWithRoundedRect:CGRectInset(bounds, 1.0, 1.0) xRadius:4.0 yRadius:4.0];
+        [selectionPath appendBezierPath:[NSBezierPath bezierPathWithRoundedRect:CGRectInset(bounds, 4.0, 4.0) xRadius:1.5 yRadius:1.5]];
         [selectionPath setWindingRule:NSEvenOddWindingRule];
         
         NSColor *fillColor;
