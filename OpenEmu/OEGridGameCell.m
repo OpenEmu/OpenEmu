@@ -18,6 +18,8 @@
 
 #import "OEGameGridViewDelegate.h"
 
+#import "OpenEmu-Swift.h"
+
 static const CGFloat OEGridCellTitleHeight                      = 16.0; // Height of the title view
 static const CGFloat OEGridCellImageTitleSpacing                = 17.0; // Space between the image and the title
 static const CGFloat OEGridCellSubtitleHeight                   = 11.0; // Subtitle height
@@ -643,26 +645,7 @@ static NSDictionary *disabledActions = nil;
     NSImage  *selectionImage = [self OE_standardImageNamed:imageKey withSize:size];
     if(selectionImage) return selectionImage;
 
-    BOOL(^drawingBlock)(NSRect) = ^BOOL(NSRect dstRect)
-    {        
-        const CGRect bounds = CGRectMake(0.0, 0.0, dstRect.size.width, dstRect.size.height);
-        NSBezierPath *selectionPath = [NSBezierPath bezierPathWithRoundedRect:CGRectInset(bounds, 1.0, 1.0) xRadius:4.0 yRadius:4.0];
-        [selectionPath appendBezierPath:[NSBezierPath bezierPathWithRoundedRect:CGRectInset(bounds, 4.0, 4.0) xRadius:1.5 yRadius:1.5]];
-        [selectionPath setWindingRule:NSEvenOddWindingRule];
-        
-        NSColor *fillColor;
-        if(_lastWindowActive)
-            fillColor = [NSColor colorWithCalibratedRed:0.243 green:0.502 blue:0.871 alpha:1.0];
-        else
-            fillColor = [NSColor colorWithCalibratedWhite:0.651 alpha:1.0];
-        
-        [fillColor set];
-        [selectionPath fill];
-
-        return YES;
-    };
-
-    selectionImage = [NSImage imageWithSize:size flipped:NO drawingHandler:drawingBlock];
+    selectionImage = [NSImage gridSelectionRingWithSize:size activeState:_lastWindowActive];
 
     // Cache the image for later use
     [self OE_setStandardImage:selectionImage named:imageKey];

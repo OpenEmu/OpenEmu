@@ -31,6 +31,8 @@
 #import "OEThemeImage.h"
 #import "OECoverGridDataSourceItem.h"
 
+#import "OpenEmu-Swift.h"
+
 static const CGFloat OEGridCellTitleHeight                      = 16.0;        // Height of the title view
 static const CGFloat OEGridCellImageTitleSpacing                = 17.0;        // Space between the image and the title
 static const CGFloat OEGridCellSubtitleHeight                   = 11.0;        // Subtitle height
@@ -377,58 +379,16 @@ static NSDictionary *disabledActions = nil;
 - (NSImage *)OE_selectorImageWithSize:(NSSize)size
 {
     if(NSEqualSizes(size, NSZeroSize)) return nil;
-
+    
     NSString *imageKey       = [NSString stringWithFormat:@"OEGridCellSelectionImage(%d)", _lastWindowActive];
     NSImage  *selectionImage = [self OE_standardImageNamed:imageKey withSize:size];
     if(selectionImage) return selectionImage;
-
-    BOOL(^drawingBlock)(NSRect) = ^BOOL(NSRect dstRect)
-    {
-        NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
-        [currentContext saveGraphicsState];
-        [currentContext setShouldAntialias:NO];
-
-        // Draw gradient
-        const CGRect bounds = CGRectMake(0.0, 0.0, dstRect.size.width, dstRect.size.height);
-        NSBezierPath *gradientPath = [NSBezierPath bezierPathWithRoundedRect:CGRectInset(bounds, 2.0, 3.0) xRadius:8.0 yRadius:8.0];
-        [gradientPath appendBezierPath:[NSBezierPath bezierPathWithRoundedRect:CGRectInset(bounds, 8.0, 8.0) xRadius:1.0 yRadius:1.0]];
-        [gradientPath setWindingRule:NSEvenOddWindingRule];
-
-        NSColor *topColor;
-        NSColor *bottomColor;
-
-        if(_lastWindowActive)
-        {
-            topColor = [NSColor colorWithCalibratedRed:0.243 green:0.502 blue:0.871 alpha:1.0];
-            bottomColor = [NSColor colorWithCalibratedRed:0.078 green:0.322 blue:0.667 alpha:1.0];
-        }
-        else
-        {
-            topColor = [NSColor colorWithCalibratedWhite:0.651 alpha:1.0];
-            bottomColor = [NSColor colorWithCalibratedWhite:0.439 alpha:1.0];
-        }
-
-        NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:topColor endingColor:bottomColor];
-        [gradient drawInBezierPath:gradientPath angle:270.0];
-
-        [currentContext restoreGraphicsState];
-        [currentContext saveGraphicsState];
-
-        // Draw selection border
-        OEThemeState currentState = [OEThemeObject themeStateWithWindowActive:YES buttonState:NSMixedState selected:NO enabled:YES focused:_lastWindowActive houseHover:YES modifierMask:YES];
-        NSImage *image = [selectorRingImage imageForState:currentState];
-        [image drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-
-        [currentContext restoreGraphicsState];
-
-        return YES;
-    };
-
-    selectionImage = [NSImage imageWithSize:size flipped:NO drawingHandler:drawingBlock];
-
+    
+    selectionImage = [NSImage gridSelectionRingWithSize:size activeState:_lastWindowActive];
+    
     // Cache the image for later use
     [self OE_setStandardImage:selectionImage named:imageKey];
-
+    
     return selectionImage;
 }
 

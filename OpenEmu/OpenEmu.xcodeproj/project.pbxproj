@@ -270,6 +270,7 @@
 		5A886E581BF43AC900775123 /* NSWindow+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A886E571BF43AC900775123 /* NSWindow+Image.swift */; };
 		5ABE03291BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */; };
 		5ABE032A1BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03281BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m */; };
+		5ADDC4B71BF94F7000BF173D /* NSImage+SelectionRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADDC4B61BF94F7000BF173D /* NSImage+SelectionRing.swift */; };
 		5AECA1491BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AECA1481BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift */; };
 		820EB7421483F9A2008EC398 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
@@ -1787,6 +1788,7 @@
 		5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAdaptiveSpaceItem.m; sourceTree = "<group>"; };
 		5ABE03271BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItemView.h; sourceTree = "<group>"; };
 		5ABE03281BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAdaptiveSpaceItemView.m; sourceTree = "<group>"; };
+		5ADDC4B61BF94F7000BF173D /* NSImage+SelectionRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImage+SelectionRing.swift"; sourceTree = "<group>"; };
 		5AECA1471BE1D25600C3B4E2 /* OpenEmu-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenEmu-Bridging-Header.h"; sourceTree = "<group>"; };
 		5AECA1481BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarSegmentedCell.swift; sourceTree = "<group>"; };
 		820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NeoGeo Pocket.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3682,6 +3684,7 @@
 				53439B9213B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m */,
 				53439B8E13B937DB005C0CC8 /* NSImage+OEHighlight.h */,
 				53439B8F13B937DB005C0CC8 /* NSImage+OEHighlight.m */,
+				5ADDC4B61BF94F7000BF173D /* NSImage+SelectionRing.swift */,
 				8372381B196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.h */,
 				8372381C196336C1008D4C08 /* NSManagedObjectContext+OEAdditions.m */,
 				83ACB6E519353E94004C6372 /* NSMutableDictionary+OEAdditions.h */,
@@ -7822,6 +7825,7 @@
 				83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */,
 				83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */,
 				EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.m in Sources */,
+				5ADDC4B71BF94F7000BF173D /* NSImage+SelectionRing.swift in Sources */,
 				EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */,
 				83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */,
 				836291FE1515F30700192116 /* OEFSWatcher.m in Sources */,
