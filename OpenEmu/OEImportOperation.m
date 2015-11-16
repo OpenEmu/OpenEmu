@@ -345,10 +345,10 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             [self OE_performImportStepHash];
             if([self shouldExit]) return;
 
-            [self OE_performImportStepDetermineSystem];
+            [self OE_performImportStepCheckHash];
             if([self shouldExit]) return;
 
-            [self OE_performImportStepCheckHash];
+            [self OE_performImportStepDetermineSystem];
             if([self shouldExit]) return;
 
             [self OE_performImportStepOrganize];
@@ -542,7 +542,8 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         }
         else
         {
-            [self exitWithStatus:OEImportExitSuccess error:nil];
+            error = [NSError errorWithDomain:OEImportErrorDomainFatal code:OEImportErrorCodeAlreadyInDatabase userInfo:nil];
+            [self exitWithStatus:OEImportExitErrorFatal error:error];
         }
     }
 }
