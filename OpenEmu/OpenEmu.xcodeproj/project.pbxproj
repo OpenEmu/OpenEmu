@@ -477,6 +477,7 @@
 		83FE966419685F8F00DD8DB9 /* OESetupAssistant.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83FE966619685F8F00DD8DB9 /* OESetupAssistant.xib */; };
 		871CE9121B0BCFB800B89E96 /* controller_pcfx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */; };
 		871CE9131B0BCFB800B89E96 /* controller_pcfx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */; };
+		8745D75F1BF9A72B005E8699 /* OE5200SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */; };
 		87BC4DA21BA3A88600BF1F86 /* controller_7800_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87BC4DA01BA3A88600BF1F86 /* controller_7800_mask@2x.png */; };
 		87BC4DA31BA3A88600BF1F86 /* controller_7800@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87BC4DA11BA3A88600BF1F86 /* controller_7800@2x.png */; };
 		87DF051A1BCE302F0060E2C2 /* controller_dc_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 87DF05061BCE302E0060E2C2 /* controller_dc_mask.png */; };
@@ -2284,6 +2285,8 @@
 		83FE966519685F8F00DD8DB9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OESetupAssistant.xib; sourceTree = "<group>"; };
 		871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pcfx_mask@2x.png"; sourceTree = "<group>"; };
 		871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pcfx@2x.png"; sourceTree = "<group>"; };
+		8745D75D1BF9A72A005E8699 /* OE5200SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE5200SystemController.h; sourceTree = "<group>"; };
+		8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE5200SystemController.m; sourceTree = "<group>"; };
 		87BC4DA01BA3A88600BF1F86 /* controller_7800_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_7800_mask@2x.png"; sourceTree = "<group>"; };
 		87BC4DA11BA3A88600BF1F86 /* controller_7800@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_7800@2x.png"; sourceTree = "<group>"; };
 		87DF04FE1BCE2D100060E2C2 /* Dreamcast.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Dreamcast.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -5324,6 +5327,8 @@
 		94A224B51707544100098DA0 /* Atari 5200 */ = {
 			isa = PBXGroup;
 			children = (
+				8745D75D1BF9A72A005E8699 /* OE5200SystemController.h */,
+				8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */,
 				94A225CA170760C900098DA0 /* OE5200SystemResponder.h */,
 				94A225CB170760C900098DA0 /* OE5200SystemResponder.m */,
 				94A225CC170760C900098DA0 /* OE5200SystemResponderClient.h */,
@@ -8074,6 +8079,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94A225CD170760C900098DA0 /* OE5200SystemResponder.m in Sources */,
+				8745D75F1BF9A72B005E8699 /* OE5200SystemController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
