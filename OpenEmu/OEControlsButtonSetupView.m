@@ -32,8 +32,6 @@
 #import "OEControlsKeySeparatorView.h"
 #import "OEControlsSectionTitleView.h"
 
-#import "NSClipView+OEAnimatedScrolling.h"
-
 #import "OEUIDrawingUtils.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>

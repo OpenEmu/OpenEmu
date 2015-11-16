@@ -47,7 +47,6 @@
 #import "NSFileManager+OEHashingAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
 #import "NSMutableDictionary+OEAdditions.h"
-#import "NSUserDefaults+OEAdditions.h"
 
 #import <OpenEmuBase/OpenEmuBase.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
