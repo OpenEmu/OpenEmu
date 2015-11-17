@@ -242,7 +242,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         let selected = segment == selectedSegment
         
         let textColor: NSColor
-        if !windowIsKeyWindow {
+        if !windowIsKeyWindow || !enabled {
             textColor = NSColor(deviceWhite: 0.6, alpha: 0.8)
         } else if highlighted {
             textColor = NSColor(deviceWhite: 1, alpha: 0.9)
