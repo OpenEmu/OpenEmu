@@ -268,6 +268,7 @@
 		53D32E4E13B95F9A00A6ACE0 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */; };
 		53D32E4F13B95F9A00A6ACE0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */; };
 		556CEBF01BCE173B00F00EAA /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */; };
+		5A221A5B1BFD285A002FDD10 /* c64_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221A5A1BFD285A002FDD10 /* c64_library@2x.png */; };
 		5A886E581BF43AC900775123 /* NSWindow+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A886E571BF43AC900775123 /* NSWindow+Image.swift */; };
 		5ABE03291BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */; };
 		5ABE032A1BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03281BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m */; };
@@ -1801,6 +1802,7 @@
 		53D32E4513B95F0800A6ACE0 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		53D32E4B13B95F5400A6ACE0 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
 		556CEBEF1BCE173B00F00EAA /* Graphics.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Graphics.xcassets; sourceTree = "<group>"; };
+		5A221A5A1BFD285A002FDD10 /* c64_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "c64_library@2x.png"; sourceTree = "<group>"; };
 		5A886E571BF43AC900775123 /* NSWindow+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSWindow+Image.swift"; sourceTree = "<group>"; };
 		5ABE03251BDCA03600BC7B6A /* TAAdaptiveSpaceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItem.h; sourceTree = "<group>"; };
 		5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAdaptiveSpaceItem.m; sourceTree = "<group>"; };
@@ -4807,6 +4809,7 @@
 			isa = PBXGroup;
 			children = (
 				87FBC0781BFC76A000AECF5A /* c64_library.png */,
+				5A221A5A1BFD285A002FDD10 /* c64_library@2x.png */,
 				87FBC07A1BFC76A000AECF5A /* controller_c64.png */,
 				87FBC0791BFC76A000AECF5A /* controller_c64_mask.png */,
 				87FBC06F1BFC70FE00AECF5A /* Commodore 64-Info.plist */,
@@ -7056,6 +7059,7 @@
 			files = (
 				87FBC07E1BFC76A000AECF5A /* c64_library.png in Resources */,
 				87FBC07F1BFC76A000AECF5A /* controller_c64_mask.png in Resources */,
+				5A221A5B1BFD285A002FDD10 /* c64_library@2x.png in Resources */,
 				87FBC0821BFC76A000AECF5A /* Controller-Preferences.plist in Resources */,
 				87FBC0801BFC76A000AECF5A /* controller_c64.png in Resources */,
 				87FBC0831BFC76A000AECF5A /* Keyboard-Mappings.plist in Resources */,
@@ -11624,6 +11628,7 @@
 				87FBC0721BFC70FE00AECF5A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9405539117A34C6B009B505D /* Build configuration list for PBXNativeTarget "PC Engine CD" */ = {
 			isa = XCConfigurationList;
