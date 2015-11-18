@@ -85,3 +85,6 @@
 [submodule "Reicast"]
 	path = Reicast
 	url = git@github.com:OpenEmu/Reicast-Core.git
+[submodule "VirtualC64"]
+	path = VirtualC64
+	url = git@github.com:OpenEmu/VirtualC64-Core.git
