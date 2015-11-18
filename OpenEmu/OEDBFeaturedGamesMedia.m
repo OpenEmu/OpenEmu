@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,6 +26,9 @@
 
 #import "OEDBFeaturedGamesMedia.h"
 #import "OETheme.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation OEDBFeaturedGamesMedia
 
 + (instancetype)sharedFeaturedGamesMedia
@@ -37,7 +40,9 @@
     });
     return sharedInstance;
 }
+
 #pragma mark - OESidebarItem
+
 - (NSImage *)sidebarIcon
 {
     return [[OETheme sharedTheme] imageForKey:@"media_featured" forState:OEThemeStateDefault];
@@ -53,12 +58,12 @@
     NSLog(@"OEDBFeaturedGamesMedia: can not change name!");
 }
 
-- (NSString*)viewControllerClassName
+- (NSString *)viewControllerClassName
 {
     return @"OEFeaturedGamesViewController";
 }
 
-- (NSString*)sidebarID
+- (NSString *)sidebarID
 {
     return @"featuredGames";
 }
@@ -83,13 +88,18 @@
     return NO;
 }
 
-- (NSString*)badge
+- (NSString *)badge
 {
     return @"";
 }
+
 #pragma mark - OECollectionViewItemProtocol
+
 - (BOOL)isCollectionEditable
 {
     return NO;
 }
+
 @end
+
+NS_ASSUME_NONNULL_END

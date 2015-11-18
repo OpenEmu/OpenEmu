@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -30,19 +30,21 @@
 
 @interface OEDBImage ()
 @end
+
 #pragma mark -
+
 @implementation OEDBImage
 @dynamic source, width, height, format, Box, relativePath;
 
-+ (NSDictionary*)prepareImageWithURLString:(NSString*)urlString;
++ (nullable NSDictionary <NSString *, id> *)prepareImageWithURLString:(NSString *)urlString;
 {
     if(urlString == nil) return nil;
 
     NSURL *url = [NSURL URLWithString:urlString];
     if(url == nil) return nil;
 
-    NSMutableDictionary *result = [NSMutableDictionary dictionaryWithObject:url forKey:@"URL"];
-
+    NSMutableDictionary *result = @{ @"URL": url }.mutableCopy;
+    
     NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
     NSDictionary *tempInfo = [self OE_prepareImage:image];
 
@@ -51,45 +53,45 @@
     return result;
 }
 
-+ (NSDictionary*)prepareImageWithNSImage:(NSImage*)image
++ (NSDictionary *)prepareImageWithNSImage:(NSImage*)image
 {
     return [self OE_prepareImage:image];
 }
 
-+ (NSDictionary*)OE_prepareImage:(NSImage*)image
++ (NSDictionary *)OE_prepareImage:(NSImage*)image
 {
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     if(image == nil) return result;
 
-    __block NSSize imageSize = [image size];
+    __block NSSize imageSize = image.size;
     const NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEGameArtworkPropertiesKey];
     NSString *fileName = [NSString stringWithUUID];
     OEBitmapImageFileType type = [standardUserDefaults integerForKey:OEGameArtworkFormatKey];
 
-    __block NSBitmapImageRep *imageRep = nil;
-    __block NSInteger maxArea = 0;
-    [[image representations] enumerateObjectsUsingBlock:^(NSImageRep *rep, NSUInteger idx, BOOL *stop)
-     {
-         if([rep isKindOfClass:[NSBitmapImageRep class]])
-         {
-             NSInteger area = [rep pixelsHigh]*[rep pixelsWide];
-             if(area >= maxArea)
-             {
-                 imageRep = (NSBitmapImageRep*)rep;
-                 maxArea = area;
-
-                 imageSize.width  = [rep pixelsWide];
-                 imageSize.height = [rep pixelsHigh];
-             }
-         }
-     }];
+    NSBitmapImageRep *imageRep = nil;
+    NSInteger maxArea = 0;
+    for(NSImageRep *rep in image.representations)
+    {
+        if([rep isKindOfClass:[NSBitmapImageRep class]])
+        {
+            NSInteger area = rep.pixelsHigh * rep.pixelsWide;
+            if(area >= maxArea)
+            {
+                imageRep = (NSBitmapImageRep*)rep;
+                maxArea = area;
+                
+                imageSize.width  = rep.pixelsWide;
+                imageSize.height = rep.pixelsHigh;
+            }
+        }
+    }
 
     if(imageRep == nil)
     {
         DLog(@"No NSBitmapImageRep found, creating one...");
         [image lockFocus];
-        imageRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){{0,0}, imageSize}];
+        imageRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:NSMakeRect(0, 0, imageSize.width, imageSize.height)];
         [image unlockFocus];
     }
 
@@ -111,10 +113,10 @@
         return result;
     }
 
-    [result setObject:@(imageSize.width) forKey:@"width"];
-    [result setObject:@(imageSize.height) forKey:@"height"];
-    [result setObject:[imageURL relativeString] forKey:@"relativePath"];
-    [result setObject:@(type) forKey:@"format"];
+    result[@"width"]        = @(imageSize.width);
+    result[@"height"]       = @(imageSize.height);
+    result[@"relativePath"] = imageURL.relativeString;
+    result[@"format"]       = @(type);
 
     return result;
 }
@@ -128,17 +130,18 @@
 + (instancetype)createImageWithDictionary:(NSDictionary*)dictionary inContext:(NSManagedObjectContext*)context
 {
     OEDBImage *image = [OEDBImage createObjectInContext:context];
-    [image setSourceURL:[dictionary valueForKey:@"URL"]];
-    [image setWidth:[[dictionary valueForKey:@"width"] floatValue]];
-    [image setHeight:[[dictionary valueForKey:@"height"] floatValue]];
+    image.sourceURL = dictionary[@"URL"];
+    image.width = [dictionary[@"width"] floatValue];
+    image.height = [dictionary[@"height"] floatValue];
 
-    [image setRelativePath:[dictionary valueForKey:@"relativePath"]];
-    [image setFormat:[[dictionary valueForKey:@"format"] shortValue]];
+    image.relativePath = dictionary[@"relativePath"];
+    image.format = [dictionary[@"format"] shortValue];
 
     return image;
 }
 
 #pragma mark -
+
 - (NSURL*)OE_writeImage:(NSImage*)image withType:(OEBitmapImageFileType)type usedFormat:(NSBitmapImageFileType*)usedFormat inContext:(NSManagedObjectContext*)context
 {
     const NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
@@ -156,33 +159,33 @@
     }
 
     const NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    const NSSize         imageSize             = [image size];
+    const NSSize         imageSize             = image.size;
     NSString *fileName = [NSString stringWithUUID];
 
     if(type == OEBitmapImageFileTypeDefault || type==OEBitmapImageFileTypeOriginal)
         type = [standardUserDefaults integerForKey:OEGameArtworkFormatKey];
 
-    __block NSBitmapImageRep *imageRep = nil;
-    __block NSInteger maxArea = 0;
-    [[image representations] enumerateObjectsUsingBlock:^(NSImageRep *rep, NSUInteger idx, BOOL *stop)
-     {
-         if([rep isKindOfClass:[NSBitmapImageRep class]])
-         {
-             NSInteger area = [rep pixelsHigh]*[rep pixelsWide];
-             if(area >= maxArea)
-             {
-                 imageRep = (NSBitmapImageRep*)rep;
-                 maxArea = area;
-             }
-         }
-     }];
+    NSBitmapImageRep *imageRep = nil;
+    NSInteger maxArea = 0;
+    for(NSImageRep *rep in image.representations)
+    {
+        if([rep isKindOfClass:[NSBitmapImageRep class]])
+        {
+            NSInteger area = rep.pixelsHigh * rep.pixelsWide;
+            if(area >= maxArea)
+            {
+                imageRep = (NSBitmapImageRep *)rep;
+                maxArea = area;
+            }
+        }
+    }
 
 
     if(imageRep == nil)
     {
         DLog(@"No NSBitmapImageRep found, creating one...");
         [image lockFocus];
-        imageRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){{0,0}, imageSize}];
+        imageRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:NSMakeRect(0, 0, imageSize.width, imageSize.height)];
         [image unlockFocus];
     }
 
@@ -197,7 +200,7 @@
     // TODO: get database from context
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
 
-    NSURL *coverFolderURL = [database coverFolderURL];
+    NSURL *coverFolderURL = database.coverFolderURL;
     NSURL *imageURL = [NSURL URLWithString:fileName relativeToURL:coverFolderURL];
 
     if(![data writeToURL:imageURL atomically:YES])
@@ -223,16 +226,17 @@
 {
     NSImage *image = [[NSImage alloc] initWithData:data];
     if(size != NULL)
-        *size = [image size];
+        *size = image.size;
 
     return [self OE_writeImage:image withType:type usedFormat:usedFormat inContext:context];
 }
 
 #pragma mark -
+
 - (BOOL)convertToFormat:(OEBitmapImageFileType)format withProperties:(NSDictionary*)attributes
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
-    NSURL *newURL = [self OE_writeImage:[self image] withType:format usedFormat:NULL withProperties:attributes inContext:context];
+    NSManagedObjectContext *context = self.managedObjectContext;
+    NSURL *newURL = [self OE_writeImage:self.image withType:format usedFormat:NULL withProperties:attributes inContext:context];
     if(newURL == nil)
     {
         DLog(@"converting image failed!");
@@ -240,15 +244,15 @@
     }
     else
     {
-        NSManagedObjectContext *context = [self managedObjectContext];
+        NSManagedObjectContext *context = self.managedObjectContext;
         [context performBlockAndWait:^{
-            NSURL *url = [self imageURL];
+            NSURL *url = self.imageURL;
             if(url != nil) [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
 
-            NSString *relativePath = [newURL relativeString];
+            NSString *relativePath = newURL.relativeString;
 
-            [self setFormat:format];
-            [self setRelativePath:relativePath];
+            self.format = format;
+            self.relativePath = relativePath;
             [self save];
         }];
         return YES;
@@ -256,9 +260,11 @@
 }
 - (BOOL)localFilesAvailable
 {
-    return [[self imageURL] checkResourceIsReachableAndReturnError:nil];
+    return [self.imageURL checkResourceIsReachableAndReturnError:nil];
 }
+
 #pragma mark - Core Data utilities
+
 + (NSString *)entityName
 {
     return @"Image";
@@ -271,31 +277,32 @@
 
 - (void)prepareForDeletion
 {
-    if([[self managedObjectContext] parentContext] == nil)
+    if(self.managedObjectContext.parentContext == nil)
     {
-        NSURL *url = [self imageURL];
+        NSURL *url = self.imageURL;
         [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
     }
 }
 
 #pragma mark -
-- (NSString*)UUID
+
+- (NSString *)UUID
 {
-    return [self relativePath];
+    return self.relativePath;
 }
 
 - (NSImage *)image
 {
-    NSURL *imageURL = [self imageURL];
+    NSURL *imageURL = self.imageURL;
     NSImage  *image = [[NSImage alloc] initWithContentsOfURL:imageURL];
     return image;
 }
 
 - (NSURL *)imageURL
 {
-    const OELibraryDatabase *database = [self libraryDatabase];
-    const NSURL *coverFolderURL = [database coverFolderURL];
-    NSString    *relativePath   = [self relativePath];
+    const OELibraryDatabase *database = self.libraryDatabase;
+    const NSURL *coverFolderURL = database.coverFolderURL;
+    NSString    *relativePath   = self.relativePath;
 
     if(relativePath == nil) return nil;
     return [coverFolderURL URLByAppendingPathComponent:relativePath];

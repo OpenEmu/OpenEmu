@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -27,7 +27,13 @@
 @import Cocoa;
 #import "OEDBItem.h"
 
-typedef NS_ENUM(NSUInteger, OEDBGameStatus)
+@class OELibraryDatabase;
+@class OEDBSystem, OEDBRom, OEDBSaveState, OEDBCollection;
+@class OEDBImage;
+
+NS_ASSUME_NONNULL_BEGIN
+
+typedef NS_ENUM(int16_t, OEDBGameStatus)
 {
     OEDBGameStatusOK,
     OEDBGameStatusDownloading,
@@ -40,32 +46,31 @@ extern NSString *const OEDisplayGameTitle;
 extern NSString *const OEGameArtworkFormatKey;
 extern NSString *const OEGameArtworkPropertiesKey;
 
-@class OELibraryDatabase;
-@class OEDBSystem, OEDBRom, OEDBSaveState;
-@class OEDBImage;
-
-@interface OEDBGame : OEDBItem <NSPasteboardWriting, NSPasteboardReading>
+@interface OEDBGame: OEDBItem <NSPasteboardWriting, NSPasteboardReading>
 
 #pragma mark - Creating and Obtaining OEDBGames
 
-+ (id)createGameWithName:(NSString *)name andSystem:(OEDBSystem *)system inDatabase:(OELibraryDatabase *)database;
++ (instancetype)createGameWithName:(NSString *)name andSystem:(OEDBSystem *)system inDatabase:(OELibraryDatabase *)database;
 
 // returns the game from the default database that represents the file at url
-+ (id)gameWithURL:(NSURL *)url error:(NSError **)outError;
++ (instancetype)gameWithURL:(nullable NSURL *)gameURL error:(NSError **)outError;
 
 // returns the game from the specified database that represents the file at url
-+ (id)gameWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
++ (instancetype)gameWithURL:(nullable NSURL *)gameURL inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 
 #pragma mark - Cover Art Database Sync
+
 - (void)requestInfoSync;
 - (void)cancelCoverDownload;
 - (void)requestCoverDownload;
 
 #pragma mark - ROM Downloading
+
 - (void)requestROMDownload;
 - (void)cancelROMDownload;
 
 #pragma mark - Accessors
+
 @property(readonly) OEDBRom       *defaultROM;
 @property(readonly) NSDate        *lastPlayed;
 @property(readonly) OEDBSaveState *autosaveForLastPlayedRom;
@@ -73,39 +78,45 @@ extern NSString *const OEGameArtworkPropertiesKey;
 @property(readonly) NSNumber      *playCount;
 @property(readonly) NSNumber      *playTime;
 
-- (BOOL)filesAvailable;
+@property(readonly) BOOL filesAvailable;
 
 #pragma mark -
-- (void)setBoxImageByImage:(NSImage *)img;
-- (void)setBoxImageByURL:(NSURL *)url;
 
-- (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)statesFlag;
+- (void)setBoxImageByImage:(NSImage *)image;
+- (void)setBoxImageByURL:(NSURL *)imageURL;
+
+- (void)deleteByMovingFile:(BOOL)moveToTrash keepSaveStates:(BOOL)keepSaveStates;
 
 #pragma mark - Core Data utilities
+
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
 #pragma mark - Data Model Properties
-@property(nonatomic, retain)   NSString *name;
-@property(nonatomic, retain)   NSString *gameTitle;
-@property(nonatomic, retain)   NSNumber *rating;
-@property(nonatomic, retain)   NSString *gameDescription;
-@property(nonatomic, retain)   NSDate   *importDate;
-@property(nonatomic, retain)   NSDate   *lastInfoSync;
-@property(nonatomic, retain)   NSNumber *status;
-@property(nonatomic, retain)   NSString *displayName;
-@property(nonatomic, readonly) NSString *cleanDisplayName;
+
+@property(nonatomic, retain, nullable)   NSString *name;
+@property(nonatomic, retain, nullable)   NSString *gameTitle;
+@property(nonatomic, retain, nullable)   NSNumber *rating;
+@property(nonatomic, retain, nullable)   NSString *gameDescription;
+@property(nonatomic, retain, nullable)   NSDate   *importDate;
+@property(nonatomic, retain, nullable)   NSDate   *lastInfoSync;
+@property(nonatomic, retain)             NSNumber *status;
+@property(nonatomic, retain, nullable)   NSString *displayName;
+@property(nonatomic, readonly, nullable) NSString *cleanDisplayName;
 
 #pragma mark - Data Model Relationships
-@property(nonatomic, retain) OEDBImage  *boxImage;
-@property(nonatomic, retain) OEDBSystem *system;
 
-@property(nonatomic, retain)   NSSet        *roms;
-@property(nonatomic, readonly) NSMutableSet *mutableRoms;
-@property(nonatomic, retain)   NSSet        *genres;
-@property(nonatomic, readonly) NSMutableSet *mutableGenres;
-@property(nonatomic, retain)   NSSet        *collections;
-@property(nonatomic, readonly) NSMutableSet *mutableCollections;
-@property(nonatomic, retain)   NSSet        *credits;
-@property(nonatomic, readonly) NSMutableSet *mutableCredits;
+@property(nonatomic, retain, nullable) OEDBImage  *boxImage;
+@property(nonatomic, retain, nullable) OEDBSystem *system;
+
+@property(nonatomic, retain, nullable)   NSSet        <OEDBRom *>         *roms;
+@property(nonatomic, readonly, nullable) NSMutableSet <OEDBRom *>         *mutableRoms;
+@property(nonatomic, retain, nullable)   NSSet        <NSManagedObject *> *genres;
+@property(nonatomic, readonly, nullable) NSMutableSet <NSManagedObject *> *mutableGenres;
+@property(nonatomic, retain, nullable)   NSSet        <OEDBCollection *>  *collections;
+@property(nonatomic, readonly, nullable) NSMutableSet <OEDBCollection *>  *mutableCollections;
+@property(nonatomic, retain, nullable)   NSSet        <NSManagedObject *> *credits;
+@property(nonatomic, readonly, nullable) NSMutableSet <NSManagedObject *> *mutableCredits;
 @end
+
+NS_ASSUME_NONNULL_END

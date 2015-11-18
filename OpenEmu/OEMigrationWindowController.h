@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,9 +26,15 @@
 
 @import Cocoa;
 
-@interface OEMigrationWindowController : NSWindowController
-- (id)initWithMigrationManager:(NSMigrationManager*)manager;
-- (IBAction)cancelMigration:(id)sender;
+NS_ASSUME_NONNULL_BEGIN
 
-@property (assign) IBOutlet NSProgressIndicator *indicator;
+@interface OEMigrationWindowController : NSWindowController
+
+- (instancetype)initWithMigrationManager:(NSMigrationManager *)manager;
+- (IBAction)cancelMigration:(nullable id)sender;
+
+@property (weak) IBOutlet NSProgressIndicator *indicator;
+
 @end
+
+NS_ASSUME_NONNULL_END

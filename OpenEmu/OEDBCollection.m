@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -27,34 +27,38 @@
 #import "OEDBCollection.h"
 #import "OETheme.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation OEDBCollection
 
 + (NSString*)entityName
 {
     return @"Collection";
 }
-#pragma mark -
-#pragma mark Data Model Properties
+
+#pragma mark - Data Model Properties
+
 @dynamic name;
 
-#pragma mark -
-#pragma mark Data Model Relationships
+#pragma mark - Data Model Relationships
+
 @dynamic games;
 
-- (NSMutableSet*)mutableGames;
+- (nullable NSMutableSet <OEDBGame *> *)mutableGames;
 {
     return [self mutableSetValueForKeyPath:@"games"];
 }
 
 #pragma mark - Sidebar Item Protocol
-- (NSString*)viewControllerClassName
+
+- (NSString *)viewControllerClassName
 {
     return @"OEGameCollectionViewController";
 }
 
-- (NSString*)sidebarID
+- (NSString *)sidebarID
 {
-    return [[self permanentIDURI] absoluteString];
+    return self.permanentIDURI.absoluteString;
 }
 
 - (NSImage *)sidebarIcon
@@ -62,12 +66,12 @@
     return [[OETheme sharedTheme] imageForKey:@"collections_simple" forState:OEThemeStateDefault];
 }
 
-- (NSString *)sidebarName
+- (nullable NSString *)sidebarName
 {
     return [self valueForKey:@"name"];
 }
 
-- (void)setSidebarName:(NSString *)newName
+- (void)setSidebarName:(nullable NSString *)newName
 {
     [self setValue:newName forKey:@"name"];
 }
@@ -93,7 +97,8 @@
 }
 
 #pragma mark - OEGameCollectionView item
-- (NSString *)collectionViewName
+
+- (nullable NSString *)collectionViewName
 {
     return [self valueForKey:@"name"];
 }
@@ -112,11 +117,13 @@
 {
     return [NSPredicate predicateWithFormat:@"ANY collections == %@", self];
 }
+
 - (NSInteger)fetchLimit
 {
     return 0;
 }
-- (NSArray*)fetchSortDescriptors
+
+- (NSArray <NSSortDescriptor *> *)fetchSortDescriptors
 {
     return @[];
 }
@@ -127,3 +134,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

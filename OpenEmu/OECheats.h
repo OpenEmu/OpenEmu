@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,9 +26,14 @@
 
 @import Foundation;
 
-@interface OECheats : NSObject
-- (id)initWithMd5Hash:(NSString*)md5;
-- (NSArray *)allCheats;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface OECheats: NSObject
+
+- (instancetype)initWithMd5Hash:(NSString *)md5Hash;
+- (NSArray <NSDictionary <NSString *, NSString *> *> *)allCheats;
 - (void)findCheats;
 
 @end
+
+NS_ASSUME_NONNULL_END

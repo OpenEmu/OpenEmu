@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -28,33 +28,36 @@
 #import "NSArray+OEAdditions.h"
 #import "OELibraryDatabase.h"
 #import "NSURL+OELibraryAdditions.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation OEDBSaveStateMigrationPolicy
 
 - (BOOL)createDestinationInstancesForSourceInstance:(NSManagedObject *)oldObject entityMapping:(NSEntityMapping *)mapping manager:(NSMigrationManager *)manager error:(NSError **)error
 {
-    NSAssert([[[manager sourceModel] versionIdentifiers] count]==1, @"Found a source model with various versionIdentifiers!");
+    NSAssert(manager.sourceModel.versionIdentifiers.count == 1, @"Found a source model with various versionIdentifiers!");
     
-    NSString *version = [[[manager sourceModel] versionIdentifiers] anyObject];
+    NSString *version = manager.sourceModel.versionIdentifiers. anyObject;
     
     if([version isEqualTo:@"1.0 Beta"])
     {
         NSString *path     = [oldObject valueForKey:@"path"];
         NSURL    *url      = [NSURL URLWithString:path];
-        NSString *location = [url absoluteString];
+        NSString *location = url.absoluteString;
         if(location)
         {
-            NSArray *attributeMappings = [mapping attributeMappings];
+            NSArray *attributeMappings = mapping.attributeMappings;
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
                                           ^ BOOL (id obj)
                                           {
                                               return [[obj name] isEqualToString:@"location"];
                                           }];
-            [mapping setValueExpression:[NSExpression expressionForConstantValue:location]];
+            mapping.valueExpression = [NSExpression expressionForConstantValue:location];
         }
     }
     else if([version isEqualToString:@"1.2"])
     {
-        NSURL *romsFolderURL = [self stateFolderURL];
+        NSURL *romsFolderURL = self.stateFolderURL;
         NSString *urlString = [oldObject valueForKey:@"location"];
         NSURL *url = nil;
         if([urlString rangeOfString:@"file://"].location == NSNotFound)
@@ -63,27 +66,27 @@
             url = [NSURL URLWithString:urlString];
 
         NSURL *relativeURL = [url urlRelativeToURL:romsFolderURL];
-        NSString *location = [relativeURL relativeString];
+        NSString *location = relativeURL.relativeString;
         if(location)
         {
             // make sure we don't save trailing '/' for save state bundles
-            if([location characterAtIndex:[location length]-1] == '/')
-                location = [location substringToIndex:[location length]-1];
+            if([location characterAtIndex:location.length - 1] == '/')
+                location = [location substringToIndex:location.length - 1];
 
-            NSArray *attributeMappings = [mapping attributeMappings];
+            NSArray *attributeMappings = mapping.attributeMappings;
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
                                           ^ BOOL (id obj)
                                           {
                                               return [[obj name] isEqualToString:@"location"];
                                           }];
-            [mapping setValueExpression:[NSExpression expressionForConstantValue:location]];
+            mapping.valueExpression = [NSExpression expressionForConstantValue:location];
         }
     }
 
     return [super createDestinationInstancesForSourceInstance:oldObject entityMapping:mapping manager:manager error:error];
 }
 
-- (NSURL*)stateFolderURL
+- (NSURL *)stateFolderURL
 {
     if([[NSUserDefaults standardUserDefaults] objectForKey:OESaveStateFolderURLKey])
         return [[NSUserDefaults standardUserDefaults] URLForKey:OESaveStateFolderURLKey];
@@ -93,6 +96,8 @@
     result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];
     result = [result URLByAppendingPathComponent:saveStateFolderName isDirectory:YES];
 
-    return [result standardizedURL];
+    return result.standardizedURL;
 }
 @end
+
+NS_ASSUME_NONNULL_END

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,6 +26,9 @@
 
 #import "OEDBAllGamesCollection.h"
 #import "OETheme.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation OEDBAllGamesCollection
 
 + (instancetype)sharedDBAllGamesCollection
@@ -84,3 +87,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

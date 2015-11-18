@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -28,18 +28,21 @@
 #import "NSArray+OEAdditions.h"
 #import "OELibraryDatabase.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
 
 @implementation OEDBImageMigrationPolicy
+
 - (BOOL)createDestinationInstancesForSourceInstance:(NSManagedObject *)oldObject entityMapping:(NSEntityMapping *)mapping manager:(NSMigrationManager *)manager error:(NSError **)error
 {
-    NSAssert([[[manager sourceModel] versionIdentifiers] count]==1, @"Found a source model with various versionIdentifiers!");
+    NSAssert(manager.sourceModel.versionIdentifiers.count == 1, @"Found a source model with various versionIdentifiers!");
 
-    NSString *sourceVersion = [[[manager sourceModel] versionIdentifiers] anyObject];
-    NSDictionary  *entities = [[manager sourceModel] entitiesByName];
+    NSString *sourceVersion = manager.sourceModel.versionIdentifiers.anyObject;
+    NSDictionary  *entities = manager.sourceModel. entitiesByName;
 
     // Version 1.1 and 1.0 both share version identifier 1.0 :/
-    if([sourceVersion isEqualTo:@"1.0"] && [entities objectForKey:@"ImageThumbnail"] != nil)
+    if([sourceVersion isEqualTo:@"1.0"] && entities[@"ImageThumbnail"] != nil)
     {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OEDBImageMigrateImageFormat];
 
@@ -57,7 +60,7 @@ NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
 
         if(originalVersion)
         {
-            NSURL *coverFolderURL = [self coverFolderURL];
+            NSURL *coverFolderURL = self.coverFolderURL;
 
             id width  = [originalVersion valueForKey:@"width"];
             id height = [originalVersion valueForKey:@"height"];
@@ -90,7 +93,7 @@ NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
     return NO;
 }
 
-- (NSURL*)coverFolderURL
+- (NSURL *)coverFolderURL
 {
     NSUserDefaults *standardDefaults  = [NSUserDefaults standardUserDefaults];
     NSString       *libraryFolderPath = [[standardDefaults stringForKey:OEDatabasePathKey] stringByExpandingTildeInPath];
@@ -99,4 +102,7 @@ NSString * const OEDBImageMigrateImageFormat = @"OEDBImageMigrateImageFormat";
     NSURL *baseURL = [NSURL fileURLWithPath:coverFolderPath isDirectory:YES];
     return baseURL;
 }
+
 @end
+
+NS_ASSUME_NONNULL_END

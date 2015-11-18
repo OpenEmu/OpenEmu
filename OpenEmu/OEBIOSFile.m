@@ -29,15 +29,15 @@
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OEBIOSFile ()
-
 @property NSString *biosPath;
-
 @end
 
 @implementation OEBIOSFile
 
-- (id)init
+- (instancetype)init
 {
     if((self = [super init]))
     {
@@ -54,12 +54,12 @@
  @param file    NSDictionary to required file
  @returns YES if file exists with correct MD5.
  */
-- (BOOL)isBIOSFileAvailable:(NSDictionary *)file
+- (BOOL)isBIOSFileAvailable:(NSDictionary <NSString *, NSString *> *)file
 {
-    NSString *md5 = nil;
-    NSError  *error = nil;
-    NSString *biosSystemFileName = [file objectForKey:@"Name"];
-    NSString *biosSystemFileMD5  = [file objectForKey:@"MD5"];
+    NSString *md5;
+    NSError  *error;
+    NSString *biosSystemFileName = file[@"Name"];
+    NSString *biosSystemFileMD5  = file[@"MD5"];
 
     NSString *destination = [_biosPath stringByAppendingPathComponent:biosSystemFileName];
     NSURL *url = [NSURL fileURLWithPath:destination];
@@ -87,14 +87,14 @@
 {
     BOOL missingFileStatus = NO;
     NSSortDescriptor *sortedRequiredFiles = [NSSortDescriptor sortDescriptorWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
-    NSArray *validRequiredFiles = [files sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortedRequiredFiles]];
+    NSArray *validRequiredFiles = [files sortedArrayUsingDescriptors:@[sortedRequiredFiles]];
     NSMutableString *missingFilesList = [[NSMutableString alloc] init];
 
     for(NSDictionary *validRequiredFile in validRequiredFiles)
     {
-        NSString *biosFilename = [validRequiredFile objectForKey:@"Name"];
-        NSString *biosDescription = [validRequiredFile objectForKey:@"Description"];
-        BOOL biosOptional = [[validRequiredFile objectForKey:@"Optional"] boolValue];
+        NSString *biosFilename = validRequiredFile[@"Name"];
+        NSString *biosDescription = validRequiredFile[@"Description"];
+        BOOL biosOptional = [validRequiredFile[@"Optional"] boolValue];
 
         // Check if the required files exist and are optional
         if (![self isBIOSFileAvailable:validRequiredFile] && !biosOptional)
@@ -133,12 +133,12 @@
     // Copy known BIOS / System Files to BIOS folder
     for(id validFile in [OECorePlugin requiredFiles])
     {
-        NSString *biosSystemFileName = [validFile valueForKey:@"Name"];
-        NSString *biosSystemFileMD5  = [validFile valueForKey:@"MD5"];
-        NSError  *error              = nil;
+        NSString *biosSystemFileName = validFile[@"Name"];
+        NSString *biosSystemFileMD5  = validFile[@"MD5"];
+        NSError  *error;
 
         NSString *destination = [_biosPath stringByAppendingPathComponent:biosSystemFileName];
-        NSURL    *desitionationURL = [NSURL fileURLWithPath:destination];
+        NSURL    *destinationURL = [NSURL fileURLWithPath:destination];
         if([md5 caseInsensitiveCompare:biosSystemFileMD5] == NSOrderedSame)
         {
             if(![fileManager createDirectoryAtURL:[NSURL fileURLWithPath:_biosPath] withIntermediateDirectories:YES attributes:nil error:&error])
@@ -148,9 +148,9 @@
                 error = nil;
             }
 
-            if(![fileManager copyItemAtURL:url toURL:desitionationURL error:&error])
+            if(![fileManager copyItemAtURL:url toURL:destinationURL error:&error])
             {
-                DLog(@"Could not copy bios file %@ to %@", url, desitionationURL);
+                DLog(@"Could not copy bios file %@ to %@", url, destinationURL);
             }
 
             return YES;
@@ -178,7 +178,7 @@
         NSError  *error              = nil;
 
         NSString *destination = [_biosPath stringByAppendingPathComponent:biosSystemFileName];
-        NSURL    *desitionationURL = [NSURL fileURLWithPath:destination];
+        NSURL    *destinationURL = [NSURL fileURLWithPath:destination];
         if([md5 caseInsensitiveCompare:biosSystemFileMD5] == NSOrderedSame)
         {
             if(![fileManager createDirectoryAtURL:[NSURL fileURLWithPath:_biosPath] withIntermediateDirectories:YES attributes:nil error:&error])
@@ -188,9 +188,9 @@
                 error = nil;
             }
 
-            if(![fileManager copyItemAtURL:url toURL:desitionationURL error:&error])
+            if(![fileManager copyItemAtURL:url toURL:destinationURL error:&error])
             {
-                DLog(@"Could not copy bios file %@ to %@", url, desitionationURL);
+                DLog(@"Could not copy bios file %@ to %@", url, destinationURL);
             }
 
             return YES;
@@ -201,3 +201,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

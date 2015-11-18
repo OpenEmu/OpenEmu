@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -30,12 +30,20 @@
 #import "OESidebarItem.h"
 #import "OEGameCollectionViewItemProtocol.h"
 
+@class OEDBGame;
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OEDBCollection : OEDBItem <OESidebarItem, OEGameCollectionViewItemProtocol>
 
 #pragma mark - Data Model Properties
-@property (nonatomic, retain) NSString  *name;
+
+@property (nonatomic, retain, nullable) NSString  *name;
 
 #pragma mark - Data Model Relationships
-@property (nonatomic, retain)   NSSet        *games;
-@property (nonatomic, readonly) NSMutableSet *mutableGames;
+
+@property (nonatomic, retain, nullable) NSSet <OEDBGame *> *games;
+@property (nonatomic, readonly, nullable) NSMutableSet <OEDBGame *> *mutableGames;
 @end
+
+NS_ASSUME_NONNULL_END

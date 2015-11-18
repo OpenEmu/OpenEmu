@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,12 +26,17 @@
 
 @import Foundation;
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString *const OEMigrationErrorDomain;
-typedef enum : NSUInteger {
+
+typedef NS_ENUM(NSUInteger, OEMigrationErrorCode) {
     OEMigrationCanceled = -10,
-} OEMigrationErrorCode;
+};
 
 @interface OELibraryMigrator : NSObject
-- (id)initWithStoreURL:(NSURL*)url;
-- (BOOL)runMigration:(NSError*__autoreleasing*)outError;
+- (instancetype)initWithStoreURL:(NSURL *)storeURL;
+- (BOOL)runMigration:(NSError **)error;
 @end
+
+NS_ASSUME_NONNULL_END

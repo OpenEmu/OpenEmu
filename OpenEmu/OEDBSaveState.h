@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -27,6 +27,10 @@
 @import CoreData;
 #import "OEDBItem.h"
 
+@class OEDBRom, OECorePlugin, OELibraryDatabase;
+
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString *const OESaveStateSuffix;
 
 extern NSString *const OESaveStateInfoVersionKey;
@@ -42,44 +46,52 @@ extern NSString *const OESaveStateQuicksaveName;
 
 extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 
-@class OEDBRom, OECorePlugin, OELibraryDatabase;
 @interface OEDBSaveState : OEDBItem <NSPasteboardWriting>
 
-+ (OEDBSaveState*)updateOrCreateStateWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context;
++ (nullable instancetype)updateOrCreateStateWithURL:(NSURL *)stateURL inContext:(NSManagedObjectContext *)context;
 
-+ (id)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inContext:(NSManagedObjectContext *)context;
-+ (id)createSaveStateByImportingBundleURL:(NSURL *)url intoContext:(NSManagedObjectContext *)context;
-+ (id)createSaveStateByImportingBundleURL:(NSURL *)url intoContext:(NSManagedObjectContext *)context copy:(BOOL)flag;
++ (nullable instancetype)createSaveStateNamed:(NSString *)name forRom:(OEDBRom *)rom core:(OECorePlugin *)core withFile:(NSURL *)stateFileURL inContext:(NSManagedObjectContext *)context;
++ (nullable instancetype)createSaveStateByImportingBundleURL:(NSURL *)bundleURL intoContext:(NSManagedObjectContext *)context;
++ (nullable instancetype)createSaveStateByImportingBundleURL:(NSURL *)bundleURL intoContext:(NSManagedObjectContext *)context copy:(BOOL)flag;
 
 + (NSString *)nameOfQuickSaveInSlot:(NSInteger)slot;
 
 #pragma mark - Management
+
 - (BOOL)replaceStateFileWithFile:(NSURL *)stateFile;
 - (BOOL)moveToDefaultLocation;
 
 - (BOOL)readFromDisk;
 - (BOOL)writeToDisk;
 
-- (BOOL)isValid;
+@property(readonly, getter=isValid) BOOL valid;
+
 - (void)deleteAndRemoveFiles;
 - (void)deleteAndRemoveFilesIfInvalid;
+
 #pragma mark - Data Accessors
-- (NSString *)displayName; // Should be used instead of -name if the string is to be displayed to the user
-- (BOOL)isSpecialState;
+
+@property(readonly) NSString *displayName; // Should be used instead of -name if the string is to be displayed to the user
+@property(readonly) BOOL isSpecialState;
 
 #pragma mark - Data Model Properties
-@property (nonatomic, retain)           NSString *name;
-@property (nonatomic, retain)           NSString *userDescription;
+
+@property (nonatomic, retain, nullable)           NSString *name;
+@property (nonatomic, retain, nullable)           NSString *userDescription;
 @property (nonatomic, retain)           NSDate   *timestamp;
 @property (nonatomic, retain)           NSString *coreIdentifier;
-@property (nonatomic, retain)           NSString *coreVersion;
+@property (nonatomic, retain, nullable)           NSString *coreVersion;
 
-@property (nonatomic, retain, readonly) NSString *systemIdentifier;
-@property (nonatomic, retain)           NSString *location;
+@property (nonatomic, retain, readonly, nullable) NSString *systemIdentifier;
+@property (nonatomic, retain, nullable)           NSString *location;
 @property (nonatomic, retain)           NSURL    *URL;
 @property (nonatomic, retain, readonly) NSURL    *screenshotURL;
 @property (nonatomic, retain, readonly) NSURL    *dataFileURL;
 
 #pragma mark - Data Model Relationships
+
 @property (nonatomic, retain) OEDBRom *rom;
+
 @end
+
+NS_ASSUME_NONNULL_END

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -28,6 +28,8 @@
 #import "OETheme.h"
 #import "OEDBSaveState.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 NSString * const OEDBSavedGamesMediaShowsAutoSaves = @"OEDBSavedGamesMediaShowsAutoSaves";
 NSString * const OEDBSavedGamesMediaShowsQuickSaves = @"OEDBSavedGamesMediaShowsQuickSaves";
 
@@ -44,6 +46,7 @@ NSString * const OEDBSavedGamesMediaShowsQuickSaves = @"OEDBSavedGamesMediaShows
 }
 
 #pragma mark - OESidebarItem
+
 - (NSImage *)sidebarIcon
 {
     return [[OETheme sharedTheme] imageForKey:@"media_saved_games" forState:OEThemeStateDefault];
@@ -88,15 +91,17 @@ NSString * const OEDBSavedGamesMediaShowsQuickSaves = @"OEDBSavedGamesMediaShows
 {
     return NO;
 }
+
 #pragma mark - OECollectionViewItemProtocol
+
 - (BOOL)isCollectionEditable
 {
     return NO;
 }
 
-- (NSPredicate*)baseFilterPredicate
+- (NSPredicate *)baseFilterPredicate
 {
-    NSMutableArray *subpredicates = [NSMutableArray array];
+    NSMutableArray <NSPredicate *> *subpredicates = [NSMutableArray array];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     if(![defaults boolForKey:OEDBSavedGamesMediaShowsAutoSaves]){
@@ -110,3 +115,5 @@ NSString * const OEDBSavedGamesMediaShowsQuickSaves = @"OEDBSavedGamesMediaShows
     return [NSCompoundPredicate andPredicateWithSubpredicates:subpredicates];
 }
 @end
+
+NS_ASSUME_NONNULL_END

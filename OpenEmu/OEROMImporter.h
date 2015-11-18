@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -27,23 +27,30 @@
 @import Foundation;
 #import "OEImportOperation.h"
 
+@class OELibraryDatabase;
+@protocol OEROMImporterDelegate;
+
 #ifdef DEBUG_IMPORT
 #define IMPORTDLog DLog
 #else
 #define IMPORTDLog(format, ...) do {} while (0)
 #endif
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark User Default Keys -
+
 extern NSString *const OEOrganizeLibraryKey;
 extern NSString *const OECopyToLibraryKey;
 extern NSString *const OEAutomaticallyGetInfoKey;
 
 #pragma mark Error Codes -
+
 extern NSString *const OEImportErrorDomainFatal;
 extern NSString *const OEImportErrorDomainResolvable;
 extern NSString *const OEImportErrorDomainSuccess;
 
-typedef enum : NSInteger {
+typedef NS_ENUM(NSInteger, OEImportErrorCode) {
     OEImportErrorCodeAlreadyInDatabase     = -1,
     OEImportErrorCodeMultipleSystems       = 2,
     OEImportErrorCodeNoSystem              = 3,
@@ -51,23 +58,21 @@ typedef enum : NSInteger {
     OEImportErrorCodeAdditionalFiles       = 5,
     OEImportErrorCodeNoHash                = 6,
     OEImportErrorCodeNoGame                = 7,
-} OEImportErrorCode;
+};
 
 #pragma mark - Importer Status
-typedef enum : NSInteger {
+
+typedef NS_ENUM(NSInteger, OEImporterStatus) {
     OEImporterStatusStopped  = 1,
     OEImporterStatusRunning  = 2,
    // OEImporterStatusPausing  = 3,
     OEImporterStatusPaused   = 4,
    // OEImporterStatusStopping = 5,
-} OEImporterStatus;
-
-@class OELibraryDatabase;
-@protocol OEROMImporterDelegate;
+};
 
 @interface OEROMImporter : NSObject
 
-- (id)initWithDatabase:(OELibraryDatabase *)aDatabase;
+- (instancetype)initWithDatabase:(OELibraryDatabase *)aDatabase;
 
 @property(weak, readonly) OELibraryDatabase *database;
 @property(strong)         id<OEROMImporterDelegate> delegate;
@@ -75,37 +80,43 @@ typedef enum : NSInteger {
 @property(readonly)       NSManagedObjectContext *context;
 
 #pragma mark - Importing Items -
+
 - (BOOL)importItemAtPath:(NSString *)path;
 - (BOOL)importItemsAtPaths:(NSArray *)path;
 - (BOOL)importItemAtURL:(NSURL *)url;
 - (BOOL)importItemsAtURLs:(NSArray *)url;
 
-- (BOOL)importItemAtPath:(NSString *)path intoCollectionWithID:(NSManagedObjectID*)collectionID;
-- (BOOL)importItemsAtPaths:(NSArray *)path intoCollectionWithID:(NSManagedObjectID*)collectionID;
-- (BOOL)importItemAtURL:(NSURL *)url intoCollectionWithID:(NSManagedObjectID*)collectionID;
-- (BOOL)importItemsAtURLs:(NSArray *)url intoCollectionWithID:(NSManagedObjectID*)collectionID;
+- (BOOL)importItemAtPath:(NSString *)path intoCollectionWithID:(nullable NSManagedObjectID *)collectionID;
+- (BOOL)importItemsAtPaths:(NSArray <NSString *> *)path intoCollectionWithID:(nullable NSManagedObjectID *)collectionID;
+- (BOOL)importItemAtURL:(NSURL *)itemURL intoCollectionWithID:(nullable NSManagedObjectID *)collectionID;
+- (BOOL)importItemsAtURLs:(NSArray <NSURL *> *)itemURLs intoCollectionWithID:(nullable NSManagedObjectID *)collectionID;
 
-- (BOOL)importItemAtPath:(NSString *)path intoCollectionWithID:(NSManagedObjectID*)collectionID withCompletionHandler:(OEImportItemCompletionBlock)handler;
-- (BOOL)importItemsAtPaths:(NSArray *)paths intoCollectionWithID:(NSManagedObjectID*)collectionID  withCompletionHandler:(OEImportItemCompletionBlock)handler;
-- (BOOL)importItemAtURL:(NSURL *)url intoCollectionWithID:(NSManagedObjectID*)collectionID  withCompletionHandler:(OEImportItemCompletionBlock)handler;
-- (BOOL)importItemsAtURLs:(NSArray *)urls intoCollectionWithID:(NSManagedObjectID*)collectionID  withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (BOOL)importItemAtPath:(NSString *)path intoCollectionWithID:(nullable NSManagedObjectID *)collectionID withCompletionHandler:(nullable OEImportItemCompletionBlock)handler;
+- (BOOL)importItemsAtPaths:(NSArray <NSString *> *)paths intoCollectionWithID:(nullable NSManagedObjectID *)collectionID  withCompletionHandler:(nullable OEImportItemCompletionBlock)handler;
+- (BOOL)importItemAtURL:(NSURL *)itemURL intoCollectionWithID:(nullable NSManagedObjectID *)collectionID  withCompletionHandler:(nullable OEImportItemCompletionBlock)handler;
+- (BOOL)importItemsAtURLs:(NSArray <NSURL *> *)itemURLs intoCollectionWithID:(nullable NSManagedObjectID *)collectionID  withCompletionHandler:(nullable OEImportItemCompletionBlock)handler;
 
-- (BOOL)importItemAtPath:(NSString *)path withCompletionHandler:(OEImportItemCompletionBlock)handler;
-- (BOOL)importItemsAtPaths:(NSArray *)paths withCompletionHandler:(OEImportItemCompletionBlock)handler;
-- (BOOL)importItemAtURL:(NSURL *)url withCompletionHandler:(OEImportItemCompletionBlock)handler;
-- (BOOL)importItemsAtURLs:(NSArray *)urls withCompletionHandler:(OEImportItemCompletionBlock)handler;
+- (BOOL)importItemAtPath:(NSString *)path withCompletionHandler:(nullable OEImportItemCompletionBlock)handler;
+- (BOOL)importItemsAtPaths:(NSArray <NSString *> *)paths withCompletionHandler:(nullable OEImportItemCompletionBlock)handler;
+- (BOOL)importItemAtURL:(NSURL *)itemURL withCompletionHandler:(nullable OEImportItemCompletionBlock)handler;
+- (BOOL)importItemsAtURLs:(NSArray *)itemURLs withCompletionHandler:(nullable OEImportItemCompletionBlock)handler;
 
-- (void)addOperation:(OEImportOperation*)operation;
-- (void)rescheduleOperation:(OEImportOperation*)operation;
+- (void)addOperation:(OEImportOperation *)operation;
+- (void)rescheduleOperation:(OEImportOperation *)operation;
+
 #pragma mark - Spotlight importing -
+
 - (void)discoverRoms:(NSArray *)volumes;
 - (void)updateSearchResults:(NSNotification *)notification;
 - (void)finalizeSearchResults:(NSNotification *)notification;
 - (void)importSpotlightResultsInBackground;
+
 @end
 
 #pragma mark - Controlling Import
+
 @interface OEROMImporter (Control)
+
 - (void)start;
 - (void)togglePause;
 - (void)pause;
@@ -116,6 +127,7 @@ typedef enum : NSInteger {
 
 @property(readonly) NSInteger totalNumberOfItems;
 @property(readonly) NSInteger numberOfProcessedItems;
+
 @end
 
 #pragma mark - Importer Delegate
@@ -131,3 +143,5 @@ typedef enum : NSInteger {
 - (void)romImporter:(OEROMImporter *)importer changedProcessingPhaseOfItem:(OEImportOperation *)item;
 - (void)romImporter:(OEROMImporter *)importer stoppedProcessingItem:(OEImportOperation *)item;
 @end
+
+NS_ASSUME_NONNULL_END

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,10 @@
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotification";
+
 @implementation OEDBSystem
 
 + (NSInteger)systemsCountInContext:(NSManagedObjectContext*)context
@@ -43,7 +46,7 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     NSEntityDescription    *descr    = [self entityDescriptioninContext:context];
     NSFetchRequest         *req      = [[NSFetchRequest alloc] init];
 
-    [req setEntity:descr];
+    req.entity = descr;
 
     NSError    *error = outError != NULL ? *outError : nil;
     NSUInteger result = [context countForFetchRequest:req error:&error];
@@ -55,141 +58,141 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     return result;
 }
 
-+ (NSArray*)allSystemsInContext:(NSManagedObjectContext *)context
++ (nullable NSArray <OEDBSystem *> *)allSystemsInContext:(NSManagedObjectContext *)context
 {
     return [self allSystemsInContext:context error:nil];
 }
 
-+ (NSArray*)allSystemsInContext:(NSManagedObjectContext *)context error:(NSError**)outError;
++ (nullable NSArray <OEDBSystem *> *)allSystemsInContext:(NSManagedObjectContext *)context error:(NSError **)outError;
 {
-    NSError     *error    = outError != NULL ? *outError : nil;
-    NSArray     *sortDesc = @[[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]];
+    NSArray <NSSortDescriptor *> *sortDesc = @[[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]];
 
+    NSFetchRequest *req = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
+    req.sortDescriptors = sortDesc;
 
-    NSFetchRequest         *req      = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
-        [req setSortDescriptors:sortDesc];
-
-    NSArray *result = [context executeFetchRequest:req error:&error];
-    if(result == nil)
-        DLog(@"Error: %@", error);
+    NSArray *result = [context executeFetchRequest:req error:outError];
+    if(result == nil && outError != nil)
+        DLog(@"Error: %@", *outError);
     
     return result;
 }
 
-+ (NSArray*)allSystemIdentifiersInContext:(NSManagedObjectContext*)context
++ (NSArray <NSString *> *)allSystemIdentifiersInContext:(NSManagedObjectContext *)context
 {
-    NSArray *allSystems = [self allSystemsInContext:context];
-    NSMutableArray *allSystemIdentifiers = [NSMutableArray arrayWithCapacity:[allSystems count]];
+    NSArray <OEDBSystem *> *allSystems = [self allSystemsInContext:context];
+    NSMutableArray <NSString *> *allSystemIdentifiers = [NSMutableArray arrayWithCapacity:allSystems.count];
 
     for(OEDBSystem *system in allSystems)
     {
-        [allSystemIdentifiers addObject:[system systemIdentifier]];
+        [allSystemIdentifiers addObject:system.systemIdentifier];
     }
 
     return allSystemIdentifiers;
 }
 
-+ (NSArray*)enabledSystemsinContext:(NSManagedObjectContext *)context
++ (nullable NSArray <OEDBSystem *> *)enabledSystemsinContext:(NSManagedObjectContext *)context
 {
     return [self enabledSystemsinContext:context error:nil];
 }
-+ (NSArray*)enabledSystemsinContext:(NSManagedObjectContext *)context error:(NSError**)outError
+
++ (nullable NSArray <OEDBSystem *> *)enabledSystemsinContext:(NSManagedObjectContext *)context error:(NSError**)outError
 {
-    NSError     *error    = outError != NULL ? *outError : nil;
-    NSArray     *sortDesc = @[[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]];
-    NSPredicate *pred     = [NSPredicate predicateWithFormat:@"enabled = YES"];
+    NSArray <NSSortDescriptor *> *sortDesc = @[[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"enabled = YES"];
 
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
-    [request setPredicate:pred];
-    [request setSortDescriptors:sortDesc];
+    request.predicate = pred;
+    request.sortDescriptors = sortDesc;
 
-    NSArray *result = [context executeFetchRequest:request error:&error];
-    if(result == nil)
-        DLog(@"Error: %@", error);
+    NSArray *result = [context executeFetchRequest:request error:outError];
+    if(result == nil && outError != nil)
+        DLog(@"Error: %@", *outError);
     
     return result;
 }
 
-+ (NSArray*)systemsForFileWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context
++ (NSArray <OEDBSystem *> *)systemsForFileWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context
 {
     return [self systemsForFileWithURL:url inContext:context error:nil];
 }
-+ (NSArray*)systemsForFileWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context error:(NSError**)error
+
++ (NSArray <OEDBSystem *> *)systemsForFileWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context error:(NSError**)error
 {
     __block OESystemPlugin *theOneAndOnlySystemThatGetsAChanceToHandleTheFile = nil;
     NSMutableArray         *otherSystemsThatMightBeAbleToHandleTheFile = [NSMutableArray array];
     
-    NSString *fileExtension = [[url pathExtension] lowercaseString];
+    NSString *fileExtension = url.pathExtension.lowercaseString;
     
-    [[OESystemPlugin allPlugins] enumerateObjectsUsingBlock:^(OESystemPlugin *systemPlugin, NSUInteger idx, BOOL *stop) {
-        if([[systemPlugin controller] canHandleFileExtension:fileExtension])
-        {
-            OESystemController *controller = [systemPlugin controller];
-            OECanHandleState   handleState = [controller canHandleFile:[url path]];
+    for(OESystemPlugin *systemPlugin in [OESystemPlugin allPlugins])
+    {
+        OESystemController *controller = systemPlugin.controller;
 
+        if([controller canHandleFileExtension:fileExtension])
+        {
+            OECanHandleState handleState = [controller canHandleFile:url.path];
+            
             if (handleState == OECanHandleYes)
             {
                 theOneAndOnlySystemThatGetsAChanceToHandleTheFile = systemPlugin;
-                *stop = YES;
+                break;
             }
             else if (handleState != OECanHandleNo)
             {
                 [otherSystemsThatMightBeAbleToHandleTheFile addObject:systemPlugin];
             }
         }
-    }];
-    
+    }
     
     if(theOneAndOnlySystemThatGetsAChanceToHandleTheFile != nil)
     {
-        NSString *systemIdentifier = [theOneAndOnlySystemThatGetsAChanceToHandleTheFile systemIdentifier];
+        NSString *systemIdentifier = theOneAndOnlySystemThatGetsAChanceToHandleTheFile.systemIdentifier;
         OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inContext:context];
-        if([[system enabled] boolValue])
-            return [NSArray arrayWithObject:system];
+        if([system.enabled boolValue])
+            return @[ system ];
     }
     else
     {
-        NSMutableArray *validSystems = [NSMutableArray arrayWithCapacity:[otherSystemsThatMightBeAbleToHandleTheFile count]];
-        [otherSystemsThatMightBeAbleToHandleTheFile enumerateObjectsUsingBlock:
-         ^(OESystemPlugin *obj, NSUInteger idx, BOOL *stop) {
-             NSString *systemIdentifier = [obj systemIdentifier];
+        NSMutableArray <OEDBSystem *> *validSystems = [NSMutableArray arrayWithCapacity:otherSystemsThatMightBeAbleToHandleTheFile.count];
+        for(OESystemPlugin *obj in otherSystemsThatMightBeAbleToHandleTheFile)
+        {
+             NSString *systemIdentifier = obj.systemIdentifier;
              OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inContext:context];
-             if([[system enabled] boolValue])
+             if([system.enabled boolValue])
                  [validSystems addObject:system];
-        }];
+        };
         return validSystems;
     }
     
     return [NSArray array];
 }
 
-+ (NSString*)headerForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier
++ (NSString *)headerForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier
 {
     OESystemPlugin *systemPlugin = [OESystemPlugin systemPluginForIdentifier:identifier];
-    NSString *header = [[systemPlugin controller] headerLookupForFile:[url path]];
+    NSString *header = [systemPlugin.controller headerLookupForFile:url.path];
     
     return header;
 }
 
-+ (NSString*)serialForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier
++ (NSString *)serialForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier
 {
     OESystemPlugin *systemPlugin = [OESystemPlugin systemPluginForIdentifier:identifier];
-    NSString *serial = [[systemPlugin controller] serialLookupForFile:[url path]];
+    NSString *serial = [systemPlugin.controller serialLookupForFile:url.path];
     
     return serial;
 }
 
-+ (id)systemForPlugin:(OESystemPlugin *)plugin inContext:(NSManagedObjectContext *)context
++ (instancetype)systemForPlugin:(OESystemPlugin *)plugin inContext:(NSManagedObjectContext *)context
 {
-    NSString *systemIdentifier = [plugin systemIdentifier];
+    NSString *systemIdentifier = plugin.systemIdentifier;
     __block OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inContext:context];
 
     if(system) return system;
 
     [context performBlockAndWait:^{
         system = [OEDBSystem createObjectInContext:context];
-        [system setSystemIdentifier:systemIdentifier];
-        [system setLastLocalizedName:[system name]];
+        system.systemIdentifier = systemIdentifier;
+        system.lastLocalizedName = system.name;
 
         [system save];
     }];
@@ -197,26 +200,26 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     return system;
 }
 
-+ (id)systemForPluginIdentifier:(NSString *)identifier inContext:(NSManagedObjectContext *)context
++ (instancetype)systemForPluginIdentifier:(NSString *)identifier inContext:(NSManagedObjectContext *)context
 {
     NSError    *error = nil;
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"systemIdentifier == %@", identifier];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
-    [request setPredicate:pred];
-    [request setFetchLimit:1];
+    request.predicate = pred;
+    request.fetchLimit = 1;
 
     NSArray *result = [context executeFetchRequest:request error:&error];
     if(result == nil)
         DLog(@"Error: %@", error);
     
-    return [result lastObject];
+    return result.lastObject;
 }
 
 - (CGFloat)coverAspectRatio
 {
-    if([self plugin])
+    if(self.plugin != nil)
     {
-        CGFloat aspectRatio = [[self plugin] coverAspectRatio];
+        CGFloat aspectRatio = self.plugin.coverAspectRatio;
         if(aspectRatio != 0)
             return aspectRatio;
     }
@@ -224,6 +227,7 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     // in case system plugin has been removed return a default value
     return 1.365385;
 }
+
 #pragma mark - Core Data utilities
 
 + (NSString *)entityName
@@ -236,22 +240,24 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
 
-#pragma mark -
-#pragma mark Data Model Properties
+#pragma mark - Data Model Properties
+
 @dynamic lastLocalizedName, shortname, systemIdentifier, enabled;
 
-#pragma mark -
-#pragma mark Data Model Relationships
+#pragma mark - Data Model Relationships
+
 @dynamic games;
-- (NSMutableSet*)mutableGames
+
+- (nullable NSMutableSet <OEDBGame *> *)mutableGames
 {
     return [self mutableSetValueForKey:@"games"];
 }
 
 #pragma mark -
+
 - (OESystemPlugin *)plugin
 {
-    NSString *systemIdentifier = [self systemIdentifier];
+    NSString *systemIdentifier = self.systemIdentifier;
     OESystemPlugin *plugin = [OESystemPlugin systemPluginForIdentifier:systemIdentifier];
     
     return plugin;
@@ -259,12 +265,12 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 
 - (NSImage *)icon
 {
-    return [[self plugin] systemIcon];
+    return self.plugin.systemIcon;
 }
 
 - (NSString *)name
 {
-    return [[self plugin] systemName] ? : [self lastLocalizedName];
+    return self.plugin.systemName ?: self.lastLocalizedName;
 }
 
 #pragma mark - Debug
@@ -279,14 +285,14 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     NSString *subPrefix = [prefix stringByAppendingString:@"-----"];
     NSLog(@"%@ Beginning of system dump", prefix);
 
-    NSLog(@"%@ System last localized name is %@", prefix, [self lastLocalizedName]);
-    NSLog(@"%@ short name is %@", prefix, [self shortname]);
-    NSLog(@"%@ system identifier is %@", prefix, [self systemIdentifier]);
-    NSLog(@"%@ enabled? %s", prefix, BOOL_STR([self enabled]));
+    NSLog(@"%@ System last localized name is %@", prefix, self.lastLocalizedName);
+    NSLog(@"%@ short name is %@", prefix, self.shortname);
+    NSLog(@"%@ system identifier is %@", prefix, self.systemIdentifier);
+    NSLog(@"%@ enabled? %s", prefix, BOOL_STR(self.enabled));
 
-    NSLog(@"%@ Number of games in this system is %lu", prefix, (unsigned long)[[self games] count]);
+    NSLog(@"%@ Number of games in this system is %lu", prefix, (unsigned long)self.games.count);
 
-    for(id game in [self games])
+    for(id game in self.games)
     {
         if([game respondsToSelector:@selector(dumpWithPrefix:)]) [game dumpWithPrefix:subPrefix];
         else NSLog(@"%@ Game is %@", subPrefix, game);
@@ -296,3 +302,5 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

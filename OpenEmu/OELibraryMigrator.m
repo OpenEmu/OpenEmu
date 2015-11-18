@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -30,24 +30,30 @@
 #import "NSURL+OELibraryAdditions.h"
 #import "OEDBScreenshot.h"
 #import "ALIterativeMigrator.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
 NSString *const OEMigrationErrorDomain = @"OEMigrationErrorDomain";
 
 @interface OELibraryMigrator ()
 @property NSURL *storeURL;
 @end
+
 @implementation OELibraryMigrator
+
 - (id)initWithStoreURL:(NSURL *)url
 {
     self = [super init];
     if (self) {
         NSURL *storeURL = [url URLByAppendingPathComponent:OEDatabaseFileName];
-        [self setStoreURL:storeURL];
+        _storeURL = storeURL;
     }
     return self;
 }
 
 #pragma mark -
-- (BOOL)runMigration:(NSError *__autoreleasing *)outError
+
+- (BOOL)runMigration:(NSError **)outError
 {
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"OEDatabase" withExtension:@"momd"];
     NSManagedObjectModel *destinationModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
@@ -70,10 +76,10 @@ NSString *const OEMigrationErrorDomain = @"OEMigrationErrorDomain";
     }
 
     NSDictionary *sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:_storeURL options:nil error:outError];
-    NSArray *versions = [sourceMetadata objectForKey:NSStoreModelVersionIdentifiersKey];
+    NSArray *versions = sourceMetadata[NSStoreModelVersionIdentifiersKey];
     versions = [versions sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 
-    NSString *sourceVersion = [versions lastObject];
+    NSString *sourceVersion = versions.lastObject;
     if([sourceVersion compare:@"1.3"] == NSOrderedAscending)
     {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OEDBScreenshotImportRequired];
@@ -84,3 +90,5 @@ NSString *const OEMigrationErrorDomain = @"OEMigrationErrorDomain";
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

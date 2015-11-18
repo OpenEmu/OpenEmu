@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -31,21 +31,23 @@
 
 #import "NSURL+OELibraryAdditions.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
 
 @implementation OEDBScreenshot
 
-+ (instancetype)createObjectInContext:(NSManagedObjectContext *)context forROM:(OEDBRom*)rom withFile:(NSURL*)file
++ (nullable instancetype)createObjectInContext:(NSManagedObjectContext *)context forROM:(OEDBRom *)rom withFile:(NSURL*)file
 {
     OEDBScreenshot *screenshot = nil;
     if([file checkResourceIsReachableAndReturnError:nil])
     {
-        NSString *name = [[file lastPathComponent] stringByDeletingPathExtension];
+        NSString *name = file.lastPathComponent.stringByDeletingPathExtension;
         screenshot = [OEDBScreenshot createObjectInContext:context];
-        [screenshot setURL:file];
-        [screenshot setRom:rom];
-        [screenshot setTimestamp:[NSDate date]];
-        [screenshot setName:name];
+        screenshot.URL = file;
+        screenshot.rom = rom;
+        screenshot.timestamp = [NSDate date];
+        screenshot.name = name;
 
         [screenshot updateFile];
         [screenshot save];
@@ -53,25 +55,26 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
     return screenshot;
 }
 
-+ (NSString*)entityName
++ (NSString *)entityName
 {
     return @"Screenshot";
 }
 
 #pragma mark - NSPasteboardWriting
-- (NSArray*)writableTypesForPasteboard:(NSPasteboard *)pasteboard
+
+- (NSArray *)writableTypesForPasteboard:(NSPasteboard *)pasteboard
 {
     return @[(NSString*)kUTTypeFileURL, (NSString*)kUTTypeImage];
 }
 
-- (id)pasteboardPropertyListForType:(NSString *)type
+- (nullable id)pasteboardPropertyListForType:(NSString *)type
 {
-    NSURL *url = [[self URL] absoluteURL];
+    NSURL *url = self.URL.absoluteURL;
     if([type isEqualToString:(NSString*)kUTTypeFileURL])
     {
         return [url pasteboardPropertyListForType:type];
     }
-    else if([type isEqualToString:(NSString*)kUTTypeImage])
+    else if([type isEqualToString:(NSString *)kUTTypeImage])
     {
         NSImage *image = [[NSImage alloc] initWithContentsOfURL:url];
         return [image pasteboardPropertyListForType:type];
@@ -81,36 +84,37 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
 }
 
 #pragma mark - Core Data Properties
+
 @dynamic location, name, timestamp, userDescription, rom;
 
 - (void)setURL:(NSURL *)url
 {
-    NSURL *screenshotDirectory = [[self libraryDatabase] screenshotFolderURL];
-    [self setLocation:[[url urlRelativeToURL:screenshotDirectory] relativeString]];
+    NSURL *screenshotDirectory = self.libraryDatabase.screenshotFolderURL;
+    self.location = [url urlRelativeToURL:screenshotDirectory].relativeString;
 }
 
-- (NSURL*)URL
+- (NSURL *)URL
 {
-    NSURL *screenshotDirectory = [[self libraryDatabase] screenshotFolderURL];
-    return [NSURL URLWithString:[self location] relativeToURL:screenshotDirectory];
+    NSURL *screenshotDirectory = self.libraryDatabase.screenshotFolderURL;
+    return [NSURL URLWithString:self.location relativeToURL:screenshotDirectory];
 }
 
 - (void)prepareForDeletion
 {
-    NSURL *url = [self URL];
+    NSURL *url = self.URL;
     if(url)
         [[NSFileManager defaultManager] trashItemAtURL:url resultingItemURL:nil error:nil];
 }
 
 - (void)updateFile
 {
-    OELibraryDatabase *database = [self libraryDatabase];
-    NSURL *screenshotDirectory = [database screenshotFolderURL];
-    NSString *fileName = [NSURL validFilenameFromString:[self name]];
+    OELibraryDatabase *database = self.libraryDatabase;
+    NSURL *screenshotDirectory = database.screenshotFolderURL;
+    NSString *fileName = [NSURL validFilenameFromString:self.name];
     NSString *fileExtension = @"png";
-    NSURL *targetURL = [[screenshotDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", fileName, fileExtension]] URLByStandardizingPath];
+    NSURL *targetURL = [screenshotDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", fileName, fileExtension]]. URLByStandardizingPath;
     NSFileManager *fm = [NSFileManager defaultManager];
-    NSURL  *sourceURL = [self URL];
+    NSURL  *sourceURL = self.URL;
 
     if([targetURL isEqualTo:sourceURL])
     {
@@ -126,7 +130,9 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
 
     if([fm moveItemAtURL:sourceURL toURL:targetURL error:nil])
     {
-        [self setURL:targetURL];
+        self.URL = targetURL;
     }
 }
 @end
+
+NS_ASSUME_NONNULL_END

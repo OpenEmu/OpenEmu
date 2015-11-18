@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,6 +26,9 @@
 
 #import "OEDBScreenshotsMedia.h"
 #import "OETheme.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation OEDBScreenshotsMedia
 
 + (instancetype)sharedDBScreenshotsMedia
@@ -37,7 +40,9 @@
     });
     return sharedInstance;
 }
+
 #pragma mark - OESidebarItem
+
 - (NSImage *)sidebarIcon
 {
     return [[OETheme sharedTheme] imageForKey:@"media_screenshots" forState:OEThemeStateDefault];
@@ -82,9 +87,14 @@
 {
     return NO;
 }
+
 #pragma mark - OECollectionViewItemProtocol
+
 - (BOOL)isCollectionEditable
 {
     return NO;
 }
+
 @end
+
+NS_ASSUME_NONNULL_END

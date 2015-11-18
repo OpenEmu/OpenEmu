@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,45 +24,47 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import "OEDBItem.h"
 #import "OELibraryDatabase.h"
 
 #import "NSManagedObjectContext+OEAdditions.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation OEDBItem
+
 - (OELibraryDatabase *)libraryDatabase
 {
-    return [[self managedObjectContext] libraryDatabase];
+    return self.managedObjectContext.libraryDatabase;
 }
 
-+ (instancetype)createObjectInContext:(NSManagedObjectContext*)context
++ (instancetype)createObjectInContext:(NSManagedObjectContext *)context
 {
     return [NSEntityDescription insertNewObjectForEntityForName:[self entityName] inManagedObjectContext:context];
 }
 
-+ (NSArray*)allObjectsInContext:(NSManagedObjectContext*)context
++ (NSArray <__kindof OEDBItem *> *)allObjectsInContext:(NSManagedObjectContext *)context
 {
     return [self allObjectsInContext:context error:nil];
 }
 
-+ (NSArray*)allObjectsInContext:(NSManagedObjectContext*)context error:(NSError**)error
++ (NSArray <__kindof OEDBItem *> *)allObjectsInContext:(NSManagedObjectContext *)context error:(NSError **)error
 {
     return [self allObjectsInContext:context sortBy:nil error:error];
 }
 
-+ (NSArray*)allObjectsInContext:(NSManagedObjectContext*)context sortBy:(NSArray*)sortDescriptors error:(NSError**)error
++ (NSArray <__kindof OEDBItem *> *)allObjectsInContext:(NSManagedObjectContext *)context sortBy:(nullable NSArray <NSSortDescriptor *> *)sortDescriptors error:(NSError **)error
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
-    [request setSortDescriptors:sortDescriptors];
+    request.sortDescriptors = sortDescriptors;
     return [context executeFetchRequest:request error:error];
 }
 
-+ (instancetype)objectWithURI:(NSURL *)uri inContext:(NSManagedObjectContext*)context
++ (instancetype)objectWithURI:(NSURL *)objectURI inContext:(NSManagedObjectContext*)context
 {
     __block NSManagedObjectID *objectID = nil;
     [context performBlockAndWait:^{
-        objectID = [[context persistentStoreCoordinator] managedObjectIDForURIRepresentation:uri];
+        objectID = [context.persistentStoreCoordinator managedObjectIDForURIRepresentation:objectURI];
     }];
     return [self objectWithID:objectID inContext:context];
 }
@@ -77,44 +79,44 @@
 
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
         NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(self == %@)", result];
-        [request setPredicate:predicate];
-        result = [[context executeFetchRequest:request error:nil] lastObject];
+        request.predicate = predicate;
+        result = [context executeFetchRequest:request error:nil].lastObject;
 
     }];
     return result;
 }
 
-- (NSManagedObjectID*)permanentID
+- (NSManagedObjectID *)permanentID
 {
-    NSManagedObjectID *result = [self objectID];
+    NSManagedObjectID *result = self.objectID;
 
-    if([result isTemporaryID])
+    if(result.isTemporaryID)
     {
-        [[self managedObjectContext] obtainPermanentIDsForObjects:@[self] error:nil];
-        result = [self objectID];
+        [self.managedObjectContext obtainPermanentIDsForObjects:@[self] error:nil];
+        result = self.objectID;
     }
 
     return result;
 }
 
-- (NSURL*)permanentIDURI
+- (NSURL *)permanentIDURI
 {
-    return [[self permanentID] URIRepresentation];
+    return self.permanentID.URIRepresentation;
 }
 
 
-+ (NSString*)entityName
++ (NSString *)entityName
 {
     NSAssert(NO, @"+entityName must be overriden");
     return nil;
 }
 
-- (NSString*)entityName
+- (NSString *)entityName
 {
-    return [[self class] entityName];
+    return [self.class entityName];
 }
 
-+ (NSEntityDescription*)entityDescriptionInContext:(NSManagedObjectContext *)context
++ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context
 {
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
@@ -122,7 +124,7 @@
 - (BOOL)save
 {
     __block BOOL result = NO;
-    NSManagedObjectContext *context = [self managedObjectContext];
+    NSManagedObjectContext *context = self.managedObjectContext;
     [context performBlockAndWait:^{
         NSError *error = nil;
         result = [context save:&error];
@@ -134,10 +136,12 @@
 
 - (void)delete
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
+    NSManagedObjectContext *context = self.managedObjectContext;
     [context performBlockAndWait:^{
         [context deleteObject:self];
     }];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

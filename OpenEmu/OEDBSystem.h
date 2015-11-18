@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -27,48 +27,57 @@
 @import Foundation;
 #import "OEDBItem.h"
 
+@class OEDBGame, OESystemPlugin, OELibraryDatabase;
+
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString * const OEDBSystemsDidChangeNotification;
 
-@class OESystemPlugin, OELibraryDatabase;
 @interface OEDBSystem : OEDBItem
+
 + (NSInteger)systemsCountInContext:(NSManagedObjectContext *)context;
-+ (NSInteger)systemsCountInContext:(NSManagedObjectContext *)context error:(NSError**)error;
++ (NSInteger)systemsCountInContext:(NSManagedObjectContext *)context error:(NSError **)error;
 
-+ (NSArray*)allSystemsInContext:(NSManagedObjectContext *)context;
-+ (NSArray*)allSystemsInContext:(NSManagedObjectContext *)context error:(NSError**)error;
++ (nullable NSArray <OEDBSystem *> *)allSystemsInContext:(NSManagedObjectContext *)context;
++ (nullable NSArray <OEDBSystem *> *)allSystemsInContext:(NSManagedObjectContext *)context error:(NSError **)error;
 
-+ (NSArray*)allSystemIdentifiersInContext:(NSManagedObjectContext*)context;
++ (NSArray <NSString *> *)allSystemIdentifiersInContext:(NSManagedObjectContext *)context;
 
-+ (NSArray*)enabledSystemsinContext:(NSManagedObjectContext *)context;
-+ (NSArray*)enabledSystemsinContext:(NSManagedObjectContext *)context error:(NSError**)outError;
++ (nullable NSArray <OEDBSystem *> *)enabledSystemsinContext:(NSManagedObjectContext *)context;
++ (nullable NSArray <OEDBSystem *> *)enabledSystemsinContext:(NSManagedObjectContext *)context error:(NSError **)outError;
 
-+ (NSArray*)systemsForFileWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context;
-+ (NSArray*)systemsForFileWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context error:(NSError**)error;
++ (NSArray <OEDBSystem *> *)systemsForFileWithURL:(NSURL *)fileURL inContext:(NSManagedObjectContext *)context;
++ (NSArray <OEDBSystem *> *)systemsForFileWithURL:(NSURL *)fileURL inContext:(NSManagedObjectContext *)context error:(NSError**)error;
 
-+ (NSString*)headerForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier;
-+ (NSString*)serialForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier;
++ (NSString *)headerForFileWithURL:(NSURL *)URL forSystem:(NSString *)identifier;
++ (NSString *)serialForFileWithURL:(NSURL *)URL forSystem:(NSString *)identifier;
 
 + (instancetype)systemForPlugin:(OESystemPlugin *)plugin inContext:(NSManagedObjectContext *)context;
 + (instancetype)systemForPluginIdentifier:(NSString *)identifier inContext:(NSManagedObjectContext *)context;
 
-#pragma mark -
-#pragma mark Core Data utilities
+#pragma mark - Core Data utilities
+
 @property (nonatomic, readonly) CGFloat coverAspectRatio;
-#pragma mark -
-#pragma mark Data Model Properties
-@property(nonatomic, retain) NSString *lastLocalizedName;
-@property(nonatomic, retain) NSString *shortname;
-@property(nonatomic, retain) NSString *systemIdentifier;
-@property(nonatomic, retain) NSNumber *enabled;
+
+#pragma mark - Data Model Properties
+
+@property(nonatomic, retain, nullable) NSString *lastLocalizedName;
+@property(nonatomic, retain, nullable) NSString *shortname;
+@property(nonatomic, retain, nullable) NSString *systemIdentifier;
+@property(nonatomic, retain, nullable) NSNumber *enabled;
+
+#pragma mark - Data Model Relationships
+
+@property(nonatomic, retain, nullable)   NSSet          <OEDBGame *> *games;
+@property(nonatomic, readonly, nullable) NSMutableSet  <OEDBGame *> *mutableGames;
 
 #pragma mark -
-#pragma mark Data Model Relationships
-@property(nonatomic, retain)   NSSet         *games;
-@property(nonatomic, readonly) NSMutableSet  *mutableGames;
 
-#pragma mark -
-- (OESystemPlugin *)plugin;
+@property(readonly) OESystemPlugin *plugin;
 
 @property(readonly) NSImage  *icon;
 @property(readonly) NSString *name;
+
 @end
+
+NS_ASSUME_NONNULL_END

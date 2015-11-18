@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,37 +26,45 @@
 
 #import "OEDBItem.h"
 
-typedef enum : NSUInteger
+@class OELibraryDatabase, OEDBGame;
+
+NS_ASSUME_NONNULL_BEGIN
+
+typedef NS_ENUM(NSUInteger, OEBitmapImageFileType)
 {
     OEBitmapImageFileTypeOriginal = 7,
     OEBitmapImageFileTypeDefault  = 8,
-} OEBitmapImageFileType;
+};
 
-@class OELibraryDatabase, OEDBGame;
-@interface OEDBImage : OEDBItem
+@interface OEDBImage: OEDBItem
 
-+ (NSDictionary*)prepareImageWithURLString:(NSString*)url;
-+ (NSDictionary*)prepareImageWithNSImage:(NSImage*)image;
++ (nullable NSDictionary <NSString *, id> *)prepareImageWithURLString:(NSString *)URLString;
++ (NSDictionary <NSString *, id> *)prepareImageWithNSImage:(NSImage *)image;
 
-+ (instancetype)createImageWithDictionary:(NSDictionary*)dictionary;
++ (instancetype)createImageWithDictionary:(NSDictionary <NSString *, id> *)dictionary;
 
-- (BOOL)localFilesAvailable;
+@property(readonly) BOOL localFilesAvailable;
 
 #pragma mark - Core Data utilities
+
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
-- (NSImage *)image;
-- (NSString*)UUID;
-- (NSURL *)imageURL;
-- (BOOL)convertToFormat:(OEBitmapImageFileType)format withProperties:(NSDictionary*)attributes;
+@property(readonly) NSImage *image;
+@property(readonly) NSString *UUID;
+@property(readonly) NSURL *imageURL;
+
+- (BOOL)convertToFormat:(OEBitmapImageFileType)format withProperties:(NSDictionary *)attributes;
 
 @property (nonatomic) NSURL *sourceURL;
 @property (readonly, nonatomic, getter = isLocalImageAvailable) BOOL localImageAvailable;
 
 @property (nonatomic) float width, height;
 @property (nonatomic) short format;
-@property (nonatomic, retain) NSString *relativePath;
-@property (nonatomic, retain) NSString *source;
-@property (nonatomic, retain) OEDBGame *Box;
+@property (nonatomic, retain, nullable) NSString *relativePath;
+@property (nonatomic, retain, nullable) NSString *source;
+@property (nonatomic, retain, nullable) OEDBGame *Box;
+
 @end
+
+NS_ASSUME_NONNULL_END

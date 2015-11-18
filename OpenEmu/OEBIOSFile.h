@@ -26,17 +26,22 @@
 
 @import Foundation;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Class to detect and import BIOS files
  */
-@interface OEBIOSFile : NSObject
+@interface OEBIOSFile: NSObject
 
-- (id)init;
+- (instancetype)init;
 
 #pragma mark - File Handling
-- (BOOL)isBIOSFileAvailable:(NSDictionary *)file;
+
+- (BOOL)isBIOSFileAvailable:(NSDictionary <NSString *, NSString *> *)file;
 - (BOOL)allRequiredFilesAvailableForSystemIdentifier:(NSArray *)systemIdentifier;
-- (BOOL)checkIfBIOSFileAndImportAtURL:(NSURL *)url;
-- (BOOL)checkIfBIOSFileAndImportAtURL:(NSURL *)url withMD5:(NSString *)md5;
+- (BOOL)checkIfBIOSFileAndImportAtURL:(NSURL *)fileURL;
+- (BOOL)checkIfBIOSFileAndImportAtURL:(NSURL *)fileURL withMD5:(NSString *)md5String;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,27 +24,34 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 @import CoreData;
+
 @class OELibraryDatabase;
-@interface OEDBItem : NSManagedObject
-- (OELibraryDatabase*)libraryDatabase;
 
-+ (instancetype)createObjectInContext:(NSManagedObjectContext*)context;
+NS_ASSUME_NONNULL_BEGIN
 
-+ (instancetype)objectWithURI:(NSURL *)uri inContext:(NSManagedObjectContext*)library;
-+ (instancetype)objectWithID:(NSManagedObjectID *)objectID inContext:(NSManagedObjectContext*)library;
+@interface OEDBItem: NSManagedObject
 
-+ (NSArray*)allObjectsInContext:(NSManagedObjectContext*)context;
-+ (NSArray*)allObjectsInContext:(NSManagedObjectContext*)context error:(NSError**)error;
-+ (NSArray*)allObjectsInContext:(NSManagedObjectContext*)context sortBy:(NSArray*)sortDescriptors error:(NSError**)error;
+@property(readonly) OELibraryDatabase *libraryDatabase;
 
-- (NSManagedObjectID*)permanentID;
-- (NSURL*)permanentIDURI;
++ (instancetype)createObjectInContext:(NSManagedObjectContext *)context;
 
-+ (NSString*)entityName;
-- (NSString*)entityName;
++ (instancetype)objectWithURI:(NSURL *)objectURI inContext:(NSManagedObjectContext *)library;
++ (instancetype)objectWithID:(NSManagedObjectID *)objectID inContext:(NSManagedObjectContext *)library;
+
++ (NSArray <__kindof OEDBItem *> *)allObjectsInContext:(NSManagedObjectContext *)context;
++ (NSArray <__kindof OEDBItem *> *)allObjectsInContext:(NSManagedObjectContext *)context error:(NSError **)error;
++ (NSArray <__kindof OEDBItem *> *)allObjectsInContext:(NSManagedObjectContext *)context sortBy:(nullable NSArray <NSSortDescriptor *> *)sortDescriptors error:(NSError **)error;
+
+@property(readonly) NSManagedObjectID *permanentID;
+@property(readonly) NSURL *permanentIDURI;
+
++ (NSString *)entityName;
+@property(readonly) NSString *entityName;
 
 - (BOOL)save;
 - (void)delete;
+
 @end
+
+NS_ASSUME_NONNULL_END

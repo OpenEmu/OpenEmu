@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -27,6 +27,10 @@
 @import Foundation;
 #import "OESidebarItem.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OEDBAllGamesCollection : NSObject <OESidebarItem>
 + (instancetype)sharedDBAllGamesCollection;
 @end
+
+NS_ASSUME_NONNULL_END

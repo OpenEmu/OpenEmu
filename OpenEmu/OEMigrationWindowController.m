@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,58 +26,65 @@
 
 #import "OEMigrationWindowController.h"
 #import "OELibraryMigrator.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OEMigrationWindowController ()
 @property (strong) NSMigrationManager *manager;
 @end
 
 @implementation OEMigrationWindowController
 
-- (id)initWithMigrationManager:(NSMigrationManager*)manager
+- (id)initWithMigrationManager:(NSMigrationManager *)manager
 {
-    self = [super initWithWindowNibName:[self windowNibName]];
+    self = [super initWithWindowNibName:self.windowNibName];
     if (self)
     {
-        [self setManager:manager];
+        _manager = manager;
     }
     return self;
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+- (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSString*, id> *)change context:(nullable void *)context
 {
-    float progress = [[self manager] migrationProgress];
-    [[self indicator] setDoubleValue:progress];
-    [[self indicator] setIndeterminate:progress==0.0 || (progress > 1.0-FLT_EPSILON)];
+    float progress = self.manager.migrationProgress;
+    self.indicator.doubleValue = progress;
+    self.indicator.indeterminate = progress == 0.0 || (progress > 1.0 - FLT_EPSILON);
 }
 
 
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    [[self indicator] startAnimation:self];
+    [self.indicator startAnimation:self];
 }
 
-- (void)showWindow:(id)sender
+- (void)showWindow:(nullable id)sender
 {
-    [[self manager] addObserver:self forKeyPath:@"migrationProgress" options:NSKeyValueObservingOptionNew context:NULL];
+    [self.manager addObserver:self forKeyPath:@"migrationProgress" options:NSKeyValueObservingOptionNew context:NULL];
 
     [super showWindow:sender];
 }
 
 - (void)close
 {
-    [[self manager] removeObserver:self forKeyPath:@"migrationProgress"];
+    [self.manager removeObserver:self forKeyPath:@"migrationProgress"];
     [super close];
 }
 
-- (NSString*)windowNibName
+- (nullable NSString *)windowNibName
 {
-    return [self className];
+    return self.className;
 }
+
 #pragma mark -
-- (IBAction)cancelMigration:(id)sender
+
+- (IBAction)cancelMigration:(nullable id)sender
 {
     NSError *error = [NSError errorWithDomain:OEMigrationErrorDomain code:OEMigrationCanceled userInfo:nil];
-    [[self manager] cancelMigrationWithError:error];
+    [self.manager cancelMigrationWithError:error];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

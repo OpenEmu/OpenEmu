@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -36,17 +36,23 @@
 
 #import "OEGameCollectionViewItemProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString * const OECoverGridViewAutoDownloadEnabledKey;
+
 @interface OEDBGame (DataSourceAdditions) <OECoverGridDataSourceItem, OEListViewDataSourceItem>
-+ (NSImage*)artworkPlacholderWithAspectRatio:(CGFloat)ratio;
++ (NSImage *)artworkPlacholderWithAspectRatio:(CGFloat)ratio;
 @end
 
 @interface OEDBSystem (DataSourceAdditions) <OESidebarItem> 
 @end
 
 #pragma mark - Implementation of items that can be presented by OEGameCollectionView
+
 @interface OEDBSystem (OECollectionViewItemAdditions) <OEGameCollectionViewItemProtocol>
 @end
 
 @interface OEDBAllGamesCollection (OECollectionViewItemAdditions) <OEGameCollectionViewItemProtocol>
 @end
+
+NS_ASSUME_NONNULL_END

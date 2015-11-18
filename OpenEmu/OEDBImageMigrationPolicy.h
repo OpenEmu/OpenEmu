@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,6 +26,11 @@
 
 @import CoreData;
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString * const OEDBImageMigrateImageFormat;
-@interface OEDBImageMigrationPolicy : NSEntityMigrationPolicy
+
+@interface OEDBImageMigrationPolicy: NSEntityMigrationPolicy
 @end
+
+NS_ASSUME_NONNULL_END

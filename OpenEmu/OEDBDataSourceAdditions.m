@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -33,59 +33,62 @@
 #import "OETheme.h"
 @import Quartz;
 
+NS_ASSUME_NONNULL_BEGIN
+
 static NSDateFormatter *_OEListViewDateFormatter;
 static void OE_initOEListViewDateFormatter(void) __attribute__((constructor));
 static NSString * OE_stringFromElapsedTime(NSTimeInterval);
 
 NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDownloadEnabledKey";
+
 @implementation OEDBGame (DataSourceAdditions)
 
-#pragma mark -
-#pragma mark CoverGridDataSourceItem
+#pragma mark - CoverGridDataSourceItem
+
 - (void)setGridTitle:(NSString *)str
 {
-    [self setDisplayName:str];
-    [[self managedObjectContext] save:nil];
+    self.displayName = str;
+    [self.managedObjectContext save:nil];
 }
 
 - (void)setGridRating:(NSUInteger)newRating
 {
-    [self setRating:[NSNumber numberWithUnsignedInteger:newRating]];
-    [[self managedObjectContext] save:nil];
+    self.rating = @(newRating);
+    [self.managedObjectContext save:nil];
 }
 
 - (NSUInteger)gridRating
 {
-    return [[self rating] unsignedIntegerValue];
+    return self.rating.unsignedIntegerValue;
 }
 
 - (BOOL)hasImage
 {
-    return [self boxImage] != nil;
+    return self.boxImage != nil;
 }
 
 - (BOOL)shouldIndicateDeletable
 {
-    return [[self defaultROM] source] != nil;
+    return self.defaultROM.source != nil;
 }
 
 - (BOOL)shouldIndicateDownloadable
 {
-    OEDBRom *rom = [self defaultROM];
-    return !([[self status] isEqualTo:@(OEDBGameStatusDownloading)] || [rom source] == nil || [[rom URL] checkResourceIsReachableAndReturnError:nil]);
+    OEDBRom *rom = self.defaultROM;
+    return !([self.status isEqualTo:@(OEDBGameStatusDownloading)] || rom.source == nil || [rom.URL checkResourceIsReachableAndReturnError:nil]);
 }
 
 - (NSString *)imageUID
 {
-    OEDBImage *image = [self boxImage];
+    OEDBImage *image = self.boxImage;
     NSString *result = nil;
-    if([image isLocalImageAvailable] && [image relativePath] != nil)
-        result = [image UUID];
-    else if(image != nil && [image source] != nil && [[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
-        result = [image source];
+    if(image.isLocalImageAvailable && image.relativePath != nil)
+        result = image.UUID;
+    else if(image != nil && image.source != nil && [[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
+        result = image.source;
     else
     {
-        CGFloat aspectRatio = [[self system] coverAspectRatio];
+        CGFloat aspectRatio = self.system.coverAspectRatio;
         result = [NSString stringWithFormat:@":MissingArtwork(%f)", aspectRatio];
     }
     return result;
@@ -94,10 +97,10 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
 - (NSString *)imageRepresentationType
 {
     NSString *result = nil;
-    OEDBImage *image = [self boxImage];
-    if([image isLocalImageAvailable] && [image relativePath] != nil)
+    OEDBImage *image = self.boxImage;
+    if(image.isLocalImageAvailable && image.relativePath != nil)
         result = IKImageBrowserNSURLRepresentationType;
-    else if(image != nil && [image source] != nil && [[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
+    else if(image != nil && image.source != nil && [[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
         result = IKImageBrowserNSURLRepresentationType;
     else
         result = IKImageBrowserNSImageRepresentationType;
@@ -107,29 +110,29 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
 
 - (id)imageRepresentation
 {
-    OEDBImage *image = [self boxImage];
+    OEDBImage *image = self.boxImage;
 
-    if([image isLocalImageAvailable] && [image relativePath] != nil)
+    if(image.isLocalImageAvailable && image.relativePath != nil)
     {
-        return [image imageURL];
+        return image.imageURL;
     }
 
-    if(image != nil && [image source] != nil && [[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
+    if(image != nil && image.source != nil && [[NSUserDefaults standardUserDefaults] boolForKey:OECoverGridViewAutoDownloadEnabledKey])
     {
-        return [image sourceURL];
+        return image.sourceURL;
     }
 
-    CGFloat aspectRatio = [[self system] coverAspectRatio];
+    CGFloat aspectRatio = self.system.coverAspectRatio;
     return [[self class] artworkPlacholderWithAspectRatio:aspectRatio];
 }
 
-+ (NSImage*)artworkPlacholderWithAspectRatio:(CGFloat)ratio
++ (NSImage *)artworkPlacholderWithAspectRatio:(CGFloat)ratio
 {
     static NSCache *cache = nil;
     if(cache == nil)
     {
         cache = [[NSCache alloc] init];
-        [cache setCountLimit:20];
+        cache.countLimit = 20;
     }
     
     NSString *key = [NSString stringWithFormat:@"%f", ratio];
@@ -137,9 +140,9 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
     if(image == nil)
     {
         image = [[NSImage alloc] init];
-        [image setSize:NSMakeSize(300, 300*ratio)];
+        image.size = NSMakeSize(300, 300 * ratio);
         [cache setObject:image forKey:key];
-        [image setCacheMode:NSImageCacheBySize];
+        image.cacheMode = NSImageCacheBySize;
 
     }
     return image;
@@ -147,7 +150,7 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
 
 - (NSString *)imageTitle
 {
-    return [self displayName];
+    return self.displayName;
 }
 
 - (NSString *)imageSubtitle
@@ -157,20 +160,20 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
 
 - (NSInteger)gridStatus
 {
-    return [[self status] integerValue];
+    return self.status.integerValue;
 }
 
 - (NSUInteger)gameRating
 {
-    return [[self rating] unsignedIntegerValue];
+    return self.rating.unsignedIntegerValue;
 }
 
 - (void)setImage:(NSImage *)img
 {
 }
 
-#pragma mark -
-#pragma mark ListView DataSource Item
+#pragma mark - ListView DataSource Item
+
 - (OEThemeImage *)listViewStatus
 {
     NSString *imageKey = [self OE_listViewStatusImageKey];
@@ -189,7 +192,7 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
     id doc = [[[NSDocumentController sharedDocumentController] documents] firstObjectMatchingBlock:
               ^ BOOL (OEGameDocument *doc)
               {
-                  return [doc isKindOfClass:[OEGameDocument class]] && [[[[[doc gameViewController] document] rom] game] isEqual:self];
+                  return [doc isKindOfClass:[OEGameDocument class]] && [doc.gameViewController.document.rom.game isEqual:self];
               }];
     
     return doc != nil;
@@ -197,54 +200,54 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
 
 - (void)setListViewRating:(NSNumber *)number
 {
-    [self setRating:number];
+    self.rating = number;
 }
 
 - (NSNumber *)listViewRating
 {
-    return [self rating];
+    return self.rating;
 }
 
 - (void)setListViewTitle:(NSString*)title
 {
-    [self setDisplayName:title];
+    self.displayName = title;
 }
 
 - (NSString *)listViewTitle
 {
-    return [self displayName];
+    return self.displayName;
 }
 
 - (NSString *)listViewLastPlayed
 {
-    return ([self lastPlayed] ?
-            [_OEListViewDateFormatter stringFromDate:[self lastPlayed]] :
+    return (self.lastPlayed ?
+            [_OEListViewDateFormatter stringFromDate:self.lastPlayed] :
             @"");
 }
 
 - (NSString *)listViewConsoleName
 {
-    return NSLocalizedString([[self system] valueForKey:@"name"], @"");
+    return NSLocalizedString([self.system valueForKey:@"name"], @"");
 }
 
 - (void)setGridViewRating:(NSNumber *)number
 {
-    [self setRating:number];
+    self.rating = number;
 }
 
 - (NSNumber *)listViewSaveStateCount
 {
-    return ([[self saveStateCount] unsignedIntegerValue] > 0 ? [self saveStateCount] : nil);
+    return (self.saveStateCount.unsignedIntegerValue > 0 ? self.saveStateCount : nil);
 }
 
 - (NSNumber *)listViewPlayCount
 {
-    return ([[self playCount] unsignedIntegerValue] > 0 ? [self playCount] : nil);
+    return (self.playCount.unsignedIntegerValue > 0 ? self.playCount : nil);
 }
 
 - (NSString *)listViewPlayTime
 {
-    return ([[self playTime] doubleValue] > 0 ? OE_stringFromElapsedTime([[self playTime] doubleValue]) : @"");
+    return (self.playTime.doubleValue > 0 ? OE_stringFromElapsedTime(self.playTime.doubleValue) : @"");
 }
 
 static void OE_initOEListViewDateFormatter(void)
@@ -298,7 +301,9 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
 }
 
 @end
+
 #pragma mark -
+
 @implementation OEDBSystem (DataSourceAdditions)
 
 - (NSString*)viewControllerClassName
@@ -306,19 +311,19 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
     return @"OEGameCollectionViewController";
 }
 
-- (NSString*)sidebarID
+- (nullable NSString *)sidebarID
 {
-    return [self systemIdentifier];
+    return self.systemIdentifier;
 }
 
 - (NSImage *)sidebarIcon
 {
-    return [self icon];
+    return self.icon;
 }
 
 - (NSString *)sidebarName
 {
-    return [self name];
+    return self.name;
 }
 
 - (void)setSidebarName:(NSString *)newName
@@ -353,7 +358,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
 
 - (NSString *)collectionViewName
 {
-    return [self name];
+    return self.name;
 }
 
 - (BOOL)isCollectionEditable
@@ -385,7 +390,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
 
 - (NSString *)collectionViewName
 {
-    return [self sidebarName];
+    return self.sidebarName;
 }
 
 - (BOOL)isCollectionEditable
@@ -418,3 +423,5 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
     return @[];
 }
 @end
+
+NS_ASSUME_NONNULL_END

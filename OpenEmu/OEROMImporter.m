@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -43,7 +43,10 @@
 #import <XADMaster/XADArchive.h>
 #import <objc/runtime.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark User Default Keys -
+
 NSString *const OEOrganizeLibraryKey       = @"organizeLibrary";
 NSString *const OECopyToLibraryKey         = @"copyToLibrary";
 NSString *const OEAutomaticallyGetInfoKey  = @"automaticallyGetInfo";
@@ -52,7 +55,6 @@ NSString *const OEAutomaticallyGetInfoKey  = @"automaticallyGetInfo";
 NSString *const OEImportErrorDomainFatal      = @"OEImportFatalDomain";
 NSString *const OEImportErrorDomainResolvable = @"OEImportResolvableDomain";
 NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
-
 
 @interface OEROMImporter ()
 
@@ -65,7 +67,6 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 @property(readwrite, nonatomic) NSInteger          totalNumberOfItems;
 @property(readwrite, strong)    NSMutableArray    *spotlightSearchResults;
 
-- (void)OE_performSelectorOnDelegate:(SEL)selector withObject:(id)object;
 @end
 
 @implementation OEROMImporter
@@ -89,33 +90,34 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     self = [super init];
     if (self != nil)
     {
-        [self setDatabase:aDatabase];
-        [self setSpotlightSearchResults:[NSMutableArray arrayWithCapacity:1]];
-        [self setNumberOfProcessedItems:0];
+        self.database = aDatabase;
+        self.spotlightSearchResults = [NSMutableArray arrayWithCapacity:1];
+        self.numberOfProcessedItems = 0;
 
         NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-        [queue setMaxConcurrentOperationCount:1];
-        [queue setName:@"org.openemu.importqueue"];
-        [self setOperationQueue:queue];
-        [self setStatus:OEImporterStatusStopped];
+        queue.maxConcurrentOperationCount = 1;
+        queue.name = @"org.openemu.importqueue";
+        self.operationQueue = queue;
+        self.status = OEImporterStatusStopped;
 
         NSOperation *initializeMOCOp = [NSBlockOperation blockOperationWithBlock:^{
             NSManagedObjectContext *context = [aDatabase makeChildContext];
-            [self setContext:context];
+            self.context = context;
         }];
         [queue addOperations:@[initializeMOCOp] waitUntilFinished:YES];
-        [queue setSuspended:YES];
+        queue.suspended = YES;
     }
     return self;
 }
 
 #pragma mark - State
+
 - (BOOL)saveQueue
 {
-    NSOperationQueue *queue = [self operationQueue];
-    [queue setSuspended:YES];
+    NSOperationQueue *queue = self.operationQueue;
+    queue.suspended = YES;
 
-    NSURL *url = [[self database] importQueueURL];
+    NSURL *url = self.database.importQueueURL;
 
     // remove last saved queue if any
     [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
@@ -125,10 +127,10 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
         return [evaluatedObject isKindOfClass:[OEImportOperation class]]
                     && ![evaluatedObject isFinished] && ![evaluatedObject isCancelled];
     }];
-    NSArray *operations = [[queue operations] filteredArrayUsingPredicate:filterPredicate];
+    NSArray *operations = [queue.operations filteredArrayUsingPredicate:filterPredicate];
 
     // only save queue if it's not empty
-    if([operations count] != 0)
+    if(operations.count != 0)
     {
         // write new queue data
         NSData *queueData = [NSKeyedArchiver archivedDataWithRootObject:operations];
@@ -139,7 +141,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 
 - (BOOL)loadQueue
 {
-    NSURL *url = [[self database] importQueueURL];
+    NSURL *url = self.database.importQueueURL;
 
     // read previously stored data
     NSData *queueData = [NSData dataWithContentsOfURL:url];
@@ -151,44 +153,46 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     
     // Restore queue
     NSMutableArray *operations = [NSKeyedUnarchiver unarchiveObjectWithData:queueData];
-    if ([operations count])
+    if (operations.count > 0)
     {
-        [self setNumberOfProcessedItems:0];
-        [self setTotalNumberOfItems:[operations count]];
-        [[self operationQueue] addOperations:operations waitUntilFinished:NO];
+        self.numberOfProcessedItems = 0;
+        self.totalNumberOfItems = operations.count;
+        [self.operationQueue addOperations:operations waitUntilFinished:NO];
         return YES;
     }
     return NO;
 }
 
 #pragma mark - Importing Items with completion handler
-- (BOOL)importItemAtPath:(NSString *)path withCompletionHandler:(OEImportItemCompletionBlock)handler
+
+- (BOOL)importItemAtPath:(NSString *)path withCompletionHandler:(nullable OEImportItemCompletionBlock)handler
 {
     return [self importItemAtPath:path intoCollectionWithID:nil withCompletionHandler:handler];
 }
 
-- (BOOL)importItemsAtPaths:(NSArray *)paths withCompletionHandler:(OEImportItemCompletionBlock)handler
+- (BOOL)importItemsAtPaths:(NSArray <NSString *> *)paths withCompletionHandler:(nullable OEImportItemCompletionBlock)handler
 {
     return [self importItemsAtPaths:paths intoCollectionWithID:nil withCompletionHandler:handler];
 }
 
-- (BOOL)importItemAtURL:(NSURL *)url withCompletionHandler:(OEImportItemCompletionBlock)handler
+- (BOOL)importItemAtURL:(NSURL *)url withCompletionHandler:(nullable OEImportItemCompletionBlock)handler
 {
     return [self importItemAtURL:url intoCollectionWithID:nil withCompletionHandler:handler];
 }
 
-- (BOOL)importItemsAtURLs:(NSArray *)urls withCompletionHandler:(OEImportItemCompletionBlock)handler
+- (BOOL)importItemsAtURLs:(NSArray <NSURL *> *)urls withCompletionHandler:(nullable OEImportItemCompletionBlock)handler
 {
     return [self importItemsAtURLs:urls intoCollectionWithID:nil withCompletionHandler:handler];
 }
 
 #pragma mark - Importing Items without completion handler
+
 - (BOOL)importItemAtPath:(NSString *)path
 {
     return [self importItemAtPath:path withCompletionHandler:nil];
 }
 
-- (BOOL)importItemsAtPaths:(NSArray *)paths
+- (BOOL)importItemsAtPaths:(NSArray <NSString *> *)paths
 {
     return [self importItemsAtPaths:paths withCompletionHandler:nil];
 }
@@ -198,49 +202,51 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     return [self importItemAtURL:url withCompletionHandler:nil];
 }
 
-- (BOOL)importItemsAtURLs:(NSArray *)urls
+- (BOOL)importItemsAtURLs:(NSArray <NSURL *> *)urls
 {
     return [self importItemsAtURLs:urls withCompletionHandler:nil];
 }
 
 #pragma mark - Importing items into collections
-- (BOOL)importItemAtPath:(NSString *)path intoCollectionWithID:(NSManagedObjectID*)collectionID
+
+- (BOOL)importItemAtPath:(NSString *)path intoCollectionWithID:(nullable NSManagedObjectID *)collectionID
 {
     return [self importItemAtPath:path intoCollectionWithID:collectionID withCompletionHandler:nil];
 }
-- (BOOL)importItemsAtPaths:(NSArray *)paths intoCollectionWithID:(NSManagedObjectID*)collectionID
+- (BOOL)importItemsAtPaths:(NSArray <NSString *> *)paths intoCollectionWithID:(nullable NSManagedObjectID *)collectionID
 {
     return [self importItemsAtPaths:paths intoCollectionWithID:collectionID withCompletionHandler:nil];
 }
-- (BOOL)importItemAtURL:(NSURL *)url intoCollectionWithID:(NSManagedObjectID*)collectionID
+
+- (BOOL)importItemAtURL:(NSURL *)url intoCollectionWithID:(nullable NSManagedObjectID *)collectionID
 {
     return [self importItemAtURL:url intoCollectionWithID:collectionID withCompletionHandler:nil];
 }
-- (BOOL)importItemsAtURLs:(NSArray *)urls intoCollectionWithID:(NSManagedObjectID*)collectionID
+- (BOOL)importItemsAtURLs:(NSArray <NSURL *> *)urls intoCollectionWithID:(nullable NSManagedObjectID *)collectionID
 {
     return [self importItemsAtURLs:urls intoCollectionWithID:collectionID withCompletionHandler:nil];
 }
 #pragma mark - Importing items into collections with completion handlers
-- (BOOL)importItemAtPath:(NSString *)path intoCollectionWithID:(NSManagedObjectID*)collectionID withCompletionHandler:(OEImportItemCompletionBlock)handler
+
+- (BOOL)importItemAtPath:(NSString *)path intoCollectionWithID:(nullable NSManagedObjectID *)collectionID withCompletionHandler:(nullable OEImportItemCompletionBlock)handler
 {
     NSURL *url = [NSURL fileURLWithPath:path];
     return [self importItemAtURL:url intoCollectionWithID:collectionID withCompletionHandler:handler];
 }
-- (BOOL)importItemsAtPaths:(NSArray *)paths intoCollectionWithID:(NSManagedObjectID*)collectionID  withCompletionHandler:(OEImportItemCompletionBlock)handler
+- (BOOL)importItemsAtPaths:(NSArray <NSString *> *)paths intoCollectionWithID:(nullable NSManagedObjectID *)collectionID  withCompletionHandler:(nullable OEImportItemCompletionBlock)handler
 {
-    __block BOOL success = NO;
-    [paths enumerateObjectsUsingBlock:
-     ^(id obj, NSUInteger idx, BOOL *stop)
-     {
-         success = [self importItemAtPath:obj intoCollectionWithID:collectionID withCompletionHandler:handler] || success;
-     }];
+    BOOL success = NO;
+    for(NSString *obj in paths)
+    {
+        success = [self importItemAtPath:obj intoCollectionWithID:collectionID withCompletionHandler:handler] || success;
+    }
     return success;
 }
 
-- (BOOL)importItemAtURL:(NSURL *)url intoCollectionWithID:(NSManagedObjectID*)collectionID  withCompletionHandler:(OEImportItemCompletionBlock)handler
+- (BOOL)importItemAtURL:(NSURL *)url intoCollectionWithID:(nullable NSManagedObjectID *)collectionID  withCompletionHandler:(nullable OEImportItemCompletionBlock)handler
 {
-    NSOperationQueue *queue = [self operationQueue];
-    NSArray *operations     = [queue operations];
+    NSOperationQueue *queue = self.operationQueue;
+    NSArray *operations     = queue.operations;
 
     // check operation queue for items that have already import the same url
     OEImportOperation *item = [operations firstObjectMatchingBlock:^ BOOL (id item){
@@ -250,8 +256,8 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     if(item == nil)
     {
         OEImportOperation *item = [OEImportOperation operationWithURL:url inImporter:self];
-        [item setCompletionHandler:handler];
-        [item setCollectionID:collectionID];
+        item.completionHandler = handler;
+        item.collectionID = collectionID;
 
         if(item)
         {
@@ -263,25 +269,26 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     return NO;
 }
 
-- (BOOL)importItemsAtURLs:(NSArray *)urls intoCollectionWithID:(NSManagedObjectID*)collectionID  withCompletionHandler:(OEImportItemCompletionBlock)handler
+- (BOOL)importItemsAtURLs:(NSArray <NSURL *> *)urls intoCollectionWithID:(nullable NSManagedObjectID *)collectionID  withCompletionHandler:(nullable OEImportItemCompletionBlock)handler
 {
-    __block BOOL success = NO;
-    [urls enumerateObjectsUsingBlock:
-     ^(id obj, NSUInteger idx, BOOL *stop)
-     {
-         success = [self importItemAtURL:obj intoCollectionWithID:collectionID withCompletionHandler:handler] || success;
-     }];
+    BOOL success = NO;
+    for(NSURL *obj in urls)
+    {
+        success = [self importItemAtURL:obj intoCollectionWithID:collectionID withCompletionHandler:handler] || success;
+    }
     return success;
 }
+
 #pragma mark -
+
 - (void)addOperation:(OEImportOperation *)operation
 {
-    if([operation completionBlock] == nil)
+    if(operation.completionBlock == nil)
     {
-        [operation setCompletionBlock:[self OE_completionHandlerForOperation:operation]];
+        operation.completionBlock = [self OE_completionHandlerForOperation:operation];
     }
 
-    NSOperationQueue *queue = [self operationQueue];
+    NSOperationQueue *queue = self.operationQueue;
     [queue addOperation:operation];
     self.totalNumberOfItems++;
     [self start];
@@ -289,12 +296,12 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     [self OE_performSelectorOnDelegate:@selector(romImporterChangedItemCount:) withObject:self];
 }
 
-- (void)rescheduleOperation:(OEImportOperation*)operation
+- (void)rescheduleOperation:(OEImportOperation* )operation
 {
     OEImportOperation *copy = [operation copy];
     [copy setCompletionBlock:[self OE_completionHandlerForOperation:copy]];
 
-    NSOperationQueue *queue = [self operationQueue];
+    NSOperationQueue *queue = self.operationQueue;
     [queue addOperation:copy];
 
     self.numberOfProcessedItems --;
@@ -317,28 +324,30 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
         {
         }
 
-        OEImportItemCompletionBlock block = [op completionHandler];
+        OEImportItemCompletionBlock block = op.completionHandler;
         if(block != nil)
         {
             // save so changes propagate to other stores
             [[importer context] save:nil];
             
             dispatch_after(1.0, dispatch_get_main_queue(), ^{
-                block([op romObjectID]);
+                block(op.romObjectID);
             });
         }
 
         [self OE_performSelectorOnDelegate:@selector(romImporter:stoppedProcessingItem:) withObject:op];
 
-        if([[importer operationQueue] operationCount] == 0)
+        if(importer.operationQueue.operationCount == 0)
         {
             [importer finish];
         }
 
-        [op setCompletionHandler:nil];
+        op.completionHandler = nil;
     };
 }
+
 #pragma mark - Spotlight importing -
+
 - (void)discoverRoms:(NSArray *)volumes
 {
     DLog();
@@ -360,7 +369,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
         searchString = [searchString stringByAppendingString:@" || "];
     }
     
-    searchString = [searchString substringWithRange:NSMakeRange(0, [searchString length] - 4)];
+    searchString = [searchString substringWithRange:NSMakeRange(0, searchString.length - 4)];
     
     DLog(@"SearchString: %@", searchString);
     
@@ -371,7 +380,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
         // Limit Scope to selected volumes / URLs only
         MDQuerySetSearchScope(searchQuery, (__bridge CFArrayRef) volumes, 0);
         
-        [[self spotlightSearchResults] removeAllObjects];
+        [self.spotlightSearchResults removeAllObjects];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finalizeSearchResults:)
                                                      name:(NSString *)kMDQueryDidFinishNotification
@@ -404,7 +413,7 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 {
     DLog();
     
-    MDQueryRef searchQuery = (__bridge MDQueryRef)[notification object];
+    MDQueryRef searchQuery = (__bridge MDQueryRef)notification.object;
     
     
     // If you're going to have the same array for every iteration,
@@ -438,16 +447,14 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
         NSString *resultPath = (__bridge_transfer NSString *)MDItemCopyAttribute(resultItem, kMDItemPath);
         
         // Nothing in common
-        if([[resultPath pathComponents] firstObjectCommonWithArray:excludedPaths] == nil)
+        if([resultPath.pathComponents firstObjectCommonWithArray:excludedPaths] == nil)
         {
-            NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                        resultPath, @"Path",
-                                        [[resultPath lastPathComponent] stringByDeletingPathExtension], @"Name",
-                                        nil];
+            NSDictionary *resultDict = @{ @"Path" : resultPath,
+                                          @"Name" : resultPath.lastPathComponent.stringByDeletingPathExtension };
             
-            if(![[self spotlightSearchResults] containsObject:resultDict])
+            if(![self.spotlightSearchResults containsObject:resultDict])
             {
-                [[self spotlightSearchResults] addObject:resultDict];
+                [self.spotlightSearchResults addObject:resultDict];
                 
                 //                NSLog(@"Result Path: %@", resultPath);
             }
@@ -473,39 +480,40 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 - (void)importSpotlightResultsInBackground;
 {
     DLog();
-    [self importItemsAtPaths:[[self spotlightSearchResults] valueForKey:@"Path"]];
+    [self importItemsAtPaths:[self.spotlightSearchResults valueForKey:@"Path"]];
 }
 
 #pragma mark - Controlling Import -
+
 - (void)start
 {
-    IMPORTDLog(@"%s", BOOL_STR([[self operationQueue] operationCount] != 0 && [self status] != OEImporterStatusRunning));
-    if([[self operationQueue] operationCount] != 0 && [self status] != OEImporterStatusRunning)
+    IMPORTDLog(@"%s", BOOL_STR(self.operationQueue.operationCount != 0 && self.status != OEImporterStatusRunning));
+    if(self.operationQueue.operationCount != 0 && self.status != OEImporterStatusRunning)
     {
-        [self setStatus:OEImporterStatusRunning];
-        [[self operationQueue] setSuspended:NO];
+        self.status = OEImporterStatusRunning;
+        self.operationQueue.suspended = NO;
         [self OE_performSelectorOnDelegate:@selector(romImporterDidStart:) withObject:self];
     }
 }
 
 - (void)pause
 {
-    DLog(@"%s", BOOL_STR([self status] == OEImporterStatusRunning));
-    if([self status] == OEImporterStatusRunning)
+    DLog(@"%s", BOOL_STR(self.status == OEImporterStatusRunning));
+    if(self.status == OEImporterStatusRunning)
     {
-        [self setStatus:OEImporterStatusPaused];
-        [[self operationQueue] setSuspended:YES];
+        self.status = OEImporterStatusPaused;
+        self.operationQueue.suspended = YES;
         [self OE_performSelectorOnDelegate:@selector(romImporterDidPause:) withObject:self];
     }
 }
 
 - (void)togglePause
 {
-    DLog(@"%@", ([self status] == OEImporterStatusPaused ? @"start" : ([self status] == OEImporterStatusRunning ? @"pause" : @"nothing")));
+    DLog(@"%@", (self.status == OEImporterStatusPaused ? @"start" : (self.status == OEImporterStatusRunning ? @"pause" : @"nothing")));
 
-    if([self status] == OEImporterStatusPaused)
+    if(self.status == OEImporterStatusPaused)
         [self start];
-    else if([self status] == OEImporterStatusRunning)
+    else if(self.status == OEImporterStatusRunning)
         [self pause];
 }
 
@@ -513,12 +521,12 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
 {
     DLog(@"cancel");
 
-    [self setStatus:OEImporterStatusStopped];
-    [[self operationQueue] cancelAllOperations];
+    self.status = OEImporterStatusStopped;
+    [self.operationQueue cancelAllOperations];
     
-    [self setNumberOfProcessedItems:0];
-    [self setTotalNumberOfItems:0];
-    [[self operationQueue] setSuspended:YES];
+    self.numberOfProcessedItems = 0;
+    self.totalNumberOfItems = 0;
+    self.operationQueue.suspended = YES;
 
     [self OE_performSelectorOnDelegate:@selector(romImporterDidCancel:) withObject:self];
 }
@@ -528,32 +536,35 @@ NSString *const OEImportErrorDomainSuccess    = @"OEImportSuccessDomain";
     DLog(@"Finish");
 
     [self setStatus:OEImporterStatusStopped];
-    [[self operationQueue] cancelAllOperations];
+    [self.operationQueue cancelAllOperations];
 
-    [self setNumberOfProcessedItems:0];
-    [self setTotalNumberOfItems:0];
-    [[self operationQueue] setSuspended:YES];
+    self.numberOfProcessedItems = 0;
+    self.totalNumberOfItems = 0;
+    self.operationQueue.suspended = YES;
 
     [self OE_performSelectorOnDelegate:@selector(romImporterDidFinish:) withObject:self];
 }
 
 #pragma mark - Private Methods -
+
 - (void)setTotalNumberOfItems:(NSInteger)totalNumberOfItems
 {
     _totalNumberOfItems = totalNumberOfItems;
     [self OE_performSelectorOnDelegate:@selector(romImporterChangedItemCount:) withObject:nil];
 }
 
-- (void)OE_performSelectorOnDelegate:(SEL)selector withObject:(id)object
+- (void)OE_performSelectorOnDelegate:(SEL)selector withObject:(nullable id)object
 {
-    if(![[self delegate] respondsToSelector:selector] ||
-       ![[self delegate] respondsToSelector:@selector(performSelectorOnMainThread:withObject:waitUntilDone:)])
+    if(![self.delegate respondsToSelector:selector] ||
+       ![self.delegate respondsToSelector:@selector(performSelectorOnMainThread:withObject:waitUntilDone:)])
         return;
     
     NSAssert(protocol_getMethodDescription(@protocol(OEROMImporterDelegate), selector, NO, YES).name == selector,
              @"Unknown delegate method %@", NSStringFromSelector(selector));
 
-    [(NSObject *)[self delegate] performSelectorOnMainThread:selector withObject:object waitUntilDone:YES];
+    [(NSObject *)self.delegate performSelectorOnMainThread:selector withObject:object waitUntilDone:YES];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
