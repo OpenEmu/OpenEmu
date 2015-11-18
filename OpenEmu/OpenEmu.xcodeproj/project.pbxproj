@@ -82,6 +82,7 @@
 				94EBBCFB183F42CE00743756 /* CopyFiles */,
 			);
 			dependencies = (
+				87FBC0881BFC77E300AECF5A /* PBXTargetDependency */,
 				3DB744CD1BD8BB0300C23E74 /* PBXTargetDependency */,
 				87DF05401BCE3CDC0060E2C2 /* PBXTargetDependency */,
 				081A462E1B9574B800565444 /* PBXTargetDependency */,
@@ -510,6 +511,16 @@
 		87FB25481BBC89F300E739CE /* controller_fc_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25451BBC89F300E739CE /* controller_fc_mask@2x.png */; };
 		87FB25491BBC89F300E739CE /* controller_fc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25461BBC89F300E739CE /* controller_fc@2x.png */; };
 		87FB254A1BBC89F300E739CE /* famicom_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB25471BBC89F300E739CE /* famicom_library@2x.png */; };
+		87FBC0771BFC764F00AECF5A /* OEC64SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FBC0751BFC764F00AECF5A /* OEC64SystemResponder.m */; };
+		87FBC07E1BFC76A000AECF5A /* c64_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC0781BFC76A000AECF5A /* c64_library.png */; };
+		87FBC07F1BFC76A000AECF5A /* controller_c64_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC0791BFC76A000AECF5A /* controller_c64_mask.png */; };
+		87FBC0801BFC76A000AECF5A /* controller_c64.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC07A1BFC76A000AECF5A /* controller_c64.png */; };
+		87FBC0811BFC76A000AECF5A /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC07B1BFC76A000AECF5A /* Controller-Mappings.plist */; };
+		87FBC0821BFC76A000AECF5A /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC07C1BFC76A000AECF5A /* Controller-Preferences.plist */; };
+		87FBC0831BFC76A000AECF5A /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC07D1BFC76A000AECF5A /* Keyboard-Mappings.plist */; };
+		87FBC0841BFC76DA00AECF5A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		87FBC0851BFC76E200AECF5A /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
+		87FBC0861BFC77AF00AECF5A /* Commodore 64.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87FBC06D1BFC70FE00AECF5A /* Commodore 64.oesystemplugin */; };
 		8C09E4D81867984B0095DB4E /* Beam4.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4BE1867975E0095DB4E /* Beam4.cgp */; };
 		8C09E4D91867984B0095DB4E /* NTSC (Blargg).cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4BF1867975E0095DB4E /* NTSC (Blargg).cgp */; };
 		8C09E4DA1867984B0095DB4E /* _beam4_1.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C01867975E0095DB4E /* _beam4_1.cg */; };
@@ -1164,6 +1175,13 @@
 			remoteGlobalIDString = 87DF04FD1BCE2D100060E2C2;
 			remoteInfo = Dreamcast;
 		};
+		87FBC0871BFC77E300AECF5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 87FBC06C1BFC70FE00AECF5A;
+			remoteInfo = "Commodore 64";
+		};
 		940553B117A35DE0009B505D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1462,6 +1480,7 @@
 			dstPath = OpenEmu.app/Contents/PlugIns/Systems;
 			dstSubfolderSpec = 16;
 			files = (
+				87FBC0861BFC77AF00AECF5A /* Commodore 64.oesystemplugin in CopyFiles */,
 				3DB744CE1BD8BB0B00C23E74 /* PlayStation 2.oesystemplugin in CopyFiles */,
 				87DF05411BCE3CEA0060E2C2 /* Dreamcast.oesystemplugin in CopyFiles */,
 				081A462F1B9574CE00565444 /* Pokemon mini.oesystemplugin in CopyFiles */,
@@ -2290,7 +2309,6 @@
 		87BC4DA01BA3A88600BF1F86 /* controller_7800_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_7800_mask@2x.png"; sourceTree = "<group>"; };
 		87BC4DA11BA3A88600BF1F86 /* controller_7800@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_7800@2x.png"; sourceTree = "<group>"; };
 		87DF04FE1BCE2D100060E2C2 /* Dreamcast.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Dreamcast.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		87DF05001BCE2D100060E2C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		87DF05041BCE2DA30060E2C2 /* Dreamcast-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Dreamcast-Info.plist"; path = "Dreamcast/Dreamcast-Info.plist"; sourceTree = "<group>"; };
 		87DF05061BCE302E0060E2C2 /* controller_dc_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = controller_dc_mask.png; path = Dreamcast/controller_dc_mask.png; sourceTree = "<group>"; };
 		87DF05071BCE302E0060E2C2 /* controller_dc_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "controller_dc_mask@2x.png"; path = "Dreamcast/controller_dc_mask@2x.png"; sourceTree = "<group>"; };
@@ -2323,6 +2341,17 @@
 		87FB25451BBC89F300E739CE /* controller_fc_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_fc_mask@2x.png"; sourceTree = "<group>"; };
 		87FB25461BBC89F300E739CE /* controller_fc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_fc@2x.png"; sourceTree = "<group>"; };
 		87FB25471BBC89F300E739CE /* famicom_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "famicom_library@2x.png"; sourceTree = "<group>"; };
+		87FBC06D1BFC70FE00AECF5A /* Commodore 64.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commodore 64.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		87FBC06F1BFC70FE00AECF5A /* Commodore 64-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Commodore 64-Info.plist"; sourceTree = "<group>"; };
+		87FBC0741BFC764F00AECF5A /* OEC64SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEC64SystemResponder.h; sourceTree = "<group>"; };
+		87FBC0751BFC764F00AECF5A /* OEC64SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEC64SystemResponder.m; sourceTree = "<group>"; };
+		87FBC0761BFC764F00AECF5A /* OEC64SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEC64SystemResponderClient.h; sourceTree = "<group>"; };
+		87FBC0781BFC76A000AECF5A /* c64_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c64_library.png; sourceTree = "<group>"; };
+		87FBC0791BFC76A000AECF5A /* controller_c64_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_c64_mask.png; sourceTree = "<group>"; };
+		87FBC07A1BFC76A000AECF5A /* controller_c64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_c64.png; sourceTree = "<group>"; };
+		87FBC07B1BFC76A000AECF5A /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
+		87FBC07C1BFC76A000AECF5A /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		87FBC07D1BFC76A000AECF5A /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
 		8C09E4BE1867975E0095DB4E /* Beam4.cgp */ = {isa = PBXFileReference; lastKnownFileType = text; path = Beam4.cgp; sourceTree = "<group>"; };
 		8C09E4BF1867975E0095DB4E /* NTSC (Blargg).cgp */ = {isa = PBXFileReference; lastKnownFileType = text; path = "NTSC (Blargg).cgp"; sourceTree = "<group>"; };
 		8C09E4C01867975E0095DB4E /* _beam4_1.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = _beam4_1.cg; sourceTree = "<group>"; };
@@ -3078,6 +3107,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87FBC06A1BFC70FE00AECF5A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87FBC0841BFC76DA00AECF5A /* Cocoa.framework in Frameworks */,
+				87FBC0851BFC76E200AECF5A /* OpenEmuSystem.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC330486D014006FF6A4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -3570,6 +3608,7 @@
 				081A46261B95744A00565444 /* Pokemon mini.oesystemplugin */,
 				87DF04FE1BCE2D100060E2C2 /* Dreamcast.oesystemplugin */,
 				3DB744BA1BD8BA9E00C23E74 /* PlayStation 2.oesystemplugin */,
+				87FBC06D1BFC70FE00AECF5A /* Commodore 64.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3792,7 +3831,6 @@
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				C60CDDD511780DD100EB472F /* Documentation */,
 				C67B0CB51363370B00F18A5D /* OpenEmuSystem */,
-				87DF04FF1BCE2D100060E2C2 /* Dreamcast */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 			);
@@ -4754,12 +4792,29 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		87DF04FF1BCE2D100060E2C2 /* Dreamcast */ = {
+		87FBC06E1BFC70FE00AECF5A /* Commodore 64 */ = {
 			isa = PBXGroup;
 			children = (
-				87DF05001BCE2D100060E2C2 /* Info.plist */,
+				87FBC0741BFC764F00AECF5A /* OEC64SystemResponder.h */,
+				87FBC0751BFC764F00AECF5A /* OEC64SystemResponder.m */,
+				87FBC0761BFC764F00AECF5A /* OEC64SystemResponderClient.h */,
+				87FBC0731BFC762200AECF5A /* Supporting Files */,
 			);
-			path = Dreamcast;
+			path = "Commodore 64";
+			sourceTree = "<group>";
+		};
+		87FBC0731BFC762200AECF5A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				87FBC0781BFC76A000AECF5A /* c64_library.png */,
+				87FBC07A1BFC76A000AECF5A /* controller_c64.png */,
+				87FBC0791BFC76A000AECF5A /* controller_c64_mask.png */,
+				87FBC06F1BFC70FE00AECF5A /* Commodore 64-Info.plist */,
+				87FBC07D1BFC76A000AECF5A /* Keyboard-Mappings.plist */,
+				87FBC07B1BFC76A000AECF5A /* Controller-Mappings.plist */,
+				87FBC07C1BFC76A000AECF5A /* Controller-Preferences.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		8C8AD72F16B5DBA70004D97C /* Blargg's NTSC filter */ = {
@@ -5811,6 +5866,7 @@
 				94A224B51707544100098DA0 /* Atari 5200 */,
 				941F5A0317A785AE0005D7EA /* Atari 7800 */,
 				94BE9E52171683E000AB08E6 /* ColecoVision */,
+				87FBC06E1BFC70FE00AECF5A /* Commodore 64 */,
 				94A224E51707559100098DA0 /* Computer */,
 				87DF04C71BCE26FB0060E2C2 /* Dreamcast */,
 				C6B947B11364ECA700A425F0 /* GameBoy */,
@@ -6160,6 +6216,23 @@
 			name = Dreamcast;
 			productName = Dreamcast;
 			productReference = 87DF04FE1BCE2D100060E2C2 /* Dreamcast.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+		87FBC06C1BFC70FE00AECF5A /* Commodore 64 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87FBC0701BFC70FE00AECF5A /* Build configuration list for PBXNativeTarget "Commodore 64" */;
+			buildPhases = (
+				87FBC0691BFC70FE00AECF5A /* Sources */,
+				87FBC06A1BFC70FE00AECF5A /* Frameworks */,
+				87FBC06B1BFC70FE00AECF5A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Commodore 64";
+			productName = "Commodore 64";
+			productReference = 87FBC06D1BFC70FE00AECF5A /* Commodore 64.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		8D15AC270486D014006FF6A4 /* OpenEmu */ = {
@@ -6768,6 +6841,9 @@
 					87DF04FD1BCE2D100060E2C2 = {
 						CreatedOnToolsVersion = 7.0.1;
 					};
+					87FBC06C1BFC70FE00AECF5A = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
 				};
 			};
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "OpenEmu" */;
@@ -6831,6 +6907,7 @@
 				081A46251B95744A00565444 /* Pokemon mini */,
 				87DF04FD1BCE2D100060E2C2 /* Dreamcast */,
 				3DB744A51BD8BA9E00C23E74 /* PlayStation 2 */,
+				87FBC06C1BFC70FE00AECF5A /* Commodore 64 */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -6970,6 +7047,19 @@
 				87DF051C1BCE302F0060E2C2 /* controller_dc.png in Resources */,
 				87DF05201BCE302F0060E2C2 /* dc_library.png in Resources */,
 				87DF051B1BCE302F0060E2C2 /* controller_dc_mask@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87FBC06B1BFC70FE00AECF5A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87FBC07E1BFC76A000AECF5A /* c64_library.png in Resources */,
+				87FBC07F1BFC76A000AECF5A /* controller_c64_mask.png in Resources */,
+				87FBC0821BFC76A000AECF5A /* Controller-Preferences.plist in Resources */,
+				87FBC0801BFC76A000AECF5A /* controller_c64.png in Resources */,
+				87FBC0831BFC76A000AECF5A /* Keyboard-Mappings.plist in Resources */,
+				87FBC0811BFC76A000AECF5A /* Controller-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7709,6 +7799,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87FBC0691BFC70FE00AECF5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87FBC0771BFC764F00AECF5A /* OEC64SystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC300486D014006FF6A4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -8301,6 +8399,11 @@
 			isa = PBXTargetDependency;
 			target = 87DF04FD1BCE2D100060E2C2 /* Dreamcast */;
 			targetProxy = 87DF053F1BCE3CDC0060E2C2 /* PBXContainerItemProxy */;
+		};
+		87FBC0881BFC77E300AECF5A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 87FBC06C1BFC70FE00AECF5A /* Commodore 64 */;
+			targetProxy = 87FBC0871BFC77E300AECF5A /* PBXContainerItemProxy */;
 		};
 		940553B217A35DE0009B505D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -9637,6 +9740,53 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "Dreamcast/Dreamcast-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
+		87FBC0711BFC70FE00AECF5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Commodore 64/Commodore 64-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		87FBC0721BFC70FE00AECF5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Commodore 64/Commodore 64-Info.plist";
 				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
@@ -11466,6 +11616,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		87FBC0701BFC70FE00AECF5A /* Build configuration list for PBXNativeTarget "Commodore 64" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87FBC0711BFC70FE00AECF5A /* Debug */,
+				87FBC0721BFC70FE00AECF5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		9405539117A34C6B009B505D /* Build configuration list for PBXNativeTarget "PC Engine CD" */ = {
 			isa = XCConfigurationList;
