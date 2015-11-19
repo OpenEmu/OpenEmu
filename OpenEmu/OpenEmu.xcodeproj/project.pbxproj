@@ -271,9 +271,9 @@
 		5A221A6D1BFD5A6E002FDD10 /* segacd_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221A6C1BFD5A6E002FDD10 /* segacd_library@2x.png */; };
 		5A221A7B1BFD87AF002FDD10 /* c64_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221A791BFD87AF002FDD10 /* c64_library.png */; };
 		5A221A801BFD8A35002FDD10 /* c64_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221A7F1BFD8A35002FDD10 /* c64_library@2x.png */; };
-		5A221AA41BFDAF05002FDD10 /* 3do_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221AA31BFDAF05002FDD10 /* 3do_library@2x.png */; };
 		5A221ABE1BFDB922002FDD10 /* sg1000_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221ABD1BFDB922002FDD10 /* sg1000_library@2x.png */; };
-		5A221AC21BFDBAC6002FDD10 /* 3do_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221AC11BFDBAC6002FDD10 /* 3do_library.png */; };
+		5A221B101BFE9671002FDD10 /* 3do_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221B0F1BFE9671002FDD10 /* 3do_library.png */; };
+		5A221B121BFE96A1002FDD10 /* 3do_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221B111BFE96A1002FDD10 /* 3do_library@2x.png */; };
 		5A886E581BF43AC900775123 /* NSWindow+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A886E571BF43AC900775123 /* NSWindow+Image.swift */; };
 		5ABE03291BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */; };
 		5ABE032A1BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03281BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m */; };
@@ -1808,9 +1808,9 @@
 		5A221A6C1BFD5A6E002FDD10 /* segacd_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "segacd_library@2x.png"; sourceTree = "<group>"; };
 		5A221A791BFD87AF002FDD10 /* c64_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c64_library.png; sourceTree = "<group>"; };
 		5A221A7F1BFD8A35002FDD10 /* c64_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "c64_library@2x.png"; sourceTree = "<group>"; };
-		5A221AA31BFDAF05002FDD10 /* 3do_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3do_library@2x.png"; sourceTree = "<group>"; };
 		5A221ABD1BFDB922002FDD10 /* sg1000_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sg1000_library@2x.png"; sourceTree = "<group>"; };
-		5A221AC11BFDBAC6002FDD10 /* 3do_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3do_library.png; sourceTree = "<group>"; };
+		5A221B0F1BFE9671002FDD10 /* 3do_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3do_library.png; sourceTree = "<group>"; };
+		5A221B111BFE96A1002FDD10 /* 3do_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3do_library@2x.png"; sourceTree = "<group>"; };
 		5A886E571BF43AC900775123 /* NSWindow+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSWindow+Image.swift"; sourceTree = "<group>"; };
 		5ABE03251BDCA03600BC7B6A /* TAAdaptiveSpaceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItem.h; sourceTree = "<group>"; };
 		5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAdaptiveSpaceItem.m; sourceTree = "<group>"; };
@@ -5023,8 +5023,8 @@
 		943F99B61707DF3700270E89 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				5A221AC11BFDBAC6002FDD10 /* 3do_library.png */,
-				5A221AA31BFDAF05002FDD10 /* 3do_library@2x.png */,
+				5A221B0F1BFE9671002FDD10 /* 3do_library.png */,
+				5A221B111BFE96A1002FDD10 /* 3do_library@2x.png */,
 				943F99C41707E0AE00270E89 /* controller_3do_mask.png */,
 				943F99C51707E0AE00270E89 /* controller_3do.png */,
 				943F99B71707DF3700270E89 /* 3DO-Info.plist */,
@@ -7207,10 +7207,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				943F99BA1707DF3700270E89 /* InfoPlist.strings in Resources */,
-				5A221AA41BFDAF05002FDD10 /* 3do_library@2x.png in Resources */,
+				5A221B121BFE96A1002FDD10 /* 3do_library@2x.png in Resources */,
 				943F99CA1707E0AE00270E89 /* controller_3do_mask.png in Resources */,
 				943F99CB1707E0AE00270E89 /* controller_3do.png in Resources */,
-				5A221AC21BFDBAC6002FDD10 /* 3do_library.png in Resources */,
+				5A221B101BFE9671002FDD10 /* 3do_library.png in Resources */,
 				943F99CC1707E0AE00270E89 /* Controller-Mappings.plist in Resources */,
 				943F99CD1707E0AE00270E89 /* Controller-Preferences.plist in Resources */,
 				943F99CE1707E0AE00270E89 /* Keyboard-Mappings.plist in Resources */,
