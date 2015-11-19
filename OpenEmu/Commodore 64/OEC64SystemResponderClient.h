@@ -38,9 +38,13 @@ typedef enum
 } OEC64Button;
 
 @protocol OEC64SystemResponderClient <OESystemResponderClient, NSObject>
-- (void)keyUp:(unsigned short)keyCode;
-- (void)keyDown:(unsigned short)keyCode;
-
+- (oneway void)mouseMovedAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)leftMouseUp;
+- (oneway void)rightMouseDownAtPoint:(OEIntPoint)point;
+- (oneway void)rightMouseUp;
+- (oneway void)keyDown:(unsigned short)keyCode;
+- (oneway void)keyUp:(unsigned short)keyCode;
 - (oneway void)didPushC64Button:(OEC64Button)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleaseC64Button:(OEC64Button)button forPlayer:(NSUInteger)player;
 
