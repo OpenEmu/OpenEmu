@@ -38,23 +38,13 @@
 - (void)HIDKeyDown:(OEHIDEvent *)theEvent
 {
     [super HIDKeyDown:theEvent];
-    [[self client] keyDown:[theEvent keycode]];
+    [[self client] keyDown:[theEvent keycode] characters:[theEvent characters] charactersIgnoringModifiers:[theEvent charactersIgnoringModifiers] flags:[theEvent modifierFlags]];
 }
 
 - (void)HIDKeyUp:(OEHIDEvent *)theEvent
 {
     [super HIDKeyUp:theEvent];
-    [[self client] keyUp:[theEvent keycode]];
-}
-
-- (void)keyDown:(NSEvent *)theEvent
-{
-    [[self client] keyDown:[theEvent keyCode]];
-}
-
-- (void)keyUp:(NSEvent *)theEvent
-{
-    [[self client] keyUp:[theEvent keyCode]];
+    [[self client] keyUp:[theEvent keycode] characters:[theEvent characters] charactersIgnoringModifiers:[theEvent charactersIgnoringModifiers] flags:[theEvent modifierFlags]];
 }
 
 - (void)pressEmulatorKey:(OESystemKey *)aKey

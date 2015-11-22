@@ -43,8 +43,8 @@ typedef enum
 - (oneway void)leftMouseUp;
 - (oneway void)rightMouseDownAtPoint:(OEIntPoint)point;
 - (oneway void)rightMouseUp;
-- (oneway void)keyDown:(unsigned short)keyCode;
-- (oneway void)keyUp:(unsigned short)keyCode;
+- (oneway void)keyDown:(unsigned short)keyCode characters:(NSString *)characters charactersIgnoringModifiers:(NSString *)charactersIgnoringModifiers flags:(NSEventModifierFlags)flags;
+- (oneway void)keyUp:(unsigned short)keyCode characters:(NSString *)characters charactersIgnoringModifiers:(NSString *)charactersIgnoringModifiers flags:(NSEventModifierFlags)flags;
 - (oneway void)didPushC64Button:(OEC64Button)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleaseC64Button:(OEC64Button)button forPlayer:(NSUInteger)player;
 
