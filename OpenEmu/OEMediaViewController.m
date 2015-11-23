@@ -105,9 +105,8 @@
 
     NSSearchField *field = [toolbar searchField];
     [field setSearchMenuTemplate:nil];
-    [field setEnabled:true];
+    [field setEnabled:YES];
     [field setStringValue:@""];
-    [field setTarget:self];
     [field setEnabled:!_shouldShowBlankSlate];
 
     [self _setupSearchMenuTemplate];
