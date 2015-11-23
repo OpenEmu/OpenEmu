@@ -92,6 +92,15 @@
     [self _setupToolbar];
 }
 
+- (void)viewDidDisappear
+{
+    [super viewDidDisappear];
+    
+    // Clear any previously applied search filter.
+    _searchPredicate = [NSPredicate predicateWithValue:YES];
+    [self reloadData];
+}
+
 - (void)_setupToolbar
 {
     OELibraryController *libraryController = [self libraryController];

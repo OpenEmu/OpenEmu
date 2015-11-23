@@ -94,7 +94,13 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 - (void)viewDidDisappear
 {
     [super viewDidDisappear];
+    
     [[self listView] unbind:@"selectionIndexes"];
+    
+    // Clear any previously applied search filter.
+    [gamesController setFilterPredicate:nil];
+    [[self listView] reloadData];
+    [[self gridView] reloadData];
 }
 
 - (void)setLibraryController:(OELibraryController *)libraryController
