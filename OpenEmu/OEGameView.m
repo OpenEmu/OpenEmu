@@ -513,6 +513,17 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
         NSLog(@"DisplayLink is not running - it should be. ");
     }
+
+    // Log display's nominal refresh rate
+    CVTime nominal = CVDisplayLinkGetNominalOutputVideoRefreshPeriod(_gameDisplayLinkRef);
+    double refreshRate;
+    if(!(nominal.flags & kCVTimeIsIndefinite))
+    {
+        refreshRate = (double)nominal.timeScale / (double)nominal.timeValue;
+        NSLog(@"Display's nominal refresh rate is %.2f Hz", refreshRate);
+    }
+    else
+        NSLog(@"DisplayLink cannot determine your display's video refresh period.");
 }
 
 - (void)tearDownDisplayLink
