@@ -71,6 +71,7 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </clipView>
                     <animations/>
+                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="67">
                         <rect key="frame" x="0.0" y="245" width="420" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
