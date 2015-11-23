@@ -18,6 +18,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <viewController nibName="" id="Rft-IF-Ag9" customClass="OESidebarController">
             <connections>
+                <outlet property="gameScannerViewController" destination="juh-5x-f5U" id="8qz-k6-S8J"/>
                 <outlet property="view" destination="Evu-SM-BeR" id="e43-jY-76m"/>
             </connections>
         </viewController>

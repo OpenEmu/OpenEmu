@@ -38,6 +38,7 @@
 #import "OEDBSystem.h"
 #import "OEDBSmartCollection.h"
 #import "OEGameCollectionViewItemProtocol.h"
+#import "OEGameScannerViewController.h"
 
 #import "OEHUDAlert.h"
 
@@ -65,6 +66,9 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 @property (strong, readwrite) NSArray *groups;
 @property (strong, readwrite) NSArray *systems;
 @property (strong, readwrite) NSArray *collections;
+
+@property (weak) IBOutlet OEGameScannerViewController *gameScannerViewController;
+
 @end
 
 @implementation OESidebarController
@@ -453,7 +457,13 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
-    return [self database]!=nil && ![item isGroupHeaderInSidebar] && [item isSelectableInSidebar];
+    
+    const BOOL gameScannerIssuesVisible = self.gameScannerViewController.view.superview != nil;
+    
+    return self.database != nil &&
+           ![item isGroupHeaderInSidebar] &&
+           [item isSelectableInSidebar] &&
+           !gameScannerIssuesVisible;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item
