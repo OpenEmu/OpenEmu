@@ -74,6 +74,8 @@
 NSString * const OELastGridSizeKey       = @"lastGridSize";
 NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
+static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGameTitleKVOContext;
+
 @interface OECollectionViewController ()
 {
     IBOutlet NSView *gridViewContainer;// gridview
@@ -96,13 +98,21 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OELastGridSizeKey : @1.0f }];
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {
         _selectedViewTag = -2;
     }
     return self;
+}
+
+- (void)dealloc
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObserver:self
+                  forKeyPath:OEDisplayGameTitle
+                     context:OEUserDefaultsDisplayGameTitleKVOContext];
 }
 
 #pragma mark - View Lifecycle
@@ -159,6 +169,12 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
     // empty collection until -setRepresentedObject: is received again
     if([self representedObject]) [self reloadData];
+    
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    [standardUserDefaults addObserver:self
+                           forKeyPath:OEDisplayGameTitle
+                              options:0
+                              context:OEUserDefaultsDisplayGameTitleKVOContext];
 }
 
 - (void)viewWillAppear
@@ -179,9 +195,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     // Watch the main thread's managed object context for changes
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
     [notificationCenter addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
-    
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    [standardUserDefaults addObserver:self forKeyPath:OEDisplayGameTitle options:0 context:NULL];
+
     [notificationCenter addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
     
     if([self representedObject]) [self reloadData];
@@ -193,11 +207,9 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
     
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     
     [notificationCenter removeObserver:self name:NSManagedObjectContextDidSaveNotification object:context];
     [notificationCenter removeObserver:self name:OELibraryLocationDidChangeNotificationName object:nil];
-    [standardUserDefaults removeObserver:self forKeyPath:OEDisplayGameTitle];
 }
 
 - (NSString *)nibName
@@ -206,10 +218,16 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 }
 
 #pragma mark - KVO / Notifications
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary <NSString *, id> *)change context:(void *)context
 {
-    if([keyPath isEqualToString:OEDisplayGameTitle])
+    if(context == OEUserDefaultsDisplayGameTitleKVOContext)
+    {
         [self setNeedsReloadVisible];
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 
