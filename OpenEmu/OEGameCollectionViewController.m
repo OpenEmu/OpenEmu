@@ -48,6 +48,8 @@
 
 #import "OEROMImporter.h"
 
+#import "OEGameDocument.h"
+
 #import "OEThemeObject.h"
 #import "OEThemeImage.h"
 
@@ -62,12 +64,17 @@ static NSArray *OE_defaultSortDescriptors;
 extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
 @interface OEGameCollectionViewController ()
+
 - (NSMenu *)OE_saveStateMenuForGame:(OEDBGame *)game;
 - (NSMenu *)OE_ratingMenuForGames:(NSArray *)games;
 - (NSMenu *)OE_collectionsMenuForGames:(NSArray *)games;
 
 @property (strong) NSDate *listViewSelectionChangeDate;
 @property (readonly) OEArrayController *gamesController;
+
+/// The search term of the currently applied filter.
+@property (copy, nullable) NSString *currentSearchTerm;
+
 @end
 
 @implementation OEGameCollectionViewController
@@ -95,12 +102,20 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 {
     [super viewDidDisappear];
     
-    [[self listView] unbind:@"selectionIndexes"];
+    [self.listView unbind:@"selectionIndexes"];
     
-    // Clear any previously applied search filter.
-    [gamesController setFilterPredicate:nil];
-    [[self listView] reloadData];
-    [[self gridView] reloadData];
+    // We don't want to clear the search filter if the view is disappearing because of gameplay.
+    OEGameDocument *gameDocument = (OEGameDocument *)[[NSDocumentController sharedDocumentController] currentDocument];
+    const BOOL playingGame = gameDocument != nil;
+    
+    if(!playingGame)
+    {
+        // Clear any previously applied search filter.
+        gamesController.filterPredicate = nil;
+        self.currentSearchTerm = nil;
+        [self.listView reloadData];
+        [self.gridView reloadData];
+    }
 }
 
 - (void)setLibraryController:(OELibraryController *)libraryController
@@ -192,11 +207,15 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 {
     [super setRepresentedObject:representedObject];
 
-    [[[[self libraryController] toolbar] searchField] setSearchMenuTemplate:nil];
-
+    self.libraryController.toolbar.searchField.searchMenuTemplate = nil;
+    
+    // Restore search field text.
+    NSString *newSearchFieldStringValue = self.currentSearchTerm ?: @"";
+    self.libraryController.toolbar.searchField.stringValue = newSearchFieldStringValue;
+    
     NSAssert([representedObject conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)], @"");
 
-    [[[self listView] tableColumnWithIdentifier:@"listViewConsoleName"] setHidden:![representedObject shouldShowSystemColumnInListView]];
+    [self.listView tableColumnWithIdentifier:@"listViewConsoleName"].hidden = ![representedObject shouldShowSystemColumnInListView];
     [self reloadData];
 }
 
@@ -204,11 +223,14 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 {
     return (id <OEGameCollectionViewItemProtocol>) [super representedObject];
 }
+
 #pragma mark - UI Actions
+
 - (void)search:(id)sender
 {
-    NSString *searchTerm = [sender stringValue];
-    NSArray *tokens = [searchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    self.currentSearchTerm = [sender stringValue];
+    
+    NSArray *tokens = [self.currentSearchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
     NSMutableArray *predarray = [NSMutableArray array];
     for(NSString *token in tokens)
@@ -221,10 +243,10 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     }
     NSPredicate *pred = [NSCompoundPredicate andPredicateWithSubpredicates:predarray];
 
-    [gamesController setFilterPredicate:pred];
+    gamesController.filterPredicate = pred;
 
-    [[self listView] reloadData];
-    [[self gridView] reloadData];
+    [self.listView reloadData];
+    [self.gridView reloadData];
 }
 
 - (IBAction)showSelectedGamesInFinder:(id)sender
