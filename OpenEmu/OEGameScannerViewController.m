@@ -56,6 +56,8 @@
 
 @property (nonatomic) BOOL gameScannerIsVisible;
 
+@property (weak) IBOutlet OELibraryGamesViewController *libraryGamesViewController;
+
 @end
 
 @implementation OEGameScannerViewController
@@ -246,6 +248,7 @@
     [fixIssuesButton setAlignment:NSLeftTextAlignment];
     [fixIssuesButton setImagePosition:NSImageRight];
     [fixIssuesButton setThemeKey:@"game_scanner_fix_issues"];
+    [fixIssuesButton setTarget:[self libraryGamesViewController]];
     [fixIssuesButton setAction:@selector(showIssuesView:)];
     [fixIssuesButton setTitle:NSLocalizedString(@"Resolve Issues", @"")];
     [fixIssuesButton sizeToFit];

@@ -216,6 +216,7 @@
             <connections>
                 <outlet property="bottomBar" destination="aoh-d8-ctm" id="MAg-kQ-hP4"/>
                 <outlet property="headlineLabel" destination="YLv-AD-2L2" id="Jvd-JE-D46"/>
+                <outlet property="libraryGamesViewController" destination="-2" id="yHD-tH-Wi3"/>
                 <outlet property="progressIndicator" destination="ecg-qx-RWc" id="s7a-30-SCw"/>
                 <outlet property="scannerView" destination="GEj-BL-eLK" id="eJ4-ey-JOd"/>
                 <outlet property="sourceListScrollView" destination="JYU-Tk-u7m" id="2Ur-DI-1oj"/>
