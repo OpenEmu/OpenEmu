@@ -106,8 +106,6 @@
     OELibraryController *libraryController = [self libraryController];
     OELibraryToolbar *toolbar = [libraryController toolbar];
 
-    [[toolbar addButton] setEnabled:NO];
-
     [[toolbar gridViewButton] setEnabled:NO];
     [[toolbar listViewButton] setEnabled:NO];
     [[toolbar gridSizeSlider] setEnabled:!_shouldShowBlankSlate];

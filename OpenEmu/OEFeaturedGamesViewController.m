@@ -141,8 +141,6 @@ const static CGFloat TableViewSpacing = 86.0;
     OELibraryController *libraryController = [self libraryController];
     OELibraryToolbar *toolbar = [libraryController toolbar];
 
-    [[toolbar addButton] setEnabled:NO];
-
     [[toolbar gridSizeSlider] setEnabled:NO];
     [[toolbar gridViewButton] setEnabled:NO];
     [[toolbar listViewButton] setEnabled:NO];

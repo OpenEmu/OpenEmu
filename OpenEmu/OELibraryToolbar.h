@@ -15,6 +15,5 @@
 @property (assign) IBOutlet OEButton *gridViewButton;
 @property (assign) IBOutlet OEButton *listViewButton;
 @property (assign) IBOutlet NSSlider *gridSizeSlider;
-@property (assign) IBOutlet NSButton *addButton;
 @property (assign) IBOutlet NSSearchField *searchField;
 @end
