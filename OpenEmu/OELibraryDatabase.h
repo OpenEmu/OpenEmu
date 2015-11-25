@@ -57,8 +57,8 @@ extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 @property(readonly) NSManagedObjectContext *writerContext;
 @property(readonly) NSManagedObjectContext *mainThreadContext;
 
-@property(readonly) NSManagedObjectContext *makeChildContext;
-@property(readonly) NSManagedObjectContext *makeWriterChildContext;
+- (NSManagedObjectContext *)makeChildContext;
+- (NSManagedObjectContext *)makeWriterChildContext;
 
 @property(strong) OEROMImporter *importer;
 
