@@ -86,6 +86,12 @@
     [[self gridView] setCellClass:[OEGridMediaItemCell class]];
 }
 
+- (void)viewWillAppear
+{
+    [super viewWillAppear];
+    [self reloadData];
+}
+
 - (void)viewDidAppear
 {
     [super viewDidAppear];
@@ -98,7 +104,6 @@
     
     // Clear any previously applied search filter.
     _searchPredicate = [NSPredicate predicateWithValue:YES];
-    [self reloadData];
 }
 
 - (void)_setupToolbar
