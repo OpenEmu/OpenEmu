@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
     </dependencies>
     <objects>
@@ -163,7 +164,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <button id="14" customClass="OEButton">
-                    <rect key="frame" x="241" y="423" width="78" height="25"/>
+                    <rect key="frame" x="241" y="425" width="78" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <animations/>
                     <buttonCell key="cell" type="square" title="Ändern …" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15" customClass="OEButtonCell">
@@ -178,7 +179,7 @@
                     </connections>
                 </button>
                 <button id="13" customClass="OEButton">
-                    <rect key="frame" x="323" y="423" width="93" height="25"/>
+                    <rect key="frame" x="323" y="425" width="93" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <animations/>
                     <buttonCell key="cell" type="square" title="Zurücksetzen" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="16" customClass="OEButtonCell">
@@ -193,7 +194,7 @@
                     </connections>
                 </button>
                 <button id="Q95-qb-F7X" customClass="OEButton">
-                    <rect key="frame" x="250" y="352" width="166" height="25"/>
+                    <rect key="frame" x="250" y="354" width="166" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <animations/>
                     <buttonCell key="cell" type="square" title="Warnungen zurücksetzen" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy" customClass="OEButtonCell">
@@ -229,7 +230,7 @@
                         <animations/>
                     </scroller>
                     <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6uK-mj-F0v">
-                        <rect key="frame" x="351" y="0.0" width="15" height="106"/>
+                        <rect key="frame" x="350" y="0.0" width="16" height="106"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </scroller>

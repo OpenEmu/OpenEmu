@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
     </dependencies>
     <objects>
@@ -163,7 +164,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <button id="14" customClass="OEButton">
-                    <rect key="frame" x="249" y="423" width="78" height="25"/>
+                    <rect key="frame" x="249" y="425" width="78" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <animations/>
                     <buttonCell key="cell" type="square" title="Changer…" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15" customClass="OEButtonCell">
@@ -178,7 +179,7 @@
                     </connections>
                 </button>
                 <button id="13" customClass="OEButton">
-                    <rect key="frame" x="338" y="423" width="78" height="25"/>
+                    <rect key="frame" x="338" y="425" width="78" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <animations/>
                     <buttonCell key="cell" type="square" title="Rétablir" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="16" customClass="OEButtonCell">
@@ -190,21 +191,6 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="resetLibraryFolder:" target="-2" id="45"/>
-                    </connections>
-                </button>
-                <button id="Q95-qb-F7X" customClass="OEButton">
-                    <rect key="frame" x="273" y="352" width="155" height="25"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                    <animations/>
-                    <buttonCell key="cell" type="square" title="Rétablir avertissements" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy" customClass="OEButtonCell">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_button"/>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <action selector="resetWarningDialogs:" target="-2" id="Ohg-fM-nsc"/>
                     </connections>
                 </button>
                 <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" id="yl9-Jz-OKA" customClass="OEScrollView">
@@ -229,11 +215,26 @@
                         <animations/>
                     </scroller>
                     <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6uK-mj-F0v">
-                        <rect key="frame" x="351" y="0.0" width="15" height="106"/>
+                        <rect key="frame" x="350" y="0.0" width="16" height="106"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </scroller>
                 </scrollView>
+                <button id="Q95-qb-F7X" customClass="OEButton">
+                    <rect key="frame" x="261" y="355" width="155" height="23"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                    <animations/>
+                    <buttonCell key="cell" type="square" title="Rétablir avertissements" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy" customClass="OEButtonCell">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_button"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="resetWarningDialogs:" target="-2" id="Ohg-fM-nsc"/>
+                    </connections>
+                </button>
             </subviews>
             <animations/>
         </view>
