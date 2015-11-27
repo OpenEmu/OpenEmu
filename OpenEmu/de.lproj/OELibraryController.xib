@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
+        <capability name="box content view" minToolsVersion="7.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OELibraryController">
             <connections>
-                <outlet property="mainContentPlaceholderView" destination="404" id="658"/>
-                <outlet property="mainSplitView" destination="393" id="511"/>
-                <outlet property="toolbarAddToSidebarButton" destination="652" id="654"/>
-                <outlet property="toolbarGridViewButton" destination="626" id="638"/>
-                <outlet property="toolbarListViewButton" destination="625" id="639"/>
-                <outlet property="toolbarSearchField" destination="623" id="640"/>
-                <outlet property="toolbarSidebarButton" destination="619" id="644"/>
-                <outlet property="toolbarSlider" destination="622" id="642"/>
+                <outlet property="toolbar" destination="386-1H-9HX" id="nDj-TB-Hw2"/>
                 <outlet property="view" destination="616" id="641"/>
             </connections>
         </customObject>
@@ -23,52 +16,73 @@
         <customView id="616">
             <rect key="frame" x="0.0" y="0.0" width="830" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <customView id="656" customClass="OELibraryToolbarView">
-                    <rect key="frame" x="0.0" y="0.0" width="830" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <button id="652" userLabel="Add To Sidebar Button" customClass="OEButton">
-                            <rect key="frame" x="14" y="10" width="28" height="23"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <animations/>
-                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" inset="2" id="653" customClass="OEButtonCell">
-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="system"/>
-                            </buttonCell>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_sidebar_button_add"/>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="addCollectionAction:" target="-2" id="655"/>
-                            </connections>
-                        </button>
-                        <customView id="617">
-                            <rect key="frame" x="0.0" y="0.0" width="830" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+            <animations/>
+        </customView>
+        <toolbar implicitIdentifier="647CF7A7-A628-4038-A1D8-26746C7CC43D" autosavesConfiguration="NO" allowsUserCustomization="NO" showsBaselineSeparator="NO" prefersToBeShown="NO" displayMode="iconOnly" sizeMode="regular" id="386-1H-9HX" customClass="OELibraryToolbar">
+            <allowedToolbarItems>
+                <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="e9d-Ol-Po9"/>
+                <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="cAJ-ae-jpG"/>
+                <toolbarItem implicitItemIdentifier="399CF9BB-738C-4345-8E3B-9526F0829DC8" label="Grid Size" paletteLabel="Grid Size" tag="-1" id="4KY-AU-4s0">
+                    <nil key="toolTip"/>
+                    <size key="minSize" width="100" height="34"/>
+                    <size key="maxSize" width="106" height="38"/>
+                    <box key="view" borderType="none" titlePosition="noTitle" id="1vd-UG-i31">
+                        <rect key="frame" x="0.0" y="14" width="106" height="38"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <view key="contentView" id="Lvs-uK-5Ch">
+                            <rect key="frame" x="0.0" y="0.0" width="106" height="38"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <button id="619" userLabel="Side Bar Collapse Button" customClass="OEButton">
-                                    <rect key="frame" x="14" y="10" width="28" height="23"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <imageView id="frh-Ke-F5l" userLabel="Minus Hint Image View">
+                                    <rect key="frame" x="12" y="16" width="7" height="7"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <animations/>
-                                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" inset="2" id="634" customClass="OEButtonCell">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                        <string key="keyEquivalent">s</string>
-                                        <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                    </buttonCell>
+                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topRight" id="Q9h-4Z-F9s"/>
+                                </imageView>
+                                <slider verticalHuggingPriority="750" id="hfc-c7-igG" userLabel="Size Slider" customClass="OESlider">
+                                    <rect key="frame" x="18" y="12" width="68" height="15"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <animations/>
+                                    <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" minValue="0.5" maxValue="2.5" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="mhj-6u-lCz" customClass="OESliderCell"/>
                                     <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_sidebar_button_close"/>
+                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="grid_slider"/>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="toggleSidebar:" target="-2" id="651"/>
+                                        <action selector="changeGridSize:" target="-2" id="Kik-9s-ZBa"/>
+                                        <outlet property="maxHint" destination="WVb-HG-sWJ" id="Q6j-VZ-HXY"/>
+                                        <outlet property="minHint" destination="frh-Ke-F5l" id="7Xu-mI-gzI"/>
                                     </connections>
-                                </button>
-                                <button id="626" userLabel="Grid View Mode Button" customClass="OEButton">
-                                    <rect key="frame" x="74" y="10" width="27" height="23"/>
+                                </slider>
+                                <imageView id="WVb-HG-sWJ" userLabel="Max Hint Image View">
+                                    <rect key="frame" x="84" y="15" width="10" height="10"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <animations/>
+                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" id="oze-RB-u52"/>
+                                </imageView>
+                            </subviews>
+                            <animations/>
+                        </view>
+                        <animations/>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </box>
+                </toolbarItem>
+                <toolbarItem implicitItemIdentifier="CC8CBEA1-1CC8-4AD5-A7F6-5F8F7FC07F0E" label="View Mode" paletteLabel="View Mode" tag="-1" id="DWE-Na-du6">
+                    <nil key="toolTip"/>
+                    <size key="minSize" width="51" height="32"/>
+                    <size key="maxSize" width="59" height="38"/>
+                    <box key="view" borderType="none" titlePosition="noTitle" id="b7d-DK-n8i">
+                        <rect key="frame" x="6" y="14" width="54" height="38"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <view key="contentView" id="jB2-GE-Olg">
+                            <rect key="frame" x="0.0" y="0.0" width="54" height="38"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <button id="iN6-LV-eCq" userLabel="Grid View Mode Button" customClass="OEButton">
+                                    <rect key="frame" x="1" y="6" width="27" height="23"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <animations/>
-                                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" inset="2" id="627" customClass="OEButtonCell">
+                                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" inset="2" id="oeB-Z8-6HV" customClass="OEButtonCell">
                                         <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
@@ -76,14 +90,14 @@
                                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_view_button_grid"/>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="switchToGridView:" target="-2" id="698"/>
+                                        <action selector="switchToGridView:" target="-2" id="zk0-sR-BHG"/>
                                     </connections>
                                 </button>
-                                <button id="625" userLabel="List View Mode Button" customClass="OEButton">
-                                    <rect key="frame" x="128" y="10" width="27" height="23"/>
+                                <button id="l8b-vJ-uKr" userLabel="List View Mode Button" customClass="OEButton">
+                                    <rect key="frame" x="28" y="6" width="27" height="23"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <animations/>
-                                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" borderStyle="border" inset="2" id="628" customClass="OEButtonCell">
+                                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" alignment="center" borderStyle="border" inset="2" id="Uf3-af-6jC" customClass="OEButtonCell">
                                         <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
@@ -91,14 +105,69 @@
                                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="toolbar_view_button_list"/>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="switchToListView:" target="-2" id="700"/>
+                                        <action selector="switchToListView:" target="-2" id="YSf-lu-Ylg"/>
                                     </connections>
                                 </button>
-                                <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" id="623" customClass="OESearchField">
-                                    <rect key="frame" x="282" y="10" width="271" height="22"/>
+                            </subviews>
+                            <animations/>
+                        </view>
+                        <animations/>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </box>
+                </toolbarItem>
+                <toolbarItem implicitItemIdentifier="8E705F8E-572D-4DD5-A1C3-96B9EE05D79A" label="Category" paletteLabel="Category" tag="-1" id="Jiu-4k-Ecu">
+                    <nil key="toolTip"/>
+                    <size key="minSize" width="348" height="34"/>
+                    <size key="maxSize" width="360" height="114"/>
+                    <box key="view" borderType="none" titlePosition="noTitle" id="XJ3-gQ-HUH">
+                        <rect key="frame" x="0.0" y="14" width="353" height="38"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <view key="contentView" id="Nyg-fr-RuE">
+                            <rect key="frame" x="0.0" y="0.0" width="353" height="38"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <segmentedControl verticalHuggingPriority="750" id="enK-iW-Klt">
+                                    <rect key="frame" x="1" y="9" width="353" height="24"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <animations/>
+                                    <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="y2e-ND-lKU" customClass="OEToolbarSegmentedCell">
+                                        <font key="font" metaFont="system"/>
+                                        <segments>
+                                            <segment label="Library" width="86" selected="YES"/>
+                                            <segment label="Save States" width="86" tag="1"/>
+                                            <segment label="Screenshots" width="86"/>
+                                            <segment label="Homebrew" width="86"/>
+                                        </segments>
+                                    </segmentedCell>
+                                    <connections>
+                                        <action selector="switchCategory:" target="-2" id="EHg-mf-kZT"/>
+                                    </connections>
+                                </segmentedControl>
+                            </subviews>
+                            <animations/>
+                        </view>
+                        <animations/>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </box>
+                </toolbarItem>
+                <toolbarItem implicitItemIdentifier="EFC0B5C0-3EDC-40C4-A2F5-104B980BB6DA" label="Search" paletteLabel="Search" tag="-1" id="Nu8-Bo-VSq" userLabel="Search">
+                    <nil key="toolTip"/>
+                    <size key="minSize" width="160" height="34"/>
+                    <size key="maxSize" width="166" height="38"/>
+                    <box key="view" borderType="none" titlePosition="noTitle" id="ALS-TT-WCw">
+                        <rect key="frame" x="0.0" y="14" width="166" height="38"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <view key="contentView" id="UbR-HE-f5h">
+                            <rect key="frame" x="0.0" y="0.0" width="166" height="38"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" id="NZT-Zn-8Vl" customClass="OESearchField">
+                                    <rect key="frame" x="0.0" y="7" width="166" height="22"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <animations/>
-                                    <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" title="Suchen" placeholderString="Suchen" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="630" customClass="OESearchFieldCell">
+                                    <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Search" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="gXt-MS-4X4" customClass="OESearchFieldCell">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -107,201 +176,35 @@
                                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="search_field"/>
                                     </userDefinedRuntimeAttributes>
                                     <connections>
-                                        <action selector="search:" target="-2" id="702"/>
+                                        <action selector="search:" target="-2" id="FLY-FQ-vrE"/>
                                     </connections>
                                 </searchField>
-                                <customView id="657">
-                                    <rect key="frame" x="667" y="0.0" width="163" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView id="624" userLabel="Minus Hint Image View">
-                                            <rect key="frame" x="15" y="18" width="7" height="7"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                            <animations/>
-                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topRight" id="629"/>
-                                        </imageView>
-                                        <slider verticalHuggingPriority="750" id="622" userLabel="Size Slider" customClass="OESlider">
-                                            <rect key="frame" x="27" y="13" width="103" height="15"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                            <animations/>
-                                            <sliderCell key="cell" controlSize="small" state="on" alignment="left" minValue="0.5" maxValue="2.5" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="631" customClass="OESliderCell"/>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="grid_slider"/>
-                                            </userDefinedRuntimeAttributes>
-                                            <connections>
-                                                <action selector="changeGridSize:" target="-2" id="701"/>
-                                                <outlet property="maxHint" destination="621" id="636"/>
-                                                <outlet property="minHint" destination="624" id="637"/>
-                                            </connections>
-                                        </slider>
-                                        <imageView id="621" userLabel="Max Hint Image View">
-                                            <rect key="frame" x="138" y="17" width="10" height="10"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                            <animations/>
-                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" id="632"/>
-                                        </imageView>
-                                    </subviews>
-                                    <animations/>
-                                </customView>
                             </subviews>
                             <animations/>
-                        </customView>
-                    </subviews>
-                    <animations/>
-                </customView>
-                <splitView autosaveName="mainSplitView" dividerStyle="thin" vertical="YES" id="393" userLabel="Library Split View" customClass="OELibrarySplitView">
-                    <rect key="frame" x="0.0" y="45" width="830" height="555"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <subviews>
-                        <customView wantsLayer="YES" id="395" customClass="OESidebarBackgroundView">
-                            <rect key="frame" x="0.0" y="0.0" width="186" height="555"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
-                            <subviews>
-                                <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="549">
-                                    <rect key="frame" x="0.0" y="0.0" width="186" height="555"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <clipView key="contentView" id="KU4-pj-msp">
-                                        <rect key="frame" x="0.0" y="0.0" width="186" height="555"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <subviews>
-                                            <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" indentationPerLevel="16" outlineTableColumn="554" id="552" customClass="OESidebarOutlineView">
-                                                <rect key="frame" x="0.0" y="0.0" width="186" height="19"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <animations/>
-                                                <size key="intercellSpacing" width="3" height="2"/>
-                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
-                                                <tableColumns>
-                                                    <tableColumn width="183" minWidth="16" maxWidth="1000" id="554">
-                                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
-                                                            <font key="font" metaFont="smallSystem"/>
-                                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </tableHeaderCell>
-                                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="557" customClass="OESidebarCell">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="sidebar"/>
-                                                            </userDefinedRuntimeAttributes>
-                                                        </textFieldCell>
-                                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                                    </tableColumn>
-                                                </tableColumns>
-                                            </outlineView>
-                                        </subviews>
-                                        <animations/>
-                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </clipView>
-                                    <animations/>
-                                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="551" customClass="OEScroller">
-                                        <rect key="frame" x="-100" y="-100" width="171" height="15"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <animations/>
-                                    </scroller>
-                                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="550" customClass="OEScroller">
-                                        <rect key="frame" x="171" y="17" width="15" height="494"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <animations/>
-                                    </scroller>
-                                </scrollView>
-                                <customView id="677" userLabel="Game Scanner Background Color View" customClass="OEBackgroundColorView">
-                                    <rect key="frame" x="0.0" y="-75" width="186" height="75"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <button id="681" customClass="OEButton">
-                                            <rect key="frame" x="151" y="22" width="25" height="25"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                            <animations/>
-                                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" imagePosition="only" alignment="center" inset="2" id="683" customClass="OEButtonCell">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system" size="10"/>
-                                            </buttonCell>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_toggle_pause_cancel"/>
-                                            </userDefinedRuntimeAttributes>
-                                        </button>
-                                        <customView id="682" customClass="OEHorizontalLine">
-                                            <rect key="frame" x="0.0" y="73" width="185" height="2"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <animations/>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_line"/>
-                                            </userDefinedRuntimeAttributes>
-                                        </customView>
-                                        <progressIndicator maxValue="100" style="bar" id="680" customClass="OEProgressIndicator">
-                                            <rect key="frame" x="16" y="20" width="132" height="20"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                            <animations/>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_progress"/>
-                                            </userDefinedRuntimeAttributes>
-                                        </progressIndicator>
-                                        <textField verticalHuggingPriority="750" id="678" customClass="OELabel">
-                                            <rect key="frame" x="17" y="43" width="157" height="17"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                            <animations/>
-                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Spiele-Scanner" id="685" customClass="OELabelCell">
-                                                <font key="font" metaFont="systemBold"/>
-                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_headline"/>
-                                            </userDefinedRuntimeAttributes>
-                                        </textField>
-                                        <textField verticalHuggingPriority="750" id="679" customClass="OELabel">
-                                            <rect key="frame" x="17" y="4" width="157" height="17"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                            <animations/>
-                                            <textFieldCell key="cell" lineBreakMode="truncatingHead" sendsActionOnEndEditing="YES" title="Scanner Paused" id="684" customClass="OELabelCell">
-                                                <font key="font" metaFont="smallSystem"/>
-                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner_text"/>
-                                            </userDefinedRuntimeAttributes>
-                                        </textField>
-                                        <customView id="693" customClass="OEBackgroundColorView">
-                                            <rect key="frame" x="185" y="0.0" width="1" height="75"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                            <animations/>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="black"/>
-                                            </userDefinedRuntimeAttributes>
-                                        </customView>
-                                    </subviews>
-                                    <animations/>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="game_scanner"/>
-                                    </userDefinedRuntimeAttributes>
-                                </customView>
-                            </subviews>
-                            <animations/>
-                        </customView>
-                        <customView id="394">
-                            <rect key="frame" x="187" y="0.0" width="643" height="555"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <customView id="404">
-                                    <rect key="frame" x="0.0" y="0.0" width="643" height="556"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <animations/>
-                                </customView>
-                            </subviews>
-                            <animations/>
-                        </customView>
-                    </subviews>
-                    <animations/>
-                    <holdingPriorities>
-                        <real value="250"/>
-                        <real value="250"/>
-                    </holdingPriorities>
-                </splitView>
-            </subviews>
-            <animations/>
-        </customView>
+                        </view>
+                        <animations/>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </box>
+                </toolbarItem>
+                <toolbarItem implicitItemIdentifier="38BE7ED5-34C4-40FA-871F-D886BEA66184" label="Adaptive Space" paletteLabel="Adaptive Space" tag="-1" id="7nQ-Nj-a9l" customClass="TAAdaptiveSpaceItem"/>
+            </allowedToolbarItems>
+            <defaultToolbarItems>
+                <toolbarItem reference="DWE-Na-du6"/>
+                <toolbarItem reference="4KY-AU-4s0"/>
+                <toolbarItem reference="7nQ-Nj-a9l"/>
+                <toolbarItem reference="Jiu-4k-Ecu"/>
+                <toolbarItem reference="cAJ-ae-jpG"/>
+                <toolbarItem reference="Nu8-Bo-VSq"/>
+            </defaultToolbarItems>
+            <connections>
+                <outlet property="categorySelector" destination="enK-iW-Klt" id="dzK-Uu-Pbw"/>
+                <outlet property="gridSizeSlider" destination="hfc-c7-igG" id="kAN-nU-qBy"/>
+                <outlet property="gridViewButton" destination="iN6-LV-eCq" id="2mi-H3-aUp"/>
+                <outlet property="listViewButton" destination="l8b-vJ-uKr" id="uw4-pE-waN"/>
+                <outlet property="searchField" destination="NZT-Zn-8Vl" id="h1E-yp-9F4"/>
+            </connections>
+            <point key="canvasLocation" x="-897.5" y="-78"/>
+        </toolbar>
     </objects>
 </document>

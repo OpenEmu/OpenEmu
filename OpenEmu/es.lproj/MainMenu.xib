@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -30,7 +29,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="400" height="463"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="B9D87875-897D-4E9A-9358-1245D27E467B" id="804"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="A21ADFE6-C0E0-4AD6-A939-551068CE88A5" id="804"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" id="796">
                         <rect key="frame" x="17" y="184" width="366" height="18"/>
@@ -77,12 +76,12 @@
                     <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="xLS-eK-dBr">
                         <rect key="frame" x="88" y="47" width="225" height="85"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="BOm-4F-FMa">
+                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="xgL-cd-0sR">
                             <rect key="frame" x="0.0" y="0.0" width="225" height="85"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" verticallyResizable="YES" linkDetection="YES" spellingCorrection="YES" id="1l5-5j-Ds9">
-                                    <rect key="frame" x="0.0" y="3" width="225" height="112"/>
+                                    <rect key="frame" x="0.0" y="1" width="225" height="112"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <animations/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -91,11 +90,14 @@
                                     <size key="maxSize" width="463" height="10000000"/>
                                     <attributedString key="textStorage">
                                         <fragment>
-                                            <string key="content">Gracias especialmente a todos los que hacen posible OpenEmu. Para saber más sobre nuestros colaboradores, núcleos del emulador, 
-documentación, licencias y para dar parte de errores por favor visítenos en GitHub. </string>
+                                            <string key="content">Special thanks to everyone that made 
+OpenEmu possible. To find out more 
+about our contributors, emulator cores, 
+documentation, licenses and to issue 
+bugs please visit us on our GitHub. </string>
                                             <attributes>
                                                 <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <font key="NSFont" size="11" name="LucidaGrande"/>
+                                                <font key="NSFont" metaFont="smallSystem"/>
                                                 <real key="NSKern" value="0.0"/>
                                                 <integer key="NSLigature" value="0"/>
                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.2249999999999999"/>
@@ -159,6 +161,7 @@ documentación, licencias y para dar parte de errores por favor visítenos en Gi
                 </subviews>
                 <animations/>
             </view>
+            <point key="canvasLocation" x="302" y="628.5"/>
         </window>
         <customObject id="805" userLabel="OEApplicationDelegate" customClass="OEApplicationDelegate">
             <connections>
@@ -406,12 +409,18 @@ CA
                 <menuItem title="Visualización" id="973">
                     <menu key="submenu" title="Visualización" id="1035">
                         <items>
+                            <menuItem title="Show Sidebar" keyEquivalent="S" id="5kO-fw-ARd">
+                                <connections>
+                                    <action selector="toggleSidebar:" target="-1" id="oJI-XQ-7i0"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" tag="1" id="mot-M1-WyU"/>
                             <menuItem title="Como cuadrícula" state="on" tag="301" enabled="NO" keyEquivalent="1" id="1040">
                                 <connections>
                                     <action selector="switchToGridView:" target="-1" id="1151"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Como lista" tag="303" enabled="NO" keyEquivalent="3" id="1036">
+                            <menuItem title="Como lista" tag="303" enabled="NO" keyEquivalent="2" id="1036">
                                 <connections>
                                     <action selector="switchToListView:" target="-1" id="1153"/>
                                 </connections>
@@ -433,7 +442,7 @@ CA
                                     </binding>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="1308"/>
+                            <menuItem isSeparatorItem="YES" tag="1" id="1308"/>
                             <menuItem title="Pantalla completa" tag="2" enabled="NO" keyEquivalent="f" id="1038">
                                 <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                 <connections>
@@ -638,7 +647,7 @@ DQ
         <userDefaultsController representsSharedInstance="YES" id="1212"/>
     </objects>
     <resources>
-        <image name="B9D87875-897D-4E9A-9358-1245D27E467B" width="400" height="463">
+        <image name="A21ADFE6-C0E0-4AD6-A939-551068CE88A5" width="400" height="463">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
