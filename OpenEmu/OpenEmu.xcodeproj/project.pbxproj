@@ -7001,10 +7001,9 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
+				en,
 				de,
 				pt,
-				en,
 				es,
 				fr,
 				it,
