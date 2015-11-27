@@ -82,6 +82,7 @@
 				94EBBCFB183F42CE00743756 /* CopyFiles */,
 			);
 			dependencies = (
+				87FBC0AA1C07A23400AECF5A /* PBXTargetDependency */,
 				87FBC0881BFC77E300AECF5A /* PBXTargetDependency */,
 				3DB744CD1BD8BB0300C23E74 /* PBXTargetDependency */,
 				87DF05401BCE3CDC0060E2C2 /* PBXTargetDependency */,
@@ -526,6 +527,16 @@
 		87FBC0841BFC76DA00AECF5A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		87FBC0851BFC76E200AECF5A /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
 		87FBC0861BFC77AF00AECF5A /* Commodore 64.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87FBC06D1BFC70FE00AECF5A /* Commodore 64.oesystemplugin */; };
+		87FBC0941C07929400AECF5A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		87FBC0951C07929D00AECF5A /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */; };
+		87FBC09A1C0796B800AECF5A /* OEA8SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 87FBC0981C0796B800AECF5A /* OEA8SystemResponder.m */; };
+		87FBC09E1C0796DC00AECF5A /* atari8bit_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC09B1C0796DC00AECF5A /* atari8bit_library.png */; };
+		87FBC09F1C0796DC00AECF5A /* controller_atari8bit_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC09C1C0796DC00AECF5A /* controller_atari8bit_mask.png */; };
+		87FBC0A01C0796DC00AECF5A /* controller_atari8bit.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC09D1C0796DC00AECF5A /* controller_atari8bit.png */; };
+		87FBC0A21C07985900AECF5A /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC0A11C07985900AECF5A /* Keyboard-Mappings.plist */; };
+		87FBC0A41C0798C000AECF5A /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC0A31C0798C000AECF5A /* Controller-Preferences.plist */; };
+		87FBC0A61C07996B00AECF5A /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87FBC0A51C07996B00AECF5A /* Controller-Mappings.plist */; };
+		87FBC0A81C07A22700AECF5A /* Atari 8bit.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87FBC08E1C0790B400AECF5A /* Atari 8bit.oesystemplugin */; };
 		8C09E4D81867984B0095DB4E /* Beam4.cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4BE1867975E0095DB4E /* Beam4.cgp */; };
 		8C09E4D91867984B0095DB4E /* NTSC (Blargg).cgp in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4BF1867975E0095DB4E /* NTSC (Blargg).cgp */; };
 		8C09E4DA1867984B0095DB4E /* _beam4_1.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 8C09E4C01867975E0095DB4E /* _beam4_1.cg */; };
@@ -1186,6 +1197,13 @@
 			remoteGlobalIDString = 87FBC06C1BFC70FE00AECF5A;
 			remoteInfo = "Commodore 64";
 		};
+		87FBC0A91C07A23400AECF5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 87FBC08D1C0790B400AECF5A;
+			remoteInfo = "Atari 8bit";
+		};
 		940553B117A35DE0009B505D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1484,6 +1502,7 @@
 			dstPath = OpenEmu.app/Contents/PlugIns/Systems;
 			dstSubfolderSpec = 16;
 			files = (
+				87FBC0A81C07A22700AECF5A /* Atari 8bit.oesystemplugin in CopyFiles */,
 				87FBC0861BFC77AF00AECF5A /* Commodore 64.oesystemplugin in CopyFiles */,
 				3DB744CE1BD8BB0B00C23E74 /* PlayStation 2.oesystemplugin in CopyFiles */,
 				87DF05411BCE3CEA0060E2C2 /* Dreamcast.oesystemplugin in CopyFiles */,
@@ -2361,6 +2380,17 @@
 		87FBC07B1BFC76A000AECF5A /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		87FBC07C1BFC76A000AECF5A /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		87FBC07D1BFC76A000AECF5A /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		87FBC08E1C0790B400AECF5A /* Atari 8bit.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Atari 8bit.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		87FBC0901C0790B500AECF5A /* Atari 8bit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Atari 8bit-Info.plist"; sourceTree = "<group>"; };
+		87FBC0971C0796B700AECF5A /* OEA8SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEA8SystemResponder.h; sourceTree = "<group>"; };
+		87FBC0981C0796B800AECF5A /* OEA8SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEA8SystemResponder.m; sourceTree = "<group>"; };
+		87FBC0991C0796B800AECF5A /* OEA8SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEA8SystemResponderClient.h; sourceTree = "<group>"; };
+		87FBC09B1C0796DC00AECF5A /* atari8bit_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atari8bit_library.png; sourceTree = "<group>"; };
+		87FBC09C1C0796DC00AECF5A /* controller_atari8bit_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_atari8bit_mask.png; sourceTree = "<group>"; };
+		87FBC09D1C0796DC00AECF5A /* controller_atari8bit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_atari8bit.png; sourceTree = "<group>"; };
+		87FBC0A11C07985900AECF5A /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
+		87FBC0A31C0798C000AECF5A /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
+		87FBC0A51C07996B00AECF5A /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		8C09E4BE1867975E0095DB4E /* Beam4.cgp */ = {isa = PBXFileReference; lastKnownFileType = text; path = Beam4.cgp; sourceTree = "<group>"; };
 		8C09E4BF1867975E0095DB4E /* NTSC (Blargg).cgp */ = {isa = PBXFileReference; lastKnownFileType = text; path = "NTSC (Blargg).cgp"; sourceTree = "<group>"; };
 		8C09E4C01867975E0095DB4E /* _beam4_1.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = _beam4_1.cg; sourceTree = "<group>"; };
@@ -3124,6 +3154,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87FBC08B1C0790B400AECF5A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87FBC0941C07929400AECF5A /* Cocoa.framework in Frameworks */,
+				87FBC0951C07929D00AECF5A /* OpenEmuSystem.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC330486D014006FF6A4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -3617,6 +3656,7 @@
 				87DF04FE1BCE2D100060E2C2 /* Dreamcast.oesystemplugin */,
 				3DB744BA1BD8BA9E00C23E74 /* PlayStation 2.oesystemplugin */,
 				87FBC06D1BFC70FE00AECF5A /* Commodore 64.oesystemplugin */,
+				87FBC08E1C0790B400AECF5A /* Atari 8bit.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4826,6 +4866,31 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		87FBC08F1C0790B500AECF5A /* Atari 8-bit */ = {
+			isa = PBXGroup;
+			children = (
+				87FBC0971C0796B700AECF5A /* OEA8SystemResponder.h */,
+				87FBC0981C0796B800AECF5A /* OEA8SystemResponder.m */,
+				87FBC0991C0796B800AECF5A /* OEA8SystemResponderClient.h */,
+				87FBC0961C0792C400AECF5A /* Supporting Files */,
+			);
+			path = "Atari 8-bit";
+			sourceTree = "<group>";
+		};
+		87FBC0961C0792C400AECF5A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				87FBC09B1C0796DC00AECF5A /* atari8bit_library.png */,
+				87FBC09C1C0796DC00AECF5A /* controller_atari8bit_mask.png */,
+				87FBC09D1C0796DC00AECF5A /* controller_atari8bit.png */,
+				87FBC0901C0790B500AECF5A /* Atari 8bit-Info.plist */,
+				87FBC0A31C0798C000AECF5A /* Controller-Preferences.plist */,
+				87FBC0A51C07996B00AECF5A /* Controller-Mappings.plist */,
+				87FBC0A11C07985900AECF5A /* Keyboard-Mappings.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		8C8AD72F16B5DBA70004D97C /* Blargg's NTSC filter */ = {
 			isa = PBXGroup;
 			children = (
@@ -5877,6 +5942,7 @@
 				94A224A51707543600098DA0 /* Atari 2600 */,
 				94A224B51707544100098DA0 /* Atari 5200 */,
 				941F5A0317A785AE0005D7EA /* Atari 7800 */,
+				87FBC08F1C0790B500AECF5A /* Atari 8-bit */,
 				94BE9E52171683E000AB08E6 /* ColecoVision */,
 				87FBC06E1BFC70FE00AECF5A /* Commodore 64 */,
 				94A224E51707559100098DA0 /* Computer */,
@@ -6245,6 +6311,23 @@
 			name = "Commodore 64";
 			productName = "Commodore 64";
 			productReference = 87FBC06D1BFC70FE00AECF5A /* Commodore 64.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+		87FBC08D1C0790B400AECF5A /* Atari 8bit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87FBC0931C0790B600AECF5A /* Build configuration list for PBXNativeTarget "Atari 8bit" */;
+			buildPhases = (
+				87FBC08A1C0790B400AECF5A /* Sources */,
+				87FBC08B1C0790B400AECF5A /* Frameworks */,
+				87FBC08C1C0790B400AECF5A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Atari 8bit";
+			productName = "Atari 8-bit";
+			productReference = 87FBC08E1C0790B400AECF5A /* Atari 8bit.oesystemplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 		8D15AC270486D014006FF6A4 /* OpenEmu */ = {
@@ -6856,6 +6939,9 @@
 					87FBC06C1BFC70FE00AECF5A = {
 						CreatedOnToolsVersion = 7.1.1;
 					};
+					87FBC08D1C0790B400AECF5A = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
 				};
 			};
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "OpenEmu" */;
@@ -6920,6 +7006,7 @@
 				87DF04FD1BCE2D100060E2C2 /* Dreamcast */,
 				3DB744A51BD8BA9E00C23E74 /* PlayStation 2 */,
 				87FBC06C1BFC70FE00AECF5A /* Commodore 64 */,
+				87FBC08D1C0790B400AECF5A /* Atari 8bit */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -7073,6 +7160,19 @@
 				5A221A7B1BFD87AF002FDD10 /* c64_library.png in Resources */,
 				87FBC0831BFC76A000AECF5A /* Keyboard-Mappings.plist in Resources */,
 				87FBC0811BFC76A000AECF5A /* Controller-Mappings.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87FBC08C1C0790B400AECF5A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87FBC0A01C0796DC00AECF5A /* controller_atari8bit.png in Resources */,
+				87FBC09F1C0796DC00AECF5A /* controller_atari8bit_mask.png in Resources */,
+				87FBC0A41C0798C000AECF5A /* Controller-Preferences.plist in Resources */,
+				87FBC0A21C07985900AECF5A /* Keyboard-Mappings.plist in Resources */,
+				87FBC09E1C0796DC00AECF5A /* atari8bit_library.png in Resources */,
+				87FBC0A61C07996B00AECF5A /* Controller-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7823,6 +7923,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87FBC08A1C0790B400AECF5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87FBC09A1C0796B800AECF5A /* OEA8SystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC300486D014006FF6A4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -8420,6 +8528,11 @@
 			isa = PBXTargetDependency;
 			target = 87FBC06C1BFC70FE00AECF5A /* Commodore 64 */;
 			targetProxy = 87FBC0871BFC77E300AECF5A /* PBXContainerItemProxy */;
+		};
+		87FBC0AA1C07A23400AECF5A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 87FBC08D1C0790B400AECF5A /* Atari 8bit */;
+			targetProxy = 87FBC0A91C07A23400AECF5A /* PBXContainerItemProxy */;
 		};
 		940553B217A35DE0009B505D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -9803,6 +9916,56 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "Commodore 64/Commodore 64-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
+		87FBC0911C0790B500AECF5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Atari 8-bit/Atari 8bit-Info.plist";
+				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		87FBC0921C0790B500AECF5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = "Atari 8-bit/Atari 8bit-Info.plist";
 				INSTALL_PATH = "\"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:rfc1034identifier}";
@@ -11641,6 +11804,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		87FBC0931C0790B600AECF5A /* Build configuration list for PBXNativeTarget "Atari 8bit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87FBC0911C0790B500AECF5A /* Debug */,
+				87FBC0921C0790B500AECF5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		9405539117A34C6B009B505D /* Build configuration list for PBXNativeTarget "PC Engine CD" */ = {
 			isa = XCConfigurationList;
