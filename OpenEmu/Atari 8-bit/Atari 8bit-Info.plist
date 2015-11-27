@@ -89,8 +89,11 @@
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>atr</string>
+		<string>bas</string>
 		<string>com</string>
+		<string>rom</string>
 		<string>xex</string>
+		<string>xfd</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
