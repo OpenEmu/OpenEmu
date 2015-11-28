@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPrefLibraryController">
@@ -20,6 +21,7 @@
                 <customView id="11" customClass="OEBackgroundImageView">
                     <rect key="frame" x="42" y="461" width="374" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_inset_box"/>
                     </userDefinedRuntimeAttributes>
@@ -27,6 +29,7 @@
                 <customView id="Dbf-Vf-eb2" customClass="OEBackgroundImageView">
                     <rect key="frame" x="42" y="30" width="374" height="112"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_inset_box"/>
                     </userDefinedRuntimeAttributes>
@@ -34,6 +37,7 @@
                 <customView id="4" customClass="OEHorizontalLine">
                     <rect key="frame" x="0.0" y="187" width="458" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
                     </userDefinedRuntimeAttributes>
@@ -41,6 +45,7 @@
                 <customView id="5" customClass="OEHorizontalLine">
                     <rect key="frame" x="0.0" y="401" width="458" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
                     </userDefinedRuntimeAttributes>
@@ -48,6 +53,7 @@
                 <customView id="Iz3-4e-tBC" customClass="OEHorizontalLine">
                     <rect key="frame" x="0.0" y="329" width="458" height="2"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
                     </userDefinedRuntimeAttributes>
@@ -55,6 +61,7 @@
                 <textField verticalHuggingPriority="750" id="7" customClass="OELabel">
                     <rect key="frame" x="41" y="150" width="151" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Bibliotecas Disponíveis:" id="24" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -67,6 +74,7 @@
                 <textField verticalHuggingPriority="750" id="10" customClass="OELabel">
                     <rect key="frame" x="41" y="292" width="148" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Modos de Organização" id="18" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -79,6 +87,7 @@
                 <textField verticalHuggingPriority="750" id="etg-C7-Lej" customClass="OELabel">
                     <rect key="frame" x="41" y="355" width="166" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Resetar todos os avisos:" id="Ua1-J2-mdy" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -91,6 +100,7 @@
                 <textField verticalHuggingPriority="750" id="12" customClass="OELabel">
                     <rect key="frame" x="63" y="471" width="332" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="/Users/Mucx/Library/OpenEmu/Games" id="17" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -103,6 +113,7 @@
                 <matrix verticalHuggingPriority="750" mode="highlight" allowsEmptySelection="NO" id="8" customClass="OEMatrix">
                     <rect key="frame" x="42" y="209" width="377" height="74"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     <size key="cellSize" width="377" height="17"/>
                     <size key="intercellSpacing" width="16" height="10"/>
@@ -142,6 +153,7 @@
                 <textField verticalHuggingPriority="750" id="9" customClass="OELabel">
                     <rect key="frame" x="41" y="516" width="179" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Local da Biblioteca de Jogos" id="19" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -152,8 +164,9 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <button id="14" customClass="OEButton">
-                    <rect key="frame" x="249" y="423" width="78" height="25"/>
+                    <rect key="frame" x="249" y="425" width="78" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <animations/>
                     <buttonCell key="cell" type="square" title="Alterar..." bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -166,8 +179,9 @@
                     </connections>
                 </button>
                 <button id="13" customClass="OEButton">
-                    <rect key="frame" x="338" y="423" width="78" height="25"/>
+                    <rect key="frame" x="338" y="425" width="78" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                    <animations/>
                     <buttonCell key="cell" type="square" title="Reiniciar" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="16" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -180,8 +194,9 @@
                     </connections>
                 </button>
                 <button id="Q95-qb-F7X" customClass="OEButton">
-                    <rect key="frame" x="284" y="352" width="132" height="25"/>
+                    <rect key="frame" x="284" y="354" width="132" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                    <animations/>
                     <buttonCell key="cell" type="square" title="Reiniciar Avisos" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
@@ -193,29 +208,35 @@
                         <action selector="resetWarningDialogs:" target="-2" id="Ohg-fM-nsc"/>
                     </connections>
                 </button>
-                <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" id="yl9-Jz-OKA">
+                <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" id="yl9-Jz-OKA" customClass="OEScrollView">
                     <rect key="frame" x="47" y="33" width="366" height="106"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="lBN-o5-QHE">
+                    <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="DeO-cc-bgL">
                         <rect key="frame" x="0.0" y="0.0" width="366" height="106"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view autoresizesSubviews="NO" id="VRZ-d2-kfy">
                                 <rect key="frame" x="0.0" y="0.0" width="342" height="108"/>
                                 <autoresizingMask key="autoresizingMask"/>
+                                <animations/>
                             </view>
                         </subviews>
+                        <animations/>
                     </clipView>
+                    <animations/>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="tdT-Hf-vsm" customClass="OEScroller">
                         <rect key="frame" x="-100" y="-100" width="342" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                     </scroller>
-                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6uK-mj-F0v" customClass="OEScroller">
-                        <rect key="frame" x="351" y="0.0" width="15" height="106"/>
+                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6uK-mj-F0v">
+                        <rect key="frame" x="350" y="0.0" width="16" height="106"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                     </scroller>
                 </scrollView>
             </subviews>
+            <animations/>
         </view>
         <userDefaultsController id="36"/>
     </objects>

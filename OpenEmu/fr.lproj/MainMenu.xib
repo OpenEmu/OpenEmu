@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -30,7 +29,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="400" height="463"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="56FD0EBA-1EA7-4009-A963-8F1C4D6DFC8E" id="804"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="4A11D796-25A4-4E0A-9E58-BD54D71C11DD" id="804"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" id="796">
                         <rect key="frame" x="17" y="184" width="366" height="18"/>
@@ -77,7 +76,7 @@
                     <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="xLS-eK-dBr">
                         <rect key="frame" x="88" y="47" width="225" height="85"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="HTx-nS-dq3">
+                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="xgL-cd-0sR">
                             <rect key="frame" x="0.0" y="0.0" width="225" height="85"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
@@ -98,7 +97,7 @@ cœurs, doc, licences et signalement
 des bugs, visitez notre GitHub. </string>
                                             <attributes>
                                                 <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <font key="NSFont" size="11" name="LucidaGrande"/>
+                                                <font key="NSFont" metaFont="smallSystem"/>
                                                 <real key="NSKern" value="0.0"/>
                                                 <integer key="NSLigature" value="0"/>
                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.2249999999999999"/>
@@ -162,7 +161,7 @@ des bugs, visitez notre GitHub. </string>
                 </subviews>
                 <animations/>
             </view>
-            <point key="canvasLocation" x="387" y="400.5"/>
+            <point key="canvasLocation" x="302" y="628.5"/>
         </window>
         <customObject id="805" userLabel="OEApplicationDelegate" customClass="OEApplicationDelegate">
             <connections>
@@ -410,12 +409,18 @@ CA
                 <menuItem title="Présentation" id="973">
                     <menu key="submenu" title="Présentation" id="1035">
                         <items>
+                            <menuItem title="Show Sidebar" keyEquivalent="S" id="5kO-fw-ARd">
+                                <connections>
+                                    <action selector="toggleSidebar:" target="-1" id="oJI-XQ-7i0"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" tag="1" id="mot-M1-WyU"/>
                             <menuItem title="Par grille" state="on" tag="301" enabled="NO" keyEquivalent="1" id="1040">
                                 <connections>
                                     <action selector="switchToGridView:" target="-1" id="1151"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Par liste" tag="303" enabled="NO" keyEquivalent="3" id="1036">
+                            <menuItem title="Par liste" tag="303" enabled="NO" keyEquivalent="2" id="1036">
                                 <connections>
                                     <action selector="switchToListView:" target="-1" id="1153"/>
                                 </connections>
@@ -437,7 +442,7 @@ CA
                                     </binding>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="1308"/>
+                            <menuItem isSeparatorItem="YES" tag="1" id="1308"/>
                             <menuItem title="Activer le mode plein écran" tag="2" enabled="NO" keyEquivalent="f" id="1038">
                                 <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                 <connections>
@@ -642,7 +647,7 @@ DQ
         <userDefaultsController representsSharedInstance="YES" id="1212"/>
     </objects>
     <resources>
-        <image name="56FD0EBA-1EA7-4009-A963-8F1C4D6DFC8E" width="400" height="463">
+        <image name="4A11D796-25A4-4E0A-9E58-BD54D71C11DD" width="400" height="463">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
