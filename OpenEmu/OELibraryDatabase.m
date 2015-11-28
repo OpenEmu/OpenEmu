@@ -46,7 +46,6 @@
 
 #import "NSFileManager+OEHashingAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
-#import "NSMutableDictionary+OEAdditions.h"
 
 #import <OpenEmuBase/OpenEmuBase.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
@@ -56,6 +55,8 @@
 #import "OEDBCollectionFolder.h"
 
 #import "OEGameInfoHelper.h"
+
+#import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
