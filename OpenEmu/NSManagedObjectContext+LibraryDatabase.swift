@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,9 +24,13 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import CoreData;
-@class OELibraryDatabase;
+import Foundation
+import CoreData
 
-@interface NSManagedObjectContext (OEAdditions)
-- (OELibraryDatabase*)libraryDatabase;
-@end
+extension NSManagedObjectContext {
+
+    @objc
+    var libraryDatabase: OELibraryDatabase {
+        return userInfo[OELibraryDatabaseUserInfoKey] as! OELibraryDatabase
+    }
+}

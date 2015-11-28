@@ -32,7 +32,8 @@
 #import "OECorePlugin.h"
 
 #import "NSURL+OELibraryAdditions.h"
-#import "NSManagedObjectContext+OEAdditions.h"
+
+#import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

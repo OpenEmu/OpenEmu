@@ -25,6 +25,7 @@
  */
 
 @import Foundation;
+@import CoreData;
 
 @class OEDBRom;
 @class OEDBGame;
