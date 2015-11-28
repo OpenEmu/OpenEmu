@@ -43,7 +43,7 @@
 {
     OEThemeState state  = [self OE_currentState];
     NSImage *trackImage = [[self backgroundThemeImage] imageForState:state];
-    NSRect barRect = NSInsetRect(aRect, 3, (NSHeight(aRect)-[self trackThickness])/2.0);
+    NSRect barRect = NSInsetRect(aRect, 1, (NSHeight(aRect)-[self trackThickness])/2.0);
     barRect = [[self controlView] backingAlignedRect:barRect options:NSAlignAllEdgesNearest];
     [trackImage drawInRect:barRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:@{NSImageHintInterpolation:@(NSImageInterpolationNone)}];
 

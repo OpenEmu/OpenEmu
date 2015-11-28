@@ -829,7 +829,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [volumeUpButton setToolTipStyle:OEToolTipStyleHUD];
     [self addSubview:volumeUpButton];
 
-    _slider = [[OESlider alloc] initWithFrame:NSMakeRect(240 + (hideOptions ? 0 : 50), 13, 80, 23)];
+    _slider = [[OESlider alloc] initWithFrame:NSMakeRect(238 + (hideOptions ? 0 : 50), 13, 76, 23)];
 
     OESliderCell *sliderCell = [[OESliderCell alloc] init];
     [_slider setCell:sliderCell];
