@@ -25,7 +25,6 @@
  */
 
 #import "OEDBImageMigrationPolicy.h"
-#import "NSArray+OEAdditions.h"
 #import "OELibraryDatabase.h"
 
 NS_ASSUME_NONNULL_BEGIN

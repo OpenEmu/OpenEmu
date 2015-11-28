@@ -41,7 +41,6 @@
 #import "OESystemPlugin.h"
 #import "OEDBSmartCollection.h"
 
-#import "NSArray+OEAdditions.h"
 #import "NSWindow+OEFullScreenAdditions.h"
 
 #import "OEPreferencesController.h"

@@ -276,6 +276,7 @@
 		5A221B101BFE9671002FDD10 /* 3do_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221B0F1BFE9671002FDD10 /* 3do_library.png */; };
 		5A221B121BFE96A1002FDD10 /* 3do_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221B111BFE96A1002FDD10 /* 3do_library@2x.png */; };
 		5A886E581BF43AC900775123 /* NSWindow+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A886E571BF43AC900775123 /* NSWindow+Image.swift */; };
+		5A9606D01C0A50D60089B494 /* NSArray+BlockFiltering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606CF1C0A50D60089B494 /* NSArray+BlockFiltering.swift */; };
 		5ABE03291BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */; };
 		5ABE032A1BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03281BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m */; };
 		5ADDC4B71BF94F7000BF173D /* NSImage+SelectionRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADDC4B61BF94F7000BF173D /* NSImage+SelectionRing.swift */; };
@@ -413,7 +414,6 @@
 		83B04E3C196860B800CB985E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3A196860B800CB985E /* Credits.rtf */; };
 		83B04E411968610F00CB985E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3D1968610F00CB985E /* InfoPlist.strings */; };
 		83B04E421968610F00CB985E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3F1968610F00CB985E /* Localizable.strings */; };
-		83B65F5715F0DEA100C742D2 /* NSArray+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B65F5615F0DEA100C742D2 /* NSArray+OEAdditions.m */; };
 		83B867BC171D63940038988C /* NSString+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B867BB171D63940038988C /* NSString+OEAdditions.m */; };
 		83B867BE171D63C70038988C /* DiskArbitration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83B867BD171D63C70038988C /* DiskArbitration.framework */; };
 		83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */; };
@@ -1883,6 +1883,7 @@
 		5A221B0F1BFE9671002FDD10 /* 3do_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3do_library.png; sourceTree = "<group>"; };
 		5A221B111BFE96A1002FDD10 /* 3do_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3do_library@2x.png"; sourceTree = "<group>"; };
 		5A886E571BF43AC900775123 /* NSWindow+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSWindow+Image.swift"; sourceTree = "<group>"; };
+		5A9606CF1C0A50D60089B494 /* NSArray+BlockFiltering.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSArray+BlockFiltering.swift"; sourceTree = "<group>"; };
 		5ABE03251BDCA03600BC7B6A /* TAAdaptiveSpaceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItem.h; sourceTree = "<group>"; };
 		5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAdaptiveSpaceItem.m; sourceTree = "<group>"; };
 		5ABE03271BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItemView.h; sourceTree = "<group>"; };
@@ -2228,8 +2229,6 @@
 		83B04E3B196860B800CB985E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		83B04E3E1968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83B04E401968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
-		83B65F5515F0DEA100C742D2 /* NSArray+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEAdditions.h"; sourceTree = "<group>"; };
-		83B65F5615F0DEA100C742D2 /* NSArray+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+OEAdditions.m"; sourceTree = "<group>"; };
 		83B867BA171D63940038988C /* NSString+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEAdditions.h"; sourceTree = "<group>"; };
 		83B867BB171D63940038988C /* NSString+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEAdditions.m"; sourceTree = "<group>"; };
 		83B867BD171D63C70038988C /* DiskArbitration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiskArbitration.framework; path = System/Library/Frameworks/DiskArbitration.framework; sourceTree = SDKROOT; };
@@ -3800,8 +3799,7 @@
 			children = (
 				83E8927819748C20004D4489 /* NS(Attributed)String+Geometrics.h */,
 				83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */,
-				83B65F5515F0DEA100C742D2 /* NSArray+OEAdditions.h */,
-				83B65F5615F0DEA100C742D2 /* NSArray+OEAdditions.m */,
+				5A9606CF1C0A50D60089B494 /* NSArray+BlockFiltering.swift */,
 				82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */,
 				82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */,
 				EFBD5D7614EFE19A00FBD1E0 /* NSColor+OEAdditions.h */,
@@ -8078,6 +8076,7 @@
 				8301557B1456BF7A0093D681 /* OEGameViewController.m in Sources */,
 				83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */,
 				83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */,
+				5A9606D01C0A50D60089B494 /* NSArray+BlockFiltering.swift in Sources */,
 				83025E60146BDD5E00A06EF9 /* OECoreTableButtonCell.m in Sources */,
 				83025E66146BE68E00A06EF9 /* OECoreTableProgressCell.m in Sources */,
 				8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */,
@@ -8106,7 +8105,6 @@
 				9453E3821ACBBADD004F42AD /* OEBIOSFile.m in Sources */,
 				8337393215BFD24A00D83D2F /* OESystemPicker.m in Sources */,
 				8356AEF215DA703100AA6B44 /* OEImportOperation.m in Sources */,
-				83B65F5715F0DEA100C742D2 /* NSArray+OEAdditions.m in Sources */,
 				8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */,
 				8363A43A193CBAFA00F18425 /* OEGridMediaItemCell.m in Sources */,
 				8353EB2315FF609F0026E326 /* OEDBSaveStateMigrationPolicy.m in Sources */,

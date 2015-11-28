@@ -36,8 +36,6 @@
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
-#import "NSArray+OEAdditions.h"
-
 @import Quartz;
 
 NSString * const OEControlsButtonHighlightRollsOver = @"ButtonHighlightRollsOver";

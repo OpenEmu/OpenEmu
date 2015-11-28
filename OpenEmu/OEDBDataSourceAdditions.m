@@ -29,9 +29,10 @@
 #import "OEDBRom.h"
 #import "OEGameDocument.h"
 #import "OEGameViewController.h"
-#import "NSArray+OEAdditions.h"
 #import "OETheme.h"
 @import Quartz;
+
+#import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

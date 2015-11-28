@@ -36,7 +36,6 @@
 #import "OEDownload.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
-#import "NSArray+OEAdditions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

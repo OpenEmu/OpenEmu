@@ -36,12 +36,13 @@
 
 #import "NSURL+OELibraryAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
-#import "NSArray+OEAdditions.h"
 
 #import <CommonCrypto/CommonDigest.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import <XADMaster/XADArchive.h>
 #import <objc/runtime.h>
+
+#import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

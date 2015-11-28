@@ -25,9 +25,10 @@
  */
 
 #import "OEDBSaveStateMigrationPolicy.h"
-#import "NSArray+OEAdditions.h"
 #import "OELibraryDatabase.h"
 #import "NSURL+OELibraryAdditions.h"
+
+#import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
