@@ -27,7 +27,6 @@
 #import "OEMainWindowController.h"
 #import "OEMainWindowContentController.h"
 
-#import "OEMainWindow.h"
 #import "NSWindow+OEFullScreenAdditions.h"
 #import "OESetupAssistant.h"
 #import "OECoreUpdater.h"

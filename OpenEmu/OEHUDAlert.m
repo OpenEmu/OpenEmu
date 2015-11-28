@@ -34,7 +34,6 @@
 #import "OEProgressIndicator.h"
 
 #import "NSControl+OEAdditions.h"
-#import "NSWindow+OECustomWindow.h"
 
 #import "OEInputLimitFormatter.h"
 #import "OEBackgroundImageView.h"

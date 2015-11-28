@@ -231,7 +231,6 @@
 		53439AE613B92E59005C0CC8 /* OETableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AE013B92E59005C0CC8 /* OETableHeaderView.m */; };
 		53439AE713B92E59005C0CC8 /* OETableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AE213B92E59005C0CC8 /* OETableView.m */; };
 		53439AEB13B92E91005C0CC8 /* OELibrarySplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AEA13B92E91005C0CC8 /* OELibrarySplitView.m */; };
-		53439AEE13B92E9A005C0CC8 /* OEMainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AED13B92E9A005C0CC8 /* OEMainWindow.m */; };
 		53439AF413B92EA8005C0CC8 /* OESearchFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AF313B92EA8005C0CC8 /* OESearchFieldCell.m */; };
 		53439AF713B92EAD005C0CC8 /* OESlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AF613B92EAD005C0CC8 /* OESlider.m */; };
 		53439AFA13B92EB3005C0CC8 /* OEImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439AF913B92EB3005C0CC8 /* OEImageButton.m */; };
@@ -365,7 +364,6 @@
 		83633447195D798600470AB8 /* OEDBScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 83633446195D798600470AB8 /* OEDBScreenshot.m */; };
 		8363A43A193CBAFA00F18425 /* OEGridMediaItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363A439193CBAFA00F18425 /* OEGridMediaItemCell.m */; };
 		8363A43F193CD12C00F18425 /* OEGridMediaGroupItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8363A43E193CD12C00F18425 /* OEGridMediaGroupItemCell.m */; };
-		83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */; };
 		836AEA6E19755FE300B86935 /* OEOutlinedButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA6D19755FE300B86935 /* OEOutlinedButtonCell.m */; };
 		836AEA711975BFE100B86935 /* OEGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 836AEA701975BFE100B86935 /* OEGridCell.m */; };
 		836BC9571853815A00B6AF26 /* OESQLiteDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 836BC9561853815A00B6AF26 /* OESQLiteDatabase.m */; };
@@ -1816,8 +1814,6 @@
 		53439AE213B92E59005C0CC8 /* OETableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableView.m; sourceTree = "<group>"; };
 		53439AE913B92E91005C0CC8 /* OELibrarySplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibrarySplitView.h; sourceTree = "<group>"; };
 		53439AEA13B92E91005C0CC8 /* OELibrarySplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibrarySplitView.m; sourceTree = "<group>"; };
-		53439AEC13B92E9A005C0CC8 /* OEMainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMainWindow.h; sourceTree = "<group>"; };
-		53439AED13B92E9A005C0CC8 /* OEMainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMainWindow.m; sourceTree = "<group>"; };
 		53439AF213B92EA8005C0CC8 /* OESearchFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESearchFieldCell.h; sourceTree = "<group>"; };
 		53439AF313B92EA8005C0CC8 /* OESearchFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESearchFieldCell.m; sourceTree = "<group>"; };
 		53439AF513B92EAD005C0CC8 /* OESlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESlider.h; sourceTree = "<group>"; };
@@ -2097,8 +2093,6 @@
 		8363A43D193CD12C00F18425 /* OEGridMediaGroupItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridMediaGroupItemCell.h; sourceTree = "<group>"; };
 		8363A43E193CD12C00F18425 /* OEGridMediaGroupItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridMediaGroupItemCell.m; sourceTree = "<group>"; };
 		8363A440193CF41200F18425 /* IKOpenGLRoundedRectRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IKOpenGLRoundedRectRenderer.h; sourceTree = "<group>"; };
-		83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OECustomWindow.h"; sourceTree = "<group>"; };
-		83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+OECustomWindow.m"; sourceTree = "<group>"; };
 		836AEA6C19755FE300B86935 /* OEOutlinedButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOutlinedButtonCell.h; sourceTree = "<group>"; };
 		836AEA6D19755FE300B86935 /* OEOutlinedButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOutlinedButtonCell.m; sourceTree = "<group>"; };
 		836AEA6F1975BFE100B86935 /* OEGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridCell.h; sourceTree = "<group>"; };
@@ -3824,8 +3818,6 @@
 				83DDEE81156CDEEB009EB43D /* NSView+FadeImage.h */,
 				83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */,
 				5A886E571BF43AC900775123 /* NSWindow+Image.swift */,
-				83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */,
-				83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */,
 				14E4A7F81616EF8B00082311 /* NSWindow+OEFullScreenAdditions.h */,
 				14E4A7F91616EF8B00082311 /* NSWindow+OEFullScreenAdditions.m */,
 				83F7DBAD18C0E2470029199C /* OEFileManager.h */,
@@ -4232,8 +4224,6 @@
 				53439AF913B92EB3005C0CC8 /* OEImageButton.m */,
 				53439AE913B92E91005C0CC8 /* OELibrarySplitView.h */,
 				53439AEA13B92E91005C0CC8 /* OELibrarySplitView.m */,
-				53439AEC13B92E9A005C0CC8 /* OEMainWindow.h */,
-				53439AED13B92E9A005C0CC8 /* OEMainWindow.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -8024,7 +8014,6 @@
 				53439AE613B92E59005C0CC8 /* OETableHeaderView.m in Sources */,
 				53439AE713B92E59005C0CC8 /* OETableView.m in Sources */,
 				53439AEB13B92E91005C0CC8 /* OELibrarySplitView.m in Sources */,
-				53439AEE13B92E9A005C0CC8 /* OEMainWindow.m in Sources */,
 				53439AF413B92EA8005C0CC8 /* OESearchFieldCell.m in Sources */,
 				5AECA1491BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift in Sources */,
 				53439AF713B92EAD005C0CC8 /* OESlider.m in Sources */,
@@ -8077,7 +8066,6 @@
 				83025E66146BE68E00A06EF9 /* OECoreTableProgressCell.m in Sources */,
 				8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */,
 				839310BC147802380020058E /* OECoreDownload.m in Sources */,
-				83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */,
 				83CA87B41961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel in Sources */,
 				83F7DBAF18C0E2470029199C /* OEFileManager.m in Sources */,
 				EF2FDBEB14CFFE06002A64F2 /* OEControlsKeyButton.m in Sources */,
