@@ -92,6 +92,13 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     [[self listView] setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self OE_switchToView:[[NSUserDefaults standardUserDefaults] integerForKey:OELastCollectionViewKey]];
+}
+
 - (void)viewDidAppear
 {
     [super viewDidAppear];
@@ -193,6 +200,16 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
     [[self gridView] setSelectionIndexes:selectionIndexes byExtendingSelection:NO];
 }
+
+#pragma mark - View Selection
+
+- (void)OE_switchToView:(OECollectionViewControllerViewTag)tag
+{
+    [super OE_switchToView:tag];
+    
+    [[NSUserDefaults standardUserDefaults] setInteger:self.selectedViewTag forKey:OELastCollectionViewKey];
+}
+
 #pragma mark -
 - (BOOL)shouldShowBlankSlate
 {
