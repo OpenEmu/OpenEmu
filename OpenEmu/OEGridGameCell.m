@@ -417,7 +417,7 @@ static NSDictionary *disabledActions = nil;
         NSUInteger    rating = [representedItem gridRating];
         NSImage *ratingImage = [self OE_ratingImageForRating:rating];
 
-        [_ratingLayer setContentsGravity:kCAGravityCenter];
+        [_ratingLayer setContentsGravity:kCAGravityResizeAspect];
         [_ratingLayer setContentsScale:scaleFactor];
         [_ratingLayer setFrame:relativeRatingFrame];
         [_ratingLayer setContents:ratingImage];
