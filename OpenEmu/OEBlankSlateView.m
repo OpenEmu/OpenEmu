@@ -130,7 +130,12 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     if(_representedObject == representedObject) return;
     _representedObject = representedObject;
 
-    NSView *container = [[NSView alloc] initWithFrame:(NSRect){ .size = { OEBlankSlateContainerWidth, OEBlankSlateContainerHeight }}];
+    const CGFloat titlebarHeight = 37.0;
+    NSRect containerFrame = NSMakeRect(0,
+                                       0,
+                                       OEBlankSlateContainerWidth,
+                                       OEBlankSlateContainerHeight - titlebarHeight);
+    NSView *container = [[NSView alloc] initWithFrame:containerFrame];
     [self setContainerView:container];
 
     [self setupViewForRepresentedObject];
