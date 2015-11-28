@@ -322,7 +322,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     [shadow setShadowBlurRadius:0];
     
     NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                [NSFont systemFontOfSize:11], NSFontAttributeName,
+                                [NSFont boldSystemFontOfSize:13], NSFontAttributeName,
                                 shadow, NSShadowAttributeName,
                                 [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName,
                                 nil];
