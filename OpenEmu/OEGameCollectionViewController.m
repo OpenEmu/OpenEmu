@@ -63,6 +63,13 @@ static NSArray *OE_defaultSortDescriptors;
 
 extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
+/// Archived URI representations of managed object IDs for selected OEDBGames.
+static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
+
+@interface OECollectionViewController ()
+@property (readwrite) OECollectionViewControllerViewTag selectedViewTag;
+@end
+
 @interface OEGameCollectionViewController ()
 
 - (NSMenu *)OE_saveStateMenuForGame:(OEDBGame *)game;
@@ -88,15 +95,13 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 - (void)loadView
 {
     [super loadView];
+    
+    // Restore grid/list view mode.
+    OECollectionViewControllerViewTag tag = [[NSUserDefaults standardUserDefaults] integerForKey:OELastCollectionViewKey];
+    [self OE_setupToolbarStatesForViewTag:tag];
+    self.selectedViewTag = tag;
 
     [[self listView] setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    [self OE_switchToView:[[NSUserDefaults standardUserDefaults] integerForKey:OELastCollectionViewKey]];
 }
 
 - (void)viewDidAppear
@@ -199,6 +204,16 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
     [gamesController setSelectionIndexes:selectionIndexes];
 
     [[self gridView] setSelectionIndexes:selectionIndexes byExtendingSelection:NO];
+    
+    // Save selected games to user defaults.
+    NSMutableArray <NSData *> *archivableRepresentations = [NSMutableArray array];
+    for (OEDBGame *selectedGame in self.selectedGames) {
+        NSManagedObjectID *objectID = selectedGame.permanentID;
+        NSData *representation = [NSKeyedArchiver archivedDataWithRootObject:objectID.URIRepresentation];
+        [archivableRepresentations addObject:representation];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:archivableRepresentations forKey:OESelectedGamesKey];
 }
 
 #pragma mark - View Selection
@@ -223,7 +238,7 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 - (void)setRepresentedObject:(id)representedObject
 {
     [super setRepresentedObject:representedObject];
-
+    
     self.libraryController.toolbar.searchField.searchMenuTemplate = nil;
     
     // Restore search field text.
@@ -234,6 +249,37 @@ extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
 
     [self.listView tableColumnWithIdentifier:@"listViewConsoleName"].hidden = ![representedObject shouldShowSystemColumnInListView];
     [self reloadData];
+    
+    // Restore game selection.
+    NSManagedObjectContext *context = self.libraryController.database.mainThreadContext;
+    NSPersistentStoreCoordinator *persistentStoreCoordinator = context.persistentStoreCoordinator;
+    NSMutableIndexSet *gameIndexesToSelect = [NSMutableIndexSet indexSet];
+    for (NSData *data in [[NSUserDefaults standardUserDefaults] objectForKey:OESelectedGamesKey]) {
+        
+        NSURL *representation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        
+        if (!representation) {
+            continue;
+        }
+        
+        NSManagedObjectID *objectID = [persistentStoreCoordinator managedObjectIDForURIRepresentation:representation];
+        
+        if (!objectID) {
+            continue;
+        }
+        
+        OEDBGame *game = [context objectWithID:objectID];
+        
+        NSUInteger index = [self.gamesController.arrangedObjects indexOfObject:game];
+        
+        if (index == NSNotFound) {
+            continue;
+        }
+        
+        [gameIndexesToSelect addIndex:index];
+    }
+    
+    [self setSelectionIndexes:gameIndexesToSelect];
 }
 
 - (id <OEGameCollectionViewItemProtocol>)representedObject

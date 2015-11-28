@@ -48,6 +48,9 @@
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 
+/// Archived URI representations of managed object IDs for selected media.
+static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
+
 @interface OESavedGamesDataWrapper : NSObject <NSPasteboardWriting>
 + (id)wrapperWithItem:(id)item;
 + (id)wrapperWithState:(OEDBSaveState*)state;
@@ -86,16 +89,43 @@
     [[self gridView] setCellClass:[OEGridMediaItemCell class]];
 }
 
-- (void)viewWillAppear
-{
-    [super viewWillAppear];
-    [self reloadData];
-}
-
 - (void)viewDidAppear
 {
     [super viewDidAppear];
     [self _setupToolbar];
+    
+    // Restore media selection.
+    NSManagedObjectContext *context = self.libraryController.database.mainThreadContext;
+    NSPersistentStoreCoordinator *persistentStoreCoordinator = context.persistentStoreCoordinator;
+    NSMutableIndexSet *mediaItemsToSelect = [NSMutableIndexSet indexSet];
+    NSString *defaultsKey = [[self OE_entityName] stringByAppendingString:OESelectedMediaKey];
+    for (NSData *data in [[NSUserDefaults standardUserDefaults] objectForKey:defaultsKey]) {
+        
+        NSURL *representation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        
+        if (!representation) {
+            continue;
+        }
+        
+        NSManagedObjectID *objectID = [persistentStoreCoordinator managedObjectIDForURIRepresentation:representation];
+        
+        if (!objectID) {
+            continue;
+        }
+        
+        __kindof OEDBItem *mediaItem = [context objectWithID:objectID];
+        
+        NSUInteger index = [self.items indexOfObject:mediaItem];
+        
+        if (index == NSNotFound) {
+            continue;
+        }
+        
+        [mediaItemsToSelect addIndex:index];
+    }
+    
+    [self setSelectionIndexes:mediaItemsToSelect];
+
 }
 
 - (void)viewDidDisappear
@@ -193,11 +223,6 @@
 {
     [super setRepresentedObject:representedObject];
 
-    if(representedObject)
-    {
-        [self setSaveStateMode:[representedObject isKindOfClass:[OEDBSavedGamesMedia class]]];
-        [self reloadData];
-    }
     [self _setupSearchMenuTemplate];
 }
 
@@ -228,6 +253,31 @@
 - (NSIndexSet*)selectionIndexes
 {
     return [[self gridView] selectionIndexes];
+}
+
+- (void)setSelectionIndexes:(NSIndexSet *)selectionIndexes
+{
+    [super setSelectionIndexes:selectionIndexes];
+    
+    [self.gridView setSelectionIndexes:selectionIndexes byExtendingSelection:NO];
+}
+
+- (void)imageBrowserSelectionDidChange:(IKImageBrowserView *)aBrowser
+{
+    [super imageBrowserSelectionDidChange:aBrowser];
+    
+    // Save selected media to user defaults.
+    NSMutableArray <NSData *> *archivableRepresentations = [NSMutableArray array];
+    for (__kindof OEDBItem *item in [self.items objectsAtIndexes:self.selectionIndexes]) {
+        
+        NSManagedObjectID *objectID = item.permanentID;
+        NSData *representation = [NSKeyedArchiver archivedDataWithRootObject:objectID.URIRepresentation];
+        
+        [archivableRepresentations addObject:representation];
+    }
+
+    NSString *defaultsKey = [[self OE_entityName] stringByAppendingString:OESelectedMediaKey];
+    [[NSUserDefaults standardUserDefaults] setObject:archivableRepresentations forKey:defaultsKey];
 }
 
 #pragma mark -
@@ -697,4 +747,5 @@ static NSDateFormatter *formatter = nil;
         return [formatter stringFromDate:[[self screenshot] timestamp]];
     return @"";
 }
+
 @end

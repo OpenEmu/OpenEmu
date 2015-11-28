@@ -144,6 +144,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
     [listView setRowSizeStyle:NSTableViewRowSizeStyleCustom];
     [listView setRowHeight:20.0];
+    [listView setSortDescriptors:[self defaultSortDescriptors]];
+    [listView setAllowsMultipleSelection:YES];
 
     // There's no natural order for status indicators, so we don't allow that column to be sorted
     OETableHeaderCell *romStatusHeaderCell = [[listView tableColumnWithIdentifier:@"listViewStatus"] headerCell];
@@ -177,6 +179,22 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
                               context:OEUserDefaultsDisplayGameTitleKVOContext];
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    if (self.representedObject)
+        [self reloadData];
+    
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    
+    // Watch the main thread's managed object context for changes
+    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
+    [notificationCenter addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
+    
+    [notificationCenter addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
+}
+
 - (void)viewWillAppear
 {
     [super viewWillAppear];
@@ -184,32 +202,6 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     // Update grid view with current size slider zoom value.
     NSSlider *sizeSlider = [[[self libraryController] toolbar] gridSizeSlider];
     [self zoomGridViewWithValue:[sizeSlider floatValue]];
-}
-
-- (void)viewDidAppear
-{
-    [super viewDidAppear];
-    
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    
-    // Watch the main thread's managed object context for changes
-    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
-    [notificationCenter addObserver:self selector:@selector(OE_managedObjectContextDidUpdate:) name:NSManagedObjectContextDidSaveNotification object:context];
-
-    [notificationCenter addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
-    
-    if([self representedObject]) [self reloadData];
-}
-
-- (void)viewDidDisappear
-{
-    [super viewDidDisappear];
-    
-    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    
-    [notificationCenter removeObserver:self name:NSManagedObjectContextDidSaveNotification object:context];
-    [notificationCenter removeObserver:self name:OELibraryLocationDidChangeNotificationName object:nil];
 }
 
 - (NSString *)nibName
