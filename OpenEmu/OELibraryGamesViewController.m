@@ -35,6 +35,9 @@
 #import "OELibraryController.h"
 
 #import "OEDBCollection.h"
+#import "OEDBSystem.h"
+
+#import "OESystemPlugin.h"
 
 #define MainMenu_View_GridTag      301
 #define MainMenu_View_ListTag      303
@@ -151,8 +154,30 @@
 #pragma mark - Sidebar handling
 - (void)_updateCollectionContentsFromSidebar:(id)sender
 {
-    id selectedItem = [[self sidebarController] selectedSidebarItem];
-    [[self collectionController] setRepresentedObject:selectedItem];
+    id selectedItem = self.sidebarController.selectedSidebarItem;
+    self.collectionController.representedObject = selectedItem;
+    
+    // For empty collections of disc-based games, display an alert to compel the user to read the disc-importing guide.
+    if ([selectedItem isKindOfClass:[OEDBSystem class]] &&
+        ((OEDBSystem *)selectedItem).plugin.supportsDiscs &&
+        ((OEDBSystem *)selectedItem).games.count == 0)
+    {
+        
+        NSAlert *alert = [[NSAlert alloc] init];
+        
+        alert.messageText = NSLocalizedString(@"Have you read the guide?", @"");
+        alert.informativeText = NSLocalizedString(@"Disc-based games have special requirements. Please read the disc importing guide.", @"");
+        alert.alertStyle = NSInformationalAlertStyle;
+        [alert addButtonWithTitle:NSLocalizedString(@"View Guide In Browser", @"")];
+        [alert addButtonWithTitle:NSLocalizedString(@"Dismiss", @"")];
+                
+        [alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
+            if(returnCode == NSAlertFirstButtonReturn) {
+                NSURL *guideURL = [NSURL URLWithString:OECDBasedGamesUserGuideURLString];
+                [[NSWorkspace sharedWorkspace] openURL:guideURL];
+            }
+        }];
+    }
 }
 
 - (void)makeNewCollectionWithSelectedGames:(id)sender

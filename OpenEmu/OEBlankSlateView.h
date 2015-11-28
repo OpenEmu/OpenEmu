@@ -28,6 +28,8 @@
 #import "OEBlankSlateBackgroundView.h"
 @class OEBlankSlateView;
 
+extern NSString * const OECDBasedGamesUserGuideURLString;
+
 @protocol OEBlankSlateViewDelegate <NSObject>
 @optional
 - (NSDragOperation)blankSlateView:(OEBlankSlateView *)gridView validateDrop:(id<NSDraggingInfo>)sender;
