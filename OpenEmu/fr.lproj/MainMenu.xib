@@ -90,11 +90,11 @@
                                     <size key="maxSize" width="463" height="10000000"/>
                                     <attributedString key="textStorage">
                                         <fragment>
-                                            <string key="content">Special thanks to everyone that made 
-OpenEmu possible. To find out more 
-about our contributors, emulator cores, 
-documentation, licenses and to issue 
-bugs please visit us on our GitHub. </string>
+                                            <string key="content">Merci à celles et ceux sans qui 
+OpenEmu n’aurait été possible. Pour 
+en savoir plus sur nos contributeurs,
+cœurs, doc, licences et signalement 
+des bugs, visitez notre GitHub. </string>
                                             <attributes>
                                                 <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <font key="NSFont" metaFont="smallSystem"/>
