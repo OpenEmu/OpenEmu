@@ -118,7 +118,7 @@
                             </userDefinedRuntimeAttributes>
                         </popUpButton>
                         <button id="138" customClass="OEButton">
-                            <rect key="frame" x="419" y="11" width="78" height="25"/>
+                            <rect key="frame" x="419" y="13" width="78" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <animations/>
                             <buttonCell key="cell" type="square" title="Anwenden" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="139" customClass="OEButtonCell">
