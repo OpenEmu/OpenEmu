@@ -222,6 +222,12 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 - (void)setRepresentedObject:(id)representedObject
 {
     [super setRepresentedObject:representedObject];
+    
+    if(representedObject)
+    {
+        [self setSaveStateMode:[representedObject isKindOfClass:[OEDBSavedGamesMedia class]]];
+        [self reloadData];
+    }
 
     [self _setupSearchMenuTemplate];
 }
@@ -371,6 +377,22 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     }
     _groupRanges = ranges;
     _items = result;
+}
+
+- (void)reloadData
+{
+    // Preserve the selection.
+    NSArray <__kindof OEDBItem *> *selectedItems = [self.items objectsAtIndexes:self.selectionIndexes];
+    
+    [super reloadData];
+    
+    NSMutableIndexSet *indexesToSelect = [NSMutableIndexSet indexSet];
+    for (__kindof OEDBItem *item in selectedItems) {
+        NSUInteger index = [self.items indexOfObject:item];
+        [indexesToSelect addIndex:index];
+    }
+    
+    [self setSelectionIndexes:indexesToSelect];
 }
 
 - (NSString*)OE_entityName
