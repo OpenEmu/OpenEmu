@@ -89,7 +89,7 @@
         if(obj!=[[[self subviews] lastObject] layer]) [obj setFrame:bounds];
     }];
 
-    [CATransaction flush];
+    [CATransaction commit];
 }
 
 #pragma mark - CALayer Delegate

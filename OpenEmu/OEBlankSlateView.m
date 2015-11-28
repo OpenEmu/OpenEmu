@@ -480,7 +480,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
         }
     }
     
-    [CATransaction flush];
+    [CATransaction commit];
 }
 
 - (NSImageView*)OE_makeImageViewWithImageNamed:(NSString*)imageName{

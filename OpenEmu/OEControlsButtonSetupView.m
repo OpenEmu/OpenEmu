@@ -296,7 +296,7 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
 
     [self layoutSectionHeadings:nil];
 
-    if(animated) [CATransaction flush];
+    if(animated) [CATransaction commit];
 #undef animated
 }
 
