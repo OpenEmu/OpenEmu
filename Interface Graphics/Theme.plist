@@ -815,10 +815,8 @@
 			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Size</key>
 			<integer>11</integer>
-			<key>Traits</key>
-			<string>Bold</string>
 			<key>Weight</key>
-			<real>3</real>
+			<real>0.1</real>
 		</dict>
 		<key>light_menu_item</key>
 		<dict>
