@@ -353,8 +353,12 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
         [[self alert] setDefaultButtonTitle:NSLocalizedString(@"OK", @"")];
         [[self alert] setAlternateButtonTitle:nil];
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
         [[[self alert] defaultButton] setThemeKey:@"hud_button_red"];
         [[self alert] setDefaultButtonAction:@selector(buttonAction:) andTarget:[self alert]];
+#pragma clang diagnostic pop
+        
         return;
     }
 
