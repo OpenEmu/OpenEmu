@@ -30,9 +30,9 @@
 #import "OESidebarItem.h"
 #import "OESidebarController.h"
 #import "OELibrarySplitView.h"
-#import "OELibraryToolbar.h"
 
 #import "OEButton.h"
+#import "OESearchField.h"
 
 #import "OELibrarySubviewController.h"
 #import "OEROMImporter.h"

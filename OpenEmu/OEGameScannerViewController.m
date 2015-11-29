@@ -29,9 +29,9 @@
 #import "OELibraryDatabase.h"
 #import "OELibraryController.h"
 #import "OELibraryGamesViewController.h"
-#import "OELibraryToolbar.h"
 
 #import "OEButton.h"
+#import "OESearchField.h"
 #import "OEMenu.h"
 #import "OEBackgroundColorView.h"
 #import "OECoreTableButtonCell.h"
@@ -43,6 +43,8 @@
 #import "OEGameInfoHelper.h"
 
 @import QuartzCore;
+
+#import "OpenEmu-Swift.h"
 
 #define OEGameScannerUpdateDelay 0.2
 

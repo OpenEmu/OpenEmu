@@ -40,13 +40,15 @@
 #import "OEROMImporter.h"
 
 #import "OELibraryController.h"
-#import "OELibraryToolbar.h"
 
 #import "OEButton.h"
+#import "OESearchField.h"
 
 #import "OEGridView.h"
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
+
+#import "OpenEmu-Swift.h"
 
 /// Archived URI representations of managed object IDs for selected media.
 static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";

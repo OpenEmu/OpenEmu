@@ -29,8 +29,8 @@
 #import "OEGameCollectionViewController.h"
 #import "OESidebarController.h"
 #import "OEGameScannerViewController.h"
-#import "OELibraryToolbar.h"
 #import "OEButton.h"
+#import "OESearchField.h"
 #import "OELibrarySplitView.h"
 #import "OELibraryController.h"
 
@@ -38,6 +38,8 @@
 #import "OEDBSystem.h"
 
 #import "OESystemPlugin.h"
+
+#import "OpenEmu-Swift.h"
 
 #define MainMenu_View_GridTag      301
 #define MainMenu_View_ListTag      303

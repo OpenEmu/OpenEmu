@@ -31,10 +31,10 @@
 #import "OEGameDocument.h"
 
 #import "OELibraryController.h"
-#import "OELibraryToolbar.h"
 #import "OEROMImporter.h"
 
 #import "OEButton.h"
+#import "OESearchField.h"
 #import "OETableHeaderCell.h"
 #import "OEListViewDataSourceItem.h"
 
@@ -69,6 +69,9 @@
 #import "IKImageFlowView.h"
 
 #import "OEPrefLibraryController.h"
+
+#import "OpenEmu-Swift.h"
+
 #pragma mark - Public variables
 
 NSString * const OELastGridSizeKey       = @"lastGridSize";

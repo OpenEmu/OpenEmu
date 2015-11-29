@@ -278,6 +278,7 @@
 		5A9606D21C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606D11C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift */; };
 		5A9606D41C0A63740089B494 /* NSMutableDictionary+Pop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606D31C0A63740089B494 /* NSMutableDictionary+Pop.swift */; };
 		5A9606D61C0A7C9D0089B494 /* NSWindow+FullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606D51C0A7C9D0089B494 /* NSWindow+FullScreen.swift */; };
+		5A9606DC1C0A84BC0089B494 /* LibraryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606DB1C0A84BC0089B494 /* LibraryToolbar.swift */; };
 		5ABE03291BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */; };
 		5ABE032A1BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03281BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m */; };
 		5ADDC4B71BF94F7000BF173D /* NSImage+SelectionRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADDC4B61BF94F7000BF173D /* NSImage+SelectionRing.swift */; };
@@ -427,7 +428,6 @@
 		83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D33BD51AEB9ABE0085753B /* ALIterativeMigrator.m */; };
 		83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
 		83D94FAF19A4CD2A007583E1 /* OETableCellGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D94FAE19A4CD2A007583E1 /* OETableCellGroupView.m */; };
-		83D9AF3C1BD5852F00B882C8 /* OELibraryToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D9AF3B1BD5852F00B882C8 /* OELibraryToolbar.m */; };
 		83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */; };
 		83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */; };
 		83DC1FCD147085C800F3D77A /* controller_gba.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DC1FCA1470857900F3D77A /* controller_gba.png */; };
@@ -1881,6 +1881,7 @@
 		5A9606D11C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+LibraryDatabase.swift"; sourceTree = "<group>"; };
 		5A9606D31C0A63740089B494 /* NSMutableDictionary+Pop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableDictionary+Pop.swift"; sourceTree = "<group>"; };
 		5A9606D51C0A7C9D0089B494 /* NSWindow+FullScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSWindow+FullScreen.swift"; sourceTree = "<group>"; };
+		5A9606DB1C0A84BC0089B494 /* LibraryToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryToolbar.swift; sourceTree = "<group>"; };
 		5ABE03251BDCA03600BC7B6A /* TAAdaptiveSpaceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItem.h; sourceTree = "<group>"; };
 		5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAdaptiveSpaceItem.m; sourceTree = "<group>"; };
 		5ABE03271BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItemView.h; sourceTree = "<group>"; };
@@ -2249,8 +2250,6 @@
 		83D94FAE19A4CD2A007583E1 /* OETableCellGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableCellGroupView.m; sourceTree = "<group>"; };
 		83D9991D146F40DA004409DC /* OEControlsKeySeparatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeySeparatorView.h; sourceTree = "<group>"; };
 		83D9991E146F40DA004409DC /* OEControlsKeySeparatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeySeparatorView.m; sourceTree = "<group>"; };
-		83D9AF3A1BD5852F00B882C8 /* OELibraryToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibraryToolbar.h; sourceTree = "<group>"; };
-		83D9AF3B1BD5852F00B882C8 /* OELibraryToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryToolbar.m; sourceTree = "<group>"; };
 		83DB70DE1442F40B00850CD8 /* OEControlsKeyHeadlineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyHeadlineCell.h; sourceTree = "<group>"; };
 		83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyHeadlineCell.m; sourceTree = "<group>"; };
 		83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.1 to 1.2.xcmappingmodel"; sourceTree = "<group>"; };
@@ -4562,8 +4561,7 @@
 				53439AA413B92CC7005C0CC8 /* OELibraryController.h */,
 				53439AA513B92CC7005C0CC8 /* OELibraryController.m */,
 				8337393515BFD77900D83D2F /* OELibrarySubviewController.h */,
-				83D9AF3A1BD5852F00B882C8 /* OELibraryToolbar.h */,
-				83D9AF3B1BD5852F00B882C8 /* OELibraryToolbar.m */,
+				5A9606DB1C0A84BC0089B494 /* LibraryToolbar.swift */,
 				5ABE03251BDCA03600BC7B6A /* TAAdaptiveSpaceItem.h */,
 				5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */,
 				5ABE03271BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.h */,
@@ -7998,6 +7996,7 @@
 				53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */,
 				83CACEC8196D6D1300999E70 /* OEDownload.m in Sources */,
 				8306CD101BD3AC180025BC6C /* OELibraryGamesViewController.m in Sources */,
+				5A9606DC1C0A84BC0089B494 /* LibraryToolbar.swift in Sources */,
 				53439A9B13B92C97005C0CC8 /* OEDBCollection.m in Sources */,
 				53439A9C13B92C97005C0CC8 /* OEDBCollectionFolder.m in Sources */,
 				53439A9D13B92C97005C0CC8 /* OEDBSmartCollection.m in Sources */,
@@ -8030,7 +8029,6 @@
 				53439B5513B9316F005C0CC8 /* OEPreferencesControlsBox.m in Sources */,
 				53439B5A13B93255005C0CC8 /* OEAttributedTextFieldCell.m in Sources */,
 				53439B6113B93281005C0CC8 /* OEToolbarView.m in Sources */,
-				83D9AF3C1BD5852F00B882C8 /* OELibraryToolbar.m in Sources */,
 				8363A43F193CD12C00F18425 /* OEGridMediaGroupItemCell.m in Sources */,
 				53439B6613B932A1005C0CC8 /* OEBackgroundGradientView.m in Sources */,
 				53439B6B13B932CE005C0CC8 /* OEPreferencesController.m in Sources */,

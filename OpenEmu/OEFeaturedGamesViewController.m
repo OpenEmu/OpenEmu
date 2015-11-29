@@ -32,7 +32,6 @@
 #import "OEFeaturedGamesCoverView.h"
 #import "OEDBSystem.h"
 #import "OELibraryController.h"
-#import "OELibraryToolbar.h"
 #import "OELibraryDatabase.h"
 
 #import "OEFeaturedGamesBlankSlateView.h"
@@ -41,6 +40,8 @@
 #import "OEDBRom.h"
 
 #import "OEButton.h"
+#import "OESearchField.h"
+
 #import "OEThemeTextAttributes.h"
 
 #import "NS(Attributed)String+Geometrics.h"

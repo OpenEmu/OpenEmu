@@ -33,7 +33,6 @@
 #import "NSURL+OELibraryAdditions.h"
 #import "OERatingCell.h"
 #import "OEMainWindowController.h"
-#import "OELibraryToolbar.h"
 #import "OELibraryController.h"
 
 #import "OELibraryDatabase.h"
@@ -52,11 +51,14 @@
 #import "OEThemeObject.h"
 #import "OEThemeImage.h"
 
+#import "OESearchField.h"
 #import "OETableView.h"
 
 #import "IKImageFlowView.h"
 
 #import "OEDBDataSourceAdditions.h"
+
+#import "OpenEmu-Swift.h"
 
 static NSArray *OE_defaultSortDescriptors;
 
