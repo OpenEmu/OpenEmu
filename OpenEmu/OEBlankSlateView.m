@@ -45,22 +45,20 @@
 #import "NSColor+OEAdditions.h"
 
 @interface OEBlankSlateView () <NSTextViewDelegate>
+
 @property CALayer *dragIndicationLayer;
 @property NSDragOperation lastDragOperation;
-- (void)commonBlankSlateInit;
-- (void)OE_setupViewWithCollectionName:(NSString *)representedCollectionName;
-- (void)OE_setupViewWithSystemPlugin:(OESystemPlugin *)systemPlugin;
-
-- (void)OE_setupDragAndDropBox;
 
 @property (nonatomic) NSString       *representedCollectionName;
 @property (nonatomic) OESystemPlugin *representedSystemPlugin;
 @property (readwrite, strong) NSView *containerView;
+
 @end
 
 #pragma mark - Sizes
-const CGFloat OEBlankSlateContainerWidth = 427.0;
-const CGFloat OEBlankSlateContainerHeight = 382.0;
+
+const CGFloat OEBlankSlateContainerWidth   = 427.0;
+const CGFloat OEBlankSlateContainerHeight  = 410.0;
 
 // Sizes defining box
 const CGFloat OEBlankSlateBoxHeight        = 261.0; // height of box
@@ -68,15 +66,15 @@ const CGFloat OEBlankSlateBoxImageToTop    =  52.0; // image top to view top dis
 const CGFloat OEBlankSlateBoxImageToBottom =  70.0; // image bottom to view bottom distance
 const CGFloat OEBlankSlateBoxTextToTop     = 202.0; // distance of box top to text
 
-const CGFloat OEBlankSlateHeadlineHeight   =  21.0; // height of headline
-const CGFloat OEBlankSlateHeadlineToTop    = 296.0; // space between headline and view top
+const CGFloat OEBlankSlateHeadlineHeight   =  41.0; // height of headline
+const CGFloat OEBlankSlateHeadlineToTop    = 337.0; // space between headline and view top
 
-const CGFloat OEBlankSlateBottomTextHeight =  49.0; // height of instructional text
-const CGFloat OEBlankSlateBottomTextTop = 317.0;
+const CGFloat OEBlankSlateBottomTextHeight =  59.0; // height of instructional text
+const CGFloat OEBlankSlateBottomTextTop    = 357.0;
 
-const CGFloat OEBlankSlateCoreToTop = 312.0; // space between core icon and view top
-const CGFloat OEBlankSlateCoreX     = 263.0; // x coordinate of core icon
-const CGFloat OEBlankSlateRightColumnX = 309.0;
+const CGFloat OEBlankSlateCoreToTop        = 357.0; // space between core icon and view top
+const CGFloat OEBlankSlateCoreX            = 263.0; // x coordinate of core icon
+const CGFloat OEBlankSlateRightColumnX     = 309.0;
 
 NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-CD-based-games";
 
@@ -111,10 +109,11 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 
     // Setup drag indication layer
     _dragIndicationLayer = [[CALayer alloc] init];
-    [_dragIndicationLayer setBorderColor:[[NSColor colorWithDeviceRed:0.03 green:0.41 blue:0.85 alpha:1.0] CGColor]];
-    [_dragIndicationLayer setBorderWidth:2.0];
-    [_dragIndicationLayer setCornerRadius:8.0];
-    [_dragIndicationLayer setHidden:YES];
+    _dragIndicationLayer.borderColor = [[NSColor colorWithDeviceRed:0.03 green:0.41 blue:0.85 alpha:1.0] CGColor];
+    _dragIndicationLayer.borderWidth = 2.0;
+    _dragIndicationLayer.cornerRadius = 8.0;
+    _dragIndicationLayer.hidden = YES;
+    
     [layer addSublayer:_dragIndicationLayer];
 }
 
@@ -124,52 +123,58 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     NSURL    *url       = [NSURL URLWithString:urlString];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
+
 #pragma mark -
+
 - (void)setRepresentedObject:(id)representedObject
 {
-    if(_representedObject == representedObject) return;
+    if(_representedObject == representedObject) {
+        return;
+    }
+    
     _representedObject = representedObject;
 
-    const CGFloat titlebarHeight = 37.0;
-    NSRect containerFrame = NSMakeRect(0,
-                                       0,
-                                       OEBlankSlateContainerWidth,
-                                       OEBlankSlateContainerHeight - titlebarHeight);
+    NSRect bounds = self.bounds;
+    NSSize containerSize  = NSMakeSize(OEBlankSlateContainerWidth, OEBlankSlateContainerHeight);
+    
+    NSRect containerFrame = NSMakeRect(ceil((NSWidth(bounds) - containerSize.width) / 2.0),
+                                       ceil((NSHeight(bounds) - containerSize.height) / 2.0),
+                                       containerSize.width,
+                                       containerSize.height);
+    
     NSView *container = [[NSView alloc] initWithFrame:containerFrame];
-    [self setContainerView:container];
+    container.autoresizingMask = NSViewMaxXMargin |
+                                 NSViewMinXMargin |
+                                 NSViewMaxYMargin |
+                                 NSViewMinYMargin;
+    
+    self.containerView = container;
 
     [self setupViewForRepresentedObject];
 
     // Remove current blank slate subview
-    [[[self subviews] lastObject] removeFromSuperview];
-
-    NSRect  bounds   = [self bounds];
-    NSSize  viewSize = [[self containerView] frame].size;
-
-    NSRect  viewFrame   = NSMakeRect(ceil((NSWidth(bounds) - viewSize.width) / 2.0), ceil((NSHeight(bounds) - viewSize.height) / 2.0), viewSize.width, viewSize.height);
-    [[self containerView] setAutoresizingMask:NSViewMaxXMargin|NSViewMinXMargin|NSViewMaxYMargin|NSViewMinYMargin];
-    [[self containerView] setFrame:viewFrame];
-    [self addSubview:[self containerView]];
+    [self.subviews.lastObject removeFromSuperview];
+    
+    [self addSubview:container];
 }
 
 - (void)setupViewForRepresentedObject
 {
-    id representedObject = [self representedObject];
+    id representedObject = self.representedObject;
 
-    if([representedObject isKindOfClass:[OEDBSystem class]])
-    {
-        [self setRepresentedSystemPlugin:[(OEDBSystem*)representedObject plugin]];
-    }
-    else if([representedObject conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)])
-    {
-        [self setRepresentedCollectionName:[representedObject collectionViewName]];
-    }
-    else if([representedObject isKindOfClass:[OEDBSavedGamesMedia class]] || [representedObject isKindOfClass:[OEDBScreenshotsMedia class]])
-    {
-        [self setRepresentedMediaType:representedObject];
-    }
-    else
-    {
+    if([representedObject isKindOfClass:[OEDBSystem class]]) {
+        
+        self.representedSystemPlugin = ((OEDBSystem *)representedObject).plugin;
+        
+    } else if([representedObject conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)]) {
+        
+        self.representedCollectionName = ((id <OEGameCollectionViewItemProtocol>)representedObject).collectionViewName;
+        
+    } else if([representedObject isKindOfClass:[OEDBSavedGamesMedia class]] || [representedObject isKindOfClass:[OEDBScreenshotsMedia class]]) {
+        
+        self.representedMediaType = representedObject;
+        
+    } else {
         DLog(@"Unknown represented object: %@ %@", [representedObject className], representedObject);
     }
 }
@@ -201,114 +206,134 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 
 - (void)OE_setupViewWithSystemPlugin:(OESystemPlugin *)plugin
 {
-    NSView *container = [self containerView];
-    NSRect containerFrame = [container frame];
+    NSView *container = self.containerView;
+    NSRect containerFrame = container.frame;
 
     [self OE_setupDragAndDropBox];
-    [self addLeftHeadlineWithText:(plugin ? [plugin systemName] : NSLocalizedString(@"System", @""))];
+    [self addLeftHeadlineWithText:plugin ? plugin.systemName : NSLocalizedString(@"System", @"")];
     
-    NSRect      rect     = (NSRect){ .size = {NSWidth(containerFrame)/12*7, OEBlankSlateBottomTextHeight}};
-    rect.origin.y = NSHeight(containerFrame)-NSHeight(rect)-OEBlankSlateBottomTextTop;
+    NSRect rect = NSMakeRect(0.0,
+                             0.0,
+                             NSWidth(containerFrame) / 12.0 * 7.0,
+                             OEBlankSlateBottomTextHeight);
+    rect.origin.y = NSHeight(containerFrame) - NSHeight(rect) - OEBlankSlateBottomTextTop;
+    
     NSTextView *textView = [[OEArrowCursorTextView alloc] initWithFrame:NSInsetRect(rect, -4, 0)];
 
     NSString *textFormat = nil;
 
-    if([plugin supportsDiscs]) {
+    if(plugin.supportsDiscs) {
         textFormat = NSLocalizedString(@"%@ games will appear here. Check out %@ on how to add disc-based games.", @"");
     } else {
         textFormat = NSLocalizedString(@"%@ games you add to OpenEmu will appear in this Console Library", @"");
     }
 
-    NSString *text = [NSString stringWithFormat:textFormat, [plugin systemName], NSLocalizedString(@"this guide", @"this guide")];
+    NSString *text = [NSString stringWithFormat:textFormat, plugin.systemName, NSLocalizedString(@"this guide", @"this guide")];
 
-    [textView setDrawsBackground:NO];
-    [textView setEditable:NO];
-    [textView setSelectionGranularity:NSSelectByCharacter];
-    [textView setDelegate:self];
-    [textView setFont:[NSFont systemFontOfSize:11]];
-    [textView setTextColor:[NSColor colorWithDeviceWhite:0.86 alpha:1.0]];
-    [textView setTextContainerInset:NSMakeSize(0, 0)];
+    textView.drawsBackground = NO;
+    textView.editable = NO;
+    textView.selectionGranularity = NSSelectByCharacter;
+    textView.delegate = self;
+    textView.font = [NSFont systemFontOfSize:12];
+    textView.textColor = [NSColor colorWithDeviceWhite:0.86 alpha:1.0];
+    textView.textContainerInset = NSMakeSize(0, 0);
 
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
-    [paraStyle setLineSpacing:2];
-    [textView setDefaultParagraphStyle:paraStyle];
-    [textView setString:text];
+    paraStyle.lineSpacing = 2;
+    
+    textView.defaultParagraphStyle = paraStyle;
+    textView.string = text;
 
     NSShadow *shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor blackColor]];
-    [shadow setShadowBlurRadius:0];
-    [shadow setShadowOffset:(NSSize){0,-1}];
-    [textView setShadow:shadow];
+    shadow.shadowColor = [NSColor blackColor];
+    shadow.shadowBlurRadius = 0.0;
+    shadow.shadowOffset = NSMakeSize(0.0, -1.0);
+    
+    //textView.shadow = shadow;
 
     NSMutableDictionary *attributes = [[textView typingAttributes] mutableCopy];
-    [attributes setObject:[NSCursor arrowCursor] forKey:NSCursorAttributeName];
-    [textView setTypingAttributes:attributes];
-    [textView setMarkedTextAttributes:attributes];
-    [textView setSelectedTextAttributes:attributes];
+    attributes[NSCursorAttributeName] = [NSCursor arrowCursor];
+    
+    textView.typingAttributes = attributes;
+    textView.markedTextAttributes = attributes;
+    textView.selectedTextAttributes = attributes;
 
-    if([plugin supportsDiscs]) {
-        NSRange guideLinkRange = [[textView string] rangeOfString:NSLocalizedString(@"this guide", @"this guide")];
-        NSDictionary *guideLinkAttribtues = @{
-                                              NSLinkAttributeName: [NSURL URLWithString:OECDBasedGamesUserGuideURLString],
-                                              };
-        [[textView textStorage] setAttributes:guideLinkAttribtues range:guideLinkRange];
+    if(plugin.supportsDiscs) {
+        
+        NSRange guideLinkRange = [textView.string rangeOfString:NSLocalizedString(@"this guide", @"this guide")];
+        NSDictionary *guideLinkAttributes = @{ NSLinkAttributeName : [NSURL URLWithString:OECDBasedGamesUserGuideURLString] };
+        [textView.textStorage setAttributes:guideLinkAttributes range:guideLinkRange];
     }
+    
     NSMutableDictionary *linkAttributes = [attributes mutableCopy];
-    [linkAttributes setObject:@(NSUnderlineStyleSingle) forKey:NSUnderlineStyleAttributeName];
-    [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
-    [textView setLinkTextAttributes:linkAttributes];
+    linkAttributes[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleSingle);
+    linkAttributes[NSCursorAttributeName] = [NSCursor pointingHandCursor];
+    textView.linkTextAttributes = linkAttributes;
     
     [container addSubview:textView];
 
-    rect   = (NSRect){{OEBlankSlateCoreX, NSHeight(containerFrame)-40-OEBlankSlateCoreToTop},{40, 40}};
-    NSImageView *coreIconView = [[NSImageView alloc] initWithFrame:rect];
-    [coreIconView setImage:[NSImage imageNamed:@"blank_slate_core_icon"]];
+    NSRect coreIconRect = NSMakeRect(OEBlankSlateCoreX,
+                                     NSHeight(containerFrame) - 40.0 - OEBlankSlateCoreToTop,
+                                     40.0,
+                                     40.0);
+    NSImageView *coreIconView = [[NSImageView alloc] initWithFrame:coreIconRect];
+    coreIconView.image = [NSImage imageNamed:@"blank_slate_core_icon"];
+    
     [container addSubview:coreIconView];
+    
     [coreIconView unregisterDraggedTypes];
     
     OECenteredTextFieldCell *cell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
-    shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
-    [shadow setShadowOffset:(NSSize){0, -1}];
-    [shadow setShadowBlurRadius:0];
     
-    NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                [NSFont systemFontOfSize:11], NSFontAttributeName,
-                                shadow, NSShadowAttributeName,
-                                [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName,
-                                nil];
-    [cell setTextAttributes:dictionary];
+    NSDictionary *dictionary = @{ NSFontAttributeName : [NSFont systemFontOfSize:12],
+                                  NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:0.80 alpha:1.0] };
+    cell.textAttributes = dictionary;
 
-    NSTextField *coreSuppliedByLabel = [[NSTextField alloc] initWithFrame:(NSRect){{OEBlankSlateRightColumnX, NSHeight(containerFrame)-16-OEBlankSlateBottomTextTop},{NSWidth(containerFrame)-OEBlankSlateRightColumnX, 17}}];
-    [coreSuppliedByLabel setCell:cell];
-    [coreSuppliedByLabel setEditable:NO];
-    [coreSuppliedByLabel setSelectable:NO];
-    [coreSuppliedByLabel setDrawsBackground:NO];
-    [coreSuppliedByLabel setBezeled:NO];
-    [coreSuppliedByLabel setStringValue:NSLocalizedString(@"Core Provided By…", @"")];
+    NSRect labelRect = NSMakeRect(OEBlankSlateRightColumnX,
+                                  NSHeight(containerFrame) - 16.0 - OEBlankSlateBottomTextTop,
+                                  NSWidth(containerFrame),
+                                  17.0);
+    NSTextField *coreSuppliedByLabel = [[NSTextField alloc] initWithFrame:labelRect];
+    
+    coreSuppliedByLabel.cell = cell;
+    coreSuppliedByLabel.editable = NO;
+    coreSuppliedByLabel.selectable = NO;
+    coreSuppliedByLabel.drawsBackground = NO;
+    coreSuppliedByLabel.bezeled = NO;
+    coreSuppliedByLabel.stringValue = NSLocalizedString(@"Core Provided By…", @"");
+    
     [container addSubview:coreSuppliedByLabel];
     
     // Get core plugins that can handle the system
-    NSPredicate *pluginFilter = [NSPredicate predicateWithBlock: ^ BOOL(OECorePlugin *evaluatedPlugin, NSDictionary *bindings) {
-        return [[evaluatedPlugin systemIdentifiers] containsObject:[plugin systemIdentifier]];
+    NSPredicate *pluginFilter = [NSPredicate predicateWithBlock: ^BOOL(OECorePlugin *evaluatedPlugin, NSDictionary *bindings) {
+        return [evaluatedPlugin.systemIdentifiers containsObject:plugin.systemIdentifier];
     }];
+    
     NSArray *pluginsForSystem = [[OECorePlugin allPlugins] filteredArrayUsingPredicate:pluginFilter];
+    
     [pluginsForSystem enumerateObjectsUsingBlock:^(OECorePlugin *core, NSUInteger idx, BOOL *stop) {
-        NSString *projectURL = [[core infoDictionary] valueForKey:@"OEProjectURL"];
-        NSString *name       = [core displayName];
+        
+        NSString *projectURL = core.infoDictionary[@"OEProjectURL"];
+        NSString *name       = core.displayName;
 
         // Create weblink button for current core
-        NSRect frame = (NSRect){{ OEBlankSlateRightColumnX, NSHeight(containerFrame)-2*16-OEBlankSlateBottomTextTop - 16 * idx}, { NSWidth(containerFrame) - OEBlankSlateRightColumnX, 20 }};
+        NSRect frame = NSMakeRect(OEBlankSlateRightColumnX,
+                                  NSHeight(containerFrame) - 2.0 * 16.0 -OEBlankSlateBottomTextTop - 16.0 * idx - 2.0,
+                                  NSWidth(containerFrame) - OEBlankSlateRightColumnX,
+                                  20.0);
+        
         OEButton *gotoButton = [[OEButton alloc] initWithFrame:frame];
-        [gotoButton setAutoresizingMask:NSViewWidthSizable];
-        [gotoButton setAlignment:NSLeftTextAlignment];
-        [gotoButton setImagePosition:NSImageRight];
+        
+        gotoButton.autoresizingMask = NSViewWidthSizable;
+        gotoButton.alignment = NSLeftTextAlignment;
+        gotoButton.imagePosition = NSImageRight;
         [gotoButton setThemeKey:@"open_weblink"];
-        [gotoButton setTarget:self];
-        [gotoButton setAction:@selector(gotoProjectURL:)];
-        [gotoButton setTitle:name];
-        [gotoButton setToolTip:[NSString stringWithFormat:NSLocalizedString(@"Takes you to the %@ project website", @"Weblink tooltip"), name]];
-        [[gotoButton cell] setRepresentedObject:projectURL];
+        gotoButton.target = self;
+        gotoButton.action = @selector(gotoProjectURL:);
+        gotoButton.title = name;
+        gotoButton.toolTip = [NSString stringWithFormat:NSLocalizedString(@"Takes you to the %@ project website", @"Weblink tooltip"), name];
+        gotoButton.cell.representedObject = projectURL;
+        
         [gotoButton sizeToFit];
         
         [container addSubview:gotoButton];
@@ -317,29 +342,26 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 
 - (void)addLeftHeadlineWithText:(NSString*)text
 {
-    NSView *container = [self containerView];
-    NSRect containerFrame = [container frame];
+    NSView *container = self.containerView;
+    NSRect containerFrame = container.frame;
 
     OECenteredTextFieldCell *cell   = [[OECenteredTextFieldCell alloc] initTextCell:@""];
-    NSShadow                *shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
-    [shadow setShadowOffset:(NSSize){0, -1}];
-    [shadow setShadowBlurRadius:0];
     
-    NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                [NSFont boldSystemFontOfSize:13], NSFontAttributeName,
-                                shadow, NSShadowAttributeName,
-                                [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName,
-                                nil];
-    [cell setTextAttributes:dictionary];
+    NSDictionary *dictionary = @{ NSFontAttributeName : [NSFont systemFontOfSize:20],
+                                  NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:0.65 alpha:1.0] };
+    cell.textAttributes = dictionary;
     
-    NSTextField *headlineField = [[NSTextField alloc] initWithFrame:(NSRect){{-2, NSHeight(containerFrame)-21-OEBlankSlateHeadlineToTop},{NSWidth(containerFrame), 21}}];
-    [headlineField setCell:cell];
-    [headlineField setStringValue:text];
-    [headlineField setEditable:NO];
-    [headlineField setSelectable:NO];
-    [headlineField setDrawsBackground:NO];
-    [headlineField setBezeled:NO];
+    NSRect headlineFrame = NSMakeRect(-2,
+                                      NSHeight(containerFrame) - 21 - OEBlankSlateHeadlineToTop,
+                                      NSWidth(containerFrame),
+                                      OEBlankSlateHeadlineHeight);
+    NSTextField *headlineField = [[NSTextField alloc] initWithFrame:headlineFrame];
+    headlineField.cell = cell;
+    headlineField.stringValue = text;
+    headlineField.editable = NO;
+    headlineField.selectable = NO;
+    headlineField.drawsBackground = NO;
+    headlineField.bezeled = NO;
     
     [container addSubview:headlineField];
 }
@@ -353,75 +375,96 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 
 - (void)setupBoxWithText:(NSString*)text andImageView:(NSView*)arrowImageView
 {
-    NSView *container = [self containerView];
-    NSRect containerFrame = [container frame];
+    NSView *container = self.containerView;
+    NSRect containerFrame = container.frame;
 
-    NSImageView *boxImageView = [[NSImageView alloc] initWithFrame:(NSRect){{0,NSHeight(containerFrame)-OEBlankSlateBoxHeight},{NSWidth(containerFrame),OEBlankSlateBoxHeight}}];
-    [boxImageView setImage:[NSImage imageNamed:@"blank_slate_box"]];
+    NSRect boxImageRect = NSMakeRect(0.0,
+                                     NSHeight(containerFrame) - OEBlankSlateBoxHeight,
+                                     NSWidth(containerFrame),
+                                     OEBlankSlateBoxHeight);
+    
+    NSImageView *boxImageView = [[NSImageView alloc] initWithFrame:boxImageRect];
+    boxImageView.image = [NSImage imageNamed:@"blank_slate_box"];
+    
     [container addSubview:boxImageView];
+    
     [boxImageView unregisterDraggedTypes];
 
-    CGFloat height = OEBlankSlateBoxHeight-OEBlankSlateBoxImageToBottom-OEBlankSlateBoxImageToTop;
-    CGFloat width  = 300;
-    [arrowImageView setFrame:(NSRect){{(round(NSWidth(containerFrame)-width)/2), NSHeight(containerFrame)-height-OEBlankSlateBoxImageToTop},{width, height}}];
+    CGFloat height = OEBlankSlateBoxHeight - OEBlankSlateBoxImageToBottom-OEBlankSlateBoxImageToTop;
+    CGFloat width  = 300.0;
+    arrowImageView.frame = NSMakeRect(round(NSWidth(containerFrame) - width) / 2.0,
+                                      NSHeight(containerFrame) - height - OEBlankSlateBoxImageToTop,
+                                      width,
+                                      height);
+    
     [container addSubview:arrowImageView];
 
     OECenteredTextFieldCell *defaultCell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
+    
     NSShadow *shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.1]];
-    [shadow setShadowOffset:(NSSize){0, -1}];
-    [shadow setShadowBlurRadius:0];
+    shadow.shadowColor = [NSColor colorWithDeviceWhite:1.0 alpha:0.1];
+    shadow.shadowOffset = NSMakeSize(0.0, -1.0);
+    shadow.shadowBlurRadius = 0.0;
 
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    [style setAlignment:NSCenterTextAlignment];
-    NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                [NSFont boldSystemFontOfSize:18], NSFontAttributeName,
-                                style, NSParagraphStyleAttributeName,
-                                shadow, NSShadowAttributeName,
-                                [NSColor colorWithDeviceWhite:0.11 alpha:1.0], NSForegroundColorAttributeName,
-                                nil];
-    [defaultCell setTextAttributes:dictionary];
+    style.alignment = NSCenterTextAlignment;
+
+    defaultCell.textAttributes = @{ NSFontAttributeName : [NSFont systemFontOfSize:24],
+                                    NSParagraphStyleAttributeName : style,
+                                    NSShadowAttributeName : shadow,
+                                    NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:0.11 alpha:1.0] };
 
     OECenteredTextFieldCell *glowCell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
+    
     shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.05]];
-    [shadow setShadowOffset:(NSSize){0, 0}];
-    [shadow setShadowBlurRadius:2];
+    shadow.shadowColor = [NSColor colorWithDeviceWhite:1.0 alpha:0.05];
+    shadow.shadowOffset = NSMakeSize(0.0, 0.0);
+    shadow.shadowBlurRadius = 2.0;
 
-    dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                  [NSFont boldSystemFontOfSize:18], NSFontAttributeName,
-                  style, NSParagraphStyleAttributeName,
-                  shadow, NSShadowAttributeName,
-                  [NSColor colorWithDeviceWhite:0.11 alpha:0.0], NSForegroundColorAttributeName,
-                  nil];
-    [glowCell setTextAttributes:dictionary];
+    glowCell.textAttributes = @{ NSFontAttributeName : [NSFont boldSystemFontOfSize:18.0],
+                                 NSParagraphStyleAttributeName : style,
+                                 NSShadowAttributeName : shadow,
+                                 NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:0.11 alpha:0.0] };
 
-    NSTextField *dragAndDropHereOuterGlowField = [[NSTextField alloc] initWithFrame:(NSRect){{0, NSHeight(containerFrame)-25-OEBlankSlateBoxTextToTop},{NSWidth(containerFrame), 25}}];
-    [dragAndDropHereOuterGlowField setCell:glowCell];
-    [dragAndDropHereOuterGlowField setStringValue:text];
-    [dragAndDropHereOuterGlowField setEditable:NO];
-    [dragAndDropHereOuterGlowField setSelectable:NO];
-    [dragAndDropHereOuterGlowField setDrawsBackground:NO];
-    [dragAndDropHereOuterGlowField setBezeled:NO];
+    NSRect dragAndDropHereOuterGlowRect = NSMakeRect(0.0,
+                                              NSHeight(containerFrame) - 25.0 - OEBlankSlateBoxTextToTop,
+                                              NSWidth(containerFrame),
+                                              25.0);
+    
+    NSTextField *dragAndDropHereOuterGlowField = [[NSTextField alloc] initWithFrame:dragAndDropHereOuterGlowRect];
+    
+    dragAndDropHereOuterGlowField.cell = glowCell;
+    dragAndDropHereOuterGlowField.stringValue = text;
+    dragAndDropHereOuterGlowField.editable = NO;
+    dragAndDropHereOuterGlowField.selectable = NO;
+    dragAndDropHereOuterGlowField.drawsBackground = NO;
+    dragAndDropHereOuterGlowField.bezeled = NO;
 
-    NSTextField *dragAndDropHereField = [[NSTextField alloc] initWithFrame:(NSRect){{0, NSHeight(containerFrame)-25-OEBlankSlateBoxTextToTop},{NSWidth(containerFrame), 25}}];
-    [dragAndDropHereField setCell:defaultCell];
-    [dragAndDropHereField setStringValue:text];
-    [dragAndDropHereField setEditable:NO];
-    [dragAndDropHereField setSelectable:NO];
-    [dragAndDropHereField setDrawsBackground:NO];
-    [dragAndDropHereField setBezeled:NO];
+    NSRect dragAndDropHereRect = NSMakeRect(0.0,
+                                            NSHeight(containerFrame) - 25.0 - OEBlankSlateBoxTextToTop,
+                                            NSWidth(containerFrame),
+                                            25.0);
+    
+    NSTextField *dragAndDropHereField = [[NSTextField alloc] initWithFrame:dragAndDropHereRect];
+    
+    dragAndDropHereField.cell = defaultCell;
+    dragAndDropHereField.stringValue = text;
+    dragAndDropHereField.editable = NO;
+    dragAndDropHereField.selectable = NO;
+    dragAndDropHereField.drawsBackground = NO;
+    dragAndDropHereField.bezeled = NO;
+    
     [container addSubview:dragAndDropHereField];
     [container addSubview:dragAndDropHereOuterGlowField];
 }
 
 - (void)setRepresentedMediaType:(id <OESidebarItem>)item
 {
-    if(_representedCollectionName == [item sidebarName])
+    if(_representedCollectionName == item.sidebarName)
         return;
 
     _representedSystemPlugin = nil;
-    _representedCollectionName = [item sidebarName];
+    _representedCollectionName = item.sidebarName;
 
     if([_representedObject isKindOfClass:[OEDBScreenshotsMedia class]])
     {
@@ -465,17 +508,16 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     const NSRect bounds = self.bounds;
     const NSRect contentLayoutRect = self.window.contentLayoutRect;
     
-    for (CALayer *layer in theLayer.sublayers)
-    {
-        if(layer == _dragIndicationLayer)
-        {
+    for (CALayer *layer in theLayer.sublayers) {
+        
+        if (layer == _dragIndicationLayer) {
+            
             NSRect dragIndicationFrame = bounds;
             dragIndicationFrame.size.height = NSHeight(contentLayoutRect);
             
             layer.frame = NSInsetRect(dragIndicationFrame, 1.0, 1.0);
-        }
-        else if(layer!=self.subviews.lastObject.layer)
-        {
+            
+        } else if (layer != self.subviews.lastObject.layer) {
             layer.frame = bounds;
         }
     }
@@ -483,16 +525,19 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     [CATransaction commit];
 }
 
-- (NSImageView*)OE_makeImageViewWithImageNamed:(NSString*)imageName{
+- (NSImageView*)OE_makeImageViewWithImageNamed:(NSString*)imageName {
+    
     NSImageView *arrowImageView = [[NSImageView alloc] initWithFrame:NSZeroRect];
-    [arrowImageView setImage:[NSImage imageNamed:imageName]];
-    [arrowImageView setImageScaling:NSImageScaleNone];
-    [arrowImageView setImageAlignment:NSImageAlignTop];
+    arrowImageView.image = [NSImage imageNamed:imageName];
+    arrowImageView.imageScaling = NSImageScaleNone;
+    arrowImageView.imageAlignment = NSImageAlignTop;
     [arrowImageView unregisterDraggedTypes];
 
     return arrowImageView;
 }
+
 #pragma mark - NSTextView Delegate
+
 - (BOOL)textView:(NSTextView *)textView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex
 {
     [[NSWorkspace sharedWorkspace] openURL:link];
@@ -503,34 +548,34 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 {
     return NSMakeRange(0, 0);
 }
+
 #pragma mark - View Setup
+
 - (void)addInformationalText:(NSString*)text
 {
-    NSView *container = [self containerView];
-    NSRect containerFrame = [container frame];
+    NSView *container = self.containerView;
+    NSRect containerFrame = container.frame;
 
-    NSRect rect = (NSRect){ .size = { NSWidth(containerFrame), OEBlankSlateBottomTextHeight }};
-    rect.origin.y = NSHeight(containerFrame)-NSHeight(rect)-OEBlankSlateBottomTextTop;
+    NSRect rect = NSMakeRect(0.0,
+                             0.0,
+                             NSWidth(containerFrame),
+                             OEBlankSlateBottomTextHeight);
+    rect.origin.y = NSHeight(containerFrame) - NSHeight(rect) - OEBlankSlateBottomTextTop;
 
-    NSTextView *textView = [[NSTextView alloc] initWithFrame:NSInsetRect(rect, -4, 0)];
-    [textView setString:text];
-    [textView setDrawsBackground:NO];
-    [textView setEditable:NO];
-    [textView setSelectable:NO];
-    [textView setFont:[NSFont systemFontOfSize:11]];
-    [textView setTextColor:[NSColor colorWithDeviceWhite:0.86 alpha:1.0]];
-    [textView setTextContainerInset:NSMakeSize(0, 0)];
-
-    NSShadow *shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor blackColor]];
-    [shadow setShadowBlurRadius:0];
-    [shadow setShadowOffset:(NSSize){0, -1}];
-    [textView setShadow:shadow];
+    NSTextView *textView = [[NSTextView alloc] initWithFrame:NSInsetRect(rect, -4.0, 0.0)];
+    textView.string = text;
+    textView.drawsBackground = NO;
+    textView.editable = NO;
+    textView.selectable = NO;
+    textView.font = [NSFont systemFontOfSize:12];
+    textView.textColor = [NSColor colorWithDeviceWhite:0.86 alpha:1.0];
+    textView.textContainerInset = NSMakeSize(0, 0);
 
     [container addSubview:textView];
 }
 
 #pragma mark - NSDraggingDestination
+
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
 {
     // The delegate has to be able to validate and accept drops, if it can't do then then there is no need to drag anything around
@@ -539,7 +584,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
         _lastDragOperation = [_delegate blankSlateView:self validateDrop:sender];
     }
     
-    [_dragIndicationLayer setHidden:(_lastDragOperation==NSDragOperationNone)];
+    _dragIndicationLayer.hidden = _lastDragOperation == NSDragOperationNone;
     
     return _lastDragOperation;
 }
@@ -551,26 +596,28 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
         _lastDragOperation = [_delegate blankSlateView:self draggingUpdated:sender];
     }
     
-    [_dragIndicationLayer setHidden:(_lastDragOperation==NSDragOperationNone)];
+    _dragIndicationLayer.hidden = _lastDragOperation == NSDragOperationNone;
     
     return _lastDragOperation;
 }
 
-- (void)draggingExited:(id<NSDraggingInfo>)sender
+- (void)draggingExited:(id <NSDraggingInfo>)sender
 {
-    [_dragIndicationLayer setHidden:YES];
+    _dragIndicationLayer.hidden = YES;
 }
 
-- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
 {
-    [_dragIndicationLayer setHidden:YES];
+    _dragIndicationLayer.hidden = YES;
     return [_delegate respondsToSelector:@selector(blankSlateView:acceptDrop:)] && [_delegate blankSlateView:self acceptDrop:sender];
 }
 
 #pragma mark - Properties
-@synthesize delegate=_delegate;
-@synthesize lastDragOperation=_lastDragOperation;
-@synthesize representedCollectionName=_representedCollectionName;
-@synthesize representedSystemPlugin=_representedSystemPlugin;
-@synthesize dragIndicationLayer=_dragIndicationLayer;
+
+@synthesize delegate = _delegate;
+@synthesize lastDragOperation = _lastDragOperation;
+@synthesize representedCollectionName = _representedCollectionName;
+@synthesize representedSystemPlugin = _representedSystemPlugin;
+@synthesize dragIndicationLayer = _dragIndicationLayer;
+
 @end

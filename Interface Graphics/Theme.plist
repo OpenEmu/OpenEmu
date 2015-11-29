@@ -859,50 +859,23 @@
 			<key>Family</key>
 			<string>$SYSTEM_FONT_FAMILY</string>
 			<key>Size</key>
-			<integer>11</integer>
+			<integer>12</integer>
 			<key>States</key>
 			<dict>
 				<key>Default</key>
 				<dict>
 					<key>Color</key>
 					<string>rgb(204,204,204)</string>
-					<key>Shadow</key>
-					<dict>
-						<key>Blur Radius</key>
-						<integer>1</integer>
-						<key>Color</key>
-						<string>black</string>
-						<key>Offset</key>
-						<string>{0,-2}</string>
-					</dict>
 				</dict>
 				<key>Mouse Over</key>
 				<dict>
 					<key>Color</key>
 					<string>white</string>
-					<key>Shadow</key>
-					<dict>
-						<key>Blur Radius</key>
-						<integer>1</integer>
-						<key>Color</key>
-						<string>black</string>
-						<key>Offset</key>
-						<string>{0,-1}</string>
-					</dict>
 				</dict>
 				<key>Mouse Over, Pressed</key>
 				<dict>
 					<key>Color</key>
 					<string>white</string>
-					<key>Shadow</key>
-					<dict>
-						<key>Blur Radius</key>
-						<integer>5</integer>
-						<key>Color</key>
-						<string>black</string>
-						<key>Offset</key>
-						<string>{0,-1}</string>
-					</dict>
 				</dict>
 			</dict>
 		</dict>
