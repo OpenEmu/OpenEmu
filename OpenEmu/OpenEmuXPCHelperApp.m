@@ -33,11 +33,6 @@
 {
     NSXPCListener *_mainListener;
     NSXPCConnection *_gameCoreConnection;
-
-    NSXPCListener *_systemListener;
-    NSXPCConnection *_systemConnection;
-
-    Protocol *_systemResponderClientProtocol;
 }
 
 @end
@@ -67,71 +62,49 @@
 {
     if(listener == _mainListener)
     {
-        if(_gameCoreConnection != nil) return NO;
+        if(_gameCoreConnection != nil)
+            return NO;
 
         _gameCoreConnection = newConnection;
         [_gameCoreConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEXPCGameCoreHelper)]];
         [_gameCoreConnection setExportedObject:self];
-        [_gameCoreConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEGameCoreDisplayHelper)]];
-        [_gameCoreConnection setInvalidationHandler:
-         ^{
-             [NSApp terminate:nil];
-         }];
-        [_gameCoreConnection setInterruptionHandler:
-         ^{
-             [NSApp terminate:nil];
-         }];
+        [_gameCoreConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEGameCoreOwner)]];
+        [_gameCoreConnection setInvalidationHandler:^{
+            [NSApp terminate:nil];
+        }];
+
+        [_gameCoreConnection setInterruptionHandler:^{
+            [NSApp terminate:nil];
+        }];
+
         [_gameCoreConnection resume];
 
-        [self setDisplayHelper:
-         [_gameCoreConnection remoteObjectProxyWithErrorHandler:
-          ^(NSError *error)
-          {
-              [self stopEmulationWithCompletionHandler:^{}];
-          }]];
-        return YES;
-    }
-    else if(listener == _systemListener)
-    {
-        if(_systemConnection != nil) return NO;
+        self.gameCoreOwner = [_gameCoreConnection remoteObjectProxyWithErrorHandler:^(NSError *error) {
+            [self stopEmulationWithCompletionHandler:^{}];
+        }];
 
-        _systemConnection = newConnection;
-        [_systemConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:_systemResponderClientProtocol]];
-        [_systemConnection setExportedObject:[self gameCoreProxy]];
-        [_systemConnection resume];
         return YES;
     }
 
     return NO;
 }
 
-- (void)loadROMAtPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion usingCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath completionHandler:(void (^)(NSXPCListenerEndpoint *, NSError *))completionHandler
+- (void)loadROMAtPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion usingCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath completionHandler:(void (^)(NSError *))completionHandler
 {
-    OESystemPlugin *plugin = [OESystemPlugin systemPluginWithBundleAtPath:systemPluginPath];
-
     NSError *error;
-    if(![self loadROMAtPath:romPath romCRC32:romCRC32 romMD5:romMD5 romHeader:romHeader romSerial:romSerial systemRegion:systemRegion withCorePluginAtPath:pluginPath systemIdentifier:[plugin systemIdentifier] error:&error])
-    {
-        completionHandler(nil, error);
+    if(![self loadROMAtPath:romPath romCRC32:romCRC32 romMD5:romMD5 romHeader:romHeader romSerial:romSerial systemRegion:systemRegion withCorePluginAtPath:pluginPath systemPluginPath:systemPluginPath error:&error]) {
+        completionHandler(error);
         return;
     }
 
-    _systemListener = [NSXPCListener anonymousListener];
-    [_systemListener setDelegate:self];
-    [_systemListener resume];
-
-    _systemResponderClientProtocol = [[[plugin controller] responderClass] gameSystemResponderClientProtocol];
-
-    NSXPCListenerEndpoint *endpoint = [_systemListener endpoint];
-    completionHandler(endpoint, nil);
+    completionHandler(nil);
 }
 
 - (void)stopEmulationWithCompletionHandler:(void(^)(void))handler;
 {
-    [super stopEmulationWithCompletionHandler:
-     ^{
-         handler();
-     }];
+    [super stopEmulationWithCompletionHandler:^{
+        handler();
+    }];
 }
 
 @end

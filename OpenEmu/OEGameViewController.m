@@ -285,7 +285,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     }
 }
 
-#pragma mark - OEGameCoreDisplayHelper methods
+#pragma mark - OEGameCoreOwner methods
 
 - (void)setEnableVSync:(BOOL)enable;
 {

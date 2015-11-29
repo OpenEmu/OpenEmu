@@ -1228,18 +1228,6 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 #pragma mark -
 #pragma mark Game Core
 
-- (void)setDelegate:(id<OEGameViewDelegate>)value
-{
-    if(_delegate != value)
-    {
-        _delegate = value;
-    }
-}
-
-
-- (void)setDiscCount:(NSUInteger)discCount
-{}
-
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
 {
     [self setAspectSize:newAspectSize];
@@ -1335,13 +1323,6 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     }
 
     return [super acceptsFirstMouse:theEvent];
-}
-
-- (void)viewDidMoveToWindow
-{
-    [super viewDidMoveToWindow];
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"OEGameViewDidMoveToWindow" object:self];
 }
 
 #pragma mark - Keyboard Events

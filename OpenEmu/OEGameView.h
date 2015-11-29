@@ -33,9 +33,9 @@ extern NSString * const OEDefaultVideoFilterKey;
 
 @protocol OEGameViewDelegate;
 
-@interface OEGameView : NSOpenGLView <OEGameCoreDisplayHelper>
+@interface OEGameView : NSOpenGLView
 
-@property (nonatomic, assign) id<OEGameViewDelegate> delegate;
+@property (nonatomic, weak) id<OEGameViewDelegate> delegate;
 
 @property (copy) NSDictionary *filters;
 @property (nonatomic, copy) NSString *filterName;
@@ -47,7 +47,9 @@ extern NSString * const OEDefaultVideoFilterKey;
 /* Returns a screenshot as rendered by the emulator core: native size and no filters */
 - (NSImage *)nativeScreenshot;
 
-
+- (void)setEnableVSync:(BOOL)enable;
+- (void)setAspectSize:(OEIntSize)newAspectSize;
+- (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
 
 - (void)showQuickSaveNotification;

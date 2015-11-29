@@ -31,7 +31,7 @@
 #import "OEGameCoreHelper.h"
 
 @class OEGameCoreController;
-@protocol OEDOGameCoreHelperDelegate, OEDOGameCoreDisplayHelper;
+@protocol OEDOGameCoreHelperDelegate, OEDOGameCoreOwner;
 
 // our helper app needs to handle these functions
 @protocol OEDOGameCoreHelper <NSObject>
@@ -51,11 +51,31 @@
 - (oneway void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 - (oneway void)setDisc:(NSUInteger)discNumber;
 
-- (oneway void)loadROMAtPath:(bycopy NSString *)romPath romCRC32:(bycopy NSString *)romCRC32 romMD5:(bycopy NSString *)romMD5 romHeader:(bycopy NSString *)romHeader romSerial:(bycopy NSString *)romSerial systemRegion:(bycopy NSString *)systemRegion usingCorePluginAtPath:(bycopy NSString *)corePluginPath systemPluginAtPath:(bycopy NSString *)systemPluginPath withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate displayHelper:(byref id<OEDOGameCoreDisplayHelper>)displayHelper messageIdentifier:(NSString *)identifier;
+- (oneway void)loadROMAtPath:(bycopy NSString *)romPath romCRC32:(bycopy NSString *)romCRC32 romMD5:(bycopy NSString *)romMD5 romHeader:(bycopy NSString *)romHeader romSerial:(bycopy NSString *)romSerial systemRegion:(bycopy NSString *)systemRegion usingCorePluginAtPath:(bycopy NSString *)corePluginPath systemPluginAtPath:(bycopy NSString *)systemPluginPath withDelegate:(byref id<OEDOGameCoreHelperDelegate>)delegate gameCoreOwner:(byref id<OEDOGameCoreOwner>)gameCoreOwner messageIdentifier:(NSString *)identifier;
+
+- (oneway void)handleMouseEvent:(OEEvent *)event;
+
+- (oneway void)setHandleEvents:(BOOL)handleEvents;
+- (oneway void)setHandleKeyboardEvents:(BOOL)handleKeyboardEvents;
+- (oneway void)systemBindingsDidSetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber;
+- (oneway void)systemBindingsDidUnsetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber;
 
 @end
 
-@protocol OEDOGameCoreDisplayHelper <NSObject>
+@protocol OEDOGameCoreOwner <NSObject>
+
+- (oneway void)saveState;
+- (oneway void)loadState;
+- (oneway void)quickSave;
+- (oneway void)quickLoad;
+- (oneway void)toggleFullScreen;
+- (oneway void)toggleAudioMute;
+- (oneway void)volumeDown;
+- (oneway void)volumeUp;
+- (oneway void)stopEmulation;
+- (oneway void)resetEmulation;
+- (oneway void)toggleEmulationPaused;
+- (oneway void)takeScreenshot;
 
 - (oneway void)setEnableVSync:(BOOL)enable;
 - (oneway void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
@@ -67,7 +87,7 @@
 
 @protocol OEDOGameCoreHelperDelegate <NSObject>
 
-- (oneway void)gameCoreHelperDidSetSystemResponderClient:(byref id)responderClient withMessageIdentifier:(NSString *)identifier;
+- (oneway void)gameCoreHelperDidFinishSetUpWithMessageIdentifier:(NSString *)identifier;
 - (oneway void)gameCoreHelperFailedToLoadROMWithError:(NSError *)error messageIdentifier:(NSString *)identifier;
 
 - (oneway void)gameCoreHelperDidSetupEmulationWithSurfaceID:(IOSurfaceID)surfaceID screenSize:(OEIntSize)screenSize aspectSize:(OEIntSize)aspectSize messageIdentifier:(NSString *)identifier;

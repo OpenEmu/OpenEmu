@@ -26,7 +26,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CoreAudio/CoreAudio.h>
-#import <OpenEmuBase/OpenEmuBase.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
+
+@class OEEvent;
 
 @protocol OEGameCoreHelper <NSObject>
 
@@ -45,9 +47,29 @@
 - (void)setCheat:(NSString *)cheatCode withType:(NSString *)type enabled:(BOOL)enabled;
 - (void)setDisc:(NSUInteger)discNumber;
 
+- (void)handleMouseEvent:(OEEvent *)event;
+
+- (void)setHandleEvents:(BOOL)handleEvents;
+- (void)setHandleKeyboardEvents:(BOOL)handleKeyboardEvents;
+- (void)systemBindingsDidSetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber;
+- (void)systemBindingsDidUnsetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber;
+
 @end
 
-@protocol OEGameCoreDisplayHelper <NSObject>
+@protocol OEGameCoreOwner <NSObject>
+
+- (void)saveState;
+- (void)loadState;
+- (void)quickSave;
+- (void)quickLoad;
+- (void)toggleFullScreen;
+- (void)toggleAudioMute;
+- (void)volumeDown;
+- (void)volumeUp;
+- (void)stopEmulation;
+- (void)resetEmulation;
+- (void)toggleEmulationPaused;
+- (void)takeScreenshot;
 
 - (void)setEnableVSync:(BOOL)enable;
 - (void)setAspectSize:(OEIntSize)newAspectSize;

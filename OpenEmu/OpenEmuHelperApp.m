@@ -35,6 +35,8 @@
 #import "OEGameRenderer.h"
 #import "OEOpenGL2GameRenderer.h"
 #import "OEOpenGL3GameRenderer.h"
+#import "OESystemPlugin.h"
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 // Compression support
 #import <XADMaster/XADArchive.h>
@@ -43,7 +45,7 @@
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
 
-@interface OpenEmuHelperApp () <OEGameCoreDelegate>
+@interface OpenEmuHelperApp () <OEGameCoreDelegate, OEGlobalEventsHandler>
 @property(readwrite, getter=isRunning) BOOL running;
 @property BOOL loadedRom;
 
@@ -76,7 +78,11 @@
     // OE stuff
     id                    _gameCoreProxy;
     OEGameCoreController *_gameController;
+    OESystemController   *_systemController;
+    OESystemResponder    *_systemResponder;
     OEGameAudio          *_gameAudio;
+
+    id _unhandledEventsMonitor;
 
     // screen subrect stuff
     OEIntSize             _previousScreenSize;
@@ -87,6 +93,12 @@
 
 @synthesize enableVSync=_enableVSync;
 @synthesize gameCoreProxy=_gameCoreProxy;
+
++ (void)load
+{
+    extern BOOL NSZombieEnabled;
+    NSZombieEnabled = YES;
+}
 
 #pragma mark -
 
@@ -103,6 +115,13 @@
         NSLog(@"parent application is: %@", [_parentApplication localizedName]);
         [self setupProcessPollingTimer];
     }
+
+    [OEDeviceManager sharedDeviceManager];
+}
+
+- (void)OE_loadPlugins
+{
+    
 }
 
 - (void)setupGameCoreAudioAndVideo
@@ -193,11 +212,11 @@
     OEIntSize surfaceSize = _gameCore.bufferSize;
 
     NSDictionary *surfaceAttributes = @{
-                                        (NSString *)kIOSurfaceIsGlobal        : @YES,
-                                        (NSString *)kIOSurfaceWidth           : @(surfaceSize.width),
-                                        (NSString *)kIOSurfaceHeight          : @(surfaceSize.height),
-                                        (NSString *)kIOSurfaceBytesPerElement : @4
-                                        };
+        (NSString *)kIOSurfaceIsGlobal: @YES,
+        (NSString *)kIOSurfaceWidth: @(surfaceSize.width),
+        (NSString *)kIOSurfaceHeight: @(surfaceSize.height),
+        (NSString *)kIOSurfaceBytesPerElement: @4,
+    };
 
     // TODO: do we need to ensure openGL Compatibility and CALayer compatibility?
     _surfaceRef = IOSurfaceCreate((__bridge CFDictionaryRef)surfaceAttributes);
@@ -220,7 +239,7 @@
 
 #pragma mark - Game Core methods
 
-- (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion withCorePluginAtPath:(NSString *)pluginPath systemIdentifier:(NSString *)systemIdentifier error:(NSError **)error
+- (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion withCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath error:(NSError **)error
 {
     if(self.loadedRom) return NO;
 
@@ -231,8 +250,13 @@
     DLog(@"extension is: %@", [aPath pathExtension]);
     self.loadedRom = NO;
 
+    _systemController = [[OESystemPlugin systemPluginWithBundleAtPath:systemPluginPath] controller];
+    _systemResponder = [_systemController newGameSystemResponder];
+
     _gameController = [[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller];
     _gameCore = [_gameController newGameCore];
+
+    NSString *systemIdentifier = [_systemController systemIdentifier];
 
     NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(OE_gameCoreThread:) object:nil];
     _gameCoreProxy = [[OEThreadProxy alloc] initWithTarget:_gameCore thread:thread];
@@ -249,6 +273,19 @@
     [_gameCore setROMHeader:romHeader];
     [_gameCore setROMSerial:romSerial];
 
+    _systemResponder.client = _gameCoreProxy;
+    _systemResponder.globalEventsHandler = self;
+
+    _unhandledEventsMonitor = [[OEDeviceManager sharedDeviceManager] addUnhandledEventMonitorHandler:^(OEDeviceHandler *handler, OEHIDEvent *event) {
+        if (!_handleEvents)
+            return;
+
+        if (!_handleKeyboardEvents && event.type == OEHIDEventTypeKeyboard)
+            return;
+
+        [_systemResponder handleHIDEvent:event];
+    }];
+
     DLog(@"Loaded bundle. About to load rom...");
 
     // Never extract arcade roms and .md roms (XADMaster identifies some as LZMA archives)
@@ -258,7 +295,7 @@
     if([_gameCore loadFileAtPath:aPath error:error])
     {
         DLog(@"Loaded new Rom: %@", aPath);
-        [[self displayHelper] setDiscCount:[_gameCore discCount]];
+        [[self gameCoreOwner] setDiscCount:[_gameCore discCount]];
         return self.loadedRom = YES;
     }
     else
@@ -439,21 +476,20 @@
     _stopEmulationHandler = [handler copy];
     [_pollingTimer invalidate], _pollingTimer = nil;
 
-    [[self gameCore] stopEmulationWithCompletionHandler:
-     ^{
-         NSThread *threadToKill = [_gameCoreProxy thread];
+    [[self gameCore] stopEmulationWithCompletionHandler: ^{
+        NSThread *threadToKill = [_gameCoreProxy thread];
 
-         [self setRunning:NO];
-         [_gameAudio stopAudio];
-         [_gameCore setRenderDelegate:nil];
-         [_gameCore setAudioDelegate:nil];
-         _displayHelper = nil;
-         _gameCoreProxy = nil;
-         _gameCore      = nil;
-         _gameAudio     = nil;
+        [self setRunning:NO];
+        [_gameAudio stopAudio];
+        [_gameCore setRenderDelegate:nil];
+        [_gameCore setAudioDelegate:nil];
+        _gameCoreOwner = nil;
+        _gameCoreProxy = nil;
+        _gameCore      = nil;
+        _gameAudio     = nil;
 
-         [self performSelector:@selector(OE_stopGameCoreThreadRunLoop:) onThread:threadToKill withObject:nil waitUntilDone:NO];
-     }];
+        [self performSelector:@selector(OE_stopGameCoreThreadRunLoop:) onThread:threadToKill withObject:nil waitUntilDone:NO];
+    }];
 }
 
 - (void)saveStateToFileAtPath:(NSString *)fileName completionHandler:(void (^)(BOOL, NSError *))block
@@ -476,21 +512,36 @@
     [[self gameCoreProxy] setDisc:discNumber];
 }
 
-#pragma mark - OEGameCoreDisplayHelper subclass handles
+- (void)handleMouseEvent:(OEEvent *)event
+{
+    [_systemResponder handleMouseEvent:event];
+}
+
+- (void)systemBindingsDidSetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber
+{
+    [_systemResponder systemBindingsDidSetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
+}
+
+- (void)systemBindingsDidUnsetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber
+{
+    [_systemResponder systemBindingsDidUnsetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
+}
+
+#pragma mark - OEGameCoreOwner subclass handles
 
 - (void)updateEnableVSync:(BOOL)enable
 {
-    [[self displayHelper] setEnableVSync:enable];
+    [[self gameCoreOwner] setEnableVSync:enable];
 }
 
 - (void)updateScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
 {
-    [[self displayHelper] setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
+    [[self gameCoreOwner] setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
 }
 
 - (void)updateAspectSize:(OEIntSize)newAspectSize
 {
-    [[self displayHelper] setAspectSize:newAspectSize];
+    [[self gameCoreOwner] setAspectSize:newAspectSize];
 }
 
 #pragma mark - OEGameCoreDelegate protocol methods
@@ -594,6 +645,68 @@
 {
     [_gameAudio stopAudio];
     [_gameAudio startAudio];
+}
+
+#pragma mark - OEGlobalEventsHandler
+
+- (void)saveState:(id)sender
+{
+    [self.gameCoreOwner saveState];
+}
+
+- (void)loadState:(id)sender
+{
+    [self.gameCoreOwner loadState];
+}
+
+- (void)quickSave:(id)sender
+{
+    [self.gameCoreOwner quickSave];
+}
+
+- (void)quickLoad:(id)sender
+{
+    [self.gameCoreOwner quickLoad];
+}
+
+- (void)toggleFullScreen:(id)sender
+{
+    [self.gameCoreOwner toggleFullScreen];
+}
+
+- (void)toggleAudioMute:(id)sender
+{
+    [self.gameCoreOwner toggleAudioMute];
+}
+
+- (void)volumeDown:(id)sender
+{
+    [self.gameCoreOwner volumeDown];
+}
+
+- (void)volumeUp:(id)sender
+{
+    [self.gameCoreOwner volumeUp];
+}
+
+- (void)stopEmulation:(id)sender
+{
+    [self.gameCoreOwner stopEmulation];
+}
+
+- (void)resetEmulation:(id)sender
+{
+    [self.gameCoreOwner resetEmulation];
+}
+
+- (void)toggleEmulationPaused:(id)sender
+{
+    [self.gameCoreOwner toggleEmulationPaused];
+}
+
+- (void)takeScreenshot:(id)sender
+{
+    [self.gameCoreOwner takeScreenshot];
 }
 
 @end

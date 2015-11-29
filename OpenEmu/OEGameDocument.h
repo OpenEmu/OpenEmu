@@ -47,7 +47,7 @@ enum _OEGameDocumentErrorCodes
 @class OEGameViewController;
 @class OESystemPlugin;
 
-@interface OEGameDocument : NSDocument <OEGlobalEventsHandler>
+@interface OEGameDocument : NSDocument
 
 - (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin *)core error:(NSError **)outError;
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin *)core error:(NSError **)outError;
@@ -68,9 +68,10 @@ enum _OEGameDocumentErrorCodes
 
 @property(nonatomic) NSWindowController *gameWindowController;
 
-@property(readonly) OESystemResponder *gameSystemResponder;
-
 @property(getter=isEmulationPaused) BOOL emulationPaused;
+
+@property(nonatomic) BOOL handleEvents;
+@property(nonatomic) BOOL handleKeyboardEvents;
 
 #pragma mark - Actions
 - (IBAction)editControls:(id)sender;

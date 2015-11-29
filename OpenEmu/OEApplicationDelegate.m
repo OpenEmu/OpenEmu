@@ -227,14 +227,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [self bind:@"logHIDEvents" toObject:sudc withKeyPath:@"values.logsHIDEvents" options:nil];
     [self bind:@"logKeyboardEvents" toObject:sudc withKeyPath:@"values.logsHIDEventsNoKeyboard" options:nil];
 
-    _unhandledEventsMonitor = [[OEDeviceManager sharedDeviceManager] addUnhandledEventMonitorHandler:
-     ^(OEDeviceHandler *handler, OEHIDEvent *event)
-                               {
-         if([event type] == OEHIDEventTypeKeyboard && ![NSApp isActive]) return;
-         if([event type] == OEHIDEventTypeKeyboard && [NSApp modalWindow]) return;
 
-         [[[self currentGameDocument] gameSystemResponder] handleHIDEvent:event];
-     }];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:nil];
 
     [[self startupQueue] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         void(^block)(void) = obj;
@@ -289,6 +283,38 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     };
     if(_libraryLoaded) block();
     else [[self startupQueue] addObject:block];
+}
+
+- (void)applicationWillResignActive:(NSNotification *)notification
+{
+    [self _updateEventHandlers];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification
+{
+    [self _updateEventHandlers];
+}
+
+- (void)windowDidBecomeKey:(NSNotification *)notification
+{
+    [self _updateEventHandlers];
+}
+
+- (void)_updateEventHandlers
+{
+    BOOL shouldHandleEvents = ![[OEDeviceManager sharedDeviceManager] hasEventMonitor];
+    BOOL shouldHandleKeyboardEvents = [NSApp isActive];
+
+    for (OEGameDocument *gameDocument in NSApp.orderedDocuments) {
+        if (![gameDocument isKindOfClass:[OEGameDocument class]])
+            continue;
+
+        gameDocument.handleEvents = shouldHandleEvents;
+        gameDocument.handleKeyboardEvents = shouldHandleKeyboardEvents;
+
+        shouldHandleEvents = NO;
+        shouldHandleKeyboardEvents = NO;
+    }
 }
 
 #pragma mark - NSDocumentController Overrides

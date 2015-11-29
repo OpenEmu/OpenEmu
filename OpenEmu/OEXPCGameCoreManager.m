@@ -28,6 +28,7 @@
 #import "OEXPCGameCoreHelper.h"
 #import "OECorePlugin.h"
 #import "OEGameCoreManager_Internal.h"
+#import "OESystemPlugin.h"
 #import "OEThreadProxy.h"
 #import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
 
@@ -39,9 +40,7 @@
     NSPipe          *_standardErrorPipe;
 
     NSXPCConnection *_helperConnection;
-    NSXPCConnection *_gameCoreConnection;
-    OEThreadProxy   *_displayHelperProxy;
-    id               _systemClient;
+    OEThreadProxy   *_gameCoreOwnerProxy;
     BOOL             _isStoppingBackgroundProcess;
 }
 
@@ -84,7 +83,7 @@
      }];
 }
 
-- (void)loadROMWithCompletionHandler:(void(^)(id systemClient))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+- (void)loadROMWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 {
     _processIdentifier = [NSString stringWithFormat:@"%@ # %@", [[[self ROMPath] lastPathComponent] stringByReplacingOccurrencesOfString:@" " withString:@"-"], [[NSUUID UUID] UUIDString]];
     [self _startHelperProcess];
@@ -109,10 +108,10 @@
              return;
          }
 
-         _displayHelperProxy = [OEThreadProxy threadProxyWithTarget:[self displayHelper] thread:[NSThread mainThread]];
+         _gameCoreOwnerProxy = [OEThreadProxy threadProxyWithTarget:[self gameCoreOwner] thread:[NSThread mainThread]];
          _helperConnection = [[NSXPCConnection alloc] initWithListenerEndpoint:endpoint];
-         [_helperConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEGameCoreDisplayHelper)]];
-         [_helperConnection setExportedObject:_displayHelperProxy];
+         [_helperConnection setExportedInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEGameCoreOwner)]];
+         [_helperConnection setExportedObject:_gameCoreOwnerProxy];
 
          [_helperConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(OEXPCGameCoreHelper)]];
          [_helperConnection resume];
@@ -133,10 +132,10 @@
 
          if(gameCoreHelper == nil) return;
 
-         [gameCoreHelper loadROMAtPath:[self ROMPath] romCRC32:[self ROMCRC32] romMD5:[self ROMMD5] romHeader:[self ROMHeader] romSerial:[self ROMSerial] systemRegion:[self systemRegion] usingCorePluginAtPath:[[self plugin] path] systemPluginPath:[[[self systemController] bundle] bundlePath] completionHandler:
-          ^(NSXPCListenerEndpoint *gameCoreEndpoint, NSError *error)
+         [gameCoreHelper loadROMAtPath:[self ROMPath] romCRC32:[self ROMCRC32] romMD5:[self ROMMD5] romHeader:[self ROMHeader] romSerial:[self ROMSerial] systemRegion:[self systemRegion] usingCorePluginAtPath:[[self plugin] path] systemPluginPath:[[self systemPlugin] path] completionHandler:
+          ^(NSError *error)
           {
-              if(gameCoreEndpoint == nil)
+              if(error != nil)
               {
                   dispatch_async(dispatch_get_main_queue(), ^{
                       errorHandler(error);
@@ -148,31 +147,9 @@
                   return;
               }
 
-              _gameCoreConnection = [[NSXPCConnection alloc] initWithListenerEndpoint:gameCoreEndpoint];
-              [_gameCoreConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:[[[self systemController] responderClass] gameSystemResponderClientProtocol]]];
-              [_gameCoreConnection resume];
-
-              __block void *systemClientError;
-              _systemClient =
-              [_gameCoreConnection remoteObjectProxyWithErrorHandler:
-               ^(NSError *error)
-               {
-                   NSLog(@"Game Core Connection (%p) failed with error: %@", systemClientError, error);
-                   dispatch_async(dispatch_get_main_queue(), ^{
-                       errorHandler(error);
-                       [self stop];
-                   });
-               }];
-
-              systemClientError = (__bridge void *)_systemClient;
-
-              DLog(@"_systemClient: %@", _systemClient);
-
-              if(_systemClient == nil) return;
-
               [self setGameCoreHelper:gameCoreHelper];
               dispatch_async(dispatch_get_main_queue(), ^{
-                  completionHandler(_systemClient);
+                  completionHandler();
               });
           }];
      }];
@@ -214,13 +191,10 @@
     [self selfRetain];
 
     [self setGameCoreHelper:nil];
-    _displayHelperProxy = nil;
-    _systemClient       = nil;
+    _gameCoreOwnerProxy = nil;
 
     [_helperConnection invalidate];
-    [_gameCoreConnection invalidate];
-    _gameCoreConnection = nil;
-    _helperConnection   = nil;
+    _helperConnection = nil;
 
     [_backgroundProcessTask terminate];
 }

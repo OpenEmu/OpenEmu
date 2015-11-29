@@ -30,6 +30,7 @@
 #import "OEGameCoreManager_Internal.h"
 #import "OETaskWrapper.h"
 #import "OECorePlugin.h"
+#import "OESystemPlugin.h"
 #import <OpenEmuBase/OpenEmuBase.h>
 
 @interface OEDOGameCoreHelperDelegateHelper : NSObject <OEDOGameCoreHelperDelegate>
@@ -50,9 +51,9 @@
 
 @implementation OEDOGameCoreManager
 
-- (id)initWithROMPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion corePlugin:(OECorePlugin *)plugin systemController:(OESystemController *)systemController displayHelper:(id<OEGameCoreDisplayHelper>)displayHelper
+- (id)initWithROMPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion corePlugin:(OECorePlugin *)plugin systemPlugin:(OESystemPlugin *)systemPlugin gameCoreOwner:(id<OEGameCoreOwner>)gameCoreOwner
 {
-    if((self = [super initWithROMPath:romPath romCRC32:romCRC32 romMD5:romMD5 romHeader:romHeader romSerial:romSerial systemRegion:systemRegion corePlugin:plugin systemController:systemController displayHelper:displayHelper]))
+    if((self = [super initWithROMPath:romPath romCRC32:romCRC32 romMD5:romMD5 romHeader:romHeader romSerial:romSerial systemRegion:systemRegion corePlugin:plugin systemPlugin:systemPlugin gameCoreOwner:gameCoreOwner]))
     {
         _pendingBlocks = [NSMutableDictionary dictionary];
         _delegateHelper = [[OEDOGameCoreHelperDelegateHelper alloc] initWithGameCoreManager:self];
@@ -60,7 +61,7 @@
     return self;
 }
 
-- (void)loadROMWithCompletionHandler:(void(^)(id systemClient))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
+- (void)loadROMWithCompletionHandler:(void(^)(void))completionHandler errorHandler:(void(^)(NSError *))errorHandler;
 {
     NSError *error;
     if(![self _startHelperProcessWithError:&error])
@@ -78,22 +79,20 @@
                     romSerial:[self ROMSerial]
                  systemRegion:[self systemRegion]
         usingCorePluginAtPath:[[self plugin] path]
-           systemPluginAtPath:[[[self systemController] bundle] bundlePath]
+           systemPluginAtPath:[[self systemPlugin] path]
                  withDelegate:_delegateHelper
-                displayHelper:(id<OEDOGameCoreDisplayHelper>)[self displayHelper]
+                gameCoreOwner:(id<OEDOGameCoreOwner>)[self gameCoreOwner]
             messageIdentifier:
      [self messageIdentifierForResponderClientHandler:
-      ^(id responderClient, NSError *error)
+      ^(NSError *error)
       {
-          if(responderClient == nil)
+          if(error != nil)
           {
               errorHandler(error);
               return;
           }
 
-          [(NSDistantObject *)responderClient setProtocolForProxy:[[[self systemController] responderClass] gameSystemResponderClientProtocol]];
-          
-          completionHandler(responderClient);
+          completionHandler();
       }]];
 }
 
@@ -312,7 +311,7 @@
     return identifier;
 }
 
-- (NSString *)messageIdentifierForResponderClientHandler:(void(^)(id, NSError *))responderClient;
+- (NSString *)messageIdentifierForResponderClientHandler:(void(^)(NSError *))responderClient;
 {
     NSString *identifier = [NSString stringWithUUID];
     responderClient = [responderClient copy];
@@ -343,11 +342,11 @@
     block(success, error);
 }
 
-- (void)performResponderClientBlockWithIdentifier:(NSString *)identifier systemClient:(id)systemClient error:(NSError *)error;
+- (void)performResponderClientBlockWithIdentifier:(NSString *)identifier error:(NSError *)error;
 {
-    void(^block)(id, NSError *) = _pendingBlocks[identifier];
+    void(^block)(NSError *) = _pendingBlocks[identifier];
     [_pendingBlocks removeObjectForKey:identifier];
-    block(systemClient, error);
+    block(error);
 }
 
 #pragma mark - TaskWrapper delegate methods
@@ -398,19 +397,19 @@
     [_gameCoreManager performSuccessBlockWithIdentifier:identifier success:success error:error];
 }
 
-- (void)callResponderClientBlockForIdentifier:(NSString *)identifier withClient:(id)client error:(NSError *)error
+- (void)callResponderClientBlockForIdentifier:(NSString *)identifier error:(NSError *)error
 {
-    [_gameCoreManager performResponderClientBlockWithIdentifier:identifier systemClient:client error:error];
+    [_gameCoreManager performResponderClientBlockWithIdentifier:identifier error:error];
 }
 
-- (oneway void)gameCoreHelperDidSetSystemResponderClient:(byref id)responderClient withMessageIdentifier:(NSString *)identifier
+- (oneway void)gameCoreHelperDidFinishSetUpWithMessageIdentifier:(NSString *)identifier
 {
-    [self callResponderClientBlockForIdentifier:identifier withClient:responderClient error:nil];
+    [self callResponderClientBlockForIdentifier:identifier error:nil];
 }
 
 - (oneway void)gameCoreHelperFailedToLoadROMWithError:(NSError *)error messageIdentifier:(NSString *)identifier
 {
-    [self callResponderClientBlockForIdentifier:identifier withClient:nil error:error];
+    [self callResponderClientBlockForIdentifier:identifier error:error];
 }
 
 - (oneway void)gameCoreHelperDidSetupEmulationWithSurfaceID:(IOSurfaceID)surfaceID screenSize:(OEIntSize)screenSize aspectSize:(OEIntSize)aspectSize messageIdentifier:(NSString *)identifier;

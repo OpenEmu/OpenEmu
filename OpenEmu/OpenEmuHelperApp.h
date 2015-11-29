@@ -58,13 +58,15 @@ enum _OEHelperAppErrorCodes
 
 @interface OpenEmuHelperApp : NSResponder <NSApplicationDelegate, OEGameCoreHelper, OERenderDelegate, OEAudioDelegate>
 
-@property id<OEGameCoreDisplayHelper> displayHelper;
+@property id<OEGameCoreOwner> gameCoreOwner;
 @property(readonly) OEGameCore *gameCoreProxy;
 @property(readonly) OEGameCore *gameCore;
 @property(readonly) Protocol *gameSystemResponderClientProtocol;
+@property(nonatomic) BOOL handleEvents;
+@property(nonatomic) BOOL handleKeyboardEvents;
 
 - (void)launchApplication;
 
-- (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion withCorePluginAtPath:(NSString *)pluginPath systemIdentifier:(NSString *)systemIdentifier error:(NSError **)error;
+- (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion withCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath error:(NSError **)error;
 
 @end
