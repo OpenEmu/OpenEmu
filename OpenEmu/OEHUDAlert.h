@@ -78,6 +78,7 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 - (void)setDefaultButtonAction:(SEL)sel andTarget:(id)target;
 - (void)setAlternateButtonAction:(SEL)sel andTarget:(id)target;
 - (void)setOtherButtonAction:(SEL)sel andTarget:(id)target;
+- (void)buttonAction:(id)sender;
 #pragma mark -
 #pragma mark Callbacks
 @property (weak) id target;
