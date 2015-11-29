@@ -26,7 +26,6 @@
 
 #import "OEGameControlsBar.h"
 #import "NSImage+OEDrawingAdditions.h"
-#import "NSWindow+OEFullScreenAdditions.h"
 
 #import "OEButton.h"
 #import "OESlider.h"
@@ -53,6 +52,8 @@
 #import "OETheme.h"
 
 @import QuartzCore;
+
+#import "OpenEmu-Swift.h"
 
 #pragma mark - Public variables
 

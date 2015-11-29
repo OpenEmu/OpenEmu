@@ -37,7 +37,6 @@
 #import "OEShaderPlugin.h"
 
 #import "NSAttributedString+Hyperlink.h"
-#import "NSWindow+OEFullScreenAdditions.h"
 
 #import "OEMainWindowController.h"
 #import "OESetupAssistant.h"
@@ -70,6 +69,8 @@
 #import "OELibraryMigrator.h"
 
 #import "NSDocument+OEAdditions.h"
+
+#import "OpenEmu-Swift.h"
 
 NSString *const OEWebSiteURL      = @"http://openemu.org/";
 NSString *const OEUserGuideURL    = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide";

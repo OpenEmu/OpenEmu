@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,8 +24,14 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Cocoa;
+import Cocoa
 
-@interface NSWindow (OEFullScreenAdditions)
-- (BOOL)isFullScreen;
-@end
+extension NSWindow {
+    
+    var fullScreen: Bool {
+        @objc(isFullScreen)
+        get {
+            return styleMask & NSFullScreenWindowMask == NSFullScreenWindowMask
+        }
+    }
+}

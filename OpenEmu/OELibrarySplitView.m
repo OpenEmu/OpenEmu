@@ -25,7 +25,8 @@
  */
 
 #import "OELibrarySplitView.h"
-#import "NSWindow+OEFullScreenAdditions.h"
+
+#import "OpenEmu-Swift.h"
 
 #pragma mark - Public variables
 

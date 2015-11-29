@@ -41,8 +41,6 @@
 #import "OESystemPlugin.h"
 #import "OEDBSmartCollection.h"
 
-#import "NSWindow+OEFullScreenAdditions.h"
-
 #import "OEPreferencesController.h"
 
 #import "OEBackgroundNoisePattern.h"
@@ -54,6 +52,8 @@
 #import "OEFeaturedGamesViewController.h"
 
 #import "OELibraryGamesViewController.h"
+
+#import "OpenEmu-Swift.h"
 
 #pragma mark - Exported variables
 NSString * const OELastSidebarSelectionKey = @"lastSidebarSelection";

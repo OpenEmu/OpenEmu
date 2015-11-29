@@ -31,7 +31,6 @@
 #import "OEGameViewController.h"
 #import "OEGameView.h"
 #import "OEGameControlsBar.h"
-#import "NSWindow+OEFullScreenAdditions.h"
 #import "OEUtilities.h"
 
 #import "OEDBRom.h"
@@ -39,6 +38,8 @@
 #import "OEDBSystem.h"
 
 @import QuartzCore;
+
+#import "OpenEmu-Swift.h"
 
 #pragma mark - Private variables
 
