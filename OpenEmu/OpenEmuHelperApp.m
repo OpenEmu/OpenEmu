@@ -82,6 +82,8 @@
     OESystemResponder    *_systemResponder;
     OEGameAudio          *_gameAudio;
 
+    NSMutableDictionary<OEDeviceHandlerPlaceholder *, NSMutableArray<void(^)(void)> *> *_pendingDeviceHandlerBindings;
+
     id _unhandledEventsMonitor;
 
     // screen subrect stuff
@@ -91,8 +93,20 @@
     BOOL                  _hasStartedAudio;
 }
 
-@synthesize enableVSync=_enableVSync;
-@synthesize gameCoreProxy=_gameCoreProxy;
+@synthesize enableVSync = _enableVSync;
+@synthesize gameCoreProxy = _gameCoreProxy;
+
+- (instancetype)init
+{
+    if (!(self = [super init]))
+        return nil;
+
+    _pendingDeviceHandlerBindings = [NSMutableDictionary dictionary];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_deviceHandlerPlaceholderDidResolveNotification:) name:OEDeviceHandlerPlaceholderOriginalDeviceDidBecomeAvailableNotification object:nil];
+
+    return self;
+}
 
 #pragma mark -
 
@@ -508,17 +522,59 @@
 
 - (void)handleMouseEvent:(OEEvent *)event
 {
-    [_systemResponder handleMouseEvent:event];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_systemResponder handleMouseEvent:event];
+    });
 }
 
 - (void)systemBindingsDidSetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber
 {
-    [_systemResponder systemBindingsDidSetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
+    [self _updateBindingForEvent:event withBlock:^{
+        [_systemResponder systemBindingsDidSetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
+    }];
 }
 
 - (void)systemBindingsDidUnsetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber
 {
-    [_systemResponder systemBindingsDidUnsetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
+    [self _updateBindingForEvent:event withBlock:^{
+        [_systemResponder systemBindingsDidUnsetEvent:event forBinding:bindingDescription playerNumber:playerNumber];
+    }];
+}
+
+- (void)_updateBindingForEvent:(OEHIDEvent *)event withBlock:(void(^)(void))block
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!event.hasDeviceHandlerPlaceholder) {
+            block();
+            return;
+        }
+
+        OEDeviceHandlerPlaceholder *placeholder = event.deviceHandler;
+        NSMutableArray<void(^)(void)> *pendingBlocks = _pendingDeviceHandlerBindings[placeholder];
+        if (!pendingBlocks) {
+            pendingBlocks = [NSMutableArray array];
+            _pendingDeviceHandlerBindings[placeholder] = pendingBlocks;
+        }
+
+        [pendingBlocks addObject:[^{
+            [event resolveDeviceHandlerPlaceholder];
+            block();
+        } copy]];
+    });
+}
+
+- (void)_deviceHandlerPlaceholderDidResolveNotification:(NSNotification *)notification
+{
+    OEDeviceHandlerPlaceholder *placeholder = notification.object;
+
+    NSMutableArray<void(^)(void)> *pendingBlocks = _pendingDeviceHandlerBindings[placeholder];
+    if (!pendingBlocks)
+        return;
+
+    for (void(^block)(void) in pendingBlocks)
+        block();
+
+    [_pendingDeviceHandlerBindings removeObjectForKey:placeholder];
 }
 
 #pragma mark - OEGameCoreOwner subclass handles
