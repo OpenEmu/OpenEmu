@@ -26,28 +26,26 @@
 
 import Cocoa
 
+private let activeFillColor   = NSColor(calibratedRed: 0.243, green: 0.502, blue: 0.871, alpha: 1)
+private let inactiveFillColor = NSColor(calibratedWhite: 0.651, alpha: 1)
+
 extension NSImage {
     
     /// Creates an image that draws a grid selection ring in the default coordinate system.
     /// - Parameter size: The size of the selection ring.
     /// - Parameter activeState: Whether or not the selection ring should be drawn in an active state.
     /// - Returns: An image of the grid selection ring.
-    @objc
     class func gridSelectionRingWithSize(size: NSSize, activeState: Bool) -> NSImage {
         
         return NSImage(size: size, flipped: false) { rect in
             
             let bounds = CGRect(x: 0, y: 0, width: rect.size.width, height: rect.size.height)
+            
             let selectionPath = NSBezierPath(roundedRect: CGRectInset(bounds, 1, 1), xRadius: 4, yRadius: 4)
             selectionPath.appendBezierPath(NSBezierPath(roundedRect: CGRectInset(bounds, 4, 4), xRadius: 1.5, yRadius: 1.5))
             selectionPath.windingRule = .EvenOddWindingRule
             
-            let fillColor: NSColor
-            if activeState {
-                fillColor = NSColor(calibratedRed: 0.243, green: 0.502, blue: 0.871, alpha: 1)
-            } else {
-                fillColor = NSColor(calibratedWhite: 0.651, alpha: 1)
-            }
+            let fillColor: NSColor = activeState ? activeFillColor : inactiveFillColor
             
             fillColor.set()
             selectionPath.fill()
