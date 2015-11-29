@@ -310,29 +310,16 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
     NSWindow *win = [self window];
     BOOL isActive = ([win isMainWindow] && [win firstResponder]==self) || [win firstResponder]==[OESidebarFieldEditor fieldEditor];
     
-    NSColor *bottomLineColor;
-    NSColor *topLineColor;
-    
-    NSColor *gradientTop;
-    NSColor *gradientBottom;
-    
+    NSColor *fillColor;
     if(isActive)
     {
         // Active
-        topLineColor = [NSColor colorWithDeviceRed:0.373 green:0.584 blue:0.91 alpha:1];
-        bottomLineColor = [NSColor colorWithDeviceRed:0.157 green:0.157 blue:0.157 alpha:1];
-        
-        gradientTop = [NSColor colorWithDeviceRed:0.263 green:0.51 blue:0.894 alpha:1];
-        gradientBottom = [NSColor colorWithDeviceRed:0.137 green:0.243 blue:0.906 alpha:1];
+        fillColor = [NSColor colorWithDeviceRed:0.243 green:0.502 blue:0.871 alpha:1];
     }
     else 
     {
         // Inactive
-        topLineColor = [NSColor colorWithDeviceRed:0.671 green:0.671 blue:0.671 alpha:1];
-        bottomLineColor = [NSColor colorWithDeviceRed:0.184 green:0.184 blue:0.184 alpha:1];
-        
-        gradientTop = [NSColor colorWithDeviceRed:0.612 green:0.612 blue:0.612 alpha:1];
-        gradientBottom = [NSColor colorWithDeviceRed:0.443 green:0.443 blue:0.447 alpha:1];
+        fillColor = [NSColor colorWithDeviceRed:0.612 green:0.612 blue:0.612 alpha:1];
     }
     
     // draw highlight for visible & selected rows
@@ -343,22 +330,8 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
         if([aSelectedRowIndexes containsIndex:aRow])
         {
             NSRect rowFrame = [self rectOfRow:aRow];
-            NSRect innerTopLine = NSMakeRect(rowFrame.origin.x, rowFrame.origin.y+1, rowFrame.size.width, 1);
-            NSRect topLine = NSMakeRect(rowFrame.origin.x, rowFrame.origin.y, rowFrame.size.width, 1);
-            NSRect bottomLine = NSMakeRect(rowFrame.origin.x, rowFrame.origin.y+rowFrame.size.height-1, rowFrame.size.width, 1);
-            
-            [topLineColor setFill];
-            NSRectFill(innerTopLine);
-            
-            [bottomLineColor setFill];
-            NSRectFill(topLine);
-            NSRectFill(bottomLine);
-            
-            rowFrame.size.height -= 3;
-            rowFrame.origin.y += 2;
-            
-            NSGradient *selectionGradient = [[NSGradient alloc] initWithStartingColor:gradientTop endingColor:gradientBottom];
-            [selectionGradient drawInRect:rowFrame angle:90];
+            [fillColor set];
+            [NSBezierPath fillRect:rowFrame];
         }
     }
 }
