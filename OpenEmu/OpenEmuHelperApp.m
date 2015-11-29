@@ -94,12 +94,6 @@
 @synthesize enableVSync=_enableVSync;
 @synthesize gameCoreProxy=_gameCoreProxy;
 
-+ (void)load
-{
-    extern BOOL NSZombieEnabled;
-    NSZombieEnabled = YES;
-}
-
 #pragma mark -
 
 - (void)launchApplication
