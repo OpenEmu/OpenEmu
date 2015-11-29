@@ -401,6 +401,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
              if(completionHandler)  completionHandler(document, nil);
          }
          else if(completionHandler) completionHandler(nil, error);
+
+         [self _updateEventHandlers];
      }];
 }
 
