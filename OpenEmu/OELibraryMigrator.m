@@ -27,9 +27,10 @@
 #import "OELibraryMigrator.h"
 #import "OEMigrationWindowController.h"
 #import "OELibraryDatabase.h"
-#import "NSURL+OELibraryAdditions.h"
 #import "OEDBScreenshot.h"
 #import "ALIterativeMigrator.h"
+
+#import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

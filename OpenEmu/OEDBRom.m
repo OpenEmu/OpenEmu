@@ -31,10 +31,11 @@
 #import "OELibraryDatabase.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
-#import "NSURL+OELibraryAdditions.h"
 
 #import <OpenEmuSystem/OECUESheet.h>
 #import <OpenEmuSystem/OECloneCD.h>
+
+#import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

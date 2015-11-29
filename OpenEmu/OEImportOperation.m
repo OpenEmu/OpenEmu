@@ -32,7 +32,6 @@
 #import <XADMaster/XADArchive.h>
 
 #import "NSFileManager+OEHashingAdditions.h"
-#import "NSURL+OELibraryAdditions.h"
 
 #import "OELibraryDatabase.h"
 #import "OEDBGame.h"
@@ -41,6 +40,8 @@
 #import "OEDBSaveState.h"
 #import "OEDBSystem.h"
 #import "OEBIOSFile.h"
+
+#import "OpenEmu-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

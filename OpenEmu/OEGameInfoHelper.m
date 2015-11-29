@@ -26,13 +26,14 @@
 
 #import "OEGameInfoHelper.h"
 #import "OESQLiteDatabase.h"
-#import "NSURL+OELibraryAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
 #import "OEHUDAlert.h"
 #import "OEDBSystem.h"
 #import <XADMaster/XADArchive.h>
 
 #import <OpenEmuSystem/OpenEmuSystem.h> // we only need OELocalizationHelper
+
+#import "OpenEmu-Swift.h"
 
 NSString * const OEOpenVGDBVersionKey        = @"OpenVGDBVersion";
 NSString * const OEOpenVGDBUpdateCheckKey    = @"OpenVGDBUpdatesChecked";

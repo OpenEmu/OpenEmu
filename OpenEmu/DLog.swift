@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
-
+ Copyright (c) 2015, OpenEmu Team
+ 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
-
+ 
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,19 +24,15 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
+import Foundation
 
-#ifndef NoInterpol
-#define NoInterpol [NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:NSImageInterpolationNone] forKey:NSImageHintInterpolation]
-#endif
-
-#define NSPointAdd(P1, P2) (NSPoint){P1.x+P2.x,+P1.y+P2.y}
-#define NSPointSub(P1, P2) (NSPoint){P1.x-P2.x,+P1.y-P2.y}
-#define NSSizeAdd(S1, S2) (NSSize){S1.width+S2.width,+S1.height+S2.height}
-#define NSSizeSub(S1, S2) (NSSize){S1.width-S2.width,+S1.height-S2.height}
-
-@interface NSImage (OEDrawingAdditions)
-- (NSImage *)subImageFromRect:(NSRect)rect;
-- (NSImage *)imageFromParts:(NSArray *)parts vertical:(BOOL)vertical;
-- (NSImage *)ninePartImageWithStretchedRect:(NSRect)stretchedRect;
-@end
+/// Logs a string in debug mode.
+func DLog(@autoclosure message: () -> String,
+    filename: String = __FILE__,
+    function: String = __FUNCTION__,
+    line: Int = __LINE__) {
+        #if DEBUG
+            let lastPathComponent = (filename as NSString).lastPathComponent
+            NSLog("\(lastPathComponent):\(line): \(function): %@", message())
+        #endif
+}

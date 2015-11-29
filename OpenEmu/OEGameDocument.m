@@ -49,8 +49,6 @@
 #import "OESystemPlugin.h"
 #import "OEThreadGameCoreManager.h"
 #import "OEXPCGameCoreManager.h"
-#import "NSURL+OELibraryAdditions.h"
-#import "NSView+FadeImage.h"
 #import "OEDownload.h"
 #import "OEROMImporter.h"
 
@@ -59,6 +57,8 @@
 
 #import <objc/message.h>
 #import <IOKit/pwr_mgt/IOPMLib.h>
+
+#import "OpenEmu-Swift.h"
 
 NSString *const OEGameCoreManagerModePreferenceKey = @"OEGameCoreManagerModePreference";
 NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";

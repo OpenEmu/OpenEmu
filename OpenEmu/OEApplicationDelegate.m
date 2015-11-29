@@ -36,8 +36,6 @@
 #import "OESystemPlugin.h"
 #import "OEShaderPlugin.h"
 
-#import "NSAttributedString+Hyperlink.h"
-
 #import "OEMainWindowController.h"
 #import "OESetupAssistant.h"
 #import "OELibraryController.h"
@@ -788,7 +786,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (NSAttributedString *)projectURL
 {
-    return [NSAttributedString hyperlinkFromString:@"http://openemu.org" withURL:[NSURL URLWithString:@"http://openemu.org"]];
+    NSString *linkString = @"http://openemu.org";
+    return [[NSAttributedString alloc] initWithString:linkString hyperlinkURL:[NSURL URLWithString:linkString]];
 }
 
 #pragma mark - NSMenu Delegate

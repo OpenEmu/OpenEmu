@@ -25,7 +25,6 @@
  */
 
 #import "OEGameControlsBar.h"
-#import "NSImage+OEDrawingAdditions.h"
 
 #import "OEButton.h"
 #import "OESlider.h"

@@ -32,12 +32,12 @@
 #import "OETableCellView.h"
 #import "OETheme.h"
 
-#import "NSString+OEAdditions.h"
-#import "NSURL+OELibraryAdditions.h"
 #import "NSFileManager+OEHashingAdditions.h"
 #import "OEBIOSFile.h"
 
 #import "OEPreferencesController.h"
+
+#import "OpenEmu-Swift.h"
 
 NSString * const OEPreferencesAlwaysShowBiosKey = @"OEPreferencesAlwaysShowBios";
 NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files";

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,24 +24,31 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSDate+OESortAdditions.h"
+import Foundation
 
-@implementation NSDate (OESortAdditions)
-
-- (NSComparisonResult)OE_compareDMYTranslatingNilToDistantPast:(NSDate *)anotherDate
-{
-    if(!anotherDate) return [self compare:[NSDate distantPast]];
-
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-
-    NSDateComponents *selfDMY = [gregorian components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:self];
-    NSDateComponents *anotherDMY = [gregorian components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:anotherDate];
-
-    if([selfDMY year]  != [anotherDMY year])  return ([selfDMY year]  > [anotherDMY year]  ? NSOrderedDescending : NSOrderedAscending);
-    if([selfDMY month] != [anotherDMY month]) return ([selfDMY month] > [anotherDMY month] ? NSOrderedDescending : NSOrderedAscending);
-    if([selfDMY day]   != [anotherDMY day])   return ([selfDMY day]   > [anotherDMY day]   ? NSOrderedDescending : NSOrderedAscending);
-
-    return NSOrderedSame;
+extension NSDate {
+    
+    func OE_compareDMYTranslatingNilToDistantPast(otherDate: NSDate?) -> NSComparisonResult {
+        
+        guard let otherDate = otherDate else {
+            return compare(NSDate.distantPast())
+        }
+        
+        let gregorian = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+        
+        let selfDMY  = gregorian.components([.Day, .Month, .Year], fromDate: self)
+        let otherDMY = gregorian.components([.Day, .Month, .Year], fromDate: otherDate)
+        
+        if selfDMY.year != otherDMY.year {
+            return selfDMY.year > otherDMY.year ? .OrderedDescending : .OrderedAscending
+        }
+        if selfDMY.month != otherDMY.month {
+            return selfDMY.month > otherDMY.month ? .OrderedDescending : .OrderedAscending
+        }
+        if selfDMY.day != otherDMY.day {
+            return selfDMY.day > otherDMY.day ? .OrderedDescending : .OrderedAscending
+        }
+        
+        return .OrderedSame
+    }
 }
-
-@end

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,8 +24,21 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Cocoa;
+import Cocoa
 
-@interface NSAttributedString (Hyperlink)
-+ (id)hyperlinkFromString:(NSString *)aString withURL:(NSURL *)aURL;
-@end
+extension NSAttributedString {
+    
+    /// Returns an attributed string containing a hyperlink.
+    /// - Parameter string: The text to use for the hyperlink.
+    /// - Parameter URL: The URL of the hyperlink.
+    convenience init(string: String, hyperlinkURL URL: NSURL) {
+        
+        let attributes = [
+            NSLinkAttributeName: URL.absoluteString,
+            NSForegroundColorAttributeName: NSColor.blueColor(),
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue
+        ]
+        
+        self.init(string: string, attributes: attributes)
+    }
+}

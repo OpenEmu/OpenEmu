@@ -10,7 +10,6 @@
 
 #import "OETheme.h"
 #import "OEThemeImage.h"
-#import "NSImage+OEDrawingAdditions.h"
 #import "OECoverGridDataSourceItem.h"
 #import "OEGridViewCellIndicationLayer.h"
 

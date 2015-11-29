@@ -28,7 +28,6 @@
 
 #import "OEBackgroundGradientView.h"
 #import "OEBackgroundColorView.h"
-#import "NSImage+OEDrawingAdditions.h"
 #import "OEPreferencePane.h"
 
 #import "OEPrefLibraryController.h"
@@ -41,6 +40,8 @@
 #import <AppKit/NSToolbarItem.h>
 
 @import QuartzCore;
+
+#import "OpenEmu-Swift.h"
 
 NSString *const OEDebugModeKey = @"debug";
 NSString *const OESelectedPreferencesTabKey = @"selectedPreferencesTab";

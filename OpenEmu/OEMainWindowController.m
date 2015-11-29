@@ -44,7 +44,6 @@
 
 #import "OEROMImporter.h"
 
-#import "NSView+FadeImage.h"
 #import "NSDocument+OEAdditions.h"
 
 #import "OpenEmu-Swift.h"

@@ -51,13 +51,14 @@
 #import "OEAudioDeviceManager.h"
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
-#import "NSURL+OELibraryAdditions.h"
 #import "NSColor+OEAdditions.h"
 
 #import "OEPreferencesController.h"
 #import "OELibraryDatabase.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
+
+#import "OpenEmu-Swift.h"
 
 NSString *const OEGameVolumeKey = @"volume";
 NSString *const OEGameDefaultVideoFilterKey = @"videoFilter";

@@ -142,7 +142,6 @@
 		11E0C9CA175ADD0700CDAB86 /* controller_vb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11E0C9C8175ADD0700CDAB86 /* controller_vb@2x.png */; };
 		141554101442B3B300A01683 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		141554211442B7B100A01683 /* OEN64SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 141554201442B7B100A01683 /* OEN64SystemResponder.m */; };
-		14861960166076A400BDB800 /* NSDate+OESortAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1486195F166076A400BDB800 /* NSDate+OESortAdditions.m */; };
 		14AE945116FDEE57009DD56D /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3213B95E2800A6ACE0 /* CoreAudio.framework */; };
 		14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 14CB5DA916FE1F8300342817 /* OEAudioDeviceManager.m */; };
 		14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14F6A925168180CF0071386D /* OEPopoutGameWindowController.m */; };
@@ -250,9 +249,6 @@
 		53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B7913B933B8005C0CC8 /* OEGameControlsBar.m */; };
 		53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B8113B933E9005C0CC8 /* OEHUDWindow.m */; };
 		53439B8713B934DB005C0CC8 /* ImageKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53439B8613B934DB005C0CC8 /* ImageKit.framework */; };
-		53439B9013B937DB005C0CC8 /* NSImage+OEHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B8F13B937DB005C0CC8 /* NSImage+OEHighlight.m */; };
-		53439B9313B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B9213B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m */; };
-		53439B9613B937F5005C0CC8 /* NSURL+OELibraryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B9513B937F5005C0CC8 /* NSURL+OELibraryAdditions.m */; };
 		53D32E3013B95E2000A6ACE0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		53D32E3513B95E4100A6ACE0 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */; };
 		53D32E3613B95E4300A6ACE0 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3213B95E2800A6ACE0 /* CoreAudio.framework */; };
@@ -278,12 +274,16 @@
 		5A9606D41C0A63740089B494 /* NSMutableDictionary+Pop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606D31C0A63740089B494 /* NSMutableDictionary+Pop.swift */; };
 		5A9606D61C0A7C9D0089B494 /* NSWindow+FullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606D51C0A7C9D0089B494 /* NSWindow+FullScreen.swift */; };
 		5A9606DC1C0A84BC0089B494 /* LibraryToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606DB1C0A84BC0089B494 /* LibraryToolbar.swift */; };
+		5A9606DE1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606DD1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift */; };
+		5A9606E01C0B12FE0089B494 /* NSControl+TargetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606DF1C0B12FE0089B494 /* NSControl+TargetAction.swift */; };
+		5A9606E21C0B16100089B494 /* NSDate+DMYCompareToNil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606E11C0B16100089B494 /* NSDate+DMYCompareToNil.swift */; };
+		5A9606E41C0BA85F0089B494 /* NSURL+LibraryAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606E31C0BA85F0089B494 /* NSURL+LibraryAdditions.swift */; };
+		5A9606E81C0BCD350089B494 /* NSImage+DrawingAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606E71C0BCD350089B494 /* NSImage+DrawingAdditions.swift */; };
+		5A9606EA1C0BD2BD0089B494 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9606E91C0BD2BD0089B494 /* DLog.swift */; };
 		5ABE03291BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */; };
 		5ABE032A1BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE03281BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m */; };
-		5ADDC4B71BF94F7000BF173D /* NSImage+SelectionRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADDC4B61BF94F7000BF173D /* NSImage+SelectionRing.swift */; };
 		5AECA1491BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AECA1481BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift */; };
 		820EB7421483F9A2008EC398 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
-		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
 		82277547148946DF00B19E27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		822775651489471A00B19E27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 822775551489471A00B19E27 /* InfoPlist.strings */; };
 		8227756B1489471A00B19E27 /* OEGGSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755C1489471A00B19E27 /* OEGGSystemResponder.m */; };
@@ -345,7 +345,6 @@
 		832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 832AB28B18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel */; };
 		832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D293F1451A68700BDF950 /* OEMainWindowController.m */; };
 		832D29431451ACF200BDF950 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832D29421451ACF200BDF950 /* MainWindow.xib */; };
-		832FA8801455526E00BBBD94 /* NSControl+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */; };
 		83338C2217A281C7007E32E9 /* secret.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 83338C2117A281C7007E32E9 /* secret.mp3 */; };
 		8337393215BFD24A00D83D2F /* OESystemPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 83E41F28158546E90069B8AF /* OESystemPicker.m */; };
 		8337F38E1726B3600068DD90 /* OEBackgroundImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8337F38D1726B3600068DD90 /* OEBackgroundImageView.m */; };
@@ -412,7 +411,6 @@
 		83B04E3C196860B800CB985E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3A196860B800CB985E /* Credits.rtf */; };
 		83B04E411968610F00CB985E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3D1968610F00CB985E /* InfoPlist.strings */; };
 		83B04E421968610F00CB985E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83B04E3F1968610F00CB985E /* Localizable.strings */; };
-		83B867BC171D63940038988C /* NSString+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B867BB171D63940038988C /* NSString+OEAdditions.m */; };
 		83B867BE171D63C70038988C /* DiskArbitration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83B867BD171D63C70038988C /* DiskArbitration.framework */; };
 		83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */; };
 		83BC345E1516456000F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BC345D1516455F00F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m */; };
@@ -430,7 +428,6 @@
 		83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */; };
 		83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */; };
 		83DC1FCD147085C800F3D77A /* controller_gba.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DC1FCA1470857900F3D77A /* controller_gba.png */; };
-		83DDEE83156CDEEB009EB43D /* NSView+FadeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */; };
 		83DDEE87156CE2F0009EB43D /* OEFadeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DDEE86156CE2F0009EB43D /* OEFadeView.m */; };
 		83DEE48F162D52DC005D8AD7 /* OELabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE48C162D52DC005D8AD7 /* OELabel.m */; };
 		83DEE490162D52DC005D8AD7 /* OELabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DEE48E162D52DC005D8AD7 /* OELabelCell.m */; };
@@ -1664,8 +1661,6 @@
 		141554201442B7B100A01683 /* OEN64SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEN64SystemResponder.m; sourceTree = "<group>"; };
 		141554221442B85000A01683 /* OEN64SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemResponderClient.h; sourceTree = "<group>"; };
 		142689BD16585F0E00AD0B63 /* OEDatabase 0.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 0.4.xcdatamodel"; sourceTree = "<group>"; };
-		1486195E166076A400BDB800 /* NSDate+OESortAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+OESortAdditions.h"; sourceTree = "<group>"; };
-		1486195F166076A400BDB800 /* NSDate+OESortAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+OESortAdditions.m"; sourceTree = "<group>"; };
 		14A9073916FAA0AE005E2635 /* FeedbackReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FeedbackReporter.framework; sourceTree = "<group>"; };
 		14B3038916F31B3A00865A5E /* OpenEmuHelperApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuHelperApp-Info.plist"; sourceTree = "<group>"; };
 		14CA66E0168E910C003E28A7 /* OEGameIntegralScalingDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEGameIntegralScalingDelegate.h; sourceTree = "<group>"; };
@@ -1749,8 +1744,6 @@
 		3D41E8E51BD47DEF00A76EFD /* OEGameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameRenderer.h; sourceTree = "<group>"; };
 		3D41E8E91BD4959300A76EFD /* OEOpenGL2GameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOpenGL2GameRenderer.h; sourceTree = "<group>"; };
 		3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOpenGL2GameRenderer.m; sourceTree = "<group>"; };
-		3D711838150064F50056E3BF /* PSYBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSYBlockTimer.h; sourceTree = "<group>"; };
-		3D711839150064F50056E3BF /* PSYBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSYBlockTimer.m; sourceTree = "<group>"; };
 		3DA6EDCA1BD790B900560326 /* OEOpenGL3GameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOpenGL3GameRenderer.h; sourceTree = "<group>"; };
 		3DA6EDCB1BD790B900560326 /* OEOpenGL3GameRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOpenGL3GameRenderer.m; sourceTree = "<group>"; };
 		3DB744771BD8B95300C23E74 /* OEPS2SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPS2SystemController.h; path = "PlayStation 2/OEPS2SystemController.h"; sourceTree = "<group>"; };
@@ -1852,12 +1845,6 @@
 		53439B8013B933E9005C0CC8 /* OEHUDWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDWindow.h; sourceTree = "<group>"; };
 		53439B8113B933E9005C0CC8 /* OEHUDWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDWindow.m; sourceTree = "<group>"; };
 		53439B8613B934DB005C0CC8 /* ImageKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageKit.framework; path = /System/Library/Frameworks/Quartz.framework/Versions/A/Frameworks/ImageKit.framework; sourceTree = "<absolute>"; };
-		53439B8E13B937DB005C0CC8 /* NSImage+OEHighlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+OEHighlight.h"; sourceTree = "<group>"; };
-		53439B8F13B937DB005C0CC8 /* NSImage+OEHighlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+OEHighlight.m"; sourceTree = "<group>"; };
-		53439B9113B937EA005C0CC8 /* NSImage+OEDrawingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+OEDrawingAdditions.h"; sourceTree = "<group>"; };
-		53439B9213B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+OEDrawingAdditions.m"; sourceTree = "<group>"; };
-		53439B9413B937F5005C0CC8 /* NSURL+OELibraryAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+OELibraryAdditions.h"; sourceTree = "<group>"; };
-		53439B9513B937F5005C0CC8 /* NSURL+OELibraryAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+OELibraryAdditions.m"; sourceTree = "<group>"; };
 		5380E82313B9596500E76DEF /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		5380E83013B95C7C00E76DEF /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
@@ -1879,11 +1866,16 @@
 		5A9606D31C0A63740089B494 /* NSMutableDictionary+Pop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableDictionary+Pop.swift"; sourceTree = "<group>"; };
 		5A9606D51C0A7C9D0089B494 /* NSWindow+FullScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSWindow+FullScreen.swift"; sourceTree = "<group>"; };
 		5A9606DB1C0A84BC0089B494 /* LibraryToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryToolbar.swift; sourceTree = "<group>"; };
+		5A9606DD1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Hyperlink.swift"; sourceTree = "<group>"; };
+		5A9606DF1C0B12FE0089B494 /* NSControl+TargetAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSControl+TargetAction.swift"; sourceTree = "<group>"; };
+		5A9606E11C0B16100089B494 /* NSDate+DMYCompareToNil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+DMYCompareToNil.swift"; sourceTree = "<group>"; };
+		5A9606E31C0BA85F0089B494 /* NSURL+LibraryAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+LibraryAdditions.swift"; sourceTree = "<group>"; };
+		5A9606E71C0BCD350089B494 /* NSImage+DrawingAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImage+DrawingAdditions.swift"; sourceTree = "<group>"; };
+		5A9606E91C0BD2BD0089B494 /* DLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		5ABE03251BDCA03600BC7B6A /* TAAdaptiveSpaceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItem.h; sourceTree = "<group>"; };
 		5ABE03261BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAdaptiveSpaceItem.m; sourceTree = "<group>"; };
 		5ABE03271BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAdaptiveSpaceItemView.h; sourceTree = "<group>"; };
 		5ABE03281BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAdaptiveSpaceItemView.m; sourceTree = "<group>"; };
-		5ADDC4B61BF94F7000BF173D /* NSImage+SelectionRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImage+SelectionRing.swift"; sourceTree = "<group>"; };
 		5AECA1471BE1D25600C3B4E2 /* OpenEmu-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenEmu-Bridging-Header.h"; sourceTree = "<group>"; };
 		5AECA1481BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarSegmentedCell.swift; sourceTree = "<group>"; };
 		820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NeoGeo Pocket.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1895,8 +1887,6 @@
 		820EB7571483F9D3008EC398 /* OENGPSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENGPSystemResponder.m; sourceTree = "<group>"; };
 		820EB7581483F9D3008EC398 /* OENGPSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENGPSystemResponderClient.h; sourceTree = "<group>"; };
 		820EB7591483F9D3008EC398 /* NeoGeoPocket-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "NeoGeoPocket-Info.plist"; sourceTree = "<group>"; };
-		82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Hyperlink.m"; sourceTree = "<group>"; };
-		82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Hyperlink.h"; sourceTree = "<group>"; };
 		8227754F148946DF00B19E27 /* GameGear.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameGear.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		822775561489471A00B19E27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8227755B1489471A00B19E27 /* OEGGSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGGSystemResponder.h; sourceTree = "<group>"; };
@@ -2001,8 +1991,6 @@
 		832D293E1451A68700BDF950 /* OEMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMainWindowController.h; sourceTree = "<group>"; };
 		832D293F1451A68700BDF950 /* OEMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMainWindowController.m; sourceTree = "<group>"; };
 		832D29421451ACF200BDF950 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		832FA87E1455526E00BBBD94 /* NSControl+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSControl+OEAdditions.h"; sourceTree = "<group>"; };
-		832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSControl+OEAdditions.m"; sourceTree = "<group>"; };
 		83338C2117A281C7007E32E9 /* secret.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = secret.mp3; path = sounds/secret.mp3; sourceTree = "<group>"; };
 		8337393515BFD77900D83D2F /* OELibrarySubviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibrarySubviewController.h; sourceTree = "<group>"; };
 		8337F38C1726B35F0068DD90 /* OEBackgroundImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBackgroundImageView.h; sourceTree = "<group>"; };
@@ -2218,8 +2206,6 @@
 		83B04E3B196860B800CB985E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		83B04E3E1968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83B04E401968610F00CB985E /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
-		83B867BA171D63940038988C /* NSString+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEAdditions.h"; sourceTree = "<group>"; };
-		83B867BB171D63940038988C /* NSString+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEAdditions.m"; sourceTree = "<group>"; };
 		83B867BD171D63C70038988C /* DiskArbitration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiskArbitration.framework; path = System/Library/Frameworks/DiskArbitration.framework; sourceTree = SDKROOT; };
 		83BABBEC1458978B0097F6B2 /* OESetupAssistantTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantTableView.h; sourceTree = "<group>"; };
 		83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantTableView.m; sourceTree = "<group>"; };
@@ -2251,8 +2237,6 @@
 		83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyHeadlineCell.m; sourceTree = "<group>"; };
 		83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.1 to 1.2.xcmappingmodel"; sourceTree = "<group>"; };
 		83DC1FCA1470857900F3D77A /* controller_gba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gba.png; sourceTree = "<group>"; };
-		83DDEE81156CDEEB009EB43D /* NSView+FadeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+FadeImage.h"; sourceTree = "<group>"; };
-		83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+FadeImage.m"; sourceTree = "<group>"; };
 		83DDEE85156CE2F0009EB43D /* OEFadeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFadeView.h; sourceTree = "<group>"; };
 		83DDEE86156CE2F0009EB43D /* OEFadeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFadeView.m; sourceTree = "<group>"; };
 		83DEE48B162D52DC005D8AD7 /* OELabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELabel.h; sourceTree = "<group>"; };
@@ -3781,45 +3765,32 @@
 			name = PLists;
 			sourceTree = "<group>";
 		};
-		1BEF34751168F88A0090F72B /* Additions to standard classes */ = {
+		1BEF34751168F88A0090F72B /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				5A9606E91C0BD2BD0089B494 /* DLog.swift */,
 				83E8927819748C20004D4489 /* NS(Attributed)String+Geometrics.h */,
 				83E8927919748C20004D4489 /* NS(Attributed)String+Geometrics.m */,
 				5A9606CF1C0A50D60089B494 /* NSArray+BlockFiltering.swift */,
-				82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */,
-				82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */,
+				5A9606DD1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift */,
 				EFBD5D7614EFE19A00FBD1E0 /* NSColor+OEAdditions.h */,
 				EFBD5D7714EFE19A00FBD1E0 /* NSColor+OEAdditions.m */,
-				832FA87E1455526E00BBBD94 /* NSControl+OEAdditions.h */,
-				832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */,
-				1486195E166076A400BDB800 /* NSDate+OESortAdditions.h */,
-				1486195F166076A400BDB800 /* NSDate+OESortAdditions.m */,
+				5A9606DF1C0B12FE0089B494 /* NSControl+TargetAction.swift */,
+				5A9606E11C0B16100089B494 /* NSDate+DMYCompareToNil.swift */,
 				C67DBF4117DBE859006AF087 /* NSDocument+OEAdditions.h */,
 				C67DBF4217DBE859006AF087 /* NSDocument+OEAdditions.m */,
 				83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */,
 				83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */,
-				53439B9113B937EA005C0CC8 /* NSImage+OEDrawingAdditions.h */,
-				53439B9213B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m */,
-				53439B8E13B937DB005C0CC8 /* NSImage+OEHighlight.h */,
-				53439B8F13B937DB005C0CC8 /* NSImage+OEHighlight.m */,
-				5ADDC4B61BF94F7000BF173D /* NSImage+SelectionRing.swift */,
+				5A9606E71C0BCD350089B494 /* NSImage+DrawingAdditions.swift */,
 				5A9606D11C0A5A570089B494 /* NSManagedObjectContext+LibraryDatabase.swift */,
 				5A9606D31C0A63740089B494 /* NSMutableDictionary+Pop.swift */,
-				83B867BA171D63940038988C /* NSString+OEAdditions.h */,
-				83B867BB171D63940038988C /* NSString+OEAdditions.m */,
-				53439B9413B937F5005C0CC8 /* NSURL+OELibraryAdditions.h */,
-				53439B9513B937F5005C0CC8 /* NSURL+OELibraryAdditions.m */,
-				83DDEE81156CDEEB009EB43D /* NSView+FadeImage.h */,
-				83DDEE82156CDEEB009EB43D /* NSView+FadeImage.m */,
+				5A9606E31C0BA85F0089B494 /* NSURL+LibraryAdditions.swift */,
 				5A886E571BF43AC900775123 /* NSWindow+Image.swift */,
 				5A9606D51C0A7C9D0089B494 /* NSWindow+FullScreen.swift */,
 				83F7DBAD18C0E2470029199C /* OEFileManager.h */,
 				83F7DBAE18C0E2470029199C /* OEFileManager.m */,
-				3D711838150064F50056E3BF /* PSYBlockTimer.h */,
-				3D711839150064F50056E3BF /* PSYBlockTimer.m */,
 			);
-			name = "Additions to standard classes";
+			name = Additions;
 			sourceTree = "<group>";
 		};
 		1E2F3DB810DEAB370019AA84 /* Migration */ = {
@@ -3925,7 +3896,7 @@
 				3887A8011024D29D000FC4CF /* OpenEmuQLGenerator */,
 				C66DFA600F51C9550080AA28 /* GameCore framework */,
 				828E64D00E84656900B1860B /* OpenEmuCore */,
-				1BEF34751168F88A0090F72B /* Additions to standard classes */,
+				1BEF34751168F88A0090F72B /* Additions */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -7971,7 +7942,6 @@
 				C62F549B0FE6CC1500DF15BA /* OECorePlugin.m in Sources */,
 				C69DCD010FE994A5009AE5A6 /* OEPluginDocument.m in Sources */,
 				8370D3DC1A8D25D900313F87 /* OETableCellView.m in Sources */,
-				82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */,
 				82965F881041DC4600F30B74 /* OECorePickerController.m in Sources */,
 				1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */,
 				C6953CA1117293760091276F /* OEGameView.m in Sources */,
@@ -7990,6 +7960,7 @@
 				53439AA213B92C9D005C0CC8 /* OEDBGame.m in Sources */,
 				53439AA313B92C9D005C0CC8 /* OEDBSystem.m in Sources */,
 				53439AA613B92CC7005C0CC8 /* OELibraryController.m in Sources */,
+				5A9606EA1C0BD2BD0089B494 /* DLog.swift in Sources */,
 				8306CD3E1BD3DB180025BC6C /* OEGameCollectionViewController.m in Sources */,
 				53439AAB13B92CE6005C0CC8 /* OECollectionViewController.m in Sources */,
 				53439AE313B92E59005C0CC8 /* OERatingCell.m in Sources */,
@@ -8025,21 +7996,20 @@
 				53439B7713B93303005C0CC8 /* OEPrefCoresController.m in Sources */,
 				53439B7A13B933B8005C0CC8 /* OEGameControlsBar.m in Sources */,
 				53439B8213B933E9005C0CC8 /* OEHUDWindow.m in Sources */,
-				53439B9013B937DB005C0CC8 /* NSImage+OEHighlight.m in Sources */,
 				836AEA711975BFE100B86935 /* OEGridCell.m in Sources */,
-				53439B9313B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m in Sources */,
-				53439B9613B937F5005C0CC8 /* NSURL+OELibraryAdditions.m in Sources */,
 				C6289C32135B215B00EEE97C /* OESystemPlugin.m in Sources */,
+				5A9606E81C0BCD350089B494 /* NSImage+DrawingAdditions.swift in Sources */,
 				83199722142741790068C865 /* OEROMImporter.m in Sources */,
 				83507247142F6029005D9033 /* OEControllerImageView.m in Sources */,
+				5A9606E21C0B16100089B494 /* NSDate+DMYCompareToNil.swift in Sources */,
 				1B47F105142F01E700EBC55B /* OESetupAssistant.m in Sources */,
 				83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */,
 				83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */,
 				3DFAB00D144644D4005EF0C3 /* OEGameShader.m in Sources */,
+				5A9606DE1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift in Sources */,
 				83C68ED114483579000F720A /* OEHUDAlert.m in Sources */,
 				831C2AE4144F41E4009533C0 /* OEApplicationDelegate.m in Sources */,
 				832D29401451A68700BDF950 /* OEMainWindowController.m in Sources */,
-				832FA8801455526E00BBBD94 /* NSControl+OEAdditions.m in Sources */,
 				8301557B1456BF7A0093D681 /* OEGameViewController.m in Sources */,
 				83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */,
 				83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */,
@@ -8057,7 +8027,6 @@
 				83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */,
 				83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */,
 				EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.m in Sources */,
-				5ADDC4B71BF94F7000BF173D /* NSImage+SelectionRing.swift in Sources */,
 				EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */,
 				83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */,
 				836291FE1515F30700192116 /* OEFSWatcher.m in Sources */,
@@ -8066,7 +8035,6 @@
 				837820C119081B1C0043593F /* OEMigrationWindowController.m in Sources */,
 				8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */,
 				83A9758A184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.m in Sources */,
-				83DDEE83156CDEEB009EB43D /* NSView+FadeImage.m in Sources */,
 				83DDEE87156CE2F0009EB43D /* OEFadeView.m in Sources */,
 				9453E3821ACBBADD004F42AD /* OEBIOSFile.m in Sources */,
 				8337393215BFD24A00D83D2F /* OESystemPicker.m in Sources */,
@@ -8114,8 +8082,8 @@
 				83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */,
 				83955CB8165DA9BC00572B34 /* OEBackgroundNoisePattern.m in Sources */,
 				83CB0C7A1A3F000700409FB2 /* OEBlankSlateSpinnerView.m in Sources */,
-				14861960166076A400BDB800 /* NSDate+OESortAdditions.m in Sources */,
 				835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */,
+				5A9606E01C0B12FE0089B494 /* NSControl+TargetAction.swift in Sources */,
 				3DA6EDCC1BD790B900560326 /* OEOpenGL3GameRenderer.m in Sources */,
 				14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */,
 				8C4C808916986697009B8A28 /* OEGLSLShader.m in Sources */,
@@ -8126,6 +8094,7 @@
 				5ABE03291BDCA03600BC7B6A /* TAAdaptiveSpaceItem.m in Sources */,
 				834B6F2E1A3B453000CA6A26 /* OEFeaturedGamesBlankSlateView.m in Sources */,
 				C6C3734216BE7065003E57AE /* OEBuiltInShader.m in Sources */,
+				5A9606E41C0BA85F0089B494 /* NSURL+LibraryAdditions.swift in Sources */,
 				94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */,
 				5ABE032A1BDCA03600BC7B6A /* TAAdaptiveSpaceItemView.m in Sources */,
 				838DB01916DBE14E00B8DDC8 /* OETextField.m in Sources */,
@@ -8136,7 +8105,6 @@
 				836AEA6E19755FE300B86935 /* OEOutlinedButtonCell.m in Sources */,
 				83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */,
 				837820BD19081A090043593F /* OELibraryMigrator.m in Sources */,
-				83B867BC171D63940038988C /* NSString+OEAdditions.m in Sources */,
 				83F7EADA171D911400D32E26 /* OESearchField.m in Sources */,
 				8337F38E1726B3600068DD90 /* OEBackgroundImageView.m in Sources */,
 				8394074D1778AE4F00669B0B /* OESliderCell.m in Sources */,
@@ -11369,6 +11337,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				SDKROOT = macosx;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";

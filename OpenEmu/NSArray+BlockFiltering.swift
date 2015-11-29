@@ -28,7 +28,6 @@ import Foundation
 
 public extension NSArray {
     
-    @objc
     func firstObjectMatchingBlock(block: (AnyObject) -> Bool) -> AnyObject? {
         for element in self {
             if block(element) {
@@ -38,7 +37,6 @@ public extension NSArray {
         return nil
     }
     
-    @objc
     func arrayByEvaluatingBlock(block: (AnyObject, UInt) -> AnyObject?) -> [AnyObject] {
         return enumerate().flatMap { index, element in
             return block(element, UInt(index))

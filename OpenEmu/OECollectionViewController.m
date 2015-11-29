@@ -55,7 +55,6 @@
 #import "OELibraryDatabase.h"
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
-#import "NSURL+OELibraryAdditions.h"
 
 #import "OESidebarController.h"
 #import "OETableView.h"

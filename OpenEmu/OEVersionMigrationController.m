@@ -35,7 +35,7 @@
 #import "OEDBRom.h"
 #import "OEDBScreenshot.h"
 
-#import "NSURL+OELibraryAdditions.h"
+#import "OpenEmu-Swift.h"
 
 @interface _OEMigrator : NSObject
 {

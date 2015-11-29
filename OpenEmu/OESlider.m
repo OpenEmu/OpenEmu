@@ -26,9 +26,10 @@
 
 #import "OESlider.h"
 #import "OESliderCell.h"
-#import "NSImage+OEDrawingAdditions.h"
 #import "OETheme.h"
 #import "OEThemeImage.h"
+
+#import "OpenEmu-Swift.h"
 
 @interface OESlider ()
 {

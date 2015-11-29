@@ -36,7 +36,6 @@
 #import "OEDBRom.h"
 #import "OEDBSaveState.h"
 
-#import "NSURL+OELibraryAdditions.h"
 #import "NSColor+OEAdditions.h"
 
 #import "OEGameControlsBar.h"
@@ -54,6 +53,7 @@
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEHUDAlert.h"
 #import "NSFileManager+OEHashingAdditions.h"
+
 #pragma mark Key sources
 #import "OEPreferencesController.h"
 #import "OESetupAssistant.h"
@@ -71,6 +71,9 @@
 #import "OELibraryGamesViewController.h"
 #import "OEGameScannerViewController.h"
 #import "OEDBSavedGamesMedia.h"
+
+#import "OpenEmu-Swift.h"
+
 @interface OELibraryDatabase (Private)
 - (void)OE_createInitialItems;
 @end

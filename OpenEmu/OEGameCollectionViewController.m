@@ -30,7 +30,6 @@
 #import "OESidebarController.h"
 #import "OEHUDAlert.h"
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
-#import "NSURL+OELibraryAdditions.h"
 #import "OERatingCell.h"
 #import "OEMainWindowController.h"
 #import "OELibraryController.h"

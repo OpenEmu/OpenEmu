@@ -41,9 +41,10 @@
 #import "OEGameViewController.h"
 #import "OESidebarController.h"
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
-#import "NSURL+OELibraryAdditions.h"
 
 #import "OEFileManager.h"
+
+#import "OpenEmu-Swift.h"
 
 NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocationDidChangeNotificationName";
 

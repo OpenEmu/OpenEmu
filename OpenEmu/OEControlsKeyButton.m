@@ -25,8 +25,9 @@
  */
 
 #import "OEControlsKeyButton.h"
-#import "NSImage+OEDrawingAdditions.h"
 #import "OETheme.h"
+
+#import "OpenEmu-Swift.h"
 
 @interface OEControlsKeyButton ()
 - (void)OE_commonControlsKeyButtonInit;

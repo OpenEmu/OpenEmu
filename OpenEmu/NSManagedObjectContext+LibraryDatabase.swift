@@ -29,7 +29,6 @@ import CoreData
 
 extension NSManagedObjectContext {
 
-    @objc
     var libraryDatabase: OELibraryDatabase {
         return userInfo[OELibraryDatabaseUserInfoKey] as! OELibraryDatabase
     }

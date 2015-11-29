@@ -25,7 +25,8 @@
  */
 
 #import "OEThemeImage.h"
-#import "NSImage+OEDrawingAdditions.h"
+
+#import "OpenEmu-Swift.h"
 
 #pragma mark -
 #pragma mark Theme image attributes

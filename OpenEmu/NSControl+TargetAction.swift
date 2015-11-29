@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
- 
+ Copyright (c) 2015, OpenEmu Team
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,44 +24,15 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSString+OEAdditions.h"
+import Cocoa
 
-@implementation NSString (OEAdditions)
-
-- (BOOL)isEqualToString:(NSString *)aString excludingRange:(NSRange)aRange
-{
-    NSUInteger length1 = [self length];
-    NSUInteger length2 = [aString length];
+extension NSControl {
     
-    if(length1 != length2) return NO;
-    
-    NSUInteger i = 0;
-    while(i < length1 && i < length2)
-    {
-        if(NSLocationInRange(i, aRange))
-        {
-            i = NSMaxRange(aRange);
-            continue;
-        }
-        
-        if([self characterAtIndex:i] != [aString characterAtIndex:i])
-            return NO;
-        
-        i++;
+    /// A convenience method to set both the target and action.
+    /// - Parameter target: The target of the control.
+    /// - Parameter action: The action message that will be sent to the target.
+    func setTarget(target: AnyObject?, andAction action: Selector) {
+        self.target = target
+        self.action = action
     }
-    
-    return YES;
 }
-
-
-- (NSRange)fullRange
-{
-    return NSMakeRange(0, [self length]);
-}
-
-- (NSString*)stringByDeletingCharactersInSet:(NSCharacterSet*)set
-{
-    return [[self componentsSeparatedByCharactersInSet:set] componentsJoinedByString:@""];
-}
-
-@end

@@ -25,8 +25,10 @@
  */
 
 #import "OEControllerImageView.h"
-#import "NSImage+OEDrawingAdditions.h"
+
 @import QuartzCore;
+
+#import "OpenEmu-Swift.h"
 
 #define OverlayAlphaON  0.5
 #define OverlayAlphaOFF 0.0
@@ -96,10 +98,10 @@ NSString *const OEDebugDrawControllerMaskKey = @"drawControllerMask";
     targetRect.size = [self image].size;
     targetRect.origin = NSMakePoint(([self frame].size.width-image.size.width)/2, 0);
     
-    [[self image] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:NO hints:NoInterpol];
+    [[self image] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:NO hints:@{ NSImageHintInterpolation: @(NSImageInterpolationNone) }];
     
     if([[NSUserDefaults standardUserDefaults] boolForKey:OEDebugDrawControllerMaskKey])
-        [[self imageMask] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:NoInterpol];
+        [[self imageMask] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:@{ NSImageHintInterpolation: @(NSImageInterpolationNone) }];
 
     
     if([self overlayAlpha] != OverlayAlphaOFF)
