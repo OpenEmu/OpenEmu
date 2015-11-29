@@ -285,7 +285,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     else [[self startupQueue] addObject:block];
 }
 
-- (void)applicationWillResignActive:(NSNotification *)notification
+- (void)applicationDidResignActive:(NSNotification *)notification
 {
     [self _updateEventHandlers];
 }
@@ -302,7 +302,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (void)_updateEventHandlers
 {
-    BOOL shouldHandleEvents = ![[OEDeviceManager sharedDeviceManager] hasEventMonitor];
+    BOOL shouldHandleEvents = ![[OEDeviceManager sharedDeviceManager] hasEventMonitor] && [NSApp isActive];
     BOOL shouldHandleKeyboardEvents = [NSApp isActive];
 
     for (OEGameDocument *gameDocument in NSApp.orderedDocuments) {
