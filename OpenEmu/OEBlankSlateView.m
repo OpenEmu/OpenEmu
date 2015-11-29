@@ -244,13 +244,6 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     textView.defaultParagraphStyle = paraStyle;
     textView.string = text;
 
-    NSShadow *shadow = [[NSShadow alloc] init];
-    shadow.shadowColor = [NSColor blackColor];
-    shadow.shadowBlurRadius = 0.0;
-    shadow.shadowOffset = NSMakeSize(0.0, -1.0);
-    
-    //textView.shadow = shadow;
-
     NSMutableDictionary *attributes = [[textView typingAttributes] mutableCopy];
     attributes[NSCursorAttributeName] = [NSCursor arrowCursor];
     
@@ -347,7 +340,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 
     OECenteredTextFieldCell *cell   = [[OECenteredTextFieldCell alloc] initTextCell:@""];
     
-    NSDictionary *dictionary = @{ NSFontAttributeName : [NSFont systemFontOfSize:20],
+    NSDictionary *dictionary = @{ NSFontAttributeName : [NSFont systemFontOfSize:20 weight:NSFontWeightMedium],
                                   NSForegroundColorAttributeName : [NSColor colorWithDeviceWhite:0.65 alpha:1.0] };
     cell.textAttributes = dictionary;
     
