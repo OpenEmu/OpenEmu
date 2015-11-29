@@ -303,7 +303,7 @@ static NSDictionary *disabledActions = nil;
         {
             _lastWindowActive = windowActive;
 
-            CGRect selectionFrame = CGRectInset(relativeImageFrame, -6.0, -6.0);
+            CGRect selectionFrame = CGRectInset(relativeImageFrame, -3.0, -3.0);
             CALayer *selectionLayer = [CALayer layer];
             [selectionLayer setActions:disabledActions];
             [selectionLayer setFrame:selectionFrame];

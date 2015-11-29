@@ -42,7 +42,7 @@ extension NSImage {
             let bounds = CGRect(x: 0, y: 0, width: rect.size.width, height: rect.size.height)
             
             let selectionPath = NSBezierPath(roundedRect: CGRectInset(bounds, 1, 1), xRadius: 4, yRadius: 4)
-            selectionPath.appendBezierPath(NSBezierPath(roundedRect: CGRectInset(bounds, 4, 4), xRadius: 1.5, yRadius: 1.5))
+            selectionPath.appendBezierPath(NSBezierPath(roundedRect: CGRectInset(bounds, 5, 5), xRadius: 1.5, yRadius: 1.5))
             selectionPath.windingRule = .EvenOddWindingRule
             
             let fillColor: NSColor = activeState ? activeFillColor : inactiveFillColor
