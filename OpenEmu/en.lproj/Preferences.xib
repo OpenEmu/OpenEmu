@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPreferencesController">
             <connections>
+                <outlet property="toolbar" destination="PQu-Zg-VgL" id="Mxy-YE-pk3"/>
                 <outlet property="window" destination="36" id="40"/>
             </connections>
         </customObject>
@@ -38,10 +38,162 @@
                 </subviews>
                 <animations/>
             </view>
+            <toolbar key="toolbar" implicitIdentifier="DC92553C-F089-4689-86C8-C2D34484671E" autosavesConfiguration="NO" allowsUserCustomization="NO" showsBaselineSeparator="NO" displayMode="iconAndLabel" sizeMode="regular" id="PQu-Zg-VgL">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="9818DFD8-DDF9-475C-8E74-D5B5457493A5" label="Library" paletteLabel="Library" image="library_tab_icon" selectable="YES" id="dbA-TA-rFD">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="36" height="36"/>
+                        <size key="maxSize" width="36" height="48"/>
+                        <button key="view" id="Yuj-I0-L4x">
+                            <rect key="frame" x="4" y="14" width="36" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <animations/>
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="library_tab_icon" imagePosition="only" alignment="center" inset="2" id="R4R-Uo-345">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="switchPaneByToolbarItem:" target="-2" id="DBd-s6-ONQ"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="AF031083-6255-4A1A-BA21-8F338C02A71E" label="Gameplay" paletteLabel="Gameplay" tag="1" image="gameplay_tab_icon" selectable="YES" id="SnN-ym-OO1">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="36" height="36"/>
+                        <size key="maxSize" width="36" height="48"/>
+                        <button key="view" tag="1" id="jTd-rR-bgH">
+                            <rect key="frame" x="12" y="14" width="36" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <animations/>
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="gameplay_tab_icon" imagePosition="only" alignment="center" inset="2" id="qfD-8F-6BG">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="switchPaneByToolbarItem:" target="-2" id="whM-O4-eef"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="EA82118F-8E10-47FE-B334-D7728AB922F2" label="Controls" paletteLabel="Controls" tag="2" image="controls_tab_icon" selectable="YES" id="ilV-yX-dT2">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="36" height="36"/>
+                        <size key="maxSize" width="36" height="48"/>
+                        <button key="view" tag="2" id="pBQ-Aa-AwO">
+                            <rect key="frame" x="8" y="14" width="36" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <animations/>
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="controls_tab_icon" imagePosition="only" alignment="center" inset="2" id="4fU-jG-Unp">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="switchPaneByToolbarItem:" target="-2" id="rLS-wO-KWs"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="AB0D14D1-98BF-46E0-A5C2-026B6EB27143" label="Cores" paletteLabel="Cores" tag="3" image="cores_tab_icon" selectable="YES" id="CbK-K2-nlJ">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="36" height="36"/>
+                        <size key="maxSize" width="36" height="48"/>
+                        <button key="view" tag="3" id="hhm-4K-KxL">
+                            <rect key="frame" x="1" y="14" width="36" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <animations/>
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="cores_tab_icon" imagePosition="only" alignment="center" inset="2" id="gDi-gT-shZ">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="switchPaneByToolbarItem:" target="-2" id="TLn-in-NKZ"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="6311B5F5-0984-4FAA-BF05-C6B945BBF77D" label="System Files" paletteLabel="System Files" tag="4" image="bios_tab_icon" selectable="YES" id="0uZ-aM-LnO">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="36" height="36"/>
+                        <size key="maxSize" width="36" height="48"/>
+                        <button key="view" tag="4" id="Zqi-m0-JM6">
+                            <rect key="frame" x="19" y="14" width="36" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <animations/>
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="bios_tab_icon" imagePosition="only" alignment="center" inset="2" id="FSU-a4-uRl">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="switchPaneByToolbarItem:" target="-2" id="VM6-LZ-4hm"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="17B40366-743D-43D2-BABC-AC9755B82DCD" explicitItemIdentifier="OEToolBarItemIdentifierDebug" label="Secrets" paletteLabel="Secrets" tag="5" image="debug_tab_icon" selectable="YES" id="AKq-Kz-AwS">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="36" height="36"/>
+                        <size key="maxSize" width="36" height="48"/>
+                        <button key="view" tag="5" id="Nga-DH-oIH">
+                            <rect key="frame" x="6" y="14" width="36" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <animations/>
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="debug_tab_icon" imagePosition="only" alignment="center" inset="2" id="GTP-X5-I4j">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="switchPaneByToolbarItem:" target="-2" id="qsi-J9-S2a"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="fCf-2s-9n3"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Lny-SH-5lr"/>
+                    <toolbarItem implicitItemIdentifier="4749180E-BE32-4CBC-9B4B-D827FE4BCB01" explicitItemIdentifier="OEToolbarItemIdentifierSeparator" label="" paletteLabel="Separator Item" tag="-1" id="QSY-k3-eMC">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="4" height="36"/>
+                        <size key="maxSize" width="5" height="36"/>
+                        <customView key="view" id="lce-GX-3VE">
+                            <rect key="frame" x="40" y="14" width="5" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <animations/>
+                        </customView>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="192E3FE6-C498-4A8B-BEC6-3CC4E92E52ED" label="" paletteLabel="Separator Item 2" tag="-1" id="dsW-co-Dvt">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="1" height="36"/>
+                        <size key="maxSize" width="5" height="36"/>
+                        <customView key="view" id="u2Z-0G-NxV">
+                            <rect key="frame" x="45" y="14" width="5" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <animations/>
+                        </customView>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="dsW-co-Dvt"/>
+                    <toolbarItem reference="dbA-TA-rFD"/>
+                    <toolbarItem reference="QSY-k3-eMC"/>
+                    <toolbarItem reference="SnN-ym-OO1"/>
+                    <toolbarItem reference="QSY-k3-eMC"/>
+                    <toolbarItem reference="ilV-yX-dT2"/>
+                    <toolbarItem reference="QSY-k3-eMC"/>
+                    <toolbarItem reference="CbK-K2-nlJ"/>
+                    <toolbarItem reference="QSY-k3-eMC"/>
+                    <toolbarItem reference="0uZ-aM-LnO"/>
+                    <toolbarItem reference="dsW-co-Dvt"/>
+                </defaultToolbarItems>
+                <connections>
+                    <outlet property="delegate" destination="-2" id="Ifz-tE-jB6"/>
+                </connections>
+            </toolbar>
             <connections>
                 <outlet property="delegate" destination="-2" id="480"/>
             </connections>
-            <point key="canvasLocation" x="105.5" y="207.5"/>
+            <point key="canvasLocation" x="-99.5" y="-125.5"/>
         </window>
     </objects>
+    <resources>
+        <image name="bios_tab_icon" width="36" height="36"/>
+        <image name="controls_tab_icon" width="36" height="36"/>
+        <image name="cores_tab_icon" width="36" height="36"/>
+        <image name="debug_tab_icon" width="36" height="36"/>
+        <image name="gameplay_tab_icon" width="36" height="36"/>
+        <image name="library_tab_icon" width="36" height="36"/>
+    </resources>
 </document>

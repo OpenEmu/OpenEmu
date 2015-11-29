@@ -27,11 +27,8 @@
 #import "OEPreferencesController.h"
 
 #import "OEBackgroundGradientView.h"
-
-#import "OEToolbarView.h"
-
+#import "OEBackgroundColorView.h"
 #import "NSImage+OEDrawingAdditions.h"
-
 #import "OEPreferencePane.h"
 
 #import "OEPrefLibraryController.h"
@@ -40,6 +37,8 @@
 #import "OEPrefCoresController.h"
 #import "OEPrefDebugController.h"
 #import "OEPrefBiosController.h"
+
+#import <AppKit/NSToolbarItem.h>
 
 @import QuartzCore;
 
@@ -51,19 +50,21 @@ NSString *const OEPreferencesSetupPaneNotificationName = @"OEPrefSetupPane";
 NSString *const OEPreferencesUserInfoPanelNameKey        = @"panelName";
 NSString *const OEPreferencesUserInfoSystemIdentifierKey = @"systemIdentifier";
 NSString *const OEPreferencePaneDidChangeVisibilityNotificationName = @"OEPrefVisibilityChanged";
-#define AnimationDuration 0.3
+
+NSString *const OEToolbarItemIdentifierDebug = @"OEToolBarItemIdentifierDebug";
+NSString *const OEToolbarItemIdentifierSeparator = @"OEToolbarItemIdentifierSeparator";
+
+const CGFloat OEPreferencesPaneTransitionDuration = 0.3;
 
 @interface OEPreferencesController () <NSWindowDelegate>
-{
-	OEToolbarView *toolbar;
-	IBOutlet OEBackgroundGradientView *coreGradientOverlayView;
-}
 
 - (void)OE_showView:(NSView *)view atSize:(NSSize)size animate:(BOOL)animateFlag;
-- (void)OE_reloadPreferencePanes;
-- (void)OE_rebuildToolbar;
+- (void)OE_createPreferencePanes;
 - (void)OE_openPreferencePane:(NSNotification *)notification;
+- (void)OE_updateSecretPreferencesVisiblity;
+@property (nonatomic) NSInteger visibleItemIndex;
 
+@property (assign) OEBackgroundColorView *separatorLineView;
 @property NSView *subviewContainer;
 @property id konamiCodeMonitor;
 @property unsigned short konamiCodeIndex;
@@ -91,11 +92,6 @@ static const unsigned short konamiCodeSize = 10;
     return self;
 }
 
-- (void)dealloc
-{
-    toolbar = nil; 
-}
-
 - (NSString*)windowNibName
 {
     return @"Preferences";
@@ -103,9 +99,6 @@ static const unsigned short konamiCodeSize = 10;
 
 - (void)awakeFromNib
 {
-    // Preload window to prevent flickering when it's first shown
-    [self window];
-
     NSMenu  *menu  = [NSApp mainMenu];
     NSMenu *oemenu = [[menu itemAtIndex:0] submenu];
     NSMenuItem *preferencesItem = [oemenu itemWithTag:121];
@@ -122,48 +115,44 @@ static const unsigned short konamiCodeSize = 10;
     NSColor *windowBackgroundColor = [NSColor colorWithDeviceRed:0.149 green:0.149 blue:0.149 alpha:1.0];
     [win setBackgroundColor:windowBackgroundColor];
 
-    [self OE_reloadPreferencePanes];
+    [self OE_createPreferencePanes];
 
-    NSTitlebarAccessoryViewController *toolbarController = [[NSTitlebarAccessoryViewController alloc] init];
-    [toolbarController setLayoutAttribute:NSLayoutAttributeBottom];
-    [toolbarController setFullScreenMinHeight:61.0];
-    [toolbarController setView:toolbar];
-    [win addTitlebarAccessoryViewController:toolbarController];
+    // setup toolbar
+    [self OE_updateSecretPreferencesVisiblity];
 
-    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSInteger selectedTab = [standardDefaults integerForKey:OESelectedPreferencesTabKey];
-    
-    [self setVisibleItemIndex:-1];
-    
-    // Make sure that value from User Defaults is valid
-    if(selectedTab < 0 || selectedTab >= [toolbar numberOfItems])
-        selectedTab = 0;
-    
-    OEToolbarItem *selectedItem = [toolbar itemAtIndex:selectedTab];
-    [toolbar markItemAsSelected:selectedItem];
-    [self switchView:selectedItem animate:NO];
+    NSTitlebarAccessoryViewController *separatorViewController = [[NSTitlebarAccessoryViewController alloc] init];
+    [separatorViewController setLayoutAttribute:NSLayoutAttributeBottom];
+    [separatorViewController setFullScreenMinHeight:1.0];
+    OEBackgroundColorView *view = [[OEBackgroundColorView alloc] initWithFrame:NSMakeRect(0, 0, 1, 1)];
+    [view setBackgroundColor:[NSColor greenColor]];
+    [view setAutoresizingMask:NSViewWidthSizable];
+    [separatorViewController setView:view];
+    [win addTitlebarAccessoryViewController:separatorViewController];
+    self.separatorLineView = view;
 
+    // setup transition
     [_subviewContainer setWantsLayer:YES];
     
     CATransition *paneTransition = [CATransition animation];
     paneTransition.type = kCATransitionFade;
     paneTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
-    paneTransition.duration = AnimationDuration;
+    paneTransition.duration = OEPreferencesPaneTransitionDuration;
 
     [_subviewContainer setAnimations:[NSDictionary dictionaryWithObject:paneTransition  forKey:@"subviews"]];
+
+    // restore previous selectin
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    NSInteger selectedTab = [standardDefaults integerForKey:OESelectedPreferencesTabKey];
+    [self setVisibleItemIndex:-1];
+
+    // Make sure that value from User Defaults is valid
+    if(selectedTab < 0 || selectedTab >= self.preferencePanes.count)
+        selectedTab = 0;
+
+    [self showPane:self.preferencePanes[selectedTab] animate:NO];
 }
 
 #pragma mark - NSWindowDelegate
-
-- (NSRect)window:(NSWindow *)window willPositionSheet:(NSWindow *)sheet usingRect:(NSRect)rect
-{
-    /*
-    if([window isKindOfClass:[OEAppStoreWindow class]])
-        rect.origin.y -= [(OEAppStoreWindow*)window titleBarHeight]-22.0;
-    */
-    return rect;
-}
-
 - (void)windowWillClose:(NSNotification *)notification
 {
     [[self selectedPreferencePane] viewWillDisappear];
@@ -186,9 +175,19 @@ static const unsigned short konamiCodeSize = 10;
              if(_konamiCodeIndex == konamiCodeSize)
              {
                  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                 [defaults setBool:![defaults boolForKey:OEDebugModeKey] forKey:OEDebugModeKey];
+                 BOOL debugModeActivated = ![defaults boolForKey:OEDebugModeKey];
+                 [defaults setBool:debugModeActivated forKey:OEDebugModeKey];
                  [[NSSound soundNamed:@"secret"] play];
-                 [self OE_rebuildToolbar];
+
+                 [self OE_updateSecretPreferencesVisiblity];
+
+                 NSViewController<OEPreferencePane> *pane = self.preferencePanes[0];
+                 if(debugModeActivated) {
+                     pane = [preferencePanes lastObject];
+                 }
+
+                 [self showPane:pane];
+
                  _konamiCodeIndex = 0;
              }
 
@@ -200,6 +199,27 @@ static const unsigned short konamiCodeSize = 10;
     }];
 }
 
+- (void)OE_updateSecretPreferencesVisiblity
+{
+    NSInteger index = [self.toolbar.items indexOfObjectPassingTest:^BOOL(__kindof NSToolbarItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        return [[obj itemIdentifier] isEqualToString:OEToolbarItemIdentifierDebug];
+    }];
+
+    BOOL debugModeActive = [[NSUserDefaults standardUserDefaults] boolForKey:OEDebugModeKey];
+
+    if(debugModeActive == (index != NSNotFound))
+        return;
+
+    if(debugModeActive) {
+        NSInteger lastIndex = self.toolbar.items.count-1;
+        [self.toolbar insertItemWithItemIdentifier:OEToolbarItemIdentifierDebug atIndex:lastIndex];
+        [self.toolbar insertItemWithItemIdentifier:OEToolbarItemIdentifierSeparator atIndex:lastIndex];
+    } else {
+        [self.toolbar removeItemAtIndex:index-1];
+        [self.toolbar removeItemAtIndex:index-1];
+    }
+}
+
 - (void)windowDidResignKey:(NSNotification *)notification
 {
     [NSEvent removeMonitor:_konamiCodeMonitor];
@@ -208,14 +228,13 @@ static const unsigned short konamiCodeSize = 10;
 }
 
 #pragma mark - Toolbar
-
 - (NSViewController<OEPreferencePane> *)selectedPreferencePane
 {
     NSInteger selected = [self visibleItemIndex];
     return selected >= 0 && selected < [preferencePanes count] ? [[self preferencePanes] objectAtIndex:selected] : nil;
 }
 
-- (void)OE_reloadPreferencePanes
+- (void)OE_createPreferencePanes
 {
     NSMutableArray *array = [NSMutableArray array];
     
@@ -240,48 +259,11 @@ static const unsigned short konamiCodeSize = 10;
     [array addObject:controller];
     
     [self setPreferencePanes:array];    
-    [self OE_rebuildToolbar];
 }
 
 - (void)OE_rebuildToolbarWithNotification:(NSNotification*)notification
 {
-    [self OE_rebuildToolbar];
-}
-
-- (void)OE_rebuildToolbar
-{
-    if([[self preferencePanes] count] == 0)
-        return;
-
-    NSUInteger lastSelection = 0;
-    if(toolbar)
-    {
-        lastSelection = [toolbar selectedItemIndex];
-        [toolbar removeFromSuperview];
-        toolbar = nil;
-    }
-    
-    NSWindow *win = [self window];
-    toolbar = [[OEToolbarView alloc] initWithFrame:NSMakeRect(0, 0, win.frame.size.width-10.0, 58.0)];
-
-    [[self preferencePanes] enumerateObjectsUsingBlock:^(id <OEPreferencePane> aPreferencePane, NSUInteger idx, BOOL *stop) {
-        if(![aPreferencePane respondsToSelector:@selector(isVisible)] || [aPreferencePane isVisible])
-        {
-            OEToolbarItem *toolbarItem = [[OEToolbarItem alloc] init];
-            [toolbarItem setTitle:[aPreferencePane localizedTitle]];
-            [toolbarItem setIcon:[aPreferencePane icon]];
-            [toolbarItem setTarget:self];
-            [toolbarItem setAction:@selector(switchView:)];
-            [toolbarItem setRepresentedObject:@(idx)];
-            [toolbar addItem:toolbarItem];
-        }
-    }];
-    if(lastSelection >= [toolbar numberOfItems]) lastSelection = 0;
-    [self switchView:[toolbar itemAtIndex:lastSelection] animate:YES];
-    [self setVisibleItemIndex:[[[toolbar itemAtIndex:lastSelection] representedObject] integerValue]];
-
-    NSTitlebarAccessoryViewController *viewController = [[win titlebarAccessoryViewControllers] lastObject];
-    [viewController setView:toolbar];
+    [self OE_updateSecretPreferencesVisiblity];
 }
 
 - (void)OE_openPreferencePane:(NSNotification *)notification
@@ -296,28 +278,29 @@ static const unsigned short konamiCodeSize = 10;
     if(index != NSNotFound)
     {
         BOOL windowVisible = [[self window] isVisible];
-        OEToolbarItem *item = [toolbar itemAtIndex:index];
-        [self switchView:item animate:windowVisible];
-        [self setVisibleItemIndex:[[item representedObject] integerValue]];
 
+        [self showPane:self.preferencePanes[index] animate:windowVisible];
+        [self setVisibleItemIndex:index];
         [[self window] makeKeyAndOrderFront:self];
     }
 }
 
 #pragma mark -
-- (void)switchView:(id)sender
+- (IBAction)switchPaneByToolbarItem:(id)sender
 {
-    [self switchView:sender animate:YES];
+    [self showPane:[[self preferencePanes] objectAtIndex:[sender tag]]];
 }
 
-- (void)switchView:(OEToolbarItem*)item animate:(BOOL)animateFlag
+- (void)showPane:(NSViewController<OEPreferencePane>*)sender
 {
-    NSInteger selectedTab = [toolbar indexOfItem:item];
-    NSInteger selectedPane = [[item representedObject] integerValue];
-    
+    [self showPane:sender animate:YES];
+}
+
+- (void)showPane:(NSViewController<OEPreferencePane>*)nextPane animate:(BOOL)animateFlag
+{
+    NSInteger selectedTab = [[self preferencePanes] indexOfObject:nextPane];
     NSViewController<OEPreferencePane> *currentPane = [self selectedPreferencePane];
-    NSViewController<OEPreferencePane> *nextPane    = [[self preferencePanes] objectAtIndex:selectedPane];
-    
+
     if(currentPane == nextPane) return;
     
     [nextPane viewWillAppear];
@@ -330,9 +313,10 @@ static const unsigned short konamiCodeSize = 10;
     [nextPane viewDidAppear];
     [currentPane viewDidDisappear];
 
+    NSColor *separatorColor = [NSColor blackColor];
     BOOL viewHasCustomColor = [nextPane respondsToSelector:@selector(toolbarSeparationColor)];
-    if(viewHasCustomColor) [toolbar setBottomSeparatorColor:[nextPane toolbarSeparationColor]];
-    else [toolbar setBottomSeparatorColor:[NSColor blackColor]];
+    if(viewHasCustomColor) separatorColor = [nextPane toolbarSeparationColor];
+    self.separatorLineView.backgroundColor = separatorColor;
 
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     [standardDefaults setInteger:selectedTab forKey:OESelectedPreferencesTabKey];
@@ -353,11 +337,7 @@ static const unsigned short konamiCodeSize = 10;
     frameRect.origin.y += win.frame.size.height - frameRect.size.height;
     
     [view setFrameSize:size];
-    
-    CAAnimation *anim = [win animationForKey:@"frame"];
-    anim.duration = AnimationDuration;
-    [win setAnimations:[NSDictionary dictionaryWithObject:anim forKey:@"frame"]];
-    
+
     [CATransaction begin];
     
     id target = _subviewContainer;
@@ -373,12 +353,11 @@ static const unsigned short konamiCodeSize = 10;
     [CATransaction commit];
 }
 
-#pragma mark - Properties
-
 - (void)setVisibleItemIndex:(NSInteger)visiblePaneIndex
 {
     _visibleItemIndex = visiblePaneIndex;
-    [toolbar markItemIndexAsSelected:visiblePaneIndex];
+    if(self.toolbar.items.count <= 2*visiblePaneIndex+1) return;
+    self.toolbar.selectedItemIdentifier = self.toolbar.items[2*visiblePaneIndex+1].itemIdentifier;
 }
 
 @end

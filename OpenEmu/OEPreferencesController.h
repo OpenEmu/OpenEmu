@@ -32,16 +32,19 @@ extern NSString *const OEPreferencesSetupPaneNotificationName;
 extern NSString *const OEPreferencesUserInfoPanelNameKey;
 extern NSString *const OEPreferencesUserInfoSystemIdentifierKey;
 
+extern NSString *const OEToolbarItemIdentifierDebug;
+extern NSString *const OEToolbarItemIdentifierSeparator;
+
 @protocol OEPreferencePane;
 @class OEBackgroundGradientView;
 @class OEToolbarView;
 
 @interface OEPreferencesController : NSWindowController
-
-- (void)switchView:(id)sender;
-- (void)switchView:(id)sender animate:(BOOL)animateFlag;
+- (IBAction)switchPaneByToolbarItem:(id)sender;
+- (void)showPane:(NSViewController<OEPreferencePane>*)nextPane;
+- (void)showPane:(NSViewController<OEPreferencePane>*)nextPane animate:(BOOL)animateFlag;
 
 @property NSArray *preferencePanes;
-@property(nonatomic) NSInteger visibleItemIndex;
-@property(readonly) NSViewController<OEPreferencePane> *selectedPreferencePane;
+@property (assign) IBOutlet NSToolbar *toolbar;
+@property (readonly) NSViewController<OEPreferencePane> *selectedPreferencePane;
 @end
