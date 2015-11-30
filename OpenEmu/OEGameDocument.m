@@ -1198,6 +1198,11 @@ typedef enum : NSUInteger
 
 - (void)saveState
 {
+    [self saveState:nil];
+}
+
+- (void)saveState:(id)sender
+{
     if(![self supportsSaveStates])
         return;
     
