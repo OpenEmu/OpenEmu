@@ -390,8 +390,11 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     
     NSMutableIndexSet *indexesToSelect = [NSMutableIndexSet indexSet];
     for (__kindof OEDBItem *item in selectedItems) {
+        
         NSUInteger index = [self.items indexOfObject:item];
-        [indexesToSelect addIndex:index];
+        
+        if (index != NSNotFound)
+            [indexesToSelect addIndex:index];
     }
     
     [self setSelectionIndexes:indexesToSelect];
