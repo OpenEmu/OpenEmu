@@ -638,14 +638,18 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index
 {
-    id item = [[self items] objectAtIndex:index];
+    id item = self.items[index];
 
-    if([item isKindOfClass:[OEDBSaveState class]])
-    {
+    if ([item isKindOfClass:[OEDBSaveState class]]) {
+        
         [NSApp sendAction:@selector(startSaveState:) to:nil from:self];
-    }
-    else
-    {
+        
+    } else if ([item isKindOfClass:[OEDBScreenshot class]]) {
+        
+        [self showInFinder:nil];
+        
+    } else {
+        
         NSLog(@"No action for items of %@ type", [item className]);
     }
 }
