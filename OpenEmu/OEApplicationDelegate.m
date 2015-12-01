@@ -183,6 +183,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
     [self OE_loadPlugins];
 
+    [self OE_removeIncompatibleSaveStates];
+
     DLog();
     mainWindowController  = [[OEMainWindowController alloc]  initWithWindowNibName:@"MainWindow"];
     [mainWindowController loadWindow];
@@ -664,6 +666,25 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [[library mainThreadContext] save:nil];
 
     [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:_OEApplicationDelegateAllPluginsContext];
+}
+
+- (void)OE_removeIncompatibleSaveStates
+{
+    OELibraryDatabase     *database = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = [database mainThreadContext];
+    NSArray          *allSaveStates = [OEDBSaveState allObjectsInContext:context];
+
+    // Get incompatible save states by version
+    allSaveStates = [allSaveStates filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(SELF.coreIdentifier == 'org.openemu.GenesisPlus') AND (SELF.coreVersion == '1.7.4' OR SELF.coreVersion == '1.7.4.1' OR SELF.coreVersion == '1.7.4.2')"]];
+
+    if([allSaveStates count])
+    {
+        //NSLog(@"version: %@", [[OECorePlugin corePluginWithBundleIdentifier:@"org.openemu.GenesisPlus"] version]);
+        NSLog(@"Removing %lu incompatible Genesis Plus GX save states", [allSaveStates count]);
+
+        [allSaveStates makeObjectsPerformSelector:@selector(deleteAndRemoveFiles)];
+        [context save:nil];
+    }
 }
 
 - (void)OE_setupHIDSupport
