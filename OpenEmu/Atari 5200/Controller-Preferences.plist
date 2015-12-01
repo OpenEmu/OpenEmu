@@ -9,47 +9,47 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OE5200ButtonUp</key>
-		<string>{0, 0}</string>
+		<string>{250, 322}</string>
 		<key>OE5200ButtonDown</key>
-		<string>{0, 0}</string>
+		<string>{250, 266}</string>
 		<key>OE5200ButtonFire1</key>
-		<string>{0, 0}</string>
+		<string>{180, 350}</string>
 		<key>OE5200ButtonFire2</key>
-		<string>{0, 0}</string>
+		<string>{320, 350}</string>
 		<key>OE5200ButtonLeft</key>
-		<string>{0, 0}</string>
+		<string>{222, 294}</string>
 		<key>OE5200ButtonRight</key>
-		<string>{0, 0}</string>
+		<string>{278, 294}</string>
 		<key>OE5200ButtonStart</key>
-		<string>{0, 0}</string>
+		<string>{210, 370}</string>
 		<key>OE5200ButtonPause</key>
-		<string>{0, 0}</string>
+		<string>{250, 370}</string>
 		<key>OE5200ButtonReset</key>
-		<string>{0, 0}</string>
+		<string>{290, 370}</string>
 		<key>OE5200Button1</key>
-		<string>{0, 0}</string>
+		<string>{220, 157}</string>
 		<key>OE5200Button2</key>
-		<string>{0, 0}</string>
+		<string>{250, 157}</string>
 		<key>OE5200Button3</key>
-		<string>{0, 0}</string>
+		<string>{280, 157}</string>
 		<key>OE5200Button4</key>
-		<string>{0, 0}</string>
+		<string>{220, 127}</string>
 		<key>OE5200Button5</key>
-		<string>{0, 0}</string>
+		<string>{250, 127}</string>
 		<key>OE5200Button6</key>
-		<string>{0, 0}</string>
+		<string>{280, 127}</string>
 		<key>OE5200Button7</key>
-		<string>{0, 0}</string>
+		<string>{220, 97}</string>
 		<key>OE5200Button8</key>
-		<string>{0, 0}</string>
+		<string>{250, 97}</string>
 		<key>OE5200Button9</key>
-		<string>{0, 0}</string>
+		<string>{280, 97}</string>
 		<key>OE5200Button0</key>
-		<string>{0, 0}</string>
+		<string>{250, 67}</string>
 		<key>OE5200ButtonAsterisk</key>
-		<string>{0, 0}</string>
+		<string>{220, 67}</string>
 		<key>OE5200ButtonPound</key>
-		<string>{0, 0}</string>
+		<string>{280, 67}</string>
 	</dict>
 </dict>
 </plist>
