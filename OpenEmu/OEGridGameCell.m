@@ -459,12 +459,19 @@ static NSDictionary *disabledActions = nil;
 
             CGRect selectionFrame = CGRectInset(relativeImageFrame, -3.0, -3.0);
             CALayer *selectionLayer = [CALayer layer];
-            [selectionLayer setActions:disabledActions];
-            [selectionLayer setFrame:selectionFrame];
-            [selectionLayer setEdgeAntialiasingMask:NSViewWidthSizable|NSViewMaxYMargin];
-
-            NSImage *selectorImage = [self OE_selectorImageWithSize:selectionFrame.size];
-            [selectionLayer setContents:selectorImage];
+            selectionLayer.actions = disabledActions;
+            selectionLayer.frame = selectionFrame;
+            
+            selectionLayer.borderWidth = 4.0;
+            selectionLayer.borderColor = _lastWindowActive ?
+                [NSColor colorWithCalibratedRed:0.243
+                                          green:0.502
+                                           blue:0.871
+                                          alpha:1.0].CGColor :
+                [NSColor colorWithCalibratedWhite:0.651
+                                            alpha:1.0].CGColor;
+            selectionLayer.cornerRadius = 3.0;
+            
             [_foregroundLayer addSublayer:selectionLayer];
 
             _selectionLayer = selectionLayer;
@@ -634,22 +641,6 @@ static NSDictionary *disabledActions = nil;
     [cache setObject:missingArtwork forKey:key cost:size.width*size.height];
 
     return missingArtwork;
-}
-
-- (NSImage *)OE_selectorImageWithSize:(NSSize)size
-{
-    if(NSEqualSizes(size, NSZeroSize)) return nil;
-
-    NSString *imageKey       = [NSString stringWithFormat:@"OEGridCellSelectionImage(%d)", _lastWindowActive];
-    NSImage  *selectionImage = [self OE_standardImageNamed:imageKey withSize:size];
-    if(selectionImage) return selectionImage;
-
-    selectionImage = [NSImage gridSelectionRingWithSize:size activeState:_lastWindowActive];
-
-    // Cache the image for later use
-    [self OE_setStandardImage:selectionImage named:imageKey];
-
-    return selectionImage;
 }
 
 - (NSImage*)OE_ratingImageForRating:(NSInteger)rating
