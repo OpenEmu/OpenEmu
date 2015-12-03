@@ -29,111 +29,68 @@ import Cocoa
 @objc(OEToolbarSegmentedCell)
 class ToolbarSegmentedCell: NSSegmentedCell {
     
-    let cornerRadius: CGFloat = 3
-
-    let fillGradient = NSGradient(colorsAndLocations: (NSColor(deviceWhite: 0.21, alpha: 1), 0),
-                                                      (NSColor(deviceWhite: 0.14, alpha: 1), 0.95),
-                                                      (NSColor(deviceWhite: 0.05, alpha: 1), 1))!
-    
-    let bezelGradient = NSGradient(startingColor: NSColor(deviceWhite: 0.35, alpha: 1),
-                                     endingColor: NSColor(deviceWhite: 0.15, alpha: 1))!
-    
-    let topActiveGradient = NSGradient(colorsAndLocations:
-        (NSColor(deviceWhite: 0, alpha: 1),    0),
-        (NSColor(deviceWhite: 0, alpha: 0.5),  0.15),
-        (NSColor(deviceWhite: 0, alpha: 0),    0.6))!
-    
-    let horizontalActiveGradient = NSGradient(colorsAndLocations:
-        (NSColor(deviceWhite: 0, alpha: 1),    0),
-        (NSColor(deviceWhite: 0, alpha: 0.5),  0.01),
-        (NSColor(deviceWhite: 0, alpha: 0.01), 0.04),
-        (NSColor(deviceWhite: 0, alpha: 0),    0.5))!
-    
-    let bottomActiveGradient = NSGradient(colorsAndLocations:
-        (NSColor(deviceWhite: 0, alpha: 0.15), 0),
-        (NSColor(deviceWhite: 0, alpha: 0.15), 0.05),
-        (NSColor(deviceWhite: 0, alpha: 0),    0.15))!
-    
-    let borderColor = NSColor(deviceWhite: 0.01, alpha: 1)
+    let cornerRadius: CGFloat = 2.5
     
     /// The segment currently being highlighted by the user.
     var highlightedSegment: Int?
 
     override func drawWithFrame(cellFrame: NSRect, inView controlView: NSView) {
         
-        drawBezelLayerInFrame(cellFrame)
-        drawBottomBorderLayerInFrame(cellFrame)
-        drawFillLayerInFrame(cellFrame)
+        let segmentWidth = cellFrame.width / CGFloat(segmentCount)
         
-        let segmentWidth = NSWidth(cellFrame) / CGFloat(segmentCount)
+        drawBackgroundLayerInFrame(cellFrame)
+        drawTopHighlightEdgeLayerInFrame(cellFrame)
 
         for segment in 0..<segmentCount {
             
             let segmentRect = NSRect(x: CGFloat(segment) * segmentWidth,
-                y: NSMinY(cellFrame),
+                y: cellFrame.minY,
                 width: segmentWidth,
-                height: NSHeight(cellFrame))
+                height: cellFrame.height)
             
             drawSegment(segment, inFrame: segmentRect, withView: controlView)
         }
+        
+        drawBorderLayerInFrame(cellFrame)
     }
     
-    // MARK: - Bezel Layer
+    // MARK: - Layers
     
-    func drawBezelLayerInFrame(cellFrame: NSRect) {
-        
-        let path = NSBezierPath(roundedRect: cellFrame, xRadius: cornerRadius, yRadius: cornerRadius)
-        
-        bezelGradient.drawInBezierPath(path, angle: 90)
+    func controlPathInFrame(cellFrame: NSRect) -> NSBezierPath {
+        return NSBezierPath(roundedRect: cellFrame, xRadius: cornerRadius, yRadius: cornerRadius)
     }
     
-    // MARK: - Fill Layer
-    
-    func fillLayerRectInFrame(frame: NSRect) -> NSRect {
+    func drawBackgroundLayerInFrame(cellFrame: NSRect) {
         
-        var rect = frame
+        let path = controlPathInFrame(cellFrame)
         
-        rect.size.height -= 2
-        rect.origin.y += 1.2
+        let gradient = NSGradient(startingColor: NSColor(deviceWhite: 0.22, alpha: 1), endingColor: NSColor(deviceWhite: 0.14, alpha: 1))!
         
-        return rect
+        gradient.drawInBezierPath(path, angle: 90)
     }
     
-    func fillLayerPathInFrame(frame: NSRect) -> NSBezierPath {
+    func drawTopHighlightEdgeLayerInFrame(cellFrame: NSRect) {
         
-        let rect = fillLayerRectInFrame(frame)
+        NSGraphicsContext.saveGraphicsState()
         
-        return NSBezierPath(roundedRect: rect, xRadius: cornerRadius, yRadius: cornerRadius)
-    }
-    
-    func drawFillLayerInFrame(frame: NSRect) {
+        let path = controlPathInFrame(cellFrame)
         
-        let path = fillLayerPathInFrame(frame)
+        path.setClip()
         
-        fillGradient.drawInBezierPath(path, angle: 90)
-    }
-    
-    // MARK: - Bottom Border Layer
-    
-    func bottomBorderLayerRectInFrame(frame: NSRect) -> NSRect {
-        
-        var rect = frame
-        
-        rect.size.height -= 3
-        rect.origin.y += 2.5
-        
-        return rect
-    }
-    
-    func drawBottomBorderLayerInFrame(frame: NSRect) {
-        
-        let rect = bottomBorderLayerRectInFrame(frame)
-        
-        borderColor.set()
-        
-        let path = NSBezierPath(roundedRect: rect, xRadius: cornerRadius, yRadius: cornerRadius)
+        NSColor(deviceWhite: 0.31, alpha: 1).set()
 
-        path.fill()
+        NSBezierPath.strokeLineFromPoint(NSPoint(x: cellFrame.minX, y: cellFrame.minY + 1.5), toPoint: NSPoint(x: cellFrame.maxX, y: cellFrame.minY + 1.5))
+
+        NSGraphicsContext.restoreGraphicsState()
+    }
+    
+    func drawBorderLayerInFrame(cellFrame: NSRect) {
+        
+        let path = controlPathInFrame(cellFrame.insetBy(dx: 0.5, dy: 0.5))
+        
+        NSColor(deviceWhite: 0.08, alpha: 1).set()
+        
+        path.stroke()
     }
     
     // MARK: - Segments
@@ -145,15 +102,15 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         let xOffset: CGFloat
         if segment > 0 {
             let segmentWidths = (0..<segment).map { return widthForSegment($0) }
-            xOffset = segmentWidths.reduce(NSMinX(bounds), combine: +)
+            xOffset = segmentWidths.reduce(bounds.minX, combine: +)
         } else {
-            xOffset = NSMinX(bounds)
+            xOffset = bounds.minX
         }
 
         return NSRect(x: xOffset,
-                      y: NSMinY(bounds),
+                      y: bounds.minY,
                   width: widthForSegment(segment),
-                 height: NSHeight(bounds))
+                 height: bounds.height)
     }
     
     func pathForSegment(segment: Int, inFrame frame: NSRect) -> NSBezierPath {
@@ -211,19 +168,41 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             
             let segmentPath = pathForSegment(segment, inFrame: segmentRect)
             
+            let topActiveGradient = NSGradient(colorsAndLocations:
+                (NSColor(deviceWhite: 0, alpha: 0.75),    0),
+                (NSColor(deviceWhite: 0, alpha: 0.5),  0.15),
+                (NSColor(deviceWhite: 0, alpha: 0),    0.6))!
+            
+            let horizontalActiveGradient = NSGradient(colorsAndLocations:
+                (NSColor(deviceWhite: 0, alpha: 0.8),    0),
+                (NSColor(deviceWhite: 0, alpha: 0.4),  0.01),
+                (NSColor(deviceWhite: 0, alpha: 0.01), 0.04),
+                (NSColor(deviceWhite: 0, alpha: 0),    0.5))!
+            
+            let bottomActiveGradient = NSGradient(colorsAndLocations:
+                (NSColor(deviceWhite: 0, alpha: 0.15), 0),
+                (NSColor(deviceWhite: 0, alpha: 0.15), 0.05),
+                (NSColor(deviceWhite: 0, alpha: 0),    0.15))!
+            
+            NSGraphicsContext.saveGraphicsState()
+            
+            controlPathInFrame(frame).setClip()
+            
             topActiveGradient.drawInBezierPath(segmentPath, angle: 90)
             horizontalActiveGradient.drawInBezierPath(segmentPath, angle: 0)
             horizontalActiveGradient.drawInBezierPath(segmentPath, angle: 180)
             bottomActiveGradient.drawInBezierPath(segmentPath, angle: 270)
+            
+            NSGraphicsContext.restoreGraphicsState()
         }
         
         // Draw divider.
         if segment < segmentCount - 1 {
             
-            let firstPoint = NSPoint(x: NSMaxX(frame), y: NSMinY(frame))
-            let secondPoint = NSPoint(x: NSMaxX(frame), y: NSMaxY(frame) - 1) // Leave room for bottom bezel.
+            let firstPoint = NSPoint(x: frame.maxX, y: frame.minY)
+            let secondPoint = NSPoint(x: frame.maxX, y: frame.maxY - 1) // Leave room for bottom bezel.
             
-            borderColor.set()
+            NSColor.blackColor().set()
             
             NSBezierPath.strokeLineFromPoint(firstPoint, toPoint: secondPoint)
         }
@@ -332,53 +311,53 @@ extension NSBezierPath {
         let path = NSBezierPath()
         
         // Start near top-left corner.
-        let startingPoint = NSPoint(x: NSMinX(rect) + topLeftCornerRadius,
-                                    y: NSMinY(rect))
+        let startingPoint = NSPoint(x: rect.minX + topLeftCornerRadius,
+                                    y: rect.minY)
         path.moveToPoint(startingPoint)
         
         // Top edge.
-        path.lineToPoint(NSPoint(x: NSMaxX(rect) - topRightCornerRadius,
-                                 y: NSMinY(rect)))
+        path.lineToPoint(NSPoint(x: rect.maxX - topRightCornerRadius,
+                                 y: rect.minY))
         
         // Top-right corner.
-        let topRightCorner = NSPoint(x: NSMaxX(rect),
-                                     y: NSMinY(rect))
-        path.curveToPoint(NSPoint(x: NSMaxX(rect),
-                                  y: NSMinY(rect) + topRightCornerRadius),
+        let topRightCorner = NSPoint(x: rect.maxX,
+                                     y: rect.minY)
+        path.curveToPoint(NSPoint(x: rect.maxX,
+                                  y: rect.minY + topRightCornerRadius),
             controlPoint1: topRightCorner,
             controlPoint2: topRightCorner)
         
         // Right edge.
-        path.lineToPoint(NSPoint(x: NSMaxX(rect),
-                                 y: NSMaxY(rect) - bottomRightCornerRadius))
+        path.lineToPoint(NSPoint(x: rect.maxX,
+                                 y: rect.maxY - bottomRightCornerRadius))
         
         // Bottom-right corner.
-        let bottomRightCorner = NSPoint(x: NSMaxX(rect),
-                                        y: NSMaxY(rect))
-        path.curveToPoint(NSPoint(x: NSMaxX(rect) - bottomRightCornerRadius,
-                                  y: NSMaxY(rect)),
+        let bottomRightCorner = NSPoint(x: rect.maxX,
+                                        y: rect.maxY)
+        path.curveToPoint(NSPoint(x: rect.maxX - bottomRightCornerRadius,
+                                  y: rect.maxY),
             controlPoint1: bottomRightCorner,
             controlPoint2: bottomRightCorner)
         
         // Bottom edge.
-        path.lineToPoint(NSPoint(x: NSMinX(rect) + bottomLeftCornerRadius,
-                                 y: NSMaxY(rect)))
+        path.lineToPoint(NSPoint(x: rect.minX + bottomLeftCornerRadius,
+                                 y: rect.maxY))
         
         // Bottom-left corner.
-        let bottomLeftCorner = NSPoint(x: NSMinX(rect),
-                                       y: NSMaxY(rect))
-        path.curveToPoint(NSPoint(x: NSMinX(rect),
-                                  y: NSMaxY(rect) - bottomLeftCornerRadius),
+        let bottomLeftCorner = NSPoint(x: rect.minX,
+                                       y: rect.maxY)
+        path.curveToPoint(NSPoint(x: rect.minX,
+                                  y: rect.maxY - bottomLeftCornerRadius),
             controlPoint1: bottomLeftCorner,
             controlPoint2: bottomLeftCorner)
         
         // Left edge.
-        path.lineToPoint(NSPoint(x: NSMinX(rect),
-                                 y: NSMinY(rect) + topLeftCornerRadius))
+        path.lineToPoint(NSPoint(x: rect.minX,
+                                 y: rect.minY + topLeftCornerRadius))
         
         // Top-left corner.
-        let topLeftCorner = NSPoint(x: NSMinX(rect),
-                                    y: NSMinY(rect))
+        let topLeftCorner = NSPoint(x: rect.minX,
+                                    y: rect.minY)
         path.curveToPoint(startingPoint,
             controlPoint1: topLeftCorner,
             controlPoint2: topLeftCorner)
@@ -393,7 +372,7 @@ extension NSWindow {
     
     func convertPointFromScreen(point: NSPoint) -> NSPoint {
      
-        let screenRect = NSRect(origin: point, size: NSZeroSize)
+        let screenRect = NSRect(origin: point, size: NSSize.zero)
         
         let convertedRect = convertRectFromScreen(screenRect)
         
