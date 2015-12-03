@@ -1,6 +1,6 @@
 
-/* Class = "NSTextFieldCell"; title = "В каком эмуляторе вы желаете открыть файл ром?"; ObjectID = "13"; */
+/* Class = "NSTextFieldCell"; title = "Which emulator would you like to open this ROM in?"; ObjectID = "13"; */
 "13.title" = "В каком эмуляторе вы желаете открыть файл ром?";
 
-/* Class = "NSButtonCell"; title = "Открыть"; ObjectID = "15"; */
+/* Class = "NSButtonCell"; title = "Open"; ObjectID = "15"; */
 "15.title" = "Открыть";

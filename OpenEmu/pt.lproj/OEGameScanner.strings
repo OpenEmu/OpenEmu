@@ -1,9 +1,9 @@
 
-/* Class = "NSTableColumn"; headerCell.title = "Caminho"; ObjectID = "75"; */
+/* Class = "NSTableColumn"; headerCell.title = "Path"; ObjectID = "75"; */
 "75.headerCell.title" = "Caminho";
 
-/* Class = "NSTextFieldCell"; title = "Corrigir conflitos de importação:"; ObjectID = "127"; */
+/* Class = "NSTextFieldCell"; title = "Fix Import Issues:"; ObjectID = "127"; */
 "127.title" = "Corrigir conflitos de importação:";
 
-/* Class = "NSButtonCell"; title = "Aplicar"; ObjectID = "139"; */
+/* Class = "NSButtonCell"; title = "Apply"; ObjectID = "139"; */
 "139.title" = "Aplicar";

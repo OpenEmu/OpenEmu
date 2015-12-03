@@ -1,5 +1,5 @@
 
-/* Class = "NSWindow"; title = "System auswählen"; ObjectID = "3"; */
+/* Class = "NSWindow"; title = "Select System"; ObjectID = "3"; */
 "3.title" = "System auswählen";
 
 /* Class = "NSButtonCell"; title = "OK"; ObjectID = "31"; */

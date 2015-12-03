@@ -1,18 +1,18 @@
 
-/* Class = "NSTextFieldCell"; title = "Gerenciar Janelas"; ObjectID = "14"; */
+/* Class = "NSTextFieldCell"; title = "Window Management"; ObjectID = "14"; */
 "14.title" = "Gerenciar Janelas";
 
-/* Class = "NSTextFieldCell"; title = "Filtro:"; ObjectID = "21"; */
+/* Class = "NSTextFieldCell"; title = "Filter:"; ObjectID = "21"; */
 "21.title" = "Filtro:";
 
-/* Class = "NSTextFieldCell"; title = "Modo de Visualização"; ObjectID = "23"; */
+/* Class = "NSTextFieldCell"; title = "Display Mode"; ObjectID = "23"; */
 "23.title" = "Modo de Visualização";
 
-/* Class = "NSButtonCell"; title = "Sempre abrir jogo em uma nova tela"; ObjectID = "25"; */
+/* Class = "NSButtonCell"; title = "Always use popout gameplay window"; ObjectID = "25"; */
 "25.title" = "Sempre abrir jogo em uma nova tela";
 
-/* Class = "NSButtonCell"; title = "Sempre abrir jogos em Tela Cheia"; ObjectID = "26"; */
+/* Class = "NSButtonCell"; title = "Always launch games fullscreen"; ObjectID = "26"; */
 "26.title" = "Sempre abrir jogos em Tela Cheia";
 
-/* Class = "NSButtonCell"; title = "Sempre pausar quando estiver em background"; ObjectID = "57"; */
+/* Class = "NSButtonCell"; title = "Always pause gameplay when in background"; ObjectID = "57"; */
 "57.title" = "Sempre pausar quando estiver em background";
