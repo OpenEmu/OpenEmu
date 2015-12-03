@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
         <capability name="box content view" minToolsVersion="7.0"/>
     </dependencies>
@@ -187,12 +188,11 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                 </toolbarItem>
-                <toolbarItem implicitItemIdentifier="38BE7ED5-34C4-40FA-871F-D886BEA66184" label="Adaptive Space" paletteLabel="Adaptive Space" tag="-1" id="7nQ-Nj-a9l" customClass="TAAdaptiveSpaceItem"/>
             </allowedToolbarItems>
             <defaultToolbarItems>
                 <toolbarItem reference="DWE-Na-du6"/>
                 <toolbarItem reference="4KY-AU-4s0"/>
-                <toolbarItem reference="7nQ-Nj-a9l"/>
+                <toolbarItem reference="cAJ-ae-jpG"/>
                 <toolbarItem reference="Jiu-4k-Ecu"/>
                 <toolbarItem reference="cAJ-ae-jpG"/>
                 <toolbarItem reference="Nu8-Bo-VSq"/>
