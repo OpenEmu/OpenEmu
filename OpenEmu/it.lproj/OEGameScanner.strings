@@ -1,0 +1,9 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "Percorso"; ObjectID = "75"; */
+"75.headerCell.title" = "Percorso";
+
+/* Class = "NSTextFieldCell"; title = "Risolvi problemi di importazione:"; ObjectID = "127"; */
+"127.title" = "Risolvi problemi di importazione:";
+
+/* Class = "NSButtonCell"; title = "Applica"; ObjectID = "139"; */
+"139.title" = "Applica";

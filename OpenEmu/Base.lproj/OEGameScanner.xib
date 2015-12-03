@@ -93,7 +93,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
                         <textField verticalHuggingPriority="750" id="126" customClass="OELabel">
-                            <rect key="frame" x="17" y="18" width="157" height="17"/>
+                            <rect key="frame" x="17" y="18" width="256" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <animations/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Fix Import Issues:" id="127" customClass="OELabelCell">
@@ -141,7 +141,7 @@
                 </customView>
             </subviews>
             <animations/>
-            <point key="canvasLocation" x="350.5" y="157"/>
+            <point key="canvasLocation" x="373.5" y="151"/>
         </customView>
     </objects>
 </document>

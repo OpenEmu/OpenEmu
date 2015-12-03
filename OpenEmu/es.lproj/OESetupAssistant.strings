@@ -1,0 +1,66 @@
+
+/* Class = "NSButtonCell"; title = "Siguiente"; ObjectID = "246"; */
+"246.title" = "Siguiente";
+
+/* Class = "NSButtonCell"; title = "Atrás"; ObjectID = "250"; */
+"250.title" = "Atrás";
+
+/* Class = "NSButtonCell"; title = "Siguiente"; ObjectID = "274"; */
+"274.title" = "Siguiente";
+
+/* Class = "NSButtonCell"; title = "Atrás"; ObjectID = "275"; */
+"275.title" = "Atrás";
+
+/* Class = "NSButtonCell"; title = "Permitir a OpenEmu buscar juegos"; ObjectID = "280"; */
+"280.title" = "Permitir a OpenEmu buscar juegos";
+
+/* Class = "NSButtonCell"; title = "Siguiente"; ObjectID = "301"; */
+"301.title" = "Siguiente";
+
+/* Class = "NSTextFieldCell"; title = "¡Bienvenido a OpenEmu!"; ObjectID = "316"; */
+"316.title" = "¡Bienvenido a OpenEmu!";
+
+/* Class = "NSTextFieldCell"; title = "El emocionante mundo de los videojuegos está a su alcance. Para ayudarle a empezar, nos gustaría hacerle unas preguntas rápidas que le guiarán a continuación…\n\n• Añada juegos (ROMs) que ya posea legalmente.\n\n• Asegúrese que está ejecutando los plugins de los sistemas adecuados (núcleos)."; ObjectID = "318"; */
+"318.title" = "El emocionante mundo de los videojuegos está a su alcance. Para ayudarle a empezar, nos gustaría hacerle unas preguntas rápidas que le guiarán a continuación…\n\n• Añada juegos (ROMs) que ya posea legalmente.\n\n• Asegúrese que está ejecutando los plugins de los sistemas adecuados (núcleos).";
+
+/* Class = "NSTextFieldCell"; title = "¡Haga clic en el botón ‘Siguiente’ para comenzar!"; ObjectID = "320"; */
+"320.title" = "¡Haga clic en el botón ‘Siguiente’ para comenzar!";
+
+/* Class = "NSTextFieldCell"; title = "OpenEmu es modular, y gracias al trabajo de otros grandes proyectos de código abierto, puede emular una amplia variedad de sistemas de videojuegos (‘núcleos’). Algunos requieren que los marque y confirme que desea instalarlos y usarlos. Sus juegos y sistemas de juego favoritos no pueden funcionar sin estos núcleos."; ObjectID = "328"; */
+"328.title" = "OpenEmu es modular, y gracias al trabajo de otros grandes proyectos de código abierto, puede emular una amplia variedad de sistemas de videojuegos (‘núcleos’). Algunos requieren que los marque y confirme que desea instalarlos y usarlos. Sus juegos y sistemas de juego favoritos no pueden funcionar sin estos núcleos.";
+
+/* Class = "NSTextFieldCell"; title = "Instalación de los núcleos de los sistemas"; ObjectID = "329"; */
+"329.title" = "Instalación de los núcleos de los sistemas";
+
+/* Class = "NSTextFieldCell"; title = "Puede que ya tenga archivos de juegos (ROM) ubicados en su equipo. OpenEmu puede buscar en su equipo los juegos que ya posea legalmente y añadirlos a la biblioteca de OpenEmu. OpenEmu también intentará añadir las carátulas y otra información disponible de sus juegos."; ObjectID = "332"; */
+"332.title" = "Puede que ya tenga archivos de juegos (ROM) ubicados en su equipo. OpenEmu puede buscar en su equipo los juegos que ya posea legalmente y añadirlos a la biblioteca de OpenEmu. OpenEmu también intentará añadir las carátulas y otra información disponible de sus juegos.";
+
+/* Class = "NSTextFieldCell"; title = "Buscador de juegos"; ObjectID = "333"; */
+"333.title" = "Buscador de juegos";
+
+/* Class = "NSButtonCell"; title = "Siguiente"; ObjectID = "343"; */
+"343.title" = "Siguiente";
+
+/* Class = "NSTextFieldCell"; title = "Buscar fuentes adicionales"; ObjectID = "347"; */
+"347.title" = "Buscar fuentes adicionales";
+
+/* Class = "NSTextFieldCell"; title = "OpenEmu ha detectado los siguientes discos duros montados o compartidos disponibles. Si hay archivos de juegos ubicados en estas ubicaciones, por favor marque el ítem asociado y OpenEmu puede buscar y añadir estos juegos a su biblioteca."; ObjectID = "357"; */
+"357.title" = "OpenEmu ha detectado los siguientes discos duros montados o compartidos disponibles. Si hay archivos de juegos ubicados en estas ubicaciones, por favor marque el ítem asociado y OpenEmu puede buscar y añadir estos juegos a su biblioteca.";
+
+/* Class = "NSButtonCell"; title = "Atrás"; ObjectID = "358"; */
+"358.title" = "Atrás";
+
+/* Class = "NSTextFieldCell"; title = "¡Vamos!"; ObjectID = "401"; */
+"401.title" = "¡Vamos!";
+
+/* Class = "NSTextFieldCell"; title = "¡Excelente! ¡Ahora está todo configurado y listo para los juegos!\n\nRecuerde que puede modificar tanto su teclado y los controles del gamepad como los de otros jugadores a través de las preferencias en cualquier momento."; ObjectID = "402"; */
+"402.title" = "¡Excelente! ¡Ahora está todo configurado y listo para los juegos!\n\nRecuerde que puede modificar tanto su teclado y los controles del gamepad como los de otros jugadores a través de las preferencias en cualquier momento.";
+
+/* Class = "NSTextFieldCell"; title = "Haga clic en el botón ‘Ir’ para comenzar su aventura."; ObjectID = "403"; */
+"403.title" = "Haga clic en el botón ‘Ir’ para comenzar su aventura.";
+
+/* Class = "NSButtonCell"; title = "Ir"; ObjectID = "404"; */
+"404.title" = "Ir";
+
+/* Class = "NSButtonCell"; title = "Atrás"; ObjectID = "413"; */
+"413.title" = "Atrás";

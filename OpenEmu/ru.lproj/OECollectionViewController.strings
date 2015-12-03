@@ -1,0 +1,21 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "Система"; ObjectID = "16"; */
+"16.headerCell.title" = "Система";
+
+/* Class = "NSTableColumn"; headerCell.title = "Последний запуск"; ObjectID = "17"; */
+"17.headerCell.title" = "Последний запуск";
+
+/* Class = "NSTableColumn"; headerCell.title = "Рейтинг"; ObjectID = "18"; */
+"18.headerCell.title" = "Рейтинг";
+
+/* Class = "NSTableColumn"; headerCell.title = "Название"; ObjectID = "19"; */
+"19.headerCell.title" = "Название";
+
+/* Class = "NSTableColumn"; headerCell.title = "Сохранения"; ObjectID = "103"; */
+"103.headerCell.title" = "Сохранения";
+
+/* Class = "NSTableColumn"; headerCell.title = "Play Count"; ObjectID = "105"; */
+"105.headerCell.title" = "Play Count";
+
+/* Class = "NSTableColumn"; headerCell.title = "Play Time"; ObjectID = "107"; */
+"107.headerCell.title" = "Play Time";

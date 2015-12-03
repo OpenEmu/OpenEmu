@@ -1,0 +1,18 @@
+
+/* Class = "NSTextFieldCell"; title = "Gestione finestre"; ObjectID = "14"; */
+"14.title" = "Gestione finestre";
+
+/* Class = "NSTextFieldCell"; title = "Filtro:"; ObjectID = "21"; */
+"21.title" = "Filtro:";
+
+/* Class = "NSTextFieldCell"; title = "Aspetto"; ObjectID = "23"; */
+"23.title" = "Aspetto";
+
+/* Class = "NSButtonCell"; title = "Apri i giochi in una finestra separata"; ObjectID = "25"; */
+"25.title" = "Apri i giochi in una finestra separata";
+
+/* Class = "NSButtonCell"; title = "Apri i giochi in modalità a tutto schermo"; ObjectID = "26"; */
+"26.title" = "Apri i giochi in modalità a tutto schermo";
+
+/* Class = "NSButtonCell"; title = "Sospendi il gioco quando non è in primo piano"; ObjectID = "57"; */
+"57.title" = "Sospendi il gioco quando non è in primo piano";

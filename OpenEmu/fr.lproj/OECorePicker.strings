@@ -1,0 +1,6 @@
+
+/* Class = "NSTextFieldCell"; title = "Quel émulateur utiliser pour ouvrir cette rom ?"; ObjectID = "13"; */
+"13.title" = "Quel émulateur utiliser pour ouvrir cette rom ?";
+
+/* Class = "NSButtonCell"; title = "Ouvrir"; ObjectID = "15"; */
+"15.title" = "Ouvrir";

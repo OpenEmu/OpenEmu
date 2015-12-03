@@ -1569,33 +1569,12 @@
 		0162C81A1AFACDE0003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0162C81B1AFACDE1003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0162C81C1AFACDE1003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/ControlLabels.strings; sourceTree = "<group>"; };
-		0162C81D1AFACDE2003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OEPrefControlsController.xib; sourceTree = "<group>"; };
-		0162C81E1AFACDE2003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OEPrefCoresController.xib; sourceTree = "<group>"; };
-		0162C81F1AFACDE3003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OEPrefGameplayController.xib; sourceTree = "<group>"; };
-		0162C8201AFACDE3003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OEPrefLibraryController.xib; sourceTree = "<group>"; };
-		0162C8211AFACDE4003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OECollectionViewController.xib; sourceTree = "<group>"; };
-		0162C8221AFACDE4003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OELibraryController.xib; sourceTree = "<group>"; };
-		0162C8231AFACDE5003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/Preferences.xib; sourceTree = "<group>"; };
 		0162C8241AFACDE5003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		0162C8251AFACDE6003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OEGameScanner.xib; sourceTree = "<group>"; };
-		0162C8261AFACDE6003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OESystemPicker.xib; sourceTree = "<group>"; };
-		0162C8271AFACDE7003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OECorePicker.xib; sourceTree = "<group>"; };
-		0162C8281AFACDE7003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = it; path = it.lproj/OESetupAssistant.xib; sourceTree = "<group>"; };
 		01B035531C090E9900BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		01B035541C090E9900BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		01B035551C090E9A00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ControlLabels.strings; sourceTree = "<group>"; };
-		01B035561C090E9A00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/OEPrefControlsController.xib; sourceTree = "<group>"; };
-		01B035571C090E9A00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/OEPrefCoresController.xib; sourceTree = "<group>"; };
-		01B035581C090E9A00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/OEPrefGameplayController.xib; sourceTree = "<group>"; };
 		01B035591C090E9A00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/OEPrefLibraryController.xib; sourceTree = "<group>"; };
-		01B0355A1C090E9B00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/OECollectionViewController.xib; sourceTree = "<group>"; };
-		01B0355B1C090E9B00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/OELibraryController.xib; sourceTree = "<group>"; };
-		01B0355C1C090E9C00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/Preferences.xib; sourceTree = "<group>"; };
 		01B0355D1C090E9C00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		01B0355E1C090E9C00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/OEGameScanner.xib; sourceTree = "<group>"; };
-		01B0355F1C090E9C00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/OESystemPicker.xib; sourceTree = "<group>"; };
-		01B035601C090E9C00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/OECorePicker.xib; sourceTree = "<group>"; };
-		01B035611C090E9C00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/OESetupAssistant.xib; sourceTree = "<group>"; };
 		01B035621C090E9C00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/OEMigrationWindowController.xib; sourceTree = "<group>"; };
 		01B035631C090E9C00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		01B035641C090E9D00BA80E2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1934,8 +1913,6 @@
 		83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+OEHashingAdditions.m"; sourceTree = "<group>"; };
 		830BBEC91B7BE979000B13CB /* OEGameViewNotificationRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameViewNotificationRenderer.h; sourceTree = "<group>"; };
 		830BBECA1B7BE979000B13CB /* OEGameViewNotificationRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameViewNotificationRenderer.m; sourceTree = "<group>"; };
-		830BBECC1B7BF916000B13CB /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OEPrefControlsController.xib; sourceTree = "<group>"; };
-		830BBECD1B7BF919000B13CB /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OEPrefControlsController.xib; sourceTree = "<group>"; };
 		830BC86714D5E1E6000826E2 /* controller_snes_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_mask.png; sourceTree = "<group>"; };
 		830BC86A14D5F1A5000826E2 /* controller_gba_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gba_mask.png; sourceTree = "<group>"; };
 		830CB916186878D6006EAE5A /* OEArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArrayController.h; sourceTree = "<group>"; };
@@ -1993,7 +1970,6 @@
 		8337F38D1726B3600068DD90 /* OEBackgroundImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBackgroundImageView.m; sourceTree = "<group>"; };
 		833A1E4C197EAE2D004EC052 /* OEGameGridViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEGameGridViewDelegate.h; sourceTree = "<group>"; };
 		833ADC4B196B058000217D9A /* N64-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "N64-Info.plist"; sourceTree = "<group>"; };
-		833ADC50196B079000217D9A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OECollectionViewController.xib; sourceTree = "<group>"; };
 		83495DD219A38F31009DB6E5 /* OEPrefBiosController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefBiosController.h; sourceTree = "<group>"; };
 		83495DD319A38F31009DB6E5 /* OEPrefBiosController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefBiosController.m; sourceTree = "<group>"; };
 		83495DD719A38F3D009DB6E5 /* OEPrefBiosController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefBiosController.xib; sourceTree = "<group>"; };
@@ -2005,17 +1981,7 @@
 		8352C0F0197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8352C0F1197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
 		8352C0F2197ACC4E00DDAD05 /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/ControlLabels.strings; sourceTree = "<group>"; };
-		8352C0F3197ACC4F00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OEPrefCoresController.xib; sourceTree = "<group>"; };
-		8352C0F4197ACC4F00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OEPrefGameplayController.xib; sourceTree = "<group>"; };
-		8352C0F5197ACC4F00DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OEPrefLibraryController.xib; sourceTree = "<group>"; };
-		8352C0F6197ACC5000DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OECollectionViewController.xib; sourceTree = "<group>"; };
-		8352C0F7197ACC5000DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OELibraryController.xib; sourceTree = "<group>"; };
-		8352C0F8197ACC5000DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/Preferences.xib; sourceTree = "<group>"; };
 		8352C0F9197ACC5000DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		8352C0FA197ACC5100DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OEGameScanner.xib; sourceTree = "<group>"; };
-		8352C0FB197ACC5100DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OESystemPicker.xib; sourceTree = "<group>"; };
-		8352C0FC197ACC5100DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OECorePicker.xib; sourceTree = "<group>"; };
-		8352C0FD197ACC5100DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OESetupAssistant.xib; sourceTree = "<group>"; };
 		8352C0FE197ACC5200DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = pt; path = pt.lproj/OEMigrationWindowController.xib; sourceTree = "<group>"; };
 		8352C0FF197ACC5200DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8352C100197ACC5200DDAD05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2145,16 +2111,6 @@
 		8397BF41190949BD00A708D1 /* IKImageBrowserLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IKImageBrowserLayoutManager.h; sourceTree = "<group>"; };
 		839A38ED196AAFD7001A119A /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A38EE196AAFD7001A119A /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; lineEnding = 0; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.simpleColoring; };
-		839A38EF196AAFD7001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OEPrefCoresController.xib; sourceTree = "<group>"; };
-		839A38F0196AAFD7001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OEPrefGameplayController.xib; sourceTree = "<group>"; };
-		839A38F1196AAFD7001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OEPrefLibraryController.xib; sourceTree = "<group>"; };
-		839A38F2196AAFD8001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OELibraryController.xib; sourceTree = "<group>"; };
-		839A38F3196AAFD8001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/Preferences.xib; sourceTree = "<group>"; };
-		839A38F4196AAFD8001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		839A38F5196AAFD8001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OEGameScanner.xib; sourceTree = "<group>"; };
-		839A38F6196AAFD8001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OESystemPicker.xib; sourceTree = "<group>"; };
-		839A38F7196AAFD8001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OECorePicker.xib; sourceTree = "<group>"; };
-		839A38F8196AAFD8001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OESetupAssistant.xib; sourceTree = "<group>"; };
 		839A38F9196AAFD8001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OEMigrationWindowController.xib; sourceTree = "<group>"; };
 		839A38FA196AAFD9001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		839A38FB196AAFD9001A119A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2257,17 +2213,7 @@
 		83F3E31E19B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83F3E31F19B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83F3E32019B3B383009EC4ED /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ControlLabels.strings; sourceTree = "<group>"; };
-		83F3E32119B3B383009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OEPrefCoresController.xib; sourceTree = "<group>"; };
-		83F3E32219B3B383009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OEPrefGameplayController.xib; sourceTree = "<group>"; };
-		83F3E32319B3B383009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OEPrefLibraryController.xib; sourceTree = "<group>"; };
-		83F3E32419B3B383009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OECollectionViewController.xib; sourceTree = "<group>"; };
-		83F3E32519B3B383009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OELibraryController.xib; sourceTree = "<group>"; };
-		83F3E32619B3B383009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/Preferences.xib; sourceTree = "<group>"; };
 		83F3E32719B3B384009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		83F3E32819B3B384009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OEGameScanner.xib; sourceTree = "<group>"; };
-		83F3E32919B3B384009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OESystemPicker.xib; sourceTree = "<group>"; };
-		83F3E32A19B3B384009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OECorePicker.xib; sourceTree = "<group>"; };
-		83F3E32B19B3B384009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OESetupAssistant.xib; sourceTree = "<group>"; };
 		83F3E32C19B3B384009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/OEMigrationWindowController.xib; sourceTree = "<group>"; };
 		83F3E32D19B3B384009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83F3E32E19B3B384009EC4ED /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2441,7 +2387,71 @@
 		8F40EB821C1072B200683055 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OESystemPicker.xib; sourceTree = "<group>"; };
 		8F40EB831C1072B300683055 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OECorePicker.xib; sourceTree = "<group>"; };
 		8F40EB841C1072B300683055 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OESetupAssistant.xib; sourceTree = "<group>"; };
-		8FD9057A1AA2927300FA7662 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OEPrefControlsController.xib; sourceTree = "<group>"; };
+		8F40EB881C10744200683055 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OEPrefControlsController.xib; sourceTree = "<group>"; };
+		8F40EB8B1C1074EC00683055 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OEPrefCoresController.strings; sourceTree = "<group>"; };
+		8F40EB8E1C1074F900683055 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
+		8F40EB8F1C10756B00683055 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OEPrefCoresController.strings; sourceTree = "<group>"; };
+		8F40EB901C10756F00683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OEPrefCoresController.strings; sourceTree = "<group>"; };
+		8F40EB911C10757200683055 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OEPrefCoresController.strings; sourceTree = "<group>"; };
+		8F40EB921C10757600683055 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OEPrefCoresController.strings; sourceTree = "<group>"; };
+		8F40EB931C10757A00683055 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OEPrefCoresController.strings; sourceTree = "<group>"; };
+		8F40EB941C10764700683055 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Preferences.strings; sourceTree = "<group>"; };
+		8F40EB951C10765400683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Preferences.strings; sourceTree = "<group>"; };
+		8F40EB961C10765E00683055 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Preferences.strings; sourceTree = "<group>"; };
+		8F40EB971C10766500683055 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Preferences.strings; sourceTree = "<group>"; };
+		8F40EB981C10766E00683055 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Preferences.strings; sourceTree = "<group>"; };
+		8F40EB991C10767300683055 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Preferences.strings; sourceTree = "<group>"; };
+		8F40EB9D1C10775B00683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OEPrefControlsController.strings; sourceTree = "<group>"; };
+		8F40EB9E1C10777100683055 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OEPrefControlsController.strings; sourceTree = "<group>"; };
+		8F40EB9F1C10790F00683055 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
+		8F40EBA01C10791800683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
+		8F40EBA11C10792500683055 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
+		8F40EBA21C10792E00683055 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
+		8F40EBA31C1079D900683055 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OELibraryController.strings; sourceTree = "<group>"; };
+		8F40EBA61C107A7400683055 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OELibraryController.strings; sourceTree = "<group>"; };
+		8F40EBA71C107A7B00683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OELibraryController.strings; sourceTree = "<group>"; };
+		8F40EBAA1C107A8600683055 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OELibraryController.strings; sourceTree = "<group>"; };
+		8F40EBAB1C107B0200683055 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OEGameScanner.strings; sourceTree = "<group>"; };
+		8F40EBAC1C107B5500683055 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OEGameScanner.strings; sourceTree = "<group>"; };
+		8F40EBAD1C107B6000683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OEGameScanner.strings; sourceTree = "<group>"; };
+		8F40EBAE1C107B6400683055 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OEGameScanner.strings; sourceTree = "<group>"; };
+		8F40EBAF1C107B6800683055 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OEGameScanner.strings; sourceTree = "<group>"; };
+		8F40EBB21C107BB600683055 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OECollectionViewController.strings; sourceTree = "<group>"; };
+		8F40EBB31C107BEC00683055 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OECollectionViewController.strings; sourceTree = "<group>"; };
+		8F40EBB41C107BF100683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OECollectionViewController.strings; sourceTree = "<group>"; };
+		8F40EBB51C107BF400683055 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OECollectionViewController.strings; sourceTree = "<group>"; };
+		8F40EBB61C107BF600683055 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OECollectionViewController.strings; sourceTree = "<group>"; };
+		8F40EBB71C107BF900683055 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OECollectionViewController.strings; sourceTree = "<group>"; };
+		8F40EBB81C107C3700683055 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OECorePicker.strings; sourceTree = "<group>"; };
+		8F40EBB91C107C3C00683055 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OECorePicker.strings; sourceTree = "<group>"; };
+		8F40EBBA1C107C4000683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OECorePicker.strings; sourceTree = "<group>"; };
+		8F40EBBB1C107C4300683055 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OECorePicker.strings; sourceTree = "<group>"; };
+		8F40EBBC1C107C4600683055 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OECorePicker.strings; sourceTree = "<group>"; };
+		8F40EBBD1C107C4800683055 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OECorePicker.strings; sourceTree = "<group>"; };
+		8F40EBC21C107CC600683055 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OESystemPicker.strings; sourceTree = "<group>"; };
+		8F40EBC31C107CD400683055 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OESystemPicker.strings; sourceTree = "<group>"; };
+		8F40EBC41C107CDA00683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OESystemPicker.strings; sourceTree = "<group>"; };
+		8F40EBC51C107CDF00683055 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OESystemPicker.strings; sourceTree = "<group>"; };
+		8F40EBC61C107CE200683055 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OESystemPicker.strings; sourceTree = "<group>"; };
+		8F40EBC71C107CE500683055 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OESystemPicker.strings; sourceTree = "<group>"; };
+		8F40EBCB1C10831D00683055 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/OEPrefLibraryController.xib; sourceTree = "<group>"; };
+		8F40EBCF1C10853C00683055 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OELibraryController.strings; sourceTree = "<group>"; };
+		8F40EBD01C10853F00683055 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OELibraryController.strings; sourceTree = "<group>"; };
+		8F40EBD21C10876C00683055 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/OEPrefGameplayController.xib; sourceTree = "<group>"; };
+		8F40EBD31C10880600683055 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/OESetupAssistant.strings; sourceTree = "<group>"; };
+		8F40EBD41C10885B00683055 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OESetupAssistant.strings; sourceTree = "<group>"; };
+		8F40EBD51C10886100683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OESetupAssistant.strings; sourceTree = "<group>"; };
+		8F40EBD61C10886500683055 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OESetupAssistant.strings; sourceTree = "<group>"; };
+		8F40EBD71C10886900683055 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OESetupAssistant.strings; sourceTree = "<group>"; };
+		8F40EBD81C10886E00683055 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OESetupAssistant.strings; sourceTree = "<group>"; };
+		8F40EBD91C108D5000683055 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OEGameScanner.strings; sourceTree = "<group>"; };
+		8F40EBE11C10913C00683055 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OEPrefControlsController.xib; sourceTree = "<group>"; };
+		8F40EBE21C10913E00683055 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OEPrefControlsController.strings; sourceTree = "<group>"; };
+		8F40EBE31C10914000683055 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OEPrefControlsController.strings; sourceTree = "<group>"; };
+		8F40EBE41C10921500683055 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OEPrefLibraryController.strings; sourceTree = "<group>"; };
+		8F40EBE51C1092BC00683055 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/OEPrefLibraryController.strings; sourceTree = "<group>"; };
+		8F40EBE61C1092D000683055 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/OEPrefLibraryController.strings; sourceTree = "<group>"; };
+		8F40EBE71C10973500683055 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		94052EFC172DC1DD00B90DE6 /* controller_nds_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_nds_mask@2x.png"; sourceTree = "<group>"; };
 		94052EFD172DC1DD00B90DE6 /* controller_nds@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_nds@2x.png"; sourceTree = "<group>"; };
 		94052F02172DC21700B90DE6 /* controller_psx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psx_mask@2x.png"; sourceTree = "<group>"; };
@@ -3036,18 +3046,8 @@
 		F1A2C86D1AAD0B3A00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F1A2C86E1AAD0B3B00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F1A2C86F1AAD0B3B00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/ControlLabels.strings; sourceTree = "<group>"; };
-		F1A2C8701AAD0B3B00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OEPrefControlsController.xib; sourceTree = "<group>"; };
-		F1A2C8711AAD0B3B00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OEPrefCoresController.xib; sourceTree = "<group>"; };
-		F1A2C8721AAD0B3B00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OEPrefGameplayController.xib; sourceTree = "<group>"; };
 		F1A2C8731AAD0B3C00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OEPrefLibraryController.xib; sourceTree = "<group>"; };
-		F1A2C8741AAD0B3C00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OECollectionViewController.xib; sourceTree = "<group>"; };
-		F1A2C8751AAD0B3C00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OELibraryController.xib; sourceTree = "<group>"; };
-		F1A2C8761AAD0B3D00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/Preferences.xib; sourceTree = "<group>"; };
 		F1A2C8771AAD0B3D00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		F1A2C8781AAD0B3D00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OEGameScanner.xib; sourceTree = "<group>"; };
-		F1A2C8791AAD0B3D00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OESystemPicker.xib; sourceTree = "<group>"; };
-		F1A2C87A1AAD0B3D00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OECorePicker.xib; sourceTree = "<group>"; };
-		F1A2C87B1AAD0B3E00A17C80 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/OESetupAssistant.xib; sourceTree = "<group>"; };
 		FEB66250187B62CA00D14713 /* OEMSXSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemController.h; sourceTree = "<group>"; };
 		FEB66251187B62CA00D14713 /* OEMSXSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMSXSystemController.m; sourceTree = "<group>"; };
 		FEB66253187B751700D14713 /* OEMSXSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMSXSystemResponder.h; sourceTree = "<group>"; };
@@ -8693,13 +8693,13 @@
 		833ADC4F196B078E00217D9A /* OECollectionViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				833ADC50196B079000217D9A /* de */,
-				8352C0F6197ACC5000DDAD05 /* pt */,
-				83F3E32419B3B383009EC4ED /* es */,
-				F1A2C8741AAD0B3C00A17C80 /* fr */,
-				0162C8211AFACDE4003536F4 /* it */,
-				01B0355A1C090E9B00BA80E2 /* ru */,
 				8F40EB7D1C1072B100683055 /* Base */,
+				8F40EBB21C107BB600683055 /* de */,
+				8F40EBB31C107BEC00683055 /* pt */,
+				8F40EBB41C107BF100683055 /* es */,
+				8F40EBB51C107BF400683055 /* fr */,
+				8F40EBB61C107BF600683055 /* it */,
+				8F40EBB71C107BF900683055 /* ru */,
 			);
 			name = OECollectionViewController.xib;
 			sourceTree = "<group>";
@@ -8771,13 +8771,13 @@
 		83FE9644196859B100DD8DB9 /* OEPrefCoresController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				839A38EF196AAFD7001A119A /* de */,
-				8352C0F3197ACC4F00DDAD05 /* pt */,
-				83F3E32119B3B383009EC4ED /* es */,
-				F1A2C8711AAD0B3B00A17C80 /* fr */,
-				0162C81E1AFACDE2003536F4 /* it */,
-				01B035571C090E9A00BA80E2 /* ru */,
 				8F40EB7A1C1072B100683055 /* Base */,
+				8F40EB8B1C1074EC00683055 /* de */,
+				8F40EB8F1C10756B00683055 /* pt */,
+				8F40EB901C10756F00683055 /* es */,
+				8F40EB911C10757200683055 /* fr */,
+				8F40EB921C10757600683055 /* it */,
+				8F40EB931C10757A00683055 /* ru */,
 			);
 			name = OEPrefCoresController.xib;
 			sourceTree = "<group>";
@@ -8785,13 +8785,13 @@
 		83FE9648196859D300DD8DB9 /* OEPrefGameplayController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				839A38F0196AAFD7001A119A /* de */,
-				8352C0F4197ACC4F00DDAD05 /* pt */,
-				83F3E32219B3B383009EC4ED /* es */,
-				F1A2C8721AAD0B3B00A17C80 /* fr */,
-				0162C81F1AFACDE3003536F4 /* it */,
-				01B035581C090E9A00BA80E2 /* ru */,
 				8F40EB7B1C1072B100683055 /* Base */,
+				8F40EB8E1C1074F900683055 /* de */,
+				8F40EB9F1C10790F00683055 /* pt */,
+				8F40EBA01C10791800683055 /* es */,
+				8F40EBA11C10792500683055 /* fr */,
+				8F40EBA21C10792E00683055 /* it */,
+				8F40EBD21C10876C00683055 /* ru */,
 			);
 			name = OEPrefGameplayController.xib;
 			sourceTree = "<group>";
@@ -8799,13 +8799,13 @@
 		83FE964C196859F800DD8DB9 /* OEPrefLibraryController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				839A38F1196AAFD7001A119A /* de */,
-				8352C0F5197ACC4F00DDAD05 /* pt */,
-				83F3E32319B3B383009EC4ED /* es */,
 				F1A2C8731AAD0B3C00A17C80 /* fr */,
-				0162C8201AFACDE3003536F4 /* it */,
 				01B035591C090E9A00BA80E2 /* ru */,
 				8F40EB7C1C1072B100683055 /* Base */,
+				8F40EBCB1C10831D00683055 /* de */,
+				8F40EBE41C10921500683055 /* it */,
+				8F40EBE51C1092BC00683055 /* pt */,
+				8F40EBE61C1092D000683055 /* es */,
 			);
 			name = OEPrefLibraryController.xib;
 			sourceTree = "<group>";
@@ -8813,13 +8813,13 @@
 		83FE964F19685A0800DD8DB9 /* OELibraryController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				839A38F2196AAFD8001A119A /* de */,
-				8352C0F7197ACC5000DDAD05 /* pt */,
-				83F3E32519B3B383009EC4ED /* es */,
-				F1A2C8751AAD0B3C00A17C80 /* fr */,
-				0162C8221AFACDE4003536F4 /* it */,
-				01B0355B1C090E9B00BA80E2 /* ru */,
 				8F40EB7E1C1072B200683055 /* Base */,
+				8F40EBA31C1079D900683055 /* de */,
+				8F40EBA61C107A7400683055 /* pt */,
+				8F40EBA71C107A7B00683055 /* es */,
+				8F40EBAA1C107A8600683055 /* fr */,
+				8F40EBCF1C10853C00683055 /* it */,
+				8F40EBD01C10853F00683055 /* ru */,
 			);
 			name = OELibraryController.xib;
 			sourceTree = "<group>";
@@ -8827,13 +8827,13 @@
 		83FE965319685A6A00DD8DB9 /* Preferences.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				839A38F3196AAFD8001A119A /* de */,
-				8352C0F8197ACC5000DDAD05 /* pt */,
-				83F3E32619B3B383009EC4ED /* es */,
-				F1A2C8761AAD0B3D00A17C80 /* fr */,
-				0162C8231AFACDE5003536F4 /* it */,
-				01B0355C1C090E9C00BA80E2 /* ru */,
 				8F40EB7F1C1072B200683055 /* Base */,
+				8F40EB941C10764700683055 /* de */,
+				8F40EB951C10765400683055 /* es */,
+				8F40EB961C10765E00683055 /* fr */,
+				8F40EB971C10766500683055 /* pt */,
+				8F40EB981C10766E00683055 /* it */,
+				8F40EB991C10767300683055 /* ru */,
 			);
 			name = Preferences.xib;
 			sourceTree = "<group>";
@@ -8841,13 +8841,13 @@
 		83FE965719685F4300DD8DB9 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				839A38F4196AAFD8001A119A /* de */,
 				8352C0F9197ACC5000DDAD05 /* pt */,
 				83F3E32719B3B384009EC4ED /* es */,
 				F1A2C8771AAD0B3D00A17C80 /* fr */,
 				0162C8241AFACDE5003536F4 /* it */,
 				01B0355D1C090E9C00BA80E2 /* ru */,
 				8F40EB801C1072B200683055 /* Base */,
+				8F40EBE71C10973500683055 /* de */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -8855,13 +8855,13 @@
 		83FE965B19685F6700DD8DB9 /* OEGameScanner.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				839A38F5196AAFD8001A119A /* de */,
-				8352C0FA197ACC5100DDAD05 /* pt */,
-				83F3E32819B3B384009EC4ED /* es */,
-				F1A2C8781AAD0B3D00A17C80 /* fr */,
-				0162C8251AFACDE6003536F4 /* it */,
-				01B0355E1C090E9C00BA80E2 /* ru */,
 				8F40EB811C1072B200683055 /* Base */,
+				8F40EBAB1C107B0200683055 /* de */,
+				8F40EBAC1C107B5500683055 /* pt */,
+				8F40EBAD1C107B6000683055 /* es */,
+				8F40EBAE1C107B6400683055 /* fr */,
+				8F40EBAF1C107B6800683055 /* it */,
+				8F40EBD91C108D5000683055 /* ru */,
 			);
 			name = OEGameScanner.xib;
 			sourceTree = "<group>";
@@ -8869,13 +8869,13 @@
 		83FE965E19685F7000DD8DB9 /* OESystemPicker.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				839A38F6196AAFD8001A119A /* de */,
-				8352C0FB197ACC5100DDAD05 /* pt */,
-				83F3E32919B3B384009EC4ED /* es */,
-				F1A2C8791AAD0B3D00A17C80 /* fr */,
-				0162C8261AFACDE6003536F4 /* it */,
-				01B0355F1C090E9C00BA80E2 /* ru */,
 				8F40EB821C1072B200683055 /* Base */,
+				8F40EBC21C107CC600683055 /* de */,
+				8F40EBC31C107CD400683055 /* pt */,
+				8F40EBC41C107CDA00683055 /* es */,
+				8F40EBC51C107CDF00683055 /* fr */,
+				8F40EBC61C107CE200683055 /* it */,
+				8F40EBC71C107CE500683055 /* ru */,
 			);
 			name = OESystemPicker.xib;
 			sourceTree = "<group>";
@@ -8883,13 +8883,13 @@
 		83FE966219685F7D00DD8DB9 /* OECorePicker.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				839A38F7196AAFD8001A119A /* de */,
-				8352C0FC197ACC5100DDAD05 /* pt */,
-				83F3E32A19B3B384009EC4ED /* es */,
-				F1A2C87A1AAD0B3D00A17C80 /* fr */,
-				0162C8271AFACDE7003536F4 /* it */,
-				01B035601C090E9C00BA80E2 /* ru */,
 				8F40EB831C1072B300683055 /* Base */,
+				8F40EBB81C107C3700683055 /* de */,
+				8F40EBB91C107C3C00683055 /* pt */,
+				8F40EBBA1C107C4000683055 /* es */,
+				8F40EBBB1C107C4300683055 /* fr */,
+				8F40EBBC1C107C4600683055 /* it */,
+				8F40EBBD1C107C4800683055 /* ru */,
 			);
 			name = OECorePicker.xib;
 			sourceTree = "<group>";
@@ -8897,13 +8897,13 @@
 		83FE966619685F8F00DD8DB9 /* OESetupAssistant.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				839A38F8196AAFD8001A119A /* de */,
-				8352C0FD197ACC5100DDAD05 /* pt */,
-				83F3E32B19B3B384009EC4ED /* es */,
-				F1A2C87B1AAD0B3E00A17C80 /* fr */,
-				0162C8281AFACDE7003536F4 /* it */,
-				01B035611C090E9C00BA80E2 /* ru */,
 				8F40EB841C1072B300683055 /* Base */,
+				8F40EBD31C10880600683055 /* de */,
+				8F40EBD41C10885B00683055 /* pt */,
+				8F40EBD51C10886100683055 /* es */,
+				8F40EBD61C10886500683055 /* fr */,
+				8F40EBD71C10886900683055 /* it */,
+				8F40EBD81C10886E00683055 /* ru */,
 			);
 			name = OESetupAssistant.xib;
 			sourceTree = "<group>";
@@ -8911,13 +8911,13 @@
 		8FD905791AA2927100FA7662 /* OEPrefControlsController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				8FD9057A1AA2927300FA7662 /* de */,
-				F1A2C8701AAD0B3B00A17C80 /* fr */,
-				0162C81D1AFACDE2003536F4 /* it */,
-				830BBECC1B7BF916000B13CB /* es */,
-				830BBECD1B7BF919000B13CB /* pt */,
-				01B035561C090E9A00BA80E2 /* ru */,
 				8F40EB791C1072B100683055 /* Base */,
+				8F40EB881C10744200683055 /* de */,
+				8F40EB9D1C10775B00683055 /* es */,
+				8F40EB9E1C10777100683055 /* pt */,
+				8F40EBE11C10913C00683055 /* fr */,
+				8F40EBE21C10913E00683055 /* it */,
+				8F40EBE31C10914000683055 /* ru */,
 			);
 			name = OEPrefControlsController.xib;
 			sourceTree = "<group>";

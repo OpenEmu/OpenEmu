@@ -1,0 +1,6 @@
+
+/* Class = "NSTextFieldCell"; title = "Mit welchem Kern möchtest du dieses Spiel starten?"; ObjectID = "13"; */
+"13.title" = "Mit welchem Kern möchtest du dieses Spiel starten?";
+
+/* Class = "NSButtonCell"; title = "Starten"; ObjectID = "15"; */
+"15.title" = "Starten";

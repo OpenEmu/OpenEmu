@@ -1,0 +1,30 @@
+
+/* Class = "NSButtonCell"; title = "Cambiar…"; ObjectID = "15"; */
+"15.title" = "Cambiar…";
+
+/* Class = "NSButtonCell"; title = "Restaurar"; ObjectID = "16"; */
+"16.title" = "Restaurar";
+
+/* Class = "NSTextFieldCell"; title = "Métodos de organización"; ObjectID = "18"; */
+"18.title" = "Métodos de organización";
+
+/* Class = "NSTextFieldCell"; title = "Ubicación de la biblioteca de juegos:"; ObjectID = "19"; */
+"19.title" = "Ubicación de la biblioteca de juegos:";
+
+/* Class = "NSButtonCell"; title = "Mantener organizados los juegos"; ObjectID = "20"; */
+"20.title" = "Mantener organizados los juegos";
+
+/* Class = "NSButtonCell"; title = "Copiar en biblioteca de juegos los archivos añadidos a la biblioteca"; ObjectID = "21"; */
+"21.title" = "Copiar en biblioteca de juegos los archivos añadidos a la biblioteca";
+
+/* Class = "NSButtonCell"; title = "Buscar información y carátulas de los juegos automáticamente"; ObjectID = "23"; */
+"23.title" = "Buscar información y carátulas de los juegos automáticamente";
+
+/* Class = "NSTextFieldCell"; title = "Bibliotecas disponibles:"; ObjectID = "24"; */
+"24.title" = "Bibliotecas disponibles:";
+
+/* Class = "NSTextFieldCell"; title = "Restaurar todos los diálogos de advertencia:"; ObjectID = "Ua1-J2-mdy"; */
+"Ua1-J2-mdy.title" = "Restaurar todos los diálogos de advertencia:";
+
+/* Class = "NSButtonCell"; title = "Restaurar"; ObjectID = "all-Wd-1Dy"; */
+"all-Wd-1Dy.title" = "Restaurar";
