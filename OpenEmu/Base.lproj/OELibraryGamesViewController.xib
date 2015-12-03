@@ -161,7 +161,7 @@
                                                     <rect key="frame" x="0.0" y="5" width="35" height="19"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <popUpButtonCell key="cell" type="bevel" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" pullsDown="YES" arrowPosition="noArrow" id="npV-Do-MPo">
+                                                    <popUpButtonCell key="cell" type="bevel" bezelStyle="rounded" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyUpOrDown" inset="2" pullsDown="YES" arrowPosition="noArrow" selectedItem="1U8-Yu-nH3" id="npV-Do-MPo">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="menu"/>
                                                         <menu key="menu" id="F3c-W5-k5f">
@@ -173,7 +173,7 @@
                                                                     </connections>
                                                                 </menuItem>
                                                                 <menuItem isSeparatorItem="YES" id="5EQ-pA-c2w"/>
-                                                                <menuItem title="Add To Library..." id="1U8-Yu-nH3">
+                                                                <menuItem title="Add To Library…" id="1U8-Yu-nH3" userLabel="Add To Library…">
                                                                     <connections>
                                                                         <action selector="addToLibrary:" target="-1" id="dMl-dD-TKi"/>
                                                                     </connections>

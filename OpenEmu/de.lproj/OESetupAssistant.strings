@@ -12,7 +12,7 @@
 "275.title" = "Zurück";
 
 /* Class = "NSButtonCell"; title = "Allow OpenEmu To Scan For Games"; ObjectID = "280"; */
-"280.title" = "Allow OpenEmu To Scan For Games";
+"280.title" = "Erlaube OpenEmu, nach Spielen zu suchen";
 
 /* Class = "NSButtonCell"; title = "Next"; ObjectID = "301"; */
 "301.title" = "Weiter";
@@ -33,19 +33,19 @@
 "329.title" = "Systemkern-Installation";
 
 /* Class = "NSTextFieldCell"; title = "You may already have game (ROM) files located on your computer. OpenEmu can search your computer for games you may already legally own and automatically add them to your OpenEmu library. OpenEmu will also seek to add box art and other information for your games where available."; ObjectID = "332"; */
-"332.title" = "You may already have game (ROM) files located on your computer. OpenEmu can search your computer for games you may already legally own and automatically add them to your OpenEmu library. OpenEmu will also seek to add box art and other information for your games where available.";
+"332.title" = "Es könnten sich bereits Spiele-/ROM-Dateien auf diesem Computer befinden. OpenEmu kann ihn nach unterstützten Spielen durchsuchen und sie automatisch zur Mediathek hinzufügen. OpenEmu sucht außerdem nach passenden Cover und weiteren Informationen zu deinen Spielen.";
 
 /* Class = "NSTextFieldCell"; title = "Game Scanner"; ObjectID = "333"; */
-"333.title" = "Game Scanner";
+"333.title" = "Spiele-Scanner";
 
 /* Class = "NSButtonCell"; title = "Next"; ObjectID = "343"; */
 "343.title" = "Weiter";
 
 /* Class = "NSTextFieldCell"; title = "Scan Additional Sources"; ObjectID = "347"; */
-"347.title" = "Scan Additional Sources";
+"347.title" = "Zusätzliche Quellen durchsuchen";
 
 /* Class = "NSTextFieldCell"; title = "OpenEmu has detected you have the following mounted Hard Drives or shares available. If there are any game files residing in these locations, please tick on the associated item and OpenEmu can scan for and add these games to your Library."; ObjectID = "357"; */
-"357.title" = "OpenEmu has detected you have the following mounted Hard Drives or shares available. If there are any game files residing in these locations, please tick on the associated item and OpenEmu can scan for and add these games to your Library.";
+"357.title" = "OpenEmu hat die folgenden Laufwerke oder Freigaben erkant. Sollten sich auf ihnen Spiele befinden, wähle sie aus, damit OpenEmu sie finden und zur Mediathek hinzufügen kann";
 
 /* Class = "NSButtonCell"; title = "Back"; ObjectID = "358"; */
 "358.title" = "Zurück";

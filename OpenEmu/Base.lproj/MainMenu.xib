@@ -30,7 +30,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="400" height="463"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="1993EBE0-4CB4-4849-AECC-DA247E70B21E" id="804"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="7B4122FA-70CE-42B0-B953-B8FF8A762360" id="804"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" id="796">
                         <rect key="frame" x="17" y="184" width="366" height="18"/>
@@ -633,7 +633,7 @@ DQ
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="1g0-za-3ea"/>
-                            <menuItem title="Submit Feedback..." id="ftM-3D-CSh">
+                            <menuItem title="Submit Feedback…" id="ftM-3D-CSh">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showOEIssues:" target="-1" id="qPI-Hb-6UM"/>
@@ -648,7 +648,7 @@ DQ
         <userDefaultsController representsSharedInstance="YES" id="1212"/>
     </objects>
     <resources>
-        <image name="1993EBE0-4CB4-4849-AECC-DA247E70B21E" width="400" height="463">
+        <image name="7B4122FA-70CE-42B0-B953-B8FF8A762360" width="400" height="463">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

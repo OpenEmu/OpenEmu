@@ -128,11 +128,9 @@
 
 "Collapse" = "Collapse";
 
-"COLLECTIONS" = "COLLECTIONS";
-
 "Collections" = "Collections";
 
-"CONSOLES" = "CONSOLES";
+"Consoles" = "Consoles";
 
 "Consolidate Files…" = "Consolidate Files…";
 
@@ -205,8 +203,6 @@
 "Device Disconnected" = "Device Disconnected";
 
 "Device number %lu, %@, has disconnected." = "Device number %1$lu, %2$@, has disconnected.";
-
-"DEVICES" = "DEVICES";
 
 "Disable aspect ratio correction" = "Disable aspect ratio correction";
 
@@ -317,8 +313,6 @@
 "Make your Wiimote discoverable" = "Make your Wiimote discoverable";
 
 "Manually choose system on import" = "Manually choose system on import";
-
-"MEDIA" = "MEDIA";
 
 "Missing Core" = "Missing Core";
 
@@ -522,8 +516,6 @@
 
 "Stop" = "Stop";
 
-"Switch To Flow View" = "Switch To Flow View";
-
 "Switch To Grid View" = "Switch To Grid View";
 
 "Switch To List View" = "Switch To List View";
@@ -610,14 +602,46 @@
 
 "Your library was moved sucessfully." = "Your library was moved sucessfully.";
 
-"Filter by:" = "Filter by:"; // TODO  // Search field menu, first item, instructional
+"Filter by:" = "Filter by:"; // Search field menu, first item, instructional
 
-"Everything" = "Everything"; // TODO  // Search field menu, search everything item title
+"Everything" = "Everything"; // Search field menu, search everything item title
 
-"Name" = "Name"; // TODO  // Search field menu, only search names
+"Name" = "Name"; // Search field menu, only search names
 
-"Description" = "Description"; // TODO // Search field menu, only search description
+"Description" = "Description"; // Search field menu, only search description
 
-"Game Name" = "Game Name"; // TODO // Search field menu, only search game name
+"Game Name" = "Game Name"; // Search field menu, only search game name
 
 "Learn More" = "Learn More";
+
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ games will appear here. Check out %@ on how to add disc-based games.";
+
+"this guide" = "this guide";
+
+"Have you read the guide?" = "Have you read the guide?";
+
+"Disc-based games have special requirements. Please read the disc importing guide." = "Disc-based games have special requirements. Please read the disc importing guide.";
+
+"View Guide In Browser" = "View Guide In Browser";
+
+"Dismiss" = "Dismiss";
+
+"Drag & Drop Save States Here" = "Drag & Drop Save States Here";
+
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves.";
+
+"No Screenshots Found" = "No Screenshots Found";
+
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game.";
+
+"Share" = "Share";
+
+"Show game scanner view" = "Show game scanner view";
+
+"Hide game scanner view" = "Hide game scanner view";
+
+"Show autosave states in save state category" = "Show autosave states in save state category";
+
+"Show quicksave states in save state category" = "Show quicksave states in save state category";
+
+"Show screenshot notification during gameplay" = "Show screenshot notification during gameplay";

@@ -130,9 +130,7 @@
 
 "Collections" = "Sammlungen";
 
-"COLLECTIONS" = "Sammlungen";
-
-"CONSOLES" = "Konsolen";
+"Consoles" = "Konsolen";
 
 "Consolidate Files…" = "Dateien zusammenlegen …";
 
@@ -206,8 +204,6 @@
 
 "Device number %lu, %@, has disconnected." = "Gerät %1$lu (%2$@) wurde getrent.";
 
-"DEVICES" = "Geräte";
-
 "Disable aspect ratio correction" = "Seitenverhältnis-Korrektur deaktivieren";
 
 "Disable grid view gloss overlay" = "Glanz-Overlay in Symbolansicht deaktivieren";
@@ -262,7 +258,7 @@
 
 "Game %ld of %ld" = "Spiel %1$ld von %2$ld";
 
-"Game requires download" = "Download erforderlich"; // TODO
+"Game requires download" = "Download erforderlich";
 
 "Game Scanner" = "Spiele-Scanner";
 
@@ -317,8 +313,6 @@
 "Make your Wiimote discoverable" = "Mache die Wiimote entdeckbar";
 
 "Manually choose system on import" = "Konsole beim Import manuell auswählen";
-
-"MEDIA" = "Medien";
 
 "Missing Core" = "Kern fehlt";
 
@@ -522,8 +516,6 @@
 
 "Stop" = "Beenden";
 
-"Switch To Flow View" = "Objekte mit Cover Flow zeigen";
-
 "Switch To Grid View" = "Objekte als Symbole zeigen";
 
 "Switch To List View" = "Objekte in einer Liste zeigen";
@@ -546,7 +538,7 @@
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "Der Kern konnte nicht heruntergeladen werden. Versuche ihn in den Kern-Einstellungen zu installieren.";
 
-"The file you selected doesn't exist" = "Die Datei, die du ausgewählt hast, existiert nicht";
+"The file you selected doesn't exist" = "Die ausgewählte Datei existiert nicht";
 
 "The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "Das Spiel „%@“ konnte nicht gestartet werden, da die ROM-Datei nicht gefunden wurde. Möchtest du sie suchen?";
 
@@ -564,7 +556,7 @@
 
 "Title:" = "Titel:";
 
-"To launch the save state %@ you will need to install the '%@' Core" = "Um den Spielstand „%1$@“ zu laden, musst du den Kern „%2$@“ installieren";
+"To launch the save state %@ you will need to install the '%@' Core" = "Um den Spielstand „%1$@“ zu laden, muss der Kern „%2$@“ installiert werden";
 
 "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "Um dieses Spiel zu starten, werden folgende Dateien benötigt:\n\n%@Ziehe die erforderlichen Dateien in die Mediatheksansicht und starte das Spiel erneut.";
 
@@ -602,7 +594,7 @@
 
 "Yes" = "Ja";
 
-"You can't move your library here!" = "Du kannst die Mediathek nicht hierhin verschieben.";
+"You can't move your library here!" = "Die Mediathek kann nicht hierhin verschoben werden.";
 
 "You need to restart the application to commit the change" = "OpenEmu muss neu gestartet werden, um die Änderung anzuwenden";
 
@@ -620,4 +612,36 @@
 
 "Game Name" = "Spieltitel";
 
-"Learn More" = "Learn More"; // TODO Missing BIOS files modal, Wiimote modal
+"Learn More" = "Mehr erfahren";
+
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "„%@“-Spiele erscheinen hier. Erfahre in %@, wie man Disc-basierte Spiele hinzufügt.";
+
+"this guide" = "dieser Anleitung";
+
+"Have you read the guide?" = "Hast du die Anleitung gelesen?";
+
+"Disc-based games have special requirements. Please read the disc importing guide." = "Disk-basierte Spiele erfordern besondere Maßnahmen. Bitte lies die Anleitung über das Importieren von Discs.";
+
+"View Guide In Browser" = "Im Browser anzeigen";
+
+"Dismiss" = "Ausblenden";
+
+"Drag & Drop Save States Here" = "Spielstände hierhin ziehen";
+
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "Du kannst deinen Fortschritt jederzeit als Spielstand sichern. Beendest du ein Spiel, wird sogar automatisch einer angelegt. Komme später zurück, um dir einen Überblick über deine Spielstände zu verschaffen.";
+
+"No Screenshots Found" = "Keine Screenshots gefunden";
+
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Erstelle deine persönliche Screenshot-Sammlung. Um einen Screenshot aufzunehmen, drücke während eines Spiels die Tasten ⌘ + T.";
+
+"Share" = "Senden";
+
+"Show game scanner view" = "Spiele-Scanner einblenden";
+
+"Hide game scanner view" = "Spiele-Scanner ausblenden";
+
+"Show autosave states in save state category" = "Automatische Sicherungen in Spielstände-Kategorie anzeigen";
+
+"Show quicksave states in save state category" = "Schnelle Sicherungen in Spielstände-Kategorie anzeigen";
+
+"Show screenshot notification during gameplay" = "Screenshot-Mitteilung während des Spielens anzeigen";

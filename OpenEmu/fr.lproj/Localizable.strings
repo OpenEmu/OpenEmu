@@ -126,11 +126,9 @@
 
 "Collapse" = "Réduire";
 
-"COLLECTIONS" = "COLLECTIONS";
-
 "Collections" = "Collections";
 
-"CONSOLES" = "CONSOLES";
+"Consoles" = "Consoles";
 
 "Consolidate Files…" = "Consolider les fichiers…";
 
@@ -201,8 +199,6 @@
 "Device Disconnected" = "Périphérique déconnecté";
 
 "Device number %lu, %@, has disconnected." = "Le périphérique numéro %1$lu, %2$@, a été déconnecté.";
-
-"DEVICES" = "PÉRIPHÉRIQUES";
 
 "Disable aspect ratio correction" = "Désactiver la correction du rapport d’aspect";
 
@@ -311,8 +307,6 @@
 "Make your Wiimote discoverable" = "Rendre votre Wiimote découvrable";
 
 "Manually choose system on import" = "Choisir manuellement le système lors de l’importation";
-
-"MEDIA" = "MÉDIA";
 
 "Missing Core" = "Cœur manquant";
 
@@ -514,8 +508,6 @@
 
 "Stop" = "Arrêter";
 
-"Switch To Flow View" = "Présentation sous forme de Cover Flow";
-
 "Switch To Grid View" = "Présentation par grille";
 
 "Switch To List View" = "Présentation par liste";
@@ -621,3 +613,35 @@
 "No Internet Connection" = "No Internet Connection"; // TODO
 
 "Learn More" = "Learn More"; // TODO Missing BIOS files modal, Wiimote modal
+
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ games will appear here. Check out %@ on how to add disc-based games."; // TODO
+
+"this guide" = "this guide"; // TODO
+
+"Have you read the guide?" = "Have you read the guide?"; // TODO
+
+"Disc-based games have special requirements. Please read the disc importing guide." = "Disc-based games have special requirements. Please read the disc importing guide."; // TODO
+
+"View Guide In Browser" = "View Guide In Browser"; // TODO
+
+"Dismiss" = "Dismiss"; // TODO
+
+"Drag & Drop Save States Here" = "Drag & Drop Save States Here"; // TODO
+
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves."; // TODO
+
+"No Screenshots Found" = "No Screenshots Found"; // TODO
+
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game."; // TODO
+
+"Share" = "Share"; // TODO
+
+"Show game scanner view" = "Show game scanner view"; // TODO
+
+"Hide game scanner view" = "Hide game scanner view"; // TODO
+
+"Show autosave states in save state category" = "Show autosave states in save state category"; // TODO
+
+"Show quicksave states in save state category" = "Show quicksave states in save state category"; // TODO
+
+"Show screenshot notification during gameplay" = "Show screenshot notification during gameplay"; // TODO
