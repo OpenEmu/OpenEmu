@@ -277,7 +277,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                 NSRect placeholderViewFrame = self.window.contentView.frame;
                 placeholderViewFrame.size.height -= NSHeight(self.titlebarBackgroundView.frame);
                 self.placeholderView.frame = placeholderViewFrame;
-                window.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+                window.appearance = nil;
             }
         }
     };
