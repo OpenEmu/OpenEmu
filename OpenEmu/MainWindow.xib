@@ -8,14 +8,15 @@
         <customObject id="-2" userLabel="File's Owner" customClass="OEMainWindowController">
             <connections>
                 <outlet property="libraryController" destination="49" id="50"/>
-                <outlet property="placeholderView" destination="4" id="53"/>
+                <outlet property="placeholderView" destination="Brq-1C-d34" id="9dg-dY-wuu"/>
+                <outlet property="titlebarBackgroundView" destination="WDC-2Z-Rqg" id="S6U-Ub-q1k"/>
                 <outlet property="window" destination="3" id="42"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="OpenEmu" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="LibraryWindow" animationBehavior="default" id="3" userLabel="Library Window - Library">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" fullSizeContentView="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <rect key="contentRect" x="196" y="114" width="830" height="555"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
@@ -23,6 +24,24 @@
             <view key="contentView" id="4">
                 <rect key="frame" x="0.0" y="0.0" width="830" height="555"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                <subviews>
+                    <customView id="WDC-2Z-Rqg" customClass="OEMainWindowTitlebarBackgroundView">
+                        <rect key="frame" x="0.0" y="518" width="830" height="37"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <animations/>
+                    </customView>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="aRl-ho-Lg4">
+                        <rect key="frame" x="0.0" y="0.0" width="830" height="518"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="background_lighting" id="D0G-mr-w49"/>
+                    </imageView>
+                    <customView id="Brq-1C-d34">
+                        <rect key="frame" x="0.0" y="0.0" width="830" height="518"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                    </customView>
+                </subviews>
                 <animations/>
             </view>
             <toolbar key="toolbar" implicitIdentifier="647CF7A7-A628-4038-A1D8-26746C7CC43D" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="OsE-Wy-Uye">
@@ -36,4 +55,7 @@
         </window>
         <viewController id="49" customClass="OELibraryController"/>
     </objects>
+    <resources>
+        <image name="background_lighting" width="322" height="261"/>
+    </resources>
 </document>

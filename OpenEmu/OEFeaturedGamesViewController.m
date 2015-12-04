@@ -126,10 +126,16 @@ const static CGFloat TableViewSpacing = 86.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:tableView];
 }
 
+- (void)viewWillAppear
+{
+    [super viewWillAppear];
+    
+    [self _setupToolbar];
+}
+
 - (void)viewDidAppear
 {
     [super viewDidAppear];
-    [self _setupToolbar];
 
     // Fetch games if we haven't already, this allows reloading if an error occured, by switching to a different collection or media view and then back to featured games
     if([[self games] count] == 0)
