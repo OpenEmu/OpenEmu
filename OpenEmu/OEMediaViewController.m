@@ -91,10 +91,16 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     [[self gridView] setCellClass:[OEGridMediaItemCell class]];
 }
 
+- (void)viewWillAppear
+{
+    [super viewWillAppear];
+    
+    [self _setupToolbar];
+}
+
 - (void)viewDidAppear
 {
     [super viewDidAppear];
-    [self _setupToolbar];
     
     // Restore media selection.
     NSManagedObjectContext *context = self.libraryController.database.mainThreadContext;
