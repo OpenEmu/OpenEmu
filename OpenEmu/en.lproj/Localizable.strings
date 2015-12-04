@@ -28,6 +28,8 @@
 
 "%@ could not be enabled because its plugin was not found." = "%@ could not be enabled because its plugin was not found.";
 
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ games will appear here. Check out %@ on how to add disc-based games.";
+
 "%@ games you add to OpenEmu will appear in this Console Library" = "%@ games you add to OpenEmu will appear in this Console Library";
 
 "%ux" = "%ux";
@@ -36,21 +38,17 @@
 
 "Add a Wiimote…" = "Add a Wiimote…";
 
-"Add Cheat" = "Add Cheat";
-
 "Add Cheat…" = "Add Cheat…";
+
+"Add Cheat" = "Add Cheat";
 
 "Add Cover Art From File…" = "Add Cover Art From File…";
 
 "Add To Collection" = "Add To Collection";
 
-"Add untracked save states" = "Add untracked save states";
-
 "All Games" = "All Games";
 
 "All Homebrew" = "All Homebrew";
-
-"Always show BIOS preferences" = "Always show BIOS preferences";
 
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Are you sure you want to delete %ld save games from your OpenEmu library?";
 
@@ -84,13 +82,7 @@
 
 "Bluetooth Not Enabled" = "Bluetooth Not Enabled";
 
-"Can delete save states" = "Can delete save states";
-
 "Cancel Cover Art Download" = "Cancel Cover Art Download";
-
-"Cancel cover sync for all games" = "Cancel cover sync for all games";
-
-"Cancel OpenVGDB Update" = "Cancel OpenVGDB Update";
 
 "Cancel Operation" = "Cancel Operation";
 
@@ -110,19 +102,7 @@
 
 "Choose OpenEmu Library" = "Choose OpenEmu Library";
 
-"Choose save states directory…" = "Choose save states directory…";
-
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.";
-
-"Cleanup autosave state" = "Cleanup autosave state";
-
-"Cleanup rom hashes" = "Cleanup rom hashes";
-
-"Cleanup Save States" = "Cleanup Save States";
-
-"Clicking on image selects button" = "Clicking on image selects button";
-
-"Clicking outside image deselects button" = "Clicking outside image deselects button";
 
 "Code:" = "Code:";
 
@@ -137,8 +117,6 @@
 "Consolidate" = "Consolidate";
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone.";
-
-"Controls Setup" = "Controls Setup";
 
 "Controls" = "Controls";
 
@@ -168,15 +146,9 @@
 
 "Create or Load Save State" = "Create or Load Save State";
 
-"Dark GridView context menu" = "Dark GridView context menu";
-
-"Database Actions" = "Database Actions";
-
-"Debug Mode" = "Debug Mode";
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game.";
 
 "Default Core" = "Default Core";
-
-"Delete Artwork that can be downloaded" = "Delete Artwork that can be downloaded";
 
 "Delete Collection" = "Delete Collection";
 
@@ -198,15 +170,17 @@
 
 "Delete" = "Delete";
 
+"Description" = "Description"; // Search field menu, only search description
+
 "Deselect All" = "Deselect All";
 
 "Device Disconnected" = "Device Disconnected";
 
 "Device number %lu, %@, has disconnected." = "Device number %1$lu, %2$@, has disconnected.";
 
-"Disable aspect ratio correction" = "Disable aspect ratio correction";
+"Disc-based games have special requirements. Please read the disc importing guide." = "Disc-based games have special requirements. Please read the disc importing guide.";
 
-"Disable grid view gloss overlay" = "Disable grid view gloss overlay";
+"Dismiss" = "Dismiss";
 
 "Do it!" = "Do it!";
 
@@ -226,10 +200,6 @@
 
 "Download Cover Art" = "Download Cover Art";
 
-"Download missing artwork on the fly" = "Download missing artwork on the fly";
-
-"Download missing artwork" = "Download missing artwork";
-
 "Download" = "Download";
 
 "Downloading %@…" = "Downloading %@…";
@@ -240,7 +210,7 @@
 
 "Drag & Drop Games Here" = "Drag & Drop Games Here";
 
-"Draw button mask above image" = "Draw button mask above image";
+"Drag & Drop Save States Here" = "Drag & Drop Save States Here";
 
 "Duplicate Collection" = "Duplicate Collection";
 
@@ -252,27 +222,29 @@
 
 "Error!" = "Error!";
 
+"Everything" = "Everything"; // Search field menu, search everything item title
+
 "Featured Games" = "Featured Games";
 
 "Fetching Games…" = "Fetching Games…";
 
+"Filter by:" = "Filter by:"; // Search field menu, first item, instructional
+
 "Game %ld of %ld" = "Game %1$ld of %2$ld";
+
+"Game Name" = "Game Name"; // Search field menu, only search game name
 
 "Game requires download" = "Game requires download";
 
 "Game Scanner" = "Game Scanner";
 
-"Game View Background color" = "Game View Background color";
-
 "Gameplay" = "Gameplay";
 
-"General" = "General";
+"Have you read the guide?" = "Have you read the guide?";
 
 "Hide \"%@\"" = "Hide \"%@\"";
 
 "Homebrew Games" = "Homebrew Games";
-
-"HUD Bar / Gameplay" = "HUD Bar / Gameplay";
 
 "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②.";
 
@@ -292,7 +264,7 @@
 
 "Keyboard" = "Keyboard";
 
-"Library Window" = "Library Window";
+"Learn More" = "Learn More";
 
 "Library" = "Library";
 
@@ -302,17 +274,11 @@
 
 "Locate" = "Locate";
 
-"Log HID Events" = "Log HID Events";
-
-"Log Keyboard Events" = "Log Keyboard Events";
-
 "Low Controller Battery" = "Low Controller Battery";
 
 "Make sure your internet connection is active and download a suitable core." = "Make sure your internet connection is active and download a suitable core.";
 
 "Make your Wiimote discoverable" = "Make your Wiimote discoverable";
-
-"Manually choose system on import" = "Manually choose system on import";
 
 "Missing Core" = "Missing Core";
 
@@ -323,6 +289,8 @@
 "Move to Trash" = "Move to Trash";
 
 "Mute Audio" = "Mute Audio";
+
+"Name" = "Name"; // Search field menu, only search names
 
 "New Collection from Selection" = "New Collection from Selection";
 
@@ -339,6 +307,8 @@
 "No Internet Connection" = "No Internet Connection";
 
 "No Save States available" = "No Save States available";
+
+"No Screenshots Found" = "No Screenshots Found";
 
 "No" = "No";
 
@@ -364,15 +334,11 @@
 
 "OpenEmu will save and quit all games that are currently running." = "OpenEmu will save and quit all games that are currently running.";
 
-"OpenVGDB" = "OpenVGDB";
-
 "Options" = "Options";
 
 "Pause Emulation" = "Pause Emulation";
 
 "Pause Gameplay" = "Pause Gameplay";
-
-"Perform Sanity Check on Database" = "Perform Sanity Check on Database";
 
 "Play Game" = "Play Game";
 
@@ -390,9 +356,9 @@
 
 "Quick Save State" = "Quick Save State";
 
-"Quick Save" = "Quick Save";
-
 "Quick Save, Slot %@" = "Quick Save, Slot %@";
+
+"Quick Save" = "Quick Save";
 
 "Quit" = "Quit";
 
@@ -401,16 +367,6 @@
 "Recently Added" = "Recently Added";
 
 "Recovered Auto Save" = "Recovered Auto Save";
-
-"Region" = "Region";
-
-"Remove duplicate states" = "Remove duplicate states";
-
-"Remove duplicated roms" = "Remove duplicated roms";
-
-"Remove missing states" = "Remove missing states";
-
-"Remove untracked artwork files" = "Remove untracked artwork files";
 
 "Remove" = "Remove";
 
@@ -423,8 +379,6 @@
 "Rename" = "Rename";
 
 "Required files are missing." = "Required files are missing.";
-
-"Reset main window size" = "Reset main window size";
 
 "Resolve %ld Issue" = "Resolve %ld Issue";
 
@@ -441,8 +395,6 @@
 "Resume Emulation" = "Resume Emulation";
 
 "Resume" = "Resume";
-
-"Run games using" = "Run games using";
 
 "Save As:" = "Save As:";
 
@@ -478,29 +430,11 @@
 
 "Select Filter" = "Select Filter";
 
-"Select first field after setting the last" = "Select first field after setting the last";
-
 "Select Scale" = "Select Scale";
 
-"Set default save states directory" = "Set default save states directory";
-
-"Setup Assistant has finished" = "Setup Assistant has finished";
-
-"Show all global keys" = "Show all global keys";
-
-"Show audio output device in menu" = "Show audio output device in menu";
-
-"Show autosave in menu" = "Show autosave in menu";
-
-"Show game titles instead of rom names" = "Show game titles instead of rom names";
+"Share" = "Share";
 
 "Show in Finder" = "Show in Finder";
-
-"Show options button" = "Show options button";
-
-"Show quicksave in menu" = "Show quicksave in menu";
-
-"Show quicksave notification during gameplay" = "Show quicksave notification during gameplay";
 
 "Slot %d" = "Slot %d";
 
@@ -523,8 +457,6 @@
 "System Files" = "System Files";
 
 "System" = "System";
-
-"Take screenshots in native size" = "Take screenshots in native size";
 
 "Takes you to the %@ project website" = "Takes you to the %@ project website";
 
@@ -550,6 +482,8 @@
 
 "The System plugin could not be found!" = "The System plugin could not be found!";
 
+"this guide" = "this guide";
+
 "This save state was created with a different core. Do you want to switch to that core now?" = "This save state was created with a different core. Do you want to switch to that core now?";
 
 "This System has no corresponding core installed." = "This System has no corresponding core installed.";
@@ -568,23 +502,17 @@
 
 "Unmute Audio" = "Unmute Audio";
 
-"Update OpenVGDB" = "Update OpenVGDB";
-
 "Update" = "Update";
 
-"Use game name as window title" = "Use game name as window title";
-
-"Use gamecore picker" = "Use gamecore picker";
-
-"Use quicksave slots" = "Use quicksave slots";
-
 "User guide on BIOS files" = "User guide on BIOS files";
+
+"View Guide In Browser" = "View Guide In Browser";
 
 "Warning" = "Warning";
 
 "While performing this operation OpenEmu will be unresponsive." = "While performing this operation OpenEmu will be unresponsive.";
 
-"WiiRemote support (requires relaunch)" = "WiiRemote support (requires relaunch)";
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves.";
 
 "Won't be able to recognize it as special save state…" = "Won't be able to recognize it as special save state…";
 
@@ -602,46 +530,113 @@
 
 "Your library was moved sucessfully." = "Your library was moved sucessfully.";
 
-"Filter by:" = "Filter by:"; // Search field menu, first item, instructional
 
-"Everything" = "Everything"; // Search field menu, search everything item title
+/* Secrets */
 
-"Name" = "Name"; // Search field menu, only search names
+"General" = "General";
 
-"Description" = "Description"; // Search field menu, only search description
+"Debug Mode" = "Debug Mode";
 
-"Game Name" = "Game Name"; // Search field menu, only search game name
+"Setup Assistant has finished" = "Setup Assistant has finished";
 
-"Learn More" = "Learn More";
+"Region" = "Region";
 
-"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ games will appear here. Check out %@ on how to add disc-based games.";
+"Run games using" = "Run games using";
 
-"this guide" = "this guide";
+"Library Window" = "Library Window";
 
-"Have you read the guide?" = "Have you read the guide?";
+"Reset main window size" = "Reset main window size";
 
-"Disc-based games have special requirements. Please read the disc importing guide." = "Disc-based games have special requirements. Please read the disc importing guide.";
+"Dark GridView context menu" = "Dark GridView context menu";
 
-"View Guide In Browser" = "View Guide In Browser";
+"Download missing artwork on the fly" = "Download missing artwork on the fly";
 
-"Dismiss" = "Dismiss";
+"Show game titles instead of rom names" = "Show game titles instead of rom names";
 
-"Drag & Drop Save States Here" = "Drag & Drop Save States Here";
-
-"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves.";
-
-"No Screenshots Found" = "No Screenshots Found";
-
-"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game.";
-
-"Share" = "Share";
-
-"Show game scanner view" = "Show game scanner view";
-
-"Hide game scanner view" = "Hide game scanner view";
+"Manually choose system on import" = "Manually choose system on import";
 
 "Show autosave states in save state category" = "Show autosave states in save state category";
 
 "Show quicksave states in save state category" = "Show quicksave states in save state category";
 
+"Show game scanner view" = "Show game scanner view";
+
+"Hide game scanner view" = "Hide game scanner view";
+
+"HUD Bar / Gameplay" = "HUD Bar / Gameplay";
+
+"Use game name as window title" = "Use game name as window title";
+
+"Can delete save states" = "Can delete save states";
+
+"Show options button" = "Show options button";
+
+"Use gamecore picker" = "Use gamecore picker";
+
+"Show quicksave notification during gameplay" = "Show quicksave notification during gameplay";
+
 "Show screenshot notification during gameplay" = "Show screenshot notification during gameplay";
+
+"Use quicksave slots" = "Use quicksave slots";
+
+"Show quicksave in menu" = "Show quicksave in menu";
+
+"Show autosave in menu" = "Show autosave in menu";
+
+"Show audio output device in menu" = "Show audio output device in menu";
+
+"Take screenshots in native size" = "Take screenshots in native size";
+
+"Disable aspect ratio correction" = "Disable aspect ratio correction";
+
+"Game View Background color" = "Game View Background color";
+
+"Controls Setup" = "Controls Setup";
+
+"WiiRemote support (requires relaunch)" = "WiiRemote support (requires relaunch)";
+
+"Clicking on image selects button" = "Clicking on image selects button";
+
+"Clicking outside image deselects button" = "Clicking outside image deselects button";
+
+"Select first field after setting the last" = "Select first field after setting the last";
+
+"Draw button mask above image" = "Draw button mask above image";
+
+"Log HID Events" = "Log HID Events";
+
+"Log Keyboard Events" = "Log Keyboard Events";
+
+"Show all global keys" = "Show all global keys";
+
+"Always show BIOS preferences" = "Always show BIOS preferences";
+
+"Set default save states directory" = "Set default save states directory";
+
+"Choose save states directory…" = "Choose save states directory…";
+
+"Cleanup autosave state" = "Cleanup autosave state";
+
+"Cleanup Save States" = "Cleanup Save States";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Update OpenVGDB" = "Update OpenVGDB";
+
+"Cancel OpenVGDB Update" = "Cancel OpenVGDB Update";
+
+"Database Actions" = "Database Actions";
+
+"Delete Artwork that can be downloaded" = "Delete Artwork that can be downloaded";
+
+"Download missing artwork" = "Download missing artwork";
+
+"Remove untracked artwork files" = "Remove untracked artwork files";
+
+"Cleanup rom hashes" = "Cleanup rom hashes";
+
+"Remove duplicated roms" = "Remove duplicated roms";
+
+"Cancel cover sync for all games" = "Cancel cover sync for all games";
+
+"Perform Sanity Check on Database" = "Perform Sanity Check on Database";
