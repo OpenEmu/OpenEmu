@@ -75,22 +75,22 @@
                         </connections>
                     </textField>
                     <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="xLS-eK-dBr">
-                        <rect key="frame" x="88" y="47" width="225" height="85"/>
+                        <rect key="frame" x="50" y="47" width="300" height="85"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="xgL-cd-0sR">
-                            <rect key="frame" x="0.0" y="0.0" width="225" height="85"/>
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="85"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" verticallyResizable="YES" linkDetection="YES" spellingCorrection="YES" id="1l5-5j-Ds9">
-                                    <rect key="frame" x="0.0" y="0.0" width="225" height="85"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="85"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <animations/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="225" height="85"/>
+                                    <size key="minSize" width="300" height="85"/>
                                     <size key="maxSize" width="463" height="10000000"/>
                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="minSize" width="225" height="85"/>
+                                    <size key="minSize" width="300" height="85"/>
                                     <size key="maxSize" width="463" height="10000000"/>
                                     <connections>
                                         <binding destination="805" name="attributedString" keyPath="specialThanks" id="TRw-My-UUK">
