@@ -258,7 +258,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
             [window setFrame:windowFrame display:NO];
             
             _gameDocument.gameWindowController = self;
-            _gameDocument.emulationPaused = NO;
         }
         else
         {
@@ -307,16 +306,29 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         replaceController(_currentContentController.view);
         
         [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+            
             context.duration = 0.2;
             fadeWindow.animator.alphaValue = 0.0;
+            
         } completionHandler:^{
+            
             [window removeChildWindow:fadeWindow];
+            
+            // If a game is playing in the library window, unpause emulation when the transition completes.
+            if (newController == _gameDocument.gameViewController) {
+                _gameDocument.emulationPaused = NO;
+            }
         }];
     }
     else
     {
         sendViewWillDisappear();
         replaceController(_currentContentController.view);
+        
+        // If a game is playing in the library window, unpause emulation immediately.
+        if (newController == _gameDocument.gameViewController) {
+            _gameDocument.emulationPaused = NO;
+        }
     }
 }
 
