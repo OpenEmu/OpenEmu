@@ -138,6 +138,9 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [self gradientOverlay].topColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.3];
     [self gradientOverlay].bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
 
+    NSAppearance *aquaAppearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+    [self.controlsContainer.enclosingScrollView setAppearance:aquaAppearance];
+
     [[self controllerView] setWantsLayer:YES];
 
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];

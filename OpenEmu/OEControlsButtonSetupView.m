@@ -144,7 +144,7 @@ static const CGFloat leftGap             =  16.0;
 static const CGFloat itemHeight          =  24.0;
 static const CGFloat verticalItemSpacing =   9.0; // item bottom to top
 static const CGFloat labelButtonSpacing  =   5.0;
-static const CGFloat buttonWidth         = 136.0;
+static const CGFloat buttonWidth         = 130.0;
 static const CGFloat minimumFrameHeight  = 259.0;
 
 static const CGFloat sectionTitleHeight  =  25.0;

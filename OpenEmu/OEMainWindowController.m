@@ -250,6 +250,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
             window.titleVisibility = NSWindowTitleVisible;
             self.titlebarBackgroundView.hidden = YES;
             self.placeholderView.frame = self.window.contentView.frame;
+            window.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
             
             // Disable the full size content view window style mask attribute.
             NSRect windowFrame = window.frame;
@@ -276,6 +277,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                 NSRect placeholderViewFrame = self.window.contentView.frame;
                 placeholderViewFrame.size.height -= NSHeight(self.titlebarBackgroundView.frame);
                 self.placeholderView.frame = placeholderViewFrame;
+                window.appearance = nil;
             }
         }
     };
