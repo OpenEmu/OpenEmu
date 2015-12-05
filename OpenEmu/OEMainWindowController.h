@@ -53,5 +53,5 @@ extern NSString *const OEMainWindowFullscreenKey;
 - (void)startGame:(OEDBGame*)game;
 @end
 
-@interface OEMainWindowTitlebarBackgroundView: NSView
+@interface OEMainWindowTitlebarBackgroundView : NSView
 @end

@@ -30,12 +30,6 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <animations/>
                     </customView>
-                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="aRl-ho-Lg4">
-                        <rect key="frame" x="0.0" y="0.0" width="830" height="518"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="background_lighting" id="D0G-mr-w49"/>
-                    </imageView>
                     <customView id="Brq-1C-d34">
                         <rect key="frame" x="0.0" y="0.0" width="830" height="518"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -55,7 +49,4 @@
         </window>
         <viewController id="49" customClass="OELibraryController"/>
     </objects>
-    <resources>
-        <image name="background_lighting" width="322" height="261"/>
-    </resources>
 </document>
