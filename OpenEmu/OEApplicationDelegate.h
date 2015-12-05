@@ -50,6 +50,7 @@
 @property(readonly) NSString           *appVersion;
 @property(readonly) NSString           *buildVersion;
 @property(readonly) NSAttributedString *projectURL;
+@property(readonly) NSAttributedString *specialThanks;
 #pragma mark - Help Menu
 - (IBAction)showOEHelp:(id)sender;
 - (IBAction)showOEReleaseNotes:(id)sender;

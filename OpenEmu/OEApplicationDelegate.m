@@ -84,6 +84,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     id _HIDEventsMonitor;
     id _keyboardEventsMonitor;
     id _unhandledEventsMonitor;
+  
+    NSAttributedString *_specialThanksCache;
 }
 
 @property(strong) NSArray *cachedLastPlayedInfo;
@@ -742,6 +744,21 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", [sender title]]];
     [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
+- (NSAttributedString *)specialThanks
+{
+    if (!_specialThanksCache) {
+        NSString *msg = NSLocalizedString(@"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub.", @"Special thanks message (about window).");
+        NSMutableParagraphStyle *ps = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [ps setAlignment:NSTextAlignmentCenter];
+        [ps setLineHeightMultiple:1.225];
+        NSDictionary *attr = @{NSFontAttributeName: [NSFont systemFontOfSize:[NSFont smallSystemFontSize]],
+                               NSParagraphStyleAttributeName: ps,
+                               NSForegroundColorAttributeName: [NSColor whiteColor]};
+        _specialThanksCache = [[NSAttributedString alloc] initWithString:msg attributes:attr];
+    }
+    return _specialThanksCache;
 }
 
 #pragma mark - Application Info

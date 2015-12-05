@@ -640,3 +640,5 @@
 "Cancel cover sync for all games" = "Cancelar sincronización de caratula para todos los juegos";
 
 "Perform Sanity Check on Database" = "Realizar comprobación de integridad en la base de datos";
+
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Gracias especialmente a todos los que hacen\nposible OpenEmu. Para saber más sobre\nnuestros colaboradores, núcleos del emulador,\ndocumentación, licencias y para dar parte de\nerrores por favor visítenos en GitHub.";
