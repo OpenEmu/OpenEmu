@@ -635,4 +635,11 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     NSRectFill(bottomBorderRect);
 }
 
+- (void)mouseUp:(NSEvent *)event
+{
+    if (event.clickCount == 2) {
+        [self.window performZoom:nil];
+    }
+}
+
 @end
