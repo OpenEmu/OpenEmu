@@ -1,0 +1,18 @@
+
+/* Class = "NSTextFieldCell"; title = "Window Management"; ObjectID = "14"; */
+"14.title" = "Fenster";
+
+/* Class = "NSTextFieldCell"; title = "Filter:"; ObjectID = "21"; */
+"21.title" = "Filter:";
+
+/* Class = "NSTextFieldCell"; title = "Display Mode"; ObjectID = "23"; */
+"23.title" = "Anzeige";
+
+/* Class = "NSButtonCell"; title = "Always use popout gameplay window"; ObjectID = "25"; */
+"25.title" = "Spiele in eigenem Fenster starten";
+
+/* Class = "NSButtonCell"; title = "Always launch games fullscreen"; ObjectID = "26"; */
+"26.title" = "Spiele im Vollbildmodus starten";
+
+/* Class = "NSButtonCell"; title = "Always pause gameplay when in background"; ObjectID = "57"; */
+"57.title" = "Spiele im Hintergrund pausieren";

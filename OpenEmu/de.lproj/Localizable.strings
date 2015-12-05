@@ -28,6 +28,8 @@
 
 "%@ could not be enabled because its plugin was not found." = "%@ konnte nicht aktiviert werden, da kein passendes Plugin gefunden wurde.";
 
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "„%@“-Spiele erscheinen hier. Erfahre in %@, wie man Disc-basierte Spiele hinzufügt.";
+
 "%@ games you add to OpenEmu will appear in this Console Library" = "„%@“-Spiele, die du zu OpenEmu hinzufügst, erscheinen in dieser Ansicht.";
 
 "%ux" = "%ux";
@@ -36,21 +38,17 @@
 
 "Add a Wiimote…" = "Wiimote hinzufügen …";
 
-"Add Cheat" = "Cheat hinzufügen";
-
 "Add Cheat…" = "Cheat hinzufügen …";
+
+"Add Cheat" = "Cheat hinzufügen";
 
 "Add Cover Art From File…" = "Cover aus Datei hinzufügen …";
 
 "Add To Collection" = "Zur Sammlung hinzufügen";
 
-"Add untracked save states" = "Nicht getrackte Spielstände hinzufügen";
-
 "All Games" = "Alle Spiele";
 
 "All Homebrew" = "Alle Homebrew-Spiele";
-
-"Always show BIOS preferences" = "BIOS-Einstellungen immer anzeigen";
 
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Möchtest du wirklich %ld Spielstände aus der Mediathek entfernen?";
 
@@ -84,13 +82,7 @@
 
 "Bluetooth Not Enabled" = "Bluetooth ist nicht aktiviert";
 
-"Can delete save states" = "Spielstände sind löschbar";
-
 "Cancel Cover Art Download" = "Cover-Download abbrechen";
-
-"Cancel cover sync for all games" = "Cover-Sync für alle Spiele abbrechen";
-
-"Cancel OpenVGDB Update" = "OpenVGDB-Update abbrechen";
 
 "Cancel Operation" = "Operation abbrechen";
 
@@ -110,19 +102,7 @@
 
 "Choose OpenEmu Library" = "OpenEmu-Mediathek auswählen";
 
-"Choose save states directory…" = "Spielstandordner auswählen …";
-
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Möchtest du wirklich alle Objekte aus der Warteschlange entfernen? Spiele, die bereits importiert wurden, bleiben in der Mediathek.";
-
-"Cleanup autosave state" = "Automatische Sicherungen aufräumen";
-
-"Cleanup rom hashes" = "ROM-Prüfsummen aufräumen";
-
-"Cleanup Save States" = "Spielstände aufräumen";
-
-"Clicking on image selects button" = "Klick auf Grafik wählt Button aus";
-
-"Clicking outside image deselects button" = "Klick außerhalb der Grafik hebt Auswahl auf";
 
 "Code:" = "Code:";
 
@@ -130,17 +110,13 @@
 
 "Collections" = "Sammlungen";
 
-"COLLECTIONS" = "Sammlungen";
-
-"CONSOLES" = "Konsolen";
+"Consoles" = "Konsolen";
 
 "Consolidate Files…" = "Dateien zusammenlegen …";
 
 "Consolidate" = "Zusammenlegen";
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Beim Zusammenlegen werden die ausgewählten Spiele in den OpenEmu-Spieleordner kopiert.\n\nDiese Aktion kann nicht rückgängig gemacht werden.";
-
-"Controls Setup" = "Steuerung";
 
 "Controls" = "Steuerung";
 
@@ -170,15 +146,9 @@
 
 "Create or Load Save State" = "Spielstand erstellen oder laden";
 
-"Dark GridView context menu" = "Dunkles Kontextmenü in Spieleansicht verwenden";
-
-"Database Actions" = "Datenbank-Aktionen";
-
-"Debug Mode" = "Debug-Modus";
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Erstelle deine persönliche Screenshot-Sammlung. Um einen Screenshot aufzunehmen, drücke während eines Spiels die Tasten ⌘ + T.";
 
 "Default Core" = "Standard-Kern";
-
-"Delete Artwork that can be downloaded" = "Herunterladbare Cover löschen";
 
 "Delete Collection" = "Sammlung löschen";
 
@@ -200,17 +170,17 @@
 
 "Delete" = "Löschen";
 
+"Description" = "Beschreibung";
+
 "Deselect All" = "Auswahl aufheben";
 
 "Device Disconnected" = "Gerät getrennt";
 
 "Device number %lu, %@, has disconnected." = "Gerät %1$lu (%2$@) wurde getrent.";
 
-"DEVICES" = "Geräte";
+"Disc-based games have special requirements. Please read the disc importing guide." = "Disk-basierte Spiele erfordern besondere Maßnahmen. Bitte lies die Anleitung über das Importieren von Discs.";
 
-"Disable aspect ratio correction" = "Seitenverhältnis-Korrektur deaktivieren";
-
-"Disable grid view gloss overlay" = "Glanz-Overlay in Symbolansicht deaktivieren";
+"Dismiss" = "Ausblenden";
 
 "Do it!" = "Los!";
 
@@ -230,10 +200,6 @@
 
 "Download Cover Art" = "Cover herunterladen";
 
-"Download missing artwork on the fly" = "Fehlende Cover on-the-fly herunterladen";
-
-"Download missing artwork" = "Fehlende Cover herunterladen";
-
 "Download" = "Herunterladen";
 
 "Downloading %@…" = "%@ herunterladen …";
@@ -244,7 +210,7 @@
 
 "Drag & Drop Games Here" = "Spiele per Drag & Drop hinzufügen";
 
-"Draw button mask above image" = "Button-Maske über Grafik legen";
+"Drag & Drop Save States Here" = "Spielstände hierhin ziehen";
 
 "Duplicate Collection" = "Sammlung duplizieren";
 
@@ -256,27 +222,29 @@
 
 "Error!" = "Fehler!";
 
+"Everything" = "Alles";
+
 "Featured Games" = "Im Spotlight";
 
 "Fetching Games…" = "Spiele abrufen …";
 
+"Filter by:" = "Filtern nach:";
+
 "Game %ld of %ld" = "Spiel %1$ld von %2$ld";
 
-"Game requires download" = "Download erforderlich"; // TODO
+"Game Name" = "Spieltitel";
+
+"Game requires download" = "Download erforderlich";
 
 "Game Scanner" = "Spiele-Scanner";
 
-"Game View Background color" = "Hintergrund der Spieleansicht";
-
 "Gameplay" = "Gameplay";
 
-"General" = "Allgemein";
+"Have you read the guide?" = "Hast du die Anleitung gelesen?";
 
 "Hide \"%@\"" = "„%@“ ausblenden";
 
 "Homebrew Games" = "Homebrew-Spiele";
-
-"HUD Bar / Gameplay" = "HUD-Bar/Gameplay";
 
 "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "Wenn sich unter der Batteriefachdeckung ein roter Knopf befindet, drücke ihn.\nFalls nicht, drücke die Knöpfe ① und ②.";
 
@@ -296,7 +264,7 @@
 
 "Keyboard" = "Tastatur";
 
-"Library Window" = "Mediathek-Ansicht";
+"Learn More" = "Mehr erfahren";
 
 "Library" = "Mediathek";
 
@@ -306,19 +274,11 @@
 
 "Locate" = "Suchen";
 
-"Log HID Events" = "HID-Events loggen";
-
-"Log Keyboard Events" = "Tastatur-Events loggen";
-
 "Low Controller Battery" = "Batterieladung des Controllers ist schwach";
 
 "Make sure your internet connection is active and download a suitable core." = "Stelle sicher, dass eine Verbindung zum Internet besteht und lade einen passenden Kern herunter.";
 
 "Make your Wiimote discoverable" = "Mache die Wiimote entdeckbar";
-
-"Manually choose system on import" = "Konsole beim Import manuell auswählen";
-
-"MEDIA" = "Medien";
 
 "Missing Core" = "Kern fehlt";
 
@@ -329,6 +289,8 @@
 "Move to Trash" = "In den Papierkorb legen";
 
 "Mute Audio" = "Ton aus";
+
+"Name" = "Name";
 
 "New Collection from Selection" = "Neue Sammlung von Auswahl";
 
@@ -345,6 +307,8 @@
 "No Internet Connection" = "Keine Internetverbindung";
 
 "No Save States available" = "Keine Spielstände verfügbar";
+
+"No Screenshots Found" = "Keine Screenshots gefunden";
 
 "No" = "Nein";
 
@@ -370,15 +334,11 @@
 
 "OpenEmu will save and quit all games that are currently running." = "OpenEmu wird alle derzeit laufenden Spiele sichern und beenden.";
 
-"OpenVGDB" = "OpenVGDB";
-
 "Options" = "Optionen";
 
 "Pause Emulation" = "Spiel pausieren";
 
 "Pause Gameplay" = "Spiel pausieren";
-
-"Perform Sanity Check on Database" = "Datenbank auf Plausibilität prüfen";
 
 "Play Game" = "Spiel starten";
 
@@ -396,9 +356,9 @@
 
 "Quick Save State" = "Schnelle Sicherung";
 
-"Quick Save" = "Schnell sichern";
-
 "Quick Save, Slot %@" = "Schnelle Sicherung, Slot %@";
+
+"Quick Save" = "Schnell sichern";
 
 "Quit" = "Beenden";
 
@@ -407,16 +367,6 @@
 "Recently Added" = "Zuletzt hinzugefügt";
 
 "Recovered Auto Save" = "Wiederhergestellte automatische Sicherung";
-
-"Region" = "Region";
-
-"Remove duplicate states" = "Doppelte Spielstände entfernen";
-
-"Remove duplicated roms" = "Doppelte ROMs entfernen";
-
-"Remove missing states" = "Fehlende Spielstände entfernen";
-
-"Remove untracked artwork files" = "Nicht getrackte Cover entfernen";
 
 "Remove" = "Entfernen";
 
@@ -429,8 +379,6 @@
 "Rename" = "Umbenennen";
 
 "Required files are missing." = "Erforderliche Dateien fehlen.";
-
-"Reset main window size" = "Hauptfenster-Größe zurücksetzen";
 
 "Resolve %ld Issue" = "%ld Problem beheben";
 
@@ -447,8 +395,6 @@
 "Resume Emulation" = "Spiel fortsetzen";
 
 "Resume" = "Fortsetzen";
-
-"Run games using" = "Starte Spiele als";
 
 "Save As:" = "Name:";
 
@@ -484,29 +430,11 @@
 
 "Select Filter" = "Filter auswählen";
 
-"Select first field after setting the last" = "Nach letztem Feld erstes auswählen";
-
 "Select Scale" = "Skalierung auswählen";
 
-"Set default save states directory" = "Standard-Spielstandordner festlegen";
-
-"Setup Assistant has finished" = "Setup-Assistent wurde durchlaufen";
-
-"Show all global keys" = "Alle Global-Keys anzeigen";
-
-"Show audio output device in menu" = "Audio-Ausgabegerät in Menü anzeigen";
-
-"Show autosave in menu" = "Automatische Sicherung in Menü anzeigen";
-
-"Show game titles instead of rom names" = "Spieletitel statt Dateinamen anzeigen";
+"Share" = "Senden";
 
 "Show in Finder" = "Im Finder anzeigen";
-
-"Show options button" = "Optionen-Schaltfläche anzeigen";
-
-"Show quicksave in menu" = "Schnelle Sicherung in Menü anzeigen";
-
-"Show quicksave notification during gameplay" = "Schnellsicher-Mitteilung während des Spielens anzeigen";
 
 "Slot %d" = "Slot %d";
 
@@ -522,8 +450,6 @@
 
 "Stop" = "Beenden";
 
-"Switch To Flow View" = "Objekte mit Cover Flow zeigen";
-
 "Switch To Grid View" = "Objekte als Symbole zeigen";
 
 "Switch To List View" = "Objekte in einer Liste zeigen";
@@ -531,8 +457,6 @@
 "System Files" = "BIOS-Dateien";
 
 "System" = "Konsole";
-
-"Take screenshots in native size" = "Screenshots in Originalgröße aufnehmen";
 
 "Takes you to the %@ project website" = "Besuche die „%@“-Projektseite";
 
@@ -546,7 +470,7 @@
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "Der Kern konnte nicht heruntergeladen werden. Versuche ihn in den Kern-Einstellungen zu installieren.";
 
-"The file you selected doesn't exist" = "Die Datei, die du ausgewählt hast, existiert nicht";
+"The file you selected doesn't exist" = "Die ausgewählte Datei existiert nicht";
 
 "The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "Das Spiel „%@“ konnte nicht gestartet werden, da die ROM-Datei nicht gefunden wurde. Möchtest du sie suchen?";
 
@@ -558,13 +482,15 @@
 
 "The System plugin could not be found!" = "Das System-Plugin konnte nicht gefunden werden.";
 
+"this guide" = "dieser Anleitung";
+
 "This save state was created with a different core. Do you want to switch to that core now?" = "Dieser Spielstand wurde mit einem anderen Kern erstellt. Möchtest du zu diesem Kern wechseln?";
 
 "This System has no corresponding core installed." = "Für diese Konsole ist kein Kern installiert.";
 
 "Title:" = "Titel:";
 
-"To launch the save state %@ you will need to install the '%@' Core" = "Um den Spielstand „%1$@“ zu laden, musst du den Kern „%2$@“ installieren";
+"To launch the save state %@ you will need to install the '%@' Core" = "Um den Spielstand „%1$@“ zu laden, muss der Kern „%2$@“ installiert werden";
 
 "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "Um dieses Spiel zu starten, werden folgende Dateien benötigt:\n\n%@Ziehe die erforderlichen Dateien in die Mediatheksansicht und starte das Spiel erneut.";
 
@@ -576,23 +502,17 @@
 
 "Unmute Audio" = "Ton ein";
 
-"Update OpenVGDB" = "OpenVGDB aktualisieren";
-
 "Update" = "Aktualisieren";
 
-"Use game name as window title" = "Spieltitel als Fenstertitel verwenden";
-
-"Use gamecore picker" = "Kernauswahldialog verwenden";
-
-"Use quicksave slots" = "Slots für schnelle Sicherung verwenden";
-
 "User guide on BIOS files" = "Benutzerhandbuch über BIOS-Dateien";
+
+"View Guide In Browser" = "Im Browser anzeigen";
 
 "Warning" = "Warnung";
 
 "While performing this operation OpenEmu will be unresponsive." = "Während dieser Aktion wird OpenEmu nicht mehr reagieren.";
 
-"WiiRemote support (requires relaunch)" = "Wiimote-Unterstützung aktivieren (erfordert Neustart)";
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "Du kannst deinen Fortschritt jederzeit als Spielstand sichern. Beendest du ein Spiel, wird sogar automatisch einer angelegt. Komme später zurück, um dir einen Überblick über deine Spielstände zu verschaffen.";
 
 "Won't be able to recognize it as special save state…" = "Wird eine Automatische bzw. Schnelle Sicherung umbenannt, wird sie nicht mehr als solche erkannt werden können.";
 
@@ -602,7 +522,7 @@
 
 "Yes" = "Ja";
 
-"You can't move your library here!" = "Du kannst die Mediathek nicht hierhin verschieben.";
+"You can't move your library here!" = "Die Mediathek kann nicht hierhin verschoben werden.";
 
 "You need to restart the application to commit the change" = "OpenEmu muss neu gestartet werden, um die Änderung anzuwenden";
 
@@ -610,14 +530,113 @@
 
 "Your library was moved sucessfully." = "Die Mediathek wurde erfolgreich verschoben.";
 
-"Filter by:" = "Filtern nach:";
 
-"Everything" = "Alles";
+/* Secrets */
 
-"Name" = "Name";
+"General" = "Allgemein";
 
-"Description" = "Beschreibung";
+"Debug Mode" = "Debug-Modus";
 
-"Game Name" = "Spieltitel";
+"Setup Assistant has finished" = "Setup-Assistent wurde durchlaufen";
 
-"Learn More" = "Learn More"; // TODO Missing BIOS files modal, Wiimote modal
+"Region" = "Region";
+
+"Run games using" = "Starte Spiele als";
+
+"Library Window" = "Mediathek-Ansicht";
+
+"Reset main window size" = "Hauptfenster-Größe zurücksetzen";
+
+"Dark GridView context menu" = "Dunkles Kontextmenü in Spieleansicht verwenden";
+
+"Download missing artwork on the fly" = "Fehlende Cover on-the-fly herunterladen";
+
+"Show game titles instead of rom names" = "Spieletitel statt Dateinamen anzeigen";
+
+"Manually choose system on import" = "Konsole beim Import manuell auswählen";
+
+"Show autosave states in save state category" = "Automatische Sicherungen in Spielstände-Kategorie anzeigen";
+
+"Show quicksave states in save state category" = "Schnelle Sicherungen in Spielstände-Kategorie anzeigen";
+
+"Show game scanner view" = "Spiele-Scanner einblenden";
+
+"Hide game scanner view" = "Spiele-Scanner ausblenden";
+
+"HUD Bar / Gameplay" = "HUD-Bar/Gameplay";
+
+"Use game name as window title" = "Spieltitel als Fenstertitel verwenden";
+
+"Can delete save states" = "Spielstände sind löschbar";
+
+"Show options button" = "Optionen-Schaltfläche anzeigen";
+
+"Use gamecore picker" = "Kernauswahldialog verwenden";
+
+"Show quicksave notification during gameplay" = "Schnellsicher-Mitteilung während des Spielens anzeigen";
+
+"Show screenshot notification during gameplay" = "Screenshot-Mitteilung während des Spielens anzeigen";
+
+"Use quicksave slots" = "Slots für schnelle Sicherung verwenden";
+
+"Show quicksave in menu" = "Schnelle Sicherung in Menü anzeigen";
+
+"Show autosave in menu" = "Automatische Sicherung in Menü anzeigen";
+
+"Show audio output device in menu" = "Audio-Ausgabegerät in Menü anzeigen";
+
+"Take screenshots in native size" = "Screenshots in Originalgröße aufnehmen";
+
+"Disable aspect ratio correction" = "Seitenverhältnis-Korrektur deaktivieren";
+
+"Game View Background color" = "Hintergrund der Spieleansicht";
+
+"Controls Setup" = "Steuerung";
+
+"WiiRemote support (requires relaunch)" = "Wiimote-Unterstützung aktivieren (erfordert Neustart)";
+
+"Clicking on image selects button" = "Klick auf Grafik wählt Button aus";
+
+"Clicking outside image deselects button" = "Klick außerhalb der Grafik hebt Auswahl auf";
+
+"Select first field after setting the last" = "Nach letztem Feld erstes auswählen";
+
+"Draw button mask above image" = "Button-Maske über Grafik legen";
+
+"Log HID Events" = "HID-Events loggen";
+
+"Log Keyboard Events" = "Tastatur-Events loggen";
+
+"Show all global keys" = "Alle Global-Keys anzeigen";
+
+"Always show BIOS preferences" = "BIOS-Einstellungen immer anzeigen";
+
+"Set default save states directory" = "Standard-Spielstandordner festlegen";
+
+"Choose save states directory…" = "Spielstandordner auswählen …";
+
+"Cleanup autosave state" = "Automatische Sicherungen aufräumen";
+
+"Cleanup Save States" = "Spielstände aufräumen";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Update OpenVGDB" = "OpenVGDB aktualisieren";
+
+"Cancel OpenVGDB Update" = "OpenVGDB-Update abbrechen";
+
+"Database Actions" = "Datenbank-Aktionen";
+
+"Delete Artwork that can be downloaded" = "Herunterladbare Cover löschen";
+
+"Download missing artwork" = "Fehlende Cover herunterladen";
+
+"Remove untracked artwork files" = "Nicht getrackte Cover entfernen";
+
+"Cleanup rom hashes" = "ROM-Prüfsummen aufräumen";
+
+"Remove duplicated roms" = "Doppelte ROMs entfernen";
+
+"Cancel cover sync for all games" = "Cover-Sync für alle Spiele abbrechen";
+
+"Perform Sanity Check on Database" = "Datenbank auf Plausibilität prüfen";

@@ -1,0 +1,21 @@
+
+/* Class = "NSWindow"; title = "Preferences"; ObjectID = "36"; */
+"36.title" = "Préférences";
+
+/* Class = "NSToolbarItem"; label = "System Files"; ObjectID = "0uZ-aM-LnO"; */
+"0uZ-aM-LnO.label" = "Fichiers système";
+
+/* Class = "NSToolbarItem"; label = "Secrets"; ObjectID = "AKq-Kz-AwS"; */
+"AKq-Kz-AwS.label" = "Secrets";
+
+/* Class = "NSToolbarItem"; label = "Cores"; ObjectID = "CbK-K2-nlJ"; */
+"CbK-K2-nlJ.label" = "Cœurs";
+
+/* Class = "NSToolbarItem"; label = "Gameplay"; ObjectID = "SnN-ym-OO1"; */
+"SnN-ym-OO1.label" = "Jeu";
+
+/* Class = "NSToolbarItem"; label = "Library"; ObjectID = "dbA-TA-rFD"; */
+"dbA-TA-rFD.label" = "Bibliothèque";
+
+/* Class = "NSToolbarItem"; label = "Controls"; ObjectID = "ilV-yX-dT2"; */
+"ilV-yX-dT2.label" = "Contrôles";

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
     </dependencies>
     <objects>
@@ -29,7 +30,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="400" height="463"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="16930593-1212-47C0-896B-294507A60AAF" id="804"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="17A405DC-540C-43AA-9F39-A9D817D1E264" id="804"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" id="796">
                         <rect key="frame" x="17" y="184" width="366" height="18"/>
@@ -180,7 +181,7 @@ bugs please visit us on our GitHub. </string>
                                     <action selector="showAboutWindow:" target="-1" id="1148"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Verificar Atualizações..." id="1016">
+                            <menuItem title="Verificar Atualizações…" id="1016">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="checkForUpdates:" target="1179" id="1180"/>
@@ -263,7 +264,7 @@ bugs please visit us on our GitHub. </string>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="988"/>
-                            <menuItem title="Adicionar à Biblioteca..." tag="106" id="987">
+                            <menuItem title="Adicionar à Biblioteca…" tag="106" id="987">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="addToLibrary:" target="-1" id="1150"/>
@@ -276,10 +277,10 @@ bugs please visit us on our GitHub. </string>
                                         <menuItem title="Back Up…" id="1007">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
-                                        <menuItem title="Organizar Biblioteca..." id="1008">
+                                        <menuItem title="Organizar Biblioteca…" id="1008">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
-                                        <menuItem title="Exportar Biblioteca..." id="1009">
+                                        <menuItem title="Exportar Biblioteca…" id="1009">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="1010"/>
@@ -341,7 +342,7 @@ bugs please visit us on our GitHub. </string>
                             <menuItem title="Configuração da Página" id="997">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                             </menuItem>
-                            <menuItem title="Imprimir..." id="996">
+                            <menuItem title="Imprimir…" id="996">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                             </menuItem>
                         </items>
@@ -391,7 +392,7 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Buscar" id="1077">
                                     <items>
-                                        <menuItem title="Buscar..." tag="1" keyEquivalent="f" id="1082">
+                                        <menuItem title="Buscar…" tag="1" keyEquivalent="f" id="1082">
                                             <connections>
                                                 <action selector="find:" target="-1" id="1178"/>
                                             </connections>
@@ -632,7 +633,7 @@ DQ
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="1g0-za-3ea"/>
-                            <menuItem title="Enviar Feedback..." id="ftM-3D-CSh">
+                            <menuItem title="Enviar Feedback…" id="ftM-3D-CSh">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="showOEIssues:" target="-1" id="qPI-Hb-6UM"/>
@@ -647,7 +648,7 @@ DQ
         <userDefaultsController representsSharedInstance="YES" id="1212"/>
     </objects>
     <resources>
-        <image name="16930593-1212-47C0-896B-294507A60AAF" width="400" height="463">
+        <image name="17A405DC-540C-43AA-9F39-A9D817D1E264" width="400" height="463">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

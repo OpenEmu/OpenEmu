@@ -481,7 +481,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 {
     [self addLeftHeadlineWithText:NSLocalizedString(@"Screenshots", @"")];
 
-    NSString *text = NSLocalizedString(@"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + t while playing a game.", @"");
+    NSString *text = NSLocalizedString(@"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game.", @"");
     [self addInformationalText:text];
 }
 

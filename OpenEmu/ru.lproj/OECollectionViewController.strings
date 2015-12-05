@@ -1,0 +1,21 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "System"; ObjectID = "16"; */
+"16.headerCell.title" = "Система";
+
+/* Class = "NSTableColumn"; headerCell.title = "Last Played"; ObjectID = "17"; */
+"17.headerCell.title" = "Последний запуск";
+
+/* Class = "NSTableColumn"; headerCell.title = "Rating"; ObjectID = "18"; */
+"18.headerCell.title" = "Рейтинг";
+
+/* Class = "NSTableColumn"; headerCell.title = "Name"; ObjectID = "19"; */
+"19.headerCell.title" = "Название";
+
+/* Class = "NSTableColumn"; headerCell.title = "Save Games"; ObjectID = "103"; */
+"103.headerCell.title" = "Сохранения";
+
+/* Class = "NSTableColumn"; headerCell.title = "Play Count"; ObjectID = "105"; */
+"105.headerCell.title" = "Play Count";
+
+/* Class = "NSTableColumn"; headerCell.title = "Play Time"; ObjectID = "107"; */
+"107.headerCell.title" = "Play Time";

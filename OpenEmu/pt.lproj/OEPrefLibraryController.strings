@@ -1,0 +1,30 @@
+
+/* Class = "NSButtonCell"; title = "Change…"; ObjectID = "15"; */
+"15.title" = "Alterar…";
+
+/* Class = "NSButtonCell"; title = "Reset"; ObjectID = "16"; */
+"16.title" = "Reiniciar";
+
+/* Class = "NSTextFieldCell"; title = "Organization Methods"; ObjectID = "18"; */
+"18.title" = "Modos de Organização";
+
+/* Class = "NSTextFieldCell"; title = "Game Library Folder Location:"; ObjectID = "19"; */
+"19.title" = "Local da Biblioteca de Jogos";
+
+/* Class = "NSButtonCell"; title = "Keep games organized"; ObjectID = "20"; */
+"20.title" = "Manter jogos organizados";
+
+/* Class = "NSButtonCell"; title = "Copy files to Game Library folder when adding to library"; ObjectID = "21"; */
+"21.title" = "Copiar arquivos para a Biblioteca de Jogos ao adicionar";
+
+/* Class = "NSButtonCell"; title = "Automatically lookup game information & artwork"; ObjectID = "23"; */
+"23.title" = "Pesquisar automaticamente por informações e capa";
+
+/* Class = "NSTextFieldCell"; title = "Available Libraries:"; ObjectID = "24"; */
+"24.title" = "Bibliotecas Disponíveis:";
+
+/* Class = "NSTextFieldCell"; title = "Reset all dialog warnings:"; ObjectID = "Ua1-J2-mdy"; */
+"Ua1-J2-mdy.title" = "Resetar todos os avisos:";
+
+/* Class = "NSButtonCell"; title = "Reset warnings"; ObjectID = "all-Wd-1Dy"; */
+"all-Wd-1Dy.title" = "Reiniciar Avisos";

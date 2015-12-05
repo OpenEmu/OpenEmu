@@ -28,6 +28,8 @@
 
 "%@ could not be enabled because its plugin was not found." = "%@ не может быть включен, так как плагин не найден.";
 
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ games will appear here. Check out %@ on how to add disc-based games."; // TODO
+
 "%@ games you add to OpenEmu will appear in this Console Library" = "%@ игры, добавленные в OpenEmu появятся в Библиотеке Консолей";
 
 "%ux" = "%ux";
@@ -36,21 +38,17 @@
 
 "Add a Wiimote…" = "Добавить Wiimote…";
 
-"Add Cheat" = "Добавить Чит-код";
-
 "Add Cheat…" = "Добавить Чит-код…";
+
+"Add Cheat" = "Добавить Чит-код";
 
 "Add Cover Art From File…" = "Добавить обложку из файла…";
 
 "Add To Collection" = "Добавить в коллекцию";
 
-"Add untracked save states" = "Добавить неотслеживаемые сохранения";
-
 "All Games" = "Все игры";
 
 "All Homebrew" = "Все Homebrew";
-
-"Always show BIOS preferences" = "Всегда показывать предпочтения BIOS";
 
 "Are you sure you want to delete %ld save games from your OpenEmu library?" = "Вы уверены, что хотите удалить %ld сохранений игр из медиатеки OpenEmu?";
 
@@ -84,11 +82,7 @@
 
 "Bluetooth Not Enabled" = "Bluetooth не включен";
 
-"Can delete save states" = "Можете удалить сохраненные состояния";
-
 "Cancel Cover Art Download" = "Отменить загрузку обложки";
-
-"Cancel OpenVGDB Update" = "Отменить обновление OpenVGDB";
 
 "Cancel Operation" = "Отменить операцию";
 
@@ -108,37 +102,21 @@
 
 "Choose OpenEmu Library" = "Выберите библиотеку OpenEmu";
 
-"Choose save states directory…" = "Выберите директорию для сохраненных состояний…";
-
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Выберите Да, чтобы удалить все элементы из очереди. Предметы, которые закончили импорт будут сохранены в библиотеке.";
-
-"Cleanup autosave state" = "Очистить автоматически сохраненное состояние";
-
-"Cleanup rom hashes" = "Очистить хэши ромов";
-
-"Cleanup Save States" = "Очистить сохраненные состояния";
-
-"Clicking on image selects button" = "Щелчок по изображению назначает кнопку";
-
-"Clicking outside image deselects button" = "Щелчок за пределы изображения снимает назначение кнопки";
 
 "Code:" = "Код:";
 
 "Collapse" = "Свернуть";
 
-"COLLECTIONS" = "КОЛЛЕКЦИИ";
-
 "Collections" = "Коллекции";
 
-"CONSOLES" = "КОНСОЛИ";
+"Consoles" = "Консоли";
 
 "Consolidate Files…" = "Консолидировать файлы…";
 
 "Consolidate" = "Консолидировать";
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Консолидация скопирует все выбранные игры в папку библиотеки OpenEmu.\n\nЭто действие отменить невозможно.";
-
-"Controls Setup" = "Настроить управление";
 
 "Controls" = "Управление";
 
@@ -168,15 +146,9 @@
 
 "Create or Load Save State" = "Создать или загрузить сохраненное состояние";
 
-"Dark GridView context menu" = "Контекстное меню темного GridView";
-
-"Database Actions" = "Действия с базой данных";
-
-"Debug Mode" = "Режим отладки";
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game."; // TODO
 
 "Default Core" = "Ядро по-умолчанию";
-
-"Delete Artwork that can be downloaded" = "Удалить обложку, которая может быть загружена";
 
 "Delete Collection" = "Удалить коллекцию";
 
@@ -196,17 +168,19 @@
 
 "Delete Screenshots" = "Удалить снимки экрана";
 
+"Delete" = "Delete"; // TODO
+
+"Description" = "Описание"; // Search field menu, only search description
+
 "Deselect All" = "Сбросить выделения со всех";
 
 "Device Disconnected" = "Устройство отключено";
 
 "Device number %lu, %@, has disconnected." = "Устройство под номером %1$lu, %2$@, было отключено.";
 
-"DEVICES" = "УСТРОЙСТВА";
+"Disc-based games have special requirements. Please read the disc importing guide." = "Disc-based games have special requirements. Please read the disc importing guide."; // TODO
 
-"Disable aspect ratio correction" = "Отключить коррекцию соотношения сторон";
-
-"Disable grid view gloss overlay" = "Отключить глянцевую накладку GridView";
+"Dismiss" = "Dismiss"; // TODO
 
 "Do it!" = "Сделать это!";
 
@@ -226,10 +200,6 @@
 
 "Download Cover Art" = "Загрузить обложку";
 
-"Download missing artwork on the fly" = "Автоматически загружать недостающие обложки";
-
-"Download missing artwork" = "Загрузить отсутствующую обложку";
-
 "Download" = "Скачать";
 
 "Downloading %@…" = "Скачивание %@…";
@@ -240,7 +210,7 @@
 
 "Drag & Drop Games Here" = "Перетащите игры сюда";
 
-"Draw button mask above image" = "Нарисуйте маску кнопки на изображении";
+"Drag & Drop Save States Here" = "Drag & Drop Save States Here"; // TODO
 
 "Duplicate Collection" = "Дублировать коллекцию";
 
@@ -252,25 +222,29 @@
 
 "Error!" = "Ошибка!";
 
+"Everything" = "Все"; // Search field menu, search everything item title
+
 "Featured Games" = "Рекомендуемые игры";
 
 "Fetching Games…" = "Выборка игр…";
 
+"Filter by:" = "Фильтровать по:"; // Search field menu, first item, instructional
+
 "Game %ld of %ld" = "Игра %1$ld из %2$ld";
+
+"Game Name" = "Название игры"; // Search field menu, only search game name
 
 "Game requires download" = "Игру необходимо скачать";
 
 "Game Scanner" = "Сканер игр";
 
-"Game View Background color" = "Цвет фона окна игры";
-
 "Gameplay" = "Геймплей";
 
-"General" = "Основное";
+"Have you read the guide?" = "Have you read the guide?"; // TODO
 
 "Hide \"%@\"" = "Скрыть \"%@\"";
 
-"HUD Bar / Gameplay" = "HUD-полоса / Геймплей";
+"Homebrew Games" = "Homebrew Games"; // TODO
 
 "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "Если есть красная кнопка на задней крышке аккумулятора, нажмите ее.\nЕсли ее нет, зажмите кнопки ①+②.";
 
@@ -290,7 +264,7 @@
 
 "Keyboard" = "Клавиатура";
 
-"Library Window" = "Окно библиотеки";
+"Learn More" = "Learn More"; // TODO Missing BIOS files modal, Wiimote modal
 
 "Library" = "Библиотека";
 
@@ -300,19 +274,11 @@
 
 "Locate" = "Найти";
 
-"Log HID Events" = "Логировать события HID";
-
-"Log Keyboard Events" = "Логировать события клавиатуры";
-
 "Low Controller Battery" = "Низкий уровень заряда батареи контроллера";
 
 "Make sure your internet connection is active and download a suitable core." = "Убедитесь что вам доступно соединение с интернетом и скачайте необходимое ядро.";
 
 "Make your Wiimote discoverable" = "Убедитесь, что Wiimote доступен";
-
-"Manually choose system on import" = "Определить систему вручную в процессе импорта";
-
-"MEDIA" = "МЕДИА";
 
 "Missing Core" = "Ядро не найдено";
 
@@ -323,6 +289,8 @@
 "Move to Trash" = "Переместить в корзину";
 
 "Mute Audio" = "Выключить звук";
+
+"Name" = "Имя"; // Search field menu, only search names
 
 "New Collection from Selection" = "Новая коллекция из выбранного";
 
@@ -336,7 +304,11 @@
 
 "No game played yet!" = "Вы пока не играли ни в одну игру!";
 
+"No Internet Connection" = "No Internet Connection"; // TODO
+
 "No Save States available" = "Нет доступных сохраненных состояний";
+
+"No Screenshots Found" = "No Screenshots Found"; // TODO
 
 "No" = "Нет";
 
@@ -362,15 +334,11 @@
 
 "OpenEmu will save and quit all games that are currently running." = "OpenEmu сохранит и закроет все игры, которые выполняются в настоящее время.";
 
-"OpenVGDB" = "OpenVGDB";
-
 "Options" = "Опции";
 
 "Pause Emulation" = "Приостановить эмуляцию";
 
 "Pause Gameplay" = "Приостановить геймплей";
-
-"Perform Sanity Check on Database" = "Выполните проверку исправности базы данных";
 
 "Play Game" = "Запустить игру";
 
@@ -388,9 +356,9 @@
 
 "Quick Save State" = "Быстрое сохранение состояния";
 
-"Quick Save" = "Быстрое сохранение";
-
 "Quick Save, Slot %@" = "Быстрое сохранение в слот %@";
+
+"Quick Save" = "Быстрое сохранение";
 
 "Quit" = "Выйти";
 
@@ -399,16 +367,6 @@
 "Recently Added" = "Недавно добавленные";
 
 "Recovered Auto Save" = "Восстановленное автоматическое сохранение";
-
-"Region" = "Регион";
-
-"Remove duplicate states" = "Удалить дубликаты состояний";
-
-"Remove duplicated roms" = "Удалить дубликаты ромов";
-
-"Remove missing states" = "Удалить потерянные состояния";
-
-"Remove untracked artwork files" = "Удалить неотслеживаемые файлы обложек";
 
 "Remove" = "Удалить";
 
@@ -422,7 +380,7 @@
 
 "Required files are missing." = "Необходимые файлы не найдены.";
 
-"Reset main window size" = "Сбросить размер главного окна";
+"Resolve %ld Issue" = "Решить %ld проблема"; // ?
 
 "Resolve %ld Issues" = "Решить %ld проблем";
 
@@ -437,8 +395,6 @@
 "Resume Emulation" = "Продолжить эмуляцию Emulation";
 
 "Resume" = "Продолжить";
-
-"Run games using" = "Запустить игры используя";
 
 "Save As:" = "Сохранить как:";
 
@@ -474,29 +430,11 @@
 
 "Select Filter" = "Выбрать фильтр";
 
-"Select first field after setting the last" = "Выберите первое поле после установки последнего";
-
 "Select Scale" = "Выберите размер";
 
-"Set default save states directory" = "Установить директорию по-умолчанию для сохранения состояний";
-
-"Setup Assistant has finished" = "Ассистент установки закончил свою работу";
-
-"Show all global keys" = "Показать все глобальные кнопки";
-
-"Show audio output device in menu" = "Показать звуковыводящее устройство в меню";
-
-"Show autosave in menu" = "Показать автоматическое сохранение в меню";
-
-"Show game titles instead of rom names" = "Показывать название игры вместо названия рома";
+"Share" = "Share"; // TODO
 
 "Show in Finder" = "Показать в Finder";
-
-"Show options button" = "Показать кнопку опций";
-
-"Show quicksave in menu" = "Показать быстрое сохранение в меню";
-
-"Show quicksave notification during gameplay" = "Показать уведомление о быстром сохранении в процессе игры";
 
 "Slot %d" = "Слот %d";
 
@@ -512,8 +450,6 @@
 
 "Stop" = "Остановить";
 
-"Switch To Flow View" = "Переключиться на Flow View";
-
 "Switch To Grid View" = "Переключиться на Grid View";
 
 "Switch To List View" = "Переключиться на List View";
@@ -521,8 +457,6 @@
 "System Files" = "Системные файлы";
 
 "System" = "Система";
-
-"Take screenshots in native size" = "Делать снимки экрана в реальном размере";
 
 "Takes you to the %@ project website" = "Перенаправит вас на сайт проекта: %@";
 
@@ -548,6 +482,8 @@
 
 "The System plugin could not be found!" = "Системный плагин не удается найти!";
 
+"this guide" = "this guide"; // TODO
+
 "This save state was created with a different core. Do you want to switch to that core now?" = "Этот снимок состояния был сделан с другим ядром. Хотите переключиться на это ядро сейчас?";
 
 "This System has no corresponding core installed." = "В системе не установлено соответствующее ядро.";
@@ -566,23 +502,17 @@
 
 "Unmute Audio" = "Включить звук";
 
-"Update OpenVGDB" = "Обновить OpenVGDB";
-
 "Update" = "Обновить";
 
-"Use game name as window title" = "Использовать название игры в качестве заголовка окна";
-
-"Use gamecore picker" = "Использовать выбор ядра";
-
-"Use quicksave slots" = "Использовать слоты быстрых сохранений";
-
 "User guide on BIOS files" = "Руководство пользователя по файлам BIOS";
+
+"View Guide In Browser" = "View Guide In Browser"; // TODO
 
 "Warning" = "Внимание";
 
 "While performing this operation OpenEmu will be unresponsive." = "Во время выполнения данной операции OpenEmu может не отвечать.";
 
-"WiiRemote support (requires relaunch)" = "Поддержка WiiRemote (необходим перезапуск)";
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves."; // TODO
 
 "Won't be able to recognize it as special save state…" = "Невозможно распознать в качестве сохраненного состояния…";
 
@@ -600,20 +530,113 @@
 
 "Your library was moved sucessfully." = "Ваша библиотека успешно перемещена.";
 
+
+/* Secrets */
+
+"General" = "Основное";
+
+"Debug Mode" = "Режим отладки";
+
+"Setup Assistant has finished" = "Ассистент установки закончил свою работу";
+
+"Region" = "Регион";
+
+"Run games using" = "Запустить игры используя";
+
+"Library Window" = "Окно библиотеки";
+
+"Reset main window size" = "Сбросить размер главного окна";
+
+"Dark GridView context menu" = "Контекстное меню темного GridView";
+
+"Download missing artwork on the fly" = "Автоматически загружать недостающие обложки";
+
+"Show game titles instead of rom names" = "Показывать название игры вместо названия рома";
+
+"Manually choose system on import" = "Определить систему вручную в процессе импорта";
+
+"Show autosave states in save state category" = "Show autosave states in save state category"; // TODO
+
+"Show quicksave states in save state category" = "Show quicksave states in save state category"; // TODO
+
+"Show game scanner view" = "Show game scanner view"; // TODO
+
+"Hide game scanner view" = "Hide game scanner view"; // TODO
+
+"HUD Bar / Gameplay" = "HUD-полоса / Геймплей";
+
+"Use game name as window title" = "Использовать название игры в качестве заголовка окна";
+
+"Can delete save states" = "Можете удалить сохраненные состояния";
+
+"Show options button" = "Показать кнопку опций";
+
+"Use gamecore picker" = "Использовать выбор ядра";
+
+"Show quicksave notification during gameplay" = "Показать уведомление о быстром сохранении в процессе игры";
+
+"Show screenshot notification during gameplay" = "Show screenshot notification during gameplay"; // TODO
+
+"Use quicksave slots" = "Использовать слоты быстрых сохранений";
+
+"Show quicksave in menu" = "Показать быстрое сохранение в меню";
+
+"Show autosave in menu" = "Показать автоматическое сохранение в меню";
+
+"Show audio output device in menu" = "Показать звуковыводящее устройство в меню";
+
+"Take screenshots in native size" = "Делать снимки экрана в реальном размере";
+
+"Disable aspect ratio correction" = "Отключить коррекцию соотношения сторон";
+
+"Game View Background color" = "Цвет фона окна игры";
+
+"Controls Setup" = "Настроить управление";
+
+"WiiRemote support (requires relaunch)" = "Поддержка WiiRemote (необходим перезапуск)";
+
+"Clicking on image selects button" = "Щелчок по изображению назначает кнопку";
+
+"Clicking outside image deselects button" = "Щелчок за пределы изображения снимает назначение кнопки";
+
+"Select first field after setting the last" = "Выберите первое поле после установки последнего";
+
+"Draw button mask above image" = "Нарисуйте маску кнопки на изображении";
+
+"Log HID Events" = "Логировать события HID";
+
+"Log Keyboard Events" = "Логировать события клавиатуры";
+
+"Show all global keys" = "Показать все глобальные кнопки";
+
+"Always show BIOS preferences" = "Всегда показывать предпочтения BIOS";
+
+"Set default save states directory" = "Установить директорию по-умолчанию для сохранения состояний";
+
+"Choose save states directory…" = "Выберите директорию для сохраненных состояний…";
+
+"Cleanup autosave state" = "Очистить автоматически сохраненное состояние";
+
+"Cleanup Save States" = "Очистить сохраненные состояния";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Update OpenVGDB" = "Обновить OpenVGDB";
+
+"Cancel OpenVGDB Update" = "Отменить обновление OpenVGDB";
+
+"Database Actions" = "Действия с базой данных";
+
+"Delete Artwork that can be downloaded" = "Удалить обложку, которая может быть загружена";
+
+"Download missing artwork" = "Загрузить отсутствующую обложку";
+
+"Remove untracked artwork files" = "Удалить неотслеживаемые файлы обложек";
+
+"Cleanup rom hashes" = "Очистить хэши ромов";
+
+"Remove duplicated roms" = "Удалить дубликаты ромов";
+
 "Cancel cover sync for all games" = "Прекратить синхронизацию обложек для всех игр";
 
-"Filter by:" = "Фильтровать по:"; // TODO  // Search field menu, first item, instructional
-
-"Everything" = "Все"; // TODO  // Search field menu, search everything item title
-
-"Name" = "Имя"; // TODO  // Search field menu, only search names
-
-"Description" = "Описание"; // TODO // Search field menu, only search description
-
-"Game Name" = "Название игры"; // TODO // Search field menu, only search game name
-
-"Delete" = "Delete"; // TODO
-
-"Homebrew Games" = "Homebrew Games"; // TODO
-
-"No Internet Connection" = "No Internet Connection"; // TODO
+"Perform Sanity Check on Database" = "Выполните проверку исправности базы данных";
