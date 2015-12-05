@@ -602,27 +602,41 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 @end
 
+@interface OEMainWindowTitlebarBackgroundView ()
+@property (nonatomic) NSGradient *backgroundGradient;
+@property (nonatomic) NSColor *topHighlightColor;
+@property (nonatomic) NSColor *bottomBorderColor;
+@end
+
 @implementation OEMainWindowTitlebarBackgroundView
+
+- (instancetype)initWithFrame:(NSRect)frameRect
+{
+    self = [super initWithFrame:frameRect];
+    if (self) {
+        _backgroundGradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0.15 alpha:1.0] endingColor:[NSColor colorWithDeviceWhite:0.25 alpha:1.0]];
+        _topHighlightColor = [NSColor colorWithCalibratedWhite:0.3 alpha:1.0];
+        _bottomBorderColor = [NSColor colorWithCalibratedWhite:0.07 alpha:1.0];
+    }
+    return self;
+}
 
 - (void)drawRect:(NSRect)dirtyRect
 {
     // Draw background.
-    
-    NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0.15 alpha:1.0] endingColor:[NSColor colorWithDeviceWhite:0.25 alpha:1.0]];
- 
-    [gradient drawInRect:self.bounds angle:90.0];
+    [self.backgroundGradient drawInRect:self.bounds angle:90.0];
     
     // Draw top highlight.
-    
     NSRect bounds = self.bounds;
     const CGFloat topHighlightHeight = 1.0;
     NSRect topHighlightRect = NSMakeRect(0.0,
                                     NSMaxY(bounds) - topHighlightHeight,
                                     NSWidth(bounds),
                                     topHighlightHeight);
-    
-    [[NSColor colorWithCalibratedWhite:0.3 alpha:1.0] set];
-    NSRectFill(topHighlightRect);
+    if ([self needsToDrawRect:topHighlightRect]) {
+        [self.topHighlightColor set];
+        NSRectFill(topHighlightRect);
+    }
     
     // Draw bottom border.
     const CGFloat bottomBorderHeight = 1.0;
@@ -630,9 +644,10 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                                          0.0,
                                          NSWidth(bounds),
                                          bottomBorderHeight);
-    
-    [[NSColor colorWithCalibratedWhite:0.07 alpha:1.0] set];
-    NSRectFill(bottomBorderRect);
+    if ([self needsToDrawRect:bottomBorderRect]) {
+        [self.bottomBorderColor set];
+        NSRectFill(bottomBorderRect);
+    }
 }
 
 - (void)mouseUp:(NSEvent *)event
