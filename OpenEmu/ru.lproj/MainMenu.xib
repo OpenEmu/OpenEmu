@@ -89,25 +89,16 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <size key="minSize" width="225" height="85"/>
                                     <size key="maxSize" width="463" height="10000000"/>
-                                    <attributedString key="textStorage">
-                                        <fragment>
-                                            <string key="content">Special thanks to everyone that made 
-OpenEmu possible. To find out more 
-about our contributors, emulator cores, 
-documentation, licenses and to issue 
-bugs please visit us on our GitHub. </string>
-                                            <attributes>
-                                                <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <font key="NSFont" metaFont="smallSystem"/>
-                                                <real key="NSKern" value="0.0"/>
-                                                <integer key="NSLigature" value="0"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.2249999999999999"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <size key="minSize" width="225" height="85"/>
                                     <size key="maxSize" width="463" height="10000000"/>
+                                    <connections>
+                                        <binding destination="805" name="attributedString" keyPath="specialThanks" id="TRw-My-UUK">
+                                            <dictionary key="options">
+                                                <bool key="NSConditionallySetsEditable" value="NO"/>
+                                            </dictionary>
+                                        </binding>
+                                    </connections>
                                 </textView>
                             </subviews>
                             <animations/>

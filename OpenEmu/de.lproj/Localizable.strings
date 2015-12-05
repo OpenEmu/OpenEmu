@@ -640,3 +640,5 @@
 "Cancel cover sync for all games" = "Cover-Sync für alle Spiele abbrechen";
 
 "Perform Sanity Check on Database" = "Datenbank auf Plausibilität prüfen";
+
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub."; // TODO
