@@ -31,6 +31,33 @@ class ToolbarSegmentedCell: NSSegmentedCell {
     
     let cornerRadius: CGFloat = 2.5
     
+    let backgroundGradient = NSGradient(startingColor: NSColor(deviceWhite: 0.22, alpha: 1), endingColor: NSColor(deviceWhite: 0.14, alpha: 1))!
+    
+    let topHighlightColor = NSColor(deviceWhite: 0.31, alpha: 1)
+    
+    let borderColor = NSColor(deviceWhite: 0.08, alpha: 1)
+    
+    let topActiveGradient = NSGradient(colorsAndLocations:
+        (NSColor(deviceWhite: 0, alpha: 0.75),    0),
+        (NSColor(deviceWhite: 0, alpha: 0.5),  0.15),
+        (NSColor(deviceWhite: 0, alpha: 0),    0.6))!
+    
+    let horizontalActiveGradient = NSGradient(colorsAndLocations:
+        (NSColor(deviceWhite: 0, alpha: 0.8),    0),
+        (NSColor(deviceWhite: 0, alpha: 0.4),  0.01),
+        (NSColor(deviceWhite: 0, alpha: 0.01), 0.04),
+        (NSColor(deviceWhite: 0, alpha: 0),    0.5))!
+    
+    let bottomActiveGradient = NSGradient(colorsAndLocations:
+        (NSColor(deviceWhite: 0, alpha: 0.15), 0),
+        (NSColor(deviceWhite: 0, alpha: 0.15), 0.05),
+        (NSColor(deviceWhite: 0, alpha: 0),    0.15))!
+    
+    let disabledTextColor = NSColor(deviceWhite: 0.6, alpha: 0.8)
+    let highlightedTextColor = NSColor(deviceWhite: 1, alpha: 0.9)
+    let selectedTextColor = NSColor(deviceRed: 0.39, green: 0.77, blue: 1, alpha: 1)
+    let normalTextColor = NSColor(deviceWhite: 1, alpha: 0.8)
+    
     /// The segment currently being highlighted by the user.
     var highlightedSegment: Int?
 
@@ -64,9 +91,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         
         let path = controlPathInFrame(cellFrame)
         
-        let gradient = NSGradient(startingColor: NSColor(deviceWhite: 0.22, alpha: 1), endingColor: NSColor(deviceWhite: 0.14, alpha: 1))!
-        
-        gradient.drawInBezierPath(path, angle: 90)
+        backgroundGradient.drawInBezierPath(path, angle: 90)
     }
     
     func drawTopHighlightEdgeLayerInFrame(cellFrame: NSRect) {
@@ -77,7 +102,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         
         path.setClip()
         
-        NSColor(deviceWhite: 0.31, alpha: 1).set()
+        topHighlightColor.set()
 
         NSBezierPath.strokeLineFromPoint(NSPoint(x: cellFrame.minX, y: cellFrame.minY + 1.5), toPoint: NSPoint(x: cellFrame.maxX, y: cellFrame.minY + 1.5))
 
@@ -88,7 +113,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         
         let path = controlPathInFrame(cellFrame.insetBy(dx: 0.5, dy: 0.5))
         
-        NSColor(deviceWhite: 0.08, alpha: 1).set()
+        borderColor.set()
         
         path.stroke()
     }
@@ -168,22 +193,6 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             
             let segmentPath = pathForSegment(segment, inFrame: segmentRect)
             
-            let topActiveGradient = NSGradient(colorsAndLocations:
-                (NSColor(deviceWhite: 0, alpha: 0.75),    0),
-                (NSColor(deviceWhite: 0, alpha: 0.5),  0.15),
-                (NSColor(deviceWhite: 0, alpha: 0),    0.6))!
-            
-            let horizontalActiveGradient = NSGradient(colorsAndLocations:
-                (NSColor(deviceWhite: 0, alpha: 0.8),    0),
-                (NSColor(deviceWhite: 0, alpha: 0.4),  0.01),
-                (NSColor(deviceWhite: 0, alpha: 0.01), 0.04),
-                (NSColor(deviceWhite: 0, alpha: 0),    0.5))!
-            
-            let bottomActiveGradient = NSGradient(colorsAndLocations:
-                (NSColor(deviceWhite: 0, alpha: 0.15), 0),
-                (NSColor(deviceWhite: 0, alpha: 0.15), 0.05),
-                (NSColor(deviceWhite: 0, alpha: 0),    0.15))!
-            
             NSGraphicsContext.saveGraphicsState()
             
             controlPathInFrame(frame).setClip()
@@ -222,13 +231,13 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         
         let textColor: NSColor
         if !windowIsKeyWindow || !enabled {
-            textColor = NSColor(deviceWhite: 0.6, alpha: 0.8)
+            textColor = disabledTextColor
         } else if highlighted {
-            textColor = NSColor(deviceWhite: 1, alpha: 0.9)
+            textColor = highlightedTextColor
         } else if selected {
-            textColor = NSColor(deviceRed: 0.39, green: 0.77, blue: 1, alpha: 1)
+            textColor = selectedTextColor
         } else {
-            textColor = NSColor(deviceWhite: 1, alpha: 0.8)
+            textColor = normalTextColor
         }
         
         let textShadow = NSShadow()
