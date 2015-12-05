@@ -621,6 +621,11 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     return self;
 }
 
+- (BOOL)isOpaque
+{
+    return YES;
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     // Draw background.
