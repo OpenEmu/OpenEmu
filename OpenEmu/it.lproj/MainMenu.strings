@@ -9,16 +9,16 @@
 "981.title" = "Avvia gioco…";
 
 /* Class = "NSMenuItem"; title = "Modifica raccolta smart"; ObjectID = "982"; */
-"982.title" = "Modifica Raccolta Smart";
+"982.title" = "Modifica raccolta smart";
 
 /* Class = "NSMenuItem"; title = "Nuova raccolta smart…"; ObjectID = "983"; */
-"983.title" = "Nuova Raccolta Smart…";
+"983.title" = "Nuova raccolta smart…";
 
 /* Class = "NSMenuItem"; title = "Nuova cartella raccolta"; ObjectID = "984"; */
-"984.title" = "Nuova cartella Raccolta";
+"984.title" = "Nuova cartella raccolta";
 
 /* Class = "NSMenuItem"; title = "Nuova raccolta"; ObjectID = "985"; */
-"985.title" = "Nuova Raccolta";
+"985.title" = "Nuova raccolta";
 
 /* Class = "NSMenuItem"; title = "Libreria"; ObjectID = "986"; */
 "986.title" = "Libreria";
@@ -36,7 +36,7 @@
 "992.title" = "Mostra nel Finder";
 
 /* Class = "NSMenuItem"; title = "Valutazione"; ObjectID = "993"; */
-"993.title" = "Valutazione";
+"993.title" = "Classifica";
 
 /* Class = "NSMenuItem"; title = "Ottieni informazioni"; ObjectID = "994"; */
 "994.title" = "Ottieni informazioni";
@@ -63,10 +63,10 @@
 "1009.title" = "Esporta Libreria…";
 
 /* Class = "NSMenuItem"; title = "Importa raccolta"; ObjectID = "1011"; */
-"1011.title" = "Importa Raccolta";
+"1011.title" = "Importa raccolta";
 
 /* Class = "NSMenuItem"; title = "Esporta raccolta"; ObjectID = "1012"; */
-"1012.title" = "Esporta Raccolta";
+"1012.title" = "Esporta raccolta";
 
 /* Class = "NSMenuItem"; title = "Preferenze…"; ObjectID = "1014"; */
 "1014.title" = "Preferenze…";
@@ -123,7 +123,7 @@
 "1042.title" = "Controlli";
 
 /* Class = "NSMenuItem"; title = "Pausa gioco"; ObjectID = "1044"; */
-"1044.title" = "Pausa gioco";
+"1044.title" = "Sospendi gioco";
 
 /* Class = "NSMenuItem"; title = "Abbassa volume"; ObjectID = "1045"; */
 "1045.title" = "Abbassa volume";
@@ -186,7 +186,7 @@
 "1082.title" = "Cerca…";
 
 /* Class = "NSMenuItem"; title = "Chiudi emulatore"; ObjectID = "1167"; */
-"1167.title" = "Chiudi emulatore";
+"1167.title" = "Arresta emulazione";
 
 /* Class = "NSMenu"; title = "Debug"; ObjectID = "1209"; */
 "1209.title" = "Debug";
@@ -210,7 +210,7 @@
 "0ql-Da-Qro.title" = "Aiuto";
 
 /* Class = "NSMenuItem"; title = "Riavvia sistema"; ObjectID = "2rj-Sq-LdF"; */
-"2rj-Sq-LdF.title" = "Riavvia sistema";
+"2rj-Sq-LdF.title" = "Resetta sistema";
 
 /* Class = "NSMenuItem"; title = "Note di rilascio"; ObjectID = "5YI-Il-P9H"; */
 "5YI-Il-P9H.title" = "Note di rilascio";
