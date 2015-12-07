@@ -63,7 +63,7 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     return self;
 }
 
-- (void)awakeFromNib
+- (void)viewDidLoad
 {
     NSTableView *view = [self tableView];
 
