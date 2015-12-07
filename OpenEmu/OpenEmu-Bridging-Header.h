@@ -6,3 +6,13 @@
 
 #import "OEButton.h"
 #import "OESearchField.h"
+
+#import "OEPreferencePane.h"
+#import "OEPrefLibraryController.h"
+#import "OEPrefGameplayController.h"
+#import "OEPrefControlsController.h"
+#import "OEPrefCoresController.h"
+#import "OEPrefDebugController.h"
+#import "OEPrefBiosController.h"
+
+#import "OEBackgroundColorView.h"

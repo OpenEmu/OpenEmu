@@ -38,10 +38,11 @@
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 
-#import "OEPreferencesController.h"
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 @import Quartz;
+
+#import "OpenEmu-Swift.h"
 
 NSString *const OELastControlsPluginIdentifierKey = @"lastControlsPlugin";
 NSString *const OELastControlsPlayerKey           = @"lastControlsPlayer";
@@ -57,16 +58,6 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
     NSMutableSet   *ignoredEvents;
     id _eventMonitor;
 }
-
-- (void)OE_setCurrentBindingsForEvent:(OEHIDEvent *)anEvent;
-- (void)OE_rebuildSystemsMenu;
-- (void)OE_setUpControllerImageView;
-- (void)OE_preparePaneWithNotification:(NSNotification *)notification;
-- (void)OE_scrollerStyleDidChange;
-
-// Only one event can be managed at a time, all events should be ignored until the currently read event went back to its null state
-// All ignored events are stored until they go back to the null state
-- (BOOL)OE_shouldRegisterEvent:(OEHIDEvent *)anEvent;
 
 @property(nonatomic, readwrite) OESystemBindings *currentSystemBindings;
 @property(nonatomic, readwrite) OEPlayerBindings *currentPlayerBindings;
@@ -145,8 +136,6 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsDidChangeNotification object:nil];
-    [center addObserver:self selector:@selector(OE_preparePaneWithNotification:) name:OEPreferencesOpenPaneNotificationName object:nil];
-    [center addObserver:self selector:@selector(OE_preparePaneWithNotification:) name:OEPreferencesSetupPaneNotificationName object:nil];
 
     [center addObserver:self selector:@selector(OE_devicesDidUpdateNotification:) name:OEDeviceManagerDidAddDeviceHandlerNotification object:[OEDeviceManager sharedDeviceManager]];
     [center addObserver:self selector:@selector(OE_devicesDidUpdateNotification:) name:OEDeviceManagerDidRemoveDeviceHandlerNotification object:[OEDeviceManager sharedDeviceManager]];
@@ -156,13 +145,21 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 - (void)OE_scrollerStyleDidChange
 {
+    [self.controlsSetupView layoutSubviews:NO];
+}
+
+- (void)viewDidLayout
+{
+    [super viewDidLayout];
+    
+    // Fixes an issue where, if the controls pane isn't already the default selected pane on launch and the user manually selects the controls pane, the "Gameplay Buttons" OEControlsSectionTitleView has a visible "highlight" artifact until the scroll view gets scrolled.
     [[self controlsSetupView] layoutSubviews:NO];
 }
 
 - (void)viewDidAppear
 {
     [super viewDidAppear];
-
+    
     if([[[self view] window] isKeyWindow])
         [self OE_setUpEventMonitor];
 
@@ -174,12 +171,14 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 - (void)viewWillDisappear
 {
     [super viewWillDisappear];
+    
+    self.selectedKey = nil;
 
     [[OEBindingsController defaultBindingsController] synchronize];
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self name:NSWindowDidBecomeKeyNotification object:[[self view] window]];
-    [nc removeObserver:self name:NSWindowDidResignKeyNotification object:[[self view] window]];
+    [nc removeObserver:self name:NSWindowDidBecomeKeyNotification object:self.view.window];
+    [nc removeObserver:self name:NSWindowDidResignKeyNotification object:self.view.window];
 
     [self OE_tearDownEventMonitor];
 }
@@ -204,6 +203,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 - (void)windowDidResignKey:(NSNotification *)notification
 {
+    self.selectedKey = nil;
     [self OE_tearDownEventMonitor];
 }
 
@@ -403,7 +403,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
     NSRect rect = (NSRect){ .size = { [self controlsSetupView].bounds.size.width, preferenceView.frame.size.height }};
     [preferenceView setFrame:rect];
-
+    
     NSScrollView *scrollView = [[self controlsSetupView] enclosingScrollView];
     [[self controlsSetupView] setFrameOrigin:(NSPoint){ 0, scrollView.frame.size.height - rect.size.height}];
 
@@ -420,7 +420,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [self changePlayer:[self playerPopupButton]];
     [self changeInputDevice:[self inputPopupButton]];
 
-    [self OE_setUpControllerImageView];
+    [self OE_setUpControllerImageView];    
 }
 
 - (void)OE_setUpControllerImageView
@@ -641,6 +641,8 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
         [self registerEvent:anEvent];
 }
 
+// Only one event can be managed at a time, all events should be ignored until the currently read event went back to its null state
+// All ignored events are stored until they go back to the null state
 - (BOOL)OE_shouldRegisterEvent:(OEHIDEvent *)anEvent;
 {
     // The event is the currently read event,
@@ -759,20 +761,16 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     return NSMakeSize(755, 450);
 }
 
-- (NSColor *)toolbarSeparationColor
-{
-    return [NSColor colorWithDeviceWhite:0.32 alpha:1.0];
-}
-
 #pragma mark -
-- (void)OE_preparePaneWithNotification:(NSNotification *)notification
+
+- (void)preparePaneWithNotification:(NSNotification *)notification
 {
     NSDictionary *userInfo = [notification userInfo];
-    NSString     *paneName = [userInfo valueForKey:OEPreferencesUserInfoPanelNameKey];
+    NSString     *paneName = [userInfo valueForKey:[OEPreferencesWindowController userInfoPanelNameKey]];
 
     if([paneName isNotEqualTo:[self title]]) return;
 
-    NSString *systemIdentifier = [userInfo valueForKey:OEPreferencesUserInfoSystemIdentifierKey];
+    NSString *systemIdentifier = [userInfo valueForKey:[OEPreferencesWindowController userInfoSystemIdentifierKey]];
     NSUInteger itemIndex = -1;
     for(NSUInteger i = 0; i < [[[self consolesPopupButton] itemArray] count]; i++)
     {

@@ -28,7 +28,8 @@
 
 @class OEDeviceManager;
 @class OEMainWindowController;
-@class OEPreferencesController;
+@class OEPreferencesWindowController;
+
 @interface OEApplicationDelegate : NSDocumentController <NSApplicationDelegate, NSMenuDelegate>
 
 - (IBAction)showAboutWindow:(id)sender;
@@ -44,7 +45,8 @@
 @property(unsafe_unretained) IBOutlet NSWindow     *aboutWindow;
 @property(unsafe_unretained) IBOutlet NSMenu       *fileMenu;
 @property(strong) IBOutlet OEMainWindowController  *mainWindowController;
-@property(strong) IBOutlet OEPreferencesController *preferencesController;
+
+@property(readonly) OEPreferencesWindowController *preferencesWindowController;
 
 @property(readonly) NSString           *aboutCreditsPath;
 @property(readonly) NSString           *appVersion;

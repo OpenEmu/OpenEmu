@@ -64,6 +64,8 @@
 - (BOOL)isKeyboardEventSelected;
 - (void)registerEvent:(OEHIDEvent *)anEvent;
 
+- (void)preparePaneWithNotification:(NSNotification *)notification;
+
 - (IBAction)changeSystem:(id)sender;
 - (IBAction)changePlayer:(id)sender;
 - (IBAction)changeInputDevice:(id)sender;

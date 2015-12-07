@@ -16,7 +16,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <view id="3" userLabel="Library">
             <rect key="frame" x="0.0" y="0.0" width="458" height="553"/>
-            <autoresizingMask key="autoresizingMask"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
             <subviews>
                 <customView id="11" customClass="OEBackgroundImageView">
                     <rect key="frame" x="42" y="461" width="374" height="40"/>
@@ -165,7 +165,7 @@
                 </textField>
                 <button id="14" customClass="OEButton">
                     <rect key="frame" x="249" y="425" width="78" height="23"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
                     <buttonCell key="cell" type="square" title="Change…" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -230,7 +230,7 @@
                         <animations/>
                     </scroller>
                     <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6uK-mj-F0v">
-                        <rect key="frame" x="350" y="0.0" width="16" height="106"/>
+                        <rect key="frame" x="351" y="0.0" width="15" height="106"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </scroller>

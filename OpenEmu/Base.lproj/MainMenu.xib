@@ -30,7 +30,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="400" height="463"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="7B4122FA-70CE-42B0-B953-B8FF8A762360" id="804"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="157E45BB-6BE0-44B6-B055-A0DB06375FB6" id="804"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" id="796">
                         <rect key="frame" x="17" y="184" width="366" height="18"/>
@@ -181,7 +181,11 @@
                             <menuItem isSeparatorItem="YES" id="1023">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Preferences…" tag="121" keyEquivalent="," id="1014" userLabel="121"/>
+                            <menuItem title="Preferences…" keyEquivalent="," id="1014">
+                                <connections>
+                                    <action selector="showPreferencesWindow:" target="805" id="W30-W0-iRc"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="1022">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
@@ -639,7 +643,7 @@ DQ
         <userDefaultsController representsSharedInstance="YES" id="1212"/>
     </objects>
     <resources>
-        <image name="7B4122FA-70CE-42B0-B953-B8FF8A762360" width="400" height="463">
+        <image name="157E45BB-6BE0-44B6-B055-A0DB06375FB6" width="400" height="463">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

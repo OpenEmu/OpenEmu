@@ -50,7 +50,6 @@
 
 #import "OEBuildVersion.h"
 
-#import "OEPreferencesController.h"
 #import "OEGameViewController.h"
 #import "OEGameControlsBar.h"
 
@@ -99,7 +98,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 @end
 
 @implementation OEApplicationDelegate
-@synthesize mainWindowController, preferencesController;
+@synthesize mainWindowController, preferencesWindowController = _preferencesWindowController;
 @synthesize aboutWindow, aboutCreditsPath, cachedLastPlayedInfo;
 
 + (void)load
@@ -166,9 +165,23 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 
 #pragma mark -
+
+- (OEPreferencesWindowController *)preferencesWindowController
+{
+    if (!_preferencesWindowController) {
+        _preferencesWindowController = [[OEPreferencesWindowController alloc] initWithWindowNibName:@"Preferences"];
+    }
+    
+    return _preferencesWindowController;
+}
+
+#pragma mark -
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(libraryDatabaseDidLoad:) name:OELibraryDidLoadNotificationName object:nil];
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    [notificationCenter addObserver:self selector:@selector(libraryDatabaseDidLoad:) name:OELibraryDidLoadNotificationName object:nil];
+    [notificationCenter addObserver:self selector:@selector(openPreferencePane:) name:[OEPreferencesWindowController openPaneNotificationName] object:nil];
 
     [[NSDocumentController sharedDocumentController] clearRecentDocuments:nil];
     
@@ -190,8 +203,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     DLog();
     mainWindowController  = [[OEMainWindowController alloc]  initWithWindowNibName:@"MainWindow"];
     [mainWindowController loadWindow];
-    preferencesController = [[OEPreferencesController alloc] initWithWindowNibName:@"Preferences"];
-    [preferencesController loadWindow];
 
     _gameDocuments = [NSMutableArray array];
 
@@ -237,6 +248,11 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         block();
     }];
     [self setStartupQueue:nil];
+}
+
+- (void)openPreferencePane:(NSNotification *)notification
+{
+    [self.preferencesWindowController showWindowWithNotification:notification];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
@@ -699,6 +715,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (IBAction)showPreferencesWindow:(id)sender
 {
+    [self.preferencesWindowController showWindow:nil];
 }
 
 #pragma mark - Help Menu

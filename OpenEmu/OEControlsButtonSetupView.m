@@ -68,12 +68,6 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
     return self;
 }
 
-- (void)setFrame:(NSRect)frameRect
-{
-    frameRect.size.width = MIN(frameRect.size.width, [self visibleRect].size.width);
-    [super setFrame:frameRect];
-}
-
 - (void)setupWithControlList:(NSArray *)controlList;
 {
     [[[self subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperview)];

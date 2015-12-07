@@ -41,8 +41,6 @@
 #import "OESystemPlugin.h"
 #import "OEDBSmartCollection.h"
 
-#import "OEPreferencesController.h"
-
 #import "OEBackgroundNoisePattern.h"
 
 #import "OEGameCollectionViewController.h"

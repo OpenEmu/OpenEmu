@@ -45,7 +45,6 @@
 #import "OEHUDWindow.h"
 #import "OELibraryDatabase.h"
 #import "OEPopoutGameWindowController.h"
-#import "OEPreferencesController.h"
 #import "OESystemPlugin.h"
 #import "OEThreadGameCoreManager.h"
 #import "OEXPCGameCoreManager.h"
@@ -843,11 +842,11 @@ typedef enum : NSUInteger
 - (IBAction)editControls:(id)sender
 {
     NSDictionary *userInfo = @{
-        OEPreferencesUserInfoPanelNameKey : @"Controls",
-        OEPreferencesUserInfoSystemIdentifierKey : [self systemIdentifier],
+        [OEPreferencesWindowController userInfoPanelNameKey] : @"Controls",
+        [OEPreferencesWindowController userInfoSystemIdentifierKey] : self.systemIdentifier,
     };
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesOpenPaneNotificationName object:nil userInfo:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotificationName:[OEPreferencesWindowController openPaneNotificationName] object:nil userInfo:userInfo];
 }
 
 - (void)toggleFullScreen:(id)sender

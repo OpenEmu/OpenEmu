@@ -26,16 +26,16 @@
 
 @import Foundation;
 
-extern NSString *const OEPreferencePaneDidChangeVisibilityNotificationName;
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol OEPreferencePane <NSObject>
-- (NSImage *)icon;
-- (NSString *)title;
-- (NSString *)localizedTitle;
 
-- (NSSize)viewSize;
+@property (readonly) NSImage *icon;
+@property (readonly) NSString *title;
+@property (readonly) NSString *localizedTitle;
 
-@optional
-- (NSColor *)toolbarSeparationColor;
-- (BOOL)isVisible;
+@property (readonly) NSSize viewSize;
+
 @end
+
+NS_ASSUME_NONNULL_END

@@ -35,24 +35,23 @@
 #import "NSFileManager+OEHashingAdditions.h"
 #import "OEBIOSFile.h"
 
-#import "OEPreferencesController.h"
-
 #import "OpenEmu-Swift.h"
 
 NSString * const OEPreferencesAlwaysShowBiosKey = @"OEPreferencesAlwaysShowBios";
 NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files";
+
 @interface OEPrefBiosController () <NSTextViewDelegate>
 @property (strong) NSArray *items;
-@property (nonatomic, getter=isVisible) BOOL visisble;
 @end
 
 @implementation OEPrefBiosController
-@synthesize tableView, visisble=_visisble;
+@synthesize tableView = _tableView;
 
 static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListContext;
 
 #pragma mark - ViewController Overrides
-- (id)init
+
+- (instancetype)init
 {
     self = [super init];
     if(self)
@@ -65,14 +64,16 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
 
 - (void)viewDidLoad
 {
-    NSTableView *view = [self tableView];
+    [super viewDidLoad];
+    
+    NSTableView *tableView = self.tableView;
+    
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    tableView.usesAlternatingRowBackgroundColors = NO;
+    tableView.floatsGroupRows = YES;
 
-    [view setDelegate:self];
-    [view setDataSource:self];
-    [view setUsesAlternatingRowBackgroundColors:NO];
-    [view setFloatsGroupRows:YES];
-
-    [view registerForDraggedTypes:@[NSURLPboardType]];
+    [tableView registerForDraggedTypes:@[NSURLPboardType]];
 
     [self reloadData];
 }
@@ -80,20 +81,6 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
 - (NSString *)nibName
 {
     return @"OEPrefBiosController";
-}
-
-- (void)setVisisble:(BOOL)visisble
-{
-    if(visisble != _visisble)
-    {
-        _visisble = visisble;
-        [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencePaneDidChangeVisibilityNotificationName object:self];
-    }
-}
-
-- (BOOL)isVisible
-{
-    return _visisble || [[NSUserDefaults standardUserDefaults] boolForKey:OEPreferencesAlwaysShowBiosKey];
 }
 
 - (void)dealloc
@@ -108,41 +95,41 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     else
         [self reloadData];
 }
+
 #pragma mark - Private Methods
+
 - (void)reloadData
 {
     NSArray        *cores = [OECorePlugin allPlugins];
     NSMutableArray *items = [NSMutableArray array];
 
-    [cores enumerateObjectsUsingBlock:^(OECorePlugin *core, NSUInteger idx, BOOL *stop)
-    {
-        NSArray *requiredFiles = [[core requiredFiles] sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"Description" ascending:YES]]];
+    for (OECorePlugin *core in cores) {
+        NSArray *requiredFiles = [core.requiredFiles sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"Description" ascending:YES]]];
         if([requiredFiles count])
         {
             [items addObject:core];
             [items addObjectsFromArray:requiredFiles];
         }
-    }];
+    }
 
-    [self setItems:items];
-    [self setVisisble:[items count]!=0];
+    self.items = items;
 
-    [[self tableView] reloadData];
+    [self.tableView reloadData];
 }
 
 - (NSString*)OE_formatByteNumber:(NSNumber*)number
 {
-    NSUInteger size = [number integerValue];
+    NSUInteger size = number.integerValue;
 
     NSArray *units = @[ @"Bytes", @"KB", @"MB", @"GB" ];
     NSUInteger unitIdx = 0;
-    while(size > 1000 && unitIdx < [units count]-1)
+    while(size > 1000 && unitIdx < units.count - 1)
     {
         unitIdx ++;
         size /= 1000;
     }
 
-    return [NSString stringWithFormat:@"%ld %@", size, [units objectAtIndex:unitIdx]];
+    return [NSString stringWithFormat:@"%ld %@", size, units[unitIdx]];
 }
 
 - (BOOL)importBIOSFile:(NSURL*)url
@@ -152,9 +139,10 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
 }
 
 #pragma mark - Table View
+
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    return [[self items] count]+1;
+    return self.items.count + 1;
 }
 
 - (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
@@ -162,7 +150,7 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     if(row == 0)
         return NO;
 
-    id item = [[self items] objectAtIndex:row-1];
+    id item = self.items[row - 1];
     return [item isKindOfClass:[OECorePlugin class]];
 }
 
@@ -195,53 +183,55 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
         
         [groupCell setObjectValue:attributedString];
 
-        NSTextView *textView = [[[groupCell subviews] lastObject] documentView];
-        [textView setDelegate:self];
-        [textView setEditable:NO];
-        [textView setSelectable:YES];
-        [textView setDrawsBackground:YES];
-        [textView setTypingAttributes:attributes];
-        [textView setSelectedTextAttributes:attributes];
-        [textView setLinkTextAttributes:linkAttributes];
-        [textView setBackgroundColor:rowBackground];
-        [groupCell setBackgroundColor:rowBackground];
+        NSTextView *textView = [groupCell.subviews.lastObject documentView];
+        textView.delegate = self;
+        textView.editable = NO;
+        textView.selectable = YES;
+        textView.drawsBackground = YES;
+        textView.typingAttributes = attributes;
+        textView.selectedTextAttributes = attributes;
+        textView.linkTextAttributes = linkAttributes;
+        textView.backgroundColor = rowBackground;
+        groupCell.backgroundColor = rowBackground;
 
         return groupCell;
-    } else row = row -1;
+    }
+    else
+        row = row -1;
 
-    id item = [[self items] objectAtIndex:row];
-    if([self tableView:view isGroupRow:row+1])
+    id item = self.items[row];
+    if([self tableView:view isGroupRow:row + 1])
     {
-        OECorePlugin *core = (OECorePlugin*)item;
+        OECorePlugin *core = (OECorePlugin *)item;
         NSTableCellView *groupCell = [view makeViewWithIdentifier:@"CoreCell" owner:self];
-        [[groupCell textField] setStringValue:[core name]];
+        groupCell.textField.stringValue = core.name;
         return groupCell;
     }
     else
     {
-        OETableCellView *fileCell = [tableView makeViewWithIdentifier:@"FileCell" owner:self];
+        OETableCellView *fileCell = [self.tableView makeViewWithIdentifier:@"FileCell" owner:self];
 
-        NSTextField *descriptionField = [fileCell textField];
+        NSTextField *descriptionField = fileCell.textField;
         NSTextField *fileNameField = [fileCell viewWithTag:1];
         NSImageView *availabilityIndicator = [fileCell viewWithTag:3];
 
-        NSString *description = [item objectForKey:@"Description"];
-        __unused NSString *md5  = [item objectForKey:@"MD5"];
-        NSString *name = [item objectForKey:@"Name"];
-        NSNumber *size = [item objectForKey:@"Size"];
+        NSString *description = item[@"Description"];
+        __unused NSString *md5  = item[@"MD5"];
+        NSString *name = item[@"Name"];
+        NSNumber *size = item[@"Size"];
 
         OEBIOSFile *biosFile = [[OEBIOSFile alloc] init];
         BOOL available = [biosFile isBIOSFileAvailable:item];
         NSString *imageName = available ? @"bios_found" : @"bios_missing";
-        NSImage  *image     = [NSImage imageNamed:imageName];
+        NSImage  *image = [NSImage imageNamed:imageName];
 
-        [descriptionField setStringValue:description];
-        [fileNameField setStringValue:[NSString stringWithFormat:@"%@ (%@)", name, [self OE_formatByteNumber:size]]];
-        [availabilityIndicator setImage:image];
+        descriptionField.stringValue = description;
+        fileNameField.stringValue = [NSString stringWithFormat:@"%@ (%@)", name, [self OE_formatByteNumber:size]];
+        availabilityIndicator.image = image;
 
         int rowsFromHeader = 0;
-        while(![self tableView:view isGroupRow:row+1-rowsFromHeader++])
-        [fileCell setBackgroundColor:rowsFromHeader%2 ? rowBackground : alternateRowBackground];
+        while(![self tableView:view isGroupRow:row + 1 - rowsFromHeader++])
+        fileCell.backgroundColor = rowsFromHeader % 2 ? rowBackground : alternateRowBackground;
 
         return fileCell;
     }
@@ -286,7 +276,7 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
 
 - (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id<NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)dropOperation
 {
-    NSArray *files = [[info draggingPasteboard] readObjectsForClasses:@[[NSURL class]] options:nil];
+    NSArray *files = [info.draggingPasteboard readObjectsForClasses:@[[NSURL class]] options:nil];
 
     __block BOOL importedSomething = NO;
 
@@ -313,7 +303,9 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     [self reloadData];
     return importedSomething;
 }
+
 #pragma mark - OEPreferencePane Protocol
+
 - (NSImage *)icon
 {
     return [NSImage imageNamed:@"bios_tab_icon"];
@@ -326,7 +318,7 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
 
 - (NSString *)localizedTitle
 {
-    return NSLocalizedString([self title], @"Preferences: Bios Toolbar item");
+    return NSLocalizedString(self.title, @"Preferences: Bios Toolbar item");
 }
 
 - (NSSize)viewSize

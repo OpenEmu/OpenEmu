@@ -53,20 +53,21 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
 
 - (void)awakeFromNib
 {        
-    [[OECoreUpdater sharedUpdater] addObserver:self forKeyPath:@"coreList" options:NSKeyValueChangeInsertion | NSKeyValueChangeRemoval | NSKeyValueChangeReplacement context:_OEPrefCoresCoreListContext];
+    [[OECoreUpdater sharedUpdater] addObserver:self
+                                    forKeyPath:@"coreList"
+                                       options:NSKeyValueChangeInsertion | NSKeyValueChangeRemoval | NSKeyValueChangeReplacement
+                                       context:_OEPrefCoresCoreListContext];
     
-    [[[self coresTableView] tableColumns] enumerateObjectsUsingBlock:
-     ^(id obj, NSUInteger idx, BOOL *stop)
-     {
-         OECenteredTextFieldCell *cell = [obj dataCell];
-         [cell setWidthInset:8.0];
-     }];
+    for (id obj in self.coresTableView.tableColumns) {
+        OECenteredTextFieldCell *cell = [obj dataCell];
+        cell.widthInset = 8.0;
+    }
     
-    [[self coresTableView] setDelegate:self];
-    [[self coresTableView] setDataSource:self];
-    [(OETableView *)[self coresTableView] setHeaderClickable:NO];
+    self.coresTableView.delegate = self;
+    self.coresTableView.dataSource = self;
+    ((OETableView *)self.coresTableView).headerClickable = NO;
     
-    [[OECoreUpdater sharedUpdater] checkForNewCores:@( NO )];
+    [[OECoreUpdater sharedUpdater] checkForNewCores:@(NO)];
     [[OECoreUpdater sharedUpdater] checkForUpdates];
 }
 

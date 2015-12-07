@@ -55,7 +55,6 @@
 #import "NSFileManager+OEHashingAdditions.h"
 
 #pragma mark Key sources
-#import "OEPreferencesController.h"
 #import "OESetupAssistant.h"
 #import "OECollectionViewController.h"
 #import "OEGameViewController.h"
@@ -145,7 +144,7 @@ NSString * const OptionsKey = @"options";
 {
     self.keyDescriptions =  @[
                               FirstGroup(@"General"),
-                              Checkbox(OEDebugModeKey, @"Debug Mode"),
+                              Checkbox([OEPreferencesWindowController debugModeKey], @"Debug Mode"),
                               Checkbox(OESetupAssistantHasFinishedKey, @"Setup Assistant has finished"),
                               Popover(@"Region", @selector(changeRegion:),
                                       Option(@"Auto", @(-1)),
@@ -195,7 +194,6 @@ NSString * const OptionsKey = @"options";
                               Checkbox(@"logsHIDEvents", @"Log HID Events"),
                               Checkbox(@"logsHIDEventsNoKeyboard", @"Log Keyboard Events"),
                               Checkbox(@"OEShowAllGlobalKeys", @"Show all global keys"),
-                              Checkbox(OEPreferencesAlwaysShowBiosKey, @"Always show BIOS preferences"),
 
                               Group(@"Save States"),
                               Button(@"Set default save states directory", @selector(restoreSaveStatesDirectory:)),
@@ -320,13 +318,17 @@ NSString * const OptionsKey = @"options";
 {
     OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [database mainThreadContext];
+    
     NSArray *allRoms = [OEDBRom allObjectsInContext:context];
-    [allRoms enumerateObjectsUsingBlock:^(OEDBRom *rom, NSUInteger idx, BOOL *stop) {
+    
+    for (OEDBRom *rom in allRoms) {
+        
         NSSortDescriptor *timeStampSort = [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO];
         NSArray *roms = [[rom saveStates] sortedArrayUsingDescriptors:@[timeStampSort]];
         NSPredicate *autosaveFilter = [NSPredicate predicateWithFormat:@"name BEGINSWITH %@", OESaveStateAutosaveName];
         NSArray *autosaves = [roms filteredArrayUsingPredicate:autosaveFilter];
         OEDBSaveState *autosave = nil;
+        
         for(int i=0; i < [autosaves count]; i++)
         {
             OEDBSaveState *state = [autosaves objectAtIndex:i];
@@ -344,9 +346,9 @@ NSString * const OptionsKey = @"options";
                 [state delete];
             }
         }
-
+        
         [autosave moveToDefaultLocation];
-    }];
+    }
     [context save:nil];
 }
 
@@ -539,9 +541,9 @@ NSString * const OptionsKey = @"options";
         [artwork removeObject:[image imageURL]];
     }
 
-    [artwork enumerateObjectsUsingBlock:^(NSURL *untrackedFile, BOOL *stop) {
+    for (NSURL *untrackedFile in artwork) {
         [[NSFileManager defaultManager] removeItemAtURL:untrackedFile error:nil];
-    }];
+    }
     NSLog(@"Removed %ld unknown files from artwork directory", [artwork count]);
 }
 
@@ -550,11 +552,10 @@ NSString * const OptionsKey = @"options";
     OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
     NSManagedObjectContext *context = [library mainThreadContext];
 
-    NSArray *objects = [OEDBRom allObjectsInContext:context];
-    [objects enumerateObjectsUsingBlock:^(OEDBRom *rom, NSUInteger idx, BOOL *stop) {
-        [rom setMd5:[[rom md5] lowercaseString]];
-        [rom setCrc32:[[rom crc32] lowercaseString]];
-    }];
+    for (OEDBRom *rom in [OEDBRom allObjectsInContext:context]) {
+        rom.md5 = rom.md5.lowercaseString;
+        rom.crc32 = rom.crc32.lowercaseString;
+    }
 
     [context save:nil];
 }
@@ -578,10 +579,10 @@ NSString * const OptionsKey = @"options";
         lastRom = rom;
     }
 
-    [romsToDelete enumerateObjectsUsingBlock:^(OEDBRom *rom, NSUInteger idx, BOOL *stop) {
-        [[rom game] deleteByMovingFile:NO keepSaveStates:YES];
+    for (OEDBRom *rom in romsToDelete) {
+        [rom.game deleteByMovingFile:NO keepSaveStates:YES];
         [rom deleteByMovingFile:NO keepSaveStates:NO];
-    }];
+    }
 
     NSLog(@"%ld roms deleted", [romsToDelete count]);
     [context save:nil];
@@ -892,8 +893,4 @@ NSString * const OptionsKey = @"options";
     return @"OEPrefDebugController";
 }
 
-- (BOOL)isVisible
-{
-    return [[NSUserDefaults standardUserDefaults] boolForKey:OEDebugModeKey];
-}
 @end
