@@ -182,15 +182,17 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
         // Change cursors
         [attributes     setObject:[NSCursor arrowCursor]        forKey:NSCursorAttributeName];
         [linkAttributes setObject:[NSCursor pointingHandCursor] forKey:NSCursorAttributeName];
-
-        NSString *infoText = [NSString stringWithFormat:NSLocalizedString(@"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information.", @"BIOS files preferences introduction text"), OEBiosUserGuideURLString];
+        [linkAttributes setObject:[NSURL URLWithString:OEBiosUserGuideURLString] forKey:NSLinkAttributeName];
+        
+        NSString *wildcard = @"\uFFFC";
+        NSString *infoText = [NSString stringWithFormat:NSLocalizedString(@"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information.", @"BIOS files preferences introduction text"), wildcard];
         NSString *linkText = NSLocalizedString(@"User guide on BIOS files", @"Bios files introduction text, active region");
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:infoText attributes:attributes];
 
-        NSRange linkRange = [infoText rangeOfString:OEBiosUserGuideURLString];
-        [attributedString setAttributes:@{NSLinkAttributeName:[NSURL URLWithString:OEBiosUserGuideURLString]} range:linkRange];
+        NSRange linkRange = [infoText rangeOfString:wildcard];
+        [attributedString setAttributes:linkAttributes range:linkRange];
         [attributedString replaceCharactersInRange:linkRange withString:linkText];
-
+        
         [groupCell setObjectValue:attributedString];
 
         NSTextView *textView = [[[groupCell subviews] lastObject] documentView];
