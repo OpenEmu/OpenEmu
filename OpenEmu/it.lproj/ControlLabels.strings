@@ -93,7 +93,7 @@
   "Option 2" = "Option 2";
   "Option" = "Option";  // Jaguar, Lynx
   "P" = "P";
-  "Pause" = "Pause";  // Atari 5200, 7800, Jaguar
+  "Pause" = "Pausa";
   "Player Start" = "Inizia gioco";
   "Quick Load Button" = "Carica veloce";
   "Quick Save Button" = "Salva veloce";
