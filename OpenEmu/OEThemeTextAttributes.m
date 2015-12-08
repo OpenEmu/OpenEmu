@@ -44,6 +44,7 @@ static NSString * const OEThemeFontWeightAttributeName          = @"Weight";
 static NSString * const OEThemeFontTraitsAttributeName          = @"Traits";
 static NSString * const OEThemeFontAlignmentAttributeName       = @"Alignment";
 static NSString * const OEThemeFontLineBreakAttributeName       = @"Line Break";
+static NSString * const OEThemeFontBaselineOffsetAttributeName  = @"Baseline Offset";
 
 #pragma mark - Theme font shadow
 
@@ -138,6 +139,7 @@ id _OEObjectFromDictionary(NSDictionary *dictionary, NSString *attributeName, Cl
     NSString   *familyAttribute = ([definition valueForKey:OEThemeFontFamilyAttributeName]   ?: [definition objectForKey:OEThemeObjectValueAttributeName]);
     CGFloat     size            = [([definition objectForKey:OEThemeFontSizeAttributeName]   ?: [NSNumber numberWithFloat:12.0]) floatValue];
     CGFloat  weight          = [([definition objectForKey:OEThemeFontWeightAttributeName] ?: [NSNumber numberWithFloat:5]) floatValue];
+    NSNumber *baselineOffset = [definition objectForKey:OEThemeFontBaselineOffsetAttributeName];
 
     NSFontTraitMask  mask = [_OEObjectFromDictionary(definition, OEThemeFontTraitsAttributeName, [NSNumber class],
                                                      ^ id (id mask)
@@ -214,6 +216,7 @@ id _OEObjectFromDictionary(NSDictionary *dictionary, NSString *attributeName, Cl
     if(foregroundColor) [attributes setValue:foregroundColor forKey:NSForegroundColorAttributeName];
     if(backgroundColor) [attributes setValue:backgroundColor forKey:NSBackgroundColorAttributeName];
     if(style)           [attributes setValue:style           forKey:NSParagraphStyleAttributeName];
+    if(baselineOffset)  [attributes setObject:baselineOffset forKey:NSBaselineOffsetAttributeName];
 
     return [attributes copy];
 }
