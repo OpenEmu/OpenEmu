@@ -21,7 +21,7 @@
 "985.title" = "Новая коллекция";
 
 /* Class = "NSMenuItem"; title = "Library"; ObjectID = "986"; */
-"986.title" = "Library"; // TODO
+"986.title" = "Библиотека";
 
 /* Class = "NSMenuItem"; title = "Добавить в библиотеку…"; ObjectID = "987"; */
 "987.title" = "Добавить в библиотеку…";
