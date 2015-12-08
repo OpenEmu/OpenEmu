@@ -31,6 +31,7 @@
 #pragma mark - Public variables
 
 NSString *const OELibrarySplitViewDidToggleSidebarNotification = @"OELibrarySplitViewDidToggleSidebarNotification";
+NSString *const OELibrarySplitViewResetSidebarNotification = @"OELibrarySplitViewResetSidebarNotification";
 
 #pragma mark - Private variables
 
@@ -128,6 +129,8 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
 
     NSNotification *notification = [NSNotification notificationWithName:OELibrarySplitViewDidToggleSidebarNotification object:self];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetSidebar) name:OELibrarySplitViewResetSidebarNotification object:nil];
 
     if([[_delegateProxy localDelegate] respondsToSelector:@selector(librarySplitViewDidToggleSidebar:)])
         [[_delegateProxy localDelegate] librarySplitViewDidToggleSidebar:notification];
@@ -249,6 +252,11 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
 - (BOOL)isSidebarVisible
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:_OESidebarVisibleKey];
+}
+
+- (void)resetSidebar
+{
+    [self setPosition:186.0 ofDividerAtIndex:0];
 }
 
 #pragma mark - Overridden methods

@@ -34,6 +34,7 @@
 - (BOOL)isSidebarVisible;
 - (void)toggleSidebar;
 - (void)setDelegate:(id<OELibrarySplitViewDelegate>)delegate;
+- (void)resetSidebar;
 
 /* Return the splitter position as shown on screen.
    If the sidebar is hidden, return 0.
@@ -55,3 +56,4 @@
 
 
 extern NSString *const OELibrarySplitViewDidToggleSidebarNotification;
+extern NSString *const OELibrarySplitViewResetSidebarNotification;

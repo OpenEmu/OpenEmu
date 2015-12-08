@@ -265,6 +265,9 @@ NSString * const OptionsKey = @"options";
     
     [defaults removeObjectForKey:@"NSSplitView Subview Frames mainSplitView"];
     [defaults removeObjectForKey:@"NSWindow Frame LibraryWindow"];
+    [defaults removeObjectForKey:@"lastSidebarWidth"];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:OELibrarySplitViewResetSidebarNotification object:self];
 
     NSWindow *mainWindow = self.mainWindow;
     
