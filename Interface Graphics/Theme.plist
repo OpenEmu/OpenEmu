@@ -1081,6 +1081,8 @@
 			</dict>
 			<key>Weight</key>
 			<real>0.2</real>
+			<key>Baseline Offset</key>
+			<integer>3</integer>
 		</dict>
 		<key>search_field_selection</key>
 		<dict>
@@ -1129,6 +1131,8 @@
 			</dict>
 			<key>Weight</key>
 			<real>0.2</real>
+			<key>Baseline Offset</key>
+			<integer>3</integer>
 		</dict>
 		<key>wood_popup_button</key>
 		<dict>
