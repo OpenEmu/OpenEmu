@@ -84,8 +84,6 @@
 
 "Cancel Cover Art Download" = "Annulla scaricamento copertine";
 
-"Cancel Operation" = "Annulla operazione";  // download missing artwork dialog button (debug) - standard nsalert
-
 "Cancel" = "Annulla";
 
 "Change Core" = "Cambia Core";
@@ -105,8 +103,6 @@
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Scegli Sì per annullare l'importazione di tutti gli elementi ancora in coda. I giochi già importati non verranno tolti dalla libreria.";
 
 "Code:" = "Codice:";
-
-"Collapse" = "Contrai";
 
 "Collections" = "Raccolte";
 
@@ -182,8 +178,6 @@
 
 "Dismiss" = "Dismiss"; // TODO
 
-"Do it!" = "Va bene!";  // download missing artwork (debug) - standard nsalert
-
 "Do not ask me again" = "Non chiedermelo più";
 
 "Do Not Save" = "Non salvare";
@@ -217,8 +211,6 @@
 "Edit Game Controls" = "Modifica controlli";
 
 "Enable now" = "Attiva adesso";
-
-"Enable Retrode support" = "Attiva supporto per Retrode";
 
 "Error!" = "Errore!";  // The core could not be downloaded
 
@@ -313,8 +305,6 @@
 "No" = "No";
 
 "None" = "Nessuna";  // rating
-
-"Not implemented right now" = "Non ancora implementato";  // unused
 
 "OK" = "OK";
 
@@ -444,6 +434,8 @@
 
 "Some migrations failed to complete properly" = "Non è stato possibile completare correttamente alcune migrazioni";
 
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Ringraziamenti speciali a tutti coloro che hanno reso OpenEmu possibile. Per saperne di più riguardo i contributori, i core di emulazione, la documentazione, le licenze, e per segnalare bachi, visita la nostra pagina GitHub.";
+
 "Start Scanning" = "Avvia scansione";
 
 "Stop Emulation" = "Chiudi emulatore";
@@ -496,8 +488,6 @@
 
 "Toggle Fullscreen" = "Modalità a tutto schermo";
 
-"Toggle Sidebar" = "Mostra/nascondi barra laterale";
-
 "Trash downloaded Files" = "Sposta file scaricati nel cestino";
 
 "Unmute Audio" = "Attiva audio";
@@ -509,8 +499,6 @@
 "View Guide In Browser" = "View Guide In Browser"; // TODO
 
 "Warning" = "Attenzione";
-
-"While performing this operation OpenEmu will be unresponsive." = "Mentre questa operazione è in corso, OpenEmu smetterà di rispondere.";
 
 "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves."; // TODO
 
@@ -641,4 +629,8 @@
 
 "Perform Sanity Check on Database" = "Effettua verifica del database";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Ringraziamenti speciali a tutti coloro che hanno\nreso OpenEmu possibile. Per saperne di più\nriguardo i contributori, i core di emulazione,\nla documentazione, le licenze, e per segnalare\nbachi, visita la nostra pagina GitHub.";
+"While performing this operation OpenEmu will be unresponsive." = "Mentre questa operazione è in corso, OpenEmu smetterà di rispondere.";
+
+"Do it!" = "Va bene!";  // download missing artwork (debug) - standard nsalert
+
+"Cancel Operation" = "Annulla operazione";  // download missing artwork dialog button (debug) - standard nsalert

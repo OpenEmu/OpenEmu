@@ -84,8 +84,6 @@
 
 "Cancel Cover Art Download" = "Отменить загрузку обложки";
 
-"Cancel Operation" = "Отменить операцию";
-
 "Cancel" = "Отменить";
 
 "Change Core" = "Сменить ядро";
@@ -105,8 +103,6 @@
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Выберите Да, чтобы удалить все элементы из очереди. Предметы, которые закончили импорт будут сохранены в библиотеке.";
 
 "Code:" = "Код:";
-
-"Collapse" = "Свернуть";
 
 "Collections" = "Коллекции";
 
@@ -182,8 +178,6 @@
 
 "Dismiss" = "Dismiss"; // TODO
 
-"Do it!" = "Сделать это!";
-
 "Do not ask me again" = "Больше не спрашивать";
 
 "Do Not Save" = "Не сохранять";
@@ -217,8 +211,6 @@
 "Edit Game Controls" = "Редактировать управление в игре";
 
 "Enable now" = "Включить сейчас";
-
-"Enable Retrode support" = "Включить поддержку Retrode";
 
 "Error!" = "Ошибка!";
 
@@ -313,8 +305,6 @@
 "No" = "Нет";
 
 "None" = "Ничего";
-
-"Not implemented right now" = "Пока что не используется";
 
 "OK" = "ОК";
 
@@ -444,6 +434,8 @@
 
 "Some migrations failed to complete properly" = "Не удалось применить некоторые миграции";
 
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub."; // TODO
+
 "Start Scanning" = "Начать сканирование";
 
 "Stop Emulation" = "Остановить эмуляцию";
@@ -496,8 +488,6 @@
 
 "Toggle Fullscreen" = "Полный экран";
 
-"Toggle Sidebar" = "Сайдбар";
-
 "Trash downloaded Files" = "Переместить в корзину скаченные файлы";
 
 "Unmute Audio" = "Включить звук";
@@ -509,8 +499,6 @@
 "View Guide In Browser" = "View Guide In Browser"; // TODO
 
 "Warning" = "Внимание";
-
-"While performing this operation OpenEmu will be unresponsive." = "Во время выполнения данной операции OpenEmu может не отвечать.";
 
 "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves."; // TODO
 
@@ -641,4 +629,8 @@
 
 "Perform Sanity Check on Database" = "Выполните проверку исправности базы данных";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Special thanks to everyone that made\nOpenEmu possible. To find out more \nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub."; // TODO
+"While performing this operation OpenEmu will be unresponsive." = "Во время выполнения данной операции OpenEmu может не отвечать.";
+
+"Do it!" = "Сделать это!";
+
+"Cancel Operation" = "Отменить операцию";

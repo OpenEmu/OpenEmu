@@ -84,8 +84,6 @@
 
 "Cancel Cover Art Download" = "Annuler le téléchargement de la jaquette";
 
-"Cancel Operation" = "Annuler l’opération";
-
 "Cancel" = "Annuler";
 
 "Change Core" = "Changer le cœur";
@@ -105,8 +103,6 @@
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Choisissez Oui pour supprimer tous les éléments de file d’attente. Les éléments importés seront conservés dans votre bibliothèque.";
 
 "Code:" = "Code :";
-
-"Collapse" = "Réduire";
 
 "Collections" = "Collections";
 
@@ -182,8 +178,6 @@
 
 "Dismiss" = "Dismiss"; // TODO
 
-"Do it!" = "Faites-le !";
-
 "Do not ask me again" = "Ne plus me demander";
 
 "Do Not Save" = "Ne pas sauvegarder";
@@ -217,8 +211,6 @@
 "Edit Game Controls" = "Modifier les contrôles de jeu";
 
 "Enable now" = "Activer maintenant";
-
-"Enable Retrode support" = "Activer le support de Retrode";
 
 "Error!" = "Erreur !";
 
@@ -313,8 +305,6 @@
 "No" = "Non";
 
 "None" = "Aucune";
-
-"Not implemented right now" = "Pas encore implémenté";
 
 "OK" = "OK";
 
@@ -444,6 +434,8 @@
 
 "Some migrations failed to complete properly" = "Quelques migrations ne se sont pas terminées correctement";
 
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Merci à celles et ceux sans qui OpenEmu n’aurait été possible. Pour en savoir plus sur nos contributeurs, cœurs, doc, licences et signalement des bugs, visitez notre GitHub.";
+
 "Start Scanning" = "Démarrer l’analyse";
 
 "Stop Emulation" = "Arrêter l’émulation";
@@ -496,8 +488,6 @@
 
 "Toggle Fullscreen" = "Basculer le mode plein écran";
 
-"Toggle Sidebar" = "Basculer la barre latérale";
-
 "Trash downloaded Files" = "Placer dans la corbeille les fichiers téléchargés";
 
 "Unmute Audio" = "Réactiver le son";
@@ -509,8 +499,6 @@
 "View Guide In Browser" = "View Guide In Browser"; // TODO
 
 "Warning" = "Avertissement";
-
-"While performing this operation OpenEmu will be unresponsive." = "OpenEmu ne répondra pas pendant l’exécution de cette opération.";
 
 "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves."; // TODO
 
@@ -641,4 +629,8 @@
 
 "Perform Sanity Check on Database" = "Vérifier l’intégrité de la base de données";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Merci à celles et ceux sans qui\nOpenEmu n’aurait été possible. Pour\nen savoir plus sur nos contributeurs,\ncœurs, doc, licences et signalement\ndes bugs, visitez notre GitHub.";
+"While performing this operation OpenEmu will be unresponsive." = "OpenEmu ne répondra pas pendant l’exécution de cette opération.";
+
+"Do it!" = "Faites-le !";
+
+"Cancel Operation" = "Annuler l’opération";
