@@ -84,8 +84,6 @@
 
 "Cancel Cover Art Download" = "Cover-Download abbrechen";
 
-"Cancel Operation" = "Operation abbrechen";
-
 "Cancel" = "Abbrechen";
 
 "Change Core" = "Kern wechseln";
@@ -105,8 +103,6 @@
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Möchtest du wirklich alle Objekte aus der Warteschlange entfernen? Spiele, die bereits importiert wurden, bleiben in der Mediathek.";
 
 "Code:" = "Code:";
-
-"Collapse" = "Ein-/Ausklappen";
 
 "Collections" = "Sammlungen";
 
@@ -182,8 +178,6 @@
 
 "Dismiss" = "Ausblenden";
 
-"Do it!" = "Los!";
-
 "Do not ask me again" = "Nicht erneut fragen";
 
 "Do Not Save" = "Nicht sichern";
@@ -217,8 +211,6 @@
 "Edit Game Controls" = "Steuerung bearbeiten";
 
 "Enable now" = "Sofort aktivieren";
-
-"Enable Retrode support" = "Retrode-Unterstützung aktivieren";
 
 "Error!" = "Fehler!";
 
@@ -313,8 +305,6 @@
 "No" = "Nein";
 
 "None" = "Keine";
-
-"Not implemented right now" = "Noch nicht implementiert";
 
 "OK" = "OK";
 
@@ -444,6 +434,8 @@
 
 "Some migrations failed to complete properly" = "Einige Migrationen konnten nicht korrekt durchgeführt werden";
 
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub.";
+
 "Start Scanning" = "Wiimote suchen";
 
 "Stop Emulation" = "Spiel beenden";
@@ -496,8 +488,6 @@
 
 "Toggle Fullscreen" = "Vollbild ein/aus";
 
-"Toggle Sidebar" = "Seitenleiste ein-/ausblenden";
-
 "Trash downloaded Files" = "Heruntergeladene Dateien löschen";
 
 "Unmute Audio" = "Ton ein";
@@ -509,8 +499,6 @@
 "View Guide In Browser" = "Im Browser anzeigen";
 
 "Warning" = "Warnung";
-
-"While performing this operation OpenEmu will be unresponsive." = "Während dieser Aktion wird OpenEmu nicht mehr reagieren.";
 
 "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "Du kannst deinen Fortschritt jederzeit als Spielstand sichern. Beendest du ein Spiel, wird sogar automatisch einer angelegt. Komme später zurück, um dir einen Überblick über deine Spielstände zu verschaffen.";
 
@@ -641,4 +629,8 @@
 
 "Perform Sanity Check on Database" = "Datenbank auf Plausibilität prüfen";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub."; // TODO
+"While performing this operation OpenEmu will be unresponsive." = "Während dieser Aktion wird OpenEmu nicht mehr reagieren.";
+
+"Do it!" = "Los!";
+
+"Cancel Operation" = "Abbrechen";
