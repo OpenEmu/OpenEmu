@@ -1454,8 +1454,8 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 - (OEIntSize)OE_correctTextureSize:(OEIntSize)textureSize forAspectSize:(OEIntSize)aspectSize
 {
     // calculate aspect ratio
-    float     wr             = textureSize.width / aspectSize.width;
-    float     hr             = textureSize.height / aspectSize.height;
+    float     wr             = (CGFloat) textureSize.width / aspectSize.width;
+    float     hr             = (CGFloat) textureSize.height / aspectSize.height;
     OEIntSize textureIntSize = (wr > hr ?
                                 (OEIntSize){hr * aspectSize.width, textureSize.height      } :
                                 (OEIntSize){textureSize.width    , wr * aspectSize.height  });
