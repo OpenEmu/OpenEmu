@@ -42,9 +42,9 @@
 
 "Add Cheat" = "Добавить Чит-код";
 
-"Add Cover Art From File…" = "Добавить обложку из файла…";
+"Add Cover Art from File…" = "Добавить обложку из файла…";
 
-"Add To Collection" = "Добавить в коллекцию";
+"Add to Collection" = "Добавить в коллекцию";
 
 "All Games" = "Все игры";
 
@@ -496,7 +496,7 @@
 
 "User guide on BIOS files" = "Руководство пользователя по файлам BIOS";
 
-"View Guide In Browser" = "View Guide In Browser"; // TODO
+"View Guide in Browser" = "View Guide in Browser"; // TODO
 
 "Warning" = "Внимание";
 
@@ -615,7 +615,7 @@
 
 "Database Actions" = "Действия с базой данных";
 
-"Delete Artwork that can be downloaded" = "Удалить обложку, которая может быть загружена";
+"Delete artwork that can be downloaded" = "Удалить обложку, которая может быть загружена";
 
 "Download missing artwork" = "Загрузить отсутствующую обложку";
 

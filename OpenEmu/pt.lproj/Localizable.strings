@@ -42,9 +42,9 @@
 
 "Add Cheat" = "Adicionar Trapaça";
 
-"Add Cover Art From File…" = "Adicionar Arte de Capa…";
+"Add Cover Art from File…" = "Adicionar Arte de Capa…";
 
-"Add To Collection" = "Adicionar à Coleção";
+"Add to Collection" = "Adicionar à Coleção";
 
 "All Games" = "Todos os jogos";
 
@@ -496,7 +496,7 @@
 
 "User guide on BIOS files" = "User guide on BIOS files";
 
-"View Guide In Browser" = "View Guide In Browser"; // TODO
+"View Guide in Browser" = "View Guide in Browser"; // TODO
 
 "Warning" = "Atenção";
 
@@ -615,7 +615,7 @@
 
 "Database Actions" = "Ações de Banco de Dados";
 
-"Delete Artwork that can be downloaded" = "Delete Artwork that can be downloaded"; //TODO
+"Delete artwork that can be downloaded" = "Delete artwork that can be downloaded"; //TODO
 
 "Download missing artwork" = "Download missing artwork"; //TODO
 

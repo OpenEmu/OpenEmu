@@ -42,9 +42,9 @@
 
 "Add Cheat" = "Nuovo codice";
 
-"Add Cover Art From File…" = "Seleziona copertina da file…";
+"Add Cover Art from File…" = "Seleziona copertina da file…";
 
-"Add To Collection" = "Aggiungi a raccolta";
+"Add to Collection" = "Aggiungi a raccolta";
 
 "All Games" = "Tutti i giochi";
 
@@ -496,7 +496,7 @@
 
 "User guide on BIOS files" = "Manuale sui file BIOS";
 
-"View Guide In Browser" = "View Guide In Browser"; // TODO
+"View Guide in Browser" = "View Guide in Browser"; // TODO
 
 "Warning" = "Attenzione";
 
@@ -615,7 +615,7 @@
 
 "Database Actions" = "Operazioni sul database";
 
-"Delete Artwork that can be downloaded" = "Elimina le immagini che si possono scaricare";
+"Delete artwork that can be downloaded" = "Elimina le immagini che si possono scaricare";
 
 "Download missing artwork" = "Scarica immagini mancanti";
 
