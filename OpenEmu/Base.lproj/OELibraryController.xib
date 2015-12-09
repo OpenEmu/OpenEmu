@@ -70,7 +70,7 @@
                 </toolbarItem>
                 <toolbarItem implicitItemIdentifier="CC8CBEA1-1CC8-4AD5-A7F6-5F8F7FC07F0E" label="View Mode" paletteLabel="View Mode" tag="-1" id="DWE-Na-du6">
                     <nil key="toolTip"/>
-                    <size key="minSize" width="51" height="32"/>
+                    <size key="minSize" width="55" height="32"/>
                     <size key="maxSize" width="59" height="38"/>
                     <box key="view" borderType="none" titlePosition="noTitle" id="b7d-DK-n8i">
                         <rect key="frame" x="6" y="14" width="54" height="38"/>
@@ -119,7 +119,7 @@
                 </toolbarItem>
                 <toolbarItem implicitItemIdentifier="8E705F8E-572D-4DD5-A1C3-96B9EE05D79A" label="Category" paletteLabel="Category" tag="-1" id="Jiu-4k-Ecu">
                     <nil key="toolTip"/>
-                    <size key="minSize" width="348" height="34"/>
+                    <size key="minSize" width="353" height="34"/>
                     <size key="maxSize" width="360" height="114"/>
                     <box key="view" borderType="none" titlePosition="noTitle" id="XJ3-gQ-HUH">
                         <rect key="frame" x="0.0" y="14" width="353" height="38"/>
