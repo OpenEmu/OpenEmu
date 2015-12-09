@@ -42,9 +42,9 @@
 
 "Add Cheat" = "Adicionar Trapaça";
 
-"Add Cover Art From File…" = "Adicionar Arte de Capa…";
+"Add Cover Art from File…" = "Adicionar Arte de Capa…";
 
-"Add To Collection" = "Adicionar à Coleção";
+"Add to Collection" = "Adicionar à Coleção";
 
 "All Games" = "Todos os jogos";
 
@@ -496,7 +496,7 @@
 
 "User guide on BIOS files" = "Manual do Usuário nos arquivos de BIOS";
 
-"View Guide In Browser" = "Ver Manual no Navegador";
+"View Guide in Browser" = "Ver Manual no Navegador";
 
 "Warning" = "Atenção";
 
@@ -615,7 +615,7 @@
 
 "Database Actions" = "Ações de Banco de Dados";
 
-"Delete Artwork that can be downloaded" = "Remover Artes de Capa que podem ser baixadas";
+"Delete artwork that can be downloaded" = "Delete artwork that can be downloaded"; //TODO
 
 "Download missing artwork" = "Baixar Artes de Capa faltantes";
 

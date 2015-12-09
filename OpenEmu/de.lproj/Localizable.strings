@@ -42,9 +42,9 @@
 
 "Add Cheat" = "Cheat hinzufügen";
 
-"Add Cover Art From File…" = "Cover aus Datei hinzufügen …";
+"Add Cover Art from File…" = "Cover aus Datei hinzufügen …";
 
-"Add To Collection" = "Zur Sammlung hinzufügen";
+"Add to Collection" = "Zur Sammlung hinzufügen";
 
 "All Games" = "Alle Spiele";
 
@@ -496,7 +496,7 @@
 
 "User guide on BIOS files" = "Benutzerhandbuch über BIOS-Dateien";
 
-"View Guide In Browser" = "Im Browser anzeigen";
+"View Guide in Browser" = "Im Browser anzeigen";
 
 "Warning" = "Warnung";
 
@@ -615,7 +615,7 @@
 
 "Database Actions" = "Datenbank-Aktionen";
 
-"Delete Artwork that can be downloaded" = "Herunterladbare Cover löschen";
+"Delete artwork that can be downloaded" = "Herunterladbare Cover löschen";
 
 "Download missing artwork" = "Fehlende Cover herunterladen";
 
