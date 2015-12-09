@@ -124,7 +124,7 @@
 
 "Copying ROM Files…" = "Kopiere ROM-Dateien …";
 
-"Core Provided By…" = "Kern powered by …";
+"Core Provided By…" = "Kern basiert auf …";
 
 "Cores" = "Kerne";
 
@@ -156,13 +156,13 @@
 
 "Delete Save States" = "Spielstände löschen";
 
-"Delete Save" = "Spielstand löschen";
+"Delete Save" = "Löschen"; //Spielstand löschen
 
-"Delete Saves" = "Spielstände löschen";
+"Delete Saves" = "Löschen"; //Spielstände löschen
 
-"Delete Screenshot" = "Screenshot löschen";
+"Delete Screenshot" = "Löschen"; //Screenshot löschen
 
-"Delete Screenshots" = "Screenshots löschen";
+"Delete Screenshots" = "Löschen"; //Screenshots löschen
 
 "Delete" = "Löschen";
 
@@ -294,7 +294,7 @@
 
 "No available controllers" = "Keine Controller verfügbar";
 
-"No game played yet!" = "Noch kein Spiel gespielt.";
+"No game played yet!" = "Noch kein Spiel gespielt";
 
 "No Internet Connection" = "Keine Internetverbindung";
 
@@ -390,7 +390,7 @@
 
 "Save Current Game…" = "Aktuelles Spiel sichern …";
 
-"Save Game" = "Spielstand sichern";
+"Save Game" = "Sichern"; //Spielstand sichern
 
 "Save States" = "Spielstände";
 
