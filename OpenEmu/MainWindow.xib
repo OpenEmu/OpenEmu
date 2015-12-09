@@ -20,7 +20,7 @@
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <rect key="contentRect" x="196" y="114" width="830" height="555"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
-            <value key="minSize" type="size" width="600" height="491"/>
+            <value key="minSize" type="size" width="618" height="491"/>
             <view key="contentView" id="4">
                 <rect key="frame" x="0.0" y="0.0" width="830" height="555"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
