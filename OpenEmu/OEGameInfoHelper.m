@@ -113,9 +113,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
                     NSString *version = nil;
                     NSURL *newRelease = [sharedHelper checkForUpdates:&version];
                     if(newRelease != nil)
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [sharedHelper installVersion:version withDownloadURL:newRelease];
-                        });
+                        [sharedHelper installVersion:version withDownloadURL:newRelease];
                 }
             });
         }
@@ -184,19 +182,19 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     _downloadProgress = 1.0;
     _downloadVerison  = nil;
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
+    [self OE_postDidUpdateNotification];
 }
 
 - (void)installVersion:(NSString*)versionTag withDownloadURL:(NSURL*)url
 {
     if(url != nil)
     {
-        _updating = YES;
-        [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperWillUpdateNotificationName object:self];
-        _downloadProgress = 0.0;
-        _downloadVerison = versionTag;
-
         dispatch_async(dispatch_get_main_queue(), ^{
+            _updating = YES;
+            [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperWillUpdateNotificationName object:self];
+            _downloadProgress = 0.0;
+            _downloadVerison = versionTag;
+
             NSURLRequest  *request = [NSURLRequest requestWithURL:url];
             [self setFileDownload:[[NSURLDownload alloc] initWithRequest:request delegate:self]];
         });
@@ -514,7 +512,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     _downloadProgress = 1.0;
     _downloadVerison  = nil;
     [self setFileDownload:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
+    [self OE_postDidUpdateNotification];
 }
 
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
@@ -522,7 +520,12 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     _updating = NO;
     _downloadProgress = 1.0;
     [self setFileDownload:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
+    [self OE_postDidUpdateNotification];
 }
 
+- (void)OE_postDidUpdateNotification {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
+    });
+}
 @end

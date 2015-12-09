@@ -418,8 +418,10 @@
 #pragma mark - OEGameInfo Helper
 - (void)gameInfoHelperWillUpdate:(NSNotification*)notification
 {
-    [self OE_updateProgress];
-    [self showGameScannerViewAnimated:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self OE_updateProgress];
+        [self showGameScannerViewAnimated:YES];
+    });
 }
 - (void)gameInfoHelperDidChangeUpdateProgress:(NSNotification*)notification
 {
