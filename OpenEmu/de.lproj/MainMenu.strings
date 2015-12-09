@@ -105,7 +105,7 @@
 "1034.title" = "Im Dock ablegen";
 
 /* Class = "NSMenu"; title = "View"; ObjectID = "1035"; */
-"1035.title" = "Darstellung2";
+"1035.title" = "Darstellung";
 
 /* Class = "NSMenuItem"; title = "as List"; ObjectID = "1036"; */
 "1036.title" = "Als Liste";
@@ -138,7 +138,7 @@
 "1050.title" = "Zuletzt gespielt";
 
 /* Class = "NSMenuItem"; title = "Save State"; ObjectID = "1052"; */
-"1052.title" = "Spielstand speichern";
+"1052.title" = "Spielstand sichern";
 
 /* Class = "NSMenuItem"; title = "Load State"; ObjectID = "1053"; */
 "1053.title" = "Spielstand laden";
