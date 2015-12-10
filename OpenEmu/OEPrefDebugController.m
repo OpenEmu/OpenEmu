@@ -267,14 +267,14 @@ NSString * const OptionsKey = @"options";
     [defaults removeObjectForKey:@"NSWindow Frame LibraryWindow"];
     [defaults removeObjectForKey:@"lastSidebarWidth"];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:OELibrarySplitViewResetSidebarNotification object:self];
-
     NSWindow *mainWindow = self.mainWindow;
     
     // Matches the content size specified in MainWindow.xib.
     [mainWindow setFrame:NSMakeRect(0, 0, 830, 555 + 22) display:NO];
     
     [mainWindow center];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:OELibrarySplitViewResetSidebarNotification object:self];
 }
 
 - (void)showGameScannerView:(id)sender {
