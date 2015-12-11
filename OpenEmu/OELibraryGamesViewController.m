@@ -49,8 +49,10 @@
 
 @implementation OELibraryGamesViewController
 
-- (void)awakeFromNib
+- (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
     [self _assignLibraryController];
 
     NSNotificationCenter *noc = [NSNotificationCenter defaultCenter];

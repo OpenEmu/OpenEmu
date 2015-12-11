@@ -92,9 +92,9 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     return @"OECollectionViewController";
 }
 
-- (void)loadView
+- (void)viewDidLoad
 {
-    [super loadView];
+    [super viewDidLoad];
     
     // Restore grid/list view mode.
     OECollectionViewControllerViewTag tag = [[NSUserDefaults standardUserDefaults] integerForKey:OELastCollectionViewKey];
@@ -102,6 +102,13 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     self.selectedViewTag = tag;
 
     [[self listView] setDraggingSourceOperationMask:NSDragOperationCopy forLocal:NO];
+}
+
+- (void)viewWillAppear
+{
+    [super viewWillAppear];
+    
+    [self scrollToSelection];
 }
 
 - (void)viewDidAppear
@@ -194,7 +201,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     return [gamesController selectedObjects];
 }
 
-- (NSIndexSet *)selectedIndexes
+- (NSIndexSet *)selectionIndexes
 {
     return [gamesController selectionIndexes];
 }
@@ -214,6 +221,17 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     }
     
     [[NSUserDefaults standardUserDefaults] setObject:archivableRepresentations forKey:OESelectedGamesKey];
+}
+
+- (void)scrollToSelection
+{
+    if (self.selectionIndexes.count > 0) {
+        
+        NSRect itemFrame = [self.gridView itemFrameAtIndex:self.selectionIndexes.firstIndex];
+        [self.gridView scrollRectToVisible:itemFrame];
+        
+        [self.listView scrollRowToVisible:self.selectionIndexes.firstIndex];
+    }
 }
 
 #pragma mark - View Selection
@@ -279,7 +297,9 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
         [gameIndexesToSelect addIndex:index];
     }
     
-    [self setSelectionIndexes:gameIndexesToSelect];
+    self.selectionIndexes = gameIndexesToSelect;
+    
+    [self scrollToSelection];
 }
 
 - (id <OEGameCollectionViewItemProtocol>)representedObject
@@ -434,7 +454,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 {
     [[self selectedGames] makeObjectsPerformSelector:@selector(requestCoverDownload)];
     [(OEDBGame*)[[self selectedGames] lastObject] save];
-    [self reloadDataIndexes:[self selectedIndexes]];
+    [self reloadDataIndexes:[self selectionIndexes]];
 }
 
 
@@ -442,7 +462,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 {
     [[self selectedGames] makeObjectsPerformSelector:@selector(cancelCoverDownload)];
     [(OEDBGame*)[[self selectedGames] lastObject] save];
-    [self reloadDataIndexes:[self selectedIndexes]];
+    [self reloadDataIndexes:[self selectionIndexes]];
 }
 
 - (void)addCoverArtFromFile:(id)sender
@@ -464,7 +484,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
         NSManagedObjectContext *context = [[selectedGames lastObject] managedObjectContext];
         [context save:nil];
 
-        [self reloadDataIndexes:[self selectedIndexes]];
+        [self reloadDataIndexes:[self selectionIndexes]];
     }];
 }
 
@@ -774,7 +794,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
         [game setRating:[sender representedObject]];
     }
     
-    [self reloadDataIndexes:[self selectedIndexes]];
+    [self reloadDataIndexes:[self selectionIndexes]];
 }
 
 #pragma mark - GridView DataSource

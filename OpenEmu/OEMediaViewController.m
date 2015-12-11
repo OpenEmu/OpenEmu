@@ -54,11 +54,14 @@
 static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
 @interface OESavedGamesDataWrapper : NSObject <NSPasteboardWriting>
-+ (id)wrapperWithItem:(id)item;
-+ (id)wrapperWithState:(OEDBSaveState*)state;
-+ (id)wrapperWithScreenshot:(OEDBScreenshot*)screenshot;
+
++ (instancetype)wrapperWithItem:(id)item;
++ (instancetype)wrapperWithState:(OEDBSaveState*)state;
++ (instancetype)wrapperWithScreenshot:(OEDBScreenshot*)screenshot;
+
 @property (strong) OEDBSaveState  *state;
 @property (strong) OEDBScreenshot *screenshot;
+
 @end
 
 @interface OEMediaViewController ()
@@ -73,6 +76,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 @end
 
 @implementation OEMediaViewController
+
 - (instancetype)init
 {
     self = [super init];
@@ -83,12 +87,13 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     }
     return self;
 }
-- (void)loadView
-{
-    [super loadView];
 
-    [[self gridView] setAutomaticallyMinimizeRowMargin:YES];
-    [[self gridView] setCellClass:[OEGridMediaItemCell class]];
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    self.gridView.automaticallyMinimizeRowMargin = YES;
+    self.gridView.cellClass = [OEGridMediaItemCell class];
 }
 
 - (void)viewWillAppear
@@ -96,17 +101,25 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     [super viewWillAppear];
     
     [self _setupToolbar];
+    [self restoreSelectionFromDefaults];
 }
 
-- (void)viewDidAppear
+- (void)viewDidDisappear
 {
-    [super viewDidAppear];
+    [super viewDidDisappear];
     
+    // Clear any previously applied search filter.
+    _searchPredicate = [NSPredicate predicateWithValue:YES];
+}
+
+- (void)restoreSelectionFromDefaults
+{
     // Restore media selection.
     NSManagedObjectContext *context = self.libraryController.database.mainThreadContext;
     NSPersistentStoreCoordinator *persistentStoreCoordinator = context.persistentStoreCoordinator;
     NSMutableIndexSet *mediaItemsToSelect = [NSMutableIndexSet indexSet];
-    NSString *defaultsKey = [[self OE_entityName] stringByAppendingString:OESelectedMediaKey];
+    NSString *defaultsKey = [self.OE_entityName stringByAppendingString:OESelectedMediaKey];
+    
     for (NSData *data in [[NSUserDefaults standardUserDefaults] objectForKey:defaultsKey]) {
         
         NSURL *representation = [NSKeyedUnarchiver unarchiveObjectWithData:data];
@@ -132,16 +145,13 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         [mediaItemsToSelect addIndex:index];
     }
     
-    [self setSelectionIndexes:mediaItemsToSelect];
-
-}
-
-- (void)viewDidDisappear
-{
-    [super viewDidDisappear];
+    self.selectionIndexes = mediaItemsToSelect;
     
-    // Clear any previously applied search filter.
-    _searchPredicate = [NSPredicate predicateWithValue:YES];
+    // Scroll to the first selected item.
+    if (self.selectionIndexes.count > 0) {
+        NSRect itemFrame = [self.gridView itemFrameAtIndex:self.selectionIndexes.firstIndex];
+        [self.gridView scrollRectToVisible:itemFrame];
+    }
 }
 
 - (void)_setupToolbar
@@ -687,8 +697,11 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 @end
 
 #pragma mark - OESavedGamesDataWrapper
+
 @implementation OESavedGamesDataWrapper
+
 static NSDateFormatter *formatter = nil;
+
 + (void)initialize
 {
     if (self == [OESavedGamesDataWrapper class]) {
@@ -699,7 +712,7 @@ static NSDateFormatter *formatter = nil;
     }
 }
 
-+ (id)wrapperWithItem:(id)item
++ (instancetype)wrapperWithItem:(id)item
 {
     if([item isKindOfClass:[OEDBSaveState class]])
         return [self wrapperWithState:item];
@@ -708,14 +721,14 @@ static NSDateFormatter *formatter = nil;
     return nil;
 }
 
-+ (id)wrapperWithState:(OEDBSaveState*)state
++ (instancetype)wrapperWithState:(OEDBSaveState*)state
 {
     OESavedGamesDataWrapper *obj = [[self alloc] init];
     [obj setState:state];
     return obj;
 }
 
-+ (id)wrapperWithScreenshot:(OEDBScreenshot*)screenshot;
++ (instancetype)wrapperWithScreenshot:(OEDBScreenshot*)screenshot;
 {
     OESavedGamesDataWrapper *obj = [[self alloc] init];
     [obj setScreenshot:screenshot];
@@ -723,6 +736,7 @@ static NSDateFormatter *formatter = nil;
 }
 
 #pragma mark - NSPasteboardWriting
+
 - (NSArray*)writableTypesForPasteboard:(NSPasteboard *)pasteboard
 {
     if([self state])

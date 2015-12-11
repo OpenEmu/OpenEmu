@@ -91,8 +91,10 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     return @"OESidebarController";
 }
 
-- (void)awakeFromNib
+- (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
     self.groups = @[
                     [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"Consoles", @"") autosaveName:OESidebarGroupConsolesAutosaveName],
                     [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"Collections", @"") autosaveName:OESidebarGroupCollectionsAutosaveName]
@@ -146,6 +148,18 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     }
 }
 
+- (void)viewWillAppear
+{
+    [super viewWillAppear];
+    
+    // Scroll to the selection.
+    OESidebarOutlineView *sidebarView = (OESidebarOutlineView *)self.view;
+    NSInteger selectedRow = sidebarView.selectedRow;
+    if (selectedRow != -1) {
+        [sidebarView scrollRowToVisible:selectedRow];
+    }
+}
+
 - (void)deviceDidAppear:(id)notification
 {
     [self reloadDataAndPreserveSelection];
@@ -183,8 +197,9 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     // Select the found collection item, or select the first item by default
     if(collectionItem != nil) [self selectItem:collectionItem];
 }
-#pragma mark -
-#pragma mark Public
+
+#pragma mark - Public
+
 - (void)setEnabled:(BOOL)enabled
 {
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
