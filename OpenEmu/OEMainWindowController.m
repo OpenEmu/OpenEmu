@@ -591,6 +591,14 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         [_gameDocument setEmulationPaused:NO];
 }
 
+- (NSRect)window:(NSWindow *)window willPositionSheet:(NSWindow *)sheet usingRect:(NSRect)rect
+{
+    // Re-position the sheet beneath the toolbar.
+    const CGFloat sheetOffset = 36.0;
+    rect.origin.y -= sheetOffset;
+    return rect;
+}
+
 #pragma mark - Menu Items
 
 - (IBAction)launchLastPlayedROM:(id)sender
