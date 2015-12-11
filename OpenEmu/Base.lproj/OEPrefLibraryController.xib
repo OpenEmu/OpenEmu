@@ -114,7 +114,7 @@
                 </button>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="etg-C7-Lej" userLabel="Reset all warnings:" customClass="OELabel">
                     <rect key="frame" x="39" y="355" width="158" height="17"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Reset all dialog warnings:" id="Ua1-J2-mdy" customClass="OELabelCell">
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Reset all dialog warnings:" id="Ua1-J2-mdy" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -128,6 +128,7 @@
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="132" id="5dU-fr-4hH"/>
                         <constraint firstAttribute="height" constant="23" id="VPt-UI-L3m"/>
+                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="232" id="fBl-JJ-wm3"/>
                     </constraints>
                     <buttonCell key="cell" type="square" title="Reset warnings" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -228,10 +229,11 @@
                 </scrollView>
             </subviews>
             <constraints>
+                <constraint firstItem="etg-C7-Lej" firstAttribute="top" relation="greaterThanOrEqual" secondItem="5" secondAttribute="bottom" constant="5" id="3Nw-R4-nJe"/>
                 <constraint firstItem="Q95-qb-F7X" firstAttribute="trailing" secondItem="13" secondAttribute="trailing" id="4GU-IB-QJc"/>
                 <constraint firstItem="yl9-Jz-OKA" firstAttribute="leading" secondItem="Dbf-Vf-eb2" secondAttribute="leading" constant="5" id="6aX-Bk-FoC"/>
                 <constraint firstItem="8" firstAttribute="leading" secondItem="10" secondAttribute="leading" constant="1" id="6cn-6S-RIe"/>
-                <constraint firstItem="etg-C7-Lej" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="29" id="7ep-ZX-eid"/>
+                <constraint firstItem="etg-C7-Lej" firstAttribute="top" relation="lessThanOrEqual" secondItem="5" secondAttribute="bottom" constant="29" id="7ep-ZX-eid"/>
                 <constraint firstItem="9" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" constant="-42" id="83i-np-Jti"/>
                 <constraint firstItem="yl9-Jz-OKA" firstAttribute="bottom" secondItem="Dbf-Vf-eb2" secondAttribute="bottom" constant="-3" id="89q-yY-EeU"/>
                 <constraint firstItem="Iz3-4e-tBC" firstAttribute="top" secondItem="Q95-qb-F7X" secondAttribute="bottom" constant="23" id="8mQ-ve-S2C"/>
@@ -240,6 +242,7 @@
                 <constraint firstItem="etg-C7-Lej" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Q95-qb-F7X" secondAttribute="leading" constant="-6" id="Dyf-yc-G48"/>
                 <constraint firstItem="14" firstAttribute="bottom" secondItem="13" secondAttribute="bottom" id="GuP-09-hnN"/>
                 <constraint firstItem="4" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="J4z-f9-LSA"/>
+                <constraint firstItem="14" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="11" secondAttribute="leading" id="KEF-qZ-3qi"/>
                 <constraint firstItem="Q95-qb-F7X" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="24" id="Kvu-hk-JuA"/>
                 <constraint firstItem="4" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="23" id="KyR-1h-YcK"/>
                 <constraint firstItem="11" firstAttribute="top" secondItem="9" secondAttribute="bottom" constant="15" id="MPL-gV-GIz"/>
@@ -257,6 +260,7 @@
                 <constraint firstItem="9" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="41" id="ZMh-2k-bbb"/>
                 <constraint firstItem="yl9-Jz-OKA" firstAttribute="trailing" secondItem="Dbf-Vf-eb2" secondAttribute="trailing" constant="-3" id="ZwZ-Wc-afO"/>
                 <constraint firstItem="5" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="byU-tL-Zg0"/>
+                <constraint firstItem="etg-C7-Lej" firstAttribute="centerY" secondItem="Q95-qb-F7X" secondAttribute="centerY" constant="2" id="c5m-XL-jQZ"/>
                 <constraint firstItem="yl9-Jz-OKA" firstAttribute="top" secondItem="Dbf-Vf-eb2" secondAttribute="top" constant="3" id="cHf-8P-Ha5"/>
                 <constraint firstItem="12" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" constant="-21" id="cOL-ex-dsL"/>
                 <constraint firstItem="8" firstAttribute="top" secondItem="10" secondAttribute="bottom" constant="9" id="evm-Zd-Rmc"/>
@@ -270,8 +274,9 @@
                 <constraint firstItem="12" firstAttribute="top" secondItem="11" secondAttribute="top" constant="13" id="pTL-5s-Nhl"/>
                 <constraint firstItem="13" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" id="pmj-Kq-Pp3"/>
                 <constraint firstItem="12" firstAttribute="leading" secondItem="11" secondAttribute="leading" constant="21" id="tJ5-0B-odf"/>
-                <constraint firstItem="Iz3-4e-tBC" firstAttribute="top" secondItem="etg-C7-Lej" secondAttribute="bottom" constant="24" id="tOy-Wj-rkd"/>
+                <constraint firstItem="etg-C7-Lej" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Iz3-4e-tBC" secondAttribute="top" constant="-24" id="tOy-Wj-rkd"/>
                 <constraint firstItem="Dbf-Vf-eb2" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" id="u70-nd-Ka6"/>
+                <constraint firstItem="etg-C7-Lej" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="Iz3-4e-tBC" secondAttribute="top" id="uxI-mb-G0G"/>
                 <constraint firstItem="10" firstAttribute="leading" secondItem="etg-C7-Lej" secondAttribute="leading" id="vwr-1E-sVa"/>
                 <constraint firstItem="11" firstAttribute="leading" secondItem="9" secondAttribute="leading" constant="1" id="ydY-uC-8iZ"/>
             </constraints>

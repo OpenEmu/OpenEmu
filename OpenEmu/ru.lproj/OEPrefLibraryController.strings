@@ -24,7 +24,7 @@
 "24.title" = "Доступные библиотеки:";
 
 /* Class = "NSTextFieldCell"; title = "Reset all dialog warnings:"; ObjectID = "Ua1-J2-mdy"; */
-"Ua1-J2-mdy.title" = "Сбросить все окна \nпредупреждений:";
+"Ua1-J2-mdy.title" = "Сбросить все окна предупреждений:";
 
 /* Class = "NSButtonCell"; title = "Reset warnings"; ObjectID = "all-Wd-1Dy"; */
 "all-Wd-1Dy.title" = "Сбросить предупреждения";
