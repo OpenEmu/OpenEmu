@@ -118,9 +118,10 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 }
 
 #pragma mark - View Lifecycle
-- (void)loadView
+
+- (void)viewDidLoad
 {
-    [super loadView];
+    [super viewDidLoad];
 
     // Setup View
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
@@ -172,21 +173,14 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
     // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
     // empty collection until -setRepresentedObject: is received again
-    if([self representedObject]) [self reloadData];
+    if ([self representedObject])
+        [self reloadData];
     
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     [standardUserDefaults addObserver:self
                            forKeyPath:OEDisplayGameTitle
                               options:0
                               context:OEUserDefaultsDisplayGameTitleKVOContext];
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    if (self.representedObject)
-        [self reloadData];
     
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     

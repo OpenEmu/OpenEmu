@@ -67,6 +67,8 @@
 
     [self addChildViewController:[self sidebarController]];
     [self addChildViewController:[self collectionController]];
+    
+    [self _updateCollectionContentsFromSidebar:nil];
 }
 
 - (void)viewWillAppear
@@ -74,13 +76,6 @@
     [super viewWillAppear];
     
     [self _setupToolbar];
-}
-
-- (void)viewDidAppear
-{
-    [super viewDidAppear];
-    
-    [self _updateCollectionContentsFromSidebar:nil];
 }
 
 - (void)_setupToolbar
