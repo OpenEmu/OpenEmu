@@ -33,6 +33,7 @@
 #import "OERatingCell.h"
 #import "OEMainWindowController.h"
 #import "OELibraryController.h"
+#import "OELibraryGamesViewController.h"
 
 #import "OELibraryDatabase.h"
 #import "OEDBGame.h"
@@ -107,6 +108,10 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 - (void)viewWillAppear
 {
     [super viewWillAppear];
+    
+    OESearchField *searchField = self.libraryController.toolbar.searchField;
+    searchField.enabled = YES;
+    searchField.stringValue = self.currentSearchTerm ?: @"";
     
     [self scrollToSelection];
 }
@@ -195,7 +200,14 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 {
     gamesController = nil;
 }
+
 #pragma mark - Selection
+
+- (BOOL)isSelected
+{
+    return [self.libraryController.currentSubviewController isKindOfClass:[OELibraryGamesViewController class]];
+}
+
 - (NSArray *)selectedGames
 {
     return [gamesController selectedObjects];

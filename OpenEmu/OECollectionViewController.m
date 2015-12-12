@@ -241,6 +241,12 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 #pragma mark - Selection
 
+- (BOOL)isSelected
+{
+    [self doesNotImplementSelector:_cmd];
+    return NO;
+}
+
 - (NSArray *)selectedGames
 {
     [self doesNotImplementOptionalSelector:_cmd];
@@ -564,7 +570,10 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [self fetchItems];
     [listView noteNumberOfRowsChanged];
     [self setNeedsReloadVisible];
-    [self updateBlankSlate];
+    
+    if (self.isSelected) {
+        [self updateBlankSlate];
+    }
 }
 
 - (void)setNeedsReload

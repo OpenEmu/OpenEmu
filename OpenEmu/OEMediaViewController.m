@@ -100,7 +100,21 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 {
     [super viewWillAppear];
     
-    [self _setupToolbar];
+    OELibraryController *libraryController = self.libraryController;
+    OELibraryToolbar *toolbar = libraryController.toolbar;
+    
+    toolbar.gridViewButton.enabled = NO;
+    toolbar.listViewButton.enabled = NO;
+    toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
+    
+    NSSearchField *field = toolbar.searchField;
+    field.searchMenuTemplate = nil;
+    field.enabled = YES;
+    field.stringValue = @"";
+    field.enabled = !_shouldShowBlankSlate;
+    
+    [self _setupSearchMenuTemplate];
+    
     [self restoreSelectionFromDefaults];
 }
 
@@ -152,24 +166,6 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         NSRect itemFrame = [self.gridView itemFrameAtIndex:self.selectionIndexes.firstIndex];
         [self.gridView scrollRectToVisible:itemFrame];
     }
-}
-
-- (void)_setupToolbar
-{
-    OELibraryController *libraryController = [self libraryController];
-    OELibraryToolbar *toolbar = [libraryController toolbar];
-
-    [[toolbar gridViewButton] setEnabled:NO];
-    [[toolbar listViewButton] setEnabled:NO];
-    [[toolbar gridSizeSlider] setEnabled:!_shouldShowBlankSlate];
-
-    NSSearchField *field = [toolbar searchField];
-    [field setSearchMenuTemplate:nil];
-    [field setEnabled:YES];
-    [field setStringValue:@""];
-    [field setEnabled:!_shouldShowBlankSlate];
-
-    [self _setupSearchMenuTemplate];
 }
 
 - (void)updateBlankSlate
@@ -253,6 +249,11 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 - (OECollectionViewControllerViewTag)OE_currentViewTagByToolbarState
 {
     return OEGridViewTag;
+}
+
+- (BOOL)isSelected
+{
+    return self.libraryController.currentSubviewController == self;
 }
 
 #pragma mark - OELibrarySubviewController Implementation

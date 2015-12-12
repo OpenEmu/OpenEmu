@@ -47,6 +47,9 @@ extern NSString * const OELastCollectionViewKey;
 
 @interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController, OEGridViewDelegate, OEGridViewMenuSource>
 
+/// If YES, the collection view controller is selected and visible to the user. Must be overridden by subclasses.
+@property (nonatomic, readonly) BOOL isSelected;
+
 - (void)reloadData;
 - (void)setNeedsReload;
 - (void)setNeedsReloadVisible;
