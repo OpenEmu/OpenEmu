@@ -84,7 +84,7 @@ const static CGFloat TableViewSpacing = 86.0;
 @end
 
 @implementation OEFeaturedGamesViewController
-@synthesize blankSlate=_blankSlate;
+@synthesize blankSlate = _blankSlate, libraryController = _libraryController;
 
 + (void)initialize
 {
@@ -548,20 +548,20 @@ const static CGFloat TableViewSpacing = 86.0;
 
     return MAX(220.0, textHeight);
 }
+
 #pragma mark - TableView Delegate
+
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
 {
     return NO;
 }
 
 #pragma mark - State Handling
-- (id)encodeCurrentState
-{
-    return nil;
-}
 
-- (void)restoreState:(id)state
-{}
+- (OELibraryController *)libraryController
+{
+    return _libraryController;
+}
 
 - (void)setLibraryController:(OELibraryController *)libraryController
 {

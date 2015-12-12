@@ -48,6 +48,7 @@
 @end
 
 @implementation OELibraryGamesViewController
+@synthesize libraryController = _libraryController;
 
 - (void)viewDidLoad
 {
@@ -94,19 +95,15 @@
 }
 
 #pragma mark - OELibrarySubviewController
-- (id)encodeCurrentState
-{
-    return nil;
-}
-
-- (void)restoreState:(id)state
-{
-    return;
-}
 
 - (NSArray*)selectedGames
 {
     return [[self collectionController] selectedGames];
+}
+
+- (OELibraryController *)libraryController
+{
+    return _libraryController;
 }
 
 - (void)setLibraryController:(OELibraryController *)libraryController

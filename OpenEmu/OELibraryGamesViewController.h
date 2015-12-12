@@ -29,7 +29,7 @@
 
 @class OESidebarController, OEGameCollectionViewController, OEGameScannerViewController;
 @interface OELibraryGamesViewController : NSViewController <OELibrarySubviewController>
-@property (weak, nonatomic) OELibraryController* libraryController;
+@property (nonatomic, weak) OELibraryController* libraryController;
 @property (weak) IBOutlet OESidebarController *sidebarController;
 @property (weak) IBOutlet OEGameCollectionViewController *collectionController;
 @property (weak) IBOutlet OEGameScannerViewController *gameScannerController;

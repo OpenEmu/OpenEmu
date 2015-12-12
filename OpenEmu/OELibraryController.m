@@ -142,11 +142,6 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 {
     [super viewWillDisappear];
     
-    // Save Current State
-//    id lastState = [[self currentSubviewController] encodeCurrentState];
-//    id itemID    = [[[self currentSubviewController] representedObject] sidebarID];
-//    [self OE_storeState:lastState forSidebarItemWithID:itemID];
-    
     NSView *toolbarItemContainer = [[[self toolbar] searchField] superview];
     [toolbarItemContainer setAutoresizingMask:NSViewWidthSizable];
 }

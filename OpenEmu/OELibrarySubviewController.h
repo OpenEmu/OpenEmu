@@ -25,7 +25,9 @@
  */
 
 @import Foundation;
+
 @class OELibraryController;
+@class OEDBGame;
 
 /* NOTE:
  * If the sidebar changes selection and the selected item is suitable for a Library Subview Controller it will be set as representedObject 
@@ -39,13 +41,9 @@
  */
 
 @protocol OELibrarySubviewController <NSObject>
-#pragma mark - State Handling
-- (id)encodeCurrentState;
-- (void)restoreState:(id)state;
-@optional
-#pragma mark - Library Handling
-- (void)setLibraryController:(OELibraryController*)controller;
-- (OELibraryController*)libraryController;
 
-- (NSArray*)selectedGames;
+@optional
+@property (nonatomic, weak) OELibraryController *libraryController;
+@property (readonly) NSArray <OEDBGame *> *selectedGames;
+
 @end

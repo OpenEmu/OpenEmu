@@ -29,6 +29,6 @@
 #import "OELibrarySubviewController.h"
 
 @interface OEFeaturedGamesViewController : NSViewController <OELibrarySubviewController>
-@property (nonatomic, assign) OELibraryController *libraryController;
-@property (assign) IBOutlet NSTableView *tableView;
+@property (nonatomic, weak) OELibraryController *libraryController;
+@property (weak) IBOutlet NSTableView *tableView;
 @end

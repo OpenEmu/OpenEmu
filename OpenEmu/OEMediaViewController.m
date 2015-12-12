@@ -254,14 +254,8 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 {
     return OEGridViewTag;
 }
-#pragma mark - OELibrarySubviewController Implementation
-- (id)encodeCurrentState
-{
-    return nil;
-}
 
-- (void)restoreState:(id)state
-{}
+#pragma mark - OELibrarySubviewController Implementation
 
 - (NSArray*)selectedGames
 {

@@ -34,7 +34,7 @@
 extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
 @class OELibraryController;
-@interface OEGameScannerViewController : NSViewController <OEROMImporterDelegate, OELibrarySubviewController, OESidebarItem, NSTableViewDataSource, NSTableViewDelegate>
+@interface OEGameScannerViewController : NSViewController <OEROMImporterDelegate, OESidebarItem, NSTableViewDataSource, NSTableViewDelegate>
 
 #pragma mark - GameScanner UI
 - (IBAction)buttonAction:(id)sender;
@@ -42,7 +42,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 - (void)showGameScannerViewAnimated:(BOOL)animated;
 - (void)hideGameScannerViewAnimated:(BOOL)animated;
 
-@property (nonatomic) IBOutlet OELibraryController *libraryController;
+@property (weak) IBOutlet OELibraryController *libraryController;
 
 @property (assign) IBOutlet NSView *scannerView;
 

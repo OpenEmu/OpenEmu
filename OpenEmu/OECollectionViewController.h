@@ -77,7 +77,7 @@ extern NSString * const OELastCollectionViewKey;
 - (id <OECollectionViewItemProtocol>)representedObject;
 
 @property(nonatomic, readonly) OECollectionViewControllerViewTag selectedViewTag;
-@property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
+@property(nonatomic, weak) IBOutlet OELibraryController *libraryController;
 @end
 
 @interface OECollectionViewController ()

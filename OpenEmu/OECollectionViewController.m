@@ -86,7 +86,6 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 @property(nonatomic, readwrite) OECollectionViewControllerViewTag selectedViewTag;
 
-- (void)OE_managedObjectContextDidUpdate:(NSNotification *)notification;
 @end
 
 @implementation OECollectionViewController
@@ -240,94 +239,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     return [super representedObject];
 }
 
-- (id)encodeCurrentState
-{
-    if(![self libraryController] || _selectedViewTag==OEBlankSlateTag)
-        return nil;
-
-    NSMutableData    *data  = [NSMutableData data];
-    NSKeyedArchiver  *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-    NSSlider *sizeSlider    = [[[self libraryController] toolbar] gridSizeSlider];
-
-    [coder encodeInteger:[self selectedViewTag] forKey:@"selectedView"];
-    [coder encodeFloat:[sizeSlider floatValue] forKey:@"sliderValue"];
-    [coder encodeObject:[self selectedIndexes] forKey:@"selectionIndexes"];
-    if([listView headerState]) [coder encodeObject:[listView headerState] forKey:@"listViewHeaderState"];
-    if([listView sortDescriptors]) [coder encodeObject:[listView sortDescriptors] forKey:@"listViewSortDescriptors"];
-    if(_selectedViewTag == OEGridViewTag) [coder encodeRect:[[_gridView enclosingScrollView] documentVisibleRect] forKey:@"gridViewVisibleRect"];
-
-    [coder finishEncoding];
-
-    return data;
-}
-
-- (void)restoreState:(id)state
-{
-    if([self libraryController] == nil) return;
-
-    NSInteger     selectedViewTag;
-    CGFloat       sliderValue;
-    NSIndexSet   *selectionIndexes;
-    NSDictionary *listViewHeaderState = nil;
-    NSArray      *listViewSortDescriptors = nil;
-    NSRect        gridViewVisibleRect = NSZeroRect;
-
-    NSSlider     *sizeSlider     = [[[self libraryController] toolbar] gridSizeSlider];
-    NSTextField  *searchField    = [[[self libraryController] toolbar] searchField];
-
-    NSKeyedUnarchiver *coder = state ? [[NSKeyedUnarchiver alloc] initForReadingWithData:state] : nil;
-    if(coder)
-    {
-        selectedViewTag         = [coder decodeIntegerForKey:@"selectedView"];
-        sliderValue             = [coder decodeFloatForKey:@"sliderValue"];
-        selectionIndexes        = [coder decodeObjectForKey:@"selectionIndexes"];
-        listViewHeaderState     = [coder decodeObjectForKey:@"listViewHeaderState"];
-        listViewSortDescriptors = [coder decodeObjectForKey:@"listViewSortDescriptors"];
-        gridViewVisibleRect     = [coder decodeRectForKey:@"gridViewVisibleRect"];
-
-        [coder finishDecoding];
-
-        // Make sure selected view tag is valid
-        if(selectedViewTag != OEListViewTag && selectedViewTag != OEGridViewTag)
-            selectedViewTag = OEGridViewTag;
-
-        // Make sure slider value is valid
-        if(sliderValue < [sizeSlider minValue] || sliderValue > [sizeSlider maxValue])
-            sliderValue = [sizeSlider doubleValue];
-    }
-    else
-    {
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-
-        selectedViewTag  = [userDefaults integerForKey:OELastCollectionViewKey];
-        sliderValue      = [userDefaults floatForKey:OELastGridSizeKey];
-        selectionIndexes = [NSIndexSet indexSet];
-    }
-
-    if(listViewSortDescriptors == nil)
-        listViewSortDescriptors = [self defaultSortDescriptors];
-
-    [self setSelectionIndexes:selectionIndexes];
-    [listView setSortDescriptors:listViewSortDescriptors];
-    [listView setHeaderState:listViewHeaderState];
-    [self OE_switchToView:selectedViewTag];
-    [sizeSlider setFloatValue:sliderValue];
-    [self changeGridSize:sizeSlider];
-    [searchField setStringValue:@""];
-	[self search:searchField];
-
-    [_gridView setSelectionIndexes:selectionIndexes byExtendingSelection:NO];
-    
-    if(selectedViewTag == OEGridViewTag)
-    {
-        //[_gridView setSelectionIndexes:selectionIndexes];
-        [_gridView scrollRectToVisible:gridViewVisibleRect];
-    }
-
-    [self updateBlankSlate];
-}
-
 #pragma mark - Selection
+
 - (NSArray *)selectedGames
 {
     [self doesNotImplementOptionalSelector:_cmd];

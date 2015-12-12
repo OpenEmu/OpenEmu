@@ -287,32 +287,6 @@
     [[self fixButton] sizeToFit];
 }
 
-#pragma mark - OELibrarySubviewController Protocol Implementation
-
-- (void)setRepresentedObject:(id)representedObject
-{
-}
-
-- (id)representedObject
-{
-    return self;
-}
-
-- (id)encodeCurrentState
-{
-    return nil;
-}
-
-- (void)restoreState:(id)state
-{
-}
-
-- (void)setLibraryController:(OELibraryController *)libraryController
-{
-    if(libraryController == nil) return;
-    _libraryController = libraryController;
-}
-
 #pragma mark - OESidebarItem Implementation
 
 - (NSImage *)sidebarIcon
