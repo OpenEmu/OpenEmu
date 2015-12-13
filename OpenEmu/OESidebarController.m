@@ -63,6 +63,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     id editingItem;
 }
+
 @property (strong, readwrite) NSArray *groups;
 @property (strong, readwrite) NSArray *systems;
 @property (strong, readwrite) NSArray *collections;
@@ -82,9 +83,9 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         return;
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-                                                             OESidebarGroupConsolesAutosaveName    : @YES,
-                                                             OESidebarGroupCollectionsAutosaveName : @YES,
-                                                             }];
+        OESidebarGroupConsolesAutosaveName    : @YES,
+        OESidebarGroupCollectionsAutosaveName : @YES,
+    }];
 }
 
 - (NSString*)nibName {
@@ -100,17 +101,15 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
                     [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"Collections", @"") autosaveName:OESidebarGroupCollectionsAutosaveName]
                     ];
 
-    OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
+    OESidebarOutlineView *sidebarView = (OESidebarOutlineView *)self.view;
 
     [sidebarView setHeaderView:nil];
 
     OESidebarCell *cell = [[OESidebarCell alloc] init];
     [cell setThemeKey:@"sidebar"];
-    for(NSTableColumn *column in [sidebarView tableColumns])
-    {
+    for(NSTableColumn *column in sidebarView.tableColumns)
         [column setDataCell:cell];
-    }
-    [cell setEditable:YES];
+    cell.editable = YES;
     
     NSNotificationCenter *defaults = [NSNotificationCenter defaultCenter];
     
@@ -119,32 +118,30 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     
     [defaults addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
 
-    [sidebarView setIndentationPerLevel:7];
-    [sidebarView setIntercellSpacing:NSMakeSize(0, 4)];
-    [sidebarView setAutosaveName:@"sidebarView"];
-    [sidebarView setAutoresizesOutlineColumn:NO];
-    [sidebarView registerForDraggedTypes:[NSArray arrayWithObjects:OEPasteboardTypeGame, NSFilenamesPboardType, nil]];
-    [sidebarView setDelegate:self];
-    [sidebarView setDataSource:self];
+    sidebarView.indentationPerLevel = 7;
+    sidebarView.intercellSpacing = NSMakeSize(0, 4);
+    sidebarView.autosaveName = @"sidebarView";
+    sidebarView.autoresizesOutlineColumn = NO;
+    sidebarView.delegate = self;
+    sidebarView.dataSource = self;
+    sidebarView.allowsEmptySelection = NO;
+    [sidebarView registerForDraggedTypes:@[ OEPasteboardTypeGame, NSFilenamesPboardType ]];
     [sidebarView expandItem:nil expandChildren:YES];
-    [sidebarView setAllowsEmptySelection:NO];
 
-    NSScrollView *enclosingScrollView = [sidebarView enclosingScrollView];
-    if(enclosingScrollView != nil)
-    {
-        [enclosingScrollView setDrawsBackground:NO];
-        [sidebarView setBackgroundColor:[NSColor clearColor]];
+    NSScrollView *enclosingScrollView = sidebarView.enclosingScrollView;
+    if (enclosingScrollView != nil) {
+        enclosingScrollView.drawsBackground = NO;
+        sidebarView.backgroundColor = [NSColor clearColor];
+    } else {
+        sidebarView.backgroundColor = [NSColor colorWithDeviceWhite:0.19 alpha:1.0];
     }
-    else
-        [sidebarView setBackgroundColor:[NSColor colorWithDeviceWhite:0.19 alpha:1.0]];
 
     [defaults addObserver:self selector:@selector(reloadDataAndPreserveSelection) name:OEDBSystemAvailabilityDidChangeNotification object:nil];
 
-    id viewsNextResponder = [[self view] nextResponder];
-    if(viewsNextResponder != self)
-    {
-        [[self view] setNextResponder:self];
-        [self setNextResponder:viewsNextResponder];
+    id viewsNextResponder = self.view.nextResponder;
+    if (viewsNextResponder != self) {
+        self.view.nextResponder = self;
+        self.nextResponder = viewsNextResponder;
     }
 }
 
@@ -182,28 +179,29 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     // Look for the collection item
     id collectionItem = nil;
-    if(itemID != nil && [itemID isKindOfClass:[NSString class]])
-    {
-        collectionItem = [[self systems] firstObjectMatchingBlock:
+    if (itemID != nil && [itemID isKindOfClass:[NSString class]]) {
+        
+        collectionItem = [self.systems firstObjectMatchingBlock:
                           ^ BOOL (id obj) {
                               return [[obj sidebarID] isEqualTo:itemID];
                           }];
-        if(!collectionItem)
-            collectionItem = [[self collections] firstObjectMatchingBlock:
+        if (!collectionItem)
+            collectionItem = [self.collections firstObjectMatchingBlock:
                               ^ BOOL (id obj) {
                                   return [[obj sidebarID] isEqualTo:itemID];
                               }];    }
 
     // Select the found collection item, or select the first item by default
-    if(collectionItem != nil) [self selectItem:collectionItem];
+    if (collectionItem != nil)
+        [self selectItem:collectionItem];
 }
 
 #pragma mark - Public
 
 - (void)setEnabled:(BOOL)enabled
 {
-    OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
-    [sidebarView setEnabled:enabled];
+    OESidebarOutlineView *sidebarView = (OESidebarOutlineView *)self.view;
+    sidebarView.enabled = enabled;
 }
 
 - (IBAction)addCollectionAction:(id)sender
@@ -213,7 +211,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (id)addCollection:(BOOL)isSmart
 {
-    id item = isSmart ? [[self database] addNewSmartCollection:nil] : [[self database] addNewCollection:nil];
+    id item = isSmart ? [self.database addNewSmartCollection:nil] : [self.database addNewCollection:nil];
 
     [self reloadData];
     [self expandCollections:self];
@@ -225,9 +223,9 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (id)duplicateCollection:(id)originalCollection
 {
-    OEDBCollection *duplicateCollection = [[self database] addNewCollection:[NSString stringWithFormat:NSLocalizedString(@"%@ copy", @"Duplicated collection name"), [originalCollection valueForKey:@"name"]]];
+    OEDBCollection *duplicateCollection = [self.database addNewCollection:[NSString stringWithFormat:NSLocalizedString(@"%@ copy", @"Duplicated collection name"), [originalCollection valueForKey:@"name"]]];
 
-    [duplicateCollection setGames:[originalCollection games]];
+    duplicateCollection.games = [originalCollection games];
     [duplicateCollection save];
 
     [self reloadData];
@@ -238,18 +236,19 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (void)reloadData
 {
-    if(![self database]) return;
+    if (!self.database)
+        return;
 
-    OELibraryDatabase     *database = [self database];
-    NSManagedObjectContext *context = [database mainThreadContext];
+    OELibraryDatabase *database = self.database;
+    NSManagedObjectContext *context = database.mainThreadContext;
 
-    NSArray *systems = [OEDBSystem enabledSystemsinContext:context] ? : [NSArray array];
-    [self setSystems:systems];
+    NSArray *systems = [OEDBSystem enabledSystemsinContext:context] ?: @[];
+    self.systems = systems;
 
-    NSArray *collections = [database collections];
-    [self setCollections:collections];
+    NSArray *collections = database.collections;
+    self.collections = collections;
 
-    OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
+    OESidebarOutlineView *sidebarView = (OESidebarOutlineView *)self.view;
     [sidebarView reloadData];
 }
 
@@ -306,44 +305,48 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 }
 
 #pragma mark - Notifications
+
 - (void)reloadDataAndPreserveSelection
 {
-    id        previousSelectedItem = [self selectedSidebarItem];
-    NSInteger previousSelectedRow  = [[self view] selectedRow];
+    id previousSelectedItem = self.selectedSidebarItem;
+    NSInteger previousSelectedRow = self.view.selectedRow;
 
     [self reloadData];
 
-    if(!previousSelectedItem) return;
+    if (!previousSelectedItem)
+        return;
 
     NSInteger rowToSelect = previousSelectedRow;
-    NSInteger reloadedRowForPreviousSelectedItem = [[self view] rowForItem:previousSelectedItem];
+    NSInteger reloadedRowForPreviousSelectedItem = [self.view rowForItem:previousSelectedItem];
 
     // The previously selected item may have been disabled/removed, so we should select another item...
-    if(reloadedRowForPreviousSelectedItem == -1)
-    {
+    if (reloadedRowForPreviousSelectedItem == -1) {
+        
         // Try to select the previously selected row or a row before it...
         rowToSelect = previousSelectedRow;
-        while(rowToSelect > 0 && ![self outlineView:[self view] shouldSelectItem:[[self view] itemAtRow:rowToSelect]])
+        while (rowToSelect > 0 && ![self outlineView:self.view shouldSelectItem:[self.view itemAtRow:rowToSelect]]) {
             rowToSelect--;
-
-        // If we can't select the previously selected row or a row before it, try to select a row after it
-        if(![self outlineView:[self view] shouldSelectItem:[[self view] itemAtRow:rowToSelect]])
-        {
-            rowToSelect = previousSelectedRow;
-            while(rowToSelect < [[self view] numberOfRows] && ![self outlineView:[self view] shouldSelectItem:[[self view] itemAtRow:rowToSelect]])
-                rowToSelect++;
         }
 
-        NSAssert(rowToSelect > 0 && rowToSelect < [[self view] numberOfRows] && [self outlineView:[self view] shouldSelectItem:[[self view] itemAtRow:rowToSelect]],
-                 @"Tried to select a sidebar item but couldn't find any");
-    }
-    // ...or the previously selected item may have changed to another row, so we need to select that row
-    else if(reloadedRowForPreviousSelectedItem != previousSelectedRow)
-        rowToSelect = reloadedRowForPreviousSelectedItem;
+        // If we can't select the previously selected row or a row before it, try to select a row after it
+        if (![self outlineView:self.view shouldSelectItem:[self.view itemAtRow:rowToSelect]]) {
+            rowToSelect = previousSelectedRow;
+            
+            while (rowToSelect < [self.view numberOfRows] && ![self outlineView:self.view shouldSelectItem:[self.view itemAtRow:rowToSelect]]) {
+                rowToSelect++;
+            }
+        }
 
-    if(rowToSelect != previousSelectedRow && rowToSelect != NSNotFound)
-    {
-        [[self view] selectRowIndexes:[NSIndexSet indexSetWithIndex:rowToSelect] byExtendingSelection:NO];
+        NSAssert(rowToSelect > 0 && rowToSelect < self.view.numberOfRows && [self outlineView:self.view shouldSelectItem:[self.view itemAtRow:rowToSelect]],
+                 @"Tried to select a sidebar item but couldn't find any");
+        
+    } else if (reloadedRowForPreviousSelectedItem != previousSelectedRow) {
+        // ...or the previously selected item may have changed to another row, so we need to select that row
+        rowToSelect = reloadedRowForPreviousSelectedItem;
+    }
+    
+    if (rowToSelect != NSNotFound) {
+        [self.view selectRowIndexes:[NSIndexSet indexSetWithIndex:rowToSelect] byExtendingSelection:NO];
         [self outlineViewSelectionDidChange:[NSNotification notificationWithName:NSOutlineViewSelectionDidChangeNotification object:self]];
     }
 }
@@ -446,23 +449,31 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     [outlineView setDropItem:nil dropChildIndex:NSOutlineViewDropOnItemIndex];
     return NSDragOperationCopy;
 }
+
 #pragma mark - NSOutlineView Delegate
+
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-    if(![self database]) return;
+    if (!self.database)
+        return;
 
-    if(![self outlineView:[self view] shouldSelectItem:[self selectedSidebarItem]])
-    {
+    if (![self outlineView:self.view shouldSelectItem:self.selectedSidebarItem]) {
+        
         DLog(@"invalid selection");
-        NSInteger row = [[self view] selectedRow];
-        if(row == NSNotFound) row = 1;
-        else row ++;
-        [[self view] selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+        
+        NSInteger row = self.view.selectedRow;
+        if (row == NSNotFound)
+            row = 1;
+        else
+            row ++;
+        
+        [self.view selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
     }
 
-    id<OESidebarItem> selectedItem = [self selectedSidebarItem];
-    if([selectedItem conformsToProtocol:@protocol(OESidebarItem)])
-        [[NSUserDefaults standardUserDefaults] setValue:[selectedItem sidebarID] forKey:OELastSidebarSelectionKey];
+    id <OESidebarItem> selectedItem = self.selectedSidebarItem;
+    if ([selectedItem conformsToProtocol:@protocol(OESidebarItem)]) {
+        [[NSUserDefaults standardUserDefaults] setValue:selectedItem.sidebarID forKey:OELastSidebarSelectionKey];
+    }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self userInfo:nil];
 }
@@ -472,12 +483,12 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
-    
+    id <OESidebarItem> sidebarItem = item;
     const BOOL gameScannerIssuesVisible = self.gameScannerViewController.view.superview != nil;
     
     return self.database != nil &&
-           ![item isGroupHeaderInSidebar] &&
-           [item isSelectableInSidebar] &&
+           !sidebarItem.isGroupHeaderInSidebar &&
+           sidebarItem.isSelectableInSidebar &&
            !gameScannerIssuesVisible;
 }
 
@@ -491,70 +502,64 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     return YES;
 }
 
-
 #pragma mark - NSOutlineView Type Select
+
 - (NSString*)outlineView:(NSOutlineView *)outlineView typeSelectStringForTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
     return [item isSelectableInSidebar] ? [item sidebarName] : @"";
 }
 
-#pragma mark -
-#pragma mark NSOutlineView DataSource
+#pragma mark - NSOutlineView DataSource
+
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
-    if(item == nil)
-    {
-        return [[self groups] objectAtIndex:index];
-    }
+    if (!item)
+        return self.groups[index];
 
-    NSString *autosaveName = [item isKindOfClass:[OESidebarGroupItem class]]?[item autosaveName]:nil;
-    if([autosaveName isEqualToString:OESidebarGroupConsolesAutosaveName])
-        return [[self systems] objectAtIndex:index];
-    else if([autosaveName isEqualToString:OESidebarGroupCollectionsAutosaveName])
-        return [[self collections] objectAtIndex:index];
+    NSString *autosaveName = [item isKindOfClass:[OESidebarGroupItem class]] ? ((OESidebarGroupItem *)item).autosaveName : nil;
+    if ([autosaveName isEqualToString:OESidebarGroupConsolesAutosaveName])
+        return self.systems[index];
+    else if ([autosaveName isEqualToString:OESidebarGroupCollectionsAutosaveName])
+        return self.collections[index];
 
     return nil;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    return [(id<OESidebarItem>)item isGroupHeaderInSidebar];
+    return ((id <OESidebarItem>)item).isGroupHeaderInSidebar;
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-    if(item == nil)
-    {
-            return [[self groups] count];
-    }
+    if (!item)
+        return self.groups.count;
 
-    if(![self database])
-    {
+    if (!self.database)
         return 0;
-    }
 
-    NSString *autosaveName = [item isKindOfClass:[OESidebarGroupItem class]]?[item autosaveName]:nil;
-    if([autosaveName isEqualToString:OESidebarGroupConsolesAutosaveName])
-        return [[self systems] count];
-    else if([autosaveName isEqualToString:OESidebarGroupCollectionsAutosaveName])
-        return [[self collections] count];
+    NSString *autosaveName = [item isKindOfClass:[OESidebarGroupItem class]] ? ((OESidebarGroupItem *)item).autosaveName : nil;
+    if ([autosaveName isEqualToString:OESidebarGroupConsolesAutosaveName])
+        return self.systems.count;
+    else if ([autosaveName isEqualToString:OESidebarGroupCollectionsAutosaveName])
+        return self.collections.count;
 
     return 0;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
-    return [item sidebarName];
+    return ((id <OESidebarItem>)item).sidebarName;
 }
 
 - (void)outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
     self.editingItem = nil;
 
-    if([[object stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] isNotEqualTo:@""])
-    {
-        [(id<OESidebarItem>)item setSidebarName:object];
-        [(OEDBCollection*)item save];
+    if ([[object stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] isNotEqualTo:@""]) {
+        
+        ((id <OESidebarItem>)item).sidebarName = object;
+        [(OEDBCollection *)item save];
         [self reloadData];
 
         NSInteger row = [outlineView rowForItem:item];
@@ -564,9 +569,11 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-    BOOL result = [item isEditableInSidebar];
-    if(result)
-        self.editingItem = item;
+    id <OESidebarItem> sidebarItem = item;
+    
+    BOOL result = sidebarItem.isEditableInSidebar;
+    if (result)
+        self.editingItem = sidebarItem;
     else
         self.editingItem = nil;
 
@@ -575,26 +582,26 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
 {
-    if([item isGroupHeaderInSidebar])
-        return 26.0;
-
-    return 20.0;
+    id <OESidebarItem> sidebarItem = item;
+    return sidebarItem.isGroupHeaderInSidebar ? 26.0 : 20.0;
 }
 
 - (void)outlineView:(NSOutlineView *)olv willDisplayCell:(NSCell*)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-    if([cell isKindOfClass:[OESidebarCell class]])
-    {
-        OESidebarCell *sidebarCell = (OESidebarCell*)cell;
-        [sidebarCell setImage:[item sidebarIcon]];
-        NSString *badge = [item respondsToSelector:@selector(badge)] ? [item badge] : nil;
-        [sidebarCell setBadge:badge];
-        [sidebarCell setIsGroup:[item isGroupHeaderInSidebar]];
+    id <OESidebarItem> sidebarItem = item;
 
-        if(self.editingItem == nil)
-            [sidebarCell setIsEditing:NO];
-        if(self.view.isDrawingAboveDropHighlight)
-            [cell setHighlighted:NO];
+    if ([cell isKindOfClass:[OESidebarCell class]]) {
+        
+        OESidebarCell *sidebarCell = (OESidebarCell *)cell;
+        sidebarCell.image = sidebarItem.sidebarIcon;
+        NSString *badge = [sidebarItem respondsToSelector:@selector(badge)] ? sidebarItem.badge : nil;
+        sidebarCell.badge = badge;
+        sidebarCell.isGroup = sidebarItem.isGroupHeaderInSidebar;
+
+        if (self.editingItem == nil)
+            sidebarCell.isEditing = NO;
+        if (self.view.isDrawingAboveDropHighlight)
+            cell.highlighted = NO;
     }
 }
 
@@ -605,10 +612,10 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (void)removeItemAtIndex:(NSUInteger)index
 {
-    id item = [[self view] itemAtRow:index];
+    id item = [self.view itemAtRow:index];
 
-    if([item isEditableInSidebar] || [item isKindOfClass:[OEDBSmartCollection class]])
-    {
+    if ([item isEditableInSidebar] || [item isKindOfClass:[OEDBSmartCollection class]]) {
+        
         NSString *msg = NSLocalizedString(@"Are you sure you want to remove this collection?", @"");
         NSString *confirm = NSLocalizedString(@"Remove", @"");
         NSString *cancel = NSLocalizedString(@"Cancel", @"");
@@ -616,20 +623,20 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
         OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel];
         [alert showSuppressionButtonForUDKey:OESuppressRemoveCollectionConfirmationKey];
 
-        if([alert runModal] == NSAlertFirstButtonReturn)
-        {
-            [(OEDBCollection*)item delete];
-            [(OEDBCollection*)item save];
+        if ([alert runModal] == NSAlertFirstButtonReturn) {
+            
+            [(OEDBCollection *)item delete];
+            [(OEDBCollection *)item save];
 
             // keep selection on last object if the one we removed was last
-            if(index == [[self view] numberOfRows]-1)
+            if (index == self.view.numberOfRows - 1)
                 index --;
 
             NSIndexSet *selIn = [[NSIndexSet alloc] initWithIndex:index];
-            [[self view] selectRowIndexes:selIn byExtendingSelection:NO];
+            [self.view selectRowIndexes:selIn byExtendingSelection:NO];
             [self reloadData];
 
-            OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
+            OESidebarOutlineView *sidebarView = (OESidebarOutlineView *)self.view;
             [[NSNotificationCenter defaultCenter] postNotificationName:NSOutlineViewSelectionDidChangeNotification object:sidebarView];
         }
     }
@@ -637,30 +644,31 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 - (void)renameItemAtIndex:(NSUInteger)index
 {
-    id item = [[self view] itemAtRow:index];
+    id item = [self.view itemAtRow:index];
     [self selectItem:item];
     [self startEditingItem:item];
 }
 
 - (void)removeSelectedItemsOfOutlineView:(NSOutlineView *)outlineView
 {
-    NSIndexSet *indexes = [outlineView selectedRowIndexes];
-    NSUInteger index = [indexes firstIndex];
+    NSIndexSet *indexes = outlineView.selectedRowIndexes;
+    NSUInteger index = indexes.firstIndex;
 
     [self removeItemAtIndex:index];
 }
 
 - (void)removeItemForMenuItem:(NSMenuItem *)menuItem
 {
-    [self removeItemAtIndex:[menuItem tag]];
+    [self removeItemAtIndex:menuItem.tag];
 }
 
 - (void)renameItemForMenuItem:(NSMenuItem *)menuItem
 {
-    [self renameItemAtIndex:[menuItem tag]];
+    [self renameItemAtIndex:menuItem.tag];
 }
 
 #pragma mark -
+
 - (void)controlTextDidBeginEditing:(NSNotification *)aNotification
 {
 }
