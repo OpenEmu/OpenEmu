@@ -486,18 +486,16 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     [openPanel setCanChooseFiles:YES];
     NSArray *imageTypes = [NSImage imageTypes];
     [openPanel setAllowedFileTypes:imageTypes];
-
-    [openPanel beginWithCompletionHandler:^(NSInteger result) {
-        if(result != NSFileHandlingPanelOKButton)
-            return;
-
+    
+    if([openPanel runModal] == NSFileHandlingPanelOKButton)
+    {
         NSArray *selectedGames = [self selectedGames];
         [selectedGames makeObjectsPerformSelector:@selector(setBoxImageByURL:) withObject:[openPanel URL]];
         NSManagedObjectContext *context = [[selectedGames lastObject] managedObjectContext];
         [context save:nil];
-
+        
         [self reloadDataIndexes:[self selectionIndexes]];
-    }];
+    }
 }
 
 - (void)addSaveStateFromFile:(id)sender
