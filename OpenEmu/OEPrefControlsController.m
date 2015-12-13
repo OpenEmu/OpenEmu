@@ -135,7 +135,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     [[self controllerView] setWantsLayer:YES];
 
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsDidChangeNotification object:nil];
+    [center addObserver:self selector:@selector(systemsChanged) name:OEDBSystemAvailabilityDidChangeNotification object:nil];
 
     [center addObserver:self selector:@selector(OE_devicesDidUpdateNotification:) name:OEDeviceManagerDidAddDeviceHandlerNotification object:[OEDeviceManager sharedDeviceManager]];
     [center addObserver:self selector:@selector(OE_devicesDidUpdateNotification:) name:OEDeviceManagerDidRemoveDeviceHandlerNotification object:[OEDeviceManager sharedDeviceManager]];

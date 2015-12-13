@@ -248,7 +248,7 @@ NSString * const OptionsKey = @"options";
         [standardUserDefaults setObject:@(value) forKey:OERegionKey];
     }
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsDidChangeNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemAvailabilityDidChangeNotification object:self];
 }
 
 - (void)changeGameMode:(NSPopUpButton*)sender

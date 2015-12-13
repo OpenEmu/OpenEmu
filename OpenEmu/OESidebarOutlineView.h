@@ -25,8 +25,6 @@
  */
 @import Foundation;
 
-extern NSString *const OESidebarTogglesSystemNotification;
-
 @interface OESidebarOutlineView : NSOutlineView <NSDraggingDestination>
 @property BOOL isDrawingAboveDropHighlight;
 

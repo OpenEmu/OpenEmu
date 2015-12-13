@@ -31,7 +31,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString * const OEDBSystemsDidChangeNotification;
+extern NSString * const OEDBSystemAvailabilityDidChangeNotification;
 
 @interface OEDBSystem : OEDBItem
 
@@ -55,6 +55,12 @@ extern NSString * const OEDBSystemsDidChangeNotification;
 + (instancetype)systemForPlugin:(OESystemPlugin *)plugin inContext:(NSManagedObjectContext *)context;
 + (instancetype)systemForPluginIdentifier:(NSString *)identifier inContext:(NSManagedObjectContext *)context;
 
+/// Toggles the system's enabled status. If toggling the status would cause an unwanted situation (e.g., there would be no systems enabled), returns NO with an appropriate error message to present to the user.
+- (BOOL)toggleEnabledWithError:(NSError **)error;
+
+/// Convenience method for attempting to toggle the system's enabled status and automatically presenting a modal alert if the toggle fails. Returns YES if the toggle succeeded.
+- (BOOL)toggleEnabledAndPresentError;
+
 #pragma mark - Core Data utilities
 
 @property (nonatomic, readonly) CGFloat coverAspectRatio;
@@ -73,7 +79,7 @@ extern NSString * const OEDBSystemsDidChangeNotification;
 
 #pragma mark -
 
-@property(readonly) OESystemPlugin *plugin;
+@property(readonly, nullable) OESystemPlugin *plugin;
 
 @property(readonly) NSImage  *icon;
 @property(readonly) NSString *name;

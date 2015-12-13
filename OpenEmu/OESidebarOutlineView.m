@@ -38,8 +38,6 @@
 
 #import "OECorePlugin.h"
 
-NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemNotification";
-
 @interface OESidebarOutlineView ()
 {
     // This should only be used for drawing the highlight
@@ -252,7 +250,8 @@ NSString *const OESidebarTogglesSystemNotification   = @"OESidebarTogglesSystemN
 
 - (void)OE_toggleSystemForMenuItem:(NSMenuItem *)menuItem
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarTogglesSystemNotification object:[menuItem representedObject]];
+    OEDBSystem *system = menuItem.representedObject;
+    [system toggleEnabledAndPresentError];
 }
 
 - (void)OE_duplicateCollectionForMenuItem:(NSMenuItem *)menuItem

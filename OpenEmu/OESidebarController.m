@@ -48,7 +48,7 @@
 
 extern NSString *const OELastSidebarSelectionKey;
 NSString *const OESuppressRemoveCollectionConfirmationKey = @"removeCollectionWithoutConfirmation";
-extern NSString * const OEDBSystemsDidChangeNotification;
+extern NSString * const OEDBSystemAvailabilityDidChangeNotification;
 
 NSString * const OESidebarSelectionDidChangeNotificationName = @"OESidebarSelectionDidChange";
 
@@ -138,7 +138,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     else
         [sidebarView setBackgroundColor:[NSColor colorWithDeviceWhite:0.19 alpha:1.0]];
 
-    [defaults addObserver:self selector:@selector(reloadDataAndPreserveSelection) name:OEDBSystemsDidChangeNotification object:nil];
+    [defaults addObserver:self selector:@selector(reloadDataAndPreserveSelection) name:OEDBSystemAvailabilityDidChangeNotification object:nil];
 
     id viewsNextResponder = [[self view] nextResponder];
     if(viewsNextResponder != self)

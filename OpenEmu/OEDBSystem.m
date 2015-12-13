@@ -27,12 +27,18 @@
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
 #import "OELibraryDatabase.h"
+#import "OEHUDAlert.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotification";
+NSString * const OEDBSystemAvailabilityDidChangeNotification = @"OEDBSystemAvailabilityDidChangeNotification";
+
+NSString * const OEDBSystemErrorDomain = @"OEDBSystemErrorDomain";
+typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
+    OEDBSystemErrorCodeEnabledToggleFailed
+};
 
 @implementation OEDBSystem
 
@@ -215,6 +221,51 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
     return result.lastObject;
 }
 
+- (BOOL)toggleEnabledWithError:(NSError **)error
+{
+    OELibraryDatabase *database = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = database.mainThreadContext;
+    BOOL enabled = self.enabled.boolValue;
+
+    // Make sure at least one system would still be enabled.
+    if (enabled && [OEDBSystem enabledSystemsinContext:context].count == 1) {
+        if (error) {
+            NSString *localizedDescription = NSLocalizedString(@"At least one System must be enabled", @"");
+            *error = [NSError errorWithDomain:OEDBSystemErrorDomain code:OEDBSystemErrorCodeEnabledToggleFailed userInfo:@{ NSLocalizedDescriptionKey : localizedDescription }];
+        }
+        return NO;
+    }
+    
+    // Make sure only systems with a valid plugin get enabled.
+    if (!enabled && !self.plugin) {
+        if (error) {
+            NSString *localizedDescription = [NSString stringWithFormat:NSLocalizedString(@"%@ could not be enabled because its plugin was not found.", @""), self.name];
+            *error = [NSError errorWithDomain:OEDBSystemErrorDomain code:OEDBSystemErrorCodeEnabledToggleFailed userInfo:@{ NSLocalizedDescriptionKey : localizedDescription }];
+        }
+        return NO;
+    }
+    
+    // Toggle enabled status and save.
+    self.enabled = @(!enabled);
+    [self save];
+    
+    return YES;
+}
+
+- (BOOL)toggleEnabledAndPresentError
+{
+    NSError *error;
+    if (![self toggleEnabledWithError:&error]) {
+        
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:error.localizedDescription defaultButton:NSLocalizedString(@"OK", nil) alternateButton:nil];
+        [alert runModal];
+        
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (CGFloat)coverAspectRatio
 {
     if(self.plugin != nil)
@@ -244,6 +295,15 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 
 @dynamic lastLocalizedName, shortname, systemIdentifier, enabled;
 
+- (void)setEnabled:(nullable NSNumber *)enabled
+{
+    [self willChangeValueForKey:@"enabled"];
+    [self setPrimitiveValue:enabled forKey:@"enabled"];
+    [self didChangeValueForKey:@"enabled"];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemAvailabilityDidChangeNotification object:self userInfo:nil];
+}
+
 #pragma mark - Data Model Relationships
 
 @dynamic games;
@@ -255,7 +315,7 @@ NSString * const OEDBSystemsDidChangeNotification = @"OEDBSystemsDidChangeNotifi
 
 #pragma mark -
 
-- (OESystemPlugin *)plugin
+- (nullable OESystemPlugin *)plugin
 {
     NSString *systemIdentifier = self.systemIdentifier;
     OESystemPlugin *plugin = [OESystemPlugin systemPluginForIdentifier:systemIdentifier];
