@@ -495,6 +495,12 @@
 		87DF05411BCE3CEA0060E2C2 /* Dreamcast.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 87DF04FE1BCE2D100060E2C2 /* Dreamcast.oesystemplugin */; };
 		87DF05421BCE3D970060E2C2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		87DF05441BCE3DA50060E2C2 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87DF05431BCE3DA50060E2C2 /* OpenEmuSystem.framework */; };
+		87F7BB101C1EB0F9005B83C4 /* atari2600_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87F7BB0F1C1EB0F9005B83C4 /* atari2600_library@2x.png */; };
+		87F7BB121C1EB177005B83C4 /* atari5200_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87F7BB111C1EB177005B83C4 /* atari5200_library@2x.png */; };
+		87F7BB141C1EB19B005B83C4 /* atari7800_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87F7BB131C1EB19B005B83C4 /* atari7800_library@2x.png */; };
+		87F7BB161C1EB1D2005B83C4 /* lynx_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87F7BB151C1EB1D2005B83C4 /* lynx_library@2x.png */; };
+		87F7BB181C1EB1FD005B83C4 /* pcfx_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87F7BB171C1EB1FD005B83C4 /* pcfx_library@2x.png */; };
+		87F7BB1A1C1EB230005B83C4 /* wonderswan_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87F7BB191C1EB230005B83C4 /* wonderswan_library@2x.png */; };
 		87FB25321BBC56AB00E739CE /* controller_vectrex_eu.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB252B1BBC56AB00E739CE /* controller_vectrex_eu.png */; };
 		87FB25331BBC56AB00E739CE /* controller_vectrex_eu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB252C1BBC56AB00E739CE /* controller_vectrex_eu@2x.png */; };
 		87FB25341BBC56AB00E739CE /* controller_vectrex_jap.png in Resources */ = {isa = PBXBuildFile; fileRef = 87FB252D1BBC56AB00E739CE /* controller_vectrex_jap.png */; };
@@ -2302,6 +2308,12 @@
 		87DF05181BCE302F0060E2C2 /* OEDCSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEDCSystemResponderClient.h; path = Dreamcast/OEDCSystemResponderClient.h; sourceTree = "<group>"; };
 		87DF053D1BCE31460060E2C2 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = Dreamcast/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		87DF05431BCE3DA50060E2C2 /* OpenEmuSystem.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenEmuSystem.framework; path = "../OpenEmu-SDK/build/Debug/OpenEmuSystem.framework"; sourceTree = "<group>"; };
+		87F7BB0F1C1EB0F9005B83C4 /* atari2600_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atari2600_library@2x.png"; sourceTree = "<group>"; };
+		87F7BB111C1EB177005B83C4 /* atari5200_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atari5200_library@2x.png"; sourceTree = "<group>"; };
+		87F7BB131C1EB19B005B83C4 /* atari7800_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atari7800_library@2x.png"; sourceTree = "<group>"; };
+		87F7BB151C1EB1D2005B83C4 /* lynx_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lynx_library@2x.png"; sourceTree = "<group>"; };
+		87F7BB171C1EB1FD005B83C4 /* pcfx_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pcfx_library@2x.png"; sourceTree = "<group>"; };
+		87F7BB191C1EB230005B83C4 /* wonderswan_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wonderswan_library@2x.png"; sourceTree = "<group>"; };
 		87FB252B1BBC56AB00E739CE /* controller_vectrex_eu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_vectrex_eu.png; sourceTree = "<group>"; };
 		87FB252C1BBC56AB00E739CE /* controller_vectrex_eu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_vectrex_eu@2x.png"; sourceTree = "<group>"; };
 		87FB252D1BBC56AB00E739CE /* controller_vectrex_jap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_vectrex_jap.png; sourceTree = "<group>"; };
@@ -4940,6 +4952,7 @@
 			isa = PBXGroup;
 			children = (
 				941F5A1317A786870005D7EA /* atari7800_library.png */,
+				87F7BB131C1EB19B005B83C4 /* atari7800_library@2x.png */,
 				941F5A1517A786870005D7EA /* controller_7800.png */,
 				87BC4DA11BA3A88600BF1F86 /* controller_7800@2x.png */,
 				941F5A1417A786870005D7EA /* controller_7800_mask.png */,
@@ -5254,6 +5267,7 @@
 			isa = PBXGroup;
 			children = (
 				94A2255D17075DF600098DA0 /* wonderswan_library.png */,
+				87F7BB191C1EB230005B83C4 /* wonderswan_library@2x.png */,
 				94A2255817075DF600098DA0 /* controller_ws_mask.png */,
 				94A2255917075DF600098DA0 /* controller_ws.png */,
 				9499B60E1ABCE2CB00276D21 /* controller_ws_mask@2x.png */,
@@ -5282,6 +5296,7 @@
 			isa = PBXGroup;
 			children = (
 				94A2256D17075E9000098DA0 /* lynx_library.png */,
+				87F7BB151C1EB1D2005B83C4 /* lynx_library@2x.png */,
 				94A2256817075E9000098DA0 /* controller_lynx_mask.png */,
 				94A2256917075E9000098DA0 /* controller_lynx.png */,
 				9499B60A1ABCE1A600276D21 /* controller_lynx_mask@2x.png */,
@@ -5312,6 +5327,7 @@
 			isa = PBXGroup;
 			children = (
 				94A2258017075F0C00098DA0 /* pcfx_library.png */,
+				87F7BB171C1EB1FD005B83C4 /* pcfx_library@2x.png */,
 				94A2257B17075F0C00098DA0 /* controller_pcfx_mask.png */,
 				94A2257C17075F0C00098DA0 /* controller_pcfx.png */,
 				871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */,
@@ -5431,6 +5447,7 @@
 			isa = PBXGroup;
 			children = (
 				94A225BE1707609E00098DA0 /* atari2600_library.png */,
+				87F7BB0F1C1EB0F9005B83C4 /* atari2600_library@2x.png */,
 				11CBD87419EE33FC00CB1199 /* controller_2600.png */,
 				11CBD87219EE33FC00CB1199 /* controller_2600@2x.png */,
 				11CBD87119EE33FC00CB1199 /* controller_2600_mask.png */,
@@ -5461,6 +5478,7 @@
 			isa = PBXGroup;
 			children = (
 				94A225CE170760D900098DA0 /* atari5200_library.png */,
+				87F7BB111C1EB177005B83C4 /* atari5200_library@2x.png */,
 				94A225CF170760D900098DA0 /* controller_5200_mask.png */,
 				94A225D0170760D900098DA0 /* controller_5200.png */,
 				879243B21C0DA5910064C515 /* controller_5200_mask@2x.png */,
@@ -7238,6 +7256,7 @@
 				941F5A1C17A786870005D7EA /* Controller-Mappings.plist in Resources */,
 				87BC4DA21BA3A88600BF1F86 /* controller_7800_mask@2x.png in Resources */,
 				941F5A1D17A786870005D7EA /* Controller-Preferences.plist in Resources */,
+				87F7BB141C1EB19B005B83C4 /* atari7800_library@2x.png in Resources */,
 				87BC4DA31BA3A88600BF1F86 /* controller_7800@2x.png in Resources */,
 				941F5A1E17A786870005D7EA /* Keyboard-Mappings.plist in Resources */,
 			);
@@ -7398,6 +7417,7 @@
 				94A2255E17075DF600098DA0 /* controller_ws_mask.png in Resources */,
 				9499B6111ABCE2D900276D21 /* controller_ws@2x.png in Resources */,
 				94A2255F17075DF600098DA0 /* controller_ws.png in Resources */,
+				87F7BB1A1C1EB230005B83C4 /* wonderswan_library@2x.png in Resources */,
 				94A2256017075DF600098DA0 /* Controller-Mappings.plist in Resources */,
 				94A2256117075DF600098DA0 /* Controller-Preferences.plist in Resources */,
 				94A2256217075DF600098DA0 /* Keyboard-Mappings.plist in Resources */,
@@ -7417,6 +7437,7 @@
 				94A2257017075E9000098DA0 /* Controller-Mappings.plist in Resources */,
 				94A2257117075E9000098DA0 /* Controller-Preferences.plist in Resources */,
 				94A2257217075E9000098DA0 /* Keyboard-Mappings.plist in Resources */,
+				87F7BB161C1EB1D2005B83C4 /* lynx_library@2x.png in Resources */,
 				94A2257317075E9000098DA0 /* lynx_library.png in Resources */,
 				9499B60D1ABCE1B400276D21 /* controller_lynx@2x.png in Resources */,
 			);
@@ -7429,6 +7450,7 @@
 				94A2246A170753D500098DA0 /* InfoPlist.strings in Resources */,
 				94A2258117075F0C00098DA0 /* controller_pcfx_mask.png in Resources */,
 				94A2258217075F0C00098DA0 /* controller_pcfx.png in Resources */,
+				87F7BB181C1EB1FD005B83C4 /* pcfx_library@2x.png in Resources */,
 				94A2258317075F0C00098DA0 /* Controller-Mappings.plist in Resources */,
 				871CE9131B0BCFB800B89E96 /* controller_pcfx@2x.png in Resources */,
 				94A2258417075F0C00098DA0 /* Controller-Preferences.plist in Resources */,
@@ -7493,6 +7515,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87F7BB101C1EB0F9005B83C4 /* atari2600_library@2x.png in Resources */,
 				11CBD87819EE33FC00CB1199 /* controller_2600.png in Resources */,
 				94A224AA1707543600098DA0 /* InfoPlist.strings in Resources */,
 				11CBD87619EE33FC00CB1199 /* controller_2600@2x.png in Resources */,
@@ -7518,6 +7541,7 @@
 				879243B41C0DA5910064C515 /* controller_5200_mask@2x.png in Resources */,
 				94A225D8170760D900098DA0 /* Controller-Preferences.plist in Resources */,
 				94A225D9170760D900098DA0 /* Keyboard-Mappings.plist in Resources */,
+				87F7BB121C1EB177005B83C4 /* atari5200_library@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
