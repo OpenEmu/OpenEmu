@@ -71,7 +71,6 @@ extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 
 @property(readonly) NSArray *collections;
 - (NSArray *)romsForPredicate:(NSPredicate *)predicate;
-@property(readonly) NSArray *media;
 @property(readonly) NSArray *lastPlayedRoms;
 @property(readonly) NSDictionary *lastPlayedRomsBySystem;
 

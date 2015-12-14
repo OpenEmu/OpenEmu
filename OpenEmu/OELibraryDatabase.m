@@ -37,7 +37,6 @@
 
 #import "OEDBSavedGamesMedia.h"
 #import "OEDBScreenshotsMedia.h"
-#import "OEDBFeaturedGamesMedia.h"
 
 #import "OESystemPicker.h"
 
@@ -499,25 +498,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     [collectionsArray addObjectsFromArray:collections];
 
     return collectionsArray;
-}
-
-- (NSArray *)media
-{
-    NSMutableArray *mediaArray = [NSMutableArray array];
-
-    // Featured Games
-    OEDBFeaturedGamesMedia *featuredGamesMedia = [OEDBFeaturedGamesMedia sharedFeaturedGamesMedia];
-    [mediaArray addObject:featuredGamesMedia];
-
-    // Saved Games
-    OEDBSavedGamesMedia *savedGamesMedia = [OEDBSavedGamesMedia sharedDBSavedGamesMedia];
-    [mediaArray addObject:savedGamesMedia];
-    
-    // Screenshots
-    OEDBScreenshotsMedia *screenshotsMedia = [OEDBScreenshotsMedia sharedDBScreenshotsMedia];
-    [mediaArray addObject:screenshotsMedia];
-
-    return mediaArray;
 }
 
 #pragma mark - Collection Editing

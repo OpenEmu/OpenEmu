@@ -26,9 +26,9 @@
 
 @import Cocoa;
 
-@interface OEFeaturedGamesCoverView : NSView
-@property (nonatomic, copy) NSArray *URLs;
+#import "OELibrarySubviewController.h"
 
-@property (assign) id target;
-@property SEL doubleAction;
+@interface OEHomebrewViewController : NSViewController <OELibrarySubviewController>
+@property (nonatomic, weak) OELibraryController *libraryController;
+@property (weak) IBOutlet NSTableView *tableView;
 @end

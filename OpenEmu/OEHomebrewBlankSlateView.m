@@ -24,10 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEFeaturedGamesBlankSlateView.h"
+#import "OEHomebrewBlankSlateView.h"
 #import "OEBlankSlateSpinnerView.h"
 
-@implementation OEFeaturedGamesBlankSlateView
+@implementation OEHomebrewBlankSlateView
 
 - (void)setupViewForRepresentedObject
 {
@@ -50,7 +50,7 @@
         [warningImageView unregisterDraggedTypes];
 
         // TODO: extract real error reason here. Make sure it's not much longer than this!
-        NSString *reason = NSLocalizedString(@"No Internet Connection", @"Featured Games Blank Slate View Error Info");
+        NSString *reason = NSLocalizedString(@"No Internet Connection", @"Homebrew Blank Slate View Error Info");
         [self setupBoxWithText:reason andImageView:warningImageView];
         [self addLeftHeadlineWithText:NSLocalizedString(@"Homebrew Games", @"")];
         [self addInformationalText:text];

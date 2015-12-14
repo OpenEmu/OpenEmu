@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, OpenEmu Team
+ Copyright (c) 2014, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,82 +24,11 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEDBFeaturedGamesMedia.h"
-#import "OETheme.h"
+@import Cocoa;
 
-NS_ASSUME_NONNULL_BEGIN
+@interface OEHomebrewCoverView : NSView
+@property (nonatomic, copy) NSArray *URLs;
 
-@implementation OEDBFeaturedGamesMedia
-
-+ (instancetype)sharedFeaturedGamesMedia
-{
-    static OEDBFeaturedGamesMedia *sharedInstance;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [OEDBFeaturedGamesMedia new];
-    });
-    return sharedInstance;
-}
-
-#pragma mark - OESidebarItem
-
-- (NSImage *)sidebarIcon
-{
-    return [[OETheme sharedTheme] imageForKey:@"media_featured" forState:OEThemeStateDefault];
-}
-
-- (NSString *)sidebarName
-{
-    return NSLocalizedString(@"Homebrew Games", @"");
-}
-
-- (void)setSidebarName:(NSString *)newName
-{
-    NSLog(@"OEDBFeaturedGamesMedia: can not change name!");
-}
-
-- (NSString *)viewControllerClassName
-{
-    return @"OEFeaturedGamesViewController";
-}
-
-- (NSString *)sidebarID
-{
-    return @"featuredGames";
-}
-
-- (BOOL)isSelectableInSidebar
-{
-    return YES;
-}
-
-- (BOOL)isEditableInSidebar
-{
-    return NO;
-}
-
-- (BOOL)isGroupHeaderInSidebar
-{
-    return NO;
-}
-
-- (BOOL)hasSubCollections
-{
-    return NO;
-}
-
-- (NSString *)badge
-{
-    return @"";
-}
-
-#pragma mark - OECollectionViewItemProtocol
-
-- (BOOL)isCollectionEditable
-{
-    return NO;
-}
-
+@property (assign) id target;
+@property SEL doubleAction;
 @end
-
-NS_ASSUME_NONNULL_END

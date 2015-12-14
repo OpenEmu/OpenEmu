@@ -26,5 +26,5 @@
 
 #import "OEBlankSlateView.h"
 
-@interface OEFeaturedGamesBlankSlateView : OEBlankSlateView
+@interface OEHomebrewBlankSlateView : OEBlankSlateView
 @end

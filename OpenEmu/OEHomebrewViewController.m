@@ -24,17 +24,17 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEFeaturedGamesViewController.h"
+#import "OEHomebrewViewController.h"
 
 #import "OETheme.h"
 #import "OEDownload.h"
 #import "OEBlankSlateBackgroundView.h"
-#import "OEFeaturedGamesCoverView.h"
+#import "OEHomebrewCoverView.h"
 #import "OEDBSystem.h"
 #import "OELibraryController.h"
 #import "OELibraryDatabase.h"
 
-#import "OEFeaturedGamesBlankSlateView.h"
+#import "OEHomebrewBlankSlateView.h"
 
 #import "OEDBGame.h"
 #import "OEDBRom.h"
@@ -50,14 +50,14 @@
 
 @import Quartz;
 
-NSString * const OEFeaturedGamesURLString = @"https://raw.githubusercontent.com/OpenEmu/OpenEmu-Update/master/games.xml";
+NSString * const OEHomebrewGamesURLString = @"https://raw.githubusercontent.com/OpenEmu/OpenEmu-Update/master/games.xml";
 
-NSString * const OELastFeaturedGamesCheckKey = @"lastFeaturedGamesCheck";
+NSString * const OELastHomebrewCheckKey = @"lastHomebrewCheck";
 
 const static CGFloat DescriptionX     = 146.0;
 const static CGFloat TableViewSpacing = 86.0;
 
-@interface OEFeaturedGame : NSObject
+@interface OEHomebrewGame : NSObject
 - (instancetype)initWithNode:(NSXMLNode*)node;
 
 @property (readonly, copy) NSString *name;
@@ -76,21 +76,21 @@ const static CGFloat TableViewSpacing = 86.0;
 
 @property (readonly, copy) NSString *systemIdentifier;
 @end
-@interface OEFeaturedGamesViewController () <NSTableViewDataSource, NSTableViewDelegate>
+@interface OEHomebrewViewController () <NSTableViewDataSource, NSTableViewDelegate>
 @property (strong) NSArray *games;
 @property (strong) NSArray *headerIndices;
 @property (strong) OEDownload *currentDownload;
-@property (strong, nonatomic) OEFeaturedGamesBlankSlateView *blankSlate;
+@property (strong, nonatomic) OEHomebrewBlankSlateView *blankSlate;
 @end
 
-@implementation OEFeaturedGamesViewController
+@implementation OEHomebrewViewController
 @synthesize blankSlate = _blankSlate, libraryController = _libraryController;
 
 + (void)initialize
 {
-    if(self == [OEFeaturedGamesViewController class])
+    if(self == [OEHomebrewViewController class])
     {
-        NSDictionary *defaults = @{ OELastFeaturedGamesCheckKey:[NSDate dateWithTimeIntervalSince1970:0],
+        NSDictionary *defaults = @{ OELastHomebrewCheckKey:[NSDate dateWithTimeIntervalSince1970:0],
                                     };
         [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     }
@@ -98,7 +98,7 @@ const static CGFloat TableViewSpacing = 86.0;
 
 - (NSString*)nibName
 {
-    return @"OEFeaturedGamesViewController";
+    return @"OEHomebrewViewController";
 }
 
 - (void)loadView
@@ -137,7 +137,7 @@ const static CGFloat TableViewSpacing = 86.0;
 {
     [super viewDidAppear];
 
-    // Fetch games if we haven't already, this allows reloading if an error occured, by switching to a different collection or media view and then back to featured games
+    // Fetch games if we haven't already, this allows reloading if an error occured, by switching to a different collection or media view and then back to homebrew
     if([[self games] count] == 0)
     {
         [self updateGames];
@@ -168,7 +168,7 @@ const static CGFloat TableViewSpacing = 86.0;
     // Cancel last download
     [[self currentDownload] cancelDownload];
 
-    NSURL *url = [NSURL URLWithString:OEFeaturedGamesURLString];
+    NSURL *url = [NSURL URLWithString:OEHomebrewGamesURLString];
 
     OEDownload *download = [[OEDownload alloc] initWithURL:url];
     OEDownload __weak *blockDL = download;
@@ -213,7 +213,7 @@ const static CGFloat TableViewSpacing = 86.0;
         return [NSDate dateWithTimeIntervalSince1970:[[obj stringValue] integerValue]];
     }];
 
-    NSDate *lastCheck = [[NSUserDefaults standardUserDefaults] objectForKey:OELastFeaturedGamesCheckKey];
+    NSDate *lastCheck = [[NSUserDefaults standardUserDefaults] objectForKey:OELastHomebrewCheckKey];
     NSMutableIndexSet *newGameIndices = [NSMutableIndexSet indexSet];
     [dates enumerateObjectsUsingBlock:^(NSDate *obj, NSUInteger idx, BOOL *stop) {
         if([obj compare:lastCheck] == NSOrderedDescending)
@@ -228,7 +228,7 @@ const static CGFloat TableViewSpacing = 86.0;
         if([[node nodesForXPath:@"@id" error:nil] lastObject])
             [allHeaderIndices addObject:@(idx)];
 
-        return [[OEFeaturedGame alloc] initWithNode:node];
+        return [[OEHomebrewGame alloc] initWithNode:node];
     }];
 
     self.headerIndices = [allHeaderIndices mutableCopy];
@@ -239,8 +239,8 @@ const static CGFloat TableViewSpacing = 86.0;
 #pragma mark - View Management
 - (void)displayUpdate
 {
-    OEFeaturedGamesBlankSlateView *blankSlate = [[OEFeaturedGamesBlankSlateView alloc] initWithFrame:[[self view] bounds]];
-    [blankSlate setRepresentedObject:NSLocalizedString(@"Fetching Games…", @"Featured Games Blank Slate View Updating Info")];
+    OEHomebrewBlankSlateView *blankSlate = [[OEHomebrewBlankSlateView alloc] initWithFrame:[[self view] bounds]];
+    [blankSlate setRepresentedObject:NSLocalizedString(@"Fetching Games…", @"Homebrew Blank Slate View Updating Info")];
     [self showBlankSlate:blankSlate];
 
     [[self tableView] setHidden:YES];
@@ -249,7 +249,7 @@ const static CGFloat TableViewSpacing = 86.0;
 
 - (void)displayError:(NSError*)error
 {
-    OEFeaturedGamesBlankSlateView *blankSlate = [[OEFeaturedGamesBlankSlateView alloc] initWithFrame:[[self view] bounds]];
+    OEHomebrewBlankSlateView *blankSlate = [[OEHomebrewBlankSlateView alloc] initWithFrame:[[self view] bounds]];
     [blankSlate setRepresentedObject:error];
     [self showBlankSlate:blankSlate];
 }
@@ -277,7 +277,7 @@ const static CGFloat TableViewSpacing = 86.0;
 }
 
 #pragma mark -
-- (void)showBlankSlate:(OEFeaturedGamesBlankSlateView *)blankSlate
+- (void)showBlankSlate:(OEHomebrewBlankSlateView *)blankSlate
 {
     if(_blankSlate != blankSlate)
     {
@@ -303,7 +303,7 @@ const static CGFloat TableViewSpacing = 86.0;
 
     if(row < 0 || row >= [[self games] count]) return;
 
-    OEFeaturedGame *game = [[self games] objectAtIndex:row];
+    OEHomebrewGame *game = [[self games] objectAtIndex:row];
 
     NSURL *url = [NSURL URLWithString:[game website]];
     [[NSWorkspace sharedWorkspace] openURL:url];
@@ -322,12 +322,12 @@ const static CGFloat TableViewSpacing = 86.0;
 
     if(row < 0 || row >= [[self games] count]) return;
 
-    OEFeaturedGame *featuredGame = [[self games] objectAtIndex:row];
-    NSURL *url = [NSURL URLWithString:[featuredGame fileURLString]];
-    NSInteger fileIndex = [featuredGame fileIndex];
-    NSString *systemIdentifier = [featuredGame systemIdentifier];
-    NSString *md5  = [featuredGame md5];
-    NSString *name = [featuredGame name];
+    OEHomebrewGame *homebrewGame = [[self games] objectAtIndex:row];
+    NSURL *url = [NSURL URLWithString:[homebrewGame fileURLString]];
+    NSInteger fileIndex = [homebrewGame fileIndex];
+    NSString *systemIdentifier = [homebrewGame systemIdentifier];
+    NSString *md5  = [homebrewGame md5];
+    NSString *name = [homebrewGame name];
 
     OELibraryDatabase      *db = [[self libraryController] database];
     NSManagedObjectContext *context = [db mainThreadContext];
@@ -345,7 +345,7 @@ const static CGFloat TableViewSpacing = 86.0;
         [game setRoms:[NSSet setWithObject:rom]];
         [game setName:name];
 
-        [game setBoxImageByURL:[[featuredGame images] objectAtIndex:0]];
+        [game setBoxImageByURL:[[homebrewGame images] objectAtIndex:0]];
 
         OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inContext:context];
         [game setSystem:system];
@@ -387,7 +387,7 @@ const static CGFloat TableViewSpacing = 86.0;
     if([[self headerIndices] containsObject:@(rowIndex)])
     {
         // Use system lastLocalizedName for header
-        OEFeaturedGame *game = [[self games] objectAtIndex:rowIndex];
+        OEHomebrewGame *game = [[self games] objectAtIndex:rowIndex];
         NSString *identifier = [game systemGroup];
 
         NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] mainThreadContext];
@@ -418,10 +418,10 @@ const static CGFloat TableViewSpacing = 86.0;
         NSArray *games = [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
 
         NSView *subview = [[view subviews] lastObject];
-        [games enumerateObjectsUsingBlock:^(OEFeaturedGame *game, NSUInteger idx, BOOL *stop) {
+        [games enumerateObjectsUsingBlock:^(OEHomebrewGame *game, NSUInteger idx, BOOL *stop) {
             NSView *container = [[subview subviews] objectAtIndex:idx];
 
-            OEFeaturedGamesCoverView *artworkView = [[container subviews] objectAtIndex:0];
+            OEHomebrewCoverView *artworkView = [[container subviews] objectAtIndex:0];
             [artworkView setURLs:[game images]];
             [artworkView setTarget:self];
             [artworkView setDoubleAction:@selector(launchGame:)];
@@ -478,7 +478,7 @@ const static CGFloat TableViewSpacing = 86.0;
         view = [tableView makeViewWithIdentifier:@"GameView" owner:self];
         NSArray *subviews = [view subviews];
 
-        OEFeaturedGame *game = [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
+        OEHomebrewGame *game = [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
 
         NSTextField *titleField = [subviews objectAtIndex:0];
         [titleField setStringValue:[game name]];
@@ -516,7 +516,7 @@ const static CGFloat TableViewSpacing = 86.0;
         [developer sizeToFit];
         [developer setFrameSize:NSMakeSize([developer frame].size.width, [developer frame].size.height)];
 
-        OEFeaturedGamesCoverView *imagesView = [subviews objectAtIndex:4];
+        OEHomebrewCoverView *imagesView = [subviews objectAtIndex:4];
         [imagesView setURLs:[game images]];
         [imagesView setTarget:self];
         [imagesView setDoubleAction:@selector(launchGame:)];
@@ -535,7 +535,7 @@ const static CGFloat TableViewSpacing = 86.0;
         return 1.0;
 
     CGFloat textHeight = 0.0;
-    OEFeaturedGame *game = [self tableView:tableView objectValueForTableColumn:nil row:row];
+    OEHomebrewGame *game = [self tableView:tableView objectValueForTableColumn:nil row:row];
     NSString *gameDescription = [game gameDescription];
     if(gameDescription)
     {
@@ -574,7 +574,7 @@ const static CGFloat TableViewSpacing = 86.0;
 }
 @end
 
-@implementation OEFeaturedGame
+@implementation OEHomebrewGame
 - (instancetype)initWithNode:(NSXMLNode*)node
 {
     self = [super init];

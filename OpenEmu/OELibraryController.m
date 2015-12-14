@@ -47,7 +47,7 @@
 #import "OEMediaViewController.h"
 #import "OEDBSavedGamesMedia.h"
 #import "OEDBScreenshotsMedia.h"
-#import "OEFeaturedGamesViewController.h"
+#import "OEHomebrewViewController.h"
 
 #import "OELibraryGamesViewController.h"
 
@@ -81,7 +81,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 @property (strong, readonly) OELibraryGamesViewController *libraryGamesViewController;
 @property (strong, readonly) OEMediaViewController *saveStatesViewController;
 @property (strong, readonly) OEMediaViewController *screenshotsViewController;
-@property (strong, readonly) OEFeaturedGamesViewController *homebrewViewController;
+@property (strong, readonly) OEHomebrewViewController *homebrewViewController;
 
 @end
 
@@ -122,7 +122,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     _screenshotsViewController.libraryController = self;
     _screenshotsViewController.representedObject = [OEDBScreenshotsMedia sharedDBScreenshotsMedia];
     
-    _homebrewViewController = [[OEFeaturedGamesViewController alloc] init];
+    _homebrewViewController = [[OEHomebrewViewController alloc] init];
     _homebrewViewController.libraryController = self;
     
     [self addChildViewController:_libraryGamesViewController];
