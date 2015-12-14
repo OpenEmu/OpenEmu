@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OECollectionViewController">
@@ -19,7 +19,6 @@
         <customView id="109" customClass="OEBlankSlateView">
             <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <animations/>
         </customView>
         <customView id="0jF-GH-3Dc">
             <rect key="frame" x="0.0" y="0.0" width="643" height="510"/>
@@ -35,32 +34,25 @@
                             <customView id="95" customClass="OEGridView">
                                 <rect key="frame" x="0.0" y="0.0" width="613" height="510"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <animations/>
                             </customView>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                     </clipView>
-                    <animations/>
                     <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="94">
                         <rect key="frame" x="0.0" y="494" width="643" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </scroller>
                     <scroller key="verticalScroller" hidden="YES" canDrawConcurrently="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="93">
                         <rect key="frame" x="628" y="36" width="15" height="474"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </scroller>
                 </scrollView>
             </subviews>
-            <animations/>
         </customView>
         <customView id="xKI-vo-Z9u">
             <rect key="frame" x="0.0" y="0.0" width="163" height="96"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <animations/>
             <point key="canvasLocation" x="-188.5" y="527"/>
         </customView>
         <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" id="UCW-dx-p1F" customClass="OEScrollView">
@@ -70,10 +62,9 @@
                 <rect key="frame" x="0.0" y="23" width="735" height="267"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="H7O-is-mGk" id="7W7-OC-R11" customClass="OETableView">
-                        <rect key="frame" x="0.0" y="0.0" width="922" height="252"/>
+                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" headerView="H7O-is-mGk" id="7W7-OC-R11" customClass="OETableView">
+                        <rect key="frame" x="0.0" y="0.0" width="922" height="19"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                         <size key="intercellSpacing" width="3" height="2"/>
                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -188,25 +179,20 @@
                         </tableColumns>
                     </tableView>
                 </subviews>
-                <animations/>
                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
             </clipView>
-            <animations/>
             <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
             <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="6nI-Fu-se9">
                 <rect key="frame" x="0.0" y="274" width="735" height="16"/>
                 <autoresizingMask key="autoresizingMask"/>
-                <animations/>
             </scroller>
             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="6rE-vq-HwZ">
                 <rect key="frame" x="224" y="17" width="15" height="102"/>
                 <autoresizingMask key="autoresizingMask"/>
-                <animations/>
             </scroller>
             <tableHeaderView key="headerView" id="H7O-is-mGk" customClass="OETableHeaderView">
                 <rect key="frame" x="0.0" y="0.0" width="922" height="23"/>
                 <autoresizingMask key="autoresizingMask"/>
-                <animations/>
             </tableHeaderView>
             <point key="canvasLocation" x="572.5" y="-176"/>
         </scrollView>
