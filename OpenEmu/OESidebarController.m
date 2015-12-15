@@ -70,6 +70,9 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
 @property (weak) IBOutlet OEGameScannerViewController *gameScannerViewController;
 
+/// If YES, the sidebar scroll view's scroll bars have been flashed to the user to make sure they know there are more systems than what may be currently visible to them. We only want to do it once, though.
+@property (nonatomic) BOOL scrollersFlashed;
+
 @end
 
 @implementation OESidebarController
@@ -154,6 +157,17 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     NSInteger selectedRow = sidebarView.selectedRow;
     if (selectedRow != -1) {
         [sidebarView scrollRowToVisible:selectedRow];
+    }
+}
+
+- (void)viewDidAppear
+{
+    [super viewDidAppear];
+    
+    // Make sure the user knows there are more systems to scroll to--but only do it once.
+    if (!self.scrollersFlashed) {
+        [self.view.enclosingScrollView flashScrollers];
+        self.scrollersFlashed = YES;
     }
 }
 
