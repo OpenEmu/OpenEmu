@@ -49,8 +49,8 @@ class PreferencesWindowController: NSWindowController, NSWindowDelegate {
                       NSRightArrowFunctionKey,
                       NSLeftArrowFunctionKey,
                       NSRightArrowFunctionKey,
-                      97, // 'a'
-                      98] // 'b'
+                      98, // 'b'
+                      97] // 'a'
     var konamiCodeIndex = 0
     var konamiCodeMonitor: AnyObject?
     
