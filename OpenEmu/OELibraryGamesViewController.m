@@ -44,6 +44,8 @@
 #define MainMenu_View_GridTag      301
 #define MainMenu_View_ListTag      303
 
+NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
+
 @interface OELibraryGamesViewController () <OELibrarySplitViewDelegate>
 @end
 
@@ -164,7 +166,8 @@
     // For empty collections of disc-based games, display an alert to compel the user to read the disc-importing guide.
     if ([selectedItem isKindOfClass:[OEDBSystem class]] &&
         ((OEDBSystem *)selectedItem).plugin.supportsDiscs &&
-        ((OEDBSystem *)selectedItem).games.count == 0)
+        ((OEDBSystem *)selectedItem).games.count == 0 &&
+        ![[NSUserDefaults standardUserDefaults] boolForKey:OESkipDiscGuideMessageKey])
     {
         
         NSAlert *alert = [[NSAlert alloc] init];
