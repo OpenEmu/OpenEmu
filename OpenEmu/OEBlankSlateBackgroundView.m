@@ -93,11 +93,6 @@
 }
 
 #pragma mark - CALayer Delegate
-- (id < CAAction >)actionForLayer:(CALayer *)layer forKey:(NSString *)key
-{
-    return nil;
-}
-
 - (BOOL)layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window
 {
     if([layer backgroundColor] == NULL) return YES;
