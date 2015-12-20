@@ -100,20 +100,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 {
     [super viewWillAppear];
     
-    OELibraryController *libraryController = self.libraryController;
-    OELibraryToolbar *toolbar = libraryController.toolbar;
-    
-    toolbar.gridViewButton.enabled = NO;
-    toolbar.listViewButton.enabled = NO;
-    toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
-    
-    NSSearchField *field = toolbar.searchField;
-    field.searchMenuTemplate = nil;
-    field.enabled = YES;
-    field.stringValue = @"";
-    field.enabled = !_shouldShowBlankSlate;
-    
-    [self _setupSearchMenuTemplate];
+    [self _setupToolbar];
     
     [self restoreSelectionFromDefaults];
 }
@@ -168,14 +155,35 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     }
 }
 
+- (void)_setupToolbar
+{
+    OELibraryController *libraryController = self.libraryController;
+    OELibraryToolbar *toolbar = libraryController.toolbar;
+    
+    toolbar.gridViewButton.enabled = NO;
+    toolbar.listViewButton.enabled = NO;
+    toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
+    
+    NSSearchField *field = toolbar.searchField;
+    field.searchMenuTemplate = nil;
+    field.enabled = YES;
+    field.stringValue = @"";
+    field.enabled = !_shouldShowBlankSlate;
+    
+    [self _setupSearchMenuTemplate];
+}
+
 - (void)updateBlankSlate
 {
     [super updateBlankSlate];
 
-    OELibraryController *libraryController = [self libraryController];
-    OELibraryToolbar *toolbar = [libraryController toolbar];
-    [[toolbar searchField] setEnabled:!_shouldShowBlankSlate];
-    [[toolbar gridSizeSlider] setEnabled:!_shouldShowBlankSlate];
+    OELibraryController *libraryController = self.libraryController;
+    OELibraryToolbar *toolbar = libraryController.toolbar;
+    toolbar.searchField.enabled = !_shouldShowBlankSlate;
+    toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
+    
+    toolbar.gridViewButton.enabled = NO;
+    toolbar.listViewButton.enabled = NO;
 }
 
 - (void)_setupSearchMenuTemplate
