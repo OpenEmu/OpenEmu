@@ -38,7 +38,7 @@ extern NSString * const OELibraryStatesKey;
 extern NSString * const OELibraryLastCategoryKey;
 
 @protocol OELibraryControllerDelegate, OELibrarySubviewController;
-@interface OELibraryController : NSViewController <OEMainWindowContentController, OELibrarySplitViewDelegate>
+@interface OELibraryController : NSViewController <OEMainWindowContentController>
 
 @property(unsafe_unretained) id<OELibraryControllerDelegate> delegate;
 

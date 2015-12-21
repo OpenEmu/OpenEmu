@@ -30,35 +30,21 @@
 
 #pragma mark - Public variables
 
-NSString *const OELibrarySplitViewDidToggleSidebarNotification = @"OELibrarySplitViewDidToggleSidebarNotification";
 NSString *const OELibrarySplitViewResetSidebarNotification = @"OELibrarySplitViewResetSidebarNotification";
 
 #pragma mark - Private variables
 
-static const CGFloat _OEToggleSidebarAnimationDuration = 0.2;
 static const CGFloat _OESidebarMinWidth                = 105;
 static const CGFloat _OESidebarMaxWidth                = 450;
 static const CGFloat _OEMainViewMinWidth               = 495;
 
-static NSString * const _OESidebarVisibleKey = @"isSidebarVisible";
 static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
-
-#pragma mark - OELibrarySplitViewDelegateProxy
-
-@interface OELibrarySplitViewDelegateProxy : NSObject <OELibrarySplitViewDelegate>
-@property(nonatomic, weak) id<NSSplitViewDelegate>        superDelegate;
-@property(nonatomic, weak) id<OELibrarySplitViewDelegate> localDelegate;
-@end
 
 #pragma mark - OELibrarySplitView
 
 @interface OELibrarySplitView () <NSSplitViewDelegate>
 {
-    BOOL    _animating;
-    BOOL    _togglingSidebarAndChangingWindowSize;
     CGFloat _previousWidth;
-
-    OELibrarySplitViewDelegateProxy *_delegateProxy;
 }
 
 - (NSView *)OE_sidebarContainerView;
@@ -76,7 +62,6 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
     if(self != [OELibrarySplitView class]) return;
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:(@{
-                                                             _OESidebarVisibleKey : @YES,
                                                              _OESidebarWidthKey   : @186.0f,
                                                              })];
 }
@@ -122,84 +107,16 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
 
     NSRect newSidebarFrame, newMainFrame;
     const CGFloat splitterPosition = [self OE_visibleSidebarSplitterPosition];
-    BOOL hidingSidebar = ![[NSUserDefaults standardUserDefaults] boolForKey:_OESidebarVisibleKey];
-    [self OE_getSidebarFrame:&newSidebarFrame mainFrame:&newMainFrame forSplitterAtPosition:(hidingSidebar ? 0 : splitterPosition)];
+    [self OE_getSidebarFrame:&newSidebarFrame mainFrame:&newMainFrame forSplitterAtPosition:splitterPosition];
     [[self OE_sidebarContainerView] setFrame:newSidebarFrame];
     [[self OE_mainContainerView]    setFrame:newMainFrame];
 
-    NSNotification *notification = [NSNotification notificationWithName:OELibrarySplitViewDidToggleSidebarNotification object:self];
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetSidebar) name:OELibrarySplitViewResetSidebarNotification object:nil];
-
-    if([[_delegateProxy localDelegate] respondsToSelector:@selector(librarySplitViewDidToggleSidebar:)])
-        [[_delegateProxy localDelegate] librarySplitViewDidToggleSidebar:notification];
 
     [self adjustSubviews];
 }
 
 #pragma mark - Main methods
-
-- (void)toggleSidebar
-{
-    if(_animating) return;
-    _animating = YES;
-
-    const BOOL hidingSidebar = [self isSidebarVisible];
-    [[NSUserDefaults standardUserDefaults] setBool:!hidingSidebar forKey:_OESidebarVisibleKey];
-
-    const BOOL shouldChangeWindowSize = ![[self window] isFullScreen];
-
-    void (^animationCompletionHandler)(void) = ^{
-        _animating = NO;
-        if(shouldChangeWindowSize) _togglingSidebarAndChangingWindowSize = NO;
-
-        NSNotification *notification = [NSNotification notificationWithName:OELibrarySplitViewDidToggleSidebarNotification object:self];
-        [[NSNotificationCenter defaultCenter] postNotification:notification];
-
-        if([[_delegateProxy localDelegate] respondsToSelector:@selector(librarySplitViewDidToggleSidebar:)])
-        {
-            [[_delegateProxy localDelegate] librarySplitViewDidToggleSidebar:notification];
-        }
-    };
-
-    const CGFloat splitterPosition = [self OE_visibleSidebarSplitterPosition];
-
-    // If toggling the sidebar enlarges or reduces the window width, we change the window frame
-    // accordingly and let -adjustSubviews compute the visual splitter position whilst the window
-    // size is changing
-    if(shouldChangeWindowSize)
-    {
-        const CGFloat widthCorrection = (hidingSidebar ? -splitterPosition : splitterPosition);
-        NSRect windowFrame = [[self window] frame];
-        windowFrame.origin.x -= widthCorrection;
-        windowFrame.size.width += widthCorrection;
-
-        _togglingSidebarAndChangingWindowSize = YES;
-        [NSAnimationContext beginGrouping];
-        {{
-            [[NSAnimationContext currentContext] setCompletionHandler:animationCompletionHandler];
-
-            [[[self window] animator] setFrame:windowFrame display:YES animate:YES];
-        }};
-        [NSAnimationContext endGrouping];
-    }
-    else
-    {
-        NSRect newSidebarFrame, newMainFrame;
-        [self OE_getSidebarFrame:&newSidebarFrame mainFrame:&newMainFrame forSplitterAtPosition:(hidingSidebar ? 0 : splitterPosition)];
-
-        [NSAnimationContext beginGrouping];
-        {{
-            [[NSAnimationContext currentContext] setDuration:_OEToggleSidebarAnimationDuration];
-            [[NSAnimationContext currentContext] setCompletionHandler:animationCompletionHandler];
-
-            [[[self OE_sidebarContainerView] animator] setFrame:newSidebarFrame];
-            [[[self OE_mainContainerView] animator] setFrame:newMainFrame];
-        }}
-        [NSAnimationContext endGrouping];
-    }
-}
 
 - (void)OE_getSidebarFrame:(NSRect *)sidebarFrame mainFrame:(NSRect *)mainFrame forSplitterAtPosition:(CGFloat)splitterPosition
 {
@@ -249,11 +166,6 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
     return ([[self subviews] count] > 1 ? [[self subviews] objectAtIndex:1] : nil);
 }
 
-- (BOOL)isSidebarVisible
-{
-    return [[NSUserDefaults standardUserDefaults] boolForKey:_OESidebarVisibleKey];
-}
-
 - (void)resetSidebar
 {
     [self setPosition:186.0 ofDividerAtIndex:0];
@@ -269,38 +181,26 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
 
     CGFloat visualSplitterPosition;
 
-    // If we are changing the window size because the sidebar is being revealed or hidden, we:
-    // - keep the width and the screen x origin of the main frame intact
-    // - increase the sidebar width if the sidebar is being revealed
-    // - decrease the sidebar width if the sidebar is being hidden
-    // Note that whilst we are doing this, we are violating min/max width restrictions
-    if(_togglingSidebarAndChangingWindowSize)
+    // We cannot always let NSSplitView adjust the subviews with help from -splitView:shouldAdjustSizeOfSubview:
+    // because of the following scenario:
+    // - sidebar width > _OESidebarMinWidth
+    // - main width > _OEMainViewMinWidth
+    // - user aggressively shrinks the window width in one mouse swipe
+    // When this happens, -splitView:shouldAdjustSizeOfSubview: initially returns YES for the main view since
+    // it can be shrunk, and we prefer not to touch the sidebar width. However, since
+    // -splitView:shouldAdjustSizeOfSubview: is not necessarily sent in a granular enough fashion, it is well
+    /// possible that in the second time that it is sent the window has already been shrunk to a size that
+    // violates _OEMainViewMinWidth. In this case, we force the splitter position to respect _OEMainViewMinWidth
+    
+    if(currentWidth <  _previousWidth      && // user is shrinking the window
+       mainWidth    <= _OEMainViewMinWidth && // main view cannot be shrunk
+       sidebarWidth >  _OESidebarMinWidth)    // sidebar can be shrunk
     {
-        visualSplitterPosition = currentWidth - mainWidth;
+        visualSplitterPosition = currentWidth - _OEMainViewMinWidth;
     }
     else
     {
-        // We cannot always let NSSplitView adjust the subviews with help from -splitView:shouldAdjustSizeOfSubview:
-        // because of the following scenario:
-        // - sidebar width > _OESidebarMinWidth
-        // - main width > _OEMainViewMinWidth
-        // - user aggressively shrinks the window width in one mouse swipe
-        // When this happens, -splitView:shouldAdjustSizeOfSubview: initially returns YES for the main view since
-        // it can be shrunk, and we prefer not to touch the sidebar width. However, since
-        // -splitView:shouldAdjustSizeOfSubview: is not necessarily sent in a granular enough fashion, it is well
-        /// possible that in the second time that it is sent the window has already been shrunk to a size that
-        // violates _OEMainViewMinWidth. In this case, we force the splitter position to respect _OEMainViewMinWidth
-
-        if(currentWidth <  _previousWidth      && // user is shrinking the window
-           mainWidth    <= _OEMainViewMinWidth && // main view cannot be shrunk
-           sidebarWidth >  _OESidebarMinWidth)    // sidebar can be shrunk
-        {
-            visualSplitterPosition = currentWidth - _OEMainViewMinWidth;
-        }
-        else
-        {
-            visualSplitterPosition = sidebarWidth;
-        }
+        visualSplitterPosition = sidebarWidth;
     }
 
     NSRect sidebarFrame, mainFrame;
@@ -309,18 +209,6 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
     [[self OE_mainContainerView] setFrame:mainFrame];
 
     _previousWidth = NSWidth([self frame]);
-}
-
-- (void)setDelegate:(id<OELibrarySplitViewDelegate>)delegate
-{
-    if(!_delegateProxy)
-    {
-        _delegateProxy = [OELibrarySplitViewDelegateProxy new];
-        [_delegateProxy setSuperDelegate:self];
-        [super setDelegate:_delegateProxy];
-    }
-
-    [_delegateProxy setLocalDelegate:delegate];
 }
 
 - (NSColor *)dividerColor
@@ -362,32 +250,6 @@ static NSString * const _OESidebarWidthKey   = @"lastSidebarWidth";
 - (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMaximumPosition ofSubviewAt:(NSInteger)dividerIndex
 {
     return MIN(_OESidebarMaxWidth, NSWidth([self frame]) - _OEMainViewMinWidth);
-}
-
-- (BOOL)splitView:(NSSplitView *)splitView shouldHideDividerAtIndex:(NSInteger)dividerIndex
-{
-    return ![self isSidebarVisible];
-}
-
-- (void)splitViewDidResizeSubviews:(NSNotification *)notification
-{
-    if(!_togglingSidebarAndChangingWindowSize && [self isSidebarVisible]) [[NSUserDefaults standardUserDefaults] setDouble:[self splitterPosition] forKey:_OESidebarWidthKey];
-
-    if([[_delegateProxy localDelegate] respondsToSelector:_cmd]) [[_delegateProxy localDelegate] splitViewDidResizeSubviews:notification];
-}
-
-@end
-
-#pragma mark - OELibrarySplitViewDelegateProxy
-
-@implementation OELibrarySplitViewDelegateProxy
-
-- (id)forwardingTargetForSelector:(SEL)selector
-{
-    // OELibrarySplitView takes precedence over its (local) delegate
-    if([_superDelegate respondsToSelector:selector]) return _superDelegate;
-    if([_localDelegate respondsToSelector:selector]) return _localDelegate;
-    return nil;
 }
 
 @end

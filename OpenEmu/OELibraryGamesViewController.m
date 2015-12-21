@@ -46,9 +46,6 @@
 
 NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
-@interface OELibraryGamesViewController () <OELibrarySplitViewDelegate>
-@end
-
 @implementation OELibraryGamesViewController
 @synthesize libraryController = _libraryController;
 

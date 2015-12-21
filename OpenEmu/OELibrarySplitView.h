@@ -26,14 +26,8 @@
 
 @import Foundation;
 
-
-@protocol OELibrarySplitViewDelegate;
-
 @interface OELibrarySplitView : NSSplitView
 
-- (BOOL)isSidebarVisible;
-- (void)toggleSidebar;
-- (void)setDelegate:(id<OELibrarySplitViewDelegate>)delegate;
 - (void)resetSidebar;
 
 /* Return the splitter position as shown on screen.
@@ -44,16 +38,4 @@
 
 @end
 
-
-@protocol OELibrarySplitViewDelegate <NSSplitViewDelegate>
-@optional
-/* Respond as if the delegate had registered for the OELibrarySplitViewDidToggleSidebarNotification notification.
-   This message is sent after sidebar animation has finished. To receive notifications whilst the sidebar is
-   being toggled, use -splitViewDidResizeSubviews: or the corresponding notification.
-*/
-- (void)librarySplitViewDidToggleSidebar:(NSNotification *)notification;
-@end
-
-
-extern NSString *const OELibrarySplitViewDidToggleSidebarNotification;
 extern NSString *const OELibrarySplitViewResetSidebarNotification;
