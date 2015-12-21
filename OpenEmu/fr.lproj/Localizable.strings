@@ -28,7 +28,7 @@
 
 "%@ could not be enabled because its plugin was not found." = "Impossible d’activer %@ car son plugin n’a pas été trouvé.";
 
-"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ games will appear here. Check out %@ on how to add disc-based games."; // TODO
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "Les jeux %@ apparaîtront ici. Lisez %@ pour savoir comment ajouter jeux sur disque.";
 
 "%@ games you add to OpenEmu will appear in this Console Library" = "Les jeux %@ ajoutés à OpenEmu apparaîtront dans la bibliothèque de la console";
 
@@ -142,7 +142,7 @@
 
 "Create or Load Save State" = "Créer ou charger une partie sauvegardée";
 
-"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game."; // TODO
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Créer une sélection de captures d’écran personnelle. Pour créer un capture d’écran, appuyez simultanément sur les touches ⌘ + T pendant jouer un jeu.";
 
 "Default Core" = "Cœur par défaut";
 
@@ -164,9 +164,9 @@
 
 "Delete Screenshots" = "Supprimer captures";
 
-"Delete" = "Delete"; // TODO
+"Delete" = "Supprimer";
 
-"Description" = "Description"; // TODO // Search field menu, only search description
+"Description" = "Description";
 
 "Deselect All" = "Tout désélectionner";
 
@@ -174,9 +174,9 @@
 
 "Device number %lu, %@, has disconnected." = "Le périphérique numéro %1$lu, %2$@, a été déconnecté.";
 
-"Disc-based games have special requirements. Please read the disc importing guide." = "Disc-based games have special requirements. Please read the disc importing guide."; // TODO
+"Disc-based games have special requirements. Please read the disc importing guide." = "Jeux sur disque ont conditions spéciales. S'il vous plaît, lire le guide d'importer disques.";
 
-"Dismiss" = "Dismiss"; // TODO
+"Dismiss" = "Ignorer";
 
 "Do not ask me again" = "Ne plus me demander";
 
@@ -204,7 +204,7 @@
 
 "Drag & Drop Games Here" = "Glissez et déposez des jeux ici";
 
-"Drag & Drop Save States Here" = "Drag & Drop Save States Here"; // TODO
+"Drag & Drop Save States Here" = "Déposez des parties sauvegardées ici";
 
 "Duplicate Collection" = "Dupliquer la collection";
 
@@ -214,17 +214,17 @@
 
 "Error!" = "Erreur !";
 
-"Everything" = "Everything"; // TODO  // Search field menu, search everything item title
+"Everything" = "Tous";
 
 "Featured Games" = "Jeux en vedette";
 
 "Fetching Games…" = "Récupération des jeux…";
 
-"Filter by:" = "Filter by:"; // TODO  // Search field menu, first item, instructional
+"Filter by:" = "Filtrer par :";
 
 "Game %ld of %ld" = "Jeu %1$ld sur %2$ld";
 
-"Game Name" = "Game Name"; // TODO // Search field menu, only search game name
+"Game Name" = "Nom de jeu";
 
 "Game requires download" = "Le jeu nécessite un téléchargement";
 
@@ -232,11 +232,11 @@
 
 "Gameplay" = "Jeu";
 
-"Have you read the guide?" = "Have you read the guide?"; // TODO
+"Have you read the guide?" = "Est-ce que vous avez lu le guide?";
 
 "Hide \"%@\"" = "Masquer « %@ »";
 
-"Homebrew Games" = "Homebrew Games"; // TODO
+"Homebrew Games" = "Jeux homebrew";
 
 "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "Si un bouton rouge est présent sur le couvercle des piles, appuyez dessus.\nSinon, maintenez enfoncés les boutons ①+②.";
 
@@ -256,7 +256,7 @@
 
 "Keyboard" = "Clavier";
 
-"Learn More" = "Learn More"; // TODO Missing BIOS files modal, Wiimote modal
+"Learn More" = "En savoir plus";
 
 "Library" = "Bibliothèque";
 
@@ -282,7 +282,7 @@
 
 "Mute Audio" = "Couper le son";
 
-"Name" = "Name"; // TODO  // Search field menu, only search names
+"Name" = "Nom";
 
 "New Collection from Selection" = "Nouvelle collection à partir de la sélection";
 
@@ -296,11 +296,11 @@
 
 "No game played yet!" = "Aucun jeu lancé !";
 
-"No Internet Connection" = "No Internet Connection"; // TODO
+"No Internet Connection" = "Aucune connexion internet";
 
 "No Save States available" = "Aucune sauvegarde disponible";
 
-"No Screenshots Found" = "No Screenshots Found"; // TODO
+"No Screenshots Found" = "Aucune capture d’écran trouvée";
 
 "No" = "Non";
 
@@ -422,7 +422,7 @@
 
 "Select Scale" = "Sélectionner l’échelle";
 
-"Share" = "Share"; // TODO
+"Share" = "Partager";
 
 "Show in Finder" = "Afficher dans le Finder";
 
@@ -474,7 +474,7 @@
 
 "The System plugin could not be found!" = "Impossible de trouver le plugin du système !";
 
-"this guide" = "this guide"; // TODO
+"this guide" = "ce guide";
 
 "This save state was created with a different core. Do you want to switch to that core now?" = "Cette partie sauvegardée a été créée avec un cœur différent. Voulez-vous changer le cœur maintenant ?";
 
@@ -496,11 +496,11 @@
 
 "User guide on BIOS files" = "Guide de l’utilisateur des fichiers BIOS";
 
-"View Guide in Browser" = "View Guide in Browser"; // TODO
+"View Guide in Browser" = "Regarder le guide dans le navigateur";
 
 "Warning" = "Avertissement";
 
-"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves."; // TODO
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "Avec OpenEmu, vous pouvez sauvegarder votre progrès à tout moment à l'aide des parties sauvegardées. Nous allons même créer des sauvegardes automatiques pour vous après vous quittez le jeu. Revenir plus tard pour regarder toutes vos sauvegardes.";
 
 "Won't be able to recognize it as special save state…" = "Cette sauvegarde ne sera pas reconnue comme une sauvegarde spéciale…";
 
@@ -543,13 +543,13 @@
 
 "Manually choose system on import" = "Choisir manuellement le système lors de l’importation";
 
-"Show autosave states in save state category" = "Show autosave states in save state category"; // TODO
+"Show autosave states in save state category" = "Afficher les sauvegardes automatiques dans la catégorie sauvegardes";
 
-"Show quicksave states in save state category" = "Show quicksave states in save state category"; // TODO
+"Show quicksave states in save state category" = "Afficher les sauvegardes rapides dans la catégorie sauvegardes";
 
-"Show game scanner view" = "Show game scanner view"; // TODO
+"Show game scanner view" = "Afficher l'analyse des jeux";
 
-"Hide game scanner view" = "Hide game scanner view"; // TODO
+"Hide game scanner view" = "Masquer l'analyse des jeux";
 
 "HUD Bar / Gameplay" = "Barre HUD / Jeu";
 
@@ -563,7 +563,7 @@
 
 "Show quicksave notification during gameplay" = "Afficher la notification de sauvegarde rapide pendant le jeu";
 
-"Show screenshot notification during gameplay" = "Show screenshot notification during gameplay"; // TODO
+"Show screenshot notification during gameplay" = "Afficher la notification de capture d’écran pendant le jeu";
 
 "Use quicksave slots" = "Utiliser les fentes de sauvegarde rapide";
 
@@ -625,7 +625,7 @@
 
 "Remove duplicated roms" = "Supprimer les roms dupliquées";
 
-"Cancel cover sync for all games" = "Cancel cover sync for all games"; // TODO
+"Cancel cover sync for all games" = "Annuler la synchronisation des illustrations pour tous les jeux";
 
 "Perform Sanity Check on Database" = "Vérifier l’intégrité de la base de données";
 
