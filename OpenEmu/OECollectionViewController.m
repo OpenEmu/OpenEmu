@@ -324,8 +324,12 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     else
         [_gridView reloadData];
 
-    [self OE_setupToolbarStatesForViewTag:tag];
-    if(_selectedViewTag == tag && tag != OEBlankSlateTag) return;
+    if (self.isSelected) {
+        [self OE_setupToolbarStatesForViewTag:tag];
+    }
+    
+    if(_selectedViewTag == tag && tag != OEBlankSlateTag)
+        return;
 
     [self OE_showView:tag];
 
@@ -373,54 +377,56 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 - (void)OE_setupToolbarStatesForViewTag:(OECollectionViewControllerViewTag)tag
 {
-    OELibraryToolbar *toolbar = [[self libraryController] toolbar];
-    switch (tag)
-    {
+    OELibraryToolbar *toolbar = self.libraryController.toolbar;
+    switch (tag) {
         case OEGridViewTag:
-            [[toolbar gridViewButton] setState:NSOnState];
-            [[toolbar listViewButton] setState:NSOffState];
-            [[toolbar gridSizeSlider] setEnabled:YES];
+            toolbar.gridViewButton.state = NSOnState;
+            toolbar.listViewButton.state = NSOffState;
+            toolbar.gridSizeSlider.enabled = YES;
             break;
         case OEListViewTag:
-            [[toolbar gridViewButton] setState:NSOffState];
-            [[toolbar listViewButton] setState:NSOnState];
-            [[toolbar gridSizeSlider] setEnabled:NO];
+            toolbar.gridViewButton.state = NSOffState;
+            toolbar.listViewButton.state = NSOnState;
+            toolbar.gridSizeSlider.enabled = NO;
             break;
         case OEBlankSlateTag:
-            [[toolbar gridSizeSlider] setEnabled:NO];
-            [[toolbar gridViewButton] setEnabled:NO];
-            [[toolbar listViewButton] setEnabled:NO];
+            toolbar.gridSizeSlider.enabled = NO;
+            toolbar.gridViewButton.enabled = NO;
+            toolbar.listViewButton.enabled = NO;
             break;
     }
 }
 
 - (void)updateBlankSlate
 {
-    OELibraryToolbar *toolbar = [[self libraryController] toolbar];
-    if(![self shouldShowBlankSlate])
-    {
-        [self OE_switchToView:[self OE_currentViewTagByToolbarState]];
+    if (!self.shouldShowBlankSlate) {
+        
+        [self OE_switchToView:self.OE_currentViewTagByToolbarState];
 
-        [[toolbar gridViewButton] setEnabled:YES];
-        [[toolbar listViewButton] setEnabled:YES];
-
-        [[toolbar searchField] setEnabled:YES];
-
-        [[toolbar gridSizeSlider] setEnabled:YES];
+        if (self.isSelected) {
+            OELibraryToolbar *toolbar = self.libraryController.toolbar;
+            toolbar.gridViewButton.enabled = YES;
+            toolbar.listViewButton.enabled = YES;
+            toolbar.gridSizeSlider.enabled = YES;
+            toolbar.searchField.enabled = YES;
+            toolbar.searchField.menu = nil;
+        }
     }
     else
     {
         [self OE_switchToView:OEBlankSlateTag];
 
-        [[toolbar gridViewButton] setEnabled:NO];
-        [[toolbar listViewButton] setEnabled:NO];
-        [[toolbar searchField] setEnabled:NO];
-        [[toolbar gridSizeSlider] setEnabled:NO];
+        if (self.isSelected) {
+            OELibraryToolbar *toolbar = self.libraryController.toolbar;
+            toolbar.gridViewButton.enabled = NO;
+            toolbar.listViewButton.enabled = NO;
+            toolbar.gridSizeSlider.enabled = NO;
+            toolbar.searchField.enabled = NO;
+            toolbar.searchField.menu = nil;
+        }
 
-        [blankSlateView setRepresentedObject:[self representedObject]];
+        blankSlateView.representedObject = self.representedObject;
     }
-
-    [[toolbar searchField] setMenu:nil];
 }
 
 - (BOOL)shouldShowBlankSlate
@@ -430,7 +436,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 - (OECollectionViewControllerViewTag)OE_currentViewTagByToolbarState
 {
-    if([[[[self libraryController] toolbar] gridViewButton] state] == NSOnState)
+    if (self.libraryController.toolbar.gridViewButton.state == NSOnState)
         return OEGridViewTag;
     else
         return OEListViewTag;
