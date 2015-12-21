@@ -893,6 +893,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             game = [OEDBGame createObjectInContext:context];
             game.name = gameTitleWithoutSuffix;
             game.system = system;
+            game.importDate = [NSDate date];
         }
         else
         {
