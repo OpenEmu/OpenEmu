@@ -33,6 +33,7 @@
 @class OESidebarController;
 @class OELibrarySplitView;
 @class OELibraryToolbar;
+@class OEDBGame;
 
 extern NSString * const OELibraryStatesKey;
 extern NSString * const OELibraryLastCategoryKey;
@@ -59,7 +60,8 @@ extern NSString * const OELibraryLastCategoryKey;
 #pragma mark - Menu Item Actions
 - (IBAction)editSmartCollection:(id)sender;
 - (IBAction)addToLibrary:(id)sender;
-- (IBAction)startGame:(id)sender;
+- (void)startGame:(OEDBGame*)game;
+- (IBAction)startSelectedGame:(id)sender;
 - (IBAction)startSaveState:(id)sender;
 
 #pragma mark - Custom Views

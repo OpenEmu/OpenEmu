@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15D9c" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
@@ -29,7 +29,7 @@
                     <imageView id="795">
                         <rect key="frame" x="0.0" y="0.0" width="400" height="463"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="157E8860-4D55-4308-B6F5-037C5D04D66A" id="804"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="36827858-6947-4944-95AA-333165CAC6C3" id="804"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" id="796">
                         <rect key="frame" x="17" y="184" width="366" height="18"/>
@@ -446,7 +446,7 @@ CA
 DQ
 </string>
                                 <connections>
-                                    <action selector="startGame:" target="-1" id="1147"/>
+                                    <action selector="startSelectedGame:" target="-1" id="wHQ-rg-hVM"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Last Played" id="1050">
@@ -626,7 +626,7 @@ DQ
         <userDefaultsController representsSharedInstance="YES" id="1212"/>
     </objects>
     <resources>
-        <image name="157E8860-4D55-4308-B6F5-037C5D04D66A" width="400" height="463">
+        <image name="36827858-6947-4944-95AA-333165CAC6C3" width="400" height="463">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

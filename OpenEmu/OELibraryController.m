@@ -305,9 +305,9 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
     const id currentSubviewController = [self currentSubviewController];
 
-    if(action == @selector(startGame:))
+    if(action == @selector(startSelectedGame:))
     {
-        return [currentSubviewController isKindOfClass:[OEGameCollectionViewController class]] && [currentSubviewController respondsToSelector:@selector(selectedGames)] && [[currentSubviewController selectedGames] count] != 0;
+        return [currentSubviewController isKindOfClass:[OELibraryGamesViewController class]] && [currentSubviewController respondsToSelector:@selector(selectedGames)] && [[currentSubviewController selectedGames] count] != 0;
     }
 
     if(action == @selector(startSaveState:))
@@ -357,7 +357,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 }
 
 #pragma mark -
-- (IBAction)startGame:(id)sender
+- (IBAction)startSelectedGame:(id)sender
 {
     NSMutableArray *gamesToStart = [NSMutableArray new];
 
@@ -377,6 +377,11 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     {
         for(OEDBGame *game in gamesToStart) [[self delegate] libraryController:self didSelectGame:game];
     }
+}
+
+- (void)startGame:(OEDBGame*)game
+{
+    [[self delegate] libraryController:self didSelectGame:game];
 }
 
 - (IBAction)startSaveState:(id)sender

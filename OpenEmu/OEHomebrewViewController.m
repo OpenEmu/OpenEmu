@@ -353,7 +353,7 @@ const static CGFloat TableViewSpacing = 86.0;
 
     OEDBGame *game = [rom game];
     [game save];
-    [[self libraryController] startGame:game];
+    [self.libraryController startGame:game];
 }
 
 - (NSInteger)rowOfView:(NSView*)view

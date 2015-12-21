@@ -611,7 +611,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     if([indexes count] == 1)
     {
         NSInteger index = [indexes lastIndex];
-        [menu addItemWithTitle:NSLocalizedString(@"Play Game", @"") action:@selector(startGame:) keyEquivalent:@""];
+        [menu addItemWithTitle:NSLocalizedString(@"Play Game", @"") action:@selector(startSelectedGame:) keyEquivalent:@""];
         OEDBGame  *game = [[gamesController arrangedObjects] objectAtIndex:index];
 
         // Create Save Game Menu
@@ -656,7 +656,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     {
         if([[NSUserDefaults standardUserDefaults] boolForKey:OEForcePopoutGameWindowKey])
         {
-            [menu addItemWithTitle:NSLocalizedString(@"Play Games (Caution)", @"") action:@selector(startGame:) keyEquivalent:@""];
+            [menu addItemWithTitle:NSLocalizedString(@"Play Games (Caution)", @"") action:@selector(startSelectedGame:) keyEquivalent:@""];
         }
 
         // Create Rating Item
@@ -827,7 +827,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 #pragma mark - GridView Delegate
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger)index
 {
-    [[self libraryController] startGame:self];
+    [[self libraryController] startSelectedGame:self];
 }
 
 - (void)gridView:(OEGridView*)gridView requestsDownloadRomForItemAtIndex:(NSUInteger)index
@@ -1090,7 +1090,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 
 - (void)imageFlow:(IKImageFlowView *)sender cellWasDoubleClickedAtIndex:(NSInteger)index
 {
-    [[self libraryController] startGame:self];
+    [[self libraryController] startSelectedGame:self];
 }
 
 - (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index
