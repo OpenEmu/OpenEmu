@@ -441,9 +441,8 @@ static NSImage *frameImage, *frameImageInactive;
     NSImage *image = isFocused ? frameImage : frameImageInactive;
     [image drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 
-    // If the border window has been ordered out (e.g., when going full screen), [[self window] parentWindow] returns nil.
-    // In this case, don’t bother drawing the window title
-    NSString *windowTitle = [[[self window] parentWindow] title];
+    // technically the parent window does not have a title (title-less style mask), so appkit seems not to bother updating it
+    NSString *windowTitle = [self.window.parentWindow.windowController.document displayName];
     if(windowTitle)
     {
         NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionary];
