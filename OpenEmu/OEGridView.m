@@ -819,8 +819,25 @@ static IKImageWrapper *lightingImage;
 }
 
 #pragma mark -
+
 - (void)reloadCellDataAtIndex:(unsigned long long)arg1
 {
     [super reloadCellDataAtIndex:arg1];
 }
+
+- (void)reloadData
+{
+    // Store currently selected indexes.
+    NSIndexSet *selectionIndexes = self.selectionIndexes;
+    
+    [super reloadData];
+    
+    // Restore previously selected indexes within the current item count.
+    NSUInteger indexCount = [self.dataSource numberOfItemsInImageBrowser:self];
+    NSIndexSet *newSelectionIndexes = [selectionIndexes indexesPassingTest:^BOOL(NSUInteger idx, BOOL * _Nonnull stop) {
+        return idx < indexCount;
+    }];
+    [self setSelectionIndexes:newSelectionIndexes byExtendingSelection:NO];
+}
+
 @end
