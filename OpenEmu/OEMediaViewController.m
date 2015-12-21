@@ -192,13 +192,16 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 {
     [super updateBlankSlate];
 
-    OELibraryController *libraryController = self.libraryController;
-    OELibraryToolbar *toolbar = libraryController.toolbar;
-    toolbar.searchField.enabled = !_shouldShowBlankSlate;
-    toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
-    
-    toolbar.gridViewButton.enabled = NO;
-    toolbar.listViewButton.enabled = NO;
+    if (self.isSelected) {
+        
+        OELibraryController *libraryController = self.libraryController;
+        OELibraryToolbar *toolbar = libraryController.toolbar;
+        toolbar.searchField.enabled = !_shouldShowBlankSlate;
+        toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
+        
+        toolbar.gridViewButton.enabled = NO;
+        toolbar.listViewButton.enabled = NO;
+    }
 }
 
 - (void)_setupSearchMenuTemplate
