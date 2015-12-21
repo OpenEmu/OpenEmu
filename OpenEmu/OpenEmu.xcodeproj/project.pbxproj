@@ -473,6 +473,15 @@
 		83FE965919685F6700DD8DB9 /* OEGameScanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83FE965B19685F6700DD8DB9 /* OEGameScanner.xib */; };
 		83FE966019685F7D00DD8DB9 /* OECorePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83FE966219685F7D00DD8DB9 /* OECorePicker.xib */; };
 		83FE966419685F8F00DD8DB9 /* OESetupAssistant.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83FE966619685F8F00DD8DB9 /* OESetupAssistant.xib */; };
+		8706346F1C27C6D3007FAA2F /* colecovision_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8706346E1C27C6D3007FAA2F /* colecovision_library@2x.png */; };
+		870634711C27CD3E007FAA2F /* odyssey2_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 870634701C27CD3E007FAA2F /* odyssey2_library@2x.png */; };
+		870634731C27CD91007FAA2F /* psp_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 870634721C27CD91007FAA2F /* psp_library@2x.png */; };
+		870634751C27CE56007FAA2F /* vectrex_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 870634741C27CE55007FAA2F /* vectrex_library@2x.png */; };
+		8706347A1C27CE6E007FAA2F /* vectrex_library_eu.png in Resources */ = {isa = PBXBuildFile; fileRef = 870634761C27CE6E007FAA2F /* vectrex_library_eu.png */; };
+		8706347B1C27CE6E007FAA2F /* vectrex_library_eu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 870634771C27CE6E007FAA2F /* vectrex_library_eu@2x.png */; };
+		8706347C1C27CE6E007FAA2F /* vectrex_library_jp.png in Resources */ = {isa = PBXBuildFile; fileRef = 870634781C27CE6E007FAA2F /* vectrex_library_jp.png */; };
+		8706347D1C27CE6E007FAA2F /* vectrex_library_jp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 870634791C27CE6E007FAA2F /* vectrex_library_jp@2x.png */; };
+		870634801C27D267007FAA2F /* OEVectrexSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8706347F1C27D267007FAA2F /* OEVectrexSystemController.m */; };
 		871CE9121B0BCFB800B89E96 /* controller_pcfx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */; };
 		871CE9131B0BCFB800B89E96 /* controller_pcfx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */; };
 		8745D75F1BF9A72B005E8699 /* OE5200SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */; };
@@ -2280,6 +2289,16 @@
 		83FBA38014F2C857001F1299 /* genesis_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = genesis_library.png; sourceTree = "<group>"; };
 		83FBA38214F2C870001F1299 /* gba_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba_library.png; sourceTree = "<group>"; };
 		83FC3CC4156D155B00F0CDB6 /* OEMainWindowContentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEMainWindowContentController.h; sourceTree = "<group>"; };
+		8706346E1C27C6D3007FAA2F /* colecovision_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "colecovision_library@2x.png"; sourceTree = "<group>"; };
+		870634701C27CD3E007FAA2F /* odyssey2_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "odyssey2_library@2x.png"; sourceTree = "<group>"; };
+		870634721C27CD91007FAA2F /* psp_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "psp_library@2x.png"; sourceTree = "<group>"; };
+		870634741C27CE55007FAA2F /* vectrex_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vectrex_library@2x.png"; sourceTree = "<group>"; };
+		870634761C27CE6E007FAA2F /* vectrex_library_eu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vectrex_library_eu.png; sourceTree = "<group>"; };
+		870634771C27CE6E007FAA2F /* vectrex_library_eu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vectrex_library_eu@2x.png"; sourceTree = "<group>"; };
+		870634781C27CE6E007FAA2F /* vectrex_library_jp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vectrex_library_jp.png; sourceTree = "<group>"; };
+		870634791C27CE6E007FAA2F /* vectrex_library_jp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vectrex_library_jp@2x.png"; sourceTree = "<group>"; };
+		8706347E1C27D267007FAA2F /* OEVectrexSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVectrexSystemController.h; sourceTree = "<group>"; };
+		8706347F1C27D267007FAA2F /* OEVectrexSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVectrexSystemController.m; sourceTree = "<group>"; };
 		871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pcfx_mask@2x.png"; sourceTree = "<group>"; };
 		871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pcfx@2x.png"; sourceTree = "<group>"; };
 		8745D75D1BF9A72A005E8699 /* OE5200SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE5200SystemController.h; sourceTree = "<group>"; };
@@ -5039,6 +5058,8 @@
 		943F998D1707D51100270E89 /* Vectrex */ = {
 			isa = PBXGroup;
 			children = (
+				8706347E1C27D267007FAA2F /* OEVectrexSystemController.h */,
+				8706347F1C27D267007FAA2F /* OEVectrexSystemController.m */,
 				943F999C1707D97600270E89 /* OEVectrexSystemResponder.h */,
 				943F999D1707D97600270E89 /* OEVectrexSystemResponder.m */,
 				943F999E1707D97600270E89 /* OEVectrexSystemResponderClient.h */,
@@ -5051,6 +5072,11 @@
 			isa = PBXGroup;
 			children = (
 				943F99A51707D9D500270E89 /* vectrex_library.png */,
+				870634741C27CE55007FAA2F /* vectrex_library@2x.png */,
+				870634761C27CE6E007FAA2F /* vectrex_library_eu.png */,
+				870634771C27CE6E007FAA2F /* vectrex_library_eu@2x.png */,
+				870634781C27CE6E007FAA2F /* vectrex_library_jp.png */,
+				870634791C27CE6E007FAA2F /* vectrex_library_jp@2x.png */,
 				87FB252B1BBC56AB00E739CE /* controller_vectrex_eu.png */,
 				87FB252C1BBC56AB00E739CE /* controller_vectrex_eu@2x.png */,
 				87FB252D1BBC56AB00E739CE /* controller_vectrex_jap.png */,
@@ -5121,6 +5147,7 @@
 				9440476F199D5032002D805E /* Controller-Preferences.plist */,
 				94404770199D5032002D805E /* Keyboard-Mappings.plist */,
 				94404771199D5032002D805E /* odyssey2_library.png */,
+				870634701C27CD3E007FAA2F /* odyssey2_library@2x.png */,
 				94404759199D4DF0002D805E /* Odyssey2-Info.plist */,
 				9440475A199D4DF1002D805E /* InfoPlist.strings */,
 			);
@@ -5146,6 +5173,7 @@
 				8372381619632A0D008D4C08 /* controller_psp_mask@2x.png */,
 				8372381719632A0D008D4C08 /* controller_psp@2x.png */,
 				94454ECE17861098006C057B /* psp_library.png */,
+				870634721C27CD91007FAA2F /* psp_library@2x.png */,
 				94454EC917861098006C057B /* controller_psp_mask.png */,
 				94454ECA17861098006C057B /* controller_psp.png */,
 				94454ECD17861098006C057B /* Keyboard-Mappings.plist */,
@@ -5632,6 +5660,7 @@
 			isa = PBXGroup;
 			children = (
 				94BE9E62171689C900AB08E6 /* colecovision_library.png */,
+				8706346E1C27C6D3007FAA2F /* colecovision_library@2x.png */,
 				94BE9E63171689C900AB08E6 /* controller_colecovision_mask.png */,
 				4FC6C53F19AD7BBB00231545 /* controller_colecovision_mask@2x.png */,
 				94BE9E64171689C900AB08E6 /* controller_colecovision.png */,
@@ -7297,10 +7326,15 @@
 				943F99A91707D9D500270E89 /* Controller-Preferences.plist in Resources */,
 				87FB25371BBC56AC00E739CE /* controller_vectrex_usa.png in Resources */,
 				87FB25341BBC56AB00E739CE /* controller_vectrex_jap.png in Resources */,
+				8706347C1C27CE6E007FAA2F /* vectrex_library_jp.png in Resources */,
+				8706347B1C27CE6E007FAA2F /* vectrex_library_eu@2x.png in Resources */,
+				8706347A1C27CE6E007FAA2F /* vectrex_library_eu.png in Resources */,
+				870634751C27CE56007FAA2F /* vectrex_library@2x.png in Resources */,
 				87FB25321BBC56AB00E739CE /* controller_vectrex_eu.png in Resources */,
 				943F99AA1707D9D500270E89 /* Keyboard-Mappings.plist in Resources */,
 				87FB25331BBC56AB00E739CE /* controller_vectrex_eu@2x.png in Resources */,
 				943F99AB1707D9D500270E89 /* vectrex_library.png in Resources */,
+				8706347D1C27CE6E007FAA2F /* vectrex_library_jp@2x.png in Resources */,
 				87FB253C1BBC572E00E739CE /* Controller-Preferences-NA.plist in Resources */,
 				87FB253B1BBC572E00E739CE /* Controller-Preferences-JAP.plist in Resources */,
 				87FB25361BBC56AB00E739CE /* controller_vectrex_mask@2x.png in Resources */,
@@ -7328,6 +7362,7 @@
 			files = (
 				9440475C199D4DF1002D805E /* InfoPlist.strings in Resources */,
 				94404773199D5032002D805E /* controller_odyssey2.png in Resources */,
+				870634711C27CD3E007FAA2F /* odyssey2_library@2x.png in Resources */,
 				94404777199D5032002D805E /* odyssey2_library.png in Resources */,
 				94404775199D5032002D805E /* Controller-Preferences.plist in Resources */,
 				94404772199D5032002D805E /* controller_odyssey2_mask.png in Resources */,
@@ -7340,6 +7375,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				870634731C27CD91007FAA2F /* psp_library@2x.png in Resources */,
 				8372381819632A0D008D4C08 /* controller_psp_mask@2x.png in Resources */,
 				94454EBB17860E1E006C057B /* InfoPlist.strings in Resources */,
 				94454ECF17861098006C057B /* controller_psp_mask.png in Resources */,
@@ -7616,6 +7652,7 @@
 				94BE9E6B171689C900AB08E6 /* Controller-Mappings.plist in Resources */,
 				94BE9E6C171689C900AB08E6 /* Controller-Preferences.plist in Resources */,
 				94BE9E6D171689C900AB08E6 /* Keyboard-Mappings.plist in Resources */,
+				8706346F1C27C6D3007FAA2F /* colecovision_library@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8183,6 +8220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				870634801C27D267007FAA2F /* OEVectrexSystemController.m in Sources */,
 				943F999F1707D97600270E89 /* OEVectrexSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

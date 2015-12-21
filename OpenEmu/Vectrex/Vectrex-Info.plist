@@ -23,9 +23,9 @@
 	<key>CFBundleVersion</key>
 	<string>1.2</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2013 OpenEmu Team. All rights reserved.</string>
+	<string>Copyright © 2015 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OESystemController</string>
+	<string>OEVectrexSystemController</string>
 	<key>OEControlListKey</key>
 	<array>
 		<array>
