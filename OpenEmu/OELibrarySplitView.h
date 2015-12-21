@@ -34,7 +34,7 @@
    If the sidebar is hidden, return 0.
    If the sidebar is being toggled, return the current splitter position according to the hide/reveal animation.
 */
-- (CGFloat)splitterPosition;
+@property (readonly) CGFloat splitterPosition;
 
 @end
 
