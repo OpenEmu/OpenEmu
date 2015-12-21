@@ -65,6 +65,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 @end
 
 @interface OEMediaViewController ()
+
 @property (strong) NSArray *groupRanges;
 @property (strong) NSArray *items;
 @property (strong) NSArray *searchKeys;
@@ -73,6 +74,8 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
 @property BOOL shouldShowBlankSlate;
 @property (strong) NSPredicate *searchPredicate;
+@property (copy, nullable) NSString *currentSearchTerm;
+
 @end
 
 @implementation OEMediaViewController
@@ -102,6 +105,10 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     
     [self _setupToolbar];
     
+    OESearchField *searchField = self.libraryController.toolbar.searchField;
+    searchField.enabled = YES;
+    searchField.stringValue = self.currentSearchTerm ?: @"";
+    
     [self restoreSelectionFromDefaults];
 }
 
@@ -109,8 +116,16 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 {
     [super viewDidDisappear];
     
-    // Clear any previously applied search filter.
-    _searchPredicate = [NSPredicate predicateWithValue:YES];
+    // We don't want to clear the search filter if the view is disappearing because of gameplay.
+    OEGameDocument *gameDocument = (OEGameDocument *)[[NSDocumentController sharedDocumentController] currentDocument];
+    const BOOL playingGame = gameDocument != nil;
+    
+    if (!playingGame) {
+        // Clear any previously applied search filter.
+        self.currentSearchTerm = nil;
+        _searchPredicate = [NSPredicate predicateWithValue:YES];
+        [self reloadData];
+    }
 }
 
 - (void)restoreSelectionFromDefaults
@@ -245,11 +260,14 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 {
     [super setRepresentedObject:representedObject];
     
-    if(representedObject)
-    {
-        [self setSaveStateMode:[representedObject isKindOfClass:[OEDBSavedGamesMedia class]]];
+    if (representedObject) {
+        self.saveStateMode = [representedObject isKindOfClass:[OEDBSavedGamesMedia class]];
         [self reloadData];
     }
+    
+    // Restore search field text.
+    NSString *newSearchFieldStringValue = self.currentSearchTerm ?: @"";
+    self.libraryController.toolbar.searchField.stringValue = newSearchFieldStringValue;
 
     [self _setupSearchMenuTemplate];
 }
@@ -308,18 +326,23 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 }
 
 #pragma mark -
+
 - (void)search:(id)sender
 {
-    NSString *searchTerm = [self.libraryController.toolbar.searchField stringValue];
+    self.currentSearchTerm = self.libraryController.toolbar.searchField.stringValue;
+    
     NSMutableArray *predarray = [NSMutableArray array];
-    NSArray *tokens = [searchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSArray *tokens = [self.currentSearchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
-    for(NSString *token in tokens)
-        if(token.length > 0)
-            for(NSString *key in [self searchKeys])
+    for (NSString *token in tokens) {
+        if (token.length > 0) {
+            for (NSString *key in self.searchKeys) {
                 [predarray addObject:[NSPredicate predicateWithFormat:@"%K contains[cd] %@", key, token]];
+            }
+        }
+    }
 
-    if([predarray count])
+    if (predarray.count > 0)
         _searchPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:predarray];
     else
         _searchPredicate = [NSPredicate predicateWithValue:YES];
