@@ -1,300 +1,228 @@
 
-/* Class = "NSWindow"; title = "Über OpenEmu"; ObjectID = "793"; */
+/* Class = "NSWindow"; title = "About"; ObjectID = "793"; */
 "793.title" = "Über OpenEmu";
 
-/* Class = "NSMenuItem"; title = "Bearbeiten"; ObjectID = "971"; */
-"971.title" = "Bearbeiten";
-
-/* Class = "NSMenuItem"; title = "Steuerung"; ObjectID = "972"; */
-"972.title" = "Steuerung";
-
-/* Class = "NSMenuItem"; title = "Darstellung"; ObjectID = "973"; */
-"973.title" = "Darstellung";
-
-/* Class = "NSMenuItem"; title = "Fenster"; ObjectID = "974"; */
-"974.title" = "Fenster";
-
-/* Class = "NSMenuItem"; title = "OpenEmu"; ObjectID = "975"; */
-"975.title" = "OpenEmu";
-
-/* Class = "NSMenuItem"; title = "Ablage"; ObjectID = "976"; */
-"976.title" = "Ablage";
-
-/* Class = "NSMenu"; title = "Ablage"; ObjectID = "980"; */
+/* Class = "NSMenu"; title = "File"; ObjectID = "980"; */
 "980.title" = "Ablage";
 
-/* Class = "NSMenuItem"; title = "Spiel öffnen …"; ObjectID = "981"; */
+/* Class = "NSMenuItem"; title = "Launch Game…"; ObjectID = "981"; */
 "981.title" = "Spiel öffnen …";
 
-/* Class = "NSMenuItem"; title = "Intelligente Sammlung bearbeiten"; ObjectID = "982"; */
+/* Class = "NSMenuItem"; title = "Edit Smart Collection"; ObjectID = "982"; */
 "982.title" = "Intelligente Sammlung bearbeiten";
 
-/* Class = "NSMenuItem"; title = "Neue intelligente Sammlung …"; ObjectID = "983"; */
+/* Class = "NSMenuItem"; title = "New Smart Collection…"; ObjectID = "983"; */
 "983.title" = "Neue intelligente Sammlung …";
 
-/* Class = "NSMenuItem"; title = "Neuer Sammlungs-Ordner"; ObjectID = "984"; */
+/* Class = "NSMenuItem"; title = "New Collection Folder"; ObjectID = "984"; */
 "984.title" = "Neuer Sammlungs-Ordner";
 
-/* Class = "NSMenuItem"; title = "Neue Sammlung"; ObjectID = "985"; */
+/* Class = "NSMenuItem"; title = "New Collection"; ObjectID = "985"; */
 "985.title" = "Neue Sammlung";
 
-/* Class = "NSMenuItem"; title = "Mediathek"; ObjectID = "986"; */
+/* Class = "NSMenuItem"; title = "Library"; ObjectID = "986"; */
 "986.title" = "Mediathek";
 
-/* Class = "NSMenuItem"; title = "Zur Mediathek hinzufügen …"; ObjectID = "987"; */
+/* Class = "NSMenuItem"; title = "Add to Library…"; ObjectID = "987"; */
 "987.title" = "Zur Mediathek hinzufügen …";
 
-/* Class = "NSMenuItem"; title = "Identische Objekte anzeigen"; ObjectID = "990"; */
+/* Class = "NSMenuItem"; title = "Display Exact Duplicates"; ObjectID = "990"; */
 "990.title" = "Identische Objekte anzeigen";
 
-/* Class = "NSMenuItem"; title = "Doppelte Objekte anzeigen"; ObjectID = "991"; */
+/* Class = "NSMenuItem"; title = "Display Duplicates"; ObjectID = "991"; */
 "991.title" = "Doppelte Objekte anzeigen";
 
-/* Class = "NSMenuItem"; title = "Im Finder anzeigen"; ObjectID = "992"; */
+/* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "992"; */
 "992.title" = "Im Finder anzeigen";
 
-/* Class = "NSMenuItem"; title = "Bewertung"; ObjectID = "993"; */
+/* Class = "NSMenuItem"; title = "Rating"; ObjectID = "993"; */
 "993.title" = "Bewertung";
 
-/* Class = "NSMenuItem"; title = "Informationen"; ObjectID = "994"; */
+/* Class = "NSMenuItem"; title = "Get Info"; ObjectID = "994"; */
 "994.title" = "Informationen";
 
-/* Class = "NSMenuItem"; title = "Schließen"; ObjectID = "995"; */
-"995.title" = "Schließen";
+/* Class = "NSMenuItem"; title = "Close Window"; ObjectID = "995"; */
+"995.title" = "Fenster schließen";
 
-/* Class = "NSMenuItem"; title = "Drucken …"; ObjectID = "996"; */
+/* Class = "NSMenuItem"; title = "Print…"; ObjectID = "996"; */
 "996.title" = "Drucken …";
 
-/* Class = "NSMenuItem"; title = "Papierformat …"; ObjectID = "997"; */
+/* Class = "NSMenuItem"; title = "Page Setup…"; ObjectID = "997"; */
 "997.title" = "Papierformat …";
 
-/* Class = "NSMenu"; title = "Bewertung"; ObjectID = "999"; */
-"999.title" = "Bewertung";
-
-/* Class = "NSMenuItem"; title = "Keine"; ObjectID = "1000"; */
+/* Class = "NSMenuItem"; title = "None"; ObjectID = "1000"; */
 "1000.title" = "Keine";
 
-/* Class = "NSMenuItem"; title = "★★"; ObjectID = "1001"; */
-"1001.title" = "★★";
-
-/* Class = "NSMenuItem"; title = "★★★"; ObjectID = "1002"; */
-"1002.title" = "★★★";
-
-/* Class = "NSMenuItem"; title = "★★★★"; ObjectID = "1003"; */
-"1003.title" = "★★★★";
-
-/* Class = "NSMenuItem"; title = "★"; ObjectID = "1004"; */
-"1004.title" = "★";
-
-/* Class = "NSMenuItem"; title = "★★★★★"; ObjectID = "1005"; */
-"1005.title" = "★★★★★";
-
-/* Class = "NSMenu"; title = "Mediathek"; ObjectID = "1006"; */
-"1006.title" = "Mediathek";
-
-/* Class = "NSMenuItem"; title = "Backup …"; ObjectID = "1007"; */
+/* Class = "NSMenuItem"; title = "Back Up…"; ObjectID = "1007"; */
 "1007.title" = "Backup …";
 
-/* Class = "NSMenuItem"; title = "Mediathek verwalten …"; ObjectID = "1008"; */
+/* Class = "NSMenuItem"; title = "Organize Library…"; ObjectID = "1008"; */
 "1008.title" = "Mediathek verwalten …";
 
-/* Class = "NSMenuItem"; title = "Mediathek exportieren …"; ObjectID = "1009"; */
+/* Class = "NSMenuItem"; title = "Export Library…"; ObjectID = "1009"; */
 "1009.title" = "Mediathek exportieren …";
 
-/* Class = "NSMenuItem"; title = "Sammlung importieren"; ObjectID = "1011"; */
+/* Class = "NSMenuItem"; title = "Import Collection"; ObjectID = "1011"; */
 "1011.title" = "Sammlung importieren";
 
-/* Class = "NSMenuItem"; title = "Sammlung exportieren"; ObjectID = "1012"; */
+/* Class = "NSMenuItem"; title = "Export Collection"; ObjectID = "1012"; */
 "1012.title" = "Sammlung exportieren";
 
-/* Class = "NSMenu"; title = "OpenEmu"; ObjectID = "1013"; */
-"1013.title" = "OpenEmu";
-
-/* Class = "NSMenuItem"; title = "Einstellungen …"; ObjectID = "1014"; */
+/* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "1014"; */
 "1014.title" = "Einstellungen …";
 
-/* Class = "NSMenuItem"; title = "Nach Updates suchen …"; ObjectID = "1016"; */
+/* Class = "NSMenuItem"; title = "Check for Updates…"; ObjectID = "1016"; */
 "1016.title" = "Nach Updates suchen …";
 
-/* Class = "NSMenuItem"; title = "Über OpenEmu"; ObjectID = "1017"; */
+/* Class = "NSMenuItem"; title = "About OpenEmu"; ObjectID = "1017"; */
 "1017.title" = "Über OpenEmu";
 
-/* Class = "NSMenuItem"; title = "OpenEmu ausblenden"; ObjectID = "1018"; */
+/* Class = "NSMenuItem"; title = "Hide OpenEmu"; ObjectID = "1018"; */
 "1018.title" = "OpenEmu ausblenden";
 
-/* Class = "NSMenuItem"; title = "Alle einblenden"; ObjectID = "1019"; */
+/* Class = "NSMenuItem"; title = "Show All"; ObjectID = "1019"; */
 "1019.title" = "Alle einblenden";
 
-/* Class = "NSMenuItem"; title = "OpenEmu beenden"; ObjectID = "1020"; */
+/* Class = "NSMenuItem"; title = "Quit OpenEmu"; ObjectID = "1020"; */
 "1020.title" = "OpenEmu beenden";
 
-/* Class = "NSMenuItem"; title = "Dienste"; ObjectID = "1024"; */
+/* Class = "NSMenuItem"; title = "Services"; ObjectID = "1024"; */
 "1024.title" = "Dienste";
 
-/* Class = "NSMenuItem"; title = "Andere ausblenden"; ObjectID = "1026"; */
+/* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "1026"; */
 "1026.title" = "Andere ausblenden";
 
-/* Class = "NSMenu"; title = "Dienste"; ObjectID = "1027"; */
-"1027.title" = "Dienste";
-
-/* Class = "NSMenu"; title = "Fenster"; ObjectID = "1028"; */
+/* Class = "NSMenu"; title = "Window"; ObjectID = "1028"; */
 "1028.title" = "Fenster";
 
-/* Class = "NSMenuItem"; title = "OpenEmu"; ObjectID = "1029"; */
-"1029.title" = "OpenEmu";
-
-/* Class = "NSMenuItem"; title = "Alle nach vorne bringen"; ObjectID = "1032"; */
+/* Class = "NSMenuItem"; title = "Bring All to Front"; ObjectID = "1032"; */
 "1032.title" = "Alle nach vorne bringen";
 
-/* Class = "NSMenuItem"; title = "Zoomen"; ObjectID = "1033"; */
+/* Class = "NSMenuItem"; title = "Zoom"; ObjectID = "1033"; */
 "1033.title" = "Zoomen";
 
-/* Class = "NSMenuItem"; title = "Im Dock ablegen"; ObjectID = "1034"; */
+/* Class = "NSMenuItem"; title = "Minimize"; ObjectID = "1034"; */
 "1034.title" = "Im Dock ablegen";
 
-/* Class = "NSMenu"; title = "Darstellung"; ObjectID = "1035"; */
+/* Class = "NSMenu"; title = "View"; ObjectID = "1035"; */
 "1035.title" = "Darstellung";
 
-/* Class = "NSMenuItem"; title = "Als Liste"; ObjectID = "1036"; */
+/* Class = "NSMenuItem"; title = "as List"; ObjectID = "1036"; */
 "1036.title" = "Als Liste";
 
-/* Class = "NSMenuItem"; title = "Vollbild"; ObjectID = "1038"; */
+/* Class = "NSMenuItem"; title = "Fullscreen"; ObjectID = "1038"; */
 "1038.title" = "Vollbild";
 
-/* Class = "NSMenuItem"; title = "Als Symbole"; ObjectID = "1040"; */
+/* Class = "NSMenuItem"; title = "as Grid"; ObjectID = "1040"; */
 "1040.title" = "Als Symbole";
 
-/* Class = "NSMenuItem"; title = "Seperates Spielefenster"; ObjectID = "1041"; */
+/* Class = "NSMenuItem"; title = "Undock Game Window"; ObjectID = "1041"; */
 "1041.title" = "Seperates Spielefenster";
 
-/* Class = "NSMenu"; title = "Steuerung"; ObjectID = "1042"; */
+/* Class = "NSMenu"; title = "Controls"; ObjectID = "1042"; */
 "1042.title" = "Steuerung";
 
-/* Class = "NSMenuItem"; title = "Spiel pausieren"; ObjectID = "1044"; */
+/* Class = "NSMenuItem"; title = "Pause Gameplay"; ObjectID = "1044"; */
 "1044.title" = "Spiel pausieren";
 
-/* Class = "NSMenuItem"; title = "Lautstärke verringern"; ObjectID = "1045"; */
+/* Class = "NSMenuItem"; title = "Volume Down"; ObjectID = "1045"; */
 "1045.title" = "Lautstärke verringern";
 
-/* Class = "NSMenuItem"; title = "Spiel starten"; ObjectID = "1046"; */
+/* Class = "NSMenuItem"; title = "Start Game"; ObjectID = "1046"; */
 "1046.title" = "Spiel starten";
 
-/* Class = "NSMenuItem"; title = "Lautstärke erhöhen"; ObjectID = "1047"; */
+/* Class = "NSMenuItem"; title = "Volume Up "; ObjectID = "1047"; */
 "1047.title" = "Lautstärke erhöhen";
 
-/* Class = "NSMenuItem"; title = "Zuletzt gespielt"; ObjectID = "1050"; */
+/* Class = "NSMenuItem"; title = "Last Played"; ObjectID = "1050"; */
 "1050.title" = "Zuletzt gespielt";
 
-/* Class = "NSMenuItem"; title = "Spielstand speichern"; ObjectID = "1052"; */
-"1052.title" = "Spielstand speichern";
+/* Class = "NSMenuItem"; title = "Save State"; ObjectID = "1052"; */
+"1052.title" = "Spielstand sichern";
 
-/* Class = "NSMenuItem"; title = "Spielstand laden"; ObjectID = "1053"; */
+/* Class = "NSMenuItem"; title = "Load State"; ObjectID = "1053"; */
 "1053.title" = "Spielstand laden";
 
-/* Class = "NSMenu"; title = "Zuletzt gespielt"; ObjectID = "1054"; */
-"1054.title" = "Zuletzt gespielt";
-
-/* Class = "NSMenu"; title = "Bearbeiten"; ObjectID = "1061"; */
+/* Class = "NSMenu"; title = "Edit"; ObjectID = "1061"; */
 "1061.title" = "Bearbeiten";
 
-/* Class = "NSMenuItem"; title = "Suchen"; ObjectID = "1066"; */
+/* Class = "NSMenuItem"; title = "Find"; ObjectID = "1066"; */
 "1066.title" = "Suchen";
 
-/* Class = "NSMenuItem"; title = "Alles auswählen"; ObjectID = "1068"; */
+/* Class = "NSMenuItem"; title = "Select All"; ObjectID = "1068"; */
 "1068.title" = "Alles auswählen";
 
-/* Class = "NSMenuItem"; title = "Entfernen"; ObjectID = "1069"; */
+/* Class = "NSMenuItem"; title = "Delete"; ObjectID = "1069"; */
 "1069.title" = "Entfernen";
 
-/* Class = "NSMenuItem"; title = "Einsetzen"; ObjectID = "1071"; */
+/* Class = "NSMenuItem"; title = "Paste"; ObjectID = "1071"; */
 "1071.title" = "Einsetzen";
 
-/* Class = "NSMenuItem"; title = "Kopieren"; ObjectID = "1072"; */
+/* Class = "NSMenuItem"; title = "Copy"; ObjectID = "1072"; */
 "1072.title" = "Kopieren";
 
-/* Class = "NSMenuItem"; title = "Ausschneiden"; ObjectID = "1073"; */
+/* Class = "NSMenuItem"; title = "Cut"; ObjectID = "1073"; */
 "1073.title" = "Ausschneiden";
 
-/* Class = "NSMenuItem"; title = "Wiederholen"; ObjectID = "1075"; */
+/* Class = "NSMenuItem"; title = "Redo"; ObjectID = "1075"; */
 "1075.title" = "Wiederholen";
 
-/* Class = "NSMenuItem"; title = "Widerrufen"; ObjectID = "1076"; */
+/* Class = "NSMenuItem"; title = "Undo"; ObjectID = "1076"; */
 "1076.title" = "Widerrufen";
 
-/* Class = "NSMenu"; title = "Suchen"; ObjectID = "1077"; */
-"1077.title" = "Suchen";
-
-/* Class = "NSMenuItem"; title = "Zur Auswahl"; ObjectID = "1078"; */
+/* Class = "NSMenuItem"; title = "Jump to Selection"; ObjectID = "1078"; */
 "1078.title" = "Zur Auswahl";
 
-/* Class = "NSMenuItem"; title = "Auswahl suchen"; ObjectID = "1079"; */
+/* Class = "NSMenuItem"; title = "Use Selection for Find"; ObjectID = "1079"; */
 "1079.title" = "Auswahl suchen";
 
-/* Class = "NSMenuItem"; title = "Weitersuchen (rückwärts)"; ObjectID = "1080"; */
+/* Class = "NSMenuItem"; title = "Find Previous"; ObjectID = "1080"; */
 "1080.title" = "Weitersuchen (rückwärts)";
 
-/* Class = "NSMenuItem"; title = "Weitersuchen (vorwärts)"; ObjectID = "1081"; */
+/* Class = "NSMenuItem"; title = "Find Next"; ObjectID = "1081"; */
 "1081.title" = "Weitersuchen (vorwärts)";
 
-/* Class = "NSMenuItem"; title = "Suchen …"; ObjectID = "1082"; */
+/* Class = "NSMenuItem"; title = "Find…"; ObjectID = "1082"; */
 "1082.title" = "Suchen …";
 
-/* Class = "NSMenuItem"; title = "Spiel beenden"; ObjectID = "1167"; */
+/* Class = "NSMenuItem"; title = "Stop Emulation"; ObjectID = "1167"; */
 "1167.title" = "Spiel beenden";
-
-/* Class = "NSTextFieldCell"; title = "Version"; ObjectID = "1182"; */
-"1182.title" = "Version";
-
-/* Class = "NSMenuItem"; title = "Debug"; ObjectID = "1208"; */
-"1208.title" = "Debug";
 
 /* Class = "NSMenu"; title = "Debug"; ObjectID = "1209"; */
 "1209.title" = "Debug";
 
-/* Class = "NSMenuItem"; title = "Responder-Chain loggen"; ObjectID = "1210"; */
+/* Class = "NSMenuItem"; title = "Log Responder Chain"; ObjectID = "1210"; */
 "1210.title" = "Responder-Chain loggen";
 
-/* Class = "NSMenuItem"; title = "Grid-Info loggen"; ObjectID = "1217"; */
+/* Class = "NSMenuItem"; title = "Log Grid Info"; ObjectID = "1217"; */
 "1217.title" = "Grid-Info loggen";
 
-/* Class = "NSMenuItem"; title = "Dateinamen anzeigen"; ObjectID = "1293"; */
+/* Class = "NSMenuItem"; title = "Show ROM Names"; ObjectID = "1293"; */
 "1293.title" = "Dateinamen anzeigen";
 
-/* Class = "NSMenuItem"; title = "Mediathek anzeigen"; ObjectID = "1306"; */
+/* Class = "NSMenuItem"; title = "Show Library"; ObjectID = "1306"; */
 "1306.title" = "Mediathek anzeigen";
 
-/* Class = "NSMenuItem"; title = "Screenshot aufnehmen"; ObjectID = "1322"; */
+/* Class = "NSMenuItem"; title = "Take Screenshot"; ObjectID = "1322"; */
 "1322.title" = "Screenshot aufnehmen";
 
-/* Class = "NSMenu"; title = "Hilfe"; ObjectID = "0ql-Da-Qro"; */
+/* Class = "NSMenu"; title = "Help"; ObjectID = "0ql-Da-Qro"; */
 "0ql-Da-Qro.title" = "Hilfe";
 
-/* Class = "NSMenuItem"; title = "Spiel neu starten"; ObjectID = "2rj-Sq-LdF"; */
+/* Class = "NSMenuItem"; title = "Restart System"; ObjectID = "2rj-Sq-LdF"; */
 "2rj-Sq-LdF.title" = "Spiel neu starten";
 
-/* Class = "NSButtonCell"; title = "www.openemu.org"; ObjectID = "50H-ys-sAp"; */
-"50H-ys-sAp.title" = "www.openemu.org";
-
-/* Class = "NSMenuItem"; title = "Versionshinweise"; ObjectID = "5YI-Il-P9H"; */
+/* Class = "NSMenuItem"; title = "Release Notes"; ObjectID = "5YI-Il-P9H"; */
 "5YI-Il-P9H.title" = "Versionshinweise";
 
-/* Class = "NSMenuItem"; title = "Show Sidebar"; ObjectID = "5kO-fw-ARd"; */
-"5kO-fw-ARd.title" = "Seitenleiste einblenden";
-
-/* Class = "NSMenuItem"; title = "Hilfe"; ObjectID = "Qhx-nq-JmY"; */
-"Qhx-nq-JmY.title" = "Hilfe";
-
-/* Class = "NSMenuItem"; title = "OpenEmu-Website"; ObjectID = "ahk-gp-EN3"; */
+/* Class = "NSMenuItem"; title = "OpenEmu Web Site"; ObjectID = "ahk-gp-EN3"; */
 "ahk-gp-EN3.title" = "OpenEmu-Website";
 
-/* Class = "NSMenuItem"; title = "Bedienelemente ausblenden"; ObjectID = "ayc-Ld-Nyd"; */
+/* Class = "NSMenuItem"; title = "Always Hide HUD"; ObjectID = "ayc-Ld-Nyd"; */
 "ayc-Ld-Nyd.title" = "Bedienelemente ausblenden";
 
-/* Class = "NSMenuItem"; title = "Feedback senden"; ObjectID = "ftM-3D-CSh"; */
+/* Class = "NSMenuItem"; title = "Submit Feedback…"; ObjectID = "ftM-3D-CSh"; */
 "ftM-3D-CSh.title" = "Feedback senden";
 
-/* Class = "NSMenuItem"; title = "Benutzerhandbuch"; ObjectID = "q7W-GV-n3p"; */
+/* Class = "NSMenuItem"; title = "User Guide"; ObjectID = "q7W-GV-n3p"; */
 "q7W-GV-n3p.title" = "Benutzerhandbuch";
-
-/* Class = "NSButtonCell"; title = "www.github.com/openemu"; ObjectID = "y9C-BZ-tbY"; */
-"y9C-BZ-tbY.title" = "www.github.com/openemu";

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPrefLibraryController">
@@ -18,51 +18,48 @@
             <rect key="frame" x="0.0" y="0.0" width="458" height="553"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
             <subviews>
-                <customView id="11" customClass="OEBackgroundImageView">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="11" customClass="OEBackgroundImageView">
                     <rect key="frame" x="42" y="461" width="374" height="40"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_inset_box"/>
                     </userDefinedRuntimeAttributes>
                 </customView>
-                <customView id="Dbf-Vf-eb2" customClass="OEBackgroundImageView">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="Dbf-Vf-eb2" customClass="OEBackgroundImageView">
                     <rect key="frame" x="42" y="30" width="374" height="112"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_inset_box"/>
                     </userDefinedRuntimeAttributes>
                 </customView>
-                <customView id="4" customClass="OEHorizontalLine">
-                    <rect key="frame" x="0.0" y="187" width="458" height="2"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
-                    </userDefinedRuntimeAttributes>
-                </customView>
-                <customView id="5" customClass="OEHorizontalLine">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="5" customClass="OEHorizontalLine">
                     <rect key="frame" x="0.0" y="401" width="458" height="2"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="Ad6-Ai-BHU"/>
+                    </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
                     </userDefinedRuntimeAttributes>
                 </customView>
-                <customView id="Iz3-4e-tBC" customClass="OEHorizontalLine">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="Iz3-4e-tBC" customClass="OEHorizontalLine">
                     <rect key="frame" x="0.0" y="329" width="458" height="2"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="zIp-aZ-uJB"/>
+                    </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
                     </userDefinedRuntimeAttributes>
                 </customView>
-                <textField verticalHuggingPriority="750" id="7" customClass="OELabel">
-                    <rect key="frame" x="41" y="150" width="377" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Available Libraries:" id="24" customClass="OELabelCell">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="OEHorizontalLine">
+                    <rect key="frame" x="0.0" y="187" width="458" height="2"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="zRG-hS-zMl"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
+                    </userDefinedRuntimeAttributes>
+                </customView>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Library Location:" customClass="OELabel">
+                    <rect key="frame" x="39" y="516" width="379" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Game Library Folder Location:" id="19" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -71,36 +68,8 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
                     </userDefinedRuntimeAttributes>
                 </textField>
-                <textField verticalHuggingPriority="750" id="10" customClass="OELabel">
-                    <rect key="frame" x="41" y="292" width="377" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Organization Methods" id="18" customClass="OELabelCell">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
-                    </userDefinedRuntimeAttributes>
-                </textField>
-                <textField verticalHuggingPriority="750" id="etg-C7-Lej" customClass="OELabel">
-                    <rect key="frame" x="41" y="355" width="237" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Reset all dialog warnings:" id="Ua1-J2-mdy" customClass="OELabelCell">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
-                    </userDefinedRuntimeAttributes>
-                </textField>
-                <textField verticalHuggingPriority="750" id="12" customClass="OELabel">
-                    <rect key="frame" x="63" y="471" width="332" height="17"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <animations/>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="12" customClass="OELabel">
+                    <rect key="frame" x="61" y="471" width="336" height="17"/>
                     <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="/Users/Mucx/Library/OpenEmu/Games" id="17" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -110,10 +79,81 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_text"/>
                     </userDefinedRuntimeAttributes>
                 </textField>
-                <matrix verticalHuggingPriority="750" mode="highlight" allowsEmptySelection="NO" id="8" customClass="OEMatrix">
-                    <rect key="frame" x="42" y="209" width="377" height="74"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="14" customClass="OEButton">
+                    <rect key="frame" x="249" y="425" width="78" height="23"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="78" id="dR8-g5-Cek"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" title="Change…" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15" customClass="OEButtonCell">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_button"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="changeLibraryFolder:" target="-2" id="44"/>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="OEButton">
+                    <rect key="frame" x="338" y="425" width="78" height="23"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="23" id="BJz-gR-ZST"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="78" id="fVw-4e-dSp"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" title="Reset" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="16" customClass="OEButtonCell">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_button"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="resetLibraryFolder:" target="-2" id="45"/>
+                    </connections>
+                </button>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="etg-C7-Lej" userLabel="Reset all warnings:" customClass="OELabel">
+                    <rect key="frame" x="39" y="355" width="158" height="17"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Reset all dialog warnings:" id="Ua1-J2-mdy" customClass="OELabelCell">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
+                    </userDefinedRuntimeAttributes>
+                </textField>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="Q95-qb-F7X" customClass="OEButton">
+                    <rect key="frame" x="284" y="354" width="132" height="23"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="132" id="5dU-fr-4hH"/>
+                        <constraint firstAttribute="height" constant="23" id="VPt-UI-L3m"/>
+                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="232" id="fBl-JJ-wm3"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" title="Reset warnings" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy" customClass="OEButtonCell">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_button"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="resetWarningDialogs:" target="-2" id="Ohg-fM-nsc"/>
+                    </connections>
+                </button>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="OELabel">
+                    <rect key="frame" x="39" y="292" width="379" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Organization Methods" id="18" customClass="OELabelCell">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
+                    </userDefinedRuntimeAttributes>
+                </textField>
+                <matrix verticalHuggingPriority="750" mode="highlight" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="OEMatrix">
+                    <rect key="frame" x="42" y="212" width="377" height="71"/>
                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     <size key="cellSize" width="377" height="17"/>
                     <size key="intercellSpacing" width="16" height="10"/>
@@ -150,11 +190,9 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_checkbox"/>
                     </userDefinedRuntimeAttributes>
                 </matrix>
-                <textField verticalHuggingPriority="750" id="9" customClass="OELabel">
-                    <rect key="frame" x="41" y="516" width="377" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Game Library Folder Location:" id="19" customClass="OELabelCell">
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7" customClass="OELabel">
+                    <rect key="frame" x="39" y="150" width="379" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Available Libraries:" id="24" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -163,80 +201,85 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
                     </userDefinedRuntimeAttributes>
                 </textField>
-                <button id="14" customClass="OEButton">
-                    <rect key="frame" x="249" y="425" width="78" height="23"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
-                    <buttonCell key="cell" type="square" title="Change…" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15" customClass="OEButtonCell">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_button"/>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <action selector="changeLibraryFolder:" target="-2" id="44"/>
-                    </connections>
-                </button>
-                <button id="13" customClass="OEButton">
-                    <rect key="frame" x="338" y="425" width="78" height="23"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                    <animations/>
-                    <buttonCell key="cell" type="square" title="Reset" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="16" customClass="OEButtonCell">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_button"/>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <action selector="resetLibraryFolder:" target="-2" id="45"/>
-                    </connections>
-                </button>
-                <button id="Q95-qb-F7X" customClass="OEButton">
-                    <rect key="frame" x="284" y="354" width="132" height="23"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                    <animations/>
-                    <buttonCell key="cell" type="square" title="Reset warnings" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy" customClass="OEButtonCell">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_button"/>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <action selector="resetWarningDialogs:" target="-2" id="Ohg-fM-nsc"/>
-                    </connections>
-                </button>
-                <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" id="yl9-Jz-OKA" customClass="OEScrollView">
+                <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="yl9-Jz-OKA" customClass="OEScrollView">
                     <rect key="frame" x="47" y="33" width="366" height="106"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="DeO-cc-bgL">
                         <rect key="frame" x="0.0" y="0.0" width="366" height="106"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view autoresizesSubviews="NO" id="VRZ-d2-kfy">
-                                <rect key="frame" x="0.0" y="0.0" width="342" height="108"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <animations/>
+                            <view autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VRZ-d2-kfy">
+                                <rect key="frame" x="0.0" y="0.0" width="342" height="106"/>
                             </view>
                         </subviews>
-                        <animations/>
+                        <constraints>
+                            <constraint firstItem="VRZ-d2-kfy" firstAttribute="bottom" secondItem="DeO-cc-bgL" secondAttribute="bottom" id="5sD-5k-fbd"/>
+                            <constraint firstItem="VRZ-d2-kfy" firstAttribute="leading" secondItem="DeO-cc-bgL" secondAttribute="leading" id="Mxe-rX-jyW"/>
+                            <constraint firstItem="VRZ-d2-kfy" firstAttribute="trailing" secondItem="DeO-cc-bgL" secondAttribute="trailing" constant="-24" id="N1Y-ob-Xbi"/>
+                            <constraint firstItem="VRZ-d2-kfy" firstAttribute="top" secondItem="DeO-cc-bgL" secondAttribute="top" id="qE4-NZ-E6d"/>
+                        </constraints>
                     </clipView>
-                    <animations/>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="tdT-Hf-vsm" customClass="OEScroller">
                         <rect key="frame" x="-100" y="-100" width="342" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </scroller>
                     <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6uK-mj-F0v">
-                        <rect key="frame" x="351" y="0.0" width="15" height="106"/>
+                        <rect key="frame" x="350" y="0.0" width="16" height="106"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </scroller>
                 </scrollView>
             </subviews>
-            <animations/>
+            <constraints>
+                <constraint firstItem="etg-C7-Lej" firstAttribute="top" relation="greaterThanOrEqual" secondItem="5" secondAttribute="bottom" constant="5" id="3Nw-R4-nJe"/>
+                <constraint firstItem="Q95-qb-F7X" firstAttribute="trailing" secondItem="13" secondAttribute="trailing" id="4GU-IB-QJc"/>
+                <constraint firstItem="yl9-Jz-OKA" firstAttribute="leading" secondItem="Dbf-Vf-eb2" secondAttribute="leading" constant="5" id="6aX-Bk-FoC"/>
+                <constraint firstItem="8" firstAttribute="leading" secondItem="10" secondAttribute="leading" constant="1" id="6cn-6S-RIe"/>
+                <constraint firstItem="etg-C7-Lej" firstAttribute="top" relation="lessThanOrEqual" secondItem="5" secondAttribute="bottom" constant="29" id="7ep-ZX-eid"/>
+                <constraint firstItem="9" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" constant="-42" id="83i-np-Jti"/>
+                <constraint firstItem="yl9-Jz-OKA" firstAttribute="bottom" secondItem="Dbf-Vf-eb2" secondAttribute="bottom" constant="-3" id="89q-yY-EeU"/>
+                <constraint firstItem="Iz3-4e-tBC" firstAttribute="top" secondItem="Q95-qb-F7X" secondAttribute="bottom" constant="23" id="8mQ-ve-S2C"/>
+                <constraint firstItem="12" firstAttribute="bottom" secondItem="11" secondAttribute="bottom" constant="-10" id="Bxm-44-nGc"/>
+                <constraint firstItem="10" firstAttribute="top" secondItem="Iz3-4e-tBC" secondAttribute="bottom" constant="20" id="D8B-a4-p1K"/>
+                <constraint firstItem="etg-C7-Lej" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Q95-qb-F7X" secondAttribute="leading" constant="-6" id="Dyf-yc-G48"/>
+                <constraint firstItem="14" firstAttribute="bottom" secondItem="13" secondAttribute="bottom" id="GuP-09-hnN"/>
+                <constraint firstItem="4" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="J4z-f9-LSA"/>
+                <constraint firstItem="14" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="11" secondAttribute="leading" id="KEF-qZ-3qi"/>
+                <constraint firstItem="Q95-qb-F7X" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="24" id="Kvu-hk-JuA"/>
+                <constraint firstItem="4" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="23" id="KyR-1h-YcK"/>
+                <constraint firstItem="11" firstAttribute="top" secondItem="9" secondAttribute="bottom" constant="15" id="MPL-gV-GIz"/>
+                <constraint firstItem="5" firstAttribute="top" secondItem="13" secondAttribute="bottom" constant="22" id="Pq8-Nh-Z8m"/>
+                <constraint firstItem="Dbf-Vf-eb2" firstAttribute="top" secondItem="7" secondAttribute="bottom" constant="8" symbolic="YES" id="T7V-fI-AYI"/>
+                <constraint firstItem="11" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" constant="-42" id="UQW-DQ-ABV"/>
+                <constraint firstItem="Iz3-4e-tBC" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="V56-NJ-ZXM"/>
+                <constraint firstItem="etg-C7-Lej" firstAttribute="leading" secondItem="9" secondAttribute="leading" id="VJe-Eq-uJQ"/>
+                <constraint firstItem="Dbf-Vf-eb2" firstAttribute="leading" secondItem="11" secondAttribute="leading" id="Vds-fJ-bwp"/>
+                <constraint firstItem="14" firstAttribute="top" secondItem="13" secondAttribute="top" id="Vdu-yQ-fvO"/>
+                <constraint firstItem="7" firstAttribute="top" secondItem="4" secondAttribute="bottom" constant="20" id="Vff-Y8-wVR"/>
+                <constraint firstItem="4" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" id="VvY-FL-idH"/>
+                <constraint firstItem="9" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" id="YsC-jS-gtr"/>
+                <constraint firstItem="10" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" constant="-42" id="ZMH-wE-dLi"/>
+                <constraint firstItem="9" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="41" id="ZMh-2k-bbb"/>
+                <constraint firstItem="yl9-Jz-OKA" firstAttribute="trailing" secondItem="Dbf-Vf-eb2" secondAttribute="trailing" constant="-3" id="ZwZ-Wc-afO"/>
+                <constraint firstItem="5" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="byU-tL-Zg0"/>
+                <constraint firstItem="etg-C7-Lej" firstAttribute="centerY" secondItem="Q95-qb-F7X" secondAttribute="centerY" constant="2" id="c5m-XL-jQZ"/>
+                <constraint firstItem="yl9-Jz-OKA" firstAttribute="top" secondItem="Dbf-Vf-eb2" secondAttribute="top" constant="3" id="cHf-8P-Ha5"/>
+                <constraint firstItem="12" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" constant="-21" id="cOL-ex-dsL"/>
+                <constraint firstItem="8" firstAttribute="top" secondItem="10" secondAttribute="bottom" constant="9" id="evm-Zd-Rmc"/>
+                <constraint firstItem="Iz3-4e-tBC" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" id="g7d-JH-Me2"/>
+                <constraint firstItem="13" firstAttribute="top" secondItem="11" secondAttribute="bottom" constant="13" id="gkc-EX-PDo"/>
+                <constraint firstItem="7" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" constant="-42" id="i3W-on-Rhr"/>
+                <constraint firstItem="5" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" id="kEL-mO-8QY"/>
+                <constraint firstItem="7" firstAttribute="leading" secondItem="10" secondAttribute="leading" id="lEq-4r-QaN"/>
+                <constraint firstItem="Dbf-Vf-eb2" firstAttribute="bottom" secondItem="3" secondAttribute="bottom" constant="-30" id="lVy-zT-eY1"/>
+                <constraint firstItem="14" firstAttribute="trailing" secondItem="13" secondAttribute="leading" constant="-11" id="oPq-zO-ohg"/>
+                <constraint firstItem="12" firstAttribute="top" secondItem="11" secondAttribute="top" constant="13" id="pTL-5s-Nhl"/>
+                <constraint firstItem="13" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" id="pmj-Kq-Pp3"/>
+                <constraint firstItem="12" firstAttribute="leading" secondItem="11" secondAttribute="leading" constant="21" id="tJ5-0B-odf"/>
+                <constraint firstItem="etg-C7-Lej" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Iz3-4e-tBC" secondAttribute="top" constant="-24" id="tOy-Wj-rkd"/>
+                <constraint firstItem="Dbf-Vf-eb2" firstAttribute="trailing" secondItem="11" secondAttribute="trailing" id="u70-nd-Ka6"/>
+                <constraint firstItem="etg-C7-Lej" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="Iz3-4e-tBC" secondAttribute="top" id="uxI-mb-G0G"/>
+                <constraint firstItem="10" firstAttribute="leading" secondItem="etg-C7-Lej" secondAttribute="leading" id="vwr-1E-sVa"/>
+                <constraint firstItem="11" firstAttribute="leading" secondItem="9" secondAttribute="leading" constant="1" id="ydY-uC-8iZ"/>
+            </constraints>
         </view>
         <userDefaultsController id="36"/>
     </objects>

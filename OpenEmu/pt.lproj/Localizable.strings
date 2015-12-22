@@ -42,9 +42,9 @@
 
 "Add Cheat" = "Adicionar Trapaça";
 
-"Add Cover Art From File…" = "Adicionar Arte de Capa…";
+"Add Cover Art from File…" = "Adicionar Arte de Capa…";
 
-"Add To Collection" = "Adicionar à Coleção";
+"Add to Collection" = "Adicionar à Coleção";
 
 "All Games" = "Todos os jogos";
 
@@ -84,8 +84,6 @@
 
 "Cancel Cover Art Download" = "Cancelar Download de Arte de Capa";
 
-"Cancel Operation" = "Cancel Operation";
-
 "Cancel" = "Cancelar";
 
 "Change Core" = "Mudar Núcleo";
@@ -105,8 +103,6 @@
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Escolha Sim para remover todos os itens da fila. Itens que já foram importados serão mantidos em sua biblioteca.";
 
 "Code:" = "Código:";
-
-"Collapse" = "Minimizar";
 
 "Collections" = "Coleções";
 
@@ -178,11 +174,11 @@
 
 "Device number %lu, %@, has disconnected." = "O dispositivo número %1$lu, %2$@, foi desconectado.";
 
+"Disc %u" = "Disc %u"; // TODO
+
 "Disc-based games have special requirements. Please read the disc importing guide." = "Disc-based games have special requirements. Please read the disc importing guide."; // TODO
 
 "Dismiss" = "Dismiss"; // TODO
-
-"Do it!" = "Do it!";
 
 "Do not ask me again" = "Não perguntar mais";
 
@@ -217,8 +213,6 @@
 "Edit Game Controls" = "Editar Controles";
 
 "Enable now" = "Habilitar agora";
-
-"Enable Retrode support" = "Habilitar suporte ao Retrode";
 
 "Error!" = "Erro!";
 
@@ -313,8 +307,6 @@
 "No" = "Não";
 
 "None" = "Nenhum";
-
-"Not implemented right now" = "Ainda não implementado";
 
 "OK" = "OK";
 
@@ -428,6 +420,8 @@
 
 "Select Core" = "Selecionar Núcleo";
 
+"Select Disc" = "Select Disc"; // TODO
+
 "Select Filter" = "Selecionar Filtro";
 
 "Select Scale" = "Selecionar Escala";
@@ -443,6 +437,8 @@
 "Slot 1" = "Espaço 1";
 
 "Some migrations failed to complete properly" = "Algumas migrações não foram concluídas com sucesso.";
+
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub."; // TODO
 
 "Start Scanning" = "Iniciar Escaneamento";
 
@@ -496,8 +492,6 @@
 
 "Toggle Fullscreen" = "Alterna para Tela Cheia";
 
-"Toggle Sidebar" = "Alterna Barra Lateral";
-
 "Trash downloaded Files" = "Trash downloaded Files";
 
 "Unmute Audio" = "Desmutar Áudio";
@@ -506,11 +500,9 @@
 
 "User guide on BIOS files" = "User guide on BIOS files";
 
-"View Guide In Browser" = "View Guide In Browser"; // TODO
+"View Guide in Browser" = "View Guide in Browser"; // TODO
 
 "Warning" = "Atenção";
-
-"While performing this operation OpenEmu will be unresponsive." = "While performing this operation OpenEmu will be unresponsive."; // TODO;
 
 "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves."; // TODO
 
@@ -627,7 +619,7 @@
 
 "Database Actions" = "Ações de Banco de Dados";
 
-"Delete Artwork that can be downloaded" = "Delete Artwork that can be downloaded"; //TODO
+"Delete artwork that can be downloaded" = "Delete artwork that can be downloaded"; //TODO
 
 "Download missing artwork" = "Download missing artwork"; //TODO
 
@@ -641,4 +633,8 @@
 
 "Perform Sanity Check on Database" = "Perform Sanity Check on Database"; // TODO
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub."; // TODO
+"While performing this operation OpenEmu will be unresponsive." = "While performing this operation OpenEmu will be unresponsive."; // TODO;
+
+"Do it!" = "Do it!";
+
+"Cancel Operation" = "Cancel Operation";

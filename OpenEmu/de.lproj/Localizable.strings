@@ -42,9 +42,9 @@
 
 "Add Cheat" = "Cheat hinzufügen";
 
-"Add Cover Art From File…" = "Cover aus Datei hinzufügen …";
+"Add Cover Art from File…" = "Cover aus Datei hinzufügen …";
 
-"Add To Collection" = "Zur Sammlung hinzufügen";
+"Add to Collection" = "Zur Sammlung hinzufügen";
 
 "All Games" = "Alle Spiele";
 
@@ -84,8 +84,6 @@
 
 "Cancel Cover Art Download" = "Cover-Download abbrechen";
 
-"Cancel Operation" = "Operation abbrechen";
-
 "Cancel" = "Abbrechen";
 
 "Change Core" = "Kern wechseln";
@@ -105,8 +103,6 @@
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Möchtest du wirklich alle Objekte aus der Warteschlange entfernen? Spiele, die bereits importiert wurden, bleiben in der Mediathek.";
 
 "Code:" = "Code:";
-
-"Collapse" = "Ein-/Ausklappen";
 
 "Collections" = "Sammlungen";
 
@@ -128,7 +124,7 @@
 
 "Copying ROM Files…" = "Kopiere ROM-Dateien …";
 
-"Core Provided By…" = "Kern powered by …";
+"Core Provided By…" = "Kern basiert auf …";
 
 "Cores" = "Kerne";
 
@@ -160,13 +156,13 @@
 
 "Delete Save States" = "Spielstände löschen";
 
-"Delete Save" = "Spielstand löschen";
+"Delete Save" = "Löschen"; //Spielstand löschen
 
-"Delete Saves" = "Spielstände löschen";
+"Delete Saves" = "Löschen"; //Spielstände löschen
 
-"Delete Screenshot" = "Screenshot löschen";
+"Delete Screenshot" = "Löschen"; //Screenshot löschen
 
-"Delete Screenshots" = "Screenshots löschen";
+"Delete Screenshots" = "Löschen"; //Screenshots löschen
 
 "Delete" = "Löschen";
 
@@ -178,11 +174,11 @@
 
 "Device number %lu, %@, has disconnected." = "Gerät %1$lu (%2$@) wurde getrent.";
 
-"Disc-based games have special requirements. Please read the disc importing guide." = "Disk-basierte Spiele erfordern besondere Maßnahmen. Bitte lies die Anleitung über das Importieren von Discs.";
+"Disc %u" = "Disc %u";
+
+"Disc-based games have special requirements. Please read the disc importing guide." = "Disc-basierte Spiele erfordern besondere Maßnahmen. Bitte lies die Anleitung über das Importieren von Discs.";
 
 "Dismiss" = "Ausblenden";
-
-"Do it!" = "Los!";
 
 "Do not ask me again" = "Nicht erneut fragen";
 
@@ -217,8 +213,6 @@
 "Edit Game Controls" = "Steuerung bearbeiten";
 
 "Enable now" = "Sofort aktivieren";
-
-"Enable Retrode support" = "Retrode-Unterstützung aktivieren";
 
 "Error!" = "Fehler!";
 
@@ -270,7 +264,7 @@
 
 "Load" = "Laden";
 
-"Locate '%@'" = "Suche '%@'";
+"Locate '%@'" = "Suche „%@“";
 
 "Locate" = "Suchen";
 
@@ -302,7 +296,7 @@
 
 "No available controllers" = "Keine Controller verfügbar";
 
-"No game played yet!" = "Noch kein Spiel gespielt.";
+"No game played yet!" = "Noch kein Spiel gespielt";
 
 "No Internet Connection" = "Keine Internetverbindung";
 
@@ -313,8 +307,6 @@
 "No" = "Nein";
 
 "None" = "Keine";
-
-"Not implemented right now" = "Noch nicht implementiert";
 
 "OK" = "OK";
 
@@ -400,7 +392,7 @@
 
 "Save Current Game…" = "Aktuelles Spiel sichern …";
 
-"Save Game" = "Spielstand sichern";
+"Save Game" = "Sichern"; //Spielstand sichern
 
 "Save States" = "Spielstände";
 
@@ -428,6 +420,8 @@
 
 "Select Core" = "Kern auswählen";
 
+"Select Disc" = "Disc auswählen";
+
 "Select Filter" = "Filter auswählen";
 
 "Select Scale" = "Skalierung auswählen";
@@ -443,6 +437,8 @@
 "Slot 1" = "Slot 1";
 
 "Some migrations failed to complete properly" = "Einige Migrationen konnten nicht korrekt durchgeführt werden";
+
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Vielen Dank an alle, die\nOpenEmu möglich gemacht haben.\nUm mehr über unsere Mitwirkenden, Emulator-Kerne, Dokumentation und Lizenzen zu erfahren oder um Fehler zu melden, besuche uns auf GitHub.";
 
 "Start Scanning" = "Wiimote suchen";
 
@@ -496,8 +492,6 @@
 
 "Toggle Fullscreen" = "Vollbild ein/aus";
 
-"Toggle Sidebar" = "Seitenleiste ein-/ausblenden";
-
 "Trash downloaded Files" = "Heruntergeladene Dateien löschen";
 
 "Unmute Audio" = "Ton ein";
@@ -506,11 +500,9 @@
 
 "User guide on BIOS files" = "Benutzerhandbuch über BIOS-Dateien";
 
-"View Guide In Browser" = "Im Browser anzeigen";
+"View Guide in Browser" = "Im Browser anzeigen";
 
 "Warning" = "Warnung";
-
-"While performing this operation OpenEmu will be unresponsive." = "Während dieser Aktion wird OpenEmu nicht mehr reagieren.";
 
 "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "Du kannst deinen Fortschritt jederzeit als Spielstand sichern. Beendest du ein Spiel, wird sogar automatisch einer angelegt. Komme später zurück, um dir einen Überblick über deine Spielstände zu verschaffen.";
 
@@ -627,7 +619,7 @@
 
 "Database Actions" = "Datenbank-Aktionen";
 
-"Delete Artwork that can be downloaded" = "Herunterladbare Cover löschen";
+"Delete artwork that can be downloaded" = "Herunterladbare Cover löschen";
 
 "Download missing artwork" = "Fehlende Cover herunterladen";
 
@@ -641,4 +633,8 @@
 
 "Perform Sanity Check on Database" = "Datenbank auf Plausibilität prüfen";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub."; // TODO
+"While performing this operation OpenEmu will be unresponsive." = "Während dieser Aktion wird OpenEmu nicht mehr reagieren.";
+
+"Do it!" = "Los!";
+
+"Cancel Operation" = "Abbrechen";

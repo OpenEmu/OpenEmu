@@ -255,15 +255,6 @@
 				<dict>
 					<key>Color</key>
 					<string>white</string>
-					<key>Shadow</key>
-					<dict>
-						<key>Blur Radius</key>
-						<integer>1</integer>
-						<key>Color</key>
-						<string>black</string>
-						<key>Offset</key>
-						<string>{0,-1}</string>
-					</dict>
 				</dict>
 				<key>Mouse Over, Pressed</key>
 				<dict>
@@ -274,7 +265,7 @@
 						<key>Blur Radius</key>
 						<integer>5</integer>
 						<key>Color</key>
-						<string>black</string>
+						<string>white</string>
 						<key>Offset</key>
 						<string>{0,-1}</string>
 					</dict>
@@ -287,15 +278,6 @@
 			<string>rgba(174,173,173,1.0)</string>
 			<key>Family</key>
 			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>1</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,1.0)</string>
-				<key>Offset</key>
-				<string>{0,1}</string>
-			</dict>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Traits</key>
@@ -355,15 +337,6 @@
 			<string>rgba(174,173,173,1.0)</string>
 			<key>Family</key>
 			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>1</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,1.0)</string>
-				<key>Offset</key>
-				<string>{0,1}</string>
-			</dict>
 			<key>Size</key>
 			<integer>14</integer>
 			<key>Traits</key>
@@ -377,15 +350,6 @@
 			<string>rgba(156,156,156,1.0)</string>
 			<key>Family</key>
 			<string>$SYSTEM_FONT_FAMILY</string>
-			<key>Shadow</key>
-			<dict>
-				<key>Blur Radius</key>
-				<integer>1</integer>
-				<key>Color</key>
-				<string>rgba(0,0,0,0.4)</string>
-				<key>Offset</key>
-				<string>{0,-1}</string>
-			</dict>
 			<key>Size</key>
 			<integer>11</integer>
 			<key>Weight</key>
@@ -1446,8 +1410,8 @@
 		<dict>
 			<key>Colors</key>
 			<array>
-				<string>#4a4a4a</string>
-				<string>#292929</string>
+				<string>#5a5a5a00</string>
+				<string>#5a5a5a</string>
 			</array>
 			<key>Locations</key>
 			<array>
