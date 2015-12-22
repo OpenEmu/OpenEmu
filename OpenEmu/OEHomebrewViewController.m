@@ -146,17 +146,20 @@ const static CGFloat TableViewSpacing = 86.0;
 
 - (void)_setupToolbar
 {
-    OELibraryController *libraryController = [self libraryController];
-    OELibraryToolbar *toolbar = [libraryController toolbar];
+    OELibraryController *libraryController = self.libraryController;
+    OELibraryToolbar *toolbar = libraryController.toolbar;
+    
+    toolbar.gridViewButton.enabled = NO;
+    toolbar.listViewButton.enabled = NO;
+    toolbar.gridViewButton.state = NSOffState;
+    toolbar.listViewButton.state = NSOffState;
+    
+    toolbar.gridSizeSlider.enabled = NO;
 
-    [[toolbar gridSizeSlider] setEnabled:NO];
-    [[toolbar gridViewButton] setEnabled:NO];
-    [[toolbar listViewButton] setEnabled:NO];
-
-    NSSearchField *field = [toolbar searchField];
-    [field setSearchMenuTemplate:nil];
-    [field setEnabled:false];
-    [field setStringValue:@""];
+    NSSearchField *field = toolbar.searchField;
+    field.searchMenuTemplate = nil;
+    field.enabled = NO;
+    field.stringValue = @"";
 }
 
 #pragma mark - Data Handling

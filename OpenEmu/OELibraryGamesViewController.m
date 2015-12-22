@@ -80,17 +80,21 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
 - (void)_setupToolbar
 {
-    OELibraryController *libraryController = [self libraryController];
-    OELibraryToolbar *toolbar = [libraryController toolbar];
+    OELibraryController *libraryController = self.libraryController;
+    OELibraryToolbar *toolbar = libraryController.toolbar;
 
-    [[toolbar gridSizeSlider] setEnabled:YES];
-    [[toolbar gridViewButton] setEnabled:YES];
-    [[toolbar listViewButton] setEnabled:YES];
+    toolbar.gridSizeSlider.enabled = YES;
+    toolbar.gridViewButton.enabled = YES;
+    toolbar.listViewButton.enabled = YES;
+    
+    const BOOL inGridViewMode = self.collectionController.selectedViewTag == OEGridViewTag;
+    toolbar.gridViewButton.state = inGridViewMode ? NSOnState : NSOffState;
+    toolbar.listViewButton.state = !inGridViewMode ? NSOnState : NSOffState;
 
-    NSSearchField *field = [toolbar searchField];
-    [field setSearchMenuTemplate:nil];
-    [field setEnabled:false];
-    [field setStringValue:@""];
+    NSSearchField *field = toolbar.searchField;
+    field.searchMenuTemplate = nil;
+    field.enabled = NO;
+    field.stringValue = @"";
 }
 
 #pragma mark - OELibrarySubviewController

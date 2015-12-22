@@ -177,6 +177,9 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     
     toolbar.gridViewButton.enabled = NO;
     toolbar.listViewButton.enabled = NO;
+    toolbar.gridViewButton.state = NSOffState;
+    toolbar.listViewButton.state = NSOffState;
+    
     toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
     
     NSSearchField *field = toolbar.searchField;
@@ -201,6 +204,8 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
         
         toolbar.gridViewButton.enabled = NO;
         toolbar.listViewButton.enabled = NO;
+        toolbar.gridViewButton.state = NSOffState;
+        toolbar.listViewButton.state = NSOffState;
     }
 }
 
