@@ -215,9 +215,6 @@
 /* Class = "NSMenuItem"; title = "Примечания к выпуску"; ObjectID = "5YI-Il-P9H"; */
 "5YI-Il-P9H.title" = "Примечания к выпуску";
 
-/* Class = "NSMenuItem"; title = "Show Sidebar"; ObjectID = "5kO-fw-ARd"; */
-"5kO-fw-ARd.title" = "Show Sidebar"; // TODO
-
 /* Class = "NSMenuItem"; title = "Сайт OpenEmu"; ObjectID = "ahk-gp-EN3"; */
 "ahk-gp-EN3.title" = "Сайт OpenEmu";
 

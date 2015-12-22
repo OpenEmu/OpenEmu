@@ -174,6 +174,8 @@
 
 "Device number %lu, %@, has disconnected." = "Устройство под номером %1$lu, %2$@, было отключено.";
 
+"Disc %u" = "Disc %u"; // TODO
+
 "Disc-based games have special requirements. Please read the disc importing guide." = "Disc-based games have special requirements. Please read the disc importing guide."; // TODO
 
 "Dismiss" = "Dismiss"; // TODO
@@ -417,6 +419,8 @@
 "Select Cheat" = "Выбрать чит-код";
 
 "Select Core" = "Выбрать ядро";
+
+"Select Disc" = "Select Disc"; // TODO
 
 "Select Filter" = "Выбрать фильтр";
 
