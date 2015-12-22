@@ -174,7 +174,9 @@
 
 "Device number %lu, %@, has disconnected." = "Gerät %1$lu (%2$@) wurde getrent.";
 
-"Disc-based games have special requirements. Please read the disc importing guide." = "Disk-basierte Spiele erfordern besondere Maßnahmen. Bitte lies die Anleitung über das Importieren von Discs.";
+"Disc %u" = "Disc %u";
+
+"Disc-based games have special requirements. Please read the disc importing guide." = "Disc-basierte Spiele erfordern besondere Maßnahmen. Bitte lies die Anleitung über das Importieren von Discs.";
 
 "Dismiss" = "Ausblenden";
 
@@ -262,7 +264,7 @@
 
 "Load" = "Laden";
 
-"Locate '%@'" = "Suche '%@'";
+"Locate '%@'" = "Suche „%@“";
 
 "Locate" = "Suchen";
 
@@ -417,6 +419,8 @@
 "Select Cheat" = "Cheat auswählen";
 
 "Select Core" = "Kern auswählen";
+
+"Select Disc" = "Disc auswählen";
 
 "Select Filter" = "Filter auswählen";
 

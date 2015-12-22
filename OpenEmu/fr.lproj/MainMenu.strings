@@ -215,9 +215,6 @@
 /* Class = "NSMenuItem"; title = "Notes de publication"; ObjectID = "5YI-Il-P9H"; */
 "5YI-Il-P9H.title" = "Notes de publication";
 
-/* Class = "NSMenuItem"; title = "Show Sidebar"; ObjectID = "5kO-fw-ARd"; */
-"5kO-fw-ARd.title" = "Afficher la barre latérale";
-
 /* Class = "NSMenuItem"; title = "Site web OpenEmu"; ObjectID = "ahk-gp-EN3"; */
 "ahk-gp-EN3.title" = "Site web OpenEmu";
 

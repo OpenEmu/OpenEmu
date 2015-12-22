@@ -174,7 +174,9 @@
 
 "Device number %lu, %@, has disconnected." = "Le périphérique numéro %1$lu, %2$@, a été déconnecté.";
 
-"Disc-based games have special requirements. Please read the disc importing guide." = "Jeux sur disque ont conditions spéciales. S'il vous plaît, lire le guide d'importer disques.";
+"Disc %u" = "Disque %u";
+
+"Disc-based games have special requirements. Please read the disc importing guide." = "Jeux sur disque ont conditions spéciales. S’il vous plaît, lire le guide d’importer disques.";
 
 "Dismiss" = "Ignorer";
 
@@ -418,6 +420,8 @@
 
 "Select Core" = "Sélectionner le cœur";
 
+"Select Disc" = "Sélectionner le disque";
+
 "Select Filter" = "Sélectionner le filtre";
 
 "Select Scale" = "Sélectionner l’échelle";
@@ -500,7 +504,7 @@
 
 "Warning" = "Avertissement";
 
-"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "Avec OpenEmu, vous pouvez sauvegarder votre progrès à tout moment à l'aide des parties sauvegardées. Nous allons même créer des sauvegardes automatiques pour vous après vous quittez le jeu. Revenir plus tard pour regarder toutes vos sauvegardes.";
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "Avec OpenEmu, vous pouvez sauvegarder votre progrès à tout moment à l’aide des parties sauvegardées. Nous allons même créer des sauvegardes automatiques pour vous après vous quittez le jeu. Revenir plus tard pour regarder toutes vos sauvegardes.";
 
 "Won't be able to recognize it as special save state…" = "Cette sauvegarde ne sera pas reconnue comme une sauvegarde spéciale…";
 
@@ -547,9 +551,9 @@
 
 "Show quicksave states in save state category" = "Afficher les sauvegardes rapides dans la catégorie sauvegardes";
 
-"Show game scanner view" = "Afficher l'analyse des jeux";
+"Show game scanner view" = "Afficher l’analyse des jeux";
 
-"Hide game scanner view" = "Masquer l'analyse des jeux";
+"Hide game scanner view" = "Masquer l’analyse des jeux";
 
 "HUD Bar / Gameplay" = "Barre HUD / Jeu";
 
