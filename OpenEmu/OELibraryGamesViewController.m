@@ -46,12 +46,18 @@
 
 NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
+@interface OELibraryGamesViewController ()
+@property (nonatomic, weak) IBOutlet NSVisualEffectView *sidebarVisualEffectView;
+@end
+
 @implementation OELibraryGamesViewController
 @synthesize libraryController = _libraryController;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.sidebarVisualEffectView.material = NSVisualEffectMaterialSidebar;
     
     [self _assignLibraryController];
 
@@ -76,6 +82,8 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     [super viewWillAppear];
     
     [self _setupToolbar];
+    
+    self.view.needsDisplay = YES;
 }
 
 - (void)_setupToolbar
