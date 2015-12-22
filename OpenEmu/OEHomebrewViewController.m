@@ -125,13 +125,39 @@ const static CGFloat TableViewSpacing = 86.0;
     [tableView setPostsBoundsChangedNotifications:YES];
     [tableView setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:tableView];
+
+
+    [self addObserver:self forKeyPath:@"controlsToolbar" options:0 context:nil];
 }
 
-- (void)viewWillAppear
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
 {
-    [super viewWillAppear];
-    
-    [self _setupToolbar];
+    if([keyPath isEqualToString:@"controlsToolbar"]){
+        [self _updateToolbar];
+    }
+}
+
+- (void)_updateToolbar {
+    if(!self.controlsToolbar)
+        return;
+
+    NSLog(@"OEHomebrewViewController -updateToolbar");
+
+    OELibraryController *libraryController = self.libraryController;
+    OELibraryToolbar *toolbar = libraryController.toolbar;
+
+    toolbar.gridViewButton.enabled = NO;
+    toolbar.listViewButton.enabled = NO;
+    toolbar.gridViewButton.state = NSOffState;
+    toolbar.listViewButton.state = NSOffState;
+
+    toolbar.gridSizeSlider.enabled = NO;
+
+    NSSearchField *field = toolbar.searchField;
+    field.searchMenuTemplate = nil;
+    field.enabled = NO;
+    field.stringValue = @"";
+
 }
 
 - (void)viewDidAppear
@@ -143,24 +169,6 @@ const static CGFloat TableViewSpacing = 86.0;
     {
         [self updateGames];
     }
-}
-
-- (void)_setupToolbar
-{
-    OELibraryController *libraryController = self.libraryController;
-    OELibraryToolbar *toolbar = libraryController.toolbar;
-    
-    toolbar.gridViewButton.enabled = NO;
-    toolbar.listViewButton.enabled = NO;
-    toolbar.gridViewButton.state = NSOffState;
-    toolbar.listViewButton.state = NSOffState;
-    
-    toolbar.gridSizeSlider.enabled = NO;
-
-    NSSearchField *field = toolbar.searchField;
-    field.searchMenuTemplate = nil;
-    field.enabled = NO;
-    field.stringValue = @"";
 }
 
 #pragma mark - Data Handling
