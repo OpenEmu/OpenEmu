@@ -164,6 +164,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
         [[aColumn headerCell] setAlignment:[[aColumn dataCell] alignment]];
     }
 
+    [self addObserver:self forKeyPath:@"controlsToolbar" options:0 context:nil];
+
     // Setup BlankSlate View
     [blankSlateView setDelegate:self];
     [blankSlateView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
@@ -191,6 +193,24 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [notificationCenter addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
 }
 
+- (void)_updateToolbar {
+    if(!self.controlsToolbar) return;
+
+    OELibraryToolbar *toolbar = self.libraryController.toolbar;
+    toolbar.searchField.menu = nil;
+
+    BOOL toolbarItemsEnabled =  NO;
+    if(!self.shouldShowBlankSlate)
+    {
+        // TODO: update states
+    }
+
+    toolbar.gridViewButton.enabled = toolbarItemsEnabled;
+    toolbar.listViewButton.enabled = toolbarItemsEnabled;
+    toolbar.gridSizeSlider.enabled = toolbarItemsEnabled;
+    toolbar.searchField.enabled = toolbarItemsEnabled;
+}
+
 - (void)viewWillAppear
 {
     [super viewWillAppear];
@@ -211,6 +231,10 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     if(context == OEUserDefaultsDisplayGameTitleKVOContext)
     {
         [self setNeedsReloadVisible];
+    }
+    else if([keyPath isEqualToString:@"controlsToolbar"])
+    {
+        [self _updateToolbar];
     }
     else
     {
@@ -325,10 +349,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     else
         [_gridView reloadData];
 
-    if (self.isSelected) {
-        [self OE_setupToolbarStatesForViewTag:tag];
-    }
-    
+    [self OE_setupToolbarStatesForViewTag:tag];
+
     if(_selectedViewTag == tag && tag != OEBlankSlateTag)
         return;
 
@@ -378,6 +400,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 - (void)OE_setupToolbarStatesForViewTag:(OECollectionViewControllerViewTag)tag
 {
+    if(!self.controlsToolbar) return;
+
     OELibraryToolbar *toolbar = self.libraryController.toolbar;
     switch (tag) {
         case OEGridViewTag:
@@ -401,33 +425,15 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 - (void)updateBlankSlate
 {
     if (!self.shouldShowBlankSlate) {
-        
         [self OE_switchToView:self.OE_currentViewTagByToolbarState];
-
-        if (self.isSelected) {
-            OELibraryToolbar *toolbar = self.libraryController.toolbar;
-            toolbar.gridViewButton.enabled = YES;
-            toolbar.listViewButton.enabled = YES;
-            toolbar.gridSizeSlider.enabled = YES;
-            toolbar.searchField.enabled = YES;
-            toolbar.searchField.menu = nil;
-        }
     }
     else
     {
         [self OE_switchToView:OEBlankSlateTag];
-
-        if (self.isSelected) {
-            OELibraryToolbar *toolbar = self.libraryController.toolbar;
-            toolbar.gridViewButton.enabled = NO;
-            toolbar.listViewButton.enabled = NO;
-            toolbar.gridSizeSlider.enabled = NO;
-            toolbar.searchField.enabled = NO;
-            toolbar.searchField.menu = nil;
-        }
-
         blankSlateView.representedObject = self.representedObject;
     }
+
+    [self _updateToolbar];
 }
 
 - (BOOL)shouldShowBlankSlate

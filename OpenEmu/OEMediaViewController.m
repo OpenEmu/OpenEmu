@@ -97,17 +97,46 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
     self.gridView.automaticallyMinimizeRowMargin = YES;
     self.gridView.cellClass = [OEGridMediaItemCell class];
+
+    [self addObserver:self forKeyPath:@"controlsToolbar" options:0 context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+{
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+
+    if([keyPath isEqualToString:@"controlsToolbar"]){
+        [self _updateToolbar];
+    }
+}
+
+- (void)_updateToolbar {
+    if(!self.controlsToolbar) return;
+
+    OELibraryToolbar *toolbar = self.libraryController.toolbar;
+    BOOL toolbarItemsEnabled = NO;
+    NSString *searchValue = @"";
+    if(!self.shouldShowBlankSlate) {
+        toolbarItemsEnabled = YES;
+
+        searchValue = self.currentSearchTerm ?: @"";
+    }
+
+    toolbar.searchField.enabled = toolbarItemsEnabled;
+    toolbar.gridSizeSlider.enabled = toolbarItemsEnabled;
+    toolbar.gridViewButton.enabled = NO;
+    toolbar.listViewButton.enabled = NO;
+
+    toolbar.searchField.stringValue = searchValue;
+    toolbar.gridViewButton.state = NSOnState;
+    toolbar.listViewButton.state = NSOffState;
+
+    [self _setupSearchMenuTemplate];
 }
 
 - (void)viewWillAppear
 {
     [super viewWillAppear];
-    
-    [self _setupToolbar];
-    
-    OESearchField *searchField = self.libraryController.toolbar.searchField;
-    searchField.enabled = YES;
-    searchField.stringValue = self.currentSearchTerm ?: @"";
     
     [self restoreSelectionFromDefaults];
 }
@@ -167,45 +196,6 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     if (self.selectionIndexes.count > 0) {
         NSRect itemFrame = [self.gridView itemFrameAtIndex:self.selectionIndexes.firstIndex];
         [self.gridView scrollRectToVisible:itemFrame];
-    }
-}
-
-- (void)_setupToolbar
-{
-    OELibraryController *libraryController = self.libraryController;
-    OELibraryToolbar *toolbar = libraryController.toolbar;
-    
-    toolbar.gridViewButton.enabled = NO;
-    toolbar.listViewButton.enabled = NO;
-    toolbar.gridViewButton.state = NSOffState;
-    toolbar.listViewButton.state = NSOffState;
-    
-    toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
-    
-    NSSearchField *field = toolbar.searchField;
-    field.searchMenuTemplate = nil;
-    field.enabled = YES;
-    field.stringValue = @"";
-    field.enabled = !_shouldShowBlankSlate;
-    
-    [self _setupSearchMenuTemplate];
-}
-
-- (void)updateBlankSlate
-{
-    [super updateBlankSlate];
-
-    if (self.isSelected) {
-        
-        OELibraryController *libraryController = self.libraryController;
-        OELibraryToolbar *toolbar = libraryController.toolbar;
-        toolbar.searchField.enabled = !_shouldShowBlankSlate;
-        toolbar.gridSizeSlider.enabled = !_shouldShowBlankSlate;
-        
-        toolbar.gridViewButton.enabled = NO;
-        toolbar.listViewButton.enabled = NO;
-        toolbar.gridViewButton.state = NSOffState;
-        toolbar.listViewButton.state = NSOffState;
     }
 }
 
