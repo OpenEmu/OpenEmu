@@ -82,8 +82,14 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     [super viewWillAppear];
     
     [self _setupToolbar];
-    
+
     self.view.needsDisplay = YES;
+}
+
+- (void)viewDidAppear
+{
+    [super viewDidAppear];
+    [self.collectionController updateBlankSlate];
 }
 
 - (void)_setupToolbar
