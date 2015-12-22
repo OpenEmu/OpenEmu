@@ -207,16 +207,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="366" height="106"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VRZ-d2-kfy">
+                            <view autoresizesSubviews="NO" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VRZ-d2-kfy">
                                 <rect key="frame" x="0.0" y="0.0" width="342" height="106"/>
                             </view>
                         </subviews>
-                        <constraints>
-                            <constraint firstItem="VRZ-d2-kfy" firstAttribute="bottom" secondItem="DeO-cc-bgL" secondAttribute="bottom" id="5sD-5k-fbd"/>
-                            <constraint firstItem="VRZ-d2-kfy" firstAttribute="leading" secondItem="DeO-cc-bgL" secondAttribute="leading" id="Mxe-rX-jyW"/>
-                            <constraint firstItem="VRZ-d2-kfy" firstAttribute="trailing" secondItem="DeO-cc-bgL" secondAttribute="trailing" constant="-24" id="N1Y-ob-Xbi"/>
-                            <constraint firstItem="VRZ-d2-kfy" firstAttribute="top" secondItem="DeO-cc-bgL" secondAttribute="top" id="qE4-NZ-E6d"/>
-                        </constraints>
                     </clipView>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="tdT-Hf-vsm" customClass="OEScroller">
                         <rect key="frame" x="-100" y="-100" width="342" height="16"/>
