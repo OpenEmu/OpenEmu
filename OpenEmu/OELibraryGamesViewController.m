@@ -52,6 +52,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
 @implementation OELibraryGamesViewController
 @synthesize libraryController = _libraryController;
+@synthesize controlsToolbar;
 
 - (void)viewDidLoad
 {

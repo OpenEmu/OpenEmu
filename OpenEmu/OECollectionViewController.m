@@ -90,6 +90,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 @implementation OECollectionViewController
 @synthesize libraryController, listView=listView;
+@synthesize controlsToolbar;
 
 + (void)initialize
 {

@@ -85,6 +85,7 @@ const static CGFloat TableViewSpacing = 86.0;
 
 @implementation OEHomebrewViewController
 @synthesize blankSlate = _blankSlate, libraryController = _libraryController;
+@synthesize controlsToolbar;
 
 + (void)initialize
 {

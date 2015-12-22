@@ -41,9 +41,9 @@
  */
 
 @protocol OELibrarySubviewController <NSObject>
+@property (getter=hasToolbarControl) BOOL controlsToolbar;
 
 @optional
 @property (nonatomic, weak) OELibraryController *libraryController;
 @property (readonly) NSArray <OEDBGame *> *selectedGames;
-
 @end
