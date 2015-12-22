@@ -218,13 +218,7 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     
     NSView *placeHolderView = self.placeholderView;
     NSWindow *window = self.window;
-    
-    // We use Objective-C blocks to factor out common code used in both animated and non-animated controller switching
-    void (^sendViewWillDisappear)(void) = ^{
-        [_currentContentController viewWillDisappear];
-        [newController viewWillAppear];
-    };
-    
+
     void (^replaceController)(NSView *) = ^(NSView *viewToReplace) {
         
         newController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
@@ -237,8 +231,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         
         [self.window makeFirstResponder:newController.view];
         
-        [_currentContentController viewDidDisappear];
-        [newController viewDidAppear];
         _currentContentController = newController;
         
         [viewToReplace removeFromSuperview];
@@ -302,7 +294,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         
         fadeWindow.contentView = imageView;
         
-        sendViewWillDisappear();
         replaceController(_currentContentController.view);
         
         [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
@@ -322,7 +313,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     }
     else
     {
-        sendViewWillDisappear();
         replaceController(_currentContentController.view);
         
         // If a game is playing in the library window, unpause emulation immediately.
