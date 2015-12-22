@@ -140,8 +140,6 @@ const static CGFloat TableViewSpacing = 86.0;
     if(!self.controlsToolbar)
         return;
 
-    NSLog(@"OEHomebrewViewController -updateToolbar");
-
     OELibraryController *libraryController = self.libraryController;
     OELibraryToolbar *toolbar = libraryController.toolbar;
 

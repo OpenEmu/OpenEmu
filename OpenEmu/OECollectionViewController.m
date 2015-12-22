@@ -207,6 +207,10 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
         toolbar.listViewButton.state = _selectedViewTag == OEListViewTag ? NSOnState : NSOffState;
         toolbarItemsEnabled = YES;
     }
+    else
+    {
+        toolbar.searchField.stringValue = @"";
+    }
 
     toolbar.gridViewButton.enabled = toolbarItemsEnabled;
     toolbar.listViewButton.enabled = toolbarItemsEnabled;
