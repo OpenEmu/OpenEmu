@@ -542,6 +542,7 @@
     }
     
     // Re-enable toolbar controls.
+    return;
     OELibraryToolbar *toolbar = [[self libraryController] toolbar];
     [[toolbar categorySelector] setEnabled:YES];
     [[toolbar gridViewButton] setEnabled:YES];

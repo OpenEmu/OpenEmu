@@ -65,15 +65,17 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     NSNotificationCenter *noc = [NSNotificationCenter defaultCenter];
     [noc addObserver:self selector:@selector(_updateCollectionContentsFromSidebar:) name:OESidebarSelectionDidChangeNotificationName object:[self sidebarController]];
 
-    NSView *collectionView = [[self collectionController] view];
-    NSView *collectionViewContainer = [self collectionViewContainer];
+    NSView *collectionView = [self.collectionController view];
+    NSView *collectionViewContainer = self.collectionViewContainer;
 
     [collectionView setFrame:[collectionViewContainer bounds]];
     [collectionView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [collectionViewContainer addSubview:collectionView];
 
-    [self addChildViewController:[self sidebarController]];
-    [self addChildViewController:[self collectionController]];
+    [self.collectionController bind:@"controlsToolbar" toObject:self withKeyPath:@"controlsToolbar" options:nil];
+
+    [self addChildViewController:self.sidebarController];
+    [self addChildViewController:self.collectionController];
     
     [self _updateCollectionContentsFromSidebar:nil];
 }
@@ -81,35 +83,8 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 - (void)viewWillAppear
 {
     [super viewWillAppear];
-    
-    [self _setupToolbar];
 
     self.view.needsDisplay = YES;
-}
-
-- (void)viewDidAppear
-{
-    [super viewDidAppear];
-    [self.collectionController updateBlankSlate];
-}
-
-- (void)_setupToolbar
-{
-    OELibraryController *libraryController = self.libraryController;
-    OELibraryToolbar *toolbar = libraryController.toolbar;
-
-    toolbar.gridSizeSlider.enabled = YES;
-    toolbar.gridViewButton.enabled = YES;
-    toolbar.listViewButton.enabled = YES;
-    
-    const BOOL inGridViewMode = self.collectionController.selectedViewTag == OEGridViewTag;
-    toolbar.gridViewButton.state = inGridViewMode ? NSOnState : NSOffState;
-    toolbar.listViewButton.state = !inGridViewMode ? NSOnState : NSOffState;
-
-    NSSearchField *field = toolbar.searchField;
-    field.searchMenuTemplate = nil;
-    field.enabled = NO;
-    field.stringValue = @"";
 }
 
 #pragma mark - OELibrarySubviewController
@@ -178,7 +153,8 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 {
     id selectedItem = self.sidebarController.selectedSidebarItem;
     self.collectionController.representedObject = selectedItem;
-    
+    [self.collectionController updateToolbar];
+
     // For empty collections of disc-based games, display an alert to compel the user to read the disc-importing guide.
     if ([selectedItem isKindOfClass:[OEDBSystem class]] &&
         ((OEDBSystem *)selectedItem).plugin.supportsDiscs &&
@@ -227,7 +203,8 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     [issuesView setFrame:[container bounds]];
     
     // Disable toolbar controls.
-    OELibraryToolbar *toolbar = [[self libraryController] toolbar];
+    return;
+    OELibraryToolbar *toolbar = self.libraryController.toolbar;
     [[toolbar categorySelector] setEnabled:NO];
     [[toolbar gridViewButton] setEnabled:NO];
     [[toolbar listViewButton] setEnabled:NO];

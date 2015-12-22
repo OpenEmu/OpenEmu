@@ -58,6 +58,7 @@ extern NSString * const OELastCollectionViewKey;
 - (NSArray*)defaultSortDescriptors;
 - (void)setSortDescriptors:(NSArray*)descriptors;
 
+- (void)updateToolbar;
 - (void)updateBlankSlate;
 - (BOOL)shouldShowBlankSlate;
 

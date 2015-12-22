@@ -104,7 +104,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 {
     self = [super init];
     if (self) {
-        _selectedViewTag = -2;
+        _selectedViewTag = OEGridViewTag;
     }
     return self;
 }
@@ -193,7 +193,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [notificationCenter addObserver:self selector:@selector(libraryLocationDidChange:) name:OELibraryLocationDidChangeNotificationName object:nil];
 }
 
-- (void)_updateToolbar {
+- (void)updateToolbar
+{
     if(!self.controlsToolbar) return;
 
     OELibraryToolbar *toolbar = self.libraryController.toolbar;
@@ -202,7 +203,9 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     BOOL toolbarItemsEnabled =  NO;
     if(!self.shouldShowBlankSlate)
     {
-        // TODO: update states
+        toolbar.gridViewButton.state = _selectedViewTag == OEGridViewTag ? NSOnState : NSOffState;
+        toolbar.listViewButton.state = _selectedViewTag == OEListViewTag ? NSOnState : NSOffState;
+        toolbarItemsEnabled = YES;
     }
 
     toolbar.gridViewButton.enabled = toolbarItemsEnabled;
@@ -234,7 +237,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     }
     else if([keyPath isEqualToString:@"controlsToolbar"])
     {
-        [self _updateToolbar];
+        [self updateToolbar];
     }
     else
     {
@@ -357,6 +360,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [self OE_showView:tag];
 
     _selectedViewTag = tag;
+    [self updateToolbar];
 }
 
 - (void)OE_showView:(OECollectionViewControllerViewTag)tag
@@ -400,32 +404,13 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 - (void)OE_setupToolbarStatesForViewTag:(OECollectionViewControllerViewTag)tag
 {
-    if(!self.controlsToolbar) return;
-
-    OELibraryToolbar *toolbar = self.libraryController.toolbar;
-    switch (tag) {
-        case OEGridViewTag:
-            toolbar.gridViewButton.state = NSOnState;
-            toolbar.listViewButton.state = NSOffState;
-            toolbar.gridSizeSlider.enabled = YES;
-            break;
-        case OEListViewTag:
-            toolbar.gridViewButton.state = NSOffState;
-            toolbar.listViewButton.state = NSOnState;
-            toolbar.gridSizeSlider.enabled = NO;
-            break;
-        case OEBlankSlateTag:
-            toolbar.gridSizeSlider.enabled = NO;
-            toolbar.gridViewButton.enabled = NO;
-            toolbar.listViewButton.enabled = NO;
-            break;
-    }
+    [self updateToolbar];
 }
 
 - (void)updateBlankSlate
 {
     if (!self.shouldShowBlankSlate) {
-        [self OE_switchToView:self.OE_currentViewTagByToolbarState];
+        [self OE_switchToView:_selectedViewTag != OEBlankSlateTag ? _selectedViewTag : OEGridViewTag];
     }
     else
     {
@@ -433,20 +418,12 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
         blankSlateView.representedObject = self.representedObject;
     }
 
-    [self _updateToolbar];
+    [self updateToolbar];
 }
 
 - (BOOL)shouldShowBlankSlate
 {
     return NO;
-}
-
-- (OECollectionViewControllerViewTag)OE_currentViewTagByToolbarState
-{
-    if (self.libraryController.toolbar.gridViewButton.state == NSOnState)
-        return OEGridViewTag;
-    else
-        return OEListViewTag;
 }
 
 #pragma mark - Toolbar Actions
@@ -588,7 +565,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
         - This collection view controller is selected.
         - The blank slate view is the current view tag. This allows switching to a different view tag if an item has been added.
      */
-    if (self.selectedViewTag == OEBlankSlateTag || self.isSelected) {
+    if (self.selectedViewTag == OEBlankSlateTag) {
         [self updateBlankSlate];
     }
 }

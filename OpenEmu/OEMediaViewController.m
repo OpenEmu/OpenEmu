@@ -97,20 +97,9 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
     self.gridView.automaticallyMinimizeRowMargin = YES;
     self.gridView.cellClass = [OEGridMediaItemCell class];
-
-    [self addObserver:self forKeyPath:@"controlsToolbar" options:0 context:nil];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
-{
-    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-
-    if([keyPath isEqualToString:@"controlsToolbar"]){
-        [self _updateToolbar];
-    }
-}
-
-- (void)_updateToolbar {
+- (void)updateToolbar {
     if(!self.controlsToolbar) return;
 
     OELibraryToolbar *toolbar = self.libraryController.toolbar;
@@ -118,7 +107,6 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     NSString *searchValue = @"";
     if(!self.shouldShowBlankSlate) {
         toolbarItemsEnabled = YES;
-
         searchValue = self.currentSearchTerm ?: @"";
     }
 
@@ -270,18 +258,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     [self _setupSearchMenuTemplate];
 }
 
-- (OECollectionViewControllerViewTag)OE_currentViewTagByToolbarState
-{
-    return OEGridViewTag;
-}
-
-- (BOOL)isSelected
-{
-    return self.libraryController.currentSubviewController == self;
-}
-
 #pragma mark - OELibrarySubviewController Implementation
-
 - (NSArray*)selectedGames
 {
     return @[];

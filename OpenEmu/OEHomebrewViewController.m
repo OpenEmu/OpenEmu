@@ -126,7 +126,6 @@ const static CGFloat TableViewSpacing = 86.0;
     [tableView setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:tableView];
 
-
     [self addObserver:self forKeyPath:@"controlsToolbar" options:0 context:nil];
 }
 
@@ -568,22 +567,6 @@ const static CGFloat TableViewSpacing = 86.0;
     return NO;
 }
 
-#pragma mark - State Handling
-
-- (OELibraryController *)libraryController
-{
-    return _libraryController;
-}
-
-- (void)setLibraryController:(OELibraryController *)libraryController
-{
-    _libraryController = libraryController;
-
-    [[[libraryController toolbar] gridViewButton] setEnabled:NO];
-    [[[libraryController toolbar] listViewButton] setEnabled:NO];
-    [[[libraryController toolbar] searchField] setEnabled:NO];
-    [[[libraryController toolbar] gridSizeSlider] setEnabled:NO];
-}
 @end
 
 @implementation OEHomebrewGame
