@@ -274,9 +274,9 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     newViewController.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     
     if(currentSubviewController) {
-        
+        currentSubviewController.controlsToolbar = NO;
+
         [NSAnimationContext beginGrouping];
-        
         [[NSAnimationContext currentContext] setDuration:crossfadeDuration];
         
         [self transitionFromViewController:currentSubviewController
@@ -292,6 +292,7 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
     }
     
     self.currentSubviewController = newViewController;
+    self.currentSubviewController.controlsToolbar = YES;
 
     [self.view.window makeFirstResponder:newViewController.view];
 }
