@@ -16,7 +16,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <view id="3" userLabel="Library">
             <rect key="frame" x="0.0" y="0.0" width="458" height="553"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+            <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <customView id="11" customClass="OEBackgroundImageView">
                     <rect key="frame" x="42" y="461" width="374" height="40"/>
@@ -59,10 +59,10 @@
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <textField verticalHuggingPriority="750" id="7" customClass="OELabel">
-                    <rect key="frame" x="41" y="150" width="377" height="17"/>
+                    <rect key="frame" x="41" y="150" width="171" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Available Libraries:" id="24" customClass="OELabelCell">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Bibliothèques disponibles :" id="24" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -72,10 +72,10 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <textField verticalHuggingPriority="750" id="10" customClass="OELabel">
-                    <rect key="frame" x="41" y="292" width="377" height="17"/>
+                    <rect key="frame" x="41" y="292" width="157" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Organization Methods" id="18" customClass="OELabelCell">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Méthodes d’organisation" id="18" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -85,10 +85,10 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <textField verticalHuggingPriority="750" id="etg-C7-Lej" customClass="OELabel">
-                    <rect key="frame" x="41" y="355" width="237" height="17"/>
+                    <rect key="frame" x="41" y="355" width="201" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Reset all dialog warnings:" id="Ua1-J2-mdy" customClass="OELabelCell">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Réinitialiser les avertissements :" id="Ua1-J2-mdy" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -123,21 +123,21 @@
                     </buttonCell>
                     <cells>
                         <column>
-                            <buttonCell type="check" title="Keep games organized" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="20" userLabel="Check Box Cell" customClass="OEButtonCell">
+                            <buttonCell type="check" title="Conserver l’organisation des jeux" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="20" userLabel="Check Box Cell" customClass="OEButtonCell">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                                 <connections>
                                     <binding destination="36" name="value" keyPath="values.organizeLibrary" id="42"/>
                                 </connections>
                             </buttonCell>
-                            <buttonCell type="check" title="Copy files to Game Library folder when adding to library" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="21" userLabel="Check Box Cell" customClass="OEButtonCell">
+                            <buttonCell type="check" title="Copier fichiers dans la bibliothèque de jeux lors de l’ajout" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="21" userLabel="Check Box Cell" customClass="OEButtonCell">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                                 <connections>
                                     <binding destination="36" name="value" keyPath="values.copyToLibrary" id="40"/>
                                 </connections>
                             </buttonCell>
-                            <buttonCell type="check" title="Automatically lookup game information &amp; artwork" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="23" userLabel="Check Box Cell" customClass="OEButtonCell">
+                            <buttonCell type="check" title="Récupérer automatiquement les infos et illustrations" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="23" userLabel="Check Box Cell" customClass="OEButtonCell">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                                 <connections>
@@ -151,10 +151,10 @@
                     </userDefinedRuntimeAttributes>
                 </matrix>
                 <textField verticalHuggingPriority="750" id="9" customClass="OELabel">
-                    <rect key="frame" x="41" y="516" width="377" height="17"/>
+                    <rect key="frame" x="41" y="516" width="313" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Game Library Folder Location:" id="19" customClass="OELabelCell">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Emplacement du dossier de bibliothèque de jeux :" id="19" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -165,9 +165,9 @@
                 </textField>
                 <button id="14" customClass="OEButton">
                     <rect key="frame" x="249" y="425" width="78" height="23"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <animations/>
-                    <buttonCell key="cell" type="square" title="Change…" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15" customClass="OEButtonCell">
+                    <buttonCell key="cell" type="square" title="Changer…" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -182,7 +182,7 @@
                     <rect key="frame" x="338" y="425" width="78" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                     <animations/>
-                    <buttonCell key="cell" type="square" title="Reset" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="16" customClass="OEButtonCell">
+                    <buttonCell key="cell" type="square" title="Rétablir" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="16" customClass="OEButtonCell">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -191,21 +191,6 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="resetLibraryFolder:" target="-2" id="45"/>
-                    </connections>
-                </button>
-                <button id="Q95-qb-F7X" customClass="OEButton">
-                    <rect key="frame" x="284" y="354" width="132" height="23"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                    <animations/>
-                    <buttonCell key="cell" type="square" title="Reset warnings" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy" customClass="OEButtonCell">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_button"/>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <action selector="resetWarningDialogs:" target="-2" id="Ohg-fM-nsc"/>
                     </connections>
                 </button>
                 <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" id="yl9-Jz-OKA" customClass="OEScrollView">
@@ -230,11 +215,26 @@
                         <animations/>
                     </scroller>
                     <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6uK-mj-F0v">
-                        <rect key="frame" x="351" y="0.0" width="15" height="106"/>
+                        <rect key="frame" x="350" y="0.0" width="16" height="106"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <animations/>
                     </scroller>
                 </scrollView>
+                <button id="Q95-qb-F7X" customClass="OEButton">
+                    <rect key="frame" x="261" y="355" width="155" height="23"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                    <animations/>
+                    <buttonCell key="cell" type="square" title="Rétablir avertissements" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="all-Wd-1Dy" customClass="OEButtonCell">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_button"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="resetWarningDialogs:" target="-2" id="Ohg-fM-nsc"/>
+                    </connections>
+                </button>
             </subviews>
             <animations/>
         </view>

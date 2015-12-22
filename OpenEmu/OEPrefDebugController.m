@@ -206,7 +206,7 @@ NSString * const OptionsKey = @"options";
                               Button(@"Cancel OpenVGDB Update", @selector(cancelOpenVGDBUpdate:)),
 
                               Group(@"Database Actions"),
-                              Button(@"Delete artwork that can be downloaded", @selector(removeArtworkWithRemoteBacking:)),
+                              Button(@"Delete Artwork that can be downloaded", @selector(removeArtworkWithRemoteBacking:)),
                               Button(@"Download missing artwork", @selector(downloadMissingArtwork:)),
                               Button(@"Remove untracked artwork files", @selector(removeUntrackedImageFiles:)),
                               Button(@"Cleanup rom hashes", @selector(cleanupHashes:)),

@@ -162,7 +162,7 @@
                                                                     </connections>
                                                                 </menuItem>
                                                                 <menuItem isSeparatorItem="YES" id="5EQ-pA-c2w"/>
-                                                                <menuItem title="Add to Library…" id="1U8-Yu-nH3">
+                                                                <menuItem title="Add To Library…" id="1U8-Yu-nH3" userLabel="Add To Library…">
                                                                     <connections>
                                                                         <action selector="addToLibrary:" target="-1" id="dMl-dD-TKi"/>
                                                                     </connections>
