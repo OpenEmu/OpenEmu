@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
     </dependencies>
     <objects>
@@ -15,7 +14,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <view id="3" userLabel="Gameplay">
             <rect key="frame" x="0.0" y="0.0" width="423" height="254"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+            <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <customView id="4" customClass="OEHorizontalLine">
                     <rect key="frame" x="0.0" y="157" width="432" height="2"/>
@@ -26,10 +25,10 @@
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <button id="5" userLabel="Check Box" customClass="OEButton">
-                    <rect key="frame" x="42" y="90" width="223" height="18"/>
+                    <rect key="frame" x="42" y="90" width="295" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
-                    <buttonCell key="cell" type="check" title="Always launch games fullscreen" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="26" userLabel="Check Box Cell" customClass="OEButtonCell">
+                    <buttonCell key="cell" type="check" title="Запускать игры в полноэкранном режиме" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="26" userLabel="Check Box Cell" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -41,10 +40,10 @@
                     </connections>
                 </button>
                 <button id="6" userLabel="Check Box" customClass="OEButton">
-                    <rect key="frame" x="42" y="61" width="258" height="18"/>
+                    <rect key="frame" x="42" y="61" width="295" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
-                    <buttonCell key="cell" type="check" title="Always use popout gameplay window" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="25" userLabel="Check Box Cell" customClass="OEButtonCell">
+                    <buttonCell key="cell" type="check" title="Использовать всплывающее окно для игр" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="25" userLabel="Check Box Cell" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -56,10 +55,10 @@
                     </connections>
                 </button>
                 <button id="56" userLabel="Check Box" customClass="OEButton">
-                    <rect key="frame" x="42" y="32" width="305" height="18"/>
+                    <rect key="frame" x="42" y="32" width="337" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
-                    <buttonCell key="cell" type="check" title="Always pause gameplay when in background" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="57" userLabel="Check Box Cell" customClass="OEButtonCell">
+                    <buttonCell key="cell" type="check" title="Приостанавливать игры при переключении окна" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="57" userLabel="Check Box Cell" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -74,7 +73,7 @@
                     <rect key="frame" x="41" y="124" width="139" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Window Management" id="14" customClass="OELabelCell">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Управление окном" id="14" customClass="OELabelCell">
                         <font key="font" metaFont="smallSystemBold"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -87,7 +86,7 @@
                     <rect key="frame" x="41" y="220" width="139" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Display Mode" id="23" customClass="OELabelCell">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Режим отображения" id="23" customClass="OELabelCell">
                         <font key="font" metaFont="smallSystemBold"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -97,10 +96,10 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <textField verticalHuggingPriority="750" id="10" customClass="OELabel">
-                    <rect key="frame" x="41" y="185" width="41" height="17"/>
+                    <rect key="frame" x="41" y="185" width="57" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <animations/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Filter:" id="21" customClass="OELabelCell">
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Фильтр:" id="21" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -110,8 +109,8 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <popUpButton focusRingType="none" verticalHuggingPriority="750" id="11" customClass="OEPopUpButton">
-                    <rect key="frame" x="84" y="183" width="217" height="26"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <rect key="frame" x="100" y="182" width="217" height="26"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <animations/>
                     <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="16" customClass="OEPopUpButtonCell">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>

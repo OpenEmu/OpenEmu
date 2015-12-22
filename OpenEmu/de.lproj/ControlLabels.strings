@@ -96,7 +96,7 @@
   "Pause" = "Pause";
   "Player Start" = "Player Start";
   "Quick Load Button" = "Schnell laden";
-  "Quick Save Button" = "Schnell sichern";
+  "Quick Save Button" = "Schnell speichern";
   "R Diff A" = "R Schw. A";
   "R Diff B" = "R Schw. B";
   "R Diff" = "R Schw.";
@@ -111,7 +111,7 @@
   "Right" = "Rechts";
   "Run" = "Run";
   "Save" = "Sichern";
-  "Screenshot" = "Screenshot";
+  "Screenshot" = "Screen-shot";
   "Select" = "Select";
   "Service" = "Service";
   "Sound" = "Audio";
