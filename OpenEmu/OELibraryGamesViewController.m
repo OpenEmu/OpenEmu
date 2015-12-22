@@ -48,6 +48,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
 @interface OELibraryGamesViewController ()
 @property (nonatomic, weak) IBOutlet NSVisualEffectView *sidebarVisualEffectView;
+@property BOOL issueResolverVisible;
 @end
 
 @implementation OELibraryGamesViewController
@@ -64,6 +65,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
     NSNotificationCenter *noc = [NSNotificationCenter defaultCenter];
     [noc addObserver:self selector:@selector(_updateCollectionContentsFromSidebar:) name:OESidebarSelectionDidChangeNotificationName object:[self sidebarController]];
+    [noc addObserver:self selector:@selector(_hideIssueResolver:) name:OEGameScannerViewShouldHideNotificationName object:self.gameScannerController];
 
     NSView *collectionView = [self.collectionController view];
     NSView *collectionViewContainer = self.collectionViewContainer;
@@ -151,6 +153,10 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 #pragma mark - Sidebar handling
 - (void)_updateCollectionContentsFromSidebar:(id)sender
 {
+    if(self.issueResolverVisible){
+        [self _hideIssueResolver:nil];
+    }
+
     id selectedItem = self.sidebarController.selectedSidebarItem;
     self.collectionController.representedObject = selectedItem;
     [self.collectionController updateToolbar];
@@ -179,6 +185,17 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     }
 }
 
+- (void)_hideIssueResolver:(id)sender
+{
+    if(!self.issueResolverVisible) return;
+
+    [self.gameScannerController.view removeFromSuperview];
+
+    self.libraryController.toolbar.categorySelector.enabled = YES;
+    self.issueResolverVisible = NO;
+    [self.collectionController bind:@"controlsToolbar" toObject:self withKeyPath:@"controlsToolbar" options:nil];
+}
+
 - (void)makeNewCollectionWithSelectedGames:(id)sender
 {
     OECoreDataMainThreadAssertion();
@@ -193,22 +210,24 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 #pragma mark - Issue Resolving
 - (IBAction)showIssuesView:(id)sender
 {
-    NSView *container  = [self collectionViewContainer];
-    NSView *issuesView = [[self gameScannerController] view];
+    if(self.issueResolverVisible) return;
+    self.issueResolverVisible = YES;
 
-    if([[container subviews] containsObject:issuesView])
-        return;
+    NSView *container  = [self collectionViewContainer];
+    NSView *issuesView = self.gameScannerController.view;
 
     [container addSubview:issuesView positioned:NSWindowAbove relativeTo:NULL];
     [issuesView setFrame:[container bounds]];
     
     // Disable toolbar controls.
-    return;
+    [self.collectionController unbind:@"controlsToolbar"];
+    self.collectionController.controlsToolbar = NO;
+
     OELibraryToolbar *toolbar = self.libraryController.toolbar;
-    [[toolbar categorySelector] setEnabled:NO];
-    [[toolbar gridViewButton] setEnabled:NO];
-    [[toolbar listViewButton] setEnabled:NO];
-    [[toolbar gridSizeSlider] setEnabled:NO];
-    [[toolbar searchField] setEnabled:NO];
+    toolbar.categorySelector.enabled = NO;
+    toolbar.gridViewButton.enabled = NO;
+    toolbar.listViewButton.enabled = NO;
+    toolbar.gridSizeSlider.enabled = NO;
+    toolbar.searchField.enabled = NO;
 }
 @end

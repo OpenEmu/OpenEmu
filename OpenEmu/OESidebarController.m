@@ -498,12 +498,9 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
     id <OESidebarItem> sidebarItem = item;
-    const BOOL gameScannerIssuesVisible = self.gameScannerViewController.view.superview != nil;
-    
     return self.database != nil &&
            !sidebarItem.isGroupHeaderInSidebar &&
-           sidebarItem.isSelectableInSidebar &&
-           !gameScannerIssuesVisible;
+           sidebarItem.isSelectableInSidebar;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item

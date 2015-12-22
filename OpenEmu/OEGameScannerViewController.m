@@ -48,6 +48,8 @@
 
 #define OEGameScannerUpdateDelay 0.2
 
+NSString * const OEGameScannerViewShouldHideNotificationName = @"gameScannerViewShouldHide";
+
 @interface OEGameScannerViewController ()
 
 @property NSMutableArray *itemsRequiringAttention;
@@ -530,7 +532,6 @@
     [[self issuesView] reloadData];
 
     [[self importer] start];
-    [[NSNotificationCenter defaultCenter] postNotificationName:OESidebarSelectionDidChangeNotificationName object:self];
 
     if([[self importer] numberOfProcessedItems] == [[self importer] totalNumberOfItems])
     {
@@ -538,17 +539,8 @@
     }
 
     if([[self itemsRequiringAttention] count] == 0) {
-        [[self view] removeFromSuperview];
+        [[NSNotificationCenter defaultCenter] postNotificationName:OEGameScannerViewShouldHideNotificationName object:self];
     }
-    
-    // Re-enable toolbar controls.
-    return;
-    OELibraryToolbar *toolbar = [[self libraryController] toolbar];
-    [[toolbar categorySelector] setEnabled:YES];
-    [[toolbar gridViewButton] setEnabled:YES];
-    [[toolbar listViewButton] setEnabled:YES];
-    [[toolbar gridSizeSlider] setEnabled:YES];
-    [[toolbar searchField] setEnabled:YES];
 }
 
 #pragma mark - UI Actions Scanner

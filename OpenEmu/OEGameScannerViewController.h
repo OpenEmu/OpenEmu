@@ -31,7 +31,7 @@
 @class OELibraryController;
 
 #pragma mark - Imported variables
-extern NSString * const OESidebarSelectionDidChangeNotificationName;
+extern NSString * const OEGameScannerViewShouldHideNotificationName;
 
 @class OELibraryController;
 @interface OEGameScannerViewController : NSViewController <OEROMImporterDelegate, OESidebarItem, NSTableViewDataSource, NSTableViewDelegate>
@@ -55,5 +55,4 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 #pragma mark - Issue Resolving UI
 @property (strong) IBOutlet NSTableView   *issuesView;
 @property (strong) IBOutlet NSPopUpButton *actionPopUpButton;
-
 @end
