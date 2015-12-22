@@ -181,49 +181,11 @@ extension NSImage {
     func subImageFromRect(rect: NSRect) -> NSImage {
         
         return NSImage(size: rect.size, flipped: false) { [unowned self] dstRect in
-            
-            var representation: NSImageRep?
-            
-            // Manually pick best representation for subimage based on scale of graphics context. AppKit seems to fail here (esp. for search field cancel button), probably because it checks the size of the original image.
-            
-            let context = NSGraphicsContext.currentContext()!.CGContext
-            let deviceRect = CGContextConvertRectToDeviceSpace(context, dstRect)
-            let scale = deviceRect.height / dstRect.height
-            let imageHeight = self.size.height
-            
-            for rep in self.representations {
-                
-                var repScale = scale
-                
-                // Only inspect size of bitmap image reps.
-                if let rep = rep as? NSBitmapImageRep {
-                    repScale = CGFloat(rep.pixelsHigh) / imageHeight
-                }
-                
-                if scale == repScale {
-                    representation = rep
-                    break
-                }
-            }
-            
-            if let representation = representation {
-                
-                representation.drawInRect(dstRect,
-                    fromRect: rect,
-                    operation: .CompositeSourceOver,
-                    fraction: 1,
-                    respectFlipped: true,
-                    hints: nil)
-                
-            } else {
-                
-                // Let AppKit pick a represnetation if we couldn't find one.
-                self.drawInRect(dstRect,
-                    fromRect: rect,
-                    operation: .CompositeSourceOver,
-                    fraction: 1)
-            }
-            
+            self.drawInRect(dstRect,
+                fromRect: rect,
+                operation: .CompositeSourceOver,
+                fraction: 1)
+
             return true
         }
     }
