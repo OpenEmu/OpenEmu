@@ -707,6 +707,11 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     }
 }
 
+- (void)startSelectedGame:(id)sender
+{
+    [NSApp sendAction:@selector(startSaveState:) to:nil from:self];
+}
+
 #pragma mark - GridView DraggingDestinationDelegate
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {

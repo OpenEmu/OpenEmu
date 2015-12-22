@@ -307,7 +307,8 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
     if(action == @selector(startSelectedGame:))
     {
-        return [currentSubviewController isKindOfClass:[OELibraryGamesViewController class]] && [currentSubviewController respondsToSelector:@selector(selectedGames)] && [[currentSubviewController selectedGames] count] != 0;
+        return ([currentSubviewController isKindOfClass:[OELibraryGamesViewController class]] && [currentSubviewController respondsToSelector:@selector(selectedGames)] && [[currentSubviewController selectedGames] count] != 0) ||
+            ([currentSubviewController isKindOfClass:[OEMediaViewController class]] && [[currentSubviewController representedObject] isKindOfClass:[OEDBSavedGamesMedia class]] && [[currentSubviewController selectedSaveStates] count] != 0);
     }
 
     if(action == @selector(startSaveState:))
