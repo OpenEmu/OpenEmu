@@ -39,7 +39,7 @@ extern NSString * const OECDBasedGamesUserGuideURLString;
 
 @interface OEBlankSlateView : OEBlankSlateBackgroundView
 @property (nonatomic) id representedObject;
-@property (assign) id <OEBlankSlateViewDelegate> delegate;
+@property (assign) IBOutlet id <OEBlankSlateViewDelegate> delegate;
 @property (readonly, strong) NSView *containerView;
 
 - (void)gotoProjectURL:(id)sender;

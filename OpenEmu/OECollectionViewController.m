@@ -78,6 +78,7 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 const CGFloat MinGridViewZoom = 0.5;
 const CGFloat MaxGridViewZoom = 2.5;
+const CGFloat DefaultGridViewZoome = 1.0;
 
 static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGameTitleKVOContext;
 
@@ -121,32 +122,16 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 {
     [super viewDidLoad];
 
-    // Setup View
-    [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-
     // Set up GridView
     [_gridView setCellClass:[OEGridGameCell class]];
-    [_gridView setDelegate:self];
-    [_gridView setDataSource:self];
-    [_gridView setDraggingDestinationDelegate:self];
     [_gridView setCellSize:defaultGridSize];
-
-    //set initial zoom value
-    NSSlider *sizeSlider = [[[self libraryController] toolbar] gridSizeSlider];
-    [sizeSlider setContinuous:YES];
-    CGFloat defaultZoomValue = [[NSUserDefaults standardUserDefaults] floatForKey:OELastGridSizeKey];
-    [sizeSlider setFloatValue:defaultZoomValue];
-    [self zoomGridViewWithValue:defaultZoomValue];
 
     // Set up list view
     [_listView setTarget:self];
-    [_listView setDelegate:self];
-    [_listView setDataSource:self];
     [_listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
     [_listView setRowSizeStyle:NSTableViewRowSizeStyleCustom];
     [_listView setRowHeight:20.0];
     [_listView setSortDescriptors:[self defaultSortDescriptors]];
-    [_listView setAllowsMultipleSelection:YES];
 
     // There's no natural order for status indicators, so we don't allow that column to be sorted
     OETableHeaderCell *romStatusHeaderCell = [[_listView tableColumnWithIdentifier:@"listViewStatus"] headerCell];
@@ -165,10 +150,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [self addObserver:self forKeyPath:@"controlsToolbar" options:0 context:nil];
 
     // Setup BlankSlate View
-    [_blankSlateView setDelegate:self];
-    [_blankSlateView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [_blankSlateView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-    [_blankSlateView setFrame:[[self view] bounds]];
+    _blankSlateView.frame = self.view.bounds;
 
     // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
     // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
