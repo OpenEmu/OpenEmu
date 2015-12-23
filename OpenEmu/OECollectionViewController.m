@@ -464,8 +464,9 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
 #pragma mark - Toolbar Actions
 - (IBAction)search:(id)sender
 {
-    [self doesNotImplementSelector:_cmd];
+    [self OE_searchFor:[sender stringValue]];
 }
+
 
 - (IBAction)changeGridSize:(id)sender
 {
@@ -588,6 +589,10 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
 
 
 #pragma mark - Private
+- (void)OE_searchFor:(NSString*)string
+{
+    [self doesNotImplementSelector:_cmd];
+}
 
 - (void)updateViews
 {

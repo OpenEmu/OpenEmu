@@ -302,9 +302,9 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
 #pragma mark -
 
-- (void)search:(id)sender
+- (void)OE_searchFor:(NSString *)string
 {
-    self.currentSearchTerm = self.libraryController.toolbar.searchField.stringValue;
+    self.currentSearchTerm = string;
     
     NSMutableArray *predarray = [NSMutableArray array];
     NSArray *tokens = [self.currentSearchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];

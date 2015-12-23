@@ -93,5 +93,5 @@ extern NSString * const OELastCollectionViewKey;
 - (void)OE_switchToView:(OECollectionViewControllerViewTag)tag;
 - (void)OE_showView:(OECollectionViewControllerViewTag)tag;
 - (void)OE_setupToolbarStatesForViewTag:(OECollectionViewControllerViewTag)tag;
-
+- (void)OE_searchFor:(NSString*)string;
 @end

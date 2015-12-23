@@ -321,9 +321,9 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 
 #pragma mark - UI Actions
 
-- (void)search:(id)sender
+- (void)OE_searchFor:(NSString *)string
 {
-    self.currentSearchTerm = [sender stringValue];
+    self.currentSearchTerm = string;
     
     NSArray *tokens = [self.currentSearchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
