@@ -241,9 +241,25 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
 
 - (void)storeStateWithKey:(NSString*)key
 {
-    id state = nil;
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
 
-    [[NSUserDefaults standardUserDefaults] setObject:state forKey:key];
+    CGFloat gridZoomFactor = _gridView.cellSize.width / defaultGridSize.width;
+    NSRect gridViewVisibleRect = _gridView.enclosingScrollView.documentVisibleRect;
+    NSIndexSet *selectionIndexes = self.selectionIndexes;
+    NSString *searchTerm = self.currentSearchTerm;
+    NSString *searchDomain = @""; // TODO: use self.currentSearchDomain
+    NSArray *listViewSortDescriptors = _listView.sortDescriptors;
+
+    [archiver encodeRect:gridViewVisibleRect forKey:OECollectionViewStateGridVisibleRectKey];
+    [archiver encodeFloat:gridZoomFactor forKey:OECollectionViewStateGridZoomFactorKey];
+    [archiver encodeObject:selectionIndexes forKey:OECollectionViewStateSelectionIndexesKey];
+    [archiver encodeObject:searchTerm forKey:OECollectionViewStateSearchTermKey];
+    [archiver encodeObject:searchDomain forKey:OECollectionViewStateSearchDomainKey];
+    [archiver encodeObject:listViewSortDescriptors forKey:OECollectionViewStateSortDescriptorsKey];
+
+    [archiver finishEncoding];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:key];
 }
 
 #define DecodeWithMethod(_var_, _key_, _METHOD_) if([unarchiver containsValueForKey:_key_]) _var_ = [unarchiver _METHOD_ _key_];
