@@ -73,7 +73,6 @@
 
 #pragma mark - Public variables
 
-NSString * const OELastGridSizeKey       = @"lastGridSize";
 NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
 const CGFloat MinGridViewZoom = 0.5;
@@ -90,14 +89,6 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 @implementation OECollectionViewController
 @synthesize controlsToolbar;
-
-+ (void)initialize
-{
-    // Make sure not to reinitialize for subclassed objects
-    if(self != [OECollectionViewController class]) return;
-
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ OELastGridSizeKey : @1.0f }];
-}
 
 - (instancetype)init
 {
@@ -122,7 +113,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 {
     [super viewDidLoad];
 
-    // Set up GridView
+    // Set up grid view
     [_gridView setCellClass:[OEGridGameCell class]];
     [_gridView setCellSize:defaultGridSize];
 
@@ -199,15 +190,6 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     toolbar.searchField.enabled = toolbarItemsEnabled;
 }
 
-- (void)viewWillAppear
-{
-    [super viewWillAppear];
-    
-    // Update grid view with current size slider zoom value.
-    NSSlider *sizeSlider = [[[self libraryController] toolbar] gridSizeSlider];
-    [self zoomGridViewWithValue:[sizeSlider floatValue]];
-}
-
 - (NSString *)nibName
 {
     return @"OECollectionViewController";
@@ -259,7 +241,7 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
         unarchiver = [NSKeyedUnarchiver unarchiveObjectWithData:state];
     }
 
-    CGFloat gridZoomFactor = 1.0;
+    CGFloat gridZoomFactor = DefaultGridViewZoome;
     NSRect gridViewVisibleRect = NSZeroRect;
     NSIndexSet *selectionIndexes = [NSIndexSet indexSet];
     NSString *searchTerm = @"";
@@ -695,7 +677,6 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
     zoomValue = MAX(MIN(zoomValue, MaxGridViewZoom), MinGridViewZoom);
 
     _gridView.cellSize = OEScaleSize(defaultGridSize, zoomValue);
-    [[NSUserDefaults standardUserDefaults] setFloat:zoomValue forKey:OELastGridSizeKey];
 }
 
 @end

@@ -42,7 +42,6 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
     OEListViewTag   = 2
 };
 
-extern NSString  * _Nonnull  const OELastGridSizeKey;
 extern NSString  * _Nonnull  const OELastCollectionViewKey;
 
 @interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController, OEGridViewDelegate, OEGridViewMenuSource>
