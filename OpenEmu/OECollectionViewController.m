@@ -115,7 +115,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
     // Set up grid view
     [_gridView setCellClass:[OEGridGameCell class]];
-    [_gridView setCellSize:defaultGridSize];
+    [_gridView setCellSize:DefaultGridSize];
 
     // Set up list view
     [_listView setTarget:self];
@@ -172,15 +172,19 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     OELibraryToolbar *toolbar = self.libraryController.toolbar;
     toolbar.searchField.menu = nil;
 
-    BOOL toolbarItemsEnabled =  NO;
+    BOOL toolbarItemsEnabled = NO;
+    CGFloat gridSizeFactor;
     if(!self.shouldShowBlankSlate)
     {
         toolbar.gridViewButton.state = _selectedViewTag == OEGridViewTag ? NSOnState : NSOffState;
         toolbar.listViewButton.state = _selectedViewTag == OEListViewTag ? NSOnState : NSOffState;
         toolbarItemsEnabled = YES;
+
+        gridSizeFactor = _gridView.cellSize.width / DefaultGridSize.width;
     }
     else
     {
+        gridSizeFactor = toolbar.gridSizeSlider.floatValue;
         toolbar.searchField.stringValue = @"";
     }
 
@@ -188,6 +192,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     toolbar.listViewButton.enabled = toolbarItemsEnabled;
     toolbar.gridSizeSlider.enabled = toolbarItemsEnabled;
     toolbar.searchField.enabled = toolbarItemsEnabled;
+
+    toolbar.gridSizeSlider.floatValue = gridSizeFactor;
 }
 
 - (NSString *)nibName
@@ -209,7 +215,7 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
 
-    CGFloat gridZoomFactor = _gridView.cellSize.width / defaultGridSize.width;
+    CGFloat gridZoomFactor = _gridView.cellSize.width / DefaultGridSize.width;
     NSRect gridViewVisibleRect = _gridView.enclosingScrollView.documentVisibleRect;
     NSIndexSet *selectionIndexes = self.selectionIndexes;
     NSString *searchTerm = self.currentSearchTerm;
@@ -254,6 +260,8 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
     DecodeObjectIfSet(sortDescriptors, OECollectionViewStateSortDescriptorsKey);
     DecodeRectIfSet(gridViewVisibleRect, OECollectionViewStateGridVisibleRectKey);
     DecodeObjectIfSet(selectionIndexes, OECollectionViewStateSelectionIndexesKey);
+
+    [unarchiver finishDecoding];
 
     self.currentSearchTerm = searchTerm;
     // TODO: add currentSearchDomain property and set it here
@@ -674,9 +682,9 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
 
 - (void)zoomGridViewWithValue:(CGFloat)zoomValue
 {
+    NSLog(@"-zoomGridViewWithValue: %f", zoomValue);
     zoomValue = MAX(MIN(zoomValue, MaxGridViewZoom), MinGridViewZoom);
-
-    _gridView.cellSize = OEScaleSize(defaultGridSize, zoomValue);
+    _gridView.cellSize = OEScaleSize(DefaultGridSize, zoomValue);
 }
 
 @end

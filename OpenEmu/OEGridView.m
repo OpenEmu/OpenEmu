@@ -44,7 +44,7 @@
 #import "IKImageBrowserGridGroup.h"
 
 #pragma mark -
-NSSize const defaultGridSize = (NSSize){26+142, 143};
+NSSize const DefaultGridSize = (NSSize){26+142, 143};
 NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKey";
 
 @implementation IKCGRenderer (ScaleFactorAdditions)

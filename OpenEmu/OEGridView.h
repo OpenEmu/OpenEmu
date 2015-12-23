@@ -27,7 +27,7 @@
 @import Cocoa;
 @import Quartz;
 
-extern NSSize const defaultGridSize;
+extern NSSize const DefaultGridSize;
 extern NSString * const OEImageBrowserGroupSubtitleKey;
 
 typedef enum
