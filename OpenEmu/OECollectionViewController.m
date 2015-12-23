@@ -237,8 +237,8 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
     NSData *state = [[NSUserDefaults standardUserDefaults] objectForKey:key];
     NSKeyedUnarchiver *unarchiver = nil;;
 
-    if(state && ![state isKindOfClass:[NSData class]]) {
-        unarchiver = [NSKeyedUnarchiver unarchiveObjectWithData:state];
+    if(state && [state isKindOfClass:[NSData class]]) {
+        unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:state];
     }
 
     CGFloat gridZoomFactor = DefaultGridViewZoome;
