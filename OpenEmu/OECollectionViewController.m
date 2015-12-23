@@ -173,7 +173,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     toolbar.searchField.menu = nil;
 
     BOOL toolbarItemsEnabled = NO;
-    CGFloat gridSizeFactor;
+    CGFloat gridSizeFactor = toolbar.gridSizeSlider.floatValue;
+    NSString *searchTerm = @"";
     if(!self.shouldShowBlankSlate)
     {
         toolbar.gridViewButton.state = _selectedViewTag == OEGridViewTag ? NSOnState : NSOffState;
@@ -181,11 +182,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
         toolbarItemsEnabled = YES;
 
         gridSizeFactor = _gridView.cellSize.width / DefaultGridSize.width;
-    }
-    else
-    {
-        gridSizeFactor = toolbar.gridSizeSlider.floatValue;
-        toolbar.searchField.stringValue = @"";
+        searchTerm = self.currentSearchTerm ?: @"";
     }
 
     toolbar.gridViewButton.enabled = toolbarItemsEnabled;
@@ -193,6 +190,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     toolbar.gridSizeSlider.enabled = toolbarItemsEnabled;
     toolbar.searchField.enabled = toolbarItemsEnabled;
 
+    toolbar.searchField.stringValue = searchTerm;
     toolbar.gridSizeSlider.floatValue = gridSizeFactor;
 }
 
@@ -266,6 +264,7 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
     self.currentSearchTerm = searchTerm;
     // TODO: add currentSearchDomain property and set it here
     // TODO: might need to reload data here so zooming, selecting, etc. is done with the proper filter
+    [self OE_searchFor:searchTerm];
     self.selectionIndexes = selectionIndexes;
     [self zoomGridViewWithValue:gridZoomFactor];
     [[self gridView] scrollRectToVisible:gridViewVisibleRect];

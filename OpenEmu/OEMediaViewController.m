@@ -105,9 +105,13 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     OELibraryToolbar *toolbar = self.libraryController.toolbar;
     BOOL toolbarItemsEnabled = NO;
     NSString *searchValue = @"";
+    CGFloat gridSizeFactor = 1.0;
+
     if(!self.shouldShowBlankSlate) {
         toolbarItemsEnabled = YES;
         searchValue = self.currentSearchTerm ?: @"";
+
+        gridSizeFactor = self.gridView.cellSize.width / DefaultGridSize.width;
     }
 
     toolbar.searchField.enabled = toolbarItemsEnabled;
@@ -118,6 +122,8 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     toolbar.searchField.stringValue = searchValue;
     toolbar.gridViewButton.state = NSOnState;
     toolbar.listViewButton.state = NSOffState;
+
+    toolbar.gridSizeSlider.floatValue = gridSizeFactor;
 
     [self _setupSearchMenuTemplate];
 }
