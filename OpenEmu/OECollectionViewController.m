@@ -79,13 +79,9 @@ NSString * const OELastCollectionViewKey = @"lastCollectionView";
 static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGameTitleKVOContext;
 
 @interface OECollectionViewController ()
-{
-    IBOutlet NSView *gridViewContainer;// gridview
-    IBOutlet OEBlankSlateView *blankSlateView;
-}
-
+@property(assign) IBOutlet NSView *gridViewContainer;
+@property(assign) IBOutlet OEBlankSlateView *blankSlateView;
 @property(nonatomic, readwrite) OECollectionViewControllerViewTag selectedViewTag;
-
 @end
 
 @implementation OECollectionViewController
@@ -167,10 +163,10 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [self addObserver:self forKeyPath:@"controlsToolbar" options:0 context:nil];
 
     // Setup BlankSlate View
-    [blankSlateView setDelegate:self];
-    [blankSlateView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-    [blankSlateView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-    [blankSlateView setFrame:[[self view] bounds]];
+    [_blankSlateView setDelegate:self];
+    [_blankSlateView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+    [_blankSlateView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+    [_blankSlateView setFrame:[[self view] bounds]];
 
     // If the view has been loaded after a collection has been set via -setRepresentedObject:, set the appropriate
     // fetch predicate to display the items in that collection via -OE_reloadData. Otherwise, the view shows an
@@ -372,10 +368,10 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     NSView *view;
     switch (tag) {
         case OEBlankSlateTag:
-            view = blankSlateView;
+            view = _blankSlateView;
             break;
         case OEGridViewTag:
-            view = gridViewContainer;
+            view = _gridViewContainer;
             break;
         case OEListViewTag:
             view = [listView enclosingScrollView];
@@ -419,7 +415,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     else
     {
         [self OE_switchToView:OEBlankSlateTag];
-        blankSlateView.representedObject = self.representedObject;
+        _blankSlateView.representedObject = self.representedObject;
     }
 
     [self updateToolbar];
