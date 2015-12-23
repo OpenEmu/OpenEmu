@@ -140,5 +140,18 @@
 		<key>OEOdyssey2ButtonAction</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OEOdyssey2ButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OEOdyssey2ButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OEOdyssey2ButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OEOdyssey2ButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OEOdyssey2ButtonAction</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+	</dict>
 </dict>
 </plist>

@@ -3224,5 +3224,256 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OEContollerName</key>
+		<string>Mayflash GCN</string>
+		<key>OEGenericControllerName</key>
+		<string>OEControllerMayflashGCN</string>
+		<key>OEControllerDevices</key>
+		<array>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Mayflash GCN</string>
+				<key>OEControllerVendorID</key>
+				<integer>6708</integer>
+				<key>OEControllerProductID</key>
+				<integer>63237</integer>
+			</dict>
+		</array>
+		<key>OEControllerMappings</key>
+		<dict>
+			<key>OEControllerMayflashGCNButtonX</key>
+			<dict>
+				<key>Name</key>
+				<string>X</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>1</string>
+			</dict>
+			<key>OEControllerMayflashGCNButtonA</key>
+			<dict>
+				<key>Name</key>
+				<string>A</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>2</string>
+			</dict>
+			<key>OEControllerMayflashGCNButtonB</key>
+			<dict>
+				<key>Name</key>
+				<string>B</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>3</string>
+			</dict>
+			<key>OEControllerMayflashGCNButtonY</key>
+			<dict>
+				<key>Name</key>
+				<string>Y</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>4</string>
+			</dict>
+			<key>OEControllerMayflashGCNButtonL</key>
+			<dict>
+				<key>Name</key>
+				<string>L (Digital)</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>5</string>
+			</dict>
+			<key>OEControllerMayflashGCNButtonR</key>
+			<dict>
+				<key>Name</key>
+				<string>R (Digital)</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>6</string>
+			</dict>
+			<key>OEControllerMayflashGCNButtonZ</key>
+			<dict>
+				<key>Name</key>
+				<string>Z</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>8</string>
+			</dict>
+			<key>OEControllerMayflashGCNTriggerL</key>
+			<dict>
+				<key>Name</key>
+				<string>L (Analog)</string>
+				<key>Type</key>
+				<string>Trigger</string>
+				<key>Usage</key>
+				<string>Rx</string>
+			</dict>
+			<key>OEControllerMayflashGCNTriggerR</key>
+			<dict>
+				<key>Name</key>
+				<string>R (Analog)</string>
+				<key>Type</key>
+				<string>Trigger</string>
+				<key>Usage</key>
+				<string>Ry</string>
+			</dict>
+			<key>OEControllerMayflashGCNButtonStartPause</key>
+			<dict>
+				<key>Name</key>
+				<string>Start/Pause</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>10</string>
+			</dict>
+			<key>OEControllerMayflashGCNDPadUp</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Up</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>13</string>
+			</dict>
+			<key>OEControllerMayflashGCNDPadRight</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Right</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>14</string>
+			</dict>
+			<key>OEControllerMayflashGCNDPadDown</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Down</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>15</string>
+			</dict>
+			<key>OEControllerMayflashGCNDPadLeft</key>
+			<dict>
+				<key>Name</key>
+				<string>D-Pad Left</string>
+				<key>Type</key>
+				<string>Button</string>
+				<key>Usage</key>
+				<string>16</string>
+			</dict>
+			<key>OEControllerMayflashGCNAnalogStickX</key>
+			<dict>
+				<key>Name</key>
+				<string>Analog Stick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>X</string>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerMayflashGCNAnalogStickXLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Analog Stick Left</string>
+					</dict>
+					<key>OEControllerMayflashGCNAnalogStickXRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Analog Stick Right</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerMayflashGCNAnalogStickY</key>
+			<dict>
+				<key>Name</key>
+				<string>Analog Stick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Y</string>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerMayflashGCNAnalogStickYUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>Analog Stick Up</string>
+					</dict>
+					<key>OEControllerMayflashGCNAnalogStickYDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>Analog Stick Down</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerMayflashGCNCStickX</key>
+			<dict>
+				<key>Name</key>
+				<string>C Stick X</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Rz</string>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerMayflashGCNCStickXLeft</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>C Stick Left</string>
+					</dict>
+					<key>OEControllerMayflashGCNCStickXRight</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>C Stick Right</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>OEControllerMayflashGCNCStickY</key>
+			<dict>
+				<key>Name</key>
+				<string>Analog Stick Y</string>
+				<key>Type</key>
+				<string>Axis</string>
+				<key>Usage</key>
+				<string>Z</string>
+				<key>Values</key>
+				<dict>
+					<key>OEControllerMayflashGCNCStickYUp</key>
+					<dict>
+						<key>Direction</key>
+						<integer>-1</integer>
+						<key>Name</key>
+						<string>C Stick Up</string>
+					</dict>
+					<key>OEControllerMayflashGCNCStickYDown</key>
+					<dict>
+						<key>Direction</key>
+						<integer>1</integer>
+						<key>Name</key>
+						<string>C Stick Down</string>
+					</dict>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
 </dict>
 </plist>

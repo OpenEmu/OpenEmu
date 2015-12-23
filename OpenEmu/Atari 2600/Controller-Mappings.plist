@@ -196,5 +196,22 @@
 		<key>OE2600ButtonSelect</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OE2600ButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OE2600ButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OE2600ButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OE2600ButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OE2600ButtonFire1</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OE2600ButtonReset</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OE2600ButtonSelect</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+	</dict>
 </dict>
 </plist>

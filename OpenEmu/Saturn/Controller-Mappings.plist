@@ -342,5 +342,34 @@
 		<key>OESaturnButtonStart</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OESaturnButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OESaturnButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OESaturnButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OESaturnButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OESaturnButtonA</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OESaturnButtonB</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OESaturnButtonC</key>
+		<string>OEControllerMayflashGCNButtonX</string>
+		<key>OESaturnButtonX</key>
+		<string>OEControllerMayflashGCNButtonY</string>
+		<key>OESaturnButtonY</key>
+		<string>OEControllerMayflashGCNCStickLeft</string>
+		<key>OESaturnButtonZ</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+		<key>OESaturnButtonL</key>
+		<string>OEControllerMayflashGCNButtonL</string>
+		<key>OESaturnButtonR</key>
+		<string>OEControllerMayflashGCNButtonR</string>
+		<key>OESaturnButtonStart</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+	</dict>
 </dict>
 </plist>

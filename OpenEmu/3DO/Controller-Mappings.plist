@@ -304,5 +304,30 @@
 		<key>OE3DOButtonX</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OE3DOButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OE3DOButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OE3DOButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OE3DOButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OE3DOButtonA</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OE3DOButtonB</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OE3DOButtonC</key>
+		<string>OEControllerMayflashGCNButtonX</string>
+		<key>OE3DOButtonL</key>
+		<string>OEControllerMayflashGCNButtonL</string>
+		<key>OE3DOButtonR</key>
+		<string>OEControllerMayflashGCNButtonR</string>
+		<key>OE3DOButtonP</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OE3DOButtonX</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+	</dict>
 </dict>
 </plist>

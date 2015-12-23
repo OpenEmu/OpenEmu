@@ -252,5 +252,26 @@
 		<key>OEFDSButtonChangeSide</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OEFDSButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OEFDSButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OEFDSButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OEFDSButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OEFDSButtonA</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OEFDSButtonB</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OEFDSButtonStart</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OEFDSButtonSelect</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+		<key>OEFDSButtonChangeSide</key>
+		<string>OEControllerMayflashGCNButtonR</string>
+	</dict>
 </dict>
 </plist>

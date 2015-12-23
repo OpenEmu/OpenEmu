@@ -357,5 +357,40 @@
 		<key>OEGCButtonStart</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OEGCAnalogUp</key>
+		<string>OEControllerMayflashGCNAnalogStickUp</string>
+		<key>OEGCAnalogLeft</key>
+		<string>OEControllerMayflashGCNAnalogStickLeft</string>
+		<key>OEGCButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OEGCButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OEGCButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OEGCButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OEGCButtonB</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OEGCButtonX</key>
+		<string>OEControllerMayflashGCNButtonX</string>
+		<key>OEGCButtonA</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OEGCButtonY</key>
+		<string>OEControllerMayflashGCNButtonY</string>
+		<key>OEGCButtonL</key>
+		<string>OEControllerMayflashGCNButtonL</string>
+		<key>OEGCButtonR</key>
+		<string>OEControllerMayflashGCNButtonR</string>
+		<key>OEGCButtonZ</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+		<key>OEGCButtonStart</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OEGCTriggerR</key>
+		<string>OEControllerMayflashGCNTriggerR</string>
+		<key>OEGCTriggerL</key>
+		<string>OEControllerMayflashGCNTriggerL</string>
+	</dict>
 </dict>
 </plist>

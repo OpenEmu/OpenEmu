@@ -415,5 +415,40 @@
 		<key>OEPSXButtonAnalogMode</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonHome</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OEPSXButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OEPSXButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OEPSXButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEControllerMayflashGCNAnalogStickUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEControllerMayflashGCNAnalogStickLeft</string>
+		<key>OEPSXRightAnalogUp</key>
+		<string>OEControllerMayflashGCNCStickUp</string>
+		<key>OEPSXRightAnalogLeft</key>
+		<string>OEControllerMayflashGCNCStickLeft</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerMayflashGCNButtonX</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerMayflashGCNButtonY</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerMayflashGCNButtonL</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerMayflashGCNButtonR</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+	</dict>
 </dict>
 </plist>

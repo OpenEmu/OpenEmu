@@ -330,5 +330,32 @@
 		<key>OESega32XButtonMode</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OESega32XButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OESega32XButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OESega32XButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OESega32XButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OESega32XButtonA</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OESega32XButtonB</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+		<key>OESega32XButtonC</key>
+		<string>OEControllerMayflashGCNButtonX</string>
+		<key>OESega32XButtonX</key>
+		<string>OEControllerMayflashGCNButtonY</string>
+		<key>OESega32XButtonY</key>
+		<string>OEControllerMayflashGCNButtonL</string>
+		<key>OESega32XButtonZ</key>
+		<string>OEControllerMayflashGCNButtonR</string>
+		<key>OESega32XButtonStart</key>
+		<string>OEControllerMayflashGCNButtonStartPause</string>
+		<key>OESega32XButtonMode</key>
+		<string>OEControllerMayflashGCNButtonZ</string>
+	</dict>
 </dict>
 </plist>

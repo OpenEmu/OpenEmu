@@ -168,5 +168,20 @@
 		<key>OESG1000Button2</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
 	</dict>
+	<key>OEControllerMayflashGCN</key>
+	<dict>
+		<key>OESG1000ButtonUp</key>
+		<string>OEControllerMayflashGCNDPadUp</string>
+		<key>OESG1000ButtonDown</key>
+		<string>OEControllerMayflashGCNDPadDown</string>
+		<key>OESG1000ButtonLeft</key>
+		<string>OEControllerMayflashGCNDPadLeft</string>
+		<key>OESG1000ButtonRight</key>
+		<string>OEControllerMayflashGCNDPadRight</string>
+		<key>OESG1000Button1</key>
+		<string>OEControllerMayflashGCNButtonB</string>
+		<key>OESG1000Button2</key>
+		<string>OEControllerMayflashGCNButtonA</string>
+	</dict>
 </dict>
 </plist>
