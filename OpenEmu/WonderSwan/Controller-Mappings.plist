@@ -224,5 +224,24 @@
 		<key>OEWSButtonSound</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OEWSButtonX1</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OEWSButtonX3</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OEWSButtonX4</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OEWSButtonX2</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OEWSButtonB</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OEWSButtonA</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OEWSButtonStart</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OEWSButtonSound</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+	</dict>
 </dict>
 </plist>

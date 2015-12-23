@@ -140,5 +140,18 @@
 		<key>OEOdyssey2ButtonAction</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OEOdyssey2ButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OEOdyssey2ButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OEOdyssey2ButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OEOdyssey2ButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OEOdyssey2ButtonAction</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+	</dict>
 </dict>
 </plist>

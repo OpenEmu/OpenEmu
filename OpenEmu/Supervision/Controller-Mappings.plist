@@ -224,5 +224,24 @@
 		<key>OESVButtonSelect</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OESVButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OESVButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OESVButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OESVButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OESVButtonA</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OESVButtonB</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OESVButtonStart</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OESVButtonSelect</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+	</dict>
 </dict>
 </plist>

@@ -252,5 +252,26 @@
 		<key>OE7800ButtonReset</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonHome</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OE7800ButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OE7800ButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OE7800ButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OE7800ButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OE7800ButtonFire2</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OE7800ButtonFire1</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OE7800ButtonSelect</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OE7800ButtonPause</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<key>OE7800ButtonReset</key>
+		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+	</dict>
 </dict>
 </plist>

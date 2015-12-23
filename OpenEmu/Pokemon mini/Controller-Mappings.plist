@@ -280,5 +280,28 @@
 		<key>OEPMButtonPower</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OEPMButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OEPMButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OEPMButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OEPMButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OEPMButtonA</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OEPMButtonB</key>
+		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<key>OEPMButtonC</key>
+		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<key>OEPMButtonShake</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OEPMButtonMenu</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OEPMButtonPower</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+	</dict>
 </dict>
 </plist>

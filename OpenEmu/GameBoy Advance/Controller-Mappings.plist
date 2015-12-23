@@ -280,5 +280,28 @@
 		<key>OEGBAButtonSelect</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OEGBAButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OEGBAButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OEGBAButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OEGBAButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OEGBAButtonA</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OEGBAButtonB</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OEGBAButtonL</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<key>OEGBAButtonR</key>
+		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+		<key>OEGBAButtonStart</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OEGBAButtonSelect</key>
+		<string>OEControllerSteelSeriesWirelessButtonL2</string>
+	</dict>
 </dict>
 </plist>

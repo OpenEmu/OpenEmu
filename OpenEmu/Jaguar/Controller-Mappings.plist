@@ -252,5 +252,26 @@
 		<key>OEJaguarButtonOption</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OEJaguarButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OEJaguarButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OEJaguarButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OEJaguarButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OEJaguarButtonC</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OEJaguarButtonB</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OEJaguarButtonA</key>
+		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<key>OEJaguarButtonPause</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OEJaguarButtonOption</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+	</dict>
 </dict>
 </plist>

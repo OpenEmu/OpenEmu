@@ -330,5 +330,32 @@
 		<key>OESega32XButtonMode</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OESega32XButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OESega32XButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OESega32XButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OESega32XButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OESega32XButtonA</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OESega32XButtonB</key>
+		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<key>OESega32XButtonC</key>
+		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<key>OESega32XButtonX</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OESega32XButtonY</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<key>OESega32XButtonZ</key>
+		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+		<key>OESega32XButtonStart</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OESega32XButtonMode</key>
+		<string>OEControllerSteelSeriesWirelessButtonL2</string>
+	</dict>
 </dict>
 </plist>

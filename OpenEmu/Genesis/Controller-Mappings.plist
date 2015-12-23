@@ -330,5 +330,32 @@
 		<key>OEGenesisButtonMode</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OEGenesisButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OEGenesisButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OEGenesisButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OEGenesisButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OEGenesisButtonA</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OEGenesisButtonB</key>
+		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<key>OEGenesisButtonC</key>
+		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<key>OEGenesisButtonX</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OEGenesisButtonY</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<key>OEGenesisButtonZ</key>
+		<string>OEControllerSteelSeriesWirelessButtonR2</string>
+		<key>OEGenesisButtonStart</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OEGenesisButtonMode</key>
+		<string>OEControllerSteelSeriesWirelessButtonL2</string>
+	</dict>
 </dict>
 </plist>

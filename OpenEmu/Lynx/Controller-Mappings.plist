@@ -224,5 +224,24 @@
 		<key>OELynxButtonOption2</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OELynxButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OELynxButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OELynxButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OELynxButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OELynxButtonA</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OELynxButtonB</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OELynxButtonOption1</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OELynxButtonOption2</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+	</dict>
 </dict>
 </plist>

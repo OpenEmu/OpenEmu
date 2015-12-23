@@ -140,5 +140,18 @@
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OEC64JoystickUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OEC64JoystickDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OEC64JoystickLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OEC64JoystickRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OEC64ButtonFire</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+	</dict>
 </dict>
 </plist>

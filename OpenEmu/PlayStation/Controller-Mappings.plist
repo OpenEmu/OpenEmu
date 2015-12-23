@@ -415,5 +415,42 @@
 		<key>OEPSXButtonAnalogMode</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonHome</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OEPSXButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OEPSXButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OEPSXButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEControllerSteelSeriesWirelessLeftAnalogUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEControllerSteelSeriesWirelessLeftAnalogLeft</string>
+		<key>OEPSXRightAnalogUp</key>
+		<string>OEControllerSteelSeriesWirelessRightAnalogUp</string>
+		<key>OEPSXRightAnalogLeft</key>
+		<string>OEControllerSteelSeriesWirelessRightAnalogLeft</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<key>OEPSXButtonL2</key>
+		<string>OEControllerSteelSeriesWirelessButtonL2</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+		<key>OEPSXButtonR2</key>
+		<string>OEControllerSteelSeriesWirelessButtonR2</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+	</dict>
 </dict>
 </plist>

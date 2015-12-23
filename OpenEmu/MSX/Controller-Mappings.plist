@@ -170,5 +170,20 @@
 		<key>OEMSXButtonB</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OEMSXButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OEMSXButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OEMSXButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OEMSXButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OEMSXButtonA</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OEMSXButtonB</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+	</dict>
 </dict>
 </plist>

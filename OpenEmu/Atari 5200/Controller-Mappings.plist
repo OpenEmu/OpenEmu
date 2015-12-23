@@ -252,5 +252,26 @@
 		<key>OE5200ButtonReset</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonHome</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OE5200ButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OE5200ButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OE5200ButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OE5200ButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OE5200ButtonFire2</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OE5200ButtonFire1</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OE5200ButtonStart</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OE5200ButtonPause</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<key>OE5200ButtonReset</key>
+		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+	</dict>
 </dict>
 </plist>

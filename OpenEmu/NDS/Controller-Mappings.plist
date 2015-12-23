@@ -309,5 +309,32 @@
 		<key>OENDSButtonSelect</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OENDSButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OENDSButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OENDSButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OENDSButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OENDSButtonA</key>
+		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<key>OENDSButtonB</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OENDSButtonX</key>
+		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<key>OENDSButtonY</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OENDSButtonL</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<key>OENDSButtonR</key>
+		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+		<key>OENDSButtonStart</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OENDSButtonSelect</key>
+		<string>OEControllerSteelSeriesWirelessButtonL2</string>
+	</dict>
 </dict>
 </plist>

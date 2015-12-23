@@ -196,5 +196,22 @@
 		<key>OE2600ButtonSelect</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OE2600ButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OE2600ButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OE2600ButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OE2600ButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OE2600ButtonFire1</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OE2600ButtonReset</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OE2600ButtonSelect</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+	</dict>
 </dict>
 </plist>

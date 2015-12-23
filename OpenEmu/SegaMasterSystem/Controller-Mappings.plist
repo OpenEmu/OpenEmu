@@ -196,5 +196,22 @@
 		<key>OESMSButtonStart</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OESMSButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OESMSButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OESMSButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OESMSButtonA</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OESMSButtonB</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OESMSButtonStart</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+	</dict>
 </dict>
 </plist>

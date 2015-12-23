@@ -309,5 +309,32 @@
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OEArcadeButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OEArcadeButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OEArcadeButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerSteelSeriesWirelessButtonR2</string>
+	</dict>
 </dict>
 </plist>

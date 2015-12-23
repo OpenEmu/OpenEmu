@@ -325,5 +325,36 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OEN64ButtonDPadUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OEN64ButtonDPadDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OEN64ButtonDPadLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OEN64ButtonDPadRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OEN64AnalogUp</key>
+		<string>OEControllerSteelSeriesWirelessLeftAnalogUp</string>
+		<key>OEN64AnalogLeft</key>
+		<string>OEControllerSteelSeriesWirelessLeftAnalogLeft</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEControllerSteelSeriesWirelessRightAnalogUp</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEControllerSteelSeriesWirelessRightAnalogLeft</string>
+		<key>OEN64ButtonA</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OEN64ButtonB</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OEN64ButtonL</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<key>OEN64ButtonR</key>
+		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEControllerSteelSeriesWirelessButtonL2</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+	</dict>
 </dict>
 </plist>

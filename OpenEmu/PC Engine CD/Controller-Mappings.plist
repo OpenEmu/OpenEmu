@@ -224,5 +224,24 @@
 		<key>OEPCECDButtonSelect</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OEPCECDButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OEPCECDButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OEPCECDButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OEPCECDButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OEPCECDButton1</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OEPCECDButton2</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OEPCECDButtonRun</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OEPCECDButtonSelect</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+	</dict>
 </dict>
 </plist>

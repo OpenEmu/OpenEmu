@@ -330,5 +330,32 @@
 		<key>OESegaCDButtonMode</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OESegaCDButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OESegaCDButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OESegaCDButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerSteelSeriesWirelessButtonL2</string>
+	</dict>
 </dict>
 </plist>

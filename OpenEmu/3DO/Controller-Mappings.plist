@@ -19,9 +19,9 @@
 		<key>OE3DOButtonC</key>
 		<string>OEControllerMicrosoftXbox360ButtonB</string>
 		<key>OE3DOButtonL</key>
-		<string>OEControllerMicrosoftXbox360ButtonLeftTrigger</string>
+		<string>OEControllerMicrosoftXbox360ButtonLeftShoulder</string>
 		<key>OE3DOButtonR</key>
-		<string>OEControllerMicrosoftXbox360ButtonRightTrigger</string>
+		<string>OEControllerMicrosoftXbox360ButtonRightShoulder</string>
 		<key>OE3DOButtonP</key>
 		<string>OEControllerMicrosoftXbox360ButtonStart</string>
 		<key>OE3DOButtonX</key>
@@ -44,9 +44,9 @@
 		<key>OE3DOButtonC</key>
 		<string>OEControllerSonyPS3SixaxisButtonCircle</string>
 		<key>OE3DOButtonL</key>
-		<string>OEControllerSonyPS3SixaxisButtonL2</string>
+		<string>OEControllerSonyPS3SixaxisButtonL1</string>
 		<key>OE3DOButtonR</key>
-		<string>OEControllerSonyPS3SixaxisButtonR2</string>
+		<string>OEControllerSonyPS3SixaxisButtonR1</string>
 		<key>OE3DOButtonP</key>
 		<string>OEControllerSonyPS3SixaxisButtonStart</string>
 		<key>OE3DOButtonX</key>
@@ -63,9 +63,9 @@
 		<key>OE3DOButtonC</key>
 		<string>OEControllerLogitechDualActionButton3</string>
 		<key>OE3DOButtonL</key>
-		<string>OEControllerLogitechDualActionButtonLeftTrigger</string>
+		<string>OEControllerLogitechDualActionButtonLeftShoulder</string>
 		<key>OE3DOButtonR</key>
-		<string>OEControllerLogitechDualActionButtonRightTrigger</string>
+		<string>OEControllerLogitechDualActionButtonRightShoulder</string>
 		<key>OE3DOButtonP</key>
 		<string>OEControllerLogitechDualActionButtonStart</string>
 		<key>OE3DOButtonX</key>
@@ -105,9 +105,9 @@
 		<key>OE3DOButtonC</key>
 		<string>OEControllerGravisGamePadProButton3</string>
 		<key>OE3DOButtonL</key>
-		<string>OEControllerGravisGamePadProButtonLeftTrigger</string>
+		<string>OEControllerGravisGamePadProButtonLeftShoulder</string>
 		<key>OE3DOButtonR</key>
-		<string>OEControllerGravisGamePadProButtonRightTrigger</string>
+		<string>OEControllerGravisGamePadProButtonRightShoulder</string>
 		<key>OE3DOButtonP</key>
 		<string>OEControllerGravisGamePadProButtonStart</string>
 		<key>OE3DOButtonX</key>
@@ -296,13 +296,38 @@
 		<key>OE3DOButtonC</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCircle</string>
 		<key>OE3DOButtonL</key>
-		<string>OEControllerSonyPS4Dualshock4ButtonL2</string>
+		<string>OEControllerSonyPS4Dualshock4ButtonL1</string>
 		<key>OE3DOButtonR</key>
-		<string>OEControllerSonyPS4Dualshock4ButtonR2</string>
+		<string>OEControllerSonyPS4Dualshock4ButtonR1</string>
 		<key>OE3DOButtonP</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
 		<key>OE3DOButtonX</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
+	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OE3DOButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OE3DOButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OE3DOButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OE3DOButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OE3DOButtonA</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OE3DOButtonB</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OE3DOButtonC</key>
+		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<key>OE3DOButtonL</key>
+		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<key>OE3DOButtonR</key>
+		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+		<key>OE3DOButtonP</key>
+		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<key>OE3DOButtonX</key>
+		<string>OEControllerSteelSeriesWirelessButtonL2</string>
 	</dict>
 </dict>
 </plist>

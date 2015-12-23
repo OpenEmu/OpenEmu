@@ -172,5 +172,22 @@
 		<key>OEIntellivisionButtonBottomRightAction</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OEIntellivisionButtonUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OEIntellivisionButtonDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OEIntellivisionButtonLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OEIntellivisionButtonRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OEIntellivisionButtonTopAction</key>
+		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<key>OEIntellivisionButtonBottomLeftAction</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<key>OEIntellivisionButtonBottomRightAction</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+	</dict>
 </dict>
 </plist>

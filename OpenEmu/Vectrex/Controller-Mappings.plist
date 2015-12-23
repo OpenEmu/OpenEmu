@@ -205,5 +205,24 @@
 		<key>OEVectrexButton1</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
 	</dict>
+	<key>OEControllerSteelSeriesWireless</key>
+	<dict>
+		<key>OEVectrexAnalogUp</key>
+		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<key>OEVectrexAnalogDown</key>
+		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<key>OEVectrexAnalogLeft</key>
+		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<key>OEVectrexAnalogRight</key>
+		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<key>OEVectrexButton3</key>
+		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<key>OEVectrexButton2</key>
+		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<key>OEVectrexButton4</key>
+		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<key>OEVectrexButton1</key>
+		<string>OEControllerSteelSeriesWirelessButtonX</string>
+	</dict>
 </dict>
 </plist>
