@@ -82,6 +82,8 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 @property(assign) IBOutlet NSView *gridViewContainer;
 @property(assign) IBOutlet OEBlankSlateView *blankSlateView;
 @property(nonatomic, readwrite) OECollectionViewControllerViewTag selectedViewTag;
+
+- (void)_restoreDefaultState;
 @end
 
 @implementation OECollectionViewController
@@ -226,6 +228,28 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 - (NSString *)nibName
 {
     return @"OECollectionViewController";
+}
+#pragma mark - State Management
+- (void)storeStateWithKey:(NSString*)key
+{
+    id state = nil;
+
+    [[NSUserDefaults standardUserDefaults] setObject:state forKey:key];
+}
+
+- (void)restoreStateWithKey:(NSString*)key
+{
+    id state = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    if(!state){
+        [self _restoreDefaultState];
+        return;
+    }
+
+}
+
+- (void)_restoreDefaultState
+{
+    
 }
 
 #pragma mark - KVO / Notifications

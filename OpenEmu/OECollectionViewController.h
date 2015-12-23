@@ -62,6 +62,9 @@ extern NSString * const OELastCollectionViewKey;
 - (void)updateBlankSlate;
 - (BOOL)shouldShowBlankSlate;
 
+#pragma mark - State Management
+- (void)storeStateWithKey:(NSString*)key;
+- (void)restoreStateWithKey:(NSString*)key;
 #pragma mark -
 - (NSArray *)selectedGames;
 @property (nonatomic) NSIndexSet *selectionIndexes;
