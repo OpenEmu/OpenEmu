@@ -69,7 +69,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     [noc addObserver:self selector:@selector(_updateCollectionContentsFromSidebar:) name:OESidebarSelectionDidChangeNotificationName object:self.sidebarController];
     [noc addObserver:self selector:@selector(_hideIssueResolver:) name:OEGameScannerViewShouldHideNotificationName object:self.gameScannerController];
 
-    NSView *collectionView = (self.collectionController).view;
+    NSView *collectionView = self.collectionController.view;
     NSView *collectionViewContainer = self.collectionViewContainer;
 
     collectionView.frame = collectionViewContainer.bounds;
@@ -91,16 +91,21 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     self.view.needsDisplay = YES;
 }
 
+- (void)viewWillDisappear
+{
+    if(self.collectionController.representedObject) {
+        NSString *key = [self _stateStorageKeyForCollection:self.collectionController.representedObject];
+        [self.collectionController storeStateWithKey:key];
+    }
+
+    [super viewWillDisappear];
+}
+
 #pragma mark - OELibrarySubviewController
 
 - (NSArray*)selectedGames
 {
     return [self.collectionController selectedGames];
-}
-
-- (OELibraryController *)libraryController
-{
-    return _libraryController;
 }
 
 - (void)setLibraryController:(OELibraryController *)libraryController
@@ -111,8 +116,8 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
 - (void)_assignLibraryController
 {
-    (self.sidebarController).database = _libraryController.database;
-    (self.collectionController).libraryController = _libraryController;
+    self.sidebarController.database = _libraryController.database;
+    self.collectionController.libraryController = _libraryController;
     self.gameScannerController.libraryController = _libraryController;
 }
 
@@ -182,7 +187,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
         ((OEDBSystem *)selectedItem).games.count == 0 &&
         ![[NSUserDefaults standardUserDefaults] boolForKey:OESkipDiscGuideMessageKey])
     {
-        
+
         NSAlert *alert = [[NSAlert alloc] init];
         
         alert.messageText = NSLocalizedString(@"Have you read the guide?", @"");
