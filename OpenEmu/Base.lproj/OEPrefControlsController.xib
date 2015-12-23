@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15D9c" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
@@ -23,10 +23,39 @@
             <rect key="frame" x="0.0" y="0.0" width="755" height="450"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <customView id="103">
-                    <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES" heightSizable="YES"/>
+                <customView wantsLayer="YES" id="4" customClass="OEBackgroundGradientView">
+                    <rect key="frame" x="0.0" y="409" width="755" height="41"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                 </customView>
+                <popUpButton verticalHuggingPriority="750" id="7" customClass="OEPopUpButton">
+                    <rect key="frame" x="499" y="401" width="232" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <popUpButtonCell key="cell" type="push" title="Super Nintendo (SNES)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="38" id="30" customClass="OEPopUpButtonCell">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" title="OtherViews" id="31">
+                            <items>
+                                <menuItem title="Nintendo (NES)" id="37"/>
+                                <menuItem title="Super Nintendo (SNES)" state="on" id="38"/>
+                                <menuItem title="GameBoy" id="39"/>
+                                <menuItem title="GameBoy Advance" id="36"/>
+                                <menuItem title="Sega SG-1000" id="35"/>
+                                <menuItem title="Sega Master System" id="34"/>
+                                <menuItem title="Sega Genesis" id="33"/>
+                                <menuItem title="Game Gear" id="32"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood_popup_button"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="menuStyle">
+                            <real key="value" value="0.0"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="changeSystem:" target="-2" id="48"/>
+                    </connections>
+                </popUpButton>
                 <customView id="116" customClass="OEPreferencesControlsBox">
                     <rect key="frame" x="498" y="25" width="232" height="363"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
@@ -77,7 +106,7 @@
                                 </userDefinedRuntimeAttributes>
                             </scroller>
                             <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="114" customClass="OEScroller">
-                                <rect key="frame" x="215" y="0.0" width="15" height="269"/>
+                                <rect key="frame" x="214" y="0.0" width="16" height="269"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood"/>
@@ -125,38 +154,9 @@
                         </popUpButton>
                     </subviews>
                 </customView>
-                <popUpButton verticalHuggingPriority="750" id="7" customClass="OEPopUpButton">
-                    <rect key="frame" x="499" y="401" width="232" height="26"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                    <popUpButtonCell key="cell" type="push" title="Super Nintendo (SNES)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="38" id="30" customClass="OEPopUpButtonCell">
-                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="menu"/>
-                        <menu key="menu" title="OtherViews" id="31">
-                            <items>
-                                <menuItem title="Nintendo (NES)" id="37"/>
-                                <menuItem title="Super Nintendo (SNES)" state="on" id="38"/>
-                                <menuItem title="GameBoy" id="39"/>
-                                <menuItem title="GameBoy Advance" id="36"/>
-                                <menuItem title="Sega SG-1000" id="35"/>
-                                <menuItem title="Sega Master System" id="34"/>
-                                <menuItem title="Sega Genesis" id="33"/>
-                                <menuItem title="Game Gear" id="32"/>
-                            </items>
-                        </menu>
-                    </popUpButtonCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="wood_popup_button"/>
-                        <userDefinedRuntimeAttribute type="number" keyPath="menuStyle">
-                            <real key="value" value="0.0"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <action selector="changeSystem:" target="-2" id="48"/>
-                    </connections>
-                </popUpButton>
-                <customView wantsLayer="YES" id="4" customClass="OEBackgroundGradientView">
-                    <rect key="frame" x="0.0" y="409" width="755" height="41"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                <customView id="103">
+                    <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES" heightSizable="YES"/>
                 </customView>
             </subviews>
         </view>
