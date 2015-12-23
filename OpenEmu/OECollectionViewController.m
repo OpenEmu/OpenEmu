@@ -230,6 +230,14 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     return @"OECollectionViewController";
 }
 #pragma mark - State Management
+NSString * const OECollectionViewStateSearchTermKey = @"searchTerm";
+NSString * const OECollectionViewStateSearchDomainKey = @"searchDomain";
+NSString * const OECollectionViewStateGridZoomFactorKey = @"gridZoom";
+NSString * const OECollectionViewStateGridVisibleRectKey = @"gridVisibleRect";
+NSString * const OECollectionViewStateSelectionIndexesKey = @"selectionIndexes";
+NSString * const OECollectionViewStateSortDescriptorsKey = @"sortDescriptors";
+NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
+
 - (void)storeStateWithKey:(NSString*)key
 {
     id state = nil;
