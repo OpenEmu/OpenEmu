@@ -76,6 +76,9 @@
 NSString * const OELastGridSizeKey       = @"lastGridSize";
 NSString * const OELastCollectionViewKey = @"lastCollectionView";
 
+const CGFloat MinGridViewZoom = 0.5;
+const CGFloat MaxGridViewZoom = 2.5;
+
 static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGameTitleKVOContext;
 
 @interface OECollectionViewController ()
@@ -659,8 +662,11 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
     [self updateBlankSlate];
 }
 
+
 - (void)zoomGridViewWithValue:(CGFloat)zoomValue
 {
+    zoomValue = MAX(MIN(zoomValue, MaxGridViewZoom), MinGridViewZoom);
+
     _gridView.cellSize = OEScaleSize(defaultGridSize, zoomValue);
     [[NSUserDefaults standardUserDefaults] setFloat:zoomValue forKey:OELastGridSizeKey];
 }
