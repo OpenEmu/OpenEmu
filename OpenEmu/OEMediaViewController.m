@@ -74,8 +74,6 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
 @property BOOL shouldShowBlankSlate;
 @property (strong) NSPredicate *searchPredicate;
-@property (copy, nullable) NSString *currentSearchTerm;
-
 @end
 
 @implementation OEMediaViewController

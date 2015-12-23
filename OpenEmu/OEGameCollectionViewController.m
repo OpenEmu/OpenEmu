@@ -79,10 +79,6 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 
 @property (strong) NSDate *listViewSelectionChangeDate;
 @property (readonly) OEArrayController *gamesController;
-
-/// The search term of the currently applied filter.
-@property (copy, nullable) NSString *currentSearchTerm;
-
 @end
 
 @implementation OEGameCollectionViewController
@@ -320,7 +316,6 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 }
 
 #pragma mark - UI Actions
-
 - (void)OE_searchFor:(NSString *)string
 {
     self.currentSearchTerm = string;

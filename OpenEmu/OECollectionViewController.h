@@ -42,8 +42,8 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
     OEListViewTag   = 2
 };
 
-extern NSString * const OELastGridSizeKey;
-extern NSString * const OELastCollectionViewKey;
+extern NSString  * _Nonnull  const OELastGridSizeKey;
+extern NSString  * _Nonnull  const OELastCollectionViewKey;
 
 @interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController, OEGridViewDelegate, OEGridViewMenuSource>
 
@@ -53,45 +53,46 @@ extern NSString * const OELastCollectionViewKey;
 - (void)reloadData;
 - (void)setNeedsReload;
 - (void)setNeedsReloadVisible;
-- (void)reloadDataIndexes:(NSIndexSet *)indexSet;
+- (void)reloadDataIndexes:(NSIndexSet  * _Nullable )indexSet;
 - (void)fetchItems;
-- (NSArray*)defaultSortDescriptors;
-- (void)setSortDescriptors:(NSArray*)descriptors;
+- (NSArray * _Nonnull )defaultSortDescriptors;
+- (void)setSortDescriptors:(NSArray* _Nullable )descriptors;
 
 - (void)updateToolbar;
 - (void)updateBlankSlate;
 - (BOOL)shouldShowBlankSlate;
 
 #pragma mark - State Management
-- (void)storeStateWithKey:(NSString*)key;
-- (void)restoreStateWithKey:(NSString*)key;
+- (void)storeStateWithKey:(NSString* _Nonnull)key;
+- (void)restoreStateWithKey:(NSString* _Nonnull)key;
 #pragma mark -
-- (NSArray *)selectedGames;
-@property (nonatomic) NSIndexSet *selectionIndexes;
+- (NSArray * _Nonnull )selectedGames;
+@property (nonatomic) NSIndexSet * _Nonnull selectionIndexes;
 
 #pragma mark - Toolbar
-- (IBAction)switchToGridView:(id)sender;
-- (IBAction)switchToListView:(id)sender;
-- (IBAction)search:(id)sender;
-- (IBAction)changeGridSize:(id)sender;
+- (IBAction)switchToGridView:(id _Nullable)sender;
+- (IBAction)switchToListView:(id _Nullable)sender;
+- (IBAction)search:(id _Nullable)sender;
+- (IBAction)changeGridSize:(id _Nullable)sender;
 
-- (IBAction)deleteSelectedItems:(id)sender;
+- (IBAction)deleteSelectedItems:(id _Nullable)sender;
 
 #pragma mark - Context Menu
-- (NSMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes;
+- (NSMenu* _Nullable)menuForItemsAtIndexes:(NSIndexSet* _Nullable)indexes;
 
 #pragma mark -
-- (id <OECollectionViewItemProtocol>)representedObject;
+- (id <OECollectionViewItemProtocol>  _Nullable)representedObject;
 
 @property(nonatomic, readonly) OECollectionViewControllerViewTag selectedViewTag;
 @property(nonatomic, weak) IBOutlet OELibraryController *libraryController;
 @end
 
 @interface OECollectionViewController ()
-@property (assign) IBOutlet OETableView     *listView;
-@property (assign) IBOutlet OEGridView      *gridView;
+@property (assign) IBOutlet OETableView * _Nonnull listView;
+@property (assign) IBOutlet OEGridView  * _Nonnull gridView;
+@property (copy, nullable) NSString *currentSearchTerm;
 - (void)OE_switchToView:(OECollectionViewControllerViewTag)tag;
 - (void)OE_showView:(OECollectionViewControllerViewTag)tag;
 - (void)OE_setupToolbarStatesForViewTag:(OECollectionViewControllerViewTag)tag;
-- (void)OE_searchFor:(NSString*)string;
+- (void)OE_searchFor:( NSString *_Nullable)string;
 @end
