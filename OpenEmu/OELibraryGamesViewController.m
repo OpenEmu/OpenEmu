@@ -49,6 +49,8 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 @interface OELibraryGamesViewController ()
 @property (nonatomic, weak) IBOutlet NSVisualEffectView *sidebarVisualEffectView;
 @property BOOL issueResolverVisible;
+
+- (NSString*)_stateStorageKeyForCollection:(id)representedObject;
 @end
 
 @implementation OELibraryGamesViewController
@@ -151,14 +153,27 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 }
 
 #pragma mark - Sidebar handling
+- (NSString*)_stateStorageKeyForCollection:(id)representedObject
+{
+    NSString *objectID = [(id <OESidebarItem>)representedObject sidebarID];
+    return [@"Collection_" stringByAppendingString:objectID];
+}
+
 - (void)_updateCollectionContentsFromSidebar:(id)sender
 {
     if(self.issueResolverVisible){
         [self _hideIssueResolver:nil];
     }
 
+    if(self.collectionController.representedObject) {
+        NSString *key = [self _stateStorageKeyForCollection:self.collectionController.representedObject];
+        [self.collectionController storeStateWithKey:key];
+    }
+
     id selectedItem = self.sidebarController.selectedSidebarItem;
     self.collectionController.representedObject = selectedItem;
+    NSString *key = [self _stateStorageKeyForCollection:selectedItem];
+    [self.collectionController restoreStateWithKey:key];
     [self.collectionController updateToolbar];
 
     // For empty collections of disc-based games, display an alert to compel the user to read the disc-importing guide.
