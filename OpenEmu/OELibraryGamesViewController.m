@@ -66,14 +66,14 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     [self _assignLibraryController];
 
     NSNotificationCenter *noc = [NSNotificationCenter defaultCenter];
-    [noc addObserver:self selector:@selector(_updateCollectionContentsFromSidebar:) name:OESidebarSelectionDidChangeNotificationName object:[self sidebarController]];
+    [noc addObserver:self selector:@selector(_updateCollectionContentsFromSidebar:) name:OESidebarSelectionDidChangeNotificationName object:self.sidebarController];
     [noc addObserver:self selector:@selector(_hideIssueResolver:) name:OEGameScannerViewShouldHideNotificationName object:self.gameScannerController];
 
-    NSView *collectionView = [self.collectionController view];
+    NSView *collectionView = (self.collectionController).view;
     NSView *collectionViewContainer = self.collectionViewContainer;
 
-    [collectionView setFrame:[collectionViewContainer bounds]];
-    [collectionView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+    collectionView.frame = collectionViewContainer.bounds;
+    collectionView.autoresizingMask = NSViewWidthSizable|NSViewHeightSizable;
     [collectionViewContainer addSubview:collectionView];
 
     [self.collectionController bind:@"controlsToolbar" toObject:self withKeyPath:@"controlsToolbar" options:nil];
@@ -95,7 +95,7 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
 - (NSArray*)selectedGames
 {
-    return [[self collectionController] selectedGames];
+    return [self.collectionController selectedGames];
 }
 
 - (OELibraryController *)libraryController
@@ -111,45 +111,45 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 
 - (void)_assignLibraryController
 {
-    [[self sidebarController] setDatabase:[_libraryController database]];
-    [[self collectionController] setLibraryController:_libraryController];
-    [[self gameScannerController] setLibraryController:_libraryController];
+    (self.sidebarController).database = _libraryController.database;
+    (self.collectionController).libraryController = _libraryController;
+    self.gameScannerController.libraryController = _libraryController;
 }
 
 #pragma mark - Toolbar
 - (IBAction)addCollectionAction:(id)sender
 {
-    [[self sidebarController] addCollectionAction:sender];
+    [self.sidebarController addCollectionAction:sender];
 }
 
 - (IBAction)switchToGridView:(id)sender
 {
-    [[self collectionController] switchToGridView:sender];
+    [self.collectionController switchToGridView:sender];
     
     // Update state of respective view menu items.
-    NSMenu *viewMenu = [[[NSApp mainMenu] itemAtIndex:3] submenu];
-    [[viewMenu itemWithTag:MainMenu_View_GridTag] setState:NSOnState];
-    [[viewMenu itemWithTag:MainMenu_View_ListTag] setState:NSOffState];
+    NSMenu *viewMenu = [NSApp.mainMenu itemAtIndex:3].submenu;
+    [viewMenu itemWithTag:MainMenu_View_GridTag].state = NSOnState;
+    [viewMenu itemWithTag:MainMenu_View_ListTag].state = NSOffState;
 }
 
 - (IBAction)switchToListView:(id)sender
 {
-    [[self collectionController] switchToListView:sender];
+    [self.collectionController switchToListView:sender];
     
     // Update state of respective view menu items.
-    NSMenu *viewMenu = [[[NSApp mainMenu] itemAtIndex:3] submenu];
-    [[viewMenu itemWithTag:MainMenu_View_GridTag] setState:NSOffState];
-    [[viewMenu itemWithTag:MainMenu_View_ListTag] setState:NSOnState];
+    NSMenu *viewMenu = [NSApp.mainMenu itemAtIndex:3].submenu;
+    [viewMenu itemWithTag:MainMenu_View_GridTag].state = NSOffState;
+    [viewMenu itemWithTag:MainMenu_View_ListTag].state = NSOnState;
 }
 
 - (IBAction)search:(id)sender
 {
-    [[self collectionController] search:sender];
+    [self.collectionController search:sender];
 }
 
 - (IBAction)changeGridSize:(id)sender
 {
-    [[self collectionController] changeGridSize:sender];
+    [self.collectionController changeGridSize:sender];
 }
 
 #pragma mark - Sidebar handling
@@ -214,12 +214,12 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 - (void)makeNewCollectionWithSelectedGames:(id)sender
 {
     OECoreDataMainThreadAssertion();
-    NSArray *selectedGames = [self selectedGames];
-    OEDBCollection *collection = [[self sidebarController] addCollection:NO];
-    [collection setGames:[NSSet setWithArray:selectedGames]];
+    NSArray *selectedGames = self.selectedGames;
+    OEDBCollection *collection = [self.sidebarController addCollection:NO];
+    collection.games = [NSSet setWithArray:selectedGames];
     [collection save];
 
-    [[self collectionController] setNeedsReload];
+    [self.collectionController setNeedsReload];
 }
 
 #pragma mark - Issue Resolving
@@ -228,11 +228,11 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     if(self.issueResolverVisible) return;
     self.issueResolverVisible = YES;
 
-    NSView *container  = [self collectionViewContainer];
+    NSView *container  = self.collectionViewContainer;
     NSView *issuesView = self.gameScannerController.view;
 
     [container addSubview:issuesView positioned:NSWindowAbove relativeTo:NULL];
-    [issuesView setFrame:[container bounds]];
+    issuesView.frame = container.bounds;
     
     // Disable toolbar controls.
     [self.collectionController unbind:@"controlsToolbar"];
