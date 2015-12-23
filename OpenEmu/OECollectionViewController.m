@@ -232,10 +232,11 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 {
     return @"OECollectionViewController";
 }
+
 #pragma mark - State Management
+NSString * const OECollectionViewStateGridZoomFactorKey = @"gridZoom";
 NSString * const OECollectionViewStateSearchTermKey = @"searchTerm";
 NSString * const OECollectionViewStateSearchDomainKey = @"searchDomain";
-NSString * const OECollectionViewStateGridZoomFactorKey = @"gridZoom";
 NSString * const OECollectionViewStateGridVisibleRectKey = @"gridVisibleRect";
 NSString * const OECollectionViewStateSelectionIndexesKey = @"selectionIndexes";
 NSString * const OECollectionViewStateSortDescriptorsKey = @"sortDescriptors";
@@ -248,20 +249,45 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
     [[NSUserDefaults standardUserDefaults] setObject:state forKey:key];
 }
 
+#define DecodeWithMethod(_var_, _key_, _METHOD_) if([unarchiver containsValueForKey:_key_]) _var_ = [unarchiver _METHOD_ _key_];
+#define DecodeFloatIfSet(_var_, _key_) DecodeWithMethod(_var_, _key_, decodeFloatForKey:)
+#define DecodeObjectIfSet(_var_, _key_) DecodeWithMethod(_var_, _key_, decodeObjectForKey:)
+#define DecodeRectIfSet(_var_, _key_) DecodeWithMethod(_var_, _key_, decodeRectForKey:)
+
 - (void)restoreStateWithKey:(NSString*)key
 {
-    id state = [[NSUserDefaults standardUserDefaults] objectForKey:key];
-    if(!state){
-        [self _restoreDefaultState];
-        return;
+    NSData *state = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    NSKeyedUnarchiver *unarchiver = nil;;
+
+    if(state && ![state isKindOfClass:[NSData class]]) {
+        unarchiver = [NSKeyedUnarchiver unarchiveObjectWithData:state];
     }
 
-}
+    CGFloat gridZoomFactor = 1.0;
+    NSRect gridViewVisibleRect = NSZeroRect;
+    NSIndexSet *selectionIndexes = [NSIndexSet indexSet];
+    NSString *searchTerm = @"";
+    NSString *searchDomain = @"";
+    NSArray *sortDescriptors = [self defaultSortDescriptors];
 
-- (void)_restoreDefaultState
-{
-    
+    DecodeFloatIfSet(gridZoomFactor, OECollectionViewStateGridZoomFactorKey);
+    DecodeObjectIfSet(searchTerm, OECollectionViewStateSearchTermKey);
+    DecodeObjectIfSet(searchDomain, OECollectionViewStateSearchDomainKey);
+    DecodeObjectIfSet(sortDescriptors, OECollectionViewStateSortDescriptorsKey);
+    DecodeRectIfSet(gridViewVisibleRect, OECollectionViewStateGridVisibleRectKey);
+    DecodeObjectIfSet(selectionIndexes, OECollectionViewStateSelectionIndexesKey);
+
+    self.currentSearchTerm = searchTerm;
+    // TODO: add currentSearchDomain property and set it here
+    // TODO: might need to reload data here so zooming, selecting, etc. is done with the proper filter
+    self.selectionIndexes = selectionIndexes;
+    [self zoomGridViewWithValue:gridZoomFactor];
+    [[self gridView] scrollRectToVisible:gridViewVisibleRect];
 }
+#undef DecodeRectIfSet
+#undef DecodeObjectIfSet
+#undef DecodeFloatIfSet
+#undef DecodeWithMethod
 
 #pragma mark - KVO / Notifications
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary <NSString *, id> *)change context:(void *)context
