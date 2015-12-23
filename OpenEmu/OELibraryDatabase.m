@@ -109,8 +109,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 + (BOOL)loadFromURL:(NSURL *)url error:(NSError **)outError
 {
-    NSLog(@"OELibraryDatabase loadFromURL: '%@'", url);
-
     BOOL isDir = NO;
     if(![[NSFileManager defaultManager] fileExistsAtPath:url.path isDirectory:&isDir] || !isDir)
     {
@@ -252,7 +250,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (void)dealloc
 {
-    NSLog(@"destroying LibraryDatabase");
     [self OE_removeStateWatcher];
     [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:OESaveStateFolderURLKey];
 }
@@ -456,7 +453,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 - (void)OE_removeStateWatcher
 {
-    NSLog(@"OE_removeStateWatcher");
     [self.saveStateWatcher stopWatching];
     self.saveStateWatcher = nil;
 }

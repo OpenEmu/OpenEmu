@@ -681,7 +681,6 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
 
 - (void)zoomGridViewWithValue:(CGFloat)zoomValue
 {
-    NSLog(@"-zoomGridViewWithValue: %f", zoomValue);
     zoomValue = MAX(MIN(zoomValue, MaxGridViewZoom), MinGridViewZoom);
     _gridView.cellSize = OEScaleSize(DefaultGridSize, zoomValue);
 }

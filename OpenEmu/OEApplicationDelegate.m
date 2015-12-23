@@ -200,7 +200,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
     [self OE_removeIncompatibleSaveStates];
 
-    DLog();
     mainWindowController  = [[OEMainWindowController alloc]  initWithWindowNibName:@"MainWindow"];
     [mainWindowController loadWindow];
 
