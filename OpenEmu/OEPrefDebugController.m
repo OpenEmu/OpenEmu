@@ -264,6 +264,7 @@ NSString * const OptionsKey = @"options";
     [defaults removeObjectForKey:@"NSSplitView Subview Frames mainSplitView"];
     [defaults removeObjectForKey:@"NSWindow Frame LibraryWindow"];
     [defaults removeObjectForKey:@"lastSidebarWidth"];
+    [defaults removeObjectForKey:OELastGridSizeKey];
 
     NSWindow *mainWindow = self.mainWindow;
     
