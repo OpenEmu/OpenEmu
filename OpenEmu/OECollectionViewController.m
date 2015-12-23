@@ -85,12 +85,9 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 @property(assign) IBOutlet NSView *gridViewContainer;
 @property(assign) IBOutlet OEBlankSlateView *blankSlateView;
 @property(nonatomic, readwrite) OECollectionViewControllerViewTag selectedViewTag;
-
-- (void)_restoreDefaultState;
 @end
 
 @implementation OECollectionViewController
-@synthesize libraryController, listView=listView;
 @synthesize controlsToolbar;
 
 + (void)initialize
@@ -142,22 +139,22 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
     [self zoomGridViewWithValue:defaultZoomValue];
 
     // Set up list view
-    [listView setTarget:self];
-    [listView setDelegate:self];
-    [listView setDataSource:self];
-    [listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
-    [listView setRowSizeStyle:NSTableViewRowSizeStyleCustom];
-    [listView setRowHeight:20.0];
-    [listView setSortDescriptors:[self defaultSortDescriptors]];
-    [listView setAllowsMultipleSelection:YES];
+    [_listView setTarget:self];
+    [_listView setDelegate:self];
+    [_listView setDataSource:self];
+    [_listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
+    [_listView setRowSizeStyle:NSTableViewRowSizeStyleCustom];
+    [_listView setRowHeight:20.0];
+    [_listView setSortDescriptors:[self defaultSortDescriptors]];
+    [_listView setAllowsMultipleSelection:YES];
 
     // There's no natural order for status indicators, so we don't allow that column to be sorted
-    OETableHeaderCell *romStatusHeaderCell = [[listView tableColumnWithIdentifier:@"listViewStatus"] headerCell];
+    OETableHeaderCell *romStatusHeaderCell = [[_listView tableColumnWithIdentifier:@"listViewStatus"] headerCell];
     [romStatusHeaderCell setClickable:NO];
 
-    [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+    [_listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
 
-    for(NSTableColumn *aColumn in [listView tableColumns])
+    for(NSTableColumn *aColumn in [_listView tableColumns])
     {
         if([[aColumn dataCell] isKindOfClass:[OECenteredTextFieldCell class]])
             [[aColumn dataCell] setWidthInset:9];
@@ -401,7 +398,7 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
                 sortDescriptors = [self defaultSortDescriptors];
             break;
         default:
-            sortDescriptors = [listView sortDescriptors];
+            sortDescriptors = [_listView sortDescriptors];
             reloadListView = YES;
             break;
     }
@@ -409,7 +406,7 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
     [self setSortDescriptors:sortDescriptors];
 
     if(reloadListView)
-        [listView reloadData];
+        [_listView reloadData];
     else
         [_gridView reloadData];
 
@@ -435,7 +432,7 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
             view = _gridViewContainer;
             break;
         case OEListViewTag:
-            view = [listView enclosingScrollView];
+            view = [_listView enclosingScrollView];
             break;
         default:
             break;
@@ -624,7 +621,7 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(updateViews) object:nil];
     [self fetchItems];
-    [listView noteNumberOfRowsChanged];
+    [_listView noteNumberOfRowsChanged];
     [self setNeedsReloadVisible];
     
     /* Call -updateBlankSlate if:
@@ -662,8 +659,8 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
 //   if(!gamesController) return;
 //    [gamesController rearrangeObjects];
     [_gridView performSelectorOnMainThread:@selector(reloadData) withObject:Nil waitUntilDone:NO];
-    [listView reloadDataForRowIndexes:indexSet
-                        columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
+    [_listView reloadDataForRowIndexes:indexSet
+                        columnIndexes:[_listView columnIndexesInRect:[_listView visibleRect]]];
 }
 
 - (void)_reloadVisibleData
@@ -675,8 +672,8 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
 
     [_gridView performSelectorOnMainThread:@selector(reloadData) withObject:Nil waitUntilDone:NO];
     //[_gridView reloadCellsAtIndexes:[_gridView indexesForVisibleCells]];
-    [listView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndexesInRange:[listView rowsInRect:[listView visibleRect]]]
-                        columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
+    [_listView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndexesInRange:[_listView rowsInRect:[_listView visibleRect]]]
+                        columnIndexes:[_listView columnIndexesInRect:[_listView visibleRect]]];
 }
 
 - (void)reloadData
@@ -688,7 +685,7 @@ NSString * const OECollectionViewStateListVisibleRectKey = @"listVisibleRect";
     [self fetchItems];
 
     [_gridView reloadData];
-    [listView reloadData];
+    [_listView reloadData];
 
     [self updateBlankSlate];
 }
