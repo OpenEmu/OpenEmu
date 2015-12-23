@@ -74,6 +74,8 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
 @property BOOL shouldShowBlankSlate;
 @property (strong) NSPredicate *searchPredicate;
+
+- (NSString*)_stateKeyForRepresentedObject;
 @end
 
 @implementation OEMediaViewController
@@ -124,11 +126,19 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 {
     [super viewWillAppear];
     
-    [self restoreSelectionFromDefaults];
+    [self restoreStateWithKey:[self _stateKeyForRepresentedObject]];
+}
+
+- (NSString*)_stateKeyForRepresentedObject
+{
+    NSString *representedObjectID = [(id <OESidebarItem>)self.representedObject sidebarID];
+    return [@"Media_" stringByAppendingString:representedObjectID];
 }
 
 - (void)viewDidDisappear
 {
+    [self storeStateWithKey:[self _stateKeyForRepresentedObject]];
+
     [super viewDidDisappear];
     
     // We don't want to clear the search filter if the view is disappearing because of gameplay.
