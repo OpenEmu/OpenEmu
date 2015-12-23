@@ -164,8 +164,8 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
         [self OE_setUpEventMonitor];
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(windowDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:[[self view] window]];
-    [nc addObserver:self selector:@selector(windowDidResignKey:) name:NSWindowDidResignKeyNotification object:[[self view] window]];
+    [nc addObserver:self selector:@selector(windowDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:nil];
+    [nc addObserver:self selector:@selector(windowDidResignKey:) name:NSWindowDidResignKeyNotification object:nil];
 }
 
 - (void)viewWillDisappear
@@ -198,13 +198,17 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
-    [self OE_setUpEventMonitor];
+    if (notification.object == self.view.window) {
+        [self OE_setUpEventMonitor];
+    }
 }
 
 - (void)windowDidResignKey:(NSNotification *)notification
 {
-    self.selectedKey = nil;
-    [self OE_tearDownEventMonitor];
+    if (notification.object == self.view.window) {
+        self.selectedKey = nil;
+        [self OE_tearDownEventMonitor];
+    }
 }
 
 - (void)OE_tearDownEventMonitor
