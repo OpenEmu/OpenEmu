@@ -57,7 +57,7 @@ typedef enum _OEIntellivisionButton
 
 - (oneway void)didPushIntellivisionButton:(OEIntellivisionButton)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleaseIntellivisionButton:(OEIntellivisionButton)button forPlayer:(NSUInteger)player;
-- (void)keyUp:(unsigned short)keyCode;
-- (void)keyDown:(unsigned short)keyCode;
+- (oneway void)keyUp:(unsigned short)keyCode;
+- (oneway void)keyDown:(unsigned short)keyCode;
 
 @end
