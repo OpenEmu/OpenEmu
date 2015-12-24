@@ -109,6 +109,8 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 {
     [super viewWillAppear];
     
+    [self OE_setupToolbarStatesForViewTag:self.selectedViewTag];
+    
     OESearchField *searchField = self.libraryController.toolbar.searchField;
     searchField.enabled = YES;
     searchField.stringValue = self.currentSearchTerm ?: @"";
