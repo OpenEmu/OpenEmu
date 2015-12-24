@@ -481,6 +481,8 @@
 		8706347C1C27CE6E007FAA2F /* vectrex_library_jp.png in Resources */ = {isa = PBXBuildFile; fileRef = 870634781C27CE6E007FAA2F /* vectrex_library_jp.png */; };
 		8706347D1C27CE6E007FAA2F /* vectrex_library_jp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 870634791C27CE6E007FAA2F /* vectrex_library_jp@2x.png */; };
 		870634801C27D267007FAA2F /* OEVectrexSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8706347F1C27D267007FAA2F /* OEVectrexSystemController.m */; };
+		8706C3D41C2CB48C000C2893 /* controller_odyssey2_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8706C3D21C2CB48C000C2893 /* controller_odyssey2_mask@2x.png */; };
+		8706C3D51C2CB48C000C2893 /* controller_odyssey2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8706C3D31C2CB48C000C2893 /* controller_odyssey2@2x.png */; };
 		871CE9121B0BCFB800B89E96 /* controller_pcfx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */; };
 		871CE9131B0BCFB800B89E96 /* controller_pcfx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */; };
 		8745D75F1BF9A72B005E8699 /* OE5200SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */; };
@@ -2291,6 +2293,8 @@
 		870634791C27CE6E007FAA2F /* vectrex_library_jp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vectrex_library_jp@2x.png"; sourceTree = "<group>"; };
 		8706347E1C27D267007FAA2F /* OEVectrexSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVectrexSystemController.h; sourceTree = "<group>"; };
 		8706347F1C27D267007FAA2F /* OEVectrexSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVectrexSystemController.m; sourceTree = "<group>"; };
+		8706C3D21C2CB48C000C2893 /* controller_odyssey2_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_odyssey2_mask@2x.png"; sourceTree = "<group>"; };
+		8706C3D31C2CB48C000C2893 /* controller_odyssey2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_odyssey2@2x.png"; sourceTree = "<group>"; };
 		871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pcfx_mask@2x.png"; sourceTree = "<group>"; };
 		871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pcfx@2x.png"; sourceTree = "<group>"; };
 		8745D75D1BF9A72A005E8699 /* OE5200SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE5200SystemController.h; sourceTree = "<group>"; };
@@ -5136,6 +5140,8 @@
 			children = (
 				9440476C199D5032002D805E /* controller_odyssey2_mask.png */,
 				9440476D199D5032002D805E /* controller_odyssey2.png */,
+				8706C3D21C2CB48C000C2893 /* controller_odyssey2_mask@2x.png */,
+				8706C3D31C2CB48C000C2893 /* controller_odyssey2@2x.png */,
 				9440476E199D5032002D805E /* Controller-Mappings.plist */,
 				9440476F199D5032002D805E /* Controller-Preferences.plist */,
 				94404770199D5032002D805E /* Keyboard-Mappings.plist */,
@@ -7352,6 +7358,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8706C3D41C2CB48C000C2893 /* controller_odyssey2_mask@2x.png in Resources */,
 				9440475C199D4DF1002D805E /* InfoPlist.strings in Resources */,
 				94404773199D5032002D805E /* controller_odyssey2.png in Resources */,
 				870634711C27CD3E007FAA2F /* odyssey2_library@2x.png in Resources */,
@@ -7359,6 +7366,7 @@
 				94404775199D5032002D805E /* Controller-Preferences.plist in Resources */,
 				94404772199D5032002D805E /* controller_odyssey2_mask.png in Resources */,
 				94404776199D5032002D805E /* Keyboard-Mappings.plist in Resources */,
+				8706C3D51C2CB48C000C2893 /* controller_odyssey2@2x.png in Resources */,
 				94404774199D5032002D805E /* Controller-Mappings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

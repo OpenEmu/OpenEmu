@@ -9,15 +9,15 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEOdyssey2ButtonUp</key>
-		<string>{0, 0}</string>
+		<string>{249, 255}</string>
 		<key>OEOdyssey2ButtonDown</key>
-		<string>{0, 0}</string>
+		<string>{249, 215}</string>
 		<key>OEOdyssey2ButtonAction</key>
-		<string>{0, 0}</string>
+		<string>{198, 315}</string>
 		<key>OEOdyssey2ButtonLeft</key>
-		<string>{0, 0}</string>
+		<string>{230, 235}</string>
 		<key>OEOdyssey2ButtonRight</key>
-		<string>{0, 0}</string>
+		<string>{270, 235}</string>
 	</dict>
 </dict>
 </plist>
