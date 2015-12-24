@@ -407,7 +407,7 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
             OELibraryToolbar *toolbar = self.libraryController.toolbar;
             toolbar.gridViewButton.enabled = YES;
             toolbar.listViewButton.enabled = YES;
-            toolbar.gridSizeSlider.enabled = YES;
+            toolbar.gridSizeSlider.enabled = self.selectedViewTag == OEGridViewTag;
             toolbar.searchField.enabled = YES;
             toolbar.searchField.menu = nil;
         }
