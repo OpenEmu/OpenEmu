@@ -1216,20 +1216,12 @@ typedef enum : NSUInteger
     OEHUDAlert  *alert        = [OEHUDAlert saveGameAlertWithProposedName:proposedName];
 
     [alert setWindow:[[[self gameViewController] view] window]];
-    [alert setCallbackHandler:
-     ^(OEHUDAlert *alert, NSUInteger result)
-     {
-         if(result == NSAlertFirstButtonReturn)
-         {
-             [self OE_saveStateWithName:[alert stringValue] completionHandler:
-              ^{
-                  if(didPauseEmulation) [self setEmulationPaused:NO];
-              }];
-         }
-         else if(didPauseEmulation) [self setEmulationPaused:NO];
-     }];
 
-    [alert runModal];
+    if ([alert runModal] == NSAlertFirstButtonReturn) {
+        [self OE_saveStateWithName:[alert stringValue] completionHandler:nil];
+    }
+    
+    if(didPauseEmulation) [self setEmulationPaused:NO];
 }
 
 - (void)quickSave
