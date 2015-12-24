@@ -151,8 +151,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     self = [super init];
     if (self) {
-        [[OECoreUpdater sharedUpdater] checkForUpdatesAndInstall];
-
         [self setStartupQueue:[NSMutableArray array]];
         _reviewingUnsavedDocuments = NO;
     }
@@ -193,6 +191,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 - (void)libraryDatabaseDidLoad:(NSNotification*)notification
 {
     _libraryLoaded = YES;
+    
+    [[OECoreUpdater sharedUpdater] checkForUpdatesAndInstall];
 
     [self OE_removeInvalidPlugins];
 
