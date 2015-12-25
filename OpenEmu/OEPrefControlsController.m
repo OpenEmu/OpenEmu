@@ -442,26 +442,24 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     // Setup animation that transitions the old controller image out
     CGMutablePathRef pathTransitionOut = CGPathCreateMutable();
     CGPathMoveToPoint(pathTransitionOut, NULL, 0.0f, 0.0f);
-    CGPathAddLineToPoint(pathTransitionOut, NULL, 0.0f, -50.0f);
     CGPathAddLineToPoint(pathTransitionOut, NULL, 0.0f, 450.0f);
 
     CAKeyframeAnimation *outTransition = [CAKeyframeAnimation animationWithKeyPath:@"position"];
     outTransition.path = pathTransitionOut;
     outTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    outTransition.duration = 0.5;
+    outTransition.duration = 0.35;
 
     CFRelease(pathTransitionOut);
 
     // Setup animation that transitions the new controller image in
     CGMutablePathRef pathTransitionIn = CGPathCreateMutable();
     CGPathMoveToPoint(pathTransitionIn, NULL, 0.0f, 450.0f);
-    CGPathAddLineToPoint(pathTransitionIn, NULL, 0.0f, -50.0f);
     CGPathAddLineToPoint(pathTransitionIn, NULL, 0.0f, 0.0f);
 
     CAKeyframeAnimation *inTransition = [CAKeyframeAnimation animationWithKeyPath:@"position"];
     inTransition.path = pathTransitionIn;
     inTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    inTransition.duration = 0.5;
+    inTransition.duration = 0.35;
 
     CFRelease(pathTransitionIn);
 
