@@ -101,9 +101,10 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     toolbar.gridViewButton.enabled = YES;
     toolbar.listViewButton.enabled = YES;
     
-    const BOOL inGridViewMode = self.collectionController.selectedViewTag == OEGridViewTag;
-    toolbar.gridViewButton.state = inGridViewMode ? NSOnState : NSOffState;
-    toolbar.listViewButton.state = !inGridViewMode ? NSOnState : NSOffState;
+    OECollectionViewControllerViewTag selectedViewTag = self.collectionController.selectedViewTag;
+    BOOL setGridView = selectedViewTag == OEGridViewTag || selectedViewTag == OEBlankSlateTag;
+    toolbar.gridViewButton.state = setGridView ? NSOnState : NSOffState;
+    toolbar.listViewButton.state = !setGridView ? NSOnState : NSOffState;
 
     NSSearchField *field = toolbar.searchField;
     field.searchMenuTemplate = nil;
