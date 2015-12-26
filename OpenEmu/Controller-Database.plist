@@ -3234,6 +3234,14 @@
 		<array>
 			<dict>
 				<key>OEControllerDeviceName</key>
+				<string>HORIPAD ULTIMATE</string>
+				<key>OEControllerVendorID</key>
+				<integer>3853</integer>
+				<key>OEControllerProductID</key>
+				<integer>144</integer>
+			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
 				<string>SteelSeries Nimbus</string>
 				<key>OEControllerVendorID</key>
 				<integer>273</integer>
