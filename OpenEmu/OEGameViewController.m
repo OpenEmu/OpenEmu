@@ -269,7 +269,11 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH.mm.ss"];
     NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
 
-    NSString *fileName = [NSString stringWithFormat:@"%@ %@.png", [[[[self document] rom] game] displayName], timeStamp];
+    // Replace forward slashes in the game title with underscores because forward slashes aren't allowed in filenames.
+    NSMutableString *displayName = [self.document.rom.game.displayName mutableCopy];
+    [displayName replaceOccurrencesOfString:@"/" withString:@"_" options:0 range:NSMakeRange(0, displayName.length)];
+    
+    NSString *fileName = [NSString stringWithFormat:@"%@ %@.png", displayName, timeStamp];
     NSString *temporaryPath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
     NSURL *temporaryURL = [NSURL fileURLWithPath:temporaryPath];
 
