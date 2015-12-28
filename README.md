@@ -29,6 +29,6 @@ engine, such as NTSC video signal emulation for the Nestopia core.
 Minimum Requirements
 --------------------
 
-1. OS X 10.7
+1. OS X 10.11
 2. Core 2 Duo Processor
 3. GMA X3100 Graphics
