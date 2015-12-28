@@ -33,22 +33,22 @@
 "981.title" = "Avvia gioco…";
 
 /* Class = "NSMenuItem"; title = "Modifica raccolta smart"; ObjectID = "982"; */
-"982.title" = "Modifica raccolta smart";
+"982.title" = "Modifica Raccolta Smart";
 
 /* Class = "NSMenuItem"; title = "Nuova raccolta smart…"; ObjectID = "983"; */
-"983.title" = "Nuova raccolta smart…";
+"983.title" = "Nuova Raccolta Smart…";
 
 /* Class = "NSMenuItem"; title = "Nuova cartella raccolta"; ObjectID = "984"; */
-"984.title" = "Nuova cartella raccolta";
+"984.title" = "Nuova cartella Raccolta";
 
 /* Class = "NSMenuItem"; title = "Nuova raccolta"; ObjectID = "985"; */
-"985.title" = "Nuova raccolta";
+"985.title" = "Nuova Raccolta";
 
 /* Class = "NSMenuItem"; title = "Libreria"; ObjectID = "986"; */
 "986.title" = "Libreria";
 
 /* Class = "NSMenuItem"; title = "Aggiungi alla libreria…"; ObjectID = "987"; */
-"987.title" = "Aggiungi alla libreria…";
+"987.title" = "Aggiungi alla Libreria…";
 
 /* Class = "NSMenuItem"; title = "Mostra duplicati esatti"; ObjectID = "990"; */
 "990.title" = "Mostra duplicati esatti";
@@ -59,8 +59,8 @@
 /* Class = "NSMenuItem"; title = "Mostra nel Finder"; ObjectID = "992"; */
 "992.title" = "Mostra nel Finder";
 
-/* Class = "NSMenuItem"; title = "Classifica"; ObjectID = "993"; */
-"993.title" = "Classifica";
+/* Class = "NSMenuItem"; title = "Valutazione"; ObjectID = "993"; */
+"993.title" = "Valutazione";
 
 /* Class = "NSMenuItem"; title = "Ottieni informazioni"; ObjectID = "994"; */
 "994.title" = "Ottieni informazioni";
@@ -75,7 +75,7 @@
 "997.title" = "Formato di stampa…";
 
 /* Class = "NSMenu"; title = "Classifica"; ObjectID = "999"; */
-"999.title" = "Classifica";
+"999.title" = "Valutazione";
 
 /* Class = "NSMenuItem"; title = "Nessuna"; ObjectID = "1000"; */
 "1000.title" = "Nessuna";
@@ -102,16 +102,16 @@
 "1007.title" = "Backup…";
 
 /* Class = "NSMenuItem"; title = "Organizza libreria…"; ObjectID = "1008"; */
-"1008.title" = "Organizza libreria…";
+"1008.title" = "Organizza Libreria…";
 
 /* Class = "NSMenuItem"; title = "Esporta libreria…"; ObjectID = "1009"; */
-"1009.title" = "Esporta libreria…";
+"1009.title" = "Esporta Libreria…";
 
 /* Class = "NSMenuItem"; title = "Importa raccolta"; ObjectID = "1011"; */
-"1011.title" = "Importa raccolta";
+"1011.title" = "Importa Raccolta";
 
 /* Class = "NSMenuItem"; title = "Esporta raccolta"; ObjectID = "1012"; */
-"1012.title" = "Esporta raccolta";
+"1012.title" = "Esporta Raccolta";
 
 /* Class = "NSMenu"; title = "OpenEmu"; ObjectID = "1013"; */
 "1013.title" = "OpenEmu";
@@ -288,7 +288,7 @@
 "1293.title" = "Mostra nome ROM";
 
 /* Class = "NSMenuItem"; title = "Mostra libreria"; ObjectID = "1306"; */
-"1306.title" = "Mostra libreria";
+"1306.title" = "Mostra Libreria";
 
 /* Class = "NSMenuItem"; title = "Scatta istantanea"; ObjectID = "1322"; */
 "1322.title" = "Scatta istantanea";

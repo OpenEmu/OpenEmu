@@ -6,16 +6,16 @@
 "17.headerCell.title" = "Ultima partita";
 
 /* Class = "NSTableColumn"; headerCell.title = "Rating"; ObjectID = "18"; */
-"18.headerCell.title" = "Classifica";
+"18.headerCell.title" = "Valutazione";
 
 /* Class = "NSTableColumn"; headerCell.title = "Name"; ObjectID = "19"; */
 "19.headerCell.title" = "Nome";
 
 /* Class = "NSTableColumn"; headerCell.title = "Save Games"; ObjectID = "103"; */
-"103.headerCell.title" = "Salvataggi";
+"103.headerCell.title" = "Salvataggi Emulatore";
 
 /* Class = "NSTableColumn"; headerCell.title = "Play Count"; ObjectID = "105"; */
-"105.headerCell.title" = "Partite";
+"105.headerCell.title" = "Numero di partite";
 
 /* Class = "NSTableColumn"; headerCell.title = "Play Time"; ObjectID = "107"; */
 "107.headerCell.title" = "Tempo di gioco";

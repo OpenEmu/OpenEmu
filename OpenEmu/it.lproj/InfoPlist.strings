@@ -28,8 +28,8 @@
 
 "GameCorePlugin" = "Plugin Core";
 
-"OpenEmu Save State" = "Salvataggio di stato OpenEmu";
+"OpenEmu Save State" = "Salvataggio Emulazione di OpenEmu";
 
-"System Plugin" = "Plugin Sistema";
+"System Plugin" = "Plugin di sistema";
 
-"VideoFilterPlugin" = "Plugin filtro video";
+"VideoFilterPlugin" = "Plugin Filtro video";

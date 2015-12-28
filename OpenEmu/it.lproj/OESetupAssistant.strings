@@ -21,19 +21,19 @@
 "316.title" = "Benvenuto in OpenEmu!";
 
 /* Class = "NSTextFieldCell"; title = "An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…\n\n• Adding games (ROMs) you may already legally own.\n\n• Ensure you are running the correct system plugins (cores)."; ObjectID = "318"; */
-"318.title" = "A portata di mano c'è un incredibile mondo di videogiochi. Per iniziare, ti basterà rispondere a delle semplici domande guidate: in questo modo potrai…\n\n• Aggiungere giochi (ROM) che potresti già possedere legalmente.\n\n• Assicurarti che stai usando i plugin di sistema giusti (core).";
+"318.title" = "A portata di mano c'è un incredibile mondo di videogiochi. Per iniziare, ti basterà rispondere a delle semplici domande: in questo modo potrai…\n\n• Aggiungere giochi (ROM) che potresti già possedere legalmente.\n\n• Assicurarti che stai usando i plugin di sistema giusti (Core).";
 
 /* Class = "NSTextFieldCell"; title = "Click on the ‘Next’ button to begin!"; ObjectID = "320"; */
 "320.title" = "Fai clic su ‘Avanti’ per iniziare!";
 
-/* Class = "NSTextFieldCell"; title = "OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores."; ObjectID = "328"; */
-"328.title" = "OpenEmu è modulare: grazie al lavoro di altri progetti open source, può emulare una grande varietà di console per videogiochi (\"core\"). Per alcuni di essi serve confermare esplicitamente che li vuoi installare e usare. Le tue console e giochi preferiti potrebbero non funzionare senza questi core.";
+/* Class = "NSTextFieldCell"; title = "OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores‘). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores."; ObjectID = "328"; */
+"328.title" = "OpenEmu è modulare, e grazie al lavoro di altri progetti open source può emulare una grande varietà di console per videogiochi (‘Core‘). Per alcuni di essi serve confermare esplicitamente che li vuoi installare e usare. Le tue console e giochi preferiti potrebbero non funzionare senza questi Core.";
 
 /* Class = "NSTextFieldCell"; title = "System Cores Installation"; ObjectID = "329"; */
-"329.title" = "Installazione dei core di sistema";
+"329.title" = "Installazione dei Core di sistema";
 
 /* Class = "NSTextFieldCell"; title = "You may already have game (ROM) files located on your computer. OpenEmu can search your computer for games you may already legally own and automatically add them to your OpenEmu library. OpenEmu will also seek to add box art and other information for your games where available."; ObjectID = "332"; */
-"332.title" = "Potrebbero già esserci alcuni file dei giochi (ROM) nel tuo computer. OpenEmu può cercare automaticamente questi giochi, che potresti già possedere legalmente, aggiungendoli alla tua libreria OpenEmu. OpenEmu cercherà di ottenere – se disponibili – anche immagini e altre informazioni su questi giochi.";
+"332.title" = "Potrebbero già esserci alcuni file dei giochi (ROM) nel tuo computer. OpenEmu può cercare automaticamente sul tuo computer per giochi che potresti già legalmente possedere, e aggiungerli alla tua Libreria di OpenEmu. OpenEmu cercherà di ottenere anche immagini e altre informazioni su questi giochi quando disponibili.";
 
 /* Class = "NSTextFieldCell"; title = "Game Scanner"; ObjectID = "333"; */
 "333.title" = "Scanner giochi";
@@ -45,16 +45,16 @@
 "347.title" = "Scansioni aggiuntive";
 
 /* Class = "NSTextFieldCell"; title = "OpenEmu has detected you have the following mounted Hard Drives or shares available. If there are any game files residing in these locations, please tick on the associated item and OpenEmu can scan for and add these games to your Library."; ObjectID = "357"; */
-"357.title" = "OpenEmu ha trovato i seguenti dischi esterni o di rete collegati al computer. Se  in queste posizioni ci sono i file di qualche gioco, contrassegnale nella lista: così darai a OpenEmu il permesso di cercare tali giochi e aggiungerli alla libreria OpenEmu.";
+"357.title" = "OpenEmu ha trovato i seguenti dischi esterni o di rete collegati al computer. Se  in queste posizioni ci sono i file di qualche gioco, contrassegnale nella lista e OpenEmu potrà cercare tali giochi e aggiungerli alla tua Libreria.";
 
 /* Class = "NSButtonCell"; title = "Back"; ObjectID = "358"; */
 "358.title" = "Indietro";
 
 /* Class = "NSTextFieldCell"; title = "Let’s Go!"; ObjectID = "401"; */
-"401.title" = "Pronti a partire!";
+"401.title" = "Andiamo!";
 
 /* Class = "NSTextFieldCell"; title = "Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time."; ObjectID = "402"; */
-"402.title" = "Ok! I preparativi sono completati e puoi iniziare a giocare!\n\nRicorda che nelle Preferenze puoi cambiare i controlli quando vuoi, sia per la tastiera sia per un controller esterno.";
+"402.title" = "Fantastico! I preparativi sono completati e puoi iniziare a giocare!\n\nRicorda che puoi cambiare i controlli per tastiera e gamepad sia per te che per gli altri giocatori in qualunque momento attraverso il pannello Preferenze.";
 
 /* Class = "NSTextFieldCell"; title = "Click the ‘Go’ button to begin your adventure."; ObjectID = "403"; */
 "403.title" = "Fai clic su \"Vai\" per iniziare l'avventura.";

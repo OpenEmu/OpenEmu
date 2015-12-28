@@ -9,10 +9,10 @@
 "23.title" = "Aspetto";
 
 /* Class = "NSButtonCell"; title = "Always use popout gameplay window"; ObjectID = "25"; */
-"25.title" = "Apri i giochi in una finestra separata";
+"25.title" = "Apri in una finestra separata";
 
 /* Class = "NSButtonCell"; title = "Always launch games fullscreen"; ObjectID = "26"; */
-"26.title" = "Apri i giochi in modalità a tutto schermo";
+"26.title" = "Apri in modalità a tutto schermo";
 
 /* Class = "NSButtonCell"; title = "Always pause gameplay when in background"; ObjectID = "57"; */
 "57.title" = "Sospendi il gioco quando non è in primo piano";
