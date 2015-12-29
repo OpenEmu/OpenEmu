@@ -261,10 +261,19 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             textShadow.shadowColor = NSColor(deviceWhite: 0, alpha: 0.4)
         }
         
-        let attributes: [String: AnyObject] = [
-            NSFontAttributeName: NSFont.systemFontOfSize(11, weight: 0.1),
-            NSForegroundColorAttributeName: textColor,
-            NSShadowAttributeName: textShadow]
+        let attributes: [String: AnyObject]
+        
+        if #available(OSX 10.11, *) {
+            attributes = [
+                NSFontAttributeName: NSFont.systemFontOfSize(11, weight: 0.1),
+                NSForegroundColorAttributeName: textColor,
+                NSShadowAttributeName: textShadow]
+        } else {
+            attributes = [
+                NSFontAttributeName: NSFont.systemFontOfSize(11),
+                NSForegroundColorAttributeName: textColor,
+                NSShadowAttributeName: textShadow]
+        }
         
         let attributedString = NSAttributedString(string: label, attributes: attributes)
         

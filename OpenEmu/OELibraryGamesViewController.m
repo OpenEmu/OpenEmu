@@ -57,7 +57,9 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
 {
     [super viewDidLoad];
     
-    self.sidebarVisualEffectView.material = NSVisualEffectMaterialSidebar;
+    #if __MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_11
+        self.sidebarVisualEffectView.material = NSVisualEffectMaterialSidebar;
+    #endif
     
     [self _assignLibraryController];
 
