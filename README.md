@@ -12,14 +12,26 @@ back-ends while retaining a familiar OS X native front-end.
 
 Currently OpenEmu can load the following game engines as plugins:
 
-* CrabEmu  - adds support for Sega Master System, Game Gear, SG - 1000
+* Atari800 - adds support for Atari 5200 
+* Bliss - adds support for Intellivision 
+* CrabEmu  - adds support for Sega Master System, Game Gear, SG - 1000 and ColecoVision 
+* DeSmuME - adds support for Nintendo DS
+* FCEU - adds support for NES/Famicom
 * Gambatte  - adds support for Game Boy and Game Boy Color
 * Genesis Plus - adds support for Sega Genesis/Mega Drive
+* Higan - adds support for SNES
+* Mednafen - adds support for Atari Lynx, TurboGrafx-16/PC Engine, SuperGrafx, TurboGrafx-CD/PC Engine CD, PC-FX, Sony Playstation, Wonderswan
+* Mupen64Plus- adds support for Nintendo 64 
 * NeoPop - adds support for Neo Geo Pocket and Neo Geo Pocket Color
 * Nestopia - adds support for NES/Famicom
-* FCEU - adds support for NES/Famicom
+* 02EM - adds support for Odyssey²/Videopac+ 
+* PPSSPP - adds support for Sony PSP 
+* Picodrive - adds support for Sega 32X
+* Prosystem - adds support for Atari 7800
 * SNES9x - adds support for SNES and Super Famicom
-* BSNES - adds support for SNES and Super Famicom
+* Stella - adds support for Atari 2600
+* TwoMbit - adds support for Sega Master System and Game Gear
+* VecXGL- adds support for Vectrex 
 * Visualboy Advance - adds support for Game Boy Advance
 
 OpenEmu also supports high quality scaling with Open GL, multi-threaded video
