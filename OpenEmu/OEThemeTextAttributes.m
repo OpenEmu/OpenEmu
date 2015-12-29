@@ -188,7 +188,8 @@ id _OEObjectFromDictionary(NSDictionary *dictionary, NSString *attributeName, Cl
     {
         if(style == nil) style = [[NSMutableParagraphStyle alloc] init];
 
-        [style setAllowsDefaultTighteningForTruncation:NO];
+        if ([style respondsToSelector:@selector(setAllowsDefaultTighteningForTruncation:)])
+            [style setAllowsDefaultTighteningForTruncation:NO];
         [style setTighteningFactorForTruncation:0.1];
 
         NSString *modeString = [[definition objectForKey:OEThemeFontLineBreakAttributeName] lowercaseString];
