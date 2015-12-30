@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -27,17 +27,19 @@
 @import Foundation;
 
 @interface OEDownload : NSObject
-- (instancetype)initWithURL:(NSURL*)url;
+
+@property (nonatomic, readonly) CGFloat progress;
+@property (copy) BOOL (^progressHandler)(CGFloat);
+@property (copy) void (^completionHandler)(NSURL *, NSError*);
+
+@property (readonly) NSURL *destinationURL;
+@property (readonly) NSError *error;
+
+- (instancetype)initWithURL:(NSURL *)url;
 
 - (void)startDownload;
 - (void)cancelDownload;
 
 - (void)waitUntilCompleted;
 
-@property (readonly) CGFloat progress;
-@property (nonatomic, copy) BOOL (^progressHandler)(CGFloat);
-@property (nonatomic, copy) void (^completionHandler)(NSURL*, NSError*);
-
-@property (readonly) NSURL   *destinationURL;
-@property (readonly) NSError *error;
 @end

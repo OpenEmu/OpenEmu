@@ -34,168 +34,155 @@
 
 #import <OpenEmuBase/OpenEmuBase.h>
 
-@interface OECoreDownload () <NSURLDownloadDelegate>
-{
-    NSString           *_downloadPath;
-    NSString           *_fullPluginPath;
+@interface OECoreDownload () <NSURLSessionDownloadDelegate>
 
-    unsigned long long  _expectedLength;
-    unsigned long long  _downloadedSize;
+@property (copy) NSString *fullPluginPath;
 
-    NSURLDownload *fileDownload;
-}
+@property NSURLSession *downloadSession;
 
-@property(readwrite, getter=isDownloading) BOOL downloading;
-@property(readwrite) double progress;
+@property (readwrite, getter=isDownloading) BOOL downloading;
+@property (readwrite) CGFloat progress;
 
 @end
 
 @implementation OECoreDownload
 
-#pragma mark -
-#pragma mark Memory Management
-
-- (id)init
-{
-    if((self = [super init]))
-    {
-        _expectedLength = 1;
+- (instancetype)initWithPlugin:(OECorePlugin *)plugin {
+    
+    NSParameterAssert(plugin);
+    
+    if ((self = [super init])) {
+        [self OE_updatePropertiesWithPlugin:plugin];
     }
     return self;
 }
 
-- (id)initWithPlugin:(OECorePlugin *)plugin
-{
-    if((self = [self init]))
-    {
-        [self OE_setValuesUsingPlugin:plugin];
+#pragma mark - Core Downloading
+
+- (void)startDownload:(id)sender {
+    
+    if (self.appcastItem == nil) {
+        return;
     }
-    return self;
-}
 
-- (void)dealloc
-{
-    [self setDelegate:nil];
-}
-
-- (void)OE_setValuesUsingPlugin:(OECorePlugin *)plugin
-{
-    self.name = [[plugin displayName] copy];
-    self.version = [[plugin version] copy];
-    self.hasUpdate = NO;
-    self.canBeInstalled = NO;
-
-    NSMutableArray *mutableSystemNames = [NSMutableArray arrayWithCapacity:[[plugin systemIdentifiers] count]];
-    [[plugin systemIdentifiers] enumerateObjectsUsingBlock:
-     ^(NSString *systemIdentifier, NSUInteger idx, BOOL *stop)
-     {
-         OESystemPlugin *plugin = [OESystemPlugin systemPluginForIdentifier:systemIdentifier];
-         NSString *systemName = [plugin systemName];
-
-         if(systemName != nil) [mutableSystemNames addObject:systemName];
-     }];
-
-    self.systemNames = [mutableSystemNames copy];
-    self.systemIdentifiers = [[plugin systemIdentifiers] copy];
-    self.bundleIdentifier = [[plugin bundleIdentifier] copy];
-}
-
-#pragma mark Core Download
-
-- (void)startDownload:(id)sender
-{
-    if(self.appcastItem == nil) return;
-
-    NSURL *url = [_appcastItem fileURL];
-
-    NSURLRequest  *request = [NSURLRequest requestWithURL:url];
-
-    fileDownload = [[NSURLDownload alloc] initWithRequest:request delegate:self];
+    NSURL *url = self.appcastItem.fileURL;
+    
+    NSAssert(self.downloadSession == nil, @"There shouldn't be a previous download session.");
+    
+    self.downloadSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    self.downloadSession.sessionDescription = self.bundleIdentifier;
+    
+    NSURLSessionDownloadTask *downloadTask = [self.downloadSession downloadTaskWithURL:url];
+        
+    DLog(@"Starting core download (%@)", self.downloadSession.sessionDescription);
+    
+    [downloadTask resume];
+    
     self.downloading = YES;
-
-    [[self delegate] coreDownloadDidStart:self];
-
-    if(fileDownload == nil) NSLog(@"ERROR: Couldn't download %@", self);
+    [self.delegate coreDownloadDidStart:self];
 }
 
-- (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
-{
-    _downloadPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"OEDownload.%@", [NSString stringWithUUID]]];
-    [download setDestination:_downloadPath allowOverwrite:NO];
+- (void)cancelDownload:(id)sender {
+    
+    DLog(@"Cancelling core download (%@)", self.downloadSession.sessionDescription);
+    
+    [self.downloadSession invalidateAndCancel];
 }
 
-- (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
-{
-    if([[self delegate] respondsToSelector:@selector(coreDownloadDidFail:withError:)])
-       [[self delegate] coreDownloadDidFail:self withError:error];
-    else // inform the user
-       [[NSApplication sharedApplication] presentError:error];
+#pragma mark - NSURLSessionDownloadTaskDelegate
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
+    
+    DLog(@"Core download (%@) did complete: %@", self.downloadSession.sessionDescription, error ? error.localizedDescription : @"no errors");
+    
     self.downloading = NO;
-}
+    self.progress = 0.0;
+    
+    [self.downloadSession finishTasksAndInvalidate];
+    self.downloadSession = nil;
 
-- (void)download:(NSURLDownload *)download didCreateDestination:(NSString *)path
-{
-    DLog(@"%@, %@", @"created dest", path);
-}
-
-- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
-{
-    _downloadedSize += length;
-    [self willChangeValueForKey:@"progress"];
-    self.progress = (double)_downloadedSize / _expectedLength;
-    [self didChangeValueForKey:@"progress"];
-
-    //NSLog(@"Got data:%f", (double) _downloadedSize /  (double) _expectedLength);
-}
-
-- (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response
-{
-    _expectedLength = [response expectedContentLength];
-    DLog(@"Got response");
-}
-
-- (void)downloadDidFinish:(NSURLDownload *)download
-{
-    XADArchive *archive = nil;
-    @try
-    {
-        archive = [XADArchive archiveForFile:_downloadPath];
+    if (error != nil) {
+        if ([self.delegate respondsToSelector:@selector(coreDownloadDidFail:withError:)]) {
+            [self.delegate coreDownloadDidFail:self withError:error];
+        } else {
+            [[NSApplication sharedApplication] presentError:error];
+        }
+    } else {
+        [self.delegate coreDownloadDidFinish:self];
     }
-    @catch (NSException *exception)
-    {
+}
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    
+    [self willChangeValueForKey:@"progress"];
+    
+    self.progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
+    
+    [self didChangeValueForKey:@"progress"];
+}
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
+    
+    DLog(@"Core download (%@) did finish downloading temporary data.", self.downloadSession.sessionDescription);
+    
+    XADArchive *archive = nil;
+    @try {
+        archive = [XADArchive archiveForFile:location.path];
+    } @catch (NSException *exception) {
         archive = nil;
     }
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
+    NSString *basePath = (paths.count > 0) ? paths.firstObject : NSTemporaryDirectory();
     NSString *appsupportFolder = [basePath stringByAppendingPathComponent:@"OpenEmu"];
     appsupportFolder = [appsupportFolder stringByAppendingPathComponent:@"Cores"];
-
+    
     _fullPluginPath = [appsupportFolder stringByAppendingPathComponent:[archive nameOfEntry:0]];
     [archive extractTo:appsupportFolder];
-
-    // Delete the temp file
-    [[NSFileManager defaultManager] removeItemAtPath:_downloadPath error:nil];
-
+    
+    DLog(@"Core (%@) extracted to application support folder.", self.bundleIdentifier);
+    
     OECorePlugin *plugin = [OECorePlugin pluginWithFileAtPath:_fullPluginPath type:[OECorePlugin class]];
-    if(self.hasUpdate)
-    {
-        NSString *infoPlistPath = [[[plugin bundle] bundlePath] stringByAppendingPathComponent:@"Contents/Info.plist"];
+    
+    if (self.hasUpdate) {
+        
+        NSString *infoPlistPath = [plugin.bundle.bundlePath stringByAppendingPathComponent:@"Contents/Info.plist"];
         NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile:infoPlistPath];
-
-        self.version = [[infoPlist objectForKey:@"CFBundleVersion"] copy];
+        
+        self.version = [infoPlist[@"CFBundleVersion"] copy];
         self.canBeInstalled = NO;
         self.hasUpdate = NO;
+        
+    } else if (self.canBeInstalled) {
+        
+        [self OE_updatePropertiesWithPlugin:plugin];
     }
-    else if(self.canBeInstalled)
-        [self OE_setValuesUsingPlugin:plugin];
-
-    self.downloading = NO;
-    [self.delegate coreDownloadDidFinish:self];
 }
 
-- (void)cancelDownload:(id)sender
-{
-    [fileDownload cancel];
+#pragma mark - Private
+
+- (void)OE_updatePropertiesWithPlugin:(OECorePlugin *)plugin {
+    
+    self.name = [plugin.displayName copy];
+    self.version = [plugin.version copy];
+    self.hasUpdate = NO;
+    self.canBeInstalled = NO;
+    
+    NSMutableArray <NSString *> *mutableSystemNames = [NSMutableArray arrayWithCapacity:plugin.systemIdentifiers.count];
+    
+    for (NSString *systemIdentifier in plugin.systemIdentifiers) {
+        
+        OESystemPlugin *plugin = [OESystemPlugin systemPluginForIdentifier:systemIdentifier];
+        NSString *systemName = plugin.systemName;
+        
+        if (systemName != nil) {
+            [mutableSystemNames addObject:systemName];
+        }
+    }
+    
+    self.systemNames = [mutableSystemNames copy];
+    self.systemIdentifiers = [plugin.systemIdentifiers copy];
+    self.bundleIdentifier = [plugin.bundleIdentifier copy];
 }
+
 @end

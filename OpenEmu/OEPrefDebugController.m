@@ -422,14 +422,18 @@ NSString * const OptionsKey = @"options";
 #pragma mark - OpenVGDB Actions
 - (void)updateOpenVGDB:(id)sender
 {
+    DLog(@"Removing OpenVGDB update check date and version from user defaults to force update.");
+    
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     [standardDefaults removeObjectForKey:OEOpenVGDBUpdateCheckKey];
     [standardDefaults removeObjectForKey:OEOpenVGDBVersionKey];
 
     OEGameInfoHelper *helper = [OEGameInfoHelper sharedHelper];
-    NSString *version = nil;
-    NSURL *url = [helper checkForUpdates:&version];
-    [helper installVersion:version withDownloadURL:url];
+    [helper checkForUpdatesWithHandler:^(NSURL * _Nullable url, NSString * _Nullable version) {
+        if (url && version) {
+            [helper installVersion:version withDownloadURL:url];
+        }
+    }];
 }
 
 - (void)cancelOpenVGDBUpdate:(id)sender

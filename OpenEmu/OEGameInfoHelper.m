@@ -35,8 +35,8 @@
 
 #import "OpenEmu-Swift.h"
 
-NSString * const OEOpenVGDBVersionKey        = @"OpenVGDBVersion";
-NSString * const OEOpenVGDBUpdateCheckKey    = @"OpenVGDBUpdatesChecked";
+NSString * const OEOpenVGDBVersionKey = @"OpenVGDBVersion";
+NSString * const OEOpenVGDBUpdateCheckKey = @"OpenVGDBUpdatesChecked";
 NSString * const OEOpenVGDBUpdateIntervalKey = @"OpenVGDBUpdateInterval";
 
 
@@ -48,184 +48,221 @@ NSString * const OEGameInfoHelperWillUpdateNotificationName = @"OEGameInfoHelper
 NSString * const OEGameInfoHelperDidChangeUpdateProgressNotificationName = @"OEGameInfoHelperDidChangeUpdateProgressNotificationName";
 NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperDidUpdateNotificationName";
 
-@interface OEGameInfoHelper () <NSURLDownloadDelegate>
+@interface OEGameInfoHelper () <NSURLSessionDownloadDelegate>
+
 @property OESQLiteDatabase *database;
 
-@property NSString *downloadPath;
-@property NSInteger expectedLength, downloadedSize;
-@property (strong) NSURLDownload *fileDownload;
-@end
-@implementation OEGameInfoHelper
-@synthesize updating=_updating, downloadVerison=_downloadVerison;
+@property (nonatomic) NSURLSession *downloadSession;
 
-+ (void)initialize
-{
-    if(self == [OEGameInfoHelper class])
-    {
+@property (readwrite) CGFloat downloadProgress;
+@property (readwrite, getter=isUpdating) BOOL updating;
+
+@end
+
+@implementation OEGameInfoHelper
+
++ (void)initialize {
+    
+    if (self == [OEGameInfoHelper class]) {
+        
+        NSNumber *onceADayInterval = @(60 * 60 * 24 * 1);
+        
         NSDictionary *defaults = @{ OEOpenVGDBVersionKey:@"",
                                     OEOpenVGDBUpdateCheckKey:[NSDate dateWithTimeIntervalSince1970:0],
-                                 OEOpenVGDBUpdateIntervalKey:@(60*60*24*1) // once a day
+                                 OEOpenVGDBUpdateIntervalKey: onceADayInterval
                                   };
         [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     }
 }
 
-+ (id)sharedHelper
-{
++ (instancetype)sharedHelper {
+    
     static OEGameInfoHelper *sharedHelper = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        
         sharedHelper = [[OEGameInfoHelper alloc] init];
 
         NSError *error = nil;
         NSURL *databaseURL = [sharedHelper databaseFileURL];
-        if(![databaseURL checkResourceIsReachableAndReturnError:nil])
-        {
+        if (![databaseURL checkResourceIsReachableAndReturnError:nil]) {
+            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-                NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-                [standardUserDefaults removeObjectForKey:OEOpenVGDBUpdateCheckKey];
-                [standardUserDefaults removeObjectForKey:OEOpenVGDBVersionKey];
+                
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults removeObjectForKey:OEOpenVGDBUpdateCheckKey];
+                [defaults removeObjectForKey:OEOpenVGDBVersionKey];
 
-                NSString *tag = nil;
-                NSURL *newRelease = [sharedHelper checkForUpdates:&tag];
-                [sharedHelper installVersion:tag withDownloadURL:newRelease];
+                [sharedHelper checkForUpdatesWithHandler:^(NSURL * _Nullable newRelease, NSString * _Nullable tag) {
+                    
+                    if (newRelease && tag) {
+                        [sharedHelper installVersion:tag withDownloadURL:newRelease];
+                    }
+                }];
             });
-        }
-        else
-        {
+            
+        } else {
+            
             OESQLiteDatabase *database = [[OESQLiteDatabase alloc] initWithURL:databaseURL error:&error];
-            if(database != nil)
-                [sharedHelper setDatabase:database];
-            else
+            
+            if (database != nil) {
+                sharedHelper.database = database;
+            } else {
                 [NSApp presentError:error];
-
+            }
 
             // check for updates
             dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
             dispatch_async(queue, ^{
-                NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-                NSDate *lastUpdateCheck = [standardUserDefaults  objectForKey:OEOpenVGDBUpdateCheckKey];
-                double updateInterval   = [standardUserDefaults  doubleForKey:OEOpenVGDBUpdateIntervalKey];
+                
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                NSDate *lastUpdateCheck = [defaults objectForKey:OEOpenVGDBUpdateCheckKey];
+                double updateInterval = [defaults doubleForKey:OEOpenVGDBUpdateIntervalKey];
 
-                if([[NSDate date] timeIntervalSinceDate:lastUpdateCheck] > updateInterval)
-                {
+                if ([[NSDate date] timeIntervalSinceDate:lastUpdateCheck] > updateInterval) {
+                    
                     NSLog(@"Check for updates (%f > %f)", [[NSDate date] timeIntervalSinceDate:lastUpdateCheck], updateInterval);
-                    NSString *version = nil;
-                    NSURL *newRelease = [sharedHelper checkForUpdates:&version];
-                    if(newRelease != nil)
-                        [sharedHelper installVersion:version withDownloadURL:newRelease];
+                    
+                    [sharedHelper checkForUpdatesWithHandler:^(NSURL * _Nullable newRelease, NSString * _Nullable version) {
+                        
+                        if (newRelease && version) {
+                            [sharedHelper installVersion:version withDownloadURL:newRelease];
+                        }
+                    }];
                 }
             });
         }
     });
+    
     return sharedHelper;
 }
+
 #pragma mark -
-- (NSURL*)databaseFileURL
-{
+
+- (NSURL *)databaseFileURL {
     NSURL *applicationSupport = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
     return [applicationSupport URLByAppendingPathComponent:@"OpenEmu/openvgdb.sqlite"];
 }
+
 #pragma mark -
-- (NSURL*)checkForUpdates:(NSString**)outVersion
-{
+
+- (void)checkForUpdatesWithHandler:(void (^)(NSURL * _Nullable newURL, NSString * _Nullable newVersion))handler {
+    
     DLog();
-    NSError *error = nil;
+    
     NSURL   *url = [NSURL URLWithString:OpenVGDBUpdateURL];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30];
     [request setValue:@"OpenEmu" forHTTPHeaderField:@"User-Agent"];
 
-    NSData *result = [NSURLConnection sendSynchronousRequest:request returningResponse:NULL error:&error];
-    if(result != nil)
-    {
-        NSArray *releases = [NSJSONSerialization JSONObjectWithData:result options:NSJSONReadingAllowFragments error:&error];
-        if(releases != nil)
-        {
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            NSString *currentVersion = [defaults objectForKey:OEOpenVGDBVersionKey];
-            NSString *nextVersion = [defaults objectForKey:OEOpenVGDBVersionKey];
-            [defaults setObject:[NSDate date] forKey:OEOpenVGDBUpdateCheckKey];
-
-            for(id aRelease in releases)
-            {
-                if([aRelease isKindOfClass:[NSDictionary class]] && [aRelease objectForKey:@"tag_name"])
-                {
+    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable result, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        if (result != nil) {
+            
+            NSArray *releases = [NSJSONSerialization JSONObjectWithData:result options:NSJSONReadingAllowFragments error:nil];
+            
+            if (releases != nil) {
+                
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                
+                NSString *currentVersion = [defaults stringForKey:OEOpenVGDBVersionKey];
+                NSString *nextVersion = currentVersion;
+                
+                [defaults setObject:[NSDate date] forKey:OEOpenVGDBUpdateCheckKey];
+                
+                for (id aRelease in releases) {
                     
-                    NSString *tagName = [aRelease objectForKey:@"tag_name"];
-                    if([tagName compare:nextVersion] != NSOrderedSame)
-                        nextVersion = tagName;
+                    if ([aRelease isKindOfClass:[NSDictionary class]] && aRelease[@"tag_name"]) {
+                        
+                        NSString *tagName = aRelease[@"tag_name"];
+                        if ([tagName compare:nextVersion] != NSOrderedSame) {
+                            nextVersion = tagName;
+                        }
+                    }
+                }
+                
+                if (![nextVersion isEqualToString:currentVersion]) {
+                    
+                    NSString *URLString = [NSString stringWithFormat:@"%@/%@/%@.zip", OpenVGDBDownloadURL, nextVersion, OpenVGDBFileName];
+                    
+                    DLog(@"Updating OpenVGDB version from %@ to %@.", currentVersion.length > 0 ? currentVersion : @"(none)", nextVersion);
+                    
+                    handler([NSURL URLWithString:URLString], nextVersion);
+                    
+                    return;
+                    
+                } else {
+                    DLog(@"OpenVGDB not updated.");
                 }
             }
-            
-            if(![nextVersion isEqualToString:currentVersion])
-            {
-                NSString *URLString = [NSString stringWithFormat:@"%@/%@/%@.zip", OpenVGDBDownloadURL, nextVersion, OpenVGDBFileName];
-                if(outVersion != NULL)
-                    *outVersion = nextVersion;
-                DLog(@"Update from %@ to %@", currentVersion, nextVersion);
-                return [NSURL URLWithString:URLString];
-            } else DLog(@"No Update");
-
         }
-    }
+        
+        handler(nil, nil);
+    }];
     
-    if(outVersion != NULL)
-        *outVersion = nil;
-    return nil;
+    [task resume];
 }
 
-- (void)cancelUpdate
-{
-    [[self fileDownload] cancel];
-    [self setFileDownload:nil];
-    _updating = NO;
-    _downloadProgress = 1.0;
-    _downloadVerison  = nil;
-
-    [self OE_postDidUpdateNotification];
+- (void)cancelUpdate {
+    
+    DLog(@"Cancelling OpenVGDB download.");
+    
+    [self.downloadSession invalidateAndCancel];
 }
 
-- (void)installVersion:(NSString*)versionTag withDownloadURL:(NSURL*)url
-{
-    if(url != nil)
-    {
+- (void)installVersion:(NSString *)versionTag withDownloadURL:(NSURL *)url {
+    
+    if (url != nil) {
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            _updating = YES;
+            
+            self.updating = YES;
+            
             [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperWillUpdateNotificationName object:self];
-            _downloadProgress = 0.0;
-            _downloadVerison = versionTag;
+            
+            self.downloadProgress = 0.0;
+            self.downloadVersion = versionTag;
 
-            NSURLRequest  *request = [NSURLRequest requestWithURL:url];
-            [self setFileDownload:[[NSURLDownload alloc] initWithRequest:request delegate:self]];
+            NSURLRequest *request = [NSURLRequest requestWithURL:url];
+            
+            self.downloadSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+            
+            NSURLSessionDownloadTask *downloadTask = [self.downloadSession downloadTaskWithRequest:request];
+            
+            DLog(@"Starting OpenVGDB download.");
+            
+            [downloadTask resume];
         });
     }
 }
+
 #pragma mark -
-- (id)executeQuery:(NSString*)sql error:(NSError *__autoreleasing *)error
-{
-    return [_database executeQuery:sql error:error];
+
+- (id)executeQuery:(NSString*)sql error:(NSError *__autoreleasing *)error {
+    return [self.database executeQuery:sql error:error];
 }
 
-- (NSDictionary*)gameInfoWithDictionary:(NSDictionary*)gameInfo
-{
-    @synchronized(self)
-    {
-        NSArray *keys = [[gameInfo allKeys] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-            return [gameInfo valueForKey:evaluatedObject] != [NSNull null];
+- (NSDictionary *)gameInfoWithDictionary:(NSDictionary *)gameInfo {
+    
+    @synchronized(self) {
+        
+        NSArray *keys = [gameInfo.allKeys filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+            return gameInfo[evaluatedObject] != [NSNull null];
         }]];
         gameInfo = [gameInfo dictionaryWithValuesForKeys:keys];
 
         NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
 
-        NSString *systemIdentifier = [gameInfo valueForKeyPath:@"systemIdentifier"];
-        NSString *header = [gameInfo valueForKey:@"header"];
-        NSString *serial = [gameInfo valueForKey:@"serial"];
-        NSString *md5    = [gameInfo valueForKey:@"md5"];
-        NSString *crc    = [gameInfo valueForKey:@"crc32"];
-        NSURL    *url    = [gameInfo valueForKey:@"URL"];
-        NSNumber *archiveFileIndex = [gameInfo valueForKey:@"archiveFileIndex"];
+        NSString *systemIdentifier = gameInfo[@"systemIdentifier"];
+        NSString *header = gameInfo[@"header"];
+        NSString *serial = gameInfo[@"serial"];
+        NSString *md5 = gameInfo[@"md5"];
+        NSString *crc = gameInfo[@"crc32"];
+        NSURL *url = gameInfo[@"URL"];
+        NSNumber *archiveFileIndex = gameInfo[@"archiveFileIndex"];
 
-        if(![self database]) return resultDict;
+        if (![self database]) {
+            return resultDict;
+        }
 
         __block BOOL isSystemWithHashlessROM = [self hashlessROMCheckForSystem:systemIdentifier];
         __block BOOL isSystemWithROMHeader   = [self headerROMCheckForSystem:systemIdentifier];
@@ -233,88 +270,90 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
 
         __block int headerSize = [self sizeOfROMHeaderForSystem:systemIdentifier];
 
-        NSString * const DBMD5Key= @"romHashMD5";
-        NSString * const DBCRCKey= @"romHashCRC";
-        NSString * const DBROMFileNameKey= @"romFileName";
-        NSString * const DBROMHeaderKey= @"romHeader";
-        NSString * const DBROMSerialKey= @"romSerial";
+        NSString * const DBMD5Key = @"romHashMD5";
+        NSString * const DBCRCKey = @"romHashCRC";
+        NSString * const DBROMFileNameKey = @"romFileName";
+        NSString * const DBROMHeaderKey = @"romHeader";
+        NSString * const DBROMSerialKey = @"romSerial";
 
         NSString __block *key = nil, __block *value = nil;
         void(^determineQueryParams)(void) = ^{
-            if(value != nil) return;
+            
+            if (value != nil) {
+                return;
+            }
 
             // check if the system is 'hashless' in the db and instead match by filename (arcade)
-            if (isSystemWithHashlessROM)
-            {
+            if (isSystemWithHashlessROM) {
                 key = DBROMFileNameKey;
-                value = [[url lastPathComponent] lowercaseString];
+                value = url.lastPathComponent.lowercaseString;
             }
             // check if the system has headers in the db and instead match by header
-            else if (isSystemWithROMHeader)
-            {
+            else if (isSystemWithROMHeader) {
                 key = DBROMHeaderKey;
                 value = [header uppercaseString];
             }
             // check if the system has serials in the db and instead match by serial
-            else if (isSystemWithROMSerial)
-            {
+            else if (isSystemWithROMSerial) {
                 key = DBROMSerialKey;
                 value = [serial uppercaseString];
-            }
-            else
-            {
+            } else {
                 // if rom has no header we can use the hash we calculated at import
-                if(headerSize == 0 && (value = md5) != nil)
-                {
+                if (headerSize == 0 && (value = md5) != nil) {
                     key = DBMD5Key;
-                }
-                else if(headerSize == 0 && (value = crc) != nil)
-                {
+                } else if (headerSize == 0 && (value = crc) != nil) {
                     key = DBCRCKey;
                 }
-                value = [value uppercaseString];
+                value = value.uppercaseString;
             }
         };
 
         determineQueryParams();
 
         // try to fetch header, serial or hash from file
-        if(value == nil)
-        {
+        if (!value) {
+            
             BOOL removeFile = NO;
             NSURL *romURL = [self _urlOfExtractedFile:url archiveFileIndex:archiveFileIndex];
-            if(romURL == nil) // rom is no archive, use original file URL
+            if (!romURL) { // rom is no archive, use original file URL
                 romURL = url;
-            else removeFile = YES;
+            } else {
+                 removeFile = YES;
+            }
 
             NSString *headerFound = [OEDBSystem headerForFileWithURL:romURL forSystem:systemIdentifier];
             NSString *serialFound = [OEDBSystem serialForFileWithURL:romURL forSystem:systemIdentifier];
 
-            if(headerFound == nil && serialFound == nil)
-            {
+            if (!headerFound && !serialFound) {
+                
                 [[NSFileManager defaultManager] hashFileAtURL:romURL headerSize:headerSize md5:&value crc32:nil error:nil];
-                key   = DBMD5Key;
-                value = [value uppercaseString];
+                
+                key = DBMD5Key;
+                value = value.uppercaseString;
 
-                if(value)
-                    [resultDict setObject:value forKey:@"md5"];
-            }
-            else
-            {
-                if(headerFound)
-                    [resultDict setObject:headerFound forKey:@"header"];
-                if(serialFound)
-                    [resultDict setObject:serialFound forKey:@"serial"];
+                if (value) {
+                    resultDict[@"md5"] = value;
+                }
+                
+            } else {
+                
+                if (headerFound) {
+                    resultDict[@"header"] = headerFound;
+                }
+                if (serialFound) {
+                    resultDict[@"serial"] = serialFound;
+                }
             }
 
-            if(removeFile)
+            if (removeFile) {
                 [[NSFileManager defaultManager] removeItemAtURL:romURL error:nil];
+            }
         }
 
         determineQueryParams();
 
-        if(value == nil)
-        {
+        if (!value) {
+            
             // Still nothing to look up, force determineQueryParams to use Hashes
             isSystemWithHashlessROM = NO;
             isSystemWithROMHeader = NO;
@@ -324,119 +363,136 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
             determineQueryParams();
         }
 
-        if(value == nil)
+        if (!value) {
             return nil;
+        }
 
         NSString *sql = [NSString stringWithFormat:@"SELECT DISTINCT releaseTitleName as 'gameTitle', releaseCoverFront as 'boxImageURL', releaseDescription as 'gameDescription', regionName as 'region'\
                          FROM ROMs rom LEFT JOIN RELEASES release USING (romID) LEFT JOIN REGIONS region on (regionLocalizedID=region.regionID)\
                          WHERE %@ = '%@'", key, value];
 
         __block NSArray *result = [_database executeQuery:sql error:nil];
-        if([result count] > 1)
-        {
+        
+        if (result.count > 1) {
+            
             // the database holds multiple regions for this rom (probably WORLD rom)
             // so we pick the preferred region if it's available or just any if not
             NSString *preferredRegion = [[OELocalizationHelper sharedHelper] regionName];
             // TODO: Associate regionName's in the database with -[OELocalizationHelper regionName]'s
             if([preferredRegion isEqualToString:@"North America"]) preferredRegion = @"USA";
 
-            [result enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if([[obj valueForKey:@"region"] isEqualToString:preferredRegion])
-                {
-                    *stop = YES;
+            for (id obj in result) {
+                if ([obj[@"region"] isEqualToString:preferredRegion]) {
                     result = @[obj];
+                    break;
                 }
-            }];
+            }
             
             // preferred region not found, just pick one
-            if([result count] != 1)
-                result = @[[result lastObject]];
+            if (result.count != 1) {
+                result = @[result.lastObject];
+            }
         }
         
         // remove the region key so the result can be directly passed to OEDBGame
-        [result enumerateObjectsUsingBlock:^(NSMutableDictionary *obj, NSUInteger idx, BOOL *stop) {
+        for (NSMutableDictionary *obj in result) {
             [obj removeObjectForKey:@"region"];
-        }];
+        }
         
-        [resultDict addEntriesFromDictionary:[result lastObject]];
+        [resultDict addEntriesFromDictionary:result.lastObject];
         
         return resultDict;
     }
 }
 
-- (BOOL)hashlessROMCheckForSystem:(NSString*)system
-{
-    if(![self database]) return NO;
+- (BOOL)hashlessROMCheckForSystem:(NSString *)system {
+    
+    if (!self.database) {
+        return NO;
+    }
     
     NSString *sql = [NSString stringWithFormat:@"select systemhashless as 'hashless' from systems where systemoeid = '%@'", system];
-    NSArray *result = [[self database] executeQuery:sql error:nil];
-    return [[[result lastObject] objectForKey:@"hashless"] boolValue];
+    NSArray *result = [self.database executeQuery:sql error:nil];
+    return [result.lastObject[@"hashless"] boolValue];
 }
 
-- (BOOL)headerROMCheckForSystem:(NSString*)system
-{
-    if(![self database]) return NO;
+- (BOOL)headerROMCheckForSystem:(NSString *)system {
+    
+    if (!self.database) {
+        return NO;
+    }
     
     NSString *sql = [NSString stringWithFormat:@"select systemheader as 'header' from systems where systemoeid = '%@'", system];
-    NSArray *result = [[self database] executeQuery:sql error:nil];
-    return [[[result lastObject] objectForKey:@"header"] boolValue];
+    
+    NSArray *result = [self.database executeQuery:sql error:nil];
+    
+    return [result.lastObject[@"header"] boolValue];
 }
 
-- (BOOL)serialROMCheckForSystem:(NSString*)system
-{
-    if(![self database]) return NO;
+- (BOOL)serialROMCheckForSystem:(NSString *)system {
+    
+    if (!self.database) {
+        return NO;
+    }
     
     NSString *sql = [NSString stringWithFormat:@"select systemserial as 'serial' from systems where systemoeid = '%@'", system];
-    NSArray *result = [[self database] executeQuery:sql error:nil];
-    return [[[result lastObject] objectForKey:@"serial"] boolValue];
+    
+    NSArray *result = [self.database executeQuery:sql error:nil];
+    
+    return [result.lastObject[@"serial"] boolValue];
 }
 
-- (int)sizeOfROMHeaderForSystem:(NSString*)system
-{
-    if(![self database]) return NO;
+- (int)sizeOfROMHeaderForSystem:(NSString*)system {
+    
+    if (!self.database) {
+        return NO;
+    }
 
     NSString *sql = [NSString stringWithFormat:@"select systemheadersizebytes as 'size' from systems where systemoeid = '%@'", system];
-    NSArray *result = [[self database] executeQuery:sql error:nil];
-    return [[[result lastObject] objectForKey:@"size"] intValue];
+    NSArray *result = [self.database executeQuery:sql error:nil];
+    return [result.lastObject[@"size"] intValue];
 }
 
-- (NSURL*)_urlOfExtractedFile:(NSURL *)url archiveFileIndex:(id)archiveFileIndex
-{
-    if(archiveFileIndex == nil && archiveFileIndex != [NSNull null])
+- (NSURL*)_urlOfExtractedFile:(NSURL *)url archiveFileIndex:(id)archiveFileIndex {
+    
+    if (!archiveFileIndex && archiveFileIndex != [NSNull null]) {
         return nil;
+    }
 
-    NSString *path = [url path];
+    NSString *path = url.path;
 
-    if(!path || ![[NSFileManager defaultManager] fileExistsAtPath:path])
+    if (!path || ![[NSFileManager defaultManager] fileExistsAtPath:path]) {
         return nil;
+    }
     
     XADArchive *archive;
     @try {
         archive = [XADArchive archiveForFile:path];
-    }
-    @catch (NSException *exception)
-    {
+    } @catch (NSException *exception) {
         archive = nil;
     }
 
     int entryIndex = [archiveFileIndex intValue];
-    if (archive && [archive numberOfEntries] > entryIndex)
-    {
-        NSString *formatName = [archive formatName];
-        if ([formatName isEqualToString:@"MacBinary"])
+    if (archive && archive.numberOfEntries > entryIndex) {
+        
+        NSString *formatName = archive.formatName;
+        if ([formatName isEqualToString:@"MacBinary"]) {
             return nil;
+        }
 
-        if ([formatName isEqualToString:@"LZMA_Alone"])
+        if ([formatName isEqualToString:@"LZMA_Alone"]) {
             return nil;
+        }
 
-        if (![archive entryHasSize:entryIndex] || [archive entryIsEncrypted:entryIndex] || [archive entryIsDirectory:entryIndex] || [archive entryIsArchive:entryIndex])
+        if (![archive entryHasSize:entryIndex] || [archive entryIsEncrypted:entryIndex] || [archive entryIsDirectory:entryIndex] || [archive entryIsArchive:entryIndex]) {
             return nil;
+        }
 
         NSString *folder = temporaryDirectoryForDecompressionOfPath(path);
         NSString *name = [archive nameOfEntry:entryIndex];
-        if ([[name pathExtension] length] == 0 && [[path pathExtension] length] > 0) {
+        if (name.pathExtension.length == 0 && path.pathExtension.length > 0) {
             // this won't do. Re-add the archive's extension in case it's .smc or the like
-            name = [name stringByAppendingPathExtension:[path pathExtension]];
+            name = [name stringByAppendingPathExtension:path.pathExtension];
         }
         NSString *tmpPath = [folder stringByAppendingPathComponent:name];
 
@@ -450,82 +506,77 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
         BOOL success = YES;
         @try {
             success = [archive _extractEntry:entryIndex as:tmpPath deferDirectories:NO dataFork:YES resourceFork:NO];
-        }
-        @catch (NSException *exception) {
+        } @catch (NSException *exception) {
             success = NO;
         }
-        if (success)
+        if (success) {
             return tmpURL;
-        else
+        } else {
             [fm removeItemAtPath:folder error:nil];
+        }
     }
     return nil;
 }
 
-#pragma mark - NSURLDownload Delegate
-- (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
-{
-    _downloadPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"OpenVGDB.%@", [NSString stringWithUUID]]];
-    [download setDestination:_downloadPath allowOverwrite:NO];
+#pragma mark - NSURLSessionDownloadDelegate
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
+    
+    DLog(@"OpenVGDB download did complete: %@", error ? error.localizedDescription : @"no errors");
+    
+    self.updating = NO;
+    self.downloadProgress = 0.0;
+    
+    [self.downloadSession finishTasksAndInvalidate];
+    self.downloadSession = nil;
+    
+    [self OE_postDidUpdateNotification];
 }
 
-- (void)download:(NSURLDownload *)download didCreateDestination:(NSString *)path
-{}
-
-- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
-{
-    _downloadedSize += length;
-    _downloadProgress = (CGFloat) _downloadedSize /  (CGFloat) _expectedLength;
-
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    
+    self.downloadProgress = (CGFloat)totalBytesWritten / (CGFloat)totalBytesExpectedToWrite;
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidChangeUpdateProgressNotificationName object:self];
 }
 
-- (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response
-{
-    _expectedLength = [response expectedContentLength];
-}
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
 
-- (void)downloadDidFinish:(NSURLDownload *)download
-{
+    DLog(@"OpenVGDB download did finish downloading temporary data.");
+
     XADArchive *archive = nil;
-    @try
-    {
-        archive = [XADArchive archiveForFile:_downloadPath];
-    }
-    @catch (NSException *exc)
-    {
+    @try {
+        archive = [XADArchive archiveForFile:location.path];
+    } @catch (NSException *exc) {
         archive = nil;
     }
-
-    NSURL *url = [self databaseFileURL];
-    NSURL *databaseFolder = [url URLByDeletingLastPathComponent];
-    [archive extractTo:[databaseFolder path]];
-
-    [[NSFileManager defaultManager] removeItemAtPath:_downloadPath error:nil];
-
+    
+    NSURL *url = self.databaseFileURL;
+    NSURL *databaseFolder = url.URLByDeletingLastPathComponent;
+    [archive extractTo:databaseFolder.path];
+    
+    DLog(@"OpenVGDB extracted to database folder.");
+    
     OESQLiteDatabase *database = [[OESQLiteDatabase alloc] initWithURL:url error:nil];
-    [self setDatabase:database];
-
-    if(database) [[NSUserDefaults standardUserDefaults] setObject:_downloadVerison forKey:OEOpenVGDBVersionKey];
-
-    _updating = NO;
-    _downloadProgress = 1.0;
-    _downloadVerison  = nil;
-    [self setFileDownload:nil];
+    self.database = database;
+    
+    if (database) {
+        [[NSUserDefaults standardUserDefaults] setObject:self.downloadVersion forKey:OEOpenVGDBVersionKey];
+    }
+    
+    self.updating = NO;
+    self.downloadProgress = 1.0;
+    self.downloadVersion = nil;
+    
     [self OE_postDidUpdateNotification];
 }
 
-- (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
-{
-    _updating = NO;
-    _downloadProgress = 1.0;
-    [self setFileDownload:nil];
-    [self OE_postDidUpdateNotification];
-}
+#pragma mark - Private
 
 - (void)OE_postDidUpdateNotification {
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:OEGameInfoHelperDidUpdateNotificationName object:self];
     });
 }
+
 @end

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, OpenEmu Team
+ Copyright (c) 2015, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,143 +26,137 @@
 
 #import "OEDownload.h"
 
-@interface OEDownload () <NSURLDownloadDelegate>
-{
-    dispatch_semaphore_t _waitSemaphore;
-}
+@interface OEDownload () <NSURLSessionDownloadDelegate>
+
+@property dispatch_semaphore_t waitSemaphore;
 
 @property (nonatomic, readwrite) CGFloat progress;
 
-@property (readwrite) NSURL   *destinationURL;
+@property (readwrite) NSURL *destinationURL;
 @property (readwrite) NSError *error;
 
 @property NSURL *url;
-@property NSURLDownload *download;
-@property NSInteger totalDownloadLength, downloadedLength;
+@property NSURLSession *downloadSession;
+
 @end
 
 @implementation OEDownload
 @synthesize progress=_progress;
 
-- (instancetype)initWithURL:(NSURL*)url
-{
+- (instancetype)initWithURL:(NSURL *)url {
+    
     self = [super init];
-    if(self != nil)
-    {
-        [self setDestinationURL:nil];
-        [self setError:nil];
-
-        [self setUrl:url];
-
+    if (self != nil) {
+        _url = url;
         _waitSemaphore = dispatch_semaphore_create(0);
-        _totalDownloadLength = -1;
-        _downloadedLength = 0;
     }
+    
     return self;
 }
 
-- (void)setProgress:(CGFloat)progress
-{
+- (void)setProgress:(CGFloat)progress {
+    
     [self willChangeValueForKey:@"progress"];
     _progress = progress;
     [self didChangeValueForKey:@"progress"];
 
-    if([self progressHandler] && ![self progressHandler](progress))
-        [[self download] cancel];
-}
-- (CGFloat)progress
-{
-    return _progress;
-}
-#pragma mark -
-- (void)startDownload
-{
-    [self setProgress:-1.0];
-
-    NSURLRequest  *request  = [NSURLRequest requestWithURL:[self url] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:60.0];
-    NSURLDownload *download = [[NSURLDownload alloc] initWithRequest:request delegate:self];
-
-    [self setDownload:download];
-}
-
-- (void)cancelDownload
-{
-    [[self download] cancel];
-
-    [self setError:[NSError errorWithDomain:NSCocoaErrorDomain code:NSUserCancelledError userInfo:nil]];
-    [self OE_endDownload];
-}
-
-- (void)waitUntilCompleted
-{
-    dispatch_semaphore_wait(_waitSemaphore, DISPATCH_TIME_FOREVER);
-}
-#pragma mark - NSURLDownloadDelegate
-- (void)downloadDidBegin:(NSURLDownload *)download
-{
-    [self setError:nil];
-    [self setDestinationURL:nil];
-}
-
-- (void)downloadDidFinish:(NSURLDownload *)download
-{
-    [self setError:nil];
-    [self OE_endDownload];
-}
-
-- (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
-{
-    DLog(@"%@", error);
-    [self setError:error];
-
-    [[NSFileManager defaultManager] removeItemAtURL:[self destinationURL] error:nil];
-    [self setDestinationURL:nil];
-
-    [self OE_endDownload];
-}
-
-- (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
-{
-    NSString *temporaryDirectory = [NSTemporaryDirectory() stringByAppendingPathComponent:@"org.openemu.openemu/"];
-    [[NSFileManager defaultManager] createDirectoryAtPath:temporaryDirectory withIntermediateDirectories:YES attributes:nil error:nil];
-
-    [download setDestination:[temporaryDirectory stringByAppendingPathComponent:filename] allowOverwrite:YES];
-}
-
-- (void)download:(NSURLDownload *)download didCreateDestination:(NSString *)path
-{
-    [self setDestinationURL:[NSURL fileURLWithPath:path isDirectory:NO]];
-}
-
-- (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response
-{
-    _totalDownloadLength = [response expectedContentLength];
-    _downloadedLength = 0;
-
-    if(_totalDownloadLength != -1)
-        [self setProgress:0.0];
-}
-
-- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
-{
-    if(_totalDownloadLength != -1)
-    {
-        _downloadedLength += length;
-
-        double progress = _downloadedLength / (double)_totalDownloadLength;
-
-        // Try reducing number callbacks
-        if(fabs(progress-_progress) > 0.01)
-            [self setProgress:progress];
+    if (self.progressHandler && !self.progressHandler(progress)) {
+        [self.downloadSession invalidateAndCancel];
+        self.downloadSession = nil;
     }
 }
 
-- (void)OE_endDownload
-{
-    dispatch_semaphore_signal(_waitSemaphore);
-    if([self completionHandler]) [self completionHandler](self.destinationURL, self.error);
+- (CGFloat)progress {
+    return _progress;
+}
+
+#pragma mark - Starting And Cancelling Downloads
+
+- (void)startDownload {
+    
+    self.progress = 0.0;
+
+    NSURLRequest *request  = [NSURLRequest requestWithURL:self.url cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:60.0];
+    
+    NSAssert(self.downloadSession == nil, @"There shouldn't be a previous download session.");
+    
+    self.downloadSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+    self.downloadSession.sessionDescription = self.url.path;
+    
+    NSURLSessionDownloadTask *downloadTask = [self.downloadSession downloadTaskWithRequest:request];
+    
+    DLog(@"Starting download (%@)", self.downloadSession.sessionDescription);
+    
+    [downloadTask resume];
+    
+    self.error = nil;
+    self.destinationURL = nil;
+}
+
+- (void)cancelDownload {
+    
+    DLog("Cancelling download (%@)", self.downloadSession.sessionDescription);
+    
+    [self.downloadSession invalidateAndCancel];
+}
+
+- (void)waitUntilCompleted {
+    dispatch_semaphore_wait(self.waitSemaphore, DISPATCH_TIME_FOREVER);
+}
+
+#pragma mark - NSURLDownloadDelegate
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
+    
+    DLog(@"Download (%@) did complete: %@", session.sessionDescription, error ? error.localizedDescription : @"no errors");
+    
+    self.error = error;
+    
+    [self OE_callCompletionHandler];
+    
+    self.destinationURL = nil;
+    
+    [self.downloadSession finishTasksAndInvalidate];
+    self.downloadSession = nil;
+}
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    
+    double progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
+    
+    // Try reducing the number of callbacks.
+    if (fabs(progress - self.progress) > 0.01) {
+        self.progress = progress;
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
+    
+    DLog(@"Download (%@) did finish downloading temporary data.", self.downloadSession.sessionDescription);
+    
+    NSString *temporaryFolderPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"org.openemu.openemu/"] stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]];
+    NSString *destinationPath = [temporaryFolderPath stringByAppendingPathComponent:self.url.lastPathComponent];
+    NSURL *destinationURL = [NSURL fileURLWithPath:destinationPath];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:temporaryFolderPath withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    [[NSFileManager defaultManager] copyItemAtURL:location toURL:destinationURL error:nil];
+    
+    self.destinationURL = destinationURL;
+}
+
+#pragma mark - Private
+
+- (void)OE_callCompletionHandler {
+    
+    dispatch_semaphore_signal(self.waitSemaphore);
+    
+    if (self.completionHandler) {
+        self.completionHandler(self.destinationURL, self.error);
+    }
+    
     // Make sure we only call completion handler once
-    [self setCompletionHandler:nil];
+    self.completionHandler = nil;
 }
 
 @end
