@@ -1209,10 +1209,13 @@ typedef enum : NSUInteger
     BOOL didPauseEmulation = [self OE_pauseEmulationIfNeeded];
 
     NSInteger   saveGameNo    = [[self rom] saveStateCount] + 1;
-    // TODO: properly format date
     NSDate *date = [NSDate date];
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	formatter.timeZone = [NSTimeZone localTimeZone];
+	formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss ZZZ";
+	
     NSString *format = NSLocalizedString(@"Save-Game-%ld %@", @"default save game name");
-    NSString    *proposedName = [NSString stringWithFormat:format, saveGameNo, date];
+    NSString    *proposedName = [NSString stringWithFormat:format, saveGameNo, [formatter stringFromDate:date]];
     OEHUDAlert  *alert        = [OEHUDAlert saveGameAlertWithProposedName:proposedName];
 
     [alert setWindow:[[[self gameViewController] view] window]];
