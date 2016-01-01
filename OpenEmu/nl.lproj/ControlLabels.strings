@@ -1,0 +1,138 @@
+﻿/*
+ Copyright (c) 2015, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/* Section Title */
+  "Gameplay Buttons" = "Gameplay-knoppen";
+  "Special Keys" = "Speciale knoppen";
+
+/* Group Labels */
+  "Analog" = "Analoog";
+  "C-Pad" = "C-knoppen";
+  "D-Pad" = "D-knoppen";
+  "Keypad" = "Toetsenpaneel";
+  "Left Analog" = "Linker analoge";
+  "Left D-Pad" = "Linker D-knoppen";
+  "Right Analog" = "Rechter analoge";
+  "Right D-Pad" = "Rechter D-knoppen";
+  "Switches" = "Schakelaars";
+
+/* Button Labels */
+  "#" = "#";
+  "*" = "*";
+  "0" = "0";
+  "1" = "1";
+  "2" = "2";
+  "2/6 Mode" = "2/6-modus";
+  "3" = "3";
+  "4" = "4";
+  "5" = "5";
+  "6" = "6";
+  "7" = "7";
+  "8" = "8";
+  "9" = "9";
+  "A" = "A";
+  "Analog Mode" = "Analoge modus";
+  "B" = "B";
+  "Button 1" = "Knop 1";
+  "Button 1/Start" = "Knop 1/start";
+  "Button 2" = "Knop 2";
+  "Button 3" = "Knop 3";
+  "Button 4" = "Knop 4";
+  "Button 5" = "Knop 5";
+  "Button 6" = "Knop 6";
+  "C" = "C";
+  "Change Disk Side" = "Wissel schijf van kant";
+  "Console Pause" = "Console pauze";
+  "Display Mode" = "Weergavemodus";
+  "Down" = "Omlaag";
+  "Fast Forward" = "Vooruitspoelen";
+  "Fire 1" = "Vuur 1";
+  "Fire 2" = "Vuur 2";
+  "Fire" = "Vuur";
+  "Fullscreen" = "Schermvullende weergave";
+  "Insert Coin" = "Muntstuk inwerpen";
+  "L Diff A" = "L Diff A";
+  "L Diff B" = "L Diff B";
+  "L Diff" = "L Diff";
+  "L" = "L";
+  "L1" = "L1";
+  "L2" = "L2";
+  "L3" = "L3";
+  "Left Action" = "Linker actie";
+  "Left Trigger" = "Linker trigger";
+  "Left" = "Links";
+  "Lid" = "Lid";
+  "Load" = "Laden";
+  "Mic" = "Mic";
+  "Mode" = "Modus";
+  "Mute" = "Dempen";
+  "Option 1" = "Optie 1";
+  "Option 2" = "Optie 2";
+  "Option" = "Optie";
+  "P" = "P";
+  "Pause" = "Pauze";
+  "Player Start" = "Speler start";
+  "Quick Load Button" = "Snel laden";
+  "Quick Save Button" = "Snel opslaan";
+  "R Diff A" = "R Diff A";
+  "R Diff B" = "R Diff B";
+  "R Diff" = "R Diff";
+  "R" = "R";
+  "R1" = "R1";
+  "R2" = "R2";
+  "R3" = "R3";
+  "Reset" = "Opnieuw instellen";
+  "Rewind" = "Terugspoelen";
+  "Right Action" = "Rechter actie";
+  "Right Trigger" = "Rechter trigger";
+  "Right" = "Rechts";
+  "Run" = "Uitvoeren";
+  "Save" = "Opslaan";
+  "Screenshot" = "Schermafbeelding";
+  "Select" = "Select";
+  "Service" = "Service";
+  "Sound" = "Geluid";
+  "Start" = "Start";
+  "TV Black & White" = "Zwart-wittelevisie";
+  "TV Color" = "Kleurentelevisie";
+  "Up" = "Omhoog";
+  "Volume Down" = "Volume omhoog";
+  "Volume Up" = "Volume omlaag";
+  "X" = "X";
+  "X1 Up" = "X1 omhoog";
+  "X2 Right" = "X2 rechts";
+  "X3 Down" = "X3 omlaag";
+  "X4 Left" = "X4 omhoog";
+  "Y" = "Y";
+  "Y1 Up" = "Y1 omhoog";
+  "Y2 Right" = "Y2 rechts";
+  "Y3 Down" = "Y3 omlaag";
+  "Y4 Left" = "Y4 links";
+  "Z" = "Z";
+  "▢" = "▢";
+  "△" = "△";
+  "◯" = "◯";
+  "✕" = "✕";

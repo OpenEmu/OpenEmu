@@ -1,0 +1,39 @@
+
+/* Class = "NSToolbarItem"; label = "Grid Size"; ObjectID = "4KY-AU-4s0"; */
+"4KY-AU-4s0.label" = "Rastergrootte";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Grid Size"; ObjectID = "4KY-AU-4s0"; */
+"4KY-AU-4s0.paletteLabel" = "Rastergrootte";
+
+/* Class = "NSToolbarItem"; label = "View Mode"; ObjectID = "DWE-Na-du6"; */
+"DWE-Na-du6.label" = "Weergavemodus";
+
+/* Class = "NSToolbarItem"; paletteLabel = "View Mode"; ObjectID = "DWE-Na-du6"; */
+"DWE-Na-du6.paletteLabel" = "Weergavemodus";
+
+/* Class = "NSToolbarItem"; label = "Category"; ObjectID = "Jiu-4k-Ecu"; */
+"Jiu-4k-Ecu.label" = "Categorie";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Category"; ObjectID = "Jiu-4k-Ecu"; */
+"Jiu-4k-Ecu.paletteLabel" = "Categorie";
+
+/* Class = "NSToolbarItem"; label = "Search"; ObjectID = "Nu8-Bo-VSq"; */
+"Nu8-Bo-VSq.label" = "Zoek";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Search"; ObjectID = "Nu8-Bo-VSq"; */
+"Nu8-Bo-VSq.paletteLabel" = "Zoek";
+
+/* Class = "NSSearchFieldCell"; placeholderString = "Search"; ObjectID = "gXt-MS-4X4"; */
+"gXt-MS-4X4.placeholderString" = "Zoek";
+
+/* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[0] = "Library"; ObjectID = "y2e-ND-lKU"; */
+"y2e-ND-lKU.ibShadowedLabels[0]" = "Bibliotheek";
+
+/* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[1] = "Save States"; ObjectID = "y2e-ND-lKU"; */
+"y2e-ND-lKU.ibShadowedLabels[1]" = "Momentopnames";
+
+/* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[2] = "Screenshots"; ObjectID = "y2e-ND-lKU"; */
+"y2e-ND-lKU.ibShadowedLabels[2]" = "Schermafbeeldingen";
+
+/* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[3] = "Homebrew"; ObjectID = "y2e-ND-lKU"; */
+"y2e-ND-lKU.ibShadowedLabels[3]" = "Homebrew";
