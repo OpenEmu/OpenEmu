@@ -1,0 +1,644 @@
+/*
+ Copyright (c) 2015, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+"%@ copy" = "%@ kopie";
+
+"%@ could not be enabled because its plugin was not found." = "%@ kon niet worden ingeschakeld omdat zijn plug-in niet werd gevonden.";
+
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@-spellen zullen hier verschijnen. Bekijk %@ over hoe u op schijven gebaseerde spellen toevoegt.";
+
+"%@ games you add to OpenEmu will appear in this Console Library" = "%@-spellen die u toevoegt aan OpenEmu zullen in deze consolebibliotheek verschijnen";
+
+"%ux" = "%ux";
+
+"A version of this plugin is already loaded" = "Er is al een versie van deze plug-in geladen";
+
+"Add a Wiimote…" = "Voeg een Wiimote toe…";
+
+"Add Cheat…" = "Voeg cheat toe…";
+
+"Add Cheat" = "Voeg cheat toe";
+
+"Add Cover Art From File…" = "Voeg omslagafbeelding uit bestand toe…";
+
+"Add To Collection" = "Voeg toe aan verzameling";
+
+"All Games" = "Alle spellen";
+
+"All Homebrew" = "Alle homebrew";
+
+"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Weet u zeker dat u %ld opgeslagen spellen wilt verwijderen uit uw OpenEmu-bibliotheek?";
+
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Weet u zeker dat u %ld schermafbeeldingen wilt verwijderen uit uw OpenEmu-bibliotheek?";
+
+"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Weet u zeker dat u het opgeslagen spel '%@' wilt verwijderen uit uw OpenEmu-bibliotheek?";
+
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Weet u zeker dat u de schermafbeelding '%@' wilt verwijderen uit uw OpenEmu-bibliotheek?";
+
+"Are you sure you want to delete the selected game from your OpenEmu library?" = "Weet u zeker dat u het geselecteerde spel wilt verwijderen uit uw OpenEmu-bibliotheek?";
+
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "Weet u zeker dat u de geselecteerde spellen wilt verwijderen uit uw OpenEmu-biblioteek?";
+
+"Are you sure you want to quit the application?" = "Weet u zeker dat u de toepassing wilt stoppen?";
+
+"Are you sure you want to remove the selected games from the collection?" = "Weet u zeker dat u de geselecteerde spellen wilt verwijderen uit de verzameling?";
+
+"Are you sure you want to remove this collection?" = "Weet u zeker dat u deze verzameling wilt verwijderen?";
+
+"Are you sure you want to reset the console?" = "Weet u zeker dat u de console opnieuw wilt instellen?";
+
+"Are you sure you want to stop emulation?" = "Weet u zeker dat u emulatie wilt stoppen?";
+
+"At least one System must be enabled" = "Ten minste één systeem moet ingeschakeld zijn";
+
+"Auto Save State" = "Automatische momentopname";
+
+"Automatically Import" = "Importeer automatisch";
+
+"Bluetooth must be enabled to pair a Wii controller." = "Bluetooth moet ingeschakeld zijn om een Wii-controller te koppelen.";
+
+"Bluetooth Not Enabled" = "Bluetooth niet ingeschakeld";
+
+"Cancel Cover Art Download" = "Annuleer omslagafbeelding downloaden";
+
+"Cancel Operation" = "Annuleer handeling";
+
+"Cancel" = "Annuleer";
+
+"Change Core" = "Wijzig kern";
+
+"Change Volume" = "Wijzig volume";
+
+"Cheat Description" = "Beschrijving van cheat";
+
+"Check out some excellent homebrew games." = "Check out some excellent homebrew games.";
+
+"Choose a valid file." = "Kies een geldig bestand.";
+
+"Choose Library…" = "Kies bibliotheek…";
+
+"Choose OpenEmu Library" = "Kies OpenEmu-bibliotheek";
+
+"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Kies Ja om alle items uit de wachtrij te verwijderen. Items die al geïmporteerd zijn worden behouden in uw bibliotheek.";
+
+"Code:" = "Code:";
+
+"Collapse" = "Samenvouwen";
+
+"Collections" = "Verzamelingen";
+
+"Consoles" = "Consoles";
+
+"Consolidate Files…" = "Voeg bestanden samen…";
+
+"Consolidate" = "Voeg samen";
+
+"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "Samenvoegen zal alle geselecteerde spellen kopiëren naar de OpenEmu-bibliotheekmap.\n\nDit kan niet ongedaan worden gemaakt.";
+
+"Controls" = "Bediening";
+
+"Copying artwork failed!" = "Omslagafbeelding kopiëren mislukt!";
+
+"Copying Artwork Files…" = "Omslagafbeeldingsbestanden kopiëren…";
+
+"Copying Game Files…" = "Spelbestanden kopiëren…";
+
+"Copying ROM Files…" = "ROM-bestanden kopiëren…";
+
+"Core Provided By…" = "Kern voorzien door…";
+
+"Cores" = "Kernen";
+
+"Could not move complete library! %ld roms were moved" = "Kon bibliotheek niet geheel verplaatsen! %ld ROM's werden verplaatst";
+
+"Could not move library data!" = "Kon bibliotheekgegevens niet verplaatsen!";
+
+"Couldn't connect to the background process." = "Kon niet verbinden met het achtergrondsproces.";
+
+"Couldn't load %@ plugin" = "Kon plug-in %@ niet laden";
+
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.";
+
+"Create Library…" = "Maak bibliotheek aan…";
+
+"Create or Load Save State" = "Maak of laad momentopname";
+
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game.";
+
+"Default Core" = "Standaardkern";
+
+"Delete Collection" = "Verwijder verzameling";
+
+"Delete Game" = "Verwijder spel";
+
+"Delete Games" = "Verwijder spellen";
+
+"Delete Save State" = "Verwijder momentopname";
+
+"Delete Save States" = "Verwijder momentopnames";
+
+"Delete Save" = "Verwijder opgeslagen spel";
+
+"Delete Saves" = "Verwijder opgeslagen spellen";
+
+"Delete Screenshot" = "Verwijder schermafbeelding";
+
+"Delete Screenshots" = "Verwijder schermafbeeldingen";
+
+"Delete" = "Verwijder";
+
+"Description" = "Beschrijving"; // Search field menu, only search description
+
+"Deselect All" = "Deselecteer alles";
+
+"Device Disconnected" = "Apparaat ontkoppeld";
+
+"Device number %lu, %@, has disconnected." = "Apparaat met nummer %1$lu, %2$@, is ontkoppeld.";
+
+"Disc-based games have special requirements. Please read the disc importing guide." = "Op schijven gebaseerde spellen hebben speciale vereisten. Lees alstublieft de handleiding over schijven importeren.";
+
+"Dismiss" = "Negeer";
+
+"Do it!" = "Doe het!";
+
+"Do not ask me again" = "Vraag me dit niet opnieuw";
+
+"Do Not Save" = "Niet bewaren";
+
+"Do not show me again" = "Laat me dit niet opnieuw zien";
+
+"Do you really want to cancel the import process?" = "Wilt u het importproces echt annuleren?";
+
+"Do you want to continue playing where you left off?" = "Wilt u verder spelen waar u geëindigd was?";
+
+"Don't Import Selected" = "Importeer geselecteerde niet";
+
+"Done" = "Klaar";
+
+"Download Cover Art" = "Download omslagafbeelding";
+
+"Download" = "Download";
+
+"Downloading %@…" = "%@ downloaden…";
+
+"Downloading and Installing Core…" = "Kern downloaden en installeren…";
+
+"Downloading Game DB" = "Gamedatabase downloaden";
+
+"Drag & Drop Games Here" = "Drag & Drop Games Here";
+
+"Drag & Drop Save States Here" = "Drag & Drop Save States Here";
+
+"Duplicate Collection" = "Duplicate Collection";
+
+"Edit Game Controls" = "Edit Game Controls";
+
+"Enable now" = "Schakel nu in";
+
+"Enable Retrode support" = "Retrode-ondersteuning inschakelen";
+
+"Error!" = "Fout!";
+
+"Everything" = "Alles"; // Search field menu, search everything item title
+
+"Featured Games" = "Noemenswaardige spellen";
+
+"Fetching Games…" = "Spellen ophalen…";
+
+"Filter by:" = "Filter op:"; // Search field menu, first item, instructional
+
+"Game %ld of %ld" = "Spel %1$ld van %2$ld";
+
+"Game Name" = "Spelnaam"; // Search field menu, only search game name
+
+"Game requires download" = "Spel vereist download";
+
+"Game Scanner" = "Spellenscanner";
+
+"Gameplay" = "Spelen";
+
+"Have you read the guide?" = "Heeft u de handleiding gelezen?";
+
+"Hide \"%@\"" = "Verberg \"%@\"";
+
+"Homebrew Games" = "Homebrewspellen";
+
+"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "Als er een rode knop op de achterste batterijcover is, druk hem dan in.\nZoniet, hou dan de knoppen ①+② ingedrukt.";
+
+"If you change the core you current progress will be lost and save states will not work anymore." = "Als u de kern wijzigt verliest u uw huidige voortgang en zullen momentopnames niet langer werken.";
+
+"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "Om sommige systemen te emuleren zijn BIOS-bestanden nodig door de verhoogde complexiteit van de hardware en software van moderne consoles. Lees alstublieft onze %@ voor meer informatie.";
+
+"In order to play the game it must be downloaded." = "Om het spel te spelen moet het gedownload worden.";
+
+"Install" = "Installeer";
+
+"Installing Core" = "Kern installeren";
+
+"Join multi-line cheats with '+' e.g. 000-000+111-111" = "Voeg multi-line cheats samen met '+', bijvoorbeeld 000-000+111-111";
+
+"Keep Files" = "Bestanden behouden";
+
+"Keyboard" = "Toetsenbord";
+
+"Learn More" = "Meer weten";
+
+"Library" = "Bibliotheek";
+
+"Load" = "Laad";
+
+"Locate '%@'" = "Vind '%@'";
+
+"Locate" = "Vind";
+
+"Low Controller Battery" = "Batterij van controller bijna leeg";
+
+"Make sure your internet connection is active and download a suitable core." = "Zorg dat uw internetverbinding actief is en download een geschikte kern.";
+
+"Make your Wiimote discoverable" = "Maak uw Wiimote detecteerbaar";
+
+"Missing Core" = "Kern ontbreekt";
+
+"Move selected game to Trash, or keep it in the Library folder?" = "Het geselecteerde spel naar de prullenmand verplaatsen of in de bibliotheekmap behouden?";
+
+"Move selected games to Trash, or keep them in the Library folder?" = "De geselecteerde spellen naar de prullenmand verplaatsen of in de bibliotheekmap behouden?";
+
+"Move to Trash" = "Verplaats naar prullenmand";
+
+"Mute Audio" = "Demp geluid";
+
+"Name" = "Naam"; // Search field menu, only search names
+
+"New Collection from Selection" = "Nieuwe verzameling met selectie";
+
+"New Collection" = "Nieuwe verzameling";
+
+"New Folder" = "Nieuwe map";
+
+"New Smart Collection" = "Nieuwe slimme verzameling";
+
+"No available controllers" = "Geen controllers beschikbaar";
+
+"No game played yet!" = "Nog geen spel gespeeld!";
+
+"No Internet Connection" = "Geen internetverbinding";
+
+"No Save States available" = "Geen momentopnames beschikbaar";
+
+"No Screenshots Found" = "Geen schermafbeeldingen gevonden";
+
+"No" = "Nee";
+
+"None" = "Geen";
+
+"Not implemented right now" = "Nu nog niet geïmplementeerd";
+
+"OK" = "OK";
+
+"Only files in the OpenEmu Library folder will be moved to the Trash." = "Enkel bestanden in de OpenEmu-bibliotheekmap zullen naar de prullenmand verplaatst worden.";
+
+"Open Collection" = "Open verzameling";
+
+"Open Library" = "Open bibliotheek";
+
+"OpenEmu could not find a Core to launch the game" = "OpenEmu could not find a Core to launch the game";
+
+"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmu includes a save game feature that allows you to continue playing exactly where you left off.";
+
+"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one";
+
+"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu uses 'Cores' to emulate games. You need the %1$@ Core to play %2$@";
+
+"OpenEmu will save and quit all games that are currently running." = "OpenEmu will save and quit all games that are currently running.";
+
+"Options" = "Opties";
+
+"Pause Emulation" = "Emulatie pauzeren";
+
+"Pause Gameplay" = "Spelen pauzeren";
+
+"Play Game" = "Speel spel";
+
+"Play Games (Caution)" = "Speel spellen (Opgelet)";
+
+"Play Save Games" = "Speel opgeslagen spellen";
+
+"Play Save State" = "Speel momentopname";
+
+"Player %ld" = "Speler %ld";
+
+"Please close all games and wait for the importer to finish." = "Please close all games and wait for the importer to finish.";
+
+"Quick Load" = "Snel laden";
+
+"Quick Save State" = "Snelle momentopname";
+
+"Quick Save, Slot %@" = "Snel opgeslagen spel, Slot %@";
+
+"Quick Save" = "Snel opgeslagen spel";
+
+"Quit" = "Stop";
+
+"Rating" = "Rating";
+
+"Recently Added" = "Onlangs toegevoegd";
+
+"Recovered Auto Save" = "Recovered Auto Save";
+
+"Remove" = "Verwijder";
+
+"Rename \"%@\"" = "Hernoem \"%@\"";
+
+"Rename Game" = "Hernoem spel";
+
+"Rename Special Save State or something?" = "Hernoem speciale momentopname of zo?";
+
+"Rename" = "Hernoem";
+
+"Required files are missing." = "Benodigde bestanden ontbreken.";
+
+"Resolve %ld Issue" = "Verhelp %ld probleem";
+
+"Resolve %ld Issues" = "Verhelp %ld problemen";
+
+"Resolve Issues" = "Resolve Issues";
+
+"Restart now" = "Herstart nu";
+
+"Restart System" = "Herstart systeem";
+
+"Restart" = "Herstart";
+
+"Resume Emulation" = "Hervat emulatie";
+
+"Resume" = "Hervat";
+
+"Save As:" = "Sla op als:";
+
+"Save Current Game…" = "Sla huidige spel op…";
+
+"Save Game" = "Sla spel op";
+
+"Save States" = "Momentopnames";
+
+"Save to Slot %d" = "Save to Slot %d";
+
+"Save-Game-%ld %@" = "Save-Game-%ld %@";
+
+"Saved Games" = "Opgeslagen spellen";
+
+"Scanner Paused" = "Scanner gepauzeerd";
+
+"Scanning Directory" = "Bestandenlijst scannen";
+
+"Screenshots" = "Schermafbeeldingen";
+
+"Search" = "Zoek";
+
+"Secrets" = "Geheimen";
+
+"Select All" = "Selecteer alles";
+
+"Select Audio Output Device" = "Selecteer audio-uitvoerapparaat";
+
+"Select Cheat" = "Selecteer cheat";
+
+"Select Core" = "Selecteer kern";
+
+"Select Filter" = "Selecteer filter";
+
+"Select Scale" = "Selecteer schaal";
+
+"Share" = "Deel";
+
+"Show in Finder" = "Toon in Finder";
+
+"Slot %d" = "Slot %d";
+
+"Slot %ld" = "Slot %ld";
+
+"Slot 1" = "Slot 1";
+
+"Some migrations failed to complete properly" = "Sommige migraties zijn niet correct afgerond";
+
+"Start Scanning" = "Start scannen";
+
+"Stop Emulation" = "Stop emulatie";
+
+"Stop" = "Stop";
+
+"Switch To Grid View" = "Switch To Grid View";
+
+"Switch To List View" = "Switch To List View";
+
+"System Files" = "Systeembestanden";
+
+"System" = "Systeem";
+
+"Takes you to the %@ project website" = "Stuurt u naar de %@ project website";
+
+"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "De %1$@-kern heeft compatibiliteitsproblemen en sommige spellen kunnen storingen ondervinden of gewoon niet werken.\n\nGelieve deze problemen niet te rapporteren omdat wij niet verantwoordelijk zijn voor de ontwikkeling van %2$@.";
+
+"The background process connection couldn't be established" = "De verbinding met het achtergrondproces kon niet tot stand gebracht worden";
+
+"The background process couldn't be launched" = "Het achtergrondproces kon niet gestart worden";
+
+"The battery in device number %lu, %@, is low. Please charge or replace the battery." = "De batterij in apparaat met nummer %1$lu, %2$@, is bijna leeg. Gelieve deze op te laden of te vervangen.";
+
+"The core could not be downloaded. Try installing it from the Cores preferences." = "De kern kon niet worden gedownload. Probeer ze te installeren vanaf de voorkeuren voor kernen.";
+
+"The file you selected doesn't exist" = "The bestand dat u selecteerde bestaat niet";
+
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "Het spel '%@' kon niet gestart worden omdat een ROM-bestand niet gevonden kon worden. Wilt u het lokaliseren?";
+
+"The game '%@' was imported." = "Het spel '%@' werd geïmporteerd.";
+
+"The OpenEmu Library could not be found." = "De OpenEmu-bibliotheek kon niet gevonden worden.";
+
+"The root proxy object is nil." = "The root proxy object is nil.";
+
+"The System plugin could not be found!" = "De systeemplug-in kon niet gevonden worden!";
+
+"this guide" = "deze handleiding";
+
+"This save state was created with a different core. Do you want to switch to that core now?" = "Deze momentopname werd met een andere kern gemaakt. Wilt u nu omschakelen naar deze kern?";
+
+"This System has no corresponding core installed." = "Voor dit systeem is geen overeenkomstige kern geïnstalleerd.";
+
+"Title:" = "Titel:";
+
+"To launch the save state %@ you will need to install the '%@' Core" = "Om de momentopname %1$@ te starten zal u de kern '%2$@' moeten installeren";
+
+"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again.";
+
+"Toggle Fullscreen" = "Schakel schermvullende weergave in/uit";
+
+"Toggle Sidebar" = "Toon/verberg zijbalk";
+
+"Trash downloaded Files" = "Gooi gedownloade bestanden in de prullenmand";
+
+"Unmute Audio" = "Ontdemp geluid";
+
+"Update" = "Update";
+
+"User guide on BIOS files" = "Gebruikershandleiding over BIOS-bestanden";
+
+"View Guide In Browser" = "Bekijk handleiding in browser";
+
+"Warning" = "Waarschuwing";
+
+"While performing this operation OpenEmu will be unresponsive." = "Terwijl OpenEmu deze handeling verricht, reageert het niet.";
+
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "Met OpenEmu kan u uw voortgang op elk moment opslaan via momentopnames. We zullen zelfs automatische momentopnames maken voor u wanneer u een spel verlaat. Kom hiernaar terug om een overzicht te krijgen van al uw opgeslagen spellen.";
+
+"Won't be able to recognize it as special save state…" = "Zal het niet kunnen herkennen als een speciale momentopname…";
+
+"Would you like to continue your last game?" = "Wilt u uw laatste spel voortzetten?";
+
+"Would you like to save your game before you quit?" = "Wilt u uw spel opslaan voor u stopt?";
+
+"Yes" = "Ja";
+
+"You can't move your library here!" = "U kan uw bibliotheek niet hiernaar verplaatsen!";
+
+"You need to restart the application to commit the change" = "U moet de toepassing herstarten om de aanpassing door te voeren";
+
+"Your game finished importing, do you want to play it now?" = "Uw spel is geïmporteerd, wilt u het nu spelen?";
+
+"Your library was moved sucessfully." = "Uw bibliotheek werd succesvol verplaatst.";
+
+
+/* Secrets */
+
+"General" = "Algemeen";
+
+"Debug Mode" = "Debugmodus";
+
+"Setup Assistant has finished" = "Set-upassistent is klaar";
+
+"Region" = "Regio";
+
+"Run games using" = "Spellen starten met";
+
+"Library Window" = "Bibliotheekvenster";
+
+"Reset main window size" = "Herstel grootte van hoofdvenster";
+
+"Dark GridView context menu" = "Dark GridView context menu";
+
+"Download missing artwork on the fly" = "Download ontbrekend artwork wanneer nodig";
+
+"Show game titles instead of rom names" = "Toon titels van spellen in plaats van namen van ROM's";
+
+"Manually choose system on import" = "Kies manueel systeem bij importeren";
+
+"Show autosave states in save state category" = "Show autosave states in save state category";
+
+"Show quicksave states in save state category" = "Show quicksave states in save state category";
+
+"Show game scanner view" = "Show game scanner view";
+
+"Hide game scanner view" = "Hide game scanner view";
+
+"HUD Bar / Gameplay" = "HUD-balk/Spelen";
+
+"Use game name as window title" = "Gebruik spelnaam als venstertitel";
+
+"Can delete save states" = "Can delete save states";
+
+"Show options button" = "Toon optiesknop";
+
+"Use gamecore picker" = "Gebruik spelkernkiezer";
+
+"Show quicksave notification during gameplay" = "Toon melding van snelle momentopname tijdens het spelen";
+
+"Show screenshot notification during gameplay" = "Toon melding van schermafbeelding tijdens het spelen";
+
+"Use quicksave slots" = "Use quicksave slots";
+
+"Show quicksave in menu" = "Show quicksave in menu";
+
+"Show autosave in menu" = "Show autosave in menu";
+
+"Show audio output device in menu" = "Toon geluidsuitvoerapparaat in menu";
+
+"Take screenshots in native size" = "Neem schermafbeeldingen in native grootte";
+
+"Disable aspect ratio correction" = "Schakel aspect ratio correctie uit";
+
+"Game View Background color" = "Achtergrondkleur van spellenvenster";
+
+"Controls Setup" = "Bedieningsset-up";
+
+"WiiRemote support (requires relaunch)" = "WiiRemote-ondersteuning (vereist herstart)";
+
+"Clicking on image selects button" = "Klikken op afbeelding selecteert knop";
+
+"Clicking outside image deselects button" = "Klikken buiten afbeelding deselecteert knop";
+
+"Select first field after setting the last" = "Selecteer eerste veld na het laatste ingesteld te hebben";
+
+"Draw button mask above image" = "Teken knopmasker boven afbeelding";
+
+"Log HID Events" = "Leg HID events vast";
+
+"Log Keyboard Events" = "Leg toetsenbord events vast";
+
+"Show all global keys" = "Toon alle globale toetsen";
+
+"Always show BIOS preferences" = "Toon BIOS-voorkeuren altijd";
+
+"Set default save states directory" = "Stel standaardmap voor momentopnames in";
+
+"Choose save states directory…" = "Kies map voor momemtopnames…";
+
+"Cleanup autosave state" = "Ruim staat van momentopnames op";
+
+"Cleanup Save States" = "Ruim momentopnames op";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Update OpenVGDB" = "Update OpenVGDB";
+
+"Cancel OpenVGDB Update" = "Annuleer OpenVGDB-update";
+
+"Database Actions" = "Database acties";
+
+"Delete Artwork that can be downloaded" = "Verwijder artwork dat kan gedownload worden";
+
+"Download missing artwork" = "Download ontbrekend artwork";
+
+"Remove untracked artwork files" = "Remove untracked artwork files";
+
+"Cleanup rom hashes" = "Ruim ROM hashes op";
+
+"Remove duplicated roms" = "Verwijder dubbele ROM's";
+
+"Cancel cover sync for all games" = "Annuleer synchronisatie van omslagafbeeldingen voor alle spellen";
+
+"Perform Sanity Check on Database" = "Controleer database op zuiverheid";
+
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Speciale dank aan iedereen die\nOpenEmu mogelijk maakt. Bezoek alstublieft onze GitHub-pagina om meer te weten te komen\nover onze bijdragers, emulator kernen,\ndocumentatie en licenties en om bugs te melden.";

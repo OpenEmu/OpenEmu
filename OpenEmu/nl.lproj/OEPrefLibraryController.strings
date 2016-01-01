@@ -1,0 +1,36 @@
+
+/* Class = "NSButtonCell"; title = "Change…"; ObjectID = "15"; */
+"15.title" = "Wijzig…";
+
+/* Class = "NSButtonCell"; title = "Reset"; ObjectID = "16"; */
+"16.title" = "Stel opnieuw in";
+
+/* Class = "NSTextFieldCell"; title = "/Users/Mucx/Library/OpenEmu/Games"; ObjectID = "17"; */
+"17.title" = "/Users/Mucx/Library/OpenEmu/Games";
+
+/* Class = "NSTextFieldCell"; title = "Organization Methods"; ObjectID = "18"; */
+"18.title" = "Organisatiemethodes";
+
+/* Class = "NSTextFieldCell"; title = "Game Library Folder Location:"; ObjectID = "19"; */
+"19.title" = "Locatie van spellenbibliotheekmap:";
+
+/* Class = "NSButtonCell"; title = "Keep games organized"; ObjectID = "20"; */
+"20.title" = "Spellen georganiseerd houden";
+
+/* Class = "NSButtonCell"; title = "Copy files to Game Library folder when adding to library"; ObjectID = "21"; */
+"21.title" = "Kopiëer bestanden naar spellenbibliotheekmap bij toevoegen aan bibliotheek";
+
+/* Class = "NSButtonCell"; title = "Radio"; ObjectID = "22"; */
+"22.title" = "Radio";
+
+/* Class = "NSButtonCell"; title = "Automatically lookup game information & artwork"; ObjectID = "23"; */
+"23.title" = "Zoek automatisch spelinformatie en omslagafbeeldingen op";
+
+/* Class = "NSTextFieldCell"; title = "Available Libraries:"; ObjectID = "24"; */
+"24.title" = "Beschikbare bibliotheken:";
+
+/* Class = "NSTextFieldCell"; title = "Reset all dialog warnings:"; ObjectID = "Ua1-J2-mdy"; */
+"Ua1-J2-mdy.title" = "Stel alle dialoogvensterwaarschuwingen opnieuw in:";
+
+/* Class = "NSButtonCell"; title = "Reset warnings"; ObjectID = "all-Wd-1Dy"; */
+"all-Wd-1Dy.title" = "Stel waarschuwingen opnieuw in";

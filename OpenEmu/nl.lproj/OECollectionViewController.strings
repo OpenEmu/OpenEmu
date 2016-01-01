@@ -1,0 +1,39 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "System"; ObjectID = "16"; */
+"16.headerCell.title" = "Systeem";
+
+/* Class = "NSTableColumn"; headerCell.title = "Last Played"; ObjectID = "17"; */
+"17.headerCell.title" = "Laatst gespeeld";
+
+/* Class = "NSTableColumn"; headerCell.title = "Rating"; ObjectID = "18"; */
+"18.headerCell.title" = "Beoordeling";
+
+/* Class = "NSTableColumn"; headerCell.title = "Name"; ObjectID = "19"; */
+"19.headerCell.title" = "Naam";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "22"; */
+"22.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "24"; */
+"24.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "25"; */
+"25.title" = "Text Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "Save Games"; ObjectID = "103"; */
+"103.headerCell.title" = "Opgeslagen spellen";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "104"; */
+"104.title" = "Text Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "Play Count"; ObjectID = "105"; */
+"105.headerCell.title" = "Aantal keer gespeeld";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "106"; */
+"106.title" = "Text Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "Play Time"; ObjectID = "107"; */
+"107.headerCell.title" = "Speeltijd";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "108"; */
+"108.title" = "Text Cell";

@@ -1,0 +1,18 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "Path"; ObjectID = "75"; */
+"75.headerCell.title" = "Pad";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "78"; */
+"78.title" = "Text Cell";
+
+/* Class = "NSButtonCell"; title = "Check"; ObjectID = "124"; */
+"124.title" = "Controleer";
+
+/* Class = "NSTextFieldCell"; title = "Fix Import Issues:"; ObjectID = "127"; */
+"127.title" = "Herstel problemen met import:";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "132"; */
+"132.title" = "OtherViews";
+
+/* Class = "NSButtonCell"; title = "Apply"; ObjectID = "139"; */
+"139.title" = "Pas toe";
