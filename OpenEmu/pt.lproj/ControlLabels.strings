@@ -66,13 +66,10 @@
   "C" = "C";
   "Change Disk Side" = "Inverter Disco";
   "Console Pause" = "Pausar Console";
-  "Display Mode" = "Modo de Visualização";
   "Down" = "Baixo";
-  "Fast Forward" = "Acelerar";
   "Fire 1" = "Atirar 1";
   "Fire 2" = "Atirar 2";
   "Fire" = "Atirar";
-  "Fullscreen" = "Tela Cheia";
   "Insert Coin" = "Inserir Ficha";
   "L Diff A" = "L Diff A";
   "L Diff B" = "L Diff B";
@@ -85,18 +82,13 @@
   "Left Trigger" = "Gatilho Esquerdo";
   "Left" = "Esquerdo";
   "Lid" = "Tampa";
-  "Load" = "Carregar";
   "Mic" = "Mic";
   "Mode" = "Mode";
-  "Mute" = "Mutar";
   "Option 1" = "Opção 1";
   "Option 2" = "Opção 2";
   "Option" = "Opção";
   "P" = "P";
-  "Pause" = "Pause";
   "Player Start" = "Iniciar Jogador";
-  "Quick Load Button" = "Carregamento Rápido";
-  "Quick Save Button" = "Salvamento Rápido";
   "R Diff A" = "R Diff A";
   "R Diff B" = "R Diff B";
   "R Diff" = "R Diff";
@@ -104,14 +96,10 @@
   "R1" = "R1";
   "R2" = "R2";
   "R3" = "R3";
-  "Reset" = "Reset";
-  "Rewind" = "Rewind";
   "Right Action" = "Ação Direito";
   "Right Trigger" = "Gatilho Direito";
   "Right" = "Right";
   "Run" = "Executar";
-  "Save" = "Save";
-  "Screenshot" = "Captura de Tela";
   "Select" = "Select";
   "Service" = "Serviço";
   "Sound" = "Som";
@@ -119,8 +107,6 @@
   "TV Black & White" = "TV Preto e Branco";
   "TV Color" = "TV Cores";
   "Up" = "Cima";
-  "Volume Down" = "Abaixar Volume";
-  "Volume Up" = "Aumentar Volume";
   "X" = "X";
   "X1 Up" = "X1 Cima";
   "X2 Right" = "X2 Direito";
@@ -136,3 +122,19 @@
   "△" = "△";
   "◯" = "◯";
   "✕" = "✕";
+
+/* Special Keys */
+  "Display Mode" = "Modo de Visualização";
+  "Fast Forward" = "Acelerar";
+  "Fullscreen" = "Tela Cheia";
+  "Load" = "Carregar";
+  "Mute" = "Mutar";
+  "Pause" = "Pause";
+  "Quick Load Button" = "Carregamento Rápido";
+  "Quick Save Button" = "Salvamento Rápido";
+  "Reset" = "Reset";
+  "Rewind" = "Rewind";
+  "Save" = "Save";
+  "Screenshot" = "Captura de Tela";
+  "Volume Down" = "Abaixar Volume";
+  "Volume Up" = "Aumentar Volume";

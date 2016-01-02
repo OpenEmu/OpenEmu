@@ -66,13 +66,10 @@
   "C" = "C";
   "Change Disk Side" = "Wissel schijf van kant";
   "Console Pause" = "Console pauze";
-  "Display Mode" = "Weergavemodus";
   "Down" = "Omlaag";
-  "Fast Forward" = "Vooruitspoelen";
   "Fire 1" = "Vuur 1";
   "Fire 2" = "Vuur 2";
   "Fire" = "Vuur";
-  "Fullscreen" = "Schermvullende weergave";
   "Insert Coin" = "Muntstuk inwerpen";
   "L Diff A" = "L Diff A";
   "L Diff B" = "L Diff B";
@@ -85,18 +82,13 @@
   "Left Trigger" = "Linker trigger";
   "Left" = "Links";
   "Lid" = "Lid";
-  "Load" = "Laden";
   "Mic" = "Mic";
   "Mode" = "Modus";
-  "Mute" = "Dempen";
   "Option 1" = "Optie 1";
   "Option 2" = "Optie 2";
   "Option" = "Optie";
   "P" = "P";
-  "Pause" = "Pauze";
   "Player Start" = "Speler start";
-  "Quick Load Button" = "Snel laden";
-  "Quick Save Button" = "Snel opslaan";
   "R Diff A" = "R Diff A";
   "R Diff B" = "R Diff B";
   "R Diff" = "R Diff";
@@ -104,14 +96,10 @@
   "R1" = "R1";
   "R2" = "R2";
   "R3" = "R3";
-  "Reset" = "Opnieuw instellen";
-  "Rewind" = "Terugspoelen";
   "Right Action" = "Rechter actie";
   "Right Trigger" = "Rechter trigger";
   "Right" = "Rechts";
   "Run" = "Uitvoeren";
-  "Save" = "Opslaan";
-  "Screenshot" = "Schermafbeelding";
   "Select" = "Select";
   "Service" = "Service";
   "Sound" = "Geluid";
@@ -119,8 +107,6 @@
   "TV Black & White" = "Zwart-wittelevisie";
   "TV Color" = "Kleurentelevisie";
   "Up" = "Omhoog";
-  "Volume Down" = "Volume omhoog";
-  "Volume Up" = "Volume omlaag";
   "X" = "X";
   "X1 Up" = "X1 omhoog";
   "X2 Right" = "X2 rechts";
@@ -136,3 +122,19 @@
   "△" = "△";
   "◯" = "◯";
   "✕" = "✕";
+
+/* Special Keys */
+  "Display Mode" = "Weergavemodus";
+  "Fast Forward" = "Vooruitspoelen";
+  "Fullscreen" = "Schermvullende weergave";
+  "Load" = "Laden";
+  "Mute" = "Dempen";
+  "Pause" = "Pauze";
+  "Quick Load Button" = "Snel laden";
+  "Quick Save Button" = "Snel opslaan";
+  "Reset" = "Opnieuw instellen";
+  "Rewind" = "Terugspoelen";
+  "Save" = "Opslaan";
+  "Screenshot" = "Schermafbeelding";
+  "Volume Down" = "Volume omhoog";
+  "Volume Up" = "Volume omlaag";

@@ -66,13 +66,10 @@
   "C" = "C";
   "Change Disk Side" = "Change Disk Side";
   "Console Pause" = "Console Pause";
-  "Display Mode" = "Display Mode";
   "Down" = "Down";
-  "Fast Forward" = "Fast Forward";
   "Fire 1" = "Fire 1";
   "Fire 2" = "Fire 2";
   "Fire" = "Fire";
-  "Fullscreen" = "Fullscreen";
   "Insert Coin" = "Insert Coin";
   "L Diff A" = "L Diff A";
   "L Diff B" = "L Diff B";
@@ -85,18 +82,13 @@
   "Left Trigger" = "Left Trigger";
   "Left" = "Left";
   "Lid" = "Lid";
-  "Load" = "Load";
   "Mic" = "Mic";
   "Mode" = "Mode";
-  "Mute" = "Mute";
   "Option 1" = "Option 1";
   "Option 2" = "Option 2";
   "Option" = "Option";
   "P" = "P";
-  "Pause" = "Pause";
   "Player Start" = "Player Start";
-  "Quick Load Button" = "Quick Load";
-  "Quick Save Button" = "Quick Save";
   "R Diff A" = "R Diff A";
   "R Diff B" = "R Diff B";
   "R Diff" = "R Diff";
@@ -104,14 +96,10 @@
   "R1" = "R1";
   "R2" = "R2";
   "R3" = "R3";
-  "Reset" = "Reset";
-  "Rewind" = "Rewind";
   "Right Action" = "Right Action";
   "Right Trigger" = "Right Trigger";
   "Right" = "Right";
   "Run" = "Run";
-  "Save" = "Save";
-  "Screenshot" = "Screenshot";
   "Select" = "Select";
   "Service" = "Service";
   "Sound" = "Sound";
@@ -119,8 +107,6 @@
   "TV Black & White" = "TV Black & White";
   "TV Color" = "TV Color";
   "Up" = "Up";
-  "Volume Down" = "Volume Down";
-  "Volume Up" = "Volume Up";
   "X" = "X";
   "X1 Up" = "X1 Up";
   "X2 Right" = "X2 Right";
@@ -136,3 +122,19 @@
   "△" = "△";
   "◯" = "◯";
   "✕" = "✕";
+
+/* Special Keys */
+  "Display Mode" = "Display Mode";
+  "Fast Forward" = "Fast Forward";
+  "Fullscreen" = "Fullscreen";
+  "Load" = "Load";
+  "Mute" = "Mute";
+  "Pause" = "Pause";
+  "Quick Load Button" = "Quick Load";
+  "Quick Save Button" = "Quick Save";
+  "Reset" = "Reset";
+  "Rewind" = "Rewind";
+  "Save" = "Save";
+  "Screenshot" = "Screenshot";
+  "Volume Down" = "Volume Down";
+  "Volume Up" = "Volume Up";

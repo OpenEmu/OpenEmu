@@ -66,13 +66,10 @@
   "C" = "C";
   "Change Disk Side" = "Gira il disco";
   "Console Pause" = "Pausa console";
-  "Display Mode" = "Vista";
   "Down" = "Giù";
-  "Fast Forward" = "Avanti veloce"; // "Avanzamento rapido" wraps like "Avanzament\no rapido"
   "Fire 1" = "Fuoco 1";
   "Fire 2" = "Fuoco 2";
   "Fire" = "Fuoco";
-  "Fullscreen" = "Schermo intero";
   "Insert Coin" = "Inserisci moneta";
   "L Diff A" = "L Diff A";
   "L Diff B" = "L Diff B";
@@ -85,18 +82,13 @@
   "Left Trigger" = "Grilletto sinistro";
   "Left" = "Sinistra";
   "Lid" = "Coperchio";
-  "Load" = "Carica";
   "Mic" = "Microfono";
   "Mode" = "Modalità";
-  "Mute" = "Muto";
   "Option 1" = "Option 1";
   "Option 2" = "Option 2";
   "Option" = "Option";  // Jaguar, Lynx
   "P" = "P";
-  "Pause" = "Pausa";
   "Player Start" = "Inizia gioco";
-  "Quick Load Button" = "Carica veloce";
-  "Quick Save Button" = "Salva veloce";
   "R Diff A" = "R Diff A";
   "R Diff B" = "R Diff B";
   "R Diff" = "R Diff";
@@ -104,14 +96,10 @@
   "R1" = "R1";
   "R2" = "R2";
   "R3" = "R3";
-  "Reset" = "Reset";
-  "Rewind" = "Riavvolgi";
   "Right Action" = "Azione destro";
   "Right Trigger" = "Grilletto destro";
   "Right" = "Destra";
   "Run" = "Run";
-  "Save" = "Salva";
-  "Screenshot" = "Istantanea";
   "Select" = "Select";
   "Service" = "Pulsante di servizio";
   "Sound" = "Sound";
@@ -119,8 +107,6 @@
   "TV Black & White" = "TV bianco e nero";
   "TV Color" = "TV a colori";
   "Up" = "Su";
-  "Volume Down" = "Abbassa volume";
-  "Volume Up" = "Alza volume";
   "X" = "X";
   "X1 Up" = "X1 Su";
   "X2 Right" = "X2 Destra";
@@ -136,3 +122,19 @@
   "△" = "△";
   "◯" = "◯";
   "✕" = "✕";
+
+/* Special Keys */
+  "Display Mode" = "Vista";
+  "Fast Forward" = "Avanti veloce"; // "Avanzamento rapido" wraps like "Avanzament\no rapido"
+  "Fullscreen" = "Schermo intero";
+  "Load" = "Carica";
+  "Mute" = "Muto";
+  "Pause" = "Pausa";
+  "Quick Load Button" = "Carica veloce";
+  "Quick Save Button" = "Salva veloce";
+  "Reset" = "Reset";
+  "Rewind" = "Riavvolgi";
+  "Save" = "Salva";
+  "Screenshot" = "Istantanea";
+  "Volume Down" = "Abbassa volume";
+  "Volume Up" = "Alza volume";
