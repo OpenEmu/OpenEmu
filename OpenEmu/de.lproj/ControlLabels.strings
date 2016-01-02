@@ -66,6 +66,7 @@
   "C" = "C";
   "Change Disk Side" = "Disk umdrehen";
   "Console Pause" = "Konsole pausieren";
+  "Console Reset" = "Console Reset";  // TODO
   "Down" = "Unten";
   "Fire 1" = "Feuer 1";
   "Fire 2" = "Feuer 2";

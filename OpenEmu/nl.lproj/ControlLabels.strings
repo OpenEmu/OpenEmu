@@ -66,6 +66,7 @@
   "C" = "C";
   "Change Disk Side" = "Wissel schijf van kant";
   "Console Pause" = "Console pauze";
+  "Console Reset" = "Console Reset";  // TODO
   "Down" = "Omlaag";
   "Fire 1" = "Vuur 1";
   "Fire 2" = "Vuur 2";

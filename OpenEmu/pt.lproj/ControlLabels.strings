@@ -66,6 +66,7 @@
   "C" = "C";
   "Change Disk Side" = "Inverter Disco";
   "Console Pause" = "Pausar Console";
+  "Console Reset" = "Console Reset";  // TODO
   "Down" = "Baixo";
   "Fire 1" = "Atirar 1";
   "Fire 2" = "Atirar 2";

@@ -66,6 +66,7 @@
   "C" = "C";
   "Change Disk Side" = "Changer face disque";
   "Console Pause" = "Pause console";
+  "Console Reset" = "Console Reset";  // TODO
   "Down" = "Bas";
   "Fire 1" = "Feu 1";
   "Fire 2" = "Feu 2";
