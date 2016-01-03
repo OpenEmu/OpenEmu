@@ -118,11 +118,11 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView ambiguous="YES" editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" verticallyResizable="YES" allowsNonContiguousLayout="YES" id="Ynq-yb-Moe" customClass="OEArrowCursorTextView">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="397" height="73"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="394" height="73"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <size key="minSize" width="394" height="73"/>
-                                                                    <size key="maxSize" width="463" height="10000000"/>
+                                                                    <size key="maxSize" width="394" height="10000000"/>
                                                                     <attributedString key="textStorage">
                                                                         <fragment content="asdasd">
                                                                             <attributes>
@@ -133,7 +133,7 @@
                                                                     </attributedString>
                                                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <size key="minSize" width="394" height="73"/>
-                                                                    <size key="maxSize" width="463" height="10000000"/>
+                                                                    <size key="maxSize" width="394" height="10000000"/>
                                                                     <connections>
                                                                         <binding destination="Byy-Ku-AfU" name="attributedString" keyPath="objectValue" id="2R3-AZ-NEA">
                                                                             <dictionary key="options">
