@@ -31,6 +31,7 @@
 /* Group Labels */
   "Analog" = "Analógico";
   "C-Pad" = "C-Pad";
+  "C-Stick" = "C-Stick";  // TODO
   "D-Pad" = "D-Pad";
   "Keypad" = "Keypad";
   "Left Analog" = "Analógico Esquerdo";
@@ -54,8 +55,11 @@
   "8" = "8";
   "9" = "9";
   "A" = "A";
+  "Action" = "Action";
   "Analog Mode" = "Modo analógico";
   "B" = "B";
+  "Bottom Left Action" = "Bottom Left Action";  // TODO
+  "Bottom Right Action" = "Bottom Right Action";  // TODO
   "Button 1" = "Botão 1";
   "Button 1/Start" = "Botão 1/Start";
   "Button 2" = "Botão 2";
@@ -65,9 +69,11 @@
   "Button 6" = "Botão 6";
   "C" = "C";
   "Change Disk Side" = "Inverter Disco";
+  "Clear" = "Clear";
   "Console Pause" = "Pausar Console";
   "Console Reset" = "Console Reset";  // TODO
   "Down" = "Baixo";
+  "Enter" = "Enter";
   "Fire 1" = "Atirar 1";
   "Fire 2" = "Atirar 2";
   "Fire" = "Atirar";
@@ -83,6 +89,7 @@
   "Left Trigger" = "Gatilho Esquerdo";
   "Left" = "Esquerdo";
   "Lid" = "Tampa";
+  "Menu" = "Menu";  // TODO
   "Mic" = "Mic";
   "Mode" = "Mode";
   "Option 1" = "Opção 1";
@@ -90,6 +97,7 @@
   "Option" = "Opção";
   "P" = "P";
   "Player Start" = "Iniciar Jogador";
+  "Power" = "Power";
   "R Diff A" = "R Diff A";
   "R Diff B" = "R Diff B";
   "R Diff" = "R Diff";
@@ -103,10 +111,13 @@
   "Run" = "Executar";
   "Select" = "Select";
   "Service" = "Serviço";
+  "Shake" = "Shake";  // TODO
+  "Sleep" = "Sleep";
   "Sound" = "Som";
   "Start" = "Start";
   "TV Black & White" = "TV Preto e Branco";
   "TV Color" = "TV Cores";
+  "Top Action" = "Top Action";  // TODO
   "Up" = "Cima";
   "X" = "X";
   "X1 Up" = "X1 Cima";

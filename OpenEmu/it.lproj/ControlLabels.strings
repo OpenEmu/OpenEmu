@@ -31,6 +31,7 @@
 /* Group Labels */
   "Analog" = "Analogico";
   "C-Pad" = "C-Pad";
+  "C-Stick" = "C-Stick";
   "D-Pad" = "D-Pad";
   "Keypad" = "Tastierino";
   "Left Analog" = "Analogico sinistro";
@@ -54,8 +55,11 @@
   "8" = "8";
   "9" = "9";
   "A" = "A";
+  "Action" = "Action";
   "Analog Mode" = "Modalità analogico";
   "B" = "B";
+  "Bottom Left Action" = "Azione inferiore sx";
+  "Bottom Right Action" = "Azione inferiore dx";
   "Button 1" = "Pulsante 1";
   "Button 1/Start" = "Pulsante 1/Start";
   "Button 2" = "Pulsante 2";
@@ -65,9 +69,11 @@
   "Button 6" = "Pulsante 6";
   "C" = "C";
   "Change Disk Side" = "Gira il disco";
+  "Clear" = "Clear";
   "Console Pause" = "Pausa console";
   "Console Reset" = "Reset console";
   "Down" = "Giù";
+  "Enter" = "Enter";
   "Fire 1" = "Fuoco 1";
   "Fire 2" = "Fuoco 2";
   "Fire" = "Fuoco";
@@ -83,6 +89,7 @@
   "Left Trigger" = "Grilletto sinistro";
   "Left" = "Sinistra";
   "Lid" = "Coperchio";
+  "Menu" = "Menu";
   "Mic" = "Microfono";
   "Mode" = "Modalità";
   "Option 1" = "Option 1";
@@ -90,6 +97,7 @@
   "Option" = "Option";  // Jaguar, Lynx
   "P" = "P";
   "Player Start" = "Inizia gioco";
+  "Power" = "Power";
   "R Diff A" = "R Diff A";
   "R Diff B" = "R Diff B";
   "R Diff" = "R Diff";
@@ -103,10 +111,13 @@
   "Run" = "Run";
   "Select" = "Select";
   "Service" = "Pulsante di servizio";
+  "Shake" = "Scuoti";
+  "Sleep" = "Sleep";
   "Sound" = "Sound";
   "Start" = "Start";
   "TV Black & White" = "TV bianco e nero";
   "TV Color" = "TV a colori";
+  "Top Action" = "Azione superiore";
   "Up" = "Su";
   "X" = "X";
   "X1 Up" = "X1 Su";
@@ -130,10 +141,10 @@
   "Fullscreen" = "Schermo intero";
   "Load" = "Carica";
   "Mute" = "Muto";
-  "Pause" = "Pausa";
+  "Pause" = "Sospendi";
   "Quick Load Button" = "Carica veloce";
   "Quick Save Button" = "Salva veloce";
-  "Reset" = "Reset";
+  "Reset" = "Resetta";
   "Rewind" = "Riavvolgi";
   "Save" = "Salva";
   "Screenshot" = "Istantanea";

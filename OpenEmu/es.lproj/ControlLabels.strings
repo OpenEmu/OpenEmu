@@ -31,6 +31,7 @@
 /* Group Labels */
   "Analog" = "Analog";
   "C-Pad" = "C-Pad";
+  "C-Stick" = "C-Stick";
   "D-Pad" = "D-Pad";
   "Keypad" = "Keypad";
   "Left Analog" = "Left Analog";
@@ -54,8 +55,11 @@
   "8" = "8";
   "9" = "9";
   "A" = "A";
+  "Action" = "Action";
   "Analog Mode" = "Analog Mode";
   "B" = "B";
+  "Bottom Left Action" = "Bottom Left Action";
+  "Bottom Right Action" = "Bottom Right Action";
   "Button 1" = "Button 1";
   "Button 1/Start" = "Button 1/Start";
   "Button 2" = "Button 2";
@@ -65,9 +69,11 @@
   "Button 6" = "Button 6";
   "C" = "C";
   "Change Disk Side" = "Change Disk Side";
+  "Clear" = "Clear";
   "Console Pause" = "Console Pause";
   "Console Reset" = "Console Reset";
   "Down" = "Down";
+  "Enter" = "Enter";
   "Fire 1" = "Fire 1";
   "Fire 2" = "Fire 2";
   "Fire" = "Fire";
@@ -83,6 +89,7 @@
   "Left Trigger" = "Left Trigger";
   "Left" = "Left";
   "Lid" = "Lid";
+  "Menu" = "Menu";
   "Mic" = "Mic";
   "Mode" = "Mode";
   "Option 1" = "Option 1";
@@ -90,6 +97,7 @@
   "Option" = "Option";
   "P" = "P";
   "Player Start" = "Player Start";
+  "Power" = "Power";
   "R Diff A" = "R Diff A";
   "R Diff B" = "R Diff B";
   "R Diff" = "R Diff";
@@ -103,10 +111,13 @@
   "Run" = "Run";
   "Select" = "Select";
   "Service" = "Service";
+  "Shake" = "Shake";
+  "Sleep" = "Sleep";
   "Sound" = "Sound";
   "Start" = "Start";
   "TV Black & White" = "TV Black & White";
   "TV Color" = "TV Color";
+  "Top Action" = "Top Action";
   "Up" = "Up";
   "X" = "X";
   "X1 Up" = "X1 Up";
