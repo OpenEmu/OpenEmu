@@ -206,7 +206,9 @@ NSString * const OptionsKey = @"options";
                               Button(@"Cancel OpenVGDB Update", @selector(cancelOpenVGDBUpdate:)),
 
                               Group(@"Database Actions"),
+                              Button(@"Delete useless image objects", @selector(removeUselessImages:)),
                               Button(@"Delete Artwork that can be downloaded", @selector(removeArtworkWithRemoteBacking:)),
+                              Button(@"Sync games without artwork", @selector(syncGamesWithoutArtwork:)),
                               Button(@"Download missing artwork", @selector(downloadMissingArtwork:)),
                               Button(@"Remove untracked artwork files", @selector(removeUntrackedImageFiles:)),
                               Button(@"Cleanup rom hashes", @selector(cleanupHashes:)),
@@ -443,6 +445,28 @@ NSString * const OptionsKey = @"options";
 }
 
 #pragma mark - Database actions
+- (void)removeUselessImages:(id)sender
+{
+    // removes all image objects that are neither on disc nor have a source
+    OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = [library mainThreadContext];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[OEDBImage entityName]];
+    NSPredicate  *predicate = [NSPredicate predicateWithFormat:@"relativePath == nil and source == nil"];
+    [request setPredicate:predicate];
+
+    NSError *error  = nil;
+    NSArray *result = [context executeFetchRequest:request error:&error];
+    if(!result)
+    {
+        DLog(@"Could not execute fetch request: %@", error);
+        return;
+    }
+
+    [result makeObjectsPerformSelector:@selector(delete)];
+    [context save:nil];
+    NSLog(@"Deleted %ld images!", result.count);
+}
+
 - (void)removeArtworkWithRemoteBacking:(id)sender
 {
     OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
@@ -475,6 +499,28 @@ NSString * const OptionsKey = @"options";
     [context save:nil];
     NSLog(@"Deleted %ld image files!", count);
 }
+
+- (void)syncGamesWithoutArtwork:(id)sender
+{
+    OELibraryDatabase      *library = [OELibraryDatabase defaultDatabase];
+    NSManagedObjectContext *context = [library mainThreadContext];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:[OEDBGame entityName]];
+    NSPredicate  *predicate = [NSPredicate predicateWithFormat:@"boxImage == nil"];
+    [request setPredicate:predicate];
+    NSError *error  = nil;
+    NSArray *result = [context executeFetchRequest:request error:&error];
+    if(!result)
+    {
+        DLog(@"Could not execute fetch request: %@", error);
+        return;
+    }
+
+    NSLog(@"Found %ld games", [result count]);
+    for(OEDBGame *game in result){
+        [game requestInfoSync];
+    }
+}
+
 
 - (void)downloadMissingArtwork:(id)sender
 {
@@ -684,7 +730,22 @@ NSString * const OptionsKey = @"options";
     }
     if(counts[0]) NSLog(@"Found %ld images without game!", counts[0]);
     
-    
+    // Look for images without source
+    allImages = [OEDBImage allObjectsInContext:context];
+    counts[0] = 0;
+    counts[1] = 0;
+    for(OEDBImage *image in allImages)
+    {
+        if(image.source == nil || [image.source isEqualToString:@""])
+            counts[0] ++;
+        if(image.relativePath == nil || [image.relativePath isEqualToString:@""])
+            counts[1] ++;
+        if(image.image == nil)
+            counts[2] ++;
+    }
+    if(counts[0]) NSLog(@"Found %ld images without source!", counts[0]);
+    if(counts[1]) NSLog(@"Found %ld images without local path!", counts[1]);
+
     NSLog(@"= Done =");
 }
 #pragma mark -
