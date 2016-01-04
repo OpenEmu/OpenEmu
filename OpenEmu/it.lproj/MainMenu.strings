@@ -210,7 +210,7 @@
 "0ql-Da-Qro.title" = "Aiuto";
 
 /* Class = "NSMenuItem"; title = "Riavvia sistema"; ObjectID = "2rj-Sq-LdF"; */
-"2rj-Sq-LdF.title" = "Resetta sistema";
+"2rj-Sq-LdF.title" = "Riavvia sistema";
 
 /* Class = "NSMenuItem"; title = "Note di rilascio"; ObjectID = "5YI-Il-P9H"; */
 "5YI-Il-P9H.title" = "Note di rilascio";
