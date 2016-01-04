@@ -28,6 +28,7 @@
     CGLContextObj         _alternateContext; // Alternate thread's GL2 context
     dispatch_semaphore_t  _renderingThreadCanProceedSemaphore;
     dispatch_semaphore_t  _executeThreadCanProceedSemaphore;
+    uint8_t               _isAlternateDisplayingFrames; // If no, core side is still in setup, so don't FPS limit.
 }
 
 @synthesize gameCore=_gameCore;
@@ -176,10 +177,6 @@
 {
     if(_alternateContext == NULL)
         CGLCreateContext(_glPixelFormat, _glContext, &_alternateContext);
-
-    // Give the rendering thread one free frame.
-    // (Hopefully it won't call -didRenderFrame twice before we get to -willExecute)
-    dispatch_semaphore_signal(_renderingThreadCanProceedSemaphore);
 }
 
 - (void)setupDoubleBufferedFBO
@@ -266,6 +263,7 @@
 {
     if (_alternateContext) {
         // Tell the rendering thread to go ahead.
+        _isAlternateDisplayingFrames = 1;
         dispatch_semaphore_signal(_renderingThreadCanProceedSemaphore);
         return;
     }
@@ -314,12 +312,15 @@
     // Update the IOSurface.
     glFlushRenderAPPLE();
 
-    // Technically the above should be a glFinish(), but I'm hoping the GPU work
-    // is fast enough that it's not needed.
-    dispatch_semaphore_signal(_executeThreadCanProceedSemaphore);
+    // Do FPS limiting, but only once setup is over.
+    if (_isAlternateDisplayingFrames) {
+        // Technically the above should be a glFinish(), but I'm hoping the GPU work
+        // is fast enough that it's not needed.
+        dispatch_semaphore_signal(_executeThreadCanProceedSemaphore);
 
-    // Wait to be allowed to start next frame.
-    dispatch_semaphore_wait(_renderingThreadCanProceedSemaphore, DISPATCH_TIME_FOREVER);
+        // Wait to be allowed to start next frame.
+        dispatch_semaphore_wait(_renderingThreadCanProceedSemaphore, DISPATCH_TIME_FOREVER);
+    }
 }
 
 @end
