@@ -985,7 +985,6 @@ static OELibraryDatabase *defaultDatabase = nil;
                     if(previousImage) [previousBoxImages addObject:previousImage.permanentID];
                     game.boxImage = image;
                 }
-                else [mainContext deleteObject:image];
 
                 OEDBRom *rom = game.defaultROM;
 

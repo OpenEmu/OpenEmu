@@ -41,7 +41,8 @@
     if(urlString == nil) return nil;
 
     NSURL *url = [NSURL URLWithString:urlString];
-    if(url == nil) return nil;
+    if(url == nil || [urlString isEqualToString:@""])
+        return nil;
 
     NSMutableDictionary *result = @{ @"URL": url }.mutableCopy;
     
@@ -129,6 +130,8 @@
 
 + (instancetype)createImageWithDictionary:(NSDictionary*)dictionary inContext:(NSManagedObjectContext*)context
 {
+    if(!dictionary) return nil;
+
     OEDBImage *image = [OEDBImage createObjectInContext:context];
     image.sourceURL = dictionary[@"URL"];
     image.width = [dictionary[@"width"] floatValue];
