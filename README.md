@@ -42,13 +42,7 @@ Currently OpenEmu can load the following game engines as plugins:
 * Vectrex ([VecXGL](http://jum.pdroms.de/emulators/emul.html))
 * WonderSwan ([Mednafen](http://mednafen.sourceforge.net/))
 
-OpenEmu also supports high quality scaling with Open GL, multi-threaded video
-and audio playback as well as individual features and preferences per game
-engine, such as NTSC video signal emulation for the Nestopia core.
-
 Minimum Requirements
 --------------------
 
-1. OS X 10.11
-2. Core 2 Duo Processor
-3. GMA X3100 Graphics
+OS X 10.11 El Capitan
