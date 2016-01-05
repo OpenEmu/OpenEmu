@@ -32,8 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
  Class to detect and import BIOS files
  */
 
-
-extern NSString * const OEBIOSFileWasImportedNotificationName;
 @interface OEBIOSFile: NSObject
 
 - (instancetype)init;
@@ -45,6 +43,7 @@ extern NSString * const OEBIOSFileWasImportedNotificationName;
 - (BOOL)checkIfBIOSFileAndImportAtURL:(NSURL *)fileURL;
 - (BOOL)checkIfBIOSFileAndImportAtURL:(NSURL *)fileURL withMD5:(NSString *)md5String;
 
+@property (readonly) NSString *biosPath;
 @end
 
 NS_ASSUME_NONNULL_END

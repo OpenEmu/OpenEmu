@@ -36,12 +36,14 @@
 #import "OEBIOSFile.h"
 
 #import "OpenEmu-Swift.h"
+#import "OEFSWatcher.h"
 
 NSString * const OEPreferencesAlwaysShowBiosKey = @"OEPreferencesAlwaysShowBios";
 NSString * const OEBiosUserGuideURLString = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files";
 
 @interface OEPrefBiosController () <NSTextViewDelegate>
 @property (strong) NSArray *items;
+@property (strong) OEFSWatcher *fileSystemWatcher;
 @end
 
 @implementation OEPrefBiosController
@@ -57,8 +59,6 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     if(self)
     {
         [OECorePlugin addObserver:self forKeyPath:@"allPlugins" options:0 context:_OEPrefBiosCoreListContext];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(biosFileWasImported:) name:OEBIOSFileWasImportedNotificationName object:nil];
-        [self reloadData];
     }
     return self;
 }
@@ -76,7 +76,10 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
 
     [tableView registerForDraggedTypes:@[NSURLPboardType]];
 
-    [self reloadData];
+    NSString *biosPath = [[OEBIOSFile alloc] init].biosPath;
+    self.fileSystemWatcher = [OEFSWatcher watcherForPath:biosPath withBlock:^(NSString *path, FSEventStreamEventFlags flags) {
+        [self reloadData];
+    }];
 }
 
 - (NSString *)nibName
@@ -84,8 +87,25 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     return @"OEPrefBiosController";
 }
 
+- (void)viewWillAppear
+{
+    [super viewWillAppear];
+
+    [self.fileSystemWatcher startWatching];
+    [self reloadData];
+}
+
+- (void)viewDidDisappear
+{
+    [super viewDidDisappear];
+    [self.fileSystemWatcher stopWatching];
+}
+
 - (void)dealloc
 {
+    if(self.fileSystemWatcher)
+        [self.fileSystemWatcher stopWatching];
+
     [OECorePlugin removeObserver:self forKeyPath:@"allPlugins" context:_OEPrefBiosCoreListContext];
 }
 
@@ -95,16 +115,6 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     else
         [self reloadData];
-}
-
-- (void)biosFileWasImported:(id)sender
-{
-    if(![NSThread isMainThread]){
-        [self performSelectorOnMainThread:@selector(biosFileWasImported:) withObject:sender waitUntilDone:NO];
-        return;
-    }
-
-    [self reloadData];
 }
 
 #pragma mark - Private Methods
