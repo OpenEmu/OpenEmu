@@ -428,9 +428,15 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             return;
         
         // disable multi-rom archives
-        if(archive.numberOfEntries > 1)
-            return;
-        
+        if(archive.numberOfEntries > 1) {
+            NSString *extension = [archive nameOfEntry:0].pathExtension;
+            if(!extension.length) return;
+
+            for(int i = 1; i < archive.numberOfEntries; i++)
+                if(![[archive nameOfEntry:0].pathExtension isEqualToString:extension])
+                    return;
+        }
+
         for(int i = 0; i < archive.numberOfEntries; i++)
         {
             if(([archive entryHasSize:i] && [archive sizeOfEntry:i] == 0) || [archive entryIsEncrypted:i] || [archive entryIsDirectory:i] || [archive entryIsArchive:i])
@@ -473,9 +479,19 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 
             if(tmpURL)
             {
-                self.extractedFileURL = tmpURL;
-                self.archiveFileIndex = i;
-                self.exploreArchives = NO;
+                OEImportOperation *op = self;
+                if(i != 0){
+                    op = [OEImportOperation operationWithURL:self.URL inImporter:self.importer];
+                    op.URL = self.URL;
+                }
+
+                op.extractedFileURL = tmpURL;
+                op.archiveFileIndex = i;
+                op.exploreArchives = NO;
+
+                if(i != 0) {
+                    [self.importer addOperation:op];
+                }
             }
         }
     }
@@ -718,6 +734,10 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         {
             self.URL = romURL;
         }
+    }
+
+    for(OEImportOperation *op in self.derivedImports){
+        op.URL = self.URL;
     }
 }
 
