@@ -58,7 +58,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 @property (copy) NSString *crcHash;
 
 @property (nullable) OEDBRom *rom;
-
+@property (nullable) NSMutableArray *derivedImports;
 @end
 
 @implementation OEImportOperation
@@ -217,6 +217,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         _shouldExit = NO;
         _archiveFileIndex = NSNotFound;
         _exploreArchives  = YES;
+        _derivedImports = [NSMutableArray array];
     }
     return self;
 }
@@ -229,6 +230,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         self.URL = [decoder decodeObjectForKey:@"URL"];
         self.sourceURL = [decoder decodeObjectForKey:@"sourceURL"];
         self.exitStatus = OEImportExitNone;
+        self.derivedImports = [NSMutableArray array];
     }
     return self;
 }
@@ -262,6 +264,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     copy.archiveFileIndex = self.archiveFileIndex;
     copy.md5Hash = self.md5Hash;
     copy.crcHash = self.crcHash;
+    copy.derivedImports = self.derivedImports;
 
     return copy;
 }
@@ -483,6 +486,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
                 if(i != 0){
                     op = [OEImportOperation operationWithURL:self.URL inImporter:self.importer];
                     op.URL = self.URL;
+                    [self.derivedImports addObject:op];
                 }
 
                 op.extractedFileURL = tmpURL;
