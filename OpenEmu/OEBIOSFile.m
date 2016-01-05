@@ -31,20 +31,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OEBIOSFile ()
-@property NSString *biosPath;
-@end
-
 @implementation OEBIOSFile
 
-- (instancetype)init
-{
-    if((self = [super init]))
-    {
-        _biosPath = [NSString pathWithComponents:@[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"BIOS"]];
-    }
-
-    return self;
++ (NSString *)biosPath {
+    static NSString *biosPath;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        biosPath = [NSString pathWithComponents:@[[NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES) lastObject], @"OpenEmu", @"BIOS"]];
+    });
+    return biosPath;
 }
 
 #pragma mark - File Handling
@@ -61,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *biosSystemFileName = file[@"Name"];
     NSString *biosSystemFileMD5  = file[@"MD5"];
 
-    NSString *destination = [_biosPath stringByAppendingPathComponent:biosSystemFileName];
+    NSString *destination = [[OEBIOSFile biosPath] stringByAppendingPathComponent:biosSystemFileName];
     NSURL *url = [NSURL fileURLWithPath:destination];
 
     if([url checkResourceIsReachableAndReturnError:nil] && [[NSFileManager defaultManager] hashFileAtURL:url md5:&md5 crc32:nil error:&error])
@@ -142,6 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)checkIfBIOSFileAndImportAtURL:(NSURL *)url withMD5:(NSString *)md5
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *biosPath = [OEBIOSFile biosPath];
 
     // Copy known BIOS / System Files to BIOS folder
     for(NSDictionary *validFile in [OECorePlugin requiredFiles])
@@ -150,11 +146,11 @@ NS_ASSUME_NONNULL_BEGIN
         NSString *biosSystemFileMD5  = [validFile valueForKey:@"MD5"];
         NSError  *error              = nil;
 
-        NSString *destination = [_biosPath stringByAppendingPathComponent:biosSystemFileName];
+        NSString *destination = [biosPath stringByAppendingPathComponent:biosSystemFileName];
         NSURL    *destinationURL = [NSURL fileURLWithPath:destination];
         if([md5 caseInsensitiveCompare:biosSystemFileMD5] == NSOrderedSame)
         {
-            if(![fileManager createDirectoryAtURL:[NSURL fileURLWithPath:_biosPath] withIntermediateDirectories:YES attributes:nil error:&error])
+            if(![fileManager createDirectoryAtURL:[NSURL fileURLWithPath:biosPath] withIntermediateDirectories:YES attributes:nil error:&error])
             {
                 DLog(@"Could not create directory before copying bios at %@", url);
                 DLog(@"%@", error);

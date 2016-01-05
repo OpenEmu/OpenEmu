@@ -76,7 +76,7 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
 
     [tableView registerForDraggedTypes:@[NSURLPboardType]];
 
-    NSString *biosPath = [[OEBIOSFile alloc] init].biosPath;
+    NSString *biosPath = [OEBIOSFile biosPath];
     self.fileSystemWatcher = [OEFSWatcher watcherForPath:biosPath withBlock:^(NSString *path, FSEventStreamEventFlags flags) {
         [self reloadData];
     }];

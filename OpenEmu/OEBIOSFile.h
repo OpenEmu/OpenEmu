@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEBIOSFile: NSObject
 
-- (instancetype)init;
++ (NSString *)biosPath;
 
 #pragma mark - File Handling
 
@@ -42,8 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)allRequiredFilesAvailableForSystemIdentifier:(NSArray *)systemIdentifier;
 - (BOOL)checkIfBIOSFileAndImportAtURL:(NSURL *)fileURL;
 - (BOOL)checkIfBIOSFileAndImportAtURL:(NSURL *)fileURL withMD5:(NSString *)md5String;
-
-@property (readonly) NSString *biosPath;
 @end
 
 NS_ASSUME_NONNULL_END
