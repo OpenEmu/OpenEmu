@@ -31,6 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Class to detect and import BIOS files
  */
+
+
+extern NSString * const OEBIOSFileWasImportedNotificationName;
 @interface OEBIOSFile: NSObject
 
 - (instancetype)init;

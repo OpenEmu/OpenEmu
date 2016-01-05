@@ -31,6 +31,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NSString * const OEBIOSFileWasImportedNotificationName = @"OEBIOSFileWasImportedNotificationName";
+
 @interface OEBIOSFile ()
 @property NSString *biosPath;
 @end
@@ -153,6 +155,8 @@ NS_ASSUME_NONNULL_BEGIN
                 DLog(@"Could not copy bios file %@ to %@", url, destinationURL);
             }
 
+            [[NSNotificationCenter defaultCenter] postNotificationName:OEBIOSFileWasImportedNotificationName object:self];
+
             return YES;
         }
     }
@@ -192,6 +196,8 @@ NS_ASSUME_NONNULL_BEGIN
             {
                 DLog(@"Could not copy bios file %@ to %@", url, destinationURL);
             }
+
+            [[NSNotificationCenter defaultCenter] postNotificationName:OEBIOSFileWasImportedNotificationName object:self];
 
             return YES;
         }
