@@ -437,7 +437,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             if([extension isEqualToString:@"bin"]) return;
 
             for(int i = 1; i < archive.numberOfEntries; i++)
-                if(![[archive nameOfEntry:0].pathExtension isEqualToString:extension])
+                if(![[archive nameOfEntry:i].pathExtension.lowercaseString isEqualToString:extension])
                     return;
         }
 
