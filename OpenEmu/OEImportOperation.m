@@ -489,6 +489,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
                     op.URL = self.URL;
                     op.completionHandler = self.completionHandler;
                     op.collectionID = self.collectionID;
+                    op.queuePriority = NSOperationQueuePriorityHigh;
 
                     [self.derivedImports addObject:op];
                 }
