@@ -432,8 +432,9 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         
         // disable multi-rom archives
         if(archive.numberOfEntries > 1) {
-            NSString *extension = [archive nameOfEntry:0].pathExtension;
+            NSString *extension = [archive nameOfEntry:0].pathExtension.lowercaseString;
             if(!extension.length) return;
+            if([extension isEqualToString:@"bin"]) return;
 
             for(int i = 1; i < archive.numberOfEntries; i++)
                 if(![[archive nameOfEntry:0].pathExtension isEqualToString:extension])
