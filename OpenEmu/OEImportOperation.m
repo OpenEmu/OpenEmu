@@ -486,6 +486,9 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
                 if(i != 0){
                     op = [OEImportOperation operationWithURL:self.URL inImporter:self.importer];
                     op.URL = self.URL;
+                    op.completionHandler = self.completionHandler;
+                    op.collectionID = self.collectionID;
+
                     [self.derivedImports addObject:op];
                 }
 
