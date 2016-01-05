@@ -31,6 +31,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NSString * const OEBIOSFileGuideURLString = @"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files";
 @implementation OEBIOSFile
 
 + (NSString *)biosPath {
@@ -103,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
     {
         if([[OEHUDAlert missingBIOSFilesAlert:[NSString stringWithString:missingFilesList]] runModal] == NSAlertSecondButtonReturn)
         {
-            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-BIOS-files"]];
+            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:OEBIOSFileGuideURLString]];
         }
 
         return NO;
