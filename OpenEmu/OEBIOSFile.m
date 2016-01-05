@@ -132,36 +132,7 @@ NSString * const OEBIOSFileWasImportedNotificationName = @"OEBIOSFileWasImported
 
     [fileManager hashFileAtURL:url md5:&md5 crc32:nil error:&error];
 
-    // Copy known BIOS / System Files to BIOS folder
-    for(id validFile in [OECorePlugin requiredFiles])
-    {
-        NSString *biosSystemFileName = validFile[@"Name"];
-        NSString *biosSystemFileMD5  = validFile[@"MD5"];
-        NSError  *error;
-
-        NSString *destination = [_biosPath stringByAppendingPathComponent:biosSystemFileName];
-        NSURL    *destinationURL = [NSURL fileURLWithPath:destination];
-        if([md5 caseInsensitiveCompare:biosSystemFileMD5] == NSOrderedSame)
-        {
-            if(![fileManager createDirectoryAtURL:[NSURL fileURLWithPath:_biosPath] withIntermediateDirectories:YES attributes:nil error:&error])
-            {
-                DLog(@"Could not create directory before copying bios at %@", url);
-                DLog(@"%@", error);
-                error = nil;
-            }
-
-            if(![fileManager copyItemAtURL:url toURL:destinationURL error:&error])
-            {
-                DLog(@"Could not copy bios file %@ to %@", url, destinationURL);
-            }
-
-            [[NSNotificationCenter defaultCenter] postNotificationName:OEBIOSFileWasImportedNotificationName object:self];
-
-            return YES;
-        }
-    }
-
-    return NO;
+    return [self checkIfBIOSFileAndImportAtURL:url withMD5:md5];
 }
 
 /**
@@ -175,7 +146,7 @@ NSString * const OEBIOSFileWasImportedNotificationName = @"OEBIOSFileWasImported
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
     // Copy known BIOS / System Files to BIOS folder
-    for(id validFile in [OECorePlugin requiredFiles])
+    for(NSDictionary *validFile in [OECorePlugin requiredFiles])
     {
         NSString *biosSystemFileName = [validFile valueForKey:@"Name"];
         NSString *biosSystemFileMD5  = [validFile valueForKey:@"MD5"];
