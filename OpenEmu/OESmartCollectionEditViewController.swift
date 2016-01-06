@@ -30,4 +30,26 @@ class OESmartCollectionEditViewController : NSViewController
     @IBAction func cancel(sender :AnyObject){
         NSApp.stopModalWithCode(NSAlertFirstButtonReturn)
     }
+
+
+    // MARK: - Accessing Configuration -
+    func predicate() -> NSPredicate {
+        if let predicate = predicateEditor.predicate {
+            return predicate
+        }
+
+        return NSPredicate.init(value: true);
+    }
+
+    func fetchLimit() -> UInt {
+        return limitButton.enabled ? UInt(limitInput.integerValue) : UInt.max
+    }
+
+    func fetchOrder() -> String {
+        return limitOrderButton.selectedItem!.representedObject as! String
+    }
+
+    func fetchOrderIsAscending() -> Bool {
+        return limitOrderButton.selectedItem?.tag != 0
+    }
 }
