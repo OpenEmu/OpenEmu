@@ -166,9 +166,13 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSManagedObjectContext *context = self.mainThreadContext;
 
-    OEDBSmartCollection *recentlyAdded = [OEDBSmartCollection createObjectInContext:context];
-    recentlyAdded.name = @"Recently Added";
-    [recentlyAdded save];
+    OEDBSmartCollection *recentlyAddedCollection = [OEDBSmartCollection createObjectInContext:context];
+    recentlyAddedCollection.fetchLimit = @30;
+    recentlyAddedCollection.fetchSortAscending = NO;
+    recentlyAddedCollection.fetchSortKey = @"importDate";
+    recentlyAddedCollection.fetchPredicate = [NSPredicate predicateWithValue:YES];
+    recentlyAddedCollection.name = @"Recently Added";
+    [recentlyAddedCollection save];
 }
 
 - (BOOL)loadManagedObjectContextWithError:(NSError **)outError

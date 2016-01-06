@@ -48,26 +48,19 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
-- (nullable NSString *)sidebarName
-{
-    if(self.OE_isRecentlyAddedCollection)
-    {
-        return NSLocalizedString(@"Recently Added", @"Recently Added Smart Collection Name");
-    }
-    return [self valueForKey:@"name"];
-}
-
 - (void)setSidebarName:(nullable NSString *)newName
 {}
 
 #pragma mark - Game Collection View Item
 - (nullable NSString *)collectionViewName
 {
-    if([self OE_isRecentlyAddedCollection])
+    NSString *name = [self valueForKey:@"name"];
+    if([name isEqualToString:@"Recently Added"])
     {
         return NSLocalizedString(@"Recently Added", @"Recently Added Smart Collection Name");
     }
-    return [self valueForKey:@"name"];
+
+    return name;
 }
 
 - (BOOL)isCollectionEditable
@@ -83,11 +76,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSPredicate *)fetchPredicate
 {
-    if([self OE_isRecentlyAddedCollection])
-    {
-        return [NSPredicate predicateWithValue:YES];
-    }
-
     // TODO: cache predicate
     NSPredicate *predicate = [NSKeyedUnarchiver unarchiveObjectWithData:self.predicateData];
     return predicate ?: [NSPredicate predicateWithValue:NO];
@@ -105,22 +93,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray <NSSortDescriptor *> *)fetchSortDescriptors
 {
-    if([self OE_isRecentlyAddedCollection])
-        return @[[NSSortDescriptor sortDescriptorWithKey:@"importDate" ascending:NO]];
-
     if(self.fetchSortKey)
     {
         return @[[NSSortDescriptor sortDescriptorWithKey:self.fetchSortKey ascending:self.fetchSortAscending]];
     }
 
     return @[];
-}
-
-#pragma mark - Private Methods
-
-- (BOOL)OE_isRecentlyAddedCollection
-{
-    return [[self valueForKey:@"name"] isEqualToString:@"Recently Added"];
 }
 
 @end
