@@ -204,20 +204,8 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 
 - (IBAction)newSmartCollection:(id)sender
 {
-
-    OESmartCollectionEditViewController *editViewController = [[OESmartCollectionEditViewController alloc] init];
-
-    NSWindow *alertWindow = [[NSWindow alloc] initWithContentRect:NSZeroRect styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
-    alertWindow.contentViewController = editViewController;
-
-    if([NSApp runModalForWindow:alertWindow] == NSAlertSecondButtonReturn)
-    {
-        NSLog(@"NSAlertSecondButtonReturn");
-    }
-    else
-    {
-        NSLog(@"NSAlertSecondButtonReturn");
-    }
+    if([[self currentSubviewController] respondsToSelector:@selector(addSmartCollectionAction:)])
+        [[self currentSubviewController] performSelector:@selector(addSmartCollectionAction:) withObject:sender];
 }
 
 - (IBAction)newCollectionFolder:(id)sender

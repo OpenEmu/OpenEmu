@@ -41,6 +41,7 @@ extern NSString *const OEMainViewMinWidth;
 @interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource>
 
 - (IBAction)addCollectionAction:(id)sender;
+- (IBAction)addSmartCollectionAction:(id)sender;
 
 - (void)setEnabled:(BOOL)enabled;
 

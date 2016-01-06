@@ -143,6 +143,11 @@ NSString * const OESkipDiscGuideMessageKey = @"OESkipDiscGuideMessageKey";
     [[self sidebarController] addCollectionAction:sender];
 }
 
+- (IBAction)addSmartCollectionAction:(id)sender
+{
+    [[self sidebarController] addSmartCollectionAction:sender];
+}
+
 - (IBAction)switchToGridView:(id)sender
 {
     [[self collectionController] switchToGridView:sender];

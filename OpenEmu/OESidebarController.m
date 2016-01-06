@@ -227,12 +227,36 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     id item = isSmart ? [self.database addNewSmartCollection:nil] : [self.database addNewCollection:nil];
 
+    if(isSmart){
+        OECoreDataMainThreadAssertion();
+
+        OESmartCollectionEditViewController *editViewController = [[OESmartCollectionEditViewController alloc] init];
+        editViewController.representedObject = item;
+
+        NSWindow *alertWindow = [[NSWindow alloc] initWithContentRect:NSZeroRect styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
+        alertWindow.contentViewController = editViewController;
+
+        if([NSApp runModalForWindow:alertWindow] == NSAlertSecondButtonReturn) {
+            NSLog(@"OK");
+        } else {
+            NSLog(@"Cancelled");
+            [item delete];
+            [self.database.mainThreadContext save:nil];
+            return nil;
+        }
+    }
+
     [self reloadData];
     [self expandCollections:self];
     [self selectItem:item];
     [self startEditingItem:item];
 
     return item;
+}
+
+- (void)addSmartCollectionAction:(id)sender
+{
+    [self addCollection:YES];
 }
 
 - (id)duplicateCollection:(id)originalCollection
