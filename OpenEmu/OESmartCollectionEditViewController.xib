@@ -61,7 +61,7 @@ Gw
                         <rect key="frame" x="1" y="1" width="557" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <predicateEditor verticalHuggingPriority="750" ambiguous="YES" nestingMode="compound" rowHeight="25" id="qB2-bd-7ql">
+                            <predicateEditor verticalHuggingPriority="750" ambiguous="YES" nestingMode="simple" rowHeight="25" id="qB2-bd-7ql">
                                 <rect key="frame" x="0.0" y="0.0" width="557" height="200"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <rowTemplates>

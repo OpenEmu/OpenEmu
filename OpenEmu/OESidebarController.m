@@ -728,7 +728,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     [self renameItemAtIndex:menuItem.tag];
 }
 
-- (void)editItemForMenuItem:(NSMenuItem *)menuItem
+- (void)editSmartCollectionForMenuItem:(NSMenuItem *)menuItem
 {
     [self editSmartCollectionAtIndex:menuItem.tag];
 }

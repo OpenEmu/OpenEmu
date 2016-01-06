@@ -257,7 +257,7 @@
 
 - (void)OE_editRowForMenuItem:(NSMenuItem*)menuItem
 {
-    [NSApp sendAction:@selector(editSmartCollection:) to:[self dataSource] from:menuItem];
+    [NSApp sendAction:@selector(editSmartCollectionForMenuItem:) to:[self dataSource] from:menuItem];
 }
 
 - (void)OE_toggleSystemForMenuItem:(NSMenuItem *)menuItem

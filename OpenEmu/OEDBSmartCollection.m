@@ -30,6 +30,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation OEDBSmartCollection
+@dynamic fetchLimit, fetchSortAscending, fetchSortKey, predicateData;
 
 + (NSString *)entityName
 {
@@ -77,8 +78,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSPredicate *)fetchPredicate
 {
     // TODO: cache predicate
-    NSPredicate *predicate = [NSKeyedUnarchiver unarchiveObjectWithData:self.predicateData];
-    return predicate ?: [NSPredicate predicateWithValue:NO];
+    NSData *predicateData = self.predicateData;
+    if(!predicateData)
+        return [NSPredicate predicateWithValue:NO];
+
+    NSPredicate *predicate = [NSKeyedUnarchiver unarchiveObjectWithData:predicateData];
+    if(!predicate || ![predicate isKindOfClass:[NSPredicate class]])
+        return [NSPredicate predicateWithValue:NO];
+
+    return predicate;
 }
 
 - (BOOL)shouldShowSystemColumnInListView
