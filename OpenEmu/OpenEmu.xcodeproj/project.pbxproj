@@ -2241,6 +2241,7 @@
 		83D33BD51AEB9ABE0085753B /* ALIterativeMigrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALIterativeMigrator.m; sourceTree = "<group>"; };
 		83D8091E1C3D7B4A002B7B0F /* OESmartCollectionEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OESmartCollectionEditViewController.swift; sourceTree = "<group>"; };
 		83D809201C3D7B5D002B7B0F /* OESmartCollectionEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OESmartCollectionEditViewController.xib; sourceTree = "<group>"; };
+		83D809221C3D9AA3002B7B0F /* OEDatabase 1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.4.xcdatamodel"; sourceTree = "<group>"; };
 		83D94FAD19A4CD2A007583E1 /* OETableCellGroupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETableCellGroupView.h; sourceTree = "<group>"; };
 		83D94FAE19A4CD2A007583E1 /* OETableCellGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableCellGroupView.m; sourceTree = "<group>"; };
 		83D9991D146F40DA004409DC /* OEControlsKeySeparatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeySeparatorView.h; sourceTree = "<group>"; };
@@ -12382,6 +12383,7 @@
 		C68A54E41516AD3C001053F2 /* OEDatabase.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				83D809221C3D9AA3002B7B0F /* OEDatabase 1.4.xcdatamodel */,
 				83D175B918FF218200E5ED34 /* OEDatabase 1.2.xcdatamodel */,
 				8393FD33195D71B50021D3D9 /* OEDatabase 1.3.xcdatamodel */,
 				942388B218922E2E0030A325 /* OEDatabase 1.1.xcdatamodel */,
@@ -12392,7 +12394,7 @@
 				8353EB1A15FF41930026E326 /* OEDatabase 0.2.xcdatamodel */,
 				C68A54E51516AD3C001053F2 /* OEDatabase.xcdatamodel */,
 			);
-			currentVersion = 8393FD33195D71B50021D3D9 /* OEDatabase 1.3.xcdatamodel */;
+			currentVersion = 83D809221C3D9AA3002B7B0F /* OEDatabase 1.4.xcdatamodel */;
 			path = OEDatabase.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
