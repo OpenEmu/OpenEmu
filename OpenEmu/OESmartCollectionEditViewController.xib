@@ -11,6 +11,7 @@
                 <outlet property="limitButton" destination="pbL-JG-UYb" id="hFY-j3-Jby"/>
                 <outlet property="limitInput" destination="Op2-Ee-QvY" id="eqA-5J-TL2"/>
                 <outlet property="limitOrderButton" destination="PLG-ri-m4W" id="Jc5-1B-Wu5"/>
+                <outlet property="predicateEditor" destination="qB2-bd-7ql" id="IzC-G9-J1H"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -147,7 +148,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="HSD-Qv-ZGw">
-                        <rect key="frame" x="336" y="1" width="15" height="84"/>
+                        <rect key="frame" x="-15" y="1" width="16" height="0.0"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>

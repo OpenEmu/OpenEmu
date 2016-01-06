@@ -16,9 +16,12 @@ class OESmartCollectionEditViewController : NSViewController
     @IBOutlet weak var limitOrderButton: NSPopUpButton!
     @IBOutlet weak var predicateEditor: NSPredicateEditor!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        predicateEditor.addRow(self)
     }
+
 
     @IBAction func confirm (sender :AnyObject){
         NSApp.stopModalWithCode(NSAlertSecondButtonReturn)
