@@ -45,8 +45,14 @@ class OESmartCollectionEditViewController : NSViewController
         return limitButton.enabled ? UInt(limitInput.integerValue) : UInt.max
     }
 
-    func fetchOrder() -> String {
-        return limitOrderButton.selectedItem!.representedObject as! String
+    func fetchOrder() -> String? {
+        if let selectedItem = limitOrderButton.selectedItem,
+                object = selectedItem.representedObject
+        {
+            return object as? String;
+        }
+
+        return nil
     }
 
     func fetchOrderIsAscending() -> Bool {
