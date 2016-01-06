@@ -422,6 +422,8 @@
 		83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
 		83D8091F1C3D7B4A002B7B0F /* OESmartCollectionEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D8091E1C3D7B4A002B7B0F /* OESmartCollectionEditViewController.swift */; };
 		83D809211C3D7B5D002B7B0F /* OESmartCollectionEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83D809201C3D7B5D002B7B0F /* OESmartCollectionEditViewController.xib */; };
+		83D809241C3D9C7C002B7B0F /* 1.3 to 1.4.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83D809231C3D9C7C002B7B0F /* 1.3 to 1.4.xcmappingmodel */; };
+		83D809261C3D9EE2002B7B0F /* OEDBSmartCollectionMigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D809251C3D9EE2002B7B0F /* OEDBSmartCollectionMigrationPolicy.swift */; };
 		83D94FAF19A4CD2A007583E1 /* OETableCellGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D94FAE19A4CD2A007583E1 /* OETableCellGroupView.m */; };
 		83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */; };
 		83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */; };
@@ -2242,6 +2244,8 @@
 		83D8091E1C3D7B4A002B7B0F /* OESmartCollectionEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OESmartCollectionEditViewController.swift; sourceTree = "<group>"; };
 		83D809201C3D7B5D002B7B0F /* OESmartCollectionEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OESmartCollectionEditViewController.xib; sourceTree = "<group>"; };
 		83D809221C3D9AA3002B7B0F /* OEDatabase 1.4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.4.xcdatamodel"; sourceTree = "<group>"; };
+		83D809231C3D9C7C002B7B0F /* 1.3 to 1.4.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.3 to 1.4.xcmappingmodel"; sourceTree = "<group>"; };
+		83D809251C3D9EE2002B7B0F /* OEDBSmartCollectionMigrationPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEDBSmartCollectionMigrationPolicy.swift; sourceTree = "<group>"; };
 		83D94FAD19A4CD2A007583E1 /* OETableCellGroupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETableCellGroupView.h; sourceTree = "<group>"; };
 		83D94FAE19A4CD2A007583E1 /* OETableCellGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableCellGroupView.m; sourceTree = "<group>"; };
 		83D9991D146F40DA004409DC /* OEControlsKeySeparatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeySeparatorView.h; sourceTree = "<group>"; };
@@ -4638,6 +4642,7 @@
 				837820BE19081B1C0043593F /* OEMigrationWindowController.h */,
 				837820BF19081B1C0043593F /* OEMigrationWindowController.m */,
 				83FE963E1968596C00DD8DB9 /* OEMigrationWindowController.xib */,
+				83D809251C3D9EE2002B7B0F /* OEDBSmartCollectionMigrationPolicy.swift */,
 			);
 			name = Migration;
 			sourceTree = "<group>";
@@ -4650,6 +4655,7 @@
 				8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */,
 				83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */,
 				83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */,
+				83D809231C3D9C7C002B7B0F /* 1.3 to 1.4.xcmappingmodel */,
 			);
 			name = "Mapping Models";
 			sourceTree = "<group>";
@@ -8059,6 +8065,7 @@
 				829779340E743F2A00631240 /* OEGameAudio.m in Sources */,
 				837820B61907E8520043593F /* OEBlankSlateForegroundLayer.m in Sources */,
 				83495DD419A38F31009DB6E5 /* OEPrefBiosController.m in Sources */,
+				83D809241C3D9C7C002B7B0F /* 1.3 to 1.4.xcmappingmodel in Sources */,
 				C62F54710FE6ADC500DF15BA /* OEPlugin.m in Sources */,
 				C62F549B0FE6CC1500DF15BA /* OECorePlugin.m in Sources */,
 				C69DCD010FE994A5009AE5A6 /* OEPluginDocument.m in Sources */,
@@ -8221,6 +8228,7 @@
 				838DB01C16DBE15900B8DDC8 /* OETextFieldCell.m in Sources */,
 				14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */,
 				8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */,
+				83D809261C3D9EE2002B7B0F /* OEDBSmartCollectionMigrationPolicy.swift in Sources */,
 				C6772A7F1710C0C900ED580A /* snes_ntsc.c in Sources */,
 				836AEA6E19755FE300B86935 /* OEOutlinedButtonCell.m in Sources */,
 				83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */,

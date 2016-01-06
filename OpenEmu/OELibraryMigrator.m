@@ -67,7 +67,8 @@ NSString *const OEMigrationErrorDomain = @"OEMigrationErrorDomain";
                             @"OEDatabase 1.0",
                             @"OEDatabase 1.1",
                             @"OEDatabase 1.2",
-                            @"OEDatabase 1.3"];
+                            @"OEDatabase 1.3",
+                            @"OEDatabase 1.4"];
     if (![ALIterativeMigrator iterativeMigrateURL:_storeURL ofType:NSSQLiteStoreType toModel:destinationModel orderedModelNames:modelNames error:outError])
     {
         if(outError)
