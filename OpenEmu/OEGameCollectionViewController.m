@@ -176,7 +176,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
 
     NSPredicate *pred = representedObject ? [representedObject fetchPredicate]:[NSPredicate predicateWithValue:NO];
     [gamesController setFetchPredicate:pred];
-    [gamesController setLimit:[representedObject fetchLimit]];
+    [gamesController setLimit:[[representedObject fetchLimit] integerValue]];
     [gamesController setFetchSortDescriptors:[representedObject fetchSortDescriptors]];
 
     NSError *error = nil;

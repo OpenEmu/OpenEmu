@@ -118,9 +118,9 @@ NS_ASSUME_NONNULL_BEGIN
     return [NSPredicate predicateWithFormat:@"ANY collections == %@", self];
 }
 
-- (NSInteger)fetchLimit
+- (nullable NSNumber *)fetchLimit
 {
-    return 0;
+    return @0;
 }
 
 - (NSArray <NSSortDescriptor *> *)fetchSortDescriptors

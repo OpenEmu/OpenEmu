@@ -32,6 +32,6 @@
 - (BOOL)shouldShowSystemColumnInListView;
 
 - (NSPredicate *)fetchPredicate;
-- (NSInteger)fetchLimit;
+- (NSNumber *)fetchLimit;
 - (NSArray*)fetchSortDescriptors;
 @end
