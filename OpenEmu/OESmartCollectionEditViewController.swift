@@ -41,8 +41,8 @@ class OESmartCollectionEditViewController : NSViewController
         return NSPredicate.init(value: true);
     }
 
-    func fetchLimit() -> UInt {
-        return limitButton.enabled ? UInt(limitInput.integerValue) : UInt.max
+    func fetchLimit() -> NSNumber? {
+        return limitButton.enabled ? NSNumber(integer: limitInput.integerValue) : nil
     }
 
     func fetchOrder() -> String? {
