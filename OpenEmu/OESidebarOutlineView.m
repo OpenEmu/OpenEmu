@@ -37,7 +37,7 @@
 #import "OELibraryDatabase.h"
 
 #import "OECorePlugin.h"
-
+#import "OEDBSmartCollection.h"
 @interface OESidebarOutlineView ()
 {
     // This should only be used for drawing the highlight
@@ -199,6 +199,13 @@
         {
             [menu addItem:[NSMenuItem separatorItem]];
 
+            if([item isKindOfClass:[OEDBSmartCollection class]]){
+                title = [NSString stringWithFormat:NSLocalizedString(@"Edit \"%@\"", @"Edit smart collection sidebar context menu item"), [item sidebarName]];
+                menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(OE_editRowForMenuItem:) keyEquivalent:@""];
+                [menuItem setTag:index];
+                [menu addItem:menuItem];
+            }
+
             title = [NSString stringWithFormat:NSLocalizedString(@"Rename \"%@\"", @"Rename collection sidebar context menu item"), [item sidebarName]];
             menuItem = [[NSMenuItem alloc] initWithTitle:title action:@selector(OE_renameRowForMenuItem:) keyEquivalent:@""];
             [menuItem setTag:index];
@@ -246,6 +253,11 @@
 - (void)OE_removeRowForMenuItem:(NSMenuItem *)menuItem
 {
     [NSApp sendAction:@selector(removeItemForMenuItem:) to:[self dataSource] from:menuItem];
+}
+
+- (void)OE_editRowForMenuItem:(NSMenuItem*)menuItem
+{
+    [NSApp sendAction:@selector(editSmartCollection:) to:[self dataSource] from:menuItem];
 }
 
 - (void)OE_toggleSystemForMenuItem:(NSMenuItem *)menuItem

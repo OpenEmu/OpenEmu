@@ -227,23 +227,10 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 {
     id item = isSmart ? [self.database addNewSmartCollection:nil] : [self.database addNewCollection:nil];
 
-    if(isSmart){
-        OECoreDataMainThreadAssertion();
-
-        OESmartCollectionEditViewController *editViewController = [[OESmartCollectionEditViewController alloc] init];
-        editViewController.representedObject = item;
-
-        NSWindow *alertWindow = [[NSWindow alloc] initWithContentRect:NSZeroRect styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
-        alertWindow.contentViewController = editViewController;
-
-        if([NSApp runModalForWindow:alertWindow] == NSAlertSecondButtonReturn) {
-            NSLog(@"OK");
-        } else {
-            NSLog(@"Cancelled");
-            [item delete];
-            [self.database.mainThreadContext save:nil];
-            return nil;
-        }
+    if(isSmart && ![self editSmartCollection:item]){
+        [item delete];
+        [self.database.mainThreadContext save:nil];
+        return nil;
     }
 
     [self reloadData];
@@ -252,6 +239,35 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     [self startEditingItem:item];
 
     return item;
+}
+
+- (void)editSmartCollectionAtIndex:(NSUInteger)index
+{
+    id item = [self.view itemAtRow:index];
+    if(![item isKindOfClass:[OEDBSmartCollection class]]){
+        NSLog(@"Item at index %ld is not a smart collection", index);
+        return;
+    }
+
+    [self editSmartCollection:item];
+}
+
+- (BOOL)editSmartCollection:(OEDBSmartCollection*)collection
+{
+    OECoreDataMainThreadAssertion();
+    OESmartCollectionEditViewController *editViewController = [[OESmartCollectionEditViewController alloc] init];
+    editViewController.representedObject = collection;
+
+    NSWindow *alertWindow = [[NSWindow alloc] initWithContentRect:NSZeroRect styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
+    alertWindow.contentViewController = editViewController;
+
+    if([NSApp runModalForWindow:alertWindow] == NSAlertSecondButtonReturn)
+    {
+        // apply changes to collection
+
+        return YES;
+    }
+    return NO;
 }
 
 - (void)addSmartCollectionAction:(id)sender
@@ -703,6 +719,11 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 - (void)renameItemForMenuItem:(NSMenuItem *)menuItem
 {
     [self renameItemAtIndex:menuItem.tag];
+}
+
+- (void)editItemForMenuItem:(NSMenuItem *)menuItem
+{
+    [self editSmartCollectionAtIndex:menuItem.tag];
 }
 
 #pragma mark -
