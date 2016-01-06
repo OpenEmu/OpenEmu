@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)isEditableInSidebar
 {
-    return NO;
+    return YES;
 }
 
 - (nullable NSString *)sidebarName
