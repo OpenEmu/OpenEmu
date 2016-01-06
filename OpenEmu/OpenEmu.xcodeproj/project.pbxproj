@@ -420,8 +420,8 @@
 		83D175B318FF155700E5ED34 /* OEBlankSlateBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D175B218FF155700E5ED34 /* OEBlankSlateBackgroundView.m */; };
 		83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D33BD51AEB9ABE0085753B /* ALIterativeMigrator.m */; };
 		83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
-		83D8091C1C3D77E7002B7B0F /* OESmartCollectionEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D8091A1C3D77E7002B7B0F /* OESmartCollectionEditViewController.m */; };
-		83D8091D1C3D77E7002B7B0F /* OESmartCollectionEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83D8091B1C3D77E7002B7B0F /* OESmartCollectionEditViewController.xib */; };
+		83D8091F1C3D7B4A002B7B0F /* OESmartCollectionEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D8091E1C3D7B4A002B7B0F /* OESmartCollectionEditViewController.swift */; };
+		83D809211C3D7B5D002B7B0F /* OESmartCollectionEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83D809201C3D7B5D002B7B0F /* OESmartCollectionEditViewController.xib */; };
 		83D94FAF19A4CD2A007583E1 /* OETableCellGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D94FAE19A4CD2A007583E1 /* OETableCellGroupView.m */; };
 		83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */; };
 		83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */; };
@@ -2239,9 +2239,8 @@
 		83D175B918FF218200E5ED34 /* OEDatabase 1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "OEDatabase 1.2.xcdatamodel"; sourceTree = "<group>"; };
 		83D33BD41AEB9ABE0085753B /* ALIterativeMigrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALIterativeMigrator.h; sourceTree = "<group>"; };
 		83D33BD51AEB9ABE0085753B /* ALIterativeMigrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALIterativeMigrator.m; sourceTree = "<group>"; };
-		83D809191C3D77E7002B7B0F /* OESmartCollectionEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESmartCollectionEditViewController.h; sourceTree = "<group>"; };
-		83D8091A1C3D77E7002B7B0F /* OESmartCollectionEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESmartCollectionEditViewController.m; sourceTree = "<group>"; };
-		83D8091B1C3D77E7002B7B0F /* OESmartCollectionEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OESmartCollectionEditViewController.xib; sourceTree = "<group>"; };
+		83D8091E1C3D7B4A002B7B0F /* OESmartCollectionEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OESmartCollectionEditViewController.swift; sourceTree = "<group>"; };
+		83D809201C3D7B5D002B7B0F /* OESmartCollectionEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OESmartCollectionEditViewController.xib; sourceTree = "<group>"; };
 		83D94FAD19A4CD2A007583E1 /* OETableCellGroupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETableCellGroupView.h; sourceTree = "<group>"; };
 		83D94FAE19A4CD2A007583E1 /* OETableCellGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETableCellGroupView.m; sourceTree = "<group>"; };
 		83D9991D146F40DA004409DC /* OEControlsKeySeparatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeySeparatorView.h; sourceTree = "<group>"; };
@@ -4477,9 +4476,6 @@
 				8306CD0D1BD3AC180025BC6C /* OELibraryGamesViewController.h */,
 				8306CD0E1BD3AC180025BC6C /* OELibraryGamesViewController.m */,
 				8F5074761C10BCEC00F52B83 /* OELibraryGamesViewController.xib */,
-				83D809191C3D77E7002B7B0F /* OESmartCollectionEditViewController.h */,
-				83D8091A1C3D77E7002B7B0F /* OESmartCollectionEditViewController.m */,
-				83D8091B1C3D77E7002B7B0F /* OESmartCollectionEditViewController.xib */,
 			);
 			name = "Games Library";
 			sourceTree = "<group>";
@@ -4607,6 +4603,8 @@
 				53439AA413B92CC7005C0CC8 /* OELibraryController.h */,
 				53439AA513B92CC7005C0CC8 /* OELibraryController.m */,
 				8337393515BFD77900D83D2F /* OELibrarySubviewController.h */,
+				83D8091E1C3D7B4A002B7B0F /* OESmartCollectionEditViewController.swift */,
+				83D809201C3D7B5D002B7B0F /* OESmartCollectionEditViewController.xib */,
 				5A9606DB1C0A84BC0089B494 /* LibraryToolbar.swift */,
 				5AECA1481BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift */,
 				53439B0413B92EDC005C0CC8 /* Utilities */,
@@ -7298,7 +7296,7 @@
 				556CEBF01BCE173B00F00EAA /* Graphics.xcassets in Resources */,
 				832D29431451ACF200BDF950 /* MainWindow.xib in Resources */,
 				83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */,
-				83D8091D1C3D77E7002B7B0F /* OESmartCollectionEditViewController.xib in Resources */,
+				83D809211C3D7B5D002B7B0F /* OESmartCollectionEditViewController.xib in Resources */,
 				83F607731BD3E4C9001236FC /* hud_quicksave_notification.png in Resources */,
 				838E2A231600A05C00CF7198 /* Theme.plist in Resources */,
 				C6F696C01648F64B00B243DB /* Controller-Database.plist in Resources */,
@@ -8079,7 +8077,6 @@
 				53439A9B13B92C97005C0CC8 /* OEDBCollection.m in Sources */,
 				53439A9C13B92C97005C0CC8 /* OEDBCollectionFolder.m in Sources */,
 				53439A9D13B92C97005C0CC8 /* OEDBSmartCollection.m in Sources */,
-				83D8091C1C3D77E7002B7B0F /* OESmartCollectionEditViewController.m in Sources */,
 				53439AA213B92C9D005C0CC8 /* OEDBGame.m in Sources */,
 				53439AA313B92C9D005C0CC8 /* OEDBSystem.m in Sources */,
 				53439AA613B92CC7005C0CC8 /* OELibraryController.m in Sources */,
@@ -8184,6 +8181,7 @@
 				2205C378196402B50013C675 /* OELUTTexture.m in Sources */,
 				831C9AD71600971600038D0D /* OEButtonCell.m in Sources */,
 				83D33BD61AEB9ABE0085753B /* ALIterativeMigrator.m in Sources */,
+				83D8091F1C3D7B4A002B7B0F /* OESmartCollectionEditViewController.swift in Sources */,
 				5A79F7951C15F542003124D5 /* PreferencesWindowController.swift in Sources */,
 				831C9ADC1600973B00038D0D /* OEPopUpButton.m in Sources */,
 				83E8927A19748C20004D4489 /* NS(Attributed)String+Geometrics.m in Sources */,
