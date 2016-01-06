@@ -61,7 +61,6 @@ NS_ASSUME_NONNULL_BEGIN
 {}
 
 #pragma mark - Game Collection View Item
-
 - (nullable NSString *)collectionViewName
 {
     if([self OE_isRecentlyAddedCollection])
@@ -76,13 +75,22 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
+- (void)setFetchPredicate:(NSPredicate *)fetchPredicate
+{
+    self.predicateData = [NSKeyedArchiver archivedDataWithRootObject:fetchPredicate];
+    // TODO: invalidate cached predicated
+}
+
 - (NSPredicate *)fetchPredicate
 {
     if([self OE_isRecentlyAddedCollection])
     {
         return [NSPredicate predicateWithValue:YES];
     }
-    return [NSPredicate predicateWithValue:NO];
+
+    // TODO: cache predicate
+    NSPredicate *predicate = [NSKeyedUnarchiver unarchiveObjectWithData:self.predicateData];
+    return predicate ?: [NSPredicate predicateWithValue:NO];
 }
 
 - (BOOL)shouldShowSystemColumnInListView
@@ -90,15 +98,21 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
-- (NSInteger)fetchLimit
+- (nullable NSNumber*)fetchLimit
 {
-    return 30;
+    return @30;
 }
 
 - (NSArray <NSSortDescriptor *> *)fetchSortDescriptors
 {
     if([self OE_isRecentlyAddedCollection])
         return @[[NSSortDescriptor sortDescriptorWithKey:@"importDate" ascending:NO]];
+
+    if(self.fetchSortKey)
+    {
+        return @[[NSSortDescriptor sortDescriptorWithKey:self.fetchSortKey ascending:self.fetchSortAscending]];
+    }
+
     return @[];
 }
 
