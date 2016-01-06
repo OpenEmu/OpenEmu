@@ -261,13 +261,20 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
     NSWindow *alertWindow = [[NSWindow alloc] initWithContentRect:NSZeroRect styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
     alertWindow.contentViewController = editViewController;
 
-    if([NSApp runModalForWindow:alertWindow] == NSAlertSecondButtonReturn)
-    {
-        // apply changes to collection
 
-        return YES;
+    BOOL confirmed = [NSApp runModalForWindow:alertWindow] == NSAlertSecondButtonReturn;
+    if(confirmed)
+    {
+        collection.fetchPredicate = editViewController.predicate;
+        collection.fetchLimit = editViewController.fetchLimit;
+        collection.fetchSortKey = editViewController.fetchOrder;
+        collection.fetchSortAscending = editViewController.fetchOrderIsAscending;
+
+        [collection save];
     }
-    return NO;
+
+    [alertWindow orderOut:nil];
+    return confirmed;
 }
 
 - (void)addSmartCollectionAction:(id)sender
