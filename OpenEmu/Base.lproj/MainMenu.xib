@@ -29,7 +29,7 @@
                     <imageView id="795">
                         <rect key="frame" x="0.0" y="0.0" width="400" height="463"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="36827858-6947-4944-95AA-333165CAC6C3" id="804"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="FB61A85E-EC2C-4427-B834-DF967C6F5DD3" id="804"/>
                     </imageView>
                     <textField verticalHuggingPriority="750" id="796">
                         <rect key="frame" x="17" y="184" width="366" height="18"/>
@@ -230,7 +230,7 @@
                                     <action selector="newCollectionFolder:" target="-1" id="1155"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="New Smart Collection…" tag="104" hidden="YES" keyEquivalent="n" id="983">
+                            <menuItem title="New Smart Collection…" tag="104" keyEquivalent="n" id="983">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
                                     <action selector="newSmartCollection:" target="-1" id="1156"/>
@@ -626,7 +626,7 @@ DQ
         <userDefaultsController representsSharedInstance="YES" id="1212"/>
     </objects>
     <resources>
-        <image name="36827858-6947-4944-95AA-333165CAC6C3" width="400" height="463">
+        <image name="FB61A85E-EC2C-4427-B834-DF967C6F5DD3" width="400" height="463">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
