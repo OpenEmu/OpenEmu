@@ -11,6 +11,14 @@ import Foundation
 class OESmartCollectionEditViewController : NSViewController
 {
     @IBOutlet weak var confirmButton: NSButton!
+    @IBOutlet weak var limitButton: NSButton!
+    @IBOutlet weak var limitInput: NSTextField!
+    @IBOutlet weak var limitOrderButton: NSPopUpButton!
+    @IBOutlet weak var predicateEditor: NSPredicateEditor!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
 
     @IBAction func confirm (sender :AnyObject){
         NSApp.stopModalWithCode(NSAlertSecondButtonReturn)
