@@ -638,3 +638,7 @@
 "Do it!" = "Faites-le !";
 
 "Cancel Operation" = "Annuler l’opération";
+
+"Delete useless image objects" = "Delete useless image objects"; // TODO
+
+"Sync games without artwork" = "Sync games without artwork"; // TODO

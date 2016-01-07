@@ -638,3 +638,7 @@
 "Do it!" = "Va bene!";  // download missing artwork (debug) - standard nsalert
 
 "Cancel Operation" = "Annulla operazione";  // download missing artwork dialog button (debug) - standard nsalert
+
+"Delete useless image objects" = "Elimina gli oggetti immagine inutili";
+
+"Sync games without artwork" = "Sincronizza i giochi senza illustrazione";
