@@ -179,6 +179,55 @@ Gw
                                             </menu>
                                         </popUpMenus>
                                     </predicateEditorRowTemplate>
+                                    <predicateEditorRowTemplate rowType="simple" id="br8-oM-9Rq">
+                                        <array key="leftExpressionObject">
+                                            <expression type="keyPath">
+                                                <string key="keyPath">importDate</string>
+                                            </expression>
+                                            <expression type="constant">
+                                                <string key="constantValue">lastInfoSync</string>
+                                            </expression>
+                                        </array>
+                                        <integer key="rightExpressionObject" value="900"/>
+                                        <popUpMenus>
+                                            <menu id="r7k-kI-Uwl">
+                                                <items>
+                                                    <menuItem title="Import Date" state="on" id="bbK-jJ-KJ6">
+                                                        <expression key="representedObject" type="keyPath">
+                                                            <string key="keyPath">importDate</string>
+                                                        </expression>
+                                                    </menuItem>
+                                                    <menuItem title="Last Info Sync" id="JhG-NM-VeE">
+                                                        <expression key="representedObject" type="constant">
+                                                            <string key="constantValue">lastInfoSync</string>
+                                                        </expression>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                            <menu id="o9j-hO-9kH">
+                                                <items>
+                                                    <menuItem title="is not" state="on" id="Wp4-Dy-baR">
+                                                        <integer key="representedObject" value="5"/>
+                                                    </menuItem>
+                                                    <menuItem title="is" id="jQb-5S-lfx">
+                                                        <integer key="representedObject" value="4"/>
+                                                    </menuItem>
+                                                    <menuItem title="is greater than" id="6gU-dV-wdC">
+                                                        <integer key="representedObject" value="2"/>
+                                                    </menuItem>
+                                                    <menuItem title="is less than" id="KJ5-kC-l0k">
+                                                        <integer key="representedObject" value="0"/>
+                                                    </menuItem>
+                                                    <menuItem title="is less than or equal to" id="VoR-nm-Twa">
+                                                        <integer key="representedObject" value="1"/>
+                                                    </menuItem>
+                                                    <menuItem title="is greater than or equal to" id="QSC-qC-ke0">
+                                                        <integer key="representedObject" value="3"/>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </popUpMenus>
+                                    </predicateEditorRowTemplate>
                                 </rowTemplates>
                             </predicateEditor>
                         </subviews>
