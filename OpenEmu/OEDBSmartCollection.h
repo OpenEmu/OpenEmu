@@ -33,7 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL fetchSortAscending;
 @property (nullable, nonatomic, retain) NSString *fetchSortKey;
 @property (nullable, nonatomic, retain) NSData *predicateData;
-@property (nonatomic, retain) NSPredicate *fetchPredicate;
 @end
 
 NS_ASSUME_NONNULL_END

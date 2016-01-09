@@ -45,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, retain, nullable) NSSet <OEDBGame *> *games;
 @property (nonatomic, readonly, nullable) NSMutableSet <OEDBGame *> *mutableGames;
 
+@property (nonatomic, retain) NSPredicate *fetchPredicate;
 @property (nullable, nonatomic, retain) NSNumber *fetchLimit;
 @end
 

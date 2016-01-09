@@ -453,46 +453,41 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 
 - (void)setDisplayName:(nullable NSString *)displayName
 {
-    if([[NSUserDefaults standardUserDefaults] boolForKey:OEDisplayGameTitle])
+    if([[NSUserDefaults standardUserDefaults] boolForKey:OEDisplayGameTitle]
+       && self.gameTitle != nil)
     {
-        if(self.gameTitle != nil)
-            self.gameTitle = displayName;
-        else
-            self.name = displayName;
+        self.gameTitle = displayName;
+        return;
     }
-    else
-        self.name = displayName;
+    self.name = displayName;
 }
 
 - (nullable NSString *)cleanDisplayName
 {
     NSString *displayName = self.displayName;
-    NSDictionary <NSString *, NSString *> *articlesDictionary = @{
-                                 @"A "   : @"2",
-                                 @"An "  : @"3",
-                                 @"Das " : @"4",
-                                 @"Der " : @"4",
-                                 //@"Die " : @"4", Biased since some English titles start with Die
-                                 @"Gli " : @"4",
-                                 @"L'"   : @"2",
-                                 @"La "  : @"3",
-                                 @"Las " : @"4",
-                                 @"Le "  : @"3",
-                                 @"Les " : @"4",
-                                 @"Los " : @"4",
-                                 @"The " : @"4",
-                                 @"Un "  : @"3",
-                                 };
+    NSArray <NSString*> *articlesDictionary = @[@"A " ,
+                                                @"An " ,
+                                                @"Das ",
+                                                @"Der ",
+                                             // @"Die ", // Biased since some English titles start with Die
+                                                @"Gli ",
+                                                @"L'"  ,
+                                                @"La " ,
+                                                @"Las ",
+                                                @"Le " ,
+                                                @"Les ",
+                                                @"Los ",
+                                                @"The ",
+                                                @"Un "
+                                                ];
     
-    for (id key in articlesDictionary) {
-        if([displayName hasPrefix:key])
-        {
-            return [displayName substringFromIndex:articlesDictionary[key].integerValue];
+    for (NSString *article in articlesDictionary) {
+        if([displayName hasPrefix:article]) {
+            return [displayName substringFromIndex:article.length-1];
         }
-        
     }
     
-    return  displayName;
+    return displayName;
 }
 
 #pragma mark - Debug
