@@ -39,7 +39,6 @@ class OESmartCollectionEditViewController : NSViewController
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        predicateEditor.addRow(self)
         _popuplateGameSelectionButton()
         _updateUIFromCollection()
     }
@@ -66,6 +65,9 @@ class OESmartCollectionEditViewController : NSViewController
         menu.addItem(NSMenuItem.separatorItem())
         menu.addItem(_makeMenuItemWithTitle("most often played", key: "playCount", ASC: false))
         menu.addItem(_makeMenuItemWithTitle("least often played", key: "playCount", ASC: true))
+        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(_makeMenuItemWithTitle("most recently played", key: "lastPlayed", ASC: true))
+        menu.addItem(_makeMenuItemWithTitle("least recently played", key: "lastPlayed", ASC: false))
 
         limitOrderButton.menu = menu;
     }
@@ -103,6 +105,8 @@ class OESmartCollectionEditViewController : NSViewController
 
         if let predicate = collection.fetchPredicate as? NSCompoundPredicate {
             predicateEditor.objectValue = predicate;
+        } else {
+           predicateEditor.addRow(self)
         }
 
         if let sortKey = collection.fetchSortKey,
