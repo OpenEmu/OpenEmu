@@ -247,6 +247,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSInteger currentCount = self.playCount.integerValue;
     currentCount++;
     self.playCount = @(currentCount);
+    self.game.playCount = @(self.game.playCount.integerValue + 1);
 }
 
 - (void)addTimeIntervalToPlayTime:(NSTimeInterval)timeInterval
