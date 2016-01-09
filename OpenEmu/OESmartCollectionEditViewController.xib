@@ -144,6 +144,9 @@ Gw
                                             <expression type="keyPath">
                                                 <string key="keyPath">rating</string>
                                             </expression>
+                                            <expression type="keyPath">
+                                                <string key="keyPath">playCount</string>
+                                            </expression>
                                         </array>
                                         <integer key="rightExpressionObject" value="300"/>
                                         <popUpMenus>
@@ -152,6 +155,11 @@ Gw
                                                     <menuItem title="Rating" state="on" id="1ng-1G-viI">
                                                         <expression key="representedObject" type="keyPath">
                                                             <string key="keyPath">rating</string>
+                                                        </expression>
+                                                    </menuItem>
+                                                    <menuItem title="Play Count" id="UNO-t4-PtK">
+                                                        <expression key="representedObject" type="keyPath">
+                                                            <string key="keyPath">playCount</string>
                                                         </expression>
                                                     </menuItem>
                                                 </items>
