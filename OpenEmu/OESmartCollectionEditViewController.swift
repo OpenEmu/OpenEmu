@@ -55,20 +55,8 @@ class OESmartCollectionEditViewController : NSViewController
         menu.addItem(_makeMenuItemWithTitle("Best rating", key: "rating", ASC: false))
         menu.addItem(_makeMenuItemWithTitle("Worst rating", key: "rating", ASC: true))
         menu.addItem(NSMenuItem.separatorItem())
-        menu.addItem(_makeMenuItemWithTitle("most recently played", key: "@max.roms.lastPlayed", ASC: false))
-        menu.addItem(_makeMenuItemWithTitle("last recently played", key: "@max.roms.lastPlayed", ASC: true))
-        menu.addItem(NSMenuItem.separatorItem())
-        menu.addItem(_makeMenuItemWithTitle("longest play time", key: "@max.roms.playTime", ASC: false))
-        menu.addItem(_makeMenuItemWithTitle("shortest play time", key: "@max.roms.playTime", ASC: true))
-        menu.addItem(NSMenuItem.separatorItem())
-        menu.addItem(_makeMenuItemWithTitle("most often played", key: "@sum.roms.playCount", ASC: false))
-        menu.addItem(_makeMenuItemWithTitle("least often played", key: "@sum.roms.playCount", ASC: true))
-        menu.addItem(NSMenuItem.separatorItem())
-        menu.addItem(_makeMenuItemWithTitle("most often played", key: "@sum.roms.playCount", ASC: false))
-        menu.addItem(_makeMenuItemWithTitle("least often played", key: "@sum.roms.playCount", ASC: true))
-        menu.addItem(NSMenuItem.separatorItem())
-        menu.addItem(_makeMenuItemWithTitle("most recently added", key: "importDate", ASC: false))
-        menu.addItem(_makeMenuItemWithTitle("least recently added", key: "importDate", ASC: true))
+        menu.addItem(_makeMenuItemWithTitle("most recently added", key: "importDate", ASC: true))
+        menu.addItem(_makeMenuItemWithTitle("least recently added", key: "importDate", ASC: false))
         menu.addItem(NSMenuItem.separatorItem())
         menu.addItem(_makeMenuItemWithTitle("most recently synced", key: "lastInfoSync", ASC: false))
         menu.addItem(_makeMenuItemWithTitle("least recently synced", key: "lastInfoSync", ASC: true))
@@ -81,7 +69,7 @@ class OESmartCollectionEditViewController : NSViewController
         // TODO: localize title
         menuItem.title = title
         menuItem.representedObject = key
-        menuItem.tag = ASC ? 0 : 1
+        menuItem.tag = ASC ? 1 : 0
 
         return menuItem
     }
