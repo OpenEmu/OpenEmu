@@ -63,6 +63,9 @@ class OESmartCollectionEditViewController : NSViewController
         menu.addItem(NSMenuItem.separatorItem())
         menu.addItem(_makeMenuItemWithTitle("longest play time", key: "playTime", ASC: false))
         menu.addItem(_makeMenuItemWithTitle("shortest play time", key: "playTime", ASC: true))
+        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(_makeMenuItemWithTitle("most often played", key: "playCount", ASC: false))
+        menu.addItem(_makeMenuItemWithTitle("least often played", key: "playCount", ASC: true))
 
         limitOrderButton.menu = menu;
     }
