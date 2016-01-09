@@ -97,6 +97,7 @@ Gw
                                             </expression>
                                         </array>
                                         <integer key="rightExpressionObject" value="700"/>
+                                        <comparisonPredicateOptions key="options" caseInsensitive="YES" diacriticInsensitive="YES"/>
                                         <popUpMenus>
                                             <menu id="LPb-4f-QEg">
                                                 <items>
@@ -230,8 +231,8 @@ Gw
                                     </predicateEditorRowTemplate>
                                     <predicateEditorRowTemplate rowType="simple" id="EDw-gx-Hm0">
                                         <array key="leftExpressionObject">
-                                            <expression type="constant">
-                                                <string key="constantValue">lastInfoSync</string>
+                                            <expression type="keyPath">
+                                                <string key="keyPath">status</string>
                                             </expression>
                                         </array>
                                         <array key="rightExpressionObject">
@@ -249,11 +250,11 @@ Gw
                                             </expression>
                                         </array>
                                         <popUpMenus>
-                                            <menu id="I8c-py-601">
+                                            <menu id="lkU-FK-oO3">
                                                 <items>
-                                                    <menuItem title="Status" id="VBc-nO-ugw">
-                                                        <expression key="representedObject" type="constant">
-                                                            <string key="constantValue">lastInfoSync</string>
+                                                    <menuItem title="Status" state="on" id="Q0b-1N-Cwn">
+                                                        <expression key="representedObject" type="keyPath">
+                                                            <string key="keyPath">status</string>
                                                         </expression>
                                                     </menuItem>
                                                 </items>
@@ -263,26 +264,29 @@ Gw
                                                     <menuItem title="is" state="on" id="CYh-uU-or7">
                                                         <integer key="representedObject" value="4"/>
                                                     </menuItem>
+                                                    <menuItem title="is not" id="EAX-Og-G60">
+                                                        <integer key="representedObject" value="5"/>
+                                                    </menuItem>
                                                 </items>
                                             </menu>
-                                            <menu id="oxQ-7A-imY">
+                                            <menu id="v93-vh-dRd">
                                                 <items>
-                                                    <menuItem title="OK" state="on" id="jB2-1W-Hrz">
+                                                    <menuItem title="OK" state="on" id="p66-qt-qyI">
                                                         <expression key="representedObject" type="constant">
                                                             <string key="constantValue">0</string>
                                                         </expression>
                                                     </menuItem>
-                                                    <menuItem title="Downloading" id="U6A-DK-VYi">
+                                                    <menuItem title="Downloading" id="KWp-s1-Xkg">
                                                         <expression key="representedObject" type="constant">
                                                             <string key="constantValue">1</string>
                                                         </expression>
                                                     </menuItem>
-                                                    <menuItem title="Missing" id="gTW-BH-3Gf">
+                                                    <menuItem title="Missing" id="Egv-tP-DXz">
                                                         <expression key="representedObject" type="constant">
                                                             <string key="constantValue">2</string>
                                                         </expression>
                                                     </menuItem>
-                                                    <menuItem title="Processing" id="8AA-eJ-hQ2">
+                                                    <menuItem title="Processing" id="mcj-so-OT9">
                                                         <expression key="representedObject" type="constant">
                                                             <string key="constantValue">3</string>
                                                         </expression>
