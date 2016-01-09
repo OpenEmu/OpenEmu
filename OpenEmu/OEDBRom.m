@@ -255,6 +255,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSTimeInterval currentPlayTime = self.playTime.doubleValue;
     currentPlayTime += timeInterval;
     self.playTime = @(currentPlayTime);
+    self.game.playTime = @(self.game.playTime.doubleValue + timeInterval);
 }
 
 // Core Data does not care about getter= overrides in modelled property declarations,
