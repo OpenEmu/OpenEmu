@@ -110,6 +110,16 @@ class OESmartCollectionEditViewController : NSViewController
         if let predicate = collection.fetchPredicate as? NSCompoundPredicate {
             predicateEditor.objectValue = predicate;
         }
+
+        if let sortKey = collection.fetchSortKey,
+            item = limitOrderButton.itemArray.filter({ (menuItem: NSMenuItem) -> Bool in
+                return menuItem.representedObject as? String == sortKey && menuItem.tag == Int(collection.fetchSortAscending);
+            }).first
+        {
+            limitOrderButton.selectItem(item)
+        } else {
+            limitOrderButton.selectItemAtIndex(0);
+        }
     }
 
     // MARK: - UI Callbacks
