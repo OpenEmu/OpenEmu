@@ -31,6 +31,7 @@
 #import "OECorePlugin.h"
 #import "OEDBSavedGamesMedia.h"
 #import "OEDBScreenshotsMedia.h"
+#import "OEDBSmartCollection.h"
 
 #import "OEBlankSlateForegroundLayer.h"
 #import "OECollectionViewItemProtocol.h"
@@ -50,6 +51,7 @@
 @property NSDragOperation lastDragOperation;
 
 @property (nonatomic) NSString       *representedCollectionName;
+@property (nonatomic) NSString       *representedSmartCollectionName;
 @property (nonatomic) OESystemPlugin *representedSystemPlugin;
 @property (readwrite, strong) NSView *containerView;
 
@@ -166,6 +168,10 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
         
         self.representedSystemPlugin = ((OEDBSystem *)representedObject).plugin;
         
+    } else if([representedObject isKindOfClass:[OEDBSmartCollection class]]) {
+
+        self.representedSmartCollectionName = ((id <OEGameCollectionViewItemProtocol>)representedObject).collectionViewName;
+
     } else if([representedObject conformsToProtocol:@protocol(OEGameCollectionViewItemProtocol)]) {
         
         self.representedCollectionName = ((id <OEGameCollectionViewItemProtocol>)representedObject).collectionViewName;
@@ -183,6 +189,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 {
     _representedCollectionName = representedCollectionName;
     _representedSystemPlugin = nil;
+    _representedSmartCollectionName = nil;
 
     [self OE_setupViewWithCollectionName:representedCollectionName];
 }
@@ -196,10 +203,30 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     [self addInformationalText:text];
 }
 
+- (void)setRepresentedSmartCollectionName:(NSString*)representedCollectionName
+{
+    _representedSmartCollectionName = representedCollectionName;
+    _representedCollectionName = nil;
+    _representedSystemPlugin = nil;
+
+    [self OE_setupViewWithSmartCollectionName:representedCollectionName];
+}
+
+
+- (void)OE_setupViewWithSmartCollectionName:(NSString*)collectionName
+{
+    [self OE_setupDragAndDropBox];
+    [self addLeftHeadlineWithText:NSLocalizedString(@"Smart Collection", @"")];
+
+    NSString *text = [NSString stringWithFormat:NSLocalizedString(@"This is a smart collection. It will show all games that match the specified filter and update automatically. You can tweak the filter by selecting 'Edit %@' from the context menu on the left.", @""), collectionName];
+    [self addInformationalText:text];
+}
+
 - (void)setRepresentedSystemPlugin:(OESystemPlugin *)representedSystemPlugin
 {
     _representedSystemPlugin = representedSystemPlugin;
     _representedCollectionName = nil;
+    _representedSmartCollectionName = nil;
 
     [self OE_setupViewWithSystemPlugin:representedSystemPlugin];
 }
