@@ -138,6 +138,47 @@ Gw
                                             </menu>
                                         </popUpMenus>
                                     </predicateEditorRowTemplate>
+                                    <predicateEditorRowTemplate rowType="simple" id="cMw-6q-8gO">
+                                        <array key="leftExpressionObject">
+                                            <expression type="keyPath">
+                                                <string key="keyPath">rating</string>
+                                            </expression>
+                                        </array>
+                                        <integer key="rightExpressionObject" value="300"/>
+                                        <popUpMenus>
+                                            <menu id="ELH-Vh-weT">
+                                                <items>
+                                                    <menuItem title="Rating" state="on" id="1ng-1G-viI">
+                                                        <expression key="representedObject" type="keyPath">
+                                                            <string key="keyPath">rating</string>
+                                                        </expression>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                            <menu id="JLW-xn-s75">
+                                                <items>
+                                                    <menuItem title="is not" state="on" id="Wqs-m5-nkb">
+                                                        <integer key="representedObject" value="5"/>
+                                                    </menuItem>
+                                                    <menuItem title="is" id="1ZN-gE-rCL">
+                                                        <integer key="representedObject" value="4"/>
+                                                    </menuItem>
+                                                    <menuItem title="is greater than" id="yhM-DZ-lSi">
+                                                        <integer key="representedObject" value="2"/>
+                                                    </menuItem>
+                                                    <menuItem title="is less than" id="XmO-Sg-kwt">
+                                                        <integer key="representedObject" value="0"/>
+                                                    </menuItem>
+                                                    <menuItem title="is less than or equal to" id="kcN-s2-3w6">
+                                                        <integer key="representedObject" value="1"/>
+                                                    </menuItem>
+                                                    <menuItem title="is greater than or equal to" id="eWL-iW-hqW">
+                                                        <integer key="representedObject" value="3"/>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </popUpMenus>
+                                    </predicateEditorRowTemplate>
                                 </rowTemplates>
                             </predicateEditor>
                         </subviews>
