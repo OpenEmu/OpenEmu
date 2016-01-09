@@ -228,6 +228,69 @@ Gw
                                             </menu>
                                         </popUpMenus>
                                     </predicateEditorRowTemplate>
+                                    <predicateEditorRowTemplate rowType="simple" id="EDw-gx-Hm0">
+                                        <array key="leftExpressionObject">
+                                            <expression type="constant">
+                                                <string key="constantValue">lastInfoSync</string>
+                                            </expression>
+                                        </array>
+                                        <array key="rightExpressionObject">
+                                            <expression type="constant">
+                                                <string key="constantValue">0</string>
+                                            </expression>
+                                            <expression type="constant">
+                                                <string key="constantValue">1</string>
+                                            </expression>
+                                            <expression type="constant">
+                                                <string key="constantValue">2</string>
+                                            </expression>
+                                            <expression type="constant">
+                                                <string key="constantValue">3</string>
+                                            </expression>
+                                        </array>
+                                        <popUpMenus>
+                                            <menu id="I8c-py-601">
+                                                <items>
+                                                    <menuItem title="Status" id="VBc-nO-ugw">
+                                                        <expression key="representedObject" type="constant">
+                                                            <string key="constantValue">lastInfoSync</string>
+                                                        </expression>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                            <menu id="vdD-TZ-0rm">
+                                                <items>
+                                                    <menuItem title="is" state="on" id="CYh-uU-or7">
+                                                        <integer key="representedObject" value="4"/>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                            <menu id="oxQ-7A-imY">
+                                                <items>
+                                                    <menuItem title="OK" state="on" id="jB2-1W-Hrz">
+                                                        <expression key="representedObject" type="constant">
+                                                            <string key="constantValue">0</string>
+                                                        </expression>
+                                                    </menuItem>
+                                                    <menuItem title="Downloading" id="U6A-DK-VYi">
+                                                        <expression key="representedObject" type="constant">
+                                                            <string key="constantValue">1</string>
+                                                        </expression>
+                                                    </menuItem>
+                                                    <menuItem title="Missing" id="gTW-BH-3Gf">
+                                                        <expression key="representedObject" type="constant">
+                                                            <string key="constantValue">2</string>
+                                                        </expression>
+                                                    </menuItem>
+                                                    <menuItem title="Processing" id="8AA-eJ-hQ2">
+                                                        <expression key="representedObject" type="constant">
+                                                            <string key="constantValue">3</string>
+                                                        </expression>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </popUpMenus>
+                                    </predicateEditorRowTemplate>
                                 </rowTemplates>
                             </predicateEditor>
                         </subviews>
