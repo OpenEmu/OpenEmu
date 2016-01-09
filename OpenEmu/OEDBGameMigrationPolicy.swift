@@ -37,22 +37,20 @@ class OEDBGameMigrationPolicy: NSEntityMigrationPolicy
                 let roms = sInstance.valueForKey("roms") as! Set<NSManagedObject>
 
                 switch attributeMapping.name! {
-                case "playCount":
-                    let totalPlayCount: Int = roms.map({
-                        (e: NSManagedObject) -> Int in
-                        return e.valueForKey("playCount")?.integerValue ?? 0
-                    }).reduce(0, combine: +)
+                    case "playCount":
+                        let totalPlayCount = roms.map({
+                            $0.valueForKey("playCount")?.integerValue ?? 0
+                        }).reduce(0, combine: +)
 
-                    attributeMapping.valueExpression = NSExpression(forConstantValue: totalPlayCount)
+                        attributeMapping.valueExpression = NSExpression(forConstantValue: totalPlayCount)
 
-                case "playTime":
-                    let totalPlayTime: Double = roms.map({
-                        (e: NSManagedObject) -> Double in
-                        return e.valueForKey("playTime")?.doubleValue ?? 0.0
-                    }).reduce(0, combine: +)
-                    attributeMapping.valueExpression = NSExpression(forConstantValue: totalPlayTime)
+                    case "playTime":
+                        let totalPlayTime = roms.map({
+                            $0.valueForKey("playTime")?.doubleValue ?? 0.0
+                        }).reduce(0, combine: +)
 
-                default: break
+                        attributeMapping.valueExpression = NSExpression(forConstantValue: totalPlayTime)
+                    default: break
                 }
             }
         }
