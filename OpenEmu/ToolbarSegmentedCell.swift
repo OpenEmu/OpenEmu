@@ -208,12 +208,11 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         // Draw divider.
         if segment < segmentCount - 1 {
             
-            let firstPoint = NSPoint(x: frame.maxX, y: frame.minY)
-            let secondPoint = NSPoint(x: frame.maxX, y: frame.maxY - 1) // Leave room for bottom bezel.
+            let segmentRect = NSRect(x: frame.maxX - 1, y: frame.minY, width: 1, height: frame.height - 1) // Leave room for bottom bezel.
             
             NSColor.blackColor().set()
             
-            NSBezierPath.strokeLineFromPoint(firstPoint, toPoint: secondPoint)
+            NSRectFill(controlView.centerScanRect(segmentRect))
         }
         
         drawTextForSegment(segment, inFrame: frame)
