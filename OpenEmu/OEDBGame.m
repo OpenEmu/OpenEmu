@@ -52,7 +52,7 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 @implementation OEDBGame
 @synthesize romDownload=_romDownload;
 @dynamic name, gameTitle, rating, gameDescription, importDate, lastInfoSync, status, displayName;
-@dynamic boxImage, system, roms, genres, collections, credits;
+@dynamic boxImage, system, roms, genres, collections, credits, playCount;
 
 + (void)initialize
 {
@@ -262,13 +262,6 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 {
     // TODO: if multiple roms are available we should select one based on version/revision and language
     return self.roms.anyObject;
-}
-
-- (NSNumber *)playCount
-{
-    NSUInteger count = 0;
-    for(OEDBRom *rom in self.roms) count += [rom.playCount unsignedIntegerValue];
-    return @(count);
 }
 
 - (NSNumber *)playTime

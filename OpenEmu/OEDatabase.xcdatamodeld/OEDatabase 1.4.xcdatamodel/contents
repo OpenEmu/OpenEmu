@@ -26,6 +26,7 @@
         <attribute name="importDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="lastInfoSync" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="playCount" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="rating" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="5" defaultValueString="0" syncable="YES"/>
         <attribute name="status" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="boxImage" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Image" inverseName="Box" inverseEntity="Image" indexed="YES" syncable="YES"/>
@@ -101,7 +102,7 @@
         <element name="CollectionFolder" positionX="0" positionY="0" width="128" height="60"/>
         <element name="Contributor" positionX="0" positionY="0" width="128" height="90"/>
         <element name="Credit" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="Game" positionX="0" positionY="0" width="128" height="240"/>
+        <element name="Game" positionX="0" positionY="0" width="128" height="255"/>
         <element name="Genre" positionX="0" positionY="0" width="128" height="75"/>
         <element name="Image" positionX="0" positionY="0" width="128" height="135"/>
         <element name="ROM" positionX="0" positionY="0" width="128" height="300"/>

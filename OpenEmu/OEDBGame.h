@@ -75,8 +75,6 @@ extern NSString *const OEGameArtworkPropertiesKey;
 @property(readonly) NSDate        *lastPlayed;
 @property(readonly) OEDBSaveState *autosaveForLastPlayedRom;
 @property(readonly) NSNumber      *saveStateCount;
-@property(readonly) NSNumber      *playCount;
-@property(readonly) NSNumber      *playTime;
 
 @property(readonly) BOOL filesAvailable;
 
@@ -103,6 +101,7 @@ extern NSString *const OEGameArtworkPropertiesKey;
 @property(nonatomic, retain)             NSNumber *status;
 @property(nonatomic, retain, nullable)   NSString *displayName;
 @property(nonatomic, readonly, nullable) NSString *cleanDisplayName;
+@property(nonatomic, retain, nullable)   NSNumber *playCount;
 
 #pragma mark - Data Model Relationships
 
