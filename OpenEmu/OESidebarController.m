@@ -260,7 +260,7 @@ NSString * const OEMainViewMinWidth = @"mainViewMinWidth";
 
     NSWindow *alertWindow = [[NSWindow alloc] initWithContentRect:NSZeroRect styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
     alertWindow.contentViewController = editViewController;
-
+    alertWindow.title = collection.name;
 
     BOOL confirmed = [NSApp runModalForWindow:alertWindow] == NSAlertSecondButtonReturn;
     if(confirmed)
