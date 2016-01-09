@@ -188,6 +188,47 @@ Gw
                                             </menu>
                                         </popUpMenus>
                                     </predicateEditorRowTemplate>
+                                    <predicateEditorRowTemplate rowType="simple" id="VYn-ya-omt">
+                                        <array key="leftExpressionObject">
+                                            <expression type="keyPath">
+                                                <string key="keyPath">playTime</string>
+                                            </expression>
+                                        </array>
+                                        <integer key="rightExpressionObject" value="500"/>
+                                        <popUpMenus>
+                                            <menu id="XJw-lN-QC3">
+                                                <items>
+                                                    <menuItem title="Play Time" state="on" id="ngQ-44-rdY">
+                                                        <expression key="representedObject" type="keyPath">
+                                                            <string key="keyPath">playTime</string>
+                                                        </expression>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                            <menu id="UrY-DH-J12">
+                                                <items>
+                                                    <menuItem title="is not" state="on" id="N0O-BO-UG8">
+                                                        <integer key="representedObject" value="5"/>
+                                                    </menuItem>
+                                                    <menuItem title="is" id="Blz-Cl-N2f">
+                                                        <integer key="representedObject" value="4"/>
+                                                    </menuItem>
+                                                    <menuItem title="is greater than" id="AC0-qz-s8N">
+                                                        <integer key="representedObject" value="2"/>
+                                                    </menuItem>
+                                                    <menuItem title="is less than" id="F6y-Mu-ro1">
+                                                        <integer key="representedObject" value="0"/>
+                                                    </menuItem>
+                                                    <menuItem title="is less than or equal to" id="UUn-v2-0JF">
+                                                        <integer key="representedObject" value="1"/>
+                                                    </menuItem>
+                                                    <menuItem title="is greater than or equal to" id="WiE-P3-taI">
+                                                        <integer key="representedObject" value="3"/>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </popUpMenus>
+                                    </predicateEditorRowTemplate>
                                     <predicateEditorRowTemplate rowType="simple" id="br8-oM-9Rq">
                                         <array key="leftExpressionObject">
                                             <expression type="keyPath">
