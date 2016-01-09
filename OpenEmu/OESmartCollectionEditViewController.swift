@@ -129,7 +129,7 @@ class OESmartCollectionEditViewController : NSViewController
     }
 
     func fetchLimit() -> NSNumber? {
-        return limitButton.enabled ? NSNumber(integer: limitInput.integerValue) : nil
+        return limitButton.state == NSOnState ? NSNumber(integer: limitInput.integerValue) : nil
     }
 
     func fetchOrder() -> String? {
