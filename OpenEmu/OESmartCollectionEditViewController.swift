@@ -38,14 +38,36 @@ class OESmartCollectionEditViewController : NSViewController
         super.viewDidLoad()
 
         predicateEditor.addRow(self)
+        _updateUIFromCollection()
     }
 
+    override var representedObject: AnyObject? {
+        get {
+            return super.representedObject as? OEDBSmartCollection
+        }
 
-    @IBAction func confirm (sender :AnyObject){
+        set {
+            super.representedObject = newValue as? OEDBSmartCollection
+            _updateUIFromCollection()
+        }
+    }
+
+    func _updateUIFromCollection() {
+        if limitButton == nil || self.representedObject == nil {
+            return
+        }
+
+        let collection = self.representedObject as! OEDBSmartCollection
+
+        limitButton.state = collection.fetchLimit == nil ? NSOffState : NSOnState
+    }
+
+    // MARK: - UI Callbacks
+    @IBAction func confirm (sender :AnyObject) {
         NSApp.stopModalWithCode(NSAlertSecondButtonReturn)
     }
 
-    @IBAction func cancel(sender :AnyObject){
+    @IBAction func cancel(sender :AnyObject) {
         NSApp.stopModalWithCode(NSAlertFirstButtonReturn)
     }
 

@@ -16,3 +16,5 @@
 #import "OEPrefBiosController.h"
 
 #import "OEBackgroundColorView.h"
+
+#import "OEDBSmartCollection.h"
