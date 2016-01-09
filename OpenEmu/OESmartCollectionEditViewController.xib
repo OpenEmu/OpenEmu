@@ -89,30 +89,30 @@ Gw
                                             <expression type="keyPath">
                                                 <string key="keyPath">name</string>
                                             </expression>
-                                            <expression type="keyPath">
-                                                <string key="keyPath">address</string>
+                                            <expression type="constant">
+                                                <string key="constantValue">gameTitle</string>
                                             </expression>
-                                            <expression type="keyPath">
-                                                <string key="keyPath">sign</string>
+                                            <expression type="constant">
+                                                <string key="constantValue">gameDescription</string>
                                             </expression>
                                         </array>
                                         <integer key="rightExpressionObject" value="700"/>
                                         <popUpMenus>
-                                            <menu id="QIr-ig-0lF">
+                                            <menu id="LPb-4f-QEg">
                                                 <items>
-                                                    <menuItem title="name" state="on" id="LEu-PR-k1I">
+                                                    <menuItem title="Name" state="on" id="VTB-oE-4pq">
                                                         <expression key="representedObject" type="keyPath">
                                                             <string key="keyPath">name</string>
                                                         </expression>
                                                     </menuItem>
-                                                    <menuItem title="address" id="5AI-m7-kRd">
-                                                        <expression key="representedObject" type="keyPath">
-                                                            <string key="keyPath">address</string>
+                                                    <menuItem title="Title" id="sHo-MV-Qnb">
+                                                        <expression key="representedObject" type="constant">
+                                                            <string key="constantValue">gameTitle</string>
                                                         </expression>
                                                     </menuItem>
-                                                    <menuItem title="sign" id="9Pu-CB-kbc">
-                                                        <expression key="representedObject" type="keyPath">
-                                                            <string key="keyPath">sign</string>
+                                                    <menuItem title="Description" id="MYo-GO-Fz2">
+                                                        <expression key="representedObject" type="constant">
+                                                            <string key="constantValue">gameDescription</string>
                                                         </expression>
                                                     </menuItem>
                                                 </items>
