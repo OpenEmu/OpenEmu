@@ -63,6 +63,10 @@ class OESmartCollectionEditViewController : NSViewController
 
         limitButton.state = collection.fetchLimit == nil ? NSOffState : NSOnState
         limitInput.integerValue = collection.fetchLimit?.integerValue ?? DefaultSmartCollectionLimit;
+
+        if let predicate = collection.fetchPredicate as? NSCompoundPredicate {
+            predicateEditor.objectValue = predicate;
+        }
     }
 
     // MARK: - UI Callbacks
@@ -99,6 +103,6 @@ class OESmartCollectionEditViewController : NSViewController
     }
 
     func fetchOrderIsAscending() -> Bool {
-        return limitOrderButton.selectedItem?.tag != 0
+        return limitOrderButton.selectedItem?.tag == 1
     }
 }
