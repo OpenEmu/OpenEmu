@@ -25,6 +25,7 @@
         <attribute name="gameTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="importDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="lastInfoSync" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="lastPlayed" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="playCount" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="playTime" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
@@ -103,7 +104,7 @@
         <element name="CollectionFolder" positionX="0" positionY="0" width="128" height="60"/>
         <element name="Contributor" positionX="0" positionY="0" width="128" height="90"/>
         <element name="Credit" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="Game" positionX="0" positionY="0" width="128" height="270"/>
+        <element name="Game" positionX="0" positionY="0" width="128" height="285"/>
         <element name="Genre" positionX="0" positionY="0" width="128" height="75"/>
         <element name="Image" positionX="0" positionY="0" width="128" height="135"/>
         <element name="ROM" positionX="0" positionY="0" width="128" height="300"/>

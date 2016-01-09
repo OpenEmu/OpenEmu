@@ -72,7 +72,6 @@ extern NSString *const OEGameArtworkPropertiesKey;
 #pragma mark - Accessors
 
 @property(readonly) OEDBRom       *defaultROM;
-@property(readonly) NSDate        *lastPlayed;
 @property(readonly) OEDBSaveState *autosaveForLastPlayedRom;
 @property(readonly) NSNumber      *saveStateCount;
 
@@ -98,6 +97,7 @@ extern NSString *const OEGameArtworkPropertiesKey;
 @property(nonatomic, retain, nullable)   NSString *gameDescription;
 @property(nonatomic, retain, nullable)   NSDate   *importDate;
 @property(nonatomic, retain, nullable)   NSDate   *lastInfoSync;
+@property(nonatomic, retain, nullable)   NSDate   *lastPlayed;
 @property(nonatomic, retain)             NSNumber *status;
 @property(nonatomic, retain, nullable)   NSString *displayName;
 @property(nonatomic, readonly, nullable) NSString *cleanDisplayName;

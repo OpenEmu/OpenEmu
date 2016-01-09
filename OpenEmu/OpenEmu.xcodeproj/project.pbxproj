@@ -321,8 +321,8 @@
 		830CB918186878D6006EAE5A /* OEArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 830CB917186878D6006EAE5A /* OEArrayController.m */; };
 		8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8314A98B155410EF00DF13B5 /* OEDBItem.m */; };
 		8316F6F61A697986003ADDB3 /* supervision_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83CDAE9B1A61892900DF964A /* supervision_library.png */; };
-		8319633A1C417E88002B7B0F /* 1.3 to 1.4.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 831963391C417E88002B7B0F /* 1.3 to 1.4.xcmappingmodel */; };
 		8319633C1C417FC6002B7B0F /* OEDBGameMigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8319633B1C417FC6002B7B0F /* OEDBGameMigrationPolicy.swift */; };
+		8319633E1C4191C5002B7B0F /* 1.3 to 1.4.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8319633D1C4191C5002B7B0F /* 1.3 to 1.4.xcmappingmodel */; };
 		83199722142741790068C865 /* OEROMImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* OEROMImporter.m */; };
 		831C2AE4144F41E4009533C0 /* OEApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C2AE3144F41E4009533C0 /* OEApplicationDelegate.m */; };
 		831C9AAD160095BA00038D0D /* OETheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 831C9AAC160095BA00038D0D /* OETheme.m */; };
@@ -1984,8 +1984,8 @@
 		830CB917186878D6006EAE5A /* OEArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEArrayController.m; sourceTree = "<group>"; };
 		8314A98A155410EF00DF13B5 /* OEDBItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBItem.h; sourceTree = "<group>"; };
 		8314A98B155410EF00DF13B5 /* OEDBItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBItem.m; sourceTree = "<group>"; };
-		831963391C417E88002B7B0F /* 1.3 to 1.4.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.3 to 1.4.xcmappingmodel"; sourceTree = "<group>"; };
 		8319633B1C417FC6002B7B0F /* OEDBGameMigrationPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEDBGameMigrationPolicy.swift; sourceTree = "<group>"; };
+		8319633D1C4191C5002B7B0F /* 1.3 to 1.4.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "1.3 to 1.4.xcmappingmodel"; sourceTree = "<group>"; };
 		83199720142741790068C865 /* OEROMImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEROMImporter.h; sourceTree = "<group>"; };
 		83199721142741790068C865 /* OEROMImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEROMImporter.m; sourceTree = "<group>"; };
 		831C2AE2144F41E4009533C0 /* OEApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEApplicationDelegate.h; sourceTree = "<group>"; };
@@ -4658,7 +4658,7 @@
 				8353EB7C15FF695D0026E326 /* 1.0 Beta to 0.2.xcmappingmodel */,
 				83DBA2261906A250000815B9 /* 1.1 to 1.2.xcmappingmodel */,
 				83CA87B31961CDD400D86D55 /* 1.2 to 1.3.xcmappingmodel */,
-				831963391C417E88002B7B0F /* 1.3 to 1.4.xcmappingmodel */,
+				8319633D1C4191C5002B7B0F /* 1.3 to 1.4.xcmappingmodel */,
 			);
 			name = "Mapping Models";
 			sourceTree = "<group>";
@@ -8213,7 +8213,6 @@
 				83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */,
 				83DBA2271906A250000815B9 /* 1.1 to 1.2.xcmappingmodel in Sources */,
 				83955CB8165DA9BC00572B34 /* OEBackgroundNoisePattern.m in Sources */,
-				8319633A1C417E88002B7B0F /* 1.3 to 1.4.xcmappingmodel in Sources */,
 				83CB0C7A1A3F000700409FB2 /* OEBlankSlateSpinnerView.m in Sources */,
 				835F3F401683534700C74B97 /* OEToolTipManager.m in Sources */,
 				5A9606E01C0B12FE0089B494 /* NSControl+TargetAction.swift in Sources */,
@@ -8221,6 +8220,7 @@
 				14F6A926168180D00071386D /* OEPopoutGameWindowController.m in Sources */,
 				8C4C808916986697009B8A28 /* OEGLSLShader.m in Sources */,
 				8305A48018FD2908005F1AE4 /* OEGridViewCellIndicationLayer.m in Sources */,
+				8319633E1C4191C5002B7B0F /* 1.3 to 1.4.xcmappingmodel in Sources */,
 				8C4C808E16986C87009B8A28 /* OECGShader.m in Sources */,
 				94791E9516AE8A18007DB8BE /* OEShaderPlugin.m in Sources */,
 				8C415ECD16B0682B00980DB9 /* OEMultipassShader.m in Sources */,

@@ -328,6 +328,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)markAsPlayedNow
 {
     self.lastPlayed = [NSDate date];
+    self.game.lastPlayed = self.lastPlayed;
 }
 
 #pragma mark - Core Data utilities

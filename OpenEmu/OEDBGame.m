@@ -52,7 +52,7 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 @implementation OEDBGame
 @synthesize romDownload=_romDownload;
 @dynamic name, gameTitle, rating, gameDescription, importDate, lastInfoSync, status, displayName;
-@dynamic boxImage, system, roms, genres, collections, credits, playCount, playTime;
+@dynamic boxImage, system, roms, genres, collections, credits, playCount, playTime, lastPlayed;
 
 + (void)initialize
 {
@@ -223,20 +223,6 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 }
 
 #pragma mark - Accessors
-- (NSDate *)lastPlayed
-{
-    NSArray <OEDBRom *> *roms = self.roms.allObjects;
-    
-    NSArray <OEDBRom *> *sortedByLastPlayed =
-    [roms sortedArrayUsingComparator:
-     ^ NSComparisonResult (OEDBRom *obj1, OEDBRom *obj2)
-     {
-         return [obj1.lastPlayed compare:obj2.lastPlayed];
-     }];
-    
-    return sortedByLastPlayed.lastObject.lastPlayed;
-}
-
 - (OEDBSaveState *)autosaveForLastPlayedRom
 {
     NSArray <OEDBRom *> *roms = self.roms.allObjects;
