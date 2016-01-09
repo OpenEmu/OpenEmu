@@ -28,6 +28,8 @@ import Foundation
 
 class OESmartCollectionEditViewController : NSViewController
 {
+    let DefaultSmartCollectionLimit = 25
+
     @IBOutlet weak var confirmButton: NSButton!
     @IBOutlet weak var limitButton: NSButton!
     @IBOutlet weak var limitInput: NSTextField!
@@ -60,6 +62,7 @@ class OESmartCollectionEditViewController : NSViewController
         let collection = self.representedObject as! OEDBSmartCollection
 
         limitButton.state = collection.fetchLimit == nil ? NSOffState : NSOnState
+        limitInput.integerValue = collection.fetchLimit?.integerValue ?? DefaultSmartCollectionLimit;
     }
 
     // MARK: - UI Callbacks

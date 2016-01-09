@@ -565,6 +565,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     OEDBSmartCollection *aCollection = [OEDBSmartCollection createObjectInContext:context];
     aCollection.name = name;
+    aCollection.fetchLimit = @25;
     [aCollection save];
 
     return aCollection;
