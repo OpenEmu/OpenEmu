@@ -102,6 +102,7 @@ extern NSString *const OEGameArtworkPropertiesKey;
 @property(nonatomic, retain, nullable)   NSString *displayName;
 @property(nonatomic, readonly, nullable) NSString *cleanDisplayName;
 @property(nonatomic, retain, nullable)   NSNumber *playCount;
+@property(nonatomic, retain, nullable)   NSNumber *playTime;
 
 #pragma mark - Data Model Relationships
 
