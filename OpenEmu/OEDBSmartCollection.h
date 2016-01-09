@@ -30,10 +30,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OEDBSmartCollection : OEDBCollection
-@property (nonatomic, retain, nullable) NSNumber *fetchLimit;
-@property (nonatomic, retain, nullable) NSString *fetchSortKey;
 @property (nonatomic) BOOL fetchSortAscending;
-@property (nonatomic, retain, nullable) NSData *predicateData;
+@property (nullable, nonatomic, retain) NSString *fetchSortKey;
+@property (nullable, nonatomic, retain) NSData *predicateData;
 @property (nonatomic, retain) NSPredicate *fetchPredicate;
 @end
 

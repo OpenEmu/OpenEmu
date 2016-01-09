@@ -30,7 +30,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation OEDBSmartCollection
-@dynamic fetchLimit, fetchSortAscending, fetchSortKey, predicateData;
+
+@dynamic fetchSortAscending;
+@dynamic fetchSortKey;
+@dynamic predicateData;
 
 + (NSString *)entityName
 {
@@ -94,11 +97,6 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
-- (nullable NSNumber*)fetchLimit
-{
-    return @30;
-}
-
 - (NSArray <NSSortDescriptor *> *)fetchSortDescriptors
 {
     if(self.fetchSortKey)
@@ -107,6 +105,16 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return @[];
+}
+
+- (nullable NSNumber*)fetchLimit
+{
+    return [self valueForKey:@"limit"];
+}
+
+- (void)setFetchLimit:(nullable NSNumber *)fetchLimit
+{
+    [self setValue:fetchLimit forKey:@"limit"];
 }
 
 @end
