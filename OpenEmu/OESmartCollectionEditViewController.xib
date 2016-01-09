@@ -177,53 +177,10 @@ Gw
                 </textField>
                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PLG-ri-m4W">
                     <rect key="frame" x="246" y="61" width="197" height="26"/>
-                    <popUpButtonCell key="cell" type="push" title="least recently added" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="npc-Tn-FVa" id="gV6-aO-b3R">
+                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="gV6-aO-b3R">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
-                        <menu key="menu" id="9pP-1B-Of6">
-                            <items>
-                                <menuItem title="Random" id="maP-RM-rc1"/>
-                                <menuItem isSeparatorItem="YES" id="gF2-H7-Igr"/>
-                                <menuItem title="Name" tag="1" id="dIS-aZ-3hB">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem isSeparatorItem="YES" id="SXT-ze-TRP"/>
-                                <menuItem title="best rating" id="Mdn-bZ-RQ3">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem title="worst rating" tag="1" id="aUN-HA-1ZZ">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem isSeparatorItem="YES" id="fXC-Fy-o2B"/>
-                                <menuItem title="most recently played" tag="1" id="xba-KI-5Uu">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem title="last recently played" id="O64-1x-l2X">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem isSeparatorItem="YES" id="Ax9-2g-byu"/>
-                                <menuItem title="longest play-time" id="uXr-m4-6jy">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem title="shorted play-time" tag="1" id="22b-ur-uCS">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem isSeparatorItem="YES" id="Sc9-Q0-4cc"/>
-                                <menuItem title="most often played" id="M4s-76-r7R">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem title="least often played" tag="1" id="nWI-br-ubz">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem isSeparatorItem="YES" id="Lrb-1N-gIn"/>
-                                <menuItem title="most recently added" id="cmO-r2-t4c">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                                <menuItem title="least recently added" state="on" tag="1" id="npc-Tn-FVa">
-                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                </menuItem>
-                            </items>
-                        </menu>
+                        <menu key="menu" id="9pP-1B-Of6"/>
                     </popUpButtonCell>
                 </popUpButton>
             </subviews>

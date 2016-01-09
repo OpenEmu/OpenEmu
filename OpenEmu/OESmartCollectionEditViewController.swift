@@ -40,7 +40,50 @@ class OESmartCollectionEditViewController : NSViewController
         super.viewDidLoad()
 
         predicateEditor.addRow(self)
+        _popuplateGameSelectionButton()
         _updateUIFromCollection()
+    }
+
+    func _popuplateGameSelectionButton() {
+        let menu = NSMenu()
+
+        menu.addItem(_makeMenuItemWithTitle("Random", key: nil, ASC: true))
+        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(_makeMenuItemWithTitle("Game title", key: "gameTitle", ASC: true))
+        menu.addItem(_makeMenuItemWithTitle("Name", key: "name", ASC: true))
+        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(_makeMenuItemWithTitle("Best rating", key: "rating", ASC: false))
+        menu.addItem(_makeMenuItemWithTitle("Worst rating", key: "rating", ASC: true))
+        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(_makeMenuItemWithTitle("most recently played", key: "@max.roms.lastPlayed", ASC: false))
+        menu.addItem(_makeMenuItemWithTitle("last recently played", key: "@max.roms.lastPlayed", ASC: true))
+        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(_makeMenuItemWithTitle("longest play time", key: "@max.roms.playTime", ASC: false))
+        menu.addItem(_makeMenuItemWithTitle("shortest play time", key: "@max.roms.playTime", ASC: true))
+        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(_makeMenuItemWithTitle("most often played", key: "@sum.roms.playCount", ASC: false))
+        menu.addItem(_makeMenuItemWithTitle("least often played", key: "@sum.roms.playCount", ASC: true))
+        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(_makeMenuItemWithTitle("most often played", key: "@sum.roms.playCount", ASC: false))
+        menu.addItem(_makeMenuItemWithTitle("least often played", key: "@sum.roms.playCount", ASC: true))
+        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(_makeMenuItemWithTitle("most recently added", key: "importDate", ASC: false))
+        menu.addItem(_makeMenuItemWithTitle("least recently added", key: "importDate", ASC: true))
+        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(_makeMenuItemWithTitle("most recently synced", key: "lastInfoSync", ASC: false))
+        menu.addItem(_makeMenuItemWithTitle("least recently synced", key: "lastInfoSync", ASC: true))
+
+        limitOrderButton.menu = menu;
+    }
+
+    func _makeMenuItemWithTitle(title: String, key: String?, ASC: Bool) -> NSMenuItem {
+        let menuItem = NSMenuItem.init()
+        // TODO: localize title
+        menuItem.title = title
+        menuItem.representedObject = key
+        menuItem.tag = ASC ? 0 : 1
+
+        return menuItem
     }
 
     override var representedObject: AnyObject? {
@@ -77,7 +120,6 @@ class OESmartCollectionEditViewController : NSViewController
     @IBAction func cancel(sender :AnyObject) {
         NSApp.stopModalWithCode(NSAlertFirstButtonReturn)
     }
-
 
     // MARK: - Accessing Configuration -
     func predicate() -> NSPredicate {
