@@ -1007,6 +1007,7 @@
 		DC83428F1C5894AE00B49693 /* OEDBCollection+OEScripting.m in Sources */ = {isa = PBXBuildFile; fileRef = DC83428E1C58932600B49693 /* OEDBCollection+OEScripting.m */; };
 		DC9179C61C59484D005F04CB /* OEDBGame+OEScripting.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9179C51C594838005F04CB /* OEDBGame+OEScripting.m */; };
 		DC9179C81C59506B005F04CB /* OEGameDocument+OEScripting.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9179C71C595054005F04CB /* OEGameDocument+OEScripting.m */; };
+		DC9179CA1C595551005F04CB /* OEDBSaveState+OEScripting.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9179C91C595362005F04CB /* OEDBSaveState+OEScripting.m */; };
 		EBF76F31189E877300B3AA1A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9F272116635A1B008B1FB8 /* libz.dylib */; };
 		EC0A64E817C6F45500370F86 /* pcengine_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A64E617C6F45500370F86 /* pcengine_library@2x.png */; };
 		EC0A64E917C6F45500370F86 /* tg16_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A64E717C6F45500370F86 /* tg16_library@2x.png */; };
@@ -3055,6 +3056,7 @@
 		DC83428E1C58932600B49693 /* OEDBCollection+OEScripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEDBCollection+OEScripting.m"; sourceTree = "<group>"; };
 		DC9179C51C594838005F04CB /* OEDBGame+OEScripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEDBGame+OEScripting.m"; sourceTree = "<group>"; };
 		DC9179C71C595054005F04CB /* OEGameDocument+OEScripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEGameDocument+OEScripting.m"; sourceTree = "<group>"; };
+		DC9179C91C595362005F04CB /* OEDBSaveState+OEScripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEDBSaveState+OEScripting.m"; sourceTree = "<group>"; };
 		EC0A64E617C6F45500370F86 /* pcengine_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pcengine_library@2x.png"; sourceTree = "<group>"; };
 		EC0A64E717C6F45500370F86 /* tg16_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tg16_library@2x.png"; sourceTree = "<group>"; };
 		EC350F0D174018AD005DA3B2 /* psx_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "psx_library@2x.png"; sourceTree = "<group>"; };
@@ -6188,6 +6190,7 @@
 				DC83428E1C58932600B49693 /* OEDBCollection+OEScripting.m */,
 				DC9179C51C594838005F04CB /* OEDBGame+OEScripting.m */,
 				DC9179C71C595054005F04CB /* OEGameDocument+OEScripting.m */,
+				DC9179C91C595362005F04CB /* OEDBSaveState+OEScripting.m */,
 			);
 			name = Scripting;
 			sourceTree = "<group>";
@@ -8064,6 +8067,7 @@
 			files = (
 				C6252DC814E7A38000350A13 /* OEControlsButtonSetupView.m in Sources */,
 				83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */,
+				DC9179CA1C595551005F04CB /* OEDBSaveState+OEScripting.m in Sources */,
 				8306CD2B1BD3AD480025BC6C /* OESidebarCell.m in Sources */,
 				8306CD2C1BD3AD480025BC6C /* OESidebarController.m in Sources */,
 				8306CD2D1BD3AD480025BC6C /* OESidebarFieldEditor.m in Sources */,

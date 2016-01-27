@@ -31,22 +31,31 @@
 
 #import "NSDocumentController+OEAdditions.h"
 #import "OEDBGame.h"
+#import "OEDBRom.h"
+#import "OEDBSaveState.h"
 #import "OEGameDocument.h"
 #import "OEMainWindowController.h" // OEFullScreenGameWindowKey constant
 
-@interface OEDBGame (OEScripting)
+@interface OEDBSaveState (OEScripting)
+
+@property(readonly) OEDBGame *scripting_game;
 
 -(NSScriptObjectSpecifier *)objectSpecifier;
 -(id)scripting_launch:(NSScriptCommand *)command;
 
 @end
 
-@implementation OEDBGame (OEScripting)
+@implementation OEDBSaveState (OEScripting)
+
+-(OEDBGame *)scripting_game
+{
+	return self.rom.game;
+}
 
 -(NSScriptObjectSpecifier *)objectSpecifier
 {
 	NSScriptClassDescription *appDescription = [NSScriptClassDescription classDescriptionForClass:[NSApplication class]];
-	return [[NSNameSpecifier alloc] initWithContainerClassDescription:appDescription containerSpecifier:nil key:@"scripting_games" name:self.name];
+	return [[NSNameSpecifier alloc] initWithContainerClassDescription:appDescription containerSpecifier:nil key:@"scripting_saveStates" name:self.name];
 }
 
 -(id)scripting_launch:(NSScriptCommand *)command
@@ -63,7 +72,7 @@
 	if([numFullscreen respondsToSelector:@selector(boolValue)])
 		fullscreen = [numFullscreen boolValue];
 	
-	[[NSDocumentController sharedDocumentController] openGameDocumentWithGame:self display:YES fullScreen:fullscreen completionHandler:^(OEGameDocument *document, NSError *error)
+	[[NSDocumentController sharedDocumentController] openGameDocumentWithSaveState:self display:YES fullScreen:fullscreen completionHandler:^(OEGameDocument *document, NSError *error)
 	{
 		if(document == nil)
 		{

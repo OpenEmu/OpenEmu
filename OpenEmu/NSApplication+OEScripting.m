@@ -34,6 +34,7 @@
 #include "OEApplicationDelegate.h"
 #include "OEDBCollection.h"
 #include "OEDBGame.h"
+#include "OEDBSaveState.h"
 #include "OELibraryDatabase.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -46,6 +47,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(readonly) NSArray <OEDBGame *> *scripting_games;
 -(OEDBGame *)valueInScripting_gamesWithName:(NSString*)name;
+
+@property(readonly) NSArray <OEDBGame *> *scripting_saveStates;
+-(OEDBGame *)valueInScripting_saveStatesWithName:(NSString*)name;
 
 @end
 
@@ -74,25 +78,42 @@ NS_ASSUME_NONNULL_BEGIN
 	}]];
 }
 
-static NSArray *fetchGames(NSFetchRequest *request)
+static NSArray *fetchObjects(NSFetchRequest *request)
 {
 	OELibraryDatabase *library = [OELibraryDatabase defaultDatabase];
 	NSManagedObjectContext *context = library.mainThreadContext;
 	return [context executeFetchRequest:request error:nil];
 }
 
+static id fetchObjectByName(NSFetchRequest *request, NSString *name)
+{
+	request.predicate = [NSPredicate predicateWithFormat:@"name like %@", name];
+	NSArray* result = fetchObjects(request);
+	return result.count > 0 ? result[0] : nil;
+}
+
 -(NSArray <OEDBGame *> *)scripting_games
 {
 	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBGame entityName]];
-	return fetchGames(fetchRequest);
+	return fetchObjects(fetchRequest);
 }
 
 -(OEDBGame *)valueInScripting_gamesWithName:(NSString*)name
 {
 	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBGame entityName]];
-	fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name like %@", name];
-	NSArray* result = fetchGames(fetchRequest);
-	return result.count > 0 ? result[0] : nil;
+	return fetchObjectByName(fetchRequest, name);
+}
+
+-(NSArray <OEDBGame *> *)scripting_saveStates
+{
+	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBSaveState entityName]];
+	return fetchObjects(fetchRequest);
+}
+
+-(OEDBGame *)valueInScripting_saveStatesWithName:(NSString*)name
+{
+	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBSaveState entityName]];
+	return fetchObjectByName(fetchRequest, name);
 }
 
 @end
