@@ -65,19 +65,3 @@ static NSArray *fetchGames(NSFetchRequest *request)
 }
 
 @end
-
-@interface OEDBGame (OEScripting)
-
--(NSScriptObjectSpecifier *)objectSpecifier;
-
-@end
-
-@implementation OEDBGame (OEScripting)
-
--(NSScriptObjectSpecifier *)objectSpecifier
-{
-	NSScriptClassDescription *appDescription = [NSScriptClassDescription classDescriptionForClass:[NSApplication class]];
-	return [[NSNameSpecifier alloc] initWithContainerClassDescription:appDescription containerSpecifier:nil key:@"scripting_games" name:self.name];
-}
-
-@end

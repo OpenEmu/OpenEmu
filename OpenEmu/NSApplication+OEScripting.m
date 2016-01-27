@@ -42,7 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly) NSString *scripting_buildVersion;
 @property(readonly) NSArray <OEDBCollection *> *scripting_libraryCollections;
 
-
 @property(readonly) NSArray <OEDBGame *> *scripting_games;
 -(OEDBGame *)valueInScripting_gamesWithName:(NSString*)name;
 

@@ -60,7 +60,27 @@
 			<property name="last information synchronization" code="EmGS" access="r" type="date" description="The date the game information was synchronized for the last time.">
 				<cocoa key="lastInfoSync"/>
 			</property>
+			
+			<responds-to name="launch">
+				<cocoa method="scripting_launch:"/>
+			</responds-to>
 		</class>
+		
+	</suite>
+	
+	<suite name="OpenEmu Gameplay Scripting" code="EmuS" description="Classes and commands to manipulate games' execution.">
+		
+		<command name="launch" code="OEmuPlay" description="Launch a game into a new game window. No game save is loaded.">
+			<direct-parameter description="The game to launch.">
+				<type type="game"/>
+			</direct-parameter>
+			<parameter name="suspended state" code="PlPS" type="boolean" optional="yes" description="Suspend (pause) the game when it is launched. Defaults to false.">
+				<cocoa key="PauseAtStart"/>
+			</parameter>
+			<parameter name="full screen" code="PlFS" type="boolean" optional="yes" description="Run the game in full screen mode. Defaults to the user preference.">
+				<cocoa key="FullScreen"/>
+			</parameter>
+		</command>
 		
 	</suite>
 </dictionary>
