@@ -1005,7 +1005,8 @@
 		DC83428A1C5830CD00B49693 /* OpenEmu.sdef in Resources */ = {isa = PBXBuildFile; fileRef = DC8342891C5830CD00B49693 /* OpenEmu.sdef */; };
 		DC83428D1C587DE200B49693 /* NSApplication+OEScripting.m in Sources */ = {isa = PBXBuildFile; fileRef = DC83428C1C587DE200B49693 /* NSApplication+OEScripting.m */; };
 		DC83428F1C5894AE00B49693 /* OEDBCollection+OEScripting.m in Sources */ = {isa = PBXBuildFile; fileRef = DC83428E1C58932600B49693 /* OEDBCollection+OEScripting.m */; };
-		DC9179C61C59484D005F04CB /* OEDBGame_Scripting.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9179C51C594838005F04CB /* OEDBGame_Scripting.m */; };
+		DC9179C61C59484D005F04CB /* OEDBGame+OEScripting.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9179C51C594838005F04CB /* OEDBGame+OEScripting.m */; };
+		DC9179C81C59506B005F04CB /* OEGameDocument+OEScripting.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9179C71C595054005F04CB /* OEGameDocument+OEScripting.m */; };
 		EBF76F31189E877300B3AA1A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9F272116635A1B008B1FB8 /* libz.dylib */; };
 		EC0A64E817C6F45500370F86 /* pcengine_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A64E617C6F45500370F86 /* pcengine_library@2x.png */; };
 		EC0A64E917C6F45500370F86 /* tg16_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC0A64E717C6F45500370F86 /* tg16_library@2x.png */; };
@@ -3052,7 +3053,8 @@
 		DC8342891C5830CD00B49693 /* OpenEmu.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OpenEmu.sdef; sourceTree = "<group>"; };
 		DC83428C1C587DE200B49693 /* NSApplication+OEScripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSApplication+OEScripting.m"; sourceTree = "<group>"; };
 		DC83428E1C58932600B49693 /* OEDBCollection+OEScripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEDBCollection+OEScripting.m"; sourceTree = "<group>"; };
-		DC9179C51C594838005F04CB /* OEDBGame_Scripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBGame_Scripting.m; sourceTree = "<group>"; };
+		DC9179C51C594838005F04CB /* OEDBGame+OEScripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEDBGame+OEScripting.m"; sourceTree = "<group>"; };
+		DC9179C71C595054005F04CB /* OEGameDocument+OEScripting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OEGameDocument+OEScripting.m"; sourceTree = "<group>"; };
 		EC0A64E617C6F45500370F86 /* pcengine_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pcengine_library@2x.png"; sourceTree = "<group>"; };
 		EC0A64E717C6F45500370F86 /* tg16_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tg16_library@2x.png"; sourceTree = "<group>"; };
 		EC350F0D174018AD005DA3B2 /* psx_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "psx_library@2x.png"; sourceTree = "<group>"; };
@@ -6184,7 +6186,8 @@
 				DC8342891C5830CD00B49693 /* OpenEmu.sdef */,
 				DC83428C1C587DE200B49693 /* NSApplication+OEScripting.m */,
 				DC83428E1C58932600B49693 /* OEDBCollection+OEScripting.m */,
-				DC9179C51C594838005F04CB /* OEDBGame_Scripting.m */,
+				DC9179C51C594838005F04CB /* OEDBGame+OEScripting.m */,
+				DC9179C71C595054005F04CB /* OEGameDocument+OEScripting.m */,
 			);
 			name = Scripting;
 			sourceTree = "<group>";
@@ -8092,6 +8095,7 @@
 				53439A9B13B92C97005C0CC8 /* OEDBCollection.m in Sources */,
 				53439A9C13B92C97005C0CC8 /* OEDBCollectionFolder.m in Sources */,
 				53439A9D13B92C97005C0CC8 /* OEDBSmartCollection.m in Sources */,
+				DC9179C81C59506B005F04CB /* OEGameDocument+OEScripting.m in Sources */,
 				53439AA213B92C9D005C0CC8 /* OEDBGame.m in Sources */,
 				53439AA313B92C9D005C0CC8 /* OEDBSystem.m in Sources */,
 				53439AA613B92CC7005C0CC8 /* OELibraryController.m in Sources */,
@@ -8104,7 +8108,7 @@
 				53439AE613B92E59005C0CC8 /* OETableHeaderView.m in Sources */,
 				53439AE713B92E59005C0CC8 /* OETableView.m in Sources */,
 				53439AEB13B92E91005C0CC8 /* OELibrarySplitView.m in Sources */,
-				DC9179C61C59484D005F04CB /* OEDBGame_Scripting.m in Sources */,
+				DC9179C61C59484D005F04CB /* OEDBGame+OEScripting.m in Sources */,
 				53439AF413B92EA8005C0CC8 /* OESearchFieldCell.m in Sources */,
 				5AECA1491BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift in Sources */,
 				53439AF713B92EAD005C0CC8 /* OESlider.m in Sources */,

@@ -29,41 +29,25 @@
 // elsewhere. The interface is defined in the implementation file to avoid
 // improper use.
 
-#import "OEDBCollection.h"
-#import "OEDBGame.h"
-#import "OELibraryDatabase.h"
+#import "OEGameDocument.h"
 
-@interface OEDBCollection (OEScripting)
+@interface OEGameDocument (OEScripting)
 
-@property(readonly) NSArray<OEDBGame *> *scripting_games;
-
--(NSScriptObjectSpecifier *)objectSpecifier;
+-(void)scripting_pause:(NSScriptCommand *)command;
+-(void)scripting_resume:(NSScriptCommand *)command;
 
 @end
 
-@implementation OEDBCollection (OEScripting)
+@implementation OEGameDocument (OEScripting)
 
-static NSArray *fetchGames(NSFetchRequest *request)
+-(void)scripting_pause:(NSScriptCommand *)command
 {
-	OELibraryDatabase *library = [OELibraryDatabase defaultDatabase];
-	NSManagedObjectContext *context = library.mainThreadContext;
-	return [context executeFetchRequest:request error:nil];
+	[self setEmulationPaused:YES];
 }
 
--(NSArray<OEDBGame *> *)scripting_games
+-(void)scripting_resume:(NSScriptCommand *)command
 {
-	// The "games" property appears to be dead
-	NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBGame entityName]];
-	fetchRequest.predicate = self.fetchPredicate;
-	fetchRequest.sortDescriptors = self.fetchSortDescriptors;
-	fetchRequest.fetchLimit = self.fetchLimit;
-	return fetchGames(fetchRequest);
-}
-
--(NSScriptObjectSpecifier *)objectSpecifier
-{
-	NSScriptClassDescription *appDescription = [NSScriptClassDescription classDescriptionForClass:[NSApplication class]];
-	return [[NSNameSpecifier alloc] initWithContainerClassDescription:appDescription containerSpecifier:nil key:@"scripting_libraryCollections" name:self.sidebarName];
+	[self setEmulationPaused:NO];
 }
 
 @end

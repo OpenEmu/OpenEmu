@@ -25,7 +25,9 @@
  */
 
 // The extension declared in this file is meant to be used by the scripting
-// infrastructure. There are architecturally better
+// infrastructure. There are architecturally better ways to achieve this from
+// elsewhere. The interface is defined in the implementation file to avoid
+// improper use.
 
 #import "NSDocumentController+OEAdditions.h"
 #import "OEDBGame.h"
