@@ -28,7 +28,7 @@
 
 "%@ could not be enabled because its plugin was not found." = "%@ no se ha podido activar porque el plugin no se encontró.";
 
-"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ games will appear here. Check out %@ on how to add disc-based games."; // TODO
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "Los juegos de  %@ aparecerán aquí. Consulte %@ sobre como añadir juegos basados en disco.";
 
 "%@ games you add to OpenEmu will appear in this Console Library" = "Los juegos de %@ añadidos a OpenEmu aparecerán en esta biblioteca de consolas";
 
@@ -94,7 +94,7 @@
 
 "Cheat Description" = "Descripción del truco";
 
-"Check out some excellent homebrew games." = "Check out some excellent homebrew games.";/*ventana homebrew*/
+"Check out some excellent homebrew games." = "Eche un vistazo a algunos excelentes juegos caseros."
 
 "Choose a valid file." = "Elija un archivo valido.";
 
@@ -146,7 +146,7 @@
 
 "Create or Load Save State" = "Crear o cargar estado guardado";
 
-"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game."; // TODO
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Cree su colección personal de capturas de pantalla. Para hacer una captura de pantalla, puede usar el atajo de teclado ⌘ + T al jugar una partida.";
 
 "Default Core" = "Núcleo predeterminado";
 
@@ -168,7 +168,7 @@
 
 "Delete Screenshots" = "Eliminar capturas de pantalla";
 
-"Delete" = "Delete"; // TODO
+"Delete" = "Eliminar";
 
 "Description" = "Descripción";
 
@@ -178,9 +178,9 @@
 
 "Device number %lu, %@, has disconnected." = "Device number %1$lu, %2$@, has disconnected.";/*****/
 
-"Disc-based games have special requirements. Please read the disc importing guide." = "Disc-based games have special requirements. Please read the disc importing guide."; // TODO
+"Disc-based games have special requirements. Please read the disc importing guide." = "Los juegos basados en disco tienen requisitos especiales. Por favor lea la guía de importación de disco.";
 
-"Dismiss" = "Dismiss"; // TODO
+"Dismiss" = "Descartar";
 
 "Do it!" = "¡Hacerlo!";
 
@@ -240,11 +240,11 @@
 
 "Gameplay" = "Modo de juego";
 
-"Have you read the guide?" = "Have you read the guide?"; // TODO
+"Have you read the guide?" = "¿Ha leído la guía?";
 
 "Hide \"%@\"" = "Ocultar \"%@\"";
 
-"Homebrew Games" = "Homebrew Games"; // TODO
+"Homebrew Games" = "Juegos caseros";
 
 "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "Si hay un botón rojo en la tapa trasera de la batería, púlselo.\nSi no, mantenga pulsados los botones ①+②.";
 
@@ -304,7 +304,7 @@
 
 "No game played yet!" = "No game played yet!";/*****/
 
-"No Internet Connection" = "No Internet Connection"; // TODO
+"No Internet Connection" = "No hay conexión a internet";
 
 "No Save States available" = "No hay estados guardados disponibles";
 
@@ -432,7 +432,7 @@
 
 "Select Scale" = "Seleccionar escala";
 
-"Share" = "Share"; // TODO
+"Share" = "Compartir";
 
 "Show in Finder" = "Mostrar en Finder";
 
@@ -482,7 +482,7 @@
 
 "The System plugin could not be found!" = "¡El plugin del sistema no se ha podido encontrar!";
 
-"this guide" = "this guide"; // TODO
+"this guide" = "esta guía";
 
 "This save state was created with a different core. Do you want to switch to that core now?" = "This save state was created with a different core. Do you want to switch to that core now?";/*****/
 
@@ -575,7 +575,7 @@
 
 "Show quicksave notification during gameplay" = "Mostrar notificación de guardado rápido durante modo de juego";
 
-"Show screenshot notification during gameplay" = "Show screenshot notification during gameplay"; // TODO
+"Show screenshot notification during gameplay" = "Mostrar notificación de captura de pantalla durante modo de juego";
 
 "Use quicksave slots" = "Usar ranuras de guardado rápido";
 
@@ -589,7 +589,7 @@
 
 "Disable aspect ratio correction" = "Desactivar corrección de la relación de aspecto";
 
-"Game View Background color" = "Color de fondo de la vistaGame View Background color";
+"Game View Background color" = "Color de fondo de la vista del juego";
 
 "Controls Setup" = "Configuración de mandos";
 
