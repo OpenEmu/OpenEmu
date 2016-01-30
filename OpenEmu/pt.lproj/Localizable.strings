@@ -178,7 +178,7 @@
 
 "Device number %lu, %@, has disconnected." = "O dispositivo número %1$lu, %2$@, foi desconectado.";
 
-"Disc-based games have special requirements. Please read the disc importing guide." = "Disc-based games have special requirements. Please read the disc importing guide."; // TODO
+"Disc-based games have special requirements. Please read the disc importing guide." = "Jogos baseados em Disco possuem requerimentos especiais. Por favor leia o guia de importação de discos.";
 
 "Dismiss" = "Fechar"; 
 
