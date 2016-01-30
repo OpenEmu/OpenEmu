@@ -28,7 +28,7 @@
 
 "%@ could not be enabled because its plugin was not found." = "%@ não pode ser habilitado pois o plugin não foi encontrado.";
 
-"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ games will appear here. Check out %@ on how to add disc-based games."; // TODO
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ jogos vão aparecer aqui. Verifique %@ sobre como adicionar jogos baseados em discos.";
 
 "%@ games you add to OpenEmu will appear in this Console Library" = "Os jogos de %@ que você adicionar ao OpenEmu vão aparecer nesta Biblioteca de Consoles";
 
@@ -170,7 +170,7 @@
 
 "Delete" = "Remover";
 
-"Description" = "Descrição"; // TODO // Search field menu, only search description
+"Description" = "Descrição"; 
 
 "Deselect All" = "Desmarcar Tudo";
 
@@ -180,9 +180,9 @@
 
 "Disc-based games have special requirements. Please read the disc importing guide." = "Disc-based games have special requirements. Please read the disc importing guide."; // TODO
 
-"Dismiss" = "Dismiss"; // TODO
+"Dismiss" = "Fechar"; 
 
-"Do it!" = "Do it!";
+"Do it!" = "Faça!";
 
 "Do not ask me again" = "Não perguntar mais";
 
@@ -202,15 +202,15 @@
 
 "Download" = "Baixar";
 
-"Downloading %@…" = "Downloading %@…";
+"Downloading %@…" = "Baixando %@…";
 
 "Downloading and Installing Core…" = "Baixando e Instalando Núcleo…";
 
-"Downloading Game DB" = "Downloading Game DB"; //TODO
+"Downloading Game DB" = "Baixando BD de Jogos";
 
 "Drag & Drop Games Here" = "Arraste e Solte os Jogos Aqui";
 
-"Drag & Drop Save States Here" = "Drag & Drop Save States Here"; // TODO
+"Drag & Drop Save States Here" = "Arraste e solte salvamentos aqui";
 
 "Duplicate Collection" = "Duplicar Coleção";
 
@@ -222,17 +222,17 @@
 
 "Error!" = "Erro!";
 
-"Everything" = "Everything"; // TODO  // Search field menu, search everything item title
+"Everything" = "Tudo"; 
 
 "Featured Games" = "Jogos em Destaque"; 
 
 "Fetching Games…" = "Buscando Jogos…"; 
 
-"Filter by:" = "Filter by:"; // TODO  // Search field menu, first item, instructional
+"Filter by:" = "Filtrar por:";
 
 "Game %ld of %ld" = "Jogo %1$ld de %2$ld";
 
-"Game Name" = "Game Name"; // TODO // Search field menu, only search game name
+"Game Name" = "Nome do Jogo";
 
 "Game requires download" = "O Jogo precisa ser baixado"; 
 
@@ -240,11 +240,11 @@
 
 "Gameplay" = "Gameplay";
 
-"Have you read the guide?" = "Have you read the guide?"; // TODO
+"Have you read the guide?" = "Você leu o manual?";
 
 "Hide \"%@\"" = "Esconder \"%@\"";
 
-"Homebrew Games" = "Homebrew Games"; // TODO
+"Homebrew Games" = "Jogos Homebrew"; 
 
 "If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "Se houver um botão vermelho atrás da capa da tampa da bateria, aperte-o.\nSenão, seguro os botões ①+②.";
 
@@ -264,7 +264,7 @@
 
 "Keyboard" = "Teclado";
 
-"Learn More" = "Learn More"; // TODO Missing BIOS files modal, Wiimote modal
+"Learn More" = "Saiba Mais";
 
 "Library" = "Biblioteca";
 
@@ -290,7 +290,7 @@
 
 "Mute Audio" = "Mutar Som";
 
-"Name" = "Name"; // TODO  // Search field menu, only search names
+"Name" = "Nome";
 
 "New Collection from Selection" = "Nova Coleção a partir dos Selecionados";
 
@@ -304,11 +304,11 @@
 
 "No game played yet!" = "Nenhum jogo ainda foi jogado!";
 
-"No Internet Connection" = "No Internet Connection"; // TODO
+"No Internet Connection" = "Sem Conexão com a Internet";
 
 "No Save States available" = "Nenhum Salvamento disponível";
 
-"No Screenshots Found" = "No Screenshots Found"; // TODO
+"No Screenshots Found" = "Nenhuma Captura Encontrada";
 
 "No" = "Não";
 
@@ -432,7 +432,7 @@
 
 "Select Scale" = "Selecionar Escala";
 
-"Share" = "Share"; // TODO
+"Share" = "Compartilhar";
 
 "Show in Finder" = "Exibir no Finder";
 
@@ -482,7 +482,7 @@
 
 "The System plugin could not be found!" = "O plugin do Systema não foi encontrado!";
 
-"this guide" = "this guide"; // TODO
+"this guide" = "este manual";
 
 "This save state was created with a different core. Do you want to switch to that core now?" = "Este estado de salvamento foi criado com um núcleo diferente. Deseja mudar para aquele Núcleo agora?";
 
@@ -504,15 +504,15 @@
 
 "Update" = "Atualizar";
 
-"User guide on BIOS files" = "User guide on BIOS files";
+"User guide on BIOS files" = "Manual do Usuário nos arquivos de BIOS";
 
-"View Guide In Browser" = "View Guide In Browser"; // TODO
+"View Guide In Browser" = "Ver Manual no Navegador";
 
 "Warning" = "Atenção";
 
-"While performing this operation OpenEmu will be unresponsive." = "While performing this operation OpenEmu will be unresponsive."; // TODO;
+"While performing this operation OpenEmu will be unresponsive." = "O OpenEmu pode ficar sem responder enquanto essa operação estiver rodando";
 
-"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves."; // TODO
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "Com o OpenEmu você pode salvar seu progresso a qualquer momento usando os salvamentos. Nós também faremos salvamentos automaticos para você, quando fechar um jogo. Volte aqui para ter uma visão geral dos seus salvamentos";
 
 "Won't be able to recognize it as special save state…" = "Não foi possível reconhecer como um estado de salvamento especial";
 
