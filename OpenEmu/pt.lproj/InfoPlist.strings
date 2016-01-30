@@ -30,6 +30,6 @@
 
 "OpenEmu Save State" = "Salvamento OpenEmu";
 
-"System Plugin" = "Plusin do sistema";
+"System Plugin" = "Plugin do sistema";
 
 "VideoFilterPlugin" = "PluginFiltroDeVideo"; // TODO NOT SURE HOW THIS SHOULD BE TRANSLATED, CONTEXT?
