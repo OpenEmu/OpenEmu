@@ -354,7 +354,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         [_gameDocument setGameWindowController:nil];
         
         [_gameDocument showInSeparateWindowInFullScreen:NO];
-		[_gameDocument setEmulationPaused:NO];
         _gameDocument = nil;
     }
 }
@@ -581,7 +580,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
         [self setCurrentContentController:nil];
         
         [_gameDocument showInSeparateWindowInFullScreen:NO];
-		[_gameDocument setEmulationPaused:NO];
         
         if(_resumePlayingAfterFullScreenTransition)
             [_gameDocument setEmulationPaused:NO];

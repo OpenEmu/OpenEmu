@@ -415,11 +415,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
      {
          if(success)
          {
-             if(displayDocument)
-			 {
-				 [document showInSeparateWindowInFullScreen:fullScreen];
-				 [document setEmulationPaused:NO];
-			 }
+             if(displayDocument) [document showInSeparateWindowInFullScreen:fullScreen];
              if(completionHandler)  completionHandler(document, nil);
          }
          else if(completionHandler) completionHandler(nil, error);

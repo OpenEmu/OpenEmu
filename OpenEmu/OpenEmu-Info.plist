@@ -144,10 +144,6 @@
 	<string>https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores.xml</string>
 	<key>SUFeedURL</key>
 	<string>https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast.xml</string>
-	<key>NSAppleScriptEnabled</key>
-	<true/>
-	<key>OSAScriptingDefinition</key>
-	<string>OpenEmu.sdef</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
