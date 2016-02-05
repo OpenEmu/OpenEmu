@@ -505,6 +505,8 @@ typedef enum : NSUInteger
     [windowController setWindowFullScreen:fullScreen];
     [self setGameWindowController:windowController];
     [self showWindows];
+
+    [self setEmulationPaused:NO];
 }
 
 - (NSString *)displayName
