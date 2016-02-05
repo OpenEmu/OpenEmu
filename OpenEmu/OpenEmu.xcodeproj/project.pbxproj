@@ -488,6 +488,8 @@
 		8745D75F1BF9A72B005E8699 /* OE5200SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */; };
 		879243B41C0DA5910064C515 /* controller_5200_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 879243B21C0DA5910064C515 /* controller_5200_mask@2x.png */; };
 		879243B51C0DA5910064C515 /* controller_5200@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 879243B31C0DA5910064C515 /* controller_5200@2x.png */; };
+		87B3DC0A1C644BCC003C65E4 /* controller_3do_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B3DC081C644BCC003C65E4 /* controller_3do_mask@2x.png */; };
+		87B3DC0B1C644BCC003C65E4 /* controller_3do@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B3DC091C644BCC003C65E4 /* controller_3do@2x.png */; };
 		87BC4DA21BA3A88600BF1F86 /* controller_7800_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87BC4DA01BA3A88600BF1F86 /* controller_7800_mask@2x.png */; };
 		87BC4DA31BA3A88600BF1F86 /* controller_7800@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87BC4DA11BA3A88600BF1F86 /* controller_7800@2x.png */; };
 		87BD9E241C2A66B1006722DF /* Atari 5200.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224B31707544100098DA0 /* Atari 5200.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -2354,6 +2356,8 @@
 		8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE5200SystemController.m; sourceTree = "<group>"; };
 		879243B21C0DA5910064C515 /* controller_5200_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_5200_mask@2x.png"; sourceTree = "<group>"; };
 		879243B31C0DA5910064C515 /* controller_5200@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_5200@2x.png"; sourceTree = "<group>"; };
+		87B3DC081C644BCC003C65E4 /* controller_3do_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_3do_mask@2x.png"; sourceTree = "<group>"; };
+		87B3DC091C644BCC003C65E4 /* controller_3do@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_3do@2x.png"; sourceTree = "<group>"; };
 		87BC4DA01BA3A88600BF1F86 /* controller_7800_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_7800_mask@2x.png"; sourceTree = "<group>"; };
 		87BC4DA11BA3A88600BF1F86 /* controller_7800@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_7800@2x.png"; sourceTree = "<group>"; };
 		87DF04FE1BCE2D100060E2C2 /* Dreamcast.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Dreamcast.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -5166,6 +5170,8 @@
 				5A221B111BFE96A1002FDD10 /* 3do_library@2x.png */,
 				943F99C41707E0AE00270E89 /* controller_3do_mask.png */,
 				943F99C51707E0AE00270E89 /* controller_3do.png */,
+				87B3DC081C644BCC003C65E4 /* controller_3do_mask@2x.png */,
+				87B3DC091C644BCC003C65E4 /* controller_3do@2x.png */,
 				943F99B71707DF3700270E89 /* 3DO-Info.plist */,
 				943F99C81707E0AE00270E89 /* Keyboard-Mappings.plist */,
 				943F99C61707E0AE00270E89 /* Controller-Mappings.plist */,
@@ -7404,7 +7410,9 @@
 				5A221B101BFE9671002FDD10 /* 3do_library.png in Resources */,
 				943F99CC1707E0AE00270E89 /* Controller-Mappings.plist in Resources */,
 				943F99CD1707E0AE00270E89 /* Controller-Preferences.plist in Resources */,
+				87B3DC0A1C644BCC003C65E4 /* controller_3do_mask@2x.png in Resources */,
 				943F99CE1707E0AE00270E89 /* Keyboard-Mappings.plist in Resources */,
+				87B3DC0B1C644BCC003C65E4 /* controller_3do@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

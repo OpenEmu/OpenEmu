@@ -9,27 +9,27 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OE3DOButtonUp</key>
-		<string>{0, 0}</string>
+		<string>{116, 270}</string>
 		<key>OE3DOButtonDown</key>
-		<string>{0, 0}</string>
+		<string>{116, 220}</string>
 		<key>OE3DOButtonLeft</key>
-		<string>{0, 0}</string>
+		<string>{96, 246}</string>
 		<key>OE3DOButtonRight</key>
-		<string>{0, 0}</string>
+		<string>{140, 246}</string>
 		<key>OE3DOButtonA</key>
-		<string>{0, 0}</string>
+		<string>{350, 220}</string>
 		<key>OE3DOButtonB</key>
-		<string>{0, 0}</string>
+		<string>{394, 249}</string>
 		<key>OE3DOButtonC</key>
-		<string>{0, 0}</string>
+		<string>{441, 269}</string>
 		<key>OE3DOButtonL</key>
-		<string>{0, 0}</string>
+		<string>{125, 350}</string>
 		<key>OE3DOButtonR</key>
-		<string>{0, 0}</string>
+		<string>{374, 350}</string>
 		<key>OE3DOButtonP</key>
-		<string>{0, 0}</string>
+		<string>{284, 250}</string>
 		<key>OE3DOButtonX</key>
-		<string>{0, 0}</string>
+		<string>{218, 250}</string>
 	</dict>
 </dict>
 </plist>
