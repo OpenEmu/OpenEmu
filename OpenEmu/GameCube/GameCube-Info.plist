@@ -182,6 +182,22 @@
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
+				<string>OEGCAnalogUp</string>
+				<string>OEGCAnalogDown</string>
+			</array>
+			<array>
+				<string>OEGCAnalogLeft</string>
+				<string>OEGCAnalogRight</string>
+			</array>
+			<array>
+				<string>OEGCAnalogCUp</string>
+				<string>OEGCAnalogCDown</string>
+			</array>
+			<array>
+				<string>OEGCAnalogCLeft</string>
+				<string>OEGCAnalogCRight</string>
+			</array>
+			<array>
 				<string>OEGCButtonUp</string>
 				<string>OEGCButtonDown</string>
 			</array>
