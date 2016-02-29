@@ -166,18 +166,14 @@
 	<dict>
 		<key>OEAnalogControlsKey</key>
 		<array>
-			<array>
-				<string>OEGCAnalogUp</string>
-				<string>OEGCAnalogDown</string>
-				<string>OEGCAnalogLeft</string>
-				<string>OEGCAnalogRight</string>
-			</array>
-			<array>
-				<string>OEGCAnalogCUp</string>
-				<string>OEGCAnalogCDown</string>
-				<string>OEGCAnalogCLeft</string>
-				<string>OEGCAnalogCRight</string>
-			</array>
+			<string>OEGCAnalogUp</string>
+			<string>OEGCAnalogDown</string>
+			<string>OEGCAnalogLeft</string>
+			<string>OEGCAnalogRight</string>
+			<string>OEGCAnalogCUp</string>
+			<string>OEGCAnalogCDown</string>
+			<string>OEGCAnalogCLeft</string>
+			<string>OEGCAnalogCRight</string>
 		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
