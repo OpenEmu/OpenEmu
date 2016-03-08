@@ -6,10 +6,10 @@
 "y2e-ND-lKU.ibShadowedLabels[0]" = "Bibliothèque";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[1] = "Save States"; ObjectID = "y2e-ND-lKU"; */
-"y2e-ND-lKU.ibShadowedLabels[1]" = "Save States"; // TODO
+"y2e-ND-lKU.ibShadowedLabels[1]" = "Sauvegardes";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[2] = "Screenshots"; ObjectID = "y2e-ND-lKU"; */
-"y2e-ND-lKU.ibShadowedLabels[2]" = "Screenshots"; // TODO
+"y2e-ND-lKU.ibShadowedLabels[2]" = "Captures d’écran";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[3] = "Homebrew"; ObjectID = "y2e-ND-lKU"; */
 "y2e-ND-lKU.ibShadowedLabels[3]" = "Homebrew";
