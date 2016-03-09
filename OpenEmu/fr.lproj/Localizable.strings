@@ -28,7 +28,7 @@
 
 "%@ could not be enabled because its plugin was not found." = "Impossible d’activer %@ car son plugin n’a pas été trouvé.";
 
-"%@ games will appear here. Check out %@ on how to add disc-based games." = "Les jeux %@ apparaîtront ici. Vérifiez %@ pour savoir comment ajouter des jeux à base de disque.";
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "Les jeux %@ apparaîtront ici. Lisez %@ pour savoir comment ajouter des jeux à base de disque.";
 
 "%@ games you add to OpenEmu will appear in this Console Library" = "Les jeux %@ ajoutés à OpenEmu apparaîtront dans la bibliothèque de la console";
 
@@ -180,7 +180,7 @@
 
 "Disc-based games have special requirements. Please read the disc importing guide." = "Les jeux à base de disque ont des exigences particulières. Lisez le guide d’importation de disque.";
 
-"Dismiss" = "Rejeter";
+"Dismiss" = "Ignorer";
 
 "Do it!" = "Faites-le !";
 
@@ -506,7 +506,7 @@
 
 "User guide on BIOS files" = "Guide de l’utilisateur des fichiers BIOS";
 
-"View Guide In Browser" = "Afficher le guide dans le navigateur";
+"View Guide In Browser" = "Afficher le guide";
 
 "Warning" = "Avertissement";
 
