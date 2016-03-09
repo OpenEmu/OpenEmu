@@ -42,7 +42,7 @@
 
 "Add Cheat" = "Ajouter un code";
 
-"Add Cover Art From File…" = "Ajouter la jaquette à partir d’un fichier…";
+"Add Cover Art From File…" = "Ajouter l’illustration à partir d’un fichier…";
 
 "Add To Collection" = "Ajouter à la collection";
 
@@ -82,7 +82,7 @@
 
 "Bluetooth Not Enabled" = "Bluetooth non activé";
 
-"Cancel Cover Art Download" = "Annuler le téléchargement de la jaquette";
+"Cancel Cover Art Download" = "Annuler le téléchargement de l’illustration";
 
 "Cancel Operation" = "Annuler l’opération";
 
@@ -198,7 +198,7 @@
 
 "Done" = "Terminé";
 
-"Download Cover Art" = "Télécharger la jaquette";
+"Download Cover Art" = "Télécharger l’illustration";
 
 "Download" = "Télécharger";
 
@@ -637,7 +637,7 @@
 
 "Remove duplicated roms" = "Supprimer les roms dupliquées";
 
-"Cancel cover sync for all games" = "Annuler la synchronisation des jaquettes pour tous les jeux";
+"Cancel cover sync for all games" = "Annuler la synchronisation des illustrations pour tous les jeux";
 
 "Perform Sanity Check on Database" = "Vérifier l’intégrité de la base de données";
 
