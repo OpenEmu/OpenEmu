@@ -559,9 +559,9 @@
 
 "Show quicksave states in save state category" = "Afficher les sauvegardes rapides dans la catégorie des sauvegardes";
 
-"Show game scanner view" = "Afficher la vue de l’analyseur de jeux";
+"Show game scanner view" = "Afficher la vue d’analyse des jeux";
 
-"Hide game scanner view" = "Masquer la vue de l’analyseur de jeux";
+"Hide game scanner view" = "Masquer la vue d’analyse des jeux";
 
 "HUD Bar / Gameplay" = "Barre HUD / Jeu";
 
