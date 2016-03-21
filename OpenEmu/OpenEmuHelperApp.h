@@ -37,7 +37,6 @@
 #import "OEXPCGameCoreHelper.h"
 
 // DO  object
-#import "OEDOGameCoreHelper.h"
 #import <OpenEmuBase/OpenEmuBase.h>
 
 #import "OEThreadProxy.h"

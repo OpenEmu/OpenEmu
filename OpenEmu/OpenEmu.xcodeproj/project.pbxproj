@@ -901,8 +901,6 @@
 		C6096192179B461C00239067 /* OEXPCGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096191179B461C00239067 /* OEXPCGameCoreManager.m */; };
 		C609619A179B6E3F00239067 /* OpenEmuXPCHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096199179B6E3F00239067 /* OpenEmuXPCHelperApp.m */; };
 		C609619B179B74DE00239067 /* OESystemPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C6289C31135B215B00EEE97C /* OESystemPlugin.m */; };
-		C609619E179B8E1100239067 /* OEDOGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C609619D179B8E1000239067 /* OEDOGameCoreManager.m */; };
-		C60961A1179BA70600239067 /* OpenEmuDOHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C60961A0179BA70600239067 /* OpenEmuDOHelperApp.m */; };
 		C60961A4179C4A1C00239067 /* OEThreadGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C60961A3179C4A1B00239067 /* OEThreadGameCoreManager.m */; };
 		C60961A7179C4BD000239067 /* OEThreadProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = C60961A6179C4BD000239067 /* OEThreadProxy.m */; };
 		C6252DA814E71D0500350A13 /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = C6252DA914E71D0500350A13 /* controller_fc.png */; };
@@ -1681,7 +1679,6 @@
 		1BEF2A7411682A330090F72B /* OpenEmuHelperApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OpenEmuHelperApp.m; sourceTree = "<group>"; };
 		1BEF2A9411682A530090F72B /* OpenEmuHelperApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OpenEmuHelperApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEF2AC311682A9D0090F72B /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
-		1BEF2C4711684AE90090F72B /* OEDOGameCoreHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDOGameCoreHelper.h; sourceTree = "<group>"; };
 		1BEF2D13116855690090F72B /* OETaskWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETaskWrapper.h; sourceTree = "<group>"; };
 		1BEF2D14116855690090F72B /* OETaskWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETaskWrapper.m; sourceTree = "<group>"; };
 		1E2F3DB910DEAB4C0019AA84 /* OEVersionMigrationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVersionMigrationController.h; sourceTree = "<group>"; };
@@ -2935,10 +2932,6 @@
 		C6096191179B461C00239067 /* OEXPCGameCoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPCGameCoreManager.m; sourceTree = "<group>"; };
 		C6096198179B6E3F00239067 /* OpenEmuXPCHelperApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuXPCHelperApp.h; sourceTree = "<group>"; };
 		C6096199179B6E3F00239067 /* OpenEmuXPCHelperApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuXPCHelperApp.m; sourceTree = "<group>"; };
-		C609619C179B8E1000239067 /* OEDOGameCoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDOGameCoreManager.h; sourceTree = "<group>"; };
-		C609619D179B8E1000239067 /* OEDOGameCoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDOGameCoreManager.m; sourceTree = "<group>"; };
-		C609619F179BA70600239067 /* OpenEmuDOHelperApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuDOHelperApp.h; sourceTree = "<group>"; };
-		C60961A0179BA70600239067 /* OpenEmuDOHelperApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuDOHelperApp.m; sourceTree = "<group>"; };
 		C60961A2179C4A1B00239067 /* OEThreadGameCoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThreadGameCoreManager.h; sourceTree = "<group>"; };
 		C60961A3179C4A1B00239067 /* OEThreadGameCoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEThreadGameCoreManager.m; sourceTree = "<group>"; };
 		C60961A5179C4BD000239067 /* OEThreadProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEThreadProxy.h; sourceTree = "<group>"; };
@@ -3808,8 +3801,6 @@
 				C6AC9D371190C5E60083DDFD /* OpenEmuHelperAppMain.m */,
 				1BEF2A7311682A330090F72B /* OpenEmuHelperApp.h */,
 				1BEF2A7411682A330090F72B /* OpenEmuHelperApp.m */,
-				C609619F179BA70600239067 /* OpenEmuDOHelperApp.h */,
-				C60961A0179BA70600239067 /* OpenEmuDOHelperApp.m */,
 				C6096198179B6E3F00239067 /* OpenEmuXPCHelperApp.h */,
 				C6096199179B6E3F00239067 /* OpenEmuXPCHelperApp.m */,
 			);
@@ -4414,8 +4405,6 @@
 				C6AC9D4B1190C9AE0083DDFD /* OEGameCoreManager.h */,
 				C6AC9D4C1190C9AE0083DDFD /* OEGameCoreManager.m */,
 				C6BF6BC717CAF09F004A8841 /* OEGameCoreManager_Internal.h */,
-				C609619C179B8E1000239067 /* OEDOGameCoreManager.h */,
-				C609619D179B8E1000239067 /* OEDOGameCoreManager.m */,
 				C60961A2179C4A1B00239067 /* OEThreadGameCoreManager.h */,
 				C60961A3179C4A1B00239067 /* OEThreadGameCoreManager.m */,
 				C6096190179B461C00239067 /* OEXPCGameCoreManager.h */,
@@ -5817,7 +5806,6 @@
 			children = (
 				C60238E8179510C600F4AF6C /* OEGameCoreHelper.h */,
 				C609618F179B278C00239067 /* OEXPCGameCoreHelper.h */,
-				1BEF2C4711684AE90090F72B /* OEDOGameCoreHelper.h */,
 			);
 			name = "Game Core Helper Protocols";
 			sourceTree = "<group>";
@@ -7960,7 +7948,6 @@
 				C6AC9D391190C6490083DDFD /* OpenEmuHelperAppMain.m in Sources */,
 				828BF57F1669F99600759F10 /* OEUtilities.m in Sources */,
 				C609619A179B6E3F00239067 /* OpenEmuXPCHelperApp.m in Sources */,
-				C60961A1179BA70600239067 /* OpenEmuDOHelperApp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8231,7 +8218,6 @@
 				94A4E992179F9D0400AD8C7D /* OEDBScreenshotsMedia.m in Sources */,
 				94A4E996179FAB9F00AD8C7D /* OEMediaViewController.m in Sources */,
 				C6096192179B461C00239067 /* OEXPCGameCoreManager.m in Sources */,
-				C609619E179B8E1100239067 /* OEDOGameCoreManager.m in Sources */,
 				83E89274197471F8004D4489 /* OEHomebrewCoverView.m in Sources */,
 				C60961A4179C4A1C00239067 /* OEThreadGameCoreManager.m in Sources */,
 				C60961A7179C4BD000239067 /* OEThreadProxy.m in Sources */,

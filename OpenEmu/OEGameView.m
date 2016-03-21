@@ -28,7 +28,6 @@
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEGameDocument.h"
-#import "OEDOGameCoreHelper.h"
 
 #import "OEShaderPlugin.h"
 #import "OEGameShader.h"

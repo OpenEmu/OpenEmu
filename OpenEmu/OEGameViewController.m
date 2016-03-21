@@ -33,8 +33,6 @@
 
 #import "OEGameView.h"
 #import "OECorePickerController.h"
-#import "OEDOGameCoreHelper.h"
-#import "OEDOGameCoreManager.h"
 #import "OEGameCoreManager.h"
 #import "OEThreadGameCoreManager.h"
 #import "OEXPCGameCoreManager.h"

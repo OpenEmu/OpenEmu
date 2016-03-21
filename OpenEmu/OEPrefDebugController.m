@@ -42,7 +42,6 @@
 
 #import "OEGameViewController.h"
 
-#import "OEDOGameCoreManager.h"
 #import "OEThreadGameCoreManager.h"
 #import "OEXPCGameCoreManager.h"
 
@@ -155,7 +154,6 @@ NSString * const OptionsKey = @"options";
                                       ),
                               Popover(@"Run games using", @selector(changeGameMode:),
                                       Option(@"XPC", NSStringFromClass([OEXPCGameCoreManager class])),
-                                      Option(@"Distributed Objects", NSStringFromClass([OEDOGameCoreManager class])),
                                       Option(@"Background Thread", NSStringFromClass([OEThreadGameCoreManager class])),
                                       ),
 

@@ -673,6 +673,11 @@
     [_gameRenderer willRenderFrameOnAlternateThread];
 }
 
+- (void)presentDoubleBufferedFBO
+{
+    [_gameRenderer presentDoubleBufferedFBO];
+}
+
 - (void)didRenderFrameOnAlternateThread
 {
     [_gameRenderer didRenderFrameOnAlternateThread];
