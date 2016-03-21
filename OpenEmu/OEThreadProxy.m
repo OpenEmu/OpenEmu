@@ -52,7 +52,6 @@
 
 - (void)dealloc
 {
-    NSLog(@"Deallocating proxy: %@", self);
     _target = nil;
 
     CFRelease(_cachedMethodSignatures);
@@ -208,7 +207,6 @@
 {
     if(IS_CURRENT_THREAD_AND_ALIVE(_thread))
     {
-        NSLog(@"Will fast invoke: %@ with target: %@", _target, NSStringFromSelector(aSelector));
         return _target;
     }
 

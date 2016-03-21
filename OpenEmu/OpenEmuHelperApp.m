@@ -46,7 +46,6 @@
 #endif
 
 @interface OpenEmuHelperApp () <OEGameCoreDelegate, OEGlobalEventsHandler>
-@property(readwrite, getter=isRunning) BOOL running;
 @property BOOL loadedRom;
 
 @property(readonly) OEIntSize screenSize;
@@ -264,10 +263,9 @@
     _gameController = [[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller];
     _gameCore = [_gameController newGameCore];
 
-    NSString *systemIdentifier = [_systemController systemIdentifier];
+    _gameCoreProxy = [[OEThreadProxy alloc] initWithTarget:_gameCore thread:[self makeGameCoreThread]];
 
-    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(OE_gameCoreThread:) object:nil];
-    _gameCoreProxy = [[OEThreadProxy alloc] initWithTarget:_gameCore thread:thread];
+    NSString *systemIdentifier = [_systemController systemIdentifier];
 
     [_gameCore setOwner:_gameController];
     [_gameCore setDelegate:self];
@@ -304,16 +302,19 @@
     {
         DLog(@"Loaded new Rom: %@", aPath);
         [[self gameCoreOwner] setDiscCount:[_gameCore discCount]];
-        return self.loadedRom = YES;
+
+        self.loadedRom = YES;
+
+        return YES;
     }
     else
     {
         NSLog(@"ROM did not load.");
         _gameCore = nil;
         _gameCoreProxy = nil;
-    }
 
-    return NO;
+        return NO;
+    }
 }
 
 - (NSString *)decompressedPathForRomAtPath:(NSString *)aPath
@@ -388,42 +389,38 @@
     return tmpPath;
 }
 
+- (NSThread *)makeGameCoreThread
+{
+    return [[NSThread alloc] initWithTarget:self selector:@selector(OE_gameCoreThread:) object:nil];
+}
+
 - (void)OE_gameCoreThread:(id)anObject
 {
-    NSLog(@"Begin separate thread");
-
-    // starts the threaded emulator timer
     [_gameCore startEmulation];
+    [[NSThread currentThread] setName:@"org.openemu.core-thread"];
+    [[NSThread currentThread] setQualityOfService:NSQualityOfServiceUserInteractive];
 
     void(^startEmulationHandler)(void) = _startEmulationHandler;
     _startEmulationHandler = nil;
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if(startEmulationHandler != nil) startEmulationHandler();
+    if (startEmulationHandler) {
+        // will be called on the first event loop go around
+        dispatch_async(dispatch_get_main_queue(), startEmulationHandler);
+    }
 
-        [self setRunning:YES];
-
-        DLog(@"finished starting rom");
-    });
-
-    CFRunLoopRun();
-
-    NSLog(@"Did finish separate thread");
+    [_gameCore runGameLoop:self];
 
     void(^stopEmulationHandler)(void) = _stopEmulationHandler;
     _stopEmulationHandler = nil;
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if(stopEmulationHandler != nil) stopEmulationHandler();
-    });
+    if (stopEmulationHandler) {
+        dispatch_async(dispatch_get_main_queue(), stopEmulationHandler);
+    }
 }
 
 - (void)OE_stopGameCoreThreadRunLoop:(id)anObject
 {
-    NSLog(@"Will stop in stack trace: %@", [NSThread callStackSymbols]);
     CFRunLoopStop(CFRunLoopGetCurrent());
-
-    NSLog(@"Finishing separate thread, stopping");
 }
 
 - (OEIntSize)aspectSize
@@ -446,48 +443,46 @@
 
 - (void)setPauseEmulation:(BOOL)paused
 {
-    [[self gameCoreProxy] setRate:paused ? 0 : 1.0];
+    [[self gameCoreProxy] setPauseEmulation:paused];
 }
 
 - (void)setAudioOutputDeviceID:(AudioDeviceID)deviceID
 {
-    DLog(@"---------- will set output device id to %lu", (unsigned long)deviceID);
+    DLog(@"Audio output device: %lu", (unsigned long)deviceID);
     [_gameAudio setOutputDeviceID:deviceID];
 }
 
 - (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
 {
-    NSLog(@"Setting up emulation");
-
     [_gameCore setupEmulation];
     [self setupGameCoreAudioAndVideo];
 
-    DLog(@"finished setting up rom");
     if(handler) handler(_surfaceID, _screenSize, _previousAspectSize);
 }
 
-- (void)startEmulationWithCompletionHandler:(void(^)(void))handler;
+- (void)startEmulationWithCompletionHandler:(void(^)(void))handler
 {
-    DLog(@"Starting Emulation");
     _startEmulationHandler = [handler copy];
-    [[_gameCoreProxy thread] start];
+
+    NSThread *target = [_gameCoreProxy thread];
+    if (!target.executing) [target start];
 }
 
-- (void)resetEmulationWithCompletionHandler:(void(^)(void))handler;
+- (void)resetEmulationWithCompletionHandler:(void(^)(void))handler
 {
     [[self gameCore] resetEmulation];
     if(handler) handler();
 }
 
-- (void)stopEmulationWithCompletionHandler:(void(^)(void))handler;
+- (void)stopEmulationWithCompletionHandler:(void(^)(void))handler
 {
     _stopEmulationHandler = [handler copy];
-    [_pollingTimer invalidate], _pollingTimer = nil;
+    [_pollingTimer invalidate];
+    _pollingTimer = nil;
 
     [[self gameCore] stopEmulationWithCompletionHandler: ^{
         NSThread *threadToKill = [_gameCoreProxy thread];
 
-        [self setRunning:NO];
         [_gameAudio stopAudio];
         [_gameCore setRenderDelegate:nil];
         [_gameCore setAudioDelegate:nil];

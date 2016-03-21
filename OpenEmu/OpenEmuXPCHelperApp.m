@@ -92,19 +92,31 @@
 - (void)loadROMAtPath:(NSString *)romPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion usingCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath completionHandler:(void (^)(NSError *))completionHandler
 {
     NSError *error;
-    if(![self loadROMAtPath:romPath romCRC32:romCRC32 romMD5:romMD5 romHeader:romHeader romSerial:romSerial systemRegion:systemRegion withCorePluginAtPath:pluginPath systemPluginPath:systemPluginPath error:&error]) {
-        completionHandler(error);
-        return;
-    }
+    [self loadROMAtPath:romPath romCRC32:romCRC32 romMD5:romMD5 romHeader:romHeader romSerial:romSerial systemRegion:systemRegion withCorePluginAtPath:pluginPath systemPluginPath:systemPluginPath error:&error];
 
-    completionHandler(nil);
+    completionHandler(error);
 }
 
-- (void)stopEmulationWithCompletionHandler:(void(^)(void))handler;
+- (void)applicationWillTerminate:(NSNotification *)notification
 {
-    [super stopEmulationWithCompletionHandler:^{
-        handler();
-    }];
+    // Forcibly sudden terminate ourselves. OpenGL cores can't cleanly exit.
+
+    kill(getpid(), SIGKILL);
+}
+
+- (NSThread *)makeGameCoreThread
+{
+    // Do not start a new thread, instead take over the main thread.
+    // I/O events arrive there from the system, so it's faster.
+
+    return [NSThread mainThread];
+}
+
+- (void)startEmulationWithCompletionHandler:(void(^)(void))handler
+{
+    [super startEmulationWithCompletionHandler:handler];
+
+    [self performSelectorOnMainThread:@selector(OE_gameCoreThread:) withObject:nil waitUntilDone:NO];
 }
 
 @end

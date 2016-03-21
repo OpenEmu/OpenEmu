@@ -68,4 +68,7 @@ enum _OEHelperAppErrorCodes
 
 - (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion withCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath error:(NSError **)error;
 
+- (NSThread *)makeGameCoreThread;
+- (void)OE_gameCoreThread:(id)anObject;
+
 @end
