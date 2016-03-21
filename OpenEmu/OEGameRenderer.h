@@ -30,6 +30,7 @@
 - (void)willExecuteFrame;
 - (void)didExecuteFrame;
 
+- (void)presentDoubleBufferedFBO;
 - (void)willRenderFrameOnAlternateThread;
 - (void)didRenderFrameOnAlternateThread;
 

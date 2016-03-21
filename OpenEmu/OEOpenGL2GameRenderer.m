@@ -90,8 +90,6 @@
 
 - (void)setupVideo
 {
-    DLog(@"Setting up OpenGL2.x/2D renderer");
-
     [self setupGLContext];
     [self setupFramebuffer];
 
@@ -275,8 +273,6 @@
         glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_PRIVATE_APPLE);
         glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
     }
-    
-    DLog(@"Finished setting up gameTexture");
 
     // Set up the context's matrix
     glViewport(0, 0, _surfaceSize.width, _surfaceSize.height);
@@ -294,6 +290,8 @@
 {
     if(_alternateContext == NULL)
         CGLCreateContext(_glPixelFormat, _glContext, &_alternateContext);
+
+    DLog(@"Setup GL2.1 3D 'alternate-threaded' rendering");
 }
 
 - (void)setupDoubleBufferedFBO
@@ -325,6 +323,8 @@
     glClear(GL_COLOR_BUFFER_BIT);
 
     _isDoubleBufferFBOMode = YES;
+
+    DLog(@"Setup GL2.1 3D 'double-buffered FBO' rendering");
 }
 
 - (void)clearFramebuffer
@@ -351,7 +351,7 @@
     }
 }
 
-- (void)copyAlternateFBO
+- (void)presentDoubleBufferedFBO
 {
     glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, _alternateFBO);
     glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, _ioSurfaceFBO);
@@ -507,10 +507,6 @@
         glDisableClientState(GL_VERTEX_ARRAY);
     }
 
-    if (_isDoubleBufferFBOMode) {
-        [self copyAlternateFBO];
-    }
-
     // Update the IOSurface.
     glFlushRenderAPPLE();
 }
@@ -524,9 +520,6 @@
 
 - (void)didRenderFrameOnAlternateThread
 {
-    if (_isDoubleBufferFBOMode)
-        [self copyAlternateFBO];
-
     // Update the IOSurface.
     glFlushRenderAPPLE();
 

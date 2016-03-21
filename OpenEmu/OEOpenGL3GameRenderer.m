@@ -248,7 +248,7 @@
     }
 }
 
-- (void)copyAlternateFBO
+- (void)presentDoubleBufferedFBO
 {
     glBindFramebuffer(GL_READ_FRAMEBUFFER, _alternateFBO);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _ioSurfaceFBO);
@@ -290,9 +290,6 @@
         return;
     }
 
-    if (_isDoubleBufferFBOMode)
-        [self copyAlternateFBO];
-
     // Update the IOSurface.
     glFlushRenderAPPLE();
 }
@@ -306,9 +303,6 @@
 
 - (void)didRenderFrameOnAlternateThread
 {
-    if (_isDoubleBufferFBOMode)
-        [self copyAlternateFBO];
-
     // Update the IOSurface.
     glFlushRenderAPPLE();
 
