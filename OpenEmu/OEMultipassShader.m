@@ -24,6 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifdef CG_SUPPORT
+
 #import "OEMultipassShader.h"
 #import "OEShaderPlugin.h"
 #import "OECGShader.h"
@@ -342,3 +344,5 @@
 }
 
 @end
+
+#endif

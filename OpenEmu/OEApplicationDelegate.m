@@ -671,9 +671,12 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     [OEPlugin registerPluginClass:[OECorePlugin class]];
     [OEPlugin registerPluginClass:[OESystemPlugin class]];
-    [OEPlugin registerPluginClass:[OECGShaderPlugin class]];
     [OEPlugin registerPluginClass:[OEGLSLShaderPlugin class]];
+
+#ifdef CG_SUPPORT
+    [OEPlugin registerPluginClass:[OECGShaderPlugin class]];
     [OEPlugin registerPluginClass:[OEMultipassShaderPlugin class]];
+#endif
 
     // Register all system controllers with the bindings controller
     for(OESystemPlugin *plugin in [OESystemPlugin allPlugins])

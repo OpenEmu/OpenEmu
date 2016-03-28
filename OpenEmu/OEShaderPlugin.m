@@ -25,9 +25,13 @@
  */
 
 #import "OEShaderPlugin.h"
-#import "OECGShader.h"
 #import "OEGLSLShader.h"
+
+#ifdef CG_SUPPORT
+#import "OECGShader.h"
 #import "OEMultipassShader.h"
+#endif
+
 #import "OEBuiltInShader.h"
 
 @implementation OEShaderPlugin
@@ -37,8 +41,12 @@
     if(self == [OEShaderPlugin class])
     {
         [OEGLSLShaderPlugin      registerPluginClass];
+
+#ifdef CG_SUPPORT
         [OECGShaderPlugin        registerPluginClass];
         [OEMultipassShaderPlugin registerPluginClass];
+#endif
+
         [OEBuiltInShaderPlugin   registerPluginClass];
     }
 }
@@ -49,8 +57,12 @@
     {
         NSMutableArray *allPlugins = [NSMutableArray array];
         [allPlugins addObjectsFromArray:[self pluginsForType:[OEGLSLShaderPlugin class]]];
+
+#ifdef CG_SUPPORT
         [allPlugins addObjectsFromArray:[self pluginsForType:[OECGShaderPlugin class]]];
         [allPlugins addObjectsFromArray:[self pluginsForType:[OEMultipassShaderPlugin class]]];
+#endif
+
         [allPlugins addObjectsFromArray:[self pluginsForType:[OEBuiltInShaderPlugin class]]];
 
         return allPlugins;
@@ -104,6 +116,7 @@
 
 @end
 
+#ifdef CG_SUPPORT
 @implementation OECGShaderPlugin
 
 + (Class)shaderClass
@@ -131,6 +144,7 @@
 }
 
 @end
+#endif
 
 @implementation OEBuiltInShaderPlugin
 {
