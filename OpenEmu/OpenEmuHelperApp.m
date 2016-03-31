@@ -145,11 +145,12 @@
 
 - (void)setupProcessPollingTimer
 {
-    _pollingTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+    _pollingTimer = [NSTimer scheduledTimerWithTimeInterval:5
                                                      target:self
                                                    selector:@selector(pollParentProcess)
                                                    userInfo:nil
                                                     repeats:YES];
+    _pollingTimer.tolerance = 1;
 }
 
 - (void)pollParentProcess
