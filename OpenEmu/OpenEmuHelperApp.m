@@ -430,7 +430,7 @@
 
 - (BOOL)isEmulationPaused
 {
-    return _gameCore.rate == 0;
+    return _gameCore.isEmulationPaused;
 }
 
 #pragma mark - OEGameCoreHelper methods
@@ -678,6 +678,16 @@
     [_gameRenderer didRenderFrameOnAlternateThread];
 }
 
+- (void)resumeFPSLimiting
+{
+    [_gameRenderer resumeFPSLimiting];
+}
+
+- (void)suspendFPSLimiting
+{
+    [_gameRenderer suspendFPSLimiting];
+}
+
 - (BOOL)enableVSync
 {
     return _enableVSync;
@@ -695,6 +705,16 @@
 {
     [_gameAudio stopAudio];
     [_gameAudio startAudio];
+}
+
+- (void)pauseAudio
+{
+    [_gameAudio pauseAudio];
+}
+
+- (void)resumeAudio
+{
+    [_gameAudio resumeAudio];
 }
 
 #pragma mark - OEGlobalEventsHandler

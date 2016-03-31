@@ -35,7 +35,8 @@
     CGLContextObj         _alternateContext; // Alternate thread's GL context.
     dispatch_semaphore_t  _renderingThreadCanProceedSemaphore;
     dispatch_semaphore_t  _executeThreadCanProceedSemaphore;
-    uint8_t               _isAlternateDisplayingFrames; // If no, core side is still in setup, so don't FPS limit.
+
+    volatile int32_t      _isFPSLimiting; // Enable the "fake vsync" locking to prevent the GPU thread running ahead.
 }
 
 @synthesize gameCore=_gameCore;
@@ -381,13 +382,30 @@
     }
 }
 
+- (void)resumeFPSLimiting
+{
+    if (_isFPSLimiting == 1) return;
+
+    OSAtomicIncrement32(&_isFPSLimiting);
+}
+
+- (void)suspendFPSLimiting
+{
+    if (_isFPSLimiting == 0) return;
+
+    OSAtomicDecrement32(&_isFPSLimiting);
+
+    // Wake up the rendering thread one last time.
+    // After this, it'll skip checking the semaphore until resumed.
+    dispatch_semaphore_signal(_renderingThreadCanProceedSemaphore);
+}
+
 // Execution
 - (void)willExecuteFrame
 {
     if (_alternateContext) {
         // Tell the rendering thread to go ahead.
-        _isAlternateDisplayingFrames = 1;
-        dispatch_semaphore_signal(_renderingThreadCanProceedSemaphore);
+        if (_isFPSLimiting) dispatch_semaphore_signal(_renderingThreadCanProceedSemaphore);
         return;
     }
 
@@ -403,9 +421,8 @@
 {
     if (_alternateContext) {
         // Wait for the rendering thread to complete this frame.
-        // Most cores with rendering threads don't seem to handle timing themselves
-        // - they're probably relying on Vsync.
-        dispatch_semaphore_wait(_executeThreadCanProceedSemaphore, DISPATCH_TIME_FOREVER);
+        // Most cores with rendering threads don't seem to handle timing themselves - they're probably relying on Vsync.
+        if (_isFPSLimiting) dispatch_semaphore_wait(_executeThreadCanProceedSemaphore, DISPATCH_TIME_FOREVER);
 
         // Don't do any other work.
         // NOTE: if we start doing other GL stuff here (like filtering moves into this GL context)
@@ -524,7 +541,7 @@
     glFlushRenderAPPLE();
 
     // Do FPS limiting, but only once setup is over.
-    if (_isAlternateDisplayingFrames) {
+    if (_isFPSLimiting) {
         // Technically the above should be a glFinish(), but I'm hoping the GPU work
         // is fast enough that it's not needed.
         dispatch_semaphore_signal(_executeThreadCanProceedSemaphore);
