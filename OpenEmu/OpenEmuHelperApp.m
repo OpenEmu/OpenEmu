@@ -86,7 +86,6 @@
     id _unhandledEventsMonitor;
 
     // screen subrect stuff
-    OEIntSize             _previousScreenSize;
     CGFloat               _gameAspectRatio;
 
     BOOL                  _hasStartedAudio;
@@ -173,9 +172,8 @@
     OEIntRect screenRect = _gameCore.screenRect;
 
     _previousAspectSize = _gameCore.aspectSize;
-    _previousScreenSize = screenRect.size;
 
-    if(_previousScreenSize.width == 0)
+    if(_screenSize.width == 0)
         _gameAspectRatio = screenRect.size.width / (CGFloat)screenRect.size.height;
 
     // Aspect ratio correction, should not be needed
@@ -214,6 +212,7 @@
 
 - (void)setupIOSurface
 {
+    BOOL isReinit = _surfaceID != 0;
     [self destroyIOSurface];
 
     // init our texture and IOSurface
@@ -234,7 +233,7 @@
     _gameRenderer.ioSurface   = _surfaceRef;
     [_gameRenderer updateRenderer];
 
-    [self updateScreenSize:_screenSize withIOSurfaceID:_surfaceID];
+    if (isReinit) [self updateScreenSize:_screenSize withIOSurfaceID:_surfaceID];
 }
 
 - (void)destroyIOSurface
@@ -243,6 +242,12 @@
 
     CFRelease(_surfaceRef);
     _surfaceRef = nil;
+}
+
+- (void)setOutputBounds:(NSRect)rect
+{
+    // TODO: Change buffersize, recreate IOSurface or tell layer to change
+    NSParameterAssert(0);
 }
 
 #pragma mark - Game Core methods
@@ -635,12 +640,12 @@
         // The IOSurface is going to be recreated at the next frame.
         // Don't check the other stuff because it's just going to glitch either way.
     } else {
-        if(!OEIntSizeEqualToSize(screenRect.size, _previousScreenSize))
+        if(!OEIntSizeEqualToSize(screenRect.size, _screenSize))
         {
             NSAssert((screenRect.origin.x + screenRect.size.width) <= bufferSize.width, @"screen rect must not be larger than buffer size");
             NSAssert((screenRect.origin.y + screenRect.size.height) <= bufferSize.height, @"screen rect must not be larger than buffer size");
 
-            DLog(@"Sending did change screen rect to %@", NSStringFromOEIntRect(screenRect));
+            NSLog(@"Sending did change screen rect to %@", NSStringFromOEIntRect(screenRect));
             [self updateScreenSize];
             [self updateScreenSize:_screenSize withIOSurfaceID:_surfaceID];
         }
@@ -650,7 +655,7 @@
             NSAssert(aspectSize.height <= bufferSize.height, @"aspect size must not be larger than buffer size");
             NSAssert(aspectSize.width <= bufferSize.width, @"aspect size must not be larger than buffer size");
 
-            DLog(@"Sending did change aspect to %@", NSStringFromOEIntSize(aspectSize));
+            NSLog(@"Sending did change aspect to %@", NSStringFromOEIntSize(aspectSize));
             [self updateAspectSize:aspectSize];
         }
     }

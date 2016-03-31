@@ -452,7 +452,6 @@ typedef enum
 - (void)window:(NSWindow *)window startCustomAnimationToEnterFullScreenWithDuration:(NSTimeInterval)duration
 {
     OEGameViewController *gameViewController = [[self OE_gameDocument] gameViewController];
-    OEGameView *gameView                     = [gameViewController gameView];
     CALayer *layer                           = [[_screenshotWindow screenshotView] layer];
     NSView *contentView                      = [(OEHUDWindow *)window mainContentView];
     NSScreen *mainScreen                     = [[NSScreen screens] objectAtIndex:0];
@@ -463,8 +462,7 @@ typedef enum
     const NSRect screenshotWindowFrame       = [self OE_screenshotWindowFrameForOriginalFrame:contentFrame];
     const NSRect fullScreenWindowFrame       = [self OE_screenshotWindowFrameForOriginalFrame:screenFrame];
 
-
-    [_screenshotWindow setScreenshot:[gameView screenshot]];
+    [_screenshotWindow setScreenshot:[gameViewController screenshot]];
     [self OE_forceLayerReposition:layer toFrame:screenshotWindowFrame];
     [_screenshotWindow orderFront:self];
 
@@ -542,7 +540,6 @@ typedef enum
 - (void)window:(NSWindow *)window startCustomAnimationToExitFullScreenWithDuration:(NSTimeInterval)duration
 {
     OEGameViewController *gameViewController = [[self OE_gameDocument] gameViewController];
-    OEGameView *gameView                     = [gameViewController gameView];
     CALayer *layer                           = [[_screenshotWindow screenshotView] layer];
     NSView *contentView                      = [(OEHUDWindow *)window mainContentView];
     NSScreen *mainScreen                     = [[NSScreen screens] objectAtIndex:0];
@@ -551,7 +548,7 @@ typedef enum
     const NSTimeInterval showBorderDuration  = duration / 4;
     const NSTimeInterval resizeDuration      = duration - showBorderDuration;
 
-    [_screenshotWindow setScreenshot:[gameView screenshot]];
+    [_screenshotWindow setScreenshot:[gameViewController screenshot]];
     [self OE_forceLayerReposition:layer toFrame:fullScreenGameArea];
     [_screenshotWindow orderFront:self];
 

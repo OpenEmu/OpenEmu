@@ -10,13 +10,10 @@
 #import <OpenGL/gl.h>
 #import <OpenGL/glext.h>
 
-#define DIRECTER_RENDERING 0
-
 @implementation OEOpenGL2GameRenderer
 {
     BOOL                  _is2DMode;
     BOOL                  _is2DDirectRender;
-    BOOL                  _shouldUseClientStorage;
 
     // GL stuff
     CGLContextObj         _glContext;
@@ -24,7 +21,12 @@
     GLuint                _ioSurfaceFBO;     // Framebuffer object which the ioSurfaceTexture is tied to
     GLuint                _depthStencilRB;   // FBO RenderBuffer Attachment for depth and stencil buffer
     GLuint                _ioSurfaceTexture; // texture wrapping the IOSurface, used as the render target. Uses the usual pixel format.
-    GLuint                _gameTexture;      // (2D mode) texture wrapping game's videoBuffer. Uses the game's pixel formats.
+
+    // 2D mode
+    GLuint                _gamePBO;          // PBO we put the game pixels into, if it wants to.
+    GLuint                _gameTexture;      // texture representing the game's pixels. Uses the game's pixel format.
+    GLuint                _gameVBO;          // vertex buffer containing the dest rect
+    GLuint                _gameVAO;          // vertex array object holding a little state
 
     // Double buffered FBO rendering (3D mode)
     BOOL                  _isDoubleBufferFBOMode;
@@ -109,7 +111,13 @@
 - (void)setupGLContext
 {
     // init our context.
-    static const CGLPixelFormatAttribute attributes[] = { kCGLPFAAccelerated, kCGLPFAAllowOfflineRenderers, 0 };
+    static const CGLPixelFormatAttribute attributes[] = {
+        kCGLPFAAccelerated,
+        kCGLPFAAllowOfflineRenderers,
+        kCGLPFANoRecovery,
+        kCGLPFAColorSize, 24,
+        kCGLPFADepthSize, 24,
+        0 };
 
     CGLError err = kCGLNoError;
     GLint numPixelFormats = 0;
@@ -132,16 +140,6 @@
     CGLRetainContext(_glContext);
 
     CGLSetCurrentContext(_glContext);
-
-    /*
-     * The original theory was that client storage textures (linear, no upload to VRAM)
-     * would be faster on integrated Intel and NVidia GPUs. Instead, it seems they're
-     * very slow on only those GPUs. This could be a driver bug, or because of the way
-     * it's used to draw to an iosurface texture, or something.
-     *
-     * It seems to be faster on all AMD GPUs. If you can figure out the bugs, turn it back on...
-     */
-    _shouldUseClientStorage = NO;
 }
 
 - (void)setupFramebuffer
@@ -152,21 +150,12 @@
     glGenTextures(1, &_ioSurfaceTexture);
     glEnable(GL_TEXTURE_RECTANGLE_ARB);
     glBindTexture(GL_TEXTURE_RECTANGLE_ARB, _ioSurfaceTexture);
-    if (_shouldUseClientStorage) {
-        glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
-    }
 
     CGLError err = CGLTexImageIOSurface2D(_glContext, GL_TEXTURE_RECTANGLE_ARB, GL_RGB8,
                                           (GLsizei)_surfaceSize.width, (GLsizei)_surfaceSize.height,
                                           GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, self.ioSurface, 0);
     if(err != kCGLNoError) {
         NSLog(@"Error creating IOSurface texture: %s & %x", CGLErrorString(err), glGetError());
-    }
-
-    if (_shouldUseClientStorage) {
-        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_PRIVATE_APPLE);
-        glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
     }
 
     // Unbind
@@ -201,44 +190,67 @@
     }
 }
 
+static GLvoid *GLUBufferOffset(const GLintptr nOffset)
+{
+    return (GLvoid *)((GLchar *)NULL + nOffset);
+}
+
 - (void)setup2DMode
 {
     GLenum status;
 
     /*
-     TODO:
-     Allocate our own buffer at bufferSize, aligned to 128-byte or whatever it is,
-     and pass that as the hint to getVideoBufferWithHint:. If the core can use it,
-     then use texture range on that buffer, and THEN try client storage.
+     TODO 1:
+     Tell the PBO to allocate its own backing, and pass it as
+     the hint to cores. (direct rendering, if they support it)
+     This avoids a memcpy in more cases. There is still an on-GPU
+     copy to update gameTexture.
      
      TODO 2:
-     If the game can do all that we could just have it draw in the iosurface pixels
-     and not need GL at all. Note, for that the app needs to be fixed to stop drawing
-     the surface upside-down.
+     We could remove gameTexture and just copy PBO to IOSurface.
      */
 
-    const void *videoBuffer;
+    /*
+     1. Create a PBO so the system will allocate a pixel buffer for us.
+     2. Ask the core if it wants to use that PBO. If it does, we're direct rendering.
+     If it doesn't, we're indirect-rendering. (This would be what client storage is for.)
+     3. Create the VBO describing the destination rect in the IOSurface.
+     4. Create the texture we make out of the PBO.
+     */
 
     GLenum internalPixelFormat, pixelFormat, pixelType;
-    videoBuffer = [_gameCore getVideoBufferWithHint:nil];
+    NSInteger bytesPerRow;
+    const void *videoBuffer;
 
-    internalPixelFormat = [_gameCore internalPixelFormat];
     pixelFormat         = [_gameCore pixelFormat];
     pixelType           = [_gameCore pixelType];
+    bytesPerRow         = [_gameCore bytesPerRow];
 
-#if DIRECTER_RENDERING
-    if (internalPixelFormat == GL_RGB8 || internalPixelFormat == GL_RGB5) {
-        // As long as the game pixels are RGB not RGBA etc., we should be able to save one copy and upload the buffer into the iosurface texture.
-        _is2DDirectRender = YES;
-        DLog(@"Setup GL2.1 2D 'direct core-buffered' rendering, pixfmt %d %d %d", internalPixelFormat, pixelFormat, pixelType);
-        return;
-    }
-#endif
+    GLsizeiptr videoBufferSize = _surfaceSize.height * bytesPerRow;
+    NSParameterAssert(videoBufferSize > 0);
 
-    DLog(@"Setup GL2.1 2D 'indirect core-buffered' rendering, pixfmt %d %d %d", internalPixelFormat, pixelFormat, pixelType);
-
-    // Create the texture which game pixels go into.
     glEnable(GL_TEXTURE_RECTANGLE_ARB);
+
+    // Create the PBO and set its data to be the video buffer.
+    glGenBuffers(1, &_gamePBO);
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _gamePBO);
+    glBufferData(GL_PIXEL_UNPACK_BUFFER, videoBufferSize, NULL, GL_STREAM_DRAW);
+
+    // Check if the core is going to use it.
+    GLvoid *ptr = glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_READ_WRITE);
+    videoBuffer = [_gameCore getVideoBufferWithHint:ptr];
+    glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
+
+    if (videoBuffer != ptr) {
+        // So much for that.
+        glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+        glDeleteBuffers(1, &_gamePBO);
+        _gamePBO = 0;
+    } else {
+        videoBuffer = NULL;
+    }
+
+    // Create the texture which draws the PBO.
     glGenTextures(1, &_gameTexture);
     glBindTexture(GL_TEXTURE_RECTANGLE_ARB, _gameTexture);
 
@@ -247,20 +259,23 @@
         NSLog(@"createNewTexture, after bindTex: OpenGL error %04X", status);
     }
 
-    if(_shouldUseClientStorage)
-    {
-        glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
-    }
-
-    // proper tex params.
     glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 
-    // This initial upload is never used, but it might be a good hint if the core always uses this buffer.
+    if (!_gamePBO) {
+        // Try and tell GL we're going to change the texture often.
+        // Note, without the first call it will be really slow.
+        // Sometimes the second call will be really slow, if the GPU driver
+        // decides the wrong tiling policy.
+        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB,
+                        GL_TEXTURE_STORAGE_HINT_APPLE,
+                        GL_STORAGE_CACHED_APPLE);
+        glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+    }
+
+    internalPixelFormat = GL_RGB;
     glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, internalPixelFormat, _surfaceSize.width, _surfaceSize.height, 0, pixelFormat, pixelType, videoBuffer);
 
     status = glGetError();
@@ -269,11 +284,21 @@
         NSLog(@"createNewTexture, after creating tex: OpenGL error %04X", status);
     }
 
-    if(_shouldUseClientStorage)
-    {
-        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_PRIVATE_APPLE);
-        glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
-    }
+    NSLog(@"Setup GL2 %@ 2D rendering, pixfmt %d %d %d", _gamePBO ? @"direct" : @"indirect", internalPixelFormat, pixelFormat, pixelType);
+
+    // Create the VAO/VBO which the vertices and texcoords go in.
+    glGenVertexArraysAPPLE(1, &_gameVAO);
+    glBindVertexArrayAPPLE(_gameVAO);
+
+    glGenBuffers(1, &_gameVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, _gameVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLint) * 16, NULL, GL_STREAM_DRAW);
+
+    // Save the positions we'll upload data in when rendering
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glTexCoordPointer(2, GL_INT, 0, GLUBufferOffset(0));
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2, GL_INT, 0, GLUBufferOffset(8 * sizeof(GLint)));
 
     // Set up the context's matrix
     glViewport(0, 0, _surfaceSize.width, _surfaceSize.height);
@@ -412,9 +437,17 @@
     CGLSetCurrentContext(_glContext);
     [self bindFBO:_isDoubleBufferFBOMode ? _alternateFBO : _ioSurfaceFBO];
 
-    // Save state in case the game messes it up.
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
-    glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+    if (_is2DMode && _gamePBO) {
+        glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _gamePBO);
+        GLvoid *glBuffer = glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_READ_WRITE);
+
+        const GLvoid *coreBuffer= [_gameCore getVideoBufferWithHint:glBuffer];
+        NSAssert(glBuffer == coreBuffer, @"Game suddenly stopped using direct rendering");
+    } else if (!_is2DMode) {
+        // Save state in case the game messes it up.
+        glPushAttrib(GL_ALL_ATTRIB_BITS);
+        glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+    }
 }
 
 - (void)didExecuteFrame
@@ -425,103 +458,63 @@
         if (_isFPSLimiting) dispatch_semaphore_wait(_executeThreadCanProceedSemaphore, DISPATCH_TIME_FOREVER);
 
         // Don't do any other work.
-        // NOTE: if we start doing other GL stuff here (like filtering moves into this GL context)
-        // try out glFenceSync to avoid the glFlush/CPU<>GPU sync on other thread.
         return;
     }
 
-    // Reset anything the core did.
-    glPopAttrib();
-    glPopClientAttrib();
-
-#if 0
-    if (_is2DDirectRender) {
-        // Tell the ioSurfaceTexture to update from the client buffer.
-        const void *videoBuffer;
-
-        GLenum pixelFormat, pixelType;
-
-        videoBuffer = [_gameCore getVideoBufferWithHint:nil];
-
-        pixelFormat         = [_gameCore pixelFormat];
-        pixelType           = [_gameCore pixelType];
-
-        glEnable(GL_TEXTURE_RECTANGLE_ARB);
-        glBindTexture(GL_TEXTURE_RECTANGLE_ARB, _ioSurfaceTexture);
-        if(_shouldUseClientStorage) {
-            glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
-        }
-
-        OEIntRect screenRect = _gameCore.screenRect;
-        OEIntSize screenSize = screenRect.size;
-
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, _surfaceSize.width);
-        glPixelStorei(GL_UNPACK_SKIP_PIXELS, screenRect.origin.x);
-        glPixelStorei(GL_UNPACK_SKIP_ROWS,   screenRect.origin.y);
-
-        glTexSubImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, 0, 0, screenSize.width, screenSize.height, pixelFormat, pixelType, videoBuffer);
-        GLenum status = glGetError();
-        if(status)
-        {
-            NSLog(@"draw: texSubImage: OpenGL error %04X", status);
-        }
-    } else
-#endif
-
     if (_is2DMode) {
         /*
-         1. Upload the game pixels to gameTexture. (The game might have non-RGB internal format, like it outputs a picture with alpha or something.)
-         Note: we actually upload all of bufferRect even though screenRect might say some pixels are not active. Not worth changing really.
-         2. Draw into ioSurfaceTexture so that the active rect starts in the 0,0 corner.
-         TODO: send the app screenRect instead of screenSize to avoid this step.
-         Also, the IOSurface is upside down compared to gameTexture! This is why the direct rendering method above doesn't work.
-         TODO: don't do that.
+         1. Update the PBO with the game pixels, if the core didn't just use it.
+         2. Update the texture from the PBO.
+         2. Draw flipped into ioSurfaceTexture so that the active rect starts in the 0,0 corner.
          */
 
-        const void *videoBuffer;
-        GLenum pixelFormat, pixelType;
+        glEnable(GL_TEXTURE_RECTANGLE_ARB);
 
-        videoBuffer = [_gameCore getVideoBufferWithHint:nil];
+        GLenum pixelFormat, pixelType;
+        const void *videoBuffer = NULL;
 
         pixelFormat          = [_gameCore pixelFormat];
         pixelType            = [_gameCore pixelType];
+
+        if (_gamePBO) {
+            glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _gamePBO);
+            glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
+        } else {
+            videoBuffer = [_gameCore getVideoBufferWithHint:nil];
+        }
+
+        glBindTexture(GL_TEXTURE_RECTANGLE_ARB, _gameTexture);
+        glTexSubImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, 0, 0, _surfaceSize.width, _surfaceSize.height, pixelFormat, pixelType, videoBuffer);
+
         OEIntRect screenRect = _gameCore.screenRect;
         OEIntSize screenSize = screenRect.size;
 
-        glEnable(GL_TEXTURE_RECTANGLE_ARB);
-        glBindTexture(GL_TEXTURE_RECTANGLE_ARB, _gameTexture);
-        if(_shouldUseClientStorage) {
-            glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
-        }
-        glTexSubImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, 0, 0, _surfaceSize.width, _surfaceSize.height, pixelFormat, pixelType, videoBuffer);
-
-        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        const GLint tex_coords[] =
+        const GLint tex_coords_and_verts[] =
         {
             screenRect.origin.x, screenSize.height + screenRect.origin.y,
             screenSize.width + screenRect.origin.x, screenSize.height + screenRect.origin.y,
             screenSize.width + screenRect.origin.x, screenRect.origin.y,
-            screenRect.origin.x, screenRect.origin.y
-        };
+            screenRect.origin.x, screenRect.origin.y,
 
-        const GLint verts[] =
-        {
             0, 0,
             screenSize.width, 0,
             screenSize.width, screenSize.height,
             0, screenSize.height
         };
 
+        glBindVertexArrayAPPLE(_gameVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, _gameVBO);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(tex_coords_and_verts), tex_coords_and_verts);
+
+        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
         glActiveTexture(GL_TEXTURE0);
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glTexCoordPointer(2, GL_INT, 0, tex_coords);
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(2, GL_INT, 0, verts);
-        glDrawArrays( GL_TRIANGLE_FAN, 0, 4);
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        glDisableClientState(GL_VERTEX_ARRAY);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    } else {
+        // Reset anything the core did.
+        glPopAttrib();
+        glPopClientAttrib();
     }
 
     // Update the IOSurface.

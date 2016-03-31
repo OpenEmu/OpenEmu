@@ -189,9 +189,12 @@
 		3887A8061024D2BC000FC4CF /* GeneratePreviewForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8031024D2BC000FC4CF /* GeneratePreviewForURL.m */; };
 		3887A8071024D2BC000FC4CF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8041024D2BC000FC4CF /* main.c */; };
 		3887A8971024D796000FC4CF /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3887A8961024D796000FC4CF /* QuickLook.framework */; };
+		3D0D6FD31CC6366B00E3F284 /* OEGameLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0D6FD21CC6366B00E3F284 /* OEGameLayerView.m */; };
 		3D1D8D821650C22900DBC37D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1D8D811650C22900DBC37D /* Accelerate.framework */; };
+		3D2722DE1CA11B1A004CD640 /* OEGameLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2722DD1CA11B1A004CD640 /* OEGameLayer.m */; };
 		3D41E8EB1BD4959300A76EFD /* OEOpenGL2GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */; };
 		3D41E8EC1BD4959300A76EFD /* OEOpenGL2GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */; };
+		3D8A80BB1CE88D0A006E94CA /* OEGL2GameRendererLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8A80BA1CE88D0A006E94CA /* OEGL2GameRendererLayer.m */; };
 		3DA6EDCC1BD790B900560326 /* OEOpenGL3GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA6EDCB1BD790B900560326 /* OEOpenGL3GameRenderer.m */; };
 		3DA6EDCD1BD790B900560326 /* OEOpenGL3GameRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA6EDCB1BD790B900560326 /* OEOpenGL3GameRenderer.m */; };
 		3DB744AA1BD8BA9E00C23E74 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -1727,10 +1730,16 @@
 		3887A8041024D2BC000FC4CF /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OESaveStateQLPlugin-Info.plist"; sourceTree = "<group>"; };
 		3887A8961024D796000FC4CF /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		3D0D6FD11CC6366B00E3F284 /* OEGameLayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameLayerView.h; sourceTree = "<group>"; };
+		3D0D6FD21CC6366B00E3F284 /* OEGameLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameLayerView.m; sourceTree = "<group>"; };
 		3D1D8D811650C22900DBC37D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		3D2722DC1CA11B1A004CD640 /* OEGameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameLayer.h; sourceTree = "<group>"; };
+		3D2722DD1CA11B1A004CD640 /* OEGameLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameLayer.m; sourceTree = "<group>"; };
 		3D41E8E51BD47DEF00A76EFD /* OEGameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameRenderer.h; sourceTree = "<group>"; };
 		3D41E8E91BD4959300A76EFD /* OEOpenGL2GameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOpenGL2GameRenderer.h; sourceTree = "<group>"; };
 		3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOpenGL2GameRenderer.m; sourceTree = "<group>"; };
+		3D8A80B91CE88D0A006E94CA /* OEGL2GameRendererLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGL2GameRendererLayer.h; sourceTree = "<group>"; };
+		3D8A80BA1CE88D0A006E94CA /* OEGL2GameRendererLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGL2GameRendererLayer.m; sourceTree = "<group>"; };
 		3DA6EDCA1BD790B900560326 /* OEOpenGL3GameRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEOpenGL3GameRenderer.h; sourceTree = "<group>"; };
 		3DA6EDCB1BD790B900560326 /* OEOpenGL3GameRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEOpenGL3GameRenderer.m; sourceTree = "<group>"; };
 		3DB744771BD8B95300C23E74 /* OEPS2SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEPS2SystemController.h; path = "PlayStation 2/OEPS2SystemController.h"; sourceTree = "<group>"; };
@@ -4043,6 +4052,8 @@
 				3D41E8EA1BD4959300A76EFD /* OEOpenGL2GameRenderer.m */,
 				3DA6EDCA1BD790B900560326 /* OEOpenGL3GameRenderer.h */,
 				3DA6EDCB1BD790B900560326 /* OEOpenGL3GameRenderer.m */,
+				3D8A80B91CE88D0A006E94CA /* OEGL2GameRendererLayer.h */,
+				3D8A80BA1CE88D0A006E94CA /* OEGL2GameRendererLayer.m */,
 			);
 			name = Renderers;
 			sourceTree = "<group>";
@@ -4419,6 +4430,10 @@
 			isa = PBXGroup;
 			children = (
 				8C8AD72F16B5DBA70004D97C /* Blargg's NTSC filter */,
+				3D2722DC1CA11B1A004CD640 /* OEGameLayer.h */,
+				3D2722DD1CA11B1A004CD640 /* OEGameLayer.m */,
+				3D0D6FD11CC6366B00E3F284 /* OEGameLayerView.h */,
+				3D0D6FD21CC6366B00E3F284 /* OEGameLayerView.m */,
 				1BA788FD0FF9C95A007CE5DB /* OEGameShader.h */,
 				1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */,
 				C6C3728016BDB22F003E57AE /* OEGameShader_ForSubclassEyesOnly.h */,
@@ -4426,6 +4441,8 @@
 				C6C3734116BE7065003E57AE /* OEBuiltInShader.m */,
 				C6953C9F117293760091276F /* OEGameView.h */,
 				C6953CA0117293760091276F /* OEGameView.m */,
+				830BBEC91B7BE979000B13CB /* OEGameViewNotificationRenderer.h */,
+				830BBECA1B7BE979000B13CB /* OEGameViewNotificationRenderer.m */,
 				8C4C808716986697009B8A28 /* OEGLSLShader.h */,
 				8C4C808816986697009B8A28 /* OEGLSLShader.m */,
 				8C4C808C16986C87009B8A28 /* OECGShader.h */,
@@ -4434,8 +4451,6 @@
 				8C415ECC16B0682B00980DB9 /* OEMultipassShader.m */,
 				2205C376196402B50013C675 /* OELUTTexture.h */,
 				2205C377196402B50013C675 /* OELUTTexture.m */,
-				830BBEC91B7BE979000B13CB /* OEGameViewNotificationRenderer.h */,
-				830BBECA1B7BE979000B13CB /* OEGameViewNotificationRenderer.m */,
 			);
 			name = Graphics;
 			sourceTree = "<group>";
@@ -4958,8 +4973,8 @@
 				8C8AD73216B5DBE20004D97C /* readme.txt */,
 				8C8AD73316B5DBE20004D97C /* snes_ntsc_config.h */,
 				8C8AD73416B5DBE20004D97C /* snes_ntsc_impl.h */,
-				8C8AD73516B5DBE20004D97C /* snes_ntsc.c */,
 				8C8AD73616B5DBE20004D97C /* snes_ntsc.h */,
+				8C8AD73516B5DBE20004D97C /* snes_ntsc.c */,
 				8C8AD73716B5DBE20004D97C /* snes_ntsc.txt */,
 			);
 			path = "Blargg's NTSC filter";
@@ -7944,6 +7959,7 @@
 				3D41E8EC1BD4959300A76EFD /* OEOpenGL2GameRenderer.m in Sources */,
 				1BEF2A9C11682A5E0090F72B /* OpenEmuHelperApp.m in Sources */,
 				1BEF2D15116855690090F72B /* OETaskWrapper.m in Sources */,
+				3D8A80BB1CE88D0A006E94CA /* OEGL2GameRendererLayer.m in Sources */,
 				3DA6EDCD1BD790B900560326 /* OEOpenGL3GameRenderer.m in Sources */,
 				C6AC9D391190C6490083DDFD /* OpenEmuHelperAppMain.m in Sources */,
 				828BF57F1669F99600759F10 /* OEUtilities.m in Sources */,
@@ -8072,6 +8088,7 @@
 				8306CD3E1BD3DB180025BC6C /* OEGameCollectionViewController.m in Sources */,
 				53439AAB13B92CE6005C0CC8 /* OECollectionViewController.m in Sources */,
 				53439AE313B92E59005C0CC8 /* OERatingCell.m in Sources */,
+				3D2722DE1CA11B1A004CD640 /* OEGameLayer.m in Sources */,
 				53439AE413B92E59005C0CC8 /* OETableCornerView.m in Sources */,
 				53439AE513B92E59005C0CC8 /* OETableHeaderCell.m in Sources */,
 				53439AE613B92E59005C0CC8 /* OETableHeaderView.m in Sources */,
@@ -8206,6 +8223,7 @@
 				838DB01916DBE14E00B8DDC8 /* OETextField.m in Sources */,
 				838DB01C16DBE15900B8DDC8 /* OETextFieldCell.m in Sources */,
 				14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */,
+				3D0D6FD31CC6366B00E3F284 /* OEGameLayerView.m in Sources */,
 				8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */,
 				C6772A7F1710C0C900ED580A /* snes_ntsc.c in Sources */,
 				836AEA6E19755FE300B86935 /* OEOutlinedButtonCell.m in Sources */,

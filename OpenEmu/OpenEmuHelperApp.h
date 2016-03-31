@@ -41,8 +41,6 @@
 
 #import "OEThreadProxy.h"
 
-// we are going to be cheap and just use gameCore for now.
-
 @class OEGameAudio;
 @class OEGameCoreProxy;
 

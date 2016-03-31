@@ -31,7 +31,7 @@
 #import "OEDBGame.h"
 #import "OEDBScreenshot.h"
 
-#import "OEGameView.h"
+#import "OEGameLayerView.h"
 #import "OECorePickerController.h"
 #import "OEGameCoreManager.h"
 #import "OEThreadGameCoreManager.h"
@@ -77,15 +77,26 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 #define UDDefaultCoreMappingKeyPrefix   @"defaultCore"
 #define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
 
+/*
+ TODO Messages to remote layer:
+ - Change bounds
+ - Start Syphon
+
+ Messages from remote layer:
+ - Default screen size/aspect size
+ */
+
 @interface OEGameViewController () <OEGameViewDelegate>
 {
     // Standard game document stuff
-    OEGameView *_gameView;
+    OEGameLayerView *_gameView;
     OEIntSize   _screenSize;
     OEIntSize   _aspectSize;
     BOOL        _pausedByGoingToBackground;
     NSUInteger  _discCount;
 }
+
+@property(readonly) OEGameLayerView *gameView;
 
 @end
 
@@ -111,7 +122,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         NSView *view = [[NSView alloc] initWithFrame:(NSRect){ .size = { 1.0, 1.0 }}];
         [self setView:view];
 
-        _gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
+        _gameView = [[OEGameLayerView alloc] initWithFrame:[[self view] bounds]];
         [_gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [_gameView setDelegate:self];
 
@@ -198,7 +209,8 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 - (NSImage *)takeNativeScreenshot
 {
-    return [_gameView nativeScreenshot];
+//    return [_gameView nativeScreenshot];
+    return nil;
 }
 
 - (void)reflectVolume:(float)volume;
@@ -230,7 +242,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     else
         DLog(@"Invalid argument passed: %@", sender);
 
-    [_gameView setFilterName:filterName];
+//    [_gameView setFilterName:filterName];
     [[NSUserDefaults standardUserDefaults] setObject:filterName forKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, [[self document] systemIdentifier]]];
 }
 
@@ -254,7 +266,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 {
     NSImage *screenshotImage;
     bool takeNativeScreenshots = [[NSUserDefaults standardUserDefaults] boolForKey:OETakeNativeScreenshots];
-    screenshotImage = takeNativeScreenshots ? [_gameView nativeScreenshot] : [_gameView screenshot];
+//    screenshotImage = takeNativeScreenshots ? [_gameView nativeScreenshot] : [_gameView screenshot];
     NSData *TIFFData = [screenshotImage TIFFRepresentation];
 
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
@@ -283,7 +295,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         OEDBRom *rom = [[self document] rom];
         OEDBScreenshot *screenshot = [OEDBScreenshot createObjectInContext:[rom managedObjectContext] forROM:rom withFile:temporaryURL];
         [screenshot save];
-        [[self gameView] showScreenShotNotification];
+//        [[self gameView] showScreenShotNotification];
     }
 }
 
@@ -291,7 +303,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 - (void)setEnableVSync:(BOOL)enable;
 {
-    [_gameView setEnableVSync:enable];
+//    [_gameView setEnableVSync:enable];
 }
 
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID

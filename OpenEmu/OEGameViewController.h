@@ -50,6 +50,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 @class OEDBSaveState;
 
 @class OEGameView;
+@class OEGameLayerView;
 
 @class OEGameControlsBar;
 @class OEGameDocument;
@@ -64,7 +65,6 @@ extern NSString *const OEScreenshotPropertiesKey;
 #pragma mark -
 
 @property(strong) OEGameControlsBar *controlsWindow;
-@property(readonly) OEGameView *gameView;
 
 @property(unsafe_unretained) id<OEGameIntegralScalingDelegate> integralScalingDelegate;
 
@@ -87,7 +87,11 @@ extern NSString *const OEScreenshotPropertiesKey;
 - (void)toggleControlsVisibility:(id)sender;
 
 #pragma mark - Taking Screenshots
+- (NSImage *)screenshot;
 - (IBAction)takeScreenshot:(id)sender;
+
+#pragma mark - Notifications
+- (void)showQuickSaveNotification;
 
 #pragma mark - Info
 - (NSSize)defaultScreenSize;

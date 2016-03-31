@@ -80,7 +80,9 @@
 
 - (void)setupVideo
 {
-    DLog(@"Setting up OpenGL3.x Core Profile renderer");
+    NSLog(@"Setting up OpenGL3.x Core Profile renderer");
+
+    NSAssert(_gameCore.gameCoreRendering != OEGameCoreRendering2DVideo, @"GL3 renderer doesn't do 2D video");
 
     [self setupGLContext];
     [self setupFramebuffer];

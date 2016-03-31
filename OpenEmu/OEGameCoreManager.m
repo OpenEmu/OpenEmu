@@ -93,6 +93,11 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
     [[self gameCoreHelper] setDisc:discNumber];
 }
 
+- (void)setOutputBounds:(NSRect)rect
+{
+    [[self gameCoreHelper] setOutputBounds:rect];
+}
+
 - (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
 {
     [[self gameCoreHelper] setupEmulationWithCompletionHandler:

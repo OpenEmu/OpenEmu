@@ -1245,7 +1245,7 @@ typedef enum : NSUInteger
     [self OE_saveStateWithName:name completionHandler:
      ^{
          if(didPauseEmulation) [self setEmulationPaused:NO];
-         [[[self gameViewController] gameView] showQuickSaveNotification];
+         [[self gameViewController] showQuickSaveNotification];
     }];
 }
 

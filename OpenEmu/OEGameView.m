@@ -50,7 +50,7 @@
 
 #import "snes_ntsc.h"
 
-NSString * const OEScreenshotAspectRationCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
+NSString * const OEScreenshotAspectRatioCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
 NSString * const OEDefaultVideoFilterKey = @"videoFilter";
 
 #ifdef CG_SUPPORT
@@ -242,7 +242,7 @@ static const GLfloat cg_coords[] = {
         glBindTexture(GL_TEXTURE_2D, _rttGameTextures[i]);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  _gameScreenSize.width, _gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8_ALPHA8,  _gameScreenSize.width, _gameScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _rttFBOs[i]);
         glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _rttGameTextures[i], 0);
     }
@@ -446,7 +446,7 @@ static const GLfloat cg_coords[] = {
     int width = (int)IOSurfaceGetWidth(_gameSurfaceRef);
     int height = (int)IOSurfaceGetHeight(_gameSurfaceRef);
 
-    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGB8, width, height, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, _gameSurfaceRef, 0);
+    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_SRGB8, width, height, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, _gameSurfaceRef, 0);
 }
 #pragma mark - 
 - (void)setBackgroundColor:(NSColor *)backgroundColor
@@ -853,7 +853,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     // apply NTSC filter if needed
     if([multipassShader NTSCFilter] != OENTSCFilterTypeNone && _gameScreenSize.width <= 512)
     {
-        glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5_REV, _ntscSource);
+        glGetTexImage(GL_TEXTURE_2D, 0, GL_SRGB, GL_UNSIGNED_SHORT_5_6_5_REV, _ntscSource);
 
         if(!_ntscMergeFields) _ntscBurstPhase ^= 1;
 
@@ -863,7 +863,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
         else
             snes_ntsc_blit_hires(_ntscTable, _ntscSource, _gameScreenSize.width, _ntscBurstPhase, _gameScreenSize.width, _gameScreenSize.height, _ntscDestination, SNES_NTSC_OUT_WIDTH_HIRES(_gameScreenSize.width)*2);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _multipassSizes[0].width, _multipassSizes[0].height, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5_REV, _ntscDestination);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, _multipassSizes[0].width, _multipassSizes[0].height, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5_REV, _ntscDestination);
     }
 
     // render all passes to FBOs
@@ -871,7 +871,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     {        
         BOOL   linearFiltering  = [shaders[i] linearFiltering];
         BOOL   floatFramebuffer = [shaders[i] floatFramebuffer];
-        GLuint internalFormat   = floatFramebuffer ? GL_RGBA32F_ARB : GL_RGBA8;
+        GLuint internalFormat   = floatFramebuffer ? GL_RGBA32F_ARB : GL_SRGB8_ALPHA8;
         GLuint dataType         = floatFramebuffer ? GL_FLOAT : GL_UNSIGNED_BYTE;
 
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _multipassFBOs[i]);
@@ -940,6 +940,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     glPushAttrib(GL_ALL_ATTRIB_BITS);
 
     // need to add a clear here since we now draw direct to our context
+    glEnable(GL_FRAMEBUFFER_SRGB);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, _gameTexture);
@@ -1133,7 +1134,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mag_filter);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, min_filter);
 
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, CGImageGetWidth(texture), CGImageGetHeight(texture), 0, GL_RGBA, GL_UNSIGNED_BYTE, CFDataGetBytePtr(data));
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8_ALPHA8, CGImageGetWidth(texture), CGImageGetHeight(texture), 0, GL_RGBA, GL_UNSIGNED_BYTE, CFDataGetBytePtr(data));
 
                 if([lut mipmap])
                     glGenerateMipmap(GL_TEXTURE_2D);
@@ -1180,7 +1181,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
         glReadPixels((frameSize.width - textureNSSize.width) / 2,
                      (frameSize.height - textureNSSize.height) / 2,
                      textureIntSize.width, textureIntSize.height,
-                     GL_RGB, GL_UNSIGNED_BYTE, [imageRep bitmapData]);
+                     GL_SRGB, GL_UNSIGNED_BYTE, [imageRep bitmapData]);
     }
     CGLUnlockContext(cgl_ctx);
     _notificationRenderer.disableNotifications = false;
@@ -1236,7 +1237,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     }
     IOSurfaceUnlock(_gameSurfaceRef, kIOSurfaceLockReadOnly, NULL);
 
-    BOOL disableAspectRatioCorrection = [[NSUserDefaults standardUserDefaults] boolForKey:OEScreenshotAspectRationCorrectionDisabled];
+    BOOL disableAspectRatioCorrection = [[NSUserDefaults standardUserDefaults] boolForKey:OEScreenshotAspectRatioCorrectionDisabled];
     NSSize imageSize  = NSSizeFromOEIntSize(_gameScreenSize);
 
     if(!disableAspectRatioCorrection)
@@ -1289,7 +1290,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
             for(NSUInteger i = 0; i < OEFramesSaved; ++i)
             {
                 glBindTexture(GL_TEXTURE_2D, _rttGameTextures[i]);
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,  newScreenSize.width, newScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8_ALPHA8,  newScreenSize.width, newScreenSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
                 glBindTexture(GL_TEXTURE_2D, 0);
             }
         }

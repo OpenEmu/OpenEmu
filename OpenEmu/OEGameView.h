@@ -28,7 +28,7 @@
 #import "OEGameCoreHelper.h"
 @class SyphonServer;
 
-extern NSString * const OEScreenshotAspectRationCorrectionDisabled;
+extern NSString * const OEScreenshotAspectRatioCorrectionDisabled;
 extern NSString * const OEDefaultVideoFilterKey;
 
 @protocol OEGameViewDelegate;
