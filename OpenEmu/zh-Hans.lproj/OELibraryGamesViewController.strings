@@ -1,0 +1,15 @@
+
+/* Class = "NSMenuItem"; title = "Add To Library…"; ObjectID = "1U8-Yu-nH3"; */
+"1U8-Yu-nH3.title" = "添加到库…";
+
+/* Class = "NSMenuItem"; title = "New Collection"; ObjectID = "Lkc-nZ-qig"; */
+"Lkc-nZ-qig.title" = "新建集合";
+
+/* Class = "NSTextFieldCell"; title = "Game Scanner"; ObjectID = "R5g-ov-B26"; */
+"R5g-ov-B26.title" = "游戏扫描";
+
+/* Class = "NSTextFieldCell"; title = "Scanner Paused"; ObjectID = "gJT-pJ-BJg"; */
+"gJT-pJ-BJg.title" = "扫描暂停";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "y45-NU-dbu"; */
+"y45-NU-dbu.title" = "Text Cell";
