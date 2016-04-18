@@ -1,0 +1,644 @@
+/*
+ Copyright (c) 2015, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+"%@ copy" = "%@ コピー";
+
+"%@ could not be enabled because its plugin was not found." = "%@ を有効化できませんでした。プラグインが見付かりません。";
+
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ ゲームがここに表示されます。 ディスクの入れ替えが必要なゲームは、ここ%@を確認して下さい。";
+
+"%@ games you add to OpenEmu will appear in this Console Library" = "%@ OpenEmuへ追加されたゲームは、このコンソールライブラリへ表示されます。";
+
+"%ux" = "%ux";
+
+"A version of this plugin is already loaded" = "このプラグインは既にロードされています。";
+
+"Add a Wiimote…" = "Wiimoteを追加…";
+
+"Add Cheat…" = "チートコードを追加…";
+
+"Add Cheat" = "チートコードを追加";
+
+"Add Cover Art From File…" = "カバーアートをファイルから追加…";
+
+"Add To Collection" = "コレクションへ追加";
+
+"All Games" = "全てのゲーム";
+
+"All Homebrew" = "全てのHomebrew";
+
+"Are you sure you want to delete %ld save games from your OpenEmu library?" = "本当に&ldのセーブデータををOpenEmuのライブラリから削除しても宜しいですか？";
+
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "本当に%ldのスクリーンショットデータをOpenEmuのライブラリから削除しても宜しいですか？";
+
+"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "本当に'%@'という名前のセーブデータをOpenEmuのライブラリから削除しても宜しいですか？";
+
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "本当に'%@'という名前のスクリーンショットデータをOpenEmuのライブラリから削除しても宜しいですか？";
+
+"Are you sure you want to delete the selected game from your OpenEmu library?" = "選択したゲームをOpenEmuのライブラリから本当に削除しても宜しいですか？";
+
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "選択したゲームをOpenEmuのライブラリから本当に削除しても宜しいですか？";
+
+"Are you sure you want to quit the application?" = "アプリケーションを終了しても宜しいですか？";
+
+"Are you sure you want to remove the selected games from the collection?" = "選択したゲームをコレクションから削除しても宜しいですか？";
+
+"Are you sure you want to remove this collection?" = "このコレクションを本当に削除しても宜しいですか？";
+
+"Are you sure you want to reset the console?" = "コンソールをリセットしますか？";
+
+"Are you sure you want to stop emulation?" = "エミュレータを停止しますか？";
+
+"At least one System must be enabled" = "最低一つ以上のシステムを有効にして下さい。";
+
+"Auto Save State" = "オートセーブステート";
+
+"Automatically Import" = "自動でインポート";
+
+"Bluetooth must be enabled to pair a Wii controller." = "Wiiコントローラを接続するには、Bluetoothを有効にして下さい。";
+
+"Bluetooth Not Enabled" = "Bluetoothが無効になっています。";
+
+"Cancel Cover Art Download" = "カバーアートのダウンロードをキャンセル";
+
+"Cancel Operation" = "キャンセルする";
+
+"Cancel" = "キャンセル";
+
+"Change Core" = "コアを変更";
+
+"Change Volume" = "音量を変更";
+
+"Cheat Description" = "チートの説明";
+
+"Check out some excellent homebrew games." = "Homebrewゲームをチェックする";
+
+"Choose a valid file." = "有効なファイルを選択して下さい。";
+
+"Choose Library…" = "ライブラリを選択…";
+
+"Choose OpenEmu Library" = "OpenEmuライブラリを選択";
+
+"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "はいを選択すると、全てのアイテムをキューから削除します。インポートが完了したアイテムはライブラリに表示されます。";
+
+"Code:" = "コード:";
+
+"Collapse" = "Collapse";
+
+"Collections" = "コレクション";
+
+"Consoles" = "コンソール";
+
+"Consolidate Files…" = "ファイルを統合する…";
+
+"Consolidate" = "統合";
+
+"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "統合すると、選択された全てのゲームがOpenEmuライブラリのフォルダへコピーされます。\n\nこの操作は取り消せません。";
+
+"Controls" = "コントロール";
+
+"Copying artwork failed!" = "カバー写真のコピーに失敗しました。";
+
+"Copying Artwork Files…" = "カバー写真をコピーしています…";
+
+"Copying Game Files…" = "ゲームをコピーしています…";
+
+"Copying ROM Files…" = "ROMファイルをコピーしています…";
+
+"Core Provided By…" = "コア提供元…";
+
+"Cores" = "コア";
+
+"Could not move complete library! %ld roms were moved" = "ライブラリの移動に失敗しました。%ld個のロムを移動しました。";
+
+"Could not move library data!" = "ライブラリデータを移動出来ません。";
+
+"Couldn't connect to the background process." = "バックグラウンドプロセスに接続出来ませんでした。";
+
+"Couldn't load %@ plugin" = "%@という名称のプラグインをロード出来ませんでした。";
+
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "自分好みのゲームセレクションを作成しましょう。コレクションを追加するには、コンソールライブラリからゲームを選択し、左側の’%@’へドラッグして下さい。";
+
+"Create Library…" = "ライブラリを作成…";
+
+"Create or Load Save State" = "セーブステートを作成/ロードする";
+
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "自分好みのスクリーンショットセレクションを作成しましょう。スクリーンショットを撮るには、ゲームをプレイ中に ⌘ + T を押して下さい。";
+
+"Default Core" = "デフォルトのコア";
+
+"Delete Collection" = "コレクションを削除";
+
+"Delete Game" = "ゲームを削除";
+
+"Delete Games" = "ゲームを削除";
+
+"Delete Save State" = "セーブステートを削除";
+
+"Delete Save States" = "セーブステートを削除";
+
+"Delete Save" = "セーブを削除";
+
+"Delete Saves" = "セーブを削除";
+
+"Delete Screenshot" = "スクリーンショットを削除";
+
+"Delete Screenshots" = "スクリーンショットを削除";
+
+"Delete" = "削除";
+
+"Description" = "説明"; // Search field menu, only search description
+
+"Deselect All" = "全ての選択を解除";
+
+"Device Disconnected" = "デバイスの接続を解除";
+
+"Device number %lu, %@, has disconnected." = "%1$lu, %2$@, 個のデバイスの接続が解除されました。";
+
+"Disc-based games have special requirements. Please read the disc importing guide." = "ディスクゲームは特別な操作が必要です。ディスクのインポートガイドを確認して下さい。";
+
+"Dismiss" = "無視する";
+
+"Do it!" = "やりましょう！";
+
+"Do not ask me again" = "再表示しない";
+
+"Do Not Save" = "保存しない";
+
+"Do not show me again" = "再表示しない";
+
+"Do you really want to cancel the import process?" = "インポートをキャンセルしますか？";
+
+"Do you want to continue playing where you left off?" = "最後に中断したところから再開しますか？";
+
+"Don't Import Selected" = "インポートしない";
+
+"Done" = "完了";
+
+"Download Cover Art" = "カバー写真をダウンロード";
+
+"Download" = "ダウンロード";
+
+"Downloading %@…" = "%@をダウンロード中…";
+
+"Downloading and Installing Core…" = "コアをダウンロード/インストールしています…";
+
+"Downloading Game DB" = "ゲームDBをダウンロード中";
+
+"Drag & Drop Games Here" = "ここにゲームをドラッグ&ドロップして下さい";
+
+"Drag & Drop Save States Here" = "ここにセーブステートをドラッグ&ドロップして下さい";
+
+"Duplicate Collection" = "コレクションを複製";
+
+"Edit Game Controls" = "コントローラを編集";
+
+"Enable now" = "すぐ有効にする";
+
+"Enable Retrode support" = "Retrodeサポートを有効にする";
+
+"Error!" = "エラー!";
+
+"Everything" = "全て"; // Search field menu, search everything item title
+
+"Featured Games" = "フィーチャー";
+
+"Fetching Games…" = "ゲームを取得中…";
+
+"Filter by:" = "フィルター作者:"; // Search field menu, first item, instructional
+
+"Game %ld of %ld" = "ゲーム %1$ld 個中 %2$ld";
+
+"Game Name" = "ゲーム名"; // Search field menu, only search game name
+
+"Game requires download" = "ダウンロードが要求されています";
+
+"Game Scanner" = "ゲームスキャナー";
+
+"Gameplay" = "ゲームプレイ";
+
+"Have you read the guide?" = "ガイドは既に読みましたか？";
+
+"Hide \"%@\"" = "\"%@\"を隠す";
+
+"Homebrew Games" = "Homebrewゲーム";
+
+"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "背面のバッテリーカバーに赤いボタンがある場合は押して下さい。\nそうでない場合は①+②ボタンを押し続けて下さい。";
+
+"If you change the core you current progress will be lost and save states will not work anymore." = "コアを変更すると、現在までの進行が失われ、セーブステートも無効になります。";
+
+"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "いくつかのコンソールでは、複雑なハードウェア要件やゲームソフトの要件をエミュレートするため、BIOSファイルが必要になります。詳しくはこちらのガイド%@を読んで下さい。";
+
+"In order to play the game it must be downloaded." = "ゲームで遊ぶためにダウンロードが必要です。";
+
+"Install" = "インストール";
+
+"Installing Core" = "コアをインストール";
+
+"Join multi-line cheats with '+' e.g. 000-000+111-111" = "チートコードを複数追加する場合は'+'で追加します。例 000-000+111-111";
+
+"Keep Files" = "ファイルを保持";
+
+"Keyboard" = "キーボード";
+
+"Learn More" = "詳細を確認";
+
+"Library" = "ライブラリ";
+
+"Load" = "ロード";
+
+"Locate '%@'" = "場所'%@'";
+
+"Locate" = "場所";
+
+"Low Controller Battery" = "コントローラのバッテリが少なくなっています";
+
+"Make sure your internet connection is active and download a suitable core." = "インターネットが接続され、コアがダウンロードされていることを確認して下さい。";
+
+"Make your Wiimote discoverable" = "Wiimoteを発見可能な状態にして下さい。";
+
+"Missing Core" = "見付からないコア";
+
+"Move selected game to Trash, or keep it in the Library folder?" = "選択したゲームをゴミ箱へ移動します。ライブラリフォルダに残しますか？";
+
+"Move selected games to Trash, or keep them in the Library folder?" = "選択したゲームをゴミ箱へ移動します。ライブラリフォルダに残しますか？";
+
+"Move to Trash" = "ゴミ箱へ移動";
+
+"Mute Audio" = "消音にする";
+
+"Name" = "名前"; // Search field menu, only search names
+
+"New Collection from Selection" = "セレクションから新しいコレクションを作成";
+
+"New Collection" = "新しいコレクション";
+
+"New Folder" = "新しいフォルダ";
+
+"New Smart Collection" = "新しいスマートコレクション";
+
+"No available controllers" = "利用可能なコントローラがありません";
+
+"No game played yet!" = "まだ何のゲームもプレイされていません！";
+
+"No Internet Connection" = "インターネットに接続されていません";
+
+"No Save States available" = "利用可能なセーブステートがありません";
+
+"No Screenshots Found" = "スクリーンショットがありません";
+
+"No" = "いいえ";
+
+"None" = "なし";
+
+"Not implemented right now" = "今は実行しない";
+
+"OK" = "はい";
+
+"Only files in the OpenEmu Library folder will be moved to the Trash." = "OpenEmuライブラリにあるファイルのみ、ゴミ箱に移動します。";
+
+"Open Collection" = "コレクションを開く";
+
+"Open Library" = "ライブラリを開く";
+
+"OpenEmu could not find a Core to launch the game" = "このゲームを開くためのコアが見付かりませんでした。";
+
+"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "OpenEmuは、あなたがゲームを止めた段階でゲームをセーブする機能を備えています。";
+
+"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmuを続けるためにはライブラリが必要です。既存のOpenEmuライブラリを選択するか、新規ライブラリを作成して下さい。";
+
+"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmuでゲームをエミュレートするには、'コア'が必要です。%2$@ をプレイするには %1$@ が必要です。";
+
+"OpenEmu will save and quit all games that are currently running." = "OpenEmuは、終了する時に現在のゲームを保存します。";
+
+"Options" = "オプション";
+
+"Pause Emulation" = "エミュレートを一時停止";
+
+"Pause Gameplay" = "ゲームを一時停止";
+
+"Play Game" = "ゲームをする";
+
+"Play Games (Caution)" = "ゲームをする (警告)";
+
+"Play Save Games" = "セーブしたゲームをプレイする";
+
+"Play Save State" = "セーブステートをプレイする";
+
+"Player %ld" = "プレーヤー %ld";
+
+"Please close all games and wait for the importer to finish." = "全てのゲームを閉じ、インポートが終了するのをお待ち下さい。";
+
+"Quick Load" = "クイックロード";
+
+"Quick Save State" = "クイックセーブステート";
+
+"Quick Save, Slot %@" = "スロット%@へクイックセーブ";
+
+"Quick Save" = "クイックセーブ";
+
+"Quit" = "終了";
+
+"Rating" = "レーティング";
+
+"Recently Added" = "最近追加されたもの";
+
+"Recovered Auto Save" = "リカバリされたオートセーブ";
+
+"Remove" = "削除";
+
+"Rename \"%@\"" = "\"%@\"の名称を変更";
+
+"Rename Game" = "ゲームの名称を変更";
+
+"Rename Special Save State or something?" = "セーブステートの名称を変更しますか？";
+
+"Rename" = "名称を変更";
+
+"Required files are missing." = "要求されたファイルが見付かりません。";
+
+"Resolve %ld Issue" = "%ld の問題を解決する";
+
+"Resolve %ld Issues" = "%ld の問題を解決する";
+
+"Resolve Issues" = "問題を解決する";
+
+"Restart now" = "今すぐ再起動する";
+
+"Restart System" = "システムを再起動する";
+
+"Restart" = "再起動";
+
+"Resume Emulation" = "エミュレーションをレジューム";
+
+"Resume" = "レジューム";
+
+"Save As:" = "別名で保存:";
+
+"Save Current Game…" = "現在のゲームを保存…";
+
+"Save Game" = "ゲームを保存";
+
+"Save States" = "セーブステート";
+
+"Save to Slot %d" = "スロット%d へ保存";
+
+"Save-Game-%ld %@" = "セーブ-ゲーム-%ld %@";
+
+"Saved Games" = "保存されたゲーム";
+
+"Scanner Paused" = "スキャナ停止中";
+
+"Scanning Directory" = "ディレクトリをスキャン中";
+
+"Screenshots" = "スクリーンショット";
+
+"Search" = "検索";
+
+"Secrets" = "シークレット";
+
+"Select All" = "全て選択";
+
+"Select Audio Output Device" = "オーディオ出力先を選択";
+
+"Select Cheat" = "チートを選択";
+
+"Select Core" = "コアを選択";
+
+"Select Filter" = "フィルタを選択";
+
+"Select Scale" = "スケールを選択";
+
+"Share" = "共有";
+
+"Show in Finder" = "Finderで表示";
+
+"Slot %d" = "スロット %d";
+
+"Slot %ld" = "スロット %ld";
+
+"Slot 1" = "スロット 1";
+
+"Some migrations failed to complete properly" = "マイグレーションが正常に完了しませんでした。";
+
+"Start Scanning" = "スキャンを開始";
+
+"Stop Emulation" = "エミュレーションを停止";
+
+"Stop" = "停止";
+
+"Switch To Grid View" = "グリッド表示にする";
+
+"Switch To List View" = "リスト表示にする";
+
+"System Files" = "システムファイル";
+
+"System" = "システム";
+
+"Takes you to the %@ project website" = "%@ プロジェクトのウェブサイトを表示";
+
+"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "%1$@ コアは互換性の問題を抱えているため、グリッチが発生するか、全くプレイが出来ません。\n\n%2$@の問題についての報告は必要ありません。";
+
+"The background process connection couldn't be established" = "バックグラウンドプロセスへ接続を確立出来ませんでした。";
+
+"The background process couldn't be launched" = "バックグラウンドプロセスを起動できませんでした。";
+
+"The battery in device number %lu, %@, is low. Please charge or replace the battery." = "デバイス番号 %1$lu、及び %2$@, のバッテリが弱くなっています。電池を交換して下さい。";
+
+"The core could not be downloaded. Try installing it from the Cores preferences." = "コアがダウンロード出来ませんでした。コア設定からダウンロードし直して下さい。";
+
+"The file you selected doesn't exist" = "選択されたファイルは存在しません。";
+
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "ROMファイルが見付からなかったため、'%@'を開始することが出来ませんでした。ファイルを指定しなおしますか？";
+
+"The game '%@' was imported." = "'%@' がインポートされました。";
+
+"The OpenEmu Library could not be found." = "OpenEmuライブラリが見付かりませんでした。";
+
+"The root proxy object is nil." = "Rootのプロキシオブジェクトがnilです。";
+
+"The System plugin could not be found!" = "システムプラグインが見付かりませんでした。";
+
+"this guide" = "このガイド";
+
+"This save state was created with a different core. Do you want to switch to that core now?" = "このセーブステートは、別のコアで作成されています。作成されたコアへ変更しますか？";
+
+"This System has no corresponding core installed." = "関連するコアが見付かりません。";
+
+"Title:" = "タイトル:";
+
+"To launch the save state %@ you will need to install the '%@' Core" = "%1$@ のセーブステートを起動するには、'%2$@' のコアが必要です。";
+
+"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "このコアを起動するには、以下のコアが必要です:\n\n%@要求されたファイルをゲームライブラリのウィンドウへドラッグ&ドロップして下さい。";
+
+"Toggle Fullscreen" = "フルスクリーンモード";
+
+"Toggle Sidebar" = "サイドバーを表示";
+
+"Trash downloaded Files" = "ダウンロードされたファイルを捨てる";
+
+"Unmute Audio" = "消音を解除";
+
+"Update" = "アップデート";
+
+"User guide on BIOS files" = "BIOSファイルのユーザガイド";
+
+"View Guide In Browser" = "ガイドをブラウザで見る";
+
+"Warning" = "警告";
+
+"While performing this operation OpenEmu will be unresponsive." = "これをしている間、OpenEmu は責任を負いかねます。";
+
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "OpenEmuでは、セーブステートを利用することで、いつでもゲームの状態を保存できます。また、ゲーム終了時は進行状況をオートセーブします。ここでは、全てのセーブデータの概要を確認出来ます。";
+
+"Won't be able to recognize it as special save state…" = "特別なセーブステートを認識できません…";
+
+"Would you like to continue your last game?" = "最後のゲームの続きをプレイしますか？";
+
+"Would you like to save your game before you quit?" = "ゲーム終了前にセーブしますか？";
+
+"Yes" = "はい";
+
+"You can't move your library here!" = "ここへはライブラリを移動出来ません。";
+
+"You need to restart the application to commit the change" = "変更を適用するには、OpenEmuを再起動して下さい。";
+
+"Your game finished importing, do you want to play it now?" = "ゲームのインポートが完了しました。ゲームを起動しますか？";
+
+"Your library was moved sucessfully." = "ライブラリの移動が正常に完了しました。";
+
+
+/* Secrets */
+
+"General" = "一般";
+
+"Debug Mode" = "デバッグモード";
+
+"Setup Assistant has finished" = "セットアップ・アシスタントが完了しました。";
+
+"Region" = "地域";
+
+"Run games using" = "以下を用いてゲームを起動";
+
+"Library Window" = "ライブラリ ウィンドウ";
+
+"Reset main window size" = "メインウィンドウのサイズをリセット";
+
+"Dark GridView context menu" = "ダーク・グリッドビュー";
+
+"Download missing artwork on the fly" = "ダウンロードした写真が見付かりません";
+
+"Show game titles instead of rom names" = "ROMの名前の代わりにゲームタイトルを表示する";
+
+"Manually choose system on import" = "インポート時にシステムを自分で選択";
+
+"Show autosave states in save state category" = "セーブステートカテゴリのオートセーブを表示";
+
+"Show quicksave states in save state category" = "セーブステートカテゴリのクイックセーブを表示";
+
+"Show game scanner view" = "ゲームスキャナービューを表示";
+
+"Hide game scanner view" = "ゲームスキャナービューを隠す";
+
+"HUD Bar / Gameplay" = "HUDバー / ゲームプレイ";
+
+"Use game name as window title" = "ウィンドウタイトルにゲーム名を表示";
+
+"Can delete save states" = "セーブステートを削除可能にする";
+
+"Show options button" = "オプションボタンを表示";
+
+"Use gamecore picker" = "ゲームコア・ピッカーを表示";
+
+"Show quicksave notification during gameplay" = "ゲーム中にクイックセーブ通知を表示";
+
+"Show screenshot notification during gameplay" = "ゲーム中にスクリーンショット通知を表示";
+
+"Use quicksave slots" = "クイックセーブスロットを使用";
+
+"Show quicksave in menu" = "クイックセーブをメニューに表示";
+
+"Show autosave in menu" = "オートセーブをメニューに表示";
+
+"Show audio output device in menu" = "オーディオ出力デバイスをメニューに表示";
+
+"Take screenshots in native size" = "スクリーンショットをネイティブサイズで表示";
+
+"Disable aspect ratio correction" = "アスペクト比調整を無効にする";
+
+"Game View Background color" = "ゲーム画面の背景色";
+
+"Controls Setup" = "コントローラー設定";
+
+"WiiRemote support (requires relaunch)" = "WiiRemoteサポート(再起動が必要))";
+
+"Clicking on image selects button" = "画像をクリックしてボタンを選択";
+
+"Clicking outside image deselects button" = "画像の外をクリックして選択を解除";
+
+"Select first field after setting the last" = "設定後に最初のフィールドを選択";
+
+"Draw button mask above image" = "画像の上に重なるボタンマスクを作成";
+
+"Log HID Events" = "HID イベントを記録";
+
+"Log Keyboard Events" = "Keyboard イベントを記録";
+
+"Show all global keys" = "グローバルキーを全て表示する";
+
+"Always show BIOS preferences" = "BIOSの設定を常に表示";
+
+"Set default save states directory" = "デフォルトのオートセーブステートディレクトリを設定";
+
+"Choose save states directory…" = "セーブステートディレクトリを選択…";
+
+"Cleanup autosave state" = "オートセーブステートをクリーンアップ";
+
+"Cleanup Save States" = "セーブステートをクリーンアップ";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Update OpenVGDB" = "OpenVGDBをアップデート";
+
+"Cancel OpenVGDB Update" = "OpenVGDBのアップデートをキャンセル";
+
+"Database Actions" = "データベース操作";
+
+"Delete Artwork that can be downloaded" = "ダウンロード可能な写真を削除";
+
+"Download missing artwork" = "写真をダウンロード";
+
+"Remove untracked artwork files" = "追跡不可能な写真を削除";
+
+"Cleanup rom hashes" = "ROMのハッシュをクリーンアップ";
+
+"Remove duplicated roms" = "重複しているROMを削除";
+
+"Cancel cover sync for all games" = "全てのゲームのカバー同期をキャンセル";
+
+"Perform Sanity Check on Database" = "データベース上のSanity Checkを開始";
+
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "OpenEmuを作成した全ての方に大変感謝しています。\n全てのコントリビュータ及びエミュレータコア作者、\nドキュメント、ライセンス、イシュー、\nバグレポートなどの確認は、GitHubにてご確認ください。";
