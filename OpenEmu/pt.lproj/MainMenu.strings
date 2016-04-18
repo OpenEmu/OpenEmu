@@ -279,10 +279,10 @@
 "1209.title" = "Debug";
 
 /* Class = "NSMenuItem"; title = "Log Responder Chain"; ObjectID = "1210"; */
-"1210.title" = "Log Responder Chain"; // TODO
+"1210.title" = "Log Responder Chain";
 
 /* Class = "NSMenuItem"; title = "Log Grid Info"; ObjectID = "1217"; */
-"1217.title" = "Log Grid Info"; // TODO
+"1217.title" = "Log Grid Info";
 
 /* Class = "NSMenuItem"; title = "Mostrar nomes das ROMs"; ObjectID = "1293"; */
 "1293.title" = "Mostrar nomes das ROMs";
@@ -306,7 +306,7 @@
 "5YI-Il-P9H.title" = "Notas da Versão";
 
 /* Class = "NSMenuItem"; title = "Show Sidebar"; ObjectID = "5kO-fw-ARd"; */
-"5kO-fw-ARd.title" = "Show Sidebar"; // TODO
+"5kO-fw-ARd.title" = "Exibir Barra Lateral"; 
 
 /* Class = "NSMenuItem"; title = "Ajuda"; ObjectID = "Qhx-nq-JmY"; */
 "Qhx-nq-JmY.title" = "Ajuda";
