@@ -323,7 +323,7 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
 
     [inputMenu addItem:[NSMenuItem separatorItem]];
 
-    [inputMenu addItemWithTitle:NSLocalizedString(@"Add a Wiimote…", @"Wiimote bindings menu item.") action:@selector(searchForWiimote:) keyEquivalent:@""];
+    [[inputMenu addItemWithTitle:NSLocalizedString(@"Add a Wiimote…", @"Wiimote bindings menu item.") action:@selector(searchForWiimote:) keyEquivalent:@""] setTarget:self];
 
     [[self inputPopupButton] setMenu:inputMenu];
     [self OE_updateInputPopupButtonSelection];
