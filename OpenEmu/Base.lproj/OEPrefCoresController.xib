@@ -24,7 +24,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="23" headerView="52" id="33" customClass="OETableView">
-                                <rect key="frame" x="0.0" y="0.0" width="424" height="437"/>
+                                <rect key="frame" x="0.0" y="0.0" width="430" height="437"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -44,7 +44,7 @@
                                         </textFieldCell>
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                     </tableColumn>
-                                    <tableColumn identifier="systemColumn" editable="NO" width="196" minWidth="196" maxWidth="196" id="50">
+                                    <tableColumn identifier="systemColumn" editable="NO" width="202" minWidth="202" maxWidth="202" id="50">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Console">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -75,6 +75,10 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </clipView>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="460" id="63B-aF-FdB"/>
+                        <constraint firstAttribute="width" constant="423" id="Is5-Kg-ohf"/>
+                    </constraints>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="34">
                         <rect key="frame" x="-100" y="-100" width="423" height="15"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -84,7 +88,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <tableHeaderView key="headerView" id="52">
-                        <rect key="frame" x="0.0" y="0.0" width="424" height="23"/>
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="23"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </tableHeaderView>
                 </scrollView>
@@ -92,8 +96,6 @@
             <constraints>
                 <constraint firstItem="31" firstAttribute="top" secondItem="3" secondAttribute="top" id="FRR-42-hKr"/>
                 <constraint firstItem="31" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="Kx1-Gz-Ws7"/>
-                <constraint firstAttribute="trailing" secondItem="31" secondAttribute="trailing" id="LcM-4Z-RaI"/>
-                <constraint firstAttribute="bottom" secondItem="31" secondAttribute="bottom" id="lEj-pp-C1D"/>
             </constraints>
             <point key="canvasLocation" x="88.5" y="131"/>
         </view>

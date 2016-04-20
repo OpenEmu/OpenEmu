@@ -18,7 +18,7 @@
 "20.title" = "Spellen georganiseerd houden";
 
 /* Class = "NSButtonCell"; title = "Copy files to Game Library folder when adding to library"; ObjectID = "21"; */
-"21.title" = "Kopiëer bestanden naar spellenbibliotheekmap bij toevoegen aan bibliotheek";
+"21.title" = "Kopiëer bestanden naar spellenbibliotheekmap bij toevoegen\naan bibliotheek";
 
 /* Class = "NSButtonCell"; title = "Radio"; ObjectID = "22"; */
 "22.title" = "Radio";

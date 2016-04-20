@@ -205,7 +205,7 @@ NSString * const OptionsKey = @"options";
 
                               Group(@"Database Actions"),
                               Button(@"Delete useless image objects", @selector(removeUselessImages:)),
-                              Button(@"Delete Artwork that can be downloaded", @selector(removeArtworkWithRemoteBacking:)),
+                              Button(@"Delete artwork that can be downloaded", @selector(removeArtworkWithRemoteBacking:)),
                               Button(@"Sync games without artwork", @selector(syncGamesWithoutArtwork:)),
                               Button(@"Download missing artwork", @selector(downloadMissingArtwork:)),
                               Button(@"Remove untracked artwork files", @selector(removeUntrackedImageFiles:)),

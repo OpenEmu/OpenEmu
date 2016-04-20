@@ -118,11 +118,11 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView ambiguous="YES" editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" verticallyResizable="YES" allowsNonContiguousLayout="YES" id="Ynq-yb-Moe" customClass="OEArrowCursorTextView">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="397" height="73"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="394" height="73"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <size key="minSize" width="394" height="73"/>
-                                                                    <size key="maxSize" width="463" height="10000000"/>
+                                                                    <size key="maxSize" width="394" height="10000000"/>
                                                                     <attributedString key="textStorage">
                                                                         <fragment content="asdasd">
                                                                             <attributes>
@@ -133,7 +133,7 @@
                                                                     </attributedString>
                                                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <size key="minSize" width="394" height="73"/>
-                                                                    <size key="maxSize" width="463" height="10000000"/>
+                                                                    <size key="maxSize" width="394" height="10000000"/>
                                                                     <connections>
                                                                         <binding destination="Byy-Ku-AfU" name="attributedString" keyPath="objectValue" id="2R3-AZ-NEA">
                                                                             <dictionary key="options">
@@ -165,6 +165,10 @@
                         </subviews>
                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </clipView>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="423" id="PTh-Zk-jNi"/>
+                        <constraint firstAttribute="height" constant="460" id="r0A-VV-D5h"/>
+                    </constraints>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Pte-Dx-7ad">
                         <rect key="frame" x="1" y="119" width="223" height="15"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -176,8 +180,6 @@
                 </scrollView>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="EjW-Ja-3BR" secondAttribute="bottom" id="4Ky-vm-zJC"/>
-                <constraint firstAttribute="trailing" secondItem="EjW-Ja-3BR" secondAttribute="trailing" id="B6b-Tq-taC"/>
                 <constraint firstItem="EjW-Ja-3BR" firstAttribute="top" secondItem="3" secondAttribute="top" id="Fp7-AI-02X"/>
                 <constraint firstItem="EjW-Ja-3BR" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="cHR-ZC-Tmh"/>
             </constraints>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPrefGameplayController">
@@ -17,18 +17,18 @@
             <rect key="frame" x="0.0" y="0.0" width="423" height="254"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
             <subviews>
-                <customView id="4" customClass="OEHorizontalLine">
-                    <rect key="frame" x="0.0" y="157" width="432" height="2"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <animations/>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="OEHorizontalLine">
+                    <rect key="frame" x="0.0" y="157" width="423" height="2"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="4Se-nf-t0W"/>
+                        <constraint firstAttribute="width" constant="423" id="XXe-XZ-9Lp"/>
+                    </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
                     </userDefinedRuntimeAttributes>
                 </customView>
-                <button id="5" userLabel="Check Box" customClass="OEButton">
-                    <rect key="frame" x="42" y="90" width="223" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="5" userLabel="Check Box 1" customClass="OEButton">
+                    <rect key="frame" x="42" y="90" width="215" height="18"/>
                     <buttonCell key="cell" type="check" title="Always launch games fullscreen" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="26" userLabel="Check Box Cell" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -40,10 +40,8 @@
                         <binding destination="28" name="value" keyPath="values.fullScreen" id="32"/>
                     </connections>
                 </button>
-                <button id="6" userLabel="Check Box" customClass="OEButton">
-                    <rect key="frame" x="42" y="61" width="258" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="6" userLabel="Check Box 2" customClass="OEButton">
+                    <rect key="frame" x="42" y="61" width="248" height="18"/>
                     <buttonCell key="cell" type="check" title="Always use popout gameplay window" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="25" userLabel="Check Box Cell" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -55,10 +53,8 @@
                         <binding destination="28" name="value" keyPath="values.forcePopout" id="65"/>
                     </connections>
                 </button>
-                <button id="56" userLabel="Check Box" customClass="OEButton">
-                    <rect key="frame" x="42" y="32" width="305" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="56" userLabel="Check Box 3" customClass="OEButton">
+                    <rect key="frame" x="42" y="32" width="293" height="18"/>
                     <buttonCell key="cell" type="check" title="Always pause gameplay when in background" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="57" userLabel="Check Box Cell" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -70,10 +66,11 @@
                         <binding destination="28" name="value" keyPath="values.backgroundPause" id="58"/>
                     </connections>
                 </button>
-                <textField verticalHuggingPriority="750" id="13" customClass="OELabel">
-                    <rect key="frame" x="41" y="124" width="139" height="14"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="OELabel">
+                    <rect key="frame" x="39" y="124" width="366" height="14"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="362" id="aQ7-gQ-82u"/>
+                    </constraints>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Window Management" id="14" customClass="OELabelCell">
                         <font key="font" metaFont="smallSystemBold"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -83,10 +80,11 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
                     </userDefinedRuntimeAttributes>
                 </textField>
-                <textField verticalHuggingPriority="750" id="8" customClass="OELabel">
-                    <rect key="frame" x="41" y="220" width="139" height="14"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="OELabel">
+                    <rect key="frame" x="39" y="220" width="366" height="14"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="362" id="osw-t6-slj"/>
+                    </constraints>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Display Mode" id="23" customClass="OELabelCell">
                         <font key="font" metaFont="smallSystemBold"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -96,10 +94,12 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
                     </userDefinedRuntimeAttributes>
                 </textField>
-                <textField verticalHuggingPriority="750" id="10" customClass="OELabel">
-                    <rect key="frame" x="41" y="185" width="41" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="OELabel">
+                    <rect key="frame" x="39" y="185" width="42" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="138" id="RzW-xY-L99"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="38" id="e4J-aE-P1L"/>
+                    </constraints>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Filter:" id="21" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -109,10 +109,12 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
                     </userDefinedRuntimeAttributes>
                 </textField>
-                <popUpButton focusRingType="none" verticalHuggingPriority="750" id="11" customClass="OEPopUpButton">
-                    <rect key="frame" x="84" y="183" width="217" height="26"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <animations/>
+                <popUpButton focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11" customClass="OEPopUpButton">
+                    <rect key="frame" x="83" y="183" width="217" height="23"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="212" id="6jh-MX-q9D"/>
+                        <constraint firstAttribute="height" constant="18" id="cz9-gs-8lo"/>
+                    </constraints>
                     <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="16" customClass="OEPopUpButtonCell">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="menu"/>
@@ -138,7 +140,24 @@
                     </connections>
                 </popUpButton>
             </subviews>
-            <animations/>
+            <constraints>
+                <constraint firstItem="5" firstAttribute="top" secondItem="13" secondAttribute="bottom" constant="18" id="1Sm-n6-qK3"/>
+                <constraint firstItem="8" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="41" id="5UT-Pf-fwo"/>
+                <constraint firstItem="8" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" id="5t2-Ez-iVb"/>
+                <constraint firstItem="13" firstAttribute="leading" secondItem="8" secondAttribute="leading" id="94z-fj-rki"/>
+                <constraint firstItem="4" firstAttribute="top" secondItem="10" secondAttribute="bottom" constant="26" id="CWF-e5-11D"/>
+                <constraint firstItem="13" firstAttribute="top" secondItem="4" secondAttribute="bottom" constant="19" id="E14-se-5DT"/>
+                <constraint firstItem="56" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="J4j-df-qzA"/>
+                <constraint firstItem="6" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="15" id="N4M-iK-I7Q"/>
+                <constraint firstItem="10" firstAttribute="leading" secondItem="8" secondAttribute="leading" id="PBs-z6-n4i"/>
+                <constraint firstItem="11" firstAttribute="leading" secondItem="10" secondAttribute="trailing" constant="6" id="WIH-K9-L8E"/>
+                <constraint firstItem="5" firstAttribute="leading" secondItem="13" secondAttribute="leading" constant="3" id="YSV-6s-eIC"/>
+                <constraint firstItem="56" firstAttribute="top" secondItem="6" secondAttribute="bottom" constant="15" id="ash-0e-CGw"/>
+                <constraint firstItem="11" firstAttribute="bottom" secondItem="4" secondAttribute="top" constant="-27" id="eHO-aw-my1"/>
+                <constraint firstItem="4" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="nbB-nj-haG"/>
+                <constraint firstItem="10" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="18" id="pnr-Sm-nkC"/>
+                <constraint firstItem="6" firstAttribute="leading" secondItem="5" secondAttribute="leading" id="vYB-95-LrV"/>
+            </constraints>
         </view>
         <userDefaultsController id="28" userLabel="Shared User Defaults Controller"/>
     </objects>

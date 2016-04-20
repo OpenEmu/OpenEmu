@@ -3,13 +3,13 @@
 "gXt-MS-4X4.placeholderString" = "Поиск";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[0] = "Library"; ObjectID = "y2e-ND-lKU"; */
-"y2e-ND-lKU.ibShadowedLabels[0]" = "Библиотека";
+"DQz-qS-W9j.ibShadowedLabels[0]" = "Библиотека";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[1] = "Save States"; ObjectID = "y2e-ND-lKU"; */
-"y2e-ND-lKU.ibShadowedLabels[1]" = "Сохранить состояние";
+"DQz-qS-W9j.ibShadowedLabels[1]" = "Сохранить состояние";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[2] = "Screenshots"; ObjectID = "y2e-ND-lKU"; */
-"y2e-ND-lKU.ibShadowedLabels[2]" = "Снимки экрана";
+"DQz-qS-W9j.ibShadowedLabels[2]" = "Снимки экрана";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[3] = "Homebrew"; ObjectID = "y2e-ND-lKU"; */
-"y2e-ND-lKU.ibShadowedLabels[3]" = "Homebrew";
+"DQz-qS-W9j.ibShadowedLabels[3]" = "Homebrew";

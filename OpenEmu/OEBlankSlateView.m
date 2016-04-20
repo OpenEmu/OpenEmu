@@ -251,11 +251,11 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     textView.markedTextAttributes = attributes;
     textView.selectedTextAttributes = attributes;
 
-    if(plugin.supportsDiscs) {
-        
+    if(plugin.supportsDiscs)
+    {
         NSRange guideLinkRange = [textView.string rangeOfString:NSLocalizedString(@"this guide", @"this guide")];
         NSDictionary *guideLinkAttributes = @{ NSLinkAttributeName : [NSURL URLWithString:OECDBasedGamesUserGuideURLString] };
-        [textView.textStorage setAttributes:guideLinkAttributes range:guideLinkRange];
+        [textView.textStorage addAttributes:guideLinkAttributes range:guideLinkRange];
     }
     
     NSMutableDictionary *linkAttributes = [attributes mutableCopy];

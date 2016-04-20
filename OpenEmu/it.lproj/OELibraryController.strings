@@ -3,13 +3,13 @@
 "gXt-MS-4X4.placeholderString" = "Ricerca";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[0] = "Library"; ObjectID = "y2e-ND-lKU"; */
-"y2e-ND-lKU.ibShadowedLabels[0]" = "Libreria";
+"DQz-qS-W9j.ibShadowedLabels[0]" = "Libreria";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[1] = "Save States"; ObjectID = "y2e-ND-lKU"; */
-"y2e-ND-lKU.ibShadowedLabels[1]" = "Salvataggi";
+"DQz-qS-W9j.ibShadowedLabels[1]" = "Salvataggi";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[2] = "Screenshots"; ObjectID = "y2e-ND-lKU"; */
-"y2e-ND-lKU.ibShadowedLabels[2]" = "Istantanee";
+"DQz-qS-W9j.ibShadowedLabels[2]" = "Istantanee";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[3] = "Homebrew"; ObjectID = "y2e-ND-lKU"; */
-"y2e-ND-lKU.ibShadowedLabels[3]" = "Homebrew";
+"DQz-qS-W9j.ibShadowedLabels[3]" = "Homebrew";
