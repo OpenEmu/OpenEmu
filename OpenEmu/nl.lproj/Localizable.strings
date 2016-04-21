@@ -174,7 +174,7 @@
 
 "Device number %lu, %@, has disconnected." = "Apparaat met nummer %1$lu, %2$@, is ontkoppeld.";
 
-"Disc %u" = "Disc %u"; // TODO
+"Disc %u" = "Schijf %u";
 
 "Disc-based games have special requirements. Please read the disc importing guide." = "Op schijven gebaseerde spellen hebben speciale vereisten. Lees alstublieft de handleiding over schijven importeren.";
 
@@ -420,7 +420,7 @@
 
 "Select Core" = "Selecteer kern";
 
-"Select Disc" = "Select Disc"; // TODO
+"Select Disc" = "Selecteer schijf";
 
 "Select Filter" = "Selecteer filter";
 
@@ -639,6 +639,6 @@
 
 "Cancel Operation" = "Annuleer handeling";
 
-"Delete useless image objects" = "Delete useless image objects"; // TODO
+"Delete useless image objects" = "Verwijder nutteloze afbeeldingsobjecten";
 
-"Sync games without artwork" = "Sync games without artwork"; // TODO
+"Sync games without artwork" = "Synchroniseer spellen zonder omslagafbeelding";
