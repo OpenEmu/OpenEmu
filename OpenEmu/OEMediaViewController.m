@@ -339,19 +339,27 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 {
     self.currentSearchTerm = self.libraryController.toolbar.searchField.stringValue;
     
-    NSMutableArray *predarray = [NSMutableArray array];
     NSArray *tokens = [self.currentSearchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
-    for (NSString *token in tokens) {
-        if (token.length > 0) {
-            for (NSString *key in self.searchKeys) {
-                [predarray addObject:[NSPredicate predicateWithFormat:@"%K contains[cd] %@", key, token]];
+    // Create predicates matching all search term tokens (AND) for each search key
+    NSMutableArray *searchKeyPredicates = [NSMutableArray array];
+    for (NSString *key in self.searchKeys) {
+        NSMutableArray *tokenPredicates = [NSMutableArray array];
+        for (NSString *token in tokens) {
+            if (token.length > 0) {
+                [tokenPredicates addObject:[NSPredicate predicateWithFormat:@"%K contains[cd] %@", key, token]];
             }
         }
+        
+        // Note: an AND predicate with no subpredicates is TRUEPREDICATE
+        NSCompoundPredicate *searchKeyPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:tokenPredicates];
+        
+        [searchKeyPredicates addObject:searchKeyPredicate];
     }
 
-    if (predarray.count > 0)
-        _searchPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:predarray];
+    // Combine search key predicates so any of them will match (OR)
+    if (searchKeyPredicates.count > 0)
+        _searchPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:searchKeyPredicates];
     else
         _searchPredicate = [NSPredicate predicateWithValue:YES];
 
