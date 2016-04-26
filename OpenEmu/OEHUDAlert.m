@@ -153,10 +153,10 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 {
     if([self suppressionUDKey] && [[NSUserDefaults standardUserDefaults] valueForKey:[self suppressionUDKey]])
     {
-        _result = [[NSUserDefaults standardUserDefaults] integerForKey:[self suppressionUDKey]];
-        NSInteger suppressionValue = (_result == 1 ? NSAlertFirstButtonReturn : NSAlertSecondButtonReturn);
+        NSInteger suppressionValue = [[NSUserDefaults standardUserDefaults] integerForKey:[self suppressionUDKey]];
+        _result = (suppressionValue == 1 ? NSAlertFirstButtonReturn : NSAlertSecondButtonReturn);
         [self OE_performCallback];
-        return suppressionValue;
+        return _result;
     }
 
     [self OE_autosizeWindow];
