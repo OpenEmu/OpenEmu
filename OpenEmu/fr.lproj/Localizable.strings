@@ -42,9 +42,9 @@
 
 "Add Cheat" = "Ajouter un code";
 
-"Add Cover Art From File…" = "Ajouter l’illustration à partir d’un fichier…";
+"Add Cover Art from File…" = "Ajouter l’illustration à partir d’un fichier…";
 
-"Add To Collection" = "Ajouter à la collection";
+"Add to Collection" = "Ajouter à la collection";
 
 "All Games" = "Tous les jeux";
 
@@ -84,8 +84,6 @@
 
 "Cancel Cover Art Download" = "Annuler le téléchargement de l’illustration";
 
-"Cancel Operation" = "Annuler l’opération";
-
 "Cancel" = "Annuler";
 
 "Change Core" = "Changer le cœur";
@@ -105,8 +103,6 @@
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Choisissez Oui pour supprimer tous les éléments de file d’attente. Les éléments importés seront conservés dans votre bibliothèque.";
 
 "Code:" = "Code :";
-
-"Collapse" = "Réduire";
 
 "Collections" = "Collections";
 
@@ -180,9 +176,9 @@
 
 "Disc-based games have special requirements. Please read the disc importing guide." = "Les jeux à base de disque ont des exigences particulières. Lisez le guide d’importation de disque.";
 
-"Dismiss" = "Ignorer";
+"Disc %u" = "Disque %u";
 
-"Do it!" = "Faites-le !";
+"Dismiss" = "Ignorer";
 
 "Do not ask me again" = "Ne plus me demander";
 
@@ -217,8 +213,6 @@
 "Edit Game Controls" = "Modifier les contrôles de jeu";
 
 "Enable now" = "Activer maintenant";
-
-"Enable Retrode support" = "Activer le support de Retrode";
 
 "Error!" = "Erreur !";
 
@@ -313,8 +307,6 @@
 "No" = "Non";
 
 "None" = "Aucune";
-
-"Not implemented right now" = "Pas encore implémenté";
 
 "OK" = "OK";
 
@@ -428,6 +420,8 @@
 
 "Select Core" = "Sélectionner le cœur";
 
+"Select Disc" = "Sélectionner le disque";
+
 "Select Filter" = "Sélectionner le filtre";
 
 "Select Scale" = "Sélectionner l’échelle";
@@ -443,6 +437,8 @@
 "Slot 1" = "Fente 1";
 
 "Some migrations failed to complete properly" = "Quelques migrations ne se sont pas terminées correctement";
+
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Merci à celles et ceux sans qui OpenEmu n’aurait été possible. Pour en savoir plus sur nos contributeurs, cœurs, doc, licences et signalement des bugs, visitez notre GitHub.";
 
 "Start Scanning" = "Démarrer l’analyse";
 
@@ -496,8 +492,6 @@
 
 "Toggle Fullscreen" = "Basculer le mode plein écran";
 
-"Toggle Sidebar" = "Basculer la barre latérale";
-
 "Trash downloaded Files" = "Placer dans la corbeille les fichiers téléchargés";
 
 "Unmute Audio" = "Réactiver le son";
@@ -509,8 +503,6 @@
 "View Guide In Browser" = "Afficher le guide";
 
 "Warning" = "Avertissement";
-
-"While performing this operation OpenEmu will be unresponsive." = "OpenEmu ne répondra pas pendant l’exécution de cette opération.";
 
 "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "Avec OpenEmu vous pouvez enregistrer votre progression à n’importe quel moment en utilisant les sauvegardes. Des sauvegardes sont effectuées automatiquement lorsque vous quitter un jeu. Revenez ici pour obtenir un aperçu de toutes vos sauvegardes.";
 
@@ -627,7 +619,7 @@
 
 "Database Actions" = "Actions de la base de données";
 
-"Delete Artwork that can be downloaded" = "Supprimer l’illustration qui peut être téléchargée";
+"Delete artwork that can be downloaded" = "Supprimer l’illustration qui peut être téléchargée";
 
 "Download missing artwork" = "Télécharger l’illustration manquante";
 
@@ -641,4 +633,12 @@
 
 "Perform Sanity Check on Database" = "Vérifier l’intégrité de la base de données";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Merci à celles et ceux sans qui\nOpenEmu n’aurait été possible. Pour\nen savoir plus sur nos contributeurs,\ncœurs, doc, licences et signalement\ndes bugs, visitez notre GitHub.";
+"While performing this operation OpenEmu will be unresponsive." = "OpenEmu ne répondra pas pendant l’exécution de cette opération.";
+
+"Do it!" = "Faites-le !";
+
+"Cancel Operation" = "Annuler l’opération";
+
+"Delete useless image objects" = "Supprimer les objets d’image inutiles";
+
+"Sync games without artwork" = "Synchroniser les jeux sans illustration";
