@@ -37,7 +37,6 @@
 #import "OEXPCGameCoreHelper.h"
 
 // DO  object
-#import "OEDOGameCoreHelper.h"
 #import <OpenEmuBase/OpenEmuBase.h>
 
 #import "OEThreadProxy.h"
@@ -68,5 +67,8 @@ enum _OEHelperAppErrorCodes
 - (void)launchApplication;
 
 - (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion withCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath error:(NSError **)error;
+
+- (NSThread *)makeGameCoreThread;
+- (void)OE_gameCoreThread:(id)anObject;
 
 @end

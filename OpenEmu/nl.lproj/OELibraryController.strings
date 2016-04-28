@@ -27,13 +27,13 @@
 "gXt-MS-4X4.placeholderString" = "Zoek";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[0] = "Library"; ObjectID = "y2e-ND-lKU"; */
-"y2e-ND-lKU.ibShadowedLabels[0]" = "Bibliotheek";
+"DQz-qS-W9j.ibShadowedLabels[0]" = "Bibliotheek";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[1] = "Save States"; ObjectID = "y2e-ND-lKU"; */
-"y2e-ND-lKU.ibShadowedLabels[1]" = "Momentopnames";
+"DQz-qS-W9j.ibShadowedLabels[1]" = "Momentopnames";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[2] = "Screenshots"; ObjectID = "y2e-ND-lKU"; */
-"y2e-ND-lKU.ibShadowedLabels[2]" = "Schermafbeeldingen";
+"DQz-qS-W9j.ibShadowedLabels[2]" = "Schermafbeeldingen";
 
 /* Class = "NSSegmentedCell"; y2e-ND-lKU.ibShadowedLabels[3] = "Homebrew"; ObjectID = "y2e-ND-lKU"; */
-"y2e-ND-lKU.ibShadowedLabels[3]" = "Homebrew";
+"DQz-qS-W9j.ibShadowedLabels[3]" = "Homebrew";

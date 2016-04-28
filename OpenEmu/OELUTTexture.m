@@ -24,6 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifdef CG_SUPPORT
+
 #import "OELUTTexture.h"
 
 @implementation OELUTTexture
@@ -65,3 +67,5 @@
 }
 
 @end
+
+#endif

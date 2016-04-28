@@ -25,18 +25,19 @@
  */
 
 /* Section Title */
-  "Gameplay Buttons" = "Pulsanti di Gioco";
-  "Special Keys" = "Tasti Speciali";
+  "Gameplay Buttons" = "Pulsanti di gioco";
+  "Special Keys" = "Tasti speciali";
 
 /* Group Labels */
   "Analog" = "Analogico";
   "C-Pad" = "C-Pad";
+  "C-Stick" = "C-Stick";
   "D-Pad" = "D-Pad";
   "Keypad" = "Tastierino";
-  "Left Analog" = "Analogico Sinistro";
-  "Left D-Pad" = "D-Pad Sinistro";
-  "Right Analog" = "Analogico Destro";
-  "Right D-Pad" = "D-Pad Destro";
+  "Left Analog" = "Analogico sinistro";
+  "Left D-Pad" = "D-Pad sinistro";
+  "Right Analog" = "Analogico destro";
+  "Right D-Pad" = "D-Pad destro";
   "Switches" = "Interruttori";
 
 /* Button Labels */
@@ -54,8 +55,11 @@
   "8" = "8";
   "9" = "9";
   "A" = "A";
-  "Analog Mode" = "Modalità Analogico";
+  "Action" = "Action";
+  "Analog Mode" = "Modalità analogico";
   "B" = "B";
+  "Bottom Left Action" = "Azione inferiore sx";
+  "Bottom Right Action" = "Azione inferiore dx";
   "Button 1" = "Pulsante 1";
   "Button 1/Start" = "Pulsante 1/Start";
   "Button 2" = "Pulsante 2";
@@ -65,15 +69,15 @@
   "Button 6" = "Pulsante 6";
   "C" = "C";
   "Change Disk Side" = "Cambia lato disco";
+  "Clear" = "Clear";
   "Console Pause" = "Pausa console";
-  "Display Mode" = "Vista";
+  "Console Reset" = "Reset console";
   "Down" = "Giù";
-  "Fast Forward" = "Avanzamento Rapido";
+  "Enter" = "Enter";
   "Fire 1" = "Fuoco 1";
   "Fire 2" = "Fuoco 2";
   "Fire" = "Fuoco";
-  "Fullscreen" = "Schermo Intero";
-  "Insert Coin" = "Inserisci Moneta";
+  "Insert Coin" = "Inserisci moneta";
   "L Diff A" = "L Diff A";
   "L Diff B" = "L Diff B";
   "L Diff" = "L Diff";
@@ -81,22 +85,19 @@
   "L1" = "L1";
   "L2" = "L2";
   "L3" = "L3";
-  "Left Action" = "Azione Sinistro";
-  "Left Trigger" = "Grilletto Sinistro";
+  "Left Action" = "Azione sinistro";
+  "Left Trigger" = "Grilletto sinistro";
   "Left" = "Sinistra";
   "Lid" = "Coperchio";
-  "Load" = "Carica";
+  "Menu" = "Menu";
   "Mic" = "Microfono";
   "Mode" = "Modalità";
-  "Mute" = "Muto";
-  "Option 1" = "Opzione 1";
-  "Option 2" = "Opzione 2";
-  "Option" = "Opzione";  // Jaguar, Lynx
+  "Option 1" = "Option 1";
+  "Option 2" = "Option 2";
+  "Option" = "Option";  // Jaguar, Lynx
   "P" = "P";
-  "Pause" = "Pausa";  // Atari 5200, 7800, Jaguar
-  "Player Start" = "Inizia Gioco";
-  "Quick Load Button" = "Carica veloce";
-  "Quick Save Button" = "Salva veloce";
+  "Player Start" = "Inizia gioco";
+  "Power" = "Power";
   "R Diff A" = "R Diff A";
   "R Diff B" = "R Diff B";
   "R Diff" = "R Diff";
@@ -104,23 +105,20 @@
   "R1" = "R1";
   "R2" = "R2";
   "R3" = "R3";
-  "Reset" = "Reset";
-  "Rewind" = "Riavvolgi";
-  "Right Action" = "Azione Sinistro";
-  "Right Trigger" = "Grilletto Destro";
+  "Right Action" = "Azione destro";
+  "Right Trigger" = "Grilletto destro";
   "Right" = "Destra";
   "Run" = "Run";
-  "Save" = "Salva";
-  "Screenshot" = "Istantanea";
   "Select" = "Select";
   "Service" = "Pulsante di servizio";
+  "Shake" = "Scuoti";
+  "Sleep" = "Sleep";
   "Sound" = "Sound";
   "Start" = "Start";
-  "TV Black & White" = "TV Bianco e Nero";
-  "TV Color" = "TV a Colori";
+  "TV Black & White" = "TV bianco e nero";
+  "TV Color" = "TV a colori";
+  "Top Action" = "Azione superiore";
   "Up" = "Su";
-  "Volume Down" = "Abbassa Volume";
-  "Volume Up" = "Alza Volume";
   "X" = "X";
   "X1 Up" = "X1 Su";
   "X2 Right" = "X2 Destra";
@@ -136,3 +134,19 @@
   "△" = "△";
   "◯" = "◯";
   "✕" = "✕";
+
+/* Special Keys */
+  "Display Mode" = "Vista";
+  "Fast Forward" = "Avanti veloce"; // "Avanzamento rapido" wraps like "Avanzament\no rapido"
+  "Fullscreen" = "Schermo intero";
+  "Load" = "Carica";
+  "Mute" = "Muto";
+  "Pause" = "Sospendi";
+  "Quick Load Button" = "Carica veloce";
+  "Quick Save Button" = "Salva veloce";
+  "Reset" = "Resetta";
+  "Rewind" = "Riavvolgi";
+  "Save" = "Salva";
+  "Screenshot" = "Istantanea";
+  "Volume Down" = "Abbassa volume";
+  "Volume Up" = "Alza volume";

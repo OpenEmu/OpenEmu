@@ -37,6 +37,7 @@ typedef struct
 
 ExtAudioFileRef recordingFile;
 
+// TODO: This is very low quality. Consider AUVarispeed or etc.
 static void StretchSamples(int16_t *outBuf, const int16_t *inBuf,
                            int outFrames, int inFrames, int channels)
 {
@@ -135,12 +136,6 @@ static OSStatus RenderCallback(void                       *in,
     DisposeAUGraph(_graph);
 }
 
-- (void)pauseAudio
-{
-    DLog(@"Stopped audio");
-    [self stopAudio];
-}
-
 - (void)startAudio
 {
     [self createGraph];
@@ -152,6 +147,16 @@ static OSStatus RenderCallback(void                       *in,
     AUGraphStop(_graph);
     AUGraphClose(_graph);
     AUGraphUninitialize(_graph);
+}
+
+- (void)pauseAudio
+{
+    AUGraphStop(_graph);
+}
+
+- (void)resumeAudio
+{
+    AUGraphStart(_graph);
 }
 
 - (void)createGraph

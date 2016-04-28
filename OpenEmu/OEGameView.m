@@ -28,15 +28,17 @@
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import "OEGameDocument.h"
-#import "OEDOGameCoreHelper.h"
 
 #import "OEShaderPlugin.h"
 #import "OEGameShader.h"
 #import "OEGLSLShader.h"
-#import "OECGShader.h"
 #import "OEBuiltInShader.h"
+
+#ifdef CG_SUPPORT
+#import "OECGShader.h"
 #import "OEMultipassShader.h"
 #import "OELUTTexture.h"
+#endif
 
 #import "OEGameViewNotificationRenderer.h"
 
@@ -51,12 +53,14 @@
 NSString * const OEScreenshotAspectRationCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
 NSString * const OEDefaultVideoFilterKey = @"videoFilter";
 
+#ifdef CG_SUPPORT
 static const GLfloat cg_coords[] = {
     0, 0,
     1, 0,
     1, 1,
     0, 1
 };
+#endif
 
 @interface OEGameView ()
 // Rendering methods
@@ -77,6 +81,8 @@ static const GLfloat cg_coords[] = {
     GLuint             _gameTexture;
     IOSurfaceID        _gameSurfaceID;
     IOSurfaceRef       _gameSurfaceRef;
+
+#ifdef CG_SUPPORT
     GLuint            *_rttFBOs;
     GLuint            *_rttGameTextures;
     NSUInteger         _frameCount;
@@ -85,6 +91,7 @@ static const GLfloat cg_coords[] = {
     GLuint            *_multipassFBOs;
     OEIntSize         *_multipassSizes;
     GLuint            *_lutTextures;
+#endif
 
     snes_ntsc_t       *_ntscTable;
     uint16_t          *_ntscSource;
@@ -187,7 +194,11 @@ static const GLfloat cg_coords[] = {
     CGLSetParameter(cgl_ctx, kCGLCPSwapInterval, &value);
 
     [self _prepareGameTexture];
+
+#ifdef CG_SUPPORT
     [self _prepareMultipassFilter];
+#endif
+
     [self _prepareBlarggsFilter];
     [self _applyBackgroundColor];
 
@@ -219,6 +230,7 @@ static const GLfloat cg_coords[] = {
     // GL resources
     glGenTextures(1, &_gameTexture);
 
+#ifdef CG_SUPPORT
     // Resources for render-to-texture pass
     _rttGameTextures = (GLuint *) malloc(OEFramesSaved * sizeof(GLuint));
     _rttFBOs         = (GLuint *) malloc(OEFramesSaved * sizeof(GLuint));
@@ -240,8 +252,10 @@ static const GLfloat cg_coords[] = {
         NSLog(@"failed to make complete framebuffer object %x", status);
 
     _frameCount = 0;
+#endif
 }
 
+#ifdef CG_SUPPORT
 - (void)_prepareMultipassFilter
 {
     // NOTE: only call when cgl_ctx is locked and current
@@ -268,6 +282,7 @@ static const GLfloat cg_coords[] = {
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 }
+#endif
 
 - (void)_prepareBlarggsFilter
 {
@@ -371,6 +386,7 @@ static const GLfloat cg_coords[] = {
     glDeleteTextures(1, &_gameTexture);
     _gameTexture = 0;
 
+#ifdef CG_SUPPORT
     glDeleteTextures(OEFramesSaved, _rttGameTextures);
     free(_rttGameTextures);
     _rttGameTextures = 0;
@@ -385,6 +401,7 @@ static const GLfloat cg_coords[] = {
     glDeleteFramebuffersEXT(OEMultipasses, _multipassFBOs);
     free(_multipassFBOs);
     _multipassFBOs = 0;
+#endif
 
     free(_ntscTable);
     _ntscTable = 0;
@@ -398,12 +415,14 @@ static const GLfloat cg_coords[] = {
     glDeleteTextures(1, &_saveStateTexture);
     _saveStateTexture = 0;
 
+#ifdef CG_SUPPORT
     free(_multipassSizes);
     _multipassSizes = 0;
 
     glDeleteTextures(OELUTTextures, _lutTextures);
     free(_lutTextures);
     _lutTextures = 0;
+#endif
 
     _openGLContextIsSetup = NO;
 
@@ -616,8 +635,10 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
     _filterTime = [[NSDate date] timeIntervalSinceDate:_filterStartDate];
 
+#ifdef CG_SUPPORT
     // Just assume 60 fps, this isn't critical
     _gameFrameCount = _filterTime * 60;
+#endif
 
     if(_gameSurfaceRef == NULL) [self rebindIOSurface];
 
@@ -652,6 +673,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     [[self openGLContext] flushBuffer];
 }
 
+#ifdef CG_SUPPORT
 - (void)OE_renderToTexture:(GLuint)renderTarget usingTextureCoords:(const GLint *)texCoords inCGLContext:(CGLContextObj)cgl_ctx
 {
     const GLfloat vertices[] =
@@ -909,6 +931,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
     glDisableClientState(GL_VERTEX_ARRAY);
 }
+#endif
 
 // GL render method
 - (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)cgl_ctx usingShader:(OEGameShader *)shader
@@ -972,6 +995,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
     }
     else if([shader isCompiled])
     {
+#ifdef CG_SUPPORT
         if([shader isKindOfClass:[OEMultipassShader class]])
         {
             [self OE_renderToTexture:_rttGameTextures[_frameCount % OEFramesSaved] usingTextureCoords:tex_coords inCGLContext:cgl_ctx];
@@ -990,6 +1014,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
         }
         else
         {
+#endif
             glUseProgramObjectARB([(OEGLSLShader *)shader programObject]);
 
             // set up shader uniforms
@@ -1005,7 +1030,10 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
             // turn off shader - incase we switch toa QC filter or to a mode that does not use it.
             glUseProgramObjectARB(0);
+
+#ifdef CG_SUPPORT
         }
+#endif
     }
 
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -1057,6 +1085,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
     [filter compileShaders];
 
+#ifdef CG_SUPPORT
     if([filter isKindOfClass:[OEMultipassShader class]])
     {
         free(_multipassSizes);
@@ -1115,6 +1144,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
             }
         }
     }
+#endif
 
     CGLUnlockContext(cgl_ctx);
 }
@@ -1253,6 +1283,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
 
     CGLLockContext(cgl_ctx);
     {
+#ifdef CG_SUPPORT
         if(_rttGameTextures)
         {
             for(NSUInteger i = 0; i < OEFramesSaved; ++i)
@@ -1262,6 +1293,7 @@ static CVReturn OEGameViewDisplayLinkCallback(CVDisplayLinkRef displayLink,const
                 glBindTexture(GL_TEXTURE_2D, 0);
             }
         }
+#endif
         free(_ntscSource);
         _ntscSource      = (uint16_t *) malloc(sizeof(uint16_t) * newScreenSize.width * newScreenSize.height);
         if(newScreenSize.width <= 256)

@@ -70,6 +70,9 @@
 {
     @autoreleasepool
     {
+        [[NSThread currentThread] setName:@"org.openemu.core-manager-thread"];
+        [[NSThread currentThread] setQualityOfService:NSQualityOfServiceUserInitiated];
+
         [self setGameCoreHelper:(id<OEGameCoreHelper>)_helperProxy];
         [_helper setGameCoreOwner:(id<OEGameCoreOwner>)_gameCoreOwnerProxy];
 
@@ -85,24 +88,19 @@
             return;
         }
 
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(_completionHandler != nil)
-            {
-                _completionHandler();
-                _completionHandler = nil;
-            }
-        });
+        if (_completionHandler) {
+            dispatch_async(dispatch_get_main_queue(), _completionHandler);
+            _completionHandler = nil;
+        }
 
         _dummyTimer = [NSTimer scheduledTimerWithTimeInterval:1e9 target:self selector:@selector(dummyTimer:) userInfo:nil repeats:YES];
 
         CFRunLoopRun();
 
-        if(_stopHandler != nil)
+        if(_stopHandler)
         {
-            void(^stopHandler)(void) = _stopHandler;
+            dispatch_async(dispatch_get_main_queue(), _stopHandler);
             _stopHandler = nil;
-
-            dispatch_async(dispatch_get_main_queue(), stopHandler);
         }
     }
 }

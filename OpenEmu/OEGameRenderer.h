@@ -21,16 +21,20 @@
 
 @property (nonatomic, readonly) id presentationFramebuffer;
 
-- (void)updateRenderer; // gameCore, ioSurface or gameCore.screenRect changed
+- (void)updateRenderer;           // gameCore, ioSurface or gameCore.screenRect changed
 
 // Properties
-- (BOOL)canChangeBufferSize; ///!< If the app can ask the IOSurface to change size if the window resizes.
+- (BOOL)canChangeBufferSize;      ///!< If the app can safely ask the IOSurface to change size if the window resizes.
 
 // Execution
 - (void)willExecuteFrame;
 - (void)didExecuteFrame;
 
+- (void)presentDoubleBufferedFBO;
 - (void)willRenderFrameOnAlternateThread;
 - (void)didRenderFrameOnAlternateThread;
+
+- (void)suspendFPSLimiting;       ///!< (Temporarily) disable the FPS limiter for saving/setup, to avoid deadlock.
+- (void)resumeFPSLimiting;        ///!< Resume the FPS limiter when entering normal gameplay.
 
 @end

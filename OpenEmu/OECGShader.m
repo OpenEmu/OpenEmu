@@ -24,6 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifdef CG_SUPPORT
+
 #import "OECGShader.h"
 #import "OEShaderPlugin.h"
 #import "OEGameShader_ForSubclassEyesOnly.h"
@@ -205,3 +207,5 @@
 }
 
 @end
+
+#endif

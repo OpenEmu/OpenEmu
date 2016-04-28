@@ -492,9 +492,12 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
 
     if([self librariesView] == nil) return;
 
-    CGFloat width = [[self librariesView] frame].size.width;
     CGFloat height = (iHeight * rows + (rows - 1) * vSpace) + topGap + bottomGap;
-    [[self librariesView] setFrameSize:NSMakeSize(width, height)];
+    NSView *clipview = self.librariesView.superview;
+    NSView *libview = self.librariesView;
+    [clipview removeConstraints:[clipview constraints]];
+    [clipview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[libview]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(libview)]];
+    [clipview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[libview(height)]" options:0 metrics:@{@"height": @(height)} views:NSDictionaryOfVariableBindings(libview)]];
 
     __block CGFloat x = vSpace;
     __block CGFloat y = height-topGap;

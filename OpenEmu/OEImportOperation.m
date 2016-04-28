@@ -87,9 +87,11 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         return nil;
     }
 
+#ifdef CG_SUPPORT
     // Check for .cg filters and copy them directly (not going through importer queue)
     if([self OE_isFilterAtURL:url])
         return nil;
+#endif
 
     // Ignore text files that are .md
     if([self OE_isTextFileAtURL:url])
@@ -106,6 +108,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     return item;
 }
 
+#ifdef CG_SUPPORT
 + (BOOL)OE_isFilterAtURL:(NSURL*)url
 {
     NSString *pathExtension = url.pathExtension.lowercaseString;
@@ -137,6 +140,7 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     }
     return NO;
 }
+#endif
 
 + (void)OE_tryImportSaveStateAtURL:(NSURL*)url
 {

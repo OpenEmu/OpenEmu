@@ -37,7 +37,6 @@
 #import "OEDBGame.h"
 #import "OEDBSaveState.h"
 #import "OEDBSystem.h"
-#import "OEDOGameCoreManager.h"
 #import "OEGameCoreManager.h"
 #import "OEGameView.h"
 #import "OEGameViewController.h"
@@ -322,7 +321,7 @@ typedef enum : NSUInteger
     NSString *managerClassName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameCoreManagerModePreferenceKey];
 
     Class managerClass = NSClassFromString(managerClassName);
-    if(managerClass != [OEThreadGameCoreManager class] && managerClass != [OEDOGameCoreManager class])
+    if(managerClass != [OEThreadGameCoreManager class])
         managerClass = [OEXPCGameCoreManager class];
 
     _corePlugin = corePlugin;

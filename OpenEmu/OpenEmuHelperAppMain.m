@@ -26,7 +26,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import "OpenEmuHelperApp.h"
-#import "OpenEmuDOHelperApp.h"
 #import "OpenEmuXPCHelperApp.h"
 #import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>
 
@@ -37,8 +36,8 @@ int main(int argc, const char * argv[])
     {
         if([OEXPCCAgent canParseProcessArgumentsForDefaultAgent])
             helperApp = [[OpenEmuXPCHelperApp alloc] init];
-        else
-            helperApp = [[OpenEmuDOHelperApp alloc] init];
+
+        NSCParameterAssert(helperApp);
 
         [helperApp launchApplication];
     }

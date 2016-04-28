@@ -35,7 +35,8 @@
     CGLContextObj         _alternateContext; // Alternate thread's GL context.
     dispatch_semaphore_t  _renderingThreadCanProceedSemaphore;
     dispatch_semaphore_t  _executeThreadCanProceedSemaphore;
-    uint8_t               _isAlternateDisplayingFrames; // If no, core side is still in setup, so don't FPS limit.
+
+    volatile int32_t      _isFPSLimiting; // Enable the "fake vsync" locking to prevent the GPU thread running ahead.
 }
 
 @synthesize gameCore=_gameCore;
@@ -90,8 +91,6 @@
 
 - (void)setupVideo
 {
-    DLog(@"Setting up OpenGL2.x/2D renderer");
-
     [self setupGLContext];
     [self setupFramebuffer];
 
@@ -275,8 +274,6 @@
         glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_PRIVATE_APPLE);
         glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
     }
-    
-    DLog(@"Finished setting up gameTexture");
 
     // Set up the context's matrix
     glViewport(0, 0, _surfaceSize.width, _surfaceSize.height);
@@ -294,6 +291,8 @@
 {
     if(_alternateContext == NULL)
         CGLCreateContext(_glPixelFormat, _glContext, &_alternateContext);
+
+    DLog(@"Setup GL2.1 3D 'alternate-threaded' rendering");
 }
 
 - (void)setupDoubleBufferedFBO
@@ -325,6 +324,8 @@
     glClear(GL_COLOR_BUFFER_BIT);
 
     _isDoubleBufferFBOMode = YES;
+
+    DLog(@"Setup GL2.1 3D 'double-buffered FBO' rendering");
 }
 
 - (void)clearFramebuffer
@@ -351,7 +352,7 @@
     }
 }
 
-- (void)copyAlternateFBO
+- (void)presentDoubleBufferedFBO
 {
     glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, _alternateFBO);
     glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, _ioSurfaceFBO);
@@ -381,13 +382,30 @@
     }
 }
 
+- (void)resumeFPSLimiting
+{
+    if (_isFPSLimiting == 1) return;
+
+    OSAtomicIncrement32(&_isFPSLimiting);
+}
+
+- (void)suspendFPSLimiting
+{
+    if (_isFPSLimiting == 0) return;
+
+    OSAtomicDecrement32(&_isFPSLimiting);
+
+    // Wake up the rendering thread one last time.
+    // After this, it'll skip checking the semaphore until resumed.
+    dispatch_semaphore_signal(_renderingThreadCanProceedSemaphore);
+}
+
 // Execution
 - (void)willExecuteFrame
 {
     if (_alternateContext) {
         // Tell the rendering thread to go ahead.
-        _isAlternateDisplayingFrames = 1;
-        dispatch_semaphore_signal(_renderingThreadCanProceedSemaphore);
+        if (_isFPSLimiting) dispatch_semaphore_signal(_renderingThreadCanProceedSemaphore);
         return;
     }
 
@@ -403,9 +421,8 @@
 {
     if (_alternateContext) {
         // Wait for the rendering thread to complete this frame.
-        // Most cores with rendering threads don't seem to handle timing themselves
-        // - they're probably relying on Vsync.
-        dispatch_semaphore_wait(_executeThreadCanProceedSemaphore, DISPATCH_TIME_FOREVER);
+        // Most cores with rendering threads don't seem to handle timing themselves - they're probably relying on Vsync.
+        if (_isFPSLimiting) dispatch_semaphore_wait(_executeThreadCanProceedSemaphore, DISPATCH_TIME_FOREVER);
 
         // Don't do any other work.
         // NOTE: if we start doing other GL stuff here (like filtering moves into this GL context)
@@ -507,10 +524,6 @@
         glDisableClientState(GL_VERTEX_ARRAY);
     }
 
-    if (_isDoubleBufferFBOMode) {
-        [self copyAlternateFBO];
-    }
-
     // Update the IOSurface.
     glFlushRenderAPPLE();
 }
@@ -524,14 +537,11 @@
 
 - (void)didRenderFrameOnAlternateThread
 {
-    if (_isDoubleBufferFBOMode)
-        [self copyAlternateFBO];
-
     // Update the IOSurface.
     glFlushRenderAPPLE();
 
     // Do FPS limiting, but only once setup is over.
-    if (_isAlternateDisplayingFrames) {
+    if (_isFPSLimiting) {
         // Technically the above should be a glFinish(), but I'm hoping the GPU work
         // is fast enough that it's not needed.
         dispatch_semaphore_signal(_executeThreadCanProceedSemaphore);
