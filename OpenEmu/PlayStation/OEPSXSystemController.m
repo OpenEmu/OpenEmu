@@ -210,7 +210,7 @@
         //NSLog(@"output: %@", output);
         
         // RegEx pattern match the disc serial
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"BOOT ?= ?cdrom:\\\\?(.+\\\\)?(.+);" options:NSRegularExpressionCaseInsensitive error:nil];
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"BOOT\\s*=\\s*?cdrom:\\\\?(.+\\\\)?(.+);" options:NSRegularExpressionCaseInsensitive error:nil];
         NSTextCheckingResult *match = [regex firstMatchInString:output options:0 range:NSMakeRange(0, [output length])];
         
         if(match == nil)
