@@ -3338,14 +3338,14 @@
 					<key>OEControllerSteelSeriesWirelessLeftAnalogUp</key>
 					<dict>
 						<key>Direction</key>
-						<integer>-1</integer>
+						<integer>1</integer>
 						<key>Name</key>
 						<string>Left Analog Up</string>
 					</dict>
 					<key>OEControllerSteelSeriesWirelessLeftAnalogDown</key>
 					<dict>
 						<key>Direction</key>
-						<integer>1</integer>
+						<integer>-1</integer>
 						<key>Name</key>
 						<string>Left Analog Down</string>
 					</dict>
@@ -3394,14 +3394,14 @@
 					<key>OEControllerSteelSeriesWirelessRightAnalogUp</key>
 					<dict>
 						<key>Direction</key>
-						<integer>-1</integer>
+						<integer>1</integer>
 						<key>Name</key>
 						<string>Right Analog Up</string>
 					</dict>
 					<key>OEControllerSteelSeriesWirelessRightAnalogDown</key>
 					<dict>
 						<key>Direction</key>
-						<integer>1</integer>
+						<integer>-1</integer>
 						<key>Name</key>
 						<string>Right Analog Down</string>
 					</dict>
