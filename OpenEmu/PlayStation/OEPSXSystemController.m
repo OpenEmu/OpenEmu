@@ -57,6 +57,35 @@
         NSData *dataTrackBuffer;
 
         dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
+
+        // TODO: Add frontend method to receive NSError from -canHandleFile: in system plugins; this doesn't belong here.
+        // Check for ECM magic header. Fix for https://github.com/OpenEmu/OpenEmu/issues/2588
+        uint8_t bytes[] = { 0x45, 0x43, 0x4D, 0x00 };
+        [dataTrackFile seekToFileOffset: 0x0];
+        dataTrackBuffer = [dataTrackFile readDataOfLength: 4];
+        NSData *dataCompare = [[NSData alloc] initWithBytes:bytes length:sizeof(bytes)];
+        BOOL isBinaryECM = [dataTrackBuffer isEqualToData:dataCompare];
+
+        if(isBinaryECM)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSAlert *alert = [[NSAlert alloc] init];
+
+                alert.messageText = NSLocalizedString(@"ECM compressed binary detected.", @"");
+                alert.informativeText = NSLocalizedString(@"ECM compressed binaries cannot be imported. Please read the disc importing guide.", @"");
+                alert.alertStyle = NSCriticalAlertStyle;
+                [alert addButtonWithTitle:NSLocalizedString(@"View Guide in Browser", @"")];
+                [alert addButtonWithTitle:NSLocalizedString(@"Dismiss", @"")];
+
+                if([alert runModal] == NSAlertFirstButtonReturn)
+                {
+                    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-CD-based-games"]];
+                }
+            });
+
+            return OECanHandleNo;
+        }
+
         [dataTrackFile seekToFileOffset: 0x24E0];
         dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
         

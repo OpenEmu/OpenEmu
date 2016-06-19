@@ -642,3 +642,7 @@
 "Delete useless image objects" = "Elimina gli oggetti immagine inutili";
 
 "Sync games without artwork" = "Sincronizza i giochi senza illustrazione";
+
+"ECM compressed binary detected." = "ECM compressed binary detected.";  // TODO
+
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";  // TODO
