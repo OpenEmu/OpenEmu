@@ -96,10 +96,9 @@ extern NSString *const OEScreenshotPropertiesKey;
 #pragma mark - Info
 - (NSSize)defaultScreenSize;
 
-- (void)setEnableVSync:(BOOL)enable;
-- (void)setAspectSize:(OEIntSize)newAspectSize;
-- (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-- (void)setDiscCount:(NSUInteger)discCount;
+@property (nonatomic) OEIntSize aspectSize;
+@property (nonatomic) OEIntSize screenSize;
+@property (nonatomic) NSUInteger discCount;
+@property (nonatomic) NSUInteger remoteContextID;
 
 @end

@@ -37,7 +37,7 @@
 - (void)setAudioOutputDeviceID:(AudioDeviceID)deviceID;
 - (void)setOutputBounds:(NSRect)rect;
 
-- (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
+- (void)setupEmulationWithCompletionHandler:(void(^)(void))handler;
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler;
 - (void)resetEmulationWithCompletionHandler:(void(^)(void))handler;
 - (void)stopEmulationWithCompletionHandler:(void(^)(void))handler;
@@ -72,10 +72,10 @@
 - (void)toggleEmulationPaused;
 - (void)takeScreenshot;
 
-- (void)setEnableVSync:(BOOL)enable;
 - (void)setAspectSize:(OEIntSize)newAspectSize;
-- (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
+- (void)setScreenSize:(OEIntSize)newScreenSize;
+- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize;
 - (void)setDiscCount:(NSUInteger)discCount;
+- (void)setRemoteContextID:(NSUInteger)contextID;
 
 @end

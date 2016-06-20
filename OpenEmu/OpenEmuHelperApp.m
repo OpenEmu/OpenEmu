@@ -25,8 +25,6 @@
  */
 
 // for speedz
-#import <OpenGL/CGLMacro.h>
-
 #import "OpenEmuHelperApp.h"
 
 // Open Emu
@@ -36,6 +34,7 @@
 #import "OEOpenGL2GameRenderer.h"
 #import "OEOpenGL3GameRenderer.h"
 #import "OESystemPlugin.h"
+#import "OEGameHelperLayer.h"
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 // Compression support
@@ -45,14 +44,23 @@
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
 
+// SPI: Stolen from Chrome
+typedef uint32_t CGSConnectionID;
+CGSConnectionID CGSMainConnectionID(void);
+
+typedef uint32_t CAContextID;
+
+@interface CAContext : NSObject
+{
+}
++ (id)contextWithCGSConnection:(CAContextID)contextId options:(NSDictionary*)optionsDict;
+@property(readonly) CAContextID contextId;
+@property(retain) CALayer *layer;
+@end
+// End SPI
+
 @interface OpenEmuHelperApp () <OEGameCoreDelegate, OEGlobalEventsHandler>
 @property BOOL loadedRom;
-
-@property(readonly) OEIntSize screenSize;
-@property(readonly) OEIntSize aspectSize;
-@property(readonly) BOOL isEmulationPaused;
-
-@property(readonly) IOSurfaceID surfaceID;
 
 - (void)setupProcessPollingTimer;
 - (void)quitHelperTool;
@@ -63,6 +71,8 @@
 {
     void (^_startEmulationHandler)(void);
     void (^_stopEmulationHandler)(void);
+
+    OEIntSize _previousScreenSize;
     OEIntSize _previousAspectSize;
 
     NSRunningApplication *_parentApplication; // the process id of the parent app (Open Emu or our debug helper)
@@ -81,17 +91,15 @@
     OESystemResponder    *_systemResponder;
     OEGameAudio          *_gameAudio;
 
+    CAContext            *_gameVideoCAContext;
+    OEGameHelperLayer    *_gameVideoLayer;
+
     NSMutableDictionary<OEDeviceHandlerPlaceholder *, NSMutableArray<void(^)(void)> *> *_pendingDeviceHandlerBindings;
 
-    id _unhandledEventsMonitor;
-
-    // screen subrect stuff
-    CGFloat               _gameAspectRatio;
-
-    BOOL                  _hasStartedAudio;
+    id   _unhandledEventsMonitor;
+    BOOL _hasStartedAudio;
 }
 
-@synthesize enableVSync = _enableVSync;
 @synthesize gameCoreProxy = _gameCoreProxy;
 
 - (instancetype)init
@@ -140,6 +148,7 @@
     [self updateScreenSize];
     [self updateGameRenderer];
     [self setupIOSurface];
+    [self setupRemoteLayer];
 }
 
 - (void)setupProcessPollingTimer
@@ -159,7 +168,6 @@
 
 - (void)quitHelperTool
 {
-    // TODO: add proper deallocs etc.
     [_pollingTimer invalidate];
 
     [[NSApplication sharedApplication] terminate:nil];
@@ -172,27 +180,7 @@
     OEIntRect screenRect = _gameCore.screenRect;
 
     _previousAspectSize = _gameCore.aspectSize;
-
-    if(_screenSize.width == 0)
-        _gameAspectRatio = screenRect.size.width / (CGFloat)screenRect.size.height;
-
-    // Aspect ratio correction, should not be needed
-#if 0
-    if(_drawSquarePixels)
-    {
-        CGFloat screenAspect = screenRect.size.width / (CGFloat)screenRect.size.height;
-        _screenSize = screenRect.size;
-
-        // try to maximize the drawn rect so we don't lose any pixels
-        // (risk: we can only upscale bilinearly as opposed to filteredly)
-        if(screenAspect > _gameAspectRatio)
-            _screenSize.height = _screenSize.width / _gameAspectRatio;
-        else
-            _screenSize.width  = _screenSize.height * _gameAspectRatio;
-    }
-#endif
-
-    _screenSize = screenRect.size;
+    _previousScreenSize = screenRect.size;
 }
 
 - (void)updateGameRenderer
@@ -207,46 +195,69 @@
         NSAssert(0, @"Rendering API %u not supported yet", (unsigned)rendering);
 
     _gameRenderer.gameCore  = _gameCore;
-    // pass over core and iosurface and tell it to setup
 }
 
 - (void)setupIOSurface
 {
-    BOOL isReinit = _surfaceID != 0;
-    [self destroyIOSurface];
+    BOOL isReinit = _surfaceRef != nil;
+    _surfaceRef = nil;
 
     // init our texture and IOSurface
     OEIntSize surfaceSize = _gameCore.bufferSize;
 
     NSDictionary *surfaceAttributes = @{
-        (NSString *)kIOSurfaceIsGlobal: @YES,
-        (NSString *)kIOSurfaceWidth: @(surfaceSize.width),
+        (NSString *)kIOSurfaceWidth:  @(surfaceSize.width),
         (NSString *)kIOSurfaceHeight: @(surfaceSize.height),
         (NSString *)kIOSurfaceBytesPerElement: @4,
     };
 
     // TODO: do we need to ensure openGL Compatibility and CALayer compatibility?
     _surfaceRef = IOSurfaceCreate((__bridge CFDictionaryRef)surfaceAttributes);
-    _surfaceID = IOSurfaceGetID(_surfaceRef);
 
     _gameRenderer.surfaceSize = surfaceSize;
     _gameRenderer.ioSurface   = _surfaceRef;
     [_gameRenderer updateRenderer];
 
-    if (isReinit) [self updateScreenSize:_screenSize withIOSurfaceID:_surfaceID];
+    if (isReinit) {
+        NSAssert(0, @"Unimplemented");
+    }
 }
 
-- (void)destroyIOSurface
+- (void)setupRemoteLayer
 {
-    if(_surfaceRef == nil) return;
+    if (_gameVideoLayer != nil) return;
 
-    CFRelease(_surfaceRef);
-    _surfaceRef = nil;
+    _gameVideoLayer = [OEGameHelperLayer new];
+
+    OEGameLayerInputParams input = _gameVideoLayer.input;
+
+    input.ioSurfaceRef = _surfaceRef;
+    input.screenSize = _previousScreenSize;
+    input.aspectSize = _previousAspectSize;
+    _gameVideoLayer.input = input;
+
+    [_gameVideoLayer setBounds:CGRectMake(0, 0, _previousScreenSize.width * 4, _previousScreenSize.height * 4)];
+
+    /*
+     NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
+     if(backgroundColorName != nil)
+     {
+     NSColor *color = [NSColor colorFromString:backgroundColorName];
+     [_gameView setBackgroundColor:color];
+     }
+     */
+
+    CGSConnectionID connection_id = CGSMainConnectionID();
+    _gameVideoCAContext = [CAContext contextWithCGSConnection:connection_id options:@{}];
+    _gameVideoCAContext.layer = _gameVideoLayer;
+
+    [self updateRemoteContextID:_gameVideoCAContext.contextId];
 }
 
 - (void)setOutputBounds:(NSRect)rect
 {
-    // TODO: Change buffersize, recreate IOSurface or tell layer to change
+    // TODO: Tell layer to change pixel bounds
+    // TODO^2: Recreate the IOSurface and tell the game core to change bounds
     NSParameterAssert(0);
 }
 
@@ -397,12 +408,18 @@
 
 - (NSThread *)makeGameCoreThread
 {
-    return [[NSThread alloc] initWithTarget:self selector:@selector(OE_gameCoreThread:) object:nil];
+    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(OE_gameCoreThread:) object:nil];
+    thread.name = @"org.openemu.core-thread";
+    thread.qualityOfService = NSQualityOfServiceUserInteractive;
+
+    return thread;
 }
 
 - (void)OE_gameCoreThread:(id)anObject
 {
     [_gameCore startEmulation];
+
+    // Just to make sure.
     [[NSThread currentThread] setName:@"org.openemu.core-thread"];
     [[NSThread currentThread] setQualityOfService:NSQualityOfServiceUserInteractive];
 
@@ -429,16 +446,6 @@
     CFRunLoopStop(CFRunLoopGetCurrent());
 }
 
-- (OEIntSize)aspectSize
-{
-    return [_gameCore aspectSize];
-}
-
-- (BOOL)isEmulationPaused
-{
-    return _gameCore.isEmulationPaused;
-}
-
 #pragma mark - OEGameCoreHelper methods
 
 - (void)setVolume:(CGFloat)volume
@@ -458,12 +465,12 @@
     [_gameAudio setOutputDeviceID:deviceID];
 }
 
-- (void)setupEmulationWithCompletionHandler:(void(^)(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize))handler;
+- (void)setupEmulationWithCompletionHandler:(void(^)(void))handler;
 {
     [_gameCore setupEmulation];
     [self setupGameCoreAudioAndVideo];
 
-    if(handler) handler(_surfaceID, _screenSize, _previousAspectSize);
+    if(handler) handler();
 }
 
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler
@@ -580,19 +587,19 @@
 
 #pragma mark - OEGameCoreOwner subclass handles
 
-- (void)updateEnableVSync:(BOOL)enable
+- (void)updateScreenSize:(OEIntSize)newScreenSize
 {
-    [[self gameCoreOwner] setEnableVSync:enable];
-}
-
-- (void)updateScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
-{
-    [[self gameCoreOwner] setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
+    [[self gameCoreOwner] setScreenSize:newScreenSize];
 }
 
 - (void)updateAspectSize:(OEIntSize)newAspectSize
 {
     [[self gameCoreOwner] setAspectSize:newAspectSize];
+}
+
+- (void)updateRemoteContextID:(CAContextID)newContextID
+{
+    [[self gameCoreOwner] setRemoteContextID:newContextID];
 }
 
 #pragma mark - OEGameCoreDelegate protocol methods
@@ -631,6 +638,7 @@
 {
     OEIntSize previousBufferSize = _gameRenderer.surfaceSize;
     OEIntSize previousAspectSize = _previousAspectSize;
+    OEIntSize previousScreenSize = _previousScreenSize;
 
     OEIntSize bufferSize = _gameCore.bufferSize;
     OEIntRect screenRect = _gameCore.screenRect;
@@ -640,14 +648,14 @@
         // The IOSurface is going to be recreated at the next frame.
         // Don't check the other stuff because it's just going to glitch either way.
     } else {
-        if(!OEIntSizeEqualToSize(screenRect.size, _screenSize))
+        if(!OEIntSizeEqualToSize(screenRect.size, previousScreenSize))
         {
             NSAssert((screenRect.origin.x + screenRect.size.width) <= bufferSize.width, @"screen rect must not be larger than buffer size");
             NSAssert((screenRect.origin.y + screenRect.size.height) <= bufferSize.height, @"screen rect must not be larger than buffer size");
 
             NSLog(@"Sending did change screen rect to %@", NSStringFromOEIntRect(screenRect));
             [self updateScreenSize];
-            [self updateScreenSize:_screenSize withIOSurfaceID:_surfaceID];
+            [self updateScreenSize:_previousScreenSize];
         }
 
         if(!OEIntSizeEqualToSize(aspectSize, previousAspectSize))
@@ -661,6 +669,10 @@
     }
 
     [_gameRenderer didExecuteFrame];
+
+    [CATransaction begin];
+    [_gameVideoLayer setNeedsDisplay];
+    [CATransaction commit];
 
     if(!_hasStartedAudio)
     {
@@ -692,17 +704,6 @@
 - (void)suspendFPSLimiting
 {
     [_gameRenderer suspendFPSLimiting];
-}
-
-- (BOOL)enableVSync
-{
-    return _enableVSync;
-}
-
-- (void)setEnableVSync:(BOOL)enableVSync
-{
-    _enableVSync = enableVSync;
-    [self updateEnableVSync:_enableVSync];
 }
 
 #pragma mark - OEAudioDelegate
@@ -782,6 +783,7 @@
 
 - (void)takeScreenshot:(id)sender
 {
+    NSAssert(0, @"We probably have to do this");
     [self.gameCoreOwner takeScreenshot];
 }
 

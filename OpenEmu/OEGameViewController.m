@@ -90,10 +90,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 {
     // Standard game document stuff
     OEGameLayerView *_gameView;
-    OEIntSize   _screenSize;
-    OEIntSize   _aspectSize;
     BOOL        _pausedByGoingToBackground;
-    NSUInteger  _discCount;
 }
 
 @property(readonly) OEGameLayerView *gameView;
@@ -125,13 +122,6 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         _gameView = [[OEGameLayerView alloc] initWithFrame:[[self view] bounds]];
         [_gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [_gameView setDelegate:self];
-
-        NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
-        if(backgroundColorName != nil)
-        {
-            NSColor *color = [NSColor colorFromString:backgroundColorName];
-            [_gameView setBackgroundColor:color];
-        }
         
         [[self view] addSubview:_gameView];
 
@@ -190,11 +180,6 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 - (BOOL)supportsMultipleDiscs
 {
     return [[self document] supportsMultipleDiscs];
-}
-
-- (NSUInteger)discCount
-{
-    return _discCount;
 }
 
 - (NSString *)coreIdentifier;
@@ -301,33 +286,9 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 #pragma mark - OEGameCoreOwner methods
 
-- (void)setEnableVSync:(BOOL)enable;
+- (void)setRemoteContextID:(NSUInteger)remoteContextID
 {
-//    [_gameView setEnableVSync:enable];
-}
-
-- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
-{
-    _screenSize = newScreenSize;
-    _aspectSize = newAspectSize;
-    [_gameView setScreenSize:_screenSize aspectSize:_aspectSize withIOSurfaceID:newSurfaceID];
-}
-
-- (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID;
-{
-    _screenSize = newScreenSize;
-    [_gameView setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
-}
-
-- (void)setAspectSize:(OEIntSize)newAspectSize;
-{
-    _aspectSize = newAspectSize;
-    [_gameView setAspectSize:newAspectSize];
-}
-
-- (void)setDiscCount:(NSUInteger)discCount
-{
-    _discCount = discCount;
+    _gameView.remoteContextID = remoteContextID;
 }
 
 #pragma mark - Info

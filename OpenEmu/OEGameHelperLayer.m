@@ -1,18 +1,26 @@
 //
-//  OEGameLayer.m
+//  OEGameHelperLayer.m
 //  OpenEmu
 //
-//  Created by Alexander Strange on 3/21/16.
+//  Created by Alexander Strange on 6/18/16.
 //
 //
 
 @import OpenGL;
 #import <OpenGL/gl.h>
-#import "OEGameLayer.h"
+#import "OEGameHelperLayer.h"
+
 
 /*
  * OE game rendering from game texture to drawable.
  * Experimental version to be run in core process.
+ */
+
+/*
+ * Inputs:
+ * Outputs:
+ * Features:
+ * Todos:
  */
 
 /*
@@ -72,7 +80,7 @@ static NSRect FitAspectRectIntoBounds(OEIntSize aspectSize, NSRect bounds)
 // -- state class for atomic params changing
 @interface OEGameLayerGLState : NSObject
 {
-    @public
+@public
     IOSurfaceRef ioSurface;
 
     OEIntSize    surfaceSize;
@@ -95,11 +103,11 @@ static NSRect FitAspectRectIntoBounds(OEIntSize aspectSize, NSRect bounds)
 
 // -- CALayer class
 
-@interface OEGameLayer ()
+@interface OEGameHelperLayer ()
 @property (atomic) OEGameLayerGLState *state;
 @end
 
-@implementation OEGameLayer
+@implementation OEGameHelperLayer
 {
     CGLContextObj _alternateCglCtx;
     BOOL _didChangeOutputSize;
@@ -118,7 +126,7 @@ static NSRect FitAspectRectIntoBounds(OEIntSize aspectSize, NSRect bounds)
      */
     self.colorspace = CGColorSpaceCreateWithName(kCGColorSpaceITUR_709);
 
-    _filter.linearFilter = YES;
+//    _filter.linearFilter = YES;
     //    self.wantsExtendedDynamicRangeContent = YES; // <- useful with shaders
 
     return self;
@@ -184,7 +192,7 @@ static NSRect FitAspectRectIntoBounds(OEIntSize aspectSize, NSRect bounds)
     // will probably make us rebuild the whole shader setup.
 
     if (_alternateCglCtx == nil) return;
-    if (self.input.ioSurfaceID == 0) return;
+    if (self.input.ioSurfaceRef == nil) return;
 
     // Use an alternate context so this can be moved to another thread
     // if shader compiles take time. Note, texcoords need to be updated instantly.
@@ -192,7 +200,7 @@ static NSRect FitAspectRectIntoBounds(OEIntSize aspectSize, NSRect bounds)
     OEGameLayerGLState *state = [OEGameLayerGLState new];
 
     // Lookup the IOSurface.
-    state->ioSurface = IOSurfaceLookup(_input.ioSurfaceID);
+    state->ioSurface = _input.ioSurfaceRef;
     NSParameterAssert(state->ioSurface);
 
     // Prepare IOSurface texture.
@@ -270,7 +278,7 @@ static NSRect FitAspectRectIntoBounds(OEIntSize aspectSize, NSRect bounds)
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         glTexCoordPointer(2, GL_INT, 0, (GLvoid*)__offsetof(struct data, inCoords));
     }
-    
+
     // Update.
     self.state = state;
 }
@@ -333,8 +341,8 @@ static NSRect FitAspectRectIntoBounds(OEIntSize aspectSize, NSRect bounds)
     glEnable(GL_TEXTURE_RECTANGLE_ARB);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
     glColor4f(1.0, 1.0, 1.0, 1.0);
-    glEnable(GL_FRAMEBUFFER_SRGB); // TODO: Turn off for 3D games
-
+    glEnable(GL_FRAMEBUFFER_SRGB); // TODO: Turn off for 3D games?
+    
     glBindVertexArrayAPPLE(state->quadVAO);
     glBindTexture(GL_TEXTURE_RECTANGLE_ARB, state->ioSurfaceTex);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);

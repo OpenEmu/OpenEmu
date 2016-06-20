@@ -695,10 +695,8 @@ typedef enum : NSUInteger
     }
 
     [_gameCoreManager loadROMWithCompletionHandler:^{
-        [_gameCoreManager setupEmulationWithCompletionHandler:^(IOSurfaceID surfaceID, OEIntSize screenSize, OEIntSize aspectSize) {
-            NSLog(@"SETUP DONE.");
-            [_gameViewController setScreenSize:screenSize aspectSize:aspectSize withIOSurfaceID:surfaceID];
-
+        [_gameCoreManager setupEmulationWithCompletionHandler:^{
+            DLog(@"SETUP DONE.");
             _emulationStatus = OEEmulationStatusSetup;
 
             // TODO: #567 and #568 need to be fixed first
@@ -1510,29 +1508,30 @@ typedef enum : NSUInteger
     [self toggleEmulationPaused:self];
 }
 
-- (void)setEnableVSync:(BOOL)enable
-{
-    [_gameViewController setEnableVSync:enable];
-}
-
 - (void)setAspectSize:(OEIntSize)newAspectSize
 {
     [_gameViewController setAspectSize:newAspectSize];
 }
 
-- (void)setScreenSize:(OEIntSize)newScreenSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
+- (void)setScreenSize:(OEIntSize)newScreenSize
 {
-    [_gameViewController setScreenSize:newScreenSize withIOSurfaceID:newSurfaceID];
+    [_gameViewController setScreenSize:newScreenSize];
 }
 
-- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize withIOSurfaceID:(IOSurfaceID)newSurfaceID
+- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize
 {
-    [_gameViewController setScreenSize:newScreenSize aspectSize:newAspectSize withIOSurfaceID:newSurfaceID];
+    [_gameViewController setAspectSize:newAspectSize];
+    [_gameViewController setScreenSize:newScreenSize];
 }
 
 - (void)setDiscCount:(NSUInteger)discCount
 {
     [_gameViewController setDiscCount:discCount];
+}
+
+- (void)setRemoteContextID:(NSUInteger)contextID
+{
+    [_gameViewController setRemoteContextID:contextID];
 }
 
 @end

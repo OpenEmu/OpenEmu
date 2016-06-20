@@ -1,8 +1,8 @@
 //
-//  OEGameLayer.h
+//  OEGameHelperLayer.h
 //  OpenEmu
 //
-//  Created by Alexander Strange on 3/21/16.
+//  Created by Alexander Strange on 6/18/16.
 //
 //
 
@@ -14,14 +14,14 @@
 typedef struct OEGameLayerInputParams {
     OEIntSize screenSize;
     OEIntSize aspectSize;
-    IOSurfaceID ioSurfaceID;
+    IOSurfaceRef ioSurfaceRef;
 } OEGameLayerInputParams;
 
 typedef struct OEGameLayerFilterParams {
     bool linearFilter;
 } OEGameLayerFilterParams;
 
-@interface OEGameLayer : CAOpenGLLayer
+@interface OEGameHelperLayer : CAOpenGLLayer
 
 @property (nonatomic) OEGameLayerInputParams  input;
 @property (nonatomic) OEGameLayerFilterParams filter;
