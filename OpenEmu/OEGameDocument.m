@@ -449,6 +449,11 @@ typedef enum : NSUInteger
     }
 }
 
+- (void)setOutputBounds:(NSRect)bounds
+{
+    [_gameCoreManager setOutputBounds:bounds];
+}
+
 #pragma mark - Device Notifications
 - (void)OE_addDeviceNotificationObservers
 {
@@ -694,7 +699,11 @@ typedef enum : NSUInteger
         return;
     }
 
+    NSSize defaultSize = self.gameViewController.defaultScreenSize;
+    NSRect defaultBounds = NSMakeRect(0, 0, defaultSize.width, defaultSize.height);
+
     [_gameCoreManager loadROMWithCompletionHandler:^{
+        [_gameCoreManager setOutputBounds:defaultBounds];
         [_gameCoreManager setupEmulationWithCompletionHandler:^{
             DLog(@"SETUP DONE.");
             _emulationStatus = OEEmulationStatusSetup;

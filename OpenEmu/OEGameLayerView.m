@@ -26,6 +26,11 @@
 
 @implementation OEGameLayerView
 {
+    CALayerHost *_remoteLayer;
+}
+
+- (BOOL)wantsLayer {
+    return YES;
 }
 
 - (BOOL)wantsUpdateLayer {
@@ -45,14 +50,26 @@
 }
 
 - (CALayer *)makeBackingLayer {
-    CALayerHost *h = [CALayerHost new];
-    h.contextId = _remoteContextID;
-
-    return h;
+    CALayer *layer = [super makeBackingLayer];
+    [self updateTopLayer:layer withContextID:_remoteContextID];
+    return layer;
 }
 
 - (void)updateLayer {
     // Probably don't need to do anything.
+}
+
+- (void)updateTopLayer:(CALayer *)layer withContextID:(CAContextID)remoteContextID
+{
+    if (!_remoteLayer) {
+        _remoteLayer = [CALayerHost new];
+        _remoteLayer.contextId = remoteContextID;
+
+        layer.contentsGravity = kCAGravityCenter;
+        [layer addSublayer:_remoteLayer];
+    } else {
+        _remoteLayer.contextId = remoteContextID;
+    }
 }
 
 // TODO: Make sure that screen resolution / HiDPI is handled.
@@ -64,10 +81,10 @@
 
 - (void)setRemoteContextID:(CAContextID)remoteContextID
 {
-    CALayerHost *layer = (CALayerHost *)self.layer;
+    CALayer *layer = self.layer;
 
-    layer.contextId = remoteContextID;
     _remoteContextID = remoteContextID;
+    if (layer) [self updateTopLayer:layer withContextID:_remoteContextID];
 }
 
 // TODO: merge with OEGameLayer

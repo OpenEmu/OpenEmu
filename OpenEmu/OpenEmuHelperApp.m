@@ -60,7 +60,8 @@ typedef uint32_t CAContextID;
 // End SPI
 
 @interface OpenEmuHelperApp () <OEGameCoreDelegate, OEGlobalEventsHandler>
-@property BOOL loadedRom;
+@property (nonatomic) BOOL loadedRom;
+@property (nonatomic) NSRect outputBounds;
 
 - (void)setupProcessPollingTimer;
 - (void)quitHelperTool;
@@ -236,7 +237,9 @@ typedef uint32_t CAContextID;
     input.aspectSize = _previousAspectSize;
     _gameVideoLayer.input = input;
 
-    [_gameVideoLayer setBounds:CGRectMake(0, 0, _previousScreenSize.width * 4, _previousScreenSize.height * 4)];
+    NSParameterAssert(_outputBounds.size.width);
+    [_gameVideoLayer setBounds:_outputBounds];
+    _gameVideoLayer.anchorPoint = CGPointMake(0,0);
 
     /*
      NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
@@ -251,14 +254,21 @@ typedef uint32_t CAContextID;
     _gameVideoCAContext = [CAContext contextWithCGSConnection:connection_id options:@{}];
     _gameVideoCAContext.layer = _gameVideoLayer;
 
+    [CATransaction begin];
+    [_gameVideoLayer setNeedsDisplay];
+    [CATransaction commit];
+
     [self updateRemoteContextID:_gameVideoCAContext.contextId];
 }
 
 - (void)setOutputBounds:(NSRect)rect
 {
-    // TODO: Tell layer to change pixel bounds
+    _outputBounds = rect;
+    if (_gameVideoLayer) {
+        _gameVideoLayer.bounds = rect;
+    }
+
     // TODO^2: Recreate the IOSurface and tell the game core to change bounds
-    NSParameterAssert(0);
 }
 
 #pragma mark - Game Core methods

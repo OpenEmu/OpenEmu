@@ -104,7 +104,7 @@ enum _OEGameDocumentErrorCodes
 - (IBAction)deleteSaveState:(id)sender;
 
 #pragma mark - OEGameViewController Methods
-
+- (void)setOutputBounds:(NSRect)bounds;
 - (void)gameViewController:(OEGameViewController *)sender didReceiveMouseEvent:(OEEvent *)event;
 
 @end

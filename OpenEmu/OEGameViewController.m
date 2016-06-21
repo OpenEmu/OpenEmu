@@ -166,6 +166,11 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     [[self OE_rootWindow] removeChildWindow:_controlsWindow];
 }
 
+- (void)viewDidLayout
+{
+    [[self document] setOutputBounds:self.view.bounds];
+}
+
 #pragma mark - Controlling Emulation
 - (BOOL)supportsCheats;
 {
@@ -288,7 +293,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 - (void)setRemoteContextID:(NSUInteger)remoteContextID
 {
-    _gameView.remoteContextID = remoteContextID;
+    _gameView.remoteContextID = (CAContextID)remoteContextID;
 }
 
 #pragma mark - Info
