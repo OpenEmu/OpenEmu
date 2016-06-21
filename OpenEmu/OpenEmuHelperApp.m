@@ -35,6 +35,7 @@
 #import "OEOpenGL3GameRenderer.h"
 #import "OESystemPlugin.h"
 #import "OEGameHelperLayer.h"
+#import "NSColor+OEAdditions.h"
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
 // Compression support
@@ -67,6 +68,8 @@ typedef uint32_t CAContextID;
 - (void)quitHelperTool;
 
 @end
+
+static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor";
 
 @implementation OpenEmuHelperApp
 {
@@ -241,14 +244,12 @@ typedef uint32_t CAContextID;
     [_gameVideoLayer setBounds:_outputBounds];
     _gameVideoLayer.anchorPoint = CGPointMake(0,0);
 
-    /*
-     NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
-     if(backgroundColorName != nil)
-     {
-     NSColor *color = [NSColor colorFromString:backgroundColorName];
-     [_gameView setBackgroundColor:color];
-     }
-     */
+    NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
+    if(backgroundColorName != nil)
+    {
+        NSColor *color = [NSColor colorFromString:backgroundColorName];
+        [_gameVideoLayer setBackgroundColor:color];
+    }
 
     CGSConnectionID connection_id = CGSMainConnectionID();
     _gameVideoCAContext = [CAContext contextWithCGSConnection:connection_id options:@{}];
@@ -653,6 +654,7 @@ typedef uint32_t CAContextID;
     OEIntSize bufferSize = _gameCore.bufferSize;
     OEIntRect screenRect = _gameCore.screenRect;
     OEIntSize aspectSize = _gameCore.aspectSize;
+    BOOL mustUpdate = NO;
 
     if (!OEIntSizeEqualToSize(previousBufferSize, bufferSize)) {
         // The IOSurface is going to be recreated at the next frame.
@@ -666,6 +668,7 @@ typedef uint32_t CAContextID;
             NSLog(@"Sending did change screen rect to %@", NSStringFromOEIntRect(screenRect));
             [self updateScreenSize];
             [self updateScreenSize:_previousScreenSize];
+            mustUpdate = YES;
         }
 
         if(!OEIntSizeEqualToSize(aspectSize, previousAspectSize))
@@ -675,10 +678,18 @@ typedef uint32_t CAContextID;
 
             NSLog(@"Sending did change aspect to %@", NSStringFromOEIntSize(aspectSize));
             [self updateAspectSize:aspectSize];
+            mustUpdate = YES;
         }
     }
 
     [_gameRenderer didExecuteFrame];
+
+    if (mustUpdate) {
+        OEGameLayerInputParams input = _gameVideoLayer.input;
+        input.screenSize = screenRect.size;
+        input.aspectSize = aspectSize;
+        _gameVideoLayer.input = input;
+    }
 
     [CATransaction begin];
     [_gameVideoLayer setNeedsDisplay];

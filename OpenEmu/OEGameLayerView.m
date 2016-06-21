@@ -7,6 +7,7 @@
 //
 
 #import "OEGameLayerView.h"
+#import "NSColor+OEAdditions.h"
 
 // SPI USE: Stolen from Chrome.
 
@@ -23,6 +24,8 @@
 }
 @property CAContextID contextId;
 @end
+
+static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor";
 
 @implementation OEGameLayerView
 {
@@ -52,6 +55,14 @@
 - (CALayer *)makeBackingLayer {
     CALayer *layer = [super makeBackingLayer];
     [self updateTopLayer:layer withContextID:_remoteContextID];
+
+    NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
+    if(backgroundColorName != nil)
+    {
+        NSColor *color = [NSColor colorFromString:backgroundColorName];
+        [layer setBackgroundColor:(__bridge CGColorRef _Nullable)(color)];
+    }
+
     return layer;
 }
 
