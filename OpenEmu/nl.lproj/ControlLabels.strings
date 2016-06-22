@@ -31,7 +31,7 @@
 /* Group Labels */
   "Analog" = "Analoog";
   "C-Pad" = "C-knoppen";
-  "C-Stick" = "C-Stick";  // TODO
+  "C-Stick" = "C-stick";
   "D-Pad" = "D-knoppen";
   "Keypad" = "Toetsenpaneel";
   "Left Analog" = "Linker analoge";
@@ -58,8 +58,8 @@
   "Action" = "Action";
   "Analog Mode" = "Analoge modus";
   "B" = "B";
-  "Bottom Left Action" = "Bottom Left Action";  // TODO
-  "Bottom Right Action" = "Bottom Right Action";  // TODO
+  "Bottom Left Action" = "Onderste linker actie";
+  "Bottom Right Action" = "Onderste rechter actie";
   "Button 1" = "Knop 1";
   "Button 1/Start" = "Knop 1/start";
   "Button 2" = "Knop 2";
@@ -71,7 +71,7 @@
   "Change Disk Side" = "Wissel schijf van kant";
   "Clear" = "Clear";
   "Console Pause" = "Console pauze";
-  "Console Reset" = "Console Reset";  // TODO
+  "Console Reset" = "Console opnieuw instellen";
   "Down" = "Omlaag";
   "Enter" = "Enter";
   "Fire 1" = "Vuur 1";
@@ -89,7 +89,7 @@
   "Left Trigger" = "Linker trigger";
   "Left" = "Links";
   "Lid" = "Lid";
-  "Menu" = "Menu";  // TODO
+  "Menu" = "Menu";
   "Mic" = "Mic";
   "Mode" = "Modus";
   "Option 1" = "Optie 1";
@@ -111,13 +111,13 @@
   "Run" = "Uitvoeren";
   "Select" = "Select";
   "Service" = "Service";
-  "Shake" = "Shake";  // TODO
+  "Shake" = "Schud";
   "Sleep" = "Sleep";
   "Sound" = "Geluid";
   "Start" = "Start";
   "TV Black & White" = "Zwart-wittelevisie";
   "TV Color" = "Kleurentelevisie";
-  "Top Action" = "Top Action";  // TODO
+  "Top Action" = "Bovenste actie";
   "Up" = "Omhoog";
   "X" = "X";
   "X1 Up" = "X1 omhoog";
