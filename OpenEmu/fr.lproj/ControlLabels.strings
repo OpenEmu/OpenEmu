@@ -31,7 +31,7 @@
 /* Group Labels */
   "Analog" = "Stick analogique";
   "C-Pad" = "Boutons C";
-  "C-Stick" = "C-Stick";  // TODO
+  "C-Stick" = "Stick C";
   "D-Pad" = "Croix directionnelle";
   "Keypad" = "Clavier";
   "Left Analog" = "Stick analogique gauche";
@@ -58,8 +58,8 @@
   "Action" = "Action";
   "Analog Mode" = "Mode analogique";
   "B" = "B";
-  "Bottom Left Action" = "Bottom Left Action";  // TODO
-  "Bottom Right Action" = "Bottom Right Action";  // TODO
+  "Bottom Left Action" = "Action inf. gauche";
+  "Bottom Right Action" = "Action inf. droite";
   "Button 1" = "Bouton 1";
   "Button 1/Start" = "Bouton 1/Start";
   "Button 2" = "Bouton 2";
@@ -71,7 +71,7 @@
   "Change Disk Side" = "Changer face disque";
   "Clear" = "Clear";
   "Console Pause" = "Pause console";
-  "Console Reset" = "Console Reset";  // TODO
+  "Console Reset" = "Réinit. console";
   "Down" = "Bas";
   "Enter" = "Enter";
   "Fire 1" = "Feu 1";
@@ -89,7 +89,7 @@
   "Left Trigger" = "Gâchette gauche";
   "Left" = "Gauche";
   "Lid" = "Ouvrir/fermer";
-  "Menu" = "Menu";  // TODO
+  "Menu" = "Menu";
   "Mic" = "Micro";
   "Mode" = "Mode";
   "Option 1" = "Option 1";
@@ -117,7 +117,7 @@
   "Start" = "Start";
   "TV Black & White" = "TV noir et blanc";
   "TV Color" = "TV en couleurs";
-  "Top Action" = "Top Action";  // TODO
+  "Top Action" = "Action sup.";
   "Up" = "Haut";
   "X" = "X";
   "X1 Up" = "X1 haut";

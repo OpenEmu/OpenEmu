@@ -28,7 +28,7 @@
 
 "%@ could not be enabled because its plugin was not found." = "Impossible d’activer %@ car son plugin n’a pas été trouvé.";
 
-"%@ games will appear here. Check out %@ on how to add disc-based games." = "Les jeux %@ apparaîtront ici. Lisez %@ pour savoir comment ajouter jeux sur disque.";
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "Les jeux %@ apparaîtront ici. Lisez %@ pour savoir comment ajouter des jeux à base de disque.";
 
 "%@ games you add to OpenEmu will appear in this Console Library" = "Les jeux %@ ajoutés à OpenEmu apparaîtront dans la bibliothèque de la console";
 
@@ -42,7 +42,7 @@
 
 "Add Cheat" = "Ajouter un code";
 
-"Add Cover Art from File…" = "Ajouter la jaquette à partir d’un fichier…";
+"Add Cover Art from File…" = "Ajouter l’illustration à partir d’un fichier…";
 
 "Add to Collection" = "Ajouter à la collection";
 
@@ -82,7 +82,7 @@
 
 "Bluetooth Not Enabled" = "Bluetooth non activé";
 
-"Cancel Cover Art Download" = "Annuler le téléchargement de la jaquette";
+"Cancel Cover Art Download" = "Annuler le téléchargement de l’illustration";
 
 "Cancel" = "Annuler";
 
@@ -142,7 +142,7 @@
 
 "Create or Load Save State" = "Créer ou charger une partie sauvegardée";
 
-"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Créer une sélection de captures d’écran personnelle. Pour créer un capture d’écran, appuyez simultanément sur les touches ⌘ + T pendant jouer un jeu.";
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Créer votre collection personnelle de captures d’écran. Pour prendre une capture d’écran, utilisez le raccourci clavier ⌘ + T pendant une partie.";
 
 "Default Core" = "Cœur par défaut";
 
@@ -174,9 +174,9 @@
 
 "Device number %lu, %@, has disconnected." = "Le périphérique numéro %1$lu, %2$@, a été déconnecté.";
 
-"Disc %u" = "Disque %u";
+"Disc-based games have special requirements. Please read the disc importing guide." = "Les jeux à base de disque ont des exigences particulières. Lisez le guide d’importation de disque.";
 
-"Disc-based games have special requirements. Please read the disc importing guide." = "Jeux sur disque ont conditions spéciales. S’il vous plaît, lire le guide d’importer disques.";
+"Disc %u" = "Disque %u";
 
 "Dismiss" = "Ignorer";
 
@@ -194,7 +194,7 @@
 
 "Done" = "Terminé";
 
-"Download Cover Art" = "Télécharger la jaquette";
+"Download Cover Art" = "Télécharger l’illustration";
 
 "Download" = "Télécharger";
 
@@ -206,7 +206,7 @@
 
 "Drag & Drop Games Here" = "Glissez et déposez des jeux ici";
 
-"Drag & Drop Save States Here" = "Déposez des parties sauvegardées ici";
+"Drag & Drop Save States Here" = "Glissez et déposez des sauvegardes ici";
 
 "Duplicate Collection" = "Dupliquer la collection";
 
@@ -216,17 +216,17 @@
 
 "Error!" = "Erreur !";
 
-"Everything" = "Tous";
+"Everything" = "Tout";
 
 "Featured Games" = "Jeux en vedette";
 
 "Fetching Games…" = "Récupération des jeux…";
 
-"Filter by:" = "Filtrer par :";
+"Filter by:" = "Filtrer par :";
 
 "Game %ld of %ld" = "Jeu %1$ld sur %2$ld";
 
-"Game Name" = "Nom de jeu";
+"Game Name" = "Nom du jeu";
 
 "Game requires download" = "Le jeu nécessite un téléchargement";
 
@@ -234,7 +234,7 @@
 
 "Gameplay" = "Jeu";
 
-"Have you read the guide?" = "Est-ce que vous avez lu le guide?";
+"Have you read the guide?" = "Avez-vous lu le guide ?";
 
 "Hide \"%@\"" = "Masquer « %@ »";
 
@@ -298,7 +298,7 @@
 
 "No game played yet!" = "Aucun jeu lancé !";
 
-"No Internet Connection" = "Aucune connexion internet";
+"No Internet Connection" = "Aucune connexion Internet";
 
 "No Save States available" = "Aucune sauvegarde disponible";
 
@@ -500,11 +500,11 @@
 
 "User guide on BIOS files" = "Guide de l’utilisateur des fichiers BIOS";
 
-"View Guide in Browser" = "Regarder le guide dans le navigateur";
+"View Guide In Browser" = "Afficher le guide";
 
 "Warning" = "Avertissement";
 
-"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "Avec OpenEmu, vous pouvez sauvegarder votre progrès à tout moment à l’aide des parties sauvegardées. Nous allons même créer des sauvegardes automatiques pour vous après vous quittez le jeu. Revenir plus tard pour regarder toutes vos sauvegardes.";
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "Avec OpenEmu vous pouvez enregistrer votre progression à n’importe quel moment en utilisant les sauvegardes. Des sauvegardes sont effectuées automatiquement lorsque vous quitter un jeu. Revenez ici pour obtenir un aperçu de toutes vos sauvegardes.";
 
 "Won't be able to recognize it as special save state…" = "Cette sauvegarde ne sera pas reconnue comme une sauvegarde spéciale…";
 
@@ -547,13 +547,13 @@
 
 "Manually choose system on import" = "Choisir manuellement le système lors de l’importation";
 
-"Show autosave states in save state category" = "Afficher les sauvegardes automatiques dans la catégorie sauvegardes";
+"Show autosave states in save state category" = "Afficher les sauvegardes auto dans la catégorie des sauvegardes";
 
-"Show quicksave states in save state category" = "Afficher les sauvegardes rapides dans la catégorie sauvegardes";
+"Show quicksave states in save state category" = "Afficher les sauvegardes rapides dans la catégorie des sauvegardes";
 
-"Show game scanner view" = "Afficher l’analyse des jeux";
+"Show game scanner view" = "Afficher la vue d’analyse des jeux";
 
-"Hide game scanner view" = "Masquer l’analyse des jeux";
+"Hide game scanner view" = "Masquer la vue d’analyse des jeux";
 
 "HUD Bar / Gameplay" = "Barre HUD / Jeu";
 
@@ -639,9 +639,9 @@
 
 "Cancel Operation" = "Annuler l’opération";
 
-"Delete useless image objects" = "Delete useless image objects"; // TODO
+"Delete useless image objects" = "Supprimer les objets d’image inutiles";
 
-"Sync games without artwork" = "Sync games without artwork"; // TODO
+"Sync games without artwork" = "Synchroniser les jeux sans illustration";
 
 "ECM compressed binary detected." = "ECM compressed binary detected.";  // TODO
 
