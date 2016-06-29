@@ -466,6 +466,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "82D815AB0F1D882B00EF8CF5"
+               BuildableName = "Build &amp; Install mGBA"
+               BlueprintName = "Build &amp; Install mGBA"
+               ReferencedContainer = "container:mGBA/mGBA.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "94C51FBC1847077700206E6F"
                BuildableName = "Set Experimental Appcast URLs"
                BlueprintName = "Set Experimental Appcast URLs"
