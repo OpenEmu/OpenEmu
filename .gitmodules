@@ -88,3 +88,6 @@
 [submodule "VirtualC64"]
 	path = VirtualC64
 	url = git@github.com:OpenEmu/VirtualC64-Core.git
+[submodule "mGBA"]
+	path = mGBA
+	url = git@github.com:OpenEmu/mGBA-Core.git
