@@ -1,0 +1,39 @@
+
+/* Class = "NSToolbarItem"; label = "Grid Size"; ObjectID = "4KY-AU-4s0"; */
+"4KY-AU-4s0.label" = "Grid Size";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Grid Size"; ObjectID = "4KY-AU-4s0"; */
+"4KY-AU-4s0.paletteLabel" = "Grid Size";
+
+/* Class = "NSSegmentedCell"; DQz-qS-W9j.ibShadowedLabels[0] = "Library"; ObjectID = "DQz-qS-W9j"; */
+"DQz-qS-W9j.ibShadowedLabels[0]" = "Library";
+
+/* Class = "NSSegmentedCell"; DQz-qS-W9j.ibShadowedLabels[1] = "Save States"; ObjectID = "DQz-qS-W9j"; */
+"DQz-qS-W9j.ibShadowedLabels[1]" = "Save States";
+
+/* Class = "NSSegmentedCell"; DQz-qS-W9j.ibShadowedLabels[2] = "Screenshots"; ObjectID = "DQz-qS-W9j"; */
+"DQz-qS-W9j.ibShadowedLabels[2]" = "Screenshots";
+
+/* Class = "NSSegmentedCell"; DQz-qS-W9j.ibShadowedLabels[3] = "Homebrew"; ObjectID = "DQz-qS-W9j"; */
+"DQz-qS-W9j.ibShadowedLabels[3]" = "Homebrew";
+
+/* Class = "NSToolbarItem"; label = "View Mode"; ObjectID = "DWE-Na-du6"; */
+"DWE-Na-du6.label" = "View Mode";
+
+/* Class = "NSToolbarItem"; paletteLabel = "View Mode"; ObjectID = "DWE-Na-du6"; */
+"DWE-Na-du6.paletteLabel" = "View Mode";
+
+/* Class = "NSToolbarItem"; label = "Search"; ObjectID = "Nu8-Bo-VSq"; */
+"Nu8-Bo-VSq.label" = "Search";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Search"; ObjectID = "Nu8-Bo-VSq"; */
+"Nu8-Bo-VSq.paletteLabel" = "Search";
+
+/* Class = "NSSearchFieldCell"; placeholderString = "Search"; ObjectID = "gXt-MS-4X4"; */
+"gXt-MS-4X4.placeholderString" = "Search";
+
+/* Class = "NSToolbarItem"; label = "Category"; ObjectID = "ujX-P2-4hs"; */
+"ujX-P2-4hs.label" = "Category";
+
+/* Class = "NSToolbarItem"; paletteLabel = "Category"; ObjectID = "ujX-P2-4hs"; */
+"ujX-P2-4hs.paletteLabel" = "Category";

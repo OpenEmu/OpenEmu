@@ -642,3 +642,7 @@
 "Perform Sanity Check on Database" = "データベース上のSanity Checkを開始";
 
 "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "OpenEmuを作成した全ての方に大変感謝しています。\n全てのコントリビュータ及びエミュレータコア作者、\nドキュメント、ライセンス、イシュー、\nバグレポートなどの確認は、GitHubにてご確認ください。";
+
+"ECM compressed binary detected." = "ECM compressed binary detected.";  // TODO
+
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";  // TODO

@@ -1,0 +1,54 @@
+
+/* Class = "NSTextFieldCell"; title = "Input:"; ObjectID = "11"; */
+"11.title" = "Input:";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "13"; */
+"13.title" = "OtherViews";
+
+/* Class = "NSMenuItem"; title = "Gamepad"; ObjectID = "15"; */
+"15.title" = "Gamepad";
+
+/* Class = "NSMenuItem"; title = "Keyboard"; ObjectID = "16"; */
+"16.title" = "Keyboard";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "25"; */
+"25.title" = "OtherViews";
+
+/* Class = "NSMenuItem"; title = "Player 4"; ObjectID = "26"; */
+"26.title" = "Player 4";
+
+/* Class = "NSMenuItem"; title = "Player 3"; ObjectID = "27"; */
+"27.title" = "Player 3";
+
+/* Class = "NSMenuItem"; title = "Player 2"; ObjectID = "28"; */
+"28.title" = "Player 2";
+
+/* Class = "NSMenuItem"; title = "Player 1"; ObjectID = "29"; */
+"29.title" = "Player 1";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "31"; */
+"31.title" = "OtherViews";
+
+/* Class = "NSMenuItem"; title = "Game Gear"; ObjectID = "32"; */
+"32.title" = "Game Gear";
+
+/* Class = "NSMenuItem"; title = "Sega Genesis"; ObjectID = "33"; */
+"33.title" = "Sega Genesis";
+
+/* Class = "NSMenuItem"; title = "Sega Master System"; ObjectID = "34"; */
+"34.title" = "Sega Master System";
+
+/* Class = "NSMenuItem"; title = "Sega SG-1000"; ObjectID = "35"; */
+"35.title" = "Sega SG-1000";
+
+/* Class = "NSMenuItem"; title = "GameBoy Advance"; ObjectID = "36"; */
+"36.title" = "GameBoy Advance";
+
+/* Class = "NSMenuItem"; title = "Nintendo (NES)"; ObjectID = "37"; */
+"37.title" = "Nintendo (NES)";
+
+/* Class = "NSMenuItem"; title = "Super Nintendo (SNES)"; ObjectID = "38"; */
+"38.title" = "Super Nintendo (SNES)";
+
+/* Class = "NSMenuItem"; title = "GameBoy"; ObjectID = "39"; */
+"39.title" = "GameBoy";

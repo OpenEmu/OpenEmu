@@ -1,0 +1,33 @@
+
+/* Class = "NSTextFieldCell"; title = "Window Management"; ObjectID = "14"; */
+"14.title" = "Window Management";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "17"; */
+"17.title" = "OtherViews";
+
+/* Class = "NSTextFieldCell"; title = "Filter:"; ObjectID = "21"; */
+"21.title" = "Filter:";
+
+/* Class = "NSTextFieldCell"; title = "Display Mode"; ObjectID = "23"; */
+"23.title" = "Display Mode";
+
+/* Class = "NSButtonCell"; title = "Always use popout gameplay window"; ObjectID = "25"; */
+"25.title" = "Always use popout gameplay window";
+
+/* Class = "NSButtonCell"; title = "Always launch games fullscreen"; ObjectID = "26"; */
+"26.title" = "Always launch games fullscreen";
+
+/* Class = "BindingConnection"; ibShadowedIsNilPlaceholder = "Linear Interpolation"; ObjectID = "55"; */
+"55.ibShadowedIsNilPlaceholder" = "Linear Interpolation";
+
+/* Class = "BindingConnection"; ibShadowedMultipleValuesPlaceholder = "Linear Interpolation"; ObjectID = "55"; */
+"55.ibShadowedMultipleValuesPlaceholder" = "Linear Interpolation";
+
+/* Class = "BindingConnection"; ibShadowedNoSelectionPlaceholder = "Linear Interpolation"; ObjectID = "55"; */
+"55.ibShadowedNoSelectionPlaceholder" = "Linear Interpolation";
+
+/* Class = "BindingConnection"; ibShadowedNotApplicablePlaceholder = "Linear Interpolation"; ObjectID = "55"; */
+"55.ibShadowedNotApplicablePlaceholder" = "Linear Interpolation";
+
+/* Class = "NSButtonCell"; title = "Always pause gameplay when in background"; ObjectID = "57"; */
+"57.title" = "Always pause gameplay when in background";

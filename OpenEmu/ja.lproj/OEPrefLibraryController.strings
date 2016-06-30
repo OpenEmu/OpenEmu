@@ -1,0 +1,36 @@
+
+/* Class = "NSButtonCell"; title = "Change…"; ObjectID = "15"; */
+"15.title" = "Change…";
+
+/* Class = "NSButtonCell"; title = "Reset"; ObjectID = "16"; */
+"16.title" = "Reset";
+
+/* Class = "NSTextFieldCell"; title = "/Users/Mucx/Library/OpenEmu/Games"; ObjectID = "17"; */
+"17.title" = "/Users/Mucx/Library/OpenEmu/Games";
+
+/* Class = "NSTextFieldCell"; title = "Organization Methods"; ObjectID = "18"; */
+"18.title" = "Organization Methods";
+
+/* Class = "NSTextFieldCell"; title = "Game Library Folder Location:"; ObjectID = "19"; */
+"19.title" = "Game Library Folder Location:";
+
+/* Class = "NSButtonCell"; title = "Keep games organized"; ObjectID = "20"; */
+"20.title" = "Keep games organized";
+
+/* Class = "NSButtonCell"; title = "Copy files to Game Library folder when adding to library"; ObjectID = "21"; */
+"21.title" = "Copy files to Game Library folder when adding to library";
+
+/* Class = "NSButtonCell"; title = "Radio"; ObjectID = "22"; */
+"22.title" = "Radio";
+
+/* Class = "NSButtonCell"; title = "Automatically lookup game information & artwork"; ObjectID = "23"; */
+"23.title" = "Automatically lookup game information & artwork";
+
+/* Class = "NSTextFieldCell"; title = "Available Libraries:"; ObjectID = "24"; */
+"24.title" = "Available Libraries:";
+
+/* Class = "NSTextFieldCell"; title = "Reset all dialog warnings:"; ObjectID = "Ua1-J2-mdy"; */
+"Ua1-J2-mdy.title" = "Reset all dialog warnings:";
+
+/* Class = "NSButtonCell"; title = "Reset warnings"; ObjectID = "all-Wd-1Dy"; */
+"all-Wd-1Dy.title" = "Reset warnings";

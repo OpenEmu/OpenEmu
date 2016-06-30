@@ -1,0 +1,12 @@
+
+/* Class = "NSWindow"; title = "OpenEmu"; ObjectID = "1"; */
+"1.title" = "OpenEmu";
+
+/* Class = "NSTextFieldCell"; title = "Text"; ObjectID = "11"; */
+"11.title" = "Text";
+
+/* Class = "NSTextFieldCell"; title = "Which emulator would you like to open this ROM in?"; ObjectID = "13"; */
+"13.title" = "Which emulator would you like to open this ROM in?";
+
+/* Class = "NSButtonCell"; title = "Open"; ObjectID = "15"; */
+"15.title" = "Open";

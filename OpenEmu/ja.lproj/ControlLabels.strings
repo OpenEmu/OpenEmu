@@ -136,3 +136,19 @@
   "△" = "△";
   "◯" = "◯";
   "✕" = "✕";
+
+/* Special Keys */
+  "Display Mode" = "Display Mode";
+  "Fast Forward" = "Fast Forward";
+  "Fullscreen" = "Fullscreen";
+  "Load" = "Load";
+  "Mute" = "Mute";
+  "Pause" = "Pause";
+  "Quick Load Button" = "Quick Load";
+  "Quick Save Button" = "Quick Save";
+  "Reset" = "Reset";
+  "Rewind" = "Rewind";
+  "Save" = "Save";
+  "Screenshot" = "Screenshot";
+  "Volume Down" = "Volume Down";
+  "Volume Up" = "Volume Up";

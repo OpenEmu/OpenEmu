@@ -1,0 +1,18 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "Core"; ObjectID = "46"; */
+"46.headerCell.title" = "Core";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "47"; */
+"47.title" = "Text Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "Version"; ObjectID = "48"; */
+"48.headerCell.title" = "Version";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "49"; */
+"49.title" = "Text Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "Console"; ObjectID = "50"; */
+"50.headerCell.title" = "Console";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "51"; */
+"51.title" = "Text Cell";
