@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10102" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10102"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -142,7 +142,7 @@
                     </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="302" y="628.5"/>
+            <point key="canvasLocation" x="305" y="855.5"/>
         </window>
         <customObject id="805" userLabel="OEApplicationDelegate" customClass="OEApplicationDelegate">
             <connections>
@@ -165,6 +165,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="checkForUpdates:" target="1179" id="1180"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Send a Donation…" id="oKt-cF-ZgP">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showDonationPage:" target="-1" id="F5A-7O-Vfa"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="1023">

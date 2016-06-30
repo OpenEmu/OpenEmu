@@ -781,6 +781,13 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     return _specialThanksCache;
 }
 
+#pragma mark - Donation Link
+
+- (IBAction)showDonationPage:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://openemu.org/donate/"]];
+}
+
 #pragma mark - Application Info
 
 - (void)updateInfoPlist
