@@ -141,6 +141,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                             OEDBSavedGamesMediaShowsQuickSaves : @YES,
          }];
 
+#ifndef DEBUG_PRINT
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:OEGameCoreManagerModePreferenceKey];
+#endif
+
         [OEControllerDescription class];
         [OEToolTipManager class];
     }
