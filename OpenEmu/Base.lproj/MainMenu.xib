@@ -260,7 +260,7 @@
                                     <action selector="addToLibrary:" target="-1" id="1150"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Library" id="986">
+                            <menuItem title="Library" hidden="YES" id="986">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Library" id="1006">
                                     <items>
