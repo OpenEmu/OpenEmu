@@ -222,7 +222,7 @@
 "ayc-Ld-Nyd.title" = "Bedienelemente ausblenden";
 
 /* Class = "NSMenuItem"; title = "Submit Feedback…"; ObjectID = "ftM-3D-CSh"; */
-"ftM-3D-CSh.title" = "Feedback senden";
+"ftM-3D-CSh.title" = "Fehler melden";
 
 /* Class = "NSMenuItem"; title = "User Guide"; ObjectID = "q7W-GV-n3p"; */
 "q7W-GV-n3p.title" = "Benutzerhandbuch";

@@ -11,29 +11,11 @@
 /* Class = "NSTableColumn"; headerCell.title = "Name"; ObjectID = "19"; */
 "19.headerCell.title" = "名称";
 
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "22"; */
-"22.title" = "Text Cell";
-
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "24"; */
-"24.title" = "Text Cell";
-
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "25"; */
-"25.title" = "Text Cell";
-
 /* Class = "NSTableColumn"; headerCell.title = "Save Games"; ObjectID = "103"; */
 "103.headerCell.title" = "保存游戏";
-
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "104"; */
-"104.title" = "Text Cell";
 
 /* Class = "NSTableColumn"; headerCell.title = "Play Count"; ObjectID = "105"; */
 "105.headerCell.title" = "运行次数";
 
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "106"; */
-"106.title" = "Text Cell";
-
 /* Class = "NSTableColumn"; headerCell.title = "Play Time"; ObjectID = "107"; */
 "107.headerCell.title" = "运行时间";
-
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "108"; */
-"108.title" = "Text Cell";
