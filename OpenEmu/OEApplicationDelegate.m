@@ -129,7 +129,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                                                OEGameVolumeKey : @0.5f,
                        OEGameControlsBarCanDeleteSaveStatesKey : @YES,
                               @"defaultCore.openemu.system.gb" : @"org.openemu.Gambatte",
-                             @"defaultCore.openemu.system.gba" : @"org.openemu.VisualBoyAdvance",
+                             @"defaultCore.openemu.system.gba" : @"org.openemu.mGBA",
                              @"defaultCore.openemu.system.nes" : @"org.openemu.Nestopia",
                             @"defaultCore.openemu.system.snes" : @"org.openemu.SNES9x",
                                             OEDisplayGameTitle : @YES,
@@ -648,7 +648,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         [defaults setObject:@"org.openemu.Gambatte" forKey:@"defaultCore.openemu.system.gb"];
 
     if([[defaults stringForKey:@"defaultCore.openemu.system.gba"] isEqualToString: @"org.openemu.Higan"])
-        [defaults setObject:@"org.openemu.VisualBoyAdvance" forKey:@"defaultCore.openemu.system.gba"];
+        [defaults setObject:@"org.openemu.mGBA" forKey:@"defaultCore.openemu.system.gba"];
 
     if([[defaults stringForKey:@"defaultCore.openemu.system.nes"] isEqualToString: @"org.openemu.Higan"])
         [defaults setObject:@"org.openemu.Nestopia" forKey:@"defaultCore.openemu.system.nes"];
