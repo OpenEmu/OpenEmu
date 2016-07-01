@@ -10,6 +10,3 @@
 
 /* Class = "NSTextFieldCell"; title = "Scanner Paused"; ObjectID = "gJT-pJ-BJg"; */
 "gJT-pJ-BJg.title" = "L'escànner està pausat";
-
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "y45-NU-dbu"; */
-"y45-NU-dbu.title" = "Text de la cel·la";
