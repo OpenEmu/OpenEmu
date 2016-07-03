@@ -108,7 +108,7 @@ NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
     [[_coresDict allValues] sortedArrayUsingComparator:
      ^ NSComparisonResult (id obj1, id obj2)
      {
-         return [[obj1 name] compare:[obj2 name]];
+         return [[obj1 name] localizedCaseInsensitiveCompare:[obj2 name]];
      }];
 
     [self didChangeValueForKey:@"coreList"];
