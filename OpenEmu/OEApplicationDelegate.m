@@ -100,6 +100,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 @implementation OEApplicationDelegate
 @synthesize mainWindowController, preferencesWindowController = _preferencesWindowController;
 @synthesize aboutWindow, aboutCreditsPath, cachedLastPlayedInfo;
+@synthesize restoreWindow, libraryDidLoadObserverForRestoreWindow;
 
 + (void)load
 {
@@ -179,6 +180,24 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 #pragma mark -
 
+- (void)applicationWillFinishLaunching:(NSNotification *)notification
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(removeLibraryDidLoadObserverForRestoreWindowFromNotificationCenter:)
+                                                 name:NSApplicationDidFinishRestoringWindowsNotification
+                                               object:nil];
+}
+
+- (void)removeLibraryDidLoadObserverForRestoreWindowFromNotificationCenter:(NSNotification *)notigication
+{
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    if (libraryDidLoadObserverForRestoreWindow) {
+        [notificationCenter removeObserver:libraryDidLoadObserverForRestoreWindow];
+        libraryDidLoadObserverForRestoreWindow = nil;
+    }
+    [notificationCenter removeObserver:self name:NSApplicationDidFinishRestoringWindowsNotification object:nil];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
@@ -205,8 +224,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [self OE_removeIncompatibleSaveStates];
 
     DLog();
-    mainWindowController  = [[OEMainWindowController alloc]  initWithWindowNibName:@"MainWindow"];
-    [mainWindowController loadWindow];
+    if (!mainWindowController && !restoreWindow) {
+        mainWindowController = [[OEMainWindowController alloc] initWithWindowNibName:@"MainWindow"];
+        [mainWindowController window];
+    }
 
     _gameDocuments = [NSMutableArray array];
 
@@ -232,13 +253,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // Preload Shader plugins so HUDControls Bar and Gameplay preferences load faster
     [OEShaderPlugin allPluginNames];
 
-    [mainWindowController showWindow:self];
+    if (!restoreWindow)
+        [mainWindowController showWindow:self];
 
     [[OECoreUpdater sharedUpdater] checkForNewCores:@NO];
-
-    BOOL startInFullscreen = [[NSUserDefaults standardUserDefaults] boolForKey:OEMainWindowFullscreenKey];
-    if(startInFullscreen != [[mainWindowController window] isFullScreen])
-        [[mainWindowController window] toggleFullScreen:self];
 
     NSUserDefaultsController *sudc = [NSUserDefaultsController sharedUserDefaultsController];
     [self bind:@"logHIDEvents" toObject:sudc withKeyPath:@"values.logsHIDEvents" options:nil];

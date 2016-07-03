@@ -53,6 +53,10 @@
 @property(readonly) NSString           *buildVersion;
 @property(readonly) NSAttributedString *projectURL;
 @property(readonly) NSAttributedString *specialThanks;
+
+@property(nonatomic) BOOL restoreWindow;
+@property(nonatomic) id libraryDidLoadObserverForRestoreWindow;
+
 #pragma mark - Help Menu
 - (IBAction)showOEHelp:(id)sender;
 - (IBAction)showOEReleaseNotes:(id)sender;
