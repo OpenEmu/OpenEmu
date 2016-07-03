@@ -42,6 +42,8 @@
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 
+#import "OEApplicationDelegate.h"
+
 #import "OEROMImporter.h"
 
 #import "NSDocument+OEAdditions.h"
@@ -50,8 +52,8 @@
 
 NSString *const OEForcePopoutGameWindowKey = @"forcePopout";
 NSString *const OEFullScreenGameWindowKey  = @"fullScreen";
-NSString *const OEMainWindowFullscreenKey  = @"mainWindowFullScreen";
 
+NSString *const OEMainWindowIdentifier     = @"LibraryWindow";
 NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 #define MainMenu_Window_OpenEmuTag 501
@@ -123,11 +125,13 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     
     window.delegate = self;
     
-    window.restorable = NO;
     window.excludedFromWindowsMenu = YES;
     window.titleVisibility = NSWindowTitleHidden;
     window.titlebarAppearsTransparent = YES;
     window.backgroundColor = [NSColor colorWithCalibratedWhite:0.11 alpha:1.0];
+    
+    window.restorationClass = [self class];
+    NSAssert([window.identifier isEqualToString:OEMainWindowIdentifier], @"Main library window identifier does not match between nib and code");
 }
 
 - (void)setUpCurrentContentController
@@ -545,7 +549,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 - (void)windowDidEnterFullScreen:(NSNotification *)notification
 {
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OEMainWindowFullscreenKey];
     if(_gameDocument == nil) {
         return;
     }
@@ -571,8 +574,6 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
 
 - (void)windowDidExitFullScreen:(NSNotification *)notification
 {
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:OEMainWindowFullscreenKey];
-    
     if(_shouldUndockGameWindowOnFullScreenExit)
     {
         _shouldUndockGameWindowOnFullScreenExit = NO;
@@ -597,6 +598,38 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
     const CGFloat sheetOffset = 36.0;
     rect.origin.y -= sheetOffset;
     return rect;
+}
+
+#pragma mark - Window Restoration
+
++ (void)restoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state completionHandler:(void (^)(NSWindow * __nullable, NSError * __nullable))completionHandler
+{
+    if ([identifier isEqualToString:OEMainWindowIdentifier]) {
+        OEApplicationDelegate *appDelegate = (OEApplicationDelegate *)[NSApp delegate];
+        
+        if (appDelegate) {
+            [NSApp extendStateRestoration];
+            appDelegate.restoreWindow = YES;
+            
+            NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+            NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
+            void (^completionHandlerCopy)(NSWindow * __nullable, NSError * __nullable) = [completionHandler copy];
+            
+            id observerOfLibraryDidLoad = [notificationCenter addObserverForName:OELibraryDidLoadNotificationName object:nil queue:mainQueue usingBlock:^(NSNotification * _Nonnull note) {
+                OEMainWindowController *mainWindowController = [[self alloc]  initWithWindowNibName:@"MainWindow"];
+                appDelegate.mainWindowController = mainWindowController;
+                NSWindow *mainWindow = [mainWindowController window];
+                
+                completionHandlerCopy(mainWindow, nil);
+                
+                [NSApp completeStateRestoration];
+            }];
+            
+            appDelegate.libraryDidLoadObserverForRestoreWindow = observerOfLibraryDidLoad;
+            return;
+        }
+    }
+    completionHandler(nil, nil);
 }
 
 #pragma mark - Menu Items
