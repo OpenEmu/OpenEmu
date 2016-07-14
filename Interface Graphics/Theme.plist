@@ -3503,9 +3503,9 @@
 			<key>States</key>
 			<dict>
 				<key>Default</key>
-				<string>{{0, 32}, {12, 12}}</string>
+				<string>{{0, 0}, {12, 12}}</string>
 				<key>Focused</key>
-				<string>{{12, 32}, {12, 12}}</string>
+				<string>{{12, 0}, {12, 12}}</string>
 			</dict>
 		</dict>
 		<key>list_indicators_missing</key>
