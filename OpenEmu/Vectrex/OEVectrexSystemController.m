@@ -60,4 +60,23 @@
     return image;
 }
 
+- (OECanHandleState)canHandleFile:(NSString *)path
+{
+    if(![[[path pathExtension] lowercaseString] isEqualToString:@"bin"])
+    {
+        return OECanHandleUncertain;
+    }
+
+    OECanHandleState canHandleFile = OECanHandleNo;
+
+    NSURL *fileURL = [NSURL fileURLWithPath:path];
+    NSNumber *fileSize = nil;
+    [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:nil];
+
+    if([fileSize intValue] < 2097152)
+        canHandleFile = OECanHandleUncertain;
+
+    return canHandleFile;
+}
+
 @end
