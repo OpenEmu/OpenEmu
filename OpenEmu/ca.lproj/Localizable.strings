@@ -522,6 +522,20 @@
 
 "Your library was moved sucessfully." = "S'ha mogut la biblioteca correctament.";
 
+"Library" = "Biblioteca";
+
+"Save States" = "Partides";
+
+"Screenshots" = "Captures";
+
+"Homebrew" = "Homebrew";
+
+"Grid Size" = "Mida de la graella";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"View Mode" = "Mode de visualització";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"Category" = "Categoria";   // shown when the corresponding item does not fit in the main window's toolbar
+
 
 /* Secrets */
 

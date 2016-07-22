@@ -530,6 +530,20 @@
 
 "Your library was moved sucessfully." = "成功移动库。";
 
+"Library" = "库";
+
+"Save States" = "保存状态";
+
+"Screenshots" = "截屏";
+
+"Homebrew" = "自制";
+
+"Grid Size" = "网格大小";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"View Mode" = "查看方式";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"Category" = "分类";   // shown when the corresponding item does not fit in the main window's toolbar
+
 
 /* Secrets */
 

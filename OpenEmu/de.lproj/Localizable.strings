@@ -522,6 +522,20 @@
 
 "Your library was moved sucessfully." = "Die Mediathek wurde erfolgreich verschoben.";
 
+"Library" = "Spiele";
+
+"Save States" = "Spielstände";
+
+"Screenshots" = "Screenshots";
+
+"Homebrew" = "Homebrew";
+
+"Grid Size" = "Grid Size";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+
+"View Mode" = "View Mode";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+
+"Category" = "Category";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+
 
 /* Secrets */
 

@@ -8,7 +8,10 @@
 #import "OELibraryMigrator.h"
 
 #import "OEButton.h"
+#import "OEButtonCell.h"
 #import "OESearchField.h"
+#import "OESearchFieldCell.h"
+#import "OESlider.h"
 #import "OEToolTipManager.h"
 
 #import "OEPreferencePane.h"
@@ -18,6 +21,9 @@
 #import "OEPrefCoresController.h"
 #import "OEPrefDebugController.h"
 #import "OEPrefBiosController.h"
+
+#import "OECollectionViewController.h"
+#import "OELibraryController.h"
 
 #import "OEBackgroundColorView.h"
 #import "OEBackgroundImageView.h"

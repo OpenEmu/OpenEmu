@@ -117,6 +117,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		012FE6591CE51D4100716960 /* LibraryToolbarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */; };
 		081A462F1B9574CE00565444 /* Pokemon mini.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 081A46261B95744A00565444 /* Pokemon mini.oesystemplugin */; };
 		0867695A1B96E8B2006545DA /* OEPMSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 086769591B96E8B2006545DA /* OEPMSystemResponder.m */; };
 		0867695D1B96E8D4006545DA /* pokemonmini_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 0867695C1B96E8D4006545DA /* pokemonmini_library.png */; };
@@ -1510,6 +1511,7 @@
 		012573761C1350A5002AD9FB /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		012573771C1350AF002AD9FB /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		012573781C1350B9002AD9FB /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryToolbarDelegate.swift; sourceTree = "<group>"; };
 		0162C81A1AFACDE0003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0162C81B1AFACDE1003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0162C81C1AFACDE1003536F4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/ControlLabels.strings; sourceTree = "<group>"; };
@@ -4259,6 +4261,7 @@
 				53439AA413B92CC7005C0CC8 /* OELibraryController.h */,
 				53439AA513B92CC7005C0CC8 /* OELibraryController.m */,
 				8337393515BFD77900D83D2F /* OELibrarySubviewController.h */,
+				012FE6581CE51D4100716960 /* LibraryToolbarDelegate.swift */,
 				5A9606DB1C0A84BC0089B494 /* LibraryToolbar.swift */,
 				5AECA1481BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift */,
 				53439B0413B92EDC005C0CC8 /* Utilities */,
@@ -7708,6 +7711,7 @@
 				83507247142F6029005D9033 /* OEControllerImageView.m in Sources */,
 				5A9606E21C0B16100089B494 /* NSDate+DMYCompareToNil.swift in Sources */,
 				1B47F105142F01E700EBC55B /* OESetupAssistant.m in Sources */,
+				012FE6591CE51D4100716960 /* LibraryToolbarDelegate.swift in Sources */,
 				83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */,
 				3DFAB00D144644D4005EF0C3 /* OEGameShader.m in Sources */,
 				5A9606DE1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift in Sources */,

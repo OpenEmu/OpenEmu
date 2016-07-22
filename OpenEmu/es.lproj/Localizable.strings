@@ -522,6 +522,20 @@
 
 "Your library was moved sucessfully. OpenEmu must relaunch now!" = "Su biblioteca fue movida correctamente.¡OpenEmu debe reiniciar ahora!";
 
+"Library" = "Biblioteca";
+
+"Save States" = "Save States"; // TODO
+
+"Screenshots" = "Screenshots"; // TODO
+
+"Homebrew" = "Homebrew";
+
+"Grid Size" = "Grid Size";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+
+"View Mode" = "View Mode";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+
+"Category" = "Category";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+
 
 /* Secrets */
 

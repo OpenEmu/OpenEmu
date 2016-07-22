@@ -522,6 +522,20 @@
 
 "Your library was moved sucessfully." = "Votre bibliothèque a été déplacée avec succès.";
 
+"Library" = "Bibliothèque";
+
+"Save States" = "Sauvegardes";
+
+"Screenshots" = "Captures";
+
+"Homebrew" = "Homebrew";
+
+"Grid Size" = "Grid Size";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+
+"View Mode" = "View Mode";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+
+"Category" = "Category";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+
 
 /* Secrets */
 

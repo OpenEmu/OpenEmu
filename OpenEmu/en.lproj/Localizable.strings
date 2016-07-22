@@ -522,6 +522,20 @@
 
 "Your library was moved sucessfully." = "Your library was moved sucessfully.";
 
+"Library" = "Library";
+
+"Save States" = "Save States";
+
+"Screenshots" = "Screenshots";
+
+"Homebrew" = "Homebrew";
+
+"Grid Size" = "Grid Size";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"View Mode" = "View Mode";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"Category" = "Category";   // shown when the corresponding item does not fit in the main window's toolbar
+
 
 /* Secrets */
 
