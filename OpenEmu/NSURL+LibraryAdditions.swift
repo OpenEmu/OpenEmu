@@ -80,7 +80,7 @@ extension NSURL {
         var triesCount = 1
         
         while result.checkResourceIsReachableAndReturnError(nil) {
-            triesCount++
+            triesCount += 1
             result = block(triesCount)
         }
         
