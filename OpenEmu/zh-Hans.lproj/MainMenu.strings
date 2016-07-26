@@ -265,3 +265,6 @@
 
 /* Class = "NSMenuItem"; title = "User Guide"; ObjectID = "q7W-GV-n3p"; */
 "q7W-GV-n3p.title" = "用户指南";
+
+/* Class = "NSMenuItem"; title = "Send a Donation…"; ObjectID = "oKt-cF-ZgP"; */
+"oKt-cF-ZgP.title" = "Send a Donation…";  // TODO
