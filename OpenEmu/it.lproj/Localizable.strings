@@ -643,6 +643,6 @@
 
 "Sync games without artwork" = "Sincronizza i giochi senza illustrazione";
 
-"ECM compressed binary detected." = "ECM compressed binary detected.";  // TODO
+"ECM compressed binary detected." = "È stato individuato un file binario in formato ECM.";
 
-"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";  // TODO
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "I file binari compressi in formato ECM non possono essere importati. Leggi la guida all'importazione dei dischi di gioco.";
