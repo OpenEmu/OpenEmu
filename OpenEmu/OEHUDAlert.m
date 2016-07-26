@@ -154,7 +154,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     if([self suppressionUDKey] && [[NSUserDefaults standardUserDefaults] valueForKey:[self suppressionUDKey]])
     {
         NSInteger suppressionValue = [[NSUserDefaults standardUserDefaults] integerForKey:[self suppressionUDKey]];
-        _result = (suppressionValue == 1 ? NSAlertFirstButtonReturn : NSAlertSecondButtonReturn);
+        _result = (suppressionValue == 1 || [self suppressOnDefaultReturnOnly] ? NSAlertFirstButtonReturn : NSAlertSecondButtonReturn);
         [self OE_performCallback];
         return _result;
     }
@@ -335,7 +335,10 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
     else 
         _result = NSAlertFirstButtonReturn;
 
-    if(_result != NSAlertThirdButtonReturn && [[self suppressionButton] state] && (_result || ![self suppressOnDefaultReturnOnly]) && [self suppressionUDKey])
+    if(_result != NSAlertThirdButtonReturn &&
+       [[self suppressionButton] state] &&
+       (_result || ![self suppressOnDefaultReturnOnly])
+       && [self suppressionUDKey])
     {
         NSInteger suppressionValue = (_result == NSAlertFirstButtonReturn ? 1 : 0);
         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];

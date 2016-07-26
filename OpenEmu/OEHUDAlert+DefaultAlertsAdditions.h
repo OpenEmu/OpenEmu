@@ -36,7 +36,10 @@ extern NSString *const OESaveGameAlertSuppressionKey;
 extern NSString *const OEChangeCoreAlertSuppressionKey;
 extern NSString *const OEResetSystemAlertSuppressionKey;
 extern NSString *const OEStopEmulationAlertSuppressionKey;
+extern NSString *const OEDeleteSaveStateAlertSuppressionKey;
+extern NSString *const OEDeleteScreenshotAlertSuppressionKey;
 extern NSString *const OERemoveGameFilesFromLibraryAlertSuppressionKey;
+extern NSString *const OERenameSpecialSaveStateAlertSuppressionKey;
 extern NSString *const OEGameCoreGlitchesSuppressionKey;
 extern NSString *const OEDownloadRomWarningSupperssionKey;
 

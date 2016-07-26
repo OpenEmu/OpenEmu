@@ -461,7 +461,10 @@ NSString * const OELibraryLocationDidChangeNotificationName = @"OELibraryLocatio
                               OEChangeCoreAlertSuppressionKey,
                               OEResetSystemAlertSuppressionKey,
                               OEStopEmulationAlertSuppressionKey,
+                              OEDeleteSaveStateAlertSuppressionKey,
+                              OEDeleteScreenshotAlertSuppressionKey,
                               OERemoveGameFilesFromLibraryAlertSuppressionKey,
+                              OERenameSpecialSaveStateAlertSuppressionKey,
                               OEGameCoreGlitchesSuppressionKey,
                               OEDownloadRomWarningSupperssionKey];
     

@@ -121,7 +121,7 @@ NSString *const OEDownloadRomWarningSupperssionKey    = @"OEDownloadRomWarningSu
     
     [alert setSuppressOnDefaultReturnOnly:YES];
     [alert showSuppressionButtonForUDKey:OEStopEmulationAlertSuppressionKey];
-    
+        
     return alert;
 }
 
