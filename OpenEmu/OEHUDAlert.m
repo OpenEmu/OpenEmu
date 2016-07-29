@@ -337,7 +337,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 
     if(_result != NSAlertThirdButtonReturn &&
        [[self suppressionButton] state] &&
-       (_result || ![self suppressOnDefaultReturnOnly])
+       (_result == NSAlertFirstButtonReturn || ![self suppressOnDefaultReturnOnly])
        && [self suppressionUDKey])
     {
         NSInteger suppressionValue = (_result == NSAlertFirstButtonReturn ? 1 : 0);
