@@ -264,9 +264,10 @@
     _gameController = [[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller];
     _gameCore = [_gameController newGameCore];
 
-    _gameCoreProxy = [[OEThreadProxy alloc] initWithTarget:_gameCore thread:[self makeGameCoreThread]];
-
     NSString *systemIdentifier = [_systemController systemIdentifier];
+
+    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(OE_gameCoreThread:) object:nil];
+    _gameCoreProxy = [[OEThreadProxy alloc] initWithTarget:_gameCore thread:thread];
 
     [_gameCore setOwner:_gameController];
     [_gameCore setDelegate:self];
@@ -308,14 +309,12 @@
 
         return YES;
     }
-    else
-    {
-        NSLog(@"ROM did not load.");
-        _gameCore = nil;
-        _gameCoreProxy = nil;
 
-        return NO;
-    }
+    NSLog(@"ROM did not load.");
+    _gameCore = nil;
+    _gameCoreProxy = nil;
+
+    return NO;
 }
 
 - (NSString *)decompressedPathForRomAtPath:(NSString *)aPath
@@ -390,11 +389,6 @@
     return tmpPath;
 }
 
-- (NSThread *)makeGameCoreThread
-{
-    return [[NSThread alloc] initWithTarget:self selector:@selector(OE_gameCoreThread:) object:nil];
-}
-
 - (void)OE_gameCoreThread:(id)anObject
 {
     [_gameCore startEmulation];
@@ -464,9 +458,7 @@
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler
 {
     _startEmulationHandler = [handler copy];
-
-    NSThread *target = [_gameCoreProxy thread];
-    if (!target.executing) [target start];
+    [[_gameCoreProxy thread] start];
 }
 
 - (void)resetEmulationWithCompletionHandler:(void(^)(void))handler

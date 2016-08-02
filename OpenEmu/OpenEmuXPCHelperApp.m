@@ -104,19 +104,4 @@
     kill(getpid(), SIGKILL);
 }
 
-- (NSThread *)makeGameCoreThread
-{
-    // Do not start a new thread, instead take over the main thread.
-    // I/O events arrive there from the system, so it's faster.
-
-    return [NSThread mainThread];
-}
-
-- (void)startEmulationWithCompletionHandler:(void(^)(void))handler
-{
-    [super startEmulationWithCompletionHandler:handler];
-
-    [self performSelectorOnMainThread:@selector(OE_gameCoreThread:) withObject:nil waitUntilDone:NO];
-}
-
 @end
