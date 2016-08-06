@@ -25,12 +25,13 @@
  */
 
 #import "NSDocumentController+OEAdditions.h"
+#import "OEApplication.h"
 
 @class OEDeviceManager;
 @class OEMainWindowController;
 @class OEPreferencesWindowController;
 
-@interface OEApplicationDelegate : NSDocumentController <NSApplicationDelegate, NSMenuDelegate>
+@interface OEApplicationDelegate : NSDocumentController <OEApplicationDelegate, NSMenuDelegate>
 
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showPreferencesWindow:(id)sender;

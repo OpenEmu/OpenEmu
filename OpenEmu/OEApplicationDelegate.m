@@ -340,10 +340,16 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [self _updateEventHandlers];
 }
 
+- (void)application:(OEApplication *)application didBeginModalSessionForWindow:(NSWindow *)window
+{
+    [self _updateEventHandlers];
+}
+
 - (void)_updateEventHandlers
 {
-    BOOL shouldHandleEvents = ![[OEDeviceManager sharedDeviceManager] hasEventMonitor] && [NSApp isActive];
-    BOOL shouldHandleKeyboardEvents = [NSApp isActive];
+    BOOL hasModalWindow = [NSApp modalWindow] != nil;
+    BOOL shouldHandleEvents = !hasModalWindow && ![[OEDeviceManager sharedDeviceManager] hasEventMonitor] && [NSApp isActive];
+    BOOL shouldHandleKeyboardEvents = !hasModalWindow && [NSApp isActive];
 
     for (OEGameDocument *gameDocument in NSApp.orderedDocuments) {
         if (![gameDocument isKindOfClass:[OEGameDocument class]])
