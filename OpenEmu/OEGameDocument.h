@@ -85,6 +85,7 @@ enum _OEGameDocumentErrorCodes
 #pragma mark - Controlling Emulation
 - (void)switchCore:(id)sender;
 - (IBAction)stopEmulation:(id)sender;
+- (IBAction)takeScreenshot:(id)sender;
 
 #pragma mark - Cheats
 - (IBAction)addCheat:(id)sender;

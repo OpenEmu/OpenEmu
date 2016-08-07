@@ -211,7 +211,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 - (IBAction)takeScreenshot:(id)sender
 {
-    NSAssert(0, @"Must send to helper.");
+    [[self document] takeScreenshot:sender];
 }
 
 - (void)reflectVolume:(float)volume;
@@ -266,7 +266,6 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 - (void)setRemoteContextID:(NSUInteger)remoteContextID
 {
-    NSLog(@"Got contextID: %lu size:%@ aspect:%@", remoteContextID, NSStringFromOEIntSize(_screenSize), NSStringFromOEIntSize(_aspectSize));
     _gameView.remoteContextID = (CAContextID)remoteContextID;
 }
 

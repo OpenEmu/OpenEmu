@@ -462,6 +462,7 @@ typedef enum
     const NSRect screenshotWindowFrame       = [self OE_screenshotWindowFrameForOriginalFrame:contentFrame];
     const NSRect fullScreenWindowFrame       = [self OE_screenshotWindowFrameForOriginalFrame:screenFrame];
 
+    // TODO: Get screenshots from the document.
     [_screenshotWindow setScreenshot:[gameViewController screenshot]];
     [self OE_forceLayerReposition:layer toFrame:screenshotWindowFrame];
     [_screenshotWindow orderFront:self];
@@ -548,6 +549,7 @@ typedef enum
     const NSTimeInterval showBorderDuration  = duration / 4;
     const NSTimeInterval resizeDuration      = duration - showBorderDuration;
 
+    // TODO: Get screenshots from the document.
     [_screenshotWindow setScreenshot:[gameViewController screenshot]];
     [self OE_forceLayerReposition:layer toFrame:fullScreenGameArea];
     [_screenshotWindow orderFront:self];

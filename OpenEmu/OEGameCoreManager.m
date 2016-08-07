@@ -161,6 +161,15 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
      }];
 }
 
+- (void)takeScreenshotWithFiltering:(BOOL)filtered completionHandler:(void (^)(NSBitmapImageRep *image))block
+{
+    [[self gameCoreHelper] takeScreenshotWithFiltering:filtered completionHandler:^(NSBitmapImageRep *image) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            block(image);
+        });
+    }];
+}
+
 - (void)handleMouseEvent:(OEEvent *)event
 {
     [self.gameCoreHelper handleMouseEvent:event];

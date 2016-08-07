@@ -62,7 +62,6 @@ typedef uint32_t CAContextID;
 
 @interface OpenEmuHelperApp () <OEGameCoreDelegate, OEGlobalEventsHandler>
 @property (nonatomic) BOOL loadedRom;
-@property (nonatomic) NSRect outputBounds;
 
 - (void)setupProcessPollingTimer;
 - (void)quitHelperTool;
@@ -179,10 +178,8 @@ typedef uint32_t CAContextID;
 
 - (void)updateScreenSize
 {
-    OEIntRect screenRect = _gameCore.screenRect;
-
     _previousAspectSize = _gameCore.aspectSize;
-    _previousScreenSize = screenRect.size;
+    _previousScreenSize = _gameCore.screenRect.size;
 }
 
 - (void)updateGameRenderer
@@ -196,12 +193,11 @@ typedef uint32_t CAContextID;
     else
         NSAssert(0, @"Rendering API %u not supported yet", (unsigned)rendering);
 
-    _gameRenderer.gameCore  = _gameCore;
+    _gameRenderer.gameCore = _gameCore;
 }
 
 - (void)setupIOSurface
 {
-    BOOL isReinit = _surfaceRef != nil;
     _surfaceRef = nil;
 
     // init our texture and IOSurface
@@ -210,18 +206,16 @@ typedef uint32_t CAContextID;
     NSDictionary *surfaceAttributes = @{
         (NSString *)kIOSurfaceWidth:  @(surfaceSize.width),
         (NSString *)kIOSurfaceHeight: @(surfaceSize.height),
-        (NSString *)kIOSurfaceBytesPerElement: @4,
+        (NSString *)kIOSurfaceBytesPerElement: @4
     };
 
     _surfaceRef = IOSurfaceCreate((__bridge CFDictionaryRef)surfaceAttributes);
 
+    DLog(@"Created IOSurface %@ at %@", _surfaceRef, NSStringFromOEIntSize(surfaceSize));
+
     _gameRenderer.surfaceSize = surfaceSize;
     _gameRenderer.ioSurface   = _surfaceRef;
     [_gameRenderer updateRenderer];
-
-    if (isReinit) {
-        NSAssert(0, @"Unimplemented");
-    }
 }
 
 - (void)setupRemoteLayer
@@ -243,7 +237,6 @@ typedef uint32_t CAContextID;
     CGSConnectionID connection_id = CGSMainConnectionID();
     _gameVideoCAContext       = [CAContext contextWithCGSConnection:connection_id options:nil];
     _gameVideoCAContext.layer = _gameVideoLayer;
-
     [CATransaction commit];
 
     [self updateScreenSize:_previousScreenSize aspectSize:_previousAspectSize];
@@ -252,13 +245,18 @@ typedef uint32_t CAContextID;
 
 - (void)setOutputBounds:(NSRect)rect
 {
-    _outputBounds = rect;
+    OEIntSize newBufferSize = OEIntSizeMake(ceil(rect.size.width), ceil(rect.size.height));
+    if (OEIntSizeEqualToSize(_gameRenderer.surfaceSize, newBufferSize)) return;
+
+    DLog(@"Output size change to: %@", NSStringFromOEIntSize(newBufferSize));
+
     if (_gameVideoLayer) {
         _gameVideoLayer.bounds = rect;
     }
 
-    if ([_gameRenderer canChangeBufferSize])
-        [_gameCore tryToResizeVideoTo:OEIntSizeMake(rect.size.width, rect.size.height)];
+    if ([_gameRenderer canChangeBufferSize] == NO) return;
+    if ([_gameCore tryToResizeVideoTo:newBufferSize] == NO) return;
+    [self setupIOSurface];
 }
 
 #pragma mark - Game Core methods
@@ -270,8 +268,6 @@ typedef uint32_t CAContextID;
     aPath = [aPath stringByStandardizingPath];
 
     DLog(@"New ROM path is: %@", aPath);
-
-    DLog(@"extension is: %@", [aPath pathExtension]);
     self.loadedRom = NO;
 
     _systemController = [[OESystemPlugin systemPluginWithBundleAtPath:systemPluginPath] controller];
@@ -584,6 +580,41 @@ typedef uint32_t CAContextID;
     [_pendingDeviceHandlerBindings removeObjectForKey:placeholder];
 }
 
+- (void)takeScreenshotWithFiltering:(BOOL)filtered completionHandler:(void (^)(NSBitmapImageRep *image))block
+{
+    // If filtered, read the content out of the CALayer.
+    // If not filtered, read the content out of the IOSurface.
+
+    // TODO: In the future, 2D games won't have IOSurfaces - it's an unnecessary extra GPU pass.
+    // The unfiltered case will need to be pushed down into the combined GameRenderer+CALayer.
+    CGContextRef cgCtx;
+    CGImageRef cgImage;
+
+    if (filtered) {
+        NSSize imageSize = _gameVideoLayer.bounds.size;
+        cgCtx = CGBitmapContextCreate(nil, ceil(imageSize.width), ceil(imageSize.height),
+                                      8, 0, _gameVideoLayer.colorspace, kCGImageAlphaNone);
+        [_gameVideoLayer renderInContext:cgCtx];
+        cgImage = CGBitmapContextCreateImage(cgCtx);
+    } else {
+        // TODO: The IOSurface is upside down.
+        // TODO: Swap pixels from OpenGL format.
+        IOSurfaceLock(_surfaceRef, kIOSurfaceLockReadOnly, NULL);
+
+        OEIntSize imageSize = _gameRenderer.surfaceSize;
+        cgCtx = CGBitmapContextCreate(IOSurfaceGetBaseAddress(_surfaceRef),
+                                      imageSize.width, imageSize.height,
+                                      8, IOSurfaceGetBytesPerRow(_surfaceRef),
+                                      _gameVideoLayer.colorspace, kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Big);
+
+        cgImage = CGBitmapContextCreateImage(cgCtx);
+        IOSurfaceUnlock(_surfaceRef, kIOSurfaceLockReadOnly, NULL);
+    }
+
+    NSBitmapImageRep *nsImage = [[NSBitmapImageRep alloc] initWithCGImage:cgImage];
+    block(nsImage);
+}
+
 #pragma mark - OEGameCoreOwner subclass handles
 
 - (void)updateScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize
@@ -779,42 +810,7 @@ typedef uint32_t CAContextID;
 
 - (void)takeScreenshot:(id)sender
 {
-    NSAssert(0, @"Not implemented");
-/*
- NSImage *screenshotImage;
- bool takeNativeScreenshots = [[NSUserDefaults standardUserDefaults] boolForKey:OETakeNativeScreenshots];
- //    screenshotImage = takeNativeScreenshots ? [_gameView nativeScreenshot] : [_gameView screenshot];
- NSData *TIFFData = [screenshotImage TIFFRepresentation];
-
- NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
- NSBitmapImageFileType type = [standardUserDefaults integerForKey:OEScreenshotFileFormatKey];
- NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEScreenshotPropertiesKey];
- NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
- NSData *imageData = [bitmapImageRep representationUsingType:type properties:properties];
-
- NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
- [dateFormatter setDateFormat:@"yyyy-MM-dd HH.mm.ss"];
- NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
-
- // Replace forward slashes in the game title with underscores because forward slashes aren't allowed in filenames.
- NSMutableString *displayName = [self.document.rom.game.displayName mutableCopy];
- [displayName replaceOccurrencesOfString:@"/" withString:@"_" options:0 range:NSMakeRange(0, displayName.length)];
-
- NSString *fileName = [NSString stringWithFormat:@"%@ %@.png", displayName, timeStamp];
- NSString *temporaryPath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
- NSURL *temporaryURL = [NSURL fileURLWithPath:temporaryPath];
-
- __autoreleasing NSError *error;
- if(![imageData writeToURL:temporaryURL options:NSDataWritingAtomic error:&error])
- {
- NSLog(@"Could not save screenshot at URL: %@, with error: %@", temporaryURL, error);
- } else {
- OEDBRom *rom = [[self document] rom];
- OEDBScreenshot *screenshot = [OEDBScreenshot createObjectInContext:[rom managedObjectContext] forROM:rom withFile:temporaryURL];
- [screenshot save];
- //        [[self gameView] showScreenShotNotification];
- }
- */
- }
+    [_gameCoreOwner takeScreenshot];
+}
 
 @end

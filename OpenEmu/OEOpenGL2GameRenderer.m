@@ -81,7 +81,7 @@
     // TODO: Test alternate threads - might need to call glViewport() again on that thread.
     // TODO: Implement for double buffered FBO - need to reallocate alternateFBO.
 
-    return _is2DMode == NO && _alternateContext == nil && !_isDoubleBufferFBOMode;
+    return _is2DMode == NO;
 }
 
 - (id)presentationFramebuffer
@@ -400,11 +400,11 @@ static GLvoid *GLUBufferOffset(const GLintptr nOffset)
             CGLReleaseContext(_alternateContext);
         CGLReleasePixelFormat(_glPixelFormat);
         CGLReleaseContext(_glContext);
-
-        _alternateContext = nil;
-        _glContext = nil;
-        _glPixelFormat = nil;
     }
+
+    _alternateContext = nil;
+    _glContext = nil;
+    _glPixelFormat = nil;
 }
 
 - (void)resumeFPSLimiting

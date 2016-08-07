@@ -51,6 +51,7 @@
 #import "OEXPCGameCoreManager.h"
 #import "OEDownload.h"
 #import "OEROMImporter.h"
+#import "OEDBScreenshot.h"
 
 // using the main window controller here is not very nice, but meh
 #import "OEMainWindowController.h"
@@ -728,10 +729,6 @@ typedef enum : NSUInteger
             _gameCoreManager.handleEvents = _handleEvents;
             _gameCoreManager.handleKeyboardEvents = _handleKeyboardEvents;
 
-            NSSize defaultSize = self.gameViewController.defaultScreenSize;
-            NSRect defaultBounds = NSMakeRect(0, 0, defaultSize.width, defaultSize.height);
-            [_gameCoreManager setOutputBounds:defaultBounds];
-
             handler(YES, nil);
         }];
     } errorHandler:^(NSError *error) {
@@ -865,8 +862,36 @@ typedef enum : NSUInteger
 
 - (void)takeScreenshot:(id)sender
 {
-    NSAssert(0, @"Is this reachable?");
-    [[self gameViewController] takeScreenshot:sender];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSBitmapImageFileType type = [standardUserDefaults integerForKey:OEScreenshotFileFormatKey];
+    NSDictionary *properties   = [standardUserDefaults dictionaryForKey:OEScreenshotPropertiesKey];
+    bool takeNativeScreenshots = [standardUserDefaults boolForKey:OETakeNativeScreenshots];
+
+    [_gameCoreManager takeScreenshotWithFiltering:!takeNativeScreenshots completionHandler:^(NSBitmapImageRep *image) {
+        NSData *imageData = [image representationUsingType:type properties:properties];
+
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH.mm.ss"];
+        NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
+
+        // Replace forward slashes in the game title with underscores because forward slashes aren't allowed in filenames.
+        OEDBRom *rom = self.rom;
+        NSMutableString *displayName = [rom.game.displayName mutableCopy];
+        [displayName replaceOccurrencesOfString:@"/" withString:@"_" options:0 range:NSMakeRange(0, displayName.length)];
+
+        NSString *fileName = [NSString stringWithFormat:@"%@ %@.png", displayName, timeStamp];
+        NSString *temporaryPath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
+        NSURL *temporaryURL = [NSURL fileURLWithPath:temporaryPath];
+
+        __autoreleasing NSError *error;
+        if(![imageData writeToURL:temporaryURL options:NSDataWritingAtomic error:&error])
+        {
+            NSLog(@"Could not save screenshot at URL: %@, with error: %@", temporaryURL, error);
+        } else {
+            OEDBScreenshot *screenshot = [OEDBScreenshot createObjectInContext:[rom managedObjectContext] forROM:rom withFile:temporaryURL];
+            [screenshot save];
+        }
+    }];
 }
 
 #pragma mark - Volume
@@ -1319,19 +1344,20 @@ typedef enum : NSUInteger
              [mainContext save:nil];
          }];
 
-         NSData *TIFFData = [[[self gameViewController] nativeScreenshot] TIFFRepresentation];
-         NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
-
          NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
          NSBitmapImageFileType type = [standardUserDefaults integerForKey:OEScreenshotFileFormatKey];
          NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEScreenshotPropertiesKey];
-         NSData *convertedData = [bitmapImageRep representationUsingType:type properties:properties];
 
-         __autoreleasing NSError *saveError = nil;
-         if([state screenshotURL] == nil || ![convertedData writeToURL:[state screenshotURL] options:NSDataWritingAtomic error:&saveError])
-             NSLog(@"Could not create screenshot at url: %@ with error: %@", [state screenshotURL], saveError);
+         [_gameCoreManager takeScreenshotWithFiltering:NO completionHandler:^(NSBitmapImageRep *image) {
+             NSData *convertedData = [image representationUsingType:type properties:properties];
 
-         if(handler != nil) handler();
+             __autoreleasing NSError *saveError = nil;
+             if([state screenshotURL] == nil || ![convertedData writeToURL:[state screenshotURL] options:NSDataWritingAtomic error:&saveError])
+                 NSLog(@"Could not create screenshot at url: %@ with error: %@", [state screenshotURL], saveError);
+             
+             if(handler != nil) handler();
+             
+         }];
      }];
 }
 
