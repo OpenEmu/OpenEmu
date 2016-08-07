@@ -58,7 +58,6 @@ enum _OEHelperAppErrorCodes
 @interface OpenEmuHelperApp : NSResponder <NSApplicationDelegate, OEGameCoreHelper, OERenderDelegate, OEAudioDelegate>
 
 @property id<OEGameCoreOwner> gameCoreOwner;
-@property(readonly) OEGameCore *gameCoreProxy;
 @property(readonly) OEGameCore *gameCore;
 @property(readonly) Protocol *gameSystemResponderClientProtocol;
 @property(nonatomic) BOOL handleEvents;
