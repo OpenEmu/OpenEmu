@@ -257,7 +257,8 @@ typedef uint32_t CAContextID;
         _gameVideoLayer.bounds = rect;
     }
 
-    [_gameCore tryToResizeVideoTo:OEIntSizeMake(rect.size.width, rect.size.height)];
+    if ([_gameRenderer canChangeBufferSize])
+        [_gameCore tryToResizeVideoTo:OEIntSizeMake(rect.size.width, rect.size.height)];
 }
 
 #pragma mark - Game Core methods
