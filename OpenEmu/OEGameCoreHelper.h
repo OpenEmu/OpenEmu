@@ -72,8 +72,6 @@
 - (void)toggleEmulationPaused;
 - (void)takeScreenshot;
 
-- (void)setAspectSize:(OEIntSize)newAspectSize;
-- (void)setScreenSize:(OEIntSize)newScreenSize;
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize;
 - (void)setDiscCount:(NSUInteger)discCount;
 - (void)setRemoteContextID:(NSUInteger)contextID;

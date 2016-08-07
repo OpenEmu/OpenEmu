@@ -49,7 +49,6 @@
 #import "OEAudioDeviceManager.h"
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
-#import "NSColor+OEAdditions.h"
 
 #import "OELibraryDatabase.h"
 
@@ -81,6 +80,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
  TODO Messages to remote layer:
  - Change bounds
  - Start Syphon
+ - Native screenshot
 
  Messages from remote layer:
  - Default screen size/aspect size
@@ -197,10 +197,21 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     return [[self document] systemIdentifier];
 }
 
-- (NSImage *)takeNativeScreenshot
+- (NSImage *)nativeScreenshot
 {
-//    return [_gameView nativeScreenshot];
+    NSAssert(0, @"Must send to helper.");
     return nil;
+}
+
+- (NSImage *)screenshot
+{
+    NSAssert(0, @"Must send to helper.");
+    return nil;
+}
+
+- (IBAction)takeScreenshot:(id)sender
+{
+    NSAssert(0, @"Must send to helper.");
 }
 
 - (void)reflectVolume:(float)volume;
@@ -251,60 +262,40 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     return YES;
 }
 
-#pragma mark - Taking Screenshots
-- (void)takeScreenshot:(id)sender
-{
-    NSImage *screenshotImage;
-    bool takeNativeScreenshots = [[NSUserDefaults standardUserDefaults] boolForKey:OETakeNativeScreenshots];
-//    screenshotImage = takeNativeScreenshots ? [_gameView nativeScreenshot] : [_gameView screenshot];
-    NSData *TIFFData = [screenshotImage TIFFRepresentation];
-
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    NSBitmapImageFileType type = [standardUserDefaults integerForKey:OEScreenshotFileFormatKey];
-    NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEScreenshotPropertiesKey];
-    NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
-    NSData *imageData = [bitmapImageRep representationUsingType:type properties:properties];
-
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH.mm.ss"];
-    NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
-
-    // Replace forward slashes in the game title with underscores because forward slashes aren't allowed in filenames.
-    NSMutableString *displayName = [self.document.rom.game.displayName mutableCopy];
-    [displayName replaceOccurrencesOfString:@"/" withString:@"_" options:0 range:NSMakeRange(0, displayName.length)];
-    
-    NSString *fileName = [NSString stringWithFormat:@"%@ %@.png", displayName, timeStamp];
-    NSString *temporaryPath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
-    NSURL *temporaryURL = [NSURL fileURLWithPath:temporaryPath];
-
-    __autoreleasing NSError *error;
-    if(![imageData writeToURL:temporaryURL options:NSDataWritingAtomic error:&error])
-    {
-        NSLog(@"Could not save screenshot at URL: %@, with error: %@", temporaryURL, error);
-    } else {
-        OEDBRom *rom = [[self document] rom];
-        OEDBScreenshot *screenshot = [OEDBScreenshot createObjectInContext:[rom managedObjectContext] forROM:rom withFile:temporaryURL];
-        [screenshot save];
-//        [[self gameView] showScreenShotNotification];
-    }
-}
-
 #pragma mark - OEGameCoreOwner methods
 
 - (void)setRemoteContextID:(NSUInteger)remoteContextID
 {
+    NSLog(@"Got contextID: %lu size:%@ aspect:%@", remoteContextID, NSStringFromOEIntSize(_screenSize), NSStringFromOEIntSize(_aspectSize));
     _gameView.remoteContextID = (CAContextID)remoteContextID;
 }
 
 #pragma mark - Info
 
+// TODO: This is nearly the same as a method in the helper layer.
+static NSSize CorrectScreenSizeForAspectSize(OEIntSize screenSize, OEIntSize aspectSize)
+{
+    // calculate aspect ratio
+    CGFloat wr = (CGFloat) aspectSize.width / screenSize.width;
+    CGFloat hr = (CGFloat) aspectSize.height / screenSize.height;
+    CGFloat ratio = MAX(hr, wr);
+    NSSize scaled = NSMakeSize((wr / ratio), (hr / ratio));
+
+    CGFloat halfw = scaled.width;
+    CGFloat halfh = scaled.height;
+
+    NSSize corrected;
+    corrected = NSMakeSize(screenSize.width / halfh, screenSize.height / halfw);
+
+    return corrected;
+}
+
 - (NSSize)defaultScreenSize
 {
-    if(OEIntSizeIsEmpty(_screenSize) || OEIntSizeIsEmpty(_aspectSize))
-        return NSMakeSize(400, 300);
+    NSParameterAssert(_screenSize.width);
+    NSParameterAssert(_aspectSize.width);
 
-    NSSize corrected = [_gameView correctScreenSize:_screenSize forAspectSize:_aspectSize returnVertices:NO];
-    return corrected;
+    return CorrectScreenSizeForAspectSize(_screenSize, _aspectSize);
 }
 
 #pragma mark - Private Methods
@@ -321,6 +312,12 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 - (void)viewDidChangeFrame:(NSNotification*)notification
 {
     [_controlsWindow repositionOnGameWindow];
+}
+
+- (void)showQuickSaveNotification
+{
+    // Add new view that does this.
+    NSAssert(0, @"Not implemented");
 }
 
 #pragma mark - OEGameViewDelegate Protocol

@@ -508,6 +508,7 @@ static GLvoid *GLUBufferOffset(const GLintptr nOffset)
 
         glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_RECTANGLE_ARB, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
         glActiveTexture(GL_TEXTURE0);
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);

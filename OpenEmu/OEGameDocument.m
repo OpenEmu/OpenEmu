@@ -24,6 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@import OpenEmuBase;
+@import OpenEmuSystem;
 #import "OEGameDocument.h"
 
 #import "OEApplicationDelegate.h"
@@ -699,11 +701,7 @@ typedef enum : NSUInteger
         return;
     }
 
-    NSSize defaultSize = self.gameViewController.defaultScreenSize;
-    NSRect defaultBounds = NSMakeRect(0, 0, defaultSize.width, defaultSize.height);
-
     [_gameCoreManager loadROMWithCompletionHandler:^{
-        [_gameCoreManager setOutputBounds:defaultBounds];
         [_gameCoreManager setupEmulationWithCompletionHandler:^{
             DLog(@"SETUP DONE.");
             _emulationStatus = OEEmulationStatusSetup;
@@ -729,6 +727,10 @@ typedef enum : NSUInteger
 
             _gameCoreManager.handleEvents = _handleEvents;
             _gameCoreManager.handleKeyboardEvents = _handleKeyboardEvents;
+
+            NSSize defaultSize = self.gameViewController.defaultScreenSize;
+            NSRect defaultBounds = NSMakeRect(0, 0, defaultSize.width, defaultSize.height);
+            [_gameCoreManager setOutputBounds:defaultBounds];
 
             handler(YES, nil);
         }];
@@ -863,6 +865,7 @@ typedef enum : NSUInteger
 
 - (void)takeScreenshot:(id)sender
 {
+    NSAssert(0, @"Is this reachable?");
     [[self gameViewController] takeScreenshot:sender];
 }
 
@@ -1316,7 +1319,7 @@ typedef enum : NSUInteger
              [mainContext save:nil];
          }];
 
-         NSData *TIFFData = [[[self gameViewController] takeNativeScreenshot] TIFFRepresentation];
+         NSData *TIFFData = [[[self gameViewController] nativeScreenshot] TIFFRepresentation];
          NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
 
          NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];

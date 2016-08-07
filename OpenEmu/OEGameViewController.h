@@ -77,8 +77,6 @@ extern NSString *const OEScreenshotPropertiesKey;
 - (NSString *)coreIdentifier;
 - (NSString *)systemIdentifier;
 
-- (NSImage *)takeNativeScreenshot;
-
 - (void)reflectVolume:(float)volume;
 - (void)reflectEmulationPaused:(BOOL)paused;
 #pragma mark - HUD Bar Actions
@@ -88,6 +86,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 
 #pragma mark - Taking Screenshots
 - (NSImage *)screenshot;
+- (NSImage *)nativeScreenshot;
 - (IBAction)takeScreenshot:(id)sender;
 
 #pragma mark - Notifications

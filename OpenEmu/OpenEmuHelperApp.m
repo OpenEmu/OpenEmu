@@ -69,8 +69,6 @@ typedef uint32_t CAContextID;
 
 @end
 
-static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor";
-
 @implementation OpenEmuHelperApp
 {
     void (^_startEmulationHandler)(void);
@@ -215,7 +213,6 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
         (NSString *)kIOSurfaceBytesPerElement: @4,
     };
 
-    // TODO: do we need to ensure openGL Compatibility and CALayer compatibility?
     _surfaceRef = IOSurfaceCreate((__bridge CFDictionaryRef)surfaceAttributes);
 
     _gameRenderer.surfaceSize = surfaceSize;
@@ -231,34 +228,25 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 {
     if (_gameVideoLayer != nil) return;
 
+    [CATransaction begin];
     _gameVideoLayer = [OEGameHelperLayer new];
-
     OEGameLayerInputParams input = _gameVideoLayer.input;
 
-    input.ioSurfaceRef = _surfaceRef;
-    input.screenSize = _previousScreenSize;
-    input.aspectSize = _previousAspectSize;
+    input.ioSurfaceRef    = _surfaceRef;
+    input.screenSize      = _previousScreenSize;
+    input.aspectSize      = _previousAspectSize;
     _gameVideoLayer.input = input;
 
-    NSParameterAssert(_outputBounds.size.width);
-    [_gameVideoLayer setBounds:_outputBounds];
-    _gameVideoLayer.anchorPoint = CGPointMake(0,0);
-
-    NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
-    if(backgroundColorName != nil)
-    {
-        NSColor *color = [NSColor colorFromString:backgroundColorName];
-        [_gameVideoLayer setBackgroundColor:color];
-    }
+    // TODO: If there's a good default bounds, use that.
+    [_gameVideoLayer setBounds:NSMakeRect(0, 0, 1, 1)];
 
     CGSConnectionID connection_id = CGSMainConnectionID();
-    _gameVideoCAContext = [CAContext contextWithCGSConnection:connection_id options:@{}];
+    _gameVideoCAContext       = [CAContext contextWithCGSConnection:connection_id options:nil];
     _gameVideoCAContext.layer = _gameVideoLayer;
 
-    [CATransaction begin];
-    [_gameVideoLayer setNeedsDisplay];
     [CATransaction commit];
 
+    [self updateScreenSize:_previousScreenSize aspectSize:_previousAspectSize];
     [self updateRemoteContextID:_gameVideoCAContext.contextId];
 }
 
@@ -269,7 +257,7 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
         _gameVideoLayer.bounds = rect;
     }
 
-    // TODO^2: Recreate the IOSurface and tell the game core to change bounds
+    [_gameCore tryToResizeVideoTo:OEIntSizeMake(rect.size.width, rect.size.height)];
 }
 
 #pragma mark - Game Core methods
@@ -329,7 +317,7 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
     if([_gameCore loadFileAtPath:aPath error:error])
     {
         DLog(@"Loaded new Rom: %@", aPath);
-        [[self gameCoreOwner] setDiscCount:[_gameCore discCount]];
+        [_gameCoreOwner setDiscCount:[_gameCore discCount]];
 
         self.loadedRom = YES;
 
@@ -461,7 +449,6 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 
 - (void)setVolume:(CGFloat)volume
 {
-    DLog(@"%@", _gameAudio);
     [_gameAudio setVolume:volume];
 }
 
@@ -598,19 +585,14 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 
 #pragma mark - OEGameCoreOwner subclass handles
 
-- (void)updateScreenSize:(OEIntSize)newScreenSize
+- (void)updateScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize
 {
-    [[self gameCoreOwner] setScreenSize:newScreenSize];
-}
-
-- (void)updateAspectSize:(OEIntSize)newAspectSize
-{
-    [[self gameCoreOwner] setAspectSize:newAspectSize];
+    [_gameCoreOwner setScreenSize:newScreenSize aspectSize:newAspectSize];
 }
 
 - (void)updateRemoteContextID:(CAContextID)newContextID
 {
-    [[self gameCoreOwner] setRemoteContextID:newContextID];
+    [_gameCoreOwner setRemoteContextID:newContextID];
 }
 
 #pragma mark - OEGameCoreDelegate protocol methods
@@ -630,18 +612,6 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 
 - (void)willExecute
 {
-    // Check if bufferSize changed. (We'll let 3D games do this.)
-    // Try not to do this as it's kinda slow.
-    OEIntSize previousBufferSize = _gameRenderer.surfaceSize;
-    OEIntSize bufferSize = _gameCore.bufferSize;
-
-    if (!OEIntSizeEqualToSize(previousBufferSize, bufferSize)) {
-        DLog(@"Recreating IOSurface because of game size change to %@", NSStringFromOEIntSize(bufferSize));
-        NSAssert(_gameRenderer.canChangeBufferSize == YES, @"Game tried changing IOSurface in a state we don't support");
-
-        [self setupIOSurface];
-    }
-
     [_gameRenderer willExecuteFrame];
 }
 
@@ -657,17 +627,18 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
     BOOL mustUpdate = NO;
 
     if (!OEIntSizeEqualToSize(previousBufferSize, bufferSize)) {
-        // The IOSurface is going to be recreated at the next frame.
-        // Don't check the other stuff because it's just going to glitch either way.
+        DLog(@"Recreating IOSurface because of game size change to %@", NSStringFromOEIntSize(bufferSize));
+        NSAssert(_gameRenderer.canChangeBufferSize == YES, @"Game tried changing IOSurface in a state we don't support");
+
+        [self setupIOSurface];
     } else {
         if(!OEIntSizeEqualToSize(screenRect.size, previousScreenSize))
         {
             NSAssert((screenRect.origin.x + screenRect.size.width) <= bufferSize.width, @"screen rect must not be larger than buffer size");
             NSAssert((screenRect.origin.y + screenRect.size.height) <= bufferSize.height, @"screen rect must not be larger than buffer size");
 
-            NSLog(@"Sending did change screen rect to %@", NSStringFromOEIntRect(screenRect));
+            DLog(@"Sending did change screen rect to %@", NSStringFromOEIntRect(screenRect));
             [self updateScreenSize];
-            [self updateScreenSize:_previousScreenSize];
             mustUpdate = YES;
         }
 
@@ -676,9 +647,12 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
             NSAssert(aspectSize.height <= bufferSize.height, @"aspect size must not be larger than buffer size");
             NSAssert(aspectSize.width <= bufferSize.width, @"aspect size must not be larger than buffer size");
 
-            NSLog(@"Sending did change aspect to %@", NSStringFromOEIntSize(aspectSize));
-            [self updateAspectSize:aspectSize];
+            DLog(@"Sending did change aspect to %@", NSStringFromOEIntSize(aspectSize));
             mustUpdate = YES;
+        }
+
+        if (mustUpdate) {
+            [self updateScreenSize:_previousScreenSize aspectSize:_previousAspectSize];
         }
     }
 
@@ -692,7 +666,7 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
     }
 
     [CATransaction begin];
-    [_gameVideoLayer setNeedsDisplay];
+    [_gameVideoLayer display];
     [CATransaction commit];
 
     if(!_hasStartedAudio)
@@ -749,63 +723,97 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 
 - (void)saveState:(id)sender
 {
-    [self.gameCoreOwner saveState];
+    [_gameCoreOwner saveState];
 }
 
 - (void)loadState:(id)sender
 {
-    [self.gameCoreOwner loadState];
+    [_gameCoreOwner loadState];
 }
 
 - (void)quickSave:(id)sender
 {
-    [self.gameCoreOwner quickSave];
+    [_gameCoreOwner quickSave];
 }
 
 - (void)quickLoad:(id)sender
 {
-    [self.gameCoreOwner quickLoad];
+    [_gameCoreOwner quickLoad];
 }
 
 - (void)toggleFullScreen:(id)sender
 {
-    [self.gameCoreOwner toggleFullScreen];
+    [_gameCoreOwner toggleFullScreen];
 }
 
 - (void)toggleAudioMute:(id)sender
 {
-    [self.gameCoreOwner toggleAudioMute];
+    [_gameCoreOwner toggleAudioMute];
 }
 
 - (void)volumeDown:(id)sender
 {
-    [self.gameCoreOwner volumeDown];
+    [_gameCoreOwner volumeDown];
 }
 
 - (void)volumeUp:(id)sender
 {
-    [self.gameCoreOwner volumeUp];
+    [_gameCoreOwner volumeUp];
 }
 
 - (void)stopEmulation:(id)sender
 {
-    [self.gameCoreOwner stopEmulation];
+    [_gameCoreOwner stopEmulation];
 }
 
 - (void)resetEmulation:(id)sender
 {
-    [self.gameCoreOwner resetEmulation];
+    [_gameCoreOwner resetEmulation];
 }
 
 - (void)toggleEmulationPaused:(id)sender
 {
-    [self.gameCoreOwner toggleEmulationPaused];
+    [_gameCoreOwner toggleEmulationPaused];
 }
 
 - (void)takeScreenshot:(id)sender
 {
-    NSAssert(0, @"We probably have to do this");
-    [self.gameCoreOwner takeScreenshot];
-}
+    NSAssert(0, @"Not implemented");
+/*
+ NSImage *screenshotImage;
+ bool takeNativeScreenshots = [[NSUserDefaults standardUserDefaults] boolForKey:OETakeNativeScreenshots];
+ //    screenshotImage = takeNativeScreenshots ? [_gameView nativeScreenshot] : [_gameView screenshot];
+ NSData *TIFFData = [screenshotImage TIFFRepresentation];
+
+ NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+ NSBitmapImageFileType type = [standardUserDefaults integerForKey:OEScreenshotFileFormatKey];
+ NSDictionary *properties = [standardUserDefaults dictionaryForKey:OEScreenshotPropertiesKey];
+ NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:TIFFData];
+ NSData *imageData = [bitmapImageRep representationUsingType:type properties:properties];
+
+ NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+ [dateFormatter setDateFormat:@"yyyy-MM-dd HH.mm.ss"];
+ NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
+
+ // Replace forward slashes in the game title with underscores because forward slashes aren't allowed in filenames.
+ NSMutableString *displayName = [self.document.rom.game.displayName mutableCopy];
+ [displayName replaceOccurrencesOfString:@"/" withString:@"_" options:0 range:NSMakeRange(0, displayName.length)];
+
+ NSString *fileName = [NSString stringWithFormat:@"%@ %@.png", displayName, timeStamp];
+ NSString *temporaryPath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
+ NSURL *temporaryURL = [NSURL fileURLWithPath:temporaryPath];
+
+ __autoreleasing NSError *error;
+ if(![imageData writeToURL:temporaryURL options:NSDataWritingAtomic error:&error])
+ {
+ NSLog(@"Could not save screenshot at URL: %@, with error: %@", temporaryURL, error);
+ } else {
+ OEDBRom *rom = [[self document] rom];
+ OEDBScreenshot *screenshot = [OEDBScreenshot createObjectInContext:[rom managedObjectContext] forROM:rom withFile:temporaryURL];
+ [screenshot save];
+ //        [[self gameView] showScreenShotNotification];
+ }
+ */
+ }
 
 @end

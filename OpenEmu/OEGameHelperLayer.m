@@ -7,9 +7,12 @@
 //
 
 @import OpenGL;
+
 #import <OpenGL/gl.h>
 #import "OEGameHelperLayer.h"
+#import "NSColor+OEAdditions.h"
 
+static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor";
 
 /*
  * OE game rendering from game texture to drawable.
@@ -21,10 +24,6 @@
  * Outputs:
  * Features:
  * Todos:
- */
-
-/*
- Todos:
  - Options for nearest and linear scale
  - NotificationRenderer? It can just be a subview though.
  - Syphon
@@ -37,7 +36,6 @@
  - Forwarding mouse events
  - The window should stick to the game's aspect ratio when resizing.
  - The layer should not change bounds during live resize.
- - Rewrite in Swift
  - Rewrite with Metal - https://github.com/aras-p/glsl-optimizer
  */
 
@@ -124,10 +122,18 @@ static NSRect FitAspectRectIntoBounds(OEIntSize aspectSize, NSRect bounds)
      * than nothing for e.g. Gameboy on DCI-P3 screens. But "no correction" might be
      * what people are used to.
      */
-    self.colorspace = CGColorSpaceCreateWithName(kCGColorSpaceITUR_709);
+    self.colorspace      = CGColorSpaceCreateWithName(kCGColorSpaceITUR_709);
+    self.anchorPoint     = CGPointMake(0,0);
+    self.contentsGravity = kCAGravityResizeAspect;
+
+    NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
+    if(backgroundColorName != nil)
+    {
+        NSColor *color = [NSColor colorFromString:backgroundColorName];
+        self.backgroundColor = color;
+    }
 
 //    _filter.linearFilter = YES;
-    //    self.wantsExtendedDynamicRangeContent = YES; // <- useful with shaders
 
     return self;
 }
@@ -166,9 +172,7 @@ static NSRect FitAspectRectIntoBounds(OEIntSize aspectSize, NSRect bounds)
 
 - (void)setBackgroundColor:(NSColor *)backgroundColor
 {
-    [super setBackgroundColor:backgroundColor.CGColor];
-
-    // Check out this color correctness!
+    // Note this doesn't use CALayer colors.
     NSColorSpace *linearSpace = [[NSColorSpace alloc] initWithCGColorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGBLinear)];
     NSColor *linearColor = [backgroundColor colorUsingColorSpace:linearSpace];
 
@@ -304,7 +308,6 @@ static NSRect FitAspectRectIntoBounds(OEIntSize aspectSize, NSRect bounds)
 
 -(BOOL)canDrawInCGLContext:(CGLContextObj)ctx pixelFormat:(CGLPixelFormatObj)pf forLayerTime:(CFTimeInterval)t displayTime:(const CVTimeStamp *)ts
 {
-    if (self.state == nil) return NO;
     return YES;
 }
 

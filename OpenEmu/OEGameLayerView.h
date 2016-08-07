@@ -18,7 +18,4 @@ typedef uint32_t CAContextID;
 @property (nonatomic) NSColor *backgroundColor;
 @property (nonatomic) CAContextID remoteContextID;
 
-// TODO shouldn't be an instance method
-- (NSSize)correctScreenSize:(OEIntSize)screenSize forAspectSize:(OEIntSize)aspectSize returnVertices:(BOOL)flag;
-
 @end

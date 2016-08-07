@@ -81,7 +81,7 @@ static OSStatus RenderCallback(void                       *in,
     int leftover = bytesRequested - availableBytes;
     char *outBuffer = ioData->mBuffers[0].mData;
 
-    if(leftover > 0 && context->bytesPerSample == 2)
+    if(leftover >= 2 && context->bytesPerSample == 2)
     {
         // time stretch
         // FIXME this works a lot better with a larger buffer

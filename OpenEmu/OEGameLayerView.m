@@ -9,7 +9,6 @@
 #import "OEGameLayerView.h"
 #import "NSColor+OEAdditions.h"
 
-// SPI USE: Stolen from Chrome.
 
 @interface CAContext : NSObject
 {
@@ -27,6 +26,15 @@
 
 static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor";
 
+/*!
+ * @abstract View which hosts and resizes the helper app's game rendering.
+ * @description
+ * The WindowServer takes care of drawing in the game's image, so this does no actual work.
+ * TODO: Make sure game resizes when changing from/to HiDPI.
+ * TODO: Tell the remote side to change pixel size after (not during) live resize - NSViewLayerContentsRedrawCrossfade?
+ * TODO: Tell the remote side to change pixel size during setBounds:.
+ * TODO: - (void)gameView:(OEGameView *)gameView didReceiveMouseEvent:(OEEvent *)event
+ */
 @implementation OEGameLayerView
 {
     CALayerHost *_remoteLayer;
@@ -54,39 +62,33 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 
 - (CALayer *)makeBackingLayer {
     CALayer *layer = [super makeBackingLayer];
-    [self updateTopLayer:layer withContextID:_remoteContextID];
 
     NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
-    if(backgroundColorName != nil)
-    {
-        NSColor *color = [NSColor colorFromString:backgroundColorName];
-        [layer setBackgroundColor:(__bridge CGColorRef _Nullable)(color)];
-    }
+    NSColor *backgroundColor = backgroundColorName ? [NSColor colorFromString:backgroundColorName] : [NSColor blackColor];
+    
+    layer.contentsGravity = kCAGravityResize;
+    layer.backgroundColor = (__bridge CGColorRef)backgroundColor;
+
+    if (_remoteContextID) [self updateTopLayer:layer withContextID:_remoteContextID];
 
     return layer;
 }
 
 - (void)updateLayer {
     // Probably don't need to do anything.
+    // TODO: catch the bounds change here
 }
 
 - (void)updateTopLayer:(CALayer *)layer withContextID:(CAContextID)remoteContextID
 {
     if (!_remoteLayer) {
         _remoteLayer = [CALayerHost new];
-        _remoteLayer.contextId = remoteContextID;
 
-        layer.contentsGravity = kCAGravityCenter;
         [layer addSublayer:_remoteLayer];
-    } else {
-        _remoteLayer.contextId = remoteContextID;
     }
-}
 
-// TODO: Make sure that screen resolution / HiDPI is handled.
-// TODO: Make sure that setBounds: is handled.
-// TODO^2: On bounds change (minus live resize) actually change the size of the remote GL layer.
-// TODO^3: And then change the size of the remote 3D plugin.
+    _remoteLayer.contextId = remoteContextID;
+}
 
 #pragma mark - APIs
 
@@ -96,30 +98,6 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 
     _remoteContextID = remoteContextID;
     if (layer) [self updateTopLayer:layer withContextID:_remoteContextID];
-}
-
-// TODO: merge with OEGameLayer
-- (NSSize)correctScreenSize:(OEIntSize)screenSize forAspectSize:(OEIntSize)aspectSize returnVertices:(BOOL)flag;
-{
-    NSAssert(0, @"Is this used?");
-
-    // calculate aspect ratio
-    CGFloat wr = (CGFloat) aspectSize.width / screenSize.width;
-    CGFloat hr = (CGFloat) aspectSize.height / screenSize.height;
-    CGFloat ratio = MAX(hr, wr);
-    NSSize scaled = NSMakeSize((wr / ratio), (hr / ratio));
-
-    CGFloat halfw = scaled.width;
-    CGFloat halfh = scaled.height;
-
-    NSSize corrected;
-
-    if(flag)
-        corrected = NSMakeSize(halfw, halfh);
-    else
-        corrected = NSMakeSize(screenSize.width / halfh, screenSize.height / halfw);
-
-    return corrected;
 }
 
 @end
