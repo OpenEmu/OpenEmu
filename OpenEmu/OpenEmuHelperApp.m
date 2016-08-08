@@ -24,6 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@import Accelerate;
+
 // for speedz
 #import "OpenEmuHelperApp.h"
 
@@ -585,10 +587,11 @@ typedef uint32_t CAContextID;
     // If filtered, read the content out of the CALayer.
     // If not filtered, read the content out of the IOSurface.
 
-    // TODO: In the future, 2D games won't have IOSurfaces - it's an unnecessary extra GPU pass.
-    // The unfiltered case will need to be pushed down into the combined GameRenderer+CALayer.
+    // TODO: In the future, 2D games won't have IOSurfaces - the layer will just intake the original pixels.
+    // The unfiltered case will need to be pushed down into the CALayer and read out the texture.
     CGContextRef cgCtx;
     CGImageRef cgImage;
+    NSBitmapImageRep *nsImage;
 
     if (filtered) {
         NSSize imageSize = _gameVideoLayer.bounds.size;
@@ -596,22 +599,51 @@ typedef uint32_t CAContextID;
                                       8, 0, _gameVideoLayer.colorspace, kCGImageAlphaNone);
         [_gameVideoLayer renderInContext:cgCtx];
         cgImage = CGBitmapContextCreateImage(cgCtx);
+        nsImage = [[NSBitmapImageRep alloc] initWithCGImage:cgImage];
     } else {
-        // TODO: The IOSurface is upside down.
-        // TODO: Swap pixels from OpenGL format.
+        OEIntSize imageSize = _previousScreenSize;
+        nsImage = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:nil
+                                                          pixelsWide:imageSize.width
+                                                          pixelsHigh:imageSize.height
+                                                       bitsPerSample:8
+                                                     samplesPerPixel:3
+                                                            hasAlpha:NO
+                                                            isPlanar:NO
+                                                      colorSpaceName:NSDeviceRGBColorSpace
+                                                         bytesPerRow:4*imageSize.width
+                                                        bitsPerPixel:0];
+
+        const vImage_Buffer nsVImage = {
+            .data     = nsImage.bitmapData,
+            .width    = imageSize.width,
+            .height   = imageSize.height,
+            .rowBytes = nsImage.bytesPerRow
+        };
+
+        /*
+         * The IOSurface pixels are
+         * - in the OpenGL pixel format BGRA, which is not the Cocoa pixel format RGBA.
+         * (I think Metal uses RGBA so this will get better.)
+         * - upside-down for some reason.
+         * Fix both of these up. Be careful of which vImage methods can run in-place.
+         */
         IOSurfaceLock(_surfaceRef, kIOSurfaceLockReadOnly, NULL);
+        const vImage_Buffer iosurfaceVImage = {
+            .data     = IOSurfaceGetBaseAddress(_surfaceRef),
+            .width    = imageSize.width,
+            .height   = imageSize.height,
+            .rowBytes = IOSurfaceGetBytesPerRow(_surfaceRef)
+        };
 
-        OEIntSize imageSize = _gameRenderer.surfaceSize;
-        cgCtx = CGBitmapContextCreate(IOSurfaceGetBaseAddress(_surfaceRef),
-                                      imageSize.width, imageSize.height,
-                                      8, IOSurfaceGetBytesPerRow(_surfaceRef),
-                                      _gameVideoLayer.colorspace, kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Big);
-
-        cgImage = CGBitmapContextCreateImage(cgCtx);
+        vImageVerticalReflect_ARGB8888(&iosurfaceVImage, &nsVImage, kvImageNoFlags);
         IOSurfaceUnlock(_surfaceRef, kIOSurfaceLockReadOnly, NULL);
+        Pixel_8888 black = {};
+        vImageFlatten_BGRA8888ToRGB888(&nsVImage, &nsVImage, black, YES, kvImageNoFlags);
+
+        nsImage = [nsImage bitmapImageRepByRetaggingWithColorSpace:[[NSColorSpace alloc] initWithCGColorSpace:_gameVideoLayer.colorspace]];
     }
 
-    NSBitmapImageRep *nsImage = [[NSBitmapImageRep alloc] initWithCGImage:cgImage];
+    // NOTE: Someday, sending a 5K HD uncompressed picture over XPC might be considered slow.
     block(nsImage);
 }
 
