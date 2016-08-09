@@ -38,8 +38,6 @@
 #import "OEDBSavedGamesMedia.h"
 #import "OEDBScreenshotsMedia.h"
 
-#import "OESystemPicker.h"
-
 #import "OEFSWatcher.h"
 #import "OEROMImporter.h"
 

@@ -563,8 +563,6 @@
 
 "Show options button" = "Показать кнопку опций";
 
-"Use gamecore picker" = "Использовать выбор ядра";
-
 "Show quicksave notification during gameplay" = "Показать уведомление о быстром сохранении в процессе игры";
 
 "Show screenshot notification during gameplay" = "Show screenshot notification during gameplay"; // TODO

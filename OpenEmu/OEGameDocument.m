@@ -30,7 +30,6 @@
 #import "OEAudioDeviceManager.h"
 #import "OEBackgroundColorView.h"
 #import "OEBIOSFile.h"
-#import "OECorePickerController.h"
 #import "OECorePlugin.h"
 #import "OECoreUpdater.h"
 #import "OEDBRom.h"
@@ -355,10 +354,9 @@ typedef enum : NSUInteger
     else
     {
         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-        BOOL forceCorePicker = [standardUserDefaults boolForKey:OEForceCorePicker];
         NSString *coreIdentifier = [standardUserDefaults valueForKey:UDSystemCoreMappingKeyForSystemIdentifier([self systemIdentifier])];
         chosenCore = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
-        if(chosenCore == nil && !forceCorePicker)
+        if(chosenCore == nil)
         {
             validPlugins = [validPlugins sortedArrayUsingComparator:
                             ^ NSComparisonResult (id obj1, id obj2)
@@ -368,13 +366,6 @@ typedef enum : NSUInteger
 
             chosenCore = [validPlugins objectAtIndex:0];
             [standardUserDefaults setValue:[chosenCore bundleIdentifier] forKey:UDSystemCoreMappingKeyForSystemIdentifier([self systemIdentifier])];
-        }
-
-        if(forceCorePicker)
-        {
-            OECorePickerController *c = [[OECorePickerController alloc] initWithCoreList:validPlugins];
-            if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
-                chosenCore = [c selectedCore];
         }
     }
 
