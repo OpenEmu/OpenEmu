@@ -361,7 +361,7 @@ typedef enum : NSUInteger
             validPlugins = [validPlugins sortedArrayUsingComparator:
                             ^ NSComparisonResult (id obj1, id obj2)
                             {
-                                return [[obj1 displayName] compare:[obj2 displayName]];
+                                return [[obj1 displayName] caseInsensitiveCompare:[obj2 displayName]];
                             }];
 
             chosenCore = [validPlugins objectAtIndex:0];
