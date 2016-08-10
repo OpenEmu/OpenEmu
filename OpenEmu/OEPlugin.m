@@ -266,7 +266,7 @@ static NSString *OE_pluginPathForNameType(NSString *aName, Class aType)
 
 NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
 {
-    return [[obj1 displayName] compare:[obj2 displayName]];
+    return [[obj1 displayName] caseInsensitiveCompare:[obj2 displayName]];
 }
 
 + (NSArray *)pluginsForType:(Class)aType
