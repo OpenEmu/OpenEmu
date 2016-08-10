@@ -3224,12 +3224,12 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>OEControllerSteelSeriesWireless</key>
+	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
 		<key>OEControllerName</key>
-		<string>SteelSeries Wireless</string>
+		<string>MFi Extended Gamepad Profile</string>
 		<key>OEGenericControllerName</key>
-		<string>OEControllerSteelSeriesWireless</string>
+		<string>OEControllerGCExtendedGamepadProfile</string>
 		<key>OEControllerDevices</key>
 		<array>
 			<dict>
@@ -3259,7 +3259,7 @@
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
-			<key>OEControllerSteelSeriesWirelessDPadUp</key>
+			<key>OEControllerGCExtendedGamepadProfileDPadUp</key>
 			<dict>
 				<key>Name</key>
 				<string>D-Pad Up</string>
@@ -3268,7 +3268,7 @@
 				<key>Usage</key>
 				<string>144</string>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessDPadDown</key>
+			<key>OEControllerGCExtendedGamepadProfileDPadDown</key>
 			<dict>
 				<key>Name</key>
 				<string>D-Pad Down</string>
@@ -3277,7 +3277,7 @@
 				<key>Usage</key>
 				<string>145</string>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessDPadLeft</key>
+			<key>OEControllerGCExtendedGamepadProfileDPadLeft</key>
 			<dict>
 				<key>Name</key>
 				<string>D-Pad Left</string>
@@ -3286,7 +3286,7 @@
 				<key>Usage</key>
 				<string>147</string>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessDPadRight</key>
+			<key>OEControllerGCExtendedGamepadProfileDPadRight</key>
 			<dict>
 				<key>Name</key>
 				<string>D-Pad Right</string>
@@ -3295,7 +3295,7 @@
 				<key>Usage</key>
 				<string>146</string>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessLeftAnalogX</key>
+			<key>OEControllerGCExtendedGamepadProfileLeftAnalogX</key>
 			<dict>
 				<key>Name</key>
 				<string>Left Joystick X</string>
@@ -3307,14 +3307,14 @@
 				<integer>0</integer>
 				<key>Values</key>
 				<dict>
-					<key>OEControllerSteelSeriesWirelessLeftAnalogLeft</key>
+					<key>OEControllerGCExtendedGamepadProfileLeftAnalogLeft</key>
 					<dict>
 						<key>Direction</key>
 						<integer>-1</integer>
 						<key>Name</key>
 						<string>Left Analog Left</string>
 					</dict>
-					<key>OEControllerSteelSeriesWirelessLeftAnalogRight</key>
+					<key>OEControllerGCExtendedGamepadProfileLeftAnalogRight</key>
 					<dict>
 						<key>Direction</key>
 						<integer>1</integer>
@@ -3323,7 +3323,7 @@
 					</dict>
 				</dict>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessLeftAnalogY</key>
+			<key>OEControllerGCExtendedGamepadProfileLeftAnalogY</key>
 			<dict>
 				<key>Name</key>
 				<string>Left Joystick Y</string>
@@ -3335,14 +3335,14 @@
 				<integer>0</integer>
 				<key>Values</key>
 				<dict>
-					<key>OEControllerSteelSeriesWirelessLeftAnalogUp</key>
+					<key>OEControllerGCExtendedGamepadProfileLeftAnalogUp</key>
 					<dict>
 						<key>Direction</key>
 						<integer>1</integer>
 						<key>Name</key>
 						<string>Left Analog Up</string>
 					</dict>
-					<key>OEControllerSteelSeriesWirelessLeftAnalogDown</key>
+					<key>OEControllerGCExtendedGamepadProfileLeftAnalogDown</key>
 					<dict>
 						<key>Direction</key>
 						<integer>-1</integer>
@@ -3351,7 +3351,7 @@
 					</dict>
 				</dict>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessRightAnalogX</key>
+			<key>OEControllerGCExtendedGamepadProfileRightAnalogX</key>
 			<dict>
 				<key>Name</key>
 				<string>Right Joystick X</string>
@@ -3363,14 +3363,14 @@
 				<integer>0</integer>
 				<key>Values</key>
 				<dict>
-					<key>OEControllerSteelSeriesWirelessRightAnalogLeft</key>
+					<key>OEControllerGCExtendedGamepadProfileRightAnalogLeft</key>
 					<dict>
 						<key>Direction</key>
 						<integer>-1</integer>
 						<key>Name</key>
 						<string>Right Analog Left</string>
 					</dict>
-					<key>OEControllerSteelSeriesWirelessRightAnalogRight</key>
+					<key>OEControllerGCExtendedGamepadProfileRightAnalogRight</key>
 					<dict>
 						<key>Direction</key>
 						<integer>1</integer>
@@ -3379,7 +3379,7 @@
 					</dict>
 				</dict>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessRightAnalogY</key>
+			<key>OEControllerGCExtendedGamepadProfileRightAnalogY</key>
 			<dict>
 				<key>Name</key>
 				<string>Right Joystick Y</string>
@@ -3391,14 +3391,14 @@
 				<integer>0</integer>
 				<key>Values</key>
 				<dict>
-					<key>OEControllerSteelSeriesWirelessRightAnalogUp</key>
+					<key>OEControllerGCExtendedGamepadProfileRightAnalogUp</key>
 					<dict>
 						<key>Direction</key>
 						<integer>1</integer>
 						<key>Name</key>
 						<string>Right Analog Up</string>
 					</dict>
-					<key>OEControllerSteelSeriesWirelessRightAnalogDown</key>
+					<key>OEControllerGCExtendedGamepadProfileRightAnalogDown</key>
 					<dict>
 						<key>Direction</key>
 						<integer>-1</integer>
@@ -3407,7 +3407,7 @@
 					</dict>
 				</dict>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessButtonA</key>
+			<key>OEControllerGCExtendedGamepadProfileButtonA</key>
 			<dict>
 				<key>Name</key>
 				<string>A</string>
@@ -3416,7 +3416,7 @@
 				<key>Usage</key>
 				<string>1</string>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessButtonB</key>
+			<key>OEControllerGCExtendedGamepadProfileButtonB</key>
 			<dict>
 				<key>Name</key>
 				<string>B</string>
@@ -3425,7 +3425,7 @@
 				<key>Usage</key>
 				<string>2</string>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessButtonX</key>
+			<key>OEControllerGCExtendedGamepadProfileButtonX</key>
 			<dict>
 				<key>Name</key>
 				<string>X</string>
@@ -3434,7 +3434,7 @@
 				<key>Usage</key>
 				<string>3</string>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessButtonY</key>
+			<key>OEControllerGCExtendedGamepadProfileButtonY</key>
 			<dict>
 				<key>Name</key>
 				<string>Y</string>
@@ -3443,7 +3443,7 @@
 				<key>Usage</key>
 				<string>4</string>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessButtonL1</key>
+			<key>OEControllerGCExtendedGamepadProfileButtonL1</key>
 			<dict>
 				<key>Name</key>
 				<string>L1</string>
@@ -3452,7 +3452,7 @@
 				<key>Usage</key>
 				<string>5</string>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessButtonL2</key>
+			<key>OEControllerGCExtendedGamepadProfileButtonL2</key>
 			<dict>
 				<key>Name</key>
 				<string>L2</string>
@@ -3461,7 +3461,7 @@
 				<key>Usage</key>
 				<string>7</string>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessButtonR1</key>
+			<key>OEControllerGCExtendedGamepadProfileButtonR1</key>
 			<dict>
 				<key>Name</key>
 				<string>R1</string>
@@ -3470,7 +3470,7 @@
 				<key>Usage</key>
 				<string>6</string>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessButtonR2</key>
+			<key>OEControllerGCExtendedGamepadProfileButtonR2</key>
 			<dict>
 				<key>Name</key>
 				<string>R2</string>
@@ -3479,7 +3479,7 @@
 				<key>Usage</key>
 				<string>8</string>
 			</dict>
-			<key>OEControllerSteelSeriesWirelessButtonHome</key>
+			<key>OEControllerGCExtendedGamepadProfileButtonHome</key>
 			<dict>
 				<key>Name</key>
 				<string>Home</string>
