@@ -19,12 +19,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)application:(OEApplication *)application didBeginModalSessionForWindow:(NSWindow *)window;
 - (void)applicationWillEndModalSession:(OEApplication *)application;
 - (void)applicationDidEndModalSession:(OEApplication *)application;
+- (void)spotlightStatusDidChangeForApplication:(OEApplication *)application;
 
 @end
 
 @interface OEApplication : NSApplication
 
 @property (nullable, assign) id<OEApplicationDelegate> delegate;
+@property (nonatomic) BOOL isSpotlightFrontmost;
 
 @end
 

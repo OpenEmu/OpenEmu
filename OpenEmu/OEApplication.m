@@ -36,4 +36,22 @@
         [self.delegate applicationDidEndModalSession:self];
 }
 
+- (void)sendEvent:(NSEvent *)event
+{
+    [super sendEvent:event];
+
+    if (event.type != 21)
+        return;
+
+    if (event.subtype == (NSEventSubtype)16384)
+        _isSpotlightFrontmost = YES;
+    else if (event.subtype == (NSEventSubtype)32768)
+        _isSpotlightFrontmost = NO;
+    else
+        return;
+
+    if ([self.delegate respondsToSelector:@selector(spotlightStatusDidChangeForApplication:)])
+        [self.delegate spotlightStatusDidChangeForApplication:self];
+}
+
 @end

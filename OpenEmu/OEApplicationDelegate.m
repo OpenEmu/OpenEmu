@@ -262,7 +262,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [self bind:@"logHIDEvents" toObject:sudc withKeyPath:@"values.logsHIDEvents" options:nil];
     [self bind:@"logKeyboardEvents" toObject:sudc withKeyPath:@"values.logsHIDEventsNoKeyboard" options:nil];
 
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:nil];
 
     [[self startupQueue] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -340,6 +339,11 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [self _updateEventHandlers];
 }
 
+- (void)spotlightStatusDidChangeForApplication:(OEApplication *)application
+{
+    [self _updateEventHandlers];
+}
+
 - (void)application:(OEApplication *)application didBeginModalSessionForWindow:(NSWindow *)window
 {
     [self _updateEventHandlers];
@@ -348,8 +352,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 - (void)_updateEventHandlers
 {
     BOOL hasModalWindow = [NSApp modalWindow] != nil;
-    BOOL shouldHandleEvents = !hasModalWindow && ![[OEDeviceManager sharedDeviceManager] hasEventMonitor] && [NSApp isActive];
-    BOOL shouldHandleKeyboardEvents = !hasModalWindow && [NSApp isActive];
+    BOOL shouldHandleEvents = !hasModalWindow && ![[OEDeviceManager sharedDeviceManager] hasEventMonitor] && [NSApp isActive] && ![NSApp isSpotlightFrontmost];
+    BOOL shouldHandleKeyboardEvents = !hasModalWindow && [NSApp isActive] && ![NSApp isSpotlightFrontmost];
 
     for (OEGameDocument *gameDocument in NSApp.orderedDocuments) {
         if (![gameDocument isKindOfClass:[OEGameDocument class]])
