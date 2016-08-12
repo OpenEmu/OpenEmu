@@ -97,11 +97,11 @@
     completionHandler(error);
 }
 
-- (void)applicationWillTerminate:(NSNotification *)notification
+- (void)stopEmulationWithCompletionHandler:(void(^)(void))handler
 {
-    // Forcibly sudden terminate ourselves. OpenGL cores can't cleanly exit.
-
-    kill(getpid(), SIGKILL);
+    [super stopEmulationWithCompletionHandler:^{
+        handler();
+    }];
 }
 
 @end
