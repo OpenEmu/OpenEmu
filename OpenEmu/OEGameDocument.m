@@ -324,7 +324,6 @@ typedef enum : NSUInteger
         managerClass = [OEXPCGameCoreManager class];
 
     _corePlugin = corePlugin;
-    [[NSUserDefaults standardUserDefaults] setValue:[_corePlugin bundleIdentifier] forKey:UDSystemCoreMappingKeyForSystemIdentifier([self systemIdentifier])];
 
     NSString *path = [[self romFileURL] path];
      // if file is in an archive append :entryIndex to path, so the core manager can figure out which entry to load
@@ -365,7 +364,6 @@ typedef enum : NSUInteger
                             }];
 
             chosenCore = [validPlugins objectAtIndex:0];
-            [standardUserDefaults setValue:[chosenCore bundleIdentifier] forKey:UDSystemCoreMappingKeyForSystemIdentifier([self systemIdentifier])];
         }
     }
 
@@ -817,9 +815,6 @@ typedef enum : NSUInteger
      {
          if(result != NSAlertFirstButtonReturn)
              return;
-
-         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-         [standardUserDefaults setValue:[self coreIdentifier] forKey:UDSystemCoreMappingKeyForSystemIdentifier([self systemIdentifier])];
 
          [self OE_setupGameCoreManagerUsingCorePlugin:plugin completionHandler:
           ^{
