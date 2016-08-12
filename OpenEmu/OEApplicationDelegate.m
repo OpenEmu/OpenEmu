@@ -158,6 +158,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     self = [super init];
     if (self) {
+        [[OEVersionMigrationController defaultMigrationController] addMigratorTarget:self selector:@selector(migrationRemoveCoreDefaults:) forVersion:@"2.0.3"];
+
         [self setStartupQueue:[NSMutableArray array]];
         _reviewingUnsavedDocuments = NO;
     }
@@ -1051,6 +1053,19 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 - (BOOL)migrationForceUpdateCores:(NSError**)outError
 {
     [[OECoreUpdater sharedUpdater] checkForUpdatesAndInstall];
+    return YES;
+}
+
+- (BOOL)migrationRemoveCoreDefaults:(NSError**)outError
+{
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+
+    NSArray *keysToRemove = standardDefaults.dictionaryRepresentation.allKeys;
+    [keysToRemove enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
+        if ([key containsString:@"defaultCore.openemu.system."])
+            [standardDefaults removeObjectForKey:key];
+    }];
+
     return YES;
 }
 
