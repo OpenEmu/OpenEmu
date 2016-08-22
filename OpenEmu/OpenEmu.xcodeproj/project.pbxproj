@@ -1773,6 +1773,20 @@
 		5A9606E91C0BD2BD0089B494 /* DLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		5AECA1471BE1D25600C3B4E2 /* OpenEmu-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenEmu-Bridging-Header.h"; sourceTree = "<group>"; };
 		5AECA1481BE1D25800C3B4E2 /* ToolbarSegmentedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarSegmentedCell.swift; sourceTree = "<group>"; };
+		7699EC871D6303E5005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
+		7699EC881D6303E6005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OELibraryGamesViewController.strings; sourceTree = "<group>"; };
+		7699EC891D6303E6005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OEPrefControlsController.strings; sourceTree = "<group>"; };
+		7699EC8A1D6303E6005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OEPrefCoresController.strings; sourceTree = "<group>"; };
+		7699EC8B1D6303E7005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OEPrefGameplayController.strings; sourceTree = "<group>"; };
+		7699EC8C1D6303E8005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OEPrefLibraryController.strings; sourceTree = "<group>"; };
+		7699EC8D1D6303E8005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OECollectionViewController.strings; sourceTree = "<group>"; };
+		7699EC8E1D6303E9005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OELibraryController.strings; sourceTree = "<group>"; };
+		7699EC8F1D6303E9005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		7699EC901D6303EA005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OEGameScanner.strings; sourceTree = "<group>"; };
+		7699EC911D6303EB005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/OESetupAssistant.strings; sourceTree = "<group>"; };
+		7699EC921D6303EB005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7699EC931D6303EC005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7699EC941D6303EC005BC437 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/ControlLabels.strings; sourceTree = "<group>"; };
 		820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NeoGeo Pocket.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		820EB74E1483F9D3008EC398 /* controller_ngp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_ngp.png; sourceTree = "<group>"; };
 		820EB7541483F9D3008EC398 /* OENGPSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENGPSystemController.h; sourceTree = "<group>"; };
@@ -6670,6 +6684,7 @@
 				nl,
 				"zh-Hans",
 				ja,
+				ca,
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
 			projectDirPath = "";
@@ -8361,6 +8376,7 @@
 				3E3511A11C35DA8F0063E8CA /* nl */,
 				3C335C921C70E49400E33B79 /* zh-Hans */,
 				87ACB6C31D2509BA00138B7E /* ja */,
+				7699EC8D1D6303E8005BC437 /* ca */,
 			);
 			name = OECollectionViewController.xib;
 			sourceTree = "<group>";
@@ -8378,6 +8394,7 @@
 				3E3511CD1C35DA920063E8CA /* nl */,
 				3C335CBF1C70E49F00E33B79 /* zh-Hans */,
 				87ACB6E11D250A6400138B7E /* ja */,
+				7699EC921D6303EB005BC437 /* ca */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -8395,6 +8412,7 @@
 				3E3511CE1C35DA920063E8CA /* nl */,
 				3C335CC01C70E4A000E33B79 /* zh-Hans */,
 				87ACB6E21D250A6800138B7E /* ja */,
+				7699EC931D6303EC005BC437 /* ca */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -8412,6 +8430,7 @@
 				3E3511CF1C35DA920063E8CA /* nl */,
 				3C335CC11C70E4A000E33B79 /* zh-Hans */,
 				87ACB6E31D250A6C00138B7E /* ja */,
+				7699EC941D6303EC005BC437 /* ca */,
 			);
 			name = ControlLabels.strings;
 			sourceTree = "<group>";
@@ -8429,6 +8448,7 @@
 				3E35119B1C35DA8E0063E8CA /* nl */,
 				3C335C8C1C70E49200E33B79 /* zh-Hans */,
 				87ACB6BD1D2509B300138B7E /* ja */,
+				7699EC871D6303E5005BC437 /* ca */,
 			);
 			name = OEMigrationWindowController.xib;
 			sourceTree = "<group>";
@@ -8446,6 +8466,7 @@
 				3E35119E1C35DA8E0063E8CA /* nl */,
 				3C335C8F1C70E49300E33B79 /* zh-Hans */,
 				87ACB6C01D2509B600138B7E /* ja */,
+				7699EC8A1D6303E6005BC437 /* ca */,
 			);
 			name = OEPrefCoresController.xib;
 			sourceTree = "<group>";
@@ -8463,6 +8484,7 @@
 				3E35119F1C35DA8E0063E8CA /* nl */,
 				3C335C901C70E49300E33B79 /* zh-Hans */,
 				87ACB6C11D2509B800138B7E /* ja */,
+				7699EC8B1D6303E7005BC437 /* ca */,
 			);
 			name = OEPrefGameplayController.xib;
 			sourceTree = "<group>";
@@ -8480,6 +8502,7 @@
 				3E3511A01C35DA8F0063E8CA /* nl */,
 				3C335C911C70E49300E33B79 /* zh-Hans */,
 				87ACB6C21D2509B900138B7E /* ja */,
+				7699EC8C1D6303E8005BC437 /* ca */,
 			);
 			name = OEPrefLibraryController.xib;
 			sourceTree = "<group>";
@@ -8497,6 +8520,7 @@
 				3E3511A21C35DA8F0063E8CA /* nl */,
 				3C335C931C70E49400E33B79 /* zh-Hans */,
 				87ACB6C41D2509BD00138B7E /* ja */,
+				7699EC8E1D6303E9005BC437 /* ca */,
 			);
 			name = OELibraryController.xib;
 			sourceTree = "<group>";
@@ -8514,6 +8538,7 @@
 				3E3511A41C35DA8F0063E8CA /* nl */,
 				3C335C951C70E49400E33B79 /* zh-Hans */,
 				87ACB6C51D2509C000138B7E /* ja */,
+				7699EC8F1D6303E9005BC437 /* ca */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -8531,6 +8556,7 @@
 				3E3511A51C35DA8F0063E8CA /* nl */,
 				3C335C961C70E49400E33B79 /* zh-Hans */,
 				87ACB6C61D2509C300138B7E /* ja */,
+				7699EC901D6303EA005BC437 /* ca */,
 			);
 			name = OEGameScanner.xib;
 			sourceTree = "<group>";
@@ -8548,6 +8574,7 @@
 				3E3511A81C35DA8F0063E8CA /* nl */,
 				3C335C991C70E49500E33B79 /* zh-Hans */,
 				87ACB6C91D2509C800138B7E /* ja */,
+				7699EC911D6303EB005BC437 /* ca */,
 			);
 			name = OESetupAssistant.xib;
 			sourceTree = "<group>";
@@ -8565,6 +8592,7 @@
 				3E35119C1C35DA8E0063E8CA /* nl */,
 				3C335C8D1C70E49300E33B79 /* zh-Hans */,
 				87ACB6BE1D2509B500138B7E /* ja */,
+				7699EC881D6303E6005BC437 /* ca */,
 			);
 			name = OELibraryGamesViewController.xib;
 			sourceTree = "<group>";
@@ -8582,6 +8610,7 @@
 				3E35119D1C35DA8E0063E8CA /* nl */,
 				3C335C8E1C70E49300E33B79 /* zh-Hans */,
 				87ACB6BF1D2509B600138B7E /* ja */,
+				7699EC891D6303E6005BC437 /* ca */,
 			);
 			name = OEPrefControlsController.xib;
 			sourceTree = "<group>";
