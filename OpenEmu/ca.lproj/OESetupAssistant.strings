@@ -51,7 +51,7 @@
 "332.title" = "Potser ja teniu jocs (fitxers ROM) a l'ordinador. L'OpenEmu pot escanejar el vostre ordinador per trobar jocs que ja teniu legalment i afegir-los automàticament a la biblioteca. També s'intentarà afegir les caràtules i qualsevol altra informació disponible per als vostres jocs.";
 
 /* Class = "NSTextFieldCell"; title = "Game Scanner"; ObjectID = "333"; */
-"333.title" = "Escànner de jocs";
+"333.title" = "Escàner de jocs";
 
 /* Class = "NSButtonCell"; title = "Next"; ObjectID = "343"; */
 "343.title" = "Següent";
