@@ -192,10 +192,10 @@
 "1209.title" = "Débogage";
 
 /* Class = "NSMenuItem"; title = "Log Responder Chain"; ObjectID = "1210"; */
-"1210.title" = "Journaliser la chaîne des répondeurs";
+"1210.title" = "Journaliser la chaîne de répondeurs";
 
 /* Class = "NSMenuItem"; title = "Log Grid Info"; ObjectID = "1217"; */
-"1217.title" = "Journaliser Grid Info";
+"1217.title" = "Journaliser les infos de grille";
 
 /* Class = "NSMenuItem"; title = "Show ROM Names"; ObjectID = "1293"; */
 "1293.title" = "Afficher les noms des roms";
@@ -228,4 +228,4 @@
 "q7W-GV-n3p.title" = "Guide de l’utilisateur";
 
 /* Class = "NSMenuItem"; title = "Send a Donation…"; ObjectID = "oKt-cF-ZgP"; */
-"oKt-cF-ZgP.title" = "Send a Donation…";  // TODO
+"oKt-cF-ZgP.title" = "Faire un don…";
