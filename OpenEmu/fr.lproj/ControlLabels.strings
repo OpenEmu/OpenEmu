@@ -111,7 +111,7 @@
   "Run" = "Run";
   "Select" = "Select";
   "Service" = "Service";
-  "Shake" = "Shake";  // TODO
+  "Shake" = "Secouer";
   "Sleep" = "Sleep";
   "Sound" = "Son";
   "Start" = "Start";
