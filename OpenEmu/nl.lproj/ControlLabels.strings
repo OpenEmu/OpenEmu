@@ -58,8 +58,8 @@
   "Action" = "Action";
   "Analog Mode" = "Analoge modus";
   "B" = "B";
-  "Bottom Left Action" = "Onderste linker actie";
-  "Bottom Right Action" = "Onderste rechter actie";
+  "Bottom Left Action" = "Onderste linkeractie";
+  "Bottom Right Action" = "Onderste rechteractie";
   "Button 1" = "Knop 1";
   "Button 1/Start" = "Knop 1/start";
   "Button 2" = "Knop 2";
@@ -85,8 +85,8 @@
   "L1" = "L1";
   "L2" = "L2";
   "L3" = "L3";
-  "Left Action" = "Linker actie";
-  "Left Trigger" = "Linker trigger";
+  "Left Action" = "Linkeractie";
+  "Left Trigger" = "Linkertrigger";
   "Left" = "Links";
   "Lid" = "Lid";
   "Menu" = "Menu";
@@ -105,8 +105,8 @@
   "R1" = "R1";
   "R2" = "R2";
   "R3" = "R3";
-  "Right Action" = "Rechter actie";
-  "Right Trigger" = "Rechter trigger";
+  "Right Action" = "Rechteractie";
+  "Right Trigger" = "Rechtertrigger";
   "Right" = "Rechts";
   "Run" = "Uitvoeren";
   "Select" = "Select";
@@ -117,7 +117,7 @@
   "Start" = "Start";
   "TV Black & White" = "Zwart-wittelevisie";
   "TV Color" = "Kleurentelevisie";
-  "Top Action" = "Bovenste actie";
+  "Top Action" = "Omhoog-actie";
   "Up" = "Omhoog";
   "X" = "X";
   "X1 Up" = "X1 omhoog";
