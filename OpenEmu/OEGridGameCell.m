@@ -33,7 +33,7 @@ static const CGFloat OEGridCellImageContainerBottom = OEGridCellTitleHeight + OE
 __strong static OEThemeImage *selectorRingImage = nil;
 
 
-@interface OEGridGameCell ()
+@interface OEGridGameCell () <CALayerDelegate>
 @property NSImage *selectorImage;
 @property CALayer *selectionLayer;
 

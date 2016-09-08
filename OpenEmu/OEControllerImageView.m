@@ -42,7 +42,7 @@ NSString *const OEDebugDrawControllerMaskKey = @"drawControllerMask";
 - (NSPoint)highlightPoint;
 @end
 
-@interface OEControllerImageView ()
+@interface OEControllerImageView () <CAAnimationDelegate>
 - (void)OE_commonControllerImageViewInit;
 - (void)OE_setHighlightPoint:(NSPoint)value animated:(BOOL)animated;
 - (NSPoint)OE_highlightPointForKey:(NSString *)aKey;

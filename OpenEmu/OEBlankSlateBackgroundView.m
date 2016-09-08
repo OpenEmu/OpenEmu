@@ -28,6 +28,9 @@
 #import "OEBackgroundNoisePattern.h"
 @import QuartzCore;
 
+@interface OEBlankSlateBackgroundView () <CALayoutManager, CALayerDelegate>
+@end
+
 @implementation OEBlankSlateBackgroundView
 
 - (id)initWithFrame:(NSRect)frameRect
