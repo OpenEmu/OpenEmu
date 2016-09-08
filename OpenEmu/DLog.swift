@@ -27,7 +27,7 @@
 import Foundation
 
 /// Logs a string in debug mode.
-func DLog(@autoclosure message: () -> String, filename: String = #file, function: String = #function, line: Int = #line)
+func DLog(_ message: @autoclosure () -> String, filename: String = #file, function: String = #function, line: Int = #line)
 {
     #if DEBUG
         let lastPathComponent = (filename as NSString).lastPathComponent

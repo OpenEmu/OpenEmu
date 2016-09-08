@@ -39,7 +39,7 @@ extension NSWindow {
             
             image.lockFocus()
             
-            NSColor.blackColor().set()
+            NSColor.black.set()
             NSRectFill(NSRect(x: 0, y: 0, width: 1, height: 1))
             
             image.unlockFocus()
@@ -47,14 +47,14 @@ extension NSWindow {
             return image
         }
         
-        let cgImage = CGWindowListCreateImage(CGRectNull,
-            .OptionIncludingWindow,
+        let cgImage = CGWindowListCreateImage(CGRect.null,
+            .optionIncludingWindow,
             CGWindowID(windowNumber),
-            .BoundsIgnoreFraming)!
+            .boundsIgnoreFraming)!
         
-        let image = NSImage(CGImage: cgImage, size: self.frame.size)
+        let image = NSImage(cgImage: cgImage, size: self.frame.size)
         
-        image.cacheMode = .Never
+        image.cacheMode = .never
         
         return image
     }
