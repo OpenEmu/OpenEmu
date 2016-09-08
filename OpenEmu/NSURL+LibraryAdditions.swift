@@ -97,13 +97,12 @@ extension NSURL {
     
     static func validFilenameFromString(_ fileName: String) -> String {
         let illegalFileNameCharacters = CharacterSet(charactersIn: "/\\?%*|\":<>")
-        return fileName.stringByDeletingCharactersInSet(illegalFileNameCharacters)
+        return fileName.deleting(illegalFileNameCharacters)
     }
 }
 
 extension String {
-    
-    func stringByDeletingCharactersInSet(_ set: CharacterSet) -> String {
-        return (self as NSString).components(separatedBy: set).joined(separator: "")
+    func deleting(_ characterSet: CharacterSet) -> String {
+        return (self as NSString).components(separatedBy: characterSet).joined(separator: "")
     }
 }

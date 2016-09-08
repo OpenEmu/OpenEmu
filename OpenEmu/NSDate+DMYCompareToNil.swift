@@ -31,20 +31,22 @@ extension Date {
     func OE_compareDMYTranslatingNilToDistantPast(_ otherDate: Date?) -> ComparisonResult {
         
         guard let otherDate = otherDate else {
-            return compare(Date.distantPast)
+            return compare(.distantPast)
         }
         
-        let gregorian = Calendar(identifier: Calendar.Identifier.gregorian)
+        let gregorian = Calendar(identifier: .gregorian)
         
-        let selfDMY  = (gregorian as NSCalendar).components([.day, .month, .year], from: self)
-        let otherDMY = (gregorian as NSCalendar).components([.day, .month, .year], from: otherDate)
+        let selfDMY = gregorian.dateComponents([.day, .month, .year], from: self)
+        let otherDMY = gregorian.dateComponents([.day, .month, .year], from: otherDate)
         
         if selfDMY.year != otherDMY.year {
             return selfDMY.year! > otherDMY.year! ? .orderedDescending : .orderedAscending
         }
+        
         if selfDMY.month != otherDMY.month {
             return selfDMY.month! > otherDMY.month! ? .orderedDescending : .orderedAscending
         }
+        
         if selfDMY.day != otherDMY.day {
             return selfDMY.day! > otherDMY.day! ? .orderedDescending : .orderedAscending
         }

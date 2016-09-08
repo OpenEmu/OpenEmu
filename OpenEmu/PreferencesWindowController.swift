@@ -76,7 +76,8 @@ class PreferencesWindowController: NSWindowController, NSWindowDelegate {
     
     // MARK: -
     
-    func showWindowWithNotification(_ notification: Notification) {
+    @objc(showWindowWithNotification:)
+    func showWindow(with notification: Notification) {
         
         showWindow(nil)
         
@@ -176,7 +177,7 @@ class PreferencesTabViewController: NSTabViewController {
         
         // Add tab view items for each preference pane.
         for pane in preferencePanes {
-            addTabViewItemWithPreferencePane(pane)
+            addTabViewItem(with: pane)
         }
         
         // Check defaults for a pane to select.
@@ -196,7 +197,7 @@ class PreferencesTabViewController: NSTabViewController {
         super.viewDidAppear()
         
         updateWindowTitle()
-        updateWindowFrameAnimated(false)
+        updateWindowFrame(animated: false)
     }
     
     override func transition(from fromViewController: NSViewController, to toViewController: NSViewController, options: NSViewControllerTransitionOptions, completionHandler completion: (() -> Void)?) {
@@ -204,7 +205,7 @@ class PreferencesTabViewController: NSTabViewController {
         NSAnimationContext.runAnimationGroup({ context in
             
             self.updateWindowTitle()
-            self.updateWindowFrameAnimated(true)
+            self.updateWindowFrame(animated: true)
             
             super.transition(from: fromViewController, to: toViewController, options: [.crossfade, .allowUserInteraction], completionHandler: completion)
             
@@ -225,7 +226,7 @@ class PreferencesTabViewController: NSTabViewController {
     
     // MARK: -
     
-    func addTabViewItemWithPreferencePane(_ pane: OEPreferencePane) {
+    func addTabViewItem(with pane: OEPreferencePane) {
         
         let item = NSTabViewItem(viewController: pane as! NSViewController)
         
@@ -240,7 +241,7 @@ class PreferencesTabViewController: NSTabViewController {
         view.window?.title = tabView.selectedTabViewItem?.label ?? ""
     }
     
-    func updateWindowFrameAnimated(_ animated: Bool) {
+    func updateWindowFrame(animated: Bool) {
         
         guard let selectedItem = tabView.selectedTabViewItem, let window = view.window else {
             return
@@ -275,7 +276,7 @@ class PreferencesTabViewController: NSTabViewController {
             
         } else {
             
-            addTabViewItemWithPreferencePane(OEPrefDebugController())
+            addTabViewItem(with: OEPrefDebugController())
         }
     }
 }

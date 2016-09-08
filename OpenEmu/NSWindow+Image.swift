@@ -48,11 +48,11 @@ extension NSWindow {
         }
         
         let cgImage = CGWindowListCreateImage(CGRect.null,
-            .optionIncludingWindow,
-            CGWindowID(windowNumber),
-            .boundsIgnoreFraming)!
+                                              .optionIncludingWindow,
+                                              CGWindowID(windowNumber),
+                                              .boundsIgnoreFraming)!
         
-        let image = NSImage(cgImage: cgImage, size: self.frame.size)
+        let image = NSImage(cgImage: cgImage, size: frame.size)
         
         image.cacheMode = .never
         

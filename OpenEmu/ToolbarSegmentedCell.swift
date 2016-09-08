@@ -1,28 +1,28 @@
 /*
-Copyright (c) 2015, OpenEmu Team
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-* Redistributions of source code must retain the above copyright
-notice, this list of conditions and the following disclaimer.
-* Redistributions in binary form must reproduce the above copyright
-notice, this list of conditions and the following disclaimer in the
-documentation and/or other materials provided with the distribution.
-* Neither the name of the OpenEmu Team nor the
-names of its contributors may be used to endorse or promote products
-derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
-EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ Copyright (c) 2015, OpenEmu Team
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 import Cocoa
 
@@ -31,19 +31,20 @@ class ToolbarSegmentedCell: NSSegmentedCell {
     
     let cornerRadius: CGFloat = 2.5
     
-    let backgroundGradient = NSGradient(starting: NSColor(deviceWhite: 0.22, alpha: 1), ending: NSColor(deviceWhite: 0.14, alpha: 1))!
+    let backgroundGradient = NSGradient(starting: NSColor(deviceWhite: 0.22, alpha: 1),
+                                        ending: NSColor(deviceWhite: 0.14, alpha: 1))!
     
     let topHighlightColor = NSColor(deviceWhite: 0.31, alpha: 1)
     
     let borderColor = NSColor(deviceWhite: 0.08, alpha: 1)
     
     let topActiveGradient = NSGradient(colorsAndLocations:
-        (NSColor(deviceWhite: 0, alpha: 0.75),    0),
+        (NSColor(deviceWhite: 0, alpha: 0.75), 0),
         (NSColor(deviceWhite: 0, alpha: 0.5),  0.15),
         (NSColor(deviceWhite: 0, alpha: 0),    0.6))!
     
     let horizontalActiveGradient = NSGradient(colorsAndLocations:
-        (NSColor(deviceWhite: 0, alpha: 0.8),    0),
+        (NSColor(deviceWhite: 0, alpha: 0.8),  0),
         (NSColor(deviceWhite: 0, alpha: 0.4),  0.01),
         (NSColor(deviceWhite: 0, alpha: 0.01), 0.04),
         (NSColor(deviceWhite: 0, alpha: 0),    0.5))!
@@ -60,58 +61,59 @@ class ToolbarSegmentedCell: NSSegmentedCell {
     
     /// The segment currently being highlighted by the user.
     var highlightedSegment: Int?
-
+    
     override func draw(withFrame cellFrame: NSRect, in controlView: NSView) {
         
         let segmentWidth = cellFrame.width / CGFloat(segmentCount)
         
-        drawBackgroundLayerInFrame(cellFrame)
-        drawTopHighlightEdgeLayerInFrame(cellFrame)
-
+        drawBackgroundLayer(inFrame: cellFrame)
+        drawTopHighlightEdgeLayer(inFrame: cellFrame)
+        
         for segment in 0..<segmentCount {
             
             let segmentRect = NSRect(x: CGFloat(segment) * segmentWidth,
-                y: cellFrame.minY,
-                width: segmentWidth,
-                height: cellFrame.height)
+                                     y: cellFrame.minY,
+                                     width: segmentWidth,
+                                     height: cellFrame.height)
             
             drawSegment(segment, inFrame: segmentRect, with: controlView)
         }
         
-        drawBorderLayerInFrame(cellFrame)
+        drawBorderLayer(inFrame: cellFrame)
     }
     
     // MARK: - Layers
     
-    func controlPathInFrame(_ cellFrame: NSRect) -> NSBezierPath {
+    func controlPath(inFrame cellFrame: NSRect) -> NSBezierPath {
         return NSBezierPath(roundedRect: cellFrame, xRadius: cornerRadius, yRadius: cornerRadius)
     }
     
-    func drawBackgroundLayerInFrame(_ cellFrame: NSRect) {
+    func drawBackgroundLayer(inFrame cellFrame: NSRect) {
         
-        let path = controlPathInFrame(cellFrame)
+        let path = controlPath(inFrame: cellFrame)
         
         backgroundGradient.draw(in: path, angle: 90)
     }
     
-    func drawTopHighlightEdgeLayerInFrame(_ cellFrame: NSRect) {
+    func drawTopHighlightEdgeLayer(inFrame frame: NSRect) {
         
         NSGraphicsContext.saveGraphicsState()
         
-        let path = controlPathInFrame(cellFrame)
+        let path = controlPath(inFrame: frame)
         
         path.setClip()
         
         topHighlightColor.set()
-
-        NSBezierPath.strokeLine(from: NSPoint(x: cellFrame.minX, y: cellFrame.minY + 1.5), to: NSPoint(x: cellFrame.maxX, y: cellFrame.minY + 1.5))
-
+        
+        NSBezierPath.strokeLine(from: NSPoint(x: frame.minX, y: frame.minY + 1.5),
+                                to: NSPoint(x: frame.maxX, y: frame.minY + 1.5))
+        
         NSGraphicsContext.restoreGraphicsState()
     }
     
-    func drawBorderLayerInFrame(_ cellFrame: NSRect) {
+    func drawBorderLayer(inFrame cellFrame: NSRect) {
         
-        let path = controlPathInFrame(cellFrame.insetBy(dx: 0.5, dy: 0.5))
+        let path = controlPath(inFrame: cellFrame.insetBy(dx: 0.5, dy: 0.5))
         
         borderColor.set()
         
@@ -123,7 +125,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
     func rectForSegment(_ segment: Int) -> NSRect {
         
         let bounds = controlView!.bounds
-
+        
         let xOffset: CGFloat
         if segment > 0 {
             let segmentWidths = (0..<segment).map { return width(forSegment: $0) }
@@ -131,11 +133,11 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         } else {
             xOffset = bounds.minX
         }
-
+        
         return NSRect(x: xOffset,
                       y: bounds.minY,
-                  width: width(forSegment: segment),
-                 height: bounds.height)
+                      width: width(forSegment: segment),
+                      height: bounds.height)
     }
     
     func pathForSegment(_ segment: Int, inFrame frame: NSRect) -> NSBezierPath {
@@ -144,23 +146,18 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         let lastSegment = segmentCount - 1
         
         if segment == firstSegment {
-            
-            return NSBezierPath.roundedRectInRect(frame,
-                topLeftCornerRadius: cornerRadius,
-                topRightCornerRadius: 0,
-                bottomLeftCornerRadius: cornerRadius,
-                bottomRightCornerRadius: 0)
-            
+            return NSBezierPath.roundedRect(in: frame,
+                                            topLeftCornerRadius: cornerRadius,
+                                            topRightCornerRadius: 0,
+                                            bottomLeftCornerRadius: cornerRadius,
+                                            bottomRightCornerRadius: 0)
         } else if segment == lastSegment {
-            
-            return NSBezierPath.roundedRectInRect(frame,
-                topLeftCornerRadius: 0,
-                topRightCornerRadius: cornerRadius,
-                bottomLeftCornerRadius: 0,
-                bottomRightCornerRadius: cornerRadius)
-            
+            return NSBezierPath.roundedRect(in: frame,
+                                            topLeftCornerRadius: 0,
+                                            topRightCornerRadius: cornerRadius,
+                                            bottomLeftCornerRadius: 0,
+                                            bottomRightCornerRadius: cornerRadius)
         } else {
-            
             return NSBezierPath(rect: frame)
         }
     }
@@ -177,7 +174,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         
         return NSPointInRect(pointInControlView, segmentRect)
     }
-
+    
     override func drawSegment(_ segment: Int, inFrame frame: NSRect, with controlView: NSView) {
         
         let highlighted = segment == highlightedSegment && mouseInSegment(segment)
@@ -195,7 +192,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             
             NSGraphicsContext.saveGraphicsState()
             
-            controlPathInFrame(frame).setClip()
+            controlPath(inFrame: frame).setClip()
             
             topActiveGradient.draw(in: segmentPath, angle: 90)
             horizontalActiveGradient.draw(in: segmentPath, angle: 0)
@@ -272,7 +269,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         labelRect.origin.x = NSMidX(frame) - attributedString.size().width / 2
         labelRect.size.height = attributedString.size().height
         labelRect.size.width = attributedString.size().width
-
+        
         attributedString.draw(in: labelRect)
     }
     
@@ -314,7 +311,7 @@ extension NSBezierPath {
     /// - Parameter bottomLeftCornerRadius: The radius of the bottom-left corner.
     /// - Parameter bottomRightCornerRadius: The radius of the bottom-right corner.
     /// - Returns: A path with rounded corners based on the given corner radiuses.
-    static func roundedRectInRect(_ rect: NSRect, topLeftCornerRadius: CGFloat, topRightCornerRadius: CGFloat, bottomLeftCornerRadius: CGFloat, bottomRightCornerRadius: CGFloat) -> NSBezierPath {
+    static func roundedRect(in rect: NSRect, topLeftCornerRadius: CGFloat, topRightCornerRadius: CGFloat, bottomLeftCornerRadius: CGFloat, bottomRightCornerRadius: CGFloat) -> NSBezierPath {
         
         let path = NSBezierPath()
         
@@ -325,50 +322,50 @@ extension NSBezierPath {
         
         // Top edge.
         path.line(to: NSPoint(x: rect.maxX - topRightCornerRadius,
-                                 y: rect.minY))
+                              y: rect.minY))
         
         // Top-right corner.
         let topRightCorner = NSPoint(x: rect.maxX,
                                      y: rect.minY)
         path.curve(to: NSPoint(x: rect.maxX,
-                                  y: rect.minY + topRightCornerRadius),
-            controlPoint1: topRightCorner,
-            controlPoint2: topRightCorner)
+                               y: rect.minY + topRightCornerRadius),
+                   controlPoint1: topRightCorner,
+                   controlPoint2: topRightCorner)
         
         // Right edge.
         path.line(to: NSPoint(x: rect.maxX,
-                                 y: rect.maxY - bottomRightCornerRadius))
+                              y: rect.maxY - bottomRightCornerRadius))
         
         // Bottom-right corner.
         let bottomRightCorner = NSPoint(x: rect.maxX,
                                         y: rect.maxY)
         path.curve(to: NSPoint(x: rect.maxX - bottomRightCornerRadius,
-                                  y: rect.maxY),
-            controlPoint1: bottomRightCorner,
-            controlPoint2: bottomRightCorner)
+                               y: rect.maxY),
+                   controlPoint1: bottomRightCorner,
+                   controlPoint2: bottomRightCorner)
         
         // Bottom edge.
         path.line(to: NSPoint(x: rect.minX + bottomLeftCornerRadius,
-                                 y: rect.maxY))
+                              y: rect.maxY))
         
         // Bottom-left corner.
         let bottomLeftCorner = NSPoint(x: rect.minX,
                                        y: rect.maxY)
         path.curve(to: NSPoint(x: rect.minX,
-                                  y: rect.maxY - bottomLeftCornerRadius),
-            controlPoint1: bottomLeftCorner,
-            controlPoint2: bottomLeftCorner)
+                               y: rect.maxY - bottomLeftCornerRadius),
+                   controlPoint1: bottomLeftCorner,
+                   controlPoint2: bottomLeftCorner)
         
         // Left edge.
         path.line(to: NSPoint(x: rect.minX,
-                                 y: rect.minY + topLeftCornerRadius))
+                              y: rect.minY + topLeftCornerRadius))
         
         // Top-left corner.
         let topLeftCorner = NSPoint(x: rect.minX,
                                     y: rect.minY)
         path.curve(to: startingPoint,
-            controlPoint1: topLeftCorner,
-            controlPoint2: topLeftCorner)
+                   controlPoint1: topLeftCorner,
+                   controlPoint2: topLeftCorner)
         
         path.close()
         
@@ -379,7 +376,7 @@ extension NSBezierPath {
 extension NSWindow {
     
     func convertPointFromScreen(_ point: NSPoint) -> NSPoint {
-     
+        
         let screenRect = NSRect(origin: point, size: NSSize.zero)
         
         let convertedRect = convertFromScreen(screenRect)
