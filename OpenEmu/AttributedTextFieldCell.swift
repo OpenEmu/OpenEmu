@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2016, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,19 +24,57 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEBackgroundGradientView.h"
+import Cocoa
 
-@implementation OEBackgroundGradientView
-@synthesize topColor, bottomColor;
+@objc(OEAttributedTextFieldCell)
+class AttributedTextFieldCell: NSTextFieldCell {
+    
+    var textAttributes = [String: Any]()
+    
+    override var stringValue: String {
+        didSet {
+            attributedStringValue = NSAttributedString(string: stringValue, attributes: textAttributes)
+        }
+    }
+    
+    required init(coder: NSCoder) {
+        super.init(coder: coder)
+        setUpAttributes()
+    }
+    
+    override init(textCell string: String) {
+        super.init(textCell: string)
+        setUpAttributes()
+    }
 
-- (void)drawRect:(NSRect)dirtyRect
-{
-    if([self topColor] != nil && [self bottomColor] != nil)
-    {
-        NSGradient   *grad    = [[NSGradient alloc] initWithStartingColor:[self topColor] endingColor:[self bottomColor]];
-        NSBezierPath *bezPath = [NSBezierPath bezierPathWithRect:[self bounds]];
-        [grad drawInBezierPath:bezPath angle:-90.0];
+    override func copy(with zone: NSZone? = nil) -> Any {
+        
+        let copy = super.copy(with: zone) as! AttributedTextFieldCell
+        
+        copy.textAttributes = textAttributes
+        copy.setUpAttributes()
+        
+        return copy
+    }
+    
+    func setUpAttributes() {
+        
+        guard attributedStringValue.length > 0 else {
+            return
+        }
+        
+        var attributes = attributedStringValue.attributes(at: 0, effectiveRange: nil)
+        
+        for (key, value) in textAttributes {
+            attributes[key] = value
+        }
+        
+        textAttributes = attributes
+        
+        attributedStringValue = NSAttributedString(string: stringValue, attributes: textAttributes)
+    }
+    
+    override func expansionFrame(withFrame cellFrame: NSRect, in view: NSView) -> NSRect {
+        return NSRect.zero
     }
 }
-
-@end

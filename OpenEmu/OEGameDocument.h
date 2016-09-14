@@ -46,6 +46,7 @@ enum _OEGameDocumentErrorCodes
 @class OEDBSaveState;
 @class OEGameViewController;
 @class OESystemPlugin;
+@class OEEvent;
 
 @interface OEGameDocument : NSDocument
 

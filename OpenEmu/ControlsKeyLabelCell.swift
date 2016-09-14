@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2016, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,28 +24,46 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEControlsKeyHeadlineCell.h"
+import Cocoa
 
-@implementation OEControlsKeyHeadlineCell
-
-- (void)setupAttributes
-{
-    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+@objc(OEControlsKeyLabelCell)
+class ControlKeysLabelCell: AttributedTextFieldCell {
     
-    NSFont *font = [NSFont boldSystemFontOfSize:11.5];
+    var fontFamily: String? {
+        
+        didSet {
+            let font: NSFont
+            
+            if let fontFamily = fontFamily {
+                font = NSFontManager.shared().font(withFamily: fontFamily, traits: NSFontTraitMask(rawValue: UInt(NSFontBoldTrait)), weight: 9, size: 11)!
+            } else {
+                font = NSFont.boldSystemFont(ofSize: 11)
+            }
+            
+            self.font = font
+        }
+    }
     
-    NSShadow *shadow = [[NSShadow alloc] init];
-    [shadow setShadowBlurRadius:1.0];
-    [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.25]];
-    [shadow setShadowOffset:NSMakeSize(0, -1)];
-    
-    [attributes setObject:[NSColor colorWithDeviceWhite:0.0 alpha:1.0] forKey:NSForegroundColorAttributeName];
-    [attributes setObject:font forKey:NSFontAttributeName];
-    [attributes setObject:shadow forKey:NSShadowAttributeName];
-    
-    [self setTextAttributes:attributes];
-    
-    [super setupAttributes];
+    override func setUpAttributes() {
+        
+        var newTextAttributes = [String: Any]()
+        
+        fontFamily = nil
+        
+        let shadow = NSShadow()
+        shadow.shadowBlurRadius = 1
+        shadow.shadowColor = NSColor(deviceWhite: 1, alpha: 0.25)
+        shadow.shadowOffset = NSSize(width: 0, height: -1)
+        
+        newTextAttributes[NSForegroundColorAttributeName] = NSColor(deviceWhite: 0, alpha: 1)
+        newTextAttributes[NSShadowAttributeName] = shadow
+        
+        let style = NSMutableParagraphStyle()
+        style.alignment = .right
+        newTextAttributes[NSParagraphStyleAttributeName] = style
+        
+        textAttributes = newTextAttributes
+        
+        super.setUpAttributes()
+    }
 }
-
-@end

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2016, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,44 +24,29 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEControlsKeyLabelCell.h"
+import Cocoa
 
-@implementation OEControlsKeyLabelCell
-
-- (void)setupAttributes
-{
-    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+@objc(OEBackgroundGradientView)
+class BackgroundGradientView: NSView {
     
-    [self setFontFamily:nil];
-
-    NSShadow *shadow = [[NSShadow alloc] init];
-    [shadow setShadowBlurRadius:1.0];
-    [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.25]];
-    [shadow setShadowOffset:NSMakeSize(0, -1)];
-    
-    [attributes setObject:[NSColor colorWithDeviceWhite:0.0 alpha:1.0] forKey:NSForegroundColorAttributeName];
-    [attributes setObject:shadow forKey:NSShadowAttributeName];
-    
-    
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    [style setAlignment:NSRightTextAlignment];
-    [attributes setObject:style forKey:NSParagraphStyleAttributeName];
-    
-    self.textAttributes = attributes;
-    
-    [super setupAttributes];
-}
-
-- (void)setFontFamily:(NSString *)aFontFamily
-{
-    NSFontManager *fontManager = [NSFontManager sharedFontManager];
-    NSFont *font = [fontManager fontWithFamily:aFontFamily traits:NSFontBoldTrait weight:9.0 size:11.0];
-    if(!font) {
-        font = [NSFont boldSystemFontOfSize:11];
+    var topColor: NSColor? {
+        didSet {
+            needsDisplay = true
+        }
     }
-
-    [self setFont:font];
-    _fontFamily = aFontFamily;
+    
+    var bottomColor: NSColor? {
+        didSet {
+            needsDisplay = true
+        }
+    }
+    
+    override func draw(_ dirtyRect: NSRect) {
+        
+        if let topColor = topColor, let bottomColor = bottomColor, let gradient = NSGradient(starting: topColor, ending: bottomColor) {
+            
+            let bezierPath = NSBezierPath(rect: bounds)
+            gradient.draw(in: bezierPath, angle: -90)
+        }
+    }
 }
-
-@end

@@ -26,12 +26,13 @@
 #import "OEPrefCoresController.h"
 
 #import "OETableView.h"
-#import "OECenteredTextFieldCell.h"
 #import "OECoreTableButtonCell.h"
 #import "OECoreTableProgressCell.h"
 
 #import "OECoreUpdater.h"
 #import "OECoreDownload.h"
+
+#import "OpenEmu-Swift.h"
 
 @interface OEPrefCoresController ()
 - (void)OE_updateOrInstallItemAtRow:(NSInteger)rowIndex;

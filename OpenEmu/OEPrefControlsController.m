@@ -25,7 +25,6 @@
  */
 
 #import "OEPrefControlsController.h"
-#import "OEBackgroundGradientView.h"
 #import "OEBackgroundImageView.h"
 #import "OELibraryDatabase.h"
 

@@ -41,7 +41,7 @@
 
 @property(weak) id<SUVersionComparison> versionComparator;
 
-+ (id)defaultMigrationController;
+@property(class, readonly) OEVersionMigrationController *defaultMigrationController;
 
 - (void)runMigrationIfNeeded;
 - (NSArray *)allMigrationVersions;

@@ -27,12 +27,12 @@
 import Cocoa
 
 @objc(OEPreferencesWindowController)
-class PreferencesWindowController: NSWindowController, NSWindowDelegate {
+class PreferencesWindowController: NSWindowController {
     
     static let debugModeKey = "debug"
     static let selectedPreferencesTabKey = "selectedPreferencesTab"
     
-    static let openPaneNotificationName = "OEPrefOpenPane"
+    static let openPaneNotificationName = Notification.Name("OEPrefOpenPane")
     static let userInfoPanelNameKey = "panelName"
     static let userInfoSystemIdentifierKey = "systemIdentifier"
     
@@ -103,8 +103,9 @@ class PreferencesWindowController: NSWindowController, NSWindowDelegate {
         
         preferencesTabViewController.tabView.selectTabViewItem(at: index)
     }
-    
-    // MARK: - NSWindowDelegate
+}
+
+extension PreferencesWindowController: NSWindowDelegate {
     
     func windowDidBecomeKey(_ notification: Notification) {
         

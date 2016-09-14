@@ -43,7 +43,6 @@
 
 #import "OEDBSaveState.h"
 
-#import "OEGameIntegralScalingDelegate.h"
 #import "OEAudioDeviceManager.h"
 
 #import "OECheats.h"

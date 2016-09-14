@@ -52,7 +52,8 @@ extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 
 @interface OELibraryDatabase: NSObject
 
-+ (OELibraryDatabase *)defaultDatabase;
+@property(class, readonly, nullable) OELibraryDatabase *defaultDatabase;
+
 + (BOOL)loadFromURL:(NSURL *)libraryURL error:(NSError **)error;
 
 @property(readonly) NSManagedObjectContext *writerContext;
@@ -71,8 +72,8 @@ extern NSString *const OEManagedObjectContextHasDirectChangesKey;
 
 @property(readonly) NSArray *collections;
 - (NSArray *)romsForPredicate:(NSPredicate *)predicate;
-@property(readonly) NSArray *lastPlayedRoms;
-@property(readonly) NSDictionary *lastPlayedRomsBySystem;
+@property(readonly, nullable) NSArray <OEDBRom *> *lastPlayedRoms;
+@property(readonly, nullable) NSDictionary <NSString *, NSArray <OEDBRom *> *> *lastPlayedRomsBySystem;
 
 #pragma mark - Database Collection editing
 

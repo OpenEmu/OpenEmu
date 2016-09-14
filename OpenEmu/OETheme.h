@@ -47,7 +47,7 @@
     NSMutableDictionary *_objectsByType;  // Dictionary of themed object types
 }
 
-+ (id)sharedTheme;
+@property(class, readonly) OETheme *sharedTheme;
 
 - (OEThemeColor *)themeColorForKey:(NSString *)key;
 - (NSColor *)colorForKey:(NSString *)key forState:(OEThemeState)state;

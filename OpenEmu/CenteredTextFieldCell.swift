@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2016, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,12 +24,28 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@import Foundation;
+import Cocoa
 
-#import "OEAttributedTextFieldCell.h"
-
-@interface OECenteredTextFieldCell : OEAttributedTextFieldCell
-
-@property CGFloat widthInset;
-
-@end
+@objc(OECenteredTextFieldCell)
+class CenteredTextFieldCell: AttributedTextFieldCell {
+    
+    var widthInset: CGFloat = 3
+    
+    override func copy(with zone: NSZone?) -> Any {
+        let copy = super.copy(with: zone) as! CenteredTextFieldCell
+        copy.widthInset = widthInset
+        return copy
+    }
+    
+    override func titleRect(forBounds rect: NSRect) -> NSRect {
+        var titleRect = super.titleRect(forBounds: rect)
+        let contentSize = cellSize
+        let heightInset = (titleRect.height - contentSize.height) / 2
+        titleRect = titleRect.insetBy(dx: widthInset, dy: heightInset)
+        return titleRect
+    }
+    
+    override func drawInterior(withFrame cellFrame: NSRect, in controlView: NSView) {
+        attributedStringValue.draw(in: titleRect(forBounds: cellFrame))
+    }
+}

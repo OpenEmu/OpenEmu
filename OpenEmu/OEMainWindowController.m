@@ -33,7 +33,6 @@
 #import "OELibraryDatabase.h"
 #import "OEButton.h"
 
-#import "NSDocumentController+OEAdditions.h"
 #import "OEGameDocument.h"
 #import "OEGameCoreManager.h"
 #import "OEGameViewController.h"
@@ -41,8 +40,6 @@
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "OEDBGame.h"
 #import "OEDBRom.h"
-
-#import "OEApplicationDelegate.h"
 
 #import "OEROMImporter.h"
 

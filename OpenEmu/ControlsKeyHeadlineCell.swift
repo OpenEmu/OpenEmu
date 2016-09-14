@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2016, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,8 +24,28 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEAttributedTextFieldCell.h"
+import Cocoa
 
-@interface OEControlsKeyHeadlineCell : OEAttributedTextFieldCell
-
-@end
+@objc(OEControlsKeyHeadlineCell)
+class ControlsKeyHeadlineCell: AttributedTextFieldCell {
+    
+    override func setUpAttributes() {
+        
+        var newTextAttributes = [String: Any]()
+        
+        let font = NSFont.boldSystemFont(ofSize: 11.5)
+        
+        let shadow = NSShadow()
+        shadow.shadowBlurRadius = 1
+        shadow.shadowColor = NSColor(deviceWhite: 1, alpha: 0.25)
+        shadow.shadowOffset = NSSize(width: 0, height: -1)
+        
+        newTextAttributes[NSForegroundColorAttributeName] = NSColor(deviceWhite: 0, alpha: 1)
+        newTextAttributes[NSFontAttributeName] = font
+        newTextAttributes[NSShadowAttributeName] = shadow
+        
+        textAttributes = newTextAttributes
+        
+        super.setUpAttributes()
+    }
+}

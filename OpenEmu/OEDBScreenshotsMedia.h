@@ -32,7 +32,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OEDBScreenshotsMedia : NSObject <OESidebarItem, OECollectionViewItemProtocol>
-+ (instancetype)sharedDBScreenshotsMedia;
+@property(class, readonly) OEDBScreenshotsMedia *sharedDBScreenshotsMedia;
 @end
 
 NS_ASSUME_NONNULL_END

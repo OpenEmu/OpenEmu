@@ -39,10 +39,11 @@
 
 #import "OEButton.h"
 #import "OEPopUpButtonCell.h"
-#import "OECenteredTextFieldCell.h"
 #import "OEArrowCursorTextView.h"
 
 #import "NSColor+OEAdditions.h"
+
+#import "OpenEmu-Swift.h"
 
 @interface OEBlankSlateView () <NSTextViewDelegate>
 

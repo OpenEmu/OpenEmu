@@ -45,23 +45,24 @@ extern NSString *const OEDownloadRomWarningSupperssionKey;
 
 @interface OEHUDAlert (DefaultAlertsAdditions)
 
-+ (id)quitApplicationAlert;
-+ (id)saveGameAlertWithProposedName:(NSString *)name;
-+ (id)loadAutoSaveGameAlert;
-+ (id)deleteStateAlertWithStateName:(NSString *)stateName;
-+ (id)deleteStateAlertWithStateCount:(NSUInteger)count;
-+ (id)resetSystemAlert;
-+ (id)stopEmulationAlert;
++ (OEHUDAlert *)quitApplicationAlert;
++ (OEHUDAlert *)saveGameAlertWithProposedName:(NSString *)name;
++ (OEHUDAlert *)loadAutoSaveGameAlert;
++ (OEHUDAlert *)deleteStateAlertWithStateName:(NSString *)stateName;
++ (OEHUDAlert *)deleteStateAlertWithStateCount:(NSUInteger)count;
++ (OEHUDAlert *)resetSystemAlert;
++ (OEHUDAlert *)stopEmulationAlert;
 
-+ (id)deleteScreenshotAlertWithScreenshotName:(NSString*)screenshotName;
-+ (id)deleteScreenshotAlertWithScreenshotCount:(NSUInteger)count;
++ (OEHUDAlert *)deleteScreenshotAlertWithScreenshotName:(NSString*)screenshotName;
++ (OEHUDAlert *)deleteScreenshotAlertWithScreenshotCount:(NSUInteger)count;
 
-+ (id)removeGamesFromCollectionAlert;
-+ (id)removeGamesFromLibraryAlert:(BOOL)multipleGames;
-+ (id)removeGameFilesFromLibraryAlert:(BOOL)multipleGames;
-+ (id)renameSpecialStateAlert;
++ (OEHUDAlert *)removeGamesFromCollectionAlert;
++ (OEHUDAlert *)removeGamesFromLibraryAlert:(BOOL)multipleGames;
++ (OEHUDAlert *)removeGameFilesFromLibraryAlert:(BOOL)multipleGames;
++ (OEHUDAlert *)renameSpecialStateAlert;
 
-+ (id)romDownloadRequiredAlert:(NSString*)name server:(NSString*)server;
++ (OEHUDAlert *)romDownloadRequiredAlert:(NSString*)name server:(NSString*)server;
 
-+ (id)missingBIOSFilesAlert:(NSString*)missingFilesList;
++ (OEHUDAlert *)missingBIOSFilesAlert:(NSString*)missingFilesList;
+
 @end

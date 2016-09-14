@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
- 
+ Copyright (c) 2016, OpenEmu Team
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,8 +24,37 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEAttributedTextFieldCell.h"
+import Foundation
 
-@interface OEControlsKeyLabelCell : OEAttributedTextFieldCell
-@property(copy, nonatomic) NSString *fontFamily;
-@end
+extension NSDocumentController {
+    
+    var currentGameDocument: OEGameDocument? {
+        
+        if let document = currentDocument as? OEGameDocument {
+            return document
+        }
+        
+        for document in NSApplication.shared().orderedDocuments {
+            if let document = document as? OEGameDocument {
+                return document
+            }
+        }
+        
+        return nil
+    }
+    
+    @objc(openGameDocumentWithGame:display:fullScreen:completionHandler:)
+    func openGameDocument(with game: OEDBGame, display displayDocument: Bool, fullScreen: Bool, completionHandler: @escaping (OEGameDocument?, Error?) -> Void) {
+        fatalError("Method must be implemented by a subclass.")
+    }
+    
+    @objc(openGameDocumentWithRom:display:fullScreen:completionHandler:)
+    func openGameDocument(with rom: OEDBRom, display displayDocument: Bool, fullScreen: Bool, completionHandler: @escaping (OEGameDocument?, Error?) -> Void) {
+        fatalError("Method must be implemented by a subclass.")
+    }
+    
+    @objc(openGameDocumentWithSaveState:display:fullScreen:completionHandler:)
+    func openGameDocument(with saveState: OEDBSaveState, display displayDocument: Bool, fullScreen: Bool, completionHandler: @escaping (OEGameDocument?, Error?) -> Void) {
+        fatalError("Method must be implemented by a subclass.")
+    }
+}

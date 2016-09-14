@@ -35,7 +35,7 @@ extern NSString * const OEDBSavedGamesMediaShowsAutoSaves;
 extern NSString * const OEDBSavedGamesMediaShowsQuickSaves;
 
 @interface OEDBSavedGamesMedia : NSObject <OESidebarItem, OECollectionViewItemProtocol>
-+ (instancetype)sharedDBSavedGamesMedia;
+@property(class, readonly) OEDBSavedGamesMedia *sharedDBSavedGamesMedia;
 @end
 
 NS_ASSUME_NONNULL_END

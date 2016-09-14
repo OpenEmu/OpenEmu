@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2016, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,64 +24,13 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEPreferencesControlsBox.h"
+import Foundation
 
-@implementation OEPreferencesControlsBox
-- (id)initWithFrame:(NSRect)frameRect
-{
-    if(self=[super initWithFrame:frameRect])
-    {
-        [self OE_commonInit];
-    }
-    return self;
+@objc(OEGameIntegralScalingDelegate)
+protocol GameIntegralScalingDelegate: NSObjectProtocol {
+    
+    var shouldAllowIntegralScaling: Bool { get }
+    
+    @objc optional var maximumIntegralScale: UInt32 { get }
+    @objc optional var currentIntegralScale: UInt32 { get }
 }
-
-- (void)awakeFromNib
-{
-    [self OE_commonInit];
-}
-
-- (void)OE_commonInit
-{
-    [self setThemeKey:@"wood_inset_box"];
-}
-
-- (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:[self bounds]];
-
-    const NSColor *lineColor = [NSColor colorWithDeviceRed:0.45 green:0.24 blue:0.0 alpha:1.0];
-    NSColor *highlightColor = [NSColor colorWithDeviceRed:1.0 green:0.92 blue:0.0 alpha:0.14];
-
-    NSRect lineRect = [self bounds];
-    lineRect.size.height = 1;
-    lineRect.size.width -= 4;
-    lineRect.origin.x   += 2;
-
-    // Draw top separator
-    lineRect.origin.y = 317;
-
-    [highlightColor setFill];
-    NSRectFill(lineRect);
-
-    lineRect.origin.y -= 1;
-    [lineColor setFill];
-    NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
-
-    // Draw bottom separator
-    highlightColor = [NSColor colorWithDeviceRed:1.0 green:0.92 blue:0.0 alpha:0.3];
-
-    lineRect.origin.y = 46;
-
-    [lineColor setFill];
-    NSRectFill(lineRect);
-
-    lineRect.origin.y -= 1;
-    [highlightColor setFill];
-    NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
-}
-
-- (BOOL)isFlipped{
-	return NO;
-}
-
-@end

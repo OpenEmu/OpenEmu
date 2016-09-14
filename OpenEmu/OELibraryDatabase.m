@@ -227,7 +227,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 #pragma mark - Life Cycle
 
-+ (OELibraryDatabase *)defaultDatabase
++ (OELibraryDatabase * _Nullable)defaultDatabase
 {
     return defaultDatabase;
 }
@@ -661,7 +661,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 #pragma mark -
 
-- (NSArray *)lastPlayedRoms
+- (NSArray <OEDBRom *> * _Nullable)lastPlayedRoms
 {
     NSUInteger numberOfRoms = [NSDocumentController sharedDocumentController].maximumRecentDocumentCount;
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
@@ -676,7 +676,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [context executeFetchRequest:fetchRequest error:nil];
 }
 
-- (NSDictionary *)lastPlayedRomsBySystem
+- (NSDictionary <NSString *, NSArray <OEDBRom *> *> * _Nullable)lastPlayedRomsBySystem
 {
     NSUInteger numberOfRoms = [NSDocumentController sharedDocumentController].maximumRecentDocumentCount;
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
@@ -689,17 +689,17 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     NSManagedObjectContext *context = self.mainThreadContext;
     NSArray *roms = [context executeFetchRequest:fetchRequest error:nil];
-    NSMutableSet *systemsSet = [NSMutableSet setWithCapacity:roms.count];
+    NSMutableSet <OEDBSystem *> *systemsSet = [NSMutableSet setWithCapacity:roms.count];
     for(OEDBRom *aRom in roms)
     {
          [systemsSet addObject:aRom.game.system];
      }
 
-    NSArray *systems = systemsSet.allObjects;
-    NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:systems.count];
+    NSArray <OEDBSystem *> *systems = systemsSet.allObjects;
+    NSMutableDictionary <NSString *, NSArray <OEDBRom *> *> *result = [NSMutableDictionary dictionaryWithCapacity:systems.count];
     for(OEDBSystem *aSystem in systems)
     {
-        NSArray *romsForSystem = [roms filteredArrayUsingPredicate:
+        NSArray <OEDBRom *> *romsForSystem = [roms filteredArrayUsingPredicate:
                                   [NSPredicate predicateWithBlock:
                                    ^ BOOL (OEDBRom *aRom, NSDictionary *bindings)
                                    {

@@ -27,28 +27,29 @@
 @import Cocoa;
 
 @interface NSObject (OEPlugin)
-+ (BOOL)isPluginClass;
+@property(class, readonly) BOOL isPluginClass;
 @end
 
 @interface OEPlugin : NSObject <NSCopying>
 
-+ (NSSet *)pluginClasses;
+@property(class, readonly) NSSet <Class> *pluginClasses;
+
 + (void)registerPluginClass;
 + (void)registerPluginClass:(Class)pluginClass;
 
 // Subclass hook to perform checks or setups of the controller.
 - (id)newPluginControllerWithClass:(Class)bundleClass;
 
-@property(readonly) NSString     *path;
-@property(readonly) NSString     *name;
+@property(readonly) NSString *path;
+@property(readonly) NSString *name;
 
 // Properties only available when dealing with bundle-based plugins.
-@property(readonly) id            controller; // Main Class of the bundle, can be nil.
-@property(readonly) NSString     *displayName;
-@property(readonly) NSBundle     *bundle;
+@property(readonly) id controller; // Main Class of the bundle, can be nil.
+@property(readonly) NSString *displayName;
+@property(readonly) NSBundle *bundle;
 @property(readonly) NSDictionary *infoDictionary;
-@property(readonly) NSString     *details;
-@property(readonly) NSString     *version;
+@property(readonly) NSString *details;
+@property(readonly) NSString *version;
 
 // All plugins should be retrieved with this method
 // Ensuring a plugin is loaded only once
@@ -58,17 +59,18 @@
 + (instancetype)pluginWithFileAtPath:(NSString *)aPath type:(Class)aType forceReload:(BOOL)reload;
 + (instancetype)pluginWithBundle:(NSBundle *)aBundle type:(Class)aType forceReload:(BOOL)reload;
 + (NSArray *)pluginsForType:(Class)aType;
-+ (NSArray *)allPlugins;
-+ (NSArray *)allPluginNames;
+@property(class, readonly) NSArray <__kindof OEPlugin *> *allPlugins;
+@property(class, readonly) NSArray <NSString *> *allPluginNames;
 
 // Designated initializer for plugin files that do not use bundles.
-- (id)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName;
-- (id)initWithBundle:(NSBundle *)aBundle;
+- (instancetype)initWithFileAtPath:(NSString *)aPath name:(NSString *)aName;
+- (instancetype)initWithBundle:(NSBundle *)aBundle;
 
-+ (NSString *)pluginType;
-+ (NSString *)pluginFolder;
-+ (NSString *)pluginExtension;
+@property(class, readonly) NSString *pluginType;
+@property(class, readonly) NSString *pluginFolder;
+@property(class, readonly) NSString *pluginExtension;
 + (Class)typeForExtension:(NSString *)anExtension;
 
-- (NSArray *)availablePreferenceViewControllerKeys;
+@property(readonly) NSArray <NSString *> *availablePreferenceViewControllerKeys;
+
 @end

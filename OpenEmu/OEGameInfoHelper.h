@@ -38,11 +38,11 @@ extern NSString * const OEGameInfoHelperDidUpdateNotificationName;
 
 @interface OEGameInfoHelper : NSObject
 
+@property(class, readonly) OEGameInfoHelper *sharedHelper;
+
 @property (readonly) CGFloat downloadProgress;
 @property (nullable, copy) NSString *downloadVersion;
 @property (readonly, getter=isUpdating) BOOL updating;
-
-+ (instancetype)sharedHelper;
 
 - (NSDictionary *)gameInfoWithDictionary:(NSDictionary *)gameInfo;
 

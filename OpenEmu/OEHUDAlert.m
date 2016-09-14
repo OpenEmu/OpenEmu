@@ -29,7 +29,6 @@
 #import "OEButton.h"
 #import "OETextField.h"
 #import "OETextFieldCell.h"
-#import "OECenteredTextFieldCell.h"
 
 #import "OEProgressIndicator.h"
 

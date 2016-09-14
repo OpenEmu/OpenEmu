@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2013, OpenEmu Team
-
+ Copyright (c) 2016, OpenEmu Team
+ 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -11,7 +11,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
-
+ 
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,38 +24,33 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSDocumentController+OEAdditions.h"
+import Foundation
 
-#import "OEGameDocument.h"
+@objc(OEPrefCoreSliderLabelCell)
+class PrefCoreSliderLabelCell: AttributedTextFieldCell {
+    
+    override func setUpAttributes() {
+        
+        var attributes = [String: Any]()
 
-@implementation NSDocumentController (OEAdditions)
-
-- (OEGameDocument *)currentGameDocument;
-{
-    OEGameDocument *document = [self currentDocument];
-    if([document isKindOfClass:[OEGameDocument class]])
-        return document;
-
-    for(OEGameDocument *document in [NSApp orderedDocuments])
-        if([document isKindOfClass:[OEGameDocument class]])
-            return document;
-
-    return nil;
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = alignment
+    
+        let font = NSFont.boldSystemFont(ofSize: 12)
+    
+        attributes[NSForegroundColorAttributeName] = NSColor(deviceWhite: 0.89, alpha: 1.0)
+        attributes[NSFontAttributeName] = font
+        attributes[NSParagraphStyleAttributeName] = paragraphStyle
+    
+        textAttributes = attributes;
+    
+        var frame = controlView!.frame
+    
+        frame.size.height += 5
+        frame.origin.y -= 5
+        
+        controlView!.frame = frame
+    
+        super.setUpAttributes()
+    }
 }
-
-- (void)openGameDocumentWithGame:(OEDBGame *)game display:(BOOL)displayDocument fullScreen:(BOOL)fullScreen completionHandler:(void (^)(OEGameDocument *document, NSError *error))completionHandler;
-{
-    [self doesNotImplementSelector:_cmd];
-}
-
-- (void)openGameDocumentWithRom:(OEDBRom *)rom display:(BOOL)displayDocument fullScreen:(BOOL)fullScreen completionHandler:(void (^)(OEGameDocument *document, NSError *error))completionHandler;
-{
-    [self doesNotImplementSelector:_cmd];
-}
-
-- (void)openGameDocumentWithSaveState:(OEDBSaveState *)state display:(BOOL)displayDocument fullScreen:(BOOL)fullScreen completionHandler:(void (^)(OEGameDocument *document, NSError *error))completionHandler;
-{
-    [self doesNotImplementSelector:_cmd];
-}
-
-@end
