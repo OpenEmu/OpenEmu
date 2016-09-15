@@ -62,24 +62,68 @@ class ToolbarSegmentedCell: NSSegmentedCell {
     /// The segment currently being highlighted by the user.
     var highlightedSegment: Int?
     
+    override init() {
+        super.init(textCell: "")
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override var cellSize: NSSize {
+        return cellSize(forBounds: NSMakeRect(0, 0, 0, 24))
+    }
+    
+    override func cellSize(forBounds aRect: NSRect) -> NSSize {
+        var res: NSSize = NSSize(width: 0, height: 24)
+        for i in 0..<segmentCount {
+            res.width += width(forSegment: i)
+        }
+        return res
+    }
+    
+    @objc(sizeSegmentsToFitWithMinimumWidth:)
+    func sizeSegmentsToFit(minimumWidth minw: CGFloat) {
+        for i in 0..<segmentCount {
+            let fitw = bestWidth(forSegment: i)
+            setWidth(max(fitw, minw), forSegment:i)
+        }
+    }
+    
+    func bestWidth(forSegment i: Int) -> CGFloat {
+        guard let label = label(forSegment: i) else {
+            return 40.0;
+        }
+        let attributes: [String: AnyObject] = [
+            NSFontAttributeName: NSFont.systemFont(ofSize: 11, weight: 0.1)]
+        let attributedString = NSAttributedString(string: label, attributes: attributes)
+        let stringw = round(attributedString.size().width)
+        return stringw + 20.0
+    }
+
     override func draw(withFrame cellFrame: NSRect, in controlView: NSView) {
         
-        let segmentWidth = cellFrame.width / CGFloat(segmentCount)
-        
+        let realWidth = NSRect(origin: cellFrame.origin, size: cellSize(forBounds: cellFrame))
         drawBackgroundLayer(inFrame: cellFrame)
         drawTopHighlightEdgeLayer(inFrame: cellFrame)
         
+        var curx: CGFloat = 0.0
+        
         for segment in 0..<segmentCount {
             
-            let segmentRect = NSRect(x: CGFloat(segment) * segmentWidth,
+            let segmentWidth = width(forSegment: segment)
+            
+            let segmentRect = NSRect(x: curx,
                                      y: cellFrame.minY,
                                      width: segmentWidth,
                                      height: cellFrame.height)
             
             drawSegment(segment, inFrame: segmentRect, with: controlView)
+            
+            curx += segmentWidth;
         }
         
-        drawBorderLayer(inFrame: cellFrame)
+        drawBorderLayer(inFrame: realWidth)
     }
     
     // MARK: - Layers
@@ -284,21 +328,28 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             }
         }
         
-        return super.startTracking(at: startPoint, in: controlView)
+        isHighlighted = true
+        return highlightedSegment != nil
     }
     
     override func continueTracking(last lastPoint: NSPoint, current currentPoint: NSPoint, in controlView: NSView) -> Bool {
         
         controlView.needsDisplay = true
         
-        return super.continueTracking(last: lastPoint, current: currentPoint, in: controlView)
+        return true
     }
     
     override func stopTracking(last lastPoint: NSPoint, current stopPoint: NSPoint, in controlView: NSView, mouseIsUp flag: Bool) {
         
+        guard let segment = highlightedSegment else {
+            return
+        }
+        if flag && NSPointInRect(stopPoint, rectForSegment(segment)) {
+            selectedSegment = segment
+            NSApp.sendAction(action!, to: target, from: self)
+        }
         highlightedSegment = nil
-        
-        return super.stopTracking(last: lastPoint, current: stopPoint, in: controlView, mouseIsUp: flag)
+        isHighlighted = false
     }
 }
 
