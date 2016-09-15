@@ -79,7 +79,15 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         for i in 0..<segmentCount {
             res.width += width(forSegment: i)
         }
-        return res
+        if let cv = controlView {
+            return cv.backingAlignedRect(
+                NSRect(origin: NSZeroPoint, size: res),
+                options: [.alignMinXNearest, .alignMaxXNearest,
+                          .alignMinYNearest, .alignMaxYNearest]
+                ).size
+        } else {
+            return res
+        }
     }
     
     @objc(sizeSegmentsToFitWithMinimumWidth:)
@@ -97,8 +105,7 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         let attributes: [String: AnyObject] = [
             NSFontAttributeName: NSFont.systemFont(ofSize: 11, weight: 0.1)]
         let attributedString = NSAttributedString(string: label, attributes: attributes)
-        let stringw = round(attributedString.size().width)
-        return stringw + 20.0
+        return attributedString.size().width + 20.0
     }
 
     override func draw(withFrame cellFrame: NSRect, in controlView: NSView) {
@@ -107,20 +114,8 @@ class ToolbarSegmentedCell: NSSegmentedCell {
         drawBackgroundLayer(inFrame: cellFrame)
         drawTopHighlightEdgeLayer(inFrame: cellFrame)
         
-        var curx: CGFloat = 0.0
-        
         for segment in 0..<segmentCount {
-            
-            let segmentWidth = width(forSegment: segment)
-            
-            let segmentRect = NSRect(x: curx,
-                                     y: cellFrame.minY,
-                                     width: segmentWidth,
-                                     height: cellFrame.height)
-            
-            drawSegment(segment, inFrame: segmentRect, with: controlView)
-            
-            curx += segmentWidth;
+            drawSegment(segment, inFrame: rectForSegment(segment), with: controlView)
         }
         
         drawBorderLayer(inFrame: realWidth)
@@ -167,8 +162,8 @@ class ToolbarSegmentedCell: NSSegmentedCell {
     // MARK: - Segments
     
     func rectForSegment(_ segment: Int) -> NSRect {
-        
-        let bounds = controlView!.bounds
+        let cv = controlView!
+        let bounds = cv.bounds
         
         let xOffset: CGFloat
         if segment > 0 {
@@ -178,10 +173,13 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             xOffset = bounds.minX
         }
         
-        return NSRect(x: xOffset,
-                      y: bounds.minY,
-                      width: width(forSegment: segment),
-                      height: bounds.height)
+        return cv.backingAlignedRect(
+            NSRect(x: xOffset,
+                   y: bounds.minY,
+                   width: width(forSegment: segment),
+                   height: bounds.height),
+            options: [.alignMinXNearest, .alignMaxXNearest,
+                      .alignMinYNearest, .alignMaxYNearest])
     }
     
     func pathForSegment(_ segment: Int, inFrame frame: NSRect) -> NSBezierPath {
@@ -231,19 +229,21 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             // Make room for the bottom highlight.
             var segmentRect = frame
             segmentRect.size.height -= 1
+            // Make room for the left and right borders.
+            segmentRect.size.width -= 1
+            if (segment == 0) {
+                // Only the first segment has a right border (actually, it's
+                // the cell's border).
+                segmentRect.origin.x += 1
+                segmentRect.size.width -= 1
+            }
             
             let segmentPath = pathForSegment(segment, inFrame: segmentRect)
-            
-            NSGraphicsContext.saveGraphicsState()
-            
-            controlPath(inFrame: frame).setClip()
             
             topActiveGradient.draw(in: segmentPath, angle: 90)
             horizontalActiveGradient.draw(in: segmentPath, angle: 0)
             horizontalActiveGradient.draw(in: segmentPath, angle: 180)
             bottomActiveGradient.draw(in: segmentPath, angle: 270)
-            
-            NSGraphicsContext.restoreGraphicsState()
         }
         
         // Draw divider.
