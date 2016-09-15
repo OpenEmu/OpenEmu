@@ -366,58 +366,56 @@ extension NSBezierPath {
         
         let path = NSBezierPath()
         
-        // Start near top-left corner.
-        let startingPoint = NSPoint(x: rect.minX + topLeftCornerRadius,
+        // Start near top-right corner.
+        let startingPoint = NSPoint(x: rect.maxX - topRightCornerRadius,
                                     y: rect.minY)
         path.move(to: startingPoint)
         
-        // Top edge.
-        path.line(to: NSPoint(x: rect.maxX - topRightCornerRadius,
-                              y: rect.minY))
-        
         // Top-right corner.
-        let topRightCorner = NSPoint(x: rect.maxX,
-                                     y: rect.minY)
-        path.curve(to: NSPoint(x: rect.maxX,
-                               y: rect.minY + topRightCornerRadius),
-                   controlPoint1: topRightCorner,
-                   controlPoint2: topRightCorner)
+        if topRightCornerRadius > 0.0 {
+            let topRightArcCenter = NSPoint(x: rect.maxX - topRightCornerRadius,
+                                            y: rect.minY + topRightCornerRadius)
+            path.appendArc(withCenter: topRightArcCenter,
+                           radius: topRightCornerRadius, startAngle: -90, endAngle: 0)
+        }
         
         // Right edge.
         path.line(to: NSPoint(x: rect.maxX,
                               y: rect.maxY - bottomRightCornerRadius))
         
         // Bottom-right corner.
-        let bottomRightCorner = NSPoint(x: rect.maxX,
-                                        y: rect.maxY)
-        path.curve(to: NSPoint(x: rect.maxX - bottomRightCornerRadius,
-                               y: rect.maxY),
-                   controlPoint1: bottomRightCorner,
-                   controlPoint2: bottomRightCorner)
+        if bottomRightCornerRadius > 0.0 {
+            let bottomRightArcCenter = NSPoint(x: rect.maxX - bottomRightCornerRadius,
+                                               y: rect.maxY - bottomRightCornerRadius)
+            path.appendArc(withCenter: bottomRightArcCenter,
+                           radius: bottomRightCornerRadius, startAngle: 0, endAngle: 90)
+        }
         
         // Bottom edge.
         path.line(to: NSPoint(x: rect.minX + bottomLeftCornerRadius,
                               y: rect.maxY))
         
         // Bottom-left corner.
-        let bottomLeftCorner = NSPoint(x: rect.minX,
-                                       y: rect.maxY)
-        path.curve(to: NSPoint(x: rect.minX,
-                               y: rect.maxY - bottomLeftCornerRadius),
-                   controlPoint1: bottomLeftCorner,
-                   controlPoint2: bottomLeftCorner)
+        if bottomLeftCornerRadius > 0.0 {
+            let bottomLeftArcCenter = NSPoint(x: rect.minX + bottomLeftCornerRadius,
+                                              y: rect.maxY - bottomLeftCornerRadius)
+            path.appendArc(withCenter: bottomLeftArcCenter,
+                           radius: bottomLeftCornerRadius, startAngle: 90, endAngle: 180)
+        }
         
         // Left edge.
         path.line(to: NSPoint(x: rect.minX,
                               y: rect.minY + topLeftCornerRadius))
         
         // Top-left corner.
-        let topLeftCorner = NSPoint(x: rect.minX,
-                                    y: rect.minY)
-        path.curve(to: startingPoint,
-                   controlPoint1: topLeftCorner,
-                   controlPoint2: topLeftCorner)
+        if topLeftCornerRadius > 0.0 {
+            let topLeftArcCenter = NSPoint(x: rect.minX + topLeftCornerRadius,
+                                           y: rect.minY + topLeftCornerRadius)
+            path.appendArc(withCenter: topLeftArcCenter,
+                           radius: topLeftCornerRadius, startAngle: 180, endAngle: 270)
+        }
         
+        // Top edge and close path
         path.close()
         
         return path
