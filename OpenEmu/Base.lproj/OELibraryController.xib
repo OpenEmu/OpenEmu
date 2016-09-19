@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A319" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
         <capability name="box content view" minToolsVersion="7.0"/>
     </dependencies>
     <objects>
@@ -58,8 +58,6 @@
                                 </imageView>
                             </subviews>
                         </view>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                 </toolbarItem>
                 <toolbarItem implicitItemIdentifier="CC8CBEA1-1CC8-4AD5-A7F6-5F8F7FC07F0E" label="View Mode" paletteLabel="View Mode" tag="-1" id="DWE-Na-du6">
@@ -103,13 +101,11 @@
                                 </button>
                             </subviews>
                         </view>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                 </toolbarItem>
                 <toolbarItem implicitItemIdentifier="EFC0B5C0-3EDC-40C4-A2F5-104B980BB6DA" label="Search" paletteLabel="Search" tag="-1" id="Nu8-Bo-VSq" userLabel="Search">
                     <nil key="toolTip"/>
-                    <size key="minSize" width="160" height="34"/>
+                    <size key="minSize" width="160" height="38"/>
                     <size key="maxSize" width="166" height="38"/>
                     <box key="view" borderType="none" titlePosition="noTitle" id="ALS-TT-WCw">
                         <rect key="frame" x="0.0" y="14" width="166" height="38"/>
@@ -118,9 +114,9 @@
                             <rect key="frame" x="0.0" y="0.0" width="166" height="38"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" id="NZT-Zn-8Vl" customClass="OESearchField">
-                                    <rect key="frame" x="0.0" y="6" width="166" height="22"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <searchField wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" misplaced="YES" id="NZT-Zn-8Vl" customClass="OESearchField">
+                                    <rect key="frame" x="0.0" y="8" width="166" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" focusRingType="none" placeholderString="Search" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="gXt-MS-4X4" customClass="OESearchFieldCell">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -135,8 +131,6 @@
                                 </searchField>
                             </subviews>
                         </view>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                 </toolbarItem>
                 <toolbarItem implicitItemIdentifier="0081AB9B-5A3A-4466-91FA-7F6A9307779A" label="Category" paletteLabel="Category" tag="-1" id="ujX-P2-4hs">
@@ -151,7 +145,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <segmentedControl verticalHuggingPriority="750" id="nar-Nm-yMA">
-                                    <rect key="frame" x="2" y="8" width="353" height="24"/>
+                                    <rect key="frame" x="0.0" y="8" width="353" height="24"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="DQz-qS-W9j" customClass="OEToolbarSegmentedCell">
                                         <font key="font" metaFont="system"/>
@@ -168,8 +162,6 @@
                                 </segmentedControl>
                             </subviews>
                         </view>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                 </toolbarItem>
             </allowedToolbarItems>
