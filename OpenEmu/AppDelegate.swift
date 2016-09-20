@@ -686,11 +686,13 @@ class AppDelegate: NSDocumentController {
     
     // MARK: - Migration
     
-    func migrationForceUpdateCores() {
+    @objc(migrationForceUpdateCores:)
+    func migrationForceUpdateCores() throws {
         OECoreUpdater.shared.checkForUpdatesAndInstall()
     }
     
-    func migrationRemoveCoreDefaults() {
+    @objc(migrationRemoveCoreDefaults:)
+    func migrationRemoveCoreDefaults() throws {
         let defaults = UserDefaults.standard
         for key in defaults.dictionaryRepresentation().keys where key.contains("defaultCore.openemu.system.") {
             defaults.removeObject(forKey: key)
