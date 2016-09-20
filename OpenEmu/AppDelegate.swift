@@ -32,6 +32,7 @@ protocol CachedLastPlayedInfoItem {}
 extension String: CachedLastPlayedInfoItem {}
 extension OEDBRom: CachedLastPlayedInfoItem {}
 
+@NSApplicationMain
 @objc(OEApplicationDelegate)
 class AppDelegate: NSDocumentController {
     
