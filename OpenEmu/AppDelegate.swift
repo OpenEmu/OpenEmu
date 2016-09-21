@@ -56,7 +56,7 @@ class AppDelegate: NSDocumentController {
     }
     
     dynamic var buildVersion: String {
-        return BUILD_VERSION
+        return OEBuildInfo.buildVersion
     }
     
     dynamic var projectURLHyperlink: NSAttributedString {
