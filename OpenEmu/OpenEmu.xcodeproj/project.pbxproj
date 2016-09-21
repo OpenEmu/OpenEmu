@@ -10455,10 +10455,10 @@
 					"-weak_framework",
 					OpenEmuXPCCommunicator,
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -DCG_SUPPORT";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = OpenEmu;
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) CG_SUPPORT";
 				SWIFT_OBJC_BRIDGING_HEADER = "OpenEmu-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -10498,10 +10498,10 @@
 					"-weak_framework",
 					OpenEmuXPCCommunicator,
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -DCG_SUPPORT";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.openemu.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = OpenEmu;
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) CG_SUPPORT";
 				SWIFT_OBJC_BRIDGING_HEADER = "OpenEmu-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				VALID_ARCHS = x86_64;
@@ -10549,10 +10549,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-DDEBUG -DDEBUG_PRINT";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				SDKROOT = macosx;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG_PRINT DEBUG";
 			};
 			name = Debug;
 		};
