@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2016, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -23,58 +23,33 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#import "OEPrefCoreSliderLabelCell.h"
 
-import Cocoa
 
-@objc(OEAttributedTextFieldCell)
-class AttributedTextFieldCell: NSTextFieldCell {
-    
-    var textAttributes = [String: Any]()
-    
-    override var stringValue: String {
-        didSet {
-            attributedStringValue = NSAttributedString(string: stringValue, attributes: textAttributes)
-        }
-    }
-    
-    required init(coder: NSCoder) {
-        super.init(coder: coder)
-        setUpAttributes()
-    }
-    
-    override init(textCell string: String) {
-        super.init(textCell: string)
-        setUpAttributes()
-    }
+@implementation OEPrefCoreSliderLabelCell
 
-    override func copy(with zone: NSZone? = nil) -> Any {
-        
-        let copy = super.copy(with: zone) as! AttributedTextFieldCell
-        
-        copy.textAttributes = textAttributes
-        copy.setUpAttributes()
-        
-        return copy
-    }
-    
-    func setUpAttributes() {
-        
-        guard attributedStringValue.length > 0 else {
-            return
-        }
-        
-        var attributes = attributedStringValue.attributes(at: 0, effectiveRange: nil)
-        
-        for (key, value) in textAttributes {
-            attributes[key] = value
-        }
-        
-        textAttributes = attributes
-        
-        attributedStringValue = NSAttributedString(string: stringValue, attributes: textAttributes)
-    }
-    
-    override func expansionFrame(withFrame cellFrame: NSRect, in view: NSView) -> NSRect {
-        return NSRect.zero
-    }
+- (void)setupAttributes{
+	NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+	
+	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+	[paragraphStyle setAlignment:[self alignment]];
+	
+	NSFont *font = [NSFont boldSystemFontOfSize:12];
+		
+	[attributes setObject:[NSColor colorWithDeviceWhite:0.89 alpha:1.0] forKey:NSForegroundColorAttributeName];
+	[attributes setObject:font forKey:NSFontAttributeName];
+	[attributes setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
+	
+	
+	self.textAttributes = attributes;
+	
+	NSRect frame = [[self controlView] frame];
+	
+	frame.size.height += 5;
+	frame.origin.y -= 5;
+	[[self controlView] setFrame:frame];	
+	
+	[super setupAttributes];
 }
+
+@end

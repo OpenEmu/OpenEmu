@@ -29,6 +29,8 @@
 #import "OEControlsKeyButton.h"
 #import "OEControlsKeySeparatorView.h"
 #import "OEControlsSectionTitleView.h"
+#import "OEControlsKeyHeadlineCell.h"
+#import "OEControlsKeyLabelCell.h"
 
 #import "OEUIDrawingUtils.h"
 

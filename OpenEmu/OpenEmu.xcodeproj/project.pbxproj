@@ -260,12 +260,12 @@
 		5A221ABE1BFDB922002FDD10 /* sg1000_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221ABD1BFDB922002FDD10 /* sg1000_library@2x.png */; };
 		5A221B101BFE9671002FDD10 /* 3do_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221B0F1BFE9671002FDD10 /* 3do_library.png */; };
 		5A221B121BFE96A1002FDD10 /* 3do_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A221B111BFE96A1002FDD10 /* 3do_library@2x.png */; };
-		5A3DB1671D8C91D2009445EC /* PrefCoreSliderLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1661D8C91D2009445EC /* PrefCoreSliderLabelCell.swift */; };
+		5A3BB0361D964A1C00E10F27 /* OEAttributedTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3BB0351D964A1C00E10F27 /* OEAttributedTextFieldCell.m */; };
+		5A3BB0391D964A4500E10F27 /* OECenteredTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3BB0381D964A4500E10F27 /* OECenteredTextFieldCell.m */; };
+		5A3BB03E1D964C1100E10F27 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3BB03B1D964C1100E10F27 /* OEControlsKeyHeadlineCell.m */; };
+		5A3BB03F1D964C1100E10F27 /* OEControlsKeyLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3BB03D1D964C1100E10F27 /* OEControlsKeyLabelCell.m */; };
+		5A3BB0421D964C8600E10F27 /* OEPrefCoreSliderLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3BB0411D964C8600E10F27 /* OEPrefCoreSliderLabelCell.m */; };
 		5A3DB1691D8C93C3009445EC /* PreferencesControlsBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1681D8C93C3009445EC /* PreferencesControlsBox.swift */; };
-		5A3DB16B1D8C9AF9009445EC /* AttributedTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB16A1D8C9AF9009445EC /* AttributedTextFieldCell.swift */; };
-		5A3DB16D1D8C9FFA009445EC /* ControlsKeyLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB16C1D8C9FFA009445EC /* ControlsKeyLabelCell.swift */; };
-		5A3DB16F1D8CA2CA009445EC /* ControlsKeyHeadlineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB16E1D8CA2CA009445EC /* ControlsKeyHeadlineCell.swift */; };
-		5A3DB1711D8CA575009445EC /* CenteredTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1701D8CA575009445EC /* CenteredTextFieldCell.swift */; };
 		5A3DB1731D8CA752009445EC /* BackgroundGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */; };
 		5A3DB1B11D8E6806009445EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3DB1B01D8E6806009445EC /* AppDelegate.swift */; };
 		5A438A1B1D89AEB60061A47C /* OpenEmuApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A438A1A1D89AEB60061A47C /* OpenEmuApplication.swift */; };
@@ -1747,12 +1747,17 @@
 		5A221ABD1BFDB922002FDD10 /* sg1000_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sg1000_library@2x.png"; sourceTree = "<group>"; };
 		5A221B0F1BFE9671002FDD10 /* 3do_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3do_library.png; sourceTree = "<group>"; };
 		5A221B111BFE96A1002FDD10 /* 3do_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3do_library@2x.png"; sourceTree = "<group>"; };
-		5A3DB1661D8C91D2009445EC /* PrefCoreSliderLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrefCoreSliderLabelCell.swift; sourceTree = "<group>"; };
+		5A3BB0341D964A1C00E10F27 /* OEAttributedTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAttributedTextFieldCell.h; sourceTree = "<group>"; };
+		5A3BB0351D964A1C00E10F27 /* OEAttributedTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAttributedTextFieldCell.m; sourceTree = "<group>"; };
+		5A3BB0371D964A4500E10F27 /* OECenteredTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECenteredTextFieldCell.h; sourceTree = "<group>"; };
+		5A3BB0381D964A4500E10F27 /* OECenteredTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECenteredTextFieldCell.m; sourceTree = "<group>"; };
+		5A3BB03A1D964C1100E10F27 /* OEControlsKeyHeadlineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyHeadlineCell.h; sourceTree = "<group>"; };
+		5A3BB03B1D964C1100E10F27 /* OEControlsKeyHeadlineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyHeadlineCell.m; sourceTree = "<group>"; };
+		5A3BB03C1D964C1100E10F27 /* OEControlsKeyLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyLabelCell.h; sourceTree = "<group>"; };
+		5A3BB03D1D964C1100E10F27 /* OEControlsKeyLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyLabelCell.m; sourceTree = "<group>"; };
+		5A3BB0401D964C8600E10F27 /* OEPrefCoreSliderLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefCoreSliderLabelCell.h; sourceTree = "<group>"; };
+		5A3BB0411D964C8600E10F27 /* OEPrefCoreSliderLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefCoreSliderLabelCell.m; sourceTree = "<group>"; };
 		5A3DB1681D8C93C3009445EC /* PreferencesControlsBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesControlsBox.swift; sourceTree = "<group>"; };
-		5A3DB16A1D8C9AF9009445EC /* AttributedTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedTextFieldCell.swift; sourceTree = "<group>"; };
-		5A3DB16C1D8C9FFA009445EC /* ControlsKeyLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsKeyLabelCell.swift; sourceTree = "<group>"; };
-		5A3DB16E1D8CA2CA009445EC /* ControlsKeyHeadlineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsKeyHeadlineCell.swift; sourceTree = "<group>"; };
-		5A3DB1701D8CA575009445EC /* CenteredTextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenteredTextFieldCell.swift; sourceTree = "<group>"; };
 		5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundGradientView.swift; sourceTree = "<group>"; };
 		5A3DB1B01D8E6806009445EC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5A438A1A1D89AEB60061A47C /* OpenEmuApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenEmuApplication.swift; sourceTree = "<group>"; };
@@ -3935,7 +3940,8 @@
 		53439AE813B92E72005C0CC8 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				5A3DB1701D8CA575009445EC /* CenteredTextFieldCell.swift */,
+				5A3BB0371D964A4500E10F27 /* OECenteredTextFieldCell.h */,
+				5A3BB0381D964A4500E10F27 /* OECenteredTextFieldCell.m */,
 				83E8927B197490B3004D4489 /* OEDisabledScrollView.h */,
 				83E8927C197490B3004D4489 /* OEDisabledScrollView.m */,
 				83DDEE85156CE2F0009EB43D /* OEFadeView.h */,
@@ -3959,7 +3965,8 @@
 		53439B3313B930A9005C0CC8 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				5A3DB16A1D8C9AF9009445EC /* AttributedTextFieldCell.swift */,
+				5A3BB0341D964A1C00E10F27 /* OEAttributedTextFieldCell.h */,
+				5A3BB0351D964A1C00E10F27 /* OEAttributedTextFieldCell.m */,
 				5A3DB1721D8CA752009445EC /* BackgroundGradientView.swift */,
 				83507245142F6029005D9033 /* OEControllerImageView.h */,
 				83507246142F6029005D9033 /* OEControllerImageView.m */,
@@ -3969,7 +3976,8 @@
 				83025E65146BE68D00A06EF9 /* OECoreTableProgressCell.m */,
 				8370D3DF1A8D2A7600313F87 /* OEArrowCursorTextView.h */,
 				8370D3E01A8D2A7600313F87 /* OEArrowCursorTextView.m */,
-				5A3DB1661D8C91D2009445EC /* PrefCoreSliderLabelCell.swift */,
+				5A3BB0401D964C8600E10F27 /* OEPrefCoreSliderLabelCell.h */,
+				5A3BB0411D964C8600E10F27 /* OEPrefCoreSliderLabelCell.m */,
 				5A3DB1681D8C93C3009445EC /* PreferencesControlsBox.swift */,
 			);
 			name = Controls;
@@ -4414,8 +4422,10 @@
 			children = (
 				8396CC5414068DA90096F791 /* OEControlsKeyButton.h */,
 				8396CC5514068DA90096F791 /* OEControlsKeyButton.m */,
-				5A3DB16E1D8CA2CA009445EC /* ControlsKeyHeadlineCell.swift */,
-				5A3DB16C1D8C9FFA009445EC /* ControlsKeyLabelCell.swift */,
+				5A3BB03A1D964C1100E10F27 /* OEControlsKeyHeadlineCell.h */,
+				5A3BB03B1D964C1100E10F27 /* OEControlsKeyHeadlineCell.m */,
+				5A3BB03C1D964C1100E10F27 /* OEControlsKeyLabelCell.h */,
+				5A3BB03D1D964C1100E10F27 /* OEControlsKeyLabelCell.m */,
 				83D9991D146F40DA004409DC /* OEControlsKeySeparatorView.h */,
 				83D9991E146F40DA004409DC /* OEControlsKeySeparatorView.m */,
 				83AB259717A6A432009C80BC /* OEControlsSectionTitleView.h */,
@@ -7619,6 +7629,7 @@
 				83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */,
 				8306CD2B1BD3AD480025BC6C /* OESidebarCell.m in Sources */,
 				8306CD2C1BD3AD480025BC6C /* OESidebarController.m in Sources */,
+				5A3BB03F1D964C1100E10F27 /* OEControlsKeyLabelCell.m in Sources */,
 				8306CD2D1BD3AD480025BC6C /* OESidebarFieldEditor.m in Sources */,
 				8306CD2E1BD3AD480025BC6C /* OESidebarGroupItem.m in Sources */,
 				8306CD2F1BD3AD480025BC6C /* OESidebarOutlineView.m in Sources */,
@@ -7640,7 +7651,6 @@
 				53439A9013B92C68005C0CC8 /* OEDBDataSourceAdditions.m in Sources */,
 				53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */,
 				83CACEC8196D6D1300999E70 /* OEDownload.m in Sources */,
-				5A3DB16F1D8CA2CA009445EC /* ControlsKeyHeadlineCell.swift in Sources */,
 				8306CD101BD3AC180025BC6C /* OELibraryGamesViewController.m in Sources */,
 				5A9606DC1C0A84BC0089B494 /* LibraryToolbar.swift in Sources */,
 				53439A9B13B92C97005C0CC8 /* OEDBCollection.m in Sources */,
@@ -7668,6 +7678,7 @@
 				53439AFD13B92EB9005C0CC8 /* OEScroller.m in Sources */,
 				53439B0013B92EC1005C0CC8 /* OEScrollView.m in Sources */,
 				53439B0713B92EEC005C0CC8 /* OEGridViewFieldEditor.m in Sources */,
+				5A3BB0361D964A1C00E10F27 /* OEAttributedTextFieldCell.m in Sources */,
 				83E8927D197490B3004D4489 /* OEDisabledScrollView.m in Sources */,
 				53439B2113B93078005C0CC8 /* OEMenu.m in Sources */,
 				83F444FD196CA24B007E8C63 /* OEHomebrewViewController.m in Sources */,
@@ -7687,7 +7698,6 @@
 				83507247142F6029005D9033 /* OEControllerImageView.m in Sources */,
 				5A9606E21C0B16100089B494 /* NSDate+DMYCompareToNil.swift in Sources */,
 				1B47F105142F01E700EBC55B /* OESetupAssistant.m in Sources */,
-				5A3DB16B1D8C9AF9009445EC /* AttributedTextFieldCell.swift in Sources */,
 				83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */,
 				3DFAB00D144644D4005EF0C3 /* OEGameShader.m in Sources */,
 				5A9606DE1C0B0E220089B494 /* NSAttributedString+Hyperlink.swift in Sources */,
@@ -7697,7 +7707,6 @@
 				83AAC32914581699005ADD16 /* OESetupAssistantBackgroundView.m in Sources */,
 				83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */,
 				5A9606D01C0A50D60089B494 /* NSArray+BlockFiltering.swift in Sources */,
-				5A3DB16D1D8C9FFA009445EC /* ControlsKeyLabelCell.swift in Sources */,
 				83025E60146BDD5E00A06EF9 /* OECoreTableButtonCell.m in Sources */,
 				83025E66146BE68E00A06EF9 /* OECoreTableProgressCell.m in Sources */,
 				8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */,
@@ -7712,6 +7721,7 @@
 				83096F0314E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m in Sources */,
 				EFBD5D7814EFE19A00FBD1E0 /* NSColor+OEAdditions.m in Sources */,
 				EFBD5D7F14EFE26300FBD1E0 /* OEGridView.m in Sources */,
+				5A3BB0421D964C8600E10F27 /* OEPrefCoreSliderLabelCell.m in Sources */,
 				83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */,
 				836291FE1515F30700192116 /* OEFSWatcher.m in Sources */,
 				83BC345E1516456000F05A2B /* OEHUDAlert+DefaultAlertsAdditions.m in Sources */,
@@ -7735,7 +7745,6 @@
 				831C9ABA160095F800038D0D /* OEThemeGradient.m in Sources */,
 				5AC349311D89E4EB0089B26F /* NSDocumentController+Additions.swift in Sources */,
 				832AB28C18649B550022DFB0 /* 1.0 Beta 4 to 1.0.xcmappingmodel in Sources */,
-				5A3DB1711D8CA575009445EC /* CenteredTextFieldCell.swift in Sources */,
 				831C9ABB160095F800038D0D /* OEThemeImage.m in Sources */,
 				831C9ABC160095F800038D0D /* OEThemeTextAttributes.m in Sources */,
 				831C9AC51600967E00038D0D /* OEMenuDocumentView.m in Sources */,
@@ -7761,7 +7770,6 @@
 				83DEE490162D52DC005D8AD7 /* OELabelCell.m in Sources */,
 				83DEE495162D61C7005D8AD7 /* OEBackgroundColorView.m in Sources */,
 				83DEE498162D6218005D8AD7 /* OEHorizontalLine.m in Sources */,
-				5A3DB1671D8C91D2009445EC /* PrefCoreSliderLabelCell.swift in Sources */,
 				83DEE4A4162D62E4005D8AD7 /* OEProgressIndicator.m in Sources */,
 				8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */,
 				14F8750D1649377E002AE3B8 /* OEFiniteStateMachine.m in Sources */,
@@ -7781,10 +7789,12 @@
 				8C4C808E16986C87009B8A28 /* OECGShader.m in Sources */,
 				94791E9516AE8A18007DB8BE /* OEShaderPlugin.m in Sources */,
 				8C415ECD16B0682B00980DB9 /* OEMultipassShader.m in Sources */,
+				5A3BB03E1D964C1100E10F27 /* OEControlsKeyHeadlineCell.m in Sources */,
 				834B6F2E1A3B453000CA6A26 /* OEHomebrewBlankSlateView.m in Sources */,
 				C6C3734216BE7065003E57AE /* OEBuiltInShader.m in Sources */,
 				5A9606E41C0BA85F0089B494 /* NSURL+LibraryAdditions.swift in Sources */,
 				94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */,
+				5A3BB0391D964A4500E10F27 /* OECenteredTextFieldCell.m in Sources */,
 				838DB01916DBE14E00B8DDC8 /* OETextField.m in Sources */,
 				838DB01C16DBE15900B8DDC8 /* OETextFieldCell.m in Sources */,
 				14CB5DAA16FE1F8300342817 /* OEAudioDeviceManager.m in Sources */,

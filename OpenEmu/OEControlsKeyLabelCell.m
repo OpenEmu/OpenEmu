@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2016, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,33 +24,44 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
+#import "OEControlsKeyLabelCell.h"
 
-@objc(OEPrefCoreSliderLabelCell)
-class PrefCoreSliderLabelCell: AttributedTextFieldCell {
-    
-    override func setUpAttributes() {
-        
-        var attributes = [String: Any]()
+@implementation OEControlsKeyLabelCell
 
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = alignment
+- (void)setupAttributes
+{
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     
-        let font = NSFont.boldSystemFont(ofSize: 12)
+    [self setFontFamily:nil];
+
+    NSShadow *shadow = [[NSShadow alloc] init];
+    [shadow setShadowBlurRadius:1.0];
+    [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.25]];
+    [shadow setShadowOffset:NSMakeSize(0, -1)];
     
-        attributes[NSForegroundColorAttributeName] = NSColor(deviceWhite: 0.89, alpha: 1.0)
-        attributes[NSFontAttributeName] = font
-        attributes[NSParagraphStyleAttributeName] = paragraphStyle
+    [attributes setObject:[NSColor colorWithDeviceWhite:0.0 alpha:1.0] forKey:NSForegroundColorAttributeName];
+    [attributes setObject:shadow forKey:NSShadowAttributeName];
     
-        textAttributes = attributes;
     
-        var frame = controlView!.frame
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    [style setAlignment:NSRightTextAlignment];
+    [attributes setObject:style forKey:NSParagraphStyleAttributeName];
     
-        frame.size.height += 5
-        frame.origin.y -= 5
-        
-        controlView!.frame = frame
+    self.textAttributes = attributes;
     
-        super.setUpAttributes()
-    }
+    [super setupAttributes];
 }
+
+- (void)setFontFamily:(NSString *)aFontFamily
+{
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    NSFont *font = [fontManager fontWithFamily:aFontFamily traits:NSFontBoldTrait weight:9.0 size:11.0];
+    if(!font) {
+        font = [NSFont boldSystemFontOfSize:11];
+    }
+
+    [self setFont:font];
+    _fontFamily = aFontFamily;
+}
+
+@end

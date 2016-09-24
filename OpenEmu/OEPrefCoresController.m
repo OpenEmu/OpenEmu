@@ -28,6 +28,7 @@
 #import "OETableView.h"
 #import "OECoreTableButtonCell.h"
 #import "OECoreTableProgressCell.h"
+#import "OECenteredTextFieldCell.h"
 
 #import "OECoreUpdater.h"
 #import "OECoreDownload.h"
