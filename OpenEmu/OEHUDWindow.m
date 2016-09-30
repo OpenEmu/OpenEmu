@@ -584,7 +584,7 @@ static NSImage *frameImage, *frameImageInactive;
     // For now validRequestorForSendType:returnType: is the only crash seen in the wild.
     if(selector == @selector(validRequestorForSendType:returnType:))
     {
-        return nil;
+        return _localDelegate;
     }
 
     // OEHUDWindow takes precedence over its (local) delegate
