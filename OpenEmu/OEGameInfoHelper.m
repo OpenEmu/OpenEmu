@@ -484,6 +484,10 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
             return nil;
         }
 
+        if ([formatName isEqualToString:@"ISO 9660"]) {
+            return nil;
+        }
+
         if (![archive entryHasSize:entryIndex] || [archive entryIsEncrypted:entryIndex] || [archive entryIsDirectory:entryIndex] || [archive entryIsArchive:entryIndex]) {
             return nil;
         }
