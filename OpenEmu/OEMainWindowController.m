@@ -409,8 +409,11 @@ NSString *const OEDefaultWindowTitle       = @"OpenEmu";
                     }
                 }
             }
-            else if(error)
-                [self presentError:error];
+            else if(error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self presentError:error];
+                });
+            }
             
             return;
         }

@@ -304,6 +304,12 @@
         return YES;
     }
 
+    if (error && !*error) {
+        *error = [NSError errorWithDomain:OEGameCoreErrorDomain code:OEGameCoreCouldNotLoadROMError userInfo:@{
+            NSLocalizedDescriptionKey: NSLocalizedString(@"The emulator could not load ROM.", @"Error when loading a ROM."),
+        }];
+    }
+
     NSLog(@"ROM did not load.");
     _gameCore = nil;
 
