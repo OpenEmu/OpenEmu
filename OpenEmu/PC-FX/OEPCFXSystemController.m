@@ -49,7 +49,7 @@
         if(indexOfData.length == 0)
             continue;
 
-        NSLog(@"PC-FX data track path: %@", dataTrack.path);
+        NSLog(@"PC-FX data track: %@", dataTrack);
         NSLog (@"'%@' at offset = 0x%lX", dataTrackString, indexOfData.location);
         return OEFileSupportYes;
     }

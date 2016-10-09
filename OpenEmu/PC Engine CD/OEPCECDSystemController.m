@@ -73,7 +73,7 @@
         if(indexOfData.length == 0)
             continue;
 
-        NSLog(@"PCE-CD data track path: %@", dataTrackURL.path);
+        NSLog(@"PCE-CD data track: %@", dataTrackURL);
         NSLog (@"'%@' at offset = 0x%lX", dataTrackString, indexOfData.location);
         return OEFileSupportYes;
     }

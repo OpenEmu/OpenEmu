@@ -41,6 +41,9 @@
         return OEFileSupportNo;
 
     OECUESheet *cueSheet = file;
+
+    NSLog(@"3DO data track: %@", cueSheet.dataTrackFileURL);
+
     NSFileHandle *dataTrackFile = [NSFileHandle fileHandleForReadingFromURL:cueSheet.dataTrackFileURL error:nil];
 
     // First check if we find these bytes at offset 0x0 found in some dumps
@@ -79,16 +82,15 @@
 - (NSString *)headerLookupForFile:(NSString *)path
 {
     // Path is a cuesheet so get the first data track from the file for reading
-    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-    NSString *dataTrack = [cueSheet dataTrackPath];
-    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
+    OECUESheet *cueSheet = [[OECUESheet alloc] initWithFileURL:[NSURL fileURLWithPath:path isDirectory:NO] error:nil];
+    NSURL *dataTrackURL = cueSheet.dataTrackFileURL;
     
     NSFileHandle *dataTrackFile;
     NSData *dataTrackBuffer, *headerDataTrackBuffer;
     
     // First check if we find these bytes at offset 0x0 found in some dumps
     uint8_t bytes[] = { 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x02, 0x00, 0x01 };
-    dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
+    dataTrackFile = [NSFileHandle fileHandleForReadingFromURL:dataTrackURL error:nil];
     [dataTrackFile seekToFileOffset: 0x0];
     dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
     NSData *dataTrackString = [[NSData alloc] initWithBytes:bytes length:sizeof(bytes)];

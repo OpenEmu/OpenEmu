@@ -37,7 +37,7 @@
 
     OECDSheet *sheet = file;
     NSURL *dataTrackURL = sheet.dataTrackFileURL;
-    NSLog(@"PSX data track path: %@", dataTrackURL.path);
+    NSLog(@"PSX data track: %@", dataTrackURL);
 
     NSFileHandle *dataTrackFile = [NSFileHandle fileHandleForReadingFromURL:dataTrackURL error:nil];
 

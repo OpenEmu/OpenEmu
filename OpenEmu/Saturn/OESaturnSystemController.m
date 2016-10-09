@@ -30,7 +30,7 @@
 
 @implementation OESaturnSystemController
 
-- (NSString*)systemName
+- (NSString *)systemName
 {
     return @"Sega Saturn";
 }
@@ -41,7 +41,8 @@
         return OEFileSupportNo;
 
     OECUESheet *cueSheet = file;
-    OEFileSupport canHandleFile = OEFileSupportNo;
+
+    NSLog(@"Saturn data track: %@", cueSheet.dataTrackFileURL);
 
     NSFileHandle *dataTrackFile = [NSFileHandle fileHandleForReadingFromURL:cueSheet.dataTrackFileURL error:nil];
     [dataTrackFile seekToFileOffset: 0x0];
@@ -83,15 +84,14 @@
 - (NSString *)headerLookupForFile:(NSString *)path
 {
     // Path is a cuesheet so get the first data track from the file for reading
-    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-    NSString *dataTrack = [cueSheet dataTrackPath];
-    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
+    OECUESheet *cueSheet = [[OECUESheet alloc] initWithFileURL:[NSURL fileURLWithPath:path isDirectory:NO] error:nil];
+    NSURL *dataTrackURL = cueSheet.dataTrackFileURL;
     
     NSFileHandle *dataTrackFile;
     NSData *dataTrackBuffer, *otherDataTrackBuffer, *headerDataTrackBuffer;
     
     // Read both offsets because of various dumps
-    dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
+    dataTrackFile = [NSFileHandle fileHandleForReadingFromURL:dataTrackURL error:nil];
     [dataTrackFile seekToFileOffset: 0x0];
     dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
     [dataTrackFile seekToFileOffset: 0x010];

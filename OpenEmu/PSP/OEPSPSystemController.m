@@ -37,9 +37,6 @@ CISO_H ciso;
 // read header to detect PSP ISO & CSO
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    if (![self canHandleFileExtension:file.fileExtension])
-        return OEFileSupportNo;
-
     // Handle cso file and return early
     if ([file.fileExtension isEqualToString:@"cso"])
         return OEFileSupportYes;

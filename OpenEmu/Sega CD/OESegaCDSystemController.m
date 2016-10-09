@@ -45,15 +45,12 @@
     OECUESheet *cueSheet = file;
     NSURL *dataTrackURL = cueSheet.dataTrackFileURL;
 
-    NSLog(@"SCD data track path: %@", dataTrackURL.path);
-
-    if (![self canHandleFileExtension:dataTrackURL.pathExtension])
-        return OEFileSupportNo;
+    NSLog(@"SCD data track: %@", dataTrackURL);
 
     NSFileHandle *dataTrackFile;
     NSData *dataTrackBuffer, *otherDataTrackBuffer;
 
-    dataTrackFile = [NSFileHandle fileHandleForReadingAtPath:dataTrackURL.path];
+    dataTrackFile = [NSFileHandle fileHandleForReadingFromURL:dataTrackURL error:nil];
     [dataTrackFile seekToFileOffset: 0x0];
     dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
     [dataTrackFile seekToFileOffset: 0x010];
