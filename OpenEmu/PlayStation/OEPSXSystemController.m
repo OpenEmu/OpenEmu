@@ -30,109 +30,78 @@
 
 @implementation OEPSXSystemController
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    NSString *dataTrack;
-    if([[[path pathExtension] lowercaseString] isEqualToString:@"ccd"])
+    if (![file isKindOfClass:[OECDSheet class]])
+        return OEFileSupportNo;
+
+    OECDSheet *sheet = file;
+    NSURL *dataTrackURL = sheet.dataTrackFileURL;
+    NSLog(@"PSX data track path: %@", dataTrackURL.path);
+
+    NSFileHandle *dataTrackFile = [NSFileHandle fileHandleForReadingFromURL:dataTrackURL error:nil];
+
+    // TODO: Add frontend method to receive NSError from -canHandleFile: in system plugins; this doesn't belong here.
+    // Check for ECM magic header. Fix for https://github.com/OpenEmu/OpenEmu/issues/2588
+    uint8_t bytes[] = { 0x45, 0x43, 0x4D, 0x00 };
+    [dataTrackFile seekToFileOffset: 0x0];
+    NSData *dataTrackBuffer = [dataTrackFile readDataOfLength:4];
+    NSData *dataCompare = [[NSData alloc] initWithBytes:bytes length:sizeof(bytes)];
+    BOOL isBinaryECM = [dataTrackBuffer isEqualToData:dataCompare];
+
+    if(isBinaryECM)
     {
-        OECloneCD *cueSheet = [[OECloneCD alloc] initWithURL:[NSURL fileURLWithPath:path]];
-        dataTrack = [cueSheet dataTrackPath];
-    }
-    else if([[[path pathExtension] lowercaseString] isEqualToString:@"cue"])
-    {
-        OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-        dataTrack = [cueSheet dataTrackPath];
-    }
-    else if([[[path pathExtension] lowercaseString] isEqualToString:@"m3u"])
-        return OECanHandleYes;
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSAlert *alert = [[NSAlert alloc] init];
 
-    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
-    NSLog(@"PSX data track path: %@", dataTrackPath);
+            alert.messageText = NSLocalizedString(@"ECM compressed binary detected.", @"");
+            alert.informativeText = NSLocalizedString(@"ECM compressed binaries cannot be imported. Please read the disc importing guide.", @"");
+            alert.alertStyle = NSCriticalAlertStyle;
+            [alert addButtonWithTitle:NSLocalizedString(@"View Guide in Browser", @"")];
+            [alert addButtonWithTitle:NSLocalizedString(@"Dismiss", @"")];
 
-    BOOL valid = [super canHandleFileExtension:[path pathExtension]];
-    if(valid)
-    {
-        NSFileHandle *dataTrackFile;
-        NSData *dataTrackBuffer;
-
-        dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
-
-        // TODO: Add frontend method to receive NSError from -canHandleFile: in system plugins; this doesn't belong here.
-        // Check for ECM magic header. Fix for https://github.com/OpenEmu/OpenEmu/issues/2588
-        uint8_t bytes[] = { 0x45, 0x43, 0x4D, 0x00 };
-        [dataTrackFile seekToFileOffset: 0x0];
-        dataTrackBuffer = [dataTrackFile readDataOfLength: 4];
-        NSData *dataCompare = [[NSData alloc] initWithBytes:bytes length:sizeof(bytes)];
-        BOOL isBinaryECM = [dataTrackBuffer isEqualToData:dataCompare];
-
-        if(isBinaryECM)
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSAlert *alert = [[NSAlert alloc] init];
-
-                alert.messageText = NSLocalizedString(@"ECM compressed binary detected.", @"");
-                alert.informativeText = NSLocalizedString(@"ECM compressed binaries cannot be imported. Please read the disc importing guide.", @"");
-                alert.alertStyle = NSCriticalAlertStyle;
-                [alert addButtonWithTitle:NSLocalizedString(@"View Guide in Browser", @"")];
-                [alert addButtonWithTitle:NSLocalizedString(@"Dismiss", @"")];
-
-                if([alert runModal] == NSAlertFirstButtonReturn)
-                {
-                    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-CD-based-games"]];
-                }
-            });
-
-            return OECanHandleNo;
-        }
-
-        [dataTrackFile seekToFileOffset: 0x24E0];
-        dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-        
-        NSString *dataTrackString = [[NSString alloc] initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSLog(@"'%@'", dataTrackString);
-        NSArray *dataTrackList = @[ @"  Licensed  by  ", @"  Cracked   by  " ];
-
-        valid = NO;
-        for(NSString *d in dataTrackList)
-        {
-            if([dataTrackString isEqualToString:d])
+            if([alert runModal] == NSAlertFirstButtonReturn)
             {
-                valid = YES;
-                break;
+                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/OpenEmu/OpenEmu/wiki/User-guide:-CD-based-games"]];
             }
-        }
+        });
 
-        [dataTrackFile closeFile];
+        return OEFileSupportNo;
     }
-    return valid ? OECanHandleYes : OECanHandleNo;
+
+    [dataTrackFile seekToFileOffset: 0x24E0];
+    dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
+    [dataTrackFile closeFile];
+
+    NSString *dataTrackString = [[NSString alloc] initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
+    NSLog(@"'%@'", dataTrackString);
+    NSArray *dataTrackList = @[ @"  Licensed  by  ", @"  Cracked   by  " ];
+
+    for(NSString *d in dataTrackList)
+    {
+        if([dataTrackString isEqualToString:d])
+            return OEFileSupportYes;
+    }
+
+    return OEFileSupportNo;
 }
 
 - (NSString *)serialLookupForFile:(NSString *)path
 {
-    NSString *dataTrack;
-    if([[[path pathExtension] lowercaseString] isEqualToString:@"ccd"])
-    {
-        OECloneCD *cueSheet = [[OECloneCD alloc] initWithURL:[NSURL fileURLWithPath:path]];
-        dataTrack = [cueSheet dataTrackPath];
-    }
-    else if([[[path pathExtension] lowercaseString] isEqualToString:@"cue"])
-    {
-        OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-        dataTrack = [cueSheet dataTrackPath];
-    }
+    OECDSheet *sheet = [OEFile fileWithURL:[NSURL fileURLWithPath:path isDirectory:NO] error:nil];
+    if (![sheet isKindOfClass:[OECDSheet class]])
+        return nil;
 
-    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
-    
-    NSFileHandle *dataTrackFile;
-    NSData *mode1DataBuffer, *mode2DataBuffer;
-    
+    NSURL *dataTrackURL = sheet.dataTrackFileURL;
+
     // ISO 9660 CD001, check for MODE1 or MODE2
-    dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
+    NSFileHandle *dataTrackFile = [NSFileHandle fileHandleForReadingFromURL:dataTrackURL error:nil];
     [dataTrackFile seekToFileOffset: 0x8001]; // MODE1
-    mode1DataBuffer = [dataTrackFile readDataOfLength: 5];
+
+    NSData *mode1DataBuffer = [dataTrackFile readDataOfLength: 5];
+
     [dataTrackFile seekToFileOffset: 0x9319]; // MODE2
-    mode2DataBuffer = [dataTrackFile readDataOfLength: 5];
+    NSData *mode2DataBuffer = [dataTrackFile readDataOfLength: 5];
     
     NSUInteger discSectorSize, discSectorHeader, discOffset;
     

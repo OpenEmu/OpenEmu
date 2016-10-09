@@ -30,38 +30,27 @@
 
 @implementation OEGCSystemController
 
-// Read header to detect GameCube ISO, GCM & CISO
-- (OECanHandleState)canHandleFile:(NSString *)path
+// Read header to detect GameCube ISO, GCM & CISO.
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
-    OECanHandleState canHandleFile = OECanHandleNo;
+    // Handle gcm file and return early
+    if([file.fileExtension isEqualToString:@"gcm"])
+        return OEFileSupportYes;
 
-    if(handleFileExtension)
-    {
-        // Handle gcm file and return early
-        if([[[path pathExtension] lowercaseString] isEqualToString:@"gcm"])
-            return OECanHandleYes;
+    NSRange dataRange = NSMakeRange(0x1C, 4);
 
-        NSFileHandle *dataFile;
-        NSData *dataBuffer;
+    // Handle ciso file and set the offset for the Magicword in compressed iso.
+    if ([file.fileExtension isEqualToString:@"ciso"])
+        dataRange.location = 0x801C;
 
-        dataFile = [NSFileHandle fileHandleForReadingAtPath:path];
+    // Gamecube Magicword 0xC2339F3D
+    NSData *dataBuffer = [file readDataInRange:dataRange];
+    NSData *comparisonData = [[NSData alloc] initWithBytes:(const uint8_t[]){ 0xC2, 0x33, 0x9F, 0x3D } length:4];
 
-        // Handle ciso file and set the offset for the Magicword in compressed iso
-        if([[[path pathExtension] lowercaseString] isEqualToString:@"ciso"])
-            [dataFile seekToFileOffset: 0x801C];
-        else
-            [dataFile seekToFileOffset: 0x1C];
+    if ([dataBuffer isEqualToData:comparisonData])
+        return OEFileSupportYes;
 
-        dataBuffer = [dataFile readDataOfLength:4]; // Gamecube Magicword 0xC2339F3D
-        NSString *dataString = [[NSString alloc] initWithData:dataBuffer encoding:NSMacOSRomanStringEncoding];
-        NSLog(@"'%@'", dataString);
-
-        if([dataString isEqualToString:@"¬3ü="])
-            canHandleFile = OECanHandleYes;
-
-        [dataFile closeFile];
-    }
-    return canHandleFile;
+    return OEFileSupportNo;
 }
+
 @end

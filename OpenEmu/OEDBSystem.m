@@ -122,33 +122,27 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
     return [self systemsForFileWithURL:url inContext:context error:nil];
 }
 
-+ (NSArray <OEDBSystem *> *)systemsForFileWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context error:(NSError**)error
++ (NSArray <OEDBSystem *> *)systemsForFile:(OEFile *)file inContext:(NSManagedObjectContext *)context error:(NSError**)error
 {
     __block OESystemPlugin *theOneAndOnlySystemThatGetsAChanceToHandleTheFile = nil;
-    NSMutableArray         *otherSystemsThatMightBeAbleToHandleTheFile = [NSMutableArray array];
-    
-    NSString *fileExtension = url.pathExtension.lowercaseString;
-    
+    NSMutableArray<OESystemPlugin *> *otherSystemsThatMightBeAbleToHandleTheFile = [NSMutableArray array];
+    NSString *fileExtension = file.fileExtension;
+
     for(OESystemPlugin *systemPlugin in [OESystemPlugin allPlugins])
     {
         OESystemController *controller = systemPlugin.controller;
 
-        if([controller canHandleFileExtension:fileExtension])
-        {
-            OECanHandleState handleState = [controller canHandleFile:url.path];
-            
-            if (handleState == OECanHandleYes)
-            {
-                theOneAndOnlySystemThatGetsAChanceToHandleTheFile = systemPlugin;
-                break;
-            }
-            else if (handleState != OECanHandleNo)
-            {
-                [otherSystemsThatMightBeAbleToHandleTheFile addObject:systemPlugin];
-            }
-        }
+        if (![controller canHandleFileExtension:fileExtension])
+            continue;
+
+        OEFileSupport fileSupport = [controller canHandleFile:file];
+        if (fileSupport == OEFileSupportYes) {
+            theOneAndOnlySystemThatGetsAChanceToHandleTheFile = systemPlugin;
+            break;
+        } else if (fileSupport == OEFileSupportUncertain)
+            [otherSystemsThatMightBeAbleToHandleTheFile addObject:systemPlugin];
     }
-    
+
     if(theOneAndOnlySystemThatGetsAChanceToHandleTheFile != nil)
     {
         NSString *systemIdentifier = theOneAndOnlySystemThatGetsAChanceToHandleTheFile.systemIdentifier;
@@ -161,15 +155,24 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
         NSMutableArray <OEDBSystem *> *validSystems = [NSMutableArray arrayWithCapacity:otherSystemsThatMightBeAbleToHandleTheFile.count];
         for(OESystemPlugin *obj in otherSystemsThatMightBeAbleToHandleTheFile)
         {
-             NSString *systemIdentifier = obj.systemIdentifier;
-             OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inContext:context];
-             if([system.enabled boolValue])
-                 [validSystems addObject:system];
+            NSString *systemIdentifier = obj.systemIdentifier;
+            OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inContext:context];
+            if([system.enabled boolValue])
+                [validSystems addObject:system];
         };
         return validSystems;
     }
-    
+
     return [NSArray array];
+}
+
++ (NSArray <OEDBSystem *> *)systemsForFileWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context error:(NSError**)error
+{
+    OEFile *file = [OEFile fileWithURL:url error:error];
+    if (file == nil)
+        return nil;
+
+    return [self systemsForFile:file inContext:context error:error];
 }
 
 + (NSString *)headerForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier

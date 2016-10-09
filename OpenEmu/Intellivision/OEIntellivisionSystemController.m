@@ -32,23 +32,12 @@
 
 @implementation OEIntellivisionSystemController
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    if(![[[path pathExtension] lowercaseString] isEqualToString:@"bin"])
-    {
-        return OECanHandleUncertain;
-    }
-    
-    OECanHandleState canHandleFile = OECanHandleNo;
-    
-    NSURL *fileURL = [NSURL fileURLWithPath:path];
-    NSNumber *fileSize = nil;
-    [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:nil];
-    
-    if([fileSize intValue] < 2097152)
-        canHandleFile = OECanHandleUncertain;
-    
-    return canHandleFile;
+    if(![file.fileExtension isEqualToString:@"bin"])
+        return OEFileSupportUncertain;
+
+    return file.fileSize < 2097152 ? OEFileSupportUncertain : OEFileSupportNo;
 }
 
 @end

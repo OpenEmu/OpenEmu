@@ -30,51 +30,50 @@
 
 @implementation OE3DOSystemController
 
-- (NSString*)systemName
+- (NSString *)systemName
 {
     return @"3DO";
 }
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-    NSString *dataTrack = [cueSheet dataTrackPath];
+    if (![file isKindOfClass:[OECUESheet class]])
+        return OEFileSupportNo;
 
-    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
-    NSLog(@"3DO data track path: %@", dataTrackPath);
+    OECUESheet *cueSheet = file;
+    NSFileHandle *dataTrackFile = [NSFileHandle fileHandleForReadingFromURL:cueSheet.dataTrackFileURL error:nil];
 
-    BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
-    OECanHandleState canHandleFile = OECanHandleNo;
+    // First check if we find these bytes at offset 0x0 found in some dumps
+    uint8_t bytes[] = { 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x02, 0x00, 0x01 };
+    NSData *dataCompare = [[NSData alloc] initWithBytes:bytes length:sizeof(bytes)];
 
-    if(handleFileExtension)
-    {
-        NSFileHandle *dataTrackFile;
-        NSData *dataTrackBuffer, *otherDataTrackBuffer;
+    [dataTrackFile seekToFileOffset: 0x0];
+    NSData *dataTrackBuffer = [dataTrackFile readDataOfLength:16];
+    BOOL bytesFound = [dataTrackBuffer isEqualToData:dataCompare];
 
-        dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
+    [dataTrackFile seekToFileOffset: bytesFound ? 0x10 : 0x0];
+    dataTrackBuffer = [dataTrackFile readDataOfLength: 8];
+    [dataTrackFile seekToFileOffset: bytesFound ? 0x38 : 0x28];
+    NSData *otherDataTrackBuffer = [dataTrackFile readDataOfLength:6];
 
-        // First check if we find these bytes at offset 0x0 found in some dumps
-        uint8_t bytes[] = { 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x02, 0x00, 0x01 };
-        [dataTrackFile seekToFileOffset: 0x0];
-        dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-        NSData *dataCompare = [[NSData alloc] initWithBytes:bytes length:sizeof(bytes)];
-        BOOL bytesFound = [dataTrackBuffer isEqualToData:dataCompare];
+    [dataTrackFile closeFile];
 
-        [dataTrackFile seekToFileOffset: bytesFound ? 0x10 : 0x0];
-        dataTrackBuffer = [dataTrackFile readDataOfLength: 8];
-        [dataTrackFile seekToFileOffset: bytesFound ? 0x38 : 0x28];
-        otherDataTrackBuffer = [dataTrackFile readDataOfLength: 6];
+    NSData *dataTrackBufferComparison = [NSData dataWithBytes:(const uint8_t[]){ 0x01, 0x5a, 0x5a, 0x5a, 0x5a, 0x5a, 0x01, 0x00 } length:8];
 
-        NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSLog(@"%@", dataTrackString);
-        NSLog(@"%@", otherDataTrackString);
-        if([dataTrackString isEqualToString:@"\x01\x5a\x5a\x5a\x5a\x5a\x01\x00"] && ((otherDataTrackString && [otherDataTrackString caseInsensitiveCompare:@"CD-ROM"] == NSOrderedSame) || [otherDataTrackString rangeOfString:@"TECD"].location != NSNotFound))
-            canHandleFile = OECanHandleYes;
+    NSLog(@"%@", dataTrackBuffer);
+    if (![dataTrackBuffer isEqualToData:dataTrackBufferComparison])
+        return OEFileSupportNo;
 
-        [dataTrackFile closeFile];
-    }
-    return canHandleFile;
+    NSString *otherDataTrackString = [[NSString alloc] initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", otherDataTrackString);
+
+    if (otherDataTrackString && [otherDataTrackString caseInsensitiveCompare:@"CD-ROM"] == NSOrderedSame)
+        return OEFileSupportYes;
+
+    if([otherDataTrackString rangeOfString:@"TECD"].location != NSNotFound)
+        return OEFileSupportYes;
+
+    return OEFileSupportNo;
 }
 
 - (NSString *)headerLookupForFile:(NSString *)path

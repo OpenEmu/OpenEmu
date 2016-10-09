@@ -30,45 +30,21 @@
 
 @implementation OEPS2SystemController
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    unsigned position = 32776;
+    if(![file.fileExtension isEqualToString:@"iso"])
+        return OEFileSupportNo;
 
-    if([[[path pathExtension] lowercaseString] isEqualToString:@"iso"])
-    {
-    }
-    else
-        return OECanHandleNo;
-        
+    NSString *dataTrackString = [file readASCIIStringInRange:NSMakeRange(0x8008, 11)];
 
-    NSLog(@"PS2 ISO path: %@", path);
-    BOOL valid = [super canHandleFileExtension:[path pathExtension]];
-    if(valid)
-    {
-        NSFileHandle *dataTrackFile;
-        NSData *dataTrackBuffer;
-
-        dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: path];
-        [dataTrackFile seekToFileOffset: position];
-        dataTrackBuffer = [dataTrackFile readDataOfLength: 11];
-        
-        NSString *dataTrackString = [[NSString alloc] initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-
-        // Only tested this on one ISO. Might be different for DVDs.
-        valid = [dataTrackString isEqualToString:@"PLAYSTATION"];
-
-        [dataTrackFile closeFile];
-    }
-    return valid ? OECanHandleYes : OECanHandleNo;
+    // Only tested this on one ISO. Might be different for DVDs.
+    return [dataTrackString isEqualToString:@"PLAYSTATION"] ? OEFileSupportYes : OEFileSupportNo;
 }
 
 - (NSString *)serialLookupForFile:(NSString *)path
 {
-    if([[[path pathExtension] lowercaseString] isEqualToString:@"iso"])
-    {
-
-    }
-    else return nil;
+    if(![path.pathExtension.lowercaseString isEqualToString:@"iso"])
+        return nil;
 
     NSFileHandle *dataTrackFile;
     NSData *mode1DataBuffer, *mode2DataBuffer;

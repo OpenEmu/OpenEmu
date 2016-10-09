@@ -37,66 +37,55 @@
             : @"Sega Mega-CD");
 }
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    //if (![[path pathExtension] isEqualToString:@".cue"])
-    //{
-    //    return OECanHandleUncertain;
-    //}
+    if (![file isKindOfClass:[OECUESheet class]])
+        return OEFileSupportNo;
 
-    //BOOL valid = NO;
-    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-    NSString *dataTrack = [cueSheet dataTrackPath];
+    OECUESheet *cueSheet = file;
+    NSURL *dataTrackURL = cueSheet.dataTrackFileURL;
 
-    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
-    NSLog(@"SCD data track path: %@", dataTrackPath);
+    NSLog(@"SCD data track path: %@", dataTrackURL.path);
 
-    BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
-    OECanHandleState canHandleFile = OECanHandleNo;
+    if (![self canHandleFileExtension:dataTrackURL.pathExtension])
+        return OEFileSupportNo;
 
-    if(handleFileExtension)
+    NSFileHandle *dataTrackFile;
+    NSData *dataTrackBuffer, *otherDataTrackBuffer;
+
+    dataTrackFile = [NSFileHandle fileHandleForReadingAtPath:dataTrackURL.path];
+    [dataTrackFile seekToFileOffset: 0x0];
+    dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
+    [dataTrackFile seekToFileOffset: 0x010];
+    otherDataTrackBuffer = [dataTrackFile readDataOfLength: 16];
+    [dataTrackFile closeFile];
+
+    NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
+    NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
+    NSLog(@"'%@'", dataTrackString);
+    NSLog(@"'%@'", otherDataTrackString);
+    NSArray *dataTrackList = @[ @"SEGADISCSYSTEM  ", @"SEGABOOTDISC    ", @"SEGADISC        ", @"SEGADATADISC    " ];
+
+    for(NSString *d in dataTrackList)
     {
-        NSFileHandle *dataTrackFile;
-        NSData *dataTrackBuffer, *otherDataTrackBuffer;
-        
-        dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
-        [dataTrackFile seekToFileOffset: 0x0];
-        dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-        [dataTrackFile seekToFileOffset: 0x010];
-        otherDataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-        
-        NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSLog(@"'%@'", dataTrackString);
-        NSLog(@"'%@'", otherDataTrackString);
-        NSArray *dataTrackList = @[ @"SEGADISCSYSTEM  ", @"SEGABOOTDISC    ", @"SEGADISC        ", @"SEGADATADISC    " ];
-
-        for(NSString *d in dataTrackList)
-        {
-            if([dataTrackString isEqualToString:d] || [otherDataTrackString isEqualToString:d])
-            {
-                canHandleFile = OECanHandleYes;
-                break;
-            }
-        }
-
-        [dataTrackFile closeFile];
+        if([dataTrackString isEqualToString:d] || [otherDataTrackString isEqualToString:d])
+            return OEFileSupportYes;
     }
-    return canHandleFile;
+
+    return OEFileSupportNo;
 }
 
 - (NSString *)headerLookupForFile:(NSString *)path
 {
     // Path is a cuesheet so get the first data track from the file for reading
-    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-    NSString *dataTrack = [cueSheet dataTrackPath];
-    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
-    
+    OECUESheet *cueSheet = [[OECUESheet alloc] initWithFileURL:[NSURL fileURLWithPath:path isDirectory:NO] error:nil];
+    NSURL *dataTrackURL = cueSheet.dataTrackFileURL;
+
     NSFileHandle *dataTrackFile;
     NSData *dataTrackBuffer, *otherDataTrackBuffer, *headerDataTrackBuffer;
     
     // Read both offsets because of various dumps
-    dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
+    dataTrackFile = [NSFileHandle fileHandleForReadingFromURL:dataTrackURL error:nil];
     [dataTrackFile seekToFileOffset: 0x0100];
     dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
     [dataTrackFile seekToFileOffset: 0x0110];

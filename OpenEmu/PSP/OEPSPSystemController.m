@@ -35,33 +35,22 @@ CISO_H ciso;
 @implementation OEPSPSystemController
 
 // read header to detect PSP ISO & CSO
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
-    OECanHandleState canHandleFile = OECanHandleNo;
+    if (![self canHandleFileExtension:file.fileExtension])
+        return OEFileSupportNo;
 
-    if(handleFileExtension)
-    {
-        // Handle cso file and return early
-        if([[[path pathExtension] lowercaseString] isEqualToString:@"cso"])
-            return OECanHandleYes;
+    // Handle cso file and return early
+    if ([file.fileExtension isEqualToString:@"cso"])
+        return OEFileSupportYes;
+    
+    NSString *dataString = [file readASCIIStringInRange:NSMakeRange(0x8008, 8)];
+    NSLog(@"'%@'", dataString);
 
-        NSFileHandle *dataFile;
-        NSData *dataBuffer;
+    if([dataString isEqualToString:@"PSP GAME"])
+        return OEFileSupportYes;
 
-        dataFile = [NSFileHandle fileHandleForReadingAtPath:path];
-        [dataFile seekToFileOffset: 0x8008];
-        dataBuffer = [dataFile readDataOfLength:8];
-
-        NSString *dataString = [[NSString alloc] initWithData:dataBuffer encoding:NSUTF8StringEncoding];
-        NSLog(@"'%@'", dataString);
-
-        if([dataString isEqualToString:@"PSP GAME"])
-            canHandleFile = OECanHandleYes;
-
-        [dataFile closeFile];
-    }
-    return canHandleFile;
+    return OEFileSupportNo;
 }
 
 - (NSString *)serialLookupForFile:(NSString *)path

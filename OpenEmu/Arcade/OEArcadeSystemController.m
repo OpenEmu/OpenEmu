@@ -32,23 +32,9 @@
 
 @implementation OEArcadeSystemController
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    if(![[[path pathExtension] lowercaseString] isEqualToString:@"bin"])
-    {
-        return OECanHandleUncertain;
-    }
-    
-    OECanHandleState canHandleFile = OECanHandleNo;
-    
-    NSURL *fileURL = [NSURL fileURLWithPath:path];
-    NSNumber *fileSize = nil;
-    [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:nil];
-    
-    if([fileSize intValue] < 78643200)
-        canHandleFile = OECanHandleUncertain;
-    
-    return canHandleFile;
+    return file.fileSize < 78643200 ? OEFileSupportUncertain : OEFileSupportNo;
 }
 
 @end

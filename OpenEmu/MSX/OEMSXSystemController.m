@@ -32,27 +32,16 @@
 
 @implementation OEMSXSystemController
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    OECanHandleState canHandleFile = OECanHandleUncertain;
-
-    NSFileHandle *dataROMFile;
-    NSData *dataBuffer;
-
-    dataROMFile = [NSFileHandle fileHandleForReadingAtPath: path];
+    NSData *dataBuffer = [file readDataInRange:NSMakeRange(0, 2)];
 
     // MSX cart header starts at 0x0 with 41 42
     uint8_t bytes[] = { 0x41, 0x42 };
-    [dataROMFile seekToFileOffset: 0x0];
-    dataBuffer = [dataROMFile readDataOfLength: 2];
-    NSData *dataCompare = [[NSData alloc] initWithBytes:bytes length:sizeof(bytes)];
+    if([dataBuffer isEqualToData:[[NSData alloc] initWithBytes:bytes length:sizeof(bytes)]])
+        return OEFileSupportYes;
 
-    if([dataBuffer isEqualToData:dataCompare])
-        canHandleFile = OECanHandleYes;
-
-    [dataROMFile closeFile];
-
-    return canHandleFile;
+    return OEFileSupportUncertain;
 }
 
 @end

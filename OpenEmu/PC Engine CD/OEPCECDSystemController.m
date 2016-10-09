@@ -54,47 +54,31 @@
     return image;
 }
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    NSArray *dataTracks;
-    if([[[path pathExtension] lowercaseString] isEqualToString:@"ccd"])
+    OECDSheet *sheet = file;
+    if (![sheet isKindOfClass:[OECloneCD class]] && ![sheet isKindOfClass:[OECUESheet class]])
+        return OEFileSupportNo;
+
+    for(NSURL *dataTrackURL in sheet.referencedBinaryFileURLs)
     {
-        OECloneCD *ccd = [[OECloneCD alloc] initWithURL:[NSURL fileURLWithPath:path]];
-        dataTracks = [ccd referencedFiles];
+        NSError *error = nil;
+        NSData *dataTrackBuffer = [NSData dataWithContentsOfURL:dataTrackURL options:NSDataReadingMappedIfSafe | NSDataReadingUncached error:&error];
+
+        NSString *dataTrackString = @"PC Engine CD-ROM SYSTEM";
+        NSData *dataSearch = [dataTrackString dataUsingEncoding:NSUTF8StringEncoding];
+        // this still slows import down but we need to scan the disc as there's no common offset
+        NSRange indexOfData = [dataTrackBuffer rangeOfData: dataSearch options:0 range:NSMakeRange(0, [dataTrackBuffer length])];
+
+        if(indexOfData.length == 0)
+            continue;
+
+        NSLog(@"PCE-CD data track path: %@", dataTrackURL.path);
+        NSLog (@"'%@' at offset = 0x%lX", dataTrackString, indexOfData.location);
+        return OEFileSupportYes;
     }
-    else if([[[path pathExtension] lowercaseString] isEqualToString:@"cue"])
-    {
-        OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-        dataTracks = [cueSheet referencedFiles];
-    }
 
-    BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
-    OECanHandleState canHandleFile = OECanHandleNo;
-
-    if(handleFileExtension)
-    {
-        for(id dataTrack in dataTracks)
-        {
-            NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
-
-            NSError *error = nil;
-            NSData *dataTrackBuffer = [NSData dataWithContentsOfFile:dataTrackPath options:NSDataReadingMappedIfSafe | NSDataReadingUncached error:&error];
-
-            NSString *dataTrackString = @"PC Engine CD-ROM SYSTEM";
-            NSData *dataSearch = [dataTrackString dataUsingEncoding:NSUTF8StringEncoding];
-            // this still slows import down but we need to scan the disc as there's no common offset
-            NSRange indexOfData = [dataTrackBuffer rangeOfData: dataSearch options:0 range:NSMakeRange(0, [dataTrackBuffer length])];
-
-            if(indexOfData.length > 0)
-            {
-                NSLog(@"PCE-CD data track path: %@", dataTrackPath);
-                NSLog (@"'%@' at offset = 0x%lX", dataTrackString, indexOfData.location);
-                canHandleFile = OECanHandleYes;
-                break;
-            }
-        }
-    }
-    return canHandleFile;
+    return OEFileSupportNo;
 }
 
 @end

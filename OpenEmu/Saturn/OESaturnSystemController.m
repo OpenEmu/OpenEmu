@@ -35,39 +35,32 @@
     return @"Sega Saturn";
 }
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-    NSString *dataTrack = [cueSheet dataTrackPath];
+    if (![file isKindOfClass:[OECUESheet class]])
+        return OEFileSupportNo;
 
-    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
-    NSLog(@"Saturn data track path: %@", dataTrackPath);
+    OECUESheet *cueSheet = file;
+    OEFileSupport canHandleFile = OEFileSupportNo;
 
-    BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
-    OECanHandleState canHandleFile = OECanHandleNo;
+    NSFileHandle *dataTrackFile = [NSFileHandle fileHandleForReadingFromURL:cueSheet.dataTrackFileURL error:nil];
+    [dataTrackFile seekToFileOffset: 0x0];
+    NSData *dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
+    [dataTrackFile seekToFileOffset: 0x010];
+    NSData *otherDataTrackBuffer = [dataTrackFile readDataOfLength: 16];
+    [dataTrackFile closeFile];
 
-    if(handleFileExtension)
-    {
-        NSFileHandle *dataTrackFile;
-        NSData *dataTrackBuffer, *otherDataTrackBuffer;
+    NSString *dataTrackString = [[NSString alloc] initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
+    NSLog(@"'%@'", dataTrackString);
+    if ([dataTrackString isEqualToString:@"SEGA SEGASATURN "])
+        return OEFileSupportYes;
 
-        dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
-        [dataTrackFile seekToFileOffset: 0x0];
-        dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-        [dataTrackFile seekToFileOffset: 0x010];
-        otherDataTrackBuffer = [dataTrackFile readDataOfLength: 16];
+    NSString *otherDataTrackString = [[NSString alloc] initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
+    NSLog(@"'%@'", otherDataTrackString);
+    if([otherDataTrackString isEqualToString:@"SEGA SEGASATURN "])
+        return OEFileSupportYes;
 
-        NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSLog(@"'%@'", dataTrackString);
-        NSLog(@"'%@'", otherDataTrackString);
-        
-        if([dataTrackString isEqualToString:@"SEGA SEGASATURN "] || [otherDataTrackString isEqualToString:@"SEGA SEGASATURN "])
-            canHandleFile = OECanHandleYes;
-
-        [dataTrackFile closeFile];
-    }
-    return canHandleFile;
+    return OEFileSupportNo;
 }
 
 - (NSImage*)systemIcon
