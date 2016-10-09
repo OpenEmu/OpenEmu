@@ -63,6 +63,7 @@ NSString *const OEGameCoresInBackgroundKey = @"gameCoreInBackgroundThread";
 NSString *const OEDontShowGameTitleInWindowKey = @"dontShowGameTitleInWindow";
 NSString *const OEAutoSwitchCoreAlertSuppressionKey = @"changeCoreWhenLoadingStateWitoutConfirmation";
 NSString *const OEBackgroundPauseKey = @"backgroundPause";
+NSString *const OEBackgroundControllerPlayKey = @"backgroundControllerPlay";
 NSString *const OEGameViewControllerEmulationWillFinishNotification = @"OEGameViewControllerEmulationWillFinishNotification";
 NSString *const OEGameViewControllerEmulationDidFinishNotification = @"OEGameViewControllerEmulationDidFinishNotification";
 NSString *const OETakeNativeScreenshots = @"takeNativeScreenshots";

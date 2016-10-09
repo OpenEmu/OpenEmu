@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPrefGameplayController">
@@ -14,11 +14,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <view id="3" userLabel="Gameplay">
-            <rect key="frame" x="0.0" y="0.0" width="423" height="254"/>
+            <rect key="frame" x="0.0" y="0.0" width="423" height="282"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="OEHorizontalLine">
-                    <rect key="frame" x="0.0" y="157" width="423" height="2"/>
+                    <rect key="frame" x="0.0" y="185" width="423" height="2"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="2" id="4Se-nf-t0W"/>
                         <constraint firstAttribute="width" constant="423" id="XXe-XZ-9Lp"/>
@@ -28,7 +28,7 @@
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="5" userLabel="Check Box 1" customClass="OEButton">
-                    <rect key="frame" x="42" y="90" width="215" height="18"/>
+                    <rect key="frame" x="42" y="118" width="215" height="18"/>
                     <buttonCell key="cell" type="check" title="Always launch games fullscreen" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="26" userLabel="Check Box Cell" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -41,7 +41,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="6" userLabel="Check Box 2" customClass="OEButton">
-                    <rect key="frame" x="42" y="61" width="248" height="18"/>
+                    <rect key="frame" x="42" y="89" width="248" height="18"/>
                     <buttonCell key="cell" type="check" title="Always use popout gameplay window" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="25" userLabel="Check Box Cell" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -54,7 +54,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="56" userLabel="Check Box 3" customClass="OEButton">
-                    <rect key="frame" x="42" y="32" width="293" height="18"/>
+                    <rect key="frame" x="42" y="60" width="293" height="18"/>
                     <buttonCell key="cell" type="check" title="Always pause gameplay when in background" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="57" userLabel="Check Box Cell" customClass="OEButtonCell">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
@@ -67,7 +67,7 @@
                     </connections>
                 </button>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="13" customClass="OELabel">
-                    <rect key="frame" x="39" y="124" width="366" height="14"/>
+                    <rect key="frame" x="39" y="152" width="366" height="14"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="362" id="aQ7-gQ-82u"/>
                     </constraints>
@@ -81,7 +81,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="OELabel">
-                    <rect key="frame" x="39" y="220" width="366" height="14"/>
+                    <rect key="frame" x="39" y="248" width="366" height="14"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="362" id="osw-t6-slj"/>
                     </constraints>
@@ -95,7 +95,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="OELabel">
-                    <rect key="frame" x="39" y="185" width="42" height="17"/>
+                    <rect key="frame" x="39" y="213" width="42" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="138" id="RzW-xY-L99"/>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="38" id="e4J-aE-P1L"/>
@@ -110,7 +110,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <popUpButton focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="11" customClass="OEPopUpButton">
-                    <rect key="frame" x="83" y="183" width="217" height="23"/>
+                    <rect key="frame" x="83" y="211" width="217" height="23"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="212" id="6jh-MX-q9D"/>
                         <constraint firstAttribute="height" constant="18" id="cz9-gs-8lo"/>
@@ -139,25 +139,46 @@
                         </binding>
                     </connections>
                 </popUpButton>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="rUN-Tz-mZH" userLabel="Check Box 3" customClass="OEButton">
+                    <rect key="frame" x="42" y="31" width="325" height="18"/>
+                    <buttonCell key="cell" type="check" title="Allow playing with controllers when in background" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="zUK-Vv-IqE" userLabel="Check Box Cell" customClass="OEButtonCell">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_checkbox"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <binding destination="28" name="value" keyPath="values.backgroundControllerPlay" id="2Zc-Kh-gZj"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="5" firstAttribute="top" secondItem="13" secondAttribute="bottom" constant="18" id="1Sm-n6-qK3"/>
                 <constraint firstItem="8" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="41" id="5UT-Pf-fwo"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="56" secondAttribute="trailing" constant="44" id="5q3-B2-LoF"/>
                 <constraint firstItem="8" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" id="5t2-Ez-iVb"/>
                 <constraint firstItem="13" firstAttribute="leading" secondItem="8" secondAttribute="leading" id="94z-fj-rki"/>
+                <constraint firstItem="rUN-Tz-mZH" firstAttribute="top" secondItem="56" secondAttribute="bottom" constant="15" id="CA3-T1-CUc"/>
                 <constraint firstItem="4" firstAttribute="top" secondItem="10" secondAttribute="bottom" constant="26" id="CWF-e5-11D"/>
                 <constraint firstItem="13" firstAttribute="top" secondItem="4" secondAttribute="bottom" constant="19" id="E14-se-5DT"/>
                 <constraint firstItem="56" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="J4j-df-qzA"/>
                 <constraint firstItem="6" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="15" id="N4M-iK-I7Q"/>
                 <constraint firstItem="10" firstAttribute="leading" secondItem="8" secondAttribute="leading" id="PBs-z6-n4i"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rUN-Tz-mZH" secondAttribute="trailing" constant="44" id="V81-Ty-41J"/>
                 <constraint firstItem="11" firstAttribute="leading" secondItem="10" secondAttribute="trailing" constant="6" id="WIH-K9-L8E"/>
                 <constraint firstItem="5" firstAttribute="leading" secondItem="13" secondAttribute="leading" constant="3" id="YSV-6s-eIC"/>
+                <constraint firstAttribute="bottom" secondItem="rUN-Tz-mZH" secondAttribute="bottom" constant="33" id="as6-tW-f3L"/>
                 <constraint firstItem="56" firstAttribute="top" secondItem="6" secondAttribute="bottom" constant="15" id="ash-0e-CGw"/>
                 <constraint firstItem="11" firstAttribute="bottom" secondItem="4" secondAttribute="top" constant="-27" id="eHO-aw-my1"/>
                 <constraint firstItem="4" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="nbB-nj-haG"/>
                 <constraint firstItem="10" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="18" id="pnr-Sm-nkC"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="5" secondAttribute="trailing" constant="44" id="rdd-f9-IyD"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6" secondAttribute="trailing" constant="44" id="ss1-v8-dVU"/>
+                <constraint firstItem="rUN-Tz-mZH" firstAttribute="leading" secondItem="56" secondAttribute="leading" id="t1k-1o-X9R"/>
                 <constraint firstItem="6" firstAttribute="leading" secondItem="5" secondAttribute="leading" id="vYB-95-LrV"/>
             </constraints>
+            <point key="canvasLocation" x="260.5" y="463"/>
         </view>
         <userDefaultsController id="28" userLabel="Shared User Defaults Controller"/>
     </objects>

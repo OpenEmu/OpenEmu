@@ -37,6 +37,7 @@ extern NSString *const OEGameViewControllerEmulationWillFinishNotification;
 extern NSString *const OEGameViewControllerEmulationDidFinishNotification;
 extern NSString *const OEGameViewControllerROMKey;
 extern NSString *const OEBackgroundPauseKey;
+extern NSString *const OEBackgroundControllerPlayKey;
 extern NSString *const OEGameViewBackgroundColorKey;
 extern NSString *const OETakeNativeScreenshots;
 

@@ -125,6 +125,12 @@ class AppDelegate: NSDocumentController {
             }
         }
     }
+
+    var backgroundControllerPlay = false {
+        didSet {
+            updateEventHandlers()
+        }
+    }
     
     var libraryLoaded = false
     var reviewingUnsavedDocuments = false
@@ -161,6 +167,7 @@ class AppDelegate: NSDocumentController {
             "defaultCore.openemu.system.snes": "org.openemu.SNES9x",
             OEDisplayGameTitle: true,
             OEBackgroundPauseKey: true,
+            OEBackgroundControllerPlayKey: true,
             "logsHIDEvents": false,
             "logsHIDEventsNoKeyboard": false,
             OEDBSavedGamesMediaShowsAutoSaves: true,
@@ -951,6 +958,7 @@ extension AppDelegate: OpenEmuApplicationDelegateProtocol {
         let userDefaultsController = NSUserDefaultsController.shared()
         bind("logHIDEvents", to: userDefaultsController, withKeyPath: "values.logsHIDEvents", options: nil)
         bind("logKeyboardEvents", to: userDefaultsController, withKeyPath: "values.logsHIDEventsNoKeyboard", options: nil)
+        bind("backgroundControllerPlay", to: userDefaultsController, withKeyPath: "values.backgroundControllerPlay", options: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.windowDidBecomeKey), name: Notification.Name.NSWindowDidBecomeKey, object: nil)
         
@@ -1037,17 +1045,42 @@ extension AppDelegate: OpenEmuApplicationDelegateProtocol {
     func application(_ application: OpenEmuApplication, didBeginModalSessionForWindow window: NSWindow) {
         updateEventHandlers()
     }
+
+    fileprivate func shouldHandleControllerEvents() -> Bool {
+        if NSApp.modalWindow != nil {
+            return false
+        }
+
+        if OEDeviceManager.shared().hasEventMonitor() {
+            return false
+        }
+
+        if (NSApp as! OpenEmuApplication).isSpotlightFrontmost {
+            return false
+        }
+
+        if NSApp.isActive {
+            return true
+        }
+
+        return backgroundControllerPlay
+    }
+
+    fileprivate func shouldHandleKeyboardEvents() -> Bool {
+        if NSApp.modalWindow != nil {
+            return false
+        }
+
+        if (NSApp as! OpenEmuApplication).isSpotlightFrontmost {
+            return false
+        }
+
+        return NSApp.isActive
+    }
     
     fileprivate func updateEventHandlers() {
-        
-        let hasModalWindow = NSApp.modalWindow != nil
-        var shouldHandleEvents = !hasModalWindow &&
-            !OEDeviceManager.shared().hasEventMonitor() &&
-            NSApp.isActive &&
-            !(NSApp as! OpenEmuApplication).isSpotlightFrontmost
-        var shouldHandleKeyboardEvents = !hasModalWindow &&
-            NSApp.isActive &&
-            !(NSApp as! OpenEmuApplication).isSpotlightFrontmost
+        var shouldHandleEvents = self.shouldHandleControllerEvents()
+        var shouldHandleKeyboardEvents = self.shouldHandleKeyboardEvents()
         
         for gameDocument in NSApp.orderedDocuments.filter({ $0 is OEGameDocument }) as! [OEGameDocument] {
             
