@@ -774,8 +774,14 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     NSString *systemIdentifier = self.systemIdentifiers.lastObject;
 
     NSURL *lookupURL = self.extractedFileURL ?: rom.URL;
-    NSString *headerFound = [OEDBSystem headerForFileWithURL:lookupURL forSystem:systemIdentifier];
-    NSString *serialFound = [OEDBSystem serialForFileWithURL:lookupURL forSystem:systemIdentifier];
+    OEFile *file = [OEFile fileWithURL:lookupURL error:&error];
+    if (file == nil) {
+        [self exitWithStatus:OEImportExitErrorFatal error:error];
+        return;
+    }
+
+    NSString *headerFound = [OEDBSystem headerForFile:file forSystem:systemIdentifier];
+    NSString *serialFound = [OEDBSystem serialForFile:file forSystem:systemIdentifier];
 
     if(headerFound != nil)
     {

@@ -50,8 +50,8 @@ extern NSString * const OEDBSystemAvailabilityDidChangeNotification;
 + (NSArray <OEDBSystem *> *)systemsForFile:(OEFile *)file inContext:(NSManagedObjectContext *)context error:(NSError**)error;
 + (NSArray <OEDBSystem *> *)systemsForFileWithURL:(NSURL *)fileURL inContext:(NSManagedObjectContext *)context error:(NSError**)error;
 
-+ (NSString *)headerForFileWithURL:(NSURL *)URL forSystem:(NSString *)identifier;
-+ (NSString *)serialForFileWithURL:(NSURL *)URL forSystem:(NSString *)identifier;
++ (NSString *)headerForFile:(__kindof OEFile *)file forSystem:(NSString *)identifier;
++ (NSString *)serialForFile:(__kindof OEFile *)file forSystem:(NSString *)identifier;
 
 + (instancetype)systemForPlugin:(OESystemPlugin *)plugin inContext:(NSManagedObjectContext *)context;
 + (instancetype)systemForPluginIdentifier:(NSString *)identifier inContext:(NSManagedObjectContext *)context;

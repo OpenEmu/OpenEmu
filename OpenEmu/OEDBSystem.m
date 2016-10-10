@@ -175,18 +175,18 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
     return [self systemsForFile:file inContext:context error:error];
 }
 
-+ (NSString *)headerForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier
++ (NSString *)headerForFile:(__kindof OEFile *)file forSystem:(NSString *)identifier
 {
     OESystemPlugin *systemPlugin = [OESystemPlugin systemPluginForIdentifier:identifier];
-    NSString *header = [systemPlugin.controller headerLookupForFile:url.path];
+    NSString *header = [systemPlugin.controller headerLookupForFile:file];
     
     return header;
 }
 
-+ (NSString *)serialForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier
++ (NSString *)serialForFile:(__kindof OEFile *)file forSystem:(NSString *)identifier
 {
     OESystemPlugin *systemPlugin = [OESystemPlugin systemPluginForIdentifier:identifier];
-    NSString *serial = [systemPlugin.controller serialLookupForFile:url.path];
+    NSString *serial = [systemPlugin.controller serialLookupForFile:file];
     
     return serial;
 }

@@ -321,8 +321,12 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
                  removeFile = YES;
             }
 
-            NSString *headerFound = [OEDBSystem headerForFileWithURL:romURL forSystem:systemIdentifier];
-            NSString *serialFound = [OEDBSystem serialForFileWithURL:romURL forSystem:systemIdentifier];
+            OEFile *file = [OEFile fileWithURL:romURL error:NULL];
+            if (file == nil)
+                return nil;
+
+            NSString *headerFound = [OEDBSystem headerForFile:file forSystem:systemIdentifier];
+            NSString *serialFound = [OEDBSystem serialForFile:file forSystem:systemIdentifier];
 
             if (!headerFound && !serialFound) {
                 

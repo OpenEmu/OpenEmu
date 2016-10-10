@@ -47,18 +47,8 @@
 
     NSLog(@"SCD data track: %@", dataTrackURL);
 
-    NSFileHandle *dataTrackFile;
-    NSData *dataTrackBuffer, *otherDataTrackBuffer;
-
-    dataTrackFile = [NSFileHandle fileHandleForReadingFromURL:dataTrackURL error:nil];
-    [dataTrackFile seekToFileOffset: 0x0];
-    dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-    [dataTrackFile seekToFileOffset: 0x010];
-    otherDataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-    [dataTrackFile closeFile];
-
-    NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-    NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
+    NSString *dataTrackString = [cueSheet readASCIIStringInRange:NSMakeRange(0, 16)];
+    NSString *otherDataTrackString = [cueSheet readASCIIStringInRange:NSMakeRange(0x10, 16)];
     NSLog(@"'%@'", dataTrackString);
     NSLog(@"'%@'", otherDataTrackString);
     NSArray *dataTrackList = @[ @"SEGADISCSYSTEM  ", @"SEGABOOTDISC    ", @"SEGADISC        ", @"SEGADATADISC    " ];
@@ -72,25 +62,15 @@
     return OEFileSupportNo;
 }
 
-- (NSString *)headerLookupForFile:(NSString *)path
+- (NSString *)headerLookupForFile:(__kindof OEFile *)file
 {
-    // Path is a cuesheet so get the first data track from the file for reading
-    OECUESheet *cueSheet = [[OECUESheet alloc] initWithFileURL:[NSURL fileURLWithPath:path isDirectory:NO] error:nil];
-    NSURL *dataTrackURL = cueSheet.dataTrackFileURL;
+    if (![file isKindOfClass:[OECUESheet class]])
+        return nil;
 
-    NSFileHandle *dataTrackFile;
-    NSData *dataTrackBuffer, *otherDataTrackBuffer, *headerDataTrackBuffer;
-    
     // Read both offsets because of various dumps
-    dataTrackFile = [NSFileHandle fileHandleForReadingFromURL:dataTrackURL error:nil];
-    [dataTrackFile seekToFileOffset: 0x0100];
-    dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-    [dataTrackFile seekToFileOffset: 0x0110];
-    otherDataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-    
-    NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-    NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
-    
+    NSString *dataTrackString = [file readASCIIStringInRange:NSMakeRange(0x100, 16)];
+    NSString *otherDataTrackString = [file readASCIIStringInRange:NSMakeRange(0x110, 16)];
+
     unsigned long long offsetFound = 0;
     NSArray *dataTrackList = @[ @"SEGA GENESIS    ", @"SEGA MEGA DRIVE " ];
     
@@ -108,12 +88,10 @@
             break;
         }
     }
+
     // Read the full header at the offset found
-    [dataTrackFile seekToFileOffset: offsetFound];
-    headerDataTrackBuffer = [dataTrackFile readDataOfLength: 256];
-    
-    [dataTrackFile closeFile];
-    
+    NSData *headerDataTrackBuffer = [file readDataInRange:NSMakeRange(offsetFound, 256)];
+
     // Format the hexadecimal representation and return
     NSString *buffer = [[headerDataTrackBuffer description] uppercaseString];
     NSString *hex = [[buffer componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]] componentsJoinedByString:@""];
