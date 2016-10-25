@@ -29,7 +29,7 @@
 #import "OESystemPlugin.h"
 
 #import "OEDBAllGamesCollection.h"
-#import "OEDBSystem.h"
+#import "OEDBSystem+CoreDataProperties.h"
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBSaveState.h"
@@ -603,10 +603,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     __block NSArray *result = nil;
     NSManagedObjectContext *context = _mainThreadMOC;
     [context performBlockAndWait:^{
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
 
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        fetchRequest.entity = entityDescription;
+        NSFetchRequest *fetchRequest = [OEDBRom fetchRequest];
         fetchRequest.fetchLimit = 1;
         fetchRequest.includesPendingChanges = YES;
 
@@ -630,9 +628,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     __block NSArray *result = nil;
     NSManagedObjectContext *context = _mainThreadMOC;
     [context performBlockAndWait:^{
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        fetchRequest.entity = entityDescription;
+        
+        NSFetchRequest *fetchRequest = [OEDBRom fetchRequest];
         fetchRequest.fetchLimit = 1;
         fetchRequest.includesPendingChanges = YES;
 
@@ -902,7 +899,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSArray *gameKeys   = @[ @"permanentID", @"system" ];
     NSArray *systemKeys = @[ @"systemIdentifier" ];
 
-    NSFetchRequest *request   = [[NSFetchRequest alloc] initWithEntityName:[OEDBGame entityName]];
+    NSFetchRequest *request   = [OEDBGame fetchRequest];
     NSPredicate    *predicate = [NSPredicate predicateWithFormat:@"status == %d", OEDBGameStatusProcessing];
 
     request.fetchLimit = OpenVGDBSyncBatchSize;

@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEDBSystem.h"
+#import "OEDBSystem+CoreDataProperties.h"
 #import "OESystemPlugin.h"
 #import "OELibraryDatabase.h"
 #import "OEHUDAlert.h"
@@ -49,12 +49,9 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
 
 + (NSInteger)systemsCountInContext:(NSManagedObjectContext*)context error:(NSError**)outError
 {
-    NSEntityDescription    *descr    = [self entityDescriptioninContext:context];
-    NSFetchRequest         *req      = [[NSFetchRequest alloc] init];
+    NSFetchRequest *req = [OEDBSystem fetchRequest];
 
-    req.entity = descr;
-
-    NSError    *error = outError != NULL ? *outError : nil;
+    NSError *error = outError != NULL ? *outError : nil;
     NSUInteger result = [context countForFetchRequest:req error:&error];
     if(result == NSNotFound)
     {
@@ -73,7 +70,7 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
 {
     NSArray <NSSortDescriptor *> *sortDesc = @[[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]];
 
-    NSFetchRequest *req = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
+    NSFetchRequest *req = [OEDBSystem fetchRequest];
     req.sortDescriptors = sortDesc;
 
     NSArray *result = [context executeFetchRequest:req error:outError];
@@ -106,7 +103,7 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
     NSArray <NSSortDescriptor *> *sortDesc = @[[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]];
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"enabled = YES"];
 
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
+    NSFetchRequest *request = [OEDBSystem fetchRequest];
     request.predicate = pred;
     request.sortDescriptors = sortDesc;
 
@@ -296,8 +293,6 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
 
 #pragma mark - Data Model Properties
 
-@dynamic lastLocalizedName, shortname, systemIdentifier, enabled;
-
 - (void)setEnabled:(nullable NSNumber *)enabled
 {
     [self willChangeValueForKey:@"enabled"];
@@ -308,8 +303,6 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
 }
 
 #pragma mark - Data Model Relationships
-
-@dynamic games;
 
 - (nullable NSMutableSet <OEDBGame *> *)mutableGames
 {

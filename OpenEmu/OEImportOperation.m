@@ -38,7 +38,7 @@
 #import "OEDBRom.h"
 #import "OEDBCollection.h"
 #import "OEDBSaveState.h"
-#import "OEDBSystem.h"
+#import "OEDBSystem+CoreDataProperties.h"
 #import "OEBIOSFile.h"
 
 #import "OpenEmu-Swift.h"

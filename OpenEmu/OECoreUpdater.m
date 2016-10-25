@@ -34,9 +34,9 @@
 #import "OEHUDAlert.h"
 #import "OEButton.h"
 
-#import "OEDBGame.h"
-#import "OEDBSystem.h"
-#import "OEDBSaveState.h"
+#import "OEDBGame+CoreDataProperties.h"
+#import "OEDBSystem+CoreDataProperties.h"
+#import "OEDBSaveState+CoreDataProperties.h"
 
 NSString *const OECoreUpdaterErrorDomain = @"OECoreUpdaterErrorDomain";
 

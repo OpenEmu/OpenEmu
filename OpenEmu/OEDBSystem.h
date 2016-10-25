@@ -27,7 +27,7 @@
 @import Foundation;
 #import "OEDBItem.h"
 
-@class OEDBGame, OESystemPlugin, OELibraryDatabase;
+@class OEDBGame, OESystemPlugin, OELibraryDatabase, OEFile;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -66,16 +66,8 @@ extern NSString * const OEDBSystemAvailabilityDidChangeNotification;
 
 @property (nonatomic, readonly) CGFloat coverAspectRatio;
 
-#pragma mark - Data Model Properties
-
-@property(nonatomic, retain, nullable) NSString *lastLocalizedName;
-@property(nonatomic, retain, nullable) NSString *shortname;
-@property(nonatomic, retain, nullable) NSString *systemIdentifier;
-@property(nonatomic, retain, nullable) NSNumber *enabled;
-
 #pragma mark - Data Model Relationships
 
-@property(nonatomic, retain, nullable)   NSSet          <OEDBGame *> *games;
 @property(nonatomic, readonly, nullable) NSMutableSet  <OEDBGame *> *mutableGames;
 
 #pragma mark -

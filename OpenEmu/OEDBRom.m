@@ -43,11 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @dynamic URL;
 
-// Data Model Properties
-@dynamic location, favorite, crc32, md5, lastPlayed, fileSize, playCount, playTime, archiveFileIndex, header, serial, fileName, source;
-
 // Data Model Relationships
-@dynamic game, saveStates, tosec;
+@dynamic tosec;
 
 #pragma mark -
 

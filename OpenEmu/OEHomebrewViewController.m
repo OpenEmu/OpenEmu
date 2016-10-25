@@ -30,7 +30,7 @@
 #import "OEDownload.h"
 #import "OEBlankSlateBackgroundView.h"
 #import "OEHomebrewCoverView.h"
-#import "OEDBSystem.h"
+#import "OEDBSystem+CoreDataProperties.h"
 #import "OELibraryController.h"
 #import "OELibraryDatabase.h"
 

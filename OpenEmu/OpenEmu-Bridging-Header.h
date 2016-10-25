@@ -22,9 +22,8 @@
 #import "OEBackgroundColorView.h"
 #import "OEBackgroundImageView.h"
 
+#import "OEDatabase+CoreDataModel.h"
 #import "OEDBGame.h"
-#import "OEDBRom.h"
-#import "OEDBSaveState.h"
 #import "OEDBSavedGamesMedia.h"
 
 #import "OEGameDocument.h"

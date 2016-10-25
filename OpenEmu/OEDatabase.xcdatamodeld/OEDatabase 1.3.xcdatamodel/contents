@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="1.3" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6172.15" systemVersion="13D65" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11542" systemVersion="16B2555" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="1.3">
     <entity name="AbstractCollection" representedClassName="NSManagedObject" isAbstract="YES" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="folder" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="CollectionFolder" inverseName="subcollections" inverseEntity="CollectionFolder" indexed="YES" syncable="YES"/>
@@ -11,7 +11,7 @@
         <relationship name="subcollections" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AbstractCollection" inverseName="folder" inverseEntity="AbstractCollection" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="Contributor" representedClassName="NSManagedObject" syncable="YES">
-        <attribute name="isCompany" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isCompany" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="jobs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Credit" inverseName="contributor" inverseEntity="Credit" indexed="YES" syncable="YES"/>
     </entity>
@@ -20,14 +20,14 @@
         <relationship name="contributor" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Contributor" inverseName="jobs" inverseEntity="Contributor" indexed="YES" syncable="YES"/>
         <relationship name="project" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="credits" inverseEntity="Game" indexed="YES" syncable="YES"/>
     </entity>
-    <entity name="Game" representedClassName="OEDBGame" syncable="YES">
+    <entity name="Game" representedClassName="OEDBGame" syncable="YES" codeGenerationType="category">
         <attribute name="gameDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gameTitle" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="importDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="lastInfoSync" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="importDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="lastInfoSync" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="rating" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="5" defaultValueString="0" syncable="YES"/>
-        <attribute name="status" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="rating" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="5" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="status" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="boxImage" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Image" inverseName="Box" inverseEntity="Image" indexed="YES" syncable="YES"/>
         <relationship name="collections" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Collection" inverseName="games" inverseEntity="Collection" indexed="YES" syncable="YES"/>
         <relationship name="credits" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Credit" inverseName="project" inverseEntity="Credit" indexed="YES" syncable="YES"/>
@@ -39,52 +39,52 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="games" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="genres" inverseEntity="Game" indexed="YES" syncable="YES"/>
     </entity>
-    <entity name="Image" representedClassName="OEDBImage" syncable="YES">
-        <attribute name="format" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="height" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
+    <entity name="Image" representedClassName="OEDBImage" syncable="YES" codeGenerationType="category">
+        <attribute name="format" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="height" optional="YES" attributeType="Float" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="relativePath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="width" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
+        <attribute name="width" optional="YES" attributeType="Float" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="Box" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="boxImage" inverseEntity="Game" indexed="YES" syncable="YES"/>
     </entity>
-    <entity name="ROM" representedClassName="OEDBRom" syncable="YES">
-        <attribute name="archiveFileIndex" optional="YES" attributeType="Integer 16" minValueString="0" syncable="YES"/>
+    <entity name="ROM" representedClassName="OEDBRom" syncable="YES" codeGenerationType="category">
+        <attribute name="archiveFileIndex" optional="YES" attributeType="Integer 16" minValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="crc32" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="favorite" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="favorite" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="fileName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="fileSize" optional="YES" attributeType="Integer 64" syncable="YES"/>
+        <attribute name="fileSize" optional="YES" attributeType="Integer 64" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="header" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="lastPlayed" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="lastPlayed" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="md5" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="openVGDB" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="playCount" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="playTime" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="openVGDB" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="playCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="playTime" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="serial" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="game" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="roms" inverseEntity="Game" indexed="YES" syncable="YES"/>
         <relationship name="saveStates" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SaveState" inverseName="rom" inverseEntity="SaveState" indexed="YES" syncable="YES"/>
         <relationship name="screenShots" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Screenshot" inverseName="rom" inverseEntity="Screenshot" syncable="YES"/>
     </entity>
-    <entity name="SaveState" representedClassName="OEDBSaveState" syncable="YES">
+    <entity name="SaveState" representedClassName="OEDBSaveState" syncable="YES" codeGenerationType="category">
         <attribute name="coreIdentifier" attributeType="String" syncable="YES"/>
         <attribute name="coreVersion" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="timestamp" attributeType="Date" syncable="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="userDescription" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="rom" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="ROM" inverseName="saveStates" inverseEntity="ROM" indexed="YES" syncable="YES"/>
     </entity>
-    <entity name="Screenshot" representedClassName="OEDBScreenshot" syncable="YES">
+    <entity name="Screenshot" representedClassName="OEDBScreenshot" syncable="YES" codeGenerationType="category">
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="userDescription" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="rom" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ROM" inverseName="screenShots" inverseEntity="ROM" syncable="YES"/>
     </entity>
     <entity name="SmartCollection" representedClassName="OEDBSmartCollection" parentEntity="AbstractCollection" syncable="YES"/>
-    <entity name="System" representedClassName="OEDBSystem" syncable="YES">
-        <attribute name="enabled" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
+    <entity name="System" representedClassName="OEDBSystem" syncable="YES" codeGenerationType="category">
+        <attribute name="enabled" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="lastLocalizedName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="shortname" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="systemIdentifier" optional="YES" attributeType="String" syncable="YES"/>
@@ -99,9 +99,9 @@
         <element name="Game" positionX="0" positionY="0" width="128" height="240"/>
         <element name="Genre" positionX="0" positionY="0" width="128" height="75"/>
         <element name="Image" positionX="0" positionY="0" width="128" height="135"/>
-        <element name="Screenshot" positionX="0" positionY="0" width="128" height="118"/>
         <element name="ROM" positionX="0" positionY="0" width="128" height="300"/>
         <element name="SaveState" positionX="0" positionY="0" width="128" height="150"/>
+        <element name="Screenshot" positionX="0" positionY="0" width="128" height="120"/>
         <element name="SmartCollection" positionX="0" positionY="0" width="128" height="45"/>
         <element name="System" positionX="0" positionY="0" width="128" height="120"/>
     </elements>

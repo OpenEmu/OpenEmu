@@ -59,12 +59,6 @@ typedef NS_ENUM(NSUInteger, OEBitmapImageFileType)
 @property (nonatomic) NSURL *sourceURL;
 @property (readonly, nonatomic, getter = isLocalImageAvailable) BOOL localImageAvailable;
 
-@property (nonatomic) float width, height;
-@property (nonatomic) short format;
-@property (nonatomic, retain, nullable) NSString *relativePath;
-@property (nonatomic, retain, nullable) NSString *source;
-@property (nonatomic, retain, nullable) OEDBGame *Box;
-
 @end
 
 NS_ASSUME_NONNULL_END

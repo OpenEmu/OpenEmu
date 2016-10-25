@@ -30,6 +30,7 @@
 @class OELibraryDatabase;
 @class OEDBGame;
 @class OEDBSaveState;
+@class OEDBScreenshot;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -91,26 +92,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
-#pragma mark - Data Model Properties
-
-@property(nonatomic, retain, nullable)                    NSString *location;
-@property(nonatomic, retain, nullable)                    NSString *source;
-@property(nonatomic, retain, getter=isFavorite, nullable) NSNumber *favorite;
-@property(nonatomic, retain, nullable)                    NSString *crc32;
-@property(nonatomic, retain, nullable)                    NSString *md5;
-@property(nonatomic, retain, nullable)                    NSDate   *lastPlayed;
-@property(nonatomic, retain, nullable)                    NSNumber *fileSize;
-@property(nonatomic, retain, nullable)                    NSNumber *playCount;
-@property(nonatomic, retain, nullable)                    NSNumber *playTime;
-@property(nonatomic, retain, nullable)                    NSNumber *archiveFileIndex;
-@property(nonatomic, retain, nullable)                    NSString *header;
-@property(nonatomic, retain, nullable)                    NSString *serial;
-@property(nonatomic, retain, nullable)                    NSString *fileName;
-
 #pragma mark - Data Model Relationships
 
-@property(nonatomic, retain, nullable)   OEDBGame        *game;
-@property(nonatomic, retain, nullable)   NSSet           *saveStates;
 @property(nonatomic, readonly, nullable) NSMutableSet    *mutableSaveStates;
 @property(nonatomic, retain)   NSManagedObject *tosec;
 @end

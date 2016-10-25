@@ -24,12 +24,12 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEDBGame.h"
+#import "OEDBGame+CoreDataProperties.h"
 
 #import "OELibraryDatabase.h"
 
 #import "OEDBSystem.h"
-#import "OEDBRom.h"
+#import "OEDBRom+CoreDataProperties.h"
 #import "OEDBImage.h"
 
 #import "OEGameInfoHelper.h"
@@ -51,8 +51,7 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 
 @implementation OEDBGame
 @synthesize romDownload=_romDownload;
-@dynamic name, gameTitle, rating, gameDescription, importDate, lastInfoSync, status, displayName;
-@dynamic boxImage, system, roms, genres, collections, credits;
+@dynamic displayName;
 
 + (void)initialize
 {

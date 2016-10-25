@@ -27,7 +27,7 @@
 @import Cocoa;
 
 #import "OEDBGame.h"
-#import "OEDBSystem.h"
+#import "OEDBSystem+CoreDataProperties.h"
 
 #import "OECoverGridDataSourceItem.h"
 #import "OESidebarItem.h"

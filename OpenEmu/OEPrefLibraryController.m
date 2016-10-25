@@ -27,7 +27,7 @@
 #import "OEPrefLibraryController.h"
 #import "OELibraryDatabase.h"
 #import "OEDBRom.h"
-#import "OEDBSystem.h"
+#import "OEDBSystem+CoreDataProperties.h"
 #import "OESystemPlugin.h"
 #import "OECorePlugin.h"
 #import "OESidebarOutlineView.h"

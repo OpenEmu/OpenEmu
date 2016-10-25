@@ -35,7 +35,7 @@
 #import "OELibraryController.h"
 
 #import "OEDBCollection.h"
-#import "OEDBSystem.h"
+#import "OEDBSystem+CoreDataProperties.h"
 
 #import "OESystemPlugin.h"
 

@@ -33,7 +33,7 @@
 #import "OESideBarGroupItem.h"
 #import "OEMenu.h"
 
-#import "OEDBSystem.h"
+#import "OEDBSystem+CoreDataProperties.h" 
 #import "OELibraryDatabase.h"
 
 #import "OECorePlugin.h"
