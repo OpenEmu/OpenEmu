@@ -26,10 +26,14 @@
 
 #import "OECollectionViewController.h"
 #import "OEGameGridViewDelegate.h"
+
+extern NSString * const OEGameCollectionViewControllerDidSetSelectionIndexesNotification;
+
 @interface OEGameCollectionViewController : OECollectionViewController <OEGameGridViewDelegate>
 - (IBAction)showSelectedGamesInFinder:(id)sender;
 
 - (void)deleteSaveState:(id)stateItem;
+- (void)deleteSelectedItems:(id)sender;
 - (void)addSelectedGamesToCollection:(id)sender;
 - (void)downloadCoverArt:(id)sender;
 - (void)cancelCoverArtDownload:(id)sender;

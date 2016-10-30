@@ -564,7 +564,7 @@
         cancelAlert.defaultButtonTitle   = NSLocalizedString(@"Yes", @"");
         cancelAlert.alternateButtonTitle = NSLocalizedString(@"No", @"");
 
-        [sender setState:[sender state] == NSOnState ? NSOffState : NSOnState];
+        [sender setState:[(NSButton *)sender state] == NSOnState ? NSOffState : NSOnState];
         if([cancelAlert runModal] == NSAlertFirstButtonReturn)
         {
             [[self importer] cancel];

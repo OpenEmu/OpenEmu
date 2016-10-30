@@ -50,6 +50,8 @@
 
 #import "OpenEmu-Swift.h"
 
+NSString * const OEMediaViewControllerDidSetSelectionIndexesNotification = @"OEMediaViewControllerDidSetSelectionIndexesNotification";
+
 /// Archived URI representations of managed object IDs for selected media.
 static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
@@ -70,7 +72,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 @property (strong) NSArray *items;
 @property (strong) NSArray *searchKeys;
 
-@property BOOL saveStateMode;
+@property (readwrite) BOOL saveStateMode;
 
 @property BOOL shouldShowBlankSlate;
 @property (strong) NSPredicate *searchPredicate;
@@ -297,10 +299,24 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     return @[];
 }
 
-- (NSArray*)selectedSaveStates
+- (NSArray <OEDBSaveState *> *)selectedSaveStates
 {
-    NSIndexSet *indices = [self selectionIndexes];
-    return [[self items] objectsAtIndexes:indices];
+    if (!self.saveStateMode) {
+        return @[];
+    }
+    
+    NSIndexSet *indices = self.selectionIndexes;
+    return [self.items objectsAtIndexes:indices];
+}
+
+- (NSArray <OEDBScreenshot *> *)selectedScreenshots {
+    
+    if (self.saveStateMode) {
+        return @[];
+    }
+    
+    NSIndexSet *indices = self.selectionIndexes;
+    return [self.items objectsAtIndexes:indices];
 }
 
 - (NSIndexSet*)selectionIndexes
@@ -313,6 +329,8 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     [super setSelectionIndexes:selectionIndexes];
     
     [self.gridView setSelectionIndexes:selectionIndexes byExtendingSelection:NO];
+    
+    [NSNotificationCenter.defaultCenter postNotificationName:OEMediaViewControllerDidSetSelectionIndexesNotification object:self];
 }
 
 - (void)imageBrowserSelectionDidChange:(IKImageBrowserView *)aBrowser

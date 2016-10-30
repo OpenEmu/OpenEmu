@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
         {
             NSArray *attributeMappings = mapping.attributeMappings;
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
-                                          ^ BOOL (id obj)
+                                          ^ BOOL (NSPropertyMapping *obj)
                                           {
                                               return [[obj name] isEqualToString:@"location"];
                                           }];
@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 
             NSArray *attributeMappings = mapping.attributeMappings;
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
-                                          ^ BOOL (id obj)
+                                          ^ BOOL (NSPropertyMapping *obj)
                                           {
                                               return [[obj name] isEqualToString:@"location"];
                                           }];

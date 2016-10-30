@@ -51,7 +51,7 @@ extern NSString *const OELibraryRomsFolderURLKey;
         {
             NSArray *attributeMappings = mapping.attributeMappings;
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
-             ^ BOOL (id obj)
+             ^ BOOL (NSPropertyMapping *obj)
              {
                  return [[obj name] isEqualToString:@"location"];
              }];
@@ -80,7 +80,7 @@ extern NSString *const OELibraryRomsFolderURLKey;
         {
             NSArray *attributeMappings = mapping.attributeMappings;
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
-                                          ^ BOOL (id obj)
+                                          ^ BOOL (NSPropertyMapping *obj)
                                           {
                                               return [[obj name] isEqualToString:@"archiveFileIndex"];
                                           }];
@@ -90,7 +90,7 @@ extern NSString *const OELibraryRomsFolderURLKey;
         {
             NSArray *attributeMappings = mapping.attributeMappings;
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
-                                          ^ BOOL (id obj)
+                                          ^ BOOL (NSPropertyMapping *obj)
                                           {
                                               return [[obj name] isEqualToString:@"archiveFileIndex"];
                                           }];
@@ -115,7 +115,7 @@ extern NSString *const OELibraryRomsFolderURLKey;
         {
             NSArray *attributeMappings = mapping.attributeMappings;
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
-                                          ^ BOOL (id obj)
+                                          ^ BOOL (NSPropertyMapping *obj)
                                           {
                                               return [[obj name] isEqualToString:@"location"];
                                           }];

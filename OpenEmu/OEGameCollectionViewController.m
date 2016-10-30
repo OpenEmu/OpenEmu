@@ -60,6 +60,8 @@
 
 #import "OpenEmu-Swift.h"
 
+NSString * const OEGameCollectionViewControllerDidSetSelectionIndexesNotification = @"OEGameCollectionViewControllerDidSetSelectionIndexesNotification";
+
 static NSArray *OE_defaultSortDescriptors;
 
 extern NSString * const OEGameControlsBarCanDeleteSaveStatesKey;
@@ -235,6 +237,8 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
     }
     
     [[NSUserDefaults standardUserDefaults] setObject:archivableRepresentations forKey:OESelectedGamesKey];
+    
+    [NSNotificationCenter.defaultCenter postNotificationName:OEGameCollectionViewControllerDidSetSelectionIndexesNotification object:self];
 }
 
 - (void)scrollToSelection

@@ -828,8 +828,8 @@ extension AppDelegate: NSMenuDelegate {
                 let loadTitle = String(format: NSLocalizedString("Slot %ld", comment: "Slotted Quick Load Menu Item"), i)
                 let saveTitle = String(format: NSLocalizedString("Slot %ld", comment: "Slotted Quick Save Menu Item"), i)
                 
-                let loadItem = NSMenuItem(title: loadTitle, action: #selector(OEGlobalEventsHandler.quickLoad(_:)), keyEquivalent: "")
-                let saveItem = NSMenuItem(title: saveTitle, action: #selector(OEGlobalEventsHandler.quickSave(_:)), keyEquivalent: "")
+                let loadItem = NSMenuItem(title: loadTitle, action: #selector(OEGameDocument.quickLoad(_:)), keyEquivalent: "")
+                let saveItem = NSMenuItem(title: saveTitle, action: #selector(OEGameDocument.quickSave(_:)), keyEquivalent: "")
                 
                 let keyEquivalent = "\(i)"
                 loadItem.keyEquivalent = keyEquivalent
@@ -849,9 +849,9 @@ extension AppDelegate: NSMenuDelegate {
             
         } else {
             
-            newLoadItem = NSMenuItem(title: NSLocalizedString("Quick Load", comment: "Quick Load Menu Item"), action: #selector(OEGlobalEventsHandler.quickLoad(_:)), keyEquivalent: "l")
+            newLoadItem = NSMenuItem(title: NSLocalizedString("Quick Load", comment: "Quick Load Menu Item"), action: #selector(OEGameDocument.quickLoad(_:)), keyEquivalent: "l")
             newLoadItem.representedObject = "0"
-            newSaveItem = NSMenuItem(title: NSLocalizedString("Quick Save", comment: "Quick Save Menu Item"), action: #selector(OEGlobalEventsHandler.quickSave(_:)), keyEquivalent: "s")
+            newSaveItem = NSMenuItem(title: NSLocalizedString("Quick Save", comment: "Quick Save Menu Item"), action: #selector(OEGameDocument.quickSave(_:)), keyEquivalent: "s")
             newSaveItem.representedObject = "0"
         }
         
@@ -898,6 +898,11 @@ extension AppDelegate: OpenEmuApplicationDelegateProtocol {
     }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
+        
+        if #available(OSX 10.12.1, *), NSClassFromString("NSTouchBar") != nil {
+            // Get the “Customize Touch Bar…” menu to display in the View menu.
+            NSApp.isAutomaticCustomizeTouchBarMenuItemEnabled = true
+        }
         
         let notificationCenter = NotificationCenter.default
         

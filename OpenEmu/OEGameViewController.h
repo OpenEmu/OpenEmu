@@ -70,12 +70,12 @@ extern NSString *const OEScreenshotPropertiesKey;
 
 @property(weak) OEGameDocument *document;
 
-- (BOOL)supportsCheats;
-- (BOOL)supportsSaveStates;
-- (BOOL)supportsMultipleDiscs;
-- (NSUInteger)discCount;
-- (NSString *)coreIdentifier;
-- (NSString *)systemIdentifier;
+@property(readonly) BOOL supportsCheats;
+@property(readonly) BOOL supportsSaveStates;
+@property(readonly) BOOL supportsMultipleDiscs;
+@property(readonly) NSUInteger discCount;
+@property(readonly) NSString *coreIdentifier;
+@property(readonly) NSString *systemIdentifier;
 
 - (NSImage *)takeNativeScreenshot;
 
@@ -90,7 +90,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 - (IBAction)takeScreenshot:(id)sender;
 
 #pragma mark - Info
-- (NSSize)defaultScreenSize;
+@property(readonly) NSSize defaultScreenSize;
 
 - (void)setEnableVSync:(BOOL)enable;
 - (void)setAspectSize:(OEIntSize)newAspectSize;
