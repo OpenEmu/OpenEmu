@@ -2929,6 +2929,14 @@
 				<key>OEControllerProductID</key>
 				<integer>1476</integer>
 			</dict>
+			<dict>
+				<key>OEControllerDeviceName</key>
+				<string>Sony PS4 Dualshock 4 Wireless (CUH-ZCT2)</string>
+				<key>OEControllerVendorID</key>
+				<integer>1356</integer>
+				<key>OEControllerProductID</key>
+				<integer>2508</integer>
+			</dict>
 		</array>
 		<key>OEControllerMappings</key>
 		<dict>
