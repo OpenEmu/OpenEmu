@@ -522,6 +522,20 @@
 
 "Your library was moved sucessfully." = "Uw bibliotheek werd succesvol verplaatst.";
 
+"Library" = "Bibliotheek";
+
+"Save States" = "Momentopnames";
+
+"Screenshots" = "Schermafbeeldingen";
+
+"Homebrew" = "Homebrew";
+
+"Grid Size" = "Rastergrootte";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"View Mode" = "Weergavemodus";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"Category" = "Categorie";   // shown when the corresponding item does not fit in the main window's toolbar
+
 
 /* Secrets */
 

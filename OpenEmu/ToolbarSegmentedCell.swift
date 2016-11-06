@@ -62,24 +62,63 @@ class ToolbarSegmentedCell: NSSegmentedCell {
     /// The segment currently being highlighted by the user.
     var highlightedSegment: Int?
     
+    override init() {
+        super.init(textCell: "")
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override var cellSize: NSSize {
+        return cellSize(forBounds: NSMakeRect(0, 0, 0, 24))
+    }
+    
+    override func cellSize(forBounds aRect: NSRect) -> NSSize {
+        var res: NSSize = NSSize(width: 0, height: 24)
+        for i in 0..<segmentCount {
+            res.width += width(forSegment: i)
+        }
+        if let cv = controlView {
+            return cv.backingAlignedRect(
+                NSRect(origin: NSZeroPoint, size: res),
+                options: [.alignMinXNearest, .alignMaxXNearest,
+                          .alignMinYNearest, .alignMaxYNearest]
+                ).size
+        } else {
+            return res
+        }
+    }
+    
+    @objc(sizeSegmentsToFitWithMinimumWidth:)
+    func sizeSegmentsToFit(minimumWidth minw: CGFloat) {
+        for i in 0..<segmentCount {
+            let fitw = bestWidth(forSegment: i)
+            setWidth(max(fitw, minw), forSegment:i)
+        }
+    }
+    
+    func bestWidth(forSegment i: Int) -> CGFloat {
+        guard let label = label(forSegment: i) else {
+            return 40.0;
+        }
+        let attributes: [String: AnyObject] = [
+            NSFontAttributeName: NSFont.systemFont(ofSize: 11, weight: 0.1)]
+        let attributedString = NSAttributedString(string: label, attributes: attributes)
+        return attributedString.size().width + 20.0
+    }
+
     override func draw(withFrame cellFrame: NSRect, in controlView: NSView) {
         
-        let segmentWidth = cellFrame.width / CGFloat(segmentCount)
-        
+        let realWidth = NSRect(origin: cellFrame.origin, size: cellSize(forBounds: cellFrame))
         drawBackgroundLayer(inFrame: cellFrame)
         drawTopHighlightEdgeLayer(inFrame: cellFrame)
         
         for segment in 0..<segmentCount {
-            
-            let segmentRect = NSRect(x: CGFloat(segment) * segmentWidth,
-                                     y: cellFrame.minY,
-                                     width: segmentWidth,
-                                     height: cellFrame.height)
-            
-            drawSegment(segment, inFrame: segmentRect, with: controlView)
+            drawSegment(segment, inFrame: rectForSegment(segment), with: controlView)
         }
         
-        drawBorderLayer(inFrame: cellFrame)
+        drawBorderLayer(inFrame: realWidth)
     }
     
     // MARK: - Layers
@@ -123,8 +162,8 @@ class ToolbarSegmentedCell: NSSegmentedCell {
     // MARK: - Segments
     
     func rectForSegment(_ segment: Int) -> NSRect {
-        
-        let bounds = controlView!.bounds
+        let cv = controlView!
+        let bounds = cv.bounds
         
         let xOffset: CGFloat
         if segment > 0 {
@@ -134,10 +173,13 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             xOffset = bounds.minX
         }
         
-        return NSRect(x: xOffset,
-                      y: bounds.minY,
-                      width: width(forSegment: segment),
-                      height: bounds.height)
+        return cv.backingAlignedRect(
+            NSRect(x: xOffset,
+                   y: bounds.minY,
+                   width: width(forSegment: segment),
+                   height: bounds.height),
+            options: [.alignMinXNearest, .alignMaxXNearest,
+                      .alignMinYNearest, .alignMaxYNearest])
     }
     
     func pathForSegment(_ segment: Int, inFrame frame: NSRect) -> NSBezierPath {
@@ -187,19 +229,21 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             // Make room for the bottom highlight.
             var segmentRect = frame
             segmentRect.size.height -= 1
+            // Make room for the left and right borders.
+            segmentRect.size.width -= 1
+            if (segment == 0) {
+                // Only the first segment has a right border (actually, it's
+                // the cell's border).
+                segmentRect.origin.x += 1
+                segmentRect.size.width -= 1
+            }
             
             let segmentPath = pathForSegment(segment, inFrame: segmentRect)
-            
-            NSGraphicsContext.saveGraphicsState()
-            
-            controlPath(inFrame: frame).setClip()
             
             topActiveGradient.draw(in: segmentPath, angle: 90)
             horizontalActiveGradient.draw(in: segmentPath, angle: 0)
             horizontalActiveGradient.draw(in: segmentPath, angle: 180)
             bottomActiveGradient.draw(in: segmentPath, angle: 270)
-            
-            NSGraphicsContext.restoreGraphicsState()
         }
         
         // Draw divider.
@@ -284,21 +328,28 @@ class ToolbarSegmentedCell: NSSegmentedCell {
             }
         }
         
-        return super.startTracking(at: startPoint, in: controlView)
+        isHighlighted = true
+        return highlightedSegment != nil
     }
     
     override func continueTracking(last lastPoint: NSPoint, current currentPoint: NSPoint, in controlView: NSView) -> Bool {
         
         controlView.needsDisplay = true
         
-        return super.continueTracking(last: lastPoint, current: currentPoint, in: controlView)
+        return true
     }
     
     override func stopTracking(last lastPoint: NSPoint, current stopPoint: NSPoint, in controlView: NSView, mouseIsUp flag: Bool) {
         
+        guard let segment = highlightedSegment else {
+            return
+        }
+        if flag && NSPointInRect(stopPoint, rectForSegment(segment)) {
+            selectedSegment = segment
+            NSApp.sendAction(action!, to: target, from: self)
+        }
         highlightedSegment = nil
-        
-        return super.stopTracking(last: lastPoint, current: stopPoint, in: controlView, mouseIsUp: flag)
+        isHighlighted = false
     }
 }
 
@@ -315,58 +366,56 @@ extension NSBezierPath {
         
         let path = NSBezierPath()
         
-        // Start near top-left corner.
-        let startingPoint = NSPoint(x: rect.minX + topLeftCornerRadius,
+        // Start near top-right corner.
+        let startingPoint = NSPoint(x: rect.maxX - topRightCornerRadius,
                                     y: rect.minY)
         path.move(to: startingPoint)
         
-        // Top edge.
-        path.line(to: NSPoint(x: rect.maxX - topRightCornerRadius,
-                              y: rect.minY))
-        
         // Top-right corner.
-        let topRightCorner = NSPoint(x: rect.maxX,
-                                     y: rect.minY)
-        path.curve(to: NSPoint(x: rect.maxX,
-                               y: rect.minY + topRightCornerRadius),
-                   controlPoint1: topRightCorner,
-                   controlPoint2: topRightCorner)
+        if topRightCornerRadius > 0.0 {
+            let topRightArcCenter = NSPoint(x: rect.maxX - topRightCornerRadius,
+                                            y: rect.minY + topRightCornerRadius)
+            path.appendArc(withCenter: topRightArcCenter,
+                           radius: topRightCornerRadius, startAngle: -90, endAngle: 0)
+        }
         
         // Right edge.
         path.line(to: NSPoint(x: rect.maxX,
                               y: rect.maxY - bottomRightCornerRadius))
         
         // Bottom-right corner.
-        let bottomRightCorner = NSPoint(x: rect.maxX,
-                                        y: rect.maxY)
-        path.curve(to: NSPoint(x: rect.maxX - bottomRightCornerRadius,
-                               y: rect.maxY),
-                   controlPoint1: bottomRightCorner,
-                   controlPoint2: bottomRightCorner)
+        if bottomRightCornerRadius > 0.0 {
+            let bottomRightArcCenter = NSPoint(x: rect.maxX - bottomRightCornerRadius,
+                                               y: rect.maxY - bottomRightCornerRadius)
+            path.appendArc(withCenter: bottomRightArcCenter,
+                           radius: bottomRightCornerRadius, startAngle: 0, endAngle: 90)
+        }
         
         // Bottom edge.
         path.line(to: NSPoint(x: rect.minX + bottomLeftCornerRadius,
                               y: rect.maxY))
         
         // Bottom-left corner.
-        let bottomLeftCorner = NSPoint(x: rect.minX,
-                                       y: rect.maxY)
-        path.curve(to: NSPoint(x: rect.minX,
-                               y: rect.maxY - bottomLeftCornerRadius),
-                   controlPoint1: bottomLeftCorner,
-                   controlPoint2: bottomLeftCorner)
+        if bottomLeftCornerRadius > 0.0 {
+            let bottomLeftArcCenter = NSPoint(x: rect.minX + bottomLeftCornerRadius,
+                                              y: rect.maxY - bottomLeftCornerRadius)
+            path.appendArc(withCenter: bottomLeftArcCenter,
+                           radius: bottomLeftCornerRadius, startAngle: 90, endAngle: 180)
+        }
         
         // Left edge.
         path.line(to: NSPoint(x: rect.minX,
                               y: rect.minY + topLeftCornerRadius))
         
         // Top-left corner.
-        let topLeftCorner = NSPoint(x: rect.minX,
-                                    y: rect.minY)
-        path.curve(to: startingPoint,
-                   controlPoint1: topLeftCorner,
-                   controlPoint2: topLeftCorner)
+        if topLeftCornerRadius > 0.0 {
+            let topLeftArcCenter = NSPoint(x: rect.minX + topLeftCornerRadius,
+                                           y: rect.minY + topLeftCornerRadius)
+            path.appendArc(withCenter: topLeftArcCenter,
+                           radius: topLeftCornerRadius, startAngle: 180, endAngle: 270)
+        }
         
+        // Top edge and close path
         path.close()
         
         return path

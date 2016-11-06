@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
         NSString *location = url.absoluteString;
         if(location)
         {
-            NSArray *attributeMappings = mapping.attributeMappings;
+            NSArray<NSPropertyMapping *> *attributeMappings = mapping.attributeMappings;
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
                                           ^ BOOL (NSPropertyMapping *obj)
                                           {
@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
             if([location characterAtIndex:location.length - 1] == '/')
                 location = [location substringToIndex:location.length - 1];
 
-            NSArray *attributeMappings = mapping.attributeMappings;
+            NSArray<NSPropertyMapping *> *attributeMappings = mapping.attributeMappings;
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
                                           ^ BOOL (NSPropertyMapping *obj)
                                           {
