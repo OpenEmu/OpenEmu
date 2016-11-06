@@ -137,6 +137,8 @@ NSString * const OptionsKey = @"options";
 	[tableView setAllowsEmptySelection:YES];
 	[tableView setAllowsMultipleSelection:NO];
 	[tableView setAllowsTypeSelect:NO];
+    
+    [tableView reloadData];
 }
 
 - (void)OE_setupKeyDescription
