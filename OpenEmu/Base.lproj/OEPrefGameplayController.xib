@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPrefGameplayController">
@@ -168,7 +169,6 @@
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rUN-Tz-mZH" secondAttribute="trailing" constant="44" id="V81-Ty-41J"/>
                 <constraint firstItem="11" firstAttribute="leading" secondItem="10" secondAttribute="trailing" constant="6" id="WIH-K9-L8E"/>
                 <constraint firstItem="5" firstAttribute="leading" secondItem="13" secondAttribute="leading" constant="3" id="YSV-6s-eIC"/>
-                <constraint firstAttribute="bottom" secondItem="rUN-Tz-mZH" secondAttribute="bottom" constant="33" id="as6-tW-f3L"/>
                 <constraint firstItem="56" firstAttribute="top" secondItem="6" secondAttribute="bottom" constant="15" id="ash-0e-CGw"/>
                 <constraint firstItem="11" firstAttribute="bottom" secondItem="4" secondAttribute="top" constant="-27" id="eHO-aw-my1"/>
                 <constraint firstItem="4" firstAttribute="leading" secondItem="3" secondAttribute="leading" id="nbB-nj-haG"/>
