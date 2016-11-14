@@ -34,7 +34,7 @@
 
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    return file.fileSize < 2097152 ? OEFileSupportUncertain : OEFileSupportYes;
+    return file.fileSize < 2097152 ? OEFileSupportUncertain : OEFileSupportNo;
 }
 
 @end
