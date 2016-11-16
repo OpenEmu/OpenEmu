@@ -37,7 +37,7 @@
 
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    if (![file isKindOfClass:[OECUESheet class]])
+    if (![file isKindOfClass:[OECDSheet class]])
         return OEFileSupportNo;
 
     NSString *dataTrackString = [file readASCIIStringInRange:NSMakeRange(0, 16)];
@@ -72,7 +72,7 @@
 
 - (NSString *)headerLookupForFile:(__kindof OEFile *)file
 {
-    if (![file isKindOfClass:[OECUESheet class]])
+    if (![file isKindOfClass:[OECDSheet class]])
         return nil;
 
     // Read both offsets because of various dumps

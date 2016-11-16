@@ -141,6 +141,8 @@
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>cue</string>
+		<string>ccd</string>
+		<string>m3u</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
