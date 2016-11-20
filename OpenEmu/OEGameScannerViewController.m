@@ -386,6 +386,11 @@
         [self OE_setupActionsMenu];
         [self showGameScannerViewAnimated:YES];
     }
+    else
+    {
+        [NSApp presentError:item.error];
+    }
+
     [self OE_updateProgress];
 }
 
