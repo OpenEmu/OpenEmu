@@ -759,7 +759,44 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     return YES;
 }
 
+
+#pragma mark - QLPreviewPanelDataSource
+
+
+- (BOOL)acceptsPreviewPanelControl:(QLPreviewPanel *)panel
+{
+    id<OECollectionViewItemProtocol> viewItem = [self representedObject];
+    if ([viewItem respondsToSelector:@selector(collectionSupportsQuickLook)])
+        return [viewItem collectionSupportsQuickLook];
+    return NO;
+}
+
+
+- (NSInteger)numberOfPreviewItemsInPreviewPanel:(QLPreviewPanel *)panel
+{
+    return self.selectionIndexes.count;
+}
+
+
+- (id <QLPreviewItem>)previewPanel:(QLPreviewPanel *)panel previewItemAtIndex:(NSInteger)index
+{
+    __block NSInteger reali = NSNotFound;
+    __block NSInteger i = index;
+    
+    [self.selectionIndexes enumerateRangesUsingBlock:^(NSRange range, BOOL * stop) {
+        if (i < range.length) {
+            *stop = YES;
+            reali = range.location + i;
+        } else {
+            i -= range.length;
+        }
+    }];
+    return reali == NSNotFound ? nil : self.items[reali];
+}
+
+
 @end
+
 
 #pragma mark - OESavedGamesDataWrapper
 

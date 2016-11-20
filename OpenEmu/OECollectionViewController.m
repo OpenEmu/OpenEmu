@@ -541,6 +541,61 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 - (void)gridView:(OEGridView *)gridView setTitle:(NSString *)title forItemAtIndex:(NSInteger)index
 {}
+
+
+#pragma mark - Quick Look
+
+
+- (BOOL)acceptsPreviewPanelControl:(QLPreviewPanel *)panel
+{
+    return NO;
+}
+
+
+- (void)beginPreviewPanelControl:(QLPreviewPanel *)panel
+{
+    // We are now responsible of the preview panel
+    panel.delegate = self;
+    panel.dataSource = self;
+}
+
+
+- (void)endPreviewPanelControl:(QLPreviewPanel *)panel
+{
+    // Lost responsibility on the preview panel
+}
+
+
+- (BOOL)toggleQuickLook
+{
+    QLPreviewPanel *panel;
+    
+    if (![self acceptsPreviewPanelControl:nil])
+        return NO;
+    
+    panel = [QLPreviewPanel sharedPreviewPanel];
+    if ([panel isVisible])
+        [panel orderOut:nil];
+    else
+        [panel makeKeyAndOrderFront:nil];
+    return YES;
+}
+
+
+- (NSInteger)numberOfPreviewItemsInPreviewPanel:(QLPreviewPanel *)panel
+{
+    [self doesNotImplementSelector:_cmd];
+    return 0;
+}
+
+
+- (id <QLPreviewItem>)previewPanel:(QLPreviewPanel *)panel previewItemAtIndex:(NSInteger)index
+{
+    [self doesNotImplementSelector:_cmd];
+    return nil;
+}
+
+
 #pragma mark - Core Data
 - (NSArray*)defaultSortDescriptors
 {
