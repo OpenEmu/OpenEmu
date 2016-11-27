@@ -946,7 +946,7 @@ static OELibraryDatabase *defaultDatabase = nil;
             NSURL *gameInfoURL = gameInfo[@"URL"];
             NSString *gameURLWithSuffix = gameInfoURL.lastPathComponent;
             NSString *resultGameTitle = result[@"gameTitle"];
-            if ([gameURLWithSuffix.pathExtension.lowercaseString isEqualToString:@"m3u"])
+            if (resultGameTitle && [gameURLWithSuffix.pathExtension.lowercaseString isEqualToString:@"m3u"])
             {
                 // RegEx pattern match the parentheses e.g. " (Disc 1)" and update dictionary with trimmed gameTitle string
                 NSString *newGameTitle = [resultGameTitle stringByReplacingOccurrencesOfString:@"\\ \\(Disc.*\\)" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, [resultGameTitle length])];
