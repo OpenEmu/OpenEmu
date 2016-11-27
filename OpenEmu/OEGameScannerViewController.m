@@ -388,7 +388,7 @@
     }
     else
     {
-        [NSApp presentError:item.error];
+        if(item.error) [NSApp presentError:item.error];
     }
 
     [self OE_updateProgress];
