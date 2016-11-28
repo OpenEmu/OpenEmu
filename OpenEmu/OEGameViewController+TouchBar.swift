@@ -169,7 +169,7 @@ extension OEGameViewController: NSTouchBarDelegate {
             
             let imageName = document.gameWindowController.window!.isFullScreen ? NSImageNameTouchBarExitFullScreenTemplate : NSImageNameTouchBarEnterFullScreenTemplate
             let image = NSImage(named: imageName)!
-            let button = NSButton(image: image, target: nil, action: #selector(OEGameViewController.toggleFullScreen(_:)))
+            let button = NSButton(image: image, target: nil, action: #selector(OEGameViewController.fullScreenTouched(_:)))
             
             item.view = button
             
@@ -240,7 +240,7 @@ extension OEGameViewController: NSTouchBarDelegate {
         segmentedControl.setEnabled(volume < 1, forSegment: VolumeSegments.up.rawValue)
     }
     
-    @objc private func toggleFullScreen(_ sender: Any?) {
+    @objc private func fullScreenTouched(_ sender: Any?) {
         
         document.toggleFullScreen(self)
         
