@@ -411,24 +411,29 @@ class AppDelegate: NSDocumentController {
                         self.loadDatabaseAsynchronously(from: url, createIfNecessary: createIfNecessary)
                         
                     } catch let error as NSError {
-                        
+                                                
                         if error.domain != OEMigrationErrorDomain || error.code != OEMigrationErrorCode.cancelled.rawValue {
                             
                             DLog("Your library can't be opened with this version of OpenEmu.")
                             DLog("\(error)")
-                            NSAlert(error: error).runModal()
+                            
+                            DispatchQueue.main.async {
+                                NSAlert(error: error).runModal()
+                                NSApp.terminate(self)
+                            }
                             
                         } else {
                             DLog("Migration cancelled.")
+                            NSApp.terminate(self)
                         }
-                        
-                        NSApp.terminate(self)
                     }
                 }
                 
             } else {
-                presentError(error)
-                performDatabaseSelection()
+                DispatchQueue.main.async {
+                    self.presentError(error)
+                    self.performDatabaseSelection()
+                }
             }
         }
     }
