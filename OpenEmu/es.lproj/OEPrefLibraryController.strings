@@ -18,7 +18,7 @@
 "21.title" = "Copiar en biblioteca de juegos los archivos añadidos a la biblioteca";
 
 /* Class = "NSButtonCell"; title = "Automatically lookup game information & artwork"; ObjectID = "23"; */
-"23.title" = "Buscar información y carátulas de los juegos automáticamente";
+"23.title" = "Buscar información y carátulas de juegos automáticamente";
 
 /* Class = "NSTextFieldCell"; title = "Available Libraries:"; ObjectID = "24"; */
 "24.title" = "Bibliotecas disponibles:";
