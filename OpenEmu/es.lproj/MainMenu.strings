@@ -54,7 +54,7 @@
 "1000.title" = "Ninguna";
 
 /* Class = "NSMenuItem"; title = "Back Up…"; ObjectID = "1007"; */
-"1007.title" = "Guardar copia de seguridad…";
+"1007.title" = "Copia de seguridad…";
 
 /* Class = "NSMenuItem"; title = "Organize Library…"; ObjectID = "1008"; */
 "1008.title" = "Organizar biblioteca…";
@@ -123,7 +123,7 @@
 "1042.title" = "Controles";
 
 /* Class = "NSMenuItem"; title = "Pause Gameplay"; ObjectID = "1044"; */
-"1044.title" = "Pausar emulación";
+"1044.title" = "Pausar modo de juego";
 
 /* Class = "NSMenuItem"; title = "Volume Down"; ObjectID = "1045"; */
 "1045.title" = "Bajar volumen";
@@ -189,13 +189,13 @@
 "1167.title" = "Detener emulación";
 
 /* Class = "NSMenu"; title = "Debug"; ObjectID = "1209"; */
-"1209.title" = "Debug";
+"1209.title" = "Depurar";
 
 /* Class = "NSMenuItem"; title = "Log Responder Chain"; ObjectID = "1210"; */
-"1210.title" = "Log Responder Chain";
+"1210.title" = "Registro de cadena de respuesta";
 
 /* Class = "NSMenuItem"; title = "Log Grid Info"; ObjectID = "1217"; */
-"1217.title" = "Log Grid Info";
+"1217.title" = "Registro de información de cuadrícula";
 
 /* Class = "NSMenuItem"; title = "Show ROM Names"; ObjectID = "1293"; */
 "1293.title" = "Mostrar nombres de ROMS";
@@ -219,7 +219,7 @@
 "ahk-gp-EN3.title" = "Página web de OpenEmu";
 
 /* Class = "NSMenuItem"; title = "Always Hide HUD"; ObjectID = "ayc-Ld-Nyd"; */
-"ayc-Ld-Nyd.title" = "Siempre mostrar controles";
+"ayc-Ld-Nyd.title" = "Siempre ocultar HUD";
 
 /* Class = "NSMenuItem"; title = "Submit Feedback…"; ObjectID = "ftM-3D-CSh"; */
 "ftM-3D-CSh.title" = "Enviar comentarios…";
@@ -228,4 +228,4 @@
 "q7W-GV-n3p.title" = "Guía de usuario";
 
 /* Class = "NSMenuItem"; title = "Send a Donation…"; ObjectID = "oKt-cF-ZgP"; */
-"oKt-cF-ZgP.title" = "Send a Donation…";  // TODO
+"oKt-cF-ZgP.title" = "Enviar una donación…";
