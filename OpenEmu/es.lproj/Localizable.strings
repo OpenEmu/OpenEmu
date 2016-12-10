@@ -132,6 +132,8 @@
 
 "Could not move library data!" = "¡No ha podido mover los datos de la biblioteca!";
 
+"Couldn't connect to the background process." = "Couldn't connect to the background process.";/**/
+
 "Couldn't load %@ plugin" = "No ha podido cargar el plugin %@";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Cree una selección personal de juegos. Para añadir a la colección, seleccione un juego de su biblioteca de consolas y arrástrelo a ’%@’ en la izquierda.";
@@ -168,9 +170,9 @@
 
 "Deselect All" = "Desmarcar todo";
 
-"Device Disconnected" = "Device Disconnected";/**/
+"Device Disconnected" = "Dispositivo desconectado";
 
-"Device number %lu, %@, has disconnected." = "Device number %1$lu, %2$@, has disconnected.";/**/
+"Device number %lu, %@, has disconnected." = "El dispositivo número %1$lu, %2$@, se ha desconectado.";
 
 "Disc %u" = "Disco %u";
 
@@ -300,7 +302,7 @@
 
 "No Save States available" = "No hay estados guardados disponibles";
 
-"No Screenshots Found" = "No Screenshots Found"; // TODO
+"No Screenshots Found" = "No Screenshots Found";/**/
 
 "No" = "No";
 
@@ -374,7 +376,7 @@
 
 "Resolve %ld Issues" = "Solucionar %ld errores";
 
-"Resolve Issues" = "Solucionar errores";/**/
+"Resolve Issues" = "Solucionar errores";
 
 "Restart now" = "Reiniciar ahora";
 
@@ -393,6 +395,8 @@
 "Save Game" = "Guardar partida";
 
 "Save States" = "Estados guardados";
+
+"Save to Slot %d" = "Guardar en ranura %d";/**/
 
 "Save-Game-%ld %@" = "Guardar-Partida-%ld %@";
 
@@ -430,6 +434,8 @@
 
 "Slot %ld" = "Ranura %ld";
 
+"Slot 1" = "Ranura 1";
+
 "Some migrations failed to complete properly" = "Algunas migraciones no se completaron correctamente";
 
 "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Gracias especialmente a todos los que hacen posible OpenEmu. Para saber más sobre nuestros colaboradores, núcleos de emulador, documentación, licencias y para dar parte de errores por favor visítenos en GitHub.";
@@ -454,6 +460,8 @@
 
 "The background process connection couldn't be established" = "La conexión del proceso en segundo plano no se ha podido establecer";
 
+"The background process couldn't be launched" = "The background process couldn't be launched";/**/
+
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "La batería del dispositivo número %1$lu, %2$@, está baja. Por favor cambie o reemplace la batería.";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "El núcleo no se ha podido descargar. Intente instalarlo desde las preferencias de los núcleos.";
@@ -465,6 +473,8 @@
 "The game '%@' was imported." = "El juego '%@' fue importado.";
 
 "The OpenEmu Library could not be found." = "La biblioteca de OpenEmu no se ha podido encontrar.";
+
+"The root proxy object is nil." = "The root proxy object is nil.";/**/
 
 "The System plugin could not be found!" = "¡El plugin de sistema no se ha podido encontrar!";
 
@@ -509,6 +519,8 @@
 "You need to restart the application to commit the change" = "Necesita reiniciar la aplicación para confirmar el cambio";
 
 "Your game finished importing, do you want to play it now?" = "Finalizada la importación del juego, ¿desea jugar ahora?";
+
+"Your library was moved sucessfully. OpenEmu must relaunch now!" = "Su biblioteca fue movida correctamente.¡OpenEmu debe reiniciar ahora!";/**/
 
 "Library" = "Biblioteca";
 
@@ -601,6 +613,8 @@
 
 "Show all global keys" = "Mostrar todas las teclas genéricas";
 
+"Always show BIOS preferences" = "Always show BIOS preferences"; /**/
+
 "Set default save states directory" = "Establecer carpeta predeterminada de estados guardados";
 
 "Choose save states directory…" = "Elegir carpeta de estados guardados…";
@@ -623,7 +637,7 @@
 
 "Remove untracked artwork files" = "Borrar archivos de carátulas no indexados";
 
-"Cleanup rom hashes" = "Cleanup rom hashes"; /**/
+"Cleanup rom hashes" = "Cleanup rom hashes"; /*1*/
 
 "Remove duplicated roms" = "Borrar roms duplicadas";
 
@@ -641,6 +655,6 @@
 
 "Sync games without artwork" = "Sincronizar juegos sin carátula";
 
-"ECM compressed binary detected." = "ECM compressed binary detected.";/**/
+"ECM compressed binary detected." = "Binario de compresión ECM detectado.";
 
-"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";/**/
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "Los binarios de compresión ECM no se pueden importar. Por favor lea la guía de importación de disco.";
