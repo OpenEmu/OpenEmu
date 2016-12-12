@@ -904,7 +904,7 @@ extension AppDelegate: OpenEmuApplicationDelegateProtocol {
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         
-        if #available(OSX 10.12.1, *), NSClassFromString("NSTouchBar") != nil {
+        if #available(OSX 10.12.2, *), NSClassFromString("NSTouchBar") != nil {
             // Get the “Customize Touch Bar…” menu to display in the View menu.
             NSApp.isAutomaticCustomizeTouchBarMenuItemEnabled = true
         }

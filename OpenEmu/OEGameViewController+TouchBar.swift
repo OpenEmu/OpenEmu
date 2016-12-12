@@ -58,7 +58,7 @@ fileprivate extension NSTouchBarItemIdentifier {
     static let toggleFullScreen = NSTouchBarItemIdentifier("org.openemu.GameViewControllerTouchBar.toggleFullScreen")
 }
 
-@available(OSX 10.12.1, *)
+@available(OSX 10.12.2, *)
 extension OEGameViewController {
     
     open override func makeTouchBar() -> NSTouchBar? {
@@ -83,7 +83,7 @@ extension OEGameViewController {
     }
 }
 
-@available(OSX 10.12.1, *)
+@available(OSX 10.12.2, *)
 extension OEGameViewController: NSTouchBarDelegate {
     
     public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItemIdentifier) -> NSTouchBarItem? {

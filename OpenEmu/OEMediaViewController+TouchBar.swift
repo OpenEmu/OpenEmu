@@ -45,7 +45,7 @@ fileprivate extension NSTouchBarItemIdentifier {
     static let shareScreenshot = NSTouchBarItemIdentifier("org.openemu.OEMediaViewController.screenshotsTouchBar.share")
 }
 
-@available(OSX 10.12.1, *)
+@available(OSX 10.12.2, *)
 extension OEMediaViewController {
     
     open override func makeTouchBar() -> NSTouchBar? {
@@ -84,7 +84,7 @@ extension OEMediaViewController {
     }
 }
 
-@available(OSX 10.12.1, *)
+@available(OSX 10.12.2, *)
 extension OEMediaViewController: NSTouchBarDelegate {
     
     public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItemIdentifier) -> NSTouchBarItem? {
@@ -148,7 +148,7 @@ extension OEMediaViewController: NSTouchBarDelegate {
     }
 }
 
-@available(OSX 10.12.1, *)
+@available(OSX 10.12.2, *)
 extension OEMediaViewController: NSSharingServicePickerTouchBarItemDelegate {
     
     public func items(for pickerTouchBarItem: NSSharingServicePickerTouchBarItem) -> [Any] {
@@ -156,7 +156,7 @@ extension OEMediaViewController: NSSharingServicePickerTouchBarItemDelegate {
     }
 }
 
-@available(OSX 10.12.1, *)
+@available(OSX 10.12.2, *)
 private class MediaTouchBar: NSTouchBar {
     
     weak var mediaViewController: OEMediaViewController? {
