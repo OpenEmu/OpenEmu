@@ -34,7 +34,7 @@
 
 "%ux" = "%ux";
 
-"A version of this plugin is already loaded" = "A version of this plugin is already loaded";/**/
+"A version of this plugin is already loaded" = "Una versión de este plugin ya está cargada";
 
 "Add a Wiimote…" = "Añadir Wiimote…";
 
@@ -302,7 +302,7 @@
 
 "No Save States available" = "No hay estados guardados disponibles";
 
-"No Screenshots Found" = "No Screenshots Found";/**/
+"No Screenshots Found" = "No se encontraron capturas de pantalla";
 
 "No" = "No";
 
@@ -396,7 +396,7 @@
 
 "Save States" = "Estados guardados";
 
-"Save to Slot %d" = "Guardar en ranura %d";/**/
+"Save to Slot %d" = "Save to Slot %d";/**/
 
 "Save-Game-%ld %@" = "Guardar-Partida-%ld %@";
 
@@ -520,7 +520,7 @@
 
 "Your game finished importing, do you want to play it now?" = "Finalizada la importación del juego, ¿desea jugar ahora?";
 
-"Your library was moved sucessfully. OpenEmu must relaunch now!" = "Su biblioteca fue movida correctamente.¡OpenEmu debe reiniciar ahora!";/**/
+"Your library was moved sucessfully. OpenEmu must relaunch now!" = "Your library was moved sucessfully. OpenEmu must relaunch now!";/**/
 
 "Library" = "Biblioteca";
 
@@ -530,11 +530,11 @@
 
 "Homebrew" = "Caseros";
 
-"Grid Size" = "Grid Size";/**/   // TODO shown when the corresponding item does not fit in the main window's toolbar
+"Grid Size" = "Tamaño de cuadrícula";
 
-"View Mode" = "View Mode";/**/   // TODO shown when the corresponding item does not fit in the main window's toolbar
+"View Mode" = "Modo de visualización";
 
-"Category" = "Category";/**/   // TODO shown when the corresponding item does not fit in the main window's toolbar
+"Category" = "Categoría";
 
 
 /* Secrets */
@@ -637,7 +637,7 @@
 
 "Remove untracked artwork files" = "Borrar archivos de carátulas no indexados";
 
-"Cleanup rom hashes" = "Cleanup rom hashes"; /*1*/
+"Cleanup rom hashes" = "Limpiar roms fragmentadas";
 
 "Remove duplicated roms" = "Borrar roms duplicadas";
 
