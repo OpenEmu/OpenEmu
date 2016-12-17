@@ -388,7 +388,7 @@
     }
     else
     {
-        if(item.error) [NSApp presentError:item.error];
+        if(item.error) NSLog(@"%@", item.error);
     }
 
     [self OE_updateProgress];
