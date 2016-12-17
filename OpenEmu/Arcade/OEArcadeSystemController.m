@@ -34,7 +34,10 @@
 
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    return file.fileSize < 78643200 ? OEFileSupportUncertain : OEFileSupportNo;
+    if([file.fileExtension isEqualToString:@"bin"] && file.fileSize > 78643200)
+        return OEFileSupportNo;
+    else
+        return OEFileSupportUncertain;
 }
 
 @end
