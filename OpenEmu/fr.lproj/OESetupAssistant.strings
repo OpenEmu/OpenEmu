@@ -54,7 +54,7 @@
 "401.title" = "C’est parti !";
 
 /* Class = "NSTextFieldCell"; title = "Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time."; ObjectID = "402"; */
-"402.title" = "Génial ! Tout est paramétré et vous êtes prêt(e) à jouer !\n\nVous pouvez changer à n’importe quel moment les contrôles de votre clavier et manette pour vous et d’autres joueurs dans les préférences.";
+"402.title" = "Génial ! Tout est paramétré et vous êtes prêt(e) à jouer !\n\nVous pouvez changer à tout moment les contrôles de votre clavier et manette pour vous et d’autres joueurs dans les préférences.";
 
 /* Class = "NSTextFieldCell"; title = "Click the ‘Go’ button to begin your adventure."; ObjectID = "403"; */
 "403.title" = "Cliquez sur « Commencer » pour démarrer l’aventure.";
