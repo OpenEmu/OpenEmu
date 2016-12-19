@@ -530,11 +530,11 @@
 
 "Homebrew" = "Homebrew";
 
-"Grid Size" = "Grid Size";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+"Grid Size" = "Taille de la grille";
 
-"View Mode" = "View Mode";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+"View Mode" = "Mode d’affichage";
 
-"Category" = "Category";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+"Category" = "Catégorie";
 
 
 /* Secrets */
@@ -655,6 +655,6 @@
 
 "Sync games without artwork" = "Synchroniser les jeux sans illustration";
 
-"ECM compressed binary detected." = "ECM compressed binary detected.";  // TODO
+"ECM compressed binary detected." = "Fichier binaire ECM compressé détecté.";
 
-"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";  // TODO
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "Les fichiers binaires ECM compressés ne peuvent pas être importés. Veuillez lire le guide d’importation des disques.";
