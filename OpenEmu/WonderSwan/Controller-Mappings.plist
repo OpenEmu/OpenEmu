@@ -68,6 +68,21 @@
 		<key>OEWSButtonSound</key>
 		<string>OEControllerSegaSaturnButtonX</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OEWSButtonX1</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OEWSButtonX4</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OEWSButtonB</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OEWSButtonA</key>
+		<string>OEControllerPlaySegaButtonZ</string>
+		<key>OEWSButtonStart</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+		<key>OEWSButtonSound</key>
+		<string>OEControllerPlaySegaButtonX</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OEWSButtonX1</key>

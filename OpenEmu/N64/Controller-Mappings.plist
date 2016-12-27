@@ -114,6 +114,31 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerSegaSaturnButtonStart</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OEN64AnalogUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OEN64AnalogLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEControllerPlaySegaButtonY</string>
+		<key>OEN64ButtonCDown</key>
+		<string>OEControllerPlaySegaButtonA</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEControllerPlaySegaButtonX</string>
+		<key>OEN64ButtonCRight</key>
+		<string>OEControllerPlaySegaButtonB</string>
+		<key>OEN64ButtonA</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OEN64ButtonB</key>
+		<string>OEControllerPlaySegaButtonZ</string>
+		<key>OEN64ButtonR</key>
+		<string>OEControllerPlaySegaButtonRightShoulder</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEControllerPlaySegaButtonLeftShoulder</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OEN64AnalogUp</key>

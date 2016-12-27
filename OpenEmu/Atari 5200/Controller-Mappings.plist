@@ -76,6 +76,23 @@
 		<key>OE5200ButtonReset</key>
 		<string>OEControllerSegaSaturnButtonRightShoulder</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OE5200ButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OE5200ButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OE5200ButtonFire2</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OE5200ButtonFire1</key>
+		<string>OEControllerPlaySegaButtonZ</string>
+		<key>OE5200ButtonStart</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+		<key>OE5200ButtonPause</key>
+		<string>OEControllerPlaySegaButtonX</string>
+		<key>OE5200ButtonReset</key>
+		<string>OEControllerPlaySegaButtonRightShoulder</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OE5200ButtonUp</key>

@@ -92,6 +92,27 @@
 		<key>OE3DOButtonX</key>
 		<string>OEControllerSegaSaturnButtonX</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OE3DOButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OE3DOButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OE3DOButtonA</key>
+		<string>OEControllerPlaySegaButtonA</string>
+		<key>OE3DOButtonB</key>
+		<string>OEControllerPlaySegaButtonB</string>
+		<key>OE3DOButtonC</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OE3DOButtonL</key>
+		<string>OEControllerPlaySegaButtonLeftShoulder</string>
+		<key>OE3DOButtonR</key>
+		<string>OEControllerPlaySegaButtonRightShoulder</string>
+		<key>OE3DOButtonP</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+		<key>OE3DOButtonX</key>
+		<string>OEControllerPlaySegaButtonX</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OE3DOButtonUp</key>

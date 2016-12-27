@@ -76,6 +76,23 @@
 		<key>OE7800ButtonReset</key>
 		<string>OEControllerSegaSaturnButtonRightShoulder</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OE7800ButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OE7800ButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OE7800ButtonFire2</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OE7800ButtonFire1</key>
+		<string>OEControllerPlaySegaButtonZ</string>
+		<key>OE7800ButtonSelect</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+		<key>OE7800ButtonPause</key>
+		<string>OEControllerPlaySegaButtonX</string>
+		<key>OE7800ButtonReset</key>
+		<string>OEControllerPlaySegaButtonRightShoulder</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OE7800ButtonUp</key>

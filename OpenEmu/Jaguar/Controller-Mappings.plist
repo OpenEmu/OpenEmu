@@ -76,6 +76,23 @@
 		<key>OEJaguarButtonOption</key>
 		<string>OEControllerSegaSaturnButtonX</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OEJaguarButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OEJaguarButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OEJaguarButtonC</key>
+		<string>OEControllerPlaySegaButtonA</string>
+		<key>OEJaguarButtonB</key>
+		<string>OEControllerPlaySegaButtonB</string>
+		<key>OEJaguarButtonA</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OEJaguarButtonPause</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+		<key>OEJaguarButtonOption</key>
+		<string>OEControllerPlaySegaButtonX</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OEJaguarButtonUp</key>

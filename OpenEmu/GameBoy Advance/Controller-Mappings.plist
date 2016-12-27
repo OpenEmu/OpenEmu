@@ -84,6 +84,25 @@
 		<key>OEGBAButtonSelect</key>
 		<string>OEControllerSegaSaturnButtonX</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OEGBAButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OEGBAButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OEGBAButtonA</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OEGBAButtonB</key>
+		<string>OEControllerPlaySegaButtonZ</string>
+		<key>OEGBAButtonL</key>
+		<string>OEControllerPlaySegaButtonLeftShoulder</string>
+		<key>OEGBAButtonR</key>
+		<string>OEControllerPlaySegaButtonRightShoulder</string>
+		<key>OEGBAButtonStart</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+		<key>OEGBAButtonSelect</key>
+		<string>OEControllerPlaySegaButtonX</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OEGBAButtonUp</key>

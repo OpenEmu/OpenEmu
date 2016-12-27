@@ -60,6 +60,19 @@
 		<key>OENGPButtonOption</key>
 		<string>OEControllerSegaSaturnButtonStart</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OENGPButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OENGPButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OENGPButtonA</key>
+		<string>OEControllerPlaySegaButtonZ</string>
+		<key>OENGPButtonB</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OENGPButtonOption</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OENGPButtonUp</key>

@@ -100,6 +100,29 @@
 		<key>OESegaCDButtonMode</key>
 		<string>OEControllerSegaSaturnButtonRightShoulder</string>
 	</dict>
+	<key>OEControllerPlaySega</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerPlaySegaDPadUp</string>
+		<key>OESegaCDButtonLeft</key>
+		<string>OEControllerPlaySegaDPadLeft</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerPlaySegaButtonA</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerPlaySegaButtonB</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerPlaySegaButtonC</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerPlaySegaButtonX</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerPlaySegaButtonY</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerPlaySegaButtonZ</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerPlaySegaButtonStart</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerPlaySegaButtonRightShoulder</string>
+	</dict>
 	<key>OEControllerGravisGamePadPro</key>
 	<dict>
 		<key>OESegaCDButtonUp</key>
