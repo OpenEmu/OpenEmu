@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2016, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,8 +26,9 @@
 
 @import Foundation;
 
-#pragma mark -
-#pragma mark Input state masks
+NS_ASSUME_NONNULL_BEGIN
+
+#pragma mark - Input state masks
 
 /*
  The following are available state inputs that a state mask is composed of:
@@ -62,8 +63,7 @@ enum
     OEThemeInputStateModifierAlternate   = 1 << 14,
 };
 
-#pragma mark -
-#pragma mark Input state wild card masks
+#pragma mark - Input state wild card masks
 
 /*
  In the Theme.plist you can define an 'Any' input state for input states that should be ignored when determining which
@@ -83,39 +83,35 @@ enum
 };
 typedef NSUInteger OEThemeState;
 
-#pragma mark -
-#pragma mark Common theme object attributes
+#pragma mark - Common theme object attributes
 
 extern NSString * const OEThemeObjectStatesAttributeName;
 extern NSString * const OEThemeObjectValueAttributeName;
 
-#pragma mark -
-#pragma mark Implementation
+#pragma mark - Implementation
 
-// Retrieves an NSString from an OEThemeState
+/// Retrieves an NSString from an OEThemeState
 extern NSString *NSStringFromThemeState(OEThemeState state);
 
-// Parses an NSString into an OEThemeState, the NSString is a comma separated list of tokens. The order of the token's appearance has no effect on the final value.
+/// Parses an NSString into an OEThemeState, the NSString is a comma separated list of tokens. The order of the token's appearance has no effect on the final value.
 extern OEThemeState  OEThemeStateFromString(NSString *state);
 
 @interface OEThemeObject : NSObject
-{
-@private
-    NSMutableDictionary *_objectByState;  // State table
-    NSMutableArray *_states;              // Used for implicit selection of object for desired state
-}
 
-- (id)initWithDefinition:(id)definition;
+- (instancetype)initWithDefinition:(id)definition;
 
-// Must be overridden by subclasses to be able to parse customized UI element
-+ (id)parseWithDefinition:(NSDictionary *)definition;
+/// Must be overridden by subclasses to be able to parse customized UI element
++ (id _Nullable)parseWithDefinition:(NSDictionary *)definition;
 
-// Convenience function for retrieving an OEThemeState based on the supplied inputs
+/// Convenience function for retrieving an OEThemeState based on the supplied inputs
 + (OEThemeState)themeStateWithWindowActive:(BOOL)windowActive buttonState:(NSCellStateValue)state selected:(BOOL)selected enabled:(BOOL)enabled focused:(BOOL)focused houseHover:(BOOL)hover modifierMask:(NSUInteger)modifierMask;
 
-// Retrieves UI object for state specified
+/// Retrieves UI object for state specified
 - (id)objectForState:(OEThemeState)state;
 
-@property (nonatomic, readonly) NSUInteger stateMask;  // Aggregate mask that filters out any unspecified state input
+/// Aggregate mask that filters out any unspecified state input
+@property (nonatomic, readonly) NSUInteger stateMask;
 
 @end
+
+NS_ASSUME_NONNULL_END

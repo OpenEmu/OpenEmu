@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2016, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -27,78 +27,78 @@
 #import "OEThemeGradient.h"
 #import "NSColor+OEAdditions.h"
 
-#pragma mark -
-#pragma mark Theme gradient attributes
+#pragma mark - Theme gradient attributes
 
 static NSString * const OEThemeGradientLocationsAttributeName = @"Locations";
 static NSString * const OEThemeGradientColorsAttributeName    = @"Colors";
 static NSString * const OEThemeGradientAngleAttributeName     = @"Angle";
 
-#pragma mark -
-#pragma mark Implementation
+#pragma mark - Implementation
 
 @interface OEGradient : NSGradient
 
-@property(nonatomic, assign) CGFloat angle; // Saves the angle specified by the theme definition
+/// Saves the angle specified by the theme definition.
+@property (nonatomic) CGFloat angle;
 
 @end
 
 @implementation OEThemeGradient
 
-+ (id)parseWithDefinition:(NSDictionary *)definition
-{
-    id rawLocations    = [definition objectForKey:OEThemeGradientLocationsAttributeName];
-    id rawColorStrings = [definition objectForKey:OEThemeGradientColorsAttributeName];
-    id angle           = [definition objectForKey:OEThemeGradientAngleAttributeName];
++ (id)parseWithDefinition:(NSDictionary *)definition {
+    
+    NSArray *rawLocations = definition[OEThemeGradientLocationsAttributeName];
+    NSArray *rawColorStrings = definition[OEThemeGradientColorsAttributeName];
+    id angle = definition[OEThemeGradientAngleAttributeName];
 
     // Make sure that the gradient definition is well-formed (we should report errors)
-    if([rawLocations isKindOfClass:[NSString class]] || [rawLocations isKindOfClass:[NSNumber class]]) rawLocations = [NSArray arrayWithObject:rawLocations];
-    else if(![rawLocations isKindOfClass:[NSArray class]])                                             return nil;
+    if ([rawLocations isKindOfClass:[NSString class]] || [rawLocations isKindOfClass:[NSNumber class]]) {
+        rawLocations = @[ rawLocations ];
+    } else if (![rawLocations isKindOfClass:[NSArray class]]) {                                             return nil;
+    }
 
-    if([rawColorStrings isKindOfClass:[NSString class]] || [rawColorStrings isKindOfClass:[NSNumber class]]) rawColorStrings = [NSArray arrayWithObject:rawColorStrings];
-    else if(![rawColorStrings isKindOfClass:[NSArray class]])                                                return nil;
+    if ([rawColorStrings isKindOfClass:[NSString class]] || [rawColorStrings isKindOfClass:[NSNumber class]]) {
+        rawColorStrings = @[ rawColorStrings ];
+    } else if (![rawColorStrings isKindOfClass:[NSArray class]]) {                                                return nil;
+    }
 
-    if(![angle isKindOfClass:[NSString class]] && ![angle isKindOfClass:[NSNumber class]]) angle = nil;
+    if (![angle isKindOfClass:[NSString class]] && ![angle isKindOfClass:[NSNumber class]]) {
+        angle = nil;
+    }
 
     // Make sure that there are color stops and colors
-    if([rawLocations count] == 0 || [rawColorStrings count] == 0 || [rawLocations count] != [rawColorStrings count]) return nil;
+    if (rawLocations.count == 0 || rawColorStrings.count == 0 || rawLocations.count != rawColorStrings.count) {
+        return nil;
+    }
 
     // Translate color strings into NSColor
-    id              result = nil;
-    NSMutableArray *colors = [NSMutableArray arrayWithCapacity:[rawColorStrings count]];
+    id result = nil;
+    NSMutableArray *colors = [NSMutableArray arrayWithCapacity:rawColorStrings.count];
 
-    [rawColorStrings enumerateObjectsUsingBlock:
-     ^ (id obj, NSUInteger idx, BOOL *stop)
-     {
-         [colors addObject:([NSColor colorFromString:obj] ?: [NSColor blackColor])];
-     }];
+    for (id obj in rawColorStrings) {
+        [colors addObject:([NSColor colorFromString:obj] ?: NSColor.blackColor)];
+    }
 
     // Translate NSNumber objects to CGFloats
     CGFloat *locations = NULL;
-    @try
-    {
-        if((locations = calloc([colors count], sizeof(CGFloat))) != NULL)
-        {
-            [rawLocations enumerateObjectsUsingBlock:
-             ^ (NSNumber *location, NSUInteger idx, BOOL *stop)
-             {
-                 locations[idx] = [location floatValue];
-             }];
+    @try {
+        if ((locations = calloc(colors.count, sizeof(CGFloat))) != NULL) {
+            [rawLocations enumerateObjectsUsingBlock:^(NSNumber *location, NSUInteger idx, BOOL *stop) {
+                locations[idx] = location.floatValue;
+            }];
 
-            result = [[OEGradient alloc] initWithColors:colors atLocations:locations colorSpace:[NSColorSpace genericRGBColorSpace]];
-            [result setAngle:[angle floatValue]];
+            result = [[OEGradient alloc] initWithColors:colors atLocations:locations colorSpace:NSColorSpace.genericRGBColorSpace];
+            ((OEGradient *)result).angle = [angle floatValue];
         }
-    }
-    @finally
-    {
-        if(locations != NULL) free(locations);
+    } @finally {
+        if (locations != NULL) {
+            free(locations);
+        }
     }
 
     return result;
 }
 
-- (NSGradient *)gradientForState:(OEThemeState)state
-{
+- (NSGradient *)gradientForState:(OEThemeState)state {
     return (NSGradient *)[self objectForState:state];
 }
 
@@ -106,13 +106,11 @@ static NSString * const OEThemeGradientAngleAttributeName     = @"Angle";
 
 @implementation NSGradient (OEThemeGradientAdditions)
 
-- (void)drawInRect:(NSRect)rect
-{
+- (void)drawInRect:(NSRect)rect {
     [self drawInRect:rect angle:0.0];
 }
 
-- (void)drawInBezierPath:(NSBezierPath *)path
-{
+- (void)drawInBezierPath:(NSBezierPath *)path {
     [self drawInBezierPath:path angle:0.0];
 }
 
@@ -120,15 +118,11 @@ static NSString * const OEThemeGradientAngleAttributeName     = @"Angle";
 
 @implementation OEGradient
 
-@synthesize angle = _angle;
-
-- (void)drawInRect:(NSRect)rect
-{
+- (void)drawInRect:(NSRect)rect {
     [self drawInRect:rect angle:_angle];
 }
 
-- (void)drawInBezierPath:(NSBezierPath *)path
-{
+- (void)drawInBezierPath:(NSBezierPath *)path {
     [self drawInBezierPath:path angle:_angle];
 }
 
