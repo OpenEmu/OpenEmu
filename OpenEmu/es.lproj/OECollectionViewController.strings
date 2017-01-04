@@ -15,7 +15,7 @@
 "103.headerCell.title" = "Partidas guardadas";
 
 /* Class = "NSTableColumn"; headerCell.title = "Play Count"; ObjectID = "105"; */
-"105.headerCell.title" = "Play Count";
+"105.headerCell.title" = "Número de partidas";
 
 /* Class = "NSTableColumn"; headerCell.title = "Play Time"; ObjectID = "107"; */
 "107.headerCell.title" = "Tiempo de juego";
