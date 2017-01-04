@@ -163,7 +163,7 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
     return [NSArray array];
 }
 
-+ (NSArray <OEDBSystem *> *)systemsForFileWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context error:(NSError**)error
++ (NSArray <OEDBSystem *> * _Nullable)systemsForFileWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context error:(NSError**)error
 {
     OEFile *file = [OEFile fileWithURL:url error:error];
     if (file == nil)

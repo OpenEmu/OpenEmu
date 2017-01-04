@@ -230,7 +230,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
     if([cell isKindOfClass:[NSTextFieldCell class]])
         return [cell stringValue];
     
-    return nil;
+    return @"";
 }
 
 #pragma mark -

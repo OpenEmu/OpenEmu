@@ -44,7 +44,7 @@ extern NSString * const OEGameInfoHelperDidUpdateNotificationName;
 @property (nullable, copy) NSString *downloadVersion;
 @property (readonly, getter=isUpdating) BOOL updating;
 
-- (NSDictionary *)gameInfoWithDictionary:(NSDictionary *)gameInfo;
+- (NSDictionary * _Nullable)gameInfoWithDictionary:(NSDictionary *)gameInfo;
 
 - (BOOL)hashlessROMCheckForSystem:(NSString *)system;
 - (BOOL)headerROMCheckForSystem:(NSString *)system;

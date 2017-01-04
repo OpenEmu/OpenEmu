@@ -96,7 +96,7 @@ const NSInteger OpenVGDBSyncBatchSize = 5;
 
 @end
 
-static OELibraryDatabase *defaultDatabase = nil;
+static OELibraryDatabase * _Nullable defaultDatabase = nil;
 
 #define MergeLog(_MOC1_, _MOC2_, SKIP) DLog(@"merge %@ into %@%s", [[_MOC2_ userInfo] objectForKey:@"name"], [[_MOC1_ userInfo] objectForKey:@"name"], SKIP ? " ignored" : "")
 
