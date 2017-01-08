@@ -487,6 +487,10 @@
 		871CE9121B0BCFB800B89E96 /* controller_pcfx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */; };
 		871CE9131B0BCFB800B89E96 /* controller_pcfx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */; };
 		8745D75F1BF9A72B005E8699 /* OE5200SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */; };
+		875CC3211E221D4300E3BEB9 /* controller_pcecd_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 875CC31F1E221D4300E3BEB9 /* controller_pcecd_mask@2x.png */; };
+		875CC3221E221D4300E3BEB9 /* controller_pcecd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 875CC3201E221D4300E3BEB9 /* controller_pcecd@2x.png */; };
+		875CC3251E221D9800E3BEB9 /* controller_pce_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 875CC3231E221D9800E3BEB9 /* controller_pce_mask@2x.png */; };
+		875CC3261E221D9800E3BEB9 /* controller_pce@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 875CC3241E221D9800E3BEB9 /* controller_pce@2x.png */; };
 		8763A38F1D5694E90089C30B /* OEArcadeSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8763A38E1D5694E90089C30B /* OEArcadeSystemController.m */; };
 		879243B41C0DA5910064C515 /* controller_5200_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 879243B21C0DA5910064C515 /* controller_5200_mask@2x.png */; };
 		879243B51C0DA5910064C515 /* controller_5200@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 879243B31C0DA5910064C515 /* controller_5200@2x.png */; };
@@ -2122,6 +2126,10 @@
 		871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pcfx@2x.png"; sourceTree = "<group>"; };
 		8745D75D1BF9A72A005E8699 /* OE5200SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE5200SystemController.h; sourceTree = "<group>"; };
 		8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE5200SystemController.m; sourceTree = "<group>"; };
+		875CC31F1E221D4300E3BEB9 /* controller_pcecd_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pcecd_mask@2x.png"; sourceTree = "<group>"; };
+		875CC3201E221D4300E3BEB9 /* controller_pcecd@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pcecd@2x.png"; sourceTree = "<group>"; };
+		875CC3231E221D9800E3BEB9 /* controller_pce_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pce_mask@2x.png"; sourceTree = "<group>"; };
+		875CC3241E221D9800E3BEB9 /* controller_pce@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pce@2x.png"; sourceTree = "<group>"; };
 		8763A38D1D5694E90089C30B /* OEArcadeSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArcadeSystemController.h; sourceTree = "<group>"; };
 		8763A38E1D5694E90089C30B /* OEArcadeSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEArcadeSystemController.m; sourceTree = "<group>"; };
 		879243B21C0DA5910064C515 /* controller_5200_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_5200_mask@2x.png"; sourceTree = "<group>"; };
@@ -4646,6 +4654,8 @@
 				87FB25421BBC894F00E739CE /* tgcd_library@2x.png */,
 				940553A317A34EE9009B505D /* controller_pcecd_mask.png */,
 				940553A417A34EE9009B505D /* controller_pcecd.png */,
+				875CC31F1E221D4300E3BEB9 /* controller_pcecd_mask@2x.png */,
+				875CC3201E221D4300E3BEB9 /* controller_pcecd@2x.png */,
 				9405538817A34C6B009B505D /* PC Engine CD-Info.plist */,
 				9405539B17A34DAB009B505D /* Keyboard-Mappings.plist */,
 				9405539917A34DAA009B505D /* Controller-Mappings.plist */,
@@ -4966,6 +4976,8 @@
 				EC0A64E717C6F45500370F86 /* tg16_library@2x.png */,
 				94A2254617075D0E00098DA0 /* controller_pce_mask.png */,
 				94A2254717075D0E00098DA0 /* controller_pce.png */,
+				875CC3231E221D9800E3BEB9 /* controller_pce_mask@2x.png */,
+				875CC3241E221D9800E3BEB9 /* controller_pce@2x.png */,
 				94A224371707537F00098DA0 /* PC Engine-Info.plist */,
 				94A2254A17075D0E00098DA0 /* Keyboard-Mappings.plist */,
 				94A2254817075D0E00098DA0 /* Controller-Mappings.plist */,
@@ -6930,6 +6942,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9405539C17A34DAB009B505D /* Controller-Mappings.plist in Resources */,
+				875CC3221E221D4300E3BEB9 /* controller_pcecd@2x.png in Resources */,
 				87FB25431BBC894F00E739CE /* pcenginecd_library@2x.png in Resources */,
 				9405539D17A34DAB009B505D /* Controller-Preferences.plist in Resources */,
 				9405539E17A34DAB009B505D /* Keyboard-Mappings.plist in Resources */,
@@ -6937,6 +6950,7 @@
 				940553A217A34DCC009B505D /* tgcd_library.png in Resources */,
 				940553A517A34EE9009B505D /* controller_pcecd_mask.png in Resources */,
 				87FB25441BBC894F00E739CE /* tgcd_library@2x.png in Resources */,
+				875CC3211E221D4300E3BEB9 /* controller_pcecd_mask@2x.png in Resources */,
 				940553A617A34EE9009B505D /* controller_pcecd.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7094,6 +7108,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				875CC3261E221D9800E3BEB9 /* controller_pce@2x.png in Resources */,
 				94A2254D17075D0E00098DA0 /* controller_pce_mask.png in Resources */,
 				94A2254E17075D0E00098DA0 /* controller_pce.png in Resources */,
 				94A2254F17075D0E00098DA0 /* Controller-Mappings.plist in Resources */,
@@ -7101,6 +7116,7 @@
 				94A2255117075D0E00098DA0 /* Keyboard-Mappings.plist in Resources */,
 				94A2255217075D0E00098DA0 /* pcengine_library.png in Resources */,
 				94A2255317075D0E00098DA0 /* tg16_library.png in Resources */,
+				875CC3251E221D9800E3BEB9 /* controller_pce_mask@2x.png in Resources */,
 				EC0A64E817C6F45500370F86 /* pcengine_library@2x.png in Resources */,
 				EC0A64E917C6F45500370F86 /* tg16_library@2x.png in Resources */,
 			);
