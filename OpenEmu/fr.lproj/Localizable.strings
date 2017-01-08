@@ -172,7 +172,7 @@
 
 "Device Disconnected" = "Périphérique déconnecté";
 
-"Device number %lu, %@, has disconnected." = "Le périphérique numéro %1$lu, %2$@, a été déconnecté.";
+"Device number %lu, %@, has disconnected." = "Le périphérique numéro %lu, %@, a été déconnecté.";
 
 "Disc-based games have special requirements. Please read the disc importing guide." = "Les jeux à base de disque ont des exigences particulières. Lisez le guide d’importation de disque.";
 
@@ -224,7 +224,7 @@
 
 "Filter by:" = "Filtrer par :";
 
-"Game %ld of %ld" = "Jeu %1$ld sur %2$ld";
+"Game %ld of %ld" = "Jeu %ld sur %ld";
 
 "Game Name" = "Nom du jeu";
 
@@ -272,7 +272,7 @@
 
 "Make sure your internet connection is active and download a suitable core." = "Assurez-vous que votre connexion internet est active et téléchargez un cœur adapté.";
 
-"Make your Wiimote discoverable" = "Rendre votre Wiimote découvrable";
+"Make your Wiimote discoverable" = "Rendre votre Wiimote détectable";
 
 "Missing Core" = "Cœur manquant";
 
@@ -322,7 +322,7 @@
 
 "OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "OpenEmu nécessite une bibliothèque pour continuer. Vous devez choisir une bibliothèque OpenEmu existante ou en créer une nouvelle";
 
-"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu utilise des « cœurs » pour émuler les jeux. Vous avez besoin du cœur %1$@ pour jouer à %2$@";
+"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "OpenEmu utilise des « cœurs » pour émuler les jeux. Vous avez besoin du cœur %@ pour jouer à %@";
 
 "OpenEmu will save and quit all games that are currently running." = "OpenEmu sauvegardera et quittera tous les jeux en cours d’exécution.";
 
@@ -456,13 +456,13 @@
 
 "Takes you to the %@ project website" = "Atteindre le site web du projet %@";
 
-"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "Le cœur %1$@ a des problèmes de compatibilité et certains jeux peuvent poser problème ou ne pas fonctionner du tout.\n\nVeuillez ne pas nous signaler ces problèmes car nous ne sommes pas responsables du développement de %2$@.";
+"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "Le cœur %@ a des problèmes de compatibilité et certains jeux peuvent poser problème ou ne pas fonctionner du tout.\n\nVeuillez ne pas nous signaler ces problèmes car nous ne sommes pas responsables du développement de %@.";
 
 "The background process connection couldn't be established" = "Impossible d’établir la connexion du processus d’arrière-plan";
 
 "The background process couldn't be launched" = "Impossible de lancer le processus en arrière-plan";
 
-"The battery in device number %lu, %@, is low. Please charge or replace the battery." = "Les piles du périphérique numéro %1$lu, %2$@, sont déchargées. Rechargez ou remplacez les piles.";
+"The battery in device number %lu, %@, is low. Please charge or replace the battery." = "Les piles du périphérique numéro %lu, %@, sont déchargées. Rechargez ou remplacez les piles.";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "Impossible de télécharger le cœur. Essayez de l’installer à partir des préférences des cœurs.";
 
@@ -486,7 +486,7 @@
 
 "Title:" = "Titre :";
 
-"To launch the save state %@ you will need to install the '%@' Core" = "Pour lancer la partie sauvegardée %1$@, vous devez installer le cœur « %2$@ »";
+"To launch the save state %@ you will need to install the '%@' Core" = "Pour lancer la partie sauvegardée %@, vous devez installer le cœur « %@ »";
 
 "To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "Pour exécuter ce cœur, vous devez :\n\n%@Glisser et déposer le(s) fichier(s) requis dans la fenêtre de la bibliothèque de jeu et réessayer.";
 

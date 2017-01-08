@@ -241,7 +241,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     return [self.database executeQuery:sql error:error];
 }
 
-- (NSDictionary *)gameInfoWithDictionary:(NSDictionary *)gameInfo {
+- (NSDictionary * _Nullable)gameInfoWithDictionary:(NSDictionary *)gameInfo {
     
     @synchronized(self) {
         

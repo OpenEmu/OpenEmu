@@ -75,15 +75,14 @@ NSString *const OEImageBrowserGroupSubtitleKey = @"OEImageBrowserGroupSubtitleKe
 
 @implementation OEGridView
 
-static IKImageWrapper *lightingImage;
+static NSImage *lightingImage;
 
 + (void)initialize
 {
     if([self class] != [OEGridView class])
         return;
 
-    NSImage *nslightingImage = [NSImage imageNamed:@"background_lighting"];
-    lightingImage = [IKImageWrapper imageWithNSImage:nslightingImage];
+    lightingImage = [NSImage imageNamed:@"background_lighting"];
 }
 
 - (instancetype)init
@@ -139,6 +138,10 @@ static IKImageWrapper *lightingImage;
 
     _fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
     [self addSubview:_fieldEditor];
+    
+    CALayer *bglayer = [[CALayer alloc] init];
+    [bglayer setContents:lightingImage];
+    [self setBackgroundLayer:bglayer];
 }
 
 - (void)setGroupThemeKey:(NSString*)key
@@ -722,15 +725,6 @@ static IKImageWrapper *lightingImage;
     dragRect = NSIntegralRect(dragRect);
 
     [renderer drawRoundedRect:dragRect radius:8.0*scaleFactor lineWidth:2.0*scaleFactor cacheIt:YES];
-}
-
-- (void)drawBackground:(struct CGRect)arg1
-{
-    const id <IKRenderer> renderer = [self renderer];
-
-    arg1 = [[self enclosingScrollView] documentVisibleRect];
-
-    [renderer drawImage:lightingImage inRect:arg1 fromRect:NSZeroRect alpha:1.0];
 }
 
 - (void)drawGroupsOverlays

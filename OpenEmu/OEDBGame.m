@@ -92,7 +92,7 @@ NSString *const OEGameArtworkPropertiesKey = @"artworkProperties";
 }
 
 // returns the game from the specified database that represents the file at url
-+ (instancetype)gameWithURL:(nullable NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
++ (instancetype _Nullable)gameWithURL:(nullable NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
 {
     if(url == nil)
     {

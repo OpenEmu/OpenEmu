@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9060"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OESetupAssistant">
@@ -25,40 +27,35 @@
             <rect key="frame" x="0.0" y="0.0" width="830" height="510"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <customView id="265">
+                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="265">
                     <rect key="frame" x="0.0" y="0.0" width="829" height="510"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <animations/>
                 </customView>
             </subviews>
-            <animations/>
         </view>
         <customView id="295" userLabel="Welcome View">
             <rect key="frame" x="0.0" y="0.0" width="830" height="510"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <customView id="296">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="296">
                     <rect key="frame" x="164" y="102" width="504" height="335"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <customView id="298" customClass="OEBackgroundImageView">
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="298" customClass="OEBackgroundImageView">
                             <rect key="frame" x="20" y="59" width="462" height="256"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <textField verticalHuggingPriority="750" id="315">
-                                    <rect key="frame" x="17" y="219" width="427" height="17"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
+                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="315">
+                                    <rect key="frame" x="17" y="219" width="150" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Welcome to OpenEmu!" id="316">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="317">
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="317">
                                     <rect key="frame" x="17" y="113" width="388" height="98"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="384" id="xAo-I1-LwT"/>
+                                    </constraints>
                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" state="on" placeholderString="asf" id="318">
                                         <font key="font" metaFont="smallSystem"/>
                                         <string key="title">An exciting world of video games is within your grasp. To help you get started, we’d like to ask you a few quick questions which will guide you through the following…
@@ -70,10 +67,8 @@
                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" id="319">
-                                    <rect key="frame" x="17" y="60" width="238" height="17"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
+                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="319">
+                                    <rect key="frame" x="17" y="60" width="216" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Click on the ‘Next’ button to begin!" id="320">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -81,15 +76,21 @@
                                     </textFieldCell>
                                 </textField>
                             </subviews>
-                            <animations/>
+                            <constraints>
+                                <constraint firstItem="317" firstAttribute="leading" secondItem="298" secondAttribute="leading" constant="19" id="4Bm-ig-9Ht"/>
+                                <constraint firstItem="315" firstAttribute="top" secondItem="298" secondAttribute="top" constant="20" id="76I-Jp-wF7"/>
+                                <constraint firstItem="319" firstAttribute="leading" secondItem="298" secondAttribute="leading" constant="19" id="9hn-70-gIK"/>
+                                <constraint firstItem="319" firstAttribute="top" secondItem="317" secondAttribute="bottom" constant="36" id="gA6-JH-DrI"/>
+                                <constraint firstItem="317" firstAttribute="top" secondItem="315" secondAttribute="bottom" constant="8" id="lG2-v4-eqO"/>
+                                <constraint firstItem="315" firstAttribute="leading" secondItem="298" secondAttribute="leading" constant="19" id="uh2-p1-uFl"/>
+                            </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" id="300" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="300" customClass="OEButton">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="301" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -105,23 +106,31 @@
                             </connections>
                         </button>
                     </subviews>
-                    <animations/>
+                    <constraints>
+                        <constraint firstItem="298" firstAttribute="top" secondItem="296" secondAttribute="top" constant="20" id="7Zz-SP-xn3"/>
+                        <constraint firstAttribute="trailing" secondItem="298" secondAttribute="trailing" constant="22" id="Azn-JM-Dvm"/>
+                        <constraint firstAttribute="height" constant="335" id="hih-ha-DjS"/>
+                        <constraint firstAttribute="bottom" secondItem="298" secondAttribute="bottom" constant="59" id="mGA-9s-VKV"/>
+                        <constraint firstItem="298" firstAttribute="leading" secondItem="296" secondAttribute="leading" constant="20" id="pP7-P6-uwT"/>
+                        <constraint firstAttribute="width" constant="504" id="qTb-A5-Owb"/>
+                    </constraints>
                 </customView>
             </subviews>
-            <animations/>
+            <constraints>
+                <constraint firstAttribute="centerY" secondItem="296" secondAttribute="centerY" multiplier="1.1919" constant="-32" id="6Bc-rJ-zy1"/>
+                <constraint firstItem="296" firstAttribute="centerX" secondItem="295" secondAttribute="centerX" constant="1" id="gmT-dF-pQx"/>
+            </constraints>
         </customView>
         <customView id="263" userLabel="Core Selection View">
             <rect key="frame" x="0.0" y="0.0" width="830" height="510"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <customView id="294">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="294">
                     <rect key="frame" x="164" y="102" width="504" height="335"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button verticalHuggingPriority="750" id="249" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="249" customClass="OEButton">
                             <rect key="frame" x="21" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="250" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -136,24 +145,22 @@
                                 <action selector="processFSMButtonAction:" target="-2" id="582"/>
                             </connections>
                         </button>
-                        <customView id="239" customClass="OEBackgroundImageView">
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="239" customClass="OEBackgroundImageView">
                             <rect key="frame" x="20" y="59" width="462" height="256"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <textField verticalHuggingPriority="750" id="326">
-                                    <rect key="frame" x="17" y="219" width="427" height="17"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
+                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="326">
+                                    <rect key="frame" x="17" y="219" width="170" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="System Cores Installation" id="329">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="327">
-                                    <rect key="frame" x="17" y="126" width="422" height="85"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="327">
+                                    <rect key="frame" x="17" y="155" width="422" height="56"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="418" id="QOC-Si-zyb"/>
+                                    </constraints>
                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" state="on" placeholderString="asf" id="328">
                                         <font key="font" metaFont="smallSystem"/>
                                         <string key="title">OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores.</string>
@@ -161,21 +168,18 @@
                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                     </textFieldCell>
                                 </textField>
-                                <customView id="A5g-3z-11R" customClass="OESetupAssistantScrollBorderView">
-                                    <rect key="frame" x="20" y="23" width="416" height="114"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="A5g-3z-11R" customClass="OESetupAssistantScrollBorderView">
+                                    <rect key="frame" x="20" y="23" width="416" height="120"/>
                                     <subviews>
-                                        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="25" horizontalPageScroll="10" verticalLineScroll="25" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="282">
-                                            <rect key="frame" x="2" y="2" width="412" height="110"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="25" horizontalPageScroll="10" verticalLineScroll="25" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="282">
+                                            <rect key="frame" x="2" y="2" width="412" height="116"/>
                                             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="tgZ-8g-LXB">
-                                                <rect key="frame" x="0.0" y="0.0" width="412" height="110"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="412" height="116"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="23" id="286" customClass="OESetupAssistantTableView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="412" height="25"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="412" height="116"/>
                                                         <autoresizingMask key="autoresizingMask"/>
-                                                        <animations/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -228,34 +232,42 @@
                                                         </connections>
                                                     </tableView>
                                                 </subviews>
-                                                <animations/>
-                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </clipView>
-                                            <animations/>
                                             <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="285">
                                                 <rect key="frame" x="0.0" y="95" width="397" height="15"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <animations/>
                                             </scroller>
                                             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="283">
                                                 <rect key="frame" x="397" y="0.0" width="15" height="95"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <animations/>
                                             </scroller>
                                         </scrollView>
                                     </subviews>
-                                    <animations/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="282" secondAttribute="trailing" constant="2" id="EgS-2t-k2m"/>
+                                        <constraint firstAttribute="bottom" secondItem="282" secondAttribute="bottom" constant="2" id="dzB-dZ-rNc"/>
+                                        <constraint firstItem="282" firstAttribute="top" secondItem="A5g-3z-11R" secondAttribute="top" constant="2" id="pdd-kh-Gai"/>
+                                        <constraint firstItem="282" firstAttribute="leading" secondItem="A5g-3z-11R" secondAttribute="leading" constant="2" id="xrR-zn-cW4"/>
+                                    </constraints>
                                 </customView>
                             </subviews>
-                            <animations/>
+                            <constraints>
+                                <constraint firstItem="A5g-3z-11R" firstAttribute="leading" secondItem="239" secondAttribute="leading" constant="20" id="2VM-XG-dcj"/>
+                                <constraint firstAttribute="bottom" secondItem="A5g-3z-11R" secondAttribute="bottom" constant="23" id="AE1-4B-SHu"/>
+                                <constraint firstItem="326" firstAttribute="leading" secondItem="239" secondAttribute="leading" constant="19" id="Aez-ep-oYz"/>
+                                <constraint firstAttribute="trailing" secondItem="A5g-3z-11R" secondAttribute="trailing" constant="26" id="LpJ-bi-Wc3"/>
+                                <constraint firstItem="326" firstAttribute="top" secondItem="239" secondAttribute="top" constant="20" id="b2q-4P-0vS"/>
+                                <constraint firstItem="327" firstAttribute="top" secondItem="326" secondAttribute="bottom" constant="8" id="cc8-MX-eUz"/>
+                                <constraint firstItem="A5g-3z-11R" firstAttribute="top" secondItem="327" secondAttribute="bottom" constant="12" id="eHI-hY-dtC"/>
+                                <constraint firstItem="327" firstAttribute="leading" secondItem="239" secondAttribute="leading" constant="19" id="xKa-7D-jsP"/>
+                            </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" id="245" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="245" customClass="OEButton">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="246" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -271,27 +283,33 @@
                             </connections>
                         </button>
                     </subviews>
-                    <animations/>
+                    <constraints>
+                        <constraint firstItem="239" firstAttribute="leading" secondItem="294" secondAttribute="leading" constant="20" id="3ne-0g-sS6"/>
+                        <constraint firstAttribute="height" constant="335" id="6iq-Yw-Zu9"/>
+                        <constraint firstItem="239" firstAttribute="top" secondItem="294" secondAttribute="top" constant="20" id="CKt-CB-oQS"/>
+                        <constraint firstAttribute="width" constant="504" id="GW7-Am-xan"/>
+                        <constraint firstAttribute="trailing" secondItem="239" secondAttribute="trailing" constant="22" id="fjE-Xh-DxT"/>
+                        <constraint firstAttribute="bottom" secondItem="239" secondAttribute="bottom" constant="59" id="nsR-Du-I0T"/>
+                    </constraints>
                 </customView>
             </subviews>
-            <animations/>
+            <constraints>
+                <constraint firstItem="294" firstAttribute="centerX" secondItem="263" secondAttribute="centerX" constant="1" id="wbH-yu-Q0h"/>
+                <constraint firstAttribute="centerY" secondItem="294" secondAttribute="centerY" multiplier="1.1919" constant="-32" id="yV3-eo-11d"/>
+            </constraints>
         </customView>
         <customView id="268" userLabel="Game Scanner Allow View">
             <rect key="frame" x="0.0" y="0.0" width="830" height="510"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <customView id="337">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="337">
                     <rect key="frame" x="164" y="102" width="504" height="335"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <customView id="269" customClass="OEBackgroundImageView">
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="269" customClass="OEBackgroundImageView">
                             <rect key="frame" x="20" y="59" width="462" height="256"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button id="277" customClass="OEButton">
-                                    <rect key="frame" x="18" y="102" width="426" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
+                                <button translatesAutoresizingMaskIntoConstraints="NO" id="277" customClass="OEButton">
+                                    <rect key="frame" x="18" y="102" width="239" height="18"/>
                                     <buttonCell key="cell" type="check" title="Allow OpenEmu To Scan For Games" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="280" customClass="OEButtonCell">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
@@ -300,20 +318,19 @@
                                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="gloss_checkbox"/>
                                     </userDefinedRuntimeAttributes>
                                 </button>
-                                <textField verticalHuggingPriority="750" id="330">
-                                    <rect key="frame" x="17" y="219" width="427" height="17"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
+                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="330">
+                                    <rect key="frame" x="17" y="219" width="98" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Game Scanner" id="333">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="331">
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="331">
                                     <rect key="frame" x="17" y="126" width="401" height="85"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="85" id="lL3-ve-qFv"/>
+                                    </constraints>
                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" state="on" placeholderString="asf" id="332">
                                         <font key="font" metaFont="smallSystem"/>
                                         <string key="title">You may already have game (ROM) files located on your computer. OpenEmu can search your computer for games you may already legally own and automatically add them to your OpenEmu library. OpenEmu will also seek to add box art and other information for your games where available.</string>
@@ -322,15 +339,22 @@
                                     </textFieldCell>
                                 </textField>
                             </subviews>
-                            <animations/>
+                            <constraints>
+                                <constraint firstItem="330" firstAttribute="top" secondItem="269" secondAttribute="top" constant="20" id="92C-KI-BSK"/>
+                                <constraint firstItem="331" firstAttribute="leading" secondItem="269" secondAttribute="leading" constant="19" id="Nza-eP-tQs"/>
+                                <constraint firstItem="277" firstAttribute="top" secondItem="331" secondAttribute="bottom" constant="8" id="Oyp-Te-tXw"/>
+                                <constraint firstAttribute="trailing" secondItem="331" secondAttribute="trailing" constant="46" id="U4q-rI-piB"/>
+                                <constraint firstItem="331" firstAttribute="top" secondItem="330" secondAttribute="bottom" constant="8" id="bFw-QY-ZWQ"/>
+                                <constraint firstItem="330" firstAttribute="leading" secondItem="269" secondAttribute="leading" constant="19" id="i1H-Jw-PqH"/>
+                                <constraint firstItem="277" firstAttribute="leading" secondItem="269" secondAttribute="leading" constant="20" id="xnb-Nj-JAv"/>
+                            </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" id="271" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="271" customClass="OEButton">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="274" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -342,10 +366,9 @@
                                 <action selector="processAllowGameScannerNextButtonAction:" target="-2" id="588"/>
                             </connections>
                         </button>
-                        <button verticalHuggingPriority="750" id="270" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="270" customClass="OEButton">
                             <rect key="frame" x="21" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="275" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -361,23 +384,31 @@
                             </connections>
                         </button>
                     </subviews>
-                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="269" secondAttribute="trailing" constant="22" id="0vr-d5-vy7"/>
+                        <constraint firstAttribute="bottom" secondItem="269" secondAttribute="bottom" constant="59" id="TyX-BW-kAR"/>
+                        <constraint firstItem="269" firstAttribute="top" secondItem="337" secondAttribute="top" constant="20" id="VOa-aH-mfi"/>
+                        <constraint firstAttribute="width" constant="504" id="Vnr-bM-qzB"/>
+                        <constraint firstItem="269" firstAttribute="leading" secondItem="337" secondAttribute="leading" constant="20" id="mDw-38-YyW"/>
+                        <constraint firstAttribute="height" constant="335" id="qdA-K1-Hy3"/>
+                    </constraints>
                 </customView>
             </subviews>
-            <animations/>
+            <constraints>
+                <constraint firstItem="337" firstAttribute="centerX" secondItem="268" secondAttribute="centerX" constant="1" id="1lC-Rp-vP8"/>
+                <constraint firstAttribute="centerY" secondItem="337" secondAttribute="centerY" multiplier="1.1919" constant="-32" id="O6m-D2-GRd"/>
+            </constraints>
         </customView>
         <customView id="338" userLabel="Game Scanner Volume Selection View">
             <rect key="frame" x="0.0" y="0.0" width="830" height="510"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <customView id="339">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="339">
                     <rect key="frame" x="164" y="102" width="504" height="335"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <button verticalHuggingPriority="750" id="340" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="340" customClass="OEButton">
                             <rect key="frame" x="21" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="358" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -392,24 +423,19 @@
                                 <action selector="processFSMButtonAction:" target="-2" id="584"/>
                             </connections>
                         </button>
-                        <customView id="341" customClass="OEBackgroundImageView">
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="341" customClass="OEBackgroundImageView">
                             <rect key="frame" x="20" y="59" width="462" height="256"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <textField verticalHuggingPriority="750" id="346">
-                                    <rect key="frame" x="17" y="219" width="427" height="17"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
+                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="346">
+                                    <rect key="frame" x="17" y="219" width="162" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Scan Additional Sources" id="347">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="344">
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="344">
                                     <rect key="frame" x="17" y="155" width="422" height="56"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" state="on" placeholderString="asf" id="357">
                                         <font key="font" metaFont="smallSystem"/>
                                         <string key="title">OpenEmu has detected you have the following mounted Hard Drives or shares available. If there are any game files residing in these locations, please tick on the associated item and OpenEmu can scan for and add these games to your Library.</string>
@@ -417,21 +443,18 @@
                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                     </textFieldCell>
                                 </textField>
-                                <customView id="koe-1r-ibi" customClass="OESetupAssistantScrollBorderView">
-                                    <rect key="frame" x="20" y="23" width="416" height="114"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="koe-1r-ibi" customClass="OESetupAssistantScrollBorderView">
+                                    <rect key="frame" x="20" y="23" width="416" height="120"/>
                                     <subviews>
-                                        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="25" horizontalPageScroll="10" verticalLineScroll="25" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="345">
-                                            <rect key="frame" x="2" y="2" width="412" height="110"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="25" horizontalPageScroll="10" verticalLineScroll="25" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="345">
+                                            <rect key="frame" x="2" y="2" width="412" height="116"/>
                                             <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="hjN-Vs-9o6">
-                                                <rect key="frame" x="0.0" y="0.0" width="412" height="110"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="412" height="116"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="23" id="350" customClass="OESetupAssistantTableView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="412" height="25"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="412" height="116"/>
                                                         <autoresizingMask key="autoresizingMask"/>
-                                                        <animations/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -471,34 +494,43 @@
                                                         </connections>
                                                     </tableView>
                                                 </subviews>
-                                                <animations/>
-                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </clipView>
-                                            <animations/>
                                             <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="349">
                                                 <rect key="frame" x="0.0" y="95" width="397" height="15"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <animations/>
                                             </scroller>
                                             <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="348">
                                                 <rect key="frame" x="397" y="0.0" width="15" height="95"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <animations/>
                                             </scroller>
                                         </scrollView>
                                     </subviews>
-                                    <animations/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="345" secondAttribute="bottom" constant="2" id="Efo-Wp-469"/>
+                                        <constraint firstAttribute="trailing" secondItem="345" secondAttribute="trailing" constant="2" id="RNF-gd-5Ab"/>
+                                        <constraint firstItem="345" firstAttribute="leading" secondItem="koe-1r-ibi" secondAttribute="leading" constant="2" id="VsY-xO-3uc"/>
+                                        <constraint firstItem="345" firstAttribute="top" secondItem="koe-1r-ibi" secondAttribute="top" constant="2" id="poL-1m-Ba2"/>
+                                    </constraints>
                                 </customView>
                             </subviews>
-                            <animations/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="344" secondAttribute="trailing" constant="25" id="2Id-wE-CGT"/>
+                                <constraint firstItem="346" firstAttribute="top" secondItem="341" secondAttribute="top" constant="20" id="7XR-Mu-xwV"/>
+                                <constraint firstItem="346" firstAttribute="leading" secondItem="341" secondAttribute="leading" constant="19" id="E32-Xm-IvD"/>
+                                <constraint firstItem="344" firstAttribute="leading" secondItem="341" secondAttribute="leading" constant="19" id="LA6-kv-OxA"/>
+                                <constraint firstAttribute="trailing" secondItem="koe-1r-ibi" secondAttribute="trailing" constant="26" id="NQy-R7-auj"/>
+                                <constraint firstAttribute="bottom" secondItem="koe-1r-ibi" secondAttribute="bottom" constant="23" id="UL3-Ix-3a8"/>
+                                <constraint firstItem="koe-1r-ibi" firstAttribute="top" secondItem="344" secondAttribute="bottom" constant="12" id="UeQ-JN-53F"/>
+                                <constraint firstItem="koe-1r-ibi" firstAttribute="leading" secondItem="341" secondAttribute="leading" constant="20" id="jen-7g-K2r"/>
+                                <constraint firstItem="344" firstAttribute="top" secondItem="346" secondAttribute="bottom" constant="8" id="kHc-aY-CjL"/>
+                            </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" id="342" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="342" customClass="OEButton">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Next" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="343" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -514,37 +546,41 @@
                             </connections>
                         </button>
                     </subviews>
-                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="341" secondAttribute="trailing" constant="22" id="8Zv-OF-Xvj"/>
+                        <constraint firstAttribute="width" constant="504" id="D1m-0O-C6p"/>
+                        <constraint firstItem="341" firstAttribute="top" secondItem="339" secondAttribute="top" constant="20" id="TOU-2g-jgs"/>
+                        <constraint firstAttribute="height" constant="335" id="hLE-lW-QgN"/>
+                        <constraint firstItem="341" firstAttribute="leading" secondItem="339" secondAttribute="leading" constant="20" id="rRt-t1-UKs"/>
+                        <constraint firstAttribute="bottom" secondItem="341" secondAttribute="bottom" constant="59" id="xfK-7l-44w"/>
+                    </constraints>
                 </customView>
             </subviews>
-            <animations/>
+            <constraints>
+                <constraint firstAttribute="centerY" secondItem="339" secondAttribute="centerY" multiplier="1.1919" constant="-32" id="bOP-hP-SKd"/>
+                <constraint firstItem="339" firstAttribute="centerX" secondItem="338" secondAttribute="centerX" constant="1" id="hbp-fQ-QXA"/>
+            </constraints>
         </customView>
         <customView id="394" userLabel="Last Step">
             <rect key="frame" x="0.0" y="0.0" width="830" height="510"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <customView id="395">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="395">
                     <rect key="frame" x="164" y="102" width="504" height="335"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <customView id="397" customClass="OEBackgroundImageView">
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="397" customClass="OEBackgroundImageView">
                             <rect key="frame" x="20" y="59" width="462" height="256"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <textField verticalHuggingPriority="750" id="400">
-                                    <rect key="frame" x="17" y="219" width="427" height="17"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
+                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="400">
+                                    <rect key="frame" x="17" y="219" width="61" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Let’s Go!" id="401">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="399">
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="399">
                                     <rect key="frame" x="17" y="155" width="383" height="56"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" state="on" placeholderString="asf" id="402">
                                         <font key="font" metaFont="smallSystem"/>
                                         <string key="title">Great! You are all setup now and ready to get gaming!
@@ -554,10 +590,8 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" id="398">
-                                    <rect key="frame" x="17" y="130" width="295" height="17"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <animations/>
+                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="398">
+                                    <rect key="frame" x="17" y="130" width="280" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Click the ‘Go’ button to begin your adventure." id="403">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
@@ -565,15 +599,22 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                     </textFieldCell>
                                 </textField>
                             </subviews>
-                            <animations/>
+                            <constraints>
+                                <constraint firstItem="400" firstAttribute="top" secondItem="397" secondAttribute="top" constant="20" id="0v8-3P-NP7"/>
+                                <constraint firstAttribute="trailing" secondItem="399" secondAttribute="trailing" constant="64" id="2m8-zW-1nU"/>
+                                <constraint firstItem="400" firstAttribute="leading" secondItem="397" secondAttribute="leading" constant="19" id="54H-qT-R4n"/>
+                                <constraint firstItem="399" firstAttribute="top" secondItem="400" secondAttribute="bottom" constant="8" id="Sqm-RN-cOj"/>
+                                <constraint firstItem="398" firstAttribute="top" secondItem="399" secondAttribute="bottom" constant="8" id="bkg-29-h4c"/>
+                                <constraint firstItem="398" firstAttribute="leading" secondItem="397" secondAttribute="leading" constant="19" id="cdv-uS-b7E"/>
+                                <constraint firstItem="399" firstAttribute="leading" secondItem="397" secondAttribute="leading" constant="19" id="dxJ-V6-qdA"/>
+                            </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="installer_dark_inset_box"/>
                             </userDefinedRuntimeAttributes>
                         </customView>
-                        <button verticalHuggingPriority="750" id="396" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="396" customClass="OEButton">
                             <rect key="frame" x="381" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Go" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="404" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -588,10 +629,9 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                                 <action selector="processFSMButtonAction:" target="-2" id="587"/>
                             </connections>
                         </button>
-                        <button verticalHuggingPriority="750" id="412" customClass="OEButton">
+                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="412" customClass="OEButton">
                             <rect key="frame" x="20" y="19" width="103" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <animations/>
                             <buttonCell key="cell" type="smallSquare" title="Back" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="413" customClass="OEButtonCell">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -607,10 +647,20 @@ Remember you can change both your keyboard and gamepad controls for yourself and
                             </connections>
                         </button>
                     </subviews>
-                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="397" secondAttribute="bottom" constant="59" id="36b-Su-LAc"/>
+                        <constraint firstAttribute="trailing" secondItem="397" secondAttribute="trailing" constant="22" id="FEJ-Fi-kOV"/>
+                        <constraint firstAttribute="height" constant="335" id="GNi-Ja-7nP"/>
+                        <constraint firstItem="397" firstAttribute="leading" secondItem="395" secondAttribute="leading" constant="20" id="LYp-BZ-aeX"/>
+                        <constraint firstAttribute="width" constant="504" id="RAL-qi-VTN"/>
+                        <constraint firstItem="397" firstAttribute="top" secondItem="395" secondAttribute="top" constant="20" id="gpM-dK-QMA"/>
+                    </constraints>
                 </customView>
             </subviews>
-            <animations/>
+            <constraints>
+                <constraint firstItem="395" firstAttribute="centerX" secondItem="394" secondAttribute="centerX" constant="1" id="8FT-db-VRw"/>
+                <constraint firstAttribute="centerY" secondItem="395" secondAttribute="centerY" multiplier="1.1919" constant="-32" id="gJQ-Qo-j14"/>
+            </constraints>
         </customView>
     </objects>
 </document>

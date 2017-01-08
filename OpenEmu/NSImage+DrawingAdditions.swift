@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, OpenEmu Team
+ Copyright (c) 2016, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -214,9 +214,9 @@ extension NSImage {
     }
     
     @objc(imageFromParts:vertical:)
-    func image(fromParts parts: [AnyObject], vertical: Bool) -> NSImage {
+    func image(fromParts parts: [AnyObject]?, vertical: Bool) -> NSImage {
         
-        guard !parts.isEmpty else {
+        guard let parts = parts, !parts.isEmpty else {
             return self
         }
         

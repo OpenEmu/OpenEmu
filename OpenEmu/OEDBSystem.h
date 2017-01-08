@@ -48,7 +48,7 @@ extern NSString * const OEDBSystemAvailabilityDidChangeNotification;
 
 + (NSArray <OEDBSystem *> *)systemsForFileWithURL:(NSURL *)fileURL inContext:(NSManagedObjectContext *)context;
 + (NSArray <OEDBSystem *> *)systemsForFile:(OEFile *)file inContext:(NSManagedObjectContext *)context error:(NSError**)error;
-+ (NSArray <OEDBSystem *> *)systemsForFileWithURL:(NSURL *)fileURL inContext:(NSManagedObjectContext *)context error:(NSError**)error;
++ (NSArray <OEDBSystem *> * _Nullable)systemsForFileWithURL:(NSURL *)fileURL inContext:(NSManagedObjectContext *)context error:(NSError**)error;
 
 + (NSString *)headerForFile:(__kindof OEFile *)file forSystem:(NSString *)identifier;
 + (NSString *)serialForFile:(__kindof OEFile *)file forSystem:(NSString *)identifier;

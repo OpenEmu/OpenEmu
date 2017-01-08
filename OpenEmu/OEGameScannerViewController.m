@@ -465,7 +465,7 @@
 - (NSString *)tableView:(NSTableView *)tableView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation
 {
     if(row >= [[self itemsRequiringAttention] count])
-        return nil;
+        return @"";
 
     NSString *columnIdentifier = [tableColumn identifier];
     if([columnIdentifier isEqualToString:@"path"])
@@ -474,7 +474,7 @@
         return [[item sourceURL] path];
     }
 
-    return nil;
+    return @"";
 }
 
 #pragma mark - UI Actions Issues

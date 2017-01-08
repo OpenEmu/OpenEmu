@@ -809,7 +809,7 @@ static NSDateFormatter *formatter = nil;
     if([self screenshot])
         return [[self screenshot] writableTypesForPasteboard:pasteboard];
 
-    return nil;
+    return @[];
 }
 
 - (id)pasteboardPropertyListForType:(NSString *)type

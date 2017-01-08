@@ -52,11 +52,11 @@ typedef NS_ENUM(NSUInteger, OEBitmapImageFileType)
 
 @property(readonly) NSImage *image;
 @property(readonly) NSString *UUID;
-@property(readonly) NSURL *imageURL;
+@property(nullable, readonly) NSURL *imageURL;
 
 - (BOOL)convertToFormat:(OEBitmapImageFileType)format withProperties:(NSDictionary *)attributes;
 
-@property (nonatomic) NSURL *sourceURL;
+@property (nullable, nonatomic) NSURL *sourceURL;
 @property (readonly, nonatomic, getter = isLocalImageAvailable) BOOL localImageAvailable;
 
 @end

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2016, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -29,13 +29,11 @@
 
 @implementation OEThemeColor
 
-+ (id)parseWithDefinition:(NSDictionary *)definition
-{
-    return [NSColor colorFromString:[definition valueForKey:OEThemeObjectValueAttributeName]];
++ (id)parseWithDefinition:(NSDictionary *)definition {
+    return [NSColor colorFromString:definition[OEThemeObjectValueAttributeName]];
 }
 
-- (NSColor *)colorForState:(OEThemeState)state
-{
+- (NSColor *)colorForState:(OEThemeState)state {
     return (NSColor *)[self objectForState:state];
 }
 

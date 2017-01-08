@@ -530,7 +530,7 @@ enum : OEFSMEventLabel
     
     if([cell isKindOfClass:[NSTextFieldCell class]])
         return [cell stringValue];
-    return nil;
+    return @"";
 }
 @end
 

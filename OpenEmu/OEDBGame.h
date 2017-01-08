@@ -56,7 +56,7 @@ extern NSString *const OEGameArtworkPropertiesKey;
 + (instancetype)gameWithURL:(nullable NSURL *)gameURL error:(NSError **)outError;
 
 // returns the game from the specified database that represents the file at url
-+ (instancetype)gameWithURL:(nullable NSURL *)gameURL inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
++ (instancetype _Nullable)gameWithURL:(nullable NSURL *)gameURL inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 
 #pragma mark - Cover Art Database Sync
 

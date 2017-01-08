@@ -326,7 +326,7 @@ class AppDelegate: NSDocumentController {
         }
     }
     
-    override func openGameDocument(with game: OEDBGame, display displayDocument: Bool, fullScreen: Bool, completionHandler: @escaping (OEGameDocument?, Error?) -> Void) {
+    override func openGameDocument(with game: OEDBGame?, display displayDocument: Bool, fullScreen: Bool, completionHandler: @escaping (OEGameDocument?, Error?) -> Void) {
         do {
             let document = try OEGameDocument(game: game, core: nil)
             setUpGameDocument(document, display: displayDocument, fullScreen: fullScreen, completionHandler: completionHandler)

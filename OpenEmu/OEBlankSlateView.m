@@ -266,9 +266,17 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     textView.linkTextAttributes = linkAttributes;
     
     [container addSubview:textView];
+    
+    // Get core plugins that can handle the system
+    NSPredicate *pluginFilter = [NSPredicate predicateWithBlock: ^BOOL(OECorePlugin *evaluatedPlugin, NSDictionary *bindings) {
+        return [evaluatedPlugin.systemIdentifiers containsObject:plugin.systemIdentifier];
+    }];
+    
+    NSArray *pluginsForSystem = [[OECorePlugin allPlugins] filteredArrayUsingPredicate:pluginFilter];
+    NSInteger extraspace = MAX(0, (NSInteger)[pluginsForSystem count] - 2);
 
     NSRect coreIconRect = NSMakeRect(OEBlankSlateCoreX,
-                                     NSHeight(containerFrame) - 40.0 - OEBlankSlateCoreToTop,
+                                     NSHeight(containerFrame) - 40.0 - OEBlankSlateCoreToTop + 16.0 * extraspace,
                                      40.0,
                                      40.0);
     NSImageView *coreIconView = [[NSImageView alloc] initWithFrame:coreIconRect];
@@ -285,7 +293,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     cell.textAttributes = dictionary;
 
     NSRect labelRect = NSMakeRect(OEBlankSlateRightColumnX,
-                                  NSHeight(containerFrame) - 16.0 - OEBlankSlateBottomTextTop,
+                                  NSHeight(containerFrame) - 16.0 - OEBlankSlateBottomTextTop + 16.0 * extraspace,
                                   NSWidth(containerFrame),
                                   17.0);
     NSTextField *coreSuppliedByLabel = [[NSTextField alloc] initWithFrame:labelRect];
@@ -299,13 +307,6 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
     
     [container addSubview:coreSuppliedByLabel];
     
-    // Get core plugins that can handle the system
-    NSPredicate *pluginFilter = [NSPredicate predicateWithBlock: ^BOOL(OECorePlugin *evaluatedPlugin, NSDictionary *bindings) {
-        return [evaluatedPlugin.systemIdentifiers containsObject:plugin.systemIdentifier];
-    }];
-    
-    NSArray *pluginsForSystem = [[OECorePlugin allPlugins] filteredArrayUsingPredicate:pluginFilter];
-    
     [pluginsForSystem enumerateObjectsUsingBlock:^(OECorePlugin *core, NSUInteger idx, BOOL *stop) {
         
         NSString *projectURL = core.infoDictionary[@"OEProjectURL"];
@@ -313,7 +314,7 @@ NSString * const OECDBasedGamesUserGuideURLString = @"https://github.com/OpenEmu
 
         // Create weblink button for current core
         NSRect frame = NSMakeRect(OEBlankSlateRightColumnX,
-                                  NSHeight(containerFrame) - 2.0 * 16.0 -OEBlankSlateBottomTextTop - 16.0 * idx - 2.0,
+                                  NSHeight(containerFrame) - 2.0 * 16.0 -OEBlankSlateBottomTextTop - 16.0 * idx - 2.0 + 16.0 * extraspace,
                                   NSWidth(containerFrame) - OEBlankSlateRightColumnX,
                                   20.0);
         
