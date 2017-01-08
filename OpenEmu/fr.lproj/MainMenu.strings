@@ -32,7 +32,7 @@
 /* Class = "NSMenuItem"; title = "Display Duplicates"; ObjectID = "991"; */
 "991.title" = "Afficher les doublons";
 
-/* Class = "NSMenuItem"; title = "Display Duplicates"; ObjectID = "992"; */
+/* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "992"; */
 "992.title" = "Afficher dans le Finder";
 
 /* Class = "NSMenuItem"; title = "Rating"; ObjectID = "993"; */
