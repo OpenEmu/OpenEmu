@@ -3,36 +3,36 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_tg16</string>
+	<string>controller_pcecd</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_tg16_mask</string>
+	<string>controller_pcecd_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
-		<key>OEPCEButtonUp</key>
+		<key>OEPCECDButtonUp</key>
 		<string>{102, 230}</string>
-		<key>OEPCEButtonDown</key>
+		<key>OEPCECDButtonDown</key>
 		<string>{102, 190}</string>
-		<key>OEPCEButtonLeft</key>
+		<key>OEPCECDButtonLeft</key>
 		<string>{80, 210}</string>
-		<key>OEPCEButtonRight</key>
+		<key>OEPCECDButtonRight</key>
 		<string>{130, 210}</string>
-		<key>OEPCEButtonRun</key>
+		<key>OEPCECDButtonRun</key>
 		<string>{275, 190}</string>
-		<key>OEPCEButtonSelect</key>
+		<key>OEPCECDButtonSelect</key>
 		<string>{225, 190}</string>
-		<key>OEPCEButton1</key>
+		<key>OEPCECDButton1</key>
 		<string>{407, 190}</string>
-		<key>OEPCEButton2</key>
+		<key>OEPCECDButton2</key>
 		<string>{357, 190}</string>
-		<key>OEPCEButton3</key>
+		<key>OEPCECDButton3</key>
 		<string>{0, 0}</string>
-		<key>OEPCEButton4</key>
+		<key>OEPCECDButton4</key>
 		<string>{0, 0}</string>
-		<key>OEPCEButton5</key>
+		<key>OEPCECDButton5</key>
 		<string>{0, 0}</string>
-		<key>OEPCEButton6</key>
+		<key>OEPCECDButton6</key>
 		<string>{0, 0}</string>
-		<key>OEPCEButtonMode</key>
+		<key>OEPCECDButtonMode</key>
 		<string>{0, 0}</string>
 	</dict>
 </dict>

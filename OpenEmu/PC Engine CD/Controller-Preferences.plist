@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_pcecd</string>
+	<string>controller_tg16cd</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_pcecd_mask</string>
+	<string>controller_tg16cd_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEPCECDButtonUp</key>
