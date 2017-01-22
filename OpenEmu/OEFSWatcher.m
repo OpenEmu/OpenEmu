@@ -103,7 +103,7 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
 	                             &OEFSWatcher_callback,
 	                             &context,
 	                             paths,
-                                 lastEventID,
+	                             lastEventID,
 	                             [self delay],
 	                             kFSEventStreamCreateFlagUseCFTypes|kFSEventStreamCreateFlagIgnoreSelf|kFSEventStreamCreateFlagFileEvents
                                  );
@@ -184,12 +184,12 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
 #pragma mark -
 - (void)OE_storeLastEventID
 {
-    if([self persistentKey])
-    {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        FSEventStreamEventId lastID = FSEventsGetCurrentEventId();
-        [defaults setObject:@(lastID) forKey:[self persistentKey]];
-    }    
+	if(![self persistentKey]) return;
+	if(!stream) return;
+
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	FSEventStreamEventId lastID = FSEventStreamGetLatestEventId(stream);
+	[defaults setObject:@(lastID) forKey:[self persistentKey]];
 }
 @synthesize persistentKey;
 @end
