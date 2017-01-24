@@ -98,19 +98,24 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
 	CFArrayRef           paths         = (__bridge CFArrayRef)[NSArray arrayWithObject:path];
 	NSUserDefaults       *defaults     = [NSUserDefaults standardUserDefaults];
 	NSString             *key          = [self persistentKey];
-	NSString			 *uuidKey	   = [key stringByAppendingString:@"VolumeUUID"];
-	NSString			 *previousUUID = [defaults objectForKey:uuidKey];
+	uint64_t			 lastEventID   = kFSEventStreamEventIdSinceNow;
 
-	NSURL *url = [NSURL fileURLWithPath:path];
-	NSString *currentUUID = [self OE_diskIDForURL:url];
-	if([previousUUID isNotEqualTo:currentUUID]) {
-		[defaults removeObjectForKey:key];
-	}
-	[defaults setObject:currentUUID forKey:uuidKey];
+	if(key) {
+		NSString *uuidKey	   = [key stringByAppendingString:@"VolumeUUID"];
+		NSString *previousUUID = uuidKey ? [defaults objectForKey:uuidKey] : nil;
 
-	uint64_t lastEventID = kFSEventStreamEventIdSinceNow;
-	if([defaults valueForKey:key]) {
-		lastEventID = [[defaults valueForKey:key] unsignedLongLongValue];
+		NSURL *url = [NSURL fileURLWithPath:path];
+		NSString *currentUUID = [self OE_diskIDForURL:url];
+		if([previousUUID isNotEqualTo:currentUUID]) {
+			[defaults removeObjectForKey:key];
+		}
+
+		[defaults setObject:currentUUID forKey:uuidKey];
+
+		NSNumber *storedEventID = [defaults valueForKey:key];
+		if(storedEventID) {
+			lastEventID = [storedEventID unsignedLongLongValue];
+		}
 	}
 
 	stream = FSEventStreamCreate(NULL,
