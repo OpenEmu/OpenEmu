@@ -50,17 +50,17 @@
 
 "All Homebrew" = "全てのHomebrew";
 
-"Are you sure you want to delete %ld save games from your OpenEmu library?" = "本当に&ldのセーブデータををOpenEmuのライブラリから削除しても宜しいですか？";
+"Are you sure you want to delete %ld save games from your OpenEmu library?" = "本当に&ldのセーブデータをOpenEmuライブラリから削除しても宜しいですか？";
 
-"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "本当に%ldのスクリーンショットデータをOpenEmuのライブラリから削除しても宜しいですか？";
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "本当に%ldのスクリーンショットデータをOpenEmuライブラリから削除しても宜しいですか？";
 
-"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "本当に'%@'という名前のセーブデータをOpenEmuのライブラリから削除しても宜しいですか？";
+"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "本当に'%@'という名前のセーブデータをOpenEmuライブラリから削除しても宜しいですか？";
 
-"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "本当に'%@'という名前のスクリーンショットデータをOpenEmuのライブラリから削除しても宜しいですか？";
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "本当に'%@'という名前のスクリーンショットデータをOpenEmuライブラリから削除しても宜しいですか？";
 
-"Are you sure you want to delete the selected game from your OpenEmu library?" = "選択したゲームをOpenEmuのライブラリから本当に削除しても宜しいですか？";
+"Are you sure you want to delete the selected game from your OpenEmu library?" = "選択したゲームをOpenEmuライブラリから本当に削除しても宜しいですか？";
 
-"Are you sure you want to delete the selected games from your OpenEmu library?" = "選択したゲームをOpenEmuのライブラリから本当に削除しても宜しいですか？";
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "選択したゲームをOpenEmuライブラリから本当に削除しても宜しいですか？";
 
 "Are you sure you want to quit the application?" = "アプリケーションを終了しても宜しいですか？";
 
@@ -102,7 +102,7 @@
 
 "Choose OpenEmu Library" = "OpenEmuライブラリを選択";
 
-"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "はいを選択すると、全てのアイテムをキューから削除します。インポートが完了したアイテムはライブラリに表示されます。";
+"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "「はい」を選択すると、全てのアイテムをキューから削除します。インポートが完了したアイテムはライブラリに表示されます。";
 
 "Code:" = "コード:";
 
@@ -472,7 +472,7 @@
 
 "The file you selected doesn't exist" = "選択されたファイルは存在しません。";
 
-"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "ROMファイルが見付からなかったため、'%@'を開始することが出来ませんでした。ファイルを指定しなおしますか？";
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "ROMファイルが見付からなかったため、'%@'を開始することが出来ませんでした。ファイルを再度指定しますか？";
 
 "The game '%@' was imported." = "'%@' がインポートされました。";
 
@@ -530,19 +530,19 @@
 
 "Your library was moved sucessfully." = "ライブラリの移動が正常に完了しました。";
 
-"Library" = "Library";  // TODO
+"Library" = "ライブラリ";  // TODO
 
-"Save States" = "Save States";  // TODO
+"Save States" = "セーブステート";  // TODO
 
-"Screenshots" = "Screenshots";  // TODO
+"Screenshots" = "スクリーンショット";  // TODO
 
 "Homebrew" = "Homebrew";  // TODO
 
-"Grid Size" = "Grid Size";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+"Grid Size" = "グリッドサイズ";   // TODO shown when the corresponding item does not fit in the main window's toolbar
 
-"View Mode" = "View Mode";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+"View Mode" = "表示モード";   // TODO shown when the corresponding item does not fit in the main window's toolbar
 
-"Category" = "Category";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+"Category" = "カテゴリ";   // TODO shown when the corresponding item does not fit in the main window's toolbar
 
 
 /* Secrets */
@@ -605,7 +605,7 @@
 
 "Controls Setup" = "コントローラー設定";
 
-"WiiRemote support (requires relaunch)" = "WiiRemoteサポート(再起動が必要))";
+"WiiRemote support (requires relaunch)" = "WiiRemoteサポート(再起動が必要です)";
 
 "Clicking on image selects button" = "画像をクリックしてボタンを選択";
 
@@ -653,8 +653,8 @@
 
 "Perform Sanity Check on Database" = "データベース上のSanity Checkを開始";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "OpenEmuを作成した全ての方に大変感謝しています。\n全てのコントリビュータ及びエミュレータコア作者、\nドキュメント、ライセンス、イシュー、\nバグレポートなどの確認は、GitHubにてご確認ください。";
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "OpenEmuの発展に寄与した全ての方へ感謝申し上げます。\n全てのコントリビュータ、エミュレータコア作者、\nドキュメント、ライセンス、イシュー、\nバグレポートなどの確認は、GitHubにてご確認ください。";
 
-"ECM compressed binary detected." = "ECM compressed binary detected.";  // TODO
+"ECM compressed binary detected." = "ECM圧縮バイナリを検知しました";  // TODO
 
 "ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";  // TODO
