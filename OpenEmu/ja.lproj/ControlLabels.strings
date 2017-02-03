@@ -81,8 +81,8 @@
   "L1" = "L1";
   "L2" = "L2";
   "L3" = "L3";
-  "Left Action" = "左 アクション";
-  "Left Trigger" = "左 トリガー";
+  "Left Action" = "左アクション";
+  "Left Trigger" = "左トリガー";
   "Left" = "左";
   "Lid" = "Lid";
   "Load" = "ロード";
@@ -106,8 +106,8 @@
   "R3" = "R3";
   "Reset" = "リセット";
   "Rewind" = "巻き戻し";
-  "Right Action" = "右 アクション";
-  "Right Trigger" = "右 トリガー";
+  "Right Action" = "右アクション";
+  "Right Trigger" = "右トリガー";
   "Right" = "右";
   "Run" = "起動";
   "Save" = "セーブ";
@@ -116,8 +116,8 @@
   "Service" = "サービス";
   "Sound" = "音";
   "Start" = "スタート";
-  "TV Black & White" = "TV 黒白";
-  "TV Color" = "TV カラー";
+  "TV Black & White" = "TV黒白";
+  "TV Color" = "TVカラー";
   "Up" = "上";
   "Volume Down" = "音量ダウン";
   "Volume Up" = "音量アップ";
@@ -138,17 +138,17 @@
   "✕" = "✕";
 
 /* Special Keys */
-  "Display Mode" = "Display Mode";
+  "Display Mode" = "ディスプレイモード";
   "Fast Forward" = "Fast Forward";
-  "Fullscreen" = "Fullscreen";
-  "Load" = "Load";
-  "Mute" = "Mute";
-  "Pause" = "Pause";
-  "Quick Load Button" = "Quick Load";
-  "Quick Save Button" = "Quick Save";
-  "Reset" = "Reset";
-  "Rewind" = "Rewind";
-  "Save" = "Save";
-  "Screenshot" = "Screenshot";
-  "Volume Down" = "Volume Down";
-  "Volume Up" = "Volume Up";
+  "Fullscreen" = "フルスクリーン";
+  "Load" = "ロード";
+  "Mute" = "ミュート";
+  "Pause" = "一時停止";
+  "Quick Load Button" = "クイックロード";
+  "Quick Save Button" = "クイックセーブ";
+  "Reset" = "リセット";
+  "Rewind" = "巻き戻し";
+  "Save" = "セーブ";
+  "Screenshot" = "スクリーンショット";
+  "Volume Down" = "音量を下げる";
+  "Volume Up" = "音量を上げる";
