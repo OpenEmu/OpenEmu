@@ -182,7 +182,7 @@
 
 "Dismiss" = "無視する";
 
-"Do it!" = "やりましょう！";
+"Do it!" = "やります！";
 
 "Do not ask me again" = "再表示しない";
 
@@ -657,4 +657,4 @@
 
 "ECM compressed binary detected." = "ECM圧縮バイナリを検知しました";  // TODO
 
-"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";  // TODO
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM圧縮バイナリをインポート出来ませんでした。ディスクインポートガイドをご確認ください。";  // TODO
