@@ -178,7 +178,6 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
     NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
     _writerContext.mergePolicy = policy;
     _writerContext.retainsRegisteredObjects = YES;
-    if(_writerContext == nil) return NO;
 
     NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
     _writerContext.persistentStoreCoordinator = coordinator;
