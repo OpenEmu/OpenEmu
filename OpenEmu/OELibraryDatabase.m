@@ -72,8 +72,9 @@ NSString *const OELibraryRomsFolderURLKey    = @"romsFolderURL";
 
 NSString *const OEManagedObjectContextHasDirectChangesKey = @"hasDirectChanges";
 
-const int OELibraryErrorCodeFolderNotFound       = 1;
-const int OELibraryErrorCodeFileInFolderNotFound = 2;
+const int OELibraryErrorCodeFolderNotFound              = 1;
+const int OELibraryErrorCodeFileInFolderNotFound        = 2;
+const int OELibraryErrorCodeNoModelToGenerateStoreFrom  = 3;
 
 const NSInteger OpenVGDBSyncBatchSize = 5;
 
@@ -205,6 +206,13 @@ static OELibraryDatabase * _Nullable defaultDatabase = nil;
     if(mom == nil)
     {
         NSLog(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
+        
+        if(outError != NULL)
+        {
+            NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : NSLocalizedString(@"No model to generate a store from.", @"") };
+            *outError = [NSError errorWithDomain:@"OELibraryDatabase" code:OELibraryErrorCodeNoModelToGenerateStoreFrom userInfo:userInfo];
+        }
+        
         return NO;
     }
 
