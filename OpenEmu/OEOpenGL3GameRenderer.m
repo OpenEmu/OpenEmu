@@ -29,7 +29,7 @@
     dispatch_semaphore_t  _renderingThreadCanProceedSemaphore;
     dispatch_semaphore_t  _executeThreadCanProceedSemaphore;
 
-    volatile int32_t      _isFPSLimiting; // Enable the "fake vsync" locking to prevent the GPU thread running ahead.
+    volatile atomic_int   _isFPSLimiting; // Enable the "fake vsync" locking to prevent the GPU thread running ahead.
 }
 
 @synthesize gameCore=_gameCore;
@@ -264,14 +264,14 @@
 {
     if (_isFPSLimiting == 1) return;
 
-    OSAtomicIncrement32(&_isFPSLimiting);
+    atomic_fetch_add(&_isFPSLimiting, 1);
 }
 
 - (void)suspendFPSLimiting
 {
     if (_isFPSLimiting == 0) return;
 
-    OSAtomicDecrement32(&_isFPSLimiting);
+    atomic_fetch_sub(&_isFPSLimiting, 1);
 
     // Wake up the rendering thread one last time.
     // After this, it'll skip checking the semaphore until resumed.
