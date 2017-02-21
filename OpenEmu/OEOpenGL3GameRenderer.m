@@ -9,6 +9,7 @@
 #import "OEOpenGL3GameRenderer.h"
 #import <OpenGL/gl3.h>
 #import <OpenGL/gl3ext.h>
+#import <stdatomic.h>
 
 @implementation OEOpenGL3GameRenderer
 {

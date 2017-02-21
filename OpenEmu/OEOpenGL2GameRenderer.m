@@ -9,6 +9,7 @@
 #import "OEOpenGL2GameRenderer.h"
 #import <OpenGL/gl.h>
 #import <OpenGL/glext.h>
+#import <stdatomic.h>
 
 #define DIRECTER_RENDERING 0
 
