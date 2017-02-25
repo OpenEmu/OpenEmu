@@ -58,6 +58,7 @@ NSString *const OESaveStateInfoTimestampKey         = @"Timestamp";
 NSString *const OESaveStateSpecialNamePrefix    = @"OESpecialState_";
 NSString *const OESaveStateAutosaveName         = @"OESpecialState_auto";
 NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
+NSString *const OESaveStateUndoLoadName         = @"OESpecialState_undo";
 
 @implementation OEDBSaveState
 

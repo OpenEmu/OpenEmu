@@ -43,6 +43,7 @@ extern NSString *const OESaveStateInfoCoreVersionKey;
 extern NSString *const OESaveStateSpecialNamePrefix;
 extern NSString *const OESaveStateAutosaveName;
 extern NSString *const OESaveStateQuicksaveName;
+extern NSString *const OESaveStateUndoLoadName;
 
 extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 
