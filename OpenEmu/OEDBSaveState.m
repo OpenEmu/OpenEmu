@@ -585,6 +585,10 @@ NSString *const OESaveStateUndoLoadName         = @"OESpecialState_undo";
     {
         return NSLocalizedString(@"Auto Save State", @"Autosave state display name");
     }
+    else if([name isEqualToString:OESaveStateUndoLoadName])
+    {
+        return NSLocalizedString(@"State Before Last Load", @"Undo Load state display name");
+    }
     else if([name isEqualToString:OESaveStateQuicksaveName])
     {
         return NSLocalizedString(@"Quick Save State", @"Quicksave state display name");

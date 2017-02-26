@@ -442,6 +442,8 @@
 
 "Start Scanning" = "Start Scanning";
 
+"State Before Last Load" = "State Before Last Load";
+
 "Stop Emulation" = "Stop Emulation";
 
 "Stop" = "Stop";
@@ -493,6 +495,8 @@
 "Toggle Fullscreen" = "Toggle Fullscreen";
 
 "Trash downloaded Files" = "Trash downloaded Files";
+
+"Undo Load" = "Undo Load"
 
 "Unmute Audio" = "Unmute Audio";
 
