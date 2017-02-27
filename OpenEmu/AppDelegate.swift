@@ -861,7 +861,7 @@ extension AppDelegate: NSMenuDelegate {
             newSaveItem.representedObject = "0"
         }
         
-        undoLoadItem = NSMenuItem(title: NSLocalizedString("Undo Load", comment: "Undo Load Menu Item"), action: #selector(OEGameDocument.quickLoad(_:)), keyEquivalent: "l")
+        undoLoadItem = NSMenuItem(title: NSLocalizedString("Undo Last Load", comment: "Undo Last Load Menu Item"), action: #selector(OEGameDocument.quickLoad(_:)), keyEquivalent: "l")
         undoLoadItem.representedObject = "0"
 
         newLoadItem.tag = loadItemTag

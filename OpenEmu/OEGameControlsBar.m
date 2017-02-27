@@ -533,11 +533,6 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     [menu setDelegate:self];
     [menu addItem:newSaveItem];
 
-    NSMenuItem *undoLoadItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Undo Load", @"") action:@selector(undoLoadState:) keyEquivalent:@""];
-    [undoLoadItem setEnabled:[[self gameViewController] supportsSaveStates]];
-    [menu setDelegate:self];
-    [menu addItem:undoLoadItem];
-
     OEDBRom *rom = [[[self gameViewController] document] rom];
     [rom removeMissingStates];
 
@@ -595,6 +590,12 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
                 [loadItem setSubmenu:loadSubmenu];
                 [menu addItem:loadItem];
             }
+
+            NSString *undoLoadTitle = NSLocalizedString(@"Undo Last Load", @"Undo Last Load menu item title");
+            item = [[NSMenuItem alloc] initWithTitle:undoLoadTitle action:@selector(undoLoadState:) keyEquivalent:@""];
+            [item setEnabled:[[self gameViewController] supportsSaveStates]];
+            [item setIndentationLevel:1];
+            [menu addItem:item];
 
             // Add 'normal' save states
             for(OEDBSaveState *saveState in saveStates)
