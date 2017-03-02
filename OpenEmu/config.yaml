@@ -1,5 +1,5 @@
 build_now:              'YES'
-download_base_url:      http://github.com/downloads/openemu/openemu/
+download_base_url:      https://github.com/OpenEmu/OpenEmu/releases
 release_notes_base_url: http://openemu.org/category/releasenotes/coreapp/
 appcast_basefolder:     '/Users/jweinberg/Desktop/Appcast'
 appcast_xml_name:       'appcast.xml'
