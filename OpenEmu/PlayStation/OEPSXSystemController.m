@@ -32,10 +32,6 @@
 
 - (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    // Handle sbi file and return early
-    if ([file.fileExtension isEqualToString:@"sbi"])
-        return OEFileSupportYes;
-
     if (![file isKindOfClass:[OECDSheet class]])
         return OEFileSupportNo;
 

@@ -93,6 +93,9 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     if([self OE_isFilterAtURL:url])
         return nil;
 #endif
+    // Check for PlayStation .sbi subchannel data files and copy them directly (not going through importer queue)
+    if([self OE_isSBIFileAtURL:url])
+        return nil;
 
     // Ignore text files that are .md
     if([self OE_isTextFileAtURL:url])
@@ -142,6 +145,49 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     return NO;
 }
 #endif
+
++ (BOOL)OE_isSBIFileAtURL:(NSURL*)url
+{
+    NSString *pathExtension = url.pathExtension.lowercaseString;
+    if([pathExtension isEqualToString:@"sbi"])
+    {
+        // Check 4-byte SBI header
+        NSFileHandle *header = [NSFileHandle fileHandleForReadingFromURL:url error:nil];
+        [header seekToFileOffset: 0x0];
+        NSData *sbiHeaderBuffer = [header readDataOfLength: 4];
+        NSData *expectedSBIHeader = [NSData dataWithBytes: "SBI\0" length: 4];
+        [header closeFile];
+        BOOL bytesFound = [sbiHeaderBuffer isEqualToData:expectedSBIHeader];
+
+        if(!bytesFound)
+            return NO;
+
+        IMPORTDLog(@"File seems to be a SBI file at %@", url);
+
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        NSError       *error       = nil;
+        NSString      *sbiFilename = url.lastPathComponent;
+        NSURL         *sbiURL      = [[[OELibraryDatabase defaultDatabase] databaseFolderURL] URLByAppendingPathComponent:@"roms/Sony PlayStation" isDirectory:YES];
+        NSURL *destination = [sbiURL URLByAppendingPathComponent:sbiFilename];
+
+
+        if(![fileManager createDirectoryAtURL:sbiURL withIntermediateDirectories:YES attributes:nil error:&error])
+        {
+            IMPORTDLog(@"Could not create directory before copying SBI file at %@", url);
+            IMPORTDLog(@"%@", error);
+            error = nil;
+        }
+
+        if(![fileManager copyItemAtURL:url toURL:destination error:&error])
+        {
+            IMPORTDLog(@"Could not copy SBI file %@ to %@", url, destination);
+            IMPORTDLog(@"%@", error);
+        }
+
+        return YES;
+    }
+    return NO;
+}
 
 + (void)OE_tryImportSaveStateAtURL:(NSURL*)url
 {
