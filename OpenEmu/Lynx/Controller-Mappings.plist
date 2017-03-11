@@ -243,5 +243,18 @@
 		<key>OELynxButtonOption2</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OELynxButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OELynxButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OELynxButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OELynxButtonOption1</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OELynxButtonOption2</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

@@ -273,5 +273,20 @@
 		<key>OEFDSButtonChangeSide</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonR1</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEFDSButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEFDSButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEFDSButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEFDSButtonStart</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OEFDSButtonSelect</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+		<key>OEFDSButtonChangeSide</key>
+		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
+	</dict>
 </dict>
 </plist>

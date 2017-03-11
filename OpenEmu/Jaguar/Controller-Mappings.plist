@@ -273,5 +273,20 @@
 		<key>OEJaguarButtonOption</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEJaguarButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEJaguarButtonC</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEJaguarButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEJaguarButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OEJaguarButtonPause</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OEJaguarButtonOption</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

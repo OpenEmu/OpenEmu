@@ -215,5 +215,16 @@
 		<key>OENGPButtonOption</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OENGPButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OENGPButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OENGPButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OENGPButtonOption</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+	</dict>
 </dict>
 </plist>

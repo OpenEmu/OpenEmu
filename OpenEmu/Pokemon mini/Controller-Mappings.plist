@@ -303,5 +303,22 @@
 		<key>OEPMButtonPower</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEPMButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEPMButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEPMButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEPMButtonC</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OEPMButtonShake</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OEPMButtonMenu</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OEPMButtonPower</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

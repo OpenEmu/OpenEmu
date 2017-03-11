@@ -153,5 +153,12 @@
 		<key>OEOdyssey2ButtonAction</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEOdyssey2ButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEOdyssey2ButtonAction</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+	</dict>
 </dict>
 </plist>

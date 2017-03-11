@@ -153,5 +153,12 @@
 		<key>OEC64ButtonFire</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEC64JoystickUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEC64ButtonFire</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+	</dict>
 </dict>
 </plist>

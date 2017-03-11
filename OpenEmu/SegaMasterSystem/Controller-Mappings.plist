@@ -213,5 +213,16 @@
 		<key>OESMSButtonStart</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OESMSButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OESMSButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OESMSButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OESMSButtonStart</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+	</dict>
 </dict>
 </plist>

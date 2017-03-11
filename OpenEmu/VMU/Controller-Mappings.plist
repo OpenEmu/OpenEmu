@@ -243,5 +243,18 @@
 		<key>OEVMUButtonMode</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEVMUButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEVMUButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEVMUButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEVMUButtonSleep</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OEVMUButtonMode</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

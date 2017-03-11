@@ -183,5 +183,14 @@
 		<key>OESG1000Button2</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OESG1000ButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OESG1000Button1</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OESG1000Button2</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+	</dict>
 </dict>
 </plist>

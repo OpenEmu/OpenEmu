@@ -357,5 +357,26 @@
 		<key>OEPCFXButtonSelect</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonL2</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEPCFXButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEPCFXButton1</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OEPCFXButton2</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OEPCFXButton3</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEPCFXButton4</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEPCFXButton5</key>
+		<string>OEControllerNintendoSwitchProControllerButtonL</string>
+		<key>OEPCFXButton6</key>
+		<string>OEControllerNintendoSwitchProControllerButtonR</string>
+		<key>OEPCFXButtonRun</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OEPCFXButtonSelect</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

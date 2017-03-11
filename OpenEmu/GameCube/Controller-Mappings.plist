@@ -392,5 +392,34 @@
 		<key>OEGCButtonStart</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEGCButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEGCAnalogUp</key>
+		<string>OEControllerNintendoSwitchProControllerLeftAnalogUp</string>
+		<key>OEGCAnalogLeft</key>
+		<string>OEControllerNintendoSwitchProControllerLeftAnalogLeft</string>
+		<key>OEGCAnalogCUp</key>
+		<string>OEControllerNintendoSwitchProControllerRightAnalogUp</string>
+		<key>OEGCAnalogCLeft</key>
+		<string>OEControllerNintendoSwitchProControllerRightAnalogLeft</string>
+		<key>OEGCButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OEGCButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEGCButtonX</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OEGCButtonY</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEGCButtonL</key>
+		<string>OEControllerNintendoSwitchProControllerButtonZL</string>
+		<key>OEGCButtonR</key>
+		<string>OEControllerNintendoSwitchProControllerButtonZR</string>
+		<key>OEGCButtonZ</key>
+		<string>OEControllerNintendoSwitchProControllerButtonR</string>
+		<key>OEGCButtonStart</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+	</dict>
 </dict>
 </plist>

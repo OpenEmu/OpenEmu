@@ -357,5 +357,26 @@
 		<key>OESega32XButtonMode</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonL2</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OESega32XButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OESega32XButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OESega32XButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OESega32XButtonC</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OESega32XButtonX</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OESega32XButtonY</key>
+		<string>OEControllerNintendoSwitchProControllerButtonL</string>
+		<key>OESega32XButtonZ</key>
+		<string>OEControllerNintendoSwitchProControllerButtonR</string>
+		<key>OESega32XButtonStart</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OESega32XButtonMode</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

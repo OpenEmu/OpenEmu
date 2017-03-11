@@ -336,5 +336,26 @@
 		<key>OEArcadeButtonInsertCoin</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonR2</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEArcadeButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEArcadeButton1</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OEArcadeButton2</key>
+		<string>OEControllerNintendoSwitchProControllerButtonL</string>
+		<key>OEArcadeButton3</key>
+		<string>OEControllerNintendoSwitchProControllerButtonR</string>
+		<key>OEArcadeButton4</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEArcadeButton5</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEArcadeButton6</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OEArcadeButtonP1Start</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OEArcadeButtonInsertCoin</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

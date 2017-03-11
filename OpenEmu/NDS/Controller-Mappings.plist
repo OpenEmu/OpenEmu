@@ -336,5 +336,26 @@
 		<key>OENDSButtonSelect</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonL2</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OENDSButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OENDSButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OENDSButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OENDSButtonX</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OENDSButtonY</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OENDSButtonL</key>
+		<string>OEControllerNintendoSwitchProControllerButtonL</string>
+		<key>OENDSButtonR</key>
+		<string>OEControllerNintendoSwitchProControllerButtonR</string>
+		<key>OENDSButtonStart</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OENDSButtonSelect</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

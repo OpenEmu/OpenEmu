@@ -357,5 +357,26 @@
 		<key>OEGenesisButtonMode</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonL2</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEGenesisButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEGenesisButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEGenesisButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEGenesisButtonC</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OEGenesisButtonX</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OEGenesisButtonY</key>
+		<string>OEControllerNintendoSwitchProControllerButtonL</string>
+		<key>OEGenesisButtonZ</key>
+		<string>OEControllerNintendoSwitchProControllerButtonR</string>
+		<key>OEGenesisButtonStart</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OEGenesisButtonMode</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

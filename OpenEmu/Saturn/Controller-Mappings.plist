@@ -371,5 +371,28 @@
 		<key>OESaturnButtonStart</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OESaturnButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OESaturnButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OESaturnButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OESaturnButtonC</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OESaturnButtonX</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OESaturnButtonY</key>
+		<string>OEControllerNintendoSwitchProControllerButtonL</string>
+		<key>OESaturnButtonZ</key>
+		<string>OEControllerNintendoSwitchProControllerButtonR</string>
+		<key>OESaturnButtonL</key>
+		<string>OEControllerNintendoSwitchProControllerButtonZL</string>
+		<key>OESaturnButtonR</key>
+		<string>OEControllerNintendoSwitchProControllerButtonZR</string>
+		<key>OESaturnButtonStart</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+	</dict>
 </dict>
 </plist>

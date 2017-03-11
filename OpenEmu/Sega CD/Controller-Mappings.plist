@@ -357,5 +357,26 @@
 		<key>OESegaCDButtonMode</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonL2</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerNintendoSwitchProControllerButtonL</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerNintendoSwitchProControllerButtonR</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

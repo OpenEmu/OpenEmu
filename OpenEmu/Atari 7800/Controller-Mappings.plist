@@ -273,5 +273,20 @@
 		<key>OE7800ButtonReset</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonR1</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OE7800ButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OE7800ButtonFire2</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OE7800ButtonFire1</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OE7800ButtonSelect</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OE7800ButtonPause</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+		<key>OE7800ButtonReset</key>
+		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
+	</dict>
 </dict>
 </plist>

@@ -213,5 +213,16 @@
 		<key>OE2600ButtonSelect</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OE2600ButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OE2600ButtonFire1</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OE2600ButtonReset</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OE2600ButtonSelect</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+	</dict>
 </dict>
 </plist>

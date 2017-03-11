@@ -153,5 +153,12 @@
 		<key>OEA8ButtonFire</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEA8JoystickUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEA8ButtonFire</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+	</dict>
 </dict>
 </plist>

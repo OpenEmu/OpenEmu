@@ -189,5 +189,14 @@
 		<key>OEIntellivisionButtonBottomRightAction</key>
 		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEIntellivisionButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEIntellivisionButtonBottomLeftAction</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEIntellivisionButtonBottomRightAction</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+	</dict>
 </dict>
 </plist>
