@@ -161,7 +161,7 @@
 		<string>OESaturnButtonStart</string>
 	</array>
 	<key>OENumberOfPlayersKey</key>
-	<integer>2</integer>
+	<integer>12</integer>
 	<key>OEResponderClassKey</key>
 	<string>OESaturnSystemResponder</string>
 	<key>OESystemIcon</key>
