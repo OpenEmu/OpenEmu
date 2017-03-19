@@ -9,31 +9,31 @@
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OESaturnButtonUp</key>
-		<string>{0, 0}</string>
+		<string>{144, 248}</string>
 		<key>OESaturnButtonDown</key>
-		<string>{0, 0}</string>
+		<string>{144, 198}</string>
 		<key>OESaturnButtonLeft</key>
-		<string>{0, 0}</string>
+		<string>{119, 228}</string>
 		<key>OESaturnButtonRight</key>
-		<string>{0, 0}</string>
+		<string>{169, 228}</string>
 		<key>OESaturnButtonA</key>
-		<string>{0, 0}</string>
+		<string>{320, 190}</string>
 		<key>OESaturnButtonB</key>
-		<string>{0, 0}</string>
+		<string>{357, 215}</string>
 		<key>OESaturnButtonC</key>
-		<string>{0, 0}</string>
+		<string>{401, 233}</string>
 		<key>OESaturnButtonX</key>
-		<string>{0, 0}</string>
+		<string>{306, 235}</string>
 		<key>OESaturnButtonY</key>
-		<string>{0, 0}</string>
+		<string>{339, 258}</string>
 		<key>OESaturnButtonZ</key>
-		<string>{0, 0}</string>
+		<string>{375, 272}</string>
 		<key>OESaturnButtonStart</key>
-		<string>{0, 0}</string>
+		<string>{252, 192}</string>
 		<key>OESaturnButtonL</key>
-		<string>{0, 0}</string>
+		<string>{131, 324}</string>
 		<key>OESaturnButtonR</key>
-		<string>{0, 0}</string>
+		<string>{368, 324}</string>
 	</dict>
 </dict>
 </plist>
