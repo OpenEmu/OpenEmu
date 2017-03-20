@@ -34,6 +34,20 @@
 		<string>{0, 0}</string>
 		<key>OESaturnButtonR</key>
 		<string>{0, 0}</string>
+		<key>OESaturnButtonAnalogMode</key>
+		<string>{0, 0}</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>{0, 0}</string>
+		<key>OESaturnLeftAnalogDown</key>
+		<string>{0, 0}</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>{0, 0}</string>
+		<key>OESaturnLeftAnalogRight</key>
+		<string>{0, 0}</string>
+		<key>OESaturnAnalogL</key>
+		<string>{0, 0}</string>
+		<key>OESaturnAnalogR</key>
+		<string>{0, 0}</string>
 	</dict>
 </dict>
 </plist>

@@ -28,5 +28,7 @@
 	<integer>6</integer>
 	<key>OESaturnButtonStart</key>
 	<integer>40</integer>
+	<key>OESaturnButtonAnalogMode</key>
+	<integer>49</integer>
 </dict>
 </plist>
