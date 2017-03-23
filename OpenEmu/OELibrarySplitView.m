@@ -242,4 +242,9 @@ static NSString * const _OESidebarWidthKey = @"lastSidebarWidth";
     return MIN(_OESidebarMaxWidth, NSWidth(self.frame) - _OEMainViewMinWidth);
 }
 
+- (void)splitViewDidResizeSubviews:(NSNotification *)notification
+{
+    [NSUserDefaults.standardUserDefaults setDouble:self.splitterPosition forKey:_OESidebarWidthKey];
+}
+
 @end
