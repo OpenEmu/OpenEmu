@@ -715,7 +715,7 @@ class AppDelegate: NSDocumentController {
     
     @IBAction func OEDebug_logResponderChain(_ sender: AnyObject?) {
         
-        DLog("NSApp.KeyWindow: \(NSApp.keyWindow)")
+        DLog("NSApp.KeyWindow: \(String(describing: NSApp.keyWindow))")
         
         if let keyWindow = NSApp.keyWindow {
             
