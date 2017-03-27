@@ -315,7 +315,7 @@ class AppDelegate: NSDocumentController {
                 self.setUpGameDocument(document, display: true, fullScreen: fullScreen, completionHandler: nil)
             }
             
-            if let error = error as? NSError, error.domain == OEGameDocumentErrorDomain, error.code == Int(OEImportRequiredError.rawValue) {
+            if let error = error as NSError?, error.domain == OEGameDocumentErrorDomain, error.code == Int(OEImportRequiredError.rawValue) {
                 completionHandler(nil, false, nil)
                 return
             }
