@@ -30,7 +30,7 @@
 #import "OESidebarController.h"
 
 #import <objc/runtime.h>
-#import "OESideBarGroupItem.h"
+#import "OESidebarGroupItem.h"
 #import "OEMenu.h"
 
 #import "OEDBSystem+CoreDataProperties.h" 
