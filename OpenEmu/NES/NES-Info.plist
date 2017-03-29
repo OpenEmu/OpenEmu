@@ -81,6 +81,18 @@
 				<key>OEControlListKeyNameKey</key>
 				<string>OENESButtonB</string>
 			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>AA</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OENESButtonAA</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>BB</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OENESButtonBB</string>
+			</dict>
 		</array>
 	</array>
 	<key>OEControlTypesKey</key>
@@ -120,6 +132,8 @@
 		<string>OENESButtonB</string>
 		<string>OENESButtonStart</string>
 		<string>OENESButtonSelect</string>
+		<string>OENESButtonAA</string>
+		<string>OENESButtonBB</string>
 	</array>
 	<key>OENumberOfPlayersKey</key>
 	<integer>4</integer>
@@ -128,6 +142,6 @@
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.nes</string>
 	<key>OESystemName</key>
-	<string>Nintendo (NES)</string>
+	<string>Famicom</string>
 </dict>
 </plist>

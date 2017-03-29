@@ -20,6 +20,10 @@
 		<string>OEControllerMicrosoftXbox360ButtonStart</string>
 		<key>OENESButtonSelect</key>
 		<string>OEControllerMicrosoftXbox360ButtonBack</string>
+		<key>OENESButtonAA</key>
+		<string>OEControllerMicrosoftXbox360ButtonB</string>
+		<key>OENESButtonBB</key>
+		<string>OEControllerMicrosoftXbox360ButtonY</string>
 	</dict>
 	<key>OEControllerSonyPS3Sixaxis</key>
 	<dict>
@@ -39,6 +43,10 @@
 		<string>OEControllerSonyPS3SixaxisButtonStart</string>
 		<key>OENESButtonSelect</key>
 		<string>OEControllerSonyPS3SixaxisButtonSelect</string>
+		<key>OENESButtonAA</key>
+		<string>OEControllerSonyPS3SixaxisButtonCross</string>
+		<key>OENESButtonBB</key>
+		<string>OEControllerSonyPS3SixaxisButtonSquare</string>
 	</dict>
 	<key>OEControllerLogitechDualAction</key>
 	<dict>

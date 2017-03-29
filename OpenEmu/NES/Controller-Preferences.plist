@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_nes</string>
+	<string>controller_fc</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_nes_mask</string>
+	<string>controller_fc_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OENESButtonUp</key>
@@ -24,6 +24,10 @@
 		<string>{391, 188}</string>
 		<key>OENESButtonB</key>
 		<string>{334, 188}</string>
+		<key>OENESButtonAA</key>
+		<string>{391, 235}</string>
+		<key>OENESButtonBB</key>
+		<string>{334, 235}</string>
 	</dict>
 </dict>
 </plist>

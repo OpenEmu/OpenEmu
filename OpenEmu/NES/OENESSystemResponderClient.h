@@ -36,6 +36,8 @@ typedef enum _OENESButton
     OENESButtonB,
     OENESButtonStart,
     OENESButtonSelect,
+    OENESButtonAA,
+    OENESButtonBB,
     OENESButtonCount
 } OENESButton;
 
