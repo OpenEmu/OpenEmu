@@ -2,7 +2,7 @@
 OpenEmu
 =======
 
-Hi, everyone. I added turbo A and B to FCEU core, so when you emulating fc games, just use FCEU, then everything is wonderful.
+Hi, everyone. I added turbo A and B to FCEU/Nestopia core, so when you emulating fc games as often, everything will be wonderful.
 
 
 
