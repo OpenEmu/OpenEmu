@@ -6,7 +6,7 @@ Hi, everyone. I added turbo A and B to FCEU core, so when you emulating fc games
 
 
 
-Here is some screenshots.
+Here are some screenshots.
 
 ![turbo A and B](https://ww2.sinaimg.cn/large/006tNc79ly1fe3w6svqlmj315y0tcqd0.jpg)
 
