@@ -64,15 +64,8 @@
 
     NSString *dataTrackString = [file readASCIIStringInRange:NSMakeRange(0x24E0, 16)];
     NSLog(@"'%@'", dataTrackString);
-    NSArray *dataTrackList = @[ @"  Licensed  by  ", @"  Cracked   by  " ];
 
-    for(NSString *d in dataTrackList)
-    {
-        if([dataTrackString isEqualToString:d])
-            return OEFileSupportYes;
-    }
-
-    return OEFileSupportNo;
+    return [dataTrackString isEqualToString:@"  Licensed  by  "] ? OEFileSupportYes : OEFileSupportNo;
 }
 
 - (NSString *)serialLookupForFile:(__kindof OEFile *)file
