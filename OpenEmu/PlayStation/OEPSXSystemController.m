@@ -161,8 +161,17 @@
 
     //NSLog(@"output: %@", output);
 
-    // RegEx pattern match the disc serial
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"BOOT\\s*=\\s*?cdrom:\\\\?(.+\\\\)?(.+);" options:NSRegularExpressionCaseInsensitive error:nil];
+    // RegEx pattern match the disc serial (Note: regex backslashes are escaped)
+    // Handles all cases I've encountered so far:
+    //  BOOT=cdrom:\SCES_015.64;1           (no whitespace)
+    //  BOOT=cdrom:\SLUS_004.49             (no semicolon)
+    //  BOOT=cdrom:\SLUS-000.05;1           (hyphen instead of underscore)
+    //  BOOT = cdrom:\SLES_025.37;1         (whitespace)
+    //  BOOT = cdrom:SLUS_000.67;1          (no backslash)
+    //  BOOT = cdrom:\slus_005.94;1         (lowercase)
+    //  BOOT = cdrom:\TEKKEN3\SLUS_004.02;1 (extra path)
+    //  BOOT	= cdrom:\SLUS_010.41;1      (horizontal tab)
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"BOOT\\s*=\\s*?cdrom:\\\\?(.+\\\\)?(.+?(?=;|\\s))" options:NSRegularExpressionCaseInsensitive error:nil];
     NSTextCheckingResult *match = [regex firstMatchInString:output options:0 range:NSMakeRange(0, [output length])];
 
     if(match == nil)
