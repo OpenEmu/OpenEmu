@@ -349,6 +349,8 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 
     NSString *defaultsKey = [[self OE_entityName] stringByAppendingString:OESelectedMediaKey];
     [[NSUserDefaults standardUserDefaults] setObject:archivableRepresentations forKey:defaultsKey];
+    
+    [self refreshPreviewPanelIfNeeded];
 }
 
 #pragma mark -

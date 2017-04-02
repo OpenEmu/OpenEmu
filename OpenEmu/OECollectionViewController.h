@@ -77,6 +77,7 @@ extern NSString * const OELastCollectionViewKey;
 - (NSMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes;
 
 #pragma mark - Quick Look
+- (void)refreshPreviewPanelIfNeeded;
 /* subclass these to implement quicklook for a specific collection */
 - (BOOL)acceptsPreviewPanelControl:(QLPreviewPanel *)panel;
 - (NSInteger)numberOfPreviewItemsInPreviewPanel:(QLPreviewPanel *)panel;

@@ -596,6 +596,18 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 }
 
 
+- (void)refreshPreviewPanelIfNeeded
+{
+    QLPreviewPanel *panel;
+  
+    if ([QLPreviewPanel sharedPreviewPanelExists]) {
+        panel = [QLPreviewPanel sharedPreviewPanel];
+        if ([panel isVisible] && [panel delegate] == self)
+            [panel reloadData];
+    }
+}
+
+
 #pragma mark - Core Data
 - (NSArray*)defaultSortDescriptors
 {
