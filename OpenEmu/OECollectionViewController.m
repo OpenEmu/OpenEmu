@@ -596,6 +596,12 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 }
 
 
+- (NSInteger)imageBrowserViewIndexForPreviewItem:(id <QLPreviewItem>)item
+{
+    return -1;
+}
+
+
 - (void)refreshPreviewPanelIfNeeded
 {
     QLPreviewPanel *panel;
@@ -605,6 +611,29 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
         if ([panel isVisible] && [panel delegate] == self)
             [panel reloadData];
     }
+}
+
+
+- (NSRect)previewPanel:(QLPreviewPanel *)panel sourceFrameOnScreenForPreviewItem:(id<QLPreviewItem>)item
+{
+    if (_selectedViewTag != OEGridViewTag)
+        return NSZeroRect;
+
+    NSInteger i = [self imageBrowserViewIndexForPreviewItem:item];
+    if (i < 0)
+        return NSZeroRect;
+    
+    IKImageBrowserCell *itemcell = [self.gridView cellForItemAtIndex:i];
+    NSRect thumbframe = [itemcell imageFrame];
+    NSScrollView *scrollv = [self.gridView enclosingScrollView];
+    thumbframe = [self.gridView convertRect:thumbframe toView:scrollv];
+    if (!NSContainsRect([scrollv bounds], thumbframe))
+        return NSZeroRect;
+    
+    NSWindow *w = [self.gridView window];
+    thumbframe = [scrollv convertRect:thumbframe toView:w.contentView];
+    NSRect screenrect = [w convertRectToScreen:thumbframe];
+    return screenrect;
 }
 
 

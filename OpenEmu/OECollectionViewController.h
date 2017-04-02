@@ -82,6 +82,7 @@ extern NSString * const OELastCollectionViewKey;
 - (BOOL)acceptsPreviewPanelControl:(QLPreviewPanel *)panel;
 - (NSInteger)numberOfPreviewItemsInPreviewPanel:(QLPreviewPanel *)panel;
 - (id <QLPreviewItem>)previewPanel:(QLPreviewPanel *)panel previewItemAtIndex:(NSInteger)index;
+- (NSInteger)imageBrowserViewIndexForPreviewItem:(id <QLPreviewItem>)item;
 
 #pragma mark -
 - (id <OECollectionViewItemProtocol>)representedObject;

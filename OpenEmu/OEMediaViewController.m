@@ -797,6 +797,17 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 }
 
 
+- (NSInteger)imageBrowserViewIndexForPreviewItem:(id <QLPreviewItem>)item
+{
+    /* only search thru selected items because otherwise it might take forever */
+    NSInteger res =  [self.items indexOfObjectAtIndexes:self.selectionIndexes options:0 passingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        return item == obj;
+    }];
+    return res == NSNotFound ? self.selectionIndexes.firstIndex : res;
+}
+
+
+
 @end
 
 
