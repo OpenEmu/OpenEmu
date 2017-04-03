@@ -491,7 +491,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 {
     if(![self suppressionUDKey]) return;
     
-    NSUInteger       state                = [(NSButton *)sender state];
+    NSInteger       state                 = [(NSButton *)sender state];
     NSUserDefaults  *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     if(!state && [self suppressOnDefaultReturnOnly])
         [standardUserDefaults removeObjectForKey:[self suppressionUDKey]];   
