@@ -274,6 +274,7 @@
 		5A44301C1D93380600E54F1D /* OEBuildInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A44301B1D93380600E54F1D /* OEBuildInfo.m */; };
 		5A46AC411DC66D8300771B3B /* OEGameViewController+TouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A46AC401DC66D8300771B3B /* OEGameViewController+TouchBar.swift */; };
 		5A575DFB1E92B6CE00491B0D /* BIOSFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A575DFA1E92B6CE00491B0D /* BIOSFile.swift */; };
+		5A575DFD1E92D23600491B0D /* Cheats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A575DFC1E92D23600491B0D /* Cheats.swift */; };
 		5A6C157C1DC96C3700839986 /* OEMediaViewController+TouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6C157B1DC96C3700839986 /* OEMediaViewController+TouchBar.swift */; };
 		5A6E80A71DCA6B210022F2AE /* OEGameCollectionViewController+TouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6E80A61DCA6B210022F2AE /* OEGameCollectionViewController+TouchBar.swift */; };
 		5A79F7951C15F542003124D5 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A79F7941C15F542003124D5 /* PreferencesWindowController.swift */; };
@@ -879,7 +880,6 @@
 		94E6C304166DB15900082F27 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94E6C303166DB15900082F27 /* Controller-Mappings.plist */; };
 		94EBBD22183F4BE300743756 /* Saturn.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 94A224D31707556D00098DA0 /* Saturn.oesystemplugin */; };
 		94EBBD31183F4DB000743756 /* Arcade.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */; };
-		94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F6CB7B16DD727600CD48A4 /* OECheats.m */; };
 		94FC53881688FF60003C6AFE /* controller_gamegear_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */; };
 		94FC53891688FF60003C6AFE /* controller_gamegear.png in Resources */ = {isa = PBXBuildFile; fileRef = 94FC53871688FF60003C6AFE /* controller_gamegear.png */; };
 		94FEFA5218A80EF30033A762 /* _ntsc-pass1-composite-3phase.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94FEFA4B18A80ECC0033A762 /* _ntsc-pass1-composite-3phase.cg */; };
@@ -1783,6 +1783,7 @@
 		5A44301B1D93380600E54F1D /* OEBuildInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBuildInfo.m; sourceTree = "<group>"; };
 		5A46AC401DC66D8300771B3B /* OEGameViewController+TouchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEGameViewController+TouchBar.swift"; sourceTree = "<group>"; };
 		5A575DFA1E92B6CE00491B0D /* BIOSFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BIOSFile.swift; sourceTree = "<group>"; };
+		5A575DFC1E92D23600491B0D /* Cheats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cheats.swift; sourceTree = "<group>"; };
 		5A6C157B1DC96C3700839986 /* OEMediaViewController+TouchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEMediaViewController+TouchBar.swift"; sourceTree = "<group>"; };
 		5A6E80A61DCA6B210022F2AE /* OEGameCollectionViewController+TouchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEGameCollectionViewController+TouchBar.swift"; sourceTree = "<group>"; };
 		5A79F7941C15F542003124D5 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
@@ -2676,8 +2677,6 @@
 		94D7E8E115073E3800FBDD85 /* OENDSSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENDSSystemResponder.m; sourceTree = "<group>"; };
 		94D7E8E215073E3800FBDD85 /* OENDSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENDSSystemResponderClient.h; sourceTree = "<group>"; };
 		94E6C303166DB15900082F27 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
-		94F6CB7A16DD727600CD48A4 /* OECheats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECheats.h; sourceTree = "<group>"; };
-		94F6CB7B16DD727600CD48A4 /* OECheats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECheats.m; sourceTree = "<group>"; };
 		94FC53861688FF60003C6AFE /* controller_gamegear_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear_mask.png; sourceTree = "<group>"; };
 		94FC53871688FF60003C6AFE /* controller_gamegear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gamegear.png; sourceTree = "<group>"; };
 		94FEFA4B18A80ECC0033A762 /* _ntsc-pass1-composite-3phase.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "_ntsc-pass1-composite-3phase.cg"; sourceTree = "<group>"; };
@@ -4491,8 +4490,7 @@
 			isa = PBXGroup;
 			children = (
 				5A575DFA1E92B6CE00491B0D /* BIOSFile.swift */,
-				94F6CB7A16DD727600CD48A4 /* OECheats.h */,
-				94F6CB7B16DD727600CD48A4 /* OECheats.m */,
+				5A575DFC1E92D23600491B0D /* Cheats.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -7704,6 +7702,7 @@
 				C6AC9DEF1190E2C90083DDFD /* OpenEmuHelperApp.m in Sources */,
 				1EA4404911973E9C001D71CA /* OEGameQuickLookDocument.m in Sources */,
 				53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */,
+				5A575DFD1E92D23600491B0D /* Cheats.swift in Sources */,
 				53439A9013B92C68005C0CC8 /* OEDBDataSourceAdditions.m in Sources */,
 				53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */,
 				83CACEC8196D6D1300999E70 /* OEDownload.m in Sources */,
@@ -7853,7 +7852,6 @@
 				834B6F2E1A3B453000CA6A26 /* OEHomebrewBlankSlateView.m in Sources */,
 				C6C3734216BE7065003E57AE /* OEBuiltInShader.m in Sources */,
 				5A9606E41C0BA85F0089B494 /* NSURL+LibraryAdditions.swift in Sources */,
-				94F6CB7C16DD727600CD48A4 /* OECheats.m in Sources */,
 				5A3BB0391D964A4500E10F27 /* OECenteredTextFieldCell.m in Sources */,
 				838DB01916DBE14E00B8DDC8 /* OETextField.m in Sources */,
 				838DB01C16DBE15900B8DDC8 /* OETextFieldCell.m in Sources */,
