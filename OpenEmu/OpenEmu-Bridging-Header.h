@@ -51,6 +51,7 @@
 #import "OEHUDAlert.h"
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 #import "NSDocument+OEAdditions.h"
+#import "NSFileManager+OEHashingAdditions.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
 #import <OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.h>

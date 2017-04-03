@@ -273,6 +273,7 @@
 		5A438A1B1D89AEB60061A47C /* OpenEmuApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A438A1A1D89AEB60061A47C /* OpenEmuApplication.swift */; };
 		5A44301C1D93380600E54F1D /* OEBuildInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A44301B1D93380600E54F1D /* OEBuildInfo.m */; };
 		5A46AC411DC66D8300771B3B /* OEGameViewController+TouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A46AC401DC66D8300771B3B /* OEGameViewController+TouchBar.swift */; };
+		5A575DFB1E92B6CE00491B0D /* BIOSFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A575DFA1E92B6CE00491B0D /* BIOSFile.swift */; };
 		5A6C157C1DC96C3700839986 /* OEMediaViewController+TouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6C157B1DC96C3700839986 /* OEMediaViewController+TouchBar.swift */; };
 		5A6E80A71DCA6B210022F2AE /* OEGameCollectionViewController+TouchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6E80A61DCA6B210022F2AE /* OEGameCollectionViewController+TouchBar.swift */; };
 		5A79F7951C15F542003124D5 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A79F7941C15F542003124D5 /* PreferencesWindowController.swift */; };
@@ -692,7 +693,6 @@
 		94454F31178B4ABA006C057B /* Virtual Boy.oesystemplugin in Copy System Plugins to App Plugins */ = {isa = PBXBuildFile; fileRef = 94A224831707541E00098DA0 /* Virtual Boy.oesystemplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		94525EE217A9A778003CB1A2 /* OESega32XSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94525EE117A9A778003CB1A2 /* OESega32XSystemController.m */; };
 		94539B00187D09B100CD1BA9 /* Pixellate.cg in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94539AFD187D096C00CD1BA9 /* Pixellate.cg */; };
-		9453E3821ACBBADD004F42AD /* OEBIOSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9453E3811ACBBADD004F42AD /* OEBIOSFile.m */; };
 		945E42FC1517F2B500057D08 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		945E430E1517F59900057D08 /* OEArcadeSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E430B1517F59900057D08 /* OEArcadeSystemResponder.m */; };
 		945E43141517F5BC00057D08 /* arcade_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E430F1517F5BC00057D08 /* arcade_library.png */; };
@@ -1782,6 +1782,7 @@
 		5A44301A1D93380600E54F1D /* OEBuildInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBuildInfo.h; sourceTree = "<group>"; };
 		5A44301B1D93380600E54F1D /* OEBuildInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBuildInfo.m; sourceTree = "<group>"; };
 		5A46AC401DC66D8300771B3B /* OEGameViewController+TouchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEGameViewController+TouchBar.swift"; sourceTree = "<group>"; };
+		5A575DFA1E92B6CE00491B0D /* BIOSFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BIOSFile.swift; sourceTree = "<group>"; };
 		5A6C157B1DC96C3700839986 /* OEMediaViewController+TouchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEMediaViewController+TouchBar.swift"; sourceTree = "<group>"; };
 		5A6E80A61DCA6B210022F2AE /* OEGameCollectionViewController+TouchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEGameCollectionViewController+TouchBar.swift"; sourceTree = "<group>"; };
 		5A79F7941C15F542003124D5 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
@@ -2441,8 +2442,6 @@
 		94525EE017A9A778003CB1A2 /* OESega32XSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESega32XSystemController.h; sourceTree = "<group>"; };
 		94525EE117A9A778003CB1A2 /* OESega32XSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESega32XSystemController.m; sourceTree = "<group>"; };
 		94539AFD187D096C00CD1BA9 /* Pixellate.cg */ = {isa = PBXFileReference; lastKnownFileType = text; path = Pixellate.cg; sourceTree = "<group>"; };
-		9453E3801ACBBADD004F42AD /* OEBIOSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBIOSFile.h; sourceTree = "<group>"; };
-		9453E3811ACBBADD004F42AD /* OEBIOSFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBIOSFile.m; sourceTree = "<group>"; };
 		945E42FB1517F2B500057D08 /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		945E42FF1517F2B500057D08 /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
 		945E430A1517F59900057D08 /* OEArcadeSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEArcadeSystemResponder.h; sourceTree = "<group>"; };
@@ -4491,8 +4490,7 @@
 		83C09355166787BC00E52265 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				9453E3801ACBBADD004F42AD /* OEBIOSFile.h */,
-				9453E3811ACBBADD004F42AD /* OEBIOSFile.m */,
+				5A575DFA1E92B6CE00491B0D /* BIOSFile.swift */,
 				94F6CB7A16DD727600CD48A4 /* OECheats.h */,
 				94F6CB7B16DD727600CD48A4 /* OECheats.m */,
 			);
@@ -7790,7 +7788,6 @@
 				8314A98C155410EF00DF13B5 /* OEDBItem.m in Sources */,
 				83A9758A184F5EEE00C90DF4 /* OESetupAssistantScrollBorderView.m in Sources */,
 				83DDEE87156CE2F0009EB43D /* OEFadeView.m in Sources */,
-				9453E3821ACBBADD004F42AD /* OEBIOSFile.m in Sources */,
 				8356AEF215DA703100AA6B44 /* OEImportOperation.m in Sources */,
 				8353EB2015FF5CB10026E326 /* OEDBRomMigrationPolicy.m in Sources */,
 				8363A43A193CBAFA00F18425 /* OEGridMediaItemCell.m in Sources */,
@@ -7833,6 +7830,7 @@
 				83DEE4A4162D62E4005D8AD7 /* OEProgressIndicator.m in Sources */,
 				8397082F163C405000E04871 /* 0.2 to 0.3.xcmappingmodel in Sources */,
 				14F8750D1649377E002AE3B8 /* OEFiniteStateMachine.m in Sources */,
+				5A575DFB1E92B6CE00491B0D /* BIOSFile.swift in Sources */,
 				830BBECB1B7BE979000B13CB /* OEGameViewNotificationRenderer.m in Sources */,
 				83955CB5165D939100572B34 /* OEBlankSlateView.m in Sources */,
 				83C6C1DC190536CC00DD7B13 /* OEDBImageMigrationPolicy.m in Sources */,

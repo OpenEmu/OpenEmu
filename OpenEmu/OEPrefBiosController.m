@@ -33,7 +33,6 @@
 #import "OETheme.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
-#import "OEBIOSFile.h"
 
 #import "OpenEmu-Swift.h"
 #import "OEFSWatcher.h"

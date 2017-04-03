@@ -28,7 +28,6 @@
 
 #import "OEAudioDeviceManager.h"
 #import "OEBackgroundColorView.h"
-#import "OEBIOSFile.h"
 #import "OECorePlugin.h"
 #import "OECoreUpdater.h"
 #import "OEDBRom.h"
