@@ -30,18 +30,18 @@
 @class OEHUDAlert;
 @class OEButton;
 @class OETextField;
-typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
+typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSModalResponse result);
 
 @interface OEHUDAlert : NSObject
 
 + (id)alertWithMessageText:(NSString *)msgText defaultButton:(NSString*)defaultButtonLabel alternateButton:(NSString*)alternateButtonLabel;
 
 #pragma mark -
-- (NSUInteger)runModal;
+- (NSModalResponse)runModal;
 - (void)performBlockInModalSession:(void(^)(void))block;
 - (void)closeWithResult:(NSInteger)res;
 
-@property (readonly) NSUInteger result;
+@property (readonly) NSModalResponse result;
 @property (strong)   NSWindow  *window;
 
 @property CGFloat height, width;

@@ -242,7 +242,7 @@ class AppDelegate: NSDocumentController {
             return
         }
         
-        if OEHUDAlert.quitApplication().runModal() == UInt(NSAlertFirstButtonReturn) {
+        if OEHUDAlert.quitApplication().runModal() == NSAlertFirstButtonReturn {
             closeAllDocuments(withDelegate: delegate, didCloseAllSelector: didReviewAllSelector, contextInfo: contextInfo)
         } else {
             sendDelegateCallback(toTarget: delegate as AnyObject, selector: didReviewAllSelector!, documentController: self, didReviewAll: false, contextInfo: contextInfo)
@@ -450,7 +450,7 @@ class AppDelegate: NSDocumentController {
         alert.alternateButtonTitle = NSLocalizedString("Create Library…", comment: "")
         alert.otherButtonTitle = NSLocalizedString("Quit", comment: "")
         
-        switch Int(alert.runModal()) {
+        switch alert.runModal() {
             
         case NSAlertThirdButtonReturn:
             NSApp.terminate(self)

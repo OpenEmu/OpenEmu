@@ -809,7 +809,7 @@ typedef enum : NSUInteger
     [alert showSuppressionButtonForUDKey:OEAutoSwitchCoreAlertSuppressionKey];
 
     [alert setCallbackHandler:
-     ^(OEHUDAlert *alert, NSUInteger result)
+     ^(OEHUDAlert *alert, NSModalResponse result)
      {
          if(result != NSAlertFirstButtonReturn)
              return;

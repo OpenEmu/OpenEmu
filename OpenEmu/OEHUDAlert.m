@@ -148,7 +148,7 @@ static const CGFloat _OEHUDAlertMinimumHeadlineLength   = 291.0;
 }
 
 #pragma mark -
-- (NSUInteger)runModal
+- (NSModalResponse)runModal
 {
     if([self suppressionUDKey] && [[NSUserDefaults standardUserDefaults] valueForKey:[self suppressionUDKey]])
     {

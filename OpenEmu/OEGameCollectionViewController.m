@@ -570,7 +570,7 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
                 if(error != nil)
                 {
                     OEAlertCompletionHandler originalCompletionHandler = [alert callbackHandler];
-                    [alert setCallbackHandler:^(OEHUDAlert *alert, NSUInteger result){
+                    [alert setCallbackHandler:^(OEHUDAlert *alert, NSModalResponse result){
                         NSString *messageText = [error localizedDescription];
                         OEHUDAlert *errorAlert = [OEHUDAlert alertWithMessageText:messageText defaultButton:@"OK" alternateButton:@""];
                         [errorAlert setTitle:@"Consolidating files failed."];
