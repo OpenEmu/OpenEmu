@@ -86,7 +86,6 @@ extern NSString * const OESidebarSelectionDidChangeNotificationName;
 @end
 
 @implementation OELibraryController
-@synthesize cachedSnapshot = _cachedSnapshot;
 
 - (NSString *)nibName
 {
