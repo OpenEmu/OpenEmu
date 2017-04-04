@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2017, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,6 +26,8 @@
 
 
 #import "OEHUDAlert.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *const OEMaxSaveGameNameLengthKey;
 
@@ -66,3 +68,5 @@ extern NSString *const OEDownloadRomWarningSupperssionKey;
 + (OEHUDAlert *)missingBIOSFilesAlert:(NSString*)missingFilesList;
 
 @end
+
+NS_ASSUME_NONNULL_END

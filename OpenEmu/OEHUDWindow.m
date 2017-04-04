@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2017, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -30,6 +30,9 @@
 #import "OEButton.h"
 #import "OEButtonCell.h"
 #import "OETheme.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - Private variables
 
 static const CGFloat _OEHUDWindowLeftBorder            =  1.0;
@@ -55,11 +58,9 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 //
 
 @interface OEHUDWindow () <NSWindowDelegate>
-
 - (void)OE_commonHUDWindowInit;
 - (void)windowDraggingDidBegin;
 - (void)windowDraggingDidEnd;
-
 @end
 
 @interface OEHUDBorderWindow ()
@@ -93,7 +94,8 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 }
 
 #pragma mark - Lifecycle
-- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)windowStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)deferCreation
+
+- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)windowStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)deferCreation
 {
     if((self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask | NSResizableWindowMask backing:bufferingType defer:deferCreation]))
     {
@@ -102,7 +104,7 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
     return self;
 }
 
-- (id)initWithContentRect:(NSRect)frame
+- (instancetype)initWithContentRect:(NSRect)frame
 {
     return [self initWithContentRect:frame styleMask:NSBorderlessWindowMask | NSResizableWindowMask backing:NSBackingStoreBuffered defer:NO];
 }
@@ -125,13 +127,13 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
     if([super validateUserInterfaceItem:anItem])
         return YES;
 
-    return [anItem action] == @selector(performClose:);
+    return anItem.action == @selector(performClose:);
 }
 
-- (void)performClose:(id)sender
+- (void)performClose:(nullable id)sender
 {
-    NSWindowController *windowController = [self windowController];
-    NSDocument *document = [windowController document];
+    NSWindowController *windowController = self.windowController;
+    NSDocument *document = windowController.document;
 
     if(document != nil && windowController != nil)
         [document shouldCloseWindowController:windowController delegate:self shouldCloseSelector:@selector(_document:shouldClose:contextInfo:) contextInfo:NULL];
@@ -139,12 +141,12 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
         [self _document:nil shouldClose:YES contextInfo:NULL];
 }
 
-- (void)_document:(NSDocument *)document shouldClose:(BOOL)shouldClose contextInfo:(void  *)contextInfo
+- (void)_document:(nullable NSDocument *)document shouldClose:(BOOL)shouldClose contextInfo:(nullable void  *)contextInfo
 {
     if(shouldClose)
     {
-        if([[self delegate] respondsToSelector:@selector(windowShouldClose:)])
-            shouldClose = [[self delegate] windowShouldClose:self];
+        if([self.delegate respondsToSelector:@selector(windowShouldClose:)])
+            shouldClose = [self.delegate windowShouldClose:self];
         else if([self respondsToSelector:@selector(windowShouldClose:)])
             shouldClose = [self windowShouldClose:self];
     }
@@ -154,19 +156,19 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 
 #pragma mark - NSWindow overrides
 
-- (void)setDelegate:(id<NSWindowDelegate>)delegate
+- (void)setDelegate:(nullable id <NSWindowDelegate>)delegate
 {
     if(_isDeallocating) return;
 
     if(!_delegateProxy)
     {
         _delegateProxy = [OEHUDWindowDelegateProxy new];
-        [_delegateProxy setSuperDelegate:self];
+        _delegateProxy.superDelegate = self;
     }
 
-    [_delegateProxy setLocalDelegate:delegate];
-    [super setDelegate:nil];
-    [super setDelegate:_delegateProxy];
+    _delegateProxy.localDelegate = delegate;
+    super.delegate = nil;
+    super.delegate = _delegateProxy;
 }
 
 - (BOOL)canBecomeKeyWindow
@@ -196,91 +198,94 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 {
     [super orderWindow:place relativeTo:otherWin];
     if(place != NSWindowOut)
-        [_borderWindow orderWindow:NSWindowAbove relativeTo:[self windowNumber]];
+        [_borderWindow orderWindow:NSWindowAbove relativeTo:self.windowNumber];
 }
 
 - (void)setTitle:(NSString *)newTitle
 {
-    [super setTitle:newTitle];
+    super.title = newTitle;
     [_borderWindow display];
 }
 
 #pragma mark - NSWindowDelegate
+
 - (void)windowDidMove:(NSNotification *)notification
 {
-    if(![_borderWindow isDragging] && [[_delegateProxy localDelegate] respondsToSelector:@selector(windowDidMove:)])
-        [[_delegateProxy localDelegate] windowDidMove:notification];
+    if(!_borderWindow.isDragging && [_delegateProxy.localDelegate respondsToSelector:@selector(windowDidMove:)])
+        [_delegateProxy.localDelegate windowDidMove:notification];
 }
 
 #pragma mark - Private
+
 - (void)OE_commonHUDWindowInit
 {
-    [self setHasShadow:YES];
-    [self setOpaque:NO];
-    [self setBackgroundColor:[NSColor clearColor]];
+    self.hasShadow = YES;
+    self.opaque = NO;
+    self.backgroundColor = NSColor.clearColor;
     
     [self OE_setupBackgroundView];
-    [self setMainContentView:[[NSView alloc] initWithFrame:NSZeroRect]];
+    self.mainContentView = [[NSView alloc] initWithFrame:NSZeroRect];
     
     // Register for notifications
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
     [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidResizeNotification object:self];
     [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidResignKeyNotification object:self];
     [nc addObserver:self selector:@selector(OE_layout) name:NSWindowDidBecomeKeyNotification object:self];
     
-    _borderWindow = [[OEHUDBorderWindow alloc] initWithContentRect:[self frame] styleMask:0 backing:0 defer:0];
+    _borderWindow = [[OEHUDBorderWindow alloc] initWithContentRect:self.frame styleMask:0 backing:0 defer:0];
     [self addChildWindow:_borderWindow ordered:NSWindowAbove];
 }
 
 - (void)OE_setupBackgroundView
 {
-    NSRect contentRect = [self frame];
+    NSRect contentRect = self.frame;
     contentRect.origin = NSZeroPoint;
 
-    contentRect.origin.x    += _OEHUDWindowLeftBorder;
-    contentRect.origin.y    += _OEHUDWindowBottomBorder;
-    contentRect.size.width  -= (_OEHUDWindowLeftBorder + _OEHUDWindowRightBorder);
+    contentRect.origin.x += _OEHUDWindowLeftBorder;
+    contentRect.origin.y += _OEHUDWindowBottomBorder;
+    contentRect.size.width -= (_OEHUDWindowLeftBorder + _OEHUDWindowRightBorder);
     contentRect.size.height -= (_OEHUDWindowTopBorder  + _OEHUDWindowBottomBorder);
     _backgroundView = [[NSBox alloc] initWithFrame:contentRect];
-    [_backgroundView setBoxType:NSBoxCustom];
-    [_backgroundView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    _backgroundView.boxType = NSBoxCustom;
+    _backgroundView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 
-    [[super contentView] addSubview:_backgroundView positioned:NSWindowBelow relativeTo:nil];
+    [super.contentView addSubview:_backgroundView positioned:NSWindowBelow relativeTo:nil];
 }
 
 - (void)OE_layout
 {
-    [_borderWindow setFrame:[self frame] display:NO];
+    [_borderWindow setFrame:self.frame display:NO];
     [_borderWindow display];
 }
 
 - (void)windowDraggingDidEnd
 {
-    if([[_delegateProxy localDelegate] respondsToSelector:@selector(windowDidMove:)])
+    if([_delegateProxy.localDelegate respondsToSelector:@selector(windowDidMove:)])
     {
         NSNotification *notification = [NSNotification notificationWithName:NSWindowDidMoveNotification object:self];
-        [[_delegateProxy localDelegate] windowDidMove:notification];
+        [_delegateProxy.localDelegate windowDidMove:notification];
     }
 }
 
 - (void)windowDraggingDidBegin
 {
-    if([[_delegateProxy localDelegate] respondsToSelector:@selector(windowWillMove:)])
+    if([_delegateProxy.localDelegate respondsToSelector:@selector(windowWillMove:)])
     {
         NSNotification *notification = [NSNotification notificationWithName:NSWindowWillMoveNotification object:self];
-        [[_delegateProxy localDelegate] windowWillMove:notification];
+        [_delegateProxy.localDelegate windowWillMove:notification];
     }
 }
 
 #pragma mark - Public
+
 - (NSColor *)contentBackgroundColor
 {
-    return [_backgroundView fillColor];
+    return _backgroundView.fillColor;
 }
 
 - (void)setContentBackgroundColor:(NSColor *)value
 {
-    [_backgroundView setFillColor:value];
+    _backgroundView.fillColor = value;
 }
 
 - (void)setMainContentView:(NSView *)value
@@ -291,21 +296,21 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
     [_mainContentView removeFromSuperview];
     _mainContentView = value;
 
-    [[super contentView] addSubview:_mainContentView];
+    [super.contentView addSubview:_mainContentView];
 
-    const NSRect contentRect = [self convertRectFromScreen:[OEHUDWindow mainContentRectForFrameRect:[self frame]]];
-    [_mainContentView setFrame:contentRect];
-    [_mainContentView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    const NSRect contentRect = [self convertRectFromScreen:[OEHUDWindow mainContentRectForFrameRect:self.frame]];
+    _mainContentView.frame = contentRect;
+    _mainContentView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 }
 
 + (NSRect)mainContentRectForFrameRect:(NSRect)windowFrame
 {
     NSRect contentRect = windowFrame;
 
-    contentRect.origin.x    += _OEHUDWindowLeftBorder;
-    contentRect.origin.y    += _OEHUDWindowBottomBorder;
-    contentRect.size.width  -= (_OEHUDWindowLeftBorder + _OEHUDWindowRightBorder);
-    contentRect.size.height -= (_OEHUDWindowTopBorder  + _OEHUDWindowBottomBorder);
+    contentRect.origin.x += _OEHUDWindowLeftBorder;
+    contentRect.origin.y += _OEHUDWindowBottomBorder;
+    contentRect.size.width -= (_OEHUDWindowLeftBorder + _OEHUDWindowRightBorder);
+    contentRect.size.height -= (_OEHUDWindowTopBorder + _OEHUDWindowBottomBorder);
 
     return contentRect;
 }
@@ -314,10 +319,10 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 {
     NSRect windowFrame = contentFrame;
 
-    windowFrame.origin.x    -= _OEHUDWindowLeftBorder;
-    windowFrame.origin.y    -= _OEHUDWindowBottomBorder;
-    windowFrame.size.width  += (_OEHUDWindowLeftBorder + _OEHUDWindowRightBorder);
-    windowFrame.size.height += (_OEHUDWindowTopBorder  + _OEHUDWindowBottomBorder);
+    windowFrame.origin.x -= _OEHUDWindowLeftBorder;
+    windowFrame.origin.y -= _OEHUDWindowBottomBorder;
+    windowFrame.size.width += (_OEHUDWindowLeftBorder + _OEHUDWindowRightBorder);
+    windowFrame.size.height += (_OEHUDWindowTopBorder + _OEHUDWindowBottomBorder);
 
     return windowFrame;
 }
@@ -327,31 +332,31 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 
 @implementation OEHUDBorderWindow
 
-- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
+- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
     if((self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO]))
     {
-        [self setHasShadow:NO];
-        [self setMovableByWindowBackground:NO];
+        self.hasShadow = NO;
+        self.movableByWindowBackground = NO;
         
-        [self setOpaque:NO];
-        [self setBackgroundColor:[NSColor clearColor]];
+        self.opaque = NO;
+        self.backgroundColor = NSColor.clearColor;
         
         NSView *borderView = [[OEHUDWindowThemeView alloc] initWithFrame:contentRect];
-        [super setContentView:borderView];
+        super.contentView = borderView;
     }
     
     return self;
 }
 
-- (void)setContentView:(NSView *)aView
+- (void)setContentView:(nullable NSView *)aView
 {
 }
 
 - (void)display
 {
     [super display];
-    [[self contentView] display];
+    [self.contentView display];
 }
 
 - (BOOL)canBecomeKeyWindow
@@ -366,17 +371,17 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 
 - (BOOL)isDragging
 {
-    return [[self contentView] isDragging];
+    return ((OEHUDWindowThemeView *)self.contentView).isDragging;
 }
 
 - (void)windowDraggingDidEnd
 {
-    [(OEHUDWindow *)[self parentWindow] windowDraggingDidEnd];
+    [(OEHUDWindow *)self.parentWindow windowDraggingDidEnd];
 }
 
 - (void)windowDraggingDidBegin
 {
-    [(OEHUDWindow *)[self parentWindow] windowDraggingDidBegin];
+    [(OEHUDWindow *)self.parentWindow windowDraggingDidBegin];
 }
 
 @end
@@ -393,10 +398,11 @@ static NSImage *frameImage, *frameImageInactive;
 
 + (void)initialize
 {
-    if(self != [OEHUDWindowThemeView class]) return;
+    if(self != [OEHUDWindowThemeView class])
+        return;
 
-    frameImage = [[OETheme sharedTheme] imageForKey:@"hud_window" forState:OEThemeInputStateWindowActive];
-    frameImageInactive = [[OETheme sharedTheme] imageForKey:@"hud_window" forState:OEThemeInputStateWindowInactive];
+    frameImage = [OETheme.sharedTheme imageForKey:@"hud_window" forState:OEThemeInputStateWindowActive];
+    frameImageInactive = [OETheme.sharedTheme imageForKey:@"hud_window" forState:OEThemeInputStateWindowInactive];
 }
 
 - (BOOL)isOpaque
@@ -404,19 +410,19 @@ static NSImage *frameImage, *frameImageInactive;
     return NO;
 }
 
-- (id)initWithFrame:(NSRect)frame
+- (instancetype)initWithFrame:(NSRect)frame
 {
     if((self = [super initWithFrame:frame]))
     {
-        NSRect closeButtonRect    = [self titleBarRect];
+        NSRect closeButtonRect = self.titleBarRect;
         closeButtonRect.origin.x += _OEHUDWindowCloseButtonLeftBorder;
-        closeButtonRect.size      = _OEHUDWindowCloseButtonSize;
+        closeButtonRect.size = _OEHUDWindowCloseButtonSize;
 
         OEButton *closeButton = [[OEButton alloc] initWithFrame:closeButtonRect];
-        [closeButton setCell:[[OEButtonCell alloc] initTextCell:@""]];
-        [closeButton setThemeKey:@"hud_close_button"];
-        [closeButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-        [closeButton setAction:@selector(performClose:)];
+        closeButton.cell = [[OEButtonCell alloc] initTextCell:@""];
+        closeButton.themeKey = @"hud_close_button";
+        closeButton.autoresizingMask = NSViewMaxXMargin | NSViewMinYMargin;
+        closeButton.action = @selector(performClose:);
         [self addSubview:closeButton];
     }
     return self;
@@ -424,22 +430,22 @@ static NSImage *frameImage, *frameImageInactive;
 
 - (NSRect)titleBarRect
 {
-    NSRect titleBarRect      = [self bounds];
+    NSRect titleBarRect = self.bounds;
 
     titleBarRect.size.height = _OEHUDWindowTopBorder;
-    titleBarRect.origin.y    = [self bounds].size.height - titleBarRect.size.height;
+    titleBarRect.origin.y = NSHeight(self.bounds) - NSHeight(titleBarRect);
     
     return titleBarRect;
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    [[NSColor clearColor] setFill];
-    NSRectFill([self bounds]);
+    [NSColor.clearColor setFill];
+    NSRectFill(self.bounds);
 
-    BOOL isFocused = [[[self window] parentWindow] isKeyWindow] && [NSApp isActive];
+    BOOL isFocused = self.window.parentWindow.isKeyWindow && NSApp.isActive;
     NSImage *image = isFocused ? frameImage : frameImageInactive;
-    [image drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+    [image drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 
     // technically the parent window does not have a title (title-less style mask), so appkit seems not to bother updating it
     NSString *windowTitle = [self.window.parentWindow.windowController.document displayName];
@@ -448,81 +454,81 @@ static NSImage *frameImage, *frameImageInactive;
         NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionary];
 
         NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
-        [ps setLineBreakMode:NSLineBreakByTruncatingMiddle];
-        [ps setAlignment:NSCenterTextAlignment];
-        [titleAttributes setObject:ps forKey:NSParagraphStyleAttributeName];
+        ps.lineBreakMode = NSLineBreakByTruncatingMiddle;
+        ps.alignment = NSCenterTextAlignment;
+        titleAttributes[NSParagraphStyleAttributeName] = ps;
 
         NSColor *textColor = isFocused ? [NSColor colorWithDeviceWhite:0.86 alpha:1.0] : [NSColor colorWithDeviceWhite:0.61 alpha:1.0];
         NSFont *font = [NSFont systemFontOfSize:13];
         NSShadow *shadow = [[NSShadow alloc] init];
-        [shadow setShadowColor:[NSColor colorWithDeviceRed:0.129 green:0.129 blue:0.129 alpha:1.0]];
-        [shadow setShadowBlurRadius:1.0];
-        [shadow setShadowOffset:NSMakeSize(0, 1)];
+        shadow.shadowColor = [NSColor colorWithDeviceRed:0.129 green:0.129 blue:0.129 alpha:1.0];
+        shadow.shadowBlurRadius = 1.0;
+        shadow.shadowOffset = NSMakeSize(0, 1);
 
-        [titleAttributes setObject:textColor forKey:NSForegroundColorAttributeName];
-        [titleAttributes setObject:font forKey:NSFontAttributeName];
-        [titleAttributes setObject:shadow forKey:NSShadowAttributeName];
+        titleAttributes[NSForegroundColorAttributeName]  = textColor;
+        titleAttributes[NSFontAttributeName] = font;
+        titleAttributes[NSShadowAttributeName] = shadow;
 
-        NSRect titleTextRect = [self titleBarRect];
-        titleTextRect.origin.x   += _OEHUDWindowTitleTextLeftMargin;
+        NSRect titleTextRect = self.titleBarRect;
+        titleTextRect.origin.x += _OEHUDWindowTitleTextLeftMargin;
         titleTextRect.size.width -= (_OEHUDWindowTitleTextLeftMargin + _OEHUDWindowTitleTextRightMargin);
-        titleTextRect.origin.y   -= _OEHUDWindowTitleTextTopMargin;
+        titleTextRect.origin.y -= _OEHUDWindowTitleTextTopMargin;
 
         NSAttributedString *attributedWindowTitle = [[NSAttributedString alloc] initWithString:windowTitle attributes:titleAttributes];
         [attributedWindowTitle drawInRect:titleTextRect];
     }
 }
 
-- (NSView *)hitTest:(NSPoint)aPoint
+- (nullable NSView *)hitTest:(NSPoint)aPoint
 {
     // This makes sure the parent window becomes key window, even when clicking the close button
-    [[[self window] parentWindow] makeKeyWindow];
+    [self.window.parentWindow makeKeyWindow];
 
     return [super hitTest:aPoint];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    NSPoint pointInView = [self convertPoint:theEvent.locationInWindow fromView:nil];
 
-    [self setDragging:NO];
+    self.dragging = NO;
 
-    if(!NSPointInRect(pointInView, [self titleBarRect]))
+    if(!NSPointInRect(pointInView, self.titleBarRect))
     {
-        [[self nextResponder] mouseDown:theEvent];
+        [self.nextResponder mouseDown:theEvent];
         return;
     }
     
-    NSWindow *window = [self window];
-    baseMouseLocation = [window convertRectToScreen:(NSRect){[theEvent locationInWindow], NSZeroSize}].origin;
-    baseOrigin = [window frame].origin;
-    [self setDragging:YES];
-    [(OEHUDBorderWindow *)[self window] windowDraggingDidBegin];
+    NSWindow *window = self.window;
+    baseMouseLocation = [window convertRectToScreen:(NSRect){theEvent.locationInWindow, NSZeroSize}].origin;
+    baseOrigin = window.frame.origin;
+    self.dragging = YES;
+    [(OEHUDBorderWindow *)self.window windowDraggingDidBegin];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-    if (![self isDragging])
+    if (!self.isDragging)
     {
-        [[self nextResponder] mouseDragged:theEvent];
+        [self.nextResponder mouseDragged:theEvent];
         return;
     }
     
-    NSWindow *window = [[self window] parentWindow];
-    NSPoint newMousePosition = [window convertRectToScreen:(NSRect){[theEvent locationInWindow], NSZeroSize}].origin;
-    NSPoint delta = NSMakePoint(newMousePosition.x-baseMouseLocation.x, newMousePosition.y-baseMouseLocation.y);
+    NSWindow *window = self.window.parentWindow;
+    NSPoint newMousePosition = [window convertRectToScreen:(NSRect){theEvent.locationInWindow, NSZeroSize}].origin;
+    NSPoint delta = NSMakePoint(newMousePosition.x - baseMouseLocation.x, newMousePosition.y - baseMouseLocation.y);
     
-    NSScreen *primaryScreen = [[NSScreen screens] objectAtIndex:0];
+    NSScreen *primaryScreen = NSScreen.screens[0];
     NSRect menuRect = (NSRect){
         .origin = NSZeroPoint,
         .size = {
-            .width = [primaryScreen frame].size.width,
-            .height = [[NSApp mainMenu] menuBarHeight]
+            .width = NSWidth(primaryScreen.frame),
+            .height = NSApp.mainMenu.menuBarHeight
         }
     };
-    menuRect.origin.y = [primaryScreen frame].size.height - menuRect.size.height;
+    menuRect.origin.y = NSHeight(primaryScreen.frame) - NSHeight(menuRect);
     
-    NSRect frame = [window frame];
+    NSRect frame = window.frame;
     BOOL isAboveMenu = (NSMaxX(frame) > NSMinX(menuRect) && NSMinX(frame) < NSMaxX(menuRect) && NSMaxY(frame) > NSMaxY(menuRect)); // are we already above the menubar somehow?
     frame.origin = (NSPoint){baseOrigin.x + delta.x, baseOrigin.y + delta.y};
     
@@ -530,16 +536,16 @@ static NSImage *frameImage, *frameImageInactive;
         // we're not already above the menubar. Does this mouse movement attempt to intersect us with the menubar?
         if (NSIntersectsRect(frame, menuRect)) {
             // prohibit the movement into the rect. Depending on which side we were on to start with (left, bottom, right), constrain in that direction
-            NSRect origFrame = [window frame];
+            NSRect origFrame = window.frame;
             if (NSMaxX(origFrame) <= NSMinX(menuRect)) {
                 // left
-                frame.origin.x = menuRect.origin.x - frame.size.width;
+                frame.origin.x = menuRect.origin.x - NSWidth(frame);
             } else if (NSMinX(origFrame) >= NSMaxX(menuRect)) {
                 // right
                 frame.origin.x = NSMaxX(menuRect);
             } else {
                 // assume bottom
-                frame.origin.y = menuRect.origin.y - frame.size.height;
+                frame.origin.y = menuRect.origin.y - NSHeight(frame);
             }
         }
     }
@@ -549,17 +555,17 @@ static NSImage *frameImage, *frameImageInactive;
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-    if(![self isDragging])
+    if(!self.isDragging)
     {
-        [[self nextResponder] mouseUp:theEvent];
+        [self.nextResponder mouseUp:theEvent];
         return;
     }
 
-    [self setDragging:NO];
-    [(OEHUDBorderWindow *)[self window] windowDraggingDidEnd];
+    self.dragging = NO;
+    [(OEHUDBorderWindow *)self.window windowDraggingDidEnd];
 }
 
-- (id)validRequestorForSendType:(NSString *)sendType returnType:(NSString *)returnType
+- (nullable id)validRequestorForSendType:(NSString *)sendType returnType:(NSString *)returnType
 {
     return nil;
 }
@@ -603,3 +609,5 @@ static NSImage *frameImage, *frameImageInactive;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
