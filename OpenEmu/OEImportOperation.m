@@ -695,8 +695,24 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
     BOOL copyToLibrary   = [standardUserDefaults boolForKey:OECopyToLibraryKey];
     BOOL organizeLibrary = [standardUserDefaults boolForKey:OEOrganizeLibraryKey];
 
+    if (!copyToLibrary && !organizeLibrary) {
+        // There is nothing to do in this method if we do not have to copy or move the file.
+        return;
+    }
+
     NSError *error       = nil;
     NSURL   *url         = self.URL;
+
+    if (self.extractedFileURL) {
+        OEFile *originalFile = [OEFile fileWithURL:url error:&error];
+        if (!originalFile) {
+            IMPORTDLog(@"Failed to create file from original archive.");
+            [self exitWithStatus:OEImportExitErrorFatal error:error];
+            return;
+        }
+
+        self.file = originalFile;
+    }
 
     NSManagedObjectContext *context = self.importer.context;
 
