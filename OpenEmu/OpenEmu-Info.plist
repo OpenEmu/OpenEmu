@@ -142,6 +142,8 @@
 	<string>~/Library/Application Support/OpenEmu/Cores/</string>
 	<key>OECoreListURL</key>
 	<string>https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores.xml</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
 	<key>SUFeedURL</key>
 	<string>https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast.xml</string>
 	<key>UTExportedTypeDeclarations</key>
