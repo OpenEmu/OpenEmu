@@ -36,7 +36,7 @@
 {
     if([[OELocalizationHelper sharedHelper] isRegionJAP])
     {
-        return @"Super 32X";
+        return @"Sega Super 32X";
     }
     else if([[OELocalizationHelper sharedHelper] isRegionEU])
     {
