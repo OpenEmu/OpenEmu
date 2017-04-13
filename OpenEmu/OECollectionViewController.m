@@ -637,6 +637,16 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 }
 
 
+- (BOOL)previewPanel:(QLPreviewPanel *)panel handleEvent:(NSEvent *)event
+{
+  if ([event type] == NSEventTypeKeyDown || [event type] == NSEventTypeKeyUp) {
+    [self.gridView.window sendEvent:event];
+    return YES;
+  }
+  return NO;
+}
+
+
 #pragma mark - Core Data
 - (NSArray*)defaultSortDescriptors
 {
