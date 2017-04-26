@@ -420,8 +420,9 @@ static NSString * const OESelectedGamesKey = @"OESelectedGamesKey";
             BOOL deleteFiles = NO;
             if(romsAreInRomsFolder)
             {
-                NSUInteger alertReturn = [[OEHUDAlert removeGameFilesFromLibraryAlert:multipleGames] runModal];
-                deleteFiles = (alertReturn == NSAlertFirstButtonReturn);
+                //NSUInteger alertReturn = [[OEHUDAlert removeGameFilesFromLibraryAlert:multipleGames] runModal];
+                //deleteFiles = (alertReturn == NSAlertFirstButtonReturn);
+                deleteFiles = YES;
             }
 
             DLog(@"deleteFiles: %d", deleteFiles);
