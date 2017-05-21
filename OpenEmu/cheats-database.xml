@@ -109,6 +109,16 @@
 				<cheat code="032F:00+0344:00" type="Action Replay" description="One hit kills on bosses" />
 			</cheats>
 		</game>
+		<game title="Super Mario Bros. 3">
+			<hashes>
+				<hash md5="bb5c4b6d4d78c101f94bdb360af502f3" />
+			</hashes>
+			<cheats>
+				<cheat code="SLXPLOVS" type="Game Genie" description="Infinite lives" />
+				<cheat code="AEKPTZGE" type="Game Genie" description="1 life after continue" />
+				<cheat code="AEKPTZGA" type="Game Genie" description="9 lives after continue" />
+			</cheats>
+		</game>
 	</system>
     <system id="openemu.system.snes">
 		<game title="Super Mario World (USA)">
