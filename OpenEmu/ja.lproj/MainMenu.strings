@@ -159,7 +159,7 @@
 "1047.title" = "音量を上げる";
 
 /* Class = "NSMenuItem"; title = "Last Played"; ObjectID = "1050"; */
-"1050.title" = "最終起動日";
+"1050.title" = "最後に起動したゲーム";
 
 /* Class = "NSMenuItem"; title = "Save State"; ObjectID = "1052"; */
 "1052.title" = "セーブステート";
@@ -168,7 +168,7 @@
 "1053.title" = "ロードステート";
 
 /* Class = "NSMenu"; title = "Last Played"; ObjectID = "1054"; */
-"1054.title" = "最終起動日";
+"1054.title" = "最後に起動したゲーム";
 
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "1061"; */
 "1061.title" = "編集";
