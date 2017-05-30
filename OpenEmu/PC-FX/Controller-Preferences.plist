@@ -27,11 +27,11 @@
 		<key>OEPCFXButton3</key>
 		<string>{368, 204}</string>
 		<key>OEPCFXButton4</key>
-		<string>{432, 280}</string>
+		<string>{350, 250}</string>
 		<key>OEPCFXButton5</key>
 		<string>{390, 268}</string>
 		<key>OEPCFXButton6</key>
-		<string>{350, 250}</string>
+		<string>{432, 280}</string>
 	</dict>
 </dict>
 </plist>
