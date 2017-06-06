@@ -1,0 +1,11 @@
+shaders = "2"
+shader0 = _xbr-lv2-c-pass0.cg
+filter_linear0 = "false"
+float_framebuffer0 = "false"
+scale_type_x0 = "source"
+scale_x0 = "1.000000"
+scale_type_y0 = "source"
+scale_y0 = "1.000000"
+shader1 = _xbr-lv2-pass1.cg
+filter_linear1 = "false"
+float_framebuffer1 = "false"
