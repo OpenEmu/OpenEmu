@@ -1333,7 +1333,20 @@ typedef enum : NSUInteger
         return;
     }
 
+    [self OE_saveStateWithName:OESaveStateUndoLoadName completionHandler:nil];
+
     [self OE_loadState:state];
+}
+
+- (void)undoLoadState
+{
+    [self undoLoadState:nil];
+}
+
+- (void)undoLoadState:(id)sender;
+{
+    OEDBSaveState *state = [[self rom] saveStateWithName:OESaveStateUndoLoadName];
+    if(state!= nil) [self OE_loadState:state];
 }
 
 - (void)quickLoad
@@ -1348,6 +1361,8 @@ typedef enum : NSUInteger
         slot = [[sender representedObject] integerValue];
     else if([sender respondsToSelector:@selector(tag)])
         slot = [sender tag];
+
+    [self OE_saveStateWithName:OESaveStateUndoLoadName completionHandler:nil];
 
     OEDBSaveState *quicksaveState = [[self rom] quickSaveStateInSlot:slot];
     if(quicksaveState!= nil) [self loadState:quicksaveState];

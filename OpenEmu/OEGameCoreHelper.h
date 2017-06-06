@@ -60,6 +60,7 @@
 
 - (void)saveState;
 - (void)loadState;
+- (void)undoLoadState;
 - (void)quickSave;
 - (void)quickLoad;
 - (void)toggleFullScreen;

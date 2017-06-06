@@ -819,6 +819,7 @@ extension AppDelegate: NSMenuDelegate {
         
         let newLoadItem: NSMenuItem
         let newSaveItem: NSMenuItem
+        let undoLoadItem: NSMenuItem
         
         if useSlots {
             
@@ -860,6 +861,9 @@ extension AppDelegate: NSMenuDelegate {
             newSaveItem.representedObject = "0"
         }
         
+        undoLoadItem = NSMenuItem(title: NSLocalizedString("Undo Last Load", comment: "Undo Last Load Menu Item"), action: #selector(OEGameDocument.quickLoad(_:)), keyEquivalent: "l")
+        undoLoadItem.representedObject = "0"
+
         newLoadItem.tag = loadItemTag
         newSaveItem.tag = saveItemTag
         
