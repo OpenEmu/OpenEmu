@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2009, 2017 OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -696,12 +696,6 @@ typedef enum : NSUInteger
             [[self rom] markAsPlayedNow];
             _lastPlayStartDate = [NSDate date];
 
-            if(_saveStateForGameStart)
-            {
-                [self OE_loadState:_saveStateForGameStart];
-                _saveStateForGameStart = nil;
-            }
-
             // set initial volume
             [self setVolume:[self volume] asDefault:NO];
 
@@ -732,6 +726,12 @@ typedef enum : NSUInteger
          _emulationStatus = OEEmulationStatusPlaying;
      }];
     
+	if(_saveStateForGameStart)
+	{
+		[self OE_loadState:_saveStateForGameStart];
+		_saveStateForGameStart = nil;
+	}
+	
     [[self gameViewController] reflectEmulationPaused:NO];
 }
 
