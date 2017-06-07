@@ -9,29 +9,6 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>tar.gz</string>
-				<string>tar</string>
-				<string>gz</string>
-				<string>zip</string>
-				<string>7z</string>
-				<string>rar</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string></string>
-			<key>CFBundleTypeName</key>
-			<string>Archived Game</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>????</string>
-			</array>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>NSDocumentClass</key>
-			<string>OEGameDocument</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
 				<string>oesavestate</string>
 				<string>savestate</string>
 			</array>
