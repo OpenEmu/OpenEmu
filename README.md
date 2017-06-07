@@ -1,7 +1,24 @@
+
 OpenEmu
 =======
 
-![alt text](http://openemu.org/img/intro-md.png "OpenEmu Screenshot")
+Hi, everyone. I added turbo A and B to FCEU/Nestopia core, so when you emulating fc games as often, everything will be wonderful.
+
+
+
+Here are some screenshots.
+
+![turbo A and B](https://ww2.sinaimg.cn/large/006tNc79ly1fe3w6svqlmj315y0tcqd0.jpg)
+
+
+
+![Three eyes](https://ww4.sinaimg.cn/large/006tNc79ly1fe3wbhrillj31bc0yan7d.jpg)
+
+
+
+Enjoy it!
+
+
 
 OpenEmu is an open source project to bring game emulation to OS X as a first
 class citizen, leveraging modern OS X technologies such as Cocoa, Core
@@ -41,6 +58,7 @@ Currently OpenEmu can load the following game engines as plugins:
 * Virtual Boy ([Mednafen](http://mednafen.sourceforge.net/))
 * Vectrex ([VecXGL](http://jum.pdroms.de/emulators/emul.html))
 * WonderSwan ([Mednafen](http://mednafen.sourceforge.net/))
+
 
 Minimum Requirements
 --------------------

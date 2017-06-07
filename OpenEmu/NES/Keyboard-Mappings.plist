@@ -18,5 +18,9 @@
 	<integer>40</integer>
 	<key>OENESButtonSelect</key>
 	<integer>229</integer>
+	<key>OENESButtonAA</key>
+	<integer>4</integer>
+	<key>OENESButtonBB</key>
+	<integer>22</integer>
 </dict>
 </plist>

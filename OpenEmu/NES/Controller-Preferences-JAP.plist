@@ -24,6 +24,10 @@
 		<string>{399, 183}</string>
 		<key>OENESButtonB</key>
 		<string>{341, 183}</string>
+		<key>OENESButtonAA</key>
+		<string>{391, 235}</string>
+		<key>OENESButtonBB</key>
+		<string>{334, 235}</string>
 	</dict>
 </dict>
 </plist>
