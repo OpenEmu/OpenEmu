@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A319" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="OEPrefLibraryController">
@@ -28,10 +29,10 @@
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="Dbf-Vf-eb2" customClass="OEBackgroundImageView">
-                    <rect key="frame" x="42" y="30" width="374" height="112"/>
+                    <rect key="frame" x="42" y="29" width="374" height="140"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="374" id="jXE-NG-3GQ"/>
-                        <constraint firstAttribute="height" constant="112" id="six-02-ub8"/>
+                        <constraint firstAttribute="height" constant="140" id="six-02-ub8"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_inset_box"/>
@@ -58,7 +59,7 @@
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="4" customClass="OEHorizontalLine">
-                    <rect key="frame" x="0.0" y="187" width="458" height="2"/>
+                    <rect key="frame" x="0.0" y="214" width="458" height="2"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="458" id="0Le-oY-5rb"/>
                         <constraint firstAttribute="height" constant="2" id="zRG-hS-zMl"/>
@@ -67,7 +68,7 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_line"/>
                     </userDefinedRuntimeAttributes>
                 </customView>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Library Location:" customClass="OELabel">
+                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9" userLabel="Library Location:" customClass="OELabel">
                     <rect key="frame" x="39" y="516" width="187" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Game Library Folder Location:" id="19" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
@@ -78,7 +79,7 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="preferences_headline"/>
                     </userDefinedRuntimeAttributes>
                 </textField>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="12" customClass="OELabel">
+                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="12" customClass="OELabel">
                     <rect key="frame" x="61" y="471" width="336" height="17"/>
                     <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="/Users/Mucx/Library/OpenEmu/Games" id="17" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
@@ -122,7 +123,7 @@
                         <action selector="resetLibraryFolder:" target="-2" id="45"/>
                     </connections>
                 </button>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="etg-C7-Lej" userLabel="Reset all warnings:" customClass="OELabel">
+                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="etg-C7-Lej" userLabel="Reset all warnings:" customClass="OELabel">
                     <rect key="frame" x="39" y="355" width="158" height="17"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Reset all dialog warnings:" id="Ua1-J2-mdy" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
@@ -151,7 +152,7 @@
                         <action selector="resetWarningDialogs:" target="-2" id="Ohg-fM-nsc"/>
                     </connections>
                 </button>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="OELabel">
+                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10" customClass="OELabel">
                     <rect key="frame" x="39" y="292" width="138" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Organization Methods" id="18" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
@@ -163,7 +164,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <matrix verticalHuggingPriority="750" mode="highlight" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8" customClass="OEMatrix">
-                    <rect key="frame" x="42" y="212" width="416" height="71"/>
+                    <rect key="frame" x="42" y="239" width="416" height="44"/>
                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     <size key="cellSize" width="416" height="17"/>
                     <size key="intercellSpacing" width="16" height="10"/>
@@ -173,25 +174,18 @@
                     </buttonCell>
                     <cells>
                         <column>
-                            <buttonCell type="check" title="Keep games organized" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="20" userLabel="Check Box Cell" customClass="OEButtonCell">
+                            <buttonCell type="check" title="Copy files to Game Library folder when adding to library" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="20" userLabel="Check Box Cell" customClass="OEButtonCell">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                                 <connections>
-                                    <binding destination="36" name="value" keyPath="values.organizeLibrary" id="42"/>
+                                    <binding destination="36" name="value" keyPath="values.copyToLibrary" id="DR7-wE-4OX"/>
                                 </connections>
                             </buttonCell>
-                            <buttonCell type="check" title="Copy files to Game Library folder when adding to library" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="21" userLabel="Check Box Cell" customClass="OEButtonCell">
+                            <buttonCell type="check" title="Automatically lookup game information &amp; artwork" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="21" userLabel="Check Box Cell" customClass="OEButtonCell">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                                 <connections>
-                                    <binding destination="36" name="value" keyPath="values.copyToLibrary" id="40"/>
-                                </connections>
-                            </buttonCell>
-                            <buttonCell type="check" title="Automatically lookup game information &amp; artwork" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="23" userLabel="Check Box Cell" customClass="OEButtonCell">
-                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                <font key="font" metaFont="system"/>
-                                <connections>
-                                    <binding destination="36" name="value" keyPath="values.automaticallyGetInfo" id="38"/>
+                                    <binding destination="36" name="value" keyPath="values.automaticallyGetInfo" id="9FG-M3-Ivc"/>
                                 </connections>
                             </buttonCell>
                         </column>
@@ -200,8 +194,8 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="themeKey" value="dark_checkbox"/>
                     </userDefinedRuntimeAttributes>
                 </matrix>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7" customClass="OELabel">
-                    <rect key="frame" x="39" y="150" width="118" height="17"/>
+                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7" customClass="OELabel">
+                    <rect key="frame" x="39" y="177" width="118" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Available Libraries:" id="24" customClass="OELabelCell">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -212,13 +206,13 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="yl9-Jz-OKA" customClass="OEScrollView">
-                    <rect key="frame" x="47" y="33" width="366" height="106"/>
+                    <rect key="frame" x="47" y="32" width="366" height="134"/>
                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="DeO-cc-bgL">
-                        <rect key="frame" x="0.0" y="0.0" width="351" height="106"/>
+                        <rect key="frame" x="0.0" y="0.0" width="366" height="134"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view autoresizesSubviews="NO" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VRZ-d2-kfy">
-                                <rect key="frame" x="0.0" y="0.0" width="366" height="106"/>
+                                <rect key="frame" x="0.0" y="0.0" width="381" height="134"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </view>
                         </subviews>
@@ -228,7 +222,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="6uK-mj-F0v">
-                        <rect key="frame" x="351" y="0.0" width="15" height="106"/>
+                        <rect key="frame" x="350" y="0.0" width="16" height="134"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>

@@ -11,14 +11,11 @@
 /* Class = "NSTextFieldCell"; title = "Game Library Folder Location:"; ObjectID = "19"; */
 "19.title" = "Расположение папки библиотеки игр:";
 
-/* Class = "NSButtonCell"; title = "Keep games organized"; ObjectID = "20"; */
-"20.title" = "Хранить игры организованно";
+/* Class = "NSButtonCell"; title = "Copy files to Game Library folder when adding to library"; ObjectID = "20"; */
+"20.title" = "Копировать файлы в библиотеку при добавлении";
 
-/* Class = "NSButtonCell"; title = "Copy files to Game Library folder when adding to library"; ObjectID = "21"; */
-"21.title" = "Копировать файлы в библиотеку при добавлении";
-
-/* Class = "NSButtonCell"; title = "Automatically lookup game information & artwork"; ObjectID = "23"; */
-"23.title" = "Автоматически подгружать информацию и обложки";
+/* Class = "NSButtonCell"; title = "Automatically lookup game information & artwork"; ObjectID = "21"; */
+"21.title" = "Автоматически подгружать информацию и обложки";
 
 /* Class = "NSTextFieldCell"; title = "Available Libraries:"; ObjectID = "24"; */
 "24.title" = "Доступные библиотеки:";

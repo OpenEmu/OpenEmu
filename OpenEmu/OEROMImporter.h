@@ -40,7 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark User Default Keys -
 
-extern NSString *const OEOrganizeLibraryKey;
 extern NSString *const OECopyToLibraryKey;
 extern NSString *const OEAutomaticallyGetInfoKey;
 

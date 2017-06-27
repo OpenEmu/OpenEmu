@@ -693,9 +693,8 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     BOOL copyToLibrary   = [standardUserDefaults boolForKey:OECopyToLibraryKey];
-    BOOL organizeLibrary = [standardUserDefaults boolForKey:OEOrganizeLibraryKey];
 
-    if (!copyToLibrary && !organizeLibrary) {
+    if (!copyToLibrary) {
         // There is nothing to do in this method if we do not have to copy or move the file.
         return;
     }
@@ -724,40 +723,10 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         [url setResourceValue:@NO forKey:NSURLIsUserImmutableKey error:nil];
     }
 
-    // Copy to library folder if it's not already there
+    // Copy to system sub-folder in library folder if it's not already there
     OELibraryDatabase *database = self.importer.database;
 
     if(copyToLibrary && ![url isSubpathOfURL:database.romsFolderURL])
-    {
-        NSString *fullName  = url.lastPathComponent;
-        NSString *extension = fullName.pathExtension;
-        NSString *baseName  = fullName.stringByDeletingPathExtension;
-
-        NSURL *unsortedFolder = database.unsortedRomsFolderURL;
-        NSURL *romURL         = [unsortedFolder URLByAppendingPathComponent:fullName];
-        romURL = [romURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-            NSString *newName = [NSString stringWithFormat:@"%@ %ld.%@", baseName, triesCount, extension];
-            return [unsortedFolder URLByAppendingPathComponent:newName];
-        }];
-
-        OEFile *copiedFile = [self.file fileByCopyingFileToURL:romURL error:&error];
-        if (copiedFile != nil) {
-            // Lock original file again
-            if(romFileLocked)
-                [url setResourceValue:@YES forKey:NSURLIsUserImmutableKey error:nil];
-
-            url = [romURL copy];
-            self.URL = url;
-            self.file = copiedFile;
-        } else {
-            IMPORTDLog(@"Could not copy rom to library");
-            [self exitWithStatus:OEImportExitErrorFatal error:error];
-            return;
-        }
-    }
-
-    // Move items in library folder to system sub-folder
-    if(organizeLibrary && [url isSubpathOfURL:database.romsFolderURL])
     {
         __block OEDBSystem *system = nil;
         if(self.rom != nil)
@@ -790,15 +759,20 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
             return [systemFolder URLByAppendingPathComponent:newName];
         }];
 
-        NSError *error = nil;
-        OEFile *movedFile = [self.file fileByMovingFileToURL:romURL error:&error];
-        if (movedFile != nil) {
-            self.URL = romURL;
-            self.file = movedFile;
+        OEFile *copiedFile = [self.file fileByCopyingFileToURL:romURL error:&error];
+        if (copiedFile != nil) {
+            // Lock original file again
+            if(romFileLocked)
+                [url setResourceValue:@YES forKey:NSURLIsUserImmutableKey error:nil];
+
+            url = [romURL copy];
+            self.URL = url;
+            self.file = copiedFile;
+        } else {
+            IMPORTDLog(@"Could not copy rom to library");
+            [self exitWithStatus:OEImportExitErrorFatal error:error];
             return;
         }
-
-        [self exitWithStatus:OEImportExitErrorFatal error:error];
     }
 }
 
