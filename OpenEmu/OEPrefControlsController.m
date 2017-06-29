@@ -54,6 +54,7 @@ static NSString *const _OEKeyboardMenuItemRepresentedObject = @"org.openemu.Bind
 {
     OESystemPlugin *selectedPlugin;
     OEHIDEvent     *readingEvent;
+    CFAbsoluteTime readingEventTime;
     NSMutableSet   *ignoredEvents;
     id _eventMonitor;
 }
@@ -677,12 +678,13 @@ static CFHashCode _OEHIDEventHashSetCallback(OEHIDEvent *value)
     if([anEvent type] == OEHIDEventTypeKeyboard && ![self isKeyboardEventSelected])
         return NO;
 
-    // No event currently read, if it's not off state, store it and read it
-    if(readingEvent == nil)
+    // No event currently read or 100ms have passed, if it's not off state, store it and read it
+    if(readingEvent == nil || (readingEventTime + 0.1) < CFAbsoluteTimeGetCurrent())
     {
         // The event is not ignored but it's off, ignore it anyway
         if([anEvent hasOffState]) return NO;
 
+        readingEventTime = CFAbsoluteTimeGetCurrent();
         readingEvent = anEvent;
         return YES;
     }
