@@ -6,7 +6,7 @@
 "0HB-UU-ULs.title" = "Probleme beheben:";
 
 /* Class = "NSButtonCell"; title = "Apply"; ObjectID = "139"; */
-"139.title" = "Anwenden";
+"139.title" = "Importieren";
 
 /* Class = "NSTextFieldCell"; title = "Import Into:"; ObjectID = "QPy-Ob-0E6"; */
-"QPy-Ob-0E6.title" = "Import Into:";   // TODO
+"QPy-Ob-0E6.title" = "Importiere in:";
