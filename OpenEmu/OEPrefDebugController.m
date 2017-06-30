@@ -531,7 +531,7 @@ NSString * const NumberFormatterKey = @"numberFormatter";
 
 - (void)downloadMissingArtwork:(id)sender
 {
-    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"While performing this operation OpenEmu will be unresponsive.","")
+    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:NSLocalizedString(@"While performing this operation OpenEmu will be unresponsive.", @"")
                                      defaultButton:NSLocalizedString(@"Do it!", @"")
                                    alternateButton:NSLocalizedString(@"Cancel Operation", @"")];
     if([alert runModal] != NSAlertFirstButtonReturn) return;
