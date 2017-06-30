@@ -26,9 +26,9 @@
 
 "%@ copy" = "%@ コピー";
 
-"%@ could not be enabled because its plugin was not found." = "%@ を有効化できませんでした。プラグインが見付かりません。";
+"%@ could not be enabled because its plugin was not found." = "%@を有効化できませんでした。プラグインが見付かりません。";
 
-"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@ ゲームがここに表示されます。 ディスクの入れ替えが必要なゲームは、ここ%@を確認して下さい。";
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "%@のゲームがここに表示されます。 ディスクの入れ替えが必要なゲームは、こちらから%@を確認して下さい。";
 
 "%@ games you add to OpenEmu will appear in this Console Library" = "%@ OpenEmuへ追加されたゲームは、このコンソールライブラリへ表示されます。";
 
@@ -118,7 +118,7 @@
 
 "Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "統合すると、選択された全てのゲームがOpenEmuライブラリのフォルダへコピーされます。\n\nこの操作は取り消せません。";
 
-"Controls" = "コントロール";
+"Controls" = "コントローラ";
 
 "Copying artwork failed!" = "カバー写真のコピーに失敗しました。";
 
@@ -240,7 +240,7 @@
 
 "Gameplay" = "ゲームプレイ";
 
-"Have you read the guide?" = "ガイドは既に読みましたか？";
+"Have you read the guide?" = "ガイドはご確認済みですか？";
 
 "Hide \"%@\"" = "\"%@\"を隠す";
 
@@ -482,7 +482,7 @@
 
 "The System plugin could not be found!" = "システムプラグインが見付かりませんでした。";
 
-"this guide" = "このガイド";
+"this guide" = "ガイド";
 
 "This save state was created with a different core. Do you want to switch to that core now?" = "このセーブステートは、別のコアで作成されています。作成されたコアへ変更しますか？";
 
