@@ -670,6 +670,11 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     NSButton             *pauseButton = [view pauseButton];
     [pauseButton setState:!isEmulationRunning];
 
+    if(isEmulationRunning)
+        [pauseButton setToolTip:NSLocalizedString(@"Pause Gameplay", @"Tooltip")];
+    else
+        [pauseButton setToolTip:NSLocalizedString(@"Resume Gameplay", @"Tooltip")];
+
     if(isEmulationRunning && !_cheatsLoaded)
         [self OE_loadCheats];
 }

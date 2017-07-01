@@ -382,6 +382,8 @@
 
 "Resume Emulation" = "Продолжить эмуляцию Emulation";
 
+"Resume Gameplay" = "Приостановить геймплей";  // TODO
+
 "Resume" = "Продолжить";
 
 "Save As:" = "Сохранить как:";

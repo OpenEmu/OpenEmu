@@ -382,6 +382,8 @@
 
 "Resume Emulation" = "Hervat emulatie";
 
+"Resume Gameplay" = "Hervat gameplay";  // TODO
+
 "Resume" = "Hervat";
 
 "Save As:" = "Sla op als:";

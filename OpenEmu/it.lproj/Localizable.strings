@@ -382,6 +382,8 @@
 
 "Resume Emulation" = "Riprendi l'emulazione";  // Main Menu
 
+"Resume Gameplay" = "Riprendi il gioco";  // TODO
+
 "Resume" = "Riprendi";
 
 "Save As:" = "Nome:";  // "Salva come:" does not fit

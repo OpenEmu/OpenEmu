@@ -388,6 +388,8 @@
 
 "Resume Emulation" = "エミュレーションをレジューム";
 
+"Resume Gameplay" = "ゲームを一時停止";  // TODO
+
 "Resume" = "レジューム";
 
 "Save As:" = "別名で保存:";

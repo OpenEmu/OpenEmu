@@ -388,6 +388,8 @@
 
 "Resume Emulation" = "恢复模拟";
 
+"Resume Gameplay" = "暂停游戏";  // TODO
+
 "Resume" = "恢复";
 
 "Save As:" = "另存为:";
