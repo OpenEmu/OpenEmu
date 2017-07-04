@@ -602,6 +602,8 @@
 		8F071F3B1C255362007B76DA /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8F071F3A1C255362007B76DA /* Credits.rtf */; };
 		8F5074741C10BCEC00F52B83 /* OELibraryGamesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5074761C10BCEC00F52B83 /* OELibraryGamesViewController.xib */; };
 		8FD905771AA2927100FA7662 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8FD905791AA2927100FA7662 /* OEPrefControlsController.xib */; };
+		934355091F0C13350076E859 /* OpenEmuXPCCommunicator.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 934355001F0C130A0076E859 /* OpenEmuXPCCommunicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9343550C1F0C136E0076E859 /* OpenEmuXPCCommunicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934355001F0C130A0076E859 /* OpenEmuXPCCommunicator.framework */; };
 		94052EFE172DC1DD00B90DE6 /* controller_nds_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052EFC172DC1DD00B90DE6 /* controller_nds_mask@2x.png */; };
 		94052EFF172DC1DD00B90DE6 /* controller_nds@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052EFD172DC1DD00B90DE6 /* controller_nds@2x.png */; };
 		94052F04172DC21700B90DE6 /* controller_psx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94052F02172DC21700B90DE6 /* controller_psx_mask@2x.png */; };
@@ -887,7 +889,6 @@
 		94FEFA5418A80EF30033A762 /* _ntsc-pass1-vertex.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94FEFA4D18A80ECC0033A762 /* _ntsc-pass1-vertex.inc */; };
 		94FEFA5518A80EF30033A762 /* _ntsc-pass2-decode.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94FEFA4E18A80ECD0033A762 /* _ntsc-pass2-decode.inc */; };
 		94FEFA5618A80EF30033A762 /* _ntsc-pass2-vertex.inc in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 94FEFA4F18A80ECD0033A762 /* _ntsc-pass2-vertex.inc */; };
-		C60238E61794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C60238E41794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework */; };
 		C6096192179B461C00239067 /* OEXPCGameCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096191179B461C00239067 /* OEXPCGameCoreManager.m */; };
 		C609619A179B6E3F00239067 /* OpenEmuXPCHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = C6096199179B6E3F00239067 /* OpenEmuXPCHelperApp.m */; };
 		C609619B179B74DE00239067 /* OESystemPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C6289C31135B215B00EEE97C /* OESystemPlugin.m */; };
@@ -922,7 +923,6 @@
 		C64CBD551363E40B00BEE4F3 /* OESMSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6711826136369DE0034379A /* OESMSSystemResponder.m */; };
 		C6527BC1164E22AA0030FB25 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6527BC0164E22AA0030FB25 /* Keyboard-Mappings.plist */; };
 		C6711811136368330034379A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
-		C675066D17A2475500B8494C /* OpenEmuXPCCommunicator.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = C60238E41794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		C6772A7F1710C0C900ED580A /* snes_ntsc.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C8AD73516B5DBE20004D97C /* snes_ntsc.c */; };
 		C6772A841710C9C400ED580A /* OEPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C62F54700FE6ADC500DF15BA /* OEPlugin.m */; };
 		C6772A851710C9C400ED580A /* OECorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C62F549A0FE6CC1500DF15BA /* OECorePlugin.m */; };
@@ -1293,6 +1293,48 @@
 			remoteGlobalIDString = 87FBC08D1C0790B400AECF5A;
 			remoteInfo = "Atari 8bit";
 		};
+		934354FF1F0C130A0076E859 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 934354F81F0C130A0076E859 /* OpenEmuXPCCommunicator.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C643AC5117935A9A00456656;
+			remoteInfo = OpenEmuXPCCommunicator;
+		};
+		934355011F0C130A0076E859 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 934354F81F0C130A0076E859 /* OpenEmuXPCCommunicator.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C643AC6D17935C1200456656;
+			remoteInfo = OpenEmuXPCCommunicatorAgent;
+		};
+		934355031F0C130A0076E859 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 934354F81F0C130A0076E859 /* OpenEmuXPCCommunicator.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C643AC93179392C000456656;
+			remoteInfo = OEXPCCTestApplication;
+		};
+		934355051F0C130A0076E859 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 934354F81F0C130A0076E859 /* OpenEmuXPCCommunicator.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C643ACAE179392DA00456656;
+			remoteInfo = OEXPCBackgroundProcessTest;
+		};
+		934355071F0C132B0076E859 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 934354F81F0C130A0076E859 /* OpenEmuXPCCommunicator.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C643AC5017935A9A00456656;
+			remoteInfo = OpenEmuXPCCommunicator;
+		};
+		9343550A1F0C13650076E859 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 934354F81F0C130A0076E859 /* OpenEmuXPCCommunicator.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C643AC5017935A9A00456656;
+			remoteInfo = OpenEmuXPCCommunicator;
+		};
 		940553B117A35DE0009B505D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1424,7 +1466,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C675066D17A2475500B8494C /* OpenEmuXPCCommunicator.framework in Copy Frameworks to App Frameworks */,
+				934355091F0C13350076E859 /* OpenEmuXPCCommunicator.framework in Copy Frameworks to App Frameworks */,
 				83FA055013B9E01B0055A520 /* Sparkle.framework in Copy Frameworks to App Frameworks */,
 				82DE4B8010265600007184EB /* UniversalDetector.framework in Copy Frameworks to App Frameworks */,
 				82DE4B7F102655FC007184EB /* XADMaster.framework in Copy Frameworks to App Frameworks */,
@@ -2322,6 +2364,7 @@
 		8FF29BE81C10A47800E5E134 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
 		8FF29BE91C10A47B00E5E134 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
 		8FF29BEA1C10A47D00E5E134 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/OEMigrationWindowController.strings; sourceTree = "<group>"; };
+		934354F81F0C130A0076E859 /* OpenEmuXPCCommunicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmuXPCCommunicator.xcodeproj; path = ../OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.xcodeproj; sourceTree = "<group>"; };
 		94052EFC172DC1DD00B90DE6 /* controller_nds_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_nds_mask@2x.png"; sourceTree = "<group>"; };
 		94052EFD172DC1DD00B90DE6 /* controller_nds@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_nds@2x.png"; sourceTree = "<group>"; };
 		94052F02172DC21700B90DE6 /* controller_psx_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_psx_mask@2x.png"; sourceTree = "<group>"; };
@@ -2684,7 +2727,6 @@
 		94FEFA4D18A80ECC0033A762 /* _ntsc-pass1-vertex.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-pass1-vertex.inc"; sourceTree = "<group>"; };
 		94FEFA4E18A80ECD0033A762 /* _ntsc-pass2-decode.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-pass2-decode.inc"; sourceTree = "<group>"; };
 		94FEFA4F18A80ECD0033A762 /* _ntsc-pass2-vertex.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = "_ntsc-pass2-vertex.inc"; sourceTree = "<group>"; };
-		C60238E41794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenEmuXPCCommunicator.framework; sourceTree = "<group>"; };
 		C60238E8179510C600F4AF6C /* OEGameCoreHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEGameCoreHelper.h; sourceTree = "<group>"; };
 		C609618F179B278C00239067 /* OEXPCGameCoreHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXPCGameCoreHelper.h; sourceTree = "<group>"; };
 		C6096190179B461C00239067 /* OEXPCGameCoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPCGameCoreManager.h; sourceTree = "<group>"; };
@@ -2882,6 +2924,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9343550C1F0C136E0076E859 /* OpenEmuXPCCommunicator.framework in Frameworks */,
 				53D32E3D13B95EB500A6ACE0 /* AudioToolbox.framework in Frameworks */,
 				53D32E3513B95E4100A6ACE0 /* AudioUnit.framework in Frameworks */,
 				53D32E3013B95E2000A6ACE0 /* Cocoa.framework in Frameworks */,
@@ -2893,7 +2936,6 @@
 				828BF57E1669F97B00759F10 /* XADMaster.framework in Frameworks */,
 				C6D120C917112E9E00E868A8 /* OpenEmuBase.framework in Frameworks */,
 				C6D120CA17112E9E00E868A8 /* OpenEmuSystem.framework in Frameworks */,
-				C60238E61794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3665,6 +3707,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* OpenEmu */ = {
 			isa = PBXGroup;
 			children = (
+				934354F81F0C130A0076E859 /* OpenEmuXPCCommunicator.xcodeproj */,
 				5AECA14A1BE1D26700C3B4E2 /* Swift Bridging Header */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				C67118201363687A0034379A /* System Plugins */,
@@ -4646,6 +4689,17 @@
 				8C8AD73716B5DBE20004D97C /* snes_ntsc.txt */,
 			);
 			path = "Blargg's NTSC filter";
+			sourceTree = "<group>";
+		};
+		934354F91F0C130A0076E859 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				934355001F0C130A0076E859 /* OpenEmuXPCCommunicator.framework */,
+				934355021F0C130A0076E859 /* OpenEmuXPCCommunicatorAgent */,
+				934355041F0C130A0076E859 /* OEXPCCTestApplication.app */,
+				934355061F0C130A0076E859 /* OEXPCBackgroundProcessTest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		9405538617A34C6B009B505D /* PC Engine CD */ = {
@@ -5744,7 +5798,6 @@
 		C6772C081710E9A900ED580A /* OpenEmu */ = {
 			isa = PBXGroup;
 			children = (
-				C60238E41794FB1B00F4AF6C /* OpenEmuXPCCommunicator.framework */,
 				C6D120C317112E1300E868A8 /* OpenEmuBase.framework */,
 				C6D120C417112E1300E868A8 /* OpenEmuSystem.framework */,
 			);
@@ -5912,6 +5965,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				9343550B1F0C13650076E859 /* PBXTargetDependency */,
 			);
 			name = OpenEmuHelperApp;
 			productName = OpenEmuHelperApp;
@@ -6087,6 +6141,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				934355081F0C132B0076E859 /* PBXTargetDependency */,
 				8309A781166CE6360013AD4A /* PBXTargetDependency */,
 				9479665515EDE6B3004316AB /* PBXTargetDependency */,
 				3DAA589A14464890001C09A8 /* PBXTargetDependency */,
@@ -6708,6 +6763,12 @@
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 934354F91F0C130A0076E859 /* Products */;
+					ProjectRef = 934354F81F0C130A0076E859 /* OpenEmuXPCCommunicator.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* OpenEmu */,
@@ -6765,6 +6826,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		934355001F0C130A0076E859 /* OpenEmuXPCCommunicator.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OpenEmuXPCCommunicator.framework;
+			remoteRef = 934354FF1F0C130A0076E859 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		934355021F0C130A0076E859 /* OpenEmuXPCCommunicatorAgent */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = OpenEmuXPCCommunicatorAgent;
+			remoteRef = 934355011F0C130A0076E859 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		934355041F0C130A0076E859 /* OEXPCCTestApplication.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OEXPCCTestApplication.app;
+			remoteRef = 934355031F0C130A0076E859 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		934355061F0C130A0076E859 /* OEXPCBackgroundProcessTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = OEXPCBackgroundProcessTest;
+			remoteRef = 934355051F0C130A0076E859 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		081A46241B95744A00565444 /* Resources */ = {
@@ -8343,6 +8435,16 @@
 			isa = PBXTargetDependency;
 			target = 87FBC08D1C0790B400AECF5A /* Atari 8bit */;
 			targetProxy = 87FBC0A91C07A23400AECF5A /* PBXContainerItemProxy */;
+		};
+		934355081F0C132B0076E859 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OpenEmuXPCCommunicator;
+			targetProxy = 934355071F0C132B0076E859 /* PBXContainerItemProxy */;
+		};
+		9343550B1F0C13650076E859 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OpenEmuXPCCommunicator;
+			targetProxy = 9343550A1F0C13650076E859 /* PBXContainerItemProxy */;
 		};
 		940553B217A35DE0009B505D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
