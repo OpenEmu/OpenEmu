@@ -82,3 +82,6 @@
 [submodule "mGBA"]
 	path = mGBA
 	url = git@github.com:OpenEmu/mGBA-Core.git
+[submodule "OpenEmuXPCCommunicator"]
+	path = OpenEmuXPCCommunicator
+	url = git@github.com:OpenEmu/OpenEmuXPCCommunicator.git
