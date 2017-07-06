@@ -49,7 +49,7 @@ import Foundation
 @objc(OECheats)
 class Cheats: NSObject, XMLParserDelegate {
     
-    private(set) var allCheats = [[String: Any]]()
+    private(set) var allCheats = [NSMutableDictionary]()
     private var didFindMD5Hash = false
     private let md5Hash: String
     
@@ -87,11 +87,13 @@ class Cheats: NSObject, XMLParserDelegate {
             
         // Parse cheats where MD5 hash was found.
         } else if didFindMD5Hash && elementName == "cheat" {
-            
-            allCheats.append(["code": attributeDict["code"]!,
-                              "type": attributeDict["type"]!,
-                              "description": attributeDict["description"]!,
-                              "enabled": false])
+          
+            allCheats.append(NSMutableDictionary(dictionary:[
+                "code": attributeDict["code"]!,
+                "type": attributeDict["type"]!,
+                "description": attributeDict["description"]!,
+                "enabled": false
+            ]))
         }
     }
     
