@@ -70,7 +70,7 @@ NSString *temporaryDirectoryForDecompressionOfPath(NSString *aPath)
 
     // First, check that known location in case we've already dealt with this one
     unsigned char hash[CC_SHA1_DIGEST_LENGTH];
-    CC_SHA1([aPath UTF8String], (CC_LONG)strlen([aPath UTF8String]), hash);
+    CC_SHA1(aPath.fileSystemRepresentation, (CC_LONG)strlen(aPath.fileSystemRepresentation), hash);
 
     char hexhash[2*CC_SHA1_DIGEST_LENGTH+1];
     tohex(hash, CC_SHA1_DIGEST_LENGTH, hexhash);

@@ -208,8 +208,8 @@ NSString * const OEImportManualSystems = @"OEImportManualSystems";
         // Read 1k of the file an looks for null bytes
         const int sampleSize = 1024;
         char sampleBuffer[sampleSize];
-        const char * path = [url.path cStringUsingEncoding:NSUTF8StringEncoding];
-        FILE * f = fopen(path, "r");
+        const char *path = url.path.fileSystemRepresentation;
+        FILE *f = fopen(path, "r");
         if(f)
         {
             size_t bytesRead = fread(sampleBuffer, sizeof(char), sampleSize, f);

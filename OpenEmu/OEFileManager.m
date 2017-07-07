@@ -69,8 +69,8 @@ int copyfile_callback(int what, int stage, copyfile_state_t state, const char * 
 
 - (BOOL)copyItemAtURL:(NSURL*)source toURL:(NSURL *)destination error:(NSError *__autoreleasing *)error
 {
-    const char *src = [[source path] cStringUsingEncoding:NSUTF8StringEncoding];
-    const char *dst = [[destination path] cStringUsingEncoding:NSUTF8StringEncoding];
+    const char *src = source.path.fileSystemRepresentation;
+    const char *dst = destination.path.fileSystemRepresentation;
     
     __block off_t total   = [self sizeOfItemAtURL:source];
     __block off_t done    = 0;
