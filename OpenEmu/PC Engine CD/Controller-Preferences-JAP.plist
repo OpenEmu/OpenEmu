@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_pcecd</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_pcecd_mask</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OEPCECDButtonUp</key>
+		<string>{102, 230}</string>
+		<key>OEPCECDButtonDown</key>
+		<string>{102, 190}</string>
+		<key>OEPCECDButtonLeft</key>
+		<string>{80, 210}</string>
+		<key>OEPCECDButtonRight</key>
+		<string>{130, 210}</string>
+		<key>OEPCECDButtonRun</key>
+		<string>{275, 190}</string>
+		<key>OEPCECDButtonSelect</key>
+		<string>{225, 190}</string>
+		<key>OEPCECDButton1</key>
+		<string>{407, 190}</string>
+		<key>OEPCECDButton2</key>
+		<string>{357, 190}</string>
+		<key>OEPCECDButton3</key>
+		<string>{0, 0}</string>
+		<key>OEPCECDButton4</key>
+		<string>{0, 0}</string>
+		<key>OEPCECDButton5</key>
+		<string>{0, 0}</string>
+		<key>OEPCECDButton6</key>
+		<string>{0, 0}</string>
+		<key>OEPCECDButtonMode</key>
+		<string>{0, 0}</string>
+	</dict>
+</dict>
+</plist>

@@ -29,7 +29,7 @@
 #import "OESystemPlugin.h"
 
 #import "OEDBAllGamesCollection.h"
-#import "OEDBSystem.h"
+#import "OEDBSystem+CoreDataProperties.h"
 #import "OEDBGame.h"
 #import "OEDBRom.h"
 #import "OEDBSaveState.h"
@@ -37,8 +37,6 @@
 
 #import "OEDBSavedGamesMedia.h"
 #import "OEDBScreenshotsMedia.h"
-
-#import "OESystemPicker.h"
 
 #import "OEFSWatcher.h"
 #import "OEROMImporter.h"
@@ -74,8 +72,9 @@ NSString *const OELibraryRomsFolderURLKey    = @"romsFolderURL";
 
 NSString *const OEManagedObjectContextHasDirectChangesKey = @"hasDirectChanges";
 
-const int OELibraryErrorCodeFolderNotFound       = 1;
-const int OELibraryErrorCodeFileInFolderNotFound = 2;
+const int OELibraryErrorCodeFolderNotFound              = 1;
+const int OELibraryErrorCodeFileInFolderNotFound        = 2;
+const int OELibraryErrorCodeNoModelToGenerateStoreFrom  = 3;
 
 const NSInteger OpenVGDBSyncBatchSize = 5;
 
@@ -98,7 +97,7 @@ const NSInteger OpenVGDBSyncBatchSize = 5;
 
 @end
 
-static OELibraryDatabase *defaultDatabase = nil;
+static OELibraryDatabase * _Nullable defaultDatabase = nil;
 
 #define MergeLog(_MOC1_, _MOC2_, SKIP) DLog(@"merge %@ into %@%s", [[_MOC2_ userInfo] objectForKey:@"name"], [[_MOC1_ userInfo] objectForKey:@"name"], SKIP ? " ignored" : "")
 
@@ -179,7 +178,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
     _writerContext.mergePolicy = policy;
     _writerContext.retainsRegisteredObjects = YES;
-    if(_writerContext == nil) return NO;
 
     NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
     _writerContext.persistentStoreCoordinator = coordinator;
@@ -207,6 +205,13 @@ static OELibraryDatabase *defaultDatabase = nil;
     if(mom == nil)
     {
         NSLog(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
+        
+        if(outError != NULL)
+        {
+            NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : NSLocalizedString(@"No model to generate a store from.", @"") };
+            *outError = [NSError errorWithDomain:@"OELibraryDatabase" code:OELibraryErrorCodeNoModelToGenerateStoreFrom userInfo:userInfo];
+        }
+        
         return NO;
     }
 
@@ -229,7 +234,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 #pragma mark - Life Cycle
 
-+ (OELibraryDatabase *)defaultDatabase
++ (OELibraryDatabase * _Nullable)defaultDatabase
 {
     return defaultDatabase;
 }
@@ -605,10 +610,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     __block NSArray *result = nil;
     NSManagedObjectContext *context = _mainThreadMOC;
     [context performBlockAndWait:^{
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
 
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        fetchRequest.entity = entityDescription;
+        NSFetchRequest *fetchRequest = [OEDBRom fetchRequest];
         fetchRequest.fetchLimit = 1;
         fetchRequest.includesPendingChanges = YES;
 
@@ -632,9 +635,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     __block NSArray *result = nil;
     NSManagedObjectContext *context = _mainThreadMOC;
     [context performBlockAndWait:^{
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        fetchRequest.entity = entityDescription;
+        
+        NSFetchRequest *fetchRequest = [OEDBRom fetchRequest];
         fetchRequest.fetchLimit = 1;
         fetchRequest.includesPendingChanges = YES;
 
@@ -663,7 +665,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 
 #pragma mark -
 
-- (NSArray *)lastPlayedRoms
+- (NSArray <OEDBRom *> * _Nullable)lastPlayedRoms
 {
     NSUInteger numberOfRoms = [NSDocumentController sharedDocumentController].maximumRecentDocumentCount;
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
@@ -678,7 +680,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [context executeFetchRequest:fetchRequest error:nil];
 }
 
-- (NSDictionary *)lastPlayedRomsBySystem
+- (NSDictionary <NSString *, NSArray <OEDBRom *> *> * _Nullable)lastPlayedRomsBySystem
 {
     NSUInteger numberOfRoms = [NSDocumentController sharedDocumentController].maximumRecentDocumentCount;
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[OEDBRom entityName]];
@@ -691,17 +693,17 @@ static OELibraryDatabase *defaultDatabase = nil;
 
     NSManagedObjectContext *context = self.mainThreadContext;
     NSArray *roms = [context executeFetchRequest:fetchRequest error:nil];
-    NSMutableSet *systemsSet = [NSMutableSet setWithCapacity:roms.count];
+    NSMutableSet <OEDBSystem *> *systemsSet = [NSMutableSet setWithCapacity:roms.count];
     for(OEDBRom *aRom in roms)
     {
          [systemsSet addObject:aRom.game.system];
      }
 
-    NSArray *systems = systemsSet.allObjects;
-    NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:systems.count];
+    NSArray <OEDBSystem *> *systems = systemsSet.allObjects;
+    NSMutableDictionary <NSString *, NSArray <OEDBRom *> *> *result = [NSMutableDictionary dictionaryWithCapacity:systems.count];
     for(OEDBSystem *aSystem in systems)
     {
-        NSArray *romsForSystem = [roms filteredArrayUsingPredicate:
+        NSArray <OEDBRom *> *romsForSystem = [roms filteredArrayUsingPredicate:
                                   [NSPredicate predicateWithBlock:
                                    ^ BOOL (OEDBRom *aRom, NSDictionary *bindings)
                                    {
@@ -904,7 +906,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSArray *gameKeys   = @[ @"permanentID", @"system" ];
     NSArray *systemKeys = @[ @"systemIdentifier" ];
 
-    NSFetchRequest *request   = [[NSFetchRequest alloc] initWithEntityName:[OEDBGame entityName]];
+    NSFetchRequest *request   = [OEDBGame fetchRequest];
     NSPredicate    *predicate = [NSPredicate predicateWithFormat:@"status == %d", OEDBGameStatusProcessing];
 
     request.fetchLimit = OpenVGDBSyncBatchSize;
@@ -946,6 +948,20 @@ static OELibraryDatabase *defaultDatabase = nil;
 
             NSManagedObjectID *objectID = gameInfo[@"permanentID"];
             NSDictionary *result = [helper gameInfoWithDictionary:gameInfo];
+
+            // Trim the gameTitle for imported m3u's so they look nice
+            NSURL *gameInfoURL = gameInfo[@"URL"];
+            NSString *gameURLWithSuffix = gameInfoURL.lastPathComponent;
+            NSString *resultGameTitle = result[@"gameTitle"];
+            if (resultGameTitle && [gameURLWithSuffix.pathExtension.lowercaseString isEqualToString:@"m3u"])
+            {
+                // RegEx pattern match the parentheses e.g. " (Disc 1)" and update dictionary with trimmed gameTitle string
+                NSString *newGameTitle = [resultGameTitle stringByReplacingOccurrencesOfString:@"\\ \\(Disc.*\\)" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, [resultGameTitle length])];
+
+                NSMutableDictionary *mutableDict = [result mutableCopy];
+                [mutableDict setObject:newGameTitle forKey:@"gameTitle"];
+                result = [mutableDict mutableCopy];
+            }
 
             NSMutableDictionary *dict = [@{ @"objectID" : objectID, @"status" : @(OEDBGameStatusOK) } mutableCopy];
 

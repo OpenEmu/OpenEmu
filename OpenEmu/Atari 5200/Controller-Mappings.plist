@@ -252,26 +252,41 @@
 		<key>OE5200ButtonReset</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonHome</string>
 	</dict>
-	<key>OEControllerSteelSeriesWireless</key>
+	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
 		<key>OE5200ButtonUp</key>
-		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadUp</string>
 		<key>OE5200ButtonDown</key>
-		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadDown</string>
 		<key>OE5200ButtonLeft</key>
-		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadLeft</string>
 		<key>OE5200ButtonRight</key>
-		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadRight</string>
 		<key>OE5200ButtonFire2</key>
-		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 		<key>OE5200ButtonFire1</key>
-		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonX</string>
 		<key>OE5200ButtonStart</key>
-		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
 		<key>OE5200ButtonPause</key>
-		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
 		<key>OE5200ButtonReset</key>
-		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonR1</string>
+	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OE5200ButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OE5200ButtonFire2</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OE5200ButtonFire1</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OE5200ButtonStart</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OE5200ButtonPause</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+		<key>OE5200ButtonReset</key>
+		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
 	</dict>
 </dict>
 </plist>

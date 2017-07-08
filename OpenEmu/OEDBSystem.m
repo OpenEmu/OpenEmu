@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEDBSystem.h"
+#import "OEDBSystem+CoreDataProperties.h"
 #import "OESystemPlugin.h"
 #import "OELibraryDatabase.h"
 #import "OEHUDAlert.h"
@@ -49,12 +49,9 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
 
 + (NSInteger)systemsCountInContext:(NSManagedObjectContext*)context error:(NSError**)outError
 {
-    NSEntityDescription    *descr    = [self entityDescriptioninContext:context];
-    NSFetchRequest         *req      = [[NSFetchRequest alloc] init];
+    NSFetchRequest *req = [OEDBSystem fetchRequest];
 
-    req.entity = descr;
-
-    NSError    *error = outError != NULL ? *outError : nil;
+    NSError *error = outError != NULL ? *outError : nil;
     NSUInteger result = [context countForFetchRequest:req error:&error];
     if(result == NSNotFound)
     {
@@ -73,7 +70,7 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
 {
     NSArray <NSSortDescriptor *> *sortDesc = @[[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]];
 
-    NSFetchRequest *req = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
+    NSFetchRequest *req = [OEDBSystem fetchRequest];
     req.sortDescriptors = sortDesc;
 
     NSArray *result = [context executeFetchRequest:req error:outError];
@@ -106,7 +103,7 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
     NSArray <NSSortDescriptor *> *sortDesc = @[[NSSortDescriptor sortDescriptorWithKey:@"lastLocalizedName" ascending:YES]];
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"enabled = YES"];
 
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
+    NSFetchRequest *request = [OEDBSystem fetchRequest];
     request.predicate = pred;
     request.sortDescriptors = sortDesc;
 
@@ -122,33 +119,27 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
     return [self systemsForFileWithURL:url inContext:context error:nil];
 }
 
-+ (NSArray <OEDBSystem *> *)systemsForFileWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context error:(NSError**)error
++ (NSArray <OEDBSystem *> *)systemsForFile:(OEFile *)file inContext:(NSManagedObjectContext *)context error:(NSError**)error
 {
     __block OESystemPlugin *theOneAndOnlySystemThatGetsAChanceToHandleTheFile = nil;
-    NSMutableArray         *otherSystemsThatMightBeAbleToHandleTheFile = [NSMutableArray array];
-    
-    NSString *fileExtension = url.pathExtension.lowercaseString;
-    
+    NSMutableArray<OESystemPlugin *> *otherSystemsThatMightBeAbleToHandleTheFile = [NSMutableArray array];
+    NSString *fileExtension = file.fileExtension;
+
     for(OESystemPlugin *systemPlugin in [OESystemPlugin allPlugins])
     {
         OESystemController *controller = systemPlugin.controller;
 
-        if([controller canHandleFileExtension:fileExtension])
-        {
-            OECanHandleState handleState = [controller canHandleFile:url.path];
-            
-            if (handleState == OECanHandleYes)
-            {
-                theOneAndOnlySystemThatGetsAChanceToHandleTheFile = systemPlugin;
-                break;
-            }
-            else if (handleState != OECanHandleNo)
-            {
-                [otherSystemsThatMightBeAbleToHandleTheFile addObject:systemPlugin];
-            }
-        }
+        if (![controller canHandleFileExtension:fileExtension])
+            continue;
+
+        OEFileSupport fileSupport = [controller canHandleFile:file];
+        if (fileSupport == OEFileSupportYes) {
+            theOneAndOnlySystemThatGetsAChanceToHandleTheFile = systemPlugin;
+            break;
+        } else if (fileSupport == OEFileSupportUncertain)
+            [otherSystemsThatMightBeAbleToHandleTheFile addObject:systemPlugin];
     }
-    
+
     if(theOneAndOnlySystemThatGetsAChanceToHandleTheFile != nil)
     {
         NSString *systemIdentifier = theOneAndOnlySystemThatGetsAChanceToHandleTheFile.systemIdentifier;
@@ -161,29 +152,38 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
         NSMutableArray <OEDBSystem *> *validSystems = [NSMutableArray arrayWithCapacity:otherSystemsThatMightBeAbleToHandleTheFile.count];
         for(OESystemPlugin *obj in otherSystemsThatMightBeAbleToHandleTheFile)
         {
-             NSString *systemIdentifier = obj.systemIdentifier;
-             OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inContext:context];
-             if([system.enabled boolValue])
-                 [validSystems addObject:system];
+            NSString *systemIdentifier = obj.systemIdentifier;
+            OEDBSystem *system = [self systemForPluginIdentifier:systemIdentifier inContext:context];
+            if([system.enabled boolValue])
+                [validSystems addObject:system];
         };
         return validSystems;
     }
-    
+
     return [NSArray array];
 }
 
-+ (NSString *)headerForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier
++ (NSArray <OEDBSystem *> * _Nullable)systemsForFileWithURL:(NSURL *)url inContext:(NSManagedObjectContext *)context error:(NSError**)error
+{
+    OEFile *file = [OEFile fileWithURL:url error:error];
+    if (file == nil)
+        return nil;
+
+    return [self systemsForFile:file inContext:context error:error];
+}
+
++ (NSString *)headerForFile:(__kindof OEFile *)file forSystem:(NSString *)identifier
 {
     OESystemPlugin *systemPlugin = [OESystemPlugin systemPluginForIdentifier:identifier];
-    NSString *header = [systemPlugin.controller headerLookupForFile:url.path];
+    NSString *header = [systemPlugin.controller headerLookupForFile:file];
     
     return header;
 }
 
-+ (NSString *)serialForFileWithURL:(NSURL *)url forSystem:(NSString *)identifier
++ (NSString *)serialForFile:(__kindof OEFile *)file forSystem:(NSString *)identifier
 {
     OESystemPlugin *systemPlugin = [OESystemPlugin systemPluginForIdentifier:identifier];
-    NSString *serial = [systemPlugin.controller serialLookupForFile:url.path];
+    NSString *serial = [systemPlugin.controller serialLookupForFile:file];
     
     return serial;
 }
@@ -293,8 +293,6 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
 
 #pragma mark - Data Model Properties
 
-@dynamic lastLocalizedName, shortname, systemIdentifier, enabled;
-
 - (void)setEnabled:(nullable NSNumber *)enabled
 {
     [self willChangeValueForKey:@"enabled"];
@@ -305,8 +303,6 @@ typedef NS_ENUM(NSInteger, OEDBSystemErrorCode) {
 }
 
 #pragma mark - Data Model Relationships
-
-@dynamic games;
 
 - (nullable NSMutableSet <OEDBGame *> *)mutableGames
 {

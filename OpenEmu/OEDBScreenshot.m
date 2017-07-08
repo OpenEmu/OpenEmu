@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEDBScreenshot.h"
+#import "OEDBScreenshot+CoreDataProperties.h"
 #import "OEDBRom.h"
 
 #import "OELibraryDatabase.h"
@@ -84,8 +84,6 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
 }
 
 #pragma mark - Core Data Properties
-
-@dynamic location, name, timestamp, userDescription, rom;
 
 - (void)setURL:(NSURL *)url
 {

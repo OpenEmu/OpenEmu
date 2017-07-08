@@ -36,6 +36,7 @@
 #import "OEButton.h"
 #import "OESearchField.h"
 #import "OETableHeaderCell.h"
+#import "OECenteredTextFieldCell.h"
 #import "OEListViewDataSourceItem.h"
 
 #import "OECoverGridDataSourceItem.h"
@@ -51,7 +52,6 @@
 
 #import "OEDBAllGamesCollection.h"
 
-#import "OECenteredTextFieldCell.h"
 #import "OELibraryDatabase.h"
 
 #import "OEHUDAlert+DefaultAlertsAdditions.h"

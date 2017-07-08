@@ -1,0 +1,27 @@
+
+/* Class = "NSButtonCell"; title = "Change…"; ObjectID = "15"; */
+"15.title" = "Canvia…";
+
+/* Class = "NSButtonCell"; title = "Reset"; ObjectID = "16"; */
+"16.title" = "Restableix";
+
+/* Class = "NSTextFieldCell"; title = "Organization Methods"; ObjectID = "18"; */
+"18.title" = "Mètodes d'organització";
+
+/* Class = "NSTextFieldCell"; title = "Game Library Folder Location:"; ObjectID = "19"; */
+"19.title" = "Ubicació de la carpeta de la biblioteca dels jocs:";
+
+/* Class = "NSButtonCell"; title = "Copy files to Game Library folder when adding to library"; ObjectID = "20"; */
+"20.title" = "En afegir els jocs, copia els fitxers a la carpeta de la biblioteca";
+
+/* Class = "NSButtonCell"; title = "Automatically lookup game information & artwork"; ObjectID = "21"; */
+"21.title" = "Cerca informació i imatges dels jocs automàticament";
+
+/* Class = "NSTextFieldCell"; title = "Available Libraries:"; ObjectID = "24"; */
+"24.title" = "Biblioteques disponibles:";
+
+/* Class = "NSTextFieldCell"; title = "Reset all dialog warnings:"; ObjectID = "Ua1-J2-mdy"; */
+"Ua1-J2-mdy.title" = "Restableix tots els diàlegs d'avís:";
+
+/* Class = "NSButtonCell"; title = "Reset warnings"; ObjectID = "all-Wd-1Dy"; */
+"all-Wd-1Dy.title" = "Restableix els avisos";

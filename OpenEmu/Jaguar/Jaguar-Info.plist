@@ -57,7 +57,7 @@
 		<array>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>Pause</string>
+				<string>Console Pause</string>
 				<key>OEControlListKeyNameKey</key>
 				<string>OEJaguarButtonPause</string>
 			</dict>

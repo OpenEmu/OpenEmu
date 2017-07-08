@@ -46,6 +46,7 @@ enum _OEGameDocumentErrorCodes
 @class OEDBSaveState;
 @class OEGameViewController;
 @class OESystemPlugin;
+@class OEEvent;
 
 @interface OEGameDocument : NSDocument
 
@@ -77,13 +78,18 @@ enum _OEGameDocumentErrorCodes
 - (IBAction)editControls:(id)sender;
 
 #pragma mark - Volume
+@property (readonly) float volume;
 - (IBAction)changeAudioOutputDevice:(id)sender;
 - (IBAction)changeVolume:(id)sender;
 - (IBAction)mute:(id)sender;
 - (IBAction)unmute:(id)sender;
+- (void)volumeDown:(id)sender;
+- (void)volumeUp:(id)sender;
 
 #pragma mark - Controlling Emulation
 - (void)switchCore:(id)sender;
+- (void)toggleEmulationPaused:(id)sender;
+- (void)resetEmulation:(id)sender;
 - (IBAction)stopEmulation:(id)sender;
 - (IBAction)takeScreenshot:(id)sender;
 
@@ -100,9 +106,14 @@ enum _OEGameDocumentErrorCodes
 
 #pragma mark - Saving States
 - (BOOL)supportsSaveStates;
+- (void)quickSave:(id)sender;
+- (void)quickLoad:(id)sender;
 
 #pragma mark - Deleting States
 - (IBAction)deleteSaveState:(id)sender;
+
+#pragma mark - Full Screen
+- (void)toggleFullScreen:(id)sender;
 
 #pragma mark - OEGameViewController Methods
 - (void)setOutputBounds:(NSRect)bounds;

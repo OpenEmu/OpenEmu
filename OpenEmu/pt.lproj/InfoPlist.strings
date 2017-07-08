@@ -24,12 +24,12 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-"Archived Game" = "Archived Game"; // TODO
+"Archived Game" = "Jogo arquivado";
 
-"GameCorePlugin" = "GameCorePlugin"; // TODO
+"GameCorePlugin" = "PluginDoNucleo"; // TODO NOT SURE HOW THIS SHOULD BE TRANSLATED, CONTEXT?
 
-"OpenEmu Save State" = "OpenEmu Save State"; // TODO
+"OpenEmu Save State" = "Salvamento OpenEmu";
 
-"System Plugin" = "System Plugin"; // TODO
+"System Plugin" = "Plugin do sistema";
 
-"VideoFilterPlugin" = "VideoFilterPlugin"; // TODO
+"VideoFilterPlugin" = "PluginFiltroDeVideo"; // TODO NOT SURE HOW THIS SHOULD BE TRANSLATED, CONTEXT?

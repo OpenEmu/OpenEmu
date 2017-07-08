@@ -56,24 +56,16 @@
     return image;
 }
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    if(![[[path pathExtension] lowercaseString] isEqualToString:@"bin"])
-        return OECanHandleUncertain;
+    if(![file.fileExtension isEqualToString:@"bin"])
+        return OEFileSupportUncertain;
 
-    BOOL valid = NO;
+    NSString *dataString = [file readASCIIStringInRange:NSMakeRange(0x100, 16)];
+    if ([dataString isEqualToString:@"SEGA GENESIS    "] || [dataString isEqualToString:@"SEGA MEGA DRIVE "])
+        return OEFileSupportYes;
 
-    const char *cPath = [path UTF8String];
-    FILE *rom = fopen(cPath, "r");
-    char systemName[16];
-    fseek(rom, 0x100, SEEK_SET);
-    size_t readBytes = fread(systemName, sizeof(char), 16, rom);
-    fclose(rom);
-    
-    if(readBytes == 16 && (memcmp(systemName, "SEGA GENESIS    ", 16) == 0 || memcmp(systemName, "SEGA MEGA DRIVE ", 16) == 0))
-        valid = YES;
-
-    return valid ? OECanHandleYes : OECanHandleNo;
+    return OEFileSupportNo;
 }
 
 @end

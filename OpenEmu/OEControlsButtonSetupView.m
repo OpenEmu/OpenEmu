@@ -27,14 +27,16 @@
 #import "OEControlsButtonSetupView.h"
 
 #import "OEControlsKeyButton.h"
-#import "OEControlsKeyLabelCell.h"
-#import "OEControlsKeyHeadlineCell.h"
 #import "OEControlsKeySeparatorView.h"
 #import "OEControlsSectionTitleView.h"
+#import "OEControlsKeyHeadlineCell.h"
+#import "OEControlsKeyLabelCell.h"
 
 #import "OEUIDrawingUtils.h"
 
 #import <OpenEmuSystem/OpenEmuSystem.h>
+
+#import "OpenEmu-Swift.h"
 
 @import Quartz;
 
@@ -266,14 +268,20 @@ NSComparisonResult headerSortingFunction(id obj1, id obj2, void *context)
                 [item setFrame:NSIntegralRect(buttonRect)];
 
                 NSTextField *label = animated([group objectAtIndex:j + 1]);
-                NSRect labelRect = NSIntegralRect(NSMakeRect(leftGap, buttonRect.origin.y - 4, width - leftGap - labelButtonSpacing - buttonWidth, itemHeight));
+                NSRect labelRect = NSIntegralRect(NSMakeRect(leftGap, buttonRect.origin.y + buttonRect.size.height/2 + 1, width - leftGap - labelButtonSpacing - buttonWidth, 100000));
                 
-                BOOL multiline = [label.stringValue sizeWithAttributes:@{NSFontAttributeName: label.font}].width + 5 >= labelRect.size.width;
-                if(multiline)
+                NSSize labelFitSize = [label.cell cellSizeForBounds:labelRect];
+                if (labelFitSize.height > 30)
                 {
-                    labelRect.size.height += 10;
-                    labelRect.origin.y    -= 3;
+                    /* If the label size returned is too tall, enlarge the
+                     * label to attempt fitting in 2 lines anyway */
+                    labelRect.origin.x -= 5;
+                    labelRect.size.width += 5;
+                    labelFitSize = [label.cell cellSizeForBounds:labelRect];
                 }
+                labelRect.origin.y -= labelFitSize.height / 2;
+                labelRect.size.height = labelFitSize.height;
+                
                 reflectSectionState(label, labelRect);
                 [label setFrame:labelRect];
                 

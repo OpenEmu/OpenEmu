@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2017, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,16 +26,18 @@
 
 @import Foundation;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class OEHUDBorderWindow, OEHUDWindowThemeView;
 
 @interface OEHUDWindow : NSWindow
 
-- (id)initWithContentRect:(NSRect)frame;
+- (instancetype)initWithContentRect:(NSRect)frame;
 
-@property(nonatomic, strong) NSView *mainContentView;
-@property(readonly) OEHUDBorderWindow *borderWindow;
+@property (nonatomic) NSView *mainContentView;
+@property (readonly) OEHUDBorderWindow *borderWindow;
 
-@property(nonatomic, strong) NSColor *contentBackgroundColor;
+@property (copy) NSColor *contentBackgroundColor;
 
 // Returns the main content rectangle (in screen coordinates) used by a window with a given rectangle (in screen coordinates)
 + (NSRect)mainContentRectForFrameRect:(NSRect)windowFrame;
@@ -51,3 +53,5 @@
 @interface OEHUDWindowThemeView : NSView
 @property(getter=isDragging) BOOL dragging;
 @end
+
+NS_ASSUME_NONNULL_END

@@ -16,3 +16,6 @@
 
 /* Class = "NSButtonCell"; title = "Always pause gameplay when in background"; ObjectID = "57"; */
 "57.title" = "Mettre en pause le jeu quand il est en arrière-plan";
+
+/* Class = "NSButtonCell"; title = "Allow playing with controllers when in background"; ObjectID = "zUK-Vv-IqE"; */
+"zUK-Vv-IqE.title" = "Autoriser à jouer avec des manettes quand le jeu est en arrière-plan";

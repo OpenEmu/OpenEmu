@@ -36,7 +36,7 @@
 {
     if([[OELocalizationHelper sharedHelper] isRegionJAP])
     {
-        return @"Super 32X";
+        return @"Sega Super 32X";
     }
     else if([[OELocalizationHelper sharedHelper] isRegionEU])
     {
@@ -76,25 +76,16 @@
     return image;
 }
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    if(![[[path pathExtension] lowercaseString] isEqualToString:@"bin"])
-    {
-        return OECanHandleUncertain;
-    }
+    if(![file.fileExtension isEqualToString:@"bin"])
+        return OEFileSupportUncertain;
 
-    BOOL valid = NO;
+    NSString *dataString = [file readASCIIStringInRange:NSMakeRange(0x100, 8)];
+    if ([dataString isEqualToString:@"SEGA 32X"])
+        return OEFileSupportYes;
 
-    const char *cPath = [path UTF8String];
-    FILE *rom = fopen(cPath, "r");
-    char systemName[8];
-    fseek(rom, 0x100, SEEK_SET);
-    size_t readBytes = fread(systemName, sizeof(char), 8, rom);
-    fclose(rom);
-    if(readBytes == 8 && (memcmp(systemName, "SEGA 32X", 8) == 0))
-        valid = YES;
-
-    return valid ? OECanHandleYes : OECanHandleNo;
+    return OEFileSupportNo;
 }
 
 @end

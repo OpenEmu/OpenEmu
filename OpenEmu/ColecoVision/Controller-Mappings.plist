@@ -168,20 +168,29 @@
 		<key>OEColecoVisionButtonRightAction</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonCross</string>
 	</dict>
-	<key>OEControllerSteelSeriesWireless</key>
+	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
 		<key>OEColecoVisionButtonUp</key>
-		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadUp</string>
 		<key>OEColecoVisionButtonDown</key>
-		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadDown</string>
 		<key>OEColecoVisionButtonLeft</key>
-		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadLeft</string>
 		<key>OEColecoVisionButtonRight</key>
-		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadRight</string>
 		<key>OEColecoVisionButtonLeftAction</key>
-		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonX</string>
 		<key>OEColecoVisionButtonRightAction</key>
-		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
+	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEColecoVisionButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEColecoVisionButtonLeftAction</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEColecoVisionButtonRightAction</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
 	</dict>
 </dict>
 </plist>

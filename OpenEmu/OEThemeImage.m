@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2016, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -28,34 +28,36 @@
 
 #import "OpenEmu-Swift.h"
 
-#pragma mark -
-#pragma mark Theme image attributes
+#pragma mark - Theme image attributes
 
 static NSString * const OEThemeImageResourceAttributeName = @"Resource";
 static NSString * const OEThemeImagePartsAttributeName    = @"Parts";
 static NSString * const OEThemeImageVerticalAttributeName = @"Vertical";
 
-#pragma mark -
-#pragma mark Implementation
+#pragma mark - Implementation
 
 @implementation OEThemeImage
 
-+ (id)parseWithDefinition:(NSDictionary *)definition
-{
-    NSString *resource = [definition valueForKey:OEThemeImageResourceAttributeName];
-    if (resource == nil) return nil;
++ (id)parseWithDefinition:(NSDictionary *)definition {
+    
+    NSString *resource = definition[OEThemeImageResourceAttributeName];
+    if (resource == nil) {
+        return nil;
+    }
 
-    id   parts    = ([definition objectForKey:OEThemeImagePartsAttributeName] ?: [definition objectForKey:OEThemeObjectValueAttributeName]);
-    BOOL vertical = [[definition objectForKey:OEThemeImageVerticalAttributeName] boolValue];
+    id parts = ([definition objectForKey:OEThemeImagePartsAttributeName] ?: definition[OEThemeObjectValueAttributeName]);
+    BOOL vertical = ((NSNumber *)definition[OEThemeImageVerticalAttributeName]).boolValue;
 
-    if([parts isKindOfClass:[NSString class]])      parts = [NSArray arrayWithObject:parts];
-    else if(![parts isKindOfClass:[NSArray class]]) parts = nil;
+    if ([parts isKindOfClass:[NSString class]]) {
+        parts = @[ parts ];
+    } else if (![parts isKindOfClass:[NSArray class]]) {
+        parts = nil;
+    }
 
     return [[NSImage imageNamed:resource] imageFromParts:parts vertical:vertical];
 }
 
-- (NSImage *)imageForState:(OEThemeState)state
-{
+- (NSImage *)imageForState:(OEThemeState)state {
     return (NSImage *)[self objectForState:state];
 }
 

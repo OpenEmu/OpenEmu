@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2017, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -27,25 +27,26 @@
 
 #import "OEInputLimitFormatter.h"
 
-@implementation OEInputLimitFormatter
-@synthesize limit;
+NS_ASSUME_NONNULL_BEGIN
 
-- (id)initWithLimit:(NSUInteger)aLimit
+@implementation OEInputLimitFormatter
+
+- (instancetype)initWithLimit:(NSUInteger)limit
 {
     if(self = [super init])
     {
-        [self setLimit:aLimit];
+        _limit = limit;
     }
     return self;
 }
 
-- (NSString *)stringForObjectValue:(id)object {
+- (nullable NSString *)stringForObjectValue:(nullable id)object {
     if([object isKindOfClass:[NSString class]])
-        return  (NSString *)object;
+        return (NSString *)object;
     if([object isKindOfClass:[NSAttributedString class]])
-        return [object string];
+        return ((NSAttributedString *)object).string;
     
-    return (NSString*)object;
+    return (NSString *)object;
 }
 
 - (BOOL)getObjectValue:(id *)anObject forString:(NSString *)string errorDescription:(NSString **)error
@@ -56,7 +57,9 @@
 
 - (BOOL)isPartialStringValid:(NSString *)partialString newEditingString:(NSString **)newString errorDescription:(NSString **)error
 {
-    return ([partialString length] <= [self limit]);
+    return (partialString.length <= self.limit);
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

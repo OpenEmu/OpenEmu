@@ -33,11 +33,11 @@ extern NSString *const OEGameSystemVideoFilterKeyFormat;
 extern NSString *const OEGameCoresInBackgroundKey;
 extern NSString *const OEDontShowGameTitleInWindowKey;
 extern NSString *const OEAutoSwitchCoreAlertSuppressionKey;
-extern NSString *const OEForceCorePicker;
 extern NSString *const OEGameViewControllerEmulationWillFinishNotification;
 extern NSString *const OEGameViewControllerEmulationDidFinishNotification;
 extern NSString *const OEGameViewControllerROMKey;
 extern NSString *const OEBackgroundPauseKey;
+extern NSString *const OEBackgroundControllerPlayKey;
 extern NSString *const OEGameViewBackgroundColorKey;
 extern NSString *const OETakeNativeScreenshots;
 
@@ -70,12 +70,11 @@ extern NSString *const OEScreenshotPropertiesKey;
 
 @property(weak) OEGameDocument *document;
 
-- (BOOL)supportsCheats;
-- (BOOL)supportsSaveStates;
-- (BOOL)supportsMultipleDiscs;
-- (NSUInteger)discCount;
-- (NSString *)coreIdentifier;
-- (NSString *)systemIdentifier;
+@property(readonly) BOOL supportsCheats;
+@property(readonly) BOOL supportsSaveStates;
+@property(readonly) BOOL supportsMultipleDiscs;
+@property(readonly) NSString *coreIdentifier;
+@property(readonly) NSString *systemIdentifier;
 
 - (void)reflectVolume:(float)volume;
 - (void)reflectEmulationPaused:(BOOL)paused;
@@ -93,7 +92,7 @@ extern NSString *const OEScreenshotPropertiesKey;
 - (void)showQuickSaveNotification;
 
 #pragma mark - Info
-- (NSSize)defaultScreenSize;
+@property(readonly) NSSize defaultScreenSize;
 
 @property (nonatomic) OEIntSize aspectSize;
 @property (nonatomic) OEIntSize screenSize;

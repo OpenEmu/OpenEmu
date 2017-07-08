@@ -252,26 +252,41 @@
 		<key>OEJaguarButtonOption</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
-	<key>OEControllerSteelSeriesWireless</key>
+	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
 		<key>OEJaguarButtonUp</key>
-		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadUp</string>
 		<key>OEJaguarButtonDown</key>
-		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadDown</string>
 		<key>OEJaguarButtonLeft</key>
-		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadLeft</string>
 		<key>OEJaguarButtonRight</key>
-		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadRight</string>
 		<key>OEJaguarButtonC</key>
-		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonX</string>
 		<key>OEJaguarButtonB</key>
-		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 		<key>OEJaguarButtonA</key>
-		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonB</string>
 		<key>OEJaguarButtonPause</key>
-		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
 		<key>OEJaguarButtonOption</key>
-		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
+	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEJaguarButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEJaguarButtonC</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEJaguarButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEJaguarButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OEJaguarButtonPause</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OEJaguarButtonOption</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
 </dict>
 </plist>

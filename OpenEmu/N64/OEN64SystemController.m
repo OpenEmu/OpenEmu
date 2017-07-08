@@ -32,21 +32,14 @@
 
 @implementation OEN64SystemController
 
-- (NSString *)headerLookupForFile:(NSString *)path
+- (NSString *)headerLookupForFile:(__kindof OEFile *)file
 {
-    NSFileHandle *dataFile;
-    NSData *dataBuffer;
-    
     // Read the full 64 byte header
-    dataFile = [NSFileHandle fileHandleForReadingAtPath: path];
-    [dataFile seekToFileOffset: 0x0];
-    dataBuffer = [dataFile readDataOfLength: 64];
-    
-    unsigned char *rom;
+    NSData *dataBuffer = [file readDataInRange:NSMakeRange(0, 64)];
+
     unsigned char temp;
-    int romSize;
-    rom = (unsigned char *)[dataBuffer bytes];
-    romSize = (int)[dataBuffer length];
+    unsigned char *rom = (unsigned char *)[dataBuffer bytes];
+    NSUInteger romSize = [dataBuffer length];
     
     // Read the first 4 bytes of the header to get the 'magic word' in hex
     NSMutableString *hexString = [[NSMutableString alloc] initWithCapacity:4];
@@ -72,7 +65,7 @@
     // Little endian .n64 rom with header 0x40123780 [DCBA]
     else if([hexString isEqualToString:@"40123780"])
     {
-        for(int i = 0; i < romSize; i+=4)
+        for(NSUInteger i = 0; i < romSize; i+=4)
         {
             temp=rom[i];
             rom[i]=rom[i+3];
@@ -85,7 +78,7 @@
     // Wordswapped .n64 rom with header 0x12408037 [CDAB]
     else if([hexString isEqualToString:@"12408037"])
     {
-        for(int i = 0; i < romSize; i+=4)
+        for(NSUInteger i = 0; i < romSize; i+=4)
         {
             temp=rom[i];
             rom[i]=rom[i+2];
@@ -95,9 +88,7 @@
             rom[i+3]=temp;
         }
     }
-    
-    [dataFile closeFile];
-    
+
     // Final rom header in hex after any swapping that may have occured
     NSData *romBuffer = [NSData dataWithBytes:rom length:romSize];
     

@@ -27,12 +27,10 @@
 import Foundation
 
 /// Logs a string in debug mode.
-func DLog(@autoclosure message: () -> String,
-    filename: String = __FILE__,
-    function: String = __FUNCTION__,
-    line: Int = __LINE__) {
-        #if DEBUG
-            let lastPathComponent = (filename as NSString).lastPathComponent
-            NSLog("\(lastPathComponent):\(line): \(function): %@", message())
-        #endif
+func DLog(_ message: @autoclosure () -> String, filename: String = #file, function: String = #function, line: Int = #line)
+{
+    #if DEBUG
+        let lastPathComponent = (filename as NSString).lastPathComponent
+        NSLog("\(lastPathComponent):\(line): \(function): %@", message())
+    #endif
 }

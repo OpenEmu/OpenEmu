@@ -325,36 +325,61 @@
 		<key>OEN64ButtonStart</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
 	</dict>
-	<key>OEControllerSteelSeriesWireless</key>
+	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
 		<key>OEN64ButtonDPadUp</key>
-		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadUp</string>
 		<key>OEN64ButtonDPadDown</key>
-		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadDown</string>
 		<key>OEN64ButtonDPadLeft</key>
-		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadLeft</string>
 		<key>OEN64ButtonDPadRight</key>
-		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadRight</string>
 		<key>OEN64AnalogUp</key>
-		<string>OEControllerSteelSeriesWirelessLeftAnalogUp</string>
+		<string>OEControllerGCExtendedGamepadProfileLeftAnalogUp</string>
 		<key>OEN64AnalogLeft</key>
-		<string>OEControllerSteelSeriesWirelessLeftAnalogLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileLeftAnalogLeft</string>
 		<key>OEN64ButtonCUp</key>
-		<string>OEControllerSteelSeriesWirelessRightAnalogUp</string>
+		<string>OEControllerGCExtendedGamepadProfileRightAnalogUp</string>
 		<key>OEN64ButtonCLeft</key>
-		<string>OEControllerSteelSeriesWirelessRightAnalogLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileRightAnalogLeft</string>
 		<key>OEN64ButtonA</key>
-		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 		<key>OEN64ButtonB</key>
-		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonX</string>
 		<key>OEN64ButtonL</key>
-		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
 		<key>OEN64ButtonR</key>
-		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonR1</string>
 		<key>OEN64ButtonZ</key>
-		<string>OEControllerSteelSeriesWirelessButtonL2</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL2</string>
 		<key>OEN64ButtonStart</key>
-		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
+	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEN64ButtonDPadUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEN64AnalogUp</key>
+		<string>OEControllerNintendoSwitchProControllerLeftAnalogUp</string>
+		<key>OEN64AnalogLeft</key>
+		<string>OEControllerNintendoSwitchProControllerLeftAnalogLeft</string>
+		<key>OEN64ButtonCUp</key>
+		<string>OEControllerNintendoSwitchProControllerRightAnalogUp</string>
+		<key>OEN64ButtonCLeft</key>
+		<string>OEControllerNintendoSwitchProControllerRightAnalogLeft</string>
+		<key>OEN64ButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEN64ButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEN64ButtonL</key>
+		<string>OEControllerNintendoSwitchProControllerButtonL</string>
+		<key>OEN64ButtonR</key>
+		<string>OEControllerNintendoSwitchProControllerButtonR</string>
+		<key>OEN64ButtonZ</key>
+		<string>OEControllerNintendoSwitchProControllerButtonZL</string>
+		<key>OEN64ButtonStart</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
 	</dict>
 </dict>
 </plist>

@@ -415,42 +415,81 @@
 		<key>OEPSXButtonAnalogMode</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonHome</string>
 	</dict>
-	<key>OEControllerSteelSeriesWireless</key>
+	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
 		<key>OEPSXButtonUp</key>
-		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadUp</string>
 		<key>OEPSXButtonDown</key>
-		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadDown</string>
 		<key>OEPSXButtonLeft</key>
-		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadLeft</string>
 		<key>OEPSXButtonRight</key>
-		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadRight</string>
 		<key>OEPSXLeftAnalogUp</key>
-		<string>OEControllerSteelSeriesWirelessLeftAnalogUp</string>
+		<string>OEControllerGCExtendedGamepadProfileLeftAnalogUp</string>
 		<key>OEPSXLeftAnalogLeft</key>
-		<string>OEControllerSteelSeriesWirelessLeftAnalogLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileLeftAnalogLeft</string>
 		<key>OEPSXRightAnalogUp</key>
-		<string>OEControllerSteelSeriesWirelessRightAnalogUp</string>
+		<string>OEControllerGCExtendedGamepadProfileRightAnalogUp</string>
 		<key>OEPSXRightAnalogLeft</key>
-		<string>OEControllerSteelSeriesWirelessRightAnalogLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileRightAnalogLeft</string>
 		<key>OEPSXButtonCircle</key>
-		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonB</string>
 		<key>OEPSXButtonCross</key>
-		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 		<key>OEPSXButtonTriangle</key>
-		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonY</string>
 		<key>OEPSXButtonSquare</key>
-		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonX</string>
 		<key>OEPSXButtonL1</key>
-		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
 		<key>OEPSXButtonL2</key>
-		<string>OEControllerSteelSeriesWirelessButtonL2</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL2</string>
 		<key>OEPSXButtonR1</key>
-		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonR1</string>
 		<key>OEPSXButtonR2</key>
-		<string>OEControllerSteelSeriesWirelessButtonR2</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonR2</string>
 		<key>OEPSXButtonStart</key>
-		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
+	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEPSXButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEPSXLeftAnalogUp</key>
+		<string>OEControllerNintendoSwitchProControllerLeftAnalogUp</string>
+		<key>OEPSXLeftAnalogLeft</key>
+		<string>OEControllerNintendoSwitchProControllerLeftAnalogLeft</string>
+		<key>OEPSXRightAnalogUp</key>
+		<string>OEControllerNintendoSwitchProControllerRightAnalogUp</string>
+		<key>OEPSXRightAnalogLeft</key>
+		<string>OEControllerNintendoSwitchProControllerRightAnalogLeft</string>
+		<key>OEPSXButtonCircle</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OEPSXButtonCross</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEPSXButtonTriangle</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OEPSXButtonSquare</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEPSXButtonL1</key>
+		<string>OEControllerNintendoSwitchProControllerButtonL</string>
+		<key>OEPSXButtonL2</key>
+		<string>OEControllerNintendoSwitchProControllerButtonZL</string>
+		<key>OEPSXButtonL3</key>
+		<string>OEControllerNintendoSwitchProControllerButtonLeftAnalog</string>
+		<key>OEPSXButtonR1</key>
+		<string>OEControllerNintendoSwitchProControllerButtonR</string>
+		<key>OEPSXButtonR2</key>
+		<string>OEControllerNintendoSwitchProControllerButtonZR</string>
+		<key>OEPSXButtonR3</key>
+		<string>OEControllerNintendoSwitchProControllerButtonRightAnalog</string>
+		<key>OEPSXButtonStart</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OEPSXButtonSelect</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+		<key>OEPSXButtonAnalogMode</key>
+		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
 	</dict>
 </dict>
 </plist>

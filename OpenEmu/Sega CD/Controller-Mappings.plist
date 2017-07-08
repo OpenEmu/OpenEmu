@@ -330,32 +330,53 @@
 		<key>OESegaCDButtonMode</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
-	<key>OEControllerSteelSeriesWireless</key>
+	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
 		<key>OESegaCDButtonUp</key>
-		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadUp</string>
 		<key>OESegaCDButtonDown</key>
-		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadDown</string>
 		<key>OESegaCDButtonLeft</key>
-		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadLeft</string>
 		<key>OESegaCDButtonRight</key>
-		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadRight</string>
 		<key>OESegaCDButtonA</key>
-		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonX</string>
 		<key>OESegaCDButtonB</key>
-		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonY</string>
 		<key>OESegaCDButtonC</key>
-		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonB</string>
 		<key>OESegaCDButtonX</key>
-		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 		<key>OESegaCDButtonY</key>
-		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
 		<key>OESegaCDButtonZ</key>
-		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonR1</string>
 		<key>OESegaCDButtonStart</key>
-		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
 		<key>OESegaCDButtonMode</key>
-		<string>OEControllerSteelSeriesWirelessButtonL2</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL2</string>
+	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OESegaCDButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OESegaCDButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OESegaCDButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OESegaCDButtonC</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OESegaCDButtonX</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OESegaCDButtonY</key>
+		<string>OEControllerNintendoSwitchProControllerButtonL</string>
+		<key>OESegaCDButtonZ</key>
+		<string>OEControllerNintendoSwitchProControllerButtonR</string>
+		<key>OESegaCDButtonStart</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OESegaCDButtonMode</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
 </dict>
 </plist>

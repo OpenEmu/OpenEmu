@@ -56,7 +56,7 @@ extern NSString *const OEGameArtworkPropertiesKey;
 + (instancetype)gameWithURL:(nullable NSURL *)gameURL error:(NSError **)outError;
 
 // returns the game from the specified database that represents the file at url
-+ (instancetype)gameWithURL:(nullable NSURL *)gameURL inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
++ (instancetype _Nullable)gameWithURL:(nullable NSURL *)gameURL inDatabase:(OELibraryDatabase *)database error:(NSError **)outError;
 
 #pragma mark - Cover Art Database Sync
 
@@ -94,28 +94,14 @@ extern NSString *const OEGameArtworkPropertiesKey;
 
 #pragma mark - Data Model Properties
 
-@property(nonatomic, retain, nullable)   NSString *name;
-@property(nonatomic, retain, nullable)   NSString *gameTitle;
-@property(nonatomic, retain, nullable)   NSNumber *rating;
-@property(nonatomic, retain, nullable)   NSString *gameDescription;
-@property(nonatomic, retain, nullable)   NSDate   *importDate;
-@property(nonatomic, retain, nullable)   NSDate   *lastInfoSync;
-@property(nonatomic, retain)             NSNumber *status;
 @property(nonatomic, retain, nullable)   NSString *displayName;
 @property(nonatomic, readonly, nullable) NSString *cleanDisplayName;
 
 #pragma mark - Data Model Relationships
 
-@property(nonatomic, retain, nullable) OEDBImage  *boxImage;
-@property(nonatomic, retain, nullable) OEDBSystem *system;
-
-@property(nonatomic, retain, nullable)   NSSet        <OEDBRom *>         *roms;
 @property(nonatomic, readonly, nullable) NSMutableSet <OEDBRom *>         *mutableRoms;
-@property(nonatomic, retain, nullable)   NSSet        <NSManagedObject *> *genres;
 @property(nonatomic, readonly, nullable) NSMutableSet <NSManagedObject *> *mutableGenres;
-@property(nonatomic, retain, nullable)   NSSet        <OEDBCollection *>  *collections;
 @property(nonatomic, readonly, nullable) NSMutableSet <OEDBCollection *>  *mutableCollections;
-@property(nonatomic, retain, nullable)   NSSet        <NSManagedObject *> *credits;
 @property(nonatomic, readonly, nullable) NSMutableSet <NSManagedObject *> *mutableCredits;
 @end
 

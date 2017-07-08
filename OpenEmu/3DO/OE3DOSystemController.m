@@ -30,77 +30,58 @@
 
 @implementation OE3DOSystemController
 
-- (NSString*)systemName
+- (NSString *)systemName
 {
     return @"3DO";
 }
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-    NSString *dataTrack = [cueSheet dataTrackPath];
+    if (![file isKindOfClass:[OECUESheet class]])
+        return OEFileSupportNo;
 
-    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
-    NSLog(@"3DO data track path: %@", dataTrackPath);
-
-    BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
-    OECanHandleState canHandleFile = OECanHandleNo;
-
-    if(handleFileExtension)
-    {
-        NSFileHandle *dataTrackFile;
-        NSData *dataTrackBuffer, *otherDataTrackBuffer;
-
-        dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
-
-        // First check if we find these bytes at offset 0x0 found in some dumps
-        uint8_t bytes[] = { 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x02, 0x00, 0x01 };
-        [dataTrackFile seekToFileOffset: 0x0];
-        dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-        NSData *dataCompare = [[NSData alloc] initWithBytes:bytes length:sizeof(bytes)];
-        BOOL bytesFound = [dataTrackBuffer isEqualToData:dataCompare];
-
-        [dataTrackFile seekToFileOffset: bytesFound ? 0x10 : 0x0];
-        dataTrackBuffer = [dataTrackFile readDataOfLength: 8];
-        [dataTrackFile seekToFileOffset: bytesFound ? 0x38 : 0x28];
-        otherDataTrackBuffer = [dataTrackFile readDataOfLength: 6];
-
-        NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSLog(@"%@", dataTrackString);
-        NSLog(@"%@", otherDataTrackString);
-        if([dataTrackString isEqualToString:@"\x01\x5a\x5a\x5a\x5a\x5a\x01\x00"] && ((otherDataTrackString && [otherDataTrackString caseInsensitiveCompare:@"CD-ROM"] == NSOrderedSame) || [otherDataTrackString rangeOfString:@"TECD"].location != NSNotFound))
-            canHandleFile = OECanHandleYes;
-
-        [dataTrackFile closeFile];
-    }
-    return canHandleFile;
-}
-
-- (NSString *)headerLookupForFile:(NSString *)path
-{
-    // Path is a cuesheet so get the first data track from the file for reading
-    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-    NSString *dataTrack = [cueSheet dataTrackPath];
-    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
-    
-    NSFileHandle *dataTrackFile;
-    NSData *dataTrackBuffer, *headerDataTrackBuffer;
-    
     // First check if we find these bytes at offset 0x0 found in some dumps
     uint8_t bytes[] = { 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x02, 0x00, 0x01 };
-    dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
-    [dataTrackFile seekToFileOffset: 0x0];
-    dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-    NSData *dataTrackString = [[NSData alloc] initWithBytes:bytes length:sizeof(bytes)];
-    BOOL bytesFound = [dataTrackBuffer isEqualToData:dataTrackString];
-    
+    NSData *dataCompare = [[NSData alloc] initWithBytes:bytes length:sizeof(bytes)];
+
+    NSData *dataTrackBuffer = [file readDataInRange:NSMakeRange(0, 16)];
+    BOOL bytesFound = [dataTrackBuffer isEqualToData:dataCompare];
+
+    dataTrackBuffer = [file readDataInRange:NSMakeRange(bytesFound ? 0x10 : 0x0, 8)];
+
+    NSData *dataTrackBufferComparison = [NSData dataWithBytes:(const uint8_t[]){ 0x01, 0x5a, 0x5a, 0x5a, 0x5a, 0x5a, 0x01, 0x00 } length:8];
+
+    NSLog(@"%@", dataTrackBuffer);
+    if (![dataTrackBuffer isEqualToData:dataTrackBufferComparison])
+        return OEFileSupportNo;
+
+    NSString *otherDataTrackString = [file readASCIIStringInRange:NSMakeRange(bytesFound ? 0x38 : 0x28, 6)];
+    NSLog(@"%@", otherDataTrackString);
+
+    if (otherDataTrackString && [otherDataTrackString caseInsensitiveCompare:@"CD-ROM"] == NSOrderedSame)
+        return OEFileSupportYes;
+
+    if([otherDataTrackString rangeOfString:@"TECD"].location != NSNotFound)
+        return OEFileSupportYes;
+
+    return OEFileSupportNo;
+}
+
+- (NSString *)headerLookupForFile:(__kindof OEFile *)file
+{
+    if (![file isKindOfClass:[OECUESheet class]])
+        return nil;
+
+    // First check if we find these bytes at offset 0x0 found in some dumps
+    uint8_t bytes[] = { 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x02, 0x00, 0x01 };
+    NSData *dataCompare = [[NSData alloc] initWithBytes:bytes length:sizeof(bytes)];
+
+    NSData *dataTrackBuffer = [file readDataInRange:NSMakeRange(0, 16)];
+    BOOL bytesFound = [dataTrackBuffer isEqualToData:dataCompare];
+
     // Read disc header, these 16 bytes seem to be unique for each game
-    [dataTrackFile seekToFileOffset: bytesFound ? 0x60 : 0x50];
-    headerDataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-    
-    [dataTrackFile closeFile];
-    
+    NSData *headerDataTrackBuffer = [file readDataInRange:NSMakeRange(bytesFound ? 0x60 : 0x50, 16)];
+
     // Format the hexadecimal representation and return
     NSString *buffer = [[headerDataTrackBuffer description] uppercaseString];
     NSString *hex = [[buffer componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]] componentsJoinedByString:@""];

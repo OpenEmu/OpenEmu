@@ -27,7 +27,7 @@
 #import "OEBlankSlateSpinnerView.h"
 @import QuartzCore;
 
-@interface OEBlankSlateSpinnerView ()
+@interface OEBlankSlateSpinnerView () <CALayerDelegate>
 @property (strong) CALayer *dropShadowLayer;
 @property (strong) CALayer *spinnerLayer;
 @property (strong) CALayer *innerShadowLayer;

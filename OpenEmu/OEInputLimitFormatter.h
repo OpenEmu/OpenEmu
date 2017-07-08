@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2017, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,10 +24,16 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 @import Foundation;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OEInputLimitFormatter : NSFormatter
-- (id)initWithLimit:(NSUInteger)aLimit;
+
+- (instancetype)initWithLimit:(NSUInteger)limit;
+
 @property NSUInteger limit;
+
 @end
+
+NS_ASSUME_NONNULL_END

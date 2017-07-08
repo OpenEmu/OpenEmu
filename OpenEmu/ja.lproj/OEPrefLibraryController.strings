@@ -1,0 +1,27 @@
+
+/* Class = "NSButtonCell"; title = "Change…"; ObjectID = "15"; */
+"15.title" = "変更…";
+
+/* Class = "NSButtonCell"; title = "Reset"; ObjectID = "16"; */
+"16.title" = "リセット";
+
+/* Class = "NSTextFieldCell"; title = "Organization Methods"; ObjectID = "18"; */
+"18.title" = "整理順序";
+
+/* Class = "NSTextFieldCell"; title = "Game Library Folder Location:"; ObjectID = "19"; */
+"19.title" = "ゲームライブラリフォルダの場所:";
+
+/* Class = "NSButtonCell"; title = "Copy files to Game Library folder when adding to library"; ObjectID = "20"; */
+"20.title" = "ライブラリへ追加されたファイルをゲームライブラリフォルダへコピーする";
+
+/* Class = "NSButtonCell"; title = "Automatically lookup game information & artwork"; ObjectID = "21"; */
+"21.title" = "ゲーム情報とカバー写真を自動的に検索する";
+
+/* Class = "NSTextFieldCell"; title = "Available Libraries:"; ObjectID = "24"; */
+"24.title" = "利用可能なライブラリ:";
+
+/* Class = "NSTextFieldCell"; title = "Reset all dialog warnings:"; ObjectID = "Ua1-J2-mdy"; */
+"Ua1-J2-mdy.title" = "全てのダイアログ警告をリセットする:";
+
+/* Class = "NSButtonCell"; title = "Reset warnings"; ObjectID = "all-Wd-1Dy"; */
+"all-Wd-1Dy.title" = "警告をリセット";

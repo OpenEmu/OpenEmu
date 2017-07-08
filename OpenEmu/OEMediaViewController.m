@@ -34,8 +34,8 @@
 #import "OEDBSaveState.h"
 #import "OEDBGame.h"
 #import "OEDBRom.h"
-#import "OEDBSystem.h"
-#import "OEDBScreenshot.h"
+#import "OEDBSystem+CoreDataProperties.h"
+#import "OEDBScreenshot+CoreDataProperties.h"
 
 #import "OEROMImporter.h"
 
@@ -49,6 +49,8 @@
 #import "OEHUDAlert+DefaultAlertsAdditions.h"
 
 #import "OpenEmu-Swift.h"
+
+NSString * const OEMediaViewControllerDidSetSelectionIndexesNotification = @"OEMediaViewControllerDidSetSelectionIndexesNotification";
 
 /// Archived URI representations of managed object IDs for selected media.
 static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
@@ -70,7 +72,7 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 @property (strong) NSArray *items;
 @property (strong) NSArray *searchKeys;
 
-@property BOOL saveStateMode;
+@property (readwrite) BOOL saveStateMode;
 
 @property BOOL shouldShowBlankSlate;
 @property (strong) NSPredicate *searchPredicate;
@@ -297,10 +299,24 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     return @[];
 }
 
-- (NSArray*)selectedSaveStates
+- (NSArray <OEDBSaveState *> *)selectedSaveStates
 {
-    NSIndexSet *indices = [self selectionIndexes];
-    return [[self items] objectsAtIndexes:indices];
+    if (!self.saveStateMode) {
+        return @[];
+    }
+    
+    NSIndexSet *indices = self.selectionIndexes;
+    return [self.items objectsAtIndexes:indices];
+}
+
+- (NSArray <OEDBScreenshot *> *)selectedScreenshots {
+    
+    if (self.saveStateMode) {
+        return @[];
+    }
+    
+    NSIndexSet *indices = self.selectionIndexes;
+    return [self.items objectsAtIndexes:indices];
 }
 
 - (NSIndexSet*)selectionIndexes
@@ -313,6 +329,8 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
     [super setSelectionIndexes:selectionIndexes];
     
     [self.gridView setSelectionIndexes:selectionIndexes byExtendingSelection:NO];
+    
+    [NSNotificationCenter.defaultCenter postNotificationName:OEMediaViewControllerDidSetSelectionIndexesNotification object:self];
 }
 
 - (void)imageBrowserSelectionDidChange:(IKImageBrowserView *)aBrowser
@@ -339,19 +357,27 @@ static NSString * const OESelectedMediaKey = @"_OESelectedMediaKey";
 {
     self.currentSearchTerm = self.libraryController.toolbar.searchField.stringValue;
     
-    NSMutableArray *predarray = [NSMutableArray array];
     NSArray *tokens = [self.currentSearchTerm componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
-    for (NSString *token in tokens) {
-        if (token.length > 0) {
-            for (NSString *key in self.searchKeys) {
-                [predarray addObject:[NSPredicate predicateWithFormat:@"%K contains[cd] %@", key, token]];
+    // Create predicates matching all search term tokens (AND) for each search key
+    NSMutableArray *searchKeyPredicates = [NSMutableArray array];
+    for (NSString *key in self.searchKeys) {
+        NSMutableArray *tokenPredicates = [NSMutableArray array];
+        for (NSString *token in tokens) {
+            if (token.length > 0) {
+                [tokenPredicates addObject:[NSPredicate predicateWithFormat:@"%K contains[cd] %@", key, token]];
             }
         }
+        
+        // Note: an AND predicate with no subpredicates is TRUEPREDICATE
+        NSCompoundPredicate *searchKeyPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:tokenPredicates];
+        
+        [searchKeyPredicates addObject:searchKeyPredicate];
     }
 
-    if (predarray.count > 0)
-        _searchPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:predarray];
+    // Combine search key predicates so any of them will match (OR)
+    if (searchKeyPredicates.count > 0)
+        _searchPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:searchKeyPredicates];
     else
         _searchPredicate = [NSPredicate predicateWithValue:YES];
 
@@ -783,7 +809,7 @@ static NSDateFormatter *formatter = nil;
     if([self screenshot])
         return [[self screenshot] writableTypesForPasteboard:pasteboard];
 
-    return nil;
+    return @[];
 }
 
 - (id)pasteboardPropertyListForType:(NSString *)type

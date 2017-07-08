@@ -42,9 +42,9 @@
 
 "Add Cheat" = "Add Cheat";
 
-"Add Cover Art From File…" = "Add Cover Art From File…";
+"Add Cover Art from File…" = "Add Cover Art from File…";
 
-"Add To Collection" = "Add To Collection";
+"Add to Collection" = "Add to Collection";
 
 "All Games" = "All Games";
 
@@ -84,8 +84,6 @@
 
 "Cancel Cover Art Download" = "Cancel Cover Art Download";
 
-"Cancel Operation" = "Cancel Operation";
-
 "Cancel" = "Cancel";
 
 "Change Core" = "Change Core";
@@ -105,8 +103,6 @@
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library.";
 
 "Code:" = "Code:";
-
-"Collapse" = "Collapse";
 
 "Collections" = "Collections";
 
@@ -178,11 +174,11 @@
 
 "Device number %lu, %@, has disconnected." = "Device number %1$lu, %2$@, has disconnected.";
 
+"Disc %u" = "Disc %u";
+
 "Disc-based games have special requirements. Please read the disc importing guide." = "Disc-based games have special requirements. Please read the disc importing guide.";
 
 "Dismiss" = "Dismiss";
-
-"Do it!" = "Do it!";
 
 "Do not ask me again" = "Do not ask me again";
 
@@ -217,8 +213,6 @@
 "Edit Game Controls" = "Edit Game Controls";
 
 "Enable now" = "Enable now";
-
-"Enable Retrode support" = "Enable Retrode support";
 
 "Error!" = "Error!";
 
@@ -313,8 +307,6 @@
 "No" = "No";
 
 "None" = "None";
-
-"Not implemented right now" = "Not implemented right now";
 
 "OK" = "OK";
 
@@ -428,6 +420,8 @@
 
 "Select Core" = "Select Core";
 
+"Select Disc" = "Select Disc";
+
 "Select Filter" = "Select Filter";
 
 "Select Scale" = "Select Scale";
@@ -443,6 +437,8 @@
 "Slot 1" = "Slot 1";
 
 "Some migrations failed to complete properly" = "Some migrations failed to complete properly";
+
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub.";
 
 "Start Scanning" = "Start Scanning";
 
@@ -496,8 +492,6 @@
 
 "Toggle Fullscreen" = "Toggle Fullscreen";
 
-"Toggle Sidebar" = "Toggle Sidebar";
-
 "Trash downloaded Files" = "Trash downloaded Files";
 
 "Unmute Audio" = "Unmute Audio";
@@ -506,11 +500,9 @@
 
 "User guide on BIOS files" = "User guide on BIOS files";
 
-"View Guide In Browser" = "View Guide In Browser";
+"View Guide in Browser" = "View Guide in Browser";
 
 "Warning" = "Warning";
-
-"While performing this operation OpenEmu will be unresponsive." = "While performing this operation OpenEmu will be unresponsive.";
 
 "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves.";
 
@@ -529,6 +521,20 @@
 "Your game finished importing, do you want to play it now?" = "Your game finished importing, do you want to play it now?";
 
 "Your library was moved sucessfully." = "Your library was moved sucessfully.";
+
+"Library" = "Library";
+
+"Save States" = "Save States";
+
+"Screenshots" = "Screenshots";
+
+"Homebrew" = "Homebrew";
+
+"Grid Size" = "Grid Size";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"View Mode" = "View Mode";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"Category" = "Category";   // shown when the corresponding item does not fit in the main window's toolbar
 
 
 /* Secrets */
@@ -570,8 +576,6 @@
 "Can delete save states" = "Can delete save states";
 
 "Show options button" = "Show options button";
-
-"Use gamecore picker" = "Use gamecore picker";
 
 "Show quicksave notification during gameplay" = "Show quicksave notification during gameplay";
 
@@ -627,7 +631,7 @@
 
 "Database Actions" = "Database Actions";
 
-"Delete Artwork that can be downloaded" = "Delete Artwork that can be downloaded";
+"Delete artwork that can be downloaded" = "Delete artwork that can be downloaded";
 
 "Download missing artwork" = "Download missing artwork";
 
@@ -641,4 +645,16 @@
 
 "Perform Sanity Check on Database" = "Perform Sanity Check on Database";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub.";
+"While performing this operation OpenEmu will be unresponsive." = "While performing this operation OpenEmu will be unresponsive.";
+
+"Do it!" = "Do it!";
+
+"Cancel Operation" = "Cancel Operation";
+
+"Delete useless image objects" = "Delete useless image objects";
+
+"Sync games without artwork" = "Sync games without artwork";
+
+"ECM compressed binary detected." = "ECM compressed binary detected.";
+
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";

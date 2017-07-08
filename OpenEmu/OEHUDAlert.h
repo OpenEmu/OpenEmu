@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2017, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -30,67 +30,92 @@
 @class OEHUDAlert;
 @class OEButton;
 @class OETextField;
-typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
+
+NS_ASSUME_NONNULL_BEGIN
+
+typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSModalResponse result);
 
 @interface OEHUDAlert : NSObject
 
-+ (id)alertWithMessageText:(NSString *)msgText defaultButton:(NSString*)defaultButtonLabel alternateButton:(NSString*)alternateButtonLabel;
++ (OEHUDAlert *)alertWithMessageText:(nullable NSString *)msgText
+                       defaultButton:(nullable NSString *)defaultButtonLabel
+                     alternateButton:(nullable NSString *)alternateButtonLabel;
 
 #pragma mark -
-- (NSUInteger)runModal;
+
+- (NSModalResponse)runModal;
 - (void)performBlockInModalSession:(void(^)(void))block;
-- (void)closeWithResult:(NSInteger)res;
+- (void)closeWithResult:(NSInteger)result;
 
-@property (readonly) NSUInteger result;
-@property (strong)   NSWindow  *window;
+@property (readonly) NSModalResponse result;
+@property NSWindow *window;
 
-@property CGFloat height, width;
-@property (readonly, strong) NSView *boxView;
+@property CGFloat height;
+@property CGFloat width;
+@property (readonly) NSView *boxView;
 
 #pragma mark - Buttons
-@property (readonly, strong) OEButton *defaultButton;
-@property (readonly, strong) OEButton *alternateButton;
-@property (readonly, strong) OEButton *otherButton;
 
-@property (readonly, strong) NSTextView *messageTextView;
-@property (readonly, strong) NSTextView *headlineTextView;
+@property (readonly) OEButton *defaultButton;
+@property (readonly) OEButton *alternateButton;
+@property (readonly) OEButton *otherButton;
 
-@property (strong) NSString *stringValue, *otherStringValue, *inputLabelText, *otherInputLabelText;
-@property (strong) NSString *defaultButtonTitle, *alternateButtonTitle, *otherButtonTitle, *title, *messageText, *headlineText;
+@property (readonly) NSTextView *messageTextView;
+@property (readonly) NSTextView *headlineTextView;
 
-#pragma mark -
-#pragma mark Input Field
-@property (readonly, strong) NSTextView *inputLabelView, *otherInputLabelView;
-@property (readonly, strong) OETextField *inputField, *otherInputField;
-@property BOOL showsInputField, showsOtherInputField;
+@property (copy) NSString *stringValue;
+@property (copy) NSString *otherStringValue;
+@property (copy) NSString *inputLabelText;
+@property (copy) NSString *otherInputLabelText;
+@property (copy, null_resettable) NSString *defaultButtonTitle;
+@property (copy, null_resettable) NSString *alternateButtonTitle;
+@property (copy, null_resettable) NSString *otherButtonTitle;
+@property (copy) NSString *title;
+@property (copy, null_resettable) NSString *messageText;
+@property (copy, null_resettable) NSString *headlineText;
+
+#pragma mark - Input Field
+
+@property (readonly) NSTextView *inputLabelView;
+@property (readonly) NSTextView *otherInputLabelView;
+@property (readonly) OETextField *inputField;
+@property (readonly) OETextField *otherInputField;
+@property BOOL showsInputField;
+@property BOOL showsOtherInputField;
 @property NSInteger inputLimit;
 
-#pragma mark -
-#pragma mark Progress Bar
+#pragma mark - Progress Bar
 
 @property BOOL showsProgressbar;
-@property (strong, readonly) OEProgressIndicator *progressbar;
+@property (readonly) OEProgressIndicator *progressbar;
 
 @property double progress;
 
-#pragma mark -
-#pragma mark Button Actions
+#pragma mark - Button Actions
+
 - (void)setDefaultButtonAction:(SEL)sel andTarget:(id)target;
 - (void)setAlternateButtonAction:(SEL)sel andTarget:(id)target;
 - (void)setOtherButtonAction:(SEL)sel andTarget:(id)target;
 - (void)buttonAction:(id)sender;
-#pragma mark -
-#pragma mark Callbacks
+
+#pragma mark - Callbacks
+
 @property (weak) id target;
 @property SEL callback;
 @property (copy) OEAlertCompletionHandler callbackHandler;
 
-#pragma mark -
-#pragma mark Suppression Button
-- (void)showSuppressionButtonForUDKey:(NSString*)key;
+#pragma mark - Suppression Button
+
+- (void)showSuppressionButtonForUDKey:(NSString *)key;
+
 @property BOOL showsSuppressionButton;
-@property (strong, readonly) NSButton *suppressionButton;
-@property BOOL             suppressOnDefaultReturnOnly;  // default is YES meaning that follow up alerts will not be suppressed if the user clicked cancel
+@property (readonly) NSButton *suppressionButton;
+/// Default is YES meaning follow up alerts will not be suppressed if user clicked cancel.
+@property BOOL suppressOnDefaultReturnOnly;
 @property (copy) NSString *suppressionUDKey;
-@property (copy) NSString *suppressionLabelText; // default is "Do not ask me again", can be changed (e.g. if alert is too small)
+/// Default is "Do not ask me again", can be changed (e.g. if alert is too small).
+@property (copy) NSString *suppressionLabelText;
+
 @end
+
+NS_ASSUME_NONNULL_END

@@ -1,0 +1,152 @@
+﻿/*
+ Copyright (c) 2015, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/* Section Title */
+  "Gameplay Buttons" = "Botons del joc";
+  "Special Keys" = "Tecles especials";
+
+/* Group Labels */
+  "Analog" = "Analògic";
+  "C-Pad" = "C-Pad";
+  "C-Stick" = "C-Stick";
+  "D-Pad" = "D-Pad";
+  "Keypad" = "Teclat numèric";
+  "Left Analog" = "Analògic Esquerra";
+  "Left D-Pad" = "D-Pad Esquerra";
+  "Right Analog" = "Analògic Dret";
+  "Right D-Pad" = "D-Pad Dret";
+  "Switches" = "Commutadors";
+
+/* Button Labels */
+  "#" = "#";
+  "*" = "*";
+  "0" = "0";
+  "1" = "1";
+  "2" = "2";
+  "2/6 Mode" = "Mode 2/6";
+  "3" = "3";
+  "4" = "4";
+  "5" = "5";
+  "6" = "6";
+  "7" = "7";
+  "8" = "8";
+  "9" = "9";
+  "A" = "A";
+  "Action" = "Acció";
+  "Analog Mode" = "Mode analògic";
+  "B" = "B";
+  "Bottom Left Action" = "Acció Inferior Esquerra";
+  "Bottom Right Action" = "Acció Inferior Dret";
+  "Button 1" = "Botó 1";
+  "Button 1/Start" = "Botó 1/Start";
+  "Button 2" = "Botó 2";
+  "Button 3" = "Botó 3";
+  "Button 4" = "Botó 4";
+  "Button 5" = "Botó 5";
+  "Button 6" = "Botó 6";
+  "C" = "C";
+  "Change Disk Side" = "Canviar la cara del disc";
+  "Clear" = "Netejar";
+  "Console Pause" = "Pausar la consola";
+  "Console Reset" = "Reiniciar la consola";
+  "Down" = "Avall";
+  "Enter" = "Retorn";
+  "Fire 1" = "Foc 1";
+  "Fire 2" = "Foc 2";
+  "Fire" = "Foc";
+  "Insert Coin" = "Inserir una moneda";
+  "L Diff A" = "L Diff A";
+  "L Diff B" = "L Diff B";
+  "L Diff" = "L Diff";
+  "L" = "L";
+  "L1" = "L1";
+  "L2" = "L2";
+  "L3" = "L3";
+  "Left Action" = "Acció Esquerra";
+  "Left Trigger" = "Disparador Esquerra";
+  "Left" = "Esquerra";
+  "Lid" = "Tapa";
+  "Menu" = "Menú";
+  "Mic" = "Micròfon";
+  "Mode" = "Mode";
+  "Option 1" = "Opció 1";
+  "Option 2" = "Opció 2";
+  "Option" = "Opció";
+  "P" = "P";
+  "Player Start" = "Inicia Jugador";
+  "Power" = "Apaga";
+  "R Diff A" = "R Diff A";
+  "R Diff B" = "R Diff B";
+  "R Diff" = "R Diff";
+  "R" = "R";
+  "R1" = "R1";
+  "R2" = "R2";
+  "R3" = "R3";
+  "Right Action" = "Acció Dret";
+  "Right Trigger" = "Disparador Dret";
+  "Right" = "Dreta";
+  "Run" = "Executa";
+  "Select" = "Select";
+  "Service" = "Servei";
+  "Shake" = "Sacseja";
+  "Sleep" = "Adorm";
+  "Sound" = "So";
+  "Start" = "Start";
+  "TV Black & White" = "Televisió en blanc i negra";
+  "TV Color" = "Televisió en color";
+  "Top Action" = "Acció Superior";
+  "Up" = "Amunt";
+  "X" = "X";
+  "X1 Up" = "X1 Superior";
+  "X2 Right" = "X2 Dret";
+  "X3 Down" = "X3 Inferior";
+  "X4 Left" = "X4 Esquerra";
+  "Y" = "Y";
+  "Y1 Up" = "Y1 Superior";
+  "Y2 Right" = "Y2 Dret";
+  "Y3 Down" = "Y3 Inferior";
+  "Y4 Left" = "Y4 Esquerra";
+  "Z" = "Z";
+  "▢" = "▢";
+  "△" = "△";
+  "◯" = "◯";
+  "✕" = "✕";
+
+/* Special Keys */
+  "Display Mode" = "Mode de visualització";
+  "Fast Forward" = "Avança ràpidament";
+  "Fullscreen" = "Pantalla completa";
+  "Load" = "Carrega";
+  "Mute" = "Silencia";
+  "Pause" = "Pausa";
+  "Quick Load Button" = "Carrega ràpidament";
+  "Quick Save Button" = "Desa ràpidament";
+  "Reset" = "Reinicia";
+  "Rewind" = "Rebobina";
+  "Save" = "Desa";
+  "Screenshot" = "Captura de pantalla";
+  "Volume Down" = "Abaixa el volum";
+  "Volume Up" = "Apuja el volum";

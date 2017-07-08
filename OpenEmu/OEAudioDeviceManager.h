@@ -35,7 +35,7 @@
  */
 @interface OEAudioDeviceManager : NSObject
 
-+ (instancetype)sharedAudioDeviceManager;
+@property(class, readonly) OEAudioDeviceManager *sharedAudioDeviceManager;
 
 @property(readonly) NSArray       *audioDevices;
 @property(readonly) OEAudioDevice *defaultInputDevice;

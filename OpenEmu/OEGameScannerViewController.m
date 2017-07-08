@@ -386,6 +386,11 @@
         [self OE_setupActionsMenu];
         [self showGameScannerViewAnimated:YES];
     }
+    else
+    {
+        if(item.error) NSLog(@"%@", item.error);
+    }
+
     [self OE_updateProgress];
 }
 
@@ -460,7 +465,7 @@
 - (NSString *)tableView:(NSTableView *)tableView toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation
 {
     if(row >= [[self itemsRequiringAttention] count])
-        return nil;
+        return @"";
 
     NSString *columnIdentifier = [tableColumn identifier];
     if([columnIdentifier isEqualToString:@"path"])
@@ -469,7 +474,7 @@
         return [[item sourceURL] path];
     }
 
-    return nil;
+    return @"";
 }
 
 #pragma mark - UI Actions Issues
@@ -564,7 +569,7 @@
         cancelAlert.defaultButtonTitle   = NSLocalizedString(@"Yes", @"");
         cancelAlert.alternateButtonTitle = NSLocalizedString(@"No", @"");
 
-        [sender setState:[sender state] == NSOnState ? NSOffState : NSOnState];
+        [sender setState:[(NSButton *)sender state] == NSOnState ? NSOffState : NSOnState];
         if([cancelAlert runModal] == NSAlertFirstButtonReturn)
         {
             [[self importer] cancel];

@@ -154,7 +154,7 @@ NSString * const OECoverGridViewAutoDownloadEnabledKey = @"OECoverGridViewAutoDo
     return self.displayName;
 }
 
-- (NSString *)imageSubtitle
+- (NSString * _Nullable)imageSubtitle
 {
     return nil;
 }
@@ -399,7 +399,7 @@ NSString * OE_stringFromElapsedTime(NSTimeInterval timeInterval)
     return YES;
 }
 
-- (NSArray *)items
+- (NSArray * _Nullable)items
 {
     return nil;
 }

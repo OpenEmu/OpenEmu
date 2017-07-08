@@ -32,20 +32,9 @@
 
 @implementation OENDSSystemController
 
-- (NSString *)serialLookupForFile:(NSString *)path
+- (NSString *)serialLookupForFile:(__kindof OEFile *)file
 {
-    NSFileHandle *dataFile;
-    NSData *dataBuffer;
-    
-    dataFile = [NSFileHandle fileHandleForReadingAtPath: path];
-    [dataFile seekToFileOffset: 0xC];
-    dataBuffer = [dataFile readDataOfLength: 4];
-    
-    NSString *serial = [[NSString alloc]initWithData:dataBuffer encoding:NSUTF8StringEncoding];
-    
-    [dataFile closeFile];
-    
-    return serial;
+    return [file readASCIIStringInRange:NSMakeRange(0xC, 4)];
 }
 
 @end

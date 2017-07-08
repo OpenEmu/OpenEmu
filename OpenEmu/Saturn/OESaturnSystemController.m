@@ -30,44 +30,27 @@
 
 @implementation OESaturnSystemController
 
-- (NSString*)systemName
+- (NSString *)systemName
 {
     return @"Sega Saturn";
 }
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-    NSString *dataTrack = [cueSheet dataTrackPath];
+    if (![file isKindOfClass:[OECDSheet class]])
+        return OEFileSupportNo;
 
-    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
-    NSLog(@"Saturn data track path: %@", dataTrackPath);
+    NSString *dataTrackString = [file readASCIIStringInRange:NSMakeRange(0, 16)];
+    NSLog(@"'%@'", dataTrackString);
+    if ([dataTrackString isEqualToString:@"SEGA SEGASATURN "])
+        return OEFileSupportYes;
 
-    BOOL handleFileExtension = [super canHandleFileExtension:[path pathExtension]];
-    OECanHandleState canHandleFile = OECanHandleNo;
+    NSString *otherDataTrackString = [file readASCIIStringInRange:NSMakeRange(0x10, 16)];
+    NSLog(@"'%@'", otherDataTrackString);
+    if([otherDataTrackString isEqualToString:@"SEGA SEGASATURN "])
+        return OEFileSupportYes;
 
-    if(handleFileExtension)
-    {
-        NSFileHandle *dataTrackFile;
-        NSData *dataTrackBuffer, *otherDataTrackBuffer;
-
-        dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
-        [dataTrackFile seekToFileOffset: 0x0];
-        dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-        [dataTrackFile seekToFileOffset: 0x010];
-        otherDataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-
-        NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
-        NSLog(@"'%@'", dataTrackString);
-        NSLog(@"'%@'", otherDataTrackString);
-        
-        if([dataTrackString isEqualToString:@"SEGA SEGASATURN "] || [otherDataTrackString isEqualToString:@"SEGA SEGASATURN "])
-            canHandleFile = OECanHandleYes;
-
-        [dataTrackFile closeFile];
-    }
-    return canHandleFile;
+    return OEFileSupportNo;
 }
 
 - (NSImage*)systemIcon
@@ -87,38 +70,24 @@
     return image;
 }
 
-- (NSString *)headerLookupForFile:(NSString *)path
+- (NSString *)headerLookupForFile:(__kindof OEFile *)file
 {
-    // Path is a cuesheet so get the first data track from the file for reading
-    OECUESheet *cueSheet = [[OECUESheet alloc] initWithPath:path];
-    NSString *dataTrack = [cueSheet dataTrackPath];
-    NSString *dataTrackPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:dataTrack];
-    
-    NSFileHandle *dataTrackFile;
-    NSData *dataTrackBuffer, *otherDataTrackBuffer, *headerDataTrackBuffer;
-    
+    if (![file isKindOfClass:[OECDSheet class]])
+        return nil;
+
     // Read both offsets because of various dumps
-    dataTrackFile = [NSFileHandle fileHandleForReadingAtPath: dataTrackPath];
-    [dataTrackFile seekToFileOffset: 0x0];
-    dataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-    [dataTrackFile seekToFileOffset: 0x010];
-    otherDataTrackBuffer = [dataTrackFile readDataOfLength: 16];
-    
-    NSString *dataTrackString = [[NSString alloc]initWithData:dataTrackBuffer encoding:NSUTF8StringEncoding];
-    NSString *otherDataTrackString = [[NSString alloc]initWithData:otherDataTrackBuffer encoding:NSUTF8StringEncoding];
-    
+    NSString *dataTrackString = [file readASCIIStringInRange:NSMakeRange(0, 16)];
+    NSString *otherDataTrackString = [file readASCIIStringInRange:NSMakeRange(0x10, 16)];
+
     unsigned long long offsetFound;
     
     // Find which offset contains the 256-byte header
     if([dataTrackString isEqualToString:@"SEGA SEGASATURN "]) offsetFound = 0x0;
-    if([otherDataTrackString isEqualToString:@"SEGA SEGASATURN "]) offsetFound = 0x010;
+    if([otherDataTrackString isEqualToString:@"SEGA SEGASATURN "]) offsetFound = 0x10;
     
     // Read the full header at the offset found
-    [dataTrackFile seekToFileOffset: offsetFound];
-    headerDataTrackBuffer = [dataTrackFile readDataOfLength: 256];
-    
-    [dataTrackFile closeFile];
-    
+    NSData *headerDataTrackBuffer = [file readDataInRange:NSMakeRange(offsetFound, 256)];
+
     // Format the hexadecimal representation and return
     NSString *buffer = [[headerDataTrackBuffer description] uppercaseString];
     NSString *hex = [[buffer componentsSeparatedByCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]] componentsJoinedByString:@""];

@@ -43,11 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @dynamic URL;
 
-// Data Model Properties
-@dynamic location, favorite, crc32, md5, lastPlayed, fileSize, playCount, playTime, archiveFileIndex, header, serial, fileName, source;
-
 // Data Model Relationships
-@dynamic game, saveStates, tosec;
+@dynamic tosec;
 
 #pragma mark -
 
@@ -347,30 +344,8 @@ NS_ASSUME_NONNULL_BEGIN
 
         if(count == 1)
         {
-            NSString *path = url.path;
-            NSURL *baseURL = [NSURL fileURLWithPath:path.stringByDeletingLastPathComponent isDirectory:YES];
-            NSMutableArray *fileNames = @[ path.lastPathComponent ].mutableCopy;
-
-            if([[path.pathExtension lowercaseString] isEqualToString:@"cue"])
-            {
-                OECUESheet *sheet = [[OECUESheet alloc] initWithPath:path];
-                NSArray *additionalFileNames = sheet.referencedFileNames;
-                [fileNames addObjectsFromArray:additionalFileNames];
-            }
-            else if([path.pathExtension.lowercaseString isEqualToString:@"ccd"])
-            {
-                OECloneCD *ccd = [[OECloneCD alloc] initWithURL:url];
-                NSArray *additionalFileNames = ccd.referencedFileNames;
-                [fileNames addObjectsFromArray:additionalFileNames];
-            }
-
-            for(int i=0; i < [fileNames count]; i++){
-                NSString *fileName = fileNames[i];
-                NSURL *url = [NSURL fileURLWithPath:fileName isDirectory:NO relativeToURL:baseURL];
-                [fileNames replaceObjectAtIndex:i withObject:url];
-            }
-
-            [[NSWorkspace sharedWorkspace] recycleURLs:fileNames completionHandler:^(NSDictionary<NSURL *,NSURL *> * _Nonnull newURLs, NSError * _Nullable error) {}];
+            OEFile *file = [OEFile fileWithURL:url error:nil];
+            [[NSWorkspace sharedWorkspace] recycleURLs:file.allFileURLs completionHandler:nil];
         } else DLog(@"Keeping file, other roms depent on it!");
     }
 

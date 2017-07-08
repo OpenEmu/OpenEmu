@@ -25,7 +25,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OESystemController</string>
+	<string>OEArcadeSystemController</string>
 	<key>OEControlListKey</key>
 	<array>
 		<array>
@@ -143,6 +143,8 @@
 		<string>zip</string>
 		<string>7z</string>
 		<string>chd</string>
+		<string>bin</string>
+		<string>rom</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>

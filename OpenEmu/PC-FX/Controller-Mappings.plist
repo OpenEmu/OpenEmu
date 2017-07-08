@@ -330,32 +330,53 @@
 		<key>OEPCFXButtonSelect</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonShare</string>
 	</dict>
-	<key>OEControllerSteelSeriesWireless</key>
+	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
 		<key>OEPCFXButtonUp</key>
-		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadUp</string>
 		<key>OEPCFXButtonDown</key>
-		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadDown</string>
 		<key>OEPCFXButtonLeft</key>
-		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadLeft</string>
 		<key>OEPCFXButtonRight</key>
-		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadRight</string>
 		<key>OEPCFXButton3</key>
-		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonX</string>
 		<key>OEPCFXButton2</key>
-		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonY</string>
 		<key>OEPCFXButton1</key>
-		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonB</string>
 		<key>OEPCFXButton4</key>
-		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 		<key>OEPCFXButton5</key>
-		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
 		<key>OEPCFXButton6</key>
-		<string>OEControllerSteelSeriesWirelessButtonR2</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonR2</string>
 		<key>OEPCFXButtonRun</key>
-		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
 		<key>OEPCFXButtonSelect</key>
-		<string>OEControllerSteelSeriesWirelessButtonL2</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL2</string>
+	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEPCFXButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEPCFXButton1</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OEPCFXButton2</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OEPCFXButton3</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEPCFXButton4</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEPCFXButton5</key>
+		<string>OEControllerNintendoSwitchProControllerButtonL</string>
+		<key>OEPCFXButton6</key>
+		<string>OEControllerNintendoSwitchProControllerButtonR</string>
+		<key>OEPCFXButtonRun</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OEPCFXButtonSelect</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
 	</dict>
 </dict>
 </plist>

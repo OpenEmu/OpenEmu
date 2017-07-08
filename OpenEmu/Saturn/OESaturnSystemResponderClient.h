@@ -43,11 +43,19 @@ typedef enum _OESaturnButton
     OESaturnButtonL,
     OESaturnButtonR,
     OESaturnButtonStart,
+    OESaturnButtonAnalogMode,
+    OESaturnLeftAnalogUp,
+    OESaturnLeftAnalogDown,
+    OESaturnLeftAnalogLeft,
+    OESaturnLeftAnalogRight,
+    OESaturnAnalogL,
+    OESaturnAnalogR,
 	OESaturnButtonCount
 } OESaturnButton;
 
 @protocol OESaturnSystemResponderClient <OESystemResponderClient, NSObject>
 
+- (oneway void)didMoveSaturnJoystickDirection:(OESaturnButton)button withValue:(CGFloat)value forPlayer:(NSUInteger)player;
 - (oneway void)didPushSaturnButton:(OESaturnButton)button forPlayer:(NSUInteger)player;
 - (oneway void)didReleaseSaturnButton:(OESaturnButton)button forPlayer:(NSUInteger)player;
 

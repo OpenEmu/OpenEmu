@@ -76,21 +76,11 @@ extern NSString *const OESaveStateUseQuickSaveSlotsKey;
 
 #pragma mark - Data Model Properties
 
-@property (nonatomic, retain, nullable)           NSString *name;
-@property (nonatomic, retain, nullable)           NSString *userDescription;
-@property (nonatomic, retain)           NSDate   *timestamp;
-@property (nonatomic, retain)           NSString *coreIdentifier;
-@property (nonatomic, retain, nullable)           NSString *coreVersion;
-
 @property (nonatomic, retain, readonly, nullable) NSString *systemIdentifier;
 @property (nonatomic, retain, nullable)           NSString *location;
 @property (nonatomic, retain)           NSURL    *URL;
 @property (nonatomic, retain, readonly) NSURL    *screenshotURL;
 @property (nonatomic, retain, readonly) NSURL    *dataFileURL;
-
-#pragma mark - Data Model Relationships
-
-@property (nonatomic, retain) OEDBRom *rom;
 
 @end
 

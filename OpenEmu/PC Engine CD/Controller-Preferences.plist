@@ -3,27 +3,27 @@
 <plist version="1.0">
 <dict>
 	<key>OEControllerImageKey</key>
-	<string>controller_pcecd</string>
+	<string>controller_tg16cd</string>
 	<key>OEControllerImageMaskKey</key>
-	<string>controller_pcecd_mask</string>
+	<string>controller_tg16cd_mask</string>
 	<key>OEControllerKeyPositionKey</key>
 	<dict>
 		<key>OEPCECDButtonUp</key>
-		<string>{115, 220}</string>
+		<string>{102, 230}</string>
 		<key>OEPCECDButtonDown</key>
-		<string>{115, 170}</string>
+		<string>{102, 190}</string>
 		<key>OEPCECDButtonLeft</key>
-		<string>{90, 195}</string>
+		<string>{80, 210}</string>
 		<key>OEPCECDButtonRight</key>
-		<string>{140, 195}</string>
+		<string>{130, 210}</string>
 		<key>OEPCECDButtonRun</key>
-		<string>{275, 170}</string>
+		<string>{275, 190}</string>
 		<key>OEPCECDButtonSelect</key>
-		<string>{230, 170}</string>
+		<string>{225, 190}</string>
 		<key>OEPCECDButton1</key>
-		<string>{390, 180}</string>
+		<string>{407, 190}</string>
 		<key>OEPCECDButton2</key>
-		<string>{345, 180}</string>
+		<string>{357, 190}</string>
 		<key>OEPCECDButton3</key>
 		<string>{0, 0}</string>
 		<key>OEPCECDButton4</key>

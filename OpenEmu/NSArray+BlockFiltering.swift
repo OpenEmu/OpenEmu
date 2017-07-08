@@ -28,18 +28,18 @@ import Foundation
 
 public extension NSArray {
     
-    func firstObjectMatchingBlock(block: (AnyObject) -> Bool) -> AnyObject? {
+    func firstObjectMatchingBlock(_ block: (AnyObject) -> Bool) -> AnyObject? {
         for element in self {
-            if block(element) {
-                return element
+            if block(element as AnyObject) {
+                return element as AnyObject?
             }
         }
         return nil
     }
     
-    func arrayByEvaluatingBlock(block: (AnyObject, UInt) -> AnyObject?) -> [AnyObject] {
-        return enumerate().flatMap { index, element in
-            return block(element, UInt(index))
+    func arrayByEvaluatingBlock(_ block: @escaping (AnyObject, UInt) -> AnyObject?) -> [AnyObject] {
+        return enumerated().flatMap { index, element in
+            return block(element as AnyObject, UInt(index))
         }
     }
 }

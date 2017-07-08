@@ -60,4 +60,12 @@
     return image;
 }
 
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
+{
+    if(![file.fileExtension isEqualToString:@"bin"])
+        return OEFileSupportUncertain;
+
+    return file.fileSize < 2097152 ? OEFileSupportUncertain : OEFileSupportNo;
+}
+
 @end

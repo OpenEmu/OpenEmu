@@ -12,6 +12,10 @@
 		<string>OEControllerMicrosoftXbox360DPadLeft</string>
 		<key>OESaturnButtonRight</key>
 		<string>OEControllerMicrosoftXbox360DPadRight</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>OEControllerMicrosoftXbox360LeftAnalogUp</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>OEControllerMicrosoftXbox360LeftAnalogLeft</string>
 		<key>OESaturnButtonA</key>
 		<string>OEControllerMicrosoftXbox360ButtonX</string>
 		<key>OESaturnButtonB</key>
@@ -30,6 +34,8 @@
 		<string>OEControllerMicrosoftXbox360ButtonRightTrigger</string>
 		<key>OESaturnButtonStart</key>
 		<string>OEControllerMicrosoftXbox360ButtonStart</string>
+		<key>OESaturnButtonAnalogMode</key>
+		<string>OEControllerMicrosoftXbox360ButtonHome</string>
 	</dict>
 	<key>OEControllerSonyPS3Sixaxis</key>
 	<dict>
@@ -41,6 +47,10 @@
 		<string>OEControllerSonyPS3SixaxisDPadLeft</string>
 		<key>OESaturnButtonRight</key>
 		<string>OEControllerSonyPS3SixaxisDPadRight</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>OEControllerSonyPS3SixaxisLeftAnalogUp</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>OEControllerSonyPS3SixaxisLeftAnalogLeft</string>
 		<key>OESaturnButtonA</key>
 		<string>OEControllerSonyPS3SixaxisButtonSquare</string>
 		<key>OESaturnButtonB</key>
@@ -59,11 +69,17 @@
 		<string>OEControllerSonyPS3SixaxisButtonR2</string>
 		<key>OESaturnButtonStart</key>
 		<string>OEControllerSonyPS3SixaxisButtonStart</string>
+		<key>OESaturnButtonAnalogMode</key>
+		<string>OEControllerSonyPS3SixaxisButtonHome</string>
 	</dict>
 	<key>OEControllerLogitechDualAction</key>
 	<dict>
 		<key>OESaturnButtonUp</key>
 		<string>OEControllerLogitechDualActionDPadUp</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>OEControllerLogitechDualActionLeftAnalogUp</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>OEControllerLogitechDualActionLeftAnalogLeft</string>
 		<key>OESaturnButtonA</key>
 		<string>OEControllerLogitechDualActionButton1</string>
 		<key>OESaturnButtonB</key>
@@ -176,6 +192,8 @@
 		<string>OEControllerPS3NeoGeoPadButtonR2</string>
 		<key>OESaturnButtonStart</key>
 		<string>OEControllerPS3NeoGeoPadButtonStart</string>
+		<key>OESaturnButtonAnalogMode</key>
+		<string>OEControllerPS3NeoGeoPadButtonHome</string>
 	</dict>
 	<key>OEControllerRetrode</key>
 	<dict>
@@ -223,6 +241,10 @@
 	<dict>
 		<key>OESaturnButtonUp</key>
 		<string>OEControllerRetrolinkN64DPadUp</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>OEControllerRetrolinkN64AnalogUp</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>OEControllerRetrolinkN64AnalogLeft</string>
 		<key>OESaturnButtonA</key>
 		<string>OEControllerRetrolinkN64ButtonA</string>
 		<key>OESaturnButtonB</key>
@@ -252,6 +274,10 @@
 		<string>OEControllerAdaptoidN64DPadLeft</string>
 		<key>OESaturnButtonRight</key>
 		<string>OEControllerAdaptoidN64DPadRight</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>OEControllerAdaptoidN64AnalogUp</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>OEControllerAdaptoidN64AnalogLeft</string>
 		<key>OESaturnButtonA</key>
 		<string>OEControllerAdaptoidN64ButtonA</string>
 		<key>OESaturnButtonB</key>
@@ -300,6 +326,10 @@
 		<string>OEControllerNintendoWiiUProControllerDPadLeft</string>
 		<key>OESaturnButtonRight</key>
 		<string>OEControllerNintendoWiiUProControllerDPadRight</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>OEControllerNintendoWiiUProControllerLeftAnalogUp</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>OEControllerNintendoWiiUProControllerLeftAnalogLeft</string>
 		<key>OESaturnButtonA</key>
 		<string>OEControllerNintendoWiiUProControllerButtonY</string>
 		<key>OESaturnButtonB</key>
@@ -318,11 +348,17 @@
 		<string>OEControllerNintendoWiiUProControllerButtonZR</string>
 		<key>OESaturnButtonStart</key>
 		<string>OEControllerNintendoWiiUProControllerButtonPlus</string>
+		<key>OESaturnButtonAnalogMode</key>
+		<string>OEControllerNintendoWiiUProControllerButtonHome</string>
 	</dict>
 	<key>OEControllerSonyPS4Dualshock4</key>
 	<dict>
 		<key>OESaturnButtonUp</key>
 		<string>OEControllerSonyPS4Dualshock4DPadUp</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>OEControllerSonyPS4Dualshock4LeftAnalogUp</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>OEControllerSonyPS4Dualshock4LeftAnalogLeft</string>
 		<key>OESaturnButtonA</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
 		<key>OESaturnButtonB</key>
@@ -341,35 +377,70 @@
 		<string>OEControllerSonyPS4Dualshock4ButtonR2</string>
 		<key>OESaturnButtonStart</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
+		<key>OESaturnButtonAnalogMode</key>
+		<string>OEControllerSonyPS4Dualshock4ButtonHome</string>
 	</dict>
-	<key>OEControllerSteelSeriesWireless</key>
+	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
 		<key>OESaturnButtonUp</key>
-		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadUp</string>
 		<key>OESaturnButtonDown</key>
-		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadDown</string>
 		<key>OESaturnButtonLeft</key>
-		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadLeft</string>
 		<key>OESaturnButtonRight</key>
-		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadRight</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>OEControllerGCExtendedGamepadProfileLeftAnalogUp</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>OEControllerGCExtendedGamepadProfileLeftAnalogLeft</string>
 		<key>OESaturnButtonA</key>
-		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonX</string>
 		<key>OESaturnButtonB</key>
-		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 		<key>OESaturnButtonC</key>
-		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonB</string>
 		<key>OESaturnButtonX</key>
-		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonY</string>
 		<key>OESaturnButtonY</key>
-		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
 		<key>OESaturnButtonZ</key>
-		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonR1</string>
 		<key>OESaturnButtonL</key>
-		<string>OEControllerSteelSeriesWirelessButtonL2</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL2</string>
 		<key>OESaturnButtonR</key>
-		<string>OEControllerSteelSeriesWirelessButtonR2</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonR2</string>
 		<key>OESaturnButtonStart</key>
-		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
+	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OESaturnButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>OEControllerNintendoSwitchProControllerLeftAnalogUp</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>OEControllerNintendoSwitchProControllerLeftAnalogLeft</string>
+		<key>OESaturnButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OESaturnButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OESaturnButtonC</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OESaturnButtonX</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OESaturnButtonY</key>
+		<string>OEControllerNintendoSwitchProControllerButtonL</string>
+		<key>OESaturnButtonZ</key>
+		<string>OEControllerNintendoSwitchProControllerButtonR</string>
+		<key>OESaturnButtonL</key>
+		<string>OEControllerNintendoSwitchProControllerButtonZL</string>
+		<key>OESaturnButtonR</key>
+		<string>OEControllerNintendoSwitchProControllerButtonZR</string>
+		<key>OESaturnButtonStart</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OESaturnButtonAnalogMode</key>
+		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
 	</dict>
 </dict>
 </plist>

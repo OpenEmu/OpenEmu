@@ -1,0 +1,660 @@
+/*
+ Copyright (c) 2015, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+"%@ copy" = "Còpia de %@";
+
+"%@ could not be enabled because its plugin was not found." = "No s'ha pogut habilitar %@ perquè no s'ha trobat el seu connector.";
+
+"%@ games will appear here. Check out %@ on how to add disc-based games." = "Els jocs de %@ apareixaran aquí. Per afegir jocs basats en disc veieu %@.";
+
+"%@ games you add to OpenEmu will appear in this Console Library" = "Els jocs de %@ que afegiu a l'OpenEmu apareixeran en aquesta biblioteca";
+
+"%ux" = "%ux";
+
+"A version of this plugin is already loaded" = "Ja s'ha carregat una versió d'aquest connector";
+
+"Add a Wiimote…" = "Afegeix un Wiimote…";
+
+"Add Cheat…" = "Afegeix un truc…";
+
+"Add Cheat" = "Afegeix un truc";
+
+"Add Cover Art from File…" = "Afegeix la caràtula a partir d'un fitxer…";
+
+"Add to Collection" = "Afegeix a la col·lecció";
+
+"All Games" = "Tots els jocs";
+
+"All Homebrew" = "Tots els homebrew";
+
+"Are you sure you want to delete %ld save games from your OpenEmu library?" = "Esteu segur que voleu esborrar %ld partides desades de la biblioteca de l'OpenEmu?";
+
+"Are you sure you want to delete %ld screenshots from your OpenEmu library?" = "Esteu segur que voleu esborrar %ld captures de pantalla de la biblioteca de l'OpenEmu?";
+
+"Are you sure you want to delete the save game called '%@' from your OpenEmu library?" = "Esteu segur que voleu esborrar la partida desada anomenada '%@' de la biblioteca de l'OpenEmu?";
+
+"Are you sure you want to delete the screenshot called '%@' from your OpenEmu library?" = "Esteu segur que voleu esborrar la captura de pantalla anomenada '%@' de la biblioteca de l'OpenEmu?";
+
+"Are you sure you want to delete the selected game from your OpenEmu library?" = "Esteu segur que voleu esborrar el joc seleccionat de la biblioteca de l'OpenEmu?";
+
+"Are you sure you want to delete the selected games from your OpenEmu library?" = "Esteu segur que voleu esborrar el jocs seleccionats de la biblioteca de l'OpenEmu?";
+
+"Are you sure you want to quit the application?" = "Esteu segur que voleu sortir de l'aplicació?";
+
+"Are you sure you want to remove the selected games from the collection?" = "Esteu segur que voleu esborrar els jocs seleccionats de la col·lecció?";
+
+"Are you sure you want to remove this collection?" = "Esteu segur que voleu esborrar aquesta col·lecció?";
+
+"Are you sure you want to reset the console?" = "Esteu segur que voleu reiniciar la consola?";
+
+"Are you sure you want to stop emulation?" = "Esteu segur que voleu aturar l'emulació?";
+
+"At least one System must be enabled" = "Com a mínim un sistema ha d'estar habilitat";
+
+"Auto Save State" = "Partida desada automàticament";
+
+"Automatically Import" = "Importa automàticament";
+
+"Bluetooth must be enabled to pair a Wii controller." = "Per a aparellar un controlador de la Wii el Bluetooth ha d'estar habilitat.";
+
+"Bluetooth Not Enabled" = "El Bluetooth no està habilitat";
+
+"Cancel Cover Art Download" = "Cancel·la la baixada de les caràtules";
+
+"Cancel" = "Cancel·la";
+
+"Change Core" = "Canvia el nucli";
+
+"Change Volume" = "Canvia el volum";
+
+"Cheat Description" = "Descripció del truc";
+
+"Check out some excellent homebrew games." = "Proveu alguns jocs homebrew excel·lents.";
+
+"Choose a valid file." = "Seleccioneu un fitxer vàlid.";
+
+"Choose Library…" = "Trieu la biblioteca…";
+
+"Choose OpenEmu Library" = "Trieu una biblioteca de l'OpenEmu";
+
+"Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Trieu Sí per a esborrar tots els elements de la cua. Els elements que ja s'han importat es conservaran a la biblioteca.";
+
+"Code:" = "Codi:";
+
+"Collections" = "Col·leccions";
+
+"Consoles" = "Consoles";
+
+"Consolidate Files…" = "Consolida els fitxers…";
+
+"Consolidate" = "Consolida";
+
+"Consolidating will copy all of the selected games into the OpenEmu Library folder.\n\nThis cannot be undone." = "El procés de consolidació copiarà tots els jocs seleccionats a la carpeta de la biblioteca de l'OpenEmu.\n\nAixò no es pot desfer.";
+
+"Controls" = "Controls";
+
+"Copying artwork failed!" = "La còpia de les imatges ha fallat.";
+
+"Copying Artwork Files…" = "S'estan copiant les imatges…";
+
+"Copying Game Files…" = "S'estan copiant els jocs…";
+
+"Copying ROM Files…" = "S'estan copiant els fitxers ROM…";
+
+"Core Provided By…" = "Nucli proveït per…";
+
+"Cores" = "Nuclis";
+
+"Could not move complete library! %ld roms were moved" = "No s'ha pogut moure la biblioteca completa. S'ha mogut %ld fitxers ROM";
+
+"Could not move library data!" = "No s'ha pogut moure les dades de la biblioteca.";
+
+"Couldn't connect to the background process." = "No s'ha pogut connectar amb el procés en segon pla.";
+
+"Couldn't load %@ plugin" = "No s'ha pogut carregar el connector %@";
+
+"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Creeu una selecció personal de jocs. Per a afegir un joc a la col·lecció, seleccioneu-lo de la biblioteca i arrossegueu-lo a ’%@’ a l'esquerra.";
+
+"Create Library…" = "Crea una biblioteca…";
+
+"Create or Load Save State" = "Crea o carrega una partida desada";
+
+"Create your personal collection of screenshots. To take a screenshot, you can use the keyboard shortcut ⌘ + T while playing a game." = "Creeu una col·lecció personal de captures de pantalla. Per a fer una captura de pantalla podeu utilitzar la drecera de teclat ⌘ + T mentre jugueu.";
+
+"Default Core" = "Nucli per defecte";
+
+"Delete Collection" = "Esborra la col·lecció";
+
+"Delete Game" = "Esborra el joc";
+
+"Delete Games" = "Esborra els jocs";
+
+"Delete Save State" = "Esborra la partida desada";
+
+"Delete Save States" = "Esborra les partides desades";
+
+"Delete Save" = "Esborra la partida";
+
+"Delete Saves" = "Esborra les partides";
+
+"Delete Screenshot" = "Esborra la captura de pantalla";
+
+"Delete Screenshots" = "Esborra les captures de pantalla";
+
+"Delete" = "Esborra";
+
+"Description" = "Descripció"; // Search field menu, only search description
+
+"Deselect All" = "Desselecciona-ho tot";
+
+"Device Disconnected" = "S'ha desconnectat el dispositiu";
+
+"Device number %lu, %@, has disconnected." = "S'ha desconnectat el dispositiu número %lu, %@.";
+
+"Disc %u" = "Disc %u";
+
+"Disc-based games have special requirements. Please read the disc importing guide." = "Els jocs basats en disc tenen requeriments especials. Llegiu la guia d'importació de discs.";
+
+"Dismiss" = "Descarta";
+
+"Do not ask me again" = "No m'ho tornis a dir";
+
+"Do Not Save" = "No ho desis";
+
+"Do not show me again" = "No m'ho tornis a mostrar";
+
+"Do you really want to cancel the import process?" = "Segur que voleu cancel·lar el procés d'importació?";
+
+"Do you want to continue playing where you left off?" = "Voleu continuar la partida on la vau deixar?";
+
+"Don't Import Selected" = "No importis els seleccionats";
+
+"Done" = "Fet";
+
+"Download Cover Art" = "Baixa la caràtula";
+
+"Download" = "Baixa";
+
+"Downloading %@…" = "S'està baixant %@…";
+
+"Downloading and Installing Core…" = "S'està baixant i instal·lant el nucli…";
+
+"Downloading Game DB" = "S'està baixant la base de dades de jocs";
+
+"Drag & Drop Games Here" = "Arrossegueu i deixeu anar aquí els jocs";
+
+"Drag & Drop Save States Here" = "Arrossegueu i deixeu anar les partides";
+
+"Duplicate Collection" = "Duplica la col·lecció";
+
+"Edit Game Controls" = "Edita els controls del joc";
+
+"Enable now" = "Habilita ara";
+
+"Error!" = "S'ha produït un error.";
+
+"Everything" = "Tots"; // Search field menu, search everything item title
+
+"Featured Games" = "Jocs destacats";
+
+"Fetching Games…" = "S'estan obtenint els jocs…";
+
+"Filter by:" = "Filtra per:"; // Search field menu, first item, instructional
+
+"Game %ld of %ld" = "Joc %1$ld de %2$ld";
+
+"Game Name" = "Nom del joc"; // Search field menu, only search game name
+
+"Game requires download" = "Es necessita baixar el joc";
+
+"Game Scanner" = "Escàner de jocs";
+
+"Gameplay" = "Joc";
+
+"Have you read the guide?" = "Heu llegit la guia?";
+
+"Hide \"%@\"" = "Amaga \"%@\"";
+
+"Homebrew Games" = "Jocs Homebrew";
+
+"If there is a red button on the back battery cover, press it.\nIf not, hold down buttons ①+②." = "Si hi ha un botó vermell al darrere de la tapa de la bateria, premeu-lo.\nSi no, manteniu premuts els botons ①+②.";
+
+"If you change the core you current progress will be lost and save states will not work anymore." = "Si canvieu el nucli el progrés es perdrà i les partides desades deixaran de funcionar.";
+
+"In order to emulate some systems, BIOS files are needed due to increasing complexity of the hardware and software of modern gaming consoles. Please read our %@ for more information." = "Per poder emular alguns sistemes, es necessiten els fitxers del BIOS a causa de la complexitat creixent del maquinari i programari de les consoles modernes. Per a més informació, llegiu la %@.";
+
+"In order to play the game it must be downloaded." = "Per poder jugar al joc primer s'ha de baixar.";
+
+"Install" = "Instal·la";
+
+"Installing Core" = "S'està instal·lant el nucli";
+
+"Join multi-line cheats with '+' e.g. 000-000+111-111" = "Uneix els trucs multilínia amb '+' p. ex. 000-000+111-111";
+
+"Keep Files" = "Conserva els fitxers";
+
+"Keyboard" = "Teclat";
+
+"Learn More" = "Més informació";
+
+"Library" = "Biblioteca";
+
+"Load" = "Carrega";
+
+"Locate '%@'" = "Troba '%@'";
+
+"Locate" = "Troba";
+
+"Low Controller Battery" = "La càrrega de la bateria del controlador és baixa";
+
+"Make sure your internet connection is active and download a suitable core." = "Assegureu-vos que la connexió a Internet està activada i baixeu un nucli adequat.";
+
+"Make your Wiimote discoverable" = "Feu que el Wiimote sigui detectable";
+
+"Missing Core" = "Falta el nucli";
+
+"Move selected game to Trash, or keep it in the Library folder?" = "Voleu moure el joc seleccionat a la paperera, o conservar-lo a la carpeta de la biblioteca?";
+
+"Move selected games to Trash, or keep them in the Library folder?" = "Voleu moure els jocs seleccionats a la paperera, o conservar-los a la carpeta de la biblioteca?";
+
+"Move to Trash" = "Mou a la paperera";
+
+"Mute Audio" = "Silencia el so";
+
+"Name" = "Nom"; // Search field menu, only search names
+
+"New Collection from Selection" = "Nova col·lecció de la selecció";
+
+"New Collection" = "Nova col·lecció";
+
+"New Folder" = "Nova carpeta";
+
+"New Smart Collection" = "Nova col·lecció intel·ligent";
+
+"No available controllers" = "No hi ha cap controlador disponible";
+
+"No game played yet!" = "Encara no heu jugat a cap joc";
+
+"No Internet Connection" = "No hi ha connexió a Internet";
+
+"No Save States available" = "No hi ha cap partida desada disponible";
+
+"No Screenshots Found" = "No s'ha trobat cap captura de pantalla";
+
+"No" = "No";
+
+"None" = "Cap";
+
+"OK" = "D'acord";
+
+"Only files in the OpenEmu Library folder will be moved to the Trash." = "Només es mouran a la paperera els fitxers de la carpeta de la biblioteca de l'OpenEmu.";
+
+"Open Collection" = "Obre la col·lecció";
+
+"Open Library" = "Obre la biblioteca";
+
+"OpenEmu could not find a Core to launch the game" = "L'OpenEmu no ha trobat el nucli per executar el joc";
+
+"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off." = "L'OpenEmu inclou una funcionalitat que us permet continuar la partida exactament on la vau deixar.";
+
+"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one" = "L'OpenEmu necessita una biblioteca per continuar. Podeu triar una biblioteca existent o crear-ne una de nova";
+
+"OpenEmu uses 'Cores' to emulate games. You need the %@ Core to play %@" = "L'OpenEmu utilitza 'nuclis' per emular els jocs. Necessiteu el nucli %1$@ per jugar a %2$@";
+
+"OpenEmu will save and quit all games that are currently running." = "L'OpenEmu guardarà i tancarà tots els jocs que s'estan executant.";
+
+"Options" = "Opcions";
+
+"Pause Emulation" = "Pausa l'emulació";
+
+"Pause Gameplay" = "Pausa la partida";
+
+"Play Game" = "Inicia el joc";
+
+"Play Games (Caution)" = "Inicia els jocs (Precaució)";
+
+"Play Save Games" = "Continua la partida desada";
+
+"Play Save State" = "Continua la partida desada";
+
+"Player %ld" = "Jugador %ld";
+
+"Please close all games and wait for the importer to finish." = "Tanqueu tots els jocs i espereu que l'importador acabi.";
+
+"Quick Load" = "Carrega ràpidament";
+
+"Quick Save State" = "Desa ràpidament";
+
+"Quick Save, Slot %@" = "Desa ràpidament, espai %@";
+
+"Quick Save" = "Desa ràpidament";
+
+"Quit" = "Surt";
+
+"Rating" = "Valoració";
+
+"Recently Added" = "Afegits recentment";
+
+"Recovered Auto Save" = "Partida desada automàticament recuperada";
+
+"Remove" = "Suprimeix";
+
+"Rename \"%@\"" = "Canvia el nom de \"%@\"";
+
+"Rename Game" = "Canvia el nom del joc";
+
+"Rename Special Save State or something?" = "Reanomena la partida desada especial o alguna cosa?";
+
+"Rename" = "Canvia el nom";
+
+"Required files are missing." = "Falten arxius requerits.";
+
+"Resolve %ld Issue" = "Resoleu %ld problema";
+
+"Resolve %ld Issues" = "Resoleu %ld problemes";
+
+"Resolve Issues" = "Resol els problemes";
+
+"Restart now" = "Reinicia ara";
+
+"Restart System" = "Reinicia el sistema";
+
+"Restart" = "Reinicia";
+
+"Resume Emulation" = "Continua l'emulació";
+
+"Resume" = "Continua";
+
+"Save As:" = "Anomena i desa:";
+
+"Save Current Game…" = "Desa el joc actual…";
+
+"Save Game" = "Desa el joc";
+
+"Save States" = "Partides desades";
+
+"Save to Slot %d" = "Save to Slot %d";
+
+"Save-Game-%ld %@" = "Save-Game-%ld %@";
+
+"Saved Games" = "Jocs desats";
+
+"Scanner Paused" = "S'ha pausat l'escàner";
+
+"Scanning Directory" = "S'està escanejant el directori";
+
+"Screenshots" = "Captures de pantalla";
+
+"Search" = "Cerca";
+
+"Secrets" = "Secrets";
+
+"Select All" = "Selecciona-ho tot";
+
+"Select Audio Output Device" = "Selecciona un dispositiu de sortida de so";
+
+"Select Cheat" = "Selecciona un truc";
+
+"Select Core" = "Selecciona el nucli";
+
+"Select Disc" = "Selecciona el disc";
+
+"Select Filter" = "Selecciona el filtre";
+
+"Select Scale" = "Selecciona l'escala";
+
+"Share" = "Comparteix";
+
+"Show in Finder" = "Obre la carpeta on es troba";
+
+"Slot %d" = "Espai %d";
+
+"Slot %ld" = "Espai %ld";
+
+"Slot 1" = "Espai 1";
+
+"Some migrations failed to complete properly" = "No s'ha completat correctament algunes migracions";
+
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Un agraïment especial a tothom qui ha fet\n possible l'OpenEmu. Per saber més sobre els\nnostres col·laboradors, nuclis dels emuladors,\ndocumentació, llicències i per informar sobre\nincidències i/o errors visiteu el nostre GitHub.";
+
+"Start Scanning" = "Escaneja";
+
+"Stop Emulation" = "Atura l'emulació";
+
+"Stop" = "Atura";
+
+"Switch To Grid View" = "Canvia a la visualització de graella";
+
+"Switch To List View" = "Canvia a la visualització de llista";
+
+"System Files" = "Fitxers del sistema";
+
+"System" = "Sistema";
+
+"Takes you to the %@ project website" = "Us portarà al web del projecte %@";
+
+"The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "El nucli %1$@ té problemes de compatibilitat i alguns jocs poden tenir defectes o no funcionar.\n\nNo ens informeu dels problemes ja que no som responsables del desenvolupament del %2$@.";
+
+"The background process connection couldn't be established" = "No s'ha pogut establir la connexió amb el procés en segon pla";
+
+"The background process couldn't be launched" = "No s'ha pogut executar el procés en segon pla";
+
+"The battery in device number %lu, %@, is low. Please charge or replace the battery." = "La càrrega de la bateria del dispositiu número %1$lu, %2$@, és baixa. Carregueu o substituïu la bateria.";
+
+"The core could not be downloaded. Try installing it from the Cores preferences." = "No s'ha pogut baixar el nucli. Intenteu instal·lar-lo des de les preferències dels nuclis.";
+
+"The file you selected doesn't exist" = "El fitxer seleccionat no existeix";
+
+"The game '%@' could not be started because a rom file could not be found. Do you want to locate it?" = "No s'ha pogut iniciar el joc '%@' perquè no s'ha trobat un fitxer ROM. El voleu localitzar?";
+
+"The game '%@' was imported." = "S'ha importat el joc '%@'.";
+
+"The OpenEmu Library could not be found." = "No s'ha pogut trobar la biblioteca de l'OpenEmu.";
+
+"The root proxy object is nil." = "L'objecte arrel del servidor intermediari és nul.";
+
+"The System plugin could not be found!" = "No s'ha pogut trobar el connector del sistema.";
+
+"this guide" = "aquesta guia";
+
+"This save state was created with a different core. Do you want to switch to that core now?" = "Aquesta partida desada es va crear utilitzant un nucli diferent. Voleu canviar a aquest altre nucli?";
+
+"This System has no corresponding core installed." = "El sistema no té el nucli corresponent instal·lat.";
+
+"Title:" = "Títol:";
+
+"To launch the save state %@ you will need to install the '%@' Core" = "Per continuar la partida desada %1$@ heu d'instal·lar el nucli '%2$@'";
+
+"To run this core you need the following:\n\n%@Drag and drop the required file(s) onto the game library window and try again." = "Per executar aquest nucli necessiteu el següent:\n\n%@Arrossegueu i deixeu anar el(s) fitxer(s) requerit(s) sobre la finestra de la biblioteca dels jocs i torneu-ho a provar.";
+
+"Toggle Fullscreen" = "Commuta el mode de pantalla completa";
+
+"Trash downloaded Files" = "Esborra els fitxers baixats";
+
+"Unmute Audio" = "Activa el so";
+
+"Update" = "Actualitza";
+
+"User guide on BIOS files" = "Guia d'usuari sobre els arxius dels BIOS";
+
+"View Guide in Browser" = "Veure la guia en el navegador";
+
+"Warning" = "Avís";
+
+"With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "Amb l'OpenEmu podeu desar el vostre progrés en qualsevol moment. L'OpenEmu fins i tot desarà la partida automàticament quan sortiu del joc. Torneu aquí per obtenir una visió general de totes les partides desades.";
+
+"Won't be able to recognize it as special save state…" = "No es podrà reconèixer com una partida desada especial…";
+
+"Would you like to continue your last game?" = "Voleu continuar des de l'última partida?";
+
+"Would you like to save your game before you quit?" = "Voleu desar la partida abans de sortir?";
+
+"Yes" = "Sí";
+
+"You can't move your library here!" = "No es pot moure la biblioteca aquí.";
+
+"You need to restart the application to commit the change" = "Heu de reiniciar l'aplicació per aplicar el canvi";
+
+"Your game finished importing, do you want to play it now?" = "S'ha finalitzat la importació, voleu jugar-hi ara?";
+
+"Your library was moved sucessfully." = "S'ha mogut la biblioteca correctament.";
+
+"Library" = "Biblioteca";
+
+"Save States" = "Partides";
+
+"Screenshots" = "Captures";
+
+"Homebrew" = "Homebrew";
+
+"Grid Size" = "Mida de la graella";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"View Mode" = "Mode de visualització";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"Category" = "Categoria";   // shown when the corresponding item does not fit in the main window's toolbar
+
+
+/* Secrets */
+
+"General" = "General";
+
+"Debug Mode" = "Mode de depuració";
+
+"Setup Assistant has finished" = "L'assistent de configuració ha acabat";
+
+"Region" = "Regió";
+
+"Run games using" = "Executeu els jocs utilitzant";
+
+"Library Window" = "Finestra de la biblioteca";
+
+"Reset main window size" = "Restableix la mida de la finestra principal";
+
+"Dark GridView context menu" = "Menú contextual de la visualització de graella fosc";
+
+"Download missing artwork on the fly" = "Baixa les imatges que faltin sobre la marxa";
+
+"Show game titles instead of rom names" = "Mostra el nom dels jocs en comptes del nom dels fitxers ROM";
+
+"Manually choose system on import" = "Selecciona el sistema manualment durant la importació";
+
+"Show autosave states in save state category" = "Mostra les partides desades automàticament a la categoria de les partides desades";
+
+"Show quicksave states in save state category" = "Mostra les partides desades ràpidament a la categoria de les partides desades";
+
+"Show game scanner view" = "Mostra la visualització de l'escàner de jocs";
+
+"Hide game scanner view" = "Amaga la visualització de l'escàner de jocs";
+
+"HUD Bar / Gameplay" = "Barra HUD / Joc";
+
+"Use game name as window title" = "Utilitza el nom del joc pel nom de la finestra";
+
+"Can delete save states" = "Això pot esborrar les partides desades";
+
+"Show options button" = "Mostra el botó d'opcions";
+
+"Show quicksave notification during gameplay" = "Mostra la notificació del desat ràpid mentre jugueu";
+
+"Show screenshot notification during gameplay" = "Mostra la notificació de la captura de pantalla mentre jugueu";
+
+"Use quicksave slots" = "Utilitza els espais del desat ràpid";
+
+"Show quicksave in menu" = "Motra el desat ràpid al menú";
+
+"Show autosave in menu" = "Mostra el desat automàtic al menú";
+
+"Show audio output device in menu" = "Mostra el dispositiu de sortida del so al menú";
+
+"Take screenshots in native size" = "Fes les captures de pantalla en la mida nativa";
+
+"Disable aspect ratio correction" = "Desactiva la correcció de la relació de l'aspecte";
+
+"Game View Background color" = "Color de fons de la vista del joc";
+
+"Controls Setup" = "Configuració dels controls";
+
+"WiiRemote support (requires relaunch)" = "Suporta el WiiRemote (requereix reinici)";
+
+"Clicking on image selects button" = "En fer clic a la imatge es selecciona el botó";
+
+"Clicking outside image deselects button" = "En fer clic fora de la imatge es deselecciona el botó";
+
+"Select first field after setting the last" = "Seleccioneu el primer camp després de selecionar l'últim";
+
+"Draw button mask above image" = "Dibuixa la màscara del botó a sobre de la imatge";
+
+"Log HID Events" = "Registra els esdeveniments del dispositiu d'interfície humana";
+
+"Log Keyboard Events" = "Registra els esdeveniments del teclat";
+
+"Show all global keys" = "Mostra totes les tecles globals";
+
+"Always show BIOS preferences" = "Mostra sempre les preferències del BIOS";
+
+"Set default save states directory" = "Defineix el directori de les partides desades";
+
+"Choose save states directory…" = "Trieu el directori de les partides desades…";
+
+"Cleanup autosave state" = "Neteja les partides desades automàticament";
+
+"Cleanup Save States" = "Neteja les partides desades";
+
+"OpenVGDB" = "OpenVGDB";
+
+"Update OpenVGDB" = "Actualitza l'OpenVGDB";
+
+"Cancel OpenVGDB Update" = "Cancel·la l'actualització de l'OpenVGDB";
+
+"Database Actions" = "Accions de la base de dades";
+
+"Delete artwork that can be downloaded" = "Esborra les imatges que es poden baixar";
+
+"Download missing artwork" = "Baixa les imatges que falten";
+
+"Remove untracked artwork files" = "Esborra les imatges sense seguiment";
+
+"Cleanup rom hashes" = "Neteja les sumes de verificació dels fitxers ROM";
+
+"Remove duplicated roms" = "Esborra els fitxers ROM duplicats";
+
+"Cancel cover sync for all games" = "Cancel·la la sincronització de caràtules de tots els jocs";
+
+"Perform Sanity Check on Database" = "Realitza les comprovacions de validesa a la base de dades";
+
+"While performing this operation OpenEmu will be unresponsive." = "L'OpenEmu no respondrà durant aquesta operació.";
+
+"Do it!" = "Fes-ho!";
+
+"Cancel Operation" = "Cancel·la l'operació";
+
+"Delete useless image objects" = "Esborra els objectes d'imatge inútils";
+
+"Sync games without artwork" = "Sincronitza els jocs sense imatges";
+
+"ECM compressed binary detected." = "S'ha detectat un binari comprimit amb ECM.";
+
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "No es poden importar binaris comprimits amb ECM. Llegiu la guia d'importació dels discs.";

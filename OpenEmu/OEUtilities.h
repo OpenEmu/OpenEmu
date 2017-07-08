@@ -40,6 +40,3 @@ void tohex(const unsigned char *input, size_t len, char *output);
 void OEPrintFirstResponderChain(void);
 NSArray *OENextRespondersFromResponder(NSResponder *responder);
 NSString *temporaryDirectoryForDecompressionOfPath(NSString *aPath);
-bool GetSystemVersion( int *major, int *minor, int *bugfix );
-
-

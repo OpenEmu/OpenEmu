@@ -137,6 +137,8 @@ NSString * const OptionsKey = @"options";
 	[tableView setAllowsEmptySelection:YES];
 	[tableView setAllowsMultipleSelection:NO];
 	[tableView setAllowsTypeSelect:NO];
+    
+    [tableView reloadData];
 }
 
 - (void)OE_setupKeyDescription
@@ -172,7 +174,6 @@ NSString * const OptionsKey = @"options";
                               NCheckbox(OEDontShowGameTitleInWindowKey, @"Use game name as window title"),
                               Checkbox(OEGameControlsBarCanDeleteSaveStatesKey, @"Can delete save states"),
                               NCheckbox(OEGameControlsBarHidesOptionButtonKey, @"Show options button"),
-                              Checkbox(OEForceCorePicker, @"Use gamecore picker"),
                               Checkbox(OEShowSaveStateNotificationKey, @"Show quicksave notification during gameplay"),
                               Checkbox(OEShowScreenShotNotificationKey, @"Show screenshot notification during gameplay"),
                               Checkbox(OESaveStateUseQuickSaveSlotsKey, @"Use quicksave slots"),
@@ -205,7 +206,7 @@ NSString * const OptionsKey = @"options";
 
                               Group(@"Database Actions"),
                               Button(@"Delete useless image objects", @selector(removeUselessImages:)),
-                              Button(@"Delete Artwork that can be downloaded", @selector(removeArtworkWithRemoteBacking:)),
+                              Button(@"Delete artwork that can be downloaded", @selector(removeArtworkWithRemoteBacking:)),
                               Button(@"Sync games without artwork", @selector(syncGamesWithoutArtwork:)),
                               Button(@"Download missing artwork", @selector(downloadMissingArtwork:)),
                               Button(@"Remove untracked artwork files", @selector(removeUntrackedImageFiles:)),

@@ -49,9 +49,9 @@ extern NSString *const OELibraryRomsFolderURLKey;
         NSString *location = url.absoluteString;
         if(location)
         {
-            NSArray *attributeMappings = mapping.attributeMappings;
+            NSArray<NSPropertyMapping *> *attributeMappings = mapping.attributeMappings;
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
-             ^ BOOL (id obj)
+             ^ BOOL (NSPropertyMapping *obj)
              {
                  return [[obj name] isEqualToString:@"location"];
              }];
@@ -78,9 +78,9 @@ extern NSString *const OELibraryRomsFolderURLKey;
         
         if(archive && archive.numberOfEntries == 1)
         {
-            NSArray *attributeMappings = mapping.attributeMappings;
+            NSArray<NSPropertyMapping *> *attributeMappings = mapping.attributeMappings;
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
-                                          ^ BOOL (id obj)
+                                          ^ BOOL (NSPropertyMapping *obj)
                                           {
                                               return [[obj name] isEqualToString:@"archiveFileIndex"];
                                           }];
@@ -88,9 +88,9 @@ extern NSString *const OELibraryRomsFolderURLKey;
         }
         else
         {
-            NSArray *attributeMappings = mapping.attributeMappings;
+            NSArray<NSPropertyMapping *> *attributeMappings = mapping.attributeMappings;
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
-                                          ^ BOOL (id obj)
+                                          ^ BOOL (NSPropertyMapping *obj)
                                           {
                                               return [[obj name] isEqualToString:@"archiveFileIndex"];
                                           }];
@@ -113,9 +113,9 @@ extern NSString *const OELibraryRomsFolderURLKey;
         NSString *location = relativeURL.relativeString;
         if(location)
         {
-            NSArray *attributeMappings = mapping.attributeMappings;
+            NSArray<NSPropertyMapping *> *attributeMappings = mapping.attributeMappings;
             NSPropertyMapping *mapping = [attributeMappings firstObjectMatchingBlock:
-                                          ^ BOOL (id obj)
+                                          ^ BOOL (NSPropertyMapping *obj)
                                           {
                                               return [[obj name] isEqualToString:@"location"];
                                           }];

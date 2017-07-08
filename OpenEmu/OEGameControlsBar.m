@@ -43,10 +43,7 @@
 
 #import "OEDBSaveState.h"
 
-#import "OEGameIntegralScalingDelegate.h"
 #import "OEAudioDeviceManager.h"
-
-#import "OECheats.h"
 
 #import "OETheme.h"
 
@@ -63,7 +60,7 @@ NSString *const OEGameControlsBarHidesOptionButtonKey   = @"HUDBarWithoutOptions
 NSString *const OEGameControlsBarFadeOutDelayKey        = @"fadeoutdelay";
 NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutput";
 
-@interface OEHUDControlsBarView : NSView
+@interface OEHUDControlsBarView : NSView <CAAnimationDelegate>
 
 @property(strong, readonly) OESlider *slider;
 @property(strong, readonly) OEButton *fullScreenButton;
@@ -72,7 +69,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
 - (void)setupControls;
 @end
 
-@interface OEGameControlsBar ()
+@interface OEGameControlsBar () <CAAnimationDelegate>
 @property (strong) id eventMonitor;
 @property (strong) NSTimer *fadeTimer;
 @property (strong) NSArray *filterPlugins;
@@ -389,7 +386,7 @@ NSString *const OEGameControlsBarShowsAudioOutput       = @"HUDBarShowAudioOutpu
     if([corePlugins count] > 1)
     {
         corePlugins = [corePlugins sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            return [[obj1 displayName] compare:[obj2 displayName]];
+            return [[obj1 displayName] localizedCaseInsensitiveCompare:[obj2 displayName]];
         }];
 
         for(OECorePlugin *aPlugin in corePlugins)

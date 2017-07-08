@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, OpenEmu Team
+ Copyright (c) 2016, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -34,18 +34,16 @@ class ThreePartImage: NSImage {
     /// Image should be rendered vertically.
     var vertical = false
     
-    convenience init(imageParts: [NSImage?], vertical: Bool) {
-        
-        self.init()
+    init(imageParts: [NSImage?], vertical: Bool) {
         
         self.parts = imageParts
         self.vertical = vertical
         
-        let start  = parts[0]?.size ?? NSZeroSize
-        let center = parts[1]?.size ?? NSZeroSize
-        let end    = parts[2]?.size ?? NSZeroSize
+        let start  = parts[0]?.size ?? NSSize.zero
+        let center = parts[1]?.size ?? NSSize.zero
+        let end    = parts[2]?.size ?? NSSize.zero
         
-        var size = NSZeroSize
+        var size = NSSize.zero
         if vertical {
             size.width = max(max(start.width, center.width), end.width)
             size.height = start.height + center.height + end.height
@@ -54,28 +52,40 @@ class ThreePartImage: NSImage {
             size.height = max(max(start.height, center.height), end.height)
         }
         
-        self.size = size
+        super.init(size: size)
     }
     
-    override func drawInRect(rect: NSRect,
-        fromRect: NSRect,
+    required convenience init(imageLiteralResourceName name: String) {
+        fatalError("init(imageLiteralResourceName:) has not been implemented")
+    }
+    
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    required init?(pasteboardPropertyList propertyList: Any, ofType type: String) {
+        fatalError("init(pasteboardPropertyList:ofType:) has not been implemented")
+    }
+    
+    override func draw(in rect: NSRect,
+        from fromRect: NSRect,
         operation op: NSCompositingOperation,
         fraction delta: CGFloat) {
             
-        drawInRect(rect,
-            fromRect: fromRect,
+        draw(in: rect,
+            from: fromRect,
             operation: op,
             fraction: delta,
             respectFlipped: false,
             hints: nil)
     }
     
-    override func drawInRect(dstSpacePortionRect: NSRect,
-        fromRect srcSpacePortionRect: NSRect,
+    override func draw(in dstSpacePortionRect: NSRect,
+        from srcSpacePortionRect: NSRect,
         operation op: NSCompositingOperation,
         fraction requestedAlpha: CGFloat,
         respectFlipped respectContextIsFlipped: Bool,
-        hints: [String : AnyObject]?) {
+        hints: [String : Any]?) {
             
             if (!vertical && dstSpacePortionRect.height != size.height) ||
                 (vertical && dstSpacePortionRect.width != size.width) {
@@ -93,7 +103,7 @@ class ThreePartImage: NSImage {
                 vertical,
                 op,
                 requestedAlpha,
-                NSGraphicsContext.currentContext()?.flipped ?? false)
+                NSGraphicsContext.current()?.isFlipped ?? false)
     }
 }
 
@@ -102,9 +112,7 @@ class NinePartImage: NSImage {
     /// Array of the nine different parts.
     var parts: [NSImage?]!
     
-    convenience init(imageParts: [NSImage?]) {
-        
-        self.init()
+    init(imageParts: [NSImage?]) {
         
         self.parts = imageParts
         
@@ -126,29 +134,43 @@ class NinePartImage: NSImage {
         let height2 = topCenter.height + centerFill.height + bottomCenter.height
         let height3 = topRight.height + rightEdge.height + bottomRight.height
         
-        size = NSSize(width: max(max(width1, width2), width3),
+        let size = NSSize(width: max(max(width1, width2), width3),
                      height: max(max(height1, height2), height3))
+        
+        super.init(size: size)
     }
     
-    override func drawInRect(rect: NSRect,
-        fromRect: NSRect,
+    required convenience init(imageLiteralResourceName name: String) {
+        fatalError("init(imageLiteralResourceName:) has not been implemented")
+    }
+    
+    required init?(pasteboardPropertyList propertyList: Any, ofType type: String) {
+        fatalError("init(pasteboardPropertyList:ofType:) has not been implemented")
+    }
+    
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func draw(in rect: NSRect,
+        from fromRect: NSRect,
         operation op: NSCompositingOperation,
         fraction delta: CGFloat) {
         
-            drawInRect(rect,
-                fromRect: fromRect,
+            draw(in: rect,
+                from: fromRect,
                 operation: op,
                 fraction: delta,
                 respectFlipped: false,
                 hints: nil)
     }
     
-    override func drawInRect(dstSpacePortionRect: NSRect,
-        fromRect srcSpacePortionRect: NSRect,
+    override func draw(in dstSpacePortionRect: NSRect,
+        from srcSpacePortionRect: NSRect,
         operation op: NSCompositingOperation,
         fraction requestedAlpha: CGFloat,
         respectFlipped respectContextIsFlipped: Bool,
-        hints: [String : AnyObject]?) {
+        hints: [String : Any]?) {
         
             let topLeftCorner     = parts[0]!
             let topEdgeFill       = parts[1]!
@@ -172,27 +194,29 @@ class NinePartImage: NSImage {
                 bottomRightCorner,
                 op,
                 requestedAlpha,
-                respectContextIsFlipped && NSGraphicsContext.currentContext()?.flipped ?? false)
+                respectContextIsFlipped && NSGraphicsContext.current()?.isFlipped ?? false)
     }
 }
 
 extension NSImage {
     
-    func subImageFromRect(rect: NSRect) -> NSImage {
+    @objc(subImageFromRect:)
+    func subImage(from rect: NSRect) -> NSImage {
         
         return NSImage(size: rect.size, flipped: false) { [unowned self] dstRect in
-            self.drawInRect(dstRect,
-                fromRect: rect,
-                operation: .CompositeSourceOver,
+            self.draw(in: dstRect,
+                from: rect,
+                operation: .sourceOver,
                 fraction: 1)
 
             return true
         }
     }
     
-    func imageFromParts(parts: [AnyObject], vertical: Bool) -> NSImage {
+    @objc(imageFromParts:vertical:)
+    func image(fromParts parts: [AnyObject]?, vertical: Bool) -> NSImage {
         
-        guard !parts.isEmpty else {
+        guard let parts = parts, !parts.isEmpty else {
             return self
         }
         
@@ -234,7 +258,7 @@ extension NSImage {
             if !rect.isEmpty {
                 var subImageRect = rect
                 subImageRect.origin.y = size.height - rect.origin.y - rect.height
-                return self.subImageFromRect(subImageRect)
+                return self.subImage(from: subImageRect)
             } else {
                 return nil
             }
@@ -255,7 +279,8 @@ extension NSImage {
         }
     }
     
-    func ninePartImageWithStretchedRect(rect: NSRect) -> NSImage {
+    @objc(ninePartImageWithStretchedRect:)
+    func ninePartImage(withStretched rect: NSRect) -> NSImage {
         
         let top    = NSRect(x: 0, y: rect.maxY, width: size.width, height: size.height - rect.maxY)
         let middle = NSRect(x: 0, y: rect.minY, width: size.width, height: rect.height)
@@ -265,16 +290,16 @@ extension NSImage {
         let center = NSRect(x: rect.minX, y: 0, width: rect.width, height: size.height)
         let right  = NSRect(x: rect.maxX, y: 0, width: size.width - rect.maxX, height: size.height)
         
-        let parts = [bottom.intersect(left),
-                     bottom.intersect(center),
-                     bottom.intersect(right),
-                     middle.intersect(left),
-                     middle.intersect(center),
-                     middle.intersect(right),
-                     top.intersect(left),
-                     top.intersect(center),
-                     top.intersect(right)]
+        let parts = [bottom.intersection(left),
+                     bottom.intersection(center),
+                     bottom.intersection(right),
+                     middle.intersection(left),
+                     middle.intersection(center),
+                     middle.intersection(right),
+                     top.intersection(left),
+                     top.intersection(center),
+                     top.intersection(right)]
         
-        return imageFromParts(parts.map { String($0) }, vertical: false)
+        return image(fromParts: parts.map { NSStringFromRect($0) as AnyObject }, vertical: false)
     }
 }

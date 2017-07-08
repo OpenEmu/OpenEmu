@@ -28,7 +28,7 @@
 #import "NSColor+OEAdditions.h"
 @import QuartzCore;
 
-@interface OEFadeView ()
+@interface OEFadeView () <CAAnimationDelegate>
 @property(copy) void(^callback)(void);
 @end
 

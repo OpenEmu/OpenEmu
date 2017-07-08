@@ -327,34 +327,57 @@
 		<key>OEDCButtonStart</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonOptions</string>
 	</dict>
-	<key>OEControllerSteelSeriesWireless</key>
+	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
 		<key>OEDCButtonUp</key>
-		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadUp</string>
 		<key>OEDCButtonDown</key>
-		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadDown</string>
 		<key>OEDCButtonLeft</key>
-		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadLeft</string>
 		<key>OEDCButtonRight</key>
-		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadRight</string>
 		<key>OEDCAnalogUp</key>
-		<string>OEControllerSteelSeriesWirelessLeftAnalogUp</string>
+		<string>OEControllerGCExtendedGamepadProfileLeftAnalogUp</string>
 		<key>OEDCAnalogLeft</key>
-		<string>OEControllerSteelSeriesWirelessLeftAnalogLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileLeftAnalogLeft</string>
 		<key>OEDCButtonB</key>
-		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonB</string>
 		<key>OEDCButtonA</key>
-		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 		<key>OEDCButtonY</key>
-		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonY</string>
 		<key>OEDCButtonX</key>
-		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonX</string>
 		<key>OEDCAnalogL</key>
-		<string>OEControllerSteelSeriesWirelessButtonL2</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL2</string>
 		<key>OEDCAnalogR</key>
-		<string>OEControllerSteelSeriesWirelessButtonR2</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonR2</string>
 		<key>OEDCButtonStart</key>
-		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
+	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEDCButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEDCAnalogUp</key>
+		<string>OEControllerNintendoSwitchProControllerLeftAnalogUp</string>
+		<key>OEDCAnalogLeft</key>
+		<string>OEControllerNintendoSwitchProControllerLeftAnalogLeft</string>
+		<key>OEDCButtonB</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OEDCButtonA</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEDCButtonY</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OEDCButtonX</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OEDCAnalogL</key>
+		<string>OEControllerNintendoSwitchProControllerButtonZL</string>
+		<key>OEDCAnalogR</key>
+		<string>OEControllerNintendoSwitchProControllerButtonZR</string>
+		<key>OEDCButtonStart</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
 	</dict>
 </dict>
 </plist>

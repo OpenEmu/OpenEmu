@@ -5,6 +5,9 @@
       location = "container:OpenEmu/OpenEmu.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:OpenEmu/../OpenEmuXPCCommunicator/OpenEmuXPCCommunicator.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:OpenEmu-SDK/OpenEmu-SDK.xcodeproj">
    </FileRef>
    <FileRef
@@ -38,13 +41,13 @@
       location = "group:UME/MAME.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:mGBA/mGBA.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Mednafen/Mednafen.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Mupen64Plus/Mupen64Plus.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:NeoPop/NeoPop.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Nestopia/Nestopia.xcodeproj">
@@ -81,11 +84,5 @@
    </FileRef>
    <FileRef
       location = "group:VirtualJaguar/VirtualJaguar.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:VisualBoyAdvance/VisualBoyAdvance.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:yabause/yabause/Yabause.xcodeproj">
    </FileRef>
 </Workspace>

@@ -27,11 +27,9 @@
 import Cocoa
 
 extension NSWindow {
-    
-    var fullScreen: Bool {
-        @objc(isFullScreen)
+    var isFullScreen: Bool {
         get {
-            return styleMask & NSFullScreenWindowMask == NSFullScreenWindowMask
+            return styleMask.contains(NSFullScreenWindowMask)
         }
     }
 }

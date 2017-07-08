@@ -108,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
-- (NSArray *)items
+- (NSArray * _Nullable)items
 {
     return nil;
 }

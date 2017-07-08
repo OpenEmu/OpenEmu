@@ -39,18 +39,9 @@
             : @"Odyssey²");
 }
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    OECanHandleState canHandleFile = OECanHandleNo;
-    
-    NSURL *fileURL = [NSURL fileURLWithPath:path];
-    NSNumber *fileSize = nil;
-    [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:nil];
-    
-    if([fileSize intValue] < 2097152)
-        canHandleFile = OECanHandleUncertain;
-    
-    return canHandleFile;
+    return file.fileSize < 2097152 ? OEFileSupportUncertain : OEFileSupportNo;
 }
 
 @end

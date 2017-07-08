@@ -24,7 +24,7 @@
 "318.title" = "Un monde excitant de jeux vidéo est à votre portée. Pour vous aider à démarrer, nous aimerions vous poser quelques questions rapides qui vous guideront pour…\n\n• Ajouter des jeux (roms) que devez posséder légalement.\n\n• Vous assurer d’exécuter les plugins système corrects (cœurs).";
 
 /* Class = "NSTextFieldCell"; title = "Click on the ‘Next’ button to begin!"; ObjectID = "320"; */
-"320.title" = "Cliquez sur le bouton « Suivant » pour commencer !";
+"320.title" = "Cliquez sur « Suivant » pour commencer !";
 
 /* Class = "NSTextFieldCell"; title = "OpenEmu is modular, and thanks to the work of other great open source projects, it can emulate a wide variety of video game systems (‘cores’). A select few require you tick and confirm that you want to install and use them. Your favorite game systems and games may not run without these cores."; ObjectID = "328"; */
 "328.title" = "OpenEmu est modulaire, et grâce au travail d’autres grands projets open source, il peut émuler une large variété de systèmes de jeux vidéo (« cœurs »). Cochez et confirmez les cœurs que vous souhaitez installer et utiliser. Vos jeux et systèmes de jeux favoris peuvent ne pas fonctionner sans ces cœurs.";
@@ -54,10 +54,10 @@
 "401.title" = "C’est parti !";
 
 /* Class = "NSTextFieldCell"; title = "Great! You are all setup now and ready to get gaming!\n\nRemember you can change both your keyboard and gamepad controls for yourself and other players via the Preferences at any time."; ObjectID = "402"; */
-"402.title" = "Génial ! Tout est paramétré et vous êtes prêt(e) à jouer !\n\nVous pouvez changer à n’importe quel moment les contrôles de votre clavier et manette pour vous et d’autres joueurs dans les préférences.";
+"402.title" = "Génial ! Tout est paramétré et vous êtes prêt(e) à jouer !\n\nVous pouvez changer à tout moment les contrôles de votre clavier et manette pour vous et d’autres joueurs dans les préférences.";
 
 /* Class = "NSTextFieldCell"; title = "Click the ‘Go’ button to begin your adventure."; ObjectID = "403"; */
-"403.title" = "Cliquez sur le bouton « Commencer » pour démarrer l’aventure.";
+"403.title" = "Cliquez sur « Commencer » pour démarrer l’aventure.";
 
 /* Class = "NSButtonCell"; title = "Go"; ObjectID = "404"; */
 "404.title" = "Commencer";

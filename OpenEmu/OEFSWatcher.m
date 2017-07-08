@@ -25,6 +25,7 @@
  */
 
 #import "OEFSWatcher.h"
+#import <DiskArbitration/DiskArbitration.h>
 
 @interface OEFSWatcher ()
 - (id)initWithPersistentKey:(NSString*)key;
@@ -90,28 +91,72 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
 
 - (void)restartWatching
 {
-    if(stream != NULL)
-        [self stopWatching];
-    
-    FSEventStreamContext context       = {0, (__bridge void *)self, NULL, NULL, NULL};
-    CFArrayRef           paths         = (__bridge CFArrayRef)[NSArray arrayWithObject:path];
-    NSString             *key          = [self persistentKey];
-    NSUserDefaults       *defaults     = [NSUserDefaults standardUserDefaults];
-    uint64_t             lastEventID   = key && [defaults valueForKey:key] ? [[defaults valueForKey:key] unsignedLongLongValue] : kFSEventStreamEventIdSinceNow;
-    
+	if(stream != NULL)
+		[self stopWatching];
+
+	FSEventStreamContext context       = {0, (__bridge void *)self, NULL, NULL, NULL};
+	CFArrayRef           paths         = (__bridge CFArrayRef)[NSArray arrayWithObject:path];
+	NSUserDefaults       *defaults     = [NSUserDefaults standardUserDefaults];
+	NSString             *key          = [self persistentKey];
+	uint64_t			 lastEventID   = kFSEventStreamEventIdSinceNow;
+
+	if(key) {
+		NSString *uuidKey	   = [key stringByAppendingString:@"VolumeUUID"];
+		NSString *previousUUID = uuidKey ? [defaults objectForKey:uuidKey] : nil;
+
+		NSURL *url = [NSURL fileURLWithPath:path];
+		NSString *currentUUID = [self OE_diskIDForURL:url];
+		if([previousUUID isNotEqualTo:currentUUID]) {
+			[defaults removeObjectForKey:key];
+		}
+
+		[defaults setObject:currentUUID forKey:uuidKey];
+
+		NSNumber *storedEventID = [defaults valueForKey:key];
+		if(storedEventID) {
+			lastEventID = [storedEventID unsignedLongLongValue];
+		}
+	}
+
 	stream = FSEventStreamCreate(NULL,
-	                             &OEFSWatcher_callback,
-	                             &context,
-	                             paths,
-                                 lastEventID,
-	                             [self delay],
-	                             kFSEventStreamCreateFlagUseCFTypes|kFSEventStreamCreateFlagIgnoreSelf|kFSEventStreamCreateFlagFileEvents
-                                 );
-    
+								 &OEFSWatcher_callback,
+								 &context,
+								 paths,
+								 lastEventID,
+								 [self delay],
+								 kFSEventStreamCreateFlagUseCFTypes|kFSEventStreamCreateFlagIgnoreSelf|kFSEventStreamCreateFlagFileEvents
+								 );
+
 	FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
 	FSEventStreamStart(stream);
-    
-    [self OE_setupRestartingProperties];
+
+	[self OE_setupRestartingProperties];
+}
+
+- (NSString*)OE_diskIDForURL:(NSURL*)url {
+	DASessionRef session = DASessionCreate(NULL);
+	DADiskRef disk = NULL;
+
+	// try to create disks until mount point is found
+	while((disk = DADiskCreateFromVolumePath(NULL, session, (CFURLRef)url)) == NULL) {
+		url = [url URLByDeletingLastPathComponent];
+	}
+
+	if(!disk) {
+		CFRelease(session);
+		return nil;
+	}
+
+	NSString *uuidString = nil;
+	CFDictionaryRef description = DADiskCopyDescription(disk);
+	CFUUIDRef uuid = CFDictionaryGetValue(description, kDADiskDescriptionVolumeUUIDKey);
+	uuidString = CFBridgingRelease(CFUUIDCreateString(NULL, uuid));
+	CFRelease(description);
+
+	CFRelease(disk);
+	CFRelease(session);
+
+	return uuidString;
 }
 
 void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
@@ -148,8 +193,8 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
     [self OE_storeLastEventID];
     [self OE_removeRestartingProperties];
 }
-#pragma mark -
-#pragma mark Config
+
+#pragma mark - Config
 @synthesize path;
 @synthesize delay;
 @synthesize callbackBlock;
@@ -184,12 +229,12 @@ void OEFSWatcher_callback(ConstFSEventStreamRef streamRef,
 #pragma mark -
 - (void)OE_storeLastEventID
 {
-    if([self persistentKey])
-    {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        FSEventStreamEventId lastID = FSEventsGetCurrentEventId();
-        [defaults setObject:@(lastID) forKey:[self persistentKey]];
-    }    
+	if(![self persistentKey]) return;
+	if(!stream) return;
+
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	FSEventStreamEventId lastID = FSEventStreamGetLatestEventId(stream);
+	[defaults setObject:@(lastID) forKey:[self persistentKey]];
 }
 @synthesize persistentKey;
 @end

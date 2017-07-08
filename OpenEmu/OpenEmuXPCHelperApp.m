@@ -97,26 +97,11 @@
     completionHandler(error);
 }
 
-- (void)applicationWillTerminate:(NSNotification *)notification
+- (void)stopEmulationWithCompletionHandler:(void(^)(void))handler
 {
-    // Forcibly sudden terminate ourselves. OpenGL cores can't cleanly exit.
-
-    kill(getpid(), SIGKILL);
-}
-
-- (NSThread *)makeGameCoreThread
-{
-    // Do not start a new thread, instead take over the main thread.
-    // I/O events arrive there from the system, so it's faster.
-
-    return [NSThread mainThread];
-}
-
-- (void)startEmulationWithCompletionHandler:(void(^)(void))handler
-{
-    [super startEmulationWithCompletionHandler:handler];
-
-    [self performSelectorOnMainThread:@selector(OE_gameCoreThread:) withObject:nil waitUntilDone:NO];
+    [super stopEmulationWithCompletionHandler:^{
+        handler();
+    }];
 }
 
 @end

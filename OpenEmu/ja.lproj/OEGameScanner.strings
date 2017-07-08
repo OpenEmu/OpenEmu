@@ -1,0 +1,9 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "Path"; ObjectID = "75"; */
+"75.headerCell.title" = "パス";
+
+/* Class = "NSTextFieldCell"; title = "Fix Import Issues:"; ObjectID = "127"; */
+"127.title" = "インポートに関する問題を解決する:";
+
+/* Class = "NSButtonCell"; title = "Apply"; ObjectID = "139"; */
+"139.title" = "適用";

@@ -35,6 +35,11 @@
     return @protocol(OESaturnSystemResponderClient);
 }
 
+- (void)changeAnalogEmulatorKey:(OESystemKey *)aKey value:(CGFloat)value
+{
+    [[self client] didMoveSaturnJoystickDirection:(OESaturnButton)[aKey key] withValue:value forPlayer:aKey.player];
+}
+
 - (void)pressEmulatorKey:(OESystemKey *)aKey
 {
     [[self client] didPushSaturnButton:(OESaturnButton)[aKey key] forPlayer:[aKey player]];

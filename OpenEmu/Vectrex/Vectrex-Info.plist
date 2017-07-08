@@ -109,6 +109,7 @@
 	<array>
 		<string>vec</string>
 		<string>gam</string>
+		<string>bin</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>

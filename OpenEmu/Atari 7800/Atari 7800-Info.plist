@@ -75,7 +75,7 @@
 			</dict>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>Pause</string>
+				<string>Console Pause</string>
 				<key>OEControlListKeyNameKey</key>
 				<string>OE7800ButtonPause</string>
 			</dict>
@@ -83,7 +83,7 @@
 		<array>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>Reset</string>
+				<string>Console Reset</string>
 				<key>OEControlListKeyNameKey</key>
 				<string>OE7800ButtonReset</string>
 			</dict>

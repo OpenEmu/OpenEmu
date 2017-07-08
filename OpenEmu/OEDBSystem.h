@@ -27,7 +27,7 @@
 @import Foundation;
 #import "OEDBItem.h"
 
-@class OEDBGame, OESystemPlugin, OELibraryDatabase;
+@class OEDBGame, OESystemPlugin, OELibraryDatabase, OEFile;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -47,10 +47,11 @@ extern NSString * const OEDBSystemAvailabilityDidChangeNotification;
 + (nullable NSArray <OEDBSystem *> *)enabledSystemsinContext:(NSManagedObjectContext *)context error:(NSError **)outError;
 
 + (NSArray <OEDBSystem *> *)systemsForFileWithURL:(NSURL *)fileURL inContext:(NSManagedObjectContext *)context;
-+ (NSArray <OEDBSystem *> *)systemsForFileWithURL:(NSURL *)fileURL inContext:(NSManagedObjectContext *)context error:(NSError**)error;
++ (NSArray <OEDBSystem *> *)systemsForFile:(OEFile *)file inContext:(NSManagedObjectContext *)context error:(NSError**)error;
++ (NSArray <OEDBSystem *> * _Nullable)systemsForFileWithURL:(NSURL *)fileURL inContext:(NSManagedObjectContext *)context error:(NSError**)error;
 
-+ (NSString *)headerForFileWithURL:(NSURL *)URL forSystem:(NSString *)identifier;
-+ (NSString *)serialForFileWithURL:(NSURL *)URL forSystem:(NSString *)identifier;
++ (NSString *)headerForFile:(__kindof OEFile *)file forSystem:(NSString *)identifier;
++ (NSString *)serialForFile:(__kindof OEFile *)file forSystem:(NSString *)identifier;
 
 + (instancetype)systemForPlugin:(OESystemPlugin *)plugin inContext:(NSManagedObjectContext *)context;
 + (instancetype)systemForPluginIdentifier:(NSString *)identifier inContext:(NSManagedObjectContext *)context;
@@ -65,16 +66,8 @@ extern NSString * const OEDBSystemAvailabilityDidChangeNotification;
 
 @property (nonatomic, readonly) CGFloat coverAspectRatio;
 
-#pragma mark - Data Model Properties
-
-@property(nonatomic, retain, nullable) NSString *lastLocalizedName;
-@property(nonatomic, retain, nullable) NSString *shortname;
-@property(nonatomic, retain, nullable) NSString *systemIdentifier;
-@property(nonatomic, retain, nullable) NSNumber *enabled;
-
 #pragma mark - Data Model Relationships
 
-@property(nonatomic, retain, nullable)   NSSet          <OEDBGame *> *games;
 @property(nonatomic, readonly, nullable) NSMutableSet  <OEDBGame *> *mutableGames;
 
 #pragma mark -

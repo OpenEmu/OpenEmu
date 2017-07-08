@@ -29,6 +29,7 @@
 	<key>OEControlListKey</key>
 	<array>
 		<array>
+			<string>D-Pad</string>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
 				<string>Up</string>
@@ -114,9 +115,63 @@
 				<string>OESaturnButtonZ</string>
 			</dict>
 		</array>
+		<array>
+			<string>3D Control Pad</string>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Up</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESaturnLeftAnalogUp</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Down</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESaturnLeftAnalogDown</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Left</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESaturnLeftAnalogLeft</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Right</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESaturnLeftAnalogRight</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Trigger L</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESaturnAnalogL</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Trigger R</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESaturnAnalogR</string>
+			</dict>
+			<dict>
+				<key>OEControlListKeyLabelKey</key>
+				<string>Mode Switch</string>
+				<key>OEControlListKeyNameKey</key>
+				<string>OESaturnButtonAnalogMode</string>
+			</dict>
+		</array>
 	</array>
 	<key>OEControlTypesKey</key>
 	<dict>
+		<key>OEAnalogControlsKey</key>
+		<array>
+			<string>OESaturnLeftAnalogUp</string>
+			<string>OESaturnLeftAnalogDown</string>
+			<string>OESaturnLeftAnalogLeft</string>
+			<string>OESaturnLeftAnalogRight</string>
+			<string>OESaturnAnalogL</string>
+			<string>OESaturnAnalogR</string>
+		</array>
 		<key>OEAxisControlsKey</key>
 		<array>
 			<array>
@@ -126,6 +181,14 @@
 			<array>
 				<string>OESaturnButtonLeft</string>
 				<string>OESaturnButtonRight</string>
+			</array>
+			<array>
+				<string>OESaturnLeftAnalogUp</string>
+				<string>OESaturnLeftAnalogDown</string>
+			</array>
+			<array>
+				<string>OESaturnLeftAnalogLeft</string>
+				<string>OESaturnLeftAnalogRight</string>
 			</array>
 		</array>
 		<key>OEHatSwitchControlsKey</key>
@@ -141,6 +204,8 @@
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>cue</string>
+		<string>ccd</string>
+		<string>m3u</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
@@ -157,9 +222,16 @@
 		<string>OESaturnButtonL</string>
 		<string>OESaturnButtonR</string>
 		<string>OESaturnButtonStart</string>
+		<string>OESaturnButtonAnalogMode</string>
+		<string>OESaturnLeftAnalogUp</string>
+		<string>OESaturnLeftAnalogDown</string>
+		<string>OESaturnLeftAnalogLeft</string>
+		<string>OESaturnLeftAnalogRight</string>
+		<string>OESaturnAnalogL</string>
+		<string>OESaturnAnalogR</string>
 	</array>
 	<key>OENumberOfPlayersKey</key>
-	<integer>2</integer>
+	<integer>12</integer>
 	<key>OEResponderClassKey</key>
 	<string>OESaturnSystemResponder</string>
 	<key>OESystemIcon</key>

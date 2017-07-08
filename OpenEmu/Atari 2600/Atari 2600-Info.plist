@@ -63,7 +63,7 @@
 			</dict>
 			<dict>
 				<key>OEControlListKeyLabelKey</key>
-				<string>Reset</string>
+				<string>Console Reset</string>
 				<key>OEControlListKeyNameKey</key>
 				<string>OE2600ButtonReset</string>
 			</dict>

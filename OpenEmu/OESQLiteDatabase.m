@@ -39,8 +39,8 @@ NSString * const OESQLiteErrorDomain = @"OESQLiteErrorDomain";
 {
     if(self = [super init])
     {
-        NSString *path = [url path];
-        int sqlerr = sqlite3_open([path cStringUsingEncoding:NSUTF8StringEncoding], &connection);
+        const char *path = url.path.fileSystemRepresentation;
+        int sqlerr = sqlite3_open(path, &connection);
         if(sqlerr != SQLITE_OK)
         {
             sqlite3_close(connection);

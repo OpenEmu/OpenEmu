@@ -118,11 +118,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.1</string>
+	<string>2.0.5</string>
 	<key>CFBundleSignature</key>
 	<string>OpEm</string>
 	<key>CFBundleVersion</key>
-	<string>2.0.1</string>
+	<string>2.0.5</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.games</string>
 	<key>LSMinimumSystemVersion</key>
@@ -135,13 +135,15 @@
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
+	<string>OEApplication</string>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
 	<key>OEBundlePath</key>
 	<string>~/Library/Application Support/OpenEmu/Cores/</string>
 	<key>OECoreListURL</key>
 	<string>https://raw.github.com/OpenEmu/OpenEmu-Update/master/oecores.xml</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
 	<key>SUFeedURL</key>
 	<string>https://raw.github.com/OpenEmu/OpenEmu-Update/master/appcast.xml</string>
 	<key>UTExportedTypeDeclarations</key>

@@ -252,26 +252,41 @@
 		<key>OE7800ButtonReset</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonHome</string>
 	</dict>
-	<key>OEControllerSteelSeriesWireless</key>
+	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
 		<key>OE7800ButtonUp</key>
-		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadUp</string>
 		<key>OE7800ButtonDown</key>
-		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadDown</string>
 		<key>OE7800ButtonLeft</key>
-		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadLeft</string>
 		<key>OE7800ButtonRight</key>
-		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadRight</string>
 		<key>OE7800ButtonFire2</key>
-		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 		<key>OE7800ButtonFire1</key>
-		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonX</string>
 		<key>OE7800ButtonSelect</key>
-		<string>OEControllerSteelSeriesWirelessButtonHome</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonHome</string>
 		<key>OE7800ButtonPause</key>
-		<string>OEControllerSteelSeriesWirelessButtonL1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonL1</string>
 		<key>OE7800ButtonReset</key>
-		<string>OEControllerSteelSeriesWirelessButtonR1</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonR1</string>
+	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OE7800ButtonUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OE7800ButtonFire2</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OE7800ButtonFire1</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
+		<key>OE7800ButtonSelect</key>
+		<string>OEControllerNintendoSwitchProControllerButtonPlus</string>
+		<key>OE7800ButtonPause</key>
+		<string>OEControllerNintendoSwitchProControllerButtonMinus</string>
+		<key>OE7800ButtonReset</key>
+		<string>OEControllerNintendoSwitchProControllerButtonHome</string>
 	</dict>
 </dict>
 </plist>

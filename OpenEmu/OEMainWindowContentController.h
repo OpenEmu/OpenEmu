@@ -28,7 +28,4 @@
 
 @protocol OEMainWindowContentController <NSObject>
 
-@optional
-@property(strong) NSImage *cachedSnapshot;
-
 @end

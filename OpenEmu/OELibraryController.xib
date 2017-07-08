@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="16A319" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <capability name="box content view" minToolsVersion="7.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="OELibraryController">
+            <connections>
+                <outlet property="toolbar" destination="386-1H-9HX" id="nDj-TB-Hw2"/>
+                <outlet property="view" destination="616" id="641"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="616">
+            <rect key="frame" x="0.0" y="0.0" width="830" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+        </customView>
+        <toolbar implicitIdentifier="647CF7A7-A628-4038-A1D8-26746C7CC43D" autosavesConfiguration="NO" allowsUserCustomization="NO" showsBaselineSeparator="NO" prefersToBeShown="NO" displayMode="iconOnly" sizeMode="regular" id="386-1H-9HX" customClass="OELibraryToolbar">
+            <allowedToolbarItems/>
+            <defaultToolbarItems/>
+            <connections>
+                <outlet property="delegate" destination="crM-0o-1hP" id="i1v-uw-dTG"/>
+            </connections>
+            <point key="canvasLocation" x="-897.5" y="-78"/>
+        </toolbar>
+        <customObject id="crM-0o-1hP" customClass="OELibraryToolbarDelegate">
+            <connections>
+                <outlet property="toolbarOwner" destination="-2" id="FwQ-CN-F6h"/>
+            </connections>
+        </customObject>
+    </objects>
+</document>

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, OpenEmu Team
+ Copyright (c) 2016, OpenEmu Team
 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -26,8 +26,12 @@
 
 #import "OEThemeObject.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OEThemeImage : OEThemeObject
 
 - (NSImage *)imageForState:(OEThemeState)state;
 
 @end
+
+NS_ASSUME_NONNULL_END

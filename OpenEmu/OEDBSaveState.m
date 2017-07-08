@@ -29,6 +29,7 @@
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 #import "OEDBSystem.h"
+#import "OEDBSystem+CoreDataProperties.h"
 #import "OECorePlugin.h"
 
 #import "OpenEmu-Swift.h"
@@ -601,8 +602,7 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 
 #pragma mark - Data Model Properties
 
-@dynamic name, userDescription, timestamp;
-@dynamic coreIdentifier, location, coreVersion;
+@dynamic location;
 
 - (NSURL *)URL
 {
@@ -640,10 +640,6 @@ NSString *const OESaveStateQuicksaveName        = @"OESpecialState_quick";
 {
     return self.rom.game.system.systemIdentifier;
 }
-
-#pragma mark - Data Model Relationships
-
-@dynamic rom;
 
 @end
 

@@ -1,0 +1,154 @@
+﻿/*
+ Copyright (c) 2015, OpenEmu Team
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/* Section Title */
+  "Gameplay Buttons" = "ゲームプレイボタン";
+  "Special Keys" = "特殊キー";
+
+/* Group Labels */
+  "Analog" = "アナログ";
+  "C-Pad" = "C-Pad";
+  "D-Pad" = "D-Pad";
+  "Keypad" = "キーパッド";
+  "Left Analog" = "左アナログ";
+  "Left D-Pad" = "左 D-Pad";
+  "Right Analog" = "右アナログ";
+  "Right D-Pad" = "右 D-Pad";
+  "Switches" = "スイッチ";
+
+/* Button Labels */
+  "#" = "#";
+  "*" = "*";
+  "0" = "0";
+  "1" = "1";
+  "2" = "2";
+  "2/6 Mode" = "2/6 モード";
+  "3" = "3";
+  "4" = "4";
+  "5" = "5";
+  "6" = "6";
+  "7" = "7";
+  "8" = "8";
+  "9" = "9";
+  "A" = "A";
+  "Analog Mode" = "アナログモード";
+  "B" = "B";
+  "Button 1" = "ボタン 1";
+  "Button 1/Start" = "ボタン 1/スタート";
+  "Button 2" = "ボタン 2";
+  "Button 3" = "ボタン 3";
+  "Button 4" = "ボタン 4";
+  "Button 5" = "ボタン 5";
+  "Button 6" = "ボタン 6";
+  "C" = "C";
+  "Change Disk Side" = "ディスクを変更";
+  "Console Pause" = "コンソールを一時停止";
+  "Display Mode" = "ディスプレイモード";
+  "Down" = "下";
+  "Fast Forward" = "Fast Forward";
+  "Fire 1" = "Fire 1";
+  "Fire 2" = "Fire 2";
+  "Fire" = "Fire";
+  "Fullscreen" = "フルスクリーン";
+  "Insert Coin" = "コインを入れる";
+  "L Diff A" = "L Diff A";
+  "L Diff B" = "L Diff B";
+  "L Diff" = "L Diff";
+  "L" = "L";
+  "L1" = "L1";
+  "L2" = "L2";
+  "L3" = "L3";
+  "Left Action" = "左アクション";
+  "Left Trigger" = "左トリガー";
+  "Left" = "左";
+  "Lid" = "Lid";
+  "Load" = "ロード";
+  "Mic" = "マイク";
+  "Mode" = "モード";
+  "Mute" = "消音";
+  "Option 1" = "オプション 1";
+  "Option 2" = "オプション 2";
+  "Option" = "オプション";
+  "P" = "P";
+  "Pause" = "ポーズ";
+  "Player Start" = "プレイヤー開始";
+  "Quick Load Button" = "クイックロード";
+  "Quick Save Button" = "クイックセーブ";
+  "R Diff A" = "R Diff A";
+  "R Diff B" = "R Diff B";
+  "R Diff" = "R Diff";
+  "R" = "R";
+  "R1" = "R1";
+  "R2" = "R2";
+  "R3" = "R3";
+  "Reset" = "リセット";
+  "Rewind" = "巻き戻し";
+  "Right Action" = "右アクション";
+  "Right Trigger" = "右トリガー";
+  "Right" = "右";
+  "Run" = "起動";
+  "Save" = "セーブ";
+  "Screenshot" = "スクリーンショット";
+  "Select" = "セレクト";
+  "Service" = "サービス";
+  "Sound" = "音";
+  "Start" = "スタート";
+  "TV Black & White" = "TV黒白";
+  "TV Color" = "TVカラー";
+  "Up" = "上";
+  "Volume Down" = "音量ダウン";
+  "Volume Up" = "音量アップ";
+  "X" = "X";
+  "X1 Up" = "X1 上";
+  "X2 Right" = "X2 右";
+  "X3 Down" = "X3 下";
+  "X4 Left" = "X4 左";
+  "Y" = "Y";
+  "Y1 Up" = "Y1 上";
+  "Y2 Right" = "Y2 右";
+  "Y3 Down" = "Y3 下";
+  "Y4 Left" = "Y4 左";
+  "Z" = "Z";
+  "▢" = "▢";
+  "△" = "△";
+  "◯" = "◯";
+  "✕" = "✕";
+
+/* Special Keys */
+  "Display Mode" = "ディスプレイモード";
+  "Fast Forward" = "Fast Forward";
+  "Fullscreen" = "フルスクリーン";
+  "Load" = "ロード";
+  "Mute" = "ミュート";
+  "Pause" = "一時停止";
+  "Quick Load Button" = "クイックロード";
+  "Quick Save Button" = "クイックセーブ";
+  "Reset" = "リセット";
+  "Rewind" = "巻き戻し";
+  "Save" = "セーブ";
+  "Screenshot" = "スクリーンショット";
+  "Volume Down" = "音量を下げる";
+  "Volume Up" = "音量を上げる";

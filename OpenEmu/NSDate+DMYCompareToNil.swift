@@ -26,29 +26,31 @@
 
 import Foundation
 
-extension NSDate {
+extension Date {
     
-    func OE_compareDMYTranslatingNilToDistantPast(otherDate: NSDate?) -> NSComparisonResult {
+    func OE_compareDMYTranslatingNilToDistantPast(_ otherDate: Date?) -> ComparisonResult {
         
         guard let otherDate = otherDate else {
-            return compare(NSDate.distantPast())
+            return compare(.distantPast)
         }
         
-        let gregorian = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+        let gregorian = Calendar(identifier: .gregorian)
         
-        let selfDMY  = gregorian.components([.Day, .Month, .Year], fromDate: self)
-        let otherDMY = gregorian.components([.Day, .Month, .Year], fromDate: otherDate)
+        let selfDMY = gregorian.dateComponents([.day, .month, .year], from: self)
+        let otherDMY = gregorian.dateComponents([.day, .month, .year], from: otherDate)
         
         if selfDMY.year != otherDMY.year {
-            return selfDMY.year > otherDMY.year ? .OrderedDescending : .OrderedAscending
-        }
-        if selfDMY.month != otherDMY.month {
-            return selfDMY.month > otherDMY.month ? .OrderedDescending : .OrderedAscending
-        }
-        if selfDMY.day != otherDMY.day {
-            return selfDMY.day > otherDMY.day ? .OrderedDescending : .OrderedAscending
+            return selfDMY.year! > otherDMY.year! ? .orderedDescending : .orderedAscending
         }
         
-        return .OrderedSame
+        if selfDMY.month != otherDMY.month {
+            return selfDMY.month! > otherDMY.month! ? .orderedDescending : .orderedAscending
+        }
+        
+        if selfDMY.day != otherDMY.day {
+            return selfDMY.day! > otherDMY.day! ? .orderedDescending : .orderedAscending
+        }
+        
+        return .orderedSame
     }
 }

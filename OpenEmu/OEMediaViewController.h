@@ -28,9 +28,18 @@
 #import "OELibrarySubviewController.h"
 #import "OECollectionViewController.h"
 
+@class OEDBSaveState, OEDBScreenshot;
+
+extern NSString * const OEMediaViewControllerDidSetSelectionIndexesNotification;
+
 @interface OEMediaViewController : OECollectionViewController <OELibrarySubviewController, OEBlankSlateViewDelegate>
 
-- (NSArray*)selectedSaveStates;
+@property (readonly) BOOL saveStateMode;
+
+@property (readonly) NSArray <OEDBSaveState *> *selectedSaveStates;
+@property (readonly) NSArray <OEDBScreenshot *> *selectedScreenshots;
+
 - (IBAction)showInFinder:(id)sender;
+- (void)deleteSelectedItems:(id)sender;
 
 @end

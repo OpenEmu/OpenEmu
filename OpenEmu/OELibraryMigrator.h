@@ -30,8 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *const OEMigrationErrorDomain;
 
-typedef NS_ENUM(NSUInteger, OEMigrationErrorCode) {
-    OEMigrationCanceled = -10,
+typedef NS_ENUM(NSInteger, OEMigrationErrorCode) {
+    OEMigrationCancelled = -10,
 };
 
 @interface OELibraryMigrator : NSObject

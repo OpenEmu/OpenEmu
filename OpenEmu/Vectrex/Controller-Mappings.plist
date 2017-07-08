@@ -205,24 +205,37 @@
 		<key>OEVectrexButton1</key>
 		<string>OEControllerSonyPS4Dualshock4ButtonSquare</string>
 	</dict>
-	<key>OEControllerSteelSeriesWireless</key>
+	<key>OEControllerGCExtendedGamepadProfile</key>
 	<dict>
 		<key>OEVectrexAnalogUp</key>
-		<string>OEControllerSteelSeriesWirelessDPadUp</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadUp</string>
 		<key>OEVectrexAnalogDown</key>
-		<string>OEControllerSteelSeriesWirelessDPadDown</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadDown</string>
 		<key>OEVectrexAnalogLeft</key>
-		<string>OEControllerSteelSeriesWirelessDPadLeft</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadLeft</string>
 		<key>OEVectrexAnalogRight</key>
-		<string>OEControllerSteelSeriesWirelessDPadRight</string>
+		<string>OEControllerGCExtendedGamepadProfileDPadRight</string>
 		<key>OEVectrexButton3</key>
-		<string>OEControllerSteelSeriesWirelessButtonB</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonB</string>
 		<key>OEVectrexButton2</key>
-		<string>OEControllerSteelSeriesWirelessButtonA</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonA</string>
 		<key>OEVectrexButton4</key>
-		<string>OEControllerSteelSeriesWirelessButtonY</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonY</string>
 		<key>OEVectrexButton1</key>
-		<string>OEControllerSteelSeriesWirelessButtonX</string>
+		<string>OEControllerGCExtendedGamepadProfileButtonX</string>
+	</dict>
+	<key>OEControllerNintendoSwitchProController</key>
+	<dict>
+		<key>OEVectrexAnalogUp</key>
+		<string>OEControllerNintendoSwitchProControllerDPadUp</string>
+		<key>OEVectrexButton3</key>
+		<string>OEControllerNintendoSwitchProControllerButtonA</string>
+		<key>OEVectrexButton2</key>
+		<string>OEControllerNintendoSwitchProControllerButtonB</string>
+		<key>OEVectrexButton4</key>
+		<string>OEControllerNintendoSwitchProControllerButtonX</string>
+		<key>OEVectrexButton1</key>
+		<string>OEControllerNintendoSwitchProControllerButtonY</string>
 	</dict>
 </dict>
 </plist>

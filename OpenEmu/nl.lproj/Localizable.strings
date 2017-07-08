@@ -84,8 +84,6 @@
 
 "Cancel Cover Art Download" = "Annuleer omslagafbeelding downloaden";
 
-"Cancel Operation" = "Annuleer handeling";
-
 "Cancel" = "Annuleer";
 
 "Change Core" = "Wijzig kern";
@@ -105,8 +103,6 @@
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Kies Ja om alle items uit de wachtrij te verwijderen. Items die al geïmporteerd zijn worden behouden in uw bibliotheek.";
 
 "Code:" = "Code:";
-
-"Collapse" = "Samenvouwen";
 
 "Collections" = "Verzamelingen";
 
@@ -178,11 +174,11 @@
 
 "Device number %lu, %@, has disconnected." = "Apparaat met nummer %1$lu, %2$@, is ontkoppeld.";
 
+"Disc %u" = "Schijf %u";
+
 "Disc-based games have special requirements. Please read the disc importing guide." = "Op schijven gebaseerde spellen hebben speciale vereisten. Lees alstublieft de handleiding over schijven importeren.";
 
 "Dismiss" = "Negeer";
-
-"Do it!" = "Doe het!";
 
 "Do not ask me again" = "Vraag me dit niet opnieuw";
 
@@ -217,8 +213,6 @@
 "Edit Game Controls" = "Edit Game Controls";
 
 "Enable now" = "Schakel nu in";
-
-"Enable Retrode support" = "Retrode-ondersteuning inschakelen";
 
 "Error!" = "Fout!";
 
@@ -313,8 +307,6 @@
 "No" = "Nee";
 
 "None" = "Geen";
-
-"Not implemented right now" = "Nu nog niet geïmplementeerd";
 
 "OK" = "OK";
 
@@ -428,6 +420,8 @@
 
 "Select Core" = "Selecteer kern";
 
+"Select Disc" = "Selecteer schijf";
+
 "Select Filter" = "Selecteer filter";
 
 "Select Scale" = "Selecteer schaal";
@@ -443,6 +437,8 @@
 "Slot 1" = "Slot 1";
 
 "Some migrations failed to complete properly" = "Sommige migraties zijn niet correct afgerond";
+
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Speciale dank aan iedereen die\nOpenEmu mogelijk maakt. Bezoek alstublieft onze GitHub-pagina om meer te weten te komen\nover onze bijdragers, emulator kernen,\ndocumentatie en licenties en om bugs te melden.";
 
 "Start Scanning" = "Start scannen";
 
@@ -496,8 +492,6 @@
 
 "Toggle Fullscreen" = "Schakel schermvullende weergave in/uit";
 
-"Toggle Sidebar" = "Toon/verberg zijbalk";
-
 "Trash downloaded Files" = "Gooi gedownloade bestanden in de prullenmand";
 
 "Unmute Audio" = "Ontdemp geluid";
@@ -509,8 +503,6 @@
 "View Guide In Browser" = "Bekijk handleiding in browser";
 
 "Warning" = "Waarschuwing";
-
-"While performing this operation OpenEmu will be unresponsive." = "Terwijl OpenEmu deze handeling verricht, reageert het niet.";
 
 "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "Met OpenEmu kan u uw voortgang op elk moment opslaan via momentopnames. We zullen zelfs automatische momentopnames maken voor u wanneer u een spel verlaat. Kom hiernaar terug om een overzicht te krijgen van al uw opgeslagen spellen.";
 
@@ -529,6 +521,20 @@
 "Your game finished importing, do you want to play it now?" = "Uw spel is geïmporteerd, wilt u het nu spelen?";
 
 "Your library was moved sucessfully." = "Uw bibliotheek werd succesvol verplaatst.";
+
+"Library" = "Bibliotheek";
+
+"Save States" = "Momentopnames";
+
+"Screenshots" = "Schermafbeeldingen";
+
+"Homebrew" = "Homebrew";
+
+"Grid Size" = "Rastergrootte";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"View Mode" = "Weergavemodus";   // shown when the corresponding item does not fit in the main window's toolbar
+
+"Category" = "Categorie";   // shown when the corresponding item does not fit in the main window's toolbar
 
 
 /* Secrets */
@@ -570,8 +576,6 @@
 "Can delete save states" = "Can delete save states";
 
 "Show options button" = "Toon optiesknop";
-
-"Use gamecore picker" = "Gebruik spelkernkiezer";
 
 "Show quicksave notification during gameplay" = "Toon melding van snelle momentopname tijdens het spelen";
 
@@ -641,4 +645,16 @@
 
 "Perform Sanity Check on Database" = "Controleer database op zuiverheid";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Speciale dank aan iedereen die\nOpenEmu mogelijk maakt. Bezoek alstublieft onze GitHub-pagina om meer te weten te komen\nover onze bijdragers, emulator kernen,\ndocumentatie en licenties en om bugs te melden.";
+"While performing this operation OpenEmu will be unresponsive." = "Terwijl OpenEmu deze handeling verricht, reageert het niet.";
+
+"Do it!" = "Doe het!";
+
+"Cancel Operation" = "Annuleer handeling";
+
+"Delete useless image objects" = "Verwijder nutteloze afbeeldingsobjecten";
+
+"Sync games without artwork" = "Synchroniseer spellen zonder omslagafbeelding";
+
+"ECM compressed binary detected." = "Met ECM gecomprimeerd binair bestand gedetecteerd.";
+
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "Met ECM gecomprimeerde binaire bestanden kunnen niet worden geïmporteerd. Lees alstublieft de gids over het importeren van schijven.";

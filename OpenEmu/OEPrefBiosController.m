@@ -33,7 +33,6 @@
 #import "OETheme.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
-#import "OEBIOSFile.h"
 
 #import "OpenEmu-Swift.h"
 #import "OEFSWatcher.h"
@@ -138,21 +137,6 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
     [self.tableView reloadData];
 }
 
-- (NSString*)OE_formatByteNumber:(NSNumber*)number
-{
-    NSUInteger size = number.integerValue;
-
-    NSArray *units = @[ @"Bytes", @"KB", @"MB", @"GB" ];
-    NSUInteger unitIdx = 0;
-    while(size > 1000 && unitIdx < units.count - 1)
-    {
-        unitIdx ++;
-        size /= 1000;
-    }
-
-    return [NSString stringWithFormat:@"%ld %@", size, units[unitIdx]];
-}
-
 - (BOOL)importBIOSFile:(NSURL*)url
 {
     OEBIOSFile *biosFile = [[OEBIOSFile alloc] init];
@@ -247,7 +231,8 @@ static void *const _OEPrefBiosCoreListContext = (void *)&_OEPrefBiosCoreListCont
         NSImage  *image = [NSImage imageNamed:imageName];
 
         descriptionField.stringValue = description;
-        fileNameField.stringValue = [NSString stringWithFormat:@"%@ (%@)", name, [self OE_formatByteNumber:size]];
+        NSString *sizeString = [NSByteCountFormatter stringFromByteCount:size.longLongValue countStyle:NSByteCountFormatterCountStyleFile];
+        fileNameField.stringValue = [NSString stringWithFormat:@"%@ (%@)", name, sizeString];
         availabilityIndicator.image = image;
 
         int rowsFromHeader = 0;

@@ -25,7 +25,7 @@
  */
 
 @import Cocoa;
-#import "OEGameIntegralScalingDelegate.h"
+#import "OpenEmu-Swift.h"
 
 @class OEGameDocument;
 

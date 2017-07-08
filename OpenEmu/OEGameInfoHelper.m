@@ -241,7 +241,7 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
     return [self.database executeQuery:sql error:error];
 }
 
-- (NSDictionary *)gameInfoWithDictionary:(NSDictionary *)gameInfo {
+- (NSDictionary * _Nullable)gameInfoWithDictionary:(NSDictionary *)gameInfo {
     
     @synchronized(self) {
         
@@ -321,8 +321,12 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
                  removeFile = YES;
             }
 
-            NSString *headerFound = [OEDBSystem headerForFileWithURL:romURL forSystem:systemIdentifier];
-            NSString *serialFound = [OEDBSystem serialForFileWithURL:romURL forSystem:systemIdentifier];
+            OEFile *file = [OEFile fileWithURL:romURL error:NULL];
+            if (file == nil)
+                return nil;
+
+            NSString *headerFound = [OEDBSystem headerForFile:file forSystem:systemIdentifier];
+            NSString *serialFound = [OEDBSystem serialForFile:file forSystem:systemIdentifier];
 
             if (!headerFound && !serialFound) {
                 
@@ -481,6 +485,10 @@ NSString * const OEGameInfoHelperDidUpdateNotificationName = @"OEGameInfoHelperD
         }
 
         if ([formatName isEqualToString:@"LZMA_Alone"]) {
+            return nil;
+        }
+
+        if ([formatName isEqualToString:@"ISO 9660"]) {
             return nil;
         }
 

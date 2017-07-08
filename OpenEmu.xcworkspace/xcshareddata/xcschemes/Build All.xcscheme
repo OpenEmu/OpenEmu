@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0710"
+   LastUpgradeVersion = "0830"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -74,34 +74,6 @@
                BuildableName = "Build &amp; Install SNES9x"
                BlueprintName = "Build &amp; Install SNES9x"
                ReferencedContainer = "container:SNES9x/SNES9x.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B56F6FC20F38FC1600DCE88B"
-               BuildableName = "Build &amp; Install NeoPop"
-               BlueprintName = "Build &amp; Install NeoPop"
-               ReferencedContainer = "container:NeoPop/NeoPop.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82D815AB0F1D882B00EF8CF5"
-               BuildableName = "Build &amp; Install VisualBoyAdvance"
-               BlueprintName = "Build &amp; Install VisualBoyAdvance"
-               ReferencedContainer = "container:VisualBoyAdvance/VisualBoyAdvance.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -284,6 +256,20 @@
                BuildableName = "Build and Install VecXGL"
                BlueprintName = "Build and Install VecXGL"
                ReferencedContainer = "container:VecXGL/VecXGL.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "82D815AB0F1D882B00EF8CF5"
+               BuildableName = "Build &amp; Install mGBA"
+               BlueprintName = "Build &amp; Install mGBA"
+               ReferencedContainer = "container:mGBA/mGBA.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

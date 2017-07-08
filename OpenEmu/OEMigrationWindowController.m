@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (IBAction)cancelMigration:(nullable id)sender
 {
-    NSError *error = [NSError errorWithDomain:OEMigrationErrorDomain code:OEMigrationCanceled userInfo:nil];
+    NSError *error = [NSError errorWithDomain:OEMigrationErrorDomain code:OEMigrationCancelled userInfo:nil];
     [self.manager cancelMigrationWithError:error];
 }
 

@@ -26,12 +26,14 @@
 #import "OEPrefCoresController.h"
 
 #import "OETableView.h"
-#import "OECenteredTextFieldCell.h"
 #import "OECoreTableButtonCell.h"
 #import "OECoreTableProgressCell.h"
+#import "OECenteredTextFieldCell.h"
 
 #import "OECoreUpdater.h"
 #import "OECoreDownload.h"
+
+#import "OpenEmu-Swift.h"
 
 @interface OEPrefCoresController ()
 - (void)OE_updateOrInstallItemAtRow:(NSInteger)rowIndex;
@@ -228,7 +230,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
     if([cell isKindOfClass:[NSTextFieldCell class]])
         return [cell stringValue];
     
-    return nil;
+    return @"";
 }
 
 #pragma mark -

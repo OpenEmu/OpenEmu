@@ -29,47 +29,50 @@
 @implementation NSColor (OEAdditions_internal)
 + (NSColor*)colorFromString:(NSString*)colorString
 {
-    static NSDictionary    *namedColors = nil;
-    if(!namedColors) {
+    static NSDictionary *namedColors = nil;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         // Mac OS X defined colors
-        namedColors = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                       [NSColor clearColor],                        @"clear",
-                       [NSColor alternateSelectedControlColor],     @"alternateselectedcontrol",
-                       [NSColor alternateSelectedControlTextColor], @"alternateselectedcontroltext",
-                       [NSColor controlBackgroundColor],            @"controlbackground",
-                       [NSColor controlColor],                      @"control",
-                       [NSColor controlHighlightColor],             @"controlhighlight",
-                       [NSColor controlLightHighlightColor],        @"controllighthighlight",
-                       [NSColor controlShadowColor],                @"controlshadow",
-                       [NSColor controlDarkShadowColor],            @"controldarkshadow",
-                       [NSColor controlTextColor],                  @"controltext",
-                       [NSColor disabledControlTextColor],          @"disabledcontroltext",
-                       [NSColor gridColor],                         @"grid",
-                       [NSColor headerColor],                       @"header",
-                       [NSColor headerTextColor],                   @"headertext",
-                       [NSColor highlightColor],                    @"highlight",
-                       [NSColor keyboardFocusIndicatorColor],       @"keyboardfocusindicator",
-                       [NSColor knobColor],                         @"knob",
-                       [NSColor scrollBarColor],                    @"scrollbar",
-                       [NSColor secondarySelectedControlColor],     @"secondaryselectedcontrol",
-                       [NSColor selectedControlColor],              @"selectedcontrol",
-                       [NSColor selectedControlTextColor],          @"selectedcontroltext",
-                       [NSColor selectedMenuItemColor],             @"selectedmenuitem",
-                       [NSColor selectedMenuItemTextColor],         @"selectedmenuitemtext",
-                       [NSColor selectedTextBackgroundColor],       @"selectedtextbackground",
-                       [NSColor selectedTextColor],                 @"selectedtext",
-                       [NSColor selectedKnobColor],                 @"selectedknob",
-                       [NSColor shadowColor],                       @"shadow",
-                       [NSColor textBackgroundColor],               @"textbackground",
-                       [NSColor textColor],                         @"text",
-                       [NSColor windowBackgroundColor],             @"windowbackground",
-                       [NSColor windowFrameColor],                  @"windowframe",
-                       [NSColor windowFrameTextColor],              @"windowframetext",
-                       nil];
+        NSMutableDictionary *mNamedColors =
+                    [@{
+                         [NSColor clearColor]:                        @"clear",
+                         [NSColor alternateSelectedControlColor]:     @"alternateselectedcontrol",
+                         [NSColor alternateSelectedControlTextColor]: @"alternateselectedcontroltext",
+                         [NSColor controlBackgroundColor]:            @"controlbackground",
+                         [NSColor controlColor]:                      @"control",
+                         [NSColor controlHighlightColor]:             @"controlhighlight",
+                         [NSColor controlLightHighlightColor]:        @"controllighthighlight",
+                         [NSColor controlShadowColor]:                @"controlshadow",
+                         [NSColor controlDarkShadowColor]:            @"controldarkshadow",
+                         [NSColor controlTextColor]:                  @"controltext",
+                         [NSColor disabledControlTextColor]:          @"disabledcontroltext",
+                         [NSColor gridColor]:                         @"grid",
+                         [NSColor headerColor]:                       @"header",
+                         [NSColor headerTextColor]:                   @"headertext",
+                         [NSColor highlightColor]:                    @"highlight",
+                         [NSColor keyboardFocusIndicatorColor]:       @"keyboardfocusindicator",
+                         [NSColor knobColor]:                         @"knob",
+                         [NSColor scrollBarColor]:                    @"scrollbar",
+                         [NSColor secondarySelectedControlColor]:     @"secondaryselectedcontrol",
+                         [NSColor selectedControlColor]:              @"selectedcontrol",
+                         [NSColor selectedControlTextColor]:          @"selectedcontroltext",
+                         [NSColor selectedMenuItemColor]:             @"selectedmenuitem",
+                         [NSColor selectedMenuItemTextColor]:         @"selectedmenuitemtext",
+                         [NSColor selectedTextBackgroundColor]:       @"selectedtextbackground",
+                         [NSColor selectedTextColor]:                 @"selectedtext",
+                         [NSColor selectedKnobColor]:                 @"selectedknob",
+                         [NSColor shadowColor]:                       @"shadow",
+                         [NSColor textBackgroundColor]:               @"textbackground",
+                         [NSColor textColor]:                         @"text",
+                         [NSColor windowBackgroundColor]:             @"windowbackground",
+                         [NSColor windowFrameColor]:                  @"windowframe",
+                         [NSColor windowFrameTextColor]:              @"windowframetext",
+                         } mutableCopy];
 
         // CSS3 named colors
-        static const char *colorNameDB =
-        "aliceblue=#f0f8ff;antiquewhite=#faebd7;aqua=#00ffff;aquamarine=#7fffd4;azure=#f0ffff;"
+        NSString *colorNameDB =
+        @"aliceblue=#f0f8ff;antiquewhite=#faebd7;aqua=#00ffff;aquamarine=#7fffd4;azure=#f0ffff;"
         "beige=#f5f5dc;bisque=#ffe4c4;black=#000000;blanchedalmond=#ffebcd;blue=#0000ff;"
         "blueviolet=#8a2be2;brown=#a52a2a;burlywood=#deb887;cadetblue=#5f9ea0;chartreuse=#7fff00;"
         "chocolate=#d2691e;coral=#ff7f50;cornflowerblue=#6495ed;cornsilk=#fff8dc;crimson=#dc143c;"
@@ -101,41 +104,17 @@
         "silver=#c0c0c0;skyblue=#87ceeb;slateblue=#6a5acd;slategray=#708090;slategrey=#708090;"
         "snow=#fffafa;springgreen=#00ff7f;steelblue=#4682b4;tan=#d2b48c;teal=#008080;"
         "thistle=#d8bfd8;tomato=#ff6347;turquoise=#40e0d0;violet=#ee82ee;wheat=#f5deb3;"
-        "white=#ffffff;whitesmoke=#f5f5f5;yellow=#ffff00;yellowgreen=#9acd32;";
+        "white=#ffffff;whitesmoke=#f5f5f5;yellow=#ffff00;yellowgreen=#9acd32";
 
-        const char *lineSeparator  = ";";
-        const char *valueSeperator = "=";
-
-        char *names = NULL;
-        char *line, *name, *value, *brkt;
-
-        @try
-        {
-            if((names = malloc(strlen(colorNameDB))) != NULL)
-            {
-                memcpy(names, colorNameDB, strlen(colorNameDB));
-
-                NSString *colorName  = nil;
-                NSColor  *colorValue = nil;
-
-                for(line = strtok_r(names, lineSeparator, &brkt); line; line = strtok_r(NULL, lineSeparator, &brkt))
-                {
-                    name = strtok_r(line, valueSeperator, &value);
-                    if(name != NULL && value != NULL)
-                    {
-                        colorName  = [[NSString stringWithCString:name encoding:NSUTF8StringEncoding] lowercaseString];
-                        colorValue = [NSColor colorFromString:[NSString stringWithCString:value encoding:NSUTF8StringEncoding]];
-
-                        if(colorName != nil && colorValue != nil) [namedColors setValue:colorValue forKey:colorName];
-                    }
-                }
-            }
+        NSArray *colorPairs = [colorNameDB componentsSeparatedByString:@";"];
+        for (NSString *pairstr in colorPairs) {
+            NSArray *pair = [pairstr componentsSeparatedByString:@"="];
+            
+            mNamedColors[pair[0]] = [NSColor _colorFromCleanString:pair[1]];
         }
-        @finally
-        {
-            if(names != NULL) free(names);
-        }
-    }
+
+        namedColors = [mNamedColors copy];
+    });
 
     if(!colorString) return nil;
 

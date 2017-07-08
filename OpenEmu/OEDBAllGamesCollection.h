@@ -30,7 +30,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OEDBAllGamesCollection : NSObject <OESidebarItem>
-+ (instancetype)sharedDBAllGamesCollection;
+@property(class, readonly) OEDBAllGamesCollection *sharedDBAllGamesCollection;
 @end
 
 NS_ASSUME_NONNULL_END

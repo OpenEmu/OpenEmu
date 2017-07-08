@@ -61,7 +61,7 @@
 
 - (void)startDownload:(id)sender {
     
-    if (self.appcastItem == nil) {
+    if (self.appcastItem == nil || self.isDownloading) {
         return;
     }
 

@@ -24,7 +24,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEDBImage.h"
+#import "OEDBImage+CoreDataProperties.h"
 #import "OELibraryDatabase.h"
 #import "OEDBGame.h"
 
@@ -34,7 +34,6 @@
 #pragma mark -
 
 @implementation OEDBImage
-@dynamic source, width, height, format, Box, relativePath;
 
 + (nullable NSDictionary <NSString *, id> *)prepareImageWithURLString:(NSString *)urlString;
 {

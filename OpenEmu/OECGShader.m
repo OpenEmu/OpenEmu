@@ -63,7 +63,7 @@
             NSLog(@"%@: Couldn't get valid profile", [self shaderName]);
         cgGLSetOptimalOptions(_vertexProfile);
 
-        _vertexProgram = cgCreateProgramFromFile(_cgContext, CG_SOURCE, [[self filePath] UTF8String], _vertexProfile, "main_vertex", 0);
+        _vertexProgram = cgCreateProgramFromFile(_cgContext, CG_SOURCE, self.filePath.fileSystemRepresentation, _vertexProfile, "main_vertex", 0);
         if(_vertexProgram == NULL)
         {
             [self OE_logCgErrorWithProfile:_vertexProfile];
@@ -116,7 +116,7 @@
             NSLog(@"%@: Couldn't get valid profile", [self shaderName]);
         cgGLSetOptimalOptions(_fragmentProfile);
 
-        _fragmentProgram = cgCreateProgramFromFile(_cgContext, CG_SOURCE, [[self filePath] UTF8String], _fragmentProfile, "main_fragment", 0);
+        _fragmentProgram = cgCreateProgramFromFile(_cgContext, CG_SOURCE, self.filePath.fileSystemRepresentation, _fragmentProfile, "main_fragment", 0);
         if(_fragmentProgram == NULL)
         {
             [self OE_logCgErrorWithProfile:_fragmentProfile];

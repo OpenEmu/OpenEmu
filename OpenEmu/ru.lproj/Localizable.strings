@@ -42,9 +42,9 @@
 
 "Add Cheat" = "Добавить Чит-код";
 
-"Add Cover Art From File…" = "Добавить обложку из файла…";
+"Add Cover Art from File…" = "Добавить обложку из файла…";
 
-"Add To Collection" = "Добавить в коллекцию";
+"Add to Collection" = "Добавить в коллекцию";
 
 "All Games" = "Все игры";
 
@@ -84,8 +84,6 @@
 
 "Cancel Cover Art Download" = "Отменить загрузку обложки";
 
-"Cancel Operation" = "Отменить операцию";
-
 "Cancel" = "Отменить";
 
 "Change Core" = "Сменить ядро";
@@ -105,8 +103,6 @@
 "Choose Yes to remove all items from the queue. Items that finished importing will be preserved in your library." = "Выберите Да, чтобы удалить все элементы из очереди. Предметы, которые закончили импорт будут сохранены в библиотеке.";
 
 "Code:" = "Код:";
-
-"Collapse" = "Свернуть";
 
 "Collections" = "Коллекции";
 
@@ -178,11 +174,11 @@
 
 "Device number %lu, %@, has disconnected." = "Устройство под номером %1$lu, %2$@, было отключено.";
 
+"Disc %u" = "Disc %u"; // TODO
+
 "Disc-based games have special requirements. Please read the disc importing guide." = "Disc-based games have special requirements. Please read the disc importing guide."; // TODO
 
 "Dismiss" = "Dismiss"; // TODO
-
-"Do it!" = "Сделать это!";
 
 "Do not ask me again" = "Больше не спрашивать";
 
@@ -217,8 +213,6 @@
 "Edit Game Controls" = "Редактировать управление в игре";
 
 "Enable now" = "Включить сейчас";
-
-"Enable Retrode support" = "Включить поддержку Retrode";
 
 "Error!" = "Ошибка!";
 
@@ -313,8 +307,6 @@
 "No" = "Нет";
 
 "None" = "Ничего";
-
-"Not implemented right now" = "Пока что не используется";
 
 "OK" = "ОК";
 
@@ -428,6 +420,8 @@
 
 "Select Core" = "Выбрать ядро";
 
+"Select Disc" = "Select Disc"; // TODO
+
 "Select Filter" = "Выбрать фильтр";
 
 "Select Scale" = "Выберите размер";
@@ -443,6 +437,8 @@
 "Slot 1" = "Слот 1";
 
 "Some migrations failed to complete properly" = "Не удалось применить некоторые миграции";
+
+"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub."; // TODO
 
 "Start Scanning" = "Начать сканирование";
 
@@ -496,8 +492,6 @@
 
 "Toggle Fullscreen" = "Полный экран";
 
-"Toggle Sidebar" = "Сайдбар";
-
 "Trash downloaded Files" = "Переместить в корзину скаченные файлы";
 
 "Unmute Audio" = "Включить звук";
@@ -506,11 +500,9 @@
 
 "User guide on BIOS files" = "Руководство пользователя по файлам BIOS";
 
-"View Guide In Browser" = "View Guide In Browser"; // TODO
+"View Guide in Browser" = "View Guide in Browser"; // TODO
 
 "Warning" = "Внимание";
-
-"While performing this operation OpenEmu will be unresponsive." = "Во время выполнения данной операции OpenEmu может не отвечать.";
 
 "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves." = "With OpenEmu you can save your progress at any time using save states. We will even make auto saves for you, when you leave a game. Come back here to get an overview of all your saves."; // TODO
 
@@ -529,6 +521,20 @@
 "Your game finished importing, do you want to play it now?" = "Ваша игра импортирована, хотите запустить ее сейчас?";
 
 "Your library was moved sucessfully." = "Ваша библиотека успешно перемещена.";
+
+"Library" = "Библиотека";
+
+"Save States" = "Сохранения";
+
+"Screenshots" = "Скриншоты";
+
+"Homebrew" = "Homebrew";
+
+"Grid Size" = "Grid Size";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+
+"View Mode" = "View Mode";   // TODO shown when the corresponding item does not fit in the main window's toolbar
+
+"Category" = "Category";   // TODO shown when the corresponding item does not fit in the main window's toolbar
 
 
 /* Secrets */
@@ -570,8 +576,6 @@
 "Can delete save states" = "Можете удалить сохраненные состояния";
 
 "Show options button" = "Показать кнопку опций";
-
-"Use gamecore picker" = "Использовать выбор ядра";
 
 "Show quicksave notification during gameplay" = "Показать уведомление о быстром сохранении в процессе игры";
 
@@ -627,7 +631,7 @@
 
 "Database Actions" = "Действия с базой данных";
 
-"Delete Artwork that can be downloaded" = "Удалить обложку, которая может быть загружена";
+"Delete artwork that can be downloaded" = "Удалить обложку, которая может быть загружена";
 
 "Download missing artwork" = "Загрузить отсутствующую обложку";
 
@@ -641,4 +645,16 @@
 
 "Perform Sanity Check on Database" = "Выполните проверку исправности базы данных";
 
-"Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Special thanks to everyone that made\nOpenEmu possible. To find out more \nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub."; // TODO
+"While performing this operation OpenEmu will be unresponsive." = "Во время выполнения данной операции OpenEmu может не отвечать.";
+
+"Do it!" = "Сделать это!";
+
+"Cancel Operation" = "Отменить операцию";
+
+"Delete useless image objects" = "Delete useless image objects"; // TODO
+
+"Sync games without artwork" = "Sync games without artwork"; // TODO
+
+"ECM compressed binary detected." = "ECM compressed binary detected.";  // TODO
+
+"ECM compressed binaries cannot be imported. Please read the disc importing guide." = "ECM compressed binaries cannot be imported. Please read the disc importing guide.";  // TODO

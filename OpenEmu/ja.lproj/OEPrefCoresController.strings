@@ -1,0 +1,9 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "Core"; ObjectID = "46"; */
+"46.headerCell.title" = "コア";
+
+/* Class = "NSTableColumn"; headerCell.title = "Version"; ObjectID = "48"; */
+"48.headerCell.title" = "バージョン";
+
+/* Class = "NSTableColumn"; headerCell.title = "Console"; ObjectID = "50"; */
+"50.headerCell.title" = "コンソール";

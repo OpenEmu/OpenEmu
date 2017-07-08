@@ -1,0 +1,36 @@
+
+/* Class = "NSTextFieldCell"; title = "Window Management"; ObjectID = "14"; */
+"14.title" = "窗口管理";
+
+/* Class = "NSMenu"; title = "OtherViews"; ObjectID = "17"; */
+"17.title" = "OtherViews";
+
+/* Class = "NSTextFieldCell"; title = "Filter:"; ObjectID = "21"; */
+"21.title" = "滤镜:";
+
+/* Class = "NSTextFieldCell"; title = "Display Mode"; ObjectID = "23"; */
+"23.title" = "显示模式";
+
+/* Class = "NSButtonCell"; title = "Always use popout gameplay window"; ObjectID = "25"; */
+"25.title" = "总是使用弹出式游戏窗口";
+
+/* Class = "NSButtonCell"; title = "Always launch games fullscreen"; ObjectID = "26"; */
+"26.title" = "总是全屏启动游戏";
+
+/* Class = "BindingConnection"; ibShadowedIsNilPlaceholder = "Linear Interpolation"; ObjectID = "55"; */
+"55.ibShadowedIsNilPlaceholder" = "线性插值";
+
+/* Class = "BindingConnection"; ibShadowedMultipleValuesPlaceholder = "Linear Interpolation"; ObjectID = "55"; */
+"55.ibShadowedMultipleValuesPlaceholder" = "线性插值";
+
+/* Class = "BindingConnection"; ibShadowedNoSelectionPlaceholder = "Linear Interpolation"; ObjectID = "55"; */
+"55.ibShadowedNoSelectionPlaceholder" = "线性插值";
+
+/* Class = "BindingConnection"; ibShadowedNotApplicablePlaceholder = "Linear Interpolation"; ObjectID = "55"; */
+"55.ibShadowedNotApplicablePlaceholder" = "线性插值";
+
+/* Class = "NSButtonCell"; title = "Always pause gameplay when in background"; ObjectID = "57"; */
+"57.title" = "总是在后台时暂停游戏";
+
+/* Class = "NSButtonCell"; title = "Allow playing with controllers when in background"; ObjectID = "zUK-Vv-IqE"; */
+"zUK-Vv-IqE.title" = "Allow playing with controllers when in background"; // TODO

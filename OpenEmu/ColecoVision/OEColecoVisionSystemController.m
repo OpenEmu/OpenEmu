@@ -32,29 +32,20 @@
 
 @implementation OEColecoVisionSystemController
 
-- (OECanHandleState)canHandleFile:(NSString *)path
+- (OEFileSupport)canHandleFile:(__kindof OEFile *)file
 {
-    OECanHandleState canHandleFile = OECanHandleUncertain;
-
-    NSFileHandle *dataROMFile;
-    NSData *dataBuffer;
-
-    dataROMFile = [NSFileHandle fileHandleForReadingAtPath: path];
-
-    // ColecoVision cart header starts at 0x0 with either 55 AA or AA 55
+    // ColecoVision cart header starts at 0x0 with either 55 AA or AA 55.
     uint8_t bytes[] = { 0x55, 0xaa };
     uint8_t bytesAlt[] = { 0xaa, 0x55 };
-    [dataROMFile seekToFileOffset: 0x0];
-    dataBuffer = [dataROMFile readDataOfLength: 2];
+
+    NSData *dataBuffer = [file readDataInRange:NSMakeRange(0, 2)];
     NSData *dataCompare = [[NSData alloc] initWithBytes:bytes length:sizeof(bytes)];
     NSData *dataCompareAlt = [[NSData alloc] initWithBytes:bytesAlt length:sizeof(bytes)];
 
     if([dataBuffer isEqualToData:dataCompare] || [dataBuffer isEqualToData:dataCompareAlt])
-        canHandleFile = OECanHandleYes;
+        return OEFileSupportYes;
 
-    [dataROMFile closeFile];
-
-    return canHandleFile;
+    return OEFileSupportUncertain;
 }
 
 @end

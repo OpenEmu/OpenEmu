@@ -2,12 +2,6 @@
 /* Class = "NSWindow"; title = "About"; ObjectID = "793"; */
 "793.title" = "Over";
 
-/* Class = "NSTextFieldCell"; title = "Label"; ObjectID = "803"; */
-"803.title" = "Label";
-
-/* Class = "NSMenu"; title = "bb"; ObjectID = "970"; */
-"970.title" = "bb";
-
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "971"; */
 "971.title" = "Wijzig";
 
@@ -19,9 +13,6 @@
 
 /* Class = "NSMenuItem"; title = "Window"; ObjectID = "974"; */
 "974.title" = "Venster";
-
-/* Class = "NSMenuItem"; title = "OpenEmu"; ObjectID = "975"; */
-"975.title" = "OpenEmu";
 
 /* Class = "NSMenuItem"; title = "File"; ObjectID = "976"; */
 "976.title" = "Archief";
@@ -80,21 +71,6 @@
 /* Class = "NSMenuItem"; title = "None"; ObjectID = "1000"; */
 "1000.title" = "Geen";
 
-/* Class = "NSMenuItem"; title = "★★"; ObjectID = "1001"; */
-"1001.title" = "★★";
-
-/* Class = "NSMenuItem"; title = "★★★"; ObjectID = "1002"; */
-"1002.title" = "★★★";
-
-/* Class = "NSMenuItem"; title = "★★★★"; ObjectID = "1003"; */
-"1003.title" = "★★★★";
-
-/* Class = "NSMenuItem"; title = "★"; ObjectID = "1004"; */
-"1004.title" = "★";
-
-/* Class = "NSMenuItem"; title = "★★★★★"; ObjectID = "1005"; */
-"1005.title" = "★★★★★";
-
 /* Class = "NSMenu"; title = "Library"; ObjectID = "1006"; */
 "1006.title" = "Bibliotheek";
 
@@ -112,9 +88,6 @@
 
 /* Class = "NSMenuItem"; title = "Export Collection"; ObjectID = "1012"; */
 "1012.title" = "Exporteer verzameling";
-
-/* Class = "NSMenu"; title = "OpenEmu"; ObjectID = "1013"; */
-"1013.title" = "OpenEmu";
 
 /* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "1014"; */
 "1014.title" = "Voorkeuren…";
@@ -145,9 +118,6 @@
 
 /* Class = "NSMenu"; title = "Window"; ObjectID = "1028"; */
 "1028.title" = "Venster";
-
-/* Class = "NSMenuItem"; title = "OpenEmu"; ObjectID = "1029"; */
-"1029.title" = "OpenEmu";
 
 /* Class = "NSMenuItem"; title = "Bring All to Front"; ObjectID = "1032"; */
 "1032.title" = "Alles op voorgrond";
@@ -200,24 +170,6 @@
 /* Class = "NSMenu"; title = "Last Played"; ObjectID = "1054"; */
 "1054.title" = "Laatst gespeeld";
 
-/* Class = "NSMenuItem"; title = "SNES"; ObjectID = "1055"; */
-"1055.title" = "SNES";
-
-/* Class = "NSMenuItem"; title = "Super Mario World"; ObjectID = "1056"; */
-"1056.title" = "Super Mario World";
-
-/* Class = "NSMenuItem"; title = "Mario Kart"; ObjectID = "1057"; */
-"1057.title" = "Mario Kart";
-
-/* Class = "NSMenuItem"; title = "Secret Of Mana"; ObjectID = "1058"; */
-"1058.title" = "Secret Of Mana";
-
-/* Class = "NSMenuItem"; title = "3DO"; ObjectID = "1059"; */
-"1059.title" = "3DO";
-
-/* Class = "NSMenuItem"; title = "Demolition Man"; ObjectID = "1060"; */
-"1060.title" = "Demolition Man";
-
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "1061"; */
 "1061.title" = "Wijzig";
 
@@ -269,9 +221,6 @@
 /* Class = "NSTextFieldCell"; title = "Version"; ObjectID = "1182"; */
 "1182.title" = "Versie";
 
-/* Class = "BindingConnection"; ibShadowedDisplayPattern = "%{value1}@"; ObjectID = "1185"; */
-"1185.ibShadowedDisplayPattern" = "%{value1}@";
-
 /* Class = "NSMenuItem"; title = "Debug"; ObjectID = "1208"; */
 "1208.title" = "Debug";
 
@@ -299,9 +248,6 @@
 /* Class = "NSMenuItem"; title = "Restart System"; ObjectID = "2rj-Sq-LdF"; */
 "2rj-Sq-LdF.title" = "Herstart systeem";
 
-/* Class = "NSButtonCell"; title = "www.openemu.org"; ObjectID = "50H-ys-sAp"; */
-"50H-ys-sAp.title" = "www.openemu.org";
-
 /* Class = "NSMenuItem"; title = "Release Notes"; ObjectID = "5YI-Il-P9H"; */
 "5YI-Il-P9H.title" = "Releaseopmerkingen";
 
@@ -314,14 +260,11 @@
 /* Class = "NSMenuItem"; title = "Always Hide HUD"; ObjectID = "ayc-Ld-Nyd"; */
 "ayc-Ld-Nyd.title" = "Verberg HUD altijd";
 
-/* Class = "BindingConnection"; ibShadowedDisplayPattern = "OpenEmu v%{value1}@"; ObjectID = "dC7-Fu-BLw"; */
-"dC7-Fu-BLw.ibShadowedDisplayPattern" = "OpenEmu v%{value1}@";
-
 /* Class = "NSMenuItem"; title = "Submit Feedback…"; ObjectID = "ftM-3D-CSh"; */
 "ftM-3D-CSh.title" = "Feedback indienen…";
 
 /* Class = "NSMenuItem"; title = "User Guide"; ObjectID = "q7W-GV-n3p"; */
 "q7W-GV-n3p.title" = "Gebruikershandleiding";
 
-/* Class = "NSButtonCell"; title = "www.github.com/openemu"; ObjectID = "y9C-BZ-tbY"; */
-"y9C-BZ-tbY.title" = "www.github.com/openemu";
+/* Class = "NSMenuItem"; title = "Send a Donation…"; ObjectID = "oKt-cF-ZgP"; */
+"oKt-cF-ZgP.title" = "Stuur een donatie…";

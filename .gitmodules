@@ -19,18 +19,12 @@
 [submodule "Mupen64Plus"]
 	path = Mupen64Plus
 	url = git@github.com:OpenEmu/Mupen64Plus-Core.git
-[submodule "NeoPop"]
-	path = NeoPop
-	url = git@github.com:OpenEmu/NeoPop-Core.git
 [submodule "Nestopia"]
 	path = Nestopia
 	url = git@github.com:OpenEmu/Nestopia-Core.git
 [submodule "SNES9x"]
 	path = SNES9x
 	url = git@github.com:OpenEmu/SNES9x-Core.git
-[submodule "VisualBoyAdvance"]
-	path = VisualBoyAdvance
-	url = git@github.com:OpenEmu/VisualBoyAdvance-Core.git
 [submodule "TwoMbit"]
 	path = TwoMbit
 	url = git@github.com:OpenEmu/TwoMbit-Core.git
@@ -46,9 +40,6 @@
 [submodule "PPSSPP"]
 	path = PPSSPP
 	url = git@github.com:OpenEmu/PPSSPP-Core.git
-[submodule "yabause"]
-	path = yabause
-	url = git@github.com:OpenEmu/yabause.git
 [submodule "VecXGL"]
 	path = VecXGL
 	url = git@github.com:OpenEmu/VecXGL-Core.git
@@ -88,3 +79,9 @@
 [submodule "VirtualC64"]
 	path = VirtualC64
 	url = git@github.com:OpenEmu/VirtualC64-Core.git
+[submodule "mGBA"]
+	path = mGBA
+	url = git@github.com:OpenEmu/mGBA-Core.git
+[submodule "OpenEmuXPCCommunicator"]
+	path = OpenEmuXPCCommunicator
+	url = git@github.com:OpenEmu/OpenEmuXPCCommunicator.git
