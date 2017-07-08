@@ -74,9 +74,6 @@ typedef uint32_t CAContextID;
 
 @implementation OpenEmuHelperApp
 {
-    void (^_startEmulationHandler)(void);
-    void (^_stopEmulationHandler)(void);
-
     OEIntSize _previousScreenSize;
     OEIntSize _previousAspectSize;
 
@@ -103,8 +100,6 @@ typedef uint32_t CAContextID;
     id   _unhandledEventsMonitor;
     BOOL _hasStartedAudio;
 }
-
-@synthesize gameCoreProxy = _gameCoreProxy;
 
 - (instancetype)init
 {
@@ -279,8 +274,6 @@ typedef uint32_t CAContextID;
     _gameController = [[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller];
     _gameCore = [_gameController newGameCore];
 
-    _gameCoreProxy = [[OEThreadProxy alloc] initWithTarget:_gameCore thread:[self makeGameCoreThread]];
-
     NSString *systemIdentifier = [_systemController systemIdentifier];
 
     [_gameCore setOwner:_gameController];
@@ -419,46 +412,6 @@ typedef uint32_t CAContextID;
     return _gameCore.isEmulationPaused;
 }
 
-- (NSThread *)makeGameCoreThread
-{
-    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(OE_gameCoreThread:) object:nil];
-    thread.name = @"org.openemu.core-thread";
-    thread.qualityOfService = NSQualityOfServiceUserInteractive;
-
-    return thread;
-}
-
-- (void)OE_gameCoreThread:(id)anObject
-{
-    [_gameCore startEmulation];
-
-    // Just to make sure.
-    [[NSThread currentThread] setName:@"org.openemu.core-thread"];
-    [[NSThread currentThread] setQualityOfService:NSQualityOfServiceUserInteractive];
-
-    void(^startEmulationHandler)(void) = _startEmulationHandler;
-    _startEmulationHandler = nil;
-
-    if (startEmulationHandler) {
-        // will be called on the first event loop go around
-        dispatch_async(dispatch_get_main_queue(), startEmulationHandler);
-    }
-
-    [_gameCore runGameLoop:self];
-
-    void(^stopEmulationHandler)(void) = _stopEmulationHandler;
-    _stopEmulationHandler = nil;
-
-    if (stopEmulationHandler) {
-        dispatch_async(dispatch_get_main_queue(), stopEmulationHandler);
-    }
-}
-
-- (void)OE_stopGameCoreThreadRunLoop:(id)anObject
-{
-    CFRunLoopStop(CFRunLoopGetCurrent());
-}
-
 #pragma mark - OEGameCoreHelper methods
 
 - (void)setVolume:(CGFloat)volume
@@ -484,7 +437,8 @@ typedef uint32_t CAContextID;
     [_gameCore setupEmulationWithCompletionHandler:^{
     [self setupGameCoreAudioAndVideo];
 
-    if(handler) handler();
+    if(handler)
+		handler();
     }];
 }
 
