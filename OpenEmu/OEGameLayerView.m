@@ -100,4 +100,14 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
     if (layer) [self updateTopLayer:layer withContextID:_remoteContextID];
 }
 
+#pragma mark - NSResponder
+
+- (void)keyDown:(NSEvent *)event
+{
+}
+
+- (void)keyUp:(NSEvent *)event
+{
+}
+
 @end
