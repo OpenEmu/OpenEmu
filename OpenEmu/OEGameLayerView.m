@@ -9,18 +9,16 @@
 #import "OEGameLayerView.h"
 #import "NSColor+OEAdditions.h"
 
+NSString * const OEScreenshotAspectRatioCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
+NSString * const OEDefaultVideoFilterKey = @"videoFilter";
 
 @interface CAContext : NSObject
-{
-}
 + (id)contextWithCGSConnection:(CAContextID)contextId options:(NSDictionary*)optionsDict;
 @property(readonly) CAContextID contextId;
 @property(retain) CALayer *layer;
 @end
 
 @interface CALayerHost : CALayer
-{
-}
 @property CAContextID contextId;
 @end
 

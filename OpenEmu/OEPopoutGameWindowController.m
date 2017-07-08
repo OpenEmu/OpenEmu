@@ -29,7 +29,6 @@
 #import "OEHUDWindow.h"
 #import "OEGameDocument.h"
 #import "OEGameViewController.h"
-#import "OEGameView.h"
 #import "OEGameControlsBar.h"
 #import "OEUtilities.h"
 
