@@ -98,13 +98,12 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
     [[self gameCoreHelper] setOutputBounds:rect];
 }
 
-- (void)setupEmulationWithCompletionHandler:(void(^)(void))handler;
+- (void)setupEmulationWithCompletionHandler:(void(^)(OEIntSize screenSize, OEIntSize aspectSize))handler;
 {
-    [[self gameCoreHelper] setupEmulationWithCompletionHandler:
-     ^{
-         dispatch_async(dispatch_get_main_queue(), ^{
-             handler();
-         });
+    [[self gameCoreHelper] setupEmulationWithCompletionHandler:^(OEIntSize screenSize, OEIntSize aspectSize) {
+		dispatch_async(dispatch_get_main_queue(), ^{
+			handler(screenSize, aspectSize);
+		});
      }];
 }
 

@@ -76,6 +76,8 @@ extern NSString *const OEScreenshotPropertiesKey;
 @property(readonly) NSString *coreIdentifier;
 @property(readonly) NSString *systemIdentifier;
 
+- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize;
+
 - (void)reflectVolume:(float)volume;
 - (void)reflectEmulationPaused:(BOOL)paused;
 #pragma mark - HUD Bar Actions
@@ -94,8 +96,8 @@ extern NSString *const OEScreenshotPropertiesKey;
 #pragma mark - Info
 @property(readonly) NSSize defaultScreenSize;
 
-@property (nonatomic) OEIntSize aspectSize;
-@property (nonatomic) OEIntSize screenSize;
+@property (readonly) OEIntSize aspectSize;
+@property (readonly) OEIntSize screenSize;
 @property (nonatomic) NSUInteger discCount;
 @property (nonatomic) NSUInteger remoteContextID;
 

@@ -268,6 +268,13 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     _gameView.remoteContextID = (CAContextID)remoteContextID;
 }
 
+- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize
+{
+	_screenSize = newScreenSize;
+	_aspectSize = newAspectSize;
+	[_gameView setScreenSize:_screenSize aspectSize:_aspectSize];
+}
+
 #pragma mark - Info
 
 // TODO: This is nearly the same as a method in the helper layer.
@@ -320,7 +327,7 @@ static NSSize CorrectScreenSizeForAspectSize(OEIntSize screenSize, OEIntSize asp
 
 #pragma mark - OEGameViewDelegate Protocol
 
-- (void)gameView:(OEGameView *)gameView didReceiveMouseEvent:(OEEvent *)event
+- (void)gameView:(OEGameLayerView *)gameView didReceiveMouseEvent:(OEEvent *)event
 {
     [[self document] gameViewController:self didReceiveMouseEvent:event];
 }

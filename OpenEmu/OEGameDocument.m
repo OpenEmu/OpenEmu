@@ -689,7 +689,9 @@ typedef enum : NSUInteger
     }
 
     [_gameCoreManager loadROMWithCompletionHandler:^{
-        [_gameCoreManager setupEmulationWithCompletionHandler:^{
+        [_gameCoreManager setupEmulationWithCompletionHandler:^(OEIntSize screenSize, OEIntSize aspectSize) {
+			[_gameViewController setScreenSize:screenSize aspectSize:aspectSize];
+
             DLog(@"SETUP DONE.");
             _emulationStatus = OEEmulationStatusSetup;
 
@@ -1529,20 +1531,9 @@ typedef enum : NSUInteger
     [self toggleEmulationPaused:self];
 }
 
-- (void)setAspectSize:(OEIntSize)newAspectSize
-{
-    [_gameViewController setAspectSize:newAspectSize];
-}
-
-- (void)setScreenSize:(OEIntSize)newScreenSize
-{
-    [_gameViewController setScreenSize:newScreenSize];
-}
-
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize
 {
-    [_gameViewController setAspectSize:newAspectSize];
-    [_gameViewController setScreenSize:newScreenSize];
+    [_gameViewController setScreenSize:newScreenSize aspectSize:newAspectSize];
 }
 
 - (void)setDiscCount:(NSUInteger)discCount

@@ -28,4 +28,6 @@ typedef uint32_t CAContextID;
 @property (nonatomic) NSColor *backgroundColor;
 @property (nonatomic) CAContextID remoteContextID;
 
+- (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize;
+
 @end

@@ -432,14 +432,14 @@ typedef uint32_t CAContextID;
     [_gameAudio setOutputDeviceID:deviceID];
 }
 
-- (void)setupEmulationWithCompletionHandler:(void(^)(void))handler;
+- (void)setupEmulationWithCompletionHandler:(void(^)(OEIntSize screenSize, OEIntSize aspectSize))handler
 {
-    [_gameCore setupEmulationWithCompletionHandler:^{
-    [self setupGameCoreAudioAndVideo];
-
-    if(handler)
-		handler();
-    }];
+	[_gameCore setupEmulationWithCompletionHandler:^{
+		[self setupGameCoreAudioAndVideo];
+		
+		if(handler)
+			handler(_previousScreenSize, _previousAspectSize);
+	}];
 }
 
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler
