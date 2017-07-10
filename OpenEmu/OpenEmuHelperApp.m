@@ -104,7 +104,9 @@ typedef uint32_t CAContextID;
 - (instancetype)init
 {
     if (!(self = [super init]))
+	{
 		return nil;
+	}
 	
     _pendingDeviceHandlerBindings = [NSMutableDictionary dictionary];
 
@@ -162,7 +164,10 @@ typedef uint32_t CAContextID;
 
 - (void)pollParentProcess
 {
-    if([_parentApplication isTerminated]) [self quitHelperTool];
+    if([_parentApplication isTerminated])
+	{
+		[self quitHelperTool];
+	}
 }
 
 - (void)quitHelperTool
@@ -185,11 +190,17 @@ typedef uint32_t CAContextID;
     OEGameCoreRendering rendering = _gameCore.gameCoreRendering;
 
     if (rendering == OEGameCoreRendering2DVideo || rendering == OEGameCoreRenderingOpenGL2Video)
+	{
         _gameRenderer = [OEOpenGL2GameRenderer new];
+	}
 	else if (rendering == OEGameCoreRenderingOpenGL3Video)
+	{
 		_gameRenderer = [OEOpenGL3GameRenderer new];
+	}
 	else
+	{
 		NSAssert(0, @"Rendering API %u not supported yet", (unsigned)rendering);
+	}
 	
     _gameRenderer.gameCore = _gameCore;
 }
@@ -218,7 +229,10 @@ typedef uint32_t CAContextID;
 
 - (void)setupRemoteLayer
 {
-    if (_gameVideoLayer != nil) return;
+    if (_gameVideoLayer != nil)
+	{
+		return;
+	}
 	
     [CATransaction begin];
 	[CATransaction setDisableActions:YES];
@@ -245,7 +259,10 @@ typedef uint32_t CAContextID;
 - (void)setOutputBounds:(NSRect)rect
 {
     OEIntSize newBufferSize = OEIntSizeMake(ceil(rect.size.width), ceil(rect.size.height));
-    if (OEIntSizeEqualToSize(_gameRenderer.surfaceSize, newBufferSize)) return;
+    if (OEIntSizeEqualToSize(_gameRenderer.surfaceSize, newBufferSize))
+	{
+		return;
+	}
 	
     DLog(@"Output size change to: %@", NSStringFromOEIntSize(newBufferSize));
 

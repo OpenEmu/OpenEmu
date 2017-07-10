@@ -86,9 +86,11 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
     
     layer.contentsGravity = kCAGravityResize;
     layer.backgroundColor = (__bridge CGColorRef)backgroundColor;
-
-    if (_remoteContextID) [self updateTopLayer:layer withContextID:_remoteContextID];
-
+	
+    if (_remoteContextID)
+	{
+		[self updateTopLayer:layer withContextID:_remoteContextID];
+	}
     return layer;
 }
 
@@ -121,7 +123,10 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
     CALayer *layer = self.layer;
 
     _remoteContextID = remoteContextID;
-    if (layer) [self updateTopLayer:layer withContextID:_remoteContextID];
+    if (layer)
+	{
+		[self updateTopLayer:layer withContextID:_remoteContextID];
+	}
 }
 
 - (NSSize)correctScreenSize:(OEIntSize)screenSize forAspectSize:(OEIntSize)aspectSize returnVertices:(BOOL)flag

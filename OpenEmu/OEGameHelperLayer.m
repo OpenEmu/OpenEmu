@@ -125,7 +125,7 @@ static NSRect FitAspectRectIntoBounds(OEIntSize aspectSize, NSRect bounds)
 	self.colorspace      = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGBLinear);
     self.anchorPoint     = CGPointMake(0,0);
     self.contentsGravity = kCAGravityResizeAspect;
-
+	
     NSString *backgroundColorName = [[NSUserDefaults standardUserDefaults] objectForKey:OEGameViewBackgroundColorKey];
     if(backgroundColorName != nil)
     {
@@ -299,7 +299,10 @@ static NSRect FitAspectRectIntoBounds(OEIntSize aspectSize, NSRect bounds)
     // Create a share context for recompiling stuff async.
     CGLCreateContext(pixelFormat, ret, &alt);
 
-    if (_alternateCglCtx) CGLDestroyContext(_alternateCglCtx);
+	if (_alternateCglCtx)
+	{
+		CGLDestroyContext(_alternateCglCtx);
+	}
     _alternateCglCtx = alt;
 
     [self reconfigure];
