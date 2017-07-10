@@ -104,8 +104,8 @@ typedef uint32_t CAContextID;
 - (instancetype)init
 {
     if (!(self = [super init]))
-        return nil;
-
+		return nil;
+	
     _pendingDeviceHandlerBindings = [NSMutableDictionary dictionary];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_deviceHandlerPlaceholderDidResolveNotification:) name:OEDeviceHandlerPlaceholderOriginalDeviceDidBecomeAvailableNotification object:nil];
@@ -186,11 +186,11 @@ typedef uint32_t CAContextID;
 
     if (rendering == OEGameCoreRendering2DVideo || rendering == OEGameCoreRenderingOpenGL2Video)
         _gameRenderer = [OEOpenGL2GameRenderer new];
-    else if (rendering == OEGameCoreRenderingOpenGL3Video)
-        _gameRenderer = [OEOpenGL3GameRenderer new];
-    else
-        NSAssert(0, @"Rendering API %u not supported yet", (unsigned)rendering);
-
+	else if (rendering == OEGameCoreRenderingOpenGL3Video)
+		_gameRenderer = [OEOpenGL3GameRenderer new];
+	else
+		NSAssert(0, @"Rendering API %u not supported yet", (unsigned)rendering);
+	
     _gameRenderer.gameCore = _gameCore;
 }
 
@@ -219,8 +219,9 @@ typedef uint32_t CAContextID;
 - (void)setupRemoteLayer
 {
     if (_gameVideoLayer != nil) return;
-
+	
     [CATransaction begin];
+	[CATransaction setDisableActions:YES];
     _gameVideoLayer = [OEGameHelperLayer new];
     OEGameLayerInputParams input = _gameVideoLayer.input;
 
@@ -230,7 +231,7 @@ typedef uint32_t CAContextID;
     _gameVideoLayer.input = input;
 
     // TODO: If there's a good default bounds, use that.
-    [_gameVideoLayer setBounds:NSMakeRect(0, 0, 1, 1)];
+    [_gameVideoLayer setBounds:NSMakeRect(0, 0, _gameCore.bufferSize.width, _gameCore.bufferSize.height)];
 
     CGSConnectionID connection_id = CGSMainConnectionID();
     _gameVideoCAContext       = [CAContext contextWithCGSConnection:connection_id options:nil];
@@ -245,12 +246,15 @@ typedef uint32_t CAContextID;
 {
     OEIntSize newBufferSize = OEIntSizeMake(ceil(rect.size.width), ceil(rect.size.height));
     if (OEIntSizeEqualToSize(_gameRenderer.surfaceSize, newBufferSize)) return;
-
+	
     DLog(@"Output size change to: %@", NSStringFromOEIntSize(newBufferSize));
 
+	[CATransaction begin];
+	[CATransaction setDisableActions:YES];
     if (_gameVideoLayer) {
         _gameVideoLayer.bounds = rect;
     }
+	[CATransaction commit];
 
     if ([_gameRenderer canChangeBufferSize] == NO) return;
     if ([_gameCore tryToResizeVideoTo:newBufferSize] == NO) return;
