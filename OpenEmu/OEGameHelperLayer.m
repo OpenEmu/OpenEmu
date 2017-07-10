@@ -122,7 +122,7 @@ static NSRect FitAspectRectIntoBounds(OEIntSize aspectSize, NSRect bounds)
      * than nothing for e.g. Gameboy on DCI-P3 screens. But "no correction" might be
      * what people are used to.
      */
-    self.colorspace      = CGColorSpaceCreateWithName(kCGColorSpaceITUR_709);
+	self.colorspace      = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGBLinear);
     self.anchorPoint     = CGPointMake(0,0);
     self.contentsGravity = kCAGravityResizeAspect;
 
