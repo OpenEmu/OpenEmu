@@ -147,6 +147,23 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 
 #pragma mark - NSResponder
 
+- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent
+{
+	// By default, AppKit tries to set the child window containing this view as its main & key window
+	// upon first mouse. Since our child window shouldn’t behave like a window, we make its parent
+	// window (the visible window from the user point of view) main and key.
+	// See https://github.com/OpenEmu/OpenEmu/issues/365
+	NSWindow *mainWindow = [[self window] parentWindow];
+	if(mainWindow)
+	{
+		[mainWindow makeMainWindow];
+		[mainWindow makeKeyWindow];
+		return NO;
+	}
+	
+	return [super acceptsFirstMouse:theEvent];
+}
+
 - (void)keyDown:(NSEvent *)event
 {
 }
