@@ -19,7 +19,7 @@
             <subviews>
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="92" horizontalPageScroll="10" verticalLineScroll="92" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="EjW-Ja-3BR" customClass="OEScrollView">
                     <rect key="frame" x="0.0" y="0.0" width="423" height="460"/>
-                    <clipView key="contentView" copiesOnScroll="NO" id="1xA-E0-138">
+                    <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="1xA-E0-138">
                         <rect key="frame" x="0.0" y="0.0" width="423" height="460"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
