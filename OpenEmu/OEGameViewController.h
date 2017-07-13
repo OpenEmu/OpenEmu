@@ -64,6 +64,8 @@ extern NSString *const OEScreenshotPropertiesKey;
 @protocol OEGameViewControllerDelegate <NSObject>
 - (void)gameViewController:(OEGameViewController *)sender didReceiveMouseEvent:(OEEvent *)event;
 - (void)gameViewController:(OEGameViewController *)sender updateBounds:(CGRect)newBounds;
+- (void)gameViewController:(OEGameViewController *)sender updateBackingScaleFactor:(CGFloat)newScaleFactor;
+
 @end
 
 @interface OEGameViewController : NSViewController

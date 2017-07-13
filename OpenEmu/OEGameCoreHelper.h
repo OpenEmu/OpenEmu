@@ -36,6 +36,7 @@
 - (void)setPauseEmulation:(BOOL)pauseEmulation;
 - (void)setAudioOutputDeviceID:(AudioDeviceID)deviceID;
 - (void)setOutputBounds:(NSRect)rect;
+- (void)setBackingScaleFactor:(CGFloat)newBackingScaleFactor;
 
 - (void)setupEmulationWithCompletionHandler:(void(^)(OEIntSize screenSize, OEIntSize aspectSize))handler;
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler;

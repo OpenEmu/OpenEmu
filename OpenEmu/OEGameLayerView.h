@@ -39,6 +39,7 @@ typedef uint32_t CAContextID;
 - (NSString *)systemIdentifier;
 - (void)gameView:(OEGameLayerView *)gameView didReceiveMouseEvent:(OEEvent *)event;
 - (void)gameView:(OEGameLayerView *)gameView updateBounds:(CGRect)newBounds;
+- (void)gameView:(OEGameLayerView *)gameView updateBackingScaleFactor:(CGFloat)newScaleFactor;
 @end
 
 @interface OEGameLayerView : NSView

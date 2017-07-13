@@ -336,4 +336,10 @@ static NSSize CorrectScreenSizeForAspectSize(OEIntSize screenSize, OEIntSize asp
 {
     [[self document] gameViewController:self updateBounds:newBounds];
 }
+
+- (void)gameView:(OEGameLayerView *)gameView updateBackingScaleFactor:(CGFloat)newScaleFactor
+{
+    [[self document] gameViewController:self updateBackingScaleFactor:newScaleFactor];
+}
+
 @end

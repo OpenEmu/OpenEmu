@@ -109,6 +109,7 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
     }
 
     _remoteLayer.contextId = remoteContextID;
+    _remoteLayer.delegate = self;
 }
 
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize
@@ -291,5 +292,8 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 	[[self delegate] gameView:self didReceiveMouseEvent:[self OE_mouseEventWithEvent:theEvent]];
 }
 
-
+- (BOOL)layer:(CALayer *)layer shouldInheritContentsScale:(CGFloat)newScale fromWindow:(NSWindow *)window {
+    [[self delegate] gameView:self updateBackingScaleFactor:newScale];
+    return YES;
+}
 @end

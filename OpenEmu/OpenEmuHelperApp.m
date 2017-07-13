@@ -278,6 +278,14 @@ typedef uint32_t CAContextID;
     [self setupIOSurface];
 }
 
+- (void)setBackingScaleFactor:(CGFloat)newBackingScaleFactor
+{
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    _gameVideoLayer.contentsScale = newBackingScaleFactor;
+    [CATransaction commit];
+}
+
 #pragma mark - Game Core methods
 
 - (BOOL)loadROMAtPath:(NSString *)aPath romCRC32:(NSString *)romCRC32 romMD5:(NSString *)romMD5 romHeader:(NSString *)romHeader romSerial:(NSString *)romSerial systemRegion:(NSString *)systemRegion withCorePluginAtPath:(NSString *)pluginPath systemPluginPath:(NSString *)systemPluginPath error:(NSError **)error

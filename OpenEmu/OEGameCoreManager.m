@@ -98,6 +98,11 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
     [[self gameCoreHelper] setOutputBounds:rect];
 }
 
+- (void)setBackingScaleFactor:(CGFloat)newScaleFactor
+{
+    [[self gameCoreHelper] setBackingScaleFactor:newScaleFactor];
+}
+
 - (void)setupEmulationWithCompletionHandler:(void(^)(OEIntSize screenSize, OEIntSize aspectSize))handler;
 {
     [[self gameCoreHelper] setupEmulationWithCompletionHandler:^(OEIntSize screenSize, OEIntSize aspectSize) {

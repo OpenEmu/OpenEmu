@@ -1487,6 +1487,10 @@ typedef enum : NSUInteger
     [_gameCoreManager setOutputBounds:newBounds];
 }
 
+- (void)gameViewController:(OEGameViewController *)sender updateBackingScaleFactor:(CGFloat)newScaleFactor {
+    [_gameCoreManager setBackingScaleFactor:newScaleFactor];
+}
+
 #pragma mark - OESystemBindingsObserver
 
 - (void)systemBindings:(OESystemBindings *)sender didSetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber
