@@ -332,4 +332,8 @@ static NSSize CorrectScreenSizeForAspectSize(OEIntSize screenSize, OEIntSize asp
     [[self document] gameViewController:self didReceiveMouseEvent:event];
 }
 
+- (void)gameView:(OEGameLayerView *)gameView updateBounds:(CGRect)newBounds
+{
+    [[self document] gameViewController:self updateBounds:newBounds];
+}
 @end

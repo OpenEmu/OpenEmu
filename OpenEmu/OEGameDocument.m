@@ -1482,6 +1482,11 @@ typedef enum : NSUInteger
     [_gameCoreManager handleMouseEvent:event];
 }
 
+- (void)gameViewController:(OEGameViewController *)sender updateBounds:(CGRect)newBounds
+{
+    [_gameCoreManager setOutputBounds:newBounds];
+}
+
 #pragma mark - OESystemBindingsObserver
 
 - (void)systemBindings:(OESystemBindings *)sender didSetEvent:(OEHIDEvent *)event forBinding:(__kindof OEBindingDescription *)bindingDescription playerNumber:(NSUInteger)playerNumber

@@ -26,6 +26,7 @@
 
 #import "OEGameLayerView.h"
 #import "NSColor+OEAdditions.h"
+@import QuartzCore;
 
 NSString * const OEScreenshotAspectRatioCorrectionDisabled = @"disableScreenshotAspectRatioCorrection";
 NSString * const OEDefaultVideoFilterKey = @"videoFilter";
@@ -75,7 +76,7 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 }
 
 - (NSViewLayerContentsRedrawPolicy)layerContentsRedrawPolicy {
-    return NSViewLayerContentsRedrawNever;
+    return NSViewLayerContentsRedrawDuringViewResize;
 }
 
 - (CALayer *)makeBackingLayer {
@@ -86,7 +87,7 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
     
     layer.contentsGravity = kCAGravityResize;
     layer.backgroundColor = (__bridge CGColorRef)backgroundColor;
-	
+    
     if (_remoteContextID)
 	{
 		[self updateTopLayer:layer withContextID:_remoteContextID];
@@ -95,8 +96,8 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 }
 
 - (void)updateLayer {
-    // Probably don't need to do anything.
-    // TODO: catch the bounds change here
+    [super updateLayer];
+    [self.delegate gameView:self updateBounds:self.bounds];
 }
 
 - (void)updateTopLayer:(CALayer *)layer withContextID:(CAContextID)remoteContextID
@@ -114,6 +115,10 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 {
 	_gameScreenSize = newScreenSize;
 	_gameAspectSize = newAspectSize;
+}
+
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow {
+    [super viewWillMoveToWindow:newWindow];
 }
 
 #pragma mark - APIs
@@ -149,7 +154,7 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
 	
 	return corrected;
 }
-
+         
 #pragma mark - NSResponder
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent
