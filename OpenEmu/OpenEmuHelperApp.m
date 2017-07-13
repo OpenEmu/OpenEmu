@@ -726,7 +726,7 @@ typedef uint32_t CAContextID;
     }
 
     [CATransaction begin];
-	[CATransaction setDisableActions:YES];
+    [CATransaction setDisableActions:YES];
     [_gameVideoLayer display];
     [CATransaction commit];
 
