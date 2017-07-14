@@ -49,7 +49,7 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
         _systemPlugin     = systemPlugin;
         _gameCoreOwner    = gameCoreOwner;
     }
-
+    
     return self;
 }
 
@@ -106,10 +106,10 @@ NSString * const OEGameCoreErrorDomain = @"OEGameCoreErrorDomain";
 - (void)setupEmulationWithCompletionHandler:(void(^)(OEIntSize screenSize, OEIntSize aspectSize))handler;
 {
     [[self gameCoreHelper] setupEmulationWithCompletionHandler:^(OEIntSize screenSize, OEIntSize aspectSize) {
-		dispatch_async(dispatch_get_main_queue(), ^{
-			handler(screenSize, aspectSize);
-		});
-     }];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            handler(screenSize, aspectSize);
+        });
+    }];
 }
 
 - (void)startEmulationWithCompletionHandler:(void(^)(void))handler;

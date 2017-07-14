@@ -80,7 +80,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
  - Change bounds
  - Start Syphon
  - Native screenshot
-
+ 
  Messages from remote layer:
  - Default screen size/aspect size
  */
@@ -114,18 +114,18 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
     {
         _controlsWindow = [[OEGameControlsBar alloc] initWithGameViewController:self];
         [_controlsWindow setReleasedWhenClosed:YES];
-
+        
         NSView *view = [[NSView alloc] initWithFrame:(NSRect){ .size = { 1.0, 1.0 }}];
         [self setView:view];
-
+        
         _gameView = [[OEGameLayerView alloc] initWithFrame:[[self view] bounds]];
         [_gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [_gameView setDelegate:self];
         
         [[self view] addSubview:_gameView];
-
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:_gameView];
-
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidChangeScreen:) name:NSWindowDidMoveNotification object:self];
     }
     return self;
@@ -135,7 +135,7 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 {
     [_gameView setDelegate:nil];
     _gameView = nil;
-
+    
     [_controlsWindow setGameWindow:nil];
     [_controlsWindow close];
     _controlsWindow = nil;
@@ -146,20 +146,20 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 - (void)viewDidAppear
 {
     [super viewDidAppear];
-
+    
     NSWindow *window = [self OE_rootWindow];
     if(window == nil) return;
-
+    
     [_controlsWindow setGameWindow:window];
     [_controlsWindow repositionOnGameWindow];
-
+    
     [window makeFirstResponder:_gameView];
 }
 
 - (void)viewWillDisappear
 {
     [super viewWillDisappear];
-
+    
     [_controlsWindow hide];
     [_controlsWindow setGameWindow:nil];
     [[self OE_rootWindow] removeChildWindow:_controlsWindow];
@@ -241,8 +241,8 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         filterName = [sender title];
     else
         DLog(@"Invalid argument passed: %@", sender);
-
-//    [_gameView setFilterName:filterName];
+    
+    //    [_gameView setFilterName:filterName];
     [[NSUserDefaults standardUserDefaults] setObject:filterName forKey:[NSString stringWithFormat:OEGameSystemVideoFilterKeyFormat, [[self document] systemIdentifier]]];
 }
 
@@ -256,8 +256,8 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
         else
             [menuItem setState:NSOnState];
     }
-
-
+    
+    
     return YES;
 }
 
@@ -270,9 +270,9 @@ NSString *const OEScreenshotPropertiesKey = @"screenshotProperties";
 
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize
 {
-	_screenSize = newScreenSize;
-	_aspectSize = newAspectSize;
-	[_gameView setScreenSize:_screenSize aspectSize:_aspectSize];
+    _screenSize = newScreenSize;
+    _aspectSize = newAspectSize;
+    [_gameView setScreenSize:_screenSize aspectSize:_aspectSize];
 }
 
 #pragma mark - Info
@@ -285,13 +285,13 @@ static NSSize CorrectScreenSizeForAspectSize(OEIntSize screenSize, OEIntSize asp
     CGFloat hr = (CGFloat) aspectSize.height / screenSize.height;
     CGFloat ratio = MAX(hr, wr);
     NSSize scaled = NSMakeSize((wr / ratio), (hr / ratio));
-
+    
     CGFloat halfw = scaled.width;
     CGFloat halfh = scaled.height;
-
+    
     NSSize corrected;
     corrected = NSMakeSize(screenSize.width / halfh, screenSize.height / halfw);
-
+    
     return corrected;
 }
 
@@ -299,7 +299,7 @@ static NSSize CorrectScreenSizeForAspectSize(OEIntSize screenSize, OEIntSize asp
 {
     NSParameterAssert(_screenSize.width);
     NSParameterAssert(_aspectSize.width);
-
+    
     return CorrectScreenSizeForAspectSize(_screenSize, _aspectSize);
 }
 
