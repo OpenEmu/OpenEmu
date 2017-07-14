@@ -298,8 +298,8 @@ static const CGFloat _OEHUDWindowTitleTextTopMargin    =  2.0;
 
     [super.contentView addSubview:_mainContentView];
 
-    const NSRect contentRect = [NSWindow contentRectForFrameRect:[OEHUDWindow mainContentRectForFrameRect:self.frame] styleMask:self.styleMask];
-    _mainContentView.frame = NSMakeRect(0, 0, contentRect.size.width, contentRect.size.height);
+    const NSRect contentRect = [self convertRectFromScreen:[NSWindow contentRectForFrameRect:[OEHUDWindow mainContentRectForFrameRect:self.frame] styleMask:self.styleMask]];
+    _mainContentView.frame = contentRect;
     _mainContentView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 }
 
