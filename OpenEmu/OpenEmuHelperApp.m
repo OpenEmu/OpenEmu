@@ -770,6 +770,11 @@ typedef uint32_t CAContextID;
     [_gameRenderer suspendFPSLimiting];
 }
 
+- (void)setEnableVSync:(BOOL)enableVSync
+{
+// TODO: Stub. Remove this when remote-layer lands
+}
+
 #pragma mark - OEAudioDelegate
 
 - (void)audioSampleRateDidChange
