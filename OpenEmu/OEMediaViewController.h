@@ -25,6 +25,7 @@
  */
 
 @import Cocoa;
+@import Quartz;
 #import "OELibrarySubviewController.h"
 #import "OECollectionViewController.h"
 

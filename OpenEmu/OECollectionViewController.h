@@ -45,7 +45,7 @@ typedef NS_ENUM(NSInteger, OECollectionViewControllerViewTag) {
 extern NSString * const OELastGridSizeKey;
 extern NSString * const OELastCollectionViewKey;
 
-@interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController, OEGridViewDelegate, OEGridViewMenuSource>
+@interface OECollectionViewController : NSViewController <OEBlankSlateViewDelegate, NSTableViewDelegate, NSTableViewDataSource, OELibrarySubviewController, OEGridViewDelegate, OEGridViewMenuSource, QLPreviewPanelDelegate, QLPreviewPanelDataSource>
 
 /// If YES, the collection view controller is selected and visible to the user. Must be overridden by subclasses.
 @property (nonatomic, readonly) BOOL isSelected;
@@ -75,6 +75,14 @@ extern NSString * const OELastCollectionViewKey;
 
 #pragma mark - Context Menu
 - (NSMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes;
+
+#pragma mark - Quick Look
+- (void)refreshPreviewPanelIfNeeded;
+/* subclass these to implement quicklook for a specific collection */
+- (BOOL)acceptsPreviewPanelControl:(QLPreviewPanel *)panel;
+- (NSInteger)numberOfPreviewItemsInPreviewPanel:(QLPreviewPanel *)panel;
+- (id <QLPreviewItem>)previewPanel:(QLPreviewPanel *)panel previewItemAtIndex:(NSInteger)index;
+- (NSInteger)imageBrowserViewIndexForPreviewItem:(id <QLPreviewItem>)item;
 
 #pragma mark -
 - (id <OECollectionViewItemProtocol>)representedObject;

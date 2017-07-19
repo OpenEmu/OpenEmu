@@ -541,6 +541,112 @@ static void *OEUserDefaultsDisplayGameTitleKVOContext = &OEUserDefaultsDisplayGa
 
 - (void)gridView:(OEGridView *)gridView setTitle:(NSString *)title forItemAtIndex:(NSInteger)index
 {}
+
+
+#pragma mark - Quick Look
+
+
+- (BOOL)acceptsPreviewPanelControl:(QLPreviewPanel *)panel
+{
+    return NO;
+}
+
+
+- (void)beginPreviewPanelControl:(QLPreviewPanel *)panel
+{
+    // We are now responsible of the preview panel
+    panel.delegate = self;
+    panel.dataSource = self;
+}
+
+
+- (void)endPreviewPanelControl:(QLPreviewPanel *)panel
+{
+    // Lost responsibility on the preview panel
+}
+
+
+- (BOOL)toggleQuickLook
+{
+    QLPreviewPanel *panel;
+    
+    if (![self acceptsPreviewPanelControl:nil])
+        return NO;
+    
+    panel = [QLPreviewPanel sharedPreviewPanel];
+    if ([panel isVisible])
+        [panel orderOut:nil];
+    else
+        [panel makeKeyAndOrderFront:nil];
+    return YES;
+}
+
+
+- (NSInteger)numberOfPreviewItemsInPreviewPanel:(QLPreviewPanel *)panel
+{
+    [self doesNotImplementSelector:_cmd];
+    return 0;
+}
+
+
+- (id <QLPreviewItem>)previewPanel:(QLPreviewPanel *)panel previewItemAtIndex:(NSInteger)index
+{
+    [self doesNotImplementSelector:_cmd];
+    return nil;
+}
+
+
+- (NSInteger)imageBrowserViewIndexForPreviewItem:(id <QLPreviewItem>)item
+{
+    return -1;
+}
+
+
+- (void)refreshPreviewPanelIfNeeded
+{
+    QLPreviewPanel *panel;
+  
+    if ([QLPreviewPanel sharedPreviewPanelExists]) {
+        panel = [QLPreviewPanel sharedPreviewPanel];
+        if ([panel isVisible] && [panel delegate] == self)
+            [panel reloadData];
+    }
+}
+
+
+- (NSRect)previewPanel:(QLPreviewPanel *)panel sourceFrameOnScreenForPreviewItem:(id<QLPreviewItem>)item
+{
+    if (_selectedViewTag != OEGridViewTag)
+        return NSZeroRect;
+
+    NSInteger i = [self imageBrowserViewIndexForPreviewItem:item];
+    if (i < 0)
+        return NSZeroRect;
+    
+    IKImageBrowserCell *itemcell = [self.gridView cellForItemAtIndex:i];
+    NSRect thumbframe = [itemcell imageFrame];
+    NSScrollView *scrollv = [self.gridView enclosingScrollView];
+    thumbframe = [self.gridView convertRect:thumbframe toView:scrollv];
+    if (!NSContainsRect([scrollv bounds], thumbframe))
+        return NSZeroRect;
+    
+    NSWindow *w = [self.gridView window];
+    thumbframe = [scrollv convertRect:thumbframe toView:w.contentView];
+    NSRect screenrect = [w convertRectToScreen:thumbframe];
+    return screenrect;
+}
+
+
+- (BOOL)previewPanel:(QLPreviewPanel *)panel handleEvent:(NSEvent *)event
+{
+  if ([event type] == NSEventTypeKeyDown || [event type] == NSEventTypeKeyUp) {
+    [self.gridView.window sendEvent:event];
+    return YES;
+  }
+  return NO;
+}
+
+
 #pragma mark - Core Data
 - (NSArray*)defaultSortDescriptors
 {

@@ -56,4 +56,6 @@ typedef enum
 
 @protocol OEGridViewDelegate <NSObject>
 - (void)gridView:(OEGridView*)gridView setTitle:(NSString*)title forItemAtIndex:(NSInteger)index;
+@optional
+- (BOOL)toggleQuickLook;
 @end

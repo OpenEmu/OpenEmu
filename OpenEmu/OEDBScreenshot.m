@@ -131,6 +131,23 @@ NSString * const OEDBScreenshotImportRequired = @"OEDBScreenshotImportRequired";
         self.URL = targetURL;
     }
 }
+
+
+#pragma mark - QLPreviewItem
+
+
+- (NSURL *)previewItemURL
+{
+    return [self URL];
+}
+
+
+- (NSString *)previewItemTitle
+{
+    return [self name];
+}
+
+
 @end
 
 NS_ASSUME_NONNULL_END
