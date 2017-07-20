@@ -444,7 +444,9 @@ static NSImage *lightingImage;
     switch (event.keyCode) {
         // original implementation does not pass space key to type-select
         case kVK_Space:
-            [self handleKeyInput:event character:' '];
+            if (![self.delegate respondsToSelector:@selector(toggleQuickLook)] ||
+                ![self.delegate toggleQuickLook])
+                [self handleKeyInput:event character:' '];
             break;
             
         case kVK_Return:
