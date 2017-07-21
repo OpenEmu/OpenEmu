@@ -43,6 +43,8 @@ NSString * const OEDefaultVideoFilterKey = @"videoFilter";
 
 static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor";
 
+@interface OEGameLayerView () <CALayerDelegate>
+@end
 /*!
  * @abstract View which hosts and resizes the helper app's game rendering.
  * @description
@@ -110,6 +112,7 @@ static NSString *const OEGameViewBackgroundColorKey = @"gameViewBackgroundColor"
     
     _remoteLayer.contextId = remoteContextID;
     _remoteLayer.delegate = self;
+    [self updateLayer];
 }
 
 - (void)setScreenSize:(OEIntSize)newScreenSize aspectSize:(OEIntSize)newAspectSize
