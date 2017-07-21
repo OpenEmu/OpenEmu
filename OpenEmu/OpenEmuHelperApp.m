@@ -252,7 +252,6 @@ typedef uint32_t CAContextID;
     _gameVideoCAContext.layer = _gameVideoLayer;
     [CATransaction commit];
     
-    [self updateScreenSize:_previousScreenSize aspectSize:_previousAspectSize];
     [self updateRemoteContextID:_gameVideoCAContext.contextId];
 }
 
@@ -737,7 +736,7 @@ typedef uint32_t CAContextID;
     [CATransaction setDisableActions:YES];
     [_gameVideoLayer display];
     [CATransaction commit];
-    
+
     if(!_hasStartedAudio)
     {
         [_gameAudio startAudio];
