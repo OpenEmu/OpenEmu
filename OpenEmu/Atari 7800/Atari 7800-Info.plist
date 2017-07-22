@@ -127,6 +127,7 @@
 	<key>OEFileSuffixes</key>
 	<array>
 		<string>a78</string>
+		<string>7z</string>
 	</array>
 	<key>OEGenericControlNamesKey</key>
 	<array>
