@@ -345,7 +345,9 @@ NS_ASSUME_NONNULL_BEGIN
         if(count == 1)
         {
             OEFile *file = [OEFile fileWithURL:url error:nil];
-            [[NSWorkspace sharedWorkspace] recycleURLs:file.allFileURLs completionHandler:nil];
+            if (file) {
+                [[NSWorkspace sharedWorkspace] recycleURLs:file.allFileURLs completionHandler:nil];
+            }
         } else DLog(@"Keeping file, other roms depent on it!");
     }
 
