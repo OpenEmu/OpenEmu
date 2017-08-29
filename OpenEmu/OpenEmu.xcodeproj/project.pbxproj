@@ -489,6 +489,8 @@
 		871CE9121B0BCFB800B89E96 /* controller_pcfx_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9101B0BCFB800B89E96 /* controller_pcfx_mask@2x.png */; };
 		871CE9131B0BCFB800B89E96 /* controller_pcfx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */; };
 		8745D75F1BF9A72B005E8699 /* OE5200SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */; };
+		8759F0871F560542009CBC01 /* controller_saturn_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8759F0851F560542009CBC01 /* controller_saturn_mask@2x.png */; };
+		8759F0881F560542009CBC01 /* controller_saturn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8759F0861F560542009CBC01 /* controller_saturn@2x.png */; };
 		875CC3211E221D4300E3BEB9 /* controller_tg16cd_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 875CC31F1E221D4300E3BEB9 /* controller_tg16cd_mask@2x.png */; };
 		875CC3221E221D4300E3BEB9 /* controller_tg16cd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 875CC3201E221D4300E3BEB9 /* controller_tg16cd@2x.png */; };
 		875CC3251E221D9800E3BEB9 /* controller_tg16_mask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 875CC3231E221D9800E3BEB9 /* controller_tg16_mask@2x.png */; };
@@ -2180,6 +2182,8 @@
 		871CE9111B0BCFB800B89E96 /* controller_pcfx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_pcfx@2x.png"; sourceTree = "<group>"; };
 		8745D75D1BF9A72A005E8699 /* OE5200SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OE5200SystemController.h; sourceTree = "<group>"; };
 		8745D75E1BF9A72B005E8699 /* OE5200SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OE5200SystemController.m; sourceTree = "<group>"; };
+		8759F0851F560542009CBC01 /* controller_saturn_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_saturn_mask@2x.png"; sourceTree = "<group>"; };
+		8759F0861F560542009CBC01 /* controller_saturn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_saturn@2x.png"; sourceTree = "<group>"; };
 		875CC31F1E221D4300E3BEB9 /* controller_tg16cd_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_tg16cd_mask@2x.png"; sourceTree = "<group>"; };
 		875CC3201E221D4300E3BEB9 /* controller_tg16cd@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_tg16cd@2x.png"; sourceTree = "<group>"; };
 		875CC3231E221D9800E3BEB9 /* controller_tg16_mask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_tg16_mask@2x.png"; sourceTree = "<group>"; };
@@ -5346,6 +5350,8 @@
 				94A225F61707614500098DA0 /* saturn_jap_library.png */,
 				94A225F11707614500098DA0 /* controller_saturn_mask.png */,
 				94A225F21707614500098DA0 /* controller_saturn.png */,
+				8759F0851F560542009CBC01 /* controller_saturn_mask@2x.png */,
+				8759F0861F560542009CBC01 /* controller_saturn@2x.png */,
 				94A224D71707556D00098DA0 /* Saturn-Info.plist */,
 				94A225F51707614500098DA0 /* Keyboard-Mappings.plist */,
 				94A225F31707614500098DA0 /* Controller-Mappings.plist */,
@@ -7401,8 +7407,10 @@
 				94A225F81707614500098DA0 /* controller_saturn_mask.png in Resources */,
 				94A225F91707614500098DA0 /* controller_saturn.png in Resources */,
 				94A225FA1707614500098DA0 /* Controller-Mappings.plist in Resources */,
+				8759F0881F560542009CBC01 /* controller_saturn@2x.png in Resources */,
 				94A225FB1707614500098DA0 /* Controller-Preferences.plist in Resources */,
 				94A225FC1707614500098DA0 /* Keyboard-Mappings.plist in Resources */,
+				8759F0871F560542009CBC01 /* controller_saturn_mask@2x.png in Resources */,
 				94A225FD1707614500098DA0 /* saturn_jap_library.png in Resources */,
 				94A225FE1707614500098DA0 /* saturn_library.png in Resources */,
 			);
