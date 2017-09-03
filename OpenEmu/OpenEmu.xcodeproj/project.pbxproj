@@ -475,6 +475,9 @@
 		83FE965519685F4300DD8DB9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83FE965719685F4300DD8DB9 /* MainMenu.xib */; };
 		83FE965919685F6700DD8DB9 /* OEGameScanner.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83FE965B19685F6700DD8DB9 /* OEGameScanner.xib */; };
 		83FE966419685F8F00DD8DB9 /* OESetupAssistant.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83FE966619685F8F00DD8DB9 /* OESetupAssistant.xib */; };
+		870320A31F5CCB2000470B55 /* controller_saturn_jp.png in Resources */ = {isa = PBXBuildFile; fileRef = 870320A11F5CCB2000470B55 /* controller_saturn_jp.png */; };
+		870320A41F5CCB2000470B55 /* controller_saturn_jp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 870320A21F5CCB2000470B55 /* controller_saturn_jp@2x.png */; };
+		870320A91F5CCB3200470B55 /* Controller-Preferences-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = 870320A81F5CCB3200470B55 /* Controller-Preferences-JAP.plist */; };
 		8706346F1C27C6D3007FAA2F /* colecovision_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8706346E1C27C6D3007FAA2F /* colecovision_library@2x.png */; };
 		870634711C27CD3E007FAA2F /* odyssey2_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 870634701C27CD3E007FAA2F /* odyssey2_library@2x.png */; };
 		870634731C27CD91007FAA2F /* psp_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 870634721C27CD91007FAA2F /* psp_library@2x.png */; };
@@ -2166,6 +2169,9 @@
 		83FBA38014F2C857001F1299 /* genesis_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = genesis_library.png; sourceTree = "<group>"; };
 		83FBA38214F2C870001F1299 /* gba_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba_library.png; sourceTree = "<group>"; };
 		83FC3CC4156D155B00F0CDB6 /* OEMainWindowContentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEMainWindowContentController.h; sourceTree = "<group>"; };
+		870320A11F5CCB2000470B55 /* controller_saturn_jp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_saturn_jp.png; sourceTree = "<group>"; };
+		870320A21F5CCB2000470B55 /* controller_saturn_jp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_saturn_jp@2x.png"; sourceTree = "<group>"; };
+		870320A81F5CCB3200470B55 /* Controller-Preferences-JAP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-JAP.plist"; sourceTree = "<group>"; };
 		8706346E1C27C6D3007FAA2F /* colecovision_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "colecovision_library@2x.png"; sourceTree = "<group>"; };
 		870634701C27CD3E007FAA2F /* odyssey2_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "odyssey2_library@2x.png"; sourceTree = "<group>"; };
 		870634721C27CD91007FAA2F /* psp_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "psp_library@2x.png"; sourceTree = "<group>"; };
@@ -5352,10 +5358,13 @@
 				94A225F21707614500098DA0 /* controller_saturn.png */,
 				8759F0851F560542009CBC01 /* controller_saturn_mask@2x.png */,
 				8759F0861F560542009CBC01 /* controller_saturn@2x.png */,
+				870320A11F5CCB2000470B55 /* controller_saturn_jp.png */,
+				870320A21F5CCB2000470B55 /* controller_saturn_jp@2x.png */,
 				94A224D71707556D00098DA0 /* Saturn-Info.plist */,
 				94A225F51707614500098DA0 /* Keyboard-Mappings.plist */,
 				94A225F31707614500098DA0 /* Controller-Mappings.plist */,
 				94A225F41707614500098DA0 /* Controller-Preferences.plist */,
+				870320A81F5CCB3200470B55 /* Controller-Preferences-JAP.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -7407,11 +7416,14 @@
 				94A225F81707614500098DA0 /* controller_saturn_mask.png in Resources */,
 				94A225F91707614500098DA0 /* controller_saturn.png in Resources */,
 				94A225FA1707614500098DA0 /* Controller-Mappings.plist in Resources */,
+				870320A41F5CCB2000470B55 /* controller_saturn_jp@2x.png in Resources */,
 				8759F0881F560542009CBC01 /* controller_saturn@2x.png in Resources */,
+				870320A31F5CCB2000470B55 /* controller_saturn_jp.png in Resources */,
 				94A225FB1707614500098DA0 /* Controller-Preferences.plist in Resources */,
 				94A225FC1707614500098DA0 /* Keyboard-Mappings.plist in Resources */,
 				8759F0871F560542009CBC01 /* controller_saturn_mask@2x.png in Resources */,
 				94A225FD1707614500098DA0 /* saturn_jap_library.png in Resources */,
+				870320A91F5CCB3200470B55 /* Controller-Preferences-JAP.plist in Resources */,
 				94A225FE1707614500098DA0 /* saturn_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

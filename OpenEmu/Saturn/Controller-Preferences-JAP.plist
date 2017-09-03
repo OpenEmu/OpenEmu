@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_saturn_jp</string>
+	<key>OEControllerImageMaskKey</key>
+	<string>controller_saturn_mask_jp</string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OESaturnButtonUp</key>
+		<string>{140, 260}</string>
+		<key>OESaturnButtonDown</key>
+		<string>{140, 210}</string>
+		<key>OESaturnButtonLeft</key>
+		<string>{111, 234}</string>
+		<key>OESaturnButtonRight</key>
+		<string>{168, 234}</string>
+		<key>OESaturnButtonA</key>
+		<string>{320, 193}</string>
+		<key>OESaturnButtonB</key>
+		<string>{360, 219}</string>
+		<key>OESaturnButtonC</key>
+		<string>{405, 236}</string>
+		<key>OESaturnButtonX</key>
+		<string>{306, 240}</string>
+		<key>OESaturnButtonY</key>
+		<string>{340, 263}</string>
+		<key>OESaturnButtonZ</key>
+		<string>{377, 277}</string>
+		<key>OESaturnButtonStart</key>
+		<string>{250, 200}</string>
+		<key>OESaturnButtonL</key>
+		<string>{130, 340}</string>
+		<key>OESaturnButtonR</key>
+		<string>{370, 340}</string>
+		<key>OESaturnButtonAnalogMode</key>
+		<string>{0, 0}</string>
+		<key>OESaturnLeftAnalogUp</key>
+		<string>{0, 0}</string>
+		<key>OESaturnLeftAnalogDown</key>
+		<string>{0, 0}</string>
+		<key>OESaturnLeftAnalogLeft</key>
+		<string>{0, 0}</string>
+		<key>OESaturnLeftAnalogRight</key>
+		<string>{0, 0}</string>
+		<key>OESaturnAnalogL</key>
+		<string>{0, 0}</string>
+		<key>OESaturnAnalogR</key>
+		<string>{0, 0}</string>
+	</dict>
+</dict>
+</plist>
