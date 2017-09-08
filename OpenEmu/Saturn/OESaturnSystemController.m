@@ -56,7 +56,7 @@
 - (NSImage*)systemIcon
 {
     NSString *imageName = ([[OELocalizationHelper sharedHelper] isRegionJAP]
-                           ? @"saturn_jap_library"
+                           ? @"saturn_library_jp"
                            : @"saturn_library");
 
     NSImage *image = [NSImage imageNamed:imageName];

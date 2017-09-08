@@ -478,6 +478,9 @@
 		870320A31F5CCB2000470B55 /* controller_saturn_jp.png in Resources */ = {isa = PBXBuildFile; fileRef = 870320A11F5CCB2000470B55 /* controller_saturn_jp.png */; };
 		870320A41F5CCB2000470B55 /* controller_saturn_jp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 870320A21F5CCB2000470B55 /* controller_saturn_jp@2x.png */; };
 		870320A91F5CCB3200470B55 /* Controller-Preferences-JAP.plist in Resources */ = {isa = PBXBuildFile; fileRef = 870320A81F5CCB3200470B55 /* Controller-Preferences-JAP.plist */; };
+		870320AD1F6267BF00470B55 /* saturn_library_jp.png in Resources */ = {isa = PBXBuildFile; fileRef = 870320AA1F6267BF00470B55 /* saturn_library_jp.png */; };
+		870320AE1F6267BF00470B55 /* saturn_library_jp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 870320AB1F6267BF00470B55 /* saturn_library_jp@2x.png */; };
+		870320AF1F6267BF00470B55 /* saturn_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 870320AC1F6267BF00470B55 /* saturn_library@2x.png */; };
 		8706346F1C27C6D3007FAA2F /* colecovision_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8706346E1C27C6D3007FAA2F /* colecovision_library@2x.png */; };
 		870634711C27CD3E007FAA2F /* odyssey2_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 870634701C27CD3E007FAA2F /* odyssey2_library@2x.png */; };
 		870634731C27CD91007FAA2F /* psp_library@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 870634721C27CD91007FAA2F /* psp_library@2x.png */; };
@@ -840,7 +843,6 @@
 		94A225FA1707614500098DA0 /* Controller-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F31707614500098DA0 /* Controller-Mappings.plist */; };
 		94A225FB1707614500098DA0 /* Controller-Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F41707614500098DA0 /* Controller-Preferences.plist */; };
 		94A225FC1707614500098DA0 /* Keyboard-Mappings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F51707614500098DA0 /* Keyboard-Mappings.plist */; };
-		94A225FD1707614500098DA0 /* saturn_jap_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F61707614500098DA0 /* saturn_jap_library.png */; };
 		94A225FE1707614500098DA0 /* saturn_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A225F71707614500098DA0 /* saturn_library.png */; };
 		94A226021707616F00098DA0 /* OEComputerSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A226001707616F00098DA0 /* OEComputerSystemResponder.m */; };
 		94A22609170761D200098DA0 /* computer_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A22603170761D200098DA0 /* computer_library.png */; };
@@ -2172,6 +2174,9 @@
 		870320A11F5CCB2000470B55 /* controller_saturn_jp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_saturn_jp.png; sourceTree = "<group>"; };
 		870320A21F5CCB2000470B55 /* controller_saturn_jp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "controller_saturn_jp@2x.png"; sourceTree = "<group>"; };
 		870320A81F5CCB3200470B55 /* Controller-Preferences-JAP.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-JAP.plist"; sourceTree = "<group>"; };
+		870320AA1F6267BF00470B55 /* saturn_library_jp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saturn_library_jp.png; sourceTree = "<group>"; };
+		870320AB1F6267BF00470B55 /* saturn_library_jp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saturn_library_jp@2x.png"; sourceTree = "<group>"; };
+		870320AC1F6267BF00470B55 /* saturn_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saturn_library@2x.png"; sourceTree = "<group>"; };
 		8706346E1C27C6D3007FAA2F /* colecovision_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "colecovision_library@2x.png"; sourceTree = "<group>"; };
 		870634701C27CD3E007FAA2F /* odyssey2_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "odyssey2_library@2x.png"; sourceTree = "<group>"; };
 		870634721C27CD91007FAA2F /* psp_library@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "psp_library@2x.png"; sourceTree = "<group>"; };
@@ -2674,7 +2679,6 @@
 		94A225F31707614500098DA0 /* Controller-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Mappings.plist"; sourceTree = "<group>"; };
 		94A225F41707614500098DA0 /* Controller-Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences.plist"; sourceTree = "<group>"; };
 		94A225F51707614500098DA0 /* Keyboard-Mappings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keyboard-Mappings.plist"; sourceTree = "<group>"; };
-		94A225F61707614500098DA0 /* saturn_jap_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saturn_jap_library.png; sourceTree = "<group>"; };
 		94A225F71707614500098DA0 /* saturn_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saturn_library.png; sourceTree = "<group>"; };
 		94A225FF1707616F00098DA0 /* OEComputerSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEComputerSystemResponder.h; sourceTree = "<group>"; };
 		94A226001707616F00098DA0 /* OEComputerSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEComputerSystemResponder.m; sourceTree = "<group>"; };
@@ -5353,7 +5357,9 @@
 			isa = PBXGroup;
 			children = (
 				94A225F71707614500098DA0 /* saturn_library.png */,
-				94A225F61707614500098DA0 /* saturn_jap_library.png */,
+				870320AC1F6267BF00470B55 /* saturn_library@2x.png */,
+				870320AA1F6267BF00470B55 /* saturn_library_jp.png */,
+				870320AB1F6267BF00470B55 /* saturn_library_jp@2x.png */,
 				94A225F11707614500098DA0 /* controller_saturn_mask.png */,
 				94A225F21707614500098DA0 /* controller_saturn.png */,
 				8759F0851F560542009CBC01 /* controller_saturn_mask@2x.png */,
@@ -7420,9 +7426,11 @@
 				8759F0881F560542009CBC01 /* controller_saturn@2x.png in Resources */,
 				870320A31F5CCB2000470B55 /* controller_saturn_jp.png in Resources */,
 				94A225FB1707614500098DA0 /* Controller-Preferences.plist in Resources */,
+				870320AD1F6267BF00470B55 /* saturn_library_jp.png in Resources */,
 				94A225FC1707614500098DA0 /* Keyboard-Mappings.plist in Resources */,
+				870320AF1F6267BF00470B55 /* saturn_library@2x.png in Resources */,
 				8759F0871F560542009CBC01 /* controller_saturn_mask@2x.png in Resources */,
-				94A225FD1707614500098DA0 /* saturn_jap_library.png in Resources */,
+				870320AE1F6267BF00470B55 /* saturn_library_jp@2x.png in Resources */,
 				870320A91F5CCB3200470B55 /* Controller-Preferences-JAP.plist in Resources */,
 				94A225FE1707614500098DA0 /* saturn_library.png in Resources */,
 			);
