@@ -73,6 +73,13 @@
         if(indexOfData.length == 0)
             continue;
 
+        // "Battle Heat" for PC-FX is falsely identified as PCE CD. This should be the only game that needs this.
+        NSData *subData = [dataTrackBuffer subdataWithRange:NSMakeRange(indexOfData.location + 74, 11)];
+        NSData *subDataString = [NSData dataWithBytes:"Battle Heat" length:11];
+
+        if([subData isEqualToData:subDataString])
+            return OEFileSupportNo;
+
         NSLog(@"PCE-CD data track: %@", dataTrackURL);
         NSLog (@"'%@' at offset = 0x%lX", dataTrackString, indexOfData.location);
         return OEFileSupportYes;
