@@ -722,7 +722,7 @@ class AppDelegate: NSDocumentController {
             var responderChain = [NSResponder]()
             var responder = keyWindow.firstResponder
             
-            while let nextResponder = responder.nextResponder {
+            while let nextResponder = responder?.nextResponder {
                 responderChain.append(nextResponder)
                 responder = nextResponder
             }
