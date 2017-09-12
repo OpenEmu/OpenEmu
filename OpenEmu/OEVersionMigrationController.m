@@ -141,7 +141,7 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
 - (void)OE_runImageMigration
 {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
-    void (^block)() = ^{
+    void (^block)(void) = ^{
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         OEBitmapImageFileType format = [userDefaults integerForKey:OEGameArtworkFormatKey];
         NSDictionary     *attributes = [userDefaults dictionaryForKey:OEGameArtworkPropertiesKey];
