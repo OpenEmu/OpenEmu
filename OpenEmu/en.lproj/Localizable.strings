@@ -132,8 +132,6 @@
 
 "Could not move library data!" = "Could not move library data!";
 
-"Couldn't connect to the background process." = "Couldn't connect to the background process.";
-
 "Couldn't load %@ plugin" = "Couldn't load %@ plugin";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.";
@@ -396,8 +394,6 @@
 
 "Save States" = "Save States";
 
-"Save to Slot %d" = "Save to Slot %d";
-
 "Save-Game-%ld %@" = "Save-Game-%ld %@";
 
 "Saved Games" = "Saved Games";
@@ -434,8 +430,6 @@
 
 "Slot %ld" = "Slot %ld";
 
-"Slot 1" = "Slot 1";
-
 "Some migrations failed to complete properly" = "Some migrations failed to complete properly";
 
 "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub.";
@@ -458,10 +452,6 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "The %1$@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %2$@.";
 
-"The background process connection couldn't be established" = "The background process connection couldn't be established";
-
-"The background process couldn't be launched" = "The background process couldn't be launched";
-
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "The battery in device number %1$lu, %2$@, is low. Please charge or replace the battery.";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "The core could not be downloaded. Try installing it from the Cores preferences.";
@@ -473,8 +463,6 @@
 "The game '%@' was imported." = "The game '%@' was imported.";
 
 "The OpenEmu Library could not be found." = "The OpenEmu Library could not be found.";
-
-"The root proxy object is nil." = "The root proxy object is nil.";
 
 "The System plugin could not be found!" = "The System plugin could not be found!";
 
@@ -612,8 +600,6 @@
 "Log Keyboard Events" = "Log Keyboard Events";
 
 "Show all global keys" = "Show all global keys";
-
-"Always show BIOS preferences" = "Always show BIOS preferences";
 
 "Set default save states directory" = "Set default save states directory";
 

@@ -132,8 +132,6 @@
 
 "Could not move library data!" = "Mediathek-Daten konnten nicht verschoben werden.";
 
-"Couldn't connect to the background process." = "Die Verbindung mit dem Hintergrundprozess ist fehlgeschlagen.";
-
 "Couldn't load %@ plugin" = "Konnte Plugin %@ nicht laden";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Erstelle eine eigene Spieleauswahl. Um ein Spiel zur Sammlung hinzuzufügen, wähle es in der Konsolenansicht aus und ziehe es auf „%@“ in der Seitenleiste.";
@@ -396,8 +394,6 @@
 
 "Save States" = "Spielstände";
 
-"Save to Slot %d" = "In Slot %d sichern";
-
 "Save-Game-%ld %@" = "Spielstand %ld - %@";
 
 "Saved Games" = "Spielstände";
@@ -434,8 +430,6 @@
 
 "Slot %ld" = "Slot %ld";
 
-"Slot 1" = "Slot 1";
-
 "Some migrations failed to complete properly" = "Einige Migrationen konnten nicht korrekt durchgeführt werden";
 
 "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Vielen Dank an alle, die\nOpenEmu möglich gemacht haben.\nUm mehr über unsere Mitwirkenden, Emulator-Kerne, Dokumentation und Lizenzen zu erfahren oder um Fehler zu melden, besuchen Sie uns auf GitHub.";
@@ -458,10 +452,6 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "Der „%1$@“-Kern hat Kompatibilitätsprobleme, daher können einige Spiele nicht fehlerfrei oder gar nicht gespielt werden.\n\nBitte melde keine Fehler, da wir für die Entwicklung von „%2$@“ nicht verantwortlich sind.";
 
-"The background process connection couldn't be established" = "Es konnte keine Verbindung mit dem Hintergrundprozess hergestellt werden";
-
-"The background process couldn't be launched" = "Der Hintergrundprozess konnte nicht gestartet werden";
-
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "Die Batterieladung in Gerät %1$lu (%2$@) ist gering. Bitte lade das Gerät oder ersetze die Batterie.";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "Der Kern konnte nicht heruntergeladen werden. Versuche ihn in den Kern-Einstellungen zu installieren.";
@@ -473,8 +463,6 @@
 "The game '%@' was imported." = "Das Spiel „%@“ wurde importiert.";
 
 "The OpenEmu Library could not be found." = "Die OpenEmu-Mediathek konnte nicht gefunden werden.";
-
-"The root proxy object is nil." = "Das Root-Proxy-Objekt ist null.";
 
 "The System plugin could not be found!" = "Das System-Plugin konnte nicht gefunden werden.";
 
@@ -612,8 +600,6 @@
 "Log Keyboard Events" = "Tastatur-Events loggen";
 
 "Show all global keys" = "Alle Global-Keys anzeigen";
-
-"Always show BIOS preferences" = "BIOS-Einstellungen immer anzeigen";
 
 "Set default save states directory" = "Standard-Spielstandordner festlegen";
 

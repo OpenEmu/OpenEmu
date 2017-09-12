@@ -132,8 +132,6 @@
 
 "Could not move library data!" = "Не удалось переместить данные из библиотеки!";
 
-"Couldn't connect to the background process." = "Не удалось подключиться к фоновому процессу.";
-
 "Couldn't load %@ plugin" = "Не удалось загрузить плагин: %@";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Создайте свой набор игр. Чтобы добавить игры в коллекцию, выберите игру из вашей библиотеки и перетащите ’%@’ на левую панель.";
@@ -396,8 +394,6 @@
 
 "Save States" = "Сохранить состояние";
 
-"Save to Slot %d" = "Сохранить в слот: %d";
-
 "Save-Game-%ld %@" = "Сохранение-%ld %@";
 
 "Saved Games" = "Сохраненные игры";
@@ -434,8 +430,6 @@
 
 "Slot %ld" = "Слот %ld";
 
-"Slot 1" = "Слот 1";
-
 "Some migrations failed to complete properly" = "Не удалось применить некоторые миграции";
 
 "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub."; // TODO
@@ -458,10 +452,6 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "У ядра %1$@ есть известные проблемы совместимости и некоторые игры могут воспроизводиться с ошибками или не воспроизводиться вообще.\n\nПожалуйста не сообщайте нам о проблемах совместимости, так как мы не ответственны за разработку %2$@.";
 
-"The background process connection couldn't be established" = "Соединение с фоновым процессом не может быть установлено";
-
-"The background process couldn't be launched" = "Фоновый процесс не может быть запущен";
-
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "Батарея в устройстве под номером %1$lu, %2$@, близка к состоянию разрядки. Пожалуйста, зарядите или замените батарею.";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "Не удается загрузить ядро. Попробуйте установить его вручную из раздела опций 'Ядра'.";
@@ -473,8 +463,6 @@
 "The game '%@' was imported." = "Игра '%@' была импортирована.";
 
 "The OpenEmu Library could not be found." = "Библиотеку OpenEmu не удается найти.";
-
-"The root proxy object is nil." = "Корневой прокси-объект отсутствует.";
 
 "The System plugin could not be found!" = "Системный плагин не удается найти!";
 
@@ -612,8 +600,6 @@
 "Log Keyboard Events" = "Логировать события клавиатуры";
 
 "Show all global keys" = "Показать все глобальные кнопки";
-
-"Always show BIOS preferences" = "Всегда показывать предпочтения BIOS";
 
 "Set default save states directory" = "Установить директорию по-умолчанию для сохранения состояний";
 

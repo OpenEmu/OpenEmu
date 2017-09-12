@@ -132,8 +132,6 @@
 
 "Could not move library data!" = "Kon bibliotheekgegevens niet verplaatsen!";
 
-"Couldn't connect to the background process." = "Kon niet verbinden met het achtergrondsproces.";
-
 "Couldn't load %@ plugin" = "Kon plug-in %@ niet laden";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.";
@@ -396,8 +394,6 @@
 
 "Save States" = "Momentopnames";
 
-"Save to Slot %d" = "Save to Slot %d";
-
 "Save-Game-%ld %@" = "Save-Game-%ld %@";
 
 "Saved Games" = "Opgeslagen spellen";
@@ -434,8 +430,6 @@
 
 "Slot %ld" = "Slot %ld";
 
-"Slot 1" = "Slot 1";
-
 "Some migrations failed to complete properly" = "Sommige migraties zijn niet correct afgerond";
 
 "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Speciale dank aan iedereen die\nOpenEmu mogelijk maakt. Bezoek alstublieft onze GitHub-pagina om meer te weten te komen\nover onze bijdragers, emulator kernen,\ndocumentatie en licenties en om bugs te melden.";
@@ -458,10 +452,6 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "De %1$@-kern heeft compatibiliteitsproblemen en sommige spellen kunnen storingen ondervinden of gewoon niet werken.\n\nGelieve deze problemen niet te rapporteren omdat wij niet verantwoordelijk zijn voor de ontwikkeling van %2$@.";
 
-"The background process connection couldn't be established" = "De verbinding met het achtergrondproces kon niet tot stand gebracht worden";
-
-"The background process couldn't be launched" = "Het achtergrondproces kon niet gestart worden";
-
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "De batterij in apparaat met nummer %1$lu, %2$@, is bijna leeg. Gelieve deze op te laden of te vervangen.";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "De kern kon niet worden gedownload. Probeer ze te installeren vanaf de voorkeuren voor kernen.";
@@ -473,8 +463,6 @@
 "The game '%@' was imported." = "Het spel '%@' werd geïmporteerd.";
 
 "The OpenEmu Library could not be found." = "De OpenEmu-bibliotheek kon niet gevonden worden.";
-
-"The root proxy object is nil." = "The root proxy object is nil.";
 
 "The System plugin could not be found!" = "De systeemplug-in kon niet gevonden worden!";
 
@@ -612,8 +600,6 @@
 "Log Keyboard Events" = "Leg toetsenbord events vast";
 
 "Show all global keys" = "Toon alle globale toetsen";
-
-"Always show BIOS preferences" = "Toon BIOS-voorkeuren altijd";
 
 "Set default save states directory" = "Stel standaardmap voor momentopnames in";
 

@@ -132,8 +132,6 @@
 
 "Could not move library data!" = "No s'ha pogut moure les dades de la biblioteca.";
 
-"Couldn't connect to the background process." = "No s'ha pogut connectar amb el procés en segon pla.";
-
 "Couldn't load %@ plugin" = "No s'ha pogut carregar el connector %@";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "Creeu una selecció personal de jocs. Per a afegir un joc a la col·lecció, seleccioneu-lo de la biblioteca i arrossegueu-lo a ’%@’ a l'esquerra.";
@@ -396,8 +394,6 @@
 
 "Save States" = "Partides desades";
 
-"Save to Slot %d" = "Save to Slot %d";
-
 "Save-Game-%ld %@" = "Save-Game-%ld %@";
 
 "Saved Games" = "Jocs desats";
@@ -434,8 +430,6 @@
 
 "Slot %ld" = "Espai %ld";
 
-"Slot 1" = "Espai 1";
-
 "Some migrations failed to complete properly" = "No s'ha completat correctament algunes migracions";
 
 "Special thanks to everyone that made\nOpenEmu possible. To find out more\nabout our contributors, emulator cores,\ndocumentation, licenses and to issue\nbugs please visit us on our GitHub." = "Un agraïment especial a tothom qui ha fet\n possible l'OpenEmu. Per saber més sobre els\nnostres col·laboradors, nuclis dels emuladors,\ndocumentació, llicències i per informar sobre\nincidències i/o errors visiteu el nostre GitHub.";
@@ -458,10 +452,6 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "El nucli %1$@ té problemes de compatibilitat i alguns jocs poden tenir defectes o no funcionar.\n\nNo ens informeu dels problemes ja que no som responsables del desenvolupament del %2$@.";
 
-"The background process connection couldn't be established" = "No s'ha pogut establir la connexió amb el procés en segon pla";
-
-"The background process couldn't be launched" = "No s'ha pogut executar el procés en segon pla";
-
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "La càrrega de la bateria del dispositiu número %1$lu, %2$@, és baixa. Carregueu o substituïu la bateria.";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "No s'ha pogut baixar el nucli. Intenteu instal·lar-lo des de les preferències dels nuclis.";
@@ -473,8 +463,6 @@
 "The game '%@' was imported." = "S'ha importat el joc '%@'.";
 
 "The OpenEmu Library could not be found." = "No s'ha pogut trobar la biblioteca de l'OpenEmu.";
-
-"The root proxy object is nil." = "L'objecte arrel del servidor intermediari és nul.";
 
 "The System plugin could not be found!" = "No s'ha pogut trobar el connector del sistema.";
 
@@ -612,8 +600,6 @@
 "Log Keyboard Events" = "Registra els esdeveniments del teclat";
 
 "Show all global keys" = "Mostra totes les tecles globals";
-
-"Always show BIOS preferences" = "Mostra sempre les preferències del BIOS";
 
 "Set default save states directory" = "Defineix el directori de les partides desades";
 

@@ -136,8 +136,6 @@
 
 "Could not move library data!" = "无法移动库数据！";
 
-"Couldn't connect to the background process." = "无法连接到后台进程。";
-
 "Couldn't load %@ plugin" = "无法加载 %@ 插件";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "创建一个个人游戏选集。要添加到集合，从你的平台库选择一个游戏然后拖到左边的“%@”。";
@@ -404,8 +402,6 @@
 
 "Save States" = "保存状态";
 
-"Save to Slot %d" = "保存到位置 %d";
-
 "Save-Game-%ld %@" = "保存游戏-%ld %@";
 
 "Saved Games" = "已保存的游戏";
@@ -440,8 +436,6 @@
 
 "Slot %ld" = "位置 %ld";
 
-"Slot 1" = "位置 1";
-
 "Some migrations failed to complete properly" = "部分转移未能正确完成";
 
 "Start Scanning" = "开始扫描";
@@ -462,10 +456,6 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "%1$@ 核心有兼容问题，部分游戏可能出现故障或完全无法运行。\n\n请勿向我们报告问题，我们不对 %2$@ 的开发负责。";
 
-"The background process connection couldn't be established" = "无法建立后台进程连接";
-
-"The background process couldn't be launched" = "后台进程无法启动";
-
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "设备号 %1$lu, %2$@, 电量低。请充电或更换电池。";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "核心无法下载。尝试从核心偏好设置里安装。";
@@ -477,8 +467,6 @@
 "The game '%@' was imported." = "游戏“%@”已导入。";
 
 "The OpenEmu Library could not be found." = "找不到 OpenEmu 库。";
-
-"The root proxy object is nil." = "根代理对象为空。";
 
 "The System plugin could not be found!" = "找不到系统插件！";
 
@@ -620,8 +608,6 @@
 "Log Keyboard Events" = "记录键盘事件";
 
 "Show all global keys" = "显示所有全局按键";
-
-"Always show BIOS preferences" = "总是显示 BIOS 偏好设置";
 
 "Set default save states directory" = "设置默认保存状态目录";
 

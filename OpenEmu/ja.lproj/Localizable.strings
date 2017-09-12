@@ -136,8 +136,6 @@
 
 "Could not move library data!" = "ライブラリデータを移動出来ません。";
 
-"Couldn't connect to the background process." = "バックグラウンドプロセスに接続出来ませんでした。";
-
 "Couldn't load %@ plugin" = "%@という名称のプラグインをロード出来ませんでした。";
 
 "Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left." = "自分好みのゲームセレクションを作成しましょう。コレクションを追加するには、コンソールライブラリからゲームを選択し、左側の’%@’へドラッグして下さい。";
@@ -404,8 +402,6 @@
 
 "Save States" = "セーブステート";
 
-"Save to Slot %d" = "スロット%d へ保存";
-
 "Save-Game-%ld %@" = "セーブ-ゲーム-%ld %@";
 
 "Saved Games" = "保存されたゲーム";
@@ -440,8 +436,6 @@
 
 "Slot %ld" = "スロット %ld";
 
-"Slot 1" = "スロット 1";
-
 "Some migrations failed to complete properly" = "マイグレーションが正常に完了しませんでした。";
 
 "Start Scanning" = "スキャンを開始";
@@ -462,10 +456,6 @@
 
 "The %@ core has compatibility issues and some games may contain glitches or not play at all.\n\nPlease do not report problems as we are not responsible for the development of %@." = "%1$@ コアは互換性の問題を抱えているため、グリッチが発生するか、全くプレイが出来ません。\n\n%2$@の問題についての報告は必要ありません。";
 
-"The background process connection couldn't be established" = "バックグラウンドプロセスへ接続を確立出来ませんでした。";
-
-"The background process couldn't be launched" = "バックグラウンドプロセスを起動できませんでした。";
-
 "The battery in device number %lu, %@, is low. Please charge or replace the battery." = "デバイス番号 %1$lu、及び %2$@, のバッテリが弱くなっています。電池を交換して下さい。";
 
 "The core could not be downloaded. Try installing it from the Cores preferences." = "コアがダウンロード出来ませんでした。コア設定からダウンロードし直して下さい。";
@@ -477,8 +467,6 @@
 "The game '%@' was imported." = "'%@' がインポートされました。";
 
 "The OpenEmu Library could not be found." = "OpenEmuライブラリが見付かりませんでした。";
-
-"The root proxy object is nil." = "Rootのプロキシオブジェクトがnilです。";
 
 "The System plugin could not be found!" = "システムプラグインが見付かりませんでした。";
 
@@ -620,8 +608,6 @@
 "Log Keyboard Events" = "Keyboard イベントを記録";
 
 "Show all global keys" = "グローバルキーを全て表示する";
-
-"Always show BIOS preferences" = "BIOSの設定を常に表示";
 
 "Set default save states directory" = "デフォルトのオートセーブステートディレクトリを設定";
 
