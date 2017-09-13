@@ -98,7 +98,7 @@ extension OEMediaViewController: NSTouchBarDelegate {
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Delete", comment: "")
             
-            let button = NSButton(image: NSImage(named: NSImage.Name.touchBarDeleteTemplate)!, target: nil, action: #selector(deleteSelectedItems(_:)))
+            let button = NSButton(image: NSImage(named: .touchBarDeleteTemplate)!, target: nil, action: #selector(deleteSelectedItems(_:)))
             
             button.isEnabled = !selectionIndexes.isEmpty
             button.bezelColor = #colorLiteral(red: 0.5665243268, green: 0.2167189717, blue: 0.2198875844, alpha: 1)
@@ -112,7 +112,7 @@ extension OEMediaViewController: NSTouchBarDelegate {
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Resume Game", comment: "")
             
-            let button = NSButton(image: NSImage(named: NSImage.Name.touchBarPlayTemplate)!, target: nil, action: #selector(OELibraryController.startSaveState(_:)))
+            let button = NSButton(image: NSImage(named: .touchBarPlayTemplate)!, target: nil, action: #selector(OELibraryController.startSaveState(_:)))
             
             button.isEnabled = selectionIndexes.count == 1
             
@@ -125,7 +125,7 @@ extension OEMediaViewController: NSTouchBarDelegate {
             let item = NSCustomTouchBarItem(identifier: identifier)
             item.customizationLabel = NSLocalizedString("Show In Finder", comment: "")
             
-            let button = NSButton(image: NSImage(named: NSImage.Name.revealFreestandingTemplate)!, target: nil, action: #selector(showInFinder(_:)))
+            let button = NSButton(image: NSImage(named: .revealFreestandingTemplate)!, target: nil, action: #selector(showInFinder(_:)))
             
             button.isEnabled = !selectionIndexes.isEmpty
             
